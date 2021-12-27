@@ -1333,7 +1333,7 @@ void Fleech::vUpdate_42AB20()
 
 void Fleech::vRender_42A550(PrimHeader** ot)
 {
-    if (field_1C_update_delay == 0)
+    if (UpdateDelay() == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ot);
         RenderEx_42C5A0(ot);

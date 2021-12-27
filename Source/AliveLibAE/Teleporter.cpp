@@ -266,7 +266,7 @@ void Teleporter::vUpdate_4DC400()
                 field_34_mTlvData.field_20_movie_number,
                 bForceChange);
 
-            sControlledCharacter_5C1B8C->field_1C_update_delay = 3;
+            sControlledCharacter_5C1B8C->SetUpdateDelay(3);
             sActiveHero_5C1B68->field_1A0_door_id = field_34_mTlvData.field_12_target_id;
             field_30_state = TeleporterState::eTeleporting_2;
         }

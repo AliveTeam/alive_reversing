@@ -645,7 +645,7 @@ void Command_LoadSave(const std::vector<std::string>& args)
     {
         pPauseMenu_5C9300 = ae_new<PauseMenu>();
         pPauseMenu_5C9300->ctor_48FB80();
-        pPauseMenu_5C9300->field_1C_update_delay = 0;
+        pPauseMenu_5C9300->SetUpdateDelay(0);
     }
 
     std::string filePath = args[0] + ".sav";
@@ -1861,7 +1861,7 @@ public:
 
     virtual void VUpdate() override
     {
-        field_1C_update_delay = 4;
+        SetUpdateDelay(4);
         mPoly_F3_Test.Update();
         mPoly_F_Test.Update();
     }

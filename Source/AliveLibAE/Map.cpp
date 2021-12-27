@@ -645,9 +645,10 @@ void Map::GoTo_Camera_481890()
                 {
                     if (!(pBaseGameObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)) && (!sNum_CamSwappers_5C1B66 || pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
-                        if (pBaseGameObj->field_1C_update_delay > 0)
+                        const s32 updateDelay = pBaseGameObj->UpdateDelay();
+                        if (updateDelay > 0)
                         {
-                            pBaseGameObj->field_1C_update_delay--;
+                            pBaseGameObj->SetUpdateDelay(updateDelay - 1);
                         }
                         else
                         {

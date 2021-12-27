@@ -5656,7 +5656,7 @@ PathLine* Paramite::WebCollision_4888A0(FP yOff, FP xOff)
 
 void Paramite::vRender_488220(PrimHeader** ppOt)
 {
-    if (field_1C_update_delay == 0)
+    if (UpdateDelay() == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }

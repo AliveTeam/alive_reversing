@@ -25,7 +25,7 @@ void DemoPlayback::ctor()
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 
         u32** ppRes = reinterpret_cast<u32**>(Add_Resource_4DC130(ResourceManager::Resource_Demo, ResourceID::kDemoResID));
-        field_1C_update_delay = 1;
+        SetUpdateDelay(1);
         sInputObject_5BD4E0.SetDemoResource_45F1E0(ppRes);
         field_4_typeId = AETypes::eDemoPlayback_98;
     }

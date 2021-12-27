@@ -213,7 +213,7 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spa
     {
         field_106_current_motion = eScrabMotions::M_JumpToFall_8_4A9220;
         vUpdateAnim_4A34F0();
-        field_1C_update_delay = 30;
+        SetUpdateDelay(30);
     }
 
     SetTint_425600(&sScrabTints_560260[0], gMap_5C3030.field_0_current_level);
@@ -3620,7 +3620,7 @@ void Scrab::vScreenChanged_4A5560()
 
 void Scrab::vRender_4A45B0(PrimHeader** ppOt)
 {
-    if (field_1C_update_delay == 0)
+    if (UpdateDelay() == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }

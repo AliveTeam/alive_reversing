@@ -737,7 +737,7 @@ s32 CC BirdPortal::CreateFromSaveState_499C90(const u8* pBuffer)
 
     auto pPortal = ae_new<BirdPortal>();
     pPortal->ctor_497E00(pTlv, pSaveState->field_4_tlvInfo);
-    pPortal->field_1C_update_delay = 1;
+    pPortal->SetUpdateDelay(1);
     pPortal->field_82_num_muds_for_shrykull -= pSaveState->field_3_mud_count;
 
     const auto savedState = static_cast<PortalStates>(pSaveState->field_2_state);

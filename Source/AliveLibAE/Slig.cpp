@@ -84,7 +84,7 @@ s32 CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
     auto pSlig = reinterpret_cast<Slig*>(pObj);
     auto pPoints = reinterpret_cast<PSX_Point*>(pData);
 
-    if (pSlig->field_1C_update_delay)
+    if (pSlig->UpdateDelay())
     {
         return 1;
     }
@@ -149,7 +149,7 @@ s32 CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
     Event_Broadcast_422BC0(kEventShooting, pSlig);
     Event_Broadcast_422BC0(kEventLoudNoise, pSlig);
 
-    pBullet->field_1C_update_delay = 1;
+    pBullet->SetUpdateDelay(1);
 
     Dove::All_FlyAway_41FA60(0);
     return 1;
@@ -2199,7 +2199,7 @@ void Slig::M_Possess_37_4B72C0()
             field_C4_velx = FP_FromInteger(0);
             field_10C_health = FP_FromInteger(0);
             MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-            field_1C_update_delay = 40;
+            SetUpdateDelay(40);
             field_120_timer = sGnFrame_5C1B84 + 60;
             SetBrain(&Slig::Brain_Death_0_4BBFB0);
         }
@@ -5369,7 +5369,7 @@ void Slig::BlowToGibs_4B8020()
     field_10C_health = FP_FromInteger(0);
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     field_120_timer = sGnFrame_5C1B84 + 60;
-    field_1C_update_delay = 40;
+    SetUpdateDelay(40);
     SetBrain(&Slig::Brain_Death_0_4BBFB0);
     Event_Broadcast_422BC0(kEventMudokonComfort, this);
 }
@@ -7087,7 +7087,7 @@ s16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
             SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            field_1C_update_delay = 40;
+            SetUpdateDelay(40);
             SetBrain(&Slig::Brain_ReturnControlToAbeAndDie_1_4BC410);
             field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
             vUpdateAnim_4B1320();

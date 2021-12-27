@@ -299,7 +299,7 @@ EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
         else
         {
             field_118_state = UXBState::eDelay_0;
-            field_1C_update_delay = 6;
+            SetUpdateDelay(6);
             const AnimRecord& animRec = AnimRec(AnimId::UXB_Active);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             PlaySFX_4DE930(SoundEffect::RedTick_3);

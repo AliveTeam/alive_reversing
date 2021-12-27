@@ -1718,7 +1718,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                 }
             }
 
-            field_1C_update_delay = 2;
+            SetUpdateDelay(2);
             return 4;
 
         case 4:

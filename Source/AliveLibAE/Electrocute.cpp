@@ -295,7 +295,7 @@ void Electrocute::vUpdate_4E6240()
                         pTargetObj->field_20_animation.field_90_pal_depth,
                         static_cast<s16>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
 
-                    field_30_pPalOverwriters[1]->field_1C_update_delay = 4;
+                    field_30_pPalOverwriters[1]->SetUpdateDelay(4);
                 }
 
                 if (field_3C_extraOverwriter)
@@ -308,7 +308,7 @@ void Electrocute::vUpdate_4E6240()
                             pTargetObj->field_20_animation.field_90_pal_depth,
                             static_cast<s16>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
 
-                        field_30_pPalOverwriters[2]->field_1C_update_delay = 8;
+                        field_30_pPalOverwriters[2]->SetUpdateDelay(8);
                     }
                 }
 

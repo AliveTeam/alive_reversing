@@ -440,7 +440,7 @@ PauseMenu* PauseMenu::ctor_48FB80()
     word12C_flags &= ~0xE;
     word12C_flags &= ~1u;
 
-    field_1C_update_delay = 25;
+    SetUpdateDelay(25);
 
     gObjList_drawables_5C1124->Push_Back(this);
 
