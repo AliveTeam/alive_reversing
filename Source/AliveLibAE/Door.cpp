@@ -45,7 +45,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
     SetVTable(this, 0x5449BC); // vTbl_Door_5449BC
-    field_4_typeId = AETypes::eDoor_33;
+    SetType(AETypes::eDoor_33);
 
     field_F4_tlvInfo = tlvInfo;
     field_F8_door_type = pTlvData->field_1E_type;
@@ -530,7 +530,7 @@ TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, s32 tlvInfo)
 
     SetVTable(this, 0x547AFC);
 
-    field_4_typeId = AETypes::eDoor_33;
+    SetType(AETypes::eDoor_33);
     field_F4_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Train_Closing);

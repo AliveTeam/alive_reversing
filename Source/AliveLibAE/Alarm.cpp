@@ -32,7 +32,7 @@ Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, s32 tlvInfo)
     field_84_tlvOffsetLevelPathCamId = tlvInfo;
 
     SetVTable(this, 0x544074); // vTbl_GlukkonPanic_544074
-    field_4_typeId = AETypes::eAlarm_1;
+    SetType(AETypes::eAlarm_1);
 
     field_78_r_value = 0;
     field_90_state = States::eWaitForSwitchEnable_0;
@@ -54,7 +54,7 @@ Alarm* Alarm::ctor_4091F0(s16 durationOffset, s16 switchId, s16 timerOffset, Lay
     ctor_4AB7A0(layer, TPageAbr::eBlend_3);
 
     SetVTable(this, 0x544074);
-    field_4_typeId = AETypes::eAlarm_1;
+    SetType(AETypes::eAlarm_1);
 
     field_78_r_value = 0;
     field_90_state = States::eAfterConstructed_1;

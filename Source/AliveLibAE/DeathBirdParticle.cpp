@@ -21,7 +21,7 @@ DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, s32 start, s
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
     SetVTable(this, 0x545298); // vTbl_DeathBirdParticle_00545298
-    field_4_typeId = AETypes::eDeathBird_62;
+    SetType(AETypes::eDeathBird_62);
 
     const AnimRecord& rec = AnimRec(AnimId::DeathFlare_1);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

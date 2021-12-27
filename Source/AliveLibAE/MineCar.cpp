@@ -22,7 +22,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /
     ctor_408240(0);
     SetVTable(&field_124_anim, 0x544290);
     SetVTable(this, 0x5461FC);
-    field_4_typeId = AETypes::eMineCar_89;
+    SetType(AETypes::eMineCar_89);
 
     const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Open);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -738,15 +738,13 @@ void MineCar::RunThingsOver_46F380()
         if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // You can't run yourself over with a mine car it seems.
-            //
-            if (pObj->field_4_typeId != AETypes::eAbe_69)
+            if (pObj->Type() != AETypes::eAbe_69)
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
                 if (
                     (
-                        pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale ||
-                        pAliveObj->field_4_typeId == AETypes::eSlog_126
+                        pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale || pAliveObj->Type() == AETypes::eSlog_126
                     ) &&
                     field_CC_sprite_scale != FP_FromDouble(0.5)
                 )
@@ -757,7 +755,6 @@ void MineCar::RunThingsOver_46F380()
                     if (PSX_Rects_overlap_no_adjustment(&ourRect, &targetRect))
                     {
                         // Get run over by the mine car
-                        //
                         pAliveObj->VTakeDamage_408730(this);
                     }
                 }

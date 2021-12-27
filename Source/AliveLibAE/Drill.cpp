@@ -35,7 +35,7 @@ Drill* Drill::ctor_4200D0(Path_Drill* pTlv, u32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544AD8);
 
-    field_4_typeId = AETypes::eDrill_30;
+    SetType(AETypes::eDrill_30);
 
     const AnimRecord& rec = AnimRec(AnimId::Drill_Vertical_Off);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -736,11 +736,11 @@ s16 Drill::DamageTouchingObjects_421060()
             return 0;
         }
 
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->field_4_typeId == AETypes::eRockSpawner_48)
+        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eRockSpawner_48)
         {
             if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                if (pObj->field_4_typeId != AETypes::eMeat_84 && pObj->field_4_typeId != AETypes::eEvilFart_45 && (pObj->field_4_typeId != AETypes::eAbe_69 || pObj->field_106_current_motion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
+                if (pObj->Type() != AETypes::eMeat_84 && pObj->Type() != AETypes::eEvilFart_45 && (pObj->Type() != AETypes::eAbe_69 || pObj->field_106_current_motion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
                 {
                     PSX_RECT objRect = {};
                     pObj->vGetBoundingRect_424FD0(&objRect, 1);

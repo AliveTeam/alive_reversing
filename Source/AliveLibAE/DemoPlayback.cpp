@@ -27,7 +27,7 @@ void DemoPlayback::ctor()
         u32** ppRes = reinterpret_cast<u32**>(Add_Resource_4DC130(ResourceManager::Resource_Demo, ResourceID::kDemoResID));
         SetUpdateDelay(1);
         sInputObject_5BD4E0.SetDemoResource_45F1E0(ppRes);
-        field_4_typeId = AETypes::eDemoPlayback_98;
+        SetType(AETypes::eDemoPlayback_98);
     }
 }
 

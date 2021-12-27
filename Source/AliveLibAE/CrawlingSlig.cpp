@@ -102,7 +102,7 @@ CrawlingSlig* CrawlingSlig::ctor_418C70(Path_CrawlingSlig* pTlv, s32 tlvInfo)
 
     field_1DC_unused = -1;
     SetVTable(this, 0x5446A8);
-    field_4_typeId = AETypes::eCrawlingSlig_26;
+    SetType(AETypes::eCrawlingSlig_26);
 
     const AnimRecord& rec = AnimRec(AnimId::Crawling_Slig_Idle);
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
@@ -638,7 +638,7 @@ s16 CrawlingSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
 {
     if (!BrainIs(&CrawlingSlig::Brain_5_Transformed_41ADF0))
     {
-        switch (pFrom->field_4_typeId)
+        switch (pFrom->Type())
         {
             case AETypes::eBullet_15:
             case AETypes::eDrill_30:
@@ -1463,7 +1463,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
             Set_AnimAndMotion_419890(0, TRUE);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            field_4_typeId = AETypes::eNone_0;
+            SetType(AETypes::eNone_0);
         }
     }
     else
@@ -1485,7 +1485,7 @@ void CrawlingSlig::M_WakingUp_2_41BF00()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eSnoozeParticle_124)
+        if (pObj->Type() == AETypes::eSnoozeParticle_124)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }

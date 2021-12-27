@@ -11,7 +11,7 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, s16 bottom, s16 top, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547F58);
-    field_4_typeId = AETypes::eLiftRope_108;
+    SetType(AETypes::eLiftRope_108);
 
     if (scale == FP_FromInteger(1))
     {

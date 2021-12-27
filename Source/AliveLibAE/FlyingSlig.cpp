@@ -126,7 +126,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
         field_C_objectId = tlvInfo;
     }
 
-    field_4_typeId = AETypes::eFlyingSlig_54;
+    SetType(AETypes::eFlyingSlig_54);
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFlySligResID, TRUE, FALSE));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, TRUE, FALSE));
@@ -995,7 +995,7 @@ s16 FlyingSlig::VTakeDamage_408730(BaseGameObject* pFrom)
 
 s16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
 {
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eBullet_15:
         {
@@ -1139,7 +1139,7 @@ void FlyingSlig::Brain_4_ChasingEnemy_435BC0()
         return;
     }
 
-    if (Event_Get_422C00(kEventResetting) || sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale || IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (sControlledCharacter_5C1B8C != sActiveHero_5C1B68 || sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eMineCar_89))
+    if (Event_Get_422C00(kEventResetting) || sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale || IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (sControlledCharacter_5C1B8C != sActiveHero_5C1B68 || sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->Type() != AETypes::eMineCar_89))
     {
         PatrolDelay_435860();
         return;
@@ -3347,7 +3347,7 @@ s16 FlyingSlig::TryPullLever_439DB0()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eLever_139)
+        if (pObj->Type() == AETypes::eLever_139)
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 

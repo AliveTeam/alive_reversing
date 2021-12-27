@@ -117,7 +117,7 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, 
     SetVTable(this, 0x544FE4);
 
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-    field_4_typeId = AETypes::eThrowableTotalIndicator_53;
+    SetType(AETypes::eThrowableTotalIndicator_53);
 
     gObjList_drawables_5C1124->Push_Back(this);
 

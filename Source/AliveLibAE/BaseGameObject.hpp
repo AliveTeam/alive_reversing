@@ -250,9 +250,20 @@ public:
         return field_1C_update_delay;
     }
 
-
 public:
+    void SetType(AETypes type)
+    {
+        field_4_typeId = type;
+    }
+
+    AETypes Type() const
+    {
+        return field_4_typeId;
+    }
+
+private:
     AETypes field_4_typeId;
+public:
     BitField16<Options> field_6_flags;
     s32 field_8_object_id;
     s32 field_C_objectId;

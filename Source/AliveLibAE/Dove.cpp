@@ -41,7 +41,7 @@ Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 maxW, u16 maxH, s32 resourceID
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90);
 
-    field_4_typeId = AETypes::eDove_35;
+    SetType(AETypes::eDove_35);
 
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
     Animation_Init_424E10(frameTableOffset, maxW, maxH, ppRes, 1, 1);
@@ -94,7 +94,7 @@ Dove* Dove::ctor_41F660(s32 frameTableOffset, s32 maxW, s16 maxH, s32 resourceID
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90); // vTbl_Dove_544A90
 
-    field_4_typeId = AETypes::eDove_35;
+    SetType(AETypes::eDove_35);
 
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
     Animation_Init_424E10(frameTableOffset, maxW, maxH, ppRes, 1, 1);

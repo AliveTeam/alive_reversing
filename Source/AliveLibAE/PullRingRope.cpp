@@ -33,7 +33,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546A00);
 
-    field_4_typeId = AETypes::ePullRope_103;
+    SetType(AETypes::ePullRope_103);
 
     const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

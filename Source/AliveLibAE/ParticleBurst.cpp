@@ -27,7 +27,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5447DC);
 
-    field_4_typeId = AETypes::eParticleBurst_29;
+    SetType(AETypes::eParticleBurst_29);
 
     // TODO: Check it
     if (numOfParticles > 5)

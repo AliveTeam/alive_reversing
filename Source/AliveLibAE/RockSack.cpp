@@ -14,7 +14,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo)
     ctor_408240(0);
     SetVTable(this, 0x546B88);
 
-    field_4_typeId = AETypes::eRockSack_106;
+    SetType(AETypes::eRockSack_106);
 
     const AnimRecord& rec = AnimRec(AnimId::RockSack_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

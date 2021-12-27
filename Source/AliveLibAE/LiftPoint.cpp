@@ -66,7 +66,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
     SetVTable(this, 0x545CC0);                   // vTbl_LiftPoint_545CC0
 
     field_C_objectId = tlvInfo;
-    field_4_typeId = AETypes::eLiftPoint_78;
+    SetType(AETypes::eLiftPoint_78);
 
     pTlv->field_1_tlv_state = 3;
 

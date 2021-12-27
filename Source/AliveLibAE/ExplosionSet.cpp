@@ -19,7 +19,7 @@ ExplosionSet* ExplosionSet::ctor_414CA0()
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5444FC);
 
-    field_4_typeId = AETypes::eExplosionSet_18;
+    SetType(AETypes::eExplosionSet_18);
 
     if (pExplosionSet_5BBF68)
     {

@@ -29,7 +29,7 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, s32 tlvInfo)
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x546970);
     field_68_doves_exist = 0;
-    field_4_typeId = AETypes::eBirdPortal_99;
+    SetType(AETypes::eBirdPortal_99);
     field_C_objectId = tlvInfo;
     field_40_throwable_indicator_id = -1;
 
@@ -259,7 +259,7 @@ void BirdPortal::vUpdate_498280()
                         }
                         pParticle->field_DC_bApplyShadows &= ~1u;
                         pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-                        pParticle->field_4_typeId = AETypes::eBirdPortalTerminator_100;
+                        pParticle->SetType(AETypes::eBirdPortalTerminator_100);
                         pParticle->field_CC_sprite_scale = field_60_scale;
 
                         if (static_cast<s32>(sGnFrame_5C1B84) % 2)
@@ -1075,7 +1075,7 @@ s16 BirdPortal::IsScaredAway_4992A0()
             return FALSE;
         }
 
-        switch (pObj->field_4_typeId)
+        switch (pObj->Type())
         {
             case AETypes::eNeverSet_40:
             case AETypes::eAbe_69:
@@ -1160,7 +1160,7 @@ void BirdPortal::KillTerminators_499220()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eBirdPortalTerminator_100)
+        if (pObj->Type() == AETypes::eBirdPortalTerminator_100)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -1194,7 +1194,7 @@ s16 BirdPortal::GetEvent_499A70()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eBirdPortal_99)
+        if (pObj->Type() == AETypes::eBirdPortal_99)
         {
             if (pObj == this)
             {
@@ -1214,7 +1214,7 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546928);
 
-    field_4_typeId = AETypes::eEyeOrbPart_74;
+    SetType(AETypes::eEyeOrbPart_74);
 
     const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorShrink);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

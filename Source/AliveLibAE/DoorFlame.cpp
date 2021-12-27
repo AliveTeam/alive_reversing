@@ -19,7 +19,7 @@ public:
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
         SetVTable(this, 0x54592C);
-        field_4_typeId = AETypes::eNone_0;
+        SetType(AETypes::eNone_0);
 
         const AnimRecord& rec = AnimRec(AnimId::Door_FireBackgroundGlow);
         u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -168,7 +168,7 @@ public:
         }
 
         SetVTable(this, 0x545974);
-        field_4_typeId = AETypes::eNone_0;
+        SetType(AETypes::eNone_0);
 
         const AnimRecord& rec = AnimRec(AnimId::Door_Flame_Spark);
         u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -369,7 +369,7 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5459BC);
 
-    field_4_typeId = AETypes::eNone_0;
+    SetType(AETypes::eNone_0);
     field_F4_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Fire);

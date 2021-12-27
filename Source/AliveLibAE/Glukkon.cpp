@@ -154,7 +154,7 @@ s32 CC Glukkon::CreateFromSaveState_442830(const u8* pData)
     {
         pGlukkon->ctor_43F030(pTlv, pSaveState->field_44_tlvInfo);
     }
-    pGlukkon->field_4_typeId = pSaveState->field_8E_type_id;
+    pGlukkon->SetType(pSaveState->field_8E_type_id);
     pGlukkon->field_C_objectId = pSaveState->field_4_object_id;
     if (pSaveState->field_40_bIsActiveChar)
     {
@@ -419,7 +419,7 @@ s32 Glukkon::vGetSaveState_444B90(u8* pSaveBuffer)
     pSaveState->field_84_getting_shot_timer = field_204_getting_shot_timer;
     pSaveState->field_88_obj_id = field_208_obj_id;
     pSaveState->field_8C_can_be_possessed = field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed);
-    pSaveState->field_8E_type_id = field_4_typeId;
+    pSaveState->field_8E_type_id = Type();
 
     return sizeof(Glukkon_SaveState);
 }
@@ -1066,7 +1066,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 
     auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
     LiftPoint* pLiftPoint = nullptr;
-    if (pObj && pObj->field_4_typeId == AETypes::eLiftPoint_78)
+    if (pObj && pObj->Type() == AETypes::eLiftPoint_78)
     {
         pLiftPoint = static_cast<LiftPoint*>(pObj);
         if (!pLiftPoint->vOnAnyFloor_461920() && field_210_brain_sub_state != 7)
@@ -1367,7 +1367,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
     }
 
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
-    if (pLiftPoint && pLiftPoint->field_4_typeId == AETypes::eLiftPoint_78 && !pLiftPoint->vOnAnyFloor_461920() && field_210_brain_sub_state != 6)
+    if (pLiftPoint && pLiftPoint->Type() == AETypes::eLiftPoint_78 && !pLiftPoint->vOnAnyFloor_461920() && field_210_brain_sub_state != 6)
     {
         field_108_next_motion = eGlukkonMotions::M_Idle_0_442D10;
         return 6;
@@ -1712,7 +1712,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                     break;
                 }
 
-                if (pObj->field_4_typeId == AETypes::eSlig_125)
+                if (pObj->Type() == AETypes::eSlig_125)
                 {
                     pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
@@ -1977,7 +1977,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
 
-        field_4_typeId = AETypes::eGlukkon_67;
+        SetType(AETypes::eGlukkon_67);
 
         if (field_1A8_tlvData.field_1E_spawn_direction == 3)
         {
@@ -2058,12 +2058,12 @@ void Glukkon::Init_43F260()
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
         SetBrain(&Glukkon::Brain_5_WaitToSpawn_442490);
         field_210_brain_sub_state = 0;
-        field_4_typeId = AETypes::eNone_0;
+        SetType(AETypes::eNone_0);
     }
     else
     {
         field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
-        field_4_typeId = AETypes::eGlukkon_67;
+        SetType(AETypes::eGlukkon_67);
         SetBrain(&Glukkon::Brain_0_Calm_WalkAround_440B40);
         field_210_brain_sub_state = 0;
     }
@@ -3064,7 +3064,7 @@ s16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         return 1;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eBullet_15:
         {

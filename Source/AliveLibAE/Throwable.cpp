@@ -103,7 +103,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
                         break;
                     }
 
-                    if (cb(pObj->field_4_typeId))
+                    if (cb(pObj->Type()))
                     {
                         auto pPlatform = static_cast<PlatformBase*>(pObj);
 

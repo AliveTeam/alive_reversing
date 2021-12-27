@@ -66,7 +66,7 @@ Mine* Mine::ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv)
     SetVTable(this, 0x546164);
     SetVTable(&field_124_animation, 0x544290);
 
-    field_4_typeId = AETypes::eMine_88;
+    SetType(AETypes::eMine_88);
 
     const AnimRecord& rec = AnimRec(AnimId::Mine);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -304,7 +304,7 @@ s16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
         return 0;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         default:
             return 0;

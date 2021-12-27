@@ -70,7 +70,7 @@ GameSpeak* GameSpeak::ctor_421820()
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9); // Dont destroy on loading save
     field_2C_event_buffer[0] = -1;
     field_20_last_event = GameSpeakEvents::eNone_m1;
-    field_4_typeId = AETypes::eGameSpeak_38;
+    SetType(AETypes::eGameSpeak_38);
     field_28_last_event_index = 0;
     return this;
 }

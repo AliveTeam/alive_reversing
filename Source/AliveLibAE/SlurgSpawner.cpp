@@ -10,7 +10,7 @@ SlurgSpawner* SlurgSpawner::ctor_4C82E0(Path_SlurgSpawner* pTlv, s32 tlvInfo)
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547704);
 
-    field_4_typeId = AETypes::eSlurgSpawner_128;
+    SetType(AETypes::eSlurgSpawner_128);
     field_20_tlvInfo = tlvInfo;
     field_24_slurg_tlv = pTlv;
     field_28_path_data = pTlv->field_18_spawner_data;

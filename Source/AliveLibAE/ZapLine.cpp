@@ -12,7 +12,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     field_12A_type = type;
     SetVTable(this, 0x5478A0);
-    field_4_typeId = AETypes::eZapLine_135;
+    SetType(AETypes::eZapLine_135);
 
     if (type == ZapLineType::eThin_1)
     {

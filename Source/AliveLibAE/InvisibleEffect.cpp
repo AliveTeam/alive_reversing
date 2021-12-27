@@ -16,7 +16,7 @@ EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(BaseAliveGameObject* pTarge
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545A60);
 
-    field_4_typeId = AETypes::eInvisibleEffect_75;
+    SetType(AETypes::eInvisibleEffect_75);
 
     field_44_objId = pTarget->field_8_object_id;
 

@@ -131,7 +131,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     ctor_408240(0);
     SetVTable(&field_128_animation, 0x544290);
     SetVTable(this, 0x547E80);
-    field_4_typeId = AETypes::eUXB_143;
+    SetType(AETypes::eUXB_143);
 
     const AnimRecord& activeRec = AnimRec(AnimId::UXB_Active);
     auto pResource = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, activeRec.mResourceId);
@@ -331,7 +331,7 @@ s16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
         return 0;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eAbe_69:
         case AETypes::eMudokon_110:

@@ -8,7 +8,7 @@ Flash* Flash::ctor_428570(Layer layer, u8 r, u8 g, u8 b, s32 /*not_used*/, TPage
 {
     ctor_4AB7A0(layer, abr);
     SetVTable(this, 0x544F0C); // vTbl_Flash_544F0C
-    field_4_typeId = AETypes::eFlash_117;
+    SetType(AETypes::eFlash_117);
     field_6E_r = r;
     field_70_g = g;
     field_72_b = b;

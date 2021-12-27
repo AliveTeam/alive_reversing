@@ -23,7 +23,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
     ctor_408240(0);
     SetVTable(this, 0x54566C);
 
-    field_4_typeId = AETypes::eGreeter_64;
+    SetType(AETypes::eGreeter_64);
     const AnimRecord& rec = AnimRec(AnimId::Greeter_Moving);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -452,7 +452,7 @@ EXPORT s16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
         return 0;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eBullet_15:
             if (static_cast<Bullet*>(pFrom)->field_30_x_distance <= FP_FromInteger(0))
@@ -674,7 +674,7 @@ BaseAliveGameObject* Greeter::GetMudToZap_447690()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eMudokon_110)
+        if (pObj->Type() == AETypes::eMudokon_110)
         {
             PSX_RECT bRect = {};
             pObj->vGetBoundingRect_424FD0(&bRect, 1);

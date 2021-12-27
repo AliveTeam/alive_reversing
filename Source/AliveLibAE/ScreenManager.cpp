@@ -203,7 +203,7 @@ void ScreenManager::Init_40E4B0(u8** ppBits)
 {
     field_40_flags |= 0x10000;
 
-    field_4_typeId = AETypes::eScreenManager_6;
+    SetType(AETypes::eScreenManager_6);
 
     field_2C_upos = 0;
     field_2E_vpos = 272;

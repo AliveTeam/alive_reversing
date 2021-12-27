@@ -224,7 +224,7 @@ EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject
     if (pObj)
     {
         FP yOff = {};
-        if (pObj->field_4_typeId == AETypes::eFlyingSlig_54)
+        if (pObj->Type() == AETypes::eFlyingSlig_54)
         {
             yOff = FP_FromInteger(20); // 0xffec0000
         }

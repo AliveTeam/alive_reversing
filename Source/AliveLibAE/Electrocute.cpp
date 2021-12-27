@@ -18,7 +18,7 @@ public:
 
         SetVTable(this, 0x544BC4); // vTbl_Class_544BC4
 
-        field_4_typeId = AETypes::ePalOverwriter_44;
+        SetType(AETypes::ePalOverwriter_44);
 
         gObjList_drawables_5C1124->Push_Back(this);
 
@@ -165,7 +165,7 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, s16 bExtr
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
 
     SetVTable(this, 0x548100); // vTbl_Class_548100
-    field_4_typeId = AETypes::eElectrocute_150;
+    SetType(AETypes::eElectrocute_150);
 
     field_20_target_obj_id = pTargetObj->field_8_object_id;
     field_44_state = States::eSetNewColour_0;
@@ -174,7 +174,7 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, s16 bExtr
     field_2E_overwriter_count = bExtraOverwriter ? 3 : 2;
     field_40_pPalData = nullptr;
 
-    switch (pTargetObj->field_4_typeId)
+    switch (pTargetObj->Type())
     {
         case AETypes::eFlyingSlig_54:
         case AETypes::eGlukkon_67:
@@ -256,7 +256,7 @@ void Electrocute::vUpdate_4E6240()
         switch (field_44_state)
         {
             case States::eSetNewColour_0:
-                if (pTargetObj->field_4_typeId == AETypes::eAbe_69)
+                if (pTargetObj->Type() == AETypes::eAbe_69)
                 {
                     field_24_r = 127;
                     field_26_g = 127;

@@ -196,7 +196,7 @@ DDCheat* DDCheat::ctor_4153C0()
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit4);
-    field_4_typeId = AETypes::eDDCheat_19;
+    SetType(AETypes::eDDCheat_19);
     field_20 = 0;
     field_24_fn_idx = 0;
     field_28 = 0;
@@ -319,7 +319,7 @@ void DDCheat::Update_415780()
 
             sDDCheat_ShowAI_Info_5C1BD8 = false;
 
-            switch (sControlledCharacter_5C1B8C->field_4_typeId)
+            switch (sControlledCharacter_5C1B8C->Type())
             {
                 case AETypes::eGlukkon_67:
                 case AETypes::eSlig_125:

@@ -12,7 +12,7 @@ TimerTrigger* TimerTrigger::ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo)
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5478E8);
     field_2C_tlvInfo = tlvInfo;
-    field_4_typeId = AETypes::eTimerTrigger_136;
+    SetType(AETypes::eTimerTrigger_136);
     field_20_id = pTlv->field_10_id;
     field_34_trigger_delay = pTlv->field_12_trigger_delay;
     field_24_ids[0] = pTlv->field_14_id1;

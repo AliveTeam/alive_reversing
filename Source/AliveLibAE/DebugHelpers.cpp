@@ -80,7 +80,7 @@ public:
 
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-        field_4_typeId = AETypes::eDebugHelper_1001;
+        SetType(AETypes::eDebugHelper_1001);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(512, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
@@ -179,7 +179,7 @@ public:
                     }
                 }
 
-                std::string text = std::to_string(static_cast<s32>(pBaseGameObject->field_4_typeId));
+                std::string text = std::to_string(static_cast<s32>(pBaseGameObject->Type()));
 
                 mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_Above_FG1_39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
                 mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_FadeFlash_40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
@@ -286,7 +286,7 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-        field_4_typeId = AETypes::eDebugPathRenderer_1003;
+        SetType(AETypes::eDebugPathRenderer_1003);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(128, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
@@ -687,7 +687,7 @@ void Command_DDV(const std::vector<std::string>& args)
 
 void Command_SetState(const std::vector<std::string>& args)
 {
-    if (sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eAbe_69)
+    if (sControlledCharacter_5C1B8C->Type() != AETypes::eAbe_69)
     {
         DEV_CONSOLE_MESSAGE_C("Setting motion not supported on this object (only allowed for abe)!", 6, 255, 0, 0);
         return;
@@ -914,7 +914,7 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-        field_4_typeId = AETypes::eDebugConsole_1002;
+        SetType(AETypes::eDebugConsole_1002);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(4096 * 2, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
@@ -2241,7 +2241,7 @@ std::string EscapeUnknownCharacters(std::string text)
             break;
         }
 
-        if (pBaseGameObject->field_4_typeId == id)
+        if (pBaseGameObject->Type() == id)
             return pBaseGameObject;
     }
     return nullptr;

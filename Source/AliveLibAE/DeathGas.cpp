@@ -40,7 +40,7 @@ DeathGas* DeathGas::ctor_43C030(Layer layer, s16 amount)
 
     gDeathGasCount_5BD24C++;
 
-    field_4_typeId = AETypes::eMainMenuTransistion_116; // wot moment
+    SetType(AETypes::eMainMenuTransistion_116); // wot moment
     gObjList_drawables_5C1124->Push_Back(this);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     field_26_flag = 0;

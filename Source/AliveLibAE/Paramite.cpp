@@ -84,7 +84,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo)
     field_176_unused = -1;
 
     SetVTable(this, 0x54640C);
-    field_4_typeId = AETypes::eParamite_96;
+    SetType(AETypes::eParamite_96);
 
     field_C_objectId = tlvInfo;
 
@@ -770,7 +770,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     const GameSpeakEvents lastSpeak = LastSpeak_489040();
     if (lastSpeak == GameSpeakEvents::Paramite_Howdy_48)
     {
-        if (sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eParamite_96 && sControlledCharacter_5C1B8C->field_10C_health > FP_FromInteger(0) && sControlledCharacter_5C1B8C->field_CC_sprite_scale == field_CC_sprite_scale)
+        if (sControlledCharacter_5C1B8C->Type() == AETypes::eParamite_96 && sControlledCharacter_5C1B8C->field_10C_health > FP_FromInteger(0) && sControlledCharacter_5C1B8C->field_CC_sprite_scale == field_CC_sprite_scale)
         {
             if (CanIAcceptAGameSpeakCommand_489160())
             {
@@ -782,7 +782,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     }
     else if (lastSpeak == GameSpeakEvents::Paramite_AllYa_52)
     {
-        if (sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eParamite_96 && sControlledCharacter_5C1B8C->field_10C_health > FP_FromInteger(0) && sControlledCharacter_5C1B8C->field_CC_sprite_scale == field_CC_sprite_scale)
+        if (sControlledCharacter_5C1B8C->Type() == AETypes::eParamite_96 && sControlledCharacter_5C1B8C->field_10C_health > FP_FromInteger(0) && sControlledCharacter_5C1B8C->field_CC_sprite_scale == field_CC_sprite_scale)
         {
             SetBrain(&Paramite::Brain_8_ControlledByGameSpeak_48DFC0);
             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Inactive_0;
@@ -791,7 +791,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
 
     if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C))
     {
-        if (sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eParamite_96)
+        if (sControlledCharacter_5C1B8C->Type() == AETypes::eParamite_96)
         {
             if (sControlledCharacter_5C1B8C->field_106_current_motion == eParamiteMotions::M_Attack_43_48DB70 || sControlledCharacter_5C1B8C->field_106_current_motion == eParamiteMotions::M_RunningAttack_31_48C9E0)
             {
@@ -1380,7 +1380,7 @@ s16 Paramite::Brain_2_ChasingAbe_4859D0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (pObj && !pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && (pObj->field_4_typeId != AETypes::eFleech_50 || pObj->field_10C_health > FP_FromInteger(0)))
+    if (pObj && !pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && (pObj->Type() != AETypes::eFleech_50 || pObj->field_10C_health > FP_FromInteger(0)))
     {
         if (field_148_timer > static_cast<s32>(sGnFrame_5C1B84) || (vOnSameYLevel_425520(pObj) && field_CC_sprite_scale == pObj->field_CC_sprite_scale))
         {
@@ -2528,7 +2528,7 @@ s16 Paramite::Brain_7_DeathDrop_484FF0()
 
 s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
 {
-    if (sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eParamite_96 || sControlledCharacter_5C1B8C->field_10C_health <= FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale)
+    if (sControlledCharacter_5C1B8C->Type() != AETypes::eParamite_96 || sControlledCharacter_5C1B8C->field_10C_health <= FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale)
     {
         SetBrain(&Paramite::Brain_0_Patrol_4835B0);
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
@@ -5358,7 +5358,7 @@ s16 Paramite::Find_Paramite_488810()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eParamite_96 && pObj != this && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0))
+        if (pObj->Type() == AETypes::eParamite_96 && pObj != this && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0))
         {
             return 1;
         }
@@ -5383,7 +5383,7 @@ Meat* Paramite::FindMeat_488930()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eMeat_84)
+        if (pObj->Type() == AETypes::eMeat_84)
         {
             auto pMeat = static_cast<Meat*>(pObj);
             if (pMeat->VCanEatMe_4696A0())
@@ -5418,7 +5418,7 @@ s16 Paramite::vOnSameYLevel_488A40(BaseAnimatedWithPhysicsGameObject* pOther)
         PSX_RECT bRect = {};
         pOther->vGetBoundingRect_424FD0(&bRect, 1);
 
-        if ((FP_Abs(field_BC_ypos - FP_FromInteger(bRect.h)) < field_CC_sprite_scale * FP_FromInteger(40)) || (pOther->field_4_typeId == AETypes::eParamite_96 && static_cast<Paramite*>(pOther)->field_106_current_motion == eParamiteMotions::M_JumpUpMidair_13_48BAF0))
+        if ((FP_Abs(field_BC_ypos - FP_FromInteger(bRect.h)) < field_CC_sprite_scale * FP_FromInteger(40)) || (pOther->Type() == AETypes::eParamite_96 && static_cast<Paramite*>(pOther)->field_106_current_motion == eParamiteMotions::M_JumpUpMidair_13_48BAF0))
         {
             return 1;
         }
@@ -5457,7 +5457,7 @@ s16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
 
     field_118_meat_id = -1;
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eDrill_30:
         case AETypes::eBaseBomb_46:
@@ -5620,7 +5620,7 @@ s16 Paramite::AnotherParamiteNear_4886E0()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eParamite_96 && pObj != this)
+        if (pObj->Type() == AETypes::eParamite_96 && pObj != this)
         {
             auto pOther = static_cast<Paramite*>(pObj);
             if (pOther->field_CC_sprite_scale == field_CC_sprite_scale && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pOther->field_C2_lvl_number, pOther->field_C0_path_number, pOther->field_B8_xpos, pOther->field_BC_ypos, 0) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && IsNear_488B10(pOther))
@@ -5686,7 +5686,7 @@ void Paramite::ToHop_489C20()
 
 s16 Paramite::CanIAcceptAGameSpeakCommand_489160()
 {
-    if (sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eParamite_96)
+    if (sControlledCharacter_5C1B8C->Type() != AETypes::eParamite_96)
     {
         return 0;
     }
@@ -5706,7 +5706,7 @@ s16 Paramite::CanIAcceptAGameSpeakCommand_489160()
         }
 
         // Find another paramite on the same layer/scale
-        if (pObj != this && pObj != sControlledCharacter_5C1B8C && pObj->field_CC_sprite_scale == sControlledCharacter_5C1B8C->field_CC_sprite_scale && pObj->field_4_typeId == AETypes::eParamite_96)
+        if (pObj != this && pObj != sControlledCharacter_5C1B8C && pObj->field_CC_sprite_scale == sControlledCharacter_5C1B8C->field_CC_sprite_scale && pObj->Type() == AETypes::eParamite_96)
         {
             auto pParamite = static_cast<Paramite*>(pObj);
 
@@ -5779,7 +5779,7 @@ PullRingRope* Paramite::FindPullRope_488F20()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::ePullRope_103)
+        if (pObj->Type() == AETypes::ePullRope_103)
         {
             auto pRope = static_cast<PullRingRope*>(pObj);
 
@@ -5938,7 +5938,7 @@ s16 Paramite::FindTarget_488C30()
                 break;
             }
 
-            if ((pObj->field_4_typeId == AETypes::eFleech_50 || pObj->field_4_typeId == AETypes::eSlig_125 || pObj->field_4_typeId == AETypes::eSlurg_129 || pObj->field_4_typeId == AETypes::eMudokon_110) && pObj->field_10C_health > FP_FromInteger(0))
+            if ((pObj->Type() == AETypes::eFleech_50 || pObj->Type() == AETypes::eSlig_125 || pObj->Type() == AETypes::eSlurg_129 || pObj->Type() == AETypes::eMudokon_110) && pObj->field_10C_health > FP_FromInteger(0))
             {
                 if (vOnSameYLevel_488A40(pObj))
                 {

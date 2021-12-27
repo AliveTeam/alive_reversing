@@ -403,7 +403,7 @@ void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(AETypes type
             break;
         }
 
-        if (pObj->field_4_typeId == typeToFind && pObj != this)
+        if (pObj->Type() == typeToFind && pObj != this)
         {
             data_idx++;
             if (data_idx >= ALIVE_COUNTOF(kData))

@@ -51,7 +51,7 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, u32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547A5C);
 
-    field_4_typeId = AETypes::eLever_139;
+    SetType(AETypes::eLever_139);
     const AnimRecord& rec = AnimRec(AnimId::Switch_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
