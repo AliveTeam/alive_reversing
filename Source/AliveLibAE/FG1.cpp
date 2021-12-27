@@ -68,7 +68,7 @@ FG1* FG1::ctor_499FC0(u8** pFG1Res)
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
-    field_4_typeId = AETypes::eFG1_101;
+    SetType(AETypes::eFG1_101);
 
     field_24_level_id = gMap_5C3030.field_0_current_level;
     field_26_path_id = gMap_5C3030.field_2_current_path;

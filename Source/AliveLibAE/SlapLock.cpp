@@ -18,7 +18,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
     ctor_408240(0);
     SetVTable(this, 0x545224);
 
-    field_4_typeId = AETypes::eLockedSoul_61;
+    SetType(AETypes::eLockedSoul_61);
     field_118_pTlv = pTlv;
     field_11C_tlvInfo = tlvInfo;
     field_C_objectId = tlvInfo;
@@ -63,7 +63,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eSlapLock_OrbWhirlWind_60 && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == field_118_pTlv->field_14_target_tomb_id2)
+        if (pObj->Type() == AETypes::eSlapLock_OrbWhirlWind_60 && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == field_118_pTlv->field_14_target_tomb_id2)
         {
             field_130_has_ghost = Choice_short::eNo_0;
         }
@@ -242,7 +242,7 @@ void SlapLock::vUpdate_43DF90()
                         break;
                     }
 
-                    if (pObj->field_4_typeId == AETypes::eAbilityRing_104 && pObj->field_C_objectId == field_134_id)
+                    if (pObj->Type() == AETypes::eAbilityRing_104 && pObj->field_C_objectId == field_134_id)
                     {
                         field_134_id = pObj->field_8_object_id;
                         break;
@@ -468,7 +468,7 @@ s16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
 
-    if (pFrom->field_4_typeId != AETypes::eAbe_69)
+    if (pFrom->Type() != AETypes::eAbe_69)
     {
         // Only Abe can slap me up
         return 0;

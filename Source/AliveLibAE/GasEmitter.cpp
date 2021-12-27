@@ -18,7 +18,7 @@ GasEmitter* GasEmitter::ctor_43CAA0(Path_GasEmitter* pTlv, s32 tlvInfo)
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5451D0);
 
-    field_4_typeId = AETypes::eNone_0;
+    SetType(AETypes::eNone_0);
 
     field_28_draw_flipper = 1;
 

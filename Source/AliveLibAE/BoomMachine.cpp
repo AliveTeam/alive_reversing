@@ -161,7 +161,7 @@ BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, s32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
     SetVTable(this, 0x5455C4);
-    field_4_typeId = AETypes::eGrenadeMachine_66;
+    SetType(AETypes::eGrenadeMachine_66);
 
     const AnimRecord& rec = AnimRec(AnimId::Grenade_Machine_Button_Off);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

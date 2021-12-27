@@ -757,7 +757,8 @@ EXPORT void CC Game_Loop_467230()
                 && pBaseGameObject->field_6_flags.Get(BaseGameObject::eDead_Bit3) == false
                 && (sNum_CamSwappers_5C1B66 == 0 || pBaseGameObject->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
-                if (pBaseGameObject->field_1C_update_delay <= 0)
+                const s32 updateDelay = pBaseGameObject->UpdateDelay();
+                if (updateDelay <= 0)
                 {
                     if (pBaseGameObject == pPauseMenu_5C9300)
                     {
@@ -770,7 +771,7 @@ EXPORT void CC Game_Loop_467230()
                 }
                 else
                 {
-                    pBaseGameObject->field_1C_update_delay--;
+                    pBaseGameObject->SetUpdateDelay(updateDelay - 1);
                 }
             }
         }

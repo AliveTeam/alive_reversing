@@ -140,7 +140,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
 {
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
-    field_4_typeId = AETypes::eCameraSwapper_149;
+    SetType(AETypes::eCameraSwapper_149);
 
     field_34_pSubObject = nullptr;
 

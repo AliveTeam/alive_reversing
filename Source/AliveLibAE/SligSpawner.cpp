@@ -13,7 +13,7 @@ SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, s32 tlvInfo)
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x544090);
 
-    field_4_typeId = AETypes::eSligSpawner_2;
+    SetType(AETypes::eSligSpawner_2);
 
     if (tlvInfo != 0xFFFF)
     {
@@ -83,7 +83,7 @@ void SligSpawner::vUpdate_409830()
                     break;
                 }
 
-                if (pObj->field_4_typeId == AETypes::eSlig_125 && pObj->field_C_objectId == field_3C_spawned_slig_obj_id)
+                if (pObj->Type() == AETypes::eSlig_125 && pObj->field_C_objectId == field_3C_spawned_slig_obj_id)
                 {
                     // Seems redundant ?
                     field_3C_spawned_slig_obj_id = pObj->field_8_object_id;

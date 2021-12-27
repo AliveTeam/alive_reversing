@@ -20,7 +20,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(s16 doorNumber, s16 switchId, 
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545208);
-    field_4_typeId = AETypes::eSlapLock_OrbWhirlWind_60;
+    SetType(AETypes::eSlapLock_OrbWhirlWind_60);
 
     field_20_xpos = xpos;
     field_24_ypos = ypos;

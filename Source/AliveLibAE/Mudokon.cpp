@@ -395,7 +395,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     field_11C_bird_portal_id = -1;
     field_12C_unused = -1;
     field_158_wheel_id = -1;
-    field_4_typeId = AETypes::eMudokon2_81; // TODO: Set to 110 later, what is 81 ??
+    SetType(AETypes::eMudokon2_81); // TODO: Set to 110 later, what is 81 ??
     field_C_objectId = tlvInfo;
     field_194_timer = 0;
     field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings_470C10;
@@ -508,7 +508,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_14_direction == XDirection_short::eLeft_0);
 
-    field_4_typeId = AETypes::eMudokon_110;
+    SetType(AETypes::eMudokon_110);
 
     field_13C_voice_pitch = pTlv->field_16_voice_pitch;
     field_17A_rescue_id = pTlv->field_18_rescue_id;
@@ -1394,7 +1394,7 @@ void Mudokon::vPossessed_4774F0()
 
 s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
 {
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eBullet_15:
         {
@@ -1480,7 +1480,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             field_194_timer = sGnFrame_5C1B84 + 90;
             VUpdateAnimRes_474D80();
             Event_Broadcast_422BC0(kEventMudokonDied, this);
-            if (pFrom->field_4_typeId == AETypes::eGasClock_23)
+            if (pFrom->Type() == AETypes::eGasClock_23)
             {
                 SFX_Play_46FBA0(SoundEffect::Choke_81, 127, 128);
             }
@@ -2164,7 +2164,7 @@ s16 Mudokon::Brain_1_Chisel_47C5F0()
 
     const bool reactToDeadMud = (pDeadMudEvent && pDeadMudEvent != this && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0));
 
-    const bool reactToLoudNoise = (pLoudNoiseEvent && pLoudNoiseEvent->field_4_typeId == AETypes::eGlukkon_67 && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0));
+    const bool reactToLoudNoise = (pLoudNoiseEvent && pLoudNoiseEvent->Type() == AETypes::eGlukkon_67 && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0));
 
     if (reactToAbused)
     {
@@ -2615,7 +2615,7 @@ s16 Mudokon::Brain_2_Scrub_47D270()
         field_D6_scale);
     if (pLoudNoise)
     {
-        if (pLoudNoise->field_4_typeId == AETypes::eGlukkon_67)
+        if (pLoudNoise->Type() == AETypes::eGlukkon_67)
         {
             if (field_190_brain_sub_state != Brain_2_Scrub::eBrain2_StandUp_3
                 && field_190_brain_sub_state != Brain_2_Scrub::eBrain2_DuckKnockback_7
@@ -3050,7 +3050,7 @@ s16 Mudokon::Brain_3_TurnWheel_47E0D0()
         field_D6_scale);
     if (pLoudNoiseEvent)
     {
-        if (pLoudNoiseEvent->field_4_typeId == AETypes::eGlukkon_67
+        if (pLoudNoiseEvent->Type() == AETypes::eGlukkon_67
             && field_190_brain_sub_state != Brain_3_TurnWheel::eBrain3_InterruptAction_2
             && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
@@ -3311,7 +3311,7 @@ s16 Mudokon::Brain_4_ListeningToAbe_477B40()
 
     if (pNoiseEvent)
     {
-        if (pNoiseEvent->field_4_typeId == AETypes::eGlukkon_67)
+        if (pNoiseEvent->Type() == AETypes::eGlukkon_67)
         {
             if (field_16A_flags.Get(Flags_16A::eBit13))
             {
@@ -7152,7 +7152,7 @@ s16 Mudokon::CanRespond_4770B0()
         if (pObj != this && pObj->field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
         {
             // Is it a mud who isn't currently talking to abe and is in the same screen?
-            if ((pObj->field_4_typeId == AETypes::eMudokon2_81 || pObj->field_4_typeId == AETypes::eMudokon_110) && static_cast<Mudokon*>(pObj)->field_18E_brain_state != Mud_Brain_State::Brain_4_ListeningToAbe_477B40 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0))
+            if ((pObj->Type() == AETypes::eMudokon2_81 || pObj->Type() == AETypes::eMudokon_110) && static_cast<Mudokon*>(pObj)->field_18E_brain_state != Mud_Brain_State::Brain_4_ListeningToAbe_477B40 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0))
             {
                 if (sActiveHero_5C1B68->vIsFacingMe_4254A0(pObj) && !sActiveHero_5C1B68->vIsFacingMe_4254A0(this))
                 {
@@ -7335,7 +7335,7 @@ s16 Mudokon::StopAtWheel_477880()
         }
 
         // Found another mud who isn't us
-        if (pObj != this && pObj->field_4_typeId == AETypes::eMudokon_110)
+        if (pObj != this && pObj->Type() == AETypes::eMudokon_110)
         {
             PSX_RECT bRect = {};
             pObj->vGetBoundingRect_424FD0(&bRect, 1);
@@ -7540,7 +7540,7 @@ void Mudokon::CheckKnockedOntoABomb_4723C0()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eMine_88 || pObj->field_4_typeId == AETypes::eUXB_143)
+        if (pObj->Type() == AETypes::eMine_88 || pObj->Type() == AETypes::eUXB_143)
         {
             PSX_RECT bBombRect = {};
             pObj->vGetBoundingRect_424FD0(&bBombRect, 1);

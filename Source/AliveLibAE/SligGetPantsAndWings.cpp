@@ -13,7 +13,7 @@ SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, s32 tlvI
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x545ED8);
 
-    field_4_typeId = AETypes::eSligGetPantsOrWings_80;
+    SetType(AETypes::eSligGetPantsOrWings_80);
     field_F8_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);

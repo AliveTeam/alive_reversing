@@ -193,7 +193,7 @@ void Grenade::vScreenChanged_449140()
 
 void Grenade::Init_448110(FP xpos, FP ypos)
 {
-    field_4_typeId = AETypes::eGrenade_65;
+    SetType(AETypes::eGrenade_65);
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0))
     {

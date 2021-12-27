@@ -44,7 +44,7 @@ BrewMachine* BrewMachine::ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo)
     SetVTable(this, 0x544424);
     SetVTable(&field_14C_anim, 0x544290);
 
-    field_4_typeId = AETypes::eBrewMachine_13;
+    SetType(AETypes::eBrewMachine_13);
 
     field_F4_font_context.LoadFontType_433400(2);
     field_104_font.ctor_433590(3, fontPalette_550F08, &field_F4_font_context);

@@ -15,7 +15,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
 {
     ctor_408240(0);
     SetVTable(this, 0x546AF8);
-    field_4_typeId = AETypes::eRock_105;
+    SetType(AETypes::eRock_105);
 
     field_11A_bDead = 0;
 

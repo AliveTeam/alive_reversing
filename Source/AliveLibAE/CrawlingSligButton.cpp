@@ -23,7 +23,7 @@ CrawlingSligButton* CrawlingSligButton::ctor_4148F0(Path_CrawlingSligButton* pTl
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5444B4);
 
-    field_4_typeId = AETypes::eSligButton_16;
+    SetType(AETypes::eSligButton_16);
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

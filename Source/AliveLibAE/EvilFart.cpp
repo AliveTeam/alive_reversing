@@ -25,7 +25,7 @@ EvilFart* EvilFart::ctor_422E30()
     ctor_408240(0);
     SetVTable(this, 0x544BE0);
 
-    field_4_typeId = AETypes::eEvilFart_45;
+    SetType(AETypes::eEvilFart_45);
 
     const AnimRecord& rec = AnimRec(AnimId::Fart);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -308,7 +308,7 @@ s16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (pFrom->field_4_typeId == AETypes::eElectricWall_39)
+    if (pFrom->Type() == AETypes::eElectricWall_39)
     {
         field_11C_alive_timer = 0;
     }

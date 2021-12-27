@@ -92,7 +92,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
 {
     ctor_408240(0);
     SetVTable(this, 0x547CE0);
-    field_4_typeId = AETypes::eTrapDoor_142;
+    SetType(AETypes::eTrapDoor_142);
     field_C_objectId = tlvInfo;
 
     field_12C_unused &= ~1u;

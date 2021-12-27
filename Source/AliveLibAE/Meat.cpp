@@ -19,7 +19,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
     SetVTable(this, 0x546040);
 
     field_11A_bDead = 0;
-    field_4_typeId = AETypes::eMeat_84;
+    SetType(AETypes::eMeat_84);
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0))
     {
@@ -295,7 +295,7 @@ s16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
         return 1;
     }
 
-    if (pHit->field_4_typeId == AETypes::eMine_88 || pHit->field_4_typeId == AETypes::eUXB_143 || pHit->field_4_typeId == AETypes::eTimedMine_or_MovingBomb_10)
+    if (pHit->Type() == AETypes::eMine_88 || pHit->Type() == AETypes::eUXB_143 || pHit->Type() == AETypes::eTimedMine_or_MovingBomb_10)
     {
         return 1;
     }
@@ -463,7 +463,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
     ctor_408240(0);
     SetVTable(this, 0x5460D4);
 
-    field_4_typeId = AETypes::eMeatSack_85;
+    SetType(AETypes::eMeatSack_85);
 
     const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

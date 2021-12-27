@@ -117,7 +117,7 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spa
 
     SetVTable(this, 0x546DD0);
 
-    field_4_typeId = AETypes::eScrab_112;
+    SetType(AETypes::eScrab_112);
 
     if (tlvInfo != 0xFFFF)
     {
@@ -213,7 +213,7 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spa
     {
         field_106_current_motion = eScrabMotions::M_JumpToFall_8_4A9220;
         vUpdateAnim_4A34F0();
-        field_1C_update_delay = 30;
+        SetUpdateDelay(30);
     }
 
     SetTint_425600(&sScrabTints_560260[0], gMap_5C3030.field_0_current_level);
@@ -963,7 +963,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
     {
         auto pOtherScrab = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
         SetBrain(&Scrab::Brain_1_ChasingEnemy_4A6470);
-        if (pOtherScrab->field_4_typeId == AETypes::eScrab_112 && pOtherScrab->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed))
+        if (pOtherScrab->Type() == AETypes::eScrab_112 && pOtherScrab->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed))
         {
             field_108_next_motion = eScrabMotions::M_HowlBegin_26_4A9DA0;
             field_150_attack_delay_timer = sGnFrame_5C1B84 + 90;
@@ -981,7 +981,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
     }
 
     auto pSwitch = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
-    if (pSwitch && pSwitch->field_4_typeId == AETypes::eLiftPoint_78 && !(static_cast<LiftPoint*>(pSwitch)->vOnAnyFloor_461920() || field_11C_brain_sub_state != Brain_0_Patrol::eBrain0_OnLift_6))
+    if (pSwitch && pSwitch->Type() == AETypes::eLiftPoint_78 && !(static_cast<LiftPoint*>(pSwitch)->vOnAnyFloor_461920() || field_11C_brain_sub_state != Brain_0_Patrol::eBrain0_OnLift_6))
     {
         field_108_next_motion = eScrabMotions::M_Stand_0_4A8220;
         return Brain_0_Patrol::eBrain0_OnLift_6;
@@ -1260,7 +1260,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
     }
 
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
-    if (pLiftPoint && pLiftPoint->field_4_typeId != AETypes::eLiftPoint_78)
+    if (pLiftPoint && pLiftPoint->Type() != AETypes::eLiftPoint_78)
     {
         pLiftPoint = nullptr; //OG bug fix: Before it could use the pointer as a LiftPoint even if it, in fact, wasn't one
     }
@@ -1608,7 +1608,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
     {
         if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(7), pObj)
             && pObj->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed)
-            && pObj->field_4_typeId == AETypes::eScrab_112)
+            && pObj->Type() == AETypes::eScrab_112)
         {
             if (!field_178_shred_power_active)
             {
@@ -3503,7 +3503,7 @@ BaseAliveGameObject* Scrab::Find_Fleech_4A4C90()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eFleech_50)
+        if (pObj->Type() == AETypes::eFleech_50)
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             if (pAliveObj->field_10C_health > FP_FromInteger(0))
@@ -3620,7 +3620,7 @@ void Scrab::vScreenChanged_4A5560()
 
 void Scrab::vRender_4A45B0(PrimHeader** ppOt)
 {
-    if (field_1C_update_delay == 0)
+    if (UpdateDelay() == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -3867,7 +3867,7 @@ s16 Scrab::vTakeDamage_4A45E0(BaseGameObject* pFrom)
         return 0;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eFleech_50:
             field_10C_health = field_10C_health - FP_FromDouble(0.13);
@@ -4070,14 +4070,14 @@ void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
                     {
                         if (pObj != this)
                         {
-                            if ((pObj->field_4_typeId == AETypes::eAbe_69 || pObj->field_4_typeId == AETypes::eMudokon2_81 || pObj->field_4_typeId == AETypes::eMudokon_110 || pObj->field_4_typeId == AETypes::eNevetSet_127 || pObj->field_4_typeId == AETypes::eFleech_50 || pObj->field_4_typeId == AETypes::eScrab_112) && field_D6_scale == pObj->field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
+                            if ((pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eMudokon2_81 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eNevetSet_127 || pObj->Type() == AETypes::eFleech_50 || pObj->Type() == AETypes::eScrab_112) && field_D6_scale == pObj->field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
                             {
                                 const FP xDist = pObj->field_B8_xpos - field_B8_xpos;
                                 if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), xDist))
                                 {
                                     if (!pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
                                     {
-                                        if (pObj->field_4_typeId != AETypes::eScrab_112 || !pObj->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) || (pObj->field_106_current_motion != eScrabMotions::M_AttackSpin_32_4A8DC0 && (pObj->field_4_typeId != AETypes::eFleech_50 || BrainIs(&Scrab::Brain_5_Possessed_4A6180) || field_1A8_bKill_enemy == Choice_short::eYes_1)))
+                                        if (pObj->Type() != AETypes::eScrab_112 || !pObj->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) || (pObj->field_106_current_motion != eScrabMotions::M_AttackSpin_32_4A8DC0 && (pObj->Type() != AETypes::eFleech_50 || BrainIs(&Scrab::Brain_5_Possessed_4A6180) || field_1A8_bKill_enemy == Choice_short::eYes_1)))
 
                                         {
                                             PSX_RECT objRect = {};
@@ -4089,7 +4089,7 @@ void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
                                                 {
                                                     bKilledTarget = true;
                                                     SFX_Play_46FA90(SoundEffect::KillEffect_64, 0);
-                                                    if (pObj->field_4_typeId == AETypes::eAbe_69)
+                                                    if (pObj->Type() == AETypes::eAbe_69)
                                                     {
                                                         Mudokon_SFX_457EC0(MudSounds::eHurt2_9, 0, 0, sActiveHero_5C1B68);
                                                     }
@@ -4147,7 +4147,7 @@ s16 Scrab::FindAbeOrMud_4A4FD0()
         if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if ((pAliveObj->field_4_typeId == AETypes::eMudokon2_81 || pAliveObj->field_4_typeId == AETypes::eMudokon_110 || pAliveObj->field_4_typeId == AETypes::eNevetSet_127 || pAliveObj->field_4_typeId == AETypes::eScrab_112) && (pAliveObj->field_4_typeId != AETypes::eScrab_112 || pAliveObj->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed)) && CanSeeAbe_4A51A0(pAliveObj) && pAliveObj->field_10C_health > FP_FromInteger(0) && pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
+            if ((pAliveObj->Type() == AETypes::eMudokon2_81 || pAliveObj->Type() == AETypes::eMudokon_110 || pAliveObj->Type() == AETypes::eNevetSet_127 || pAliveObj->Type() == AETypes::eScrab_112) && (pAliveObj->Type() != AETypes::eScrab_112 || pAliveObj->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed)) && CanSeeAbe_4A51A0(pAliveObj) && pAliveObj->field_10C_health > FP_FromInteger(0) && pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
             {
                 if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), pAliveObj->field_B8_xpos - field_B8_xpos))
                 {
@@ -4240,7 +4240,7 @@ Scrab* Scrab::FindScrabToFight_4A4E20()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eScrab_112)
+        if (pObj->Type() == AETypes::eScrab_112)
         {
             auto pScrab = static_cast<Scrab*>(pObj);
 

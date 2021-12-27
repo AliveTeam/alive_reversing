@@ -56,7 +56,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
-    field_4_typeId = AETypes::eSlurg_129;
+    SetType(AETypes::eSlurg_129);
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -326,7 +326,7 @@ void Slurg::vUpdate_4C8790()
 s16 Slurg::vTakeDamage_4C8BF0(BaseGameObject* pFrom)
 {
     // Slurgs are tough little dudes, only Paramites can smack 'em up.
-    if (pFrom->field_4_typeId == AETypes::eParamite_96)
+    if (pFrom->Type() == AETypes::eParamite_96)
     {
         Burst_4C8AE0();
         return 1;

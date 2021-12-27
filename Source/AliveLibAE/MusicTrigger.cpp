@@ -37,7 +37,7 @@ EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, Triggered
     field_24_flags.Clear(Flags_24::e24_Bit2_TriggeredByTimer);
     field_24_flags.Clear(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
 
-    field_4_typeId = AETypes::eMusicTrigger_94;
+    SetType(AETypes::eMusicTrigger_94);
     field_28_counter = 0;
 
     switch (musicType)
@@ -76,7 +76,7 @@ EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, Triggered
 
     if (triggeredBy == TriggeredBy::eTimer_0)
     {
-        field_1C_update_delay = musicDelay; // OG bug? field_1C_update_delay should've been field_28_counter?
+        SetUpdateDelay(musicDelay); // OG bug? field_1C_update_delay should've been field_28_counter?
     }
     else if (triggeredBy == TriggeredBy::eTouching_1)
     {

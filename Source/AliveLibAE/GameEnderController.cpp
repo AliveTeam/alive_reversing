@@ -28,7 +28,7 @@ EXPORT void CC CreateGameEnderController_43B7A0()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eGameEnderController_57)
+        if (pObj->Type() == AETypes::eGameEnderController_57)
         {
             return;
         }
@@ -61,7 +61,7 @@ GameEnderController* GameEnderController::ctor_43B840()
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545198);
-    field_4_typeId = AETypes::eGameEnderController_57;
+    SetType(AETypes::eGameEnderController_57);
     field_24_state = GameEnderController_States::eInit_0;
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
     return this;

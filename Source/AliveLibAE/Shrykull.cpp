@@ -19,7 +19,7 @@ Shrykull* Shrykull::ctor_4AEA20()
     ctor_408240(0);
     SetVTable(this, 0x5470F0);
 
-    field_4_typeId = AETypes::eShrykull_121;
+    SetType(AETypes::eShrykull_121);
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
@@ -97,7 +97,7 @@ void Shrykull::vScreenChange_4AF650()
 
 s16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
 {
-    switch (pObj->field_4_typeId)
+    switch (pObj->Type())
     {
         case AETypes::eCrawlingSlig_26:
         case AETypes::eNeverSet_40:
@@ -118,7 +118,7 @@ s16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
 s16 CCSTD Shrykull::CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     return (
-               pObj->field_4_typeId == AETypes::eTimedMine_or_MovingBomb_10 || pObj->field_4_typeId == AETypes::eMine_88 || pObj->field_4_typeId == AETypes::eUXB_143 || pObj->field_4_typeId == AETypes::eSlig_125 || pObj->field_4_typeId == AETypes::eFlyingSlig_54 || pObj->field_4_typeId == AETypes::eCrawlingSlig_26 || pObj->field_4_typeId == AETypes::eSlog_126 || pObj->field_4_typeId == AETypes::eGlukkon_67 || pObj->field_4_typeId == AETypes::eSecurityClaw_47 || pObj->field_4_typeId == AETypes::eSecurityOrb_83)
+               pObj->Type() == AETypes::eTimedMine_or_MovingBomb_10 || pObj->Type() == AETypes::eMine_88 || pObj->Type() == AETypes::eUXB_143 || pObj->Type() == AETypes::eSlig_125 || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eSlog_126 || pObj->Type() == AETypes::eGlukkon_67 || pObj->Type() == AETypes::eSecurityClaw_47 || pObj->Type() == AETypes::eSecurityOrb_83)
         && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) && !pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0);
 }
 
@@ -210,7 +210,7 @@ void Shrykull::vUpdate_4AEDE0()
                         }
                         field_120_timer = sGnFrame_5C1B84 + 3;
 
-                        if (pObj->field_4_typeId == AETypes::eGlukkon_67)
+                        if (pObj->Type() == AETypes::eGlukkon_67)
                         {
                             pObj->VTakeDamage_408730(this);
                         }

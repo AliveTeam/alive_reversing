@@ -85,7 +85,7 @@ CheatController* CheatController::ctor_421BD0()
     BaseGameObject_ctor_4DBFA0(1, 0);
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     SetVTable(this, 0x544B44);
-    field_4_typeId = AETypes::eNone_0;
+    SetType(AETypes::eNone_0);
     field_20 = 0;
     return this;
 }

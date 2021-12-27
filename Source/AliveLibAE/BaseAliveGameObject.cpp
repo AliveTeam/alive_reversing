@@ -427,7 +427,7 @@ BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(s16 numGridBlocks)
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eBirdPortal_99)
+        if (pObj->Type() == AETypes::eBirdPortal_99)
         {
             auto pBirdPortal = static_cast<BirdPortal*>(pObj);
             if (pBirdPortal->field_2C_xpos >= field_B8_xpos)
@@ -532,7 +532,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFi
             break;
         }
 
-        if (pObj->field_4_typeId == typeToFind && pObj != this)
+        if (pObj->Type() == typeToFind && pObj != this)
         {
             if (pObj->field_8_object_id == idToFind)
             {
@@ -678,7 +678,7 @@ Bool32 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hit
     }
 
     FP velYClamped = field_C8_vely;
-    if (field_4_typeId == AETypes::eMudokon_110 && velYClamped >= FP_FromInteger(0) && velYClamped < FP_FromInteger(4))
+    if (Type() == AETypes::eMudokon_110 && velYClamped >= FP_FromInteger(0) && velYClamped < FP_FromInteger(4))
     {
         velYClamped = FP_FromInteger(4);
     }
@@ -735,7 +735,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind,
             break;
         }
 
-        if (pObj->field_4_typeId == typeToFind && pObj != this)
+        if (pObj->Type() == typeToFind && pObj != this)
         {
             auto pCasted = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
             if (pCasted->field_D6_scale == field_D6_scale)

@@ -18,7 +18,7 @@ ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, s32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544B60);
 
-    field_4_typeId = AETypes::eElectricWall_39;
+    SetType(AETypes::eElectricWall_39);
 
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -163,7 +163,7 @@ void ElectricWall::vUpdate_422030()
                 break;
             }
 
-            switch (pObj->field_4_typeId)
+            switch (pObj->Type())
             {
                 // Can't zap this
                 case AETypes::eBone_11:

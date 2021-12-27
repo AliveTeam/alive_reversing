@@ -580,7 +580,7 @@ void Fleech::M_WakingUp_1_42F270()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eSnoozeParticle_124)
+        if (pObj->Type() == AETypes::eSnoozeParticle_124)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
@@ -1333,7 +1333,7 @@ void Fleech::vUpdate_42AB20()
 
 void Fleech::vRender_42A550(PrimHeader** ot)
 {
-    if (field_1C_update_delay == 0)
+    if (UpdateDelay() == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ot);
         RenderEx_42C5A0(ot);
@@ -1597,7 +1597,7 @@ s16 Fleech::IsScrabOrParamiteNear_42B440(FP radius)
         if (pBaseObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto pObj = static_cast<BaseAliveGameObject*>(pBaseObj);
-            if ((pObj->field_4_typeId == AETypes::eScrab_112 || pObj->field_4_typeId == AETypes::eParamite_96) && pObj->field_10C_health > FP_FromInteger(0))
+            if ((pObj->Type() == AETypes::eScrab_112 || pObj->Type() == AETypes::eParamite_96) && pObj->field_10C_health > FP_FromInteger(0))
             {
                 if (pObj->field_CC_sprite_scale == field_CC_sprite_scale)
                 {
@@ -1692,7 +1692,7 @@ void Fleech::Init_42A170()
 
     field_20_animation.field_1C_fn_ptr_array = kFleech_Anim_Frame_Fns_55EFD0;
 
-    field_4_typeId = AETypes::eFleech_50;
+    SetType(AETypes::eFleech_50);
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
@@ -1982,7 +1982,7 @@ void Fleech::TongueUpdate_42BD30()
                     case 2:
                     case 3:
                     case 5:
-                        if (field_17A_tongue_sub_state == 5 && pTarget->field_4_typeId == AETypes::eScrab_112)
+                        if (field_17A_tongue_sub_state == 5 && pTarget->Type() == AETypes::eScrab_112)
                         {
                             pTarget->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                         }
@@ -2254,7 +2254,7 @@ s16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
     sub_42B8C0();
     ResetTarget_42CF70();
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eBullet_15:
         case AETypes::eDrill_30:
@@ -2400,7 +2400,7 @@ void Fleech::IncreaseAnger_430920()
                 field_13E_current_anger += field_142_attack_anger_increaser;
                 if (vOnSameYLevel_425520(pEvent))
                 {
-                    if (pEvent->field_4_typeId == AETypes::eScrab_112 || pEvent->field_4_typeId == AETypes::eParamite_96)
+                    if (pEvent->Type() == AETypes::eScrab_112 || pEvent->Type() == AETypes::eParamite_96)
                     {
                         field_14E = FP_GetExponent(pEvent->field_B8_xpos);
                     }
@@ -2513,7 +2513,7 @@ BaseAliveGameObject* Fleech::FindMudOrAbe_42CFD0()
             break;
         }
 
-        if ((pObj->field_4_typeId == AETypes::eMudokon_110 || pObj->field_4_typeId == AETypes::eAbe_69) && pObj->field_D6_scale == field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
+        if ((pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69) && pObj->field_D6_scale == field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
         {
             const FP dist = FP_FromInteger(
                 Math_Distance_496EB0(
@@ -2879,7 +2879,7 @@ s16 Fleech::Brain_Patrol_State_1()
     else
     {
         BaseGameObject* pDangerObj = sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj);
-        if (pDangerObj && pDangerObj->field_4_typeId != AETypes::eParamite_96)
+        if (pDangerObj && pDangerObj->Type() != AETypes::eParamite_96)
         {
             if (field_106_current_motion == eFleechMotions::M_SleepingWithTongue_17_42F370)
             {

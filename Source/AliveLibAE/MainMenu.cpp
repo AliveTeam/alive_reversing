@@ -1909,7 +1909,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     {
         field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
 
-        sActiveHero_5C1B68->field_1C_update_delay = 1;
+        sActiveHero_5C1B68->SetUpdateDelay(1);
         gMap_5C3030.SetActiveCam_480D30(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
 
         const PathBlyRec* pPathData = Path_Get_Bly_Record_460F30(field_244_lvl_id, field_246_path_id);

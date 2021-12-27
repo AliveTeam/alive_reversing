@@ -53,7 +53,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, s32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547E38);
 
-    field_4_typeId = AETypes::eFootSwitch_56;
+    SetType(AETypes::eFootSwitch_56);
     field_100_obj_id = -1;
 
     const s32 idx = static_cast<s32>(gMap_5C3030.field_0_current_level);

@@ -29,7 +29,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
     SetVTable(this, 0x546270);
-    field_4_typeId = AETypes::eTimedMine_or_MovingBomb_10;
+    SetType(AETypes::eTimedMine_or_MovingBomb_10);
 
     const AnimRecord& rec = AnimRec(AnimId::MovingBomb);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -236,7 +236,7 @@ s16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
         return 1;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eAbilityRing_104:
         case AETypes::eExplosion_109:

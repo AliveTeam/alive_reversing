@@ -22,7 +22,7 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, s16 direction, FP scale)
     }
     else
     {
-        field_4_typeId = AETypes::eNone_0;
+        SetType(AETypes::eNone_0);
         const AnimRecord& rec = AnimRec(AnimId::Bullet_Shell);
         u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
