@@ -72,7 +72,10 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isSte
     mAudioRingBuffer.resize(mAudioDeviceSpec.samples * 2);
 
     // TODO: Test just running this on the main thread
-    //mRenderAudioThread.reset(new std::thread(std::bind(&SDLSoundSystem::RenderAudioThread, this)));
+    if (!gLatencyHack)
+    {
+        mRenderAudioThread.reset(new std::thread(std::bind(&SDLSoundSystem::RenderAudioThread, this)));
+    }
 
     SDL_PauseAudio(0);
 }
