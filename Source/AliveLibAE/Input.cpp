@@ -906,6 +906,7 @@ struct IniCustomSaveEntry final
 };
 
 bool canOverwriteIni = true;
+bool gLatencyHack = true;
 
 std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
     {"keep_aspect", {&s_VGA_KeepAspectRatio}, true},
@@ -916,6 +917,7 @@ std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
 #endif
     {"debug_mode", {&gDebugHelpersEnabled}, true},
     {"overwrite_ini_by_game", {&canOverwriteIni}, true},
+    {"latency_hack", {&gLatencyHack}, true},
 };
 
 enum class IniCategory
