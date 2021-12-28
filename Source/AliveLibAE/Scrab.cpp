@@ -2668,7 +2668,7 @@ void Scrab::M_JumpToFall_8_4A9220()
     {
         switch (pLine->field_8_type)
         {
-            case eLineTypes::eBulletWall_10:
+            case eLineTypes::eFloor_0:
             case eLineTypes::eBackGroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
