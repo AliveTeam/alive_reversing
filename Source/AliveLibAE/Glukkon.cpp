@@ -1835,16 +1835,8 @@ s16 Glukkon::Brain_4_Death_442010()
                 field_D2_g -= 2;
                 field_D4_b -= 2;
 
-                if (!(static_cast<s32>(sGnFrame_5C1B84) % 5))
-                {
-                    New_Smoke_Particles_426C70(
-                        (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
-                        field_BC_ypos - FP_FromInteger(6),
-                        (field_CC_sprite_scale / FP_FromInteger(2)),
-                        2, 0x80u, 0x80u, 0x80u);
+                DeathSmokeEffect(true);
 
-                    SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
-                }
                 return field_210_brain_sub_state;
             }
             break;

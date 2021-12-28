@@ -1209,16 +1209,9 @@ s16 CrawlingSlig::Brain_4_GetKilled_41A880()
                 field_D4_b -= 2;
             }
 
-            if (static_cast<s32>(sGnFrame_5C1B84) < field_1AC_timer - 24 && !(sGnFrame_5C1B84 % 5))
+            if (static_cast<s32>(sGnFrame_5C1B84) < field_1AC_timer - 24)
             {
-                New_Smoke_Particles_426C70(
-                    (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
-                    field_BC_ypos - FP_FromInteger(6),
-                    field_CC_sprite_scale / FP_FromInteger(2),
-                    2,
-                    128u, 128u, 128u);
-
-                SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent((FP_FromInteger(2200) * field_CC_sprite_scale)));
+                DeathSmokeEffect(true);
             }
 
             if (field_1AC_timer < static_cast<s32>(sGnFrame_5C1B84))

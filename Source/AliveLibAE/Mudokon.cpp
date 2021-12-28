@@ -4971,18 +4971,7 @@ s16 Mudokon::Brain_5_ShrivelDeath_4714A0()
 
     if (static_cast<s32>(sGnFrame_5C1B84) < field_194_timer - 24)
     {
-        if ((sGnFrame_5C1B84 % 4) == 0)
-        {
-            // Fizzel steam/smoke
-            New_Smoke_Particles_426C70(
-                (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
-                field_BC_ypos - FP_FromInteger(6),
-                field_CC_sprite_scale / FP_FromInteger(2),
-                2, 128, 128, 128);
-
-            // Fizzle sound
-            SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
-        }
+        DeathSmokeEffect(true);
     }
 
     // Finally fizzled out

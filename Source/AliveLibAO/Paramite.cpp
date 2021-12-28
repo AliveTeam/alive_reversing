@@ -1744,14 +1744,9 @@ s16 Paramite::Brain_3_Death_448BF0()
         field_C0_r -= 2;
         field_C2_g -= 2;
         field_C4_b -= 2;
-        if (static_cast<s32>(gnFrameCount_507670) < field_114_timer - 24 && !(static_cast<s32>(gnFrameCount_507670) % 5))
+        if (static_cast<s32>(gnFrameCount_507670) < field_114_timer - 24)
         {
-            New_Smoke_Particles_419A80(
-                (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale) + field_A8_xpos,
-                field_AC_ypos - FP_FromInteger(6),
-                field_BC_sprite_scale / FP_FromInteger(2),
-                2, 0);
-            SFX_Play_43AE60(SoundEffect::Vaporize_96, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale), 0);
+            DeathSmokeEffect(true);
         }
     }
 
