@@ -4,6 +4,8 @@
 #include "Reverb.hpp"
 #include "Sys.hpp"
 
+extern bool gLatencyHack;
+
 void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isStereo*/)
 {
     mCreated = false;
@@ -70,7 +72,10 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isSte
     mAudioRingBuffer.resize(mAudioDeviceSpec.samples * 2);
 
     // TODO: Test just running this on the main thread
-    mRenderAudioThread.reset(new std::thread(std::bind(&SDLSoundSystem::RenderAudioThread, this)));
+    if (!gLatencyHack)
+    {
+        mRenderAudioThread.reset(new std::thread(std::bind(&SDLSoundSystem::RenderAudioThread, this)));
+    }
 
     SDL_PauseAudio(0);
 }
@@ -126,18 +131,29 @@ SDLSoundSystem::~SDLSoundSystem()
 void SDLSoundSystem::AudioCallBack(Uint8* stream, s32 len)
 {
     memset(stream, 0, len);
-
-    StereoSample_S16* pSampleBuffer = reinterpret_cast<StereoSample_S16*>(stream);
-    const s32 bufferLenSamples = len / sizeof(StereoSample_S16);
-    const s32 readAvilSamples = static_cast<s32>(mAudioRingBuffer.getAvailableRead());
-    if (readAvilSamples > 0 && readAvilSamples < bufferLenSamples)
+    
+    if (gLatencyHack)
     {
-        LOG_WARNING("Audio buffer underflow!");
+        // Calculate the audio in the callback instead of another thread with a busy loop to reduce CPU usage
+        // this will probably cause audio glitching in a lot of cases
+        StereoSample_S16* pSampleBuffer = reinterpret_cast<StereoSample_S16*>(stream);
+        const s32 bufferLenSamples = len / sizeof(StereoSample_S16);
+        RenderAudio(pSampleBuffer, bufferLenSamples);
     }
-
-    if (!mAudioRingBuffer.read(pSampleBuffer, bufferLenSamples))
+    else
     {
-        LOG_ERROR("Ring buffer read failure!");
+        StereoSample_S16* pSampleBuffer = reinterpret_cast<StereoSample_S16*>(stream);
+        const s32 bufferLenSamples = len / sizeof(StereoSample_S16);
+        const s32 readAvilSamples = static_cast<s32>(mAudioRingBuffer.getAvailableRead());
+        if (readAvilSamples > 0 && readAvilSamples < bufferLenSamples)
+        {
+            LOG_WARNING("Audio buffer underflow!");
+        }
+
+        if (!mAudioRingBuffer.read(pSampleBuffer, bufferLenSamples))
+        {
+            LOG_ERROR("Ring buffer read failure!");
+        }
     }
 }
 
@@ -160,7 +176,7 @@ void SDLSoundSystem::RenderAudioThread()
             }
         }
     }
-    LOG_INFO("Quit");
+
 }
 
 void SDLSoundSystem::RenderAudio(StereoSample_S16* pSampleBuffer, s32 sampleBufferCount)

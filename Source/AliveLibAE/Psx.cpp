@@ -16,6 +16,8 @@
 #include "Renderer/IRenderer.hpp"
 #include <gmock/gmock.h>
 
+extern bool gLatencyHack;
+
 void Psx_ForceLink()
 { }
 
@@ -898,6 +900,12 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
             {
                 timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
                 SsSeqCalledTbyT_4FDC80();
+                
+                // Prevent max CPU usage, will probably cause stuttering on weaker machines
+                if (gLatencyHack)
+                {
+                    SDL_Delay(1);
+                }
             }
             while (timeSinceLastFrame < 1000 * mode / 60);
 
