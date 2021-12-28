@@ -10,6 +10,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "AnimResources.hpp"
 #include <gmock/gmock.h>
+#include "Sfx.hpp"
+#include "Particle.hpp"
 
 BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize)
 {
@@ -549,6 +551,25 @@ void BaseAnimatedWithPhysicsGameObject::SetRGB(s16 r, s16 g, s16 b)
     field_D0_r = r;
     field_D2_g = g;
     field_D4_b = b;
+}
+
+void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
+{
+    // note: mudokons used % 4
+    if (!(sGnFrame_5C1B84 % 5))
+    {
+        New_Smoke_Particles_426C70(
+            (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
+            field_BC_ypos - FP_FromInteger(6),
+            field_CC_sprite_scale / FP_FromInteger(2),
+            2,
+            128u, 128u, 128u);
+
+        if (bPlaySound == true)
+        {
+            SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent((FP_FromInteger(2200) * field_CC_sprite_scale)));
+        }
+    }
 }
 
 namespace AETest::TestsBaseAnimatedWithPhysicsGameObject {

@@ -78,6 +78,7 @@ public:
 
 protected:
     void SetRGB(s16 r, s16 g, s16 b);
+    void DeathSmokeEffect(bool bPlaySound);
 
 public:
     Animation field_20_animation;

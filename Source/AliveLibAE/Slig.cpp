@@ -2606,12 +2606,10 @@ s16 Slig::Brain_Death_0_4BBFB0()
         field_D0_r -= 2;
         field_D2_g -= 2;
         field_D4_b -= 2;
-        if (field_CC_sprite_scale >= FP_FromDouble(0.3) && !(static_cast<s32>(sGnFrame_5C1B84) % 5))
+
+        if (field_CC_sprite_scale >= FP_FromDouble(0.3))
         {
-            const FP xOff = (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale);
-            New_Smoke_Particles_426C70(xOff + field_B8_xpos, (field_BC_ypos - FP_FromInteger(6)), (field_CC_sprite_scale / FP_FromInteger(2)), 2, 128u, 128u, 128u);
-            const FP sndPitch = (FP_FromInteger(2200) * field_CC_sprite_scale);
-            SFX_Play_46FBA0(SoundEffect::Vaporize_79, 25, FP_GetExponent(sndPitch));
+            DeathSmokeEffect(true);
         }
     }
     else if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))

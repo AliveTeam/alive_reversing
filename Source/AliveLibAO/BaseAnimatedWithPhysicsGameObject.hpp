@@ -72,6 +72,7 @@ public:
 protected:
     // Note inlined in AO everywhere
     CameraPos Is_In_Current_Camera();
+    void DeathSmokeEffect(bool bPlaySound);
 
     EXPORT BaseGameObject* dtor_417D10();
 
