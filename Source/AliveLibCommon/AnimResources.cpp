@@ -10,6 +10,7 @@ constexpr CombinedPalRecord kPalRecords[] = {
 constexpr AnimDetails kNullAnimDetails = {};
 
 constexpr CombinedAnimRecord kAnimRecords[] = {
+    {AnimId::None, kNullAnimDetails, kNullAnimDetails},
     {AnimId::Abe_Head_Gib,
     { "ABEBLOW.BAN", 7732, 50, 25, kAbeblowResID, PalId::Default},
      {"ABEBLOW.BAN", 7208, 50, 25, kAbeblowResID, PalId::Default}},
@@ -1617,7 +1618,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
 
     // TODO: AO AnimId's: 
-    // sDoorData_4BA508[16] 
+    // 15232, 24764, 28752, 22420, 22568, 384, 8024, 8056, 15372, 19416,
+    // 6280, 1572, 38960, 7884, 24048, 28044, 6644, 4336, 2108,
+    // 19380, 19312, 19264
     // buttonFrameTableOffsets_4BB1B8[4]
     // check AddDynamicCollision_4512C0 calls
 
