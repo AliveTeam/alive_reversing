@@ -9397,7 +9397,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             }
             else
             {
-                xOffset = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
+                xOffset = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2));
             }
         }
 
