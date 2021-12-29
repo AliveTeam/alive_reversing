@@ -1960,7 +1960,7 @@ void CrawlingSlig::HandleCommon_41C0B0()
     }
 }
 
-const FP dword_54471C[15] = {
+const FP sCrawlingSligXVels_54471C[15] = {
     FP_FromDouble(0),
     FP_FromDouble(0),
     FP_FromDouble(0),
@@ -1979,7 +1979,7 @@ const FP dword_54471C[15] = {
 
 s16 CrawlingSlig::CanCrawl_41C5D0()
 {
-    field_C4_velx = dword_54471C[field_20_animation.field_92_current_frame];
+    field_C4_velx = sCrawlingSligXVels_54471C[field_20_animation.field_92_current_frame];
 
     FP gridScale = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))

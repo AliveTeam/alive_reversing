@@ -155,13 +155,14 @@ void Explosion::VUpdate_458D00()
 
     if (field_10_anim.field_92_current_frame == 1)
     {
-        const auto GetLoadedResource = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 1, 0);
-        if (GetLoadedResource)
+        const AnimRecord& rec = AO::AnimRec(AnimId::Explosion);
+        const auto ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+        if (ppRes)
         {
             auto pParticle = ao_new<Particle>();
             if (pParticle)
             {
-                pParticle->ctor_478880(field_A8_xpos, field_AC_ypos, 27376, 200, 91, GetLoadedResource);
+                pParticle->ctor_478880(field_A8_xpos, field_AC_ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
             }
             else
             {

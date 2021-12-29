@@ -1982,7 +1982,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
                 auto pSpark = ae_new<Spark>();
                 if (pSpark)
                 {
-                    pSpark->ctor_4CBBB0(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, 1);
+                    pSpark->ctor_4CBBB0(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
                 }
             }
 

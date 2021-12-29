@@ -20,6 +20,12 @@ struct SparkRes final
 };
 ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
 
+enum class SparkType : s16
+{
+    eSmallChantParticle_0 = 0,
+    eBigChantParticle_1 = 1
+};
+
 class Spark final : public BaseGameObject
 {
 public:
@@ -27,7 +33,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    EXPORT Spark* ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max, s16 type);
+    EXPORT Spark* ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 minAngle, s16 maxAngle, SparkType type);
 
 private:
     EXPORT void vUpdate_4CBEF0();
@@ -49,6 +55,6 @@ private:
     SparkRes* field_58_pRes;
     s16 field_5C_count;
     s32 field_60_timer;
-    s16 field_64_type;
+    SparkType field_64_type;
 };
 ALIVE_ASSERT_SIZEOF(Spark, 0x68);

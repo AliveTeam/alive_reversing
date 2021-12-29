@@ -377,13 +377,14 @@ EXPORT void FallingItem::vUpdate_427780()
                 auto pParticle = ae_new<Particle>();
                 if (pParticle)
                 {
-                    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0);
+                    const AnimRecord& rec = AnimRec(AnimId::Explosion);
+                    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
                     pParticle->ctor_4CC4C0(
                         field_B8_xpos,
                         field_BC_ypos - (FP_FromInteger(15) * field_CC_sprite_scale),
-                        51156,
-                        202,
-                        91,
+                        rec.mFrameTableOffset,
+                        rec.mMaxW,
+                        rec.mMaxH,
                         ppRes);
 
                     pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;

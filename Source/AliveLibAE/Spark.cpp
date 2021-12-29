@@ -30,7 +30,7 @@ void Spark::VScreenChanged()
     vScreenChange_4CC4A0();
 }
 
-Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max, s16 type)
+Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 minAngle, s16 maxAngle, SparkType type)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
@@ -68,13 +68,13 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
         {
             SparkRes* pSparkIter = &field_58_pRes[idx];
             s32 randAng = 0;
-            if (min >= 0)
+            if (minAngle >= 0)
             {
-                randAng = Math_RandomRange_496AB0(min, max);
+                randAng = Math_RandomRange_496AB0(minAngle, maxAngle);
             }
             else
             {
-                randAng = min + Math_RandomRange_496AB0(0, max - min);
+                randAng = minAngle + Math_RandomRange_496AB0(0, maxAngle - minAngle);
             }
             pSparkIter->field_10_ang = static_cast<u8>(randAng);
             pSparkIter->field_14_radius = FP_FromInteger(0);
@@ -83,24 +83,24 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
 
         field_60_timer = sGnFrame_5C1B84 + 3;
 
-        if (field_64_type == 1)
+        if (field_64_type == SparkType::eBigChantParticle_1)
         {
-            // Much bigger longer lasting sparks - uses chant particles
             New_TintChant_Particle_426BE0(field_40_xpos, field_44_ypos - FP_FromInteger(4), scale, Layer::eLayer_0);
         }
         else
         {
             // Normal drill type sparks
-            u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID);
+            const AnimRecord& rec = AnimRec(AnimId::Zap_Sparks);
+            u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
             auto pParticle = ae_new<Particle>();
             if (pParticle)
             {
                 pParticle->ctor_4CC4C0(
                     field_40_xpos,
                     field_44_ypos,
-                    1672,
-                    39,
-                    21,
+                    rec.mFrameTableOffset,
+                    rec.mMaxW,
+                    rec.mMaxH,
                     ppRes);
 
                 pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

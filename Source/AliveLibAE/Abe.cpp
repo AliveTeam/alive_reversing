@@ -9420,7 +9420,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 auto pSpark = ae_new<Spark>();
                 if (pSpark)
                 {
-                    pSpark->ctor_4CBBB0(hitX, hitY, field_CC_sprite_scale, 9, -31, 159, 0);
+                    pSpark->ctor_4CBBB0(hitX, hitY, field_CC_sprite_scale, 9, -31, 159, SparkType::eSmallChantParticle_0);
                 }
                 New_Smoke_Particles_426C70(hitX, hitY, field_CC_sprite_scale, 3, 128u, 128u, 128u);
             }

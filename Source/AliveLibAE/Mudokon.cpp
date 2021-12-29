@@ -5895,7 +5895,7 @@ void Mudokon::M_Chisel_11_4732D0()
                         9,
                         0,
                         255,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
             }
         }

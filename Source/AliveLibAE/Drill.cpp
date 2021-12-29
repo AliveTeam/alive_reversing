@@ -641,7 +641,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
 
                 auto pSpark2 = ae_new<Spark>();
@@ -654,7 +654,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
             }
             else if (field_FA_direction == DrillDirection::eLeft_2)
@@ -669,7 +669,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
 
                 auto pSpark2 = ae_new<Spark>();
@@ -682,7 +682,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
             }
             else if (field_FA_direction == DrillDirection::eDown_0)
@@ -697,7 +697,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
 
                 auto pSpark2 = ae_new<Spark>();
@@ -710,7 +710,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
             }
         }
