@@ -76,7 +76,7 @@ public:
     s32 field_108_SFX_timer;
     s32 field_10C_FrameCount;
     Animation field_110_anim;
-    u16 field_1A8_flags;
+    u16 field_1A8_flags; // TODO: flags
     s16 field_1AA_padding;
 };
 ALIVE_ASSERT_SIZEOF(MeatSaw, 0x1AC);

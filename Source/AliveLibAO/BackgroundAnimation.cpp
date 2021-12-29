@@ -64,6 +64,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     field_F8_animXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_FC_animYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
+    LOG_INFO("bg animation id: " << pTlv->field_18_animation_id);
     Animation_Init_417FD0(
         pHeader->field_4_frame_table_offset,
         pHeader->field_0_max_w,

@@ -208,7 +208,8 @@ void Bat::VUpdate_404950()
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_F4_state = BatStates::eFlying_3;
-                field_10_anim.Set_Animation_Data_402A40(6644, nullptr);
+                const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
+                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 90);
             }
             break;
@@ -277,7 +278,8 @@ void Bat::VUpdate_404950()
                                     pBat->field_10C->field_C_refCount++;
 
                                     pBat->field_F4_state = BatStates::eAttackTarget_4;
-                                    pBat->field_10_anim.Set_Animation_Data_402A40(6644, nullptr);
+                                    const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
+                                    pBat->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
 
                                     pBat->field_F8_timer = 0;
                                     pBat->field_FC_attack_duration_timer = gnFrameCount_507670 + pBat->field_F6_attack_duration;
