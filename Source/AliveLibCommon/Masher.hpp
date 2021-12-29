@@ -1,17 +1,17 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Types.hpp"
 
 struct Movie_IO final
 {
     void(CC* mIO_Close)(void* pHandle);
-    BOOL(CC* mIO_Wait)
+    Bool32(CC* mIO_Wait)
     (void* pHandle);
-    BOOL(CC* mIO_Seek)
+    Bool32(CC* mIO_Seek)
     (void* pHandle, u32 offset, u32 origin);
     void*(CC* mIO_Open)(const char_type* pFileName);
-    BOOL(CC* mIO_Read)
+    Bool32(CC* mIO_Read)
     (void* pHandle, void* pBuffer, u32 size);
 };
 

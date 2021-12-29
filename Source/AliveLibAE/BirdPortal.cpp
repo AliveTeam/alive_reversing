@@ -29,7 +29,7 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, s32 tlvInfo)
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x546970);
     field_68_doves_exist = 0;
-    field_4_typeId = AETypes::eBirdPortal_99;
+    SetType(AETypes::eBirdPortal_99);
     field_C_objectId = tlvInfo;
     field_40_throwable_indicator_id = -1;
 
@@ -259,7 +259,7 @@ void BirdPortal::vUpdate_498280()
                         }
                         pParticle->field_DC_bApplyShadows &= ~1u;
                         pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-                        pParticle->field_4_typeId = AETypes::eBirdPortalTerminator_100;
+                        pParticle->SetType(AETypes::eBirdPortalTerminator_100);
                         pParticle->field_CC_sprite_scale = field_60_scale;
 
                         if (static_cast<s32>(sGnFrame_5C1B84) % 2)
@@ -376,13 +376,13 @@ void BirdPortal::vUpdate_498280()
             pTerminator2->field_BC_ypos -= (FP_FromDouble(3.5) * field_60_scale);
             if (FP_GetExponent(pTerminator1->field_BC_ypos) >= FP_GetExponent(pTerminator2->field_BC_ypos))
             {
-                u8** ppLightRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortlitResID);
+                const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Flash);
+                u8** ppLightRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
                 if (ppLightRes)
                 {
                     auto pParticle = ae_new<Particle>();
                     if (pParticle)
                     {
-                        const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Flash);
                         pParticle->ctor_4CC4C0(
                             pTerminator2->field_B8_xpos,
                             pTerminator2->field_BC_ypos,
@@ -673,7 +673,7 @@ void BirdPortal::VMudSaved_499A50()
     vMudSaved_499A50();
 }
 
-BOOL BirdPortal::VActivePortal_499830()
+Bool32 BirdPortal::VActivePortal_499830()
 {
     return vActivePortal_499830();
 }
@@ -683,7 +683,7 @@ void BirdPortal::VGiveShrukull_499680(s16 bPlaySound)
     return vGiveShryukull_499680(bPlaySound);
 }
 
-BOOL BirdPortal::VAbeInsidePortal_499850()
+Bool32 BirdPortal::VAbeInsidePortal_499850()
 {
     return vAbeInsidePortal_499850();
 }
@@ -693,7 +693,7 @@ void BirdPortal::VExitPortal_499870()
     vExitPortal_499870();
 }
 
-BOOL BirdPortal::VPortalExit_AbeExitting_499A00()
+Bool32 BirdPortal::VPortalExit_AbeExitting_499A00()
 {
     return vPortalExit_AbeExitting_499A00();
 }
@@ -737,7 +737,7 @@ s32 CC BirdPortal::CreateFromSaveState_499C90(const u8* pBuffer)
 
     auto pPortal = ae_new<BirdPortal>();
     pPortal->ctor_497E00(pTlv, pSaveState->field_4_tlvInfo);
-    pPortal->field_1C_update_delay = 1;
+    pPortal->SetUpdateDelay(1);
     pPortal->field_82_num_muds_for_shrykull -= pSaveState->field_3_mud_count;
 
     const auto savedState = static_cast<PortalStates>(pSaveState->field_2_state);
@@ -871,7 +871,7 @@ void BirdPortal::vMudSaved_499A50()
     field_82_num_muds_for_shrykull--;
 }
 
-BOOL BirdPortal::vActivePortal_499830()
+Bool32 BirdPortal::vActivePortal_499830()
 {
     return field_28_state == PortalStates::ActivePortal_6;
 }
@@ -918,7 +918,7 @@ void BirdPortal::vGiveShryukull_499680(s16 bPlaySound)
     }
 }
 
-BOOL BirdPortal::vAbeInsidePortal_499850()
+Bool32 BirdPortal::vAbeInsidePortal_499850()
 {
     return field_28_state == PortalStates::AbeInsidePortal_16;
 }
@@ -968,7 +968,7 @@ void BirdPortal::vExitPortal_499870()
     }
 }
 
-BOOL BirdPortal::vPortalExit_AbeExitting_499A00()
+Bool32 BirdPortal::vPortalExit_AbeExitting_499A00()
 {
     return field_28_state == PortalStates::PortalExit_AbeExitting_20;
 }
@@ -1075,7 +1075,7 @@ s16 BirdPortal::IsScaredAway_4992A0()
             return FALSE;
         }
 
-        switch (pObj->field_4_typeId)
+        switch (pObj->Type())
         {
             case AETypes::eNeverSet_40:
             case AETypes::eAbe_69:
@@ -1160,7 +1160,7 @@ void BirdPortal::KillTerminators_499220()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eBirdPortalTerminator_100)
+        if (pObj->Type() == AETypes::eBirdPortalTerminator_100)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -1194,7 +1194,7 @@ s16 BirdPortal::GetEvent_499A70()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eBirdPortal_99)
+        if (pObj->Type() == AETypes::eBirdPortal_99)
         {
             if (pObj == this)
             {
@@ -1214,7 +1214,7 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546928);
 
-    field_4_typeId = AETypes::eEyeOrbPart_74;
+    SetType(AETypes::eEyeOrbPart_74);
 
     const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorShrink);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
@@ -341,7 +341,7 @@ private:
 
     EXPORT s16 CanSeeAbe_4A51A0(BaseAliveGameObject* pObj);
 
-    EXPORT static BOOL CCSTD LineOfSightTo_4A52D0(Scrab* pThis, BaseAliveGameObject* pObj);
+    EXPORT static Bool32 CCSTD LineOfSightTo_4A52D0(Scrab* pThis, BaseAliveGameObject* pObj);
 
     EXPORT Scrab* FindScrabToFight_4A4E20();
 

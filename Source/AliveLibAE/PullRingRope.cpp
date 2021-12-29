@@ -33,7 +33,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x546A00);
 
-    field_4_typeId = AETypes::ePullRope_103;
+    SetType(AETypes::ePullRope_103);
 
     const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -110,7 +110,7 @@ s16 PullRingRope::VPull_49BBD0(BaseGameObject* pObj)
     return vPull_49BBD0(pObj);
 }
 
-BOOL PullRingRope::VIsNotBeingPulled_49BC90()
+Bool32 PullRingRope::VIsNotBeingPulled_49BC90()
 {
     return vIsNotBeingPulled_49BC90();
 }
@@ -306,7 +306,7 @@ s16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
     return 1;
 }
 
-BOOL PullRingRope::vIsNotBeingPulled_49BC90()
+Bool32 PullRingRope::vIsNotBeingPulled_49BC90()
 {
     return field_100_state != States::eBeingPulled_1;
 }

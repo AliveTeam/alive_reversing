@@ -5,8 +5,10 @@
 #include <string>
 #include <type_traits>
 #include <vector>
+#include <array>
 #include "relive_api_exceptions.hpp"
 
+namespace ReliveAPI {
 class ByteStream final
 {
 public:
@@ -119,18 +121,6 @@ public:
         }
     }
 
-private:
-    void ReadBytes(u8* buffer, std::size_t len)
-    {
-        if (mReadPos + len > mData.size())
-        {
-            throw ReliveAPI::IOReadPastEOFException();
-        }
-
-        std::memcpy(buffer, &mData[mReadPos], len);
-        mReadPos += len;
-    }
-
     void WriteBytes(const u8* buffer, std::size_t len)
     {
         if (len > 0)
@@ -145,7 +135,21 @@ private:
         }
     }
 
+private:
+    void ReadBytes(u8* buffer, std::size_t len)
+    {
+        if (mReadPos + len > mData.size())
+        {
+            throw ReliveAPI::IOReadPastEOFException();
+        }
+
+        std::memcpy(buffer, &mData[mReadPos], len);
+        mReadPos += len;
+    }
+
+
     std::size_t mReadPos = 0;
     std::size_t mWritePos = 0;
     std::vector<u8> mData;
 };
+} // namespace ReliveAPI

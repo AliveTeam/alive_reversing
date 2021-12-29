@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "DynamicArray.hpp"
-#include "BitField.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 
 ALIVE_VAR_EXTERN(u32, sGnFrame_5C1B84);
 
@@ -216,15 +216,16 @@ public:
     virtual void VStopAudio();
     virtual s32 VGetSaveState(u8* pSaveBuffer);
 
+private:
     EXPORT void ScreenChanged_4DC0A0();
 
+protected:
     EXPORT u8** Add_Resource_4DC130(u32 type, s32 resourceID);
     EXPORT void BaseGameObject_ctor_4DBFA0(s16 bAddToObjectList, s16 resourceArraySize);
     EXPORT void BaseGameObject_dtor_4DBEC0();
 
     EXPORT static s32 CCSTD Find_Flags_4DC170(s32 objectId);
 
-protected:
     // Helper to check if a timer has expired
     template <class T>
     static inline bool Expired(const T& value)
@@ -239,11 +240,35 @@ protected:
     }
 
 public:
+    void SetUpdateDelay(s32 updateDelay)
+    {
+        field_1C_update_delay = updateDelay;
+    }
+
+    s32 UpdateDelay() const
+    {
+        return field_1C_update_delay;
+    }
+
+public:
+    void SetType(AETypes type)
+    {
+        field_4_typeId = type;
+    }
+
+    AETypes Type() const
+    {
+        return field_4_typeId;
+    }
+
+private:
     AETypes field_4_typeId;
+public:
     BitField16<Options> field_6_flags;
     s32 field_8_object_id;
     s32 field_C_objectId;
     DynamicArrayT<u8*> field_10_resources_array;
+private:
     s32 field_1C_update_delay;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x20);

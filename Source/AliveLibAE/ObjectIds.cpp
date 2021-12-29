@@ -146,9 +146,9 @@ BaseGameObject* ObjectIds::Find_449CF0(TObjectId_KeyType idToFind)
 BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, AETypes type)
 {
     BaseGameObject* pItem = Find_449CF0(idToFind);
-    if (pItem && pItem->field_4_typeId != type)
+    if (pItem && pItem->Type() != type)
     {
-        LOG_ERROR("Expected type " << static_cast<s32>(type) << " for object with id " << idToFind << " but got " << static_cast<s32>(pItem->field_4_typeId));
+        LOG_ERROR("Expected type " << static_cast<s32>(type) << " for object with id " << idToFind << " but got " << static_cast<s32>(pItem->Type()));
         ALIVE_FATAL("Wrong type!");
     }
     return pItem;
@@ -172,13 +172,13 @@ void ObjectIdsTests()
     ids.ctor_449AE0(101);
 
     FakeGameObject p;
-    p.field_4_typeId = AETypes::eAlarm_1;
+    p.SetType(AETypes::eAlarm_1);
     ids.Insert_449C10(1, &p);
 
     ASSERT_EQ(&p, ids.Find(1, AETypes::eAlarm_1));
 
     FakeGameObject p2;
-    p2.field_4_typeId = AETypes::eAlarm_1;
+    p2.SetType(AETypes::eAlarm_1);
     ids.Insert_449C10(1, &p2);
 
     ASSERT_EQ(&p2, ids.Find(1, AETypes::eAlarm_1));

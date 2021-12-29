@@ -8,6 +8,7 @@
 #include "PsxDisplay.hpp"
 #include "PsxRender.hpp"
 #include "Events.hpp"
+#include <math.h>
 
 ALIVE_VAR(1, 0x5BC214, s32, gGasInstanceCount_5BC214, 0);
 ALIVE_VAR(1, 0x5C1BA4, s16, gLaughingGasOn_5C1BA4, FALSE);
@@ -28,7 +29,7 @@ LaughingGas* LaughingGas::ctor_432400(Layer layer, s32 /*notUsed*/, Path_Laughin
 
     gGasInstanceCount_5BC214++;
 
-    field_4_typeId = AETypes::eLaughingGas_31;
+    SetType(AETypes::eLaughingGas_31);
     Path_LaughingGas_Data* pData = &field_48_tlv_data;
     pData->field_0_bLaughing_gas = pTlv->field_10_bLaughing_gas;
     pData->field_2_laughing_gas_id = pTlv->field_12_laughing_gas_id;

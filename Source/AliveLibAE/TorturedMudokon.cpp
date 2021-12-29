@@ -18,7 +18,7 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tl
     SetVTable(&field_18C_zap_animation, 0x544290);
     SetVTable(&field_F4_tears_animation, 0x544290);
 
-    field_4_typeId = AETypes::eTorturedMud_141;
+    SetType(AETypes::eTorturedMud_141);
     field_230_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon);
@@ -29,7 +29,7 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tl
         field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_224_ppRes, 1, 1);
         field_20_animation.SetFrame_409D50(Math_RandomRange_496AB0(0, field_20_animation.Get_Frame_Count_40AC70() - 1));
-        field_23A_speed_id = pTlv->field_10_speed_id;
+        field_23A_kill_id = pTlv->field_10_kill_id;
         field_23C_release_id = pTlv->field_12_release_id;
         field_23E_state = TorturedMudokonState::eBeingTortured_0;
         SetupTearsAnimation_47BE60(&field_F4_tears_animation);
@@ -68,8 +68,9 @@ BaseGameObject* TorturedMudokon::VDestructor(s32 flags)
 
 void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
 {
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTorturedMudTearsResID);
-    if (pAnim->Init_40A030(500, gObjList_animations_5C1A24, this, 17, 19, ppRes, 1, 0, 0))
+    const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon_Tears);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    if (pAnim->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnim->field_14_scale = field_CC_sprite_scale;
@@ -85,8 +86,9 @@ void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
 
 void TorturedMudokon::SetupZapAnimation_47BEF0(Animation* pAnim)
 {
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kElecwallResID);
-    if (pAnim->Init_40A030(15384, gObjList_animations_5C1A24, this, 50, 80, ppRes, 1, 0, 0))
+    const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    if (pAnim->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
         // TODO: clean this up
         const s32 layerM1 = static_cast<s32>(field_20_animation.field_C_render_layer) - 1;
@@ -190,7 +192,7 @@ void TorturedMudokon::vUpdate_47BF80()
     switch (field_23E_state)
     {
         case TorturedMudokonState::eBeingTortured_0:
-            if (SwitchStates_Get_466020(field_23A_speed_id))
+            if (SwitchStates_Get_466020(field_23A_kill_id))
             {
                 field_23E_state = TorturedMudokonState::eKilled_1;
                 const AnimRecord& animRec = AnimRec(AnimId::Tortured_Mudokon_Zap);

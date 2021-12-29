@@ -28,7 +28,7 @@ BaseBomb* BaseBomb::ctor_423E70(FP x, FP y, s32 /*unused*/, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544C54);
-    field_4_typeId = AETypes::eBaseBomb_46;
+    SetType(AETypes::eBaseBomb_46);
 
     const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1);
@@ -134,7 +134,7 @@ void BaseBomb::vUpdate_424180()
                 pParticleBurst->ctor_41CF50(
                     field_B8_xpos,
                     field_BC_ypos,
-                    0x14u,
+                    20,
                     field_CC_sprite_scale,
                     BurstType::eBigRedSparks_3,
                     13);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
 
@@ -78,15 +78,15 @@ struct Path_Glukkon final : public Path_TLV
     StartDirection field_12_start_direction;
     s16 field_14_default_behaviour;
     s16 field_16_pre_alarmed_delay;
-    s16 field_18_switch_id;
+    s16 field_18_help_switch_id;
     s16 field_1A_post_alarm_delay;
     s16 field_1C_spawn_id;
     s16 field_1E_spawn_direction;
     s16 field_20_spawn_delay;
     GlukkonTypes field_22_glukkon_type;
-    s16 field_24_start_gas_id;
+    s16 field_24_death_id;
     s16 field_26_play_movie_id;
-    s16 field_28_movie_to_play_id;
+    s16 field_28_movie_to_play_fmvID;
     s16 field_2A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Glukkon, 0x2C);
@@ -261,7 +261,7 @@ private:
 
     EXPORT void vOn_TLV_Collision_4404A0(Path_TLV* pTlv);
 
-    EXPORT static BOOL CCSTD IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
+    EXPORT static Bool32 CCSTD IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
 
     EXPORT void ToStand_443B70();
 

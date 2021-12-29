@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 #include "Psx.hpp"
 
@@ -25,13 +25,15 @@ enum eLineTypes : u8
     eMineCarWall_12 = 12,
     eMineCarCeiling_13 = 13,
     eFlyingSligCeiling_17 = 17,
+    eUnknown_32 = 32, // TODO: These types are never seen, internal only ?? - trap doors?
+    eUnknown_36 = 36,
 };
 
 class PathLine final
 {
 public:
     PSX_RECT field_0_rect;
-    u8 field_8_type;
+    eLineTypes field_8_type;
     s8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
     s16 field_A_previous;
     s16 field_C_next;
@@ -52,7 +54,7 @@ public:
     EXPORT void dtor_4189F0();
     EXPORT static void CC Factory_4188A0(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
     EXPORT s16 Raycast_Real_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
-    EXPORT BOOL Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
+    EXPORT Bool32 Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
     EXPORT PathLine* Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode);
     EXPORT PathLine* Get_Line_At_Idx_418070(s16 idx);
     EXPORT PathLine* PreviousLine_4180A0(PathLine* pLine);

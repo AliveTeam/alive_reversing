@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Animation.hpp"
 #include "FixedPoint.hpp"
 #include "BitField.hpp"

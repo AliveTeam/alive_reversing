@@ -3,6 +3,7 @@
 #include "JsonReadUtils.hpp"
 #include "TlvObjectBase.hpp"
 
+namespace ReliveAPI {
 std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray)
 {
     std::vector<AO::PathLine> lines;
@@ -54,8 +55,26 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
     mRootInfo.mXSize = ReadNumber(map, "x_size");
     mRootInfo.mYSize = ReadNumber(map, "y_size");
 
-    mRootInfo.mXGridSize = ReadNumber(map, "x_grid_size");
-    mRootInfo.mYGridSize = ReadNumber(map, "y_grid_size");
+    mRootInfo.mAbeStartXPos = ReadNumber(map, "abe_start_xpos");
+    mRootInfo.mAbeStartYPos = ReadNumber(map, "abe_start_ypos");
+
+    mRootInfo.mNumMudsInPath = ReadNumber(map, "num_muds_in_path");
+
+    mRootInfo.mTotalMuds = ReadNumber(map, "total_muds");
+    mRootInfo.mBadEndingMuds = ReadNumber(map, "num_muds_for_bad_ending");
+    mRootInfo.mGoodEndingMuds = ReadNumber(map, "num_muds_for_good_ending");
+
+    const jsonxx::Array& ledMessagesArray = ReadArray(map, "led_messages");
+    for (auto i = 0u; i < ledMessagesArray.values().size(); i++)
+    {
+        mRootInfo.mLedMessages.emplace_back(ledMessagesArray.get<std::string>(i));
+    }
+
+    const jsonxx::Array& hintFlyMessagesArray = ReadArray(map, "hintfly_messages");
+    for (auto i = 0u; i < hintFlyMessagesArray.values().size(); i++)
+    {
+        mRootInfo.mHintFlyMessages.emplace_back(hintFlyMessagesArray.get<std::string>(i));
+    }
 
     std::vector<CameraNameAndTlvBlob> mapData;
 
@@ -77,6 +96,12 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
         cameraNameBlob.x = x;
         cameraNameBlob.y = y;
 
+        cameraNameBlob.mCameraAndLayers.mCameraImage = ReadOptionalString(camera, "image");
+        cameraNameBlob.mCameraAndLayers.mForegroundLayer = ReadOptionalString(camera, "foreground_layer");
+        cameraNameBlob.mCameraAndLayers.mForegroundWellLayer = ReadOptionalString(camera, "foreground_well_layer");
+        cameraNameBlob.mCameraAndLayers.mBackgroundLayer = ReadOptionalString(camera, "background_layer");
+        cameraNameBlob.mCameraAndLayers.mBackgroundWellLayer = ReadOptionalString(camera, "background_well_layer");
+
         const jsonxx::Array& mapObjectsArray = ReadArray(camera, "map_objects");
         for (auto j = 0u; j < mapObjectsArray.values().size(); j++)
         {
@@ -95,5 +120,6 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
         mapData.push_back(std::move(cameraNameBlob));
     }
 
-    return { std::move(mapData), std::move(map) };
+    return {std::move(mapData), map};
 }
+} // namespace ReliveAPI

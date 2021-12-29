@@ -2,7 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 struct FallingItem_Data final
 {

@@ -22,7 +22,7 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, s16 direction, FP scale)
     }
     else
     {
-        field_4_typeId = AETypes::eNone_0;
+        SetType(AETypes::eNone_0);
         const AnimRecord& rec = AnimRec(AnimId::Bullet_Shell);
         u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -112,7 +112,8 @@ void BulletShell::vUpdate_4AD550()
             field_D6_scale != 0 ? 0x0F : 0xF0)
         == 1)
     {
-        if (field_F4_pLine->field_8_type == 0 || field_F4_pLine->field_8_type == 4)
+        if (field_F4_pLine->field_8_type == eLineTypes::eFloor_0 ||
+            field_F4_pLine->field_8_type == eLineTypes::eBackGroundFloor_4)
         {
             field_BC_ypos = hitY - FP_FromInteger(1);
             field_C8_vely = -(field_C8_vely * FP_FromDouble(0.3));

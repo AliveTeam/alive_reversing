@@ -19,7 +19,7 @@ GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     field_116 = -1;
 
     SetVTable(this, 0x545534);
-    field_4_typeId = AETypes::eHelpPhone_68;
+    SetType(AETypes::eHelpPhone_68);
 
     const AnimRecord& rec = AnimRec(AnimId::Security_Door_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

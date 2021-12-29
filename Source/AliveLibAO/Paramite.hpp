@@ -1,13 +1,30 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
-#include "Path.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 void Paramite_ForceLink();
 
 namespace AO {
+
+// TODO: check me, enum taken from AE
+enum class ParamiteSpeak : u8
+{
+    CMon_or_Attack_0 = 0,
+    Stay_1 = 1,
+    DoIt_2 = 2,
+    LoudStep_3 = 3,
+    SlightStep_4 = 4,
+    Howdy_5 = 5,
+    ClimbingWeb_6 = 6,
+    DetectedMeat_7 = 7,
+    None_8 = 8,
+    AllYa_9 = 9,
+    None_10 = 10,
+    None_11 = 11,
+};
 
 #define PARAMITE_MOTIONS_ENUM(ENTRY)         \
     ENTRY(Motion_0_Idle_44B900)              \
@@ -31,7 +48,7 @@ namespace AO {
     ENTRY(Motion_18_RunningAttack_44D5D0)    \
     ENTRY(Motion_19_Empty_44D990)            \
     ENTRY(Motion_20_SurpriseWeb_44D9A0)      \
-    ENTRY(Motion_21_WebLeave_44DB00)         \
+    ENTRY(Motion_21_WebLeaveDown_44DB00)         \
     ENTRY(Motion_22_Unknown_44D8F0)          \
     ENTRY(Motion_23_Eating_44B970)           \
     ENTRY(Motion_24_Struggle_44DB70)         \
@@ -50,10 +67,10 @@ struct Path_Paramite final : public Path_TLV
 {
     Scale_short field_18_scale;
     Choice_short field_1A_bEnter_from_web;
-    s16 field_1C_attack_delay;
-    s16 field_1E_drop_in_timer;
+    s16 field_1C_alone_chase_delay;
+    s16 field_1E_surprise_web_delay_timer;
     s16 field_20_meat_eating_time;
-    s16 field_22_attack_duration;
+    s16 field_22_group_chase_delay;
     s16 field_24_disabled_resources; // Not actually used
     s16 field_26_id;
     Choice_short field_28_hiss_before_attack;
@@ -116,7 +133,7 @@ public:
 
     EXPORT void MoveOnLine_44B740();
 
-    EXPORT void Sound_44DBB0(u8 idx);
+    EXPORT void Sound_44DBB0(ParamiteSpeak idx);
 
     EXPORT void ToHop_44B660();
 
@@ -167,7 +184,7 @@ public:
     EXPORT void Motion_18_RunningAttack_44D5D0();
     EXPORT void Motion_19_Empty_44D990();
     EXPORT void Motion_20_SurpriseWeb_44D9A0();
-    EXPORT void Motion_21_WebLeave_44DB00();
+    EXPORT void Motion_21_WebLeaveDown_44DB00();
     EXPORT void Motion_22_Unknown_44D8F0();
     EXPORT void Motion_23_Eating_44B970();
     EXPORT void Motion_24_Struggle_44DB70();
@@ -176,18 +193,18 @@ public:
 
     TParamiteBrain field_10C_fn;
     s16 field_110_brain_sub_state;
-    s16 field_112_drop_in_timer;
+    s16 field_112_surprise_web_delay_timer;
     s32 field_114_timer;
     s32 field_118_not_used;
     s16 field_11C_meat_eating_time;
-    s16 field_11E_attack_delay;
+    s16 field_11E_alone_chase_delay;
     s32 field_120_wait_timer;
     FP field_124_XSpeed;
     s16 field_128_never_read;
     s16 field_12A_res_idx;
     s32 field_12C_tlvInfo;
     s32 field_130_not_used;
-    s32 field_134_attack_duration;
+    s32 field_134_group_chase_delay;
     s32 field_138_attack_timer;
     s16 field_13C_id;
     Choice_short field_13E_hiss_before_attack;

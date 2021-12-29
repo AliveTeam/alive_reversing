@@ -4,9 +4,9 @@
 #include "EnumType.hpp"
 #include "BasicType.hpp"
 
-#include "../AliveLibAO/PathData.hpp"
+#include "../../AliveLibAO/PathData.hpp"
 
-#include "../AliveLibAE/Path.hpp"
+#include "../../AliveLibAE/Path.hpp"
 
 #include <magic_enum/include/magic_enum.hpp>
 
@@ -17,6 +17,7 @@
 #include <unordered_map>
 #include <vector>
 
+namespace ReliveAPI {
 class TlvObjectBase;
 
 enum class Game
@@ -123,3 +124,4 @@ private:
     [[nodiscard]] const ITypeBase* FindByTypeName(const std::string& typeName) const;
     [[nodiscard]] const ITypeBase* FindByTypeIndex(const std::type_index& typeIndex) const;
 };
+} // namespace ReliveAPI

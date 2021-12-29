@@ -29,7 +29,7 @@ ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);
 const TFleechMotionFn sFleech_motion_table_551798[19] = {
     &Fleech::M_Sleeping_0_42F0B0,
     &Fleech::M_WakingUp_1_42F270,
-    &Fleech::M_Unused_2_42F2F0,
+    &Fleech::M_Unknown_2_42F2F0,
     &Fleech::M_Idle_3_42E850,
     &Fleech::M_Crawl_4_42E960,
     &Fleech::M_PatrolCry_5_42E810,
@@ -154,9 +154,9 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo)
 
     field_142_attack_anger_increaser = pTlv->field_1A_attack_anger_increaser + 2;
     field_144_wake_up_id = pTlv->field_1E_wake_up_id1;
-    field_146_tlv_28 = pTlv->field_28_unused;
+    field_146_wake_up_switch_anger_value = pTlv->field_28_wake_up_switch_anger_value;
     field_148_wake_up_switch_value = SwitchStates_Get_466020(pTlv->field_1E_wake_up_id1) & 0xFFFF;
-    field_14A_use_wake_up_id = pTlv->field_2A_wake_up_id2;
+    field_14A_can_wake_up_id = pTlv->field_2A_can_wake_up_id;
     field_150_patrol_range = FP_GetExponent(FP_FromInteger(pTlv->field_26_patrol_range_in_grids) * ScaleToGridSize_4498B0(field_CC_sprite_scale));
     field_15C_lost_target_timeout = pTlv->field_22_lost_target_timeout;
 
@@ -346,9 +346,9 @@ s32 CC Fleech::CreateFromSaveState_42DD50(const u8* pBuffer)
     pFleech->field_140_max_anger = pState->field_78_max_anger;
     pFleech->field_142_attack_anger_increaser = pState->field_7A_attack_anger;
     pFleech->field_144_wake_up_id = pState->field_7C_wakeup_id;
-    pFleech->field_146_tlv_28 = pState->field_7E_tlv;
+    pFleech->field_146_wake_up_switch_anger_value = pState->field_7E_wake_up_switch_anger_value;
     pFleech->field_148_wake_up_switch_value = pState->field_80_wake_up_switch_value;
-    pFleech->field_14A_use_wake_up_id = pState->field_82_use_wake_up_id;
+    pFleech->field_14A_can_wake_up_id = pState->field_82_can_wake_up_id;
     pFleech->field_14C = pState->field_84;
     pFleech->field_14E = pState->field_86;
     pFleech->field_150_patrol_range = pState->field_88_patrol_range;
@@ -475,9 +475,9 @@ s32 Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_78_max_anger = field_140_max_anger;
     pState->field_7A_attack_anger = field_142_attack_anger_increaser;
     pState->field_7C_wakeup_id = field_144_wake_up_id;
-    pState->field_7E_tlv = field_146_tlv_28;
+    pState->field_7E_wake_up_switch_anger_value = field_146_wake_up_switch_anger_value;
     pState->field_80_wake_up_switch_value = field_148_wake_up_switch_value;
-    pState->field_82_use_wake_up_id = field_14A_use_wake_up_id;
+    pState->field_82_can_wake_up_id = field_14A_can_wake_up_id;
     pState->field_84 = field_14C;
     pState->field_86 = field_14E;
     pState->field_88_patrol_range = field_150_patrol_range;
@@ -580,7 +580,7 @@ void Fleech::M_WakingUp_1_42F270()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eSnoozeParticle_124)
+        if (pObj->Type() == AETypes::eSnoozeParticle_124)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
@@ -597,11 +597,9 @@ void Fleech::M_WakingUp_1_42F270()
     }
 }
 
-void Fleech::M_Unused_2_42F2F0()
+// this function is actually used
+void Fleech::M_Unknown_2_42F2F0()
 {
-    if (true)
-        ALIVE_FATAL("never expected Fleech::M_Unused_2_42F2F0() to be called");
-
     if (field_108_next_motion != -1)
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -833,7 +831,7 @@ void Fleech::M_Fall_9_42ECD0()
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
                 MapFollowMe_408D10(TRUE);
-                if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+                if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                 {
                     PSX_RECT bRect = {};
                     vGetBoundingRect_424FD0(&bRect, 1);
@@ -1335,7 +1333,7 @@ void Fleech::vUpdate_42AB20()
 
 void Fleech::vRender_42A550(PrimHeader** ot)
 {
-    if (field_1C_update_delay == 0)
+    if (UpdateDelay() == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ot);
         RenderEx_42C5A0(ot);
@@ -1599,7 +1597,7 @@ s16 Fleech::IsScrabOrParamiteNear_42B440(FP radius)
         if (pBaseObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto pObj = static_cast<BaseAliveGameObject*>(pBaseObj);
-            if ((pObj->field_4_typeId == AETypes::eScrab_112 || pObj->field_4_typeId == AETypes::eParamite_96) && pObj->field_10C_health > FP_FromInteger(0))
+            if ((pObj->Type() == AETypes::eScrab_112 || pObj->Type() == AETypes::eParamite_96) && pObj->field_10C_health > FP_FromInteger(0))
             {
                 if (pObj->field_CC_sprite_scale == field_CC_sprite_scale)
                 {
@@ -1694,7 +1692,7 @@ void Fleech::Init_42A170()
 
     field_20_animation.field_1C_fn_ptr_array = kFleech_Anim_Frame_Fns_55EFD0;
 
-    field_4_typeId = AETypes::eFleech_50;
+    SetType(AETypes::eFleech_50);
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
@@ -1984,7 +1982,7 @@ void Fleech::TongueUpdate_42BD30()
                     case 2:
                     case 3:
                     case 5:
-                        if (field_17A_tongue_sub_state == 5 && pTarget->field_4_typeId == AETypes::eScrab_112)
+                        if (field_17A_tongue_sub_state == 5 && pTarget->Type() == AETypes::eScrab_112)
                         {
                             pTarget->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                         }
@@ -2256,7 +2254,7 @@ s16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
     sub_42B8C0();
     ResetTarget_42CF70();
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eBullet_15:
         case AETypes::eDrill_30:
@@ -2402,7 +2400,7 @@ void Fleech::IncreaseAnger_430920()
                 field_13E_current_anger += field_142_attack_anger_increaser;
                 if (vOnSameYLevel_425520(pEvent))
                 {
-                    if (pEvent->field_4_typeId == AETypes::eScrab_112 || pEvent->field_4_typeId == AETypes::eParamite_96)
+                    if (pEvent->Type() == AETypes::eScrab_112 || pEvent->Type() == AETypes::eParamite_96)
                     {
                         field_14E = FP_GetExponent(pEvent->field_B8_xpos);
                     }
@@ -2515,7 +2513,7 @@ BaseAliveGameObject* Fleech::FindMudOrAbe_42CFD0()
             break;
         }
 
-        if ((pObj->field_4_typeId == AETypes::eMudokon_110 || pObj->field_4_typeId == AETypes::eAbe_69) && pObj->field_D6_scale == field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
+        if ((pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69) && pObj->field_D6_scale == field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
         {
             const FP dist = FP_FromInteger(
                 Math_Distance_496EB0(
@@ -2555,7 +2553,7 @@ void Fleech::MoveAlongFloor_42E600()
                     field_110_id = -1;
                 }
             }
-            else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            else if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PSX_RECT bRect = {};
                 vGetBoundingRect_424FD0(&bRect, 1);
@@ -2602,7 +2600,7 @@ void Fleech::vOnThrowableHit_42A590(BaseGameObject* /*pFrom*/)
     field_13E_current_anger += field_142_attack_anger_increaser;
 }
 
-BOOL Fleech::Collision_42B290(s16 alwaysOne)
+Bool32 Fleech::Collision_42B290(s16 alwaysOne)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     const FP quaterScaled = (kGridSize * FP_FromDouble(0.25));
@@ -2840,7 +2838,7 @@ s16 Fleech::Brain_Patrol_State_0()
 
 s16 Fleech::Brain_Patrol_State_1()
 {
-    if (!SwitchStates_Get_466020(field_14A_use_wake_up_id))
+    if (!SwitchStates_Get_466020(field_14A_can_wake_up_id))
     {
         return field_126_state;
     }
@@ -2881,7 +2879,7 @@ s16 Fleech::Brain_Patrol_State_1()
     else
     {
         BaseGameObject* pDangerObj = sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj);
-        if (pDangerObj && pDangerObj->field_4_typeId != AETypes::eParamite_96)
+        if (pDangerObj && pDangerObj->Type() != AETypes::eParamite_96)
         {
             if (field_106_current_motion == eFleechMotions::M_SleepingWithTongue_17_42F370)
             {
@@ -3011,7 +3009,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
 
     if (UpdateWakeUpSwitchValue_4308B0())
     {
-        field_13E_current_anger += field_146_tlv_28;
+        field_13E_current_anger += field_146_wake_up_switch_anger_value;
     }
 
     if (pTarget)
@@ -4338,10 +4336,9 @@ s16 Fleech::Brain_3_Death_42D1E0()
         field_D4_b -= 2;
     }
 
-    if (static_cast<s32>(sGnFrame_5C1B84) < field_12C - 24 && !(sGnFrame_5C1B84 % 5))
+    if (static_cast<s32>(sGnFrame_5C1B84) < field_12C - 24)
     {
-        const FP xRand = (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale);
-        New_Smoke_Particles_426C70(xRand + field_B8_xpos, field_BC_ypos - FP_FromInteger(6), field_CC_sprite_scale / FP_FromInteger(2), 2, 128u, 128u, 128u);
+        DeathSmokeEffect(false);
     }
 
     if (field_CC_sprite_scale < FP_FromInteger(0))

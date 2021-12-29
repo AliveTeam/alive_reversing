@@ -1,11 +1,11 @@
 #include "relive_config.h"
 #include "logger.hpp"
-#include "FunctionFwd.hpp"
+#include "../../AliveLibCommon/FunctionFwd.hpp"
 #include "SDL_main.h"
 #include "Io.hpp"
 #include "Sys.hpp"
-#include "../AliveLibAE/Sound/PsxSpuApi.hpp"
-#include "../AliveLibAE/LvlArchive.hpp"
+#include "../../AliveLibAE/Sound/PsxSpuApi.hpp"
+#include "../../AliveLibAE/LvlArchive.hpp"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
@@ -46,7 +46,7 @@ static void WriteVec(const char_type* fileName, const std::vector<u8>& vec)
 }
 
 s32 CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
-BOOL CC sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
+Bool32 CC sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
 u32* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, VabBodyRecord* pBodyRecords, s32 idx);
 
 s32 CC SND_SoundsDat_Read(FILE* file, VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx, void* pBuffer)

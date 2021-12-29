@@ -80,7 +80,7 @@ public:
 
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-        field_4_typeId = AETypes::eDebugHelper_1001;
+        SetType(AETypes::eDebugHelper_1001);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(512, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
@@ -179,7 +179,7 @@ public:
                     }
                 }
 
-                std::string text = std::to_string(static_cast<s32>(pBaseGameObject->field_4_typeId));
+                std::string text = std::to_string(static_cast<s32>(pBaseGameObject->Type()));
 
                 mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_Above_FG1_39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
                 mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_FadeFlash_40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
@@ -286,7 +286,7 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-        field_4_typeId = AETypes::eDebugPathRenderer_1003;
+        SetType(AETypes::eDebugPathRenderer_1003);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(128, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
@@ -582,9 +582,9 @@ void Command_Teleport(const std::vector<std::string>& args)
     else
     {
         bool found = false;
-        for (s16 i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot); i++)
+        for (s16 i = 0; i < Path_Get_Paths_Count(); i++)
         {
-            if (!strcmpi(sPathData_559660.paths[i].field_14_lvl_name, args[0].c_str()))
+            if (!strcmpi(Path_Get_Lvl_Name(static_cast<LevelIds>(i)), args[0].c_str()))
             {
                 level = i;
                 found = true;
@@ -645,7 +645,7 @@ void Command_LoadSave(const std::vector<std::string>& args)
     {
         pPauseMenu_5C9300 = ae_new<PauseMenu>();
         pPauseMenu_5C9300->ctor_48FB80();
-        pPauseMenu_5C9300->field_1C_update_delay = 0;
+        pPauseMenu_5C9300->SetUpdateDelay(0);
     }
 
     std::string filePath = args[0] + ".sav";
@@ -678,7 +678,7 @@ void Command_DDV(const std::vector<std::string>& args)
             break;
         }
 
-        if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[sLevelId_dword_5CA408].field_1A_unused, MessageType::eSkipMovie_1))
+        if (!Display_Full_Screen_Message_Blocking_465820(Path_Get_Unknown(static_cast<LevelIds>(sLevelId_dword_5CA408)), MessageType::eSkipMovie_1))
         {
             break;
         }
@@ -687,7 +687,7 @@ void Command_DDV(const std::vector<std::string>& args)
 
 void Command_SetState(const std::vector<std::string>& args)
 {
-    if (sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eAbe_69)
+    if (sControlledCharacter_5C1B8C->Type() != AETypes::eAbe_69)
     {
         DEV_CONSOLE_MESSAGE_C("Setting motion not supported on this object (only allowed for abe)!", 6, 255, 0, 0);
         return;
@@ -843,8 +843,8 @@ void Command_Spawn(const std::vector<std::string>& args)
 
     if (factoryFunc != nullptr)
     {
-        factoryFunc(factoryTLV, nullptr, tlvinfo, LoadMode::Mode_2);
-        factoryFunc(factoryTLV, nullptr, tlvinfo, LoadMode::Mode_0);
+        factoryFunc(factoryTLV, nullptr, tlvinfo, LoadMode::LoadResource_2);
+        factoryFunc(factoryTLV, nullptr, tlvinfo, LoadMode::ConstructObject_0);
     }
 }
 
@@ -914,7 +914,7 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-        field_4_typeId = AETypes::eDebugConsole_1002;
+        SetType(AETypes::eDebugConsole_1002);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(4096 * 2, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
@@ -923,10 +923,10 @@ public:
 
         InitDebugFont();
 
-        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, LoadMode::Mode_0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kAbebombResID, LoadMode::Mode_0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00, LoadMode::Mode_0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, LoadMode::Mode_0, 0);
+        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, LoadMode::ConstructObject_0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kAbebombResID, LoadMode::ConstructObject_0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00, LoadMode::ConstructObject_0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, LoadMode::ConstructObject_0, 0);
     }
 
     void Destruct()
@@ -1861,7 +1861,7 @@ public:
 
     virtual void VUpdate() override
     {
-        field_1C_update_delay = 4;
+        SetUpdateDelay(4);
         mPoly_F3_Test.Update();
         mPoly_F_Test.Update();
     }
@@ -2134,25 +2134,6 @@ void DebugHelpers_Init()
     //#endif
 }
 
-[[nodiscard]] bool FS::ReadFileInto(std::vector<u8>& target, const std::string& filePath)
-{
-    FILE* hFile = ::fopen(filePath.c_str(), "rb");
-    if (!hFile)
-    {
-        return false;
-    }
-
-    ::fseek(hFile, 0, SEEK_END);                // seek to end of file
-    const std::size_t fileLen = ::ftell(hFile); // get current file pointer
-    ::fseek(hFile, 0, SEEK_SET);                // seek back to beginning of file
-
-    target.resize(fileLen);
-    ::fread(target.data(), 1, target.size(), hFile);
-
-    ::fclose(hFile);
-    return true;
-}
-
 [[nodiscard]] std::vector<u8> FS::ReadFile(const std::string& filePath)
 {
     std::vector<u8> buffer;
@@ -2260,7 +2241,7 @@ std::string EscapeUnknownCharacters(std::string text)
             break;
         }
 
-        if (pBaseGameObject->field_4_typeId == id)
+        if (pBaseGameObject->Type() == id)
             return pBaseGameObject;
     }
     return nullptr;

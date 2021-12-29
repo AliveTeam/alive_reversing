@@ -10,6 +10,7 @@
 #include "Sfx.hpp"
 #include "VRam.hpp"
 #include "Game.hpp"
+#include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 #include "Renderer/IRenderer.hpp"
 
 u8 sLCDScreen_Palette[] = {
@@ -27,7 +28,7 @@ u8 sLCDScreen_Palette2[] = {
 
 
 // TODO: Remove spaces and add them at runtime.
-const char_type* sLCDMessageTable_555768[101] = {
+static const char_type* sLCDMessageTable_555768[101] = {
     "",
     "                               SoulStorm Mining Company is an equal opportunity employer.",
     "                               Work! Do it!",
@@ -131,6 +132,46 @@ const char_type* sLCDMessageTable_555768[101] = {
     "",
 };
 
+
+static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eCredits_16) + 1][99] = {};
+
+void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId)
+{
+    sPerLvlMessages[static_cast<u32>(lvl)][pathId] = &msgs;
+}
+
+class LCDMessages final
+{
+public:
+    const char_type* GetMessage(LevelIds lvlId, u32 pathId, u32 msgId) const
+    {
+        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(lvlId)][pathId];
+        if (pTable && pTable->mStringCount > 0)
+        {
+            if (msgId < pTable->mStringCount)
+            {
+                return pTable->mStrings[msgId];
+            }
+            else
+            {
+                LOG_WARNING("LCD message out of bounds, using first message for id: " << msgId);
+                return pTable->mStrings[0];
+            }
+        }
+
+        if (msgId < ALIVE_COUNTOF(sLCDMessageTable_555768))
+        {
+            return sLCDMessageTable_555768[msgId];
+        }
+        else
+        {
+            LOG_WARNING("LCD message out of bounds using original message table id: " << msgId);
+            return sLCDMessageTable_555768[0];
+        }
+    }
+};
+static LCDMessages gLCDMessages;
+
 LCDScreen* LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
@@ -169,11 +210,11 @@ LCDScreen* LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemI
 
     if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
     {
-        field_A0_message = sLCDMessageTable_555768[field_2B0_message_2_id];
+        field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2B0_message_2_id);
     }
     else
     {
-        field_A0_message = sLCDMessageTable_555768[field_2AA_message_1_id];
+        field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2AA_message_1_id);
     }
 
     //field_A0_message = "                               THIS IS A TEST";
@@ -218,18 +259,18 @@ void LCDScreen::Update_460A00()
         {
             if (++field_2B4 == 1)
             {
-                field_A0_message = sLCDMessageTable_555768[Math_RandomRange_496AB0(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id)];
+                field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, Math_RandomRange_496AB0(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id));
             }
             else
             {
                 field_2B4 = 0;
                 if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
                 {
-                    field_A0_message = sLCDMessageTable_555768[field_2B0_message_2_id];
+                    field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2B0_message_2_id);
                 }
                 else
                 {
-                    field_A0_message = sLCDMessageTable_555768[field_2AA_message_1_id];
+                    field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2AA_message_1_id);
                 }
             }
 

@@ -121,7 +121,7 @@ const TAbeMotionFunction sAbeMotionMachineTable_554910[] = {
     &Abe::Motion_57_Dead_4589A0,
     &Abe::Motion_58_DeadPre_4593E0,
     &Abe::Motion_59_Null_459450,
-    &Abe::Motion_60_4A3200,
+    &Abe::Motion_60_Unused_4A3200,
     &Abe::Motion_61_TurnToRun_456530,
     &Abe::Motion_62_Punch_454750,
     &Abe::Motion_63_Sorry_454670,
@@ -262,7 +262,7 @@ const AnimId sAbeFrameTables[130] = {
     AnimId::Mudokon_Rolling,
     AnimId::Mudokon_RollingEnd_Unused,
     AnimId::Mudokon_RunSlideStop,
-    AnimId::Mudokon_RunTurn,
+    AnimId::Mudokon_RunSlideTurn,
     AnimId::Mudokon_HopBegin,
     AnimId::Mudokon_HopMid,
     AnimId::Mudokon_HopLand,
@@ -275,7 +275,7 @@ const AnimId sAbeFrameTables[130] = {
     AnimId::Mudokon_DunnoBegin,
     AnimId::Mudokon_CrouchTurn,
     AnimId::Mudokon_RunToRoll,
-    AnimId::Mudokon_StandingToRun,
+    AnimId::Mudokon_StandToRun,
     AnimId::Mudokon_Sneak,
     AnimId::Mudokon_WalkToSneak,
     AnimId::Mudokon_SneakToWalk,
@@ -703,7 +703,7 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
 
     SetVTable(this, 0x5457BC); // gVTbl_Abe_5457BC
 
-    field_4_typeId = AETypes::eAbe_69;
+    SetType(AETypes::eAbe_69);
 
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_C_objectId = -65536;
@@ -1146,8 +1146,8 @@ s32 CC Abe::CreateFromSaveState_44D4F0(const u8* pData)
     sActiveHero_5C1B68->field_16E_bHaveInvisiblity = pSaveState->bHaveInvisiblity;
     sActiveHero_5C1B68->field_104_collision_line_type = pSaveState->field_3a_collision_line_id;
 
-    sActiveHero_5C1B68->field_118_prev_held = InputObject::Command_To_Raw_45EE40(pSaveState->prev_held);
-    sActiveHero_5C1B68->field_11C_released_buttons = InputObject::Command_To_Raw_45EE40(pSaveState->released_buttons);
+    sActiveHero_5C1B68->field_118_prev_held = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->prev_held);
+    sActiveHero_5C1B68->field_11C_released_buttons = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->released_buttons);
     sActiveHero_5C1B68->field_122_knockdown_motion = pSaveState->field_74_knockdown_motion;
     sActiveHero_5C1B68->field_128.field_14_rolling_motion_timer = sGnFrame_5C1B84 - pSaveState->field_78_rolling_motion_timer;
     sActiveHero_5C1B68->field_148_fade_obj_id = pSaveState->fade_obj_id;
@@ -1598,7 +1598,7 @@ void Abe::Update_449DC0()
 
                 field_128.field_14_rolling_motion_timer = sGnFrame_5C1B84;
 
-                if (motion_idx == eAbeMotions::Motion_12_Null_4569C0 || motion_idx == eAbeMotions::Motion_60_4A3200)
+                if (motion_idx == eAbeMotions::Motion_12_Null_4569C0 || motion_idx == eAbeMotions::Motion_60_Unused_4A3200)
                 {
                     field_20_animation.SetFrame_409D50(field_F6_anim_frame);
                 }
@@ -1913,7 +1913,7 @@ void Abe::vScreenChanged_44D240()
 
     if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level && !(field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave)))
     {
-        for (s8& val : sSavedKilledMudsPerPath_5C1B50.mData)
+        for (s8& val : sSavedKilledMudsPerZulag_5C1B50.mData)
         {
             val = 0;
         }
@@ -1949,7 +1949,7 @@ s32 Abe::vGetSaveState_457110(u8* pSaveBuffer)
                 break;
             }
 
-            if (pObj->field_4_typeId == AETypes::eElectrocute_150)
+            if (pObj->Type() == AETypes::eElectrocute_150)
             {
                 auto pElectrocute = static_cast<const Electrocute*>(pObj);
                 if (pElectrocute->field_20_target_obj_id == field_8_object_id)
@@ -2018,8 +2018,8 @@ s32 Abe::vGetSaveState_457110(u8* pSaveBuffer)
     pSaveState->bHaveShrykull = static_cast<s8>(field_16C_bHaveShrykull);
     pSaveState->bHaveInvisiblity = static_cast<s8>(field_16E_bHaveInvisiblity);
 
-    pSaveState->prev_held = InputObject::Raw_To_Command_45EF70(field_118_prev_held);
-    pSaveState->released_buttons = InputObject::Raw_To_Command_45EF70(field_11C_released_buttons);
+    pSaveState->prev_held = InputObject::KeyboardInputToPsxButtons_45EF70(field_118_prev_held);
+    pSaveState->released_buttons = InputObject::KeyboardInputToPsxButtons_45EF70(field_11C_released_buttons);
 
     pSaveState->field_74_knockdown_motion = field_122_knockdown_motion;
     pSaveState->field_78_rolling_motion_timer = sGnFrame_5C1B84 - field_128.field_14_rolling_motion_timer;
@@ -2206,7 +2206,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     field_128.field_4_regen_health_timer = sGnFrame_5C1B84 + 180;
     s16 ret = field_10C_health > FP_FromInteger(0);
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eGasClock_23:
             if (field_10C_health > FP_FromInteger(0))
@@ -2509,7 +2509,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 
                 SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
 
-                if (pFrom->field_4_typeId != AETypes::eParamite_96)
+                if (pFrom->Type() != AETypes::eParamite_96)
                 {
                     SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90);
                 }
@@ -2596,9 +2596,9 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             break;
 
         default:
-            if (pFrom->field_4_typeId != AETypes::eBullet_15)
+            if (pFrom->Type() != AETypes::eBullet_15)
             {
-                LOG_ERROR("Expected default case to be bullets only but got: " << static_cast<s32>(pFrom->field_4_typeId));
+                LOG_ERROR("Expected default case to be bullets only but got: " << static_cast<s32>(pFrom->Type()));
             }
             BulletDamage_44C980(static_cast<Bullet*>(pFrom));
             if (!field_114_flags.Get(Flags_114::e114_Bit1_bShot))
@@ -2647,7 +2647,7 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
         }
         else if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
-            if (sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eMineCar_89 || gMap_5C3030.field_0_current_level != LevelIds::eMines_1)
+            if (sControlledCharacter_5C1B8C->Type() != AETypes::eMineCar_89 || gMap_5C3030.field_0_current_level != LevelIds::eMines_1)
             {
                 Mudokon_SFX_457EC0(MudSounds::eDeathDropScream_15, 0, 0, this);
                 Event_Broadcast_422BC0(kEventNoise, this);
@@ -2660,10 +2660,10 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
         else if (pTlv->field_4_type == TlvTypes::ResetSwitchRange_76)
         {
             auto pResetSwitchRange = static_cast<Path_ResetSwitchRange*>(pTlv);
-            if (pResetSwitchRange->field_1_tlv_state == 0 || pResetSwitchRange->field_1C_bEnabled)
+            if (pResetSwitchRange->field_1_tlv_state == 0 || pResetSwitchRange->field_1C_bEnabled == Choice_short::eYes_1)
             {
                 pResetSwitchRange->field_1_tlv_state = 1;
-                if (pResetSwitchRange->field_10_set_switches)
+                if (pResetSwitchRange->field_10_reset_switch_ids == Choice_short::eYes_1)
                 {
                     for (s16 i = pResetSwitchRange->field_12_start_id; i <= pResetSwitchRange->field_14_end_id; i++)
                     {
@@ -2673,7 +2673,7 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
                         }
                     }
                 }
-                if (pResetSwitchRange->field_18_free_path_res)
+                if (pResetSwitchRange->field_18_free_path_res == Choice_short::eYes_1)
                 {
                     Path::Reset_TLVs_4DBCF0(pResetSwitchRange->field_1A_path_to_free_id);
                 }
@@ -2700,7 +2700,7 @@ BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
 
         if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
         {
-            switch (pObj->field_4_typeId)
+            switch (pObj->Type())
             {
                     // Third priority
                 case AETypes::eCrawlingSlig_26:
@@ -2796,7 +2796,7 @@ void Abe::Free_Resources_44D420()
     }
 }
 
-EXPORT BOOL Abe::IsStanding_449D30()
+EXPORT Bool32 Abe::IsStanding_449D30()
 {
     return field_106_current_motion == eAbeMotions::Motion_0_Idle_44EEB0
         || field_106_current_motion == eAbeMotions::Motion_2_StandingTurn_451830
@@ -3066,7 +3066,7 @@ void Abe::Motion_0_Idle_44EEB0()
         BaseGameObject* pObj_field_110 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
         if (pObj_field_110)
         {
-            if (pObj_field_110->field_4_typeId == AETypes::eLiftPoint_78)
+            if (pObj_field_110->Type() == AETypes::eLiftPoint_78)
             {
                 const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_rect.x + field_100_pCollisionLine->field_0_rect.w) / 2);
@@ -3176,7 +3176,7 @@ void Abe::Motion_0_Idle_44EEB0()
         BaseGameObject* pObj_field_110_2 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
         if (pObj_field_110_2)
         {
-            if (pObj_field_110_2->field_4_typeId == AETypes::eLiftPoint_78)
+            if (pObj_field_110_2->Type() == AETypes::eLiftPoint_78)
             {
                 const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_rect.x + field_100_pCollisionLine->field_0_rect.w) / 2);
@@ -3206,7 +3206,7 @@ void Abe::Motion_0_Idle_44EEB0()
                     if (NearDoorIsOpen_44EE10() && !field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
                     {
                         field_FC_pPathTLV = pTlv;
-                        field_120_state.door = DoorStates::eAbeComesIn_0;
+                        field_120_state.door = AbeDoorStates::eAbeComesIn_0;
                         field_106_current_motion = eAbeMotions::Motion_114_DoorEnter_459470;
                     }
                     else
@@ -3296,7 +3296,7 @@ void Abe::Motion_0_Idle_44EEB0()
                             break;
                         }
 
-                        if (pObj->field_4_typeId == AETypes::eMudokon_110 && pObj->field_D6_scale == field_D6_scale)
+                        if (pObj->Type() == AETypes::eMudokon_110 && pObj->field_D6_scale == field_D6_scale)
                         {
                             FP xDiff = pObj->field_B8_xpos - field_B8_xpos;
                             if (xDiff < FP_FromInteger(0))
@@ -3647,10 +3647,10 @@ void Abe::Motion_3_Fall_459B60()
     {
         switch (pPathLine->field_8_type)
         {
-            case eFloor_0:
-            case eBackGroundFloor_4:
-            case 32u: // TODO: These type are never seen, internal only ??
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 field_B8_xpos = hitX;
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -3702,10 +3702,10 @@ void Abe::Motion_3_Fall_459B60()
             }
             break;
 
-            case eWallLeft_1:
-            case eWallRight_2:
-            case eBackGroundWallLeft_5:
-            case eBackGroundWallRight_6:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackGroundWallLeft_5:
+            case eLineTypes::eBackGroundWallRight_6:
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
                 ToKnockback_44E700(1, 1);
@@ -3730,7 +3730,7 @@ void Abe::Motion_3_Fall_459B60()
     bool tryToHang = false;
     if (pEdge)
     {
-        if (pEdge->field_12_bCan_grab && IsSameScaleAsEdge(pEdge, this) && (isEdgeGrabbable(pEdge, this)))
+        if (pEdge->field_12_bCan_grab == Choice_short::eYes_1 && IsSameScaleAsEdge(pEdge, this) && (isEdgeGrabbable(pEdge, this)))
         {
             tryToHang = true;
         }
@@ -3949,10 +3949,10 @@ void Abe::Motion_14_HoistIdle_452440()
     {
         switch (pLine->field_8_type)
         {
-            case eFloor_0:
-            case eBackGroundFloor_4:
-            case 32u: // trap doors ??
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 field_B8_xpos = hitX;
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -4071,7 +4071,8 @@ void Abe::Motion_14_HoistIdle_452440()
                 field_C8_vely = FP_FromInteger(0);
                 if (pfield_110_id)
                 {
-                    if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+                    if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || 
+                        field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                     {
                         vOnCollisionWith_424EE0(
                             {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
@@ -4654,10 +4655,10 @@ void Abe::Motion_28_HopMid_451C50()
 
         switch (pLine->field_8_type)
         {
-            case 0u:
-            case 4u:
-            case 32u:
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, 32767, this);
                 field_100_pCollisionLine = pLine;
                 field_B8_xpos = hitX;
@@ -4696,7 +4697,7 @@ void Abe::Motion_28_HopMid_451C50()
 
         field_FC_pPathTLV = pEdgeTlv;
 
-        if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab && IsSameScaleAsEdge(pEdgeTlv, this) && ((isEdgeGrabbable(pEdgeTlv, this) && field_C4_velx != FP_FromInteger(0))))
+        if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab == Choice_short::eYes_1 && IsSameScaleAsEdge(pEdgeTlv, this) && ((isEdgeGrabbable(pEdgeTlv, this) && field_C4_velx != FP_FromInteger(0))))
         {
             field_B8_xpos = FP_FromInteger((pEdgeTlv->field_8_top_left.field_0_x + pEdgeTlv->field_C_bottom_right.field_0_x) / 2);
 
@@ -4834,13 +4835,13 @@ void Abe::Motion_31_RunJumpMid_452C10()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackGroundFloor_4:
-            case 32u:
-            case 36u:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 field_100_pCollisionLine = pLine;
                 field_106_current_motion = eAbeMotions::Motion_32_RunJumpLand_453460;
                 field_B8_xpos = hitX;
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
-                if (pLine->field_8_type == 32)
+                if (pLine->field_8_type == eLineTypes::eUnknown_32)
                 {
                     vOnCollisionWith_424EE0(
                         {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
@@ -4885,7 +4886,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
 
             field_FC_pPathTLV = pEdgeTlv;
 
-            if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab)
+            if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab == Choice_short::eYes_1)
             {
                 if (IsSameScaleAsEdge(pEdgeTlv, this) && (isEdgeGrabbable(pEdgeTlv, this)))
                 {
@@ -4929,7 +4930,8 @@ void Abe::Motion_31_RunJumpMid_452C10()
 
                 if (!pfield_110_id)
                 {
-                    if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+                    if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
+                        field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                     {
                         vOnCollisionWith_424EE0(
                             {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
@@ -5695,7 +5697,7 @@ void Abe::Motion_57_Dead_4589A0()
         {
             field_110_id = -1;
         }
-        else if (pObj->field_4_typeId == AETypes::eLiftPoint_78)
+        else if (pObj->Type() == AETypes::eLiftPoint_78)
         {
             static_cast<LiftPoint*>(pObj)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
         }
@@ -5892,8 +5894,7 @@ void Abe::Motion_59_Null_459450()
 {
 }
 
-//TODO: probably unused?
-void Abe::Motion_60_4A3200()
+void Abe::Motion_60_Unused_4A3200()
 {
     NOT_IMPLEMENTED();
 }
@@ -6156,7 +6157,8 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
         field_C8_vely = FP_FromInteger(0);
         if (!pfield_110_id)
         {
-            if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
+                field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 vOnCollisionWith_424EE0(
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
@@ -7376,7 +7378,7 @@ void Abe::Motion_107_RockThrowCrouchingHold_454410()
         {
             field_1A3_throw_direction = 4;
             field_106_current_motion = eAbeMotions::Motion_108_RockThrowCrouchingThrow_454500;
-            if (pRock->field_4_typeId == AETypes::eMeat_84)
+            if (pRock->Type() == AETypes::eMeat_84)
             {
                 field_1A3_throw_direction = 5;
             }
@@ -7450,7 +7452,7 @@ void Abe::Motion_110_ZShot_455670()
         if (field_110_id != -1)
         {
             BaseGameObject* pLiftPoint = sObjectIds_5C1B70.Find_449CF0(field_110_id);
-            if (pLiftPoint->field_4_typeId == AETypes::eLiftPoint_78)
+            if (pLiftPoint->Type() == AETypes::eLiftPoint_78)
             {
                 static_cast<LiftPoint*>(pLiftPoint)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
             }
@@ -7578,7 +7580,7 @@ void Abe::Motion_112_Chant_45B1C0()
                                 break;
                             }
 
-                            if (pObjIter->field_4_typeId == AETypes::eMudokon_110)
+                            if (pObjIter->Type() == AETypes::eMudokon_110)
                             {
                                 if (pObjIter->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed)) // TODO: Is sick flag ?
                                 {
@@ -7756,7 +7758,7 @@ void Abe::Motion_112_Chant_45B1C0()
 
             field_154_possessed_object_id = -1;
 
-            if (sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eSlig_125 || sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eFlyingSlig_54 || sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eCrawlingSlig_26 || sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eGlukkon_67)
+            if (sControlledCharacter_5C1B8C->Type() == AETypes::eSlig_125 || sControlledCharacter_5C1B8C->Type() == AETypes::eFlyingSlig_54 || sControlledCharacter_5C1B8C->Type() == AETypes::eCrawlingSlig_26 || sControlledCharacter_5C1B8C->Type() == AETypes::eGlukkon_67)
             {
                 field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_laugh_at_chant_end);
             }
@@ -7848,31 +7850,31 @@ void Abe::Motion_114_DoorEnter_459470()
 {
     switch (field_120_state.door)
     {
-        case DoorStates::eAbeComesIn_0:
+        case AbeDoorStates::eAbeComesIn_0:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_120_state.door = DoorStates::eWaitABit_2;
+                field_120_state.door = AbeDoorStates::eWaitABit_2;
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_128.field_0_abe_timer = sGnFrame_5C1B84 + 3;
             }
             return;
 
-        case DoorStates::eWaitABit_2:
+        case AbeDoorStates::eWaitABit_2:
             if (field_128.field_0_abe_timer <= static_cast<s32>(sGnFrame_5C1B84))
             {
-                field_120_state.door = DoorStates::eToState4_3;
+                field_120_state.door = AbeDoorStates::eToState4_3;
                 field_128.field_0_abe_timer = sGnFrame_5C1B84 + 3;
             }
             return;
 
-        case DoorStates::eToState4_3:
+        case AbeDoorStates::eToState4_3:
             if (field_128.field_0_abe_timer <= static_cast<s32>(sGnFrame_5C1B84))
             {
-                field_120_state.door = DoorStates::eSetNewActiveCamera_4;
+                field_120_state.door = AbeDoorStates::eSetNewActiveCamera_4;
             }
             return;
 
-        case DoorStates::eSetNewActiveCamera_4:
+        case AbeDoorStates::eSetNewActiveCamera_4:
         {
             Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                 FP_GetExponent(field_B8_xpos),
@@ -7883,7 +7885,7 @@ void Abe::Motion_114_DoorEnter_459470()
 
             field_FC_pPathTLV = pDoorTlv;
 
-            if (pDoorTlv->field_42_cancel_throwables)
+            if (pDoorTlv->field_42_clear_throwables == Choice_short::eYes_1)
             {
                 if (field_1A2_throwable_count > 0 && gpThrowableArray_5D1E2C)
                 {
@@ -7943,12 +7945,12 @@ void Abe::Motion_114_DoorEnter_459470()
                 pDoorTlv->field_34_movie_number,
                 bForceChange);
 
-            field_120_state.door = DoorStates::eSetNewAbePosition_5;
-            field_1A0_door_id = pDoorTlv->field_1C_target_door_number;
+            field_120_state.door = AbeDoorStates::eSetNewAbePosition_5;
+            field_1A0_door_id = pDoorTlv->field_1C_target_door_id;
         }
             return;
 
-        case DoorStates::eSetNewAbePosition_5:
+        case AbeDoorStates::eSetNewAbePosition_5:
         {
             gMap_5C3030.field_1E_door = 0;
             field_C2_lvl_number = gMap_5C3030.field_0_current_level;
@@ -7982,7 +7984,7 @@ void Abe::Motion_114_DoorEnter_459470()
             }
 
             // The door controls which way Abe faces when he exits it.
-            if (pTargetDoorTlv->field_3E_abe_direction & 1)
+            if (pTargetDoorTlv->field_3E_abe_direction == XDirection_short::eRight_1)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
             }
@@ -8034,18 +8036,18 @@ void Abe::Motion_114_DoorEnter_459470()
             }
 
             field_10C_health = FP_FromInteger(1);
-            field_120_state.door = DoorStates::eAbeComesOut_6;
+            field_120_state.door = AbeDoorStates::eAbeComesOut_6;
             field_128.field_0_abe_timer = sGnFrame_5C1B84 + 30;
         }
             return;
 
-        case DoorStates::eAbeComesOut_6:
+        case AbeDoorStates::eAbeComesOut_6:
             if (field_128.field_0_abe_timer > static_cast<s32>(sGnFrame_5C1B84))
             {
                 return;
             }
 
-            field_120_state.door = DoorStates::eAbeComesIn_0;
+            field_120_state.door = AbeDoorStates::eAbeComesIn_0;
             if (field_100_pCollisionLine)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -8075,7 +8077,7 @@ void Abe::Motion_115_DoorExit_459A40()
                                         FP_GetExponent(field_B8_xpos),
                                         FP_GetExponent(field_BC_ypos),
                                         TlvTypes::Door_5))
-                ->field_40_close_after_use)
+                ->field_40_close_on_exit == Choice_short::eYes_1)
         {
             // TODO: Ret ignored even in real ??
             FindObjectOfType_425180(
@@ -8092,7 +8094,7 @@ void Abe::Motion_115_DoorExit_459A40()
                     break;
                 }
 
-                if (pObj->field_4_typeId == AETypes::eDoor_33)
+                if (pObj->Type() == AETypes::eDoor_33)
                 {
                     Door* pDoor = static_cast<Door*>(pObj);
                     if (pDoor->field_FA_door_number == field_1A0_door_id)
@@ -8482,7 +8484,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
     if (pSlappableOrCollectable)
     {
         bool trySlapOrCollect = false;
-        switch (pSlappableOrCollectable->field_4_typeId)
+        switch (pSlappableOrCollectable->Type())
         {
             case AETypes::eTimedMine_or_MovingBomb_10:
             case AETypes::eUXB_143:
@@ -8560,7 +8562,7 @@ s16 Abe::ToLeftRightMovement_44E340()
 
     const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
     const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-    const BOOL flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    const Bool32 flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
 
     if ((flipX && (pressed & sInputKey_Right_5550D0)) || (!flipX && (pressed & sInputKey_Left_5550D4)))
     {
@@ -8666,7 +8668,7 @@ s16 Abe::TryEnterMineCar_4569E0()
                 PSX_RECT mineCarRect = {};
                 pObj->vGetBoundingRect_424FD0(&mineCarRect, 1);
 
-                if (PSX_Rects_overlap_no_adjustment(&abeRect, &mineCarRect) && pObj->field_CC_sprite_scale == field_CC_sprite_scale && pObj->field_4_typeId == AETypes::eMineCar_89)
+                if (PSX_Rects_overlap_no_adjustment(&abeRect, &mineCarRect) && pObj->field_CC_sprite_scale == field_CC_sprite_scale && pObj->Type() == AETypes::eMineCar_89)
                 {
                     const FP distanceCheck = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5);
                     if (field_B8_xpos - pObj->field_B8_xpos < distanceCheck)
@@ -8697,7 +8699,7 @@ s32 Abe::NearDoorIsOpen_44EE10()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eDoor_33)
+        if (pObj->Type() == AETypes::eDoor_33)
         {
             auto pDoor = static_cast<Door*>(pObj);
             if (FP_Abs(field_B8_xpos - pDoor->field_B8_xpos) < FP_FromInteger(15) && FP_Abs(field_BC_ypos - pDoor->field_BC_ypos) < FP_FromInteger(20))
@@ -8812,7 +8814,8 @@ void Abe::MoveForward_44E9A0()
     if (field_100_pCollisionLine && (field_D6_scale != 0 ? 1 : 16) & (1 << field_100_pCollisionLine->field_8_type))
     {
         // Handle trap door collision.
-        if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36) // TODO: Enum type.
+        if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
+            field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
             if (pTrapdoor)
             {
@@ -8967,7 +8970,7 @@ s16 Abe::CrouchingGameSpeak_453E10()
     }
 }
 
-BOOL Abe::Is_Celling_Above_44E8D0()
+Bool32 Abe::Is_Celling_Above_44E8D0()
 {
     FP hitY = {};
     FP hitX = {};
@@ -9314,7 +9317,7 @@ void Abe::FallOnBombs_44EC10()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eMine_88 || pObj->field_4_typeId == AETypes::eUXB_143)
+        if (pObj->Type() == AETypes::eMine_88 || pObj->Type() == AETypes::eUXB_143)
         {
             PSX_RECT objRect = {};
             pObj->vGetBoundingRect_424FD0(&objRect, 1);
@@ -9576,7 +9579,7 @@ PullRingRope* Abe::GetPullRope_44D120()
         }
 
         // Find a rope.
-        if (pObj->field_4_typeId == AETypes::ePullRope_103)
+        if (pObj->Type() == AETypes::ePullRope_103)
         {
             // Is it on the same scale as us?
             PullRingRope* pRope = static_cast<PullRingRope*>(pObj);
@@ -9842,7 +9845,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
             return 0;
         }
 
-        if (pObj->field_4_typeId == AETypes::eBrewMachine_13)
+        if (pObj->Type() == AETypes::eBrewMachine_13)
         {
             pBrewMachine = static_cast<BrewMachine*>(pObj);
 

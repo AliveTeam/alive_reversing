@@ -534,7 +534,7 @@ u16 InputObject::Released() const
     return sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_8_released;
 }
 
-BOOL CC Input_IsChanting_4334C0()
+Bool32 CC Input_IsChanting_4334C0()
 {
     return Input_IsChanting_45F260();
 }
@@ -578,13 +578,19 @@ void Input_InitKeyStateArray_48E5F0()
     Input_InitKeyStateArray_4EDD60();
 }
 
-EXPORT const char_type* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails)
+const char_type* Input_GetButtonString(InputCommands inputCommand, bool forceKeyboardLookupIfGamepadFails)
 {
-    const auto aeBits = static_cast<::InputCommands::Enum>(AOInputCommandsToAEInputCommands(MakeAOInputBits(input_command)).Raw().all);
+    const auto aeBits = static_cast<::InputCommands::Enum>(AOInputCommandsToAEInputCommands(MakeAOInputBits(inputCommand)).Raw().all);
     s32 controller_type = forceKeyboardLookupIfGamepadFails ? 2 : 1;
+
     return ::Input_GetButtonString_492530(
         AEInputCommandToAEInputString(aeBits),
         Input_JoyStickEnabled() ? controller_type : 0);
+}
+
+EXPORT const char_type* CC Input_GetButtonString_44F1C0(InputCommands inputCommand)
+{
+    return Input_GetButtonString(inputCommand);
 }
 
 EXPORT s32 CC Input_Remap_44F300(InputCommands inputCmd)

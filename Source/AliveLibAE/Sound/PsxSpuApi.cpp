@@ -8,6 +8,7 @@
 #include "Sys.hpp"      // SYS_GetTicks
 #include "PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
 #include "../AliveLibAE/Io.hpp"
+#include <assert.h>
 
 struct VagAtr final
 {
@@ -65,7 +66,7 @@ ALIVE_VAR(1, 0xC14080, MidiChannels, sMidi_Channels_C14080, {});
 ALIVE_VAR(1, 0xC13400, MidiSeqSongsTable, sMidiSeqSongs_C13400, {});
 ALIVE_VAR(1, 0xbd1cf4, s32, sMidi_Inited_dword_BD1CF4, 0);
 ALIVE_VAR(1, 0xbd1cec, u32, sMidiTime_BD1CEC, 0);
-ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, 1);
+ALIVE_VAR(1, 0xbd1ce8, Bool32, sSoundDatIsNull_BD1CE8, 1);
 ALIVE_VAR(1, 0xbd1ce4, s8, sbDisableSeqs_BD1CE4, 0);
 ALIVE_VAR(1, 0x578E20, u32, sLastTime_578E20, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xbd1cf0, u32, sMidi_WaitUntil_BD1CF0, 0);
@@ -140,7 +141,7 @@ public:
         return sMidiTime_BD1CEC;
     }
 
-    virtual BOOL& sSoundDatIsNull() override
+    virtual Bool32& sSoundDatIsNull() override
     {
         return sSoundDatIsNull_BD1CE8;
     }
@@ -304,7 +305,7 @@ EXPORT s32 CC sub_4FC440(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx
 }
 
 // TODO: Reverse/refactor properly
-EXPORT BOOL CC sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx)
+EXPORT Bool32 CC sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx)
 {
     return sub_4FC440(pVabHeader, pVabBody, idx) < 0;
 }
@@ -628,7 +629,7 @@ EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 lef
                 if (midiChannel >= 0)
                 {
                     MIDI_Channel* pChannel = &gSpuVars->sMidi_Channels().channels[midiChannel];
-                    const BOOL bUnknown = pVagIter->field_0_adsr_attack || pVagIter->field_2_adsr_sustain_level || pVagIter->field_4_adsr_decay != 16 || pVagIter->field_6_adsr_release >= 33u;
+                    const Bool32 bUnknown = pVagIter->field_0_adsr_attack || pVagIter->field_2_adsr_sustain_level || pVagIter->field_4_adsr_decay != 16 || pVagIter->field_6_adsr_release >= 33u;
                     pChannel->field_C_vol = maxPan;
                     if (bUnknown)
                     {

@@ -2,9 +2,8 @@
 #include "Function.hpp"
 #include "ExportHooker.hpp"
 #include "BaseGameObject.hpp"
-#include "pch_shared.h"
 #include "Game.hpp"
-#include "..\AliveLibAO\WinMain.hpp"
+#include "../AliveLibAO/WinMain.hpp"
 
 bool RunningAsInjectedDll()
 {

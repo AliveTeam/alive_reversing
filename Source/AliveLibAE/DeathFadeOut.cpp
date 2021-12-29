@@ -29,7 +29,7 @@ DeathFadeOut* DeathFadeOut::ctor_427030(Layer layer, s16 direction, s16 destroyO
 {
     ctor_4AB7A0(layer, abr);
     SetVTable(this, 0x544DA0); // vTbl_DeathFadeOut_00544DA0
-    field_4_typeId = AETypes::eMainMenuTransistion_116;
+    SetType(AETypes::eMainMenuTransistion_116);
 
     if (direction)
     {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 
@@ -81,7 +81,7 @@ ALIVE_ASSERT_SIZEOF(Path_Slig, 0x58);
     ENTRY(Motion_10_SlidingTurn_469F10)       \
     ENTRY(Motion_11_SlidingTurnToWalk_46A120) \
     ENTRY(Motion_12_SlidingTurnToRun_46A160)  \
-    ENTRY(Motion_13_Reload_4687B0)            \
+    ENTRY(Motion_13_ReloadGun_4687B0)            \
     ENTRY(Motion_14_ShootToStand_468810)      \
     ENTRY(Motion_15_SteppingToStand_469080)   \
     ENTRY(Motion_16_StandingToStep_468FD0)    \
@@ -262,7 +262,7 @@ public:
 
     EXPORT u8** ResBlockForMotion_4654D0(s16 motion);
 
-    EXPORT BOOL VIs8_465630(s16 motion);
+    EXPORT Bool32 VIs8_465630(s16 motion);
 
     EXPORT void ToShoot_46F1D0();
     EXPORT void ToZShoot_46F200();
@@ -301,7 +301,7 @@ public:
 
     EXPORT s16 GetNextMotionIncGameSpeak_467700(u16 input);
 
-    EXPORT static BOOL CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
+    EXPORT static Bool32 CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
 
     EXPORT static s16 CCSTD IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);
 
@@ -335,7 +335,7 @@ public:
     EXPORT void Motion_10_SlidingTurn_469F10();
     EXPORT void Motion_11_SlidingTurnToWalk_46A120();
     EXPORT void Motion_12_SlidingTurnToRun_46A160();
-    EXPORT void Motion_13_Reload_4687B0();
+    EXPORT void Motion_13_ReloadGun_4687B0();
     EXPORT void Motion_14_ShootToStand_468810();
     EXPORT void Motion_15_SteppingToStand_469080();
     EXPORT void Motion_16_StandingToStep_468FD0();

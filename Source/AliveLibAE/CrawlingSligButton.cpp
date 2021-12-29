@@ -23,7 +23,7 @@ CrawlingSligButton* CrawlingSligButton::ctor_4148F0(Path_CrawlingSligButton* pTl
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5444B4);
 
-    field_4_typeId = AETypes::eSligButton_16;
+    SetType(AETypes::eSligButton_16);
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -111,13 +111,13 @@ void CrawlingSligButton::vUpdate_414B20()
 
         if (old_switch_state != new_switch_state)
         {
-            const s16 sound_id = new_switch_state ? field_FC_on_sound : field_FE_off_sound;
-            if (sound_id)
+            const auto sound_id = new_switch_state ? field_FC_on_sound : field_FE_off_sound;
+            if (sound_id != CrawlingSligButtonSounds::None_0)
             {
                 SFX_Play_46FB10(
-                    stru_544488[sound_id].field_0_block_idx,
-                    stru_544488[sound_id].field_2_note + stru_544488[sound_id].field_4_pitch_min * (field_100_sound_direction & 2),
-                    stru_544488[sound_id].field_2_note + stru_544488[sound_id].field_4_pitch_min * (field_100_sound_direction & 1),
+                    stru_544488[static_cast<u16>(sound_id)].field_0_block_idx,
+                    stru_544488[static_cast<u16>(sound_id)].field_2_note + stru_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 2),
+                    stru_544488[static_cast<u16>(sound_id)].field_2_note + stru_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 1),
                     field_CC_sprite_scale);
             }
         }

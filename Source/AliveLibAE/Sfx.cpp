@@ -4,7 +4,7 @@
 #include "DebugHelpers.hpp"
 #include "Sound/Midi.hpp"
 #include "PathData.hpp"
-
+#include <assert.h>
 
 const SfxDefinition sSfxEntries_55C2A0[] = {
     {0u, 0u, 66u, 75u, 0, 0},
@@ -224,7 +224,7 @@ EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject
     if (pObj)
     {
         FP yOff = {};
-        if (pObj->field_4_typeId == AETypes::eFlyingSlig_54)
+        if (pObj->Type() == AETypes::eFlyingSlig_54)
         {
             yOff = FP_FromInteger(20); // 0xffec0000
         }

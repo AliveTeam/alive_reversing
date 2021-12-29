@@ -143,7 +143,7 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_66_LedgeHang_428D90,
     &Abe::Motion_67_ToOffScreenHoist_428C50,
     &Abe::Motion_68_LedgeHangWobble_428E50,
-    &Abe::Motion_69_RingRopePull_4299B0,
+    &Abe::Motion_69_RingRopePullHang_4299B0,
     &Abe::Motion_70_Knockback_428FB0,
     &Abe::Motion_71_KnockbackGetUp_429240,
     &Abe::Motion_72_PushWall_4292A0,
@@ -154,14 +154,14 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_77_WellBegin_430F10,
     &Abe::Motion_78_InsideWellLocal_4310A0,
     &Abe::Motion_79_WellShotOut_431730,
-    &Abe::Motion_80_430EF0,
+    &Abe::Motion_80_ToWellBegin_430EF0,
     &Abe::Motion_81_InsideWellExpress_431320,
     &Abe::Motion_82_WellExpressShotOut_4315A0,
-    &Abe::Motion_83_430F00,
-    &Abe::Motion_84_431080,
-    &Abe::Motion_85_431710,
+    &Abe::Motion_83_ToWellBegin_430F00,
+    &Abe::Motion_84_ToInsideWellLocal_431080,
+    &Abe::Motion_85_ToWellShotOut_431710,
     &Abe::Motion_86_FallLandDie_42EDD0,
-    &Abe::Motion_87_428FA0,
+    &Abe::Motion_87_ToFall_428FA0,
     &Abe::Motion_88_HandstoneBegin_430590,
     &Abe::Motion_89_HandstoneEnd_430E80,
     &Abe::Motion_90_GrenadeMachineUse_430EA0,
@@ -180,7 +180,7 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_103_ElumIdle_42DCD0,
     &Abe::Motion_104_ElumRunSlideStop_42DF00,
     &Abe::Motion_105_ElumRunTurn_42DF10,
-    &Abe::Motion_106_42DF20,
+    &Abe::Motion_106_Null_42DF20,
     &Abe::Motion_107_ElumHopBegin_42DF30,
     &Abe::Motion_108_ElumHopMid_42DF40,
     &Abe::Motion_109_ElumHopLand_42DF50,
@@ -190,10 +190,10 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_113_ElumTurn_42DF90,
     &Abe::Motion_114_ElumRunLoop_42DFA0,
     &Abe::Motion_115_ElumSpeak_4299F0,
-    &Abe::Motion_116_42DFB0,
+    &Abe::Motion_116_Null_42DFB0,
     &Abe::Motion_117_ElumWalkBegin_42DFC0,
     &Abe::Motion_118_ElumRunBegin_42DFD0,
-    &Abe::Motion_119_42DFE0,
+    &Abe::Motion_119_Null_42DFE0,
     &Abe::Motion_120_ElumRunToWalk_42DFF0,
     &Abe::Motion_121_ElumMidRunToWalk_42E000,
     &Abe::Motion_122_ElumRunTurnToRun_42E010,
@@ -240,7 +240,175 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_163_ShrykullEnd_42F520,
     &Abe::Motion_164_PoisonGasDeath_42A120};
 
-const s32 sAbeFrameOffsetTable_4C61A0[166] = {
+const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
+    AnimId::Mudokon_Idle,
+    AnimId::Mudokon_Walk,
+    AnimId::Mudokon_StandingTurn,
+    AnimId::Mudokon_Idle,
+    AnimId::Mudokon_WalkToIdle,
+    AnimId::Mudokon_WalkToIdle,
+    AnimId::Mudokon_WalkBegin,
+    AnimId::Mudokon_Speak1,
+    AnimId::Mudokon_Speak3,
+    AnimId::Mudokon_Speak2,
+    AnimId::Mudokon_SpeakFart,
+    AnimId::Mudokon_Speak1,
+    AnimId::Mudokon_Speak2,
+    AnimId::Mudokon_Speak3,
+    AnimId::Mudokon_SpeakFart,
+    AnimId::Mudokon_AO_M_15_Null,
+    AnimId::Mudokon_HoistBegin,
+    AnimId::Mudokon_HoistIdle,
+    AnimId::Mudokon_AO_Unknown4, // LandSoft but different from regular mudokon?
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchToStand,
+    AnimId::Mudokon_StandToCrouch,
+    AnimId::Mudokon_CrouchSpeak1,
+    AnimId::Mudokon_CrouchSpeak2,
+    AnimId::Mudokon_RollBegin,
+    AnimId::Mudokon_Rolling,
+    AnimId::Mudokon_RollingEnd_Unused,
+    AnimId::Mudokon_RunSlideStop,
+    AnimId::Mudokon_RunSlideTurn,
+    AnimId::Mudokon_HopBegin,
+    AnimId::Mudokon_HopMid,
+    AnimId::Mudokon_HopLand,
+    AnimId::Mudokon_RunJumpBegin,
+    AnimId::Mudokon_RunJumpMid,
+    AnimId::Mudokon_RunJumpLand,
+    AnimId::Mudokon_Run,
+    AnimId::Mudokon_DunnoBegin,
+    AnimId::Mudokon_DunnoMid,
+    AnimId::Mudokon_DunnoEnd,
+    AnimId::Mudokon_CrouchTurn,
+    AnimId::Mudokon_RunToRoll,
+    AnimId::Mudokon_StandToRun,
+    AnimId::Mudokon_Sneak,
+    AnimId::Mudokon_WalkToSneak,
+    AnimId::Mudokon_SneakToWalk,
+    AnimId::Mudokon_MidWalkToSneak,
+    AnimId::Mudokon_MidSneakToWalk,
+    AnimId::Mudokon_SneakBegin,
+    AnimId::Mudokon_SneakToIdle,
+    AnimId::Mudokon_MidSneakToIdle,
+    AnimId::Mudokon_WalkToRun,
+    AnimId::Mudokon_MidWalkToRun,
+    AnimId::Mudokon_RunToWalk,
+    AnimId::Mudokon_MidRunToWalk,
+    AnimId::Mudokon_RunTurnToRun,
+    AnimId::Mudokon_RunTurnToWalk,
+    AnimId::Mudokon_RunJumpLandRun,
+    AnimId::Mudokon_RunJumpLandWalk,
+    AnimId::Mudokon_ToSpeak,
+    AnimId::Mudokon_CrouchIdle, // double check these
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_CrouchIdle,
+    AnimId::Mudokon_TurnToRun,
+    AnimId::Mudokon_LedgeAscend,
+    AnimId::Mudokon_LedgeDescend,
+    AnimId::Mudokon_LedgeHang,
+    AnimId::Mudokon_LedgeHang,
+    AnimId::Mudokon_LedgeHangWobble,
+    AnimId::Mudokon_RingRopePullHang,
+    AnimId::Mudokon_Knockback,
+    AnimId::Mudokon_KnockbackGetUp,
+    AnimId::Mudokon_PushWall,
+    AnimId::Mudokon_RollingKnockback,
+    AnimId::Mudokon_JumpIntoWell,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_WellBegin,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_WellBegin,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_WellBegin,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_Well_Idle,
+    AnimId::Mudokon_AO_Unknown3, // FallLandDie but AnimId already used?? or did i mess up the order
+    AnimId::Mudokon_AO_Unknown2, // to fall
+    AnimId::Mudokon_HandstoneBegin, 
+    AnimId::Mudokon_HandstoneEnd,
+    AnimId::Mudokon_GrenadeMachineUse,
+    AnimId::Mudokon_Fall,
+    AnimId::Mudokon_Fall,
+    AnimId::Mudokon_WalkOffEdge,
+    AnimId::Mudokon_RunOffEdge,
+    AnimId::Mudokon_SneakOffEdge,
+    AnimId::Mudokon_HopToFall,
+    AnimId::Mudokon_RunJumpToFall,
+    AnimId::Mudokon_LandSoft,
+    AnimId::Mudokon_AO_Unknown1, // ledge hoist up
+    AnimId::Mudokon_RollOffEdge,
+    AnimId::Mudokon_LeverUse,
+    AnimId::Mudokon_ElumWalkLoop,
+    AnimId::Mudokon_ElumIdle,
+    AnimId::Mudokon_ElumRunSlideStop,
+    AnimId::Mudokon_ElumRunTurn,
+    AnimId::Mudokon_AO_M_106_Null,
+    AnimId::Mudokon_ElumHopBegin,
+    AnimId::Mudokon_ElumHopMid,
+    AnimId::Mudokon_ElumHopLand,
+    AnimId::Mudokon_ElumRunJumpBegin,
+    AnimId::Mudokon_ElumRunJumpMid,
+    AnimId::Mudokon_ElumRunJumpLand,
+    AnimId::Mudokon_ElumTurn,
+    AnimId::Mudokon_ElumRunLoop,
+    AnimId::Mudokon_ElumSpeak,
+    AnimId::Mudokon_AO_M_116_Null,
+    AnimId::Mudokon_ElumWalkBegin,
+    AnimId::Mudokon_ElumRunBegin,
+    AnimId::Mudokon_AO_M_119_Null,
+    AnimId::Mudokon_ElumRunToWalk,
+    AnimId::Mudokon_ElumMidRunToWalk,
+    AnimId::Mudokon_ElumRunTurnToRun,
+    AnimId::Mudokon_ElumRunTurnToWalk,
+    AnimId::Mudokon_ElumWalkEnd,
+    AnimId::Mudokon_ElumMidWalkEnd,
+    AnimId::Mudokon_ElumBeesStruggling,
+    AnimId::Mudokon_SlapBomb,
+    AnimId::Mudokon_FallLandDie, // knock forward?
+    AnimId::Mudokon_RollingKnockForward,
+    AnimId::Mudokon_Idle, // knock forward get up?
+    AnimId::Mudokon_AO_Null, // lift use up
+    AnimId::Mudokon_AO_LiftUse, // lift use down
+    AnimId::Mudokon_LiftGrabBegin,
+    AnimId::Mudokon_LiftGrabEnd,
+    AnimId::Mudokon_LiftGrabIdle,
+    AnimId::Mudokon_ElumMountEnd,
+    AnimId::Mudokon_ElumUnmountBegin,
+    AnimId::Mudokon_ElumUnmountEnd,
+    AnimId::Mudokon_ElumMountBegin,
+    AnimId::Mudokon_Struggle,
+    AnimId::Mudokon_Struggle,
+    AnimId::Mudokon_RockThrowStandingHold,
+    AnimId::Mudokon_RockThrowStandingThrow,
+    AnimId::Mudokon_RockThrowStandingEnd,
+    AnimId::Mudokon_RockThrowCrouchingHold,
+    AnimId::Mudokon_RockThrowCrouchingThrow,
+    AnimId::Mudokon_ZShotRolling,
+    AnimId::Mudokon_ZShot,
+    AnimId::Mudokon_PickupItem,
+    AnimId::Mudokon_Chant,
+    AnimId::Mudokon_ChantEnd,
+    AnimId::Mudokon_ElumFallOffEdge,
+    AnimId::Mudokon_ElumFall,
+    AnimId::Mudokon_ElumLand,
+    AnimId::Mudokon_ElumJumpToFall,
+    AnimId::Mudokon_DoorEnter,
+    AnimId::Mudokon_DoorExit,
+    AnimId::Mudokon_ElumKnockback,
+    AnimId::Mudokon_Idle_RubEyes,
+    AnimId::Mudokon_Idle_StretchArms,
+    AnimId::Mudokon_Idle_Yawn,
+    AnimId::Mudokon_AO_ToShrykull,
+    AnimId::Mudokon_AO_ShrykullEnd,
+    AnimId::Mudokon_PoisonGasDeath,
+    AnimId::None};
+
+/*const s32 sAbeFrameOffsetTable_4C61A0[166] = {
     55968,
     55888,
     56144,
@@ -406,9 +574,7 @@ const s32 sAbeFrameOffsetTable_4C61A0[166] = {
     8240,
     8280,
     27748,
-    0};
-
-
+    0};*/
 
 ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
 ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
@@ -1025,7 +1191,7 @@ void Abe::vUpdate_41FDB0()
             const FP old_y = field_AC_ypos;
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
             field_E8_LastLineYPos = old_y;
-            field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+            field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
             field_F4_pLine = nullptr;
 
             if (Input().IsAnyPressed(0xF000u))
@@ -1136,8 +1302,9 @@ void Abe::vUpdate_41FDB0()
 
                     if (field_FC_current_motion != eAbeMotions::Motion_15_Null_42A210 && !field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
+                        const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion]);
                         field_10_anim.Set_Animation_Data_402A40(
-                            sAbeFrameOffsetTable_4C61A0[field_FC_current_motion],
+                            rec.mFrameTableOffset,
                             StateToAnimResource_4204F0(field_FC_current_motion));
 
                         field_12C_timer = gnFrameCount_507670;
@@ -1151,8 +1318,9 @@ void Abe::vUpdate_41FDB0()
                 else if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit2_return_to_previous_motion))
                 {
                     field_FC_current_motion = field_E4_previous_motion;
+                    const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion]);
                     field_10_anim.Set_Animation_Data_402A40(
-                        sAbeFrameOffsetTable_4C61A0[field_FC_current_motion],
+                        rec.mFrameTableOffset,
                         StateToAnimResource_4204F0(field_FC_current_motion));
 
                     field_12C_timer = gnFrameCount_507670;
@@ -1196,7 +1364,7 @@ void Abe::vUpdate_41FDB0()
                     auto pMusicTrigger = ao_new<MusicTrigger>();
                     if (pMusicTrigger)
                     {
-                        pMusicTrigger->ctor_443A60(1, 1, 0, 90);
+                        pMusicTrigger->ctor_443A60(1, TriggeredBy::eTouching_1, 0, 90);
                     }
                 }
 
@@ -1295,7 +1463,7 @@ void Abe::vRender_420F30(PrimHeader** ppOt)
         field_10_anim.field_14_scale = field_BC_sprite_scale;
     }
 
-    if (field_FC_current_motion != eAbeMotions::Motion_15_Null_42A210 && field_FC_current_motion != eAbeMotions::Motion_78_InsideWellLocal_4310A0 && field_FC_current_motion != eAbeMotions::Motion_81_InsideWellExpress_431320 && field_FC_current_motion != eAbeMotions::Motion_84_431080 && field_FC_current_motion != eAbeMotions::Motion_75_ToInsideOfAWellLocal_431090)
+    if (field_FC_current_motion != eAbeMotions::Motion_15_Null_42A210 && field_FC_current_motion != eAbeMotions::Motion_78_InsideWellLocal_4310A0 && field_FC_current_motion != eAbeMotions::Motion_81_InsideWellExpress_431320 && field_FC_current_motion != eAbeMotions::Motion_84_ToInsideWellLocal_431080 && field_FC_current_motion != eAbeMotions::Motion_75_ToInsideOfAWellLocal_431090)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -1399,7 +1567,7 @@ void Abe::ToDeathDropFall_42C3D0()
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 1, 0);
 }
 
-BOOL Abe::IsStanding_41FC10()
+Bool32 Abe::IsStanding_41FC10()
 {
     return field_FC_current_motion == eAbeMotions::Motion_0_Idle_423520
         || field_FC_current_motion == eAbeMotions::Motion_1_WalkLoop_423F90
@@ -1665,7 +1833,7 @@ u8** Abe::StateToAnimResource_4204F0(s16 motion)
     {
         res_idx = 37;
     }
-    else if (motion < eAbeMotions::Motion_87_428FA0)
+    else if (motion < eAbeMotions::Motion_87_ToFall_428FA0)
     {
         res_idx = 9;
     }
@@ -1792,12 +1960,12 @@ u8** Abe::StateToAnimResource_4204F0(s16 motion)
     {
         if (res_idx != 45 && res_idx != 46)
         {
-            s32 v7 = res_idx + 10;
+            s32 resourceID = res_idx + 10;
             if (res_idx >= 46)
             {
-                v7 = res_idx + 54;
+                resourceID = res_idx + 54;
             }
-            field_1A4_resources.res[res_idx] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, v7, 1, 0);
+            field_1A4_resources.res[res_idx] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
         }
     }
     field_128_resource_idx = res_idx;
@@ -1835,14 +2003,16 @@ void Abe::MoveForward_422FC0()
     {
         if (field_F8_pLiftPoint)
         {
-            if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+            if (field_F4_pLine->field_8_type != eLineTypes ::eUnknown_32 &&
+                field_F4_pLine->field_8_type != eLineTypes::eUnknown_36)
             {
                 field_F8_pLiftPoint->VRemove(this);
                 field_F8_pLiftPoint->field_C_refCount--;
                 field_F8_pLiftPoint = nullptr;
             }
         }
-        else if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+        else if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 ||
+                field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
@@ -2104,7 +2274,7 @@ void Abe::SyncToElum_42D850(s16 elumMotion)
                 break;
 
             case eElumMotions::Motion_7_IdleToWalk1_413200:
-                field_FC_current_motion = eAbeMotions::Motion_116_42DFB0;
+                field_FC_current_motion = eAbeMotions::Motion_116_Null_42DFB0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
@@ -2203,7 +2373,7 @@ void Abe::SyncToElum_42D850(s16 elumMotion)
                 break;
 
             case eElumMotions::Motion_40_WalkToRun_4134B0:
-                field_FC_current_motion = eAbeMotions::Motion_119_42DFE0;
+                field_FC_current_motion = eAbeMotions::Motion_119_Null_42DFE0;
                 ToNewElumSyncMotion_422520(gElum_507680->field_10_anim.field_92_current_frame);
                 break;
 
@@ -2443,7 +2613,7 @@ s16 Abe::ToLeftRightMovement_422AA0()
     }
 
     const FP gridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
-    const BOOL flipX = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    const Bool32 flipX = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
 
     if ((flipX && Input().IsAnyPressed(sInputKey_Right_4C6590)) || (!flipX && Input().IsAnyPressed(sInputKey_Left_4C6594)))
     {
@@ -2522,7 +2692,11 @@ void Abe::MoveWithVelocity_4257F0(FP speed)
 
 void Abe::ToNewElumSyncMotion_422520(s16 elum_frame)
 {
-    field_10_anim.Set_Animation_Data_402A40(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion], StateToAnimResource_4204F0(field_FC_current_motion));
+    const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion]);
+    field_10_anim.Set_Animation_Data_402A40(
+        rec.mFrameTableOffset,
+        StateToAnimResource_4204F0(field_FC_current_motion));
+
     field_12C_timer = gnFrameCount_507670;
     field_10_anim.SetFrame_402AC0(elum_frame + 1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, gElum_507680->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX));
@@ -2614,7 +2788,11 @@ void Abe::ElumKnockForward_42E780(s32 /*not_used*/)
     field_FC_current_motion = eAbeMotions::Motion_128_KnockForward_429330;
     field_FE_next_motion = eAbeMotions::Motion_0_Idle_423520;
     field_108_bMotionChanged = 1;
-    field_10_anim.Set_Animation_Data_402A40(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion], StateToAnimResource_4204F0(eAbeMotions::Motion_128_KnockForward_429330));
+    const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[field_FC_current_motion]);
+    field_10_anim.Set_Animation_Data_402A40(
+        rec.mFrameTableOffset,
+        StateToAnimResource_4204F0(eAbeMotions::Motion_128_KnockForward_429330));
+
     sControlledCharacter_50767C = sActiveHero_507678;
     gElum_507680->field_154_bAbeForcedDownFromElum = 1;
 }
@@ -2850,7 +3028,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, this);
 }
 
-BOOL Abe::NearDoorIsOpen()
+Bool32 Abe::NearDoorIsOpen()
 {
     for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
@@ -3244,8 +3422,8 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
         case eAbeMotions::Motion_81_InsideWellExpress_431320:
         case eAbeMotions::Motion_82_WellExpressShotOut_4315A0:
         case eAbeMotions::Motion_83_430F00:
-        case eAbeMotions::Motion_84_431080:
-        case eAbeMotions::Motion_85_431710:
+        case eAbeMotions::Motion_84_ToInsideWellLocal_431080:
+        case eAbeMotions::Motion_85_ToWellShotOut_431710:
         case eAbeMotions::Motion_156_DoorEnter_42D370:
         case eAbeMotions::Motion_157_DoorExit_42D780:
         case eAbeMotions::Motion_162_ToShrykull_42F410:
@@ -4339,15 +4517,15 @@ void Abe::Motion_2_StandingTurn_426040()
 
 static bool isEdgeGrabbable(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_18_type == Path_Edge::Type::eLeft && pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eLeft && pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_18_type == Path_Edge::Type::eRight && !pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eRight && !pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_18_type == Path_Edge::Type::eBoth)
+    else if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eBoth)
     {
         return true;
     }
@@ -4410,10 +4588,10 @@ void Abe::Motion_3_Fall_42E7F0()
     {
         switch (pPathLine->field_8_type)
         {
-            case eFloor_0:
-            case eBackGroundFloor_4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
@@ -4457,10 +4635,10 @@ void Abe::Motion_3_Fall_42E7F0()
                     reinterpret_cast<TCollisionCallBack>(&BaseAliveGameObject::OnTrapDoorIntersection_401C10));
                 break;
             }
-            case eWallLeft_1:
-            case eWallRight_2:
-            case eBackGroundWallLeft_5:
-            case eBackGroundWallRight_6:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackGroundWallLeft_5:
+            case eLineTypes::eBackGroundWallRight_6:
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
                 ToKnockback_422D90(1, 1);
@@ -4486,7 +4664,7 @@ void Abe::Motion_3_Fall_42E7F0()
 
     if (pEdge)
     {
-        if (pEdge->field_1A_can_grab && isEdgeGrabbable(pEdge, this))
+        if (pEdge->field_1A_can_grab == Choice_short::eYes_1 && isEdgeGrabbable(pEdge, this))
         {
             tryToHang = true;
         }
@@ -4723,10 +4901,10 @@ void Abe::Motion_17_HoistIdle_4269E0()
     {
         switch (pPathLine->field_8_type)
         {
-            case eFloor_0:
-            case eBackGroundFloor_4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
@@ -4760,7 +4938,7 @@ void Abe::Motion_17_HoistIdle_4269E0()
     {
         if (field_160_pRope->Pull_454CB0(this))
         {
-            field_FC_current_motion = eAbeMotions::Motion_69_RingRopePull_4299B0;
+            field_FC_current_motion = eAbeMotions::Motion_69_RingRopePullHang_4299B0;
             field_FE_next_motion = eAbeMotions::Motion_0_Idle_423520;
             field_160_pRope->field_C_refCount++;
             return;
@@ -4812,7 +4990,8 @@ void Abe::Motion_17_HoistIdle_4269E0()
                     field_B8_vely = FP_FromInteger(0);
                     if (!field_F8_pLiftPoint)
                     {
-                        if (pPathLine->field_8_type == 32 || pPathLine->field_8_type == 36)
+                        if (pPathLine->field_8_type == eLineTypes::eUnknown_32 ||
+                            pPathLine->field_8_type == eLineTypes::eUnknown_36)
                         {
                             PSX_RECT rect = {};
                             VGetBoundingRect(&rect, 1);
@@ -5135,7 +5314,7 @@ void Abe::Motion_24_RollBegin_427A20()
     }
 }
 
-BOOL Abe::Is_Celling_Above()
+Bool32 Abe::Is_Celling_Above()
 {
     FP hitY = {};
     FP hitX = {};
@@ -5495,7 +5674,7 @@ void Abe::Motion_30_HopMid_4264D0()
 
             // this has to be called before SetActiveCameraDelayedFromDir_401C90,
             // due to both of them modifying the same private fields in a fixed order
-            BOOL hasCollidedWithAir = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
+            Bool32 hasCollidedWithAir = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
 
             SetActiveCameraDelayedFromDir_401C90();
 
@@ -5505,10 +5684,10 @@ void Abe::Motion_30_HopMid_4264D0()
                 Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
                 switch (pLine->field_8_type)
                 {
-                    case 0:
-                    case 4:
-                    case 32:
-                    case 36:
+                    case eLineTypes::eFloor_0:
+                    case eLineTypes::eBackGroundFloor_4:
+                    case eLineTypes::eUnknown_32:
+                    case eLineTypes::eUnknown_36:
                     {
                         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, this);
                         field_F4_pLine = pLine;
@@ -5662,8 +5841,8 @@ void Abe::Motion_33_RunJumpMid_426FA0()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackGroundFloor_4:
-            case 32:
-            case 36:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 field_F4_pLine = pLine;
                 field_FC_current_motion = eAbeMotions::Motion_34_RunJumpLand_427560;
@@ -5675,7 +5854,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 rect.y += 5;
                 rect.h += 5;
 
-                if (pLine->field_8_type == 32)
+                if (pLine->field_8_type == eLineTypes::eUnknown_32)
                 {
                     VOnCollisionWith(
                         {rect.x, rect.y},
@@ -5717,7 +5896,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 FP_GetExponent(field_AC_ypos),
                 TlvTypes::Edge_4));
             field_F0_pTlv = pEdgeTlv;
-            if (pEdgeTlv && pEdgeTlv->field_1A_can_grab)
+            if (pEdgeTlv && pEdgeTlv->field_1A_can_grab == Choice_short::eYes_1)
             {
                 if (isEdgeGrabbable(pEdgeTlv, this))
                 {
@@ -5749,7 +5928,8 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 field_FE_next_motion = eAbeMotions::Motion_0_Idle_423520;
                 if (!field_F8_pLiftPoint)
                 {
-                    if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+                    if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
+                        pLine->field_8_type == eLineTypes::eUnknown_36)
                     {
                         PSX_RECT rect = {};
                         VGetBoundingRect(&rect, 1);
@@ -7424,7 +7604,8 @@ void Abe::Motion_67_ToOffScreenHoist_428C50()
         field_B8_vely = FP_FromInteger(0);
         if (!field_F8_pLiftPoint)
         {
-            if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+            if (field_F4_pLine->field_8_type == eLineTypes ::eUnknown_32 ||
+                field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
@@ -7503,7 +7684,7 @@ void Abe::Motion_68_LedgeHangWobble_428E50()
     }
 }
 
-void Abe::Motion_69_RingRopePull_4299B0()
+void Abe::Motion_69_RingRopePullHang_4299B0()
 {
     if (field_160_pRope->vIsNotBeingPulled_454D60())
     {
@@ -7742,7 +7923,7 @@ void Abe::Motion_77_WellBegin_430F10()
             }
             case eAbeMotions::Motion_83_430F00:
             {
-                field_FC_current_motion = eAbeMotions::Motion_84_431080;
+                field_FC_current_motion = eAbeMotions::Motion_84_ToInsideWellLocal_431080;
                 break;
             }
             case eAbeMotions::Motion_74_JumpIntoWell_430EC0:
@@ -7867,7 +8048,7 @@ void Abe::Motion_79_WellShotOut_431730()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted)
         || (field_FC_current_motion != eAbeMotions::Motion_79_WellShotOut_431730
-            && field_FC_current_motion != eAbeMotions::Motion_85_431710
+            && field_FC_current_motion != eAbeMotions::Motion_85_ToWellShotOut_431710
             && field_FC_current_motion != eAbeMotions::Motion_76_ToWellShotOut_431720))
     {
         if (field_BC_sprite_scale == FP_FromDouble(0.5))
@@ -7889,7 +8070,7 @@ void Abe::Motion_79_WellShotOut_431730()
     }
 }
 
-void Abe::Motion_80_430EF0()
+void Abe::Motion_80_ToWellBegin_430EF0()
 {
     Motion_77_WellBegin_430F10();
 }
@@ -8054,17 +8235,17 @@ void Abe::Motion_82_WellExpressShotOut_4315A0()
     }
 }
 
-void Abe::Motion_83_430F00()
+void Abe::Motion_83_ToWellBegin_430F00()
 {
     Motion_77_WellBegin_430F10();
 }
 
-void Abe::Motion_84_431080()
+void Abe::Motion_84_ToInsideWellLocal_431080()
 {
     Motion_78_InsideWellLocal_4310A0();
 }
 
-void Abe::Motion_85_431710()
+void Abe::Motion_85_ToWellShotOut_431710()
 {
     Motion_79_WellShotOut_431730();
 }
@@ -8094,7 +8275,7 @@ void Abe::Motion_86_FallLandDie_42EDD0()
     }
 }
 
-void Abe::Motion_87_428FA0()
+void Abe::Motion_87_ToFall_428FA0()
 {
     Motion_3_Fall_42E7F0();
 }
@@ -8446,7 +8627,7 @@ void Abe::Motion_91_FallingFromGrab_429780()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
 
     Motion_3_Fall_42E7F0();
@@ -8478,7 +8659,7 @@ void Abe::Motion_93_WalkOffEdge_429840()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
     Motion_3_Fall_42E7F0();
 }
@@ -8487,7 +8668,7 @@ void Abe::Motion_94_RunOffEdge_429860()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
     Motion_3_Fall_42E7F0();
 }
@@ -8496,7 +8677,7 @@ void Abe::Motion_95_SneakOffEdge_429880()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
     Motion_3_Fall_42E7F0();
 }
@@ -8516,7 +8697,7 @@ void Abe::Motion_96_HopToFall_4298A0()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
 
     Motion_3_Fall_42E7F0();
@@ -8526,7 +8707,7 @@ void Abe::Motion_97_RunJumpToFall_429930()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
     Motion_3_Fall_42E7F0();
 }
@@ -8585,7 +8766,7 @@ void Abe::Motion_100_RollOffLedge_429950()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eAbeMotions::Motion_87_428FA0;
+        field_FC_current_motion = eAbeMotions::Motion_87_ToFall_428FA0;
     }
     Motion_3_Fall_42E7F0();
 }
@@ -8679,7 +8860,7 @@ void Abe::Motion_105_ElumRunTurn_42DF10()
     // Empty
 }
 
-void Abe::Motion_106_42DF20()
+void Abe::Motion_106_Null_42DF20()
 {
     // Empty
 }
@@ -8734,7 +8915,7 @@ void Abe::Motion_115_ElumSpeak_4299F0()
     }
 }
 
-void Abe::Motion_116_42DFB0()
+void Abe::Motion_116_Null_42DFB0()
 {
     // Empty
 }
@@ -8749,7 +8930,7 @@ void Abe::Motion_118_ElumRunBegin_42DFD0()
     // Empty
 }
 
-void Abe::Motion_119_42DFE0()
+void Abe::Motion_119_Null_42DFE0()
 {
     // Empty
 }
@@ -9133,7 +9314,8 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
 
         if (field_F8_pLiftPoint)
         {
-            if (field_F4_pLine->field_8_type != 32 && field_F4_pLine->field_8_type != 36)
+            if (field_F4_pLine->field_8_type != eLineTypes ::eUnknown_32 &&
+                field_F4_pLine->field_8_type != eLineTypes::eUnknown_36)
             {
                 field_E4_previous_motion = field_FC_current_motion;
                 VOnTrapDoorOpen();
@@ -9142,7 +9324,8 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
         }
         else
         {
-            if (field_F4_pLine->field_8_type == 32 || field_F4_pLine->field_8_type == 36)
+            if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 ||
+                field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);

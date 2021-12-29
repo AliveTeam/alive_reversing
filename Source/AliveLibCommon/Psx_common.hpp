@@ -1,6 +1,7 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/Types.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "FixedPoint_common.hpp"
 
 struct CdlLOC final
@@ -91,7 +92,7 @@ struct PSX_DISPENV final
 };
 // TODO: Size
 
-inline BOOL CC PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
+inline Bool32 CC PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 {
     return (pRect1->x <= pRect2->w && pRect1->w >= pRect2->x && pRect1->y <= pRect2->h && pRect1->h >= pRect2->y);
 }

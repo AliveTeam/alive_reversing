@@ -19,6 +19,7 @@
 #include "ObjectIds.hpp"
 #include "Sys_common.hpp"
 #include "Renderer/IRenderer.hpp"
+#include <gmock/gmock.h>
 
 // Frame call backs ??
 EXPORT s32 CC Animation_OnFrame_Common_Null_455F40(void*, s16*)
@@ -128,9 +129,7 @@ EXPORT s32 CC Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
 
-    if (pObj->field_4_typeId == AETypes::eAbe_69 ||
-        pObj->field_4_typeId == AETypes::eMudokon_110 ||
-        pObj->field_4_typeId == AETypes::eMudokon2_81)
+    if (pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eMudokon2_81)
     {
         LOG_ERROR("never expected pObj type id to be abe or mudokon in Animation_OnFrame_Common_434130");
         ALIVE_FATAL("got wrong type id");
@@ -185,7 +184,7 @@ s32 CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
         return 1;
     }
 
-    if ((pTarget->field_4_typeId == AETypes::eAbe_69 && pTarget->field_106_current_motion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if ((pTarget->Type() == AETypes::eAbe_69 && pTarget->field_106_current_motion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         return 1;
     }

@@ -44,13 +44,14 @@ BrewMachine* BrewMachine::ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo)
     SetVTable(this, 0x544424);
     SetVTable(&field_14C_anim, 0x544290);
 
-    field_4_typeId = AETypes::eBrewMachine_13;
+    SetType(AETypes::eBrewMachine_13);
 
     field_F4_font_context.LoadFontType_433400(2);
     field_104_font.ctor_433590(3, fontPalette_550F08, &field_F4_font_context);
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBrewButtonResID_6016);
-    Animation_Init_424E10(316, 19, 11, ppRes, 1, 1u);
+    const AnimRecord& rec = AnimRec(AnimId::BrewMachine_Button);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
@@ -59,7 +60,7 @@ BrewMachine* BrewMachine::ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo)
     field_DC_bApplyShadows &= ~1u;
     field_140_tlvInfo = tlvInfo;
     field_20_animation.field_C_render_layer = Layer::eLayer_Well_23;
-    field_1E4_remaining_brew_count = pTlv->field_10_num_brews;
+    field_1E4_remaining_brew_count = pTlv->field_10_brew_count;
 
     const u8 savedBrewCount = pTlv->field_1_tlv_state;
     if (savedBrewCount == 0)

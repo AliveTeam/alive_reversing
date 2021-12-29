@@ -42,12 +42,12 @@ MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, s32 tlvInfo)
     // Throw the meat up into the air as it falls from the sack
     field_11C_velY = -FP_FromRaw(pTlv->field_1C_y_vel << 8);
 
-    if (!pTlv->field_18_side)
+    if (pTlv->field_18_meat_fall_direction == XDirection_short::eLeft_0)
     {
         field_118_velX = -field_118_velX;
     }
 
-    if (pTlv->field_1E_scale == 1)
+    if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_8;
@@ -304,12 +304,12 @@ s16 Meat::VCanThrow_4390B0()
     return field_110_state == 2;
 }
 
-BOOL Meat::VCanEatMe()
+Bool32 Meat::VCanEatMe()
 {
     return VCanEatMe_4390C0();
 }
 
-BOOL Meat::VCanEatMe_4390C0()
+Bool32 Meat::VCanEatMe_4390C0()
 {
     return field_110_state != 0;
 }
@@ -377,10 +377,10 @@ void Meat::InTheAir_438720()
     {
         switch (field_124_pLine->field_8_type)
         {
-            case 0:
-            case 4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 if (field_B8_vely > FP_FromInteger(0))
                 {
                     field_110_state = 3;
@@ -398,8 +398,8 @@ void Meat::InTheAir_438720()
                 }
                 break;
 
-            case 1:
-            case 5:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eBackGroundWallLeft_5:
                 if (field_B4_velx >= FP_FromInteger(0))
                 {
                     field_124_pLine = nullptr;
@@ -422,8 +422,8 @@ void Meat::InTheAir_438720()
                 field_124_pLine = nullptr;
                 break;
 
-            case 2:
-            case 6:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackGroundWallRight_6:
                 if (field_B4_velx > FP_FromInteger(0))
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(4));
@@ -461,6 +461,7 @@ void Meat::VUpdate_438A20()
             field_6_flags.Set(Options::eDead_Bit3);
         }
 
+        // TODO: states enum
         switch (field_110_state)
         {
             case 1:
@@ -598,60 +599,7 @@ s16 Meat::OnCollision_438D80(BaseAliveGameObject* pHit)
 
 void Meat::AddToPlatform_438EA0()
 {
-    const FP scale = field_BC_sprite_scale - FP_FromDouble(0.5);
-
-    PathLine* pLine = nullptr;
-    FP hitX = {};
-    FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast_40C410(
-            field_A8_xpos,
-            field_AC_ypos - FP_FromInteger(20),
-            field_A8_xpos,
-            field_AC_ypos + FP_FromInteger(20),
-            &pLine,
-            &hitX,
-            &hitY,
-            scale != FP_FromInteger(0) ? 7 : 0x70))
-    {
-        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
-        {
-            for (s32 i = 0; i < ObjListPlatforms_50766C->Size(); i++)
-            {
-                BaseGameObject* pObjIter = ObjListPlatforms_50766C->ItemAt(i);
-                if (!pObjIter)
-                {
-                    break;
-                }
-
-                if (pObjIter->field_4_typeId == Types::eLiftPoint_51 || pObjIter->field_4_typeId == Types::eTrapDoor_98)
-                {
-                    auto pPlatformBase = static_cast<PlatformBase*>(pObjIter);
-
-                    PSX_RECT objRect = {};
-                    pPlatformBase->VGetBoundingRect(&objRect, 1);
-
-                    if (FP_GetExponent(field_A8_xpos) > objRect.x && FP_GetExponent(field_A8_xpos) < objRect.w && FP_GetExponent(field_AC_ypos) < objRect.h)
-                    {
-                        if (field_F8_pLiftPoint)
-                        {
-                            if (field_F8_pLiftPoint == pPlatformBase)
-                            {
-                                return;
-                            }
-                            field_F8_pLiftPoint->VRemove(this);
-                            field_F8_pLiftPoint->field_C_refCount--;
-                            field_F8_pLiftPoint = nullptr;
-                        }
-
-                        field_F8_pLiftPoint = pPlatformBase;
-                        field_F8_pLiftPoint->VAdd(this);
-                        field_F8_pLiftPoint->field_C_refCount++;
-                        return;
-                    }
-                }
-            }
-        }
-    }
+    BaseAddToPlatform();
 }
 
 void Meat::VOnTrapDoorOpen()

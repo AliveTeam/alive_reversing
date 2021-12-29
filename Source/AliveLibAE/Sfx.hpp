@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 
 enum SoundEffect
@@ -148,7 +148,7 @@ EXPORT s32 CC SFX_Play_46FB10(u8 sfxId, s32 leftVol, s32 rightVol, FP scale = FP
 EXPORT s32 CC SFX_Play_46FBA0(u8 sfxIdx, s16 volume, s32 pitch, FP scale = FP_FromInteger(1));
 EXPORT s32 CC SFX_Play_46FA90(u8 sfxIdx, s16 volume, FP scale = FP_FromInteger(1));
 EXPORT s32 CC SFX_Play_46FC20(u8 sfxId, s16 volume, CameraPos direction, FP scale = FP_FromInteger(1));
-EXPORT s32 CC SND_4CA5D0(s32 a1, s32 a2, s32 a3, s16 vol, s16 min, s16 max);
+EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max);
 
 enum class SligSpeak : s8
 {

@@ -53,7 +53,7 @@ void BirdPortal::VKillPortalClipper()
     VKillPortalClipper_453570();
 }
 
-BOOL BirdPortal::VStateIs20()
+Bool32 BirdPortal::VStateIs20()
 {
     return VStateIs20_453800();
 }
@@ -63,12 +63,12 @@ void BirdPortal::VExitPortal()
     VExitPortal_453720();
 }
 
-BOOL BirdPortal::VStateIs16()
+Bool32 BirdPortal::VStateIs16()
 {
     return VStateIs16_453710();
 }
 
-BOOL BirdPortal::VStateIs6()
+Bool32 BirdPortal::VStateIs6()
 {
     return VStateIs6_453700();
 }
@@ -238,7 +238,7 @@ BirdPortal* BirdPortal::ctor_4520A0(Path_BirdPortal* pTlv, s32 tlvInfo)
     field_10_portal_type = pTlv->field_24_portal_type;
     field_38_movie_id = pTlv->field_22_movie_id;
     field_56_num_muds_for_shrykull = pTlv->field_26_num_muds_for_shrykul;
-    if (pTlv->field_20_scale == 1)
+    if (pTlv->field_20_scale == Scale_short::eHalf_1)
     {
         field_34_scale = FP_FromDouble(0.5);
     }
@@ -541,7 +541,8 @@ void BirdPortal::VUpdate_4523D0()
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {
-                    u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, 1, 0);
+                    const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_Sparks);
+                    u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
                     if (ppLightRes)
                     {
                         auto pParticle = ao_new<Particle>();
@@ -550,9 +551,9 @@ void BirdPortal::VUpdate_4523D0()
                             pParticle->ctor_478880(
                                 field_40_pTerminator2->field_A8_xpos,
                                 (FP_FromInteger(10) * field_34_scale) + field_40_pTerminator2->field_AC_ypos,
-                                3708,
-                                31,
-                                69,
+                                rec.mFrameTableOffset,
+                                rec.mMaxW,
+                                rec.mMaxH,
                                 ppLightRes);
                         }
                         pParticle->field_CC_bApplyShadows &= ~1u;
@@ -668,7 +669,8 @@ void BirdPortal::VUpdate_4523D0()
 
             if (FP_GetExponent(field_3C_pTerminator1->field_AC_ypos) >= FP_GetExponent(field_40_pTerminator2->field_AC_ypos))
             {
-                u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortlitResID, 1, 0);
+                const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_Flash);
+                u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
                 if (ppLightRes)
                 {
                     auto pParticle_1 = ao_new<Particle>();
@@ -677,9 +679,9 @@ void BirdPortal::VUpdate_4523D0()
                         pParticle_1->ctor_478880(
                             field_40_pTerminator2->field_A8_xpos,
                             field_40_pTerminator2->field_AC_ypos,
-                            13352,
-                            145,
-                            74,
+                            rec.mFrameTableOffset,
+                            rec.mMaxW,
+                            rec.mMaxH,
                             ppLightRes);
                     }
                     pParticle_1->field_CC_bApplyShadows &= ~1u;
@@ -1004,12 +1006,12 @@ void BirdPortal::VKillPortalClipper_453570()
     }
 }
 
-BOOL BirdPortal::VStateIs6_453700()
+Bool32 BirdPortal::VStateIs6_453700()
 {
     return field_14_state == PortalStates::ActivePortal_6;
 }
 
-BOOL BirdPortal::VStateIs16_453710()
+Bool32 BirdPortal::VStateIs16_453710()
 {
     return field_14_state == PortalStates::State_16;
 }
@@ -1038,7 +1040,7 @@ void BirdPortal::VExitPortal_453720()
     field_18_xpos = field_20_exit_x;
     field_12_side = pPortalExitTlv->field_18_side;
 
-    if (pPortalExitTlv->field_1A_scale == 1)
+    if (pPortalExitTlv->field_1A_scale == Scale_short::eHalf_1)
     {
         field_34_scale = FP_FromDouble(0.5);
         sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_InBirdPortal_Half_11;
@@ -1055,7 +1057,7 @@ void BirdPortal::VExitPortal_453720()
     sActiveHero_507678->field_B0_path_number = gMap_507BA8.field_2_current_path;
 }
 
-BOOL BirdPortal::VStateIs20_453800()
+Bool32 BirdPortal::VStateIs20_453800()
 {
     return field_14_state == PortalStates::State_20;
 }

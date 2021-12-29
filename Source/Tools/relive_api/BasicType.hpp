@@ -2,11 +2,12 @@
 
 #include "BasicTypeBase.hpp"
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 
 #include <string>
 #include <typeinfo>
 
+namespace ReliveAPI {
 template <class T>
 class BasicType final : public BasicTypeBase
 {
@@ -16,3 +17,4 @@ public:
     {
     }
 };
+} // namespace ReliveAPI

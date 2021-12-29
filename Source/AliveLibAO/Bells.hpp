@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FixedPoint.hpp"
 
@@ -30,7 +30,7 @@ public:
 
     EXPORT Bells* Vdtor_40AB00(s32 flags);
 
-    EXPORT BOOL CanSmash_40AA70();
+    EXPORT Bool32 CanSmash_40AA70();
 
     EXPORT void Ring_40AA80();
 

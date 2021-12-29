@@ -1,17 +1,19 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "SwitchStates.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
 struct Path_BellHammer final : public Path_TLV
 {
     s16 field_18_id;
-    s16 field_1A_action;
-    s16 field_1C_scale;
-    s16 field_1E_direction;
+    SwitchOp field_1A_action;
+    Scale_short field_1C_scale;
+    XDirection_short field_1E_direction;
 };
 ALIVE_ASSERT_SIZEOF(Path_BellHammer, 0x20);
 

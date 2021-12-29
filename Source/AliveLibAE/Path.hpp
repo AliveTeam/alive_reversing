@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Psx.hpp"
-#include "BitField.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 #include "FixedPoint.hpp"
 #include <type_traits>
 
@@ -153,6 +153,22 @@ struct TlvTypes32 final
 static_assert(std::is_pod<TlvTypes32>::value, "TlvTypes32 must be pod");
 ALIVE_ASSERT_SIZEOF(TlvTypes32, 4);
 
+
+// NOTE: enum created for kPathChangeEffectToInternalScreenChangeEffect_55D55C
+enum ScreenChangeEffects : s16
+{
+    ePlay1FMV_0 = 0,
+    eRightToLeft_1 = 1,
+    eLeftToRight_2 = 2,
+    eBottomToTop_3 = 3,
+    eTopToBottom_4 = 4,
+    eBoxOut_5 = 5,
+    eVerticalSplit_6 = 6,
+    eHorizontalSplit_7 = 7,
+    eUnknown_8 = 8,
+    eInstantChange_9 = 9,
+};
+
 enum class Scale_short : s16
 {
     eFull_0 = 0,
@@ -165,16 +181,22 @@ enum class Scale_int : s32
     eHalf_1 = 1,
 };
 
-enum class Direction
+enum class XDirection_int : s32
 {
-    eLeft = 0,
-    eRight = 1,
+    eLeft_0 = 0,
+    eRight_1 = 1,
 };
 
 enum class XDirection_short : s16
 {
     eLeft_0 = 0,
     eRight_1 = 1,
+};
+
+enum class Choice_int : s32
+{
+    eNo_0 = 0,
+    eYes_1 = 1,
 };
 
 enum class Choice_short : s16
@@ -226,6 +248,21 @@ public:
 
     EXPORT Path_TLV* Get_First_TLV_For_Offsetted_Camera_4DB610(s16 cam_x_idx, s16 cam_y_idx);
     EXPORT static Path_TLV* CCSTD Next_TLV_4DB6A0(Path_TLV* pTlv);
+
+    // note: inline as used by the API
+    static Path_TLV* CCSTD Next_TLV(Path_TLV* pTlv)
+    {
+        if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+        {
+            return nullptr;
+        }
+
+        // Skip length bytes to get to the start of the next TLV
+        u8* ptr = reinterpret_cast<u8*>(pTlv);
+        u8* pNext = ptr + pTlv->field_2_length;
+        return reinterpret_cast<Path_TLV*>(pNext);
+    }
+
     EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes objectType, s16 camX);
     EXPORT Path_TLV* TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes objectType);
     EXPORT Path_TLV* TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
@@ -263,7 +300,7 @@ struct Path_Teleporter_Data
     LevelIds field_18_level;
     s16 field_1A_trigger_id;
     Scale_short field_1C_scale;
-    s16 field_1E_cam_swap_effect;
+    ScreenChangeEffects field_1E_cam_swap_effect;
     s16 field_20_movie_number;
     s16 field_22_eletric_x;
     s16 field_24_electric_y;
@@ -311,7 +348,7 @@ struct Path_Edge final : public Path_TLV
         eBoth = 2,
     };
     GrabDirection field_10_grab_direction;
-    s16 field_12_bCan_grab;
+    Choice_short field_12_bCan_grab;
 
     Scale_int field_14_scale;
 };

@@ -1,7 +1,7 @@
-#include "stdafx.h"
 #include "JsonUpgrader.hpp"
 #include "relive_api.hpp"
 
+namespace ReliveAPI {
 void JsonUpgraderBase::Upgrade(const std::string& /*jsonFile*/, s32 currentJsonVersion, s32 targetApiVersion)
 {
     UpgradeTargetIsValid(currentJsonVersion, targetApiVersion);
@@ -32,3 +32,4 @@ void JsonUpgraderBase::UpgradeTargetIsValid(s32 currentJsonVersion, s32 targetAp
 void DoNothingUpgrader::Upgrade()
 {
 }
+} // namespace ReliveAPI

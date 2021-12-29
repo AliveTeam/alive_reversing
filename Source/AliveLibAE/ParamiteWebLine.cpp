@@ -15,7 +15,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(&field_108_anim_flare, 0x544290);
     SetVTable(this, 0x547FA0);
-    field_4_typeId = AETypes::eWebLine_146;
+    SetType(AETypes::eWebLine_146);
     field_100_tlv_info = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);

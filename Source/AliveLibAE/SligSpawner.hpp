@@ -1,18 +1,24 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Psx.hpp"
 #include "Path.hpp"
 
 struct Path_Slig;
+
+enum class SpawnerStates : s16
+{
+    eInactive_0 = 0,
+    eSligSpawned_1 = 1,
+};
 
 struct Slig_Spawner_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;
     s32 field_4_tlvInfo;
-    s16 field_8_state;
+    SpawnerStates field_8_state;
     s16 field_A_padding;
     s32 field_C_spawned_slig_obj_id;
 };
@@ -39,9 +45,14 @@ private:
 private:
     s32 field_20_tlv_info;
     s16 field_24_slig_id;
-    s16 field_26_flags;
+    enum SpawnerFlags : s16
+    {
+        eBit1_DontDestroyTLV = 0x1,
+        eBit2_UnlimitedSpawns = 0x2,
+    };
+    BitField16<SpawnerFlags> field_26_flags;
     Path_TLV field_28_tlv;
-    s16 field_38_state;
+    SpawnerStates field_38_state;
     s16 field_3A_padding;
     s32 field_3C_spawned_slig_obj_id;
     s16 field_40_bFindSpawnedSlig;

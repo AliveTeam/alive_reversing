@@ -1,13 +1,18 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "PlatformBase.hpp"
 #include "Path.hpp"
 
 struct Path_TrapDoor final : public Path_TLV
 {
     s16 field_10_id;
-    s16 field_12_start_state;
+    enum StartState : s16
+    {
+        eOpen_0 = 0,
+        eClosed_1 = 1,
+    };
+    StartState field_12_start_state;
     Choice_short field_14_self_closing;
     Scale_short field_16_scale;
     s16 field_18_dest_level;

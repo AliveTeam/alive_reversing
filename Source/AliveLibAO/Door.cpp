@@ -337,7 +337,7 @@ Door* Door::Vdtor_40EDF0(s32 flags)
     return this;
 }
 
-BOOL Door::vIsOpen_40E800()
+Bool32 Door::vIsOpen_40E800()
 {
     return field_EC_current_state == DoorStates::eOpen_0;
 }
@@ -425,7 +425,7 @@ void Door::VUpdate_40E870()
                     auto pMusicTrigger = ao_new<MusicTrigger>();
                     if (pMusicTrigger)
                     {
-                        pMusicTrigger->ctor_443A60(5, 0, 0, 300);
+                        pMusicTrigger->ctor_443A60(5, TriggeredBy::eTimer_0, 0, 300);
                     }
                 }
                 SwitchStates_Do_Operation_436A10(field_F0_switch_id, SwitchOp::eSetTrue_0);

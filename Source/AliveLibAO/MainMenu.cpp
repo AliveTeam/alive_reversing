@@ -3501,7 +3501,6 @@ void Menu::SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt)
     const char_type* kErrStr = "Error loading save file";
 
     s16 xpos = 16;
-    const s32 fontWidth = field_FC_font.MeasureWidth_41C2B0(kErrStr);
     const s32 drawWidth = field_FC_font.DrawString_41C360(
         ppOt,
         kErrStr,
@@ -3948,7 +3947,7 @@ void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
 void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset)
 {
     char_type text[32] = {};
-    strcpy(text, Input_GetButtonString_44F1C0(static_cast<InputCommands>(input_command), false)); // TODO: Strongly type all the way back to the button structure
+    strcpy(text, Input_GetButtonString(static_cast<InputCommands>(input_command), false)); // TODO: Strongly type all the way back to the button structure
     const FP scale_fp = strlen(text) > 1 ? FP_FromDouble(0.64) : FP_FromDouble(0.84);
 
     if (text[0])

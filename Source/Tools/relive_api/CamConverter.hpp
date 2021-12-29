@@ -1,15 +1,21 @@
 #pragma once
 
+#include "../../AliveLibCommon/Types.hpp"
+#include <string>
+#include <vector>
+
+namespace ReliveAPI {
 class ChunkedLvlFile;
+class CameraImageAndLayers;
 
-class CamConverterAO final
+class CamConverter final
 {
 public:
-    CamConverterAO(const std::string& fileName, const ChunkedLvlFile& camFile);
+    CamConverter(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData);
+
+    static u32 CamBitsIdFromName(const std::string& pCamName);
 };
 
-class CamConverterAE final
-{
-public:
-    CamConverterAE(const std::string& fileName, const ChunkedLvlFile& camFile);
-};
+std::string RGB565ToBase64PngString(const u16* pRgb565Buffer);
+
+} // namespace ReliveAPI

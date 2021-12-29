@@ -2,9 +2,9 @@
 
 #include "ByteStream.hpp"
 
-#include "../AliveLibAE/LvlArchive.hpp"
+#include "../../AliveLibAE/LvlArchive.hpp"
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../../AliveLibCommon/FunctionFwd.hpp"
 #include "relive_api_exceptions.hpp"
 
 #include <cstddef>
@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+namespace ReliveAPI {
 [[nodiscard]] inline std::string ToString(const LvlFileRecord& rec)
 {
     size_t i = 0;
@@ -71,6 +72,11 @@ private:
 class ChunkedLvlFile final
 {
 public:
+    ChunkedLvlFile()
+    {
+
+    }
+
     explicit ChunkedLvlFile(const std::vector<u8>& data)
     {
         Read(data);
@@ -95,10 +101,26 @@ public:
         {
             if (chunk.Header().field_8_type == type)
             {
-                return { chunk };
+                return {chunk};
             }
         }
         return {};
+    }
+
+    void RemoveChunksOfType(u32 type)
+    {
+        auto it = mChunks.begin();
+        while (it != mChunks.end())
+        {
+            if (it->Header().field_8_type == type)
+            {
+                it = mChunks.erase(it);
+            }
+            else
+            {
+                it++;
+            }
+        }
     }
 
     void AddChunk(LvlFileChunk&& chunkToAdd)
@@ -112,7 +134,23 @@ public:
             }
         }
 
-        mChunks.push_back(std::move(chunkToAdd));
+        bool hasEndChunkAtEnd = false;
+        if (!mChunks.empty())
+        {
+            if (mChunks[mChunks.size() - 1].Header().field_8_type == ResourceManager::Resource_End)
+            {
+                hasEndChunkAtEnd = true;
+            }
+        }
+
+        if (hasEndChunkAtEnd)
+        {
+            mChunks.insert(mChunks.end() - 1, std::move(chunkToAdd));
+        }
+        else
+        {
+            mChunks.push_back(std::move(chunkToAdd));
+        }
     }
 
     [[nodiscard]] std::vector<u8> Data() const
@@ -148,6 +186,16 @@ public:
         }
 
         return std::move(s).GetBuffer();
+    }
+
+    const u32 ChunkCount() const
+    {
+        return static_cast<u32>(mChunks.size());
+    }
+
+    const LvlFileChunk& ChunkAt(u32 idx) const
+    {
+        return mChunks[idx];
     }
 
 private:
@@ -459,6 +507,13 @@ public:
             {
                 std::memcpy(fileRecs[i].field_0_file_name, rec.mFileNameInLvl.c_str(), ALIVE_COUNTOF(LvlFileRecord::field_0_file_name));
                 fileRecs[i].field_14_file_size = static_cast<s32>(rec.mFileData.size());
+
+                fileRecs[i].field_C_start_sector = totalFileOffset / 2048;
+                fileRecs[i].field_10_num_sectors = RoundUp(fileRecs[i].field_14_file_size) / 2048;
+
+                totalFileOffset += fileRecs[i].field_14_file_size;
+                totalFileOffset = RoundUp(totalFileOffset);
+
                 i++;
             }
         }
@@ -544,3 +599,4 @@ private:
     LvlReader mReader;
     std::vector<NewOrEditedFileRecord> mNewOrEditedFiles;
 };
+} // namespace ReliveAPI

@@ -2,13 +2,13 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 struct Path_Greeter final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_motion_detector_speed;
-    XDirection_short field_14_direction;
+    XDirection_short field_14_start_direction;
     s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Greeter, 0x18);
@@ -103,7 +103,7 @@ private:
     EXPORT void vOnThrowableHit_447DB0(BaseGameObject* pFrom);
     EXPORT void ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
     EXPORT void RandomishSpeak_447A70(GreeterSpeak effect);
-    EXPORT BOOL ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
+    EXPORT Bool32 ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
     EXPORT BaseAliveGameObject* GetMudToZap_447690();
     EXPORT void vUpdate_4469B0();
 

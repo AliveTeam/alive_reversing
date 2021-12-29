@@ -79,7 +79,7 @@ SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo)
         field_AC_ypos = hitY;
     }
 
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
@@ -90,7 +90,7 @@ SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo)
         field_C6_scale = 1;
     }
 
-    if (pTlv->field_1A_bDontWhistlePassword)
+    if (pTlv->field_1A_bDontWhistlePassword == Choice_short::eYes_1)
     {
         field_138_brain_state = SlingMudBrainStates::Brain_2_AskForPassword_4707B0;
     }

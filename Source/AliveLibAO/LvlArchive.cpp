@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "../AliveLibAE/Psx.hpp" // AE lib hack
+#include <assert.h>
 
 namespace AO {
 
@@ -36,6 +37,22 @@ EXPORT void CC LvlArchive::dtor_static_443E80()
     stru_507C90.Free_41BEB0();
 }
 
+static s32 ReadFirstSector(s32 pos, u8* pSector)
+{
+    pos = 0; // AE lib hack
+
+    CdlLOC loc = {};
+    PSX_Pos_To_CdLoc_49B340(pos, &loc);
+
+    PSX_CD_File_Seek_49B670(2, &loc);
+
+    s32 bOk = PSX_CD_File_Read_49B8B0(1, pSector);
+    if (PSX_CD_FileIOWait_49B900(0) == -1)
+    {
+        bOk = 0;
+    }
+    return bOk;
+}
 
 EXPORT void LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
 {
@@ -43,8 +60,22 @@ EXPORT void LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
     // (it was a stupid idea so I guess they removed it in the next iteration)
     pos = PSX_CD_OpenFile(fileName, 1);
 
+    // Read the fixed sized header
+    u8 sector[2048] = {};
+    if (!ReadFirstSector(pos, &sector[0]))
+    {
+        LOG_ERROR("Failed to read first 2048 bytes of " << fileName);
+        exit(-32);
+    }
+
+    const auto pLvlHeader = reinterpret_cast<const LvlHeader*>(&sector[0]);
+
     // Allocate space for LVL archive header
-    field_0_0x2800_res = ResourceManager::Allocate_New_Block_454FE0(kSectorSize * 5, ResourceManager::eFirstMatching);
+    field_0_0x2800_res = ResourceManager::Allocate_New_Block_454FE0(kSectorSize * pLvlHeader->field_10_sub.field_4_header_size_in_sectors, ResourceManager::eFirstMatching);
+    if (pLvlHeader->field_10_sub.field_4_header_size_in_sectors != 5)
+    {
+        LOG_INFO("Header size in sectors is " << pLvlHeader->field_10_sub.field_4_header_size_in_sectors);
+    }
 
     // Header data is populated later by the read, pointing to same buffer here
     ResourceManager::Header* pHeader = ResourceManager::Get_Header_455620(field_0_0x2800_res);
@@ -71,8 +102,7 @@ EXPORT void LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
         }
         PSX_CD_File_Seek_49B670(2, &loc);
 
-        // OG BUG: Header assumed to be 5 sectors, if its bigger then we are doomed
-        bOk = PSX_CD_File_Read_49B8B0(5, pHeader);
+        bOk = PSX_CD_File_Read_49B8B0(pLvlHeader->field_10_sub.field_4_header_size_in_sectors, pHeader);
         if (PSX_CD_FileIOWait_49B900(0) == -1)
         {
             bOk = 0;

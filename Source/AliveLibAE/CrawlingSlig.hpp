@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
 
@@ -175,7 +175,7 @@ private:
 
     EXPORT CrawlingSlig* vdtor_418FB0(s32 flags);
 
-    EXPORT BOOL PanicOn_419810();
+    EXPORT Bool32 PanicOn_419810();
 
     EXPORT void ToIdle_41C070();
 

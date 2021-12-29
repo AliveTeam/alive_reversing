@@ -1,9 +1,9 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 #include "DynamicArray.hpp"
-#include "BitField.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 #include "Psx.hpp"
 #include "Primitives.hpp"
 #include "Layer.hpp"

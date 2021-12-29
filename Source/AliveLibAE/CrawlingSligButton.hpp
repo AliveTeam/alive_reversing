@@ -1,18 +1,29 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
 enum class SwitchOp : s16;
+
+enum class CrawlingSligButtonSounds : s16
+{
+    None_0 = 0,
+    SackHit_1 = 1,
+    FallingItemPresence2_2 = 2,
+    SecurityOrb_3 = 3,
+    SackHit_4 = 4,
+    Bullet1_5 = 5,
+    AbeGenericMovement_6 = 6,
+};
 
 struct Path_CrawlingSligButton final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_id;
     SwitchOp field_14_action;
-    s16 field_16_on_sound;
-    s16 field_18_off_sound;
+    CrawlingSligButtonSounds field_16_on_sound;
+    CrawlingSligButtonSounds field_18_off_sound;
     s16 field_1A_sound_direction;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_CrawlingSligButton, 0x1C);
@@ -34,8 +45,8 @@ private:
     s32 field_F4_tlvInfo;
     s16 field_F8_id;
     SwitchOp field_FA_action;
-    s16 field_FC_on_sound;
-    s16 field_FE_off_sound;
+    CrawlingSligButtonSounds field_FC_on_sound;
+    CrawlingSligButtonSounds field_FE_off_sound;
     s16 field_100_sound_direction;
     s16 field_102_in_use;
 };

@@ -179,7 +179,8 @@ void DDCheat::Menu_Movies_416000()
                 movieToPlayInfo->field_A_volume);
         }
     }
-    FmvInfo* fmvInfo = &sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_4_pFmvArray[sDDCheat_MovieSelectIdx_5BBFF0];
+
+    const FmvInfo* fmvInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0);
     DDCheat::DebugStr_4F5560("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx_5BBFF0, fmvInfo->field_4_id, fmvInfo->field_0_pName);
     field_20 += 6;
 }
@@ -195,7 +196,7 @@ DDCheat* DDCheat::ctor_4153C0()
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit4);
-    field_4_typeId = AETypes::eDDCheat_19;
+    SetType(AETypes::eDDCheat_19);
     field_20 = 0;
     field_24_fn_idx = 0;
     field_28 = 0;
@@ -318,7 +319,7 @@ void DDCheat::Update_415780()
 
             sDDCheat_ShowAI_Info_5C1BD8 = false;
 
-            switch (sControlledCharacter_5C1B8C->field_4_typeId)
+            switch (sControlledCharacter_5C1B8C->Type())
             {
                 case AETypes::eGlukkon_67:
                 case AETypes::eSlig_125:
@@ -350,7 +351,7 @@ void DDCheat::Update_415780()
         {
             DebugStr_4F5560(
                 "\n%sP%dC%d gnframe=%5d",
-                sPathData_559660.paths[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_14_lvl_name,
+                Path_Get_Lvl_Name(gMap_5C3030.field_0_current_level),
                 gMap_5C3030.field_2_current_path,
                 gMap_5C3030.field_4_current_camera,
                 sGnFrame_5C1B84);

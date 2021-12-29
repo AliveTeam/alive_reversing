@@ -8,6 +8,7 @@ namespace jsonxx {
 class Object;
 }
 
+namespace ReliveAPI {
 class TypesCollectionBase;
 class PropertyCollection;
 
@@ -27,3 +28,4 @@ public:
 private:
     T* m_data = nullptr;
 };
+} // namespace ReliveAPI

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
@@ -9,14 +9,14 @@ class Bone;
 struct Path_Slog final : public Path_TLV
 {
     Scale_short field_10_scale;
-    s16 field_12_direction;
-    s16 field_14_asleep;
+    XDirection_short field_12_direction;
+    Choice_short field_14_asleep;
     s16 field_16_wake_up_anger;
     s16 field_18_bark_anger;
     s16 field_1A_chase_anger;
-    s16 field_1C_jump_delay;
+    s16 field_1C_chase_delay;
     s16 field_1E_disabled_resources;
-    s16 field_20_angry_id;
+    s16 field_20_anger_id;
     s16 field_22_bone_eating_time;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x24);
@@ -160,7 +160,7 @@ public:
     EXPORT void M_AngryBark_14_4C6CF0();
     EXPORT void M_Sleeping_15_4C6D60();
     EXPORT void M_MoveHeadDownwards_16_4C70D0();
-    EXPORT void M_Bark_17_4C7000();
+    EXPORT void M_WakeUp_17_4C7000();
     EXPORT void M_JumpForwards_18_4C7210();
     EXPORT void M_JumpUpwards_19_4C7470();
     EXPORT void M_Eating_20_4C75F0();
@@ -230,7 +230,7 @@ private:
 
     EXPORT s16 ToNextMotion_4C5A30();
 
-    EXPORT BOOL CollisionCheck_4C5480(FP hitY, FP hitX);
+    EXPORT Bool32 CollisionCheck_4C5480(FP hitY, FP hitX);
 
     EXPORT void MoveOnLine_4C5DA0();
 
@@ -279,7 +279,7 @@ private:
     s16 field_14A_padding;
     s32 field_14C_scratch_timer;
     s32 field_150_growl_timer;
-    s16 field_154_angry_id;
+    s16 field_154_anger_id;
     s16 field_156_bone_eating_time;
     s16 field_158_chase_delay;
     s16 field_15A_jump_counter;

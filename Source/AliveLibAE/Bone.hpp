@@ -56,10 +56,10 @@ public:
     virtual void VScreenChanged() override;
     virtual void VThrow_49E460(FP velX, FP velY) override;
     virtual void VOnTrapDoorOpen() override;
-    virtual BOOL VCanThrow_49E350() override;
-    virtual BOOL VIsFalling_49E330() override;
+    virtual Bool32 VCanThrow_49E350() override;
+    virtual Bool32 VIsFalling_49E330() override;
     virtual void VTimeToExplodeRandom_411490() override;
-    virtual BOOL VCanBeEaten_411560();
+    virtual Bool32 VCanBeEaten_411560();
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VGetCount_448080() override;
     EXPORT static s32 CC CreateFromSaveState_412C10(const u8* pData);
@@ -70,11 +70,11 @@ private:
     EXPORT void AddToPlatform_412310();
     EXPORT void vThrow_411670(FP velX, FP velY);
     EXPORT void vOnTrapDoorOpen_412490();
-    EXPORT BOOL vIsFalling_411510();
-    EXPORT BOOL vCanThrow_411530();
+    EXPORT Bool32 vIsFalling_411510();
+    EXPORT Bool32 vCanThrow_411530();
     EXPORT s16 OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj);
     EXPORT void vScreenChanged_4122D0();
-    EXPORT BOOL vCanBeEaten_411560();
+    EXPORT Bool32 vCanBeEaten_411560();
     EXPORT s32 vGetSaveState_412ED0(Bone_SaveState* pState);
     EXPORT void InTheAir_4116C0();
     EXPORT void vUpdate_411BC0();

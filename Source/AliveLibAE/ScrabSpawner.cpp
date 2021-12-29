@@ -13,7 +13,7 @@ ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo)
     SetVTable(this, 0x546FF0);
 
     field_20_tlvInfo = tlvInfo;
-    field_4_typeId = AETypes::eScrabSpawner_113;
+    SetType(AETypes::eScrabSpawner_113);
 
     field_28_tlv_data.field_0_flags = pTlv->field_0_flags;
     field_28_tlv_data.field_1_tlv_state = pTlv->field_1_tlv_state;
@@ -110,7 +110,7 @@ void ScrabSpawner::vUpdate_4AB510()
                     break;
                 }
 
-                if (pObj->field_4_typeId == AETypes::eScrab_112 && pObj->field_C_objectId == field_3C_spawned_scrab_id)
+                if (pObj->Type() == AETypes::eScrab_112 && pObj->field_C_objectId == field_3C_spawned_scrab_id)
                 {
                     // Redundant ??
                     field_3C_spawned_scrab_id = pObj->field_8_object_id;

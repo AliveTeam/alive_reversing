@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "DynamicArray.hpp"
 #include "Primitives.hpp"
@@ -13,7 +13,7 @@ struct Fg1Block final
     s32 field_60_padding;
     s16 field_64_padding;
     Layer field_66_mapped_layer;
-    s32 field_68_array_of_height[16];
+    u32 field_68_array_of_height[16];
 };
 ALIVE_ASSERT_SIZEOF(Fg1Block, 0xA8);
 

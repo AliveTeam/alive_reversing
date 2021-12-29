@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Sys_common.hpp"
+#include "../AliveLibCommon/Sys_common.hpp"
 #include "Primitives.hpp"
-#include "Psx_common.hpp"
+#include "../AliveLibCommon/Psx_common.hpp"
 #include <SDL.h>
 
 struct PrimHeader;

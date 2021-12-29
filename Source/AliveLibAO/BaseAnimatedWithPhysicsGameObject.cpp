@@ -9,6 +9,9 @@
 #include "ShadowZone.hpp"
 #include "ResourceManager.hpp"
 #include "AnimResources.hpp"
+#include "Particle.hpp"
+#include "Sfx.hpp"
+#include "Math.hpp"
 
 namespace AO {
 
@@ -114,6 +117,25 @@ CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
     PSX_RECT rect = {};
     VGetBoundingRect(&rect, 1);
     return gMap_507BA8.Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
+}
+
+void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
+{
+    // note: mudokons used % 4
+    if (!(gnFrameCount_507670 % 5))
+    {
+        New_Smoke_Particles_419A80(
+            field_A8_xpos + (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale),
+            field_AC_ypos - FP_FromInteger(6),
+            field_BC_sprite_scale / FP_FromInteger(2),
+            2,
+            0);
+
+        if (bPlaySound == true)
+        {
+            SFX_Play_43AE60(SoundEffect::Vaporize_96, 25, FP_GetExponent(FP_FromInteger(2200) * field_BC_sprite_scale));
+        }
+    }
 }
 
 void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)

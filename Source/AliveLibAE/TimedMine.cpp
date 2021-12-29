@@ -61,7 +61,7 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     SetVTable(this, 0x5442A8);
     SetVTable(&field_124_animation, 0x544290);
 
-    field_4_typeId = AETypes::eTimedMine_or_MovingBomb_10;
+    SetType(AETypes::eTimedMine_or_MovingBomb_10);
 
     const AnimRecord& rec = AnimRec(AnimId::TimedMine_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -241,7 +241,8 @@ void TimedMine::StickToLiftPoint_411100()
             &pLine, &hitX, &hitY,
             (field_D6_scale == 1) ? 15 : 240))
     {
-        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        if (pLine->field_8_type == eLineTypes::eUnknown_32 ||
+            pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             if (ObjList_5C1B78)
             {
@@ -253,7 +254,7 @@ void TimedMine::StickToLiftPoint_411100()
                         break;
                     }
 
-                    if (pObj->field_4_typeId == AETypes::eLiftPoint_78)
+                    if (pObj->Type() == AETypes::eLiftPoint_78)
                     {
                         PSX_RECT bRect = {};
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);
@@ -326,7 +327,7 @@ s16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
         return 0;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eAbe_69:
         case AETypes::eAbilityRing_104:

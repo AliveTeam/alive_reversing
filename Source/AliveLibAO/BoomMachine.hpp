@@ -1,8 +1,9 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -10,8 +11,8 @@ class GrenadeMachineNozzle;
 
 struct Path_BoomMachine final : public Path_TLV
 {
-    s16 field_18_scale;
-    s16 field_1A_nozzle_side;
+    Scale_short field_18_scale;
+    XDirection_short field_1A_nozzle_side;
     s16 field_1C_disabled_resources;
     s16 field_1E_number_of_grenades;
 };
@@ -40,7 +41,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual BOOL VIsButtonOn();
+    virtual Bool32 VIsButtonOn();
 
     virtual void VHandleButton();
 
@@ -49,7 +50,7 @@ private:
 
     EXPORT void VUpdate_41E750();
 
-    EXPORT BOOL VIsButtonOn_41E840();
+    EXPORT Bool32 VIsButtonOn_41E840();
 
     EXPORT void VHandleButton_41E6F0();
 

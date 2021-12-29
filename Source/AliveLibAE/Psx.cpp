@@ -16,6 +16,8 @@
 #include "Renderer/IRenderer.hpp"
 #include <gmock/gmock.h>
 
+extern bool gLatencyHack;
+
 void Psx_ForceLink()
 { }
 
@@ -841,7 +843,7 @@ EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char_type* pNormalized, const ch
     *pNormalizedIter = 0;
 }
 
-EXPORT BOOL CC PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
+EXPORT Bool32 CC PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 {
     return pRect1->x < (pRect2->x + pRect2->w)
         && pRect1->y < (pRect2->y + pRect2->h)
@@ -898,6 +900,12 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
             {
                 timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
                 SsSeqCalledTbyT_4FDC80();
+                
+                // Prevent max CPU usage, will probably cause stuttering on weaker machines
+                if (gLatencyHack)
+                {
+                    SDL_Delay(1);
+                }
             }
             while (timeSinceLastFrame < 1000 * mode / 60);
 

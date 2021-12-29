@@ -1,12 +1,13 @@
 #pragma once
 
-#include "../AliveLibCommon/AddPointer.hpp"
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/AddPointer.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 
 #include <memory>
 #include <string>
 #include <unordered_map>
 
+namespace ReliveAPI {
 class IJsonUpgrader
 {
 public:
@@ -38,3 +39,4 @@ private:
 protected:
     std::unordered_map<s32, TUpgradeFactoryFn> mUpgraders;
 };
+} // namespace ReliveAPI

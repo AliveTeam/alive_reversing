@@ -12,6 +12,7 @@
 #include "Abe.hpp"
 #include "Alarm.hpp"
 #include "Function.hpp"
+#include "PathDataExtensions.hpp"
 
 ALIVE_VAR(1, 0x5C1BC6, s16, sFeeco_Restart_KilledMudCount_5C1BC6, 0);
 ALIVE_VAR(1, 0x5C1BC8, s16, sFeecoRestart_SavedMudCount_5C1BC8, 0);
@@ -27,7 +28,7 @@ EXPORT void CC CreateGameEnderController_43B7A0()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eGameEnderController_57)
+        if (pObj->Type() == AETypes::eGameEnderController_57)
         {
             return;
         }
@@ -60,7 +61,7 @@ GameEnderController* GameEnderController::ctor_43B840()
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545198);
-    field_4_typeId = AETypes::eGameEnderController_57;
+    SetType(AETypes::eGameEnderController_57);
     field_24_state = GameEnderController_States::eInit_0;
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
     return this;
@@ -154,7 +155,7 @@ void GameEnderController::vUpdate_43B920()
                     sActiveHero_5C1B68->field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
                     // Good ending
-                    if (sRescuedMudokons_5C1BC2 >= 150)
+                    if (sRescuedMudokons_5C1BC2 >= Path_GoodEndingMuds(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path))
                     {
                         gAbeBulletProof_5C1BDA = 0;
                         sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
@@ -166,7 +167,7 @@ void GameEnderController::vUpdate_43B920()
                             pPauseMenu_5C9300 = nullptr;
                         }
 
-                        if (sRescuedMudokons_5C1BC2 >= 300)
+                        if (sRescuedMudokons_5C1BC2 >= Path_GetTotalMuds(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path))
                         {
                             // Perfect ending
                             gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 17, CameraSwapEffects::eUnknown_11, 17, 0);
@@ -181,7 +182,7 @@ void GameEnderController::vUpdate_43B920()
                     }
                     else
                     {
-                        if (sKilledMudokons_5C1BC0 >= 255)
+                        if (sKilledMudokons_5C1BC0 >= Path_BadEndingMuds(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path))
                         {
                             // Very bad ending
                             gAbeBulletProof_5C1BDA = TRUE;

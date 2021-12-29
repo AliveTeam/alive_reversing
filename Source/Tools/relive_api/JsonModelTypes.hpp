@@ -1,22 +1,31 @@
 #pragma once
 
-enum class Game;
-class TypesCollectionBase;
-class TypesCollectionAO;
-class TypesCollectionAE;
+#include "../../AliveLibCommon/Types.hpp"
+#include <string>
+#include <vector>
+
+
+namespace AO {
+class PathLine;
+enum class TlvTypes : s16;
+} // namespace AO
+
 
 class PathLine;
 enum class TlvTypes : s16;
 
-namespace AO {
-    class PathLine;
-    enum class TlvTypes : s16;
-} // namespace AO
-
 namespace jsonxx {
-    class Object;
-    class Array;
-}
+class Object;
+class Array;
+} // namespace jsonxx
+
+
+namespace ReliveAPI {
+enum class Game;
+class TypesCollectionBase;
+class TypesCollectionAO;
+class TypesCollectionAE;
+class CameraImageAndLayers;
 
 struct CameraObject final
 {
@@ -25,7 +34,7 @@ struct CameraObject final
     s32 mX = 0;
     s32 mY = 0;
 
-    [[nodiscard]] jsonxx::Object ToJsonObject(jsonxx::Array mapObjectsArray) const;
+    [[nodiscard]] jsonxx::Object ToJsonObject(jsonxx::Array mapObjectsArray, const CameraImageAndLayers& cameraImageAndLayers) const;
 };
 
 struct PathInfo final
@@ -39,6 +48,30 @@ struct PathInfo final
 
     s32 mNumCollisionItems = 0;
     s32 mCollisionOffset = 0;
+
+    s32 mAbeStartXPos = 0;
+    s32 mAbeStartYPos = 0;
+
+    s32 mNumMudsInPath = 0;
+
+    s32 mTotalMuds = 0;
+    s32 mBadEndingMuds = 0;
+    s32 mGoodEndingMuds = 0;
+};
+
+class CameraImageAndLayers final
+{
+public:
+    std::string mCameraImage;
+    std::string mForegroundLayer;
+    std::string mBackgroundLayer;
+    std::string mForegroundWellLayer;
+    std::string mBackgroundWellLayer;
+
+    bool HaveFG1Layers() const
+    {
+        return !mForegroundLayer.empty() || !mBackgroundLayer.empty() || !mForegroundWellLayer.empty() || !mBackgroundWellLayer.empty();
+    }
 };
 
 struct CameraNameAndTlvBlob final
@@ -48,6 +81,8 @@ struct CameraNameAndTlvBlob final
     s32 y = 0;
     std::string mName;
     std::vector<std::vector<u8>> mTlvBlobs;
+
+    CameraImageAndLayers mCameraAndLayers;
 
     [[nodiscard]] std::size_t TotalTlvSize() const;
 };
@@ -68,4 +103,17 @@ struct MapInfo final
 
     s32 mYGridSize = 0;
     s32 mYSize = 0;
+
+    s32 mAbeStartXPos = 0;
+    s32 mAbeStartYPos = 0;
+
+    s32 mNumMudsInPath = 0;
+
+    s32 mTotalMuds = 0;
+    s32 mBadEndingMuds = 0;
+    s32 mGoodEndingMuds = 0;
+
+    std::vector<std::string> mLedMessages;
+    std::vector<std::string> mHintFlyMessages;
 };
+} // namespace ReliveAPI

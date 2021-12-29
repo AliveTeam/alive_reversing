@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 EXPORT void CC ae_internal_free_521334(void* ptr);
 EXPORT void* CC ae_internal_malloc_5212C0(size_t size);
@@ -16,7 +16,7 @@ EXPORT void CC ae_free_4F4EA0(void* ptr);
 EXPORT void CC ae_delete_free_495540(void* ptr);
 EXPORT void CC ae_non_zero_free_495560(void* ptr);
 EXPORT void* CC realloc_4F4E80(void* ptr, size_t size);
-EXPORT s32 CC ae_remove_520B27(LPCSTR lpFileName);
+EXPORT s32 CC ae_remove_520B27(const char* lpFileName);
 
 template <typename T, typename... Args>
 inline T* ae_new(Args&&... args)

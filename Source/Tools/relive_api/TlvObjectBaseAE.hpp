@@ -2,9 +2,9 @@
 
 #include "TlvObjectBase.hpp"
 
-#include "../AliveLibAE/Path.hpp"
+#include "../../AliveLibAE/Path.hpp"
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 
 #include <cstddef>
 #include <string>
@@ -15,6 +15,7 @@ namespace jsonxx {
 class Object;
 }
 
+namespace ReliveAPI {
 class TlvObjectBaseAE : public TlvObjectBase
 {
 public:
@@ -40,3 +41,4 @@ protected:
     const TlvTypes mType;
     Path_TLV* const mPSelfTlv;
 };
+} // namespace ReliveAPI

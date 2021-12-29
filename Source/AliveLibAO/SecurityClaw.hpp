@@ -1,17 +1,18 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "DynamicArray.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
 struct Path_SecurityClaw final : public Path_TLV
 {
-    s16 field_18_scale;
+    Scale_short field_18_scale;
     s16 field_1A_alarm_id;
-    s16 field_1C_alarm_time;
+    s16 field_1C_alarm_duration;
     s16 field_1E_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF(Path_SecurityClaw, 0x20);
@@ -66,7 +67,7 @@ public:
     s16 field_112;
     s32 field_114_timer;
     s16 field_118_alarm_id;
-    s16 field_11A;
+    s16 field_11A_alarm_duration;
     FP field_11C_clawX;
     FP field_120_clawY;
     u8 field_124;

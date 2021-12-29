@@ -44,7 +44,7 @@ ALIVE_VAR(1, 0x5c1bec, s8, sEnableCheatFMV_5C1BEC, 0);
 ALIVE_VAR(1, 0x5c1b9e, s16, sDemoIdChosenFromDemoMenu_5C1B9E, 0);
 
 ALIVE_VAR(1, 0x561538, s16, sMenuItemCount_561538, 0);
-ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerPath_5C1B50, {});
+ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerZulag_5C1B50, {});
 
 union DemoOrFmv
 {
@@ -595,14 +595,14 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_25C_Inside_FMV_Screen = 0;
     field_25E_Inside_CheatLevelSelect_Screen = 0;
 
-    sSavedKilledMudsPerPath_5C1B50 = {};
+    sSavedKilledMudsPerZulag_5C1B50 = {};
 
     sEnableCheatFMV_5C1BEC = 0;
     sEnableCheatLevelSelect_5C1BEE = 0;
     sKilledMudokons_5C1BC0 = 0;
     sRescuedMudokons_5C1BC2 = 0;
     gAttract_5C1BA0 = 0;
-    sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData) - 1] = 0;
+    sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = 0;
     sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
     sFeecoRestart_SavedMudCount_5C1BC8 = 0;
 
@@ -1548,12 +1548,12 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 
     if (field_25C_Inside_FMV_Screen)
     {
-        MenuFMV* v12 = &pDemosOrFmvs_BB4414.mFmvRec[field_230_target_entry_index];
-        if (v12->field_A_fmv_id >= 0)
+        MenuFMV* pMenuFMV = &pDemosOrFmvs_BB4414.mFmvRec[field_230_target_entry_index];
+        if (pMenuFMV->field_A_fmv_id >= 0)
         {
-            FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(v12->field_4_level_id, v12->field_A_fmv_id);
+            FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(pMenuFMV->field_4_level_id, pMenuFMV->field_A_fmv_id);
             Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, 0, 0, &input_held, 0, 0);
-            sLevelId_dword_5CA408 = static_cast<u32>(v12->field_4_level_id);
+            sLevelId_dword_5CA408 = static_cast<u32>(pMenuFMV->field_4_level_id);
 
             dword_55C128 = -1;
 
@@ -1909,7 +1909,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     {
         field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
 
-        sActiveHero_5C1B68->field_1C_update_delay = 1;
+        sActiveHero_5C1B68->SetUpdateDelay(1);
         gMap_5C3030.SetActiveCam_480D30(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
 
         const PathBlyRec* pPathData = Path_Get_Bly_Record_460F30(field_244_lvl_id, field_246_path_id);
@@ -2137,11 +2137,11 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         {
             demoId = 0;
         }
-        s32 levelId = static_cast<s32>(sDemos_5617F0[demoId].field_4_level);
+        const s32 levelId = static_cast<s32>(sDemos_5617F0[demoId].field_4_level);
         char_type lvFilename[256] = {};
         strcpy(lvFilename, "ATTRACT");
         memset(&lvFilename[8], 0, 0xF8u);
-        strcpy(&lvFilename[7], sPathData_559660.paths[levelId].field_20_lvl_name_cd);
+        strcpy(&lvFilename[7], CdLvlName(sDemos_5617F0[demoId].field_4_level));
         auto lvFilenameNoPrefix = &lvFilename[7];
 
         while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
@@ -2151,7 +2151,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
             {
                 dword_55C128 = -1;
             }
-            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[levelId].field_1A_unused, MessageType::eSkipDemo_2))
+            if (!Display_Full_Screen_Message_Blocking_465820(Path_Get_Unknown(sDemos_5617F0[demoId].field_4_level), MessageType::eSkipDemo_2))
             {
                 field_1F8_page_timeout = 0;
                 if (gIsDemoStartedManually_5C1B9C)
@@ -2532,7 +2532,7 @@ MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(u32 inp
     {
         sGameStartedFrame_5C1B88 = sGnFrame_5C1B84;
         sCurrentControllerIndex_5C1BBE = 0;
-        const BOOL twoPlayerModeSelected = field_1FC_button_index == 1;
+        const Bool32 twoPlayerModeSelected = field_1FC_button_index == 1;
 
         MainMenuController::Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_FollowMe);
         if (field_23C_T80.Get(Flags::eBit25_CheatLevelSelectLoading))

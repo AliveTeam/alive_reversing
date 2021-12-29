@@ -1,8 +1,9 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -10,7 +11,7 @@ struct Path_Bat final : public Path_TLV
 {
     s16 field_18_ticks_before_moving;
     s16 field_1A_speed;
-    u16 field_1C_scale;
+    Scale_short field_1C_scale;
     s16 field_1E_attack_duration;
 };
 ALIVE_ASSERT_SIZEOF(Path_Bat, 0x20);

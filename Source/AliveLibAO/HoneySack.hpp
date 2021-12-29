@@ -1,15 +1,16 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
 struct Path_HoneySack final : public Path_TLV
 {
     s16 field_18_chase_ticks;
-    s16 field_1A_scale;
+    Scale_short field_1A_scale;
 };
 ALIVE_ASSERT_SIZEOF(Path_HoneySack, 0x1C);
 

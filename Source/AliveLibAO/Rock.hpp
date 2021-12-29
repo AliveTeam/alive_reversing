@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Throwable.hpp"
@@ -41,6 +41,8 @@ public:
     virtual s16 VIsFalling() override;
 
     virtual void VTimeToExplodeRandom() override;
+
+    void BounceHorizontally( FP hitX, FP hitY );
 
     enum class States : s16
     {

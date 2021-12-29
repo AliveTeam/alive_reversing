@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include <atomic>
 
 #if USE_SDL2
@@ -62,4 +62,4 @@ using TEnumCallBack = void(const char_type*, u32);
 void EXPORT IO_EnumerateDirectory(const char_type* fileName, TEnumCallBack cb);
 
 ALIVE_VAR_EXTERN(u32, sIoThreadId_BBC558);
-ALIVE_VAR_EXTERN(BOOL, sIOSyncReads_BD2A5C);
+ALIVE_VAR_EXTERN(Bool32, sIOSyncReads_BD2A5C);

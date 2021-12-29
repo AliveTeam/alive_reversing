@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "bmp.hpp"
 #include "Function.hpp"
 

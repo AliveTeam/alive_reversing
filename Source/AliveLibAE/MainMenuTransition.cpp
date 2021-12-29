@@ -53,7 +53,7 @@ MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, s16 fadeDirecti
 
     SetVTable(this, 0x545EA0); // vTbl_MainMenuTransition_545EA0
 
-    field_4_typeId = AETypes::eMainMenuTransistion_116;
+    SetType(AETypes::eMainMenuTransistion_116);
 
     gObjList_drawables_5C1124->Push_Back(this);
 

@@ -3,12 +3,13 @@
 #include "TypesCollectionBase.hpp"
 #include "TlvFactory.hpp"
 
-#include "../AliveLibAO/PathData.hpp"
-#include "../AliveLibAO/Map.hpp"
+#include "../../AliveLibAO/PathData.hpp"
+#include "../../AliveLibAO/Map.hpp"
 
 #include <memory>
 #include <string>
 
+namespace ReliveAPI {
 class TlvObjectBase;
 
 class TypesCollectionAO final : public TypesCollectionBase
@@ -28,3 +29,4 @@ private:
 
     TlvFactory<AO::TlvTypes, AO::Path_TLV> mTlvFactoryAO;
 };
+} // namespace ReliveAPI

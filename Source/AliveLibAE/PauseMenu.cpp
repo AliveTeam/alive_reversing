@@ -16,6 +16,7 @@
 #include "VGA.hpp"
 #include "Mudokon.hpp"
 #include "Sys.hpp"
+#include "PathDataExtensions.hpp"
 
 ALIVE_VAR(1, 0x5ca4d8, s8, sQuicksave_SaveNextFrame_5CA4D8, 0);
 ALIVE_VAR(1, 0x5ca4d9, s8, sQuicksave_LoadNextFrame_5CA4D9, 0);
@@ -433,13 +434,13 @@ PauseMenu* PauseMenu::ctor_48FB80()
     sQuicksave_SaveNextFrame_5CA4D8 = 0;
     sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
-    field_4_typeId = AETypes::ePauseMenu_95;
+    SetType(AETypes::ePauseMenu_95);
     field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     word12C_flags &= ~0xE;
     word12C_flags &= ~1u;
 
-    field_1C_update_delay = 25;
+    SetUpdateDelay(25);
 
     gObjList_drawables_5C1124->Push_Back(this);
 
@@ -1574,7 +1575,7 @@ void PauseMenu::Update_48FD80()
                 && heroState != eAbeMotions::jMotion_81_WellBegin_45C7F0
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
-                && (sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eEvilFart_45 || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
+                && (sControlledCharacter_5C1B8C->Type() != AETypes::eEvilFart_45 || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
                 && sActiveHero_5C1B68->field_1A8_portal_id == -1)
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)
@@ -1622,7 +1623,7 @@ void PauseMenu::Update_48FD80()
                 && heroState != eAbeMotions::jMotion_81_WellBegin_45C7F0
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
-                && (pControlledChar->field_4_typeId != AETypes::eEvilFart_45 || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_timer) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
+                && (pControlledChar->Type() != AETypes::eEvilFart_45 || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_timer) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
                 && pHero->field_1A8_portal_id == -1)
             {
                 SND_StopAll_4CB060();
@@ -1663,8 +1664,7 @@ void PauseMenu::Update_48FD80()
                     }
                 }
 
-                // TODO: How do these ever get read ??
-                sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF 300 MUDOKONS", sRescuedMudokons_5C1BC2);
+                sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF %d MUDOKONS", sRescuedMudokons_5C1BC2, Path_GetTotalMuds(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path));
                 sprintf(sHasBeenTerminated_55E738, "%d HA%s BEEN TERMINATED", sKilledMudokons_5C1BC0, (sKilledMudokons_5C1BC0 != 1) ? "VE" : "S");
 
                 if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eNormal_0)

@@ -37,7 +37,7 @@ BaseGameObject* MinesAlarm::ctor_417870(s32 timer)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5445FC);
-    field_4_typeId = AETypes::eMinesAlarm_25;
+    SetType(AETypes::eMinesAlarm_25);
     sTimerValue_5C1BFC = timer;
     return this;
 }

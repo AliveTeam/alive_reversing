@@ -41,7 +41,7 @@ Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 maxW, u16 maxH, s32 resourceID
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90);
 
-    field_4_typeId = AETypes::eDove_35;
+    SetType(AETypes::eDove_35);
 
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
     Animation_Init_424E10(frameTableOffset, maxW, maxH, ppRes, 1, 1);
@@ -94,7 +94,7 @@ Dove* Dove::ctor_41F660(s32 frameTableOffset, s32 maxW, s16 maxH, s32 resourceID
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90); // vTbl_Dove_544A90
 
-    field_4_typeId = AETypes::eDove_35;
+    SetType(AETypes::eDove_35);
 
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
     Animation_Init_424E10(frameTableOffset, maxW, maxH, ppRes, 1, 1);
@@ -225,7 +225,7 @@ void Dove::AsJoin_41F940(FP xpos, FP ypos)
     field_108_timer = sGnFrame_5C1B84 + 47;
 }
 
-void Dove::FlyAway_420020(BOOL spookedInstantly)
+void Dove::FlyAway_420020(Bool32 spookedInstantly)
 {
     if (field_FE_state != State::eFlyAway_1)
     {
@@ -398,7 +398,7 @@ void Dove::vUpdate_41FAE0()
     }
 }
 
-void CC Dove::All_FlyAway_41FA60(BOOL spookedInstantly)
+void CC Dove::All_FlyAway_41FA60(Bool32 spookedInstantly)
 {
     for (s32 i = 0; i < gDovesArray_5BC100.Size(); i++)
     {

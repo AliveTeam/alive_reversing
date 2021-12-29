@@ -1,8 +1,9 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -11,12 +12,12 @@ class Path_MovingBomb final : public Path_TLV
 public:
     s16 field_18_speed;
     s16 field_1A_id;
-    s16 field_1C_bStart_type_triggered_by_alarm;
-    s16 field_1E_scale;
+    Choice_short field_1C_bTriggered_by_alarm;
+    Scale_short field_1E_scale;
     s16 field_20_max_rise;
     s16 field_22_disabled_resources;
     s16 field_24_start_speed;
-    s16 field_26_persist_offscreen;
+    Choice_short field_26_persist_offscreen;
 };
 ALIVE_ASSERT_SIZEOF(Path_MovingBomb, 0x28);
 
@@ -83,7 +84,7 @@ public:
     s16 field_122_pad;
     s32 field_124_sound_channels;
     s16 field_128_disabled_resources;
-    s16 field_12A_persist_offscreen;
+    Choice_short field_12A_persist_offscreen;
 };
 ALIVE_ASSERT_SIZEOF(MovingBomb, 0x12C);
 

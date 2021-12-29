@@ -66,7 +66,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
     SetVTable(this, 0x545CC0);                   // vTbl_LiftPoint_545CC0
 
     field_C_objectId = tlvInfo;
-    field_4_typeId = AETypes::eLiftPoint_78;
+    SetType(AETypes::eLiftPoint_78);
 
     pTlv->field_1_tlv_state = 3;
 
@@ -102,7 +102,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
     else
     {
         field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
-        field_124_pCollisionLine->field_8_type = 36; // TODO: Type
+        field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
     SetTint_425600(sLiftTints_55BF50, gMap_5C3030.field_0_current_level);
@@ -391,33 +391,33 @@ void LiftPoint::vKeepOnMiddleFloor_461870()
     field_280_flags.Set(LiftFlags::eBit7_KeepOnMiddleFloor);
 }
 
-BOOL LiftPoint::vOnTopFloor_461890()
+Bool32 LiftPoint::vOnTopFloor_461890()
 {
     return field_280_flags.Get(LiftFlags::eBit1_bTopFloor) && !(field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
 }
 
-BOOL LiftPoint::vOnMiddleFloor_4618C0()
+Bool32 LiftPoint::vOnMiddleFloor_4618C0()
 {
     return field_280_flags.Get(LiftFlags::eBit2_bMiddleFloor) && !(field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
 }
 
-BOOL LiftPoint::vOnBottomFloor_4618F0()
+Bool32 LiftPoint::vOnBottomFloor_4618F0()
 {
     return field_280_flags.Get(LiftFlags::eBit3_bBottomFloor) && !(field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
 }
 
-BOOL LiftPoint::vOnAnyFloor_461920()
+Bool32 LiftPoint::vOnAnyFloor_461920()
 {
     return vOnBottomFloor_4618F0() || vOnTopFloor_461890() || vOnMiddleFloor_4618C0();
 }
 
-BOOL LiftPoint::vOnAFloorLiftMoverCanUse_461960()
+Bool32 LiftPoint::vOnAFloorLiftMoverCanUse_461960()
 {
     // Top or bottom floor can still be activated by the lift mover?
     return (vOnMiddleFloor_4618C0() && !field_280_flags.Get(LiftFlags::eBit8_bIgnoreLiftMover)) || vOnBottomFloor_4618F0() || vOnTopFloor_461890();
 }
 
-BOOL LiftPoint::vMovingToFloorLevel_4619B0()
+Bool32 LiftPoint::vMovingToFloorLevel_4619B0()
 {
     return field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel);
 }

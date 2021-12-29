@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Primitives.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
@@ -40,8 +40,8 @@ struct Path_Fleech final : public Path_TLV
     s16 field_22_lost_target_timeout;
     Choice_short field_24_goes_to_sleep;
     s16 field_26_patrol_range_in_grids;
-    s16 field_28_unused;
-    s16 field_2A_wake_up_id2;
+    s16 field_28_wake_up_switch_anger_value;
+    s16 field_2A_can_wake_up_id;
     Choice_short field_2C_persistant;
     s16 field_2E_padding;
 };
@@ -102,9 +102,9 @@ struct Fleech_State final
     s16 field_78_max_anger;
     s16 field_7A_attack_anger;
     s16 field_7C_wakeup_id;
-    s16 field_7E_tlv;
+    s16 field_7E_wake_up_switch_anger_value;
     s16 field_80_wake_up_switch_value;
-    s16 field_82_use_wake_up_id;
+    s16 field_82_can_wake_up_id;
     s16 field_84;
     s16 field_86;
     s16 field_88_patrol_range;
@@ -177,7 +177,7 @@ private:
 public:
     EXPORT void M_Sleeping_0_42F0B0();
     EXPORT void M_WakingUp_1_42F270();
-    EXPORT void M_Unused_2_42F2F0();
+    EXPORT void M_Unknown_2_42F2F0();
     EXPORT void M_Idle_3_42E850();
     EXPORT void M_Crawl_4_42E960();
     EXPORT void M_PatrolCry_5_42E810();
@@ -293,7 +293,7 @@ private:
 
     EXPORT void vOnThrowableHit_42A590(BaseGameObject* pFrom);
 
-    EXPORT BOOL Collision_42B290(s16 alwaysOne);
+    EXPORT Bool32 Collision_42B290(s16 alwaysOne);
 
     EXPORT Path_Hoist* TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection);
 
@@ -320,9 +320,9 @@ private:
     u16 field_140_max_anger;
     s16 field_142_attack_anger_increaser;
     s16 field_144_wake_up_id;
-    s16 field_146_tlv_28;
+    s16 field_146_wake_up_switch_anger_value;
     s16 field_148_wake_up_switch_value;
-    s16 field_14A_use_wake_up_id;
+    s16 field_14A_can_wake_up_id;
     s16 field_14C;
     s16 field_14E;
     s16 field_150_patrol_range;

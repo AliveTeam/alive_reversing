@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 namespace AO {
 
@@ -104,7 +104,7 @@ const InputCommands sInputKey_Chant = static_cast<InputCommands>(eRightGameSpeak
 #define kAO_Crouch "\x0f"
 
 
-EXPORT BOOL CC Input_IsChanting_4334C0();
+EXPORT Bool32 CC Input_IsChanting_4334C0();
 EXPORT void Input_InitKeyStateArray_48E5F0();
 EXPORT void CC Input_SetKeyState_48E610(s32 key, s8 bIsDown);
 
@@ -118,7 +118,8 @@ EXPORT void CC Input_Init_44EB60();
 
 EXPORT void Input_DisableInput_48E690();
 
-EXPORT const char_type* CC Input_GetButtonString_44F1C0(InputCommands input_command, bool forceKeyboardLookupIfGamepadFails = true);
+const char_type* Input_GetButtonString(InputCommands inputCommand, bool forceKeyboardLookupIfGamepadFails = true);
+EXPORT const char_type* Input_GetButtonString_44F1C0(InputCommands inputCommand);
 
 EXPORT s32 CC Input_Remap_44F300(InputCommands inputCmd);
 

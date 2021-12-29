@@ -19,7 +19,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
     SetVTable(this, 0x546040);
 
     field_11A_bDead = 0;
-    field_4_typeId = AETypes::eMeat_84;
+    SetType(AETypes::eMeat_84);
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0))
     {
@@ -29,8 +29,6 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
     const AnimRecord& rec = AnimRec(AnimId::Meat);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    //u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMeatResID);
-    //Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -85,12 +83,12 @@ void Meat::VThrow_49E460(FP velX, FP velY)
     vThrow_469790(velX, velY);
 }
 
-BOOL Meat::VCanThrow_49E350()
+Bool32 Meat::VCanThrow_49E350()
 {
     return vCanThrow_469680();
 }
 
-BOOL Meat::VIsFalling_49E330()
+Bool32 Meat::VIsFalling_49E330()
 {
     return vIsFalling_469660();
 }
@@ -105,7 +103,7 @@ s16 Meat::VGetCount_448080()
     return vGetCount_46A350();
 }
 
-BOOL Meat::VCanEatMe_4696A0()
+Bool32 Meat::VCanEatMe_4696A0()
 {
     return vCanEatMe_4696A0();
 }
@@ -139,12 +137,12 @@ void Meat::vOnTrapDoorOpen_46A2E0()
     }
 }
 
-BOOL Meat::vIsFalling_469660()
+Bool32 Meat::vIsFalling_469660()
 {
     return field_11C_state == MeatStates::eFall_5;
 }
 
-BOOL Meat::vCanThrow_469680()
+Bool32 Meat::vCanThrow_469680()
 {
     return field_11C_state == MeatStates::eBeingThrown_2;
 }
@@ -218,10 +216,10 @@ void Meat::InTheAir_4697E0()
     {
         switch (field_130_pLine->field_8_type)
         {
-            case 0u:
-            case 4u:
-            case 32u:
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 if (field_C8_vely > FP_FromInteger(0))
                 {
                     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(hitX)));
@@ -236,8 +234,8 @@ void Meat::InTheAir_4697E0()
                 }
                 break;
 
-            case 1u:
-            case 5u:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eBackGroundWallLeft_5:
                 if (field_C4_velx < FP_FromInteger(0))
                 {
                     field_B8_xpos = hitX;
@@ -254,8 +252,8 @@ void Meat::InTheAir_4697E0()
                 field_130_pLine = nullptr;
                 break;
 
-            case 2u:
-            case 6u:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackGroundWallRight_6:
                 if (field_C4_velx > FP_FromInteger(0))
                 {
                     field_B8_xpos = hitX;
@@ -272,8 +270,8 @@ void Meat::InTheAir_4697E0()
                 field_130_pLine = nullptr;
                 break;
 
-            case 3u:
-            case 7u:
+            case eLineTypes::eCeiling_3:
+            case eLineTypes::eBackGroundCeiling_7:
                 if (field_C8_vely < FP_FromInteger(0))
                 {
                     field_B8_xpos = hitX;
@@ -297,7 +295,7 @@ s16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
         return 1;
     }
 
-    if (pHit->field_4_typeId == AETypes::eMine_88 || pHit->field_4_typeId == AETypes::eUXB_143 || pHit->field_4_typeId == AETypes::eTimedMine_or_MovingBomb_10)
+    if (pHit->Type() == AETypes::eMine_88 || pHit->Type() == AETypes::eUXB_143 || pHit->Type() == AETypes::eTimedMine_or_MovingBomb_10)
     {
         return 1;
     }
@@ -465,7 +463,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
     ctor_408240(0);
     SetVTable(this, 0x5460D4);
 
-    field_4_typeId = AETypes::eMeatSack_85;
+    SetType(AETypes::eMeatSack_85);
 
     const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -503,7 +501,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_11E_meat_amount = pTlv->field_18_meat_amount;
+    field_11E_amount_of_meat = pTlv->field_18_amount_of_meat;
 
     field_E0_pShadow = ae_new<Shadow>();
     if (field_E0_pShadow)
@@ -661,12 +659,12 @@ void MeatSack::vUpdate_46A6A0()
                 gpThrowableArray_5D1E2C->ctor_49A630();
             }
 
-            gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_meat_amount);
+            gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_amount_of_meat);
 
             auto pMeat = ae_new<Meat>();
             if (pMeat)
             {
-                pMeat->ctor_4694A0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_meat_amount);
+                pMeat->ctor_4694A0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_amount_of_meat);
             }
 
             pMeat->VThrow_49E460(field_124_velX, field_128_velY);
@@ -724,7 +722,7 @@ s32 Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
     return sizeof(Meat_SaveState);
 }
 
-BOOL Meat::vCanEatMe_4696A0()
+Bool32 Meat::vCanEatMe_4696A0()
 {
     return field_11C_state != MeatStates::eCreated_0;
 }

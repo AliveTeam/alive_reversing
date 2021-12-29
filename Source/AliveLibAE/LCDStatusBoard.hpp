@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
 #include "Font.hpp"
@@ -11,8 +11,9 @@ struct Path_LCDStatusBoard final : public Path_TLV
 {
     s16 field_10_number_of_muds;
     s16 field_12_zulag_number;
-    s32 field_14_hidden;
+    Choice_int field_14_hidden;
 };
+ALIVE_ASSERT_SIZEOF(Path_LCDStatusBoard, 0x18);
 
 class LCDStatusBoard final : public BaseGameObject
 {
@@ -43,4 +44,4 @@ public:
 ALIVE_ASSERT_SIZEOF(LCDStatusBoard, 0x10C);
 
 ALIVE_VAR_EXTERN(s16, sMudokonsInArea_5C1BC4);
-ALIVE_VAR_EXTERN(s8, sStatsSignCurrentArea_5C1A20);
+ALIVE_VAR_EXTERN(s8, sZulagNumber_5C1A20);

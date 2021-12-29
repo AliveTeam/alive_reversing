@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
-#include "Psx_common.hpp"
-#include "AddPointer.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Psx_common.hpp"
+#include "../AliveLibCommon/AddPointer.hpp"
 
 namespace AO {
 

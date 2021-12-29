@@ -34,7 +34,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
     field_1B8_flags.Clear(TimedMine_Flags_1B8::eStickToLiftPoint_0);
     field_10C_armed = 0;
 
-    if (pTlv->field_1C_scale == 1)
+    if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
@@ -237,7 +237,8 @@ void TimedMine::StickToLiftPoint_408CA0()
             &hitY,
             (field_BC_sprite_scale != FP_FromDouble(0.5)) ? 7 : 0x70))
     {
-        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
+            pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             if (ObjListPlatforms_50766C)
             {

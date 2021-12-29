@@ -1,12 +1,11 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BellSong.hpp"
-#include "stdafx_ao.h"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "Input.hpp"
-#include "Path.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -92,7 +91,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);
     ENTRY(Motion_66_LedgeHang_428D90)                \
     ENTRY(Motion_67_ToOffScreenHoist_428C50)         \
     ENTRY(Motion_68_LedgeHangWobble_428E50)          \
-    ENTRY(Motion_69_RingRopePull_4299B0)             \
+    ENTRY(Motion_69_RingRopePullHang_4299B0)             \
     ENTRY(Motion_70_Knockback_428FB0)                \
     ENTRY(Motion_71_KnockbackGetUp_429240)           \
     ENTRY(Motion_72_PushWall_4292A0)                 \
@@ -107,10 +106,10 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);
     ENTRY(Motion_81_InsideWellExpress_431320)        \
     ENTRY(Motion_82_WellExpressShotOut_4315A0)       \
     ENTRY(Motion_83_430F00)                          \
-    ENTRY(Motion_84_431080)                          \
-    ENTRY(Motion_85_431710)                          \
+    ENTRY(Motion_84_ToInsideWellLocal_431080)                          \
+    ENTRY(Motion_85_ToWellShotOut_431710)                          \
     ENTRY(Motion_86_FallLandDie_42EDD0)              \
-    ENTRY(Motion_87_428FA0)                          \
+    ENTRY(Motion_87_ToFall_428FA0)                          \
     ENTRY(Motion_88_HandstoneBegin_430590)           \
     ENTRY(Motion_89_HandstoneEnd_430E80)             \
     ENTRY(Motion_90_GrenadeMachineUse_430EA0)        \
@@ -129,7 +128,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);
     ENTRY(Motion_103_ElumIdle_42DCD0)                \
     ENTRY(Motion_104_ElumRunSlideStop_42DF00)        \
     ENTRY(Motion_105_ElumRunTurn_42DF10)             \
-    ENTRY(Motion_106_42DF20)                         \
+    ENTRY(Motion_106_Null_42DF20)                         \
     ENTRY(Motion_107_ElumHopBegin_42DF30)            \
     ENTRY(Motion_108_ElumHopMid_42DF40)              \
     ENTRY(Motion_109_ElumHopLand_42DF50)             \
@@ -139,10 +138,10 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);
     ENTRY(Motion_113_ElumTurn_42DF90)                \
     ENTRY(Motion_114_ElumRunLoop_42DFA0)             \
     ENTRY(Motion_115_ElumSpeak_4299F0)               \
-    ENTRY(Motion_116_42DFB0)                         \
+    ENTRY(Motion_116_Null_42DFB0)                         \
     ENTRY(Motion_117_ElumWalkBegin_42DFC0)           \
     ENTRY(Motion_118_ElumRunBegin_42DFD0)            \
-    ENTRY(Motion_119_42DFE0)                         \
+    ENTRY(Motion_119_Null_42DFE0)                         \
     ENTRY(Motion_120_ElumRunToWalk_42DFF0)           \
     ENTRY(Motion_121_ElumMidRunToWalk_42E000)        \
     ENTRY(Motion_122_ElumRunTurnToRun_42E010)        \
@@ -350,14 +349,14 @@ struct Path_RingCancel : public Path_TLV
 
 struct Path_Edge final : public Path_TLV
 {
-    enum class Type : s16
+    enum class GrabDirection : s16
     {
         eLeft = 0,
         eRight = 1,
         eBoth = 2,
     };
-    Type field_18_type;
-    s16 field_1A_can_grab;
+    GrabDirection field_18_grab_direction;
+    Choice_short field_1A_can_grab;
 };
 
 struct Path_SoftLanding final : public Path_TLV
@@ -430,7 +429,7 @@ ALIVE_ASSERT_SIZEOF(Path_Stone, 0x2C);
 class Abe final : public BaseAliveGameObject
 {
 public:
-    BOOL Is_Celling_Above();
+    Bool32 Is_Celling_Above();
 
     EXPORT Abe* ctor_420770(s32 frameTableOffset, s32 a3, s32 a4, s32 a5);
 
@@ -466,7 +465,7 @@ public:
 
     EXPORT void ToDeathDropFall_42C3D0();
 
-    EXPORT BOOL IsStanding_41FC10();
+    EXPORT Bool32 IsStanding_41FC10();
 
     EXPORT void FollowLift_42EE90();
 
@@ -528,7 +527,7 @@ public:
 
     EXPORT s16 RunTryEnterDoor_4259C0();
 
-    BOOL NearDoorIsOpen();
+    Bool32 NearDoorIsOpen();
 
     EXPORT void IntoPortalStates_4262A0();
 
@@ -612,7 +611,7 @@ public:
     EXPORT void Motion_66_LedgeHang_428D90();
     EXPORT void Motion_67_ToOffScreenHoist_428C50();
     EXPORT void Motion_68_LedgeHangWobble_428E50();
-    EXPORT void Motion_69_RingRopePull_4299B0();
+    EXPORT void Motion_69_RingRopePullHang_4299B0();
     EXPORT void Motion_70_Knockback_428FB0();
     EXPORT void Motion_71_KnockbackGetUp_429240();
     EXPORT void Motion_72_PushWall_4292A0();
@@ -623,14 +622,14 @@ public:
     EXPORT void Motion_77_WellBegin_430F10();
     EXPORT void Motion_78_InsideWellLocal_4310A0();
     EXPORT void Motion_79_WellShotOut_431730();
-    EXPORT void Motion_80_430EF0();
+    EXPORT void Motion_80_ToWellBegin_430EF0();
     EXPORT void Motion_81_InsideWellExpress_431320();
     EXPORT void Motion_82_WellExpressShotOut_4315A0();
-    EXPORT void Motion_83_430F00();
-    EXPORT void Motion_84_431080();
-    EXPORT void Motion_85_431710();
+    EXPORT void Motion_83_ToWellBegin_430F00();
+    EXPORT void Motion_84_ToInsideWellLocal_431080();
+    EXPORT void Motion_85_ToWellShotOut_431710();
     EXPORT void Motion_86_FallLandDie_42EDD0();
-    EXPORT void Motion_87_428FA0();
+    EXPORT void Motion_87_ToFall_428FA0();
     EXPORT void Motion_88_HandstoneBegin_430590();
     EXPORT void Motion_89_HandstoneEnd_430E80();
     EXPORT void Motion_90_GrenadeMachineUse_430EA0();
@@ -649,7 +648,7 @@ public:
     EXPORT void Motion_103_ElumIdle_42DCD0();
     EXPORT void Motion_104_ElumRunSlideStop_42DF00();
     EXPORT void Motion_105_ElumRunTurn_42DF10();
-    EXPORT void Motion_106_42DF20();
+    EXPORT void Motion_106_Null_42DF20();
     EXPORT void Motion_107_ElumHopBegin_42DF30();
     EXPORT void Motion_108_ElumHopMid_42DF40();
     EXPORT void Motion_109_ElumHopLand_42DF50();
@@ -659,10 +658,10 @@ public:
     EXPORT void Motion_113_ElumTurn_42DF90();
     EXPORT void Motion_114_ElumRunLoop_42DFA0();
     EXPORT void Motion_115_ElumSpeak_4299F0();
-    EXPORT void Motion_116_42DFB0();
+    EXPORT void Motion_116_Null_42DFB0();
     EXPORT void Motion_117_ElumWalkBegin_42DFC0();
     EXPORT void Motion_118_ElumRunBegin_42DFD0();
-    EXPORT void Motion_119_42DFE0();
+    EXPORT void Motion_119_Null_42DFE0();
     EXPORT void Motion_120_ElumRunToWalk_42DFF0();
     EXPORT void Motion_121_ElumMidRunToWalk_42E000();
     EXPORT void Motion_122_ElumRunTurnToRun_42E010();

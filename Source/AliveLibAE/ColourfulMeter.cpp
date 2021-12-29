@@ -20,7 +20,7 @@ ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvIn
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5451EC);
 
-    field_4_typeId = AETypes::eColourfulMeter_59;
+    SetType(AETypes::eColourfulMeter_59);
     field_68_tlvInfo = tlvInfo;
 
     field_74_tlv_x = pTlv->field_8_top_left.field_0_x;

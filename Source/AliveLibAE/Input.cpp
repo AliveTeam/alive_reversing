@@ -906,6 +906,7 @@ struct IniCustomSaveEntry final
 };
 
 bool canOverwriteIni = true;
+bool gLatencyHack = true;
 
 std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
     {"keep_aspect", {&s_VGA_KeepAspectRatio}, true},
@@ -916,6 +917,7 @@ std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
 #endif
     {"debug_mode", {&gDebugHelpersEnabled}, true},
     {"overwrite_ini_by_game", {&canOverwriteIni}, true},
+    {"latency_hack", {&gLatencyHack}, true},
 };
 
 enum class IniCategory
@@ -1964,16 +1966,16 @@ void InputObject::SetDemoResource_45F1E0(u32** pDemoRes)
 
 void InputObject::Update_45F040()
 {
-    const u8 byte_545A4C[20] = {
-        0,   // left?
-        64,  // up?
-        192, // down?
+    const u8 directionTable_545A4C[20] = {
+        0,   
+        64,  // up
+        192, // down
         0,
-        128, // right?
+        128, // left
         96,
         160,
         128,
-        0,
+        0, // right
         32,
         224,
         0,
@@ -2015,22 +2017,22 @@ void InputObject::Update_45F040()
         // Will do nothing if we hit the end command..
         if (Is_Demo_Playing_45F220())
         {
-            field_0_pads[0].field_0_pressed = Command_To_Raw_45EE40(field_3C_command);
+            field_0_pads[0].field_0_pressed = PsxButtonsToKeyboardInput_45EE40(field_3C_command);
         }
     }
 
     field_0_pads[0].field_10_released = field_0_pads[0].field_8_previous & ~field_0_pads[0].field_0_pressed;
     field_0_pads[0].field_C_held = field_0_pads[0].field_0_pressed & ~field_0_pads[0].field_8_previous;
-    field_0_pads[0].field_4_dir = byte_545A4C[field_0_pads[0].field_0_pressed & 0xF];
+    field_0_pads[0].field_4_dir = directionTable_545A4C[field_0_pads[0].field_0_pressed & 0xF];
 
     field_0_pads[1].field_8_previous = field_0_pads[1].field_0_pressed;
     field_0_pads[1].field_0_pressed = Input_Read_Pad_4FA9C0(1);
     field_0_pads[1].field_10_released = field_0_pads[1].field_8_previous & ~field_0_pads[1].field_0_pressed;
     field_0_pads[1].field_C_held = field_0_pads[1].field_0_pressed & ~field_0_pads[1].field_8_previous;
-    field_0_pads[1].field_4_dir = byte_545A4C[field_0_pads[1].field_0_pressed & 0xF];
+    field_0_pads[1].field_4_dir = directionTable_545A4C[field_0_pads[1].field_0_pressed & 0xF];
 }
 
-u32 CC InputObject::Command_To_Raw_45EE40(u32 cmd)
+u32 CC InputObject::PsxButtonsToKeyboardInput_45EE40(u32 cmd)
 {
     u32 shoulderButtonsPressedCount = 0;
 
@@ -2160,50 +2162,81 @@ u32 CC InputObject::Command_To_Raw_45EE40(u32 cmd)
     return rawInput;
 }
 
-// TODO: Refactor/implement cleanly - this should be the reverse of Command_To_Raw_45EE40
-s8 CC InputObject::Raw_To_Command_45EF70(s32 a1)
+// apparently we don't convert movement and some other inputs due to the
+// OG function return size limit
+s8 CC InputObject::KeyboardInputToPsxButtons_45EF70(s32 cmd)
 {
-    s32 v1;    // ecx
-    s8 result; // al
-
-    v1 = a1;
-    result = 0;
-    if (a1 & 1)
+    s8 result = 0;
+    if (cmd & 1)
     {
         result = 0;
     }
-    if (a1 & 0x10)
+
+    if (cmd & InputCommands::Enum::eChant)
     {
-        result = 8;
+        result |= PsxButtonBits::eL1 + PsxButtonBits::eL2;
     }
-    if (a1 & 0x40)
+
+    if (cmd & InputCommands::Enum::eHop)
     {
-        result |= 2u;
+        result |= PsxButtonBits::eTriangle;
     }
-    if (v1 & 0x43C00)
+
+    if (cmd & InputCommands::Enum::eThrowItem)
     {
-        result |= 4u;
+        result |= PsxButtonBits::eCircle;
     }
-    if (v1 & 0x7C000)
+
+    if (cmd & InputCommands::Enum::eFartOrRoll)
     {
-        result |= 1u;
+        result |= PsxButtonBits::eCross;
     }
-    if (v1 & 0x8500)
+
+    if (cmd & InputCommands::Enum::eDoAction)
     {
-        result |= 0x10u;
+        result |= PsxButtonBits::eSquare;
     }
-    if (v1 & 0x20820)
+
+    if (cmd & InputCommands::Enum::eGameSpeak1)
     {
-        result |= 0x80u;
+        result |= PsxButtonBits::eL1 + PsxButtonBits::eTriangle;
     }
-    if (v1 & 0x12080)
+
+    if (cmd & InputCommands::Enum::eGameSpeak2)
     {
-        result |= 0x20u;
+        result |= PsxButtonBits::eL1 + PsxButtonBits::eSquare;
     }
-    if (v1 & 0x5200)
+
+    if (cmd & InputCommands::Enum::eGameSpeak3)
     {
-        result |= 0x40u;
+        result |= PsxButtonBits::eL1 + PsxButtonBits::eCross;
     }
+
+    if (cmd & InputCommands::Enum::eGameSpeak4)
+    {
+        result |= PsxButtonBits::eL1 + PsxButtonBits::eCircle;
+    }
+
+    if (cmd & InputCommands::Enum::eGameSpeak5)
+    {
+        result |= PsxButtonBits::eL2 + PsxButtonBits::eCross;
+    }
+
+    if (cmd & InputCommands::Enum::eGameSpeak6)
+    {
+        result |= PsxButtonBits::eL2 + PsxButtonBits::eTriangle;
+    }
+
+    if (cmd & InputCommands::Enum::eGameSpeak7)
+    {
+        result |= PsxButtonBits::eL2 + PsxButtonBits::eCircle;
+    }
+
+    if (cmd & InputCommands::Enum::eGameSpeak8)
+    {
+        result |= PsxButtonBits::eL2 + PsxButtonBits::eSquare;
+    }
+
     return result;
 }
 

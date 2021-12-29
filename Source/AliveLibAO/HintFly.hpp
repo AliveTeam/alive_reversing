@@ -1,12 +1,16 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
 void HintFly_ForceLink();
 
+struct StringTable;
+
 namespace AO {
+
+void SetHintFlyMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
 
 struct HintFlyParticle;
 

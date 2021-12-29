@@ -486,7 +486,7 @@ s16 CC SaveGame::LoadFromFile_459D30(const char_type* name)
     }
 }
 
-BOOL CC SaveGame::SaveToFile_45A110(const char_type* name)
+Bool32 CC SaveGame::SaveToFile_45A110(const char_type* name)
 {
     char_type buffer[40] = {};
 

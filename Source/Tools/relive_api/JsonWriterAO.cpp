@@ -1,19 +1,20 @@
 #include "JsonWriterAO.hpp"
 #include <jsonxx/jsonxx.h>
-#include "../AliveLibAO/Map.hpp"
+#include "../../AliveLibAO/Map.hpp"
 #include "TypesCollectionAO.hpp"
 #include "TlvObjectBase.hpp"
 #include "JsonReaderBase.hpp"
 
+namespace ReliveAPI {
 JsonWriterAO::JsonWriterAO(std::unique_ptr<TypesCollectionAO>&& typesCollection, s32 pathId, const std::string& pathBndName, const PathInfo& info)
     : JsonWriterBase(*typesCollection, pathId, pathBndName, info)
-    , mTypesCollection{ std::move(typesCollection) }
+    , mTypesCollection{std::move(typesCollection)}
 {
     mMapRootInfo.mGame = "AO";
 }
 
 JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const PathInfo& info)
-    : JsonWriterAO{ std::make_unique<TypesCollectionAO>(), pathId, pathBndName, info }
+    : JsonWriterAO{std::make_unique<TypesCollectionAO>(), pathId, pathBndName, info}
 {
 }
 
@@ -46,7 +47,7 @@ JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const Pat
                 LOG_WARNING("Ignoring type: " << magic_enum::enum_name(pPathTLV->field_4_type.mType));
             }
 
-            pPathTLV = AO::Path_TLV::Next_446460(pPathTLV);
+            pPathTLV = AO::Path_TLV::Next(pPathTLV);
             if (pPathTLV)
             {
                 pPathTLV->RangeCheck();
@@ -120,3 +121,4 @@ void JsonWriterAO::DebugDumpTlvs(const std::string& prefix, const PathInfo& info
 }
 
 JsonWriterAO::~JsonWriterAO() = default;
+} // namespace ReliveAPI

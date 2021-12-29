@@ -42,15 +42,6 @@ add_library(DxOld INTERFACE)
 target_include_directories(DxOld SYSTEM INTERFACE DxOld/)
 export(TARGETS DxOld FILE DxOld.cmake)
 
-# jsonxx lib
-add_library(jsonxx jsonxx/jsonxx.cc)
-target_include_directories(jsonxx SYSTEM PUBLIC
-    $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_SOURCE_DIR}/jsonxx>)
-export(TARGETS jsonxx FILE jsonxx.cmake)
-set_property(TARGET jsonxx PROPERTY FOLDER "3rdParty")
-
-
 # googletest lib
 add_library(googletest
     googletest/googletest/src/gtest-all.cc
@@ -113,19 +104,6 @@ target_include_directories(glm SYSTEM INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/glm>
     )
 export(TARGETS glm FILE glm.cmake)
-
-# lodepng lib
-add_library(lodepng
-    lodepng/lodepng.cpp
-    lodepng/lodepng.h
-    )
-
-target_include_directories(lodepng SYSTEM PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lodepng>
-    $<INSTALL_INTERFACE:lodepng>)
-
-set_property(TARGET lodepng PROPERTY FOLDER "3rdParty")
-export(TARGETS lodepng FILE lodepng.cmake)
 
 add_subdirectory(fluidsynth-lite)
 target_include_directories(libfluidsynth SYSTEM PUBLIC

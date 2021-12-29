@@ -1,8 +1,8 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "FunctionFwd.hpp"
-#include "BitField.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 #include "Input.hpp"
 #include "Path.hpp"
 
@@ -68,7 +68,7 @@
     ENTRY(Motion_57_Dead_4589A0)                     \
     ENTRY(Motion_58_DeadPre_4593E0)                  \
     ENTRY(Motion_59_Null_459450)                     \
-    ENTRY(Motion_60_4A3200)                          \
+    ENTRY(Motion_60_Unused_4A3200)                          \
     ENTRY(Motion_61_TurnToRun_456530)                \
     ENTRY(Motion_62_Punch_454750)                    \
     ENTRY(Motion_63_Sorry_454670)                    \
@@ -183,13 +183,13 @@ struct Path_ContinuePoint final : public Path_TLV
 
 struct Path_ResetSwitchRange final : public Path_TLV
 {
-    s16 field_10_set_switches;
+    Choice_short field_10_reset_switch_ids;
     s16 field_12_start_id;
     s16 field_14_end_id;
     s16 field_16_skip_id;
-    s16 field_18_free_path_res;
+    Choice_short field_18_free_path_res;
     s16 field_1A_path_to_free_id;
-    s16 field_1C_bEnabled;
+    Choice_short field_1C_bEnabled;
     s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetSwitchRange, 0x20);
@@ -271,7 +271,7 @@ enum class StoneStates : u16
     eCircularFadeExit_7 = 7,
 };
 
-enum class DoorStates : u16
+enum class AbeDoorStates : u16
 {
     eAbeComesIn_0 = 0,
     ePadding_1 = 1,
@@ -302,7 +302,7 @@ union AllInternalStates
 {
     ChantStates chant;
     StoneStates stone;
-    DoorStates door;
+    AbeDoorStates door;
     WorkWheelStates wheel;
     u16 raw;
 };
@@ -480,7 +480,7 @@ public:
     EXPORT BaseAliveGameObject* FindObjectToPossess_44B7B0();
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
-    EXPORT BOOL IsStanding_449D30();
+    EXPORT Bool32 IsStanding_449D30();
     EXPORT void Free_Shrykull_Resources_45AA90();
 
     EXPORT u8** MotionToAnimResource_44AAB0(s16 motion);
@@ -546,7 +546,7 @@ public:
     EXPORT void Motion_57_Dead_4589A0();
     EXPORT void Motion_58_DeadPre_4593E0();
     void Motion_59_Null_459450();
-    EXPORT void Motion_60_4A3200();
+    EXPORT void Motion_60_Unused_4A3200();
     EXPORT void Motion_61_TurnToRun_456530();
     EXPORT void Motion_62_Punch_454750();
     EXPORT void Motion_63_Sorry_454670();
@@ -636,7 +636,7 @@ public:
     EXPORT void PushWall_44E890();
     EXPORT void MoveForward_44E9A0();
     EXPORT s16 CrouchingGameSpeak_453E10();
-    EXPORT BOOL Is_Celling_Above_44E8D0();
+    EXPORT Bool32 Is_Celling_Above_44E8D0();
     EXPORT void MoveWithVelocity_450FA0(FP velocityX);
     EXPORT s16 RunTryEnterDoor_451220();
     EXPORT s16 RunTryEnterWell_451060();

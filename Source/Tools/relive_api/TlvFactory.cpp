@@ -2,14 +2,15 @@
 
 #include "TlvObjectBase.hpp"
 
-#include "../AliveLibAO/PathData.hpp"
-#include "../AliveLibAO/Map.hpp"
+#include "../../AliveLibAO/PathData.hpp"
+#include "../../AliveLibAO/Map.hpp"
 
-#include "../AliveLibAE/Path.hpp"
+#include "../../AliveLibAE/Path.hpp"
 
 #include <jsonxx/jsonxx.h>
 #include <magic_enum/include/magic_enum.hpp>
 
+namespace ReliveAPI {
 template <typename TlvEnumType, typename PathTlvType>
 [[nodiscard]] std::unique_ptr<TlvObjectBase> TlvFactory<TlvEnumType, PathTlvType>::MakeTlvByEnum(TypesCollectionBase& typesCollection, TlvEnumType tlvType, PathTlvType* pTlv, s32 instanceCount) const
 {
@@ -49,3 +50,4 @@ void TlvFactory<TlvEnumType, PathTlvType>::AddTlvsToJsonArray(TypesCollectionBas
 
 template class TlvFactory<TlvTypes, Path_TLV>;
 template class TlvFactory<AO::TlvTypes, AO::Path_TLV>;
+} // namespace ReliveAPI

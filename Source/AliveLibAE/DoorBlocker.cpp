@@ -21,7 +21,7 @@ DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, s32 tlvInfo)
 
     field_118_bDone &= ~1u;
 
-    field_4_typeId = AETypes::eDoorLock_34;
+    SetType(AETypes::eDoorLock_34);
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_11C_tlvInfo = tlvInfo;

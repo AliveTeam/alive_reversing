@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 
 class LiftPoint;
 
@@ -34,7 +34,7 @@ struct Path_LiftMover final : public Path_TLV
         eDown_0 = 0,
         eUp_1 = 1,
     };
-    YDirection field_14_direction;
+    YDirection field_14_move_direction;
     s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);

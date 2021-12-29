@@ -126,7 +126,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
         field_C_objectId = tlvInfo;
     }
 
-    field_4_typeId = AETypes::eFlyingSlig_54;
+    SetType(AETypes::eFlyingSlig_54);
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFlySligResID, TRUE, FALSE));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, TRUE, FALSE));
@@ -190,11 +190,11 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     field_106_current_motion = eFlyingSligMotions::M_Idle_0_4385E0;
 
-    if (field_118_data.field_10_data.field_2_state == 1)
+    if (field_118_data.field_10_data.field_2_state == Path_FlyingSlig_Data::SpawnDelayStates::eUseCustomSpawnMoveDelay_1)
     {
-        field_14C_timer = sGnFrame_5C1B84 + field_118_data.field_10_data.field_4_hi_pause_time;
+        field_14C_timer = sGnFrame_5C1B84 + field_118_data.field_10_data.field_4_spawn_move_delay;
     }
-    else if (field_118_data.field_10_data.field_2_state == 0)
+    else if (field_118_data.field_10_data.field_2_state == Path_FlyingSlig_Data::SpawnDelayStates::eMoveImmediately_0)
     {
         field_14C_timer = sGnFrame_5C1B84 + 1;
     }
@@ -205,7 +205,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
     field_2B4_max_slow_down = FP_FromDouble(0.4) * field_CC_sprite_scale;
     field_2B8_max_speed_up = FP_FromDouble(0.4) * field_CC_sprite_scale;
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_118_data.field_10_data.field_A_direction == 0);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_118_data.field_10_data.field_A_direction == XDirection_short::eLeft_0);
 
     if (field_118_data.field_10_data.field_0_scale == Scale_short::eHalf_1)
     {
@@ -220,7 +220,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_17E_flags.Set(Flags_17E::eBit13_Persistant, field_118_data.field_10_data.field_1E_persistant & 1);
+    field_17E_flags.Set(Flags_17E::eBit13_Persistant, field_118_data.field_10_data.field_1E_persistant == Choice_short::eYes_1);
 
     field_17C_launch_id |= field_118_data.field_10_data.field_1C_launch_id;
 
@@ -729,7 +729,7 @@ void FlyingSlig::sub_4348A0()
     const s16 v5 = FP_GetExponent(field_BC_ypos - field_1A4_rect.y);
     const s16 v6 = FP_GetExponent(field_B8_xpos - field_1A4_rect.x);
     field_194 = FP_FromInteger(Math_SquareRoot_Int_496E70(v5 * v5 + v6 * v6));
-    field_17E_flags.Set(Flags_17E::eBit4, field_118_data.field_10_data.field_A_direction == 0);
+    field_17E_flags.Set(Flags_17E::eBit4, field_118_data.field_10_data.field_A_direction == XDirection_short::eLeft_0);
 }
 
 const s32 sBobbingValuesHorizontalMovement_552500[9] = {
@@ -995,7 +995,7 @@ s16 FlyingSlig::VTakeDamage_408730(BaseGameObject* pFrom)
 
 s16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
 {
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eBullet_15:
         {
@@ -1139,7 +1139,7 @@ void FlyingSlig::Brain_4_ChasingEnemy_435BC0()
         return;
     }
 
-    if (Event_Get_422C00(kEventResetting) || sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale || IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (sControlledCharacter_5C1B8C != sActiveHero_5C1B68 || sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->field_4_typeId != AETypes::eMineCar_89))
+    if (Event_Get_422C00(kEventResetting) || sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale || IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (sControlledCharacter_5C1B8C != sActiveHero_5C1B68 || sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->Type() != AETypes::eMineCar_89))
     {
         PatrolDelay_435860();
         return;
@@ -2260,7 +2260,7 @@ s16 CCSTD FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
     return Slig::IsAbeEnteringDoor_4BB990(pThis);
 }
 
-BOOL CCSTD FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj)
+Bool32 CCSTD FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj)
 {
     // TODO: Duplicated like IsAbeEnteringDoor_4BB990 ??
     PSX_RECT bRect = {};
@@ -2419,7 +2419,7 @@ void FlyingSlig::ToAlerted_4357E0()
 {
     Say_436A50(SligSpeak ::eWhat_9, 0);
     SetBrain(&FlyingSlig::Brain_3_GetAlerted_435750);
-    field_14C_timer = sGnFrame_5C1B84 + field_118_data.field_10_data.field_14_listen_time;
+    field_14C_timer = sGnFrame_5C1B84 + field_118_data.field_10_data.field_14_alerted_listen_time;
 }
 
 void FlyingSlig::ToPanicMoving_435A50()
@@ -2927,7 +2927,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
     }
 }
 
-BOOL FlyingSlig::sub_436B20()
+Bool32 FlyingSlig::sub_436B20()
 {
     PathLine* pLastNextOrPrevLine = nullptr;
 
@@ -3347,7 +3347,7 @@ s16 FlyingSlig::TryPullLever_439DB0()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eLever_139)
+        if (pObj->Type() == AETypes::eLever_139)
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 

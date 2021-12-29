@@ -1,12 +1,13 @@
 #include "BasicTypeBase.hpp"
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 
 #include <jsonxx/jsonxx.h>
 
 #include <string>
 #include <typeindex>
 
+namespace ReliveAPI {
 BasicTypeBase::BasicTypeBase(const std::type_index& typeIndex, const std::string& typeName, s32 minVal, s32 maxVal)
     : ITypeBase(typeName)
     , mTypeIndex(typeIndex)
@@ -34,3 +35,4 @@ void BasicTypeBase::ToJson(jsonxx::Array& obj) const
 
     obj << ret;
 }
+} // namespace ReliveAPI

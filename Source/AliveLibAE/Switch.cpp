@@ -51,7 +51,7 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, u32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547A5C);
 
-    field_4_typeId = AETypes::eLever_139;
+    SetType(AETypes::eLever_139);
     const AnimRecord& rec = AnimRec(AnimId::Switch_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -174,12 +174,12 @@ void Switch::vUpdate_4D5C00()
 
             if (field_100_flags.Get(Flags_100::eBit1_switch_anim_left_direction))
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Left_B);
+                const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Release_Left);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
             else
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Right_B);
+                const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Release_Right);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
 
@@ -316,13 +316,13 @@ s16 Switch::vPull_4D6050(s16 bLeftDirection)
 
     if (bLeftDirection)
     {
-        const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Left_A);
+        const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Left);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_100_flags.Set(Flags_100::eBit1_switch_anim_left_direction);
     }
     else
     {
-        const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Right_A);
+        const AnimRecord& animRec = AnimRec(AnimId::Switch_Pull_Right);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_100_flags.Clear(Flags_100::eBit1_switch_anim_left_direction);
     }

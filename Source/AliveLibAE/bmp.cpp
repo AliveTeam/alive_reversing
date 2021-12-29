@@ -1952,7 +1952,7 @@ COLORREF WINAPI Stub_SetTextColor(HDC, COLORREF color)
     return 0;
 }
 
-BOOL WINAPI Stub_TextOutA(HDC, _In_ s32, _In_ s32, LPCSTR, s32)
+Bool32 WINAPI Stub_TextOutA(HDC, _In_ s32, _In_ s32, LPCSTR, s32)
 {
     return TRUE;
 }

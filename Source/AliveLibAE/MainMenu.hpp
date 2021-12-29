@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "DynamicArray.hpp"
 #include "BaseGameObject.hpp"
 #include "Animation.hpp"
@@ -25,7 +25,7 @@ struct MenuFMV final
     s16 field_E;
 };
 
-enum MainMenuButtonType
+enum MainMenuButtonType : s16
 {
     eNoButton = 0, // signifies the end of the BtnArray
     eCircularSelectableButton = 1,
@@ -450,6 +450,6 @@ ALIVE_VAR_EXTERN(s32, sMainMenuObjectCounter_BB4400);
 
 ALIVE_VAR_EXTERN(s8, sEnableCheatLevelSelect_5C1BEE);
 ALIVE_VAR_EXTERN(s8, sEnableCheatFMV_5C1BEC);
-ALIVE_VAR_EXTERN(PerPathMudStats, sSavedKilledMudsPerPath_5C1B50);
+ALIVE_VAR_EXTERN(PerPathMudStats, sSavedKilledMudsPerZulag_5C1B50);
 ALIVE_VAR_EXTERN(u32, sLevelId_dword_5CA408);
 ALIVE_VAR_EXTERN(s32, sGameStartedFrame_5C1B88);

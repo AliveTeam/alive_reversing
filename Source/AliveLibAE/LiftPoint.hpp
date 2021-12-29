@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "PlatformBase.hpp"
 #include "Path.hpp"
 
@@ -63,12 +63,12 @@ public:
 
 public:
     EXPORT void vKeepOnMiddleFloor_461870();
-    EXPORT BOOL vOnTopFloor_461890();
-    EXPORT BOOL vOnMiddleFloor_4618C0();
-    EXPORT BOOL vOnBottomFloor_4618F0();
-    EXPORT BOOL vOnAnyFloor_461920();
-    EXPORT BOOL vOnAFloorLiftMoverCanUse_461960();
-    EXPORT BOOL vMovingToFloorLevel_4619B0();
+    EXPORT Bool32 vOnTopFloor_461890();
+    EXPORT Bool32 vOnMiddleFloor_4618C0();
+    EXPORT Bool32 vOnBottomFloor_4618F0();
+    EXPORT Bool32 vOnAnyFloor_461920();
+    EXPORT Bool32 vOnAFloorLiftMoverCanUse_461960();
+    EXPORT Bool32 vMovingToFloorLevel_4619B0();
 
     EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, s32 not_used);
 

@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 
+namespace ReliveAPI {
 class TlvObjectBase;
 
 class TypesCollectionAE final : public TypesCollectionBase
@@ -25,3 +26,4 @@ private:
 
     TlvFactory<TlvTypes, Path_TLV> mTlvFactoryAE;
 };
+} // namespace ReliveAPI

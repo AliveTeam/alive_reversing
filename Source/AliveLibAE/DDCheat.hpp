@@ -1,10 +1,10 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Game.hpp"
 #include "Input.hpp"
-#include "Function.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "FixedPoint.hpp"
 

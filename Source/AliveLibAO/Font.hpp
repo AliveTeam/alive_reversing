@@ -1,7 +1,7 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
-#include "FixedPoint_common.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "Psx.hpp"
 #include "Primitives.hpp"
 

@@ -6,6 +6,7 @@
 #include "Psx.hpp"
 #include "DebugHelpers.hpp"
 #include "Sys_common.hpp"
+#include <gmock/gmock.h>
 
 ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
 
@@ -310,7 +311,7 @@ s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16,
     return FALSE;
 }
 
-BOOL Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
+Bool32 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
 {
     // Take 2 copies of the input before anything changes them, important as the caller can pass in defaults - don't overwrite them if we don't
     // find a collision!
@@ -384,7 +385,7 @@ PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, 
     pAddedLine->field_0_rect.y = y1;
     pAddedLine->field_0_rect.w = x2;
     pAddedLine->field_0_rect.h = y2;
-    pAddedLine->field_8_type = mode;
+    pAddedLine->field_8_type = static_cast<eLineTypes>(mode);
     pAddedLine->field_C_next = -1;
     pAddedLine->field_A_previous = -1;
     return pAddedLine;
@@ -470,7 +471,7 @@ void CollisionTests()
 
     PathLine test = {
         {0x02bc, 0x01cc, 0x0659, 0x01cc},
-        0,
+        eLineTypes::eFloor_0,
         0,
         -1,
         -1,

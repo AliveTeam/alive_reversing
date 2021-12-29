@@ -15,21 +15,21 @@
 #include "Abe.hpp"
 
 const AnimId sFallingItemData_544DC0[15][2] = {
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Crate_A, AnimId::Falling_Crate_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Rock_A, AnimId::Falling_Rock_B},
-    {AnimId::Falling_Crate_A, AnimId::Falling_Crate_B}};
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::FallingCrate_Falling, AnimId::FallingCrate_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
+    {AnimId::FallingCrate_Falling, AnimId::FallingCrate_Waiting}};
 
 ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
 
@@ -38,7 +38,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
     ctor_408240(0);
     SetVTable(this, 0x544E98);
 
-    field_4_typeId = AETypes::eRockSpawner_48;
+    SetType(AETypes::eRockSpawner_48);
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = tlvInfo;
@@ -107,7 +107,7 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
     ctor_408240(0);
 
     SetVTable(this, 0x544E98);
-    field_4_typeId = AETypes::eRockSpawner_48;
+    SetType(AETypes::eRockSpawner_48);
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = -1;
@@ -469,7 +469,7 @@ void FallingItem::DamageHitItems_427F40()
 
         if (pObj != this)
         {
-            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->field_4_typeId == AETypes::eDrill_30)
+            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eDrill_30)
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
@@ -481,7 +481,7 @@ void FallingItem::DamageHitItems_427F40()
 
                 if (pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
                 {
-                    if (pAliveObj->field_4_typeId == AETypes::eDrill_30 || pAliveObj->field_4_typeId == AETypes::eMineCar_89)
+                    if (pAliveObj->Type() == AETypes::eDrill_30 || pAliveObj->Type() == AETypes::eMineCar_89)
                     {
                         objRect.x += pAliveObj->field_DA_xOffset;
                         objRect.y += pAliveObj->field_D8_yOffset;
@@ -492,12 +492,12 @@ void FallingItem::DamageHitItems_427F40()
 
                     if (PSX_Rects_overlap_no_adjustment(&fallingItemRect, &objRect))
                     {
-                        if (pAliveObj->field_4_typeId == AETypes::eDrill_30)
+                        if (pAliveObj->Type() == AETypes::eDrill_30)
                         {
                             // Drill is not a type that implements VTakeDamage
                             field_134_bHitDrillOrMineCar = TRUE;
                         }
-                        else if (pAliveObj->field_4_typeId == AETypes::eMineCar_89)
+                        else if (pAliveObj->Type() == AETypes::eMineCar_89)
                         {
                             // ?? Could still call VTakeDamage here but OG doesn't ??
                             field_134_bHitDrillOrMineCar = TRUE;
@@ -505,7 +505,7 @@ void FallingItem::DamageHitItems_427F40()
                         else
                         {
                             bool doDamage = true;
-                            if (pAliveObj->field_4_typeId == AETypes::eParamite_96)
+                            if (pAliveObj->Type() == AETypes::eParamite_96)
                             {
                                 // Some strange edge case for paramites - prevents them getting smashed by
                                 // falling items when stood on an edge by their huge heads peeking over a bit.

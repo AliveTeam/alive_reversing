@@ -1,18 +1,19 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Throwable.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
 struct Path_MeatSack final : public Path_TLV
 {
-    s16 field_18_side;
+    XDirection_short field_18_meat_fall_direction;
     u16 field_1A_x_vel;
     s16 field_1C_y_vel;
-    u16 field_1E_scale;
+    Scale_short field_1E_scale;
     s16 field_20_amount_of_meat;
     s16 field_22_pad;
 };
@@ -72,9 +73,9 @@ public:
 
     EXPORT s16 VCanThrow_4390B0();
 
-    virtual BOOL VCanEatMe();
+    virtual Bool32 VCanEatMe();
 
-    EXPORT BOOL VCanEatMe_4390C0();
+    EXPORT Bool32 VCanEatMe_4390C0();
 
     EXPORT s16 VIsFalling_4573B0();
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
-#include "Primitives_common.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
 #include "Layer.hpp"

@@ -221,7 +221,7 @@ EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
     }
 }
 
-EXPORT BOOL CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
+EXPORT Bool32 CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 {
     const s32 x1 = pRect1->x;
     const s32 x2 = pRect2->x;

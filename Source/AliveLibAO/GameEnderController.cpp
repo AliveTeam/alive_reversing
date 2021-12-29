@@ -15,6 +15,7 @@
 #include "Game.hpp"
 #include "Grenade.hpp"
 #include "GasCountDown.hpp"
+#include "PathDataExtensions.hpp"
 
 void GameEnderController_ForceLink()
 { }
@@ -112,21 +113,38 @@ void GameEnderController::VUpdate_41C860()
                         }
                     }
 
-                    if (sRescuedMudokons_5076C0 < 50)
+                    if (sRescuedMudokons_5076C0 >= Path_GoodEndingMuds(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path))
                     {
-                        if (sKilledMudokons_5076BC < 75)
+                        // Stop the death timer
+                        sGasTimer_507700 = 0;
+
+                        gInfiniteGrenades_5076EC = 0;
+                        gRestartRuptureFarmsKilledMuds_5076C4 = 0;
+                        gRestartRuptureFarmsSavedMuds_5076C8 = 0;
+
+                        if (pPauseMenu_5080E0)
                         {
-                            // Bad ending
+                            pPauseMenu_5080E0->field_6_flags.Set(Options::eDead_Bit3);
+                            pPauseMenu_5080E0 = nullptr;
+                        }
+
+                        if (sRescuedMudokons_5076C0 >= Path_GetTotalMuds(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path))
+                        {
+                            // Perfect ending
                             sActiveHero_507678->field_6_flags.Set(Options::eDead_Bit3);
-
-                            gInfiniteGrenades_5076EC = FALSE;
-
-                            gMap_507BA8.SetActiveCam_444660(LevelIds::eBoardRoom_12, 6, 10, CameraSwapEffects::eUnknown_11, 304, 0);
-                            field_14_state = GameEnderController_States::eBadEnding_3;
-                            sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
-                            sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
+                            gMap_507BA8.SetActiveCam_444660(LevelIds::eBoardRoom_12, 6, 11, CameraSwapEffects::eUnknown_11, 316, 0);
+                            field_14_state = GameEnderController_States::ePerfectEnding_4;
                         }
                         else
+                        {
+                            // Meh good enough ending
+                            gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, 1, CameraSwapEffects::eUnknown_11, 316, 0);
+                            field_14_state = GameEnderController_States::eFinish_2;
+                        }
+                    }
+                    else
+                    {
+                        if (sKilledMudokons_5076BC >= Path_BadEndingMuds(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path))
                         {
                             // Very bad ending
                             gInfiniteGrenades_5076EC = TRUE;
@@ -180,34 +198,17 @@ void GameEnderController::VUpdate_41C860()
 
                             field_14_state = GameEnderController_States::eBadEnding_3;
                         }
-                    }
-                    else
-                    {
-                        // Stop the death timer
-                        sGasTimer_507700 = 0;
-
-                        gInfiniteGrenades_5076EC = 0;
-                        gRestartRuptureFarmsKilledMuds_5076C4 = 0;
-                        gRestartRuptureFarmsSavedMuds_5076C8 = 0;
-
-                        if (pPauseMenu_5080E0)
-                        {
-                            pPauseMenu_5080E0->field_6_flags.Set(Options::eDead_Bit3);
-                            pPauseMenu_5080E0 = nullptr;
-                        }
-
-                        if (sRescuedMudokons_5076C0 < 99)
-                        {
-                            // Meh good enough ending
-                            gMap_507BA8.SetActiveCam_444660(LevelIds::eCredits_10, 1, 1, CameraSwapEffects::eUnknown_11, 316, 0);
-                            field_14_state = GameEnderController_States::eFinish_2;
-                        }
                         else
                         {
-                            // Perfect ending
+                            // Bad ending
                             sActiveHero_507678->field_6_flags.Set(Options::eDead_Bit3);
-                            gMap_507BA8.SetActiveCam_444660(LevelIds::eBoardRoom_12, 6, 11, CameraSwapEffects::eUnknown_11, 316, 0);
-                            field_14_state = GameEnderController_States::ePerfectEnding_4;
+
+                            gInfiniteGrenades_5076EC = FALSE;
+
+                            gMap_507BA8.SetActiveCam_444660(LevelIds::eBoardRoom_12, 6, 10, CameraSwapEffects::eUnknown_11, 304, 0);
+                            field_14_state = GameEnderController_States::eBadEnding_3;
+                            sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
+                            sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
                         }
                     }
                 }

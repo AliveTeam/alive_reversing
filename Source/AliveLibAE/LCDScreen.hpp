@@ -1,12 +1,10 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Font.hpp"
 #include "Path.hpp"
 #include "Factory.hpp"
-
-extern const char_type* sLCDMessageTable_555768[101];
 
 struct Path_LCDScreen final : public Path_TLV
 {
@@ -16,6 +14,9 @@ struct Path_LCDScreen final : public Path_TLV
     s16 field_16_message_2_id;
     s32 field_18_toggle_message_switch_id;
 };
+
+struct StringTable;
+void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
 
 class LCDScreen final : public BaseGameObject
 {

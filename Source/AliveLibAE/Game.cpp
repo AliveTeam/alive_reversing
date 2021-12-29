@@ -39,6 +39,7 @@
 #include "PsxRender.hpp"
 #include "Slurg.hpp"
 #include "Movie.hpp"
+#include "PathDataExtensions.hpp"
 #include <string>
 
 void Game_ForceLink()
@@ -508,7 +509,10 @@ EXPORT void CC Game_Run_466D40()
     Camera camera;
     camera.ctor_480DD0();
 
+    Path_Set_NewData_FromLvls();
+    
     sLvlArchive_5BC520.Open_Archive_432E80(CdLvlName(LevelIds::eMenu_0));
+
     ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
 
     camera.field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, ResourceID::kUnknownResID_125, 1u, 0);
@@ -753,7 +757,8 @@ EXPORT void CC Game_Loop_467230()
                 && pBaseGameObject->field_6_flags.Get(BaseGameObject::eDead_Bit3) == false
                 && (sNum_CamSwappers_5C1B66 == 0 || pBaseGameObject->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
-                if (pBaseGameObject->field_1C_update_delay <= 0)
+                const s32 updateDelay = pBaseGameObject->UpdateDelay();
+                if (updateDelay <= 0)
                 {
                     if (pBaseGameObject == pPauseMenu_5C9300)
                     {
@@ -766,7 +771,7 @@ EXPORT void CC Game_Loop_467230()
                 }
                 else
                 {
-                    pBaseGameObject->field_1C_update_delay--;
+                    pBaseGameObject->SetUpdateDelay(updateDelay - 1);
                 }
             }
         }

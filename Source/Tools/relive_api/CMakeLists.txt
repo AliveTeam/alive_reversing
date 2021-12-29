@@ -7,7 +7,73 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# lodepng lib, defined here as its the only project that uses it and so that
+# users of relive_api don't need to build the whole of relive.
+add_library(lodepng_reliveapi
+    ../../../3rdParty/lodepng/lodepng.cpp
+    ../../../3rdParty/lodepng/lodepng.h
+    )
+
+target_include_directories(lodepng_reliveapi SYSTEM PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty>
+    $<INSTALL_INTERFACE:lodepng>)
+set_property(TARGET lodepng_reliveapi PROPERTY FOLDER "ReliveAPI")
+
+export(TARGETS lodepng_reliveapi FILE lodepng_reliveapi.cmake)
+
+# jsonxx lib, ditto defining here for relive_api upstream editor projects
+add_library(jsonxx_reliveapi ../../../3rdParty/jsonxx/jsonxx.cc)
+target_include_directories(jsonxx_reliveapi SYSTEM PUBLIC
+    $<BUILD_INTERFACE:
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty/jsonxx>)
+export(TARGETS jsonxx_reliveapi FILE jsonxx_reliveapi.cmake)
+set_property(TARGET jsonxx_reliveapi PROPERTY FOLDER "ReliveAPI")
+
+add_library(easylogging_reliveapi
+    ../../../3rdParty/EasyLogging++/EasyLogging/src/easylogging++.cc
+    )
+target_include_directories(easylogging_reliveapi PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
+    $<INSTALL_INTERFACE:include>
+    PRIVATE ${CMAKE_BINARY_DIR})
+export(TARGETS easylogging_reliveapi FILE easylogging_reliveapi.cmake)
+set_property(TARGET easylogging_reliveapi PROPERTY FOLDER "ReliveAPI")
+
+add_library(AliveLibAO_reliveapi
+    ../../AliveLibAO/PathData.cpp
+    )
+target_include_directories(AliveLibAO_reliveapi PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
+    $<INSTALL_INTERFACE:include>
+    PRIVATE ${CMAKE_BINARY_DIR})
+export(TARGETS AliveLibAO_reliveapi FILE AliveLibAO_reliveapi.cmake)
+set_property(TARGET AliveLibAO_reliveapi PROPERTY FOLDER "ReliveAPI")
+
+add_library(AliveLibAE_reliveapi
+    ../../AliveLibAE/PathData.cpp
+    )
+target_include_directories(AliveLibAE_reliveapi PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
+    $<INSTALL_INTERFACE:include>
+    PRIVATE ${CMAKE_BINARY_DIR})
+export(TARGETS AliveLibAE_reliveapi FILE AliveLibAE_reliveapi.cmake)
+set_property(TARGET AliveLibAE_reliveapi PROPERTY FOLDER "ReliveAPI")
+
+add_library(AliveLibCommon_reliveapi
+    ../../AliveLibCommon/CamDecompressor.cpp
+    ../../AliveLibCommon/CompressionType_4Or5.cpp
+    )
+export(TARGETS AliveLibCommon_reliveapi FILE AliveLibCommon_reliveapi.cmake)
+set_property(TARGET AliveLibCommon_reliveapi PROPERTY FOLDER "ReliveAPI")
+
 set(relive_api_src
+    ApiFG1Reader.hpp
+    ApiFG1Reader.cpp
+    Base64.hpp
+    Base64.cpp
     CamConverter.hpp
     CamConverter.cpp
     JsonReadUtils.hpp
@@ -49,7 +115,6 @@ set(relive_api_src
     LvlReaderWriter.hpp
     PropertyCollection.cpp
     PropertyCollection.hpp
-    relive_api_test.cpp
     relive_api.cpp
     relive_api.hpp
     relive_api_exceptions.hpp
@@ -72,40 +137,20 @@ set(relive_api_src
     TypesCollectionBase.hpp
 )
 add_library(relive_api ${relive_api_src})
-target_link_libraries(relive_api jsonxx AliveLibAE AliveLibAO lodepng project_warnings)
+target_link_libraries(relive_api 
+    jsonxx_reliveapi
+    lodepng_reliveapi
+    easylogging_reliveapi
+    AliveLibCommon_reliveapi
+    AliveLibAO_reliveapi
+    AliveLibAE_reliveapi)
+set_property(TARGET relive_api PROPERTY FOLDER "ReliveAPI")
 export(TARGETS relive_api FILE relive_api.cmake)
 
-
-add_executable(relive_api_test relive_api_test.cpp)
-
-if (MSVC)
-    target_compile_options(relive_api PRIVATE /W4 /wd4996 /WX /MP)
-    target_compile_options(relive_api_test PRIVATE /W4 /wd4996 /WX /MP)
-endif()
-
-target_include_directories(relive_api_test PUBLIC
+target_include_directories(relive_api PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../3rdParty/magic_enum/include
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/googletest/googlemock/include
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/googletest/googletest/include
     $<INSTALL_INTERFACE:include>
     PRIVATE ${CMAKE_BINARY_DIR})
-target_compile_features(relive_api_test
-    PRIVATE cxx_auto_type
-    PRIVATE cxx_variadic_templates)
-target_compile_definitions(relive_api_test PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_link_libraries(relive_api_test relive_api jsonxx AliveLibAE AliveLibAO project_warnings)
-
-if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
-    if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-        add_custom_command(TARGET relive_api_test POST_BUILD
-            COMMAND echo copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll"
-            COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll")
-        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" DESTINATION ".")
-    else()
-        add_custom_command(TARGET relive_api_test POST_BUILD
-            COMMAND echo ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$(OutDir)SDL2.dll"
-            COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$(OutDir)SDL2.dll")
-        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" DESTINATION ".")
-    endif()
-endif()
-export(TARGETS relive_api_test FILE relive_api_test.cmake)
-install(TARGETS relive_api_test DESTINATION "${BINPATH}")

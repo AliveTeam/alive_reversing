@@ -13,6 +13,7 @@
 #include "Sound/Midi.hpp"
 #include "Abe.hpp"
 #include "BaseBomb.hpp"
+#include <math.h>
 
 const TintEntry sTintMap_UXB_563A3C[19] = {
     {LevelIds_s8::eMines_1, 127u, 127u, 127u},
@@ -130,7 +131,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     ctor_408240(0);
     SetVTable(&field_128_animation, 0x544290);
     SetVTable(this, 0x547E80);
-    field_4_typeId = AETypes::eUXB_143;
+    SetType(AETypes::eUXB_143);
 
     const AnimRecord& activeRec = AnimRec(AnimId::UXB_Active);
     auto pResource = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, activeRec.mResourceId);
@@ -298,7 +299,7 @@ EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
         else
         {
             field_118_state = UXBState::eDelay_0;
-            field_1C_update_delay = 6;
+            SetUpdateDelay(6);
             const AnimRecord& animRec = AnimRec(AnimId::UXB_Active);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             PlaySFX_4DE930(SoundEffect::RedTick_3);
@@ -330,7 +331,7 @@ s16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
         return 0;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->Type())
     {
         case AETypes::eAbe_69:
         case AETypes::eMudokon_110:

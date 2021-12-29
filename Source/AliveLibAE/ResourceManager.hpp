@@ -1,10 +1,10 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
 #include "Camera.hpp"
-#include "AnimResources.hpp"
+#include "../AliveLibCommon/AnimResources.hpp"
 
 EXPORT void CC Game_ShowLoadingIcon_482D80();
 
@@ -41,6 +41,7 @@ public:
         Resource_3DGibs = 0x65444433,
         Resource_Web = 0x20626557,
         Resource_Spline = 0x6e6c7053, // Went with Spline as in ZapLine.cpp.
+        Resource_Pxtd = 0x50787464, // Added for relive path extension blocks
     };
 
     enum ResourceHeaderFlags : s16

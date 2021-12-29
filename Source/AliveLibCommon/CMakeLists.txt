@@ -1,8 +1,15 @@
 project(AliveLibCommon VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcCommon
+    PathDataExtensionsTypes.hpp
+    CompressionType_4Or5.cpp
+    CompressionType_4Or5.hpp
+    FG1Reader.hpp
     ExportHooker.hpp
     ExportHooker.cpp
+    CamDecompressor.cpp
+    CamDecompressor.hpp
+    vlctable.hpp
     logger.hpp
     Function.cpp
     Function.hpp

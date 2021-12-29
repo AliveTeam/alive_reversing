@@ -1,9 +1,9 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
-#include "AddPointer.hpp"
+#include "../AliveLibCommon/AddPointer.hpp"
 
 class BaseThrowable;
 
@@ -18,8 +18,8 @@ public:
 
     // New virtuals for throwables
     virtual void VThrow_49E460(FP velX, FP velY) = 0;
-    virtual BOOL VCanThrow_49E350() = 0;
-    virtual BOOL VIsFalling_49E330() = 0;
+    virtual Bool32 VCanThrow_49E350() = 0;
+    virtual Bool32 VIsFalling_49E330() = 0;
     virtual void VTimeToExplodeRandom_411490() = 0;
 
     virtual s16 VGetCount_448080();

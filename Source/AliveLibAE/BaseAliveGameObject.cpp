@@ -397,7 +397,8 @@ void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(s16 distance)
         field_100_pCollisionLine = pLine;
         field_BC_ypos = hitY;
 
-        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        if (pLine->field_8_type == eLineTypes::eUnknown_32 ||
+            pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
@@ -426,7 +427,7 @@ BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(s16 numGridBlocks)
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eBirdPortal_99)
+        if (pObj->Type() == AETypes::eBirdPortal_99)
         {
             auto pBirdPortal = static_cast<BirdPortal*>(pObj);
             if (pBirdPortal->field_2C_xpos >= field_B8_xpos)
@@ -483,7 +484,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, Le
     return 1;
 }
 
-BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(s16 direction, s16 distance)
+Bool32 BaseAliveGameObject::Check_IsOnEndOfLine_408E90(s16 direction, s16 distance)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
@@ -522,7 +523,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFi
     const s16 xposD = FP_GetExponent(xpos);
     const s16 yposD = FP_GetExponent(ypos);
 
-    BOOL bFound = FALSE;
+    Bool32 bFound = FALSE;
     for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
@@ -531,7 +532,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFi
             break;
         }
 
-        if (pObj->field_4_typeId == typeToFind && pObj != this)
+        if (pObj->Type() == typeToFind && pObj != this)
         {
             if (pObj->field_8_object_id == idToFind)
             {
@@ -632,7 +633,7 @@ s16 BaseAliveGameObject::MapFollowMe_408D10(s16 snapToGrid)
     return 0;
 }
 
-EXPORT BOOL BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
+EXPORT Bool32 BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions_DArray_5C1128->Raycast_417A60(
@@ -647,7 +648,7 @@ EXPORT BOOL BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
         != 0; // TODO: Enum for line types
 }
 
-BOOL BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
+Bool32 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
 {
     field_C8_vely += field_CC_sprite_scale * velY;
     if (field_C8_vely > (field_CC_sprite_scale * FP_FromInteger(20)))
@@ -677,7 +678,7 @@ BOOL BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX,
     }
 
     FP velYClamped = field_C8_vely;
-    if (field_4_typeId == AETypes::eMudokon_110 && velYClamped >= FP_FromInteger(0) && velYClamped < FP_FromInteger(4))
+    if (Type() == AETypes::eMudokon_110 && velYClamped >= FP_FromInteger(0) && velYClamped < FP_FromInteger(4))
     {
         velYClamped = FP_FromInteger(4);
     }
@@ -694,8 +695,8 @@ BOOL BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX,
 
     if (bCollision)
     {
-        // TODO: Enum type for unknowns, trap doors ??
-        if ((*ppPathLine)->field_8_type == 32 || (*ppPathLine)->field_8_type == 36)
+        if ((*ppPathLine)->field_8_type == eLineTypes::eUnknown_32 ||
+            (*ppPathLine)->field_8_type == eLineTypes::eUnknown_36)
         {
             return bCollision;
         }
@@ -734,7 +735,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind,
             break;
         }
 
-        if (pObj->field_4_typeId == typeToFind && pObj != this)
+        if (pObj->Type() == typeToFind && pObj != this)
         {
             auto pCasted = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
             if (pCasted->field_D6_scale == field_D6_scale)

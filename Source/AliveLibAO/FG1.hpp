@@ -1,12 +1,13 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
+
+struct Fg1Chunk;
 
 namespace AO {
 
 struct Fg1Block;
-struct Fg1Chunk;
 
 enum class LevelIds : s16;
 
@@ -30,6 +31,7 @@ public:
     EXPORT void VRender_453D50(PrimHeader** ppOt);
 
     EXPORT void Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock);
+    void Convert_Chunk_To_Render_Block_AE(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
     EXPORT BaseGameObject* dtor_453DF0();
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
-#include "Psx_common.hpp"
-#include "FixedPoint_common.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Psx_common.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "PathData.hpp"
 #include "BaseGameObject.hpp"
 
@@ -111,7 +111,26 @@ struct Path_TLV
 
     // Note: Part of Path object in AE
     EXPORT static Path_TLV* CCSTD Next_446460(Path_TLV* pTlv);
-    static Path_TLV* Next_NoCheck(Path_TLV* pTlv);
+
+    // Note: must be inlined as its used by the api
+    static Path_TLV* Next(Path_TLV* pTlv)
+    {
+        if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+        {
+            return nullptr;
+        }
+
+        return Next_NoCheck(pTlv);
+    }
+
+    // Note: must be inlined as its used by the api
+    static Path_TLV* Next_NoCheck(Path_TLV* pTlv)
+    {
+        // Skip length bytes to get to the start of the next TLV
+        u8* ptr = reinterpret_cast<u8*>(pTlv);
+        u8* pNext = ptr + pTlv->field_2_length;
+        return reinterpret_cast<Path_TLV*>(pNext);
+    }
 
     EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type);
 
@@ -187,6 +206,11 @@ public:
 
     EXPORT void ScreenChange_4444D0();
 
+    void FreePathResourceBlocks();
+    void GetPathResourceBlockPtrs();
+    u8** GetPathResourceBlockPtr(u32 pathId);
+    void ClearPathResourceBlocks();
+
     EXPORT void GoTo_Camera_445050();
 
     EXPORT void Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad);
@@ -212,7 +236,7 @@ public:
 
     EXPORT void RestoreBlyData_446A90(const u8* pSaveData);
 
-    EXPORT void Load_Path_Items_445DA0(Camera* pCamera, s16 kZero);
+    EXPORT void Load_Path_Items_445DA0(Camera* pCamera, LoadMode loadMode);
 
     EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, s32 camX);
 
@@ -258,7 +282,14 @@ public:
     LevelIds field_0_current_level;
     s16 field_2_current_path;
     s16 field_4_current_camera;
-    s16 field_6_state;
+
+    enum class CamChangeStates : s16
+    {
+        eInactive_0 = 0,
+        eSliceCam_1 = 1,
+        eInstantChange_2 = 2
+    };
+    CamChangeStates field_6_state;
     s16 field_8_force_load;
     LevelIds field_A_level;
     s16 field_C_path;

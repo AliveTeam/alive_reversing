@@ -1,8 +1,10 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
+#include "SwitchStates.hpp"
 
 void Mud_ForceLink();
 
@@ -36,8 +38,8 @@ namespace AO {
     ENTRY(Motion_24_CrouchTurn_43E5F0)            \
     ENTRY(Motion_25_StandToCrouch_43E620)         \
     ENTRY(Motion_26_CrouchToStand_43E640)         \
-    ENTRY(Motion_27_RunToWalk_43D980)             \
-    ENTRY(Motion_28_MidRunToWalk_43DA40)          \
+    ENTRY(Motion_27_WalkToRun_43D980)             \
+    ENTRY(Motion_28_MidWalkToRun_43DA40)          \
     ENTRY(Motion_29_RunLoop_43DB10)               \
     ENTRY(Motion_30_RunToWalk_43DD50)             \
     ENTRY(Motion_31_MidRunToWalk_43DE10)          \
@@ -45,20 +47,20 @@ namespace AO {
     ENTRY(Motion_33_RunSlideTurn_43DF80)          \
     ENTRY(Motion_34_RunTurnToRun_43E070)          \
     ENTRY(Motion_35_SneakLoop_43E0F0)             \
-    ENTRY(Motion_36_WalkToSneak_43E240)           \
+    ENTRY(Motion_36_MidWalkToSneak_43E240)           \
     ENTRY(Motion_37_SneakToWalk_43E2E0)           \
-    ENTRY(Motion_38_MidWalkToSneak_43E380)        \
+    ENTRY(Motion_38_WalkToSneak_43E380)        \
     ENTRY(Motion_39_MidSneakToWalk_43E430)        \
     ENTRY(Motion_40_SneakBegin_43E4E0)            \
     ENTRY(Motion_41_SneakToIdle_43E530)           \
     ENTRY(Motion_42_MidSneakToIdle_43E560)        \
-    ENTRY(Motion_43_JumpBegin_43E870)             \
-    ENTRY(Motion_44_JumpMid_43E960)               \
-    ENTRY(Motion_45_ToRunToPortal_43EB00)         \
+    ENTRY(Motion_43_RunJumpBegin_43E870)             \
+    ENTRY(Motion_44_RunJumpMid_43E960)               \
+    ENTRY(Motion_45_StandToRun_43EB00)         \
     ENTRY(Motion_46_FallLandDie_43E660)           \
     ENTRY(Motion_47_Knockback_43E730)             \
     ENTRY(Motion_48_KnockbackGetUp_43E7D0)        \
-    ENTRY(Motion_49_FallOfEdge_43E800)            \
+    ENTRY(Motion_49_WalkOffEdge_43E800)            \
     ENTRY(Motion_50_LandSoft_43E820)              \
     ENTRY(Motion_51_Fall_43D0D0)                  \
     ENTRY(Motion_52_Chant_43D520)                 \
@@ -71,7 +73,7 @@ namespace AO {
     ENTRY(Motion_59_CrouchChant_43EC20)           \
     ENTRY(Motion_60_CrouchChantToSruggle_43ED50)  \
     ENTRY(Motion_61_DuckKnockback_43E6E0)         \
-    ENTRY(Motion_62_Choke_43ED70)
+    ENTRY(Motion_62_PoisonGasDeath_43ED70)
 
 #define MAKE_ENUM(VAR) VAR,
 enum eMudMotions : s32
@@ -81,12 +83,18 @@ enum eMudMotions : s32
 
 struct Path_Mudokon final : public Path_TLV
 {
-    s16 field_18_scale;
-    s16 field_1A_job;
-    s16 field_1C_direction;
-    s16 field_1E_voice_adjust;
+    Scale_short field_18_scale;
+    enum class MudJobs : s16
+    {
+        eStandScrub_0 = 0,
+        eSitScrub_1 = 1,
+        eSitChant_2 = 2,
+    };
+    MudJobs field_1A_job;
+    XDirection_short field_1C_direction;
+    s16 field_1E_voice_pitch;
     s16 field_20_rescue_id;
-    s16 field_22_deaf;
+    Choice_short field_22_deaf;
     s16 field_24_disabled_resources;
     s16 field_26_persist;
 };
@@ -96,13 +104,13 @@ struct Path_RingMudokon final : public Path_TLV
 {
     s16 field_18_facing;
     s16 field_1A_abe_must_be_same_direction;
-    s16 field_1C_scale;
+    Scale_short field_1C_scale;
     s16 field_1E_silent;
     s16 field_20_code1;
     s16 field_22_code2;
-    s16 field_24_action;
+    SwitchOp field_24_action;
     s16 field_26_ring_timeout;
-    s16 field_28_instant_powerup;
+    Choice_short field_28_give_ring_without_password;
     s16 field_2A_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_RingMudokon, 0x2C);
@@ -111,9 +119,9 @@ struct Path_LiftMudokon final : public Path_TLV
 {
     s16 field_18_how_far_to_walk;
     s16 field_1A_lift_id;
-    s16 field_1C_direction;
+    XDirection_short field_1C_direction;
     s16 field_1E_silent;
-    s16 field_20_scale;
+    Scale_short field_20_scale;
     s16 field_22_code1;
     s16 field_24_code2;
     s16 field_26_pad;
@@ -173,15 +181,15 @@ public:
 
     EXPORT void DoPathTrans_43FE00();
 
-    EXPORT void ToIdle_43CA40();
+    EXPORT void ToStand_43CA40();
 
     EXPORT void CheckFloorGone_43C9B0();
 
     EXPORT static s16 CC IsAbeSneaking_43D660(Mudokon* pMud);
 
-    EXPORT void ToKnockBack_43D6E0();
+    EXPORT void ToKnockback_43D6E0();
 
-    EXPORT void SlowOnX_43C920(FP amount);
+    EXPORT void ReduceXVelocityBy_43C920(FP amount);
 
     EXPORT void MoveOnLine_43C7E0();
 
@@ -228,8 +236,8 @@ public:
     EXPORT void Motion_24_CrouchTurn_43E5F0();
     EXPORT void Motion_25_StandToCrouch_43E620();
     EXPORT void Motion_26_CrouchToStand_43E640();
-    EXPORT void Motion_27_RunToWalk_43D980();
-    EXPORT void Motion_28_MidRunToWalk_43DA40();
+    EXPORT void Motion_27_WalkToRun_43D980();
+    EXPORT void Motion_28_MidWalkToRun_43DA40();
     EXPORT void Motion_29_RunLoop_43DB10();
     EXPORT void Motion_30_RunToWalk_43DD50();
     EXPORT void Motion_31_MidRunToWalk_43DE10();
@@ -237,20 +245,20 @@ public:
     EXPORT void Motion_33_RunSlideTurn_43DF80();
     EXPORT void Motion_34_RunTurnToRun_43E070();
 	EXPORT void Motion_35_SneakLoop_43E0F0();
-	EXPORT void Motion_36_WalkToSneak_43E240();
+	EXPORT void Motion_36_MidWalkToSneak_43E240();
 	EXPORT void Motion_37_SneakToWalk_43E2E0();
-	EXPORT void Motion_38_MidWalkToSneak_43E380();
+	EXPORT void Motion_38_WalkToSneak_43E380();
 	EXPORT void Motion_39_MidSneakToWalk_43E430();
 	EXPORT void Motion_40_SneakBegin_43E4E0();
 	EXPORT void Motion_41_SneakToIdle_43E530();
     EXPORT void Motion_42_MidSneakToIdle_43E560();
-    EXPORT void Motion_43_JumpBegin_43E870();
-    EXPORT void Motion_44_JumpMid_43E960();
-    EXPORT void Motion_45_ToRunToPortal_43EB00();
+    EXPORT void Motion_43_RunJumpBegin_43E870();
+    EXPORT void Motion_44_RunJumpMid_43E960();
+    EXPORT void Motion_45_StandToRun_43EB00();
     EXPORT void Motion_46_FallLandDie_43E660();
     EXPORT void Motion_47_Knockback_43E730();
     EXPORT void Motion_48_KnockbackGetUp_43E7D0();
-    EXPORT void Motion_49_FallOfEdge_43E800();
+    EXPORT void Motion_49_WalkOffEdge_43E800();
     EXPORT void Motion_50_LandSoft_43E820();
     EXPORT void Motion_51_Fall_43D0D0();
     EXPORT void Motion_52_Chant_43D520();
@@ -263,7 +271,7 @@ public:
     EXPORT void Motion_59_CrouchChant_43EC20();
     EXPORT void Motion_60_CrouchChantToSruggle_43ED50();
     EXPORT void Motion_61_DuckKnockback_43E6E0();
-    EXPORT void Motion_62_Choke_43ED70();
+    EXPORT void Motion_62_PoisonGasDeath_43ED70();
 
     // Brains
     EXPORT s16 Brain_ComingIn_0_441DE0();
@@ -289,8 +297,8 @@ public:
     s32 field_114;
     s32 field_118;
     FP field_11C;
-    s32 field_120;
-    s16 field_124;
+    s32 field_120_unused;
+    s16 field_124_voice_pitch;
     s16 field_126_input;
     s32 field_128;
     u8 field_12C[16];
@@ -304,12 +312,12 @@ public:
         e144_Bit2 = 0x2,
         e144_Bit3 = 0x4,
         e144_Bit4_bSnapToGrid = 0x8,
-        e144_Bit5 = 0x10,
+        e144_Bit5_unused = 0x10,
         e144_Bit6_bPersist = 0x20,
         e144_Bit7 = 0x40,
         e144_Bit8 = 0x80,
         e144_Bit9 = 0x100,
-        e144_Bit10 = 0x200,
+        e144_Bit10_give_ring_without_password = 0x200,
         e144_Bit11_bDeaf = 0x400,
         e144_Bit12 = 0x800,
         e144_eBit13 = 0x1000,
@@ -331,12 +339,12 @@ public:
     s16 field_198;
     s16 field_19A;
     s16 field_19C;
-    s16 field_19E;
+    s16 field_19E_code_idx;
     s16 field_1A0;
     s16 field_1A2;
-    s32 field_1A4;
-    s16 field_1A8;
-    u16 field_1AA;
+    s32 field_1A4_code_converted;
+    s16 field_1A8_code_length;
+    u16 field_1AA_ring_timeout;
     BirdPortal* field_1AC_pBirdPortal;
     s16 field_1B0;
     s16 field_1B2_switch_id;

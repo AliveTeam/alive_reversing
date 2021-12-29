@@ -1,7 +1,10 @@
 #pragma once
 
 #include "JsonWriterBase.hpp"
+#include <memory>
+#include <unordered_map>
 
+namespace ReliveAPI {
 class JsonWriterAE final : public JsonWriterBase
 {
 private:
@@ -22,3 +25,4 @@ private:
     std::unordered_map<::TlvTypes, s32> mTypeCounterMap;
     std::unique_ptr<TypesCollectionAE> mTypesCollection;
 };
+} // namespace ReliveAPI

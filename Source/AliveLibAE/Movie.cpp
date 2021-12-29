@@ -628,7 +628,7 @@ void Movie::Init_4DFF60(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 vol
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
-    field_4_typeId = AETypes::eMovie_145;
+    SetType(AETypes::eMovie_145);
 
     ++sMovie_ref_count_BB4AE4;
 
@@ -689,7 +689,7 @@ void Movie::vUpdate_4E0030()
                 break;
             }
 
-            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[sLevelId_dword_5CA408].field_1A_unused, MessageType::eSkipMovie_1))
+            if (!Display_Full_Screen_Message_Blocking_465820(Path_Get_Unknown(static_cast<LevelIds>(sLevelId_dword_5CA408)), MessageType::eSkipMovie_1))
             {
                 break;
             }

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "PathData.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Path.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -62,7 +62,7 @@ public:
 
     EXPORT Door* Vdtor_40EDF0(s32 flags);
 
-    EXPORT BOOL vIsOpen_40E800();
+    EXPORT Bool32 vIsOpen_40E800();
 
     EXPORT void vOpen_40E810();
 

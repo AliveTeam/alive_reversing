@@ -1,10 +1,10 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 #include "FixedPoint.hpp"
-#include "Path.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 

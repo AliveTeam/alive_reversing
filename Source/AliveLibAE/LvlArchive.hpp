@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "ResourceManager.hpp"
 
 EXPORT void CC LvlArchive_Static_init_432E00();
@@ -53,4 +53,4 @@ ALIVE_ASSERT_SIZEOF(LvlArchive, 0x8);
 
 ALIVE_VAR_EXTERN(LvlArchive, sLvlArchive_5BC520);
 ALIVE_VAR_EXTERN(LvlArchive, stru_5C3110);
-ALIVE_VAR_EXTERN(BOOL, sbEnable_PCOpen_5CA4B0);
+ALIVE_VAR_EXTERN(Bool32, sbEnable_PCOpen_5CA4B0);

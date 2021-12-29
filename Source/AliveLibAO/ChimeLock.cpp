@@ -339,7 +339,8 @@ s16 ChimeLock::UpdateBall_40B8A0()
                     field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70)
                 == 1)
             {
-                if (field_F4_pLine->field_8_type == 0 || field_F4_pLine->field_8_type == 4)
+                if (field_F4_pLine->field_8_type == eLineTypes ::eFloor_0 ||
+                    field_F4_pLine->field_8_type == eLineTypes::eBackGroundFloor_4)
                 {
                     field_AC_ypos = hitY - FP_FromInteger(1);
                     field_B8_vely = -(field_B8_vely * FP_FromDouble(0.4));
@@ -433,7 +434,7 @@ void ChimeLock::VUpdate_40AEF0()
                     auto pMusic = ao_new<MusicTrigger>();
                     if (pMusic)
                     {
-                        pMusic->ctor_443A60(6, 1, 0, 15);
+                        pMusic->ctor_443A60(6, TriggeredBy::eTouching_1, 0, 15);
                     }
                     return;
                 }

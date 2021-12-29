@@ -2,10 +2,11 @@
 
 #include "JsonModelTypes.hpp"
 #include "PropertyCollection.hpp"
-#include "../AliveLibAO/Collisions.hpp"
-#include "../AliveLibAE/Collisions.hpp"
+#include "../../AliveLibAO/Collisions.hpp"
+#include "../../AliveLibAE/Collisions.hpp"
 #include "TlvObjectBaseMacros.hpp"
 
+namespace ReliveAPI {
 class AOLine final : public PropertyCollection
 {
 public:
@@ -22,10 +23,10 @@ public:
         ADD("x2", mLine.field_0_rect.w);
         ADD("y2", mLine.field_0_rect.h);
 
-        ADD("type", mLine.field_8_type);
+        ADD("Type", mLine.field_8_type); // TODO: enum
 
-        ADD("next", mLine.field_10_next);
-        ADD("previous", mLine.field_C_previous);
+        ADD("Next", mLine.field_10_next);
+        ADD("Previous", mLine.field_C_previous);
     }
 
     AO::PathLine mLine = {};
@@ -47,15 +48,15 @@ public:
         ADD("x2", mLine.field_0_rect.w);
         ADD("y2", mLine.field_0_rect.h);
 
-        ADD("type", mLine.field_8_type);
+        ADD("Type", mLine.field_8_type);
 
-        ADD("next", mLine.field_C_next);
-        ADD("previous", mLine.field_A_previous);
+        ADD("Next", mLine.field_C_next);
+        ADD("Previous", mLine.field_A_previous);
 
-        ADD("next2", mLine.field_10_next2);
-        ADD("previous2", mLine.field_E_previous2);
+        ADD("Next 2", mLine.field_10_next2);
+        ADD("Previous 2", mLine.field_E_previous2);
 
-        ADD("length", mLine.field_12_line_length);
+        ADD("Length", mLine.field_12_line_length);
     }
 
     PathLine mLine = {};
@@ -72,3 +73,4 @@ protected:
     std::vector<AO::PathLine> ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray);
     std::vector<::PathLine> ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray);
 };
+} // namespace ReliveAPI

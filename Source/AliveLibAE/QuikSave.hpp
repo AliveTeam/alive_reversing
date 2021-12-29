@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "MainMenu.hpp"
 #include "SwitchStates.hpp"
 
@@ -29,8 +29,8 @@ struct Quicksave_WorldInfo final
     s16 field_14_killed_muds;
     s8 field_16_muds_in_area;
     s8 field_17_last_saved_killed_muds_per_path;
-    s8 field_18_saved_killed_muds_per_path[20];
-    s8 field_2C_stats_sign_current_area;
+    s8 field_18_saved_killed_muds_per_zulag[20];
+    s8 field_2C_current_zulag_number;
     s8 field_2D_total_meter_bars;
     s16 field_2E_use_alt_save_header;
     s16 field_30_bDrawMeterCountDown;

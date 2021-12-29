@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "DynamicArray.hpp"
 #include "Animation.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
@@ -68,7 +68,7 @@ private:
 protected:
     EXPORT s16 SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, s32 resourceID);
 
-    EXPORT BOOL Check_IsOnEndOfLine_408E90(s16 direction, s16 distance);
+    EXPORT Bool32 Check_IsOnEndOfLine_408E90(s16 direction, s16 distance);
 
     EXPORT BaseAliveGameObject* GetStackedSlapTarget_425290(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos);
 
@@ -80,8 +80,8 @@ public:
     EXPORT s16 MapFollowMe_408D10(s16 snapToGrid);
 
 protected:
-    EXPORT BOOL WallHit_408750(FP offY, FP offX);
-    EXPORT BOOL InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
+    EXPORT Bool32 WallHit_408750(FP offY, FP offX);
+    EXPORT Bool32 InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
     EXPORT BaseGameObject* FindObjectOfType_425180(AETypes typeToFind, FP xpos, FP ypos);
 
 public:

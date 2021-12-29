@@ -1,16 +1,17 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
-#include "Path.hpp"
+#include "../AliveLibAE/Path.hpp"
+#include "../AliveLibCommon/AnimResources.hpp"
 
 namespace AO {
 
 struct FallingItem_Data final
 {
-    s32 field_0_frameTableOffset;
-    s32 field_4;
+    AnimId field_0_falling_animId;
+    AnimId field_4_waiting_animId;
     s16 field_8_maxW;
     s16 field_A_maxH;
 };
@@ -20,8 +21,8 @@ struct Path_FallingItem final : public Path_TLV
 {
     s16 field_18_id;
     Scale_short field_1A_scale;
-    s16 field_1C_delay_time;
-    s16 field_1E_number_of_items;
+    s16 field_1C_fall_delay;
+    s16 field_1E_max_falling_items;
     s16 field_20_reset_id;
     s16 field_22_pad;
 };
@@ -65,9 +66,9 @@ public:
     s32 field_10C_tlvInfo;
     State field_110_state;
     u16 field_112_id;
-    s16 field_114_num_items;
-    s16 field_116_num_items_remaining;
-    s16 field_118_delay_time;
+    s16 field_114_max_falling_items;
+    s16 field_116_remaining_falling_items;
+    s16 field_118_fall_delay;
     s16 field_11A_padding;
     s32 field_11C_delay_timer;
     s16 field_120_reset_id;

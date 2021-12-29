@@ -1,12 +1,16 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 #include "Font.hpp"
 #include "Primitives.hpp"
 
+struct StringTable;
+
 namespace AO {
+
+void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
 
 struct Path_LCDScreen final : public Path_TLV
 {

@@ -161,7 +161,7 @@ BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, s32 tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
     SetVTable(this, 0x5455C4);
-    field_4_typeId = AETypes::eGrenadeMachine_66;
+    SetType(AETypes::eGrenadeMachine_66);
 
     const AnimRecord& rec = AnimRec(AnimId::Grenade_Machine_Button_Off);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -224,7 +224,7 @@ void BoomMachine::VScreenChanged()
     vScreenChange_446020();
 }
 
-BOOL BoomMachine::VIsButtonOn_445DF0()
+Bool32 BoomMachine::VIsButtonOn_445DF0()
 {
     return vIsButtonOn_445DF0();
 }
@@ -271,7 +271,7 @@ void BoomMachine::vScreenChange_446020()
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-BOOL BoomMachine::vIsButtonOn_445DF0()
+Bool32 BoomMachine::vIsButtonOn_445DF0()
 {
     return field_FC_bIsButtonOn == 1;
 }

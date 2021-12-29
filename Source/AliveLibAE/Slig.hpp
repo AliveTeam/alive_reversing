@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
@@ -28,11 +28,11 @@
     ENTRY(M_SpeakHereBoy_20_4B5330)      \
     ENTRY(M_SpeakHi_21_4B53D0)           \
     ENTRY(M_SpeakFreeze_22_4B53F0)       \
-    ENTRY(M_SpeakGitIm_23_4B5410)        \
+    ENTRY(M_SpeakGetHim_23_4B5410)        \
     ENTRY(M_SpeakLaugh_24_4B5430)        \
-    ENTRY(M_SpeakBullShit1_25_4B5450)    \
+    ENTRY(M_SpeakBullshit1_25_4B5450)    \
     ENTRY(M_SpeakLookOut_26_4B5470)      \
-    ENTRY(M_SpeakBullShit2_27_4B5490)    \
+    ENTRY(M_SpeakBullshit2_27_4B5490)    \
     ENTRY(M_SpeakPanic_28_4B54B0)        \
     ENTRY(M_SpeakWhat_29_4B54D0)         \
     ENTRY(M_SpeakAIFreeze_30_4B54F0)     \
@@ -111,8 +111,14 @@ struct Path_Slig final : public Path_TLV
     s16 field_18_pause_left_max;
     s16 field_1A_pause_right_min;
     s16 field_1C_pause_right_max;
-    s16 field_1E_chal_number;
-    s16 field_20_chal_timer;
+    enum class ShootPossessedSligs : s16
+    {
+        eYes_0 = 0,
+        eYes_1 = 1,
+        eNo_3 = 3, // it really had to be the magic number 3 *sigh*
+    };
+    ShootPossessedSligs field_1E_shoot_possessed_sligs;
+    s16 field_20_shoot_on_sight_delay;
     s16 field_22_num_times_to_shoot;
     s16 field_24_padding; // TODO: or part of above field like in AO
     s16 field_26_code1;
@@ -125,7 +131,7 @@ struct Path_Slig final : public Path_TLV
     s16 field_34_stop_chase_delay;
     s16 field_36_time_to_wait_before_chase;
     s16 field_38_slig_id;
-    s16 field_3A_listen_time;
+    s16 field_3A_alerted_listen_time;
     s16 field_3C_percent_say_what;
     s16 field_3E_percent_beat_mud;
     s16 field_40_talk_to_abe;
@@ -135,7 +141,7 @@ struct Path_Slig final : public Path_TLV
     s16 field_48_disable_resources;
     s16 field_4A_noise_wake_up_distance;
     s16 field_4C_id;
-    s16 field_4E_unknown;
+    Choice_short field_4E_unlimited_spawns;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
 
@@ -300,11 +306,11 @@ public:
     EXPORT void M_SpeakHereBoy_20_4B5330();
     EXPORT void M_SpeakHi_21_4B53D0();
     EXPORT void M_SpeakFreeze_22_4B53F0();
-    EXPORT void M_SpeakGitIm_23_4B5410();
+    EXPORT void M_SpeakGetHim_23_4B5410();
     EXPORT void M_SpeakLaugh_24_4B5430();
-    EXPORT void M_SpeakBullShit1_25_4B5450();
+    EXPORT void M_SpeakBullshit1_25_4B5450();
     EXPORT void M_SpeakLookOut_26_4B5470();
-    EXPORT void M_SpeakBullShit2_27_4B5490();
+    EXPORT void M_SpeakBullshit2_27_4B5490();
     EXPORT void M_SpeakPanic_28_4B54B0();
     EXPORT void M_SpeakWhat_29_4B54D0();
     EXPORT void M_SpeakAIFreeze_30_4B54F0();
@@ -415,12 +421,12 @@ private:
 
 
 public:
-    EXPORT BOOL vUnderGlukkonCommand_4B1760();
+    EXPORT Bool32 vUnderGlukkonCommand_4B1760();
 
 private:
     EXPORT void WakeUp_4B93B0();
 
-    EXPORT void ShouldStilBeAlive_4BBC00();
+    EXPORT void ShouldStillBeAlive_4BBC00();
 
     EXPORT u8** ResForMotion_4B1E90(s16 motion);
 
@@ -465,7 +471,7 @@ private:
 
     EXPORT void ToKilledAbe_4B3600();
 
-    EXPORT BOOL IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight);
+    EXPORT Bool32 IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight);
 
     EXPORT GameSpeakEvents LastGlukkonSpeak_4B3090();
 
@@ -524,7 +530,7 @@ private:
 
     EXPORT static s16 CCSTD InZCover_4BB7C0(BaseAliveGameObject* pObj);
 
-    EXPORT static BOOL CCSTD RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
+    EXPORT static Bool32 CCSTD RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
 
     EXPORT void NextCommand_4B9A00(s16 speakTableIndex, s16 responseState);
 

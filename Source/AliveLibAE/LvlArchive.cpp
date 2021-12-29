@@ -2,10 +2,11 @@
 #include "LvlArchive.hpp"
 #include "Function.hpp"
 #include "Psx.hpp"
+#include <assert.h>
 
 const static s32 kSectorSize = 2048;
 
-ALIVE_VAR(1, 0x5CA4B0, BOOL, sbEnable_PCOpen_5CA4B0, FALSE);
+ALIVE_VAR(1, 0x5CA4B0, Bool32, sbEnable_PCOpen_5CA4B0, FALSE);
 ALIVE_VAR(1, 0x5BC218, s32, sWrappingFileIdx_5BC218, 0);
 ALIVE_VAR(1, 0x551D28, s32, sTotalOpenedFilesCount_551D28, 3); // Starts at 3.. for some reason
 ALIVE_ARY(1, 0x5BC220, LvlFileRecord, 32, sOpenFileNames_5BC220, {});
@@ -87,13 +88,24 @@ s32 LvlArchive::Free_433130()
     return 0;
 }
 
+static s32 ReadFirstSector(u8* pSector)
+{
+    CdlLOC cdLoc = {};
+    PSX_Pos_To_CdLoc_4FADD0(0, &cdLoc);
+    PSX_CdLoc_To_Pos_4FAE40(&cdLoc);
+    PSX_CD_File_Seek_4FB1E0(2, &cdLoc);
+
+    s32 bOk = PSX_CD_File_Read_4FB210(1, pSector);
+    if (PSX_CD_FileIOWait_4FB260(0) == -1)
+    {
+        bOk = 0;
+    }
+    return bOk;
+}
+
 s32 LvlArchive::Open_Archive_432E80(const char_type* fileName)
 {
-    // Allocate space for LVL archive header
-    field_0_0x2800_res = ResourceManager::Allocate_New_Block_49BFB0(kSectorSize * 5, ResourceManager::BlockAllocMethod::eFirstMatching);
-
     // Open the LVL file
-
 #if BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
     char_type subdirPath[256];
     strcpy(subdirPath, "levels");
@@ -113,6 +125,21 @@ s32 LvlArchive::Open_Archive_432E80(const char_type* fileName)
         return 0;
     }
 
+    u8 sector[2048] = {};
+    if (!ReadFirstSector(&sector[0]))
+    {
+        LOG_ERROR("Failed to read first 2048 bytes of " << fileName);
+        return 0;
+    }
+    const auto pLvlHeader = reinterpret_cast<const LvlHeader*>(&sector[0]);
+
+    // Allocate space for LVL archive header
+    field_0_0x2800_res = ResourceManager::Allocate_New_Block_49BFB0(kSectorSize * pLvlHeader->field_10_sub.field_4_header_size_in_sectors, ResourceManager::BlockAllocMethod::eFirstMatching);
+    if (pLvlHeader->field_10_sub.field_4_header_size_in_sectors != 5)
+    {
+        LOG_INFO("Header size in sectors is " << pLvlHeader->field_10_sub.field_4_header_size_in_sectors);
+    }
+
     // Not sure why any of this is required, doesn't really do anything.
     CdlLOC cdLoc = {};
     PSX_Pos_To_CdLoc_4FADD0(0, &cdLoc);
@@ -122,8 +149,7 @@ s32 LvlArchive::Open_Archive_432E80(const char_type* fileName)
     // Read the header
     ResourceManager::Header* pResHeader = ResourceManager::Get_Header_49C410(field_0_0x2800_res);
 
-    // OG BUG: Header assumed to be 5 sectors, if its bigger then we are doomed
-    s32 bOk = PSX_CD_File_Read_4FB210(5, pResHeader);
+    s32 bOk = PSX_CD_File_Read_4FB210(pLvlHeader->field_10_sub.field_4_header_size_in_sectors, pResHeader);
     if (PSX_CD_FileIOWait_4FB260(0) == -1)
     {
         bOk = 0;

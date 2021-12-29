@@ -90,7 +90,8 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
             &hitY,
             field_D6_scale == 0 ? 0xF0 : 0x10F))
     {
-        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
+            pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             if (ObjList_5C1B78)
             {
@@ -102,7 +103,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
                         break;
                     }
 
-                    if (cb(pObj->field_4_typeId))
+                    if (cb(pObj->Type()))
                     {
                         auto pPlatform = static_cast<PlatformBase*>(pObj);
 

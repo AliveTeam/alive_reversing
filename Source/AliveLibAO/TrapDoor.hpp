@@ -1,8 +1,9 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "PlatformBase.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -17,12 +18,17 @@ enum class TrapDoorState : s16
 struct Path_TrapDoor final : public Path_TLV
 {
     s16 field_18_id;
-    s16 field_1A_start_state;
-    s16 field_1C_self_closing;
-    s16 field_1E_scale;
+    enum StartState : s16
+    {
+        eOpen_0 = 0,
+        eClosed_1 = 1,
+    };
+    StartState field_1A_start_state;
+    Choice_short field_1C_self_closing;
+    Scale_short field_1E_scale;
     s16 field_20_dest_level;
-    s16 field_22_direction;
-    s16 field_24_anim_offset;
+    XDirection_short field_22_direction;
+    s16 field_24_xOff;
     s16 field_26_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_TrapDoor, 0x28);
@@ -75,7 +81,7 @@ public:
     TrapDoorState field_136_state;
     s16 field_138_switch_state;
     s16 field_13A_xOff;
-    s16 field_13C_set_switch_on_dead;
+    Choice_short field_13C_self_closing;
     s16 field_13E_pad;
     FP field_140_x;
     FP field_144_y;

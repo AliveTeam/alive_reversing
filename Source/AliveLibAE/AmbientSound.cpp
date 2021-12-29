@@ -122,7 +122,7 @@ EXPORT void CC Start_Sounds_for_TLV_4CB530(CameraPos direction, Path_TLV* pTlv)
 
         case TlvTypes::Slog_16:
         {
-            if (static_cast<Path_Slog*>(pTlv)->field_14_asleep)
+            if (static_cast<Path_Slog*>(pTlv)->field_14_asleep == Choice_short::eYes_1)
             {
                 if (!pAmbianceTbl->mArray[3].field_8_pScopedSeq)
                 {

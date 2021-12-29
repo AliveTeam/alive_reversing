@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Types.hpp"
+#include "../../AliveLibCommon/Types.hpp"
 
 #include <map>
 #include <unordered_map>
@@ -11,6 +11,7 @@ namespace jsonxx {
 class Array;
 }
 
+namespace ReliveAPI {
 class TlvObjectBase;
 class TypesCollectionBase;
 
@@ -50,3 +51,4 @@ public:
     std::unordered_map<TlvEnumType, FnTlvFactory<PathTlvType>> mTlvFactory;
     std::unordered_map<std::string, FnTlvFactory<PathTlvType>> mReverseTlvFactory;
 };
+} // namespace ReliveAPI

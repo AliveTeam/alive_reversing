@@ -17,6 +17,7 @@ jobs:
         cmake -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"Unix Makefiles" ..
         make -j4
         cpack -G DEB
+        ctest
   - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-Linux.deb
     artifact: RELIVE-Linux.deb
 - job: macOS
@@ -32,6 +33,7 @@ jobs:
         cmake -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -G"Unix Makefiles" ..
         make -j4
         cpack -G DragNDrop
+        ctest
   - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-Darwin.dmg
     artifact: RELIVE-MacOSX.dmg
 - job: Windows32
@@ -52,6 +54,7 @@ jobs:
         cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -DSDL2_DIR=C:\Temp\SDL2-2.0.14 -G "Visual Studio 16 2019" -A Win32
         cmake --build .
         cpack.exe -G ZIP -C Debug
+        ctest
   - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-win32.zip
     artifact: RELIVE-Windows32.zip
 - job: Windows64
@@ -72,5 +75,6 @@ jobs:
         cmake .. -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DSDL2_DIR=C:\Temp\SDL2-2.0.14 -G "Visual Studio 16 2019" -A x64
         cmake --build .
         cpack.exe -G ZIP -C Debug
+        ctest
   - publish: $(System.DefaultWorkingDirectory)/build/relive-0.1-win64.zip
     artifact: RELIVE-Windows64.zip

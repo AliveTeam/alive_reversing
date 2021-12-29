@@ -3,6 +3,7 @@
 #include <jsonxx/jsonxx.h>
 #include "relive_api_exceptions.hpp"
 
+namespace ReliveAPI {
 [[nodiscard]] inline const jsonxx::Array& ReadArray(jsonxx::Object&&, const std::string&) = delete;
 [[nodiscard]] inline const jsonxx::Array& ReadArray(const jsonxx::Object& o, const std::string& key)
 {
@@ -46,3 +47,15 @@
 
     return o.get<jsonxx::String>(key);
 }
+
+[[nodiscard]] inline std::string ReadOptionalString(const jsonxx::Object& o, const std::string& key)
+{
+    if (!o.has<jsonxx::String>(key))
+    {
+        return "";
+    }
+
+    return o.get<jsonxx::String>(key);
+}
+
+} // namespace ReliveAPI

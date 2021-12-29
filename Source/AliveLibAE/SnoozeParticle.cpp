@@ -75,7 +75,7 @@ SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, Layer layer, FP sc
 
     SetVTable(this, 0x5472FC);
 
-    field_4_typeId = AETypes::eSnoozeParticle_124;
+    SetType(AETypes::eSnoozeParticle_124);
     gObjList_drawables_5C1124->Push_Back(this);
 
     field_20_x_start = xpos;

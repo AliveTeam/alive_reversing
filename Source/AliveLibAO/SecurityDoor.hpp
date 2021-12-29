@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FunctionFwd.hpp"
+#include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
@@ -35,7 +35,7 @@ enum SecurityDoorStates : s16
 class SecurityDoor final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BOOL IsPlayerNear();
+    Bool32 IsPlayerNear();
 
     virtual void VUpdate() override;
 

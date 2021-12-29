@@ -59,7 +59,7 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo)
     field_EC_ticks_before_moving = pTlv->field_18_ticks_before_moving;
     field_E8_speed = FP_FromRaw(pTlv->field_1A_speed << 8);
 
-    if (pTlv->field_1C_scale == 1)
+    if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;

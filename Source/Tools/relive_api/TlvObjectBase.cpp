@@ -1,6 +1,7 @@
-#include "../AliveLibCommon/stdafx_common.h"
+#include "../../AliveLibCommon/stdafx_common.h"
 #include "TlvObjectBase.hpp"
 
+namespace ReliveAPI {
 TlvObjectBase::TlvObjectBase(const std::string& typeName)
     : mStructTypeName(typeName)
 {
@@ -52,3 +53,4 @@ void TlvObjectBase::InstanceFromJson(TypesCollectionBase& types, const jsonxx::O
 {
     return mInstanceNumber;
 }
+} // namespace ReliveAPI

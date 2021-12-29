@@ -7,6 +7,7 @@
 #include "Game.hpp"
 #include "MainMenu.hpp"
 #include "Map.hpp"
+#include "Sys.hpp"
 
 void StatsSign_ForceLink()
 {
@@ -18,11 +19,9 @@ u8 sStatsSignFontPalette_55CF8C[] = {
     0x13, 0x94, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
     0x18, 0xD8};
 
-s16 sMudsInLevelCount_55CFAC[15] = {0, 75, 10, 5, 14, 26, 49, 14, 31, 90, 90, 5, 26, 49, 31};
-
 
 ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
-ALIVE_VAR(1, 0x5C1A20, s8, sStatsSignCurrentArea_5C1A20, 0);
+ALIVE_VAR(1, 0x5C1A20, s8, sZulagNumber_5C1A20, 0);
 
 
 BaseGameObject* LCDStatusBoard::VDestructor(s32 flags)
@@ -70,7 +69,12 @@ LCDStatusBoard* LCDStatusBoard::ctor_47B600(Path_LCDStatusBoard* params, TlvItem
     field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
     field_108_is_hidden = static_cast<s16>(params->field_14_hidden);
-    sStatsSignCurrentArea_5C1A20 = static_cast<s8>(params->field_12_zulag_number);
+    sZulagNumber_5C1A20 = static_cast<s8>(params->field_12_zulag_number);
+    if (sZulagNumber_5C1A20 >= 20)
+    {
+        LOG_ERROR("sZulagNumber_5C1A20 is " << sZulagNumber_5C1A20 << " max is 20");
+        ALIVE_FATAL("sZulagNumber_5C1A20 out of bounds, don't set your zulag numbe to >= 20");
+    }
     return this;
 }
 
@@ -117,7 +121,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
     if (!field_108_is_hidden)
     {
         char_type text[12] = {};
-        sprintf(text, "%3d", sMudsInLevelCount_55CFAC[static_cast<s32>(gMap_5C3030.field_0_current_level)]);
+        sprintf(text, "%3d", Path_GetMudsInLevel(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path));
         s32 maxWidth = field_90_font3.MeasureWidth_433700(text);
 
         s16 flickerAmount = 50; // ax
@@ -143,7 +147,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
             FP_FromDouble(1.0),
             field_104_position_x + maxWidth,
             flickerAmount);
-        const s16 mudsLeftInArea = sMudokonsInArea_5C1BC4 - sSavedKilledMudsPerPath_5C1B50.mData[sStatsSignCurrentArea_5C1A20];
+        const s16 mudsLeftInArea = sMudokonsInArea_5C1BC4 - sSavedKilledMudsPerZulag_5C1B50.mData[sZulagNumber_5C1A20];
         field_10A_muds_left_in_area = mudsLeftInArea;
 
         // Muds in this Area

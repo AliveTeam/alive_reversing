@@ -68,7 +68,8 @@ void PlatformBase::AddDynamicCollision_4512C0(s32 frameTableOffset, s32 maxW, s3
         pTlv->field_10_top_left.field_2_y,
         pTlv->field_14_bottom_right.field_0_x,
         pTlv->field_10_top_left.field_2_y,
-        32);
+        eLineTypes::eUnknown_32
+    );
 
     field_118_x_offset = FP_GetExponent(FP_FromInteger(pTlv->field_10_top_left.field_0_x) - field_A8_xpos);
     field_11A_width_offset = FP_GetExponent(FP_FromInteger(pTlv->field_14_bottom_right.field_0_x) - field_A8_xpos);

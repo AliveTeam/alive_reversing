@@ -15,12 +15,12 @@ EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo)
 
     field_24_tlvInfo = tlvInfo;
     field_28_lift_id = -1;
-    field_4_typeId = AETypes::eLiftMover_9;
+    SetType(AETypes::eLiftMover_9);
 
     field_20_enabled_by_switch_id = pTlv->field_10_switch_id;
     field_22_target_lift_point_id = pTlv->field_12_lift_id;
 
-    if (pTlv->field_14_direction == Path_LiftMover::YDirection::eUp_1)
+    if (pTlv->field_14_move_direction == Path_LiftMover::YDirection::eUp_1)
     {
         field_2C_speed = FP_FromInteger(-4);
     }
@@ -251,7 +251,7 @@ LiftPoint* LiftMover::GetLiftPoint_40D0F0()
             break;
         }
 
-        if (pObj->field_4_typeId == AETypes::eLiftPoint_78)
+        if (pObj->Type() == AETypes::eLiftPoint_78)
         {
             LiftPoint* pLift = static_cast<LiftPoint*>(pObj);
             if (field_22_target_lift_point_id == pLift->field_278_lift_point_id)
