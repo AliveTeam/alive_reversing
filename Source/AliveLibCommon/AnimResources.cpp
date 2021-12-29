@@ -1213,6 +1213,16 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::HoistRock2, {"DRPROCK.BAN", 180, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
     {AnimId::HoistRock3, {"DRPROCK.BAN", 192, 7, 4, kHoistRocks, PalId::Default}, kNullAnimDetails},
 
+    // hoist rocks for any other area except rupture farms
+    {AnimId::AO_HoistRock1, kNullAnimDetails, {"DRPROCK.BAN", 164, 7, 4, kHoistRocks, PalId::Default}},
+    {AnimId::AO_HoistRock2, kNullAnimDetails, {"DRPROCK.BAN", 176, 7, 4, kHoistRocks, PalId::Default}},
+    {AnimId::AO_HoistRock3, kNullAnimDetails, {"DRPROCK.BAN", 188, 7, 4, kHoistRocks, PalId::Default}},
+
+    // hoist rocks at rupture farms
+    {AnimId::RuptureFarms_HoistRock1, kNullAnimDetails, {"DRPSPRK.BAN", 240, 5, 4, kHoistRocks, PalId::Default}},
+    {AnimId::RuptureFarms_HoistRock2, kNullAnimDetails, {"DRPSPRK.BAN", 260, 5, 4, kHoistRocks, PalId::Default}},
+    {AnimId::RuptureFarms_HoistRock3, kNullAnimDetails, {"DRPSPRK.BAN", 276, 5, 4, kHoistRocks, PalId::Default}},
+
     {AnimId::BrewMachine_Button, {"BREWBTN.BAN", 316, 19, 11, kBrewButtonResID_6016, PalId::Default}, kNullAnimDetails},
 
     {AnimId::PullRingRope_Idle, {"PULLRING.BAN", 3020, 35, 22, kPullringResID, PalId::Default}, kNullAnimDetails},
@@ -1582,7 +1592,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
     // TODO: AO AnimId's: 
     // sDoorData_4BA508[16] 
-    // HoistParticle::ctor_431B00(
     // buttonFrameTableOffsets_4BB1B8[4]
     // check ctor_478880( calls
     // check AddDynamicCollision_4512C0 calls
