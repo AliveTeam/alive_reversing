@@ -1180,7 +1180,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
     // the loading icons are apparently exactly the same except the maxW/maxH
     {AnimId::Loading_Icon, {"LOADING.BAN", 900, 150, 65, kLoadingResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::Loading_Icon2, {"LOADING.BAN", 900, 50, 38, kLoadingResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Loading_Icon2,
+        {"LOADING.BAN", 900, 50, 38, kLoadingResID, PalId::Default}, 
+        {"LOADING.BAN", 652, 50, 38, kLoadingResID, PalId::Default}},
 
     {AnimId::Vaporize_Particle, {"VAPOR.BAN", 5264, 61, 44, kVaporResID, PalId::Default}, kNullAnimDetails},
     {AnimId::ShootingFire_Particle,
@@ -1307,6 +1309,30 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Door_Temple_Open, { "SVZDOOR.BAN", 5448, 67, 62, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Train_Closed, { "TRAINDOR.BAN", 4740, 44, 56u, kTrainDoorResID_2013, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Train_Closing, { "TRAINDOR.BAN", 4752, 44, 56u, kTrainDoorResID_2013, PalId::Default}, kNullAnimDetails },
+
+    {AnimId::Door_RuptureFarms_Open, kNullAnimDetails, { "RDOOR.BND", 6608, 56, 62, kF2p3dorResID, PalId::Default}},
+    {AnimId::Door_RuptureFarms_Closed, kNullAnimDetails, { "RDOOR.BND", 6632, 56, 62, kF2p3dorResID, PalId::Default}},
+
+    {AnimId::Door_Lines_Open, kNullAnimDetails, { "LDOOR.BND", 4760, 55, 48, kF2p3dorResID, PalId::Default}},
+    {AnimId::Door_Lines_Closed, kNullAnimDetails, { "LDOOR.BND", 4784, 55, 48, kF2p3dorResID, PalId::Default}},
+
+    {AnimId::Door_Forest_Open, kNullAnimDetails, { "FDOOR.BND", 6600, 63, 62, kF2p3dorResID, PalId::Default}},
+    {AnimId::Door_Forest_Closed, kNullAnimDetails, { "FDOOR.BND", 6624, 63, 62, kF2p3dorResID, PalId::Default}},
+
+    {AnimId::HubDoor_Forest_Open, kNullAnimDetails, { "FDOOR.BND", 2012, 34, 29, kHubdoorResID, PalId::Default}},
+    {AnimId::HubDoor_Forest_Closed, kNullAnimDetails, { "FDOOR.BND", 2036, 34, 29, kHubdoorResID, PalId::Default}},
+
+    {AnimId::FinalTestDoor_Forest_Open, kNullAnimDetails, { "FDOOR.BND", 2048, 51, 27, kRockdoorResID, PalId::Default}},
+    {AnimId::FinalTestDoor_Forest_Closed, kNullAnimDetails, { "FDOOR.BND", 2072, 51, 27, kRockdoorResID, PalId::Default}},
+    
+    {AnimId::Door_Desert_Open, kNullAnimDetails, { "DDOOR.BND", 3152, 52, 69, kF2p3dorResID, PalId::Default}},
+    {AnimId::Door_Desert_Closed, kNullAnimDetails, { "DDOOR.BND", 3176, 52, 69, kF2p3dorResID, PalId::Default}},
+
+    {AnimId::HubDoor_Desert_Open, kNullAnimDetails, { "DDOOR.BND", 1024, 21, 29, kHubdoorResID, PalId::Default}},
+    {AnimId::HubDoor_Desert_Closed, kNullAnimDetails, { "DDOOR.BND", 1048, 21, 29, kHubdoorResID, PalId::Default}},
+
+    {AnimId::FinalTestDoor_Desert_Open, kNullAnimDetails, { "DDOOR.BND", 992, 26, 31, kRockdoorResID, PalId::Default}},
+    {AnimId::FinalTestDoor_Desert_Closed, kNullAnimDetails, { "DDOOR.BND", 1016, 26, 31, kRockdoorResID, PalId::Default}},
 
     {AnimId::Dove_Idle,
         {"DOVBASIC.BAN", 5580, 41, 20, kDovbasicResID, PalId::Default},
@@ -1593,7 +1619,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     // TODO: AO AnimId's: 
     // sDoorData_4BA508[16] 
     // buttonFrameTableOffsets_4BB1B8[4]
-    // check ctor_478880( calls
     // check AddDynamicCollision_4512C0 calls
 
     {AnimId::Elum_FallUnknown1, kNullAnimDetails, {"ELMFALL.BAN", 40404, 169, 169, kElmfallResID_216, PalId::Default}},
@@ -1602,7 +1627,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
      {"LOADING.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
-     {"R1METSAW.BAN", 15252, 104, 36, kMeatSawResID, PalId::Default}
+     { "DDOOR.BND", 1016, 26, 31, kRockdoorResID, PalId::Default }
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };

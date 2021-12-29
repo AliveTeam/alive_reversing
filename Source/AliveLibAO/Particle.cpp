@@ -9,7 +9,8 @@ namespace AO {
 
 Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, 1, 0);
+    const AnimRecord& rec = AO::AnimRec(AnimId::DeathFlare_2);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     auto pParticle = ao_new<Particle>();
     if (!pParticle)
@@ -17,7 +18,7 @@ Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scal
         return nullptr;
     }
 
-    pParticle->ctor_478880(xpos, ypos, 6284, 70, 43, ppRes);
+    pParticle->ctor_478880(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
     pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     pParticle->field_BC_sprite_scale = FP_FromInteger(2) * scale;
 

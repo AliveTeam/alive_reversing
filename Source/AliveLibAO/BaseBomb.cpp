@@ -114,7 +114,8 @@ void BaseBomb::VUpdate_417580()
 
     if (field_10_anim.field_92_current_frame == 3)
     {
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 1, 0);
+        const AnimRecord& rec = AO::AnimRec(AnimId::Explosion_Mine);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         if (ppRes)
         {
             Particle* pParticle = ao_new<Particle>();
@@ -123,9 +124,9 @@ void BaseBomb::VUpdate_417580()
                 pParticle->ctor_478880(
                     field_A8_xpos,
                     field_AC_ypos,
-                    51600,
-                    214,
-                    49,
+                    rec.mFrameTableOffset,
+                    rec.mMaxW,
+                    rec.mMaxH,
                     ppRes);
             }
             else

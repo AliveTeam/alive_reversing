@@ -220,13 +220,14 @@ ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord_Unknown, 0x30);
 
 void CC Game_ShowLoadingIcon_445EB0()
 {
-    u8** ppLoadingAnimRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1, 0);
-    if (ppLoadingAnimRes)
+    const AnimRecord& rec = AO::AnimRec(AnimId::Loading_Icon2);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    if (ppRes)
     {
         auto pParticle = ao_new<Particle>();
         if (pParticle)
         {
-            pParticle->ctor_478880(FP_FromInteger(0), FP_FromInteger(0), 652, 50, 38, ppLoadingAnimRes);
+            pParticle->ctor_478880(FP_FromInteger(0), FP_FromInteger(0), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
         }
 
         pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
