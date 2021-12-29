@@ -46,7 +46,7 @@ s32 CC LiftMover::CreateFromSaveState_40D180(const u8* pData)
 
         if (pState->field_8_state != LiftMoverStates::eInactive_0)
         {
-            pLiftMover->field_32_bMoveInProgress = 1;
+            pLiftMover->field_32_bMoveInProgress = TRUE;
         }
         pLiftMover->field_30_state = pState->field_8_state;
     }
@@ -79,7 +79,7 @@ void LiftMover::vUpdate_40CE20()
         {
             return;
         }
-        field_32_bMoveInProgress = 0;
+        field_32_bMoveInProgress = FALSE;
     }
 
     if (pLift && pLift->field_6_flags.Get(BaseGameObject::eDead_Bit3))
@@ -235,7 +235,7 @@ LiftMover* LiftMover::vdtor_40CD70(s32 flags)
 
 s32 LiftMover::vGetSaveState_40D240(LiftMover_State* pState)
 {
-    pState->field_0_type = 9; // TODO: Types
+    pState->field_0_type_id = AETypes::eLiftMover_9;
     pState->field_4_tlvInfo = field_24_tlvInfo;
     pState->field_8_state = field_30_state;
     return sizeof(LiftMover_State);

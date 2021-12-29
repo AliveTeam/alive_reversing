@@ -707,7 +707,6 @@ enum class AnimId
     Door_Feeco_Open,
     Fire,
     Door_FireBackgroundGlow,
-    Door_Flame_Spark,
     Door_Lock_Idle,
     Door_Lock_Open,
     Door_Mines_Closed,

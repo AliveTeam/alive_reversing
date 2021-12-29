@@ -1185,13 +1185,13 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Vaporize_Particle, {"VAPOR.BAN", 5264, 61, 44, kVaporResID, PalId::Default}, kNullAnimDetails},
     {AnimId::ShootingFire_Particle,
         {"BIGFLASH.BAN", 960, 86, 17, kBigflashResID, PalId::Default},
-     {"SLIG.BND", 804, 86, 17, kBigflashResID, PalId::Default}},
+        {"SLIG.BND", 804, 86, 17, kBigflashResID, PalId::Default}},
     {AnimId::ChantOrb_Particle, 
         {"OMMFLARE.BAN", 1632, 39, 21, kOmmflareResID, PalId::Default},
         {"OMMFLARE.BAN", 1492, 38, 21, kOmmflareResID, PalId::Default}},
     {AnimId::SquibSmoke_Particle,
         {"SQBSMK.BAN", 5084, 61, 44, kSquibSmokeResID, PalId::Default},
-     {"SQBSMK.BAN", 4108, 61, 44, kSquibSmokeResID, PalId::Default}},
+        {"SQBSMK.BAN", 4108, 61, 44, kSquibSmokeResID, PalId::Default}},
     {AnimId::Explosion_Rocks, {"DEBRIS00.BAN", 6484, 71, 36, kDebrisID00, PalId::Default}, kNullAnimDetails},
     {AnimId::Explosion_Sticks, {"STICK.BAN", 1704, 49, 29, kStickGib, PalId::Default}, kNullAnimDetails},
     {AnimId::Mine_Flash,
@@ -1289,10 +1289,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "FIRE.BAN", 1400, 52, 30, kGlowResID, PalId::Default},
         { "FIRE.BAN", 1344, 52, 30, kGlowResID, PalId::Default} 
     },
-    {AnimId::Door_Flame_Spark, 
-        { "FIRE.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
-        { "FIRE.BAN", 1532, 38, 21, kOmmflareResID, PalId::Default} 
-    },
     {AnimId::Door_Lock_Idle, { "DOORLOCK.BAN", 1624, 87, 14, kDoorLockResID_374, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Lock_Open, { "DOORLOCK.BAN", 1608, 87, 14, kDoorLockResID_374, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Mines_Closed, { "DOOR.BAN", 8692, 77, 69, kF2p3dorResID, PalId::Default}, kNullAnimDetails },
@@ -1315,7 +1311,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         {"EXPLO2.BAN", 51156, 202, 91, kExplo2ResID, PalId::Default},
         {"EXPLO2.BAN", 27376, 200, 91, kExplo2ResID, PalId::Default}},
     {AnimId::Explosion_Mine, 
-        {"EXPLODE.BND", 51588, 214, 0x31u, kBgexpldResID, PalId::Default},
+        {"EXPLODE.BND", 51588, 214, 49, kBgexpldResID, PalId::Default},
         {"EXPLODE.BND", 51600, 214, 49, kBgexpldResID, PalId::Default}},
 
     {AnimId::Explosion_Small, { "SMEXP.BAN", 14108, 99, 46, kSmallExplo2ResID, PalId::Default}, kNullAnimDetails },
@@ -1532,7 +1528,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         {"SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default},
         {"SPLINE.BAN", 240, 9, 9, kSplineResID, PalId::Default}},
 
-    {AnimId::Zap_Sparks, kNullAnimDetails, { "OMMFLARE.BAN", 1532, 38, 21, kOmmflareResID, PalId::Default} },
+    {AnimId::Zap_Sparks,
+        {"OMMFLARE.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
+        {"OMMFLARE.BAN", 1532, 38, 21, kOmmflareResID, PalId::Default}},
 
     // Background animations
     {AnimId::BG_Brewery_Barrel_Anim, { "BRP02C10.CAM", 42112, 130, 55, 1206, PalId::Default}, kNullAnimDetails },
@@ -1594,7 +1592,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
-     {"LOADING.BAN", 900, 50, 38, kLoadingResID, PalId::Default},
+     {"LOADING.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
      {"R1METSAW.BAN", 15252, 104, 36, kMeatSawResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -46,7 +46,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
     field_12C_deadtimer = sGnFrame_5C1B84 + 600;
-    field_130_pLine = 0;
+    field_130_pLine = nullptr;
     field_118_count = count;
     field_11C_state = MeatStates::eCreated_0;
 

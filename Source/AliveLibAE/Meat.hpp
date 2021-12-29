@@ -82,7 +82,7 @@ private:
 
 private:
     MeatStates field_11C_state;
-    s16 field_11E;
+    s16 field_11E_padding;
     FP field_120_xpos;
     FP field_124_ypos;
     s32 field_128_timer;

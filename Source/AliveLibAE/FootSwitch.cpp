@@ -187,7 +187,7 @@ void FootSwitch::vUpdate_4DE270()
                         10,
                         100,
                         255,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
 
                 auto pParticleBurst = ae_new<ParticleBurst>();

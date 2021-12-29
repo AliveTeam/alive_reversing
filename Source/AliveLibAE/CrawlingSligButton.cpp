@@ -7,7 +7,7 @@
 #include "Events.hpp"
 
 // TODO: Check this is correct
-const SfxDefinition stru_544488[8] = {
+const SfxDefinition buttonSfxInfo_544488[8] = {
     {20u, 0u, 25u, 0u, 80, 11}, // Can never be used ??
     {25u, 0u, 95u, 0u, 57, 15},
     {75u, 0u, 49u, 0u, 25, 35},
@@ -115,9 +115,9 @@ void CrawlingSligButton::vUpdate_414B20()
             if (sound_id != CrawlingSligButtonSounds::None_0)
             {
                 SFX_Play_46FB10(
-                    stru_544488[static_cast<u16>(sound_id)].field_0_block_idx,
-                    stru_544488[static_cast<u16>(sound_id)].field_2_note + stru_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 2),
-                    stru_544488[static_cast<u16>(sound_id)].field_2_note + stru_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 1),
+                    buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_0_block_idx,
+                    buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 2),
+                    buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 1),
                     field_CC_sprite_scale);
             }
         }
