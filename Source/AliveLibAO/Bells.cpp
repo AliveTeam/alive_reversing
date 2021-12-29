@@ -200,17 +200,20 @@ void Bells::Ring_40AA80()
         if (field_EA_sound == Sounds::eLowPitch_0)
         {
             field_F0_sound_pitch_factor = 1;
-            field_10_anim.Set_Animation_Data_402A40(19380, 0);
+            const AnimRecord& rec = AO::AnimRec(AnimId::BigChime_Moving);
+            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
         }
         else if (field_EA_sound == Sounds::eMediumPitch_1)
         {
             field_F0_sound_pitch_factor = 2;
-            field_10_anim.Set_Animation_Data_402A40(19312, 0);
+            const AnimRecord& rec = AO::AnimRec(AnimId::MediumChime_Moving);
+            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
         }
         else if (field_EA_sound == Sounds::eHighPitch_2)
         {
             field_F0_sound_pitch_factor = 3;
-            field_10_anim.Set_Animation_Data_402A40(19264, 0);
+            const AnimRecord& rec = AO::AnimRec(AnimId::SmallChime_Moving);
+            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
         }
     }
 }

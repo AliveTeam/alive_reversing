@@ -66,7 +66,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
      {"DOGBLOW.BAN", 28416, 111, 63, kSlogBlowResID, PalId::Default}},
 
     {AnimId::Stick_Gib, kNullAnimDetails, { "STICK.BAN", 2800, 47, 29, kStickGib, PalId::Default} },
-
+    
+    {AnimId::Bat_Flying, kNullAnimDetails, { "BATBASIC.BAN", 6644, 48, 17, kBatBasicResID, PalId::Default} },
     {AnimId::Bat, kNullAnimDetails, { "BATBASIC.BAN", 6560, 48, 17, kBatBasicResID, PalId::Default} },
     {AnimId::Bee_Swarm, kNullAnimDetails, { "WASP.BAN", 636, 7, 4, kWaspResID, PalId::Default} },
 
@@ -1272,8 +1273,11 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "SHELL.BAN", 308, 6, 5, kShellResID, PalId::Default} 
     },
     {AnimId::BigChime, kNullAnimDetails, { "CHIMES.BAN", 19240, 49, 46, kChimeResID, PalId::Default} },
+    {AnimId::BigChime_Moving, kNullAnimDetails, { "CHIMES.BAN", 19380, 49, 46, kChimeResID, PalId::Default} },
     {AnimId::MediumChime, kNullAnimDetails, { "CHIMES.BAN", 19368, 49, 46, kChimeResID, PalId::Default} },
+    {AnimId::MediumChime_Moving, kNullAnimDetails, { "CHIMES.BAN", 19312, 49, 46, kChimeResID, PalId::Default} },
     {AnimId::SmallChime, kNullAnimDetails, { "CHIMES.BAN", 19252, 49, 46, kChimeResID, PalId::Default} },
+    {AnimId::SmallChime_Moving, kNullAnimDetails, { "CHIMES.BAN", 19264, 49, 46, kChimeResID, PalId::Default} },
     {AnimId::Chime_Ball, kNullAnimDetails, { "F2CHMBAL.BAN", 136, 16, 8, kF2ChimeBallResID, PalId::Default} },
     {AnimId::Circular_Fade, kNullAnimDetails, { "SPOTLITE.BAN", 2472, 57, 32, kSpotliteResID, PalId::Default} },
     {AnimId::DeathFlare_1,
@@ -1375,10 +1379,12 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "GRENADE.BAN", 1252, 17, 11, kGrenadeResID, PalId::Default},
         { "GRENADE.BAN", 1132, 17, 11, kGrenadeResID, PalId::Default}
     },
-    {AnimId::Grenade_Machine_Button_Off, { "GMACHINE.BND1", 1736, 26, 17u, kR1buttonResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::BoomMachine_Button_Off,
+        { "GMACHINE.BND1", 1736, 26, 17, kR1buttonResID, PalId::Default},
+        { "GMACHINE.BND1", 1600, 26, 17, kR1buttonResID, PalId::Default} },
     {AnimId::BoomMachine_Button_On, 
         { "GMACHINE.BND1", 1708, 26, 17, kR1buttonResID, PalId::Default},
-        { "GMACHINE.BND1", 1600, 26, 17, kR1buttonResID, PalId::Default} 
+        { "GMACHINE.BND1", 1572, 26, 17, kR1buttonResID, PalId::Default}
     },
     {AnimId::BoomMachine_Nozzle,
         { "GMACHINE.BND1", 3700, 67, 36, kR1bpipeResID, PalId::Default},
@@ -1448,6 +1454,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Rope_R1, kNullAnimDetails, { "R1ROPES.BAN", 636, 4, 16, kRopesResID, PalId::Default} },
     {AnimId::Rope_Lines, kNullAnimDetails, { "ROPES.BAN", 680, 5, 16, kRopesResID, PalId::Default} },
 
+    {AnimId::Security_Claw_Lower_Zap, kNullAnimDetails, { "F2EYEORB.BAN", 22420, 152, 31, kF2eyeorbResID, PalId::Default} },
     {AnimId::Security_Claw_Lower, kNullAnimDetails, { "F2EYEORB.BAN", 22468, 152, 31, kF2eyeorbResID, PalId::Default} },
     {AnimId::Security_Claw_Upper, kNullAnimDetails, { "F2EYEORB.BAN", 22480, 152, 31, kF2eyeorbResID, PalId::Default} },
     {AnimId::Security_Door, kNullAnimDetails, { "R1SDOS.BAN", 976, 70, 19, kR1sdosResID_6027, PalId::Default} },
@@ -1541,7 +1548,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Desert_TrapDoor_Opening, kNullAnimDetails, { "D2TRAP.BAN", 2012, 99, 56, kP6c1trapResID, PalId::Default} },
     {AnimId::Desert_TrapDoor_Closing, kNullAnimDetails, { "D2TRAP.BAN", 1988, 99, 56, kP6c1trapResID, PalId::Default} },
 
-    {AnimId::Bomb_Flash, {"BOMB.BND", 556, 36, 21, kBombflshResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::Bomb_Flash,
+        {"BOMB.BND", 556, 36, 21, kBombflshResID, PalId::Default},
+        {"BOMB.BND", 384, 37, 21, kBombflshResID, PalId::Default} },
     {AnimId::Bomb_RedGreenTick,
         {"BOMB.BND", 544, 36, 21, kBombflshResID, PalId::Default},
         {"BOMB.BND", 372, 37, 21, kBombflshResID, PalId::Default}},
@@ -1551,7 +1560,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "UXB.BND", 7740, 59, 19, kUXBResID, PalId::Default}
     },
     {AnimId::UXB_Toggle, { "UXB.BND", 8120, 59, 19, kUXBResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::UXB_Disabled, { "UXB.BND", 8192, 59, 19, kUXBResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::UXB_Disabled,
+        { "UXB.BND", 8192, 59, 19, kUXBResID, PalId::Default}, 
+        { "UXB.BND", 7884, 59, 19, kUXBResID, PalId::Default} },
     {AnimId::Well_Leaf,
         {"WELLLEAF.BAN", 476, 16, 11, kWellLeafResID, PalId::Default},
         {"WELLLEAF.BAN", 428, 9, 11, kWellLeafResID, PalId::Default}},
@@ -1618,9 +1629,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
 
     // TODO: AO AnimId's: 
-    // 15232, 24764, 28752, 22420, 22568, 384, 8024, 8056, 15372, 19416,
-    // 6280, 1572, 38960, 7884, 24048, 28044, 6644, 4336, 2108,
-    // 19380, 19312, 19264
+    // 15232, 24764, 28752, 22568, 8024, 8056, 15372, 19416,
+    // 6280, 38960, 24048, 28044, 4336, 2108
     // buttonFrameTableOffsets_4BB1B8[4]
     // check AddDynamicCollision_4512C0 calls
 
@@ -1630,7 +1640,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
      {"LOADING.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
-     { "DDOOR.BND", 1016, 26, 31, kRockdoorResID, PalId::Default }
+     { "UXB.BND", 7884, 59, 19, kUXBResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };

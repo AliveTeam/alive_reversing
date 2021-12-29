@@ -363,7 +363,8 @@ void SecurityClaw::VUpdate_418DE0()
             {
                 field_114_timer = gnFrameCount_507670 + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
-                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(22420, nullptr);
+                const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Zap);
+                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 SFX_Play_43AD70(95u, 60, 0);
                 SFX_Play_43AE60(95u, 90, -1000, 0);
             }

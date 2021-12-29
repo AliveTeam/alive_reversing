@@ -70,7 +70,10 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
             u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
             field_11C_anim.LoadPal_403090(ppRes, 0);
             field_1BC_flags &= ~2u;
-            field_11C_anim.Set_Animation_Data_402A40(372, 0);
+
+            const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
+            field_11C_anim.Set_Animation_Data_402A40(flashRec.mFrameTableOffset, 0);
+
             if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
@@ -80,7 +83,10 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
             {
                 SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
             }
-            field_10_anim.Set_Animation_Data_402A40(7884, 0);
+
+            const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
+            field_10_anim.Set_Animation_Data_402A40(animRec.mFrameTableOffset, 0);
+
             field_10C_state = UXBState::eDeactivated_3;
             field_10E_starting_state = UXBState::eDelay_0;
         }
@@ -100,8 +106,13 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
             u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
             field_11C_anim.LoadPal_403090(ppPal, 0);
             field_1BC_flags &= ~2u;
-            field_11C_anim.Set_Animation_Data_402A40(372, 0);
-            field_10_anim.Set_Animation_Data_402A40(7884, 0);
+
+            const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
+            field_11C_anim.Set_Animation_Data_402A40(flashRec.mFrameTableOffset, 0);
+
+            const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
+            field_10_anim.Set_Animation_Data_402A40(animRec.mFrameTableOffset, 0);
+
             field_10E_starting_state = UXBState::eDeactivated_3;
             field_10C_state = UXBState::eDeactivated_3;
         }
@@ -405,7 +416,8 @@ void UXB::VUpdate_489380()
             else if (field_118_next_state_frame <= static_cast<s32>(gnFrameCount_507670))
             {
                 field_10C_state = UXBState::eActive_1;
-                field_11C_anim.Set_Animation_Data_402A40(384, 0);
+                const AnimRecord& rec = AO::AnimRec(AnimId::Bomb_Flash);
+                field_11C_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
             }
             break;
 

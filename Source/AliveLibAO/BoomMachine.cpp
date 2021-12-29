@@ -161,7 +161,8 @@ void BoomMachine::VUpdate_41E750()
         if (!gpThrowableArray_50E26C || gpThrowableArray_50E26C->field_10_count == 0)
         {
             field_E8_bIsButtonOn = 1;
-            field_10_anim.Set_Animation_Data_402A40(1572, nullptr);
+            const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
+            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
         }
     }
     else if (field_E8_bIsButtonOn == 1)
@@ -169,7 +170,8 @@ void BoomMachine::VUpdate_41E750()
         if (gpThrowableArray_50E26C && gpThrowableArray_50E26C->field_10_count > 0)
         {
             field_E8_bIsButtonOn = 0;
-            field_10_anim.Set_Animation_Data_402A40(1600, nullptr);
+            const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_Off);
+            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
         }
 
         if (field_10_anim.field_92_current_frame == 3)

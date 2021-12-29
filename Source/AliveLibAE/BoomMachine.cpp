@@ -163,7 +163,7 @@ BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, s32 tlvInfo)
     SetVTable(this, 0x5455C4);
     SetType(AETypes::eGrenadeMachine_66);
 
-    const AnimRecord& rec = AnimRec(AnimId::Grenade_Machine_Button_Off);
+    const AnimRecord& rec = AnimRec(AnimId::BoomMachine_Button_Off);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
@@ -255,7 +255,7 @@ void BoomMachine::vUpdate_445F50()
         if (gpThrowableArray_5D1E2C && gpThrowableArray_5D1E2C->field_20_count > 0)
         {
             field_FC_bIsButtonOn = 0;
-            const AnimRecord& animRec = AnimRec(AnimId::Grenade_Machine_Button_Off);
+            const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Button_Off);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         }
 
