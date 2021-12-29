@@ -61,7 +61,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
 
     SetVTable(&field_110_anim, 0x4BA2B8);
     
-    const AnimRecord rec = AO::AnimRec(AnimId::MeatSaw);
+    const AnimRecord rec = AO::AnimRec(AnimId::MeatSaw_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     
@@ -243,7 +243,8 @@ void MeatSaw::VUpdate_4399D0()
             if ((field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670) || (field_1A8_flags & 2)) && ((!(field_1A8_flags & 1)) || SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
             {
                 field_E4_state = MeatSawStates::eGoingDown_1;
-                field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
+                const AnimRecord& rec = AO::AnimRec(AnimId::MeatSaw_Moving);
+                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 field_1A8_flags &= ~4u;
                 field_E8_speed2 = field_EA_speed1;
                 field_108_SFX_timer = gnFrameCount_507670 + 2;
@@ -259,7 +260,8 @@ void MeatSaw::VUpdate_4399D0()
                             if (field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670))
                             {
                                 field_E4_state = MeatSawStates::eGoingDown_1;
-                                field_10_anim.Set_Animation_Data_402A40(15232, nullptr);
+                                const AnimRecord& rec = AO::AnimRec(AnimId::MeatSaw_Moving);
+                                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                                 field_1A8_flags |= 4u;
                                 field_E8_speed2 = field_EC_off_speed;
                                 field_108_SFX_timer = gnFrameCount_507670 + 2;

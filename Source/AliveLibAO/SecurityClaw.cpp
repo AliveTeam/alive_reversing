@@ -38,7 +38,7 @@ void Claw::ctor()
     SetVTable(this, 0x4BAA70);
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
     
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Lower);
+    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Lower_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 }
@@ -363,7 +363,7 @@ void SecurityClaw::VUpdate_418DE0()
             {
                 field_114_timer = gnFrameCount_507670 + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
-                const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Zap);
+                const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Open);
                 field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 SFX_Play_43AD70(95u, 60, 0);
                 SFX_Play_43AE60(95u, 90, -1000, 0);
@@ -499,7 +499,8 @@ void SecurityClaw::VUpdate_418DE0()
             if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
             {
                 field_110_state = SecurityClawStates::eIdle_1;
-                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(22568, nullptr);
+                const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Close);
+                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 SFX_Play_43AD70(97u, 0, 0);
             }
             break;

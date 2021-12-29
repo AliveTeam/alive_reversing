@@ -1407,7 +1407,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "D2ELUM.BAN", 15688, 92, 86, kMeatSackResID, PalId::Default}
     },
     {AnimId::MeatSack_Hit, {"MEATSACK.BAN", 15888, 93, 86, kMeatSackResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::MeatSaw, kNullAnimDetails, { "R1METSAW.BAN", 15200, 104, 36, kMeatSawResID, PalId::Default} },
+    
+    {AnimId::MeatSaw_Idle, kNullAnimDetails, { "R1METSAW.BAN", 15200, 104, 36, kMeatSawResID, PalId::Default} },
+    {AnimId::MeatSaw_Moving, kNullAnimDetails, { "R1METSAW.BAN", 15232, 104, 36, kMeatSawResID, PalId::Default }}, // similar to the one above but this meatsaw anim has a higher rpm
     {AnimId::MeatSawMotor, kNullAnimDetails, {"R1METSAW.BAN", 15252, 104, 36, kMeatSawResID, PalId::Default}},
 
     {AnimId::Mine, 
@@ -1454,8 +1456,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Rope_R1, kNullAnimDetails, { "R1ROPES.BAN", 636, 4, 16, kRopesResID, PalId::Default} },
     {AnimId::Rope_Lines, kNullAnimDetails, { "ROPES.BAN", 680, 5, 16, kRopesResID, PalId::Default} },
 
-    {AnimId::Security_Claw_Lower_Zap, kNullAnimDetails, { "F2EYEORB.BAN", 22420, 152, 31, kF2eyeorbResID, PalId::Default} },
-    {AnimId::Security_Claw_Lower, kNullAnimDetails, { "F2EYEORB.BAN", 22468, 152, 31, kF2eyeorbResID, PalId::Default} },
+    {AnimId::Security_Claw_Lower_Open, kNullAnimDetails, { "F2EYEORB.BAN", 22420, 152, 31, kF2eyeorbResID, PalId::Default} },
+    {AnimId::Security_Claw_Lower_Close, kNullAnimDetails, { "F2EYEORB.BAN", 22568, 152, 31, kF2eyeorbResID, PalId::Default} },
+    {AnimId::Security_Claw_Lower_Idle, kNullAnimDetails, { "F2EYEORB.BAN", 22468, 152, 31, kF2eyeorbResID, PalId::Default} },
     {AnimId::Security_Claw_Upper, kNullAnimDetails, { "F2EYEORB.BAN", 22480, 152, 31, kF2eyeorbResID, PalId::Default} },
     {AnimId::Security_Door, kNullAnimDetails, { "R1SDOS.BAN", 976, 70, 19, kR1sdosResID_6027, PalId::Default} },
     {AnimId::Security_Door_Idle, { "SECDOOR.BAN", 1512, 70, 19u, kR1sdosResID_6027, PalId::Default}, kNullAnimDetails },
@@ -1580,12 +1583,29 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         {"OMMFLARE.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
         {"OMMFLARE.BAN", 1532, 38, 21, kOmmflareResID, PalId::Default}},
 
-    // Background animations
+    // Background animations - AE
     {AnimId::BG_Brewery_Barrel_Anim, { "BRP02C10.CAM", 42112, 130, 55, 1206, PalId::Default}, kNullAnimDetails },
     {AnimId::BG_Mine_Fan, { "MINEFAN.BAN", 15632, 113, 55, 1201, PalId::Default}, kNullAnimDetails },
     {AnimId::BG_Feeco_Small_Fan, { "FDP01C01.CAM", 4208, 57, 28, 1202, PalId::Default}, kNullAnimDetails },
     {AnimId::BG_Heat_Extractor_Fan, { "MIP04C18.CAM", 7104, 89, 24, 1204, PalId::Default}, kNullAnimDetails },
 
+    // AO background animation madness
+    {AnimId::BG_RuptureFarms_Barrel1, kNullAnimDetails, { "R1P15C07.CAM", 24764, 155, 56, 6016, PalId::Default} },
+    {AnimId::BG_RuptureFarms_Barrel2, kNullAnimDetails, { "R1P15C08.CAM", 28752, 155, 68, 6017, PalId::Default} },
+    {AnimId::BG_RuptureFarms_Barrel3, kNullAnimDetails, { "R1P18C01.CAM", 8056, 119, 30, 6018, PalId::Default} },
+    {AnimId::BG_RuptureFarms_Barrel4, kNullAnimDetails, { "R1P18C01.CAM", 15372, 89, 38, 6019, PalId::Default} },
+    {AnimId::BG_RuptureFarms_Barrel5, kNullAnimDetails, { "R1P18C02.CAM", 19416, 109, 40, 6020, PalId::Default} },
+    {AnimId::BG_RuptureFarms_Barrel6, kNullAnimDetails, { "R1P18C03.CAM", 6280, 82, 34, 6021, PalId::Default} },
+    {AnimId::BG_RuptureFarms_Barrel7, kNullAnimDetails, { "R1P18C03.CAM", 14904, 66, 57, 6022, PalId::Default} },
+    {AnimId::BG_RuptureFarms_Barrel8, kNullAnimDetails, { "R1P18C05.CAM", 12052, 72, 40, 6023, PalId::Default} },
+    {AnimId::BG_RuptureFarms_Barrel9, kNullAnimDetails, { "R1P18C10.CAM", 8024, 85, 37, 6024, PalId::Default} },
+    {AnimId::BG_RuptureFarms_Barrel10, kNullAnimDetails, { "R1P18C06.CAM", 18356, 107, 39, 6025, PalId::Default} },
+    {AnimId::BG_RuptureFarms_Barrel11, kNullAnimDetails, { "R1P18C07.CAM", 17960, 138, 42, 6026, PalId::Default} },
+
+    {AnimId::BG_Campfire1, kNullAnimDetails, { "E1P01C01.CAM", 38960, 151, 76, 7000, PalId::Default} },
+    {AnimId::BG_Campfire2, kNullAnimDetails, { "E1P01C07.CAM", 24048, 81, 38, 7001, PalId::Default} },
+    {AnimId::BG_Campfire3, kNullAnimDetails, { "E1P02C04.CAM", 28044, 76, 48, 7003, PalId::Default} },
+    {AnimId::BG_Campfire4, kNullAnimDetails, { "E1P02C04.CAM", 19848, 76, 51, 7004, PalId::Default} },
 
     {AnimId::GoldGlow, kNullAnimDetails, {"GOLDGLOW.BAN", 236, 19, 15, kGoldGlowResID_6011, PalId::Default}},
     {AnimId::GreenGlow, kNullAnimDetails, {"GRENGLOW.BAN", 96, 5, 6, kGreenGlowResID_6010, PalId::Default}},
@@ -1629,18 +1649,18 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
 
     // TODO: AO AnimId's: 
-    // 15232, 24764, 28752, 22568, 8024, 8056, 15372, 19416,
-    // 6280, 38960, 24048, 28044, 4336, 2108
     // buttonFrameTableOffsets_4BB1B8[4]
     // check AddDynamicCollision_4512C0 calls
 
+    // these frametableoffsets are probably background animations and there should be a lot more left
+    // 4336, 2108
     {AnimId::Elum_FallUnknown1, kNullAnimDetails, {"ELMFALL.BAN", 40404, 169, 169, kElmfallResID_216, PalId::Default}},
 
     // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
      {"LOADING.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
-     { "UXB.BND", 7884, 59, 19, kUXBResID, PalId::Default}
+     { "R1P18C01.CAM", 15372, 89, 38, 6019, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };
