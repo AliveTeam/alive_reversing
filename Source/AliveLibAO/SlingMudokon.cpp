@@ -31,7 +31,13 @@ const TSlingMudStateFunction gSlingMudMotionTable_4CFCB0[] = {
     &SlingMudokon::Motion_4_ShootEnd_46FEA0,
     &SlingMudokon::Motion_5_AngryToIdle_46FD50};
 
-const s32 sSlingMudFrameTables_4CFCC8[6] = {22636, 22676, 22744, 22700, 22720, 22780};
+const AnimId sSlingMudAnimIdTables_4CFCC8[6] = {
+    AnimId::Mudokon_Sling_Idle, 
+    AnimId::Mudokon_Sling_Angry,
+    AnimId::Mudokon_Sling_Speak,
+    AnimId::Mudokon_Sling_ShootStart,
+    AnimId::Mudokon_Sling_ShootEnd,
+    AnimId::Mudokon_Sling_AngryToIdle};
 
 using TSlingMudBrain = decltype(&SlingMudokon::Brain_0_GiveCode_46FEC0);
 
@@ -52,7 +58,7 @@ SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo)
     field_136_buffer_idx = -1;
     field_150_res = 0;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Mudokon_Sling);
+    const AnimRecord rec = AO::AnimRec(AnimId::Mudokon_Sling_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
@@ -258,8 +264,8 @@ void SlingMudokon::VUpdateAnimData_46F8F0()
     {
         ppResBlock = field_150_res;
     }
-
-    field_10_anim.Set_Animation_Data_402A40(sSlingMudFrameTables_4CFCC8[field_FC_current_motion], ppResBlock);
+    const AnimRecord& rec = AO::AnimRec(sSlingMudAnimIdTables_4CFCC8[field_FC_current_motion]);
+    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, ppResBlock);
 }
 
 void SlingMudokon::Motion_0_Idle_46FCB0()

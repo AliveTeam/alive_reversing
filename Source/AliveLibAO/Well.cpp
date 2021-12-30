@@ -112,6 +112,7 @@ void Well::VUpdate()
 
 void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
+    LOG_INFO("well express res id: " << pTlv->field_1E_res_id);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_res_id, 1, 0);
     if (ppRes)
     {
@@ -168,6 +169,7 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 
 void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
+    LOG_INFO("well local res id: " << pTlv->field_1E_res_id);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_res_id, 1, 0);
     if (ppRes)
     {
