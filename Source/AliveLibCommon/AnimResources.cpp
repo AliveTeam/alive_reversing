@@ -1669,6 +1669,42 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     { AnimId::BG_Well51, kNullAnimDetails, { "D7P11C05.CAM", 1536, 30, 45, 4032, PalId::Default} },
     { AnimId::BG_Well52, kNullAnimDetails, { "D7P11C07.CAM", 1464, 31, 42, 4033, PalId::Default} },
     { AnimId::BG_Well53, kNullAnimDetails, { "D7P11C11.CAM", 1512, 37, 32, 4034, PalId::Default} },
+    { AnimId::BG_Well54, kNullAnimDetails, { "F1P01C01.CAM", 58444, 140, 64, 1200, PalId::Default} },
+    { AnimId::BG_Well55, kNullAnimDetails, { "F1P01C03.CAM", 2712, 72, 51, 1050, PalId::Default} },
+    { AnimId::BG_Well56, kNullAnimDetails, { "F1P05C10.CAM", 4692, 72, 92, 1018, PalId::Default} },
+    { AnimId::BG_Well57, kNullAnimDetails, { "F1P06C04.CAM", 3312, 71, 50, 1017, PalId::Default} },
+    { AnimId::BG_Well58, kNullAnimDetails, { "F1P06C04.CAM", 1444, 28, 44, 1038, PalId::Default} },
+    { AnimId::BG_Well59, kNullAnimDetails, { "F1P09C02.CAM", 1244, 32, 46, 1039, PalId::Default} },
+    { AnimId::BG_Well60, kNullAnimDetails, { "F2P01C02.CAM", 4336, 72, 95, 2013, PalId::Default} },
+    { AnimId::BG_Well61, kNullAnimDetails, { "F2P01C02.CAM", 2108, 36, 52, 2014, PalId::Default} },
+    { AnimId::BG_Well62, kNullAnimDetails, { "F2P04C08.CAM", 1592, 31, 54, 2036, PalId::Default} },
+    { AnimId::BG_Well63, kNullAnimDetails, { "F2P04C04.CAM", 1396, 22, 41, 2030, PalId::Default} },
+    { AnimId::BG_Well64, kNullAnimDetails, { "F2P04C04.CAM", 1360, 21, 39, 2031, PalId::Default} },
+    { AnimId::BG_Well65, kNullAnimDetails, { "F2P04C04.CAM", 3048, 67, 43, 2029, PalId::Default} },
+    { AnimId::BG_Well66, kNullAnimDetails, { "F2P06C04.CAM", 4616, 81, 61, 2022, PalId::Default} },
+    { AnimId::BG_Well67, kNullAnimDetails, { "F4P09C01.CAM", 1428, 39, 62, 2041, PalId::Default} },
+    { AnimId::BG_Well68, kNullAnimDetails, { "F4P09C01.CAM", 2316, 41, 53, 2042, PalId::Default} },
+    { AnimId::BG_Well69, kNullAnimDetails, { "F4P09C01.CAM", 2436, 76, 63, 2040, PalId::Default} },
+    { AnimId::BG_Well70, kNullAnimDetails, { "F4P09C04.CAM", 1520, 42, 58, 2043, PalId::Default} },
+    { AnimId::BG_Well71, kNullAnimDetails, { "F4P09C08.CAM", 3180, 45, 65, 2044, PalId::Default} },
+    { AnimId::BG_Well72, kNullAnimDetails, { "F4P09C08.CAM", 2564, 42, 53, 2045, PalId::Default} },
+    { AnimId::BG_Well73, kNullAnimDetails, { "F4P09C09.CAM", 5488, 85, 98, 2046, PalId::Default} },
+    { AnimId::BG_Well74, kNullAnimDetails, { "F4P09C09.CAM", 1600, 39, 48, 2049, PalId::Default} },
+    { AnimId::BG_Well75, kNullAnimDetails, { "F4P09C09.CAM", 1404, 34, 46, 2047, PalId::Default} },
+    { AnimId::BG_Well76, kNullAnimDetails, { "F4P09C09.CAM", 1776, 38, 46, 2048, PalId::Default} },
+    { AnimId::BG_Well77, kNullAnimDetails, { "F4P09C10.CAM", 2488, 74, 82, 2051, PalId::Default} },
+    { AnimId::BG_Well78, kNullAnimDetails, { "F4P09C10.CAM", 2444, 88, 83, 2052, PalId::Default} },
+    { AnimId::BG_Well79, kNullAnimDetails, { "F4P09C10.CAM", 1940, 38, 50, 2050, PalId::Default} },
+    { AnimId::BG_Well80, kNullAnimDetails, { "F4P09C11.CAM", 3188, 78, 80, 2053, PalId::Default} },
+    { AnimId::BG_Well81, kNullAnimDetails, { "F4P09C11.CAM", 1584, 39, 53, 2054, PalId::Default} },
+
+    { AnimId::BG_Windmill1, kNullAnimDetails, { "F1P05C03.CAM", 9392, 80, 32, 1023, PalId::Default} },
+    { AnimId::BG_Windmill2, kNullAnimDetails, { "F1P05C04.CAM", 12156, 60, 48, 1024, PalId::Default} },
+    { AnimId::BG_Windmill3, kNullAnimDetails, { "F1P09C02.CAM", 11184, 73, 37, 1031, PalId::Default} },
+
+    // TODO: names - one of these blinks faster than the other
+    { AnimId::BG_RedEyes1, kNullAnimDetails, { "F2P02C04.CAM", 560, 10, 4, 2020, PalId::Default} },
+    { AnimId::BG_RedEyes2, kNullAnimDetails, { "F2P02C04.CAM", 620, 10, 4, 2021, PalId::Default} },
 
     {AnimId::GoldGlow, kNullAnimDetails, {"GOLDGLOW.BAN", 236, 19, 15, kGoldGlowResID_6011, PalId::Default}},
     {AnimId::GreenGlow, kNullAnimDetails, {"GRENGLOW.BAN", 96, 5, 6, kGreenGlowResID_6010, PalId::Default}},
@@ -1714,7 +1750,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     // TODO: AO AnimId's: 
     // buttonFrameTableOffsets_4BB1B8[4]
     // check AddDynamicCollision_4512C0 calls
-
+    // 15728
+    // 
     // these frametableoffsets are probably background animations and there should be a lot more left
     // 4336, 2108
     {AnimId::Elum_FallUnknown1, kNullAnimDetails, {"ELMFALL.BAN", 40404, 169, 169, kElmfallResID_216, PalId::Default}},
