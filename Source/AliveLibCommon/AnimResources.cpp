@@ -1765,6 +1765,30 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
+const AnimId ResIdToAnimId(bool isAe, s16 resID)
+{
+    for (const auto& entry : kAnimRecords)
+    {
+        if (isAe)
+        {
+            if (entry.mAEData.mResourceId == resID)
+            {
+                return entry.mId;
+            }
+        }
+        else
+        {
+            if (entry.mAOData.mResourceId == resID)
+            {
+                return entry.mId;
+            }
+        }
+    }
+
+    LOG_ERROR("couldn't find background animation entry with resource id " << resID);
+    ALIVE_FATAL("missing background animation entry");
+}
+
 void FrameTableOffsetExists(int frameTableOffset, bool isAe, int maxW, int maxH)
 {
     for (const auto& entry : kAnimRecords)

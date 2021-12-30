@@ -19,7 +19,9 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     field_4_typeId = Types::eBackgroundAnimation_5;
     field_F0_tlvInfo = tlvInfo;
 
-    field_E4_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_18_animation_id, 1, 0);
+    const AnimId animId = ResIdToAnimId(false, pTlv->field_18_animation_id);
+    const AnimRecord& anim = AO::AnimRec(animId);
+    field_E4_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mResourceId, 1, 0);
     if (!field_E4_res)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -66,9 +68,9 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
 
     LOG_INFO("bg animation id: " << pTlv->field_18_animation_id);
     Animation_Init_417FD0(
-        pHeader->field_4_frame_table_offset,
-        pHeader->field_0_max_w,
-        pHeader->field_2_max_h,
+        anim.mFrameTableOffset,
+        anim.mMaxW,
+        anim.mMaxH,
         field_E4_res,
         1);
 
