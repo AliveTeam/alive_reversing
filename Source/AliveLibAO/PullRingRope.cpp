@@ -16,9 +16,9 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BC058);
     field_4_typeId = Types::ePullRingRope_68;
     
-    const AnimRecord rec1 = AO::AnimRec(AnimId::Pullring_Farms);
+    const AnimRecord rec1 = AO::AnimRec(AnimId::Pullring_Farms_Idle);
     u8** ppRes1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
-    const AnimRecord rec2 = AO::AnimRec(AnimId::Pullring_Desert);
+    const AnimRecord rec2 = AO::AnimRec(AnimId::Pullring_Desert_Idle);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
     
     //u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPullringResID, 1, 0);
@@ -162,11 +162,13 @@ s16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRemoved_11 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {
-        field_10_anim.Set_Animation_Data_402A40(4872, 0);
+        const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_UseBegin);
+        field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
     }
     else
     {
-        field_10_anim.Set_Animation_Data_402A40(2952, 0);
+        const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_UseBegin);
+        field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
     }
     SFX_Play_43AD70(SoundEffect::RingRopePull_65, 0, 0);
     return 1;
@@ -279,11 +281,13 @@ void PullRingRope::VUpdate_4549A0()
 
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
             {
-                field_10_anim.Set_Animation_Data_402A40(4904, nullptr);
+                const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_UseEnd);
+                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
             }
             else
             {
-                field_10_anim.Set_Animation_Data_402A40(2984, nullptr);
+                const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_UseEnd);
+                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
             }
             break;
 
@@ -297,11 +301,13 @@ void PullRingRope::VUpdate_4549A0()
 
                 if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
                 {
-                    field_10_anim.Set_Animation_Data_402A40(4832, nullptr);
+                    const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_Idle);
+                    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 }
                 else
                 {
-                    field_10_anim.Set_Animation_Data_402A40(2912, nullptr);
+                    const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_Idle);
+                    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 }
             }
             break;
