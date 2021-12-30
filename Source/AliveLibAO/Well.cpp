@@ -112,14 +112,16 @@ void Well::VUpdate()
 
 void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_res_id, 1, 0);
+    LOG_INFO("well express res id: " << pTlv->field_1E_res_id);
+    const AnimId animId = ResIdToAnimId(false, pTlv->field_1E_res_id);
+    const AnimRecord& anim = AO::AnimRec(animId);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mResourceId, 1, 0);
     if (ppRes)
     {
-        auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
         Animation_Init_417FD0(
-            pHeader->field_4_frame_table_offset,
-            pHeader->field_0_max_w,
-            pHeader->field_2_max_h,
+            anim.mFrameTableOffset,
+            anim.mMaxW,
+            anim.mMaxH,
             ppRes,
             1);
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -168,14 +170,16 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 
 void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_res_id, 1, 0);
+    LOG_INFO("well local res id: " << pTlv->field_1E_res_id);
+    const AnimId animId = ResIdToAnimId(false, pTlv->field_1E_res_id);
+    const AnimRecord& anim = AO::AnimRec(animId);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mResourceId, 1, 0);
     if (ppRes)
     {
-        auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
         Animation_Init_417FD0(
-            pHeader->field_4_frame_table_offset,
-            pHeader->field_0_max_w,
-            pHeader->field_2_max_h,
+            anim.mFrameTableOffset,
+            anim.mMaxW,
+            anim.mMaxH,
             ppRes,
             1);
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);

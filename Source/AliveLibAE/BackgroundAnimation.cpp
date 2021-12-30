@@ -28,7 +28,9 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* 
     SetType(AETypes::eBackgroundAnimation_7);
     field_F8_tlvInfo = tlvInfo;
 
-    field_F4_res = reinterpret_cast<AnimHeader**>(Add_Resource_4DC130(ResourceManager::Resource_Animation, pPathParams->field_10_res_id));
+    const AnimId animId = ResIdToAnimId(true, pPathParams->field_10_res_id);
+    const AnimRecord& anim = AnimRec(animId);
+    field_F4_res = reinterpret_cast<AnimHeader**>(Add_Resource_4DC130(ResourceManager::Resource_Animation, anim.mResourceId));
     if (!field_F4_res)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -43,9 +45,9 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* 
     field_100_animYPos = FP_FromInteger(pPathParams->field_8_top_left.field_2_y);
 
     Animation_Init_424E10(
-        (*field_F4_res)->field_4_frame_table_offset,
-        (*field_F4_res)->field_0_max_w,
-        (*field_F4_res)->field_2_max_h,
+        anim.mFrameTableOffset,
+        anim.mMaxW,
+        anim.mMaxH,
         reinterpret_cast<u8**>(field_F4_res),
         1,
         1u);
