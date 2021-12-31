@@ -40,10 +40,10 @@ public:
     EXPORT void VUpdate_4392C0();
 
     s32 field_10C_tlvInfo;
-    s16 field_110;
+    s16 field_110_bDoMeatSackIdleAnim;
     s16 field_112_num_items;
-    s16 field_114;
-    s16 field_116;
+    s16 field_114_bPlayWobbleSound;
+    s16 field_116_always_0;
     FP field_118_velX;
     FP field_11C_velY;
 };

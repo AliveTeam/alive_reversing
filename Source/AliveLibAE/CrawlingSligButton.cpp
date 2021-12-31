@@ -115,7 +115,7 @@ void CrawlingSligButton::vUpdate_414B20()
             if (sound_id != CrawlingSligButtonSounds::None_0)
             {
                 SFX_Play_46FB10(
-                    buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_0_block_idx,
+                    static_cast<SoundEffect>(buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_0_block_idx),
                     buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 2),
                     buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 1),
                     field_CC_sprite_scale);

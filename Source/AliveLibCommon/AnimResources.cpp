@@ -1543,7 +1543,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "MEATSACK.BAN", 15848, 93, 86, kMeatSackResID, PalId::Default},
         { "D2ELUM.BAN", 15688, 92, 86, kMeatSackResID, PalId::Default}
     },
-    {AnimId::MeatSack_Hit, {"MEATSACK.BAN", 15888, 93, 86, kMeatSackResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::MeatSack_Hit,
+        {"MEATSACK.BAN", 15888, 93, 86, kMeatSackResID, PalId::Default},
+        { "D2ELUM.BAN", 15728, 92, 86, kMeatSackResID, PalId::Default} },
     
     {AnimId::MeatSaw_Idle, kNullAnimDetails, { "R1METSAW.BAN", 15200, 104, 36, kMeatSawResID, PalId::Default} },
     {AnimId::MeatSaw_Moving, kNullAnimDetails, { "R1METSAW.BAN", 15232, 104, 36, kMeatSawResID, PalId::Default }}, // similar to the one above but this meatsaw anim has a higher rpm
@@ -1772,8 +1774,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     // check AddDynamicCollision_4512C0 calls
     // 15728
     // 
-    // these frametableoffsets are probably background animations and there should be a lot more left
-    // 4336, 2108
     {AnimId::Elum_FallUnknown1, kNullAnimDetails, {"ELMFALL.BAN", 40404, 169, 169, kElmfallResID_216, PalId::Default}},
 
     // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester

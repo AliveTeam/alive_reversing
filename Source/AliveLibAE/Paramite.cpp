@@ -4929,13 +4929,13 @@ void Paramite::M_Eating_40_48A0F0()
                 }
                 else
                 {
-                    SFX_Play_46FA90(static_cast<u8>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
+                    SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
                 }
             }
         }
         else
         {
-            SFX_Play_46FA90(static_cast<u8>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
+            SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
         }
     }
 

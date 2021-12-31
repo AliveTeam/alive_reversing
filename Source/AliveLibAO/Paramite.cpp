@@ -3787,7 +3787,7 @@ void Paramite::Motion_23_Eating_44B970()
 {
     if (field_10_anim.field_92_current_frame == 5)
     {
-        SFX_Play_43AD70(static_cast<u8>(Math_RandomRange_450F20(79, 80)), 0, 0);
+        SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 0, 0);
     }
 
     if (field_FE_next_motion != -1 && !ToNextMotion_44B320())

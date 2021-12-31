@@ -1238,7 +1238,7 @@ void Slog::M_Eating_20_4C75F0()
 
     if (field_20_animation.field_92_current_frame == 3 && !field_20_animation.field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
     {
-        SFX_Play_46FA90(static_cast<u8>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
+        SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
         auto pBlood = ae_new<Blood>();
         if (pBlood)
         {

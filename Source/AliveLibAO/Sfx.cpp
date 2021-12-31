@@ -122,7 +122,7 @@ const SfxDefinition sSfxEntries_4CCA38[] = {
     {0, 62, 62, 90, -1000, -1000, 0},
     {0, 64, 39, 90, -1000, -1000, 0}};
 
-s32 CC SFX_Play_43AE60(u8 sfxIdx, s32 volume, s32 pitch, BaseAnimatedWithPhysicsGameObject* pObj)
+s32 CC SFX_Play_43AE60(SoundEffect sfxIdx, s32 volume, s32 pitch, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (volume > 0)
     {
@@ -135,7 +135,7 @@ s32 CC SFX_Play_43AE60(u8 sfxIdx, s32 volume, s32 pitch, BaseAnimatedWithPhysics
     return SFX_SfxDefinition_Play_4770F0(&sSfxEntries_4CCA38[sfxIdx], volume, pitch, pitch);
 }
 
-s32 CC SFX_Play_43AD70(u8 sfxIdx, s32 volume, BaseAnimatedWithPhysicsGameObject* pObj)
+s32 CC SFX_Play_43AD70(SoundEffect sfxIdx, s32 volume, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (volume > 0)
     {
@@ -148,7 +148,7 @@ s32 CC SFX_Play_43AD70(u8 sfxIdx, s32 volume, BaseAnimatedWithPhysicsGameObject*
     return SFX_SfxDefinition_Play_4770F0(&sSfxEntries_4CCA38[sfxIdx], volume, 0x7FFF, 0x7FFF);
 }
 
-s32 CC SFX_Play_43ADE0(u8 sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWithPhysicsGameObject* pObj)
+s32 CC SFX_Play_43ADE0(SoundEffect sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     s16 left = 0;
     s16 right = 0;
@@ -166,7 +166,7 @@ s32 CC SFX_Play_43ADE0(u8 sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWithPhys
     return SFX_SfxDefinition_Play_477330(&sSfxEntries_4CCA38[sfxId], left, right, 0x7FFF, 0x7FFF);
 }
 
-s32 CC SFX_Play_43AED0(u8 sfxId, s32 volume, CameraPos direction)
+s32 CC SFX_Play_43AED0(SoundEffect sfxId, s32 volume, CameraPos direction)
 {
     switch (direction)
     {

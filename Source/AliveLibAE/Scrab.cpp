@@ -3328,7 +3328,7 @@ void Scrab::M_Feed_36_4AA030()
     }
     else
     {
-        SFX_Play_46FA90((Math_NextRandom() & 1) ? 66 : 65, 0);
+        SFX_Play_46FA90((Math_NextRandom() & 1) ? SoundEffect::Eating2_66 : SoundEffect::Eating1_65, 0);
     }
 }
 

@@ -698,11 +698,11 @@ s32 CC Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, Ba
             s32 result = 0;
             if (pAliveObj && pAliveObj->field_BC_sprite_scale == FP_FromDouble(0.5))
             {
-                result = SFX_Play_43AD70(37u, 20, 0);
+                result = SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 20, 0);
             }
             else
             {
-                result = SFX_Play_43AD70(37u, 35, 0);
+                result = SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 35, 0);
             }
             return result;
         }

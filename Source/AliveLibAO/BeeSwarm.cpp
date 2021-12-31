@@ -229,8 +229,7 @@ void BeeSwarm::VUpdate_47FF50()
     {
         if (Math_RandomRange_450F20(0, 100) < 40)
         {
-            // TODO: Strongly type
-            SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(14, 15)), Math_RandomRange_450F20(volMin, volMax));
+            SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Bees1_14, SoundEffect::Bees2_15)), Math_RandomRange_450F20(volMin, volMax));
         }
     }
 

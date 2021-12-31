@@ -635,13 +635,13 @@ void MeatSack::vUpdate_46A6A0()
     }
     else
     {
-        PSX_RECT bPlayerRect = {};
-        sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bPlayerRect, 1);
+        PSX_RECT abeRect = {};
+        sActiveHero_5C1B68->vGetBoundingRect_424FD0(&abeRect, 1);
 
-        PSX_RECT bRect = {};
-        vGetBoundingRect_424FD0(&bRect, 1);
+        PSX_RECT ourRect = {};
+        vGetBoundingRect_424FD0(&ourRect, 1);
 
-        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
+        if (RectsOverlap(ourRect, abeRect) && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
         {
             const AnimRecord& MeatSackHitRec = AnimRec(AnimId::MeatSack_Hit);
             if (gpThrowableArray_5D1E2C)

@@ -632,7 +632,7 @@ void Command_Menu(const std::vector<std::string>& args)
 
 void Command_Midi1(const std::vector<std::string>& args)
 {
-    const u8 arg1 = static_cast<u8>(std::stoi(args[0]));
+    const SoundEffect arg1 = static_cast<SoundEffect>(std::stoi(args[0]));
 
     SFX_Play_46FA90(arg1, 0);
 

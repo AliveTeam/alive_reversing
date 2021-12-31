@@ -56,7 +56,7 @@ void UXB::InitBlinkAnim_4DEED0(Animation* pAnimation)
     }
 }
 
-void UXB::PlaySFX_4DE930(u8 sfxIdx)
+void UXB::PlaySFX_4DE930(SoundEffect sfxIdx)
 {
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
             this->field_C2_lvl_number,
