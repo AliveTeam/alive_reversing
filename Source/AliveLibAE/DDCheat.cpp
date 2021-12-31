@@ -365,14 +365,14 @@ void DDCheat::Update_415780()
                 // probably this should be removed as there is no sane way to check this pointer is still valid
                 DebugStr_4F5560(
                     "\n[obj %i] xy=%.3f,%.3f flags=%x",
-                    sControlledCharacter_5C1B8C->field_4_typeId,
+                    sControlledCharacter_5C1B8C->Type(),
                     FP_GetDouble(sControlledCharacter_5C1B8C->field_B8_xpos),
                     FP_GetDouble(sControlledCharacter_5C1B8C->field_BC_ypos),
                     sControlledCharacter_5C1B8C->field_6_flags);
 
                 DebugStr_4F5560("\nLine=%X\nState=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_motion);
 
-                if (sControlledCharacter_5C1B8C->field_4_typeId == AETypes::eAbe_69)
+                if (sControlledCharacter_5C1B8C->Type() == AETypes::eAbe_69)
                 {
                     DebugStr_4F5560("\nStateName=%s", sAbeMotionNames[sControlledCharacter_5C1B8C->field_106_current_motion]);
                 }
