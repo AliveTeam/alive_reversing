@@ -1014,6 +1014,7 @@ enum AEBgAnimID
 // AO background animation id's
 enum AOBgAnimID
 {
+    BG_None = 0,
     BG_RuptureFarms_Barrel1 = 6016,
     BG_RuptureFarms_Barrel2 = 6017,
     BG_RuptureFarms_Barrel3 = 6018,

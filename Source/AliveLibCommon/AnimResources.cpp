@@ -16,6 +16,7 @@ constexpr CombinedBgAnimRecord kBgAnimRecords[] = {
     {AEBgAnimID::BG_Feeco_Small_Fan, {"FDP01C01.CAM", 4208, 57, 28}, kNullBgAnimDetails},
     {AEBgAnimID::BG_Heat_Extractor_Fan, {"MIP04C18.CAM", 7104, 89, 24, }, kNullBgAnimDetails},
 
+    {AOBgAnimID::BG_None, kNullBgAnimDetails, kNullBgAnimDetails},
     {AOBgAnimID::BG_RuptureFarms_Barrel1, kNullBgAnimDetails, {"R1P15C07.CAM", 24764, 155, 56, }},
     {AOBgAnimID::BG_RuptureFarms_Barrel2, kNullBgAnimDetails, {"R1P15C08.CAM", 28752, 155, 68}},
     {AOBgAnimID::BG_RuptureFarms_Barrel3, kNullBgAnimDetails, {"R1P18C01.CAM", 8056, 119, 30}},
@@ -1889,6 +1890,7 @@ static const BgAnimRecord BgAnimRec(bool isAe, s32 toFind)
             return BgAnimRecord{ anim.mBgAnimId, data.mBanName, data.mFrameTableOffset, data.mMaxW, data.mMaxH };
         }
     }
+    LOG_ERROR("couldn't find bg anim id " << toFind);
     ALIVE_FATAL("missing background animation entry for anim id");
 }
 
