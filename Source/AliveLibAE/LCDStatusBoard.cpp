@@ -70,10 +70,10 @@ LCDStatusBoard* LCDStatusBoard::ctor_47B600(Path_LCDStatusBoard* params, TlvItem
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
     field_108_is_hidden = static_cast<s16>(params->field_14_hidden);
     sZulagNumber_5C1A20 = static_cast<s8>(params->field_12_zulag_number);
-    if (sZulagNumber_5C1A20 >= 20)
+    if (sZulagNumber_5C1A20 > ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
     {
         LOG_ERROR("sZulagNumber_5C1A20 is " << sZulagNumber_5C1A20 << " max is 20");
-        ALIVE_FATAL("sZulagNumber_5C1A20 out of bounds, don't set your zulag numbe to >= 20");
+        ALIVE_FATAL("sZulagNumber_5C1A20 out of bounds, don't set your zulag numbe to > 20");
     }
     return this;
 }
