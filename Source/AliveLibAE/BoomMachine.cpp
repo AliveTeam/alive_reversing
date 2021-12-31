@@ -17,7 +17,7 @@ public:
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
         SetVTable(this, 0x54557C);
-        const AnimRecord& rec = AnimRec(AnimId::BoomMachine_Nozzle);
+        const AnimRecord& rec = AnimRec(AnimId::BoomMachine_Nozzle_Idle);
         u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
@@ -94,7 +94,7 @@ private:
                 if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
                 {
                     field_F4_state = BoomMachineStates::eDropGrenade_3;
-                    const AnimRecord& animRec = AnimRec(AnimId::Grenade_Machine_Nozzle_Drop_Grenade);
+                    const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Nozzle_DropGrenade);
                     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                 }
                 break;
@@ -139,7 +139,7 @@ private:
 
                     pGrenade->VThrow_49E460((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
-                    const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Nozzle);
+                    const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Nozzle_Idle);
                     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                     field_F4_state = BoomMachineStates::eInactive_0;
                 }

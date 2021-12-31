@@ -1168,7 +1168,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Slurg_Burst, { "SLURG.BAN", 2808, 46, 15, kSlurgResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Slurg_Turn_Around, { "SLURG.BAN", 2740, 46, 15, kSlurgResID, PalId::Default}, kNullAnimDetails },
 
-    {AnimId::Background_Glukkon, kNullAnimDetails, { "GLUKKON.BND", 46096, 68, 60, kGlkbasicResID, PalId::Default} },
+    {AnimId::Background_Glukkon_Idle, kNullAnimDetails, { "GLUKKON.BND", 46096, 68, 60, kGlkbasicResID, PalId::Default} },
+    {AnimId::Background_Glukkon_Laugh, kNullAnimDetails, { "GLUKKON.BND", 46272, 68, 60, kGlkbasicResID, PalId::Default} },
+    {AnimId::Background_Glukkon_KillHim1, kNullAnimDetails, { "GLUKKON.BND", 46128, 68, 60, kGlkbasicResID, PalId::Default} },
+    {AnimId::Background_Glukkon_KillHim2, kNullAnimDetails, { "GLUKKON.BND", 46180, 68, 60, kGlkbasicResID, PalId::Default} },
 
     {AnimId::BirdPortal_Sparks,
         {"PORTAL.BND", 4256, 32, 69, kPortliteResID, PalId::Default},
@@ -1391,11 +1394,13 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "GMACHINE.BND1", 1708, 26, 17, kR1buttonResID, PalId::Default},
         { "GMACHINE.BND1", 1572, 26, 17, kR1buttonResID, PalId::Default}
     },
-    {AnimId::BoomMachine_Nozzle,
+    {AnimId::BoomMachine_Nozzle_Idle,
         { "GMACHINE.BND1", 3700, 67, 36, kR1bpipeResID, PalId::Default},
         { "GMACHINE.BND1", 3616, 66, 36, kR1bpipeResID, PalId::Default}
     },
-    {AnimId::Grenade_Machine_Nozzle_Drop_Grenade, { "GMACHINE.BND1", 3672, 67, 36u, kR1bpipeResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::BoomMachine_Nozzle_DropGrenade,
+        { "GMACHINE.BND1", 3672, 67, 36, kR1bpipeResID, PalId::Default},
+        { "GMACHINE.BND1", 3588, 66, 36, kR1bpipeResID, PalId::Default} },
     {AnimId::HintFly, kNullAnimDetails, { "HINTFLY.BAN", 556, 10, 7, kHintflyResID, PalId::Default} },
     {AnimId::Honey, kNullAnimDetails, { "HONEY.BAN", 3680, 62, 126, kHoneyResID, PalId::Default} },
     {AnimId::Honey_Drip, kNullAnimDetails, { "HONEY.BAN", 3628, 62, 126, kHoneyResID, PalId::Default} },
@@ -1440,8 +1445,13 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "WEB.BAN", 148, 5, 16, kWebResID, PalId::Default},
         { "WEB.BAN", 88, 3, 16, kWebResID, PalId::Default}
     },
-    {AnimId::Pullring_Desert, kNullAnimDetails, { "PULLRING.BAN", 2912, 32, 22, kPullringResID, PalId::Default} },
-    {AnimId::Pullring_Farms, kNullAnimDetails, { "R1PULRNG.BAN", 4832, 33, 35, kPullringResID, PalId::Default} },
+    {AnimId::Pullring_Desert_Idle, kNullAnimDetails, { "PULLRING.BAN", 2912, 32, 22, kPullringResID, PalId::Default} },
+    {AnimId::Pullring_Desert_UseBegin, kNullAnimDetails, { "PULLRING.BAN", 2952, 32, 22, kPullringResID, PalId::Default} },
+    {AnimId::Pullring_Desert_UseEnd, kNullAnimDetails, { "PULLRING.BAN", 2984, 32, 22, kPullringResID, PalId::Default} },
+
+    {AnimId::Pullring_Farms_Idle, kNullAnimDetails, { "R1PULRNG.BAN", 4832, 33, 35, kPullringResID, PalId::Default} },
+    {AnimId::Pullring_Farms_UseBegin, kNullAnimDetails, { "R1PULRNG.BAN", 4872, 33, 35, kPullringResID, PalId::Default} },
+    {AnimId::Pullring_Farms_UseEnd, kNullAnimDetails, { "R1PULRNG.BAN", 4904, 33, 35, kPullringResID, PalId::Default} },
 
     {AnimId::Rock, 
         { "RTHROW.BND", 488, 17, 9, kAberockResID, PalId::Default},
@@ -1464,7 +1474,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Security_Claw_Lower_Open, kNullAnimDetails, { "F2EYEORB.BAN", 22420, 152, 31, kF2eyeorbResID, PalId::Default} },
     {AnimId::Security_Claw_Lower_Close, kNullAnimDetails, { "F2EYEORB.BAN", 22568, 152, 31, kF2eyeorbResID, PalId::Default} },
     {AnimId::Security_Claw_Lower_Idle, kNullAnimDetails, { "F2EYEORB.BAN", 22468, 152, 31, kF2eyeorbResID, PalId::Default} },
-    {AnimId::Security_Claw_Upper, kNullAnimDetails, { "F2EYEORB.BAN", 22480, 152, 31, kF2eyeorbResID, PalId::Default} },
+    {AnimId::Security_Claw_Upper_Rotating, kNullAnimDetails, { "F2EYEORB.BAN", 22480, 152, 31, kF2eyeorbResID, PalId::Default} },
+    {AnimId::Security_Claw_Upper_NoRotation, kNullAnimDetails, { "F2EYEORB.BAN", 22616, 152, 31, kF2eyeorbResID, PalId::Default} },
     {AnimId::Security_Door, kNullAnimDetails, { "R1SDOS.BAN", 976, 70, 19, kR1sdosResID_6027, PalId::Default} },
     {AnimId::Security_Door_Idle, { "SECDOOR.BAN", 1512, 70, 19u, kR1sdosResID_6027, PalId::Default}, kNullAnimDetails },
     {AnimId::Security_Door_Speak, { "SECDOOR.BAN", 1528, 70, 19u, kR1sdosResID_6027, PalId::Default}, kNullAnimDetails },
@@ -1615,6 +1626,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::BG_Campfire6, kNullAnimDetails, { "E1P04C01.CAM", 23020, 81, 46, 7010, PalId::Default} },
     {AnimId::BG_Campfire7, kNullAnimDetails, { "E1P04C05.CAM", 35972, 101, 61, 7007, PalId::Default} },
     {AnimId::BG_Campfire8, kNullAnimDetails, { "E1P04C07.CAM", 15920, 81, 38, 7008, PalId::Default} },
+    {AnimId::BG_Campfire9, kNullAnimDetails, { "E1P02C02.CAM", 19132, 86, 51, 7002, PalId::Default} },
 
     { AnimId::BG_Well1, kNullAnimDetails, { "L1P01C10.CAM", 6528, 87, 82, 5002, PalId::Default} },
     { AnimId::BG_Well2, kNullAnimDetails, { "L1P01C16.CAM", 3820, 87, 73, 5006, PalId::Default} },
@@ -1706,6 +1718,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     { AnimId::BG_RedEyes1, kNullAnimDetails, { "F2P02C04.CAM", 560, 10, 4, 2020, PalId::Default} },
     { AnimId::BG_RedEyes2, kNullAnimDetails, { "F2P02C04.CAM", 620, 10, 4, 2021, PalId::Default} },
 
+    { AnimId::BG_PinkFlame1, kNullAnimDetails, { "R2P12C01.CAM", 22264, 96, 71, 6014, PalId::Default} },
+    { AnimId::BG_PinkFlame2, kNullAnimDetails, { "R2P12C03.CAM", 10164, 61, 46, 6015, PalId::Default} },
+
     {AnimId::GoldGlow, kNullAnimDetails, {"GOLDGLOW.BAN", 236, 19, 15, kGoldGlowResID_6011, PalId::Default}},
     {AnimId::GreenGlow, kNullAnimDetails, {"GRENGLOW.BAN", 96, 5, 6, kGreenGlowResID_6010, PalId::Default}},
     {AnimId::FlintGlow, kNullAnimDetails, {"FLNT.BAN", 756, 59, 54, kFlintGlowResID_6028, PalId::Default}},
@@ -1760,7 +1775,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
      {"LOADING.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
-     { "R1P18C01.CAM", 15372, 89, 38, 6019, PalId::Default}
+     { "GMACHINE.BND1", 3616, 66, 36, kR1bpipeResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };

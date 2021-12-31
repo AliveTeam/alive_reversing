@@ -68,7 +68,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
     field_6_flags.Set(Options::eCanExplode_Bit7);
     field_12C_pDetector = 1;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Upper);
+    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Upper_Rotating);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
@@ -340,7 +340,8 @@ void SecurityClaw::VUpdate_418DE0()
                     auto pDetector = static_cast<MotionDetector*>(pObjIter);
                     if (!field_13C_pArray)
                     {
-                        field_10_anim.Set_Animation_Data_402A40(22616, nullptr);
+                        const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Upper_NoRotation);
+                        field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                         field_13C_pArray = ao_new<DynamicArrayT<MotionDetector>>();
                         if (field_13C_pArray)
                         {

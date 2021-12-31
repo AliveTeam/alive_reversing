@@ -55,7 +55,7 @@ BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_BackgroundGlukkon* pTlv, 
 
     field_4_typeId = Types::eBackgroundGlukkon_42;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Background_Glukkon);
+    const AnimRecord rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
 
@@ -164,12 +164,14 @@ void BackgroundGlukkon::VUpdate_41DD60()
                     case 0:
                         if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
                         {
-                            field_10_anim.Set_Animation_Data_402A40(46272, 0);
+                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
+                            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
                             SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
-                            field_10_anim.Set_Animation_Data_402A40(46128, 0);
+                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim1);
+                            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
                             SFX_Play_43AE60(SoundEffect::GlukkonKillHim1_101, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -178,12 +180,14 @@ void BackgroundGlukkon::VUpdate_41DD60()
                     case 1:
                         if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
                         {
-                            field_10_anim.Set_Animation_Data_402A40(46272, 0);
+                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
+                            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
                             SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
-                            field_10_anim.Set_Animation_Data_402A40(46180, 0);
+                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim2);
+                            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
                             SFX_Play_43AE60(SoundEffect::GlukkonKillHim2_102, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -192,12 +196,14 @@ void BackgroundGlukkon::VUpdate_41DD60()
                     case 2:
                         if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
                         {
-                            field_10_anim.Set_Animation_Data_402A40(46272, 0);
+                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
+                            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
                             SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
-                            field_10_anim.Set_Animation_Data_402A40(46128, 0);
+                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim1);
+                            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
                             SFX_Play_43AE60(SoundEffect::Empty_105, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -206,7 +212,8 @@ void BackgroundGlukkon::VUpdate_41DD60()
                     case 3:
                         if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
                         {
-                            field_10_anim.Set_Animation_Data_402A40(46180, 0);
+                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim2);
+                            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
                             SFX_Play_43AE60(SoundEffect::Empty_106, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
