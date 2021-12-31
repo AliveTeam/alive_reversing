@@ -17,7 +17,7 @@ struct Path_WellBase : public Path_TLV
     s16 field_18_scale;
     s16 field_1A_trigger_id;
     s16 field_1C_well_id;
-    s16 field_1E_res_id;
+    s16 field_1E_anim_id;
     s16 field_20_exit_x;
     s16 field_22_exit_y;
     OffLevelOrDx field_24_off_level_or_dx;

@@ -19,9 +19,8 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     field_4_typeId = Types::eBackgroundAnimation_5;
     field_F0_tlvInfo = tlvInfo;
 
-    const AnimId animId = ResIdToAnimId(false, pTlv->field_18_animation_id);
-    const AnimRecord& anim = AO::AnimRec(animId);
-    field_E4_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mResourceId, 1, 0);
+    const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_18_animation_id);
+    field_E4_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (!field_E4_res)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -66,7 +65,15 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     field_F8_animXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_FC_animYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    LOG_INFO("bg animation id: " << pTlv->field_18_animation_id);
+    if (pHeader->field_4_frame_table_offset != anim.mFrameTableOffset ||
+        pHeader->field_0_max_w != anim.mMaxW ||
+        pHeader->field_2_max_h != anim.mMaxH)
+    {
+        LOG_WARNING("anim id entry data doesn't match OG data!");
+        LOG_WARNING("OG data: anim id " << pTlv->field_18_animation_id << " frametableoffset " << pHeader->field_4_frame_table_offset << " maxW " << pHeader->field_0_max_w << " maxH " << pHeader->field_2_max_h);
+        LOG_WARNING("anim id data: anim id " << anim.mBgAnimId << " frametableoffset " << anim.mFrameTableOffset << " maxW " << anim.mMaxW << " maxH " << anim.mMaxH);
+    }
+
     Animation_Init_417FD0(
         anim.mFrameTableOffset,
         anim.mMaxW,

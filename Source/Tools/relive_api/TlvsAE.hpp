@@ -925,7 +925,7 @@ struct Path_BackgroundAnimation final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_BackgroundAnimation, "BackgroundAnimation", TlvTypes::BackgroundAnimation_13)
     {
-        ADD("Resource ID", mTlv.field_10_res_id);
+        ADD("Animation ID", mTlv.field_10_anim_id);
         ADD("Is Semi Trans", mTlv.field_12_is_semi_trans);
         ADD("Semi Trans Mode", mTlv.field_14_semi_trans_mode);
         ADD("Sound Effect (Unused?)", mTlv.field_16_sound_effect);
