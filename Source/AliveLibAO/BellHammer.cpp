@@ -18,7 +18,7 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eBellHammer_27;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Bell_Hammer);
+    const AnimRecord rec = AO::AnimRec(AnimId::BellHammer_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
@@ -154,7 +154,8 @@ void BellHammer::VUpdate_405320()
             if (SwitchStates_Get(field_E6_switch_id))
             {
                 field_E4_state = BellHammerStates::eSmashingBell_1;
-                field_10_anim.Set_Animation_Data_402A40(4500, nullptr);
+                const AnimRecord& rec = AO::AnimRec(AnimId::BellHammer_Smashing);
+                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
             }
             break;
 
@@ -162,7 +163,8 @@ void BellHammer::VUpdate_405320()
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_E4_state = BellHammerStates::eWaitForActivation_0;
-                field_10_anim.Set_Animation_Data_402A40(4488, nullptr);
+                const AnimRecord& rec = AO::AnimRec(AnimId::BellHammer_Idle);
+                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 SwitchStates_Set(field_E6_switch_id, 0);
 
                 // Spawn the foo if he ain't already here
