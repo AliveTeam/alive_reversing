@@ -608,7 +608,7 @@ struct Path_WellLocal final : public ReliveAPI::TlvObjectBaseAO
         ADD("scale", mTlv.field_18_scale);
         ADD("trigger_id", mTlv.field_1A_trigger_id);
         ADD("well_id", mTlv.field_1C_well_id);
-        ADD("resource_id", mTlv.field_1E_res_id);
+        ADD("Animation ID", mTlv.field_1E_anim_id);
         ADD("exit_x", mTlv.field_20_exit_x);
         ADD("exit_y", mTlv.field_22_exit_y);
         ADD("dx", mTlv.field_24_off_level_or_dx.dx);
@@ -631,7 +631,7 @@ struct Path_WellExpress final : public ReliveAPI::TlvObjectBaseAO
         ADD("scale", mTlv.field_18_scale);
         ADD("trigger_id", mTlv.field_1A_trigger_id);
         ADD("well_id", mTlv.field_1C_well_id);
-        ADD("resource_id", mTlv.field_1E_res_id);
+        ADD("Animation ID", mTlv.field_1E_anim_id);
         ADD("exit_x", mTlv.field_20_exit_x);
         ADD("exit_y", mTlv.field_22_exit_y);
         ADD("off_level", mTlv.field_24_off_level_or_dx.level);

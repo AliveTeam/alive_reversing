@@ -7,6 +7,132 @@ constexpr CombinedPalRecord kPalRecords[] = {
     {PalId::BlindMud, {"MUDPAL.BND", kMudblindResID}, kNullPalDetails },
 };
 
+constexpr BgAnimDetails kNullBgAnimDetails = {};
+constexpr CombinedBgAnimRecord kBgAnimRecords[] = {
+
+    {AEBgAnimID::BG_Brewery_Barrel1, {"BRP02C10.CAM", 42112, 130, 55}, kNullBgAnimDetails},
+    {AEBgAnimID::BG_Brewery_Barrel2, {"BRP11C02.CAM", 42112, 130, 55}, kNullBgAnimDetails},
+    {AEBgAnimID::BG_Mine_Fan, {"MINEFAN.BAN", 15632, 113, 55}, kNullBgAnimDetails},
+    {AEBgAnimID::BG_Feeco_Small_Fan, {"FDP01C01.CAM", 4208, 57, 28}, kNullBgAnimDetails},
+    {AEBgAnimID::BG_Heat_Extractor_Fan, {"MIP04C18.CAM", 7104, 89, 24, }, kNullBgAnimDetails},
+
+    {AOBgAnimID::BG_RuptureFarms_Barrel1, kNullBgAnimDetails, {"R1P15C07.CAM", 24764, 155, 56, }},
+    {AOBgAnimID::BG_RuptureFarms_Barrel2, kNullBgAnimDetails, {"R1P15C08.CAM", 28752, 155, 68}},
+    {AOBgAnimID::BG_RuptureFarms_Barrel3, kNullBgAnimDetails, {"R1P18C01.CAM", 8056, 119, 30}},
+    {AOBgAnimID::BG_RuptureFarms_Barrel4, kNullBgAnimDetails, {"R1P18C01.CAM", 15372, 89, 38}},
+    {AOBgAnimID::BG_RuptureFarms_Barrel5, kNullBgAnimDetails, {"R1P18C02.CAM", 19416, 109, 40}},
+    {AOBgAnimID::BG_RuptureFarms_Barrel6, kNullBgAnimDetails, {"R1P18C03.CAM", 6280, 82, 34}},
+    {AOBgAnimID::BG_RuptureFarms_Barrel7, kNullBgAnimDetails, {"R1P18C03.CAM", 14904, 66, 57}},
+    {AOBgAnimID::BG_RuptureFarms_Barrel8, kNullBgAnimDetails, {"R1P18C05.CAM", 12052, 72, 40}},
+    {AOBgAnimID::BG_RuptureFarms_Barrel9, kNullBgAnimDetails, {"R1P18C10.CAM", 8024, 85, 37}},
+    {AOBgAnimID::BG_RuptureFarms_Barrel10, kNullBgAnimDetails, {"R1P18C06.CAM", 18356, 107, 39}},
+    {AOBgAnimID::BG_RuptureFarms_Barrel11, kNullBgAnimDetails, {"R1P18C07.CAM", 17960, 138, 42}},
+
+    {AOBgAnimID::BG_Campfire1, kNullBgAnimDetails, {"E1P01C01.CAM", 38960, 151, 76}},
+    {AOBgAnimID::BG_Campfire2, kNullBgAnimDetails, {"E1P01C07.CAM", 24048, 81, 38}},
+    {AOBgAnimID::BG_Campfire3, kNullBgAnimDetails, {"E1P02C04.CAM", 28044, 76, 48}},
+    {AOBgAnimID::BG_Campfire4, kNullBgAnimDetails, {"E1P03C02.CAM", 19848, 76, 51}},
+    {AOBgAnimID::BG_Campfire5, kNullBgAnimDetails, {"E1P03C06.CAM", 30868, 101, 56}},
+    {AOBgAnimID::BG_Campfire6, kNullBgAnimDetails, {"E1P04C01.CAM", 23020, 81, 46}},
+    {AOBgAnimID::BG_Campfire7, kNullBgAnimDetails, {"E1P04C05.CAM", 35972, 101, 61}},
+    {AOBgAnimID::BG_Campfire8, kNullBgAnimDetails, {"E1P04C07.CAM", 15920, 81, 38}},
+    {AOBgAnimID::BG_Campfire9, kNullBgAnimDetails, {"E1P02C02.CAM", 19132, 86, 51}},
+
+    {AOBgAnimID::BG_Well1, kNullBgAnimDetails, {"L1P01C10.CAM", 6528, 87, 82}},
+    {AOBgAnimID::BG_Well2, kNullBgAnimDetails, {"L1P01C16.CAM", 3820, 87, 73}},
+    {AOBgAnimID::BG_Well3, kNullBgAnimDetails, {"L1P01C16.CAM", 3908, 89, 72}},
+    {AOBgAnimID::BG_Well4, kNullBgAnimDetails, {"L1P01C11.CAM", 3464, 83, 64}},
+    {AOBgAnimID::BG_Well5, kNullBgAnimDetails, {"L1P02C10.CAM", 6020, 85, 90}},
+    {AOBgAnimID::BG_Well6, kNullBgAnimDetails, {"L1P02C09.CAM", 6716, 93, 87}},
+    {AOBgAnimID::BG_Well7, kNullBgAnimDetails, {"L1P06C05.CAM", 2712, 59, 53}},
+    {AOBgAnimID::BG_Well8, kNullBgAnimDetails, {"L1P06C05.CAM", 2308, 49, 52}},
+    {AOBgAnimID::BG_Well9, kNullBgAnimDetails, {"D1P01C01.CAM", 27004, 116, 58}},
+    {AOBgAnimID::BG_Well10, kNullBgAnimDetails, {"D1P01C01.CAM", 3604, 88, 53}},
+    {AOBgAnimID::BG_Well11, kNullBgAnimDetails, {"D1P01C01.CAM", 1616, 39, 45}},
+    {AOBgAnimID::BG_Well12, kNullBgAnimDetails, {"D1P01C02.CAM", 2384, 67, 58}},
+    {AOBgAnimID::BG_Well13, kNullBgAnimDetails, {"D1P01C03.CAM", 1628, 27, 52}},
+    {AOBgAnimID::BG_Well14, kNullBgAnimDetails, {"D1P06C09.CAM", 2336, 57, 46}},
+    {AOBgAnimID::BG_Well15, kNullBgAnimDetails, {"D1P06C08.CAM", 2468, 74, 58}},
+    {AOBgAnimID::BG_Well16, kNullBgAnimDetails, {"D1P06C08.CAM", 2304, 69, 54}},
+    {AOBgAnimID::BG_Well17, kNullBgAnimDetails, {"D1P06C01.CAM", 3212, 79, 49}},
+    {AOBgAnimID::BG_Well18, kNullBgAnimDetails, {"D1P06C02.CAM", 3272, 78, 58}},
+    {AOBgAnimID::BG_Well19, kNullBgAnimDetails, {"D1P08C01.CAM", 3380, 83, 70}},
+    {AOBgAnimID::BG_Well20, kNullBgAnimDetails, {"D1P08C01.CAM", 1416, 29, 41}},
+    {AOBgAnimID::BG_Well21, kNullBgAnimDetails, {"D1P08C03.CAM", 3084, 85, 59}},
+    {AOBgAnimID::BG_Well22, kNullBgAnimDetails, {"D1P09C02.CAM", 3028, 82, 54}},
+    {AOBgAnimID::BG_Well23, kNullBgAnimDetails, {"D1P09C02.CAM", 1184, 27, 39}},
+    {AOBgAnimID::BG_Well24, kNullBgAnimDetails, {"D1P09C06.CAM", 1600, 32, 46}},
+    {AOBgAnimID::BG_Well25, kNullBgAnimDetails, {"D1P09C06.CAM", 2876, 78, 56}},
+    {AOBgAnimID::BG_Well26, kNullBgAnimDetails, {"D2P10C01.CAM", 1284, 32, 45}},
+    {AOBgAnimID::BG_Well27, kNullBgAnimDetails, {"D2P10C01.CAM", 1612, 30, 52}},
+    {AOBgAnimID::BG_Well28, kNullBgAnimDetails, {"D2P06C03.CAM", 1064, 24, 46}},
+    {AOBgAnimID::BG_Well29, kNullBgAnimDetails, {"D2P06C07.CAM", 4888, 86, 58}},
+    {AOBgAnimID::BG_Well30, kNullBgAnimDetails, {"D2P06C01.CAM", 1232, 20, 41}},
+    {AOBgAnimID::BG_Well31, kNullBgAnimDetails, {"D2P04C01.CAM", 1592, 84, 56}},
+    {AOBgAnimID::BG_Well32, kNullBgAnimDetails, {"D2P04C07.CAM", 3552, 67, 78}},
+    {AOBgAnimID::BG_Well33, kNullBgAnimDetails, {"D2P04C02.CAM", 3908, 70, 86}},
+    {AOBgAnimID::BG_Well34, kNullBgAnimDetails, {"D2P04C03.CAM", 2652, 74, 60}},
+    {AOBgAnimID::BG_Well35, kNullBgAnimDetails, {"D2P04C03.CAM", 6236, 90, 93}},
+    {AOBgAnimID::BG_Well36, kNullBgAnimDetails, {"D2P04C04.CAM", 1744, 88, 20}},
+    {AOBgAnimID::BG_Well37, kNullBgAnimDetails, {"D2P05C04.CAM", 4988, 82, 106}},
+    {AOBgAnimID::BG_Well38, kNullBgAnimDetails, {"D2P09C01.CAM", 1392, 31, 55}},
+    {AOBgAnimID::BG_Well39, kNullBgAnimDetails, {"D2P09C01.CAM", 1060, 28, 39}},
+    {AOBgAnimID::BG_Well40, kNullBgAnimDetails, {"D2P09C02.CAM", 2224, 67, 57}},
+    {AOBgAnimID::BG_Well41, kNullBgAnimDetails, {"D2P09C02.CAM", 904, 27, 36}},
+    {AOBgAnimID::BG_Well42, kNullBgAnimDetails, {"D2P09C02.CAM", 1280, 25, 41}},
+    {AOBgAnimID::BG_Well43, kNullBgAnimDetails, {"D2P09C02.CAM", 3036, 64, 52}},
+    {AOBgAnimID::BG_Well44, kNullBgAnimDetails, {"D2P09C03.CAM", 2824, 86, 55}},
+    {AOBgAnimID::BG_Well45, kNullBgAnimDetails, {"D2P03C03.CAM", 1308, 29, 46}},
+    {AOBgAnimID::BG_Well46, kNullBgAnimDetails, {"D2P03C04.CAM", 3120, 74, 39}},
+    {AOBgAnimID::BG_Well47, kNullBgAnimDetails, {"D2P03C05.CAM", 2716, 85, 32}},
+    {AOBgAnimID::BG_Well48, kNullBgAnimDetails, {"D7P11C01.CAM", 984, 21, 39}},
+    {AOBgAnimID::BG_Well49, kNullBgAnimDetails, {"D7P11C01.CAM", 1652, 82, 61}},
+    {AOBgAnimID::BG_Well50, kNullBgAnimDetails, {"D7P11C04.CAM", 1148, 30, 49}},
+    {AOBgAnimID::BG_Well51, kNullBgAnimDetails, {"D7P11C05.CAM", 1536, 30, 45}},
+    {AOBgAnimID::BG_Well52, kNullBgAnimDetails, {"D7P11C07.CAM", 1464, 31, 42}},
+    {AOBgAnimID::BG_Well53, kNullBgAnimDetails, {"D7P11C11.CAM", 1512, 37, 32}},
+    {AOBgAnimID::BG_Well54, kNullBgAnimDetails, {"F1P01C01.CAM", 58444, 140, 64}},
+    {AOBgAnimID::BG_Well55, kNullBgAnimDetails, {"F1P01C03.CAM", 2712, 72, 51}},
+    {AOBgAnimID::BG_Well56, kNullBgAnimDetails, {"F1P05C10.CAM", 4692, 72, 92}},
+    {AOBgAnimID::BG_Well57, kNullBgAnimDetails, {"F1P06C04.CAM", 3312, 71, 50}},
+    {AOBgAnimID::BG_Well58, kNullBgAnimDetails, {"F1P06C04.CAM", 1444, 28, 44}},
+    {AOBgAnimID::BG_Well59, kNullBgAnimDetails, {"F1P09C02.CAM", 1244, 32, 46}},
+    {AOBgAnimID::BG_Well60, kNullBgAnimDetails, {"F2P01C02.CAM", 4336, 72, 95}},
+    {AOBgAnimID::BG_Well61, kNullBgAnimDetails, {"F2P01C02.CAM", 2108, 36, 52}},
+    {AOBgAnimID::BG_Well62, kNullBgAnimDetails, {"F2P04C08.CAM", 1592, 31, 54}},
+    {AOBgAnimID::BG_Well63, kNullBgAnimDetails, {"F2P04C04.CAM", 1396, 22, 41}},
+    {AOBgAnimID::BG_Well64, kNullBgAnimDetails, {"F2P04C04.CAM", 1360, 21, 39}},
+    {AOBgAnimID::BG_Well65, kNullBgAnimDetails, {"F2P04C04.CAM", 3048, 67, 43}},
+    {AOBgAnimID::BG_Well66, kNullBgAnimDetails, {"F2P06C04.CAM", 4616, 81, 61}},
+    {AOBgAnimID::BG_Well67, kNullBgAnimDetails, {"F4P09C01.CAM", 1428, 39, 62}},
+    {AOBgAnimID::BG_Well68, kNullBgAnimDetails, {"F4P09C01.CAM", 2316, 41, 53}},
+    {AOBgAnimID::BG_Well69, kNullBgAnimDetails, {"F4P09C01.CAM", 2436, 76, 63}},
+    {AOBgAnimID::BG_Well70, kNullBgAnimDetails, {"F4P09C04.CAM", 1520, 42, 58}},
+    {AOBgAnimID::BG_Well71, kNullBgAnimDetails, {"F4P09C08.CAM", 3180, 45, 65}},
+    {AOBgAnimID::BG_Well72, kNullBgAnimDetails, {"F4P09C08.CAM", 2564, 42, 53}},
+    {AOBgAnimID::BG_Well73, kNullBgAnimDetails, {"F4P09C09.CAM", 5488, 85, 98}},
+    {AOBgAnimID::BG_Well74, kNullBgAnimDetails, {"F4P09C09.CAM", 1600, 39, 48}},
+    {AOBgAnimID::BG_Well75, kNullBgAnimDetails, {"F4P09C09.CAM", 1404, 34, 46}},
+    {AOBgAnimID::BG_Well76, kNullBgAnimDetails, {"F4P09C09.CAM", 1776, 38, 46}},
+    {AOBgAnimID::BG_Well77, kNullBgAnimDetails, {"F4P09C10.CAM", 2488, 74, 82}},
+    {AOBgAnimID::BG_Well78, kNullBgAnimDetails, {"F4P09C10.CAM", 2444, 88, 83}},
+    {AOBgAnimID::BG_Well79, kNullBgAnimDetails, {"F4P09C10.CAM", 1940, 38, 50}},
+    {AOBgAnimID::BG_Well80, kNullBgAnimDetails, {"F4P09C11.CAM", 3188, 78, 80}},
+    {AOBgAnimID::BG_Well81, kNullBgAnimDetails, {"F4P09C11.CAM", 1584, 39, 53}},
+
+    {AOBgAnimID::BG_Windmill1, kNullBgAnimDetails, {"F1P05C03.CAM", 9392, 80, 32}},
+    {AOBgAnimID::BG_Windmill2, kNullBgAnimDetails, {"F1P05C04.CAM", 12156, 60, 48}},
+    {AOBgAnimID::BG_Windmill3, kNullBgAnimDetails, {"F1P09C02.CAM", 11184, 73, 37}},
+
+    // TODO: names - one of these blinks faster than the other
+    {AOBgAnimID::BG_RedEyes1, kNullBgAnimDetails, {"F2P02C04.CAM", 560, 10, 4}},
+    {AOBgAnimID::BG_RedEyes2, kNullBgAnimDetails, {"F2P02C04.CAM", 620, 10, 4}},
+
+    {AOBgAnimID::BG_PinkFlame1, kNullBgAnimDetails, {"R2P12C01.CAM", 22264, 96, 71}},
+    {AOBgAnimID::BG_PinkFlame2, kNullBgAnimDetails, {"R2P12C03.CAM", 10164, 61, 46}},
+};
+
+
 constexpr AnimDetails kNullAnimDetails = {};
 
 constexpr CombinedAnimRecord kAnimRecords[] = {
@@ -1599,128 +1725,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         {"OMMFLARE.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
         {"OMMFLARE.BAN", 1532, 38, 21, kOmmflareResID, PalId::Default}},
 
-    // Background animations - AE
-    {AnimId::BG_Brewery_Barrel_Anim, { "BRP02C10.CAM", 42112, 130, 55, 1206, PalId::Default}, kNullAnimDetails },
-    {AnimId::BG_Mine_Fan, { "MINEFAN.BAN", 15632, 113, 55, 1201, PalId::Default}, kNullAnimDetails },
-    {AnimId::BG_Feeco_Small_Fan, { "FDP01C01.CAM", 4208, 57, 28, 1202, PalId::Default}, kNullAnimDetails },
-    {AnimId::BG_Heat_Extractor_Fan, { "MIP04C18.CAM", 7104, 89, 24, 1204, PalId::Default}, kNullAnimDetails },
-
-    // AO background animation madness
-    {AnimId::BG_RuptureFarms_Barrel1, kNullAnimDetails, { "R1P15C07.CAM", 24764, 155, 56, 6016, PalId::Default} },
-    {AnimId::BG_RuptureFarms_Barrel2, kNullAnimDetails, { "R1P15C08.CAM", 28752, 155, 68, 6017, PalId::Default} },
-    {AnimId::BG_RuptureFarms_Barrel3, kNullAnimDetails, { "R1P18C01.CAM", 8056, 119, 30, 6018, PalId::Default} },
-    {AnimId::BG_RuptureFarms_Barrel4, kNullAnimDetails, { "R1P18C01.CAM", 15372, 89, 38, 6019, PalId::Default} },
-    {AnimId::BG_RuptureFarms_Barrel5, kNullAnimDetails, { "R1P18C02.CAM", 19416, 109, 40, 6020, PalId::Default} },
-    {AnimId::BG_RuptureFarms_Barrel6, kNullAnimDetails, { "R1P18C03.CAM", 6280, 82, 34, 6021, PalId::Default} },
-    {AnimId::BG_RuptureFarms_Barrel7, kNullAnimDetails, { "R1P18C03.CAM", 14904, 66, 57, 6022, PalId::Default} },
-    {AnimId::BG_RuptureFarms_Barrel8, kNullAnimDetails, { "R1P18C05.CAM", 12052, 72, 40, 6023, PalId::Default} },
-    {AnimId::BG_RuptureFarms_Barrel9, kNullAnimDetails, { "R1P18C10.CAM", 8024, 85, 37, 6024, PalId::Default} },
-    {AnimId::BG_RuptureFarms_Barrel10, kNullAnimDetails, { "R1P18C06.CAM", 18356, 107, 39, 6025, PalId::Default} },
-    {AnimId::BG_RuptureFarms_Barrel11, kNullAnimDetails, { "R1P18C07.CAM", 17960, 138, 42, 6026, PalId::Default} },
-
-    {AnimId::BG_Campfire1, kNullAnimDetails, { "E1P01C01.CAM", 38960, 151, 76, 7000, PalId::Default} },
-    {AnimId::BG_Campfire2, kNullAnimDetails, { "E1P01C07.CAM", 24048, 81, 38, 7001, PalId::Default} },
-    {AnimId::BG_Campfire3, kNullAnimDetails, { "E1P02C04.CAM", 28044, 76, 48, 7003, PalId::Default} },
-    {AnimId::BG_Campfire4, kNullAnimDetails, { "E1P03C02.CAM", 19848, 76, 51, 7004, PalId::Default} },
-    {AnimId::BG_Campfire5, kNullAnimDetails, { "E1P03C06.CAM", 30868, 101, 56, 7006, PalId::Default} },
-    {AnimId::BG_Campfire6, kNullAnimDetails, { "E1P04C01.CAM", 23020, 81, 46, 7010, PalId::Default} },
-    {AnimId::BG_Campfire7, kNullAnimDetails, { "E1P04C05.CAM", 35972, 101, 61, 7007, PalId::Default} },
-    {AnimId::BG_Campfire8, kNullAnimDetails, { "E1P04C07.CAM", 15920, 81, 38, 7008, PalId::Default} },
-    {AnimId::BG_Campfire9, kNullAnimDetails, { "E1P02C02.CAM", 19132, 86, 51, 7002, PalId::Default} },
-
-    { AnimId::BG_Well1, kNullAnimDetails, { "L1P01C10.CAM", 6528, 87, 82, 5002, PalId::Default} },
-    { AnimId::BG_Well2, kNullAnimDetails, { "L1P01C16.CAM", 3820, 87, 73, 5006, PalId::Default} },
-    { AnimId::BG_Well3, kNullAnimDetails, { "L1P01C16.CAM", 3908, 89, 72, 5007, PalId::Default} },
-    { AnimId::BG_Well4, kNullAnimDetails, { "L1P01C11.CAM", 3464, 83, 64, 5003, PalId::Default} },
-    { AnimId::BG_Well5, kNullAnimDetails, { "L1P02C10.CAM", 6020, 85, 90, 5005, PalId::Default} },
-    { AnimId::BG_Well6, kNullAnimDetails, { "L1P02C09.CAM", 6716, 93, 87, 5004, PalId::Default} },
-    { AnimId::BG_Well7, kNullAnimDetails, { "L1P06C05.CAM", 2712, 59, 53, 5001, PalId::Default} },
-    { AnimId::BG_Well8, kNullAnimDetails, { "L1P06C05.CAM", 2308, 49, 52, 5000, PalId::Default} },
-    { AnimId::BG_Well9, kNullAnimDetails, { "D1P01C01.CAM", 27004, 116, 58, 3052, PalId::Default} },
-    { AnimId::BG_Well10, kNullAnimDetails, { "D1P01C01.CAM", 3604, 88, 53, 3039, PalId::Default} },
-    { AnimId::BG_Well11, kNullAnimDetails, { "D1P01C01.CAM", 1616, 39, 45, 3040, PalId::Default} },
-    { AnimId::BG_Well12, kNullAnimDetails, { "D1P01C02.CAM", 2384, 67, 58, 3016, PalId::Default} },
-    { AnimId::BG_Well13, kNullAnimDetails, { "D1P01C03.CAM", 1628, 27, 52, 3017, PalId::Default} },
-    { AnimId::BG_Well14, kNullAnimDetails, { "D1P06C09.CAM", 2336, 57, 46, 3018, PalId::Default} },
-    { AnimId::BG_Well15, kNullAnimDetails, { "D1P06C08.CAM", 2468, 74, 58, 3051, PalId::Default} },
-    { AnimId::BG_Well16, kNullAnimDetails, { "D1P06C08.CAM", 2304, 69, 54, 3050, PalId::Default} },
-    { AnimId::BG_Well17, kNullAnimDetails, { "D1P06C01.CAM", 3212, 79, 49, 3041, PalId::Default} },
-    { AnimId::BG_Well18, kNullAnimDetails, { "D1P06C02.CAM", 3272, 78, 58, 3027, PalId::Default} },
-    { AnimId::BG_Well19, kNullAnimDetails, { "D1P08C01.CAM", 3380, 83, 70, 3047, PalId::Default} },
-    { AnimId::BG_Well20, kNullAnimDetails, { "D1P08C01.CAM", 1416, 29, 41, 3048, PalId::Default} },
-    { AnimId::BG_Well21, kNullAnimDetails, { "D1P08C03.CAM", 3084, 85, 59, 3049, PalId::Default} },
-    { AnimId::BG_Well22, kNullAnimDetails, { "D1P09C02.CAM", 3028, 82, 54, 3031, PalId::Default} },
-    { AnimId::BG_Well23, kNullAnimDetails, { "D1P09C02.CAM", 1184, 27, 39, 3032, PalId::Default} },
-    { AnimId::BG_Well24, kNullAnimDetails, { "D1P09C06.CAM", 1600, 32, 46, 3038, PalId::Default} },
-    { AnimId::BG_Well25, kNullAnimDetails, { "D1P09C06.CAM", 2876, 78, 56, 3037, PalId::Default} },
-    { AnimId::BG_Well26, kNullAnimDetails, { "D2P10C01.CAM", 1284, 32, 45, 4022, PalId::Default} },
-    { AnimId::BG_Well27, kNullAnimDetails, { "D2P10C01.CAM", 1612, 30, 52, 4023, PalId::Default} },
-    { AnimId::BG_Well28, kNullAnimDetails, { "D2P06C03.CAM", 1064, 24, 46, 4012, PalId::Default} },
-    { AnimId::BG_Well29, kNullAnimDetails, { "D2P06C07.CAM", 4888, 86, 58, 4013, PalId::Default} },
-    { AnimId::BG_Well30, kNullAnimDetails, { "D2P06C01.CAM", 1232, 20, 41, 4027, PalId::Default} },
-    { AnimId::BG_Well31, kNullAnimDetails, { "D2P04C01.CAM", 1592, 84, 56, 4009, PalId::Default} },
-    { AnimId::BG_Well32, kNullAnimDetails, { "D2P04C07.CAM", 3552, 67, 78, 4011, PalId::Default} },
-    { AnimId::BG_Well33, kNullAnimDetails, { "D2P04C02.CAM", 3908, 70, 86, 4024, PalId::Default} },
-    { AnimId::BG_Well34, kNullAnimDetails, { "D2P04C03.CAM", 2652, 74, 60, 4025, PalId::Default} },
-    { AnimId::BG_Well35, kNullAnimDetails, { "D2P04C03.CAM", 6236, 90, 93, 4026, PalId::Default} },
-    { AnimId::BG_Well36, kNullAnimDetails, { "D2P04C04.CAM", 1744, 88, 20, 4010, PalId::Default} },
-    { AnimId::BG_Well37, kNullAnimDetails, { "D2P05C04.CAM", 4988, 82, 106, 4028, PalId::Default} },
-    { AnimId::BG_Well38, kNullAnimDetails, { "D2P09C01.CAM", 1392, 31, 55, 4015, PalId::Default} },
-    { AnimId::BG_Well39, kNullAnimDetails, { "D2P09C01.CAM", 1060, 28, 39, 4014, PalId::Default} },
-    { AnimId::BG_Well40, kNullAnimDetails, { "D2P09C02.CAM", 2224, 67, 57, 4017, PalId::Default} },
-    { AnimId::BG_Well41, kNullAnimDetails, { "D2P09C02.CAM", 904, 27, 36, 4018, PalId::Default} },
-    { AnimId::BG_Well42, kNullAnimDetails, { "D2P09C02.CAM", 1280, 25, 41, 4019, PalId::Default} },
-    { AnimId::BG_Well43, kNullAnimDetails, { "D2P09C02.CAM", 3036, 64, 52, 4016, PalId::Default} },
-    { AnimId::BG_Well44, kNullAnimDetails, { "D2P09C03.CAM", 2824, 86, 55, 4021, PalId::Default} },
-    { AnimId::BG_Well45, kNullAnimDetails, { "D2P03C03.CAM", 1308, 29, 46, 4006, PalId::Default} },
-    { AnimId::BG_Well46, kNullAnimDetails, { "D2P03C04.CAM", 3120, 74, 39, 4007, PalId::Default} },
-    { AnimId::BG_Well47, kNullAnimDetails, { "D2P03C05.CAM", 2716, 85, 32, 4008, PalId::Default} },
-    { AnimId::BG_Well48, kNullAnimDetails, { "D7P11C01.CAM", 984, 21, 39, 4030, PalId::Default} },
-    { AnimId::BG_Well49, kNullAnimDetails, { "D7P11C01.CAM", 1652, 82, 61, 4029, PalId::Default} },
-    { AnimId::BG_Well50, kNullAnimDetails, { "D7P11C04.CAM", 1148, 30, 49, 4031, PalId::Default} },
-    { AnimId::BG_Well51, kNullAnimDetails, { "D7P11C05.CAM", 1536, 30, 45, 4032, PalId::Default} },
-    { AnimId::BG_Well52, kNullAnimDetails, { "D7P11C07.CAM", 1464, 31, 42, 4033, PalId::Default} },
-    { AnimId::BG_Well53, kNullAnimDetails, { "D7P11C11.CAM", 1512, 37, 32, 4034, PalId::Default} },
-    { AnimId::BG_Well54, kNullAnimDetails, { "F1P01C01.CAM", 58444, 140, 64, 1200, PalId::Default} },
-    { AnimId::BG_Well55, kNullAnimDetails, { "F1P01C03.CAM", 2712, 72, 51, 1050, PalId::Default} },
-    { AnimId::BG_Well56, kNullAnimDetails, { "F1P05C10.CAM", 4692, 72, 92, 1018, PalId::Default} },
-    { AnimId::BG_Well57, kNullAnimDetails, { "F1P06C04.CAM", 3312, 71, 50, 1017, PalId::Default} },
-    { AnimId::BG_Well58, kNullAnimDetails, { "F1P06C04.CAM", 1444, 28, 44, 1038, PalId::Default} },
-    { AnimId::BG_Well59, kNullAnimDetails, { "F1P09C02.CAM", 1244, 32, 46, 1039, PalId::Default} },
-    { AnimId::BG_Well60, kNullAnimDetails, { "F2P01C02.CAM", 4336, 72, 95, 2013, PalId::Default} },
-    { AnimId::BG_Well61, kNullAnimDetails, { "F2P01C02.CAM", 2108, 36, 52, 2014, PalId::Default} },
-    { AnimId::BG_Well62, kNullAnimDetails, { "F2P04C08.CAM", 1592, 31, 54, 2036, PalId::Default} },
-    { AnimId::BG_Well63, kNullAnimDetails, { "F2P04C04.CAM", 1396, 22, 41, 2030, PalId::Default} },
-    { AnimId::BG_Well64, kNullAnimDetails, { "F2P04C04.CAM", 1360, 21, 39, 2031, PalId::Default} },
-    { AnimId::BG_Well65, kNullAnimDetails, { "F2P04C04.CAM", 3048, 67, 43, 2029, PalId::Default} },
-    { AnimId::BG_Well66, kNullAnimDetails, { "F2P06C04.CAM", 4616, 81, 61, 2022, PalId::Default} },
-    { AnimId::BG_Well67, kNullAnimDetails, { "F4P09C01.CAM", 1428, 39, 62, 2041, PalId::Default} },
-    { AnimId::BG_Well68, kNullAnimDetails, { "F4P09C01.CAM", 2316, 41, 53, 2042, PalId::Default} },
-    { AnimId::BG_Well69, kNullAnimDetails, { "F4P09C01.CAM", 2436, 76, 63, 2040, PalId::Default} },
-    { AnimId::BG_Well70, kNullAnimDetails, { "F4P09C04.CAM", 1520, 42, 58, 2043, PalId::Default} },
-    { AnimId::BG_Well71, kNullAnimDetails, { "F4P09C08.CAM", 3180, 45, 65, 2044, PalId::Default} },
-    { AnimId::BG_Well72, kNullAnimDetails, { "F4P09C08.CAM", 2564, 42, 53, 2045, PalId::Default} },
-    { AnimId::BG_Well73, kNullAnimDetails, { "F4P09C09.CAM", 5488, 85, 98, 2046, PalId::Default} },
-    { AnimId::BG_Well74, kNullAnimDetails, { "F4P09C09.CAM", 1600, 39, 48, 2049, PalId::Default} },
-    { AnimId::BG_Well75, kNullAnimDetails, { "F4P09C09.CAM", 1404, 34, 46, 2047, PalId::Default} },
-    { AnimId::BG_Well76, kNullAnimDetails, { "F4P09C09.CAM", 1776, 38, 46, 2048, PalId::Default} },
-    { AnimId::BG_Well77, kNullAnimDetails, { "F4P09C10.CAM", 2488, 74, 82, 2051, PalId::Default} },
-    { AnimId::BG_Well78, kNullAnimDetails, { "F4P09C10.CAM", 2444, 88, 83, 2052, PalId::Default} },
-    { AnimId::BG_Well79, kNullAnimDetails, { "F4P09C10.CAM", 1940, 38, 50, 2050, PalId::Default} },
-    { AnimId::BG_Well80, kNullAnimDetails, { "F4P09C11.CAM", 3188, 78, 80, 2053, PalId::Default} },
-    { AnimId::BG_Well81, kNullAnimDetails, { "F4P09C11.CAM", 1584, 39, 53, 2054, PalId::Default} },
-
-    { AnimId::BG_Windmill1, kNullAnimDetails, { "F1P05C03.CAM", 9392, 80, 32, 1023, PalId::Default} },
-    { AnimId::BG_Windmill2, kNullAnimDetails, { "F1P05C04.CAM", 12156, 60, 48, 1024, PalId::Default} },
-    { AnimId::BG_Windmill3, kNullAnimDetails, { "F1P09C02.CAM", 11184, 73, 37, 1031, PalId::Default} },
-
-    // TODO: names - one of these blinks faster than the other
-    { AnimId::BG_RedEyes1, kNullAnimDetails, { "F2P02C04.CAM", 560, 10, 4, 2020, PalId::Default} },
-    { AnimId::BG_RedEyes2, kNullAnimDetails, { "F2P02C04.CAM", 620, 10, 4, 2021, PalId::Default} },
-
-    { AnimId::BG_PinkFlame1, kNullAnimDetails, { "R2P12C01.CAM", 22264, 96, 71, 6014, PalId::Default} },
-    { AnimId::BG_PinkFlame2, kNullAnimDetails, { "R2P12C03.CAM", 10164, 61, 46, 6015, PalId::Default} },
-
     {AnimId::GoldGlow, kNullAnimDetails, {"GOLDGLOW.BAN", 236, 19, 15, kGoldGlowResID_6011, PalId::Default}},
     {AnimId::GreenGlow, kNullAnimDetails, {"GRENGLOW.BAN", 96, 5, 6, kGreenGlowResID_6010, PalId::Default}},
     {AnimId::FlintGlow, kNullAnimDetails, {"FLNT.BAN", 756, 59, 54, kFlintGlowResID_6028, PalId::Default}},
@@ -1780,32 +1784,30 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
-const AnimId ResIdToAnimId(bool isAe, s16 resID)
+void FrameTableOffsetExists(int frameTableOffset, bool isAe, int maxW, int maxH)
 {
-    for (const auto& entry : kAnimRecords)
+    for (const auto& entry : kBgAnimRecords)
     {
         if (isAe)
         {
-            if (entry.mAEData.mResourceId == resID)
+            if (entry.mAEData.mFrameTableOffset == frameTableOffset &&
+                entry.mAEData.mMaxW == maxW &&
+                entry.mAEData.mMaxH == maxH)
             {
-                return entry.mId;
+                return;
             }
         }
         else
         {
-            if (entry.mAOData.mResourceId == resID)
+            if (entry.mAOData.mFrameTableOffset == frameTableOffset &&
+                entry.mAOData.mMaxW == maxW &&
+                entry.mAOData.mMaxH == maxH)
             {
-                return entry.mId;
+                return;
             }
         }
     }
 
-    LOG_ERROR("couldn't find background animation entry with resource id " << resID);
-    ALIVE_FATAL("missing background animation entry");
-}
-
-void FrameTableOffsetExists(int frameTableOffset, bool isAe, int maxW, int maxH)
-{
     for (const auto& entry : kAnimRecords)
     {
         if (isAe)
@@ -1877,6 +1879,24 @@ const PalRecord PalRec(PalId toFind)
     return PalRec(true, toFind);
 }
 
+static const BgAnimRecord BgAnimRec(bool isAe, s32 toFind)
+{
+    for (const CombinedBgAnimRecord& anim : kBgAnimRecords)
+    {
+        if (anim.mBgAnimId == toFind)
+        {
+            const BgAnimDetails& data = isAe ? anim.mAEData : anim.mAOData;
+            return BgAnimRecord{ anim.mBgAnimId, data.mBanName, data.mFrameTableOffset, data.mMaxW, data.mMaxH };
+        }
+    }
+    ALIVE_FATAL("missing background animation entry for anim id");
+}
+
+const BgAnimRecord BgAnimRec(s32 toFind)
+{
+    return BgAnimRec(true, toFind);
+}
+
 static const AnimRecord AnimRec(bool isAe, AnimId toFind)
 {
     for (const CombinedAnimRecord& anim : kAnimRecords)
@@ -1899,11 +1919,16 @@ namespace AO
 {
     const PalRecord PalRec(PalId toFind)
     {
-        return PalRec(false, toFind);
+        return ::PalRec(false, toFind);
     }
 
     const AnimRecord AnimRec(AnimId toFind)
     {
-        return AnimRec(false, toFind);
+        return ::AnimRec(false, toFind);
+    }
+
+    const BgAnimRecord BgAnimRec(s32 toFind)
+    {
+        return ::BgAnimRec(false, toFind);
     }
 }
