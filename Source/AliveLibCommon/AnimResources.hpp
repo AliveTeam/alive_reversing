@@ -548,8 +548,8 @@ enum class AnimId
 
     MenuHighlight_ButtonRemapSquare,
     MenuHighlight_Circle,
-    MenuHighlight_Square,
     MenuHighlight_Triangle,
+    MenuHighlight_Square,
 
     MenuDoor,
 
@@ -688,7 +688,7 @@ enum class AnimId
     Elum_ScratchBegin,
     Elum_ScratchLoop,
     Elum_ScratchEnd,
-    Elum_Unknown2,
+    Elum_ScratchUnknown,
     Elum_MountUnmountBegin,
     Elum_Knockback,
 
@@ -1462,12 +1462,12 @@ enum AOResourceID
     kWaspAOResID = 61,
     kHintflyAOResID = 62,
 
-    kElumUnknownAOResID_100 = 100,
+    kElumUnknownAOResID_100 = 100, // abe elum something
     kAneknbkAOResID = 106,
     kAneedgeAOResID = 108,
-    kElumUnknownAOResID_110 = 110,
-    kElumUnknownAOResID_112 = 112,
-    kElumUnknownAOResID_113 = 113, // was abe car
+    kElumUnknownAOResID_110 = 110, // abe elum something
+    kElumUnknownAOResID_112 = 112, // abe elum something
+    kElumUnknownAOResID_113 = 113, // abe elum something
     kAneprmntAOResID = 115,
     kAbemorphAOResID = 117,
     kAbegasAOResID = 118,
@@ -1482,11 +1482,11 @@ enum AOResourceID
     kElmnknbkAOResID = 215,
     kElmfallAOResID_216 = 216,
     kElmblowAOResID_217 = 217,
-    kElumUnknownAOResID_220 = 220,
-    kElumUnknownAOResID_221 = 221,
+    kElumRideAOResID_220 = 220,
+    kElumPdmntAOResID_221 = 221,
     kElmprmntAOResID__222 = 222,
-    kElumUnknownAOResID_223 = 223,
-    kElumUnknownAOResID_224 = 224,
+    kElumAneMountAOResID_223 = 223,
+    kElumANEDSMNTAOResID_224 = 224,
     kElmaloneAOResID_230 = 230,
 
     kBgexpldAOResID = 300,

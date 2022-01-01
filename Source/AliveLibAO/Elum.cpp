@@ -134,7 +134,7 @@ const AnimId gElumAnimIdTables_4C5218[52] = {
     AnimId::Elum_ScratchBegin,
     AnimId::Elum_ScratchLoop,
     AnimId::Elum_ScratchEnd,
-    AnimId::Elum_Unknown2,
+    AnimId::Elum_ScratchUnknown,
     AnimId::Elum_MountUnmountBegin,
     AnimId::Elum_MountUnmountBegin,
     AnimId::Elum_Knockback,
@@ -182,8 +182,8 @@ EXPORT BaseGameObject* Elum::dtor_410BC0()
     const AOResourceID resIDs[] = { 
         AOResourceID::kElmaloneAOResID_230, 
         AOResourceID::kElmprmntAOResID__222,
-        AOResourceID::kElumUnknownAOResID_220,
-        AOResourceID::kElumUnknownAOResID_221};
+        AOResourceID::kElumRideAOResID_220,
+        AOResourceID::kElumPdmntAOResID_221};
 
     for (s32 resID : resIDs)
     {
@@ -378,8 +378,8 @@ void Elum::Vsub_416120()
 
 void Elum::VLoadMountedResources_411300()
 {
-    field_174_resources.res[20] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_220, 1, 0);
-    field_174_resources.res[21] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_221, 1, 0);
+    field_174_resources.res[20] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumRideAOResID_220, 1, 0);
+    field_174_resources.res[21] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 1, 0);
 }
 
 void Elum::VFreeUnmountedResources_4112B0()

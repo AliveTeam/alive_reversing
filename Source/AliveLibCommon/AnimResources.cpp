@@ -720,6 +720,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
 
     // todo: different maxW/maxH for elum mount?
+    // these resource id's and file names are pretty much all wrong
     {AnimId::Mudokon_ElumWalkLoop, kNullAnimDetails, {"MUDLOTUS.BND", 144920, 135, 80, AO::kMudltusAOResID, PalId::Default}},
     {AnimId::Mudokon_ElumIdle, kNullAnimDetails, {"MUDLOTUS.BND", 145132, 135, 80, AO::kMudltusAOResID, PalId::Default}},
     {AnimId::Mudokon_ElumRunSlideStop, kNullAnimDetails, {"MUDLOTUS.BND", 145736, 135, 80, AO::kMudltusAOResID, PalId::Default}},
@@ -765,11 +766,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_AO_Unknown2, kNullAnimDetails, {"MUDLOTUS.BND", 5560, 135, 80, AO::kMudltusAOResID, PalId::Default}},
     {AnimId::Mudokon_AO_Unknown3, kNullAnimDetails, {"MUDLOTUS.BND", 7880, 135, 80, AO::kMudltusAOResID, PalId::Default}},
     {AnimId::Mudokon_AO_Unknown4, kNullAnimDetails, {"MUDLOTUS.BND", 255436, 135, 80, AO::kMudltusAOResID, PalId::Default}},
-    // AO only end
 
 
-     // AE only start
-    {AnimId::Mudokon_KnockForward, // maybe?
+    {AnimId::Mudokon_KnockForward,
      {"ABEKNFD.BAN", 17240, 135, 80, kAbeknfdResID, PalId::Default},
      {"ABEKNFD.BAN", 17240, 135, 80, AO::kAbeknfdAOResID, PalId::Default}},
 
@@ -1204,10 +1203,13 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
      {"HIGHLITE.BAN", 13936, 150, 65, kHighliteResID, PalId::Default},
      {"HIGHLITE.BAN", 6176, 99, 43, AO::kHighliteAOResID, PalId::Default}},
 
-    // just guessing the AnimId names
     // probably STARTANIM.BND as well?
-    {AnimId::MenuHighlight_Square, { "HIGHLITE.BAN", 13924, 150, 65, kHighliteResID, PalId::Default }, kNullAnimDetails },
-    {AnimId::MenuHighlight_Triangle, { "HIGHLITE.BAN", 13900, 150, 65, kHighliteResID, PalId::Default }, kNullAnimDetails },
+    {AnimId::MenuHighlight_Triangle,
+        { "HIGHLITE.BAN", 13924, 150, 65, kHighliteResID, PalId::Default },
+        {"HIGHLITE.BAN", 6164, 99, 43, AO::kHighliteAOResID, PalId::Default} },
+    {AnimId::MenuHighlight_Square,
+        { "HIGHLITE.BAN", 13900, 150, 65, kHighliteResID, PalId::Default },
+        {"HIGHLITE.BAN", 6140, 99, 43, AO::kHighliteAOResID, PalId::Default} },
 
     {AnimId::MenuDoor, 
         { "STDOOR.BAN", 50212, 233, 125, kMenuDoorResID, PalId::Default },
@@ -1308,7 +1310,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
      {"PORTAL.BND", 13352, 145, 74, AO::kPortlitAOResID, PalId::Default}},
     // grow/shrink might be swapped
     {AnimId::BirdPortal_TerminatorGrow, {"PORTAL.BND", 4168, 32, 18, kPortalTerminatorResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::BirdPortal_TerminatorIdle, {"PORTAL.BND", 4068, 32, 18, kPortalTerminatorResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::BirdPortal_TerminatorIdle, {"PORTAL.BND", 4068, 32, 18, kPortalTerminatorResID, PalId::Default}, kNullAnimDetails}, // grow ??
     {AnimId::BirdPortal_TerminatorShrink,
         { "PORTAL.BND", 4144, 32, 18, kPortalTerminatorResID, PalId::Default},
         { "PORTAL.BND", 3860, 31, 18, AO::kPortalTerminatorAOResID, PalId::Default}
@@ -1761,69 +1763,71 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::LiftTopWheel_Desert, kNullAnimDetails, {"D1LIFT.BND", 21936, 73, 55, AO::kLiftWheelsAOResID, PalId::Default}},
     {AnimId::LiftTopWheel_Desert2, kNullAnimDetails, {"D2LIFT.BND", 21936, 73, 55, AO::kLiftWheelsAOResID, PalId::Default}},
 
-    // TODO: correct BAN/BND
-    {AnimId::BellHammer_Idle, kNullAnimDetails, {"D2LIFT.BND", 4488, 71, 69, AO::kHammerAOResID, PalId::Default}},
-    {AnimId::BellHammer_Smashing, kNullAnimDetails, {"D2LIFT.BND", 4500, 71, 69, AO::kHammerAOResID, PalId::Default}},
+    // files only exist in F1P01C04 and D1P01C03.CAM
+    {AnimId::BellHammer_Idle, kNullAnimDetails, {"D1P01C03.CAM", 4488, 71, 69, AO::kHammerAOResID, PalId::Default}},
+    {AnimId::BellHammer_Smashing, kNullAnimDetails, {"D1P01C03.CAM", 4500, 71, 69, AO::kHammerAOResID, PalId::Default}},
 
     {AnimId::ObjectShadow,
         {"SHADOW.BAN", 240, 64, 6, kObjectShadowResID, PalId::Default},
         {"SHADOW.BAN", 296, 37, 6, kObjectShadowResID, PalId::Default}},
 
-    // TODO: most anims below don't have the correct resource id's and ban file names
-    { AnimId::Elum_Idle, kNullAnimDetails, {"ELMFALL.BAN", 117036, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_WalkLoop, kNullAnimDetails, {"ELMFALL.BAN", 117152, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_Turn, kNullAnimDetails, {"ELMFALL.BAN", 116980, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_WalkToIdle, kNullAnimDetails, {"ELMFALL.BAN", 117112, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_MidWalkToIdle, kNullAnimDetails, {"ELMFALL.BAN", 117132, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_IdleToWalk2, kNullAnimDetails, {"ELMFALL.BAN", 116928, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_IdleToWalk1, kNullAnimDetails, {"ELMFALL.BAN", 116948, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_ToYell, kNullAnimDetails, {"ELMFALL.BAN", 117068, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_Yell, kNullAnimDetails, {"ELMFALL.BAN", 117288, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_Unknown1, kNullAnimDetails, {"ELMFALL.BAN", 117464, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_RunTurn, kNullAnimDetails, {"ELMFALL.BAN", 117232, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_RunTurnToWalk, kNullAnimDetails, {"ELMFALL.BAN", 117092, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_Speak, kNullAnimDetails, {"ELMFALL.BAN", 117496, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_Land, kNullAnimDetails, {"ELMFALL.BAN", 40404, 169, 169, AO::kElmfallAOResID_216, PalId::Default} }, // done
-    { AnimId::Elum_RunOffEdge, kNullAnimDetails, {"ELMFALL.BAN", 40428, 169, 169, AO::kElmfallAOResID_216, PalId::Default} }, // done
-    { AnimId::Elum_WalkOffEdge, kNullAnimDetails, {"ELMFALL.BAN", 40376, 169, 169, AO::kElmfallAOResID_216, PalId::Default} }, // done
-    { AnimId::Elum_JumpToFall, kNullAnimDetails, {"ELMFALL.BAN", 40484, 169, 169, AO::kElmfallAOResID_216, PalId::Default} }, // done
-    { AnimId::Elum_LickingHoney, kNullAnimDetails, {"ELMHONEY.BAN", 19988, 169, 169, AO::kElmHoneyAOResID, PalId::Default} }, // done
-    { AnimId::Elum_LickingToStruggle, kNullAnimDetails, {"ELMFALL.BAN", 20044, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_AbeMountingEnd, kNullAnimDetails, {"ELMFALL.BAN", 49620, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_AbeUnmountingEnd, kNullAnimDetails, {"ELMFALL.BAN", 47728, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_BeesStruggling, kNullAnimDetails, {"ELMFALL.BAN", 17568, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_HopBegin, kNullAnimDetails, {"ELMFALL.BAN", 127896, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_HopMid, kNullAnimDetails, {"ELMFALL.BAN", 127924, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_HopLand, kNullAnimDetails, {"ELMFALL.BAN", 127956, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_RunJumpBegin, kNullAnimDetails, {"ELMFALL.BAN", 127980, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_RunJumpMid, kNullAnimDetails, {"ELMFALL.BAN", 128000, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_RunJumpLand, kNullAnimDetails, {"ELMFALL.BAN", 128048, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_RunLoop, kNullAnimDetails, {"ELMFALL.BAN", 128128, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_RunSlideStop, kNullAnimDetails, {"ELMFALL.BAN", 128168, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_RunTurnToRun, kNullAnimDetails, {"ELMFALL.BAN", 128068, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_IdleToRun, kNullAnimDetails, {"ELMFALL.BAN", 127876, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_WalkToRun, kNullAnimDetails, {"ELMFALL.BAN", 127816, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_MidWalkToRun, kNullAnimDetails, {"ELMFALL.BAN", 127796, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_RunToWalk, kNullAnimDetails, {"ELMFALL.BAN", 127836, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_MidRunToWalk, kNullAnimDetails, {"ELMFALL.BAN", 127856, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_ScratchBegin, kNullAnimDetails, {"ELMFALL.BAN", 18132, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_ScratchLoop, kNullAnimDetails, {"ELMFALL.BAN", 18188, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_ScratchEnd, kNullAnimDetails, {"ELMFALL.BAN", 18160, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_Unknown2, kNullAnimDetails, {"ELMFALL.BAN", 18236, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_MountUnmountBegin, kNullAnimDetails, {"ELMFALL.BAN", 7460, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
-    { AnimId::Elum_Knockback, kNullAnimDetails, {"ELMFALL.BAN", 21280, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
+    { AnimId::Elum_Idle, kNullAnimDetails, {"ELMBASIC.BAN", 117036, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_WalkLoop, kNullAnimDetails, {"ELMBASIC.BAN", 117152, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_Turn, kNullAnimDetails, {"ELMBASIC.BAN", 116980, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_WalkToIdle, kNullAnimDetails, {"ELMBASIC.BAN", 117112, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_MidWalkToIdle, kNullAnimDetails, {"ELMBASIC.BAN", 117132, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_IdleToWalk2, kNullAnimDetails, {"ELMBASIC.BAN", 116928, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_IdleToWalk1, kNullAnimDetails, {"ELMBASIC.BAN", 116948, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_ToYell, kNullAnimDetails, {"ELMBASIC.BAN", 117068, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_Yell, kNullAnimDetails, {"ELMBASIC.BAN", 117288, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_Unknown1, kNullAnimDetails, {"ELMBASIC.BAN", 117464, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_RunTurn, kNullAnimDetails, {"ELMBASIC.BAN", 117232, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_RunTurnToWalk, kNullAnimDetails, {"ELMBASIC.BAN", 117092, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
+    { AnimId::Elum_Speak, kNullAnimDetails, {"ELMBASIC.BAN", 117496, 169, 169, AO::kElmbasicAOResID_200, PalId::Default} },
 
+    { AnimId::Elum_Land, kNullAnimDetails, {"ELMFALL.BAN", 40404, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
+    { AnimId::Elum_RunOffEdge, kNullAnimDetails, {"ELMFALL.BAN", 40428, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
+    { AnimId::Elum_WalkOffEdge, kNullAnimDetails, {"ELMFALL.BAN", 40376, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
+    { AnimId::Elum_JumpToFall, kNullAnimDetails, {"ELMFALL.BAN", 40484, 169, 169, AO::kElmfallAOResID_216, PalId::Default} },
 
-    // TODO: AO AnimId's: 
-    // buttonFrameTableOffsets_4BB1B8[4]
-    // check AddDynamicCollision_4512C0 calls
+    { AnimId::Elum_LickingHoney, kNullAnimDetails, {"ELMHONEY.BAN", 19988, 169, 169, AO::kElmHoneyAOResID, PalId::Default} },
+    { AnimId::Elum_LickingToStruggle, kNullAnimDetails, {"ELMHONEY.BAN", 20044, 169, 169, AO::kElmHoneyAOResID, PalId::Default} },
 
+    { AnimId::Elum_AbeMountingEnd, kNullAnimDetails, {"ANEMOUNT.BND", 49620, 169, 169, AO::kElumAneMountAOResID_223, PalId::Default} }, // this file name might or might not be wrong?
+
+    { AnimId::Elum_AbeUnmountingEnd, kNullAnimDetails, {"ANEDSMNT.BND", 47728, 169, 169, AO::kElumANEDSMNTAOResID_224, PalId::Default} }, // dito
+
+    { AnimId::Elum_BeesStruggling, kNullAnimDetails, {"ELMWASP.BAN", 17568, 169, 169, AO::kElmWaspAOResID_204, PalId::Default} },
+
+    { AnimId::Elum_HopBegin, kNullAnimDetails, {"ELMRIDE.BAN", 127896, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_HopMid, kNullAnimDetails, {"ELMRIDE.BAN", 127924, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_HopLand, kNullAnimDetails, {"ELMRIDE.BAN", 127956, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_RunJumpBegin, kNullAnimDetails, {"ELMRIDE.BAN", 127980, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_RunJumpMid, kNullAnimDetails, {"ELMRIDE.BAN", 128000, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_RunJumpLand, kNullAnimDetails, {"ELMRIDE.BAN", 128048, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_RunLoop, kNullAnimDetails, {"ELMRIDE.BAN", 128128, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_RunSlideStop, kNullAnimDetails, {"ELMRIDE.BAN", 128168, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_RunTurnToRun, kNullAnimDetails, {"ELMRIDE.BAN", 128068, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_IdleToRun, kNullAnimDetails, {"ELMRIDE.BAN", 127876, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_WalkToRun, kNullAnimDetails, {"ELMRIDE.BAN", 127816, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_MidWalkToRun, kNullAnimDetails, {"ELMRIDE.BAN", 127796, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_RunToWalk, kNullAnimDetails, {"ELMRIDE.BAN", 127836, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+    { AnimId::Elum_MidRunToWalk, kNullAnimDetails, {"ELMRIDE.BAN", 127856, 169, 169, AO::kElumRideAOResID_220, PalId::Default} },
+
+    { AnimId::Elum_ScratchBegin, kNullAnimDetails, {"ELMALONE.BAN", 18132, 169, 169, AO::kElmaloneAOResID_230, PalId::Default} },
+    { AnimId::Elum_ScratchLoop, kNullAnimDetails, {"ELMALONE.BAN", 18188, 169, 169, AO::kElmaloneAOResID_230, PalId::Default} },
+    { AnimId::Elum_ScratchEnd, kNullAnimDetails, {"ELMALONE.BAN", 18160, 169, 169, AO::kElmaloneAOResID_230, PalId::Default} },
+    { AnimId::Elum_ScratchUnknown, kNullAnimDetails, {"ELMALONE.BAN", 18236, 169, 169, AO::kElmaloneAOResID_230, PalId::Default} },
+
+    { AnimId::Elum_MountUnmountBegin, kNullAnimDetails, {"ELMPDMNT.BAN", 7460, 169, 169, AO::kElumPdmntAOResID_221, PalId::Default} },
+
+    { AnimId::Elum_Knockback, kNullAnimDetails, {"ELMKNBK.BAN", 21280, 169, 169, AO::kElmnknbkAOResID, PalId::Default} },
 
     // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
-     {"LOADING.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
-     {"ELMHONEY.BAN", 19988, 169, 169, AO::kElmHoneyAOResID, PalId::Default}
+     { "HIGHLITE.BAN", 13936, 150, 65, kHighliteResID, PalId::Default },
+     {"MUDLOTUS.BND", 145436, 135, 80, AO::kMudltusAOResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };
