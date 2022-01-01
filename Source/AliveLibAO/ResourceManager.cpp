@@ -1020,7 +1020,7 @@ u8** CC ResourceManager::GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 
 }
 
 
-void ResourceManager::CheckResourceIsLoaded(u32 type, ResourceID resourceId)
+void ResourceManager::CheckResourceIsLoaded(u32 type, AOResourceID resourceId)
 {
     u8** ppRes = GetLoadedResource_4554F0(type, resourceId, FALSE, FALSE);
     if (!ppRes)
@@ -1030,7 +1030,7 @@ void ResourceManager::CheckResourceIsLoaded(u32 type, ResourceID resourceId)
     }
 }
 
-void ResourceManager::CheckResourceIsLoaded(u32 type, std::initializer_list<ResourceID>& resourceIds)
+void ResourceManager::CheckResourceIsLoaded(u32 type, std::initializer_list<AOResourceID>& resourceIds)
 {
     for (const auto& resourceId : resourceIds)
     {

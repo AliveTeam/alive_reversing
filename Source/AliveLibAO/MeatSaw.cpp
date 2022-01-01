@@ -48,7 +48,7 @@ BaseGameObject* MeatSaw::dtor_4398F0()
     }
 
     field_110_anim.vCleanUp();
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
     return dtor_417D10();
 }
@@ -187,7 +187,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
         {
             field_D0_pShadow->ctor_461FB0();
         }
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
     }
     else
     {

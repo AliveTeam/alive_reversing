@@ -6,6 +6,7 @@
 #include "Path.hpp"
 #include "Factory.hpp"
 #include "Animation.hpp"
+#include "Sfx.hpp"
 
 void UXB_ForceLink();
 
@@ -79,7 +80,7 @@ private:
     EXPORT void ScreenChanged_4DF9C0();
     EXPORT s32 GetSaveState_4DFD40(u8* pSaveBuffer);
     EXPORT void InitBlinkAnim_4DEED0(Animation* pAnimation);
-    EXPORT void PlaySFX_4DE930(u8 sfxIdx);
+    EXPORT void PlaySFX_4DE930(SoundEffect sfxIdx);
     EXPORT s32 IsColliding_4DF630();
 
 private:

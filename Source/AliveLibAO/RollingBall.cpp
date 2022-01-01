@@ -62,7 +62,7 @@ BaseGameObject* RollingBall::dtor_458230()
         field_114_pRollingBallShaker = nullptr;
     }
 
-    u8** pRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0);
+    u8** pRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 0, 0);
     ResourceManager::FreeResource_455550(pRes);
     return dtor_401000();
 }
@@ -135,7 +135,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
     }
 
     // Looks strange, it just bumps the res ref count
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);
 
     if (!SwitchStates_Get(field_110_release_id))
     {
@@ -186,7 +186,7 @@ void RollingBall::VUpdate_457AF0()
         {
             if (!(field_10_anim.field_92_current_frame % 3))
             {
-                SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(71, 72)), 0, 0);
+                SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
 
             Accelerate_458410();
@@ -215,7 +215,7 @@ void RollingBall::VUpdate_457AF0()
         {
             if (!(field_10_anim.field_92_current_frame % 3))
             {
-                SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(71, 72)), 0, 0);
+                SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
 
             Accelerate_458410();

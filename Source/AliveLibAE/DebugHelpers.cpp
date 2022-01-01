@@ -632,7 +632,7 @@ void Command_Menu(const std::vector<std::string>& args)
 
 void Command_Midi1(const std::vector<std::string>& args)
 {
-    const u8 arg1 = static_cast<u8>(std::stoi(args[0]));
+    const SoundEffect arg1 = static_cast<SoundEffect>(std::stoi(args[0]));
 
     SFX_Play_46FA90(arg1, 0);
 
@@ -925,7 +925,7 @@ public:
 
         Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, LoadMode::ConstructObject_0, 0);
         Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kAbebombResID, LoadMode::ConstructObject_0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00, LoadMode::ConstructObject_0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00ResID, LoadMode::ConstructObject_0, 0);
         Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, LoadMode::ConstructObject_0, 0);
     }
 

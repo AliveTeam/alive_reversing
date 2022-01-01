@@ -192,7 +192,7 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
     {
-        u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kP2c2bagResID, 0, 0);
+        u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, 0, 0);
         field_10_anim.LoadPal_403090(ppPal, 0);
     }
 

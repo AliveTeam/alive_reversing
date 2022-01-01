@@ -86,59 +86,59 @@ const TBrainStateFunc sElum_brain_table_4C52E8[] = {
     &Elum::Brain_1_HoneyAddiction_411730,
 };
 
-const s32 gElumFrameTables_4C5218[52] = {
-    117036,
-    117036,
-    117036,
-    117152,
-    116980,
-    117112,
-    117132,
-    116928,
-    116948,
-    117068,
-    117288,
-    117464,
-    117232,
-    117092,
-    117496,
-    117496,
-    117496,
-    117112,
-    117132,
-    117036,
-    117036,
-    40404,
-    40428,
-    40376,
-    40484,
-    19988,
-    20044,
-    49620,
-    47728,
-    17568,
-    127896,
-    127924,
-    127956,
-    127980,
-    128000,
-    128048,
-    128128,
-    128168,
-    128068,
-    127876,
-    127816,
-    127796,
-    127836,
-    127856,
-    18132,
-    18188,
-    18160,
-    18236,
-    7460,
-    7460,
-    21280,
-    0};
+const AnimId gElumAnimIdTables_4C5218[52] = {
+    AnimId::Elum_Idle,
+    AnimId::Elum_Idle,
+    AnimId::Elum_Idle,
+    AnimId::Elum_WalkLoop,
+    AnimId::Elum_Turn,
+    AnimId::Elum_WalkToIdle,
+    AnimId::Elum_MidWalkToIdle,
+    AnimId::Elum_IdleToWalk2,
+    AnimId::Elum_IdleToWalk1,
+    AnimId::Elum_ToYell,
+    AnimId::Elum_Yell,
+    AnimId::Elum_Unknown1,
+    AnimId::Elum_RunTurn,
+    AnimId::Elum_RunTurnToWalk,
+    AnimId::Elum_Speak,
+    AnimId::Elum_Speak,
+    AnimId::Elum_Speak,
+    AnimId::Elum_WalkToIdle,
+    AnimId::Elum_MidWalkToIdle,
+    AnimId::Elum_Idle,
+    AnimId::Elum_Idle,
+    AnimId::Elum_Land,
+    AnimId::Elum_RunOffEdge,
+    AnimId::Elum_WalkOffEdge,
+    AnimId::Elum_JumpToFall,
+    AnimId::Elum_LickingHoney,
+    AnimId::Elum_LickingToStruggle,
+    AnimId::Elum_AbeMountingEnd,
+    AnimId::Elum_AbeUnmountingEnd,
+    AnimId::Elum_BeesStruggling,
+    AnimId::Elum_HopBegin,
+    AnimId::Elum_HopMid,
+    AnimId::Elum_HopLand,
+    AnimId::Elum_RunJumpBegin,
+    AnimId::Elum_RunJumpMid,
+    AnimId::Elum_RunJumpLand,
+    AnimId::Elum_RunLoop,
+    AnimId::Elum_RunSlideStop,
+    AnimId::Elum_RunTurnToRun,
+    AnimId::Elum_IdleToRun,
+    AnimId::Elum_WalkToRun,
+    AnimId::Elum_MidWalkToRun,
+    AnimId::Elum_RunToWalk,
+    AnimId::Elum_MidRunToWalk,
+    AnimId::Elum_ScratchBegin,
+    AnimId::Elum_ScratchLoop,
+    AnimId::Elum_ScratchEnd,
+    AnimId::Elum_Unknown2,
+    AnimId::Elum_MountUnmountBegin,
+    AnimId::Elum_MountUnmountBegin,
+    AnimId::Elum_Knockback,
+    AnimId::None};
 
 BaseGameObject* Elum::VDestructor(s32 flags)
 {
@@ -171,7 +171,7 @@ EXPORT BaseGameObject* Elum::dtor_410BC0()
     VOnTrapDoorOpen_412700();
 
     ResourceManager::FreeResource_455550(
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAneprmntResID, 0, 0));
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0));
 
     if (field_104_pending_resource_count)
     {
@@ -179,11 +179,16 @@ EXPORT BaseGameObject* Elum::dtor_410BC0()
     }
     field_104_pending_resource_count = 0;
 
-    const s32 anims[] = {230, 222, 220, 221};
-    for (s32 anim : anims)
+    const AOResourceID resIDs[] = { 
+        AOResourceID::kElmaloneAOResID_230, 
+        AOResourceID::kElmprmntAOResID__222,
+        AOResourceID::kElumUnknownAOResID_220,
+        AOResourceID::kElumUnknownAOResID_221};
+
+    for (s32 resID : resIDs)
     {
         ResourceManager::FreeResource_455550(
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim, 1, 0));
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resID, 1, 0));
     }
 
     return dtor_base_416FE0();
@@ -284,8 +289,9 @@ s16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
                 }
 
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[field_FC_current_motion]);
                 field_10_anim.Set_Animation_Data_402A40(
-                    gElumFrameTables_4C5218[field_FC_current_motion],
+                    rec.mFrameTableOffset,
                     GetResBlock_410D00(field_FC_current_motion));
             }
             return 1;
@@ -338,9 +344,9 @@ void Elum::VLoadUnmountedResources_411260()
 {
     if (!field_174_resources.res[30])
     {
-        field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmaloneResID_230, 1, 0);
+        field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
     }
-    field_174_resources.res[22] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmprmntResID__222, 1, 0);
+    field_174_resources.res[22] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 1, 0);
 }
 
 
@@ -364,15 +370,16 @@ void Elum::Vsub_416120()
 {
     ToIdle();
 
+    const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[field_FC_current_motion]);
     field_10_anim.Set_Animation_Data_402A40(
-        gElumFrameTables_4C5218[field_FC_current_motion],
+        rec.mFrameTableOffset,
         GetResBlock_410D00(field_FC_current_motion));
 }
 
 void Elum::VLoadMountedResources_411300()
 {
-    field_174_resources.res[20] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_220, 1, 0);
-    field_174_resources.res[21] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElumUnknownResID_221, 1, 0);
+    field_174_resources.res[20] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_220, 1, 0);
+    field_174_resources.res[21] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_221, 1, 0);
 }
 
 void Elum::VFreeUnmountedResources_4112B0()
@@ -1903,7 +1910,7 @@ void Elum::Motion_1_Idle_412990()
             }
             else
             {
-                field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmaloneResID_230, 1, 0);
+                field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
             }
         }
     }
@@ -3608,12 +3615,12 @@ void Elum::VUpdate_4102A0()
         {
             if (!field_174_resources.res[30])
             {
-                field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmaloneResID_230, 1, 0);
+                field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
             }
         }
         else
         {
-            field_174_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmbasicResID_200, 1, 0);
+            field_174_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
         }
 
         if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) || field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2)) && field_128_brain_idx != 1)
@@ -3714,7 +3721,8 @@ void Elum::VUpdate_4102A0()
                         return;
                     }
 
-                    field_10_anim.Set_Animation_Data_402A40(gElumFrameTables_4C5218[field_FC_current_motion], ppRes);
+                    const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[field_FC_current_motion]);
+                    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, ppRes);
                     field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
                     field_120_bUnknown = 0;
                     if (sControlledCharacter_50767C == this)
@@ -3731,7 +3739,8 @@ void Elum::VUpdate_4102A0()
                     return;
                 }
 
-                field_10_anim.Set_Animation_Data_402A40(gElumFrameTables_4C5218[field_FC_current_motion], ppRes);
+                const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[field_FC_current_motion]);
+                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, ppRes);
                 if (sControlledCharacter_50767C == this)
                 {
                     sActiveHero_507678->SyncToElum_42D850(field_FC_current_motion);
@@ -3868,16 +3877,16 @@ Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s
     field_1F0_tlvInfo = tlvInfo.all;
     field_174_resources = {};
 
-    field_174_resources.res[16] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmfallResID_216, 1, 0);
+    field_174_resources.res[16] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);
     if (!field_174_resources.res[16])
     {
         ResourceManager::LoadResourceFile_455270("ELMFALL.BAN", nullptr);
-        field_174_resources.res[16] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmfallResID_216, 1, 0);
+        field_174_resources.res[16] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);
     }
 
     field_104_pending_resource_count = 0;
 
-    field_174_resources.res[22] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmprmntResID__222, 1, 0);
+    field_174_resources.res[22] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 1, 0);
     if (!field_174_resources.res[22])
     {
         field_104_pending_resource_count++;
@@ -3888,7 +3897,7 @@ Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
 
-    field_174_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmbasicResID_200, 1, 0);
+    field_174_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
     if (!field_174_resources.res[0])
     {
         field_104_pending_resource_count++;
@@ -3899,7 +3908,7 @@ Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
 
-    field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmaloneResID_230, 1, 0);
+    field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
     if (!field_174_resources.res[30])
     {
         field_104_pending_resource_count++;
@@ -3912,7 +3921,7 @@ Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s
 
     field_126_res_idx = 16;
 
-    const AnimRecord& fallRec = AO::AnimRec(AnimId::Elum_FallUnknown1);
+    const AnimRecord& fallRec = AO::AnimRec(AnimId::Elum_Land);
     Animation_Init_417FD0(
         fallRec.mFrameTableOffset,
         fallRec.mMaxW,

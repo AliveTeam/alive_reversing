@@ -199,7 +199,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
 
     const AnimRecord& closedRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
     const AnimRecord& openRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID);
     if (!ppRes || openRec.mFrameTableOffset == 0)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);

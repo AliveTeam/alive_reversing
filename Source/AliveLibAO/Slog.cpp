@@ -592,11 +592,11 @@ void Slog::Init_473130()
     field_184_resources[3] = nullptr;
     field_184_resources[4] = nullptr;
 
-    field_184_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogbasicResID, 1, 0);
-    field_184_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogrstnResID, 1, 0);
-    field_184_resources[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogattkResID, 1, 0);
-    field_184_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, 1, 0);
-    field_184_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDogidleResID, 1, 0);
+    field_184_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDogbasicAOResID, 1, 0);
+    field_184_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDogrstnAOResID, 1, 0);
+    field_184_resources[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDogattkAOResID, 1, 0);
+    field_184_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDogknfdAOResID, 1, 0);
+    field_184_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDogidleAOResID, 1, 0);
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Idle);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_184_resources[0], 1);
@@ -1802,7 +1802,7 @@ void Slog::Motion_21_Eating_475900()
     {
         if (field_10_anim.field_92_current_frame == 3 && !field_10_anim.field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
         {
-            SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(79, 80)), 100, 0);
+            SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 100, 0);
             auto pBlood = ao_new<Blood>();
             if (pBlood)
             {

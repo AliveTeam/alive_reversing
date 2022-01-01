@@ -32,7 +32,7 @@ MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, s32 tlvInfo)
     field_10C_tlvInfo = tlvInfo;
     field_CC_bApplyShadows &= ~1u;
 
-    field_110 = 0;
+    field_110_bDoMeatSackIdleAnim = 0;
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
@@ -93,27 +93,28 @@ void MeatSack::VUpdate_4392C0()
 
     if (field_10_anim.field_92_current_frame == 2)
     {
-        if (field_114)
+        if (field_114_bPlayWobbleSound)
         {
-            if (Math_NextRandom() < 40u || field_116)
+            if (Math_NextRandom() < 40u || field_116_always_0)
             {
-                field_114 = 0;
-                field_116 = 0;
-                SFX_Play_43AE60(34u, 24, Math_RandomRange_450F20(-2400, -2200), 0);
+                field_114_bPlayWobbleSound = 0;
+                field_116_always_0 = 0;
+                SFX_Play_43AE60(SoundEffect::SackWobble_34, 24, Math_RandomRange_450F20(-2400, -2200), 0);
             }
         }
     }
     else
     {
-        field_114 = 1;
+        field_114_bPlayWobbleSound = 1;
     }
 
-    if (field_110 == 1)
+    if (field_110_bDoMeatSackIdleAnim == 1)
     {
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_10_anim.Set_Animation_Data_402A40(15688, nullptr);
-            field_110 = 0;
+            const AnimRecord& rec = AO::AnimRec(AnimId::MeatSack_Idle);
+            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+            field_110_bDoMeatSackIdleAnim = 0;
         }
         return;
     }
@@ -128,6 +129,7 @@ void MeatSack::VUpdate_4392C0()
     {
         if (field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
         {
+            const AnimRecord& MeatSackHitRec = AO::AnimRec(AnimId::MeatSack_Hit);
             if (!gpThrowableArray_50E26C)
             {
                 gpThrowableArray_50E26C = ao_new<ThrowableArray>();
@@ -139,8 +141,8 @@ void MeatSack::VUpdate_4392C0()
 
             if (gpThrowableArray_50E26C->field_10_count > 0)
             {
-                field_10_anim.Set_Animation_Data_402A40(15728, nullptr);
-                field_110 = 1;
+                field_10_anim.Set_Animation_Data_402A40(MeatSackHitRec.mFrameTableOffset, nullptr);
+                field_110_bDoMeatSackIdleAnim = 1;
                 return;
             }
 
@@ -158,8 +160,8 @@ void MeatSack::VUpdate_4392C0()
             pMeat->field_BC_sprite_scale = field_BC_sprite_scale;
             SFX_Play_43AD70(SoundEffect::SackHit_30, 0, 0);
             Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, nullptr);
-            field_10_anim.Set_Animation_Data_402A40(15728, nullptr);
-            field_110 = 1;
+            field_10_anim.Set_Animation_Data_402A40(MeatSackHitRec.mFrameTableOffset, nullptr);
+            field_110_bDoMeatSackIdleAnim = 1;
             return;
         }
     }

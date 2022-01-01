@@ -41,7 +41,7 @@ BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 cha
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 16, 1, 0);
     if (gMap_507BA8.field_0_current_level != LevelIds::eForestTemple_4 && gMap_507BA8.field_0_current_level != LevelIds::eDesertTemple_9)
     {
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_204, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 1, 0);
     }
 
     s16 numBeesToUse = 0;
@@ -98,11 +98,11 @@ BaseGameObject* BeeSwarm::dtor_47FDF0()
 
     gBeesNearAbe_5076AC = 0;
 
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbewaspResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, 0, 0));
 
     if (gMap_507BA8.field_0_current_level != LevelIds::eForestTemple_4 && gMap_507BA8.field_0_current_level != LevelIds::eDesertTemple_9)
     {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_204, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 0, 0));
     }
 
     if (field_D98_pChaseTarget)
@@ -229,8 +229,7 @@ void BeeSwarm::VUpdate_47FF50()
     {
         if (Math_RandomRange_450F20(0, 100) < 40)
         {
-            // TODO: Strongly type
-            SFX_Play_43AD70(static_cast<s8>(Math_RandomRange_450F20(14, 15)), Math_RandomRange_450F20(volMin, volMax));
+            SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Bees1_14, SoundEffect::Bees2_15)), Math_RandomRange_450F20(volMin, volMax));
         }
     }
 

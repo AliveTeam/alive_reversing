@@ -157,7 +157,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit2_Animate);
 
         field_12C_bMoving &= ~1u;
-        field_274_ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, 1, 0);
+        field_274_ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
         field_B4_velx = FP_FromInteger(0);
         field_13C_lift_wheel.field_8_r = 128;
         field_13C_lift_wheel.field_9_g = 128;

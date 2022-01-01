@@ -43,7 +43,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = tlvInfo;
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
 
     const s32 lvlIdx = static_cast<s32>(gMap_5C3030.field_0_current_level);
 

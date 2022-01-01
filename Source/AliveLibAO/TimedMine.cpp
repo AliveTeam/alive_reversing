@@ -54,7 +54,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
             this,
             tickRec.mMaxW,
             tickRec.mMaxH,
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBombflshResID, 1, 0),
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kBombflshAOResID, 1, 0),
             1,
             0,
             0))

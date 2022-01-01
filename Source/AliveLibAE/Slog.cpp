@@ -283,12 +283,12 @@ s32 CC Slog::CreateFromSaveState_4C54F0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slog_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slog*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_40_tlvInfo));
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogbasicResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kDogbasicResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SLOG.BND", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kDogknfdResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("DOGKNFD.BAN", nullptr);
     }
@@ -1238,7 +1238,7 @@ void Slog::M_Eating_20_4C75F0()
 
     if (field_20_animation.field_92_current_frame == 3 && !field_20_animation.field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
     {
-        SFX_Play_46FA90(static_cast<u8>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
+        SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
         auto pBlood = ae_new<Blood>();
         if (pBlood)
         {
@@ -2837,10 +2837,10 @@ void Slog::Init_4C46A0()
     SetType(AETypes::eSlog_126);
     const AnimRecord& rec = AnimRec(AnimId::Slog_Idle);
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogrstnResID, 1, 0));
-    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogattkResID, 1, 0));
-    field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, 1, 0));
-    field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogidleResID, 1, 0));
+    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kDogrstnResID, 1, 0));
+    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kDogattkResID, 1, 0));
+    field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kDogknfdResID, 1, 0));
+    field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kDogidleResID, 1, 0));
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1, 1);
 
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);

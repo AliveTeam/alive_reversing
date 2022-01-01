@@ -226,7 +226,7 @@ void Bat::VUpdate_404950()
 
             if (!(field_10_anim.field_92_current_frame % 3))
             {
-                SFX_Play_43AD70(Math_RandomRange_450F20(41, 42) & 0xFF, Math_RandomRange_450F20(20, 26), 0);
+                SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Bat1_41, SoundEffect::Bat2_42) & 0xFF), Math_RandomRange_450F20(20, 26), 0);
             }
 
             if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)

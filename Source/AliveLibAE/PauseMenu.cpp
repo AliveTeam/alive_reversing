@@ -486,11 +486,11 @@ BaseGameObject* PauseMenu::vdtor_48FCB0(s32 flags)
 void PauseMenu::Init_491760()
 {
     ResourceManager::LoadResourceFile_49C170("EMOHAP.BAN", 0);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kHappyiconResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kHappyiconResID);
     ResourceManager::LoadResourceFile_49C170("EMOANGRY.BAN", 0);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAngryiconResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAngryiconResID);
     ResourceManager::LoadResourceFile_49C170("EMONORM.BAN", 0);
-    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID);
+    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kNormaliconResID);
 
     const AnimRecord& rec = AnimRec(AnimId::NormalMudIcon);
     if (field_158_animation.Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppAnimData, 1, 0, 0))
@@ -838,13 +838,13 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
          DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
          pm->ClosePauseMenu();
          sActiveHero_5C1B68->field_198_has_evil_fart = true;
-         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, FALSE, FALSE))
+         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, FALSE, FALSE))
          {
              ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
          }
          if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
          {
-             sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, TRUE, FALSE));
+             sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
          }
      }},
 });

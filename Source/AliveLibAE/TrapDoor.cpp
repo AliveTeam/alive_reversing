@@ -129,7 +129,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
         field_D6_scale = 1;
     }
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID);
 
     AddDynamicCollision_4971C0(
         closedRec.mFrameTableOffset,
@@ -194,14 +194,14 @@ s32 CC TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
         case LevelIds::eMudancheeVault_4:
         case LevelIds::eMudancheeVault_Ender_7:
         case LevelIds::eMudomoVault_Ender_11:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("VLTSTRAP.BAN", nullptr);
             }
             break;
 
         default:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("TRAPDOOR.BAN", nullptr);
             }

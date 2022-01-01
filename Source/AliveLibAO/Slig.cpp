@@ -294,7 +294,7 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, s32 tlvInfo)
 
     field_210_resources = {};
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlgbasicAOResID, 1, 0);
     field_210_resources.res[0] = ppRes;
     const AnimRecord& rec = AO::AnimRec(AnimId::Slig_Idle);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
@@ -489,55 +489,55 @@ void Slig::VScreenChanged_465480()
 
 void Slig::Init_46B890()
 {
-    field_210_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 1, 0);
-    field_210_resources.res[11] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, 1, 0);
-    field_210_resources.res[12] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kShellResID, 1, 0);
-    field_210_resources.res[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgknbkResID, 1, 0);
-    field_210_resources.res[16] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 1, 0);
+    field_210_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kBigflashAOResID, 1, 0);
+    field_210_resources.res[11] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSligBlowAOResID, 1, 0);
+    field_210_resources.res[12] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kShellAOResID, 1, 0);
+    field_210_resources.res[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlgknbkAOResID, 1, 0);
+    field_210_resources.res[16] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSquibSmokeAOResID, 1, 0);
 
-    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit8))
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit8_SligKnfd))
     {
-        field_210_resources.res[6] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgknfdResID, 1, 0);
+        field_210_resources.res[6] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlgknfdAOResID, 1, 0);
     }
-    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit9))
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit9_SligEdge))
     {
-        field_210_resources.res[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgedgeResID, 1, 0);
+        field_210_resources.res[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlgedgeAOResID, 1, 0);
     }
-    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit1))
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit1_SligLever))
     {
-        field_210_resources.res[7] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgleverResID, 1, 0);
+        field_210_resources.res[7] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlgleverAOResID, 1, 0);
     }
-    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit2))
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit2_SligLift))
     {
-        field_210_resources.res[8] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgliftResID, 1, 0);
+        field_210_resources.res[8] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlgliftAOResID, 1, 0);
     }
-    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit10))
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit10_SligSmash))
     {
-        field_210_resources.res[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgsmashResID, 1, 0);
+        field_210_resources.res[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlgsmashAOResID, 1, 0);
     }
-    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit11))
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit11_SligBeat))
     {
-        field_210_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgbeatResID, 1, 0);
+        field_210_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlgbeatAOResID, 1, 0);
     }
-    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit3))
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit3_SligZ))
     {
-        field_210_resources.res[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgzshotResID, 1, 0);
+        field_210_resources.res[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlgzshotAOResID, 1, 0);
     }
-    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit7))
+    if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit7_SligSleep))
     {
-        field_210_resources.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlgsleepResID, 1, 0);
+        field_210_resources.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlgsleepAOResID, 1, 0);
     }
     if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit4))
     {
-        field_210_resources.res[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 1, 0);
+        field_210_resources.res[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kZflashAOResID, 1, 0);
     }
     if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit6))
     {
-        field_210_resources.res[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_333, 1, 0);
+        field_210_resources.res[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kUnknownAOResID_333, 1, 0);
     }
     if (!field_174_tlv.field_50_disable_resources.Get(SligFlags_DisabledRes::eDisabledRes_Bit5))
     {
-        field_210_resources.res[15] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeknokzResID, 1, 0);
+        field_210_resources.res[15] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknokzAOResID, 1, 0);
     }
     field_11C = gMap_507BA8.field_4_current_camera;
     field_20E_spotted_possessed_slig = 0;
