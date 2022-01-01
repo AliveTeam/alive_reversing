@@ -122,27 +122,27 @@ s32 CC Glukkon::CreateFromSaveState_442830(const u8* pData)
     {
         case LevelIds::eFeeCoDepot_5:
         case LevelIds::eFeeCoDepot_Ender_12:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlukAslikResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukAslikResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("ASLIK.BND", 0);
             }
             break;
         case LevelIds::eBarracks_6:
         case LevelIds::eBarracks_Ender_13:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlukDripikResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukDripikResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("DRIPIK.BND", 0);
             }
             break;
         case LevelIds::eBonewerkz_8:
         case LevelIds::eBonewerkz_Ender_14:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlukPhlegResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukPhlegResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("PHLEG.BND", 0);
             }
             break;
         default:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlkbasicResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlkbasicResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("GLUKKON.BND", 0);
             }
@@ -270,7 +270,7 @@ Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo)
         case GlukkonTypes::Normal_4:
         case GlukkonTypes::Normal_5:
         {
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlukkonResID_801);
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGlukkonResID_801);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Normal_Idle);
             u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
             Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -279,7 +279,7 @@ Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo)
 
         case GlukkonTypes::Aslik_1:
         {
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAslikResID_803);
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAslikResID_803);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Aslik_Idle);
             u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
             Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -288,7 +288,7 @@ Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo)
 
         case GlukkonTypes::Drpik_2:
         {
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDripikResID_805);
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDripikResID_805);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Dripik_Idle);
             u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
             Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -297,7 +297,7 @@ Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo)
 
         case GlukkonTypes::Phleg_3:
         {
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPhlegResID_807);
+            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kPhlegResID_807);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Phleg_Idle);
             u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
             Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);

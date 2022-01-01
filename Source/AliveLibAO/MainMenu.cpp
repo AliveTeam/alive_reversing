@@ -326,7 +326,7 @@ MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, u16 idx_1, s16 bDest
     field_C2_g = 128;
     field_C0_r = 128;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kHighliteAOResID, 1, 0);
     Animation_Init_417FD0(
         buttonFrameTableOffsets_4BB1B8[idx_1],
         99,
@@ -732,9 +732,9 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, s32 tlvInfo)
 
     field_FC_font.ctor_41C170(240, sFontPal_4D0090, &sFontContext_4FFD68);
     field_E4_res_array[0] = nullptr;
-    field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, 1, 0);
-    field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptionFlare, 1, 0);
-    field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kHighlitePalResID, 1, 0);
+    field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbespek2AOResID, 1, 0);
+    field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kOptionFlareAOResID, 1, 0);
+    field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kHighlitePalAOResID, 1, 0);
 
     // 30 = fmv select
     if (gMap_507BA8.field_4_current_camera == 30)
@@ -2068,7 +2068,7 @@ void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
     if (sNumCamSwappers_507668 <= 0)
     {
         ResourceManager::LoadResourceFile_455270("ABESPEAK.BAN", nullptr);
-        field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 1, 0);
+        field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
         field_1E0_selected_index.mainmenu = MainMenuOptions::eBegin_1;
 
@@ -3941,7 +3941,7 @@ void Menu::GameSpeak_To_MainScreen_Update_47D690()
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
 {
-    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 1, 0);
+    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
 }
 
 void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset)

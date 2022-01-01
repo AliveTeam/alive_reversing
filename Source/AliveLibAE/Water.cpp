@@ -26,7 +26,7 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
         field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSplashResID);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSplashResID);
 
         field_114_tlvInfo = tlvInfo;
         field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);

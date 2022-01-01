@@ -1174,8 +1174,8 @@ enum AOBgAnimID
     BG_PinkFlame2 = 6015,
 };
 
-// AE and AO resource ids
-enum ResourceID
+// TODO: remove unused res id's from AO when both AO and AE res id's were in this enum
+enum AEResourceID
 {
     kUnknownResID_0 = 0,
     kDemoResID = 1,
@@ -1185,7 +1185,6 @@ enum ResourceID
     kAbepickResID = 12,
     kAbebombResID = 13,
     kAbethrowResID = 14,
-    kAbewaspResID = 16,
     kAberingResID = 17,
     kAbesmashResID = 19,
     kAbefallResID = 20,
@@ -1195,9 +1194,6 @@ enum ResourceID
     kAbeknbkResID = 26,
     kAbeknfdResID = 27,
     kAbeknokzResID = 28,
-    kAbeyawnResID = 31,
-    kAberubResID = 32,
-    kAbesizeResID = 33,
     kAbebordResID = 34,
     kAbeeyesResID = 35,
     kAbebuttResID = 36,
@@ -1214,16 +1210,11 @@ enum ResourceID
     kAbeliftResID = 53,
     kAbebsic1ResID = 55,
     kDovbasicResID = 60,
-    kWaspResID = 61,
-    kHintflyResID = 62,
-    kBatBasicResID = 63,
+    kHintflyResID = 62, // remove?
+    kBatBasicResID = 63, // remove?
     kFireFlyResID = 64,
     kDovshootResID = 66,
-    kElumUnknownResID_100 = 100, // AO only
-    kAneknbkResID = 106,         // AO only
-    kAneedgeResID = 108,         // AO only
-    kElumUnknownResID_110 = 110, // AO only
-    kElumUnknownResID_112 = 112, // AO only
+
     kAbeCarResId = 113,
     kAneprmntResID = 115,
     kAbemorphResID = 117,
@@ -1237,30 +1228,21 @@ enum ResourceID
     kGlukkonSpeakResID = 150,
     kParamiteSpeakResID = 160,
     kScrabSpeakResID = 170,
-    kElmbasicResID_200 = 200, // AO only
+
     kHappyiconResID = 201,
     kAngryiconResID = 202,
     kNormaliconResID = 203,
-    kUnknownResID_204 = 204,
-    kElmnknbkResID = 215,    // AO only
-    kElmfallResID_216 = 216, // AO only
-    kElmblowResID_217 = 217,
-    kElumUnknownResID_220 = 220, // AO only
-    kElumUnknownResID_221 = 221, // AO only
-    kElmprmntResID__222 = 222,   // AO only
-    kElumUnknownResID_223 = 223, // AO only
-    kElumUnknownResID_224 = 224, // AO only
-    kElmaloneResID_230 = 230,    // AO only
+
     kBgexpldResID = 300,
     kExplo2ResID = 301,
     kAlrmFlarResID = 302,
     kDustResID = 303,
-    kHubFireResID = 304,
+    kHubFireResID = 304, // remove?
     kVaporResID = 305,
     kSlurgResID = 306,
     kGreeterResID = 307,
     kOmmflareResID = 312,
-    kPortalTerminatorID = 313,
+    kPortalTerminatorResID = 313,
     kSparksResID = 314,
     kSpotliteResID = 316,
     kSkiddustResID = 317,
@@ -1268,7 +1250,6 @@ enum ResourceID
     kBigflashResID = 319,
     kWorkwhelResID = 320,
     kUnknownResID_333 = 333,
-    kHoneyResID = 337,
     kWellLeafResID = 341,
     kSquibResID = 343,
     kZflashResID = 344,
@@ -1280,18 +1261,19 @@ enum ResourceID
     kSquibSmokeResID = 354,
     kSplineResID = 355,
     kHoistRocks = 357,
-    kStickGib = 358,
+    kStickGibResID = 358,
     kShellResID = 360,
     kGlowResID = 361,
-    kMetalGib = 365,
+    kMetalGibResID = 365,
     kBloodropResID = 366,
-    kOptionFlare = 367,
-    kWaterDrop = 368,
+    kOptionFlareResID = 367,
+    kWaterDropResID = 368,
     kSplashResID = 369,
     kSmallExplo2ResID = 372,
     kStatusLightResID = 373,
     kDoorLockResID_374 = 374,
     kTorturedMudTearsResID = 375,
+
     kSlgbasicResID = 412,
     kSlgsleepResID = 413,
     kSlgknbkResID = 414,
@@ -1306,13 +1288,14 @@ enum ResourceID
     kCrawlingSligLockerResID_448 = 448,
     kCrawlingSligResID_449 = 449,
     kFlySligResID = 450,
-    kSlingmudResID_508 = 508,
+
+    kSlingmudResID_508 = 508, // remove?
     kMudscrubResID = 510,
     kMudchslResID = 511,
     kMudidleResID = 512,
     kMudoduckResID = 514,
     kAbeworkResID = 515,
-    kMudltusResID = 516,
+    kMudltusResID = 516, // remove?
     kMudbtlnkResID = 517,
     kTorturedMud = 518,
     kMudangryResID = 530,
@@ -1330,6 +1313,7 @@ enum ResourceID
     kFleeBlowResID_580 = 580,
     kBoneBagResID_590 = 590,
     kBoneResID = 591,
+
     kArjbasicResID = 600,
     kArjeatResID = 601,
     kArjclimbResID = 604,
@@ -1339,6 +1323,7 @@ enum ResourceID
     kArjjumpResID = 611,
     kArjponceResID = 614,
     kArjfalrkResID = 615,
+
     kArsbasicResID = 700,
     kArseatResID = 701,
     kArsprceResID = 702,
@@ -1352,6 +1337,7 @@ enum ResourceID
     kArsgrwlResID = 710,
     kArschewResID = 711,
     kArscrshResID = 713,
+
     kGlkbasicResID = 800,
     kGlukkonResID_801 = 801,
     kGlukAslikResID = 802,
@@ -1364,7 +1350,9 @@ enum ResourceID
     kGlukgrenResID = 826,
     kGlukblueResID = 827,
     kGlukaquaResID = 828,
+
     kFleechResID = 900,
+
     kRopesResID = 1000,
     kLiftWheelsResID = 1001,
     kP2c2bagResID = 1002,
@@ -1375,68 +1363,65 @@ enum ResourceID
     kP4c5hiveResID = 1008,
     kSwitchResID = 1009,
     kBombflshResID = 1011,
-    kP2c3HiveResID = 1013,
     kPullringResID = 1014,
     kP6c4tubeResID = 1017,
     kP7c1spikResID = 1018,
-    kHammerResID = 1019,
+    kHammerResID = 1019, // remove?
     kCrystalResID = 1030,
     kLiftResID = 1032,
     kLandmineResID = 1036,
     kUXBResID = 1037,
-    kBGStarResID = 1039,
+    kBGStarResID = 1039, // remove?
     kMineflshResID = 1040,
     kP1c3tubeResID = 1050,
     kGhostTrpResID_1053 = 1053,
     kCrawlingSligButtonResID_1057 = 1057,
-    kDebrisID00 = 1105,
+    kDebrisID00ResID = 1105,
     kTubeResID = 1200,
 
     kTestanimResID = 2000,
-
-    kF2zballResID = 2001,
-    kF2stnbalResID = 2002,
-    kF2stnsckResID = 2003,
-    kChimeResID = 2005,
+    kF2zballResID = 2001, // remove?
+    kF2stnbalResID = 2002, // remove?
+    kF2stnsckResID = 2003, // remove?
+    kChimeResID = 2005, // remove?
     kMaimGameResID = 2006,
     kF2rockResID = 2007,
     kF2eyeorbResID = 2008,
     kPupilResID = 2009,
     kTriggerResID = 2010,
-    kF2p3dorResID = 2012,
+    kF2p3dorResID = 2012, // remove?
     kTrainDoorResID_2013 = 2013,
-    kFlintLockResID = 2017,
-    kRockdoorResID = 2018,
+    kFlintLockResID = 2017, // remove?
+    kRockdoorResID = 2018, // remove?
     kHubdoorResID = 2019,
     kSlamResID = 2020,
     kMeatResID = 2023,
-    kF2ChimeBallResID = 2024,
+    kF2ChimeBallResID = 2024, // remove?
     kF2ChimeRackResID = 2025,
-    kGourdResID = 2028,
+    kGourdResID = 2028, // remove?
     kWebResID = 2034,
     kObjectShadowResID = 2035,
+
     kMovebombResID = 3006,
+
     kMeatSackResID = 4002,
+
     kElecwallResID = 6000,
     kMotionResID = 6001,
     kMflareResID = 6002,
-    kMeatSawResID = 6003,
+    kMeatSawResID = 6003, // remove?
     kDrillResID = 6004,
     kGrenadeResID = 6005,
     kR1sdoorResID = 6006,
     kR1buttonResID = 6008,
     kR1bpipeResID = 6009,
-    kGreenGlowResID_6010 = 6010, // AO only
-    kGoldGlowResID_6011 = 6011,   // AO only
     kBayrollResID_6013 = 6013,
-    kMeatGibResID_6014 = 6014, // AO only
     kBrewButtonResID_6016 = 6016,
     kEvilFartResID = 6017,
     kR1sdosResID_6027 = 6027,
-    kFlintGlowResID_6028 = 6028,      // AO only
-    kGreenDoorLightResID_6031 = 6031, // AO only
-    kRedDoorLightResID_6032 = 6032,   // AO only
+
     kTwnkleResID = 7012,
+
     kControlsResID = 8000,
     kMenuDoorResID = 8001,
     kHighliteResID = 8002,
@@ -1448,6 +1433,201 @@ namespace AO {
 
 enum AOResourceID
 {
+    kLcdfontAOResID = 2,
+    kAbebasicAOResID = 10,
+    kAbepullAOResID = 11,
+    kAbepickAOResID = 12,
+    kAbebombAOResID = 13,
+    kAbethrowAOResID = 14,
+    kAbewaspAOResID = 16,
+    kAbesmashAOResID = 19,
+    kAbefallAOResID = 20,
+    kAbestoneAOResID = 21,
+    kAbeblowAOResID = 25,
+    kAbeknbkAOResID = 26,
+    kAbeknfdAOResID = 27,
+    kAbeknokzAOResID = 28,
+    kAbeyawnAOResID = 31,
+    kAberubAOResID = 32,
+    kAbesizeAOResID = 33,
+    kAbehoistAOResID = 42,
+    kAbeedgeAOResID = 43,
+    kAbedoorAOResID = 45,
+    kAbewellAOResID = 47,
+    kAbeommAOResID = 48,
+    kAbeliftAOResID = 53,
+    kAbebsic1AOResID = 55,
+    kDovbasicAOResID = 60,
+    kBatBasicAOResID = 63,
+    kWaspAOResID = 61,
+    kHintflyAOResID = 62,
+
+    kElumUnknownAOResID_100 = 100,
+    kAneknbkAOResID = 106,
+    kAneedgeAOResID = 108,
+    kElumUnknownAOResID_110 = 110,
+    kElumUnknownAOResID_112 = 112,
+    kElumUnknownAOResID_113 = 113, // was abe car
+    kAneprmntAOResID = 115,
+    kAbemorphAOResID = 117,
+    kAbegasAOResID = 118,
+    kShrmorphAOResID = 121,
+    kAbespeakAOResID = 130,
+    kAbeintroAOResID = 131,
+    kAbespek2AOResID = 132,
+
+    kElmbasicAOResID_200 = 200,
+    kElmHoneyAOResID = 203,
+    kElmWaspAOResID_204 = 204,
+    kElmnknbkAOResID = 215,
+    kElmfallAOResID_216 = 216,
+    kElmblowAOResID_217 = 217,
+    kElumUnknownAOResID_220 = 220,
+    kElumUnknownAOResID_221 = 221,
+    kElmprmntAOResID__222 = 222,
+    kElumUnknownAOResID_223 = 223,
+    kElumUnknownAOResID_224 = 224,
+    kElmaloneAOResID_230 = 230,
+
+    kBgexpldAOResID = 300,
+    kExplo2AOResID = 301,
+    kHubFireAOResID = 304,
+    kOmmflareAOResID = 312,
+    kPortalTerminatorAOResID = 313,
+    kSparksAOResID = 314,
+    kSpotliteAOResID = 316,
+    kBigflashAOResID = 319,
+    kUnknownAOResID_333 = 333,
+    kHoneyAOResID = 337,
+    kWellLeafAOResID = 341,
+    kZflashAOResID = 344,
+    kDeathFlareAOResID = 349,
+    kAberockAOResID = 350,
+    kPortliteAOResID = 351,
+    kPortlitAOResID = 353,
+    kSquibSmokeAOResID = 354,
+    kSplineAOResID = 355,
+    kHoistRocksAOResID = 357,
+    kStickGibAOResID = 358,
+    kShellAOResID = 360,
+    kGlowAOResID = 361,
+    kMetalGibAOResID = 365,
+    kBloodropAOResID = 366,
+    kOptionFlareAOResID = 367,
+
+    kSlgbasicAOResID = 412,
+    kSlgsleepAOResID = 413,
+    kSlgknbkAOResID = 414,
+    kSlgedgeAOResID = 415,
+    kSlgsmashAOResID = 416,
+    kSlgzshotAOResID = 417,
+    kSlgknfdAOResID = 418,
+    kSlgleverAOResID = 419,
+    kSlgliftAOResID = 420,
+    kSligBlowAOResID = 423,
+    kSlgbeatAOResID = 426,
+
+    kSlingmudAOResID_508 = 508,
+    kMudscrubAOResID = 510,
+    kMudchslAOResID = 511,
+    kMudoduckAOResID = 514,
+    kMudltusAOResID = 516,
+    kMudbtlnkAOResID = 517,
+    kDogbasicAOResID = 570,
+    kDogrstnAOResID = 571,
+    kDogattkAOResID = 572,
+    kDogknfdAOResID = 573,
+    kDogidleAOResID = 574,
+    kSlogBlowAOResID = 576,
+
+    kArjbasicAOResID = 600,
+    kArjeatAOResID = 601,
+    kArjclimbAOResID = 604,
+    kArjpumpAOResID = 605,
+    kArjscrchAOResID = 609,
+    kArjwaspAOResID = 610,
+    kArjponceAOResID = 614,
+    kArjfalrkAOResID = 615,
+
+    kArsbasicAOResID = 700,
+    kArseatAOResID = 701,
+    kArsprceAOResID = 702,
+    kArsskwrAOResID = 703,
+    kArswhirlAOResID = 704,
+    kArshowlAOResID = 705,
+    kArsdanceAOResID = 706,
+    kArsdeadAOResID = 708,
+    kArsroarAOResID = 709,
+    kArsgrwlAOResID = 710,
+    kArschewAOResID = 711,
+    kArscrshAOResID = 713,
+
+    kGlkbasicAOResID = 800,
+    kGlukredAOResID = 825,
+    kGlukgrenAOResID = 826,
+    kGlukblueAOResID = 827,
+    kGlukaquaAOResID = 828,
+
+    kRopesAOResID = 1000,
+    kLiftWheelsAOResID = 1001,
+    kP2c2bagAOResID = 1002,
+    kP6c1trapAOResID = 1004,
+    kBombAOResID = 1005,
+    kGrenflshAOResID = 1006,
+    kSwitchAOResID = 1009,
+    kBombflshAOResID = 1011,
+    kP2c3HiveAOResID = 1013,
+    kPullringAOResID = 1014,
+    kHammerAOResID = 1019,
+    kLiftAOResID = 1032,
+    kLandmineAOResID = 1036,
+    kUXBAOResID = 1037,
+    kBGStarAOResID = 1039,
+    kMineflshAOResID = 1040,
+    kDebrisID00AOResID = 1105,
+
+    kF2zballAOResID = 2001,
+    kF2stnbalAOResID = 2002,
+    kF2stnsckAOResID = 2003,
+    kChimeAOResID = 2005,
+    kMaimGameAOResID = 2006,
+    kF2rockAOResID = 2007,
+    kF2eyeorbAOResID = 2008,
+    kTriggerAOResID = 2010,
+    kF2p3dorAOResID = 2012,
+    kFlintLockAOResID = 2017,
+    kRockdoorAOResID = 2018,
+    kHubdoorAOResID = 2019,
+    kMeatAOResID = 2023,
+    kF2ChimeBallAOResID = 2024,
+    kGourdAOResID = 2028,
+    kWebAOResID = 2034,
+    kObjectShadowAOResID = 2035,
+
+    kMovebombAOResID = 3006,
+
+    kMeatSackAOResID = 4002,
+
+    kElecwallAOResID = 6000,
+    kMotionAOResID = 6001,
+    kMflareAOResID = 6002,
+    kMeatSawAOResID = 6003,
+    kGrenadeAOResID = 6005,
+    kR1buttonAOResID = 6008,
+    kR1bpipeAOResID = 6009,
+    kGreenGlowAOResID_6010 = 6010,
+    kGoldGlowAOResID_6011 = 6011,
+    kMeatGibAOResID_6014 = 6014,
+    kR1sdosAOResID_6027 = 6027,
+    kFlintGlowAOResID_6028 = 6028,
+    kGreenDoorLightAOResID_6031 = 6031,
+    kRedDoorLightAOResID_6032 = 6032,
+
+    kMenuDoorAOResID = 8001,
+    kHighliteAOResID = 8002,
+    kHighlitePalAOResID = 8003,
+    kLoadingAOResID = 8010,
+
 };
 
 } // namespace AO

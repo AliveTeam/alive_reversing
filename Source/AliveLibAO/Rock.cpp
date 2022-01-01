@@ -44,7 +44,7 @@ Rock* Rock::ctor_456960(FP xpos, FP ypos, s16 count)
     field_10C_count = count;
     field_110_state = States::eNone_0;
 
-    u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
+    u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAberockAOResID, 0, 0);
     if (ppPal)
     {
         field_10_anim.LoadPal_403090(ppPal, 0);

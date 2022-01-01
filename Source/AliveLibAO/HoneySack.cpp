@@ -61,7 +61,7 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
         field_E8_state = State::eDripHoney_0;
         field_EC_timer = gnFrameCount_507670 + 90;
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWaspResID, 0, 0))
+        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kWaspAOResID, 0, 0))
         {
             ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr);
         }

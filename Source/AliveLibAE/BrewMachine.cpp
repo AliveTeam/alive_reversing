@@ -53,9 +53,9 @@ BrewMachine* BrewMachine::ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 
     field_DC_bApplyShadows &= ~1u;
     field_140_tlvInfo = tlvInfo;

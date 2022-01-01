@@ -66,7 +66,7 @@ HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, s32 tlvInfo)
         field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     }
 
-    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kHoistRocks);
+    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kHoistRocks);
     for (HoistRockParticle& particle : field_30_rocks)
     {
         const AnimRecord& rec = AnimRec(AnimId::HoistRock1);

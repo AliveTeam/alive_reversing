@@ -200,7 +200,7 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         field_C6_scale = 1;
     }
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kP6c1trapAOResID, 1, 0);
 
     AddDynamicCollision_4512C0(
         closedRec.mFrameTableOffset,

@@ -102,11 +102,11 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
     {
         if (gibType == GibType::Abe_0 || gibType == GibType::Mud_4)
         {
-            ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, 0, 0);
+            ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 0, 0);
         }
         else if (gibType == GibType::Slog_2)
         {
-            ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, 0, 0);
+            ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 0, 0);
         }
     }
 

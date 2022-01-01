@@ -57,25 +57,25 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
         return this;
     }
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmfallResID_216, 0, 0))
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 0, 0))
     {
         field_EC_pending_resource_count++;
         ResourceManager::LoadResourceFile("ELMFALL.BAN", BellHammer::OnResLoaded_405210, this);
     }
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmbasicResID_200, 0, 0))
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 0, 0))
     {
         field_EC_pending_resource_count++;
         ResourceManager::LoadResourceFile("ELMBASIC.BAN", BellHammer::OnResLoaded_405210, this);
     }
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmprmntResID__222, 0, 0))
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 0, 0))
     {
         field_EC_pending_resource_count++;
         ResourceManager::LoadResourceFile("ELMPRMNT.BAN", BellHammer::OnResLoaded_405210, this);
     }
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAneprmntResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0))
     {
         field_EC_pending_resource_count++;
         ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BellHammer::OnResLoaded_405210, this);
@@ -93,25 +93,25 @@ BaseGameObject* BellHammer::dtor_405220()
         ResourceManager::WaitForPendingResources_41EA60(this);
     }
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmfallResID_216, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_455550(ppRes);
     }
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmbasicResID_200, 1, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_455550(ppRes);
     }
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmprmntResID__222, 1, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 1, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_455550(ppRes);
     }
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAneprmntResID, 1, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_455550(ppRes);
@@ -205,7 +205,7 @@ void BellHammer::VUpdate_405320()
 
             gElum_507680->field_A8_xpos = (FP_FromInteger(mapCoords.field_0_x + XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0))) - ScaleToGridSize_41FA30(field_BC_sprite_scale);
             gElum_507680->field_AC_ypos = gElum_507680->field_AC_ypos + FP_FromInteger(450);
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAneprmntResID, 1, 0);
+            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
         }
     }
 }

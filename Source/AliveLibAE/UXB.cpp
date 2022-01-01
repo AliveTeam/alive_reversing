@@ -184,7 +184,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     {
         if (tlv_params->field_16_start_state == Path_UXB::StartState::eOn_0)
         {
-            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
+            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
             const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
             field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
@@ -208,7 +208,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         }
         else
         {
-            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
+            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
             const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
             field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
@@ -245,18 +245,18 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     field_124_next_state_frame = sGnFrame_5C1B84;
     field_11C_disabled_resources = static_cast<u16>(tlv_params->field_18_disabled_resources);
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbebombResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDebrisID00);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID);
 
     if (!(field_11C_disabled_resources & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     }
     if (!(field_11C_disabled_resources & 2))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
     }
 
     const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
@@ -435,7 +435,7 @@ void UXB::Update_4DF030()
                     field_1C6_red_blink_count--;
                     if (field_1C6_red_blink_count == 0)
                     {
-                        field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
+                        field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
                         field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
                     }
                 }
@@ -598,19 +598,19 @@ EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
 
     Path_UXB* uxbPath = reinterpret_cast<Path_UXB*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_4_tlv.all));
 
-    if (!(uxbPath->field_18_disabled_resources & 1) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
+    if (!(uxbPath->field_18_disabled_resources & 1) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", 0);
     }
-    if (!(uxbPath->field_18_disabled_resources & 2) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
+    if (!(uxbPath->field_18_disabled_resources & 2) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", 0);
     }
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUXBResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kUXBResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("UXB.BND", 0);
     }
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("EXPLODE.BND", 0);
     }
@@ -623,7 +623,7 @@ EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
 
     if (pSaveState->field_C_state == UXBState::eDeactivated_3)
     {
-        pUXB->field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
+        pUXB->field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
         const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
         pUXB->field_128_animation.Set_Animation_Data_409C80(tickRec.mFrameTableOffset, 0);
         const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);

@@ -135,17 +135,17 @@ Mine* Mine::ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv)
         field_1BC_flags.Set(Mine_Flags_1BC::eBit1_PersistOffscreen);
     }
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbebombResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDebrisID00);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID);
 
     if (!(field_11A_disabled_resources & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     }
     if (!(field_11A_disabled_resources & 2))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
     }
 
     const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);

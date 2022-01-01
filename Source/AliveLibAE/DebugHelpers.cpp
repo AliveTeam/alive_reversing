@@ -925,7 +925,7 @@ public:
 
         Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, LoadMode::ConstructObject_0, 0);
         Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kAbebombResID, LoadMode::ConstructObject_0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00, LoadMode::ConstructObject_0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00ResID, LoadMode::ConstructObject_0, 0);
         Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, LoadMode::ConstructObject_0, 0);
     }
 

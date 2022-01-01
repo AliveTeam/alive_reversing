@@ -148,7 +148,7 @@ s32 CC Slurg::CreateFromSaveState_4C8DF0(const u8* pData)
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
     auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_24_tlvInfo));
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlurgResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlurgResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SLURG.BAN", nullptr);
     }

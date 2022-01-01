@@ -242,11 +242,11 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
         case DoorStates::eOpening_2:
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1)
             {
-                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID, 1, 0);
+                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kF2p3dorAOResID, 1, 0);
             }
             else
             {
-                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockdoorResID, 1, 0);
+                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kRockdoorAOResID, 1, 0);
             }
 
             if (ppRes)
