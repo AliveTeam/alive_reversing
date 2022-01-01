@@ -2082,7 +2082,7 @@ void Abe::ElumFree_4228F0()
     if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit4_ElumMountEnd))
     {
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_110, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_223, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumAneMountAOResID_223, 1, 0));
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 0, 0));
 
         if (gElum_507680->field_FC_current_motion != eElumMotions::Motion_1_Idle_412990)
@@ -2095,15 +2095,15 @@ void Abe::ElumFree_4228F0()
     {
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_100, 1, 0));
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_112, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_220, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_221, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumRideAOResID_220, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 1, 0));
     }
 
     if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit5_ElumUnmountBegin))
     {
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_113, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_224, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_221, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumANEDSMNTAOResID_224, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 0, 0));
 
         if (gElum_507680->field_FC_current_motion != eElumMotions::Motion_1_Idle_412990)
         {
