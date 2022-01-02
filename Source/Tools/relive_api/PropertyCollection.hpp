@@ -28,6 +28,7 @@ public:
 
         // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
         mProperties[key].reset(new TypedProperty<PropertyType>(name, typeName, visibleInEditor, static_cast<PropertyType*>(key)));
+        mPropertiesInsertionOrdering.emplace_back(key);
         mRegisteredPropertyNames.emplace(name);
     }
 
@@ -73,6 +74,7 @@ public:
 
 protected:
     std::unordered_map<const void*, std::unique_ptr<BaseProperty>> mProperties;
+    std::vector<const void*> mPropertiesInsertionOrdering;
     std::unordered_set<std::string> mRegisteredPropertyNames;
 };
 } // namespace ReliveAPI
