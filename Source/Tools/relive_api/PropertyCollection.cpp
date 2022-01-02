@@ -62,12 +62,20 @@ PropertyCollection::~PropertyCollection() = default;
 {
     jsonxx::Array ret;
 
-    for (const auto& [key, value] : mProperties)
+     // Create the json in the order that properties got added (else in the Editor things will be in some seemingly random order).
+    for (const auto& insertedOrder : mPropertiesInsertionOrdering)
     {
+        auto it = mProperties.find(insertedOrder);
+        if (it == std::end(mProperties))
+        {
+            // Shouldn't be possible
+            abort();
+        }
+
         jsonxx::Object property;
-        property << "Type" << value->TypeName();
-        property << "Visible" << value->IsVisibleToEditor();
-        property << "name" << value->Name();
+        property << "Type" << it->second->TypeName();
+        property << "Visible" << it->second->IsVisibleToEditor();
+        property << "name" << it->second->Name();
 
         ret << property;
     }
