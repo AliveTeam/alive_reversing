@@ -702,11 +702,11 @@ struct Path_MusicTrigger final : public ReliveAPI::TlvObjectBaseAE
     {
         types.AddEnum<::MusicTriggerMusicType>("Enum_MusicTriggerMusicType",
                                                {
-                                                   {::MusicTriggerMusicType::eUnknown_0, "Unknown 0"},
-                                                   {::MusicTriggerMusicType::eDeathShort_1, "Death Short"},
+                                                   {::MusicTriggerMusicType::eDrumAmbience_0, "Drum Ambience"},
+                                                   {::MusicTriggerMusicType::eDeathDrumShort_1, "Death Drum Short"},
                                                    {::MusicTriggerMusicType::eSecretAreaLong_2, "Secret Area Long"},
-                                                   {::MusicTriggerMusicType::eChase_3, "Chase"},
-                                                   {::MusicTriggerMusicType::eSlogChase_4, "Slog Chase"},
+                                                   {::MusicTriggerMusicType::eSoftChase_3, "Soft Chase"},
+                                                   {::MusicTriggerMusicType::eIntenseChase_4, "Intense Chase"},
                                                    {::MusicTriggerMusicType::eChime_5, "Chime"},
                                                    {::MusicTriggerMusicType::eSecretAreaShort_6, "Secret Area Short"},
                                                });
@@ -928,7 +928,7 @@ struct Path_BackgroundAnimation final : public ReliveAPI::TlvObjectBaseAE
         ADD("Animation ID", mTlv.field_10_anim_id);
         ADD("Is Semi Trans", mTlv.field_12_is_semi_trans);
         ADD("Semi Trans Mode", mTlv.field_14_semi_trans_mode);
-        ADD("Sound Effect (Unused?)", mTlv.field_16_sound_effect);
+        ADD_HIDDEN("Sound Effect (Unused)", mTlv.field_16_sound_effect); // was used for campfires in AO but AE doesn't have them
         ADD("ID", mTlv.field_18_id);
         ADD("Layer", mTlv.field_1A_layer);
     }
@@ -1893,11 +1893,11 @@ struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_SlogSpawner, "SlogSpawner", TlvTypes::SlogSpawner_68)
     {
         ADD("Scale", mTlv.field_10_scale);
-        ADD("Number Of Slogs", mTlv.field_12_number_of_slogs);
+        ADD("Max Slogs", mTlv.field_12_max_slogs);
         ADD("Max Slogs At A Time", mTlv.field_14_max_slogs_at_a_time);
         ADD("Direction", mTlv.field_16_direction);
         ADD("Spawn Delay", mTlv.field_18_slog_spawn_delay);
-        ADD("ID", mTlv.field_1A_id);
+        ADD("Start ID", mTlv.field_1A_start_id);
         ADD("Listen To Sligs", mTlv.field_1C_listen_to_sligs);
         ADD("Chase Delay", mTlv.field_1E_chase_delay);
     }

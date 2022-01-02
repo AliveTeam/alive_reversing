@@ -41,10 +41,10 @@ public:
         eTension_4 = 4,
         eSlogTension_5 = 5,
         eSlogChaseTension_6 = 6,
-        eSlogChase_7 = 7,
-        eChase_8 = 8,
+        eIntenseChase_7 = 7,
+        eSoftChase_8 = 8,
         ePossessed_9 = 9,
-        eDeathShort_10 = 10,
+        eDeathDrumShort_10 = 10,
         eDeathLong_11 = 11, //death jingle?
         eSecretAreaShort_12 = 12,
         eSecretAreaLong_13 = 13,

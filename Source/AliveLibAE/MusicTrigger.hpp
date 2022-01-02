@@ -7,11 +7,11 @@
 
 enum class MusicTriggerMusicType : s16
 {
-    eUnknown_0 = 0,
-    eDeathShort_1 = 1,
+    eDrumAmbience_0 = 0,
+    eDeathDrumShort_1 = 1,
     eSecretAreaLong_2 = 2,
-    eChase_3 = 3,
-    eSlogChase_4 = 4,
+    eSoftChase_3 = 3,
+    eIntenseChase_4 = 4,
     eChime_5 = 5,
     eSecretAreaShort_6 = 6
 };

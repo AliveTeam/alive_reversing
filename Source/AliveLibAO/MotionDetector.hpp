@@ -4,25 +4,26 @@
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Primitives.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
 struct Path_MotionDetector final : public Path_TLV
 {
-    s16 field_18_scale;
+    Scale_short field_18_scale;
     s16 field_1A_device_x;
     s16 field_1C_device_y;
     s16 field_1E_speed_x256;
-    enum class StartMoveDirection : s16
+    enum class InitialMoveDirection : s16
     {
         eRight_0 = 0,
         eLeft_1 = 1
     };
-    StartMoveDirection field_20_start_move_direction;
-    s16 field_22_draw_flare;
+    InitialMoveDirection field_20_initial_move_direction;
+    Choice_short field_22_draw_flare;
     s16 field_24_disable_id;
     s16 field_26_alarm_id;
-    s16 field_28_alarm_ticks;
+    s16 field_28_alarm_duration;
     s16 field_2A_padding;
 };
 ALIVE_ASSERT_SIZEOF(Path_MotionDetector, 0x2C);
@@ -81,7 +82,7 @@ public:
     s32 field_EC_timer;
     u16 field_F0_disable_id;
     s16 field_F2_alarm_trigger;
-    s16 field_F4_alarm_time;
+    s16 field_F4_alarm_duration;
     s16 field_F6_bDontComeBack;
     FP field_F8_top_left_x;
     FP field_FC_top_left_y;

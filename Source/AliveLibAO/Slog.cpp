@@ -763,7 +763,7 @@ void Slog::ToJump_473FB0()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType8, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eIntenseChase_8, this, 0, 0);
     }
 }
 
@@ -1180,7 +1180,7 @@ void Slog::Motion_2_Run_4749A0()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType8, this, 0, 0);
+        MusicController::PlayMusic_443810(MusicController::MusicTypes::eIntenseChase_8, this, 0, 0);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))

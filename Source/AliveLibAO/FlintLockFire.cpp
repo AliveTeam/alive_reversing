@@ -188,7 +188,7 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
     field_E6_switch_id = pTlv->field_1A_id;
 
     Layer layer = Layer::eLayer_0;
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         layer = Layer::eLayer_BeforeShadow_Half_6;
@@ -285,7 +285,7 @@ void FlintLockFire::VUpdate_41AEE0()
                 auto pMusicTrigger = ao_new<MusicTrigger>();
                 if (pMusicTrigger)
                 {
-                    pMusicTrigger->ctor_443A60(6, TriggeredBy::eTouching_1, 0, 15);
+                    pMusicTrigger->ctor_443A60(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
                 }
             }
             break;

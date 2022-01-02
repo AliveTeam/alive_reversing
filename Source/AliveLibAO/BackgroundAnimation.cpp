@@ -81,7 +81,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
         field_E4_res,
         1);
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_1A_is_semi_trans);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_1A_is_semi_trans == Choice_short::eYes_1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
     field_10_anim.field_B_render_mode = pTlv->field_1C_semi_trans_mode;
@@ -90,13 +90,13 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     field_C8_yOffset = 0;
 
     field_100_sound_effect = pTlv->field_1E_sound_effect;
-    if (field_100_sound_effect == 1) // Apparently there is only 1 possible sound effect
+    if (field_100_sound_effect == BgAnimSounds::eFire_1) // Apparently there is only 1 possible sound effect
     {
-        field_100_sound_effect = 40;
+        field_100_sound_effect = BgAnimSounds::eFireIdx_40;
     }
     else
     {
-        field_100_sound_effect = -1;
+        field_100_sound_effect = BgAnimSounds::eNone_m1;
     }
     field_104_sound_channels_mask = 0;
 
@@ -166,8 +166,9 @@ void BackgroundAnimation::VUpdate_405C30()
     }
     else
     {
-        if (!field_104_sound_channels_mask && field_100_sound_effect >= 0)
+        if (!field_104_sound_channels_mask && field_100_sound_effect >= BgAnimSounds::eNone_0)
         {
+            // play fire sounds
             field_104_sound_channels_mask = SFX_Play_43AD70(static_cast<SoundEffect>(field_100_sound_effect), 0, 0);
         }
         field_A8_xpos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);

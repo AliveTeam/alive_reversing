@@ -1199,7 +1199,7 @@ void Slig::M_Running_4_4B6000()
 
     if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0 && MusicController::GetMusicType_47FDA0(0, 0, 0) != MusicController::MusicTypes::ePossessed_9)
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
 
     field_128_input |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
@@ -5262,7 +5262,7 @@ void Slig::ToShoot_4BF9A0()
     SetBrain(&Slig::Brain_Shooting_29_4BF750);
     field_158_num_times_to_shoot = 0;
     field_15A_unused = 0;
-    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
 }
 
 void Slig::ToZShoot_4BF9E0()
@@ -5270,7 +5270,7 @@ void Slig::ToZShoot_4BF9E0()
     field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
     field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_44_Z_shoot_delay;
     SetBrain(&Slig::Brain_ZSpottedEnemy_30_4BFA30);
-    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
 }
 
 void Slig::PauseALittle_4BDD00()
@@ -6359,7 +6359,7 @@ void Slig::ToChase_4BCFF0()
 
     field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
     SetBrain(&Slig::Brain_StartChasing_18_4BCEB0);
-    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
 }
 
 s16 Slig::HandleEnemyStopper_4BBA00(s32 gridBlocks)
@@ -6637,7 +6637,7 @@ void Slig::ToPanicRunning_4BCA30()
     field_108_next_motion = eSligMotions::M_Running_4_4B6000;
     SetBrain(&Slig::Brain_PanicRunning_13_4BC780);
     Brain_PanicRunning_13_4BC780();
-    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
 }
 
 void Slig::RespondToEnemyOrPatrol_4B3140()

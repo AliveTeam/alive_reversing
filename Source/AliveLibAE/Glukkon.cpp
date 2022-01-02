@@ -1363,7 +1363,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
             field_BC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
 
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
@@ -1511,7 +1511,7 @@ s16 Glukkon::Brain_2_Slapped_441720()
             field_BC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
 
     if (field_106_current_motion == eGlukkonMotions::M_Fall_7_443510)

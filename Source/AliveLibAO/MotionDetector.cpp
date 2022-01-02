@@ -39,7 +39,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
     field_F6_bDontComeBack = 1;
     field_E4_tlvInfo = tlvInfo;
 
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
     }
@@ -64,7 +64,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
     const AnimRecord rec2 = AO::AnimRec(AnimId::MotionDetector_Laser);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
 
-    if (pTlv->field_20_start_move_direction == Path_MotionDetector::StartMoveDirection::eRight_0)
+    if (pTlv->field_20_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eRight_0)
     {
         
         field_E8_state = States::eMoveRight_0;
@@ -88,7 +88,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
             field_108_pLaser = pMotionDetectors;
         }
     }
-    else if (pTlv->field_20_start_move_direction == Path_MotionDetector::StartMoveDirection::eLeft_1)
+    else if (pTlv->field_20_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
     {
         field_E8_state = States::eMoveLeft_2;
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
@@ -120,9 +120,9 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
 
     field_108_pLaser->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render, SwitchStates_Get(field_F0_disable_id) == 0);
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render, pTlv->field_22_draw_flare & 1);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render, pTlv->field_22_draw_flare == Choice_short::eYes_1);
 
-    field_F4_alarm_time = pTlv->field_28_alarm_ticks;
+    field_F4_alarm_duration = pTlv->field_28_alarm_duration;
 
     field_F2_alarm_trigger = pTlv->field_26_alarm_id;
 
@@ -256,7 +256,7 @@ void MotionDetector::VUpdate_437E90()
                                 if (pAlarm)
                                 {
                                     pAlarm->ctor_402570(
-                                        field_F4_alarm_time,
+                                        field_F4_alarm_duration,
                                         field_F2_alarm_trigger,
                                         0,
                                         Layer::eLayer_Above_FG1_39);

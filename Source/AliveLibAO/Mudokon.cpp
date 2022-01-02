@@ -2319,7 +2319,7 @@ void Mudokon::Motion_44_RunJumpMid_43E960()
         auto pMusicMem = ao_new<MusicTrigger>();
         if (pMusicMem)
         {
-            pMusicMem->ctor_443A60(5, TriggeredBy::eTimer_0, 0, 300);
+            pMusicMem->ctor_443A60(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
         }
 
         sRescuedMudokons_5076C0++;

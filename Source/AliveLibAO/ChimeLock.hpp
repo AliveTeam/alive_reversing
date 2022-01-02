@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -10,11 +11,11 @@ class Bells;
 
 struct Path_ChimeLock final : public Path_TLV
 {
-    s16 field_18_scale;
+    Scale_short field_18_scale;
     s16 field_1A_solve_id;
     s16 field_1C_code1;
     s16 field_1E_code2;
-    s16 field_20_id;
+    s16 field_20_password_id;
     s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_ChimeLock, 0x24);

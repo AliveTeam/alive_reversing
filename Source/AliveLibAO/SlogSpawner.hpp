@@ -2,16 +2,17 @@
 
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
 struct Path_SlogSpawner final : public Path_TLV
 {
-    s16 field_18_scale;
-    s16 field_1A_num_slogs;
-    s16 field_1C_num_at_a_time;
-    s16 field_1E_direction;
-    s16 field_20_ticks_between_slogs;
+    Scale_short field_18_scale;
+    s16 field_1A_max_slogs;
+    s16 field_1C_max_slogs_at_a_time;
+    XDirection_short field_1E_direction;
+    s16 field_20_slog_spawn_delay;
     s16 field_22_start_id;
 };
 ALIVE_ASSERT_SIZEOF(Path_SlogSpawner, 0x24);
@@ -37,11 +38,11 @@ public:
     FP field_18_xPos;
     FP field_1C_yPos;
     s32 field_20_spawn_timer;
-    s16 field_24_scale;
-    u16 field_26_num_slogs;
-    u16 field_28_num_at_a_time;
-    s16 field_2A_direction;
-    u16 field_2C_ticks_between_slogs;
+    Scale_short field_24_scale;
+    u16 field_26_max_slogs;
+    u16 field_28_max_slogs_at_a_time;
+    XDirection_short field_2A_direction;
+    u16 field_2C_slog_spawn_delay;
     u16 field_2E_start_id;
 };
 ALIVE_ASSERT_SIZEOF(SlogSpawner, 0x30);

@@ -453,7 +453,7 @@ void Door::VUpdate_40E870()
                     auto pMusicTrigger = ao_new<MusicTrigger>();
                     if (pMusicTrigger)
                     {
-                        pMusicTrigger->ctor_443A60(5, TriggeredBy::eTimer_0, 0, 300);
+                        pMusicTrigger->ctor_443A60(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
                     }
                 }
                 SwitchStates_Do_Operation_436A10(field_F0_switch_id, SwitchOp::eSetTrue_0);

@@ -36,7 +36,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
     field_10_anim.field_C_layer = Layer::eLayer_FG1_37;
 
     FP scale = {};
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         scale = FP_FromDouble(0.5);
     }
@@ -114,7 +114,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
     field_14C_increase_vely_by = FP_FromInteger(1);
 
     field_130_song_matching = 0;
-    if (SwitchStates_Get(pTlv->field_20_id))
+    if (SwitchStates_Get(pTlv->field_20_password_id))
     {
         if (!SwitchStates_Get(pTlv->field_1A_solve_id))
         {
@@ -434,7 +434,7 @@ void ChimeLock::VUpdate_40AEF0()
                     auto pMusic = ao_new<MusicTrigger>();
                     if (pMusic)
                     {
-                        pMusic->ctor_443A60(6, TriggeredBy::eTouching_1, 0, 15);
+                        pMusic->ctor_443A60(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
                     }
                     return;
                 }

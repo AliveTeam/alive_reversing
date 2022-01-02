@@ -154,7 +154,7 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_8;
@@ -174,9 +174,10 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
     field_148_right_min_delay = pTlv->field_22_right_min_delay;
     field_14A_right_max_delay = pTlv->field_24_right_max_delay;
 
-    field_138_attack_duration = pTlv->field_26_attack_duration;
+    field_138_spotting_abe_delay = pTlv->field_26_spotting_abe_delay;
 
-    field_188_flags = 32 * (pTlv->field_2A_roar_randomly & 1) | (((field_188_flags & ~0x11) | 4) & ~0x28);
+    // TODO: flags
+    field_188_flags = 32 * (pTlv->field_2A_roar_randomly == Choice_short::eYes_1) | (((field_188_flags & ~0x11) | 4) & ~0x28);
 
     FP hitX = {};
     FP hitY = {};
@@ -2631,7 +2632,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
     }
 
     if (field_120_pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3)
-        || (field_13C_attack_timer <= static_cast<s32>(gnFrameCount_507670)
+        || (field_13C_spotting_timer <= static_cast<s32>(gnFrameCount_507670)
             && !CanSeeAbe_45C100(field_120_pTarget)
             && field_120_pTarget->field_100_health > FP_FromInteger(0)
             && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
@@ -2682,7 +2683,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
             {
                 return field_110_brain_ret;
             }
-            field_13C_attack_timer = gnFrameCount_507670 + field_138_attack_duration;
+            field_13C_spotting_timer = gnFrameCount_507670 + field_138_spotting_abe_delay;
             return 1;
 
         case 1:
