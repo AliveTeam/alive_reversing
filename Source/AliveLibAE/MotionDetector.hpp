@@ -77,7 +77,7 @@ private:
     s32 field_104_timer;
     s16 field_108_disable_id;
     s16 field_10A_alarm_id;
-    s16 field_10C_alarm_ticks;
+    s16 field_10C_alarm_duration;
     s16 field_10E_bUnknown;
     s16 field_110_bDontComeBack;
     s16 field_112_pad;

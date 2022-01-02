@@ -4,16 +4,25 @@
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FixedPoint.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
+
+enum class BgAnimSounds : s16
+{
+    eNone_m1 = -1,
+    eNone_0 = 0,
+    eFire_1 = 1,
+    eFireIdx_40 = 40
+};
 
 struct Path_BackgroundAnimation final : public Path_TLV
 {
     u16 field_18_animation_id;
-    s16 field_1A_is_semi_trans;
+    Choice_short field_1A_is_semi_trans;
     TPageAbr field_1C_semi_trans_mode;
     // pad
-    s16 field_1E_sound_effect;
+    BgAnimSounds field_1E_sound_effect;
 };
 ALIVE_ASSERT_SIZEOF(Path_BackgroundAnimation, 0x20);
 
@@ -53,7 +62,7 @@ public:
     s32 field_F4_padding;
     FP field_F8_animXPos;
     FP field_FC_animYPos;
-    s16 field_100_sound_effect;
+    BgAnimSounds field_100_sound_effect;
     s16 field_102_padding;
     s32 field_104_sound_channels_mask;
 };

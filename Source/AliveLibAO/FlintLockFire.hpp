@@ -3,12 +3,13 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
 struct Path_FlintLockFire final : public Path_TLV
 {
-    s16 field_18_scale;
+    Scale_short field_18_scale;
     s16 field_1A_id;
 };
 ALIVE_ASSERT_SIZEOF(Path_FlintLockFire, 0x1C);
