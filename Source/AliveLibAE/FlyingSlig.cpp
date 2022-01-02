@@ -2054,7 +2054,7 @@ void FlyingSlig::ToPanicIdle_435B50()
 
 void FlyingSlig::ToChase_435E10()
 {
-    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     SetBrain(&FlyingSlig::Brain_4_ChasingEnemy_435BC0);
 }
 
@@ -2424,7 +2424,7 @@ void FlyingSlig::ToAlerted_4357E0()
 
 void FlyingSlig::ToPanicMoving_435A50()
 {
-    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     field_14C_timer = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + 12;
     SetBrain(&FlyingSlig::Brain_7_PanicMoving_435990);
 }

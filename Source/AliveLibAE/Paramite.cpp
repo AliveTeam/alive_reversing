@@ -1381,7 +1381,7 @@ s16 Paramite::Brain_2_ChasingAbe_4859D0()
         {
             if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
             {
-                MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+                MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
             }
 
             if (Event_Get_422C00(kEventAbeOhm))

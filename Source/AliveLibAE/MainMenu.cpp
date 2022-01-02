@@ -3002,7 +3002,7 @@ void MainMenuController::HandleMainMenuUpdate()
     }
     else if (gMap_5C3030.field_4_current_camera == MainMenuCams::eBackstory_Or_NewGameCam || gMap_5C3030.field_4_current_camera == MainMenuCams::eGameIsLoading_ShaddapCam)
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
     else
     {

@@ -614,7 +614,7 @@ void CC MusicController::EnableMusic_443900(s16 bEnable)
             pMusicController_507B98->field_28_amibent_seq_duration = 0;
             pMusicController_507B98->field_40_started_time = GetMusicTime();
 
-            if (pMusicController_507B98->field_3A_type == MusicTypes::eType0 || pMusicController_507B98->field_3A_type == MusicTypes::eType8 || pMusicController_507B98->field_3A_type == MusicTypes::eType11)
+            if (pMusicController_507B98->field_3A_type == MusicTypes::eType0 || pMusicController_507B98->field_3A_type == MusicTypes::eIntenseChase_8 || pMusicController_507B98->field_3A_type == MusicTypes::eType11)
             {
                 pMusicController_507B98->field_44_bTypeChanged = 1;
             }
@@ -771,14 +771,14 @@ void MusicController::UpdateMusic_442C20()
                 field_22 = 1;
                 break;
 
-            case MusicTypes::eType2:
+            case MusicTypes::eChime_2:
                 field_34_sync_after_beats = 1;
                 idx = -1;
                 field_24_bAmbientMusicEnabled = 0;
                 field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
                 break;
 
-            case MusicTypes::eType3:
+            case MusicTypes::eDrumAmbience_3:
                 idx = field_44_bTypeChanged ? Math_RandomRange_450F20(0, 1) : -1;
                 field_34_sync_after_beats = 1;
                 field_24_bAmbientMusicEnabled = 0;
@@ -823,7 +823,7 @@ void MusicController::UpdateMusic_442C20()
                 field_24_bAmbientMusicEnabled = 0;
                 break;
 
-            case MusicTypes::eType8:
+            case MusicTypes::eIntenseChase_8:
                 if (gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
                 {
                     idx = 102;
@@ -909,7 +909,7 @@ void MusicController::UpdateMusic_442C20()
                 field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
                 break;
 
-            case MusicTypes::eDeathShort_13:
+            case MusicTypes::eDeathDrumShort_13:
                 idx = field_44_bTypeChanged != 0 ? 2 : -1;
                 field_34_sync_after_beats = 1;
                 field_24_bAmbientMusicEnabled = 0;

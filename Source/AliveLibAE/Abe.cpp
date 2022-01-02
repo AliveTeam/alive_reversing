@@ -1703,7 +1703,7 @@ void Abe::Update_449DC0()
             field_128.field_18_say = MudSounds::eOops_14;
             field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
 
-            ae_new<MusicTrigger>()->ctor_47FF10(MusicTriggerMusicType::eDeathShort_1, TriggeredBy::eTimer_0, 90, 0);
+            ae_new<MusicTrigger>()->ctor_47FF10(MusicTriggerMusicType::eDeathDrumShort_1, TriggeredBy::eTimer_0, 90, 0);
         }
 
         if (Event_Get_422C00(kEventMudokonComfort))

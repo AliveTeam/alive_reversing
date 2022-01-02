@@ -935,11 +935,22 @@ struct Path_MusicTrigger final : public ReliveAPI::TlvObjectBaseAO
             {AO::TriggeredBy::eSwitchID_2, "Switch ID"},
             {AO::TriggeredBy::eUnknown_3, "Unknown"},
         });
+
+        types.AddEnum<AO::MusicTriggerMusicType>("Enum_MusicTriggeredMusicType",
+            {
+                {AO::MusicTriggerMusicType::eDrumAmbience_0, "Drum Ambience"},
+                {AO::MusicTriggerMusicType::eDeathDrumShort_1, "Death Drum Short"},
+                {AO::MusicTriggerMusicType::eSecretAreaLong_2, "Secret Area Long"},
+                {AO::MusicTriggerMusicType::eSoftChase_3, "Soft Chase"},
+                {AO::MusicTriggerMusicType::eIntenseChase_4, "Intense Chase"},
+                {AO::MusicTriggerMusicType::eChime_5, "Chime"},
+                {AO::MusicTriggerMusicType::eSecretAreaShort_6, "Secret Area Short"},
+            });
     }
 
     CTOR_AO(Path_MusicTrigger, "MusicTrigger", AO::TlvTypes::MusicTrigger_105)
     {
-        ADD("Music Type", mTlv.field_18_music_type); // TODO: enum
+        ADD("Music Type", mTlv.field_18_music_type);
         ADD("Triggered By", mTlv.field_1A_triggered_by);
         ADD("ID", mTlv.field_1C_id);
         ADD("Music Delay", mTlv.field_1E_music_delay);

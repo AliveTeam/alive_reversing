@@ -648,7 +648,7 @@ void Slog::M_Run_2_4C6340()
 {
     if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSlogChase_7, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eIntenseChase_7, this, 0, 0);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -3119,7 +3119,7 @@ void Slog::ToJump_4C5C60()
 
     if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSlogChase_7, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eIntenseChase_7, this, 0, 0);
     }
 }
 

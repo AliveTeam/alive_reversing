@@ -702,11 +702,11 @@ struct Path_MusicTrigger final : public ReliveAPI::TlvObjectBaseAE
     {
         types.AddEnum<::MusicTriggerMusicType>("Enum_MusicTriggerMusicType",
                                                {
-                                                   {::MusicTriggerMusicType::eUnknown_0, "Unknown 0"},
-                                                   {::MusicTriggerMusicType::eDeathShort_1, "Death Short"},
+                                                   {::MusicTriggerMusicType::eDrumAmbience_0, "Drum Ambience"},
+                                                   {::MusicTriggerMusicType::eDeathDrumShort_1, "Death Drum Short"},
                                                    {::MusicTriggerMusicType::eSecretAreaLong_2, "Secret Area Long"},
-                                                   {::MusicTriggerMusicType::eChase_3, "Chase"},
-                                                   {::MusicTriggerMusicType::eSlogChase_4, "Slog Chase"},
+                                                   {::MusicTriggerMusicType::eSoftChase_3, "Soft Chase"},
+                                                   {::MusicTriggerMusicType::eIntenseChase_4, "Intense Chase"},
                                                    {::MusicTriggerMusicType::eChime_5, "Chime"},
                                                    {::MusicTriggerMusicType::eSecretAreaShort_6, "Secret Area Short"},
                                                });

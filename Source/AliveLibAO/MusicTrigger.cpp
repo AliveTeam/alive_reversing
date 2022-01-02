@@ -9,7 +9,7 @@
 
 namespace AO {
 
-MusicTrigger* MusicTrigger::ctor_443A60(s16 type, TriggeredBy triggeredBy, s32 id, s16 delay)
+MusicTrigger* MusicTrigger::ctor_443A60(MusicTriggerMusicType type, TriggeredBy triggeredBy, s32 id, s16 delay)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBBC0);
@@ -27,44 +27,44 @@ MusicTrigger* MusicTrigger::ctor_4439F0(Path_MusicTrigger* pTlv, s32 tlvInfo)
     return this;
 }
 
-void MusicTrigger::Init_443AD0(s16 type, TriggeredBy triggeredBy, u16 id, s16 delay)
+void MusicTrigger::Init_443AD0(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 id, s16 delay)
 {
     field_14_flags &= ~7u;
     field_4_typeId = Types::eNone_0;
 
     switch (type)
     {
-        case 0:
-            field_1C_music_type = MusicController::MusicTypes::eType3;
+        case MusicTriggerMusicType::eDrumAmbience_0:
+            field_1C_music_type = MusicController::MusicTypes::eDrumAmbience_3;
             field_18_counter = 400;
             break;
 
-        case 1:
-            field_1C_music_type = MusicController::MusicTypes::eDeathShort_13;
+        case MusicTriggerMusicType::eDeathDrumShort_1:
+            field_1C_music_type = MusicController::MusicTypes::eDeathDrumShort_13;
             field_18_counter = 30;
             break;
 
-        case 2:
+        case MusicTriggerMusicType::eSecretAreaLong_2:
             field_1C_music_type = MusicController::MusicTypes::eSecretAreaLong_16;
             field_18_counter = 30;
             break;
 
-        case 3:
+        case MusicTriggerMusicType::eSoftChase_3:
             field_1C_music_type = MusicController::MusicTypes::eSlogChase_5;
             field_14_flags |= 4;
             break;
 
-        case 4:
-            field_1C_music_type = MusicController::MusicTypes::eType8;
+        case MusicTriggerMusicType::eIntenseChase_4:
+            field_1C_music_type = MusicController::MusicTypes::eIntenseChase_8;
             field_14_flags |= 4;
             break;
 
-        case 5:
-            field_1C_music_type = MusicController::MusicTypes::eType2;
+        case MusicTriggerMusicType::eChime_5:
+            field_1C_music_type = MusicController::MusicTypes::eChime_2;
             field_18_counter = delay;
             break;
 
-        case 6:
+        case MusicTriggerMusicType::eSecretAreaShort_6:
             field_1C_music_type = MusicController::MusicTypes::eSecretAreaShort_15;
             field_18_counter = 30;
             break;

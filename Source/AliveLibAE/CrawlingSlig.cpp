@@ -917,7 +917,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker_419FE0()
             field_BC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
 
     if (!field_100_pCollisionLine && field_208_brain_sub_state != Brain_PanicGetALocker::eState2_Falling_1)
