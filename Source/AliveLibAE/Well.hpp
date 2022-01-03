@@ -27,7 +27,7 @@ private:
 
 private:
     s32 field_20_tlvInfo;
-    s16 field_24_trigger_id;
+    s16 field_24_switch_id;
     s16 field_26_padding;
     FP field_28_scale;
     FP field_2C_exit_x;

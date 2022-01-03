@@ -337,7 +337,7 @@ struct Path_Hoist final : public Path_TLV
 
     Scale_short field_16_scale;
 };
-// TODO: Size
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Hoist, 0x18);
 
 struct Path_Edge final : public Path_TLV
 {
@@ -352,23 +352,23 @@ struct Path_Edge final : public Path_TLV
 
     Scale_int field_14_scale;
 };
-// TODO: Size
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Edge, 0x18);
 
 struct Path_SoftLanding final : public Path_TLV
 {
     s32 field_10_id;
 };
-// TODO: Size
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SoftLanding, 0x14);
 
 
 struct Path_WellBase : public Path_TLV
 {
     Scale_short field_0_scale;
-    s16 field_2_trigger_id;
-    s16 field_4_well_id;
+    s16 field_2_switch_id;
+    s16 field_4_other_well_id;
     s16 field_6_res_id;
 };
-// TODO: Size
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellBase, 0x18);
 
 struct Path_WellLocal final : public Path_WellBase
 {
@@ -381,7 +381,7 @@ struct Path_WellLocal final : public Path_WellBase
     s16 field_24_leaf_y;
     s16 field_26_padding;
 };
-// TODO: Size
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellLocal, 0x28);
 
 struct Path_WellExpress final : public Path_WellBase
 {
@@ -400,7 +400,7 @@ struct Path_WellExpress final : public Path_WellBase
     s16 field_30_leaf_y;
     s16 field_32_movie_id;
 };
-// TODO: Size
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellExpress, 0x34);
 
 struct Path_Alarm final : public Path_TLV
 {

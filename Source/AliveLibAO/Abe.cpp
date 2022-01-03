@@ -1663,7 +1663,8 @@ s16 Abe::RunTryEnterWell_425880()
         TlvTypes::WellLocal_11));
     if (pWellLocal)
     {
-        if ((pWellLocal->field_18_scale == 0 && field_BC_sprite_scale == FP_FromInteger(1)) || (pWellLocal->field_18_scale == 1 && field_BC_sprite_scale == FP_FromDouble(0.5)))
+        if ((pWellLocal->field_18_scale == Scale_short::eFull_0 && field_BC_sprite_scale == FP_FromInteger(1)) ||
+            (pWellLocal->field_18_scale == Scale_short::eHalf_1 && field_BC_sprite_scale == FP_FromDouble(0.5)))
         {
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
             field_F0_pTlv = pWellLocal;
@@ -1680,7 +1681,8 @@ s16 Abe::RunTryEnterWell_425880()
         TlvTypes::WellExpress_45));
     if (pWellExpress)
     {
-        if ((pWellExpress->field_18_scale == 0 && field_BC_sprite_scale == FP_FromInteger(1)) || (pWellExpress->field_18_scale == 1 && field_BC_sprite_scale == FP_FromDouble(0.5)))
+        if ((pWellExpress->field_18_scale == Scale_short::eFull_0 && field_BC_sprite_scale == FP_FromInteger(1)) ||
+            (pWellExpress->field_18_scale == Scale_short::eHalf_1 && field_BC_sprite_scale == FP_FromDouble(0.5)))
         {
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
             field_F0_pTlv = pWellExpress;
@@ -4112,7 +4114,8 @@ void Abe::Motion_0_Idle_423520()
                 case TlvTypes::WellLocal_11:
                 {
                     auto well = static_cast<Path_WellLocal*>(pTlv);
-                    if ((well->field_18_scale || field_BC_sprite_scale != FP_FromInteger(1)) && (well->field_18_scale != 1 || field_BC_sprite_scale != FP_FromDouble(0.5)))
+                    if ((well->field_18_scale != Scale_short::eFull_0 || field_BC_sprite_scale != FP_FromInteger(1)) &&
+                        (well->field_18_scale != Scale_short::eHalf_1 || field_BC_sprite_scale != FP_FromDouble(0.5)))
                     {
                         break;
                     }
@@ -4124,7 +4127,8 @@ void Abe::Motion_0_Idle_423520()
                 case TlvTypes::WellExpress_45:
                 {
                     auto well = static_cast<Path_WellExpress*>(pTlv);
-                    if ((well->field_18_scale || field_BC_sprite_scale != FP_FromInteger(1)) && (well->field_18_scale != 1 || field_BC_sprite_scale != FP_FromDouble(0.5)))
+                    if ((well->field_18_scale != Scale_short::eFull_0 || field_BC_sprite_scale != FP_FromInteger(1)) &&
+                        (well->field_18_scale != Scale_short::eHalf_1 || field_BC_sprite_scale != FP_FromDouble(0.5)))
                     {
                         break;
                     }
@@ -4573,8 +4577,8 @@ void Abe::Motion_3_Fall_42E7F0()
             {
                 // The well must be on the same scale/layer
                 Path_WellBase* pWellBase = static_cast<Path_WellBase*>(field_F0_pTlv);
-                if ((pWellBase->field_18_scale == 0 && field_BC_sprite_scale == FP_FromInteger(1))
-                    || (pWellBase->field_18_scale == 1 && field_BC_sprite_scale == FP_FromDouble(0.5)))
+                if ((pWellBase->field_18_scale == Scale_short::eFull_0 && field_BC_sprite_scale == FP_FromInteger(1)) ||
+                    (pWellBase->field_18_scale == Scale_short::eHalf_1 && field_BC_sprite_scale == FP_FromDouble(0.5)))
                 {
                     field_2A8_flags.Set(Flags_2A8::e2A8_Bit4_snap_abe);
                     field_FC_current_motion = eAbeMotions::Motion_74_JumpIntoWell_430EC0;
@@ -7980,7 +7984,7 @@ void Abe::Motion_78_InsideWellLocal_4310A0()
         }
         else
         {
-            if (SwitchStates_Get(pWellBase->field_1A_trigger_id))
+            if (SwitchStates_Get(pWellBase->field_1A_switch_id))
             {
                 auto pLocalWell = static_cast<Path_WellLocal*>(field_F0_pTlv);
                 field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(pLocalWell->field_28_on_dx) / FP_FromInteger(100));
@@ -8102,7 +8106,7 @@ void Abe::Motion_81_InsideWellExpress_431320()
     }
 
     Path_WellExpress* pExpressWell = static_cast<Path_WellExpress*>(field_F0_pTlv);
-    if (SwitchStates_Get(pExpressWell->field_1A_trigger_id))
+    if (SwitchStates_Get(pExpressWell->field_1A_switch_id))
     {
         field_190_level = pExpressWell->field_2C_on_level;
         field_192_path = pExpressWell->field_2E_on_path;
@@ -8194,7 +8198,7 @@ void Abe::Motion_82_WellExpressShotOut_4315A0()
             break;
         }
 
-        if ((pTlvIter->field_4_type == TlvTypes::WellLocal_11 || pTlvIter->field_4_type == TlvTypes::WellExpress_45) && static_cast<Path_WellBase*>(pTlvIter)->field_1C_well_id == field_196_door_id)
+        if ((pTlvIter->field_4_type == TlvTypes::WellLocal_11 || pTlvIter->field_4_type == TlvTypes::WellExpress_45) && static_cast<Path_WellBase*>(pTlvIter)->field_1C_other_well_id == field_196_door_id)
         {
             pWell = static_cast<Path_WellBase*>(pTlvIter);
             break;
@@ -8208,7 +8212,7 @@ void Abe::Motion_82_WellExpressShotOut_4315A0()
 
     if (pWell)
     {
-        if (pWell->field_18_scale == 1)
+        if (pWell->field_18_scale == Scale_short::eHalf_1)
         {
             field_BC_sprite_scale = FP_FromDouble(0.5);
             field_C6_scale = 0;

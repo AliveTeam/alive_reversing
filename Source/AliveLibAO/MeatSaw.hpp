@@ -10,16 +10,27 @@ namespace AO {
 struct Path_MeatSaw final : public Path_TLV
 {
     Scale_short field_18_scale;
-    s16 field_1A_min_time_off1;
-    s16 field_1C_max_time_off1;
+    s16 field_1A_switch_min_time_off;
+    s16 field_1C_switch_max_time_off;
     s16 field_1E_max_rise_time;
     s16 field_20_id;
-    s16 field_22_type;
+    enum class Type : s16
+    {
+        eAutomaticPersistOffscreen_0 = 0,
+        eAutomatic_1 = 1,
+        eSwitchId_2 = 2
+    };
+    Type field_22_type;
     s16 field_24_speed;
-    s16 field_26_start_state;
+    enum class StartState : s16
+    {
+        eOff_0 = 0,
+        eOn_1 = 1
+    };
+    StartState field_26_start_state;
     s16 field_28_off_speed;
-    s16 field_2A_min_time_off2;
-    s16 field_2C_max_time_off2;
+    s16 field_2A_automatic_min_time_off;
+    s16 field_2C_automatic_max_time_off;
     s16 field_2E_inital_position;
 };
 ALIVE_ASSERT_SIZEOF(Path_MeatSaw, 0x30);
@@ -66,17 +77,24 @@ public:
     s16 field_F0_switch_value;
     s16 field_F2_switch_value;
     s16 field_F4;
-    s16 field_F6_min_time_off1;
-    s16 field_F8_field_1C_max_time_off1;
-    s16 field_FA_min_time_off2;
-    s16 field_FC_max_time_off2;
+    s16 field_F6_switch_min_time_off;
+    s16 field_F8_switch_max_time_off;
+    s16 field_FA_automatic_min_time_off;
+    s16 field_FC_automatic_max_time_off;
     s16 field_FE_padding;
     s32 field_100_tlvInfo;
     s32 field_104_idle_timer;
     s32 field_108_SFX_timer;
     s32 field_10C_FrameCount;
     Animation field_110_anim;
-    u16 field_1A8_flags; // TODO: flags
+
+    enum flags_1A8
+    {
+        eBit1_ResetOffscreen = 0x1,
+        eBit2_SwitchIdMeatSaw = 0x2,
+        eBit3_AutomaticMeatSawIsDown = 0x4
+    };
+    BitField16<flags_1A8> field_1A8_flags;
     s16 field_1AA_padding;
 };
 ALIVE_ASSERT_SIZEOF(MeatSaw, 0x1AC);

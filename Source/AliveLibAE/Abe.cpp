@@ -6494,7 +6494,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
         if (pBaseWell->field_4_type == TlvTypes::LocalWell_8)
         {
             Path_WellLocal* pLocal = static_cast<Path_WellLocal*>(pBaseWell);
-            if (SwitchStates_Get_466020(pBaseWell->field_2_trigger_id))
+            if (SwitchStates_Get_466020(pBaseWell->field_2_switch_id))
             {
                 Calc_Well_Velocity_45C530(
                     FP_GetExponent(field_B8_xpos),
@@ -6621,7 +6621,7 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
     }
 
     Path_WellExpress* pExpressWell = static_cast<Path_WellExpress*>(field_FC_pPathTLV);
-    if (SwitchStates_Get_466020(pExpressWell->field_2_trigger_id))
+    if (SwitchStates_Get_466020(pExpressWell->field_2_switch_id))
     {
         field_19A_to_level = pExpressWell->field_24_enabled_well_level;
         field_19C_to_path = pExpressWell->field_26_enabled_well_path;
@@ -6710,7 +6710,7 @@ void Abe::Motion_83_WellExpressShotOut_45CF70()
         {
             // Is it the target of the previous well?
             Path_WellBase* pWellBase = static_cast<Path_WellBase*>(pTlvIter);
-            if (pWellBase->field_4_well_id == field_1A0_door_id)
+            if (pWellBase->field_4_other_well_id == field_1A0_door_id)
             {
                 pWell = pWellBase;
                 break;

@@ -175,7 +175,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
     field_144_flags.Clear(Flags_144::e144_Bit10_give_ring_without_password);
 
     field_1B6 = 0;
-    field_198 = 0;
+    field_198_abe_must_face_mud = 0;
 
     SetTint_418750(sMudTints_4CD320, field_B2_lvl_number);
 
@@ -201,7 +201,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
 
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction == XDirection_short::eRight_1);
 
-            field_186 = liftMudTlv->field_1E_silent;
+            field_186_give_password = liftMudTlv->field_1E_give_password;
             field_184 = 1;
             field_1B8_brain_idx = 0;
             field_188 = 5;
@@ -217,10 +217,10 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
         {
             auto ringMudTlv = static_cast<Path_RingMudokon*>(pTlv);
 
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->field_18_facing == 0); // TODO: Check
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->field_18_direction == XDirection_short::eLeft_0); // TODO: Check
             field_184 = 0;
-            field_186 = ringMudTlv->field_1E_silent;
-            field_198 = ringMudTlv->field_1A_abe_must_be_same_direction == 0;
+            field_186_give_password = ringMudTlv->field_1E_give_password;
+            field_198_abe_must_face_mud = ringMudTlv->field_1A_abe_must_face_mud == Path_RingMudokon::MustFaceMud::eYes_0;
             field_1B8_brain_idx = 2;
 
             if (ringMudTlv->field_24_action == SwitchOp::eSetTrue_0)
@@ -2809,7 +2809,7 @@ s16 Mudokon::Brain_SingSequenceIdle_2_441CA0()
             break;
 
         case 2:
-            if (!field_198
+            if (!field_198_abe_must_face_mud
                 || sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 GameSpeakEvents last_speak = {};
@@ -2841,7 +2841,7 @@ s16 Mudokon::Brain_SingSequenceIdle_2_441CA0()
         case 3:
             if (field_1C0_timer <= static_cast<s32>(gnFrameCount_507670))
             {
-                if (field_186)
+                if (field_186_give_password == Choice_short::eYes_1)
                 {
                     field_1B8_brain_idx = 4;
                 }
