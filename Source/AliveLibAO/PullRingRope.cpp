@@ -53,7 +53,7 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_AC_ypos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->field_10_top_left.field_2_y + 24);
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
 
-    if (pTlv->field_1E_scale == 1)
+    if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_8;
@@ -226,14 +226,19 @@ void PullRingRope::VUpdate_4549A0()
                 {
                     s32 volLeft = 0;
                     s32 volRight = 0;
-                    if (field_100_sound_direction == 1)
+                    if (field_100_sound_direction == PullRingSoundDirection::eLeft_1)
                     {
                         volLeft = 1;
                         volRight = 0;
                     }
+                    else if (field_100_sound_direction == PullRingSoundDirection::eRight_2)
+                    {
+                        volLeft =  0;
+                        volRight = 1;
+                    }
                     else
                     {
-                        volLeft = field_100_sound_direction != 2;
+                        volLeft = 1;
                         volRight = 1;
                     }
 

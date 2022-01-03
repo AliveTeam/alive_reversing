@@ -1308,10 +1308,14 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::BirdPortal_Flash,
         {"PORTAL.BND", 13576, 145, 74, kPortlitResID, PalId::Default},
      {"PORTAL.BND", 13352, 145, 74, AO::kPortlitAOResID, PalId::Default}},
-    // grow/shrink might be swapped
-    {AnimId::BirdPortal_TerminatorGrow, {"PORTAL.BND", 4168, 32, 18, kPortalTerminatorResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::BirdPortal_TerminatorIdle, {"PORTAL.BND", 4068, 32, 18, kPortalTerminatorResID, PalId::Default}, kNullAnimDetails}, // grow ??
+
     {AnimId::BirdPortal_TerminatorShrink,
+        {"PORTAL.BND", 4168, 32, 18, kPortalTerminatorResID, PalId::Default},
+        { "PORTAL.BND", 3884, 31, 18, AO::kPortalTerminatorAOResID, PalId::Default} },
+    {AnimId::BirdPortal_TerminatorIdle,
+        {"PORTAL.BND", 4068, 32, 18, kPortalTerminatorResID, PalId::Default},
+        { "PORTAL.BND", 3784, 31, 18, AO::kPortalTerminatorAOResID, PalId::Default} },
+    {AnimId::BirdPortal_TerminatorGrow,
         { "PORTAL.BND", 4144, 32, 18, kPortalTerminatorResID, PalId::Default},
         { "PORTAL.BND", 3860, 31, 18, AO::kPortalTerminatorAOResID, PalId::Default}
     },

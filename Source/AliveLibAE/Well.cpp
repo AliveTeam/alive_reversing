@@ -56,7 +56,7 @@ void Well::WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
         field_28_scale = FP_FromInteger(1);
     }
 
-    field_24_trigger_id = pTlv->field_2_trigger_id;
+    field_24_switch_id = pTlv->field_2_switch_id;
 
     field_2C_exit_x = FP_FromInteger(pTlv->field_18_exit_x) / FP_FromInteger(100);
     field_30_exit_y = FP_FromInteger(pTlv->field_1A_exit_y) / FP_FromInteger(100);
@@ -101,7 +101,7 @@ void Well::WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         field_28_scale = FP_FromInteger(1);
     }
 
-    field_24_trigger_id = pTlv->field_2_trigger_id;
+    field_24_switch_id = pTlv->field_2_switch_id;
 
     field_3C_bEmitLeaves = pTlv->field_20_bEmit_leaves;
     if (field_3C_bEmitLeaves == Choice_short::eYes_1)
@@ -184,7 +184,7 @@ void Well::vUpdate_4E2F60()
     if (field_3C_bEmitLeaves == Choice_short::eYes_1)
     {
         // Always on or has been enabled?
-        if (field_24_trigger_id == 0 || SwitchStates_Get_466020(field_24_trigger_id))
+        if (field_24_switch_id == 0 || SwitchStates_Get_466020(field_24_switch_id))
         {
             // Random chance of leaves emitting.
             if (Well_NextRandom() < 10)

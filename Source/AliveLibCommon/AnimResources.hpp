@@ -692,7 +692,7 @@ enum class AnimId
     Elum_MountUnmountBegin,
     Elum_Knockback,
 
-    BirdPortal_TerminatorShrink,
+    BirdPortal_TerminatorGrow,
     BirdPortal_Sparks,
     BirdPortal_Flash,
     PullRingRope_Idle,
@@ -740,7 +740,7 @@ enum class AnimId
     OptionChantOrb_Particle,
     ShootingZFire_Particle,
     WaterSplash,
-    BirdPortal_TerminatorGrow,
+    BirdPortal_TerminatorShrink,
     BirdPortal_TerminatorIdle,
     WaterDrop,
     BrewMachine_Button,

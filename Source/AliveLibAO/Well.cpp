@@ -70,7 +70,7 @@ void Well::VUpdate_48B270()
     if (field_100_emit_leaves)
     {
         // Always on or has been enabled?
-        if (!field_E8_trigger_id || SwitchStates_Get(field_E8_trigger_id))
+        if (!field_E8_switch_id || SwitchStates_Get(field_E8_switch_id))
         {
             // Random chance of leaves emitting
             if (Well_NextRandom() < 10)
@@ -112,7 +112,6 @@ void Well::VUpdate()
 
 void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
-    LOG_INFO("well express anim id: " << pTlv->field_1E_anim_id);
     const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_1E_anim_id);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (ppRes)
@@ -132,7 +131,7 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
         field_6_flags.Clear(Options::eDrawable_Bit4);
     }
 
-    if (pTlv->field_18_scale)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_10_anim.field_C_layer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
@@ -143,7 +142,7 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
         field_EC_scale = FP_FromInteger(1);
     }
 
-    field_E8_trigger_id = pTlv->field_1A_trigger_id;
+    field_E8_switch_id = pTlv->field_1A_switch_id;
     field_F0_exit_x = FP_FromInteger(pTlv->field_20_exit_x) / FP_FromInteger(100);
     field_F4_exit_y = FP_FromInteger(pTlv->field_22_exit_y) / FP_FromInteger(100);
 
@@ -169,7 +168,6 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 
 void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
-    LOG_INFO("well local res id: " << pTlv->field_1E_anim_id);
     const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_1E_anim_id);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (ppRes)
@@ -189,7 +187,7 @@ void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         field_6_flags.Clear(Options::eDrawable_Bit4);
     }
 
-    if (pTlv->field_18_scale)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_10_anim.field_C_layer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
@@ -202,7 +200,7 @@ void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         field_C6_scale = 1;
     }
 
-    field_E8_trigger_id = pTlv->field_1A_trigger_id;
+    field_E8_switch_id = pTlv->field_1A_switch_id;
     field_F0_exit_x = FP_FromInteger(pTlv->field_20_exit_x) / FP_FromInteger(100);
     field_F4_exit_y = FP_FromInteger(pTlv->field_22_exit_y) / FP_FromInteger(100);
 

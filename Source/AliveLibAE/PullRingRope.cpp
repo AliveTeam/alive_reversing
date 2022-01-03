@@ -228,7 +228,7 @@ void PullRingRope::vUpdate_49B720()
                             case PullRingSwitchSound::eWellExit_1:
                                 SFX_Play_46FB10(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
-                            case PullRingSwitchSound::eRingUnknownTrigger_2:
+                            case PullRingSwitchSound::eRingUnknownTrigger_2: // ring bell hammer from AO?
                                 SFX_Play_46FB10(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
                             case PullRingSwitchSound::eDoorEffect_3:

@@ -749,8 +749,8 @@ struct Path_WellExpress final : public ReliveAPI::TlvObjectBaseAE
     {
         // Path_WellBase
         ADD("Scale", mTlv.field_0_scale);
-        ADD("Trigger ID", mTlv.field_2_trigger_id);
-        ADD("Well ID", mTlv.field_4_well_id);
+        ADD("Switch ID", mTlv.field_2_switch_id);
+        ADD("Other Well ID", mTlv.field_4_other_well_id);
         ADD("Resource ID", mTlv.field_6_res_id);
 
         // Path_WellExpress
@@ -1229,8 +1229,8 @@ struct Path_WellLocal final : public ReliveAPI::TlvObjectBaseAE
     {
         // Path_WellBase
         ADD("Scale", mTlv.field_0_scale);
-        ADD("Trigger ID", mTlv.field_2_trigger_id);
-        ADD("Well ID", mTlv.field_4_well_id);
+        ADD("Switch ID", mTlv.field_2_switch_id);
+        ADD("Other Well ID", mTlv.field_4_other_well_id);
         ADD("Resource ID", mTlv.field_6_res_id);
 
         // Path_WellLocal

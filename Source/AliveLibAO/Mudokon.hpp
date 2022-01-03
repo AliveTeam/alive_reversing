@@ -102,10 +102,15 @@ ALIVE_ASSERT_SIZEOF(Path_Mudokon, 0x28);
 
 struct Path_RingMudokon final : public Path_TLV
 {
-    s16 field_18_facing;
-    s16 field_1A_abe_must_be_same_direction;
+    XDirection_short field_18_direction;
+    enum class MustFaceMud : s16
+    {
+        eYes_0 = 0,
+        eNo_1 = 1
+    };
+    MustFaceMud field_1A_abe_must_face_mud;
     Scale_short field_1C_scale;
-    s16 field_1E_silent;
+    Choice_short field_1E_give_password;
     s16 field_20_code1;
     s16 field_22_code2;
     SwitchOp field_24_action;
@@ -120,7 +125,7 @@ struct Path_LiftMudokon final : public Path_TLV
     s16 field_18_how_far_to_walk;
     s16 field_1A_lift_id;
     XDirection_short field_1C_direction;
-    s16 field_1E_silent;
+    Choice_short field_1E_give_password;
     Scale_short field_20_scale;
     s16 field_22_code1;
     s16 field_24_code2;
@@ -330,13 +335,13 @@ public:
     s16 field_146;
     Mudokon_Resources field_148_res_array;
     s16 field_184;
-    s16 field_186;
+    Choice_short field_186_give_password;
     s16 field_188;
     s16 field_18A;
     FP field_18C;
     FP field_190;
     LiftPoint* field_194_pLiftPoint;
-    s16 field_198;
+    s16 field_198_abe_must_face_mud;
     s16 field_19A;
     s16 field_19C;
     s16 field_19E_code_idx;
