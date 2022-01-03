@@ -506,7 +506,7 @@ void BirdPortal::vUpdate_498280()
         case PortalStates::KillPortalClipper_21:
             if (static_cast<s32>(sGnFrame_5C1B84) > field_5C_timer)
             {
-                const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorGrow);
+                const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorShrink);
                 pTerminator1->field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
                 pTerminator2->field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
                 field_28_state = PortalStates::FadeoutTerminators_22;
@@ -1216,7 +1216,7 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP
 
     SetType(AETypes::eEyeOrbPart_74);
 
-    const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorShrink);
+    const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorGrow);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
