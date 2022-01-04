@@ -3594,7 +3594,7 @@ s16 Slog::HandleEnemyStopper_4C5340()
             FP_GetExponent(xToUse), FP_GetExponent(field_BC_ypos),
             FP_GetExponent(width), FP_GetExponent(field_BC_ypos), TlvTypes::EnemyStopper_47));
 
-    return stopperPath != nullptr && stopperPath->field_10_stop_direction == (field_C4_velx > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0) && SwitchStates_Get_466020(stopperPath->field_12_id) > 0;
+    return stopperPath != nullptr && stopperPath->field_10_stop_direction == (field_C4_velx > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0) && SwitchStates_Get_466020(stopperPath->field_12_switch_id) > 0;
 }
 
 s16 Slog::Facing_4C4020(FP xpos)

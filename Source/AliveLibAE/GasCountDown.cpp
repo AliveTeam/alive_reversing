@@ -72,9 +72,9 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo)
 
     gGasOn_5C1C00 = 0;
 
-    field_70_start_trigger_id = pTlv->field_10_start_trigger_id;
+    field_70_start_timer_switch_id = pTlv->field_10_start_timer_switch_id;
     field_76_gas_countdown_timer = pTlv->field_12_gas_countdown_timer;
-    field_72_stop_trigger_id = pTlv->field_14_stop_trigger_id;
+    field_72_stop_timer_switch_id = pTlv->field_14_stop_timer_switch_id;
 
     if (sGasTimer_5C1BE8)
     {
@@ -230,7 +230,7 @@ void GasCountDown::vUpdate_4172E0()
     }
 
     // Enable
-    if (!sGasTimer_5C1BE8 && SwitchStates_Get_466020(field_70_start_trigger_id) && !SwitchStates_Get_466020(field_72_stop_trigger_id))
+    if (!sGasTimer_5C1BE8 && SwitchStates_Get_466020(field_70_start_timer_switch_id) && !SwitchStates_Get_466020(field_72_stop_timer_switch_id))
     {
         sGasTimer_5C1BE8 = sGnFrame_5C1B84;
         auto pAlarm = ae_new<Alarm>();
@@ -249,7 +249,7 @@ void GasCountDown::vUpdate_4172E0()
     else
     {
         // Running
-        if (SwitchStates_Get_466020(field_72_stop_trigger_id))
+        if (SwitchStates_Get_466020(field_72_stop_timer_switch_id))
         {
             sGasTimer_5C1BE8 = 0;
             return;

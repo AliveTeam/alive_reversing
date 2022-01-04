@@ -20,7 +20,7 @@ SligSpawner* SligSpawner::ctor_402850(Path_Slig* pTlv, s32 tlvInfo)
 
     field_16_flags = 1;
 
-    field_14_slig_id = pTlv->field_54_id;
+    field_14_slig_spawner_switch_id = pTlv->field_54_slig_spawner_switch_id;
     return this;
 }
 
@@ -51,7 +51,7 @@ EXPORT void SligSpawner::VUpdate_4028A0()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (SwitchStates_Get(field_14_slig_id))
+    if (SwitchStates_Get(field_14_slig_spawner_switch_id))
     {
         auto pTlv = static_cast<Path_Slig*>(gMap_507BA8.TLV_Get_At_446260(
             field_18_tlv.field_10_top_left.field_0_x,

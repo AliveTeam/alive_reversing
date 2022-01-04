@@ -4,6 +4,7 @@
 #include "../AliveLibCommon/Psx_common.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "PathData.hpp"
+#include "../AliveLibAE/Path.hpp"
 #include "BaseGameObject.hpp"
 
 namespace AO {
@@ -154,7 +155,7 @@ struct Path_EnemyStopper final : public Path_TLV
         Both_2 = 2,
     };
     StopDirection field_18_direction;
-    s16 field_1A_id;
+    s16 field_1A_switch_id;
 };
 
 struct Path_Change final : public Path_TLV
@@ -164,7 +165,7 @@ struct Path_Change final : public Path_TLV
     s16 field_1C_camera;
     s16 field_1E_movie;
     u16 field_20_wipe;
-    s16 field_22_scale;
+    Scale_short field_22_scale;
 };
 ALIVE_ASSERT_SIZEOF(Path_Change, 0x24);
 

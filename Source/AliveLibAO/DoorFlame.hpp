@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -11,8 +12,15 @@ class FlameSparks;
 
 struct Path_DoorFlame final : public Path_TLV
 {
-    s16 field_18_id;
-    u16 field_1A_scale;
+    s16 field_18_switch_id;
+    enum class Scale : s16
+    {
+        eFull_0 = 0,
+        eHalf_1 = 1,
+        eHalf_2 = 2
+    };
+    Scale field_1A_scale;
+
     enum class Colour : s16
     {
         unknown_0 = 0,

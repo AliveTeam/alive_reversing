@@ -67,7 +67,7 @@ void Well::VUpdate_48B270()
         gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     }
 
-    if (field_100_emit_leaves)
+    if (field_100_emit_leaves == Choice_short::eYes_1)
     {
         // Always on or has been enabled?
         if (!field_E8_switch_id || SwitchStates_Get(field_E8_switch_id))
@@ -148,7 +148,7 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 
     field_100_emit_leaves = pTlv->field_34_emit_leaves;
 
-    if (field_100_emit_leaves)
+    if (field_100_emit_leaves == Choice_short::eYes_1)
     {
         field_F8_leaf_xpos = FP_FromInteger(pTlv->field_36_leaf_x);
         if (!FP_GetExponent(field_F8_leaf_xpos))
@@ -206,7 +206,7 @@ void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 
     field_100_emit_leaves = pTlv->field_2C_bEmit_leaves;
 
-    if (field_100_emit_leaves)
+    if (field_100_emit_leaves == Choice_short::eYes_1)
     {
         field_F8_leaf_xpos = FP_FromInteger(pTlv->field_2E_leaf_x);
         if (!FP_GetExponent(field_F8_leaf_xpos))

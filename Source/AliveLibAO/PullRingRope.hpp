@@ -25,7 +25,7 @@ enum class PullRingSoundDirection : s16
 
 struct Path_PullRingRope final : public Path_TLV
 {
-    s16 field_18_id;
+    s16 field_18_switch_id;
     SwitchOp field_1A_action;
     u16 field_1C_rope_length;
     Scale_short field_1E_scale;
@@ -72,7 +72,7 @@ public:
         eReturnToIdle_3 = 3
     };
     States field_EC_state;
-    s16 field_EE_id;
+    s16 field_EE_switch_id;
     SwitchOp field_F0_action;
     s16 field_F2_pad;
     BaseAliveGameObject* field_F4_pPuller;

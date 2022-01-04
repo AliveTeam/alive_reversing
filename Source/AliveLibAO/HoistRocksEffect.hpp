@@ -24,7 +24,7 @@ struct Path_Hoist final : public Path_TLV
     };
     EdgeType field_1A_edge_type;
 
-    s16 field_1C_id;
+    s16 field_1C_switch_id;
 
     s16 field_1E_pad;
 };

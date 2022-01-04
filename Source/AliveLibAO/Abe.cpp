@@ -8416,7 +8416,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                                 Code_Convert_476000(field_174_pathStone.dataBellsong.code1, field_174_pathStone.dataBellsong.code2));
                         }
 
-                        SwitchStates_Do_Operation_436A10(field_174_pathStone.dataBellsong.id, SwitchOp::eSetTrue_0);
+                        SwitchStates_Do_Operation_436A10(field_174_pathStone.dataBellsong.switch_id, SwitchOp::eSetTrue_0);
                         field_110_state.stone = StoneStates::eBellSongDone_4;
                         break;
                     }

@@ -7,7 +7,7 @@
 struct Path_SecurityDoor final : public Path_TLV
 {
     Scale_short field_10_scale;
-    s16 field_12_id;
+    s16 field_12_switch_id;
     s16 field_14_code_1;
     s16 field_16_code_2;
     s16 field_18_xpos;
@@ -58,7 +58,7 @@ private:
 private:
     s32 field_F4_tlvInfo;
     SecurityDoorStates field_F8_state;
-    s16 field_FA_id;
+    s16 field_FA_switch_id;
     s32 field_FC_code_converted;
     s16 field_100_code_len;
     s16 field_102_padding;

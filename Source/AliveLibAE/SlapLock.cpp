@@ -513,7 +513,7 @@ s16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
     }
 
     field_120_state = SlapLockStates::eSlapped_2;
-    SwitchStates_Do_Operation_465F00(field_118_pTlv->field_1E_option_id, SwitchOp::eToggle_2);
+    SwitchStates_Do_Operation_465F00(field_118_pTlv->field_1E_toggle_switch_id, SwitchOp::eToggle_2);
     SFX_Play_46FA90(SoundEffect::SpiritLockBreak_106, 0, field_CC_sprite_scale);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
 

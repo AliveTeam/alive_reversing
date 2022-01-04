@@ -994,7 +994,7 @@ s16 Slog::HandleEnemyStopper_473BD0()
         return 0;
     }
 
-    if (!SwitchStates_Get(pStopper->field_1A_id))
+    if (!SwitchStates_Get(pStopper->field_1A_switch_id))
     {
         return 1;
     }

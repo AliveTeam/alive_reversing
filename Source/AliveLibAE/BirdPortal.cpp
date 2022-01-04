@@ -47,7 +47,7 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, s32 tlvInfo)
     field_64_movie_id = pTlv->field_1A_movie_id;
     field_24_portal_type = pTlv->field_1C_portal_type;
     field_82_num_muds_for_shrykull = pTlv->field_1E_mudokon_amount_for_shrykull;
-    field_66_delete_id = pTlv->field_22_delete_id;
+    field_66_delete_portal_switch_id = pTlv->field_22_delete_portal_switch_id;
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
@@ -1051,7 +1051,7 @@ void BirdPortal::dtor_4980A0()
         field_90_sfx_ret = 0;
     }
 
-    if (SwitchStates_Get_466020(field_66_delete_id))
+    if (SwitchStates_Get_466020(field_66_delete_portal_switch_id))
     {
         // Never come back
         Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 1);

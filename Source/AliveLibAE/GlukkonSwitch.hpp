@@ -12,8 +12,8 @@ struct Path_GlukkonSwitch final : public Path_TLV
         eFull_1 = 1,
     };
     Scale field_10_scale;
-    s16 field_12_ok_id;
-    s16 field_14_fail_id;
+    s16 field_12_ok_switch_id;
+    s16 field_14_fail_switch_id;
     u16 field_16_xpos;
     u16 field_18_ypos;
     s16 field_1A_pad;
@@ -45,8 +45,8 @@ private:
 private:
     s32 field_F4_tlvInfo;
     s16 field_F8_state;
-    s16 field_FA_ok_id;
-    s16 field_FC_fail_id;
+    s16 field_FA_ok_switch_id;
+    s16 field_FC_fail_switch_id;
     s16 field_FE;
     s32 field_100_last_event_idx;
     s16 field_104;

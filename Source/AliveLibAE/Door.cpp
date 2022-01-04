@@ -59,8 +59,8 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
         }
     }
 
-    field_100_switch_id = pTlvData->field_1A_id;
-    if (pTlvData->field_1A_id == 1)
+    field_100_switch_id = pTlvData->field_1A_switch_id;
+    if (pTlvData->field_1A_switch_id == 1)
     {
         field_100_switch_id = 0;
     }

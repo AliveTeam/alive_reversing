@@ -25,7 +25,7 @@ SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, s32 tlvInfo)
 
     field_26_flags.Set(SpawnerFlags::eBit1_DontDestroyTLV);
 
-    field_24_slig_id = pTlv->field_4C_id;
+    field_24_slig_spawner_switch_id = pTlv->field_4C_slig_spawner_switch_id;
     field_40_bFindSpawnedSlig = 0;
 
     field_26_flags.Set(SpawnerFlags::eBit2_UnlimitedSpawns, pTlv->field_4E_unlimited_spawns == Choice_short::eYes_1);
@@ -104,13 +104,13 @@ void SligSpawner::vUpdate_409830()
     {
         if (!pSpawnedSlig || pSpawnedSlig->field_6_flags.Get(BaseGameObject::eDead_Bit3) || pSpawnedSlig->field_10C_health <= FP_FromInteger(0))
         {
-            SwitchStates_Set_465FF0(field_24_slig_id, 0);
+            SwitchStates_Set_465FF0(field_24_slig_spawner_switch_id, 0);
             field_38_state = SpawnerStates::eInactive_0;
         }
     }
     else if (field_38_state == SpawnerStates::eInactive_0)
     {
-        if (SwitchStates_Get_466020(field_24_slig_id))
+        if (SwitchStates_Get_466020(field_24_slig_spawner_switch_id))
         {
             Path_TLV* pSpawnerTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(field_28_tlv.field_8_top_left.field_0_x, field_28_tlv.field_8_top_left.field_2_y, field_28_tlv.field_8_top_left.field_0_x, field_28_tlv.field_8_top_left.field_2_y, TlvTypes::SligSpawner_37);
             if (pSpawnerTlv)

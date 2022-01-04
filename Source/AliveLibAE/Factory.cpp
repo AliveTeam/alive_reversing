@@ -845,7 +845,7 @@ EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* pTlv, Path*, TlvItemInfoUnion
             gMap_5C3030.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplineResID, loadMode);
         }
     }
-    else if (SwitchStates_Get_466020(pBirdPortalTlv->field_20_create_id))
+    else if (SwitchStates_Get_466020(pBirdPortalTlv->field_20_create_portal_switch_id))
     {
         auto pBirdPortal = ae_new<BirdPortal>();
         if (pBirdPortal)

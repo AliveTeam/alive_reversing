@@ -226,7 +226,7 @@ struct Path_EnemyStopper final : public Path_TLV
         Both_2 = 2,
     };
     StopDirection field_10_stop_direction;
-    s16 field_12_id;
+    s16 field_12_switch_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_EnemyStopper, 0x14);
 
@@ -293,12 +293,12 @@ EXPORT void CC Stop_slig_sounds_4CBA70(CameraPos direction, s8 kZero);
 
 struct Path_Teleporter_Data
 {
-    s16 field_10_id;
+    s16 field_10_teleporter_id;
     s16 field_12_target_id;
     s16 field_14_camera;
     s16 field_16_path;
     LevelIds field_18_level;
-    s16 field_1A_trigger_id;
+    s16 field_1A_switch_id;
     Scale_short field_1C_scale;
     ScreenChangeEffects field_1E_cam_swap_effect;
     s16 field_20_movie_number;
@@ -332,7 +332,7 @@ struct Path_Hoist final : public Path_TLV
     };
     GrabDirection field_12_grab_direction;
 
-    u8 field_14_id; // never used
+    u8 field_14_switch_id; // never used
     // pad
 
     Scale_short field_16_scale;
@@ -356,7 +356,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Edge, 0x18);
 
 struct Path_SoftLanding final : public Path_TLV
 {
-    s32 field_10_id;
+    s32 field_10_switch_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SoftLanding, 0x14);
 
@@ -366,7 +366,7 @@ struct Path_WellBase : public Path_TLV
     Scale_short field_0_scale;
     s16 field_2_switch_id;
     s16 field_4_other_well_id;
-    s16 field_6_res_id;
+    s16 field_6_anim_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellBase, 0x18);
 
@@ -404,7 +404,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellExpress, 0x34);
 
 struct Path_Alarm final : public Path_TLV
 {
-    s16 field_10_id;
+    s16 field_10_switch_id;
     u16 field_12_duration;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Alarm, 0x14);

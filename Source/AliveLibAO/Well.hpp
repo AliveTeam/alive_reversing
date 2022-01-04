@@ -34,7 +34,7 @@ struct Path_WellExpress final : public Path_WellBase
     s16 field_2E_on_path;
     s16 field_30_on_camera;
     s16 field_32_on_well_id;
-    s16 field_34_emit_leaves;
+    Choice_short field_34_emit_leaves;
     s16 field_36_leaf_x;
     s16 field_38_leaf_y;
     s16 field_3A_movie_id;
@@ -45,7 +45,7 @@ struct Path_WellLocal final : public Path_WellBase
 {
     s16 field_28_on_dx;
     s16 field_2A_on_dy;
-    s16 field_2C_bEmit_leaves;
+    Choice_short field_2C_bEmit_leaves;
     s16 field_2E_leaf_x;
     s16 field_30_leaf_y;
     s16 field_32_pad;
@@ -89,7 +89,7 @@ public:
     FP field_F4_exit_y;
     FP field_F8_leaf_xpos;
     FP field_FC_leaf_ypos;
-    s16 field_100_emit_leaves;
+    Choice_short field_100_emit_leaves;
     s16 field_102_pad;
 };
 ALIVE_ASSERT_SIZEOF(Well, 0x104);

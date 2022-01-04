@@ -64,7 +64,7 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
         field_C4_b = 190;
     }
 
-    field_112_id = pTlv->field_18_id;
+    field_112_start_switch_id = pTlv->field_18_start_switch_id;
     if (pTlv->field_1A_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
@@ -81,7 +81,7 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
     field_114_max_falling_items = pTlv->field_1E_max_falling_items;
     field_116_remaining_falling_items = pTlv->field_1E_max_falling_items;
 
-    field_120_reset_id = pTlv->field_20_reset_id;
+    field_120_stop_switch_id = pTlv->field_20_stop_switch_id;
     field_122_do_sound_in_state_falling = 1;
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
@@ -188,7 +188,7 @@ void FallingItem::VUpdate_41A120()
     switch (field_110_state)
     {
         case State::eWaitForIdEnable_0:
-            if (!SwitchStates_Get(field_112_id))
+            if (!SwitchStates_Get(field_112_start_switch_id))
             {
                 return;
             }
@@ -336,11 +336,11 @@ void FallingItem::VUpdate_41A120()
                 SFX_Play_43AE60(SoundEffect::FallingItemHit_53, 110, -1536, 0);
             }
 
-            if (field_112_id)
+            if (field_112_start_switch_id)
             {
-                if (field_120_reset_id)
+                if (field_120_stop_switch_id)
                 {
-                    SwitchStates_Do_Operation_436A10(field_112_id, SwitchOp::eSetFalse_1);
+                    SwitchStates_Do_Operation_436A10(field_112_start_switch_id, SwitchOp::eSetFalse_1);
                 }
             }
 

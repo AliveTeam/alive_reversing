@@ -5744,7 +5744,7 @@ s16 Paramite::HandleEnemyStopper_4893B0(s16 numGridBlocks)
         TlvTypes::EnemyStopper_47));
 
     // No stopper or its disabled
-    if (!pEnemyStopper || !SwitchStates_Get_466020(pEnemyStopper->field_12_id))
+    if (!pEnemyStopper || !SwitchStates_Get_466020(pEnemyStopper->field_12_switch_id))
     {
         return 0;
     }

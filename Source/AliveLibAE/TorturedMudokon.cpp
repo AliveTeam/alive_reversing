@@ -29,8 +29,8 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tl
         field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_224_ppRes, 1, 1);
         field_20_animation.SetFrame_409D50(Math_RandomRange_496AB0(0, field_20_animation.Get_Frame_Count_40AC70() - 1));
-        field_23A_kill_id = pTlv->field_10_kill_id;
-        field_23C_release_id = pTlv->field_12_release_id;
+        field_23A_kill_switch_id = pTlv->field_10_kill_switch_id;
+        field_23C_release_switch_id = pTlv->field_12_release_switch_id;
         field_23E_state = TorturedMudokonState::eBeingTortured_0;
         SetupTearsAnimation_47BE60(&field_F4_tears_animation);
         SetupZapAnimation_47BEF0(&field_18C_zap_animation);
@@ -192,7 +192,7 @@ void TorturedMudokon::vUpdate_47BF80()
     switch (field_23E_state)
     {
         case TorturedMudokonState::eBeingTortured_0:
-            if (SwitchStates_Get_466020(field_23A_kill_id))
+            if (SwitchStates_Get_466020(field_23A_kill_switch_id))
             {
                 field_23E_state = TorturedMudokonState::eKilled_1;
                 const AnimRecord& animRec = AnimRec(AnimId::Tortured_Mudokon_Zap);
@@ -286,7 +286,7 @@ void TorturedMudokon::vUpdate_47BF80()
         }
     }
 
-    if (SwitchStates_Get_466020(field_23C_release_id))
+    if (SwitchStates_Get_466020(field_23C_release_switch_id))
     {
         field_23E_state = TorturedMudokonState::eReleased_2;
         const AnimRecord& animRec = AnimRec(AnimId::Tortured_Mudokon_Released);

@@ -387,18 +387,18 @@ struct Path_Stone_camera final
 
 struct Path_BellsongStone_data final
 {
-    s16 scale;
+    Scale_short scale;
     BellsongTypes type;
     s16 code1;
     s16 code2;
-    s16 id;
+    s16 switch_id;
     s16 pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_BellsongStone_data, 12);
 
 struct Path_Handstone_data final
 {
-    s16 scale;
+    Scale_short scale;
     Path_Stone_camera camera1;
     Path_Stone_camera camera2;
     Path_Stone_camera camera3;
@@ -408,7 +408,7 @@ ALIVE_ASSERT_SIZEOF(Path_Handstone_data, 0x14);
 struct Path_Moviestone_data final
 {
     s16 fmvId;
-    s16 scale;
+    Scale_short scale;
 };
 ALIVE_ASSERT_SIZEOF(Path_Moviestone_data, 4);
 

@@ -3668,7 +3668,7 @@ void Abe::Motion_3_Fall_459B60()
 
                 if (pSoftLanding)
                 {
-                    if (!SwitchStates_Get_466020(static_cast<s16>(pSoftLanding->field_10_id)))
+                    if (!SwitchStates_Get_466020(static_cast<s16>(pSoftLanding->field_10_switch_id)))
                     {
                         pSoftLanding = nullptr;
                     }

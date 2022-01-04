@@ -14,7 +14,7 @@ enum class FootSwitchTriggerBy : s16
 
 struct Path_FootSwitch final : public Path_TLV
 {
-    s16 field_10_id;
+    s16 field_10_switch_id;
     Scale_short field_12_scale;
     SwitchOp field_14_action;
     FootSwitchTriggerBy field_16_trigger_by;
@@ -55,7 +55,7 @@ private:
         eWaitForGetOffMe_1 = 1,
     };
     States field_F8_state;
-    s16 field_FA_id;
+    s16 field_FA_switch_id;
     SwitchOp field_FC_action;
     FootSwitchTriggerBy field_FE_trigger_by;
     s32 field_100_obj_id;

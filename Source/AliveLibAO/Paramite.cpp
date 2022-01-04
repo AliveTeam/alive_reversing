@@ -168,7 +168,7 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo)
     field_112_surprise_web_delay_timer = pTlv->field_1E_surprise_web_delay_timer;
     field_11C_meat_eating_time = pTlv->field_20_meat_eating_time;
     field_134_group_chase_delay = pTlv->field_22_group_chase_delay;
-    field_13C_id = pTlv->field_26_id;
+    field_13C_surprise_web_switch_id = pTlv->field_26_surprise_web_switch_id;
     field_13E_hiss_before_attack = pTlv->field_28_hiss_before_attack;
     field_144_delete_when_far_away = pTlv->field_2A_delete_when_far_away;
 
@@ -1066,7 +1066,7 @@ s16 Paramite::Brain_0_Patrol_447A10()
                 auto pStopper = static_cast<Path_EnemyStopper*>(field_F0_pTlv);
                 if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero_507678->field_A8_xpos < field_A8_xpos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero_507678->field_A8_xpos > field_A8_xpos))
                 {
-                    if (!SwitchStates_Get(pStopper->field_1A_id))
+                    if (!SwitchStates_Get(pStopper->field_1A_switch_id))
                     {
                         return Brain_0_Patrol::eBrain0_IdleForAbe_1;
                     }
@@ -1582,7 +1582,7 @@ s16 Paramite::Brain_1_SurpriseWeb_448D00()
                     field_AC_ypos,
                     1))
             {
-                if (!SwitchStates_Get(field_13C_id))
+                if (!SwitchStates_Get(field_13C_surprise_web_switch_id))
                 {
                     return field_110_brain_sub_state;
                 }
@@ -1601,7 +1601,7 @@ s16 Paramite::Brain_1_SurpriseWeb_448D00()
                     field_AC_ypos,
                     1))
             {
-                if (!SwitchStates_Get(field_13C_id))
+                if (!SwitchStates_Get(field_13C_surprise_web_switch_id))
                 {
                     return field_110_brain_sub_state;
                 }
@@ -2018,7 +2018,7 @@ s16 Paramite::Brain_4_ChasingAbe_449170()
                 auto pStopper = static_cast<Path_EnemyStopper*>(field_F0_pTlv);
                 if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero_507678->field_A8_xpos < field_A8_xpos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero_507678->field_A8_xpos > field_A8_xpos))
                 {
-                    if (!SwitchStates_Get(pStopper->field_1A_id))
+                    if (!SwitchStates_Get(pStopper->field_1A_switch_id))
                     {
                         return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
                     }
@@ -2643,7 +2643,7 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirec
     {
         // No stopper or its disabled
         auto pEnemyStopper = static_cast<Path_EnemyStopper*>(field_F0_pTlv);
-        if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->field_1A_id))
+        if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->field_1A_switch_id))
         {
             return 0;
         }

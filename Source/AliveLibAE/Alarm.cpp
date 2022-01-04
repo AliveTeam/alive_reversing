@@ -38,7 +38,7 @@ Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, s32 tlvInfo)
     field_90_state = States::eWaitForSwitchEnable_0;
 
     // This won't count as an alarm instance till this id is enabled
-    field_88_switch_id = pTlv->field_10_id;
+    field_88_switch_id = pTlv->field_10_switch_id;
 
     field_6E_r = 0;
     field_70_g = 0;

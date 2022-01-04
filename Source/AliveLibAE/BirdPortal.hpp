@@ -30,8 +30,8 @@ struct Path_BirdPortal final : public Path_TLV
     s16 field_1A_movie_id;
     PortalType field_1C_portal_type;
     s16 field_1E_mudokon_amount_for_shrykull;
-    s16 field_20_create_id;
-    s16 field_22_delete_id;
+    s16 field_20_create_portal_switch_id;
+    s16 field_22_delete_portal_switch_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 
@@ -177,7 +177,7 @@ private:
     s32 field_5C_timer;
     FP field_60_scale;
     s16 field_64_movie_id;
-    s16 field_66_delete_id;
+    s16 field_66_delete_portal_switch_id;
     s16 field_68_doves_exist;
     s16 field_6A_pad;
     s32 field_6C_terminator_id;

@@ -35,7 +35,7 @@ struct Path_Fleech final : public Path_TLV
     s16 field_18_not_used;
     s16 field_1A_attack_anger_increaser;
     s16 field_1C_attack_delay;
-    s16 field_1E_wake_up_id1;
+    s16 field_1E_wake_up_switch_id;
     Choice_short field_20_hanging;
     s16 field_22_lost_target_timeout;
     Choice_short field_24_goes_to_sleep;
@@ -319,7 +319,7 @@ private:
     s16 field_13E_current_anger;
     u16 field_140_max_anger;
     s16 field_142_attack_anger_increaser;
-    s16 field_144_wake_up_id;
+    s16 field_144_wake_up_switch_id;
     s16 field_146_wake_up_switch_anger_value;
     s16 field_148_wake_up_switch_value;
     s16 field_14A_can_wake_up_id;

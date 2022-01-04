@@ -382,7 +382,7 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo)
     field_FA_frame_count = field_20_animation.Get_Frame_Count_40AC70();
     field_20_animation.SetFrame_409D50(Math_RandomRange_496AB0(0, field_FA_frame_count - 1));
 
-    field_F8_switch_id = pTlv->field_10_id;
+    field_F8_switch_id = pTlv->field_10_switch_id;
 
     if (pTlv->field_12_scale != Scale_short::eFull_0)
     {

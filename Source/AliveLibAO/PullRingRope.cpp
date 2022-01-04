@@ -44,7 +44,7 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo)
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_EE_id = pTlv->field_18_id;
+    field_EE_switch_id = pTlv->field_18_switch_id;
     field_F0_action = pTlv->field_1A_action;
     field_E8_tlv_info = tlvInfo;
     field_EC_state = States::eIdle_0;
@@ -158,7 +158,7 @@ s16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
     field_B8_vely = FP_FromInteger(2);
     field_E4_stay_in_state_ticks = 6;
 
-    SwitchStates_Do_Operation_436A10(field_EE_id, field_F0_action);
+    SwitchStates_Do_Operation_436A10(field_EE_switch_id, field_F0_action);
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRemoved_11 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {
@@ -217,9 +217,9 @@ void PullRingRope::VUpdate_4549A0()
                     SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 0);
                 }
 
-                const auto oldSwitchValue = SwitchStates_Get(field_EE_id);
+                const auto oldSwitchValue = SwitchStates_Get(field_EE_switch_id);
                 // TODO: OG bug - operation isn't applied to the switch ??
-                const auto switchValAfterOperation = SwitchStates_Get(field_EE_id);
+                const auto switchValAfterOperation = SwitchStates_Get(field_EE_switch_id);
 
                 // Due to seemingly OG bug this can never execute
                 if (oldSwitchValue != switchValAfterOperation)
@@ -242,7 +242,7 @@ void PullRingRope::VUpdate_4549A0()
                         volRight = 1;
                     }
 
-                    if (SwitchStates_Get(field_EE_id))
+                    if (SwitchStates_Get(field_EE_switch_id))
                     {
                         switch (field_FC_on_sound)
                         {

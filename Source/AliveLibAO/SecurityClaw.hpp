@@ -11,7 +11,7 @@ namespace AO {
 struct Path_SecurityClaw final : public Path_TLV
 {
     Scale_short field_18_scale;
-    s16 field_1A_alarm_id;
+    s16 field_1A_alarm_switch_id;
     s16 field_1C_alarm_duration;
     s16 field_1E_disabled_resources;
 };
@@ -66,7 +66,7 @@ public:
     SecurityClawStates field_110_state;
     s16 field_112;
     s32 field_114_timer;
-    s16 field_118_alarm_id;
+    s16 field_118_alarm_switch_id;
     s16 field_11A_alarm_duration;
     FP field_11C_clawX;
     FP field_120_clawY;

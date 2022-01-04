@@ -6384,7 +6384,7 @@ s16 Slig::HandleEnemyStopper_4BBA00(s32 gridBlocks)
         return 0;
     }
 
-    if (!SwitchStates_Get_466020(pTlv->field_12_id))
+    if (!SwitchStates_Get_466020(pTlv->field_12_switch_id))
     {
         return 0;
     }

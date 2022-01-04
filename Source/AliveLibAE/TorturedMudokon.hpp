@@ -13,8 +13,8 @@ enum class TorturedMudokonState : s16
 
 struct Path_TorturedMudokon final : public Path_TLV
 {
-    s16 field_10_kill_id;
-    s16 field_12_release_id;
+    s16 field_10_kill_switch_id;
+    s16 field_12_release_switch_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TorturedMudokon, 0x14);
 
@@ -45,8 +45,8 @@ private:
     s32 field_230_tlvInfo;
     s32 field_234_flash_colour_timer;
     s16 field_238_flash_colour_counter;
-    s16 field_23A_kill_id;
-    s16 field_23C_release_id;
+    s16 field_23A_kill_switch_id;
+    s16 field_23C_release_switch_id;
     TorturedMudokonState field_23E_state;
     s16 field_240_pain_sound_pitch;
     s16 field_242_padding;

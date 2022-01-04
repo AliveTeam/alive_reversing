@@ -88,7 +88,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
     field_F8_switch_max_time_off = pTlv->field_1C_switch_max_time_off;
 
     field_E6_max_rise_time = pTlv->field_1E_max_rise_time;
-    field_EE_switch_id = pTlv->field_20_id;
+    field_EE_switch_id = pTlv->field_20_switch_id;
 
     field_C8_yOffset = 0;
     field_F4 = 0;
@@ -113,13 +113,13 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
     field_E8_speed2 = pTlv->field_24_speed;
     if (pTlv->field_26_start_state == Path_MeatSaw::StartState::eOff_0)
     {
-        field_F0_switch_value = SwitchStates_Get(pTlv->field_20_id) == 0;
+        field_F0_switch_value = SwitchStates_Get(pTlv->field_20_switch_id) == 0;
     }
     else
     {
-        if (pTlv->field_20_id)
+        if (pTlv->field_20_switch_id)
         {
-            field_F0_switch_value = SwitchStates_Get(pTlv->field_20_id);
+            field_F0_switch_value = SwitchStates_Get(pTlv->field_20_switch_id);
         }
         else
         {
@@ -127,9 +127,9 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
         }
     }
 
-    if (pTlv->field_20_id)
+    if (pTlv->field_20_switch_id)
     {
-        field_F2_switch_value = SwitchStates_Get(pTlv->field_20_id);
+        field_F2_switch_value = SwitchStates_Get(pTlv->field_20_switch_id);
     }
     else
     {

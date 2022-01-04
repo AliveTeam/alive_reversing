@@ -27,7 +27,7 @@ struct Path_Door final : public Path_TLV
     s16 field_14_camera;
     Scale_short field_16_scale;
     s16 field_18_door_number;
-    s16 field_1A_id;
+    s16 field_1A_switch_id;
     s16 field_1C_target_door_id;
     DoorTypes field_1E_type;
     DoorStates field_20_start_state;

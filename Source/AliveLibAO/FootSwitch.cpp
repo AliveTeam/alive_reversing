@@ -22,7 +22,7 @@ FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
 
-    field_EA_id = pTlv->field_18_id;
+    field_EA_switch_id = pTlv->field_18_switch_id;
     if (pTlv->field_1A_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
@@ -36,7 +36,7 @@ FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, s32 tlvInfo)
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    SwitchStates_Set(field_EA_id, 0);
+    SwitchStates_Set(field_EA_switch_id, 0);
 
     field_E4_tlvInfo = tlvInfo;
     return this;
@@ -83,7 +83,7 @@ void FootSwitch::VUpdate_4888E0()
             if (field_F0_pStoodOnMe)
             {
                 field_F0_pStoodOnMe->field_C_refCount++;
-                SwitchStates_Do_Operation_436A10(field_EA_id, field_EC_action);
+                SwitchStates_Do_Operation_436A10(field_EA_switch_id, field_EC_action);
                 field_E8_state = States::eWaitForGetOffMe_1;
                 field_10_anim.Set_Animation_Data_402A40(756, 0);
                 SFX_Play_43AD70(SoundEffect::FootSwitchPress_64, 0, 0);

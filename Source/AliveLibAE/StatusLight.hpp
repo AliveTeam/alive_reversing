@@ -6,7 +6,7 @@
 
 struct Path_StatusLight final : public Path_TLV
 {
-    s16 field_10_id;
+    s16 field_10_switch_id;
     Scale_short field_12_scale;
     s16 field_14_id1;
     s16 field_16_id2;
@@ -34,7 +34,7 @@ private:
 
 private:
     u32 field_F4_tlvInfo;
-    s16 field_F8_input_id;
+    s16 field_F8_switch_id;
     s16 field_FA_id1;
     s16 field_FC_id2;
     s16 field_FE_id3;

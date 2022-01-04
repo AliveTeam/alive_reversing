@@ -60,9 +60,9 @@ Drill* Drill::ctor_4200D0(Path_Drill* pTlv, u32 tlvInfo)
         field_128_flags.Set(Flags::eBit1_StartOff);
     }
 
-    field_F8_id = tlvData.field_16_id;
+    field_F8_switch_id = tlvData.field_16_switch_id;
 
-    if (SwitchStates_Get_466020(field_F8_id) && field_128_flags.Get(Flags::eBit1_StartOff))
+    if (SwitchStates_Get_466020(field_F8_switch_id) && field_128_flags.Get(Flags::eBit1_StartOff))
     {
         field_128_flags.Set(Flags::eBit2_ToggleStartState_StartOn);
     }
@@ -346,7 +346,7 @@ void Drill::vUpdate_420C50()
         case DrillStates::State_0_Restart_Cycle:
             if (Expired(field_108_off_timer) || field_128_flags.Get(eBit4_Toggle))
             {
-                if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get_466020(field_F8_id) == (field_128_flags.Get(eBit1_StartOff))))
+                if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get_466020(field_F8_switch_id) == (field_128_flags.Get(eBit1_StartOff))))
                 {
                     field_F4_state = DrillStates::State_1_Going_Down;
 
@@ -474,7 +474,7 @@ void Drill::vUpdate_420C50()
 
                 if (field_128_flags.Get(eBit4_Toggle))
                 {
-                    SwitchStates_Set_465FF0(field_F8_id, !field_128_flags.Get(eBit1_StartOff));
+                    SwitchStates_Set_465FF0(field_F8_switch_id, !field_128_flags.Get(eBit1_StartOff));
                 }
             }
 
@@ -493,7 +493,7 @@ void Drill::dtor_420B60()
         field_10C_audio_channels_mask = 0;
     }
 
-    if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get_466020(field_F8_id) != field_128_flags.Get(Flags::eBit1_StartOff))
+    if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get_466020(field_F8_switch_id) != field_128_flags.Get(Flags::eBit1_StartOff))
     {
         Path::TLV_Reset_4DB8E0(field_104_tlv, 1, 0, 0);
     }

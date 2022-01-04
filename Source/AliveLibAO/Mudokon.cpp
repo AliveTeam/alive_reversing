@@ -192,8 +192,8 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
             field_148_res_array.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
 
 
-            field_18C = FP_FromInteger(liftMudTlv->field_18_how_far_to_walk);
-            field_110 = liftMudTlv->field_1A_lift_id;
+            field_18C_how_far_to_walk = FP_FromInteger(liftMudTlv->field_18_how_far_to_walk);
+            field_110_lift_switch_id = liftMudTlv->field_1A_lift_switch_id;
 
             field_144_flags.Set(Flags_144::e144_Bit5_unused, liftMudTlv->field_1C_direction == XDirection_short::eRight_1);
             field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
@@ -280,7 +280,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
 
             field_124_voice_pitch = mudTlv->field_1E_voice_pitch;
             field_4_typeId = Types::eMudokon_75;
-            field_1B2_switch_id = mudTlv->field_20_rescue_id;
+            field_1B2_rescue_switch_id = mudTlv->field_20_rescue_switch_id;
 
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, mudTlv->field_1C_direction == XDirection_short::eLeft_0);
 
@@ -2329,9 +2329,9 @@ void Mudokon::Motion_44_RunJumpMid_43E960()
             field_1AC_pBirdPortal->VMudSaved();
         }
 
-        if (field_1B2_switch_id)
+        if (field_1B2_rescue_switch_id)
         {
-            SwitchStates_Set(field_1B2_switch_id, 1);
+            SwitchStates_Set(field_1B2_rescue_switch_id, 1);
         }
     }
 
@@ -2716,7 +2716,7 @@ s16 Mudokon::Brain_ComingIn_0_441DE0()
         if (static_cast<s32>(gnFrameCount_507670) > field_1C0_timer)
         {
             field_FE_next_motion = eMudMotions::Motion_1_WalkLoop_43CC80;
-            field_190 = field_18C;
+            field_190 = field_18C_how_far_to_walk;
             return 2;
         }
     }
@@ -2757,7 +2757,7 @@ s16 Mudokon::Brain_ComingOut_1_441E90()
         if (field_FC_current_motion == eMudMotions::Motion_1_WalkLoop_43CC80)
         {
             field_144_flags.Clear(Flags_144::e144_Bit2);
-            field_190 = field_18C;
+            field_190 = field_18C_how_far_to_walk;
             return 2;
         }
     }
@@ -3245,7 +3245,7 @@ s16 Mudokon::Brain_LiftUse_5_43C180()
             if (pObj->field_4_typeId == Types::eLiftPoint_51)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(pObj);
-                if (field_110 == pLiftPoint->field_278_point_id)
+                if (field_110_lift_switch_id == pLiftPoint->field_278_point_id)
                 {
                     field_194_pLiftPoint = pLiftPoint;
                     pObj->field_C_refCount++;

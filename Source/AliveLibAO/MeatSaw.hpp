@@ -13,7 +13,7 @@ struct Path_MeatSaw final : public Path_TLV
     s16 field_1A_switch_min_time_off;
     s16 field_1C_switch_max_time_off;
     s16 field_1E_max_rise_time;
-    s16 field_20_id;
+    s16 field_20_switch_id;
     enum class Type : s16
     {
         eAutomaticPersistOffscreen_0 = 0,

@@ -31,14 +31,14 @@ struct Path_Mudokon final : public Path_TLV
     Mud_State field_12_state;
     XDirection_short field_14_direction;
     s16 field_16_voice_pitch;
-    s16 field_18_rescue_id;
+    s16 field_18_rescue_switch_id;
     Choice_short field_1A_bDeaf;
     s16 field_1C_disabled_resources;
     Choice_short field_1E_reset_pos_on_screen_change;
     Mud_TLV_Emotion field_20_emotion;
     Choice_short field_22_bBlind;
-    s16 field_24_angry_trigger;
-    Choice_short field_26_stop_turning_work_wheel;
+    s16 field_24_angry_switch_id;
+    Choice_short field_26_work_after_turning_wheel;
     Choice_short field_28_bGets_depressed;
     s16 field_2A_ring_timeout;
     Choice_short field_2C_bGive_ring_without_password;
@@ -483,7 +483,7 @@ private:
 private:
     s32 field_118_tlvInfo;
     s32 field_11C_bird_portal_id;
-    s16 field_120_angry_trigger;
+    s16 field_120_angry_switch_id;
     s16 field_122_padding;
     s32 field_124;
     s32 field_128_angry_timer;
@@ -522,7 +522,7 @@ private:
         eBit7_stopped_at_wheel = 0x40,
         eBit8_do_angry = 0x80,
         eBit9_seen_while_sick = 0x100,
-        eBit10_stop_turning_work_wheel = 0x200,
+        eBit10_work_after_turning_wheel = 0x200,
         eBit11_get_depressed = 0x400,
         eBit12_alert_enemies = 0x800,
         eBit13 = 0x1000, // TODO: It's only unset until it's checked, then set. Relates to MudAction::eUnknown_15 and MudAction::eUnknown_16. It's only set when a Glukkon makes a loud noise on the same screen as the Mudokon.
@@ -554,7 +554,7 @@ private:
     s16 field_174_padding;
     s16 field_176_padding;
     s16 field_178_brain_sub_state2;
-    s16 field_17A_rescue_id;
+    s16 field_17A_rescue_switch_id;
     s16 field_17C_stand_idle_timer;
     MudAction field_17E_delayed_speak;
     Mud_Emotion field_180_emo_tbl;

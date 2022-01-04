@@ -1493,7 +1493,7 @@ s16 Slig::HandleEnemyStopper_46BF30(s32 gridBlocks)
     }
 
     //TODO different from Exoddus (inverted) - watch out!
-    if (SwitchStates_Get(pStopper->field_1A_id))
+    if (SwitchStates_Get(pStopper->field_1A_switch_id))
     {
         return 0;
     }

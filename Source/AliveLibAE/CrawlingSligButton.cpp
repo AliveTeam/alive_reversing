@@ -41,7 +41,7 @@ CrawlingSligButton* CrawlingSligButton::ctor_4148F0(Path_CrawlingSligButton* pTl
         field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
     }
 
-    field_F8_id = pTlv->field_12_id;
+    field_F8_switch_id = pTlv->field_12_switch_id;
     field_FA_action = pTlv->field_14_action;
     field_FC_on_sound = pTlv->field_16_on_sound;
     field_FE_off_sound = pTlv->field_18_off_sound;
@@ -105,9 +105,9 @@ void CrawlingSligButton::vUpdate_414B20()
         Event_Broadcast_422BC0(kEventNoise, this);
         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
-        const s32 old_switch_state = SwitchStates_Get_466020(field_F8_id);
-        SwitchStates_Do_Operation_465F00(field_F8_id, field_FA_action);
-        const s32 new_switch_state = SwitchStates_Get_466020(field_F8_id);
+        const s32 old_switch_state = SwitchStates_Get_466020(field_F8_switch_id);
+        SwitchStates_Do_Operation_465F00(field_F8_switch_id, field_FA_action);
+        const s32 new_switch_state = SwitchStates_Get_466020(field_F8_switch_id);
 
         if (old_switch_state != new_switch_state)
         {

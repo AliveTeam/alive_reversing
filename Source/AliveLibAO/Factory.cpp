@@ -32,7 +32,7 @@
 #include "BeeNest.hpp"
 #include "Honey.hpp"
 #include "HoneySack.hpp"
-#include "IdSplitter.hpp"
+#include "TimerTrigger.hpp"
 #include "PullRingRope.hpp"
 #include "InvisibleSwitch.hpp"
 #include "FallingItem.hpp"
@@ -2215,10 +2215,10 @@ EXPORT void Factory_IdSplitter_4875E0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        auto pIdSplitter = ao_new<IdSplitter>();
+        auto pIdSplitter = ao_new<TimerTrigger>();
         if (pIdSplitter)
         {
-            pIdSplitter->ctor_479B40(static_cast<Path_IdSplitter*>(pTlv), tlvOffsetLevelIdPathId.all);
+            pIdSplitter->ctor_479B40(static_cast<Path_TimerTrigger*>(pTlv), tlvOffsetLevelIdPathId.all);
         }
     }
 }
