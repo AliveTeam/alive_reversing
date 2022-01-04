@@ -84,7 +84,7 @@ SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, s32 tlvInfo)
         field_C6_scale = 1;
     }
 
-    field_EA_id = pTlv->field_1A_id;
+    field_EA_switch_id = pTlv->field_1A_switch_id;
     field_EC_code_converted = Code_Convert_476000(pTlv->field_1C_code_1, pTlv->field_1E_code2);
     field_F0_code_len = Code_Length_475FD0(field_EC_code_converted);
     field_10C_top_left = pTlv->field_10_top_left;
@@ -321,7 +321,7 @@ void SecurityDoor::VUpdate_461AD0()
                 if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || sVoiceCheat_507708)
                 {
                     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-                    SwitchStates_Set(field_EA_id, 1);
+                    SwitchStates_Set(field_EA_switch_id, 1);
                     SFX_Play_43AE60(SoundEffect::SligBleh_112, 127, -700, 0);
                     field_E8_state = SecurityDoorStates::eSuccessChime_1;
                     field_114_timer = gnFrameCount_507670 + 15;

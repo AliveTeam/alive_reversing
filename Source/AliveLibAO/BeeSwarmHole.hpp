@@ -18,7 +18,7 @@ struct Path_BeeSwarmHole final : public Path_TLV
     };
     s16 field_18_what_to_spawn;
     s16 field_1A_interval;
-    s16 field_1C_id;
+    s16 field_1C_fall_switch_id;
     MovementType field_1E_movement_type;
     s16 field_20_bees_amount;
     s16 field_22_chase_time;
@@ -42,7 +42,7 @@ public:
     PSX_RECT field_14_rect;
     s32 field_1C_interval_timer;
     u16 field_20_interval;
-    s16 field_22_id;
+    s16 field_22_fall_switch_id;
     Path_BeeSwarmHole::MovementType field_24_movement_type;
     s16 field_26_bees_amount;
     u16 field_28_chase_time;

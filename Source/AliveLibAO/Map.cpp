@@ -467,13 +467,13 @@ void Map::Handle_PathTransition_444DD0()
         // resulting in a corrupted scale value ?
         // Pointer points to the Path res which is invalid after ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Path, i, TRUE, FALSE);
         // is called. Happens even if calling real func below.
-        const s16 scale = pTlv->field_22_scale;
+        const auto scale = pTlv->field_22_scale;
 
         GoTo_Camera_445050();
 
         switch (scale)
         {
-            case 0:
+            case Scale_short::eFull_0:
                 sActiveHero_507678->field_BC_sprite_scale = FP_FromInteger(1);
                 sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
                 if (gElum_507680)
@@ -483,7 +483,7 @@ void Map::Handle_PathTransition_444DD0()
                 }
                 break;
 
-            case 1:
+            case Scale_short::eHalf_1:
                 sActiveHero_507678->field_BC_sprite_scale = FP_FromDouble(0.5);
                 sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
                 if (gElum_507680)
@@ -494,7 +494,7 @@ void Map::Handle_PathTransition_444DD0()
                 break;
 
             default:
-                LOG_ERROR("Invalid scale " << pTlv->field_22_scale);
+                LOG_ERROR("Invalid scale " << static_cast<s16>(pTlv->field_22_scale));
                 break;
         }
 

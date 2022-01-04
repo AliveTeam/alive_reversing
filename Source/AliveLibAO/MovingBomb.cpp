@@ -59,7 +59,7 @@ MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo)
 
     field_118_speed = FP_FromRaw(pTlv->field_18_speed << 8);
     field_B4_velx = FP_FromRaw(pTlv->field_24_start_speed << 8);
-    field_11C_id = pTlv->field_1A_id;
+    field_11C_switch_id = pTlv->field_1A_switch_id;
     field_114_timer = gnFrameCount_507670;
     field_C8_yOffset = 0;
     field_110_tlvInfo = tlvInfo;
@@ -435,7 +435,7 @@ void MovingBomb::VUpdate_43B440()
             break;
 
         case States::eTriggeredBySwitch_1:
-            if (SwitchStates_Get(field_11C_id))
+            if (SwitchStates_Get(field_11C_switch_id))
             {
                 field_10C_state = States::eMoving_2;
             }

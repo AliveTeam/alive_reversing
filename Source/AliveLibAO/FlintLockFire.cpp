@@ -185,7 +185,7 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_E8_tlvInfo = tlvInfo;
-    field_E6_switch_id = pTlv->field_1A_id;
+    field_E6_switch_id = pTlv->field_1A_switch_id;
 
     Layer layer = Layer::eLayer_0;
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
@@ -210,7 +210,7 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
         field_220_anim.field_C_layer = layer;
     }
 
-    if (SwitchStates_Get(pTlv->field_1A_id))
+    if (SwitchStates_Get(pTlv->field_1A_switch_id))
     {
         field_E4_state = States::eActivated_2;
         const AnimRecord& activatingRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id);

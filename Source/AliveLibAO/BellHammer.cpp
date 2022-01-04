@@ -29,7 +29,7 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 82);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 94);
 
-    field_E6_switch_id = pTlv->field_18_id;
+    field_E6_switch_id = pTlv->field_18_switch_id;
     field_E8_tlvInfo = tlvInfo;
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)

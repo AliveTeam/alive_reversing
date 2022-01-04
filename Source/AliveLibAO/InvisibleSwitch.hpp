@@ -17,7 +17,7 @@ enum class InvisibleSwitchScale : s16
 
 struct Path_InvisibleSwitch final : public Path_TLV
 {
-    s16 field_18_id;
+    s16 field_18_switch_id;
     SwitchOp field_1A_action;
     u16 field_1C_delay;
     Choice_short field_1E_set_off_alarm;
@@ -45,7 +45,7 @@ public:
 
     EXPORT void VUpdate_4335A0();
 
-    s16 field_10_id;
+    s16 field_10_switch_id;
     SwitchOp field_12_action;
     s32 field_14_tlvInfo;
     s32 field_18_delay_timer;

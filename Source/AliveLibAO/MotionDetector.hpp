@@ -21,8 +21,8 @@ struct Path_MotionDetector final : public Path_TLV
     };
     InitialMoveDirection field_20_initial_move_direction;
     Choice_short field_22_draw_flare;
-    s16 field_24_disable_id;
-    s16 field_26_alarm_id;
+    s16 field_24_disable_switch_id;
+    s16 field_26_alarm_switch_id;
     s16 field_28_alarm_duration;
     s16 field_2A_padding;
 };
@@ -80,8 +80,8 @@ public:
     States field_E8_state;
     s16 field_EA_pad;
     s32 field_EC_timer;
-    u16 field_F0_disable_id;
-    s16 field_F2_alarm_trigger;
+    u16 field_F0_disable_switch_id;
+    s16 field_F2_alarm_switch_id;
     s16 field_F4_alarm_duration;
     s16 field_F6_bDontComeBack;
     FP field_F8_top_left_x;

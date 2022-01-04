@@ -27,7 +27,7 @@ BeeSwarmHole* BeeSwarmHole::ctor_4782B0(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
     field_14_rect.h = pTlv->field_14_bottom_right.field_2_y;
 
     field_20_interval = pTlv->field_1A_interval;
-    field_22_id = pTlv->field_1C_id;
+    field_22_fall_switch_id = pTlv->field_1C_fall_switch_id;
     field_24_movement_type = pTlv->field_1E_movement_type;
 
     field_26_bees_amount = pTlv->field_20_bees_amount;

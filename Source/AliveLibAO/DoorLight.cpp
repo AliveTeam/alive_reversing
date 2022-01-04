@@ -29,8 +29,8 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eNone_0;
     field_EC_bHasID = 0;
-    field_F0_id = pTlv->field_1C_id;
-    field_EE_switch_value = SwitchStates_Get(pTlv->field_1C_id);
+    field_F0_switch_id = pTlv->field_1C_switch_id;
+    field_EE_switch_value = SwitchStates_Get(pTlv->field_1C_switch_id);
 
     s32 xOff = 0;
     switch (pTlv->field_18_type)
@@ -61,7 +61,7 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo)
         {
             field_E8_width = 0;
             field_EA_height = 0;
-            if (SwitchStates_Get(pTlv->field_1C_id))
+            if (SwitchStates_Get(pTlv->field_1C_switch_id))
             {
                 const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenDoorLight);
                 Animation_Init_417FD0(greenRec.mFrameTableOffset, greenRec.mMaxW, greenRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
@@ -79,7 +79,7 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo)
         {
             field_E8_width = 0;
             field_EA_height = 0;
-            if (SwitchStates_Get(pTlv->field_1C_id))
+            if (SwitchStates_Get(pTlv->field_1C_switch_id))
             {
                 const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenHubLight);
                 Animation_Init_417FD0(greenRec.mFrameTableOffset, greenRec.mMaxW, greenRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
@@ -96,7 +96,7 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo)
             break;
     }
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == Choice_short::eNo_0);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == XDirection_short::eLeft_0);
 
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {
@@ -195,7 +195,7 @@ void DoorLight::VUpdate_4060A0()
 
         if (field_EC_bHasID)
         {
-            if (SwitchStates_Get(field_F0_id))
+            if (SwitchStates_Get(field_F0_switch_id))
             {
                 if (field_EE_switch_value == 0)
                 {

@@ -44,7 +44,7 @@ private:
 
 private:
     s32 field_20_tlv_info;
-    s16 field_24_slig_id;
+    s16 field_24_slig_spawner_switch_id;
     enum SpawnerFlags : s16
     {
         eBit1_DontDestroyTLV = 0x1,

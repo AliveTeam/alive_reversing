@@ -160,7 +160,7 @@ struct Path_SligGetPants final : public Path_TLV
     Choice_short stay_awake;
     s16 disable_resources;
     s16 noise_wake_up_distance;
-    s16 id;
+    s16 slig_spawner_switch_id;
     Choice_short unlimited_spawns;
 };
 
@@ -524,7 +524,7 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
         ADD("Stay Awake", mTlv.field_46_stay_awake);
         ADD("Disable Resources", mTlv.field_48_disable_resources);
         ADD("Noise Wake Up Distance (Grids)", mTlv.field_4A_noise_wake_up_distance);
-        ADD("ID", mTlv.field_4C_id);
+        ADD("Slig Spawner Switch ID", mTlv.field_4C_slig_spawner_switch_id);
         ADD_HIDDEN("Unlimited Spawns", mTlv.field_4E_unlimited_spawns);
     }
 };
@@ -1697,7 +1697,7 @@ struct Path_SligGetPants final : public ReliveAPI::TlvObjectBaseAE
         ADD("Stay Awake", mTlv.stay_awake);
         ADD("Disable Resources", mTlv.disable_resources);
         ADD("Noise Wake Up Distance (Grids)", mTlv.noise_wake_up_distance);
-        ADD("ID", mTlv.id);
+        ADD("Slig Spawner Switch ID", mTlv.slig_spawner_switch_id);
         ADD("Unlimited Spawns", mTlv.unlimited_spawns);
     }
 };

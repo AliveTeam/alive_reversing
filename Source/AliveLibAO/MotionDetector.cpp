@@ -116,15 +116,15 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
 
     field_108_pLaser->field_C_refCount++;
 
-    field_F0_disable_id = pTlv->field_24_disable_id;
+    field_F0_disable_switch_id = pTlv->field_24_disable_switch_id;
 
-    field_108_pLaser->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render, SwitchStates_Get(field_F0_disable_id) == 0);
+    field_108_pLaser->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render, SwitchStates_Get(field_F0_disable_switch_id) == 0);
 
     field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render, pTlv->field_22_draw_flare == Choice_short::eYes_1);
 
     field_F4_alarm_duration = pTlv->field_28_alarm_duration;
 
-    field_F2_alarm_trigger = pTlv->field_26_alarm_id;
+    field_F2_alarm_switch_id = pTlv->field_26_alarm_switch_id;
 
     return this;
 }
@@ -197,7 +197,7 @@ void MotionDetector::VUpdate_437E90()
 
     if (!sNumCamSwappers_507668)
     {
-        if (SwitchStates_Get(field_F0_disable_id))
+        if (SwitchStates_Get(field_F0_disable_switch_id))
         {
             field_108_pLaser->field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
         }
@@ -257,7 +257,7 @@ void MotionDetector::VUpdate_437E90()
                                 {
                                     pAlarm->ctor_402570(
                                         field_F4_alarm_duration,
-                                        field_F2_alarm_trigger,
+                                        field_F2_alarm_switch_id,
                                         0,
                                         Layer::eLayer_Above_FG1_39);
                                 }
@@ -334,7 +334,7 @@ void MotionDetector::VRender_438250(PrimHeader** ppOt)
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     field_A8_xpos -= FP_FromInteger(11);
 
-    if (!SwitchStates_Get(field_F0_disable_id))
+    if (!SwitchStates_Get(field_F0_disable_switch_id))
     {
         const s16 screen_top = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 

@@ -114,9 +114,9 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
     field_14C_increase_vely_by = FP_FromInteger(1);
 
     field_130_song_matching = 0;
-    if (SwitchStates_Get(pTlv->field_20_password_id))
+    if (SwitchStates_Get(pTlv->field_20_password_switch_id))
     {
-        if (!SwitchStates_Get(pTlv->field_1A_solve_id))
+        if (!SwitchStates_Get(pTlv->field_1A_solve_switch_id))
         {
             field_130_song_matching = 1;
         }
@@ -127,7 +127,7 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
     field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_10A_flags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
 
-    field_132_solve_id = pTlv->field_1A_solve_id;
+    field_132_solve_switch_id = pTlv->field_1A_solve_switch_id;
 
     field_15C_ball_state = BallStates::eIdle_0;
     field_128_idx = 0;
@@ -429,7 +429,7 @@ void ChimeLock::VUpdate_40AEF0()
                 if (DoNote_40BB20(static_cast<s16>(Bell)))
                 {
                     field_110_state = ChimeLockStates::eNeverRead_6;
-                    SwitchStates_Do_Operation_436A10(field_132_solve_id, SwitchOp::eSetTrue_0);
+                    SwitchStates_Do_Operation_436A10(field_132_solve_switch_id, SwitchOp::eSetTrue_0);
                     VUnPosses();
                     auto pMusic = ao_new<MusicTrigger>();
                     if (pMusic)

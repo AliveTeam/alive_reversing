@@ -140,7 +140,7 @@ struct Path_Slig final : public Path_TLV
     Choice_short field_46_stay_awake;
     s16 field_48_disable_resources;
     s16 field_4A_noise_wake_up_distance;
-    s16 field_4C_id;
+    s16 field_4C_slig_spawner_switch_id;
     Choice_short field_4E_unlimited_spawns;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);

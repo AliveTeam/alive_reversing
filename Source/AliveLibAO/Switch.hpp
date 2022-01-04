@@ -36,8 +36,8 @@ enum class SwitchOp : s16;
 
 struct Path_Switch final : public Path_TLV
 {
-    s16 field_18_trigger_id;
-    SwitchOp field_1A_target_action;
+    s16 field_18_switch_id;
+    SwitchOp field_1A_action;
     Scale_short field_1C_scale;
     SwitchSoundType field_1E_on_sound;
     SwitchSoundType field_20_off_sound;
@@ -71,13 +71,13 @@ public:
     EXPORT s32 vPull_481640(s16 bLeftDirection);
 
     s32 field_D4_padding[4];
-    s16 field_E4_trigger_id;
+    s16 field_E4_switch_id;
     s16 field_E6_pad;
     SwitchState field_E8_state;
     s16 field_EA_pad;
     s32 field_EC_tlvInfo;
     s16 field_F0_bPulledFromLeft;
-    SwitchOp field_F2_target_action;
+    SwitchOp field_F2_action;
     SwitchSoundType field_F4_on_sound;
     SwitchSoundType field_F6_off_sound;
     SwitchSoundDirection field_F8_sound_direction;

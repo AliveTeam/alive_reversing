@@ -123,7 +123,7 @@ ALIVE_ASSERT_SIZEOF(Path_RingMudokon, 0x2C);
 struct Path_LiftMudokon final : public Path_TLV
 {
     s16 field_18_how_far_to_walk;
-    s16 field_1A_lift_id;
+    s16 field_1A_lift_switch_id;
     XDirection_short field_1C_direction;
     Choice_short field_1E_give_password;
     Scale_short field_20_scale;
@@ -297,7 +297,7 @@ public:
     EXPORT s16 Brain_Choke_15_43C5D0();
 
     s32 field_10C;
-    s16 field_110;
+    s16 field_110_lift_switch_id;
     s16 field_112;
     s32 field_114;
     s32 field_118;
@@ -338,7 +338,7 @@ public:
     Choice_short field_186_give_password;
     s16 field_188;
     s16 field_18A;
-    FP field_18C;
+    FP field_18C_how_far_to_walk;
     FP field_190;
     LiftPoint* field_194_pLiftPoint;
     s16 field_198_abe_must_face_mud;

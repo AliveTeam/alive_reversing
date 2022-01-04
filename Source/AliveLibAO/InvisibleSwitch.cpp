@@ -43,7 +43,7 @@ InvisibleSwitch* InvisibleSwitch::ctor_4334E0(Path_InvisibleSwitch* pTlv, s32 tl
     SetVTable(this, 0x4BB438);
     field_14_tlvInfo = tlvInfo;
     field_28_state = States::eWaitForTrigger_0;
-    field_10_id = pTlv->field_18_id;
+    field_10_switch_id = pTlv->field_18_switch_id;
     field_12_action = pTlv->field_1A_action;
     field_1C_delay = pTlv->field_1C_delay;
     field_2C_scale = pTlv->field_20_scale;
@@ -108,7 +108,7 @@ void InvisibleSwitch::VUpdate_4335A0()
         case States::eWaitForDelayTimer_1:
             if (field_18_delay_timer <= static_cast<s32>(gnFrameCount_507670))
             {
-                SwitchStates_Do_Operation_436A10(field_10_id, field_12_action);
+                SwitchStates_Do_Operation_436A10(field_10_switch_id, field_12_action);
                 if (field_2A_set_off_alarm == Choice_short::eYes_1)
                 {
                     auto pAlarm = ao_new<Alarm>();

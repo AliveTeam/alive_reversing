@@ -97,7 +97,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
     field_134 = pTlv->field_10_top_left;
     field_138 = pTlv->field_14_bottom_right;
 
-    field_118_alarm_id = pTlv->field_1A_alarm_id;
+    field_118_alarm_switch_id = pTlv->field_1A_alarm_switch_id;
     field_11A_alarm_duration = pTlv->field_1C_alarm_duration;
 
     field_110_state = SecurityClawStates::eCamSwap_0;
@@ -377,7 +377,7 @@ void SecurityClaw::VUpdate_418DE0()
                     auto pAlarm = ao_new<Alarm>();
                     if (pAlarm)
                     {
-                        pAlarm->ctor_402570(field_11A_alarm_duration, field_118_alarm_id, 30, Layer::eLayer_Above_FG1_39);
+                        pAlarm->ctor_402570(field_11A_alarm_duration, field_118_alarm_switch_id, 30, Layer::eLayer_Above_FG1_39);
                     }
                 }
             }
