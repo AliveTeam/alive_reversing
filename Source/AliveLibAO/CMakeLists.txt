@@ -143,8 +143,8 @@ SET(AliveLibSrcAO
    PullRingRope.cpp
    BulletShell.hpp
    BulletShell.cpp
-   IdSplitter.hpp
-   IdSplitter.cpp
+   TimerTrigger.hpp
+   TimerTrigger.cpp
    BellSong.hpp
    BellSong.cpp
    HoneySack.hpp

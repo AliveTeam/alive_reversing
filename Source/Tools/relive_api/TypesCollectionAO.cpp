@@ -77,7 +77,7 @@ void TypesCollectionAO::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_Bat);
     REGISTER_TYPE_AO(AOTlvs::Path_ShadowZone);
     REGISTER_TYPE_AO(AOTlvs::Path_BellHammer);
-    REGISTER_TYPE_AO(AOTlvs::Path_IdSplitter);
+    REGISTER_TYPE_AO(AOTlvs::Path_TimerTrigger);
     REGISTER_TYPE_AO(AOTlvs::Path_PullRingRope);
     REGISTER_TYPE_AO(AOTlvs::Path_MusicTrigger);
     REGISTER_TYPE_AO(AOTlvs::Path_ElumPathTrans);

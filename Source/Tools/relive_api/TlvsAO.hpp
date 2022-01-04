@@ -20,7 +20,7 @@
 #include "../../AliveLibAO/Bat.hpp"
 #include "../../AliveLibAO/ShadowZone.hpp"
 #include "../../AliveLibAO/BellHammer.hpp"
-#include "../../AliveLibAO/IdSplitter.hpp"
+#include "../../AliveLibAO/TimerTrigger.hpp"
 #include "../../AliveLibAO/PullRingRope.hpp"
 #include "../../AliveLibAO/MusicTrigger.hpp"
 #include "../../AliveLibAO/Elum.hpp"
@@ -893,12 +893,12 @@ struct Path_BellHammer final : public ReliveAPI::TlvObjectBaseAO
     }
 };
 
-struct Path_IdSplitter final : public ReliveAPI::TlvObjectBaseAO
+struct Path_TimerTrigger final : public ReliveAPI::TlvObjectBaseAO
 {
-    CTOR_AO(Path_IdSplitter, "IdSplitter", AO::TlvTypes::IdSplitter_94)
+    CTOR_AO(Path_TimerTrigger, "TimerTrigger", AO::TlvTypes::TimerTrigger_94)
     {
-        ADD("Source ID", mTlv.field_18_source_id);
-        ADD("Delay", mTlv.field_1A_delay);
+        ADD("Source Switch ID", mTlv.field_18_source_switch_id);
+        ADD("Trigger Interval", mTlv.field_1A_trigger_interval);
         ADD("ID 1", mTlv.field_1C_id1);
         ADD("ID 2", mTlv.field_1C_id2);
         ADD("ID 3", mTlv.field_1C_id3);

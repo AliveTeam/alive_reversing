@@ -138,7 +138,7 @@ enum class TlvTypes : s16
 
     HintFly_92 = 92,
     ScrabNoFall_93 = 93,
-    IdSplitter_94 = 94,
+    TimerTrigger_94 = 94,
     SecurityDoor_95 = 95,
     DemoPlaybackStone_96 = 96,
     BoomMachine_97 = 97,

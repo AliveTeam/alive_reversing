@@ -1401,8 +1401,8 @@ struct Path_TimerTrigger final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_TimerTrigger, "TimerTrigger", TlvTypes::TimerTrigger_57)
     {
-        ADD("Switch ID", mTlv.field_10_switch_id);
-        ADD("Trigger Delay", mTlv.field_12_trigger_delay);
+        ADD("Source Switch ID", mTlv.field_10_source_switch_id);
+        ADD("Trigger Interval", mTlv.field_12_trigger_interval);
         ADD("ID 1", mTlv.field_14_id1);
         ADD("ID 2", mTlv.field_16_id2);
         ADD("ID 3", mTlv.field_18_id3);
