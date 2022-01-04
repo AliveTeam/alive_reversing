@@ -26,7 +26,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
 struct Path_WorkWheel final : public Path_TLV
 {
     Scale_short field_10_scale;
-    s16 field_12_id;
+    s16 field_12_switch_id;
     s16 field_14_activation_time;
     s16 field_16_off_time;
     Choice_short field_18_turn_off_when_stopped;
@@ -62,7 +62,7 @@ private:
 
 private:
     s32 field_F4_tlv_info;
-    s16 field_F8_id;
+    s16 field_F8_switch_id;
     s16 field_FA_padding;
     WheelStates field_FC_state;
     s16 field_FE_activation_time;

@@ -18,7 +18,7 @@ struct Path_ShadowZone final : public Path_TLV
     u16 field_14_r;
     u16 field_16_g;
     u16 field_18_b;
-    s16 field_1A_id;
+    s16 field_1A_switch_id;
     ShadowZoneScale field_1C_scale;
     s16 field_1E_pad;
 };
@@ -59,7 +59,7 @@ private:
     s16 field_30_mid_x;
     s16 field_32_mid_y;
 
-    s16 field_34_id;
+    s16 field_34_switch_id;
 
     ShadowZoneScale field_36_scale;
 

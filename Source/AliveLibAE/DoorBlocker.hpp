@@ -7,7 +7,7 @@
 struct Path_DoorBlocker final : public Path_TLV
 {
     Scale_short field_10_scale;
-    s16 field_12_id;
+    s16 field_12_switch_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorBlocker, 0x14);
 

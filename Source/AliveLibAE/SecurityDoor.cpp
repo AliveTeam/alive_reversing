@@ -40,7 +40,7 @@ SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_FA_id = pTlv->field_12_id;
+    field_FA_switch_id = pTlv->field_12_switch_id;
     field_FC_code_converted = Code_Convert_4C9DF0(pTlv->field_14_code_1, pTlv->field_16_code_2);
     field_100_code_len = Code_Length_4C9DB0(field_FC_code_converted);
     field_11C_top_left = pTlv->field_8_top_left;
@@ -322,7 +322,7 @@ void SecurityDoor::vUpdate_4AC380()
                 return;
             }
             field_12A_unused = 1;
-            SwitchStates_Set_465FF0(field_FA_id, 1);
+            SwitchStates_Set_465FF0(field_FA_switch_id, 1);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             SFX_Play_46FBA0(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
             field_F8_state = SecurityDoorStates::eSuccessChime_1;

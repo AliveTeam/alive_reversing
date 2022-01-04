@@ -788,11 +788,11 @@ struct Path_FallingItem final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_FallingItem, "FallingItem", AO::TlvTypes::FallingItem_15)
     {
-        ADD("Switch ID", mTlv.field_18_switch_id);
+        ADD("Start Switch ID", mTlv.field_18_start_switch_id);
         ADD("Scale", mTlv.field_1A_scale);
         ADD("Fall Delay", mTlv.field_1C_fall_delay);
         ADD("Max Falling Items", mTlv.field_1E_max_falling_items);
-        ADD("Reset Switch ID", mTlv.field_20_reset_switch_id);
+        ADD("Stop Switch ID", mTlv.field_20_stop_switch_id);
     }
 };
 
@@ -1229,7 +1229,7 @@ struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseAO
         ADD("Job", mTlv.field_1A_job);
         ADD("Start Direction", mTlv.field_1C_direction);
         ADD("Voice Pitch", mTlv.field_1E_voice_pitch);
-        ADD("Rescue ID", mTlv.field_20_rescue_id);
+        ADD("Rescue Switch ID", mTlv.field_20_rescue_switch_id);
         ADD("Deaf", mTlv.field_22_deaf);
         ADD("Disabled Resources", mTlv.field_24_disabled_resources);
         ADD("Persist Offscreen", mTlv.field_26_persist);
@@ -1327,7 +1327,7 @@ struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAO
         ADD("Max Slogs At A Time", mTlv.field_1C_max_slogs_at_a_time);
         ADD("Direction", mTlv.field_1E_direction);
         ADD("Slog Spawn Delay", mTlv.field_20_slog_spawn_delay);
-        ADD("Start Switch ID", mTlv.field_22_start_switch_id);
+        ADD("Spawner Switch ID", mTlv.field_22_spawner_switch_id);
     }
 };
 

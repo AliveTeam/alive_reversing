@@ -280,7 +280,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
 
             field_124_voice_pitch = mudTlv->field_1E_voice_pitch;
             field_4_typeId = Types::eMudokon_75;
-            field_1B2_switch_id = mudTlv->field_20_rescue_id;
+            field_1B2_rescue_switch_id = mudTlv->field_20_rescue_switch_id;
 
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, mudTlv->field_1C_direction == XDirection_short::eLeft_0);
 
@@ -2329,9 +2329,9 @@ void Mudokon::Motion_44_RunJumpMid_43E960()
             field_1AC_pBirdPortal->VMudSaved();
         }
 
-        if (field_1B2_switch_id)
+        if (field_1B2_rescue_switch_id)
         {
-            SwitchStates_Set(field_1B2_switch_id, 1);
+            SwitchStates_Set(field_1B2_rescue_switch_id, 1);
         }
     }
 

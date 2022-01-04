@@ -599,7 +599,7 @@ s16 CrawlingSlig::HandleEnemyStopper_41C740(FP /*velX*/)
         TlvTypes::EnemyStopper_47));
     field_FC_pPathTLV = pStopper;
 
-    return pStopper && (pStopper->field_10_stop_direction == direction || pStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get_466020(pStopper->field_12_id);
+    return pStopper && (pStopper->field_10_stop_direction == direction || pStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get_466020(pStopper->field_12_switch_id);
 }
 
 Path_TLV* CrawlingSlig::FindPantsOrWings_419750()

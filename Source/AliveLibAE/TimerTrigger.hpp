@@ -6,7 +6,7 @@
 
 struct Path_TimerTrigger final : public Path_TLV
 {
-    s16 field_10_id;
+    s16 field_10_switch_id;
     u16 field_12_trigger_delay;
     s16 field_14_id1;
     s16 field_16_id2;
@@ -54,7 +54,7 @@ private:
     EXPORT s32 vGetSaveState_4CE030(TimerTrigger_State* pState);
 
 private:
-    s16 field_20_id;
+    s16 field_20_switch_id;
     TimerTriggerStates field_22_state;
     s16 field_24_ids[4];
     s32 field_2C_tlvInfo;

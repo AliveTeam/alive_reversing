@@ -66,7 +66,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     SetTint_425600(sFootSwitchTints_5639F4, gMap_5C3030.field_0_current_level);
 
-    field_FA_id = pTlv->field_10_id;
+    field_FA_switch_id = pTlv->field_10_switch_id;
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
@@ -140,7 +140,7 @@ void FootSwitch::vUpdate_4DE270()
             {
                 field_100_obj_id = pStoodOnMeNow->field_8_object_id;
 
-                SwitchStates_Do_Operation_465F00(field_FA_id, field_FC_action);
+                SwitchStates_Do_Operation_465F00(field_FA_switch_id, field_FC_action);
                 field_F8_state = States::eWaitForGetOffMe_1;
 
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);

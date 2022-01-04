@@ -7,7 +7,7 @@
 struct Path_MovingBomb final : public Path_TLV
 {
     u16 field_10_speed;
-    s16 field_12_id;
+    s16 field_12_switch_id;
     Choice_short field_14_bTriggered_by_alarm;
     Scale_short field_16_scale;
     s16 field_18_max_rise;

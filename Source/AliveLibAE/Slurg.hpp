@@ -21,7 +21,7 @@ struct Slurg_Path_Data final
     s16 field_0_moving_timer;
     XDirection_short field_2_direction;
     Scale_short field_4_scale;
-    s16 field_6_id;
+    s16 field_6_switch_id;
 };
 
 struct Path_Slurg : public Path_TLV

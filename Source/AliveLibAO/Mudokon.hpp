@@ -93,7 +93,7 @@ struct Path_Mudokon final : public Path_TLV
     MudJobs field_1A_job;
     XDirection_short field_1C_direction;
     s16 field_1E_voice_pitch;
-    s16 field_20_rescue_id;
+    s16 field_20_rescue_switch_id;
     Choice_short field_22_deaf;
     s16 field_24_disabled_resources;
     s16 field_26_persist;
@@ -352,7 +352,7 @@ public:
     u16 field_1AA_ring_timeout;
     BirdPortal* field_1AC_pBirdPortal;
     s16 field_1B0;
-    s16 field_1B2_switch_id;
+    s16 field_1B2_rescue_switch_id;
     s16 field_1B4_idle_time;
     s16 field_1B6;
     s16 field_1B8_brain_idx;

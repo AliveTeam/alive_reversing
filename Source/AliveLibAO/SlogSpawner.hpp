@@ -13,7 +13,7 @@ struct Path_SlogSpawner final : public Path_TLV
     s16 field_1C_max_slogs_at_a_time;
     XDirection_short field_1E_direction;
     s16 field_20_slog_spawn_delay;
-    s16 field_22_start_switch_id;
+    s16 field_22_spawner_switch_id;
 };
 ALIVE_ASSERT_SIZEOF(Path_SlogSpawner, 0x24);
 
@@ -43,7 +43,7 @@ public:
     u16 field_28_max_slogs_at_a_time;
     XDirection_short field_2A_direction;
     u16 field_2C_slog_spawn_delay;
-    u16 field_2E_start_switch_id;
+    u16 field_2E_spawner_switch_id;
 };
 ALIVE_ASSERT_SIZEOF(SlogSpawner, 0x30);
 

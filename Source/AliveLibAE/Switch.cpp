@@ -57,8 +57,8 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, u32 tlvInfo)
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_F4_trigger_id = pTlv->field_1A_trigger_id;
-    field_102_target_action = pTlv->field_10_target_action;
+    field_F4_switch_id = pTlv->field_1A_switch_id;
+    field_102_action = pTlv->field_10_action;
     field_100_flags.Clear(Flags_100::eBit1_switch_anim_left_direction);
 
     if (pTlv->field_1C_persist_offscreen == Choice_short::eYes_1)
@@ -183,9 +183,9 @@ void Switch::vUpdate_4D5C00()
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
 
-            const s32 switch_state = SwitchStates_Get_466020(field_F4_trigger_id);
-            SwitchStates_Do_Operation_465F00(field_F4_trigger_id, field_102_target_action);
-            const s32 switch_state_after_op = SwitchStates_Get_466020(field_F4_trigger_id);
+            const s32 switch_state = SwitchStates_Get_466020(field_F4_switch_id);
+            SwitchStates_Do_Operation_465F00(field_F4_switch_id, field_102_action);
+            const s32 switch_state_after_op = SwitchStates_Get_466020(field_F4_switch_id);
             if (switch_state != switch_state_after_op)
             {
                 s32 volLeft = 0;

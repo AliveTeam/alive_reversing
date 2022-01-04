@@ -74,7 +74,7 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_F8_id = pTlv->field_12_id;
+    field_F8_switch_id = pTlv->field_12_switch_id;
     field_FE_activation_time = pTlv->field_14_activation_time;
     field_102_off_time = pTlv->field_16_off_time;
     field_100_on_counter = 0;
@@ -193,22 +193,22 @@ void WorkWheel::vUpdate_4E38E0()
         field_100_on_counter = 0;
     }
 
-    if (field_F8_id)
+    if (field_F8_switch_id)
     {
         if (field_100_on_counter > field_FE_activation_time)
         {
-            if (gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10 && field_F8_id == 100)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10 && field_F8_switch_id == 100)
             {
                 CreateGameEnderController_43B7A0();
             }
 
             if (field_102_off_time > 0 && field_100_on_counter > field_102_off_time)
             {
-                SwitchStates_Set_465FF0(field_F8_id, 0);
+                SwitchStates_Set_465FF0(field_F8_switch_id, 0);
             }
             else
             {
-                SwitchStates_Set_465FF0(field_F8_id, 1);
+                SwitchStates_Set_465FF0(field_F8_switch_id, 1);
             }
         }
     }
@@ -246,7 +246,7 @@ void WorkWheel::vStopTurning_4E3A60(s16 bResetSwitch)
         {
             if (bResetSwitch)
             {
-                SwitchStates_Set_465FF0(field_F8_id, 0);
+                SwitchStates_Set_465FF0(field_F8_switch_id, 0);
             }
         }
     }

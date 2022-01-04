@@ -34,7 +34,7 @@ ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvIn
     field_6C_text_x = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
     field_6E_text_y = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
 
-    field_72_switch_id = pTlv->field_10_id;
+    field_72_switch_id = pTlv->field_10_switch_id;
     field_80 = 0;
     field_7A_number_of_meter_bars = pTlv->field_12_number_of_meter_bars;
     field_82_bar_count = kMeterBarsXCount / field_7A_number_of_meter_bars + 1;

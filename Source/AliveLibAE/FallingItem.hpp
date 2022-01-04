@@ -15,11 +15,11 @@ ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
 
 struct Path_FallingItem final : public Path_TLV
 {
-    s16 field_10_id;
+    s16 field_10_start_switch_id;
     Scale_short field_12_scale;
     s16 field_14_fall_delay;
     s16 field_16_max_falling_items;
-    s16 field_18_reset_id;
+    s16 field_18_stop_switch_id;
     s16 field_20_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x1C);
@@ -64,13 +64,13 @@ private:
         eSmashed_4 = 4
     };
     State field_11C_state;
-    s16 field_11E_id;
+    s16 field_11E_start_switch_id;
     s16 field_120_max_falling_items;
     s16 field_122_remaining_falling_items;
     s16 field_124_fall_delay;
     //s16 field_126_pad;
     s32 field_128_delay_timer;
-    s16 field_12C_reset_id;
+    s16 field_12C_stop_switch_id;
     s16 field_12E_do_sound_in_state_falling;
     FP field_130_yPosStart;
     s16 field_134_bHitDrillOrMineCar;

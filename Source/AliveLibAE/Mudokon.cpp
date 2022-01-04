@@ -439,7 +439,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     field_180_emo_tbl = TLV_Emo_To_Internal_Emo(pTlv->field_20_emotion);
     field_188_pTblEntry = nullptr;
     field_182 = GameSpeakEvents::eNone_m1;
-    field_120_angry_trigger = pTlv->field_24_angry_trigger;
+    field_120_angry_switch_id = pTlv->field_24_angry_switch_id;
     field_16C_flags.Clear(Flags_16C::eBit2_Unknown);
     field_16C_flags.Clear(Flags_16C::eBit3_Unknown);
     field_198_turning_wheel_timer = 0;
@@ -511,10 +511,10 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     SetType(AETypes::eMudokon_110);
 
     field_13C_voice_pitch = pTlv->field_16_voice_pitch;
-    field_17A_rescue_id = pTlv->field_18_rescue_id;
+    field_17A_rescue_switch_id = pTlv->field_18_rescue_switch_id;
 
     field_16A_flags.Set(Flags_16A::eBit2_reset_pos_on_screen_change, pTlv->field_1E_reset_pos_on_screen_change == Choice_short::eYes_1);
-    field_16A_flags.Set(Flags_16A::eBit10_stop_turning_work_wheel, pTlv->field_26_stop_turning_work_wheel == Choice_short::eYes_1);
+    field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pTlv->field_26_work_after_turning_wheel == Choice_short::eYes_1);
     field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pTlv->field_28_bGets_depressed == Choice_short::eYes_1);
     field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pTlv->field_2A_ring_timeout & 1);
 
@@ -813,7 +813,7 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
 
     pMud->field_104_collision_line_type = pState->field_36_line_type;
     pMud->field_11C_bird_portal_id = pState->field_4C_portal_id;
-    pMud->field_120_angry_trigger = pState->field_50_angry_trigger;
+    pMud->field_120_angry_switch_id = pState->field_50_angry_trigger;
     pMud->field_124 = pState->field_54_savedfield124;
     pMud->field_128_angry_timer = pState->field_58_angry_timer;
     pMud->field_130_unused = pState->field_5C_unused;
@@ -841,7 +841,7 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
     pMud->field_16A_flags.Set(Flags_16A::eBit7_stopped_at_wheel, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit10_stopped_at_wheel));
     pMud->field_16A_flags.Set(Flags_16A::eBit8_do_angry, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit11_do_angry));
     pMud->field_16A_flags.Set(Flags_16A::eBit9_seen_while_sick, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit12_seen_while_sick));
-    pMud->field_16A_flags.Set(Flags_16A::eBit10_stop_turning_work_wheel, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit13_stop_trigger));
+    pMud->field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit13_stop_trigger));
 
     pMud->field_18C_unused = pState->field_6C.Get(Mudokon_State::Flags_6A::eBit14_unused);
     pMud->field_192_return_to_previous_motion = pState->field_6C.Get(Mudokon_State::Flags_6A::eBit15_return_to_previous_motion);
@@ -957,7 +957,7 @@ s32 Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
         }
     }
 
-    pState->field_50_angry_trigger = field_120_angry_trigger;
+    pState->field_50_angry_trigger = field_120_angry_switch_id;
     pState->field_54_savedfield124 = field_124;
     pState->field_58_angry_timer = field_128_angry_timer;
     pState->field_5C_unused = field_130_unused;
@@ -989,7 +989,7 @@ s32 Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit10_stopped_at_wheel, field_16A_flags.Get(Flags_16A::eBit7_stopped_at_wheel));
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit11_do_angry, field_16A_flags.Get(Flags_16A::eBit8_do_angry));
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit12_seen_while_sick, field_16A_flags.Get(Flags_16A::eBit9_seen_while_sick));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit13_stop_trigger, field_16A_flags.Get(Flags_16A::eBit10_stop_turning_work_wheel));
+    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit13_stop_trigger, field_16A_flags.Get(Flags_16A::eBit10_work_after_turning_wheel));
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit14_unused, field_18C_unused & 1);
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit15_return_to_previous_motion, field_192_return_to_previous_motion & 1);
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit16_get_depressed, field_16A_flags.Get(Flags_16A::eBit11_get_depressed));
@@ -1727,7 +1727,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
 
 s16 Mudokon::TurningWheelHelloOrAllYaResponse()
 {
-    if (!field_16A_flags.Get(Flags_16A::eBit10_stop_turning_work_wheel))
+    if (!field_16A_flags.Get(Flags_16A::eBit10_work_after_turning_wheel))
     {
         return field_190_brain_sub_state;
     }
@@ -1739,7 +1739,7 @@ s16 Mudokon::TurningWheelHelloOrAllYaResponse()
         FP_GetExponent(field_BC_ypos),
         TlvTypes::WorkWheel_79));
 
-    if (SwitchStates_Get_466020(pWheelTlv->field_12_id))
+    if (SwitchStates_Get_466020(pWheelTlv->field_12_switch_id))
     {
         if (field_198_turning_wheel_timer == 0)
         {
@@ -1748,7 +1748,7 @@ s16 Mudokon::TurningWheelHelloOrAllYaResponse()
     }
 
     // OG Bug: The second condition can never resolve to true because field_198_turning_wheel_timer will always be reset to zero before it can happen.
-    if (!SwitchStates_Get_466020(pWheelTlv->field_12_id) || field_198_turning_wheel_timer > static_cast<s32>(sGnFrame_5C1B84))
+    if (!SwitchStates_Get_466020(pWheelTlv->field_12_switch_id) || field_198_turning_wheel_timer > static_cast<s32>(sGnFrame_5C1B84))
     {
         return field_190_brain_sub_state;
     }
@@ -2225,7 +2225,7 @@ s16 Mudokon::Brain_1_Chisel_47C5F0()
 
     if (field_180_emo_tbl != Mud_Emotion::eAngry_1 && !field_128_angry_timer)
     {
-        if (SwitchStates_Get_466020(field_120_angry_trigger))
+        if (SwitchStates_Get_466020(field_120_angry_switch_id))
         {
             field_128_angry_timer = sGnFrame_5C1B84 + 20;
         }
@@ -2671,7 +2671,7 @@ s16 Mudokon::Brain_2_Scrub_47D270()
 
     if (field_180_emo_tbl != Mud_Emotion::eAngry_1 && !field_128_angry_timer)
     {
-        if (SwitchStates_Get_466020(field_120_angry_trigger))
+        if (SwitchStates_Get_466020(field_120_angry_switch_id))
         {
             field_128_angry_timer = sGnFrame_5C1B84 + 20;
         }
@@ -3335,7 +3335,7 @@ s16 Mudokon::Brain_4_ListeningToAbe_477B40()
 
     if (field_180_emo_tbl != Mud_Emotion::eAngry_1 && !field_128_angry_timer)
     {
-        if (SwitchStates_Get_466020(field_120_angry_trigger))
+        if (SwitchStates_Get_466020(field_120_angry_switch_id))
         {
             field_128_angry_timer = sGnFrame_5C1B84 + 15;
         }
@@ -6462,9 +6462,9 @@ void Mudokon::M_RunJumpMid_36_474570()
             pBirdPortal->VMudSaved_499A50();
         }
 
-        if (field_17A_rescue_id)
+        if (field_17A_rescue_switch_id)
         {
-            SwitchStates_Set_465FF0(field_17A_rescue_id, 1);
+            SwitchStates_Set_465FF0(field_17A_rescue_switch_id, 1);
         }
     }
 
@@ -7263,7 +7263,7 @@ s16 Mudokon::FindWheel_4777B0(FP xpos, FP ypos)
 
     if (pWheelTlv)
     {
-        if (!SwitchStates_Get_466020(pWheelTlv->field_12_id))
+        if (!SwitchStates_Get_466020(pWheelTlv->field_12_switch_id))
         {
             return FindObjectOfType_425180(AETypes::eWheel_148, xpos, ypos - (field_CC_sprite_scale * FP_FromInteger(50))) != 0;
         }

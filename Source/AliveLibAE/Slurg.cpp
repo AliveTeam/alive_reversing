@@ -97,7 +97,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
         field_BC_ypos = hitY;
     }
 
-    field_11A_switch_id = pTlv->field_10_slurg_data.field_6_id;
+    field_11A_switch_id = pTlv->field_10_slurg_data.field_6_switch_id;
 
     field_118_flags.Clear();
 

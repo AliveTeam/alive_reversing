@@ -262,7 +262,7 @@ void Scrab::vOn_TLV_Collision_4A4B80(Path_TLV* pTlv)
             const Path_EnemyStopper::StopDirection stopDirection = enemyStopperPath->field_10_stop_direction;
             if ((stopDirection == Path_EnemyStopper::StopDirection::Left_0 && field_B8_xpos < field_198_max_xpos) || (stopDirection == Path_EnemyStopper::StopDirection::Right_1 && field_B8_xpos > field_198_max_xpos) || stopDirection == Path_EnemyStopper::StopDirection::Both_2)
             {
-                if (SwitchStates_Get_466020(enemyStopperPath->field_12_id))
+                if (SwitchStates_Get_466020(enemyStopperPath->field_12_switch_id))
                 {
                     if (sControlledCharacter_5C1B8C != this)
                     {
@@ -4332,7 +4332,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, s16 bCheckLeftRightBo
         TlvTypes::EnemyStopper_47);
 
     auto pPathEnemyStopper = static_cast<Path_EnemyStopper*>(field_FC_pPathTLV);
-    if (pPathEnemyStopper && (pPathEnemyStopper->field_10_stop_direction == stopDirection || pPathEnemyStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get_466020(pPathEnemyStopper->field_12_id))
+    if (pPathEnemyStopper && (pPathEnemyStopper->field_10_stop_direction == stopDirection || pPathEnemyStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get_466020(pPathEnemyStopper->field_12_switch_id))
     {
         return 1;
     }

@@ -28,7 +28,7 @@ StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, u32 tlvInfo)
 
     SetVTable(this, 0x5479A4); // vTbl_StatusLight_5479A4
     field_F4_tlvInfo = tlvInfo;
-    field_F8_input_id = pTlv->field_10_id;
+    field_F8_switch_id = pTlv->field_10_switch_id;
 
     if (pTlv->field_12_scale != Scale_short::eFull_0)
     {
@@ -102,7 +102,7 @@ void StatusLight::vUpdate_4D5530()
     field_B8_xpos = FP_FromInteger(sTweakX_5C1BD0) + field_108_xpos;
     field_BC_ypos = FP_FromInteger(sTweakY_5C1BD4) + field_10C_ypos;
 
-    if (SwitchStates_Get_466020(field_F8_input_id))
+    if (SwitchStates_Get_466020(field_F8_switch_id))
     {
         if ((!SwitchStates_Get_466020(field_FA_id1) && field_FA_id1) || (!SwitchStates_Get_466020(field_FC_id2) && field_FC_id2) || (!SwitchStates_Get_466020(field_FE_id3) && field_FE_id3) || (!SwitchStates_Get_466020(field_100_id4) && field_100_id4) || (!SwitchStates_Get_466020(field_102_id5) && field_102_id5)
             || (sGnFrame_5C1B84 % 8) >= 4)

@@ -6,7 +6,7 @@
 
 struct Path_DoorFlame final : public Path_TLV
 {
-    s16 field_10_id;
+    s16 field_10_switch_id;
     Scale_short field_12_scale;
     s16 field_14_colour;
     s16 field_16_pad;

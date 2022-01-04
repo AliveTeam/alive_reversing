@@ -13,7 +13,7 @@ DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, s32 tlvInfo)
 
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    field_11A_switch_id = pTlv->field_12_id;
+    field_11A_switch_id = pTlv->field_12_switch_id;
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Lock_Idle);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);

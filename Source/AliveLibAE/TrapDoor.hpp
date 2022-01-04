@@ -6,7 +6,7 @@
 
 struct Path_TrapDoor final : public Path_TLV
 {
-    s16 field_10_id;
+    s16 field_10_switch_id;
     enum StartState : s16
     {
         eOpen_0 = 0,
@@ -77,7 +77,7 @@ private:
     s16 field_12C_unused;
     s16 field_12E_padding;
     s32 field_130_stay_open_time2;
-    s16 field_134_switch_idx;
+    s16 field_134_switch_id;
     TrapDoorState field_136_state;
     s16 field_138_switch_state;
     s16 field_13A_xOff;
