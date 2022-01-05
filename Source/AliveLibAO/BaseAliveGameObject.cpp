@@ -473,6 +473,12 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
         field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
     }
 
+    if (!field_F0_pTlv)
+    {
+        LOG_ERROR("Did a path transition to a camera with no start controller");
+        ALIVE_FATAL("Did a path transition to a camera with no start controller (add one if this is an edited level)");
+    }
+
     PSX_Point camLoc = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&camLoc);
 
