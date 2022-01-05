@@ -748,7 +748,7 @@ static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inpu
 static void WriteStringTable(const std::vector<std::string>& strings, ByteStream& s)
 {
     // String count
-    s.Write(static_cast<u32>(strings.size()));
+    s.Write(static_cast<u64>(strings.size()));
 
     // String lengths (size of a pointer)
     for (const auto& str : strings)
@@ -891,6 +891,7 @@ static void SaveBinaryPathToLvl(Game game, std::vector<u8>& fileDataBuffer, cons
 
     // Construct chunk with new "hard coded" info
     PerPathExtension pathExtData = {};
+    pathExtData.mSize = sizeof(PerPathExtension);
     pathExtData.mNumCollisionLines = static_cast<u32>(collisionLines.size());
     pathExtData.mIndexTableOffset = static_cast<u32>(indexTableOffSetPos);
     pathExtData.mObjectOffset = static_cast<u32>(objectOffsetPos);

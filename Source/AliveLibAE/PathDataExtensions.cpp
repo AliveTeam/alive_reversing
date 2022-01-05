@@ -69,85 +69,92 @@ void Path_Set_NewData_FromLvls()
                     {
                         auto pChunkData = reinterpret_cast<u8*>(&pHeader[1]);
                         auto pExt = reinterpret_cast<const PerPathExtension*>(pChunkData);
-
-                        LOG_INFO("Applying " << pExt->mBlyName);
-
-                        pChunkData += sizeof(PerPathExtension);
-
-                        // Apply led messages
-                        auto pLedMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                        pChunkData = StringTable::MakeTable(pLedMsgs);
-                        SetLcdMessagesForLvl(*pLedMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
-
-                        // Will be empty for AE
-                        auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                        pChunkData = StringTable::MakeTable(pHintFlyMsgs);
-
-                        // Apply the data
-                        PathRoot& rPath = *Path_Get_PathRoot(lvlIdx);
-                        rPath.field_0_pBlyArrayPtr[pExt->mPathId].field_0_blyName = pExt->mBlyName;
-
-                        PathBlyRec& rBlyRec = rPath.field_0_pBlyArrayPtr[pExt->mPathId];
-                        if (!rBlyRec.field_4_pPathData)
+                        if (pExt->mSize != sizeof(PerPathExtension))
                         {
-                            rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
-                            rPath.field_18_num_paths++;
+                            LOG_INFO("Skip " << pExt->mBlyName << " expected size " << sizeof(PerPathExtension) << " but got " << pExt->mSize);
+                            pChunkData += pExt->mSize;
                         }
-                        PathData& rPathData = *rBlyRec.field_4_pPathData;
-
-                        rPathData.field_0_bLeft = 0;
-                        rPathData.field_2_bRight = 0;
-                        SetAndLog("top", rPathData.field_4_bTop,  static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                        SetAndLog("bottom", rPathData.field_6_bBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-
-                        SetAndLog("grid width", rPathData.field_A_grid_width, static_cast<s16>(pExt->mGridWidth));
-                        SetAndLog("grid height", rPathData.field_C_grid_height, static_cast<s16>(pExt->mGridHeight));
-
-                        SetAndLog("width", rPathData.field_E_width, static_cast<s16>(pExt->mGridWidth));
-                        SetAndLog("height", rPathData.field_10_height, static_cast<s16>(pExt->mGridHeight));
-
-                        SetAndLog("object offset", rPathData.field_12_object_offset, pExt->mObjectOffset);
-                        SetAndLog("index table offset", rPathData.field_16_object_indextable_offset, pExt->mIndexTableOffset);
-
-                        SetAndLog("abe start xpos", rPathData.field_1A_abe_start_xpos, static_cast<s16>(pExt->mAbeStartXPos));
-                        SetAndLog("abe start ypos", rPathData.field_1C_abe_start_ypos, static_cast<s16>(pExt->mAbeStartYPos));
-
-                        rPathData.field_1E_object_funcs = kObjectFactory;
-
-                        rBlyRec.field_8_pCollisionData = &GetCollisions(lvlIdx)[pExt->mPathId];
-
-                        CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;
-                        rColInfo.field_0_fn_ptr = Collisions::Factory_4188A0;
-                        rColInfo.field_4_left = 0;
-                        rColInfo.field_6_right = 0;
-                        SetAndLog("top", rColInfo.field_8_top, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
-                        SetAndLog("bottom", rColInfo.field_A_bottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
-                        SetAndLog("collision offset", rColInfo.field_C_collision_offset, pExt->mCollisionOffset);
-                        SetAndLog("num collision items", rColInfo.field_10_num_collision_items, pExt->mNumCollisionLines);
-                        SetAndLog<u32>("grid width", rColInfo.field_14_grid_width, pExt->mGridWidth);
-                        SetAndLog<u32>("grid height", rColInfo.field_18_grid_height, pExt->mGridHeight);
-
-                        if (pExt->mTotalMuds != 0)
+                        else
                         {
-                            SetAndLog("sTotalMuds", sMudExtData[lvlIdx][pExt->mPathId].mTotal, pExt->mTotalMuds);
-                        }
+                            LOG_INFO("Applying " << pExt->mBlyName);
 
-                        if (pExt->mBadEndingMuds != 0)
-                        {
-                            SetAndLog("sBadEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mBadEnding, pExt->mBadEndingMuds);
-                        }
+                            pChunkData += sizeof(PerPathExtension);
 
-                        if (pExt->mGoodEndingMuds)
-                        {
-                            SetAndLog("sGoodEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mGoodEnding, pExt->mGoodEndingMuds);
-                        }
+                            // Apply led messages
+                            auto pLedMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                            pChunkData = StringTable::MakeTable(pLedMsgs);
+                            SetLcdMessagesForLvl(*pLedMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
 
-                        if (pExt->mNumMudsInPath != 0)
-                        {
-                            if (pExt->mNumMudsInPath != Path_GetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mPathId))
+                            // Will be empty for AE
+                            auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                            pChunkData = StringTable::MakeTable(pHintFlyMsgs);
+
+                            // Apply the data
+                            PathRoot& rPath = *Path_Get_PathRoot(lvlIdx);
+                            rPath.field_0_pBlyArrayPtr[pExt->mPathId].field_0_blyName = pExt->mBlyName;
+
+                            PathBlyRec& rBlyRec = rPath.field_0_pBlyArrayPtr[pExt->mPathId];
+                            if (!rBlyRec.field_4_pPathData)
                             {
-                                LOG_INFO("Set muds in lvl count to " << pExt->mNumMudsInPath);
-                                Path_SetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mPathId, pExt->mNumMudsInPath);
+                                rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
+                                rPath.field_18_num_paths++;
+                            }
+                            PathData& rPathData = *rBlyRec.field_4_pPathData;
+
+                            rPathData.field_0_bLeft = 0;
+                            rPathData.field_2_bRight = 0;
+                            SetAndLog("top", rPathData.field_4_bTop, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
+                            SetAndLog("bottom", rPathData.field_6_bBottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
+
+                            SetAndLog("grid width", rPathData.field_A_grid_width, static_cast<s16>(pExt->mGridWidth));
+                            SetAndLog("grid height", rPathData.field_C_grid_height, static_cast<s16>(pExt->mGridHeight));
+
+                            SetAndLog("width", rPathData.field_E_width, static_cast<s16>(pExt->mGridWidth));
+                            SetAndLog("height", rPathData.field_10_height, static_cast<s16>(pExt->mGridHeight));
+
+                            SetAndLog("object offset", rPathData.field_12_object_offset, pExt->mObjectOffset);
+                            SetAndLog("index table offset", rPathData.field_16_object_indextable_offset, pExt->mIndexTableOffset);
+
+                            SetAndLog("abe start xpos", rPathData.field_1A_abe_start_xpos, static_cast<s16>(pExt->mAbeStartXPos));
+                            SetAndLog("abe start ypos", rPathData.field_1C_abe_start_ypos, static_cast<s16>(pExt->mAbeStartYPos));
+
+                            rPathData.field_1E_object_funcs = kObjectFactory;
+
+                            rBlyRec.field_8_pCollisionData = &GetCollisions(lvlIdx)[pExt->mPathId];
+
+                            CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;
+                            rColInfo.field_0_fn_ptr = Collisions::Factory_4188A0;
+                            rColInfo.field_4_left = 0;
+                            rColInfo.field_6_right = 0;
+                            SetAndLog("top", rColInfo.field_8_top, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));
+                            SetAndLog("bottom", rColInfo.field_A_bottom, static_cast<s16>(pExt->mYSize * pExt->mGridHeight));
+                            SetAndLog("collision offset", rColInfo.field_C_collision_offset, pExt->mCollisionOffset);
+                            SetAndLog("num collision items", rColInfo.field_10_num_collision_items, pExt->mNumCollisionLines);
+                            SetAndLog<u32>("grid width", rColInfo.field_14_grid_width, pExt->mGridWidth);
+                            SetAndLog<u32>("grid height", rColInfo.field_18_grid_height, pExt->mGridHeight);
+
+                            if (pExt->mTotalMuds != 0)
+                            {
+                                SetAndLog("sTotalMuds", sMudExtData[lvlIdx][pExt->mPathId].mTotal, pExt->mTotalMuds);
+                            }
+
+                            if (pExt->mBadEndingMuds != 0)
+                            {
+                                SetAndLog("sBadEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mBadEnding, pExt->mBadEndingMuds);
+                            }
+
+                            if (pExt->mGoodEndingMuds)
+                            {
+                                SetAndLog("sGoodEndingMuds", sMudExtData[lvlIdx][pExt->mPathId].mGoodEnding, pExt->mGoodEndingMuds);
+                            }
+
+                            if (pExt->mNumMudsInPath != 0)
+                            {
+                                if (pExt->mNumMudsInPath != Path_GetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mPathId))
+                                {
+                                    LOG_INFO("Set muds in lvl count to " << pExt->mNumMudsInPath);
+                                    Path_SetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mPathId, pExt->mNumMudsInPath);
+                                }
                             }
                         }
                     }

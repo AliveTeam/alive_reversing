@@ -4,14 +4,14 @@
 
 struct StringTable final
 {
-    u32 mStringCount;
+    u64 mStringCount; // u64 so that we take up the same space/padding on both 32/64bit
     char_type* mStrings[1]; // var length
 
     static u8* MakeTable(StringTable* pTable)
     {
         // Read the string count
         u8* pDataIter = reinterpret_cast<u8*>(pTable);
-        const u32 stringCount = *reinterpret_cast<u32*>(pDataIter);
+        const u64 stringCount = *reinterpret_cast<u64*>(pDataIter);
         pDataIter += sizeof(u32);
 
         if (stringCount > 0)
@@ -20,7 +20,7 @@ struct StringTable final
             u8* ptrToLens = pDataIter;
             u8* ptrToStrings = pDataIter + (sizeof(u64) * stringCount);
 
-            for (u32 i = 0; i < stringCount; i++)
+            for (u64 i = 0; i < stringCount; i++)
             {
                 // Pointer to lenth of string
                 u64* stringLen = reinterpret_cast<u64*>(ptrToLens);
@@ -46,6 +46,7 @@ struct StringTable final
 
 struct PerPathExtension final
 {
+    u32 mSize;
     char_type mBlyName[50];
     u32 mPathId;
     u32 mXSize;
@@ -66,6 +67,7 @@ struct PerPathExtension final
     s32 mBadEndingMuds;
     s32 mGoodEndingMuds;
 };
+ALIVE_ASSERT_SIZEOF_ALWAYS(PerPathExtension, 116);
 
 enum PerPathExtensionResTypes : u32
 {
