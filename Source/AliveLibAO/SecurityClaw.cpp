@@ -48,6 +48,11 @@ BaseGameObject* Claw::VDestructor(s32 flags)
     return Vdtor(flags);
 }
 
+void Claw::VScreenChanged()
+{
+    // Keep alive as the Claw is owned by the SecurityClaw
+}
+
 BaseGameObject* Claw::Vdtor(s32 flags)
 {
     dtor_417D10();
@@ -102,18 +107,16 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
     field_110_state = SecurityClawStates::eCamSwap_0;
 
-    auto pClaw = ao_new<Claw>();
-    if (pClaw)
+    field_130_pClaw = ao_new<Claw>();
+    if (field_130_pClaw)
     {
-        pClaw->ctor();
-        pClaw->field_BC_sprite_scale = field_BC_sprite_scale;
-        pClaw->field_10_anim.field_C_layer = field_BC_sprite_scale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElum_28 : Layer::eLayer_ZapLinesElum_Half_9;
+        field_130_pClaw->ctor();
+        field_130_pClaw->field_BC_sprite_scale = field_BC_sprite_scale;
+        field_130_pClaw->field_10_anim.field_C_layer = field_BC_sprite_scale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElum_28 : Layer::eLayer_ZapLinesElum_Half_9;
 
-        field_130_pClaw = pClaw;
-
-        pClaw->field_A8_xpos = field_11C_clawX;
-        pClaw->field_AC_ypos = field_120_clawY;
-        pClaw->SetTint_418750(&kClawTints_4C5498[0], gMap_507BA8.field_0_current_level);
+        field_130_pClaw->field_A8_xpos = field_11C_clawX;
+        field_130_pClaw->field_AC_ypos = field_120_clawY;
+        field_130_pClaw->SetTint_418750(&kClawTints_4C5498[0], gMap_507BA8.field_0_current_level);
     }
 
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);

@@ -22,8 +22,11 @@ class Claw final : public BaseAnimatedWithPhysicsGameObject
 public:
     void ctor();
 
-    BaseGameObject* VDestructor(s32 flags);
+    BaseGameObject* VDestructor(s32 flags) override;
 
+    void VScreenChanged() override;
+
+private:
     BaseGameObject* Vdtor(s32 flags);
 };
 
