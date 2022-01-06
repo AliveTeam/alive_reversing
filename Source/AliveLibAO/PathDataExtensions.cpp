@@ -53,9 +53,8 @@ void Path_Set_NewData_FromLvls()
         // Open the LVL
         LvlArchive archive;
         const char_type* pCdLvlName = CdLvlName(static_cast<LevelIds>(lvlIdx));
-        if (pCdLvlName)
+        if (pCdLvlName && archive.OpenArchive(pCdLvlName, 0))
         {
-            archive.OpenArchive(pCdLvlName, 0); // can't check if it worked in AO, nice
             // Check for hard coded data replacement
             LvlFileRecord* pRec = archive.Find_File_Record_41BED0(Path_Get_BndName(static_cast<LevelIds>(lvlIdx)));
             if (pRec)
