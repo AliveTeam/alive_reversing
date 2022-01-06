@@ -27,10 +27,7 @@ Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const u
     // Init dynamic collisions positions to zeros
     for (s32 i = field_4_current_item_count; i < field_C_max_count; i++)
     {
-        field_0_pArray[i].field_0_rect.x = 0;
-        field_0_pArray[i].field_0_rect.y = 0;
-        field_0_pArray[i].field_0_rect.w = 0;
-        field_0_pArray[i].field_0_rect.h = 0;
+        field_0_pArray[i] = {};
     }
     return this;
 }
