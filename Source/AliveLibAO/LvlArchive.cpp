@@ -54,7 +54,7 @@ static s32 ReadFirstSector(s32 pos, u8* pSector)
     return bOk;
 }
 
-EXPORT void LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
+EXPORT bool LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
 {
     // HACK: Added so that AE PSX emu lib works as we don't have a mapping of CDPos <> FileName in the AE emu
     // (it was a stupid idea so I guess they removed it in the next iteration)
@@ -65,7 +65,7 @@ EXPORT void LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
     if (!ReadFirstSector(pos, &sector[0]))
     {
         LOG_ERROR("Failed to read first 2048 bytes of " << fileName);
-        exit(-32);
+        return false;
     }
 
     const auto pLvlHeader = reinterpret_cast<const LvlHeader*>(&sector[0]);
@@ -98,7 +98,7 @@ EXPORT void LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
         if (retryCounter > 32)
         {
             LOG_ERROR("Exit in OpenArchive_41BC60");
-            exit(-32);
+            return false;
         }
         PSX_CD_File_Seek_49B670(2, &loc);
 
@@ -112,6 +112,7 @@ EXPORT void LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
 
     // Set ref count to 1 so ResourceManager won't kill it
     pHeader->field_4_ref_count = 1;
+    return true;
 }
 
 EXPORT void LvlArchive::OpenArchive_41BC60(s32 pos)
