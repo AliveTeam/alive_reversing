@@ -19,9 +19,9 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB238);
     field_4_typeId = Types::eHoneySack_45;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Honey_Hive);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    const AnimRecord hangingRec = AO::AnimRec(AnimId::HoneySack_Hanging);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, hangingRec.mResourceId, 1, 0);
+    Animation_Init_417FD0(hangingRec.mFrameTableOffset, hangingRec.mMaxW, hangingRec.mMaxH, ppRes, 1);
 
     field_6_flags.Set(Options::eCanExplode_Bit7);
     field_E4_tlvInfo = tlvInfo;
@@ -51,7 +51,8 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
         field_AC_ypos += FP_FromInteger(pTlv->field_1_unknown);
 
         field_E8_state = State::eUpdateHoneySackOnGround_3;
-        field_10_anim.Set_Animation_Data_402A40(9360, 0);
+        const AnimRecord& groundRec = AO::AnimRec(AnimId::HoneySack_OnGround);
+        field_10_anim.Set_Animation_Data_402A40(groundRec.mFrameTableOffset, 0);
         field_F0_pBee = nullptr;
     }
     else
@@ -196,7 +197,8 @@ void HoneySack::VUpdate_42BFE0()
         case State::eSetFallAnimation_1:
             if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer - 68)
             {
-                field_10_anim.Set_Animation_Data_402A40(9336, 0);
+                const AnimRecord& rec = AO::AnimRec(AnimId::HoneySack_Falling);
+                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
                 field_E8_state = State::eFallOnGround_2;
                 field_B4_velx = FP_FromInteger(0);
                 field_B8_vely = FP_FromInteger(0);
@@ -237,7 +239,8 @@ void HoneySack::VUpdate_42BFE0()
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);
                 field_AC_ypos = hitY;
                 field_E8_state = State::eUpdateHoneySackOnGround_3;
-                field_10_anim.Set_Animation_Data_402A40(9280, 0);
+                const AnimRecord& rec = AO::AnimRec(AnimId::HoneySack_FallingToSmashed);
+                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
 
                 auto pNewBee = ao_new<BeeSwarm>();
                 if (pNewBee)

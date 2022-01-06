@@ -206,7 +206,7 @@ EXPORT void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 
             case LevelIds::eDesert_8:
             case LevelIds::eDesertTemple_9:
-            case LevelIds::eDesertEscape:
+            case LevelIds::eDesertEscape_15:
                 ResourceManager::LoadResourcesFromList_446E80("DDOOR.BND", kResources.AsList(), loadMode, 0);
                 break;
 
@@ -276,7 +276,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
                 break;
 
             case LevelIds::eDesertTemple_9:
-            case LevelIds::eDesertEscape:
+            case LevelIds::eDesertEscape_15:
                 ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, AOResourceID::kRopesAOResID, loadMode);
                 ResourceManager::LoadResourcesFromList_446E80("D2LIFT.BND", kResources.AsList(), loadMode, 0);
                 break;
@@ -534,7 +534,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 
             case LevelIds::eDesert_8:
             case LevelIds::eDesertTemple_9:
-            case LevelIds::eDesertEscape:
+            case LevelIds::eDesertEscape_15:
                 ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, AOResourceID::kF2rockAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, AOResourceID::kStickGibAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, loadMode);
@@ -919,7 +919,7 @@ EXPORT void Factory_Switch_485370(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
 
             case LevelIds::eDesert_8:
             case LevelIds::eDesertTemple_9:
-            case LevelIds::eDesertEscape:
+            case LevelIds::eDesertEscape_15:
                 ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, AOResourceID::kSwitchAOResID, loadMode);
                 break;
 
@@ -1504,7 +1504,7 @@ EXPORT void Factory_TrapDoor_4868E0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion 
                 break;
             case LevelIds::eDesert_8:
             case LevelIds::eDesertTemple_9:
-            case LevelIds::eDesertEscape:
+            case LevelIds::eDesertEscape_15:
                 ResourceManager::LoadResource_446C90("D2TRAP.BAN", ResourceManager::Resource_Animation, AOResourceID::kP6c1trapAOResID, loadMode, 0);
                 break;
             default:

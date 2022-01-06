@@ -8560,7 +8560,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     default:
                         LOG_ERROR("CameraIdx out of bounds " << field_16E_cameraIdx);
                 }
-                if (field_16E_cameraIdx > 2 || (camera.level == LevelIds::eForestChase || camera.level == LevelIds::eDesertEscape))
+                if (field_16E_cameraIdx > 2 || (camera.level == LevelIds::eForestChase_14 || camera.level == LevelIds::eDesertEscape_15))
                 {
                     field_110_state.stone = StoneStates::eSetActiveCamToAbe_12;
                 }

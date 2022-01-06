@@ -81,7 +81,7 @@ Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
         case LevelIds::eDesertTemple_9:
         case LevelIds::eBoardRoom_12:
         case LevelIds::eRuptureFarmsReturn_13:
-        case LevelIds::eDesertEscape:
+        case LevelIds::eDesertEscape_15:
         {
             const AnimRecord ropeRec = AO::AnimRec(AnimId::Rope_R1);
             u8** ppRopeRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ropeRec.mResourceId, 1, 0);

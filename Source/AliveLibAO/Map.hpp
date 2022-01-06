@@ -165,7 +165,7 @@ struct Path_Change final : public Path_TLV
     s16 field_1C_camera;
     s16 field_1E_movie;
     u16 field_20_wipe;
-    Scale_short field_22_scale;
+    Scale_short field_22_next_path_scale;
 };
 ALIVE_ASSERT_SIZEOF(Path_Change, 0x24);
 

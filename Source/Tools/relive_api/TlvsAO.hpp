@@ -492,7 +492,7 @@ struct Path_Change final : public ReliveAPI::TlvObjectBaseAO
         ADD("Camera", mTlv.field_1C_camera);
         ADD("Movie", mTlv.field_1E_movie); // TODO: Enum
         ADD("Wipe", mTlv.field_20_wipe);   // TODO: Enum
-        ADD("Scale", mTlv.field_22_scale);
+        ADD("Next Path Scale", mTlv.field_22_next_path_scale);
     }
 };
 

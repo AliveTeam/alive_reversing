@@ -56,7 +56,7 @@ const char_type* gHintFlyMessages_4C6A10[] = {
     "THEY WONT CHASE WHAT THEY CANT SEE"};
 
 
-static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eDesertEscape) + 1][99] = {};
+static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eDesertEscape_15) + 1][99] = {};
 
 void SetHintFlyMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId)
 {

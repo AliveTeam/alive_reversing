@@ -15,7 +15,7 @@ struct MudCounts final
     s32 mBadEnding = 75;
     s32 mGoodEnding = 50;
 };
-static MudCounts sMudExtData[static_cast<u32>(LevelIds::eDesertEscape) + 1][99];
+static MudCounts sMudExtData[static_cast<u32>(LevelIds::eDesertEscape_15) + 1][99];
 
 s32 Path_GetTotalMuds(LevelIds lvlId, u32 pathNum)
 {
@@ -32,7 +32,7 @@ s32 Path_GoodEndingMuds(LevelIds lvlId, u32 pathNum)
     return sMudExtData[static_cast<u32>(lvlId)][pathNum].mGoodEnding;
 }
 
-static u8* sPathExtData[static_cast<u32>(LevelIds::eDesertEscape) + 1] = {};
+static u8* sPathExtData[static_cast<u32>(LevelIds::eDesertEscape_15) + 1] = {};
 
 EXPORT s32 sub_402560();
 
