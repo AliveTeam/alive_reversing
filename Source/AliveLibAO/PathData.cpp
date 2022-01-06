@@ -892,7 +892,7 @@ s32 Path_Get_OverlayIdx(LevelIds lvlId)
 static CollisionInfo removed1_collisions[kMaxPaths] = {};
 static CollisionInfo removed2_collisions[kMaxPaths] = {};
 
-static CollisionInfo* sCollisionRoots[static_cast<u32>(LevelIds::eDesertEscape) + 1] = 
+static CollisionInfo* sCollisionRoots[static_cast<u32>(LevelIds::eDesertEscape_15) + 1] = 
 {
     g_S1_Collisions_4E4AD0,
     gR1Collisions_4D7650,
@@ -920,7 +920,7 @@ CollisionInfo* GetCollisions(s32 lvlId)
 static PathData removed1_paths[kMaxPaths] = {};
 static PathData removed2_paths[kMaxPaths] = {};
 
-static PathData* sPathDataRoots[static_cast<u32>(LevelIds::eDesertEscape) + 1] = {
+static PathData* sPathDataRoots[static_cast<u32>(LevelIds::eDesertEscape_15) + 1] = {
     g_S1_Paths_4E4AF0,
     gR1P15_4D7670,
     gL1Paths_4D8BB0,

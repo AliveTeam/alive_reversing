@@ -859,12 +859,12 @@ void MusicController::UpdateMusic_442C20()
             case MusicTypes::eType11:
                 if (field_44_bTypeChanged)
                 {
-                    if (field_18_level == LevelIds::eForestChase)
+                    if (field_18_level == LevelIds::eForestChase_14)
                     {
                         idx = 69;
                         field_34_sync_after_beats = 16;
                     }
-                    else if (field_18_level == LevelIds::eDesertEscape)
+                    else if (field_18_level == LevelIds::eDesertEscape_15)
                     {
                         idx = 33;
                         field_34_sync_after_beats = 16;
@@ -890,12 +890,12 @@ void MusicController::UpdateMusic_442C20()
                 break;
 
             case MusicTypes::eType12:
-                if (field_18_level == LevelIds::eForestChase)
+                if (field_18_level == LevelIds::eForestChase_14)
                 {
                     idx = 70;
                     field_34_sync_after_beats = 16;
                 }
-                else if (field_18_level == LevelIds::eDesertEscape)
+                else if (field_18_level == LevelIds::eDesertEscape_15)
                 {
                     idx = 34;
                     field_34_sync_after_beats = 32;

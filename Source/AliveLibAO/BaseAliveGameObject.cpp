@@ -935,7 +935,7 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
 
     if (pPathTrans)
     {
-        if (pPathTrans->field_22_scale == Scale_short::eHalf_1)
+        if (pPathTrans->field_22_next_path_scale == Scale_short::eHalf_1)
         {
             if (field_BC_sprite_scale != FP_FromDouble(0.5))
             {
@@ -944,7 +944,7 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
                 field_B4_velx = (field_B4_velx * FP_FromDouble(0.5));
             }
         }
-        else if (pPathTrans->field_22_scale == Scale_short::eFull_0)
+        else if (pPathTrans->field_22_next_path_scale == Scale_short::eFull_0)
         {
             if (field_BC_sprite_scale != FP_FromInteger(1))
             {

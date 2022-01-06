@@ -1537,7 +1537,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::HintFly, kNullAnimDetails, { "HINTFLY.BAN", 556, 10, 7, AO::kHintflyAOResID, PalId::Default} },
     {AnimId::Honey, kNullAnimDetails, { "HONEY.BAN", 3680, 62, 126, AO::kHoneyAOResID, PalId::Default} },
     {AnimId::Honey_Drip, kNullAnimDetails, { "HONEY.BAN", 3628, 62, 126, AO::kHoneyAOResID, PalId::Default} },
-    {AnimId::Honey_Hive, kNullAnimDetails, { "HIVE.BND", 9312, 140, 38, AO::kP2c3HiveAOResID, PalId::Default} },
+    {AnimId::HoneySack_Hanging, kNullAnimDetails, { "HIVE.BND", 9312, 140, 38, AO::kP2c3HiveAOResID, PalId::Default} },
+    {AnimId::HoneySack_Falling, kNullAnimDetails, { "HIVE.BND", 9336, 140, 38, AO::kP2c3HiveAOResID, PalId::Default} },
+    {AnimId::HoneySack_FallingToSmashed, kNullAnimDetails, { "HIVE.BND", 9280, 140, 38, AO::kP2c3HiveAOResID, PalId::Default} },
+    {AnimId::HoneySack_OnGround, kNullAnimDetails, { "HIVE.BND", 9360, 140, 38, AO::kP2c3HiveAOResID, PalId::Default} },
     {AnimId::Lift_Rope, { "ROPES.BAN", 748, 9, 16, kRopesResID, PalId::Default}, kNullAnimDetails },
     // TODO: more rope BAN'S?
 
@@ -1713,7 +1716,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "UXB.BND", 8048, 59, 19, kUXBResID, PalId::Default},
         { "UXB.BND", 7740, 59, 19, AO::kUXBAOResID, PalId::Default}
     },
-    {AnimId::UXB_Toggle, { "UXB.BND", 8120, 59, 19, kUXBResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::UXB_Toggle,
+        { "UXB.BND", 8120, 59, 19, kUXBResID, PalId::Default},
+        { "UXB.BND", 7812, 59, 19, AO::kUXBAOResID, PalId::Default} },
     {AnimId::UXB_Disabled,
         { "UXB.BND", 8192, 59, 19, kUXBResID, PalId::Default}, 
         { "UXB.BND", 7884, 59, 19, AO::kUXBAOResID, PalId::Default} },
