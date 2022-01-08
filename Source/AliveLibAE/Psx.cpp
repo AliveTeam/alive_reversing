@@ -866,6 +866,8 @@ EXPORT void CC PSX_Prevent_Rendering_4945B0()
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.
 EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
 {
+    //mode = 1;
+
     sVSync_Unused_578325 = 0;
     SsSeqCalledTbyT_4FDC80();
 

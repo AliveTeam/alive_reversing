@@ -12,6 +12,7 @@
 #include "VGA.hpp"
 #include "StringFormatters.hpp"
 #include "TouchController.hpp"
+#include "GameAutoPlayer.hpp"
 
 #if USE_SDL2
 static SDL_GameController* pSDLController = nullptr;
@@ -1966,8 +1967,13 @@ void InputObject::SetDemoResource_45F1E0(u32** pDemoRes)
 
 void InputObject::Update_45F040()
 {
+    Update(gGameAutoPlayer);
+}
+
+void InputObject::Update(GameAutoPlayer& autoPlayer)
+{
     const u8 directionTable_545A4C[20] = {
-        0,   
+        0,
         64,  // up
         192, // down
         0,
@@ -1989,7 +1995,7 @@ void InputObject::Update_45F040()
         0};
 
     field_0_pads[0].field_8_previous = field_0_pads[0].field_0_pressed;
-    field_0_pads[0].field_0_pressed = Input_Read_Pad_4FA9C0(0);
+    field_0_pads[0].field_0_pressed = autoPlayer.GetInput(0);
 
     if (Is_Demo_Playing_45F220())
     {
@@ -2026,7 +2032,7 @@ void InputObject::Update_45F040()
     field_0_pads[0].field_4_dir = directionTable_545A4C[field_0_pads[0].field_0_pressed & 0xF];
 
     field_0_pads[1].field_8_previous = field_0_pads[1].field_0_pressed;
-    field_0_pads[1].field_0_pressed = Input_Read_Pad_4FA9C0(1);
+    field_0_pads[1].field_0_pressed = autoPlayer.GetInput(1);
     field_0_pads[1].field_10_released = field_0_pads[1].field_8_previous & ~field_0_pads[1].field_0_pressed;
     field_0_pads[1].field_C_held = field_0_pads[1].field_0_pressed & ~field_0_pads[1].field_8_previous;
     field_0_pads[1].field_4_dir = directionTable_545A4C[field_0_pads[1].field_0_pressed & 0xF];

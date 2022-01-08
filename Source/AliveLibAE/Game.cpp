@@ -40,6 +40,7 @@
 #include "Slurg.hpp"
 #include "Movie.hpp"
 #include "PathDataExtensions.hpp"
+#include "GameAutoPlayer.hpp"
 #include <string>
 
 void Game_ForceLink()
@@ -313,7 +314,17 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLine
 
     PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(".", strDrive, strDrive);
 
-    const std::string windowTitle = WindowTitleAE();
+    std::string windowTitle = WindowTitleAE();
+    
+    if (gGameAutoPlayer.IsRecording())
+    {
+        windowTitle += " [Recording]";
+    }
+    else if (gGameAutoPlayer.IsPlaying())
+    {
+        windowTitle += " [AutoPlay]";
+    }
+
     Sys_WindowClass_Register_4EE22F("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
     Sys_Set_Hwnd_4F2C50(Sys_GetWindowHandle_4EE180());
 
@@ -713,7 +724,10 @@ EXPORT void CC Game_Main_4949F0()
     // Inits
     Init_Input_Timer_And_IO_4F2BF0(false);
 
+    gGameAutoPlayer.ParseCommandLine(Sys_GetCommandLine_4EE176());
+
     Main_ParseCommandLineArguments_494EA0(Sys_GetCommandLine_4EE176(), Sys_GetCommandLine_4EE176());
+
     Game_SetExitCallBack_4F2BA0(Game_ExitGame_4954B0);
 #if _WIN32
     #if !USE_SDL2
@@ -859,7 +873,7 @@ EXPORT void CC Game_Loop_467230()
         bPauseMenuObjectFound = false;
 
         gMap_5C3030.ScreenChange_480B80();
-        sInputObject_5BD4E0.Update_45F040();
+        sInputObject_5BD4E0.Update(gGameAutoPlayer);
 
         if (sNum_CamSwappers_5C1B66 == 0)
         {
