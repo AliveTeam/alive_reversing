@@ -40,7 +40,7 @@ void Recorder::Init(const char* pFileName)
     // TODO: Write a header
 }
 
-void Recorder::SaveRecord(Pads& data)
+void Recorder::SaveInput(Pads& data)
 {
     ::fwrite(&data, sizeof(Pads), 1, mFile.GetFile());
 }
@@ -56,18 +56,13 @@ void Player::Init(const char* pFileName)
     // TODO: Read + validate header
 }
 
-Pads Player::ReadCurrent()
+Pads Player::ReadInput()
 {
-    return mLastData;
-}
-
-bool Player::ToNextRecord()
-{
-    if (::fread(&mLastData, sizeof(Pads), 1, mFile.GetFile()) == sizeof(Pads))
+    Pads data = {};
+    if (::fread(&data, sizeof(Pads), 1, mFile.GetFile()) == sizeof(Pads))
     {
-        return true;
     }
-    return false;
+    return data;
 }
 
 void GameAutoPlayer::ParseCommandLine(const char* pCmdLine)
@@ -85,71 +80,19 @@ void GameAutoPlayer::ParseCommandLine(const char* pCmdLine)
     }
 }
 
-void GameAutoPlayer::LoopStart()
-{
-    mStartedGameLoop = true;
-    ReadCurrentRecord();
-}
-
-bool GameAutoPlayer::LoopEnd()
-{
-    mStartedGameLoop = false;
-
-    if (mJustExitedPauseLoop)
-    {
-        // When entering the pause loop the next record is started at that point
-        // so don't end it twice or we'll get 1 record too many.
-        mJustExitedPauseLoop = false;
-        return false;
-    }
-
-    return SaveNextRecord();
-}
-
-void GameAutoPlayer::PauseLoopStart()
-{
-    if (mStartedGameLoop)
-    {
-        LoopEnd();
-        mStartedGameLoop = false;
-    }
-    ReadCurrentRecord();
-}
-
-void GameAutoPlayer::PauseMenuLoopEnd()
-{
-    SaveNextRecord();
-    mJustExitedPauseLoop = true;
-}
-
-void GameAutoPlayer::ReadCurrentRecord()
-{
-    if (mMode == Mode::Play)
-    {
-        mCurFrameData = mPlayer.ReadCurrent();
-    }
-}
-
-bool GameAutoPlayer::SaveNextRecord()
-{
-    if (mMode == Mode::Play)
-    {
-        return mPlayer.ToNextRecord();
-    }
-    else if (mMode == Mode::Record)
-    {
-        mRecorder.SaveRecord(mCurFrameData);
-    }
-    return false;
-}
-
 u32 GameAutoPlayer::GetInput(u32 padIdx)
 {
     if (mMode == Mode::Record)
     {
         mCurFrameData.mPads[padIdx] = Input_Read_Pad_4FA9C0(padIdx);
+        mRecorder.SaveInput(mCurFrameData);
+        return mCurFrameData.mPads[padIdx];
     }
-    return mCurFrameData.mPads[padIdx];
+    else
+    {
+        mCurFrameData = mPlayer.ReadInput();
+        return mCurFrameData.mPads[padIdx];
+    }
 }
 
 GameAutoPlayer gGameAutoPlayer;

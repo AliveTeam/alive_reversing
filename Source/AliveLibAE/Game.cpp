@@ -753,8 +753,6 @@ EXPORT void CC Game_Loop_467230()
     bool bPauseMenuObjectFound = false;
     while (!gBaseGameObject_list_BB47C4->IsEmpty())
     {
-        gGameAutoPlayer.LoopStart();
-
         Events_Reset_Active_422DA0();
         Slurg::Clear_Slurg_Step_Watch_Points_449A90();
         bSkipGameObjectUpdates_5C2FA0 = 0;
@@ -882,7 +880,7 @@ EXPORT void CC Game_Loop_467230()
             sGnFrame_5C1B84++;
         }
 
-        if (gGameAutoPlayer.LoopEnd() || sBreakGameLoop_5C2FE0)
+        if (sBreakGameLoop_5C2FE0)
         {
             break;
         }

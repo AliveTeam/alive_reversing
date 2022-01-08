@@ -56,7 +56,7 @@ class Recorder final
 {
 public:
     void Init(const char* pFileName);
-    void SaveRecord(Pads& data);
+    void SaveInput(Pads& data);
 private:
     AutoFILE mFile;
 };
@@ -65,25 +65,16 @@ class Player final
 {
 public:
     void Init(const char* pFileName);
-
-    Pads ReadCurrent();
-    bool ToNextRecord();
+    Pads ReadInput();
 
 private:
     AutoFILE mFile;
-    Pads mLastData = {};
 };
 
 class [[nodiscard]] GameAutoPlayer final
 {
 public:
     void ParseCommandLine(const char* pCmdLine);
-
-    void LoopStart();
-    bool LoopEnd();
-
-    void PauseLoopStart();
-    void PauseMenuLoopEnd();
 
     u32 GetInput(u32 padIdx);
 
@@ -98,8 +89,6 @@ public:
     }
 
 private:
-    void ReadCurrentRecord();
-    bool SaveNextRecord();
 
     enum class Mode
     {

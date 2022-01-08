@@ -1696,8 +1696,6 @@ void PauseMenu::Update_48FD80()
                 // Start pause menu update/render loop
                 while (word12C_flags & 1)
                 {
-                    gGameAutoPlayer.PauseLoopStart();
-
                     if (pResourceManager_5C1BB0)
                     {
                         pResourceManager_5C1BB0->VUpdate();
@@ -1753,14 +1751,10 @@ void PauseMenu::Update_48FD80()
                     }
 
                     (this->*field_144_active_menu.field_0_fn_update)();
-
-                    gGameAutoPlayer.PauseMenuLoopEnd();
                 }
 
                 // This call seems redundant as the calle will also update input right after this too
-                gGameAutoPlayer.PauseLoopStart();
                 sInputObject_5BD4E0.Update(gGameAutoPlayer);
-                gGameAutoPlayer.PauseMenuLoopEnd();
 
                 field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
             }
