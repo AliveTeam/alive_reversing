@@ -13,6 +13,7 @@
 #include "Masher.hpp"
 #include "DDraw.hpp"
 #include "VGA.hpp"
+#include "GameAutoPlayer.hpp"
 
 // Inputs on the controller that can be used for aborting skippable movies
 const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
@@ -675,32 +676,39 @@ Movie* Movie::ctor_4DFDE0(s32 id, u32 pos, s16 bUnknown, s16 flags, s16 volume)
 
 void Movie::vUpdate_4E0030()
 {
-    if (sMovie_Kill_SEQs_563A88)
+    if (gGameAutoPlayer.IsPlaying() || gGameAutoPlayer.IsRecording())
     {
-        SND_StopAll_4CB060();
+        // Skip FMVs in rec/playback mode
+        field_6_flags.Set(BaseGameObject::Options::eDead_Bit3);
     }
-
-    if (sMovieNameIdx_5CA4C4 >= 0)
+    else
     {
-        while (!DDV_Play_493210(sMovieNames_5CA348.mNames[sMovieNameIdx_5CA4C4].mName))
+        if (sMovie_Kill_SEQs_563A88)
         {
-            if (gAttract_5C1BA0)
-            {
-                break;
-            }
-
-            if (!Display_Full_Screen_Message_Blocking_465820(Path_Get_Unknown(static_cast<LevelIds>(sLevelId_dword_5CA408)), MessageType::eSkipMovie_1))
-            {
-                break;
-            }
+            SND_StopAll_4CB060();
         }
 
-        if (++sMovieNameIdx_5CA4C4 == ALIVE_COUNTOF(sMovieNames_5CA348.mNames))
+        if (sMovieNameIdx_5CA4C4 >= 0)
         {
-            sMovieNameIdx_5CA4C4 = 0;
+            while (!DDV_Play_493210(sMovieNames_5CA348.mNames[sMovieNameIdx_5CA4C4].mName))
+            {
+                if (gAttract_5C1BA0)
+                {
+                    break;
+                }
+
+                if (!Display_Full_Screen_Message_Blocking_465820(Path_Get_Unknown(static_cast<LevelIds>(sLevelId_dword_5CA408)), MessageType::eSkipMovie_1))
+                {
+                    break;
+                }
+            }
+
+            if (++sMovieNameIdx_5CA4C4 == ALIVE_COUNTOF(sMovieNames_5CA348.mNames))
+            {
+                sMovieNameIdx_5CA4C4 = 0;
+            }
         }
     }
-
     DeInit_4E0210();
 }
 
