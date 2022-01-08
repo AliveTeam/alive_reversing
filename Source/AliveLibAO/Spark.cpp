@@ -72,11 +72,12 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
 
         field_50_timer = gnFrameCount_507670 + 3;
 
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 1, 0);
+        const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         auto pParticle = ao_new<Particle>();
         if (pParticle)
         {
-            pParticle->ctor_478880(xpos, ypos - FP_FromInteger(4), 1532, 38, 21, ppRes);
+            pParticle->ctor_478880(xpos, ypos - FP_FromInteger(4), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
 
             pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
             pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);

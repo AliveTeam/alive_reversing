@@ -134,7 +134,7 @@ s32 CC SlapLock::CreateFromSaveState_43EA00(const u8* pBuffer)
 
     auto pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGhostTrpResID_1053, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGhostTrpResID_1053, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("GHOSTTRP.BAN", nullptr);
     }
@@ -513,7 +513,7 @@ s16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
     }
 
     field_120_state = SlapLockStates::eSlapped_2;
-    SwitchStates_Do_Operation_465F00(field_118_pTlv->field_1E_option_id, SwitchOp::eToggle_2);
+    SwitchStates_Do_Operation_465F00(field_118_pTlv->field_1E_toggle_switch_id, SwitchOp::eToggle_2);
     SFX_Play_46FA90(SoundEffect::SpiritLockBreak_106, 0, field_CC_sprite_scale);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
 

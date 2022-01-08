@@ -20,7 +20,7 @@ enum class CrawlingSligButtonSounds : s16
 struct Path_CrawlingSligButton final : public Path_TLV
 {
     Scale_short field_10_scale;
-    s16 field_12_id;
+    s16 field_12_switch_id;
     SwitchOp field_14_action;
     CrawlingSligButtonSounds field_16_on_sound;
     CrawlingSligButtonSounds field_18_off_sound;
@@ -43,7 +43,7 @@ private:
 
 private:
     s32 field_F4_tlvInfo;
-    s16 field_F8_id;
+    s16 field_F8_switch_id;
     SwitchOp field_FA_action;
     CrawlingSligButtonSounds field_FC_on_sound;
     CrawlingSligButtonSounds field_FE_off_sound;

@@ -85,7 +85,7 @@ void RockSack::VUpdate_4575F0()
                     }
                 }
 
-                gpThrowableArray_50E26C->Add_453F70(field_112_num_rocks);
+                gpThrowableArray_50E26C->Add_453F70(field_112_rock_amount);
 
                 auto pRock = ao_new<Rock>();
                 if (pRock)
@@ -93,7 +93,7 @@ void RockSack::VUpdate_4575F0()
                     pRock->ctor_456960(
                         field_A8_xpos,
                         field_AC_ypos - FP_FromInteger(30),
-                        field_112_num_rocks);
+                        field_112_rock_amount);
                 }
                 pRock->VThrow(field_118_x_vel, field_11C_y_vel);
 
@@ -155,7 +155,7 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     //  Set RockSack idle anim speed
-    auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 6878);
+    auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 6878); // TODO: frametableoffset
     pAnimationHeader->field_0_fps = 0;
 
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
@@ -170,12 +170,12 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
     field_118_x_vel = FP_FromRaw(pTlv->field_1A_x_vel << 8);
     field_11C_y_vel = FP_FromRaw(-256 * pTlv->field_1C_y_vel);
 
-    if (!pTlv->field_18_side)
+    if (pTlv->field_18_fall_direction == XDirection_short::eLeft_0)
     {
         field_118_x_vel = -field_118_x_vel;
     }
 
-    if (pTlv->field_1E_scale == 1)
+    if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
@@ -186,13 +186,13 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
         field_C6_scale = 1;
     }
 
-    field_112_num_rocks = pTlv->field_20_num_rocks;
+    field_112_rock_amount = pTlv->field_20_rock_amount;
     field_114_can_play_wobble_sound = 1;
     field_116_force_wobble_sound = 1;
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
     {
-        u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kP2c2bagResID, 0, 0);
+        u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, 0, 0);
         field_10_anim.LoadPal_403090(ppPal, 0);
     }
 

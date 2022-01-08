@@ -4,7 +4,7 @@
 
 namespace AO {
 
-enum SoundEffect
+enum SoundEffect : u8
 {
     Unknown_0 = 0,
     Bullet1_1 = 1,
@@ -77,8 +77,8 @@ enum SoundEffect
     FlintLock_68 = 68,
     Fire_69 = 69,
     PostFlint_70 = 70,
-    RollingBallStart_71 = 71,
-    RollingBallLoop_72 = 72,
+    RollingBallNoise1_71 = 71,
+    RollingBallNoise2_72 = 72,
     FallingItemLand_73 = 73,
     Empty_74 = 74,
     LeverPull_75 = 75,
@@ -139,12 +139,12 @@ struct SfxDefinition final
 };
 ALIVE_ASSERT_SIZEOF(SfxDefinition, 0x14);
 
-EXPORT s32 CC SFX_Play_43AE60(u8 sfxId, s32 volume, s32 pitch, BaseAnimatedWithPhysicsGameObject* pObj = nullptr);
+EXPORT s32 CC SFX_Play_43AE60(SoundEffect sfxId, s32 volume, s32 pitch, BaseAnimatedWithPhysicsGameObject* pObj = nullptr);
 
-EXPORT s32 CC SFX_Play_43AD70(u8 sfxId, s32 a2, BaseAnimatedWithPhysicsGameObject* a3 = nullptr);
+EXPORT s32 CC SFX_Play_43AD70(SoundEffect sfxId, s32 a2, BaseAnimatedWithPhysicsGameObject* a3 = nullptr);
 
-EXPORT s32 CC SFX_Play_43ADE0(u8 sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWithPhysicsGameObject* pObj);
+EXPORT s32 CC SFX_Play_43ADE0(SoundEffect sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWithPhysicsGameObject* pObj);
 
-EXPORT s32 CC SFX_Play_43AED0(u8 sfxId, s32 volume, CameraPos direction);
+EXPORT s32 CC SFX_Play_43AED0(SoundEffect sfxId, s32 volume, CameraPos direction);
 
 } // namespace AO

@@ -54,7 +54,7 @@ ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 
     field_3C_g = FP_FromInteger(pTlv->field_16_g);
     field_40_b = FP_FromInteger(pTlv->field_18_b);
 
-    field_34_id = pTlv->field_1A_id;
+    field_34_switch_id = pTlv->field_1A_switch_id;
     field_36_scale = pTlv->field_1C_scale;
 
     return this;

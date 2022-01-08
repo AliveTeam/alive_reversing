@@ -60,9 +60,9 @@ Drill* Drill::ctor_4200D0(Path_Drill* pTlv, u32 tlvInfo)
         field_128_flags.Set(Flags::eBit1_StartOff);
     }
 
-    field_F8_id = tlvData.field_16_id;
+    field_F8_switch_id = tlvData.field_16_switch_id;
 
-    if (SwitchStates_Get_466020(field_F8_id) && field_128_flags.Get(Flags::eBit1_StartOff))
+    if (SwitchStates_Get_466020(field_F8_switch_id) && field_128_flags.Get(Flags::eBit1_StartOff))
     {
         field_128_flags.Set(Flags::eBit2_ToggleStartState_StartOn);
     }
@@ -245,7 +245,7 @@ Drill* Drill::ctor_4200D0(Path_Drill* pTlv, u32 tlvInfo)
     }
     field_E0_pShadow = pShadow;
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     return this;
 }
 
@@ -285,17 +285,17 @@ s32 CC Drill::CreateFromSaveState_421600(const u8* pData)
 
     Path_Drill* pTlv = static_cast<Path_Drill*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_8_tlvInfo));
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", 0);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", 0);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDrillResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kDrillResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("DRILL.BAN", 0);
     }
@@ -346,7 +346,7 @@ void Drill::vUpdate_420C50()
         case DrillStates::State_0_Restart_Cycle:
             if (Expired(field_108_off_timer) || field_128_flags.Get(eBit4_Toggle))
             {
-                if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get_466020(field_F8_id) == (field_128_flags.Get(eBit1_StartOff))))
+                if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get_466020(field_F8_switch_id) == (field_128_flags.Get(eBit1_StartOff))))
                 {
                     field_F4_state = DrillStates::State_1_Going_Down;
 
@@ -474,7 +474,7 @@ void Drill::vUpdate_420C50()
 
                 if (field_128_flags.Get(eBit4_Toggle))
                 {
-                    SwitchStates_Set_465FF0(field_F8_id, !field_128_flags.Get(eBit1_StartOff));
+                    SwitchStates_Set_465FF0(field_F8_switch_id, !field_128_flags.Get(eBit1_StartOff));
                 }
             }
 
@@ -493,7 +493,7 @@ void Drill::dtor_420B60()
         field_10C_audio_channels_mask = 0;
     }
 
-    if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get_466020(field_F8_id) != field_128_flags.Get(Flags::eBit1_StartOff))
+    if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get_466020(field_F8_switch_id) != field_128_flags.Get(Flags::eBit1_StartOff))
     {
         Path::TLV_Reset_4DB8E0(field_104_tlv, 1, 0, 0);
     }
@@ -641,7 +641,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
 
                 auto pSpark2 = ae_new<Spark>();
@@ -654,7 +654,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
             }
             else if (field_FA_direction == DrillDirection::eLeft_2)
@@ -669,7 +669,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
 
                 auto pSpark2 = ae_new<Spark>();
@@ -682,7 +682,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
             }
             else if (field_FA_direction == DrillDirection::eDown_0)
@@ -697,7 +697,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
 
                 auto pSpark2 = ae_new<Spark>();
@@ -710,7 +710,7 @@ void Drill::EmitSparks_4206D0()
                         6u,
                         50,
                         205,
-                        0);
+                        SparkType::eSmallChantParticle_0);
                 }
             }
         }

@@ -98,14 +98,14 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
     field_12C_unused &= ~1u;
 
     field_130_stay_open_time2 = field_13C_stay_open_time;
-    field_134_switch_idx = pTlv->field_10_id;
+    field_134_switch_id = pTlv->field_10_switch_id;
     field_138_switch_state = pTlv->field_12_start_state;
 
     const s32 levelIdx = static_cast<s32>(gMap_5C3030.field_0_current_level);
 
     s32 frameTableOffset = 0;
     const AnimRecord& closedRec = AnimRec(sTrapDoorData_547B78[levelIdx].field_4_closed);
-    if (field_138_switch_state == SwitchStates_Get_466020(field_134_switch_idx))
+    if (field_138_switch_state == SwitchStates_Get_466020(field_134_switch_id))
     {
         field_136_state = TrapDoorState::eOpen_2;
         const AnimRecord& openRec = AnimRec(sTrapDoorData_547B78[levelIdx].field_0_open);
@@ -129,7 +129,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
         field_D6_scale = 1;
     }
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID);
 
     AddDynamicCollision_4971C0(
         closedRec.mFrameTableOffset,
@@ -194,14 +194,14 @@ s32 CC TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
         case LevelIds::eMudancheeVault_4:
         case LevelIds::eMudancheeVault_Ender_7:
         case LevelIds::eMudomoVault_Ender_11:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("VLTSTRAP.BAN", nullptr);
             }
             break;
 
         default:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("TRAPDOOR.BAN", nullptr);
             }
@@ -246,7 +246,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
     switch (field_136_state)
     {
         case TrapDoorState::eClosed_0:
-            if (SwitchStates_Get_466020(field_134_switch_idx) == field_138_switch_state)
+            if (SwitchStates_Get_466020(field_134_switch_id) == field_138_switch_state)
             {
                 Open_4DD960();
                 field_136_state = TrapDoorState::eOpening_1;
@@ -273,7 +273,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
         case TrapDoorState::eOpen_2:
             field_130_stay_open_time2--;
 
-            if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_idx) != field_138_switch_state)
+            if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_id) != field_138_switch_state)
             {
                 const AnimRecord& closingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_C_closing);
                 field_20_animation.Set_Animation_Data_409C80(closingRec.mFrameTableOffset, 0);
@@ -294,7 +294,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
                 SFX_Play_46FC20(SoundEffect::TrapdoorClose_42, 70, direction);
                 Add_To_Collisions_Array_4DDA20();
                 field_136_state = TrapDoorState::eClosed_0;
-                SwitchStates_Set_465FF0(field_134_switch_idx, field_138_switch_state == 0);
+                SwitchStates_Set_465FF0(field_134_switch_id, field_138_switch_state == 0);
             }
             break;
 
@@ -317,7 +317,7 @@ EXPORT void TrapDoor::vScreenChanged_4DDE40()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         if (field_13E_self_closing == Choice_short::eYes_1)
         {
-            SwitchStates_Set_465FF0(field_134_switch_idx, field_138_switch_state == 0);
+            SwitchStates_Set_465FF0(field_134_switch_id, field_138_switch_state == 0);
         }
     }
 }

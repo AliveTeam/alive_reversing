@@ -15,7 +15,7 @@ enum ElectricWallStartState : s16
 struct Path_ElectricWall final : public Path_TLV
 {
     s16 field_18_scale;
-    s16 field_1A_id;
+    s16 field_1A_switch_id;
     ElectricWallStartState field_1C_start_state;
     s16 field_1E_pad;
 };

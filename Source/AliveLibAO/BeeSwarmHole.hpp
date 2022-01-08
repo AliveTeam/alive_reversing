@@ -4,6 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -17,12 +18,12 @@ struct Path_BeeSwarmHole final : public Path_TLV
     };
     s16 field_18_what_to_spawn;
     s16 field_1A_interval;
-    s16 field_1C_id;
+    s16 field_1C_fall_switch_id;
     MovementType field_1E_movement_type;
-    s16 field_20_size;
+    s16 field_20_bees_amount;
     s16 field_22_chase_time;
     s16 field_24_speed;
-    s16 field_26_scale;
+    Scale_short field_26_scale;
 };
 ALIVE_ASSERT_SIZEOF(Path_BeeSwarmHole, 0x28);
 
@@ -41,9 +42,9 @@ public:
     PSX_RECT field_14_rect;
     s32 field_1C_interval_timer;
     u16 field_20_interval;
-    s16 field_22_id;
+    s16 field_22_fall_switch_id;
     Path_BeeSwarmHole::MovementType field_24_movement_type;
-    s16 field_26_num_bees;
+    s16 field_26_bees_amount;
     u16 field_28_chase_time;
     u16 field_2A_speed;
 };

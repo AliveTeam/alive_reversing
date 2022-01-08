@@ -81,7 +81,12 @@ public:
     s16 field_1B6_pattern_index;
     s16 field_1B8_pattern;
     s16 field_1BA_red_blink_count;
-    s16 field_1BC_flags;
+    enum flags_1BC
+    {
+        eUnused_Bit0 = 0x1,
+        eIsRed_Bit1 = 0x2,
+    };
+    BitField16<flags_1BC> field_1BC_flags;
     s16 field_1BE_padding;
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1C0);

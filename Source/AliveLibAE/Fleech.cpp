@@ -153,9 +153,9 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo)
     field_158_chase_delay = 10;
 
     field_142_attack_anger_increaser = pTlv->field_1A_attack_anger_increaser + 2;
-    field_144_wake_up_id = pTlv->field_1E_wake_up_id1;
+    field_144_wake_up_switch_id = pTlv->field_1E_wake_up_switch_id;
     field_146_wake_up_switch_anger_value = pTlv->field_28_wake_up_switch_anger_value;
-    field_148_wake_up_switch_value = SwitchStates_Get_466020(pTlv->field_1E_wake_up_id1) & 0xFFFF;
+    field_148_wake_up_switch_value = SwitchStates_Get_466020(pTlv->field_1E_wake_up_switch_id) & 0xFFFF;
     field_14A_can_wake_up_id = pTlv->field_2A_can_wake_up_id;
     field_150_patrol_range = FP_GetExponent(FP_FromInteger(pTlv->field_26_patrol_range_in_grids) * ScaleToGridSize_4498B0(field_CC_sprite_scale));
     field_15C_lost_target_timeout = pTlv->field_22_lost_target_timeout;
@@ -261,12 +261,12 @@ s32 CC Fleech::CreateFromSaveState_42DD50(const u8* pBuffer)
     auto pState = reinterpret_cast<const Fleech_State*>(pBuffer);
 
     auto pTlv = static_cast<Path_Fleech*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_40_tlvInfo));
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFleechResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kFleechResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("FLEECH.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFleeBlowResID_580, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kFleeBlowResID_580, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("FLEEBLOW.BAN", nullptr);
     }
@@ -345,7 +345,7 @@ s32 CC Fleech::CreateFromSaveState_42DD50(const u8* pBuffer)
     pFleech->field_13E_current_anger = pState->field_76_current_anger;
     pFleech->field_140_max_anger = pState->field_78_max_anger;
     pFleech->field_142_attack_anger_increaser = pState->field_7A_attack_anger;
-    pFleech->field_144_wake_up_id = pState->field_7C_wakeup_id;
+    pFleech->field_144_wake_up_switch_id = pState->field_7C_wakeup_id;
     pFleech->field_146_wake_up_switch_anger_value = pState->field_7E_wake_up_switch_anger_value;
     pFleech->field_148_wake_up_switch_value = pState->field_80_wake_up_switch_value;
     pFleech->field_14A_can_wake_up_id = pState->field_82_can_wake_up_id;
@@ -474,7 +474,7 @@ s32 Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_76_current_anger = field_13E_current_anger;
     pState->field_78_max_anger = field_140_max_anger;
     pState->field_7A_attack_anger = field_142_attack_anger_increaser;
-    pState->field_7C_wakeup_id = field_144_wake_up_id;
+    pState->field_7C_wakeup_id = field_144_wake_up_switch_id;
     pState->field_7E_wake_up_switch_anger_value = field_146_wake_up_switch_anger_value;
     pState->field_80_wake_up_switch_value = field_148_wake_up_switch_value;
     pState->field_82_can_wake_up_id = field_14A_can_wake_up_id;
@@ -1686,7 +1686,7 @@ void Fleech::Init_42A170()
 {
     const AnimRecord& rec = AnimRec(AnimId::Fleech_Idle);
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFleeBlowResID_580, TRUE, FALSE));
+    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kFleeBlowResID_580, TRUE, FALSE));
 
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1, 1);
 
@@ -2196,7 +2196,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(s32 velX)
         FP_GetExponent(field_BC_ypos),
         TlvTypes::EnemyStopper_47));
 
-    if (pStopper && (pStopper->field_10_stop_direction == (nextXPos >= field_B8_xpos ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0)) && SwitchStates_Get_466020(pStopper->field_12_id))
+    if (pStopper && (pStopper->field_10_stop_direction == (nextXPos >= field_B8_xpos ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0)) && SwitchStates_Get_466020(pStopper->field_12_switch_id))
     {
         return 1;
     }
@@ -2224,7 +2224,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(s32 velX)
 
 s32 Fleech::UpdateWakeUpSwitchValue_4308B0()
 {
-    const s16 curSwitchValue = static_cast<s16>(SwitchStates_Get_466020(field_144_wake_up_id));
+    const s16 curSwitchValue = static_cast<s16>(SwitchStates_Get_466020(field_144_wake_up_switch_id));
     const s16 wakeUpValue = field_148_wake_up_switch_value;
 
     if (curSwitchValue == wakeUpValue)

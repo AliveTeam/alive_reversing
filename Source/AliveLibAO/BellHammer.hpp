@@ -10,7 +10,7 @@ namespace AO {
 
 struct Path_BellHammer final : public Path_TLV
 {
-    s16 field_18_id;
+    s16 field_18_switch_id;
     SwitchOp field_1A_action;
     Scale_short field_1C_scale;
     XDirection_short field_1E_direction;

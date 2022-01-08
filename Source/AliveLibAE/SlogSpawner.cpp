@@ -16,11 +16,11 @@ SlogSpawner* SlogSpawner::ctor_4C7FF0(Path_SlogSpawner* pTlv, s32 tlvInfo)
     field_20_tlvInfo = tlvInfo;
 
     field_34_scale = pTlv->field_10_scale;
-    field_36_max_slogs = pTlv->field_12_number_of_slogs;
+    field_36_max_slogs = pTlv->field_12_max_slogs;
     field_38_max_slogs_at_a_time = pTlv->field_14_max_slogs_at_a_time;
     field_3A_direction = pTlv->field_16_direction;
     field_3C_slog_spawn_delay = pTlv->field_18_slog_spawn_delay;
-    field_3E_switch_id = pTlv->field_1A_id;
+    field_3E_spawner_switch_id = pTlv->field_1A_spawner_switch_id;
     field_40_listen_to_sligs = pTlv->field_1C_listen_to_sligs;
     field_42_chase_delay = pTlv->field_1E_chase_delay;
 
@@ -74,7 +74,7 @@ void SlogSpawner::vUpdate_4C80D0()
 
     if (static_cast<s32>(sGnFrame_5C1B84) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
     {
-        if (SwitchStates_Get_466020(field_3E_switch_id))
+        if (SwitchStates_Get_466020(field_3E_spawner_switch_id))
         {
             field_30_spawn_timer = (field_3C_slog_spawn_delay + sGnFrame_5C1B84) + Math_NextRandom() % 8;
             auto pSlog = ae_new<Slog>();

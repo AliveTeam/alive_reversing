@@ -21,7 +21,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
     field_11A_bDead = 0;
     SetType(AETypes::eMeat_84);
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kMeatResID, 0, 0))
     {
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
@@ -46,7 +46,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
     field_12C_deadtimer = sGnFrame_5C1B84 + 600;
-    field_130_pLine = 0;
+    field_130_pLine = nullptr;
     field_118_count = count;
     field_11C_state = MeatStates::eCreated_0;
 
@@ -635,13 +635,13 @@ void MeatSack::vUpdate_46A6A0()
     }
     else
     {
-        PSX_RECT bPlayerRect = {};
-        sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bPlayerRect, 1);
+        PSX_RECT abeRect = {};
+        sActiveHero_5C1B68->vGetBoundingRect_424FD0(&abeRect, 1);
 
-        PSX_RECT bRect = {};
-        vGetBoundingRect_424FD0(&bRect, 1);
+        PSX_RECT ourRect = {};
+        vGetBoundingRect_424FD0(&ourRect, 1);
 
-        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
+        if (RectsOverlap(ourRect, abeRect) && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
         {
             const AnimRecord& MeatSackHitRec = AnimRec(AnimId::MeatSack_Hit);
             if (gpThrowableArray_5D1E2C)

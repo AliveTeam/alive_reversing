@@ -115,18 +115,18 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
         field_150_resources[i] = nullptr;
     }
 
-    field_150_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsbasicResID, 1, 0);
-    field_150_resources[11] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArschewResID, 1, 0);
-    field_150_resources[6] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsdanceResID, 1, 0);
-    field_150_resources[8] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsdeadResID, 1, 0);
-    field_150_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArseatResID, 1, 0);
-    field_150_resources[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsgrwlResID, 1, 0);
-    field_150_resources[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArshowlResID, 1, 0);
-    field_150_resources[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsprceResID, 1, 0);
-    field_150_resources[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsroarResID, 1, 0);
-    field_150_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArsskwrResID, 1, 0);
-    field_150_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArswhirlResID, 1, 0);
-    field_150_resources[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArscrshResID, 1, 0);
+    field_150_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArsbasicAOResID, 1, 0);
+    field_150_resources[11] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArschewAOResID, 1, 0);
+    field_150_resources[6] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArsdanceAOResID, 1, 0);
+    field_150_resources[8] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArsdeadAOResID, 1, 0);
+    field_150_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArseatAOResID, 1, 0);
+    field_150_resources[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArsgrwlAOResID, 1, 0);
+    field_150_resources[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArshowlAOResID, 1, 0);
+    field_150_resources[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArsprceAOResID, 1, 0);
+    field_150_resources[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArsroarAOResID, 1, 0);
+    field_150_resources[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArsskwrAOResID, 1, 0);
+    field_150_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArswhirlAOResID, 1, 0);
+    field_150_resources[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArscrshAOResID, 1, 0);
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Scrab_Idle);
 
@@ -154,7 +154,7 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    if (pTlv->field_18_scale == 1)
+    if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_10_anim.field_C_layer = Layer::eLayer_8;
@@ -174,9 +174,10 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
     field_148_right_min_delay = pTlv->field_22_right_min_delay;
     field_14A_right_max_delay = pTlv->field_24_right_max_delay;
 
-    field_138_attack_duration = pTlv->field_26_attack_duration;
+    field_138_spotting_abe_delay = pTlv->field_26_spotting_abe_delay;
 
-    field_188_flags = 32 * (pTlv->field_2A_roar_randomly & 1) | (((field_188_flags & ~0x11) | 4) & ~0x28);
+    // TODO: flags
+    field_188_flags = 32 * (pTlv->field_2A_roar_randomly == Choice_short::eYes_1) | (((field_188_flags & ~0x11) | 4) & ~0x28);
 
     FP hitX = {};
     FP hitY = {};
@@ -2631,7 +2632,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
     }
 
     if (field_120_pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3)
-        || (field_13C_attack_timer <= static_cast<s32>(gnFrameCount_507670)
+        || (field_13C_spotting_timer <= static_cast<s32>(gnFrameCount_507670)
             && !CanSeeAbe_45C100(field_120_pTarget)
             && field_120_pTarget->field_100_health > FP_FromInteger(0)
             && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
@@ -2682,7 +2683,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
             {
                 return field_110_brain_ret;
             }
-            field_13C_attack_timer = gnFrameCount_507670 + field_138_attack_duration;
+            field_13C_spotting_timer = gnFrameCount_507670 + field_138_spotting_abe_delay;
             return 1;
 
         case 1:
@@ -2782,7 +2783,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                 const bool bLeft = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->field_A8_xpos < field_A8_xpos;
                 const bool bRight = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->field_A8_xpos > field_A8_xpos;
                 const bool bBoth = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2;
-                const bool bSwitchOn = SwitchStates_Get(pStopper->field_1A_id) ? true : false;
+                const bool bSwitchOn = SwitchStates_Get(pStopper->field_1A_switch_id) ? true : false;
                 if ((bLeft || bRight || bBoth) && !bSwitchOn)
                 {
                     if (field_FC_current_motion == eScrabMotions::Motion_1_Stand_45E620 && Math_NextRandom() < 26u && (field_188_flags & 0x20) && (gnFrameCount_507670 - field_140_last_shriek_timer) > 60)
@@ -2861,7 +2862,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                 {
                     if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 || pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2)
                     {
-                        if (!SwitchStates_Get(pStopper->field_1A_id))
+                        if (!SwitchStates_Get(pStopper->field_1A_switch_id))
                         {
                             field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                             return 1;
@@ -2904,7 +2905,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                 {
                     if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 || pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2)
                     {
-                        if (!SwitchStates_Get(pStopper->field_1A_id))
+                        if (!SwitchStates_Get(pStopper->field_1A_switch_id))
                         {
                             field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                             return 1;
@@ -3054,7 +3055,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                 const bool bLeft = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->field_A8_xpos < field_A8_xpos;
                 const bool bRight = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->field_A8_xpos > field_A8_xpos;
                 const bool bBoth = pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2;
-                const bool bSwitchOn = SwitchStates_Get(pStopper->field_1A_id) ? true : false;
+                const bool bSwitchOn = SwitchStates_Get(pStopper->field_1A_switch_id) ? true : false;
                 if ((bLeft || bRight || bBoth) && !bSwitchOn)
                 {
                     return 1;
@@ -3355,7 +3356,7 @@ s16 Scrab::Brain_Patrol_460020()
 
             if (pStopper)
             {
-                if (!SwitchStates_Get(pStopper->field_1A_id))
+                if (!SwitchStates_Get(pStopper->field_1A_switch_id))
                 {
                     if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
@@ -3674,7 +3675,7 @@ s16 Scrab::Brain_WalkAround_460D80()
 
                 if (pStopper)
                 {
-                    if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 || pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->field_1A_id))
+                    if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 || pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->field_1A_switch_id))
                     {
                         field_FE_next_motion = eScrabMotions::Motion_4_Turn_45EF30;
                         return 4;
@@ -3702,7 +3703,7 @@ s16 Scrab::Brain_WalkAround_460D80()
 
                 if (pStopper)
                 {
-                    if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 || pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->field_1A_id))
+                    if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 || pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->field_1A_switch_id))
                     {
                         field_FE_next_motion = eScrabMotions::Motion_4_Turn_45EF30;
                         return 4;
@@ -3733,7 +3734,7 @@ s16 Scrab::Brain_WalkAround_460D80()
 
             if (pStopper)
             {
-                if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 || pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->field_1A_id))
+                if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 || pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->field_1A_switch_id))
                 {
                     field_FE_next_motion = eScrabMotions::Motion_4_Turn_45EF30;
                     return 4;
@@ -3788,7 +3789,7 @@ s16 Scrab::Brain_WalkAround_460D80()
 
             if (pStopper)
             {
-                if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 || pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->field_1A_id))
+                if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 || pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->field_1A_switch_id))
                 {
                     field_FE_next_motion = eScrabMotions::Motion_4_Turn_45EF30;
                     return 4;
@@ -3897,7 +3898,7 @@ s16 Scrab::HandleRunning()
     {
         if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->field_A8_xpos < field_A8_xpos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->field_A8_xpos > field_A8_xpos) || pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2)
         {
-            if (!SwitchStates_Get(pStopper->field_1A_id))
+            if (!SwitchStates_Get(pStopper->field_1A_switch_id))
             {
                 return 1;
             }

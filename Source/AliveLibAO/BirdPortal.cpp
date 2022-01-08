@@ -85,7 +85,7 @@ BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP sca
 
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::BirdPortal_TerminatorShrink);
+    const AnimRecord rec = AO::AnimRec(AnimId::BirdPortal_TerminatorGrow);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     
@@ -120,6 +120,18 @@ BaseGameObject* BirdPortalTerminator::VDestructor(s32 flags)
         ao_delete_free_447540(this);
     }
     return this;
+}
+
+void BirdPortalTerminator::Fadeout()
+{
+    const s16 r = field_C0_r;
+    field_C0_r = (r >> 1) + (r >> 2);
+
+    const s16 g = field_C2_g;
+    field_C2_g = (g >> 1) + (g >> 2);
+
+    const s16 b = field_C4_b;
+    field_C4_b = (b >> 1) + (b >> 2);
 }
 
 // ==========================================================================
@@ -183,13 +195,13 @@ BaseGameObject* BirdPortal::dtor_452230()
     }
 
     u8** ppRes = nullptr;
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortalTerminatorAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortliteAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortlitResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortlitAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
     if (field_68_sfx_ret)
@@ -223,10 +235,10 @@ BirdPortal* BirdPortal::ctor_4520A0(Path_BirdPortal* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eBirdPortal_65;
 
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kPortlitResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortalTerminatorAOResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortliteAOResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortlitAOResID, 1, 0);
 
     field_2C_tlvInfo = tlvInfo;
 
@@ -516,8 +528,9 @@ void BirdPortal::VUpdate_4523D0()
             Event_Broadcast_417220(kEvent_18, this);
             if (field_3C_pTerminator1->field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_3C_pTerminator1->field_10_anim.Set_Animation_Data_402A40(3784, 0);
-                field_40_pTerminator2->field_10_anim.Set_Animation_Data_402A40(3784, 0);
+                const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorIdle);
+                field_3C_pTerminator1->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
+                field_40_pTerminator2->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
                 field_30_timer = gnFrameCount_507670 + 12;
                 field_14_state = PortalStates::ExpandTerminators_5;
                 field_68_sfx_ret = SFX_Play_43AD70(SoundEffect::PortalOpening_67, 0, 0);
@@ -779,8 +792,9 @@ void BirdPortal::VUpdate_4523D0()
         case PortalStates::PortalExit_CreateTerminators_18:
             if (field_3C_pTerminator1->field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_3C_pTerminator1->field_10_anim.Set_Animation_Data_402A40(3784, nullptr);
-                field_40_pTerminator2->field_10_anim.Set_Animation_Data_402A40(3784, nullptr);
+                const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorIdle);
+                field_3C_pTerminator1->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_40_pTerminator2->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 field_14_state = PortalStates::PortalExit_ExpandTerminators_19;
                 field_30_timer = gnFrameCount_507670 + 12;
             }
@@ -798,8 +812,9 @@ void BirdPortal::VUpdate_4523D0()
         case PortalStates::KillPortalClipper_21:
             if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
             {
-                field_3C_pTerminator1->field_10_anim.Set_Animation_Data_402A40(3884, nullptr);
-                field_40_pTerminator2->field_10_anim.Set_Animation_Data_402A40(3884, nullptr);
+                const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorShrink);
+                field_3C_pTerminator1->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_40_pTerminator2->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 field_14_state = PortalStates::FadeoutTerminators_22;
                 field_30_timer = gnFrameCount_507670 + 30;
 
@@ -820,14 +835,8 @@ void BirdPortal::VUpdate_4523D0()
         case PortalStates::FadeoutTerminators_22:
             if (static_cast<s32>(gnFrameCount_507670) <= field_30_timer)
             {
-                // TODO: AE has a helper func for this
-                field_3C_pTerminator1->field_C0_r = (field_3C_pTerminator1->field_C0_r >> 1) + (field_3C_pTerminator1->field_C0_r >> 2);
-                field_3C_pTerminator1->field_C2_g = (field_3C_pTerminator1->field_C2_g >> 2) + (field_3C_pTerminator1->field_C2_g >> 1);
-                field_3C_pTerminator1->field_C4_b = (field_3C_pTerminator1->field_C4_b >> 1) + (field_3C_pTerminator1->field_C4_b >> 2);
-
-                field_40_pTerminator2->field_C0_r = (field_40_pTerminator2->field_C0_r >> 2) + (field_40_pTerminator2->field_C0_r >> 1);
-                field_40_pTerminator2->field_C2_g = (field_40_pTerminator2->field_C2_g >> 1) + (field_40_pTerminator2->field_C2_g >> 2);
-                field_40_pTerminator2->field_C4_b = (field_40_pTerminator2->field_C4_b >> 2) + (field_40_pTerminator2->field_C4_b >> 1);
+                field_3C_pTerminator1->Fadeout();
+                field_40_pTerminator2->Fadeout();
             }
             else
             {

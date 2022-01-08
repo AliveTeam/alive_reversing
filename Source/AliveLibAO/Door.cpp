@@ -20,33 +20,51 @@ struct Door_Data final
     s32 field_8_maxW;
     s32 field_C_maxH;
     s32 field_10_closed_frame_table_offset;
-    s32 field_14_closed_frame_table_offset;
+    s32 field_14_open_frame_table_offset;
     s32 field_18_maxW;
     s32 field_1C_maxH;
-    s32 field_20_frame_table_offset;
-    s32 field_24_opening_frame_table_offset;
+    s32 field_20_closed_frame_table_offset;
+    s32 field_24_open_frame_table_offset;
     s32 field_28_maxW;
     s32 field_2C_maxH;
 };
 ALIVE_ASSERT_SIZEOF(Door_Data, 0x30);
 
-const Door_Data sDoorData_4BA508[16] = {
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {6632, 6608, 56, 62, 6632, 6608, 56, 62, 6632, 6608, 56, 62},
-    {4784, 4760, 55, 48, 4784, 4760, 55, 48, 4784, 4760, 55, 48},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {6624, 6600, 63, 62, 2036, 2012, 34, 29, 2072, 2048, 51, 27},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {3176, 3152, 52, 69, 1048, 1024, 21, 29, 1016, 992, 26, 31},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {6632, 6608, 56, 62, 6632, 6608, 56, 62, 6632, 6608, 56, 62},
-    {6632, 6608, 56, 62, 6632, 6608, 56, 62, 6632, 6608, 56, 62},
-    {6624, 6600, 63, 62, 2036, 2012, 34, 29, 2072, 2048, 51, 27},
-    {3176, 3152, 52, 69, 1048, 1024, 21, 29, 1016, 992, 26, 31}};
+/*const Door_Data sDoorData_4BA508[16] = {
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // menu
+    {6632, 6608, 56, 62, 6632, 6608, 56, 62, 6632, 6608, 56, 62}, // rupture farms
+    {4784, 4760, 55, 48, 4784, 4760, 55, 48, 4784, 4760, 55, 48}, // lines
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // forest
+    {6624, 6600, 63, 62, 2036, 2012, 34, 29, 2072, 2048, 51, 27}, // forest temple
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // stock yards
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // stock yards return
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // removed
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // desert
+    {3176, 3152, 52, 69, 1048, 1024, 21, 29, 1016, 992, 26, 31}, // desert temple
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // credits
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // removed
+    {6632, 6608, 56, 62, 6632, 6608, 56, 62, 6632, 6608, 56, 62}, // board room
+    {6632, 6608, 56, 62, 6632, 6608, 56, 62, 6632, 6608, 56, 62}, // rupture farms return
+    {6624, 6600, 63, 62, 2036, 2012, 34, 29, 2072, 2048, 51, 27}, // forest chase
+    {3176, 3152, 52, 69, 1048, 1024, 21, 29, 1016, 992, 26, 31}}; // desert escape*/
+
+const AnimId sDoorAnimdIdTable_4BA508[16][6] = {
+    {AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None}, // menu
+    {AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open}, // rupture farms
+    {AnimId::Door_Lines_Closed, AnimId::Door_Lines_Open, AnimId::Door_Lines_Closed, AnimId::Door_Lines_Open, AnimId::Door_Lines_Closed, AnimId::Door_Lines_Open}, // lines
+    {AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None}, // forest
+    {AnimId::Door_Forest_Closed, AnimId::Door_Forest_Open, AnimId::HubDoor_Forest_Closed, AnimId::HubDoor_Forest_Open, AnimId::FinalTestDoor_Forest_Closed, AnimId::FinalTestDoor_Forest_Open}, // forest temple
+    {AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None}, // stock yards
+    {AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None}, // stock yards return
+    {AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None}, // removed
+    {AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None}, // desert
+    {AnimId::Door_Desert_Closed, AnimId::Door_Desert_Open, AnimId::HubDoor_Desert_Closed, AnimId::HubDoor_Desert_Open, AnimId::FinalTestDoor_Desert_Closed, AnimId::FinalTestDoor_Desert_Open}, // desert temple
+    {AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None}, // credits
+    {AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None}, // removed
+    {AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open}, // board room
+    {AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open}, // rupture farms return
+    {AnimId::Door_Forest_Closed, AnimId::Door_Forest_Open, AnimId::HubDoor_Forest_Closed, AnimId::HubDoor_Forest_Open, AnimId::FinalTestDoor_Forest_Closed, AnimId::FinalTestDoor_Forest_Open}, // forest chase
+    {AnimId::Door_Desert_Closed, AnimId::Door_Desert_Open, AnimId::HubDoor_Desert_Closed, AnimId::HubDoor_Desert_Open, AnimId::FinalTestDoor_Desert_Closed, AnimId::FinalTestDoor_Desert_Open}}; // desert escape
 
 Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
 {
@@ -59,7 +77,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
 
     field_E8_start_state = pTlv->field_26_start_state;
     field_EE_door_closed = pTlv->field_28_door_closed;
-    field_F0_switch_id = pTlv->field_22_id;
+    field_F0_switch_id = pTlv->field_22_switch_id;
 
     if (field_F0_switch_id == 1)
     {
@@ -70,7 +88,8 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
 
     field_EC_current_state = (field_EE_door_closed == Choice_short::eNo_0) == SwitchStates_Get(field_F0_switch_id) ? DoorStates::eClosed_1 : DoorStates::eOpen_0;
 
-    if ((sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780) && field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero_507678->field_196_door_id)
+    if ((sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780) &&
+        field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero_507678->field_196_door_id)
     {
         field_EC_current_state = DoorStates::eOpen_0;
     }
@@ -84,7 +103,9 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
     switch (field_E8_start_state)
     {
         case DoorStates::eOpen_0:
-            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID, 1, 0);
+        {
+            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][1]);
+            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
             if (!ppRes)
             {
                 field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -92,23 +113,24 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
                 return this;
             }
 
-            if (sDoorData_4BA508[idx].field_4_open_frame_table_offset)
+            if (openDoor.mFrameTableOffset)
             {
                 if (field_EC_current_state == DoorStates::eOpen_0)
                 {
                     Animation_Init_417FD0(
-                        sDoorData_4BA508[idx].field_4_open_frame_table_offset,
-                        sDoorData_4BA508[idx].field_8_maxW,
-                        sDoorData_4BA508[idx].field_C_maxH,
+                        openDoor.mFrameTableOffset,
+                        openDoor.mMaxW,
+                        openDoor.mMaxH,
                         ppRes,
                         1);
                 }
                 else
                 {
+                    const AnimRecord& closedDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][0]);
                     Animation_Init_417FD0(
-                        sDoorData_4BA508[idx].field_0_closed_frame_table_offset,
-                        sDoorData_4BA508[idx].field_8_maxW,
-                        sDoorData_4BA508[idx].field_C_maxH,
+                        closedDoor.mFrameTableOffset,
+                        closedDoor.mMaxW,
+                        closedDoor.mMaxH,
                         ppRes,
                         1);
                 }
@@ -127,19 +149,19 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
                 }
 
                 if (sCollisions_DArray_504C6C->RayCast_40C410(
-                        FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
-                        FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-                        FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
-                        FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
-                        &pLine,
-                        &field_A8_xpos,
-                        &field_AC_ypos,
-                        field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+                    FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
+                    FP_FromInteger(pTlv->field_10_top_left.field_2_y),
+                    FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
+                    FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
+                    &pLine,
+                    &field_A8_xpos,
+                    &field_AC_ypos,
+                    field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
                 {
                     field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
                     gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
                     auto aux = SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x);
-                    field_A8_xpos = FP_FromInteger((aux) + mapCoords.field_0_x);
+                    field_A8_xpos = FP_FromInteger((aux)+mapCoords.field_0_x);
                 }
                 else
                 {
@@ -152,8 +174,10 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
             field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return this;
+        }
 
         case DoorStates::eClosed_1:
+        {
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
             {
                 field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
@@ -164,8 +188,9 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
                 field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
                 scale = FP_FromDouble(0.5);
             }
-            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHubdoorResID, 1, 0);
-            if (!ppRes || sDoorData_4BA508[idx].field_14_closed_frame_table_offset == 0)
+            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][3]);
+            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
+            if (!ppRes || openDoor.mFrameTableOffset == 0)
             {
                 field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -175,31 +200,32 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
             if (field_EC_current_state == DoorStates::eOpen_0)
             {
                 Animation_Init_417FD0(
-                    sDoorData_4BA508[idx].field_14_closed_frame_table_offset,
-                    sDoorData_4BA508[idx].field_18_maxW,
-                    sDoorData_4BA508[idx].field_1C_maxH,
+                    openDoor.mFrameTableOffset,
+                    openDoor.mMaxW,
+                    openDoor.mMaxH,
                     ppRes,
                     1);
             }
             else
             {
+                const AnimRecord& closedDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][2]);
                 Animation_Init_417FD0(
-                    sDoorData_4BA508[idx].field_10_closed_frame_table_offset,
-                    sDoorData_4BA508[idx].field_18_maxW,
-                    sDoorData_4BA508[idx].field_1C_maxH,
+                    closedDoor.mFrameTableOffset,
+                    closedDoor.mMaxW,
+                    closedDoor.mMaxH,
                     ppRes,
                     1);
             }
 
             if (sCollisions_DArray_504C6C->RayCast_40C410(
-                    FP_FromInteger(pTlv->field_10_top_left.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
-                    FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-                    FP_FromInteger(pTlv->field_10_top_left.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
-                    FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
-                    &pLine,
-                    &field_A8_xpos,
-                    &field_AC_ypos,
-                    scale != FP_FromDouble(0.5) ? 7 : 0x70))
+                FP_FromInteger(pTlv->field_10_top_left.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
+                FP_FromInteger(pTlv->field_10_top_left.field_2_y),
+                FP_FromInteger(pTlv->field_10_top_left.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
+                FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
+                &pLine,
+                &field_A8_xpos,
+                &field_AC_ypos,
+                scale != FP_FromDouble(0.5) ? 7 : 0x70))
             {
                 field_AC_ypos += FP_FromInteger(4);
                 gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
@@ -212,36 +238,39 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
             }
             field_BC_sprite_scale = FP_FromInteger(1);
             break;
+        }
 
         case DoorStates::eOpening_2:
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1)
             {
-                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID, 1, 0);
+                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kF2p3dorAOResID, 1, 0);
             }
             else
             {
-                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kRockdoorResID, 1, 0);
+                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kRockdoorAOResID, 1, 0);
             }
 
             if (ppRes)
             {
-                if (sDoorData_4BA508[idx].field_24_opening_frame_table_offset)
+                const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][5]);
+                if (openDoor.mFrameTableOffset)
                 {
                     if (field_EC_current_state == DoorStates::eOpen_0)
                     {
                         Animation_Init_417FD0(
-                            sDoorData_4BA508[idx].field_24_opening_frame_table_offset,
-                            sDoorData_4BA508[idx].field_28_maxW,
-                            sDoorData_4BA508[idx].field_2C_maxH,
+                            openDoor.mFrameTableOffset,
+                            openDoor.mMaxW,
+                            openDoor.mMaxH,
                             ppRes,
                             1);
                     }
                     else
                     {
+                        const AnimRecord& closedDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][4]);
                         Animation_Init_417FD0(
-                            sDoorData_4BA508[idx].field_20_frame_table_offset,
-                            sDoorData_4BA508[idx].field_28_maxW,
-                            sDoorData_4BA508[idx].field_2C_maxH,
+                            closedDoor.mFrameTableOffset,
+                            closedDoor.mMaxW,
+                            closedDoor.mMaxH,
                             ppRes,
                             1);
                     }
@@ -425,7 +454,7 @@ void Door::VUpdate_40E870()
                     auto pMusicTrigger = ao_new<MusicTrigger>();
                     if (pMusicTrigger)
                     {
-                        pMusicTrigger->ctor_443A60(5, TriggeredBy::eTimer_0, 0, 300);
+                        pMusicTrigger->ctor_443A60(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
                     }
                 }
                 SwitchStates_Do_Operation_436A10(field_F0_switch_id, SwitchOp::eSetTrue_0);
@@ -450,17 +479,26 @@ void Door::VUpdate_40E870()
                     switch (field_E8_start_state)
                     {
                         case DoorStates::eOpen_0:
-                            field_10_anim.Set_Animation_Data_402A40(sDoorData_4BA508[lvl].field_4_open_frame_table_offset, nullptr);
+                        {
+                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][1]);
+                            field_10_anim.Set_Animation_Data_402A40(openDoor.mFrameTableOffset, nullptr);
                             break;
+                        }
 
                         case DoorStates::eClosed_1:
-                            field_10_anim.Set_Animation_Data_402A40(sDoorData_4BA508[lvl].field_14_closed_frame_table_offset, nullptr);
+                        {
+                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][3]);
+                            field_10_anim.Set_Animation_Data_402A40(openDoor.mFrameTableOffset, nullptr);
                             break;
+                        }
 
                         case DoorStates::eOpening_2:
+                        {
                         default:
-                            field_10_anim.Set_Animation_Data_402A40(sDoorData_4BA508[lvl].field_24_opening_frame_table_offset, nullptr);
+                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][5]);
+                            field_10_anim.Set_Animation_Data_402A40(openDoor.mFrameTableOffset, nullptr);
                             break;
+                        }
                     }
 
                     field_10_anim.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
@@ -479,17 +517,26 @@ void Door::VUpdate_40E870()
                     switch (field_E8_start_state)
                     {
                         case DoorStates::eOpen_0:
-                            field_10_anim.Set_Animation_Data_402A40(sDoorData_4BA508[lvl].field_4_open_frame_table_offset, nullptr);
+                        {
+                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][1]);
+                            field_10_anim.Set_Animation_Data_402A40(openDoor.mFrameTableOffset, nullptr);
                             break;
+                        }
 
                         case DoorStates::eClosed_1:
-                            field_10_anim.Set_Animation_Data_402A40(sDoorData_4BA508[lvl].field_14_closed_frame_table_offset, nullptr);
+                        {
+                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][3]);
+                            field_10_anim.Set_Animation_Data_402A40(openDoor.mFrameTableOffset, nullptr);
                             break;
+                        }
 
                         case DoorStates::eOpening_2:
+                        {
                         default:
-                            field_10_anim.Set_Animation_Data_402A40(sDoorData_4BA508[lvl].field_24_opening_frame_table_offset, nullptr);
+                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][5]);
+                            field_10_anim.Set_Animation_Data_402A40(openDoor.mFrameTableOffset, nullptr);
                             break;
+                        }
                     }
 
                     field_10_anim.SetFrame_402AC0(3u);

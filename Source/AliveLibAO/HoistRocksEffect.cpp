@@ -29,13 +29,13 @@ HoistParticle* HoistParticle::ctor_431B00(FP xpos, FP ypos, FP scale, s32 frameT
     SetVTable(this, 0x4BB288);
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHoistRocks, 1, 0);
-    s32 maxH = 7;
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kHoistRocksAOResID, 1, 0);
+    s32 maxW = 7;
     if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
     {
-        maxH = 5;
+        maxW = 5;
     }
-    Animation_Init_417FD0(frameTableOffset, maxH, 4, ppRes, 1);
+    Animation_Init_417FD0(frameTableOffset, maxW, 4, ppRes, 1);
 
     field_BC_sprite_scale = scale;
 
@@ -153,10 +153,12 @@ void HoistRocksEffect::VUpdate_431860()
             auto pHoistParticle = ao_new<HoistParticle>();
             if (pHoistParticle)
             {
-                s32 frameTableOffset = 176;
+                const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock2);
+                s32 frameTableOffset = normalHoist.mFrameTableOffset;
                 if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
                 {
-                    frameTableOffset = 260;
+                    const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock2);
+                    frameTableOffset = ruptureHoist.mFrameTableOffset;
                 }
                 pHoistParticle->ctor_431B00(
                     field_10_xpos + FP_FromInteger(Math_RandomRange_450F20(-8, 8)),
@@ -171,10 +173,12 @@ void HoistRocksEffect::VUpdate_431860()
             auto pHoistParticle = ao_new<HoistParticle>();
             if (pHoistParticle)
             {
-                s32 frameTableOffset = 188;
+                const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock3);
+                s32 frameTableOffset = normalHoist.mFrameTableOffset;
                 if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
                 {
-                    frameTableOffset = 276;
+                    const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock3);
+                    frameTableOffset = ruptureHoist.mFrameTableOffset;
                 }
                 pHoistParticle->ctor_431B00(
                     field_10_xpos + FP_FromInteger(Math_RandomRange_450F20(-8, 8)),
@@ -190,10 +194,12 @@ void HoistRocksEffect::VUpdate_431860()
         auto pHoistParticle = ao_new<HoistParticle>();
         if (pHoistParticle)
         {
-            s32 frameTableOffset = 164;
+            const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock1);
+            s32 frameTableOffset = normalHoist.mFrameTableOffset;
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
             {
-                frameTableOffset = 240;
+                const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock1);
+                frameTableOffset = ruptureHoist.mFrameTableOffset;
             }
             pHoistParticle->ctor_431B00(
                 field_10_xpos + FP_FromInteger(Math_RandomRange_450F20(-8, 8)),

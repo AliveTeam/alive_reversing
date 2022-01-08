@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -14,10 +15,10 @@ union OffLevelOrDx
 
 struct Path_WellBase : public Path_TLV
 {
-    s16 field_18_scale;
-    s16 field_1A_trigger_id;
-    s16 field_1C_well_id;
-    s16 field_1E_res_id;
+    Scale_short field_18_scale;
+    s16 field_1A_switch_id;
+    s16 field_1C_other_well_id;
+    s16 field_1E_anim_id;
     s16 field_20_exit_x;
     s16 field_22_exit_y;
     OffLevelOrDx field_24_off_level_or_dx;
@@ -33,7 +34,7 @@ struct Path_WellExpress final : public Path_WellBase
     s16 field_2E_on_path;
     s16 field_30_on_camera;
     s16 field_32_on_well_id;
-    s16 field_34_emit_leaves;
+    Choice_short field_34_emit_leaves;
     s16 field_36_leaf_x;
     s16 field_38_leaf_y;
     s16 field_3A_movie_id;
@@ -44,7 +45,7 @@ struct Path_WellLocal final : public Path_WellBase
 {
     s16 field_28_on_dx;
     s16 field_2A_on_dy;
-    s16 field_2C_bEmit_leaves;
+    Choice_short field_2C_bEmit_leaves;
     s16 field_2E_leaf_x;
     s16 field_30_leaf_y;
     s16 field_32_pad;
@@ -81,14 +82,14 @@ public:
 
     s32 field_D4[4];
     s32 field_E4_tlvInfo;
-    s16 field_E8_trigger_id;
+    s16 field_E8_switch_id;
     // pad
     FP field_EC_scale;
     FP field_F0_exit_x;
     FP field_F4_exit_y;
     FP field_F8_leaf_xpos;
     FP field_FC_leaf_ypos;
-    s16 field_100_emit_leaves;
+    Choice_short field_100_emit_leaves;
     s16 field_102_pad;
 };
 ALIVE_ASSERT_SIZEOF(Well, 0x104);

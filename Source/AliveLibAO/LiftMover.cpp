@@ -20,7 +20,7 @@ LiftMover* LiftMover::ctor_4054E0(Path_LiftMover* pTlv, s32 tlvInfo)
     field_10_enabled_by_switch_id = pTlv->field_18_switch_id;
     field_12_target_lift_point_id = pTlv->field_1A_lift_id;
 
-    if (pTlv->field_1C_direction)
+    if (pTlv->field_1C_direction == Path_LiftMover::YDirection::eUp_1)
     {
         field_1C_speed = FP_FromInteger(-4);
     }

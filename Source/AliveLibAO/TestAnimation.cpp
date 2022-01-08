@@ -31,14 +31,14 @@ void TestAnimation::DelayLoad()
     mLoaded = true; // Only do code below once
 
     const AnimRecord& animRec = AO::AnimRec(AnimId::Anim_Tester);
-
     if (!AO::ResourceManager::GetLoadedResource_4554F0(AO::ResourceManager::Resource_Animation, animRec.mResourceId, 0, 0))
     {
         AO::ResourceManager::LoadResourceFileWrapper(animRec.mBanName, nullptr);
+        LOG_INFO("Loading anim resource by BAN/BND name");
     }
     else
     {
-        LOG_WARNING("Anim resource already loaded - BAN/BND name not verified by test animation");
+        LOG_WARNING("Anim resource already loaded - BAN/BND name not verified/loaded by test animation");
     }
 
     static AO::DynamicArrayT<u8 *> resourceArray;

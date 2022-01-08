@@ -7,10 +7,18 @@
 
 namespace AO {
 
+enum buttonType : u16
+{
+    eCircle_0 = 0,
+    eSquare_1 = 1,
+    eTriangle_2 = 2,
+    eNone_3 = 3
+};
+
 class MainMenuFade final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MainMenuFade* ctor_42A5A0(s16 xpos, s16 ypos, u16 idx_1, s16 bDestroyOnDone);
+    EXPORT MainMenuFade* ctor_42A5A0(s16 xpos, s16 ypos, buttonType buttonType, s16 bDestroyOnDone);
 
     virtual void VUpdate() override;
 

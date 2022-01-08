@@ -220,13 +220,14 @@ ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord_Unknown, 0x30);
 
 void CC Game_ShowLoadingIcon_445EB0()
 {
-    u8** ppLoadingAnimRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1, 0);
-    if (ppLoadingAnimRes)
+    const AnimRecord& rec = AO::AnimRec(AnimId::Loading_Icon2);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    if (ppRes)
     {
         auto pParticle = ao_new<Particle>();
         if (pParticle)
         {
-            pParticle->ctor_478880(FP_FromInteger(0), FP_FromInteger(0), 652, 50, 38, ppLoadingAnimRes);
+            pParticle->ctor_478880(FP_FromInteger(0), FP_FromInteger(0), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
         }
 
         pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -1019,7 +1020,7 @@ u8** CC ResourceManager::GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 
 }
 
 
-void ResourceManager::CheckResourceIsLoaded(u32 type, ResourceID resourceId)
+void ResourceManager::CheckResourceIsLoaded(u32 type, AOResourceID resourceId)
 {
     u8** ppRes = GetLoadedResource_4554F0(type, resourceId, FALSE, FALSE);
     if (!ppRes)
@@ -1029,7 +1030,7 @@ void ResourceManager::CheckResourceIsLoaded(u32 type, ResourceID resourceId)
     }
 }
 
-void ResourceManager::CheckResourceIsLoaded(u32 type, std::initializer_list<ResourceID>& resourceIds)
+void ResourceManager::CheckResourceIsLoaded(u32 type, std::initializer_list<AOResourceID>& resourceIds)
 {
     for (const auto& resourceId : resourceIds)
     {

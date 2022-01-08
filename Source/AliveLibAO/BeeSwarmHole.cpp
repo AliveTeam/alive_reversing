@@ -27,10 +27,10 @@ BeeSwarmHole* BeeSwarmHole::ctor_4782B0(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
     field_14_rect.h = pTlv->field_14_bottom_right.field_2_y;
 
     field_20_interval = pTlv->field_1A_interval;
-    field_22_id = pTlv->field_1C_id;
+    field_22_fall_switch_id = pTlv->field_1C_fall_switch_id;
     field_24_movement_type = pTlv->field_1E_movement_type;
 
-    field_26_num_bees = pTlv->field_20_size;
+    field_26_bees_amount = pTlv->field_20_bees_amount;
     field_28_chase_time = pTlv->field_22_chase_time;
     field_2A_speed = pTlv->field_24_speed;
 
@@ -92,7 +92,7 @@ void BeeSwarmHole::VUpdate_478320()
                 FP_FromInteger(field_14_rect.x),
                 FP_FromInteger(field_14_rect.y),
                 speed,
-                field_26_num_bees,
+                field_26_bees_amount,
                 field_28_chase_time);
         }
 

@@ -23,8 +23,8 @@ enum class LevelIds : s16
     eRemoved_11 = 11,
     eBoardRoom_12 = 12,
     eRuptureFarmsReturn_13 = 13,
-    eForestChase = 14,
-    eDesertEscape = 15,
+    eForestChase_14 = 14,
+    eDesertEscape_15 = 15,
 };
 
 enum LevelIds_s8 : s8
@@ -138,7 +138,7 @@ enum class TlvTypes : s16
 
     HintFly_92 = 92,
     ScrabNoFall_93 = 93,
-    IdSplitter_94 = 94,
+    TimerTrigger_94 = 94,
     SecurityDoor_95 = 95,
     DemoPlaybackStone_96 = 96,
     BoomMachine_97 = 97,

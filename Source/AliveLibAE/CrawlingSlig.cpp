@@ -139,7 +139,7 @@ CrawlingSlig* CrawlingSlig::ctor_418C70(Path_CrawlingSlig* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::Crawling_Slig_Idle);
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, 1, 0));
+    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, 1, 0));
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1, 1);
 
     SetTint_425600(&kCrawlingSligTints_5514B8[0], gMap_5C3030.field_0_current_level);
@@ -284,12 +284,12 @@ s32 CC CrawlingSlig::CreateFromSaveState_41AE80(const u8* pBuffer)
     auto pState = reinterpret_cast<const CrawlingSlig_State*>(pBuffer);
 
     auto pTlv = static_cast<Path_CrawlingSlig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_44_tlvInfo));
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kCrawlingSligResID_449, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligResID_449, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("CRAWLSLG.BND", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
     }
@@ -599,7 +599,7 @@ s16 CrawlingSlig::HandleEnemyStopper_41C740(FP /*velX*/)
         TlvTypes::EnemyStopper_47));
     field_FC_pPathTLV = pStopper;
 
-    return pStopper && (pStopper->field_10_stop_direction == direction || pStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get_466020(pStopper->field_12_id);
+    return pStopper && (pStopper->field_10_stop_direction == direction || pStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get_466020(pStopper->field_12_switch_id);
 }
 
 Path_TLV* CrawlingSlig::FindPantsOrWings_419750()
@@ -917,7 +917,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker_419FE0()
             field_BC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eChase_8, this, 0, 0);
+        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
 
     if (!field_100_pCollisionLine && field_208_brain_sub_state != Brain_PanicGetALocker::eState2_Falling_1)
@@ -1409,7 +1409,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
         }
         else if (static_cast<s32>(sGnFrame_5C1B84) > field_1AC_timer)
         {
-            if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetPants_104 && ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 0, 0))
+            if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetPants_104 && ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 0, 0))
             {
                 // Transform to a walking slig
 
@@ -1438,7 +1438,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
                 }
                 field_10C_health = FP_FromInteger(0);
             }
-            else if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetWings_105 && ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFlySligResID, 0, 0))
+            else if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetWings_105 && ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, 0, 0))
             {
                 // Transform to a flying slig
 
@@ -1960,7 +1960,7 @@ void CrawlingSlig::HandleCommon_41C0B0()
     }
 }
 
-const FP dword_54471C[15] = {
+const FP sCrawlingSligXVels_54471C[15] = {
     FP_FromDouble(0),
     FP_FromDouble(0),
     FP_FromDouble(0),
@@ -1979,7 +1979,7 @@ const FP dword_54471C[15] = {
 
 s16 CrawlingSlig::CanCrawl_41C5D0()
 {
-    field_C4_velx = dword_54471C[field_20_animation.field_92_current_frame];
+    field_C4_velx = sCrawlingSligXVels_54471C[field_20_animation.field_92_current_frame];
 
     FP gridScale = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))

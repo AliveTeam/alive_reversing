@@ -175,7 +175,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
     field_144_flags.Clear(Flags_144::e144_Bit10_give_ring_without_password);
 
     field_1B6 = 0;
-    field_198 = 0;
+    field_198_abe_must_face_mud = 0;
 
     SetTint_418750(sMudTints_4CD320, field_B2_lvl_number);
 
@@ -189,11 +189,11 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
         {
             auto liftMudTlv = static_cast<Path_LiftMudokon*>(pTlv);
 
-            field_148_res_array.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, 1, 0);
+            field_148_res_array.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
 
 
-            field_18C = FP_FromInteger(liftMudTlv->field_18_how_far_to_walk);
-            field_110 = liftMudTlv->field_1A_lift_id;
+            field_18C_how_far_to_walk = FP_FromInteger(liftMudTlv->field_18_how_far_to_walk);
+            field_110_lift_switch_id = liftMudTlv->field_1A_lift_switch_id;
 
             field_144_flags.Set(Flags_144::e144_Bit5_unused, liftMudTlv->field_1C_direction == XDirection_short::eRight_1);
             field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
@@ -201,7 +201,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
 
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction == XDirection_short::eRight_1);
 
-            field_186 = liftMudTlv->field_1E_silent;
+            field_186_give_password = liftMudTlv->field_1E_give_password;
             field_184 = 1;
             field_1B8_brain_idx = 0;
             field_188 = 5;
@@ -217,22 +217,22 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
         {
             auto ringMudTlv = static_cast<Path_RingMudokon*>(pTlv);
 
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->field_18_facing == 0); // TODO: Check
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->field_18_direction == XDirection_short::eLeft_0); // TODO: Check
             field_184 = 0;
-            field_186 = ringMudTlv->field_1E_silent;
-            field_198 = ringMudTlv->field_1A_abe_must_be_same_direction == 0;
+            field_186_give_password = ringMudTlv->field_1E_give_password;
+            field_198_abe_must_face_mud = ringMudTlv->field_1A_abe_must_face_mud == Path_RingMudokon::MustFaceMud::eYes_0;
             field_1B8_brain_idx = 2;
 
             if (ringMudTlv->field_24_action == SwitchOp::eSetTrue_0)
             {
                 // Pull switch
-                field_148_res_array.res[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbepullResID, 1, 0);
+                field_148_res_array.res[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbepullAOResID, 1, 0);
                 field_188 = 6;
             }
             else
             {
                 // Give ring
-                field_148_res_array.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeommResID, 1, 0);
+                field_148_res_array.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
                 field_188 = 7;
             }
 
@@ -256,7 +256,7 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
             if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eStandScrub_0)
             {
                 field_1B8_brain_idx = 8;
-                field_148_res_array.res[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudchslResID, 1, 0);
+                field_148_res_array.res[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMudchslAOResID, 1, 0);
             }
             else if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eSitScrub_1)
             {
@@ -265,22 +265,22 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
             else if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eSitChant_2)
             {
                 field_1B8_brain_idx = 14;
-                field_148_res_array.res[12] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudltusResID, 1, 0);
+                field_148_res_array.res[12] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMudltusAOResID, 1, 0);
             }
 
-            field_148_res_array.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudoduckResID, 1, 0);
-            field_148_res_array.res[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudbtlnkResID, 1, 0);
-            field_148_res_array.res[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kMudscrubResID, 1, 0);
-            field_148_res_array.res[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, 1, 0);
-            field_148_res_array.res[6] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeknfdResID, 1, 0);
-            field_148_res_array.res[7] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeknbkResID, 1, 0);
-            field_148_res_array.res[8] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeedgeResID, 1, 0);
-            field_148_res_array.res[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbegasResID, 1, 0);
+            field_148_res_array.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMudoduckAOResID, 1, 0);
+            field_148_res_array.res[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMudbtlnkAOResID, 1, 0);
+            field_148_res_array.res[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMudscrubAOResID, 1, 0);
+            field_148_res_array.res[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
+            field_148_res_array.res[6] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknfdAOResID, 1, 0);
+            field_148_res_array.res[7] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknbkAOResID, 1, 0);
+            field_148_res_array.res[8] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeedgeAOResID, 1, 0);
+            field_148_res_array.res[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbegasAOResID, 1, 0);
 
 
             field_124_voice_pitch = mudTlv->field_1E_voice_pitch;
             field_4_typeId = Types::eMudokon_75;
-            field_1B2_switch_id = mudTlv->field_20_rescue_id;
+            field_1B2_rescue_switch_id = mudTlv->field_20_rescue_switch_id;
 
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, mudTlv->field_1C_direction == XDirection_short::eLeft_0);
 
@@ -2319,7 +2319,7 @@ void Mudokon::Motion_44_RunJumpMid_43E960()
         auto pMusicMem = ao_new<MusicTrigger>();
         if (pMusicMem)
         {
-            pMusicMem->ctor_443A60(5, TriggeredBy::eTimer_0, 0, 300);
+            pMusicMem->ctor_443A60(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
         }
 
         sRescuedMudokons_5076C0++;
@@ -2329,9 +2329,9 @@ void Mudokon::Motion_44_RunJumpMid_43E960()
             field_1AC_pBirdPortal->VMudSaved();
         }
 
-        if (field_1B2_switch_id)
+        if (field_1B2_rescue_switch_id)
         {
-            SwitchStates_Set(field_1B2_switch_id, 1);
+            SwitchStates_Set(field_1B2_rescue_switch_id, 1);
         }
     }
 
@@ -2716,7 +2716,7 @@ s16 Mudokon::Brain_ComingIn_0_441DE0()
         if (static_cast<s32>(gnFrameCount_507670) > field_1C0_timer)
         {
             field_FE_next_motion = eMudMotions::Motion_1_WalkLoop_43CC80;
-            field_190 = field_18C;
+            field_190 = field_18C_how_far_to_walk;
             return 2;
         }
     }
@@ -2757,7 +2757,7 @@ s16 Mudokon::Brain_ComingOut_1_441E90()
         if (field_FC_current_motion == eMudMotions::Motion_1_WalkLoop_43CC80)
         {
             field_144_flags.Clear(Flags_144::e144_Bit2);
-            field_190 = field_18C;
+            field_190 = field_18C_how_far_to_walk;
             return 2;
         }
     }
@@ -2809,7 +2809,7 @@ s16 Mudokon::Brain_SingSequenceIdle_2_441CA0()
             break;
 
         case 2:
-            if (!field_198
+            if (!field_198_abe_must_face_mud
                 || sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 GameSpeakEvents last_speak = {};
@@ -2841,7 +2841,7 @@ s16 Mudokon::Brain_SingSequenceIdle_2_441CA0()
         case 3:
             if (field_1C0_timer <= static_cast<s32>(gnFrameCount_507670))
             {
-                if (field_186)
+                if (field_186_give_password == Choice_short::eYes_1)
                 {
                     field_1B8_brain_idx = 4;
                 }
@@ -3245,7 +3245,7 @@ s16 Mudokon::Brain_LiftUse_5_43C180()
             if (pObj->field_4_typeId == Types::eLiftPoint_51)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(pObj);
-                if (field_110 == pLiftPoint->field_278_point_id)
+                if (field_110_lift_switch_id == pLiftPoint->field_278_point_id)
                 {
                     field_194_pLiftPoint = pLiftPoint;
                     pObj->field_C_refCount++;
@@ -4497,7 +4497,7 @@ s16 Mudokon::Brain_Chant_14_442710()
         case 3:
             if (!field_148_res_array.res[11])
             {
-                field_148_res_array.res[11] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbewaspResID, 1, 0);
+                field_148_res_array.res[11] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, 1, 0);
             }
 
             if (field_FC_current_motion == eMudMotions::Motion_57_Struggle_43EBE0)

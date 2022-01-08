@@ -24,7 +24,7 @@ struct Path_Drill_Data final
     Scale_short field_10_scale;
     s16 field_12_min_off_time;
     s16 field_14_max_off_time;
-    s16 field_16_id;
+    s16 field_16_switch_id;
     DrillBehavior field_18_behavior;
     s16 field_1A_speed;
     Choice_short field_1C_bStart_state_on;
@@ -90,7 +90,7 @@ private:
 private:
     DrillStates field_F4_state;
     s16 field_F6_width;
-    s16 field_F8_id;
+    s16 field_F8_switch_id;
     DrillDirection field_FA_direction;
     s16 field_FC_min_off_time;
     s16 field_FE_max_off_time;

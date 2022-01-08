@@ -29,7 +29,7 @@ Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, u32 tlvInfo)
     field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
     field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
 
-    field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_trigger_id);
+    field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_switch_id);
 
     field_54_effect_created = 0;
 
@@ -124,7 +124,7 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
         auto pSpark = ae_new<Spark>();
         if (pSpark)
         {
-            pSpark->ctor_4CBBB0(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, 1);
+            pSpark->ctor_4CBBB0(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
         }
     }
 }
@@ -142,12 +142,12 @@ void Teleporter::vUpdate_4DC400()
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
 
-            if (SwitchStates_Get_466020(field_34_mTlvData.field_1A_trigger_id) == field_2C_switch_state)
+            if (SwitchStates_Get_466020(field_34_mTlvData.field_1A_switch_id) == field_2C_switch_state)
             {
                 return;
             }
 
-            field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_trigger_id);
+            field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_switch_id);
 
             if (!sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                     FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos),
@@ -278,14 +278,14 @@ void Teleporter::vUpdate_4DC400()
 
             Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Teleporter_88, 0));
             Path_Teleporter_Data tlvData = pTeleporterTlv->field_10_data;
-            if (tlvData.field_10_id != field_34_mTlvData.field_12_target_id)
+            if (tlvData.field_10_teleporter_id != field_34_mTlvData.field_12_target_id)
             {
                 while (pTeleporterTlv)
                 {
                     pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_Next_Of_Type_4DB720(pTeleporterTlv, TlvTypes::Teleporter_88));
                     tlvData = pTeleporterTlv->field_10_data;
 
-                    if (tlvData.field_10_id == field_34_mTlvData.field_12_target_id)
+                    if (tlvData.field_10_teleporter_id == field_34_mTlvData.field_12_target_id)
                     {
                         break;
                     }
@@ -396,7 +396,7 @@ void Teleporter::vUpdate_4DC400()
             field_54_effect_created = 0;
             sControlledCharacter_5C1B8C->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             sControlledCharacter_5C1B8C->field_114_flags.Clear(Flags_114::e114_Bit10_Teleporting);
-            field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_trigger_id);
+            field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_switch_id);
             field_30_state = TeleporterState::eWaitForSwitchOn_0;
         }
         break;

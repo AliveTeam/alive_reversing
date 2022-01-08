@@ -40,8 +40,8 @@ GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
         field_D6_scale = 0;
     }
 
-    field_FA_ok_id = pTlv->field_12_ok_id;
-    field_FC_fail_id = pTlv->field_14_fail_id;
+    field_FA_ok_switch_id = pTlv->field_12_ok_switch_id;
+    field_FC_fail_switch_id = pTlv->field_14_fail_switch_id;
     field_118_top_left = pTlv->field_8_top_left;
     field_11C_bottom_right = pTlv->field_C_bottom_right;
 
@@ -295,7 +295,7 @@ void GlukkonSwitch::vUpdate_445200()
             Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Laugh_7, 127, -200, 0);
             const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            SwitchStates_Do_Operation_465F00(field_FA_ok_id, SwitchOp::eToggle_2);
+            SwitchStates_Do_Operation_465F00(field_FA_ok_switch_id, SwitchOp::eToggle_2);
             field_F8_state = 1;
             field_120_timer = sGnFrame_5C1B84 + 15;
             return;
@@ -322,7 +322,7 @@ void GlukkonSwitch::vUpdate_445200()
             Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Heh_5, 127, -200, 0);
             const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            SwitchStates_Do_Operation_465F00(field_FC_fail_id, SwitchOp::eSetTrue_0);
+            SwitchStates_Do_Operation_465F00(field_FC_fail_switch_id, SwitchOp::eSetTrue_0);
             field_F8_state = 0;
             field_120_timer = sGnFrame_5C1B84 + 90;
             return;

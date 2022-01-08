@@ -25,7 +25,7 @@ ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo)
     field_24_switch_id = pTlv->field_2C_switch_id;
     field_26_spawn_direction = pTlv->field_2E_spawn_direction;
 
-    field_38_state = 0;
+    field_38_state = ScrabSpawnerStates::eInactive_0;
 
     field_3C_spawned_scrab_id = -1;
     field_40_bFindSpawnedScrab = 0;
@@ -123,16 +123,16 @@ void ScrabSpawner::vUpdate_4AB510()
     auto pExistingSpawnedScrab = static_cast<Scrab*>(sObjectIds_5C1B70.Find_449CF0(field_3C_spawned_scrab_id));
     if (!Event_Get_422C00(kEventDeathReset) && !(field_6_flags.Get(BaseGameObject::eDead_Bit3)))
     {
-        if (field_38_state == 1)
+        if (field_38_state == ScrabSpawnerStates::eScrabSpawned_1)
         {
             if (!pExistingSpawnedScrab || pExistingSpawnedScrab->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
                 SwitchStates_Do_Operation_465F00(field_24_switch_id, SwitchOp::eSetFalse_1);
                 field_3C_spawned_scrab_id = -1;
-                field_38_state = 0;
+                field_38_state = ScrabSpawnerStates::eInactive_0;
             }
         }
-        else if (field_38_state == 0)
+        else if (field_38_state == ScrabSpawnerStates::eInactive_0)
         {
             if (SwitchStates_Get_466020(field_24_switch_id))
             {
@@ -150,7 +150,7 @@ void ScrabSpawner::vUpdate_4AB510()
 
                     SFX_Play_46FA90(SoundEffect::ScrabSpawn_111, 0);
 
-                    field_38_state = 1;
+                    field_38_state = ScrabSpawnerStates::eScrabSpawned_1;
                     field_3C_spawned_scrab_id = pNewScrab->field_8_object_id;
                 }
                 else

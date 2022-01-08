@@ -9,11 +9,11 @@
 
 namespace AO {
 
-MusicTrigger* MusicTrigger::ctor_443A60(s16 type, TriggeredBy triggeredBy, s32 id, s16 delay)
+MusicTrigger* MusicTrigger::ctor_443A60(MusicTriggerMusicType type, TriggeredBy triggeredBy, s32 switchId, s16 delay)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBBC0);
-    Init_443AD0(type, triggeredBy, static_cast<s16>(id), delay);
+    Init_443AD0(type, triggeredBy, static_cast<s16>(switchId), delay);
     field_10_tlvInfo = -1;
     return this;
 }
@@ -22,49 +22,49 @@ MusicTrigger* MusicTrigger::ctor_4439F0(Path_MusicTrigger* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BBBC0);
-    Init_443AD0(pTlv->field_18_music_type, pTlv->field_1A_triggered_by, pTlv->field_1C_id, pTlv->field_1E_music_delay);
+    Init_443AD0(pTlv->field_18_music_type, pTlv->field_1A_triggered_by, pTlv->field_1C_switch_id, pTlv->field_1E_music_delay);
     field_10_tlvInfo = tlvInfo;
     return this;
 }
 
-void MusicTrigger::Init_443AD0(s16 type, TriggeredBy triggeredBy, u16 id, s16 delay)
+void MusicTrigger::Init_443AD0(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay)
 {
     field_14_flags &= ~7u;
     field_4_typeId = Types::eNone_0;
 
     switch (type)
     {
-        case 0:
-            field_1C_music_type = MusicController::MusicTypes::eType3;
+        case MusicTriggerMusicType::eDrumAmbience_0:
+            field_1C_music_type = MusicController::MusicTypes::eDrumAmbience_3;
             field_18_counter = 400;
             break;
 
-        case 1:
-            field_1C_music_type = MusicController::MusicTypes::eDeathShort_13;
+        case MusicTriggerMusicType::eDeathDrumShort_1:
+            field_1C_music_type = MusicController::MusicTypes::eDeathDrumShort_13;
             field_18_counter = 30;
             break;
 
-        case 2:
+        case MusicTriggerMusicType::eSecretAreaLong_2:
             field_1C_music_type = MusicController::MusicTypes::eSecretAreaLong_16;
             field_18_counter = 30;
             break;
 
-        case 3:
+        case MusicTriggerMusicType::eSoftChase_3:
             field_1C_music_type = MusicController::MusicTypes::eSlogChase_5;
             field_14_flags |= 4;
             break;
 
-        case 4:
-            field_1C_music_type = MusicController::MusicTypes::eType8;
+        case MusicTriggerMusicType::eIntenseChase_4:
+            field_1C_music_type = MusicController::MusicTypes::eIntenseChase_8;
             field_14_flags |= 4;
             break;
 
-        case 5:
-            field_1C_music_type = MusicController::MusicTypes::eType2;
+        case MusicTriggerMusicType::eChime_5:
+            field_1C_music_type = MusicController::MusicTypes::eChime_2;
             field_18_counter = delay;
             break;
 
-        case 6:
+        case MusicTriggerMusicType::eSecretAreaShort_6:
             field_1C_music_type = MusicController::MusicTypes::eSecretAreaShort_15;
             field_18_counter = 30;
             break;
@@ -85,12 +85,12 @@ void MusicTrigger::Init_443AD0(s16 type, TriggeredBy triggeredBy, u16 id, s16 de
 
         case TriggeredBy::eSwitchID_2: // removed in AE
             field_14_flags |= 1u;
-            field_1E_id = id;
+            field_1E_switch_id = switchId;
             field_8_update_delay = 0;
             field_18_counter = delay;
-            if (id > 1)
+            if (switchId > 1)
             {
-                if (SwitchStates_Get(id))
+                if (SwitchStates_Get(switchId))
                 {
                     field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
@@ -99,7 +99,7 @@ void MusicTrigger::Init_443AD0(s16 type, TriggeredBy triggeredBy, u16 id, s16 de
 
         case TriggeredBy::eUnknown_3: // removed in AE
             field_14_flags |= 1u;
-            field_1E_id = id;
+            field_1E_switch_id = switchId;
             field_8_update_delay = 0;
             field_18_counter = -1;
             break;
@@ -166,7 +166,7 @@ void MusicTrigger::VUpdate_443C90()
 
     if (field_14_flags & 1)
     {
-        if (SwitchStates_Get(field_1E_id))
+        if (SwitchStates_Get(field_1E_switch_id))
         {
             field_14_flags &= ~1u;
 
@@ -195,7 +195,7 @@ void MusicTrigger::VUpdate_443C90()
 
         if (field_18_counter < 0)
         {
-            if (!SwitchStates_Get(field_1E_id))
+            if (!SwitchStates_Get(field_1E_switch_id))
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 return;

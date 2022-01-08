@@ -28,11 +28,11 @@
 
 namespace AO {
 
-const s32 buttonFrameTableOffsets_4BB1B8[4] = {
-    6152,
-    6140,
-    6164,
-    0};
+const AnimId buttonAnimIds_4BB1B8[4] = {
+    AnimId::MenuHighlight_Circle,
+    AnimId::MenuHighlight_Square,
+    AnimId::MenuHighlight_Triangle,
+    AnimId::None};
 
 // TODO: Move out
 ALIVE_VAR(1, 0x507690, s16, sSoundMono_507690, 0);
@@ -304,10 +304,10 @@ const MenuFMV sLevelList_4D0300[15] = {
     {"Monsaic Lines", LevelIds::eLines_2, 1, 14, -1, 11810, 681},
     {"Paramonia", LevelIds::eForest_3, 1, 1, -1, 330, 660},
     {"Paramonian Temple", LevelIds::eForestTemple_4, 1, 1, -1, 565, 170},
-    {"Paramonian Nests", LevelIds::eForestChase, 9, 1, -1, 2439, 2621},
+    {"Paramonian Nests", LevelIds::eForestChase_14, 9, 1, -1, 2439, 2621},
     {"Scrabania", LevelIds::eDesert_8, 1, 1, -1, 4677, 750},
     {"Scrabanian Temple", LevelIds::eDesertTemple_9, 1, 1, -1, 4410, 203},
-    {"Scrabanian Nests", LevelIds::eDesertEscape, 11, 1, -1, 466, 2124},
+    {"Scrabanian Nests", LevelIds::eDesertEscape_15, 11, 1, -1, 466, 2124},
     {"Stockyards", LevelIds::eStockYardsReturn_6, 4, 7, -1, 540, 640},
     {"Rescue Zulag 1", LevelIds::eRuptureFarmsReturn_13, 19, 3, -1, 2589, 193},
     {"Rescue Zulag 2", LevelIds::eRuptureFarmsReturn_13, 1, 1, -1, 1514, 705},
@@ -315,7 +315,7 @@ const MenuFMV sLevelList_4D0300[15] = {
     {"Rescue Zulag 4", LevelIds::eRuptureFarmsReturn_13, 14, 1, -1, 1390, 700},
     {"The Boardroom", LevelIds::eBoardRoom_12, 6, 1, -1, 592, 157}};
 
-MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, u16 idx_1, s16 bDestroyOnDone)
+MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, buttonType buttonType, s16 bDestroyOnDone)
 {
     ctor_417C10();
     SetVTable(this, 0x4BB1C8);
@@ -326,11 +326,12 @@ MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, u16 idx_1, s16 bDest
     field_C2_g = 128;
     field_C0_r = 128;
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kHighliteResID, 1, 0);
+    const AnimRecord& rec = AO::AnimRec(buttonAnimIds_4BB1B8[buttonType]);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(
-        buttonFrameTableOffsets_4BB1B8[idx_1],
-        99,
-        43,
+        rec.mFrameTableOffset,
+        rec.mMaxW,
+        rec.mMaxH,
         ppRes,
         1);
 
@@ -732,9 +733,9 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, s32 tlvInfo)
 
     field_FC_font.ctor_41C170(240, sFontPal_4D0090, &sFontContext_4FFD68);
     field_E4_res_array[0] = nullptr;
-    field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, 1, 0);
-    field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kOptionFlare, 1, 0);
-    field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kHighlitePalResID, 1, 0);
+    field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbespek2AOResID, 1, 0);
+    field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kOptionFlareAOResID, 1, 0);
+    field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kHighlitePalAOResID, 1, 0);
 
     // 30 = fmv select
     if (gMap_507BA8.field_4_current_camera == 30)
@@ -2068,7 +2069,7 @@ void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
     if (sNumCamSwappers_507668 <= 0)
     {
         ResourceManager::LoadResourceFile_455270("ABESPEAK.BAN", nullptr);
-        field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 1, 0);
+        field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
         field_1E0_selected_index.mainmenu = MainMenuOptions::eBegin_1;
 
@@ -2760,7 +2761,7 @@ void Menu::GameSpeak_Update_47CBD0()
                 field_1EC_pObj1 = ao_new<MainMenuFade>();
                 if (field_1EC_pObj1)
                 {
-                    field_1EC_pObj1->ctor_42A5A0(stru_4D00E0[8].field_0_xpos, stru_4D00E0[8].field_2_ypos + 36, 0, 0);
+                    field_1EC_pObj1->ctor_42A5A0(stru_4D00E0[8].field_0_xpos, stru_4D00E0[8].field_2_ypos + 36, buttonType::eCircle_0, 0);
                 }
             }
             else
@@ -2768,7 +2769,7 @@ void Menu::GameSpeak_Update_47CBD0()
                 field_1EC_pObj1 = ao_new<MainMenuFade>();
                 if (field_1EC_pObj1)
                 {
-                    field_1EC_pObj1->ctor_42A5A0(181, stru_4D00E0[8].field_2_ypos + 36, 0, 0);
+                    field_1EC_pObj1->ctor_42A5A0(181, stru_4D00E0[8].field_2_ypos + 36, buttonType::eCircle_0, 0);
                 }
             }
         }
@@ -2783,7 +2784,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1F0_pObj2 = ao_new<MainMenuFade>();
             if (field_1F0_pObj2)
             {
-                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[11].field_0_xpos, stru_4D00E0[11].field_2_ypos + 36, 0, 0);
+                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[11].field_0_xpos, stru_4D00E0[11].field_2_ypos + 36, buttonType::eCircle_0, 0);
             }
         }
         else
@@ -2810,7 +2811,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1F0_pObj2 = ao_new<MainMenuFade>();
             if (field_1F0_pObj2)
             {
-                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[10].field_0_xpos, stru_4D00E0[10].field_2_ypos + 36, 0, 0);
+                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[10].field_0_xpos, stru_4D00E0[10].field_2_ypos + 36, buttonType::eCircle_0, 0);
             }
         }
 
@@ -2824,7 +2825,7 @@ void Menu::GameSpeak_Update_47CBD0()
             auto pFade = ao_new<MainMenuFade>();
             if (pFade)
             {
-                pFade->ctor_42A5A0(stru_4D00E0[2].field_0_xpos, stru_4D00E0[2].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[2].field_0_xpos, stru_4D00E0[2].field_2_ypos + 36, buttonType::eCircle_0, 1);
             }
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak4_4C65C4))
@@ -2837,7 +2838,7 @@ void Menu::GameSpeak_Update_47CBD0()
             auto pFade = ao_new<MainMenuFade>();
             if (pFade)
             {
-                pFade->ctor_42A5A0(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, buttonType::eCircle_0, 1);
             }
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak1_4C65C8))
@@ -2850,7 +2851,7 @@ void Menu::GameSpeak_Update_47CBD0()
             auto pFade = ao_new<MainMenuFade>();
             if (pFade)
             {
-                pFade->ctor_42A5A0(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, buttonType::eCircle_0, 1);
             }
         }
         else if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_GameSpeak3_4C65C0))
@@ -2863,7 +2864,7 @@ void Menu::GameSpeak_Update_47CBD0()
             auto pFade = ao_new<MainMenuFade>();
             if (pFade)
             {
-                pFade->ctor_42A5A0(stru_4D00E0[3].field_0_xpos, stru_4D00E0[3].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[3].field_0_xpos, stru_4D00E0[3].field_2_ypos + 36, buttonType::eCircle_0, 1);
             }
         }
         CycleGameSpeakIdleAnims();
@@ -2886,7 +2887,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1F0_pObj2 = ao_new<MainMenuFade>();
             if (field_1F0_pObj2)
             {
-                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[12].field_0_xpos, stru_4D00E0[12].field_2_ypos + 36, 0, 0);
+                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[12].field_0_xpos, stru_4D00E0[12].field_2_ypos + 36, buttonType::eCircle_0, 0);
             }
         }
 
@@ -2900,7 +2901,7 @@ void Menu::GameSpeak_Update_47CBD0()
             auto pFade = ao_new<MainMenuFade>();
             if (pFade)
             {
-                pFade->ctor_42A5A0(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, buttonType::eCircle_0, 1);
             }
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak5_4C65EC))
@@ -2913,7 +2914,7 @@ void Menu::GameSpeak_Update_47CBD0()
             auto pFade = ao_new<MainMenuFade>();
             if (pFade)
             {
-                pFade->ctor_42A5A0(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, buttonType::eCircle_0, 1);
             }
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak8_4C65E0))
@@ -2926,7 +2927,7 @@ void Menu::GameSpeak_Update_47CBD0()
             auto pFade = ao_new<MainMenuFade>();
             if (pFade)
             {
-                pFade->ctor_42A5A0(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, buttonType::eCircle_0, 1);
             }
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak7_4C65E4))
@@ -2939,7 +2940,7 @@ void Menu::GameSpeak_Update_47CBD0()
             auto pFade = ao_new<MainMenuFade>();
             if (pFade)
             {
-                pFade->ctor_42A5A0(stru_4D00E0[7].field_0_xpos, stru_4D00E0[7].field_2_ypos + 36, 0, 1);
+                pFade->ctor_42A5A0(stru_4D00E0[7].field_0_xpos, stru_4D00E0[7].field_2_ypos + 36, buttonType::eCircle_0, 1);
             }
         }
         CycleGameSpeakIdleAnims();
@@ -2967,7 +2968,7 @@ void Menu::GameSpeak_Update_47CBD0()
     auto pFade2 = ao_new<MainMenuFade>();
     if (pFade2)
     {
-        pFade2->ctor_42A5A0(stru_4D00E0[9].field_0_xpos, stru_4D00E0[9].field_2_ypos + 36, 0, 1);
+        pFade2->ctor_42A5A0(stru_4D00E0[9].field_0_xpos, stru_4D00E0[9].field_2_ypos + 36, buttonType::eCircle_0, 1);
     }
 
     field_1CC_fn_update = &Menu::GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0;
@@ -3941,7 +3942,7 @@ void Menu::GameSpeak_To_MainScreen_Update_47D690()
 
 void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
 {
-    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 1, 0);
+    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
 }
 
 void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset)

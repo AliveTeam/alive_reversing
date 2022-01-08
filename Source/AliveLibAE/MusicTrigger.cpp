@@ -42,24 +42,24 @@ EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, Triggered
 
     switch (musicType)
     {
-        case MusicTriggerMusicType::eUnknown_0:
+        case MusicTriggerMusicType::eDrumAmbience_0:
             field_26_music_type = MusicController::MusicTypes::eDrumAmbience_3;
             field_28_counter = 400;
             break;
-        case MusicTriggerMusicType::eDeathShort_1:
-            field_26_music_type = MusicController::MusicTypes::eDeathShort_10;
+        case MusicTriggerMusicType::eDeathDrumShort_1:
+            field_26_music_type = MusicController::MusicTypes::eDeathDrumShort_10;
             field_28_counter = 30;
             break;
         case MusicTriggerMusicType::eSecretAreaLong_2:
             field_26_music_type = MusicController::MusicTypes::eSecretAreaLong_13;
             field_28_counter = 30;
             break;
-        case MusicTriggerMusicType::eChase_3:
-            field_26_music_type = MusicController::MusicTypes::eChase_8;
+        case MusicTriggerMusicType::eSoftChase_3:
+            field_26_music_type = MusicController::MusicTypes::eSoftChase_8;
             field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
             break;
-        case MusicTriggerMusicType::eSlogChase_4:
-            field_26_music_type = MusicController::MusicTypes::eSlogChase_7;
+        case MusicTriggerMusicType::eIntenseChase_4:
+            field_26_music_type = MusicController::MusicTypes::eIntenseChase_7;
             field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
             break;
         case MusicTriggerMusicType::eChime_5:

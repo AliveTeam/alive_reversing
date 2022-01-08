@@ -473,6 +473,12 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
         field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
     }
 
+    if (!field_F0_pTlv)
+    {
+        LOG_ERROR("Did a path transition to a camera with no start controller");
+        ALIVE_FATAL("Did a path transition to a camera with no start controller (add one if this is an edited level)");
+    }
+
     PSX_Point camLoc = {};
     gMap_507BA8.GetCurrentCamCoords_444890(&camLoc);
 
@@ -929,7 +935,7 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
 
     if (pPathTrans)
     {
-        if (pPathTrans->field_22_scale == 1)
+        if (pPathTrans->field_22_next_path_scale == Scale_short::eHalf_1)
         {
             if (field_BC_sprite_scale != FP_FromDouble(0.5))
             {
@@ -938,7 +944,7 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
                 field_B4_velx = (field_B4_velx * FP_FromDouble(0.5));
             }
         }
-        else if (pPathTrans->field_22_scale == 0)
+        else if (pPathTrans->field_22_next_path_scale == Scale_short::eFull_0)
         {
             if (field_BC_sprite_scale != FP_FromInteger(1))
             {

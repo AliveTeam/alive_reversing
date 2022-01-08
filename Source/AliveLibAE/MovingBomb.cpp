@@ -56,7 +56,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_124_speed = FP_FromRaw(pTlv->field_10_speed << 8);
     field_C4_velx = FP_FromRaw(pTlv->field_1C_start_speed << 8);
-    field_128_switch_id = pTlv->field_12_id;
+    field_128_switch_id = pTlv->field_12_switch_id;
     field_120_timer = sGnFrame_5C1B84;
     field_11C_tlvInfo = tlvInfo;
     field_12C_max = 0;
@@ -75,13 +75,13 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
     field_134_disable_resources = pTlv->field_1A_disable_resources;
     if (!(field_134_disable_resources & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     }
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalGib);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kAbeblowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kSlogBlowResID);
 
     FP hitX = {};
     FP hitY = {};

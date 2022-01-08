@@ -52,6 +52,7 @@ public:
     virtual void VScreenChanged() override;
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
+    void Fadeout();
 
     s32 field_D4_padding[4];
 };

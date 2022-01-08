@@ -24,7 +24,7 @@ void DemoPlayback::ctor()
         sDemoObj_dword_5D1E20 = this;
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 
-        u32** ppRes = reinterpret_cast<u32**>(Add_Resource_4DC130(ResourceManager::Resource_Demo, ResourceID::kDemoResID));
+        u32** ppRes = reinterpret_cast<u32**>(Add_Resource_4DC130(ResourceManager::Resource_Demo, AEResourceID::kDemoResID));
         SetUpdateDelay(1);
         sInputObject_5BD4E0.SetDemoResource_45F1E0(ppRes);
         SetType(AETypes::eDemoPlayback_98);

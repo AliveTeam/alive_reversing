@@ -4,6 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "Abe.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 void Scrab_ForceLink();
 
@@ -49,16 +50,16 @@ enum eScrabMotions : s32
 
 struct Path_Scrab final : public Path_TLV
 {
-    s16 field_18_scale;
+    Scale_short field_18_scale;
     s16 field_1A_attack_delay;
     s16 field_1C_patrol_type;
     s16 field_1E_left_min_delay;
     s16 field_20_left_max_delay;
     s16 field_22_right_min_delay;
     s16 field_24_right_max_delay;
-    s16 field_26_attack_duration;
+    s16 field_26_spotting_abe_delay;
     s16 field_28_disable_resources;
-    s16 field_2A_roar_randomly;
+    Choice_short field_2A_roar_randomly;
 };
 ALIVE_ASSERT_SIZEOF(Path_Scrab, 0x2C);
 
@@ -210,8 +211,8 @@ public:
     s16 field_130;
     s16 field_132_res_block_idx;
     s32 field_134_tlvInfo;
-    s32 field_138_attack_duration;
-    s32 field_13C_attack_timer;
+    s32 field_138_spotting_abe_delay;
+    s32 field_13C_spotting_timer;
     s32 field_140_last_shriek_timer;
     s16 field_144_left_min_delay;
     s16 field_146_left_max_delay;

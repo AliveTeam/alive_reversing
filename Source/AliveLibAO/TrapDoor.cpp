@@ -86,7 +86,7 @@ void TrapDoor::VScreenChanged_488740()
 
         if (field_13C_self_closing == Choice_short::eYes_1)
         {
-            SwitchStates_Set(field_134_switch_idx, field_138_switch_state == 0);
+            SwitchStates_Set(field_134_switch_id, field_138_switch_state == 0);
         }
     }
 }
@@ -169,14 +169,14 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     SetVTable(this, 0x4BD5E0);
 
     field_4_typeId = Types::eTrapDoor_98;
-    field_134_switch_idx = pTlv->field_18_id;
+    field_134_switch_id = pTlv->field_18_switch_id;
     field_138_switch_state = pTlv->field_1A_start_state;
 
     const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
 
     s32 frame_table_offset_1 = 0;
     const AnimRecord& closedRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_4_closed);
-    if (field_138_switch_state == SwitchStates_Get(pTlv->field_18_id))
+    if (field_138_switch_state == SwitchStates_Get(pTlv->field_18_switch_id))
     {
         field_136_state = TrapDoorState::eOpen_2;
         const AnimRecord& openRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_0_open);
@@ -200,7 +200,7 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         field_C6_scale = 1;
     }
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kP6c1trapAOResID, 1, 0);
 
     AddDynamicCollision_4512C0(
         closedRec.mFrameTableOffset,
@@ -257,7 +257,7 @@ void TrapDoor::VUpdate_4883E0()
     switch (field_136_state)
     {
         case TrapDoorState::eClosed_0:
-            if (SwitchStates_Get(field_134_switch_idx) == field_138_switch_state)
+            if (SwitchStates_Get(field_134_switch_id) == field_138_switch_state)
             {
                 Open();
                 field_136_state = TrapDoorState::eOpening_1;
@@ -288,7 +288,7 @@ void TrapDoor::VUpdate_4883E0()
 
         case TrapDoorState::eOpen_2:
             field_130_stay_open_time--;
-            if ((field_13C_self_closing == Choice_short::eYes_1 && !field_130_stay_open_time) || SwitchStates_Get(field_134_switch_idx) != SwitchStates_Get(field_138_switch_state))
+            if ((field_13C_self_closing == Choice_short::eYes_1 && !field_130_stay_open_time) || SwitchStates_Get(field_134_switch_id) != SwitchStates_Get(field_138_switch_state))
             {
                 const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
                 const AnimRecord& closingRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_C_closing);
@@ -319,7 +319,7 @@ void TrapDoor::VUpdate_4883E0()
                 );
                 ObjListPlatforms_50766C->Push_Back(this);
                 field_136_state = TrapDoorState::eClosed_0;
-                SwitchStates_Set(field_134_switch_idx, field_138_switch_state == 0);
+                SwitchStates_Set(field_134_switch_id, field_138_switch_state == 0);
             }
             break;
 

@@ -192,9 +192,8 @@ void BaseBomb::vUpdate_424180()
 
     if (field_20_animation.field_92_current_frame == 3)
     {
-        u8** ppRes = Add_Resource_4DC130(
-            ResourceManager::Resource_Animation,
-            ResourceID::kBgexpldResID);
+        const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
+        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         if (ppRes)
         {
             Particle* pParticle = ae_new<Particle>();
@@ -203,9 +202,9 @@ void BaseBomb::vUpdate_424180()
                 pParticle->ctor_4CC4C0(
                     field_B8_xpos,
                     field_BC_ypos,
-                    51588,
-                    214,
-                    49,
+                    rec.mFrameTableOffset,
+                    rec.mMaxW,
+                    rec.mMaxH,
                     ppRes);
 
                 pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);

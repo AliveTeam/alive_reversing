@@ -36,7 +36,8 @@ public:
                 if (static_cast<s32>(gnFrameCount_507670) > field_E8_timer)
                 {
                     field_E4_state = BoomMachineStates::eDropGrenade_3;
-                    field_10_anim.Set_Animation_Data_402A40(3588, 0);
+                    const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Nozzle_DropGrenade);
+                    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                 }
                 break;
 
@@ -76,7 +77,8 @@ public:
 
                     pNewNade->VThrow(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
-                    field_10_anim.Set_Animation_Data_402A40(3616, 0);
+                    const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
+                    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                     field_E4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -161,7 +163,8 @@ void BoomMachine::VUpdate_41E750()
         if (!gpThrowableArray_50E26C || gpThrowableArray_50E26C->field_10_count == 0)
         {
             field_E8_bIsButtonOn = 1;
-            field_10_anim.Set_Animation_Data_402A40(1572, nullptr);
+            const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
+            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
         }
     }
     else if (field_E8_bIsButtonOn == 1)
@@ -169,7 +172,8 @@ void BoomMachine::VUpdate_41E750()
         if (gpThrowableArray_50E26C && gpThrowableArray_50E26C->field_10_count > 0)
         {
             field_E8_bIsButtonOn = 0;
-            field_10_anim.Set_Animation_Data_402A40(1600, nullptr);
+            const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_Off);
+            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
         }
 
         if (field_10_anim.field_92_current_frame == 3)
@@ -233,7 +237,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
         pNozzle->ctor_417C10();
         SetVTable(pNozzle, 0x4BAFD0);
 
-        const AnimRecord rec2 = AO::AnimRec(AnimId::BoomMachine_Nozzle);
+        const AnimRecord rec2 = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
         u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
         pNozzle->Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
 

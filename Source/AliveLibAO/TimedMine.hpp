@@ -9,7 +9,7 @@ namespace AO {
 
 struct Path_TimedMine final : public Path_TLV
 {
-    s16 field_18_id;
+    s16 field_18_switch_id;
     s16 field_1A_state;
     Scale_short field_1C_scale;
     s16 field_1E_ticks_before_explode;

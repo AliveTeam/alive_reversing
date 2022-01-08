@@ -18,8 +18,8 @@ enum class LiftMoverStates : s16
 
 struct LiftMover_State final
 {
-    s16 field_0_type;
-    //s16 field_2;
+    AETypes field_0_type_id; // never read?
+    s16 field_2_padding;
     s32 field_4_tlvInfo;
     LiftMoverStates field_8_state;
 };

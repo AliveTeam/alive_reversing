@@ -451,18 +451,18 @@ EXPORT void CC Game_Loop_467230();
 
 EXPORT void CC Game_Init_LoadingIcon_482CD0()
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1u, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, 1u, 0);
     if (!ppRes)
     {
         ResourceManager::LoadResourceFile_49C170("LOADING.BAN", nullptr);
-        ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1u, 0);
+        ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, 1u, 0);
     }
     ResourceManager::Set_Header_Flags_49C650(ppRes, ResourceManager::ResourceHeaderFlags::eNeverFree);
 }
 
 EXPORT void CC Game_Free_LoadingIcon_482D40()
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, 0, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_49C330(ppRes);
@@ -515,7 +515,7 @@ EXPORT void CC Game_Run_466D40()
 
     ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
 
-    camera.field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, ResourceID::kUnknownResID_125, 1u, 0);
+    camera.field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, AEResourceID::kUnknownResID_125, 1u, 0);
     gMap_5C3030.field_24_camera_offset.field_4_y = FP_FromInteger(0);
     gMap_5C3030.field_24_camera_offset.field_0_x = FP_FromInteger(0);
 

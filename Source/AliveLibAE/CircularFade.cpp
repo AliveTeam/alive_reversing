@@ -31,7 +31,7 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 directio
     field_D0_r = fade_rgb;
 
     const AnimRecord& spotLightRec = AnimRec(AnimId::SpotLight);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID);
+    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID);
     Animation_Init_424E10(spotLightRec.mFrameTableOffset, spotLightRec.mMaxW, spotLightRec.mMaxH, ppRes, 1, 1u);
 
     field_DC_bApplyShadows &= ~1u;
@@ -137,7 +137,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
 
     const u8 fadeColour = static_cast<u8>(field_1B8_fade_colour);
 
-    Prim_Tile* pTile1 = &field_F8[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_Tile* pTile1 = &field_F8_tile1[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile1);
     SetRGB0(pTile1, fadeColour, fadeColour, fadeColour);
     SetXY0(pTile1, 0, 0);
@@ -147,7 +147,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTile1->mBase.header);
 
 
-    Prim_Tile* pTile2 = &field_120[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_Tile* pTile2 = &field_120_tile2[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile2);
     SetRGB0(pTile2, fadeColour, fadeColour, fadeColour);
     SetXY0(pTile2, 0, frameRect.y);
@@ -164,7 +164,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
     Poly_Set_SemiTrans_4F8A60(&pTile2->mBase.header, 1);
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTile2->mBase.header);
 
-    Prim_Tile* pTile3 = &field_148[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_Tile* pTile3 = &field_148_tile3[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile3);
     SetRGB0(pTile3, fadeColour, fadeColour, fadeColour);
     SetXY0(pTile3, frameRect.w, frameRect.y);
@@ -173,7 +173,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
     Poly_Set_SemiTrans_4F8A60(&pTile3->mBase.header, 1);
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTile3->mBase.header);
 
-    Prim_Tile* pTile4 = &field_170[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_Tile* pTile4 = &field_170_tile4[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile4);
     SetRGB0(pTile4, fadeColour, fadeColour, fadeColour);
     SetXY0(pTile4, 0, frameRect.h);
@@ -275,7 +275,7 @@ s32 CircularFade::vDone_4CE0B0()
     return field_F4_flags.Get(Flags::eBit2_Done);
 }
 
-CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 setBit8)
+CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 surviveDeathReset)
 {
     auto pCircularFade = ae_new<CircularFade>();
     if (!pCircularFade)
@@ -285,7 +285,7 @@ CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direc
 
     pCircularFade->ctor_4CE100(xpos, ypos, scale, direction, destroyOnDone);
 
-    if (setBit8)
+    if (surviveDeathReset)
     {
         pCircularFade->field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     }

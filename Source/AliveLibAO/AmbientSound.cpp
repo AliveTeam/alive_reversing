@@ -170,7 +170,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
             auto pMusicTrigger = ao_new<MusicTrigger>();
             if (pMusicTrigger)
             {
-                pMusicTrigger->ctor_443A60(0, TriggeredBy::eTouching_1, 0, 40);
+                pMusicTrigger->ctor_443A60(MusicTriggerMusicType::eDrumAmbience_0, TriggeredBy::eTouching_1, 0, 40);
             }
         }
     }

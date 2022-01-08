@@ -157,7 +157,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit2_Animate);
 
         field_12C_bMoving &= ~1u;
-        field_274_ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, 1, 0);
+        field_274_ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
         field_B4_velx = FP_FromInteger(0);
         field_13C_lift_wheel.field_8_r = 128;
         field_13C_lift_wheel.field_9_g = 128;
@@ -203,7 +203,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 
         CreatePulleyIfExists_435AE0(0, 0);
 
-        field_278_point_id = pTlv->field_18_id;
+        field_278_point_id = pTlv->field_18_point_id;
         field_130_lift_point_stop_type = pTlv->field_1E_lift_point_stop_type;
 
         switch (field_130_lift_point_stop_type)
@@ -253,7 +253,7 @@ void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
 
     field_12C_bMoving &= ~1u;
     pLiftTlv->field_1_unknown = 3;
-    pLiftTlv->field_18_id = field_278_point_id;
+    pLiftTlv->field_18_point_id = field_278_point_id;
     field_B8_vely = FP_FromInteger(0);
 
     Event_Broadcast_417220(kEventNoise_0, this);
@@ -412,7 +412,7 @@ void LiftPoint::VUpdate_434D10()
 
                             pLiftTlv->field_1_unknown = 3;
 
-                            pLiftTlv->field_18_id = field_278_point_id;
+                            pLiftTlv->field_18_point_id = field_278_point_id;
                             field_27A_flags.Set(Flags::eBit2_bTopFloor);
                         }
                     }
@@ -440,7 +440,7 @@ void LiftPoint::VUpdate_434D10()
 
                             pLiftTlv->field_1_unknown = 3;
 
-                            pLiftTlv->field_18_id = field_278_point_id;
+                            pLiftTlv->field_18_point_id = field_278_point_id;
                             field_27A_flags.Set(Flags::eBit4_bBottomFloor);
                         }
                     }
@@ -472,7 +472,7 @@ void LiftPoint::VUpdate_434D10()
                         }
 
                         pLiftTlv->field_1_unknown = 3;
-                        pLiftTlv->field_18_id = field_278_point_id;
+                        pLiftTlv->field_18_point_id = field_278_point_id;
                         field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
                     }
                     break;

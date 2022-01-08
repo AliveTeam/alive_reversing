@@ -43,7 +43,7 @@ public:
 
     EXPORT static void CC dtor_static_443E80();
 
-    EXPORT void OpenArchive(const char_type* fileName, s32 pos);
+    EXPORT bool OpenArchive(const char_type* fileName, s32 pos);
 
     EXPORT void OpenArchive_41BC60(s32 pos);
 

@@ -174,7 +174,7 @@ public:
 
         SetVTable(this, 0x4BB368);
         field_4_typeId = Types::eNone_0;
-        const AnimRecord rec = AO::AnimRec(AnimId::Door_Flame_Spark);
+        const AnimRecord rec = AO::AnimRec(AnimId::Zap_Sparks);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
         field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -432,15 +432,16 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
     field_CC_bApplyShadows |= 1u;
     field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
     field_EA_frame_count = field_10_anim.Get_Frame_Count_403540();
-    field_E8_switch_id = pTlv->field_18_id;
+    field_E8_switch_id = pTlv->field_18_switch_id;
 
-    if (pTlv->field_1A_scale == 1 || pTlv->field_1A_scale == 2)
+    if (pTlv->field_1A_scale == Path_DoorFlame::Scale::eHalf_1 || 
+        pTlv->field_1A_scale == Path_DoorFlame::Scale::eHalf_2)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
         field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 15);
     }
-    else if (pTlv->field_1A_scale == 0)
+    else if (pTlv->field_1A_scale == Path_DoorFlame::Scale::eFull_0)
     {
         field_BC_sprite_scale = FP_FromInteger(1);
         field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
@@ -466,7 +467,7 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
 
     field_F8_pFireBackgroundGlow = 0;
 
-    if (SwitchStates_Get(pTlv->field_18_id))
+    if (SwitchStates_Get(pTlv->field_18_switch_id))
     {
         field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
         field_EC_state = States::eEnabled_1;

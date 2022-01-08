@@ -4,6 +4,7 @@
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "SwitchStates.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
@@ -15,15 +16,22 @@ enum class PullRingSwitchSound : s16
     eDoorEffect_3 = 3,
 };
 
+enum class PullRingSoundDirection : s16
+{
+    eBoth_0 = 0,
+    eLeft_1 = 1,
+    eRight_2 = 2
+};
+
 struct Path_PullRingRope final : public Path_TLV
 {
-    s16 field_18_id;
+    s16 field_18_switch_id;
     SwitchOp field_1A_action;
     u16 field_1C_rope_length;
-    u16 field_1E_scale;
+    Scale_short field_1E_scale;
     PullRingSwitchSound field_20_on_sound;
     PullRingSwitchSound field_22_off_sound;
-    s16 field_24_sound_direction;
+    PullRingSoundDirection field_24_sound_direction;
     s16 field_26_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_PullRingRope, 0x28);
@@ -64,15 +72,15 @@ public:
         eReturnToIdle_3 = 3
     };
     States field_EC_state;
-    s16 field_EE_id;
+    s16 field_EE_switch_id;
     SwitchOp field_F0_action;
     s16 field_F2_pad;
     BaseAliveGameObject* field_F4_pPuller;
     Rope* field_F8_pRope;
     PullRingSwitchSound field_FC_on_sound;
     PullRingSwitchSound field_FE_off_sound;
-    s16 field_100_sound_direction;
-    s16 field_102;
+    PullRingSoundDirection field_100_sound_direction;
+    s16 field_102_padding;
 };
 ALIVE_ASSERT_SIZEOF(PullRingRope, 0x104);
 

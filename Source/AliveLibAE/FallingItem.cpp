@@ -43,7 +43,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
     field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = tlvInfo;
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
 
     const s32 lvlIdx = static_cast<s32>(gMap_5C3030.field_0_current_level);
 
@@ -51,7 +51,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_11E_id = pTlv->field_10_id;
+    field_11E_start_switch_id = pTlv->field_10_start_switch_id;
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
@@ -70,7 +70,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
     field_120_max_falling_items = pTlv->field_16_max_falling_items;
     field_122_remaining_falling_items = pTlv->field_16_max_falling_items;
     field_134_bHitDrillOrMineCar = FALSE;
-    field_12C_reset_id = pTlv->field_18_reset_id;
+    field_12C_stop_switch_id = pTlv->field_18_stop_switch_id;
     field_12E_do_sound_in_state_falling = TRUE;
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
@@ -122,11 +122,11 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
 
     if (id)
     {
-        field_11E_id = id;
+        field_11E_start_switch_id = id;
     }
     else
     {
-        field_11E_id = 1;
+        field_11E_start_switch_id = 1;
     }
 
     if (scale)
@@ -148,7 +148,7 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
     const FP xFixed = FP_FromInteger(xpos);
     const FP yFixed = FP_FromInteger(ypos);
 
-    field_12C_reset_id = resetId;
+    field_12C_stop_switch_id = resetId;
     field_134_bHitDrillOrMineCar = FALSE;
     field_12E_do_sound_in_state_falling = TRUE;
     field_B8_xpos = xFixed;
@@ -256,7 +256,7 @@ EXPORT void FallingItem::vUpdate_427780()
     switch (field_11C_state)
     {
         case State::eWaitForIdEnable_0:
-            if (field_11E_id && SwitchStates_Get_466020(field_11E_id))
+            if (field_11E_start_switch_id && SwitchStates_Get_466020(field_11E_start_switch_id))
             {
                 field_6_flags.Clear(BaseGameObject::eCanExplode_Bit7);
                 field_11C_state = State::eWaitForFallDelay_2;
@@ -377,13 +377,14 @@ EXPORT void FallingItem::vUpdate_427780()
                 auto pParticle = ae_new<Particle>();
                 if (pParticle)
                 {
-                    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0);
+                    const AnimRecord& rec = AnimRec(AnimId::Explosion);
+                    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
                     pParticle->ctor_4CC4C0(
                         field_B8_xpos,
                         field_BC_ypos - (FP_FromInteger(15) * field_CC_sprite_scale),
-                        51156,
-                        202,
-                        91,
+                        rec.mFrameTableOffset,
+                        rec.mMaxW,
+                        rec.mMaxH,
                         ppRes);
 
                     pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
@@ -426,11 +427,11 @@ EXPORT void FallingItem::vUpdate_427780()
                 SFX_Play_46FBA0(SoundEffect::FallingItemHit_47, 55, -1536);
             }
 
-            if (field_11E_id)
+            if (field_11E_start_switch_id)
             {
-                if (field_12C_reset_id)
+                if (field_12C_stop_switch_id)
                 {
-                    SwitchStates_Do_Operation_465F00(field_11E_id, SwitchOp::eSetFalse_1);
+                    SwitchStates_Do_Operation_465F00(field_11E_start_switch_id, SwitchOp::eSetFalse_1);
                 }
             }
 

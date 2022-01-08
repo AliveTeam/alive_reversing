@@ -716,42 +716,42 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
         field_10_resources_array.SetAt(i, nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, TRUE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebasicResID, TRUE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEBSIC.BAN", nullptr);
-        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, TRUE, FALSE);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebasicResID, TRUE, FALSE);
     }
-    field_10_resources_array.SetAt(AbeResources::eAbeBSic, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, FALSE, FALSE));
+    field_10_resources_array.SetAt(AbeResources::eAbeBSic, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebasicResID, FALSE, FALSE));
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, TRUE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, TRUE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEBSIC1.BAN", nullptr);
-        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, TRUE, FALSE);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, TRUE, FALSE);
     }
-    field_10_resources_array.SetAt(AbeResources::eAbeBSic1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, FALSE, FALSE));
+    field_10_resources_array.SetAt(AbeResources::eAbeBSic1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, FALSE, FALSE));
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeedgeResID, TRUE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeedgeResID, TRUE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEEDGE.BAN", nullptr);
-        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeedgeResID, TRUE, FALSE);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeedgeResID, TRUE, FALSE);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknfdResID, TRUE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeknfdResID, TRUE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEKNFD.BAN", nullptr);
-        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknfdResID, TRUE, FALSE);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeknfdResID, TRUE, FALSE);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeommResID, TRUE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeommResID, TRUE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEOMM.BAN", nullptr);
-        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeommResID, TRUE, FALSE);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeommResID, TRUE, FALSE);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknbkResID, TRUE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeknbkResID, TRUE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEKNBK.BAN", nullptr);
-        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknbkResID, TRUE, FALSE);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeknbkResID, TRUE, FALSE);
     }
 
     // OG BUG FIX: Speed runners will sometimes go through the floor to land in a well in a camera that didn't have its objects loaded yet.
@@ -768,36 +768,36 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
 
 
     ResourceManager::LoadResourceFile_49C170("ABENOELM.BND", nullptr);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbefallResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbesmashResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbefallResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbesmashResID);
 
     ResourceManager::LoadResourceFile_49C170("OMMFLARE.BAN", nullptr);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kOmmflareResID);
 
     ResourceManager::LoadResourceFile_49C170("SQBSMK.BAN", nullptr);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSquibSmokeResID);
 
     ResourceManager::LoadResourceFile_49C170("DUST.BAN", nullptr);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDustResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDustResID);
 
     const AnimRecord& bloodDropRec = AnimRec(AnimId::BloodDrop);
     ResourceManager::LoadResourceFile_49C170(bloodDropRec.mBanName, nullptr);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, bloodDropRec.mResourceId);
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
     }
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kObjectShadowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID);
 
     ResourceManager::LoadResourceFile_49C170("DEADFLR.BAN", nullptr);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDeathFlareResID);
 
     ResourceManager::LoadResourceFile_49C170("DOVBASIC.BAN", nullptr);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDovbasicResID);
 
     ResourceManager::LoadResourceFile_49C170("SPOTLITE.BAN", nullptr);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID);
 
     field_128.field_10_resource_index = 1;
 
@@ -983,28 +983,28 @@ const char_type* sAbe_ResNames_545830[22] = {
 };
 
 const s32 sAbeResourceIDTable_554D60[22] = {
-    ResourceID::kAbebasicResID, // 10
-    ResourceID::kAbebsic1ResID, // 55
-    ResourceID::kAbepullResID,  // 11
-    ResourceID::kAbepickResID,  // 12
-    ResourceID::kAbebombResID,  // 13
-    ResourceID::kAbethrowResID, // 14
-    ResourceID::kAbesmashResID, // 19
-    ResourceID::kAbefallResID,  // 20
-    ResourceID::kAbestoneResID, // 21
-    ResourceID::kAbeknbkResID,  // 26
-    ResourceID::kAbeknfdResID,  // 27
-    ResourceID::kAbeknokzResID, // 28
-    ResourceID::kAbehoistResID, // 42
-    ResourceID::kAbeedgeResID,  // 43
-    ResourceID::kAbedoorResID,  // 45
-    ResourceID::kAbewellResID,  // 47
-    ResourceID::kAbeommResID,   // 48
-    ResourceID::kAbeliftResID,  // 53
-    ResourceID::kAbeCarResId,   // 113
-    ResourceID::kAbemorphResID, // 117
-    ResourceID::kAbeworkResID,  // 515
-    ResourceID::kAbegasResID,   // 118
+    AEResourceID::kAbebasicResID, // 10
+    AEResourceID::kAbebsic1ResID, // 55
+    AEResourceID::kAbepullResID,  // 11
+    AEResourceID::kAbepickResID,  // 12
+    AEResourceID::kAbebombResID,  // 13
+    AEResourceID::kAbethrowResID, // 14
+    AEResourceID::kAbesmashResID, // 19
+    AEResourceID::kAbefallResID,  // 20
+    AEResourceID::kAbestoneResID, // 21
+    AEResourceID::kAbeknbkResID,  // 26
+    AEResourceID::kAbeknfdResID,  // 27
+    AEResourceID::kAbeknokzResID, // 28
+    AEResourceID::kAbehoistResID, // 42
+    AEResourceID::kAbeedgeResID,  // 43
+    AEResourceID::kAbedoorResID,  // 45
+    AEResourceID::kAbewellResID,  // 47
+    AEResourceID::kAbeommResID,   // 48
+    AEResourceID::kAbeliftResID,  // 53
+    AEResourceID::kAbeCarResId,   // 113
+    AEResourceID::kAbemorphResID, // 117
+    AEResourceID::kAbeworkResID,  // 515
+    AEResourceID::kAbegasResID,   // 118
 };
 
 
@@ -1124,11 +1124,11 @@ s32 CC Abe::CreateFromSaveState_44D4F0(const u8* pData)
     {
         if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(25))
         {
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbemorphResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", nullptr);
             }
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSplineResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
             }
@@ -1213,34 +1213,34 @@ s32 CC Abe::CreateFromSaveState_44D4F0(const u8* pData)
 
     if (sActiveHero_5C1B68->field_198_has_evil_fart)
     {
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, FALSE, FALSE))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, FALSE, FALSE))
         {
             ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
         }
 
         if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
         {
-            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, TRUE, FALSE));
+            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
         }
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, 0, 0))
         {
             ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
         }
 
         if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(24))
         {
-            sActiveHero_5C1B68->field_10_resources_array.SetAt(24, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, TRUE, FALSE));
+            sActiveHero_5C1B68->field_10_resources_array.SetAt(24, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, TRUE, FALSE));
         }
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
         {
             ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
         }
 
         if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(23))
         {
-            sActiveHero_5C1B68->field_10_resources_array.SetAt(23, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, TRUE, FALSE));
+            sActiveHero_5C1B68->field_10_resources_array.SetAt(23, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, TRUE, FALSE));
         }
     }
 
@@ -1703,7 +1703,7 @@ void Abe::Update_449DC0()
             field_128.field_18_say = MudSounds::eOops_14;
             field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
 
-            ae_new<MusicTrigger>()->ctor_47FF10(MusicTriggerMusicType::eDeathShort_1, TriggeredBy::eTimer_0, 90, 0);
+            ae_new<MusicTrigger>()->ctor_47FF10(MusicTriggerMusicType::eDeathDrumShort_1, TriggeredBy::eTimer_0, 90, 0);
         }
 
         if (Event_Get_422C00(kEventMudokonComfort))
@@ -2773,14 +2773,14 @@ BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
 
 void Abe::Load_Basic_Resources_44D460()
 {
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebasicResID, FALSE, FALSE))
     {
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, TRUE, FALSE))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebasicResID, TRUE, FALSE))
         {
             ResourceManager::LoadResourceFile_49C170("ABEBSIC.BAN", nullptr);
-            ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, TRUE, FALSE);
+            ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebasicResID, TRUE, FALSE);
         }
-        field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, FALSE, FALSE));
+        field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbebasicResID, FALSE, FALSE));
     }
 }
 
@@ -3668,7 +3668,7 @@ void Abe::Motion_3_Fall_459B60()
 
                 if (pSoftLanding)
                 {
-                    if (!SwitchStates_Get_466020(static_cast<s16>(pSoftLanding->field_10_id)))
+                    if (!SwitchStates_Get_466020(static_cast<s16>(pSoftLanding->field_10_switch_id)))
                     {
                         pSoftLanding = nullptr;
                     }
@@ -6494,7 +6494,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
         if (pBaseWell->field_4_type == TlvTypes::LocalWell_8)
         {
             Path_WellLocal* pLocal = static_cast<Path_WellLocal*>(pBaseWell);
-            if (SwitchStates_Get_466020(pBaseWell->field_2_trigger_id))
+            if (SwitchStates_Get_466020(pBaseWell->field_2_switch_id))
             {
                 Calc_Well_Velocity_45C530(
                     FP_GetExponent(field_B8_xpos),
@@ -6621,7 +6621,7 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
     }
 
     Path_WellExpress* pExpressWell = static_cast<Path_WellExpress*>(field_FC_pPathTLV);
-    if (SwitchStates_Get_466020(pExpressWell->field_2_trigger_id))
+    if (SwitchStates_Get_466020(pExpressWell->field_2_switch_id))
     {
         field_19A_to_level = pExpressWell->field_24_enabled_well_level;
         field_19C_to_path = pExpressWell->field_26_enabled_well_path;
@@ -6710,7 +6710,7 @@ void Abe::Motion_83_WellExpressShotOut_45CF70()
         {
             // Is it the target of the previous well?
             Path_WellBase* pWellBase = static_cast<Path_WellBase*>(pTlvIter);
-            if (pWellBase->field_4_well_id == field_1A0_door_id)
+            if (pWellBase->field_4_other_well_id == field_1A0_door_id)
             {
                 pWell = pWellBase;
                 break;
@@ -6794,7 +6794,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
                 // Add ref
-                ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, TRUE, 0);
+                ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID, TRUE, 0);
 
                 CircularFade* pCircularFade2 = Make_Circular_Fade_4CE8C0(
                     field_B8_xpos,
@@ -6943,7 +6943,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                     sHandstoneSoundChannels_5C2C68 = 0;
                 }
 
-                u8** ppResToFree = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, 0, 0);
+                u8** ppResToFree = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID, 0, 0);
                 ResourceManager::FreeResource_49C330(ppResToFree);
             }
             break;
@@ -8547,9 +8547,9 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
 
 void Abe::Get_Shrykull_Resources_45AA20()
 {
-    field_10_resources_array.SetAt(25, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(26, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(27, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, TRUE, FALSE));
+    field_10_resources_array.SetAt(25, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbemorphResID, TRUE, FALSE));
+    field_10_resources_array.SetAt(26, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kShrmorphResID, TRUE, FALSE));
+    field_10_resources_array.SetAt(27, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSplineResID, TRUE, FALSE));
 }
 
 s16 Abe::ToLeftRightMovement_44E340()
@@ -9397,7 +9397,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             }
             else
             {
-                xOffset = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
+                xOffset = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2));
             }
         }
 
@@ -9420,7 +9420,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 auto pSpark = ae_new<Spark>();
                 if (pSpark)
                 {
-                    pSpark->ctor_4CBBB0(hitX, hitY, field_CC_sprite_scale, 9, -31, 159, 0);
+                    pSpark->ctor_4CBBB0(hitX, hitY, field_CC_sprite_scale, 9, -31, 159, SparkType::eSmallChantParticle_0);
                 }
                 New_Smoke_Particles_426C70(hitX, hitY, field_CC_sprite_scale, 3, 128u, 128u, 128u);
             }
@@ -9871,9 +9871,9 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
         return 1;
     }
 
-    field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(23, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(24, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, TRUE, FALSE));
+    field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
+    field_10_resources_array.SetAt(23, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, TRUE, FALSE));
+    field_10_resources_array.SetAt(24, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, TRUE, FALSE));
     pBrewMachine->field_144_total_brew_count--;
     field_198_has_evil_fart = TRUE;
 

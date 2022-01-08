@@ -38,7 +38,7 @@ void Claw::ctor()
     SetVTable(this, 0x4BAA70);
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
     
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Lower);
+    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Lower_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 }
@@ -46,6 +46,11 @@ void Claw::ctor()
 BaseGameObject* Claw::VDestructor(s32 flags)
 {
     return Vdtor(flags);
+}
+
+void Claw::VScreenChanged()
+{
+    // Keep alive as the Claw is owned by the SecurityClaw
 }
 
 BaseGameObject* Claw::Vdtor(s32 flags)
@@ -68,7 +73,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
     field_6_flags.Set(Options::eCanExplode_Bit7);
     field_12C_pDetector = 1;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Upper);
+    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Upper_Rotating);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
@@ -97,23 +102,21 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
     field_134 = pTlv->field_10_top_left;
     field_138 = pTlv->field_14_bottom_right;
 
-    field_118_alarm_id = pTlv->field_1A_alarm_id;
+    field_118_alarm_switch_id = pTlv->field_1A_alarm_switch_id;
     field_11A_alarm_duration = pTlv->field_1C_alarm_duration;
 
     field_110_state = SecurityClawStates::eCamSwap_0;
 
-    auto pClaw = ao_new<Claw>();
-    if (pClaw)
+    field_130_pClaw = ao_new<Claw>();
+    if (field_130_pClaw)
     {
-        pClaw->ctor();
-        pClaw->field_BC_sprite_scale = field_BC_sprite_scale;
-        pClaw->field_10_anim.field_C_layer = field_BC_sprite_scale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElum_28 : Layer::eLayer_ZapLinesElum_Half_9;
+        field_130_pClaw->ctor();
+        field_130_pClaw->field_BC_sprite_scale = field_BC_sprite_scale;
+        field_130_pClaw->field_10_anim.field_C_layer = field_BC_sprite_scale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElum_28 : Layer::eLayer_ZapLinesElum_Half_9;
 
-        field_130_pClaw = pClaw;
-
-        pClaw->field_A8_xpos = field_11C_clawX;
-        pClaw->field_AC_ypos = field_120_clawY;
-        pClaw->SetTint_418750(&kClawTints_4C5498[0], gMap_507BA8.field_0_current_level);
+        field_130_pClaw->field_A8_xpos = field_11C_clawX;
+        field_130_pClaw->field_AC_ypos = field_120_clawY;
+        field_130_pClaw->SetTint_418750(&kClawTints_4C5498[0], gMap_507BA8.field_0_current_level);
     }
 
     field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
@@ -278,7 +281,7 @@ void SecurityClaw::VUpdate_418DE0()
         {
             SND_Stop_Channels_Mask_4774A0(field_128_sound_channels);
         }
-        field_128_sound_channels = SFX_Play_43AE60(56u, 55, -300, 0);
+        field_128_sound_channels = SFX_Play_43AE60(SoundEffect::SecurityOrb_56, 55, -300, 0);
     }
 
     if (sActiveHero_507678 == sControlledCharacter_50767C)
@@ -340,7 +343,8 @@ void SecurityClaw::VUpdate_418DE0()
                     auto pDetector = static_cast<MotionDetector*>(pObjIter);
                     if (!field_13C_pArray)
                     {
-                        field_10_anim.Set_Animation_Data_402A40(22616, nullptr);
+                        const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Upper_NoRotation);
+                        field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
                         field_13C_pArray = ao_new<DynamicArrayT<MotionDetector>>();
                         if (field_13C_pArray)
                         {
@@ -363,9 +367,10 @@ void SecurityClaw::VUpdate_418DE0()
             {
                 field_114_timer = gnFrameCount_507670 + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
-                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(22420, nullptr);
-                SFX_Play_43AD70(95u, 60, 0);
-                SFX_Play_43AE60(95u, 90, -1000, 0);
+                const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Open);
+                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                SFX_Play_43AD70(SoundEffect::IndustrialNoise3_95, 60, 0);
+                SFX_Play_43AE60(SoundEffect::IndustrialNoise3_95, 90, -1000, 0);
             }
 
             if (Event_Get_417250(kEvent_2))
@@ -375,7 +380,7 @@ void SecurityClaw::VUpdate_418DE0()
                     auto pAlarm = ao_new<Alarm>();
                     if (pAlarm)
                     {
-                        pAlarm->ctor_402570(field_11A_alarm_duration, field_118_alarm_id, 30, Layer::eLayer_Above_FG1_39);
+                        pAlarm->ctor_402570(field_11A_alarm_duration, field_118_alarm_switch_id, 30, Layer::eLayer_Above_FG1_39);
                     }
                 }
             }
@@ -488,18 +493,19 @@ void SecurityClaw::VUpdate_418DE0()
 
             if (field_114_timer - gnFrameCount_507670 == 4)
             {
-                SFX_Play_43AD70(57u, 0, 0);
+                SFX_Play_43AD70(SoundEffect::Zap1_57, 0, 0);
             }
             else if (field_114_timer - gnFrameCount_507670 == 1)
             {
-                SFX_Play_43AD70(58u, 0, 0);
+                SFX_Play_43AD70(SoundEffect::Zap2_58, 0, 0);
             }
 
             if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
             {
                 field_110_state = SecurityClawStates::eIdle_1;
-                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(22568, nullptr);
-                SFX_Play_43AD70(97u, 0, 0);
+                const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Close);
+                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 0, 0);
             }
             break;
 

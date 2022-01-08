@@ -11,7 +11,7 @@ class Path_MovingBomb final : public Path_TLV
 {
 public:
     s16 field_18_speed;
-    s16 field_1A_id;
+    s16 field_1A_switch_id;
     Choice_short field_1C_bTriggered_by_alarm;
     Scale_short field_1E_scale;
     s16 field_20_max_rise;
@@ -78,7 +78,7 @@ public:
     s32 field_110_tlvInfo;
     s32 field_114_timer;
     FP field_118_speed;
-    u16 field_11C_id;
+    u16 field_11C_switch_id;
     s16 field_11E_max;
     s16 field_120_min;
     s16 field_122_pad;

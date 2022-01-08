@@ -28,7 +28,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
     field_6_flags.Set(Options::eInteractive_Bit8);
-    field_1BC_flags &= ~1u;
+    field_1BC_flags.Clear(flags_1BC::eUnused_Bit0);
     field_10C_state = UXBState::eDelay_0;
 
     field_1B4_pattern_length = pTlv->field_18_pattern_length;
@@ -67,10 +67,13 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
     {
         if (pTlv->field_1E_state == UXBStartState::eOn_0)
         {
-            u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
+            u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0);
             field_11C_anim.LoadPal_403090(ppRes, 0);
-            field_1BC_flags &= ~2u;
-            field_11C_anim.Set_Animation_Data_402A40(372, 0);
+            field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
+
+            const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
+            field_11C_anim.Set_Animation_Data_402A40(flashRec.mFrameTableOffset, 0);
+
             if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
@@ -80,7 +83,10 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
             {
                 SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
             }
-            field_10_anim.Set_Animation_Data_402A40(7884, 0);
+
+            const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
+            field_10_anim.Set_Animation_Data_402A40(animRec.mFrameTableOffset, 0);
+
             field_10C_state = UXBState::eDeactivated_3;
             field_10E_starting_state = UXBState::eDelay_0;
         }
@@ -97,11 +103,16 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
         }
         else
         {
-            u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0);
+            u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0);
             field_11C_anim.LoadPal_403090(ppPal, 0);
-            field_1BC_flags &= ~2u;
-            field_11C_anim.Set_Animation_Data_402A40(372, 0);
-            field_10_anim.Set_Animation_Data_402A40(7884, 0);
+            field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
+
+            const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
+            field_11C_anim.Set_Animation_Data_402A40(flashRec.mFrameTableOffset, 0);
+
+            const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
+            field_10_anim.Set_Animation_Data_402A40(animRec.mFrameTableOffset, 0);
+
             field_10E_starting_state = UXBState::eDeactivated_3;
             field_10C_state = UXBState::eDeactivated_3;
         }
@@ -114,34 +125,34 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
     field_118_next_state_frame = gnFrameCount_507670;
     field_110_disabled_resources = static_cast<s16>(pTlv->field_20_disabled_resources);
 
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebombAOResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kBgexpldAOResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 1, 0);
 
     if (!(field_110_disabled_resources & 1))
     {
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
     }
 
     if (!(field_110_disabled_resources & 4))
     {
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, 1, 0);
     }
 
     if (!(field_110_disabled_resources & 2))
     {
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
     if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
     {
-        field_1BC_flags &= ~2u;
+        field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
         field_C0_r = 80;
         field_C2_g = 90;
         field_C4_b = 110;
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, 1, 0);
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
+        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
     const FP gridSnap = ScaleToGridSize_41FA30(field_BC_sprite_scale);
@@ -199,28 +210,28 @@ BaseGameObject* UXB::dtor_4891B0()
         gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, -1, 0, 1);
     }
 
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbebombResID, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kDebrisID00, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebombAOResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kBgexpldAOResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0));
 
     if (!(field_110_disabled_resources & 1))
     {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 0, 0));
     }
 
     if (!(field_110_disabled_resources & 4))
     {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kElmblowResID_217, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, 0, 0));
     }
 
     if (!(field_110_disabled_resources & 2))
     {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, 0, 0));
     }
 
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 0, 0));
 
     field_11C_anim.vCleanUp();
 
@@ -353,7 +364,8 @@ void UXB::VOnPickUpOrSlapped_4897E0()
             }
             else
             {
-                field_11C_anim.Set_Animation_Data_402A40(372, 0);
+                const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
+                field_11C_anim.Set_Animation_Data_402A40(flashRec.mFrameTableOffset, 0);
                 if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
@@ -363,7 +375,8 @@ void UXB::VOnPickUpOrSlapped_4897E0()
                 {
                     SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
                 }
-                field_10_anim.Set_Animation_Data_402A40(7812, 0);
+                const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Toggle);
+                field_10_anim.Set_Animation_Data_402A40(animRec.mFrameTableOffset, 0);
                 field_10C_state = UXBState::eDeactivated_3;
                 field_118_next_state_frame = gnFrameCount_507670 + 10;
             }
@@ -372,7 +385,8 @@ void UXB::VOnPickUpOrSlapped_4897E0()
         {
             field_10C_state = UXBState::eDelay_0;
             field_8_update_delay = 6;
-            field_10_anim.Set_Animation_Data_402A40(7740, 0);
+            const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Active);
+            field_10_anim.Set_Animation_Data_402A40(animRec.mFrameTableOffset, 0);
             if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
@@ -405,7 +419,8 @@ void UXB::VUpdate_489380()
             else if (field_118_next_state_frame <= static_cast<s32>(gnFrameCount_507670))
             {
                 field_10C_state = UXBState::eActive_1;
-                field_11C_anim.Set_Animation_Data_402A40(384, 0);
+                const AnimRecord& rec = AO::AnimRec(AnimId::Bomb_Flash);
+                field_11C_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
             }
             break;
 
@@ -422,8 +437,8 @@ void UXB::VUpdate_489380()
                     field_1BA_red_blink_count--;
                     if (field_1BA_red_blink_count == 0)
                     {
-                        field_11C_anim.LoadPal_403090(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
-                        field_1BC_flags &= ~2u;
+                        field_11C_anim.LoadPal_403090(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0), 0);
+                        field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
                     }
                 }
                 else
@@ -436,7 +451,7 @@ void UXB::VUpdate_489380()
                         field_11C_anim.field_20_ppBlock,
                         pFrameHeader->field_0_clut_offset);
 
-                    field_1BC_flags |= 2u;
+                    field_1BC_flags.Set(flags_1BC::eIsRed_Bit1);
 
                     field_1B6_pattern_index++;
 
@@ -449,9 +464,10 @@ void UXB::VUpdate_489380()
                     field_1BA_red_blink_count = (field_1B8_pattern / static_cast<s32>(pow(10, field_1B4_pattern_length - field_1B6_pattern_index - 1))) % 10;
                 }
 
-                field_11C_anim.Set_Animation_Data_402A40(372, 0);
-
-                if (((field_1BC_flags) >> 1) & 1)
+                const AnimRecord& rec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
+                field_11C_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
+                
+                if (field_1BC_flags.Get(flags_1BC::eIsRed_Bit1))
                 {
                     if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
                             field_B2_lvl_number,

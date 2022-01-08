@@ -12,12 +12,18 @@ struct Path_ScrabSpawner final : public Path_Scrab
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ScrabSpawner, 0x30);
 
+enum class ScrabSpawnerStates : s32
+{
+    eInactive_0 = 0,
+    eScrabSpawned_1 = 1
+};
+
 struct ScrabSpawner_State final
 {
     AETypes field_0_type;
     s16 field_2_pad;
     s32 field_4_tlvInfo;
-    s32 field_8_state;
+    ScrabSpawnerStates field_8_state;
     s32 field_C_spawned_scrab_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawner_State, 0x10);
@@ -43,7 +49,7 @@ private:
     s16 field_24_switch_id;
     ScrabSpawnDirection field_26_spawn_direction;
     Path_TLV field_28_tlv_data;
-    s32 field_38_state;
+    ScrabSpawnerStates field_38_state;
     s32 field_3C_spawned_scrab_id;
     s16 field_40_bFindSpawnedScrab;
     s16 field_42_padding;

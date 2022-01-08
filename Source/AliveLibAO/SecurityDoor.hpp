@@ -3,13 +3,14 @@
 #include "../AliveLibCommon/FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 namespace AO {
 
 struct Path_SecurityDoor final : public Path_TLV
 {
-    s16 field_18_scale;
-    s16 field_1A_id;
+    Scale_short field_18_scale;
+    s16 field_1A_switch_id;
     s16 field_1C_code_1;
     s16 field_1E_code2;
     s16 field_20_xpos;
@@ -56,7 +57,7 @@ public:
     s32 field_D4[4];
     s32 field_E4_tlvInfo;
     s16 field_E8_state;
-    s16 field_EA_id;
+    s16 field_EA_switch_id;
     s32 field_EC_code_converted;
     s16 field_F0_code_len;
     s16 field_F2_padding;

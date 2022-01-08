@@ -25,7 +25,7 @@ private:
 
 private:
     s32 field_10_tlvInfo;
-    u16 field_14_slig_id;
+    u16 field_14_slig_spawner_switch_id;
     s16 field_16_flags;
     Path_TLV field_18_tlv;
 };

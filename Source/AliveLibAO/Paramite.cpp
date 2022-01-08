@@ -109,16 +109,16 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo)
         field_150_resources[i] = nullptr;
     }
 
-    field_150_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjbasicResID, 1, 0);
-    field_150_resources[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjpumpResID, 1, 0);
-    field_150_resources[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjponceResID, 1, 0);
-    field_150_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjclimbResID, 1, 0);
-    field_150_resources[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjscrchResID, 1, 0);
-    field_150_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjeatResID, 1, 0);
-    field_150_resources[15] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjfalrkResID, 1, 0);
-    field_150_resources[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kArjwaspResID, 1, 0);
+    field_150_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjbasicAOResID, 1, 0);
+    field_150_resources[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjpumpAOResID, 1, 0);
+    field_150_resources[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjponceAOResID, 1, 0);
+    field_150_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjclimbAOResID, 1, 0);
+    field_150_resources[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjscrchAOResID, 1, 0);
+    field_150_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjeatAOResID, 1, 0);
+    field_150_resources[15] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjfalrkAOResID, 1, 0);
+    field_150_resources[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjwaspAOResID, 1, 0);
 
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 1, 0);
+    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 1, 0);
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Paramite_Idle);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_150_resources[0], 1);
@@ -168,7 +168,7 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo)
     field_112_surprise_web_delay_timer = pTlv->field_1E_surprise_web_delay_timer;
     field_11C_meat_eating_time = pTlv->field_20_meat_eating_time;
     field_134_group_chase_delay = pTlv->field_22_group_chase_delay;
-    field_13C_id = pTlv->field_26_id;
+    field_13C_surprise_web_switch_id = pTlv->field_26_surprise_web_switch_id;
     field_13E_hiss_before_attack = pTlv->field_28_hiss_before_attack;
     field_144_delete_when_far_away = pTlv->field_2A_delete_when_far_away;
 
@@ -243,7 +243,7 @@ BaseGameObject* Paramite::dtor_44AB00()
         }
     }
 
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ResourceID::kWebResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 0, 0));
     if (field_100_health <= FP_FromInteger(0))
     {
         gMap_507BA8.TLV_Reset_446870(field_12C_tlvInfo, -1, 0, 1);
@@ -1066,7 +1066,7 @@ s16 Paramite::Brain_0_Patrol_447A10()
                 auto pStopper = static_cast<Path_EnemyStopper*>(field_F0_pTlv);
                 if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero_507678->field_A8_xpos < field_A8_xpos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero_507678->field_A8_xpos > field_A8_xpos))
                 {
-                    if (!SwitchStates_Get(pStopper->field_1A_id))
+                    if (!SwitchStates_Get(pStopper->field_1A_switch_id))
                     {
                         return Brain_0_Patrol::eBrain0_IdleForAbe_1;
                     }
@@ -1582,7 +1582,7 @@ s16 Paramite::Brain_1_SurpriseWeb_448D00()
                     field_AC_ypos,
                     1))
             {
-                if (!SwitchStates_Get(field_13C_id))
+                if (!SwitchStates_Get(field_13C_surprise_web_switch_id))
                 {
                     return field_110_brain_sub_state;
                 }
@@ -1601,7 +1601,7 @@ s16 Paramite::Brain_1_SurpriseWeb_448D00()
                     field_AC_ypos,
                     1))
             {
-                if (!SwitchStates_Get(field_13C_id))
+                if (!SwitchStates_Get(field_13C_surprise_web_switch_id))
                 {
                     return field_110_brain_sub_state;
                 }
@@ -2018,7 +2018,7 @@ s16 Paramite::Brain_4_ChasingAbe_449170()
                 auto pStopper = static_cast<Path_EnemyStopper*>(field_F0_pTlv);
                 if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero_507678->field_A8_xpos < field_A8_xpos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero_507678->field_A8_xpos > field_A8_xpos))
                 {
-                    if (!SwitchStates_Get(pStopper->field_1A_id))
+                    if (!SwitchStates_Get(pStopper->field_1A_switch_id))
                     {
                         return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
                     }
@@ -2643,7 +2643,7 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirec
     {
         // No stopper or its disabled
         auto pEnemyStopper = static_cast<Path_EnemyStopper*>(field_F0_pTlv);
-        if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->field_1A_id))
+        if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->field_1A_switch_id))
         {
             return 0;
         }
@@ -3787,7 +3787,7 @@ void Paramite::Motion_23_Eating_44B970()
 {
     if (field_10_anim.field_92_current_frame == 5)
     {
-        SFX_Play_43AD70(static_cast<u8>(Math_RandomRange_450F20(79, 80)), 0, 0);
+        SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 0, 0);
     }
 
     if (field_FE_next_motion != -1 && !ToNextMotion_44B320())

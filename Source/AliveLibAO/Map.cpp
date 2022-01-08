@@ -464,16 +464,16 @@ void Map::Handle_PathTransition_444DD0()
         field_18_pAliveObj->field_B0_path_number = pTlv->field_1A_path;
 
         // TODO: Probably OG bug, when changing camera/path the TLV pointer can become invalid
-        // resulting in a corrupted scale value ?
+        // resulting in a corrupted next_path_scale value ?
         // Pointer points to the Path res which is invalid after ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Path, i, TRUE, FALSE);
         // is called. Happens even if calling real func below.
-        const s16 scale = pTlv->field_22_scale;
+        const auto next_path_scale = pTlv->field_22_next_path_scale;
 
         GoTo_Camera_445050();
 
-        switch (scale)
+        switch (next_path_scale)
         {
-            case 0:
+            case Scale_short::eFull_0:
                 sActiveHero_507678->field_BC_sprite_scale = FP_FromInteger(1);
                 sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
                 if (gElum_507680)
@@ -483,7 +483,7 @@ void Map::Handle_PathTransition_444DD0()
                 }
                 break;
 
-            case 1:
+            case Scale_short::eHalf_1:
                 sActiveHero_507678->field_BC_sprite_scale = FP_FromDouble(0.5);
                 sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
                 if (gElum_507680)
@@ -494,7 +494,7 @@ void Map::Handle_PathTransition_444DD0()
                 break;
 
             default:
-                LOG_ERROR("Invalid scale " << pTlv->field_22_scale);
+                LOG_ERROR("Invalid scale " << static_cast<s16>(pTlv->field_22_next_path_scale));
                 break;
         }
 
@@ -833,7 +833,7 @@ void Map::ScreenChange_4444D0()
         // TODO: Re-check this logic
         if (field_A_level != LevelIds::eMenu_0)
         {
-            if ((field_A_level != LevelIds::eRemoved_11 && field_A_level != LevelIds::eRuptureFarmsReturn_13 && field_A_level != LevelIds::eForestChase && field_A_level != LevelIds::eDesertEscape) || (field_A_level == LevelIds::eBoardRoom_12 && field_0_current_level == LevelIds::eBoardRoom_12))
+            if ((field_A_level != LevelIds::eRemoved_11 && field_A_level != LevelIds::eRuptureFarmsReturn_13 && field_A_level != LevelIds::eForestChase_14 && field_A_level != LevelIds::eDesertEscape_15) || (field_A_level == LevelIds::eBoardRoom_12 && field_0_current_level == LevelIds::eBoardRoom_12))
             {
                 gSndChannels_507CA0 = 0;
             }

@@ -26,7 +26,7 @@ struct Data_Byte final
 
 ALIVE_VAR(1, 0x5BC600, Data_FP, xData_5BC600, {});
 ALIVE_ARY(1, 0x5BC6C8, Prim_SetTPage, 2, gGasTPages_5BC6C8, {});
-ALIVE_VAR(1, 0x5BC6E8, GasPolys, stru_5BC6E8, {});
+ALIVE_VAR(1, 0x5BC6E8, GasPolys, gasPolys_5BC6E8, {});
 ALIVE_VAR(1, 0x5BD0E8, Data_Byte, sbyte_3_5BD0E8, {});
 ALIVE_VAR(1, 0x5BD11C, Data_FP, yData_5BD11C, {});
 ALIVE_VAR(1, 0x5BD1E4, Data_Byte, sbyte_1_5BD1E4, {});
@@ -56,7 +56,7 @@ DeathGas* DeathGas::ctor_43C030(Layer layer, s16 amount)
             {
                 for (s32 l = 0; l < 4; l++)
                 {
-                    Poly_G4* pPoly = &stru_5BC6E8.polys[i][k][l][j];
+                    Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][k][l][j];
                     PolyG4_Init_4F88B0(pPoly);
                     Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, TRUE);
                 }
@@ -218,7 +218,7 @@ void DeathGas::vRender_43C350(PrimHeader** ppOt)
         {
             for (s32 k = 0; k < 4; k++)
             {
-                Poly_G4* pPoly = &stru_5BC6E8.polys[i][j][k][gPsxDisplay_5C1130.field_C_buffer_index];
+                Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][j][k][gPsxDisplay_5C1130.field_C_buffer_index];
 
                 SetRGB0(pPoly, 0, sbyte_3_5BD0E8.data[i][j][k], 0);
                 SetRGB1(pPoly, 0, sbyte_3_5BD0E8.data[i][j][k + 1], 0);

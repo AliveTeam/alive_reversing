@@ -178,7 +178,7 @@ static const char_type* sLCDMessageTable_4C7420[90] = {
     "",
     ""};
 
-static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eDesertEscape) + 1][99] = {};
+static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eDesertEscape_15) + 1][99] = {};
 
 void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId)
 {
