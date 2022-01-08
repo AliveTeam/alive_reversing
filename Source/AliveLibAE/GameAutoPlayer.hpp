@@ -99,11 +99,6 @@ private:
     };
     Mode mMode = Mode::None;
 
-    Pads mCurFrameData = {};
-
-    bool mStartedGameLoop = false;
-    bool mJustExitedPauseLoop = false;
-
     Recorder mRecorder;
     Player mPlayer;
 };
