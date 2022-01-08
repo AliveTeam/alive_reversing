@@ -1282,8 +1282,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "SLOG.BND", 39064, 121, 57, kDogattkResID, PalId::Default},
      {"SLOG.BND", 38112, 121, 57, AO::kDogattkAOResID, PalId::Default}},
     {AnimId::Slog_Dying,
-        { "SLOG.BND", 12412, 121, 57, kDogknfdResID, PalId::Default},
-     {"SLOG.BND", 12220, 121, 57, AO::kDogknfdAOResID, PalId::Default}},
+        { "DOGKNFD.BAN", 12412, 121, 57, kDogknfdResID, PalId::Default},
+     {"DOGKNFD.BAN", 12220, 121, 57, AO::kDogknfdAOResID, PalId::Default}},
     {AnimId::Slog_Scratch,
         { "SLOG.BND", 12724, 121, 57, kDogidleResID, PalId::Default},
      {"SLOG.BND", 12412, 121, 57, AO::kDogidleAOResID, PalId::Default}},
@@ -1394,7 +1394,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::AngryMudIcon, {"EMOANGRY.BAN", 1076, 54, 47, kAngryiconResID, PalId::Default}, kNullAnimDetails},
     {AnimId::HappyMudIcon, {"EMOHAP.BAN", 1252, 54, 47, kHappyiconResID, PalId::Default}, kNullAnimDetails},
 
-    {AnimId::SpotLight, {"BLOODROP.BAN", 1536, 57, 32, kSpotliteResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::SpotLight, {"SPOTLITE.BAN", 1536, 57, 32, kSpotliteResID, PalId::Default}, kNullAnimDetails},
         
     // blood drop and blood are not the same animations.
     // TODO: check if AO blood.ban is blood or blood drop
@@ -1422,12 +1422,12 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Chime_Ball, kNullAnimDetails, { "F2CHMBAL.BAN", 136, 16, 8, AO::kF2ChimeBallAOResID, PalId::Default} },
     {AnimId::Circular_Fade, kNullAnimDetails, { "SPOTLITE.BAN", 2472, 57, 32, AO::kSpotliteAOResID, PalId::Default} },
     {AnimId::DeathFlare_1,
-        { "MFLARE.BAN", 9940, 122, 43, kDeathFlareResID, PalId::Default},
-        { "MFLARE.BAN", 6312, 70, 43, AO::kDeathFlareAOResID, PalId::Default}
+        { "DEADFLR.BAN", 9940, 122, 43, kDeathFlareResID, PalId::Default},
+        { "DEADFLR.BAN", 6312, 70, 43, AO::kDeathFlareAOResID, PalId::Default}
     },
     {AnimId::DeathFlare_2,
-        { "MFLARE.BAN", 9912, 122, 43, kDeathFlareResID, PalId::Default},
-        { "MFLARE.BAN", 6284, 70, 43, AO::kDeathFlareAOResID, PalId::Default} },
+        { "DEADFLR.BAN", 9912, 122, 43, kDeathFlareResID, PalId::Default},
+        { "DEADFLR.BAN", 6284, 70, 43, AO::kDeathFlareAOResID, PalId::Default} },
 
     {AnimId::Door_BarracksMetal_Closed, {"SHDOOR.BAN", 6604, 51, 62, kF2p3dorResID, PalId::Default}, kNullAnimDetails},
     {AnimId::Door_BarracksMetal_Open, {"SHDOOR.BAN", 6616, 51, 62, kF2p3dorResID, PalId::Default}, kNullAnimDetails},
@@ -1444,8 +1444,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "FIRE.BAN", 5072, 51, 24, AO::kHubFireAOResID, PalId::Default}
     },
     {AnimId::Door_FireBackgroundGlow,
-        { "FIRE.BAN", 1400, 52, 30, kGlowResID, PalId::Default},
-        { "FIRE.BAN", 1344, 52, 30, AO::kGlowAOResID, PalId::Default}
+        { "GLOW1.BAN", 1400, 52, 30, kGlowResID, PalId::Default},
+        { "GLOW1.BAN", 1344, 52, 30, AO::kGlowAOResID, PalId::Default}
     },
     {AnimId::Door_Lock_Idle, { "DOORLOCK.BAN", 1624, 87, 14, kDoorLockResID_374, PalId::Default}, kNullAnimDetails },
     {AnimId::Door_Lock_Open, { "DOORLOCK.BAN", 1608, 87, 14, kDoorLockResID_374, PalId::Default}, kNullAnimDetails },
