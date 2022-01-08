@@ -82,16 +82,21 @@ void GameAutoPlayer::ParseCommandLine(const char* pCmdLine)
 
 u32 GameAutoPlayer::GetInput(u32 padIdx)
 {
-    if (mMode == Mode::Record)
+    if (mMode == Mode::Play)
     {
-        mCurFrameData.mPads[padIdx] = Input_Read_Pad_4FA9C0(padIdx);
-        mRecorder.SaveInput(mCurFrameData);
-        return mCurFrameData.mPads[padIdx];
+        Pads data = mPlayer.ReadInput();
+        return data.mPads[padIdx];
+      
     }
     else
     {
-        mCurFrameData = mPlayer.ReadInput();
-        return mCurFrameData.mPads[padIdx];
+        Pads data = {};
+        data.mPads[padIdx] = Input_Read_Pad_4FA9C0(padIdx);
+        if (mMode == Mode::Record)
+        {
+            mRecorder.SaveInput(data);
+        }
+        return data.mPads[padIdx];
     }
 }
 
