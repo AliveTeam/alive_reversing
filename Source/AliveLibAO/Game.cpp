@@ -35,6 +35,7 @@
 #include "../AliveLibAE/Game.hpp"
 #include "AddPointer.hpp"
 #include "PathDataExtensions.hpp"
+#include "GameAutoPlayer.hpp"
 
 namespace AO {
 
@@ -210,7 +211,17 @@ static void Main_ParseCommandLineArguments()
 
     PSX_EMU_Set_Cd_Emulation_Paths_49B000(".", cdDrivePath, nullptr);
 
-    const std::string windowTitle = WindowTitleAO();
+    std::string windowTitle = WindowTitleAO();
+
+    if (gGameAutoPlayer.IsRecording())
+    {
+        windowTitle += " [Recording]";
+    }
+    else if (gGameAutoPlayer.IsPlaying())
+    {
+        windowTitle += " [AutoPlay]";
+    }
+
     Sys_WindowClass_Register_48E9E0("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
 
     Sys_Set_Hwnd_48E340(Sys_GetWindowHandle_48E930());
@@ -469,12 +480,15 @@ EXPORT void CC Game_Loop_437630()
         }
 
         gMap_507BA8.ScreenChange_4444D0();
-        Input().Update_433250();
+        Input().Update(gGameAutoPlayer);
 
         if (sNumCamSwappers_507668 == 0)
         {
             gnFrameCount_507670++;
         }
+
+        gGameAutoPlayer.ValidateObjectStates();
+
     } // Main loop end
 
     const PSX_RECT rect = {0, 0, 368, 480};
@@ -598,6 +612,8 @@ EXPORT void Game_Run_4373D0()
 EXPORT void Game_Main_450050()
 {
     BaseAliveGameObject_ForceLink();
+
+    gGameAutoPlayer.ParseCommandLine(Sys_GetCommandLine_48E920());
 
     Main_ParseCommandLineArguments();
     Game_SetExitCallBack_48E040(Game_ExitGame_450730);

@@ -2,6 +2,8 @@
 
 #include "BaseGameAutoPlayer.hpp"
 
+namespace AO {
+
 class Recorder final : public BaseRecorder
 {
 public:
@@ -18,7 +20,7 @@ class [[nodiscard]] GameAutoPlayer final : public BaseGameAutoPlayer
 {
 public:
     GameAutoPlayer()
-        : BaseGameAutoPlayer(mAERecorder, mAEPlayer)
+        : BaseGameAutoPlayer(mAORecorder, mAOPlayer)
     {
 
     }
@@ -26,8 +28,10 @@ public:
 private:
     u32 ReadInput(u32 padIdx) override;
 
-    Recorder mAERecorder;
-    Player mAEPlayer;
+    Recorder mAORecorder;
+    Player mAOPlayer;
 };
 
 extern GameAutoPlayer gGameAutoPlayer;
+
+} // namespace AO

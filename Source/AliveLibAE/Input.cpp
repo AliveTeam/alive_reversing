@@ -1965,12 +1965,8 @@ void InputObject::SetDemoResource_45F1E0(u32** pDemoRes)
     field_40_command_duration = 0;
 }
 
-void InputObject::Update_45F040()
-{
-    Update(gGameAutoPlayer);
-}
-
-void InputObject::Update(GameAutoPlayer& autoPlayer)
+// BC break of Update_45F040
+void InputObject::Update(BaseGameAutoPlayer& autoPlayer)
 {
     const u8 directionTable_545A4C[20] = {
         0,

@@ -1,6 +1,8 @@
 project(AliveLibCommon VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcCommon
+    BaseGameAutoPlayer.cpp
+    BaseGameAutoPlayer.hpp
     PathDataExtensionsTypes.hpp
     CompressionType_4Or5.cpp
     CompressionType_4Or5.hpp
