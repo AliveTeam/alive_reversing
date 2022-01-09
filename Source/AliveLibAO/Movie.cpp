@@ -13,6 +13,7 @@
 #include "../AliveLibAE/VGA.hpp"
 #include "../AliveLibAE/Input.hpp"
 #include "Sound/SDLSoundBuffer.hpp"
+#include "GameAutoPlayer.hpp"
 
 #define NO_WAVE
 #include "Sound/Sound.hpp"
@@ -398,6 +399,12 @@ private:
 void Movie::VUpdate_489EA0()
 {
     AE_IMPLEMENTED();
+
+    if (gGameAutoPlayer.IsPlaying() || gGameAutoPlayer.IsRecording())
+    {
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        return;
+    }
 
     // Open the file
     void* hMovieFile = GetMovieIO().mIO_Open(sMovieNames_508B08.mNames[sMovieNameIdx_508C0C].mName);

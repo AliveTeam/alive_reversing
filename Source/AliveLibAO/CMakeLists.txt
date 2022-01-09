@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   GameAutoPlayer.cpp
+   GameAutoPlayer.hpp
    PathDataExtensions.hpp
    PathDataExtensions.cpp
    Error.hpp

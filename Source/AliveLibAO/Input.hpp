@@ -2,6 +2,8 @@
 
 #include "../AliveLibCommon/FunctionFwd.hpp"
 
+class BaseGameAutoPlayer;
+
 namespace AO {
 
 struct PSX_Pad final
@@ -133,12 +135,14 @@ bool Input_JoyStickEnabled();
 void Input_SetJoyStickEnabled(bool enabled);
 bool Input_JoyStickAvailable();
 
+
 class InputObject final
 {
 public:
     EXPORT void InitPad_4331A0(u32 padCount);
 
-    EXPORT void Update_433250();
+    // BC break of Update_433250
+    void Update(BaseGameAutoPlayer& gameAutoPlayer);
 
     static EXPORT void CC Shutdown_433230();
 
@@ -190,6 +194,8 @@ public:
     u16 Released() const;
 
     u16 Held(PadIndex padIx) const;
+
+    u32 Input_Read_Pad(u32 padIdx);
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x30);
 
