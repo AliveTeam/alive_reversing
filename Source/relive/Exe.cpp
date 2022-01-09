@@ -225,10 +225,10 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     ::SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
     RedirectIoStream(true);
 
-
     ExportHooker hooker(hInstance);
     hooker.Apply();
 #endif
+    LOG_INFO("Relive: " << BuildAndBitnesString());
 
     // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
     GameType gameToRun = strstr(lpCmdLine, "AO") ? GameType::eAo : GameType::eAe;
