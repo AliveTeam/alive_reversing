@@ -47,11 +47,10 @@ EXPORT void CC Odd_Sleep_48DD90(u32 /*dwMilliseconds*/)
 ALIVE_VAR(1, 0x507714, s32, gFilesPending_507714, 0);
 ALIVE_VAR(1, 0x50768C, s16, bLoadingAFile_50768C, 0);
 
-// TODO: Rename to "LoadingFile"
-class ResourceManager_FileRecord_Unknown final : public BaseGameObject
+class LoadingFile final : public BaseGameObject
 {
 public:
-    EXPORT ResourceManager_FileRecord_Unknown* ctor_41E8A0(s32 pos, s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)
+    EXPORT LoadingFile* ctor_41E8A0(s32 pos, s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)
     {
         ctor_487E10(1);
 
@@ -196,7 +195,7 @@ public:
         return Vdtor_41EBB0(flags);
     }
 
-    EXPORT ResourceManager_FileRecord_Unknown* Vdtor_41EBB0(s32 flags)
+    EXPORT LoadingFile* Vdtor_41EBB0(s32 flags)
     {
         dtor_41E870();
         if (flags & 1)
@@ -216,7 +215,7 @@ public:
     CdlLOC field_2A_cdLoc;
     s16 field_2E_pad;
 };
-ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord_Unknown, 0x30);
+ALIVE_ASSERT_SIZEOF(LoadingFile, 0x30);
 
 void CC Game_ShowLoadingIcon_445EB0()
 {
@@ -518,7 +517,7 @@ void CC ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
 
         if (pObjIter->field_4_typeId == Types::eLoadingFile_39)
         {
-            auto pLoadingFile = static_cast<ResourceManager_FileRecord_Unknown*>(pObjIter);
+            auto pLoadingFile = static_cast<LoadingFile*>(pObjIter);
             if (!pObj || pObj == pLoadingFile->field_18_fn_arg)
             {
                 while (pLoadingFile->field_28_state != 0)
@@ -734,7 +733,7 @@ ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager:
     return pItem;
 }
 
-ResourceManager_FileRecord_Unknown* CC ResourceManager::LoadResourceFile_4551E0(const char_type* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
+LoadingFile* CC ResourceManager::LoadResourceFile_4551E0(const char_type* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
 {
     LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(pFileName);
     if (!pFileRec)
@@ -742,7 +741,7 @@ ResourceManager_FileRecord_Unknown* CC ResourceManager::LoadResourceFile_4551E0(
         return nullptr;
     }
 
-    auto pLoadingFile = ao_new<ResourceManager_FileRecord_Unknown>();
+    auto pLoadingFile = ao_new<LoadingFile>();
     if (pLoadingFile)
     {
         pLoadingFile->ctor_41E8A0(
