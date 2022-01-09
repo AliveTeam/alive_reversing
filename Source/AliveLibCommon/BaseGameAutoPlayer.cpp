@@ -1,5 +1,4 @@
 #include "BaseGameAutoPlayer.hpp"
-#include "Sys_common.hpp"
 
 constexpr u32 kVersion = 0x1997;
 

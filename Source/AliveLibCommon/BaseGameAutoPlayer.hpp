@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <type_traits>
+#include "Sys_common.hpp"
 
 class [[nodiscard]] AutoFILE final
 {
