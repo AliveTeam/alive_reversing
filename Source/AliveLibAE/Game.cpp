@@ -890,6 +890,9 @@ EXPORT void CC Game_Loop_467230()
         {
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
+
+        gGameAutoPlayer.ValidateObjectStates();
+
     } // Main loop end
 
     // Clear the screen to black

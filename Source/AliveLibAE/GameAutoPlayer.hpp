@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <type_traits>
 
 class [[nodiscard]] AutoFILE final
 {
@@ -24,6 +25,20 @@ public:
     FILE* GetFile()
     {
         return mFile;
+    }
+
+    template <typename TypeToWrite>
+    bool Write(const TypeToWrite& value)
+    {
+        static_assert(std::is_pod<TypeToWrite>::value, "TypeToWrite must be pod");
+        return ::fwrite(&value, sizeof(TypeToWrite), 1, mFile) == 1;
+    }
+
+    template <typename TypeToRead>
+    bool Read(TypeToRead& value)
+    {
+        static_assert(std::is_pod<TypeToRead>::value, "TypeToRead must be pod");
+        return ::fread(&value, sizeof(TypeToRead), 1, mFile) == 1;
     }
 
     long FileSize()
@@ -56,7 +71,9 @@ class Recorder final
 {
 public:
     void Init(const char* pFileName);
-    void SaveInput(Pads& data);
+    void SaveInput(const Pads& data);
+    void SaveObjectStates();
+
 private:
     AutoFILE mFile;
 };
@@ -66,6 +83,7 @@ class Player final
 public:
     void Init(const char* pFileName);
     Pads ReadInput();
+    void ValidateObjectStates();
 
 private:
     AutoFILE mFile;
@@ -77,6 +95,8 @@ public:
     void ParseCommandLine(const char* pCmdLine);
 
     u32 GetInput(u32 padIdx);
+
+    void ValidateObjectStates();
 
     bool IsRecording() const
     {
