@@ -880,7 +880,7 @@ void Map::SaveBlyData_446900(u8* pSaveBuffer)
     memcpy(pSaveBuffer, sSwitchStates_505568.mData, sizeof(sSwitchStates_505568.mData));
 
     u8* pAfterSwitchStates = pSaveBuffer + sizeof(sSwitchStates_505568.mData);
-    for (s16 i = 1; i <= Path_Get_Num_Paths(field_0_current_level); i++)
+    for (s16 i = 1; i < Path_Get_Num_Paths(field_0_current_level); i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
         if (pPathRec->field_0_blyName)
@@ -936,7 +936,7 @@ void Map::RestoreBlyData_446A90(const u8* pSaveData)
     memcpy(sSwitchStates_505568.mData, pSaveData, sizeof(sSwitchStates_505568.mData));
     const u8* pAfterSwitchStates = pSaveData + sizeof(sSwitchStates_505568.mData);
 
-    for (s16 i = 1; i <= Path_Get_Num_Paths(field_0_current_level); i++)
+    for (s16 i = 1; i < Path_Get_Num_Paths(field_0_current_level); i++)
     {
         auto ppPathRes = GetPathResourceBlockPtr(i);
         if (ppPathRes)
@@ -1639,7 +1639,7 @@ static Map_PathsArrayExtended sPathsArrayExtended = {};
 
 void Map::FreePathResourceBlocks()
 {
-    for (s32 i = 0; i <= Path_Get_Num_Paths(field_0_current_level); ++i)
+    for (s32 i = 0; i < Path_Get_Num_Paths(field_0_current_level); ++i)
     {
         if (sPathsArrayExtended.field_0_pPathRecs[i])
         {
@@ -1660,7 +1660,7 @@ void Map::FreePathResourceBlocks()
 void Map::GetPathResourceBlockPtrs()
 {
     // Get pointer to each PATH
-    for (s32 i = 1; i <= Path_Get_Num_Paths(field_A_level); ++i)
+    for (s32 i = 1; i < Path_Get_Num_Paths(field_A_level); ++i)
     {
         sPathsArrayExtended.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Path, i, TRUE, FALSE);
 

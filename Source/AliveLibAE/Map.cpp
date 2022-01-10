@@ -168,7 +168,7 @@ static Map_PathsArrayExtended sPathsArrayExtended = {};
 
 void Map::FreePathResourceBlocks()
 {
-    for (s32 i = 0; i <= Path_Get_Num_Paths(field_0_current_level); ++i)
+    for (s32 i = 0; i < Path_Get_Num_Paths(field_0_current_level); ++i)
     {
         if (sPathsArrayExtended.field_0_pPathRecs[i])
         {
@@ -189,7 +189,7 @@ void Map::FreePathResourceBlocks()
 void Map::GetPathResourceBlockPtrs()
 {
     // Get pointer to each PATH
-    for (s32 i = 1; i <= Path_Get_Num_Paths(field_A_level); ++i)
+    for (s32 i = 1; i < Path_Get_Num_Paths(field_A_level); ++i)
     {
         sPathsArrayExtended.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
 
