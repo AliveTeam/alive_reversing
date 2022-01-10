@@ -60,9 +60,43 @@ inline void create_minidump(PEXCEPTION_POINTERS /* apExceptionInfo */)
 
     #endif
 
-inline LONG WINAPI unhandled_handler(PEXCEPTION_POINTERS pExceptionInfo)
+inline LONG WINAPI crash_handler(PEXCEPTION_POINTERS pExceptionInfo)
 {
     create_minidump(pExceptionInfo);
     return EXCEPTION_CONTINUE_SEARCH;
 }
+
+inline void Install_Crash_Handler()
+{
+    ::SetUnhandledExceptionFilter(crash_handler);
+}
+
+#else // Assume Linux/mac
+
+    #include <stdio.h>
+    #include <execinfo.h>
+    #include <signal.h>
+    #include <stdlib.h>
+    #include <unistd.h>
+
+
+inline void crash_handler(int sig)
+{
+    void* callStack[30];
+    size_t size;
+
+    // get void*'s for all entries on the stack
+    size = backtrace(callStack, 30);
+
+    // print out all the frames to stderr
+    fprintf(stderr, "Error: signal %d:\n", sig);
+    backtrace_symbols_fd(callStack, size, STDERR_FILENO);
+    exit(1);
+}
+
+inline void Install_Crash_Handler()
+{
+    signal(SIGSEGV, crash_handler);
+}
+
 #endif

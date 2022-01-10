@@ -216,9 +216,8 @@ static s32 AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
 
 s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
+    Install_Crash_Handler();
 #if _WIN32
-    ::SetUnhandledExceptionFilter(unhandled_handler);
-
     ::AllocConsole();
     ::freopen("CONOUT$", "w", stdout);
     ::SetConsoleTitleA("Debug Console");
