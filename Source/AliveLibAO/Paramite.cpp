@@ -1670,6 +1670,14 @@ s16 Paramite::Brain_1_SurpriseWeb_448D00()
     return field_110_brain_sub_state;
 }
 
+enum Brain_2_Struggling
+{
+    eBrain2_SetTimer_0 = 0,
+    eBrain2_Hiss_1 = 1,
+    eBrain2_Turn_2 = 2,
+    eBrain2_Death_3 = 3
+};
+
 s16 Paramite::Brain_2_Struggling_44DD70()
 {
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
@@ -1681,31 +1689,31 @@ s16 Paramite::Brain_2_Struggling_44DD70()
     {
         switch (field_110_brain_sub_state)
         {
-            case 0:
+            case Brain_2_Struggling::eBrain2_SetTimer_0:
                 field_114_timer = gnFrameCount_507670 + 30;
                 return 1;
 
-            case 1:
+            case Brain_2_Struggling::eBrain2_Hiss_1:
                 if (field_114_timer <= static_cast<s32>(gnFrameCount_507670))
                 {
                     field_FC_current_motion = eParamiteMotions::Motion_13_GameSpeakBegin_44D050;
                     field_FE_next_motion = eParamiteMotions::Motion_15_Hiss_44D300;
-                    return 2;
+                    return Brain_2_Struggling::eBrain2_Turn_2;
                 }
                 break;
 
-            case 2:
+            case Brain_2_Struggling::eBrain2_Turn_2:
                 if (field_FC_current_motion == eParamiteMotions::Motion_15_Hiss_44D300)
                 {
                     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
                     {
                         field_FE_next_motion = eParamiteMotions::Motion_5_Turn_44C8E0;
-                        return 3;
+                        return Brain_2_Struggling::eBrain2_Death_3;
                     }
                 }
                 break;
 
-            case 3:
+            case Brain_2_Struggling::eBrain2_Death_3:
                 if (field_FC_current_motion == eParamiteMotions::Motion_5_Turn_44C8E0)
                 {
                     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1725,7 +1733,7 @@ s16 Paramite::Brain_2_Struggling_44DD70()
     {
         field_FE_next_motion = eParamiteMotions::Motion_0_Idle_44B900;
         SetBrain(&Paramite::Brain_0_Patrol_447A10);
-        return 0;
+        return Brain_0_Patrol::eBrain0_Inactive_0;
     }
     else
     {
