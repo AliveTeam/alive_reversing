@@ -1207,7 +1207,6 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
      {"HIGHLITE.BAN", 13936, 150, 65, kHighliteResID, PalId::Default},
      {"HIGHLITE.BAN", 6176, 99, 43, AO::kHighliteAOResID, PalId::Default}},
 
-    // probably STARTANIM.BND as well?
     {AnimId::MenuHighlight_Triangle,
         { "HIGHLITE.BAN", 13924, 150, 65, kHighliteResID, PalId::Default },
         {"HIGHLITE.BAN", 6164, 99, 43, AO::kHighliteAOResID, PalId::Default} },
@@ -1347,12 +1346,11 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         {"MINE.BND", 400, 36, 8, kMineflshResID, PalId::Default},
         {"MINE.BND", 772, 36, 8, AO::kMineflshAOResID, PalId::Default}},
     {AnimId::OptionChantOrb_Particle,
-        {"STARTANIM.BND", 4176, 92, 47, kOptionFlareResID, PalId::Default},
-        {"STARTANIM.BND", 7152, 92, 47, AO::kOptionFlareAOResID, PalId::Default}},
+        {"STARTANM.BND", 4176, 92, 47, kOptionFlareResID, PalId::Default},
+        {"STARTANM.BND", 7152, 92, 47, AO::kOptionFlareAOResID, PalId::Default}},
 
-    // figure out the correct BAN/BND
     {AnimId::ShootingZFire_Particle,
-        {"STARTANIM.BND", 2832, 126, 44, kZflashResID, PalId::Default},
+        {"SLIGZ.BND", 2832, 126, 44, kZflashResID, PalId::Default},
      {"SLIGZ.BND", 2348, 126, 44, AO::kZflashAOResID, PalId::Default}},
 
     {AnimId::WaterDrop, {"WDROP.BAN", 104, 11, 7, kWaterDropResID, PalId::Default}, kNullAnimDetails},
@@ -1839,7 +1837,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     {AnimId::Anim_Tester,
-     { "HIGHLITE.BAN", 13936, 150, 65, kHighliteResID, PalId::Default },
+     {"SLIGZ.BND", 2832, 126, 44, kZflashResID, PalId::Default},
      {"RLIFT.BND", 24240, 124, 37, AO::kLiftWheelsAOResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////

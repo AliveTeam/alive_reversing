@@ -2593,9 +2593,9 @@ enum Brain_Possessed
 
 enum Brain_GameEnder
 {
-    eState35_summoned_0 = 0,
-    eState35_runningToAbe_1 = 1,
-    eState35_reachedAbe_2 = 2
+    eState35_Summoned_0 = 0,
+    eState35_RunningToAbe_1 = 1,
+    eState35_ReachedAbe_2 = 2
 };
 
 s16 Slig::Brain_Death_0_4BBFB0()
@@ -2756,16 +2756,23 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
     return field_11C_brain_sub_state;
 }
 
+enum Brain_DeathDropDeath
+{
+    eState3_SayHelpOnce_0 = 0,
+    eState3_SayHelpAndDie_1 = 1,
+    eState3_SwitchCamToAbe_2 = 2
+};
+
 s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
 {
     switch (field_11C_brain_sub_state)
     {
-        case 0:
+        case Brain_DeathDropDeath::eState3_SayHelpOnce_0:
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_11E_pitch_min, this);
             field_120_timer = sGnFrame_5C1B84 + 60;
-            return 1;
+            return Brain_DeathDropDeath::eState3_SayHelpAndDie_1;
 
-        case 1:
+        case Brain_DeathDropDeath::eState3_SayHelpAndDie_1:
         {
             if (static_cast<s32>(sGnFrame_5C1B84) < field_120_timer)
             {
@@ -2794,10 +2801,10 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
                 pScreenShake->ctor_4ACF70(0, 0);
             }
             field_120_timer = sGnFrame_5C1B84 + 30;
-            return 2;
+            return Brain_DeathDropDeath::eState3_SwitchCamToAbe_2;
         }
 
-        case 2:
+        case Brain_DeathDropDeath::eState3_SwitchCamToAbe_2:
             if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
             {
                 if (sControlledCharacter_5C1B8C == this)
@@ -4578,7 +4585,7 @@ s16 Slig::Brain_GameEnder_35_4BF640()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_11C_brain_sub_state == Brain_GameEnder::eState35_summoned_0)
+    if (field_11C_brain_sub_state == Brain_GameEnder::eState35_Summoned_0)
     {
         if (sNum_CamSwappers_5C1B66 > 0 || sActiveHero_5C1B68->field_1AC_flags.Get(Abe::e1AC_Bit5_shrivel))
         {
@@ -4587,9 +4594,9 @@ s16 Slig::Brain_GameEnder_35_4BF640()
 
         field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
         field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_14_pause_time;
-        return Brain_GameEnder::eState35_runningToAbe_1;
+        return Brain_GameEnder::eState35_RunningToAbe_1;
     }
-    else if (field_11C_brain_sub_state == Brain_GameEnder::eState35_runningToAbe_1)
+    else if (field_11C_brain_sub_state == Brain_GameEnder::eState35_RunningToAbe_1)
     {
         if (static_cast<s32>(sGnFrame_5C1B84) < field_120_timer)
         {
@@ -4597,11 +4604,17 @@ s16 Slig::Brain_GameEnder_35_4BF640()
         }
 
         field_108_next_motion = eSligMotions::M_Running_4_4B6000;
-        return Brain_GameEnder::eState35_reachedAbe_2;
+        return Brain_GameEnder::eState35_ReachedAbe_2;
     }
     else
     {
-        if (field_11C_brain_sub_state == Brain_GameEnder::eState35_reachedAbe_2 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+        if (field_11C_brain_sub_state == Brain_GameEnder::eState35_ReachedAbe_2 
+            && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                field_C2_lvl_number,
+                field_C0_path_number,
+                field_B8_xpos,
+                field_BC_ypos,
+                0))
         {
             return field_11C_brain_sub_state;
         }
