@@ -198,7 +198,7 @@ public:
 
 
     TBrainType field_10C_fn;
-    s16 field_110_brain_ret;
+    s16 field_110_brain_sub_state;
     s16 field_112;
     s16 field_114_attack_delay;
     s16 field_116_patrol_type;
@@ -208,7 +208,7 @@ public:
     s32 field_124;
     FP field_128;
     FP field_12C;
-    s16 field_130;
+    s16 field_130_unused;
     s16 field_132_res_block_idx;
     s32 field_134_tlvInfo;
     s32 field_138_spotting_abe_delay;

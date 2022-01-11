@@ -1722,38 +1722,36 @@ s16 Scrab::Brain_2_Fighting_4A5840()
                 }
                 return Brain_2_Fighting::eBrain2_LookingForOpponent_0;
             }
-            else
+
+            field_1AA_flags.Clear(Flags_1AA::eBit1_attacking);
+            field_108_next_motion = -1;
+            if (pTarget->field_124_fight_target_obj_id == -1 || pTarget->field_124_fight_target_obj_id == field_8_object_id)
             {
-                field_1AA_flags.Clear(Flags_1AA::eBit1_attacking);
-                field_108_next_motion = -1;
-                if (pTarget->field_124_fight_target_obj_id == -1 || pTarget->field_124_fight_target_obj_id == field_8_object_id)
+                if (vIsFacingMe_4254A0(pTarget))
                 {
-                    if (vIsFacingMe_4254A0(pTarget))
+                    if (!vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(8), pTarget))
                     {
-                        if (!vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(8), pTarget))
+                        if (pTarget->field_106_current_motion == eScrabMotions::M_HowlBegin_26_4A9DA0)
                         {
-                            if (pTarget->field_106_current_motion == eScrabMotions::M_HowlBegin_26_4A9DA0)
-                            {
-                                return field_11C_brain_sub_state;
-                            }
-                            field_108_next_motion = eScrabMotions::M_HowlBegin_26_4A9DA0;
-                            return Brain_2_Fighting::eBrain2_Yelling_6;
+                            return field_11C_brain_sub_state;
                         }
-                        field_108_next_motion = eScrabMotions::M_Turn_3_4A91A0;
-                        return Brain_2_Fighting::eBrain2_Turning_2;
+                        field_108_next_motion = eScrabMotions::M_HowlBegin_26_4A9DA0;
+                        return Brain_2_Fighting::eBrain2_Yelling_6;
                     }
-                    else
-                    {
-                        field_108_next_motion = eScrabMotions::M_Turn_3_4A91A0;
-                        return Brain_2_Fighting::eBrain2_SpottedOpponent_1;
-                    }
+                    field_108_next_motion = eScrabMotions::M_Turn_3_4A91A0;
+                    return Brain_2_Fighting::eBrain2_Turning_2;
                 }
                 else
                 {
-                    field_124_fight_target_obj_id = -1;
-                    field_108_next_motion = eScrabMotions::M_HowlBegin_26_4A9DA0;
-                    return Brain_2_Fighting::eBrain2_WaitingForBattle_15;
+                    field_108_next_motion = eScrabMotions::M_Turn_3_4A91A0;
+                    return Brain_2_Fighting::eBrain2_SpottedOpponent_1;
                 }
+            }
+            else
+            {
+                field_124_fight_target_obj_id = -1;
+                field_108_next_motion = eScrabMotions::M_HowlBegin_26_4A9DA0;
+                return Brain_2_Fighting::eBrain2_WaitingForBattle_15;
             }
             break;
 
