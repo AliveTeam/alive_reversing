@@ -920,7 +920,7 @@ static void SaveBinaryPathToLvl(Game game, std::vector<u8>& fileDataBuffer, cons
     ByteStream perPathExtensionStream;
     perPathExtensionStream.WriteBytes(reinterpret_cast<const u8*>(&pathExtData), sizeof(PerPathExtension));
 
-    WriteStringTable(doc.mRootInfo.mLedMessages, perPathExtensionStream);
+    WriteStringTable(doc.mRootInfo.mLCDScreenMessages, perPathExtensionStream);
     WriteStringTable(doc.mRootInfo.mHintFlyMessages, perPathExtensionStream);
 
     // Add it as a chunk

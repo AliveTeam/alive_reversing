@@ -113,7 +113,7 @@ struct MapInfo final
     s32 mBadEndingMuds = 0;
     s32 mGoodEndingMuds = 0;
 
-    std::vector<std::string> mLedMessages;
+    std::vector<std::string> mLCDScreenMessages;
     std::vector<std::string> mHintFlyMessages;
 };
 } // namespace ReliveAPI
