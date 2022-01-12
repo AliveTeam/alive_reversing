@@ -64,10 +64,10 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
     mRootInfo.mBadEndingMuds = ReadNumber(map, "num_muds_for_bad_ending");
     mRootInfo.mGoodEndingMuds = ReadNumber(map, "num_muds_for_good_ending");
 
-    const jsonxx::Array& ledMessagesArray = ReadArray(map, "led_messages");
-    for (auto i = 0u; i < ledMessagesArray.values().size(); i++)
+    const jsonxx::Array& LCDScreenMessagesArray = ReadArray(map, "lcdscreen_messages");
+    for (auto i = 0u; i < LCDScreenMessagesArray.values().size(); i++)
     {
-        mRootInfo.mLedMessages.emplace_back(ledMessagesArray.get<std::string>(i));
+        mRootInfo.mLCDScreenMessages.emplace_back(LCDScreenMessagesArray.get<std::string>(i));
     }
 
     const jsonxx::Array& hintFlyMessagesArray = ReadArray(map, "hintfly_messages");
