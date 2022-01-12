@@ -12,7 +12,7 @@ struct StringTable final
         // Read the string count
         u8* pDataIter = reinterpret_cast<u8*>(pTable);
         const u64 stringCount = *reinterpret_cast<u64*>(pDataIter);
-        pDataIter += sizeof(u32);
+        pDataIter += sizeof(u64);
 
         if (stringCount > 0)
         {
