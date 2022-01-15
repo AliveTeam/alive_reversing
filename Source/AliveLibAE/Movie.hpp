@@ -7,6 +7,7 @@ struct CdlLOC;
 EXPORT void CC Get_fmvs_sectors_494460(const char_type* fmvName1, const char_type* fmvName2, const char_type* fmvName3, u32* fmvSectorPos1, u32* fmvSectorPos2, u32* fmvSectorPos3);
 EXPORT s8 CC DDV_Play_493210(const char_type* pDDVName);
 bool AreMovieSkippingInputsHeld();
+static bool wasReverbEnabled;
 
 class Movie final : public BaseGameObject
 {
