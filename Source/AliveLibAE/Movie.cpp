@@ -18,6 +18,9 @@
 // Inputs on the controller that can be used for aborting skippable movies
 const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
 
+// Tells whether reverb was enabled before starting the FMV
+static bool wasReverbEnabled;
+
 ALIVE_VAR(1, 0x5ca208, SoundEntry, fmv_sound_entry_5CA208, {});
 
 EXPORT Masher* CC Masher_Alloc_4EAB80(
@@ -90,6 +93,13 @@ EXPORT s8 CC DDV_StartAudio_493DF0()
     {
         return 1;
     }
+
+    #if USE_SDL2_SOUND
+    wasReverbEnabled = gReverbEnabled;
+
+    // disable reverb for cutscenes - it gets re-enabled in DeInit
+    gReverbEnabled = false;
+    #endif
 
     u32 audioBufferStartOffset = 0;
     fmv_audio_sample_offset_5CA238 = 0;
@@ -739,6 +749,10 @@ void Movie::DeInit_4E0210()
 
     sbLoadingInProgress_5C1B96 = FALSE;
     --sMovie_ref_count_BB4AE4;
+
+    #if USE_SDL2_SOUND
+    gReverbEnabled = wasReverbEnabled;
+    #endif
 
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
