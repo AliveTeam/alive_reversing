@@ -18,6 +18,9 @@
 // Inputs on the controller that can be used for aborting skippable movies
 const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
 
+// Tells whether reverb was enabled before starting the FMV
+static bool wasReverbEnabled;
+
 ALIVE_VAR(1, 0x5ca208, SoundEntry, fmv_sound_entry_5CA208, {});
 
 EXPORT Masher* CC Masher_Alloc_4EAB80(
