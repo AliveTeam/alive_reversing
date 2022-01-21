@@ -319,7 +319,7 @@ struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseAE
         ADD("Angry Switch ID", mTlv.field_24_angry_switch_id);
         ADD("Work After Turning Wheel", mTlv.field_26_work_after_turning_wheel);
         ADD("Gets Depressed", mTlv.field_28_bGets_depressed);
-        ADD("Ring And Angry Mudokon Timeout", mTlv.field_2A_ring_timeout);
+        ADD("Ring Pulse Interval", mTlv.field_2A_ring_pulse_interval);
         ADD("Give Ring Without Password", mTlv.field_2C_bGive_ring_without_password);
     }
 };
@@ -1451,9 +1451,9 @@ struct Path_ExplosionSet final : public ReliveAPI::TlvObjectBaseAE
         ADD("Start Enabled", mTlv.field_10_bStart_enabled);
         ADD("Switch ID", mTlv.field_12_switch_id);
         ADD("Big Rocks", mTlv.field_14_big_rocks);
-        ADD("Start Delay Counter", mTlv.field_16_start_delay_counter);
-        ADD("Direction", mTlv.field_18_direction);
-        ADD("Start Delay", mTlv.field_1A_start_delay);
+        ADD("Start Delay", mTlv.field_16_start_delay);
+        ADD("Start Direction", mTlv.field_18_start_direction);
+        ADD("Explosion Interval", mTlv.field_1A_explosion_interval);
         ADD("Grid Spacing", mTlv.field_1C_grid_spacing);
         ADD("Increasing Grid Spacing", mTlv.field_1E_increasing_grid_spacing);
         ADD("Scale", mTlv.field_20_scale);
@@ -1658,8 +1658,8 @@ struct Path_CrawlingSlig final : public ReliveAPI::TlvObjectBaseAE
         ADD("Start Direction", mTlv.field_12_direction);
         ADD("State", mTlv.field_14_state);
         ADD("Crawl Direction", mTlv.field_16_crawl_direction);
-        ADD("Panic ID", mTlv.field_18_panic_id);
-        ADD("Reset On Death", mTlv.field_1A_reset_on_death);
+        ADD("Panic Switch ID", mTlv.field_18_panic_switch_id);
+        ADD("Respawn On Death", mTlv.field_1A_respawn_on_death);
     }
 };
 
@@ -1759,12 +1759,12 @@ struct Path_Glukkon final : public ReliveAPI::TlvObjectBaseAE
     {
         types.AddEnum<::GlukkonTypes>("Enum_GlukkonTypes",
                                       {
-                                          {::GlukkonTypes::Normal_0, "normal_0"},
-                                          {::GlukkonTypes::Aslik_1, "aslik"},
-                                          {::GlukkonTypes::Drpik_2, "drpik"},
-                                          {::GlukkonTypes::Phleg_3, "phleg"},
-                                          {::GlukkonTypes::Normal_4, "normal_4"},
-                                          {::GlukkonTypes::Normal_5, "normal_5"},
+                                          {::GlukkonTypes::Normal_0, "Normal"},
+                                          {::GlukkonTypes::StoryAslik_1, "Story Aslik"},
+                                          {::GlukkonTypes::StoryDripik_2, "Story Dripik"},
+                                          {::GlukkonTypes::StoryPhleg_3, "Story Phleg"},
+                                          {::GlukkonTypes::Normal_4, "Normal 4"},
+                                          {::GlukkonTypes::Normal_5, "Normal 5"},
                                       });
 
         types.AddEnum<::Path_Glukkon::StartDirection>("Enum_GlukkonStartDirection",
@@ -1772,22 +1772,36 @@ struct Path_Glukkon final : public ReliveAPI::TlvObjectBaseAE
                                                           {::Path_Glukkon::StartDirection::eRight_0, "Right"},
                                                           {::Path_Glukkon::StartDirection::eLeft_1, "Left"},
                                                       });
+
+        types.AddEnum<::Path_Glukkon::SpawnType>("Enum_GlukkonSpawnType",
+            {
+                {::Path_Glukkon::SpawnType::eRegularSpawn_0, "Regular Spawn"},
+                {::Path_Glukkon::SpawnType::eFacingLeft_1, "Facing Left"},
+                {::Path_Glukkon::SpawnType::eFacingRight_2, "Facing Right"},
+                {::Path_Glukkon::SpawnType::eFullSpawnEffects_3, "Full Spawn Effects"},
+            });
+
+        types.AddEnum<::Path_Glukkon::Behavior>("Enum_GlukkonBehavior",
+            {
+                {::Path_Glukkon::Behavior::eIgnoreWalls_0, "Ignore Walls"},
+                {::Path_Glukkon::Behavior::eCheckForWalls_1, "Check For Walls"},
+            });
     }
 
     CTOR_AE(Path_Glukkon, "Glukkon", TlvTypes::Glukkon_73)
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Start Direction", mTlv.field_12_start_direction);
-        ADD("Default Behavior", mTlv.field_14_default_behaviour);
-        ADD("Pre-alarmed Delay", mTlv.field_16_pre_alarmed_delay);
+        ADD("Behavior", mTlv.field_14_behaviour);
+        ADD("Scream Help Delay", mTlv.field_16_scream_help_delay);
         ADD("Help Switch ID", mTlv.field_18_help_switch_id);
-        ADD("Post Alarm Delay", mTlv.field_1A_post_alarm_delay);
-        ADD("Spawn ID", mTlv.field_1C_spawn_id);
-        ADD("Spawn Direction", mTlv.field_1E_spawn_direction); // TODO: enum
+        ADD("To Calm Delay", mTlv.field_1A_to_calm_delay);
+        ADD("Spawn Switch ID", mTlv.field_1C_spawn_switch_id);
+        ADD("Spawn Type", mTlv.field_1E_spawn_type);
         ADD("Spawn Delay", mTlv.field_20_spawn_delay);
         ADD("Glukkon Type", mTlv.field_22_glukkon_type);
-        ADD("Death ID", mTlv.field_24_death_id);
-        ADD("Play Movie ID", mTlv.field_26_play_movie_id);
+        ADD("Death Switch ID", mTlv.field_24_death_switch_id);
+        ADD("Play Movie Switch ID", mTlv.field_26_play_movie_switch_id);
         ADD("Movie To Play (fmv ID)", mTlv.field_28_movie_to_play_fmvID);
     }
 };

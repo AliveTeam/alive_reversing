@@ -472,7 +472,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
             {
                 field_168_ring_type = RingTypes::eHealing_Emit_Effect_11;
             }
-            field_164_ring_timeout = pTlv->field_2A_ring_timeout;
+            field_164_ring_pulse_interval = pTlv->field_2A_ring_pulse_interval;
             field_16A_flags.Set(Flags_16A::eBit16_give_ring_without_password, pTlv->field_2C_bGive_ring_without_password == Choice_short::eYes_1);
             field_16C_flags.Clear(Flags_16C::eBit1_Unknown);
             field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings_470C10;
@@ -516,7 +516,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     field_16A_flags.Set(Flags_16A::eBit2_reset_pos_on_screen_change, pTlv->field_1E_reset_pos_on_screen_change == Choice_short::eYes_1);
     field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pTlv->field_26_work_after_turning_wheel == Choice_short::eYes_1);
     field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pTlv->field_28_bGets_depressed == Choice_short::eYes_1);
-    field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pTlv->field_2A_ring_timeout & 1);
+    field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pTlv->field_2A_ring_pulse_interval & 1);
 
     field_17C_stand_idle_timer = 0;
 
@@ -1324,9 +1324,9 @@ void Mudokon::dtor_475B60()
 
     if (!field_18E_brain_state && field_190_brain_sub_state > 4u)
     {
-        if (field_164_ring_timeout > 0)
+        if (field_164_ring_pulse_interval > 0)
         {
-            sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_timeout;
+            sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_pulse_interval;
         }
         else
         {
@@ -2007,7 +2007,7 @@ s16 Mudokon::Brain_0_GiveRings_470C10()
             {
                 if (sActiveHero_5C1B68->field_168_ring_pulse_timer <= 0)
                 {
-                    field_108_next_motion = 50;
+                    field_108_next_motion = eMudMotions::M_Chant_50_473040;
                     field_194_timer = sGnFrame_5C1B84 + 30;
                     return Brain_0_GiveRings::eBrain0_Chanting_7;
                 }
@@ -2087,9 +2087,9 @@ s16 Mudokon::Brain_0_GiveRings_470C10()
         case Brain_0_GiveRings::eBrain0_ReceivingRing1_9:
             if (static_cast<s32>(sGnFrame_5C1B84) > field_194_timer)
             {
-                if (field_164_ring_timeout > 0)
+                if (field_164_ring_pulse_interval > 0)
                 {
-                    sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_timeout;
+                    sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_pulse_interval;
                 }
                 else
                 {

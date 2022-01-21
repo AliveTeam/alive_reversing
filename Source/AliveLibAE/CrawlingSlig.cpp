@@ -211,7 +211,7 @@ CrawlingSlig* CrawlingSlig::ctor_418C70(Path_CrawlingSlig* pTlv, s32 tlvInfo)
         field_1E0_crawl_direction = field_1E8_tlv.field_16_crawl_direction;
     }
 
-    field_1C6_unused = field_1E8_tlv.field_18_panic_id;
+    field_1C6_unused = field_1E8_tlv.field_18_panic_switch_id;
 
     FP hitX = {};
     FP hitY = {};
@@ -781,7 +781,7 @@ void CrawlingSlig::dtor_418FE0()
                 0);
         }
     }
-    if (field_10C_health > FP_FromInteger(0) || field_1E8_tlv.field_1A_reset_on_death == Choice_short::eYes_1)
+    if (field_10C_health > FP_FromInteger(0) || field_1E8_tlv.field_1A_respawn_on_death == Choice_short::eYes_1)
     {
         Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
     }
@@ -805,7 +805,7 @@ CrawlingSlig* CrawlingSlig::vdtor_418FB0(s32 flags)
 
 Bool32 CrawlingSlig::PanicOn_419810()
 {
-    return SwitchStates_Get_466020(field_1E8_tlv.field_18_panic_id) != 0;
+    return SwitchStates_Get_466020(field_1E8_tlv.field_18_panic_switch_id) != 0;
 }
 
 void CrawlingSlig::ToIdle_41C070()

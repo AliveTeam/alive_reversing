@@ -10,9 +10,9 @@ struct Path_ExplosionSet final : public Path_TLV
     Choice_short field_10_bStart_enabled;
     s16 field_12_switch_id;
     Choice_short field_14_big_rocks;
-    s16 field_16_start_delay_counter;
-    XDirection_short field_18_direction;
-    s16 field_1A_start_delay;
+    s16 field_16_start_delay;
+    XDirection_short field_18_start_direction;
+    s16 field_1A_explosion_interval;
     s16 field_1C_grid_spacing;
     s16 field_1E_increasing_grid_spacing;
     Scale_short field_20_scale;
@@ -50,12 +50,12 @@ private:
     Prim_ScreenOffset field_20[2];
     s16 field_40;
     s16 field_42;
-    s16 field_44_start_delay_counter;
+    s16 field_44_start_delay;
     s16 field_46_spacing_multiplicator;
     PSX_RECT field_48_tlv_rect;
     FP field_50_scale;
     s16 field_54_switch_id;
-    s16 field_56_delay;
+    s16 field_56_explosion_interval;
     s16 field_58_grid_spacing;
     s16 field_5A_increasing_grid_spacing;
 

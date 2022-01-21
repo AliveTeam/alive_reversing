@@ -40,7 +40,7 @@ struct Path_Mudokon final : public Path_TLV
     s16 field_24_angry_switch_id;
     Choice_short field_26_work_after_turning_wheel;
     Choice_short field_28_bGets_depressed;
-    s16 field_2A_ring_timeout;
+    s16 field_2A_ring_pulse_interval;
     Choice_short field_2C_bGive_ring_without_password;
     s16 field_2E_padding;
 };
@@ -508,7 +508,7 @@ private:
     s32 field_15C_unused;
     MudSounds field_160_delayed_speak;
     s16 field_162_maxXOffset;
-    s32 field_164_ring_timeout;
+    s32 field_164_ring_pulse_interval;
     RingTypes field_168_ring_type;
 
     enum Flags_16A
