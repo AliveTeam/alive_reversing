@@ -198,8 +198,8 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spa
     field_15A_left_max_delay = pTlv->field_18_left_max_delay;
     field_15C_right_min_delay = pTlv->field_1A_right_min_delay;
     field_15E_right_max_delay = pTlv->field_1C_right_max_delay;
-    field_148_spotting_abe_delay = pTlv->field_1E_spotting_abe_delay;
-    field_174_whirl_attack_duration = pTlv->field_26_whirl_attack_duration;
+    field_148_pause_after_chase_delay = pTlv->field_1E_pause_after_chase_delay;
+    field_174_possessed_max_whirl_attack_duration = pTlv->field_26_possessed_max_whirl_attack_duration;
     field_176_unused = pTlv->field_28_unused;
     field_1A8_bKill_enemy = pTlv->field_2A_bKill_enemy;
 
@@ -220,7 +220,7 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spa
 
     field_DC_bApplyShadows |= 2u;
 
-    field_14C_spotting_abe_timer = 0;
+    field_14C_pause_after_chase_timer = 0;
     field_150_attack_delay_timer = 0;
     field_144_tlvInfo = tlvInfo;
     field_11C_brain_sub_state = 0;
@@ -393,7 +393,7 @@ s32 CC Scrab::CreateFromSaveState_4A70A0(const u8* pBuffer)
     pScrab->field_124_fight_target_obj_id = pState->field_58_target_obj_id;
 
     pScrab->field_140_motion_resource_block_index = pState->field_68_motion_resource_block_index;
-    pScrab->field_14C_spotting_abe_timer = pState->field_6C_spotting_abe_timer;
+    pScrab->field_14C_pause_after_chase_timer = pState->field_6C_spotting_abe_timer;
     pScrab->field_150_attack_delay_timer = pState->field_70_attack_delay_timer;
     pScrab->field_154_movement_timer = pState->field_74_movement_timer;
     pScrab->field_160_sfx_bitmask = pState->field_78_sfx_bitmask;
@@ -504,7 +504,7 @@ s32 Scrab::vGetSaveState_4AB020(Scrab_State* pState)
     }
 
     pState->field_68_motion_resource_block_index = field_140_motion_resource_block_index;
-    pState->field_6C_spotting_abe_timer = field_14C_spotting_abe_timer;
+    pState->field_6C_spotting_abe_timer = field_14C_pause_after_chase_timer;
     pState->field_70_attack_delay_timer = field_150_attack_delay_timer;
     pState->field_74_movement_timer = field_154_movement_timer;
     pState->field_78_sfx_bitmask = field_160_sfx_bitmask;
@@ -1232,7 +1232,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
     }
 
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
-    if (!pObj || field_6_flags.Get(BaseGameObject::eDead_Bit3) || (static_cast<s32>(sGnFrame_5C1B84) > field_14C_spotting_abe_timer && !CanSeeAbe_4A51A0(pObj)))
+    if (!pObj || field_6_flags.Get(BaseGameObject::eDead_Bit3) || (static_cast<s32>(sGnFrame_5C1B84) > field_14C_pause_after_chase_timer && !CanSeeAbe_4A51A0(pObj)))
     {
         field_120_obj_id = -1;
         field_108_next_motion = eScrabMotions::M_Stand_0_4A8220;
@@ -1250,7 +1250,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
 
     if (CanSeeAbe_4A51A0(pObj))
     {
-        field_14C_spotting_abe_timer = sGnFrame_5C1B84 + field_148_spotting_abe_delay;
+        field_14C_pause_after_chase_timer = sGnFrame_5C1B84 + field_148_pause_after_chase_delay;
     }
 
     if (Event_Is_Event_In_Range_422C30(kEventAbeOhm, field_B8_xpos, field_BC_ypos, -1) && field_11C_brain_sub_state != 26) //TODO OG bug? field_108_next_motion instead of field_11C_sub_state
@@ -2076,7 +2076,7 @@ void Scrab::M_Stand_0_4A8220()
         {
             field_106_current_motion = eScrabMotions::M_AttackSpin_32_4A8DC0;
             field_108_next_motion = -1;
-            field_12C_timer = sGnFrame_5C1B84 + field_174_whirl_attack_duration;
+            field_12C_timer = sGnFrame_5C1B84 + field_174_possessed_max_whirl_attack_duration;
             return;
         }
 
@@ -2219,7 +2219,7 @@ void Scrab::M_Walk_1_4A84D0()
             if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction) && field_178_shred_power_active)
             {
                 field_106_current_motion = eScrabMotions::M_AttackSpin_32_4A8DC0;
-                field_12C_timer = sGnFrame_5C1B84 + field_174_whirl_attack_duration;
+                field_12C_timer = sGnFrame_5C1B84 + field_174_possessed_max_whirl_attack_duration;
                 field_108_next_motion = -1;
                 MapFollowMe_408D10(TRUE);
                 return;
@@ -2361,7 +2361,7 @@ void Scrab::M_Run_2_4A89C0()
 
                             if (sInputObject_5BD4E0.isPressed(0xA0) && field_178_shred_power_active)
                             {
-                                field_12C_timer = MakeTimer(field_174_whirl_attack_duration);
+                                field_12C_timer = MakeTimer(field_174_possessed_max_whirl_attack_duration);
                                 field_106_current_motion = eScrabMotions::M_AttackSpin_32_4A8DC0;
                                 field_108_next_motion = -1;
                                 MapFollowMe_408D10(TRUE);
@@ -4062,14 +4062,23 @@ void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
                     {
                         if (pObj != this)
                         {
-                            if ((pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eMudokon2_81 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eNevetSet_127 || pObj->Type() == AETypes::eFleech_50 || pObj->Type() == AETypes::eScrab_112) && field_D6_scale == pObj->field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
+                            if ((pObj->Type() == AETypes::eAbe_69 || 
+                                pObj->Type() == AETypes::eMudokon2_81 ||
+                                pObj->Type() == AETypes::eMudokon_110 ||
+                                pObj->Type() == AETypes::eNevetSet_127 ||
+                                pObj->Type() == AETypes::eFleech_50 ||
+                                pObj->Type() == AETypes::eScrab_112) &&
+                                field_D6_scale == pObj->field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
                             {
                                 const FP xDist = pObj->field_B8_xpos - field_B8_xpos;
                                 if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), xDist))
                                 {
                                     if (!pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
                                     {
-                                        if (pObj->Type() != AETypes::eScrab_112 || !pObj->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) || (pObj->field_106_current_motion != eScrabMotions::M_AttackSpin_32_4A8DC0 && (pObj->Type() != AETypes::eFleech_50 || BrainIs(&Scrab::Brain_5_Possessed_4A6180) || field_1A8_bKill_enemy == Choice_short::eYes_1)))
+                                        if (pObj->Type() != AETypes::eScrab_112 ||
+                                            !pObj->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) ||
+                                            (pObj->field_106_current_motion != eScrabMotions::M_AttackSpin_32_4A8DC0 &&
+                                            (pObj->Type() != AETypes::eFleech_50 || BrainIs(&Scrab::Brain_5_Possessed_4A6180) || field_1A8_bKill_enemy == Choice_short::eYes_1)))
 
                                         {
                                             PSX_RECT objRect = {};
@@ -4317,7 +4326,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, s16 bCheckLeftRightBo
         TlvTypes::SlamDoor_85);
 
     auto pSlamDoorTlv = static_cast<Path_SlamDoor*>(field_FC_pPathTLV);
-    if (pSlamDoorTlv && ((pSlamDoorTlv->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get_466020(pSlamDoorTlv->field_14_id)) || (pSlamDoorTlv->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get_466020(pSlamDoorTlv->field_14_id))))
+    if (pSlamDoorTlv && ((pSlamDoorTlv->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get_466020(pSlamDoorTlv->field_14_switch_id)) || (pSlamDoorTlv->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get_466020(pSlamDoorTlv->field_14_switch_id))))
     {
         return 1;
     }

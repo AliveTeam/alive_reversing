@@ -81,11 +81,11 @@ struct Path_Scrab : public Path_TLV
     s16 field_18_left_max_delay;
     s16 field_1A_right_min_delay;
     s16 field_1C_right_max_delay;
-    u16 field_1E_spotting_abe_delay;
+    u16 field_1E_pause_after_chase_delay;
     s16 field_20_disabled_resources;
     Choice_short field_22_roar_randomly;
     Choice_short field_24_persistant;
-    s16 field_26_whirl_attack_duration;
+    s16 field_26_possessed_max_whirl_attack_duration;
     s16 field_28_unused;
     Choice_short field_2A_bKill_enemy;
 };
@@ -365,8 +365,8 @@ private:
     s16 field_140_motion_resource_block_index;
     s16 field_142_padding;
     s32 field_144_tlvInfo;
-    s32 field_148_spotting_abe_delay;
-    s32 field_14C_spotting_abe_timer;
+    s32 field_148_pause_after_chase_delay;
+    s32 field_14C_pause_after_chase_timer;
     s32 field_150_attack_delay_timer;
     s32 field_154_movement_timer;
     s16 field_158_left_min_delay;
@@ -380,7 +380,7 @@ private:
     s16 field_16A_camera;
     s32 field_16C_input;
     s32 field_170_unused;
-    s16 field_174_whirl_attack_duration;
+    s16 field_174_possessed_max_whirl_attack_duration;
     s16 field_176_unused;
     s16 field_178_shred_power_active;
     s16 field_17A_padding;

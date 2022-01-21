@@ -586,7 +586,7 @@ s16 CrawlingSlig::HandleEnemyStopper_41C740(FP /*velX*/)
         TlvTypes::SlamDoor_85));
     field_FC_pPathTLV = pSlamDoor;
 
-    if (pSlamDoor && ((pSlamDoor->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get_466020(pSlamDoor->field_14_id)) || (pSlamDoor->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get_466020(pSlamDoor->field_14_id))))
+    if (pSlamDoor && ((pSlamDoor->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get_466020(pSlamDoor->field_14_switch_id)) || (pSlamDoor->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get_466020(pSlamDoor->field_14_switch_id))))
     {
         return 1;
     }

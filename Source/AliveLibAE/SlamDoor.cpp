@@ -80,7 +80,7 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     field_C_objectId = tlvInfo.all; // todo: check this
     field_6_flags.Set(Options::eCanExplode_Bit7);
 
-    field_128_switch_id = pTlv->field_14_id;
+    field_128_switch_id = pTlv->field_14_switch_id;
 
     field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit2_Open);
     field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit4_Inverted);

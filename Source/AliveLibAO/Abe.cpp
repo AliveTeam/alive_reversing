@@ -7868,7 +7868,6 @@ void Abe::Motion_77_WellBegin_430F10()
     if (field_10_anim.field_92_current_frame > 10)
     {
         field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
-        ;
 
         field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
             FP_GetExponent(field_A8_xpos),
@@ -9993,10 +9992,13 @@ void Abe::Motion_156_DoorEnter_42D370()
 
             while (pPathDoor->field_20_door_number != field_196_door_id)
             {
-                pPathDoor = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(
-                    field_F0_pTlv,
-                    TlvTypes::Door_6));
+                pPathDoor = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(field_F0_pTlv, TlvTypes::Door_6));
                 field_F0_pTlv = pPathDoor;
+                
+                if (!field_F0_pTlv)
+                {
+                    ALIVE_FATAL("Couldn't find target door. If this is a custom level, check if the level, path and camera is correct.");
+                }
             }
 
             if (pPathDoor->field_26_start_state == DoorStates::eOpen_0)

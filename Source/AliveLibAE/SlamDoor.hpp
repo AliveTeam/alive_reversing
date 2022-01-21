@@ -20,7 +20,7 @@ struct Path_SlamDoor final : public Path_TLV
 {
     Choice_short field_10_bStart_closed;
     Scale_short field_12_scale;
-    s16 field_14_id;
+    s16 field_14_switch_id;
     Choice_short field_16_bStart_inverted;
     Choice_short field_18_bDelete;
     s16 field_1A_padding;

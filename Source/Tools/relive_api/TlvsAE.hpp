@@ -169,7 +169,7 @@ struct Path_MovieHandstone final : public Path_TLV
     s16 padding;
     Scale_short scale;
     s16 movie_number;
-    s16 id;
+    s16 trigger_switch_id;
 };
 
 struct Path_CreditsController final : public Path_TLV
@@ -345,9 +345,9 @@ struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_BirdPortal, "BirdPortal", TlvTypes::BirdPortal_28)
     {
         ADD("Enter Side", mTlv.field_10_side);
-        ADD("Level Destination", mTlv.field_12_dest_level);
-        ADD("Path Destination", mTlv.field_14_dest_path);
-        ADD("Camera Destination", mTlv.field_16_dest_camera);
+        ADD("BirdPortalExit Level", mTlv.field_12_dest_level);
+        ADD("BirdPortalExit Path", mTlv.field_14_dest_path);
+        ADD("BirdPortalExit Camera", mTlv.field_16_dest_camera);
         ADD("Scale", mTlv.field_18_scale);
         ADD("Movie ID", mTlv.field_1A_movie_id);
         ADD("Portal Type", mTlv.field_1C_portal_type);
@@ -549,7 +549,7 @@ struct Path_Fleech final : public ReliveAPI::TlvObjectBaseAE
         ADD("Patrol Range (Grids)", mTlv.field_26_patrol_range_in_grids);
         ADD("Wake Up Switch Anger Value", mTlv.field_28_wake_up_switch_anger_value);
 
-        ADD("Can Wake Up ID", mTlv.field_2A_can_wake_up_id);
+        ADD("Can Wake Up Switch ID", mTlv.field_2A_can_wake_up_switch_id);
         ADD("Persistant", mTlv.field_2C_persistant);
         ADD_HIDDEN("Unused2(?)", mTlv.field_2E_padding);
     }
@@ -777,7 +777,7 @@ struct Path_SlamDoor final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Start Shut", mTlv.field_10_bStart_closed);
         ADD("Scale", mTlv.field_12_scale);
-        ADD("ID", mTlv.field_14_id);
+        ADD("Switch ID", mTlv.field_14_switch_id);
         ADD("Flip On Y Axis", mTlv.field_16_bStart_inverted);
         ADD("Delete", mTlv.field_18_bDelete);
     }
@@ -791,7 +791,7 @@ struct Path_HandStone final : public ReliveAPI::TlvObjectBaseAE
         ADD("Camera ID 1", mTlv.field_12_camera_id1);
         ADD("Camera ID 2", mTlv.field_12_camera_id2);
         ADD("Camera ID 3", mTlv.field_12_camera_id3);
-        ADD("Trigger ID", mTlv.field_18_trigger_id);
+        ADD("Trigger Switch ID", mTlv.field_18_trigger_switch_id);
     }
 };
 
@@ -800,7 +800,7 @@ struct Path_LaughingGas final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_LaughingGas, "LaughingGas", TlvTypes::LaughingGas_81)
     {
         ADD("Is Laughing Gas", mTlv.field_10_bLaughing_gas);
-        ADD("Laughing Gas ID", mTlv.field_12_laughing_gas_id);
+        ADD("Laughing Gas Switch ID", mTlv.field_12_laughing_gas_switch_id);
         ADD("Red %", mTlv.field_14_red_percent);
         ADD("Green %", mTlv.field_16_green_percent);
         ADD("Blue %", mTlv.field_18_blue_percent);
@@ -821,7 +821,7 @@ struct Path_InvisibleSwitch final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_InvisibleSwitch, "InvisibleSwitch", TlvTypes::InvisibleSwitch_48)
     {
-        ADD("ID", mTlv.field_10_id);
+        ADD("Switch ID", mTlv.field_10_switch_id);
         ADD("Action", mTlv.field_12_action);
         ADD("Delay", mTlv.field_14_delay);
         ADD("Set Off Alarm", mTlv.field_16_set_off_alarm);
@@ -834,7 +834,7 @@ struct Path_Water final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_Water, "Water", TlvTypes::Water_77)
     {
         ADD("Max Drops", mTlv.field_10_data.field_10_max_drops);
-        ADD("ID", mTlv.field_10_data.field_12_id);
+        ADD("Switch ID", mTlv.field_10_data.field_12_switch_id);
         ADD("Splash Time", mTlv.field_10_data.field_14_splash_time);
         ADD("Splash X Velocity", mTlv.field_10_data.field_16_splash_x_velocity);
         ADD("Splash Y Velocity", mTlv.field_10_data.field_18_splash_y_velocity);
@@ -950,7 +950,7 @@ struct Path_LiftPoint final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_LiftPoint, "LiftPoint", TlvTypes::LiftPoint_7)
     {
-        ADD("ID", mTlv.field_10_id);
+        ADD("Lift Point Switch ID", mTlv.field_10_lift_point_switch_id);
         ADD("Start Point", mTlv.field_12_bStart_point);
         ADD("Lift Type (Unused?)", mTlv.field_14_lift_type);
         ADD("Lift Point Stop Type", mTlv.field_16_lift_point_stop_type);
@@ -981,8 +981,8 @@ struct Path_PullRingRope final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_PullRingRope, "PullRingRope", TlvTypes::PullRingRope_12)
     {
-        ADD("ID", mTlv.field_10_id);
-        ADD("Target Action", mTlv.field_12_target_action);
+        ADD("Switch ID", mTlv.field_10_switch_id);
+        ADD("Action", mTlv.field_12_action);
         ADD("Rope Length", mTlv.field_14_rope_length);
         ADD("Scale", mTlv.field_16_scale);
         ADD("On Sound", mTlv.field_18_on_sound);
@@ -1379,8 +1379,8 @@ struct Path_LiftMover final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_LiftMover, "LiftMover", TlvTypes::LiftMover_39)
     {
-        ADD("Switch ID", mTlv.field_10_switch_id);
-        ADD("Lift ID", mTlv.field_12_lift_id);
+        ADD("Lift Mover Switch ID", mTlv.field_10_lift_mover_switch_id);
+        ADD("Lift Point Switch ID", mTlv.field_12_lift_switch_id);
         ADD("Move Direction", mTlv.field_14_move_direction);
     }
 };
@@ -1508,7 +1508,7 @@ struct Path_Slurg final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_Slurg, "Slurg", TlvTypes::Slurg_84)
     {
         ADD("Time Until Turning Around", mTlv.field_10_slurg_data.field_0_moving_timer);
-        ADD("Start Direction", mTlv.field_10_slurg_data.field_2_direction);
+        ADD("Start Direction", mTlv.field_10_slurg_data.field_2_start_direction);
         ADD("Scale", mTlv.field_10_slurg_data.field_4_scale);
         ADD("Switch ID (increment by 1 on death)", mTlv.field_10_slurg_data.field_6_switch_id);
     }
@@ -1600,7 +1600,7 @@ struct Path_MovieHandstone final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Scale", mTlv.scale);
         ADD("Movie Number", mTlv.movie_number);
-        ADD("ID", mTlv.id);
+        ADD("Trigger Switch ID", mTlv.trigger_switch_id);
         ADD("Padding", mTlv.padding);
     }
 };
@@ -1829,7 +1829,7 @@ struct Path_FallingItem final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Start Switch ID", mTlv.field_10_start_switch_id);
         ADD("Scale", mTlv.field_12_scale);
-        ADD("Fall Delay", mTlv.field_14_fall_delay);
+        ADD("Fall Interval", mTlv.field_14_fall_interval);
         ADD("Max Falling Items", mTlv.field_16_max_falling_items);
         ADD("Stop Switch ID", mTlv.field_18_stop_switch_id);
     }
@@ -1884,7 +1884,7 @@ struct Path_SlogHut final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Switch ID", mTlv.field_12_switch_id);
-        ADD("Zzz Delay", mTlv.field_14_Zzz_delay);
+        ADD("Zzz Interval", mTlv.field_14_Zzz_interval);
     }
 };
 
@@ -1895,8 +1895,8 @@ struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAE
         ADD("Scale", mTlv.field_10_scale);
         ADD("Max Slogs", mTlv.field_12_max_slogs);
         ADD("Max Slogs At A Time", mTlv.field_14_max_slogs_at_a_time);
-        ADD("Direction", mTlv.field_16_direction);
-        ADD("Slog Spawn Delay", mTlv.field_18_slog_spawn_delay);
+        ADD("Start Direction", mTlv.field_16_start_direction);
+        ADD("Slog Spawn Interval", mTlv.field_18_slog_spawn_interval);
         ADD("Spawner Switch ID", mTlv.field_1A_spawner_switch_id);
         ADD("Listen To Sligs", mTlv.field_1C_listen_to_sligs);
         ADD("Chase Delay", mTlv.field_1E_chase_delay);
@@ -1931,12 +1931,12 @@ struct Path_Scrab final : public ReliveAPI::TlvObjectBaseAE
         ADD("Left Max Delay", mTlv.field_18_left_max_delay);
         ADD("Right Min Delay", mTlv.field_1A_right_min_delay);
         ADD("Right Max Delay", mTlv.field_1C_right_max_delay);
-        ADD("Spotting Abe Delay", mTlv.field_1E_spotting_abe_delay);
+        ADD("Pause After Chase Delay", mTlv.field_1E_pause_after_chase_delay);
         ADD("Disabled Resources", mTlv.field_20_disabled_resources);
         ADD("Roar Randomly", mTlv.field_22_roar_randomly);
         ADD("Persistant", mTlv.field_24_persistant);
-        ADD("Whirl Attack Duration", mTlv.field_26_whirl_attack_duration);
-        ADD("Unused", mTlv.field_28_unused);
+        ADD("Possessed Max Whirl Attack Duration", mTlv.field_26_possessed_max_whirl_attack_duration);
+        ADD_HIDDEN("Unused", mTlv.field_28_unused);
         ADD("Kill Enemy", mTlv.field_2A_bKill_enemy);
     }
 };
@@ -1963,11 +1963,11 @@ struct Path_ScrabSpawner final : public ReliveAPI::TlvObjectBaseAE
         ADD("Scrab Left Max Delay", mTlv.field_18_left_max_delay);
         ADD("Scrab Right Min Delay", mTlv.field_1A_right_min_delay);
         ADD("Scrab Right Max Delay", mTlv.field_1C_right_max_delay);
-        ADD("Scrab Spotting Abe Delay", mTlv.field_1E_spotting_abe_delay);
+        ADD("Scrab Pause After Chase Delay", mTlv.field_1E_pause_after_chase_delay);
         ADD("Scrab Disabled Resources", mTlv.field_20_disabled_resources);
         ADD("Scrab Roar Randamly", mTlv.field_22_roar_randomly);
         ADD("Scrab Persistant", mTlv.field_24_persistant);
-        ADD("Scrab Whirl Attack Duration", mTlv.field_26_whirl_attack_duration);
+        ADD("Scrab Whirl Attack Duration", mTlv.field_26_possessed_max_whirl_attack_duration);
         ADD("Scrab Unused", mTlv.field_28_unused);
         ADD("Scrab Kill Enemy", mTlv.field_2A_bKill_enemy);
 
@@ -1982,7 +1982,7 @@ struct Path_SlurgSpawner final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_SlurgSpawner, "SlurgSpawner", TlvTypes::SlurgSpawner_89)
     {
         ADD("Time Until Turning Around", mTlv.field_10_slurg_data.field_0_moving_timer);
-        ADD("Direction", mTlv.field_10_slurg_data.field_2_direction);
+        ADD("Start Direction", mTlv.field_10_slurg_data.field_2_start_direction);
         ADD("Scale", mTlv.field_10_slurg_data.field_4_scale);
         ADD("Switch ID (increment by 1 on death)", mTlv.field_10_slurg_data.field_6_switch_id);
 
@@ -2017,7 +2017,7 @@ struct Path_Paramite final : public ReliveAPI::TlvObjectBaseAE
         ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
         ADD("Surprise Web Switch ID", mTlv.field_1E_id);
         ADD("Hiss Before Attacking", mTlv.field_20_hiss_before_attack);
-        ADD("Delete When Far Away", mTlv.field_22_delete_when_far_away);
+        ADD("Delete When Out Of Sight", mTlv.field_22_delete_when_out_of_sight);
         ADD("Attack Fleeches", mTlv.field_24_bAttack_fleeches);
     }
 };

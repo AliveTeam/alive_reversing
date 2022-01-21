@@ -15,7 +15,7 @@ enum class LiftPointStopType : s16
 
 struct Path_LiftPoint final : public Path_TLV
 {
-    s16 field_10_id;
+    s16 field_10_lift_point_switch_id;
     Choice_short field_12_bStart_point;
     s16 field_14_lift_type; // TODO: Not actually used
     LiftPointStopType field_16_lift_point_stop_type;
@@ -103,7 +103,7 @@ private:
     u8** field_274_ppRes;
 
 public:
-    u8 field_278_lift_point_id;
+    u8 field_278_lift_point_switch_id;
 
 private:
     s8 field_279_pad;

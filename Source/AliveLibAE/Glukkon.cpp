@@ -2548,7 +2548,7 @@ s16 Glukkon::PathBlocked_4442F0(FP /*a2*/, s16 checkBounds)
 
     auto pSlamDoorTlv = static_cast<Path_SlamDoor*>(field_FC_pPathTLV);
 
-    if (pSlamDoorTlv && ((pSlamDoorTlv->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get_466020(pSlamDoorTlv->field_14_id)) || (pSlamDoorTlv->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get_466020(pSlamDoorTlv->field_14_id))))
+    if (pSlamDoorTlv && ((pSlamDoorTlv->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get_466020(pSlamDoorTlv->field_14_switch_id)) || (pSlamDoorTlv->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get_466020(pSlamDoorTlv->field_14_switch_id))))
     {
         return 1;
     }
