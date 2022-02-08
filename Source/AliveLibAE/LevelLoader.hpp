@@ -8,7 +8,7 @@ enum class LevelIds : s16;
 
 struct Path_LevelLoader final : public Path_TLV
 {
-    s16 field_10_id;
+    s16 field_10_switch_id;
     LevelIds field_12_dest_level;
     s16 field_14_dest_path;
     s16 field_16_dest_camera;
@@ -31,7 +31,7 @@ private:
     EXPORT void dtor_4DD3E0();
 
 private:
-    s16 field_20_id;
+    s16 field_20_switch_id;
     enum class States : s16
     {
         eIdle_0 = 0,

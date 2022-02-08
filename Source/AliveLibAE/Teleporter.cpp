@@ -267,7 +267,7 @@ void Teleporter::vUpdate_4DC400()
                 bForceChange);
 
             sControlledCharacter_5C1B8C->SetUpdateDelay(3);
-            sActiveHero_5C1B68->field_1A0_door_id = field_34_mTlvData.field_12_target_id;
+            sActiveHero_5C1B68->field_1A0_door_id = field_34_mTlvData.field_12_other_teleporter_switch_id;
             field_30_state = TeleporterState::eTeleporting_2;
         }
         break;
@@ -278,14 +278,14 @@ void Teleporter::vUpdate_4DC400()
 
             Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Teleporter_88, 0));
             Path_Teleporter_Data tlvData = pTeleporterTlv->field_10_data;
-            if (tlvData.field_10_teleporter_id != field_34_mTlvData.field_12_target_id)
+            if (tlvData.field_10_teleporter_switch_id != field_34_mTlvData.field_12_other_teleporter_switch_id)
             {
                 while (pTeleporterTlv)
                 {
                     pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_Next_Of_Type_4DB720(pTeleporterTlv, TlvTypes::Teleporter_88));
                     tlvData = pTeleporterTlv->field_10_data;
 
-                    if (tlvData.field_10_teleporter_id == field_34_mTlvData.field_12_target_id)
+                    if (tlvData.field_10_teleporter_switch_id == field_34_mTlvData.field_12_other_teleporter_switch_id)
                     {
                         break;
                     }

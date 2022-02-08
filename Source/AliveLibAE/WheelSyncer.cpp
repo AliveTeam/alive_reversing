@@ -28,25 +28,25 @@ WheelSyncer* WheelSyncer::ctor_466090(Path_WheelSyncer* pTlv, u32 tlvInfo)
     SetVTable(this, 0x545F20); // vTbl_WheelSyncer_545F20
 
     field_30_tlvInfo = tlvInfo;
-    field_20_id1 = pTlv->field_10_id1;
-    field_22_id2 = pTlv->field_12_id2;
-    field_24_trigger_id = pTlv->field_14_trigger_id;
+    field_20_input_switch_id1 = pTlv->field_10_input_switch_id1;
+    field_22_input_switch_id2 = pTlv->field_12_input_switch_id2;
+    field_24_trigger_id = pTlv->field_14_output_switch_id;
     field_2E_action = pTlv->field_16_action;
-    field_26_id3 = pTlv->field_18_id3;
-    field_28_id4 = pTlv->field_1A_id4;
-    field_2A_id5 = pTlv->field_1C_id5;
-    field_2C_id6 = pTlv->field_1E_id6;
+    field_26_input_switch_id3 = pTlv->field_18_input_switch_id3;
+    field_28_input_switch_id4 = pTlv->field_1A_input_switch_id4;
+    field_2A_input_switch_id5 = pTlv->field_1C_input_switch_id5;
+    field_2C_input_switch_id6 = pTlv->field_1E_input_switch_id6;
     return this;
 }
 
 void WheelSyncer::vUpdate_4661D0()
 {
-    const s32 state1 = SwitchStates_Get_466020(field_20_id1);
-    const s32 state2 = SwitchStates_Get_466020(field_22_id2);
-    const s32 state3 = SwitchStates_Get_466020(field_26_id3);
-    const s32 state4 = SwitchStates_Get_466020(field_28_id4);
-    const s32 state5 = SwitchStates_Get_466020(field_2A_id5);
-    const s32 state6 = SwitchStates_Get_466020(field_2C_id6);
+    const s32 state1 = SwitchStates_Get_466020(field_20_input_switch_id1);
+    const s32 state2 = SwitchStates_Get_466020(field_22_input_switch_id2);
+    const s32 state3 = SwitchStates_Get_466020(field_26_input_switch_id3);
+    const s32 state4 = SwitchStates_Get_466020(field_28_input_switch_id4);
+    const s32 state5 = SwitchStates_Get_466020(field_2A_input_switch_id5);
+    const s32 state6 = SwitchStates_Get_466020(field_2C_input_switch_id6);
 
     s32 switchValue = 0;
 

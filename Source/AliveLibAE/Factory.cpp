@@ -705,7 +705,8 @@ EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* pTlv, Path*, TlvItemInfoUnion, 
             sActiveHero_5C1B68 = ae_new<Abe>();
             if (sActiveHero_5C1B68)
             {
-                sActiveHero_5C1B68->ctor_44AD10(58808, 85, 57, 55);
+                const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
+                sActiveHero_5C1B68->ctor_44AD10(rec.mFrameTableOffset, 85, 57, 55);
                 sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
                 sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
             }
@@ -902,7 +903,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
-        if (pTlvIter->field_4_type == TlvTypes::Slig_15 && pTlv->field_10_slig_id == static_cast<Path_Slig*>(pTlvIter)->field_38_slig_id && !pTlvIter->field_0_flags.Get(TLV_Flags::eBit2_Destroyed))
+        if (pTlvIter->field_4_type == TlvTypes::Slig_15 && pTlv->field_10_slig_bound_id == static_cast<Path_Slig*>(pTlvIter)->field_38_slig_bound_id && !pTlvIter->field_0_flags.Get(TLV_Flags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -1210,7 +1211,7 @@ EXPORT void CC Factory_MovingBomb_4D8A50(Path_TLV* pTlv, Path*, TlvItemInfoUnion
         gMap_5C3030.LoadResource_4DBE00("MOVEBOMB.BAN", ResourceManager::Resource_Animation, AEResourceID::kMovebombResID, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode, 0);
         gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, pMovingBombTlv->field_1A_disable_resources & 1);
+        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, pMovingBombTlv->field_1A_disabled_resources & 1);
     }
     else
     {

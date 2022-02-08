@@ -34,7 +34,7 @@ struct Path_Mudokon final : public Path_TLV
     s16 field_18_rescue_switch_id;
     Choice_short field_1A_bDeaf;
     s16 field_1C_disabled_resources;
-    Choice_short field_1E_reset_pos_on_screen_change;
+    Choice_short field_1E_persist_and_reset_offscreen;
     Mud_TLV_Emotion field_20_emotion;
     Choice_short field_22_bBlind;
     s16 field_24_angry_switch_id;
@@ -514,7 +514,7 @@ private:
     enum Flags_16A
     {
         eBit1_not_rescued = 0x1,
-        eBit2_reset_pos_on_screen_change = 0x2,
+        eBit2_persist_and_reset_offscreen = 0x2,
         eBit3_alerted = 0x4,
         eBit4_blind = 0x8,
         eBit5_following = 0x10,

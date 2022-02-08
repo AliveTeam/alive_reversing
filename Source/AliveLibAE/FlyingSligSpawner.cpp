@@ -29,7 +29,7 @@ FlyingSligSpawner* FlyingSligSpawner::ctor_433D50(Path_FlyingSligSpawner* pTlv, 
     field_2C_tlv_header = *pTlv;
 
     field_40_bFirstUpdate &= ~2u;
-    field_28_trigger_id = pTlv->field_10.field_16_trigger_id;
+    field_28_spawner_switch_id = pTlv->field_10.field_16_spawner_switch_id;
     field_3C_bSpawned = 0;
     field_24_spawned_slig_id = -1;
 
@@ -117,12 +117,12 @@ void FlyingSligSpawner::vUpdate_433E10()
         {
             if (!pCurrentSlig || pCurrentSlig->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
-                SwitchStates_Do_Operation_465F00(field_28_trigger_id, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation_465F00(field_28_spawner_switch_id, SwitchOp::eSetFalse_1);
                 field_24_spawned_slig_id = -1;
                 field_3C_bSpawned = FALSE;
             }
         }
-        else if (SwitchStates_Get_466020(field_28_trigger_id))
+        else if (SwitchStates_Get_466020(field_28_spawner_switch_id))
         {
             auto pFlyingSligTlv = static_cast<Path_FlyingSlig*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                 field_2C_tlv_header.field_8_top_left.field_0_x,

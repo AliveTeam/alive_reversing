@@ -293,8 +293,8 @@ EXPORT void CC Stop_slig_sounds_4CBA70(CameraPos direction, s8 kZero);
 
 struct Path_Teleporter_Data
 {
-    s16 field_10_teleporter_id;
-    s16 field_12_target_id;
+    s16 field_10_teleporter_switch_id;
+    s16 field_12_other_teleporter_switch_id;
     s16 field_14_camera;
     s16 field_16_path;
     LevelIds field_18_level;

@@ -2666,9 +2666,9 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
                 pResetSwitchRange->field_1_tlv_state = 1;
                 if (pResetSwitchRange->field_10_reset_switch_ids == Choice_short::eYes_1)
                 {
-                    for (s16 i = pResetSwitchRange->field_12_start_id; i <= pResetSwitchRange->field_14_end_id; i++)
+                    for (s16 i = pResetSwitchRange->field_12_start_switch_id; i <= pResetSwitchRange->field_14_end_switch_id; i++)
                     {
-                        if (i != pResetSwitchRange->field_16_skip_id && i > 1)
+                        if (i != pResetSwitchRange->field_16_skip_switch_id && i > 1)
                         {
                             SwitchStates_Set_465FF0(i, 0);
                         }
@@ -8306,7 +8306,7 @@ void Abe::Motion_127_TurnWheelLoop_456750()
     if (field_120_state.wheel == WorkWheelStates::eTurningWheel_0 || field_120_state.wheel == WorkWheelStates::eCheckForNoLongerTurningWheel_1) // The state we enter the main state at.
     {
         Path_LevelLoader* pLevelLoader = static_cast<Path_LevelLoader*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::LevelLoader_86, 0));
-        if (pLevelLoader && SwitchStates_Get_466020(pLevelLoader->field_10_id))
+        if (pLevelLoader && SwitchStates_Get_466020(pLevelLoader->field_10_switch_id))
         {
             field_120_state.wheel = WorkWheelStates::eMapChanging_2;
             SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);

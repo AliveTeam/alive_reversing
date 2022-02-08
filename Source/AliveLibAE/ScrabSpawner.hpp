@@ -7,7 +7,7 @@
 
 struct Path_ScrabSpawner final : public Path_Scrab
 {
-    s16 field_2C_switch_id;
+    s16 field_2C_spawner_switch_id;
     ScrabSpawnDirection field_2E_spawn_direction;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ScrabSpawner, 0x30);
@@ -46,7 +46,7 @@ private:
 
 private:
     s32 field_20_tlvInfo;
-    s16 field_24_switch_id;
+    s16 field_24_spawner_switch_id;
     ScrabSpawnDirection field_26_spawn_direction;
     Path_TLV field_28_tlv_data;
     ScrabSpawnerStates field_38_state;

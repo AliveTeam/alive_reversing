@@ -6,12 +6,12 @@
 
 struct Path_TimerTrigger final : public Path_TLV
 {
-    s16 field_10_source_switch_id;
+    s16 field_10_input_switch_id;
     u16 field_12_trigger_interval;
-    s16 field_14_id1;
-    s16 field_16_id2;
-    s16 field_18_id3;
-    s16 field_1A_id4;
+    s16 field_14_output_switch_id1;
+    s16 field_16_output_switch_id2;
+    s16 field_18_output_switch_id3;
+    s16 field_1A_output_switch_id4;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimerTrigger, 0x1C);
 
@@ -54,9 +54,9 @@ private:
     EXPORT s32 vGetSaveState_4CE030(TimerTrigger_State* pState);
 
 private:
-    s16 field_20_source_switch_id;
+    s16 field_20_input_switch_id;
     TimerTriggerStates field_22_state;
-    s16 field_24_ids[4];
+    s16 field_24_output_switch_ids[4];
     s32 field_2C_tlvInfo;
     s32 field_30_trigger_interval_timer;
     s32 field_34_trigger_interval;
