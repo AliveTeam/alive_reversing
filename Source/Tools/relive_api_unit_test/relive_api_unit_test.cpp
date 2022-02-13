@@ -81,11 +81,15 @@ TEST(alive_api, tlv_reflection_ae_object)
 
     ReliveAPI::AELine tmpLine(types);
 }
+
 /*
 TEST(json_upgrade, upgrade_rename_structure)
 {
-    AliveAPI::JsonUpgradeResult r = AliveAPI::UpgradePathJson("rename_field.json");
-    ASSERT_EQ(r.mResult, AliveAPI::UpgradeError::None);
+    // TODO: Put the json into an in memory string instead of loading from disk
+    std::string upgradedJson = ReliveAPI::UpgradePathJson("C:\\GOG Games\\Abes Exoddus\\mi_1.json");
+    std::ofstream newJson;
+    newJson.open("C:\\GOG Games\\Abes Exoddus\\testing.txt");
+    newJson << upgradedJson;
 }
 */
 

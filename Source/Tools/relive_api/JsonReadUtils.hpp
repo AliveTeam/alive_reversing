@@ -26,6 +26,15 @@ namespace ReliveAPI {
     return o.get<jsonxx::Object>(key);
 }
 
+[[nodiscard]] inline jsonxx::Object& ReadObject(jsonxx::Object& o, const std::string& key)
+{
+    if (!o.has<jsonxx::Object>(key))
+    {
+        throw ReliveAPI::JsonKeyNotFoundException(key);
+    }
+
+    return o.get<jsonxx::Object>(key);
+}
 [[nodiscard]] inline s32 ReadNumber(jsonxx::Object&&, const std::string&) = delete;
 [[nodiscard]] inline s32 ReadNumber(const jsonxx::Object& o, const std::string& key)
 {
