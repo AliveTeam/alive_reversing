@@ -2,7 +2,7 @@
 #include "relive_api.hpp"
 #include "JsonMapRootInfoReader.hpp"
 #include "JsonReadUtils.hpp"
-#include "nlohmann\json.hpp"
+#include "nlohmann/json.hpp"
 
 namespace ReliveAPI {
 void JsonUpgraderBase::RenameMapLevelItem(nlohmann::basic_json<>& rootObj, const std::string& oldName, const std::string& newName)
