@@ -1058,7 +1058,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Slig_SleepingToStand,
         { "SLGSLEEP.BAN", 33448, 160, 68, kSlgsleepResID, PalId::Default},
      {"SLGSLEEP.BAN", 32744, 160, 68, AO::kSlgsleepAOResID, PalId::Default}},
-    {AnimId::Slig_Knockeback,
+    {AnimId::Slig_Knockback,
         { "SLIG.BND", 33184, 160, 68, kSlgknbkResID, PalId::Default},
      {"SLIG.BND", 32240, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
     {AnimId::Slig_KnockbackToStand,

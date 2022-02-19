@@ -502,7 +502,7 @@ enum class AnimId
     Slig_KnockbackToStand,
     Slig_Idle,
     Slig_ShootToStand,
-    Slig_Knockeback,
+    Slig_Knockback,
     Slig_PullLever,
     Slig_LiftGripping,
     Slig_LiftUp,
