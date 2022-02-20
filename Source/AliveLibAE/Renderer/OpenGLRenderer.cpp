@@ -3,15 +3,48 @@
 #include "OpenGLRenderer.hpp"
 #include "Compression.hpp"
 #include "VRam.hpp"
+#include "AnimResources.hpp"
+#include "../Tools/asset_tool/asset_common.hpp"
 
 #include "StbImageImplementation.hpp"
 
+#include <filesystem>
+#include <jsonxx/jsonxx.h>
+
+#define MAGIC_ENUM_RANGE_MIN 0
+#define MAGIC_ENUM_RANGE_MAX 1024
+#include "magic_enum/include/magic_enum.hpp"
+
+namespace fs = std::filesystem;
+using namespace std::string_literals;
+
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
+
+const char* gExternalAssetPath = "hd/";
+static OpenGLRenderer* gGLInstance = nullptr;
+
+struct FrameBuffer
+{
+    GLuint handle;
+    GLuint texture_handle;
+    int width;
+    int height;
+};
+
+struct DebugDrawText
+{
+    std::string text;
+    int screen_space_x;
+    int screen_space_y;
+    Uint32 color;
+};
+
+static std::vector<DebugDrawText> gDebugTexts;
 
 static GLuint mHDBackgroundTexture = 0;
 static GLuint mStitchedBackground = 0;
-static GLuint mWindowFrameBufferTexture;
-static GLuint mWindowFrameBuffer = 0;
+static FrameBuffer mWindowFrameBuffer = {};
+static FrameBuffer mTempSpriteBuffer = {};
 static u8 gDecodeBuffer[640 * 256 * 2] = {};
 static GLuint gDecodedTextureCache = 0;
 
@@ -31,10 +64,114 @@ static bool gRenderEnable_F4 = true;
 static bool gRenderEnable_F3 = true;
 static bool gRenderEnable_F2 = true;
 
+static bool gExternalTexturesEnabled = true;
+static bool gGLDebugInfo = false;
+static bool gShowAnimIDs = false;
+
+struct ExternalTexture final
+{
+    GLuint handle;
+    int width;
+    int height;
+};
+
+struct ExternalTextureMeta final
+{
+    std::vector<ExternalTexture> textures;
+    AssetMeta meta;
+};
+
+std::map<AnimId, ExternalTextureMeta> gLoadedExternalTextures;
+
+std::string ReadFileToString(std::string fileName)
+{
+    std::ifstream file;
+    file.open(fileName);
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    file.close();
+    return buffer.str();
+}
+
+ExternalTexture LoadTextureCacheFile(std::string path)
+{
+    int x = 0, y = 0, comp = 0;
+
+    std::vector<BYTE> fileData;
+
+    // Try to keep all paths and filenames lowercase for our linux friends.
+    std::ifstream file(path, std::ios::binary);
+
+    if (file.is_open())
+    {
+        fileData = std::vector<BYTE>((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        file.close();
+    }
+
+    const unsigned char* data = stbi_load_from_memory(fileData.data(), static_cast<int>(fileData.size()), &x, &y, &comp, 4);
+
+    if (comp == 0)
+    {
+        ExternalTexture nullt;
+        nullt.handle = 0;
+        nullt.width = 10;
+        nullt.height = 10;
+        return nullt;
+    }
+
+    GLuint newTexture = 0;
+    glGenTextures(1, &newTexture);
+
+    glBindTexture(GL_TEXTURE_2D, newTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+    stbi_image_free((void*)data);
+
+    ExternalTexture textureCache;
+    textureCache.handle = newTexture;
+    textureCache.width = x;
+    textureCache.height = y;
+
+    return textureCache;
+}
+
+void LoadAllExternalTextures(std::string dir = "hd/sprites")
+{
+    for (const auto& rootDir : fs::directory_iterator(dir))
+    {
+        if (rootDir.is_directory())
+        {
+            const std::string folderName = rootDir.path().lexically_relative(dir).string();
+
+            printf("External Dir: %s\n", folderName.c_str());
+
+            AnimId id = magic_enum::enum_cast<AnimId>(folderName).value();
+
+            gLoadedExternalTextures[id].textures = std::vector<ExternalTexture>();
+
+            gLoadedExternalTextures[id].meta.LoadJSONFromFile(dir + "/" + folderName + "/meta.json");
+
+            for (int i = 0; i < gLoadedExternalTextures[id].meta.frame_count; i++)
+            {
+                gLoadedExternalTextures[id].textures.push_back(LoadTextureCacheFile(dir + "/" + folderName + "/" + std::to_string(i) + ".png"));
+            }
+        }
+    }
+}
+
+/*
+
 #define GL_CHECK(stmt) do { \
     stmt; \
     CheckOpenGLError(#stmt, __FILE__, __LINE__); \
 } while (0)
+
 
 #define glEnable(...) GL_CHECK(glEnable(__VA_ARGS__));
 #define glGenTextures(...) GL_CHECK(glGenTextures(__VA_ARGS__));
@@ -43,7 +180,7 @@ static bool gRenderEnable_F2 = true;
 #define glTexImage2D(...) GL_CHECK(glTexImage2D(__VA_ARGS__));
 #define glBlendFunc(...) GL_CHECK(glBlendFunc(__VA_ARGS__));
 #define glDrawElements(...) GL_CHECK(glDrawElements(__VA_ARGS__));
-
+*/
 
 void CheckOpenGLError(const char* stmt, const char* fname, int line)
 {
@@ -92,7 +229,7 @@ static GLuint TextureFromFile(const char_type* path)
 
 static GLuint GetBackgroundTexture()
 {
-    if (mHDBackgroundTexture != 0)
+    if (mHDBackgroundTexture != 0 && gExternalTexturesEnabled)
     {
         return mHDBackgroundTexture;
     }
@@ -495,17 +632,51 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     return &gFakeTextureCache;
 }
 
-void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height, glm::vec2 uv0, glm::vec2 uv1)
+void OpenGLRenderer::DrawTexturePalette(GLuint pTexture, f32 x, f32 y, f32 width, f32 height, glm::vec3 color, glm::vec2 uv0, glm::vec2 uv1, PaletteCache * palette, int palDepth)
 {
-    const f32 r = 1.0f;
-    const f32 g = 1.0f;
-    const f32 b = 1.0f;
+    const f32 r = color.r;
+    const f32 g = color.g;
+    const f32 b = color.b;
 
     const VertexData verts[4] = {
         {0, 0, 0, r, g, b, uv0.x, uv0.y},
         {1, 0, 0, r, g, b, uv1.x, uv0.y},
         {1, 1, 0, r, g, b, uv1.x, uv1.y},
-        {0, 1, 0, r, g, b, uv0.x, uv1.y}};
+        {0, 1, 0, r, g, b, uv0.x, uv1.y} };
+
+    mTextureShader.Use();
+
+    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP(x, y, width, height));
+    mTextureShader.Uniform1i("m_Sprite", 0);  // Set m_Sprite to GL_TEXTURE0
+    mTextureShader.Uniform1i("m_Palette", 1); // Set m_Sprite to GL_TEXTURE1
+    mTextureShader.Uniform1i("m_PaletteEnabled", true);
+    mTextureShader.Uniform1i("m_Textured", true);
+    mTextureShader.Uniform1i("m_PaletteDepth", palDepth);
+
+    Renderer_BindPalette(palette);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, pTexture);
+
+    
+
+    const GLuint indexData[6] = { 0, 1, 3, 3, 1, 2 };
+    DrawTriangles(verts, 4, indexData, 6);
+
+    mTextureShader.UnUse();
+}
+
+void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height, glm::vec3 color, glm::vec2 uv0, glm::vec2 uv1)
+{
+    const f32 r = color.r;
+    const f32 g = color.g;
+    const f32 b = color.b;
+
+    const VertexData verts[4] = {
+        {0, 0, 0, r, g, b, uv0.x, uv0.y},
+        {1, 0, 0, r, g, b, uv1.x, uv0.y},
+        {1, 1, 0, r, g, b, uv1.x, uv1.y},
+        {0, 1, 0, r, g, b, uv0.x, uv1.y} };
 
     mTextureShader.Use();
 
@@ -517,10 +688,15 @@ void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 h
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, pTexture);
 
-    const GLuint indexData[6] = {0, 1, 3, 3, 1, 2};
+    const GLuint indexData[6] = { 0, 1, 3, 3, 1, 2 };
     DrawTriangles(verts, 4, indexData, 6);
 
     mTextureShader.UnUse();
+}
+
+void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height, glm::vec2 uv0, glm::vec2 uv1)
+{
+    DrawTexture(pTexture, x, y, width, height, glm::vec3(1, 1, 1), uv0, uv1);
 }
 
 
@@ -607,7 +783,14 @@ void OpenGLRenderer::DebugWindow()
 
     if (ImGui::BeginMainMenuBar())
     {
-        if (ImGui::BeginMenu("Developer"))
+        if (ImGui::BeginMenu("Debug"))
+        {
+            ImGui::MenuItem("Enable OpenGL Info", nullptr, &gGLDebugInfo);
+
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("Rendering"))
         {
             if (ImGui::BeginMenu("Render Mode"))
             {
@@ -637,107 +820,189 @@ void OpenGLRenderer::DebugWindow()
 
                 ImGui::EndMenu();
             }
+
             ImGui::EndMenu();
         }
+
+        if (ImGui::BeginMenu("External Assets"))
+        {
+            ImGui::MenuItem("Show Anim IDs", nullptr, &gShowAnimIDs);
+            ImGui::MenuItem("External Textures Enabled", nullptr, &gExternalTexturesEnabled);
+
+            if (ImGui::MenuItem("Reload External Textures"))
+            {
+                for (auto& extTexture : gLoadedExternalTextures)
+                {
+                    for (auto t : extTexture.second.textures)
+                    {
+                        glDeleteTextures(1, &t.handle);
+                    }
+                }
+
+                gLoadedExternalTextures.clear();
+
+                LoadAllExternalTextures();
+            }
+
+            ImGui::EndMenu();
+        }
+
         ImGui::EndMainMenuBar();
     }
 
     //ImGui::ShowDemoWindow();
 
-    if (ImGui::Begin("Texture Window", nullptr, ImGuiWindowFlags_MenuBar))
+    if (ImGui::Begin("External Meta Editor"))
     {
-        f32 widthSpace = ImGui::GetContentRegionAvailWidth();
-        f32 currentWidth = 0;
-        for (size_t i = 0; i < gRendererTextures.size(); i++)
+        // create a combo box to select meta in gLoadedExternalTextures
+        static AnimId selectedMeta = AnimId::None;
+
+        if (ImGui::BeginCombo("Texture", magic_enum::enum_name<AnimId>(selectedMeta).data()))
         {
-            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
-            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
+            for (auto& meta : gLoadedExternalTextures)
+            {
+                bool is_selected = (selectedMeta == meta.first);
+                if (ImGui::Selectable(magic_enum::enum_name<AnimId>(meta.first).data(), is_selected))
+                {
+                    selectedMeta = meta.first;
+                }
 
-            ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-            ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
+                if (is_selected)
+                    ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
+        }
 
-            if (currentWidth >= widthSpace)
-                currentWidth = 0;
-            else
-                ImGui::SameLine();
+        if (selectedMeta != AnimId::None)
+        {
+            ImGui::Separator();
 
-            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), {textureWidth, textureHeight});
-            ImVec2 pos = ImGui::GetCursorScreenPos();
-            if (ImGui::IsItemHovered())
+            // edit all the attributes of the selected meta
+            ImGui::DragInt2("Ref Image Size", &gLoadedExternalTextures[selectedMeta].meta.size_width);
+            ImGui::DragInt2("Offset", &gLoadedExternalTextures[selectedMeta].meta.offset_x);
+
+            ImGui::Separator();
+
+            if (ImGui::Button("Save"))
+            {
+                gLoadedExternalTextures[selectedMeta].meta.SaveJSONToFile(std::string(gExternalAssetPath) + "sprites/" + std::string(magic_enum::enum_name<AnimId>(selectedMeta)) + "/meta.json");
+            }
+        }
+    }
+    ImGui::End();
+
+    if (gGLDebugInfo)
+    {
+        if (ImGui::Begin("Texture Window", nullptr, ImGuiWindowFlags_MenuBar))
+        {
+            f32 widthSpace = ImGui::GetContentRegionAvailWidth();
+            f32 currentWidth = 0;
+            for (size_t i = 0; i < gRendererTextures.size(); i++)
+            {
+                f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
+                f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
+
+                ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+                ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
+
+                if (currentWidth >= widthSpace)
+                    currentWidth = 0;
+                else
+                    ImGui::SameLine();
+
+                ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), { textureWidth, textureHeight });
+                ImVec2 pos = ImGui::GetCursorScreenPos();
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::BeginTooltip();
+                    ImGui::Text("%d, %d, %d, %d", gRendererTextures[i].mVramRect.x, gRendererTextures[i].mVramRect.y, gRendererTextures[i].mVramRect.w, gRendererTextures[i].mVramRect.h);
+                    ImVec2 uv0 = ImVec2(0.0f, 0.0f);
+                    ImVec2 uv1 = ImVec2(1.0f, 1.0f);
+                    ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), ImVec2(textureWidth * 4, textureHeight * 4), uv0, uv1, tint_col, border_col);
+                    ImGui::EndTooltip();
+                }
+                ImVec2 imgSize = ImGui::GetItemRectSize();
+                currentWidth += imgSize.x + style.ItemSpacing.x;
+            }
+        }
+        ImGui::End();
+
+        if (ImGui::Begin("GPU Info", nullptr, ImGuiWindowFlags_MenuBar))
+        {
+
+            ImGui::Text("Vendor: %s", glGetString(GL_VENDOR));
+            ImGui::Text("Model: %s", glGetString(GL_RENDERER));
+            ImGui::Text("GL Version: %s", glGetString(GL_VERSION));
+            ImGui::Text("GLSL Version: %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+        }
+        ImGui::End();
+
+        if (ImGui::Begin("Palettes", nullptr, ImGuiWindowFlags_MenuBar))
+        {
+            f32 width = ImGui::GetWindowContentRegionWidth();
+            for (auto& pal : gRendererPals)
+            {
+                ImGui::Image(GL_TO_IMGUI_TEX(pal.mPalTextureID), ImVec2(width, 16));
+            }
+        }
+        ImGui::End();
+
+        if (ImGui::Begin("Background Texture", nullptr, ImGuiWindowFlags_MenuBar))
+        {
+            ImGui::Text("BG Handle: %i", GetBackgroundTexture());
+            auto region = ImGui::GetContentRegionAvail();
+            auto bgTexId = GetBackgroundTexture();
+            ImGui::Image(GL_TO_IMGUI_TEX(bgTexId), region);
+        }
+        ImGui::End();
+
+        if (ImGui::Begin("FrameBuffer Texture", nullptr, ImGuiWindowFlags_MenuBar))
+        {
+            auto region = ImGui::GetContentRegionAvail();
+            ImGui::Image(GL_TO_IMGUI_TEX(mWindowFrameBuffer.texture_handle), region);
+        }
+        ImGui::End();
+
+        if (ImGui::Begin("Last Temp Texture", nullptr, ImGuiWindowFlags_MenuBar))
+        {
+            ImGui::Text("Size: %i, %i", mTempSpriteBuffer.width, mTempSpriteBuffer.height);
+            auto region = ImGui::GetContentRegionAvail();
+            ImGui::Image(GL_TO_IMGUI_TEX(mTempSpriteBuffer.texture_handle), region);
+        }
+        ImGui::End();
+
+        if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
+        {
+            ImVec2 pos = ImGui::GetWindowPos();
+
+            for (s32 i = 0; i < (1500 / 64); i++)
+            {
+                ImVec2 pos1Line = ImVec2(pos.x + (i * 64), pos.y);
+                ImVec2 pos2Line = ImVec2(pos.x + (i * 64), pos.y + 512);
+                ImGui::GetWindowDrawList()->AddLine(pos1Line, pos2Line, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.2f)));
+            }
+
+
+            for (size_t i = 0; i < gRendererTextures.size(); i++)
+            {
+                ImGui::SetCursorPos(ImVec2(static_cast<f32>(gRendererTextures[i].mVramRect.x), static_cast<f32>(gRendererTextures[i].mVramRect.y + 50)));
+                ImVec2 xpos = ImGui::GetCursorScreenPos();
+                f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
+                f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
+
+                ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
+                ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), { textureWidth, textureHeight });
+                ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.3f)));
+            }
+            if (ImGui::IsWindowHovered())
             {
                 ImGui::BeginTooltip();
-                ImGui::Text("%d, %d, %d, %d", gRendererTextures[i].mVramRect.x, gRendererTextures[i].mVramRect.y, gRendererTextures[i].mVramRect.w, gRendererTextures[i].mVramRect.h);
-                ImVec2 uv0 = ImVec2(0.0f, 0.0f);
-                ImVec2 uv1 = ImVec2(1.0f, 1.0f);
-                ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), ImVec2(textureWidth * 4, textureHeight * 4), uv0, uv1, tint_col, border_col);
+                ImGui::Text("%d, %d", (s32)(io.MousePos.x - pos.x), (s32)(io.MousePos.y - pos.y));
                 ImGui::EndTooltip();
             }
-            ImVec2 imgSize = ImGui::GetItemRectSize();
-            currentWidth += imgSize.x + style.ItemSpacing.x;
         }
+        ImGui::End();
     }
-    ImGui::End();
-
-    if (ImGui::Begin("GPU Info", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-
-        ImGui::Text("Vendor: %s", glGetString(GL_VENDOR));
-        ImGui::Text("Model: %s", glGetString(GL_RENDERER));
-        ImGui::Text("GL Version: %s", glGetString(GL_VERSION));
-        ImGui::Text("GLSL Version: %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
-    }
-    ImGui::End();
-
-    if (ImGui::Begin("Palettes", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-        f32 width = ImGui::GetWindowContentRegionWidth();
-        for (auto& pal : gRendererPals)
-        {
-            ImGui::Image(GL_TO_IMGUI_TEX(pal.mPalTextureID), ImVec2(width, 16));
-        }
-    }
-    ImGui::End();
-
-    if (ImGui::Begin("Background Texture", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-        ImGui::Text("BG Handle: %i", GetBackgroundTexture());
-        auto region = ImGui::GetContentRegionAvail();
-        auto bgTexId = GetBackgroundTexture();
-        ImGui::Image(GL_TO_IMGUI_TEX(bgTexId), region);
-    }
-    ImGui::End();
-
-    if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-        ImVec2 pos = ImGui::GetWindowPos();
-
-        for (s32 i = 0; i < (1500 / 64); i++)
-        {
-            ImVec2 pos1Line = ImVec2(pos.x + (i * 64), pos.y);
-            ImVec2 pos2Line = ImVec2(pos.x + (i * 64), pos.y + 512);
-            ImGui::GetWindowDrawList()->AddLine(pos1Line, pos2Line, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.2f)));
-        }
-
-
-        for (size_t i = 0; i < gRendererTextures.size(); i++)
-        {
-            ImGui::SetCursorPos(ImVec2(static_cast<f32>(gRendererTextures[i].mVramRect.x), static_cast<f32>(gRendererTextures[i].mVramRect.y + 50)));
-            ImVec2 xpos = ImGui::GetCursorScreenPos();
-            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
-            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
-
-            ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
-            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), {textureWidth, textureHeight});
-            ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.3f)));
-        }
-        if (ImGui::IsWindowHovered())
-        {
-            ImGui::BeginTooltip();
-            ImGui::Text("%d, %d", (s32)(io.MousePos.x - pos.x), (s32)(io.MousePos.y - pos.y));
-            ImGui::EndTooltip();
-        }
-    }
-    ImGui::End();
 }
 
 void OpenGLRenderer::Destroy()
@@ -765,33 +1030,89 @@ void OpenGLRenderer::Destroy()
     }
 }
 
+bool CreateRenderBuffer(FrameBuffer* pFrameBuffer, int width, int height, GLint interpolateMode, bool alpha = false)
+{
+    if (pFrameBuffer->handle == 0)
+    {
+        glGenFramebuffers(1, &pFrameBuffer->handle);
+        glBindFramebuffer(GL_FRAMEBUFFER, pFrameBuffer->handle);
+        glGenTextures(1, &pFrameBuffer->texture_handle);
+        glBindTexture(GL_TEXTURE_2D, pFrameBuffer->texture_handle);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pFrameBuffer->texture_handle, 0);
+    }
+
+    if (width != pFrameBuffer->width && height != pFrameBuffer->height)
+    {
+        glBindTexture(GL_TEXTURE_2D, pFrameBuffer->texture_handle);
+        glTexImage2D(GL_TEXTURE_2D, 0, (alpha) ? GL_RGBA : GL_RGB, width, height, 0, (alpha) ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, interpolateMode);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, interpolateMode);
+
+        pFrameBuffer->width = width;
+        pFrameBuffer->height = height;
+    }
+    
+
+    return true;
+}
+
 void OpenGLRenderer::CreateWindowFrameBuffer(int width, int height)
 {
-    if (mWindowFrameBufferTexture == 0)
+    CreateRenderBuffer(&mWindowFrameBuffer, width, height, GL_NEAREST);
+}
+
+void OpenGLRenderer::RenderFrameBuffer()
+{
+    //bool keepAspet = false;
+
+    int w, h;
+    float ratio = 640.0f / 480.0f;
+    bool keepAspect = true;
+
+    SDL_GetWindowSize(mWindow, &w, &h);
+    m_View = glm::ortho<f32>(0, static_cast<f32>(w), static_cast<f32>(h), 0, 0, 1);
+
+    // calculate the destination rectangle for the framebuffer using the window size and desired aspect ratio
+    glm::vec4 destRect = glm::vec4(0, 0, w, h);
+    
+    if (keepAspect)
     {
-        glGenTextures(1, &mWindowFrameBufferTexture);
+        if (w > h * ratio)
+        {
+            destRect.x = (w - (h * ratio)) / 2;
+            destRect.z = h * ratio;
+        }
+        else
+        {
+            destRect.y = (h - (w / ratio)) / 2;
+            destRect.w = w / ratio;
+        }
     }
 
-    if (mWindowFrameBuffer == 0)
+    if (gShowAnimIDs)
     {
-        glGenFramebuffers(1, &mWindowFrameBuffer);
-        glBindFramebuffer(GL_FRAMEBUFFER, mWindowFrameBuffer);
-        glBindTexture(GL_TEXTURE_2D, mWindowFrameBufferTexture);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mWindowFrameBufferTexture, 0);
+        ImDrawList* bgDrawList = ImGui::GetBackgroundDrawList();
+
+        for (auto& text : gDebugTexts)
+        {
+            glm::vec2 pos = { destRect.x + (text.screen_space_x * (destRect.z / 640.0f)), destRect.y + (text.screen_space_y * (destRect.w / 240.0f)) };
+            bgDrawList->AddText({ pos.x + 2 ,pos.y + 2 }, IM_COL32(0, 0, 0, 255), text.text.c_str());
+            bgDrawList->AddText({ pos.x ,pos.y }, text.color, text.text.c_str());
+        }
     }
 
-    glBindTexture(GL_TEXTURE_2D, mWindowFrameBufferTexture);
+    gDebugTexts.clear();
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    Renderer_SetBlendMode(TPageAbr::eBlend_0);
+    DrawTexture(mWindowFrameBuffer.texture_handle, destRect.x, destRect.y, destRect.z, destRect.w);
 }
 
 bool OpenGLRenderer::Create(TWindowHandleType window)
 {
     mWindow = window;
     mWireframe = false;
+
+    gGLInstance = this;
 
     // Find the opengl driver
     const s32 numDrivers = SDL_GetNumRenderDrivers();
@@ -828,7 +1149,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     }
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     // Create context
@@ -867,9 +1188,6 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     glGenBuffers(1, &mIBO);
     glGenBuffers(1, &mVBO);
 
-    // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
-    m_View = glm::ortho<f32>(0, 640, 240, 0, 0, 1);
-
     //mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
     mTextureShader.LoadSource(gShader_TextureVSH, gShader_TextureFSH);
     return true;
@@ -886,56 +1204,41 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
     }
     t++;*/
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    
+}
 
+void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
+{
     static s32 oldWidth = 0;
     static s32 oldHeight = 0;
 
-    s32 wW, wH;
-    SDL_GetWindowSize(mWindow, &wW, &wH);
+    SDL_GetWindowSize(mWindow, &mWindowWidth, &mWindowHeight);
 
-    if (oldWidth != wW || oldHeight != wH)
+    if (oldWidth != mWindowWidth || oldHeight != mWindowHeight)
     {
-        CreateWindowFrameBuffer(wW, wH);
+        CreateWindowFrameBuffer(mWindowWidth, mWindowHeight);
     }
 
-    oldWidth = wW;
-    oldHeight = wH;
-
-    glDisable(GL_SCISSOR_TEST);
-
-    DrawTexture(mWindowFrameBufferTexture, 0, 240, 640, -240);
-
-    static bool firstFrame = true;
-    if (!firstFrame)
-    {
-        ImGui::Render();
-        ImGui::EndFrame();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    }
-    else
-    {
-        firstFrame = false;
-    }
+    oldWidth = mWindowWidth;
+    oldHeight = mWindowHeight;
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(mWindow);
     ImGui::NewFrame();
 
-    SDL_GL_SwapWindow(mWindow);
+    //SDL_GL_SwapWindow(mWindow);
 
     DebugWindow();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glViewport(0, 0, wW, wH);
+    // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
+    m_View = glm::ortho<f32>(0, 640, 0, 240, 0, 1);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, mWindowFrameBuffer);
-}
+    glViewport(0, 0, mWindowWidth, mWindowHeight);
 
-void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
-{
+    glBindFramebuffer(GL_FRAMEBUFFER, mWindowFrameBuffer.handle);
 }
 
 // This function should free both vrams allocations AND palettes, cause theyre kinda the same thing.
@@ -975,6 +1278,19 @@ void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
 
 void OpenGLRenderer::EndFrame()
 {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glDisable(GL_SCISSOR_TEST);
+
+    RenderFrameBuffer();
+
+    ImGui::Render();
+    ImGui::EndFrame();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void OpenGLRenderer::Present()
+{
+    SDL_GL_SwapWindow(mWindow);
 }
 
 void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
@@ -1018,7 +1334,7 @@ void OpenGLRenderer::SetClipDirect(s32 x, s32 y, s32 width, s32 height)
 
     glEnable(GL_SCISSOR_TEST);
     glScissor(static_cast<GLint>((x / 640.0f) * w),
-              static_cast<GLint>(((240 - y - height) / 240.0f) * h),
+              static_cast<GLint>((y / 240.0f) * h),
               static_cast<GLsizei>((width / 640.0f) * w),
               static_cast<GLsizei>((height / 240.0f) * h));
 }
@@ -1032,8 +1348,8 @@ void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
 {
     m_View = glm::ortho<f32>(static_cast<f32>(offset.field_C_xoff),
                              static_cast<f32>(640 + offset.field_C_xoff),
-                             static_cast<f32>(240 + offset.field_E_yoff),
-                             static_cast<f32>(offset.field_E_yoff), 0.0f, 1.0f);
+                             static_cast<f32>(offset.field_E_yoff),
+                             static_cast<f32>(240 + offset.field_E_yoff), 0.0f, 1.0f);
 }
 
 void OpenGLRenderer::Draw(Prim_Sprt& sprt)
@@ -1349,6 +1665,96 @@ void OpenGLRenderer::Draw(Poly_F4& poly)
     mTextureShader.UnUse();
 }
 
+void DrawCustomSprite(Poly_FT4& poly, CustomRenderSpriteFormat* sprite)
+{
+    static bool firstLoad = true;
+
+    if (firstLoad)
+    {
+        firstLoad = false;
+
+        LoadAllExternalTextures();
+    }
+
+    if (FrameTableOffsetExists(sprite->frametable_offset, gIsGameAE))
+    {
+        AnimRecord animRecord = AnimRecFrameTable(sprite->frametable_offset, sprite->resource_id, gIsGameAE);
+
+        const Uint32 debugColors[] = {
+            IM_COL32(0, 0xFF, 0, 0xFF),
+            IM_COL32(0xFF, 0, 0, 0xFF),
+            IM_COL32(0xFF, 0xC0, 0, 0xFF),
+            IM_COL32(0xFF, 0xFC, 0, 0xFF),
+            IM_COL32(0, 0xFF, 0xFF, 0xFF),
+        };
+
+        std::string animName = std::string(magic_enum::enum_name<AnimId>(animRecord.mId));
+
+        if (animRecord.mId != AnimId::ObjectShadow)
+        {
+            gDebugTexts.push_back({ animName + " | " + std::to_string(sprite->frametable_offset), sprite->x, sprite->y, debugColors[static_cast<int>(animRecord.mId) % (sizeof(debugColors) / sizeof(Uint32))] });
+        }
+
+        // TODO: For now we don't draw custom ObjectShadows till we can properly render them ( direct use of triangle buffer )
+        if (animRecord.mId == AnimId::ObjectShadow || !gExternalTexturesEnabled || gLoadedExternalTextures.find(animRecord.mId) == gLoadedExternalTextures.end() || sprite->resource_id != animRecord.mResourceId) {
+
+            SetPrimExtraPointerHack(&poly, sprite->origPtr);
+            gGLInstance->Draw(poly);
+            return;
+        }
+
+        ExternalTextureMeta& loadedTexture = gLoadedExternalTextures[animRecord.mId];
+
+        if (sprite->frame >= loadedTexture.textures.size())
+        {
+            SetPrimExtraPointerHack(&poly, sprite->origPtr);
+            gGLInstance->Draw(poly);
+            return;
+        }
+
+        auto cache = loadedTexture.textures[sprite->frame];
+
+        glm::vec2 imgSize = glm::vec2(loadedTexture.meta.size_width, loadedTexture.meta.size_height) * sprite->scale;
+        imgSize.y *= 0.5f;
+
+        Renderer_ParseTPageBlendMode(poly.mVerts[0].mUv.tpage_clut_pad);
+
+        float offX = (loadedTexture.meta.offset_x - 1) * sprite->scale;
+        float offY = (loadedTexture.meta.offset_y - 2) * sprite->scale * 0.5f;
+
+        glm::vec2 uv0 = { 0.0f, 0.0f };
+        glm::vec2 uv1 = { 1.0f, 1.0f };
+
+        if (sprite->flip)
+        {
+            offX = (loadedTexture.meta.size_width - (loadedTexture.meta.offset_x - 1)) * sprite->scale;
+            uv0 = { 1.0f,0.0f };
+            uv1 = { 0.0f, 1.0f };
+        }
+
+        f32 r = poly.mBase.header.rgb_code.r / 128.0f;
+        f32 g = poly.mBase.header.rgb_code.g / 128.0f;
+        f32 b = poly.mBase.header.rgb_code.b / 128.0f;
+
+        //glm::vec3 color = glm::vec3(sprite->r / 128.0f, sprite->g / 128.0f, sprite->b / 128.0f);
+        glm::vec3 color = glm::vec3(r, g, b);
+
+        gGLInstance->DrawTexture(cache.handle, (f32)sprite->x - offX, (f32)sprite->y - offY, imgSize.x, imgSize.y, color, uv0, uv1);
+    }
+}
+
+glm::vec4 calc_bounds(glm::vec2* points, int numPoints) {
+    glm::vec4 bounds = glm::vec4(points[0], points[0]);
+    for (int i = 1; i < numPoints; i++) {
+        bounds.x = glm::min(bounds.x, points[i].x);
+        bounds.y = glm::min(bounds.y, points[i].y);
+        bounds.z = glm::max(bounds.z, points[i].x);
+        bounds.w = glm::max(bounds.w, points[i].y);
+    }
+    return bounds;
+}
+
+/* // Slow experimental pre rendering of paletted sprites to get linear filtering.
 void OpenGLRenderer::Draw(Poly_FT4& poly)
 {
     if (!gRenderEnable_FT4)
@@ -1360,8 +1766,208 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     TextureCache* pTexture = nullptr;
 
     // Some polys have their texture data directly attached to polys.
-    if (GetPrimExtraPointerHack(&poly))
-        pTexture = Renderer_TextureFromAnim(poly);
+    auto ptrData = GetPrimExtraPointerHack(&poly);
+    if (ptrData)
+    {
+        if (*(int*)ptrData == 0x12345678)
+        {
+            // HD Hack
+            DrawCustomSprite(poly, (CustomRenderSpriteFormat*)ptrData);
+            return;
+        }
+        else
+        {
+            pTexture = Renderer_TextureFromAnim(poly);
+        }
+    }
+    else
+        pTexture = Renderer_TexFromTPage(poly.mVerts[0].mUv.tpage_clut_pad, poly.mUv.u, poly.mUv.v);
+
+    PaletteCache* pPal = Renderer_ClutToPalette(poly.mUv.tpage_clut_pad);
+
+    int palDepth = 0;
+
+    if (pPal != nullptr)
+    {
+        if (pTexture->mPalNormMulti != 0)
+            palDepth = pPal->mPalDepth * gFakeTextureCache.mPalNormMulti;
+        else
+            palDepth = pPal->mPalDepth;
+    }
+
+    if (pTexture == nullptr)
+    {
+        //LOG_WARNING("Trying to render FT4 with no texture!");
+        return;
+    }
+
+    const GLuint indexData[6] = { 1, 0, 3, 3, 0, 2 };
+
+    f32 r = poly.mBase.header.rgb_code.r / 64.0f;
+    f32 g = poly.mBase.header.rgb_code.g / 64.0f;
+    f32 b = poly.mBase.header.rgb_code.b / 64.0f;
+
+    if (pTexture->mIgnoreColor)
+    {
+        r = 1.0f;
+        g = 1.0f;
+        b = 1.0f;
+    }
+
+    s32 xOff = (pTexture->mVramRect.x & 63);
+    s32 bppMulti = 1;
+
+    switch (pTexture->mBitDepth)
+    {
+    case BitDepth::e8Bit:
+        bppMulti = 2;
+        break;
+    case BitDepth::e4Bit:
+        bppMulti = 4;
+        break;
+    default:
+        break;
+    }
+
+    xOff *= bppMulti;
+
+    // macros suck. todo: fix that
+#define UV_U(v) (f32)(((pTexture->mUvOffset.field_0_x + v) - xOff) / (f32)(pTexture->mVramRect.w * bppMulti))
+#define UV_V(v) (f32)(((pTexture->mUvOffset.field_2_y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (f32) pTexture->mVramRect.h)
+
+    VertexData verts[4] = {
+        {(f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v)},
+        {(f32)poly.mVerts[0].mVert.x, (f32)poly.mVerts[0].mVert.y, 0, r, g, b, UV_U(poly.mVerts[0].mUv.u), UV_V(poly.mVerts[0].mUv.v)},
+        {(f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y, 0, r, g, b, UV_U(poly.mVerts[1].mUv.u), UV_V(poly.mVerts[1].mUv.v)},
+        {(f32)poly.mVerts[2].mVert.x, (f32)poly.mVerts[2].mVert.y, 0, r, g, b, UV_U(poly.mVerts[2].mUv.u), UV_V(poly.mVerts[2].mUv.v)} };
+
+    // Todo: Calculate the bounds of the polygon, render to a temp frame buffer, then re render at full scale.
+    // This lets us render fast palettes using hardware acceleration then be able to stretch using a linear filter.
+    // Cause currently using linear interp screws up our shader (cause pixels are actually palette index, lerping between palette indexes
+    // causes bad artifacting.
+
+    std::vector<glm::vec2> points;
+    for (auto p : verts)
+    {
+        points.push_back({ p.x, p.y });
+    }
+
+    glm::vec4 bounds = calc_bounds(points.data(), static_cast<int>(points.size()));
+
+
+    float width = bounds.z - bounds.x;
+    float height = bounds.w - bounds.y;
+
+    // Start rendering into temp buffer
+    CreateRenderBuffer(&mTempSpriteBuffer, 256, 256, GL_LINEAR, true);
+    glBindFramebuffer(GL_FRAMEBUFFER, mTempSpriteBuffer.handle);
+    glViewport(0, 0, mTempSpriteBuffer.width, mTempSpriteBuffer.height);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Render the texture using the palette
+    auto oldMView = m_View;
+    m_View = glm::ortho<f32>(0, static_cast<f32>(mTempSpriteBuffer.width), 0, static_cast<f32>(mTempSpriteBuffer.height), 0, 1);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    DrawTexturePalette(pTexture->mTextureID, 0,0, mTempSpriteBuffer.width, mTempSpriteBuffer.height, glm::vec4(1,1,1,1), glm::vec2(0, 0), glm::vec2(1, 1), pPal, palDepth);
+    m_View = oldMView;
+    // Revert back to screen buffer
+    glBindFramebuffer(GL_FRAMEBUFFER, mWindowFrameBuffer.handle);
+    glViewport(0, 0, mWindowWidth, mWindowHeight);
+
+    mTextureShader.Use();
+
+    glEnable(GL_TEXTURE_2D);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, mTempSpriteBuffer.texture_handle);
+    //Renderer_BindTexture(pTexture);
+
+    if (pTexture->mIsFG1)
+    {
+        const f32 overdraw = 0.2f; // stops weird line rendering issues.
+        // This is an FG1, so UV's are maxed;
+        verts[0] = { (f32)poly.mBase.vert.x, (f32)poly.mBase.vert.y, 0, 1.0f, 1.0f, 1.0f, 0, 0 };
+        verts[1] = { (f32)poly.mVerts[0].mVert.x + overdraw, (f32)poly.mVerts[0].mVert.y, 0, 1.0f, 1.0f, 1.0f, 1, 0 };
+        verts[2] = { (f32)poly.mVerts[1].mVert.x, (f32)poly.mVerts[1].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 0, 1 };
+        verts[3] = { (f32)poly.mVerts[2].mVert.x + overdraw, (f32)poly.mVerts[2].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 1, 1 };
+
+
+        // Hack, set palette texture to our background.
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, GetBackgroundTexture());
+
+        mTextureShader.UniformVec4("m_FG1Size", glm::vec4(poly.mBase.vert.x, poly.mBase.vert.y, pTexture->mVramRect.w + overdraw, pTexture->mVramRect.h + overdraw));
+        mTextureShader.Uniform1i("m_FG1", true);
+    }
+
+    // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
+    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
+
+    mTextureShader.Uniform1i("m_Sprite", 0);  // Set m_Sprite to GL_TEXTURE0
+    mTextureShader.Uniform1i("m_Palette", 1); // Set m_Palette to GL_TEXTURE1
+    mTextureShader.Uniform1i("m_Textured", true);
+    mTextureShader.Uniform1i("m_PaletteEnabled", false);
+    mTextureShader.Uniform1i("m_PaletteDepth", 0);
+
+    // Hack to use a HD menu font.
+    if (pTexture->mVramRect.w == 64 && pTexture->mVramRect.h == 256)
+    {
+        static GLuint FontTexture = TextureFromFile("menufont.png");
+
+        if (FontTexture != 0)
+        {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, FontTexture);
+            mTextureShader.Uniform1i("m_PaletteEnabled", false);
+        }
+    }
+
+    
+    //for (auto& p : verts)
+    //{
+    //    p.x -= bounds.x;
+    //    p.y -= bounds.y;
+    //}
+    
+    
+
+    Renderer_ParseTPageBlendMode(poly.mVerts[0].mUv.tpage_clut_pad);
+    DrawTriangles(verts, 4, indexData, 6);
+    //static GLuint testText = TextureFromFile("menufont.png");
+    //DrawTexture(testText, bounds.x, bounds.y, width, height);
+
+    mTextureShader.Uniform1i("m_FG1", false);
+    // render temp frame buffer
+
+    mTextureShader.UnUse();
+}
+*/
+
+
+void OpenGLRenderer::Draw(Poly_FT4& poly)
+{
+    if (!gRenderEnable_FT4)
+        return;
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    TextureCache* pTexture = nullptr;
+
+    // Some polys have their texture data directly attached to polys.
+    auto ptrData = GetPrimExtraPointerHack(&poly);
+    if (ptrData)
+    {
+        if (*(int*)ptrData == 0x12345678) // If ptr data matches our magic number, then we proceed with a hd sprite.
+        {
+            DrawCustomSprite(poly, (CustomRenderSpriteFormat*)ptrData);
+            return;
+        }
+        else
+        {
+            pTexture = Renderer_TextureFromAnim(poly);
+        }
+    }
     else
         pTexture = Renderer_TexFromTPage(poly.mVerts[0].mUv.tpage_clut_pad, poly.mUv.u, poly.mUv.v);
 
@@ -1559,17 +2165,6 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
     TextureCache* tc = Renderer_TexFromVRam(rect);
     tc->mVramRect = rect;
 
-    if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-        ImGui::SetCursorPos(ImVec2(static_cast<f32>(tc->mVramRect.x), static_cast<f32>(tc->mVramRect.y + 50)));
-        f32 textureWidth = static_cast<f32>(tc->mVramRect.w);
-        f32 textureHeight = static_cast<f32>(tc->mVramRect.h);
-        ImVec2 xpos = ImGui::GetCursorScreenPos();
-        ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
-        ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(0.0f, 1.0f, 0.0f, 1.0f)));
-    }
-    ImGui::End();
-
     glBindTexture(GL_TEXTURE_2D, tc->mTextureID);
 
     bool aoFG1 = true;
@@ -1601,7 +2196,7 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
                     if (rect.x == 624)
                     {
                         if (mStitchedBackground == 0)
-                            mStitchedBackground = Renderer_CreateTexture();
+                            mStitchedBackground = Renderer_CreateTexture(GL_NEAREST);
 
                         glBindTexture(GL_TEXTURE_2D, mStitchedBackground);
                         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, 640, 240, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gDecodeBuffer);
@@ -1629,7 +2224,7 @@ void OpenGLRenderer::LoadExternalCam(const char* path, const unsigned char* key,
     bool encrypted = true;
 
     // Try to keep all paths and filenames lowercase for our linux friends.
-    std::ifstream file("hd/" + std::string(path).substr(0, 8) + ".cam2", std::ios::binary);
+    std::ifstream file(gExternalAssetPath + "cams/"s + std::string(path).substr(0, 8) + ".cam2", std::ios::binary);
 
     if (file.is_open())
     {
@@ -1639,7 +2234,7 @@ void OpenGLRenderer::LoadExternalCam(const char* path, const unsigned char* key,
 
     if (fileData.size() == 0)
     {
-        std::ifstream fileRaw("hd/" + std::string(path).substr(0, 8) + ".png", std::ios::binary);
+        std::ifstream fileRaw(gExternalAssetPath + "cams/"s + std::string(path).substr(0, 8) + ".png", std::ios::binary);
 
         if (fileRaw.is_open())
         {

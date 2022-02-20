@@ -1,6 +1,7 @@
 #pragma once
 #include "../AliveLibCommon/FunctionFwd.hpp"
 
+
 enum class AnimId
 {
     None = 0,
@@ -1037,9 +1038,12 @@ struct CombinedAnimRecord final
 
 const PalRecord PalRec(PalId toFind);
 const AnimRecord AnimRec(AnimId toFind);
+bool AnimRecExists(bool isAe, AnimId toFind);
+std::vector<CombinedAnimRecord> GetAnimRecords();
+const AnimRecord AnimRecFrameTable(int frameTableOffset, int resourceId, bool isAe);
 const BgAnimRecord BgAnimRec(s32 toFind);
 void FrameTableOffsetExists(int frameTableOffset, bool isAe, int maxW, int maxH);
-void FrameTableOffsetExists(int frameTableOffset, bool isAe);
+bool FrameTableOffsetExists(int frameTableOffset, bool isAe);
 
 namespace AO 
 {

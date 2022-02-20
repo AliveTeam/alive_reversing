@@ -194,7 +194,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
         gMap_5C3030.field_2_current_path,
         gMap_5C3030.field_4_current_camera);
 
-    gRenderer->LoadExternalCam(camName, reinterpret_cast<const unsigned char*>(*ppBits), 512);
+    IRenderer::GetRenderer()->LoadExternalCam(camName, reinterpret_cast<const unsigned char*>(*ppBits), 512);
 }
 
 ScreenManager* ScreenManager::ctor_40E3E0(u8** ppBits, FP_Point* pCameraOffset)

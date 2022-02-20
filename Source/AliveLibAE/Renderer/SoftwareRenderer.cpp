@@ -59,10 +59,14 @@ void SoftwareRenderer::PalSetData(const IRenderer::PalRecord& record, const u8* 
     PSX_LoadImage16_4F5E20(&rect, pPixels);
 }
 
-void SoftwareRenderer::EndFrame()
+void SoftwareRenderer::Present()
 {
     SDL_RenderPresent(mRenderer);
     mFrameStarted = false;
+}
+
+void SoftwareRenderer::EndFrame()
+{
 }
 
 void SoftwareRenderer::BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst)

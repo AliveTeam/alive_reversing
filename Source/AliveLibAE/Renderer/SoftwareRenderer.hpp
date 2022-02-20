@@ -10,6 +10,7 @@ public:
     void Clear(u8 r, u8 g, u8 b) override;
     void StartFrame(s32 xOff, s32 yOff) override;
     void EndFrame() override;
+    void Present() override;
     void BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst) override;
     void OutputSize(s32* w, s32* h) override;
     bool UpdateBackBuffer(const void* pPixels, s32 pitch) override;

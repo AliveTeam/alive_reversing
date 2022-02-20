@@ -84,6 +84,10 @@ void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 
 void DirectX9Renderer::EndFrame()
 {
+}
+
+void DirectX9Renderer::Present()
+{
     SDL_RenderPresent(mRenderer);
 }
 

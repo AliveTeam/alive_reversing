@@ -5,9 +5,9 @@
 
 static IRenderer* gRenderer = nullptr;
 
-#endif
-#include "OpenGLRenderer.hpp"
 #if RENDERER_OPENGL
+#include "OpenGLRenderer.hpp"
+#endif
 
 IRenderer* IRenderer::GetRenderer()
 {

@@ -137,7 +137,6 @@ constexpr CombinedBgAnimRecord kBgAnimRecords[] = {
 constexpr AnimDetails kNullAnimDetails = {};
 
 constexpr CombinedAnimRecord kAnimRecords[] = {
-    {AnimId::None, kNullAnimDetails, kNullAnimDetails},
     {AnimId::Abe_Head_Gib,
     { "ABEBLOW.BAN", 7732, 50, 25, kAbeblowResID, PalId::Default},
      {"ABEBLOW.BAN", 7208, 50, 25, AO::kAbeblowAOResID, PalId::Default}},
@@ -1387,8 +1386,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
     // TODO: figure out if this is the correct BAN/BND
     {AnimId::ShrykullStart, {"SHRYPORT.BND", 82676, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::ShrykullTransform, {"SHRYPORT.BND", 82712, 123, 79, kAbemorphResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::ShrykullDetransform, {"SHRYPORT.BND", 82824, 123, 79, kAbemorphResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShrykullTransform, {"SHRYPORT.BND", 82712, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShrykullDetransform, {"SHRYPORT.BND", 82824, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
 
     {AnimId::NormalMudIcon, {"EMONORM.BAN", 1248, 54, 47, kNormaliconResID, PalId::Default}, kNullAnimDetails},
     {AnimId::AngryMudIcon, {"EMOANGRY.BAN", 1076, 54, 47, kAngryiconResID, PalId::Default}, kNullAnimDetails},
@@ -1895,7 +1894,7 @@ void FrameTableOffsetExists(int frameTableOffset, bool isAe, int maxW, int maxH)
     LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset << " maxW " << maxW << " maxH " << maxH);
 }
 
-void FrameTableOffsetExists(int frameTableOffset, bool isAe)
+bool FrameTableOffsetExists(int frameTableOffset, bool isAe)
 {
     for (const auto& entry : kAnimRecords)
     {
@@ -1903,14 +1902,14 @@ void FrameTableOffsetExists(int frameTableOffset, bool isAe)
         {
             if (entry.mAEData.mFrameTableOffset == frameTableOffset)
             {
-                return;
+                return true;
             }
         }
         else
         {
             if (entry.mAOData.mFrameTableOffset == frameTableOffset)
             {
-                return;
+                return true;
             }
         }
     }
@@ -1971,6 +1970,54 @@ static const AnimRecord AnimRec(bool isAe, AnimId toFind)
 const AnimRecord AnimRec(AnimId toFind)
 {
     return AnimRec(true, toFind);
+}
+
+const AnimRecord AnimRecFrameTable(int frameTableOffset, int resourceId, bool isAe)
+{
+    for (const auto& entry : kAnimRecords)
+    {
+        if (isAe)
+        {
+            if (entry.mAEData.mFrameTableOffset == frameTableOffset && entry.mAEData.mResourceId == resourceId)
+            {
+                const AnimDetails& data = entry.mAEData;
+                return AnimRecord{ entry.mId, data.mBanName, data.mFrameTableOffset, data.mMaxW, data.mMaxH, data.mResourceId, data.mPalOverride };
+            }
+        }
+        else
+        {
+            if (entry.mAOData.mFrameTableOffset == frameTableOffset && entry.mAOData.mResourceId == resourceId)
+            {
+                const AnimDetails& data = entry.mAOData;
+                return AnimRecord{ entry.mId, data.mBanName, data.mFrameTableOffset, data.mMaxW, data.mMaxH, data.mResourceId, data.mPalOverride };
+            }
+        }
+    }
+}
+
+bool AnimRecExists(bool isAe, AnimId toFind)
+{
+    for (const CombinedAnimRecord& anim : kAnimRecords)
+    {
+        if (anim.mId == toFind)
+        {
+            const AnimDetails& data = isAe ? anim.mAEData : anim.mAOData;
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<CombinedAnimRecord> GetAnimRecords()
+{
+    std::vector<CombinedAnimRecord> table;
+
+    for (CombinedAnimRecord anim : kAnimRecords)
+    {
+        table.push_back(anim);
+    }
+
+    return table;
 }
 
 namespace AO

@@ -44,6 +44,7 @@ public:
     virtual void Clear(u8 r, u8 g, u8 b) = 0;
     virtual void StartFrame(s32 xOff, s32 yOff) = 0;
     virtual void EndFrame() = 0;
+    virtual void Present() = 0;
     virtual void BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst) = 0;
     virtual void OutputSize(s32* w, s32* h) = 0;
     virtual bool UpdateBackBuffer(const void* pPixels, s32 pitch) = 0;
@@ -93,5 +94,3 @@ public:
     // Fleech (tounge), DeathGas, ColourfulMeter
     virtual void Draw(Poly_G4& poly) = 0;
 };
-
-extern IRenderer* gRenderer;
