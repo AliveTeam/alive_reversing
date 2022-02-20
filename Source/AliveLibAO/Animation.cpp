@@ -24,7 +24,7 @@
 #include "Blood.hpp"
 #include "Renderer/IRenderer.hpp"
 #include "AnimResources.hpp"
-#include "../Tools/asset_tool/asset_common.hpp"
+#include "ExternalAssets.hpp"
 
 // Fix pollution from windows.h
 #undef min
@@ -627,48 +627,25 @@ void Animation::VRender_403AE0(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
             
 
             ////////////// 
-    // HD HAX
-    //////////////
+            // HD HAX
+            //////////////
+            
+            CustomRenderSpriteFormat sprite;
 
-            static CustomRenderSpriteFormat customSprite[1024 * 2];
-            static int ft4Index = 0;
+            sprite.x = PsxToPCX(xpos);
+            sprite.y = ypos;
+            sprite.frame = (this->field_92_current_frame == -1) ? 0 : this->field_92_current_frame;
+            sprite.frametable_offset = field_18_frame_table_offset;
+            sprite.resource_id = ResourceManager::Get_Header_455620(field_20_ppBlock)->field_C_id;
+            sprite.r = pPoly->mBase.header.rgb_code.r;
+            sprite.g = pPoly->mBase.header.rgb_code.g;
+            sprite.b = pPoly->mBase.header.rgb_code.b;
+            sprite.scale = (float)FP_GetDouble(this->field_14_scale);
+            sprite.flip = this->field_4_flags.Get(AnimFlags::eBit5_FlipX);
 
-            static bool firstRun = true;
+            CustomRender_AddCommand(pPoly, sprite);
 
-            if (true)
-            {
-                int currentIndex = ft4Index + (gPsxDisplay_504C78.field_A_buffer_index * 1024);
-
-                CustomRenderSpriteFormat* sprite = &customSprite[currentIndex];
-                sprite->origPtr = nullptr;
-
-                sprite->magic = 0x12345678;
-                sprite->x = PsxToPCX(xpos);
-                sprite->y = ypos;
-                sprite->frame = (this->field_92_current_frame == -1) ? 0 : this->field_92_current_frame;
-                sprite->frametable_offset = field_18_frame_table_offset;
-                sprite->resource_id = ResourceManager::Get_Header_455620(field_20_ppBlock)->field_C_id;
-                sprite->r = this->field_8_r;
-                sprite->g = this->field_9_g;
-                sprite->b = this->field_A_b;
-                sprite->scale = (float)FP_GetDouble(this->field_14_scale);
-                sprite->flip = this->field_4_flags.Get(AnimFlags::eBit5_FlipX);
-
-                //printf("%s\n", sprite->fileName.c_str());
-
-                SetPrimExtraPointerHack(pPoly, sprite);
-
-                OrderingTable_Add_498A80(OtLayer(ppOt, this->field_C_layer), &pPoly->mBase.header);
-
-                ft4Index++;
-                if (ft4Index >= 1024)
-                {
-                    ft4Index = 0;
-                }
-            }
-            /////////////////////////
-            else
-                OrderingTable_Add_498A80(OtLayer(ppOt, field_C_layer), &pPoly->mBase.header);
+            OrderingTable_Add_498A80(OtLayer(ppOt, field_C_layer), &pPoly->mBase.header);
         }
     }
 }

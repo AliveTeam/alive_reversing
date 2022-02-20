@@ -20,7 +20,7 @@
 #include "Sys_common.hpp"
 #include "Renderer/IRenderer.hpp"
 #include <gmock/gmock.h>
-#include "../Tools/asset_tool/asset_common.hpp"
+#include "ExternalAssets.hpp"
 
 // Frame call backs ??
 EXPORT s32 CC Animation_OnFrame_Common_Null_455F40(void*, s16*)
@@ -607,53 +607,21 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
     // HD HAX
     //////////////
 
-    static CustomRenderSpriteFormat customSprite[1024 * 2];
-    static int ft4Index = 0;
+    CustomRenderSpriteFormat sprite;
+    sprite.x = PsxToPCX(xpos);
+    sprite.y = ypos;
+    sprite.frame = (this->field_92_current_frame == -1) ? 0 : this->field_92_current_frame;
+    sprite.frametable_offset = field_18_frame_table_offset;
+    sprite.resource_id = pResourceManager_5C1BB0->Get_Header_49C410(field_20_ppBlock)->field_C_id;
+    sprite.r = pPoly->mBase.header.rgb_code.r;
+    sprite.g = pPoly->mBase.header.rgb_code.g;
+    sprite.b = pPoly->mBase.header.rgb_code.b;
+    sprite.scale = (float)FP_GetDouble(this->field_14_scale);
+    sprite.flip = this->field_4_flags.Get(AnimFlags::eBit5_FlipX);
 
-    static bool firstRun = true;
+    CustomRender_AddCommand(pPoly, sprite);
 
-    if (true)
-    {
-        int currentIndex = ft4Index + (gPsxDisplay_5C1130.field_C_buffer_index * 1024);
-
-        CustomRenderSpriteFormat* sprite = &customSprite[currentIndex];
-
-        if (pFrameHeader->field_7_compression_type == CompressionType::eType_3_RLE_Blocks || pFrameHeader->field_7_compression_type == CompressionType::eType_6_RLE)
-        {
-            sprite->origPtr = &pFrameHeader->field_8_width2;
-        }
-        else
-        {
-            sprite->origPtr = nullptr;
-        }
-
-        sprite->magic = 0x12345678;
-        sprite->x = PsxToPCX(xpos);
-        sprite->y = ypos;
-        sprite->frame = (this->field_92_current_frame == -1) ? 0 : this->field_92_current_frame;
-        sprite->frametable_offset = field_18_frame_table_offset;
-        sprite->resource_id = pResourceManager_5C1BB0->Get_Header_49C410(field_20_ppBlock)->field_C_id;
-        sprite->r = this->field_8_r;
-        sprite->g = this->field_9_g;
-        sprite->b = this->field_A_b;
-        sprite->scale = (float)FP_GetDouble(this->field_14_scale);
-        sprite->flip = this->field_4_flags.Get(AnimFlags::eBit5_FlipX);
-
-        //printf("%s\n", sprite->fileName.c_str());
-
-        SetPrimExtraPointerHack(pPoly, sprite);
-
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, this->field_C_render_layer), &pPoly->mBase.header);
-
-        ft4Index++;
-        if (ft4Index >= 1024)
-        {
-            ft4Index = 0;
-        }
-    }
-    /////////////////////////
-    else
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_C_render_layer), &pPoly->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_C_render_layer), &pPoly->mBase.header);
 }
 
 void Animation::vCleanUp_40C630()

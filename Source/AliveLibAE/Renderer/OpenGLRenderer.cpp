@@ -4,6 +4,7 @@
 #include "Compression.hpp"
 #include "VRam.hpp"
 #include "AnimResources.hpp"
+#include "ExternalAssets.hpp"
 #include "../Tools/asset_tool/asset_common.hpp"
 
 #include "StbImageImplementation.hpp"
@@ -78,6 +79,7 @@ struct ExternalTexture final
 struct ExternalTextureMeta final
 {
     std::vector<ExternalTexture> textures;
+    std::map<int, ExternalTexture> textures_emissive;
     AssetMeta meta;
 };
 
@@ -163,6 +165,12 @@ void LoadAllExternalTextures(std::string dir = "hd/sprites")
                 for (int i = 0; i < gLoadedExternalTextures[id].meta.frame_count; i++)
                 {
                     gLoadedExternalTextures[id].textures.push_back(LoadTextureCacheFile(dir + "/" + folderName + "/" + std::to_string(i) + ".png"));
+
+                    // check if we have an emissive texture (file ends with _emissive.png)
+                    if (fs::exists(dir + "/" + folderName + "/" + std::to_string(i) + "_emissive.png"))
+                    {
+                        gLoadedExternalTextures[id].textures_emissive[i] = LoadTextureCacheFile(dir + "/" + folderName + "/" + std::to_string(i) + "_emissive.png");
+                    }
                 }
             }
             else
@@ -600,6 +608,12 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     u16 tWidth = static_cast<u16>(ceil(reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[0] / 4.0f) * 4);;
     u16 tHeight = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[1];
 
+    /*if (tWidth > 4096 || tHeight > 4096)
+    {
+        LOG_INFO("Tried decompressing an anim but got an unusual width/height\nReturning to prevent crash.");
+        return nullptr;
+    }*/
+
     TPageMode textureMode = static_cast<TPageMode>(((u32) poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
 
     gFakeTextureCache = {};
@@ -841,9 +855,17 @@ void OpenGLRenderer::DebugWindow()
             {
                 for (auto& extTexture : gLoadedExternalTextures)
                 {
+                    // Free up all our currently loaded textures
+
                     for (auto t : extTexture.second.textures)
                     {
                         glDeleteTextures(1, &t.handle);
+                    }
+
+                    // Free emissive textures
+                    for (auto t : extTexture.second.textures_emissive)
+                    {
+                        glDeleteTextures(1, &t.second.handle);
                     }
                 }
 
@@ -1299,6 +1321,8 @@ void OpenGLRenderer::EndFrame()
 void OpenGLRenderer::Present()
 {
     SDL_GL_SwapWindow(mWindow);
+
+    CustomRender_ClearCommands();
 }
 
 void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
@@ -1706,7 +1730,7 @@ void DrawCustomSprite(Poly_FT4& poly, CustomRenderSpriteFormat* sprite)
         // TODO: For now we don't draw custom ObjectShadows till we can properly render them ( direct use of triangle buffer )
         if (animRecord.mId == AnimId::ObjectShadow || !gExternalTexturesEnabled || gLoadedExternalTextures.find(animRecord.mId) == gLoadedExternalTextures.end() || sprite->resource_id != animRecord.mResourceId) {
 
-            SetPrimExtraPointerHack(&poly, sprite->origPtr);
+            CustomRender_RemoveCommand(&poly);
             gGLInstance->Draw(poly);
             return;
         }
@@ -1740,14 +1764,24 @@ void DrawCustomSprite(Poly_FT4& poly, CustomRenderSpriteFormat* sprite)
             uv1 = { 0.0f, 1.0f };
         }
 
-        f32 r = poly.mBase.header.rgb_code.r / 128.0f;
-        f32 g = poly.mBase.header.rgb_code.g / 128.0f;
-        f32 b = poly.mBase.header.rgb_code.b / 128.0f;
+        f32 r = sprite->r / 128.0f;
+        f32 g = sprite->g / 128.0f;
+        f32 b = sprite->b / 128.0f;
 
         //glm::vec3 color = glm::vec3(sprite->r / 128.0f, sprite->g / 128.0f, sprite->b / 128.0f);
         glm::vec3 color = glm::vec3(r, g, b);
 
         gGLInstance->DrawTexture(cache.handle, (f32)sprite->x - offX, (f32)sprite->y - offY, imgSize.x, imgSize.y, color, uv0, uv1);
+
+        // if we have an emissive texture, draw it
+        if (loadedTexture.textures_emissive.find(sprite->frame) != loadedTexture.textures_emissive.end())
+        {
+            auto emissiveTexture = loadedTexture.textures_emissive[sprite->frame];
+
+            Renderer_SetBlendMode(TPageAbr::eBlend_1);
+
+            gGLInstance->DrawTexture(emissiveTexture.handle, (f32)sprite->x - offX, (f32)sprite->y - offY, imgSize.x, imgSize.y, glm::vec3(1,1,1), uv0, uv1);
+        }
     }
 }
 
@@ -1962,19 +1996,19 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     TextureCache* pTexture = nullptr;
 
+    auto customCommand = CustomRender_GetCommand(&poly);
+
+    if (customCommand != nullptr)
+    {
+        DrawCustomSprite(poly, customCommand);
+        return;
+    }
+
     // Some polys have their texture data directly attached to polys.
     auto ptrData = GetPrimExtraPointerHack(&poly);
     if (ptrData)
     {
-        if (*(int*)ptrData == 0x12345678) // If ptr data matches our magic number, then we proceed with a hd sprite.
-        {
-            DrawCustomSprite(poly, (CustomRenderSpriteFormat*)ptrData);
-            return;
-        }
-        else
-        {
-            pTexture = Renderer_TextureFromAnim(poly);
-        }
+        pTexture = Renderer_TextureFromAnim(poly);
     }
     else
         pTexture = Renderer_TexFromTPage(poly.mVerts[0].mUv.tpage_clut_pad, poly.mUv.u, poly.mUv.v);
@@ -1983,7 +2017,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     if (pTexture == nullptr)
     {
-        //LOG_WARNING("Trying to render FT4 with no texture!");
+        LOG_WARNING("Trying to render FT4 with no texture!");
         return;
     }
 

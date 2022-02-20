@@ -35,6 +35,8 @@ SET(AliveLibSrcCommon
     PSXMDECDecoder.h
     Psx_common.hpp
     W32CrashHandler.hpp
+    ExternalAssets.hpp
+    ExternalAssets.cpp
 )
 
 add_library(AliveLibCommon ${AliveLibSrcCommon})
