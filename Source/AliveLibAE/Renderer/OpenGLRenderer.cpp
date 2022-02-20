@@ -1780,7 +1780,7 @@ void DrawCustomSprite(Poly_FT4& poly, CustomRenderSpriteFormat* sprite)
 
             Renderer_SetBlendMode(TPageAbr::eBlend_1);
 
-            gGLInstance->DrawTexture(emissiveTexture.handle, (f32)sprite->x - offX, (f32)sprite->y - offY, imgSize.x, imgSize.y, glm::vec3(1,1,1), uv0, uv1);
+            gGLInstance->DrawTexture(emissiveTexture.handle, (f32)sprite->x - offX, (f32)sprite->y - offY, imgSize.x, imgSize.y, glm::vec3(1,1,1) - color, uv0, uv1);
         }
     }
 }
