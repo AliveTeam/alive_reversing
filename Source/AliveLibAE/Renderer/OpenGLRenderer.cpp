@@ -151,15 +151,23 @@ void LoadAllExternalTextures(std::string dir = "hd/sprites")
 
             printf("External Dir: %s\n", folderName.c_str());
 
-            AnimId id = magic_enum::enum_cast<AnimId>(folderName).value();
-
-            gLoadedExternalTextures[id].textures = std::vector<ExternalTexture>();
-
-            gLoadedExternalTextures[id].meta.LoadJSONFromFile(dir + "/" + folderName + "/meta.json");
-
-            for (int i = 0; i < gLoadedExternalTextures[id].meta.frame_count; i++)
+            // check if with magic_enum if we have a valid enum
+            if (magic_enum::enum_cast<AnimId>(folderName) != magic_enum::enum_cast<AnimId>(-1))
             {
-                gLoadedExternalTextures[id].textures.push_back(LoadTextureCacheFile(dir + "/" + folderName + "/" + std::to_string(i) + ".png"));
+                AnimId id = magic_enum::enum_cast<AnimId>(folderName).value();
+
+                gLoadedExternalTextures[id].textures = std::vector<ExternalTexture>();
+
+                gLoadedExternalTextures[id].meta.LoadJSONFromFile(dir + "/" + folderName + "/meta.json");
+
+                for (int i = 0; i < gLoadedExternalTextures[id].meta.frame_count; i++)
+                {
+                    gLoadedExternalTextures[id].textures.push_back(LoadTextureCacheFile(dir + "/" + folderName + "/" + std::to_string(i) + ".png"));
+                }
+            }
+            else
+            {
+                printf("Invalid External Dir Name: %s\n", folderName.c_str());
             }
         }
     }
