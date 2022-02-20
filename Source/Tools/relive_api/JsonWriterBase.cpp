@@ -108,12 +108,12 @@ void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader,
     rootMapObject << "num_muds_for_good_ending" << mMapInfo.mGoodEndingMuds;
 
 
-    jsonxx::Array ledMessagesArray;
-    for (const auto& msg : mMapInfo.mLedMessages)
+    jsonxx::Array LCDScreenMessagesArray;
+    for (const auto& msg : mMapInfo.mLCDScreenMessages)
     {
-        ledMessagesArray << msg;
+        LCDScreenMessagesArray << msg;
     }
-    rootMapObject << "led_messages" << ledMessagesArray;
+    rootMapObject << "lcdscreen_messages" << LCDScreenMessagesArray;
 
     jsonxx::Array hintFlyMessagesArray;
     for (const auto& msg : mMapInfo.mHintFlyMessages)

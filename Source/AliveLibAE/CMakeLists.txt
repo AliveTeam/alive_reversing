@@ -11,6 +11,8 @@ SET(AliveLibAESrc
     Renderer/OpenGLRenderer.cpp
     Renderer/GLShader.hpp
     Renderer/GLShader.cpp
+    GameAutoPlayer.hpp
+    GameAutoPlayer.cpp
     PathDataExtensions.cpp
     PathDataExtensions.hpp
     Input.cpp

@@ -210,7 +210,7 @@ const AnimId sSligFrameTables_547318[52] = {
     AnimId::Slig_Speak4,
     AnimId::Slig_Sleeping,
     AnimId::Slig_SleepingToStand,
-    AnimId::Slig_Knockeback,
+    AnimId::Slig_Knockback,
     AnimId::Slig_KnockbackToStand,
     AnimId::Slig_PossessShake,
     AnimId::Slig_PossessShake,
@@ -2582,20 +2582,20 @@ void Slig::M_Beat_51_4B6C00()
     }
 }
 
-enum Brain_Possessed
+enum Brain_2_Possessed
 {
-    eState2_StartPossession_0 = 0,
-    eState2_PossessionShaking_1 = 1,
-    eState2_PossessionInactive_2 = 2,
-    eState2_PossessionSpeak_3 = 3,
-    eState2_ControlledByPlayer_4 = 4
+    eBrain2_StartPossession_0 = 0,
+    eBrain2_PossessionShaking_1 = 1,
+    eBrain2_PossessionInactive_2 = 2,
+    eBrain2_PossessionSpeak_3 = 3,
+    eBrain2_ControlledByPlayer_4 = 4
 };
 
-enum Brain_GameEnder
+enum Brain_35_GameEnder
 {
-    eState35_summoned_0 = 0,
-    eState35_runningToAbe_1 = 1,
-    eState35_reachedAbe_2 = 2
+    eBrain35_Summoned_0 = 0,
+    eBrain35_RunningToAbe_1 = 1,
+    eBrain35_ReachedAbe_2 = 2
 };
 
 s16 Slig::Brain_Death_0_4BBFB0()
@@ -2665,7 +2665,7 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
 {
     switch (field_11C_brain_sub_state)
     {
-        case Brain_Possessed::eState2_StartPossession_0:
+        case Brain_2_Possessed::eBrain2_StartPossession_0:
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_11E_pitch_min, this);
             field_11C_brain_sub_state = 1;
             field_10C_health = FP_FromInteger(0);
@@ -2678,17 +2678,17 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
             }
             return field_11C_brain_sub_state;
 
-        case Brain_Possessed::eState2_PossessionShaking_1:
+        case Brain_2_Possessed::eBrain2_PossessionShaking_1:
             if (static_cast<s32>(sGnFrame_5C1B84) >= field_120_timer)
             {
-                field_11C_brain_sub_state = Brain_Possessed::eState2_PossessionInactive_2;
+                field_11C_brain_sub_state = Brain_2_Possessed::eBrain2_PossessionInactive_2;
                 field_120_timer = sGnFrame_5C1B84 + 20;
                 field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
                 return field_11C_brain_sub_state;
             }
             break;
 
-        case Brain_Possessed::eState2_PossessionInactive_2:
+        case Brain_2_Possessed::eBrain2_PossessionInactive_2:
             if (static_cast<s32>(sGnFrame_5C1B84) >= field_120_timer)
             {
                 if (Math_NextRandom() & 1)
@@ -2703,12 +2703,12 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
                     field_106_current_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
                     Slig_GameSpeak_SFX_4C04F0(SligSpeak::eLaugh_3, 0, field_11E_pitch_min, this);
                 }
-                field_11C_brain_sub_state = Brain_Possessed::eState2_PossessionSpeak_3;
+                field_11C_brain_sub_state = Brain_2_Possessed::eBrain2_PossessionSpeak_3;
                 return field_11C_brain_sub_state;
             }
             break;
 
-        case Brain_Possessed::eState2_PossessionSpeak_3:
+        case Brain_2_Possessed::eBrain2_PossessionSpeak_3:
             if (Event_Get_422C00(kEventDeathReset))
             {
                 if (sControlledCharacter_5C1B8C != this)
@@ -2719,13 +2719,13 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
 
             if (static_cast<s32>(sGnFrame_5C1B84) >= field_120_timer)
             {
-                field_11C_brain_sub_state = Brain_Possessed::eState2_ControlledByPlayer_4;
+                field_11C_brain_sub_state = Brain_2_Possessed::eBrain2_ControlledByPlayer_4;
                 field_10C_health = FP_FromInteger(1);
                 return field_11C_brain_sub_state;
             }
             break;
 
-        case Brain_Possessed::eState2_ControlledByPlayer_4:
+        case Brain_2_Possessed::eBrain2_ControlledByPlayer_4:
             if (Event_Get_422C00(kEventDeathReset))
             {
                 if (sControlledCharacter_5C1B8C != this)
@@ -2756,16 +2756,23 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
     return field_11C_brain_sub_state;
 }
 
+enum Brain_3_DeathDropDeath
+{
+    eBrain3_SayHelpOnce_0 = 0,
+    eBrain3_SayHelpAndDie_1 = 1,
+    eBrain3_SwitchCamToAbe_2 = 2
+};
+
 s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
 {
     switch (field_11C_brain_sub_state)
     {
-        case 0:
+        case Brain_3_DeathDropDeath::eBrain3_SayHelpOnce_0:
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_11E_pitch_min, this);
             field_120_timer = sGnFrame_5C1B84 + 60;
-            return 1;
+            return Brain_3_DeathDropDeath::eBrain3_SayHelpAndDie_1;
 
-        case 1:
+        case Brain_3_DeathDropDeath::eBrain3_SayHelpAndDie_1:
         {
             if (static_cast<s32>(sGnFrame_5C1B84) < field_120_timer)
             {
@@ -2794,10 +2801,10 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
                 pScreenShake->ctor_4ACF70(0, 0);
             }
             field_120_timer = sGnFrame_5C1B84 + 30;
-            return 2;
+            return Brain_3_DeathDropDeath::eBrain3_SwitchCamToAbe_2;
         }
 
-        case 2:
+        case Brain_3_DeathDropDeath::eBrain3_SwitchCamToAbe_2:
             if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
             {
                 if (sControlledCharacter_5C1B8C == this)
@@ -4578,7 +4585,7 @@ s16 Slig::Brain_GameEnder_35_4BF640()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_11C_brain_sub_state == Brain_GameEnder::eState35_summoned_0)
+    if (field_11C_brain_sub_state == Brain_35_GameEnder::eBrain35_Summoned_0)
     {
         if (sNum_CamSwappers_5C1B66 > 0 || sActiveHero_5C1B68->field_1AC_flags.Get(Abe::e1AC_Bit5_shrivel))
         {
@@ -4587,9 +4594,9 @@ s16 Slig::Brain_GameEnder_35_4BF640()
 
         field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
         field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_14_pause_time;
-        return Brain_GameEnder::eState35_runningToAbe_1;
+        return Brain_35_GameEnder::eBrain35_RunningToAbe_1;
     }
-    else if (field_11C_brain_sub_state == Brain_GameEnder::eState35_runningToAbe_1)
+    else if (field_11C_brain_sub_state == Brain_35_GameEnder::eBrain35_RunningToAbe_1)
     {
         if (static_cast<s32>(sGnFrame_5C1B84) < field_120_timer)
         {
@@ -4597,11 +4604,17 @@ s16 Slig::Brain_GameEnder_35_4BF640()
         }
 
         field_108_next_motion = eSligMotions::M_Running_4_4B6000;
-        return Brain_GameEnder::eState35_reachedAbe_2;
+        return Brain_35_GameEnder::eBrain35_ReachedAbe_2;
     }
     else
     {
-        if (field_11C_brain_sub_state == Brain_GameEnder::eState35_reachedAbe_2 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+        if (field_11C_brain_sub_state == Brain_35_GameEnder::eBrain35_ReachedAbe_2 
+            && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                field_C2_lvl_number,
+                field_C0_path_number,
+                field_B8_xpos,
+                field_BC_ypos,
+                0))
         {
             return field_11C_brain_sub_state;
         }
@@ -5058,7 +5071,7 @@ void Slig::vPossessed_4B2F10()
         field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
     }
     SetBrain(&Slig::Brain_Possessed_2_4BBCF0);
-    field_11C_brain_sub_state = Brain_Possessed::eState2_StartPossession_0;
+    field_11C_brain_sub_state = Brain_2_Possessed::eBrain2_StartPossession_0;
 
     field_146_level = gMap_5C3030.field_0_current_level;
     field_148_path = gMap_5C3030.field_2_current_path;

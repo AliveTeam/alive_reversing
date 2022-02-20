@@ -10,7 +10,7 @@ namespace AO {
 
 class BaseAliveGameObject;
 class Camera;
-class ResourceManager_FileRecord_Unknown;
+class LoadingFile;
 
 EXPORT void CC Game_ShowLoadingIcon_445EB0();
 
@@ -101,7 +101,7 @@ public:
         u32 field_8_type;
         u32 field_C_resourceId;
         DynamicArrayT<ResourceManager_FilePartRecord> field_10_file_sections_dArray;
-        ResourceManager_FileRecord_Unknown* field_1C_pGameObjFileRec;
+        LoadingFile* field_1C_pGameObjFileRec;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x20);
 
@@ -174,13 +174,13 @@ public:
     static EXPORT void CC Clear_Header_Flags_4557F0(u8** ppRes, s16 flags);
 
     template <class T, class Y>
-    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile(const char_type* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
+    static EXPORT LoadingFile* CC LoadResourceFile(const char_type* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
     {
         // TODO: Change the camera types to void*'s
         return LoadResourceFile_4551E0(pFileName, reinterpret_cast<TLoaderFn>(pOnLoadFn), reinterpret_cast<Camera*>(pOnLoadFnArgument), reinterpret_cast<Camera*>(pCamera2));
     }
 
-    static EXPORT ResourceManager_FileRecord_Unknown* CC LoadResourceFile_4551E0(const char_type* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
+    static EXPORT LoadingFile* CC LoadResourceFile_4551E0(const char_type* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
 
     static EXPORT void CC Free_Resource_Of_Type_455810(u32 type);
 

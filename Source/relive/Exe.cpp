@@ -23,6 +23,8 @@
 #include "../AliveLibAO/Game.hpp"
 #include "../AliveLibAO/SwitchStates.hpp"
 
+#include "Io.hpp"
+
 enum class GameType : s32
 {
     eAo = 0,
@@ -135,7 +137,29 @@ static bool FileExists(const char_type* fileName)
     return false;
 }
 
+// Only used on Windows for logging to help when people have issues launching the game
+static void ShowCwd()
+{
+#ifdef _WIN32
+    // Note: Not using SDL_GetBasePath as that returns the executable dir which isn't
+    // always the same as the cwd.
+    char_type buffer[2048] = {};
+    if (::GetCurrentDirectoryA(sizeof(buffer), buffer))
+    {
+        LOG_INFO("Win32 cwd is: " << buffer);
+    }
+    else
+    {
+        LOG_INFO("Failed to get Win32 cwd: " << ::GetLastError());
+    }
+#endif
+}
 
+static void GameDirListing()
+{
+    IO_EnumerateDirectory("*.*", [](const char_type* fileName, u32)
+                          { LOG_INFO(fileName); });
+}
 
 static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
 {
@@ -146,6 +170,7 @@ static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
             if (showError)
             {
                 SDL_Init(SDL_INIT_EVENTS);
+                GameDirListing();
                 Alive_Show_ErrorMsg("Abes Exoddus/Abes Oddysee cant start because st.lvl or mi.lvl was not found in the working directory. Copy relive files to the root game directory to fix this.");
             }
             return false;
@@ -159,6 +184,7 @@ static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
             if (showError)
             {
                 SDL_Init(SDL_INIT_EVENTS);
+                GameDirListing();
                 Alive_Show_ErrorMsg("Abes Oddysee/Abes Exoddus cant start because s1.lvl or r1.lvl was not found in the working directory. Copy relive files to the root game directory to fix this.");
             }
             return false;
@@ -192,9 +218,8 @@ static s32 AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
 
 s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
+    Install_Crash_Handler();
 #if _WIN32
-    ::SetUnhandledExceptionFilter(unhandled_handler);
-
     ::AllocConsole();
     ::freopen("CONOUT$", "w", stdout);
     ::SetConsoleTitleA("Debug Console");
@@ -204,9 +229,12 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     ExportHooker hooker(hInstance);
     hooker.Apply();
 #endif
+    LOG_INFO("Relive: " << BuildAndBitnesString());
 
     // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
     GameType gameToRun = strstr(lpCmdLine, "AO") ? GameType::eAo : GameType::eAe;
+    ShowCwd();
+
     if (gameToRun == GameType::eAo)
     {
         LOG_INFO("Checking AO files are present...");

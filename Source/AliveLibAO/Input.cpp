@@ -5,6 +5,7 @@
 #include "../AliveLibAE/Input.hpp"
 #include "BitField.hpp"
 #include "Sys.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 namespace AO {
 
@@ -274,7 +275,7 @@ static BitField32<AO::InputCommands> MakeAOInputBits(u32 bits)
     return r;
 }
 
-EXPORT void InputObject::Update_433250()
+void InputObject::Update(BaseGameAutoPlayer& gameAutoPlayer)
 {
     const u8 byte_4BB428[16] = {0u, 64u, 0u, 32u, 192u, 0u, 224u, 0u, 128u, 96u, 0u, 0u, 160u, 0u, 0u, 0u};
 
@@ -286,7 +287,7 @@ EXPORT void InputObject::Update_433250()
     }
 
     // Do AE input reading
-    ::Input().Update_45F040();
+    ::Input().Update(gameAutoPlayer);
 
     // Convert from AE bit flags to AO bit flags
     field_0_pads[0].field_0_pressed = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_0_pressed)).Raw().all);
@@ -527,6 +528,11 @@ u16 InputObject::Held() const
 u16 InputObject::Held(PadIndex padIx) const
 {
     return sInputObject_5009E8.field_0_pads[PadIndexToInt(padIx)].field_6_held;
+}
+
+u32 InputObject::Input_Read_Pad(u32 padIdx)
+{
+    return Input_Read_Pad_4FA9C0(padIdx);
 }
 
 u16 InputObject::Released() const

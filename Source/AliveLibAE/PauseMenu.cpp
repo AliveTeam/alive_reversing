@@ -17,6 +17,7 @@
 #include "Mudokon.hpp"
 #include "Sys.hpp"
 #include "PathDataExtensions.hpp"
+#include "GameAutoPlayer.hpp"
 
 ALIVE_VAR(1, 0x5ca4d8, s8, sQuicksave_SaveNextFrame_5CA4D8, 0);
 ALIVE_VAR(1, 0x5ca4d9, s8, sQuicksave_LoadNextFrame_5CA4D9, 0);
@@ -1466,7 +1467,9 @@ void PauseMenu::Page_Load_Update_490D50()
     if (inputHeld & InputCommands::Enum::eUnPause_OrConfirm)
     {
         field_136_unused = 0;
-        memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
+        
+        field_144_active_menu = sPM_Page_Main_5465B0;
+
         if (sTotalSaveFilesCount_BB43E0)
         {
             strcpy(saveFileName, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
@@ -1489,7 +1492,7 @@ void PauseMenu::Page_Load_Update_490D50()
     else if (inputHeld & InputCommands::Enum::eBack)
     {
         field_136_unused = 0;
-        memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
+        field_144_active_menu = sPM_Page_Main_5465B0;
         SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
     }
     // Delete (del)
@@ -1688,71 +1691,71 @@ void PauseMenu::Update_48FD80()
 
                 field_158_animation.Load_Pal_40A530(field_158_animation.field_20_ppBlock, pHeader->field_0_clut_offset);
                 sDisableFontFlicker_5C9304 = 1;
-                memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
-                if (word12C_flags & 1)
+                field_144_active_menu = sPM_Page_Main_5465B0;
+
+                // Start pause menu update/render loop
+                while (word12C_flags & 1)
                 {
-                    // Start pause menu update/render loop
-                    do
+                    if (pResourceManager_5C1BB0)
                     {
-                        if (pResourceManager_5C1BB0)
-                        {
-                            pResourceManager_5C1BB0->VUpdate();
-                        }
-
-                        SYS_EventsPump_494580();
-
-                        for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
-                        {
-                            BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
-                            if (!pObj)
-                            {
-                                break;
-                            }
-
-                            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
-                            {
-                                if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
-                                {
-                                    pObj->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
-                                }
-                            }
-                        }
-
-                        pScreenManager_5BB5F4->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
-
-                        PSX_DrawSync_4F6280(0);
-                        ResourceManager::Reclaim_Memory_49C470(500000);
-                        gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
-                        sInputObject_5BD4E0.Update_45F040();
-
-                        if (field_130_selected_glow_counter > 0)
-                        {
-                            field_12E_selected_glow += 8;
-                        }
-
-                        if (field_12E_selected_glow <= 120 || field_130_selected_glow_counter <= 0)
-                        {
-                            if (field_130_selected_glow_counter <= 0)
-                            {
-                                field_12E_selected_glow -= 8;
-                                if (field_12E_selected_glow < 40)
-                                {
-                                    field_130_selected_glow_counter = -field_130_selected_glow_counter;
-                                    field_12E_selected_glow += field_130_selected_glow_counter;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            field_130_selected_glow_counter = -field_130_selected_glow_counter;
-                            field_12E_selected_glow += field_130_selected_glow_counter;
-                        }
-
-                        (this->*field_144_active_menu.field_0_fn_update)();
+                        pResourceManager_5C1BB0->VUpdate();
                     }
-                    while (word12C_flags & 1);
+
+                    SYS_EventsPump_494580();
+
+                    for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+                    {
+                        BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
+                        if (!pObj)
+                        {
+                            break;
+                        }
+
+                        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+                        {
+                            if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+                            {
+                                pObj->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+                            }
+                        }
+                    }
+
+                    pScreenManager_5BB5F4->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+
+                    PSX_DrawSync_4F6280(0);
+                    ResourceManager::Reclaim_Memory_49C470(500000);
+                    gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
+                    sInputObject_5BD4E0.Update(gGameAutoPlayer);
+
+                    if (field_130_selected_glow_counter > 0)
+                    {
+                        field_12E_selected_glow += 8;
+                    }
+
+                    if (field_12E_selected_glow <= 120 || field_130_selected_glow_counter <= 0)
+                    {
+                        if (field_130_selected_glow_counter <= 0)
+                        {
+                            field_12E_selected_glow -= 8;
+                            if (field_12E_selected_glow < 40)
+                            {
+                                field_130_selected_glow_counter = -field_130_selected_glow_counter;
+                                field_12E_selected_glow += field_130_selected_glow_counter;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        field_130_selected_glow_counter = -field_130_selected_glow_counter;
+                        field_12E_selected_glow += field_130_selected_glow_counter;
+                    }
+
+                    (this->*field_144_active_menu.field_0_fn_update)();
                 }
-                sInputObject_5BD4E0.Update_45F040();
+
+                // This call seems redundant as the calle will also update input right after this too
+                sInputObject_5BD4E0.Update(gGameAutoPlayer);
+
                 field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
             }
         }

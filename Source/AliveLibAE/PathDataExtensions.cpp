@@ -80,10 +80,10 @@ void Path_Set_NewData_FromLvls()
 
                             pChunkData += sizeof(PerPathExtension);
 
-                            // Apply led messages
-                            auto pLedMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                            pChunkData = StringTable::MakeTable(pLedMsgs);
-                            SetLcdMessagesForLvl(*pLedMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
+                            // Apply LCD Screen messages
+                            auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                            pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
+                            SetLcdMessagesForLvl(*pLCDScreenMsgs, static_cast<LevelIds>(lvlIdx), pExt->mPathId);
 
                             // Will be empty for AE
                             auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);

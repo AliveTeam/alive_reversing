@@ -503,7 +503,7 @@ enum class AnimId
     Slig_KnockbackToStand,
     Slig_Idle,
     Slig_ShootToStand,
-    Slig_Knockeback,
+    Slig_Knockback,
     Slig_PullLever,
     Slig_LiftGripping,
     Slig_LiftUp,
@@ -1469,12 +1469,12 @@ enum AOResourceID
     kWaspAOResID = 61,
     kHintflyAOResID = 62,
 
-    kElumUnknownAOResID_100 = 100, // abe elum something
+    kAbeWElmAOResID_100 = 100, // abe elum something
     kAneknbkAOResID = 106,
     kAneedgeAOResID = 108,
     kElumUnknownAOResID_110 = 110, // abe elum something
     kElumUnknownAOResID_112 = 112, // abe elum something
-    kElumUnknownAOResID_113 = 113, // abe elum something
+    kAbeANEDSMNTAOResID_113 = 113, // abe elum something
     kAneprmntAOResID = 115,
     kAbemorphAOResID = 117,
     kAbegasAOResID = 118,

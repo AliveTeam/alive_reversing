@@ -28,3 +28,6 @@
 [submodule "3rdParty/fluidsynth-lite"]
 	path = 3rdParty/fluidsynth-lite
 	url = https://github.com/AliveTeam/fluidsynth-lite.git
+[submodule "3rdParty/json"]
+	path = 3rdParty/json
+	url = https://github.com/nlohmann/json.git

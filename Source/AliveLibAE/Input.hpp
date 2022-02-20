@@ -165,13 +165,15 @@ enum GamepadOptionFlags
     eHasDPad = 0x2
 };
 
+class BaseGameAutoPlayer;
+
 class InputObject final
 {
 public:
     EXPORT s32 Is_Demo_Playing_45F220();
     EXPORT void UnsetDemoPlaying_45F240();
     EXPORT void SetDemoResource_45F1E0(u32** pDemoRes);
-    EXPORT void Update_45F040();
+    EXPORT void Update(BaseGameAutoPlayer& autoPlayer);
     EXPORT static u32 CC PsxButtonsToKeyboardInput_45EE40(u32 cmd);
     EXPORT static s8 CC KeyboardInputToPsxButtons_45EF70(s32 cmd);
     EXPORT void CC ShutDown_45F020();
