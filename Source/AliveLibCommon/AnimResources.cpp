@@ -1915,7 +1915,10 @@ bool FrameTableOffsetExists(int frameTableOffset, bool isAe)
             }
         }
     }
+
     LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset);
+
+    return false;
 }
 
 static const PalRecord PalRec(bool isAe, PalId toFind)
@@ -1995,15 +1998,17 @@ const AnimRecord AnimRecFrameTable(int frameTableOffset, int resourceId, bool is
             }
         }
     }
+
+    static const AnimRecord Empty = {};
+    return Empty;
 }
 
 bool AnimRecExists(bool isAe, AnimId toFind)
 {
     for (const CombinedAnimRecord& anim : kAnimRecords)
     {
-        if (anim.mId == toFind)
+        if (anim.mId == toFind && (((isAe) ? anim.mAEData : anim.mAOData)).mBanName != nullptr)
         {
-            const AnimDetails& data = isAe ? anim.mAEData : anim.mAOData;
             return true;
         }
     }
