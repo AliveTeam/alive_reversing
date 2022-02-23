@@ -80,6 +80,8 @@ struct ExternalTextureMeta final
 {
     std::vector<ExternalTexture> textures;
     std::map<int, ExternalTexture> textures_emissive;
+    std::map<int, ExternalTexture> textures_flipped;
+    std::map<int, ExternalTexture> textures_flipped_emissive;
     AssetMeta meta;
 };
 
@@ -153,6 +155,12 @@ void LoadAllExternalTextures(std::string dir = "hd/sprites")
 
             printf("External Dir: %s\n", folderName.c_str());
 
+            auto assetDirectory = dir + "/" + folderName + "/";
+
+            const std::string asset_suffix_emissive = "_emissive.png";
+            const std::string asset_suffix_flipped = "_flipped.png";
+            const std::string asset_suffix_flipped_emissive = "_flipped_emissive.png";
+
             // check if with magic_enum if we have a valid enum
             if (magic_enum::enum_cast<AnimId>(folderName) != magic_enum::enum_cast<AnimId>(-1))
             {
@@ -160,17 +168,19 @@ void LoadAllExternalTextures(std::string dir = "hd/sprites")
 
                 gLoadedExternalTextures[id].textures = std::vector<ExternalTexture>();
 
-                gLoadedExternalTextures[id].meta.LoadJSONFromFile(dir + "/" + folderName + "/meta.json");
+                gLoadedExternalTextures[id].meta.LoadJSONFromFile(assetDirectory + "meta.json");
 
                 for (int i = 0; i < gLoadedExternalTextures[id].meta.frame_count; i++)
                 {
-                    gLoadedExternalTextures[id].textures.push_back(LoadTextureCacheFile(dir + "/" + folderName + "/" + std::to_string(i) + ".png"));
+                    gLoadedExternalTextures[id].textures.push_back(LoadTextureCacheFile(assetDirectory + std::to_string(i) + ".png"));
 
-                    // check if we have an emissive texture (file ends with _emissive.png)
-                    if (fs::exists(dir + "/" + folderName + "/" + std::to_string(i) + "_emissive.png"))
-                    {
-                        gLoadedExternalTextures[id].textures_emissive[i] = LoadTextureCacheFile(dir + "/" + folderName + "/" + std::to_string(i) + "_emissive.png");
-                    }
+                    // check for our alternative textures
+                    if (fs::exists(assetDirectory + std::to_string(i) + asset_suffix_emissive))
+                        gLoadedExternalTextures[id].textures_emissive[i] = LoadTextureCacheFile(assetDirectory + std::to_string(i) + asset_suffix_emissive);
+                    if (fs::exists(assetDirectory + std::to_string(i) + asset_suffix_flipped))
+                        gLoadedExternalTextures[id].textures_flipped[i] = LoadTextureCacheFile(assetDirectory + std::to_string(i) + asset_suffix_flipped);
+                    if (fs::exists(assetDirectory + std::to_string(i) + asset_suffix_flipped_emissive))
+                        gLoadedExternalTextures[id].textures_flipped_emissive[i] = LoadTextureCacheFile(assetDirectory + std::to_string(i) + asset_suffix_flipped_emissive);
                 }
             }
             else
@@ -862,8 +872,18 @@ void OpenGLRenderer::DebugWindow()
                         glDeleteTextures(1, &t.handle);
                     }
 
+                    for (auto t : extTexture.second.textures_flipped)
+                    {
+                        glDeleteTextures(1, &t.second.handle);
+                    }
+
                     // Free emissive textures
                     for (auto t : extTexture.second.textures_emissive)
+                    {
+                        glDeleteTextures(1, &t.second.handle);
+                    }
+
+                    for (auto t : extTexture.second.textures_flipped_emissive)
                     {
                         glDeleteTextures(1, &t.second.handle);
                     }
@@ -1746,6 +1766,13 @@ void DrawCustomSprite(Poly_FT4& poly, CustomRenderSpriteFormat* sprite)
 
         auto cache = loadedTexture.textures[sprite->frame];
 
+        // if a flipped texture exists, then use it instead
+        const bool flippedTextureExists = sprite->flip && loadedTexture.textures_flipped.find(sprite->frame) != loadedTexture.textures_flipped.end();
+        if (flippedTextureExists)
+        {
+            cache = loadedTexture.textures_flipped[sprite->frame];
+        }
+
         glm::vec2 imgSize = glm::vec2(loadedTexture.meta.size_width, loadedTexture.meta.size_height) * sprite->scale;
         imgSize.y *= 0.5f;
 
@@ -1768,6 +1795,11 @@ void DrawCustomSprite(Poly_FT4& poly, CustomRenderSpriteFormat* sprite)
         f32 g = sprite->g / 128.0f;
         f32 b = sprite->b / 128.0f;
 
+        // clamp rgb values to 0 - 1
+        r = glm::clamp(r, 0.0f, 1.0f);
+        g = glm::clamp(g, 0.0f, 1.0f);
+        b = glm::clamp(b, 0.0f, 1.0f);
+
         //glm::vec3 color = glm::vec3(sprite->r / 128.0f, sprite->g / 128.0f, sprite->b / 128.0f);
         glm::vec3 color = glm::vec3(r, g, b);
 
@@ -1777,6 +1809,11 @@ void DrawCustomSprite(Poly_FT4& poly, CustomRenderSpriteFormat* sprite)
         if (loadedTexture.textures_emissive.find(sprite->frame) != loadedTexture.textures_emissive.end())
         {
             auto emissiveTexture = loadedTexture.textures_emissive[sprite->frame];
+
+            if (flippedTextureExists && loadedTexture.textures_flipped_emissive.find(sprite->frame) != loadedTexture.textures_flipped_emissive.end())
+            {
+                emissiveTexture = loadedTexture.textures_flipped_emissive[sprite->frame];
+            }
 
             Renderer_SetBlendMode(TPageAbr::eBlend_1);
 
