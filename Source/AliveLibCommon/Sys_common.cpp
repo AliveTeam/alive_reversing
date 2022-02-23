@@ -13,6 +13,8 @@
     abort();
 }
 
+bool gIsGameAE = false;
+
 
 u32 SYS_GetTicks()
 {

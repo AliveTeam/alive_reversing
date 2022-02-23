@@ -433,6 +433,7 @@ endif()
 
 target_link_libraries(AliveLibAE
     AliveLibCommon
+	jsonxx_reliveapi
     EasyLogging++
     googletest
     Cinder

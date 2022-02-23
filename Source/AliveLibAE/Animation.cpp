@@ -20,6 +20,7 @@
 #include "Sys_common.hpp"
 #include "Renderer/IRenderer.hpp"
 #include <gmock/gmock.h>
+#include "ExternalAssets.hpp"
 
 // Frame call backs ??
 EXPORT s32 CC Animation_OnFrame_Common_Null_455F40(void*, s16*)
@@ -601,6 +602,24 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
     {
         SetPrimExtraPointerHack(pPoly, nullptr);
     }
+
+    ////////////// 
+    // HD HAX
+    //////////////
+
+    CustomRenderSpriteFormat sprite;
+    sprite.x = PsxToPCX(xpos);
+    sprite.y = ypos;
+    sprite.frame = (this->field_92_current_frame == -1) ? 0 : this->field_92_current_frame;
+    sprite.frametable_offset = field_18_frame_table_offset;
+    sprite.resource_id = pResourceManager_5C1BB0->Get_Header_49C410(field_20_ppBlock)->field_C_id;
+    sprite.r = pPoly->mBase.header.rgb_code.r;
+    sprite.g = pPoly->mBase.header.rgb_code.g;
+    sprite.b = pPoly->mBase.header.rgb_code.b;
+    sprite.scale = (float)FP_GetDouble(this->field_14_scale);
+    sprite.flip = this->field_4_flags.Get(AnimFlags::eBit5_FlipX);
+
+    CustomRender_AddCommand(pPoly, sprite);
 
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_C_render_layer), &pPoly->mBase.header);
 }

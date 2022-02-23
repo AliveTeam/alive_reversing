@@ -19,6 +19,10 @@
     #include <timeapi.h>
 #endif
 
+#if RENDERER_OPENGL
+#include "Renderer/OpenGLRenderer.hpp"
+#endif
+
 ALIVE_VAR(1, 0xBBBA00, Bool32, sAppIsActivated_BBBA00, FALSE);
 ALIVE_VAR(1, 0xBBB9F4, TWindowHandleType, sHwnd_BBB9F4, nullptr);
 #if _WIN32
@@ -1049,6 +1053,10 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
                 SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
             }
         }
+#endif
+
+#if RENDERER_OPENGL
+        ImGui_ImplSDL2_ProcessEvent(&event);
 #endif
     }
 

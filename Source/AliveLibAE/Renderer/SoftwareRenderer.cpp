@@ -59,10 +59,14 @@ void SoftwareRenderer::PalSetData(const IRenderer::PalRecord& record, const u8* 
     PSX_LoadImage16_4F5E20(&rect, pPixels);
 }
 
-void SoftwareRenderer::EndFrame()
+void SoftwareRenderer::Present()
 {
     SDL_RenderPresent(mRenderer);
     mFrameStarted = false;
+}
+
+void SoftwareRenderer::EndFrame()
+{
 }
 
 void SoftwareRenderer::BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst)
@@ -230,4 +234,9 @@ void SoftwareRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8*
             ALIVE_FATAL("unknown bit depth");
             break;
     }
+}
+
+void SoftwareRenderer::LoadExternalCam(const char* /*path*/, const unsigned char* /*key*/, int /*keyLength*/)
+{
+    LOG_WARNING("LoadExternalCam not implemented for Software Renderer - external cam not loaded.");
 }

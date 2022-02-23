@@ -204,7 +204,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMod
         gTouchController->Render();
     }
     #endif
-    IRenderer::GetRenderer()->EndFrame();
+    IRenderer::GetRenderer()->Present();
 }
 
 EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)

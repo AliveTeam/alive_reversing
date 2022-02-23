@@ -12,6 +12,7 @@ class IRenderer
 public:
     enum class Renderers
     {
+        None = 0,
         Software,
         DirectX9,
         OpenGL,
@@ -43,6 +44,7 @@ public:
     virtual void Clear(u8 r, u8 g, u8 b) = 0;
     virtual void StartFrame(s32 xOff, s32 yOff) = 0;
     virtual void EndFrame() = 0;
+    virtual void Present() = 0;
     virtual void BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst) = 0;
     virtual void OutputSize(s32* w, s32* h) = 0;
     virtual bool UpdateBackBuffer(const void* pPixels, s32 pitch) = 0;
@@ -58,6 +60,8 @@ public:
     virtual void PalSetData(const PalRecord& record, const u8* pPixels) = 0;
 
     virtual void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) = 0;
+
+    virtual void LoadExternalCam(const char* path, const unsigned char* key, int keyLength) = 0;
 
     // FG1/zaplines/blood/hintfly
     virtual void Draw(Prim_Sprt& sprt) = 0;

@@ -8,6 +8,10 @@
 #include "VRam.hpp"
 #include "Psx.hpp"
 #include "Renderer/IRenderer.hpp"
+#include "Map.hpp"
+#include "PathData.hpp"
+#include "Renderer/IRenderer.hpp"
+#include "Renderer/OpenGLRenderer.hpp"
 #include "../AliveLibCommon/CamDecompressor.hpp"
 
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
@@ -182,6 +186,15 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
     UnsetDirtyBits_40EDE0(1);
     UnsetDirtyBits_40EDE0(2);
     UnsetDirtyBits_40EDE0(3);
+
+    char camName[32] = {};
+    Path_Format_CameraName_460FB0(
+        camName,
+        gMap_5C3030.field_0_current_level,
+        gMap_5C3030.field_2_current_path,
+        gMap_5C3030.field_4_current_camera);
+
+    IRenderer::GetRenderer()->LoadExternalCam(camName, reinterpret_cast<const unsigned char*>(*ppBits), 512);
 }
 
 ScreenManager* ScreenManager::ctor_40E3E0(u8** ppBits, FP_Point* pCameraOffset)
@@ -321,15 +334,6 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
     {
         return;
     }
-
-#if RENDERER_OPENGL
-    // TODO: A custom sprite prim with magic numbers
-    // to trigger proper order rendering of our cam.
-    static Prim_Sprt MagicBackgroundPrim;
-    Sprt_Init_4F8910(&MagicBackgroundPrim);
-    SetRGB0(&MagicBackgroundPrim, 255, 254, 253);
-    OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_1), &MagicBackgroundPrim.mBase.header);
-#endif
 
     PSX_DrawSync_4F6280(0);
     pCurrent_SprtTPage_5BB5DC = nullptr;

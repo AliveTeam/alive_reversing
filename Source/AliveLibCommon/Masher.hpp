@@ -93,6 +93,9 @@ public:
     void Decode_4EA670();
     void VideoFrameDecode_4E6C60(u8* pPixelBuffer);
 
+    // Same as VideoFrameDecode_4E6C60 but decodes to buffer using raw width/height without blitting.
+    void VideoFrameDecode_Raw(u8* pPixelBuffer);
+
     // Same as 0x52B015 in MGSI.exe
     static void CC DDV_Set_Channels_And_BitsPerSample_4ECFD0(s32 numChannels, s32 bitsPerSample);
 
@@ -117,11 +120,12 @@ private:
 
 
     static void SetElement(s32 x, s32 y, s32 width, s32 height, u16* ptr, u16 value, bool doubleWidth, bool doubleHeight);
+    static void SetElement32(s32 x, s32 y, s32 width, s32 height, u32* ptr, u32 value, bool doubleWidth, bool doubleHeight);
 
     static uint16_t rgb888torgb565(Macroblock_RGB_Struct& rgb888Pixel);
 
     static void ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 width, s32 height, bool doubleWidth, bool doubleHeight);
-
+    static void ConvertYuvToRgb888(u32* pixelBuffer, s32 xoff, s32 yoff, s32 width, s32 height, bool doubleWidth, bool doubleHeight);
 
     void* field_0_file_handle;
 

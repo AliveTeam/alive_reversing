@@ -200,6 +200,7 @@ static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
 static s32 AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("AO standalone starting...");
+    gIsGameAE = false;
     AO::Static_Inits_AO();
     PopulateAutoSplitterVars(GameType::eAo);
     return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
@@ -208,6 +209,7 @@ static s32 AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
 static s32 AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("AE standalone starting...");
+    gIsGameAE = true;
     // In the real game these are called before main, but shouldn't really matter in this case
     Static_Inits_AE();
     PopulateAutoSplitterVars(GameType::eAe);

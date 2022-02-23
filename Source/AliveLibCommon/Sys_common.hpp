@@ -78,3 +78,5 @@ inline void Alive_Show_ErrorMsg(const char_type* msg)
 [[noreturn]] void ALIVE_FATAL(const char_type* errMsg);
 
 u32 SYS_GetTicks();
+
+extern bool gIsGameAE;

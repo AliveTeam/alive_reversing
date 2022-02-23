@@ -84,6 +84,10 @@ void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 
 void DirectX9Renderer::EndFrame()
 {
+}
+
+void DirectX9Renderer::Present()
+{
     SDL_RenderPresent(mRenderer);
 }
 
@@ -178,6 +182,11 @@ void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
 
 void DirectX9Renderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, const u8* /*pPixels*/)
 {
+}
+
+void DirectX9Renderer::LoadExternalCam(const char* /*path*/, const unsigned char* /*key*/, int /*keyLength*/)
+{
+    LOG_WARNING("LoadExternalCam not implemented for DirectX9 - external cam not loaded.");
 }
 
 #endif

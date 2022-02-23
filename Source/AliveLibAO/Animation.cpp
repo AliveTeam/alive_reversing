@@ -24,6 +24,7 @@
 #include "Blood.hpp"
 #include "Renderer/IRenderer.hpp"
 #include "AnimResources.hpp"
+#include "ExternalAssets.hpp"
 
 // Fix pollution from windows.h
 #undef min
@@ -623,6 +624,27 @@ void Animation::VRender_403AE0(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
             SetXY3(pPoly, width_adjusted, height_adjusted);
 
             SetPrimExtraPointerHack(pPoly, nullptr);
+            
+
+            ////////////// 
+            // HD HAX
+            //////////////
+            
+            CustomRenderSpriteFormat sprite;
+
+            sprite.x = PsxToPCX(xpos);
+            sprite.y = ypos;
+            sprite.frame = (this->field_92_current_frame == -1) ? 0 : this->field_92_current_frame;
+            sprite.frametable_offset = field_18_frame_table_offset;
+            sprite.resource_id = ResourceManager::Get_Header_455620(field_20_ppBlock)->field_C_id;
+            sprite.r = pPoly->mBase.header.rgb_code.r;
+            sprite.g = pPoly->mBase.header.rgb_code.g;
+            sprite.b = pPoly->mBase.header.rgb_code.b;
+            sprite.scale = (float)FP_GetDouble(this->field_14_scale);
+            sprite.flip = this->field_4_flags.Get(AnimFlags::eBit5_FlipX);
+
+            CustomRender_AddCommand(pPoly, sprite);
+
             OrderingTable_Add_498A80(OtLayer(ppOt, field_C_layer), &pPoly->mBase.header);
         }
     }

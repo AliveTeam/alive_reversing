@@ -3,11 +3,11 @@
 #include "SoftwareRenderer.hpp"
 #include "DirectX9Renderer.hpp"
 
+static IRenderer* gRenderer = nullptr;
+
 #if RENDERER_OPENGL
 #include "OpenGLRenderer.hpp"
 #endif
-
-static IRenderer* gRenderer = nullptr;
 
 IRenderer* IRenderer::GetRenderer()
 {

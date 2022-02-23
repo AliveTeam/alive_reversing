@@ -33,6 +33,8 @@
 #include "AmbientSound.hpp"
 #include "VRam.hpp"
 #include "Electrocute.hpp"
+#include "ExternalAssets.hpp"
+#include "PsxDisplay.hpp"
 
 const SfxDefinition kSfxInfoTable_5607E0[17] = {
     {0u, 1u, 58u, 40u, -256, -256},
@@ -734,6 +736,30 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
                 ot,
                 0,
                 0);
+
+            // Setting emissive to true to enable glowing eyes in HD assets.
+            auto customRenderCommand = CustomRender_GetCommand(&actor->field_20_animation.field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index]);
+            
+            if (customRenderCommand != nullptr)
+            {
+                customRenderCommand->emissive = true;
+                
+                // restore shadows for sligs
+                s16 rCol = actor->field_D0_r;
+                s16 gCol = actor->field_D2_g;
+                s16 bCol = actor->field_D4_b;
+                ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                    FP_GetExponent(actor->field_B8_xpos),
+                    (boundingRect.h + boundingRect.y) / 2,
+                    actor->field_D6_scale,
+                    &rCol,
+                    &gCol,
+                    &bCol);
+
+                customRenderCommand->r = static_cast<u8>(rCol);
+                customRenderCommand->g = static_cast<u8>(gCol);
+                customRenderCommand->b = static_cast<u8>(bCol);
+            }
 
             PSX_RECT rectToInvalidate = {};
             actor->field_20_animation.Get_Frame_Rect_409E10(&rectToInvalidate);

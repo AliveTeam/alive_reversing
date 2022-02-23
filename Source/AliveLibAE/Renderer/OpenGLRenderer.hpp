@@ -58,6 +58,7 @@ public:
     void Clear(u8 r, u8 g, u8 b) override;
     void StartFrame(s32 xOff, s32 yOff) override;
     void EndFrame() override;
+    void Present() override;
     void BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst) override;
     void OutputSize(s32* w, s32* h) override;
     bool UpdateBackBuffer(const void* pPixels, s32 pitch) override;
@@ -82,12 +83,15 @@ public:
 
     void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) override;
 
-private:
+    void LoadExternalCam(const char* path, const unsigned char* key, int keyLength) override;
+
     SDL_Window* mWindow = nullptr;
     SDL_GLContext mContext = nullptr;
     GLShader mTextureShader = {};
     u16 mLastTPage = 0;
     bool mWireframe = false;
+    s32 mWindowWidth = 0;
+    s32 mWindowHeight = 0;
 
     glm::mat4 m_View = {};
 
@@ -104,12 +108,14 @@ private:
 
     void DebugWindow();
 
+    void CreateWindowFrameBuffer(int width, int height);
+    void RenderFrameBuffer();
     void InitAttributes();
-    void DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height);
+    void DrawTexturePalette(GLuint pTexture, f32 x, f32 y, f32 width, f32 height, glm::vec3 color, glm::vec2 uv0, glm::vec2 uv1, PaletteCache* palette, int palDepth);
+    void DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height, glm::vec2 uv0 = glm::vec2(0, 0), glm::vec2 uv1 = glm::vec2(1, 1));
+    void DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height, glm::vec3 color, glm::vec2 uv0 = glm::vec2(0, 0), glm::vec2 uv1 = glm::vec2(1, 1));
     void DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
     void DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
 
     void RenderBackground();
 };
-
-void HackSetBackground(const char_type* path);
