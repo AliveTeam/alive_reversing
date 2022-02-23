@@ -3,9 +3,9 @@ struct CustomRenderSpriteFormat
     void* originalPoly;
     int x;
     int y;
-    char r;
-    char g;
-    char b;
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
     float scale;
     bool flip;
     void* origPtr;
