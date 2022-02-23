@@ -260,12 +260,10 @@ void LCDScreen::Update_460A00()
             if (field_2B4_show_random_message == 1)
             {
                 field_2B4_show_random_message = 0;
-                LOG_INFO("random message");
                 field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, Math_RandomRange_496AB0(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id));
             }
             else
             {
-                LOG_INFO("switch message");
                 field_2B4_show_random_message = 1;
                 if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
                 {

@@ -78,7 +78,7 @@ struct Path_Glukkon final : public Path_TLV
     StartDirection field_12_start_direction;
     enum class Behavior : s16
     {
-        eIgnoreWalls_0 = 1,
+        eIgnoreWalls_0 = 0,
         eCheckForWalls_1 = 1
     };
     Behavior field_14_behaviour;
