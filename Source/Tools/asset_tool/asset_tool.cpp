@@ -1846,7 +1846,7 @@ static void ui_loop()
 
         if (ImGui::MenuItem("About"))
         {
-            ShowMessageBox("About", "Asset Tool v0.1 by mlgthatsme (milk man)");
+            ShowMessageBox("About", "Asset Tool v0.2 by mlgthatsme (milk man)");
         }
 
         ImGui::EndMainMenuBar();
