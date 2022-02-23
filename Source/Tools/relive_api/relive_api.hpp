@@ -28,7 +28,7 @@ API_EXPORT [[nodiscard]] s32 GetApiVersion();
 API_EXPORT void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId);
 API_EXPORT void ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId);
 
-API_EXPORT void UpgradePathJson(const std::string& jsonFile);
+API_EXPORT [[nodiscard]] std::string UpgradePathJson(const std::string& jsonFile);
 
 API_EXPORT void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& lvlResourceSources, bool skipCamerasAndFG1);
 API_EXPORT void ImportPathJsonToBinary(const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& lvlResourceSources);

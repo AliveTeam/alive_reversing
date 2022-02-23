@@ -25,6 +25,7 @@ export(TARGETS lodepng_reliveapi FILE lodepng_reliveapi.cmake)
 add_library(jsonxx_reliveapi ../../../3rdParty/jsonxx/jsonxx.cc)
 target_include_directories(jsonxx_reliveapi SYSTEM PUBLIC
     $<BUILD_INTERFACE:
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty/json/single_include
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty/jsonxx>)
 export(TARGETS jsonxx_reliveapi FILE jsonxx_reliveapi.cmake)
 set_property(TARGET jsonxx_reliveapi PROPERTY FOLDER "ReliveAPI")

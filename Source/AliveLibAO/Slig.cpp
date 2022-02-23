@@ -142,7 +142,7 @@ const AnimId sSligFrameTables_4CFA38[] = {
     AnimId::Slig_Speak4,
     AnimId::Slig_Sleeping,
     AnimId::Slig_SleepingToStand,
-    AnimId::Slig_Knockeback,
+    AnimId::Slig_Knockback,
     AnimId::Slig_KnockbackToStand,
     AnimId::Slig_PossessShake,
     AnimId::Slig_PossessShake,

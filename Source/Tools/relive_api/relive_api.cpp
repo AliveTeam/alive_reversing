@@ -357,7 +357,7 @@ void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, s32 pa
 
 // Increment when a breaking change to the JSON is made and implement an
 // upgrade step that converts from the last version to the current.
-constexpr s32 kApiVersion = 1;
+constexpr s32 kApiVersion = 2;
 
 [[nodiscard]] s32 GetApiVersion()
 {
@@ -389,20 +389,21 @@ void ExportPathBinaryToJson(const std::string& jsonOutputFile, const std::string
     ExportPathBinaryToJson(buffer, jsonOutputFile, inputLvlFile, pathResourceId);
 }
 
-void UpgradePathJson(const std::string& jsonFile)
+std::string UpgradePathJson(const std::string& jsonFile)
 {
+    // Read the game and version, we assume this never changes in the file format
     JsonMapRootInfoReader rootInfo;
     rootInfo.Read(jsonFile);
 
     if (rootInfo.mMapRootInfo.mGame == "AO")
     {
         JsonUpgraderAO upgrader;
-        upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
+        return upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
     }
     else
     {
         JsonUpgraderAE upgrader;
-        upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
+        return upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
     }
 }
 
