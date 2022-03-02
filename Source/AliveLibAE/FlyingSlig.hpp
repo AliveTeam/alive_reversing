@@ -72,7 +72,7 @@ struct FlyingSlig_State final
     s16 field_32_delayed_state;
     s16 field_34_lastLineYPos;
     s16 field_36_line_idx;
-    u8 field_38_launch_id;
+    u8 field_38_launch_switch_id;
     u8 field_39_padding;
     enum Flags_3A
     {
@@ -326,7 +326,7 @@ private:
     s16 field_176_padding;
     s16 field_178_unused;
     s16 field_17A_unused;
-    u8 field_17C_launch_id;
+    u8 field_17C_launch_switch_id;
     SligSpeak field_17D_next_speak;
 
     enum Flags_17E

@@ -23,7 +23,7 @@ LevelLoader* LevelLoader::ctor_4DD330(Path_LevelLoader* pTlv, u32 tlvInfo)
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x547B5C); // vTbl_LevelLoader_547B5C
     field_C_objectId = tlvInfo;
-    field_20_id = pTlv->field_10_id;
+    field_20_switch_id = pTlv->field_10_switch_id;
     field_24_level = pTlv->field_12_dest_level;
     field_26_path = pTlv->field_14_dest_path;
     field_28_camera = pTlv->field_16_dest_camera;
@@ -43,7 +43,7 @@ void LevelLoader::vUpdate_4DD400()
     {
         if (field_22_state == States::eIdle_0)
         {
-            if (SwitchStates_Get_466020(field_20_id))
+            if (SwitchStates_Get_466020(field_20_switch_id))
             {
                 auto pFade = ae_new<DeathFadeOut>();
                 if (pFade)

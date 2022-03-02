@@ -77,7 +77,7 @@ struct Path_Paramite final : public Path_TLV
     s16 field_1C_disabled_resources;
     s16 field_1E_id;
     Choice_short field_20_hiss_before_attack;
-    Choice_short field_22_delete_when_far_away;
+    Choice_short field_22_delete_when_out_of_sight;
     Choice_short field_24_bAttack_fleeches;
     s16 field_26_padding;
 };

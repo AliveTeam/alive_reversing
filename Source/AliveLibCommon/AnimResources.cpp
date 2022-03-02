@@ -442,10 +442,10 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
      {"ABEWELL.BAN", 19476, 135, 80, AO::kAbewellAOResID, PalId::Default}},
     {AnimId::Mudokon_FallLandDie,
         { "ABENOELM.BND", 8104, 135, 80, kAbesmashResID, PalId::Default},
-     {"ABEKNFD.BAN", 16772, 135, 80, AO::kAbeknfdAOResID, PalId::Default}},
+     {"ABENOELM.BND", 7880, 135, 80, AO::kAbesmashAOResID, PalId::Default}},
     {AnimId::Mudokon_Fall,
         { "ABENOELM.BND", 5724, 135, 80, kAbefallResID, PalId::Default},
-     {"ABEEDGE.BAN", 40652, 135, 80, AO::kAbeedgeAOResID, PalId::Default}},
+     {"ABENOELM.BND", 5560, 135, 80, AO::kAbefallAOResID, PalId::Default}},
     {AnimId::Mudokon_HandstoneBegin,
         { "ABESTONE.BAN", 16096, 135, 80, kAbestoneResID, PalId::Default},
      {"ABESTONE.BAN", 15484, 135, 80, AO::kAbestoneAOResID, PalId::Default}},
@@ -645,13 +645,21 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
 
     {AnimId::Mudokon_HoistBegin,
         { "ABEBSIC.BAN", 269976, 135, 80, kAbebasicResID, PalId::Default},
-     {"ABESIC.BAN", 255484, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
+     {"ABEBSIC.BAN", 255484, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
+
+    // this has been removed from AE. it is almost identical to Mudokon_HoistBegin
+    {AnimId::Mudokon_AO_HoistBegin_Long, kNullAnimDetails, {"ABEEDGE.BAN", 40772, 135, 80, AO::kAbeedgeAOResID, PalId::Default} },
+
     {AnimId::Mudokon_HoistIdle,
         { "ABEBSIC.BAN", 270024, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEBSIC.BAN", 255532, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
     {AnimId::Mudokon_LandSoft,
         { "ABEBSIC.BAN", 269928, 135, 80, kAbebasicResID, PalId::Default},
-     {"ABEEDGE.BAN", 40868, 135, 80, AO::kAbeedgeAOResID, PalId::Default}},
+     {"ABEBSIC.BAN", 255436, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
+
+    // this has been removed from AE.
+    {AnimId::Mudokon_AO_LandSoft_Long, kNullAnimDetails, {"ABEEDGE.BAN", 40868, 135, 80, AO::kAbeedgeAOResID, PalId::Default}},
+
     {AnimId::Mudokon_DunnoBegin,
         { "ABEBSIC.BAN", 270180, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEBSIC.BAN", 255716, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
@@ -668,8 +676,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "ABEEDGE.BAN", 32040, 135, 80, kAbeedgeResID, PalId::Default},
      {"ABEEDGE.BAN", 40680, 96, 55, AO::kAbeedgeAOResID, PalId::Default}},
     {AnimId::Mudokon_FallingFromGrab,
-        { "ABEEDGE.BAN", 32012, 135, 80, kAbeedgeResID, PalId::Default}, // TODO: swapped with walk of edge?
-     {"ABEKNFD.BAN", 17240, 135, 80, AO::kAbeknfdAOResID, PalId::Default}},
+        { "ABEEDGE.BAN", 32012, 135, 80, kAbeedgeResID, PalId::Default},
+     {"ABEEDGE.BAN", 40652, 135, 80, AO::kAbeedgeAOResID, PalId::Default} },
     {AnimId::Mudokon_Chant,
         { "ABEOMM.BAN", 9992, 135, 80, kAbeommResID, PalId::Default},
      {"ABEOMM.BAN", 9516, 135, 80, AO::kAbeommAOResID, PalId::Default}},
@@ -765,16 +773,9 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Mudokon_AO_ToShrykull, kNullAnimDetails, {"MUDLOTUS.BND", 8240, 135, 80, AO::kMudltusAOResID, PalId::Default}}, // todo ban/bnd + resource id
     {AnimId::Mudokon_AO_ShrykullEnd, kNullAnimDetails, {"MUDLOTUS.BND", 8280, 135, 80, AO::kMudltusAOResID, PalId::Default}}, // todo ban/bnd + resource id
 
-
-    {AnimId::Mudokon_AO_Unknown1, kNullAnimDetails, {"MUDLOTUS.BND", 40772, 135, 80, AO::kMudltusAOResID, PalId::Default}}, // todo ban/bnd + resource id
-    {AnimId::Mudokon_AO_Unknown2, kNullAnimDetails, {"MUDLOTUS.BND", 5560, 135, 80, AO::kMudltusAOResID, PalId::Default}}, // todo ban/bnd + resource id
-    {AnimId::Mudokon_AO_Unknown3, kNullAnimDetails, {"MUDLOTUS.BND", 7880, 135, 80, AO::kMudltusAOResID, PalId::Default}}, // todo ban/bnd + resource id
-    {AnimId::Mudokon_AO_Unknown4, kNullAnimDetails, {"MUDLOTUS.BND", 255436, 135, 80, AO::kMudltusAOResID, PalId::Default}}, // todo ban/bnd + resource id
-
-
     {AnimId::Mudokon_KnockForward,
      {"ABEKNFD.BAN", 17240, 135, 80, kAbeknfdResID, PalId::Default},
-     {"ABEKNFD.BAN", 17240, 135, 80, AO::kAbeknfdAOResID, PalId::Default}},
+     {"ABEKNFD.BAN", 16772, 135, 80, AO::kAbeknfdAOResID, PalId::Default}},
 
 
     {AnimId::Mudokon_MineCarEnter, {"ABECAR.BAN", 8540, 135, 80, kAbeCarResId, PalId::Default}, kNullAnimDetails},

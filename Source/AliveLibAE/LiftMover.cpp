@@ -17,8 +17,8 @@ EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo)
     field_28_lift_id = -1;
     SetType(AETypes::eLiftMover_9);
 
-    field_20_enabled_by_switch_id = pTlv->field_10_switch_id;
-    field_22_target_lift_point_id = pTlv->field_12_lift_id;
+    field_20_enabled_by_switch_id = pTlv->field_10_lift_mover_switch_id;
+    field_22_target_lift_point_switch_id = pTlv->field_12_lift_switch_id;
 
     if (pTlv->field_14_move_direction == Path_LiftMover::YDirection::eUp_1)
     {
@@ -254,7 +254,7 @@ LiftPoint* LiftMover::GetLiftPoint_40D0F0()
         if (pObj->Type() == AETypes::eLiftPoint_78)
         {
             LiftPoint* pLift = static_cast<LiftPoint*>(pObj);
-            if (field_22_target_lift_point_id == pLift->field_278_lift_point_id)
+            if (field_22_target_lift_point_switch_id == pLift->field_278_lift_point_switch_id)
             {
                 field_28_lift_id = pObj->field_8_object_id;
                 return pLift;

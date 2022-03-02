@@ -40,9 +40,9 @@ enum eGlukkonMotions : s32
 enum class GlukkonTypes : s16
 {
     Normal_0 = 0,
-    Aslik_1 = 1,
-    Drpik_2 = 2,
-    Phleg_3 = 3,
+    StoryAslik_1 = 1,
+    StoryDripik_2 = 2,
+    StoryPhleg_3 = 3,
     Normal_4 = 4,
     Normal_5 = 5,
 };
@@ -76,16 +76,28 @@ struct Path_Glukkon final : public Path_TLV
         eLeft_1 = 1,
     };
     StartDirection field_12_start_direction;
-    s16 field_14_default_behaviour;
-    s16 field_16_pre_alarmed_delay;
+    enum class Behavior : s16
+    {
+        eIgnoreWalls_0 = 0,
+        eCheckForWalls_1 = 1
+    };
+    Behavior field_14_behaviour;
+    s16 field_16_scream_help_delay;
     s16 field_18_help_switch_id;
-    s16 field_1A_post_alarm_delay;
-    s16 field_1C_spawn_id;
-    s16 field_1E_spawn_direction;
+    s16 field_1A_to_calm_delay;
+    s16 field_1C_spawn_switch_id;
+    enum class SpawnType : s16
+    {
+        eRegularSpawn_0 = 0,
+        eFacingLeft_1 = 1,
+        eFacingRight_2 = 2,
+        eFullSpawnEffects_3 = 3
+    };
+    SpawnType field_1E_spawn_type;
     s16 field_20_spawn_delay;
     GlukkonTypes field_22_glukkon_type;
-    s16 field_24_death_id;
-    s16 field_26_play_movie_id;
+    s16 field_24_death_switch_id;
+    s16 field_26_play_movie_switch_id;
     s16 field_28_movie_to_play_fmvID;
     s16 field_2A_padding;
 };

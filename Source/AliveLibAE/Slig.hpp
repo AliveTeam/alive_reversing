@@ -130,7 +130,7 @@ struct Path_Slig final : public Path_TLV
     s16 field_32_panic_sound_timeout;
     s16 field_34_stop_chase_delay;
     s16 field_36_time_to_wait_before_chase;
-    s16 field_38_slig_id;
+    s16 field_38_slig_bound_id;
     s16 field_3A_alerted_listen_time;
     s16 field_3C_percent_say_what;
     s16 field_3E_percent_beat_mud;
@@ -148,7 +148,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
 // This is a left bound, right bound and a persist.
 struct Path_SligBound final : public Path_TLV
 {
-    s16 field_10_slig_id;
+    s16 field_10_slig_bound_id;
     s16 field_12_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SligBound, 0x14);

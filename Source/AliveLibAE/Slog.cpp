@@ -149,7 +149,7 @@ Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chas
 
     field_144_wake_up_anger = 0;
     field_158_chase_delay = chaseDelay;
-    field_154_anger_id = 0;
+    field_154_anger_switch_id = 0;
     field_106_current_motion = eSlogMotions::M_Idle_0_4C5F90;
     field_146_total_anger = 10;
     field_148_chase_anger = 20;
@@ -197,7 +197,7 @@ Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, s32 tlvInfo)
     field_146_total_anger = pTlv->field_16_wake_up_anger + pTlv->field_18_bark_anger;
     field_148_chase_anger = field_146_total_anger + pTlv->field_1A_chase_anger;
     field_158_chase_delay = pTlv->field_1C_chase_delay;
-    field_154_anger_id = pTlv->field_20_anger_id;
+    field_154_anger_switch_id = pTlv->field_20_anger_switch_id;
     field_156_bone_eating_time = pTlv->field_22_bone_eating_time;
 
     if (field_160_flags.Get(Flags_160::eBit7_Asleep))
@@ -1684,7 +1684,7 @@ s16 Slog::Brain_Idle_1_4C2830()
         }
     }
 
-    if (SwitchStates_Get_466020(field_154_anger_id))
+    if (SwitchStates_Get_466020(field_154_anger_switch_id))
     {
         field_160_flags.Clear(Flags_160::eBit5_CommandedToAttack);
         field_120_brain_state_idx = 2;

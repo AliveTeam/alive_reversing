@@ -34,13 +34,13 @@ struct Path_Mudokon final : public Path_TLV
     s16 field_18_rescue_switch_id;
     Choice_short field_1A_bDeaf;
     s16 field_1C_disabled_resources;
-    Choice_short field_1E_reset_pos_on_screen_change;
+    Choice_short field_1E_persist_and_reset_offscreen;
     Mud_TLV_Emotion field_20_emotion;
     Choice_short field_22_bBlind;
     s16 field_24_angry_switch_id;
     Choice_short field_26_work_after_turning_wheel;
     Choice_short field_28_bGets_depressed;
-    s16 field_2A_ring_timeout;
+    s16 field_2A_ring_pulse_interval;
     Choice_short field_2C_bGive_ring_without_password;
     s16 field_2E_padding;
 };
@@ -508,13 +508,13 @@ private:
     s32 field_15C_unused;
     MudSounds field_160_delayed_speak;
     s16 field_162_maxXOffset;
-    s32 field_164_ring_timeout;
+    s32 field_164_ring_pulse_interval;
     RingTypes field_168_ring_type;
 
     enum Flags_16A
     {
         eBit1_not_rescued = 0x1,
-        eBit2_reset_pos_on_screen_change = 0x2,
+        eBit2_persist_and_reset_offscreen = 0x2,
         eBit3_alerted = 0x4,
         eBit4_blind = 0x8,
         eBit5_following = 0x10,

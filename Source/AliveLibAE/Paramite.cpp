@@ -184,7 +184,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo)
 
     field_178_flags.Set(Flags_178::eBit1_hiss_before_attack, pTlv->field_20_hiss_before_attack == Choice_short::eYes_1);
     field_178_flags.Clear(Flags_178::eBit2_running);
-    field_178_flags.Set(Flags_178::eBit4_out_of_sight, pTlv->field_22_delete_when_far_away == Choice_short::eYes_1);
+    field_178_flags.Set(Flags_178::eBit4_out_of_sight, pTlv->field_22_delete_when_out_of_sight == Choice_short::eYes_1);
     field_178_flags.Clear(Flags_178::eBit5_prevent_depossession);
     field_178_flags.Set(Flags_178::eBit8_bAttack_fleeches, pTlv->field_24_bAttack_fleeches == Choice_short::eYes_1);
     field_178_flags.Clear(Flags_178::eBit6_spawned);

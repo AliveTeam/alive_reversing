@@ -53,6 +53,7 @@
 #include "Bullet.hpp"
 #include "Spark.hpp"
 #include "TestAnimation.hpp"
+#include "Sys_common.hpp"
 
 using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_44EEB0);
 
@@ -2665,9 +2666,9 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
                 pResetSwitchRange->field_1_tlv_state = 1;
                 if (pResetSwitchRange->field_10_reset_switch_ids == Choice_short::eYes_1)
                 {
-                    for (s16 i = pResetSwitchRange->field_12_start_id; i <= pResetSwitchRange->field_14_end_id; i++)
+                    for (s16 i = pResetSwitchRange->field_12_start_switch_id; i <= pResetSwitchRange->field_14_end_switch_id; i++)
                     {
-                        if (i != pResetSwitchRange->field_16_skip_id && i > 1)
+                        if (i != pResetSwitchRange->field_16_skip_switch_id && i > 1)
                         {
                             SwitchStates_Set_465FF0(i, 0);
                         }
@@ -6827,7 +6828,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
 
                 sHandstoneSoundChannels_5C2C68 = SFX_Play_46FBA0(SoundEffect::HandstoneTransition_12, 127, -300);
 
-                s32 id = 0;
+                s32 switch_id = 0;
                 Path_MovieStone* pMovieStoneTlv = static_cast<Path_MovieStone*>(field_FC_pPathTLV);
                 if (!pMovieStoneTlv)
                 {
@@ -6842,7 +6843,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
 
                     if (pHandStoneTlv)
                     {
-                        id = pHandStoneTlv->field_18_trigger_id;
+                        switch_id = pHandStoneTlv->field_18_trigger_switch_id;
 
                         field_184_fmv_id = static_cast<s16>(pHandStoneTlv->field_10_scale); // TODO: Never used for this type?
 
@@ -6850,23 +6851,23 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                         field_186_to_camera_id[1] = pHandStoneTlv->field_12_camera_id2;
                         field_186_to_camera_id[2] = pHandStoneTlv->field_12_camera_id3;
 
-                        field_18C_unused = static_cast<s16>(pHandStoneTlv->field_18_trigger_id); // TODO: Never used?
+                        field_18C_unused = static_cast<s16>(pHandStoneTlv->field_18_trigger_switch_id); // TODO: Never used?
                     }
                 }
                 else
                 {
-                    id = pMovieStoneTlv->field_14_id;
+                    switch_id = pMovieStoneTlv->field_14_trigger_switch_id;
 
                     field_184_fmv_id = pMovieStoneTlv->field_10_movie_number;
                     field_186_to_camera_id[0] = static_cast<s16>(pMovieStoneTlv->field_12_scale); // TODO: Never used?
-                    field_186_to_camera_id[1] = static_cast<s16>(pMovieStoneTlv->field_14_id);    // TODO: Never used?
+                    field_186_to_camera_id[1] = static_cast<s16>(pMovieStoneTlv->field_14_trigger_switch_id);    // TODO: Never used?
                 }
 
                 if (field_FC_pPathTLV)
                 {
-                    if (id > 1)
+                    if (switch_id > 1)
                     {
-                        SwitchStates_Set_465FF0(static_cast<s16>(id), 1);
+                        SwitchStates_Set_465FF0(static_cast<s16>(switch_id), 1);
                     }
 
                     field_180_hand_stone_type = field_FC_pPathTLV->field_4_type.mType;
@@ -7966,6 +7967,11 @@ void Abe::Motion_114_DoorEnter_459470()
                     Path_Door* pDoorIter = static_cast<Path_Door*>(Path::TLV_Next_Of_Type_4DB720(field_FC_pPathTLV, TlvTypes::Door_5));
                     field_FC_pPathTLV = pDoorIter;
                     pTargetDoorTlv = pDoorIter;
+
+                    if (!pTargetDoorTlv)
+                    {
+                        ALIVE_FATAL("Couldn't find target door. If this is a custom level, check if the level, path and camera is correct.");
+                    }
                 }
                 while (pTargetDoorTlv->field_18_door_number != field_1A0_door_id);
             }
@@ -8300,7 +8306,7 @@ void Abe::Motion_127_TurnWheelLoop_456750()
     if (field_120_state.wheel == WorkWheelStates::eTurningWheel_0 || field_120_state.wheel == WorkWheelStates::eCheckForNoLongerTurningWheel_1) // The state we enter the main state at.
     {
         Path_LevelLoader* pLevelLoader = static_cast<Path_LevelLoader*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::LevelLoader_86, 0));
-        if (pLevelLoader && SwitchStates_Get_466020(pLevelLoader->field_10_id))
+        if (pLevelLoader && SwitchStates_Get_466020(pLevelLoader->field_10_switch_id))
         {
             field_120_state.wheel = WorkWheelStates::eMapChanging_2;
             SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);

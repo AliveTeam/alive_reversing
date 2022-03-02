@@ -46,7 +46,7 @@ public:
     u16 field_2AE_character_width;
     u16 field_2B0_message_2_id;
     u16 field_2B2_toggle_message_switch_id;
-    u16 field_2B4;
+    u16 field_2B4_show_random_message;
     u16 field_2B6_message_rand_min_id;
     u16 field_2B8_message_rand_max_id;
     s16 field_2BA_padding;

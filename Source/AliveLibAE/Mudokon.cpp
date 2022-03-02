@@ -423,7 +423,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
 
     field_17E_delayed_speak = MudAction::eNone_17;
 
-    field_16A_flags.Clear(Flags_16A::eBit2_reset_pos_on_screen_change);
+    field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
     field_16A_flags.Clear(Flags_16A::eBit3_alerted);
     field_16A_flags.Set(Flags_16A::eBit4_blind, pTlv->field_22_bBlind == Choice_short::eYes_1);
     field_16A_flags.Clear(Flags_16A::eBit5_following);
@@ -472,7 +472,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
             {
                 field_168_ring_type = RingTypes::eHealing_Emit_Effect_11;
             }
-            field_164_ring_timeout = pTlv->field_2A_ring_timeout;
+            field_164_ring_pulse_interval = pTlv->field_2A_ring_pulse_interval;
             field_16A_flags.Set(Flags_16A::eBit16_give_ring_without_password, pTlv->field_2C_bGive_ring_without_password == Choice_short::eYes_1);
             field_16C_flags.Clear(Flags_16C::eBit1_Unknown);
             field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings_470C10;
@@ -513,10 +513,10 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     field_13C_voice_pitch = pTlv->field_16_voice_pitch;
     field_17A_rescue_switch_id = pTlv->field_18_rescue_switch_id;
 
-    field_16A_flags.Set(Flags_16A::eBit2_reset_pos_on_screen_change, pTlv->field_1E_reset_pos_on_screen_change == Choice_short::eYes_1);
+    field_16A_flags.Set(Flags_16A::eBit2_persist_and_reset_offscreen, pTlv->field_1E_persist_and_reset_offscreen == Choice_short::eYes_1);
     field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pTlv->field_26_work_after_turning_wheel == Choice_short::eYes_1);
     field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pTlv->field_28_bGets_depressed == Choice_short::eYes_1);
-    field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pTlv->field_2A_ring_timeout & 1);
+    field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pTlv->field_2A_ring_pulse_interval & 1);
 
     field_17C_stand_idle_timer = 0;
 
@@ -833,7 +833,7 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
     }
 
     pMud->field_16A_flags.Set(Flags_16A::eBit1_not_rescued, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit4_not_rescued));
-    pMud->field_16A_flags.Set(Flags_16A::eBit2_reset_pos_on_screen_change, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit5_save_state));
+    pMud->field_16A_flags.Set(Flags_16A::eBit2_persist_and_reset_offscreen, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit5_save_state));
     pMud->field_16A_flags.Set(Flags_16A::eBit3_alerted, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit6_alerted));
     pMud->field_16A_flags.Set(Flags_16A::eBit4_blind, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit7_blind));
     pMud->field_16A_flags.Set(Flags_16A::eBit5_following, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit8_following));
@@ -981,7 +981,7 @@ s32 Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit2_unused, field_12C_unused != -1);
     // bit3 never used ??
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit4_not_rescued, field_16A_flags.Get(Flags_16A::eBit1_not_rescued));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit5_save_state, field_16A_flags.Get(Flags_16A::eBit2_reset_pos_on_screen_change));
+    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit5_save_state, field_16A_flags.Get(Flags_16A::eBit2_persist_and_reset_offscreen));
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit6_alerted, field_16A_flags.Get(Flags_16A::eBit3_alerted));
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit7_blind, field_16A_flags.Get(Flags_16A::eBit4_blind));
     pState->field_6C.Set(Mudokon_State::Flags_6A::eBit8_following, field_16A_flags.Get(Flags_16A::eBit5_following));
@@ -1324,9 +1324,9 @@ void Mudokon::dtor_475B60()
 
     if (!field_18E_brain_state && field_190_brain_sub_state > 4u)
     {
-        if (field_164_ring_timeout > 0)
+        if (field_164_ring_pulse_interval > 0)
         {
-            sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_timeout;
+            sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_pulse_interval;
         }
         else
         {
@@ -1354,7 +1354,8 @@ void Mudokon::vScreenChanged_476F30()
     auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id));
     BaseGameObject::VScreenChanged();
 
-    if (field_18E_brain_state == Mud_Brain_State::Brain_0_GiveRings_470C10 || !(field_16A_flags.Get(Flags_16A::eBit2_reset_pos_on_screen_change)))
+    if (field_18E_brain_state == Mud_Brain_State::Brain_0_GiveRings_470C10 ||
+        !field_16A_flags.Get(Flags_16A::eBit2_persist_and_reset_offscreen))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -1472,7 +1473,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             {
                 return 0;
             }
-            field_16A_flags.Clear(Flags_16A::eBit2_reset_pos_on_screen_change);
+            field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
             field_10C_health = FP_FromInteger(0);
             field_18E_brain_state = Mud_Brain_State::Brain_5_ShrivelDeath_4714A0;
             field_106_current_motion = eMudMotions::M_KnockForward_45_474180;
@@ -1580,7 +1581,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             {
                 field_10C_health = FP_FromInteger(0);
                 Mudokon_SFX_457EC0(MudSounds::eHurt1_16, 0, 1000, this);
-                field_16A_flags.Clear(Flags_16A::eBit2_reset_pos_on_screen_change);
+                field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
                 field_18E_brain_state = Mud_Brain_State::Brain_5_ShrivelDeath_4714A0;
                 field_194_timer = sGnFrame_5C1B84 + 90;
                 field_106_current_motion = eMudMotions::M_Knockback_46_4742A0;
@@ -1670,7 +1671,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             {
                 return 1;
             }
-            field_16A_flags.Clear(Flags_16A::eBit2_reset_pos_on_screen_change);
+            field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
             field_10C_health = FP_FromInteger(0);
             field_18E_brain_state = Mud_Brain_State::Brain_5_ShrivelDeath_4714A0;
             field_194_timer = sGnFrame_5C1B84 + 90;
@@ -1714,7 +1715,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
                 }
                 else
                 {
-                    field_16A_flags.Clear(Flags_16A::eBit2_reset_pos_on_screen_change);
+                    field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
                     field_18E_brain_state = Mud_Brain_State::Brain_5_ShrivelDeath_4714A0;
                     field_194_timer = sGnFrame_5C1B84 + 90;
                     Event_Broadcast_422BC0(kEventMudokonDied, this);
@@ -2007,7 +2008,7 @@ s16 Mudokon::Brain_0_GiveRings_470C10()
             {
                 if (sActiveHero_5C1B68->field_168_ring_pulse_timer <= 0)
                 {
-                    field_108_next_motion = 50;
+                    field_108_next_motion = eMudMotions::M_Chant_50_473040;
                     field_194_timer = sGnFrame_5C1B84 + 30;
                     return Brain_0_GiveRings::eBrain0_Chanting_7;
                 }
@@ -2087,9 +2088,9 @@ s16 Mudokon::Brain_0_GiveRings_470C10()
         case Brain_0_GiveRings::eBrain0_ReceivingRing1_9:
             if (static_cast<s32>(sGnFrame_5C1B84) > field_194_timer)
             {
-                if (field_164_ring_timeout > 0)
+                if (field_164_ring_pulse_interval > 0)
                 {
-                    sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_timeout;
+                    sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_pulse_interval;
                 }
                 else
                 {
@@ -6435,7 +6436,7 @@ void Mudokon::M_RunJumpMid_36_474570()
     if ((field_C4_velx > FP_FromInteger(0) && FP_FromInteger(rect.x) > pBirdPortal->field_2C_xpos) || (field_C4_velx < FP_FromInteger(0) && FP_FromInteger(rect.w) < pBirdPortal->field_2C_xpos))
     {
         field_16A_flags.Clear(Flags_16A::eBit1_not_rescued);
-        field_16A_flags.Clear(Flags_16A::eBit2_reset_pos_on_screen_change);
+        field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
 
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
@@ -6763,7 +6764,7 @@ void Mudokon::M_Fall_49_472C60()
                 {
                     field_10C_health = FP_FromInteger(0);
                     ToKnockback_473190();
-                    field_16A_flags.Clear(Flags_16A::eBit2_reset_pos_on_screen_change);
+                    field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
                     field_18E_brain_state = Mud_Brain_State::Brain_5_ShrivelDeath_4714A0;
                     field_106_current_motion = eMudMotions::M_KnockForward_45_474180;
                     field_194_timer = sGnFrame_5C1B84 + 90;
@@ -6884,7 +6885,7 @@ void Mudokon::M_SlapOwnHead_56_4727D0()
         Mudokon_SFX_457EC0(MudSounds::eHurt2_9, 0, 1000, this);
         Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
         Event_Broadcast_422BC0(kEventMudokonDied, this);
-        field_16A_flags.Clear(Flags_16A::eBit2_reset_pos_on_screen_change);
+        field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
         field_10C_health = FP_FromInteger(0);
         field_18E_brain_state = Mud_Brain_State::Brain_5_ShrivelDeath_4714A0;
         field_194_timer = sGnFrame_5C1B84 + 90;
@@ -7594,7 +7595,7 @@ void Mudokon::TakeASlap_476090(BaseGameObject* pFrom)
         Mudokon_SFX_457EC0(MudSounds::eHurt2_9, 0, 1000, this);
         Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 32767, this);
         Event_Broadcast_422BC0(kEventMudokonDied, sActiveHero_5C1B68);
-        field_16A_flags.Clear(Flags_16A::eBit2_reset_pos_on_screen_change);
+        field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
         field_10C_health = FP_FromInteger(0);
         field_18E_brain_state = Mud_Brain_State::Brain_5_ShrivelDeath_4714A0;
         field_106_current_motion = eMudMotions::M_KnockForward_45_474180;

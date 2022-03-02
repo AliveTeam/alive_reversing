@@ -22,7 +22,7 @@ ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo)
     field_28_tlv_data.field_8_top_left = pTlv->field_8_top_left;
     field_28_tlv_data.field_C_bottom_right = pTlv->field_C_bottom_right;
 
-    field_24_switch_id = pTlv->field_2C_switch_id;
+    field_24_spawner_switch_id = pTlv->field_2C_spawner_switch_id;
     field_26_spawn_direction = pTlv->field_2E_spawn_direction;
 
     field_38_state = ScrabSpawnerStates::eInactive_0;
@@ -127,14 +127,14 @@ void ScrabSpawner::vUpdate_4AB510()
         {
             if (!pExistingSpawnedScrab || pExistingSpawnedScrab->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
-                SwitchStates_Do_Operation_465F00(field_24_switch_id, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation_465F00(field_24_spawner_switch_id, SwitchOp::eSetFalse_1);
                 field_3C_spawned_scrab_id = -1;
                 field_38_state = ScrabSpawnerStates::eInactive_0;
             }
         }
         else if (field_38_state == ScrabSpawnerStates::eInactive_0)
         {
-            if (SwitchStates_Get_466020(field_24_switch_id))
+            if (SwitchStates_Get_466020(field_24_spawner_switch_id))
             {
                 auto pTlv = static_cast<Path_ScrabSpawner*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                     field_28_tlv_data.field_8_top_left.field_0_x,

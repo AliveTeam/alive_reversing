@@ -56,7 +56,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_124_speed = FP_FromRaw(pTlv->field_10_speed << 8);
     field_C4_velx = FP_FromRaw(pTlv->field_1C_start_speed << 8);
-    field_128_switch_id = pTlv->field_12_switch_id;
+    field_128_start_moving_switch_id = pTlv->field_12_start_moving_switch_id;
     field_120_timer = sGnFrame_5C1B84;
     field_11C_tlvInfo = tlvInfo;
     field_12C_max = 0;
@@ -72,8 +72,8 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
 
     SetTint_425600(&kMovingBombTints_55C734[0], gMap_5C3030.field_0_current_level);
 
-    field_134_disable_resources = pTlv->field_1A_disable_resources;
-    if (!(field_134_disable_resources & 1))
+    field_134_disabled_resources = pTlv->field_1A_disabled_resources;
+    if (!(field_134_disabled_resources & 1))
     {
         Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     }
@@ -384,7 +384,7 @@ void MovingBomb::vUpdate_4701E0()
             break;
 
         case States::eTriggeredBySwitch_1:
-            if (SwitchStates_Get_466020(field_128_switch_id))
+            if (SwitchStates_Get_466020(field_128_start_moving_switch_id))
             {
                 field_118_state = States::eMoving_2;
             }

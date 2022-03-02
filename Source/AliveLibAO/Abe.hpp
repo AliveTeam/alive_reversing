@@ -121,7 +121,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);
     ENTRY(Motion_96_HopToFall_4298A0)                \
     ENTRY(Motion_97_RunJumpToFall_429930)            \
     ENTRY(Motion_98_LandSoft_42ED40)                 \
-    ENTRY(Motion_99_LedgeHoistUp_426DC0)             \
+    ENTRY(Motion_99_HoistBeginLong_426DC0)             \
     ENTRY(Motion_100_RollOffLedge_429950)            \
     ENTRY(Motion_101_LeverUse_429970)                \
     ENTRY(Motion_102_ElumWalkLoop_42DCA0)            \
@@ -641,7 +641,7 @@ public:
     EXPORT void Motion_96_HopToFall_4298A0();
     EXPORT void Motion_97_RunJumpToFall_429930();
     EXPORT void Motion_98_LandSoft_42ED40();
-    EXPORT void Motion_99_LedgeHoistUp_426DC0();
+    EXPORT void Motion_99_HoistBeginLong_426DC0();
     EXPORT void Motion_100_RollOffLedge_429950();
     EXPORT void Motion_101_LeverUse_429970();
     EXPORT void Motion_102_ElumWalkLoop_42DCA0();

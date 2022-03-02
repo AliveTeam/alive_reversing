@@ -173,7 +173,7 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_96_HopToFall_4298A0,
     &Abe::Motion_97_RunJumpToFall_429930,
     &Abe::Motion_98_LandSoft_42ED40,
-    &Abe::Motion_99_LedgeHoistUp_426DC0,
+    &Abe::Motion_99_HoistBeginLong_426DC0,
     &Abe::Motion_100_RollOffLedge_429950,
     &Abe::Motion_101_LeverUse_429970,
     &Abe::Motion_102_ElumWalkLoop_42DCA0,
@@ -259,7 +259,7 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_AO_M_15_Null,
     AnimId::Mudokon_HoistBegin,
     AnimId::Mudokon_HoistIdle,
-    AnimId::Mudokon_AO_Unknown4, // LandSoft but different from regular mudokon?
+    AnimId::Mudokon_LandSoft,
     AnimId::Mudokon_CrouchIdle,
     AnimId::Mudokon_CrouchToStand,
     AnimId::Mudokon_StandToCrouch,
@@ -327,20 +327,20 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_WellBegin,
     AnimId::Mudokon_Well_Idle,
     AnimId::Mudokon_Well_Idle,
-    AnimId::Mudokon_AO_Unknown3, // FallLandDie but AnimId already used?? or did i mess up the order
-    AnimId::Mudokon_AO_Unknown2, // to fall
+    AnimId::Mudokon_FallLandDie,
+    AnimId::Mudokon_Fall,
     AnimId::Mudokon_HandstoneBegin, 
     AnimId::Mudokon_HandstoneEnd,
     AnimId::Mudokon_GrenadeMachineUse,
-    AnimId::Mudokon_Fall,
-    AnimId::Mudokon_Fall,
+    AnimId::Mudokon_FallingFromGrab,
+    AnimId::Mudokon_FallingFromGrab,
     AnimId::Mudokon_WalkOffEdge,
     AnimId::Mudokon_RunOffEdge,
     AnimId::Mudokon_SneakOffEdge,
     AnimId::Mudokon_HopToFall,
     AnimId::Mudokon_RunJumpToFall,
-    AnimId::Mudokon_LandSoft,
-    AnimId::Mudokon_AO_Unknown1, // ledge hoist up
+    AnimId::Mudokon_AO_LandSoft_Long,
+    AnimId::Mudokon_AO_HoistBegin_Long,
     AnimId::Mudokon_RollOffEdge,
     AnimId::Mudokon_LeverUse,
     AnimId::Mudokon_ElumWalkLoop,
@@ -369,7 +369,7 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_ElumMidWalkEnd,
     AnimId::Mudokon_ElumBeesStruggling,
     AnimId::Mudokon_SlapBomb,
-    AnimId::Mudokon_FallLandDie, // knock forward?
+    AnimId::Mudokon_KnockForward,
     AnimId::Mudokon_RollingKnockForward,
     AnimId::Mudokon_Idle, // knock forward get up?
     AnimId::Mudokon_AO_Null, // lift use up
@@ -3925,7 +3925,7 @@ void Abe::TryHoist_423420()
         }
         else
         {
-            field_FC_current_motion = eAbeMotions::Motion_99_LedgeHoistUp_426DC0;
+            field_FC_current_motion = eAbeMotions::Motion_99_HoistBeginLong_426DC0;
         }
         if (!IsFacingSameDirectionAsHoist(pHoist, this))
         {
@@ -7868,7 +7868,6 @@ void Abe::Motion_77_WellBegin_430F10()
     if (field_10_anim.field_92_current_frame > 10)
     {
         field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
-        ;
 
         field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
             FP_GetExponent(field_A8_xpos),
@@ -8751,7 +8750,7 @@ void Abe::Motion_98_LandSoft_42ED40()
     }
 }
 
-void Abe::Motion_99_LedgeHoistUp_426DC0()
+void Abe::Motion_99_HoistBeginLong_426DC0()
 {
     FollowLift_42EE90();
 
@@ -9993,10 +9992,13 @@ void Abe::Motion_156_DoorEnter_42D370()
 
             while (pPathDoor->field_20_door_number != field_196_door_id)
             {
-                pPathDoor = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(
-                    field_F0_pTlv,
-                    TlvTypes::Door_6));
+                pPathDoor = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(field_F0_pTlv, TlvTypes::Door_6));
                 field_F0_pTlv = pPathDoor;
+                
+                if (!field_F0_pTlv)
+                {
+                    ALIVE_FATAL("Couldn't find target door. If this is a custom level, check if the level, path and camera is correct.");
+                }
             }
 
             if (pPathDoor->field_26_start_state == DoorStates::eOpen_0)

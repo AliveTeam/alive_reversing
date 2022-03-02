@@ -17,7 +17,7 @@ struct Path_FallingItem final : public Path_TLV
 {
     s16 field_10_start_switch_id;
     Scale_short field_12_scale;
-    s16 field_14_fall_delay;
+    s16 field_14_fall_interval;
     s16 field_16_max_falling_items;
     s16 field_18_stop_switch_id;
     s16 field_20_pad;
@@ -29,7 +29,7 @@ class FallingItem final : public BaseAliveGameObject
 public:
     EXPORT FallingItem* ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo);
 
-    EXPORT FallingItem* ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16 delayTime, s16 numItems, s16 resetId);
+    EXPORT FallingItem* ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16 fallInterval, s16 numItems, s16 resetId);
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
@@ -67,9 +67,9 @@ private:
     s16 field_11E_start_switch_id;
     s16 field_120_max_falling_items;
     s16 field_122_remaining_falling_items;
-    s16 field_124_fall_delay;
+    s16 field_124_fall_interval;
     //s16 field_126_pad;
-    s32 field_128_delay_timer;
+    s32 field_128_fall_interval_timer;
     s16 field_12C_stop_switch_id;
     s16 field_12E_do_sound_in_state_falling;
     FP field_130_yPosStart;

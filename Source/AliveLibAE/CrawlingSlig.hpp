@@ -24,8 +24,8 @@ struct Path_CrawlingSlig final : public Path_TLV
         eRandom_2 = 2,
     };
     CrawlDirection field_16_crawl_direction;
-    s16 field_18_panic_id;
-    Choice_short field_1A_reset_on_death;
+    s16 field_18_panic_switch_id;
+    Choice_short field_1A_respawn_on_death;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_CrawlingSlig, 0x1C);
 

@@ -28,7 +28,7 @@ InvisibleSwitch* InvisibleSwitch::ctor_45FA70(Path_InvisibleSwitch* pTlv, u32 tl
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545A7C); // vTbl_InvisibleSwitch_545A7C
     field_24_tlvInfo = tlvInfo;
-    field_20_id = pTlv->field_10_id;
+    field_20_switch_id = pTlv->field_10_switch_id;
     field_22_action = pTlv->field_12_action;
     field_38_state = States::eWaitForTrigger_0;
     field_2C_delay = pTlv->field_14_delay;
@@ -63,7 +63,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
         if (field_28_delay_timer <= static_cast<s32>(sGnFrame_5C1B84))
         {
             // Timer expired, do the operation
-            SwitchStates_Do_Operation_465F00(field_20_id, field_22_action);
+            SwitchStates_Do_Operation_465F00(field_20_switch_id, field_22_action);
 
             // Fire alarm if set
             if (field_3A_set_off_alarm == Choice_short::eYes_1)
@@ -82,7 +82,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
     else if (field_38_state == States::eWaitForTrigger_0)
     {
         // If not trying to turn off the target and the state is set
-        if (field_22_action != SwitchOp::eSetFalse_1 || SwitchStates_Get_466020(field_20_id))
+        if (field_22_action != SwitchOp::eSetFalse_1 || SwitchStates_Get_466020(field_20_switch_id))
         {
             // Within X bounds?
             const FP charXPos = sControlledCharacter_5C1B8C->field_B8_xpos;

@@ -204,7 +204,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
         field_280_flags.Clear(LiftFlags::eBit4_bHasPulley);
         CreatePulleyIfExists_462C80();
 
-        field_278_lift_point_id = static_cast<s8>(pTlv->field_10_id);
+        field_278_lift_point_switch_id = static_cast<s8>(pTlv->field_10_lift_point_switch_id);
         field_130_lift_point_stop_type = pTlv->field_16_lift_point_stop_type;
 
         switch (field_130_lift_point_stop_type)
@@ -682,7 +682,7 @@ void LiftPoint::vUpdate_461AE0()
                             pLiftTlv->field_1_tlv_state = 3;
 
                             field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pLiftTlv);
-                            pLiftTlv->field_10_id = field_278_lift_point_id;
+                            pLiftTlv->field_10_lift_point_switch_id = field_278_lift_point_switch_id;
                             field_280_flags.Set(LiftFlags::eBit1_bTopFloor);
                         }
                     }
@@ -712,7 +712,7 @@ void LiftPoint::vUpdate_461AE0()
                             pLiftTlv->field_1_tlv_state = 3;
 
                             field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pLiftTlv);
-                            pLiftTlv->field_10_id = field_278_lift_point_id;
+                            pLiftTlv->field_10_lift_point_switch_id = field_278_lift_point_switch_id;
                             field_280_flags.Set(LiftFlags::eBit3_bBottomFloor);
                         }
                     }
@@ -746,7 +746,7 @@ void LiftPoint::vUpdate_461AE0()
 
                         pLiftTlv->field_1_tlv_state = 3;
                         field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pLiftTlv);
-                        pLiftTlv->field_10_id = field_278_lift_point_id;
+                        pLiftTlv->field_10_lift_point_switch_id = field_278_lift_point_switch_id;
                         field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor);
                     }
                     break;
@@ -894,7 +894,7 @@ void LiftPoint::vStayOnFloor_461A00(s16 floor, Path_LiftPoint* pTlv)
     field_12C_bMoving &= ~1;
     pTlv->field_1_tlv_state = 3;
     field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pTlv);
-    pTlv->field_10_id = field_278_lift_point_id;
+    pTlv->field_10_lift_point_switch_id = field_278_lift_point_switch_id;
     field_C8_vely = FP_FromInteger(0);
 
     Event_Broadcast_422BC0(kEventNoise, this);

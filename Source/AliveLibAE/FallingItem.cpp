@@ -66,7 +66,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
         field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_31;
     }
 
-    field_124_fall_delay = pTlv->field_14_fall_delay;
+    field_124_fall_interval = pTlv->field_14_fall_interval;
     field_120_max_falling_items = pTlv->field_16_max_falling_items;
     field_122_remaining_falling_items = pTlv->field_16_max_falling_items;
     field_134_bHitDrillOrMineCar = FALSE;
@@ -102,7 +102,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
     return this;
 }
 
-FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16 delayTime, s16 numItems, s16 resetId)
+FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16 fallInterval, s16 numItems, s16 resetId)
 {
     ctor_408240(0);
 
@@ -140,7 +140,7 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
         field_D6_scale = 1;
     }
 
-    field_124_fall_delay = delayTime;
+    field_124_fall_interval = fallInterval;
 
     field_120_max_falling_items = numItems;
     field_122_remaining_falling_items = numItems;
@@ -266,7 +266,7 @@ EXPORT void FallingItem::vUpdate_427780()
                 const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
-                field_128_delay_timer = sGnFrame_5C1B84 + field_124_fall_delay;
+                field_128_fall_interval_timer = sGnFrame_5C1B84 + field_124_fall_interval;
             }
             break;
 
@@ -281,12 +281,12 @@ EXPORT void FallingItem::vUpdate_427780()
             const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
-            field_128_delay_timer = sGnFrame_5C1B84 + field_124_fall_delay;
+            field_128_fall_interval_timer = sGnFrame_5C1B84 + field_124_fall_interval;
             break;
         }
 
         case State::eWaitForFallDelay_2:
-            if (static_cast<s32>(sGnFrame_5C1B84) >= field_128_delay_timer)
+            if (static_cast<s32>(sGnFrame_5C1B84) >= field_128_fall_interval_timer)
             {
                 field_11C_state = State::eFalling_3;
                 field_12E_do_sound_in_state_falling = TRUE;
@@ -368,7 +368,7 @@ EXPORT void FallingItem::vUpdate_427780()
                     pPart->ctor_41CF50(
                         field_B8_xpos,
                         field_BC_ypos,
-                        0x14u,
+                        20,
                         field_CC_sprite_scale,
                         BurstType::eSticks_1,
                         13);

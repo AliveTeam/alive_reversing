@@ -16,7 +16,7 @@ struct Path_Slog final : public Path_TLV
     s16 field_1A_chase_anger;
     s16 field_1C_chase_delay;
     s16 field_1E_disabled_resources;
-    s16 field_20_anger_id;
+    s16 field_20_anger_switch_id;
     s16 field_22_bone_eating_time;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x24);
@@ -279,7 +279,7 @@ private:
     s16 field_14A_padding;
     s32 field_14C_scratch_timer;
     s32 field_150_growl_timer;
-    s16 field_154_anger_id;
+    s16 field_154_anger_switch_id;
     s16 field_156_bone_eating_time;
     s16 field_158_chase_delay;
     s16 field_15A_jump_counter;

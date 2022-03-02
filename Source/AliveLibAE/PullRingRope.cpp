@@ -45,8 +45,8 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + 24);
 
-    field_102_id = pTlv->field_10_id;
-    field_104_target_action = pTlv->field_12_target_action;
+    field_102_switch_id = pTlv->field_10_switch_id;
+    field_104_action = pTlv->field_12_action;
     field_110_tlvInfo = tlvInfo;
     field_100_state = States::eIdle_0;
     field_F4_stay_in_state_ticks = 0;
@@ -196,9 +196,9 @@ void PullRingRope::vUpdate_49B720()
                 const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseEnd);
                 field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
 
-                const s32 oldSwitchValue = SwitchStates_Get_466020(field_102_id);
-                SwitchStates_Do_Operation_465F00(field_102_id, field_104_target_action);
-                if (oldSwitchValue != SwitchStates_Get_466020(field_102_id))
+                const s32 oldSwitchValue = SwitchStates_Get_466020(field_102_switch_id);
+                SwitchStates_Do_Operation_465F00(field_102_switch_id, field_104_action);
+                if (oldSwitchValue != SwitchStates_Get_466020(field_102_switch_id))
                 {
                     s32 leftVol = 0;
                     s32 rightVol = 0;
@@ -218,7 +218,7 @@ void PullRingRope::vUpdate_49B720()
                         rightVol = 1;
                     }
 
-                    if (SwitchStates_Get_466020(field_102_id))
+                    if (SwitchStates_Get_466020(field_102_switch_id))
                     {
                         switch (field_106_on_sound)
                         {

@@ -222,7 +222,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     field_17E_flags.Set(Flags_17E::eBit13_Persistant, field_118_data.field_10_data.field_1E_persistant == Choice_short::eYes_1);
 
-    field_17C_launch_id |= field_118_data.field_10_data.field_1C_launch_id;
+    field_17C_launch_switch_id |= field_118_data.field_10_data.field_1C_launch_switch_id;
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -404,7 +404,7 @@ s32 CC FlyingSlig::CreateFromSaveState_437E40(const u8* pBuffer)
         pFlyingSlig->field_2B8_max_speed_up = (FP_FromDouble(0.7) * pFlyingSlig->field_CC_sprite_scale);
     }
 
-    pFlyingSlig->field_17C_launch_id = pSaveState->field_38_launch_id;
+    pFlyingSlig->field_17C_launch_switch_id = pSaveState->field_38_launch_switch_id;
 
 
     pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit5_Throw, pSaveState->field_3A.Get(FlyingSlig_State::eBit2_Throw));
@@ -497,7 +497,7 @@ s32 FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
         pState->field_36_line_idx = static_cast<s16>(field_100_pCollisionLine - sCollisions_DArray_5C1128->field_0_pArray);
     }
 
-    pState->field_38_launch_id = field_17C_launch_id;
+    pState->field_38_launch_switch_id = field_17C_launch_switch_id;
 
     pState->field_3A.Set(FlyingSlig_State::eBit1_bPossessed, this == sControlledCharacter_5C1B8C);
     pState->field_3A.Set(FlyingSlig_State::eBit2_Throw, field_17E_flags.Get(Flags_17E::eBit5_Throw));
@@ -884,7 +884,9 @@ void FlyingSlig::Movement_4396E0()
 
     if (field_17E_flags.Get(Flags_17E::eBit5_Throw))
     {
-        if (static_cast<s32>(sGnFrame_5C1B84) > field_150_grenade_delay && (field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) || SwitchStates_Get_466020(field_17C_launch_id) || field_114_flags.Get(Flags_114::e114_Bit4_bPossesed)) && CanThrowGrenade_43A490())
+        if (static_cast<s32>(sGnFrame_5C1B84) > field_150_grenade_delay && 
+            (field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) || SwitchStates_Get_466020(field_17C_launch_switch_id) ||
+             field_114_flags.Get(Flags_114::e114_Bit4_bPossesed)) && CanThrowGrenade_43A490())
         {
             ThrowGrenade_43A1E0();
         }
