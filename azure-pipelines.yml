@@ -38,7 +38,7 @@ jobs:
     artifact: RELIVE-MacOSX.dmg
 - job: Windows32
   pool:
-    vmImage: 'windows-latest'
+    vmImage: 'windows-2019'
   steps:
   - script: |
         set AE_PATH=C:\\GOG Games\\Abes Exoddus
@@ -59,7 +59,7 @@ jobs:
     artifact: RELIVE-Windows32.zip
 - job: Windows64
   pool:
-    vmImage: 'windows-latest'
+    vmImage: 'windows-2019'
   steps:
   - script: |
         set AE_PATH=C:\\GOG Games\\Abes Exoddus
