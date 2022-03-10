@@ -580,7 +580,7 @@ const AnimId sMudFrameTables_4CD330[64] = {
     AnimId::Mudokon_RunJumpBegin,
     AnimId::Mudokon_RunJumpMid,
     AnimId::Mudokon_StandToRun,
-    AnimId::Mudokon_FallLandDie,
+    AnimId::Mudokon_KnockForward,
     AnimId::Mudokon_Knockback,
     AnimId::Mudokon_KnockbackGetUp,
     AnimId::Mudokon_WalkOffEdge,
@@ -2486,10 +2486,10 @@ void Mudokon::Motion_51_Fall_43D0D0()
     {
         switch (pLine->field_8_type)
         {
-            case 0:
-            case 4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 field_F4_pLine = pLine;
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
@@ -2531,10 +2531,10 @@ void Mudokon::Motion_51_Fall_43D0D0()
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 break;
 
-            case 1:
-            case 2:
-            case 5:
-            case 6:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackGroundWallLeft_5:
+            case eLineTypes::eBackGroundWallRight_6:
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
                 ToKnockback_43D6E0();
