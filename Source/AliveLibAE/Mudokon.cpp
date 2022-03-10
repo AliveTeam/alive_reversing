@@ -6646,7 +6646,11 @@ void Mudokon::M_KnockForward_45_474180()
         Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 32767, this);
     }
 
-    if ((gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
+    if ((gMap_5C3030.field_0_current_level == LevelIds::eMines_1 
+        || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 
+        || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 
+        || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 
+        || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
         && field_20_animation.field_92_current_frame == 7)
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
