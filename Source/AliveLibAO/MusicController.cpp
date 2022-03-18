@@ -816,7 +816,7 @@ void MusicController::UpdateMusic_442C20()
                 }
                 break;
 
-            case MusicTypes::eType7:
+            case MusicTypes::eSlogTension:
                 idx = 117;
                 field_34_sync_after_beats = 22;
                 field_4E_vol = SetMusicVolumeDelayed(field_14, 30);
@@ -846,11 +846,11 @@ void MusicController::UpdateMusic_442C20()
                 field_24_bAmbientMusicEnabled = 0;
                 break;
 
-            case MusicTypes::eType9:
+            case MusicTypes::eSlogChaseTension:
                 [[fallthrough]];
 
             case MusicTypes::eType10:
-                idx = field_3A_type == MusicTypes::eType9 ? 121 : 122;
+                idx = field_3A_type == MusicTypes::eSlogChaseTension ? 121 : 122;
                 field_34_sync_after_beats = 22;
                 field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
                 field_24_bAmbientMusicEnabled = 0;

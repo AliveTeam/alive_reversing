@@ -584,8 +584,8 @@ const AnimId sMudFrameTables_4CD330[64] = {
     AnimId::Mudokon_Knockback,
     AnimId::Mudokon_KnockbackGetUp,
     AnimId::Mudokon_WalkOffEdge,
-    AnimId::Mudokon_LandSoft,
-    AnimId::Mudokon_Fall,
+    AnimId::Mudokon_AO_LandSoft_Long,
+    AnimId::Mudokon_FallingFromGrab, // check/rename
     AnimId::Mudokon_Chant,
     AnimId::Mudokon_ChantEnd,
     AnimId::Mudokon_ToDuck,
