@@ -2817,22 +2817,7 @@ void Paramite::Motion_2_Walking_44B9E0()
             break;
     }
 
-    if (gMap_507BA8.GetDirection(
-            field_B2_lvl_number,
-            field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos)
-        >= CameraPos::eCamCurrent_0)
-    {
-        if (BrainIs(&Paramite::Brain_4_ChasingAbe_449170))
-        {
-            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
-        }
-        else
-        {
-            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
-        }
-    }
+    SetMusic();
 }
 
 const FP sRunningTable_4BBCC0[14] = {
@@ -3094,10 +3079,10 @@ void Paramite::Motion_6_Hop_44CB20()
         {
             switch (pLine->field_8_type)
             {
-                case 0:
-                case 4:
-                case 32:
-                case 36:
+                case eLineTypes::eFloor_0:
+                case eLineTypes::eBackGroundFloor_4:
+                case eLineTypes::eUnknown_32:
+                case eLineTypes::eUnknown_36:
                 {
                     ToIdle_44B580();
 
@@ -3118,8 +3103,8 @@ void Paramite::Motion_6_Hop_44CB20()
                     return;
                 }
 
-                case 1:
-                case 2:
+                case eLineTypes::eWallLeft_1:
+                case eLineTypes::eWallRight_2:
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
                     return;
 

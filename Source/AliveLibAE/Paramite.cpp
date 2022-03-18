@@ -3527,10 +3527,10 @@ void Paramite::M_Hop_5_48B5B0()
             {
                 switch (pLine->field_8_type)
                 {
-                    case 0u:
-                    case 4u:
-                    case 32u:
-                    case 36u:
+                    case eLineTypes::eFloor_0:
+                    case eLineTypes::eBackGroundFloor_4:
+                    case eLineTypes::eUnknown_32:
+                    case eLineTypes::eUnknown_36:
                         field_100_pCollisionLine = pLine;
                         field_B8_xpos = hitX;
                         field_BC_ypos = hitY;
@@ -3539,8 +3539,8 @@ void Paramite::M_Hop_5_48B5B0()
                         UpdateSlurgWatchPoints_4890D0();
                         return;
 
-                    case 1u:
-                    case 2u:
+                    case eLineTypes::eWallLeft_1:
+                    case eLineTypes::eWallRight_2:
                         field_B8_xpos = hitX - field_C4_velx;
                         MapFollowMe_408D10(TRUE);
                         field_C4_velx = FP_FromInteger(0);

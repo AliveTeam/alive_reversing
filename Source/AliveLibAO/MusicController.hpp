@@ -32,12 +32,12 @@ public:
         eChase_4 = 4,
         eSlogChase_5 = 5,
         ePossessed_6 = 6,
-        eType7 = 7,
+        eSlogTension = 7,
         eIntenseChase_8 = 8,
-        eType9 = 9,
-        eType10 = 10,
+        eSlogChaseTension = 9,
+        eType10 = 10, // nothing? has no references
         eType11 = 11, //death jingle?
-        eType12 = 12,
+        eType12 = 12, // some sort of chase music
         eDeathDrumShort_13 = 13,
         eDeathLong_14 = 14,
         eSecretAreaShort_15 = 15,
