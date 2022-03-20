@@ -4,6 +4,16 @@
 #include <type_traits>
 #include "Sys_common.hpp"
 
+enum RecordTypes : u32
+{
+    FrameCounter = 0xcafebabe,
+    ObjectCounter = 0xdeadbeef,
+    ObjectStates = 0x123456,
+    AliveObjectStates = 0x77777,
+    Rng = 0x696969,
+    InputType = 0x101010,
+};
+
 class [[nodiscard]] AutoFILE final
 {
 public:
@@ -42,6 +52,8 @@ public:
         return ::fread(&value, sizeof(TypeToRead), 1, mFile) == 1;
     }
 
+    u32 ReadU32() const;
+
     long FileSize()
     {
         const long oldPos = ftell(mFile);
@@ -75,6 +87,8 @@ public:
     virtual ~BaseRecorder() = default;
     void Init(const char* pFileName);
     void SaveInput(const Pads& data);
+    void SaveRng(s32 rng);
+
     virtual void SaveObjectStates() = 0;
 
 protected:
@@ -88,7 +102,9 @@ public:
     virtual ~BasePlayer() = default;
     void Init(const char* pFileName);
     Pads ReadInput();
+    s32 ReadRng();
     virtual void ValidateObjectStates() = 0;
+
 protected:
     template <typename TypeToValidate>
     static void ValidField(AutoFILE& file, const TypeToValidate& expectedValue, const char* name)
@@ -101,6 +117,9 @@ protected:
             ALIVE_FATAL("Field value de-sync");
         }
     }
+
+    void ValidateNextTypeIs(RecordTypes type);
+
     AutoFILE mFile;
 };
 
@@ -132,6 +151,10 @@ public:
     {
         return mMode == Mode::Play;
     }
+
+    s32 Rng(s32 rng);
+
+    u32 SysGetTicks();
 
 private:
 
