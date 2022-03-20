@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "Grid.hpp"
 
 EXPORT s32 CC SnapToXGrid_449930(FP scale, s32 x)

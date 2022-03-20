@@ -1,4 +1,3 @@
-#include "stdafx_ao.h"
 #include "Grid.hpp"
 
 namespace AO {
