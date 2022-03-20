@@ -26,6 +26,7 @@
 #include "ParamiteWeb.hpp"
 #include "ParamiteWebLine.hpp"
 #include "ScreenShake.hpp"
+#include "Grid.hpp"
 
 const TintEntry kParamiteTints_55D73C[24] = {
     {LevelIds_s8::eMudomoVault_3, 105u, 105u, 105u},

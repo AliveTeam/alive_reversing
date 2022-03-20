@@ -32,6 +32,7 @@
 #include "Bullet.hpp"
 #include "Sound/Midi.hpp"
 #include "Sys_common.hpp"
+#include "Grid.hpp"
 
 #define MAKE_STRINGS(VAR) #VAR,
 const char_type* const sGlukkonMotionNames[25] = {

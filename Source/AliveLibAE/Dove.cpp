@@ -9,6 +9,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "stdlib.hpp"
+#include "Grid.hpp"
 
 ALIVE_VAR(1, 0x5bc112, s16, bTheOneControllingTheMusic_5BC112, 0);
 

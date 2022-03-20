@@ -24,6 +24,7 @@
 #include "LiftPoint.hpp"
 #include "Particle.hpp"
 #include "SwitchStates.hpp"
+#include "Grid.hpp"
 
 void Paramite_ForceLink()
 { }

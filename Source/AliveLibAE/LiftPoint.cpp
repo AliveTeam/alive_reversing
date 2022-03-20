@@ -11,6 +11,7 @@
 #include "ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "Events.hpp"
+#include "Grid.hpp"
 
 struct LiftPointData final
 {

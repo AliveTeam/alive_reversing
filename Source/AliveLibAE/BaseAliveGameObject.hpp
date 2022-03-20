@@ -5,9 +5,6 @@
 #include "Animation.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-// TODO: Move to own file
-EXPORT s32 CC SnapToXGrid_449930(FP scale, s32 x);
-
 struct Path_TLV;
 class PathLine;
 

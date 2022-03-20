@@ -13,6 +13,7 @@
 #include "Collisions.hpp"
 #include "Game.hpp"
 #include "Particle.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 

@@ -27,6 +27,7 @@
 #include "CrawlingSligButton.hpp"
 #include "Sfx.hpp"
 #include "SlamDoor.hpp"
+#include "Grid.hpp"
 
 const TintEntry kCrawlingSligTints_5514B8[18] = {
     {LevelIds_s8::eMines_1, 127u, 127u, 127u},

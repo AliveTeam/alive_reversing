@@ -13,6 +13,7 @@
 #include "Events.hpp"
 #include "Collisions.hpp"
 #include "Game.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 

@@ -12,6 +12,7 @@
 #include "Events.hpp"
 #include "Abe.hpp"
 #include "Particle.hpp"
+#include "Grid.hpp"
 
 Bone* Bone::ctor_4112C0(FP xpos, FP ypos, s16 countId)
 {

@@ -21,6 +21,7 @@
 #include "Particle.hpp"
 #include "Midi.hpp"
 #include "SwitchStates.hpp"
+#include "Grid.hpp"
 
 void Scrab_ForceLink()
 { }

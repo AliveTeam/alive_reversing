@@ -15,6 +15,7 @@
 #include "Throwable.hpp"
 #include "CameraSwapper.hpp"
 #include "Particle.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 

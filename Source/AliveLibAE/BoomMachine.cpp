@@ -9,6 +9,7 @@
 #include "Sfx.hpp"
 #include "Throwable.hpp"
 #include "Grenade.hpp"
+#include "Grid.hpp"
 
 class GrenadeMachineNozzle final : public ::BaseAnimatedWithPhysicsGameObject
 {

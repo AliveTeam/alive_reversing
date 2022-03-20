@@ -10,6 +10,7 @@
 #include "Sfx.hpp"
 #include "Events.hpp"
 #include "MusicTrigger.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 

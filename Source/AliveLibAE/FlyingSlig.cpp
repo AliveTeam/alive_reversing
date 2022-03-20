@@ -27,6 +27,7 @@
 #include "ParticleBurst.hpp"
 #include "Switch.hpp"
 #include "Sys_common.hpp"
+#include "Grid.hpp"
 
 ALIVE_ARY(1, 0x5523A0, TFlyingSligBrainFn, 26, sFlyingSlig_motion_table_5523A0,
           {

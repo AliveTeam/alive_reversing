@@ -6,6 +6,7 @@
 #include "SwitchStates.hpp"
 #include "Events.hpp"
 #include "Sfx.hpp"
+#include "Grid.hpp"
 
 struct SlamDoor_Data final
 {

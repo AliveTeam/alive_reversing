@@ -24,6 +24,7 @@
 #include "DDCheat.hpp"
 #include "Particle.hpp"
 #include "GameSpeak.hpp"
+#include "Grid.hpp"
 
 void Slog_ForceLink()
 { }

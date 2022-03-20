@@ -54,6 +54,7 @@
 #include "Spark.hpp"
 #include "TestAnimation.hpp"
 #include "Sys_common.hpp"
+#include "Grid.hpp"
 
 using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_44EEB0);
 

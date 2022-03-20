@@ -16,6 +16,7 @@
 #include "Events.hpp"
 #include "Abe.hpp"
 #include "Math.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 

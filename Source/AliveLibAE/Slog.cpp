@@ -23,6 +23,7 @@
 #include "SwitchStates.hpp"
 #include "PsxDisplay.hpp"
 #include "Mudokon.hpp"
+#include "Grid.hpp"
 
 ALIVE_VAR(1, 0xBAF7F2, s16, sSlogCount_BAF7F2, 0);
 

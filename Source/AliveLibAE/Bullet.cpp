@@ -11,6 +11,7 @@
 #include "Sfx.hpp"
 #include "Particle.hpp"
 #include "ScreenManager.hpp"
+#include "Grid.hpp"
 
 Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets)
 {

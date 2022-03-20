@@ -1,6 +1,8 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Grid.cpp
+   Grid.hpp
    GameAutoPlayer.cpp
    GameAutoPlayer.hpp
    PathDataExtensions.hpp
