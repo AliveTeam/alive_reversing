@@ -803,23 +803,6 @@ s32 CC Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObj
     }
 }
 
-s32 CC XGrid_Index_To_XPos_41FA60(FP scale, s32 xGridIndex)
-{
-    if (scale == FP_FromDouble(0.5))
-    {
-        // 12.5 = half grid size
-        return 13 * xGridIndex + 245;
-    }
-
-    if (scale == FP_FromInteger(1))
-    {
-        // 25 = full grid size
-        return 25 * xGridIndex + 240;
-    }
-
-    // Default to middle of the screen
-    return 440;
-}
 
 BaseGameObject* Abe::VDestructor(s32 flags)
 {

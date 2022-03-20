@@ -6,17 +6,24 @@
 
 void Recorder::SaveObjectStates()
 {
+    mFile.Write(RecordTypes::FrameCounter);
+    mFile.Write(sGnFrame_5C1B84);
+
     const u32 objCount = gBaseGameObject_list_BB47C4->Size();
+    mFile.Write(RecordTypes::ObjectCounter);
     mFile.Write(objCount);
 
     for (u32 i = 0; i < objCount; i++)
     {
+        mFile.Write(RecordTypes::ObjectStates);
         BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
         const s16 objType = static_cast<s16>(pObj->Type());
         ::fwrite(&objType, sizeof(s16), 1, mFile.GetFile());
 
         if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
+            mFile.Write(RecordTypes::AliveObjectStates);
+
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
             mFile.Write(pAliveObj->field_B8_xpos.fpValue);
@@ -35,8 +42,16 @@ void Recorder::SaveObjectStates()
 
 void Player::ValidateObjectStates()
 {
-    u32 objCount = 0;
-    mFile.Read(objCount);
+    ValidateNextTypeIs(RecordTypes::FrameCounter);
+
+    const u32 gnFrame = mFile.ReadU32();
+    if (gnFrame != sGnFrame_5C1B84)
+    {
+        ALIVE_FATAL("GnFrame de-sync");
+    }
+
+    ValidateNextTypeIs(RecordTypes::ObjectCounter);
+    const u32 objCount = mFile.ReadU32();
 
     if (static_cast<u32>(gBaseGameObject_list_BB47C4->Size()) != objCount)
     {
@@ -46,6 +61,8 @@ void Player::ValidateObjectStates()
 
     for (u32 i = 0; i < objCount; i++)
     {
+        ValidateNextTypeIs(RecordTypes::ObjectStates);
+
         s16 objType = 0;
         mFile.Read(objType);
 
@@ -58,6 +75,8 @@ void Player::ValidateObjectStates()
 
         if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
+            ValidateNextTypeIs(RecordTypes::AliveObjectStates);
+
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             ValidField(mFile, pAliveObj->field_B8_xpos, "xpos");
             ValidField(mFile, pAliveObj->field_BC_ypos, "ypos");

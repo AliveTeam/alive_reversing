@@ -13,6 +13,7 @@
 #include "Events.hpp"
 #include "ParticleBurst.hpp"
 #include "ScreenShake.hpp"
+#include "Grid.hpp"
 
 const FP mineCarHeightUnscaled = FP_FromInteger(60);
 const FP mineCarWidthUnscaled = FP_FromInteger(12);

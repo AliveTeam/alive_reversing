@@ -12,6 +12,7 @@
 #include "Events.hpp"
 #include "Abe.hpp"
 #include "Particle.hpp"
+#include "Grid.hpp"
 
 Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
 {

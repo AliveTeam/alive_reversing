@@ -16,6 +16,7 @@
 #include "ObjectIds.hpp"
 #include "BaseBomb.hpp"
 #include "LiftPoint.hpp"
+#include "Grid.hpp"
 
 static TintEntry sTimedMineTint_550EB8[1] = {{LevelIds_s8::eNone, 127u, 127u, 127u}};
 

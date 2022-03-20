@@ -12,6 +12,7 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 

@@ -31,6 +31,7 @@
 #include "Bullet.hpp"
 #include "LaughingGas.hpp"
 #include "Sys_common.hpp"
+#include "Grid.hpp"
 
 ALIVE_VAR(1, 0x5C3012, s16, sGoingToBirdPortalMudCount_5C3012, 0);
 

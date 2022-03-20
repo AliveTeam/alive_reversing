@@ -42,6 +42,7 @@ export(TARGETS easylogging_reliveapi FILE easylogging_reliveapi.cmake)
 set_property(TARGET easylogging_reliveapi PROPERTY FOLDER "ReliveAPI")
 
 add_library(AliveLibAO_reliveapi
+    ../../AliveLibAO/Grid.cpp
     ../../AliveLibAO/PathData.cpp
     )
 target_include_directories(AliveLibAO_reliveapi PUBLIC
@@ -53,6 +54,7 @@ export(TARGETS AliveLibAO_reliveapi FILE AliveLibAO_reliveapi.cmake)
 set_property(TARGET AliveLibAO_reliveapi PROPERTY FOLDER "ReliveAPI")
 
 add_library(AliveLibAE_reliveapi
+    ../../AliveLibAE/Grid.cpp
     ../../AliveLibAE/PathData.cpp
     )
 target_include_directories(AliveLibAE_reliveapi PUBLIC

@@ -15,6 +15,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "Midi.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 

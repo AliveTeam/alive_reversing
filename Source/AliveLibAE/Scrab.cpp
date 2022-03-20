@@ -19,6 +19,7 @@
 #include "SlamDoor.hpp"
 #include "LiftPoint.hpp"
 #include "Slurg.hpp"
+#include "Grid.hpp"
 
 static const TintEntry sScrabTints_560260[15] = {
     {LevelIds_s8::eMines_1, 127u, 127u, 127u},

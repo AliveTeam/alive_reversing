@@ -11,6 +11,7 @@
 #include "Sound/Midi.hpp"
 #include "DDCheat.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Grid.hpp"
 
 struct Door_Info final
 {

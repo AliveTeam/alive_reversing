@@ -1,6 +1,7 @@
 #include "BaseGameAutoPlayer.hpp"
+#include "Sys_common.hpp"
 
-constexpr u32 kVersion = 0x1997;
+constexpr u32 kVersion = 0x1997 + 1;
 
 static bool ExtractNamePairArgument(char* pOutArgument, const char* pCmdLine, const char* argumentPrefix)
 {
@@ -29,6 +30,16 @@ static bool ExtractNamePairArgument(char* pOutArgument, const char* pCmdLine, co
     return true;
 }
 
+u32 AutoFILE::ReadU32() const
+{
+    u32 value = 0;
+    if (::fread(&value, sizeof(u32), 1, mFile) != 1)
+    {
+        ALIVE_FATAL("Read U32 failed");
+    }
+    return value;
+}
+
 void BaseRecorder::Init(const char* pFileName)
 {
     LOG_INFO("Recording to " << pFileName);
@@ -43,7 +54,14 @@ void BaseRecorder::Init(const char* pFileName)
 
 void BaseRecorder::SaveInput(const Pads& data)
 {
+    mFile.Write(RecordTypes::InputType);
     mFile.Write(data);
+}
+
+void BaseRecorder::SaveRng(s32 rng)
+{
+    mFile.Write(RecordTypes::Rng);
+    mFile.Write(rng);
 }
 
 void BasePlayer::Init(const char* pFileName)
@@ -65,11 +83,31 @@ void BasePlayer::Init(const char* pFileName)
 
 Pads BasePlayer::ReadInput()
 {
+    ValidateNextTypeIs(RecordTypes::InputType);
+
     Pads data = {};
     mFile.Read(data);
     return data;
 }
 
+s32 BasePlayer::ReadRng()
+{
+    ValidateNextTypeIs(RecordTypes::Rng);
+
+    s32 rng = 0;
+    mFile.Read(rng);
+    return rng;
+}
+
+void BasePlayer::ValidateNextTypeIs(RecordTypes type)
+{
+    const u32 actualType = mFile.ReadU32();
+    if (actualType != type)
+    {
+        LOG_ERROR("Expected " << static_cast<u32>(type) << " but got " << actualType);
+        ALIVE_FATAL("Wrong record type");
+    }
+}
 
 void BaseGameAutoPlayer::ParseCommandLine(const char* pCmdLine)
 {
@@ -115,4 +153,29 @@ void BaseGameAutoPlayer::ValidateObjectStates()
     {
         mRecorder.SaveObjectStates();
     }
+}
+
+s32 BaseGameAutoPlayer::Rng(s32 rng)
+{
+    if (IsRecording())
+    {
+        mRecorder.SaveRng(rng);
+        return rng;
+    }
+    else if (IsPlaying())
+    {
+        const s32 readRng = mPlayer.ReadRng();
+        if (readRng != rng)
+        {
+            LOG_ERROR("Rng de-sync! Expected " << rng << " but got " << readRng);
+            ALIVE_FATAL("Rng de-sync");
+        }
+        return readRng;
+    }
+    return rng;
+}
+
+u32 BaseGameAutoPlayer::SysGetTicks()
+{
+    return SYS_GetTicks();
 }

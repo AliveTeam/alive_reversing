@@ -6,6 +6,7 @@
 #include "SwitchStates.hpp"
 #include "DDCheat.hpp"
 #include "stdlib.hpp"
+#include "Grid.hpp"
 
 BaseGameObject* StatusLight::VDestructor(s32 flags)
 {

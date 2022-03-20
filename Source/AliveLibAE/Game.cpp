@@ -121,20 +121,6 @@ EXPORT void CC Init_GameStates_43BF40()
     SwitchStates_SetRange_465FA0(2u, 255u);
 }
 
-FP CC ScaleToGridSize_4498B0(FP scaleFP)
-{
-    if (scaleFP == FP_FromDouble(0.5))
-    {
-        return FP_FromInteger(13); // 25/2
-    }
-    if (scaleFP == FP_FromDouble(1.0))
-    {
-        return FP_FromInteger(25);
-    }
-    return FP_FromInteger(0);
-}
-
-
 EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 {
 #if _WIN32

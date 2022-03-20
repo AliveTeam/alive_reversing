@@ -9,6 +9,7 @@
 #include "SwitchStates.hpp"
 #include "PathData.hpp"
 #include "stdlib.hpp"
+#include "Grid.hpp"
 
 const TintEntry sPullRingRopeTints_55FD1C[18] = {
     {LevelIds_s8::eMines_1, 127u, 127u, 127u},

@@ -33,6 +33,7 @@
 #include "AmbientSound.hpp"
 #include "VRam.hpp"
 #include "Electrocute.hpp"
+#include "Grid.hpp"
 
 const SfxDefinition kSfxInfoTable_5607E0[17] = {
     {0u, 1u, 58u, 40u, -256, -256},

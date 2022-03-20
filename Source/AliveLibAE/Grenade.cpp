@@ -13,6 +13,7 @@
 #include "Abe.hpp"
 #include "Gibs.hpp"
 #include "Explosion.hpp"
+#include "Grid.hpp"
 
 Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, s16 numGrenades, s16 bBlowUpOnCollision, s16 unused, BaseGameObject* pOwner)
 {

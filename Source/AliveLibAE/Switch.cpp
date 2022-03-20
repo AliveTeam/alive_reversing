@@ -8,6 +8,7 @@
 #include "Sfx.hpp"
 #include "PathData.hpp"
 #include "SwitchStates.hpp"
+#include "Grid.hpp"
 
 const TintEntry kSwitchTints_563228[18] = {
     {LevelIds_s8::eMines_1, 127u, 127u, 127u},

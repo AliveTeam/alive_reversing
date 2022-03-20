@@ -15,40 +15,9 @@
 #include "BirdPortal.hpp"
 #include "Events.hpp"
 #include "Sys_common.hpp"
+#include "Grid.hpp"
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
-
-EXPORT s32 CC SnapToXGrid_449930(FP scale, s32 x)
-{
-    if (scale == FP_FromDouble(0.5))
-    {
-        s32 v4 = (x % 375 - 6) % 13;
-        if (v4 >= 7)
-        {
-            return x - v4 + 13;
-        }
-        else
-        {
-            return x - v4;
-        }
-    }
-    else if (scale == FP_FromInteger(1))
-    {
-        s32 v3 = (x - 12) % 25;
-        if (v3 >= 13)
-        {
-            return x - v3 + 25;
-        }
-        else
-        {
-            return x - v3;
-        }
-    }
-    else
-    {
-        return x;
-    }
-}
 
 EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(s16 resourceArraySize)
 {
