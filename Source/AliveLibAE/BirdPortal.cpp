@@ -966,6 +966,10 @@ void BirdPortal::vExitPortal_499870()
 
         field_28_state = PortalStates::PortalExit_SetPosition_17;
     }
+    else
+    {
+        ALIVE_FATAL("Bird portal exit object not found!");
+    }
 }
 
 Bool32 BirdPortal::vPortalExit_AbeExitting_499A00()

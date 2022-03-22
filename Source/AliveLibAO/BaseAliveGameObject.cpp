@@ -264,7 +264,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
             }
         }
     }
-    return 0;
+    return nullptr;
 }
 
 s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
