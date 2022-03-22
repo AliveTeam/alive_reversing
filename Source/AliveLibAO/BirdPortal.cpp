@@ -20,6 +20,7 @@
 #include "PsxDisplay.hpp"
 #include "BaseGameObject.hpp"
 #include "AbilityRing.hpp"
+#include "Sys_common.hpp"
 
 namespace AO {
 
@@ -1032,38 +1033,45 @@ void BirdPortal::VExitPortal_453720()
 
     auto pPortalExitTlv = static_cast<Path_BirdPortalExit*>(gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::BirdPortalExit_53, 0));
 
-    PathLine* pLine = nullptr;
-    sCollisions_DArray_504C6C->RayCast_40C410(
-        FP_FromInteger(pPortalExitTlv->field_10_top_left.field_0_x),
-        FP_FromInteger(pPortalExitTlv->field_10_top_left.field_2_y),
-        FP_FromInteger(pPortalExitTlv->field_14_bottom_right.field_0_x),
-        FP_FromInteger(pPortalExitTlv->field_14_bottom_right.field_2_y),
-        &pLine,
-        &field_20_exit_x,
-        &field_24_exit_y,
-        0xFFFFFFFF); // -1 ??
-
-    field_1C_ypos = field_24_exit_y - FP_FromInteger(55);
-
-    field_20_exit_x = FP_FromInteger(pPortalExitTlv->field_10_top_left.field_0_x);
-    field_18_xpos = field_20_exit_x;
-    field_12_side = pPortalExitTlv->field_18_side;
-
-    if (pPortalExitTlv->field_1A_scale == Scale_short::eHalf_1)
+    if (pPortalExitTlv)
     {
-        field_34_scale = FP_FromDouble(0.5);
-        sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_InBirdPortal_Half_11;
+        PathLine* pLine = nullptr;
+        sCollisions_DArray_504C6C->RayCast_40C410(
+            FP_FromInteger(pPortalExitTlv->field_10_top_left.field_0_x),
+            FP_FromInteger(pPortalExitTlv->field_10_top_left.field_2_y),
+            FP_FromInteger(pPortalExitTlv->field_14_bottom_right.field_0_x),
+            FP_FromInteger(pPortalExitTlv->field_14_bottom_right.field_2_y),
+            &pLine,
+            &field_20_exit_x,
+            &field_24_exit_y,
+            0xFFFFFFFF); // -1 ??
+
+        field_1C_ypos = field_24_exit_y - FP_FromInteger(55);
+
+        field_20_exit_x = FP_FromInteger(pPortalExitTlv->field_10_top_left.field_0_x);
+        field_18_xpos = field_20_exit_x;
+        field_12_side = pPortalExitTlv->field_18_side;
+
+        if (pPortalExitTlv->field_1A_scale == Scale_short::eHalf_1)
+        {
+            field_34_scale = FP_FromDouble(0.5);
+            sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_InBirdPortal_Half_11;
+        }
+        else
+        {
+            field_34_scale = FP_FromInteger(1);
+            sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_InBirdPortal_30;
+        }
+
+        sActiveHero_507678->field_BC_sprite_scale = field_34_scale;
+        field_14_state = PortalStates::PortalExit_SetPosition_17;
+        sActiveHero_507678->field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+        sActiveHero_507678->field_B0_path_number = gMap_507BA8.field_2_current_path;
     }
     else
     {
-        field_34_scale = FP_FromInteger(1);
-        sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_InBirdPortal_30;
+        ALIVE_FATAL("Bird portal exit object not found!");
     }
-
-    sActiveHero_507678->field_BC_sprite_scale = field_34_scale;
-    field_14_state = PortalStates::PortalExit_SetPosition_17;
-    sActiveHero_507678->field_B2_lvl_number = gMap_507BA8.field_0_current_level;
-    sActiveHero_507678->field_B0_path_number = gMap_507BA8.field_2_current_path;
 }
 
 Bool32 BirdPortal::VStateIs20_453800()
