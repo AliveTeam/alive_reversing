@@ -195,12 +195,12 @@ public:
         {
             if (msgId < pTable->mStringCount)
             {
-                return pTable->mStrings[msgId];
+                return pTable->mStrings[msgId].string_ptr;
             }
             else
             {
                 LOG_WARNING("LCD message out of bounds, using first message for id: " << msgId);
-                return pTable->mStrings[0];
+                return pTable->mStrings[0].string_ptr;
             }
         }
 
