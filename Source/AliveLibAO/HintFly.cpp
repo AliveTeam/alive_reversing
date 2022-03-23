@@ -73,7 +73,7 @@ public:
         {
             if (msgId < pTable->mStringCount)
             {
-                return pTable->mStrings[msgId];
+                return pTable->mStrings[msgId].string_ptr;
             }
             else
             {

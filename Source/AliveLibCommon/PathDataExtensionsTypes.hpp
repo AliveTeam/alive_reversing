@@ -5,7 +5,14 @@
 struct StringTable final
 {
     u64 mStringCount; // u64 so that we take up the same space/padding on both 32/64bit
-    char_type* mStrings[1]; // var length
+ 
+    union UniveralStringPtr
+    {
+        u64 rawData;
+        char_type* string_ptr; // 4 bytes on 32bit, 8 bytes on 64bit, union'd so we access in 8 byte multiples even in 32bit
+    };
+
+    UniveralStringPtr mStrings[1]; // var length
 
     static u8* MakeTable(StringTable* pTable)
     {
