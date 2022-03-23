@@ -120,6 +120,9 @@ constexpr CombinedBgAnimRecord kBgAnimRecords[] = {
     {AOBgAnimID::BG_Well79, kNullBgAnimDetails, {"F4P09C10.CAM", 1940, 38, 50}},
     {AOBgAnimID::BG_Well80, kNullBgAnimDetails, {"F4P09C11.CAM", 3188, 78, 80}},
     {AOBgAnimID::BG_Well81, kNullBgAnimDetails, {"F4P09C11.CAM", 1584, 39, 53}},
+    {AOBgAnimID::BG_Well82, kNullBgAnimDetails, {"D1P09C04.CAM", 2856, 65, 55}},
+    {AOBgAnimID::BG_Well83, kNullBgAnimDetails, {"D1P09C04.CAM", 1504, 35, 50}},
+    {AOBgAnimID::BG_Well84, kNullBgAnimDetails, {"D1P09C03.CAM", 2012, 34, 57}},
 
     {AOBgAnimID::BG_Windmill1, kNullBgAnimDetails, {"F1P05C03.CAM", 9392, 80, 32}},
     {AOBgAnimID::BG_Windmill2, kNullBgAnimDetails, {"F1P05C04.CAM", 12156, 60, 48}},

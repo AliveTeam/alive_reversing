@@ -1163,6 +1163,9 @@ enum AOBgAnimID
     BG_Well79 = 2050,
     BG_Well80 = 2053,
     BG_Well81 = 2054,
+    BG_Well82 = 3034,
+    BG_Well83 = 3036,
+    BG_Well84 = 3033,
 
     BG_Windmill1 = 1023,
     BG_Windmill2 = 1024,
