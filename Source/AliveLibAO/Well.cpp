@@ -112,6 +112,10 @@ void Well::VUpdate()
 
 void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
+    //u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_anim_id, 1, 0);
+    //auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
+    //LOG_INFO("frametableoffset: " << pHeader->field_4_frame_table_offset << " anim id: " << pTlv->field_1E_anim_id << " max w: " << pHeader->field_0_max_w << " max h: " << pHeader->field_2_max_h);
+
     const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_1E_anim_id);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (ppRes)
@@ -168,6 +172,10 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 
 void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
+    //u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_anim_id, 1, 0);
+    //auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
+    //LOG_INFO("frametableoffset: " << pHeader->field_4_frame_table_offset << " anim id: " << pTlv->field_1E_anim_id << " max w: " << pHeader->field_0_max_w << " max h: " << pHeader->field_2_max_h);
+
     const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_1E_anim_id);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (ppRes)
