@@ -1598,7 +1598,7 @@ void CrawlingSlig::M_Falling_5_41B650()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 field_100_pCollisionLine = pLine;

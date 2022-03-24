@@ -2558,7 +2558,7 @@ void Scrab::M_HopMidair_6_4A9490()
             switch (pLine->field_8_type)
             {
                 case eLineTypes::eFloor_0:
-                case eLineTypes::eBackGroundFloor_4:
+                case eLineTypes::eBackgroundFloor_4:
                 case eLineTypes::eUnknown_32:
                 case eLineTypes::eUnknown_36:
                     field_100_pCollisionLine = pLine;
@@ -2668,7 +2668,7 @@ void Scrab::M_JumpToFall_8_4A9220()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 field_100_pCollisionLine = pLine;
@@ -2818,7 +2818,7 @@ void Scrab::M_RunJumpBegin_12_4A99C0()
             switch (pLine->field_8_type)
             {
                 case eLineTypes::eFloor_0:
-                case eLineTypes::eBackGroundFloor_4:
+                case eLineTypes::eBackgroundFloor_4:
                 case eLineTypes::eUnknown_32:
                 case eLineTypes::eUnknown_36:
                     field_100_pCollisionLine = pLine;

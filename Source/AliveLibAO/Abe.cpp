@@ -4576,7 +4576,7 @@ void Abe::Motion_3_Fall_42E7F0()
         switch (pPathLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
             {
@@ -4624,8 +4624,8 @@ void Abe::Motion_3_Fall_42E7F0()
             }
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
-            case eLineTypes::eBackGroundWallLeft_5:
-            case eLineTypes::eBackGroundWallRight_6:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
                 ToKnockback_422D90(1, 1);
@@ -4889,7 +4889,7 @@ void Abe::Motion_17_HoistIdle_4269E0()
         switch (pPathLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
             {
@@ -5672,7 +5672,7 @@ void Abe::Motion_30_HopMid_4264D0()
                 switch (pLine->field_8_type)
                 {
                     case eLineTypes::eFloor_0:
-                    case eLineTypes::eBackGroundFloor_4:
+                    case eLineTypes::eBackgroundFloor_4:
                     case eLineTypes::eUnknown_32:
                     case eLineTypes::eUnknown_36:
                     {
@@ -5827,7 +5827,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
             {

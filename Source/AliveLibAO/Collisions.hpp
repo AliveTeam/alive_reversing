@@ -12,15 +12,15 @@ enum eLineTypes : u8
     eWallLeft_1 = 1,
     eWallRight_2 = 2,
     eCeiling_3 = 3,
-    eBackGroundFloor_4 = 4,
-    eBackGroundWallLeft_5 = 5,
-    eBackGroundWallRight_6 = 6,
-    eType_7 = 7,
-    eType_8 = 8,
-    eType_9 = 9,
-    eType_10 = 10,
+    eBackgroundFloor_4 = 4,
+    eBackgroundWallLeft_5 = 5,
+    eBackgroundWallRight_6 = 6,
+    eBackgroundCeiling_7 = 7,
+    eTrackLine_8 = 8,
+    eArt_9 = 9,
+    eBulletWall_10 = 10,
 
-    eUnknown_32 = 32,
+    eUnknown_32 = 32, // lift point and trap door but not sure which of them is which
     eUnknown_36 = 36,
 };
 

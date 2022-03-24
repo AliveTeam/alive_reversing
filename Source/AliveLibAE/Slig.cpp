@@ -1494,7 +1494,7 @@ void Slig::M_Falling_7_4B42D0()
         switch (ppPathLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case 32u:
             case 36u:
                 field_100_pCollisionLine = ppPathLine;
@@ -1507,8 +1507,8 @@ void Slig::M_Falling_7_4B42D0()
                 break;
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
-            case eLineTypes::eBackGroundWallLeft_5:
-            case eLineTypes::eBackGroundWallRight_6:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
                 FallKnockBackOrSmash_4B4A90();

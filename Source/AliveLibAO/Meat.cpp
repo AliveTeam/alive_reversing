@@ -381,7 +381,7 @@ void Meat::InTheAir_438720()
         switch (field_124_pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 if (field_B8_vely > FP_FromInteger(0))
@@ -402,7 +402,7 @@ void Meat::InTheAir_438720()
                 break;
 
             case eLineTypes::eWallLeft_1:
-            case eLineTypes::eBackGroundWallLeft_5:
+            case eLineTypes::eBackgroundWallLeft_5:
                 if (field_B4_velx >= FP_FromInteger(0))
                 {
                     field_124_pLine = nullptr;
@@ -426,7 +426,7 @@ void Meat::InTheAir_438720()
                 break;
 
             case eLineTypes::eWallRight_2:
-            case eLineTypes::eBackGroundWallRight_6:
+            case eLineTypes::eBackgroundWallRight_6:
                 if (field_B4_velx > FP_FromInteger(0))
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(4));

@@ -2527,7 +2527,7 @@ void Elum::Motion_21_Land_414A20()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
             {
@@ -2563,10 +2563,10 @@ void Elum::Motion_21_Land_414A20()
                 break;
             }
 
-            case 1:
-            case 2:
-            case 5:
-            case 6:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 if (bHit)
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
@@ -2799,7 +2799,7 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
             switch (field_F4_pLine->field_8_type)
             {
                 case eLineTypes::eFloor_0:
-                case eLineTypes::eBackGroundFloor_4:
+                case eLineTypes::eBackgroundFloor_4:
                 case eLineTypes::eUnknown_32:
                 case eLineTypes::eUnknown_36:
                     Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);

@@ -1309,7 +1309,7 @@ s16 Paramite::Brain_1_Death_484CD0()
         switch (ppPathLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 field_100_pCollisionLine = ppPathLine;
@@ -3529,7 +3529,7 @@ void Paramite::M_Hop_5_48B5B0()
                 switch (pLine->field_8_type)
                 {
                     case eLineTypes::eFloor_0:
-                    case eLineTypes::eBackGroundFloor_4:
+                    case eLineTypes::eBackgroundFloor_4:
                     case eLineTypes::eUnknown_32:
                     case eLineTypes::eUnknown_36:
                         field_100_pCollisionLine = pLine;
@@ -3801,7 +3801,7 @@ void Paramite::M_Falling_11_48B200()
             switch (pLine->field_8_type)
             {
                 case eLineTypes::eFloor_0:
-                case eLineTypes::eBackGroundFloor_4:
+                case eLineTypes::eBackgroundFloor_4:
                 case eLineTypes::eUnknown_32:
                 case eLineTypes::eUnknown_36:
                     field_100_pCollisionLine = pLine;
@@ -3830,8 +3830,8 @@ void Paramite::M_Falling_11_48B200()
 
                 case eLineTypes::eWallLeft_1:
                 case eLineTypes::eWallRight_2:
-                case eLineTypes::eBackGroundWallLeft_5:
-                case eLineTypes::eBackGroundWallRight_6:
+                case eLineTypes::eBackgroundWallLeft_5:
+                case eLineTypes::eBackgroundWallRight_6:
                     field_B8_xpos = hitX - field_C4_velx;
                     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
                     field_BC_ypos = hitY;

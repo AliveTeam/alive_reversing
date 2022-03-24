@@ -1284,7 +1284,7 @@ void Slog::Motion_4_Fall_4750C0()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 field_F4_pLine = pLine;
@@ -1311,8 +1311,8 @@ void Slog::Motion_4_Fall_4750C0()
 
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
-            case eLineTypes::eBackGroundWallLeft_5:
-            case eLineTypes::eBackGroundWallRight_6:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 field_A8_xpos = hitX - field_B4_velx;
                 field_AC_ypos = hitY;
                 MapFollowMe_401D30(FALSE);
@@ -1711,7 +1711,7 @@ void Slog::Motion_19_JumpForwards_475610()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eWallLeft_1:
-            case eLineTypes::eBackGroundWallLeft_5:
+            case eLineTypes::eBackgroundWallLeft_5:
                 if (field_B4_velx < FP_FromInteger(0))
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
@@ -1720,7 +1720,7 @@ void Slog::Motion_19_JumpForwards_475610()
                 break;
 
             case eLineTypes::eWallRight_2:
-            case eLineTypes::eBackGroundWallRight_6:
+            case eLineTypes::eBackgroundWallRight_6:
                 if (field_B4_velx > FP_FromInteger(0))
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
@@ -1745,7 +1745,7 @@ void Slog::Motion_19_JumpForwards_475610()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 if (field_B8_vely > FP_FromInteger(0))
