@@ -32,7 +32,7 @@ SlogSpawner* SlogSpawner::ctor_475DD0(Path_SlogSpawner* pTlv, s32 tlvInfo)
     field_24_scale = pTlv->field_18_scale;
     field_26_max_slogs = pTlv->field_1A_max_slogs;
     field_28_max_slogs_at_a_time = pTlv->field_1C_max_slogs_at_a_time;
-    field_2A_direction = pTlv->field_1E_direction;
+    field_2A_start_direction = pTlv->field_1E_start_direction;
     field_2C_slog_spawn_delay = pTlv->field_20_slog_spawn_delay;
     field_2E_spawner_switch_id = pTlv->field_22_spawner_switch_id;
 
@@ -81,7 +81,7 @@ void SlogSpawner::VUpdate_475E30()
                     field_1C_yPos,
                     field_24_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
 
-                pSlog->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_2A_direction == XDirection_short::eRight_1);
+                pSlog->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_2A_start_direction == StartDirection::eLeft_1);
             }
 
             field_14_spawned_count++;

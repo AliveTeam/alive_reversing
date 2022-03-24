@@ -103,7 +103,7 @@ EXPORT void CC Start_Sounds_for_TLV_4CB530(CameraPos direction, Path_TLV* pTlv)
         case TlvTypes::Slig_15:
         {
             auto pSligTlv = static_cast<Path_Slig*>(pTlv);
-            if (pSligTlv->field_12_start_state == Path_Slig::StartState::Paused_1)
+            if (pSligTlv->field_12_start_state == Path_Slig::StartState::Patrol_1)
             {
                 if (!pAmbianceTbl->mArray[1].field_8_pScopedSeq)
                 {

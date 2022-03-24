@@ -48,11 +48,20 @@ enum eScrabMotions : s32
     SCRAB_MOTIONS_ENUM(MAKE_ENUM)
 };
 
+enum class ScrabPatrolType : s16
+{
+    eWalk_0 = 0,
+    eRunOrWalk192_1 = 1,
+    eRunOrWalk128_2 = 2,
+    eRunOrWalk64_3 = 3,
+    eRun_4 = 4
+};
+
 struct Path_Scrab final : public Path_TLV
 {
     Scale_short field_18_scale;
     s16 field_1A_attack_delay;
-    s16 field_1C_patrol_type;
+    ScrabPatrolType field_1C_patrol_type;
     s16 field_1E_left_min_delay;
     s16 field_20_left_max_delay;
     s16 field_22_right_min_delay;
@@ -141,7 +150,7 @@ public:
 
     s16 HandleRunning();
 
-    s16 GetMotionForPatrolType(s16 patrolType);
+    s16 GetMotionForPatrolType(ScrabPatrolType ScrabPatrolType);
 
     // Motions
     EXPORT void Motion_0_Empty_45E3D0();
@@ -201,7 +210,7 @@ public:
     s16 field_110_brain_sub_state;
     s16 field_112;
     s16 field_114_attack_delay;
-    s16 field_116_patrol_type;
+    ScrabPatrolType field_116_patrol_type;
     s32 field_118_timer;
     Scrab* field_11C_pFight_target;
     BaseAliveGameObject* field_120_pTarget;

@@ -73,7 +73,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
         switch (pTlv->field_4_type.mType)
         {
             case TlvTypes::Slig_24:
-                if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == Path_Slig::StartState::Paused_1)
+                if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == Path_Slig::StartState::Patrol_1)
                 {
                     if (!pAmbianceTbl[1].field_8_pScopedSeq)
                     {
@@ -100,7 +100,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
                 break;
 
             case TlvTypes::Slog_25:
-                if (static_cast<Path_Slog*>(pTlv)->field_1C_wakeup_anger)
+                if (static_cast<Path_Slog*>(pTlv)->field_1C_asleep == Choice_short::eYes_1)
                 {
                     if (!pAmbianceTbl[3].field_8_pScopedSeq)
                     {

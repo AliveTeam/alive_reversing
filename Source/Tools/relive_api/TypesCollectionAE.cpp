@@ -151,12 +151,12 @@ void TypesCollectionAE::AddAETypes()
     AddEnum<::Path_Slig::StartState>("Enum_SligStartState",
     {
         {::Path_Slig::StartState::Listening_0, "Listening"},
-        {::Path_Slig::StartState::Paused_1, "Paused"},
+        {::Path_Slig::StartState::Patrol_1, "Patrol"},
         {::Path_Slig::StartState::Sleeping_2, "Sleeping"},
         {::Path_Slig::StartState::Chase_3, "Chase"},
-        {::Path_Slig::StartState::RunOffScreen_4, "Run Off Screen"},
-        {::Path_Slig::StartState::GameEnder_5, "Game Ender"},
-        {::Path_Slig::StartState::ListeningToGlukkon_6, "Listen To Glukkon"},
+        {::Path_Slig::StartState::ChaseAndDisappear_4, "Chase And Disappear"},
+        {::Path_Slig::StartState::Unused_5, "Unused (crashes the game)"},
+        {::Path_Slig::StartState::ListeningToGlukkon_6, "Listening To Glukkon"},
     });
 
     AddEnum<::Path_Slig::ShootPossessedSligs>("Enum_ShootPossessedSligs",

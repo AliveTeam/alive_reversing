@@ -26,40 +26,46 @@ struct Path_Slig final : public Path_TLV
     enum class StartState : s16
     {
         Listening_0 = 0,
-        Paused_1 = 1,
+        Patrol_1 = 1,
         Sleeping_2 = 2,
         Chase_3 = 3,
-        GameEnder_4 = 4,
-        Paused_5 = 5,
+        ChaseAndDisappear_4 = 4,
+        FallingToChase_5 = 5,
     };
-    s16 field_18_scale;
+    Scale_short field_18_scale;
     StartState field_1A_start_state;
     s16 field_1C_pause_time;
     s16 field_1E_pause_left_min;
     s16 field_20_pause_left_max;
     s16 field_22_pause_right_min;
     s16 field_24_pause_right_max;
-    s16 field_26_chal_type;
-    s16 field_28_chal_time;
-    s16 field_2A_number_of_times_to_shoot;
+    enum class ShootPossessedSligs : s16
+    {
+        eNo_0 = 0,
+        eYes_1 = 1,
+        eYes_2 = 2, // used in an OG level, breaks lvl exporting if removed
+    };
+    ShootPossessedSligs field_26_shoot_possessed_sligs;
+    s16 field_28_shoot_on_sight_delay;
+    s16 field_2A_num_times_to_shoot;
     s16 field_2C_unknown; // TODO: Part of above field, check me?
     s16 field_2E_code1;
     s16 field_30_code2;
-    s16 field_32_chase_abe;
-    s16 field_34_start_direction;
+    Choice_short field_32_chase_abe;
+    XDirection_short field_34_start_direction;
     s16 field_36_panic_timeout;
     s16 field_38_num_panic_sounds;
     s16 field_3A_panic_sound_timeout;
     s16 field_3C_stop_chase_delay;
     s16 field_3E_time_to_wait_before_chase;
-    s16 field_40_slig_id;
+    s16 field_40_slig_bound_id;
     s16 field_42_listen_time;
     s16 field_44_percent_say_what;
     s16 field_46_percent_beat_mud;
     s16 field_48_talk_to_abe;
     s16 field_4A_dont_shoot;
     s16 field_4C_z_shoot_delay;
-    s16 field_4E_stay_awake;
+    Choice_short field_4E_stay_awake;
     BitField16<SligFlags_DisabledRes> field_50_disable_resources;
     s16 field_52_noise_wake_up_distance;
     s16 field_54_slig_spawner_switch_id;
@@ -404,7 +410,7 @@ public:
     EXPORT s16 Brain_StoppingNextToMudokon_46EBB0();
     EXPORT s16 Brain_BeatingUp_46EC40();
     EXPORT s16 Brain_Discussion_46ECE0();
-    EXPORT s16 Brain_GameEnder_46EEE0();
+    EXPORT s16 Brain_ChaseAndDisappear_46EEE0();
     EXPORT s16 Brain_Shooting_46EFD0();
     EXPORT s16 Brain_ZSpottedEnemy_46F260();
     EXPORT s16 Brain_ZShooting_46F290();

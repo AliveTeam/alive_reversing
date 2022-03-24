@@ -446,7 +446,14 @@ void Door::VUpdate_40E870()
 
         if (field_E8_start_state == DoorStates::eOpening_2)
         {
-            if (SwitchStates_Get(field_F2_hubs_ids[0]) && SwitchStates_Get(field_F2_hubs_ids[1]) && SwitchStates_Get(field_F2_hubs_ids[2]) && SwitchStates_Get(field_F2_hubs_ids[3]) && SwitchStates_Get(field_F2_hubs_ids[4]) && SwitchStates_Get(field_F2_hubs_ids[5]) && SwitchStates_Get(field_F2_hubs_ids[6]) && SwitchStates_Get(field_F2_hubs_ids[7]))
+            if (SwitchStates_Get(field_F2_hubs_ids[0]) &&
+                SwitchStates_Get(field_F2_hubs_ids[1]) &&
+                SwitchStates_Get(field_F2_hubs_ids[2]) &&
+                SwitchStates_Get(field_F2_hubs_ids[3]) &&
+                SwitchStates_Get(field_F2_hubs_ids[4]) &&
+                SwitchStates_Get(field_F2_hubs_ids[5]) &&
+                SwitchStates_Get(field_F2_hubs_ids[6]) &&
+                SwitchStates_Get(field_F2_hubs_ids[7]))
 
             {
                 if (!SwitchStates_Get(field_F0_switch_id))

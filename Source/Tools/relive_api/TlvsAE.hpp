@@ -518,7 +518,7 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
 
         ADD("Percent Say What", mTlv.field_3C_percent_say_what);
         ADD("Percent Beat Mudokon", mTlv.field_3E_percent_beat_mud);
-        ADD("Talk To Abe (Unused?)", mTlv.field_40_talk_to_abe);
+        ADD_HIDDEN("Talk To Abe (Unused?)", mTlv.field_40_talk_to_abe);
         ADD("Don't Shoot (Unused?)", mTlv.field_42_dont_shoot);
         ADD("Z Shoot Delay", mTlv.field_44_Z_shoot_delay);
         ADD("Stay Awake", mTlv.field_46_stay_awake);

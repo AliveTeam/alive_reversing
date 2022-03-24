@@ -155,6 +155,25 @@ void TypesCollectionAO::AddAOTypes()
                                 {AO::eLineTypes::eUnknown_36, "eUnknown_36"},
                            });
 
+    AddEnum<AO::Path_Slig::ShootPossessedSligs>("Enum_ShootPossessedSligs",
+    {
+        {AO::Path_Slig::ShootPossessedSligs::eNo_0, "No"},
+        {AO::Path_Slig::ShootPossessedSligs::eYes_1, "Yes"},
+        {AO::Path_Slig::ShootPossessedSligs::eYes_2, "Yes (ignore)"},
+
+    });
+
+    AddEnum<AO::Path_Slig::StartState>("Enum_SligStartState",
+    {
+        {AO::Path_Slig::StartState::Listening_0, "Listening"},
+        {AO::Path_Slig::StartState::Patrol_1, "Patrol"},
+        {AO::Path_Slig::StartState::Sleeping_2, "Sleeping"},
+        {AO::Path_Slig::StartState::Chase_3, "Chase"},
+        {AO::Path_Slig::StartState::ChaseAndDisappear_4, "Chase And Disappear"},
+        {AO::Path_Slig::StartState::FallingToChase_5, "Falling To Chase"},
+    });
+
+
     AddEnum<AO::SwitchOp>("Enum_SwitchOp",
     {
         {AO::SwitchOp::eSetTrue_0, "SetTrue"},
