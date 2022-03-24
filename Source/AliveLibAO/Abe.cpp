@@ -51,7 +51,7 @@
 #include "SaveGame.hpp"
 #include "BeeSwarm.hpp"
 #include "Shrykull.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "GameSpeak.hpp"
 #include "ZBall.hpp"
 #include "Gibs.hpp"
@@ -3292,7 +3292,7 @@ s16 Abe::HandleDoAction_429A70()
                 field_F0_pTlv = pTlv;
                 return eAbeMotions::Motion_77_WellBegin_430F10;
 
-            case TlvTypes::Switch_26:
+            case TlvTypes::Lever_26:
                 if (FP_FromInteger(FP_GetExponent(field_A8_xpos) - pTlv->field_10_top_left.field_0_x) < ScaleToGridSize_41FA30(field_BC_sprite_scale))
                 {
                     // Wrong dir
@@ -3302,7 +3302,7 @@ s16 Abe::HandleDoAction_429A70()
                     }
 
                     // Get switch
-                    auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(
+                    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                         Types::eLever_97,
                         field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale),
                         field_AC_ypos - FP_FromInteger(5)));
@@ -3323,7 +3323,7 @@ s16 Abe::HandleDoAction_429A70()
                     }
 
                     // Get switch
-                    auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(
+                    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                         Types::eLever_97,
                         field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale),
                         field_AC_ypos - FP_FromInteger(5)));
@@ -4458,14 +4458,14 @@ void Abe::Motion_2_StandingTurn_426040()
             {
                 if (field_FE_next_motion == eAbeMotions::Motion_101_LeverUse_429970)
                 {
-                    Switch* pSwitch;
+                    Lever* pSwitch;
                     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
                     }
                     else
                     {
-                        pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
                     }
 
                     if (pSwitch)

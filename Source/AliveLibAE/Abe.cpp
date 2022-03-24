@@ -37,7 +37,7 @@
 #include "WorkWheel.hpp"
 #include "LevelLoader.hpp"
 #include "Particle.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "Throwable.hpp"
 #include "LiftPoint.hpp"
 #include "PullRingRope.hpp"
@@ -8742,7 +8742,7 @@ s16 Abe::HandleDoAction_455BD0()
                 field_FC_pPathTLV = pTlv;
                 return eAbeMotions::Motion_78_WellBegin_45C810;
 
-            case TlvTypes::Switch_17:
+            case TlvTypes::Lever_17:
             {
                 FP xpos = {};
                 FP ypos = {};
@@ -8757,7 +8757,7 @@ s16 Abe::HandleDoAction_455BD0()
                     ypos = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
                 }
 
-                Switch* pSwitch = static_cast<Switch*>(FindObjectOfType_425180(AETypes::eLever_139, ypos, xpos));
+                Lever* pSwitch = static_cast<Lever*>(FindObjectOfType_425180(AETypes::eLever_139, ypos, xpos));
                 if (!pSwitch || !(pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos)))
                 {
                     return eAbeMotions::Motion_34_DunnoBegin_44ECF0;

@@ -24,7 +24,7 @@
 #include "ScreenShake.hpp"
 #include "ScreenManager.hpp"
 #include "LiftPoint.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "SwitchStates.hpp"
 #include "Bullet.hpp"
 #include "Dove.hpp"
@@ -2991,14 +2991,14 @@ s16 Slig::Brain_ListeningToGlukkon_PullingLever()
 {
     const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
-    Switch* pLever = nullptr;
+    Lever* pLever = nullptr;
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        pLever = static_cast<Switch*>(FindObjectOfType_425180(AETypes::eLever_139, field_B8_xpos - gridSize, field_BC_ypos - FP_FromInteger(5)));
+        pLever = static_cast<Lever*>(FindObjectOfType_425180(AETypes::eLever_139, field_B8_xpos - gridSize, field_BC_ypos - FP_FromInteger(5)));
     }
     else
     {
-        pLever = static_cast<Switch*>(FindObjectOfType_425180(AETypes::eLever_139, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)));
+        pLever = static_cast<Lever*>(FindObjectOfType_425180(AETypes::eLever_139, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)));
     }
 
     if (pLever)
@@ -5551,7 +5551,7 @@ void Slig::PullLever()
         switchYPos = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
     }
 
-    auto pSwitch = static_cast<Switch*>(FindObjectOfType_425180(AETypes::eLever_139, switchYPos, switchXPos));
+    auto pSwitch = static_cast<Lever*>(FindObjectOfType_425180(AETypes::eLever_139, switchYPos, switchXPos));
     if (pSwitch && !field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
     {
         pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
@@ -6832,7 +6832,7 @@ s32 Slig::vGetSaveState_4BFB10(Slig_State* pState)
 s16 Slig::FindSwitch_4B9A50()
 {
     const s16 yPos = FP_GetExponent(field_BC_ypos - FP_FromInteger(5));
-    if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(field_B8_xpos), yPos, FP_GetExponent(field_B8_xpos), yPos, TlvTypes::Switch_17))
+    if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(field_B8_xpos), yPos, FP_GetExponent(field_B8_xpos), yPos, TlvTypes::Lever_17))
     {
         return 0;
     }
@@ -6848,7 +6848,7 @@ s16 Slig::FindSwitch_4B9A50()
                yPos,
                FP_GetExponent(FP_Abs(field_B8_xpos) + xOff),
                yPos,
-               TlvTypes::Switch_17)
+               TlvTypes::Lever_17)
         != 0;
 }
 

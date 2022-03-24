@@ -19,7 +19,7 @@
 #include "Spark.hpp"
 #include "Sound/Midi.hpp"
 #include "ScreenManager.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "Particle.hpp"
 #include "PossessionFlicker.hpp"
 #include "ScreenShake.hpp"
@@ -4448,7 +4448,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_11()
     if (field_106_current_motion == eMudMotions::M_LeverUse_10_473020)
     {
         field_108_next_motion = -1;
-        auto pSwitch = static_cast<Switch*>(pLever);
+        auto pSwitch = static_cast<Lever*>(pLever);
         pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
         field_16A_flags.Clear(Flags_16A::eBit5_following);
 
@@ -5252,7 +5252,7 @@ s16 Mudokon::Brain_8_AngryWorker_47E910()
                 xOff = ScaleToGridSize_4498B0(field_CC_sprite_scale);
             }
 
-            auto pLever = static_cast<Switch*>(FindObjectOfType_425180(AETypes::eLever_139, xOff + field_B8_xpos, ypos));
+            auto pLever = static_cast<Lever*>(FindObjectOfType_425180(AETypes::eLever_139, xOff + field_B8_xpos, ypos));
             if (pLever)
             {
                 field_108_next_motion = eMudMotions::M_LeverUse_10_473020;

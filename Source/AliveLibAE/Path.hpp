@@ -35,7 +35,7 @@ enum class TlvTypes : s16
     TimedMine_14 = 14,
     Slig_15 = 15,
     Slog_16 = 16,
-    Switch_17 = 17,
+    Lever_17 = 17,
     Null_18 = 18,
     SecurityOrb_19 = 19,
     Null_20 = 20,

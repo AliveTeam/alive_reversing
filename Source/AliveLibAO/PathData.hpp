@@ -74,7 +74,7 @@ enum class TlvTypes : s16
 
     Slig_24 = 24,
     Slog_25 = 25,
-    Switch_26 = 26,
+    Lever_26 = 26,
     BellHammer_27 = 27,
     StartController_28 = 28,
     SecurityOrb_29 = 29,

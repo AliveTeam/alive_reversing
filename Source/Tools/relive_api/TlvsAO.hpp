@@ -6,7 +6,7 @@
 #include "../../AliveLibAO/HoistRocksEffect.hpp"
 #include "../../AliveLibAO/Abe.hpp"
 #include "../../AliveLibAO/Door.hpp"
-#include "../../AliveLibAO/Switch.hpp"
+#include "../../AliveLibAO/Lever.hpp"
 #include "../../AliveLibAO/DoorLight.hpp"
 #include "../../AliveLibAO/ElectricWall.hpp"
 #include "../../AliveLibAO/Well.hpp"
@@ -487,29 +487,29 @@ struct Path_Change final : public ReliveAPI::TlvObjectBaseAO
     }
 };
 
-struct Path_Switch final : public ReliveAPI::TlvObjectBaseAO
+struct Path_Lever final : public ReliveAPI::TlvObjectBaseAO
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<AO::SwitchSoundType>("Enum_SwitchSoundType",
+        types.AddEnum<AO::LeverSoundType>("Enum_LeverSoundType",
         {
-            {AO::SwitchSoundType::eNone, "None"},
-            {AO::SwitchSoundType::eWell_1, "Well"},
-            {AO::SwitchSoundType::eSwitchBellHammer_2, "Switch Bell Hammer"},
-            {AO::SwitchSoundType::eDoor_3, "Door"},
-            {AO::SwitchSoundType::eElectricWall_4, "Electric Wall"},
-            {AO::SwitchSoundType::eSecurityOrb_5, "Security Orb"},
+            {AO::LeverSoundType::eNone, "None"},
+            {AO::LeverSoundType::eWell_1, "Well"},
+            {AO::LeverSoundType::eSwitchBellHammer_2, "Switch Bell Hammer"},
+            {AO::LeverSoundType::eDoor_3, "Door"},
+            {AO::LeverSoundType::eElectricWall_4, "Electric Wall"},
+            {AO::LeverSoundType::eSecurityOrb_5, "Security Orb"},
         });
 
-        types.AddEnum<AO::SwitchSoundDirection>("Enum_SwitchSoundDirection",
+        types.AddEnum<AO::LeverSoundDirection>("Enum_LeverSoundDirection",
         {
-            {AO::SwitchSoundDirection::eLeftAndRight_0, "Left And Right"},
-            {AO::SwitchSoundDirection::eLeft_1, "Left"},
-            {AO::SwitchSoundDirection::eRight_2, "Right"},
+            {AO::LeverSoundDirection::eLeftAndRight_0, "Left And Right"},
+            {AO::LeverSoundDirection::eLeft_1, "Left"},
+            {AO::LeverSoundDirection::eRight_2, "Right"},
         });
     }
 
-    CTOR_AO(Path_Switch, "Switch", AO::TlvTypes::Switch_26)
+    CTOR_AO(Path_Lever, "Lever", AO::TlvTypes::Lever_26)
     {
         ADD("Switch ID", mTlv.field_18_switch_id);
         ADD("Action", mTlv.field_1A_action);

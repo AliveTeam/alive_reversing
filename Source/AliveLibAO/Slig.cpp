@@ -2,7 +2,7 @@
 #include "AmbientSound.hpp"
 #include "Function.hpp"
 #include "Slig.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
 #include "Shadow.hpp"
@@ -2211,12 +2211,12 @@ s16 Slig::HandlePlayerControlled_4667B0()
     {
         if (!Input_IsChanting_4334C0())
         {
-            Path_Switch* pTlv = static_cast<Path_Switch*>(gMap_507BA8.TLV_Get_At_446260(
+            Path_Lever* pTlv = static_cast<Path_Lever*>(gMap_507BA8.TLV_Get_At_446260(
                 FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(field_AC_ypos),
                 FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(field_AC_ypos),
-                TlvTypes::Switch_26));
+                TlvTypes::Lever_26));
             field_F0_pTlv = pTlv;
             if (pTlv)
             {
@@ -2224,7 +2224,7 @@ s16 Slig::HandlePlayerControlled_4667B0()
                 {
                     if (!(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                     {
-                        auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(
+                        auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                             Types::eLever_97,
                             field_A8_xpos + kScaleGrid,
                             field_AC_ypos - FP_FromInteger(5)));
@@ -2246,7 +2246,7 @@ s16 Slig::HandlePlayerControlled_4667B0()
                 {
                     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos - kScaleGrid, field_AC_ypos - FP_FromInteger(5)));
+                        auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos - kScaleGrid, field_AC_ypos - FP_FromInteger(5)));
                         if (pSwitch)
                         {
                             pSwitch->VPull(
@@ -5078,18 +5078,18 @@ s16 Slig::Brain_Idle_46D6E0()
             }
             if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eUnknown_29)
             {
-                auto pTlv = static_cast<Path_Switch*>(gMap_507BA8.TLV_Get_At_446260(
+                auto pTlv = static_cast<Path_Lever*>(gMap_507BA8.TLV_Get_At_446260(
                     FP_GetExponent(field_A8_xpos),
                     FP_GetExponent(field_AC_ypos),
                     FP_GetExponent(field_A8_xpos),
                     FP_GetExponent(field_AC_ypos),
-                    TlvTypes::Switch_26));
+                    TlvTypes::Lever_26));
                 if (pTlv)
                 {
                     FP kScaleGrid = ScaleToGridSize_41FA30(field_BC_sprite_scale);
                     if ((FP_FromInteger(FP_GetExponent(field_A8_xpos) - pTlv->field_10_top_left.field_0_x) < kScaleGrid && !(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))) || (FP_FromInteger(pTlv->field_14_bottom_right.field_0_x - FP_GetExponent(field_A8_xpos)) < kScaleGrid && field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                     {
-                        auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(
+                        auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                             Types::eLever_97,
                             field_A8_xpos + kScaleGrid,
                             field_AC_ypos - FP_FromInteger(5)));

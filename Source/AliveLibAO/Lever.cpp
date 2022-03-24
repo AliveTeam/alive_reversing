@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
@@ -9,7 +9,7 @@
 
 namespace AO {
 
-struct Switch_Data final
+struct Lever_Data final
 {
     AnimId field_0_idle_animId;
     s32 field_4_maxW;
@@ -19,39 +19,39 @@ struct Switch_Data final
     AnimId field_14_pulling_right_animId;
     AnimId field_18_releasing_right_animId;
 };
-ALIVE_ASSERT_SIZEOF(Switch_Data, 0x1C);
+ALIVE_ASSERT_SIZEOF(Lever_Data, 0x1C);
 
-const Switch_Data gSwitchData_4BCF40[16] = {
-    {AnimId::Switch_Idle, 66, 41, AnimId::Switch_Pull_Left, AnimId::Switch_Pull_Release_Left, AnimId::Switch_Pull_Right, AnimId::Switch_Pull_Release_Right},                                                                  // menu
-    {AnimId::RuptureFarms_Switch_Idle, 67, 40, AnimId::RuptureFarms_Switch_Pull_Left, AnimId::RuptureFarms_Switch_Pull_Release_Left, AnimId::RuptureFarms_Switch_Pull_Right, AnimId::RuptureFarms_Switch_Pull_Release_Right}, // rupture farms
-    {AnimId::Lines_Switch_Idle, 66, 41, AnimId::Lines_Switch_Pull_Left, AnimId::Lines_Switch_Pull_Release_Left, AnimId::Lines_Switch_Pull_Right, AnimId::Lines_Switch_Pull_Release_Right},                                    // lines
-    {AnimId::Switch_Idle, 66, 41, AnimId::Switch_Pull_Left, AnimId::Switch_Pull_Release_Left, AnimId::Switch_Pull_Right, AnimId::Switch_Pull_Release_Right},                                                                  // forest
-    {AnimId::Switch_Idle, 66, 41, AnimId::Switch_Pull_Left, AnimId::Switch_Pull_Release_Left, AnimId::Switch_Pull_Right, AnimId::Switch_Pull_Release_Right},                                                                  // forest temple
-    {AnimId::Switch_Idle, 66, 41, AnimId::Switch_Pull_Left, AnimId::Switch_Pull_Release_Left, AnimId::Switch_Pull_Right, AnimId::Switch_Pull_Release_Right},                                                                  // stock yards
-    {AnimId::RuptureFarms_Switch_Idle, 67, 40, AnimId::RuptureFarms_Switch_Pull_Left, AnimId::RuptureFarms_Switch_Pull_Release_Left, AnimId::RuptureFarms_Switch_Pull_Right, AnimId::RuptureFarms_Switch_Pull_Release_Right}, // stock yards return
-    {AnimId::Lines_Switch_Idle, 66, 41, AnimId::Lines_Switch_Pull_Left, AnimId::Lines_Switch_Pull_Release_Left, AnimId::Lines_Switch_Pull_Right, AnimId::Lines_Switch_Pull_Release_Right},                                    // removed
-    {AnimId::Switch_Idle, 66, 41, AnimId::Switch_Pull_Left, AnimId::Switch_Pull_Release_Left, AnimId::Switch_Pull_Right, AnimId::Switch_Pull_Release_Right},                                                                  // desert
-    {AnimId::Switch_Idle, 66, 41, AnimId::Switch_Pull_Left, AnimId::Switch_Pull_Release_Left, AnimId::Switch_Pull_Right, AnimId::Switch_Pull_Release_Right},                                                                  // desert temple
-    {AnimId::Switch_Idle, 66, 41, AnimId::Switch_Pull_Left, AnimId::Switch_Pull_Release_Left, AnimId::Switch_Pull_Right, AnimId::Switch_Pull_Release_Right},                                                                  // credits
-    {AnimId::Switch_Idle, 66, 41, AnimId::Switch_Pull_Left, AnimId::Switch_Pull_Release_Left, AnimId::Switch_Pull_Right, AnimId::Switch_Pull_Release_Right},                                                                  // removed
-    {AnimId::RuptureFarms_Switch_Idle, 67, 40, AnimId::RuptureFarms_Switch_Pull_Left, AnimId::RuptureFarms_Switch_Pull_Release_Left, AnimId::RuptureFarms_Switch_Pull_Right, AnimId::RuptureFarms_Switch_Pull_Release_Right}, // board room
-    {AnimId::RuptureFarms_Switch_Idle, 67, 40, AnimId::RuptureFarms_Switch_Pull_Left, AnimId::RuptureFarms_Switch_Pull_Release_Left, AnimId::RuptureFarms_Switch_Pull_Right, AnimId::RuptureFarms_Switch_Pull_Release_Right}, // rupture farms return
-    {AnimId::Switch_Idle, 66, 41, AnimId::Switch_Pull_Left, AnimId::Switch_Pull_Release_Left, AnimId::Switch_Pull_Right, AnimId::Switch_Pull_Release_Right},                                                                  // forest chase
-    {AnimId::Switch_Idle, 66, 41, AnimId::Switch_Pull_Left, AnimId::Switch_Pull_Release_Left, AnimId::Switch_Pull_Right, AnimId::Switch_Pull_Release_Right}};                                                                 // desert escape
+const Lever_Data gLeverData_4BCF40[16] = {
+    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // menu
+    {AnimId::RuptureFarms_Lever_Idle, 67, 40, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // rupture farms
+    {AnimId::Lines_Lever_Idle, 66, 41, AnimId::Lines_Lever_Pull_Left, AnimId::Lines_Lever_Pull_Release_Left, AnimId::Lines_Lever_Pull_Right, AnimId::Lines_Lever_Pull_Release_Right},                                    // lines
+    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // forest
+    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // forest temple
+    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // stock yards
+    {AnimId::RuptureFarms_Lever_Idle, 67, 40, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // stock yards return
+    {AnimId::Lines_Lever_Idle, 66, 41, AnimId::Lines_Lever_Pull_Left, AnimId::Lines_Lever_Pull_Release_Left, AnimId::Lines_Lever_Pull_Right, AnimId::Lines_Lever_Pull_Release_Right},                                    // removed
+    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // desert
+    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // desert temple
+    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // credits
+    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // removed
+    {AnimId::RuptureFarms_Lever_Idle, 67, 40, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // board room
+    {AnimId::RuptureFarms_Lever_Idle, 67, 40, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // rupture farms return
+    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // forest chase
+    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right}};                                                                 // desert escape
 
-s32 Switch::VPull(s16 bLeftDirection)
+s32 Lever::VPull(s16 bLeftDirection)
 {
     return vPull_481640(bLeftDirection);
 }
 
-void Switch::VUpdate_4812D0()
+void Lever::VUpdate_4812D0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_E8_state == SwitchState::ePulled_1)
+    if (field_E8_state == LeverState::ePulled_1)
     {
         if (field_10_anim.field_92_current_frame == 3)
         {
@@ -69,16 +69,16 @@ void Switch::VUpdate_4812D0()
             {
                 SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 60, 0);
             }
-            field_E8_state = SwitchState::eFinished_2;
+            field_E8_state = LeverState::eFinished_2;
 
             AnimId animId = AnimId::None;
             if (field_F0_bPulledFromLeft == 0)
             {
-                animId = gSwitchData_4BCF40[lvl_idx].field_18_releasing_right_animId;
+                animId = gLeverData_4BCF40[lvl_idx].field_18_releasing_right_animId;
             }
             else
             {
-                animId = gSwitchData_4BCF40[lvl_idx].field_10_releasing_left_animId;
+                animId = gLeverData_4BCF40[lvl_idx].field_10_releasing_left_animId;
             }
 
             const AnimRecord& rec = AO::AnimRec(animId);
@@ -93,12 +93,12 @@ void Switch::VUpdate_4812D0()
                 s32 leftVol = 0;
                 s32 rightVol = 0;
 
-                if (field_F8_sound_direction == SwitchSoundDirection::eLeft_1)
+                if (field_F8_sound_direction == LeverSoundDirection::eLeft_1)
                 {
                     leftVol = 1;
                     rightVol = 0;
                 }
-                else if (field_F8_sound_direction == SwitchSoundDirection::eRight_2)
+                else if (field_F8_sound_direction == LeverSoundDirection::eRight_2)
                 {
                     leftVol = 0;
                     rightVol = 1;
@@ -113,19 +113,19 @@ void Switch::VUpdate_4812D0()
                 {
                     switch (field_F4_on_sound)
                     {
-                        case SwitchSoundType::eWell_1:
+                        case LeverSoundType::eWell_1:
                             SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                             break;
-                        case SwitchSoundType::eSwitchBellHammer_2:
+                        case LeverSoundType::eSwitchBellHammer_2:
                             SFX_Play_43ADE0(SoundEffect::SwitchBellHammer_12, 100 * leftVol + 25, 100 * rightVol + 25, 0);
                             return;
-                        case SwitchSoundType::eDoor_3:
+                        case LeverSoundType::eDoor_3:
                             SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
                             break;
-                        case SwitchSoundType::eElectricWall_4:
+                        case LeverSoundType::eElectricWall_4:
                             SFX_Play_43ADE0(SoundEffect::Zap1_57, 35 * leftVol + 25, 35 * rightVol + 25, 0);
                             break;
-                        case SwitchSoundType::eSecurityOrb_5:
+                        case LeverSoundType::eSecurityOrb_5:
                             SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 25, 35 * rightVol + 25, 0);
                             break;
                         default:
@@ -136,19 +136,19 @@ void Switch::VUpdate_4812D0()
                 {
                     switch (field_F6_off_sound)
                     {
-                        case SwitchSoundType::eWell_1:
+                        case LeverSoundType::eWell_1:
                             SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                             break;
-                        case SwitchSoundType::eSwitchBellHammer_2:
+                        case LeverSoundType::eSwitchBellHammer_2:
                             SFX_Play_43ADE0(SoundEffect::SwitchBellHammer_12, 110 * leftVol + 25, 110 * rightVol + 25, 0);
                             break;
-                        case SwitchSoundType::eDoor_3:
+                        case LeverSoundType::eDoor_3:
                             SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
                             break;
-                        case SwitchSoundType::eElectricWall_4:
+                        case LeverSoundType::eElectricWall_4:
                             SFX_Play_43ADE0(SoundEffect::Zap1_57, 80 * leftVol + 25, 80 * rightVol + 25, 0);
                             break;
-                        case SwitchSoundType::eSecurityOrb_5:
+                        case LeverSoundType::eSecurityOrb_5:
                             SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 75, 35 * rightVol + 75, 0);
                             break;
                         default:
@@ -158,12 +158,12 @@ void Switch::VUpdate_4812D0()
             }
         }
     }
-    else if (field_E8_state == SwitchState::eFinished_2)
+    else if (field_E8_state == LeverState::eFinished_2)
     {
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
-            field_E8_state = SwitchState::eWaiting_0;
-            const AnimRecord& rec = AO::AnimRec(gSwitchData_4BCF40[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0_idle_animId);
+            field_E8_state = LeverState::eWaiting_0;
+            const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0_idle_animId);
             field_10_anim.Set_Animation_Data_402A40(
                 rec.mFrameTableOffset,
                 nullptr);
@@ -171,22 +171,22 @@ void Switch::VUpdate_4812D0()
     }
 }
 
-void Switch::VUpdate()
+void Lever::VUpdate()
 {
     VUpdate_4812D0();
 }
 
-void Switch::VScreenChanged_4816F0()
+void Lever::VScreenChanged_4816F0()
 {
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-void Switch::VScreenChanged()
+void Lever::VScreenChanged()
 {
     VScreenChanged_4816F0();
 }
 
-Switch* Switch::Vdtor_481700(s32 flags)
+Lever* Lever::Vdtor_481700(s32 flags)
 {
     dtor_481260();
     if (flags & 1)
@@ -196,26 +196,26 @@ Switch* Switch::Vdtor_481700(s32 flags)
     return this;
 }
 
-BaseGameObject* Switch::VDestructor(s32 flags)
+BaseGameObject* Lever::VDestructor(s32 flags)
 {
     return Vdtor_481700(flags);
 }
 
-BaseGameObject* Switch::dtor_481260()
+BaseGameObject* Lever::dtor_481260()
 {
     SetVTable(this, 0x4BD100);
     gMap_507BA8.TLV_Reset_446870(field_EC_tlvInfo, -1, 0, 0);
     return dtor_417D10(); // Note: intermediate base skipped
 }
 
-Switch* Switch::ctor_481110(Path_Switch* pTlv, s32 tlvInfo)
+Lever* Lever::ctor_481110(Path_Lever* pTlv, s32 tlvInfo)
 {
     ctor_417C10();
     SetVTable(this, 0x4BD100);
 
     field_4_typeId = Types::eLever_97;
     const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
-    const AnimRecord& rec = AO::AnimRec(gSwitchData_4BCF40[lvl_idx].field_0_idle_animId);
+    const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_0_idle_animId);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(
         rec.mFrameTableOffset,
@@ -252,20 +252,20 @@ Switch* Switch::ctor_481110(Path_Switch* pTlv, s32 tlvInfo)
     field_EC_tlvInfo = tlvInfo;
     field_F8_sound_direction = pTlv->field_22_sound_direction;
 
-    field_E8_state = SwitchState::eWaiting_0;
+    field_E8_state = LeverState::eWaiting_0;
 
     return this;
 }
 
-s32 Switch::vPull_481640(s16 bLeftDirection)
+s32 Lever::vPull_481640(s16 bLeftDirection)
 {
-    if (field_E8_state == SwitchState::eWaiting_0)
+    if (field_E8_state == LeverState::eWaiting_0)
     {
         const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
-        field_E8_state = SwitchState::ePulled_1;
+        field_E8_state = LeverState::ePulled_1;
         if (bLeftDirection)
         {
-            const AnimRecord& rec = AO::AnimRec(gSwitchData_4BCF40[lvl_idx].field_C_pulling_left_animId);
+            const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_C_pulling_left_animId);
             field_10_anim.Set_Animation_Data_402A40(
                 rec.mFrameTableOffset,
                 nullptr);
@@ -273,7 +273,7 @@ s32 Switch::vPull_481640(s16 bLeftDirection)
         }
         else
         {
-            const AnimRecord& rec = AO::AnimRec(gSwitchData_4BCF40[lvl_idx].field_14_pulling_right_animId);
+            const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_14_pulling_right_animId);
             field_10_anim.Set_Animation_Data_402A40(
                 rec.mFrameTableOffset,
                 nullptr);

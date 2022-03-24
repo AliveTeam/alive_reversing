@@ -22,7 +22,7 @@
 #include "SwitchStates.hpp"
 #include "Particle.hpp"
 #include "CameraSwapper.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "ScreenShake.hpp"
 #include "PsxDisplay.hpp"
 #include "PossessionFlicker.hpp"
@@ -3277,7 +3277,7 @@ s16 Mudokon::Brain_LeverUse_6_43C250()
         directedGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
     }
 
-    auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + directedGridSize, field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale)));
+    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + directedGridSize, field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale)));
     if (pSwitch)
     {
         pSwitch->vPull_481640(field_A8_xpos < pSwitch->field_A8_xpos);

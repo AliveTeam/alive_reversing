@@ -53,7 +53,7 @@ void TypesCollectionAO::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_ContinuePoint);
     REGISTER_TYPE_AO(AOTlvs::Path_Door);
     REGISTER_TYPE_AO(AOTlvs::Path_Change);
-    REGISTER_TYPE_AO(AOTlvs::Path_Switch);
+    REGISTER_TYPE_AO(AOTlvs::Path_Lever);
     REGISTER_TYPE_AO(AOTlvs::Path_LightEffect);
     REGISTER_TYPE_AO(AOTlvs::Path_ElectricWall);
     REGISTER_TYPE_AO(AOTlvs::Path_ContinueZone);

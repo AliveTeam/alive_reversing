@@ -41,7 +41,7 @@ void TypesCollectionAE::AddAETypes()
 #define REGISTER_TYPE_AE(TlvWrapperType) mTlvFactoryAE.DoRegisterType<TlvWrapperType>(*this)
 
     REGISTER_TYPE_AE(AETlvs::Path_Hoist);
-    REGISTER_TYPE_AE(AETlvs::Path_Switch);
+    REGISTER_TYPE_AE(AETlvs::Path_Lever);
     REGISTER_TYPE_AE(AETlvs::Path_Door);
     REGISTER_TYPE_AE(AETlvs::Path_LCDStatusBoard);
     REGISTER_TYPE_AE(AETlvs::Path_BirdPortal);

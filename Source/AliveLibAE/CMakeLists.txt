@@ -222,8 +222,8 @@ SET(AliveLibAESrc
     LevelLoader.cpp
     InvisibleSwitch.hpp
     InvisibleSwitch.cpp
-    Switch.hpp
-    Switch.cpp
+    Lever.hpp
+    Lever.cpp
     MultiSwitchController.hpp
     MultiSwitchController.cpp
     ShadowZone.hpp

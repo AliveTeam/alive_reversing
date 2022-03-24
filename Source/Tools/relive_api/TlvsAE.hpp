@@ -4,7 +4,7 @@
 #include "TlvObjectBaseMacros.hpp"
 
 #include "../../AliveLibAE/Path.hpp"
-#include "../../AliveLibAE/Switch.hpp"
+#include "../../AliveLibAE/Lever.hpp"
 #include "../../AliveLibAE/ElectricWall.hpp"
 #include "../../AliveLibAE/Mudokon.hpp"
 #include "../../AliveLibAE/BirdPortal.hpp"
@@ -415,28 +415,28 @@ struct Path_Door final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
-struct Path_Switch final : public ReliveAPI::TlvObjectBaseAE
+struct Path_Lever final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::SwitchSoundType>("Enum_SwitchSoundType",
-                                         {{::SwitchSoundType::eNone, "None"},
-                                          {::SwitchSoundType::eWell_1, "Well"},
-                                          {::SwitchSoundType::eUnknown_2, "Unknown"},
-                                          {::SwitchSoundType::eDoor_3, "Door"},
-                                          {::SwitchSoundType::eElectricWall_4, "Electric Wall"},
-                                          {::SwitchSoundType::eSecurityOrb_5, "Security Orb"},
-                                          {::SwitchSoundType::eLift_6, "Lift"}});
+        types.AddEnum<::LeverSoundType>("Enum_LeverSoundType",
+                                         {{::LeverSoundType::eNone, "None"},
+                                          {::LeverSoundType::eWell_1, "Well"},
+                                          {::LeverSoundType::eUnknown_2, "Unknown"},
+                                          {::LeverSoundType::eDoor_3, "Door"},
+                                          {::LeverSoundType::eElectricWall_4, "Electric Wall"},
+                                          {::LeverSoundType::eSecurityOrb_5, "Security Orb"},
+                                          {::LeverSoundType::eLift_6, "Lift"}});
 
-        types.AddEnum<::SwitchSoundDirection>("Enum_SwitchSoundDirection",
+        types.AddEnum<::LeverSoundDirection>("Enum_LeverSoundDirection",
                                               {
-                                                  {::SwitchSoundDirection::eLeftAndRight_0, "Left And Right"},
-                                                  {::SwitchSoundDirection::eLeft_1, "Left"},
-                                                  {::SwitchSoundDirection::eRight_2, "Right"},
+                                                  {::LeverSoundDirection::eLeftAndRight_0, "Left And Right"},
+                                                  {::LeverSoundDirection::eLeft_1, "Left"},
+                                                  {::LeverSoundDirection::eRight_2, "Right"},
                                               });
     }
 
-    CTOR_AE(Path_Switch, "Switch", TlvTypes::Switch_17)
+    CTOR_AE(Path_Lever, "Lever", TlvTypes::Lever_17)
     {
         ADD("Action", mTlv.field_10_action);
         ADD("Scale", mTlv.field_12_scale);

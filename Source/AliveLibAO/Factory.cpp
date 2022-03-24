@@ -39,7 +39,7 @@
 #include "FootSwitch.hpp"
 #include "HoistRocksEffect.hpp"
 #include "RollingBall.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "SecurityDoor.hpp"
 #include "BackgroundGlukkon.hpp"
 #include "Rock.hpp"
@@ -910,31 +910,31 @@ EXPORT void Factory_Switch_485370(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
             case LevelIds::eStockYardsReturn_6:
             case LevelIds::eBoardRoom_12:
             case LevelIds::eRuptureFarmsReturn_13:
-                ResourceManager::LoadResource_446C90("R1SWITCH.BAN", ResourceManager::Resource_Animation, AOResourceID::kSwitchAOResID, loadMode);
+                ResourceManager::LoadResource_446C90("R1SWITCH.BAN", ResourceManager::Resource_Animation, AOResourceID::kLeverAOResID, loadMode);
                 break;
 
             case LevelIds::eLines_2:
-                ResourceManager::LoadResource_446C90("L1SWITCH.BAN", ResourceManager::Resource_Animation, AOResourceID::kSwitchAOResID, loadMode);
+                ResourceManager::LoadResource_446C90("L1SWITCH.BAN", ResourceManager::Resource_Animation, AOResourceID::kLeverAOResID, loadMode);
                 break;
 
             case LevelIds::eDesert_8:
             case LevelIds::eDesertTemple_9:
             case LevelIds::eDesertEscape_15:
-                ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, AOResourceID::kSwitchAOResID, loadMode);
+                ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, AOResourceID::kLeverAOResID, loadMode);
                 break;
 
             default:
-                ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, AOResourceID::kSwitchAOResID, loadMode);
+                ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, AOResourceID::kLeverAOResID, loadMode);
                 break;
         }
         ResourceManager::LoadResource_446C90("ABEPULL.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbepullAOResID, loadMode);
     }
     else
     {
-        auto pSwitch = ao_new<Switch>();
+        auto pSwitch = ao_new<Lever>();
         if (pSwitch)
         {
-            pSwitch->ctor_481110(static_cast<Path_Switch*>(pTlv), tlvOffsetLevelIdPathId.all);
+            pSwitch->ctor_481110(static_cast<Path_Lever*>(pTlv), tlvOffsetLevelIdPathId.all);
         }
     }
 }
