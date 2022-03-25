@@ -14,7 +14,7 @@ enum class DoorStates : s16
 {
     eOpen_0 = 0,
     eClosed_1 = 1,
-    eOpening_2 = 2,
+    eHubDoorClosed_2 = 2,
     eClosing_3 = 3,
 };
 

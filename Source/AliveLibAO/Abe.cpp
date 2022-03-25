@@ -9999,7 +9999,7 @@ void Abe::Motion_156_DoorEnter_42D370()
                     field_C6_scale = 1;
                 }
             }
-            else if (pPathDoor->field_26_start_state == DoorStates::eClosed_1 || pPathDoor->field_26_start_state == DoorStates::eOpening_2)
+            else if (pPathDoor->field_26_start_state == DoorStates::eClosed_1 || pPathDoor->field_26_start_state == DoorStates::eHubDoorClosed_2)
             {
                 if (gMap_507BA8.field_0_current_level != LevelIds::eRuptureFarmsReturn_13)
                 {

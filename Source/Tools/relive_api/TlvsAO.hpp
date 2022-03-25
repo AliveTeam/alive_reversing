@@ -401,8 +401,8 @@ struct Path_Door final : public ReliveAPI::TlvObjectBaseAO
         {
             {AO::DoorStates::eOpen_0, "Open"},
             {AO::DoorStates::eClosed_1, "Closed"},
-            {AO::DoorStates::eOpening_2, "Opening"},
-            {AO::DoorStates::eClosing_3, "Closing"},
+            {AO::DoorStates::eHubDoorClosed_2, "Hub Door Closed"},
+            {AO::DoorStates::eClosing_3, "Closing (Internal Only)"},
         });
     }
 

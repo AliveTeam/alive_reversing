@@ -241,7 +241,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
             break;
         }
 
-        case DoorStates::eOpening_2:
+        case DoorStates::eHubDoorClosed_2:
             if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1)
             {
                 ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kF2p3dorAOResID, 1, 0);
@@ -384,7 +384,7 @@ void Door::vOpen_40E810()
 {
     if (field_EC_current_state != DoorStates::eOpen_0)
     {
-        field_EC_current_state = DoorStates::eOpening_2;
+        field_EC_current_state = DoorStates::eHubDoorClosed_2;
     }
 }
 
@@ -444,7 +444,7 @@ void Door::VUpdate_40E870()
     {
         field_EA_door_number = -1;
 
-        if (field_E8_start_state == DoorStates::eOpening_2)
+        if (field_E8_start_state == DoorStates::eHubDoorClosed_2)
         {
             if (SwitchStates_Get(field_F2_hubs_ids[0]) &&
                 SwitchStates_Get(field_F2_hubs_ids[1]) &&
@@ -500,7 +500,7 @@ void Door::VUpdate_40E870()
                             break;
                         }
 
-                        case DoorStates::eOpening_2:
+                        case DoorStates::eHubDoorClosed_2:
                         {
                         default:
                             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][5]);
@@ -520,7 +520,7 @@ void Door::VUpdate_40E870()
 
                 if ((field_EE_door_closed == Choice_short::eYes_1 && SwitchStates_Get(field_F0_switch_id)) || (field_EE_door_closed == Choice_short::eNo_0 && !SwitchStates_Get(field_F0_switch_id)))
                 {
-                    field_EC_current_state = DoorStates::eOpening_2;
+                    field_EC_current_state = DoorStates::eHubDoorClosed_2;
 
                     switch (field_E8_start_state)
                     {
@@ -538,7 +538,7 @@ void Door::VUpdate_40E870()
                             break;
                         }
 
-                        case DoorStates::eOpening_2:
+                        case DoorStates::eHubDoorClosed_2:
                         {
                         default:
                             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][5]);
@@ -554,7 +554,7 @@ void Door::VUpdate_40E870()
                 }
                 break;
 
-            case DoorStates::eOpening_2:
+            case DoorStates::eHubDoorClosed_2:
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
                 if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
