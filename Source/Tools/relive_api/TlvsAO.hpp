@@ -1236,7 +1236,7 @@ struct Path_Slog final : public ReliveAPI::TlvObjectBaseAO
         ADD("Bark Anger", mTlv.field_20_bark_anger);
         ADD("Chase Anger", mTlv.field_22_chase_anger);
         ADD("Chase Delay", mTlv.field_24_chase_delay);
-        ADD("disabled_resources", mTlv.field_26_disabled_resources);
+        ADD("Disabled Resources", mTlv.field_26_disabled_resources);
         ADD("Anger Switch ID", mTlv.field_28_anger_switch_id);
     }
 };
