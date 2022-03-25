@@ -2977,11 +2977,11 @@ static bool IsSameScaleAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 
 static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
-    if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eLeft && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingLeft && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
-    else if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eRight && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingRight && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
@@ -2991,15 +2991,15 @@ static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject
 
 static bool isEdgeGrabbable(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eLeft && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eFacingLeft && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eRight && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eFacingRight && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eBoth)
+    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eFacingAnyDirection)
     {
         return true;
     }
@@ -3103,7 +3103,7 @@ void Abe::Motion_0_Idle_44EEB0()
             }
             else
             {
-                if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth)
+                if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingAnyDirection)
                 {
                     // We can hoist down from any side
                     field_106_current_motion = eAbeMotions::Motion_66_LedgeDescend_454970;
@@ -4016,7 +4016,7 @@ void Abe::Motion_14_HoistIdle_452440()
 
     if (pHoist)
     {
-        if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth))
+        if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingAnyDirection))
         {
             if (pHoist->field_10_type == Path_Hoist::Type::eOffScreen)
             {
@@ -4872,7 +4872,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
         {
             field_FC_pPathTLV = pHoist;
 
-            if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth) && pHoist->field_10_type != Path_Hoist::Type::eOffScreen)
+            if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingAnyDirection) && pHoist->field_10_type != Path_Hoist::Type::eOffScreen)
             {
                 checkCollision = true;
             }
@@ -8637,7 +8637,7 @@ void Abe::TryHoist_44ED30()
     {
         if (IsSameScaleAsHoist(pHoist, this))
         {
-            if (!IsFacingSameDirectionAsHoist(pHoist, this) && pHoist->field_12_grab_direction != Path_Hoist::GrabDirection::eBoth)
+            if (!IsFacingSameDirectionAsHoist(pHoist, this) && pHoist->field_12_grab_direction != Path_Hoist::GrabDirection::eFacingAnyDirection)
             {
                 // No, so auto turn around to face it.
                 field_108_next_motion = field_106_current_motion;

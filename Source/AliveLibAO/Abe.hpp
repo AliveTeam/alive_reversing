@@ -351,9 +351,9 @@ struct Path_Edge final : public Path_TLV
 {
     enum class GrabDirection : s16
     {
-        eLeft = 0,
-        eRight = 1,
-        eBoth = 2,
+        eFacingLeft = 0,
+        eFacingRight = 1,
+        eFacingAnyDirection = 2,
     };
     GrabDirection field_18_grab_direction;
     Choice_short field_1A_can_grab;

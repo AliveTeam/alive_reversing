@@ -2691,7 +2691,7 @@ Path_Hoist* Fleech::TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection)
         return pHoist;
     }
 
-    if (pHoist->field_12_grab_direction == (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? Path_Hoist::GrabDirection::eLeft : Path_Hoist::GrabDirection::eRight) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth)
+    if (pHoist->field_12_grab_direction == (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? Path_Hoist::GrabDirection::eFacingLeft : Path_Hoist::GrabDirection::eFacingRight) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingAnyDirection)
     {
         return pHoist;
     }
@@ -3822,7 +3822,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         if (field_106_current_motion == eFleechMotions::M_Idle_3_42E850)
         {
             // TODO: Check left VS flip is correct
-            if ((pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eLeft && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && pHoist->field_12_grab_direction != Path_Hoist::GrabDirection::eBoth)
+            if ((pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingLeft && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && pHoist->field_12_grab_direction != Path_Hoist::GrabDirection::eFacingAnyDirection)
             {
                 field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
             }

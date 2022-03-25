@@ -16,13 +16,13 @@ struct Path_Hoist final : public Path_TLV
     };
     Type field_18_hoist_type;
 
-    enum class EdgeType : s16
+    enum class GrabDirection : s16
     {
-        eLeft = 0,
-        eRight = 1,
-        eBoth = 2,
+        eFacingLeft = 0,
+        eFacingRight = 1,
+        eFacingAnyDirection = 2,
     };
-    EdgeType field_1A_edge_type;
+    GrabDirection field_1A_grab_direction;
 
     s16 field_1C_switch_id;
 
