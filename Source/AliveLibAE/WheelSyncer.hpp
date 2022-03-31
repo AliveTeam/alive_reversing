@@ -3,12 +3,12 @@
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
 
-enum class WheelSyncerAction : s16
+enum class WheelSyncerOutputRequirement : s16
 {
     eAllOn_0 = 0,
-    eOff_1 = 1,
-    eToggle_2 = 2,
-    eOn_3 = 3
+    e1OnAnd2Off_1 = 1,
+    e1Or2On_2 = 2,
+    e1OnOr2Off_3 = 3
 };
 
 struct Path_WheelSyncer final : public Path_TLV
@@ -16,7 +16,7 @@ struct Path_WheelSyncer final : public Path_TLV
     s16 field_10_input_switch_id1;
     s16 field_12_input_switch_id2;
     s16 field_14_output_switch_id;
-    WheelSyncerAction field_16_action;
+    WheelSyncerOutputRequirement field_16_output_requirement;
     s16 field_18_input_switch_id3;
     s16 field_1A_input_switch_id4;
     s16 field_1C_input_switch_id5;
@@ -47,7 +47,7 @@ private:
     s16 field_28_input_switch_id4;
     s16 field_2A_input_switch_id5;
     s16 field_2C_input_switch_id6;
-    WheelSyncerAction field_2E_action;
+    WheelSyncerOutputRequirement field_2E_output_requirement;
     u32 field_30_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(WheelSyncer, 0x34);
