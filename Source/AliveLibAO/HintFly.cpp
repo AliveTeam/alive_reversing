@@ -115,7 +115,7 @@ struct HintFlyParticle final
 };
 ALIVE_ASSERT_SIZEOF(HintFlyParticle, 0x54);
 
-const u8 byte_4C6DB0[20] = {
+const u8 HintFlyLetter_A_4C6DB0[20] = {
     19u,
     15u,
     29u,
@@ -137,7 +137,7 @@ const u8 byte_4C6DB0[20] = {
     221u,
     239u};
 
-const u8 byte_4C6DC8[32] = {
+const u8 HintFlyLetter_B_4C6DC8[32] = {
     31u,
     17u,
     19u,
@@ -171,7 +171,7 @@ const u8 byte_4C6DC8[32] = {
     234u,
     236u};
 
-const u8 byte_4C6DE8[17] = {
+const u8 HintFlyLetter_C_4C6DE8[17] = {
     16u,
     21u,
     23u,
@@ -191,7 +191,7 @@ const u8 byte_4C6DE8[17] = {
     221u,
 };
 
-const u8 byte_4C6E00[26] = {
+const u8 HintFlyLetter_D_4C6E00[26] = {
     25u,
     17u,
     19u,
@@ -220,7 +220,7 @@ const u8 byte_4C6E00[26] = {
     236u,
 };
 
-const u8 byte_4C6E20[27] = {
+const u8 HintFlyLetter_E_4C6E20[27] = {
     26u,
     17u,
     19u,
@@ -250,7 +250,7 @@ const u8 byte_4C6E20[27] = {
     223u,
 };
 
-const u8 byte_4C6E40[21] = {
+const u8 HintFlyLetter_F_4C6E40[21] = {
     20u,
     17u,
     19u,
@@ -274,7 +274,7 @@ const u8 byte_4C6E40[21] = {
     209u,
 };
 
-const u8 byte_4C6E58[22] = {
+const u8 HintFlyLetter_G_4C6E58[22] = {
     21u,
     21u,
     23u,
@@ -299,7 +299,7 @@ const u8 byte_4C6E58[22] = {
     221u,
 };
 
-const u8 byte_4C6E70[23] = {
+const u8 HintFlyLetter_H_4C6E70[23] = {
     22u,
     17u,
     19u,
@@ -325,7 +325,7 @@ const u8 byte_4C6E70[23] = {
     223u,
 };
 
-const u8 byte_4C6E88[21] = {
+const u8 HintFlyLetter_I_4C6E88[21] = {
     20u,
     17u,
     31u,
@@ -349,7 +349,7 @@ const u8 byte_4C6E88[21] = {
     223u,
 };
 
-const u8 byte_4C6EA0[15] = {
+const u8 HintFlyLetter_J_4C6EA0[15] = {
     14u,
     27u,
     29u,
@@ -367,7 +367,7 @@ const u8 byte_4C6EA0[15] = {
     221u,
 };
 
-const u8 byte_4C6EB0[23] = {
+const u8 HintFlyLetter_K_4C6EB0[23] = {
     22u,
     17u,
     19u,
@@ -393,7 +393,7 @@ const u8 byte_4C6EB0[23] = {
     255u,
 };
 
-const u8 byte_4C6EC8[16] = {
+const u8 HintFlyLetter_L_4C6EC8[16] = {
     14u,
     17u,
     19u,
@@ -411,7 +411,7 @@ const u8 byte_4C6EC8[16] = {
     223u,
 };
 
-const u8 byte_4C6ED8[25] = {
+const u8 HintFlyLetter_M_4C6ED8[25] = {
     24u,
     17u,
     19u,
@@ -439,7 +439,7 @@ const u8 byte_4C6ED8[25] = {
     223u,
 };
 
-const u8 byte_4C6EF8[23] = {
+const u8 HintFlyLetter_N_4C6EF8[23] = {
     22u,
     17u,
     19u,
@@ -465,7 +465,7 @@ const u8 byte_4C6EF8[23] = {
     223u,
 };
 
-const u8 byte_4C6F10[21] = {
+const u8 HintFlyLetter_O_4C6F10[21] = {
     20u,
     21u,
     23u,
@@ -489,7 +489,7 @@ const u8 byte_4C6F10[21] = {
     235u,
 };
 
-const u8 byte_4C6F28[23] = {
+const u8 HintFlyLetter_P_4C6F28[23] = {
     22u,
     17u,
     19u,
@@ -515,7 +515,7 @@ const u8 byte_4C6F28[23] = {
     230u,
 };
 
-const u8 byte_4C6F40[24] = {
+const u8 HintFlyLetter_Q_4C6F40[24] = {
     23u,
     21u,
     23u,
@@ -541,7 +541,7 @@ const u8 byte_4C6F40[24] = {
     235u,
     239u};
 
-const u8 byte_4C6F58[27] = {
+const u8 HintFlyLetter_R_4C6F58[27] = {
     26u,
     17u,
     19u,
@@ -571,7 +571,7 @@ const u8 byte_4C6F58[27] = {
     255u,
 };
 
-const u8 byte_4C6F78[21] = {
+const u8 HintFlyLetter_S_4C6F78[21] = {
     20u,
     21u,
     35u,
@@ -595,7 +595,7 @@ const u8 byte_4C6F78[21] = {
     221u,
 };
 
-const u8 byte_4C6F90[15] = {
+const u8 HintFlyLetter_T_4C6F90[15] = {
     14u,
     17u,
     49u,
@@ -613,7 +613,7 @@ const u8 byte_4C6F90[15] = {
     209u,
 };
 
-const u8 byte_4C6FA0[20] = {
+const u8 HintFlyLetter_U_4C6FA0[20] = {
     19u,
     17u,
     19u,
@@ -636,7 +636,7 @@ const u8 byte_4C6FA0[20] = {
     221u,
 };
 
-const u8 byte_4C6FB8[16] = {
+const u8 HintFlyLetter_V_4C6FB8[16] = {
     15u,
     17u,
     35u,
@@ -654,7 +654,7 @@ const u8 byte_4C6FB8[16] = {
     195u,
     209u};
 
-const u8 byte_4C6FC8[25] = {
+const u8 HintFlyLetter_W_4C6FC8[25] = {
     24u,
     16u,
     18u,
@@ -682,7 +682,7 @@ const u8 byte_4C6FC8[25] = {
     222u,
 };
 
-const u8 byte_4C6FE8[17] = {
+const u8 HintFlyLetter_X_4C6FE8[17] = {
     16u,
     17u,
     31u,
@@ -702,7 +702,7 @@ const u8 byte_4C6FE8[17] = {
     255u,
 };
 
-const u8 byte_4C7000[13] = {
+const u8 HintFlyLetter_Y_4C7000[13] = {
     12u,
     17u,
     51u,
@@ -718,7 +718,7 @@ const u8 byte_4C7000[13] = {
     225u,
 };
 
-const u8 byte_4C7010[22] = {
+const u8 HintFlyLetter_Z_4C7010[22] = {
     21u,
     17u,
     31u,
@@ -743,7 +743,7 @@ const u8 byte_4C7010[22] = {
     223u,
 };
 
-const u8 byte_4C7028[23] = {
+const u8 HintFlyLetter_A_diaeresis_4C7028[23] = {
     22u,
     15u,
     29u,
@@ -769,7 +769,8 @@ const u8 byte_4C7028[23] = {
     239u,
 };
 
-const u8 byte_4C7040[29] = {
+// the letter that looks like AE
+const u8 HintFlyLetter_ash_4C7040[29] = {
     28u,
     15u,
     29u,
@@ -801,7 +802,7 @@ const u8 byte_4C7040[29] = {
     223u,
 };
 
-const u8 byte_4C7060[21] = {
+const u8 HintFlyLetter_A_grave_4C7060[21] = {
     20u,
     15u,
     29u,
@@ -825,7 +826,7 @@ const u8 byte_4C7060[21] = {
     239u,
 };
 
-const u8 byte_4C7078[21] = {
+const u8 HintFlyLetter_A_acute_4C7078[21] = {
     20u,
     15u,
     29u,
@@ -849,7 +850,7 @@ const u8 byte_4C7078[21] = {
     239u,
 };
 
-const u8 byte_4C7090[21] = {
+const u8 HintFlyLetter_A_circumflex_4C7090[21] = {
     20u,
     15u,
     29u,
@@ -873,6 +874,7 @@ const u8 byte_4C7090[21] = {
     239u,
 };
 
+// something that looks like euro ?
 const u8 byte_4C70A8[28] = {
     27u,
     21u,
@@ -904,7 +906,7 @@ const u8 byte_4C70A8[28] = {
     223u,
 };
 
-const u8 byte_4C70C8[20] = {
+const u8 HintFlyLetter_C_cedilla_4C70C8[20] = {
     19u,
     21u,
     23u,
@@ -927,7 +929,7 @@ const u8 byte_4C70C8[20] = {
     218u,
 };
 
-const u8 byte_4C70E0[28] = {
+const u8 HintFlyLetter_E_grave_4C70E0[28] = {
     27u,
     19u,
     21u,
@@ -958,7 +960,7 @@ const u8 byte_4C70E0[28] = {
     223u,
 };
 
-const u8 byte_4C7100[28] = {
+const u8 HintFlyLetter_E_acute_4C7100[28] = {
     27u,
     19u,
     21u,
@@ -989,7 +991,7 @@ const u8 byte_4C7100[28] = {
     223u,
 };
 
-const u8 byte_4C7120[28] = {
+const u8 HintFlyLetter_E_circumflex_4C7120[28] = {
     27u,
     19u,
     21u,
@@ -1020,6 +1022,7 @@ const u8 byte_4C7120[28] = {
     223u,
 };
 
+// I with two dots??
 const u8 byte_4C7140[24] = {
     23u,
     19u,
@@ -1046,6 +1049,7 @@ const u8 byte_4C7140[24] = {
     211u,
     223u};
 
+// also looks like the one below
 const u8 byte_4C7158[23] = {
     22u,
     19u,
@@ -1071,7 +1075,7 @@ const u8 byte_4C7158[23] = {
     211u,
     223u};
 
-const u8 byte_4C7170[23] = {
+const u8 HintFlyLetter_I_circumflex_4C7170[23] = {
     22u,
     19u,
     31u,
@@ -1097,7 +1101,7 @@ const u8 byte_4C7170[23] = {
     223u,
 };
 
-const u8 byte_4C7188[24] = {
+const u8 HintFlyLetter_N_tilde_4C7188[24] = {
     23u,
     21u,
     23u,
@@ -1123,7 +1127,7 @@ const u8 byte_4C7188[24] = {
     221u,
     223u};
 
-const u8 byte_4C71A0[21] = {
+const u8 HintFlyLetter_O_diaeresis_4C71A0[21] = {
     20u,
     24u,
     27u,
@@ -1147,7 +1151,7 @@ const u8 byte_4C71A0[21] = {
     235u,
 };
 
-const u8 byte_4C71B8[19] = {
+const u8 HintFlyLetter_O_grave_4C71B8[19] = {
     18u,
     24u,
     27u,
@@ -1169,7 +1173,7 @@ const u8 byte_4C71B8[19] = {
     235u,
 };
 
-const u8 byte_4C71D0[19] = {
+const u8 HintFlyLetter_O_acute_4C71D0[19] = {
     18u,
     24u,
     27u,
@@ -1191,7 +1195,7 @@ const u8 byte_4C71D0[19] = {
     235u,
 };
 
-const u8 byte_4C71E8[19] = {
+const u8 HintFlyLetter_O_circumflex_4C71E8[19] = {
     18u,
     24u,
     27u,
@@ -1213,6 +1217,7 @@ const u8 byte_4C71E8[19] = {
     235u,
 };
 
+// u with two dots at the top?
 const u8 byte_4C7200[22] = {
     21u,
     35u,
@@ -1238,7 +1243,7 @@ const u8 byte_4C7200[22] = {
     205u,
 };
 
-const u8 byte_4C7218[19] = {
+const u8 HintFlyLetter_U_grave_4C7218[19] = {
     18u,
     37u,
     39u,
@@ -1260,7 +1265,7 @@ const u8 byte_4C7218[19] = {
     205u,
 };
 
-const u8 byte_4C7230[19] = {
+const u8 HintFlyLetter_U_acute_4C7230[19] = {
     18u,
     37u,
     39u,
@@ -1282,7 +1287,7 @@ const u8 byte_4C7230[19] = {
     205u,
 };
 
-const u8 byte_4C7248[19] = {
+const u8 HintFlyLetter_U_circumflex_4C7248[19] = {
     18u,
     37u,
     39u,
@@ -1304,38 +1309,38 @@ const u8 byte_4C7248[19] = {
     205u,
 };
 
-const u8 byte_4C725C[3] = {2u, 113u, 115u};
+const u8 HintFlyLetters_dot_4C725C[3] = {2u, 113u, 115u};
 
-const u8 byte_4C7260[7] = {6u, 42u, 74u, 106u, 138u, 170u, 202u};
+const u8 HintFlyLetter_underscore_4C7260[7] = {6u, 42u, 74u, 106u, 138u, 170u, 202u};
 
 
-const u8* pData_4C7268[] = {
-    byte_4C6DB0,
-    byte_4C6DC8,
-    byte_4C6DE8,
-    byte_4C6E00,
-    byte_4C6E20,
-    byte_4C6E40,
-    byte_4C6E58,
-    byte_4C6E70,
-    byte_4C6E88,
-    byte_4C6EA0,
-    byte_4C6EB0,
-    byte_4C6EC8,
-    byte_4C6ED8,
-    byte_4C6EF8,
-    byte_4C6F10,
-    byte_4C6F28,
-    byte_4C6F40,
-    byte_4C6F58,
-    byte_4C6F78,
-    byte_4C6F90,
-    byte_4C6FA0,
-    byte_4C6FB8,
-    byte_4C6FC8,
-    byte_4C6FE8,
-    byte_4C7000,
-    byte_4C7010,
+const u8* pHintFlyAlphabet_4C7268[] = {
+    HintFlyLetter_A_4C6DB0,
+    HintFlyLetter_B_4C6DC8,
+    HintFlyLetter_C_4C6DE8,
+    HintFlyLetter_D_4C6E00,
+    HintFlyLetter_E_4C6E20,
+    HintFlyLetter_F_4C6E40,
+    HintFlyLetter_G_4C6E58,
+    HintFlyLetter_H_4C6E70,
+    HintFlyLetter_I_4C6E88,
+    HintFlyLetter_J_4C6EA0,
+    HintFlyLetter_K_4C6EB0,
+    HintFlyLetter_L_4C6EC8,
+    HintFlyLetter_M_4C6ED8,
+    HintFlyLetter_N_4C6EF8,
+    HintFlyLetter_O_4C6F10,
+    HintFlyLetter_P_4C6F28,
+    HintFlyLetter_Q_4C6F40,
+    HintFlyLetter_R_4C6F58,
+    HintFlyLetter_S_4C6F78,
+    HintFlyLetter_T_4C6F90,
+    HintFlyLetter_U_4C6FA0,
+    HintFlyLetter_V_4C6FB8,
+    HintFlyLetter_W_4C6FC8,
+    HintFlyLetter_X_4C6FE8,
+    HintFlyLetter_Y_4C7000,
+    HintFlyLetter_Z_4C7010,
 };
 
 ALIVE_VAR(1, 0x4C6AA4, u8, sHintFlyRndSeed_4C6AA4, 37);
@@ -1391,7 +1396,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
             }
             else
             {
-                curWordLen += pData_4C7268[(*pMsg) - 'A'][0];
+                curWordLen += pHintFlyAlphabet_4C7268[(*pMsg) - 'A'][0];
             }
             pMsg++;
         }
@@ -1574,7 +1579,8 @@ void HintFly::FormWordAndAdvanceToNextWord_42AF90()
     s32 particleIdx = 0;
     for (s32 i = 0; i < letterCount; i++)
     {
-        const auto pArray = pData_4C7268[msgPtr[i] - 'A'];
+        const auto pArray = pHintFlyAlphabet_4C7268[msgPtr[i] - 'A'];
+        //const auto pArray = HintFlyLetter_E_circumflex_4C7120; // letter test code
         // First element is the count of "pixels" that make up a word
         const s32 total = pArray[0];
         for (s32 j = 0; j < total; j++)
@@ -1780,7 +1786,7 @@ void HintFly::VUpdate_42B3D0()
                 const char_type* pMsgIter = gHintFlyMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, field_11C_message_id) + field_11E_msg_idx;
                 while (*pMsgIter != ' ' && *pMsgIter != '\0')
                 {
-                    len += pData_4C7268[(*pMsgIter) - 'A'][0];
+                    len += pHintFlyAlphabet_4C7268[(*pMsgIter) - 'A'][0];
                     pMsgIter++;
                 }
                 field_120_idx = 0;
