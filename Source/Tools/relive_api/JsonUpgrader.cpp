@@ -135,6 +135,10 @@ std::string JsonUpgraderBase::Upgrade(TypesCollectionBase& baseTypesCollection, 
             throw ReliveAPI::InvalidJsonException();
         }
         rootObj["schema"] = newSchema;
+
+        // Make sure we are now set to be the latest version
+        rootObj["api_version"] = GetApiVersion();
+
         jsonStr = rootObj.dump(4);
     }
 
