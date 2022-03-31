@@ -31,7 +31,7 @@ WheelSyncer* WheelSyncer::ctor_466090(Path_WheelSyncer* pTlv, u32 tlvInfo)
     field_20_input_switch_id1 = pTlv->field_10_input_switch_id1;
     field_22_input_switch_id2 = pTlv->field_12_input_switch_id2;
     field_24_trigger_id = pTlv->field_14_output_switch_id;
-    field_2E_action = pTlv->field_16_action;
+    field_2E_output_requirement = pTlv->field_16_output_requirement;
     field_26_input_switch_id3 = pTlv->field_18_input_switch_id3;
     field_28_input_switch_id4 = pTlv->field_1A_input_switch_id4;
     field_2A_input_switch_id5 = pTlv->field_1C_input_switch_id5;
@@ -50,9 +50,9 @@ void WheelSyncer::vUpdate_4661D0()
 
     s32 switchValue = 0;
 
-    switch (field_2E_action)
+    switch (field_2E_output_requirement)
     {
-        case WheelSyncerAction::eAllOn_0:
+        case WheelSyncerOutputRequirement::eAllOn_0:
             if (!state1 || !state2 || !state3 || !state4 || !state5 || !state6)
             {
                 switchValue = 0;
@@ -63,7 +63,7 @@ void WheelSyncer::vUpdate_4661D0()
             }
             break;
 
-        case WheelSyncerAction::eOff_1:
+        case WheelSyncerOutputRequirement::e1OnOr2Off_1:
             if (!state1 || state2)
             {
                 switchValue = 0;
@@ -74,7 +74,7 @@ void WheelSyncer::vUpdate_4661D0()
             }
             break;
 
-        case WheelSyncerAction::eToggle_2:
+        case WheelSyncerOutputRequirement::e1Or2On_2:
             if (state1 || state2)
             {
                 switchValue = 1;
@@ -85,7 +85,7 @@ void WheelSyncer::vUpdate_4661D0()
             }
             break;
 
-        case WheelSyncerAction::eOn_3:
+        case WheelSyncerOutputRequirement::e1OnOr2Off_3:
             if (state1 || !state2)
             {
                 switchValue = 1;

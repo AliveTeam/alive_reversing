@@ -1055,12 +1055,12 @@ struct Path_WheelSyncer final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::WheelSyncerAction>("Enum_WheelSyncerAction",
+        types.AddEnum<::WheelSyncerOutputRequirement>("Enum_WheelSyncerOutputRequirement",
         {
-            {::WheelSyncerAction::eAllOn_0, "All On"},
-            {::WheelSyncerAction::eOff_1, "Off"},
-            {::WheelSyncerAction::eToggle_2, "Toggle"},
-            {::WheelSyncerAction::eOn_3, "On"},
+            {::WheelSyncerOutputRequirement::eAllOn_0, "All On"},
+            {::WheelSyncerOutputRequirement::e1OnOr2Off_1, "1 On Or 2 Off"},
+            {::WheelSyncerOutputRequirement::e1Or2On_2, "1 Or 2 On"},
+            {::WheelSyncerOutputRequirement::e1OnOr2Off_3, "1 On Or 2 Off"},
         });
     }
 
@@ -1069,7 +1069,7 @@ struct Path_WheelSyncer final : public ReliveAPI::TlvObjectBaseAE
         ADD("Input Switch ID 1", mTlv.field_10_input_switch_id1);
         ADD("Input Switch ID 2", mTlv.field_12_input_switch_id2);
         ADD("Output Switch ID", mTlv.field_14_output_switch_id);
-        ADD("Action", mTlv.field_16_action);
+        ADD("Output Requirement", mTlv.field_16_output_requirement);
         ADD("Input Switch ID 3", mTlv.field_18_input_switch_id3);
         ADD("Input Switch ID 4", mTlv.field_1A_input_switch_id4);
         ADD("Input Switch ID 5", mTlv.field_1C_input_switch_id5);
