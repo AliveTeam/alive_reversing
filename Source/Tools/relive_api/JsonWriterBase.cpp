@@ -30,6 +30,9 @@ JsonWriterBase::JsonWriterBase(TypesCollectionBase& types, s32 pathId, const std
     mMapInfo.mBadEndingMuds = info.mBadEndingMuds;
     mMapInfo.mGoodEndingMuds = info.mGoodEndingMuds;
 
+    mMapInfo.mLCDScreenMessages = info.mLCDScreenMessages;
+    mMapInfo.mHintFlyMessages = info.mHintFlyMessages;
+
     mMapRootInfo.mVersion = ReliveAPI::GetApiVersion();
 }
 

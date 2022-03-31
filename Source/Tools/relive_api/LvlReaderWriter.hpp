@@ -54,14 +54,14 @@ public:
         return mHeader;
     }
 
-    [[nodiscard]] const std::vector<u8>& Data() const&
+    [[nodiscard]] const std::vector<u8>& Data() const
     {
         return mData;
     }
 
-    [[nodiscard]] std::vector<u8>&& Data() &&
+    [[nodiscard]] std::vector<u8>& Data()
     {
-        return std::move(mData);
+        return mData;
     }
 
 private:

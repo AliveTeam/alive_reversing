@@ -249,7 +249,8 @@ enum class OpenPathBndResult
                 std::optional<LvlFileChunk> extChunk = pathChunks.ChunkById(*pathId | *pathId << 8);
                 if (extChunk)
                 {
-                    auto pExt = reinterpret_cast<const PerPathExtension*>(extChunk->Data().data());
+                    auto pChunkData = extChunk->Data().data();
+                    auto pExt = reinterpret_cast<const PerPathExtension*>(pChunkData);
                     ret.mPathBndName = pathRoot.BndName();
                     ret.mPathInfo.mObjectOffset = pExt->mObjectOffset;
                     ret.mPathInfo.mIndexTableOffset = pExt->mIndexTableOffset;
@@ -268,6 +269,24 @@ enum class OpenPathBndResult
                     ret.mPathInfo.mNumMudsInPath = pExt->mNumMudsInPath;
                     ret.mPathInfo.mBadEndingMuds = pExt->mBadEndingMuds;
                     ret.mPathInfo.mGoodEndingMuds = pExt->mGoodEndingMuds;
+
+                    pChunkData += sizeof(PerPathExtension);
+
+                    // Read LCD Screen messages
+                    auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                    pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
+                    for (u64 j = 0u; j < pLCDScreenMsgs->mStringCount; j++)
+                    {
+                        ret.mPathInfo.mLCDScreenMessages.emplace_back(pLCDScreenMsgs->mStrings[j].string_ptr);
+                    };
+
+                    // Read hint fly messages, will be empty for AE
+                    auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                    pChunkData = StringTable::MakeTable(pHintFlyMsgs);
+                    for (u64 j = 0u; j < pLCDScreenMsgs->mStringCount; j++)
+                    {
+                        ret.mPathInfo.mHintFlyMessages.emplace_back(pLCDScreenMsgs->mStrings[j].string_ptr);
+                    };
 
                     return OpenPathBndResult::OK;
                 }
