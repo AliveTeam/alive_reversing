@@ -16,6 +16,8 @@
 #include "TypesCollectionBase.hpp"
 #include "Base64.hpp"
 #include "CamConverter.hpp"
+#include "TypesCollectionAE.hpp"
+#include "TypesCollectionAO.hpp"
 #include "../../AliveLibCommon/FG1Reader.hpp"
 #include "../../AliveLibCommon/PathDataExtensionsTypes.hpp"
 #include <iostream>
@@ -417,12 +419,14 @@ std::string UpgradePathJson(const std::string& jsonFile)
     if (rootInfo.mMapRootInfo.mGame == "AO")
     {
         JsonUpgraderAO upgrader;
-        return upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
+        TypesCollectionAE aeTypes;
+        return upgrader.Upgrade(aeTypes, jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
     }
     else
     {
         JsonUpgraderAE upgrader;
-        return upgrader.Upgrade(jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
+        TypesCollectionAO aoTypes;
+        return upgrader.Upgrade(aoTypes, jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
     }
 }
 
