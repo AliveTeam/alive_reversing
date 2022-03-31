@@ -766,11 +766,11 @@ struct Path_FallingItem final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_FallingItem, "FallingItem", AO::TlvTypes::FallingItem_15)
     {
-        ADD("Start Switch ID", mTlv.field_18_start_switch_id);
+        ADD("Switch ID", mTlv.field_18_switch_id);
         ADD("Scale", mTlv.field_1A_scale);
-        ADD("Fall Delay", mTlv.field_1C_fall_delay);
+        ADD("Fall Interval", mTlv.field_1C_fall_interval);
         ADD("Max Falling Items", mTlv.field_1E_max_falling_items);
-        ADD("Stop Switch ID", mTlv.field_20_stop_switch_id);
+        ADD("Reset Switch ID After Use", mTlv.field_20_reset_switch_id_after_use);
     }
 };
 

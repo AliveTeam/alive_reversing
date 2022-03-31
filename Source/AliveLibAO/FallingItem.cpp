@@ -64,7 +64,7 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
         field_C4_b = 190;
     }
 
-    field_112_start_switch_id = pTlv->field_18_start_switch_id;
+    field_112_switch_id = pTlv->field_18_switch_id;
     if (pTlv->field_1A_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
@@ -77,11 +77,11 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
     }
 
 
-    field_118_fall_delay = pTlv->field_1C_fall_delay;
+    field_118_fall_interval = pTlv->field_1C_fall_interval;
     field_114_max_falling_items = pTlv->field_1E_max_falling_items;
     field_116_remaining_falling_items = pTlv->field_1E_max_falling_items;
 
-    field_120_stop_switch_id = pTlv->field_20_stop_switch_id;
+    field_120_reset_switch_id_after_use = pTlv->field_20_reset_switch_id_after_use;
     field_122_do_sound_in_state_falling = 1;
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
@@ -188,7 +188,7 @@ void FallingItem::VUpdate_41A120()
     switch (field_110_state)
     {
         case State::eWaitForIdEnable_0:
-            if (!SwitchStates_Get(field_112_start_switch_id))
+            if (!SwitchStates_Get(field_112_switch_id))
             {
                 return;
             }
@@ -202,7 +202,7 @@ void FallingItem::VUpdate_41A120()
             field_B8_vely = FP_FromInteger(0);
             const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_4_waiting_animId);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
-            field_11C_delay_timer = gnFrameCount_507670 + field_118_fall_delay;
+            field_11C_delay_timer = gnFrameCount_507670 + field_118_fall_interval;
             break;
         }
 
@@ -336,11 +336,11 @@ void FallingItem::VUpdate_41A120()
                 SFX_Play_43AE60(SoundEffect::FallingItemHit_53, 110, -1536, 0);
             }
 
-            if (field_112_start_switch_id)
+            if (field_112_switch_id)
             {
-                if (field_120_stop_switch_id)
+                if (field_120_reset_switch_id_after_use == Choice_short::eYes_1)
                 {
-                    SwitchStates_Do_Operation_436A10(field_112_start_switch_id, SwitchOp::eSetFalse_1);
+                    SwitchStates_Do_Operation_436A10(field_112_switch_id, SwitchOp::eSetFalse_1);
                 }
             }
 
