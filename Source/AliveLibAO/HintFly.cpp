@@ -743,8 +743,7 @@ const u8 HintFlyLetter_Z_4C7010[22] = {
     223u,
 };
 
-// Ä
-const u8 HintFlyLetter_Ä_4C7028[23] = {
+const u8 HintFlyLetter_A_diaeresis_4C7028[23] = {
     22u,
     15u,
     29u,
@@ -770,8 +769,8 @@ const u8 HintFlyLetter_Ä_4C7028[23] = {
     239u,
 };
 
-// Æ
-const u8 HintFlyLetter_Æ_4C7040[29] = {
+// the letter that looks like AE
+const u8 HintFlyLetter_ash_4C7040[29] = {
     28u,
     15u,
     29u,
@@ -803,8 +802,7 @@ const u8 HintFlyLetter_Æ_4C7040[29] = {
     223u,
 };
 
-// À
-const u8 HintFlyLetter_À_4C7060[21] = {
+const u8 HintFlyLetter_A_grave_4C7060[21] = {
     20u,
     15u,
     29u,
@@ -828,8 +826,7 @@ const u8 HintFlyLetter_À_4C7060[21] = {
     239u,
 };
 
-// Á
-const u8 HintFlyLetter_Á_4C7078[21] = {
+const u8 HintFlyLetter_A_acute_4C7078[21] = {
     20u,
     15u,
     29u,
@@ -853,8 +850,7 @@ const u8 HintFlyLetter_Á_4C7078[21] = {
     239u,
 };
 
-// Â
-const u8 HintFlyLetter_Â_4C7090[21] = {
+const u8 HintFlyLetter_A_circumflex_4C7090[21] = {
     20u,
     15u,
     29u,
@@ -878,7 +874,7 @@ const u8 HintFlyLetter_Â_4C7090[21] = {
     239u,
 };
 
-// something that looks like € ?
+// something that looks like euro ?
 const u8 byte_4C70A8[28] = {
     27u,
     21u,
@@ -910,8 +906,7 @@ const u8 byte_4C70A8[28] = {
     223u,
 };
 
-// Ç
-const u8 HintFlyLetter_Ç_4C70C8[20] = {
+const u8 HintFlyLetter_C_cedilla_4C70C8[20] = {
     19u,
     21u,
     23u,
@@ -934,8 +929,7 @@ const u8 HintFlyLetter_Ç_4C70C8[20] = {
     218u,
 };
 
-// È
-const u8 HintFlyLetter_È_4C70E0[28] = {
+const u8 HintFlyLetter_E_grave_4C70E0[28] = {
     27u,
     19u,
     21u,
@@ -966,8 +960,7 @@ const u8 HintFlyLetter_È_4C70E0[28] = {
     223u,
 };
 
-// É
-const u8 HintFlyLetter_É_4C7100[28] = {
+const u8 HintFlyLetter_E_acute_4C7100[28] = {
     27u,
     19u,
     21u,
@@ -998,8 +991,7 @@ const u8 HintFlyLetter_É_4C7100[28] = {
     223u,
 };
 
-// Ê
-const u8 HintFlyLetter_Ê_4C7120[28] = {
+const u8 HintFlyLetter_E_circumflex_4C7120[28] = {
     27u,
     19u,
     21u,
@@ -1057,7 +1049,7 @@ const u8 byte_4C7140[24] = {
     211u,
     223u};
 
-// also looks like î :thinking:
+// also looks like the one below
 const u8 byte_4C7158[23] = {
     22u,
     19u,
@@ -1083,8 +1075,7 @@ const u8 byte_4C7158[23] = {
     211u,
     223u};
 
-// î
-const u8 HintFlyLetter_Î_4C7170[23] = {
+const u8 HintFlyLetter_I_circumflex_4C7170[23] = {
     22u,
     19u,
     31u,
@@ -1110,8 +1101,7 @@ const u8 HintFlyLetter_Î_4C7170[23] = {
     223u,
 };
 
-// Ñ
-const u8 HintFlyLetter_Ñ_4C7188[24] = {
+const u8 HintFlyLetter_N_tilde_4C7188[24] = {
     23u,
     21u,
     23u,
@@ -1137,8 +1127,7 @@ const u8 HintFlyLetter_Ñ_4C7188[24] = {
     221u,
     223u};
 
-// ö
-const u8 HintFlyLetter_Ö_4C71A0[21] = {
+const u8 HintFlyLetter_O_diaeresis_4C71A0[21] = {
     20u,
     24u,
     27u,
@@ -1162,8 +1151,7 @@ const u8 HintFlyLetter_Ö_4C71A0[21] = {
     235u,
 };
 
-// ò
-const u8 HintFlyLetter_Ò_4C71B8[19] = {
+const u8 HintFlyLetter_O_grave_4C71B8[19] = {
     18u,
     24u,
     27u,
@@ -1185,8 +1173,7 @@ const u8 HintFlyLetter_Ò_4C71B8[19] = {
     235u,
 };
 
-// ó
-const u8 HintFlyLetter_Ó_4C71D0[19] = {
+const u8 HintFlyLetter_O_acute_4C71D0[19] = {
     18u,
     24u,
     27u,
@@ -1208,8 +1195,7 @@ const u8 HintFlyLetter_Ó_4C71D0[19] = {
     235u,
 };
 
-// ô
-const u8 HintFlyLetter_Ô_4C71E8[19] = {
+const u8 HintFlyLetter_O_circumflex_4C71E8[19] = {
     18u,
     24u,
     27u,
@@ -1231,7 +1217,7 @@ const u8 HintFlyLetter_Ô_4C71E8[19] = {
     235u,
 };
 
-// ü?
+// u with two dots at the top?
 const u8 byte_4C7200[22] = {
     21u,
     35u,
@@ -1257,8 +1243,7 @@ const u8 byte_4C7200[22] = {
     205u,
 };
 
-// ù
-const u8 HintFlyLetter_Ù_4C7218[19] = {
+const u8 HintFlyLetter_U_grave_4C7218[19] = {
     18u,
     37u,
     39u,
@@ -1280,8 +1265,7 @@ const u8 HintFlyLetter_Ù_4C7218[19] = {
     205u,
 };
 
-// ú
-const u8 HintFlyLetter_Ú_4C7230[19] = {
+const u8 HintFlyLetter_U_acute_4C7230[19] = {
     18u,
     37u,
     39u,
@@ -1303,8 +1287,7 @@ const u8 HintFlyLetter_Ú_4C7230[19] = {
     205u,
 };
 
-// û
-const u8 HintFlyLetter_Û_4C7248[19] = {
+const u8 HintFlyLetter_U_circumflex_4C7248[19] = {
     18u,
     37u,
     39u,
@@ -1326,10 +1309,8 @@ const u8 HintFlyLetter_Û_4C7248[19] = {
     205u,
 };
 
-// .
 const u8 HintFlyLetters_dot_4C725C[3] = {2u, 113u, 115u};
 
-// _
 const u8 HintFlyLetter_underscore_4C7260[7] = {6u, 42u, 74u, 106u, 138u, 170u, 202u};
 
 
@@ -1599,7 +1580,7 @@ void HintFly::FormWordAndAdvanceToNextWord_42AF90()
     for (s32 i = 0; i < letterCount; i++)
     {
         const auto pArray = pHintFlyAlphabet_4C7268[msgPtr[i] - 'A'];
-        //const auto pArray = HintFlyLetter_Æ_4C7040; // letter test code
+        //const auto pArray = HintFlyLetter_E_circumflex_4C7120; // letter test code
         // First element is the count of "pixels" that make up a word
         const s32 total = pArray[0];
         for (s32 j = 0; j < total; j++)
