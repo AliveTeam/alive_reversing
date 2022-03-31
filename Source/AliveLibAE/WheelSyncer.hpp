@@ -6,7 +6,7 @@
 enum class WheelSyncerOutputRequirement : s16
 {
     eAllOn_0 = 0,
-    e1OnOr2Off_1 = 1,
+    e1OnAnd2Off_1 = 1,
     e1Or2On_2 = 2,
     e1OnOr2Off_3 = 3
 };

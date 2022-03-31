@@ -357,7 +357,7 @@ void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, s32 pa
 
 // Increment when a breaking change to the JSON is made and implement an
 // upgrade step that converts from the last version to the current.
-constexpr s32 kApiVersion = 2;
+constexpr s32 kApiVersion = 3;
 
 [[nodiscard]] s32 GetApiVersion()
 {

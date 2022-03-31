@@ -1058,7 +1058,7 @@ struct Path_WheelSyncer final : public ReliveAPI::TlvObjectBaseAE
         types.AddEnum<::WheelSyncerOutputRequirement>("Enum_WheelSyncerOutputRequirement",
         {
             {::WheelSyncerOutputRequirement::eAllOn_0, "All On"},
-            {::WheelSyncerOutputRequirement::e1OnOr2Off_1, "1 On Or 2 Off"},
+            {::WheelSyncerOutputRequirement::e1OnAnd2Off_1, "1 On And 2 Off"},
             {::WheelSyncerOutputRequirement::e1Or2On_2, "1 Or 2 On"},
             {::WheelSyncerOutputRequirement::e1OnOr2Off_3, "1 On Or 2 Off"},
         });

@@ -63,7 +63,7 @@ void WheelSyncer::vUpdate_4661D0()
             }
             break;
 
-        case WheelSyncerOutputRequirement::e1OnOr2Off_1:
+        case WheelSyncerOutputRequirement::e1OnAnd2Off_1:
             if (!state1 || state2)
             {
                 switchValue = 0;
