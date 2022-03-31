@@ -57,6 +57,9 @@ struct PathInfo final
     s32 mTotalMuds = 0;
     s32 mBadEndingMuds = 0;
     s32 mGoodEndingMuds = 0;
+
+    std::vector<std::string> mLCDScreenMessages;
+    std::vector<std::string> mHintFlyMessages;
 };
 
 class CameraImageAndLayers final
