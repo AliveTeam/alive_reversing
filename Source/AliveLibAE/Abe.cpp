@@ -37,7 +37,7 @@
 #include "WorkWheel.hpp"
 #include "LevelLoader.hpp"
 #include "Particle.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "Throwable.hpp"
 #include "LiftPoint.hpp"
 #include "PullRingRope.hpp"
@@ -2977,11 +2977,11 @@ static bool IsSameScaleAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 
 static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
-    if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eLeft && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingLeft && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
-    else if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eRight && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingRight && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
@@ -2991,15 +2991,15 @@ static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject
 
 static bool isEdgeGrabbable(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eLeft && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eFacingLeft && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eRight && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eFacingRight && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eBoth)
+    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eFacingAnyDirection)
     {
         return true;
     }
@@ -3103,7 +3103,7 @@ void Abe::Motion_0_Idle_44EEB0()
             }
             else
             {
-                if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth)
+                if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingAnyDirection)
                 {
                     // We can hoist down from any side
                     field_106_current_motion = eAbeMotions::Motion_66_LedgeDescend_454970;
@@ -3650,7 +3650,7 @@ void Abe::Motion_3_Fall_459B60()
         switch (pPathLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
             {
@@ -3706,8 +3706,8 @@ void Abe::Motion_3_Fall_459B60()
 
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
-            case eLineTypes::eBackGroundWallLeft_5:
-            case eLineTypes::eBackGroundWallRight_6:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
                 ToKnockback_44E700(1, 1);
@@ -3952,7 +3952,7 @@ void Abe::Motion_14_HoistIdle_452440()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
             {
@@ -4016,7 +4016,7 @@ void Abe::Motion_14_HoistIdle_452440()
 
     if (pHoist)
     {
-        if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth))
+        if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingAnyDirection))
         {
             if (pHoist->field_10_type == Path_Hoist::Type::eOffScreen)
             {
@@ -4658,7 +4658,7 @@ void Abe::Motion_28_HopMid_451C50()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, 32767, this);
@@ -4836,7 +4836,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 field_100_pCollisionLine = pLine;
@@ -4872,7 +4872,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
         {
             field_FC_pPathTLV = pHoist;
 
-            if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eBoth) && pHoist->field_10_type != Path_Hoist::Type::eOffScreen)
+            if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingAnyDirection) && pHoist->field_10_type != Path_Hoist::Type::eOffScreen)
             {
                 checkCollision = true;
             }
@@ -8637,7 +8637,7 @@ void Abe::TryHoist_44ED30()
     {
         if (IsSameScaleAsHoist(pHoist, this))
         {
-            if (!IsFacingSameDirectionAsHoist(pHoist, this) && pHoist->field_12_grab_direction != Path_Hoist::GrabDirection::eBoth)
+            if (!IsFacingSameDirectionAsHoist(pHoist, this) && pHoist->field_12_grab_direction != Path_Hoist::GrabDirection::eFacingAnyDirection)
             {
                 // No, so auto turn around to face it.
                 field_108_next_motion = field_106_current_motion;
@@ -8742,7 +8742,7 @@ s16 Abe::HandleDoAction_455BD0()
                 field_FC_pPathTLV = pTlv;
                 return eAbeMotions::Motion_78_WellBegin_45C810;
 
-            case TlvTypes::Switch_17:
+            case TlvTypes::Lever_17:
             {
                 FP xpos = {};
                 FP ypos = {};
@@ -8757,7 +8757,7 @@ s16 Abe::HandleDoAction_455BD0()
                     ypos = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
                 }
 
-                Switch* pSwitch = static_cast<Switch*>(FindObjectOfType_425180(AETypes::eLever_139, ypos, xpos));
+                Lever* pSwitch = static_cast<Lever*>(FindObjectOfType_425180(AETypes::eLever_139, ypos, xpos));
                 if (!pSwitch || !(pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos)))
                 {
                     return eAbeMotions::Motion_34_DunnoBegin_44ECF0;

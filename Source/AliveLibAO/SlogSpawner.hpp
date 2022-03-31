@@ -6,12 +6,18 @@
 
 namespace AO {
 
+enum class StartDirection : s16
+{
+    eRight_0 = 0,
+    eLeft_1 = 1
+};
+
 struct Path_SlogSpawner final : public Path_TLV
 {
     Scale_short field_18_scale;
     s16 field_1A_max_slogs;
     s16 field_1C_max_slogs_at_a_time;
-    XDirection_short field_1E_direction;
+    StartDirection field_1E_start_direction;
     s16 field_20_slog_spawn_delay;
     s16 field_22_spawner_switch_id;
 };
@@ -41,7 +47,7 @@ public:
     Scale_short field_24_scale;
     u16 field_26_max_slogs;
     u16 field_28_max_slogs_at_a_time;
-    XDirection_short field_2A_direction;
+    StartDirection field_2A_start_direction;
     u16 field_2C_slog_spawn_delay;
     u16 field_2E_spawner_switch_id;
 };

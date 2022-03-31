@@ -121,8 +121,8 @@ SET(AliveLibSrcAO
    SecurityDoor.cpp
    BaseBomb.hpp
    BaseBomb.cpp
-   Switch.hpp
-   Switch.cpp
+   Lever.hpp
+   Lever.cpp
    RollingBall.hpp
    RollingBall.cpp
    Leaf.hpp

@@ -51,7 +51,7 @@
 #include "SaveGame.hpp"
 #include "BeeSwarm.hpp"
 #include "Shrykull.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "GameSpeak.hpp"
 #include "ZBall.hpp"
 #include "Gibs.hpp"
@@ -3292,7 +3292,7 @@ s16 Abe::HandleDoAction_429A70()
                 field_F0_pTlv = pTlv;
                 return eAbeMotions::Motion_77_WellBegin_430F10;
 
-            case TlvTypes::Switch_26:
+            case TlvTypes::Lever_26:
                 if (FP_FromInteger(FP_GetExponent(field_A8_xpos) - pTlv->field_10_top_left.field_0_x) < ScaleToGridSize_41FA30(field_BC_sprite_scale))
                 {
                     // Wrong dir
@@ -3302,7 +3302,7 @@ s16 Abe::HandleDoAction_429A70()
                     }
 
                     // Get switch
-                    auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(
+                    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                         Types::eLever_97,
                         field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale),
                         field_AC_ypos - FP_FromInteger(5)));
@@ -3323,7 +3323,7 @@ s16 Abe::HandleDoAction_429A70()
                     }
 
                     // Get switch
-                    auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(
+                    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                         Types::eLever_97,
                         field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale),
                         field_AC_ypos - FP_FromInteger(5)));
@@ -3878,11 +3878,11 @@ static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 
 static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
-    if (pHoist->field_1A_edge_type == Path_Hoist::EdgeType::eLeft && !pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pHoist->field_1A_grab_direction == Path_Hoist::GrabDirection::eFacingLeft && !pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
-    else if (pHoist->field_1A_edge_type == Path_Hoist::EdgeType::eRight && pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pHoist->field_1A_grab_direction == Path_Hoist::GrabDirection::eFacingRight && pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
@@ -4458,14 +4458,14 @@ void Abe::Motion_2_StandingTurn_426040()
             {
                 if (field_FE_next_motion == eAbeMotions::Motion_101_LeverUse_429970)
                 {
-                    Switch* pSwitch;
+                    Lever* pSwitch;
                     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
                     }
                     else
                     {
-                        pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
                     }
 
                     if (pSwitch)
@@ -4504,15 +4504,15 @@ void Abe::Motion_2_StandingTurn_426040()
 
 static bool isEdgeGrabbable(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eLeft && pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eFacingLeft && pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eRight && !pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eFacingRight && !pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eBoth)
+    else if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eFacingAnyDirection)
     {
         return true;
     }
@@ -4576,7 +4576,7 @@ void Abe::Motion_3_Fall_42E7F0()
         switch (pPathLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
             {
@@ -4624,8 +4624,8 @@ void Abe::Motion_3_Fall_42E7F0()
             }
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
-            case eLineTypes::eBackGroundWallLeft_5:
-            case eLineTypes::eBackGroundWallRight_6:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
                 ToKnockback_422D90(1, 1);
@@ -4889,7 +4889,7 @@ void Abe::Motion_17_HoistIdle_4269E0()
         switch (pPathLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
             {
@@ -5672,7 +5672,7 @@ void Abe::Motion_30_HopMid_4264D0()
                 switch (pLine->field_8_type)
                 {
                     case eLineTypes::eFloor_0:
-                    case eLineTypes::eBackGroundFloor_4:
+                    case eLineTypes::eBackgroundFloor_4:
                     case eLineTypes::eUnknown_32:
                     case eLineTypes::eUnknown_36:
                     {
@@ -5827,7 +5827,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
             {
@@ -9999,7 +9999,7 @@ void Abe::Motion_156_DoorEnter_42D370()
                     field_C6_scale = 1;
                 }
             }
-            else if (pPathDoor->field_26_start_state == DoorStates::eClosed_1 || pPathDoor->field_26_start_state == DoorStates::eOpening_2)
+            else if (pPathDoor->field_26_start_state == DoorStates::eClosed_1 || pPathDoor->field_26_start_state == DoorStates::eHubDoorClosed_2)
             {
                 if (gMap_507BA8.field_0_current_level != LevelIds::eRuptureFarmsReturn_13)
                 {

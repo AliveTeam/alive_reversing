@@ -41,7 +41,7 @@ void TypesCollectionAE::AddAETypes()
 #define REGISTER_TYPE_AE(TlvWrapperType) mTlvFactoryAE.DoRegisterType<TlvWrapperType>(*this)
 
     REGISTER_TYPE_AE(AETlvs::Path_Hoist);
-    REGISTER_TYPE_AE(AETlvs::Path_Switch);
+    REGISTER_TYPE_AE(AETlvs::Path_Lever);
     REGISTER_TYPE_AE(AETlvs::Path_Door);
     REGISTER_TYPE_AE(AETlvs::Path_LCDStatusBoard);
     REGISTER_TYPE_AE(AETlvs::Path_BirdPortal);
@@ -151,12 +151,12 @@ void TypesCollectionAE::AddAETypes()
     AddEnum<::Path_Slig::StartState>("Enum_SligStartState",
     {
         {::Path_Slig::StartState::Listening_0, "Listening"},
-        {::Path_Slig::StartState::Paused_1, "Paused"},
+        {::Path_Slig::StartState::Patrol_1, "Patrol"},
         {::Path_Slig::StartState::Sleeping_2, "Sleeping"},
         {::Path_Slig::StartState::Chase_3, "Chase"},
-        {::Path_Slig::StartState::RunOffScreen_4, "Run Off Screen"},
-        {::Path_Slig::StartState::GameEnder_5, "Game Ender"},
-        {::Path_Slig::StartState::ListeningToGlukkon_6, "Listen To Glukkon"},
+        {::Path_Slig::StartState::ChaseAndDisappear_4, "Chase And Disappear"},
+        {::Path_Slig::StartState::Unused_5, "Unused (crashes the game)"},
+        {::Path_Slig::StartState::ListeningToGlukkon_6, "Listening To Glukkon"},
     });
 
     AddEnum<::Path_Slig::ShootPossessedSligs>("Enum_ShootPossessedSligs",
@@ -172,11 +172,11 @@ void TypesCollectionAE::AddAETypes()
         {eLineTypes::eWallLeft_1, "Wall Left"},
         {eLineTypes::eWallRight_2, "Wall Right"},
         {eLineTypes::eCeiling_3, "Ceiling"},
-        {eLineTypes::eBackGroundFloor_4, "Background Floor"},
-        {eLineTypes::eBackGroundWallLeft_5, "Background Wall Left"},
-        {eLineTypes::eBackGroundWallRight_6, "Background Wall Right"},
-        {eLineTypes::eBackGroundCeiling_7, "Background Ceiling"},
-        {eLineTypes::eTrackLine_8, "Track Lines"},
+        {eLineTypes::eBackgroundFloor_4, "Background Floor"},
+        {eLineTypes::eBackgroundWallLeft_5, "Background Wall Left"},
+        {eLineTypes::eBackgroundWallRight_6, "Background Wall Right"},
+        {eLineTypes::eBackgroundCeiling_7, "Background Ceiling"},
+        {eLineTypes::eTrackLine_8, "Track Line"},
         {eLineTypes::eArt_9, "Art"},
         {eLineTypes::eBulletWall_10, "Bullet Wall"},
         {eLineTypes::eMineCarFloor_11, "Mine Car Floor"},

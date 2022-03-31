@@ -3938,11 +3938,11 @@ s16 Scrab::HandleRunning()
     return 3;
 }
 
-s16 Scrab::GetMotionForPatrolType(s16 patrolType)
+s16 Scrab::GetMotionForPatrolType(ScrabPatrolType ScrabPatrolType)
 {
-    switch (patrolType)
+    switch (ScrabPatrolType)
     {
-        case 1:
+        case ScrabPatrolType::eRunOrWalk192_1:
             if (Math_NextRandom() < 192u)
             {
                 return eScrabMotions::Motion_2_Walk_45E730;
@@ -3953,7 +3953,7 @@ s16 Scrab::GetMotionForPatrolType(s16 patrolType)
             }
             break;
 
-        case 2:
+        case ScrabPatrolType::eRunOrWalk128_2:
             if (Math_NextRandom() < 128u)
             {
                 return eScrabMotions::Motion_2_Walk_45E730;
@@ -3964,7 +3964,7 @@ s16 Scrab::GetMotionForPatrolType(s16 patrolType)
             }
             break;
 
-        case 3:
+        case ScrabPatrolType::eRunOrWalk64_3:
             if (Math_NextRandom() < 64u)
             {
                 return eScrabMotions::Motion_2_Walk_45E730;
@@ -3975,7 +3975,7 @@ s16 Scrab::GetMotionForPatrolType(s16 patrolType)
             }
             break;
 
-        case 4:
+        case ScrabPatrolType::eRun_4:
             return eScrabMotions::Motion_3_Run_45EAB0;
 
         default:

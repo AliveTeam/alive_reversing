@@ -50,7 +50,7 @@ void Leaf::VUpdate_48B650()
 
     if (field_E4_bHitSomething & 1 || !bCollision || 
         (
-        (field_BC_sprite_scale != FP_FromDouble(0.5) || pLine->field_8_type != eLineTypes::eBackGroundFloor_4) &&
+        (field_BC_sprite_scale != FP_FromDouble(0.5) || pLine->field_8_type != eLineTypes::eBackgroundFloor_4) &&
         (field_BC_sprite_scale != FP_FromInteger(1) || pLine->field_8_type != eLineTypes::eFloor_0))
         )
     {

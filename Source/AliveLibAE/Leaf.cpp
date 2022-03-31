@@ -107,7 +107,7 @@ void Leaf::vUpdate_4E3330()
         return;
     }
 
-    if (field_F4_bHitSomething & 1 || !bCollision || ((field_CC_sprite_scale != FP_FromDouble(0.5) || pLine->field_8_type != eLineTypes::eBackGroundFloor_4) && (field_CC_sprite_scale != FP_FromDouble(1.0) || pLine->field_8_type != eLineTypes::eFloor_0)))
+    if (field_F4_bHitSomething & 1 || !bCollision || ((field_CC_sprite_scale != FP_FromDouble(0.5) || pLine->field_8_type != eLineTypes::eBackgroundFloor_4) && (field_CC_sprite_scale != FP_FromDouble(1.0) || pLine->field_8_type != eLineTypes::eFloor_0)))
     {
         field_B8_xpos = x2;
         field_BC_ypos = y2;

@@ -53,7 +53,7 @@ void TypesCollectionAO::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_ContinuePoint);
     REGISTER_TYPE_AO(AOTlvs::Path_Door);
     REGISTER_TYPE_AO(AOTlvs::Path_Change);
-    REGISTER_TYPE_AO(AOTlvs::Path_Switch);
+    REGISTER_TYPE_AO(AOTlvs::Path_Lever);
     REGISTER_TYPE_AO(AOTlvs::Path_LightEffect);
     REGISTER_TYPE_AO(AOTlvs::Path_ElectricWall);
     REGISTER_TYPE_AO(AOTlvs::Path_ContinueZone);
@@ -139,21 +139,40 @@ void TypesCollectionAO::AddAOTypes()
 
 #undef REGISTER_TYPE_AO
     AddEnum<AO::eLineTypes>("Enum_LineTypes",
-                           {
-                               {AO::eLineTypes::eFloor_0, "eFloor_0"},
-                               {AO::eLineTypes::eWallLeft_1, "eWallLeft_1"},
-                                {AO::eLineTypes::eWallRight_2, "eWallRight_2"},
-                                {AO::eLineTypes::eCeiling_3, "eCeiling_3"},
-                                {AO::eLineTypes::eBackGroundFloor_4, "eBackGroundFloor_4"},
-                                {AO::eLineTypes::eBackGroundWallLeft_5, "eBackGroundWallLeft_5"},
-                                {AO::eLineTypes::eBackGroundWallRight_6, "eBackGroundWallRight_6"},
-                                {AO::eLineTypes::eType_7, "eType_7"},
-                                {AO::eLineTypes::eType_8, "eType_8"},
-                                {AO::eLineTypes::eType_9, "eType_9"},
-                                {AO::eLineTypes::eType_10, "eType_10"},
-                                {AO::eLineTypes::eUnknown_32, "eUnknown_32"},
-                                {AO::eLineTypes::eUnknown_36, "eUnknown_36"},
-                           });
+    {
+        {AO::eLineTypes::eFloor_0, "Floor"},
+        {AO::eLineTypes::eWallLeft_1, "Wall Left"},
+        {AO::eLineTypes::eWallRight_2, "Wall Right"},
+        {AO::eLineTypes::eCeiling_3, "Ceiling"},
+        {AO::eLineTypes::eBackgroundFloor_4, "Background Floor"},
+        {AO::eLineTypes::eBackgroundWallLeft_5, "Background Wall Left"},
+        {AO::eLineTypes::eBackgroundWallRight_6, "Background Wall Right"},
+        {AO::eLineTypes::eBackgroundCeiling_7, "Background Ceiling"},
+        {AO::eLineTypes::eTrackLine_8, "Track Line"},
+        {AO::eLineTypes::eArt_9, "Art"},
+        {AO::eLineTypes::eBulletWall_10, "Bullet Wall"},
+        {AO::eLineTypes::eUnknown_32, "eUnknown_32"},
+        {AO::eLineTypes::eUnknown_36, "eUnknown_36"},
+    });
+
+    AddEnum<AO::Path_Slig::ShootPossessedSligs>("Enum_ShootPossessedSligs",
+    {
+        {AO::Path_Slig::ShootPossessedSligs::eNo_0, "No"},
+        {AO::Path_Slig::ShootPossessedSligs::eYes_1, "Yes"},
+        {AO::Path_Slig::ShootPossessedSligs::eYes_2, "Yes (ignore)"},
+
+    });
+
+    AddEnum<AO::Path_Slig::StartState>("Enum_SligStartState",
+    {
+        {AO::Path_Slig::StartState::Listening_0, "Listening"},
+        {AO::Path_Slig::StartState::Patrol_1, "Patrol"},
+        {AO::Path_Slig::StartState::Sleeping_2, "Sleeping"},
+        {AO::Path_Slig::StartState::Chase_3, "Chase"},
+        {AO::Path_Slig::StartState::ChaseAndDisappear_4, "Chase And Disappear"},
+        {AO::Path_Slig::StartState::FallingToChase_5, "Falling To Chase"},
+    });
+
 
     AddEnum<AO::SwitchOp>("Enum_SwitchOp",
     {

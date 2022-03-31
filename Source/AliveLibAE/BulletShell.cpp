@@ -113,7 +113,7 @@ void BulletShell::vUpdate_4AD550()
         == 1)
     {
         if (field_F4_pLine->field_8_type == eLineTypes::eFloor_0 ||
-            field_F4_pLine->field_8_type == eLineTypes::eBackGroundFloor_4)
+            field_F4_pLine->field_8_type == eLineTypes::eBackgroundFloor_4)
         {
             field_BC_ypos = hitY - FP_FromInteger(1);
             field_C8_vely = -(field_C8_vely * FP_FromDouble(0.3));

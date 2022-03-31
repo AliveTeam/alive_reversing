@@ -97,11 +97,11 @@ struct Path_Slig final : public Path_TLV
     enum class StartState : s16
     {
         Listening_0 = 0,
-        Paused_1 = 1,
+        Patrol_1 = 1,
         Sleeping_2 = 2,
         Chase_3 = 3,
-        RunOffScreen_4 = 4,
-        GameEnder_5 = 5,
+        ChaseAndDisappear_4 = 4,
+        Unused_5 = 5,
         ListeningToGlukkon_6 = 6,
     };
     StartState field_12_start_state;
@@ -393,7 +393,7 @@ public:
     EXPORT s16 Brain_Inactive_32_4B9430();
     EXPORT s16 Brain_Paused_33_4B8DD0();
     EXPORT s16 Brain_Sleeping_34_4B9170();
-    EXPORT s16 Brain_GameEnder_35_4BF640();
+    EXPORT s16 Brain_ChaseAndDisappear_35_4BF640();
 
 private:
     EXPORT void Init_4BB0D0();

@@ -25,7 +25,7 @@
 #include "Explosion.hpp"
 #include "Bullet.hpp"
 #include "ParticleBurst.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "Sys_common.hpp"
 #include "Grid.hpp"
 
@@ -1635,7 +1635,7 @@ void FlyingSlig::M_LeverPull_7_439150()
     }
     else
     {
-        auto pSwitch = static_cast<Switch*>(sObjectIds_5C1B70.Find_449CF0(field_158_obj_id));
+        auto pSwitch = static_cast<Lever*>(sObjectIds_5C1B70.Find_449CF0(field_158_obj_id));
         if (pSwitch)
         {
             pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);

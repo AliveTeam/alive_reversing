@@ -120,7 +120,7 @@ Slog* Slog::ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo)
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    if (pTlv->field_18_scale == 0)
+    if (pTlv->field_18_scale == Scale_short::eFull_0)
     {
         field_BC_sprite_scale = FP_FromInteger(1);
     }
@@ -135,18 +135,18 @@ Slog* Slog::ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo)
     field_114_brain_idx = 1;
     field_176 = 1;
 
-    field_158_bark_anger = pTlv->field_1E_bark_anger;
+    field_158_wake_up_anger = pTlv->field_1E_wake_up_anger;
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_direction == 0);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_start_direction == XDirection_short::eLeft_0);
 
-    field_15A = pTlv->field_1E_bark_anger + pTlv->field_20_sleeps;
-    field_15C = pTlv->field_1E_bark_anger + pTlv->field_20_sleeps + pTlv->field_22_chase_anger;
+    field_15A_total_anger = pTlv->field_1E_wake_up_anger + pTlv->field_20_bark_anger;
+    field_15C_chase_anger = field_15A_total_anger + pTlv->field_22_chase_anger;
     field_10C_pTarget = 0;
-    field_17E = pTlv->field_1C_wakeup_anger;
-    field_170 = pTlv->field_24_jump_attack_delay;
-    field_168_anger_switch_id = pTlv->field_28_anger_trigger_id;
+    field_17E_asleep = pTlv->field_1C_asleep;
+    field_170 = pTlv->field_24_chase_delay;
+    field_168_anger_switch_id = pTlv->field_28_anger_switch_id;
 
-    if (pTlv->field_1C_wakeup_anger)
+    if (pTlv->field_1C_asleep == Choice_short::eYes_1)
     {
         field_FC_current_motion = eSlogMotions::Motion_16_Sleeping_4752E0;
         field_13C_res_idx = 1;
@@ -178,16 +178,16 @@ Slog* Slog::ctor_473050(FP xpos, FP ypos, FP scale)
     field_10C_pTarget = sControlledCharacter_50767C;
     field_176 = 0;
     sControlledCharacter_50767C->field_C_refCount++;
-    field_17E = 0;
-    field_158_bark_anger = 0;
+    field_17E_asleep = Choice_short::eNo_0;
+    field_158_wake_up_anger = 0;
 
     field_170 = 0;
     field_168_anger_switch_id = 0;
     field_FC_current_motion = 0;
     field_138_tlvInfo = 0xFFFF;
     field_114_brain_idx = 2;
-    field_15A = 10;
-    field_15C = 20;
+    field_15A_total_anger = 10;
+    field_15C_chase_anger = 20;
 
     return this;
 }
@@ -963,7 +963,7 @@ void Slog::VOnThrowableHit(BaseGameObject* pFrom)
 
 void Slog::VOnThrowableHit_4735F0(BaseGameObject* /*pFrom*/)
 {
-    field_156 += field_15C;
+    field_156 += field_15C_chase_anger;
 }
 
 s16 Slog::HandleEnemyStopper_473BD0()
@@ -1284,7 +1284,7 @@ void Slog::Motion_4_Fall_4750C0()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 field_F4_pLine = pLine;
@@ -1311,8 +1311,8 @@ void Slog::Motion_4_Fall_4750C0()
 
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
-            case eLineTypes::eBackGroundWallLeft_5:
-            case eLineTypes::eBackGroundWallRight_6:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 field_A8_xpos = hitX - field_B4_velx;
                 field_AC_ypos = hitY;
                 MapFollowMe_401D30(FALSE);
@@ -1711,7 +1711,7 @@ void Slog::Motion_19_JumpForwards_475610()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eWallLeft_1:
-            case eLineTypes::eBackGroundWallLeft_5:
+            case eLineTypes::eBackgroundWallLeft_5:
                 if (field_B4_velx < FP_FromInteger(0))
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
@@ -1720,7 +1720,7 @@ void Slog::Motion_19_JumpForwards_475610()
                 break;
 
             case eLineTypes::eWallRight_2:
-            case eLineTypes::eBackGroundWallRight_6:
+            case eLineTypes::eBackgroundWallRight_6:
                 if (field_B4_velx > FP_FromInteger(0))
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
@@ -1745,7 +1745,7 @@ void Slog::Motion_19_JumpForwards_475610()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 if (field_B8_vely > FP_FromInteger(0))
@@ -2295,12 +2295,12 @@ s16 Slog::Brain_1_Idle_4719C0()
                 field_FE_next_motion = eSlogMotions::Motion_0_Idle_4742E0;
                 return field_116_brain_sub_state;
             }
-            else if (field_17E)
+            else if (field_17E_asleep == Choice_short::eYes_1)
             {
                 field_156 = 0;
                 return 1;
             }
-            field_156 = field_158_bark_anger;
+            field_156 = field_158_wake_up_anger;
             return 4;
 
         case 1:
@@ -2330,7 +2330,7 @@ s16 Slog::Brain_1_Idle_4719C0()
                 }
             }
 
-            if (field_156 <= field_158_bark_anger)
+            if (field_156 <= field_158_wake_up_anger)
             {
                 return field_116_brain_sub_state;
             }
@@ -2378,7 +2378,7 @@ s16 Slog::Brain_1_Idle_4719C0()
             {
                 if (field_156)
                 {
-                    if (field_17E)
+                    if (field_17E_asleep == Choice_short::eYes_1)
                     {
                         field_156--;
                     }
@@ -2412,14 +2412,14 @@ s16 Slog::Brain_1_Idle_4719C0()
                 field_160 = (Math_NextRandom() % 32) + gnFrameCount_507670 + 120;
             }
 
-            if (field_156 > field_15A)
+            if (field_156 > field_15A_total_anger)
             {
                 field_FE_next_motion = eSlogMotions::Motion_15_AngryBark_475290;
                 field_156 += Slog_NextRandom() % 8;
                 return 5;
             }
 
-            if (field_156 >= field_158_bark_anger)
+            if (field_156 >= field_158_wake_up_anger)
             {
                 return field_116_brain_sub_state;
             }
@@ -2458,9 +2458,9 @@ s16 Slog::Brain_1_Idle_4719C0()
                 field_156 += 2;
             }
 
-            if (field_156 >= field_15A)
+            if (field_156 >= field_15A_total_anger)
             {
-                if (field_156 > field_15C)
+                if (field_156 > field_15C_chase_anger)
                 {
                     field_114_brain_idx = 2;
                     return 0;

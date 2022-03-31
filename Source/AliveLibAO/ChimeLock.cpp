@@ -340,7 +340,7 @@ s16 ChimeLock::UpdateBall_40B8A0()
                 == 1)
             {
                 if (field_F4_pLine->field_8_type == eLineTypes ::eFloor_0 ||
-                    field_F4_pLine->field_8_type == eLineTypes::eBackGroundFloor_4)
+                    field_F4_pLine->field_8_type == eLineTypes::eBackgroundFloor_4)
                 {
                     field_AC_ypos = hitY - FP_FromInteger(1);
                     field_B8_vely = -(field_B8_vely * FP_FromDouble(0.4));

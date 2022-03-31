@@ -10,15 +10,15 @@ namespace AO {
 
 struct Path_Slog final : public Path_TLV
 {
-    s16 field_18_scale;
-    s16 field_1A_direction;
-    s16 field_1C_wakeup_anger;
-    s16 field_1E_bark_anger;
-    s16 field_20_sleeps;
+    Scale_short field_18_scale;
+    XDirection_short field_1A_start_direction;
+    Choice_short field_1C_asleep;
+    s16 field_1E_wake_up_anger;
+    s16 field_20_bark_anger;
     s16 field_22_chase_anger;
-    s16 field_24_jump_attack_delay;
+    s16 field_24_chase_delay;
     s16 field_26_disabled_resources;
-    s16 field_28_anger_trigger_id;
+    s16 field_28_anger_switch_id;
     s16 field_2A_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_Slog, 0x2C);
@@ -164,9 +164,9 @@ public:
     s16 field_152_response_index;
     s16 field_154_response_part;
     s16 field_156;
-    s16 field_158_bark_anger;
-    s16 field_15A;
-    s16 field_15C;
+    s16 field_158_wake_up_anger;
+    s16 field_15A_total_anger;
+    s16 field_15C_chase_anger;
     s16 field_15E;
     s32 field_160;
     s32 field_164_timer;
@@ -180,7 +180,7 @@ public:
     s16 field_178_bShot; // flag in AE
     s16 field_17A;
     s16 field_17C_res;
-    s16 field_17E;
+    Choice_short field_17E_asleep;
     s16 field_180;
     s16 field_182_pad;
     u8** field_184_resources[5];

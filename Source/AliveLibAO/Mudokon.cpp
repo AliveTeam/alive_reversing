@@ -22,7 +22,7 @@
 #include "SwitchStates.hpp"
 #include "Particle.hpp"
 #include "CameraSwapper.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "ScreenShake.hpp"
 #include "PsxDisplay.hpp"
 #include "PossessionFlicker.hpp"
@@ -2487,7 +2487,7 @@ void Mudokon::Motion_51_Fall_43D0D0()
         switch (pLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 field_F4_pLine = pLine;
@@ -2533,8 +2533,8 @@ void Mudokon::Motion_51_Fall_43D0D0()
 
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
-            case eLineTypes::eBackGroundWallLeft_5:
-            case eLineTypes::eBackGroundWallRight_6:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
                 ToKnockback_43D6E0();
@@ -3277,7 +3277,7 @@ s16 Mudokon::Brain_LeverUse_6_43C250()
         directedGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
     }
 
-    auto pSwitch = static_cast<Switch*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + directedGridSize, field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale)));
+    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + directedGridSize, field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale)));
     if (pSwitch)
     {
         pSwitch->vPull_481640(field_A8_xpos < pSwitch->field_A8_xpos);

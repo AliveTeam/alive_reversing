@@ -24,7 +24,7 @@
 #include "ScreenShake.hpp"
 #include "ScreenManager.hpp"
 #include "LiftPoint.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "SwitchStates.hpp"
 #include "Bullet.hpp"
 #include "Dove.hpp"
@@ -320,7 +320,7 @@ const TSligBrainFn sSlig_brain_table_5605AC[36] = {
     &Slig::Brain_Inactive_32_4B9430,
     &Slig::Brain_Paused_33_4B8DD0,
     &Slig::Brain_Sleeping_34_4B9170,
-    &Slig::Brain_GameEnder_35_4BF640};
+    &Slig::Brain_ChaseAndDisappear_35_4BF640};
 
 static BrainFunctionData<TSligBrainFn> sSligBrainTable[36] = {
     {
@@ -498,7 +498,7 @@ static BrainFunctionData<TSligBrainFn> sSligBrainTable[36] = {
         0x402B17,
         "Brain_Sleeping_34",
     },
-    {&Slig::Brain_GameEnder_35_4BF640, 0x4022B1, "Brain_GameEnder_35"},
+    {&Slig::Brain_ChaseAndDisappear_35_4BF640, 0x4022B1, "Brain_GameEnder_35"},
 };
 
 void Slig::SetBrain(TSligBrainFn fn)
@@ -1494,7 +1494,7 @@ void Slig::M_Falling_7_4B42D0()
         switch (ppPathLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
-            case eLineTypes::eBackGroundFloor_4:
+            case eLineTypes::eBackgroundFloor_4:
             case 32u:
             case 36u:
                 field_100_pCollisionLine = ppPathLine;
@@ -1507,8 +1507,8 @@ void Slig::M_Falling_7_4B42D0()
                 break;
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
-            case eLineTypes::eBackGroundWallLeft_5:
-            case eLineTypes::eBackGroundWallRight_6:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
                 FallKnockBackOrSmash_4B4A90();
@@ -2592,11 +2592,11 @@ enum Brain_2_Possessed
     eBrain2_ControlledByPlayer_4 = 4
 };
 
-enum Brain_35_GameEnder
+enum Brain_35_ChaseAndDisappear
 {
     eBrain35_Summoned_0 = 0,
-    eBrain35_RunningToAbe_1 = 1,
-    eBrain35_ReachedAbe_2 = 2
+    eBrain35_Running_1 = 1,
+    eBrain35_ReachedDestination_2 = 2
 };
 
 s16 Slig::Brain_Death_0_4BBFB0()
@@ -2991,14 +2991,14 @@ s16 Slig::Brain_ListeningToGlukkon_PullingLever()
 {
     const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
-    Switch* pLever = nullptr;
+    Lever* pLever = nullptr;
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        pLever = static_cast<Switch*>(FindObjectOfType_425180(AETypes::eLever_139, field_B8_xpos - gridSize, field_BC_ypos - FP_FromInteger(5)));
+        pLever = static_cast<Lever*>(FindObjectOfType_425180(AETypes::eLever_139, field_B8_xpos - gridSize, field_BC_ypos - FP_FromInteger(5)));
     }
     else
     {
-        pLever = static_cast<Switch*>(FindObjectOfType_425180(AETypes::eLever_139, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)));
+        pLever = static_cast<Lever*>(FindObjectOfType_425180(AETypes::eLever_139, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)));
     }
 
     if (pLever)
@@ -4578,15 +4578,15 @@ s16 Slig::Brain_Sleeping_34_4B9170()
     return 102;
 }
 
-// A leftover function from Abe's Oddysee. Force calling it crashes the game.
-s16 Slig::Brain_GameEnder_35_4BF640()
+// A leftover function from Abe's Oddysee.
+s16 Slig::Brain_ChaseAndDisappear_35_4BF640()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_11C_brain_sub_state == Brain_35_GameEnder::eBrain35_Summoned_0)
+    if (field_11C_brain_sub_state == Brain_35_ChaseAndDisappear::eBrain35_Summoned_0)
     {
         if (sNum_CamSwappers_5C1B66 > 0 || sActiveHero_5C1B68->field_1AC_flags.Get(Abe::e1AC_Bit5_shrivel))
         {
@@ -4595,9 +4595,9 @@ s16 Slig::Brain_GameEnder_35_4BF640()
 
         field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
         field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_14_pause_time;
-        return Brain_35_GameEnder::eBrain35_RunningToAbe_1;
+        return Brain_35_ChaseAndDisappear::eBrain35_Running_1;
     }
-    else if (field_11C_brain_sub_state == Brain_35_GameEnder::eBrain35_RunningToAbe_1)
+    else if (field_11C_brain_sub_state == Brain_35_ChaseAndDisappear::eBrain35_Running_1)
     {
         if (static_cast<s32>(sGnFrame_5C1B84) < field_120_timer)
         {
@@ -4605,11 +4605,11 @@ s16 Slig::Brain_GameEnder_35_4BF640()
         }
 
         field_108_next_motion = eSligMotions::M_Running_4_4B6000;
-        return Brain_35_GameEnder::eBrain35_ReachedAbe_2;
+        return Brain_35_ChaseAndDisappear::eBrain35_ReachedDestination_2;
     }
     else
     {
-        if (field_11C_brain_sub_state == Brain_35_GameEnder::eBrain35_ReachedAbe_2 
+        if (field_11C_brain_sub_state == Brain_35_ChaseAndDisappear::eBrain35_ReachedDestination_2 
             && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
@@ -4688,7 +4688,7 @@ void Slig::Init_4BB0D0()
 
     switch (field_218_tlv_data.field_12_start_state)
     {
-        case Path_Slig::StartState::Paused_1:
+        case Path_Slig::StartState::Patrol_1:
             SetBrain(&Slig::Brain_Inactive_32_4B9430);
             break;
 
@@ -4710,12 +4710,12 @@ void Slig::Init_4BB0D0()
             field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_36_time_to_wait_before_chase;
             break;
 
-        case Path_Slig::StartState::RunOffScreen_4:
-            SetBrain(&Slig::Brain_GameEnder_35_4BF640);
+        case Path_Slig::StartState::ChaseAndDisappear_4:
+            SetBrain(&Slig::Brain_ChaseAndDisappear_35_4BF640);
             field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_14_pause_time;
             break;
 
-        case Path_Slig::StartState::GameEnder_5:
+        case Path_Slig::StartState::Unused_5:
             break;
 
         case Path_Slig::StartState::ListeningToGlukkon_6:
@@ -5551,7 +5551,7 @@ void Slig::PullLever()
         switchYPos = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
     }
 
-    auto pSwitch = static_cast<Switch*>(FindObjectOfType_425180(AETypes::eLever_139, switchYPos, switchXPos));
+    auto pSwitch = static_cast<Lever*>(FindObjectOfType_425180(AETypes::eLever_139, switchYPos, switchXPos));
     if (pSwitch && !field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
     {
         pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
@@ -6660,12 +6660,6 @@ void Slig::RespondToEnemyOrPatrol_4B3140()
 
     if (field_218_tlv_data.field_20_shoot_on_sight_delay || sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
-        if (field_218_tlv_data.field_1E_shoot_possessed_sligs != Path_Slig::ShootPossessedSligs::eNo_3 &&
-            field_218_tlv_data.field_1E_shoot_possessed_sligs != Path_Slig::ShootPossessedSligs::eYes_1)
-        {
-            LOG_WARNING("expected field_1E_shoot_possessed_sligs to be 0 or 3 but got " << (int)field_218_tlv_data.field_1E_shoot_possessed_sligs);
-        }
-
         if (sControlledCharacter_5C1B8C->Type() != AETypes::eSlig_125 ||
             field_218_tlv_data.field_1E_shoot_possessed_sligs != Path_Slig::ShootPossessedSligs::eNo_3) // keeping it this way because OG levels might use a different value like 2 etc
         {
@@ -6838,7 +6832,7 @@ s32 Slig::vGetSaveState_4BFB10(Slig_State* pState)
 s16 Slig::FindSwitch_4B9A50()
 {
     const s16 yPos = FP_GetExponent(field_BC_ypos - FP_FromInteger(5));
-    if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(field_B8_xpos), yPos, FP_GetExponent(field_B8_xpos), yPos, TlvTypes::Switch_17))
+    if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(field_B8_xpos), yPos, FP_GetExponent(field_B8_xpos), yPos, TlvTypes::Lever_17))
     {
         return 0;
     }
@@ -6854,7 +6848,7 @@ s16 Slig::FindSwitch_4B9A50()
                yPos,
                FP_GetExponent(FP_Abs(field_B8_xpos) + xOff),
                yPos,
-               TlvTypes::Switch_17)
+               TlvTypes::Lever_17)
         != 0;
 }
 

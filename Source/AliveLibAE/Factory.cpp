@@ -18,7 +18,7 @@
 #include "WheelSyncer.hpp"
 #include "LevelLoader.hpp"
 #include "InvisibleSwitch.hpp"
-#include "Switch.hpp"
+#include "Lever.hpp"
 #include "MultiSwitchController.hpp"
 #include "ShadowZone.hpp"
 #include "Drill.hpp"
@@ -635,15 +635,15 @@ EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        Map::LoadResource_4DBE00("SWITCH1.BAN", ResourceManager::Resource_Animation, AEResourceID::kSwitchResID, loadmode);
+        Map::LoadResource_4DBE00("SWITCH1.BAN", ResourceManager::Resource_Animation, AEResourceID::kLeverResID, loadmode);
         Map::LoadResource_4DBE00("ABEPULL.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbepullResID, loadmode);
     }
     else
     {
-        auto pSwitch = ae_new<Switch>();
+        auto pSwitch = ae_new<Lever>();
         if (pSwitch)
         {
-            pSwitch->ctor_4D5860(static_cast<Path_Switch*>(pTlv), tlvInfo.all);
+            pSwitch->ctor_4D5860(static_cast<Path_Lever*>(pTlv), tlvInfo.all);
         }
     }
 }
