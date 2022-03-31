@@ -13,9 +13,9 @@ void SwitchStates_Set(u16 idx, s8 value)
 
 s16 SwitchStates_Get(u16 idx)
 {
-    if (idx > UCHAR_MAX)
+    if (idx >= ALIVE_COUNTOF(sSwitchStates_505568.mData))
     {
-        LOG_WARNING("switch id value is " << idx << " and exceeds " << UCHAR_MAX << ". if you see this in a custom level consider lowering the switch id value.");
+        LOG_WARNING("switch id value is " << idx << " and exceeds 255. if you see this in a custom level consider lowering the switch id value.");
         return 0;
     }
 
