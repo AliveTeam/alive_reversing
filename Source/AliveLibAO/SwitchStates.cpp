@@ -13,6 +13,12 @@ void SwitchStates_Set(u16 idx, s8 value)
 
 s16 SwitchStates_Get(u16 idx)
 {
+    if (idx > UCHAR_MAX)
+    {
+        LOG_WARNING("switch id value is " << idx << " and exceeds " << UCHAR_MAX << ". if you see this in a custom level consider lowering the switch id value.");
+        return 0;
+    }
+
     if (idx == 0)
     {
         return 0;
