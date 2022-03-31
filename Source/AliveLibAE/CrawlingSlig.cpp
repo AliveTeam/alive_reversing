@@ -47,24 +47,24 @@ const TintEntry kCrawlingSligTints_5514B8[18] = {
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 const AnimId sCrawlingSligFrameTableOffsets_551470[18] = {
-    AnimId::Crawling_Slig_Idle,
-    AnimId::Crawling_Slig_UsingButton,
-    AnimId::Crawling_Slig_WakingUp,
-    AnimId::Crawling_Slig_Crawling,
-    AnimId::Crawling_Slig_StartFalling,
-    AnimId::Crawling_Slig_Falling,
-    AnimId::Crawling_Slig_Landing,
-    AnimId::Crawling_Slig_ToShakingToIdle,
-    AnimId::Crawling_Slig_Speaking,
-    AnimId::Crawling_Slig_Snoozing,
-    AnimId::Crawling_Slig_PushingWall,
-    AnimId::Crawling_Slig_TurnAround,
-    AnimId::Crawling_Slig_Shaking,
-    AnimId::Crawling_Slig_Empty,
-    AnimId::Crawling_Slig_ShakingToIdle,
-    AnimId::Crawling_Slig_EndCrawling,
-    AnimId::Crawling_Slig_IdleToPushingWall,
-    AnimId::Crawling_Slig_EndPushingWall 
+    AnimId::CrawlingSlig_Idle,
+    AnimId::CrawlingSlig_UsingButton,
+    AnimId::CrawlingSlig_WakingUp,
+    AnimId::CrawlingSlig_Crawling,
+    AnimId::CrawlingSlig_StartFalling,
+    AnimId::CrawlingSlig_Falling,
+    AnimId::CrawlingSlig_Landing,
+    AnimId::CrawlingSlig_ToShakingToIdle,
+    AnimId::CrawlingSlig_Speaking,
+    AnimId::CrawlingSlig_Snoozing,
+    AnimId::CrawlingSlig_PushingWall,
+    AnimId::CrawlingSlig_TurnAround,
+    AnimId::CrawlingSlig_Shaking,
+    AnimId::CrawlingSlig_Empty,
+    AnimId::CrawlingSlig_ShakingToIdle,
+    AnimId::CrawlingSlig_EndCrawling,
+    AnimId::CrawlingSlig_IdleToPushingWall,
+    AnimId::CrawlingSlig_EndPushingWall 
 };
 
 ALIVE_ARY(1, 0x551428, TCrawlingSligMotionFn, 18, sCrawlingSlig_motions_551428,
@@ -138,7 +138,7 @@ CrawlingSlig* CrawlingSlig::ctor_418C70(Path_CrawlingSlig* pTlv, s32 tlvInfo)
     SetVTable(this, 0x5446A8);
     SetType(AETypes::eCrawlingSlig_26);
 
-    const AnimRecord& rec = AnimRec(AnimId::Crawling_Slig_Idle);
+    const AnimRecord& rec = AnimRec(AnimId::CrawlingSlig_Idle);
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, 1, 0));
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1, 1);
