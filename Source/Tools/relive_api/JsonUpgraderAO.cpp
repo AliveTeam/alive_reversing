@@ -30,6 +30,6 @@ public:
 
 void JsonUpgraderAO::AddUpgraders()
 {
-    ADD_UPGRADE_STEP(1, ExampleUpgrader);
+    ADD_UPGRADE_STEP_FROM(1, ExampleUpgrader);
 }
 } // namespace ReliveAPI
