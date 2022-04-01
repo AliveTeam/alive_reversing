@@ -15,6 +15,6 @@ public:
 
 void JsonUpgraderAE::AddUpgraders()
 {
-    ADD_UPGRADE_STEP(1, TestUpgrader);
+    ADD_UPGRADE_STEP_FROM(1, TestUpgrader);
 }
 } // namespace ReliveAPI
