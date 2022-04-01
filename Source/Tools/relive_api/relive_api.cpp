@@ -285,9 +285,9 @@ enum class OpenPathBndResult
                     // Read hint fly messages, will be empty for AE
                     auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
                     pChunkData = StringTable::MakeTable(pHintFlyMsgs);
-                    for (u64 j = 0u; j < pLCDScreenMsgs->mStringCount; j++)
+                    for (u64 j = 0u; j < pHintFlyMsgs->mStringCount; j++)
                     {
-                        ret.mPathInfo.mHintFlyMessages.emplace_back(pLCDScreenMsgs->mStrings[j].string_ptr);
+                        ret.mPathInfo.mHintFlyMessages.emplace_back(pHintFlyMsgs->mStrings[j].string_ptr);
                     };
 
                     return OpenPathBndResult::OK;
