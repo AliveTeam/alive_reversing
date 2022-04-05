@@ -3,6 +3,7 @@
 #include "JsonMapRootInfoReader.hpp"
 #include "JsonReadUtils.hpp"
 #include "TypesCollectionBase.hpp"
+#include "file_api.hpp"
 
 namespace ReliveAPI {
 void JsonUpgraderBase::RenameMapLevelItem(nlohmann::basic_json<>& rootObj, const std::string& oldName, const std::string& newName)
@@ -82,16 +83,16 @@ void JsonUpgraderBase::RenameMapObjectProperty(nlohmann::basic_json<>& rootObj, 
     }
 }
 
-std::string JsonUpgraderBase::Upgrade(TypesCollectionBase& baseTypesCollection, const std::string& jsonFile, s32 currentJsonVersion, s32 targetApiVersion)
+std::string JsonUpgraderBase::Upgrade(TypesCollectionBase& baseTypesCollection, IFileIO& fileIO, const std::string& jsonFile, s32 currentJsonVersion, s32 targetApiVersion)
 {
-    std::ifstream inputFileStream(jsonFile.c_str());
-    if (!inputFileStream.is_open())
+    auto inputFileStream = fileIO.Open(jsonFile, IFileIO::Mode::Read);
+    if (!inputFileStream->IsOpen())
     {
         throw ReliveAPI::IOReadException();
     }
 
     std::string& jsonStr = getStaticStringBuffer();
-    readFileContentsIntoString(jsonStr, inputFileStream);
+    readFileContentsIntoString(jsonStr, *inputFileStream);
 
     UpgradeTargetIsValid(currentJsonVersion, targetApiVersion);
 
@@ -109,7 +110,12 @@ std::string JsonUpgraderBase::Upgrade(TypesCollectionBase& baseTypesCollection, 
         // Remove the schemea now to avoid constantly re-parsing it
         rootObj.erase("schema");
 
-        jsonStr = mUpgraders[currentJsonVersion]()->Upgrade(*this, rootObj);
+        auto upgrader = mUpgraders.find(currentJsonVersion);
+        if (upgrader != std::end(mUpgraders))
+        {
+            jsonStr = upgrader->second()->Upgrade(*this, rootObj);
+        }
+
         currentVersion++;
     }
 

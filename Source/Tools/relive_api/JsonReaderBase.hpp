@@ -62,13 +62,15 @@ public:
     PathLine mLine = {};
 };
 
+class IFileIO;
+
 class JsonReaderBase
 {
 public:
     MapInfo mRootInfo;
 
 protected:
-    std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> Load(TypesCollectionBase& types, const std::string& fileName);
+    std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName);
 
     std::vector<AO::PathLine> ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray);
     std::vector<::PathLine> ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray);

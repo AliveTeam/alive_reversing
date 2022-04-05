@@ -81,7 +81,7 @@ void JsonWriterBase::ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& l
     }
 }
 
-void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName)
+void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, std::vector<u8>& pathResource, IFileIO& fileIO, const std::string& fileName)
 {
     ResetTypeCounterMap();
 
@@ -157,10 +157,10 @@ void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader,
     rootObject << "map" << rootMapObject;
     rootObject << "schema" << schemaObject;
 
-    std::ofstream s(fileName.c_str());
-    if (s)
+    auto s = fileIO.Open(fileName, IFileIO::Mode::Write);
+    if (s->IsOpen())
     {
-        s << rootObject.json();
+        s->Write(rootObject.json());
     }
     else
     {
@@ -169,26 +169,25 @@ void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader,
 }
 
 template <typename T>
-static void DebugDumpTlv(const std::string& prefix, s32 idx, const T& tlv)
+static void DebugDumpTlv(IFileIO& fileIo, const std::string& prefix, s32 idx, const T& tlv)
 {
     const std::string fileName = prefix + "_" + std::to_string(static_cast<s32>(tlv.field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
-    FILE* hFile = ::fopen(fileName.c_str(), "wb");
-    if (!hFile)
+    auto hFile = fileIo.Open(fileName, IFileIO::Mode::WriteBinary);
+    if (!hFile->IsOpen())
     {
         throw ReliveAPI::IOWriteException(fileName.c_str());
     }
-    ::fwrite(&tlv, tlv.field_2_length, 1, hFile);
-    ::fclose(hFile);
+    hFile->Write(reinterpret_cast<const u8*>(&tlv), tlv.field_2_length);
 }
 
-void JsonWriterBase::DebugDumpTlv(const std::string& prefix, s32 idx, const Path_TLV& tlv)
+void JsonWriterBase::DebugDumpTlv(IFileIO& fileIo, const std::string& prefix, s32 idx, const Path_TLV& tlv)
 {
-    ReliveAPI::DebugDumpTlv(prefix, idx, tlv);
+    ReliveAPI::DebugDumpTlv(fileIo, prefix, idx, tlv);
 }
 
-void JsonWriterBase::DebugDumpTlv(const std::string& prefix, s32 idx, const AO::Path_TLV& tlv)
+void JsonWriterBase::DebugDumpTlv(IFileIO& fileIo, const std::string& prefix, s32 idx, const AO::Path_TLV& tlv)
 {
-    ReliveAPI::DebugDumpTlv(prefix, idx, tlv);
+    ReliveAPI::DebugDumpTlv(fileIo, prefix, idx, tlv);
 }
 
 PathCamerasEnumerator::PathCamerasEnumerator(const PathInfo& pathInfo, const std::vector<u8>& pathResource)

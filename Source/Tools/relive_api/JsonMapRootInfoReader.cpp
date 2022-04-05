@@ -3,18 +3,19 @@
 #include "JsonMapRootInfoReader.hpp"
 #include <jsonxx/jsonxx.h>
 #include "JsonReadUtils.hpp"
+#include "file_api.hpp"
 
 namespace ReliveAPI {
-void JsonMapRootInfoReader::Read(const std::string& fileName)
+void JsonMapRootInfoReader::Read(IFileIO& fileIO, const std::string& fileName)
 {
-    std::ifstream inputFileStream(fileName.c_str());
-    if (!inputFileStream.is_open())
+    auto inputFileStream = fileIO.Open(fileName, IFileIO::Mode::Read);
+    if (!inputFileStream->IsOpen())
     {
         throw ReliveAPI::IOReadException(fileName.c_str());
     }
 
     std::string& jsonStr = getStaticStringBuffer();
-    readFileContentsIntoString(jsonStr, inputFileStream);
+    readFileContentsIntoString(jsonStr, *inputFileStream);
 
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))
@@ -45,12 +46,9 @@ void JsonMapRootInfoReader::Read(const std::string& fileName)
     throw ReliveAPI::InvalidGameException(mMapRootInfo.mGame.c_str());
 }
 
-void readFileContentsIntoString(std::string& target, std::ifstream& ifs)
+void readFileContentsIntoString(std::string& target, IFile& file)
 {
-    ifs.seekg(0, std::ios::end);
-    target.resize(static_cast<std::size_t>(ifs.tellg()));
-    ifs.seekg(0);
-    ifs.read(target.data(), target.size());
+    file.ReadInto(target);
 }
 
 std::string& getStaticStringBuffer()

@@ -87,7 +87,7 @@ void JsonWriterAO::ResetTypeCounterMap()
     return collisionsArray;
 }
 
-void JsonWriterAO::DebugDumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource)
+void JsonWriterAO::DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource)
 {
     u8* pStart = pathResource.data() + info.mObjectOffset;
     u8* pEnd = pathResource.data() + info.mIndexTableOffset;
@@ -100,7 +100,7 @@ void JsonWriterAO::DebugDumpTlvs(const std::string& prefix, const PathInfo& info
         while (pPathTLV)
         {
             idx++;
-            DebugDumpTlv(prefix, idx, *pPathTLV);
+            DebugDumpTlv(fileIo, prefix, idx, *pPathTLV);
             pPathTLV = AO::Path_TLV::Next_NoCheck(pPathTLV);
             if (pPathTLV)
             {

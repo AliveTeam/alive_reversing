@@ -6,6 +6,8 @@
 
 #include "../../AliveLibCommon/FunctionFwd.hpp"
 #include "relive_api_exceptions.hpp"
+#include "file_api.hpp"
+#include "RoundUp.hpp"
 
 #include <cstddef>
 #include <cstring>
@@ -232,12 +234,14 @@ private:
     std::vector<LvlFileChunk> mChunks;
 };
 
+class IFileIO;
+
 class LvlReader final
 {
 public:
-    explicit LvlReader(const char_type* lvlFile)
+    explicit LvlReader(IFileIO& fileIO, const char_type* lvlFile)
     {
-        mFileHandle = ::fopen(lvlFile, "rb");
+        mFileHandle = fileIO.Open(lvlFile, IFileIO::Mode::ReadBinary);
         if (!mFileHandle)
         {
             throw ReliveAPI::IOReadException(lvlFile);
@@ -258,7 +262,6 @@ public:
     {
         if (IsOpen())
         {
-            ::fclose(mFileHandle);
             mFileHandle = nullptr;
         }
     }
@@ -280,13 +283,15 @@ public:
             if (std::strncmp(rec.field_0_file_name, fileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)) == 0)
             {
                 const auto fileOffset = rec.field_C_start_sector * 2048;
-                if (::fseek(mFileHandle, fileOffset, SEEK_SET) != 0)
+
+                if (!mFileHandle->Seek(fileOffset))
                 {
                     return false;
                 }
 
                 target.resize(rec.field_14_file_size);
-                if (::fread(target.data(), 1, target.size(), mFileHandle) != target.size())
+                
+                if (!mFileHandle->Read(target))
                 {
                     return false;
                 }
@@ -329,7 +334,7 @@ public:
 protected:
     [[nodiscard]] bool ReadTOC()
     {
-        if (::fread(&mHeader, sizeof(LvlHeader) - sizeof(LvlFileRecord), 1, mFileHandle) != 1)
+        if (!mFileHandle->Read(mHeader))
         {
             return false;
         }
@@ -339,7 +344,7 @@ protected:
 
         mFileRecords.resize(mHeader.field_10_sub.field_0_num_files);
 
-        if (::fread(mFileRecords.data(), sizeof(LvlFileRecord), mFileRecords.size(), mFileHandle) != mFileRecords.size())
+        if (!mFileHandle->Read(mFileRecords))
         {
             return false;
         }
@@ -347,39 +352,16 @@ protected:
         return true;
     }
 
-    FILE* mFileHandle = nullptr;
+    std::unique_ptr<IFile> mFileHandle;
     LvlHeader mHeader = {};
     std::vector<LvlFileRecord> mFileRecords;
 };
 
-template <class T>
-[[nodiscard]] inline T RoundUp(T numToRound, T multiple)
-{
-    if (multiple == 0)
-    {
-        return numToRound;
-    }
-
-    auto remainder = numToRound % multiple;
-    if (remainder == 0)
-    {
-        return numToRound;
-    }
-
-    return numToRound + multiple - remainder;
-}
-
-template <class T>
-[[nodiscard]] inline T RoundUp(T offset)
-{
-    return RoundUp(offset, static_cast<T>(2048));
-}
-
 class LvlWriter final
 {
 public:
-    explicit LvlWriter(const char_type* lvlFile)
-        : mReader(lvlFile)
+    LvlWriter(IFileIO& fileIO, const char_type* lvlFile)
+        : mReader(fileIO, lvlFile)
     {
     }
 
@@ -445,7 +427,7 @@ public:
         }
     }
 
-    [[nodiscard]] bool Save(std::vector<u8>& fileDataBuffer, const char_type* lvlName = nullptr)
+    [[nodiscard]] bool Save(IFileIO& fileIo, std::vector<u8>& fileDataBuffer, const char_type* lvlName = nullptr)
     {
         if (mNewOrEditedFiles.empty())
         {
@@ -518,61 +500,50 @@ public:
             }
         }
 
-        FILE* outFile = ::fopen(lvlName, "wb");
-        if (!outFile)
+        auto outFile = fileIo.Open(lvlName, IFileIO::Mode::WriteBinary);
+        if (!outFile->IsOpen())
         {
             return false;
         }
 
         // Write header
-        fwrite(&newHeader, sizeof(LvlHeader) - sizeof(LvlFileRecord), 1, outFile);
+        outFile->Write(reinterpret_cast<const u8*>(&newHeader), sizeof(LvlHeader) - sizeof(LvlFileRecord));
 
         // Write file table
         for (const auto& fileRec : fileRecs)
         {
-            ::fwrite(&fileRec, sizeof(LvlFileRecord), 1, outFile);
+            outFile->Write(fileRec);
         }
 
         // Write out each file data
         for (const auto& fileRec : fileRecs)
         {
-            ::fseek(outFile, fileRec.field_C_start_sector * 2048, SEEK_SET);
+            outFile->Seek(fileRec.field_C_start_sector * 2048);
 
             const auto fileName = ToString(fileRec);
             auto rec = GetNewOrEditedFileRecord(fileName.c_str());
             if (rec)
             {
-                ::fwrite(rec->mFileData.data(), 1, rec->mFileData.size(), outFile);
+                outFile->Write(rec->mFileData.data(), rec->mFileData.size());
             }
             else
             {
                 const bool goodRead = mReader.ReadFileInto(fileDataBuffer, fileName.c_str());
                 if (!goodRead)
                 {
-                    ::fclose(outFile);
                     throw ReliveAPI::IOReadException(fileName.c_str());
                 }
 
-                ::fwrite(fileDataBuffer.data(), 1, fileDataBuffer.size(), outFile);
+                outFile->Write(fileDataBuffer.data(), fileDataBuffer.size());
             }
         }
 
         // Ensure termination padding to a multiple of the sector size exists at EOF
-        const auto pos = ::ftell(outFile);
-        if (pos == -1)
+        if (!outFile->PadEOF(2048))
         {
-            ::fclose(outFile);
             throw ReliveAPI::IOReadException(lvlName);
         }
 
-        if (pos + 1 != RoundUp(pos))
-        {
-            ::fseek(outFile, RoundUp(pos) - 1, SEEK_SET);
-            u8 emptyByte = 0;
-            ::fwrite(&emptyByte, sizeof(u8), 1, outFile);
-        }
-
-        ::fclose(outFile);
         return true;
     }
 

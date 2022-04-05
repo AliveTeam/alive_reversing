@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 namespace ReliveAPI {
+class IFileIO;
 class JsonWriterAE final : public JsonWriterBase
 {
 private:
@@ -14,7 +15,7 @@ public:
     JsonWriterAE(s32 pathId, const std::string& pathBndName, const PathInfo& info);
     ~JsonWriterAE();
 
-    void DebugDumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) override;
+    void DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) override;
 
 private:
     void ResetTypeCounterMap() override;
