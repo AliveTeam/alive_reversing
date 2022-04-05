@@ -113,7 +113,7 @@ public:
 
     bool Seek(std::size_t absPos) override
     {
-        return ::fseek(mFileHandle, absPos, SEEK_SET) == 0;
+        return ::fseek(mFileHandle, static_cast<long>(absPos), SEEK_SET) == 0;
     }
 
     bool Read(u8* buffer, std::size_t len) override
