@@ -17,6 +17,7 @@ inline s32 To1dIndex(s32 width, s32 x, s32 y)
 }
 
 class LvlReader;
+class IFileIO;
 
 class JsonWriterBase
 {
@@ -24,8 +25,8 @@ public:
     JsonWriterBase(TypesCollectionBase& types, s32 pathId, const std::string& pathBndName, const PathInfo& info);
     virtual ~JsonWriterBase();
 
-    void Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, std::vector<u8>& pathResource, const std::string& fileName);
-    virtual void DebugDumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) = 0;
+    void Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, std::vector<u8>& pathResource, IFileIO& fileIO, const std::string& fileName);
+    virtual void DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource) = 0;
 
     virtual jsonxx::Array ReadTlvStream(u8* ptr) = 0;
     virtual jsonxx::Array AddCollisionLineStructureJson() = 0;
@@ -33,8 +34,8 @@ public:
 protected:
     void ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, const s32* indexTable, const CameraObject& tmpCamera, jsonxx::Array& cameraArray, u8* pPathData);
 
-    static void DebugDumpTlv(const std::string& prefix, s32 idx, const Path_TLV& tlv);
-    static void DebugDumpTlv(const std::string& prefix, s32 idx, const AO::Path_TLV& tlv);
+    static void DebugDumpTlv(IFileIO& fileIo, const std::string& prefix, s32 idx, const Path_TLV& tlv);
+    static void DebugDumpTlv(IFileIO& fileIo, const std::string& prefix, s32 idx, const AO::Path_TLV& tlv);
 
     virtual jsonxx::Array ReadCollisionStream(u8* ptr, s32 numItems) = 0;
     virtual void ResetTypeCounterMap() = 0;

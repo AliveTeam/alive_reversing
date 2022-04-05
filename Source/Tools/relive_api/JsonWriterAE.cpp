@@ -6,7 +6,7 @@
 #include "TlvObjectBase.hpp"
 
 namespace ReliveAPI {
-void JsonWriterAE::DebugDumpTlvs(const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource)
+void JsonWriterAE::DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource)
 {
     u8* pData = pathResource.data();
     u8* pStart = pData + info.mObjectOffset;
@@ -17,7 +17,7 @@ void JsonWriterAE::DebugDumpTlvs(const std::string& prefix, const PathInfo& info
     while (pPathTLV && reinterpret_cast<u8*>(pPathTLV) < pEnd)
     {
         idx++;
-        DebugDumpTlv(prefix, idx, *pPathTLV);
+        DebugDumpTlv(fileIo, prefix, idx, *pPathTLV);
 
         // Skip length bytes to get to the start of the next TLV
         u8* ptr = reinterpret_cast<u8*>(pPathTLV);

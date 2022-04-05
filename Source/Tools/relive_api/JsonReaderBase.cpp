@@ -2,6 +2,7 @@
 #include "JsonMapRootInfoReader.hpp"
 #include "JsonReadUtils.hpp"
 #include "TlvObjectBase.hpp"
+#include "file_api.hpp"
 
 namespace ReliveAPI {
 std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray)
@@ -30,16 +31,16 @@ std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollectionBase& types, 
     return lines;
 }
 
-std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Load(TypesCollectionBase& types, const std::string& fileName)
+std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName)
 {
-    std::ifstream inputFileStream(fileName.c_str());
-    if (!inputFileStream.is_open())
+    auto inputFileStream = fileIO.Open(fileName, IFileIO::Mode::Read);
+    if (!inputFileStream->IsOpen())
     {
         throw ReliveAPI::IOReadException();
     }
 
     std::string& jsonStr = getStaticStringBuffer();
-    readFileContentsIntoString(jsonStr, inputFileStream);
+    readFileContentsIntoString(jsonStr, *inputFileStream);
 
     jsonxx::Object rootObj;
     if (!rootObj.parse(jsonStr))
