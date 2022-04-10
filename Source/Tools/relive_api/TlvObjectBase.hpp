@@ -24,6 +24,7 @@ void TypedProperty<T>::Read(const PropertyCollection& propertyCollection, const 
     {
         propertyCollection.ReadBasicType(*m_data, properties);
         (void) types; // statically compiled out in this branch
+        (void) context; // ditto
     }
 }
 
