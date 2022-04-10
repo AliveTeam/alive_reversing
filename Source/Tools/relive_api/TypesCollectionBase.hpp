@@ -95,7 +95,7 @@ public:
 
         if (ptr == nullptr)
         {
-            throw ReliveAPI::UnknownEnumValueException();
+            throw ReliveAPI::UnknownEnumTypeException();
         }
 
         return static_cast<const EnumType<T>*>(ptr)->ValueToString(enumValue, context);

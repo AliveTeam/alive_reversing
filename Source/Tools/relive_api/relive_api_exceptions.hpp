@@ -45,17 +45,41 @@ private:
     std::string mFileName;
 };
 
-// The value of the enum isn't anything we know about
-class UnknownEnumValueException final : public Exception
+class UnknownEnumTypeException final : public Exception
 {
 public:
+    UnknownEnumTypeException()
+    {
+        // Thrown when looking up an enum type string via its typeid, thus we don't know the enum name
+    }
 
+    explicit UnknownEnumTypeException(const std::string& enumName, const std::string& enumValue)
+        : mEnumName(enumName)
+        , mEnumValue(enumValue)
+    {
+    }
+
+    const std::string& EnumName() const
+    {
+        return mEnumName;
+    }
+
+    const std::string& EnumValue() const
+    {
+        return mEnumValue;
+    }
+
+private:
+    std::string mEnumName;
+    std::string mEnumValue;
 };
 
 class IOReadPastEOFException final : public Exception
 { };
+
 class EmptyPropertyNameException final : public Exception
 { };
+
 class EmptyTypeNameException final : public Exception
 { };
 
@@ -98,6 +122,7 @@ private:
     std::string mEnumTypeName;
 };
 
+// When looking up via pointer
 class PropertyNotFoundException final : public Exception
 { };
 
@@ -180,9 +205,6 @@ private:
 class OpenPathException final : public Exception
 { };
 
-// Count of collision items doesn't match hard coded data
-class CollisionsCountChangedException final : public Exception
-{ };
 
 // The x,y of a camera in the json it outside of the map size (e.g camera 2,2 but the map size is 1,1)
 class CameraOutOfBoundsException final : public Exception
