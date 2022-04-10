@@ -1,6 +1,7 @@
 #pragma once
 
 #include "relive_api_exceptions.hpp"
+#include <vector>
 
 namespace ReliveAPI {
 
