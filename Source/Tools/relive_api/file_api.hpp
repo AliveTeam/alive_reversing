@@ -2,6 +2,7 @@
 
 #include "RoundUp.hpp"
 #include <type_traits>
+#include <memory>
 
 namespace ReliveAPI {
 
