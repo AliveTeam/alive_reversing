@@ -88,7 +88,7 @@ std::string JsonUpgraderBase::Upgrade(TypesCollectionBase& baseTypesCollection, 
     auto inputFileStream = fileIO.Open(jsonFile, IFileIO::Mode::Read);
     if (!inputFileStream->IsOpen())
     {
-        throw ReliveAPI::IOReadException();
+        throw ReliveAPI::IOReadException(jsonFile);
     }
 
     std::string& jsonStr = getStaticStringBuffer();

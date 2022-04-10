@@ -28,7 +28,7 @@ void PropertyCollection::ThrowOnAddPropertyError(const std::string& name, const 
 
     if (mRegisteredPropertyNames.find(name) != mRegisteredPropertyNames.end())
     {
-        throw ReliveAPI::DuplicatePropertyNameException(name.c_str());
+        throw ReliveAPI::DuplicatePropertyNameException(name);
     }
 }
 
@@ -83,19 +83,19 @@ PropertyCollection::~PropertyCollection() = default;
     return ret;
 }
 
-void PropertyCollection::PropertiesFromJson(const TypesCollectionBase& types, const jsonxx::Object& properties)
+void PropertyCollection::PropertiesFromJson(const TypesCollectionBase& types, const jsonxx::Object& properties, Context& context)
 {
     for (auto& [Key, value] : mProperties)
     {
-        value->Read(*this, types, properties);
+        value->Read(*this, types, properties, context);
     }
 }
 
-void PropertyCollection::PropertiesToJson(const TypesCollectionBase& types, jsonxx::Object& properties)
+void PropertyCollection::PropertiesToJson(const TypesCollectionBase& types, jsonxx::Object& properties, Context& context)
 {
     for (auto& [Key, value] : mProperties)
     {
-        value->Write(*this, types, properties);
+        value->Write(*this, types, properties, context);
     }
 }
 } // namespace ReliveAPI

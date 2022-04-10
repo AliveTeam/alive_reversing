@@ -19,7 +19,7 @@ JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const Pat
 }
 
 
-[[nodiscard]] jsonxx::Array JsonWriterAO::ReadTlvStream(u8* ptr)
+[[nodiscard]] jsonxx::Array JsonWriterAO::ReadTlvStream(u8* ptr, Context& context)
 {
     jsonxx::Array mapObjects;
 
@@ -40,7 +40,7 @@ JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const Pat
                     LOG_ERROR(magic_enum::enum_name(pPathTLV->field_4_type.mType) << " size should be " << pPathTLV->field_2_length << " but got " << obj->TlvLen());
                     throw ReliveAPI::WrongTLVLengthException();
                 }
-                mapObjects << obj->InstanceToJson(*mTypesCollection);
+                mapObjects << obj->InstanceToJson(*mTypesCollection, context);
             }
             else
             {
@@ -69,7 +69,7 @@ void JsonWriterAO::ResetTypeCounterMap()
     mTypeCounterMap.clear();
 }
 
-[[nodiscard]] jsonxx::Array JsonWriterAO::ReadCollisionStream(u8* ptr, s32 numItems)
+[[nodiscard]] jsonxx::Array JsonWriterAO::ReadCollisionStream(u8* ptr, s32 numItems, Context& context)
 {
     jsonxx::Array collisionsArray;
     AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(ptr);
@@ -80,7 +80,7 @@ void JsonWriterAO::ResetTypeCounterMap()
         AOLine tmpLine(types, &pLineIter[i]);
 
         jsonxx::Object properties;
-        tmpLine.PropertiesToJson(types, properties);
+        tmpLine.PropertiesToJson(types, properties, context);
 
         collisionsArray << properties;
     }

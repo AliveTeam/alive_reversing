@@ -62,7 +62,7 @@ public:
         {
             // Type already exists
             LOG_ERROR(enumName << " exists more than once ");
-            throw ReliveAPI::DuplicateEnumNameException(enumName.c_str());
+            throw ReliveAPI::DuplicateEnumNameException(enumName);
         }
 
         // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
@@ -76,20 +76,20 @@ public:
     }
 
     template <class T>
-    [[nodiscard]] T EnumValueFromString(const std::string& enumTypeName, const std::string& enumValueString) const
+    [[nodiscard]] T EnumValueFromString(const std::string& enumTypeName, const std::string& enumValueString, Context& context) const
     {
         const ITypeBase* ptr = FindByTypeName(enumTypeName);
 
         if (ptr == nullptr)
         {
-            throw ReliveAPI::UnknownEnumValueException(enumValueString.c_str());
+            context.MissingEnumType(enumTypeName, enumValueString);
         }
 
-        return static_cast<const EnumType<T>*>(ptr)->ValueFromString(enumValueString);
+        return static_cast<const EnumType<T>*>(ptr)->ValueFromString(enumValueString, context);
     }
 
     template <class T>
-    [[nodiscard]] const std::string& EnumValueToString(T enumValue) const
+    [[nodiscard]] const std::string& EnumValueToString(T enumValue, Context& context) const
     {
         const ITypeBase* ptr = FindByTypeIndex(typeid(T));
 
@@ -98,7 +98,7 @@ public:
             throw ReliveAPI::UnknownEnumValueException();
         }
 
-        return static_cast<const EnumType<T>*>(ptr)->ValueToString(enumValue);
+        return static_cast<const EnumType<T>*>(ptr)->ValueToString(enumValue, context);
     }
 
     template <class T>

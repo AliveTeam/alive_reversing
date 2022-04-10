@@ -5,39 +5,51 @@
 namespace ReliveAPI {
 class Exception
 {
-public:
-    virtual ~Exception()
-    { }
-    Exception() = default;
-    explicit Exception(const std::string& what)
-        : mWhat(what)
-    { }
-    const std::string& what() const
-    {
-        return mWhat;
-    }
-
-protected:
-    std::string mWhat;
+    // Common base for catch-all
 };
 
 // Error opening json file on disk
 class IOReadException final : public Exception
 {
 public:
-    using Exception::Exception;
+    explicit IOReadException(const std::string& fileName)
+        : mFileName(fileName)
+    {
+
+    }
+
+    const std::string& FileName() const
+    {
+        return mFileName;
+    }
+
+private:
+    std::string mFileName;
 };
+
 class IOWriteException final : public Exception
 {
 public:
-    using Exception::Exception;
+    explicit IOWriteException(const std::string& fileName)
+        : mFileName(fileName)
+    {
+
+    }
+
+    const std::string& FileName() const
+    {
+        return mFileName;
+    }
+
+private:
+    std::string mFileName;
 };
 
 // The value of the enum isn't anything we know about
 class UnknownEnumValueException final : public Exception
 {
 public:
-    using Exception::Exception;
+
 };
 
 class IOReadPastEOFException final : public Exception
@@ -49,15 +61,41 @@ class EmptyTypeNameException final : public Exception
 
 class DuplicatePropertyKeyException final : public Exception
 { };
+
 class DuplicatePropertyNameException final : public Exception
 {
 public:
-    using Exception::Exception;
+    explicit DuplicatePropertyNameException(const std::string& propertyName)
+        : mPropertyName(propertyName)
+    {
+
+    }
+
+    const std::string& PropertyName() const
+    {
+        return mPropertyName;
+    }
+
+private:
+    std::string mPropertyName;
 };
+
 class DuplicateEnumNameException final : public Exception
 {
 public:
-    using Exception::Exception;
+    explicit DuplicateEnumNameException(const std::string& enumTypeName)
+        : mEnumTypeName(enumTypeName)
+    {
+
+    }
+
+    const std::string& EnumTypeName() const
+    {
+        return mEnumTypeName;
+    }
+
+private:
+    std::string mEnumTypeName;
 };
 
 class PropertyNotFoundException final : public Exception
@@ -66,7 +104,19 @@ class PropertyNotFoundException final : public Exception
 class InvalidGameException final : public Exception
 {
 public:
-    using Exception::Exception;
+    explicit InvalidGameException(const std::string& gameName)
+        : mGameName(gameName)
+    {
+
+    }
+
+    const std::string& GameName() const
+    {
+        return mGameName;
+    }
+
+private:
+    std::string mGameName;
 };
 
 // Json data failed to parse
@@ -85,12 +135,46 @@ class JsonVersionTooOld final : public Exception
 class BadCameraNameException final : public Exception
 {
 public:
-    using Exception::Exception;
+    explicit BadCameraNameException(const std::string& cameraName)
+        : mCameraName(cameraName)
+    {
+
+    }
+
+    const std::string& CameraName() const
+    {
+        return mCameraName;
+    }
+
+private:
+    std::string mCameraName;
 };
 
 // Json version is less than the current API version
 class JsonNeedsUpgradingException final : public Exception
-{ };
+{
+public:
+    JsonNeedsUpgradingException(int currentApiVersion, int yourJsonVersion)
+        : mCurrentApiVersion(currentApiVersion)
+        , mYourJsonVersion(yourJsonVersion)
+    {
+
+    }
+
+    int CurrentApiVersion() const
+    {
+        return mCurrentApiVersion;
+    }
+
+    int YourJsonVersion() const
+    {
+        return mYourJsonVersion;
+    }
+
+private:
+    int mCurrentApiVersion = 0;
+    int mYourJsonVersion = 0;
+};
 
 // Opening a Path from the LVL failed
 class OpenPathException final : public Exception
@@ -108,7 +192,19 @@ class CameraOutOfBoundsException final : public Exception
 class UnknownStructureTypeException final : public Exception
 {
 public:
-    using Exception::Exception;
+    explicit UnknownStructureTypeException(const std::string& structureTypeName)
+        : mStructureTypeName(structureTypeName)
+    {
+
+    }
+
+    const std::string& StructureTypeName() const
+    {
+        return mStructureTypeName;
+    }
+
+private:
+    std::string mStructureTypeName;
 };
 
 // When reading binary path data the length field of the TLV is not the fixed size we expected it to be
@@ -120,8 +216,7 @@ class JsonKeyNotFoundException final : public Exception
 {
 public:
     explicit JsonKeyNotFoundException(const std::string& key)
-        : Exception(key)
-        , mKey(key)
+        : mKey(key)
     {
     }
 
