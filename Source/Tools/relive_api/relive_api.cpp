@@ -46,10 +46,21 @@ namespace AO {
 // ditto for AliveLibAe
 const PathFunctionTable kObjectFactory = {};
 
+
+static ReliveAPI::TAliveFatalCb fnAliveFatalCb = nullptr;
+
+
 // ditto for AliveLibCommon
-[[noreturn]] void ALIVE_FATAL(const char_type*)
+[[noreturn]] void ALIVE_FATAL(const char_type* msg)
 {
-    abort();
+    if (fnAliveFatalCb)
+    {
+        fnAliveFatalCb(msg);
+    }
+    else
+    {
+        abort();
+    }
 }
 
 void CC Collisions::Factory_4188A0(const CollisionInfo*, const u8*)
@@ -58,6 +69,12 @@ void CC Collisions::Factory_4188A0(const CollisionInfo*, const u8*)
 }
 
 namespace ReliveAPI {
+
+void SetAliveFatalCallBack(TAliveFatalCb callBack)
+{
+    fnAliveFatalCb = callBack;
+}
+
 struct PathBND
 {
     std::string mPathBndName;

@@ -25,6 +25,10 @@ struct EnumeratePathsResult final
 
 void DebugDumpTlvs(const std::string& prefix, const std::string& lvlFile, s32 pathId);
 
+using TAliveFatalCb = void(*)(const char_type*);
+
+API_EXPORT void SetAliveFatalCallBack(TAliveFatalCb callBack);
+
 API_EXPORT [[nodiscard]] s32 GetApiVersion();
 
 API_EXPORT void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId, Context& context);
