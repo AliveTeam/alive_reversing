@@ -38,6 +38,7 @@ void TypedProperty<T>::Write(const PropertyCollection& propertyCollection, const
     {
         propertyCollection.WriteBasicType(*m_data, properties);
         (void) types; // statically compiled out in this branch
+        (void) context; // ditto
     }
 }
 
