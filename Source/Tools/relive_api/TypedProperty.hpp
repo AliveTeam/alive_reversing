@@ -21,9 +21,9 @@ public:
         , m_data(data)
     { }
 
-    void Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const jsonxx::Object& properties) override;
+    void Read(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, const jsonxx::Object& properties, Context& context) override;
 
-    void Write(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, jsonxx::Object& properties) override;
+    void Write(const PropertyCollection& propertyCollection, const TypesCollectionBase& types, jsonxx::Object& properties, Context& context) override;
 
 private:
     T* m_data = nullptr;

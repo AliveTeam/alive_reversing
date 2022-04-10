@@ -39,11 +39,11 @@ void JsonMapRootInfoReader::Read(IFileIO& fileIO, const std::string& fileName)
     /*
     if (mMapRootInfo.mVersion != AliveAPI::GetApiVersion())
     {
-        // TODO: Upgrade
+        // TODO: auto upgrade
     }*/
 
 
-    throw ReliveAPI::InvalidGameException(mMapRootInfo.mGame.c_str());
+    throw ReliveAPI::InvalidGameException(mMapRootInfo.mGame);
 }
 
 void readFileContentsIntoString(std::string& target, IFile& file)

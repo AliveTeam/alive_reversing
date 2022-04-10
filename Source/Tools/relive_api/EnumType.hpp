@@ -2,6 +2,7 @@
 
 #include "EnumTypeBase.hpp"
 #include "relive_api.hpp"
+#include "ApiContext.hpp"
 
 #include <jsonxx/jsonxx.h>
 
@@ -28,14 +29,14 @@ public:
         Base::Add(static_cast<Underlying>(enumValue), name);
     }
 
-    [[nodiscard]] T ValueFromString(const std::string& valueString) const
+    [[nodiscard]] T ValueFromString(const std::string& valueString, Context& context) const
     {
-        return static_cast<T>(Base::ValueFromString(valueString));
+        return static_cast<T>(Base::ValueFromString(valueString, context));
     }
 
-    [[nodiscard]] const std::string& ValueToString(T valueToFind) const
+    [[nodiscard]] const std::string& ValueToString(T valueToFind, Context& context) const
     {
-        return Base::ValueToString(static_cast<Underlying>(valueToFind));
+        return Base::ValueToString(static_cast<Underlying>(valueToFind), context);
     }
 
     using Base::IsBasicType;

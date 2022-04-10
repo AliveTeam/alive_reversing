@@ -2,6 +2,7 @@
 
 #include "ITypeBase.hpp"
 #include "relive_api.hpp"
+#include "ApiContext.hpp"
 
 #include "../../AliveLibCommon/logger.hpp"
 
@@ -59,25 +60,29 @@ protected:
         return mTypeIndex;
     }
 
-    [[nodiscard]] T ValueFromString(const std::string& valueString) const
+    [[nodiscard]] T ValueFromString(const std::string& valueString, Context& context) const
     {
         const auto it = mNameToValue.find(valueString);
 
         if (it == mNameToValue.end())
         {
-            throw ReliveAPI::UnknownEnumValueException(valueString);
+            auto firstItem = mNameToValue.begin();
+            context.UnknownEnumValue(Name(), valueString, firstItem->first);
+            return firstItem->second;
         }
 
         return it->second;
     }
 
-    [[nodiscard]] const std::string& ValueToString(T valueToFind) const
+    [[nodiscard]] const std::string& ValueToString(T valueToFind, Context& context) const
     {
-        const auto it = mValueToName.find(valueToFind);
+        auto it = mValueToName.find(valueToFind);
 
         if (it == mValueToName.end())
         {
-            throw ReliveAPI::UnknownEnumValueException();
+            auto firstItem = mValueToName.begin();
+            context.UnknownEnumValue(Name(), static_cast<s64>(valueToFind), static_cast<s64>(firstItem->first));
+            return firstItem->second;
         }
 
         return it->second;

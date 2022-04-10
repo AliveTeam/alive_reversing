@@ -4,6 +4,7 @@
 #include "TypesCollectionBase.hpp"
 #include "BaseProperty.hpp"
 #include "TypedProperty.hpp"
+#include "ApiContext.hpp"
 
 #include <jsonxx/jsonxx.h>
 
@@ -13,6 +14,7 @@
 #include <memory>
 
 namespace ReliveAPI {
+class Context;
 class PropertyCollection
 {
 private:
@@ -38,7 +40,7 @@ public:
     [[nodiscard]] jsonxx::Array PropertiesToJson() const;
 
     template <class T>
-    void ReadEnumValue(const TypesCollectionBase& types, T& field, const jsonxx::Object& properties) const
+    void ReadEnumValue(const TypesCollectionBase& types, T& field, const jsonxx::Object& properties, Context& context) const
     {
         const std::string& propName = PropName(&field);
         const std::string& propType = PropType(&field);
@@ -46,15 +48,16 @@ public:
         if (!properties.has<std::string>(propName))
         {
             LOG_ERROR("Missing json property " << propName);
+            context.MissingEnumType(propType, propName);
         }
 
-        field = types.EnumValueFromString<T>(propType, properties.get<std::string>(propName));
+        field = types.EnumValueFromString<T>(propType, properties.get<std::string>(propName), context);
     }
 
     template <class T>
-    void WriteEnumValue(const TypesCollectionBase& types, jsonxx::Object& properties, const T& field) const
+    void WriteEnumValue(const TypesCollectionBase& types, jsonxx::Object& properties, const T& field, Context& context) const
     {
-        properties << PropName(&field) << types.EnumValueToString<T>(field);
+        properties << PropName(&field) << types.EnumValueToString<T>(field, context);
     }
 
     template <class T>
@@ -69,8 +72,8 @@ public:
         properties << PropName(&field) << static_cast<s32>(field);
     }
 
-    void PropertiesFromJson(const TypesCollectionBase& types, const jsonxx::Object& properties);
-    void PropertiesToJson(const TypesCollectionBase& types, jsonxx::Object& properties);
+    void PropertiesFromJson(const TypesCollectionBase& types, const jsonxx::Object& properties, Context& context);
+    void PropertiesToJson(const TypesCollectionBase& types, jsonxx::Object& properties, Context& context);
 
 protected:
     std::unordered_map<const void*, std::unique_ptr<BaseProperty>> mProperties;

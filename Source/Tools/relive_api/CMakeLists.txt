@@ -73,6 +73,7 @@ export(TARGETS AliveLibCommon_reliveapi FILE AliveLibCommon_reliveapi.cmake)
 set_property(TARGET AliveLibCommon_reliveapi PROPERTY FOLDER "ReliveAPI")
 
 set(relive_api_src
+    ApiContext.hpp
     RoundUp.hpp
     file_api.hpp
     ApiFG1Reader.hpp

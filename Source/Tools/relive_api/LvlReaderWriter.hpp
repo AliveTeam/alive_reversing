@@ -531,7 +531,7 @@ public:
                 const bool goodRead = mReader.ReadFileInto(fileDataBuffer, fileName.c_str());
                 if (!goodRead)
                 {
-                    throw ReliveAPI::IOReadException(fileName.c_str());
+                    throw ReliveAPI::IOReadException(fileName);
                 }
 
                 outFile->Write(fileDataBuffer.data(), fileDataBuffer.size());

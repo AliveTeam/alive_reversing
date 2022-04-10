@@ -5,38 +5,38 @@
 #include "file_api.hpp"
 
 namespace ReliveAPI {
-std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray)
+std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context)
 {
     std::vector<AO::PathLine> lines;
     for (auto i = 0u; i < collisionsArray.values().size(); i++)
     {
         const jsonxx::Object& collision = collisionsArray.get<jsonxx::Object>(i);
         AOLine tmpLine(types);
-        tmpLine.PropertiesFromJson(types, collision);
+        tmpLine.PropertiesFromJson(types, collision, context);
         lines.emplace_back(tmpLine.mLine);
     }
     return lines;
 }
 
-std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray)
+std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context)
 {
     std::vector<::PathLine> lines;
     for (auto i = 0u; i < collisionsArray.values().size(); i++)
     {
         const jsonxx::Object& collision = collisionsArray.get<jsonxx::Object>(i);
         AELine tmpLine(types);
-        tmpLine.PropertiesFromJson(types, collision);
+        tmpLine.PropertiesFromJson(types, collision, context);
         lines.emplace_back(tmpLine.mLine);
     }
     return lines;
 }
 
-std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName)
+std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName, Context& context)
 {
     auto inputFileStream = fileIO.Open(fileName, IFileIO::Mode::Read);
     if (!inputFileStream->IsOpen())
     {
-        throw ReliveAPI::IOReadException();
+        throw ReliveAPI::IOReadException(fileName);
     }
 
     std::string& jsonStr = getStaticStringBuffer();
@@ -111,10 +111,10 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
             std::unique_ptr<TlvObjectBase> tlv = types.MakeTlvFromString(structureType);
             if (!tlv)
             {
-                throw ReliveAPI::UnknownStructureTypeException(structureType.c_str());
+                throw ReliveAPI::UnknownStructureTypeException(structureType);
             }
 
-            tlv->InstanceFromJson(types, mapObject);
+            tlv->InstanceFromJson(types, mapObject, context);
             cameraNameBlob.mTlvBlobs.emplace_back(tlv->GetTlvData(j == mapObjectsArray.values().size() - 1));
         }
 

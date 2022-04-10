@@ -23,7 +23,7 @@ public:
         ADD("x2", mLine.field_0_rect.w);
         ADD("y2", mLine.field_0_rect.h);
 
-        ADD("Type", mLine.field_8_type); // TODO: enum
+        ADD("Type", mLine.field_8_type);
 
         ADD("Next", mLine.field_10_next);
         ADD("Previous", mLine.field_C_previous);
@@ -63,6 +63,7 @@ public:
 };
 
 class IFileIO;
+class Context;
 
 class JsonReaderBase
 {
@@ -70,9 +71,9 @@ public:
     MapInfo mRootInfo;
 
 protected:
-    std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName);
+    std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName, Context& context);
 
-    std::vector<AO::PathLine> ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray);
-    std::vector<::PathLine> ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray);
+    std::vector<AO::PathLine> ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context);
+    std::vector<::PathLine> ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context);
 };
 } // namespace ReliveAPI

@@ -45,7 +45,7 @@ void JsonWriterAE::ResetTypeCounterMap()
     mTypeCounterMap.clear();
 }
 
-[[nodiscard]] jsonxx::Array JsonWriterAE::ReadCollisionStream(u8* ptr, s32 numItems)
+[[nodiscard]] jsonxx::Array JsonWriterAE::ReadCollisionStream(u8* ptr, s32 numItems, Context& context)
 {
     jsonxx::Array collisionsArray;
     PathLine* pLineIter = reinterpret_cast<PathLine*>(ptr);
@@ -56,14 +56,14 @@ void JsonWriterAE::ResetTypeCounterMap()
         AELine tmpLine(types, &pLineIter[i]);
 
         jsonxx::Object properties;
-        tmpLine.PropertiesToJson(types, properties);
+        tmpLine.PropertiesToJson(types, properties, context);
 
         collisionsArray << properties;
     }
     return collisionsArray;
 }
 
-[[nodiscard]] jsonxx::Array JsonWriterAE::ReadTlvStream(u8* ptr)
+[[nodiscard]] jsonxx::Array JsonWriterAE::ReadTlvStream(u8* ptr, Context& context)
 {
     jsonxx::Array mapObjects;
 
@@ -80,7 +80,7 @@ void JsonWriterAE::ResetTypeCounterMap()
                 throw ReliveAPI::WrongTLVLengthException();
             }
 
-            mapObjects << obj->InstanceToJson(*mTypesCollection);
+            mapObjects << obj->InstanceToJson(*mTypesCollection, context);
         }
         else
         {

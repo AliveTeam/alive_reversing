@@ -58,8 +58,10 @@ TEST(alive_api, tlv_reflection_ao_object)
     AO::Path_Hoist tlv = {};
     std::unique_ptr<ReliveAPI::TlvObjectBase> pHoist = types.MakeTlvAO(AO::TlvTypes::Hoist_3, &tlv, 99);
 
-    auto obj = pHoist->InstanceToJson(types);
-    (void) pHoist->InstanceFromJson(types, obj); // TODO: check return value?
+    ReliveAPI::Context context;
+
+    auto obj = pHoist->InstanceToJson(types, context);
+    pHoist->InstanceFromJson(types, obj, context);
     (void) pHoist->StructureToJson();            // TODO: check return value?
     ASSERT_EQ(pHoist->InstanceNumber(), 99);
 
@@ -74,8 +76,10 @@ TEST(alive_api, tlv_reflection_ae_object)
     Path_Hoist tlv = {};
     std::unique_ptr<ReliveAPI::TlvObjectBase> pHoist = types.MakeTlvAE(TlvTypes::Hoist_2, &tlv, 99);
 
-    auto obj = pHoist->InstanceToJson(types);
-    (void) pHoist->InstanceFromJson(types, obj); // TODO: check return value?
+    ReliveAPI::Context context;
+
+    auto obj = pHoist->InstanceToJson(types, context);
+    pHoist->InstanceFromJson(types, obj, context);
     (void) pHoist->StructureToJson();            // TODO: check return value?
     ASSERT_EQ(pHoist->InstanceNumber(), 99);
 

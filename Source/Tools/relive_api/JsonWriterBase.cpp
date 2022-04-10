@@ -36,7 +36,7 @@ JsonWriterBase::JsonWriterBase(TypesCollectionBase& types, s32 pathId, const std
     mMapRootInfo.mVersion = ReliveAPI::GetApiVersion();
 }
 
-void JsonWriterBase::ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, const s32* indexTable, const CameraObject& tmpCamera, jsonxx::Array& cameraArray, u8* pPathData)
+void JsonWriterBase::ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, const s32* indexTable, const CameraObject& tmpCamera, jsonxx::Array& cameraArray, u8* pPathData, Context& context)
 {
     bool addCameraToJsonArray = false;
     const s32 indexTableEntryOffset = indexTable[To1dIndex(info.mWidth, tmpCamera.mX, tmpCamera.mY)];
@@ -55,7 +55,7 @@ void JsonWriterBase::ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& l
         // "blank" cameras just do not have a name set.
 
         u8* ptr = pPathData + indexTableEntryOffset + info.mObjectOffset;
-        mapObjects = ReadTlvStream(ptr);
+        mapObjects = ReadTlvStream(ptr, context);
         addCameraToJsonArray = true;
         // LOG_INFO("Add camera " << tmpCamera.mName);
     }
@@ -81,7 +81,7 @@ void JsonWriterBase::ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& l
     }
 }
 
-void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, std::vector<u8>& pathResource, IFileIO& fileIO, const std::string& fileName)
+void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader, const PathInfo& info, std::vector<u8>& pathResource, IFileIO& fileIO, const std::string& fileName, Context& context)
 {
     ResetTypeCounterMap();
 
@@ -128,7 +128,7 @@ void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader,
     u8* pPathData = pathResource.data();
 
     u8* pLineIter = pPathData + info.mCollisionOffset;
-    jsonxx::Array collisionsArray = ReadCollisionStream(pLineIter, info.mNumCollisionItems);
+    jsonxx::Array collisionsArray = ReadCollisionStream(pLineIter, info.mNumCollisionItems, context);
     jsonxx::Object colllisionObject;
     colllisionObject << "structure" << AddCollisionLineStructureJson();
     colllisionObject << "items" << collisionsArray;
@@ -141,7 +141,7 @@ void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader,
     PathCamerasEnumerator cameraEnumerator(info, pathResource);
     cameraEnumerator.Enumerate([&](const CameraObject& tmpCamera)
         { 
-            ProcessCamera(fileDataBuffer, lvlReader, info, indexTable, tmpCamera, cameraArray, pPathData);
+            ProcessCamera(fileDataBuffer, lvlReader, info, indexTable, tmpCamera, cameraArray, pPathData, context);
         });
 
     rootMapObject << "cameras" << cameraArray;
