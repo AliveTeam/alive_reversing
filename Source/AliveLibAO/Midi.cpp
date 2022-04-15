@@ -508,6 +508,20 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
                         pChannel->field_1C_adsr.field_2_note_byte1 = BYTE1(note) & 0x7F;
                         auto freq = pow(1.059463094359, (f64)(note - v29) * 0.00390625);
                         pChannel->field_10_freq = (f32) freq;
+
+                        // Pan - L=0, C=64, R=127
+                        s8 pan = pVagOff->field_11_pad;
+                        panLeft = pChannel->field_C_vol;
+                        panRight = pChannel->field_C_vol;
+                        if (pan == 127)
+                        {
+                            panLeft = 0;
+                        }
+                        else if (pan == 0)
+                        {
+                            panRight = 0;
+                        }
+
                         SND_PlayEx_493040(
                             &GetSpuApiVars()->sSoundEntryTable16().table[vabId][vag_num],
                             panLeft,
@@ -534,14 +548,17 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
 
 EXPORT s32 CC MIDI_PlayerPlayMidiNote_49DAD0(s32 vabId, s32 program, s32 note, s32 leftVol, s32 rightVol, s32 volume)
 {
-    if (rightVol >= 64)
-    {
-        return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol * (127 - rightVol) / 64, leftVol, volume);
-    }
-    else
-    {
-        return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol, leftVol * rightVol / 64, volume);
-    }
+
+    return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol, rightVol, volume);
+
+    //if (rightVol >= 64)
+    //{
+    //    return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol * (127 - rightVol) / 64, leftVol, volume);
+    //}
+    //else
+    //{
+    //    return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol, leftVol * rightVol / 64, volume);
+    //}
 }
 
 
@@ -676,7 +693,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
                         auto r_vol = pProgVol->field_2_right_vol;
                         auto note = data.param1 << 8;
                         auto program = pProgVol->field_0_program;
-                        auto l_vol = (s16)((u32)(pProgVol->field_1_left_vol * pCtx->field_C_volume) >> 7);
+                        auto l_vol = pProgVol->field_1_left_vol; // (s16)((u32) (pProgVol->field_1_left_vol * pCtx->field_C_volume) >> 7);
 
                         auto freq = data.param2;
                         MIDI_PlayerPlayMidiNote_49DAD0(pCtx->field_seq_idx, program, note, l_vol, r_vol, freq); // Note: inlined

@@ -687,6 +687,19 @@ EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 lef
                         MIDI_Wait_4FCE50();
                     }
 
+                    // Pan - L=0, C=64, R=127
+                    s8 pan = pVagIter->field_11_pad;
+                    panLeft = pVagIter->field_D_vol;
+                    panRight = pVagIter->field_D_vol;
+                    if (pan == 127)
+                    {
+                        panLeft = 0;
+                    }
+                    else if (pan == 0)
+                    {
+                        panRight = 0;
+                    }
+
                     GetSoundAPI().SND_PlayEx(
                         &gSpuVars->sSoundEntryTable16().table[vabId][pVagIter->field_10_vag],
                         panLeft,
@@ -1355,10 +1368,15 @@ EXPORT void CC SsSeqCalledTbyT_4FDC80()
     {
         const u32 currentTime = SYS_GetTicks();
         gSpuVars->sMidiTime() = currentTime;
-        // First time or 30 passed?
-        if (gSpuVars->sLastTime() == 0xFFFFFFFF || (s32)(currentTime - gSpuVars->sLastTime()) >= 30)
-        {
-            gSpuVars->sLastTime() = currentTime;
+
+        // This seems to be limiting the rate of playback,
+        // maybe to save some CPU cycles? Removing helps
+        // audio playback stay in time
+        // 
+        //// First time or 30 passed?
+        //if (gSpuVars->sLastTime() == 0xFFFFFFFF || (s32)(currentTime - gSpuVars->sLastTime()) >= 30)
+        //{
+        //    gSpuVars->sLastTime() = currentTime;
             for (s32 i = 0; i < kNumChannels; i++)
             {
                 if (gSpuVars->sMidiSeqSongs(i).field_0_seq_data)
@@ -1370,7 +1388,7 @@ EXPORT void CC SsSeqCalledTbyT_4FDC80()
                 }
             }
             MIDI_ADSR_Update_4FDCE0();
-        }
+        //}
     }
 }
 
