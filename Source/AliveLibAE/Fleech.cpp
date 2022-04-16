@@ -2123,7 +2123,7 @@ s32 Fleech::Sound_430520(FleechSound soundId)
         volumeLeft,
         volumeRight,
         effectDef.field_4_pitch_min,
-        effectDef.field_6_pitch_max);
+        effectDef.field_6_pitch_max, 64);
 }
 
 u8** Fleech::ResBlockForMotion_42A530(s32 /*motion*/)

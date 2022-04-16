@@ -6306,11 +6306,11 @@ void Paramite::Sound_48F600(ParamiteSpeak soundId, s16 pitch_min)
     }
     else if (pitch_min > 0)
     {
-        SFX_SfxDefinition_Play_4CA700(&paramite_stru_55D7C0[static_cast<s32>(soundId)], volLeft, volRight, pitch_min, pitch_min);
+        SFX_SfxDefinition_Play_4CA700(&paramite_stru_55D7C0[static_cast<s32>(soundId)], volLeft, volRight, pitch_min, pitch_min, 64);
     }
     else
     {
-        SFX_SfxDefinition_Play_4CA700(&paramite_stru_55D7C0[static_cast<s32>(soundId)], volLeft, volRight, -520, -520);
+        SFX_SfxDefinition_Play_4CA700(&paramite_stru_55D7C0[static_cast<s32>(soundId)], volLeft, volRight, -520, -520, 64);
     }
 }
 

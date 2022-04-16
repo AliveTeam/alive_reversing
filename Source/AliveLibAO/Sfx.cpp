@@ -163,7 +163,7 @@ s32 CC SFX_Play_43ADE0(SoundEffect sfxId, s32 leftVol, s32 rightVol, BaseAnimate
         right = static_cast<s16>(rightVol);
         left = static_cast<s16>(leftVol);
     }
-    return SFX_SfxDefinition_Play_477330(&sSfxEntries_4CCA38[sfxId], left, right, 0x7FFF, 0x7FFF);
+    return SFX_SfxDefinition_Play_477330(&sSfxEntries_4CCA38[sfxId], left, right, 0x7FFF, 0x7FFF, 64);
 }
 
 s32 CC SFX_Play_43AED0(SoundEffect sfxId, s32 volume, CameraPos direction)
@@ -186,7 +186,7 @@ s32 CC SFX_Play_43AED0(SoundEffect sfxId, s32 volume, CameraPos direction)
                 static_cast<s16>(2 * volume / 3),
                 static_cast<s16>(2 * volume / 9),
                 0x7FFF,
-                0x7FFF);
+                0x7FFF, 64);
         }
         case CameraPos::eCamRight_4:
         {
@@ -195,7 +195,7 @@ s32 CC SFX_Play_43AED0(SoundEffect sfxId, s32 volume, CameraPos direction)
                 static_cast<s16>(2 * volume / 9),
                 static_cast<s16>(2 * volume / 3),
                 0x7FFF,
-                0x7FFF);
+                0x7FFF, 64);
         }
         default:
         {

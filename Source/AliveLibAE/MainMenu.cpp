@@ -3692,7 +3692,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             {
                 if (field_220_frame_table_idx == eParamite_AllAYa)
                 {
-                    SFX_SfxDefinition_Play_4CA700(&mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 64, 64);
+                    SFX_SfxDefinition_Play_4CA700(&mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 64, 64, 64);
                 }
                 // Attack
                 else if (sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound == 9)
@@ -3702,7 +3702,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 // All other Paramite speak
                 else
                 {
-                    SFX_SfxDefinition_Play_4CA700(&mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 0x7FFF, 0x7FFF);
+                    SFX_SfxDefinition_Play_4CA700(&mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 0x7FFF, 0x7FFF, 64);
                 }
             }
         }
@@ -3757,7 +3757,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                                     mainMenu_sScrabSfx_560330[sound].field_3_default_volume,
                                     mainMenu_sScrabSfx_560330[sound].field_3_default_volume,
                                     0x7FFF,
-                                    0x7FFF);
+                                    0x7FFF, 64);
                                 field_23C_T80.Set(Flags::eBit22_GameSpeakPlaying);
                                 break;
 

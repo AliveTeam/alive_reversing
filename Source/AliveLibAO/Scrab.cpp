@@ -838,7 +838,7 @@ s32 Scrab::Scrab_SFX_460B80(ScrabSounds soundId, s32 /*vol*/, s32 pitch, s16 app
                                          static_cast<s16>(volumeLeft),
                                          static_cast<s16>(volumeRight),
                                          static_cast<s16>(pitch),
-                                         static_cast<s16>(pitch));
+                                         static_cast<s16>(pitch), 64);
 }
 
 void Scrab::ToJump_45E340()

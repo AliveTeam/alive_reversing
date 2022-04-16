@@ -4024,7 +4024,7 @@ s32 Scrab::Scrab_SFX_4AADB0(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDi
         volumeLeft,
         volumeRight,
         static_cast<s16>(pitch),
-        static_cast<s16>(pitch));
+        static_cast<s16>(pitch), 64);
 }
 
 void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)

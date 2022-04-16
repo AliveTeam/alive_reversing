@@ -226,7 +226,7 @@ EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRigh
     }
 
     pDSoundBuffer->SetFrequency(freqHz);
-    pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]);
+    pDSoundBuffer->SetVolume(panLeft * 2 > 127 ? 127 : panLeft * 2); // sVolumeTable_BBBD38[panRightConverted]
 
     const s32 panConverted = (DSBPAN_RIGHT * (panLeft2 - panRight)) / 127; // From PSX pan range to DSound pan range
     pDSoundBuffer->SetPan(pan);                                  // Fix Inverted Stereo

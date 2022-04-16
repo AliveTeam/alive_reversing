@@ -240,6 +240,7 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
         volRight = sSligSounds_4CFB30[sfxIdxInt].field_C_default_volume / 2;
     }
     gMap_507BA8.Get_Camera_World_Rect_444C30(dir, &worldRect);
+    s32 pan = 64;
     switch (dir)
     {
         case CameraPos::eCamCurrent_0:
@@ -259,6 +260,11 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
             FP percentHowFar = (FP_FromInteger(worldRect.w) - field_A8_xpos) / FP_FromInteger(640);
             volLeft = volRight - FP_GetExponent(percentHowFar * FP_FromInteger(volRight - (volRight / 3)));
             volRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volRight));
+          
+            double check = FP_GetDouble(percentHowFar);
+            double scale = 2 * (check - .22);
+            pan = ((s32) (64 - (scale * 64)));
+            pan = pan > 64 ? 64 : pan;
             break;
         }
         case CameraPos::eCamRight_4:
@@ -266,6 +272,11 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
             FP percentHowFar = (field_A8_xpos - FP_FromInteger(worldRect.x)) / FP_FromInteger(640);
             volLeft = volRight - FP_GetExponent(percentHowFar * FP_FromInteger(volRight));
             volRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volRight - (volRight / 3)));
+
+            double check = FP_GetDouble(percentHowFar);
+            double scale = 2 * (check - .22);
+            pan = ((s32) (64 + (scale * 64)));
+            pan = pan < 64 ? 64 : pan;
             break;
         }
         default:
@@ -279,7 +290,7 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
     auto pitch = Math_RandomRange_450F20(
         sSligSounds_4CFB30[sfxIdxInt].field_E_pitch_min,
         sSligSounds_4CFB30[sfxIdxInt].field_E_pitch_min);
-    SFX_SfxDefinition_Play_477330(&sSligSounds_4CFB30[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
+    SFX_SfxDefinition_Play_477330(&sSligSounds_4CFB30[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch, pan);
 }
 
 Slig* Slig::ctor_464D40(Path_Slig* pTlv, s32 tlvInfo)

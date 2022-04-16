@@ -59,7 +59,8 @@ void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
     const SfxDefinition* pEffect = &kSfxInfoTable_5607E0[static_cast<s32>(effect)];
     s16 vLeft = 0;
     s16 vRight = 0;
-    if (Calc_Slig_Sound_Direction_4C01B0(pObj, 0, pEffect, &vLeft, &vRight))
+    s32 pan = 64;
+    if (Calc_Slig_Sound_Direction_4C01B0(pObj, 0, pEffect, &vLeft, &vRight, &pan))
     {
         s16 pitch = 0;
         if (effect == SligSfx::ePropeller1_9 || effect == SligSfx::ePropeller2_10 || effect == SligSfx::ePropeller3_11)
@@ -76,7 +77,7 @@ void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
         {
             pitch = Math_RandomRange_496AB0(pEffect->field_4_pitch_min, pEffect->field_6_pitch_max);
         }
-        SFX_SfxDefinition_Play_4CA700(pEffect, vLeft, vRight, pitch, pitch);
+        SFX_SfxDefinition_Play_4CA700(pEffect, vLeft, vRight, pitch, pitch, pan);
     }
 }
 

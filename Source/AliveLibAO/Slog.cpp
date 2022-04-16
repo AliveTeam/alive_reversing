@@ -848,7 +848,7 @@ void Slog::Sfx_475BD0(s32 soundId)
                                   static_cast<s16>(volumeLeft),
                                   static_cast<s16>(volumeRight),
                                   static_cast<s16>(sndDef.field_E_pitch_min),
-                                  static_cast<s16>(sndDef.field_10_pitch_max));
+                                  static_cast<s16>(sndDef.field_10_pitch_max), 64);
 }
 
 s16 Slog::IsPlayerNear_471930()

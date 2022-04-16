@@ -547,7 +547,7 @@ EXPORT s32 CC MIDI_Allocate_Channel_4FCA50(s32 /*not_used*/, s32 priority)
 }
 
 
-EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 leftVolume, s32 rightVolume, s32 volume)
+EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 leftVolume, s32 rightVolume, s32 volume, s32 pan_)
 {
     const s32 noteKeyNumber = (note >> 8) & 127;
     s32 leftVol2 = leftVolume;
@@ -688,17 +688,21 @@ EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 lef
                     }
 
                     // Pan - L=0, C=64, R=127
-                    s32 pan = 0;
+                    s32 pan = pan_ == 64 ? pVagIter->field_11_pad : pan_;
                     s32 maxPanVal = 9000;
-                    if (pVagIter->field_11_pad < 64)
+                    if (pan < 64)
                     {
-                        double val = (pVagIter->field_11_pad / 64.0) * maxPanVal;
+                        double val = (pan / 64.0) * maxPanVal;
                         pan = ((s32) val) - maxPanVal;
                     }
-                    else if (pVagIter->field_11_pad > 64)
+                    else if (pan > 64)
                     {
-                        double val = ((128 - pVagIter->field_11_pad) / 64.0) * maxPanVal;
+                        double val = ((128 - pan) / 64.0) * maxPanVal;
                         pan = maxPanVal - ((s32) val);
+                    }
+                    else
+                    {
+                        pan = 0;
                     }
 
                     GetSoundAPI().SND_PlayEx(
@@ -743,16 +747,16 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_4FCE80(s32 vabId, s32 program, s32 note, s
 
     if (rightVol >= 64)
     {
-        return MIDI_PlayMidiNote_4FCB30(vabId, program, note, leftVol * (127 - rightVol) / 64, leftVol, volume);
+        return MIDI_PlayMidiNote_4FCB30(vabId, program, note, leftVol * (127 - rightVol) / 64, leftVol, volume, 64);
     }
     else
     {
-        return MIDI_PlayMidiNote_4FCB30(vabId, program, note, leftVol, rightVol * leftVol / 64, volume);
+        return MIDI_PlayMidiNote_4FCB30(vabId, program, note, leftVol, rightVol * leftVol / 64, volume, 64);
     }
 }
 
 
-EXPORT s32 CC SsVoKeyOn_4FCF10(s32 vabIdAndProgram, s32 pitch, u16 leftVol, u16 rightVol)
+EXPORT s32 CC SsVoKeyOn_4FCF10(s32 vabIdAndProgram, s32 pitch, u16 leftVol, u16 rightVol, s32 pan)
 {
     MIDI_Stop_Existing_Single_Note_4FCFF0((vabIdAndProgram & 127) | (((vabIdAndProgram >> 8) & 31) << 8), pitch);
 
@@ -761,7 +765,7 @@ EXPORT s32 CC SsVoKeyOn_4FCF10(s32 vabIdAndProgram, s32 pitch, u16 leftVol, u16 
         return 0;
     }
 
-    const s32 channelBits = MIDI_PlayMidiNote_4FCB30((vabIdAndProgram >> 8) & 31, vabIdAndProgram & 127, pitch, leftVol, rightVol, 96);
+    const s32 channelBits = MIDI_PlayMidiNote_4FCB30((vabIdAndProgram >> 8) & 31, vabIdAndProgram & 127, pitch, leftVol, rightVol, 96, pan);
 
     for (s32 idx = 0; idx < kNumChannels; idx++)
     {

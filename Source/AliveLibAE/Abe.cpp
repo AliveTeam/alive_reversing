@@ -587,7 +587,7 @@ EXPORT s32 CC Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitch
                     static_cast<s16>(2 * sndVolume / 9),
                     static_cast<s16>(2 * sndVolume / 9),
                     static_cast<s16>(pitchMin),
-                    0x7FFF);
+                    0x7FFF, 64);
                 break;
             case CameraPos::eCamRight_4:
                 return SFX_SfxDefinition_Play_4CA700(
@@ -595,7 +595,7 @@ EXPORT s32 CC Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitch
                     static_cast<s16>(2 * sndVolume / 3),
                     static_cast<s16>(2 * sndVolume / 3),
                     static_cast<s16>(pitchMin),
-                    0x7FFF);
+                    0x7FFF, 64);
                 break;
             default:
                 return 0;
@@ -10019,7 +10019,7 @@ EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, s16 volume, s32 pitch, BaseAliv
                         &sAbeSFXList_555250[idxToVal],
                         2 * volume / 3,
                         2 * volume / 9,
-                        static_cast<s16>(pitch), static_cast<s16>(pitch));
+                        static_cast<s16>(pitch), static_cast<s16>(pitch), 64);
                     break;
                 }
                 case CameraPos::eCamRight_4:
@@ -10028,7 +10028,7 @@ EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, s16 volume, s32 pitch, BaseAliv
                         &sAbeSFXList_555250[idxToVal],
                         2 * volume / 9,
                         2 * volume / 3,
-                        static_cast<s16>(pitch), static_cast<s16>(pitch));
+                        static_cast<s16>(pitch), static_cast<s16>(pitch), 64);
                     break;
                 }
                 default:

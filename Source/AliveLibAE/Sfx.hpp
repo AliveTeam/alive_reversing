@@ -171,4 +171,4 @@ enum class SligSpeak : s8
 };
 
 EXPORT void CC Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, s16 defaultVol, s16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj);
-EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s16 defaultVol, const SfxDefinition* pSfx, s16* pLeftVol, s16* pRightVol);
+EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s16 defaultVol, const SfxDefinition* pSfx, s16* pLeftVol, s16* pRightVol, s32* pan);

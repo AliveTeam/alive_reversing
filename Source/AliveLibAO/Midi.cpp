@@ -507,6 +507,14 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
                         auto v29 = pVagOff->field_A_shift_cen;
                         pChannel->field_1C_adsr.field_2_note_byte1 = BYTE1(note) & 0x7F;
                         auto freq = pow(1.059463094359, (f64)(note - v29) * 0.00390625);
+
+                        // Example for fixing the chirp sound in AO
+                        // Maybe create a map that can contain fixes for specific ids
+                        if (pVagOff->field_10_vag == 0)
+                        {
+                            freq = 0.5;
+                        }
+
                         pChannel->field_10_freq = (f32) freq;
 
                         // Pan - L=0, C=64, R=127
@@ -550,14 +558,15 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
 
 EXPORT s32 CC MIDI_PlayerPlayMidiNote_49DAD0(s32 vabId, s32 program, s32 note, s32 leftVol, s32 rightVol, s32 volume)
 {
-    if (rightVol >= 64)
-    {
-        return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol * (127 - rightVol) / 64, leftVol, volume);
-    }
-    else
-    {
-        return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol, leftVol * rightVol / 64, volume);
-    }
+    return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol, rightVol, volume);
+    //if (rightVol >= 64)
+    //{
+    //    return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol * (127 - rightVol) / 64, leftVol, volume);
+    //}
+    //else
+    //{
+    //    return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol, leftVol * rightVol / 64, volume);
+    //}
 }
 
 
@@ -1099,10 +1108,10 @@ static ::SfxDefinition ToAeSfxDef(const SfxDefinition* sfxDef)
     return aeDef;
 }
 
-EXPORT s32 CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+EXPORT s32 CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max, s32 pan)
 {
     const ::SfxDefinition aeDef = ToAeSfxDef(sfxDef);
-    return SFX_SfxDefinition_Play_4CA700(&aeDef, volLeft, volRight, pitch_min, pitch_max);
+    return SFX_SfxDefinition_Play_4CA700(&aeDef, volLeft, volRight, pitch_min, pitch_max, pan);
 }
 
 EXPORT s32 CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol, s32 pitch_min, s32 pitch_max)

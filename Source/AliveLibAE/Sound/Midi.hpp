@@ -72,7 +72,7 @@ EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop);
 EXPORT void CC SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight);
 EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight);
 EXPORT s32 CC SND_SsIsEos_DeInlined_4CACD0(u16 idx);
-EXPORT s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
+EXPORT s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max, s32 pan);
 EXPORT s32 CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max);
 
 enum SeqId

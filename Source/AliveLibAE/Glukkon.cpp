@@ -2859,7 +2859,7 @@ void CC Glukkon::PlaySound_4447D0(s32 sndIdx, Glukkon* pGlukkon)
         volumeRight = FP_GetExponent(FP_FromInteger(volumeRight * 2) / FP_FromInteger(3));
     }
 
-    SFX_SfxDefinition_Play_4CA700(&stepSfx_554840[sndIdx], (s16) volumeLeft, (s16) volumeRight, pitch, pitch);
+    SFX_SfxDefinition_Play_4CA700(&stepSfx_554840[sndIdx], (s16) volumeLeft, (s16) volumeRight, pitch, pitch, 64);
 }
 
 void Glukkon::ToDead_43F640()

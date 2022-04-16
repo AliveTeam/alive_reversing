@@ -263,10 +263,10 @@ EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
 
 // TODO: PSX has VSyncCallback here 0x800592dc
 
-EXPORT s32 CC MIDI_Play_Single_Note_4CA1B0(s32 vabIdAndProgram, s32 note, s32 leftVol, s32 rightVol)
+EXPORT s32 CC MIDI_Play_Single_Note_4CA1B0(s32 vabIdAndProgram, s32 note, s32 leftVol, s32 rightVol, s32 pan)
 {
     // NOTE: word_BB2E40 is used as a guard here, but it is never read anywhere else
-    return SsVoKeyOn_4FCF10(vabIdAndProgram, note, static_cast<u16>(leftVol), static_cast<u16>(rightVol));
+    return SsVoKeyOn_4FCF10(vabIdAndProgram, note, static_cast<u16>(leftVol), static_cast<u16>(rightVol), pan);
 }
 
 EXPORT void CC SND_Init_4CA1F0()
@@ -383,7 +383,8 @@ s32 CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s1
         sfxDef->field_1_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef->field_0_block_idx].field_8_vab_id << 8),
         sfxDef->field_2_note << 8,
         volume,
-        volume);
+        volume,
+        64);
 
     if (!GetMidiVars()->sSFXPitchVariationEnabled())
     {
@@ -444,7 +445,7 @@ EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16
     }
 
     // Note: Inlined in psx
-    const s32 channelBits = MIDI_Play_Single_Note_4CA1B0(vabId | ((s16) program << 8), note << 8, volClamped, volClamped);
+    const s32 channelBits = MIDI_Play_Single_Note_4CA1B0(vabId | ((s16) program << 8), note << 8, volClamped, volClamped, 64);
     if (!GetMidiVars()->sSFXPitchVariationEnabled())
     {
         return 0;
@@ -478,7 +479,7 @@ EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16
     return channelBits;
 }
 
-s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max, s32 pan)
 {
     if (pitch_min == 0x7FFF)
     {
@@ -513,7 +514,8 @@ s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s
         sfxDef->field_1_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef->field_0_block_idx].field_8_vab_id << 8),
         sfxDef->field_2_note << 8,
         volLeft,
-        volRight);
+        volRight,
+        pan);
 
     if (!GetMidiVars()->sSFXPitchVariationEnabled())
     {

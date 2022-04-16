@@ -139,7 +139,7 @@ s32 CC SFX_Play_46FB10(SoundEffect sfxId, s32 leftVol, s32 rightVol, FP scale)
         rightVol = 2 * rightVol / 3;
     }
 
-    return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], static_cast<s16>(leftVol), static_cast<s16>(rightVol), 0x7FFF, 0x7FFF);
+    return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], static_cast<s16>(leftVol), static_cast<s16>(rightVol), 0x7FFF, 0x7FFF, 64); // TODO
 }
 
 s32 CC SFX_Play_46FBA0(SoundEffect sfxIdx, s16 volume, s32 pitch, FP scale)
@@ -214,7 +214,7 @@ const SfxDefinition sSligGameSpeakEntries_560868[21] = {
     {0u, 0u, 0u, 0u, 0, 0},
     {0u, 0u, 0u, 0u, 0, 0}};
 
-EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s16 defaultVol, const SfxDefinition* pSfx, s16* pLeftVol, s16* pRightVol)
+EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s16 defaultVol, const SfxDefinition* pSfx, s16* pLeftVol, s16* pRightVol, s32* pan)
 {
     if (defaultVol == 0)
     {
@@ -241,7 +241,9 @@ EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject
 
         PSX_RECT camRect = {};
         gMap_5C3030.Get_Camera_World_Rect_481410(dir, &camRect);
+        *pan = 64;
 
+        // TODO - AE sound
         const s32 volScaler = defaultVol / 3;
         switch (dir)
         {
@@ -266,17 +268,27 @@ EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject
 
             case CameraPos::eCamLeft_3:
             {
-                const FP tmpVol = (FP_FromInteger(camRect.w) - pObj->field_B8_xpos) / FP_FromInteger(368);
+                FP tmpVol = (FP_FromInteger(camRect.w) - pObj->field_B8_xpos) / FP_FromInteger(368);
                 *pLeftVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol - 1 * volScaler));
                 *pRightVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol));
+
+                double check = FP_GetDouble(tmpVol);
+                double scale = 2 * (check);
+                *pan = ((s32) (64 - (scale * 64)));
+                *pan = *pan > 64 ? 64 : *pan;
             }
                 return 1;
 
             case CameraPos::eCamRight_4:
             {
-                const FP tmpVol = (pObj->field_B8_xpos - FP_FromInteger(camRect.x)) / FP_FromInteger(368);
+                FP tmpVol = (pObj->field_B8_xpos - FP_FromInteger(camRect.x)) / FP_FromInteger(368);
                 *pLeftVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol));
                 *pRightVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol - 1 * volScaler));
+
+                double check = FP_GetDouble(tmpVol);
+                double scale = 2 * (check);
+                *pan = ((s32) (64 + (scale * 64)));
+                *pan = *pan < 64 ? 64 : *pan;
             }
                 return 1;
 
@@ -300,8 +312,9 @@ void CC Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, s16 defaultVol, s16 pitch_
 
     s16 volLeft = 0;
     s16 volRight = 0;
-    if (Calc_Slig_Sound_Direction_4C01B0(pObj, defaultVol, pEffect, &volLeft, &volRight))
+    s32 pan = 64;
+    if (Calc_Slig_Sound_Direction_4C01B0(pObj, defaultVol, pEffect, &volLeft, &volRight, &pan))
     {
-        SFX_SfxDefinition_Play_4CA700(pEffect, volLeft, volRight, pitch_min, pitch_min);
+        SFX_SfxDefinition_Play_4CA700(pEffect, volLeft, volRight, pitch_min, pitch_min, pan);
     }
 }

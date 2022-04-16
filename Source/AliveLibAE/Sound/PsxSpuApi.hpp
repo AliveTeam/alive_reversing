@@ -214,7 +214,7 @@ EXPORT void SsUtReverbOff_4FE350();
 EXPORT void SpuClearReverbWorkArea_4FA690(s32 reverbMode);
 
 EXPORT void CC SsSetTickMode_4FDC20(s32 tickMode);
-EXPORT s32 CC SsVoKeyOn_4FCF10(s32 vabIdAndProgram, s32 pitch, u16 leftVol, u16 rightVol);
+EXPORT s32 CC SsVoKeyOn_4FCF10(s32 vabIdAndProgram, s32 pitch, u16 leftVol, u16 rightVol, s32 pan);
 EXPORT void CC SsUtAllKeyOff_4FDFE0(s32 mode);
 EXPORT s16 CC SsUtKeyOffV_4FE010(s16 idx);
 EXPORT s16 CC SsUtChangePitch_4FDF70(s16 voice, s32 /*vabId*/, s32 /*prog*/, s16 old_note, s16 old_fine, s16 new_note, s16 new_fine);
