@@ -320,9 +320,9 @@ EXPORT s16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
     return static_cast<s16>(SND_SsIsEos_DeInlined_4CACD0(static_cast<u16>(idx)));
 }
 
-EXPORT s32 CC SND_PlayEx_493040(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
+EXPORT s32 CC SND_PlayEx_493040(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority, s32 pan)
 {
-    return SND_PlayEx_4EF740(pSnd, panLeft, panRight, freq, pMidiStru, playFlags, priority);
+    return SND_PlayEx_4EF740(pSnd, panLeft, panRight, freq, pMidiStru, playFlags, priority, pan);
 }
 
 EXPORT s32 CC SND_Get_Buffer_Status_491D40(s32 idx)
@@ -510,14 +510,14 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
                         pChannel->field_10_freq = (f32) freq;
 
                         // Pan - L=0, C=64, R=127
-                        s8 pan = pVagOff->field_11_pad;
-                        if (pan == 127)
+                        s32 pan = 0;
+                        if (pVagOff->field_11_pad == 127)
                         {
-                            panLeft = 0;
+                            pan = 9000;
                         }
-                        else if (pan == 0)
+                        else if (pVagOff->field_11_pad == 0)
                         {
-                            panRight = 0;
+                            pan = -9000;
                         }
 
                         SND_PlayEx_493040(
@@ -527,7 +527,8 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
                             (f32) freq,
                             pChannel,
                             playFlags,
-                            priority_);
+                            priority_,
+                            pan);
                         volume_ = volume;
                         usedChannelBits |= 1 << midiChannel_;
                     }
@@ -546,17 +547,14 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
 
 EXPORT s32 CC MIDI_PlayerPlayMidiNote_49DAD0(s32 vabId, s32 program, s32 note, s32 leftVol, s32 rightVol, s32 volume)
 {
-
-    return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol, rightVol, volume);
-
-    //if (rightVol >= 64)
-    //{
-    //    return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol * (127 - rightVol) / 64, leftVol, volume);
-    //}
-    //else
-    //{
-    //    return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol, leftVol * rightVol / 64, volume);
-    //}
+    if (rightVol >= 64)
+    {
+        return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol * (127 - rightVol) / 64, leftVol, volume);
+    }
+    else
+    {
+        return MIDI_PlayerPlayMidiNote_49D730(vabId, program, note, leftVol, leftVol * rightVol / 64, volume);
+    }
 }
 
 

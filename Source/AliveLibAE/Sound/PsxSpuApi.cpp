@@ -688,14 +688,14 @@ EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 lef
                     }
 
                     // Pan - L=0, C=64, R=127
-                    s8 pan = pVagIter->field_11_pad;
-                    if (pan == 127)
+                    s32 pan = 0;
+                    if (pVagIter->field_11_pad == 127)
                     {
-                        panLeft = 0;
+                        pan = 9000;
                     }
-                    else if (pan == 0)
+                    else if (pVagIter->field_11_pad == 0)
                     {
-                        panRight = 0;
+                        pan = -9000;
                     }
 
                     GetSoundAPI().SND_PlayEx(
@@ -705,7 +705,8 @@ EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 lef
                         pChannel->field_10_freq, // freq
                         pChannel,
                         playFlags,
-                        pVagIter->field_E_priority);
+                        pVagIter->field_E_priority,
+                        pan);
 
                     if (program == 4 || program == 5 || program == 8 || program == 23 || program == 24 || program == 25)
                     {

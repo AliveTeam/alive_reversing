@@ -137,7 +137,7 @@ EXPORT s32 CC SND_Free_4EFA30(SoundEntry* pSnd)
     return 0;
 }
 
-EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
+EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority, s32 pan)
 {
     if (!sDSound_BBC344)
     {
@@ -229,7 +229,7 @@ EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRigh
     pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]);
 
     const s32 panConverted = (DSBPAN_RIGHT * (panLeft2 - panRight)) / 127; // From PSX pan range to DSound pan range
-    pDSoundBuffer->SetPan(-panConverted);                                  // Fix Inverted Stereo
+    pDSoundBuffer->SetPan(pan);                                  // Fix Inverted Stereo
 
     if (playFlags & DSBPLAY_LOOPING)
     {

@@ -157,7 +157,7 @@ public:
                         SND_StopAll_4CB060();
 
                         bStartedPlayingSound = true;
-                        if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
+                        if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100, 0)))
                         {
                             bNoAudioOrAudioError = 1;
                         }

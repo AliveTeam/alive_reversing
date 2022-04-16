@@ -140,7 +140,7 @@ EXPORT s8 CC DDV_StartAudio_493DF0()
         if (!bNoAudioOrAudioError_5CA1F4)
         {
             // Sound entry is created and populated with 1 frame, play it
-            if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry_5CA208, 116, 116, 1.0, 0, 1, 100)))
+            if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry_5CA208, 116, 116, 1.0, 0, 1, 100, 0)))
             {
                 bNoAudioOrAudioError_5CA1F4 = 1;
             }

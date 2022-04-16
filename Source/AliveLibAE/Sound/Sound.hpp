@@ -128,7 +128,7 @@ EXPORT s32 CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, u32 sampleOffset, u
 EXPORT u32* CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/);
 
 struct MIDI_Channel;
-EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority);
+EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority, s32 pan);
 
 struct SoundApi final
 {
