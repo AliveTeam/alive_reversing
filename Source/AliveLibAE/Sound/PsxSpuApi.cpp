@@ -689,13 +689,16 @@ EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 lef
 
                     // Pan - L=0, C=64, R=127
                     s32 pan = 0;
-                    if (pVagIter->field_11_pad == 127)
+                    s32 maxPanVal = 9000;
+                    if (pVagIter->field_11_pad < 64)
                     {
-                        pan = 9000;
+                        double val = (pVagIter->field_11_pad / 64.0) * maxPanVal;
+                        pan = ((s32) val) - maxPanVal;
                     }
-                    else if (pVagIter->field_11_pad == 0)
+                    else if (pVagIter->field_11_pad > 64)
                     {
-                        pan = -9000;
+                        double val = ((128 - pVagIter->field_11_pad) / 64.0) * maxPanVal;
+                        pan = maxPanVal - ((s32) val);
                     }
 
                     GetSoundAPI().SND_PlayEx(

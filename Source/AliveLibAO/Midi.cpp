@@ -511,13 +511,16 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
 
                         // Pan - L=0, C=64, R=127
                         s32 pan = 0;
-                        if (pVagOff->field_11_pad == 127)
+                        s32 maxPanVal = 9000;
+                        if (pVagOff->field_11_pad < 64)
                         {
-                            pan = 9000;
+                            double val = (pVagOff->field_11_pad / 64.0) * maxPanVal;
+                            pan = ((s32) val) - maxPanVal;
                         }
-                        else if (pVagOff->field_11_pad == 0)
+                        else if (pVagOff->field_11_pad > 64)
                         {
-                            pan = -9000;
+                            double val = ((128 - pVagOff->field_11_pad) / 64.0) * maxPanVal;
+                            pan = maxPanVal - ((s32) val);
                         }
 
                         SND_PlayEx_493040(
