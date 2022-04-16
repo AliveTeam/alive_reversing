@@ -9,8 +9,8 @@ namespace AO {
 
 struct Path_LiftMover final : public Path_TLV
 {
-    s16 field_18_switch_id;
-    s16 field_1A_lift_id;
+    s16 field_18_lift_mover_switch_id;
+    s16 field_1A_target_lift_point_id;
     enum class YDirection : s16
     {
         eDown_0 = 0,
@@ -38,7 +38,7 @@ public:
 
     LiftPoint* FindLiftPointWithId(s16 id);
 
-    u16 field_10_enabled_by_switch_id;
+    u16 field_10_lift_mover_switch_id;
     s16 field_12_target_lift_point_id;
     s32 field_14_tlvInfo;
     BaseGameObject* field_18_pLiftPoint; // TODO: LiftPoint* or actually no because it can be a platform as well?

@@ -368,7 +368,12 @@ struct Path_ContinuePoint final : public Path_TLV
     s16 field_1A_clear_from_id;
     s16 field_1C_clear_to_id;
     Choice_short field_1E_elum_restarts;
-    XDirection_short field_20_abe_direction;
+    enum class spawnDirection : s16
+    {
+        eRight_0 = 0,
+        eLeft_1 = 1
+    };
+    spawnDirection field_20_abe_direction;
     s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(Path_ContinuePoint, 0x24);

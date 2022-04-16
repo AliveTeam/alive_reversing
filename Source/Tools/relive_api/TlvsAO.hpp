@@ -437,6 +437,15 @@ struct Path_Door final : public ReliveAPI::TlvObjectBaseAO
 
 struct Path_ContinuePoint final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::Path_ContinuePoint::spawnDirection>("Enum_ContinuePointSpawnDirection",
+            {
+                {AO::Path_ContinuePoint::spawnDirection::eRight_0, "Right"},
+                {AO::Path_ContinuePoint::spawnDirection::eLeft_1, "Left"},
+            });
+    }
+
     CTOR_AO(Path_ContinuePoint, "ContinuePoint", AO::TlvTypes::ContinuePoint_0)
     {
         ADD("Zone Number", mTlv.field_18_zone_number);
@@ -992,7 +1001,7 @@ struct Path_LiftPoint final : public ReliveAPI::TlvObjectBaseAO
 
     CTOR_AO(Path_LiftPoint, "LiftPoint", AO::TlvTypes::LiftPoint_8)
     {
-        ADD("Point ID", mTlv.field_18_point_id);
+        ADD("Lift Point ID", mTlv.field_18_lift_point_id);
         ADD("Start Point", mTlv.field_1A_bstart_point);
         ADD("Lift Type (Unused?)", mTlv.field_1C_lift_type);
         ADD("Lift Point Stop Type", mTlv.field_1E_lift_point_stop_type);
@@ -1080,7 +1089,7 @@ struct Path_MeatSaw final : public ReliveAPI::TlvObjectBaseAO
     {
         ADD("Scale", mTlv.field_18_scale);
         ADD("Switch Min Time Off", mTlv.field_1A_switch_min_time_off);
-        ADD("Switch Max TIme Off", mTlv.field_1C_switch_max_time_off);
+        ADD("Switch Max Time Off", mTlv.field_1C_switch_max_time_off);
         ADD("Max Rise Time", mTlv.field_1E_max_rise_time);
         ADD("Switch ID", mTlv.field_20_switch_id);
         ADD("Type", mTlv.field_22_type);
@@ -1275,8 +1284,8 @@ struct Path_LiftMover final : public ReliveAPI::TlvObjectBaseAO
 
     CTOR_AO(Path_LiftMover, "LiftMover", AO::TlvTypes::LiftMover_68)
     {
-        ADD("Switch ID", mTlv.field_18_switch_id);
-        ADD("Lift ID", mTlv.field_1A_lift_id);
+        ADD("Lift Mover Switch ID", mTlv.field_18_lift_mover_switch_id);
+        ADD("Target Lift Point ID", mTlv.field_1A_target_lift_point_id);
         ADD("Move Direction", mTlv.field_1C_direction);
     }
 };

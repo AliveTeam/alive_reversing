@@ -322,7 +322,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
                 const s16 xpos = FP_GetExponent(pLiftPoint->field_B8_xpos);
-                if (pTlv->field_8_top_left.field_0_x <= xpos && xpos <= pTlv->field_C_bottom_right.field_0_x && pLiftPoint->field_278_lift_point_switch_id == pLiftTlv->field_10_lift_point_switch_id && pLiftPoint->field_C2_lvl_number == gMap_5C3030.field_0_current_level && pLiftPoint->field_C0_path_number == gMap_5C3030.field_2_current_path)
+                if (pTlv->field_8_top_left.field_0_x <= xpos && xpos <= pTlv->field_C_bottom_right.field_0_x && pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_lift_point_id && pLiftPoint->field_C2_lvl_number == gMap_5C3030.field_0_current_level && pLiftPoint->field_C0_path_number == gMap_5C3030.field_2_current_path)
                 {
                     // Yes so just reset its data
                     Path::TLV_Reset_4DB8E0(tlvOffsetLevelIdPathId.all, -1, 0, 0);
@@ -360,7 +360,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                         const s32 tlvX = pTlv->field_8_top_left.field_0_x;
                         const s32 absX = pTlvIter->field_8_top_left.field_0_x - tlvX >= 0 ? pTlvIter->field_8_top_left.field_0_x - tlvX : tlvX - pTlvIter->field_8_top_left.field_0_x;
 
-                        if (absX < 5 && pLiftPointIter->field_10_lift_point_switch_id == pLiftTlv->field_10_lift_point_switch_id && (pLiftPointIter->field_1_tlv_state & 2 || pLiftPointIter->field_1_tlv_state == 0) && pLiftPointIter->field_12_bStart_point == Choice_short::eYes_1)
+                        if (absX < 5 && pLiftPointIter->field_10_lift_point_id == pLiftTlv->field_10_lift_point_id && (pLiftPointIter->field_1_tlv_state & 2 || pLiftPointIter->field_1_tlv_state == 0) && pLiftPointIter->field_12_bStart_point == Choice_short::eYes_1)
                         {
                             auto pLiftPoint = ae_new<LiftPoint>();
                             if (pLiftPoint)

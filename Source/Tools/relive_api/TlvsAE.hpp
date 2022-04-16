@@ -958,7 +958,7 @@ struct Path_LiftPoint final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_LiftPoint, "LiftPoint", TlvTypes::LiftPoint_7)
     {
-        ADD("Lift Point Switch ID", mTlv.field_10_lift_point_switch_id);
+        ADD("Lift Point ID", mTlv.field_10_lift_point_id);
         ADD("Start Point", mTlv.field_12_bStart_point);
         ADD("Lift Type (Unused?)", mTlv.field_14_lift_type);
         ADD("Lift Point Stop Type", mTlv.field_16_lift_point_stop_type);
@@ -1390,7 +1390,7 @@ struct Path_LiftMover final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_LiftMover, "LiftMover", TlvTypes::LiftMover_39)
     {
         ADD("Lift Mover Switch ID", mTlv.field_10_lift_mover_switch_id);
-        ADD("Lift Point Switch ID", mTlv.field_12_lift_switch_id);
+        ADD("Target Lift Point ID", mTlv.field_12_target_lift_point_id);
         ADD("Move Direction", mTlv.field_14_move_direction);
     }
 };
