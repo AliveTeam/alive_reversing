@@ -334,7 +334,7 @@ public:
 protected:
     [[nodiscard]] bool ReadTOC()
     {
-        if (!mFileHandle->Read(mHeader))
+        if (!mFileHandle->Read(reinterpret_cast<u8*>(&mHeader), sizeof(LvlHeader) - sizeof(LvlFileRecord)))
         {
             return false;
         }
