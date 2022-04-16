@@ -701,10 +701,10 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
                         auto r_vol = pProgVol->field_2_right_vol;
                         auto note = data.param1 << 8;
                         auto program = pProgVol->field_0_program;
-                        auto l_vol = (s16)((u32) (pProgVol->field_1_left_vol * pCtx->field_C_volume) >> 7);
+                        // auto l_vol = (s16)((u32) (pProgVol->field_1_left_vol * pCtx->field_C_volume) >> 7);
 
                         auto freq = data.param2;
-                        MIDI_PlayerPlayMidiNote_49DAD0(pCtx->field_seq_idx, program, note, l_vol, r_vol, freq); // Note: inlined
+                        MIDI_PlayerPlayMidiNote_49DAD0(pCtx->field_seq_idx, program, note, pCtx->field_C_volume, r_vol, freq); // Note: inlined
                         break;
                     }
 

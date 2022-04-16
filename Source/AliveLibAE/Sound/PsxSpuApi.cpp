@@ -745,14 +745,15 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_4FCE80(s32 vabId, s32 program, s32 note, s
         return 0;
     }
 
-    if (rightVol >= 64)
-    {
-        return MIDI_PlayMidiNote_4FCB30(vabId, program, note, leftVol * (127 - rightVol) / 64, leftVol, volume, 64);
-    }
-    else
-    {
-        return MIDI_PlayMidiNote_4FCB30(vabId, program, note, leftVol, rightVol * leftVol / 64, volume, 64);
-    }
+    return MIDI_PlayMidiNote_4FCB30(vabId, program, note, leftVol, rightVol, volume, 64);
+    //if (rightVol >= 64)
+    //{
+    //    return MIDI_PlayMidiNote_4FCB30(vabId, program, note, leftVol * (127 - rightVol) / 64, leftVol, volume, 64);
+    //}
+    //else
+    //{
+    //    return MIDI_PlayMidiNote_4FCB30(vabId, program, note, leftVol, rightVol * leftVol / 64, volume, 64);
+    //}
 }
 
 
@@ -1021,7 +1022,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
                         gSpuVars->sMidiSeqSongs(idx2).field_seq_idx,
                         v18->field_0_program,
                         v16 & 0xFF00,
-                        leftVol,
+                        pCtx->field_C_volume,
                         v18->field_2_right_vol,
                         v16 >> 16);
                     channelIdx_1 = 0;
