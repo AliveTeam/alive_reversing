@@ -511,8 +511,6 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
 
                         // Pan - L=0, C=64, R=127
                         s8 pan = pVagOff->field_11_pad;
-                        panLeft = pChannel->field_C_vol;
-                        panRight = pChannel->field_C_vol;
                         if (pan == 127)
                         {
                             panLeft = 0;

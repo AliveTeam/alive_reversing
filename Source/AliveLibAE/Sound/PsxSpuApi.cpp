@@ -689,8 +689,6 @@ EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 lef
 
                     // Pan - L=0, C=64, R=127
                     s8 pan = pVagIter->field_11_pad;
-                    panLeft = pVagIter->field_D_vol;
-                    panRight = pVagIter->field_D_vol;
                     if (pan == 127)
                     {
                         panLeft = 0;
