@@ -70,6 +70,12 @@ void CC Collisions::Factory_4188A0(const CollisionInfo*, const u8*)
 
 namespace ReliveAPI {
 
+enum class OpenPathBndResult;
+struct PathBND;
+namespace Detail {
+[[nodiscard]] static OpenPathBndResult OpenPathBndGeneric(std::vector<u8>& fileDataBuffer, PathBND& ret, LvlReader& lvl, Game game, s32* pathId);
+}
+
 void SetAliveFatalCallBack(TAliveFatalCb callBack)
 {
     fnAliveFatalCb = callBack;
@@ -225,146 +231,19 @@ enum class OpenPathBndResult
     NoPaths
 };
 
-[[nodiscard]] static OpenPathBndResult OpenPathBndGeneric(std::vector<u8>& fileDataBuffer, PathBND& ret, LvlReader& lvl, Game game, s32* pathId)
-{
-    const PathRootContainerAdapter adapter(game);
-    for (s32 i = 0; i < adapter.PathRootCount(); ++i)
-    {
-        const auto pathRoot = adapter.PathAt(i);
-        if (!pathRoot.BndName())
-        {
-            continue;
-        }
-
-        // Try to open the BND
-        const bool goodRead = lvl.ReadFileInto(fileDataBuffer, pathRoot.BndName());
-        if (!goodRead)
-        {
-            continue;
-        }
-
-        ret.mPathBndName = pathRoot.BndName();
-
-        ChunkedLvlFile pathChunks(fileDataBuffer);
-
-        if (pathId)
-        {
-            // Open the specific path if we have one
-            std::optional<LvlFileChunk> chunk = pathChunks.ChunkById(*pathId);
-            if (!chunk)
-            {
-                return OpenPathBndResult::PathResourceChunkNotFound;
-            }
-
-            // Save the actual path resource block data
-            ret.mFileData = std::move(chunk)->Data();
-
-            // Path id in range?
-            if (*pathId >= 0 && *pathId < 99)
-            {
-                // Path at this id have a name?
-                const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(*pathId);
-
-                // See if we have extended info for this path entry
-                std::optional<LvlFileChunk> extChunk = pathChunks.ChunkById(*pathId | *pathId << 8);
-                if (extChunk)
-                {
-                    auto pChunkData = extChunk->Data().data();
-                    auto pExt = reinterpret_cast<const PerPathExtension*>(pChunkData);
-                    ret.mPathBndName = pathRoot.BndName();
-                    ret.mPathInfo.mObjectOffset = pExt->mObjectOffset;
-                    ret.mPathInfo.mIndexTableOffset = pExt->mIndexTableOffset;
-                    ret.mPathInfo.mNumCollisionItems = pExt->mNumCollisionLines;
-                    ret.mPathInfo.mHeight = pExt->mYSize;
-                    ret.mPathInfo.mWidth = pExt->mXSize;
-                    ret.mPathInfo.mCollisionOffset = pExt->mCollisionOffset;
-                    ret.mPathInfo.mGridWidth = pExt->mGridWidth;
-                    ret.mPathInfo.mGridHeight = pExt->mGridHeight;
-
-                    ret.mPathInfo.mAbeStartXPos = pExt->mAbeStartXPos;
-                    ret.mPathInfo.mAbeStartYPos = pExt->mAbeStartYPos;
-
-                    ret.mPathInfo.mTotalMuds = pExt->mTotalMuds;
-
-                    ret.mPathInfo.mNumMudsInPath = pExt->mNumMudsInPath;
-                    ret.mPathInfo.mBadEndingMuds = pExt->mBadEndingMuds;
-                    ret.mPathInfo.mGoodEndingMuds = pExt->mGoodEndingMuds;
-
-                    pChunkData += sizeof(PerPathExtension);
-
-                    // Read LCD Screen messages
-                    auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                    pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
-                    for (u64 j = 0u; j < pLCDScreenMsgs->mStringCount; j++)
-                    {
-                        ret.mPathInfo.mLCDScreenMessages.emplace_back(pLCDScreenMsgs->mStrings[j].string_ptr);
-                    };
-
-                    // Read hint fly messages, will be empty for AE
-                    auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
-                    pChunkData = StringTable::MakeTable(pHintFlyMsgs);
-                    for (u64 j = 0u; j < pHintFlyMsgs->mStringCount; j++)
-                    {
-                        ret.mPathInfo.mHintFlyMessages.emplace_back(pHintFlyMsgs->mStrings[j].string_ptr);
-                    };
-
-                    return OpenPathBndResult::OK;
-                }
-                else if (pBlyRec.BlyName())
-                {
-                    // Copy out its info
-                    ret.mPathBndName = pathRoot.BndName();
-                    ret.mPathInfo = pBlyRec.ConvertPathInfo();
-                    return OpenPathBndResult::OK;
-                }
-            }
-
-            // Path id out of bounds or the entry is blank
-            return OpenPathBndResult::PathResourceChunkNotFound;
-        }
-
-        // Add all path ids
-        for (s32 j = 1; j < 99; ++j)
-        {
-            // Only add paths that are not blank entries
-            const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(j);
-            if (pBlyRec.BlyName())
-            {
-                ret.mPaths.push_back(j);
-            }
-            else
-            {
-                // OG has no path, but did one get added via the editor?
-                std::optional<LvlFileChunk> extChunk = pathChunks.ChunkById(j | j << 8);
-                if (extChunk)
-                {
-                    ret.mPaths.push_back(j);
-                }
-            }
-        }
-
-        // Return all of the file data
-        ret.mFileData = fileDataBuffer;
-
-        return OpenPathBndResult::OK;
-    }
-
-    return OpenPathBndResult::NoPaths;
-}
-
 [[nodiscard]] static PathBND OpenPathBnd(LvlReader& lvlReader, std::vector<u8>& fileDataBuffer, Game& game, s32* pathId)
 {
     PathBND ret = {};
 
     // Find AE Path BND
-    if (OpenPathBndGeneric(fileDataBuffer, ret, lvlReader, Game::AE, pathId) == OpenPathBndResult::OK)
+    if (Detail::OpenPathBndGeneric(fileDataBuffer, ret, lvlReader, Game::AE, pathId) == OpenPathBndResult::OK)
     {
         game = Game::AE;
         return ret;
     }
 
     // Failed, look for AO Path BND
-    if (OpenPathBndGeneric(fileDataBuffer, ret, lvlReader, Game::AO, pathId) == OpenPathBndResult::OK)
+    if (Detail::OpenPathBndGeneric(fileDataBuffer, ret, lvlReader, Game::AO, pathId) == OpenPathBndResult::OK)
     {
         game = Game::AO;
         return ret;
@@ -403,29 +282,11 @@ constexpr s32 kApiVersion = 3;
     return kApiVersion;
 }
 
-void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId, Context& context)
-{
-    Game game = {};
-
-    LvlReader lvl(fileIO, inputLvlFile.c_str());
-    ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, fileDataBuffer, game, &pathResourceId);
-
-    if (game == Game::AO)
-    {
-        JsonWriterAO doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-        doc.Save(fileDataBuffer, lvl, pathBnd.mPathInfo, pathBnd.mFileData, fileIO, jsonOutputFile, context);
-    }
-    else
-    {
-        JsonWriterAE doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-        doc.Save(fileDataBuffer, lvl, pathBnd.mPathInfo, pathBnd.mFileData, fileIO, jsonOutputFile, context);
-    }
-}
 
 void ExportPathBinaryToJson(IFileIO& fileIO, const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId, Context& context)
 {
     std::vector<u8> buffer;
-    ExportPathBinaryToJson(buffer, fileIO, jsonOutputFile, inputLvlFile, pathResourceId, context);
+    Detail::ExportPathBinaryToJson(buffer, fileIO, jsonOutputFile, inputLvlFile, pathResourceId, context);
 }
 
 std::string UpgradePathJson(IFileIO& fileIO, const std::string& jsonFile)
@@ -672,108 +533,6 @@ static std::vector<u8> ConstructFG1Data(const CameraImageAndLayers& imageAndLaye
     return std::vector<u8>(tmpStr.begin(), tmpStr.end());
 }
 
-namespace Detail {
-void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers, bool allowFullFG1Blocks)
-{
-    const u32 bitsId = CamConverter::CamBitsIdFromName(camName);
-
-    // Load existing .CAM if possible so existing additional resource blocks don't get removed by
-    // re-creating the CAM from scratch.
-    ChunkedLvlFile camFile;
-    if (inputLvl.ReadFileInto(fileDataBuffer, camName.c_str()))
-    {
-        camFile = ChunkedLvlFile(fileDataBuffer);
-    }
-
-    // Arrage pixel data in strips and RGB888 -> RGB565
-    struct CamStrip final
-    {
-        u16 mStripLen = 16 * 240 * sizeof(u16);
-        u16 mStrip[240][16] = {};
-    };
-
-    struct CamImageStrips final
-    {
-    public:
-        void SetPixel(u32 x, u32 y, u16 pixel)
-        {
-            const u32 stripNum = x / 16;
-            const u32 xPixel = x % 16;
-            mStrips[stripNum].mStrip[y][xPixel] = pixel;
-        }
-
-        std::vector<u8> ToVector() const
-        {
-            std::vector<u8> r;
-            const u32 totalLengthDataSize = (640 / 16) * sizeof(u16);
-            const u32 totalStripDataSize = (640 / 16) * (16 * 240) * sizeof(u16);
-            r.resize(totalLengthDataSize + totalStripDataSize);
-
-            u16* pStream = reinterpret_cast<u16*>(r.data());
-
-            u32 pos = 0;
-            for (u32 i = 0; i < 640 / 16; i++)
-            {
-                pStream[pos] = mStrips[i].mStripLen;
-                pos++;
-
-                memcpy(pStream + pos, &mStrips[i].mStrip[0][0], mStrips[i].mStripLen);
-                pos += mStrips[i].mStripLen / sizeof(u16);
-            }
-            return r;
-        }
-
-    private:
-        CamStrip mStrips[640 / 16];
-    };
-
-    std::vector<u8> rawPixels = Base64Png2RawPixels(imageAndLayers.mCameraImage);
-    auto bitsData = std::make_unique<CamImageStrips>(); // reduce stack usage
-    for (u32 x = 0; x < 640; x++)
-    {
-        for (u32 y = 0; y < 240; y++)
-        {
-            const u32* pPixel32 = &reinterpret_cast<const u32*>(rawPixels.data())[To1dIndex(640, x, y)];
-            bitsData->SetPixel(x, y, RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)));
-        }
-    }
-
-    LvlFileChunk bitsChunk(bitsId, ResourceManager::Resource_Bits, bitsData->ToVector());
-    camFile.AddChunk(std::move(bitsChunk));
-
-    // Remove FG1 blocks
-    camFile.RemoveChunksOfType(ResourceManager::Resource_FG1);
-
-    if (imageAndLayers.HaveFG1Layers())
-    {
-        std::vector<u8> fg1Data = ConstructFG1Data(imageAndLayers, allowFullFG1Blocks);
-        if (!fg1Data.empty())
-        {
-            // FG1 blocks use id BitsId << 8 + idx (or 255 max in this case as we only have 1 FG1 block)
-            const u32 fg1ResId = (bitsId << 8) | 0xFF;
-
-            LvlFileChunk fg1Chunk(fg1ResId, ResourceManager::Resource_FG1, std::move(fg1Data));
-
-            // Add reconstructed single FG1 block
-            camFile.AddChunk(std::move(fg1Chunk));
-        }
-    }
-
-    // Add or update the CAM file
-    inputLvl.AddFile(camName.c_str(), camFile.Data());
-}
-
-[[nodiscard]] std::unique_ptr<ChunkedLvlFile> OpenPathBnd(IFileIO& fileIO, const std::string& inputLvlFile, std::vector<u8>& fileDataBuffer)
-{
-    Game game = {};
-    s32* pathId = nullptr;
-    LvlReader lvlReader(fileIO, inputLvlFile.c_str());
-    PathBND pathBnd = OpenPathBnd(lvlReader, fileDataBuffer, game, pathId);
-    return std::make_unique<ChunkedLvlFile>(pathBnd.mFileData);
-}
-
-} // namespace Detail
-
 static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::vector<CameraNameAndTlvBlob>& camerasAndMapObjects, bool allowFullFG1Blocks)
 {
     // Rebuild cameras/FG1 and embedded resource blocks
@@ -985,6 +744,148 @@ static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fil
     }
 }
 
+void ImportPathJsonToBinary(IFileIO& fileIO, const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& lvlResourceSources, Context& context)
+{
+    std::vector<u8> buffer;
+    Detail::ImportPathJsonToBinary(buffer, fileIO, jsonInputFile, inputLvl, outputLvlFile, lvlResourceSources, false, context);
+}
+
+
+[[nodiscard]] EnumeratePathsResult EnumeratePaths(IFileIO& fileIO, const std::string& inputLvlFile)
+{
+    std::vector<u8> buffer;
+    return Detail::EnumeratePaths(buffer, fileIO, inputLvlFile);
+}
+
+namespace Detail {
+
+[[nodiscard]] static OpenPathBndResult OpenPathBndGeneric(std::vector<u8>& fileDataBuffer, PathBND& ret, LvlReader& lvl, Game game, s32* pathId)
+{
+    const PathRootContainerAdapter adapter(game);
+    for (s32 i = 0; i < adapter.PathRootCount(); ++i)
+    {
+        const auto pathRoot = adapter.PathAt(i);
+        if (!pathRoot.BndName())
+        {
+            continue;
+        }
+
+        // Try to open the BND
+        const bool goodRead = lvl.ReadFileInto(fileDataBuffer, pathRoot.BndName());
+        if (!goodRead)
+        {
+            continue;
+        }
+
+        ret.mPathBndName = pathRoot.BndName();
+
+        ChunkedLvlFile pathChunks(fileDataBuffer);
+
+        if (pathId)
+        {
+            // Open the specific path if we have one
+            std::optional<LvlFileChunk> chunk = pathChunks.ChunkById(*pathId);
+            if (!chunk)
+            {
+                return OpenPathBndResult::PathResourceChunkNotFound;
+            }
+
+            // Save the actual path resource block data
+            ret.mFileData = std::move(chunk)->Data();
+
+            // Path id in range?
+            if (*pathId >= 0 && *pathId < 99)
+            {
+                // Path at this id have a name?
+                const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(*pathId);
+
+                // See if we have extended info for this path entry
+                std::optional<LvlFileChunk> extChunk = pathChunks.ChunkById(*pathId | *pathId << 8);
+                if (extChunk)
+                {
+                    auto pChunkData = extChunk->Data().data();
+                    auto pExt = reinterpret_cast<const PerPathExtension*>(pChunkData);
+                    ret.mPathBndName = pathRoot.BndName();
+                    ret.mPathInfo.mObjectOffset = pExt->mObjectOffset;
+                    ret.mPathInfo.mIndexTableOffset = pExt->mIndexTableOffset;
+                    ret.mPathInfo.mNumCollisionItems = pExt->mNumCollisionLines;
+                    ret.mPathInfo.mHeight = pExt->mYSize;
+                    ret.mPathInfo.mWidth = pExt->mXSize;
+                    ret.mPathInfo.mCollisionOffset = pExt->mCollisionOffset;
+                    ret.mPathInfo.mGridWidth = pExt->mGridWidth;
+                    ret.mPathInfo.mGridHeight = pExt->mGridHeight;
+
+                    ret.mPathInfo.mAbeStartXPos = pExt->mAbeStartXPos;
+                    ret.mPathInfo.mAbeStartYPos = pExt->mAbeStartYPos;
+
+                    ret.mPathInfo.mTotalMuds = pExt->mTotalMuds;
+
+                    ret.mPathInfo.mNumMudsInPath = pExt->mNumMudsInPath;
+                    ret.mPathInfo.mBadEndingMuds = pExt->mBadEndingMuds;
+                    ret.mPathInfo.mGoodEndingMuds = pExt->mGoodEndingMuds;
+
+                    pChunkData += sizeof(PerPathExtension);
+
+                    // Read LCD Screen messages
+                    auto pLCDScreenMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                    pChunkData = StringTable::MakeTable(pLCDScreenMsgs);
+                    for (u64 j = 0u; j < pLCDScreenMsgs->mStringCount; j++)
+                    {
+                        ret.mPathInfo.mLCDScreenMessages.emplace_back(pLCDScreenMsgs->mStrings[j].string_ptr);
+                    };
+
+                    // Read hint fly messages, will be empty for AE
+                    auto pHintFlyMsgs = reinterpret_cast<StringTable*>(pChunkData);
+                    pChunkData = StringTable::MakeTable(pHintFlyMsgs);
+                    for (u64 j = 0u; j < pHintFlyMsgs->mStringCount; j++)
+                    {
+                        ret.mPathInfo.mHintFlyMessages.emplace_back(pHintFlyMsgs->mStrings[j].string_ptr);
+                    };
+
+                    return OpenPathBndResult::OK;
+                }
+                else if (pBlyRec.BlyName())
+                {
+                    // Copy out its info
+                    ret.mPathBndName = pathRoot.BndName();
+                    ret.mPathInfo = pBlyRec.ConvertPathInfo();
+                    return OpenPathBndResult::OK;
+                }
+            }
+
+            // Path id out of bounds or the entry is blank
+            return OpenPathBndResult::PathResourceChunkNotFound;
+        }
+
+        // Add all path ids
+        for (s32 j = 1; j < 99; ++j)
+        {
+            // Only add paths that are not blank entries
+            const PathBlyRecAdapter pBlyRec = pathRoot.PathAt(j);
+            if (pBlyRec.BlyName())
+            {
+                ret.mPaths.push_back(j);
+            }
+            else
+            {
+                // OG has no path, but did one get added via the editor?
+                std::optional<LvlFileChunk> extChunk = pathChunks.ChunkById(j | j << 8);
+                if (extChunk)
+                {
+                    ret.mPaths.push_back(j);
+                }
+            }
+        }
+
+        // Return all of the file data
+        ret.mFileData = fileDataBuffer;
+
+        return OpenPathBndResult::OK;
+    }
+
+    return OpenPathBndResult::NoPaths;
+}
+
 void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/, bool skipCamerasAndFG1, Context& context)
 {
     JsonMapRootInfoReader rootInfo;
@@ -1005,12 +906,6 @@ void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, co
     }
 }
 
-void ImportPathJsonToBinary(IFileIO& fileIO, const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& lvlResourceSources, Context& context)
-{
-    std::vector<u8> buffer;
-    ImportPathJsonToBinary(buffer, fileIO, jsonInputFile, inputLvl, outputLvlFile, lvlResourceSources, false, context);
-}
-
 [[nodiscard]] EnumeratePathsResult EnumeratePaths(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& inputLvlFile)
 {
     EnumeratePathsResult ret = {};
@@ -1023,9 +918,126 @@ void ImportPathJsonToBinary(IFileIO& fileIO, const std::string& jsonInputFile, c
     return ret;
 }
 
-[[nodiscard]] EnumeratePathsResult EnumeratePaths(IFileIO& fileIO, const std::string& inputLvlFile)
+void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& jsonOutputFile, const std::string& inputLvlFile, s32 pathResourceId, Context& context)
 {
-    std::vector<u8> buffer;
-    return EnumeratePaths(buffer, fileIO, inputLvlFile);
+    Game game = {};
+
+    LvlReader lvl(fileIO, inputLvlFile.c_str());
+    ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, fileDataBuffer, game, &pathResourceId);
+
+    if (game == Game::AO)
+    {
+        JsonWriterAO doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
+        doc.Save(fileDataBuffer, lvl, pathBnd.mPathInfo, pathBnd.mFileData, fileIO, jsonOutputFile, context);
+    }
+    else
+    {
+        JsonWriterAE doc(pathResourceId, pathBnd.mPathBndName, pathBnd.mPathInfo);
+        doc.Save(fileDataBuffer, lvl, pathBnd.mPathInfo, pathBnd.mFileData, fileIO, jsonOutputFile, context);
+    }
 }
+
+void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers, bool allowFullFG1Blocks)
+{
+    const u32 bitsId = CamConverter::CamBitsIdFromName(camName);
+
+    // Load existing .CAM if possible so existing additional resource blocks don't get removed by
+    // re-creating the CAM from scratch.
+    ChunkedLvlFile camFile;
+    if (inputLvl.ReadFileInto(fileDataBuffer, camName.c_str()))
+    {
+        camFile = ChunkedLvlFile(fileDataBuffer);
+    }
+
+    // Arrage pixel data in strips and RGB888 -> RGB565
+    struct CamStrip final
+    {
+        u16 mStripLen = 16 * 240 * sizeof(u16);
+        u16 mStrip[240][16] = {};
+    };
+
+    struct CamImageStrips final
+    {
+    public:
+        void SetPixel(u32 x, u32 y, u16 pixel)
+        {
+            const u32 stripNum = x / 16;
+            const u32 xPixel = x % 16;
+            mStrips[stripNum].mStrip[y][xPixel] = pixel;
+        }
+
+        std::vector<u8> ToVector() const
+        {
+            std::vector<u8> r;
+            const u32 totalLengthDataSize = (640 / 16) * sizeof(u16);
+            const u32 totalStripDataSize = (640 / 16) * (16 * 240) * sizeof(u16);
+            r.resize(totalLengthDataSize + totalStripDataSize);
+
+            u16* pStream = reinterpret_cast<u16*>(r.data());
+
+            u32 pos = 0;
+            for (u32 i = 0; i < 640 / 16; i++)
+            {
+                pStream[pos] = mStrips[i].mStripLen;
+                pos++;
+
+                memcpy(pStream + pos, &mStrips[i].mStrip[0][0], mStrips[i].mStripLen);
+                pos += mStrips[i].mStripLen / sizeof(u16);
+            }
+            return r;
+        }
+
+    private:
+        CamStrip mStrips[640 / 16];
+    };
+
+    std::vector<u8> rawPixels = Base64Png2RawPixels(imageAndLayers.mCameraImage);
+    auto bitsData = std::make_unique<CamImageStrips>(); // reduce stack usage
+    for (u32 x = 0; x < 640; x++)
+    {
+        for (u32 y = 0; y < 240; y++)
+        {
+            const u32* pPixel32 = &reinterpret_cast<const u32*>(rawPixels.data())[To1dIndex(640, x, y)];
+            bitsData->SetPixel(x, y, RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)));
+        }
+    }
+
+    LvlFileChunk bitsChunk(bitsId, ResourceManager::Resource_Bits, bitsData->ToVector());
+    camFile.AddChunk(std::move(bitsChunk));
+
+    // Remove FG1 blocks
+    camFile.RemoveChunksOfType(ResourceManager::Resource_FG1);
+
+    if (imageAndLayers.HaveFG1Layers())
+    {
+        std::vector<u8> fg1Data = ConstructFG1Data(imageAndLayers, allowFullFG1Blocks);
+        if (!fg1Data.empty())
+        {
+            // FG1 blocks use id BitsId << 8 + idx (or 255 max in this case as we only have 1 FG1 block)
+            const u32 fg1ResId = (bitsId << 8) | 0xFF;
+
+            LvlFileChunk fg1Chunk(fg1ResId, ResourceManager::Resource_FG1, std::move(fg1Data));
+
+            // Add reconstructed single FG1 block
+            camFile.AddChunk(std::move(fg1Chunk));
+        }
+    }
+
+    // Add or update the CAM file
+    inputLvl.AddFile(camName.c_str(), camFile.Data());
+}
+
+[[nodiscard]] std::unique_ptr<ChunkedLvlFile> OpenPathBnd(IFileIO& fileIO, const std::string& inputLvlFile, std::vector<u8>& fileDataBuffer)
+{
+    Game game = {};
+    s32* pathId = nullptr;
+    LvlReader lvlReader(fileIO, inputLvlFile.c_str());
+    PathBND pathBnd = OpenPathBnd(lvlReader, fileDataBuffer, game, pathId);
+    return std::make_unique<ChunkedLvlFile>(pathBnd.mFileData);
+}
+
+} // namespace Detail
+
+
 } // namespace ReliveAPI
+

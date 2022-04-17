@@ -236,14 +236,14 @@ TEST(alive_api, ExportPathBinaryToJsonAE)
 {
     ReliveAPI::FileIO fileIo;
     ReliveAPI::Context context;
-    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAE.json", AEPath(kAETestLvl), 1, context);
+    ReliveAPI::Detail::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAE.json", AEPath(kAETestLvl), 1, context);
 }
 
 TEST(alive_api, ExportPathBinaryToJsonAO)
 {
     ReliveAPI::FileIO fileIo;
     ReliveAPI::Context context;
-    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAO.json", AOPath("R1.LVL"), 19, context);
+    ReliveAPI::Detail::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAO.json", AOPath("R1.LVL"), 19, context);
 }
 
 static void SaveVec(const std::string& fileName, const std::vector<u8>& vec)
@@ -285,11 +285,11 @@ TEST(alive_api, ImportPathJsonToBinaryAO)
     ReliveAPI::FileIO fileIo;
     ReliveAPI::Context context;
 
-    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAO.json", AOPath("R1.LVL"), 19, context);
+    ReliveAPI::Detail::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAO.json", AOPath("R1.LVL"), 19, context);
 
-    ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), fileIo, "OutputAO.json", AOPath("R1.LVL"), "newAO.lvl", {}, true, context);
+    ReliveAPI::Detail::ImportPathJsonToBinary(getStaticFileBuffer(), fileIo, "OutputAO.json", AOPath("R1.LVL"), "newAO.lvl", {}, true, context);
     
-    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAO2.json", "newAO.lvl", 19, context);
+    ReliveAPI::Detail::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAO2.json", "newAO.lvl", 19, context);
 
     ASSERT_TRUE(PathChunksAreEqual(fileIo, AOPath("R1.LVL"), "newAO.lvl"));
 }
@@ -299,11 +299,11 @@ TEST(alive_api, ImportPathJsonToBinaryAE)
     ReliveAPI::FileIO fileIo;
     ReliveAPI::Context context;
 
-    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAE.json", AEPath(kAETestLvl), 1, context);
+    ReliveAPI::Detail::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAE.json", AEPath(kAETestLvl), 1, context);
 
-    ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), fileIo, "OutputAE.json", AEPath(kAETestLvl), "newAE.lvl", {}, true, context);
+    ReliveAPI::Detail::ImportPathJsonToBinary(getStaticFileBuffer(), fileIo, "OutputAE.json", AEPath(kAETestLvl), "newAE.lvl", {}, true, context);
 
-    ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAE2.json", "newAE.lvl", 1, context);
+    ReliveAPI::Detail::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, "OutputAE2.json", "newAE.lvl", 1, context);
 
     ASSERT_TRUE(PathChunksAreEqual(fileIo, AEPath(kAETestLvl), "newAE.lvl"));
 }
@@ -311,7 +311,7 @@ TEST(alive_api, ImportPathJsonToBinaryAE)
 TEST(alive_api, EnumeratePathsAO)
 {
     ReliveAPI::FileIO fileIo;
-    auto ret = ReliveAPI::EnumeratePaths(getStaticFileBuffer(), fileIo, AOPath("R1.LVL"));
+    auto ret = ReliveAPI::Detail::EnumeratePaths(getStaticFileBuffer(), fileIo, AOPath("R1.LVL"));
     ASSERT_EQ(ret.pathBndName, "R1PATH.BND");
     const std::vector<s32> paths{15, 16, 18, 19, 20};
     ASSERT_EQ(ret.paths, paths);
@@ -324,17 +324,17 @@ TEST(alive_api, ReSaveAllPathsAO)
 
     for (const auto& lvl : kAOLvls)
     {
-        auto ret = ReliveAPI::EnumeratePaths(getStaticFileBuffer(), fileIo, AOPath(lvl));
+        auto ret = ReliveAPI::Detail::EnumeratePaths(getStaticFileBuffer(), fileIo, AOPath(lvl));
 
         for (s32 path : ret.paths)
         {
             const std::string jsonName = concat("OutputAO_", lvl, '_', path, ".json");
             LOG_INFO("Save " << jsonName);
-            ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, jsonName, AOPath(lvl), path, context);
+            ReliveAPI::Detail::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, jsonName, AOPath(lvl), path, context);
 
             const std::string lvlName = concat("OutputAO_", lvl, '_', path, ".lvl");
             LOG_INFO("Resave " << lvlName);
-            ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), fileIo, jsonName, AOPath(lvl), lvlName, {}, true, context);
+            ReliveAPI::Detail::ImportPathJsonToBinary(getStaticFileBuffer(), fileIo, jsonName, AOPath(lvl), lvlName, {}, true, context);
 
             ASSERT_TRUE(PathChunksAreEqual(fileIo, AOPath(lvl), lvlName));
         }
@@ -348,17 +348,17 @@ TEST(alive_api, ReSaveAllPathsAE)
 
     for (const auto& lvl : kAELvls)
     {
-        auto ret = ReliveAPI::EnumeratePaths(getStaticFileBuffer(), fileIo, AEPath(lvl));
+        auto ret = ReliveAPI::Detail::EnumeratePaths(getStaticFileBuffer(), fileIo, AEPath(lvl));
 
         for (s32 path : ret.paths)
         {
             const std::string jsonName = concat("OutputAE_", lvl, '_', path, ".json");
             LOG_INFO("Save " << jsonName);
-            ReliveAPI::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, jsonName, AEPath(lvl), path, context);
+            ReliveAPI::Detail::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, jsonName, AEPath(lvl), path, context);
 
             const std::string lvlName = concat("OutputAE_", lvl, '_', path, ".lvl");
             LOG_INFO("Resave " << lvlName);
-            ReliveAPI::ImportPathJsonToBinary(getStaticFileBuffer(), fileIo, jsonName, AEPath(lvl), lvlName, {}, true, context);
+            ReliveAPI::Detail::ImportPathJsonToBinary(getStaticFileBuffer(), fileIo, jsonName, AEPath(lvl), lvlName, {}, true, context);
 
             ASSERT_TRUE(PathChunksAreEqual(fileIo, AEPath(lvl), lvlName));
         }
