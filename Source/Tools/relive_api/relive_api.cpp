@@ -253,26 +253,6 @@ enum class OpenPathBndResult
     throw ReliveAPI::OpenPathException();
 }
 
-void DebugDumpTlvs(const std::string& prefix, IFileIO& fileIO, const std::string& lvlFile, s32 pathId)
-{
-    Game game = {};
-
-    LvlReader lvl(fileIO, lvlFile.c_str());
-    std::vector<u8> buffer;
-    ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, buffer, game, &pathId);
-
-    if (game == Game::AO)
-    {
-        JsonWriterAO doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-        doc.DebugDumpTlvs(fileIO, prefix, pathBnd.mPathInfo, pathBnd.mFileData);
-    }
-    else
-    {
-        JsonWriterAE doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
-        doc.DebugDumpTlvs(fileIO, prefix, pathBnd.mPathInfo, pathBnd.mFileData);
-    }
-}
-
 // Increment when a breaking change to the JSON is made and implement an
 // upgrade step that converts from the last version to the current.
 constexpr s32 kApiVersion = 3;
@@ -758,6 +738,27 @@ void ImportPathJsonToBinary(IFileIO& fileIO, const std::string& jsonInputFile, c
 }
 
 namespace Detail {
+
+void DebugDumpTlvs(const std::string& prefix, IFileIO& fileIO, const std::string& lvlFile, s32 pathId)
+{
+    Game game = {};
+
+    LvlReader lvl(fileIO, lvlFile.c_str());
+    std::vector<u8> buffer;
+    ReliveAPI::PathBND pathBnd = ReliveAPI::OpenPathBnd(lvl, buffer, game, &pathId);
+
+    if (game == Game::AO)
+    {
+        JsonWriterAO doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
+        doc.DebugDumpTlvs(fileIO, prefix, pathBnd.mPathInfo, pathBnd.mFileData);
+    }
+    else
+    {
+        JsonWriterAE doc(pathId, pathBnd.mPathBndName, pathBnd.mPathInfo);
+        doc.DebugDumpTlvs(fileIO, prefix, pathBnd.mPathInfo, pathBnd.mFileData);
+    }
+}
+
 
 [[nodiscard]] static OpenPathBndResult OpenPathBndGeneric(std::vector<u8>& fileDataBuffer, PathBND& ret, LvlReader& lvl, Game game, s32* pathId)
 {
