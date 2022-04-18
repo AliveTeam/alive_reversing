@@ -230,7 +230,7 @@ EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRigh
 
     // OLD PAN
     const s32 panConverted = (DSBPAN_RIGHT * (panLeft2 - panRight)) / 127; // From PSX pan range to DSound pan range
-    pDSoundBuffer->SetPan(panConverted);                                   // Fix Inverted Stereo
+    pDSoundBuffer->SetPan(-panConverted);                                  // Fix Inverted Stereo
     // OLD PAN END
 
     // NEW PAN
