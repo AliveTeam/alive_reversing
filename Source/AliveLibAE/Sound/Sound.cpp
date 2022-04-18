@@ -228,8 +228,39 @@ EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRigh
     pDSoundBuffer->SetFrequency(freqHz);
     pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]);
 
+    // OLD PAN
     const s32 panConverted = (DSBPAN_RIGHT * (panLeft2 - panRight)) / 127; // From PSX pan range to DSound pan range
-    pDSoundBuffer->SetPan(-panConverted);                                  // Fix Inverted Stereo
+    pDSoundBuffer->SetPan(panConverted);                                   // Fix Inverted Stereo
+    // OLD PAN END
+
+    // NEW PAN
+    // If the sample is panned we must use the pan of the sample.
+    // It seems all sfx are center and only music samples are panned.
+    s8 samplePan = pSnd->field_1F;
+    if (samplePan < 64)
+    {
+        panRight = ((s32) (panRight * (samplePan / 64.0)));
+    }
+    else if (samplePan > 64)
+    {
+        panLeft = ((s32) ((panLeft * (64 - (samplePan - 64))) / 64.0));
+    }
+
+    // convert the 0-64-127 pan value into a value
+    // that makes sense for SDL
+    s32 sdlPan = 0;
+    if (panRight < panLeft)
+    {
+        double p = (double) panRight / panLeft * DSBPAN_RIGHT;
+        sdlPan = -(DSBPAN_RIGHT - ((s32) p));
+    }
+    else if (panRight > panLeft)
+    {
+        double p = (double) panLeft / panRight * DSBPAN_RIGHT;
+        sdlPan = DSBPAN_RIGHT - ((s32) p);
+    }
+    pDSoundBuffer->SetPan(sdlPan);
+    // NEW PAN END
 
     if (playFlags & DSBPLAY_LOOPING)
     {

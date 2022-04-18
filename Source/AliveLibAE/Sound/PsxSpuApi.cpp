@@ -686,7 +686,9 @@ EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 lef
                     {
                         MIDI_Wait_4FCE50();
                     }
-
+                    
+                    // reuse a field that is never accessed for passing the samples pan
+                    GetSpuApiVars()->sSoundEntryTable16().table[vabId][pVagIter->field_10_vag].field_1F = pVagIter->field_11_pad;
                     GetSoundAPI().SND_PlayEx(
                         &gSpuVars->sSoundEntryTable16().table[vabId][pVagIter->field_10_vag],
                         panLeft,
