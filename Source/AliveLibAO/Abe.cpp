@@ -1950,7 +1950,13 @@ u8** Abe::StateToAnimResource_4204F0(s16 motion)
             {
                 resourceID = res_idx + 54;
             }
-            field_1A4_resources.res[res_idx] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+
+            u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+            if (!ppRes)
+            {
+                LOG_ERROR("Abe resource failed to load " << resourceID);
+            }
+            field_1A4_resources.res[res_idx] = ppRes;
         }
     }
     field_128_resource_idx = res_idx;
