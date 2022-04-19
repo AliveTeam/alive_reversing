@@ -61,7 +61,7 @@
 #include "../../AliveLibAE/FallingItem.hpp"
 #include "../../AliveLibAE/Bone.hpp"
 #include "../../AliveLibAE/FootSwitch.hpp"
-#include "../../AliveLibAE/SlogHut.hpp"
+#include "../../AliveLibAE/ZzzSpawner.hpp"
 #include "../../AliveLibAE/SlogSpawner.hpp"
 #include "../../AliveLibAE/Scrab.hpp"
 #include "../../AliveLibAE/ScrabSpawner.hpp"
@@ -1902,9 +1902,9 @@ struct Path_FootSwitch final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
-struct Path_SlogHut final : public ReliveAPI::TlvObjectBaseAE
+struct Path_ZzzSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
-    CTOR_AE(Path_SlogHut, "SlogHut", TlvTypes::SlogHut_72)
+    CTOR_AE(Path_ZzzSpawner, "ZzzSpawner", TlvTypes::ZzzSpawner_72)
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Switch ID", mTlv.field_12_switch_id);

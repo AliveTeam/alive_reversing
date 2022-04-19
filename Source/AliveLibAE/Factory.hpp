@@ -115,7 +115,7 @@ EXPORT void CC Factory_SlogSpawner_4D8BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 EXPORT void CC Factory_GasCountdown_4DA480(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode);
 EXPORT void CC Factory_4D6C50(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode); // Remove Shrykull ??
 EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode);
-EXPORT void CC Factory_SlogHut_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode);
+EXPORT void CC Factory_ZzzSpawner_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode);
 EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode);
 EXPORT void CC Factory_KillUnsavedMudokons_4DA6E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode);
 EXPORT void CC Factory_SoftLanding_4D6950(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode);

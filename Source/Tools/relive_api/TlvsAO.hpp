@@ -41,7 +41,7 @@
 #include "../../AliveLibAO/SlogSpawner.hpp"
 #include "../../AliveLibAO/Rock.hpp"
 #include "../../AliveLibAO/RockSack.hpp"
-#include "../../AliveLibAO/SlogHut.hpp"
+#include "../../AliveLibAO/ZzzSpawner.hpp"
 #include "../../AliveLibAO/SecurityClaw.hpp"
 #include "../../AliveLibAO/SecurityDoor.hpp"
 #include "../../AliveLibAO/TimedMine.hpp"
@@ -1353,9 +1353,9 @@ struct Path_RockSack final : public ReliveAPI::TlvObjectBaseAO
     }
 };
 
-struct Path_SlogHut final : public ReliveAPI::TlvObjectBaseAO
+struct Path_ZzzSpawner final : public ReliveAPI::TlvObjectBaseAO
 {
-    CTOR_AO(Path_SlogHut, "SlogHut", AO::TlvTypes::SlogHut_111)
+    CTOR_AO(Path_ZzzSpawner, "ZzzSpawner", AO::TlvTypes::ZzzSpawner_111)
     {
         ADD("Scale", mTlv.field_18_scale);
         ADD("Switch ID", mTlv.field_1A_switch_id);

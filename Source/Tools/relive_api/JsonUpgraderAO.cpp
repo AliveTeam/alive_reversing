@@ -33,13 +33,13 @@ class Upgrader3To4 final : public IJsonUpgrader
 public:
     std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::basic_json<>& rootObj) override
     {
-        const RemapNumberToEnum abeSpawnDir = { {0, "Right"}, {1, "Left"} };
+        const RemapEnums abeSpawnDir = { {"Left", "Right"}, {"Right", "Left"}};
         upgrader.RemapMapObjectPropertyValues(rootObj, "ContinuePoint", "Abe Spawn Direction", abeSpawnDir);
         upgrader.RenameMapObjectProperty(rootObj, "MeatSaw", "Switch Max TIme Off", "Switch Max Time Off");
         upgrader.RenameMapObjectProperty(rootObj, "LiftPoint", "Point ID", "Lift Point ID");
         upgrader.RenameMapObjectProperty(rootObj, "LiftMover", "Switch ID", "Lift Mover Switch ID");
         upgrader.RenameMapObjectProperty(rootObj, "LiftMover", "Lift ID", "Target Lift Point ID");
-
+        upgrader.RenameMapObjectStructure(rootObj, "SlogHut", "ZzzSpawner");
         return rootObj.dump(4);
     }
 };

@@ -128,7 +128,7 @@ void TypesCollectionAE::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_BoneBag);
     REGISTER_TYPE_AE(AETlvs::Path_SecurityClaw);
     REGISTER_TYPE_AE(AETlvs::Path_FootSwitch);
-    REGISTER_TYPE_AE(AETlvs::Path_SlogHut);
+    REGISTER_TYPE_AE(AETlvs::Path_ZzzSpawner);
     REGISTER_TYPE_AE(AETlvs::Path_SlogSpawner);
     REGISTER_TYPE_AE(AETlvs::Path_MainMenuController);
     REGISTER_TYPE_AE(AETlvs::Path_Null_63);

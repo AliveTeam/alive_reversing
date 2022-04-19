@@ -77,7 +77,7 @@
 #include "SligSpawner.hpp"
 #include "ScrabSpawner.hpp"
 #include "SlogSpawner.hpp"
-#include "SlogHut.hpp"
+#include "ZzzSpawner.hpp"
 #include "ParamiteWebLine.hpp"
 #include "ExplosionSet.hpp"
 #include "ColourfulMeter.hpp"
@@ -1440,14 +1440,14 @@ EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_SlogHut_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+EXPORT void CC Factory_ZzzSpawner_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        auto pSlogHut = ae_new<SlogHut>();
-        if (pSlogHut)
+        auto pZzzSpawner = ae_new<ZzzSpawner>();
+        if (pZzzSpawner)
         {
-            pSlogHut->ctor_4C4070(static_cast<Path_SlogHut*>(pTlv), tlvInfo.all);
+            pZzzSpawner->ctor_4C4070(static_cast<Path_ZzzSpawner*>(pTlv), tlvInfo.all);
         }
     }
 }
@@ -2216,7 +2216,7 @@ const PathFunctionTable kObjectFactory = {
      Factory_GasCountdown_4DA480,
      Factory_4D6C50, // Remove Shrykull ??
      Factory_GasEmitter_4D8540,
-     Factory_SlogHut_4DA500,
+     Factory_ZzzSpawner_4DA500,
      Factory_Glukkon_4DA550,
      Factory_KillUnsavedMudokons_4DA6E0,
      Factory_SoftLanding_4D6950,

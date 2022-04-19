@@ -97,8 +97,8 @@ SET(AliveLibSrcAO
    AbilityRing.cpp
    BirdPortal.hpp
    BirdPortal.cpp
-   SlogHut.hpp
-   SlogHut.cpp
+   ZzzSpawner.hpp
+   ZzzSpawner.cpp
    OrbWhirlWindParticle.hpp
    OrbWhirlWindParticle.cpp
    OrbWhirlWind.hpp

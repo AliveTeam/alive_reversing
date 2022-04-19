@@ -20,6 +20,7 @@ public:
     {
         upgrader.RenameMapObjectProperty(rootObj, "LiftMover", "Lift Point Switch ID", "Target Lift Point ID");
         upgrader.RenameMapObjectProperty(rootObj, "LiftPoint", "Lift Point Switch ID", "Lift Point ID");
+        upgrader.RenameMapObjectStructure(rootObj, "SlogHut", "ZzzSpawner");
         return rootObj.dump(4);
     }
 };

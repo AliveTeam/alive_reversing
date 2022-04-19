@@ -8,25 +8,25 @@
 
 namespace AO {
 
-struct Path_SlogHut final : public Path_TLV
+struct Path_ZzzSpawner final : public Path_TLV
 {
     Scale_short field_18_scale;
     s16 field_1A_switch_id;
     s16 field_1C_Zzz_delay;
     s16 field_1E_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_SlogHut, 0x20);
+ALIVE_ASSERT_SIZEOF(Path_ZzzSpawner, 0x20);
 
-class SlogHut final : public BaseGameObject
+class ZzzSpawner final : public BaseGameObject
 {
 public:
-    EXPORT SlogHut* ctor_472C80(Path_SlogHut* pTlv, s32 tlvInfo);
+    EXPORT ZzzSpawner* ctor_472C80(Path_ZzzSpawner* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_472CF0();
 
     virtual BaseGameObject* VDestructor(s32 flags) override;
 
-    EXPORT SlogHut* Vdtor_472E30(s32 flags);
+    EXPORT ZzzSpawner* Vdtor_472E30(s32 flags);
 
     virtual void VScreenChanged() override;
 
@@ -46,6 +46,6 @@ public:
     s16 field_28_Zzz_delay;
     s16 field_2A_padding;
 };
-ALIVE_ASSERT_SIZEOF(SlogHut, 0x2C);
+ALIVE_ASSERT_SIZEOF(ZzzSpawner, 0x2C);
 
 } // namespace AO
