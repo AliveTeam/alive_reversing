@@ -1033,17 +1033,17 @@ struct CombinedAnimRecord final
     AnimDetails mAOData;
 };
 
-const PalRecord PalRec(PalId toFind);
-const AnimRecord AnimRec(AnimId toFind);
-const BgAnimRecord BgAnimRec(s32 toFind);
+[[nodiscard]] const PalRecord PalRec(PalId toFind);
+[[nodiscard]] const AnimRecord AnimRec(AnimId toFind);
+[[nodiscard]] const BgAnimRecord BgAnimRec(s32 toFind);
 void FrameTableOffsetExists(int frameTableOffset, bool isAe, int maxW, int maxH);
 void FrameTableOffsetExists(int frameTableOffset, bool isAe);
 
 namespace AO 
 {
-    const PalRecord PalRec(PalId toFind);
-    const AnimRecord AnimRec(AnimId toFind);
-    const BgAnimRecord BgAnimRec(s32 toFind);
+    [[nodiscard]] const PalRecord PalRec(PalId toFind);
+    [[nodiscard]] const AnimRecord AnimRec(AnimId toFind);
+    [[nodiscard]] const BgAnimRecord BgAnimRec(s32 toFind);
 }
 
 // AE background animation id's

@@ -9,8 +9,16 @@
 #include <type_traits>
 #include <vector>
 
+enum class AnimId;
+
 namespace ReliveAPI {
 class Context;
+
+enum class AddResourceTo
+{
+    File,           // Resource is a file that needs adding to the lvl archive
+    CameraBlock,    // Resource needs adding to the camera as a block
+};
 
 // Defined here as it depends on a full definition of PropertyCollection
 template <class T>
@@ -66,8 +74,24 @@ public:
 
     [[nodiscard]] s32 InstanceNumber() const;
 
+    void AddResource(AnimId res, AddResourceTo type);
+
+    struct RequiredResourceRecord final
+    {
+        AnimId mResource;
+        AddResourceTo mAddMeTo;
+    };
+    
+    [[nodiscard]] const std::vector<RequiredResourceRecord>& Resources() const
+    {
+        return mRequiredResources;
+    }
+
 protected:
     std::string mStructTypeName;
     s32 mInstanceNumber = 0;
+
+private:
+    std::vector<RequiredResourceRecord> mRequiredResources;
 };
 } // namespace ReliveAPI

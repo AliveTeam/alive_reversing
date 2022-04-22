@@ -53,4 +53,10 @@ void TlvObjectBase::InstanceFromJson(TypesCollectionBase& types, const jsonxx::O
 {
     return mInstanceNumber;
 }
+
+void TlvObjectBase::AddResource(AnimId res, AddResourceTo type)
+{
+    mRequiredResources.push_back({res, type});
+}
+
 } // namespace ReliveAPI

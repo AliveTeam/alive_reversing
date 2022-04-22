@@ -66,9 +66,14 @@ export(TARGETS AliveLibAE_reliveapi FILE AliveLibAE_reliveapi.cmake)
 set_property(TARGET AliveLibAE_reliveapi PROPERTY FOLDER "ReliveAPI")
 
 add_library(AliveLibCommon_reliveapi
+    ../../AliveLibCommon/AnimResources.cpp
     ../../AliveLibCommon/CamDecompressor.cpp
     ../../AliveLibCommon/CompressionType_4Or5.cpp
     )
+target_include_directories(AliveLibCommon_reliveapi PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
+    $<INSTALL_INTERFACE:include>
+    PRIVATE ${CMAKE_BINARY_DIR})
 export(TARGETS AliveLibCommon_reliveapi FILE AliveLibCommon_reliveapi.cmake)
 set_property(TARGET AliveLibCommon_reliveapi PROPERTY FOLDER "ReliveAPI")
 

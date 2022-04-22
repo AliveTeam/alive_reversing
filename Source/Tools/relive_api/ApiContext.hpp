@@ -2,6 +2,7 @@
 
 #include "relive_api_exceptions.hpp"
 #include <vector>
+#include <set>
 
 namespace ReliveAPI {
 
@@ -33,9 +34,30 @@ namespace ReliveAPI {
             throw ReliveAPI::JsonNeedsUpgradingException(apiVersion, jsonVersion);
         }
 
+        void LvlFileMissing(const std::string& lvlFileName)
+        {
+            mMissingLvlFiles.insert(lvlFileName);
+        }
+
+        void LvlFileMissingForCam(const std::string& lvlFileName)
+        {
+            mMissingLvlFilesForCams.insert(lvlFileName);
+        }
+
+        void LvlChunkMissingForCam(const std::string& lvlFileName, u32 resId)
+        {
+            mMissingCamResources[lvlFileName].insert(resId);
+        }
+
+        void SourceLvlOpenFailure(const std::string& lvlName)
+        {
+            mSourceLvlOpenFailures.insert(lvlName);
+        }
+
         bool Ok() const
         {
-            return mMissingJsonProperties.empty() && mRemappedEnumValues.empty();
+            // mSourceLvlOpenFailures isn't an error if one lvl file to opened but we found all the resource we needed in some other lvl
+            return mMissingJsonProperties.empty() && mRemappedEnumValues.empty() && mMissingCamResources.empty() && mMissingLvlFiles.empty() && mMissingLvlFilesForCams.empty();
         }
 
         struct MissingJsonPropertyRecord final
@@ -61,8 +83,32 @@ namespace ReliveAPI {
             return mRemappedEnumValues;
         }
 
+        const std::set<std::string>& SourceLvlOpenFailures() const
+        {
+            return mSourceLvlOpenFailures;
+        }
+
+        const std::map<std::string, std::set<u32>>& MissingCamResources() const
+        {
+            return mMissingCamResources;
+        }
+
+        const std::set<std::string>& MissingLvlFiles() const
+        {
+            return mMissingLvlFiles;
+        }
+
+        const std::set<std::string>& MissingLvlFilesForCams() const
+        {
+            return mMissingLvlFilesForCams;
+        }
+
     private:
         std::vector<MissingJsonPropertyRecord> mMissingJsonProperties;
         std::vector<UnknownEnumValueRecord> mRemappedEnumValues;
+        std::set<std::string> mSourceLvlOpenFailures;
+        std::map<std::string, std::set<u32>> mMissingCamResources;
+        std::set<std::string> mMissingLvlFiles;
+        std::set<std::string> mMissingLvlFilesForCams;
     };
 }

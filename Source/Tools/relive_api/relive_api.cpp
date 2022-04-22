@@ -513,7 +513,8 @@ static std::vector<u8> ConstructFG1Data(const CameraImageAndLayers& imageAndLaye
     return std::vector<u8>(tmpStr.begin(), tmpStr.end());
 }
 
-static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::vector<CameraNameAndTlvBlob>& camerasAndMapObjects, bool allowFullFG1Blocks)
+template<typename FnLoadResources>
+static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::vector<CameraNameAndTlvBlob>& camerasAndMapObjects, bool allowFullFG1Blocks, FnLoadResources fnLoadResource)
 {
     // Rebuild cameras/FG1 and embedded resource blocks
     for (const CameraNameAndTlvBlob& camIter : camerasAndMapObjects)
@@ -521,7 +522,16 @@ static void ImportCamerasAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inpu
         // Get camera ID from the name for the Bits chunk
         if (!camIter.mName.empty())
         {
-            Detail::ImportCameraAndFG1(fileDataBuffer, inputLvl, camIter.mName + ".CAM", camIter.mCameraAndLayers, allowFullFG1Blocks);
+            std::vector<LvlFileChunk> additionalResourceBlocks;
+            for (const AnimId id : camIter.mRequiredResources)
+            {
+                std::optional<LvlFileChunk> res = fnLoadResource(id);
+                if (res)
+                {
+                    additionalResourceBlocks.emplace_back(std::move(*res));
+                }
+            }
+            Detail::ImportCameraAndFG1(fileDataBuffer, inputLvl, camIter.mName + ".CAM", camIter.mCameraAndLayers, allowFullFG1Blocks, additionalResourceBlocks);
         }
     }
 }
@@ -545,11 +555,111 @@ static void WriteStringTable(const std::vector<std::string>& strings, ByteStream
     }
 }
 
+class ResourceLocator final
+{
+public:
+    ResourceLocator(IFileIO& fileIO, const std::vector<std::string>& lvlResourceSources, Context& context)
+        : mFileIO(fileIO)
+        , mLvlResourceSources(lvlResourceSources)
+        , mContext(context)
+    {
+
+    }
+
+    std::optional<ChunkedLvlFile> FindFile(const AnimRecord& animRec)
+    {
+        auto file = FindInSourceLvls(animRec);
+        if (!file)
+        {
+            mContext.LvlFileMissing(animRec.mBanName);
+        }
+        return file;
+    }
+
+    std::optional<LvlFileChunk> FindChunk(const AnimRecord& animRec)
+    {
+        auto file = FindInSourceLvls(animRec);
+        if (!file)
+        {
+            mContext.LvlFileMissingForCam(animRec.mBanName);
+            return {};
+        }
+
+        auto chunk = file->ChunkById(animRec.mResourceId);
+        if (!chunk)
+        {
+            mContext.LvlChunkMissingForCam(animRec.mBanName, animRec.mResourceId);
+        }
+        return chunk;
+    }
+
+private:
+    std::optional<ChunkedLvlFile> FindInSourceLvls(const AnimRecord& animRec)
+    {
+        for (auto& lvl : mOpenLvls)
+        {
+            auto file = FindInLvl(*lvl, animRec);
+            if (file)
+            {
+                return file;
+            }
+        }
+
+        auto nextLvl = OpenNextLvl();
+        if (nextLvl)
+        {
+            return FindInLvl(*nextLvl, animRec);
+        }
+
+        return {};
+    }
+
+    LvlReader* OpenNextLvl()
+    {
+        if (mLvlResourceSources.empty())
+        {
+            return nullptr;
+        }
+
+        const auto lvlFileName = mLvlResourceSources[0];
+        mLvlResourceSources.erase(mLvlResourceSources.begin());
+
+        auto lvlReader = std::make_unique<LvlReader>(mFileIO, lvlFileName.c_str());
+        if (lvlReader->IsOpen())
+        {
+            LvlReader* holdPtr = lvlReader.get();
+            mOpenLvls.emplace_back(std::move(lvlReader));
+            return holdPtr;
+        }
+        else
+        {
+            mContext.SourceLvlOpenFailure(lvlFileName);
+        }
+        return nullptr;
+    }
+
+    std::optional<ChunkedLvlFile> FindInLvl(LvlReader& reader, const AnimRecord& animRec)
+    {
+        auto data = reader.ReadFile(animRec.mBanName);
+        if (data)
+        {
+            return ChunkedLvlFile(std::move(*data));
+        }
+        return {};
+    }
+
+    IFileIO& mFileIO;
+    std::vector<std::string> mLvlResourceSources;
+    Context& mContext;
+
+    std::vector<std::unique_ptr<LvlReader>> mOpenLvls;
+};
+
 template <typename JsonReaderType>
-static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile, bool skipCamsAndFG1, bool allowFullFG1Blocks, Context& context)
+static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& jsonInputFile, const std::string& inputLvlFile, const std::string& outputLvlFile, bool skipCamsAndFG1, bool allowFullFG1Blocks, Context& context, const std::vector<std::string>& lvlResourceSources)
 {
     JsonReaderType doc;
-    auto [camerasAndMapObjects, collisionLines] = doc.Load(fileIO, jsonInputFile, context);
+    auto loadedJsonData = doc.Load(fileIO, jsonInputFile, context);
 
     LvlWriter inputLvl(fileIO, inputLvlFile.c_str());
     if (!inputLvl.IsOpen())
@@ -572,7 +682,7 @@ static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fil
     {
         for (s32 x = 0; x < doc.mRootInfo.mXSize; x++)
         {
-            CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
+            CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(loadedJsonData.mPerCamData, x, y);
             if (pItem)
             {
                 // We have a camera
@@ -604,7 +714,7 @@ static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fil
     const size_t collisionOffsetPos = s.WritePos();
 
     // Write collision lines
-    for (const auto& line : collisionLines)
+    for (const auto& line : loadedJsonData.mCollisions)
     {
         WriteCollisionLine(s, line);
     }
@@ -615,7 +725,7 @@ static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fil
         s32 y = 0;
         s32 objectsOffset = 0;
     };
-    
+
     const size_t objectOffsetPos = s.WritePos();
 
     // Write TLVs
@@ -624,7 +734,7 @@ static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fil
     {
         for (s32 x = 0; x < doc.mRootInfo.mXSize; x++)
         {
-            CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(camerasAndMapObjects, x, y);
+            CameraNameAndTlvBlob* pItem = ItemAtXY<CameraNameAndTlvBlob>(loadedJsonData.mPerCamData, x, y);
             if (pItem)
             {
                 if (pItem->mTlvBlobs.empty())
@@ -673,7 +783,7 @@ static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fil
     // Construct chunk with new "hard coded" info
     PerPathExtension pathExtData = {};
     pathExtData.mSize = sizeof(PerPathExtension);
-    pathExtData.mNumCollisionLines = static_cast<u32>(collisionLines.size());
+    pathExtData.mNumCollisionLines = static_cast<u32>(loadedJsonData.mCollisions.size());
     pathExtData.mIndexTableOffset = static_cast<u32>(indexTableOffSetPos);
     pathExtData.mObjectOffset = static_cast<u32>(objectOffsetPos);
     pathExtData.mXSize = doc.mRootInfo.mXSize;
@@ -712,9 +822,30 @@ static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fil
     // Add or replace the original path BND in the lvl
     inputLvl.AddFile(doc.mRootInfo.mPathBnd.c_str(), std::move(pathBndFile).Data());
 
+    ResourceLocator resourceLocator(fileIO, lvlResourceSources, context);
+    auto findResourceForCam = [&](AnimId id)
+    {
+        const AnimRecord& rec = game == Game::AE ? AnimRec(id) : AO::AnimRec(id);
+        return resourceLocator.FindChunk(rec);
+    };
+
     if (!skipCamsAndFG1)
     {
-        ImportCamerasAndFG1(fileDataBuffer, inputLvl, camerasAndMapObjects, allowFullFG1Blocks);
+        ImportCamerasAndFG1(fileDataBuffer, inputLvl, loadedJsonData.mPerCamData, allowFullFG1Blocks, findResourceForCam);
+    }
+
+    // Add any BAN/BNDs required for objects in this path that are missing
+    for (const AnimId& id : loadedJsonData.mResourcesRequiredInLvl)
+    {
+        const AnimRecord& rec = game == Game::AE ? AnimRec(id) : AO::AnimRec(id);
+        if (!inputLvl.FindFile(rec.mBanName))
+        {
+            auto banFile = resourceLocator.FindFile(rec);
+            if (banFile)
+            {
+                inputLvl.AddFile(rec.mBanName, banFile->Data());
+            }
+        }
     }
 
     // Write out the updated lvl to disk
@@ -887,7 +1018,7 @@ void DebugDumpTlvs(const std::string& prefix, IFileIO& fileIO, const std::string
     return OpenPathBndResult::NoPaths;
 }
 
-void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& /*lvlResourceSources*/, bool skipCamerasAndFG1, Context& context)
+void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, const std::string& jsonInputFile, const std::string& inputLvl, const std::string& outputLvlFile, const std::vector<std::string>& lvlResourceSources, bool skipCamerasAndFG1, Context& context)
 {
     JsonMapRootInfoReader rootInfo;
     rootInfo.Read(fileIO, jsonInputFile);
@@ -899,11 +1030,11 @@ void ImportPathJsonToBinary(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, co
 
     if (rootInfo.mMapRootInfo.mGame == "AO")
     {
-        SaveBinaryPathToLvl<JsonReaderAO>(fileIO, Game::AO, fileDataBuffer, fileIO, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, false, context);
+        SaveBinaryPathToLvl<JsonReaderAO>(fileIO, Game::AO, fileDataBuffer, fileIO, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, false, context, lvlResourceSources);
     }
     else
     {
-        SaveBinaryPathToLvl<JsonReaderAE>(fileIO, Game::AE, fileDataBuffer, fileIO, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, true, context);
+        SaveBinaryPathToLvl<JsonReaderAE>(fileIO, Game::AE, fileDataBuffer, fileIO, jsonInputFile, inputLvl, outputLvlFile, skipCamerasAndFG1, true, context, lvlResourceSources);
     }
 }
 
@@ -938,7 +1069,7 @@ void ExportPathBinaryToJson(std::vector<u8>& fileDataBuffer, IFileIO& fileIO, co
     }
 }
 
-void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers, bool allowFullFG1Blocks)
+void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers, bool allowFullFG1Blocks, const std::vector<LvlFileChunk>& additionalResourceBlocks)
 {
     const u32 bitsId = CamConverter::CamBitsIdFromName(camName);
 
@@ -1009,6 +1140,15 @@ void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, co
     // Remove FG1 blocks
     camFile.RemoveChunksOfType(ResourceManager::Resource_FG1);
 
+    // Add any additional resources if not already present
+    for (const LvlFileChunk& chunkToAdd : additionalResourceBlocks)
+    {
+        if (!camFile.ChunkById(chunkToAdd.Id()))
+        {
+            camFile.AddChunk(chunkToAdd);
+        }
+    }
+
     if (imageAndLayers.HaveFG1Layers())
     {
         std::vector<u8> fg1Data = ConstructFG1Data(imageAndLayers, allowFullFG1Blocks);
@@ -1026,6 +1166,12 @@ void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, co
 
     // Add or update the CAM file
     inputLvl.AddFile(camName.c_str(), camFile.Data());
+}
+
+// Used by the integration tests - we don't want to publically expose LvlFileReader/Writer details
+void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers, bool allowFullFG1Blocks)
+{
+    ImportCameraAndFG1(fileDataBuffer, inputLvl, camName, imageAndLayers, allowFullFG1Blocks, {});
 }
 
 [[nodiscard]] std::unique_ptr<ChunkedLvlFile> OpenPathBnd(IFileIO& fileIO, const std::string& inputLvlFile, std::vector<u8>& fileDataBuffer)
