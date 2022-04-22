@@ -74,6 +74,7 @@ enum class OpenPathBndResult;
 struct PathBND;
 namespace Detail {
 [[nodiscard]] static OpenPathBndResult OpenPathBndGeneric(std::vector<u8>& fileDataBuffer, PathBND& ret, LvlReader& lvl, Game game, s32* pathId);
+void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, const std::string& camName, const CameraImageAndLayers& imageAndLayers, bool allowFullFG1Blocks, const std::vector<LvlFileChunk>& additionalResourceBlocks);
 }
 
 void SetAliveFatalCallBack(TAliveFatalCb callBack)
