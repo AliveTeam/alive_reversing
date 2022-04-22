@@ -560,6 +560,8 @@ struct Path_ElectricWall final : public ReliveAPI::TlvObjectBaseAO
         ADD("Scale", mTlv.field_18_scale);
         ADD("Switch ID", mTlv.field_1A_switch_id);
         ADD("Start State", mTlv.field_1C_start_state);
+
+        ADD_RESOURCE(AnimId::Electric_Wall, ReliveAPI::AddResourceTo::CameraBlock);
     }
 };
 

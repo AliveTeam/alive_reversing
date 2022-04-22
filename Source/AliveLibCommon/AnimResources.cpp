@@ -1,6 +1,6 @@
-#include "stdafx_common.h"
 #include "AnimResources.hpp"
 #include "Sys_common.hpp"
+#include "logger.hpp"
 
 constexpr PalDetails kNullPalDetails = {};
 constexpr CombinedPalRecord kPalRecords[] = {

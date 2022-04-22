@@ -125,6 +125,12 @@ public:
         }
     }
 
+    void AddChunk(const LvlFileChunk& chunkToAdd)
+    {
+        LvlFileChunk copy = chunkToAdd;
+        AddChunk(std::move(copy));
+    }
+
     void AddChunk(LvlFileChunk&& chunkToAdd)
     {
         for (auto& chunk : mChunks)
@@ -388,6 +394,11 @@ public:
         return mReader.ReadFileInto(target, fileName);
     }
 
+    [[nodiscard]] bool FindFile(const char_type* fileName)
+    {
+        return GetNewOrEditedFileRecord(fileName) != nullptr;
+    }
+
     [[nodiscard]] std::optional<std::vector<u8>> ReadFile(const char_type* fileName)
     {
         // Return added/edited file first
@@ -541,7 +552,7 @@ public:
         // Ensure termination padding to a multiple of the sector size exists at EOF
         if (!outFile->PadEOF(2048))
         {
-            throw ReliveAPI::IOReadException(lvlName);
+            throw ReliveAPI::IOWriteException(lvlName);
         }
 
         return true;
