@@ -51,7 +51,7 @@ static ReliveAPI::TAliveFatalCb fnAliveFatalCb = nullptr;
 
 
 // ditto for AliveLibCommon
-[[noreturn]] void ALIVE_FATAL(const char_type* msg)
+void ALIVE_FATAL(const char_type* msg)
 {
     if (fnAliveFatalCb)
     {

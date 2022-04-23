@@ -1,6 +1,7 @@
 #include "AnimResources.hpp"
-#include "Sys_common.hpp"
 #include "logger.hpp"
+
+void ALIVE_FATAL(const char_type* msg);
 
 constexpr PalDetails kNullPalDetails = {};
 constexpr CombinedPalRecord kPalRecords[] = {

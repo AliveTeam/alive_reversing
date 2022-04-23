@@ -3,6 +3,7 @@
 #include "relive_api_exceptions.hpp"
 #include <vector>
 #include <set>
+#include <map>
 
 namespace ReliveAPI {
 
