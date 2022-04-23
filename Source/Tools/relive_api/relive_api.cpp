@@ -51,16 +51,16 @@ static ReliveAPI::TAliveFatalCb fnAliveFatalCb = nullptr;
 
 
 // ditto for AliveLibCommon
-[[noreturn]] void ALIVE_FATAL(const char_type* msg)
+[[noreturn]] void ALIVE_FATAL(const char_type* errMsg)
 {
     if (fnAliveFatalCb)
     {
-        fnAliveFatalCb(msg);
+        fnAliveFatalCb(errMsg);
     }
-    else
-    {
-        abort();
-    }
+    // fnAliveFatalCb should throw or exit - compiler doesn't know this and we can't
+    // mark a function pointer as noreturn. So abort in the impossible case that the function
+    // pointer impl does return.
+    abort();
 }
 
 void CC Collisions::Factory_4188A0(const CollisionInfo*, const u8*)
