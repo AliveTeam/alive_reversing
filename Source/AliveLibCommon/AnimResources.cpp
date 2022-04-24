@@ -1524,8 +1524,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Foot_Switch_Vault_Idle, { "VLTTRIGR.BAN", 972, 72, 18, kTriggerResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Foot_Switch_Vault_Pressed, { "VLTTRIGR.BAN", 992, 72, 18, kTriggerResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Grenade, 
-        { "GRENADE.BAN", 1252, 17, 11, kGrenadeResID, PalId::Default},
-        { "GRENADE.BAN", 1132, 17, 11, AO::kGrenadeAOResID, PalId::Default}
+        { "GTHROW.BND", 1252, 17, 11, kGrenadeResID, PalId::Default},
+        { "GTHROW.BND", 1132, 17, 11, AO::kGrenadeAOResID, PalId::Default}
     },
     {AnimId::BoomMachine_Button_Off,
         { "GMACHINE.BND1", 1736, 26, 17, kR1buttonResID, PalId::Default},
@@ -1552,8 +1552,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     // TODO: more rope BAN'S?
 
     {AnimId::Meat, 
-        { "MEAT.BAN", 488, 17, 9, kMeatResID, PalId::Default},
-        { "MEAT.BAN", 500, 18, 9, AO::kMeatAOResID, PalId::Default}
+        { "MTHROW.BND", 488, 17, 9, kMeatResID, PalId::Default},
+        { "MTHROW.BND", 500, 18, 9, AO::kMeatAOResID, PalId::Default}
     },
     {AnimId::MeatSack_Idle,
         { "MEATSACK.BAN", 15848, 93, 86, kMeatSackResID, PalId::Default},
