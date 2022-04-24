@@ -606,13 +606,23 @@ private:
             }
         }
 
-        auto nextLvl = OpenNextLvl();
-        if (nextLvl)
+        for (;;)
         {
-            return FindInLvl(*nextLvl, animRec);
-        }
-
-        return {};
+            auto nextLvl = OpenNextLvl();
+            if (nextLvl)
+            {
+                auto file = FindInLvl(*nextLvl, animRec);
+                if (file)
+                {
+                    return file;
+                }
+            }
+            else
+            {
+                // No more lvls to try
+                return {};
+            }
+        };
     }
 
     LvlReader* OpenNextLvl()
