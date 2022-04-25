@@ -41,6 +41,7 @@
 #include "../../AliveLibAE/LiftMover.hpp"
 #include "../../AliveLibAE/RockSack.hpp"
 #include "../../AliveLibAE/TimerTrigger.hpp"
+#include "../../AliveLibAE/TimedMine.hpp"
 #include "../../AliveLibAE/MotionDetector.hpp"
 #include "../../AliveLibAE/MineCar.hpp"
 #include "../../AliveLibAE/ExplosionSet.hpp"
@@ -265,6 +266,19 @@ struct Path_Pulley final : public Path_TLV
 };
 
 namespace AETlvs {
+
+struct Path_TimedMine final : public ReliveAPI::TlvObjectBaseAE
+{
+    CTOR_AE(Path_TimedMine, "TimedMine", TlvTypes::TimedMine_14)
+    {
+        ADD("Switch ID (Unused?)", mTlv.field_10_switch_id);
+        ADD("State (Unused?)", mTlv.field_12_state);
+        ADD("Scale", mTlv.field_14_scale);
+        ADD("Ticks Before Explosion", mTlv.field_16_ticks_before_explosion);
+        ADD("Disabled Resources", mTlv.field_18_disabled_resources);
+    }
+};
+
 struct Path_ElectricWall final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override

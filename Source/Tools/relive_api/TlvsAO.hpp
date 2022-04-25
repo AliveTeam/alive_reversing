@@ -1426,7 +1426,7 @@ struct Path_TimedMine final : public ReliveAPI::TlvObjectBaseAO
         ADD("Switch ID(Unused?)", mTlv.field_18_switch_id);
         ADD("State", mTlv.field_1A_state);
         ADD("Scale", mTlv.field_1C_scale);
-        ADD("Ticks Before Explosion", mTlv.field_1E_ticks_before_explode);
+        ADD("Ticks Before Explosion", mTlv.field_1E_ticks_before_explosion);
         ADD("Disabled Resources", mTlv.field_20_disable_resources);
     }
 };
