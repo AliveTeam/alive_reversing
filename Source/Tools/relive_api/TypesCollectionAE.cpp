@@ -139,6 +139,7 @@ void TypesCollectionAE::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_ParamiteWebLine);
     REGISTER_TYPE_AE(AETlvs::Path_MeatSack);
     REGISTER_TYPE_AE(AETlvs::Path_TorturedMudokon);
+    REGISTER_TYPE_AE(AETlvs::Path_TimedMine);
 
 #undef REGISTER_TYPE_AE
 
