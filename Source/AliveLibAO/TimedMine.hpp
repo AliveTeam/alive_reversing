@@ -12,7 +12,7 @@ struct Path_TimedMine final : public Path_TLV
     s16 field_18_switch_id;
     s16 field_1A_state;
     Scale_short field_1C_scale;
-    s16 field_1E_ticks_before_explode;
+    s16 field_1E_ticks_before_explosion;
     s16 field_20_disable_resources;
     s16 field_22_pad;
 };
@@ -49,7 +49,7 @@ private:
 
 public:
     s16 field_10C_armed;
-    u16 field_10E_explode_timeout;
+    u16 field_10E_ticks_before_explosion;
     s32 field_110_tlvInfo;
     s32 field_114_timer;
     Animation field_118_anim;

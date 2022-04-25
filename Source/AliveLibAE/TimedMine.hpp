@@ -9,10 +9,10 @@
 
 struct Path_TimedMine final : public Path_TLV
 {
-    s16 field_10_id;
+    s16 field_10_switch_id;
     s16 field_12_state;
-    s16 field_14_scale;
-    s16 field_16_timeout;
+    Scale_short field_14_scale;
+    s16 field_16_ticks_before_explosion;
     s32 field_18_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF(Path_TimedMine, 0x1C);
@@ -49,7 +49,7 @@ private:
 
 public:
     u16 field_118_armed;
-    u16 field_11A_explode_timeout;
+    u16 field_11A_ticks_before_explosion;
     u32 field_11C_tlv;
     u32 field_120_gnframe;
     Animation field_124_animation;
