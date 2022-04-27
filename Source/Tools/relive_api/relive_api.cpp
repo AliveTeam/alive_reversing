@@ -279,14 +279,14 @@ std::string UpgradePathJson(IFileIO& fileIO, const std::string& jsonFile)
     if (rootInfo.mMapRootInfo.mGame == "AO")
     {
         JsonUpgraderAO upgrader;
-        TypesCollectionAE aeTypes;
-        return upgrader.Upgrade(aeTypes, fileIO, jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
+        TypesCollectionAO aoTypes;
+        return upgrader.Upgrade(aoTypes, fileIO, jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
     }
     else
     {
         JsonUpgraderAE upgrader;
-        TypesCollectionAO aoTypes;
-        return upgrader.Upgrade(aoTypes, fileIO, jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
+        TypesCollectionAE aeTypes;
+        return upgrader.Upgrade(aeTypes, fileIO, jsonFile, rootInfo.mMapRootInfo.mVersion, GetApiVersion());
     }
 }
 
