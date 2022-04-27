@@ -195,11 +195,11 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
             field_18C_how_far_to_walk = FP_FromInteger(liftMudTlv->field_18_how_far_to_walk);
             field_110_lift_switch_id = liftMudTlv->field_1A_lift_switch_id;
 
-            field_144_flags.Set(Flags_144::e144_Bit5_unused, liftMudTlv->field_1C_direction == XDirection_short::eRight_1);
+            field_144_flags.Set(Flags_144::e144_Bit5_unused, liftMudTlv->field_1C_direction == Path_LiftMudokon::Direction::eLeft_1);
             field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
             field_144_flags.Clear(Flags_144::e144_Bit11_bDeaf);
 
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction == XDirection_short::eRight_1);
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction == Path_LiftMudokon::Direction::eLeft_1);
 
             field_186_give_password = liftMudTlv->field_1E_give_password;
             field_184 = 1;

@@ -36,7 +36,7 @@ ExplosionSet* ExplosionSet::ctor_414CA0()
         field_44_start_delay = 0;
         field_46_spacing_multiplicator = 0;
         bEnabled_5C1BB6 = FALSE;
-        field_5C_flags.Clear(Flags_5C::eBit3);
+        field_5C_flags.Clear(Flags_5C::eBit3_Active);
         gObjList_drawables_5C1124->Push_Back(this);
     }
     return this;
@@ -81,9 +81,9 @@ void ExplosionSet::Init_4151D0(Path_ExplosionSet* pTlv)
 
     field_44_start_delay = pTlv->field_16_start_delay;
 
-    field_5C_flags.Set(Flags_5C::eBit1_big_rocks, pTlv->field_14_big_rocks == Choice_short::eYes_1);
+    field_5C_flags.Set(Flags_5C::eBit1_spawn_assets, pTlv->field_14_spawn_assets == Choice_short::eYes_1);
     field_5C_flags.Set(Flags_5C::eBit2_flipX, pTlv->field_18_start_direction == XDirection_short::eRight_1);
-    field_56_explosion_interval = pTlv->field_1A_explosion_interval;
+    field_56_asset_interval = pTlv->field_1A_asset_interval;
     field_58_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->field_1C_grid_spacing) * ScaleToGridSize_4498B0(field_50_scale));
     field_5A_increasing_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->field_1E_increasing_grid_spacing) * ScaleToGridSize_4498B0(field_50_scale));
     field_54_switch_id = pTlv->field_12_switch_id;
@@ -93,7 +93,7 @@ void ExplosionSet::Init_4151D0(Path_ExplosionSet* pTlv)
         bEnabled_5C1BB6 = static_cast<s16>(pTlv->field_10_bStart_enabled);
     }
 
-    field_5C_flags.Set(Flags_5C::eBit3);
+    field_5C_flags.Set(Flags_5C::eBit3_Active);
     field_46_spacing_multiplicator = 0;
 }
 
@@ -119,7 +119,7 @@ void ExplosionSet::vScreenChanged_415190()
 {
     if (gMap_5C3030.field_0_current_level == gMap_5C3030.field_A_level && gMap_5C3030.field_2_current_path == gMap_5C3030.field_C_path)
     {
-        field_5C_flags.Clear(Flags_5C::eBit3);
+        field_5C_flags.Clear(Flags_5C::eBit3_Active);
     }
     else
     {
@@ -188,7 +188,7 @@ void ExplosionSet::vUpdate_414E30()
             field_42 = -field_42;
         }
 
-        if (field_5C_flags.Get(Flags_5C::eBit3) && field_5C_flags.Get(Flags_5C::eBit1_big_rocks))
+        if (field_5C_flags.Get(Flags_5C::eBit3_Active) && field_5C_flags.Get(Flags_5C::eBit1_spawn_assets))
         {
             if (field_44_start_delay > 0)
             {
@@ -223,7 +223,7 @@ void ExplosionSet::vUpdate_414E30()
             }
 
             field_46_spacing_multiplicator++;
-            field_44_start_delay = field_56_explosion_interval;
+            field_44_start_delay = field_56_asset_interval;
 
             if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 && Math_RandomRange_496AB0(1, 5) >= 4)
             {
@@ -239,7 +239,7 @@ void ExplosionSet::vUpdate_414E30()
     }
     else
     {
-        if (field_5C_flags.Get(Flags_5C::eBit3))
+        if (field_5C_flags.Get(Flags_5C::eBit3_Active))
         {
             if (field_54_switch_id > 0)
             {

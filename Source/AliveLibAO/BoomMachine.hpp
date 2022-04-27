@@ -12,7 +12,12 @@ class GrenadeMachineNozzle;
 struct Path_BoomMachine final : public Path_TLV
 {
     Scale_short field_18_scale;
-    XDirection_short field_1A_nozzle_side;
+    enum class NozzleSide : s16
+    {
+        eRight_0 = 0,
+        eLeft_1 = 1
+    };
+    NozzleSide field_1A_nozzle_side;
     s16 field_1C_disabled_resources;
     s16 field_1E_number_of_grenades;
 };

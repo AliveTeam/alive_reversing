@@ -1222,10 +1222,19 @@ struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseAO
 
 struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::Path_BoomMachine::NozzleSide>("Enum_BoomMachineNozzleSide",
+            {
+                {AO::Path_BoomMachine::NozzleSide::eRight_0, "Right"},
+                {AO::Path_BoomMachine::NozzleSide::eLeft_1, "Left"},
+            });
+    }
+
     CTOR_AO(Path_BoomMachine, "BoomMachine", AO::TlvTypes::BoomMachine_97)
     {
         ADD("Scale", mTlv.field_18_scale);
-        ADD("Nozzle Side", mTlv.field_1A_nozzle_side); // TODO: enum values swapped?
+        ADD("Nozzle Side", mTlv.field_1A_nozzle_side);
         ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
         ADD("Number Of Grenades", mTlv.field_1E_number_of_grenades);
 
@@ -1392,7 +1401,7 @@ struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAO
         ADD("Max Slogs", mTlv.field_1A_max_slogs);
         ADD("Max Slogs At A Time", mTlv.field_1C_max_slogs_at_a_time);
         ADD("Start Direction", mTlv.field_1E_start_direction);
-        ADD("Slog Spawn Delay", mTlv.field_20_slog_spawn_delay);
+        ADD("Slog Spawn Interval", mTlv.field_20_slog_spawn_interval);
         ADD("Spawner Switch ID", mTlv.field_22_spawner_switch_id);
 
         ADD_RESOURCE(AnimId::Slog_AngryBark, ReliveAPI::AddResourceTo::File);
@@ -1658,6 +1667,15 @@ struct Path_ScrabNoFall final : public ReliveAPI::TlvObjectBaseAO
 // TODO: lift mudokon might not be the best name because this mud can also be a password giver
 struct Path_LiftMudokon final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::Path_LiftMudokon::Direction>("Enum_LiftMudokonDirection",
+            {
+                {AO::Path_LiftMudokon::Direction::eRight_0, "Right"},
+                {AO::Path_LiftMudokon::Direction::eLeft_1, "Left"},
+            });
+    }
+
     CTOR_AO(Path_LiftMudokon, "LiftMudokon", AO::TlvTypes::LiftMudokon_32)
     {
         ADD("How Far To Walk", mTlv.field_18_how_far_to_walk);

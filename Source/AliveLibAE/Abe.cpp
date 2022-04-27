@@ -865,7 +865,7 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_16E_bHaveInvisiblity = 0;
     field_170_invisible_timer = 0;
     field_174_unused = 0;
-    field_176_invisibility_id = 0;
+    field_176_invisibility_duration = 0;
     field_178_invisible_effect_id = -1;
     field_124_timer = sGnFrame_5C1B84;
     field_FC_pPathTLV = nullptr;
@@ -1163,7 +1163,7 @@ s32 CC Abe::CreateFromSaveState_44D4F0(const u8* pData)
     sActiveHero_5C1B68->field_178_invisible_effect_id = -1;
     sActiveHero_5C1B68->field_170_invisible_timer = pSaveState->invisible_timer;
     sActiveHero_5C1B68->field_174_unused = pSaveState->field_A0_unused;
-    sActiveHero_5C1B68->field_176_invisibility_id = pSaveState->field_A2_invisibility_id;
+    sActiveHero_5C1B68->field_176_invisibility_duration = pSaveState->field_A2_invisibility_duration;
 
     sActiveHero_5C1B68->field_17C_cam_idx = pSaveState->field_A4_cam_idx;
     sActiveHero_5C1B68->field_180_hand_stone_type = pSaveState->hand_stone_type;
@@ -2125,7 +2125,7 @@ s32 Abe::vGetSaveState_457110(u8* pSaveBuffer)
 
     pSaveState->invisible_timer = field_170_invisible_timer;
     pSaveState->field_A0_unused = field_174_unused;
-    pSaveState->field_A2_invisibility_id = field_176_invisibility_id;
+    pSaveState->field_A2_invisibility_duration = field_176_invisibility_duration;
     pSaveState->field_A4_cam_idx = field_17C_cam_idx;
     pSaveState->hand_stone_type = field_180_hand_stone_type;
     pSaveState->fmv_id = field_184_fmv_id;
@@ -7547,11 +7547,11 @@ void Abe::Motion_112_Chant_45B1C0()
 
                     if (field_170_invisible_timer)
                     {
-                        field_170_invisible_timer = field_170_invisible_timer + field_176_invisibility_id;
+                        field_170_invisible_timer += field_176_invisibility_duration;
                     }
                     else
                     {
-                        field_170_invisible_timer = sGnFrame_5C1B84 + field_176_invisibility_id;
+                        field_170_invisible_timer = sGnFrame_5C1B84 + field_176_invisibility_duration;
                     }
 
                     field_174_unused = 0;

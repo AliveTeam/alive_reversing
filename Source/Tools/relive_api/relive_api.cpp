@@ -256,7 +256,7 @@ enum class OpenPathBndResult
 
 // Increment when a breaking change to the JSON is made and implement an
 // upgrade step that converts from the last version to the current.
-constexpr s32 kApiVersion = 3;
+constexpr s32 kApiVersion = 4;
 
 [[nodiscard]] s32 GetApiVersion()
 {
