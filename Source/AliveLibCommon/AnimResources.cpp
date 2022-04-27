@@ -1528,19 +1528,19 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         { "GTHROW.BND", 1132, 17, 11, AO::kGrenadeAOResID, PalId::Default}
     },
     {AnimId::BoomMachine_Button_Off,
-        { "GMACHINE.BND1", 1736, 26, 17, kR1buttonResID, PalId::Default},
-        { "GMACHINE.BND1", 1600, 26, 17, AO::kR1buttonAOResID, PalId::Default} },
+        { "GMACHINE.BND", 1736, 26, 17, kR1buttonResID, PalId::Default},
+        { "GMACHINE.BND", 1600, 26, 17, AO::kR1buttonAOResID, PalId::Default} },
     {AnimId::BoomMachine_Button_On, 
-        { "GMACHINE.BND1", 1708, 26, 17, kR1buttonResID, PalId::Default},
-        { "GMACHINE.BND1", 1572, 26, 17, AO::kR1buttonAOResID, PalId::Default}
+        { "GMACHINE.BND", 1708, 26, 17, kR1buttonResID, PalId::Default},
+        { "GMACHINE.BND", 1572, 26, 17, AO::kR1buttonAOResID, PalId::Default}
     },
     {AnimId::BoomMachine_Nozzle_Idle,
-        { "GMACHINE.BND1", 3700, 67, 36, kR1bpipeResID, PalId::Default},
-        { "GMACHINE.BND1", 3616, 66, 36, AO::kR1bpipeAOResID, PalId::Default}
+        { "GMACHINE.BND", 3700, 67, 36, kR1bpipeResID, PalId::Default},
+        { "GMACHINE.BND", 3616, 66, 36, AO::kR1bpipeAOResID, PalId::Default}
     },
     {AnimId::BoomMachine_Nozzle_DropGrenade,
-        { "GMACHINE.BND1", 3672, 67, 36, kR1bpipeResID, PalId::Default},
-        { "GMACHINE.BND1", 3588, 66, 36, AO::kR1bpipeAOResID, PalId::Default} },
+        { "GMACHINE.BND", 3672, 67, 36, kR1bpipeResID, PalId::Default},
+        { "GMACHINE.BND", 3588, 66, 36, AO::kR1bpipeAOResID, PalId::Default} },
     {AnimId::HintFly, kNullAnimDetails, { "HINTFLY.BAN", 556, 10, 7, AO::kHintflyAOResID, PalId::Default} },
     {AnimId::Honey, kNullAnimDetails, { "HONEY.BAN", 3680, 62, 126, AO::kHoneyAOResID, PalId::Default} },
     {AnimId::Honey_Drip, kNullAnimDetails, { "HONEY.BAN", 3628, 62, 126, AO::kHoneyAOResID, PalId::Default} },
@@ -1561,7 +1561,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     },
     {AnimId::MeatSack_Hit,
         {"MEATSACK.BAN", 15888, 93, 86, kMeatSackResID, PalId::Default},
-        { "D2ELUM.BAN", 15728, 92, 86, AO::kMeatSackAOResID, PalId::Default} },
+        { "D2ELUM.BAN", 15728, 92, 86, AO::kMeatSackAOResID, PalId::Default} }, // F2P04C07.CAM
     
     {AnimId::MeatSaw_Idle, kNullAnimDetails, { "R1METSAW.BAN", 15200, 104, 36, AO::kMeatSawAOResID, PalId::Default} },
     {AnimId::MeatSaw_Moving, kNullAnimDetails, { "R1METSAW.BAN", 15232, 104, 36, AO::kMeatSawAOResID, PalId::Default }}, // similar to the one above but this meatsaw anim has a higher rpm
@@ -1604,14 +1604,14 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     },
     {AnimId::RockSack_Idle, 
         { "ROCKBAG.BAN", 29748, 71, 60u, kP2c2bagResID, PalId::Default},
-        { "E1BAG.BAN", 13756, 71, 60, AO::kP2c2bagAOResID, PalId::Default}
+        { "E1P02C03.CAM", 13756, 71, 60, AO::kP2c2bagAOResID, PalId::Default} // E1P02C03.CAM
     },
     {AnimId::RockSack_SoftHit, 
         { "ROCKBAG.BAN", 29772, 71, 60u, kP2c2bagResID, PalId::Default},
-        { "E1BAG.BAN", 13780, 71, 60, AO::kP2c2bagAOResID, PalId::Default} },
+        { "E1P02C03.CAM", 13780, 71, 60, AO::kP2c2bagAOResID, PalId::Default} },
     {AnimId::RockSack_HardHit,
         { "ROCKBAG.BAN", 29700, 71, 60u, kP2c2bagResID, PalId::Default},
-        { "E1BAG.BAN", 13708, 71, 60, AO::kP2c2bagAOResID, PalId::Default} },
+        { "E1P02C03.CAM", 13708, 71, 60, AO::kP2c2bagAOResID, PalId::Default} },
 
     {AnimId::Rope_R1, kNullAnimDetails, { "R1ROPES.BAN", 636, 4, 16, AO::kRopesAOResID, PalId::Default} },
     {AnimId::Rope_Lines, kNullAnimDetails, { "ROPES.BAN", 680, 5, 16, AO::kRopesAOResID, PalId::Default} },

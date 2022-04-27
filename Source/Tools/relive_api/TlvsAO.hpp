@@ -766,6 +766,15 @@ struct Path_SecurityOrb final : public ReliveAPI::TlvObjectBaseAO
     {
         ADD("Scale", mTlv.field_18_scale);
         ADD("Disabled Resources", mTlv.field_1A_disable_resources);
+
+        ADD_RESOURCE(AnimId::Abe_Head_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Abe_Arm_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Abe_Body_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slog_Head_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slog_Body_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Elum_Head_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Elum_Arm_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Elum_Body_Gib, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -880,6 +889,12 @@ struct Path_BellHammer final : public ReliveAPI::TlvObjectBaseAO
         ADD("Action", mTlv.field_1A_action);
         ADD("Scale", mTlv.field_1C_scale);
         ADD("Direction", mTlv.field_1E_direction);
+
+        ADD_RESOURCE(AnimId::BellHammer_Idle, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::BellHammer_Smashing, ReliveAPI::AddResourceTo::CameraBlock);
+
+        ADD_RESOURCE(AnimId::Elum_Land, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Elum_Idle, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1205,7 +1220,12 @@ struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseAO
         ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
         ADD("Number Of Grenades", mTlv.field_1E_number_of_grenades);
 
+        ADD_RESOURCE(AnimId::Mudokon_GrenadeMachineUse, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::Mudokon_HandstoneBegin, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::Mudokon_HandstoneEnd, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::Rock, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Grenade, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Meat, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::BoomMachine_Button_Off, ReliveAPI::AddResourceTo::CameraBlock);
         ADD_RESOURCE(AnimId::BoomMachine_Button_On, ReliveAPI::AddResourceTo::CameraBlock);
         ADD_RESOURCE(AnimId::BoomMachine_Nozzle_DropGrenade, ReliveAPI::AddResourceTo::CameraBlock);
@@ -1260,6 +1280,10 @@ struct Path_Slog final : public ReliveAPI::TlvObjectBaseAO
         ADD("Chase Delay", mTlv.field_24_chase_delay);
         ADD("Disabled Resources", mTlv.field_26_disabled_resources);
         ADD("Anger Switch ID", mTlv.field_28_anger_switch_id);
+        
+        ADD_RESOURCE(AnimId::Slog_AngryBark, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slog_Head_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slog_Dying, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1361,6 +1385,10 @@ struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAO
         ADD("Start Direction", mTlv.field_1E_start_direction);
         ADD("Slog Spawn Delay", mTlv.field_20_slog_spawn_delay);
         ADD("Spawner Switch ID", mTlv.field_22_spawner_switch_id);
+
+        ADD_RESOURCE(AnimId::Slog_AngryBark, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slog_Head_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slog_Dying, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1374,12 +1402,12 @@ struct Path_RockSack final : public ReliveAPI::TlvObjectBaseAO
         ADD("Scale", mTlv.field_1E_scale);
         ADD("Rock Amount", mTlv.field_20_rock_amount);
 
-        //ADD_RESOURCE(AnimId::Rock, ReliveAPI::AddResourceTo::CameraBlock);
-        //ADD_RESOURCE(AnimId::Grenade, ReliveAPI::AddResourceTo::CameraBlock);
-        //ADD_RESOURCE(AnimId::Meat, ReliveAPI::AddResourceTo::CameraBlock);
-        //ADD_RESOURCE(AnimId::RockSack_HardHit, ReliveAPI::AddResourceTo::CameraBlock);
-        //ADD_RESOURCE(AnimId::RockSack_Idle, ReliveAPI::AddResourceTo::CameraBlock);
-        //ADD_RESOURCE(AnimId::RockSack_SoftHit, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::Rock, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Grenade, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Meat, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::RockSack_HardHit, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::RockSack_Idle, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::RockSack_SoftHit, ReliveAPI::AddResourceTo::CameraBlock);
     }
 };
 
@@ -1401,6 +1429,15 @@ struct Path_SecurityClaw final : public ReliveAPI::TlvObjectBaseAO
         ADD("Alarm Switch ID", mTlv.field_1A_alarm_switch_id);
         ADD("Alarm Duration", mTlv.field_1C_alarm_duration);
         ADD("Disabled Resources", mTlv.field_1E_disabled_resources);
+
+        ADD_RESOURCE(AnimId::Abe_Head_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Abe_Arm_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Abe_Body_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slog_Head_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slog_Body_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Elum_Head_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Elum_Arm_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Elum_Body_Gib, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1691,6 +1728,12 @@ struct Path_MeatSack final : public ReliveAPI::TlvObjectBaseAO
         ADD("Y Velocity", mTlv.field_1C_y_vel);
         ADD("Scale", mTlv.field_1E_scale);
         ADD("Amount Of Meat", mTlv.field_20_amount_of_meat);
+
+        ADD_RESOURCE(AnimId::Rock, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Grenade, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Meat, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::MeatSack_Hit, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::MeatSack_Idle, ReliveAPI::AddResourceTo::CameraBlock);
     }
 };
 
