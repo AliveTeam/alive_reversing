@@ -3,15 +3,19 @@
 #include "JsonReadUtils.hpp"
 
 namespace ReliveAPI {
-std::pair<std::vector<CameraNameAndTlvBlob>, std::vector<AO::PathLine>> JsonReaderAO::Load(IFileIO& fileIO, const std::string& fileName, Context& context)
+LoadedJsonAO JsonReaderAO::Load(IFileIO& fileIO, const std::string& fileName, Context& context)
 {
     TypesCollectionAO globalTypes;
-    auto [mapData, mapJsonObject] = JsonReaderBase::Load(globalTypes, fileIO, fileName, context);
+    LoadedJsonBase loadedJsonBase = JsonReaderBase::Load(globalTypes, fileIO, fileName, context);
 
-    const jsonxx::Object& collisionsObject = ReadObject(mapJsonObject, "collisions");
+    const jsonxx::Object& collisionsObject = ReadObject(loadedJsonBase.mMapJson, "collisions");
     const jsonxx::Array& collisionsArray = ReadArray(collisionsObject, "items");
     std::vector<AO::PathLine> lines = ReadAOLines(globalTypes, collisionsArray, context);
 
-    return {std::move(mapData), std::move(lines)};
+    LoadedJsonAO ret;
+    ret.mResourcesRequiredInLvl = std::move(loadedJsonBase.mResourcesRequiredInLvl);
+    ret.mPerCamData = std::move(loadedJsonBase.mPerCamData);
+    ret.mCollisions = std::move(lines);
+    return ret;
 }
 } // namespace ReliveAPI

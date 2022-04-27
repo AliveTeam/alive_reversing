@@ -74,7 +74,7 @@ public:
 };
 
 
-class File final : public IFile
+class File : public IFile
 {
 public:
     File(const std::string& fileName, IFileIO::Mode mode)

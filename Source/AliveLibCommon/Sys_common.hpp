@@ -4,6 +4,7 @@
 #include "relive_config.h"
 
 #if _WIN32
+#include <windows.h>
 using TWindowProcFilter = LRESULT(CC*)(HWND, UINT, WPARAM, LPARAM);
 #endif
 
@@ -34,6 +35,8 @@ enum class MessageBoxButton
 
 MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char_type* message, const char_type* title, MessageBoxType type = MessageBoxType::eStandard);
 void Sys_Main_Common();
+
+#include <string>
 
 inline std::string BuildString()
 {

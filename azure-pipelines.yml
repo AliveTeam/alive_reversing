@@ -47,11 +47,11 @@ jobs:
         mkdir "C:\\GOG Games\\Abes Oddysee"
         git submodule update --init
         mkdir C:\temp
-        powershell Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.14-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.14-VC.zip
-        7z x C:\Temp\SDL2-devel-2.0.14-VC.zip -oC:\Temp
+        powershell Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.20-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.20-VC.zip
+        7z x C:\Temp\SDL2-devel-2.0.20-VC.zip -oC:\Temp
         mkdir build
         cd build
-        cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -DSDL2_DIR=C:\Temp\SDL2-2.0.14 -G "Visual Studio 16 2019" -A Win32
+        cmake .. -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -DSDL2_DIR=C:\Temp\SDL2-2.0.20 -G "Visual Studio 16 2019" -A Win32
         cmake --build .
         cpack.exe -G ZIP -C Debug
         ctest
@@ -68,11 +68,11 @@ jobs:
         mkdir "C:\\GOG Games\\Abes Oddysee"
         git submodule update --init
         mkdir C:\temp
-        powershell Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.14-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.14-VC.zip
-        7z x C:\Temp\SDL2-devel-2.0.14-VC.zip -oC:\Temp
+        powershell Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.20-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.20-VC.zip
+        7z x C:\Temp\SDL2-devel-2.0.20-VC.zip -oC:\Temp
         mkdir build
         cd build
-        cmake .. -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DSDL2_DIR=C:\Temp\SDL2-2.0.14 -G "Visual Studio 16 2019" -A x64
+        cmake .. -DBUILD_NUMBER=$(Build.BuildId) -DCI_PROVIDER="AzureDevOps" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DSDL2_DIR=C:\Temp\SDL2-2.0.20 -G "Visual Studio 16 2019" -A x64
         cmake --build .
         cpack.exe -G ZIP -C Debug
         ctest

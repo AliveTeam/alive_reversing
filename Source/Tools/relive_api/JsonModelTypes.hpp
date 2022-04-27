@@ -3,7 +3,9 @@
 #include "../../AliveLibCommon/Types.hpp"
 #include <string>
 #include <vector>
+#include <set>
 
+enum class AnimId;
 
 namespace AO {
 class PathLine;
@@ -88,6 +90,8 @@ struct CameraNameAndTlvBlob final
     CameraImageAndLayers mCameraAndLayers;
 
     [[nodiscard]] std::size_t TotalTlvSize() const;
+
+    std::set<AnimId> mRequiredResources;
 };
 
 struct MapRootInfo final

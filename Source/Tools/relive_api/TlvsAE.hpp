@@ -41,6 +41,7 @@
 #include "../../AliveLibAE/LiftMover.hpp"
 #include "../../AliveLibAE/RockSack.hpp"
 #include "../../AliveLibAE/TimerTrigger.hpp"
+#include "../../AliveLibAE/TimedMine.hpp"
 #include "../../AliveLibAE/MotionDetector.hpp"
 #include "../../AliveLibAE/MineCar.hpp"
 #include "../../AliveLibAE/ExplosionSet.hpp"
@@ -265,6 +266,19 @@ struct Path_Pulley final : public Path_TLV
 };
 
 namespace AETlvs {
+
+struct Path_TimedMine final : public ReliveAPI::TlvObjectBaseAE
+{
+    CTOR_AE(Path_TimedMine, "TimedMine", TlvTypes::TimedMine_14)
+    {
+        ADD("Switch ID (Unused?)", mTlv.field_10_switch_id);
+        ADD("State (Unused?)", mTlv.field_12_state);
+        ADD("Scale", mTlv.field_14_scale);
+        ADD("Ticks Before Explosion", mTlv.field_16_ticks_before_explosion);
+        ADD("Disabled Resources", mTlv.field_18_disabled_resources);
+    }
+};
+
 struct Path_ElectricWall final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
@@ -492,6 +506,18 @@ struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseAE
         ADD("Nozzle Side", mTlv.field_12_nozzle_side);
         ADD("Disabled Resources", mTlv.field_14_disabled_resources);
         ADD("Number Of Grenades", mTlv.field_16_number_of_grenades);
+
+        ADD_RESOURCE(AnimId::Mudokon_GrenadeMachineUse, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::Mudokon_HandstoneBegin, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::Mudokon_HandstoneEnd, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::BoomMachine_Button_Off, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::BoomMachine_Button_On, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::BoomMachine_Nozzle_DropGrenade, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::BoomMachine_Nozzle_Idle, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::Meat, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Rock, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Bone, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Grenade, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -560,6 +586,28 @@ struct Path_Fleech final : public ReliveAPI::TlvObjectBaseAE
         ADD("Can Wake Up Switch ID", mTlv.field_2A_can_wake_up_switch_id);
         ADD("Persistant", mTlv.field_2C_persistant);
         ADD_HIDDEN("Unused2(?)", mTlv.field_2E_padding);
+
+        ADD_RESOURCE(AnimId::Fleech_Body_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_Climb, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_Consume, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_Crawl, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_DeathByFalling, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_ExtendTongueFromEnemy, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_Fall, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_Head_Gib, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_Idle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_Knockback, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_Land, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_PatrolCry, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_RaiseHead, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_RetractTongueFromEnemey, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_SettleOnGround, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_Sleeping, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_SleepingWithTongue, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_StopCrawling, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_StopMidCrawlCycle, ReliveAPI::AddResourceTo::File);
+        //ADD_RESOURCE(AnimId::Fleech_Unused, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Fleech_WakingUp, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1404,6 +1452,14 @@ struct Path_RockSack final : public ReliveAPI::TlvObjectBaseAE
         ADD("Y Velocity", mTlv.field_14_y_vel);
         ADD("Scale", mTlv.field_16_scale);
         ADD("Rock Amount", mTlv.field_18_rock_amount);
+
+        ADD_RESOURCE(AnimId::RockSack_HardHit, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::RockSack_Idle, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::RockSack_SoftHit, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::Meat, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Rock, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Bone, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Grenade, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1442,6 +1498,9 @@ struct Path_MotionDetector final : public ReliveAPI::TlvObjectBaseAE
         ADD("Disable Switch ID", mTlv.field_1C_disable_switch_id);
         ADD("Alarm Switch ID", mTlv.field_1E_alarm_switch_id);
         ADD("Alarm Duration", mTlv.field_20_alarm_duration);
+
+        ADD_RESOURCE(AnimId::MotionDetector_Flare, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::MotionDetector_Laser, ReliveAPI::AddResourceTo::CameraBlock);
     }
 };
 
@@ -1451,6 +1510,14 @@ struct Path_MineCar final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Max Damage (Unused?)", mTlv.field_12_max_damage);
+
+        ADD_RESOURCE(AnimId::Mine_Car_Closed, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Mine_Car_Open, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Mine_Car_Shake_A, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Mine_Car_Shake_B, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Mine_Car_Tread_Idle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Mine_Car_Tread_Move_A, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Mine_Car_Tread_Move_B, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1467,6 +1534,9 @@ struct Path_ExplosionSet final : public ReliveAPI::TlvObjectBaseAE
         ADD("Grid Spacing", mTlv.field_1C_grid_spacing);
         ADD("Increasing Grid Spacing", mTlv.field_1E_increasing_grid_spacing);
         ADD("Scale", mTlv.field_20_scale);
+
+        ADD_RESOURCE(AnimId::Explosion, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Explosion_Small, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1521,6 +1591,10 @@ struct Path_Slurg final : public ReliveAPI::TlvObjectBaseAE
         ADD("Start Direction", mTlv.field_10_slurg_data.field_2_start_direction);
         ADD("Scale", mTlv.field_10_slurg_data.field_4_scale);
         ADD("Switch ID (increment by 1 on death)", mTlv.field_10_slurg_data.field_6_switch_id);
+
+        ADD_RESOURCE(AnimId::Slurg_Burst, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slurg_Move, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slurg_Turn_Around, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1530,6 +1604,9 @@ struct Path_DoorBlocker final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Switch ID", mTlv.field_12_switch_id);
+
+        ADD_RESOURCE(AnimId::Door_Lock_Idle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Door_Lock_Open, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1567,6 +1644,9 @@ struct Path_TrainDoor final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_TrainDoor, "TrainDoor", TlvTypes::TrainDoor_111)
     {
         ADD("Direction", mTlv.field_10_direction);
+
+        ADD_RESOURCE(AnimId::Door_Train_Closed, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Door_Train_Closing, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1640,6 +1720,9 @@ struct Path_SecurityDoor final : public ReliveAPI::TlvObjectBaseAE
         ADD("Code 2", mTlv.field_16_code_2);
         ADD("X Position", mTlv.field_18_xpos);
         ADD("Y Position", mTlv.field_1A_ypos);
+
+        ADD_RESOURCE(AnimId::Security_Door_Idle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Security_Door_Speak, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1670,6 +1753,25 @@ struct Path_CrawlingSlig final : public ReliveAPI::TlvObjectBaseAE
         ADD("Crawl Direction", mTlv.field_16_crawl_direction);
         ADD("Panic Switch ID", mTlv.field_18_panic_switch_id);
         ADD("Respawn On Death", mTlv.field_1A_respawn_on_death);
+
+        ADD_RESOURCE(AnimId::CrawlingSlig_Crawling, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_Empty, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_EndCrawling, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_EndPushingWall, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_Falling, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_Idle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_IdleToPushingWall, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_Landing, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_PushingWall, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_Shaking, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_ShakingToIdle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_Snoozing, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_Speaking, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_StartFalling, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_ToShakingToIdle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_TurnAround, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_UsingButton, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSlig_WakingUp, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1709,6 +1811,9 @@ struct Path_SligGetPants final : public ReliveAPI::TlvObjectBaseAE
         ADD("Noise Wake Up Distance (Grids)", mTlv.noise_wake_up_distance);
         ADD("Slig Spawner Switch ID", mTlv.slig_spawner_switch_id);
         ADD("Unlimited Spawns", mTlv.unlimited_spawns);
+
+        ADD_RESOURCE(AnimId::CrawlingSligLocker_Closed, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSligLocker_Open, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1732,6 +1837,9 @@ struct Path_SligGetWings final : public ReliveAPI::TlvObjectBaseAE
         ADD("Max Velocity", mTlv.max_velocity);
         ADD("Launch Grenade Switch ID", mTlv.launch_switch_id);
         ADD("Persistant", mTlv.persistant);
+
+        ADD_RESOURCE(AnimId::CrawlingSligLocker_Closed, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSligLocker_Open, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1760,6 +1868,9 @@ struct Path_CrawlingSligButton final : public ReliveAPI::TlvObjectBaseAE
         ADD("On Sound", mTlv.field_16_on_sound);
         ADD("Off Sound", mTlv.field_18_off_sound);
         ADD_HIDDEN("Sound Direction", mTlv.field_1A_sound_direction);
+
+        ADD_RESOURCE(AnimId::CrawlingSligButton, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::CrawlingSligButtonUse, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1813,6 +1924,11 @@ struct Path_Glukkon final : public ReliveAPI::TlvObjectBaseAE
         ADD("Death Switch ID", mTlv.field_24_death_switch_id);
         ADD("Play Movie Switch ID", mTlv.field_26_play_movie_switch_id);
         ADD("Movie To Play (fmv ID)", mTlv.field_28_movie_to_play_fmvID);
+
+        ADD_RESOURCE(AnimId::Glukkon_Normal_Idle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Glukkon_Aslik_Idle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Glukkon_Phleg_Idle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Glukkon_Dripik_Idle, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1868,6 +1984,14 @@ struct Path_BoneBag final : public ReliveAPI::TlvObjectBaseAE
         ADD("Y Velocity", mTlv.field_14_y_vel);
         ADD("Scale", mTlv.field_16_scale);
         ADD("Bone Amount", mTlv.field_18_bone_amount);
+
+        ADD_RESOURCE(AnimId::BoneBag_HardHit, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::BoneBag_Idle, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::BoneBag_SoftHit, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::Meat, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Rock, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Bone, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Grenade, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1962,6 +2086,39 @@ struct Path_Scrab final : public ReliveAPI::TlvObjectBaseAE
         ADD("Possessed Max Whirl Attack Duration", mTlv.field_26_possessed_max_whirl_attack_duration);
         ADD_HIDDEN("Unused", mTlv.field_28_unused);
         ADD("Kill Enemy", mTlv.field_2A_bKill_enemy);
+
+        ADD_RESOURCE(AnimId::Scrab_AttackLunge, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_AttackSpin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_DeathBegin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_DeathEnd, ReliveAPI::AddResourceTo::File);
+        //ADD_RESOURCE(AnimId::Scrab_Empty, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Feed, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_FeedToGulp, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_GetEaten, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_GulpToStand, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_HopBegin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_HowlBegin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_HowlEnd, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Idle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Jump, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_JumpAndRunToFall, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Knockback, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Landing, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_LegKick, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Run, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_RunToStand, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_RunToWalk, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_ScrabBattleAnim, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Shriek, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Stamp, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_StandToFeed, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_StandToRun, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_StandToWalk, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Turn, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Walk, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_WalkToFall, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_WalkToRun, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_WalkToStand, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -1998,6 +2155,39 @@ struct Path_ScrabSpawner final : public ReliveAPI::TlvObjectBaseAE
         // Spawner properties
         ADD("Spawner Switch ID", mTlv.field_2C_spawner_switch_id);
         ADD("Scrab Spawn Direction", mTlv.field_2E_spawn_direction);
+
+        ADD_RESOURCE(AnimId::Scrab_AttackLunge, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_AttackSpin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_DeathBegin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_DeathEnd, ReliveAPI::AddResourceTo::File);
+        //ADD_RESOURCE(AnimId::Scrab_Empty, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Feed, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_FeedToGulp, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_GetEaten, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_GulpToStand, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_HopBegin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_HowlBegin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_HowlEnd, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Idle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Jump, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_JumpAndRunToFall, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Knockback, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Landing, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_LegKick, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Run, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_RunToStand, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_RunToWalk, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_ScrabBattleAnim, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Shriek, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Stamp, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_StandToFeed, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_StandToRun, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_StandToWalk, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Turn, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_Walk, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_WalkToFall, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_WalkToRun, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Scrab_WalkToStand, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -2013,6 +2203,10 @@ struct Path_SlurgSpawner final : public ReliveAPI::TlvObjectBaseAE
         ADD("Spawn Interval", mTlv.field_18_spawner_data.field_8_spawn_delay_between_slurgs);
         ADD("Max Slurgs", mTlv.field_18_spawner_data.field_A_max_slurgs);
         ADD("Spawner Switch ID", mTlv.field_18_spawner_data.field_C_switch_id);
+
+        ADD_RESOURCE(AnimId::Slurg_Burst, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slurg_Move, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Slurg_Turn_Around, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -2043,6 +2237,47 @@ struct Path_Paramite final : public ReliveAPI::TlvObjectBaseAE
         ADD("Hiss Before Attacking", mTlv.field_20_hiss_before_attack);
         ADD("Delete When Out Of Sight", mTlv.field_22_delete_when_out_of_sight);
         ADD("Attack Fleeches", mTlv.field_24_bAttack_fleeches);
+
+        ADD_RESOURCE(AnimId::ParamiteWeb, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_AllOYaGameSpeakBegin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Attack, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_CloseAttack, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Death, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Eating, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Falling, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_GameSpeakBegin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_GameSpeakEnd, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Hiss, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Hop, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Idle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_JumpUpBegin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_JumpUpLand, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_JumpUpMidair, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Knockback, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Landing, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_PostHiss, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_PreHiss, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_RopePull, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_RunBegin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_RunEnd, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Running, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_RunningAttack, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Squawk, ReliveAPI::AddResourceTo::File);
+        //ADD_RESOURCE(AnimId::Paramite_Struggle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_SurpriseWeb, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Turn, ReliveAPI::AddResourceTo::File);
+        //ADD_RESOURCE(AnimId::Paramite_Unused, ReliveAPI::AddResourceTo::File);
+        //ADD_RESOURCE(AnimId::Paramite_Unused2, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_WalkBegin, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_WalkEnd, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_Walking, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_WalkRunTransition, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_WebGoingDown, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_WebGoingUp, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_WebGrab, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_WebIdle, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_WebLeaveDown, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Paramite_WebLeaveUp, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -2063,6 +2298,13 @@ struct Path_MeatSack final : public ReliveAPI::TlvObjectBaseAE
         ADD("Y Velocity", mTlv.field_14_yVel);
         ADD("Scale", mTlv.field_16_scale);
         ADD("Amount Of Meat", mTlv.field_18_amount_of_meat);
+
+        ADD_RESOURCE(AnimId::MeatSack_Idle, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::MeatSack_Hit, ReliveAPI::AddResourceTo::CameraBlock);
+        ADD_RESOURCE(AnimId::Meat, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Rock, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Bone, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Grenade, ReliveAPI::AddResourceTo::File);
     }
 };
 
@@ -2072,6 +2314,9 @@ struct Path_TorturedMudokon final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Kill Switch ID", mTlv.field_10_kill_switch_id);
         ADD("Release Switch ID", mTlv.field_12_release_switch_id);
+        
+        ADD_RESOURCE(AnimId::Tortured_Mudokon, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Tortured_Mudokon_Tears, ReliveAPI::AddResourceTo::File);
     }
 };
 
