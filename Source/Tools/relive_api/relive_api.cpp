@@ -586,12 +586,18 @@ public:
             return {};
         }
 
-        auto chunk = file->ChunkById(animRec.mResourceId);
-        if (!chunk)
+        for (u32 i = 0; i < file->ChunkCount(); i++)
         {
-            mContext.LvlChunkMissingForCam(animRec.mBanName, animRec.mResourceId);
+            auto chunk = file->ChunkAt(i);
+            // Palts and other resources can share ids, explicitly look for anims
+            if (chunk.Id() == static_cast<u32>(animRec.mResourceId) && chunk.Header().field_8_type == ResourceManager::Resource_Animation)
+            {
+                return chunk;
+            }
         }
-        return chunk;
+
+        mContext.LvlChunkMissingForCam(animRec.mBanName, animRec.mResourceId);
+        return {};
     }
 
 private:
