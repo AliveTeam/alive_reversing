@@ -33,7 +33,12 @@ class Upgrader3To4 final : public IJsonUpgrader
 public:
     std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::basic_json<>& rootObj) override
     {
-        const RemapEnums swapLeftRight = { {"Left", "Right"}, {"Right", "Left"}};
+        const RemapEnums swapLeftRight =
+        {
+             {"Left", "Right_temp"},
+             {"Right", "Left"},
+             {"Right_temp", "Right"},
+        };
         upgrader.RemapMapObjectPropertyValues(rootObj, "ContinuePoint", "Abe Spawn Direction", swapLeftRight);
         upgrader.RenameMapObjectProperty(rootObj, "MeatSaw", "Switch Max TIme Off", "Switch Max Time Off");
         upgrader.RenameMapObjectProperty(rootObj, "LiftPoint", "Point ID", "Lift Point ID");
@@ -49,7 +54,6 @@ public:
 
 void JsonUpgraderAO::AddUpgraders()
 {
-    ADD_UPGRADE_STEP_FROM(1, ExampleUpgrader);
     ADD_UPGRADE_STEP_FROM(3, Upgrader3To4);
 }
 } // namespace ReliveAPI
