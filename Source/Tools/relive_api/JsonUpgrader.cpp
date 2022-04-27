@@ -20,6 +20,7 @@ void JsonUpgraderBase::RenameMapLevelItem(nlohmann::basic_json<>& rootObj, const
 
 void JsonUpgraderBase::RenameMapObjectStructure(nlohmann::basic_json<>& rootObj, const std::string& oldName, const std::string& newName)
 {
+    bool anyCameraChanged = false;
     auto cameras = rootObj["map"]["cameras"];
     for (auto i = 0u; i < cameras.size(); i++)
     {
@@ -27,50 +28,49 @@ void JsonUpgraderBase::RenameMapObjectStructure(nlohmann::basic_json<>& rootObj,
         bool mapObjectsChanged = false;
         for (auto j = 0u; j < mapObjects.size(); j++)
         {
-            auto mapObject = mapObjects[i];
+            auto mapObject = mapObjects[j];
             if (mapObject["object_structures_type"] == oldName)
             {
-                mapObject["name"] = newName;
-                mapObjects[i] = mapObject;
+                mapObject["object_structures_type"] = newName;
+                mapObjects[j] = mapObject;
                 mapObjectsChanged = true;
             }
         }
         if (mapObjectsChanged)
         {
             cameras[i]["map_objects"] = mapObjects;
+            anyCameraChanged = true;
         }
+    }
+
+    if (anyCameraChanged)
+    {
+        rootObj["map"]["cameras"] = cameras;
     }
 }
 
 void JsonUpgraderBase::RenameMapObjectProperty(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& oldName, const std::string& newName)
 {
     auto cameras = rootObj["map"]["cameras"];
+    bool anyCameraChanged = false;
     for (auto i = 0u; i < cameras.size(); i++)
     {
         auto mapObjects = cameras[i]["map_objects"];
         bool mapObjectsChanged = false;
         for (auto j = 0u; j < mapObjects.size(); j++)
         {
-            auto mapObject = mapObjects[i];
+            auto mapObject = mapObjects[j];
             if (mapObject["object_structures_type"] == structureName)
             {
-                bool propertiesChanged = false;
                 auto properties = mapObject["properties"];
-                for (auto k = 0u; k < properties.size(); k++)
+                if (properties.contains(oldName))
                 {
-                    if (properties[k].contains(oldName))
-                    {
-                        auto oldValue = properties[k][oldName];
-                        properties[k].erase(oldName);
-                        properties[k][newName] = oldValue;
-                        propertiesChanged = true;
-                    }
-                }
+                    auto oldValue = properties[oldName];
+                    properties.erase(oldName);
+                    properties[newName] = oldValue;
 
-                if (propertiesChanged)
-                {
                     mapObject["properties"] = properties;
-                    mapObjects[i] = mapObject;
+                    mapObjects[j] = mapObject;
                     mapObjectsChanged = true;
                 }
             }
@@ -79,7 +79,13 @@ void JsonUpgraderBase::RenameMapObjectProperty(nlohmann::basic_json<>& rootObj, 
         if (mapObjectsChanged)
         {
             cameras[i]["map_objects"] = mapObjects;
+            anyCameraChanged = true;
         }
+    }
+
+    if (anyCameraChanged)
+    {
+        rootObj["map"]["cameras"] = cameras;
     }
 }
 
