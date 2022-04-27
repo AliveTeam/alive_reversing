@@ -388,7 +388,7 @@ struct Abe_SaveState final
     u32 wheel_id;
     u32 invisible_timer;
     u16 field_A0_unused;
-    u16 field_A2_invisibility_id;
+    u16 field_A2_invisibility_duration;
     s8 field_A4_cam_idx;
     s8 field_A5_padding;
     s16 field_A6_padding;
@@ -684,7 +684,7 @@ public:
     s16 field_16E_bHaveInvisiblity;
     s32 field_170_invisible_timer;
     s16 field_174_unused;
-    s16 field_176_invisibility_id;
+    s16 field_176_invisibility_duration;
     s32 field_178_invisible_effect_id;
     s8 field_17C_cam_idx;
     s8 field_17D_padding;

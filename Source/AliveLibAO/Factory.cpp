@@ -44,7 +44,7 @@
 #include "BackgroundGlukkon.hpp"
 #include "Rock.hpp"
 #include "Well.hpp"
-#include "SlogHut.hpp"
+#include "ZzzSpawner.hpp"
 #include "BirdPortal.hpp"
 #include "SlogSpawner.hpp"
 #include "DoorFlame.hpp"
@@ -2629,14 +2629,14 @@ EXPORT void Factory_GasEmitter_484110(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 }
 
 
-EXPORT void Factory_SlogHut_487C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+EXPORT void Factory_ZzzSpawner_487C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        auto pSlogHut = ao_new<SlogHut>();
-        if (pSlogHut)
+        auto pZzzSpawner = ao_new<ZzzSpawner>();
+        if (pZzzSpawner)
         {
-            pSlogHut->ctor_472C80(static_cast<Path_SlogHut*>(pTlv), tlvOffsetLevelIdPathId.all);
+            pZzzSpawner->ctor_472C80(static_cast<Path_ZzzSpawner*>(pTlv), tlvOffsetLevelIdPathId.all);
         }
     }
 }
@@ -2809,7 +2809,7 @@ const PathFunctionTable kObjectFactory = {
      Factory_GasCountDown_487BE0,
      Factory_RingCancel_4818D0,
      Factory_GasEmitter_484110,
-     Factory_SlogHut_487C80,
+     Factory_ZzzSpawner_487C80,
      Factory_BackgroundGlukkon_487CE0,
      Factory_KillUnsavedMuds_487DA0,
      Factory_SoftLanding_Null_4817C0,

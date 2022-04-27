@@ -41,7 +41,7 @@
 #include "../../AliveLibAO/SlogSpawner.hpp"
 #include "../../AliveLibAO/Rock.hpp"
 #include "../../AliveLibAO/RockSack.hpp"
-#include "../../AliveLibAO/SlogHut.hpp"
+#include "../../AliveLibAO/ZzzSpawner.hpp"
 #include "../../AliveLibAO/SecurityClaw.hpp"
 #include "../../AliveLibAO/SecurityDoor.hpp"
 #include "../../AliveLibAO/TimedMine.hpp"
@@ -442,6 +442,15 @@ struct Path_Door final : public ReliveAPI::TlvObjectBaseAO
 
 struct Path_ContinuePoint final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::Path_ContinuePoint::spawnDirection>("Enum_ContinuePointSpawnDirection",
+            {
+                {AO::Path_ContinuePoint::spawnDirection::eRight_0, "Right"},
+                {AO::Path_ContinuePoint::spawnDirection::eLeft_1, "Left"},
+            });
+    }
+
     CTOR_AO(Path_ContinuePoint, "ContinuePoint", AO::TlvTypes::ContinuePoint_0)
     {
         ADD("Zone Number", mTlv.field_18_zone_number);
@@ -1019,7 +1028,7 @@ struct Path_LiftPoint final : public ReliveAPI::TlvObjectBaseAO
 
     CTOR_AO(Path_LiftPoint, "LiftPoint", AO::TlvTypes::LiftPoint_8)
     {
-        ADD("Point ID", mTlv.field_18_point_id);
+        ADD("Lift Point ID", mTlv.field_18_lift_point_id);
         ADD("Start Point", mTlv.field_1A_bstart_point);
         ADD("Lift Type (Unused?)", mTlv.field_1C_lift_type);
         ADD("Lift Point Stop Type", mTlv.field_1E_lift_point_stop_type);
@@ -1107,7 +1116,7 @@ struct Path_MeatSaw final : public ReliveAPI::TlvObjectBaseAO
     {
         ADD("Scale", mTlv.field_18_scale);
         ADD("Switch Min Time Off", mTlv.field_1A_switch_min_time_off);
-        ADD("Switch Max TIme Off", mTlv.field_1C_switch_max_time_off);
+        ADD("Switch Max Time Off", mTlv.field_1C_switch_max_time_off);
         ADD("Max Rise Time", mTlv.field_1E_max_rise_time);
         ADD("Switch ID", mTlv.field_20_switch_id);
         ADD("Type", mTlv.field_22_type);
@@ -1213,10 +1222,19 @@ struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseAO
 
 struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::Path_BoomMachine::NozzleSide>("Enum_BoomMachineNozzleSide",
+            {
+                {AO::Path_BoomMachine::NozzleSide::eRight_0, "Right"},
+                {AO::Path_BoomMachine::NozzleSide::eLeft_1, "Left"},
+            });
+    }
+
     CTOR_AO(Path_BoomMachine, "BoomMachine", AO::TlvTypes::BoomMachine_97)
     {
         ADD("Scale", mTlv.field_18_scale);
-        ADD("Nozzle Side", mTlv.field_1A_nozzle_side); // TODO: enum values swapped?
+        ADD("Nozzle Side", mTlv.field_1A_nozzle_side);
         ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
         ADD("Number Of Grenades", mTlv.field_1E_number_of_grenades);
 
@@ -1329,8 +1347,8 @@ struct Path_LiftMover final : public ReliveAPI::TlvObjectBaseAO
 
     CTOR_AO(Path_LiftMover, "LiftMover", AO::TlvTypes::LiftMover_68)
     {
-        ADD("Switch ID", mTlv.field_18_switch_id);
-        ADD("Lift ID", mTlv.field_1A_lift_id);
+        ADD("Lift Mover Switch ID", mTlv.field_18_lift_mover_switch_id);
+        ADD("Target Lift Point ID", mTlv.field_1A_target_lift_point_id);
         ADD("Move Direction", mTlv.field_1C_direction);
     }
 };
@@ -1383,7 +1401,7 @@ struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAO
         ADD("Max Slogs", mTlv.field_1A_max_slogs);
         ADD("Max Slogs At A Time", mTlv.field_1C_max_slogs_at_a_time);
         ADD("Start Direction", mTlv.field_1E_start_direction);
-        ADD("Slog Spawn Delay", mTlv.field_20_slog_spawn_delay);
+        ADD("Slog Spawn Interval", mTlv.field_20_slog_spawn_interval);
         ADD("Spawner Switch ID", mTlv.field_22_spawner_switch_id);
 
         ADD_RESOURCE(AnimId::Slog_AngryBark, ReliveAPI::AddResourceTo::File);
@@ -1411,9 +1429,9 @@ struct Path_RockSack final : public ReliveAPI::TlvObjectBaseAO
     }
 };
 
-struct Path_SlogHut final : public ReliveAPI::TlvObjectBaseAO
+struct Path_ZzzSpawner final : public ReliveAPI::TlvObjectBaseAO
 {
-    CTOR_AO(Path_SlogHut, "SlogHut", AO::TlvTypes::SlogHut_111)
+    CTOR_AO(Path_ZzzSpawner, "ZzzSpawner", AO::TlvTypes::ZzzSpawner_111)
     {
         ADD("Scale", mTlv.field_18_scale);
         ADD("Switch ID", mTlv.field_1A_switch_id);
@@ -1649,6 +1667,15 @@ struct Path_ScrabNoFall final : public ReliveAPI::TlvObjectBaseAO
 // TODO: lift mudokon might not be the best name because this mud can also be a password giver
 struct Path_LiftMudokon final : public ReliveAPI::TlvObjectBaseAO
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::Path_LiftMudokon::Direction>("Enum_LiftMudokonDirection",
+            {
+                {AO::Path_LiftMudokon::Direction::eRight_0, "Right"},
+                {AO::Path_LiftMudokon::Direction::eLeft_1, "Left"},
+            });
+    }
+
     CTOR_AO(Path_LiftMudokon, "LiftMudokon", AO::TlvTypes::LiftMudokon_32)
     {
         ADD("How Far To Walk", mTlv.field_18_how_far_to_walk);

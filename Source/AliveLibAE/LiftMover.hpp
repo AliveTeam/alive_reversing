@@ -28,7 +28,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
 struct Path_LiftMover final : public Path_TLV
 {
     s16 field_10_lift_mover_switch_id;
-    s16 field_12_lift_switch_id;
+    s16 field_12_target_lift_point_id;
     enum class YDirection : s16
     {
         eDown_0 = 0,
@@ -57,8 +57,8 @@ private:
     EXPORT LiftPoint* GetLiftPoint_40D0F0();
 
 private:
-    s16 field_20_enabled_by_switch_id;
-    s16 field_22_target_lift_point_switch_id;
+    s16 field_20_lift_mover_switch_id;
+    s16 field_22_target_lift_point_id;
     s32 field_24_tlvInfo;
     s32 field_28_lift_id;
     FP field_2C_speed;

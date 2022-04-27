@@ -155,7 +155,7 @@ enum class TlvTypes : s16
     GasCountDown_108 = 108,
     RingCancel_109 = 109,
     GasEmitter_110 = 110,
-    SlogHut_111 = 111,
+    ZzzSpawner_111 = 111,
     BackgroundGlukkon_112 = 112,
     KillUnsavedMuds_113 = 113,
     SoftLanding_114 = 114,

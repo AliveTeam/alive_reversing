@@ -124,7 +124,12 @@ struct Path_LiftMudokon final : public Path_TLV
 {
     s16 field_18_how_far_to_walk;
     s16 field_1A_lift_switch_id;
-    XDirection_short field_1C_direction;
+    enum class Direction : s16
+    {
+        eRight_0 = 0,
+        eLeft_1 = 1
+    };
+    Direction field_1C_direction;
     Choice_short field_1E_give_password;
     Scale_short field_20_scale;
     s16 field_22_code1;

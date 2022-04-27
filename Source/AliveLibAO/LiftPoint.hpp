@@ -20,7 +20,7 @@ enum class LiftPointStopType : s16
 
 struct Path_LiftPoint final : public Path_TLV
 {
-    s16 field_18_point_id;
+    s16 field_18_lift_point_id;
     Choice_short field_1A_bstart_point;
     s16 field_1C_lift_type;
     LiftPointStopType field_1E_lift_point_stop_type;
@@ -101,7 +101,7 @@ public:
     s16 field_26E_pulley_ypos;
     FP field_270_floorYLevel;
     u8** field_274_ppRes;
-    s16 field_278_point_id;
+    s16 field_278_lift_point_id;
     BitField16<Flags> field_27A_flags;
 };
 

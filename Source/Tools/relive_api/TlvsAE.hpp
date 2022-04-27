@@ -62,7 +62,7 @@
 #include "../../AliveLibAE/FallingItem.hpp"
 #include "../../AliveLibAE/Bone.hpp"
 #include "../../AliveLibAE/FootSwitch.hpp"
-#include "../../AliveLibAE/SlogHut.hpp"
+#include "../../AliveLibAE/ZzzSpawner.hpp"
 #include "../../AliveLibAE/SlogSpawner.hpp"
 #include "../../AliveLibAE/Scrab.hpp"
 #include "../../AliveLibAE/ScrabSpawner.hpp"
@@ -500,6 +500,15 @@ struct Path_Hoist final : public ReliveAPI::TlvObjectBaseAE
 
 struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseAE
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<::Path_BoomMachine::NozzleSide>("Enum_BoomMachineNozzleSide",
+            {
+                {::Path_BoomMachine::NozzleSide::eRight_0, "Right"},
+                {::Path_BoomMachine::NozzleSide::eLeft_1, "Left"},
+            });
+    }
+
     CTOR_AE(Path_BoomMachine, "BoomMachine", TlvTypes::BoomMachine_59)
     {
         ADD("Scale", mTlv.field_10_scale);
@@ -1006,7 +1015,7 @@ struct Path_LiftPoint final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_LiftPoint, "LiftPoint", TlvTypes::LiftPoint_7)
     {
-        ADD("Lift Point Switch ID", mTlv.field_10_lift_point_switch_id);
+        ADD("Lift Point ID", mTlv.field_10_lift_point_id);
         ADD("Start Point", mTlv.field_12_bStart_point);
         ADD("Lift Type (Unused?)", mTlv.field_14_lift_type);
         ADD("Lift Point Stop Type", mTlv.field_16_lift_point_stop_type);
@@ -1438,7 +1447,7 @@ struct Path_LiftMover final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_LiftMover, "LiftMover", TlvTypes::LiftMover_39)
     {
         ADD("Lift Mover Switch ID", mTlv.field_10_lift_mover_switch_id);
-        ADD("Lift Point Switch ID", mTlv.field_12_lift_switch_id);
+        ADD("Target Lift Point ID", mTlv.field_12_target_lift_point_id);
         ADD("Move Direction", mTlv.field_14_move_direction);
     }
 };
@@ -1527,10 +1536,10 @@ struct Path_ExplosionSet final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD("Start Enabled", mTlv.field_10_bStart_enabled);
         ADD("Switch ID", mTlv.field_12_switch_id);
-        ADD("Big Rocks", mTlv.field_14_big_rocks);
+        ADD("Spawn Assets", mTlv.field_14_spawn_assets);
         ADD("Start Delay", mTlv.field_16_start_delay);
         ADD("Start Direction", mTlv.field_18_start_direction);
-        ADD("Explosion Interval", mTlv.field_1A_explosion_interval);
+        ADD("Asset Interval", mTlv.field_1A_asset_interval);
         ADD("Grid Spacing", mTlv.field_1C_grid_spacing);
         ADD("Increasing Grid Spacing", mTlv.field_1E_increasing_grid_spacing);
         ADD("Scale", mTlv.field_20_scale);
@@ -1578,7 +1587,7 @@ struct Path_SlapLock final : public ReliveAPI::TlvObjectBaseAE
         ADD("Persistant", mTlv.field_16_bPersistant);
         ADD("Has Ghost", mTlv.field_18_has_ghost);
         ADD("Give Invisibility Power-up", mTlv.field_1A_give_invisibility_powerup);
-        ADD("Invisibility Power-up ID", mTlv.field_1C_invisibility_id);
+        ADD("Invisibility Duration", mTlv.field_1C_invisibility_duration);
         ADD("Toggle Switch ID", mTlv.field_1E_toggle_switch_id);
     }
 };
@@ -2026,9 +2035,9 @@ struct Path_FootSwitch final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
-struct Path_SlogHut final : public ReliveAPI::TlvObjectBaseAE
+struct Path_ZzzSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
-    CTOR_AE(Path_SlogHut, "SlogHut", TlvTypes::SlogHut_72)
+    CTOR_AE(Path_ZzzSpawner, "ZzzSpawner", TlvTypes::ZzzSpawner_72)
     {
         ADD("Scale", mTlv.field_10_scale);
         ADD("Switch ID", mTlv.field_12_switch_id);
@@ -2038,6 +2047,15 @@ struct Path_SlogHut final : public ReliveAPI::TlvObjectBaseAE
 
 struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<::StartDirection>("Enum_SlogSpawnerStartDirection",
+            {
+                {::StartDirection::eRight_0, "Right"},
+                {::StartDirection::eLeft_1, "Left"},
+            });
+    }
+
     CTOR_AE(Path_SlogSpawner, "SlogSpawner", TlvTypes::SlogSpawner_68)
     {
         ADD("Scale", mTlv.field_10_scale);

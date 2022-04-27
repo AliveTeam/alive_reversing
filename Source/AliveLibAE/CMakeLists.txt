@@ -356,8 +356,8 @@ SET(AliveLibAESrc
     ScrabSpawner.cpp
     SlogSpawner.hpp
     SlogSpawner.cpp
-    SlogHut.hpp
-    SlogHut.cpp
+    ZzzSpawner.hpp
+    ZzzSpawner.cpp
     GameEnderController.hpp
     GameEnderController.cpp
     Shrykull.hpp

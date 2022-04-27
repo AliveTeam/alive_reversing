@@ -90,7 +90,7 @@ enum class TlvTypes : s16
     GasCountdown_69 = 69,
     Unknown_70 = 70,
     GasEmitter_71 = 71,
-    SlogHut_72 = 72,
+    ZzzSpawner_72 = 72,
     Glukkon_73 = 73,
     KillUnsavedMudokons_74 = 74,
     SoftLanding_75 = 75,

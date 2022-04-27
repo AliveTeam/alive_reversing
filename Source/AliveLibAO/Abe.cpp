@@ -3212,7 +3212,7 @@ void Abe::VOn_Tlv_Collision_421130(Path_TLV* pTlv)
 
                 field_14C_saved_sprite_scale = field_BC_sprite_scale;
 
-                field_2A8_flags.Set(Flags_2A8::e2A8_eBit16_AbeSpawnDir, pContinuePointTlv->field_20_abe_direction == XDirection_short::eRight_1);
+                field_2A8_flags.Set(Flags_2A8::e2A8_eBit16_AbeSpawnDir, pContinuePointTlv->field_20_abe_direction == Path_ContinuePoint::spawnDirection::eLeft_1);
 
                 const auto bHaveShry = field_168_ring_pulse_timer - gnFrameCount_507670;
                 field_150_saved_ring_timer = bHaveShry < 0 ? 0 : bHaveShry;
