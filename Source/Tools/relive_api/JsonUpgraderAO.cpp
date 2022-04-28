@@ -28,7 +28,7 @@ public:
     }
 };
 
-class Upgrader3To4 final : public IJsonUpgrader
+class UpgraderAO3 final : public IJsonUpgrader
 {
 public:
     std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::basic_json<>& rootObj) override
@@ -54,6 +54,6 @@ public:
 
 void JsonUpgraderAO::AddUpgraders()
 {
-    ADD_UPGRADE_STEP_FROM(3, Upgrader3To4);
+    ADD_UPGRADE_STEP_FROM(3, UpgraderAO3);
 }
 } // namespace ReliveAPI
