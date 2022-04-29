@@ -79,7 +79,7 @@ static void ConvertAEGamespeakAEtoAOGamespeak(BitField32<AO::InputCommands>& val
     else if (aeInput.Get(::InputCommands::Enum::eGameSpeak5))
     {
         value.Set(AO::InputCommands::eRightGameSpeak);
-        value.Set(AO::InputCommands::eCrouchOrRoll);
+        value.Set(AO::InputCommands::eDoAction);
     }
     else if (aeInput.Get(::InputCommands::Enum::eGameSpeak6))
     {
@@ -94,7 +94,7 @@ static void ConvertAEGamespeakAEtoAOGamespeak(BitField32<AO::InputCommands>& val
     else if (aeInput.Get(::InputCommands::Enum::eGameSpeak8))
     {
         value.Set(AO::InputCommands::eRightGameSpeak);
-        value.Set(AO::InputCommands::eDoAction);
+        value.Set(AO::InputCommands::eCrouchOrRoll);
     }
     else if (aeInput.Get(::InputCommands::Enum::eBack))
     {
