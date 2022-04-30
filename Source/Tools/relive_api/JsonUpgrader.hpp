@@ -48,9 +48,10 @@ public:
     void RenameMapObjectStructure(nlohmann::basic_json<>& rootObj, const std::string& oldName, const std::string& newName);
     void RenameMapObjectProperty(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& oldName, const std::string& newName);
 
-    template <typename MapType>
-    void RemapMapObjectPropertyValues(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const MapType& remapValues)
+    template <typename MapType, typename DefaultValueType>
+    void RemapMapObjectPropertyValuesImpl(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const MapType& remapValues, DefaultValueType defaultVal = {})
     {
+        bool camerasChanged = false;
         auto cameras = rootObj["map"]["cameras"];
         for (auto i = 0u; i < cameras.size(); i++)
         {
@@ -58,35 +59,17 @@ public:
             bool mapObjectsChanged = false;
             for (auto j = 0u; j < mapObjects.size(); j++)
             {
-                auto mapObject = mapObjects[i];
+                auto mapObject = mapObjects[j];
                 if (mapObject["object_structures_type"] == structureName)
                 {
-                    bool propertiesChanged = false;
                     auto properties = mapObject["properties"];
-                    for (auto k = 0u; k < properties.size(); k++)
+                    if (properties.contains(propertyName))
                     {
-                        if (properties[k].contains(propertyName))
-                        {
-                            auto oldValue = properties[k][propertyName];
-                            auto newVal = remapValues.find(oldValue);
-                            if (newVal == std::end(remapValues))
-                            {
-                                // No remapped value, use the default value
-                                properties[k][propertyName] = {};
-                            }
-                            else
-                            {
-                                properties[k][propertyName] = newVal->second;
-                            }
+                        auto newVal = remapValues.find(properties[propertyName]);
+                        properties[propertyName] = newVal == std::end(remapValues) ? defaultVal : newVal->second;
 
-                            propertiesChanged = true;
-                        }
-                    }
-
-                    if (propertiesChanged)
-                    {
                         mapObject["properties"] = properties;
-                        mapObjects[i] = mapObject;
+                        mapObjects[j] = mapObject;
                         mapObjectsChanged = true;
                     }
                 }
@@ -95,8 +78,83 @@ public:
             if (mapObjectsChanged)
             {
                 cameras[i]["map_objects"] = mapObjects;
+                camerasChanged = true;
             }
         }
+
+        if (camerasChanged)
+        {
+            rootObj["map"]["cameras"] = cameras;
+        }
+    }
+
+    void RemapMapObjectPropertyValues(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const RemapEnums& remapValues, typename RemapEnums::mapped_type defaultVal = {})
+    {
+        // Map from A -> A_unique, B -> B_unique
+        // and then map back from A_unique -> A and B_unique -> B after all replacements are done
+        // this handles the case of swapping enum values A and B without all of them turning into A or B due to
+        // the lack of a temp value.
+        const char uniqueValue[] = "_unique";
+        RemapEnums toUniqueNames;
+        for (const auto& [oldVal, newVal] : remapValues)
+        {
+            toUniqueNames[oldVal] = newVal + uniqueValue;
+        }
+
+        RemapEnums fromUniqueNames;
+        for (const auto& [oldVal, newVal] : remapValues)
+        {
+            fromUniqueNames[newVal + uniqueValue] = newVal;
+        }
+
+        RemapMapObjectPropertyValuesImpl(rootObj, structureName, propertyName, toUniqueNames, defaultVal);
+        RemapMapObjectPropertyValuesImpl(rootObj, structureName, propertyName, fromUniqueNames, defaultVal);
+    }
+
+    void RemapMapObjectPropertyValues(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const RemapNumbers& remapValues, typename RemapNumbers::mapped_type defaultVal = {})
+    {
+        // Map from A -> A_unique, B -> B_unique
+        // and then map back from A_unique -> A and B_unique -> B after all replacements are done
+        // this handles the case of swapping enum values A and B without all of them turning into A or B due to
+        // the lack of a temp value.
+        const int uniqueValue = 123456;
+        RemapNumbers toUniqueNames;
+        for (const auto& [oldVal, newVal] : remapValues)
+        {
+            toUniqueNames[oldVal] = newVal + uniqueValue;
+        }
+
+        RemapNumbers fromUniqueNames;
+        for (const auto& [oldVal, newVal] : remapValues)
+        {
+            fromUniqueNames[newVal + uniqueValue] = newVal;
+        }
+
+        RemapMapObjectPropertyValuesImpl(rootObj, structureName, propertyName, toUniqueNames, defaultVal);
+        RemapMapObjectPropertyValuesImpl(rootObj, structureName, propertyName, fromUniqueNames, defaultVal);
+    }
+
+    void RemapMapObjectPropertyValues(nlohmann::basic_json<>& rootObj, const std::string& structureName, const std::string& propertyName, const RemapNumberToEnum& remapValues, typename RemapNumberToEnum::mapped_type defaultVal = {})
+    {
+        // Map from A -> A_unique, B -> B_unique
+        // and then map back from A_unique -> A and B_unique -> B after all replacements are done
+        // this handles the case of swapping enum values A and B without all of them turning into A or B due to
+        // the lack of a temp value.
+        const char uniqueValue[] = "_unique";
+        RemapNumberToEnum toUniqueNames;
+        for (const auto& [oldKey, newVal] : remapValues)
+        {
+            toUniqueNames[oldKey] = newVal + uniqueValue; // Replace the number with a unique string
+        }
+
+        RemapEnums fromUniqueNames;
+        for (const auto& [oldKey, newVal] : remapValues)
+        {
+            fromUniqueNames[oldKey + uniqueValue] = newVal; // Now we are mapping the new temp enum value to the enum value we originally wanted
+        }
+
+        RemapMapObjectPropertyValuesImpl(rootObj, structureName, propertyName, toUniqueNames, defaultVal);
+        RemapMapObjectPropertyValuesImpl(rootObj, structureName, propertyName, fromUniqueNames, defaultVal);
     }
 
 protected:
