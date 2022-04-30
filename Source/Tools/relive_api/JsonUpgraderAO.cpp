@@ -35,9 +35,8 @@ public:
     {
         const RemapEnums swapLeftRight =
         {
-             {"Left", "Right_temp"},
-             {"Right", "Left"},
-             {"Right_temp", "Right"},
+             {"Left", "Right"},
+             {"Right", "Left"}
         };
         upgrader.RemapMapObjectPropertyValues(rootObj, "ContinuePoint", "Abe Spawn Direction", swapLeftRight);
         upgrader.RenameMapObjectProperty(rootObj, "MeatSaw", "Switch Max TIme Off", "Switch Max Time Off");

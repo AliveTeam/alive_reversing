@@ -26,9 +26,8 @@ public:
         upgrader.RenameMapObjectProperty(rootObj, "ExplosionSet", "Big Rocks", "Spawn Assets");
         const RemapEnums swapLeftRight = 
         {
-             {"Left", "Right_temp"},
-             {"Right", "Left"},
-             {"Right_temp", "Right"},
+             {"Left", "Right"},
+             {"Right", "Left"}
         };
         upgrader.RemapMapObjectPropertyValues(rootObj, "BoomMachine", "Nozzle Side", swapLeftRight);
         upgrader.RemapMapObjectPropertyValues(rootObj, "SlogSpawner", "Start Direction", swapLeftRight);
