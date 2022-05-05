@@ -519,19 +519,6 @@ void Map::Handle_PathTransition_444DD0()
             field_D4_pPathData->field_C_grid_width * field_20_camX_idx,
             field_D4_pPathData->field_E_grid_height * field_22_camY_idx,
             remapped);
-
-        if (gElum_507680)
-        {
-            // If not following abe (i.e told to wait or munching honey)
-            if (!gElum_507680->field_122_bDontFollowAbe)
-            {
-                // Then don't try to place Elum on the next screen as it means we are leaving him in the previous path
-                gElum_507680->VOnPathTransition(
-                    field_D4_pPathData->field_C_grid_width * field_20_camX_idx,
-                    field_D4_pPathData->field_E_grid_height * field_22_camY_idx,
-                    remapped);
-            }
-        }
     }
     else
     {
