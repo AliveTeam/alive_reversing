@@ -364,15 +364,19 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             break;
     }
 
+    // Find the start controller at the position we will be at in the new map
     field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), TlvTypes::StartController_28);
+
     if (!field_F0_pTlv)
     {
-        // Find to find one at position so just try the first one, and for some reason flip the direction ??
         field_F0_pTlv = gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
-
+        LOG_INFO("Flip direction after the path trans as we are not touching the start controller");
         field_B4_velx = -field_B4_velx;
-
         field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+    }
+    else
+    {
+        LOG_INFO("Not changing direction in the new path trans as we are touching the start controller");
     }
 
     if (!field_F0_pTlv)
