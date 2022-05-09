@@ -35,6 +35,8 @@ public:
 
 public:
     BaseGameObject* Find(TObjectId_KeyType idToFind, AETypes type);
+    s32 EnsureIdIsUnique(s32 nextId);
+    s32 GetHighestUsedId();
 
 private:
     u32 field_0_buffer_size;
