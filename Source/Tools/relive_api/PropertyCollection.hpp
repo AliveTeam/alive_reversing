@@ -24,12 +24,12 @@ public:
     virtual ~PropertyCollection();
 
     template <typename PropertyType>
-    void AddProperty(const std::string& name, const std::string& typeName, void* key, bool visibleInEditor)
+    void AddProperty(const std::string& name, const std::string& typeName, void* key, bool visibleInEditor, const char* idStr = nullptr)
     {
         ThrowOnAddPropertyError(name, typeName, key);
 
         // Using `std::make_unique` here unfortunately significantly increases compilation time on MinGW + GCC.
-        mProperties[key].reset(new TypedProperty<PropertyType>(name, typeName, visibleInEditor, static_cast<PropertyType*>(key)));
+        mProperties[key].reset(new TypedProperty<PropertyType>(name, typeName, idStr, visibleInEditor, static_cast<PropertyType*>(key)));
         mPropertiesInsertionOrdering.emplace_back(key);
         mRegisteredPropertyNames.emplace(name);
     }

@@ -5,9 +5,10 @@
 #include <string>
 
 namespace ReliveAPI {
-BaseProperty::BaseProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor)
+BaseProperty::BaseProperty(const std::string& name, const std::string& typeName, const char* idStr, bool isVisibleToEditor)
     : m_name(name)
     , m_typeName(typeName)
+    , m_idStr(idStr)
     , m_isVisibleToEditor(isVisibleToEditor)
 {
 }
@@ -28,4 +29,11 @@ BaseProperty::~BaseProperty() = default;
 {
     return m_isVisibleToEditor;
 }
+
+[[nodiscard]] const char* BaseProperty::IdStr() const
+{
+    return m_idStr;
+}
+
+
 } // namespace ReliveAPI

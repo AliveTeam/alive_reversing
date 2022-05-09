@@ -741,9 +741,9 @@ struct Path_ShadowZone final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD_HIDDEN("Center W (Unused?)", mTlv.field_10_center_w);
         ADD_HIDDEN("Center H (Unused?)", mTlv.field_12_center_h);
-        ADD("R", mTlv.field_14_r);
-        ADD("G", mTlv.field_16_g);
-        ADD("B", mTlv.field_18_b);
+        ADD_LINKED("R", mTlv.field_14_r, "RGB_R_Half_FP");
+        ADD_LINKED("G", mTlv.field_16_g, "RGB_G_Half_FP");
+        ADD_LINKED("B", mTlv.field_18_b, "RGB_B_Half_FP");
         ADD("Switch ID (Unused?)", mTlv.field_1A_switch_id);
         ADD("Scale", mTlv.field_1C_scale);
     }
