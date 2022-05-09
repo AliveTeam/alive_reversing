@@ -80,7 +80,7 @@ PropertyCollection::~PropertyCollection() = default;
         // Since we don't this string can be used to mark things as in/out switch ids, RGB linked values and so on.
         if (it->second->IdStr())
         {
-            property << "Identity_string" << it->second->IdStr();
+            property << "Identity_string" <<  std::string(it->second->IdStr());
         }
 
         property << "name" << it->second->Name();
