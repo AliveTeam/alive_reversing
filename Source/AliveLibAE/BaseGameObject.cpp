@@ -85,7 +85,7 @@ void BaseGameObject::BaseGameObject_ctor_4DBFA0(s16 bAddToObjectList, s16 resour
     field_8_object_id = nextId;
     sObjectIds_5C1B70.Insert_449C10(nextId, this);
 
-    sAccumulatedObjectCount_5C1BF4 = nextId++;
+    sAccumulatedObjectCount_5C1BF4 = ++nextId;
 }
 
 EXPORT void BaseGameObject::BaseGameObject_dtor_4DBEC0()
