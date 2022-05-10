@@ -154,6 +154,46 @@ BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, AETypes type)
     return pItem;
 }
 
+s32 ObjectIds::EnsureIdIsUnique(s32 nextId)
+{
+    ObjectId_Record* pRecord = field_4_pBuffer[Id_To_Buffer_Size_Range_449BA0(nextId)];
+
+    while (pRecord)
+    {
+        if (pRecord->field_0_id >= nextId) // We've found a value equal to or higher than the input id, to prevent duplicates we need to find the highest used ID and +1 that
+        {
+            return GetHighestUsedId() + 1;
+        }
+
+        // Go to the next record
+        pRecord = pRecord->field_8_pNext;
+    }
+
+    return nextId;
+}
+
+s32 ObjectIds::GetHighestUsedId()
+{
+    s32 nextId = 0;
+    for (u32 i = 0; i < field_0_buffer_size; i++)
+    {
+        ObjectId_Record* pRecord = field_4_pBuffer[i];
+
+        while (pRecord)
+        {
+            if (pRecord->field_0_id > nextId)
+            {
+                nextId = pRecord->field_0_id;
+            }
+
+            // Go to the next record
+            pRecord = pRecord->field_8_pNext;
+        }
+    }
+
+    return nextId;
+}
+
 #include <gmock/gmock.h>
 
 namespace AETest::TestsObjectIds {
