@@ -574,3 +574,7 @@ private:
     s32 field_198_turning_wheel_timer;
 };
 ALIVE_ASSERT_SIZEOF(Mudokon, 0x19C);
+
+#ifdef ORIGINAL_GAME_FIXES
+ALIVE_VAR_EXTERN(s16, sIsMudStandingUp_5C3018);
+#endif
