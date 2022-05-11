@@ -24,7 +24,11 @@ enum eLineTypes : u8
     eMineCarFloor_11 = 11,
     eMineCarWall_12 = 12,
     eMineCarCeiling_13 = 13,
+    eBackgroundMineCarFloor_14 = 14,
+    eBackgroundMineCarWall_15 = 15,
+    eBackgroundMineCarCeiling_16 = 16,
     eFlyingSligCeiling_17 = 17,
+    eBackgroundFlyingSligCeiling_18 = 18,
 
     eUnknown_32 = 32, // lift point and trap door but not sure which of them is which
     eUnknown_36 = 36,
