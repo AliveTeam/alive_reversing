@@ -743,12 +743,8 @@ void MineCar::RunThingsOver_46F380()
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
-                if (
-                    (
-                        pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale || pAliveObj->Type() == AETypes::eSlog_126
-                    ) &&
-                    field_CC_sprite_scale != FP_FromDouble(0.5)
-                )
+                if (pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale ||
+                   (pAliveObj->Type() == AETypes::eSlog_126 && field_CC_sprite_scale != FP_FromDouble(0.5)))
                 {
                     PSX_RECT targetRect = {};
                     pAliveObj->vGetBoundingRect_424FD0(&targetRect, 1);
