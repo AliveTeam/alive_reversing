@@ -1046,7 +1046,6 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
             else
             {
                 sJoystickEnabled_5C9F70 = 0; // Returns to keyboard controls
-                SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
             }
         }
 #endif
