@@ -731,7 +731,7 @@ void Slog::M_Fall_4_4C6930()
     {
         if (field_C4_velx > (FP_FromInteger(8) * field_CC_sprite_scale))
         {
-            field_C4_velx = FP_FromInteger(8) * field_CC_sprite_scale;
+            field_C4_velx = (FP_FromInteger(8) * field_CC_sprite_scale);
         }
     }
     else if (field_C4_velx < FP_FromInteger(0))
@@ -744,7 +744,7 @@ void Slog::M_Fall_4_4C6930()
 
     if (field_C4_velx > FP_FromInteger(0))
     {
-        field_C4_velx -= field_CC_sprite_scale * field_128_falling_velx_scale_factor;
+        field_C4_velx -= (field_CC_sprite_scale * field_128_falling_velx_scale_factor);
         if (field_C4_velx < FP_FromInteger(0))
         {
             field_C4_velx = FP_FromInteger(0);
@@ -752,12 +752,15 @@ void Slog::M_Fall_4_4C6930()
     }
     else if (field_C4_velx < FP_FromInteger(0))
     {
-        field_C4_velx += field_CC_sprite_scale * field_128_falling_velx_scale_factor;
+        field_C4_velx += (field_CC_sprite_scale * field_128_falling_velx_scale_factor);
         if (field_C4_velx > FP_FromInteger(0))
         {
             field_C4_velx = FP_FromInteger(0);
         }
     }
+
+    const FP xposBeforeChange = field_B8_xpos;
+    const FP yposBeforeChange = field_BC_ypos;
 
     field_B8_xpos += field_C4_velx;
     field_BC_ypos += field_C8_vely;
@@ -766,18 +769,18 @@ void Slog::M_Fall_4_4C6930()
     FP hitY = {};
     PathLine* pLine = nullptr;
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-            field_B8_xpos,
-            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20)),
+            xposBeforeChange,
+            yposBeforeChange - (field_CC_sprite_scale * FP_FromInteger(20)),
             field_B8_xpos,
             field_BC_ypos,
             &pLine, &hitX, &hitY, 15))
     {
         switch (pLine->field_8_type)
         {
-            case 0u:
-            case 4u:
-            case 32u:
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackgroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 field_100_pCollisionLine = pLine;
                 field_BC_ypos = hitY;
                 field_B8_xpos = hitX;
@@ -799,10 +802,10 @@ void Slog::M_Fall_4_4C6930()
                 field_106_current_motion = eSlogMotions::M_Land_10_4C7820;
                 break;
 
-            case 1u:
-            case 2u:
-            case 5u:
-            case 6u:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 field_BC_ypos = hitY;
                 field_B8_xpos = hitX - field_C4_velx;
                 MapFollowMe_408D10(FALSE);
