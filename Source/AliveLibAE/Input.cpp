@@ -2003,10 +2003,7 @@ void InputObject::Update(BaseGameAutoPlayer& autoPlayer)
         {
             bLongerTimeoutToNextDemo_5C1B9A = 0;
 #if ORIGINAL_GAME_FIXES
-            if (sIsMudStandingUp_5C3018 == 1) // Fixes Mudokons not listening to Hello after quitting a demo mid-Hello
-            {
-                sIsMudStandingUp_5C3018 = 0;
-            }
+            sIsMudStandingUp_5C3018 = 0; // Fixes Mudokons not listening to Hello after quitting a demo mid-Hello
 #endif // ORIGINAL_GAME_FIXES
             UnsetDemoPlaying_45F240();
             return;

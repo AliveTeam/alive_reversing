@@ -342,6 +342,10 @@ EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
         0,
         1);
     gMap_5C3030.field_8_force_load = 1;
+
+#if ORIGINAL_GAME_FIXES
+    sIsMudStandingUp_5C3018 = 0;
+#endif // ORIGINAL_GAME_FIXES
 }
 
 EXPORT void CC Quicksave_LoadActive_4C9170()
