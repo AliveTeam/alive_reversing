@@ -261,9 +261,10 @@ s32 TouchController::GetGamePadData(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32*
 
 
 
-    if (pSDLControllerHaptic != nullptr)
+    if (pSDLController)
     {
-        SDL_HapticRumblePlay(pSDLControllerHaptic, vibrationAmount, 200);
+        const u16 amount = static_cast<u16>(vibrationAmount * 0xFFFF);
+        SDL_GameControllerRumble(pSDLController, amount, amount, 200);
     }
 
     vibrationAmount -= 0.2f;
