@@ -16,7 +16,6 @@
 
 #if USE_SDL2
 static SDL_GameController* pSDLController = nullptr;
-static SDL_Haptic* pSDLControllerHaptic = nullptr;
 #elif _WIN32
     #include <joystickapi.h>
 #endif
@@ -269,9 +268,10 @@ void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons
 
 
 
-        if (pSDLControllerHaptic != nullptr)
+        if (pSDLController)
         {
-            SDL_HapticRumblePlay(pSDLControllerHaptic, vibrationAmount, 200);
+            const u16 amount = static_cast<u16>(vibrationAmount * 0xFFFF);
+            SDL_GameControllerRumble(pSDLController, amount, amount, 200);
         }
 
         vibrationAmount -= 0.2f;
@@ -1589,32 +1589,12 @@ EXPORT void Input_InitJoyStick_460080()
     {
         if (SDL_IsGameController(i))
         {
-            pSDLController = SDL_GameControllerOpen(i);
+            pSDLController = SDL_GameControllerOpen(i); // TODO: SDL_GameControllerClose is never called on this
             if (pSDLController)
             {
                 LOG_INFO("Controller name is " << SDL_GameControllerName(pSDLController));
 
                 sJoystickAvailable_5C2EF4 = true;
-                SDL_Joystick* joyStick = SDL_GameControllerGetJoystick(pSDLController);
-                if (!joyStick)
-                {
-                    LOG_ERROR("Failed to get joystick from controller: " << SDL_GetError());
-                }
-                else
-                {
-                    pSDLControllerHaptic = SDL_HapticOpenFromJoystick(joyStick);
-                    if (!pSDLControllerHaptic)
-                    {
-                        LOG_ERROR("SDL_HapticOpenFromJoystick failed: " << SDL_GetError());
-                    }
-                    else
-                    {
-                        if (SDL_HapticRumbleInit(pSDLControllerHaptic) < 0)
-                        {
-                            LOG_WARNING("Unable to initialize rumble! SDL Error: " << SDL_GetError());
-                        }
-                    }
-                }
 
                 strncpy(sGamePadStr_55E85C, SDL_GameControllerName(pSDLController), 32u);
 
