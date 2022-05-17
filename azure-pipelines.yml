@@ -47,7 +47,7 @@ jobs:
         mkdir "C:\\GOG Games\\Abes Oddysee"
         git submodule update --init
         mkdir C:\temp
-        powershell Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.22-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.22-VC.zip
+        powershell Invoke-WebRequest 'https://github.com/AliveTeam/SDL2_win32_dev_mirror/files/8710940/SDL2-devel-2.0.22-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.22-VC.zip
         7z x C:\Temp\SDL2-devel-2.0.22-VC.zip -oC:\Temp
         mkdir build
         cd build
@@ -68,7 +68,7 @@ jobs:
         mkdir "C:\\GOG Games\\Abes Oddysee"
         git submodule update --init
         mkdir C:\temp
-        powershell Invoke-WebRequest 'https://www.libsdl.org/release/SDL2-devel-2.0.22-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.22-VC.zip
+        powershell Invoke-WebRequest 'https://github.com/AliveTeam/SDL2_win32_dev_mirror/files/8710940/SDL2-devel-2.0.22-VC.zip' -OutFile C:\temp\SDL2-devel-2.0.22-VC.zip
         7z x C:\Temp\SDL2-devel-2.0.22-VC.zip -oC:\Temp
         mkdir build
         cd build
