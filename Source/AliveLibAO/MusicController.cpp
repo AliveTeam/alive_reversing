@@ -714,7 +714,7 @@ void MusicController::PlayMusic_443460(MusicTypes musicType, BaseGameObject* pOb
 
 void MusicController::DoClearObject(BaseGameObject* pObj)
 {
-    if (field_1C_pObj == pObj)
+    if (field_1C_pObj && field_1C_pObj == pObj)
     {
         // HACK: Here we want to clear a pointer to an object that has been deleted, this is because sometimes a new object
         // can be allocated that has the same address as the deleted object leading to undeterminsitic behaviour.

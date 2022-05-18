@@ -19,7 +19,7 @@ enum RecordTypes : u32
 enum SyncPoints : u32
 {
     StartGameObjectUpdate = 1,
-    EndGameObjectUpdate = 1,
+    EndGameObjectUpdate = 2,
 };
 
 class [[nodiscard]] AutoFILE final
