@@ -505,6 +505,14 @@ void CC MusicController::PlayMusic_443810(MusicTypes musicType, BaseGameObject* 
     }
 }
 
+void MusicController::ClearObject(BaseGameObject* pObj)
+{
+    if (pMusicController_507B98)
+    {
+        pMusicController_507B98->DoClearObject(pObj);
+    }
+}
+
 MusicController::MusicTypes CC MusicController::GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration)
 {
     MusicController::UpdateMusicTime();
@@ -659,7 +667,7 @@ void MusicController::PlayMusic_443460(MusicTypes musicType, BaseGameObject* pOb
 
             if (field_1C_pObj)
             {
-                if (field_1C_pObj == pObj)
+                if (field_1C_pObj == pObj) // Comparing a deleted ptr
                 {
                     field_20 = a4;
                 }
@@ -701,6 +709,14 @@ void MusicController::PlayMusic_443460(MusicTypes musicType, BaseGameObject* pOb
             field_44_bTypeChanged = 1;
             return;
         }
+    }
+}
+
+void MusicController::DoClearObject(BaseGameObject* pObj)
+{
+    if (field_1C_pObj == pObj)
+    {
+        field_1C_pObj = nullptr;
     }
 }
 

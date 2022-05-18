@@ -453,6 +453,8 @@ BaseGameObject* Slig::dtor_465320()
             ppRes = nullptr;
         }
     }
+    
+    MusicController::ClearObject(this);
 
     return dtor_401000(); // Note: Empty dtor skipped
 }

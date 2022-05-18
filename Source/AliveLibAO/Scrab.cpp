@@ -260,6 +260,7 @@ BaseGameObject* Scrab::dtor_45BA50()
     }
 
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+    MusicController::ClearObject(this);
 
     return dtor_401000();
 }
