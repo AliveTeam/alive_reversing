@@ -11,7 +11,15 @@ enum RecordTypes : u32
     ObjectStates = 0x123456,
     AliveObjectStates = 0x77777,
     Rng = 0x696969,
+    SysTicks = 0x19981998,
+    SyncPoint = 0xf00df00d,
     InputType = 0x101010,
+};
+
+enum SyncPoints : u32
+{
+    StartGameObjectUpdate = 1,
+    EndGameObjectUpdate = 1,
 };
 
 class [[nodiscard]] AutoFILE final
@@ -89,13 +97,16 @@ public:
     void SaveInput(const Pads& data);
     void SaveRng(s32 rng);
 
+    void SaveTicks(u32 ticks);
+    void SaveSyncPoint(u32 syncPointId);
+
     virtual void SaveObjectStates() = 0;
 
 protected:
     AutoFILE mFile;
 };
 
-class BasePlayer
+class [[nodiscard]] BasePlayer
 {
 public:
     BasePlayer() = default;
@@ -103,6 +114,8 @@ public:
     void Init(const char* pFileName);
     Pads ReadInput();
     s32 ReadRng();
+    u32 ReadTicks();
+    u32 ReadSyncPoint();
     virtual void ValidateObjectStates() = 0;
 
 protected:
@@ -152,9 +165,16 @@ public:
         return mMode == Mode::Play;
     }
 
+    bool NoFpsLimitPlayBack() const
+    {
+        return mNoFpsLimit;
+    }
+
     s32 Rng(s32 rng);
 
     u32 SysGetTicks();
+
+    void SyncPoint(u32 syncPointId);
 
 private:
 
@@ -169,4 +189,5 @@ private:
 
     BaseRecorder& mRecorder;
     BasePlayer& mPlayer;
+    bool mNoFpsLimit = false;
 };

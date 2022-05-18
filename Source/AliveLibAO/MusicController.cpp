@@ -8,7 +8,7 @@
 #include "Elum.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
-#include "Sys.hpp"
+#include "GameAutoPlayer.hpp"
 
 namespace AO {
 
@@ -343,14 +343,14 @@ static u32 sMusicControllerBaseTimeStamp = 0;
 void CC MusicController::SetBaseTimeStamp()
 {
 #if USE_SDL2
-    sMusicControllerBaseTimeStamp = SYS_GetTicks();
+    sMusicControllerBaseTimeStamp = gGameAutoPlayer.SysGetTicks();
 #endif
 }
 
 void CC MusicController::UpdateMusicTime()
 {
 #if USE_SDL2
-    sMusicTime_507B9C = (3 * SYS_GetTicks() - 3 * sMusicControllerBaseTimeStamp) / 100;
+    sMusicTime_507B9C = (3 * gGameAutoPlayer.SysGetTicks() - 3 * sMusicControllerBaseTimeStamp) / 100;
 #endif
 }
 

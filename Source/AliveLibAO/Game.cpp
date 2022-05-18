@@ -412,6 +412,7 @@ EXPORT void CC Game_Loop_437630()
         Events_Reset_Active_417320();
 
         // Update objects
+        gGameAutoPlayer.SyncPoint(SyncPoints::StartGameObjectUpdate);
         for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
@@ -432,6 +433,7 @@ EXPORT void CC Game_Loop_437630()
                 }
             }
         }
+        gGameAutoPlayer.SyncPoint(SyncPoints::EndGameObjectUpdate);
 
         // Animate everything
         if (sNumCamSwappers_507668 <= 0)

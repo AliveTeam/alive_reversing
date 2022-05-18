@@ -1,7 +1,7 @@
 #include "BaseGameAutoPlayer.hpp"
 #include "Sys_common.hpp"
 
-constexpr u32 kVersion = 0x1997 + 1;
+constexpr u32 kVersion = 0x1997 + 2;
 
 static bool ExtractNamePairArgument(char* pOutArgument, const char* pCmdLine, const char* argumentPrefix)
 {
@@ -64,6 +64,18 @@ void BaseRecorder::SaveRng(s32 rng)
     mFile.Write(rng);
 }
 
+void BaseRecorder::SaveTicks(u32 ticks)
+{
+    mFile.Write(RecordTypes::SysTicks);
+    mFile.Write(ticks);
+}
+
+void BaseRecorder::SaveSyncPoint(u32 syncPointId)
+{
+    mFile.Write(RecordTypes::SyncPoint);
+    mFile.Write(syncPointId);
+}
+
 void BasePlayer::Init(const char* pFileName)
 {
     LOG_INFO("Playing from " << pFileName);
@@ -99,6 +111,24 @@ s32 BasePlayer::ReadRng()
     return rng;
 }
 
+u32 BasePlayer::ReadTicks()
+{
+    ValidateNextTypeIs(RecordTypes::SysTicks);
+
+    u32 ticks = 0;
+    mFile.Read(ticks);
+    return ticks;
+}
+
+u32 BasePlayer::ReadSyncPoint()
+{
+    ValidateNextTypeIs(RecordTypes::SyncPoint);
+
+    u32 syncPointId = 0;
+    mFile.Read(syncPointId);
+    return syncPointId;
+}
+
 void BasePlayer::ValidateNextTypeIs(RecordTypes type)
 {
     const u32 actualType = mFile.ReadU32();
@@ -121,6 +151,11 @@ void BaseGameAutoPlayer::ParseCommandLine(const char* pCmdLine)
     {
         mPlayer.Init(buffer);
         mMode = Mode::Play;
+
+        if (strstr(pCmdLine, "-fastest"))
+        {
+            mNoFpsLimit = true;
+        }
     }
 }
 
@@ -177,5 +212,34 @@ s32 BaseGameAutoPlayer::Rng(s32 rng)
 
 u32 BaseGameAutoPlayer::SysGetTicks()
 {
-    return SYS_GetTicks();
+    if (IsRecording())
+    {
+        const u32 ticks = SYS_GetTicks();
+        mRecorder.SaveTicks(ticks);
+        return ticks;
+    }
+    else if (IsPlaying())
+    {
+        const u32 readTicks = mPlayer.ReadTicks();
+        return readTicks;
+    }
+    
+    return 0;
+}
+
+void BaseGameAutoPlayer::SyncPoint(u32 syncPointId)
+{
+    if (IsRecording())
+    {
+        mRecorder.SaveSyncPoint(syncPointId);
+    }
+    else if (IsPlaying())
+    {
+        const u32 readSyncPoint = mPlayer.ReadSyncPoint();
+        if (readSyncPoint != syncPointId)
+        {
+            LOG_ERROR("Sync point de-sync! Expected " << syncPointId << " but got " << readSyncPoint);
+            ALIVE_FATAL("Sync point de-sync");
+        }
+    }
 }
