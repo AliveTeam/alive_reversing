@@ -343,14 +343,14 @@ static u32 sMusicControllerBaseTimeStamp = 0;
 void CC MusicController::SetBaseTimeStamp()
 {
 #if USE_SDL2
-    sMusicControllerBaseTimeStamp = gGameAutoPlayer.SysGetTicks();
+    sMusicControllerBaseTimeStamp = GetGameAutoPlayer().SysGetTicks();
 #endif
 }
 
 void CC MusicController::UpdateMusicTime()
 {
 #if USE_SDL2
-    sMusicTime_507B9C = (3 * gGameAutoPlayer.SysGetTicks() - 3 * sMusicControllerBaseTimeStamp) / 100;
+    sMusicTime_507B9C = (3 * GetGameAutoPlayer().SysGetTicks() - 3 * sMusicControllerBaseTimeStamp) / 100;
 #endif
 }
 

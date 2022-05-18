@@ -29,5 +29,3 @@ private:
     Recorder mAERecorder;
     Player mAEPlayer;
 };
-
-extern GameAutoPlayer gGameAutoPlayer;

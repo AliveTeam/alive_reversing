@@ -125,7 +125,7 @@ EXPORT s16 CC Math_RandomRange_496AB0(s16 min, s16 max)
 EXPORT u8 Math_NextRandom()
 {
     const u8 random = sRandomBytes_546744[sRandomSeed_5D1E10++];
-    return static_cast<u8>(gGameAutoPlayer.Rng(random));
+    return static_cast<u8>(GetGameAutoPlayer().Rng(random));
 }
 
 const u16 sSineTable_5466C4[64] = {

@@ -32,6 +32,4 @@ private:
     Player mAOPlayer;
 };
 
-extern GameAutoPlayer gGameAutoPlayer;
-
 } // namespace AO

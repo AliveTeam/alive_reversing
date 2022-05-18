@@ -191,3 +191,7 @@ private:
     BasePlayer& mPlayer;
     bool mNoFpsLimit = false;
 };
+
+// Implemented in the top level binaries so AE and AO shared code return the same object rather 
+// than the per AE/AO derived type in the AE shared functions.
+BaseGameAutoPlayer& GetGameAutoPlayer();

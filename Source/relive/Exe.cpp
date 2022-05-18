@@ -23,6 +23,9 @@
 #include "../AliveLibAO/Game.hpp"
 #include "../AliveLibAO/SwitchStates.hpp"
 
+#include "../AliveLibAE/GameAutoPlayer.hpp"
+#include "../AliveLibAO/GameAutoPlayer.hpp"
+
 #include "Io.hpp"
 
 enum class GameType : s32
@@ -197,6 +200,25 @@ static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
     }
 }
 
+static BaseGameAutoPlayer& GetGameAutoPlayerAO()
+{
+    static AO::GameAutoPlayer autoPlayer;
+    return autoPlayer;
+}
+
+static BaseGameAutoPlayer& GetGameAutoPlayerAE()
+{
+    static GameAutoPlayer autoPlayer;
+    return autoPlayer;
+}
+
+static BaseGameAutoPlayer* pAutoPlayer = nullptr;
+
+BaseGameAutoPlayer& GetGameAutoPlayer()
+{
+    return *pAutoPlayer;
+}
+
 static s32 AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("AO standalone starting...");
@@ -259,10 +281,12 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     if (gameToRun == GameType::eAo)
     {
+        pAutoPlayer = &GetGameAutoPlayerAO();
         return AOMain(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
     }
     else
     {
+        pAutoPlayer = &GetGameAutoPlayerAE();
         return AEMain(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
     }
 }

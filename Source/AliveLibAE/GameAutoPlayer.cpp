@@ -93,5 +93,3 @@ u32 GameAutoPlayer::ReadInput(u32 padIdx)
 {
     return Input_Read_Pad_4FA9C0(padIdx);
 }
-
-GameAutoPlayer gGameAutoPlayer;

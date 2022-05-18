@@ -219,7 +219,7 @@ void PauseMenu::VUpdate_44DFB0()
             PSX_DrawSync_496750(0);
             ResourceManager::Reclaim_Memory_455660(500000);
             gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
-            Input().Update(gGameAutoPlayer);
+            Input().Update(GetGameAutoPlayer());
 
             if (field_120_selected_glow_counter > 0)
             {
@@ -547,7 +547,7 @@ void PauseMenu::VUpdate_44DFB0()
 
             if (!field_11C)
             {
-                Input().Update(gGameAutoPlayer);
+                Input().Update(GetGameAutoPlayer());
                 field_6_flags.Clear(Options::eDrawable_Bit4);
                 break;
             }

@@ -76,5 +76,4 @@ u32 GameAutoPlayer::ReadInput(u32 padIdx)
     return Input().Input_Read_Pad(padIdx);
 }
 
-GameAutoPlayer gGameAutoPlayer;
 } // namespace AO

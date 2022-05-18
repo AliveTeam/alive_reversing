@@ -213,11 +213,11 @@ static void Main_ParseCommandLineArguments()
 
     std::string windowTitle = WindowTitleAO();
 
-    if (gGameAutoPlayer.IsRecording())
+    if (GetGameAutoPlayer().IsRecording())
     {
         windowTitle += " [Recording]";
     }
-    else if (gGameAutoPlayer.IsPlaying())
+    else if (GetGameAutoPlayer().IsPlaying())
     {
         windowTitle += " [AutoPlay]";
     }
@@ -412,7 +412,7 @@ EXPORT void CC Game_Loop_437630()
         Events_Reset_Active_417320();
 
         // Update objects
-        gGameAutoPlayer.SyncPoint(SyncPoints::StartGameObjectUpdate);
+        GetGameAutoPlayer().SyncPoint(SyncPoints::StartGameObjectUpdate);
         for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
@@ -433,7 +433,7 @@ EXPORT void CC Game_Loop_437630()
                 }
             }
         }
-        gGameAutoPlayer.SyncPoint(SyncPoints::EndGameObjectUpdate);
+        GetGameAutoPlayer().SyncPoint(SyncPoints::EndGameObjectUpdate);
 
         // Animate everything
         if (sNumCamSwappers_507668 <= 0)
@@ -482,14 +482,14 @@ EXPORT void CC Game_Loop_437630()
         }
 
         gMap_507BA8.ScreenChange_4444D0();
-        Input().Update(gGameAutoPlayer);
+        Input().Update(GetGameAutoPlayer());
 
         if (sNumCamSwappers_507668 == 0)
         {
             gnFrameCount_507670++;
         }
 
-        gGameAutoPlayer.ValidateObjectStates();
+        GetGameAutoPlayer().ValidateObjectStates();
 
     } // Main loop end
 
@@ -615,7 +615,7 @@ EXPORT void Game_Main_450050()
 {
     BaseAliveGameObject_ForceLink();
 
-    gGameAutoPlayer.ParseCommandLine(Sys_GetCommandLine_48E920());
+    GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine_48E920());
 
     Main_ParseCommandLineArguments();
     Game_SetExitCallBack_48E040(Game_ExitGame_450730);
