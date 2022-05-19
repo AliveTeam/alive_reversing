@@ -3121,8 +3121,8 @@ void Paramite::M_Idle_0_489FB0()
 
 const FP sWalkTable_5464BC[3] = {
     FP_FromInteger(0),
-    FP_FromDouble(1.40),
-    FP_FromDouble(9.02)};
+    FP_FromDouble(1.402099609375),
+    FP_FromDouble(9.025436401367188)};
 
 void Paramite::M_WalkBegin_1_48A7B0()
 {
@@ -3153,20 +3153,20 @@ void Paramite::M_WalkBegin_1_48A7B0()
 }
 
 const FP sWalkTable_546484[14] = {
-    FP_FromDouble(2.03),
-    FP_FromDouble(4.02),
-    FP_FromDouble(4.46),
-    FP_FromDouble(3.34),
-    FP_FromDouble(3.18),
-    FP_FromDouble(4.93),
-    FP_FromDouble(3.12),
-    FP_FromDouble(2.50),
-    FP_FromDouble(4.44),
-    FP_FromDouble(3.96),
-    FP_FromDouble(2.90),
-    FP_FromDouble(3.64),
-    FP_FromDouble(4.70),
-    FP_FromDouble(2.72)};
+    FP_FromDouble(2.03741455078125),
+    FP_FromDouble(4.02911376953125),
+    FP_FromDouble(4.46575927734375),
+    FP_FromDouble(3.3473663330078125),
+    FP_FromDouble(3.1887054443359375),
+    FP_FromDouble(4.937652587890625),
+    FP_FromDouble(3.126708984375),
+    FP_FromDouble(2.50823974609375),
+    FP_FromDouble(4.440032958984375),
+    FP_FromDouble(3.9687652587890625),
+    FP_FromDouble(2.9050140380859375),
+    FP_FromDouble(3.6402130126953125),
+    FP_FromDouble(4.701416015625),
+    FP_FromDouble(2.72283935546875)};
 
 
 void Paramite::M_Walking_2_48A2D0()
@@ -3305,20 +3305,20 @@ void Paramite::M_Walking_2_48A2D0()
 }
 
 const FP sRunningTable_5464E8[14] = {
-    FP_FromDouble(5.16),
-    FP_FromDouble(5.62),
-    FP_FromDouble(3.32),
-    FP_FromDouble(3.53),
-    FP_FromDouble(5.26),
-    FP_FromDouble(10.46),
-    FP_FromDouble(9.87),
-    FP_FromDouble(8.14),
-    FP_FromDouble(8.29),
-    FP_FromDouble(7.18),
-    FP_FromDouble(6.79),
-    FP_FromDouble(8.93),
-    FP_FromDouble(11.46),
-    FP_FromDouble(5.92)};
+    FP_FromDouble(5.1657867431640625),
+    FP_FromDouble(5.624664306640625),
+    FP_FromDouble(3.328460693359375),
+    FP_FromDouble(3.532440185546875),
+    FP_FromDouble(5.26165771484375),
+    FP_FromDouble(10.463729858398438),
+    FP_FromDouble(9.87750244140625),
+    FP_FromDouble(8.148956298828125),
+    FP_FromDouble(8.294830322265625),
+    FP_FromDouble(7.1818389892578125),
+    FP_FromDouble(6.7950592041015625),
+    FP_FromDouble(8.932144165039062),
+    FP_FromDouble(11.460769653320312),
+    FP_FromDouble(5.9268646240234375)};
 
 void Paramite::M_Running_3_48AA00()
 {
@@ -3466,20 +3466,20 @@ void Paramite::M_Turn_4_48B180()
 }
 
 const FP sHopTable_546544[14] = {
-    FP_FromDouble(6.47),
-    FP_FromDouble(6.95),
-    FP_FromDouble(4.58),
-    FP_FromDouble(4.79),
-    FP_FromDouble(6.57),
-    FP_FromDouble(12.13),
-    FP_FromDouble(11.16),
-    FP_FromDouble(6.43),
-    FP_FromDouble(6.45),
-    FP_FromDouble(5.37),
-    FP_FromDouble(5.91),
-    FP_FromDouble(7.38),
-    FP_FromDouble(6.70),
-    FP_FromDouble(9.06)};
+    FP_FromDouble(6.478485107421875),
+    FP_FromDouble(6.952423095703125),
+    FP_FromDouble(4.5809173583984375),
+    FP_FromDouble(4.7915191650390625),
+    FP_FromDouble(6.5775146484375),
+    FP_FromDouble(12.131378173828125),
+    FP_FromDouble(11.163650512695312),
+    FP_FromDouble(6.437164306640625),
+    FP_FromDouble(6.45751953125),
+    FP_FromDouble(5.377593994140625),
+    FP_FromDouble(5.9170379638671875),
+    FP_FromDouble(7.3821563720703125),
+    FP_FromDouble(6.7065582275390625),
+    FP_FromDouble(9.063491821289062)};
 
 void Paramite::M_Hop_5_48B5B0()
 {
@@ -3581,11 +3581,11 @@ void Paramite::M_Hop_5_48B5B0()
 }
 
 const FP M_Unused_6_VelTable_5464D4[5] = {
-    FP_FromDouble(2.25),
-    FP_FromDouble(5.63),
-    FP_FromDouble(7.31),
-    FP_FromDouble(7.31),
-    FP_FromDouble(5.63)};
+    FP_FromDouble(2.2522430419921875),
+    FP_FromDouble(5.6306304931640625),
+    FP_FromDouble(7.3198089599609375),
+    FP_FromDouble(7.3198089599609375),
+    FP_FromDouble(5.6306304931640625)};
 
 void Paramite::M_Unused_6_48A930()
 {
@@ -3619,9 +3619,9 @@ void Paramite::M_Unused_6_48A930()
 }
 
 const FP sWalkToRunTable_546538[3] = {
-    FP_FromDouble(5.39),
-    FP_FromDouble(5.39),
-    FP_FromDouble(5.39)};
+    FP_FromDouble(5.3964691162109375),
+    FP_FromDouble(5.396453857421875),
+    FP_FromDouble(5.396484375)};
 
 void Paramite::M_WalkRunTransition_7_48B0C0()
 {
@@ -3653,9 +3653,9 @@ void Paramite::M_WalkRunTransition_7_48B0C0()
 }
 
 const FP sWalkEndTable_5464C8[3] = {
-    FP_FromDouble(2.33),
-    FP_FromDouble(5.03),
-    FP_FromDouble(6.70)};
+    FP_FromDouble(2.3350982666015625),
+    FP_FromDouble(5.0355224609375),
+    FP_FromDouble(6.70159912109375)};
 
 void Paramite::M_WalkEnd_8_48A870()
 {
@@ -3686,9 +3686,9 @@ void Paramite::M_WalkEnd_8_48A870()
 }
 
 const FP sRunBeginTable_546520[3] = {
-    FP_FromDouble(1.87),
-    FP_FromDouble(2.15),
-    FP_FromDouble(3.33)};
+    FP_FromDouble(1.8789520263671875),
+    FP_FromDouble(2.15924072265625),
+    FP_FromDouble(3.330413818359375)};
 
 void Paramite::M_RunBegin_9_48AF10()
 {
@@ -3721,9 +3721,9 @@ void Paramite::M_RunBegin_9_48AF10()
 }
 
 const FP sRunEndTable_54652C[3] = {
-    FP_FromDouble(3.11),
-    FP_FromDouble(3.06),
-    FP_FromDouble(3.43)};
+    FP_FromDouble(3.11126708984375),
+    FP_FromDouble(3.063446044921875),
+    FP_FromDouble(3.43255615234375)};
 
 void Paramite::M_RunEnd_10_48B000()
 {

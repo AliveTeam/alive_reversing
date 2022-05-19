@@ -558,6 +558,7 @@ void Glukkon::M_KnockBack_3_442F40()
     }
 }
 
+//  TODO: higher precision
 const FP sGlukkonVelY_5453DC[10] = {
     FP_FromDouble(-10.01),
     FP_FromDouble(-10.58),
@@ -570,6 +571,7 @@ const FP sGlukkonVelY_5453DC[10] = {
     FP_FromDouble(10.94),
     FP_FromDouble(15.03)};
 
+//  TODO: higher precision
 const FP sGlukkonJumpVelX_54539C[10] = {
     FP_FromDouble(10.33),
     FP_FromDouble(21.65),
@@ -2606,6 +2608,7 @@ void Glukkon::SpeakRandomish_4405D0()
     }
 }
 
+//  TODO: higher precision
 const FP sWalkData_545354[18] = {
     FP_FromInteger(0),
     FP_FromDouble(2.11),
