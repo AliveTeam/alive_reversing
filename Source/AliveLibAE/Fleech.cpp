@@ -636,13 +636,13 @@ void Fleech::M_Idle_3_42E850()
 }
 
 const FP sFleechCrawlVelX_544FA0[7] = {
-    FP_FromDouble(3.83),
-    FP_FromDouble(3.36),
-    FP_FromDouble(4.68),
-    FP_FromDouble(4.98),
-    FP_FromDouble(2.57),
-    FP_FromDouble(3.31),
-    FP_FromDouble(2.22)};
+    FP_FromDouble(3.8364105224609375),
+    FP_FromDouble(3.36883544921875),
+    FP_FromDouble(4.6882781982421875),
+    FP_FromDouble(4.9884185791015625),
+    FP_FromDouble(2.5774078369140625),
+    FP_FromDouble(3.3113861083984375),
+    FP_FromDouble(2.2292022705078125)};
 
 void Fleech::M_Crawl_4_42E960()
 {

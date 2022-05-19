@@ -559,28 +559,28 @@ void Glukkon::M_KnockBack_3_442F40()
 }
 
 const FP sGlukkonVelY_5453DC[10] = {
-    FP_FromDouble(-10.01),
-    FP_FromDouble(-10.58),
-    FP_FromDouble(-7.2),
-    FP_FromDouble(-4.66),
+    FP_FromDouble(-10.011077880859375),
+    FP_FromDouble(-10.583099365234375),
+    FP_FromDouble(-7.2048492431640625),
+    FP_FromDouble(-4.6619873046875),
     FP_FromInteger(-3),
     FP_FromInteger(3),
-    FP_FromDouble(4.40),
-    FP_FromDouble(7.07),
-    FP_FromDouble(10.94),
-    FP_FromDouble(15.03)};
+    FP_FromDouble(4.4048004150390625),
+    FP_FromDouble(7.0737457275390625),
+    FP_FromDouble(10.93603515625),
+    FP_FromDouble(15.046417236328125)};
 
 const FP sGlukkonJumpVelX_54539C[10] = {
-    FP_FromDouble(10.33),
-    FP_FromDouble(21.65),
-    FP_FromDouble(18.93),
-    FP_FromDouble(12.51),
-    FP_FromDouble(10.81),
-    FP_FromDouble(7.71),
-    FP_FromDouble(5.19),
-    FP_FromDouble(4.02),
-    FP_FromDouble(2.60),
-    FP_FromDouble(0.92)};
+    FP_FromDouble(10.335205078125),
+    FP_FromDouble(21.649551391601562),
+    FP_FromDouble(18.9296875),
+    FP_FromDouble(12.507583618164062),
+    FP_FromDouble(10.808151245117188),
+    FP_FromDouble(7.7117919921875),
+    FP_FromDouble(5.19439697265625),
+    FP_FromDouble(4.020263671875),
+    FP_FromDouble(2.5957489013671875),
+    FP_FromDouble(0.920867919921875)};
 
 void Glukkon::M_Jump_4_443030()
 {
@@ -2608,23 +2608,23 @@ void Glukkon::SpeakRandomish_4405D0()
 
 const FP sWalkData_545354[18] = {
     FP_FromInteger(0),
-    FP_FromDouble(2.11),
-    FP_FromDouble(3.92),
-    FP_FromDouble(2.11),
-    FP_FromDouble(0.82),
-    FP_FromDouble(4.99),
-    FP_FromDouble(6.02),
-    FP_FromDouble(2.92),
-    FP_FromDouble(2.11),
-    FP_FromDouble(3.92),
-    FP_FromDouble(2.11),
-    FP_FromDouble(0.82),
-    FP_FromDouble(4.99),
-    FP_FromDouble(6.02),
-    FP_FromDouble(2.92),
-    FP_FromDouble(2.11),
-    FP_FromDouble(3.92),
-    FP_FromDouble(2.11)};
+    FP_FromDouble(2.1124420166015625),
+    FP_FromDouble(3.923065185546875),
+    FP_FromDouble(2.1124420166015625),
+    FP_FromDouble(0.816680908203125),
+    FP_FromDouble(4.986083984375),
+    FP_FromDouble(6.017730712890625),
+    FP_FromDouble(2.9228973388671875),
+    FP_FromDouble(2.1124114990234375),
+    FP_FromDouble(3.923095703125),
+    FP_FromDouble(2.1124114990234375),
+    FP_FromDouble(0.816680908203125),
+    FP_FromDouble(4.986114501953125),
+    FP_FromDouble(6.0177154541015625),
+    FP_FromDouble(2.9228973388671875),
+    FP_FromDouble(2.1124114990234375),
+    FP_FromDouble(3.923095703125),
+    FP_FromDouble(2.1124114990234375)};
 
 
 // These tables just contain all zeros

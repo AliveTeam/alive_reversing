@@ -2117,28 +2117,28 @@ void Scrab::M_Stand_0_4A8220()
 }
 
 const FP sScrabWalkXVels_546E54[22] = {
-    FP_FromDouble(1.57),
-    FP_FromDouble(1.57),
-    FP_FromDouble(1.52),
-    FP_FromDouble(1.56),
-    FP_FromDouble(1.59),
-    FP_FromDouble(3.69),
-    FP_FromDouble(3.95),
-    FP_FromDouble(3.97),
-    FP_FromDouble(3.30),
-    FP_FromDouble(2.62),
-    FP_FromDouble(2.16),
-    FP_FromDouble(2.02),
-    FP_FromDouble(1.80),
-    FP_FromDouble(1.60),
-    FP_FromDouble(2.64),
-    FP_FromDouble(2.68),
-    FP_FromDouble(2.67),
-    FP_FromDouble(2.69),
-    FP_FromDouble(1.39),
-    FP_FromDouble(1.37),
-    FP_FromDouble(1.37),
-    FP_FromDouble(2.16)};
+    FP_FromDouble(1.570587158203125),
+    FP_FromDouble(1.5780487060546875),
+    FP_FromDouble(1.5256805419921875),
+    FP_FromDouble(1.5651397705078125),
+    FP_FromDouble(1.5966339111328125),
+    FP_FromDouble(3.694122314453125),
+    FP_FromDouble(3.9574737548828125),
+    FP_FromDouble(3.9715423583984375),
+    FP_FromDouble(3.3073272705078125),
+    FP_FromDouble(2.629669189453125),
+    FP_FromDouble(2.1679229736328125),
+    FP_FromDouble(2.0220794677734375),
+    FP_FromDouble(1.804046630859375),
+    FP_FromDouble(1.6065216064453125),
+    FP_FromDouble(2.6418609619140625),
+    FP_FromDouble(2.685821533203125),
+    FP_FromDouble(2.673095703125),
+    FP_FromDouble(2.691070556640625),
+    FP_FromDouble(1.3966827392578125),
+    FP_FromDouble(1.376983642578125),
+    FP_FromDouble(1.3767242431640625),
+    FP_FromDouble(2.1646728515625)};
 
 void Scrab::M_Walk_1_4A84D0()
 {
@@ -2251,20 +2251,20 @@ void Scrab::M_Walk_1_4A84D0()
 }
 
 static const FP sScrabRunVelX_546EC4[14] = {
-    FP_FromDouble(9.49),
-    FP_FromDouble(9.73),
-    FP_FromDouble(9.58),
-    FP_FromDouble(9.14),
-    FP_FromDouble(9.09),
-    FP_FromDouble(9.57),
-    FP_FromDouble(9.32),
-    FP_FromDouble(8.65),
-    FP_FromDouble(5.29),
-    FP_FromDouble(4.28),
-    FP_FromDouble(3.44),
-    FP_FromDouble(3.39),
-    FP_FromDouble(3.81),
-    FP_FromDouble(5.15)};
+    FP_FromDouble(9.498733520507812),
+    FP_FromDouble(9.733749389648438),
+    FP_FromDouble(9.584152221679688),
+    FP_FromDouble(9.141021728515625),
+    FP_FromDouble(9.099105834960938),
+    FP_FromDouble(9.576034545898438),
+    FP_FromDouble(9.327011108398438),
+    FP_FromDouble(8.654891967773438),
+    FP_FromDouble(5.2911224365234375),
+    FP_FromDouble(4.2801666259765625),
+    FP_FromDouble(3.446380615234375),
+    FP_FromDouble(3.3974456787109375),
+    FP_FromDouble(3.8137969970703125),
+    FP_FromDouble(5.15692138671875)};
 
 void Scrab::M_Run_2_4A89C0()
 {
@@ -2441,10 +2441,10 @@ void Scrab::M_RunToStand_4_4A90C0()
 }
 
 const FP sScrabHopBeginVelX_546F24[4] = {
-    FP_FromDouble(-1.02),
-    FP_FromDouble(-1.84),
-    FP_FromDouble(-0.20),
-    FP_FromDouble(2.77)};
+    FP_FromDouble(-1.0283050537109375),
+    FP_FromDouble(-1.8401947021484375),
+    FP_FromDouble(-0.2052764892578125),
+    FP_FromDouble(2.77862548828125)};
 
 void Scrab::M_HopBegin_5_4A96C0()
 {
@@ -2502,14 +2502,14 @@ void Scrab::M_HopBegin_5_4A96C0()
 }
 
 const FP sScrabHopMidAirVelX_546F34[8] = {
-    FP_FromInteger(5),
-    FP_FromDouble(6.88),
-    FP_FromDouble(15.79),
-    FP_FromDouble(18.30),
-    FP_FromDouble(15.49),
-    FP_FromDouble(15.18),
-    FP_FromDouble(6.18),
-    FP_FromInteger(5)};
+    FP_FromDouble(5.00537109375),
+    FP_FromDouble(6.8809356689453125),
+    FP_FromDouble(15.796859741210938),
+    FP_FromDouble(18.309295654296875),
+    FP_FromDouble(15.494369506835938),
+    FP_FromDouble(15.187164306640625),
+    FP_FromDouble(6.1830902099609375),
+    FP_FromDouble(5.00537109375)};
 
 void Scrab::M_HopMidair_6_4A9490()
 {
@@ -2585,10 +2585,10 @@ void Scrab::M_HopMidair_6_4A9490()
 }
 
 const FP sScrabHopLandVelX_546F54[4] = {
-    FP_FromDouble(2.77),
-    FP_FromDouble(0.94),
-    FP_FromDouble(0.43),
-    FP_FromDouble(0.38)};
+    FP_FromDouble(2.77862548828125),
+    FP_FromDouble(0.9429779052734375),
+    FP_FromDouble(0.4394683837890625),
+    FP_FromDouble(0.388397216796875)};
 
 void Scrab::M_HopLand_7_4A9890()
 {
