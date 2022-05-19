@@ -1408,10 +1408,10 @@ const FP sSlogStopRunningVelX_4BCCC8[] = {
     FP_FromDouble(3.81121826171875),
     FP_FromDouble(1.503692626953125),
     FP_FromDouble(0.5045166015625),
-    FP_FromDouble(-0.24),
-    FP_FromDouble(-0.60),
-    FP_FromDouble(-1.24),
-    FP_FromDouble(-4.89),
+    FP_FromDouble(-0.2426605224609375),
+    FP_FromDouble(-0.5961456298828125),
+    FP_FromDouble(-1.2430877685546875),
+    FP_FromDouble(-4.89166259765625),
     FP_FromDouble(32000)};
 
 void Slog::Motion_8_StopRunning_474EC0()
