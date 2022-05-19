@@ -156,6 +156,11 @@ void BaseGameAutoPlayer::ParseCommandLine(const char* pCmdLine)
         {
             mNoFpsLimit = true;
         }
+
+        if (strstr(pCmdLine, "-ignore_desyncs"))
+        {
+            mIgnoreDesyncs = true;
+        }
     }
 }
 
@@ -182,7 +187,14 @@ void BaseGameAutoPlayer::ValidateObjectStates()
 {
     if (mMode == Mode::Play)
     {
-        mPlayer.ValidateObjectStates();
+        if (!mPlayer.ValidateObjectStates())
+        {
+            if (!mIgnoreDesyncs)
+            {
+                ALIVE_FATAL("Play back de-synced, see console log for details");
+            }
+            mMode = Mode::None;
+        }
     }
     else if (mMode == Mode::Record)
     {

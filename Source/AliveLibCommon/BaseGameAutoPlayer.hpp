@@ -116,19 +116,20 @@ public:
     s32 ReadRng();
     u32 ReadTicks();
     u32 ReadSyncPoint();
-    virtual void ValidateObjectStates() = 0;
+    virtual bool ValidateObjectStates() = 0;
 
 protected:
     template <typename TypeToValidate>
-    static void ValidField(AutoFILE& file, const TypeToValidate& expectedValue, const char* name)
+    static bool ValidField(AutoFILE& file, const TypeToValidate& expectedValue, const char* name)
     {
         TypeToValidate tmpValue = {};
         file.Read(tmpValue);
         if (tmpValue != expectedValue)
         {
             LOG_ERROR("Field " << name << " de-synced");
-            ALIVE_FATAL("Field value de-sync");
+            return true;
         }
+        return false;
     }
 
     void ValidateNextTypeIs(RecordTypes type);
@@ -190,6 +191,7 @@ private:
     BaseRecorder& mRecorder;
     BasePlayer& mPlayer;
     bool mNoFpsLimit = false;
+    bool mIgnoreDesyncs = false;
 };
 
 // Implemented in the top level binaries so AE and AO shared code return the same object rather 

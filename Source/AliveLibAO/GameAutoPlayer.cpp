@@ -34,7 +34,7 @@ void Recorder::SaveObjectStates()
     }
 }
 
-void Player::ValidateObjectStates()
+bool Player::ValidateObjectStates()
 {
     u32 objCount = 0;
     mFile.Read(objCount);
@@ -42,7 +42,7 @@ void Player::ValidateObjectStates()
     if (static_cast<u32>(gBaseGameObject_list_9F2DF0->Size()) != objCount)
     {
         LOG_ERROR("Got " << gBaseGameObject_list_9F2DF0->Size() << " objects but expected " << objCount);
-        ALIVE_FATAL("Object count de-sync");
+        return false;
     }
 
     for (u32 i = 0; i < objCount; i++)
@@ -54,21 +54,28 @@ void Player::ValidateObjectStates()
         if (static_cast<s16>(pObj->field_4_typeId) != objType)
         {
             LOG_ERROR("Got " << static_cast<s16>(pObj->field_4_typeId) << " type but expected " << objType);
-            ALIVE_FATAL("Object type de-sync");
+            return false;
         }
 
         if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            ValidField(mFile, pAliveObj->field_A8_xpos, "xpos");
-            ValidField(mFile, pAliveObj->field_AC_ypos, "ypos");
-            ValidField(mFile, pAliveObj->field_E8_LastLineYPos, "last line ypos");
-            ValidField(mFile, pAliveObj->field_FC_current_motion, "current motion");
-            ValidField(mFile, pAliveObj->field_FE_next_motion, "next motion");
-            ValidField(mFile, pAliveObj->field_E4_previous_motion, "previous motion");
-            ValidField(mFile, pAliveObj->field_100_health, "health motion");
+            bool validateFailed = false;
+            validateFailed |= ValidField(mFile, pAliveObj->field_A8_xpos, "xpos");
+            validateFailed |= ValidField(mFile, pAliveObj->field_AC_ypos, "ypos");
+            validateFailed |= ValidField(mFile, pAliveObj->field_E8_LastLineYPos, "last line ypos");
+            validateFailed |= ValidField(mFile, pAliveObj->field_FC_current_motion, "current motion");
+            validateFailed |= ValidField(mFile, pAliveObj->field_FE_next_motion, "next motion");
+            validateFailed |= ValidField(mFile, pAliveObj->field_E4_previous_motion, "previous motion");
+            validateFailed |= ValidField(mFile, pAliveObj->field_100_health, "health motion");
+            if (validateFailed)
+            {
+                return false;
+            }
         }
     }
+
+    return true;
 }
 
 u32 GameAutoPlayer::ReadInput(u32 padIdx)
