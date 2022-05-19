@@ -1725,7 +1725,7 @@ void PauseMenu::Update_48FD80()
                     PSX_DrawSync_4F6280(0);
                     ResourceManager::Reclaim_Memory_49C470(500000);
                     gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
-                    sInputObject_5BD4E0.Update(gGameAutoPlayer);
+                    sInputObject_5BD4E0.Update(GetGameAutoPlayer());
 
                     if (field_130_selected_glow_counter > 0)
                     {
@@ -1754,7 +1754,7 @@ void PauseMenu::Update_48FD80()
                 }
 
                 // This call seems redundant as the calle will also update input right after this too
-                sInputObject_5BD4E0.Update(gGameAutoPlayer);
+                sInputObject_5BD4E0.Update(GetGameAutoPlayer());
 
                 field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
             }

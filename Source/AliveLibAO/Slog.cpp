@@ -260,6 +260,8 @@ BaseGameObject* Slog::dtor_473370()
         gNumSlogs_9F11C8--;
     }
 
+    MusicController::ClearObject(this);
+
     return dtor_401000();
 }
 

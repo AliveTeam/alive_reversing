@@ -14,6 +14,7 @@
 #include "Sys.hpp"
 #include "PsxRender.hpp"
 #include "Renderer/IRenderer.hpp"
+#include "GameAutoPlayer.hpp"
 #include <gmock/gmock.h>
 
 extern bool gLatencyHack;
@@ -878,7 +879,7 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
         sVSyncLastMillisecond_BD0F2C = currentTime;
     }
 
-    if (mode == 1) // Ignore Frame cap
+    if (mode == 1 || (GetGameAutoPlayer().IsPlaying() && GetGameAutoPlayer().NoFpsLimitPlayBack())) // Ignore Frame cap
     {
         sVSync_Unused_578325 = 1;
         const s32 v3 = (s32)((s64)(1172812403ULL * (s32)(240 * (currentTime - sVSyncLastMillisecond_BD0F2C))) >> 32) >> 14;

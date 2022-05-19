@@ -8,7 +8,7 @@
 #include "Elum.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
-#include "Sys.hpp"
+#include "GameAutoPlayer.hpp"
 
 namespace AO {
 
@@ -343,14 +343,14 @@ static u32 sMusicControllerBaseTimeStamp = 0;
 void CC MusicController::SetBaseTimeStamp()
 {
 #if USE_SDL2
-    sMusicControllerBaseTimeStamp = SYS_GetTicks();
+    sMusicControllerBaseTimeStamp = GetGameAutoPlayer().SysGetTicks();
 #endif
 }
 
 void CC MusicController::UpdateMusicTime()
 {
 #if USE_SDL2
-    sMusicTime_507B9C = (3 * SYS_GetTicks() - 3 * sMusicControllerBaseTimeStamp) / 100;
+    sMusicTime_507B9C = (3 * GetGameAutoPlayer().SysGetTicks() - 3 * sMusicControllerBaseTimeStamp) / 100;
 #endif
 }
 
@@ -502,6 +502,14 @@ void CC MusicController::PlayMusic_443810(MusicTypes musicType, BaseGameObject* 
     if (pMusicController_507B98)
     {
         pMusicController_507B98->PlayMusic_443460(musicType, pObj, a3, a4);
+    }
+}
+
+void MusicController::ClearObject(BaseGameObject* pObj)
+{
+    if (pMusicController_507B98)
+    {
+        pMusicController_507B98->DoClearObject(pObj);
     }
 }
 
@@ -659,7 +667,7 @@ void MusicController::PlayMusic_443460(MusicTypes musicType, BaseGameObject* pOb
 
             if (field_1C_pObj)
             {
-                if (field_1C_pObj == pObj)
+                if (field_1C_pObj == pObj) // Comparing a deleted ptr
                 {
                     field_20 = a4;
                 }
@@ -701,6 +709,17 @@ void MusicController::PlayMusic_443460(MusicTypes musicType, BaseGameObject* pOb
             field_44_bTypeChanged = 1;
             return;
         }
+    }
+}
+
+void MusicController::DoClearObject(BaseGameObject* pObj)
+{
+    if (field_1C_pObj && field_1C_pObj == pObj)
+    {
+        // HACK: Here we want to clear a pointer to an object that has been deleted, this is because sometimes a new object
+        // can be allocated that has the same address as the deleted object leading to undeterminsitic behaviour.
+        // However the game logic also depends on the pointer value not being nullptr, hence we hack it to a value of 1.
+        field_1C_pObj = reinterpret_cast<BaseGameObject*>(0x1);
     }
 }
 

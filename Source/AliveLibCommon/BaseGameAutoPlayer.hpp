@@ -11,7 +11,15 @@ enum RecordTypes : u32
     ObjectStates = 0x123456,
     AliveObjectStates = 0x77777,
     Rng = 0x696969,
+    SysTicks = 0x19981998,
+    SyncPoint = 0xf00df00d,
     InputType = 0x101010,
+};
+
+enum SyncPoints : u32
+{
+    StartGameObjectUpdate = 1,
+    EndGameObjectUpdate = 2,
 };
 
 class [[nodiscard]] AutoFILE final
@@ -89,13 +97,16 @@ public:
     void SaveInput(const Pads& data);
     void SaveRng(s32 rng);
 
+    void SaveTicks(u32 ticks);
+    void SaveSyncPoint(u32 syncPointId);
+
     virtual void SaveObjectStates() = 0;
 
 protected:
     AutoFILE mFile;
 };
 
-class BasePlayer
+class [[nodiscard]] BasePlayer
 {
 public:
     BasePlayer() = default;
@@ -103,19 +114,22 @@ public:
     void Init(const char* pFileName);
     Pads ReadInput();
     s32 ReadRng();
-    virtual void ValidateObjectStates() = 0;
+    u32 ReadTicks();
+    u32 ReadSyncPoint();
+    virtual bool ValidateObjectStates() = 0;
 
 protected:
     template <typename TypeToValidate>
-    static void ValidField(AutoFILE& file, const TypeToValidate& expectedValue, const char* name)
+    static bool ValidField(AutoFILE& file, const TypeToValidate& expectedValue, const char* name)
     {
         TypeToValidate tmpValue = {};
         file.Read(tmpValue);
         if (tmpValue != expectedValue)
         {
             LOG_ERROR("Field " << name << " de-synced");
-            ALIVE_FATAL("Field value de-sync");
+            return true;
         }
+        return false;
     }
 
     void ValidateNextTypeIs(RecordTypes type);
@@ -152,9 +166,16 @@ public:
         return mMode == Mode::Play;
     }
 
+    bool NoFpsLimitPlayBack() const
+    {
+        return mNoFpsLimit;
+    }
+
     s32 Rng(s32 rng);
 
     u32 SysGetTicks();
+
+    void SyncPoint(u32 syncPointId);
 
 private:
 
@@ -169,4 +190,10 @@ private:
 
     BaseRecorder& mRecorder;
     BasePlayer& mPlayer;
+    bool mNoFpsLimit = false;
+    bool mIgnoreDesyncs = false;
 };
+
+// Implemented in the top level binaries so AE and AO shared code return the same object rather 
+// than the per AE/AO derived type in the AE shared functions.
+BaseGameAutoPlayer& GetGameAutoPlayer();

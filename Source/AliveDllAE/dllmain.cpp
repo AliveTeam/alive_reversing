@@ -2,6 +2,7 @@
 #include "Function.hpp"
 #include "ExportHooker.hpp"
 #include "../AliveLibAE/WinMain.hpp"
+#include "GameAutoPlayer.hpp"
 
 extern "C"
 {
@@ -44,6 +45,11 @@ bool RunningAsInjectedDll()
     return isInjectedDll;
 }
 
+BaseGameAutoPlayer& GetGameAutoPlayer()
+{
+    static GameAutoPlayer autoPlayer;
+    return autoPlayer;
+}
 
 static void AEDllProcessAttach(HINSTANCE hinstDLL)
 {

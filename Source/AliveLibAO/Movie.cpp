@@ -400,7 +400,7 @@ void Movie::VUpdate_489EA0()
 {
     AE_IMPLEMENTED();
 
-    if (gGameAutoPlayer.IsPlaying() || gGameAutoPlayer.IsRecording())
+    if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;

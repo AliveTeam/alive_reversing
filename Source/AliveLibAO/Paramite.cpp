@@ -257,6 +257,7 @@ BaseGameObject* Paramite::dtor_44AB00()
     SND_Seq_Stop_477A60(SeqId::eParamiteNearby_30);
 
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+    MusicController::ClearObject(this);
 
     return dtor_401000();
 }

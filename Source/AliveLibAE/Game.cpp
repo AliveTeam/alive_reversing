@@ -302,11 +302,11 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLine
 
     std::string windowTitle = WindowTitleAE();
     
-    if (gGameAutoPlayer.IsRecording())
+    if (GetGameAutoPlayer().IsRecording())
     {
         windowTitle += " [Recording]";
     }
-    else if (gGameAutoPlayer.IsPlaying())
+    else if (GetGameAutoPlayer().IsPlaying())
     {
         windowTitle += " [AutoPlay]";
     }
@@ -710,7 +710,7 @@ EXPORT void CC Game_Main_4949F0()
     // Inits
     Init_Input_Timer_And_IO_4F2BF0(false);
 
-    gGameAutoPlayer.ParseCommandLine(Sys_GetCommandLine_4EE176());
+    GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine_4EE176());
 
     Main_ParseCommandLineArguments_494EA0(Sys_GetCommandLine_4EE176(), Sys_GetCommandLine_4EE176());
 
@@ -859,7 +859,7 @@ EXPORT void CC Game_Loop_467230()
         bPauseMenuObjectFound = false;
 
         gMap_5C3030.ScreenChange_480B80();
-        sInputObject_5BD4E0.Update(gGameAutoPlayer);
+        sInputObject_5BD4E0.Update(GetGameAutoPlayer());
 
         if (sNum_CamSwappers_5C1B66 == 0)
         {
@@ -877,7 +877,7 @@ EXPORT void CC Game_Loop_467230()
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
 
-        gGameAutoPlayer.ValidateObjectStates();
+        GetGameAutoPlayer().ValidateObjectStates();
 
     } // Main loop end
 

@@ -686,7 +686,7 @@ Movie* Movie::ctor_4DFDE0(s32 id, u32 pos, s16 bUnknown, s16 flags, s16 volume)
 
 void Movie::vUpdate_4E0030()
 {
-    if (gGameAutoPlayer.IsPlaying() || gGameAutoPlayer.IsRecording())
+    if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
         // Skip FMVs in rec/playback mode
         field_6_flags.Set(BaseGameObject::Options::eDead_Bit3);

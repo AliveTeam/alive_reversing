@@ -10,11 +10,19 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 #include "GL/glew.h"
+#include "GameAutoPlayer.hpp"
 
 #define FLUIDSYNTH_NOT_A_DLL
 
 #include "fluidsynth.h"
 #include <string>
+
+BaseGameAutoPlayer& GetGameAutoPlayer()
+{
+    // Use the AE object, doesn't matter for this tool
+    static GameAutoPlayer autoPlayer;
+    return autoPlayer;
+}
 
 bool CC RunningAsInjectedDll()
 {

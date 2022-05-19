@@ -2,6 +2,7 @@
 #include "Math.hpp"
 #include "Function.hpp"
 #include "FixedPoint.hpp"
+#include "GameAutoPlayer.hpp"
 #include <gmock/gmock.h>
 
 void Math_ForceLink()
@@ -108,13 +109,13 @@ EXPORT s16 CC Math_RandomRange_496AB0(s16 min, s16 max)
 
     if (rangeSize >= 256)
     {
-        const s32 randByte = (257 * sRandomBytes_546744[sRandomSeed_5D1E10]);
-        sRandomSeed_5D1E10 += 2;
+        const s32 randByte = (257 * Math_NextRandom());
+        sRandomSeed_5D1E10 += 1;
         result = static_cast<s16>(result + randByte % (rangeSize + 1));
     }
     else
     {
-        result += sRandomBytes_546744[sRandomSeed_5D1E10++] % (rangeSize + 1);
+        result += Math_NextRandom() % (rangeSize + 1);
     }
 
     return result;
@@ -123,7 +124,8 @@ EXPORT s16 CC Math_RandomRange_496AB0(s16 min, s16 max)
 // This seems to have been inlined a lot
 EXPORT u8 Math_NextRandom()
 {
-    return sRandomBytes_546744[sRandomSeed_5D1E10++];
+    const u8 random = sRandomBytes_546744[sRandomSeed_5D1E10++];
+    return static_cast<u8>(GetGameAutoPlayer().Rng(random));
 }
 
 const u16 sSineTable_5466C4[64] = {
