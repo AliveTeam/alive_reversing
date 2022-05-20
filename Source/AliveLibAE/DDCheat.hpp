@@ -76,15 +76,11 @@ public:
         e3C_eBit16 = 0x8000
     };
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override
     { }
 
     DDCheat();
-    EXPORT DDCheat* ctor_4153C0();
-    EXPORT void dtor_415530();
-    EXPORT BaseGameObject* vdtor_415500(s32 flags);
 
     EXPORT static void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
     static EXPORT void CC ClearProperties_415390();

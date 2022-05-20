@@ -111,11 +111,11 @@ BaseGameObject* RollingBallStopper::dtor_43C0A0()
 
     if (field_112_state != States::eWaitForTrigger_0)
     {
-        gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, 1, 0, 0);
+        gMap.TLV_Reset_446870(field_10C_tlvInfo, 1, 0, 0);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, 0, 0, 0);
+        gMap.TLV_Reset_446870(field_10C_tlvInfo, 0, 0, 0);
     }
 
     if (field_118_pLine)
@@ -132,7 +132,7 @@ void RollingBallStopper::VScreenChanged_43C130()
     {
         SwitchStates_Set(field_116_ball_switch_id, 1);
     }
-    field_6_flags.Set(Options::eDead_Bit3);
+    mFlags.Set(Options::eDead);
 }
 
 void RollingBallStopper::VUpdate_43BF70()

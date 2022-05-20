@@ -10,8 +10,8 @@ Sparks* Sparks::ctor_416390(FP xpos, FP ypos, FP scale)
     SetType(AETypes::eSparks_22);
 
     const AnimRecord& rec = AnimRec(AnimId::Sparks);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_DC_bApplyShadows &= ~1u;
 
@@ -73,15 +73,15 @@ void Sparks::vUpdate_416570()
     field_BC_ypos += field_C8_vely;
     field_B8_xpos += field_C4_velx;
 
-    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void Sparks::vScreenChanged_416720()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void Sparks::dtor_416550()

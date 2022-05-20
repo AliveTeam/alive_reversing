@@ -16,7 +16,7 @@ public:
 
     EXPORT void VScreenChanged_431EF0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     s32 field_D4[4];
     s32 field_E4_tlvInfo;

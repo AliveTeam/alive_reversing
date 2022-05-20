@@ -38,13 +38,13 @@ Drill* Drill::ctor_4200D0(Path_Drill* pTlv, u32 tlvInfo)
     SetType(AETypes::eDrill_30);
 
     const AnimRecord& rec = AnimRec(AnimId::Drill_Vertical_Off);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
 
-    SetTint_425600(kDrillTints_551548, gMap_5C3030.field_0_current_level);
+    SetTint_425600(kDrillTints_551548, gMap.mCurrentLevel);
     Path_Drill_Data tlvData = pTlv->field_10_data;
 
     field_128_flags.Clear(Flags::eBit2_ToggleStartState_StartOn);
@@ -101,7 +101,7 @@ Drill* Drill::ctor_4200D0(Path_Drill* pTlv, u32 tlvInfo)
             field_F4_state = DrillStates::State_1_Going_Down;
         }
 
-        const CameraPos direction = gMap_5C3030.GetDirection_4811A0(
+        const CameraPos direction = gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -245,7 +245,7 @@ Drill* Drill::ctor_4200D0(Path_Drill* pTlv, u32 tlvInfo)
     }
     field_E0_pShadow = pShadow;
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     return this;
 }
 
@@ -336,10 +336,10 @@ void Drill::vUpdate_420C50()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
+    const CameraPos soundDirection = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
 
     switch (field_F4_state)
     {
@@ -562,12 +562,12 @@ void Drill::vScreenChanged_4214B0()
     }
     */
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void Drill::vRender_4213D0(PrimHeader** ppOt)
 {
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -614,7 +614,7 @@ s32 Drill::vGetSaveState_4217B0(u8* pSaveBuffer)
 
 void Drill::EmitSparks_4206D0()
 {
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
         s32 speed = 0;
         if (field_F4_state == DrillStates::State_1_Going_Down)
@@ -736,9 +736,9 @@ s16 Drill::DamageTouchingObjects_421060()
             return 0;
         }
 
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eRockSpawner_48)
+        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eRockSpawner_48)
         {
-            if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+            if (pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 if (pObj->Type() != AETypes::eMeat_84 && pObj->Type() != AETypes::eEvilFart_45 && (pObj->Type() != AETypes::eAbe_69 || pObj->field_106_current_motion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
                 {
@@ -806,9 +806,9 @@ s16 Drill::DamageTouchingObjects_421060()
             50);
     }
 
-    SFX_Play_46FBA0(SoundEffect::DrillCollision_99, 127, -500);
+    SFX_Play(SoundEffect::DrillCollision_99, 127, -500);
     SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
-    SFX_Play_46FBA0(SoundEffect::KillEffect_64, 127, -700);
+    SFX_Play(SoundEffect::KillEffect_64, 127, -700);
 
     return 1;
 }

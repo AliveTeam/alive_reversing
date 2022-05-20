@@ -22,8 +22,8 @@ GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     SetType(AETypes::eHelpPhone_68);
 
     const AnimRecord& rec = AnimRec(AnimId::Security_Door_Idle);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_F4_tlvInfo = tlvInfo;
@@ -49,7 +49,7 @@ GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     field_BC_ypos = FP_FromInteger(pTlv->field_18_ypos);
 
     PSX_Point pos = {};
-    gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&pos);
+    gMap.Get_Abe_Spawn_Pos_4806D0(&pos);
     if (field_B8_xpos > FP_FromInteger(0))
     {
         field_B8_xpos -= FP_FromInteger(pos.field_0_x);
@@ -119,7 +119,7 @@ GlukkonSwitch* GlukkonSwitch::vdtor_4450C0(s32 flags)
 
 void GlukkonSwitch::vScreenChange_4456D0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 s16 GlukkonSwitch::PlayerNearMe_445180()
@@ -139,7 +139,7 @@ void GlukkonSwitch::vUpdate_445200()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     const s32 lastEventIdx = pEventSystem_5BC11C->field_28_last_event_index;
@@ -291,7 +291,7 @@ void GlukkonSwitch::vUpdate_445200()
             {
                 return;
             }
-            SFX_Play_46FBA0(SoundEffect::GlukkonSwitchBleh_88, 127, -700); //Bleh!
+            SFX_Play(SoundEffect::GlukkonSwitchBleh_88, 127, -700); //Bleh!
             Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Laugh_7, 127, -200, 0);
             const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);

@@ -362,7 +362,7 @@ void CC MusicController::Shutdown_47FD20()
 {
     if (pMusicController_5C3020)
     {
-        pMusicController_5C3020->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        pMusicController_5C3020->mFlags.Set(BaseGameObject::eDead);
         pMusicController_5C3020 = nullptr;
         //nullsub_8(); // TODO: Check if PSX stub
         //sub_4FBAD0(dword_5C3028); // Some other likely strange PSX specific thing that does nothing
@@ -415,7 +415,7 @@ MusicController* MusicController::ctor_47EE80()
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5463C0); // vTbl_MusicController_5463C0
 
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_40_flags_and_idx = -1;
     field_24_currentLevelID = LevelIds::eNone;
     field_28_object_id = -1;
@@ -607,7 +607,7 @@ void MusicController::Update_47F730()
     {
         field_58_flags.Clear(Flags_58::e58_ScreenChanged_Bit2);
 
-        if (gMap_5C3030.field_0_current_level != field_24_currentLevelID)
+        if (gMap.mCurrentLevel != field_24_currentLevelID)
         {
             field_44 = 0;
             field_3C_unused = 1;
@@ -629,7 +629,7 @@ void MusicController::Update_47F730()
                 field_40_flags_and_idx = -1;
             }
 
-            field_24_currentLevelID = gMap_5C3030.field_0_current_level;
+            field_24_currentLevelID = gMap.mCurrentLevel;
 
             // music on flag ?
             if (field_58_flags.Get(Flags_58::e58_MusicEnabled_Bit1))
@@ -660,7 +660,7 @@ void MusicController::PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObjec
 
     if (typeToSet <= MusicTypes::eType1 || pObj)
     {
-        if (!sObjectIds_5C1B70.Find_449CF0(field_28_object_id))
+        if (!sObjectIds.Find_449CF0(field_28_object_id))
         {
             field_28_object_id = -1;
         }

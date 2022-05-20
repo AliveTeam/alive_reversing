@@ -10,60 +10,47 @@ void AliveLibAO_ForceLink()
 
 namespace AO {
 
-ALIVE_VAR(1, 0x9F2DF0, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_9F2DF0, nullptr);
+ALIVE_VAR(1, 0x9F2DF0, DynamicArrayT<BaseGameObject>*, gBaseGameObjects, nullptr);
 
-BaseGameObject* BaseGameObject::ctor_487E10(s16 arraySize)
+BaseGameObject::BaseGameObject(s16 bDontAddToObjectList)
 {
-    SetVTable(this, 0x4BD488); // vTable_BaseGameObject_4BD488
-
-    if (!this) // Compiler code or hack
-    {
-        return this;
-    }
-
     field_8_update_delay = 0;
-    field_4_typeId = Types::eNone_0;
     field_C_refCount = 0;
 
-    field_6_flags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
-    field_6_flags.Clear(BaseGameObject::Options::eDead_Bit3);
-    field_6_flags.Clear(BaseGameObject::Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
-    field_6_flags.Clear(BaseGameObject::Options::eIsBaseAliveGameObject_Bit6);
-    field_6_flags.Clear(BaseGameObject::Options::eCanExplode_Bit7);
-    field_6_flags.Clear(BaseGameObject::Options::eInteractive_Bit8);
-    field_6_flags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
-    field_6_flags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
+    field_4_typeId = Types::eNone_0;
+
+    mFlags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
+    mFlags.Clear(BaseGameObject::Options::eDead);
+    mFlags.Clear(BaseGameObject::Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
+    mFlags.Clear(BaseGameObject::Options::eIsBaseAliveGameObject_Bit6);
+    mFlags.Clear(BaseGameObject::Options::eCanExplode_Bit7);
+    mFlags.Clear(BaseGameObject::Options::eInteractive_Bit8);
+    mFlags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
+    mFlags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
     //field_6_flags.Clear(BaseGameObject::Options::eCantKill_Bit11); // NOTE: AE clears this too
+    mFlags.Set(BaseGameObject::Options::eUpdatable_Bit2);
 
-    field_6_flags.Set(BaseGameObject::Options::eUpdatable_Bit2);
-
-    if (!arraySize)
+    if (!bDontAddToObjectList)
     {
-        return this;
+        if (!gBaseGameObjects->Push_Back(this))
+        {
+            mFlags.Set(Options::eListAddFailed_Bit1);
+        }
     }
-
-    if (!gBaseGameObject_list_9F2DF0->Push_Back(this))
-    {
-        field_6_flags.Set(Options::eListAddFailed_Bit1);
-    }
-
-    return this;
 }
 
-BaseGameObject* BaseGameObject::dtor_487DF0()
+BaseGameObject::~BaseGameObject()
 {
-    SetVTable(this, 0x4BD488); // vTable_BaseGameObject_4BD488
-    Event_Cancel_For_Obj_417350(this);
-    return this;
+    Event_Cancel_For_Obj(this);
 }
 
-void BaseGameObject::VScreenChanged_487E70()
+void BaseGameObject::VScreenChanged()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
-        || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
-        || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap.mCurrentLevel != gMap.mLevel
+        || gMap.mCurrentPath != gMap.mPath
+        || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

@@ -28,7 +28,7 @@ public:
 
     void InitParticle(HintFlyParticle* pParticle);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT HintFly* Vdtor_42BCF0(s32 flags);
 

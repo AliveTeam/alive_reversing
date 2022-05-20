@@ -23,7 +23,7 @@ public:
 
     EXPORT void VRender_419ED0(PrimHeader** ppOt);
 
-    BaseGameObject* VDestructor(s32 flags) override;
+    
 
     s16 field_68_current_fade_rgb;
     s16 field_6A_speed;

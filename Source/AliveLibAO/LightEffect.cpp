@@ -50,7 +50,7 @@ LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, s32 tlvInfo)
 BaseGameObject* LightEffect::dtor_406770()
 {
     SetVTable(this, 0x4BA1E0);
-    gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     return dtor_417D10();
 }
 
@@ -115,7 +115,7 @@ void LightEffect::VScreenChanged()
 
 void LightEffect::VScreenChanged_4067E0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void LightEffect::VUpdate()

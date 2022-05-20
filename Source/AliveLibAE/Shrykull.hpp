@@ -6,9 +6,8 @@
 class Shrykull final : public BaseAliveGameObject
 {
 public:
-    EXPORT Shrykull* ctor_4AEA20();
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    Shrykull();
+    ~Shrykull();
 
     virtual void VUpdate() override;
 
@@ -18,18 +17,9 @@ public:
     { }
 
 private:
-    EXPORT void dtor_4AEBC0();
-
-    EXPORT Shrykull* vdtor_4AEB90(s32 flags);
-
-    EXPORT void vScreenChange_4AF650();
-
     EXPORT static s16 CCSTD CanElectrocute_4AED10(BaseGameObject* pObj);
 
     EXPORT static s16 CCSTD CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj);
-
-    EXPORT void vUpdate_4AEDE0();
-
 
 private:
     enum class State : s16

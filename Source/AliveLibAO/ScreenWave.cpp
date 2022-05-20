@@ -41,7 +41,7 @@ ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP 
     field_14_ppRes = reinterpret_cast<ScreenWave_Data**>(ResourceManager::Allocate_New_Locked_Resource_454F80('evaW', gnFrameCount_507670, sizeof(ScreenWave_Data)));
     if (!field_14_ppRes)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return this;
     }
 
@@ -49,10 +49,10 @@ ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP 
     field_1C_ypos = ypos;
     field_30_speed = speed;
 
-    field_3C_path = gMap_507BA8.field_2_current_path;
-    field_3A_level = gMap_507BA8.field_0_current_level;
+    field_3C_path = gMap.mCurrentPath;
+    field_3A_level = gMap.mCurrentLevel;
 
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
     field_18_xpos = xpos;
 
     field_2C = FP_FromInteger(0);
@@ -147,9 +147,9 @@ void ScreenWave::VScreenChanged()
 
 void ScreenWave::VScreenChanged_463110()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -180,7 +180,7 @@ void ScreenWave::VUpdate_463080()
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -191,7 +191,7 @@ void ScreenWave::VRender(PrimHeader** ppOt)
 
 void ScreenWave::VRender_463130(PrimHeader** ppOt)
 {
-    if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_3A_level,
             field_3C_path,
             field_18_xpos,

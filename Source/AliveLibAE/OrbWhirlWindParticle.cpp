@@ -6,12 +6,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "stdlib.hpp"
 
-OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_4E40C0(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit)
+OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit)
 {
-    SetVTable(&field_8_Anim, 0x544290);
-
-    SetVTable(this, 0x5480D4);
-
     const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, TRUE, FALSE);
     field_108_res = ppRes;
@@ -53,7 +49,6 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_4E40C0(FP xpos, FP ypos, FP sca
     field_C0_current_scale = scale;
     field_C4_randomized_scale = FP_FromInteger(Math_RandomRange_496AB0(7, 10)) / FP_FromInteger(10);
     field_A8_render_as_scale = (field_C0_current_scale * field_C4_randomized_scale);
-    return this;
 }
 
 s32 OrbWhirlWindParticle::IsActive_4E4370()
@@ -78,17 +73,7 @@ void OrbWhirlWindParticle::ToStop_4E4AD0()
     field_DC_position_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 32);
 }
 
-OrbWhirlWindParticle* OrbWhirlWindParticle::vdtor_4E42D0(s8 flags)
-{
-    dtor_4E4300();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void OrbWhirlWindParticle::VUpdate_4E4510()
+void OrbWhirlWindParticle::Update()
 {
     switch (field_B4_state)
     {
@@ -109,7 +94,7 @@ void OrbWhirlWindParticle::VUpdate_4E4510()
             }
             else
             {
-                if (field_E4_pObj && field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                if (field_E4_pObj && field_E4_pObj->mFlags.Get(BaseGameObject::eDead))
                 {
                     ToStop_4E4AD0();
                 }
@@ -128,7 +113,7 @@ void OrbWhirlWindParticle::VUpdate_4E4510()
             break;
 
         case State::State_2_FlyToTarget:
-            if (field_E4_pObj && field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (field_E4_pObj && field_E4_pObj->mFlags.Get(BaseGameObject::eDead))
             {
                 ToStop_4E4AD0();
             }
@@ -200,7 +185,7 @@ void OrbWhirlWindParticle::VUpdate_4E4510()
     }
 }
 
-void OrbWhirlWindParticle::VRender_4E4B10(PrimHeader** ppOt)
+void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 {
     const FP x = std::min(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x,
                           pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(367));
@@ -236,7 +221,7 @@ void OrbWhirlWindParticle::VRender_4E4B10(PrimHeader** ppOt)
     }
 }
 
-void OrbWhirlWindParticle::dtor_4E4300()
+OrbWhirlWindParticle::~OrbWhirlWindParticle()
 {
     field_8_Anim.vCleanUp_40C630();
     ResourceManager::FreeResource_49C330(field_108_res);

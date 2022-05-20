@@ -65,7 +65,7 @@ BaseGameObject* FootSwitch::dtor_4889E0()
         field_F0_pStoodOnMe->field_C_refCount--;
         field_F0_pStoodOnMe = nullptr;
     }
-    gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     return dtor_417D10();
 }
 
@@ -95,7 +95,7 @@ void FootSwitch::VUpdate_4888E0()
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
 
-            if (field_F0_pStoodOnMe->field_A8_xpos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->field_A8_xpos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (field_F0_pStoodOnMe->field_A8_xpos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->field_A8_xpos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->mFlags.Get(BaseGameObject::eDead))
             {
                 field_E8_state = States::eWaitForStepOnMe_0;
                 field_10_anim.Set_Animation_Data_402A40(744, 0);
@@ -116,7 +116,7 @@ void FootSwitch::VScreenChanged()
 
 void FootSwitch::VScreenChanged_4889D0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
@@ -127,15 +127,15 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
 
     if (field_EE_trigger_by == FootSwitchTriggerBy::eAnyone_1)
     {
-        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
-            BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;
             }
 
-            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+            if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 

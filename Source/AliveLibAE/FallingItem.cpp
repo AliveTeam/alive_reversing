@@ -40,16 +40,16 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
 
     SetType(AETypes::eRockSpawner_48);
 
-    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
+    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = tlvInfo;
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
 
-    const s32 lvlIdx = static_cast<s32>(gMap_5C3030.field_0_current_level);
+    const s32 lvlIdx = static_cast<s32>(gMap.mCurrentLevel);
 
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_11E_switch_id = pTlv->field_10_switch_id;
 
@@ -109,14 +109,14 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
     SetVTable(this, 0x544E98);
     SetType(AETypes::eRockSpawner_48);
 
-    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
+    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = -1;
 
-    const s32 lvlIdx = static_cast<s32>(gMap_5C3030.field_0_current_level);
+    const s32 lvlIdx = static_cast<s32>(gMap.mCurrentLevel);
 
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_31;
 
@@ -212,9 +212,9 @@ FallingItem* FallingItem::vdtor_427530(s32 flags)
 
 void FallingItem::vScreenChanged_428180()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || field_11C_state != State::eFalling_3)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_11C_state != State::eFalling_3)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -222,7 +222,7 @@ EXPORT void FallingItem::vUpdate_427780()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     // The primary item controls the main sound effects, otherwise there would be a crazy amount of smashing sounds
@@ -258,12 +258,12 @@ EXPORT void FallingItem::vUpdate_427780()
         case State::eWaitForIdEnable_0:
             if (field_11E_switch_id && SwitchStates_Get_466020(field_11E_switch_id))
             {
-                field_6_flags.Clear(BaseGameObject::eCanExplode_Bit7);
+                mFlags.Clear(BaseGameObject::eCanExplode_Bit7);
                 field_11C_state = State::eWaitForFallDelay_2;
                 field_C4_velx = FP_FromInteger(0);
                 field_C8_vely = FP_FromInteger(0);
 
-                const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
+                const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap.mCurrentLevel)][1]);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
                 field_128_fall_interval_timer = sGnFrame_5C1B84 + field_124_fall_interval;
@@ -273,12 +273,12 @@ EXPORT void FallingItem::vUpdate_427780()
         // TODO: Must only be set outside of the object
         case State::eGoWaitForDelay_1:
         {
-            field_6_flags.Clear(BaseGameObject::eCanExplode_Bit7);
+            mFlags.Clear(BaseGameObject::eCanExplode_Bit7);
             field_11C_state = State::eWaitForFallDelay_2;
             field_C4_velx = FP_FromInteger(0);
             field_C8_vely = FP_FromInteger(0);
 
-            const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
+            const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap.mCurrentLevel)][1]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
             field_128_fall_interval_timer = sGnFrame_5C1B84 + field_124_fall_interval;
@@ -292,11 +292,11 @@ EXPORT void FallingItem::vUpdate_427780()
                 field_12E_do_sound_in_state_falling = TRUE;
                 if (field_D6_scale == 1)
                 {
-                    field_140_sound_channels = SFX_Play_46FBA0(SoundEffect::AirStream_23, 50, -2600);
+                    field_140_sound_channels = SFX_Play(SoundEffect::AirStream_23, 50, -2600);
                 }
                 else
                 {
-                    field_140_sound_channels = SFX_Play_46FBA0(SoundEffect::AirStream_23, 25, -2600);
+                    field_140_sound_channels = SFX_Play(SoundEffect::AirStream_23, 25, -2600);
                 }
             }
             break;
@@ -310,11 +310,11 @@ EXPORT void FallingItem::vUpdate_427780()
                     field_12E_do_sound_in_state_falling = FALSE;
                     if (field_D6_scale == 1)
                     {
-                        SFX_Play_46FBA0(SoundEffect::AirStream_23, 127, -1300);
+                        SFX_Play(SoundEffect::AirStream_23, 127, -1300);
                     }
                     else
                     {
-                        SFX_Play_46FBA0(SoundEffect::AirStream_23, 64, -1300);
+                        SFX_Play(SoundEffect::AirStream_23, 64, -1300);
                     }
                 }
             }
@@ -360,7 +360,7 @@ EXPORT void FallingItem::vUpdate_427780()
                 pShake->ctor_4ACF70(0, field_CC_sprite_scale == FP_FromDouble(0.5));
             }
 
-            if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8)
+            if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8)
             {
                 auto pPart = ae_new<ParticleBurst>();
                 if (pPart)
@@ -420,11 +420,11 @@ EXPORT void FallingItem::vUpdate_427780()
 
             if (field_D6_scale == 1)
             {
-                SFX_Play_46FBA0(SoundEffect::FallingItemHit_47, 110, -1536);
+                SFX_Play(SoundEffect::FallingItemHit_47, 110, -1536);
             }
             else
             {
-                SFX_Play_46FBA0(SoundEffect::FallingItemHit_47, 55, -1536);
+                SFX_Play(SoundEffect::FallingItemHit_47, 55, -1536);
             }
 
             if (field_11E_switch_id)
@@ -437,15 +437,15 @@ EXPORT void FallingItem::vUpdate_427780()
 
             --field_122_remaining_falling_items;
 
-            if ((field_120_max_falling_items > 0 && field_122_remaining_falling_items <= 0) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_138_xpos, field_13C_ypos, 0))
+            if ((field_120_max_falling_items > 0 && field_122_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_138_xpos, field_13C_ypos, 0))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             else
             {
-                const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
+                const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap.mCurrentLevel)][0]);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-                field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
+                mFlags.Set(BaseGameObject::eCanExplode_Bit7);
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
                 field_BC_ypos = field_130_yPosStart;
@@ -460,9 +460,9 @@ EXPORT void FallingItem::vUpdate_427780()
 
 void FallingItem::DamageHitItems_427F40()
 {
-    for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
         if (!pObj)
         {
             break;
@@ -470,7 +470,7 @@ void FallingItem::DamageHitItems_427F40()
 
         if (pObj != this)
         {
-            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eDrill_30)
+            if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eDrill_30)
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 

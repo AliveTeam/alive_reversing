@@ -111,12 +111,10 @@ const s16* kNumbersArray_551B20[11] = {
     kNum_9_551AC8,
     kInfinity_551AEC};
 
-ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, Layer layer, FP /*scale*/, s16 count, s16 bFade)
+ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    SetVTable(this, 0x544FE4);
-
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
     SetType(AETypes::eThrowableTotalIndicator_53);
 
     gObjList_drawables_5C1124->Push_Back(this);
@@ -163,42 +161,18 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, 
     }
     else
     {
-        field_48_num_to_show = count;
+        field_48_num_to_show = static_cast<s16>(count);
     }
 
     if (bFade)
     {
         bThrowableIndicatorExists_5C112C++;
     }
-
-    return this;
 }
 
-BaseGameObject* ThrowableTotalIndicator::VDestructor(s32 flags)
+ThrowableTotalIndicator::~ThrowableTotalIndicator()
 {
-    return vdtor_431DE0(flags);
-}
-
-void ThrowableTotalIndicator::VScreenChanged()
-{
-    vScreenChanged_4323E0();
-}
-
-void ThrowableTotalIndicator::VUpdate()
-{
-    vUpdate_431EA0();
-}
-
-void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
-{
-    vRender_432070(ppOt);
-}
-
-void ThrowableTotalIndicator::dtor_431E10()
-{
-    SetVTable(this, 0x544FE4);
-
-    if (field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+    if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_5C1124->Remove_Item(this);
     }
@@ -207,30 +181,18 @@ void ThrowableTotalIndicator::dtor_431E10()
     {
         bThrowableIndicatorExists_5C112C--;
     }
-
-    BaseGameObject_dtor_4DBEC0();
 }
 
-BaseGameObject* ThrowableTotalIndicator::vdtor_431DE0(s32 flags)
+void ThrowableTotalIndicator::VScreenChanged()
 {
-    dtor_431E10();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
+    mFlags.Set(BaseGameObject::eDead);
 }
 
-void ThrowableTotalIndicator::vScreenChanged_4323E0()
-{
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
-}
-
-void ThrowableTotalIndicator::vUpdate_431EA0()
+void ThrowableTotalIndicator::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (sNum_CamSwappers_5C1B66 != 0)
@@ -277,7 +239,7 @@ void ThrowableTotalIndicator::vUpdate_431EA0()
         case ThrowableTotalIndicatorState::eVanishing_2:
             if (field_42_r < 7 && field_44_g < 7 && field_46_b < 7)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -291,7 +253,7 @@ void ThrowableTotalIndicator::vUpdate_431EA0()
     }
 }
 
-void ThrowableTotalIndicator::vRender_432070(PrimHeader** ppOt)
+void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
 {
     if (*kNumbersArray_551B20[field_48_num_to_show] <= 0)
     {

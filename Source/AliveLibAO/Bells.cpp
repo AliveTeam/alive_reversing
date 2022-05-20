@@ -16,7 +16,7 @@ Bells* Bells::ctor_40A650(BellSize bellType, FP xpos, FP ypos, FP scale)
     ctor_417C10();
     SetVTable(this, 0x4BA390);
 
-    field_6_flags.Clear(Options::eCanExplode_Bit7);
+    mFlags.Clear(Options::eCanExplode_Bit7);
 
     field_4_typeId = Types::eBells_13;
 

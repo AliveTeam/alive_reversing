@@ -85,7 +85,7 @@ public:
 
     EXPORT BaseGameObject* dtor_4355E0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT void CreatePulleyIfExists_435AE0(s16 camX, s16 camY);
 

@@ -247,7 +247,7 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
 
     if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
     {
-        String_FormatString_450DC0(gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, field_2AC_message_1_id), field_AC_message_buffer);
+        String_FormatString_450DC0(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AC_message_1_id), field_AC_message_buffer);
     }
     else
     {
@@ -260,7 +260,7 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
     field_A4_message_cutoff_ptr = 0;
     field_2B0_x_offset = 0;
 
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
 
     field_2D8_message_rand_min = pTlv->field_1A_message_rand_min;
     pad_2DA = pTlv->field_1C_message_rand_max;
@@ -283,7 +283,7 @@ BaseGameObject* LCDScreen::dtor_434100()
     IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
 
     gObjList_drawables_504618->Remove_Item(this);
-    gMap_507BA8.TLV_Reset_446870(field_2B8_tlv_item_info, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_2B8_tlv_item_info, -1, 0, 0);
     field_60_font.dtor_41C130();
     field_50_font_context.dtor_41C110();
     return dtor_487DF0();
@@ -311,7 +311,7 @@ void LCDScreen::VScreenChanged()
 
 void LCDScreen::VScreenChanged_434620()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 
@@ -324,7 +324,7 @@ void LCDScreen::VUpdate_4341B0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
 #if LCD_PS1_SPEED
@@ -350,7 +350,7 @@ void LCDScreen::VUpdate_4341B0()
 
                 if (Input_JoyStickEnabled() || rangedRandom != 62)
                 {
-                    String_FormatString_450DC0(gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, rangedRandom), field_AC_message_buffer);
+                    String_FormatString_450DC0(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, rangedRandom), field_AC_message_buffer);
                 }
                 else
                 {
@@ -366,7 +366,7 @@ void LCDScreen::VUpdate_4341B0()
                 if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
                 {
                     String_FormatString_450DC0(
-                        gLCDMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, field_2AC_message_1_id),
+                        gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AC_message_1_id),
                         field_AC_message_buffer);
                 }
                 else

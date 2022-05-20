@@ -12,11 +12,6 @@
 #include "PauseMenu.hpp" // pal_554474
 #include "Sys.hpp"
 
-BaseGameObject* Text::VDestructor(s32 flags)
-{
-    return vdtor_46AED0(flags);
-}
-
 void Text::VUpdate()
 {
     // Empty
@@ -32,13 +27,11 @@ void Text::VScreenChanged()
     // Empty
 }
 
-EXPORT Text* Text::ctor_46ADA0(const char_type* pMessage, s32 renderCount, s32 bShadow)
+Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
-    SetVTable(this, 0x546148); // vTbl_Text_546148
-
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetType(AETypes::eText_87);
 
@@ -56,27 +49,14 @@ EXPORT Text* Text::ctor_46ADA0(const char_type* pMessage, s32 renderCount, s32 b
 
     field_60_bShadow = static_cast<s16>(bShadow);
     field_64_render_count = renderCount;
-
-    return this;
 }
 
-EXPORT BaseGameObject* Text::vdtor_46AED0(s32 flags)
-{
-    dtor_46AF00();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
 
-EXPORT void Text::dtor_46AF00()
+Text::~Text()
 {
-    SetVTable(this, 0x546148); // vTbl_Text_546148
     gObjList_drawables_5C1124->Remove_Item(this);
-    field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+    mFlags.Clear(BaseGameObject::eDrawable_Bit4);
     field_20_font.dtor_433540();
-    BaseGameObject_dtor_4DBEC0();
 }
 
 EXPORT void Text::SetYPos_46AFB0(s32 /*not_used*/, s16 ypos)
@@ -149,7 +129,7 @@ EXPORT void Text::Render_46AFD0(PrimHeader** ppOt)
         field_64_render_count--;
         if (field_64_render_count <= 0)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -167,21 +147,7 @@ EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, Messa
         return 0;
     }
 
-    auto pTextObj = ae_new<Text>();
-    if (pTextObj)
-    {
-        const char_type* pMsg = nullptr;
-        if (messageType == MessageType::eShortTitle_3)
-        {
-            pMsg = "    Abe's Exoddus    ";
-        }
-        else
-        {
-            // Therefore can only be type 2 or 0
-            pMsg = "       Oddworld Abe's Exoddus        ";
-        }
-        pTextObj->ctor_46ADA0(pMsg, 1, 0);
-    }
+    auto pTextObj = ae_new<Text>(messageType == MessageType::eShortTitle_3 ? "    Abe's Exoddus    " : "       Oddworld Abe's Exoddus        ", 1, 0);
 
     Text* pTextObj2 = nullptr;
     switch (messageType)
@@ -197,20 +163,17 @@ EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, Messa
 
         // Dead due to early return ??
         case MessageType::eSkipMovie_1:
-            pTextObj2 = ae_new<Text>();
-
+            pTextObj2 = ae_new<Text>("or esc to skip the movie", 1, 0);
             if (pTextObj2)
             {
-                pTextObj2->ctor_46ADA0("or esc to skip the movie", 1, 0);
                 pTextObj2->SetYPos_46AFB0(0, 30);
             }
             break;
 
         case MessageType::eSkipDemo_2:
-            pTextObj2 = ae_new<Text>();
+            pTextObj2 = ae_new<Text>("or esc to skip the demo", 1, 0);
             if (pTextObj2)
             {
-                pTextObj2->ctor_46ADA0("or esc to skip the demo", 1, 0);
                 pTextObj2->SetYPos_46AFB0(0, 30);
             }
             break;
@@ -298,17 +261,17 @@ EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, Messa
     ResourceManager::Reclaim_Memory_49C470(500000);
     sbDisplayRenderFrame_55EF8C = 0;
     gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
-    gBaseGameObject_list_BB47C4->Remove_Item(pTextObj);
 
     if (pTextObj)
     {
-        pTextObj->VDestructor(1);
+        gBaseGameObjects->Remove_Item(pTextObj);
+        delete pTextObj;
     }
 
     if (pTextObj2)
     {
-        gBaseGameObject_list_BB47C4->Remove_Item(pTextObj2);
-        pTextObj2->VDestructor(1);
+        gBaseGameObjects->Remove_Item(pTextObj2);
+        delete pTextObj2;
     }
 
     return bQuitViaEnterOrTimeOut;

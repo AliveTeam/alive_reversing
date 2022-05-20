@@ -215,9 +215,9 @@ void Elum::VOn_TLV_Collision_410F10(Path_TLV* pTlv)
                 field_138_continue_rect.w = pContinueTlv->field_14_bottom_right.field_0_x;
                 field_138_continue_rect.h = pContinueTlv->field_14_bottom_right.field_2_y;
 
-                field_148_continue_path = gMap_507BA8.field_2_current_path;
-                field_14C_continue_camera = gMap_507BA8.field_4_current_camera;
-                field_14A_continue_level = gMap_507BA8.field_0_current_level;
+                field_148_continue_path = gMap.mCurrentPath;
+                field_14C_continue_camera = gMap.field_4_current_camera;
+                field_14A_continue_level = gMap.mCurrentLevel;
                 field_150_continue_sprite_scale = field_BC_sprite_scale;
                 field_144_bRespawnOnDead = 1;
             }
@@ -234,7 +234,7 @@ void Elum::VOn_TLV_Collision_410F10(Path_TLV* pTlv)
             field_100_health = FP_FromInteger(0);
         }
 
-        pTlv = gMap_507BA8.TLV_Get_At_446060(
+        pTlv = gMap.TLV_Get_At_446060(
             pTlv,
             field_A8_xpos,
             field_AC_ypos,
@@ -588,7 +588,7 @@ void Elum::CheckLiftPointGoneAndSetCamera()
 {
     if (field_F8_pLiftPoint)
     {
-        if (field_F8_pLiftPoint->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (field_F8_pLiftPoint->mFlags.Get(BaseGameObject::eDead))
         {
             VOnTrapDoorOpen();
             field_170_flags.Set(Elum::Flags_170::eFalling_Bit3);
@@ -817,7 +817,7 @@ s16 Elum::ToNextMotionAbeControlled_411E40()
 void Elum::HandleElumPathTrans_411460()
 {
     PSX_Point camCoords = {};
-    gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
+    gMap.GetCurrentCamCoords_444890(&camCoords);
 
     if (sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -863,8 +863,8 @@ void Elum::HandleElumPathTrans_411460()
         field_F4_pLine = nullptr;
     }
 
-    field_B2_lvl_number = gMap_507BA8.field_0_current_level;
-    field_B0_path_number = gMap_507BA8.field_2_current_path;
+    field_B2_lvl_number = gMap.mCurrentLevel;
+    field_B0_path_number = gMap.mCurrentPath;
 
     field_8_update_delay = 20;
 }
@@ -900,7 +900,7 @@ void CC Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
             CameraPos dir = CameraPos::eCamCurrent_0;
             if (pObj)
             {
-                dir = gMap_507BA8.GetDirection(
+                dir = gMap.GetDirection(
                     pObj->field_B2_lvl_number,
                     pObj->field_B0_path_number,
                     pObj->field_A8_xpos,
@@ -970,9 +970,9 @@ void Elum::FindHoney_411600()
     {
         field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
 
-        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
-            BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
 
             if (!pObjIter)
             {
@@ -982,13 +982,13 @@ void Elum::FindHoney_411600()
             if (pObjIter->field_4_typeId == Types::eHoney_47)
             {
                 auto pHoney = static_cast<Honey*>(pObjIter);
-                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera_4449C0(
                         pHoney->field_B2_lvl_number,
                         pHoney->field_B0_path_number,
                         pHoney->field_A8_xpos,
                         pHoney->field_AC_ypos,
                         0)
-                    && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    && gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
                         field_A8_xpos,
@@ -1156,8 +1156,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
 
             if (last_event_v1 == GameSpeakEvents::eFollowMe_10)
             {
-                if (gMap_507BA8.field_0_current_level == field_B2_lvl_number
-                    && gMap_507BA8.field_2_current_path == field_B0_path_number)
+                if (gMap.mCurrentLevel == field_B2_lvl_number
+                    && gMap.mCurrentPath == field_B0_path_number)
                 {
                     if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                     {
@@ -1171,8 +1171,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v1 == GameSpeakEvents::eHello_9
-                && gMap_507BA8.field_0_current_level == field_B2_lvl_number
-                && gMap_507BA8.field_2_current_path == field_B0_path_number)
+                && gMap.mCurrentLevel == field_B2_lvl_number
+                && gMap.mCurrentPath == field_B0_path_number)
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
@@ -1182,8 +1182,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v1 == GameSpeakEvents::eFart_3
-                && gMap_507BA8.field_0_current_level == field_B2_lvl_number
-                && gMap_507BA8.field_2_current_path == field_B0_path_number)
+                && gMap.mCurrentLevel == field_B2_lvl_number
+                && gMap.mCurrentPath == field_B0_path_number)
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
@@ -1193,8 +1193,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v1 == GameSpeakEvents::eWait_12
-                && gMap_507BA8.field_0_current_level == field_B2_lvl_number
-                && gMap_507BA8.field_2_current_path == field_B0_path_number
+                && gMap.mCurrentLevel == field_B2_lvl_number
+                && gMap.mCurrentPath == field_B0_path_number
                 && Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
             {
                 field_122_bDontFollowAbe = 1;
@@ -1291,7 +1291,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return 16;
             }
 
-            if (last_event_v2 == GameSpeakEvents::eFollowMe_10 && gMap_507BA8.field_0_current_level == field_B2_lvl_number && gMap_507BA8.field_2_current_path == field_B0_path_number)
+            if (last_event_v2 == GameSpeakEvents::eFollowMe_10 && gMap.mCurrentLevel == field_B2_lvl_number && gMap.mCurrentPath == field_B0_path_number)
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
@@ -1307,8 +1307,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v2 == GameSpeakEvents::eWait_12
-                && gMap_507BA8.field_0_current_level == field_B2_lvl_number
-                && gMap_507BA8.field_2_current_path == field_B0_path_number)
+                && gMap.mCurrentLevel == field_B2_lvl_number
+                && gMap.mCurrentPath == field_B0_path_number)
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
@@ -1319,8 +1319,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v2 == GameSpeakEvents::eHello_9
-                && gMap_507BA8.field_0_current_level == field_B2_lvl_number
-                && gMap_507BA8.field_2_current_path == field_B0_path_number)
+                && gMap.mCurrentLevel == field_B2_lvl_number
+                && gMap.mCurrentPath == field_B0_path_number)
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
@@ -1330,8 +1330,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v2 == GameSpeakEvents::eFart_3
-                && gMap_507BA8.field_0_current_level == field_B2_lvl_number
-                && gMap_507BA8.field_2_current_path == field_B0_path_number
+                && gMap.mCurrentLevel == field_B2_lvl_number
+                && gMap.mCurrentPath == field_B0_path_number
                 && Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
             {
                 field_114_respond_timer = gnFrameCount_507670 + 28;
@@ -1664,7 +1664,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
             field_170_flags.Set(Elum::Flags_170::eStungByBees_Bit2);
 
-            field_146_honey_ypos = gMap_507BA8.field_4_current_camera;
+            field_146_honey_ypos = gMap.field_4_current_camera;
 
             field_122_bDontFollowAbe = 0;
 
@@ -2438,7 +2438,7 @@ void Elum::Motion_19_Dead_415F90()
             field_12A_brain_sub_state = 6;
             field_122_bDontFollowAbe = 1;
 
-            if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(field_14A_continue_level, field_148_continue_path, field_A8_xpos, field_AC_ypos, 0))
+            if (!gMap.Is_Point_In_Current_Camera_4449C0(field_14A_continue_level, field_148_continue_path, field_A8_xpos, field_AC_ypos, 0))
             {
                 Elum_SFX_416E10(ElumSounds::eHowl_2, this);
             }
@@ -2617,7 +2617,7 @@ void Elum::Motion_25_LickingHoney_415B50()
 
     if (field_10_anim.field_92_current_frame == 6)
     {
-        if (gMap_507BA8.GetDirection(
+        if (gMap.GetDirection(
                 field_B2_lvl_number,
                 field_B0_path_number,
                 field_A8_xpos,
@@ -3346,7 +3346,7 @@ void Elum::Motion_44_ScratchBegin_412730()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_FC_current_motion = eElumMotions::Motion_45_ScratchLoop_4127B0;
-        if (gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos) == CameraPos::eCamCurrent_0)
+        if (gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos) == CameraPos::eCamCurrent_0)
         {
             SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_15, 1, 1);
         }
@@ -3572,7 +3572,7 @@ void Elum::VUpdate_4102A0()
             field_AC_ypos += field_B8_vely;
 
             PSX_Point map_size = {};
-            gMap_507BA8.Get_map_size_444870(&map_size);
+            gMap.Get_map_size_444870(&map_size);
 
             if (field_A8_xpos < FP_FromInteger(0))
             {
@@ -3633,7 +3633,7 @@ void Elum::VUpdate_4102A0()
             field_170_flags.Clear(Elum::Flags_170::eChangedPathNotMounted_Bit5);
         }
 
-        if (field_FC_current_motion == eElumMotions::Motion_19_Dead_415F90 || field_B0_path_number == gMap_507BA8.field_2_current_path)
+        if (field_FC_current_motion == eElumMotions::Motion_19_Dead_415F90 || field_B0_path_number == gMap.mCurrentPath)
         {
             PathLine* pLine = nullptr;
             if (field_170_flags.Get(Elum::Flags_170::eChangedPathMounted_Bit7))
@@ -3699,7 +3699,7 @@ void Elum::VUpdate_4102A0()
 
             if (old_x != field_A8_xpos || old_y != field_AC_ypos)
             {
-                field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
+                field_F0_pTlv = gMap.TLV_Get_At_446060(
                     nullptr,
                     field_A8_xpos,
                     field_AC_ypos,
@@ -3783,8 +3783,8 @@ void Elum::VUpdate_4102A0()
 
 void Elum::VRender_410E40(PrimHeader** ppOt)
 {
-    if (field_B2_lvl_number == gMap_507BA8.field_0_current_level
-        && field_B0_path_number == gMap_507BA8.field_2_current_path
+    if (field_B2_lvl_number == gMap.mCurrentLevel
+        && field_B0_path_number == gMap.mCurrentPath
         && !field_8_update_delay)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
@@ -3793,25 +3793,25 @@ void Elum::VRender_410E40(PrimHeader** ppOt)
 
 void Elum::vScreenChange_411340()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level)
+    if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
-        if (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+        if (gMap.mCurrentPath != gMap.mPath)
         {
-            if (gMap_507BA8.field_0_current_level == LevelIds::eLines_2)
+            if (gMap.mCurrentLevel == LevelIds::eLines_2)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
-            else if (gMap_507BA8.field_0_current_level == LevelIds::eDesert_8 && gMap_507BA8.field_C_path == 9)
+            else if (gMap.mCurrentLevel == LevelIds::eDesert_8 && gMap.mPath == 9)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
-            else if (field_B0_path_number == gMap_507BA8.field_2_current_path)
+            else if (field_B0_path_number == gMap.mCurrentPath)
             {
-                auto pElumPathTrans = static_cast<Path_ElumPathTrans*>(gMap_507BA8.TLV_Get_At_446260(
+                auto pElumPathTrans = static_cast<Path_ElumPathTrans*>(gMap.TLV_Get_At_446260(
                     FP_GetExponent(field_A8_xpos),
                     FP_GetExponent(field_AC_ypos),
                     FP_GetExponent(field_A8_xpos),
@@ -3820,7 +3820,7 @@ void Elum::vScreenChange_411340()
 
                 if (pElumPathTrans)
                 {
-                    if (field_122_bDontFollowAbe != 1 && sControlledCharacter_50767C != this && pElumPathTrans->field_18_level == gMap_507BA8.field_A_level && pElumPathTrans->field_1A_path == gMap_507BA8.field_C_path)
+                    if (field_122_bDontFollowAbe != 1 && sControlledCharacter_50767C != this && pElumPathTrans->field_18_level == gMap.mLevel && pElumPathTrans->field_1A_path == gMap.mPath)
                     {
                         field_170_flags.Set(Elum::Flags_170::eChangedPathNotMounted_Bit5);
                     }

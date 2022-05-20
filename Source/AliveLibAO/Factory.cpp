@@ -121,7 +121,7 @@ EXPORT void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbehoistAOResID, loadMode);
-        switch (gMap_507BA8.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eRuptureFarms_1:
             case LevelIds::eRuptureFarmsReturn_13:
@@ -153,7 +153,7 @@ EXPORT void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
         }
         else
         {
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         }
     }
 }
@@ -165,14 +165,14 @@ EXPORT void Factory_Edge_481730(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUn
     {
         ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbehoistAOResID, loadMode, 0);
 
-        if (gMap_507BA8.field_0_current_level == LevelIds::eForest_3 || gMap_507BA8.field_0_current_level == LevelIds::eDesert_8)
+        if (gMap.mCurrentLevel == LevelIds::eForest_3 || gMap.mCurrentLevel == LevelIds::eDesert_8)
         {
             ResourceManager::LoadResource_446C90("ANEEDGE.BAN", ResourceManager::Resource_Animation, AOResourceID::kAneedgeAOResID, loadMode, 0);
         }
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -192,7 +192,7 @@ EXPORT void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
             {ResourceManager::Resource_Animation, AOResourceID::kHubdoorAOResID},
             {ResourceManager::Resource_Animation, AOResourceID::kRockdoorAOResID}};
         ResourceManager::LoadResource_446C90("ABEDOOR.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbedoorAOResID, loadMode);
-        switch (gMap_507BA8.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eRuptureFarms_1:
             case LevelIds::eBoardRoom_12:
@@ -256,7 +256,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        switch (gMap_507BA8.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eRuptureFarms_1:
             case LevelIds::eBoardRoom_12:
@@ -289,25 +289,25 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
     }
     else
     {
-        for (s32 idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
+        for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
         {
-            BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(idx);
+            BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(idx);
             if (!pObjIter)
             {
                 break;
             }
 
-            if (!pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObjIter->field_4_typeId == Types::eLiftPoint_51)
+            if (!pObjIter->mFlags.Get(BaseGameObject::eDead) && pObjIter->field_4_typeId == Types::eLiftPoint_51)
             {
                 auto pLiftObj = static_cast<LiftPoint*>(pObjIter);
 
                 const s16 xpos_i = FP_GetExponent(pLiftObj->field_A8_xpos);
                 if (pTlv->field_10_top_left.field_0_x <= xpos_i
                     && xpos_i <= pTlv->field_14_bottom_right.field_0_x
-                    && pLiftObj->field_B2_lvl_number == gMap_507BA8.field_0_current_level
-                    && pLiftObj->field_B0_path_number == gMap_507BA8.field_2_current_path)
+                    && pLiftObj->field_B2_lvl_number == gMap.mCurrentLevel
+                    && pLiftObj->field_B0_path_number == gMap.mCurrentPath)
                 {
-                    gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                    gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                     return;
                 }
             }
@@ -334,7 +334,7 @@ EXPORT void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
             s16 pointNumber = 1;
             while (pointNumber < 8)
             {
-                pTlvIter = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(
+                pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera_4463B0(
                     0,
                     pointNumber / 2 * (pointNumber % 2 != 0 ? -1 : 1));
                 while (pTlvIter)
@@ -464,7 +464,7 @@ EXPORT void Factory_RockSack_483680(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
             {ResourceManager::Resource_Animation, AOResourceID::kAberockAOResID}};
 
         ResourceManager::LoadResourcesFromList_446E80("RTHROW.BND", kResources.AsList(), loadMode, 0);
-        if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
         {
             ResourceManager::LoadResource_446C90("E1BAG.BAN", ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, loadMode);
             ResourceManager::LoadResource_446C90("EPUIROCK.BAN", ResourceManager::Resource_Palt, AOResourceID::kAberockAOResID, loadMode);
@@ -486,7 +486,7 @@ EXPORT void Factory_ZBall_483890(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        if (gMap_507BA8.field_0_current_level == LevelIds::eForestTemple_4)
+        if (gMap.mCurrentLevel == LevelIds::eForestTemple_4)
         {
             ResourceManager::LoadResource_446C90("F2ZBALL.BAN", ResourceManager::Resource_Animation, AOResourceID::kF2zballAOResID, loadMode);
             ResourceManager::LoadResource_446C90("ABEKNOKZ.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeknokzAOResID, loadMode);
@@ -507,7 +507,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        switch (gMap_507BA8.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eRuptureFarms_1:
             case LevelIds::eRuptureFarmsReturn_13:
@@ -551,7 +551,7 @@ EXPORT void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
     }
     else
     {
-        switch (gMap_507BA8.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eRuptureFarms_1:
             case LevelIds::eRuptureFarmsReturn_13:
@@ -604,7 +604,7 @@ EXPORT void Factory_PullRingRope_483DA0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        switch (gMap_507BA8.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eRuptureFarms_1:
             case LevelIds::eBoardRoom_12:
@@ -699,7 +699,7 @@ EXPORT void Factory_TimedMine_484650(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, loadMode, disabledResource & 2);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, disabledResource & 4);
 
-        if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
         {
             ResourceManager::LoadResource_446C90("E1BOMB.BAN", ResourceManager::Resource_Palt, AOResourceID::kBombAOResID, loadMode);
             ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, loadMode);
@@ -790,7 +790,7 @@ static void LoadWalkingSligResources(LoadMode loadMode, BitField16<SligFlags_Dis
         ResourceManager::LoadResource_446C90("SLGBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kSligBlowAOResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, loadMode, 0);
 
-        if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
         {
             ResourceManager::LoadResource_446C90("E1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kSlgbasicAOResID, loadMode, 0);
         }
@@ -903,7 +903,7 @@ EXPORT void Factory_Switch_485370(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        switch (gMap_507BA8.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eRuptureFarms_1:
             case LevelIds::eStockYards_5:
@@ -1056,7 +1056,7 @@ EXPORT void Factory_BeeSwarmHole_485E20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
     {
         ResourceManager::LoadResource_446C90("ABEWASP.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("WASP.BAN", ResourceManager::Resource_Animation, AOResourceID::kWaspAOResID, loadMode, 0);
-        if (gMap_507BA8.field_0_current_level == LevelIds::eForest_3 || gMap_507BA8.field_0_current_level == LevelIds::eDesert_8)
+        if (gMap.mCurrentLevel == LevelIds::eForest_3 || gMap.mCurrentLevel == LevelIds::eDesert_8)
         {
             ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, loadMode, 0);
         }
@@ -1150,7 +1150,7 @@ EXPORT void Factory_ElumWall_487370(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -1223,7 +1223,7 @@ EXPORT void Factory_Mine_4848D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, disabledResources & 1);
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, loadMode, disabledResources & 2);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, disabledResources & 4);
-        if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
         {
             ResourceManager::LoadResource_446C90("LNDMNPAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kLandmineAOResID, loadMode);
             ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, loadMode);
@@ -1280,7 +1280,7 @@ EXPORT void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, pUxbTlv->field_20_disabled_resources & 1);
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, loadMode, pUxbTlv->field_20_disabled_resources & 2);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, pUxbTlv->field_20_disabled_resources & 4);
-        if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
         {
             ResourceManager::LoadResource_446C90("TBMBPAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kUXBAOResID, loadMode);
             ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, loadMode);
@@ -1480,7 +1480,7 @@ EXPORT void Factory_BellSong_487450(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -1489,7 +1489,7 @@ EXPORT void Factory_TrapDoor_4868E0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion 
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        switch (gMap_507BA8.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eRuptureFarms_1:
             case LevelIds::eBoardRoom_12:
@@ -1577,7 +1577,7 @@ EXPORT void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
-            Path_TLV* pTlvIter = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(camX_idx, 0);
+            Path_TLV* pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera_4463B0(camX_idx, 0);
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
             if (pTlvIter)
             {
@@ -1812,7 +1812,7 @@ EXPORT void Factory_MeatSack_483790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
              {ResourceManager::Resource_Animation, AOResourceID::kMeatAOResID}});
 
         ResourceManager::LoadResourcesFromList_446E80("MTHROW.BND", kResources.AsList(), loadMode, 0);
-        if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
         {
             ResourceManager::LoadResource_446C90("E1BAG.BAN", ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, loadMode);
         }
@@ -2089,7 +2089,7 @@ EXPORT void Factory_MovingBomb_484E00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, pMovingBombTlv->field_22_disabled_resources & 1);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, pMovingBombTlv->field_22_disabled_resources & 4);
 
-        if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
         {
             ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, loadMode, 0);
             ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, loadMode, 0);
@@ -2187,7 +2187,7 @@ EXPORT void Factory_MenuController_481AC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
 
 EXPORT void Factory_481FB0(Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
-    LOG_ERROR("lvl = " << static_cast<s32>(pMap->field_0_current_level) << " path = " << pMap->field_2_current_path << " camera = " << pMap->field_4_current_camera);
+    LOG_ERROR("lvl = " << static_cast<s32>(pMap->mCurrentLevel) << " path = " << pMap->mCurrentPath << " camera = " << pMap->field_4_current_camera);
     ALIVE_FATAL("Didn't expect Factory_481FB0 to ever be used, please post the log in #oddworld_dev on discord");
 }
 
@@ -2325,7 +2325,7 @@ EXPORT void Factory_HandStone_487480(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemI
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -2573,10 +2573,10 @@ EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
         }
         else
         {
-            switch (gMap_507BA8.field_0_current_level)
+            switch (gMap.mCurrentLevel)
             {
                 case LevelIds::eDesert_8: // d1.lvl
-                    if (gMap_507BA8.field_2_current_path == 4)
+                    if (gMap.mCurrentPath == 4)
                     {
                         // original TLV data is -1 part of collision line
                         bRemovesShrykull = true;
@@ -2584,7 +2584,7 @@ EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
                     break;
 
                 case LevelIds::eForestTemple_4: // f2.lvl
-                    if (gMap_507BA8.field_2_current_path == 6)
+                    if (gMap.mCurrentPath == 6)
                     {
                         // original TLV data is 4 part of the flags of the next object
                         bRemovesShrykull = true;
@@ -2611,7 +2611,7 @@ EXPORT void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
                 sActiveHero_507678->field_168_ring_pulse_timer = 0;
             }
         }
-        gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -2680,7 +2680,7 @@ EXPORT void Factory_KillUnsavedMuds_487DA0(Path_TLV* /*pTlv*/, Map* pMap, TlvIte
         {
             gbKillUnsavedMudsDone_5076CC = 1;
             sKilledMudokons_5076BC = 28 - sRescuedMudokons_5076C0;
-            gMap_507BA8.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 1);
+            gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 1);
         }
     }
 }

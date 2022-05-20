@@ -70,12 +70,12 @@ Mine* Mine::ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv)
     SetType(AETypes::eMine_88);
 
     const AnimRecord& rec = AnimRec(AnimId::Mine);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_118_detonating = 0;
-    field_6_flags.Set(Options::eInteractive_Bit8);
-    field_6_flags.Set(Options::eCanExplode_Bit7);
+    mFlags.Set(Options::eInteractive_Bit8);
+    mFlags.Set(Options::eCanExplode_Bit7);
 
     if (pPath->field_14_scale != Scale_short::eFull_0)
     {
@@ -117,7 +117,7 @@ Mine* Mine::ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv)
     field_11C_tlv = tlv;
     field_120_gnframe = sGnFrame_5C1B84;
     const AnimRecord& mineFlashrec = AnimRec(AnimId::Mine_Flash);
-    field_124_animation.Init_40A030(mineFlashrec.mFrameTableOffset, gObjList_animations_5C1A24, this, mineFlashrec.mMaxW, mineFlashrec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, mineFlashrec.mResourceId), 1u, 0, 0);
+    field_124_animation.Init_40A030(mineFlashrec.mFrameTableOffset, gObjList_animations_5C1A24, this, mineFlashrec.mMaxW, mineFlashrec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, mineFlashrec.mResourceId), 1u, 0, 0);
 
     field_124_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_124_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
@@ -136,21 +136,21 @@ Mine* Mine::ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv)
         field_1BC_flags.Set(Mine_Flags_1BC::eBit1_PersistOffscreen);
     }
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID);
 
     if (!(field_11A_disabled_resources & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
+        Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     }
     if (!(field_11A_disabled_resources & 2))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
+        Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
     }
 
     const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-    field_6_flags.Set(Options::eInteractive_Bit8);
+    mFlags.Set(Options::eInteractive_Bit8);
     field_DC_bApplyShadows |= 2u;
 
     field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
@@ -184,7 +184,7 @@ void Mine::dtor_46B4F0()
     }
 
     field_124_animation.vCleanUp_40C630();
-    field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
+    mFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
     if (sMineSFXOwner_5C3008 == this)
     {
@@ -195,7 +195,7 @@ void Mine::dtor_46B4F0()
 
 void Mine::Update_46B5D0()
 {
-    const s16 onScreen = gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    const s16 onScreen = gMap.Is_Point_In_Current_Camera_4810D0(
         field_C2_lvl_number,
         field_C0_path_number,
         field_B8_xpos,
@@ -211,7 +211,7 @@ void Mine::Update_46B5D0()
             {
                 explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
             }
-            field_6_flags.Set(Options::eDead_Bit3);
+            mFlags.Set(Options::eDead);
         }
     }
     else
@@ -238,9 +238,9 @@ void Mine::Update_46B5D0()
     if (field_118_detonating != 1)
     {
         BaseGameObject* pEventObj = Event_Get_422C00(kEventDeathReset);
-        if (pEventObj || field_C2_lvl_number != gMap_5C3030.field_0_current_level || field_C0_path_number != gMap_5C3030.field_2_current_path)
+        if (pEventObj || field_C2_lvl_number != gMap.mCurrentLevel || field_C0_path_number != gMap.mCurrentPath)
         {
-            field_6_flags.Set(Options::eDead_Bit3);
+            mFlags.Set(Options::eDead);
         }
     }
 }
@@ -249,7 +249,7 @@ void Mine::Render_46B7A0(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        if (gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -269,11 +269,11 @@ void Mine::Render_46B7A0(PrimHeader** ppOt)
 
 void Mine::ScreenChanged_46BAE0()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level
-        || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path
+    if (gMap.mCurrentLevel != gMap.mLevel
+        || gMap.mCurrentPath != gMap.mPath
         || !field_1BC_flags.Get(Mine_Flags_1BC::eBit1_PersistOffscreen))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 }
 
@@ -294,13 +294,13 @@ void Mine::vOnThrowableHit_46BA40(BaseGameObject* /*pFrom*/)
         pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
     }
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
     field_118_detonating = 1;
 }
 
 s16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
@@ -323,7 +323,7 @@ s16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
                 pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
             }
 
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             field_118_detonating = 1;
             field_120_gnframe = sGnFrame_5C1B84;
             return 1;

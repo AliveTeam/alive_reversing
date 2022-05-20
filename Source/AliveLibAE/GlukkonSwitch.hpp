@@ -25,7 +25,7 @@ class GlukkonSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT GlukkonSwitch* ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

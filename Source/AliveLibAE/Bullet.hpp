@@ -23,7 +23,7 @@ class Bullet final : public BaseGameObject
 {
 public:
     EXPORT Bullet* ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

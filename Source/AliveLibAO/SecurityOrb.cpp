@@ -23,7 +23,7 @@ SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo)
     ctor_401090();
     SetVTable(this, 0x4BB7D0);
 
-    field_6_flags.Set(Options::eCanExplode_Bit7);
+    mFlags.Set(Options::eCanExplode_Bit7);
 
     field_4_typeId = Types::SecurityOrb_53;
 
@@ -64,11 +64,11 @@ BaseGameObject* SecurityOrb::dtor_436D60()
 
     if (field_100_health > FP_FromInteger(0))
     {
-        gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
     }
     return dtor_401000();
 }
@@ -95,7 +95,7 @@ void SecurityOrb::VScreenChanged()
 
 void SecurityOrb::VScreenChanged_4373A0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
@@ -105,7 +105,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
 s16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
@@ -143,7 +143,7 @@ s16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
             break;
     }
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 
     return 1;
 }
@@ -157,7 +157,7 @@ void SecurityOrb::VUpdate_436DF0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_110_state)

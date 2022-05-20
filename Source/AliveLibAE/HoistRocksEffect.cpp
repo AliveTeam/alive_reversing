@@ -63,10 +63,10 @@ HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, s32 tlvInfo)
 
     if (gObjList_drawables_5C1124->Push_Back(this))
     {
-        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
     }
 
-    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kHoistRocks);
+    u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kHoistRocks);
     for (HoistRockParticle& particle : field_30_rocks)
     {
         const AnimRecord& rec = AnimRec(AnimId::HoistRock1);
@@ -174,9 +174,9 @@ void HoistRocksEffect::Update_45D460()
         {
             if (particle.field_C_yVel >= FP_FromInteger(10))
             {
-                if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-                        gMap_5C3030.field_0_current_level,
-                        gMap_5C3030.field_2_current_path,
+                if (!gMap.Is_Point_In_Current_Camera_4810D0(
+                        gMap.mCurrentLevel,
+                        gMap.mCurrentPath,
                         particle.field_4_xpos,
                         particle.field_8_ypos,
                         0))
@@ -242,5 +242,5 @@ void HoistRocksEffect::Render_45D7B0(PrimHeader** ppOt)
 
 void HoistRocksEffect::vScreenChanged_45D790()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }

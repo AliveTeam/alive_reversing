@@ -74,9 +74,9 @@ void Teleporter::dtor_4DC380()
 
 void Teleporter::vScreenChanged_4DCE80()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
+    if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     field_32_bDestroySelf = 1;
 }
@@ -101,7 +101,7 @@ const PSX_Point kSparkOffs_563988[8] = {
 void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
 {
     PSX_Point abeSpawnPos = {};
-    gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
+    gMap.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
 
     const s16 xOrg = pTlvData->field_22_eletric_x - abeSpawnPos.field_0_x;
     const s16 yOrg = pTlvData->field_24_electric_y - abeSpawnPos.field_2_y;
@@ -131,7 +131,7 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
 
 void Teleporter::vUpdate_4DC400()
 {
-    Electrocute* pObj = static_cast<Electrocute*>(sObjectIds_5C1B70.Find(field_50_objId, AETypes::eElectrocute_150));
+    Electrocute* pObj = static_cast<Electrocute*>(sObjectIds.Find(field_50_objId, AETypes::eElectrocute_150));
 
     switch (field_30_state)
     {
@@ -139,7 +139,7 @@ void Teleporter::vUpdate_4DC400()
         {
             if (field_32_bDestroySelf)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
 
             if (SwitchStates_Get_466020(field_34_mTlvData.field_1A_switch_id) == field_2C_switch_state)
@@ -167,7 +167,7 @@ void Teleporter::vUpdate_4DC400()
             field_30_state = TeleporterState::eIntoTeleporter_1;
             field_50_objId = Teleporter::Create_ElectrocuteEffect_4DCEB0()->field_8_object_id;
 
-            SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -400);
+            SFX_Play(SoundEffect::Zap1_49, 60, -400);
             sControlledCharacter_5C1B8C->field_114_flags.Set(Flags_114::e114_Bit10_Teleporting);
 
             SpawnRingSparks(&field_34_mTlvData);
@@ -180,7 +180,7 @@ void Teleporter::vUpdate_4DC400()
             {
                 if (pObj->VSub_4E6630() || field_54_effect_created)
                 {
-                    if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+                    if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
                     {
                         return;
                     }
@@ -241,7 +241,7 @@ void Teleporter::vUpdate_4DC400()
                     field_54_effect_created = 1;
                 }
 
-                if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+                if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
                 {
                     return;
                 }
@@ -249,7 +249,7 @@ void Teleporter::vUpdate_4DC400()
 
             sControlledCharacter_5C1B8C->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-            gMap_5C3030.field_20 = 1;
+            gMap.field_20 = 1;
 
             const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[field_34_mTlvData.field_1E_cam_swap_effect];
             s16 bForceChange = 0;
@@ -258,7 +258,7 @@ void Teleporter::vUpdate_4DC400()
                 bForceChange = 1;
             }
 
-            gMap_5C3030.SetActiveCam_480D30(
+            gMap.SetActiveCam_480D30(
                 field_34_mTlvData.field_18_level,
                 field_34_mTlvData.field_16_path,
                 field_34_mTlvData.field_14_camera,
@@ -274,7 +274,7 @@ void Teleporter::vUpdate_4DC400()
 
         case TeleporterState::eTeleporting_2:
         {
-            gMap_5C3030.field_20 = 0;
+            gMap.field_20 = 0;
 
             Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Teleporter_88, 0));
             Path_Teleporter_Data tlvData = pTeleporterTlv->field_10_data;
@@ -292,7 +292,7 @@ void Teleporter::vUpdate_4DC400()
                 }
             }
 
-            SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -300, tlvData.field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+            SFX_Play(SoundEffect::Zap1_49, 60, -300, tlvData.field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
             SpawnRingSparks(&tlvData);
 
             if (tlvData.field_1C_scale != Scale_short::eFull_0)

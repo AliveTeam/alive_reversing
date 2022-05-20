@@ -6,13 +6,8 @@
 class Particle final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Particle* ctor_4CC4C0(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData);
-    EXPORT void vUpdate_4CC620();
-    EXPORT BaseGameObject* vdtor_4CC5D0(s32 flags);
-
+    Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData);
     virtual void VUpdate() override;
-    virtual BaseGameObject* VDestructor(s32 flags) override;
-
 public:
     FP field_F4_scale_amount;
 };

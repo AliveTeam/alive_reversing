@@ -36,18 +36,13 @@ using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typicall
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
-    EXPORT BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize);
-    EXPORT void BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    explicit BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize);
+    ~BaseAnimatedWithPhysicsGameObject();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT BaseGameObject* vdtor_424A40(s32 flags);
-    EXPORT void Update_424AB0();
-    EXPORT void Render_424B90(PrimHeader** ppOt);
-
-    EXPORT void Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData);
+    EXPORT void Animation_Init(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData);
 
     virtual void vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
     // TODO: Just return by value - this is odd optimization the compiler does

@@ -26,14 +26,14 @@ ALIVE_VAR(1, 0x5C300C, MovingBomb*, gMovingBomb_5C300C, nullptr);
 MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
 {
     ctor_408240(0);
-    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
+    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     SetVTable(this, 0x546270);
     SetType(AETypes::eTimedMine_or_MovingBomb_10);
 
     const AnimRecord& rec = AnimRec(AnimId::MovingBomb);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
@@ -70,18 +70,18 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
 
-    SetTint_425600(&kMovingBombTints_55C734[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&kMovingBombTints_55C734[0], gMap.mCurrentLevel);
 
     field_134_disabled_resources = pTlv->field_1A_disabled_resources;
     if (!(field_134_disabled_resources & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
+        Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     }
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kAbeblowResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kSlogBlowResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
+    Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kAbeblowResID);
+    Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kSlogBlowResID);
 
     FP hitX = {};
     FP hitY = {};
@@ -151,7 +151,7 @@ MovingBomb* MovingBomb::vdtor_470040(s32 flags)
 void MovingBomb::dtor_4700C0()
 {
     SetVTable(this, 0x546270);
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
@@ -181,7 +181,7 @@ void MovingBomb::dtor_4700C0()
 
 EXPORT void MovingBomb::BlowUp_470070()
 {
-    field_6_flags.Clear(BaseGameObject::eCanExplode_Bit7);
+    mFlags.Clear(BaseGameObject::eCanExplode_Bit7);
     field_118_state = States::eBlowingUp_6;
     field_C8_vely = FP_FromInteger(0);
     field_120_timer = sGnFrame_5C1B84 + 1;
@@ -202,21 +202,21 @@ void MovingBomb::vScreenChanged_470B90()
 
     if (field_136_persist_offscreen == Choice_short::eNo_0)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
     const FP xDelta = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
     if (xDelta > FP_FromInteger(750))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
     const FP yDelta = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
     if (yDelta > FP_FromInteger(520))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 }
@@ -231,7 +231,7 @@ void MovingBomb::FollowLine_470950()
 
 s16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3) || field_10C_health <= FP_FromInteger(0))
+    if (mFlags.Get(BaseGameObject::eDead) || field_10C_health <= FP_FromInteger(0))
     {
         return 1;
     }
@@ -314,7 +314,7 @@ void MovingBomb::vUpdate_4701E0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_118_state < States::eBlowingUp_6)
@@ -492,7 +492,7 @@ void MovingBomb::vUpdate_4701E0()
         case States::eKillMovingBomb_7:
             if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 

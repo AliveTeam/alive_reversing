@@ -22,12 +22,12 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tl
     field_230_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon);
-    field_224_ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    field_224_ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     if (field_224_ppRes)
     {
         field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
         field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
-        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_224_ppRes, 1, 1);
+        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_224_ppRes, 1, 1);
         field_20_animation.SetFrame_409D50(Math_RandomRange_496AB0(0, field_20_animation.Get_Frame_Count_40AC70() - 1));
         field_23A_kill_switch_id = pTlv->field_10_kill_switch_id;
         field_23C_release_switch_id = pTlv->field_12_release_switch_id;
@@ -40,8 +40,8 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tl
     }
     else
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDead);
     }
     return this;
 }
@@ -69,7 +69,7 @@ BaseGameObject* TorturedMudokon::VDestructor(s32 flags)
 void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
 {
     const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon_Tears);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     if (pAnim->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer;
@@ -80,14 +80,14 @@ void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
 void TorturedMudokon::SetupZapAnimation_47BEF0(Animation* pAnim)
 {
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     if (pAnim->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
         // TODO: clean this up
@@ -100,13 +100,13 @@ void TorturedMudokon::SetupZapAnimation_47BEF0(Animation* pAnim)
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
 void TorturedMudokon::vScreenChanged_47C440()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void TorturedMudokon::vRender_47C460(PrimHeader** ppOt)
@@ -175,7 +175,7 @@ void TorturedMudokon::vUpdate_47BF80()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -203,7 +203,7 @@ void TorturedMudokon::vUpdate_47BF80()
         case TorturedMudokonState::eKilled_1:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             return;
 

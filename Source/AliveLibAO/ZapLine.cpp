@@ -168,9 +168,9 @@ void ZapLine::VScreenChanged()
 
 void ZapLine::VScreenChanged_479B00()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -181,7 +181,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
 
 void ZapLine::VRender_479840(PrimHeader** ppOt)
 {
-    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -293,7 +293,7 @@ void ZapLine::VUpdate_4796B0()
 
             if (field_116_alive_timer >= field_118_max_alive_time && field_11A_type != ZapLineType::eThin_1)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 

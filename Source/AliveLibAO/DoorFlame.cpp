@@ -19,10 +19,8 @@ ALIVE_VAR(1, 0x507734, DoorFlame*, pFlameControllingTheSound_507734, nullptr);
 class FireBackgroundGlow final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT FireBackgroundGlow* ctor_431F20(FP xpos, FP ypos, FP scale)
+    FireBackgroundGlow(FP xpos, FP ypos, FP scale)
     {
-        ctor_417C10();
-        SetVTable(this, 0x4BB330);
         field_4_typeId = Types::eNone_0;
 
         const AnimRecord& rec = AO::AnimRec(AnimId::Door_FireBackgroundGlow);
@@ -48,28 +46,6 @@ public:
         field_BC_sprite_scale = scale;
 
         Calc_Rect_432010();
-        return this;
-    }
-
-    EXPORT BaseGameObject* dtor_431FF0()
-    {
-        SetVTable(this, 0x4BB330);
-        return dtor_417D10();
-    }
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        return Vdtor_432DB0(flags);
-    }
-
-    EXPORT FireBackgroundGlow* Vdtor_432DB0(s32 flags)
-    {
-        dtor_431FF0();
-        if (flags & 1)
-        {
-            ao_delete_free_447540(this);
-        }
-        return this;
     }
 
     virtual void VUpdate() override
@@ -78,11 +54,6 @@ public:
     }
 
     virtual void VRender(PrimHeader** ppOt) override
-    {
-        VRender_432210(ppOt);
-    }
-
-    EXPORT void VRender_432210(PrimHeader** ppOt)
     {
         if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
         {
@@ -164,15 +135,8 @@ ALIVE_ASSERT_SIZEOF(FlameSpark, 0x84);
 class FlameSparks final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT FlameSparks* ctor_4322F0(FP xpos, FP ypos)
+    FlameSparks(FP xpos, FP ypos)
     {
-        ctor_417C10();
-        for (auto& anim : field_E8_sparks)
-        {
-            SetVTable(&anim.field_14, 0x4BA470);
-        }
-
-        SetVTable(this, 0x4BB368);
         field_4_typeId = Types::eNone_0;
         const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -211,39 +175,12 @@ public:
         }
 
         field_E4_bRender = 0;
-        return this;
-    }
-
-    EXPORT BaseGameObject* dtor_432430()
-    {
-        SetVTable(this, 0x4BB368);
-        return dtor_417D10();
-    }
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        return Vdtor_432DD0(flags);
-    }
-
-    EXPORT FlameSparks* Vdtor_432DD0(s32 flags)
-    {
-        dtor_432430();
-        if (flags & 1)
-        {
-            ao_delete_free_447540(this);
-        }
-        return this;
     }
 
     virtual void VUpdate() override
     {
-        VUpdate_432440();
-    }
-
-    EXPORT void VUpdate_432440()
-    {
         PSX_RECT rect = {};
-        gMap_507BA8.Get_Camera_World_Rect_444C30(CameraPos::eCamCurrent_0, &rect);
+        gMap.Get_Camera_World_Rect_444C30(CameraPos::eCamCurrent_0, &rect);
         field_A8_xpos = FP_FromInteger(rect.w + 16);
         field_AC_ypos = FP_FromInteger(rect.y - 16);
         if (field_E4_bRender)
@@ -286,11 +223,6 @@ public:
     }
 
     virtual void VRender(PrimHeader** ppOt) override
-    {
-        VRender_432640(ppOt);
-    }
-
-    EXPORT void VRender_432640(PrimHeader** ppOt)
     {
         if (sNumCamSwappers_507668 == 0)
         {
@@ -365,21 +297,6 @@ void DoorFlame::VUpdate()
     VUpdate_432BA0();
 }
 
-DoorFlame* DoorFlame::Vdtor_432DF0(s32 flags)
-{
-    dtor_432AA0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* DoorFlame::VDestructor(s32 flags)
-{
-    return Vdtor_432DF0(flags);
-}
-
 void DoorFlame::VStopAudio_432B60()
 {
     if (pFlameControllingTheSound_507734 == this)
@@ -394,34 +311,29 @@ void DoorFlame::VStopAudio()
     VStopAudio_432B60();
 }
 
-BaseGameObject* DoorFlame::dtor_432AA0()
+DoorFlame::~DoorFlame()
 {
-    SetVTable(this, 0x4BB3A0);
-
     if (field_F8_pFireBackgroundGlow)
     {
         field_F8_pFireBackgroundGlow->field_C_refCount--;
-        field_F8_pFireBackgroundGlow->field_6_flags.Set(Options::eDead_Bit3);
+        field_F8_pFireBackgroundGlow->mFlags.Set(Options::eDead);
         field_F8_pFireBackgroundGlow = nullptr;
     }
 
     if (field_FC_pFlameSparks)
     {
         field_FC_pFlameSparks->field_C_refCount--;
-        field_FC_pFlameSparks->field_6_flags.Set(Options::eDead_Bit3);
+        field_FC_pFlameSparks->mFlags.Set(Options::eDead);
         field_FC_pFlameSparks = nullptr;
     }
 
     VStopAudio_432B60();
 
-    gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
-    return dtor_417D10();
+    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
 }
 
-DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
+DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
-    SetVTable(this, 0x4BB3A0);
     field_4_typeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
     const AnimRecord& rec = AO::AnimRec(AnimId::Fire);
@@ -481,13 +393,11 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
     field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_EE_2_random = Math_NextRandom() & 1;
 
-    field_FC_pFlameSparks = ao_new<FlameSparks>();
+    field_FC_pFlameSparks = ao_new<FlameSparks>(field_A8_xpos, field_AC_ypos);
     if (field_FC_pFlameSparks)
     {
-        field_FC_pFlameSparks->ctor_4322F0(field_A8_xpos, field_AC_ypos);
         field_FC_pFlameSparks->field_C_refCount++;
     }
-    return this;
 }
 
 void DoorFlame::VUpdate_432BA0()
@@ -509,7 +419,7 @@ void DoorFlame::VUpdate_432BA0()
             if (field_F8_pFireBackgroundGlow)
             {
                 field_F8_pFireBackgroundGlow->field_C_refCount--;
-                field_F8_pFireBackgroundGlow->field_6_flags.Set(Options::eDead_Bit3);
+                field_F8_pFireBackgroundGlow->mFlags.Set(Options::eDead);
                 field_F8_pFireBackgroundGlow = nullptr;
             }
             break;
@@ -543,14 +453,11 @@ void DoorFlame::VUpdate_432BA0()
 
             if (!field_F8_pFireBackgroundGlow)
             {
-                field_F8_pFireBackgroundGlow = ao_new<FireBackgroundGlow>();
+                field_F8_pFireBackgroundGlow = ao_new<FireBackgroundGlow>(field_A8_xpos,
+                    field_AC_ypos + FP_FromInteger(4),
+                    FP_FromDouble(0.5));
                 if (field_F8_pFireBackgroundGlow)
                 {
-                    field_F8_pFireBackgroundGlow->ctor_431F20(
-                        field_A8_xpos,
-                        field_AC_ypos + FP_FromInteger(4),
-                        FP_FromDouble(0.5));
-
                     field_F8_pFireBackgroundGlow->field_C_refCount++;
                     field_F8_pFireBackgroundGlow->field_C0_r = field_C0_r;
                     field_F8_pFireBackgroundGlow->field_C2_g = field_C2_g;
@@ -563,14 +470,14 @@ void DoorFlame::VUpdate_432BA0()
             break;
     }
 
-    if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
             field_AC_ypos,
             0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

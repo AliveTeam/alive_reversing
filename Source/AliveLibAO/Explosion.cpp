@@ -170,9 +170,9 @@ void Explosion::VUpdate_458D00()
             }
 
             // TODO: crashes if the "else" path gets hit
-            if (pParticle->field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
+            if (pParticle->mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
             {
-                pParticle->field_6_flags.Set(Options::eDead_Bit3);
+                pParticle->mFlags.Set(Options::eDead);
             }
 
             pParticle->field_CC_bApplyShadows &= ~1u;
@@ -184,7 +184,7 @@ void Explosion::VUpdate_458D00()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -195,9 +195,9 @@ void Explosion::VScreenChanged()
 
 void Explosion::VScreenChanged_459470()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -246,7 +246,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
             break;
         }
 
-        if (pObj->field_6_flags.Get(Options::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mFlags.Get(Options::eIsBaseAliveGameObject_Bit6))
         {
             PSX_RECT rect = {};
             pObj->VGetBoundingRect(&rect, 1);
@@ -258,7 +258,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
         }
     }
 
-    auto pTlv = static_cast<Path_Slig*>(gMap_507BA8.TLV_Get_At_446260(
+    auto pTlv = static_cast<Path_Slig*>(gMap.TLV_Get_At_446260(
         expandedRect.x,
         expandedRect.y,
         expandedRect.w,
@@ -270,9 +270,9 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
         if (!pTlv->field_0_flags.Get(TLV_Flags::eBit2_Destroyed) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2)
         {
             pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
-            const CameraPos dir = gMap_507BA8.GetDirection_444A40(
-                static_cast<s32>(gMap_507BA8.field_0_current_level),
-                gMap_507BA8.field_2_current_path,
+            const CameraPos dir = gMap.GetDirection_444A40(
+                static_cast<s32>(gMap.mCurrentLevel),
+                gMap.mCurrentPath,
                 FP_FromInteger(pTlv->field_10_top_left.field_0_x),
                 FP_FromInteger(pTlv->field_10_top_left.field_2_y));
 

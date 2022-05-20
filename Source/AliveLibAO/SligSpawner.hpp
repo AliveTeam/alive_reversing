@@ -15,7 +15,7 @@ public:
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
 private:
     EXPORT void VScreenChanged_402960();

@@ -145,20 +145,20 @@ BaseGameObject* ChimeLock::dtor_40AE60()
 
     if (field_114_left_bell)
     {
-        field_114_left_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_114_left_bell->mFlags.Set(Options::eDead);
     }
 
     if (field_118_center_bell)
     {
-        field_118_center_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_118_center_bell->mFlags.Set(Options::eDead);
     }
 
     if (field_11C_right_bell)
     {
-        field_11C_right_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_11C_right_bell->mFlags.Set(Options::eDead);
     }
 
-    gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
 
     return dtor_401000();
 }
@@ -184,26 +184,26 @@ void ChimeLock::VScreenChanged_40BCD0()
 {
     if (field_114_left_bell)
     {
-        field_114_left_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_114_left_bell->mFlags.Set(Options::eDead);
         field_114_left_bell->field_C_refCount--;
         field_114_left_bell = nullptr;
     }
 
     if (field_118_center_bell)
     {
-        field_118_center_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_118_center_bell->mFlags.Set(Options::eDead);
         field_118_center_bell->field_C_refCount--;
         field_118_center_bell = nullptr;
     }
 
     if (field_11C_right_bell)
     {
-        field_11C_right_bell->field_6_flags.Set(Options::eDead_Bit3);
+        field_11C_right_bell->mFlags.Set(Options::eDead);
         field_11C_right_bell->field_C_refCount--;
         field_11C_right_bell = nullptr;
     }
 
-    field_6_flags.Set(Options::eDead_Bit3);
+    mFlags.Set(Options::eDead);
 }
 
 void ChimeLock::VPossessed()
@@ -367,7 +367,7 @@ void ChimeLock::VUpdate_40AEF0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     switch (field_110_state)

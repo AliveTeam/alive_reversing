@@ -12,7 +12,7 @@ class Movie final : public BaseGameObject
 public:
     EXPORT Movie* ctor_489C90(s32 id, s32 pos, s8 bUnknown, s32 flags, s16 volume);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT BaseGameObject* Vdtor_475FB0(s32 flags);
 

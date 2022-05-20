@@ -4,12 +4,12 @@
 #include "stdlib.hpp"
 #include "Sys_common.hpp"
 
-ALIVE_VAR(1, 0x5C1B70, ObjectIds, sObjectIds_5C1B70, {});
+ALIVE_VAR(1, 0x5C1B70, ObjectIds, sObjectIds, {});
 
 // static_'s are called before main
 EXPORT void CC static_ObjectIds_ctor_43EC50()
 {
-    sObjectIds_5C1B70.ctor_449AE0(101);
+    sObjectIds.ctor_449AE0(101);
 }
 
 EXPORT void CC static_ObjectIds_init_43EC30()
@@ -20,7 +20,7 @@ EXPORT void CC static_ObjectIds_init_43EC30()
 
 void ObjectIds::dtor_43EC90()
 {
-    sObjectIds_5C1B70.Destructor();
+    sObjectIds.Destructor();
 }
 
 void ObjectIds::Destructor()
@@ -81,7 +81,7 @@ ObjectId_Record* ObjectIds::Find_By_Id_449BC0(TObjectId_KeyType idToFind, Object
     return nullptr;
 }
 
-void ObjectIds::Insert_449C10(TObjectId_KeyType nextId, BaseGameObject* pGameObj)
+void ObjectIds::Insert(TObjectId_KeyType nextId, BaseGameObject* pGameObj)
 {
     // Create new record
     ObjectId_Record* pRec = ae_new<ObjectId_Record>();
@@ -200,10 +200,7 @@ namespace AETest::TestsObjectIds {
 class FakeGameObject final : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32) override
-    {
-        return this;
-    }
+    FakeGameObject() : BaseGameObject(TRUE, 0) { }
 };
 
 void ObjectIdsTests()
@@ -213,13 +210,13 @@ void ObjectIdsTests()
 
     FakeGameObject p;
     p.SetType(AETypes::eAlarm_1);
-    ids.Insert_449C10(1, &p);
+    ids.Insert(1, &p);
 
     ASSERT_EQ(&p, ids.Find(1, AETypes::eAlarm_1));
 
     FakeGameObject p2;
     p2.SetType(AETypes::eAlarm_1);
-    ids.Insert_449C10(1, &p2);
+    ids.Insert(1, &p2);
 
     ASSERT_EQ(&p2, ids.Find(1, AETypes::eAlarm_1));
 
@@ -235,7 +232,7 @@ void ObjectIdsTests()
 
     for (s32 i = 0; i < 3000; i++)
     {
-        ids.Insert_449C10(i, &p);
+        ids.Insert(i, &p);
     }
 
     for (s32 i = 0; i < 3000; i++)

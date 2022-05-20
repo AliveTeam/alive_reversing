@@ -29,7 +29,7 @@ BaseGameObject* OneShotSwitchIdSetter::VDestructor(s32 flags)
 BaseGameObject* OneShotSwitchIdSetter::dtor_432EA0()
 {
     SetVTable(this, 0x4BB3D8);
-    gMap_507BA8.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
     return dtor_487DF0();
 }
 
@@ -54,7 +54,7 @@ BaseGameObject* OneShotSwitchIdSetter::ctor_432E10(Path_OneShotSwitchIdSetter* p
 
 void OneShotSwitchIdSetter::VScreenChanged_432F00()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 } // namespace AO

@@ -89,10 +89,10 @@ extern "C"
         "{DBC2AE1C-A5DE-465F-A89A-C385BE1DEFCC}",
         // 2 byte padding (32bit)
         &gameType,
-        &LocalVar_gMap_5C3030.field_0_current_level,
-        &LocalVar_gMap_5C3030.field_2_current_path,
-        &LocalVar_gMap_5C3030.field_4_current_camera,
-        &LocalVar_gMap_5C3030.field_12_fmv_base_id,
+        &LocalVar_gMap.mCurrentLevel,
+        &LocalVar_gMap.mCurrentPath,
+        &LocalVar_gMap.field_4_current_camera,
+        &LocalVar_gMap.field_12_fmv_base_id,
         &LocalVar_sGnFrame_5C1B84,
         &LocalVar_spAbe_554D5C,
         offsetof(Abe, field_BC_ypos),
@@ -107,9 +107,9 @@ extern "C"
         "{1D2E2B5A-19EE-4776-A0EE-98F49F781370}",
         // 2 byte padding (32bit)
         &gameType,
-        &AO::LocalVar_gMap_507BA8.field_0_current_level,
-        &AO::LocalVar_gMap_507BA8.field_2_current_path,
-        &AO::LocalVar_gMap_507BA8.field_4_current_camera,
+        &AO::LocalVar_gMap.mCurrentLevel,
+        &AO::LocalVar_gMap.mCurrentPath,
+        &AO::LocalVar_gMap.field_4_current_camera,
         &AO::LocalVar_gnFrameCount_507670,
         &AO::LocalVar_sActiveHero_507678,
         offsetof(AO::Abe, field_AC_ypos) + sizeof(s16), // +2 for exp only

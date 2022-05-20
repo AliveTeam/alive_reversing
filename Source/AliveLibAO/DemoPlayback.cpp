@@ -19,8 +19,8 @@ EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(u8** ppPlaybackData, s16 bFromHan
     ctor_487E10(1);
     SetVTable(this, 0x4BBF98);
 
-    field_6_flags.Clear(Options::eDrawable_Bit4);
-    field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
+    mFlags.Clear(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eSurviveDeathReset_Bit9);
     field_4_typeId = Types::eDemoPlayback;
     field_1C_bFromHandStone = bFromHandStone;
     sDDCheat_FlyingEnabled_50771C = 0;
@@ -29,7 +29,7 @@ EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(u8** ppPlaybackData, s16 bFromHan
         field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Play, 1, sizeof(SaveData));
         if (!field_18_ppRes)
         {
-            field_6_flags.Clear(Options::eDead_Bit3);
+            mFlags.Clear(Options::eDead);
         }
         SaveGame::SaveToMemory_459490(reinterpret_cast<SaveData*>(*field_18_ppRes));
     }
@@ -104,12 +104,12 @@ void DemoPlayback::VUpdate_451960()
     switch (field_10_state)
     {
         case States::eState_0_Init:
-            sActiveHero_507678->field_6_flags.Set(Options::eDrawable_Bit4);
+            sActiveHero_507678->mFlags.Set(Options::eDrawable_Bit4);
             sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
             Input().SetDemoRes_433470(reinterpret_cast<u32**>(field_14_ppDemoRes));
 
-            field_6_flags.Set(Options::eDrawable_Bit4);
+            mFlags.Set(Options::eDrawable_Bit4);
             field_10_state = States::eState_1_Playing;
             break;
 
@@ -127,8 +127,8 @@ void DemoPlayback::VUpdate_451960()
                     {
                         sJoyResId_50769C = 0;
                     }
-                    gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
-                    gMap_507BA8.field_DC_free_all_anim_and_palts = 1;
+                    gMap.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.field_DC_free_all_anim_and_palts = 1;
                 }
                 else
                 {
@@ -137,13 +137,13 @@ void DemoPlayback::VUpdate_451960()
 
                 field_10_state = States::eState_2_Done;
                 field_8_update_delay = 2;
-                field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 
         case States::eState_2_Done:
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             break;
     }
 }

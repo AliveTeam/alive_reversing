@@ -34,7 +34,7 @@ public:
 
     EXPORT BaseGameObject* dtor_4810C0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT BeeNest* Vdtor_4810E0(s32 flags);
 

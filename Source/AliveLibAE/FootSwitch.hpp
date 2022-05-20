@@ -36,7 +36,7 @@ class FootSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT FootSwitch* ctor_4DE090(Path_FootSwitch* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

@@ -14,9 +14,7 @@
 
 AbilityRing* CC AbilityRing::Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale)
 {
-    auto pAbilityRing = ae_new<AbilityRing>();
-    pAbilityRing->ctor_49C730(xpos, ypos, type, scale);
-    return pAbilityRing;
+    return ae_new<AbilityRing>(xpos, ypos, type, scale);
 }
 
 struct AbilityRing_PolyBuffer final
@@ -39,15 +37,13 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
     }
 }
 
-AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP scale)
+AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    SetVTable(this, 0x546AB0);
-
     SetType(AETypes::eAbilityRing_104);
     field_288_target_obj_id = -1;
     gObjList_drawables_5C1124->Push_Back(this);
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     // TODO: OG issue - using frame counter as res id again
     field_28_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Wave, sGnFrame_5C1B84, sizeof(AbilityRing_PolyBuffer) * 64);
@@ -213,9 +209,9 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
                 break;
         }
 
-        field_282_path = gMap_5C3030.field_2_current_path;
+        field_282_path = gMap.mCurrentPath;
         field_20_layer = Layer::eLayer_Above_FG1_39;
-        field_280_level = gMap_5C3030.field_0_current_level;
+        field_280_level = gMap.mCurrentLevel;
         field_27C_semiTrans = 1;
         field_27E_tPageMode = TPageAbr::eBlend_1;
 
@@ -246,43 +242,19 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
-
-    return this;
 }
 
-BaseGameObject* AbilityRing::VDestructor(s32 flags)
+AbilityRing::~AbilityRing()
 {
-    return vdtor_49D080(flags);
-}
-
-AbilityRing* AbilityRing::vdtor_49D080(s32 flags)
-{
-    dtor_49D0B0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void AbilityRing::dtor_49D0B0()
-{
-    SetVTable(this, 0x546AB0);
     ResourceManager::FreeResource_49C330(field_28_ppRes);
     gObjList_drawables_5C1124->Remove_Item(this);
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void AbilityRing::VRender(PrimHeader** ppOt)
 {
-    vRender_49D790(ppOt);
-}
-
-void AbilityRing::vRender_49D790(PrimHeader** ppOt)
-{
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_280_level,
             field_282_path,
             field_24C_xpos,
@@ -374,21 +346,16 @@ void AbilityRing::vRender_49D790(PrimHeader** ppOt)
 
 void AbilityRing::VUpdate()
 {
-    vUpdate_49D160();
-}
-
-void AbilityRing::vUpdate_49D160()
-{
     if (field_290_bFindingTarget)
     {
         field_290_bFindingTarget = FALSE;
-        field_288_target_obj_id = Find_Flags_4DC170(field_288_target_obj_id);
+        field_288_target_obj_id = RefreshId(field_288_target_obj_id);
     }
 
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_288_target_obj_id));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_288_target_obj_id));
     if (pTarget)
     {
-        if (pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (pTarget->mFlags.Get(BaseGameObject::eDead))
         {
             field_288_target_obj_id = -1;
         }
@@ -433,7 +400,7 @@ void AbilityRing::vUpdate_49D160()
             }
             else
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             return;
 
@@ -462,7 +429,7 @@ void AbilityRing::vUpdate_49D160()
 
             if (FP_GetExponent(field_254_left) > field_26C_fadeout_distance)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -473,16 +440,12 @@ void AbilityRing::vUpdate_49D160()
             field_254_left = field_258_right - field_268_ring_thickness;
             if (field_254_left < FP_FromInteger(0))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 field_254_left = FP_FromInteger(0);
                 SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
                 if (field_284_ring_type == RingTypes::eExplosive_Give_3)
                 {
-                    auto pPossessionFlicker = ae_new<PossessionFlicker>();
-                    if (pPossessionFlicker)
-                    {
-                        pPossessionFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 128, 128);
-                    }
+                    ae_new<PossessionFlicker>(sActiveHero_5C1B68, 8, 255, 128, 128);
                 }
             }
             break;
@@ -494,10 +457,10 @@ void AbilityRing::vUpdate_49D160()
 
 s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
 {
-    return vGetSaveState_49E070(reinterpret_cast<AbilityRing_State*>(pSaveBuffer));
+    return GetSaveState(reinterpret_cast<AbilityRing_State*>(pSaveBuffer));
 }
 
-s32 AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
+s32 AbilityRing::GetSaveState(AbilityRing_State* pSaveState)
 {
     pSaveState->field_0_type = AETypes::eAbilityRing_104;
     pSaveState->field_4_xpos = field_24C_xpos;
@@ -526,7 +489,7 @@ s32 AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
         return sizeof(AbilityRing_State);
     }
 
-    BaseGameObject* pTargetObj = sObjectIds_5C1B70.Find_449CF0(field_288_target_obj_id);
+    BaseGameObject* pTargetObj = sObjectIds.Find_449CF0(field_288_target_obj_id);
     if (pTargetObj)
     {
         pSaveState->field_14_obj_id = pTargetObj->field_C_objectId;
@@ -537,18 +500,17 @@ s32 AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)
 s32 CC AbilityRing::CreateFromSaveState_49DF90(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
-    auto pRing = ae_new<AbilityRing>();
+    auto pRing = ae_new<AbilityRing>(pState->field_4_xpos, pState->field_8_ypos, pState->field_C_ring_type, pState->field_10_scale);
     if (pRing)
     {
-        pRing->ctor_49C730(pState->field_4_xpos, pState->field_8_ypos, pState->field_C_ring_type, pState->field_10_scale);
+        pRing->field_276_r = pState->field_20_r;
+        pRing->field_278_g = pState->field_22_g;
+        pRing->field_27A_b = pState->field_24_b;
+        pRing->field_258_right = pState->field_18_right;
+        pRing->field_28C_count = pState->field_1C_count;
+        pRing->field_288_target_obj_id = pState->field_14_obj_id;
+        pRing->field_290_bFindingTarget = TRUE;
     }
-    pRing->field_276_r = pState->field_20_r;
-    pRing->field_278_g = pState->field_22_g;
-    pRing->field_27A_b = pState->field_24_b;
-    pRing->field_258_right = pState->field_18_right;
-    pRing->field_28C_count = pState->field_1C_count;
-    pRing->field_288_target_obj_id = pState->field_14_obj_id;
-    pRing->field_290_bFindingTarget = TRUE;
     return sizeof(AbilityRing_State);
 }
 
@@ -574,7 +536,7 @@ void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
         PSX_RECT bRect = {};
         pObj->vGetBoundingRect_424FD0(&bRect, 1);
 
-        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+        if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
         {
             for (s32 j = 0; j < field_28C_count; j++)
             {
@@ -645,5 +607,5 @@ void AbilityRing::vScreenChanged_49DE70()
             }
         }
     }
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }

@@ -7,21 +7,6 @@
     #include "detours.h"
 #endif
 
-bool gVTableHack = true;
-
-void SetVTable(void* thisPtr, u32 vTable)
-{
-#if !_WIN64
-    if (RunningAsInjectedDll() && gVTableHack)
-    {
-        *reinterpret_cast<u32**>(thisPtr) = reinterpret_cast<u32*>(vTable);
-    }
-#else
-    (void) thisPtr;
-    (void) vTable;
-#endif
-}
-
 struct TVarInfo
 {
     u32 mAddr;
@@ -148,13 +133,3 @@ void ScopedDetour::DoDetour(bool attach, PVOID* ppPointer, PVOID detour)
     #endif
 }
 #endif
-
-DisableVTableHack::DisableVTableHack()
-{
-    gVTableHack = false;
-}
-
-DisableVTableHack::~DisableVTableHack()
-{
-    gVTableHack = true;
-}

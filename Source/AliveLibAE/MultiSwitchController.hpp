@@ -24,7 +24,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MultiSwitchController, 0x24);
 class MultiSwitchController final : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     EXPORT MultiSwitchController* ctor_4D60E0(Path_MultiSwitchController* pTlv, u32 tlvInfo);

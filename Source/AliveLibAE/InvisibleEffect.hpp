@@ -28,16 +28,15 @@ public:
         eSetDead_6 = 6
     };
 
-    EXPORT InvisibleEffect* ctor_45F280(BaseAliveGameObject* pTarget);
-    EXPORT void dtor_45F410();
+    explicit InvisibleEffect(BaseAliveGameObject* pTarget);
+    ~InvisibleEffect();
     EXPORT void InstantInvisibility_45FA00();
     EXPORT void BecomeVisible_45FA30();
     EXPORT void ClearInvisibility_45FA50();
     EXPORT void BecomeInvisible_45F9E0();
     EXPORT void vUpdate_45F4A0();
-    EXPORT BaseGameObject* vdtor_45F3E0(s32 flags);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

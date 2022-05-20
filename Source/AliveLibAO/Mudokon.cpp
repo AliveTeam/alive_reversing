@@ -400,11 +400,11 @@ BaseGameObject* Mudokon::dtor_43F6A0()
 
     if (!field_144_flags.Get(Flags_144::e144_Bit2) || field_100_health <= FP_FromInteger(0) || field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
     {
-        gMap_507BA8.TLV_Reset_446870(field_10C, -1, 0, 1);
+        gMap.TLV_Reset_446870(field_10C, -1, 0, 1);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_10C, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_10C, -1, 0, 0);
     }
 
     for (auto& res : field_148_res_array.res)
@@ -469,7 +469,7 @@ void Mudokon::VUpdate_43F560()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -500,7 +500,7 @@ void Mudokon::VUpdate_43F560()
 
     if (oldX != field_A8_xpos || oldY != field_AC_ypos)
     {
-        field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
+        field_F0_pTlv = gMap.TLV_Get_At_446060(
             0,
             field_A8_xpos,
             field_AC_ypos,
@@ -615,19 +615,19 @@ void Mudokon::VScreenChanged()
 void Mudokon::VScreenChanged_43FFC0()
 {
     // Map/overlay changed or mud shouldn't persist
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0() || !field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || !field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         KillBirdPortal();
         KillLiftPoint_194();
         return;
     }
 
     // Path changed?
-    if (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    if (gMap.mCurrentPath != gMap.mPath)
     {
         // See if we need to go to the next path
-        auto pTlv = gMap_507BA8.TLV_Get_At_446060(nullptr, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
+        auto pTlv = gMap.TLV_Get_At_446060(nullptr, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
         while (pTlv)
         {
             if (pTlv->field_4_type == TlvTypes::MudokonPathTrans_89)
@@ -636,11 +636,11 @@ void Mudokon::VScreenChanged_43FFC0()
                 field_1C4_bDoPathTrans = TRUE;
                 return;
             }
-            pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
+            pTlv = gMap.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
         }
 
         // Wasn't a path trans and path changed, die
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         KillBirdPortal();
         KillLiftPoint_194();
     }
@@ -698,7 +698,7 @@ s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
                         field_BC_sprite_scale);
                 }
 
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 Event_Broadcast_417220(kEventMudokonDead_15, sActiveHero_507678);
             }
             return 1;
@@ -750,7 +750,7 @@ s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
         case Types::eElectrocute_103:
             if (field_100_health > FP_FromInteger(0))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 field_100_health = FP_FromInteger(0);
             }
             return 1;
@@ -919,7 +919,7 @@ u8** Mudokon::GetResBlockForMotion_43EDE0(s16 motion)
 void Mudokon::DoPathTrans_43FE00()
 {
     PSX_Point camCoords = {};
-    gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
+    gMap.GetCurrentCamCoords_444890(&camCoords);
 
     if (sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -970,8 +970,8 @@ void Mudokon::DoPathTrans_43FE00()
         }
     }
     field_8_update_delay = 20;
-    field_B2_lvl_number = gMap_507BA8.field_0_current_level;
-    field_B0_path_number = gMap_507BA8.field_2_current_path;
+    field_B2_lvl_number = gMap.mCurrentLevel;
+    field_B0_path_number = gMap.mCurrentPath;
 }
 
 void Mudokon::ToStand_43CA40()
@@ -989,7 +989,7 @@ void Mudokon::CheckFloorGone_43C9B0()
 {
     if (field_F8_pLiftPoint)
     {
-        if (field_F8_pLiftPoint->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (field_F8_pLiftPoint->mFlags.Get(BaseGameObject::eDead))
         {
             VOnTrapDoorOpen();
             field_144_flags.Set(Flags_144::e144_Bit8);
@@ -1163,7 +1163,7 @@ s16 Mudokon::FacingTarget_43D6A0(BirdPortal* pTarget)
 
 GameSpeakEvents Mudokon::LastGameSpeak_4400B0()
 {
-    if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -1289,7 +1289,7 @@ void Mudokon::VOnTlvCollision_43FD90(Path_TLV* pTlv)
                     Event_Broadcast_417220(kEventMudokonDead_15, sActiveHero_507678);
                 }
             }
-            pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
+            pTlv = gMap.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
         }
     }
 }
@@ -1613,7 +1613,7 @@ void Mudokon::Motion_15_LeverUse_43D4B0()
 
 void Mudokon::Motion_16_StandScrubLoop_43D7C0()
 {
-    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -1696,7 +1696,7 @@ void Mudokon::Motion_21_StandScrubToIdle_43D8F0()
 
 void Mudokon::Motion_22_CrouchScrub_43D910()
 {
-    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -2309,7 +2309,7 @@ void Mudokon::Motion_44_RunJumpMid_43E960()
         field_144_flags.Clear(Flags_144::e144_Bit2);
         field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
 
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         field_B8_vely = FP_FromInteger(0);
         field_B4_velx = FP_FromInteger(0);
 
@@ -2367,9 +2367,9 @@ void Mudokon::Motion_46_FallLandDie_43E660()
         Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
     }
 
-    if ((gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1
-         || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13
-         || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
+    if ((gMap.mCurrentLevel == LevelIds::eRuptureFarms_1
+         || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13
+         || gMap.mCurrentLevel == LevelIds::eBoardRoom_12)
         && field_10_anim.field_92_current_frame == 7)
     {
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
@@ -2389,9 +2389,9 @@ void Mudokon::Motion_47_Knockback_43E730()
     Event_Broadcast_417220(kEventNoise_0, this);
     Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
 
-    if ((gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1
-         || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13
-         || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
+    if ((gMap.mCurrentLevel == LevelIds::eRuptureFarms_1
+         || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13
+         || gMap.mCurrentLevel == LevelIds::eBoardRoom_12)
         && field_10_anim.field_92_current_frame == 7)
     {
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
@@ -2774,7 +2774,7 @@ s16 Mudokon::Brain_ComingOut_1_441E90()
 
         if (field_190 < FP_FromInteger(0))
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             field_FC_current_motion = eMudMotions::Motion_0_Idle_43CA70;
             return 3;
         }
@@ -3767,7 +3767,7 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
                     }
 
                     if (Event_Get_417250(kEventMudokonComfort_16)
-                        && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                        && gMap.Is_Point_In_Current_Camera_4449C0(
                             field_B2_lvl_number,
                             field_B0_path_number,
                             field_A8_xpos,
@@ -4024,7 +4024,7 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
             field_1B4_idle_time++;
 
             if (field_1B4_idle_time <= 150
-                && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                && gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
                     field_A8_xpos,
@@ -4039,7 +4039,7 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
                 }
 
                 if (Event_Get_417250(kEventMudokonComfort_16)
-                    && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    && gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
                         field_A8_xpos,
@@ -4272,7 +4272,7 @@ s16 Mudokon::Brain_ShrivelDeath_11_43C5F0()
 
     if (field_BC_sprite_scale < FP_FromInteger(0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     return 100;
@@ -4282,12 +4282,12 @@ s16 Mudokon::Brain_Escape_12_440FD0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
         return field_1BA_brain_sub_state;
     }
 
     BirdPortal* pPortal = field_1AC_pBirdPortal;
-    if (!pPortal || pPortal->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (!pPortal || pPortal->mFlags.Get(BaseGameObject::eDead))
     {
         sMudRunningToPortalCount_507B94--;
         if (pPortal)
@@ -4433,7 +4433,7 @@ s16 Mudokon::Brain_FallAndSmackDeath_13_43C700()
                 {
                     pShake->ctor_4624D0(0);
                 }
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
         }
         return field_1BA_brain_sub_state;

@@ -38,11 +38,11 @@ BaseGameObject* BackgroundGlukkon::dtor_41DCE0()
 
     if (field_100_health <= FP_FromInteger(0))
     {
-        gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
     }
 
     return dtor_401000();
@@ -80,7 +80,7 @@ BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_BackgroundGlukkon* pTlv, 
 
 void BackgroundGlukkon::VScreenChanged_41E0E0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
@@ -90,7 +90,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 
 s16 BackgroundGlukkon::VTakeDamage_41DF80(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
@@ -124,7 +124,7 @@ s16 BackgroundGlukkon::VTakeDamage_41DF80(BaseGameObject* pFrom)
                 field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(40)),
                 field_BC_sprite_scale);
         }
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     return 1;
 }
@@ -138,7 +138,7 @@ void BackgroundGlukkon::VUpdate_41DD60()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_110_state)

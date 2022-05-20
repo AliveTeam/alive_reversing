@@ -22,7 +22,7 @@ public:
 
     EXPORT BaseGameObject* dtor_41DCE0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT BackgroundGlukkon* Vdtor_41E0F0(s32 flags);
 

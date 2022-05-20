@@ -79,7 +79,7 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VUpdate() override;
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
 private:
     void VOnTrapDoorOpen_4740C0();

@@ -43,8 +43,8 @@ const TDDCheatFn CheatsFn_4C3150[] = {
 DDCheat* DDCheat::ctor_4095D0()
 {
     ctor_487E10(1);
-    field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
-    field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     SetVTable(this, 0x4BA340);
     field_4_typeId = Types::eDDCheat_12;
@@ -228,7 +228,7 @@ void DDCheat::VUpdate_4098C0()
             if (pAbe)
             {
                 PSX_Point point = {};
-                gMap_507BA8.GetCurrentCamCoords_444890(&point);
+                gMap.GetCurrentCamCoords_444890(&point);
                 pAbe = sActiveHero_507678;
                 cheat_enabled = 1;
                 pAbe->field_A8_xpos = FP_FromInteger(point.field_0_x + 448);
@@ -242,7 +242,7 @@ void DDCheat::VUpdate_4098C0()
             }
         }
 
-        if (gMap_507BA8.field_0_current_level != LevelIds::eMenu_0)
+        if (gMap.mCurrentLevel != LevelIds::eMenu_0)
         {
             if (pAbe)
             {
@@ -322,9 +322,9 @@ void DDCheat::VUpdate_4098C0()
             {
                 DebugStr_495990(
                     "\n%sP%dC%d %6d",
-                    Path_Get_Lvl_Name(gMap_507BA8.field_0_current_level),
-                    gMap_507BA8.field_2_current_path,
-                    gMap_507BA8.field_4_current_camera,
+                    Path_Get_Lvl_Name(gMap.mCurrentLevel),
+                    gMap.mCurrentPath,
+                    gMap.field_4_current_camera,
                     gnFrameCount_507670);
                 DebugStr_495990(
                     " mem used %5d mem peak %5d",
@@ -475,9 +475,9 @@ void DDCheat::Teleport_409CE0()
     }
     else if (input & InputCommands::eThrowItem)
     {
-        path_4C3160 = gMap_507BA8.field_2_current_path;
-        level_4C315C = static_cast<u32>(gMap_507BA8.field_0_current_level);
-        camera_4C3164 = gMap_507BA8.field_4_current_camera;
+        path_4C3160 = gMap.mCurrentPath;
+        level_4C315C = static_cast<u32>(gMap.mCurrentLevel);
+        camera_4C3164 = gMap.field_4_current_camera;
     }
     else if (input & InputCommands::eDoAction)
     {
@@ -489,7 +489,7 @@ void DDCheat::Teleport_409CE0()
                 if (camera_4C3164 <= 21)
                 {
                     sDDCheat_FlyingEnabled_50771C = 1;
-                    gMap_507BA8.SetActiveCam_444660(
+                    gMap.SetActiveCam_444660(
                         static_cast<LevelIds>(level_4C315C),
                         path_4C3160,
                         camera_4C3164,

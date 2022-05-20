@@ -32,7 +32,7 @@ public:
 
     EXPORT void VScreenChanged_475F90();
 
-    BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

@@ -28,7 +28,7 @@ public:
 
     EXPORT void VRender_42A7A0(PrimHeader** ppOt);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     s32 field_D4[4];
     s16 field_E4;
@@ -60,7 +60,7 @@ public:
 
     EXPORT void VScreenChanged_4369D0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT MainMenuTransition* Vdtor_4369F0(s32 flags);
 
@@ -166,7 +166,7 @@ public:
 
     EXPORT BaseGameObject* dtor_47AAB0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT Menu* Vdtor_47FC40(s32 flags);
 

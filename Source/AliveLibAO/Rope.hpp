@@ -14,7 +14,7 @@ public:
 
     EXPORT BaseGameObject* dtor_458720();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT Rope* Vdtor_458B60(s32 flags);
 

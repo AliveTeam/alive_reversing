@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_StatusLight, 0x20);
 class StatusLight final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

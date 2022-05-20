@@ -32,8 +32,8 @@ void TestAnimation::DelayLoad()
         LOG_WARNING("Anim resource already loaded - BAN/BND name not verified by test animation");
     }
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, animRec.mResourceId);
-    Animation_Init_424E10(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, animRec.mResourceId);
+    Animation_Init(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1, 1);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
 
     if (animRec.mPalOverride != PalId::Default)
@@ -49,7 +49,7 @@ void TestAnimation::DelayLoad()
             LOG_WARNING("Pal resource already loaded - BAN/BND name not verified by test animation");
         }
 
-        u8** ppPal = Add_Resource_4DC130(ResourceManager::Resource_Palt, palRec.mResourceId);
+        u8** ppPal = Add_Resource(ResourceManager::Resource_Palt, palRec.mResourceId);
         if (ppPal)
         {
             field_20_animation.Load_Pal_40A530(ppPal, 0);
@@ -68,8 +68,8 @@ void TestAnimation::ctor()
 
     field_DC_bApplyShadows &= ~1u;
 
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 }
 
 void TestAnimation::SyncToAbePos()
@@ -82,8 +82,8 @@ void TestAnimation::SyncToAbePos()
 
 void TestAnimation::VUpdate()
 {
-    field_C0_path_number = gMap_5C3030.field_2_current_path;
-    field_C2_lvl_number = gMap_5C3030.field_0_current_level;
+    field_C0_path_number = gMap.mCurrentPath;
+    field_C2_lvl_number = gMap.mCurrentLevel;
 
     if (mLoaded)
     {

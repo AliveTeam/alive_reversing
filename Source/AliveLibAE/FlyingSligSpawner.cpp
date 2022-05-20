@@ -93,9 +93,9 @@ void FlyingSligSpawner::vUpdate_433E10()
         field_40_bFirstUpdate &= ~2;
         if (field_24_spawned_slig_id != -1)
         {
-            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
-                BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+                BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
                 if (!pObj)
                 {
                     break;
@@ -110,12 +110,12 @@ void FlyingSligSpawner::vUpdate_433E10()
         }
     }
 
-    BaseGameObject* pCurrentSlig = sObjectIds_5C1B70.Find_449CF0(field_24_spawned_slig_id);
-    if (!Event_Get_422C00(kEventDeathReset) && !field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    BaseGameObject* pCurrentSlig = sObjectIds.Find_449CF0(field_24_spawned_slig_id);
+    if (!Event_Get_422C00(kEventDeathReset) && !mFlags.Get(BaseGameObject::eDead))
     {
         if (field_3C_bSpawned)
         {
-            if (!pCurrentSlig || pCurrentSlig->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (!pCurrentSlig || pCurrentSlig->mFlags.Get(BaseGameObject::eDead))
             {
                 SwitchStates_Do_Operation_465F00(field_28_spawner_switch_id, SwitchOp::eSetFalse_1);
                 field_24_spawned_slig_id = -1;
@@ -133,14 +133,14 @@ void FlyingSligSpawner::vUpdate_433E10()
 
             if (!pFlyingSligTlv)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
             auto pNewSlig = ae_new<FlyingSlig>();
             if (!pNewSlig)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -163,7 +163,7 @@ s32 FlyingSligSpawner::vGetSaveState_43B730(FlyingSligSpawner_State* pSaveState)
         return sizeof(FlyingSligSpawner_State);
     }
 
-    BaseGameObject* pSpawnedSlig = sObjectIds_5C1B70.Find_449CF0(field_24_spawned_slig_id);
+    BaseGameObject* pSpawnedSlig = sObjectIds.Find_449CF0(field_24_spawned_slig_id);
     if (pSpawnedSlig)
     {
         pSaveState->field_C_spawned_slig_obj_id = pSpawnedSlig->field_C_objectId;

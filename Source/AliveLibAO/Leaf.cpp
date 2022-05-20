@@ -44,7 +44,7 @@ void Leaf::VUpdate_48B650()
     // Hit the floor, die but only if in background..
     if (bCollision && field_BC_sprite_scale == FP_FromDouble(0.5) && pLine->field_8_type == eLineTypes::eFloor_0)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -69,14 +69,14 @@ void Leaf::VUpdate_48B650()
     }
 
     // Out of the camera, die
-    if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
             field_AC_ypos,
             0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -87,7 +87,7 @@ void Leaf::VUpdate()
 
 void Leaf::VScreenChanged_48B860()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void Leaf::VScreenChanged()

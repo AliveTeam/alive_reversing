@@ -436,8 +436,8 @@ PauseMenu* PauseMenu::ctor_48FB80()
     sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
     SetType(AETypes::ePauseMenu_95);
-    field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     word12C_flags &= ~0xE;
     word12C_flags &= ~1u;
 
@@ -466,7 +466,7 @@ void PauseMenu::dtor_48FCE0()
 {
     SetVTable(this, 0x546658);
 
-    field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+    mFlags.Clear(BaseGameObject::eDrawable_Bit4);
 
     gObjList_drawables_5C1124->Remove_Item(this);
     field_158_animation.vCleanUp_40C630();
@@ -487,11 +487,11 @@ BaseGameObject* PauseMenu::vdtor_48FCB0(s32 flags)
 void PauseMenu::Init_491760()
 {
     ResourceManager::LoadResourceFile_49C170("EMOHAP.BAN", 0);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kHappyiconResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kHappyiconResID);
     ResourceManager::LoadResourceFile_49C170("EMOANGRY.BAN", 0);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAngryiconResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAngryiconResID);
     ResourceManager::LoadResourceFile_49C170("EMONORM.BAN", 0);
-    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kNormaliconResID);
+    u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kNormaliconResID);
 
     const AnimRecord& rec = AnimRec(AnimId::NormalMudIcon);
     if (field_158_animation.Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppAnimData, 1, 0, 0))
@@ -504,7 +504,7 @@ void PauseMenu::Init_491760()
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
@@ -537,9 +537,9 @@ void PauseMenu::Render_490BD0(PrimHeader** ot)
 
 EXPORT void PauseMenu::Remove_At_Credits_Screen_490D30()
 {
-    if (gMap_5C3030.field_A_level == LevelIds::eCredits_16)
+    if (gMap.mLevel == LevelIds::eCredits_16)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -620,7 +620,7 @@ public:
     void ClosePauseMenu()
     {
         pPauseMenu_5C9300->word12C_flags &= ~1;
-        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
         GetSoundAPI().SND_Restart();
         customMenuStack.clear();
     }
@@ -634,7 +634,7 @@ public:
             {
                 index = 0;
             }
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 45, 400);
 
             CompileEntries();
         }
@@ -644,13 +644,13 @@ public:
             {
                 index = static_cast<s32>(entries->size()) - 1;
             }
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 45, 400);
 
             CompileEntries();
         }
         else if (input & InputCommands::Enum::eBack)
         {
-            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+            SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
             GoBack(pm);
         }
         else if (input & InputCommands::Enum::eUnPause_OrConfirm)
@@ -758,14 +758,14 @@ void DestroyAliveObjects()
     for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
     {
         BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
-        if (!pObj || pObj == pPauseMenu_5C9300 || pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) == false)
+        if (!pObj || pObj == pPauseMenu_5C9300 || pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) == false)
         {
             continue;
         }
 
         if (pObj->Type() != AETypes::eAbe_69)
         {
-            pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            pObj->mFlags.Set(BaseGameObject::eDead);
         }
     }
 
@@ -784,7 +784,7 @@ void DestroyAllObjects()
 
         if (pObj->Type() != AETypes::eAbe_69)
         {
-            pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            pObj->mFlags.Set(BaseGameObject::eDead);
         }
     }
 
@@ -912,7 +912,7 @@ void PauseMenu_ForceLink()
                                             }
 
                                             sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
-                                            gMap_5C3030.SetActiveCam_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+                                            gMap.SetActiveCam_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                                             sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
                                             sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
                                             DEV_CONSOLE_MESSAGE("Teleported to " + std::string(levelSelectEntry.field_0_display_name), 6);
@@ -991,7 +991,7 @@ void PauseMenu::RestartPath()
     Abe::CreateFromSaveState_44D4F0(sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state);
     Quicksave_ReadWorldInfo_4C9490(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
 
-    gMap_5C3030.SetActiveCam_480D30(
+    gMap.SetActiveCam_480D30(
         sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
         sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path,
         sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_8_cam,
@@ -999,7 +999,7 @@ void PauseMenu::RestartPath()
         1,
         1);
 
-    gMap_5C3030.field_8_force_load = TRUE;
+    gMap.field_8_force_load = TRUE;
     if (sActiveHero_5C1B68->field_1A2_throwable_count)
     {
         LoadRockTypes_49AB30(
@@ -1016,7 +1016,7 @@ void PauseMenu::RestartPath()
     }
 
     word12C_flags &= ~1;
-    SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 3400);
+    SFX_Play(SoundEffect::PossessEffect_17, 40, 3400);
     GetSoundAPI().SND_Restart();
 }
 
@@ -1031,7 +1031,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
             field_134_index_main = MainPages::ePage_Continue_0;
         }
-        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
+        SFX_Play(SoundEffect::MenuNavigation_52, 45, 400);
     }
 
     if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUp))
@@ -1040,7 +1040,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
             field_134_index_main = MainPages::ePage_Quit_7;
         }
-        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
+        SFX_Play(SoundEffect::MenuNavigation_52, 45, 400);
     }
 
     field_144_active_menu.field_C_selected_index = field_134_index_main;
@@ -1048,7 +1048,7 @@ void PauseMenu::Page_Main_Update_4903E0()
     if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
     {
         word12C_flags &= ~1u;
-        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
         GetSoundAPI().SND_Restart();
     }
     else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUnPause_OrConfirm))
@@ -1057,13 +1057,13 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
             case MainPages::ePage_Continue_0:
                 word12C_flags &= ~1u;
-                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+                SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
                 GetSoundAPI().SND_Restart();
                 return;
 
             case MainPages::ePage_QuickSave_1:
                 word12C_flags &= ~1u;
-                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+                SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
                 GetSoundAPI().SND_Restart();
                 Quicksave_4C90D0();
                 return;
@@ -1096,9 +1096,9 @@ void PauseMenu::Page_Main_Update_4903E0()
                 // Set the default save name to be the current level/path/camera
                 Path_Format_CameraName_460FB0(
                     sSaveString_5C931C,
-                    gMap_5C3030.field_0_current_level,
-                    gMap_5C3030.field_2_current_path,
-                    gMap_5C3030.field_4_current_camera);
+                    gMap.mCurrentLevel,
+                    gMap.mCurrentPath,
+                    gMap.field_4_current_camera);
                 // Null terminate it
                 sSaveString_5C931C[8] = 0;
                 // Append the editor arrow s8
@@ -1147,7 +1147,7 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
-        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
     }
 
     if (sInputObject_5BD4E0.isHeld(0x100000))
@@ -1163,7 +1163,7 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
             field_138_control_action_page_index = 0;
             field_136_unused = 0;
             field_144_active_menu = sPM_Page_Main_5465B0;
-            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+            SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
         }
     }
 }
@@ -1174,26 +1174,26 @@ void PauseMenu::Page_ReallyQuit_Update_490930()
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
-        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
     }
 
     if (sInputObject_5BD4E0.isHeld(0x100000))
     {
         word12C_flags &= ~1u;
-        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
 
         if (pPauseMenu_5C9300 && pPauseMenu_5C9300 == this)
         {
-            pPauseMenu_5C9300->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            pPauseMenu_5C9300->mFlags.Set(BaseGameObject::eDead);
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
 
         pPauseMenu_5C9300 = 0;
-        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
-        gMap_5C3030.field_CE_free_all_anim_and_palts = 1;
+        gMap.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.field_CE_free_all_anim_and_palts = 1;
         sCurrentControllerIndex_5C1BBE = 0;
     }
 }
@@ -1219,7 +1219,7 @@ void PauseMenu::Page_Save_Update_491210()
                 sSavedGameToLoadIdx_BB43FC = 0;
             }
             word12C_flags &= ~1u;
-            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+            SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
             GetSoundAPI().SND_Restart();
         }
         else
@@ -1232,7 +1232,7 @@ void PauseMenu::Page_Save_Update_491210()
         if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUnPause_OrConfirm))
         {
             // Enter - do the save and don't return to the confirm overwrite
-            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+            SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
             field_13C_save_state = SaveState::DoSave_4;
             bWriteSaveFile_5C937C = true;
         }
@@ -1289,7 +1289,7 @@ void PauseMenu::Page_Save_Update_491210()
                 return;
             // Escape - cancel
             case VK_ESCAPE:
-                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+                SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
                 field_136_unused = 0;
                 field_144_active_menu = sPM_Page_Main_5465B0;
                 Input_Reset_492660();
@@ -1329,12 +1329,12 @@ void PauseMenu::Page_Save_Update_491210()
             // Don't allow space at the start of the name, and don't allow 2 constitutive spaces.
             if (newInput[0] == ' ' && (stringLen == 1 || sSaveString_5C931C[stringLen - 2] == newInput[0]))
             {
-                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 30, 2600);
+                SFX_Play(SoundEffect::PossessEffect_17, 30, 2600);
             }
             // Also don't allow the name length to be over 20 chars
             else if (stringLen > 20)
             {
-                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 30, 2400);
+                SFX_Play(SoundEffect::PossessEffect_17, 30, 2400);
             }
             // Append new input s8
             else
@@ -1347,7 +1347,7 @@ void PauseMenu::Page_Save_Update_491210()
         }
         else
         {
-            SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 70, 2200);
+            SFX_Play(SoundEffect::PossessEffect_17, 70, 2200);
         }
     }
 }
@@ -1383,7 +1383,7 @@ void PauseMenu::Page_Status_Update_4916A0()
         // Go back to the main page
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
-        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
     }
 }
 
@@ -1419,7 +1419,7 @@ void PauseMenu::Page_Load_Update_490D50()
         {
             sSavedGameToLoadIdx_BB43FC--;
         }
-        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         return;
     }
 
@@ -1431,7 +1431,7 @@ void PauseMenu::Page_Load_Update_490D50()
         {
             sSavedGameToLoadIdx_BB43FC++;
         }
-        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         return;
     }
 
@@ -1446,7 +1446,7 @@ void PauseMenu::Page_Load_Update_490D50()
             sSavedGameToLoadIdx_BB43FC = 0;
         }
 
-        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         return;
     }
 
@@ -1459,7 +1459,7 @@ void PauseMenu::Page_Load_Update_490D50()
         {
             sSavedGameToLoadIdx_BB43FC = sTotalSaveFilesCount_BB43E0 - 1;
         }
-        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         return;
     }
 
@@ -1493,7 +1493,7 @@ void PauseMenu::Page_Load_Update_490D50()
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
-        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
     }
     // Delete (del)
     else if (inputHeld & 0x10000000)
@@ -1630,9 +1630,9 @@ void PauseMenu::Update_48FD80()
                 && pHero->field_1A8_portal_id == -1)
             {
                 SND_StopAll_4CB060();
-                SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+                SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
                 sub_4A2B70();
-                field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+                mFlags.Set(BaseGameObject::eDrawable_Bit4);
                 field_134_index_main = MainPages::ePage_Continue_0;
                 field_136_unused = 0;
                 word12C_flags = (word12C_flags & ~8) | 1;
@@ -1640,9 +1640,9 @@ void PauseMenu::Update_48FD80()
                 field_130_selected_glow_counter = 8;
                 Path_Format_CameraName_460FB0(
                     sScreenStringBuffer_5C92F0,
-                    gMap_5C3030.field_0_current_level,
-                    gMap_5C3030.field_2_current_path,
-                    gMap_5C3030.field_4_current_camera);
+                    gMap.mCurrentLevel,
+                    gMap.mCurrentPath,
+                    gMap.field_4_current_camera);
 
                 // TODO: never read ??
                 //byte_5C92F8 = 0;
@@ -1667,7 +1667,7 @@ void PauseMenu::Update_48FD80()
                     }
                 }
 
-                sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF %d MUDOKONS", sRescuedMudokons_5C1BC2, Path_GetTotalMuds(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path));
+                sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF %d MUDOKONS", sRescuedMudokons_5C1BC2, Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath));
                 sprintf(sHasBeenTerminated_55E738, "%d HA%s BEEN TERMINATED", sKilledMudokons_5C1BC0, (sKilledMudokons_5C1BC0 != 1) ? "VE" : "S");
 
                 if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eNormal_0)
@@ -1711,9 +1711,9 @@ void PauseMenu::Update_48FD80()
                             break;
                         }
 
-                        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+                        if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
                         {
-                            if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+                            if (pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
                             {
                                 pObj->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
                             }
@@ -1756,7 +1756,7 @@ void PauseMenu::Update_48FD80()
                 // This call seems redundant as the calle will also update input right after this too
                 sInputObject_5BD4E0.Update(GetGameAutoPlayer());
 
-                field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+                mFlags.Clear(BaseGameObject::eDrawable_Bit4);
             }
         }
     }

@@ -126,19 +126,19 @@ void BulletShell::VUpdate_4628C0()
         }
     }
 
-    if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
             field_AC_ypos,
             0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_EC_hitCount >= 3)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

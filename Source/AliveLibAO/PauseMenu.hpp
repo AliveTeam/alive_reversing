@@ -13,7 +13,7 @@ public:
 
     EXPORT BaseGameObject* dtor_44DF40();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT PauseMenu* Vdtor_44EAA0(s32 flags);
 

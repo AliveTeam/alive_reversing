@@ -56,9 +56,9 @@ Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
     SetType(AETypes::eLiftRope_108);
 
     const AnimRecord& rec = AnimRec(AnimId::Lift_Rope);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    SetTint_425600(kRopeTints_55FD68, gMap_5C3030.field_0_current_level);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    SetTint_425600(kRopeTints_55FD68, gMap.mCurrentLevel);
 
     field_20_animation.field_14_scale = scale;
     field_CC_sprite_scale = scale;
@@ -146,9 +146,9 @@ Rope* Rope::vdtor_4A0D80(s32 flags)
 EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
 {
     PSX_Point camPos = {};
-    gMap_5C3030.GetCurrentCamCoords_480680(&camPos);
+    gMap.GetCurrentCamCoords_480680(&camPos);
     // In the current level/map?
-    if (field_C2_lvl_number == gMap_5C3030.field_0_current_level && field_C0_path_number == gMap_5C3030.field_2_current_path)
+    if (field_C2_lvl_number == gMap.mCurrentLevel && field_C0_path_number == gMap.mCurrentPath)
     {
         // In the current camera x range?
         if (field_B8_xpos >= FP_FromInteger(camPos.field_0_x) && field_B8_xpos <= FP_FromInteger(camPos.field_0_x + 375))

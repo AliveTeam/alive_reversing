@@ -82,7 +82,7 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
     else
     {
         // Not a valid scale
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     field_B4_velx = xOff + GibRand(scale);
@@ -98,7 +98,7 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
     }
 
     u8** ppPal = nullptr;
-    if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+    if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
         if (gibType == GibType::Abe_0 || gibType == GibType::Mud_4)
         {
@@ -112,11 +112,11 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
 
     if (gibType == GibType::Abe_0)
     {
-        SetTint_418750(sAbeGibTints_4C6438, gMap_507BA8.field_0_current_level);
+        SetTint_418750(sAbeGibTints_4C6438, gMap.mCurrentLevel);
     }
     else if (gibType == GibType::Mud_4)
     {
-        SetTint_418750(sMudGibTints_4CD320, gMap_507BA8.field_0_current_level);
+        SetTint_418750(sMudGibTints_4CD320, gMap.mCurrentLevel);
     }
 
     field_5C4_parts_used_count = 7;
@@ -139,7 +139,7 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
                     0))
             {
                 field_5C4_parts_used_count = i;
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return this;
             }
         }
@@ -158,7 +158,7 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
                     0))
             {
                 field_5C4_parts_used_count = i;
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return this;
             }
         }
@@ -237,7 +237,7 @@ void Gibs::VUpdate_4080C0()
 
     if (static_cast<s32>(gnFrameCount_507670) > field_F0_timer)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

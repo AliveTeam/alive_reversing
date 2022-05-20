@@ -142,7 +142,7 @@ s32 CC SFX_Play_46FB10(SoundEffect sfxId, s32 leftVol, s32 rightVol, FP scale)
     return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], static_cast<s16>(leftVol), static_cast<s16>(rightVol), 0x7FFF, 0x7FFF);
 }
 
-s32 CC SFX_Play_46FBA0(SoundEffect sfxIdx, s16 volume, s32 pitch, FP scale)
+s32 CC SFX_Play(SoundEffect sfxIdx, s16 volume, s32 pitch, FP scale)
 {
     if (!volume)
     {
@@ -229,7 +229,7 @@ EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject
             yOff = FP_FromInteger(20); // 0xffec0000
         }
 
-        const CameraPos dir = gMap_5C3030.GetDirection_4811A0(
+        const CameraPos dir = gMap.GetDirection_4811A0(
             pObj->field_C2_lvl_number, pObj->field_C0_path_number,
             pObj->field_B8_xpos, pObj->field_BC_ypos - yOff);
 
@@ -240,7 +240,7 @@ EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject
         }
 
         PSX_RECT camRect = {};
-        gMap_5C3030.Get_Camera_World_Rect_481410(dir, &camRect);
+        gMap.Get_Camera_World_Rect_481410(dir, &camRect);
 
         const s32 volScaler = defaultVol / 3;
         switch (dir)

@@ -83,7 +83,7 @@ void OrbWhirlWind::VUpdate_48B990()
 
         if (!unknown)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 
@@ -152,7 +152,7 @@ OrbWhirlWind* OrbWhirlWind::ctor_48B870(FP xpos, FP ypos, FP scale)
     field_10_particle_spawn_counter = 0;
 
     gObjList_drawables_504618->Push_Back(this);
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
 
     field_16_particleIdx = 0;
 

@@ -78,7 +78,7 @@ class Greeter final : public BaseAliveGameObject
 public:
     EXPORT Greeter* ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;

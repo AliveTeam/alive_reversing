@@ -51,7 +51,7 @@ void LCDStatusBoard::VUpdate()
 
 void LCDStatusBoard::VScreenChanged_441C70()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void LCDStatusBoard::VScreenChanged()
@@ -78,7 +78,7 @@ BaseGameObject* LCDStatusBoard::dtor_4419E0()
 {
     SetVTable(this, 0x4BBB90);
     gObjList_drawables_504618->Remove_Item(this);
-    gMap_507BA8.TLV_Reset_446870(field_C8_tlv, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_C8_tlv, -1, 0, 0);
     field_90_font3.dtor_41C130();
     field_58_font2.dtor_41C130();
     field_20_font1.dtor_41C130();
@@ -96,7 +96,7 @@ LCDStatusBoard* LCDStatusBoard::ctor_4418E0(Path_LCDStatusBoard* pTlv, s32 tlvIn
     field_58_font2.ctor_41C170(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
     field_90_font3.ctor_41C170(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
 
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Push_Back(this);
 
     field_CC_xpos = (pScreenManager_4FF7C8->field_14_xpos + pTlv->field_10_top_left.field_0_x) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
@@ -108,7 +108,7 @@ void LCDStatusBoard::VUpdate_441A90()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -120,7 +120,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
 void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
 {
     char_type text[12] = {};
-    sprintf(text, "%02d", Path_GetTotalMuds(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path) - sRescuedMudokons_5076C0 - sKilledMudokons_5076BC);
+    sprintf(text, "%02d", Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath) - sRescuedMudokons_5076C0 - sKilledMudokons_5076BC);
 
     const s16 w1 = static_cast<s16>(field_90_font3.MeasureWidth_41C2B0(text));
     const s16 colourRange = sDisableFontFlicker_5080E4 ? 0 : 50;

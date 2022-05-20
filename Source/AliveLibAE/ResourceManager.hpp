@@ -115,7 +115,6 @@ public:
     EXPORT void Shutdown_465610();
     EXPORT void Free_Resources_For_Camera_4656F0(const Camera* pCamera);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

@@ -7,7 +7,7 @@ class Sparks final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Sparks* ctor_416390(FP xpos, FP ypos, FP scale);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

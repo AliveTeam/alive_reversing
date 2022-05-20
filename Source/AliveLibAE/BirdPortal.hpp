@@ -54,9 +54,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
 class BirdPortalTerminator final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BaseAnimatedWithPhysicsGameObject* ctor_497960(FP xpos, FP ypos, FP scale, PortalType portalType);
+    BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalType portalType);
     virtual void VScreenChanged() override;
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     EXPORT void Fadeout_497AC0();
 
 private:
@@ -69,9 +69,9 @@ class OrbWhirlWind;
 class BirdPortal final : public BaseGameObject
 {
 public:
-    EXPORT BaseGameObject* ctor_497E00(Path_BirdPortal* pTlv, s32 tlvInfo);
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo);
+    ~BirdPortal();
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -95,9 +95,6 @@ public:
 
 
 private:
-    EXPORT BirdPortal* vdtor_498050(s32 flags);
-    EXPORT void vUpdate_498280();
-    EXPORT void vScreenChanged_499B50();
     EXPORT void vStopAudio_499260();
     EXPORT s32 vGetSaveState_499F50(u8* pState);
 
@@ -111,7 +108,6 @@ private:
     EXPORT Bool32 vPortalExit_AbeExitting_499A00();
     EXPORT void vIncreaseTimerAndKillPortalClipper_499A20();
     EXPORT void vGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
-    EXPORT void dtor_4980A0();
 
     EXPORT s16 IsScaredAway_4992A0();
 

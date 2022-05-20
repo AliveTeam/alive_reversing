@@ -102,8 +102,8 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToL
 
 Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera_4DB610(s16 cam_x_idx, s16 cam_y_idx)
 {
-    const s32 camY = cam_y_idx + gMap_5C3030.field_D2_cam_y_idx;
-    const s32 camX = cam_x_idx + gMap_5C3030.field_D0_cam_x_idx;
+    const s32 camY = cam_y_idx + gMap.field_D2_cam_y_idx;
+    const s32 camX = cam_x_idx + gMap.field_D0_cam_x_idx;
     if (camX >= field_6_cams_on_x || camX < 0 || camY >= field_8_cams_on_y || camY < 0)
     {
         return nullptr;
@@ -341,7 +341,7 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFla
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
-    if (data.parts.levelId == static_cast<s32>(gMap_5C3030.field_0_current_level))
+    if (data.parts.levelId == static_cast<s32>(gMap.mCurrentLevel))
     {
         const PathBlyRec* pBlyRec = Path_Get_Bly_Record_460F30(static_cast<LevelIds>(data.parts.levelId), data.parts.pathId);
         u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
@@ -393,7 +393,7 @@ EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos directi
 
 EXPORT void CCSTD Path::Reset_TLVs_4DBCF0(u16 pathId)
 {
-    const PathData* pPathData = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, pathId)->field_4_pPathData;
+    const PathData* pPathData = Path_Get_Bly_Record_460F30(gMap.mCurrentLevel, pathId)->field_4_pPathData;
     const s32 camsX = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
     const s32 camsY = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
     u8** ppPath = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, pathId, TRUE, FALSE);

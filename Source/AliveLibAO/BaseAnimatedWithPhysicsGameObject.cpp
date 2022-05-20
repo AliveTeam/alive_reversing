@@ -15,16 +15,12 @@
 
 namespace AO {
 
-BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C10()
+BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
+    : BaseGameObject(TRUE)
 {
-    ctor_487E10(1);
-
-    SetVTable(&field_10_anim, 0x4BA2B8);
-    SetVTable(this, 0x4BAA38);
-
     field_CC_bApplyShadows |= 1u;
-    field_B0_path_number = gMap_507BA8.field_2_current_path;
-    field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+    field_B0_path_number = gMap.mCurrentPath;
+    field_B2_lvl_number = gMap.mCurrentLevel;
 
     field_B4_velx = FP_FromInteger(0);
     field_A8_xpos = FP_FromInteger(0);
@@ -39,13 +35,11 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
     field_C6_scale = 1;
     field_C8_yOffset = 5;
 
-    field_6_flags.Clear(Options::eCanExplode_Bit7);
-    field_6_flags.Clear(Options::eInteractive_Bit8);
+    mFlags.Clear(Options::eCanExplode_Bit7);
+    mFlags.Clear(Options::eInteractive_Bit8);
 
-    field_6_flags.Set(Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
-    field_6_flags.Set(Options::eDrawable_Bit4);
-
-    return this;
+    mFlags.Set(Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
+    mFlags.Set(Options::eDrawable_Bit4);
 }
 
 void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList)
@@ -86,14 +80,14 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
         }
         else
         {
-            field_6_flags.Set(Options::eListAddFailed_Bit1);
-            gBaseGameObject_list_9F2DF0->Remove_Item(this);
+            mFlags.Set(Options::eListAddFailed_Bit1);
+            gBaseGameObjects->Remove_Item(this);
         }
     }
     else
     {
-        field_6_flags.Set(Options::eListAddFailed_Bit1);
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eListAddFailed_Bit1);
+        mFlags.Set(Options::eDead);
     }
 }
 
@@ -102,7 +96,7 @@ CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
 {
     PSX_RECT rect = {};
     VGetBoundingRect(&rect, 1);
-    return gMap_507BA8.Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
+    return gMap.Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
 }
 
 void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
@@ -129,7 +123,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         // Only render if in the active level, path and camera
-        if (gMap_507BA8.field_2_current_path == field_B0_path_number && gMap_507BA8.field_0_current_level == field_B2_lvl_number && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
+        if (gMap.mCurrentPath == field_B0_path_number && gMap.mCurrentLevel == field_B2_lvl_number && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
             field_10_anim.field_14_scale = field_BC_sprite_scale;
 
@@ -183,22 +177,6 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
         }
     }
 }
-
-BaseGameObject* BaseAnimatedWithPhysicsGameObject::VDestructor(s32 flags)
-{
-    return Vdtor_4189C0(flags);
-}
-
-BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::Vdtor_4189C0(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
 
 void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
 {
@@ -340,9 +318,9 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith_418080(PSX_Point xy, PS
                 break;
             }
 
-            if (pObjIter->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+            if (pObjIter->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
-                if (pObjIter->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+                if (pObjIter->mFlags.Get(BaseGameObject::eDrawable_Bit4))
                 {
                     auto pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
 
@@ -422,13 +400,11 @@ void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* pTintArr
     field_C4_b = pTintArray->field_3_b;
 }
 
-BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
+BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
 {
-    SetVTable(this, 0x4BAA38);
-
-    if (!field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (!mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        if (field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+        if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
         {
             gObjList_drawables_504618->Remove_Item(this);
             field_10_anim.vCleanUp();
@@ -440,7 +416,6 @@ BaseGameObject* BaseAnimatedWithPhysicsGameObject::dtor_417D10()
             ao_delete_free_447540(field_D0_pShadow);
         }
     }
-    return dtor_487DF0();
 }
 
 s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, s32 palId)
@@ -475,9 +450,9 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeT
         0, 3, -3, 6, -6, 2};
 
     s32 array_idx = 0;
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;
@@ -501,7 +476,7 @@ EXPORT CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_417CC0(
 {
     PSX_RECT rect = {};
     VGetBoundingRect(&rect, 1);
-    return gMap_507BA8.Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
+    return gMap.Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
 }
 
 

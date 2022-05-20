@@ -56,9 +56,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Grenade_SaveState, 0x3C);
 class Grenade final : public BaseThrowable
 {
 public:
-    EXPORT Grenade* ctor_447F70(FP xpos, FP ypos, s16 numGrenades, s16 a5, s16 a6, BaseGameObject* pOwner);
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, s32 unused, BaseGameObject* pOwner);
+    ~Grenade();
 
     virtual void VScreenChanged() override;
 
@@ -84,10 +83,6 @@ public:
 private:
     EXPORT s32 GetSaveState_4496B0(Grenade_SaveState* pState);
 
-
-    EXPORT void vScreenChanged_449140();
-
-
     EXPORT void Init_448110(FP xpos, FP ypos);
 
     EXPORT void vOnTrapDoorOpen_449390();
@@ -103,13 +98,7 @@ private:
 
     EXPORT void BlowUp_4483C0(s16 bSmallExplosion);
 
-    EXPORT void dtor_448220();
-
-    EXPORT Grenade* vdtor_4480E0(s32 flags);
-
     EXPORT s16 TimeToBlowUp_448350();
-
-    EXPORT void vUpdate_4489C0();
 
     EXPORT s16 InTheAir_4484F0(s16 blowUpOnFloorTouch);
 
@@ -119,16 +108,6 @@ private:
 
     EXPORT s16 OnCollision_InstantExplode_4490D0(BaseGameObject* pHit);
 
-
-    /*
-    Grenade__vOnTrapDoorOpen_449390
-    Grenade__vThrow_4482E0
-    Grenade__vCanThrow_49A5F0 // Always 0 ??
-    Grenade__vIsFalling_49A610 // Always 0 ??
-    Grenade__vTimeToExplodeRandom_4480A0
-    Rock__vGetCount_448080
-    BaseThrowable__vToDead_4114B0
-    */
 
 private:
     s32 field_11C_explosion_id;

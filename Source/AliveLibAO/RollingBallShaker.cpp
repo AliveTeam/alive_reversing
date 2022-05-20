@@ -36,7 +36,7 @@ RollingBallShaker* RollingBallShaker::ctor_4361A0()
 {
     ctor_487E10(1);
 
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
 
     SetVTable(this, 0x4BB788);
 
@@ -79,7 +79,7 @@ void RollingBallShaker::VRender_436280(PrimHeader** ppOt)
         OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
 
         // Kill yourself
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
     else
     {

@@ -18,7 +18,7 @@ class DemoPlayback final : public BaseGameObject
 public:
     EXPORT DemoPlayback* ctor_4517B0(u8**, s16 a3);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT BaseGameObject* dtor_4518D0();
 

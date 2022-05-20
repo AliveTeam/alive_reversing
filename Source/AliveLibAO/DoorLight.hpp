@@ -32,7 +32,7 @@ public:
     EXPORT DoorLight* ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo);
     EXPORT BaseGameObject* dtor_4062F0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;

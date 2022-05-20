@@ -21,7 +21,7 @@ EXPORT void CC SND_Restart_476340()
     {
         SND_SEQ_PlaySeq_4775A0(static_cast<SeqId>(sBackgroundMusic_seq_id_4CFFF8), 0, 0);
     }
-    gMap_507BA8.Start_Sounds_For_Objects_In_Near_Cameras_4467D0();
+    gMap.Start_Sounds_For_Objects_In_Near_Cameras_4467D0();
 }
 
 } // namespace AO

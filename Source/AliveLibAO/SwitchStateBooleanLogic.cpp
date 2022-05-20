@@ -31,9 +31,9 @@ BaseGameObject* SwitchStateBooleanLogic::VDestructor(s32 flags)
 
 void SwitchStateBooleanLogic::VScreenChanged_436C40()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -45,7 +45,7 @@ void SwitchStateBooleanLogic::VScreenChanged()
 BaseGameObject* SwitchStateBooleanLogic::dtor_436B00()
 {
     SetVTable(this, 0x4BB7B8);
-    gMap_507BA8.TLV_Reset_446870(field_18_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_18_tlvInfo, -1, 0, 0);
     return dtor_487DF0();
 }
 
@@ -128,7 +128,7 @@ void SwitchStateBooleanLogic::VUpdate_436B60()
 
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

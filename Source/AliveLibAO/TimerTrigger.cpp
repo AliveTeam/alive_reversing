@@ -15,9 +15,9 @@ void TimerTrigger::VUpdate()
 
 void TimerTrigger::VScreenChanged_479DB0()
 {
-    if (field_12_state == State::eWaitForEnabled_0 || field_12_state == State::eCheckForStartAgain_2 || gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (field_12_state == State::eWaitForEnabled_0 || field_12_state == State::eCheckForStartAgain_2 || gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -44,7 +44,7 @@ BaseGameObject* TimerTrigger::VDestructor(s32 flags)
 BaseGameObject* TimerTrigger::dtor_479BE0()
 {
     SetVTable(this, 0x4BCE20);
-    gMap_507BA8.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
     return dtor_487DF0();
 }
 
@@ -130,7 +130,7 @@ void TimerTrigger::VUpdate_479C40()
 
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

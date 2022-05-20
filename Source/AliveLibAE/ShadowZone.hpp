@@ -29,7 +29,7 @@ enum class LevelIds : s16;
 class ShadowZone final : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

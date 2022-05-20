@@ -18,7 +18,7 @@ public:
 
     EXPORT BaseGameObject* dtor_4419E0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT LCDStatusBoard* Vdtor_441C80(s32 flags);
 

@@ -18,9 +18,9 @@ void ParamiteWeb::VUpdate()
 
 void ParamiteWeb::VScreenChanged_48AEA0()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -128,7 +128,7 @@ void ParamiteWeb::VUpdate_48AE70()
         field_EA_ttl_remainder -= 8;
         if (field_EA_ttl_remainder <= field_E8_ttl)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -142,8 +142,8 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
 void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
 {
     PSX_Point camCoords = {};
-    gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
-    if (field_B2_lvl_number == gMap_507BA8.field_0_current_level && field_B0_path_number == gMap_507BA8.field_2_current_path)
+    gMap.GetCurrentCamCoords_444890(&camCoords);
+    if (field_B2_lvl_number == gMap.mCurrentLevel && field_B0_path_number == gMap.mCurrentPath)
     {
         if (field_A8_xpos >= FP_FromInteger(camCoords.field_0_x) && field_A8_xpos <= FP_FromInteger(camCoords.field_0_x + 1024))
         {

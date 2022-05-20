@@ -14,6 +14,8 @@ EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, s16 count);
 class BaseThrowable : public BaseAliveGameObject
 {
 public:
+    explicit BaseThrowable(s16 resourceArraySize);
+
     virtual void VOnPickUpOrSlapped() override;
 
     // New virtuals for throwables

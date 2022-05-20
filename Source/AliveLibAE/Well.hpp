@@ -13,7 +13,7 @@ class Well final : public BaseGameObject
 {
 public:
     EXPORT Well* ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

@@ -447,12 +447,11 @@ class Bullet;
 class Abe final : public BaseAliveGameObject
 {
 public:
-    EXPORT Abe* ctor_44AD10(s32 frameTableOffset, s32 r, s32 g, s32 b);
-    EXPORT void dtor_44B380();
+    Abe(s32 frameTableOffset, s32 r, s32 g, s32 b);
+    ~Abe();
 
     EXPORT static s32 CC CreateFromSaveState_44D4F0(const u8* pData);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

@@ -40,11 +40,11 @@ BaseGameObject* MeatSaw::dtor_4398F0()
     SetVTable(this, 0x4BB990);
     if (field_1A8_flags.Get(flags_1A8::eBit1_ResetOffscreen) && SwitchStates_Get(field_EE_switch_id) != field_F2_switch_value)
     {
-        gMap_507BA8.TLV_Reset_446870(field_100_tlvInfo, 1, 0, 0);
+        gMap.TLV_Reset_446870(field_100_tlvInfo, 1, 0, 0);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_100_tlvInfo, 0, 0, 0);
+        gMap.TLV_Reset_446870(field_100_tlvInfo, 0, 0, 0);
     }
 
     field_110_anim.vCleanUp();
@@ -193,17 +193,17 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
     }
     else
     {
-        field_6_flags.Set(Options::eListAddFailed_Bit1);
+        mFlags.Set(Options::eListAddFailed_Bit1);
     }
     return this;
 }
 
 void MeatSaw::VScreenChanged_43A060()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || !sControlledCharacter_50767C || // Can be nullptr during the game ender
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !sControlledCharacter_50767C || // Can be nullptr during the game ender
         FP_Abs(sControlledCharacter_50767C->field_A8_xpos - field_A8_xpos) > FP_FromInteger(1024))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -216,12 +216,12 @@ void MeatSaw::VUpdate_4399D0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     GrindUpObjects_439CD0();
 
-    const CameraPos direction = gMap_507BA8.GetDirection(
+    const CameraPos direction = gMap.GetDirection(
         field_B2_lvl_number,
         field_B0_path_number,
         field_A8_xpos,
@@ -342,9 +342,9 @@ void MeatSaw::GrindUpObjects_439CD0()
             break;
         }
 
-        if (pObjIter->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObjIter->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
-            if (pObjIter->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+            if (pObjIter->mFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 // Can't grind meat with a meat saw, that would be grindception
                 if (pObjIter->field_4_typeId != Types::eMeat_54)
@@ -414,7 +414,7 @@ void MeatSaw::VRender(PrimHeader** ppOt)
 
 void MeatSaw::VRender_439F50(PrimHeader** ppOt)
 {
-    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,

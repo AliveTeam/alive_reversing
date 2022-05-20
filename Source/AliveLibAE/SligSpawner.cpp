@@ -61,9 +61,9 @@ SligSpawner* SligSpawner::vdtor_409800(s32 flags)
 
 void SligSpawner::vScreenChanged_409A30()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || field_38_state == SpawnerStates::eInactive_0)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_38_state == SpawnerStates::eInactive_0)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -75,9 +75,9 @@ void SligSpawner::vUpdate_409830()
 
         if (field_3C_spawned_slig_obj_id != -1)
         {
-            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
-                auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+                auto pObj = gBaseGameObjects->ItemAt(i);
                 if (!pObj)
                 {
                     break;
@@ -93,16 +93,16 @@ void SligSpawner::vUpdate_409830()
         }
     }
 
-    const auto pSpawnedSlig = static_cast<Slig*>(sObjectIds_5C1B70.Find_449CF0(field_3C_spawned_slig_obj_id));
+    const auto pSpawnedSlig = static_cast<Slig*>(sObjectIds.Find_449CF0(field_3C_spawned_slig_obj_id));
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_38_state == SpawnerStates::eSligSpawned_1)
     {
-        if (!pSpawnedSlig || pSpawnedSlig->field_6_flags.Get(BaseGameObject::eDead_Bit3) || pSpawnedSlig->field_10C_health <= FP_FromInteger(0))
+        if (!pSpawnedSlig || pSpawnedSlig->mFlags.Get(BaseGameObject::eDead) || pSpawnedSlig->field_10C_health <= FP_FromInteger(0))
         {
             SwitchStates_Set_465FF0(field_24_slig_spawner_switch_id, 0);
             field_38_state = SpawnerStates::eInactive_0;
@@ -128,7 +128,7 @@ void SligSpawner::vUpdate_409830()
 
             if (!field_26_flags.Get(SpawnerFlags::eBit2_UnlimitedSpawns))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 field_26_flags.Clear(SpawnerFlags::eBit1_DontDestroyTLV);
             }
         }
@@ -146,7 +146,7 @@ s32 SligSpawner::vGetSaveState_409BB0(Slig_Spawner_State* pState)
         return sizeof(Slig_Spawner_State);
     }
 
-    BaseGameObject* pSpawnedSlig = sObjectIds_5C1B70.Find_449CF0(field_3C_spawned_slig_obj_id);
+    BaseGameObject* pSpawnedSlig = sObjectIds.Find_449CF0(field_3C_spawned_slig_obj_id);
     if (pSpawnedSlig)
     {
         pState->field_C_spawned_slig_obj_id = pSpawnedSlig->field_C_objectId;

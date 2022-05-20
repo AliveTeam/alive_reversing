@@ -65,7 +65,7 @@ ElectricWall* ElectricWall::ctor_40FCF0(Path_ElectricWall* pTlv, s32 tlvInfo)
 BaseGameObject* ElectricWall::dtor_40FE80()
 {
     SetVTable(this, 0x4BA8C0);
-    gMap_507BA8.TLV_Reset_446870(field_E4_tlv, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_E4_tlv, -1, 0, 0);
     return dtor_417D10();
 }
 
@@ -91,9 +91,9 @@ void ElectricWall::VScreenChanged()
 
 void ElectricWall::VScreenChanged_410220()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos) == CameraPos::eCamInvalid_m1)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos) == CameraPos::eCamInvalid_m1)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -104,7 +104,7 @@ void ElectricWall::VUpdate()
 
 void ElectricWall::VUpdate_40FEF0()
 {
-    const CameraPos soundDirection = gMap_507BA8.GetDirection(
+    const CameraPos soundDirection = gMap.GetDirection(
         field_B2_lvl_number,
         field_B0_path_number,
         field_A8_xpos,
@@ -112,7 +112,7 @@ void ElectricWall::VUpdate_40FEF0()
 
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     if (SwitchStates_Get(field_E8_switch_id) == field_EA_start_state)

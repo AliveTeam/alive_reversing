@@ -19,17 +19,14 @@ enum class BurstType : s16
 class ParticleBurst final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ParticleBurst* ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, FP scale, BurstType type, s16 count);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, BurstType type, s32 count);
+    ~ParticleBurst();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
     EXPORT FP* Random_Speed_41CEE0(FP* random);
-    EXPORT ParticleBurst* vdtor_41D4E0(s32 flags);
-    EXPORT void dtor_41D510();
-    EXPORT void vRender_41D7B0(PrimHeader** ppOt);
-    EXPORT void vUpdate_41D590();
 
 private:
     u8** field_F4_ppRes;

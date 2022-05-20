@@ -7,37 +7,14 @@
 #include "Game.hpp"
 #include "PsxDisplay.hpp"
 
-BaseGameObject* Blood::VDestructor(s32 flags)
+Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    return vDtor_40F5A0(flags);
-}
-
-void Blood::VUpdate()
-{
-    vUpdate_40F650();
-}
-
-void Blood::VRender(PrimHeader** ppOt)
-{
-    vRender_40F780(ppOt);
-}
-
-void Blood::VScreenChanged()
-{
-    vScreenChanged_40FAD0();
-}
-
-Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count)
-{
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-
-    SetVTable(this, 0x544200); // vTbl_Blood_544200
-
     field_CC_sprite_scale = scale;
 
     const AnimRecord& rec = AnimRec(AnimId::BloodDrop);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -54,8 +31,8 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
         field_12C_render_layer = Layer::eLayer_Foreground_Half_17;
     }
 
-    field_126_total_count = count;
-    field_122_to_render_count = count;
+    field_126_total_count = static_cast<s16>(count);
+    field_122_to_render_count = static_cast<s16>(count);
 
     field_F4_ppResBuf = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Blood, 0, count * sizeof(BloodParticle));
     if (field_F4_ppResBuf)
@@ -151,32 +128,19 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
-    return this;
 }
 
-void Blood::dtor_40F5D0()
+Blood::~Blood()
 {
-    SetVTable(this, 0x544200); // vTbl_Blood_544200
     if (field_F4_ppResBuf)
     {
         ResourceManager::FreeResource_49C330(field_F4_ppResBuf);
     }
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-BaseGameObject* Blood::vDtor_40F5A0(s32 flags)
-{
-    dtor_40F5D0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Blood::vUpdate_40F650()
+void Blood::VUpdate()
 {
     if (field_128_timer > 0)
     {
@@ -187,7 +151,7 @@ void Blood::vUpdate_40F650()
 
         if (field_122_to_render_count <= 0)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             field_122_to_render_count = 0;
             return;
         }
@@ -207,9 +171,9 @@ void Blood::vUpdate_40F650()
     field_128_timer++;
 }
 
-void Blood::vRender_40F780(PrimHeader** ppOt)
+void Blood::VRender(PrimHeader** ppOt)
 {
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -280,7 +244,7 @@ void Blood::vRender_40F780(PrimHeader** ppOt)
     }
 }
 
-void Blood::vScreenChanged_40FAD0()
+void Blood::VScreenChanged()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }

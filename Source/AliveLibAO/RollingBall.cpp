@@ -44,11 +44,11 @@ BaseGameObject* RollingBall::dtor_458230()
     SetVTable(this, 0x4BC180);
     if (field_112_state != States::eInactive_0)
     {
-        gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
     }
 
     if (field_120_pCollisionLine)
@@ -143,7 +143,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
         return this;
     }
 
-    if (gMap_507BA8.field_0_current_level == LevelIds::eForestTemple_4 && gMap_507BA8.field_2_current_path == 2)
+    if (gMap.mCurrentLevel == LevelIds::eForestTemple_4 && gMap.mCurrentPath == 2)
     {
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_A8_xpos = FP_FromInteger(2522);
@@ -172,14 +172,14 @@ void RollingBall::VUpdate_457AF0()
                     field_114_pRollingBallShaker->field_C_refCount++;
                 }
             }
-            else if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            else if (!gMap.Is_Point_In_Current_Camera_4449C0(
                          field_B2_lvl_number,
                          field_B0_path_number,
                          field_A8_xpos,
                          field_AC_ypos,
                          0))
             {
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
             }
             return;
 
@@ -239,7 +239,7 @@ void RollingBall::VUpdate_457AF0()
             {
                 field_114_pRollingBallShaker->field_C_refCount--;
                 field_114_pRollingBallShaker->field_32_bKillMe = 1;
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 field_114_pRollingBallShaker = nullptr;
             }
             else if (!field_F4_pLine)
@@ -283,9 +283,9 @@ void RollingBall::VUpdate_457AF0()
                     pScreenShake->ctor_4624D0(0);
                 }
 
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
 
-                const CameraPos direction = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
+                const CameraPos direction = gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
                 SFX_Play_43AED0(SoundEffect::IngameTransition_107, 50, direction);
 
                 switch (direction)
@@ -315,7 +315,7 @@ void RollingBall::VUpdate_457AF0()
 
             if (Event_Get_417250(kEventDeathReset_4))
             {
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
                 CrushThingsInTheWay_458310();
                 return;
             }
@@ -327,8 +327,8 @@ void RollingBall::VUpdate_457AF0()
             {
                 if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(240))
                 {
-                    if (gMap_507BA8.field_0_current_level == LevelIds::eForestTemple_4
-                        && gMap_507BA8.field_2_current_path == 2
+                    if (gMap.mCurrentLevel == LevelIds::eForestTemple_4
+                        && gMap.mCurrentPath == 2
                         && !sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
                         field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
@@ -339,7 +339,7 @@ void RollingBall::VUpdate_457AF0()
                         CrushThingsInTheWay_458310();
                         return;
                     }
-                    field_6_flags.Set(Options::eDead_Bit3);
+                    mFlags.Set(Options::eDead);
                 }
                 CrushThingsInTheWay_458310();
                 return;
@@ -355,7 +355,7 @@ void RollingBall::VUpdate_457AF0()
                 pScreenShake->ctor_4624D0(0);
             }
 
-            const CameraPos direction = gMap_507BA8.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
+            const CameraPos direction = gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
             SFX_Play_43AED0(SoundEffect::IngameTransition_107, 50, direction);
 
             switch (direction)
@@ -389,9 +389,9 @@ void RollingBall::VUpdate_457AF0()
         }
 
         case States::eCrushedBees_4:
-            if (field_B2_lvl_number != gMap_507BA8.field_0_current_level || field_B0_path_number != gMap_507BA8.field_2_current_path || Event_Get_417250(kEventDeathReset_4))
+            if (field_B2_lvl_number != gMap.mCurrentLevel || field_B0_path_number != gMap.mCurrentPath || Event_Get_417250(kEventDeathReset_4))
             {
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
             }
             return;
 
@@ -422,15 +422,15 @@ void RollingBall::Accelerate_458410()
 
 void RollingBall::CrushThingsInTheWay_458310()
 {
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
         }
 
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             PSX_RECT bOurRect = {};
             VGetBoundingRect(&bOurRect, 1);

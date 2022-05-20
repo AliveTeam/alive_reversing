@@ -59,7 +59,7 @@ GasCountDown* GasCountDown::ctor_40BF60(Path_GasCountDown* pTlv, s32 tlvInfo)
     field_58_tlvInfo = tlvInfo;
     field_10_font_context.LoadFontType_41C040(2);
     field_20_font.ctor_41C170(5, byte_4C5080, &field_10_font_context);
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Push_Back(this);
 
     gGasOn_4FF888 = 0;
@@ -78,7 +78,7 @@ BaseGameObject* GasCountDown::dtor_40C050()
 {
     SetVTable(this, 0x4BA440);
     gObjList_drawables_504618->Remove_Item(this);
-    gMap_507BA8.TLV_Reset_446870(field_58_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_58_tlvInfo, -1, 0, 0);
     field_20_font.dtor_41C130();
     field_10_font_context.dtor_41C110();
     return dtor_487DF0();
@@ -102,8 +102,8 @@ void GasCountDown::VScreenChanged()
 
 void GasCountDown::VScreenChanged_40C3C0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    mFlags.Set(BaseGameObject::eDead);
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
         sGasTimer_507700 = 0;
     }
@@ -118,7 +118,7 @@ void GasCountDown::VUpdate_40C0E0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (Event_Get_417250(kEvent_5))

@@ -49,7 +49,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, RingTypes ring_type)
     field_4_typeId = Types::eAbilityRing_69;
     field_278_pTarget_obj = nullptr;
     gObjList_drawables_504618->Push_Back(this);
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
 
     // TODO: OG issue - using frame counter as res id again
     field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Wave, gnFrameCount_507670, sizeof(AbilityRing_PolyBuffer) * 64);
@@ -154,9 +154,9 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, RingTypes ring_type)
                 break;
         }
 
-        field_272_path = gMap_507BA8.field_2_current_path;
+        field_272_path = gMap.mCurrentPath;
         field_10_layer = Layer::eLayer_Above_FG1_39;
-        field_270_level = gMap_507BA8.field_0_current_level;
+        field_270_level = gMap.mCurrentLevel;
         field_26C_semiTrans = 1;
         field_26E_tPageMode = TPageAbr::eBlend_1;
 
@@ -177,7 +177,7 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, RingTypes ring_type)
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     return this;
 }
@@ -218,7 +218,7 @@ void AbilityRing::VRender(PrimHeader** ppOt)
 
 void AbilityRing::VRender_456340(PrimHeader** ppOt)
 {
-    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_270_level,
             field_272_path,
             field_23C_xpos,
@@ -299,7 +299,7 @@ void AbilityRing::VUpdate_455ED0()
 {
     if (field_278_pTarget_obj)
     {
-        if (field_278_pTarget_obj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (field_278_pTarget_obj->mFlags.Get(BaseGameObject::eDead))
         {
             field_278_pTarget_obj->field_C_refCount--;
             field_278_pTarget_obj = nullptr;
@@ -346,7 +346,7 @@ void AbilityRing::VUpdate_455ED0()
             }
             else
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             return;
 
@@ -365,7 +365,7 @@ void AbilityRing::VUpdate_455ED0()
 
             if (FP_GetExponent(field_244_left) > field_25C_fade)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -374,7 +374,7 @@ void AbilityRing::VUpdate_455ED0()
             field_244_left = field_248_right - field_258_ring_thickness;
             if (field_244_left < FP_FromInteger(0))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 field_244_left = FP_FromInteger(0);
                 SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
                 auto pPossessionFlicker = ao_new<PossessionFlicker>();
@@ -392,7 +392,7 @@ void AbilityRing::VUpdate_455ED0()
             {
                 if (FP_GetExponent(field_244_left) > field_25C_fade)
                 {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    mFlags.Set(BaseGameObject::eDead);
                 }
             }
             else
@@ -400,7 +400,7 @@ void AbilityRing::VUpdate_455ED0()
                 field_244_left = FP_FromInteger(0);
                 if (field_25C_fade < 0)
                 {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    mFlags.Set(BaseGameObject::eDead);
                 }
             }
             break;
@@ -416,7 +416,7 @@ void AbilityRing::VScreenChanged()
 
 void AbilityRing::VScreenChanged_4568D0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void AbilityRing::CollideWithObjects_456250()
@@ -440,7 +440,7 @@ void AbilityRing::CollideWithObjects_456250()
         PSX_RECT bRect = {};
         pObj->VGetBoundingRect(&bRect, 1);
 
-        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+        if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
         {
             for (auto& rect : field_3C_collide_rects)
             {

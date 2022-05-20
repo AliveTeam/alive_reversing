@@ -37,7 +37,7 @@ void Flash::VUpdate_41A870()
 {
     if (static_cast<s32>(gnFrameCount_507670) >= field_68_flash_time)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

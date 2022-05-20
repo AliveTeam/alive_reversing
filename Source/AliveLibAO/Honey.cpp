@@ -39,8 +39,8 @@ Honey* Honey::ctor_431E30(FP xpos, FP ypos)
 
 void Honey::VScreenChanged_431EF0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+    mFlags.Set(BaseGameObject::eDead);
+    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
 }
 
 

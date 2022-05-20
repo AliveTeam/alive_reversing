@@ -52,7 +52,6 @@ public:
     EXPORT void UnsetDirtyBits_40EDE0(s32 idx);
     EXPORT void UnsetDirtyBits_FG1_40ED70();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override
     { }
 

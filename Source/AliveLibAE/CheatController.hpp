@@ -19,7 +19,7 @@ ALIVE_ASSERT_SIZEOF(CheatEntry, 0x14);
 class CheatController final : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

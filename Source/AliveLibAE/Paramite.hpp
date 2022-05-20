@@ -176,7 +176,7 @@ class Paramite final : public BaseAliveGameObject
 public:
     EXPORT Paramite* ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

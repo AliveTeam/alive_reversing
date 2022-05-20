@@ -11,13 +11,13 @@ DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, s32 tlvInfo)
     ctor_408240(0);
     SetVTable(this, 0x544A1C);
 
-    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
+    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     field_11A_switch_id = pTlv->field_12_switch_id;
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Lock_Idle);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_118_bDone &= ~1u;
 
@@ -41,7 +41,7 @@ DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, s32 tlvInfo)
 
     if (SwitchStates_Get_466020(field_11A_switch_id))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     field_DC_bApplyShadows |= 2u;
@@ -70,22 +70,22 @@ void DoorBlocker::vUpdate_41F250()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (!field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (!mFlags.Get(BaseGameObject::eDead))
     {
         if (field_118_bDone & 1)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
         }
         else if (SwitchStates_Get_466020(field_11A_switch_id))
         {
-            SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, 900);
-            SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, -100);
+            SFX_Play(SoundEffect::DoorEffect_57, 100, 900);
+            SFX_Play(SoundEffect::DoorEffect_57, 100, -100);
             const AnimRecord& animRec = AnimRec(AnimId::Door_Lock_Open);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, 0);
             field_118_bDone |= 1u;

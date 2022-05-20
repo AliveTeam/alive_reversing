@@ -38,7 +38,7 @@ BaseGameObject* ThrowableTotalIndicator::dtor_41B610()
 {
     SetVTable(this, 0x4BAED8);
 
-    if (field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+    if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_504618->Remove_Item(this);
     }
@@ -53,7 +53,7 @@ BaseGameObject* ThrowableTotalIndicator::dtor_41B610()
 
 void ThrowableTotalIndicator::VScreenChanged_41BB70()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void ThrowableTotalIndicator::VUpdate()
@@ -65,7 +65,7 @@ void ThrowableTotalIndicator::VUpdate_41B690()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (sNumCamSwappers_507668 != 0)
@@ -111,7 +111,7 @@ void ThrowableTotalIndicator::VUpdate_41B690()
         case ThrowableTotalIndicatorState::eVanishing_2:
             if (field_32_r < 7 && field_34_g < 7 && field_36_b < 7)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -334,7 +334,7 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, 
     ctor_487E10(1);
     SetVTable(this, 0x4BAED8);
 
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
     field_4_typeId = Types::eThrowableTotalIndicator_35;
 
     gObjList_drawables_504618->Push_Back(this);

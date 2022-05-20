@@ -33,7 +33,7 @@ BaseGameObject* InvisibleSwitch::VDestructor(s32 flags)
 BaseGameObject* InvisibleSwitch::dtor_433540()
 {
     SetVTable(this, 0x4BB438);
-    gMap_507BA8.TLV_Reset_446870(field_14_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_14_tlvInfo, -1, 0, 0);
     return dtor_487DF0();
 }
 
@@ -55,14 +55,14 @@ InvisibleSwitch* InvisibleSwitch::ctor_4334E0(Path_InvisibleSwitch* pTlv, s32 tl
 
 void InvisibleSwitch::VScreenChanged_433700()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     if (field_28_state != States::eWaitForDelayTimer_1)
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 }
 
@@ -124,7 +124,7 @@ void InvisibleSwitch::VUpdate_4335A0()
 
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

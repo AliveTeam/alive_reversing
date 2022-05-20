@@ -121,7 +121,7 @@ public:
     {
         eListAddFailed_Bit1 = 0x001,
         eUpdatable_Bit2 = 0x002,
-        eDead_Bit3 = 0x004,
+        eDead = 0x004,
         eDrawable_Bit4 = 0x008,
         eIsBaseAnimatedWithPhysicsObj_Bit5 = 0x010,
         eIsBaseAliveGameObject_Bit6 = 0x020,
@@ -132,10 +132,8 @@ public:
         eCantKill_Bit11 = 0x400
     };
 
-    EXPORT BaseGameObject* ctor_487E10(s16 arraySize);
-    EXPORT BaseGameObject* dtor_487DF0();
-
-    virtual BaseGameObject* VDestructor(s32 flags) = 0;
+    explicit BaseGameObject(s16 bDontAddToObjectList);
+    virtual ~BaseGameObject();
 
     virtual void VUpdate()
     {
@@ -147,22 +145,16 @@ public:
         // Empty
     }
 
-    virtual void VScreenChanged()
-    {
-        VScreenChanged_487E70();
-    }
+    virtual void VScreenChanged();
 
     virtual void VStopAudio()
     {
         // Empty
     }
 
-private:
-    EXPORT void VScreenChanged_487E70();
-
 public:
     Types field_4_typeId;
-    BitField16<Options> field_6_flags;
+    BitField16<Options> mFlags;
     s32 field_8_update_delay;
     s8 field_C_refCount;
     s8 field_D_padding;
@@ -170,6 +162,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 
-ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_9F2DF0);
+ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObjects);
 
 } // namespace AO

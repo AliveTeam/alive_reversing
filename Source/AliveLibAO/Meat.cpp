@@ -75,7 +75,7 @@ MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, s32 tlvInfo)
 BaseGameObject* MeatSack::dtor_439250()
 {
     SetVTable(this, 0x4BB930);
-    gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
     return dtor_401000();
 }
 
@@ -89,7 +89,7 @@ void MeatSack::VUpdate_4392C0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_10_anim.field_92_current_frame == 2)
@@ -190,7 +190,7 @@ void MeatSack::VScreenChanged()
 
 void MeatSack::VScreenChanged_439540()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 Meat* Meat::ctor_438550(FP xpos, FP ypos, s16 count)
@@ -215,7 +215,7 @@ Meat* Meat::ctor_438550(FP xpos, FP ypos, s16 count)
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
     field_11C_timer = 0;
-    field_6_flags.Clear(Options::eInteractive_Bit8);
+    mFlags.Clear(Options::eInteractive_Bit8);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -269,9 +269,9 @@ void Meat::VScreenChanged()
 
 void Meat::VScreenChanged_438E70()
 {
-    if (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level)
+    if (gMap.mCurrentPath != gMap.mPath || gMap.mCurrentLevel != gMap.mLevel)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -461,7 +461,7 @@ void Meat::VUpdate_438A20()
     {
         if (Event_Get_417250(kEventDeathReset_4))
         {
-            field_6_flags.Set(Options::eDead_Bit3);
+            mFlags.Set(Options::eDead);
         }
 
         // TODO: states enum
@@ -480,11 +480,11 @@ void Meat::VUpdate_438A20()
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                 const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
 
-                VOnCollisionWith(xy, wh, gBaseGameObject_list_9F2DF0, 1, (TCollisionCallBack) &Meat::OnCollision_438D80);
+                VOnCollisionWith(xy, wh, gBaseGameObjects, 1, (TCollisionCallBack) &Meat::OnCollision_438D80);
 
-                if (field_AC_ypos > FP_FromInteger(gMap_507BA8.field_D4_pPathData->field_A_bBottom))
+                if (field_AC_ypos > FP_FromInteger(gMap.field_D4_pPathData->field_A_bBottom))
                 {
-                    field_6_flags.Set(Options::eDead_Bit3);
+                    mFlags.Set(Options::eDead);
                 }
                 break;
             }
@@ -521,13 +521,13 @@ void Meat::VUpdate_438A20()
                     field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
                     field_D4_collection_rect.h = field_AC_ypos;
 
-                    field_6_flags.Set(Options::eInteractive_Bit8);
+                    mFlags.Set(Options::eInteractive_Bit8);
                     field_110_state = 4;
                 }
                 break;
 
             case 4:
-                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos, 0))
+                if (gMap.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos, 0))
                 {
                     field_120_deadtimer = gnFrameCount_507670 + 600;
                 }
@@ -543,7 +543,7 @@ void Meat::VUpdate_438A20()
                 }
                 if (field_120_deadtimer < static_cast<s32>(gnFrameCount_507670))
                 {
-                    field_6_flags.Set(Options::eDead_Bit3);
+                    mFlags.Set(Options::eDead);
                 }
                 break;
 
@@ -552,14 +552,14 @@ void Meat::VUpdate_438A20()
                 field_A8_xpos += field_B4_velx;
                 field_AC_ypos += field_B8_vely;
 
-                if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                if (!gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
                         field_A8_xpos,
                         field_B8_vely + field_AC_ypos,
                         0))
                 {
-                    field_6_flags.Set(Options::eDead_Bit3);
+                    mFlags.Set(Options::eDead);
                 }
                 break;
 
@@ -571,7 +571,7 @@ void Meat::VUpdate_438A20()
 
 s16 Meat::OnCollision_438D80(BaseAliveGameObject* pHit)
 {
-    if (!pHit->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pHit->mFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {
         return 1;
     }

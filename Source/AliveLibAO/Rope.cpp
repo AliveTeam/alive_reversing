@@ -74,7 +74,7 @@ Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
         field_E6_rope_length = 7;
     }
 
-    switch (gMap_507BA8.field_0_current_level)
+    switch (gMap.mCurrentLevel)
     {
         case LevelIds::eRuptureFarms_1:
         case LevelIds::eDesert_8:
@@ -157,10 +157,10 @@ void Rope::VRender(PrimHeader** ppOt)
 void Rope::VRender_458780(PrimHeader** ppOt)
 {
     PSX_Point camPos = {};
-    gMap_507BA8.GetCurrentCamCoords_444890(&camPos);
-    if (field_B2_lvl_number == gMap_507BA8.field_0_current_level)
+    gMap.GetCurrentCamCoords_444890(&camPos);
+    if (field_B2_lvl_number == gMap.mCurrentLevel)
     {
-        if (field_B0_path_number == gMap_507BA8.field_2_current_path)
+        if (field_B0_path_number == gMap.mCurrentPath)
         {
             if (field_A8_xpos >= FP_FromInteger(camPos.field_0_x) && field_A8_xpos <= FP_FromInteger(camPos.field_0_x + 1024))
             {

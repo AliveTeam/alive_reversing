@@ -17,8 +17,8 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     field_D4_b = 100;
 
     const AnimRecord& rec = AnimRec(AnimId::Well_Leaf);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_CC_sprite_scale = scale;
 
@@ -50,7 +50,7 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     }
 
     const s16 randRightVol = Math_RandomRange_496AB0(-900, -700);
-    SFX_Play_46FBA0(SoundEffect::Leaf_22, (3 * randLeftVol) / 4, randRightVol);
+    SFX_Play(SoundEffect::Leaf_22, (3 * randLeftVol) / 4, randRightVol);
     SetUpdateDelay(1);
 
     return this;
@@ -103,7 +103,7 @@ void Leaf::vUpdate_4E3330()
     // Hit the floor, die but only if in background..
     if (bCollision && field_CC_sprite_scale == FP_FromDouble(0.5) && pLine->field_8_type == eLineTypes::eFloor_0)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -124,20 +124,20 @@ void Leaf::vUpdate_4E3330()
     }
 
     // Out of the camera, die
-    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
             field_BC_ypos,
             0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void Leaf::vScreenChanged_4E35B0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void Leaf::dtor_4E3310()

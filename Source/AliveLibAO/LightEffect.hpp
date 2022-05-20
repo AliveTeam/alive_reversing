@@ -12,7 +12,7 @@ public:
 
     EXPORT BaseGameObject* dtor_406770();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT LightEffect* Vdtor_406800(s32 flags);
 

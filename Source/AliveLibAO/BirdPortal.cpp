@@ -148,21 +148,21 @@ BaseGameObject* BirdPortal::dtor_452230()
 
     if (field_3C_pTerminator1)
     {
-        field_3C_pTerminator1->field_6_flags.Set(Options::eDead_Bit3);
+        field_3C_pTerminator1->mFlags.Set(Options::eDead);
     }
     if (field_40_pTerminator2)
     {
-        field_40_pTerminator2->field_6_flags.Set(Options::eDead_Bit3);
+        field_40_pTerminator2->mFlags.Set(Options::eDead);
     }
 
     if (field_44_pScreenClipper1)
     {
-        field_44_pScreenClipper1->field_6_flags.Set(Options::eDead_Bit3);
+        field_44_pScreenClipper1->mFlags.Set(Options::eDead);
     }
 
     if (field_48_pScreenClipper2)
     {
-        field_48_pScreenClipper2->field_6_flags.Set(Options::eDead_Bit3);
+        field_48_pScreenClipper2->mFlags.Set(Options::eDead);
     }
 
     if (field_4C_pDovesArray)
@@ -176,7 +176,7 @@ BaseGameObject* BirdPortal::dtor_452230()
             }
 
             pObj->field_C_refCount--;
-            pObj->field_6_flags.Set(Options::eDead_Bit3);
+            pObj->mFlags.Set(Options::eDead);
         }
 
         field_4C_pDovesArray->field_4_used_size = 0;
@@ -190,7 +190,7 @@ BaseGameObject* BirdPortal::dtor_452230()
 
     if (field_5C_pThrowableTotalIndicator)
     {
-        field_5C_pThrowableTotalIndicator->field_6_flags.Set(Options::eDead_Bit3);
+        field_5C_pThrowableTotalIndicator->mFlags.Set(Options::eDead);
         field_5C_pThrowableTotalIndicator->field_C_refCount--;
         field_5C_pThrowableTotalIndicator = nullptr;
     }
@@ -211,7 +211,7 @@ BaseGameObject* BirdPortal::dtor_452230()
         field_68_sfx_ret = 0;
     }
 
-    gMap_507BA8.TLV_Reset_446870(field_2C_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_2C_tlvInfo, -1, 0, 0);
     if (field_14_state >= PortalStates::PortalExit_SetPosition_17)
     {
         if (sActiveHero_507678)
@@ -260,8 +260,8 @@ BirdPortal* BirdPortal::ctor_4520A0(Path_BirdPortal* pTlv, s32 tlvInfo)
         field_34_scale = FP_FromInteger(1);
     }
 
-    field_66_path = gMap_507BA8.field_2_current_path;
-    field_64_level = gMap_507BA8.field_0_current_level;
+    field_66_path = gMap.mCurrentPath;
+    field_64_level = gMap.mCurrentLevel;
     field_14_state = PortalStates::CreatePortal_0;
     field_30_timer = 0;
 
@@ -389,7 +389,7 @@ void BirdPortal::CreateTerminators()
 
 void BirdPortal::VUpdate_4523D0()
 {
-    const CameraPos direction = gMap_507BA8.GetDirection(
+    const CameraPos direction = gMap.GetDirection(
         field_64_level,
         field_66_path,
         field_18_xpos,
@@ -451,20 +451,20 @@ void BirdPortal::VUpdate_4523D0()
 
                     if (field_5C_pThrowableTotalIndicator)
                     {
-                        field_5C_pThrowableTotalIndicator->field_6_flags.Set(Options::eDead_Bit3);
+                        field_5C_pThrowableTotalIndicator->mFlags.Set(Options::eDead);
                         field_5C_pThrowableTotalIndicator->field_C_refCount--;
                         field_5C_pThrowableTotalIndicator = nullptr;
                     }
 
                     SFX_Play_43AD70(SoundEffect::Dove_16, 70, 0);
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    mFlags.Set(BaseGameObject::eDead);
                 }
             }
             else
             {
                 if (field_5C_pThrowableTotalIndicator)
                 {
-                    field_5C_pThrowableTotalIndicator->field_6_flags.Set(Options::eDead_Bit3);
+                    field_5C_pThrowableTotalIndicator->mFlags.Set(Options::eDead);
                     field_5C_pThrowableTotalIndicator->field_C_refCount--;
                     field_5C_pThrowableTotalIndicator = nullptr;
                 }
@@ -510,7 +510,7 @@ void BirdPortal::VUpdate_4523D0()
                     }
 
                     pDove->field_C_refCount--;
-                    pDove->field_6_flags.Set(Options::eDead_Bit3);
+                    pDove->mFlags.Set(Options::eDead);
                 }
 
                 field_4C_pDovesArray->field_4_used_size = 0;
@@ -705,8 +705,8 @@ void BirdPortal::VUpdate_4523D0()
 
                 field_14_state = PortalStates::StopSound_11;
                 field_30_timer = gnFrameCount_507670 + 5;
-                field_3C_pTerminator1->field_6_flags.Set(Options::eDead_Bit3);
-                field_40_pTerminator2->field_6_flags.Set(Options::eDead_Bit3);
+                field_3C_pTerminator1->mFlags.Set(Options::eDead);
+                field_40_pTerminator2->mFlags.Set(Options::eDead);
                 field_3C_pTerminator1 = nullptr;
                 field_40_pTerminator2 = nullptr;
                 SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 100, -1800, 0);
@@ -764,7 +764,7 @@ void BirdPortal::VUpdate_4523D0()
             {
                 if (field_10_portal_type == PortalType::eWorker_1 || field_10_portal_type == PortalType::eShrykull_2)
                 {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    mFlags.Set(BaseGameObject::eDead);
                 }
                 else
                 {
@@ -821,7 +821,7 @@ void BirdPortal::VUpdate_4523D0()
 
                 if (field_44_pScreenClipper1)
                 {
-                    field_44_pScreenClipper1->field_6_flags.Set(Options::eDead_Bit3);
+                    field_44_pScreenClipper1->mFlags.Set(Options::eDead);
                     field_44_pScreenClipper1 = nullptr;
                 }
 
@@ -841,7 +841,7 @@ void BirdPortal::VUpdate_4523D0()
             }
             else
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -851,7 +851,7 @@ void BirdPortal::VUpdate_4523D0()
 
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -922,9 +922,9 @@ void BirdPortal::VGiveShrukull_4535A0(s16 bPlaySound)
         }
     }
 
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -932,7 +932,7 @@ void BirdPortal::VGiveShrukull_4535A0(s16 bPlaySound)
 
         if (pObj->field_4_typeId == Types::eBirdPortalTerminator_66)
         {
-            pObj->field_6_flags.Set(Options::eDead_Bit3);
+            pObj->mFlags.Set(Options::eDead);
         }
     }
 
@@ -949,34 +949,34 @@ void BirdPortal::VScreenChanged()
 
 void BirdPortal::VScreenChanged_4538E0()
 {
-    if (field_14_state <= PortalStates::IdlePortal_1 || field_14_state >= PortalStates::KillPortalClipper_21 || ((gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path) && (field_14_state != PortalStates::State_16 || field_10_portal_type != PortalType::eAbe_0 || gMap_507BA8.field_A_level != field_50_dest_level || gMap_507BA8.field_C_path != field_52_dest_path)))
+    if (field_14_state <= PortalStates::IdlePortal_1 || field_14_state >= PortalStates::KillPortalClipper_21 || ((gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath) && (field_14_state != PortalStates::State_16 || field_10_portal_type != PortalType::eAbe_0 || gMap.mLevel != field_50_dest_level || gMap.mPath != field_52_dest_path)))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         if (field_3C_pTerminator1)
         {
-            field_3C_pTerminator1->field_6_flags.Set(Options::eDead_Bit3);
+            field_3C_pTerminator1->mFlags.Set(Options::eDead);
             field_3C_pTerminator1 = nullptr;
         }
 
         if (field_40_pTerminator2)
         {
-            field_40_pTerminator2->field_6_flags.Set(Options::eDead_Bit3);
+            field_40_pTerminator2->mFlags.Set(Options::eDead);
             field_40_pTerminator2 = nullptr;
         }
 
         if (field_44_pScreenClipper1)
         {
-            field_44_pScreenClipper1->field_6_flags.Set(Options::eDead_Bit3);
+            field_44_pScreenClipper1->mFlags.Set(Options::eDead);
             field_44_pScreenClipper1 = nullptr;
         }
 
         if (field_48_pScreenClipper2)
         {
-            field_48_pScreenClipper2->field_6_flags.Set(Options::eDead_Bit3);
+            field_48_pScreenClipper2->mFlags.Set(Options::eDead);
             field_48_pScreenClipper2 = nullptr;
         }
     }
@@ -1008,10 +1008,10 @@ void BirdPortal::VKillPortalClipper_453570()
 {
     if (field_44_pScreenClipper1)
     {
-        field_44_pScreenClipper1->field_6_flags.Set(Options::eDead_Bit3);
+        field_44_pScreenClipper1->mFlags.Set(Options::eDead);
         field_44_pScreenClipper1 = nullptr;
 
-        field_48_pScreenClipper2->field_6_flags.Set(Options::eDead_Bit3);
+        field_48_pScreenClipper2->mFlags.Set(Options::eDead);
         field_48_pScreenClipper2 = nullptr;
     }
 }
@@ -1028,10 +1028,10 @@ Bool32 BirdPortal::VStateIs16_453710()
 
 void BirdPortal::VExitPortal_453720()
 {
-    field_66_path = gMap_507BA8.field_2_current_path;
-    field_64_level = gMap_507BA8.field_0_current_level;
+    field_66_path = gMap.mCurrentPath;
+    field_64_level = gMap.mCurrentLevel;
 
-    auto pPortalExitTlv = static_cast<Path_BirdPortalExit*>(gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::BirdPortalExit_53, 0));
+    auto pPortalExitTlv = static_cast<Path_BirdPortalExit*>(gMap.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::BirdPortalExit_53, 0));
 
     if (pPortalExitTlv)
     {
@@ -1065,8 +1065,8 @@ void BirdPortal::VExitPortal_453720()
 
         sActiveHero_507678->field_BC_sprite_scale = field_34_scale;
         field_14_state = PortalStates::PortalExit_SetPosition_17;
-        sActiveHero_507678->field_B2_lvl_number = gMap_507BA8.field_0_current_level;
-        sActiveHero_507678->field_B0_path_number = gMap_507BA8.field_2_current_path;
+        sActiveHero_507678->field_B2_lvl_number = gMap.mCurrentLevel;
+        sActiveHero_507678->field_B0_path_number = gMap.mCurrentPath;
     }
     else
     {

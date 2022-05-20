@@ -28,7 +28,7 @@ public:
 
     EXPORT void VUpdate_4575F0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT RockSack* Vdtor_4578A0(s32 flags);
 

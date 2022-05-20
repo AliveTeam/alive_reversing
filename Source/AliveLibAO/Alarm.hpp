@@ -12,25 +12,12 @@ void Alarm_ForceLink();
 class Alarm final : public EffectBase
 {
 public:
-    EXPORT Alarm* ctor_402570(s16 a2, s16 switchId, s16 a4, Layer layer);
-
-    EXPORT BaseGameObject* dtor_402630();
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
-
-    EXPORT Alarm* Vdtor_402830(s32 flags);
+    Alarm(s16 a2, s16 switchId, s16 a4, Layer layer);
+    ~Alarm();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_402810();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_4027F0(PrimHeader** ppOt);
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_402660();
 
 private:
     s16 field_68_r_value;

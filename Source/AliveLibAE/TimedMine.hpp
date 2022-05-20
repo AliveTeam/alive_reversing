@@ -28,7 +28,7 @@ class TimedMine final : public BaseAliveGameObject
 public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;

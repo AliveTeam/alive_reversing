@@ -22,7 +22,7 @@ class ColourfulMeter final : public BaseGameObject
 public:
     EXPORT ColourfulMeter* ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VScreenChanged() override;
 

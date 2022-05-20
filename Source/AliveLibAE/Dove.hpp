@@ -18,13 +18,12 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x18);
 class Dove final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Dove* ctor_41F430(s32 frameTableOffset, s32 maxW, u16 maxH, s32 resourceID, s32 tlvInfo, FP scale);
+    Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale);
+    Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale);
+    ~Dove();
 
-    EXPORT Dove* ctor_41F660(s32 frameTableOffset, s32 maxW, s16 maxH, s32 resourceID, FP xpos, FP ypos, FP scale);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-    EXPORT void dtor_41F870();
 
     EXPORT void AsAlmostACircle_41FA20(FP xpos, FP ypos, u8 angle);
     EXPORT void AsACircle_41F980(FP xpos, FP ypos, u8 angle);
@@ -32,11 +31,6 @@ public:
     EXPORT void FlyAway_420020(Bool32 spookedInstantly);
 
     static void CC All_FlyAway_41FA60(Bool32 spookedInstantly);
-
-private:
-    EXPORT void vRender_4200B0(PrimHeader** ppOt);
-    EXPORT Dove* vdtor_41F630(s32 flags);
-    EXPORT void vUpdate_41FAE0();
 
 private:
     s16 field_F4_counter;

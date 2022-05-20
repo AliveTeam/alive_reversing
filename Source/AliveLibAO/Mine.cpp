@@ -26,8 +26,8 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, s32 tlvInfo)
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     ///////////////////////////////////////////////////////////////////////////
     
-    field_6_flags.Set(Options::eCanExplode_Bit7);
-    field_6_flags.Set(Options::eInteractive_Bit8);
+    mFlags.Set(Options::eCanExplode_Bit7);
+    mFlags.Set(Options::eInteractive_Bit8);
 
     field_10C_detonating = 0;
 
@@ -96,7 +96,7 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, s32 tlvInfo)
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
-    if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+    if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
         field_C4_b = 50;
         field_C2_g = 50;
@@ -110,7 +110,7 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, s32 tlvInfo)
     field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
     field_D4_collection_rect.h = field_AC_ypos;
 
-    field_6_flags.Set(Options::eInteractive_Bit8);
+    mFlags.Set(Options::eInteractive_Bit8);
 
     return this;
 }
@@ -121,11 +121,11 @@ BaseGameObject* Mine::dtor_43A640()
 
     if (field_10C_detonating == 1)
     {
-        gMap_507BA8.TLV_Reset_446870(field_110_tlv, -1, 0, 1);
+        gMap.TLV_Reset_446870(field_110_tlv, -1, 0, 1);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_110_tlv, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_110_tlv, -1, 0, 0);
     }
 
     field_118_animation.vCleanUp();
@@ -152,7 +152,7 @@ BaseGameObject* Mine::dtor_43A640()
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 0, 0));
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 0, 0));
 
-    field_6_flags.Clear(Options::eInteractive_Bit8);
+    mFlags.Clear(Options::eInteractive_Bit8);
 
     if (sMinePlayingSound_507B88 == this)
     {
@@ -184,9 +184,9 @@ void Mine::VScreenChanged()
 
 void Mine::VScreenChanged_43AC10()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || !(field_1B0_flags & 2))
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !(field_1B0_flags & 2))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -197,7 +197,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 
 s16 Mine::VTakeDamage_43AC40(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
@@ -209,7 +209,7 @@ s16 Mine::VTakeDamage_43AC40(BaseGameObject* pFrom)
         case Types::eExplosion_74:
         case Types::eShrykull_85:
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             auto pBaseBomb = ao_new<BaseBomb>();
             if (pBaseBomb)
             {
@@ -269,7 +269,7 @@ void Mine::VRender(PrimHeader** ppOt)
 
 void Mine::VRender_43A970(PrimHeader** ppOt)
 {
-    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -293,7 +293,7 @@ void Mine::VUpdate()
 
 void Mine::vUpdate_43A7F0()
 {
-    const s16 bInCamera = gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    const s16 bInCamera = gMap.Is_Point_In_Current_Camera_4449C0(
         field_B2_lvl_number,
         field_B0_path_number,
         field_A8_xpos,
@@ -313,7 +313,7 @@ void Mine::vUpdate_43A7F0()
                     0,
                     field_BC_sprite_scale);
             }
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
     else
@@ -340,10 +340,10 @@ void Mine::vUpdate_43A7F0()
     if (field_10C_detonating != 1
         && (Event_Get_417250(kEventDeathReset_4)
             || Event_Get_417250(kEvent_9)
-            || field_B2_lvl_number != gMap_507BA8.field_0_current_level
-            || field_B0_path_number != gMap_507BA8.field_2_current_path))
+            || field_B2_lvl_number != gMap.mCurrentLevel
+            || field_B0_path_number != gMap.mCurrentPath))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

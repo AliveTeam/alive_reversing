@@ -24,7 +24,7 @@ public:
 
     EXPORT BaseGameObject* dtor_479BE0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT TimerTrigger* Vdtor_479E00(s32 flags);
 

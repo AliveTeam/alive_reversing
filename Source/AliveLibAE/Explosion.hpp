@@ -6,9 +6,7 @@
 class Explosion final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Explosion* ctor_4A1200(FP xpos, FP ypos, FP scale, s16 bSmall);
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    Explosion(FP xpos, FP ypos, FP scale, bool bSmall);
 
     virtual void VUpdate() override;
 
@@ -16,14 +14,6 @@ public:
 
 private:
     EXPORT void DealBlastDamage_4A1BD0(PSX_RECT* pRect);
-
-    EXPORT void vUpdate_4A1510();
-
-    EXPORT void vScreenChanged_4A1EE0();
-
-    EXPORT void dtor_4A14F0();
-
-    EXPORT Explosion* vdtor_4A14C0(s32 flags);
 
 private:
     s16 field_F4_bSmall;

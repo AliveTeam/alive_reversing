@@ -73,13 +73,10 @@ class ObjectDebugger final : public BaseGameObject
 {
 public:
     ObjectDebugger()
+        : BaseGameObject(TRUE, 1)
     {
-        DisableVTableHack disableHack;
-
-        BaseGameObject_ctor_4DBFA0(1, 1);
-
-        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         SetType(AETypes::eDebugHelper_1001);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -90,25 +87,10 @@ public:
 
     ~ObjectDebugger()
     {
-    }
-
-    static bool Enabled;
-
-    void Destruct()
-    {
-        BaseGameObject_dtor_4DBEC0();
         gObjList_drawables_5C1124->Remove_Item(this);
     }
 
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        Destruct();
-        if (flags & 1)
-        {
-            ae_delete_free_495540(this);
-        }
-        return this;
-    }
+    static bool Enabled;
 
     virtual void VUpdate() override
     {
@@ -152,20 +134,20 @@ public:
         list++;
         }*/
 
-        for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+        for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObjects->Size(); baseObjIdx++)
         {
-            BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
+            BaseGameObject* pBaseGameObject = gBaseGameObjects->ItemAt(baseObjIdx);
 
             if (!pBaseGameObject)
             {
                 break;
             }
 
-            if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+            if (pBaseGameObject->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*) pBaseGameObject);
-                s16 x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
-                s16 y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
+                s16 x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap.field_24_camera_offset.field_0_x);
+                s16 y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap.field_24_camera_offset.field_4_y);
 
                 if (IsInAnimationList(&aliveObj->field_20_animation))
                 {
@@ -202,21 +184,21 @@ public:
         bool mouseLeftDown = Sys_IsMouseButtonDown(MouseButtons::eLeft);
         mousePos.y /= 2;
 
-        for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+        for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObjects->Size(); baseObjIdx++)
         {
-            BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
+            BaseGameObject* pBaseGameObject = gBaseGameObjects->ItemAt(baseObjIdx);
 
             if (!pBaseGameObject)
             {
                 break;
             }
 
-            if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+            if (pBaseGameObject->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*) pBaseGameObject);
 
-                s32 x = static_cast<s32>((FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x)) / 0.575);
-                s32 y = static_cast<s32>((FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y)));
+                s32 x = static_cast<s32>((FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap.field_24_camera_offset.field_0_x)) / 0.575);
+                s32 y = static_cast<s32>((FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap.field_24_camera_offset.field_4_y)));
 
                 if (Vec2Distance(static_cast<f32>(x), static_cast<f32>(y), static_cast<f32>(mousePos.x), static_cast<f32>(mousePos.y)) < 10 && !isDragging && mouseLeftDown)
                 {
@@ -253,8 +235,8 @@ public:
 
             if (isDragging)
             {
-                mDragObject->field_B8_xpos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x) + (mousePos.x * 0.575)));
-                mDragObject->field_BC_ypos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y) + mousePos.y));
+                mDragObject->field_B8_xpos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap.field_24_camera_offset.field_0_x) + (mousePos.x * 0.575)));
+                mDragObject->field_BC_ypos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap.field_24_camera_offset.field_4_y) + mousePos.y));
             }
         }
     }
@@ -280,12 +262,10 @@ class DebugPathRenderer final : public BaseGameObject
 {
 public:
     DebugPathRenderer()
+        : BaseGameObject(TRUE, 1)
     {
-        DisableVTableHack disableHack;
-
-        BaseGameObject_ctor_4DBFA0(1, 1);
-        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         SetType(AETypes::eDebugPathRenderer_1003);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -296,26 +276,11 @@ public:
 
     ~DebugPathRenderer()
     {
+        gObjList_drawables_5C1124->Remove_Item(this);
     }
 
     static bool Enabled;
     static bool GridEnabled;
-
-    void Destruct()
-    {
-        BaseGameObject_dtor_4DBEC0();
-        gObjList_drawables_5C1124->Remove_Item(this);
-    }
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        Destruct();
-        if (flags & 1)
-        {
-            ae_delete_free_495540(this);
-        }
-        return this;
-    }
 
     virtual void VUpdate() override
     {
@@ -407,8 +372,8 @@ public:
                 }
                 DEV::DebugDrawLine(ppOt, layer, l->field_0_rect.x, l->field_0_rect.y, l->field_0_rect.w, l->field_0_rect.h, color.r, color.g, color.b, true, false);
 
-                s16 id_x = l->field_0_rect.x - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
-                s16 id_y = l->field_0_rect.y - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
+                s16 id_x = l->field_0_rect.x - FP_GetExponent(gMap.field_24_camera_offset.field_0_x);
+                s16 id_y = l->field_0_rect.y - FP_GetExponent(gMap.field_24_camera_offset.field_4_y);
 
                 if (id_x > 0 && id_x <= 640 && id_y > 0 && id_y <= 240)
                 {
@@ -477,18 +442,14 @@ void Command_Test(const std::vector<std::string>& args)
 
 void Command_Die(const std::vector<std::string>& /*args*/)
 {
-    auto explosion = ae_new<BaseBomb>();
-    if (explosion)
-    {
-        explosion->ctor_423E70(sControlledCharacter_5C1B8C->field_B8_xpos, sControlledCharacter_5C1B8C->field_BC_ypos, 0, sControlledCharacter_5C1B8C->field_CC_sprite_scale);
-    }
+    ae_new<BaseBomb>(sControlledCharacter_5C1B8C->field_B8_xpos, sControlledCharacter_5C1B8C->field_BC_ypos, 0, sControlledCharacter_5C1B8C->field_CC_sprite_scale);
 }
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
 {
-    for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+    for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObjects->Size(); baseObjIdx++)
     {
-        BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
+        BaseGameObject* pBaseGameObject = gBaseGameObjects->ItemAt(baseObjIdx);
 
         if (!pBaseGameObject)
         {
@@ -500,15 +461,11 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
             continue;
         }
 
-        if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pBaseGameObject->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto aliveObj =  static_cast<BaseAliveGameObject*>(pBaseGameObject);
 
-            auto explosion = ae_new<BaseBomb>();
-            if (explosion)
-            {
-                explosion->ctor_423E70(aliveObj->field_B8_xpos, aliveObj->field_BC_ypos, 0, aliveObj->field_CC_sprite_scale);
-            }
+            ae_new<BaseBomb>(aliveObj->field_B8_xpos, aliveObj->field_BC_ypos, 0, aliveObj->field_CC_sprite_scale);
         }
     }
 }
@@ -519,15 +476,15 @@ void Command_HelperUpdate()
     if (sHasTeleported)
     {
         PSX_Point pos;
-        gMap_5C3030.GetCurrentCamCoords_480680(&pos);
+        gMap.GetCurrentCamCoords_480680(&pos);
 
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
         sHasTeleported = false;
         sActiveHero_5C1B68->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
         sActiveHero_5C1B68->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7_land_softly);
-        sActiveHero_5C1B68->field_C2_lvl_number = gMap_5C3030.field_0_current_level;
-        sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.field_2_current_path;
+        sActiveHero_5C1B68->field_C2_lvl_number = gMap.mCurrentLevel;
+        sActiveHero_5C1B68->field_C0_path_number = gMap.mCurrentPath;
         sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
         sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
         sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
@@ -599,7 +556,7 @@ void Command_Teleport(const std::vector<std::string>& args)
     }
     s16 path = static_cast<s16>(std::stoi(args[1]));
     s16 cam = static_cast<s16>(std::stoi(args[2]));
-    gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::ePlay1FMV_5, 0, 0);
+    gMap.SetActiveCam_480D30(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::ePlay1FMV_5, 0, 0);
 
 
     sHasTeleported = true;
@@ -720,7 +677,7 @@ void Command_Ring(const std::vector<std::string>& args)
         FP_FromInteger((rect.y + rect.h) / 2),
         static_cast<RingTypes>(ringType), sActiveHero_5C1B68->field_CC_sprite_scale);
 
-    SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 25, 2650);
+    SFX_Play(SoundEffect::PossessEffect_17, 25, 2650);
 }
 
 struct DebugKeyBinds final
@@ -908,12 +865,10 @@ class DebugConsole final : public BaseGameObject
 {
 public:
     DebugConsole()
+        : BaseGameObject(TRUE, 1)
     {
-        DisableVTableHack disableHack;
-
-        BaseGameObject_ctor_4DBFA0(1, 1);
-        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         SetType(AETypes::eDebugConsole_1002);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -929,20 +884,9 @@ public:
         Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, LoadMode::ConstructObject_0, 0);
     }
 
-    void Destruct()
+    ~DebugConsole()
     {
-        BaseGameObject_dtor_4DBEC0();
         gObjList_drawables_5C1124->Remove_Item(this);
-    }
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        Destruct();
-        if (flags & 1)
-        {
-            ae_delete_free_495540(this);
-        }
-        return this;
     }
 
     void ParseCommand(std::string command)
@@ -1027,9 +971,9 @@ public:
         char_type camBuffer[32];
         Path_Format_CameraName_460FB0(
             camBuffer,
-            gMap_5C3030.field_0_current_level,
-            gMap_5C3030.field_2_current_path,
-            gMap_5C3030.field_4_current_camera);
+            gMap.mCurrentLevel,
+            gMap.mCurrentPath,
+            gMap.field_4_current_camera);
         sprintf(titleBuffer, "Oddworld Abe's Exoddus DEV MODE - %s", camBuffer);
         Sys_SetWindowText(Sys_GetHWnd_4F2C70(), titleBuffer);
 
@@ -1837,26 +1781,12 @@ class RenderTest final : public BaseGameObject
 {
 public:
     RenderTest()
+        : BaseGameObject(TRUE, 1)
     {
-        // Don't hack the vtable else our virtuals won't get called and we can't hack the correct one back since we don't know the address of our vtable.
-        DisableVTableHack disableHack;
-
-        BaseGameObject_ctor_4DBFA0(1, 1);
-
-        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eUpdatable_Bit2);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eUpdatable_Bit2);
 
         gObjList_drawables_5C1124->Push_Back(this);
-    }
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        Destruct();
-        if (flags & 1)
-        {
-            ae_delete_free_495540(this);
-        }
-        return this;
     }
 
     virtual void VUpdate() override
@@ -1880,7 +1810,7 @@ public:
         mAllPrims.Render(ppOt);
     }
 
-    void Destruct()
+    ~RenderTest()
     {
         gObjList_drawables_5C1124->Remove_Item(this);
     }
@@ -1965,17 +1895,19 @@ class AnimRenderTest final : public BaseGameObject
 {
 public:
     AnimRenderTest()
+        : BaseGameObject(TRUE, 1)
     {
-        DisableVTableHack disableHack;
-
-        BaseGameObject_ctor_4DBFA0(1, 1);
-
-        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eUpdatable_Bit2);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eUpdatable_Bit2);
 
         gObjList_drawables_5C1124->Push_Back(this);
 
         Init();
+    }
+
+    ~AnimRenderTest()
+    {
+        gObjList_drawables_5C1124->Remove_Item(this);
     }
 
     virtual void VRender(PrimHeader** ot) override
@@ -1995,21 +1927,6 @@ public:
     {
     }
 
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        Destruct();
-        if (flags & 1)
-        {
-            ae_delete_free_495540(this);
-        }
-        return this;
-    }
-
-    void Destruct()
-    {
-        gObjList_drawables_5C1124->Remove_Item(this);
-    }
-
 private:
     void Init()
     {
@@ -2020,8 +1937,6 @@ private:
 
         for (s32 i = 0; i < 5; i++)
         {
-            SetVTable(&mAnim[i], 0x544290);
-
             if (i < 2)
             {
                 // 4 bit
@@ -2232,9 +2147,9 @@ std::string EscapeUnknownCharacters(std::string text)
 
 [[nodiscard]] BaseGameObject* FindObjectOfType(AETypes id)
 {
-    for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+    for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObjects->Size(); baseObjIdx++)
     {
-        BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
+        BaseGameObject* pBaseGameObject = gBaseGameObjects->ItemAt(baseObjIdx);
 
         if (!pBaseGameObject)
         {
@@ -2268,7 +2183,7 @@ void DEV::DebugFillRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s
     *mPolyF4 = {};
     PolyF4_Init_4F8830(mPolyF4);
 
-    const auto camOffset = gMap_5C3030.field_24_camera_offset;
+    const auto camOffset = gMap.field_24_camera_offset;
 
     if (worldspace)
     {
@@ -2307,7 +2222,7 @@ void DEV::DebugDrawLine(PrimHeader** ot, Layer layer, s32 x1, s32 y1, s32 x2, s3
     Line_G2* mLineG2 = &sLinePrimBuffer[++sNextLinePrim];
     LineG2_Init(mLineG2);
 
-    const auto camOffset = gMap_5C3030.field_24_camera_offset;
+    const auto camOffset = gMap.field_24_camera_offset;
 
     if (worldspace)
     {
@@ -2336,7 +2251,7 @@ void DEV::DebugDrawLine(PrimHeader** ot, Layer layer, s32 x1, s32 y1, s32 x2, s3
 
 void DEV::DebugDrawText(PrimHeader** ot, Layer layer, std::string& text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
 {
-    const auto camOffset = gMap_5C3030.field_24_camera_offset;
+    const auto camOffset = gMap.field_24_camera_offset;
 
     if (worldspace)
     {

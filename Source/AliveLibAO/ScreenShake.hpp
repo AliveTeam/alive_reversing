@@ -15,7 +15,7 @@ public:
 
     EXPORT void VUpdate_4625B0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT ScreenShake* Vdtor_462770(s32 flags);
 

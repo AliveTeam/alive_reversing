@@ -116,9 +116,9 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
                 break;
         }
 
-        if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
+        if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
         else
         {
@@ -171,7 +171,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
                 field_E8_pRes[i].field_14_z_speed = -FP_Abs(Random_Speed(scale));
             }
 
-            if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+            if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
             {
                 field_C4_b = 60;
                 field_C2_g = 60;
@@ -181,7 +181,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     return this;
 }
@@ -239,9 +239,9 @@ void ParticleBurst::VUpdate_40D600()
 
             if (field_F4_type == BurstType::eMeat_4)
             {
-                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
-                        gMap_507BA8.field_0_current_level,
-                        gMap_507BA8.field_2_current_path,
+                if (gMap.Is_Point_In_Current_Camera_4449C0(
+                        gMap.mCurrentLevel,
+                        gMap.mCurrentPath,
                         pItem->field_0_x,
                         pItem->field_4_y,
                         0))
@@ -275,12 +275,12 @@ void ParticleBurst::VUpdate_40D600()
 
     if (static_cast<s32>(gnFrameCount_507670) > field_F0_timer)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

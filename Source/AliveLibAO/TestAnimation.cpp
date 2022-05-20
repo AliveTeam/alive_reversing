@@ -80,9 +80,9 @@ void TestAnimation::ctor()
 
     field_CC_bApplyShadows &= ~1u;
 
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    field_6_flags.Set(BaseGameObject::eCantKill_Bit11);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eCantKill_Bit11);
 }
 
 void TestAnimation::SyncToAbePos()
@@ -94,8 +94,8 @@ void TestAnimation::SyncToAbePos()
 
 void TestAnimation::VUpdate()
 {
-    field_B0_path_number = AO::gMap_507BA8.field_2_current_path;
-    field_B2_lvl_number = AO::gMap_507BA8.field_0_current_level;
+    field_B0_path_number = AO::gMap.mCurrentPath;
+    field_B2_lvl_number = AO::gMap.mCurrentLevel;
     if (mLoaded)
     {
         SyncToAbePos();

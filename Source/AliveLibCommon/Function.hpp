@@ -136,17 +136,6 @@ private:
 #define SCOPED_REDIRECT(real, stub)
 #endif
 
-extern bool gVTableHack;
-
-void SetVTable(void* thisPtr, u32 vTable);
-
-class DisableVTableHack
-{
-public:
-    DisableVTableHack();
-
-    ~DisableVTableHack();
-};
 
 template <class T>
 struct BrainFunctionData final

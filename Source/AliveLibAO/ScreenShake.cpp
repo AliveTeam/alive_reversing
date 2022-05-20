@@ -18,7 +18,7 @@ ScreenShake* ScreenShake::ctor_4624D0(s16 enableShakeEvent)
 
     field_4_typeId = Types::ScreenShake_82;
 
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
 
     field_30_shakeNumber = 16;
     field_32_enableShakeEvent = enableShakeEvent;
@@ -161,7 +161,7 @@ void ScreenShake::VRender_4625E0(PrimHeader** ppOt)
 
         if (!field_30_shakeNumber)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 

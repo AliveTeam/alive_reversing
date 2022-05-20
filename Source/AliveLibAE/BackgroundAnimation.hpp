@@ -22,15 +22,12 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BackgroundAnimation, 0x1C);
 class BackgroundAnimation final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    EXPORT BackgroundAnimation* ctor_40D270(Path_BackgroundAnimation* pPathParams, TlvItemInfoUnion tlvInfo);
-    EXPORT void vUpdate_40D450();
-    EXPORT void vScreenChanged_40D550();
-    EXPORT void dtor_40D4C0();
-    EXPORT BaseGameObject* vdtor_40D420(s32 flags);
+    BackgroundAnimation(Path_BackgroundAnimation* pPathParams, TlvItemInfoUnion tlvInfo);
+    ~BackgroundAnimation();
 
 private:
     AnimHeader** field_F4_res;

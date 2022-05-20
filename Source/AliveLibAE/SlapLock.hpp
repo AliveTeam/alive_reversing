@@ -49,7 +49,7 @@ public:
 
     EXPORT void dtor_43DF00();
     virtual void VUpdate() override;
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;

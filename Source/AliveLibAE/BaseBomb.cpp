@@ -13,25 +13,13 @@
 #include "Flash.hpp"
 #include "Particle.hpp"
 
-void BaseBomb::VUpdate()
+BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    vUpdate_424180();
-}
-
-
-BaseGameObject* BaseBomb::VDestructor(s32 flags)
-{
-    return vdtor_424130(flags);
-}
-
-BaseBomb* BaseBomb::ctor_423E70(FP x, FP y, s32 /*unused*/, FP scale)
-{
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x544C54);
     SetType(AETypes::eBaseBomb_46);
 
     const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
     field_20_animation.field_4_flags.Set(AnimFlags::eBit24);
@@ -58,23 +46,15 @@ BaseBomb* BaseBomb::ctor_423E70(FP x, FP y, s32 /*unused*/, FP scale)
     field_B8_xpos = x;
     field_BC_ypos = y;
 
-    auto pScreenShake = ae_new<ScreenShake>();
-    if (pScreenShake)
-    {
-        pScreenShake->ctor_4ACF70(1, 0);
-    }
+    ae_new<ScreenShake>(true, false);
 
-    auto pParticleBurst = ae_new<ParticleBurst>();
-    if (pParticleBurst)
-    {
-        pParticleBurst->ctor_41CF50(
-            field_B8_xpos,
-            field_BC_ypos,
-            35,
-            field_f4_scale,
-            BurstType::eFallingRocks_0,
-            13);
-    }
+    ae_new<ParticleBurst>(
+        field_B8_xpos,
+        field_BC_ypos,
+        35,
+        field_f4_scale,
+        BurstType::eFallingRocks_0,
+        13);
 
     PSX_RECT damageRect = {
         FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
@@ -88,11 +68,9 @@ BaseBomb* BaseBomb::ctor_423E70(FP x, FP y, s32 /*unused*/, FP scale)
     const s16 explosionSeqId = static_cast<s16>(staticIdFlip ? SeqId::Explosion1_14 : SeqId::Explosion2_15);
     SND_SEQ_PlaySeq_4CA960(explosionSeqId, 1, 1);
     staticIdFlip = !staticIdFlip;
-
-    return this;
 }
 
-void BaseBomb::vUpdate_424180()
+void BaseBomb::VUpdate()
 {
     PSX_RECT rect = {};
 
@@ -128,23 +106,15 @@ void BaseBomb::vUpdate_424180()
 
         case 3:
         {
-            ParticleBurst* pParticleBurst = ae_new<ParticleBurst>();
-            if (pParticleBurst)
-            {
-                pParticleBurst->ctor_41CF50(
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    20,
-                    field_CC_sprite_scale,
-                    BurstType::eBigRedSparks_3,
-                    13);
-            }
+            ae_new<ParticleBurst>(
+                field_B8_xpos,
+                field_BC_ypos,
+                20,
+                field_CC_sprite_scale,
+                BurstType::eBigRedSparks_3,
+                13);
 
-            Flash* pFlash = ae_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_428570(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
-            }
+            ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1, TPageAbr::eBlend_3, 1);
 
             rect.x = FP_GetExponent(FP_FromInteger(-113) * field_f4_scale);
             rect.w = FP_GetExponent(FP_FromInteger(113) * field_f4_scale);
@@ -156,33 +126,21 @@ void BaseBomb::vUpdate_424180()
 
         case 4:
         {
-            Flash* pFlash = ae_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_428570(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
-            }
+            ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1, TPageAbr::eBlend_1, 1);
             break;
         }
 
         case 7:
         {
-            ParticleBurst* pParticleBurst = ae_new<ParticleBurst>();
-            if (pParticleBurst)
-            {
-                pParticleBurst->ctor_41CF50(
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    20u,
-                    field_CC_sprite_scale,
-                    BurstType::eBigRedSparks_3,
-                    13);
-            }
+            ae_new<ParticleBurst>(
+                field_B8_xpos,
+                field_BC_ypos,
+                20u,
+                field_CC_sprite_scale,
+                BurstType::eBigRedSparks_3,
+                13);
 
-            Flash* pFlash = ae_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_428570(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
-            }
+            ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1, TPageAbr::eBlend_3, 1);
             break;
         }
 
@@ -193,20 +151,18 @@ void BaseBomb::vUpdate_424180()
     if (field_20_animation.field_92_current_frame == 3)
     {
         const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
-        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         if (ppRes)
         {
-            Particle* pParticle = ae_new<Particle>();
+            Particle* pParticle = ae_new<Particle>(
+                field_B8_xpos,
+                field_BC_ypos,
+                rec.mFrameTableOffset,
+                rec.mMaxW,
+                rec.mMaxH,
+                ppRes);
             if (pParticle)
             {
-                pParticle->ctor_4CC4C0(
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    rec.mFrameTableOffset,
-                    rec.mMaxW,
-                    rec.mMaxH,
-                    ppRes);
-
                 pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
                 pParticle->field_DC_bApplyShadows &= ~1;
                 pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
@@ -218,23 +174,6 @@ void BaseBomb::vUpdate_424180()
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
     {
         // Time to die
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
-}
-
-
-BaseBomb* BaseBomb::vdtor_424130(s32 flags)
-{
-    dtor_424160();
-
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void BaseBomb::dtor_424160()
-{
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }

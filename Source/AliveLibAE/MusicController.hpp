@@ -57,7 +57,7 @@ public:
     EXPORT static void CC UpdateMusicTime_47F8B0();
     EXPORT static MusicTypes CC GetMusicType_47FDA0(u16* seq1, u16* seq2, u32* seqTime);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     EXPORT MusicController* ctor_47EE80();
     EXPORT BaseGameObject* vdtor_47EF20(s32 flags);
     EXPORT void dtor_47EF50();

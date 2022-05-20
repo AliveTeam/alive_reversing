@@ -21,9 +21,9 @@ Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xp
     field_20_type = type;
     field_28_xpos = xpos;
     field_2C_ypos = ypos;
-    field_3A_path = gMap_5C3030.field_2_current_path;
+    field_3A_path = gMap.mCurrentPath;
     field_40_pParent = pParent;
-    field_38_level = gMap_5C3030.field_0_current_level;
+    field_38_level = gMap.mCurrentLevel;
     field_3C_scale = scale;
     field_34_unused = unused;
     field_44_number_of_bullets = numberOfBullets;
@@ -54,9 +54,9 @@ void Bullet::VUpdate()
 
 void Bullet::vUpdate_413560()
 {
-    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos, field_2C_ypos, 0) && !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos + FP_FromInteger(10), field_2C_ypos, 0) && !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos - FP_FromInteger(10), field_2C_ypos, 0))
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos, field_2C_ypos, 0) && !gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos + FP_FromInteger(10), field_2C_ypos, 0) && !gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos - FP_FromInteger(10), field_2C_ypos, 0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -162,7 +162,7 @@ void Bullet::vUpdate_413560()
                                 PlayBulletSounds(vol);
                             }
                         }
-                        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                        mFlags.Set(BaseGameObject::eDead);
                         return;
                     }
                 }
@@ -196,7 +196,7 @@ void Bullet::vUpdate_413560()
                 {
                     SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                 }
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -255,7 +255,7 @@ void Bullet::vUpdate_413560()
                         PlayBulletSounds(vol);
                     }
                 }
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -263,7 +263,7 @@ void Bullet::vUpdate_413560()
             {
                 SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
             }
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
 
@@ -283,7 +283,7 @@ void Bullet::vUpdate_413560()
                     if (pShootObj->Type() != AETypes::eGreeter_64 && pShootObj->Type() != AETypes::eMineCar_89)
                     {
                         PlayBulletSounds(90);
-                        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                        mFlags.Set(BaseGameObject::eDead);
                         return;
                     }
                 }
@@ -307,7 +307,7 @@ void Bullet::vUpdate_413560()
                 New_Smoke_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
             }
             SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
 
@@ -359,12 +359,12 @@ void Bullet::vUpdate_413560()
                 }
                 SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
             }
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
 
         default:
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             return;
     }
 }
@@ -421,7 +421,7 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
         {
             if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
-                if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, pObj->field_B8_xpos, pObj->field_BC_ypos, 1))
+                if (gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, pObj->field_B8_xpos, pObj->field_BC_ypos, 1))
                 {
                     if (((field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0 || field_20_type == BulletType::ePossessedSligZBullet_1) && ((pObj->Type() == AETypes::eSlig_125 && pObj->field_106_current_motion != eSligMotions::M_Possess_37_4B72C0) || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eGlukkon_67 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eSlog_126 || pObj->Type() == AETypes::eGreeter_64)) ||
 
@@ -457,7 +457,7 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
 
 void Bullet::PlayBulletSounds(s16 volume)
 {
-    SFX_Play_46FBA0(SoundEffect::AirStream_23, volume, 2000);
-    SFX_Play_46FBA0(SoundEffect::MeatBounce_36, volume, Math_RandomRange_496AB0(300, 700));
-    SFX_Play_46FBA0(SoundEffect::KillEffect_64, volume, Math_RandomRange_496AB0(900, 1400));
+    SFX_Play(SoundEffect::AirStream_23, volume, 2000);
+    SFX_Play(SoundEffect::MeatBounce_36, volume, Math_RandomRange_496AB0(300, 700));
+    SFX_Play(SoundEffect::KillEffect_64, volume, Math_RandomRange_496AB0(900, 1400));
 }

@@ -44,10 +44,10 @@ void BeeSwarmHole::VUpdate()
 
 void BeeSwarmHole::VUpdate_478320()
 {
-    if (gMap_507BA8.Rect_Location_Relative_To_Active_Camera_4448C0(&field_14_rect, 0) != CameraPos::eCamCurrent_0)
+    if (gMap.Rect_Location_Relative_To_Active_Camera_4448C0(&field_14_rect, 0) != CameraPos::eCamCurrent_0)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        gMap_507BA8.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
+        mFlags.Set(BaseGameObject::eDead);
+        gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
     }
 
     if (static_cast<s32>(gnFrameCount_507670) < field_1C_interval_timer)
@@ -58,9 +58,9 @@ void BeeSwarmHole::VUpdate_478320()
     field_1C_interval_timer = static_cast<s32>(gnFrameCount_507670) + field_20_interval;
 
     bool bBallFillingHole = false;
-    for (s32 idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
     {
-        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(idx);
+        BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(idx);
         if (!pObjIter)
         {
             break;

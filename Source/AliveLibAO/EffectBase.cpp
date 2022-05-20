@@ -10,48 +10,28 @@
 
 namespace AO {
 
-EffectBase* EffectBase::ctor_461550(Layer layer, TPageAbr abr)
+EffectBase::EffectBase(Layer layer, TPageAbr abr)
+    : BaseGameObject(TRUE)
 {
-    ctor_487E10(1);
-    SetVTable(this, 0x4BC900);
     field_4_typeId = Types::eEffectBase_79;
     gObjList_drawables_504618->Push_Back(this);
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-    field_10_path_id = gMap_507BA8.field_2_current_path;
-    field_12_level_id = gMap_507BA8.field_0_current_level;
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    field_10_path_id = gMap.mCurrentPath;
+    field_12_level_id = gMap.mCurrentLevel;
     for (s32 i = 0; i < 2; i++)
     {
         Init_SetTPage_495FB0(&field_3C_tPage[i], 0, 0, static_cast<s16>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, abr, 0, 0)));
     }
     field_5C_layer = layer;
     field_64_bSemiTrans = 1;
-    return this;
 }
 
-BaseGameObject* EffectBase::dtor_461630()
+EffectBase::~EffectBase()
 {
-    SetVTable(this, 0x4BC900);
     gObjList_drawables_504618->Remove_Item(this);
-    return dtor_487DF0();
 }
-
-EffectBase* EffectBase::Vdtor_461750(s32 flags)
-{
-    dtor_461630();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
 
 void EffectBase::VRender(PrimHeader** ppOt)
-{
-    VRender_461690(ppOt);
-}
-
-void EffectBase::VRender_461690(PrimHeader** ppOt)
 {
     Prim_Tile* pTile = &field_14_tile[gPsxDisplay_504C78.field_A_buffer_index];
     Init_Tile(pTile);
@@ -69,11 +49,6 @@ void EffectBase::VRender_461690(PrimHeader** ppOt)
     OrderingTable_Add_498A80(OtLayer(ppOt, field_5C_layer), &pTile->mBase.header);
     OrderingTable_Add_498A80(OtLayer(ppOt, field_5C_layer), &field_3C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
     pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, gPsxDisplay_504C78.field_2_height);
-}
-
-BaseGameObject* EffectBase::VDestructor(s32 flags)
-{
-    return Vdtor_461750(flags);
 }
 
 } // namespace AO

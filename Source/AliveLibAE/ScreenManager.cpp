@@ -189,8 +189,8 @@ ScreenManager* ScreenManager::ctor_40E3E0(u8** ppBits, FP_Point* pCameraOffset)
     BaseGameObject_ctor_4DBFA0(1, 0);
     field_20_pCamPos = pCameraOffset;
 
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     SetVTable(this, 0x5441E4);
 
@@ -412,8 +412,8 @@ void ScreenManager::AddCurrentSPRT_TPage(PrimHeader** ppOt)
 namespace AETest::TestsScreenManager {
 void DirtyBitTests()
 {
-    gBaseGameObject_list_BB47C4 = ae_new<DynamicArrayT<BaseGameObject>>();
-    gBaseGameObject_list_BB47C4->ctor_40CA60(50);
+    gBaseGameObjects = ae_new<DynamicArrayT<BaseGameObject>>();
+    gBaseGameObjects->ctor_40CA60(50);
 
     ScreenManager sm;
     sm.ctor_40E3E0(nullptr, nullptr);
@@ -427,8 +427,8 @@ void DirtyBitTests()
     // ?? should be 1 ??
     ASSERT_EQ(0, sm.IsDirty_40EBC0(0, 0, 0));
 
-    gBaseGameObject_list_BB47C4->dtor_40CAD0();
-    gBaseGameObject_list_BB47C4 = nullptr;
+    gBaseGameObjects->dtor_40CAD0();
+    gBaseGameObjects = nullptr;
 
     // Test dirty bit helpers
 

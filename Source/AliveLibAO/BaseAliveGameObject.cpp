@@ -47,7 +47,7 @@ BaseAliveGameObject* BaseAliveGameObject::ctor_401090()
     field_E8_LastLineYPos = FP_FromInteger(0);
     field_104_pending_resource_count = 0;
     gBaseAliveGameObjects_4FC8A0->Push_Back(this);
-    field_6_flags.Set(Options::eIsBaseAliveGameObject_Bit6);
+    mFlags.Set(Options::eIsBaseAliveGameObject_Bit6);
     return this;
 }
 
@@ -190,7 +190,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
         }
         else
         {
-            field_F0_pTlv = gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
+            field_F0_pTlv = gMap.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
             if (field_F0_pTlv)
             {
                 if (sCollisions_DArray_504C6C->RayCast_40C410(
@@ -213,9 +213,9 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
 
 BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
 {
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;
@@ -367,11 +367,11 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
     }
 
     // Find the start controller at the position we will be at in the new map
-    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), TlvTypes::StartController_28);
+    field_F0_pTlv = gMap.TLV_Get_At_446260(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), TlvTypes::StartController_28);
 
     if (!field_F0_pTlv)
     {
-        field_F0_pTlv = gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
+        field_F0_pTlv = gMap.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
         LOG_INFO("Flip direction after the path trans as we are not touching the start controller");
         field_B4_velx = -field_B4_velx;
         field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
@@ -388,7 +388,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
     }
 
     PSX_Point camLoc = {};
-    gMap_507BA8.GetCurrentCamCoords_444890(&camLoc);
+    gMap.GetCurrentCamCoords_444890(&camLoc);
 
     field_A8_xpos = FP_FromInteger((field_F0_pTlv->field_14_bottom_right.field_0_x + field_F0_pTlv->field_10_top_left.field_0_x) / 2);
     field_AC_ypos = FP_FromInteger(field_F0_pTlv->field_10_top_left.field_2_y);
@@ -480,10 +480,10 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
 s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
 {
     PSX_Point camCoords = {};
-    gMap_507BA8.GetCurrentCamCoords_444890(&camCoords);
+    gMap.GetCurrentCamCoords_444890(&camCoords);
 
     // Are we "in" the current camera X bounds?
-    if (field_B2_lvl_number == gMap_507BA8.field_0_current_level && field_B0_path_number == gMap_507BA8.field_2_current_path && field_A8_xpos > FP_FromInteger(camCoords.field_0_x) && field_A8_xpos < FP_FromInteger(camCoords.field_0_x + 1024))
+    if (field_B2_lvl_number == gMap.mCurrentLevel && field_B0_path_number == gMap.mCurrentPath && field_A8_xpos > FP_FromInteger(camCoords.field_0_x) && field_A8_xpos < FP_FromInteger(camCoords.field_0_x + 1024))
     {
         // Snapped XPos in camera space
         const s32 snappedXLocalCoords = SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camCoords.field_0_x)));
@@ -491,10 +491,10 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
         // In the left camera void and moving left?
         if (snappedXLocalCoords < 256 && field_B4_velx < FP_FromInteger(0))
         {
-            if (sControlledCharacter_50767C == this && gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapLeft_0, this, -1))
+            if (sControlledCharacter_50767C == this && gMap.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapLeft_0, this, -1))
             {
-                field_B0_path_number = gMap_507BA8.field_2_current_path;
-                field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+                field_B0_path_number = gMap.mCurrentPath;
+                field_B2_lvl_number = gMap.mCurrentLevel;
                 return 1;
             }
             else
@@ -518,10 +518,10 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
         else if (snappedXLocalCoords > 624 && field_B4_velx > FP_FromInteger(0))
         {
             // Go to the right camera in under player control
-            if (sControlledCharacter_50767C == this && gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapRight_1, this, -1))
+            if (sControlledCharacter_50767C == this && gMap.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapRight_1, this, -1))
             {
-                field_B0_path_number = gMap_507BA8.field_2_current_path;
-                field_B2_lvl_number = gMap_507BA8.field_0_current_level;
+                field_B0_path_number = gMap.mCurrentPath;
+                field_B2_lvl_number = gMap.mCurrentLevel;
                 return 1;
             }
             else
@@ -529,7 +529,7 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
                 const s32 x_i = abs(FP_GetExponent(field_A8_xpos));
                 const s32 camXIndex = x_i % 1024;
 
-                gMap_507BA8.Get_map_size_444870(&camCoords);
+                gMap.Get_map_size_444870(&camCoords);
                 if (x_i < (camCoords.field_0_x - 1024))
                 {
                     UsePathTransScale_4020D0();
@@ -572,7 +572,7 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
         // In the right camera void and moving right?
         else if (camXIndex > 624 && field_B4_velx > FP_FromInteger(0)) // Never hit as velx is < 0
         {
-            gMap_507BA8.Get_map_size_444870(&camCoords);
+            gMap.Get_map_size_444870(&camCoords);
             if (x_i < (camCoords.field_0_x - 1024))
             {
                 UsePathTransScale_4020D0();
@@ -597,28 +597,28 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
             case CameraPos::eCamTop_1:
                 if (field_B8_vely < FP_FromInteger(0))
                 {
-                    gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapTop_2, this, -1);
+                    gMap.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapTop_2, this, -1);
                 }
                 break;
 
             case CameraPos::eCamBottom_2:
                 if (field_B8_vely > FP_FromInteger(0))
                 {
-                    gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapBottom_3, this, -1);
+                    gMap.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapBottom_3, this, -1);
                 }
                 break;
 
             case CameraPos::eCamLeft_3:
                 if (field_B4_velx < FP_FromInteger(0))
                 {
-                    gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapLeft_0, this, -1);
+                    gMap.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapLeft_0, this, -1);
                 }
                 break;
 
             case CameraPos::eCamRight_4:
                 if (field_B4_velx > FP_FromInteger(0))
                 {
-                    gMap_507BA8.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapRight_1, this, -1);
+                    gMap.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapRight_1, this, -1);
                 }
                 break;
 
@@ -708,7 +708,7 @@ void BaseAliveGameObject::VSetXSpawn_401150(s16 camWorldX, s32 screenXPos)
 
     field_A8_xpos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, screenXPos));
 
-    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(0, field_A8_xpos, old_y, field_A8_xpos, old_y);
+    field_F0_pTlv = gMap.TLV_Get_At_446060(0, field_A8_xpos, old_y, field_A8_xpos, old_y);
 
     if (field_F8_pLiftPoint)
     {
@@ -741,7 +741,7 @@ void BaseAliveGameObject::VSetXSpawn_401150(s16 camWorldX, s32 screenXPos)
             }
             else
             {
-                field_F0_pTlv = gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
+                field_F0_pTlv = gMap.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
                 if (field_F0_pTlv
                     && sCollisions_DArray_504C6C->RayCast_40C410(
                         field_A8_xpos,
@@ -796,7 +796,7 @@ void BaseAliveGameObject::VSetYSpawn_401380(s32 camWorldY, s16 bLeft)
         field_AC_ypos = FP_FromInteger(camWorldY + 124);
     }
 
-    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
+    field_F0_pTlv = gMap.TLV_Get_At_446060(
         nullptr,
         field_A8_xpos,
         field_AC_ypos,
@@ -817,9 +817,9 @@ void BaseAliveGameObject::VSetYSpawn_401380(s32 camWorldY, s16 bLeft)
 
 s16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
 {
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        auto pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        auto pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -844,7 +844,7 @@ void BaseAliveGameObject::VSetMotion_402520(s16 state)
 
 void BaseAliveGameObject::UsePathTransScale_4020D0()
 {
-    auto pPathTrans = static_cast<Path_Change*>(gMap_507BA8.TLV_Get_At_446260(
+    auto pPathTrans = static_cast<Path_Change*>(gMap.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos),
         FP_GetExponent(field_AC_ypos),
         FP_GetExponent(field_A8_xpos),
@@ -879,9 +879,9 @@ BaseGameObject* CC BaseAliveGameObject::FindObjectOfType_418280(Types typeToFind
     const s32 xpos_int = FP_GetExponent(xpos);
     const s32 ypos_int = FP_GetExponent(ypos);
 
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

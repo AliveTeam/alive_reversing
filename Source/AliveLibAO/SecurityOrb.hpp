@@ -27,7 +27,7 @@ public:
     EXPORT SecurityOrb* ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo);
     EXPORT BaseGameObject* dtor_436D60();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;

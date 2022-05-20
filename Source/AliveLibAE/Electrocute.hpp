@@ -10,7 +10,7 @@ class PalleteOverwriter;
 class Electrocute final : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
@@ -18,13 +18,10 @@ public:
     virtual void VStop_4E6150();
     virtual s32 VSub_4E6630();
 
-    EXPORT Electrocute* ctor_4E5E80(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter, s16 bKillTarget);
+    Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget);
+    ~Electrocute();
 
 private:
-    EXPORT Electrocute* vdtor_4E6060(s32 flags);
-    EXPORT void dtor_4E6090();
-    EXPORT void vScreenChanged_4E65E0();
-    EXPORT void vUpdate_4E6240();
     EXPORT void vStop_4E6150();
     EXPORT s32 vSub_4E6630();
 

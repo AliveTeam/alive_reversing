@@ -51,9 +51,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFart_State, 60);
 class EvilFart final : public BaseAliveGameObject
 {
 public:
-    EXPORT EvilFart* ctor_422E30();
+    EvilFart();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VPossessed_408F70() override;
@@ -70,13 +69,9 @@ private:
     void ResetFartColour();
 
     EXPORT s16 VTakeDamage_423B70(BaseGameObject* pFrom);
-    EXPORT void vUpdate_423100();
 
     void CalculateFartColour();
     void BlowUp();
-
-    EXPORT void dtor_423D80();
-    EXPORT EvilFart* vdtor_4230D0(s32 flags);
 
 private:
     s16 field_118_bBlowUp;

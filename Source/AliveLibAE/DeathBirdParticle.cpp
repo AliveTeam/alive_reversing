@@ -6,30 +6,18 @@
 #include "stdlib.hpp"
 #include "Sfx.hpp"
 
-BaseGameObject* DeathBirdParticle::VDestructor(s32 flags)
+DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySound, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    return vdtor_43EE20(flags);
-}
-
-void DeathBirdParticle::VUpdate()
-{
-    Update_43EE70();
-}
-
-DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, s32 start, s16 bPlaySound, FP scale)
-{
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-
-    SetVTable(this, 0x545298); // vTbl_DeathBirdParticle_00545298
     SetType(AETypes::eDeathBird_62);
 
     const AnimRecord& rec = AnimRec(AnimId::DeathFlare_1);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
 
-    if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -54,11 +42,9 @@ DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, s32 start, s
         field_F5_state = States::eAnimateDeathFlares_0;
         field_FC_bPlaySound = bPlaySound;
     }
-
-    return this;
 }
 
-void DeathBirdParticle::Update_43EE70()
+void DeathBirdParticle::VUpdate()
 {
     switch (field_F5_state)
     {
@@ -76,18 +62,14 @@ void DeathBirdParticle::Update_43EE70()
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 // Yes so magic it into a dove
-                auto pDove = ae_new<Dove>();
-                if (pDove)
-                {
-                    pDove->ctor_41F660(
-                        5516,
-                        41,
-                        20,
-                        60,
-                        field_B8_xpos,
-                        field_BC_ypos - FP_FromInteger(15),
-                        field_CC_sprite_scale);
-                }
+                auto pDove = ae_new<Dove>(
+                    5516, // TODO: Hard coded frame table
+                    41,
+                    20,
+                    60,
+                    field_B8_xpos,
+                    field_BC_ypos - FP_FromInteger(15),
+                    field_CC_sprite_scale);
 
                 if (pDove->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -99,7 +81,7 @@ void DeathBirdParticle::Update_43EE70()
                 }
 
                 pDove->field_CC_sprite_scale = field_CC_sprite_scale;
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
 
                 if (field_FC_bPlaySound)
                 {
@@ -112,19 +94,4 @@ void DeathBirdParticle::Update_43EE70()
     field_B8_xpos += FP_FromInteger(2) * Math_Sine_496DD0(field_F4_random);
     field_BC_ypos -= FP_FromInteger(2);
     field_F4_random += 5;
-}
-
-void DeathBirdParticle::dtor_43EE50()
-{
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-DeathBirdParticle* DeathBirdParticle::vdtor_43EE20(s32 flags)
-{
-    dtor_43EE50();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }

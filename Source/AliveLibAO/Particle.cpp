@@ -226,9 +226,9 @@ Particle* Particle::ctor_478880(FP xpos, FP ypos, s32 animFrameTableOffset, s32 
         ppAnimData,
         1);
 
-    if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     field_A8_xpos = xpos;
@@ -262,7 +262,7 @@ void Particle::VUpdate_478930()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

@@ -131,7 +131,7 @@ class FlyingSlig final : public BaseAliveGameObject
 public:
     EXPORT FlyingSlig* ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

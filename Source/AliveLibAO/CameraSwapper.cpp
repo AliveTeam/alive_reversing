@@ -136,18 +136,18 @@ BaseGameObject* CameraSwapper::dtor_48CE00()
 
     if (field_24_pSubObject)
     {
-        field_24_pSubObject->field_6_flags.Set(Options::eDead_Bit3);
+        field_24_pSubObject->mFlags.Set(Options::eDead);
     }
 
     if (sMap_bDoPurpleLightEffect_507C9C)
     {
-        gMap_507BA8.RemoveObjectsWithPurpleLight_4440D0(0);
+        gMap.RemoveObjectsWithPurpleLight_4440D0(0);
         sMap_bDoPurpleLightEffect_507C9C = FALSE;
     }
 
     BackgroundMusic::Play_4762B0();
     MusicController::EnableMusic_443900(1);
-    gMap_507BA8.Start_Sounds_For_Objects_In_Near_Cameras_4467D0();
+    gMap.Start_Sounds_For_Objects_In_Near_Cameras_4467D0();
 
     return dtor_487DF0();
 }
@@ -159,7 +159,7 @@ void CameraSwapper::VUpdate()
 
 void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
 {
-    field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     field_4_typeId = Types::eCameraSwapper_102;
 
@@ -178,9 +178,9 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
 
     if (sNumCamSwappers_507668 != 1)
     {
-        field_6_flags.Clear(BaseGameObject::eUpdatable_Bit2);
-        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Clear(BaseGameObject::eUpdatable_Bit2);
+        mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mFlags.Set(BaseGameObject::eDead);
 
         // There can only be 1 active at a time
         return;
@@ -195,7 +195,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
     {
         case CameraSwapEffects::eInstantChange_0:
             pScreenManager_4FF7C8->InvalidateRect_Layer3_406F20(0, 0, 640, 240);
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             field_24_pSubObject = nullptr;
             break;
 
@@ -368,7 +368,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
 
 void CameraSwapper::VUpdate_48CEA0()
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return;
     }
@@ -376,7 +376,7 @@ void CameraSwapper::VUpdate_48CEA0()
     switch (field_28_changeEffect)
     {
         case CameraSwapEffects::eInstantChange_0:
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             return;
 
         case CameraSwapEffects::eLeftToRight_1:
@@ -386,7 +386,7 @@ void CameraSwapper::VUpdate_48CEA0()
             if (field_2A_current_slice < 0 || field_2A_current_slice >= field_2E_total_slices)
             {
                 // All slices done
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -409,7 +409,7 @@ void CameraSwapper::VUpdate_48CEA0()
             if (field_2A_current_slice < 0 || field_2A_current_slice >= field_2E_total_slices)
             {
                 // All slices done
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -449,7 +449,7 @@ void CameraSwapper::VUpdate_48CEA0()
                 pScreenManager_4FF7C8->InvalidateRect_406E40(0, 0, 640, 240, 2);
                 pScreenManager_4FF7C8->field_36_flags |= 1;
             }
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
         break;
 
@@ -459,7 +459,7 @@ void CameraSwapper::VUpdate_48CEA0()
             if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
             {
                 // All slices done
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -477,7 +477,7 @@ void CameraSwapper::VUpdate_48CEA0()
             if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
             {
                 // All slices done
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -495,7 +495,7 @@ void CameraSwapper::VUpdate_48CEA0()
             if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
             {
                 // All slices done
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 

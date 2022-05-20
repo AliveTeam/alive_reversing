@@ -53,7 +53,7 @@ class LiftPoint final : public PlatformBase
 public:
     EXPORT LiftPoint* ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;

@@ -38,7 +38,7 @@ public:
 
     EXPORT BaseGameObject* dtor_41A660();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT FallingItem* Vdtor_41A7F0(s32 flags);
 

@@ -51,7 +51,7 @@ void DeathBirdParticle::VUpdate_41DA60()
                     pDove->field_A8_xpos -= FP_FromInteger(8);
                 }
 
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
 
                 pDove->field_BC_sprite_scale = field_BC_sprite_scale;
                 if (field_EC_bPlaySound)
@@ -83,9 +83,9 @@ DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, s32 start, s
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {

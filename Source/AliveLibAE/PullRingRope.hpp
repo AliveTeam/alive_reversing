@@ -39,7 +39,7 @@ class PullRingRope final : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT PullRingRope* ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s16 VPull_49BBD0(BaseGameObject* a2);

@@ -26,10 +26,10 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
     }
 
     const AnimRecord& rec = AnimRec(AnimId::Rock);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
+    mFlags.Clear(BaseGameObject::eInteractive_Bit8);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -109,10 +109,10 @@ void Rock::VTimeToExplodeRandom_411490()
 //TODO Identical to AO - merge
 void Rock::vScreenChanged_49F030()
 {
-    if (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path
-        || gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
+    if (gMap.mCurrentPath != gMap.mPath
+        || gMap.mCurrentLevel != gMap.mLevel)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -175,7 +175,7 @@ void Rock::InTheAir_49E4B0()
 
     if (field_C8_vely > FP_FromInteger(30))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     field_C8_vely += FP_FromDouble(1.01);
@@ -207,7 +207,7 @@ void Rock::InTheAir_49E4B0()
                     break;
                 }
 
-                if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
                     return;
                 }
@@ -315,7 +315,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
 //TODO Identical to AO - merge
 s16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
 {
-    if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pObj->mFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {
         return 1;
     }
@@ -347,10 +347,10 @@ void Rock::VUpdate()
 
 void Rock::vUpdate_49E9F0()
 {
-    auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+    auto pObj = sObjectIds.Find_449CF0(field_110_id);
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
@@ -404,7 +404,7 @@ void Rock::vUpdate_49E9F0()
                     field_C4_velx = FP_FromInteger(0);
                     field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
                     field_E4_collection_rect.w = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
-                    field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
+                    mFlags.Set(BaseGameObject::eInteractive_Bit8);
                     field_E4_collection_rect.h = field_BC_ypos;
                     field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
                     field_11C_state = RockStates::eOnGround_3;
@@ -446,7 +446,7 @@ void Rock::vUpdate_49E9F0()
             const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
             const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
             vOnCollisionWith_424EE0(xy, wh,
-                                    gBaseGameObject_list_BB47C4,
+                                    gBaseGameObjects,
                                     1,
                                     (TCollisionCallBack) &Rock::OnCollision_49EF10);
 
@@ -461,9 +461,9 @@ void Rock::vUpdate_49E9F0()
             field_C8_vely += FP_FromDouble(1.01);
             field_B8_xpos += field_C4_velx;
             field_BC_ypos = field_C8_vely + field_BC_ypos;
-            if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos + FP_FromInteger(240), 0))
+            if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos + FP_FromInteger(240), 0))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             return;
     }
@@ -486,10 +486,10 @@ s32 Rock::vGetSaveState_49F9A0(RockSaveState* pState)
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
     pState->field_20_flags.Set(RockSaveState::eBit1_bRender, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
-    pState->field_20_flags.Set(RockSaveState::eBit2_bDrawable, field_6_flags.Get(BaseGameObject::eDrawable_Bit4));
+    pState->field_20_flags.Set(RockSaveState::eBit2_bDrawable, mFlags.Get(BaseGameObject::eDrawable_Bit4));
 
     pState->field_20_flags.Set(RockSaveState::eBit3_bLoop, field_20_animation.field_4_flags.Get(AnimFlags::eBit8_Loop));
-    pState->field_20_flags.Set(RockSaveState::eBit4_bInteractive, field_6_flags.Get(BaseGameObject::eInteractive_Bit8));
+    pState->field_20_flags.Set(RockSaveState::eBit4_bInteractive, mFlags.Get(BaseGameObject::eInteractive_Bit8));
 
     if (field_100_pCollisionLine)
     {
@@ -537,8 +537,8 @@ s32 CC Rock::CreateFromSaveState_49F720(const u8* pData)
     pRock->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
     pRock->field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));
 
-    pRock->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(RockSaveState::eBit2_bDrawable));
-    pRock->field_6_flags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(RockSaveState::eBit4_bInteractive));
+    pRock->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(RockSaveState::eBit2_bDrawable));
+    pRock->mFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(RockSaveState::eBit4_bInteractive));
 
     pRock->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 

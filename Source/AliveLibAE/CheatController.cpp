@@ -42,7 +42,7 @@ const InputCommands::Enum sCheatKeyArray_PathSkip_5515E8[6] = {
 
 EXPORT void CC CheatController_Cheat_FMV_421AD0()
 {
-    if (gMap_5C3030.field_4_current_camera == 1)
+    if (gMap.field_4_current_camera == 1)
     {
         sEnableCheatFMV_5C1BEC = !sEnableCheatFMV_5C1BEC;
     }
@@ -50,7 +50,7 @@ EXPORT void CC CheatController_Cheat_FMV_421AD0()
 
 EXPORT void CC CheatController_Cheat_LevelSelect_421B00()
 {
-    if (gMap_5C3030.field_4_current_camera == 1)
+    if (gMap.field_4_current_camera == 1)
     {
         sEnableCheatLevelSelect_5C1BEE = !sEnableCheatLevelSelect_5C1BEE;
     }
@@ -83,7 +83,7 @@ CheatEntry sCheatArray_5515F8[] = {
 CheatController* CheatController::ctor_421BD0()
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     SetVTable(this, 0x544B44);
     SetType(AETypes::eNone_0);
     field_20 = 0;
@@ -119,7 +119,7 @@ void CheatController::Update_421C70()
             for (auto& cheatEntry : sCheatArray_5515F8)
             {
                 // Bit shift current level for level mask.
-                if ((1 << static_cast<s32>(gMap_5C3030.field_0_current_level)) & cheatEntry.field_0_level_mask)
+                if ((1 << static_cast<s32>(gMap.mCurrentLevel)) & cheatEntry.field_0_level_mask)
                 {
                     if (held == cheatEntry.field_8_cheat_code_ary[cheatEntry.field_C_success_idx])
                     {

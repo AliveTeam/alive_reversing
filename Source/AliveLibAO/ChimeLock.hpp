@@ -28,7 +28,7 @@ public:
 
     EXPORT BaseGameObject* dtor_40AE60();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT ChimeLock* Vdtor_40BD40(s32 flags);
 

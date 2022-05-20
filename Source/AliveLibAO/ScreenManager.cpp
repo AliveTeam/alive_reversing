@@ -107,8 +107,8 @@ ScreenManager* ScreenManager::ctor_406830(u8** ppBits, FP_Point* pCameraOffset)
 
     field_10_pCamPos = pCameraOffset;
 
-    field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
-    field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     Init_4068A0(ppBits);
     return this;

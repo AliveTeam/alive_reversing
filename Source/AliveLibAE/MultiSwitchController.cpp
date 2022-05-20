@@ -69,9 +69,9 @@ void MultiSwitchController::dtor_4D61D0()
 
 void MultiSwitchController::vScreenChanged_4D6860()
 {
-    if (gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
+    if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -79,7 +79,7 @@ void MultiSwitchController::vUpdate_4D6250()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_40_flags.Get(Flags_40::eBit1_is_on))

@@ -15,15 +15,15 @@ ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall_9F1DD0, nullptr);
 EXPORT s16* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, s16* pData)
 {
     auto pZBall = static_cast<ZBall*>(pObj);
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pBase = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pBase = gBaseGameObjects->ItemAt(i);
         if (!pBase)
         {
             break;
         }
 
-        if (pBase->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pBase->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // If the object is within the ZBall rect then smack it
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pBase);
@@ -83,7 +83,7 @@ ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, s32 tlvInfo)
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    if (gMap_507BA8.field_0_current_level == LevelIds::eForestTemple_4)
+    if (gMap.mCurrentLevel == LevelIds::eForestTemple_4)
     {
         switch (pTlv->field_18_start_pos)
         {
@@ -150,7 +150,7 @@ void ZBall::VUpdate_478720()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     if (gCenter_ZBall_9F1DCC == this || gOutZBall_9F1DD0 == this)
@@ -192,17 +192,17 @@ void ZBall::VUpdate_478720()
     // Pointless because never seems to be read
     field_E8_bFrameAbove12 = field_10_anim.field_92_current_frame >= 13;
 
-    if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
             field_AC_ypos,
             0))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
         if (field_E4_tlvInfo != -1)
         {
-            gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+            gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
         }
     }
 }

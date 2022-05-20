@@ -23,7 +23,7 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, hangingRec.mResourceId, 1, 0);
     Animation_Init_417FD0(hangingRec.mFrameTableOffset, hangingRec.mMaxW, hangingRec.mMaxH, ppRes, 1);
 
-    field_6_flags.Set(Options::eCanExplode_Bit7);
+    mFlags.Set(Options::eCanExplode_Bit7);
     field_E4_tlvInfo = tlvInfo;
 
     field_100_chase_ticks = pTlv->field_18_chase_ticks;
@@ -57,7 +57,7 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
+        mFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
         field_E8_state = State::eDripHoney_0;
         field_EC_timer = gnFrameCount_507670 + 90;
@@ -78,7 +78,7 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
         field_F4_drip_target_x = FP_FromInteger(0);
         field_F8_drip_target_y = FP_FromInteger(0);
 
-        Path_TLV* pHoneyDripTarget = gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::HoneyDripTarget_42, 0);
+        Path_TLV* pHoneyDripTarget = gMap.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::HoneyDripTarget_42, 0);
         if (pHoneyDripTarget)
         {
             field_F4_drip_target_x = FP_FromInteger(pHoneyDripTarget->field_10_top_left.field_0_x);
@@ -91,15 +91,15 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
 BaseGameObject* HoneySack::dtor_42BF20()
 {
     SetVTable(this, 0x4BB238);
-    field_6_flags.Clear(Options::eCanExplode_Bit7);
+    mFlags.Clear(Options::eCanExplode_Bit7);
 
     if (field_E8_state == State::eDripHoney_0)
     {
-        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, FP_GetExponent(field_AC_ypos - field_FC_ypos2), 0, 0);
+        gMap.TLV_Reset_446870(field_E4_tlvInfo, FP_GetExponent(field_AC_ypos - field_FC_ypos2), 0, 0);
     }
 
     if (field_F0_pBee)
@@ -133,9 +133,9 @@ void HoneySack::VScreenChanged()
 
 void HoneySack::VScreenChanged_42C390()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -146,7 +146,7 @@ void HoneySack::VOnThrowableHit(BaseGameObject* pFrom)
 
 void HoneySack::VOnThrowableHit_42C370(BaseGameObject* /*pFrom*/)
 {
-    field_6_flags.Clear(Options::eCanExplode_Bit7);
+    mFlags.Clear(Options::eCanExplode_Bit7);
     field_E8_state = State::eSetFallAnimation_1;
 }
 
@@ -159,12 +159,12 @@ void HoneySack::VUpdate_42BFE0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     if (field_F0_pBee)
     {
-        if (field_F0_pBee->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (field_F0_pBee->mFlags.Get(BaseGameObject::eDead))
         {
             field_F0_pBee->field_C_refCount--;
             field_F0_pBee = nullptr;
@@ -183,14 +183,14 @@ void HoneySack::VUpdate_42BFE0()
                 }
                 field_EC_timer = gnFrameCount_507670 + 90;
             }
-            if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            if (!gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
                     field_A8_xpos,
                     field_AC_ypos,
                     0))
             {
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
             }
             break;
 
@@ -257,13 +257,13 @@ void HoneySack::VUpdate_42BFE0()
                 if (field_F0_pBee)
                 {
                     field_F0_pBee->field_C_refCount--;
-                    field_F0_pBee->field_6_flags.Set(Options::eDead_Bit3);
+                    field_F0_pBee->mFlags.Set(Options::eDead);
                     field_F0_pBee = nullptr;
                 }
 
-                for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+                for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
                 {
-                    BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+                    BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
                     if (!pObj)
                     {
                         break;
@@ -271,7 +271,7 @@ void HoneySack::VUpdate_42BFE0()
 
                     if (pObj->field_4_typeId == Types::eHoney_47)
                     {
-                        pObj->field_6_flags.Set(Options::eDead_Bit3);
+                        pObj->mFlags.Set(Options::eDead);
                         field_EA_bHit_ground = 1;
                         return;
                     }
@@ -283,9 +283,9 @@ void HoneySack::VUpdate_42BFE0()
         case State::eUpdateHoneySackOnGround_3:
             if (!field_EA_bHit_ground)
             {
-                for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+                for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
                 {
-                    BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+                    BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
                     if (!pObj)
                     {
                         break;
@@ -293,21 +293,21 @@ void HoneySack::VUpdate_42BFE0()
 
                     if (pObj->field_4_typeId == Types::eHoney_47)
                     {
-                        pObj->field_6_flags.Set(Options::eDead_Bit3);
+                        pObj->mFlags.Set(Options::eDead);
                         field_EA_bHit_ground = 1;
                         break;
                     }
                 }
             }
 
-            if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            if (!gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
                     field_A8_xpos,
                     field_AC_ypos,
                     0))
             {
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
             }
             break;
 

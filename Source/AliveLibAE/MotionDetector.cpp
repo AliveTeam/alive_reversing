@@ -21,8 +21,8 @@ MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale
     SetVTable(this, 0x545FB0);
     SetType(AETypes::eRedLaser_111);
     const AnimRecord& rec = AnimRec(AnimId::MotionDetector_Laser);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_20_animation.field_C_render_layer = layer;
     field_B8_xpos = xpos;
     field_CC_sprite_scale = scale;
@@ -55,8 +55,8 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvIn
     SetType(AETypes::eGreeterBody_91);
 
     const AnimRecord& rec = AnimRec(AnimId::MotionDetector_Flare);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
@@ -90,7 +90,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvIn
         field_120_y2_fp = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
 
         PSX_Point pos = {};
-        gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&pos);
+        gMap.Get_Abe_Spawn_Pos_4806D0(&pos);
         if (pTlv->field_12_device_x)
         {
             field_B8_xpos = FP_FromInteger(pTlv->field_12_device_x - pos.field_0_x);
@@ -232,10 +232,10 @@ void MotionDetector::dtor_468880()
         }
     }
 
-    BaseGameObject* pLaser = sObjectIds_5C1B70.Find_449CF0(field_F8_laser_id);
+    BaseGameObject* pLaser = sObjectIds.Find_449CF0(field_F8_laser_id);
     if (pLaser)
     {
-        pLaser->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        pLaser->mFlags.Set(BaseGameObject::eDead);
     }
 
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
@@ -245,10 +245,10 @@ void MotionDetector::vScreenChanged_469460()
 {
     BaseGameObject::VScreenChanged();
 
-    BaseGameObject* pOwner = sObjectIds_5C1B70.Find_449CF0(field_FC_owner_id);
+    BaseGameObject* pOwner = sObjectIds.Find_449CF0(field_FC_owner_id);
     if (!pOwner)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -258,7 +258,7 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find(field_F8_laser_id, AETypes::eRedLaser_111));
+        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, AETypes::eRedLaser_111));
         PSX_RECT bLaserRect = {};
         pLaser->vGetBoundingRect_424FD0(&bLaserRect, 1);
 
@@ -348,12 +348,12 @@ s16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* 
 
 void MotionDetector::vUpdate_468A90()
 {
-    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find(field_F8_laser_id, AETypes::eRedLaser_111));
-    Greeter* pOwner = static_cast<Greeter*>(sObjectIds_5C1B70.Find(field_FC_owner_id, AETypes::eGreeter_64));
+    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, AETypes::eRedLaser_111));
+    Greeter* pOwner = static_cast<Greeter*>(sObjectIds.Find(field_FC_owner_id, AETypes::eGreeter_64));
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (!sNum_CamSwappers_5C1B66)
@@ -477,7 +477,7 @@ void MotionDetector::vUpdate_468A90()
                 {
                     field_100_state = States::eWaitThenMoveLeft_1;
                     field_104_timer = sGnFrame_5C1B84 + 15;
-                    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+                    const CameraPos soundDirection = gMap.GetDirection_4811A0(
                         field_C2_lvl_number,
                         field_C0_path_number,
                         field_B8_xpos,
@@ -502,7 +502,7 @@ void MotionDetector::vUpdate_468A90()
                 {
                     field_100_state = States::eWaitThenMoveRight_3;
                     field_104_timer = sGnFrame_5C1B84 + 15;
-                    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+                    const CameraPos soundDirection = gMap.GetDirection_4811A0(
                         field_C2_lvl_number,
                         field_C0_path_number,
                         field_B8_xpos,

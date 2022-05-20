@@ -26,7 +26,7 @@ public:
 
     void PlaySounds();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT Bells* Vdtor_40AB00(s32 flags);
 

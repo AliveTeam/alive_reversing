@@ -7,11 +7,10 @@
 #include "PsxDisplay.hpp"
 #include "Game.hpp"
 
-EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s16 aliveTime, ZapLineType type, Layer layer)
+ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 aliveTime, ZapLineType type, Layer layer)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     field_12A_type = type;
-    SetVTable(this, 0x5478A0);
     SetType(AETypes::eZapLine_135);
 
     if (type == ZapLineType::eThin_1)
@@ -20,8 +19,8 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
         field_130_number_of_pieces_per_segment = 20;
         field_12E_number_of_segments = 12;
         const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Blue);
-        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
         field_12C_tPageAbr = TPageAbr::eBlend_3;
     }
     else if (type == ZapLineType::eThick_0)
@@ -30,8 +29,8 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
         field_130_number_of_pieces_per_segment = 10;
         field_12E_number_of_segments = 28;
         const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Red);
-        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
         field_12C_tPageAbr = TPageAbr::eBlend_1;
     }
 
@@ -47,7 +46,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
     field_13C_zap_points = reinterpret_cast<ZapPoint*>(ae_malloc_non_zero_4954F0(sizeof(ZapPoint) * field_130_number_of_pieces_per_segment));
     field_140_sprite_segment_positions = reinterpret_cast<FP_Point*>(ae_malloc_non_zero_4954F0(sizeof(FP_Point) * field_12E_number_of_segments));
 
-    field_128_max_alive_time = aliveTime;
+    field_128_max_alive_time = static_cast<s16>(aliveTime);
 
     field_B8_xpos = xPosSource;
     field_BC_ypos = yPosSource;
@@ -105,39 +104,6 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, 
     }
 
     CalculateSourceAndDestinationPositions_4CCAD0(xPosSource, yPosSource, xPosDest, yPosDest);
-
-    return this;
-}
-
-BaseGameObject* ZapLine::VDestructor(s32 flags)
-{
-    return vdtor_4CCAA0(flags);
-}
-
-void ZapLine::VUpdate()
-{
-    vUpdate_4CD790();
-}
-
-void ZapLine::VRender(PrimHeader** ppOt)
-{
-    vRender_4CD8C0(ppOt);
-}
-
-
-void ZapLine::VScreenChanged()
-{
-    vScreenChanged_4CDBE0();
-}
-
-ZapLine* ZapLine::vdtor_4CCAA0(s32 flags)
-{
-    dtor_4CCCB0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void ZapLine::CalculateSourceAndDestinationPositions_4CCAD0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
@@ -160,21 +126,19 @@ void ZapLine::CalculateSourceAndDestinationPositions_4CCAD0(FP xPosSource, FP yP
     field_122_y_position_destination = FP_GetExponent(FP_FromInteger(yOff) + FP_FromInteger(field_122_y_position_destination));
 }
 
-void ZapLine::dtor_4CCCB0()
+ZapLine::~ZapLine()
 {
-    SetVTable(this, 0x5478A0);
     ResourceManager::FreeResource_49C330(field_F8_ppRes);
     ae_non_zero_free_495560(field_138_sprite_positions);
     ae_non_zero_free_495560(field_13C_zap_points);
     ae_non_zero_free_495560(field_140_sprite_segment_positions);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void ZapLine::vScreenChanged_4CDBE0()
+void ZapLine::VScreenChanged()
 {
-    if (gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
+    if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -349,7 +313,7 @@ void ZapLine::CalculateSpritePositionsOuter_4CD5D0()
     }
 }
 
-void ZapLine::vUpdate_4CD790()
+void ZapLine::VUpdate()
 {
     field_126_alive_timer++;
 
@@ -382,7 +346,7 @@ void ZapLine::vUpdate_4CD790()
 
             if (field_126_alive_timer >= field_128_max_alive_time && field_12A_type != ZapLineType::eThin_1)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -404,9 +368,9 @@ void ZapLine::vUpdate_4CD790()
     }
 }
 
-void ZapLine::vRender_4CD8C0(PrimHeader** ppOt)
+void ZapLine::VRender(PrimHeader** ppOt)
 {
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,

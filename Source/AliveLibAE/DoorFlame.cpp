@@ -22,8 +22,8 @@ public:
         SetType(AETypes::eNone_0);
 
         const AnimRecord& rec = AnimRec(AnimId::Door_FireBackgroundGlow);
-        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
         field_DC_bApplyShadows &= ~1u;
 
@@ -171,8 +171,8 @@ public:
         SetType(AETypes::eNone_0);
 
         const AnimRecord& rec = AnimRec(AnimId::Zap_Sparks);
-        u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -237,7 +237,7 @@ private:
     {
         // HACK/WTF this seems to move the base animation off screen so it can never been seen??
         PSX_RECT rect = {};
-        gMap_5C3030.Get_Camera_World_Rect_481410(CameraPos::eCamCurrent_0, &rect);
+        gMap.Get_Camera_World_Rect_481410(CameraPos::eCamCurrent_0, &rect);
         field_B8_xpos = FP_FromInteger(rect.w + 16);
         field_BC_ypos = FP_FromInteger(rect.y - 16);
 
@@ -373,8 +373,8 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo)
     field_F4_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Fire);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_DC_bApplyShadows |= 1u;
@@ -430,18 +430,18 @@ void DoorFlame::dtor_45E6C0()
 {
     SetVTable(this, 0x5459BC);
 
-    BaseGameObject* pFireBackgroundGlow = sObjectIds_5C1B70.Find_449CF0(field_108_fire_background_glow_id);
-    BaseGameObject* pFlameSparks = sObjectIds_5C1B70.Find_449CF0(field_10C_flame_sparks_id);
+    BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_449CF0(field_108_fire_background_glow_id);
+    BaseGameObject* pFlameSparks = sObjectIds.Find_449CF0(field_10C_flame_sparks_id);
 
     if (pFireBackgroundGlow)
     {
-        pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        pFireBackgroundGlow->mFlags.Set(BaseGameObject::eDead);
         field_108_fire_background_glow_id = -1;
     }
 
     if (pFlameSparks)
     {
-        pFlameSparks->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        pFlameSparks->mFlags.Set(BaseGameObject::eDead);
         field_10C_flame_sparks_id = -1;
     }
 
@@ -463,28 +463,28 @@ void DoorFlame::vStopAudio_45E7E0()
 
 void DoorFlame::vScreenChanged_45EA90()
 {
-    BaseGameObject* pFireBackgroundGlow = sObjectIds_5C1B70.Find_449CF0(field_108_fire_background_glow_id);
-    BaseGameObject* pFlameSparks = sObjectIds_5C1B70.Find_449CF0(field_10C_flame_sparks_id);
+    BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_449CF0(field_108_fire_background_glow_id);
+    BaseGameObject* pFlameSparks = sObjectIds.Find_449CF0(field_10C_flame_sparks_id);
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 
     if (pFireBackgroundGlow)
     {
-        pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        pFireBackgroundGlow->mFlags.Set(BaseGameObject::eDead);
         field_108_fire_background_glow_id = -1;
     }
 
     if (pFlameSparks)
     {
-        pFlameSparks->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        pFlameSparks->mFlags.Set(BaseGameObject::eDead);
         field_10C_flame_sparks_id = -1;
     }
 }
 
 void DoorFlame::vUpdate_45E830()
 {
-    auto pFireBackgroundGlow = static_cast<FireBackgroundGlow*>(sObjectIds_5C1B70.Find_449CF0(field_108_fire_background_glow_id));
-    auto pFlameSparks = static_cast<FlameSparks*>(sObjectIds_5C1B70.Find_449CF0(field_10C_flame_sparks_id));
+    auto pFireBackgroundGlow = static_cast<FireBackgroundGlow*>(sObjectIds.Find_449CF0(field_108_fire_background_glow_id));
+    auto pFlameSparks = static_cast<FlameSparks*>(sObjectIds.Find_449CF0(field_10C_flame_sparks_id));
 
     switch (field_FC_state)
     {
@@ -503,7 +503,7 @@ void DoorFlame::vUpdate_45E830()
 
             if (pFireBackgroundGlow)
             {
-                pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                pFireBackgroundGlow->mFlags.Set(BaseGameObject::eDead);
                 pFireBackgroundGlow = nullptr;
                 field_108_fire_background_glow_id = -1;
             }
@@ -555,24 +555,24 @@ void DoorFlame::vUpdate_45E830()
             break;
     }
 
-    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
             field_BC_ypos,
             0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
 
         if (pFireBackgroundGlow)
         {
-            pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            pFireBackgroundGlow->mFlags.Set(BaseGameObject::eDead);
             field_108_fire_background_glow_id = -1;
         }
 
         if (pFlameSparks)
         {
-            pFlameSparks->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            pFlameSparks->mFlags.Set(BaseGameObject::eDead);
             field_10C_flame_sparks_id = -1;
         }
     }

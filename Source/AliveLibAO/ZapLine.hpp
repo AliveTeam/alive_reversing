@@ -34,7 +34,7 @@ public:
 
     EXPORT BaseGameObject* dtor_478E90();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT ZapLine* Vdtor_479B20(s32 flags);
 

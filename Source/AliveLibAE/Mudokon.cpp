@@ -409,8 +409,8 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     field_10_resources_array.SetAt(1, nullptr);
 
     const AnimRecord& rec = AnimRec(AnimId::Mudokon_Idle);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -797,7 +797,7 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
     pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_22_bFlipX & 1);
     pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2A_bAnimRender & 1);
 
-    pMud->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2B_bDrawable & 1);
+    pMud->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2B_bDrawable & 1);
 
     if (IsLastFrame(&pMud->field_20_animation))
     {
@@ -930,7 +930,7 @@ s32 Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
     pState->field_24_current_motion = field_106_current_motion;
     pState->field_26_anim_current_frame = field_20_animation.field_92_current_frame;
     pState->field_28_anim_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_2B_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2B_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2A_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_2C_health = field_10C_health;
     pState->field_30_current_motion = field_106_current_motion;
@@ -951,7 +951,7 @@ s32 Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
 
     if (field_11C_bird_portal_id != -1)
     {
-        BaseGameObject* pBirdPortal = sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id);
+        BaseGameObject* pBirdPortal = sObjectIds.Find_449CF0(field_11C_bird_portal_id);
         if (pBirdPortal)
         {
             pState->field_4C_portal_id = pBirdPortal->field_C_objectId;
@@ -967,7 +967,7 @@ s32 Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
 
     if (field_158_wheel_id != -1)
     {
-        BaseGameObject* pWheel = sObjectIds_5C1B70.Find_449CF0(field_158_wheel_id);
+        BaseGameObject* pWheel = sObjectIds.Find_449CF0(field_158_wheel_id);
         if (pWheel)
         {
             pState->field_60_wheel_id = pWheel->field_C_objectId;
@@ -1053,9 +1053,9 @@ void Mudokon::vUpdate_4757A0()
 
         if (field_11C_bird_portal_id != -1)
         {
-            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
-                BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+                BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
                 if (!pObj)
                 {
                     break;
@@ -1078,9 +1078,9 @@ void Mudokon::vUpdate_4757A0()
 
         if (field_158_wheel_id != -1)
         {
-            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
-                BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+                BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
                 if (!pObj)
                 {
                     break;
@@ -1098,7 +1098,7 @@ void Mudokon::vUpdate_4757A0()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -1209,7 +1209,7 @@ void Mudokon::SetPal_4772D0(Mud_Emotion emotion)
 
 void Mudokon::vOnTrapDoorOpen_472350()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
     if (pPlatform)
     {
         if (!field_114_flags.Get(Flags_114::e114_Bit1_bShot))
@@ -1279,7 +1279,7 @@ void Mudokon::dtor_475B60()
 {
     SetVTable(this, 0x5462E4);
 
-    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id));
+    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_449CF0(field_11C_bird_portal_id));
     if (field_10C_health <= FP_FromInteger(0))
     {
         // TODO: Refactor all access to helpers
@@ -1290,7 +1290,7 @@ void Mudokon::dtor_475B60()
         }
     }
 
-    auto pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_158_wheel_id));
+    auto pWheel = static_cast<WorkWheel*>(sObjectIds.Find_449CF0(field_158_wheel_id));
     if (pWheel)
     {
         pWheel->VStopTurning(TRUE);
@@ -1352,16 +1352,16 @@ void Mudokon::dtor_475B60()
 
 void Mudokon::vScreenChanged_476F30()
 {
-    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id));
+    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_449CF0(field_11C_bird_portal_id));
     BaseGameObject::VScreenChanged();
 
     if (field_18E_brain_state == Mud_Brain_State::Brain_0_GiveRings_470C10 ||
         !field_16A_flags.Get(Flags_16A::eBit2_persist_and_reset_offscreen))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         // TODO: Duplicated in dtors + other places
         if (field_16C_flags.Get(Flags_16C::eBit3_Unknown))
@@ -1437,7 +1437,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
                 vGetBoundingRect_424FD0(&v11, 1);
                 const FP tlvYPos = FP_FromInteger(v11.h);
 
-                if (Bullet::InZBulletCover(field_B8_xpos, tlvYPos, v11) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, tlvYPos, 0))
+                if (Bullet::InZBulletCover(field_B8_xpos, tlvYPos, v11) || !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, tlvYPos, 0))
                 {
                     // ZCover saved us, or somehow we've not in the current camera
                     field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
@@ -1484,7 +1484,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             Event_Broadcast_422BC0(kEventMudokonDied, this);
             if (pFrom->Type() == AETypes::eGasClock_23)
             {
-                SFX_Play_46FBA0(SoundEffect::Choke_81, 127, 128);
+                SFX_Play(SoundEffect::Choke_81, 127, 128);
             }
             else
             {
@@ -1561,7 +1561,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
                 }
             }
 
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             SetPal_4772D0(Mud_Emotion::eNormal_0);
             Event_Broadcast_422BC0(kEventMudokonDied, sActiveHero_5C1B68);
             return 1;
@@ -1655,7 +1655,7 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             field_10C_health = FP_FromInteger(0);
             Event_Broadcast_422BC0(kEventMudokonDied, this);
             SetPal_4772D0(Mud_Emotion::eNormal_0);
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             return 1;
 
         case AETypes::eSlamDoor_122:
@@ -1884,7 +1884,7 @@ s16 Mudokon::Brain_0_GiveRings_470C10()
     switch (field_190_brain_sub_state)
     {
         case Brain_0_GiveRings::eBrain0_Inactive_0:
-            if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            if (gMap.Is_Point_In_Current_Camera_4810D0(
                     sActiveHero_5C1B68->field_C2_lvl_number,
                     sActiveHero_5C1B68->field_C0_path_number,
                     sActiveHero_5C1B68->field_B8_xpos,
@@ -1922,7 +1922,7 @@ s16 Mudokon::Brain_0_GiveRings_470C10()
             break;
 
         case Brain_0_GiveRings::eBrain0_Idle_2:
-            if (field_16A_flags.Get(Flags_16A::eBit16_give_ring_without_password) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(sActiveHero_5C1B68->field_C2_lvl_number, sActiveHero_5C1B68->field_C0_path_number, sActiveHero_5C1B68->field_B8_xpos, sActiveHero_5C1B68->field_BC_ypos, 0)
+            if (field_16A_flags.Get(Flags_16A::eBit16_give_ring_without_password) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && gMap.Is_Point_In_Current_Camera_4810D0(sActiveHero_5C1B68->field_C2_lvl_number, sActiveHero_5C1B68->field_C0_path_number, sActiveHero_5C1B68->field_B8_xpos, sActiveHero_5C1B68->field_BC_ypos, 0)
                 && !sActiveHero_5C1B68->field_168_ring_pulse_timer)
             {
                 field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 20;
@@ -2162,11 +2162,11 @@ s16 Mudokon::Brain_1_Chisel_47C5F0()
     BaseAnimatedWithPhysicsGameObject* pDeadMudEvent = Event_Is_Event_In_Range_422C30(kEventMudokonDied, field_B8_xpos, field_BC_ypos, field_D6_scale);
     BaseAnimatedWithPhysicsGameObject* pLoudNoiseEvent = Event_Is_Event_In_Range_422C30(kEventLoudNoise, field_B8_xpos, field_BC_ypos, field_D6_scale);
 
-    const bool reactToAbused = (pAbuseEvent && pAbuseEvent != this && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0));
+    const bool reactToAbused = (pAbuseEvent && pAbuseEvent != this && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0));
 
-    const bool reactToDeadMud = (pDeadMudEvent && pDeadMudEvent != this && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0));
+    const bool reactToDeadMud = (pDeadMudEvent && pDeadMudEvent != this && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0));
 
-    const bool reactToLoudNoise = (pLoudNoiseEvent && pLoudNoiseEvent->Type() == AETypes::eGlukkon_67 && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0));
+    const bool reactToLoudNoise = (pLoudNoiseEvent && pLoudNoiseEvent->Type() == AETypes::eGlukkon_67 && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0));
 
     if (reactToAbused)
     {
@@ -2541,7 +2541,7 @@ s16 Mudokon::Brain_2_Scrub_47D270()
         {
             if (field_190_brain_sub_state != Brain_2_Scrub::eBrain2_StandUp_3
                 && field_190_brain_sub_state != Brain_2_Scrub::eBrain2_DuckKnockback_7
-                && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                && gMap.Is_Point_In_Current_Camera_4810D0(
                     field_C2_lvl_number,
                     field_C0_path_number,
                     field_B8_xpos,
@@ -2581,7 +2581,7 @@ s16 Mudokon::Brain_2_Scrub_47D270()
         {
             if (field_190_brain_sub_state != Brain_2_Scrub::eBrain2_StandUp_3
                 && field_190_brain_sub_state != Brain_2_Scrub::eBrain2_DuckKnockback_7
-                && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                && gMap.Is_Point_In_Current_Camera_4810D0(
                     field_C2_lvl_number,
                     field_C0_path_number,
                     field_B8_xpos,
@@ -2621,7 +2621,7 @@ s16 Mudokon::Brain_2_Scrub_47D270()
         {
             if (field_190_brain_sub_state != Brain_2_Scrub::eBrain2_StandUp_3
                 && field_190_brain_sub_state != Brain_2_Scrub::eBrain2_DuckKnockback_7
-                && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                && gMap.Is_Point_In_Current_Camera_4810D0(
                     field_C2_lvl_number,
                     field_C0_path_number,
                     field_B8_xpos,
@@ -3016,7 +3016,7 @@ s16 Mudokon::Brain_3_TurnWheel_47E0D0()
     {
         if (pMudAbuseEvent != this
             && field_190_brain_sub_state != Brain_3_TurnWheel::eBrain3_InterruptAction_2
-            && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            && gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -3054,7 +3054,7 @@ s16 Mudokon::Brain_3_TurnWheel_47E0D0()
     {
         if (pLoudNoiseEvent->Type() == AETypes::eGlukkon_67
             && field_190_brain_sub_state != Brain_3_TurnWheel::eBrain3_InterruptAction_2
-            && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            && gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -3925,7 +3925,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_5()
     const s32 v67 = WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), v65);
     if (field_16A_flags.Get(Flags_16A::eBit4_blind))
     {
-        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        if (!gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -4979,7 +4979,7 @@ s16 Mudokon::Brain_5_ShrivelDeath_4714A0()
     // Finally fizzled out
     if (field_CC_sprite_scale < FP_FromInteger(0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     return 100;
@@ -4987,15 +4987,15 @@ s16 Mudokon::Brain_5_ShrivelDeath_4714A0()
 
 s16 Mudokon::Brain_6_Escape_47A560()
 {
-    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id));
+    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_449CF0(field_11C_bird_portal_id));
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
         bool noBirdPortalOrPortalIsDead = false;
-        if (!pBirdPortal || pBirdPortal->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (!pBirdPortal || pBirdPortal->mFlags.Get(BaseGameObject::eDead))
         {
             noBirdPortalOrPortalIsDead = true;
         }
@@ -5159,7 +5159,7 @@ s16 Mudokon::Brain_7_FallAndSmackDeath_471600()
             {
                 pShake->ctor_4ACF70(0, 0);
             }
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
     return field_190_brain_sub_state;
@@ -5267,7 +5267,7 @@ s16 Mudokon::Brain_8_AngryWorker_47E910()
                 return field_190_brain_sub_state;
             }
 
-            if (gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
+            if (gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
             {
                 field_194_timer = sGnFrame_5C1B84 + 90;
             }
@@ -5388,7 +5388,7 @@ s16 Mudokon::Brain_8_AngryWorker_47E910()
 s16 Mudokon::Brain_9_Sick_47A910()
 {
     // TODO: Lame hack, tortured muds make the "real" mud do nothing.
-    if (FindObjectOfType_425180(AETypes::eTorturedMud_141, field_B8_xpos, field_BC_ypos - FP_FromInteger(50)) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (FindObjectOfType_425180(AETypes::eTorturedMud_141, field_B8_xpos, field_BC_ypos - FP_FromInteger(50)) || !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
         LastGameSpeak_476FF0(); // TODO: Pointless call ??
         return field_190_brain_sub_state;
@@ -5440,7 +5440,7 @@ s16 Mudokon::Brain_9_Sick_47A910()
     }
 
     // Have Abe make a sad noise when he first sees sick Mudokons.
-    if (!field_16A_flags.Get(Flags_16A::eBit9_seen_while_sick) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (!field_16A_flags.Get(Flags_16A::eBit9_seen_while_sick) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
         if (sActiveHero_5C1B68->field_128.field_18_say == MudSounds::eNone)
         {
@@ -5703,7 +5703,7 @@ void Mudokon::M_WalkLoop_1_4728B0()
     {
         ToKnockback_473190();
     }
-    else if (sObjectIds_5C1B70.Find_449CF0(field_110_id) && field_16A_flags.Get(Flags_16A::eBit4_blind) && (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(1), field_C4_velx)))
+    else if (sObjectIds.Find_449CF0(field_110_id) && field_16A_flags.Get(Flags_16A::eBit4_blind) && (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(1), field_C4_velx)))
     {
         ToKnockback_473190();
     }
@@ -5866,7 +5866,7 @@ void Mudokon::M_Chisel_11_4732D0()
 {
     CheckFloorGone_472320();
 
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -5949,7 +5949,7 @@ void Mudokon::M_CrouchScrub_14_473560()
 {
     CheckFloorGone_472320();
 
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
         if (field_20_animation.field_92_current_frame == 2)
         {
@@ -6425,10 +6425,10 @@ void Mudokon::M_RunJumpMid_36_474570()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
 
-    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id));
+    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_449CF0(field_11C_bird_portal_id));
     if (field_20_animation.field_92_current_frame == 5)
     {
-        SFX_Play_46FBA0(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
     }
 
     PSX_RECT rect = {};
@@ -6439,7 +6439,7 @@ void Mudokon::M_RunJumpMid_36_474570()
         field_16A_flags.Clear(Flags_16A::eBit1_not_rescued);
         field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
 
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
 
         field_C8_vely = FP_FromInteger(0);
         field_C4_velx = FP_FromInteger(0);
@@ -6647,11 +6647,11 @@ void Mudokon::M_KnockForward_45_474180()
         Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 32767, this);
     }
 
-    if ((gMap_5C3030.field_0_current_level == LevelIds::eMines_1 
-        || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 
-        || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 
-        || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 
-        || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
+    if ((gMap.mCurrentLevel == LevelIds::eMines_1 
+        || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 
+        || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 
+        || gMap.mCurrentLevel == LevelIds::eBarracks_6 
+        || gMap.mCurrentLevel == LevelIds::eBrewery_9)
         && field_20_animation.field_92_current_frame == 7)
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
@@ -6673,7 +6673,7 @@ void Mudokon::M_Knockback_46_4742A0()
 
     Event_Broadcast_422BC0(kEventNoise, this);
 
-    if ((gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9) && field_20_animation.field_92_current_frame == 7)
+    if ((gMap.mCurrentLevel == LevelIds::eMines_1 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 || gMap.mCurrentLevel == LevelIds::eBarracks_6 || gMap.mCurrentLevel == LevelIds::eBrewery_9) && field_20_animation.field_92_current_frame == 7)
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
@@ -6926,7 +6926,7 @@ void Mudokon::M_TurnWheelLoop_58_474CC0()
 {
     if (field_108_next_motion == eMudMotions::M_Idle_0_4724E0)
     {
-        auto pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_158_wheel_id));
+        auto pWheel = static_cast<WorkWheel*>(sObjectIds.Find_449CF0(field_158_wheel_id));
         if (pWheel)
         {
             pWheel->VStopTurning(TRUE);
@@ -6971,7 +6971,7 @@ s16 Mudokon::StableDelay_477570()
 
 s16 Mudokon::CheckForPortal_4775E0()
 {
-    if (sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id))
+    if (sObjectIds.Find_449CF0(field_11C_bird_portal_id))
     {
         return 0;
     }
@@ -7072,12 +7072,12 @@ GameSpeakEvents Mudokon::LastGameSpeak_476FF0()
 
 s16 Mudokon::LaughingGasInCurrentScreen_4774A0()
 {
-    return gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) != 0 ? gLaughingGasOn_5C1BA4 : 0;
+    return gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) != 0 ? gLaughingGasOn_5C1BA4 : 0;
 }
 
 void Mudokon::Sound_475EC0(MudSounds idx)
 {
-    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
         if (field_180_emo_tbl != Mud_Emotion::eSick_7)
         {
@@ -7147,7 +7147,7 @@ s16 Mudokon::CanRespond_4770B0()
         if (pObj != this && pObj->field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
         {
             // Is it a mud who isn't currently talking to abe and is in the same screen?
-            if ((pObj->Type() == AETypes::eMudokon2_81 || pObj->Type() == AETypes::eMudokon_110) && static_cast<Mudokon*>(pObj)->field_18E_brain_state != Mud_Brain_State::Brain_4_ListeningToAbe_477B40 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0))
+            if ((pObj->Type() == AETypes::eMudokon2_81 || pObj->Type() == AETypes::eMudokon_110) && static_cast<Mudokon*>(pObj)->field_18E_brain_state != Mud_Brain_State::Brain_4_ListeningToAbe_477B40 && gMap.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0))
             {
                 if (sActiveHero_5C1B68->vIsFacingMe_4254A0(pObj) && !sActiveHero_5C1B68->vIsFacingMe_4254A0(this))
                 {
@@ -7353,7 +7353,7 @@ s16 Mudokon::StopAtWheel_477880()
 
 void Mudokon::ToKnockback_473190()
 {
-    auto pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_158_wheel_id));
+    auto pWheel = static_cast<WorkWheel*>(sObjectIds.Find_449CF0(field_158_wheel_id));
     if (pWheel)
     {
         pWheel->VStopTurning(TRUE);
@@ -7395,7 +7395,7 @@ s16 Mudokon::IsMotionUnknown_4730F0()
 
 void Mudokon::MoveOnLine_4720D0()
 {
-    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
 
     CheckFloorGone_472320();
 
@@ -7553,7 +7553,7 @@ void Mudokon::HurtSound_475DB0()
 {
     const u8 random = Math_RandomRange_496AB0(0, 127) >= 64 ? 16 : 9;
     const s16 min = FP_GetExponent((FP_FromInteger(1) - field_10C_health) / FP_FromDouble(0.15));
-    const s16 bInCamera = gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0);
+    const s16 bInCamera = gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0);
     Mudokon_SFX_457EC0(static_cast<MudSounds>(random), bInCamera ? 0 : 80, Math_RandomRange_496AB0(200 * min, 40 * (5 * min + 5)), this);
 }
 

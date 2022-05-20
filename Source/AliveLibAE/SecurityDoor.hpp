@@ -41,7 +41,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
 private:
     EXPORT void dtor_4AC260();

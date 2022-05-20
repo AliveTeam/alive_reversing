@@ -34,7 +34,7 @@ public:
 
     EXPORT void VScreenChanged_436C40();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT BaseGameObject* Vdtor_436C60(s32 flags);
 

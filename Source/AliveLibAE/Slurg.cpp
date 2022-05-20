@@ -52,10 +52,10 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
     field_11C_state = Slurg_States::eMoving_0;
 
     const AnimRecord& rec = AnimRec(AnimId::Slurg_Move);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
+    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
     SetType(AETypes::eSlurg_129);
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -79,7 +79,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
     field_11E_moving_timer = pTlv->field_10_slurg_data.field_0_moving_timer;
     field_120_delay_random = pTlv->field_10_slurg_data.field_0_moving_timer;
 
-    SetTint_425600(&sSlurgTints_560BCC[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&sSlurgTints_560BCC[0], gMap.mCurrentLevel);
 
     FP hitX = {};
     FP hitY = {};
@@ -169,7 +169,7 @@ s32 CC Slurg::CreateFromSaveState_4C8DF0(const u8* pData)
     pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_14_flipX & 1);
     pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_1C_bRender & 1);
 
-    pSlurg->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_1D_bDrawable & 1);
+    pSlurg->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_1D_bDrawable & 1);
 
     if (IsLastFrame(&pSlurg->field_20_animation))
     {
@@ -236,7 +236,7 @@ void Slurg::vUpdate_4C8790()
     const FP oldXPos = field_B8_xpos;
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_11E_moving_timer == 0)
@@ -286,7 +286,7 @@ void Slurg::vUpdate_4C8790()
         case Slurg_States::eStopped_1:
             field_C4_velx = FP_FromInteger(0);
             if (field_20_animation.field_92_current_frame == 0
-                && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
                 SFX_Play_46FA90(SoundEffect::SlurgStop_90, 0);
             }
@@ -302,7 +302,7 @@ void Slurg::vUpdate_4C8790()
         case Slurg_States::eBurst_2:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -388,7 +388,7 @@ s32 Slurg::vSaveState_4C8FC0(Slurg_State* pState)
     pState->field_16_current_motion = field_106_current_motion;
     pState->field_18_anim_current_frame = field_20_animation.field_92_current_frame;
     pState->field_1A_anim_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_1D_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_1D_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_1C_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_20_frame_table_offset = field_20_animation.field_18_frame_table_offset;
     pState->field_24_tlvInfo = field_12C_tlvInfo;

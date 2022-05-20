@@ -184,7 +184,7 @@ EXPORT void CC Factory_Door_4D6F00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOf
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
         Map::LoadResource_4DBE00("ABEDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbedoorResID, loadmode, FALSE);
-        switch (gMap_5C3030.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eNecrum_2:
             case LevelIds::eMudomoVault_3:
@@ -201,7 +201,7 @@ EXPORT void CC Factory_Door_4D6F00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOf
 
             case LevelIds::eBarracks_6:
             case LevelIds::eBarracks_Ender_13:
-                if (gMap_5C3030.field_22_overlayID == 108)
+                if (gMap.mOverlayId == 108)
                 {
                     Map::LoadResource_4DBE00("SHDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
                 }
@@ -256,16 +256,16 @@ static void LoadLiftPointResources(const char_type* ropeBan, const char_type* li
         {ResourceManager::Resource_Animation, AEResourceID::kLiftResID},
     });
 
-    gMap_5C3030.LoadResource_4DBE00(ropeBan, ResourceManager::Resource_Animation, AEResourceID::kRopesResID, loadMode);
-    gMap_5C3030.LoadResourcesFromList_4DBE70(liftBan, kResources.AsList(), loadMode);
+    gMap.LoadResource_4DBE00(ropeBan, ResourceManager::Resource_Animation, AEResourceID::kRopesResID, loadMode);
+    gMap.LoadResourcesFromList_4DBE70(liftBan, kResources.AsList(), loadMode);
 }
 
 EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("ABELIFT.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeliftResID, loadMode);
-        switch (gMap_5C3030.field_0_current_level)
+        gMap.LoadResource_4DBE00("ABELIFT.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeliftResID, loadMode);
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eNecrum_2:
                 LoadLiftPointResources("NECROPE.BAN", "NELIFT.BND", loadMode);
@@ -309,20 +309,20 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     else
     {
         Path_LiftPoint* pLiftTlv = static_cast<Path_LiftPoint*>(pTlv);
-        for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
-            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;
             }
 
-            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)) && pObj->Type() == AETypes::eLiftPoint_78)
+            if (!(pObj->mFlags.Get(BaseGameObject::eDead)) && pObj->Type() == AETypes::eLiftPoint_78)
             {
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
                 const s16 xpos = FP_GetExponent(pLiftPoint->field_B8_xpos);
-                if (pTlv->field_8_top_left.field_0_x <= xpos && xpos <= pTlv->field_C_bottom_right.field_0_x && pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_lift_point_id && pLiftPoint->field_C2_lvl_number == gMap_5C3030.field_0_current_level && pLiftPoint->field_C0_path_number == gMap_5C3030.field_2_current_path)
+                if (pTlv->field_8_top_left.field_0_x <= xpos && xpos <= pTlv->field_C_bottom_right.field_0_x && pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_lift_point_id && pLiftPoint->field_C2_lvl_number == gMap.mCurrentLevel && pLiftPoint->field_C0_path_number == gMap.mCurrentPath)
                 {
                     // Yes so just reset its data
                     Path::TLV_Reset_4DB8E0(tlvOffsetLevelIdPathId.all, -1, 0, 0);
@@ -390,8 +390,8 @@ EXPORT void CC Factory_ExpressWell_4D7D90(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("ABEWELL.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbewellResID, loadmode);
-        gMap_5C3030.LoadResource_4DBE00("WELLLEAF.BAN", ResourceManager::Resource_Animation, AEResourceID::kWellLeafResID, loadmode);
+        gMap.LoadResource_4DBE00("ABEWELL.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbewellResID, loadmode);
+        gMap.LoadResource_4DBE00("WELLLEAF.BAN", ResourceManager::Resource_Animation, AEResourceID::kWellLeafResID, loadmode);
     }
     else
     {
@@ -454,7 +454,7 @@ EXPORT void CC Factory_RockSack_4D8040(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
             {{ResourceManager::Resource_Animation, AEResourceID::kAbepickResID},
              {ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID},
              {ResourceManager::Resource_Animation, AEResourceID::kAberockResID}});
-        gMap_5C3030.LoadResourcesFromList_4DBE70("RTHROW.BND", kResources.AsList(), loadMode);
+        gMap.LoadResourcesFromList_4DBE70("RTHROW.BND", kResources.AsList(), loadMode);
     }
     else
     {
@@ -470,20 +470,20 @@ EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8)
+        if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8)
         {
-            gMap_5C3030.LoadResource_4DBE00("FALLBONZ.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadmode);
-            gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, AEResourceID::kStickGibResID, loadmode);
-            gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadmode);
-            gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID, loadmode);
-            gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadmode);
+            gMap.LoadResource_4DBE00("FALLBONZ.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadmode);
+            gMap.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, AEResourceID::kStickGibResID, loadmode);
+            gMap.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadmode);
+            gMap.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID, loadmode);
+            gMap.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadmode);
         }
         else
         {
-            gMap_5C3030.LoadResource_4DBE00("FALLROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadmode);
-            gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, AEResourceID::kStickGibResID, loadmode);
-            gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadmode);
-            gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID, loadmode);
+            gMap.LoadResource_4DBE00("FALLROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadmode);
+            gMap.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, AEResourceID::kStickGibResID, loadmode);
+            gMap.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadmode);
+            gMap.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID, loadmode);
         }
     }
     else
@@ -500,21 +500,21 @@ EXPORT void CC Factory_PullRingRope_4D8320(Path_TLV* pTlv, Path*, TlvItemInfoUni
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("ABEHOIST.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbehoistResID, loadmode);
-        switch (gMap_5C3030.field_0_current_level)
+        gMap.LoadResource_4DBE00("ABEHOIST.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbehoistResID, loadmode);
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eNecrum_2:
             case LevelIds::eMudomoVault_3:
             case LevelIds::eMudancheeVault_4:
             case LevelIds::eMudancheeVault_Ender_7:
             case LevelIds::eMudomoVault_Ender_11:
-                gMap_5C3030.LoadResource_4DBE00("NECROPE.BAN", ResourceManager::Resource_Animation, AEResourceID::kRopesResID, loadmode);
+                gMap.LoadResource_4DBE00("NECROPE.BAN", ResourceManager::Resource_Animation, AEResourceID::kRopesResID, loadmode);
                 break;
             default:
-                gMap_5C3030.LoadResource_4DBE00("ROPES.BAN", ResourceManager::Resource_Animation, AEResourceID::kRopesResID, loadmode);
+                gMap.LoadResource_4DBE00("ROPES.BAN", ResourceManager::Resource_Animation, AEResourceID::kRopesResID, loadmode);
                 break;
         }
-        gMap_5C3030.LoadResource_4DBE00("PULLRING.BAN", ResourceManager::Resource_Animation, AEResourceID::kPullringResID, loadmode);
+        gMap.LoadResource_4DBE00("PULLRING.BAN", ResourceManager::Resource_Animation, AEResourceID::kPullringResID, loadmode);
     }
     else
     {
@@ -572,17 +572,17 @@ static CompileTimeResourceList<4> kResources_5632BC(
 
 static void LoadWalkingSligResources(s16 disabledResources, LoadMode loadMode)
 {
-    gMap_5C3030.LoadResource_4DBE00("SLGLEVER.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgleverResID, loadMode, disabledResources & 1);
-    gMap_5C3030.LoadResource_4DBE00("SLGLIFT.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgliftResID, loadMode, disabledResources & 2);
-    gMap_5C3030.LoadResource_4DBE00("SLGSLEEP.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgsleepResID, loadMode, disabledResources & 0x40);
-    gMap_5C3030.LoadResource_4DBE00("SLGEDGE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgedgeResID, loadMode, disabledResources & 0x100);
-    gMap_5C3030.LoadResource_4DBE00("SLGSMASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgsmashResID, loadMode, disabledResources & 0x200);
-    gMap_5C3030.LoadResource_4DBE00("SLGBEAT.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgbeatResID, loadMode, disabledResources & 0x400);
-    gMap_5C3030.LoadResource_4DBE00("SLGKNFD.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgknfdResID, loadMode, disabledResources & 0x80);
-    gMap_5C3030.LoadResourcesFromList_4DBE70("SLIGZ.BND", kResources_5632A0.AsList(), loadMode, disabledResources & 4);
-    gMap_5C3030.LoadResourcesFromList_4DBE70("SLIG.BND", kResources_5632BC.AsList(), loadMode);
-    gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
-    gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadMode);
+    gMap.LoadResource_4DBE00("SLGLEVER.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgleverResID, loadMode, disabledResources & 1);
+    gMap.LoadResource_4DBE00("SLGLIFT.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgliftResID, loadMode, disabledResources & 2);
+    gMap.LoadResource_4DBE00("SLGSLEEP.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgsleepResID, loadMode, disabledResources & 0x40);
+    gMap.LoadResource_4DBE00("SLGEDGE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgedgeResID, loadMode, disabledResources & 0x100);
+    gMap.LoadResource_4DBE00("SLGSMASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgsmashResID, loadMode, disabledResources & 0x200);
+    gMap.LoadResource_4DBE00("SLGBEAT.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgbeatResID, loadMode, disabledResources & 0x400);
+    gMap.LoadResource_4DBE00("SLGKNFD.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlgknfdResID, loadMode, disabledResources & 0x80);
+    gMap.LoadResourcesFromList_4DBE70("SLIGZ.BND", kResources_5632A0.AsList(), loadMode, disabledResources & 4);
+    gMap.LoadResourcesFromList_4DBE70("SLIG.BND", kResources_5632BC.AsList(), loadMode);
+    gMap.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
+    gMap.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadMode);
 }
 
 EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
@@ -611,8 +611,8 @@ static void LoadSlogResources(LoadMode loadMode)
          {ResourceManager::Resource_Animation, AEResourceID::kDogattkResID},
          {ResourceManager::Resource_Animation, AEResourceID::kDogidleResID}});
 
-    gMap_5C3030.LoadResourcesFromList_4DBE70("SLOG.BND", kResources.AsList(), loadMode);
-    gMap_5C3030.LoadResource_4DBE00("DOGKNFD.BAN", ResourceManager::Resource_Animation, AEResourceID::kDogknfdResID, loadMode);
+    gMap.LoadResourcesFromList_4DBE70("SLOG.BND", kResources.AsList(), loadMode);
+    gMap.LoadResource_4DBE00("DOGKNFD.BAN", ResourceManager::Resource_Animation, AEResourceID::kDogknfdResID, loadMode);
 }
 
 EXPORT void CC Factory_Slog_4D8B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
@@ -659,13 +659,13 @@ EXPORT void CC Factory_SecurityOrb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     const s16 disabledResources = pSecurityOrbTlv->field_12_disabled_resources;
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("MAIMORB.BAN", ResourceManager::Resource_Animation, AEResourceID::kMaimGameResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplineResID, loadMode); 
-        gMap_5C3030.LoadResource_4DBE00("SPARKS.BAN", ResourceManager::Resource_Animation, AEResourceID::kSparksResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, disabledResources & 1);
-        gMap_5C3030.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode, disabledResources & 0x10);
-        gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode, disabledResources & 0x20);
+        gMap.LoadResource_4DBE00("MAIMORB.BAN", ResourceManager::Resource_Animation, AEResourceID::kMaimGameResID, loadMode);
+        gMap.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplineResID, loadMode); 
+        gMap.LoadResource_4DBE00("SPARKS.BAN", ResourceManager::Resource_Animation, AEResourceID::kSparksResID, loadMode);
+        gMap.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, disabledResources & 1);
+        gMap.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode, disabledResources & 2);
+        gMap.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode, disabledResources & 0x10);
+        gMap.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode, disabledResources & 0x20);
     }
     else
     {
@@ -799,7 +799,7 @@ EXPORT void CC Factory_Paramite_4D9190(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
              {ResourceManager::Resource_Animation, AEResourceID::kArjwaspResID},
              {ResourceManager::Resource_Animation, AEResourceID::kArjscrchResID},
              {ResourceManager::Resource_Animation, AEResourceID::kWebResID}});
-        gMap_5C3030.LoadResourcesFromList_4DBE70("PARAMITE.BND", kResources.AsList(), loadMode);
+        gMap.LoadResourcesFromList_4DBE70("PARAMITE.BND", kResources.AsList(), loadMode);
     }
     else
     {
@@ -834,7 +834,7 @@ EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* pTlv, Path*, TlvItemInfoUnion
             {ResourceManager::Resource_Animation, AEResourceID::kPortlitResID},
         });
 
-        gMap_5C3030.LoadResourcesFromList_4DBE70("PORTAL.BND", kResources_5634E8.AsList(), loadMode);
+        gMap.LoadResourcesFromList_4DBE70("PORTAL.BND", kResources_5634E8.AsList(), loadMode);
         if (pBirdPortalTlv->field_1C_portal_type == PortalType::eShrykull_2)
         {
             static CompileTimeResourceList<2> kResources_563504({
@@ -842,8 +842,8 @@ EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* pTlv, Path*, TlvItemInfoUnion
                 {ResourceManager::Resource_Animation, AEResourceID::kShrmorphResID},
             });
 
-            gMap_5C3030.LoadResourcesFromList_4DBE70("SHRYPORT.BND", kResources_563504.AsList(), loadMode);
-            gMap_5C3030.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplineResID, loadMode);
+            gMap.LoadResourcesFromList_4DBE70("SHRYPORT.BND", kResources_563504.AsList(), loadMode);
+            gMap.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplineResID, loadMode);
         }
     }
     else if (SwitchStates_Get_466020(pBirdPortalTlv->field_20_create_portal_switch_id))
@@ -869,17 +869,17 @@ EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        switch (gMap_5C3030.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eMudomoVault_3:
             case LevelIds::eMudancheeVault_4:
             case LevelIds::eMudancheeVault_Ender_7:
             case LevelIds::eMudomoVault_Ender_11:
-                gMap_5C3030.LoadResource_4DBE00("VLTSTRAP.BAN", ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, loadmode);
+                gMap.LoadResource_4DBE00("VLTSTRAP.BAN", ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, loadmode);
                 break;
 
             default:
-                gMap_5C3030.LoadResource_4DBE00("TRAPDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, loadmode);
+                gMap.LoadResource_4DBE00("TRAPDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, loadmode);
                 break;
         }
     }
@@ -889,7 +889,7 @@ EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
         if (pTrapDoor)
         {
             // TODO: OG bug - actually passes Path* instead of Map* .. probably works because this parameter never gets used!
-            pTrapDoor->ctor_4DD570(static_cast<Path_TrapDoor*>(pTlv), &gMap_5C3030, tlvInfo.all);
+            pTrapDoor->ctor_4DD570(static_cast<Path_TrapDoor*>(pTlv), &gMap, tlvInfo.all);
         }
     }
 }
@@ -954,7 +954,7 @@ EXPORT void CC Factory_FootSwitch_4D9D00(Path_TLV* pTlv, Path*, TlvItemInfoUnion
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        switch (gMap_5C3030.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eMudomoVault_3:
             case LevelIds::eMudancheeVault_4:
@@ -1021,7 +1021,7 @@ EXPORT void CC Factory_ElectricWall_4DA020(Path_TLV* pTlv, Path*, TlvItemInfoUni
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("ELECWALL.BAN", ResourceManager::Resource_Animation, AEResourceID::kElecwallResID, loadMode);
+        gMap.LoadResource_4DBE00("ELECWALL.BAN", ResourceManager::Resource_Animation, AEResourceID::kElecwallResID, loadMode);
     }
     else
     {
@@ -1053,7 +1053,7 @@ EXPORT void CC Factory_MeatSack_4D8140(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
             {{ResourceManager::Resource_Animation, AEResourceID::kAbepickResID},
              {ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID},
              {ResourceManager::Resource_Animation, AEResourceID::kMeatResID}});
-        gMap_5C3030.LoadResourcesFromList_4DBE70("MTHROW.BND", kResources.AsList(), loadMode, 0);
+        gMap.LoadResourcesFromList_4DBE70("MTHROW.BND", kResources.AsList(), loadMode, 0);
     }
     else
     {
@@ -1139,12 +1139,12 @@ EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     auto pMudTlv = static_cast<Path_Mudokon*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("ABEBSIC1.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("ABEKNFD.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeknfdResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("ABEKNBK.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeknbkResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("ABEEDGE.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeedgeResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("MUDIDLE.BAN", ResourceManager::Resource_Animation, AEResourceID::kMudidleResID, loadMode);
+        gMap.LoadResource_4DBE00("ABEBSIC1.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, loadMode);
+        gMap.LoadResource_4DBE00("ABEKNFD.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeknfdResID, loadMode);
+        gMap.LoadResource_4DBE00("ABEKNBK.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeknbkResID, loadMode);
+        gMap.LoadResource_4DBE00("ABEEDGE.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeedgeResID, loadMode);
+        gMap.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadMode);
+        gMap.LoadResource_4DBE00("MUDIDLE.BAN", ResourceManager::Resource_Animation, AEResourceID::kMudidleResID, loadMode);
 
         static CompileTimeResourceList<5> kPalResources(
             {{ResourceManager::Resource_Palt, AEResourceID::kMudangryResID},
@@ -1153,14 +1153,14 @@ EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
              {ResourceManager::Resource_Palt, AEResourceID::kMudblindResID},
              {ResourceManager::Resource_Palt, AEResourceID::kMudsickResID}});
 
-        gMap_5C3030.LoadResourcesFromList_4DBE70("MUDPAL.BND", kPalResources.AsList(), loadMode, 0);
+        gMap.LoadResourcesFromList_4DBE70("MUDPAL.BND", kPalResources.AsList(), loadMode, 0);
         if (pMudTlv->field_12_state == Mud_State::eChisle_0)
         {
-            gMap_5C3030.LoadResource_4DBE00("MUDCHSL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMudchslResID, loadMode);
+            gMap.LoadResource_4DBE00("MUDCHSL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMudchslResID, loadMode);
         }
         else
         {
-            gMap_5C3030.LoadResource_4DBE00("MUDSCRUB.BAN", ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, loadMode);
+            gMap.LoadResource_4DBE00("MUDSCRUB.BAN", ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, loadMode);
         }
 
         static CompileTimeResourceList<2> kResources(
@@ -1169,7 +1169,7 @@ EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
                 {ResourceManager::Resource_Animation, AEResourceID::kMudbtlnkResID} // TODO: Another block of 3 after this exists that is never used ??
             });
 
-        gMap_5C3030.LoadResourcesFromList_4DBE70("MUDWORK.BND", kResources.AsList(), loadMode);
+        gMap.LoadResourcesFromList_4DBE70("MUDWORK.BND", kResources.AsList(), loadMode);
     }
     else
     {
@@ -1190,8 +1190,8 @@ EXPORT void CC Factory_DoorFlame_4D70D0(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("FIRE.BAN", ResourceManager::Resource_Animation, AEResourceID::kHubFireResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("GLOW1.BAN", ResourceManager::Resource_Animation, AEResourceID::kGlowResID, loadMode);
+        gMap.LoadResource_4DBE00("FIRE.BAN", ResourceManager::Resource_Animation, AEResourceID::kHubFireResID, loadMode);
+        gMap.LoadResource_4DBE00("GLOW1.BAN", ResourceManager::Resource_Animation, AEResourceID::kGlowResID, loadMode);
     }
     else
     {
@@ -1208,10 +1208,10 @@ EXPORT void CC Factory_MovingBomb_4D8A50(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     auto pMovingBombTlv = static_cast<Path_MovingBomb*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("MOVEBOMB.BAN", ResourceManager::Resource_Animation, AEResourceID::kMovebombResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, pMovingBombTlv->field_1A_disabled_resources & 1);
+        gMap.LoadResource_4DBE00("MOVEBOMB.BAN", ResourceManager::Resource_Animation, AEResourceID::kMovebombResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, pMovingBombTlv->field_1A_disabled_resources & 1);
     }
     else
     {
@@ -1252,7 +1252,7 @@ EXPORT void CC Factory_SecurityDoor_4DA150(Path_TLV* pTlv, Path*, TlvItemInfoUni
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("SECDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kR1sdosResID_6027, loadMode);
+        gMap.LoadResource_4DBE00("SECDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kR1sdosResID_6027, loadMode);
     }
     else
     {
@@ -1274,11 +1274,11 @@ EXPORT void CC Factory_GrenadeMachine_4DA1C0(Path_TLV* pTlv, Path*, TlvItemInfoU
              {ResourceManager::Resource_Animation, AEResourceID::kAbepickResID},
              {ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID}});
 
-        gMap_5C3030.LoadResourcesFromList_4DBE70("GTHROW.BND", kResources.AsList(), loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode, pTlvBooMachine->field_14_disabled_resources & 2);
+        gMap.LoadResourcesFromList_4DBE70("GTHROW.BND", kResources.AsList(), loadMode, 0);
+        gMap.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode);
+        gMap.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
+        gMap.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
+        gMap.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode, pTlvBooMachine->field_14_disabled_resources & 2);
     }
     else
     {
@@ -1410,8 +1410,8 @@ EXPORT void CC Factory_GasCountdown_4DA480(Path_TLV* pTlv, Path*, TlvItemInfoUni
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::Resource_Font, AEResourceID::kLcdfontResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("ABEGAS.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbegasResID, loadMode);
+        gMap.LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::Resource_Font, AEResourceID::kLcdfontResID, loadMode);
+        gMap.LoadResource_4DBE00("ABEGAS.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbegasResID, loadMode);
     }
     else
     {
@@ -1468,25 +1468,25 @@ EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        switch (gMap_5C3030.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eFeeCoDepot_5:
             case LevelIds::eFeeCoDepot_Ender_12:
-                gMap_5C3030.LoadResourcesFromList_4DBE70("ASLIK.BND", kAslik_563548.AsList(), loadMode);
+                gMap.LoadResourcesFromList_4DBE70("ASLIK.BND", kAslik_563548.AsList(), loadMode);
                 break;
 
             case LevelIds::eBarracks_6:
             case LevelIds::eBarracks_Ender_13:
-                gMap_5C3030.LoadResourcesFromList_4DBE70("DRIPIK.BND", KDripik_56355C.AsList(), loadMode);
+                gMap.LoadResourcesFromList_4DBE70("DRIPIK.BND", KDripik_56355C.AsList(), loadMode);
                 break;
 
             case LevelIds::eBonewerkz_8:
             case LevelIds::eBonewerkz_Ender_14:
-                gMap_5C3030.LoadResourcesFromList_4DBE70("PHLEG.BND", kPhleg_563570.AsList(), loadMode);
+                gMap.LoadResourcesFromList_4DBE70("PHLEG.BND", kPhleg_563570.AsList(), loadMode);
                 break;
 
             default:
-                gMap_5C3030.LoadResourcesFromList_4DBE70("GLUKKON.BND", kGlukkon_563534.AsList(), loadMode);
+                gMap.LoadResourcesFromList_4DBE70("GLUKKON.BND", kGlukkon_563534.AsList(), loadMode);
                 break;
         }
     }
@@ -1581,16 +1581,16 @@ static CompileTimeResourceList<1> kResources_5632E0({{ResourceManager::Resource_
 
 static void LoadFlyingSligResources(LoadMode loadMode)
 {
-    gMap_5C3030.LoadResourcesFromList_4DBE70("FLYSLIG.BND", kResources_5632E0.AsList(), loadMode, 0);
+    gMap.LoadResourcesFromList_4DBE70("FLYSLIG.BND", kResources_5632E0.AsList(), loadMode, 0);
 
-    gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
-    gMap_5C3030.LoadResource_4DBE00("GRENADE.BAN", ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, loadMode);
-    gMap_5C3030.LoadResource_4DBE00("SMEXP.BAN", ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID, loadMode);
-    gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
-    gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
-    gMap_5C3030.LoadResource_4DBE00("BIGFLASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, loadMode);
-    gMap_5C3030.LoadResource_4DBE00("VAPOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kVaporResID, loadMode);
-    gMap_5C3030.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode);
+    gMap.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
+    gMap.LoadResource_4DBE00("GRENADE.BAN", ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, loadMode);
+    gMap.LoadResource_4DBE00("SMEXP.BAN", ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID, loadMode);
+    gMap.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
+    gMap.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
+    gMap.LoadResource_4DBE00("BIGFLASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, loadMode);
+    gMap.LoadResource_4DBE00("VAPOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kVaporResID, loadMode);
+    gMap.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode);
 }
 
 
@@ -1614,11 +1614,11 @@ EXPORT void CC Factory_Fleech_4D8C30(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("FLEECH.BAN", ResourceManager::Resource_Animation, AEResourceID::kFleechResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("FLEEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kFleeBlowResID_580, loadMode);
+        gMap.LoadResource_4DBE00("FLEECH.BAN", ResourceManager::Resource_Animation, AEResourceID::kFleechResID, loadMode);
+        gMap.LoadResource_4DBE00("FLEEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kFleeBlowResID_580, loadMode);
     }
     else if (
-        gMap_5C3030.field_0_current_level != LevelIds::eMudancheeVault_Ender_7 || gMap_5C3030.field_2_current_path != 9 || gMap_5C3030.field_4_current_camera != 4)
+        gMap.mCurrentLevel != LevelIds::eMudancheeVault_Ender_7 || gMap.mCurrentPath != 9 || gMap.field_4_current_camera != 4)
     {
         auto pFleech = ae_new<Fleech>();
         if (pFleech)
@@ -1632,7 +1632,7 @@ EXPORT void CC Factory_Slurgs_4DA950(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("SLURG.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlurgResID, loadMode);
+        gMap.LoadResource_4DBE00("SLURG.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlurgResID, loadMode);
     }
     else
     {
@@ -1648,7 +1648,7 @@ EXPORT void CC Factory_SlamDoor_4DA9C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        switch (gMap_5C3030.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eNecrum_2:
             case LevelIds::eMudomoVault_3:
@@ -1715,7 +1715,7 @@ EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUni
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("SLURG.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlurgResID, loadMode);
+        gMap.LoadResource_4DBE00("SLURG.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlurgResID, loadMode);
     }
     else
     {
@@ -1749,7 +1749,7 @@ EXPORT void CC Factory_ColorfulMeter_4DAC60(Path_TLV* pTlv, Path*, TlvItemInfoUn
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::Resource_Font, AEResourceID::kLcdfontResID, loadMode);
+        gMap.LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::Resource_Font, AEResourceID::kLcdfontResID, loadMode);
     }
     else
     {
@@ -1768,15 +1768,15 @@ EXPORT void CC Factory_FlyingSligSpawner_4D9440(Path_TLV* pTlv, Path*, TlvItemIn
         // TODO: Resource Ids
         static CompileTimeResourceList<1> kResources({{ResourceManager::Resource_Animation, AEResourceID::kFlySligResID}});
 
-        gMap_5C3030.LoadResourcesFromList_4DBE70("FLYSLIG.BND", kResources.AsList(), loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("GRENADE.BAN", ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SMEXP.BAN", ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("BIGFLASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("VAPOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kVaporResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode);
+        gMap.LoadResourcesFromList_4DBE70("FLYSLIG.BND", kResources.AsList(), loadMode);
+        gMap.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
+        gMap.LoadResource_4DBE00("GRENADE.BAN", ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, loadMode);
+        gMap.LoadResource_4DBE00("SMEXP.BAN", ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID, loadMode);
+        gMap.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
+        gMap.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
+        gMap.LoadResource_4DBE00("BIGFLASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, loadMode);
+        gMap.LoadResource_4DBE00("VAPOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kVaporResID, loadMode);
+        gMap.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode);
     }
     else
     {
@@ -1792,11 +1792,11 @@ EXPORT void CC Factory_MineCar_4DACD0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("BAYROLL.BAN", ResourceManager::Resource_Animation, AEResourceID::kBayrollResID_6013, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("ABECAR.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeCarResId, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("BAYROLL.BAN", ResourceManager::Resource_Animation, AEResourceID::kBayrollResID_6013, loadMode, 0);
+        gMap.LoadResource_4DBE00("ABECAR.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeCarResId, loadMode, 0);
+        gMap.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, 0);
     }
     else
     {
@@ -1812,13 +1812,13 @@ EXPORT void CC Factory_BoneBag_4D80B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("BONEBAG.BAN", ResourceManager::Resource_Animation, AEResourceID::kBoneBagResID_590, loadMode);
+        gMap.LoadResource_4DBE00("BONEBAG.BAN", ResourceManager::Resource_Animation, AEResourceID::kBoneBagResID_590, loadMode);
 
         static CompileTimeResourceList<3> kResources({{ResourceManager::Resource_Animation, AEResourceID::kAbepickResID},
                                                       {ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID},
                                                       {ResourceManager::Resource_Animation, AEResourceID::kBoneResID}});
 
-        gMap_5C3030.LoadResourcesFromList_4DBE70("BTHROW.BND", kResources.AsList(), loadMode);
+        gMap.LoadResourcesFromList_4DBE70("BTHROW.BND", kResources.AsList(), loadMode);
     }
     else
     {
@@ -1834,20 +1834,20 @@ EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* pTlv, Path*, TlvItemInfoUni
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8)
+        if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8)
         {
-            gMap_5C3030.LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kHoistRocks, loadMode);
-            gMap_5C3030.LoadResource_4DBE00("FALLBONZ.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadMode);
+            gMap.LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kHoistRocks, loadMode);
+            gMap.LoadResource_4DBE00("FALLBONZ.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadMode);
         }
         else
         {
-            gMap_5C3030.LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kHoistRocks, loadMode);
-            gMap_5C3030.LoadResource_4DBE00("FALLROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadMode);
+            gMap.LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kHoistRocks, loadMode);
+            gMap.LoadResource_4DBE00("FALLROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadMode);
         }
-        gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, AEResourceID::kStickGibResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode);
+        gMap.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, AEResourceID::kStickGibResID, loadMode);
+        gMap.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadMode);
+        gMap.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID, loadMode);
+        gMap.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode);
     }
     else
     {
@@ -1912,7 +1912,7 @@ EXPORT void CC Factory_ParamiteWebLine_4D9120(Path_TLV* pTlv, Path*, TlvItemInfo
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("WEB.BAN", ResourceManager::Resource_Animation, AEResourceID::kWebResID, loadMode);
+        gMap.LoadResource_4DBE00("WEB.BAN", ResourceManager::Resource_Animation, AEResourceID::kWebResID, loadMode);
     }
     else
     {
@@ -1940,12 +1940,12 @@ EXPORT void CC Factory_BrewMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("ABESTONE.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbestoneResID, loadmode);
-        gMap_5C3030.LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::Resource_Font, AEResourceID::kLcdfontResID, loadmode);
-        gMap_5C3030.LoadResource_4DBE00("BREWBTN.BAN", ResourceManager::Resource_Animation, AEResourceID::kBrewButtonResID_6016, loadmode);
-        gMap_5C3030.LoadResource_4DBE00("EVILFART.BAN", ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, loadmode);
-        gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadmode);
-        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadmode);
+        gMap.LoadResource_4DBE00("ABESTONE.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbestoneResID, loadmode);
+        gMap.LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::Resource_Font, AEResourceID::kLcdfontResID, loadmode);
+        gMap.LoadResource_4DBE00("BREWBTN.BAN", ResourceManager::Resource_Animation, AEResourceID::kBrewButtonResID_6016, loadmode);
+        gMap.LoadResource_4DBE00("EVILFART.BAN", ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, loadmode);
+        gMap.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadmode);
+        gMap.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadmode);
     }
     else
     {
@@ -1980,15 +1980,15 @@ EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
         static CompileTimeResourceList<1> kResource(
             {{ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligResID_449}});
 
-        gMap_5C3030.LoadResourcesFromList_4DBE70("CRAWLSLG.BND", kResource.AsList(), loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("GRENADE.BAN", ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SMEXP.BAN", ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("BIGFLASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("VAPOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kVaporResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode);
+        gMap.LoadResourcesFromList_4DBE70("CRAWLSLG.BND", kResource.AsList(), loadMode);
+        gMap.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, loadMode);
+        gMap.LoadResource_4DBE00("GRENADE.BAN", ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, loadMode);
+        gMap.LoadResource_4DBE00("SMEXP.BAN", ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID, loadMode);
+        gMap.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
+        gMap.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
+        gMap.LoadResource_4DBE00("BIGFLASH.BAN", ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, loadMode);
+        gMap.LoadResource_4DBE00("VAPOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kVaporResID, loadMode);
+        gMap.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode);
     }
     else
     {
@@ -2007,7 +2007,7 @@ EXPORT void CC Factory_SligGetPants_4D9700(Path_TLV* pTlv, Path*, TlvItemInfoUni
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         LoadWalkingSligResources(disabledResources, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("LOCKER.BAN", ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligLockerResID_448, loadMode);
+        gMap.LoadResource_4DBE00("LOCKER.BAN", ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligLockerResID_448, loadMode);
     }
     else
     {
@@ -2024,7 +2024,7 @@ EXPORT void CC Factory_SligGetWings_4D9900(Path_TLV* pTlv, Path*, TlvItemInfoUni
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         LoadFlyingSligResources(loadMode);
-        gMap_5C3030.LoadResource_4DBE00("LOCKER.BAN", ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligLockerResID_448, loadMode, 0);
+        gMap.LoadResource_4DBE00("LOCKER.BAN", ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligLockerResID_448, loadMode, 0);
     }
     else
     {
@@ -2040,13 +2040,13 @@ EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("MFLARE.BAN", ResourceManager::Resource_Animation, AEResourceID::kMflareResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("MOTION.BAN", ResourceManager::Resource_Animation, AEResourceID::kMotionResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("GREETER.BAN", ResourceManager::Resource_Animation, AEResourceID::kGreeterResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplineResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode, 0);
-        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("MFLARE.BAN", ResourceManager::Resource_Animation, AEResourceID::kMflareResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("MOTION.BAN", ResourceManager::Resource_Animation, AEResourceID::kMotionResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("GREETER.BAN", ResourceManager::Resource_Animation, AEResourceID::kGreeterResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplineResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode, 0);
+        gMap.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, 0);
     }
     else
     {
@@ -2062,7 +2062,7 @@ EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* pTlv, Path*, TlvItemInfo
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("CSLGBUTN.BAN", ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligButtonResID_1057, loadMode);
+        gMap.LoadResource_4DBE00("CSLGBUTN.BAN", ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligButtonResID_1057, loadMode);
     }
     else
     {
@@ -2078,7 +2078,7 @@ EXPORT void CC Factory_GlukkonSwitch_4DA670(Path_TLV* pTlv, Path*, TlvItemInfoUn
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("SECDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kR1sdosResID_6027, loadMode);
+        gMap.LoadResource_4DBE00("SECDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kR1sdosResID_6027, loadMode);
     }
     else
     {
@@ -2094,7 +2094,7 @@ EXPORT void CC Factory_DoorBlocker_4DAAE0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("DOORLOCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kDoorLockResID_374, loadMode);
+        gMap.LoadResource_4DBE00("DOORLOCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kDoorLockResID_374, loadMode);
     }
     else
     {
@@ -2112,9 +2112,9 @@ EXPORT void CC Factory_TorturedMudokon_4D8430(Path_TLV* pTlv, Path*, TlvItemInfo
     {
         if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
         {
-            gMap_5C3030.LoadResource_4DBE00("MUDTORT.BAN", ResourceManager::Resource_Animation, AEResourceID::kTorturedMud, loadMode);
-            gMap_5C3030.LoadResource_4DBE00("TEARS.BAN", ResourceManager::Resource_Animation, AEResourceID::kTorturedMudTearsResID, loadMode);
-            gMap_5C3030.LoadResource_4DBE00("ELECWALL.BAN", ResourceManager::Resource_Animation, AEResourceID::kElecwallResID, loadMode);
+            gMap.LoadResource_4DBE00("MUDTORT.BAN", ResourceManager::Resource_Animation, AEResourceID::kTorturedMud, loadMode);
+            gMap.LoadResource_4DBE00("TEARS.BAN", ResourceManager::Resource_Animation, AEResourceID::kTorturedMudTearsResID, loadMode);
+            gMap.LoadResource_4DBE00("ELECWALL.BAN", ResourceManager::Resource_Animation, AEResourceID::kElecwallResID, loadMode);
         }
         else
         {
@@ -2131,7 +2131,7 @@ EXPORT void CC Factory_TrainDoor_4D6E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        gMap_5C3030.LoadResource_4DBE00("TRAINDOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kTrainDoorResID_2013, loadMode);
+        gMap.LoadResource_4DBE00("TRAINDOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kTrainDoorResID_2013, loadMode);
     }
     else
     {

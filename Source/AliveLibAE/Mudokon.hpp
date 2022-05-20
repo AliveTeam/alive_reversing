@@ -274,7 +274,7 @@ class Mudokon final : public BaseAliveGameObject
 public:
     EXPORT Mudokon* ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

@@ -492,7 +492,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     SetVTable(&field_158_animation, 0x544290);
 
     sMainMenuObjectCounter_BB4400++;
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     gMainMenuController = this;
 
@@ -511,12 +511,12 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_F4_resources.field_0_resources[MenuResIds::eUnknown] = nullptr;
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
 
-    if (gMap_5C3030.field_4_current_camera == MainMenuCams::eCheatMenu_SelectFMVCam)
+    if (gMap.field_4_current_camera == MainMenuCams::eCheatMenu_SelectFMVCam)
     {
         field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = nullptr;
         field_F4_resources.field_0_resources[MenuResIds::eMenuDoor] = nullptr;
         const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
-        Animation_Init_424E10(abeIdleRec.mFrameTableOffset, abeIdleRec.mMaxW, abeIdleRec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2], 1, 1);
+        Animation_Init(abeIdleRec.mFrameTableOffset, abeIdleRec.mMaxW, abeIdleRec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2], 1, 1);
     }
     else
     {
@@ -525,7 +525,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         ResourceManager::LoadResourceFile_49C170("STDOOR.BAN", nullptr);
         field_F4_resources.field_0_resources[MenuResIds::eMenuDoor] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kMenuDoorResID, TRUE, FALSE);
         const AnimRecord& rec = AnimRec(AnimId::MenuDoor);
-        Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor], 1, 1);
+        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor], 1, 1);
     }
 
     field_20_animation.field_A_b = 127;
@@ -549,7 +549,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_200_highlite_glow_speed = -8;
     field_1F0_tlvOffsetLevelIdPathId = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
 
-    field_214_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(gMap_5C3030.field_4_current_camera));
+    field_214_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(gMap.field_4_current_camera));
     field_21C_camSwapEffectState = camTransEffectState::eConstructed_1;
     field_21E_changeScreenState = 0;
     field_1F8_page_timeout = 0;
@@ -568,7 +568,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_23C_T80.Clear(Flags::eBit23_unused);
     field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
 
-    if (gMap_5C3030.field_4_current_camera == MainMenuCams::eMainMenuCam)
+    if (gMap.field_4_current_camera == MainMenuCams::eMainMenuCam)
     {
         MainMenuController::Set_Anim_4D05E0(eAbe_EnterThroughDoor, 0);
         field_23C_T80.Set(Flags::eBit17_bDisableChangingSelection);
@@ -606,7 +606,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
     sFeecoRestart_SavedMudCount_5C1BC8 = 0;
 
-    if (gMap_5C3030.field_4_current_camera == MainMenuCams::eCheatMenu_SelectFMVCam)
+    if (gMap.field_4_current_camera == MainMenuCams::eCheatMenu_SelectFMVCam)
     {
         field_1FC_button_index = 0;
         field_250_selected_entry_index = 0;
@@ -621,7 +621,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         return this;
     }
 
-    if (gMap_5C3030.field_4_current_camera == MainMenuCams::eDemoSelectionCam)
+    if (gMap.field_4_current_camera == MainMenuCams::eDemoSelectionCam)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, 0, 0))
@@ -1492,7 +1492,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
         if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index--;
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
     else if (inputToUse & (InputCommands::Enum::eRight | InputCommands::Enum::eDown))
@@ -1500,7 +1500,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
         if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index++;
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
 
@@ -1516,7 +1516,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             {
                 field_230_target_entry_index -= 3;
             }
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
     else if (inputToUse & InputCommands::Enum::ePageDown)
@@ -1531,7 +1531,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             {
                 field_230_target_entry_index += 3;
             }
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
 
@@ -1565,9 +1565,9 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 
             while (sMovie_ref_count_BB4AE4)
             {
-                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
+                if (pMovie->mFlags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!pMovie->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    if (!pMovie->mFlags.Get(BaseGameObject::eDead) && (!sNum_CamSwappers_5C1B66 || pMovie->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
                         pMovie->VUpdate();
                     }
@@ -1575,7 +1575,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             }
             stru_5C3110.Free_433130();
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes));
+            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(gMap.field_2C_camera_array[0]->field_C_pCamRes));
             pScreenManager_5BB5F4->MoveImage_40EB70();
             pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
             GetSoundAPI().SND_Restart();
@@ -1585,7 +1585,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             sDoesCreditsControllerExist_5C1B90 = 1;
             field_240_credits_current_cam = 1;
             field_1F4_credits_next_frame = sGnFrame_5C1B84 + 160;
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
@@ -1841,20 +1841,20 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
             if (field_208_transition_obj)
             {
-                field_208_transition_obj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                field_208_transition_obj->mFlags.Set(BaseGameObject::eDead);
             }
 
             if (field_20C_pUnused)
             {
-                field_20C_pUnused->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                field_20C_pUnused->mFlags.Set(BaseGameObject::eDead);
             }
 
             if (field_210_pUnused)
             {
-                field_210_pUnused->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                field_210_pUnused->mFlags.Set(BaseGameObject::eDead);
             }
 
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
 
             sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
             sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
@@ -1910,7 +1910,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
 
         sActiveHero_5C1B68->SetUpdateDelay(1);
-        gMap_5C3030.SetActiveCam_480D30(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam_480D30(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
 
         const PathBlyRec* pPathData = Path_Get_Bly_Record_460F30(field_244_lvl_id, field_246_path_id);
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(field_24A_abeXOff - pPathData->field_4_pPathData->field_1A_abe_start_xpos);
@@ -1931,7 +1931,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     }
     else
     {
-        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMines_1, 1, 4, CameraSwapEffects::ePlay1FMV_5, 12402, 0);
+        gMap.SetActiveCam_480D30(LevelIds::eMines_1, 1, 4, CameraSwapEffects::ePlay1FMV_5, 12402, 0);
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(837);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(1300);
         sActiveHero_5C1B68->field_F8_LastLineYPos = FP_FromInteger(1400);
@@ -1939,20 +1939,20 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
     if (field_208_transition_obj)
     {
-        field_208_transition_obj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        field_208_transition_obj->mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_20C_pUnused)
     {
-        field_20C_pUnused->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        field_20C_pUnused->mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_210_pUnused)
     {
-        field_210_pUnused->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        field_210_pUnused->mFlags.Set(BaseGameObject::eDead);
     }
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 
     return MainMenuNextCam(MainMenuCams::eNoChange);
 }
@@ -1986,9 +1986,9 @@ EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u3
 
             while (sMovie_ref_count_BB4AE4)
             {
-                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
+                if (pMovie->mFlags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!(pMovie->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (!sNum_CamSwappers_5C1B66 || (pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))))
+                    if (!(pMovie->mFlags.Get(BaseGameObject::eDead) && (!sNum_CamSwappers_5C1B66 || (pMovie->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))))
                     {
                         pMovie->VUpdate();
                     }
@@ -1996,7 +1996,7 @@ EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u3
             }
 
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
+            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager_5BB5F4->MoveImage_40EB70();
             pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
             GetSoundAPI().SND_Restart();
@@ -2195,17 +2195,17 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 
         if (field_208_transition_obj)
         {
-            field_208_transition_obj->field_6_flags.Set(Options::eDead_Bit3);
+            field_208_transition_obj->mFlags.Set(Options::eDead);
         }
         if (field_20C_pUnused)
         {
-            field_20C_pUnused->field_6_flags.Set(Options::eDead_Bit3);
+            field_20C_pUnused->mFlags.Set(Options::eDead);
         }
         if (field_210_pUnused)
         {
-            field_210_pUnused->field_6_flags.Set(Options::eDead_Bit3);
+            field_210_pUnused->mFlags.Set(Options::eDead);
         }
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
 
         demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
         if (gIsDemoStartedManually_5C1B9C)
@@ -2270,7 +2270,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
         if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index--;
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
     else if (input_or_field_204 & (InputCommands::Enum::eDown | InputCommands::Enum::eRight))
@@ -2279,7 +2279,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
         if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index++;
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
 
@@ -2293,7 +2293,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
             {
                 field_230_target_entry_index = 0;
             }
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
     else if (input_or_field_204 & InputCommands::Enum::ePageDown)
@@ -2306,7 +2306,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
             {
                 field_230_target_entry_index = sMenuItemCount_561538 - 1;
             }
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         }
     }
 
@@ -2387,7 +2387,7 @@ EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
 
     if (indexChanged)
     {
-        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
     }
 
     if (input & InputCommands::Enum::eUnPause_OrConfirm)
@@ -2502,7 +2502,7 @@ MainMenuNextCam MainMenuController::AbeMotions_Update_4D1F50(u32 input)
     // To the game speak screen
     if (input & InputCommands::Enum::eUnPause_OrConfirm)
     {
-        SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
         return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam);
     }
 
@@ -2690,7 +2690,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(u32 input)
         if (sSelectedControllerEntry_BB43F4 > 0 && sTextYPos_BB43F0 == FP_FromInteger(0))
         {
             sSelectedControllerEntry_BB43F4--;
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 45, 400);
         }
     }
     else if (input & InputCommands::Enum::eDown)
@@ -2698,7 +2698,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(u32 input)
         if (sSelectedControllerEntry_BB43F4 < sControllerCount_55E838 - 1 && sTextYPos_BB43F0 == FP_FromInteger(0))
         {
             sSelectedControllerEntry_BB43F4++;
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 45, 400);
         }
     }
 
@@ -2786,7 +2786,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
                 sButtonToRemapIdx_BB43EC--;
             }
 
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
         if (input & InputCommands::Enum::eDown)
@@ -2802,7 +2802,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
             {
                 sButtonToRemapIdx_BB43EC = 0;
             }
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
         if (input & InputCommands::Enum::eLeft)
@@ -2811,7 +2811,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
             {
                 sButtonToRemapIdx_BB43EC -= 4;
             }
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
         if (input & InputCommands::Enum::eRight)
@@ -2820,7 +2820,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
             {
                 sButtonToRemapIdx_BB43EC += 4;
             }
-            SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play(SoundEffect::MenuNavigation_52, 45, 400);
         }
 
         if (input & InputCommands::Enum::eBack)
@@ -2962,7 +2962,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
     if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eBack))
     {
         sDoesCreditsControllerExist_5C1B90 = 0;
-        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
         return;
     }
 
@@ -2971,16 +2971,16 @@ void MainMenuController::HandleCreditsControllerUpdate()
         const auto currentCam = field_240_credits_current_cam + 1;
         field_240_credits_current_cam = currentCam;
         field_1F4_credits_next_frame = sGnFrame_5C1B84 + 160;
-        if (gMap_5C3030.field_2_current_path == 2)
+        if (gMap.mCurrentPath == 2)
         {
             if (currentCam > 22)
             {
                 field_240_credits_current_cam = 1;
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
+                gMap.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, static_cast<s16>(currentCam), CameraSwapEffects::eTopToBottom_3, 0, 0);
+                gMap.SetActiveCam_480D30(LevelIds::eCredits_16, 2, static_cast<s16>(currentCam), CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
         }
         else
@@ -2988,10 +2988,10 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 36)
             {
                 sDoesCreditsControllerExist_5C1B90 = 0;
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
+                gMap.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
                 return;
             }
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
+            gMap.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
         }
     }
 }
@@ -2999,11 +2999,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
 // Todo: needs cleanup
 void MainMenuController::HandleMainMenuUpdate()
 {
-    if (gMap_5C3030.field_4_current_camera == MainMenuCams::eRemapInputsCam || gMap_5C3030.field_4_current_camera == MainMenuCams::eDummyBlankCam || gMap_5C3030.field_4_current_camera == MainMenuCams::eLoadGameMenuCam)
+    if (gMap.field_4_current_camera == MainMenuCams::eRemapInputsCam || gMap.field_4_current_camera == MainMenuCams::eDummyBlankCam || gMap.field_4_current_camera == MainMenuCams::eLoadGameMenuCam)
     {
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
-    else if (gMap_5C3030.field_4_current_camera == MainMenuCams::eBackstory_Or_NewGameCam || gMap_5C3030.field_4_current_camera == MainMenuCams::eGameIsLoading_ShaddapCam)
+    else if (gMap.field_4_current_camera == MainMenuCams::eBackstory_Or_NewGameCam || gMap.field_4_current_camera == MainMenuCams::eGameIsLoading_ShaddapCam)
     {
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
@@ -3073,7 +3073,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
                     field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_frameTableOffset, 0);
 
-                    SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+                    SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
                 }
 
                 if (inputHeld & (InputCommands::Enum::eRight | InputCommands::Enum::eDown))
@@ -3096,7 +3096,7 @@ void MainMenuController::HandleMainMenuUpdate()
                     }
 
                     field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_frameTableOffset, 0);
-                    SFX_Play_46FBA0(SoundEffect::MenuNavigation_52, 35, 400);
+                    SFX_Play(SoundEffect::MenuNavigation_52, 35, 400);
                 }
             }
         }
@@ -3118,7 +3118,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
         const MainMenuNextCam pageUpdateReturnedCam = (this->*(pPage->field_10_fn_update))(inputHeld);
 
-        if (pageUpdateReturnedCam.page_update_camera == MainMenuCams::eNoChange || pageUpdateReturnedCam.page_update_camera == gMap_5C3030.field_4_current_camera)
+        if (pageUpdateReturnedCam.page_update_camera == MainMenuCams::eNoChange || pageUpdateReturnedCam.page_update_camera == gMap.field_4_current_camera)
         {
             // stay on the same screen
             return;
@@ -3328,9 +3328,9 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 // Run the movie till its done
                 while (sMovie_ref_count_BB4AE4 > 0)
                 {
-                    if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
+                    if (pMovie->mFlags.Get(BaseGameObject::eUpdatable_Bit2))
                     {
-                        if (pMovie->field_6_flags.Get(BaseGameObject::eDead_Bit3) == false && (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                        if (pMovie->mFlags.Get(BaseGameObject::eDead) == false && (!sNum_CamSwappers_5C1B66 || pMovie->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                         {
                             pMovie->VUpdate();
                         }
@@ -3360,9 +3360,9 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 // Run the movie till its done
                 while (sMovie_ref_count_BB4AE4 > 0)
                 {
-                    if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
+                    if (pMovie->mFlags.Get(BaseGameObject::eUpdatable_Bit2))
                     {
-                        if (pMovie->field_6_flags.Get(BaseGameObject::eDead_Bit3) == false && (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                        if (pMovie->mFlags.Get(BaseGameObject::eDead) == false && (!sNum_CamSwappers_5C1B66 || pMovie->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                         {
                             pMovie->VUpdate();
                         }
@@ -3371,7 +3371,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
                 gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
 
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::ePlay1FMV_5, 10502, 0);
+                gMap.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::ePlay1FMV_5, 10502, 0);
                 const AnimRecord& rec = AnimRec(AnimId::MenuDoor);
                 field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor]);
                 Load_Anim_Pal_4D06A0(&field_20_animation);
@@ -3413,7 +3413,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 break;
             }
 
-            gMap_5C3030.SetActiveCam_480D30(
+            gMap.SetActiveCam_480D30(
                 LevelIds::eMenu_0,
                 1,
                 sMainMenuPages_561960[field_218_target_page_index].field_0_cam_id,
@@ -3572,7 +3572,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 break;
 
             case MainMenuGamespeakAnimIds::eAbe_EnterThroughDoor:
-                field_6_flags.Clear(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+                mFlags.Clear(BaseGameObject::eUpdateDuringCamSwap_Bit10);
                 field_22C_T80_animation_delay = 15;
 
                 if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, FALSE, FALSE))

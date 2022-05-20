@@ -11,7 +11,7 @@ class DeathGas final : public BaseGameObject
 public:
     EXPORT DeathGas* ctor_43C030(Layer layer, s16 amount);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VScreenChanged() override;
 

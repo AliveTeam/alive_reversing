@@ -18,7 +18,7 @@ public:
 
     EXPORT FG1* Vdtor_453E90(s32 flags);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

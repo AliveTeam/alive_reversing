@@ -21,7 +21,7 @@ public:
 
     EXPORT BaseGameObject* dtor_41D0E0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT DeathGas* Vdtor_41D740(s32 flags);
 

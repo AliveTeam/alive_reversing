@@ -16,7 +16,7 @@ public:
 
     EXPORT void VScreenChanged_464280();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT Shrykull* Vdtor_464300(s32 flags);
 

@@ -34,8 +34,8 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(s16 doorNumber, s16 switchId, 
         for (s16 x = 0; x < sPath_dword_BB47C0->field_6_cams_on_x; x++)
         {
             Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(
-                x - gMap_5C3030.field_D0_cam_x_idx,
-                y - gMap_5C3030.field_D2_cam_y_idx));
+                x - gMap.field_D0_cam_x_idx,
+                y - gMap.field_D2_cam_y_idx));
             while (pDoorTlv)
             {
                 if (pDoorTlv->field_4_type == TlvTypes::Door_5 && pDoorTlv->field_18_door_number == doorNumber)
@@ -75,7 +75,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(s16 doorNumber, s16 switchId, 
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     return this;
@@ -123,25 +123,25 @@ void SlapLockWhirlWind::vUpdate_43DA90()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
-        OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_38_orb_whirlwind_id));
+        OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds.Find_449CF0(field_38_orb_whirlwind_id));
         if (field_3C_state == 1)
         {
             if (!(static_cast<s32>(sGnFrame_5C1B84) % 10))
             {
-                SFX_Play_46FBA0(
+                SFX_Play(
                     SoundEffect::FlyingSpirit2_108,
                     static_cast<s16>(127 - (static_cast<s32>(sGnFrame_5C1B84) - field_40_timer) / 2),
                     4 * (sGnFrame_5C1B84 - field_40_timer));
             }
 
-            if (!pWhirlWind || pWhirlWind->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (!pWhirlWind || pWhirlWind->mFlags.Get(BaseGameObject::eDead))
             {
                 SwitchStates_Do_Operation_465F00(field_44_switch_id, SwitchOp::eSetTrue_0);
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
         }
         else if (field_3C_state == 0)

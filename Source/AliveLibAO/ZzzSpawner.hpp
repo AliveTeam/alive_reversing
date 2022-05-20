@@ -24,7 +24,7 @@ public:
 
     EXPORT BaseGameObject* dtor_472CF0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT ZzzSpawner* Vdtor_472E30(s32 flags);
 

@@ -27,7 +27,7 @@ public:
     EXPORT void ctor_449AE0(u32 size);
     EXPORT u32 Id_To_Buffer_Size_Range_449BA0(TObjectId_KeyType id);
     EXPORT ObjectId_Record* Find_By_Id_449BC0(TObjectId_KeyType idToFind, ObjectId_Record** ppLastMatch);
-    EXPORT void Insert_449C10(TObjectId_KeyType objCount, BaseGameObject* pGameObj);
+    EXPORT void Insert(TObjectId_KeyType objCount, BaseGameObject* pGameObj);
     EXPORT s16 Remove_449C60(TObjectId_KeyType idToRemove);
 
     // Use the "checked" Find() so the types are verified where possible (i.e its to a specific single derived type
@@ -44,7 +44,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(ObjectIds, 0x8);
 
-ALIVE_VAR_EXTERN(ObjectIds, sObjectIds_5C1B70);
+ALIVE_VAR_EXTERN(ObjectIds, sObjectIds);
 
 namespace AETest::TestsObjectIds {
 void ObjectIdsTests();

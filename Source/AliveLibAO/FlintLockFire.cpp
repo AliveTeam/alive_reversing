@@ -54,7 +54,7 @@ void FlintLockFire::VUpdate()
 
 void FlintLockFire::VScreenChanged_41B0B0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void FlintLockFire::VScreenChanged()
@@ -95,10 +95,10 @@ BaseGameObject* FlintLockFire::dtor_41AE20()
 {
     SetVTable(this, 0x4BAEA0);
 
-    gMap_507BA8.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
     field_F0_anim.vCleanUp();
 
-    if (sFlintLockFireData_4BAC70[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_24_bFire)
+    if (sFlintLockFireData_4BAC70[static_cast<s32>(gMap.mCurrentLevel)].field_24_bFire)
     {
         field_188_anim.vCleanUp();
         field_220_anim.vCleanUp();
@@ -121,7 +121,7 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
     SetVTable(&field_188_anim, 0x4BA2B8);
     SetVTable(&field_220_anim, 0x4BA2B8);
 
-    const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
+    const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
 
     const AnimRecord& disabledHammersRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_14_hammers_disabled_anim_id);
     const AnimRecord& gourdRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_4_gourd_anim_id);
@@ -238,10 +238,10 @@ void FlintLockFire::VUpdate_41AEE0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
+    const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
 
     switch (field_E4_state)
     {
@@ -314,7 +314,7 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
 {
     if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
     {
-        const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
+        const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
         field_10_anim.field_14_scale = field_BC_sprite_scale;
         field_F0_anim.field_14_scale = field_BC_sprite_scale;
 

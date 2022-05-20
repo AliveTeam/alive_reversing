@@ -54,26 +54,19 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x44);
 class Door : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Door* ctor_41E250(Path_Door* pTlvData, s32 tlvInfo);
+    Door();
+    Door(Path_Door* pTlvData, s32 tlvInfo);
+    ~Door();
+
     EXPORT Bool32 vIsOpen_41EB00();
     EXPORT void vOpen_41EB20();
     EXPORT void vClose_41EB50();
     EXPORT void vSetOpen_41EBA0();
     EXPORT void vSetClosed_41EBC0();
     EXPORT void PlaySound_41EA90();
-    EXPORT void dtor_41EA00();
 
     virtual void VScreenChanged() override;
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
-
     virtual void VUpdate() override;
-
-private:
-    EXPORT void vScreenChange_41F080();
-    EXPORT Door* vdtor_41E9D0(s32 flags);
-    EXPORT void vUpdate_41EBE0();
-
 
 protected:
     s32 field_F4_tlvInfo;
@@ -100,17 +93,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrainDoor, 0x14);
 class TrainDoor final : public Door
 {
 public:
-    EXPORT TrainDoor* ctor_4DD090(Path_TrainDoor* pTlv, s32 tlvInfo);
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo);
+    ~TrainDoor();
 
     virtual void VUpdate() override;
-
-private:
-    EXPORT TrainDoor* vdtor_4DD1D0(s32 flags);
-
-    EXPORT void dtor_4DD200();
-
-    EXPORT void vUpdate_4DD2A0();
 };
 ALIVE_ASSERT_SIZEOF(TrainDoor, 0x114);

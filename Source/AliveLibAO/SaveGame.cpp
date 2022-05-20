@@ -30,9 +30,9 @@ EXPORT void Kill_Objects_451720()
 
     for (s32 i = 0; i < 2; i++)
     {
-        for (s32 j = 0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
+        for (s32 j = 0; j < gBaseGameObjects->Size(); j++)
         {
-            BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(j);
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(j);
             if (!pObj)
             {
                 break;
@@ -42,10 +42,10 @@ EXPORT void Kill_Objects_451720()
             //Debug_Print_Stub_48DD70("pTask = 0x%lx\n", pObjIter);
 
             // Kill during a reset and there are no references
-            if (!pObj->field_6_flags.Get(BaseGameObject::eSurviveDeathReset_Bit9) && pObj->field_C_refCount == 0)
+            if (!pObj->mFlags.Get(BaseGameObject::eSurviveDeathReset_Bit9) && pObj->field_C_refCount == 0)
             {
                 // So die
-                j = gBaseGameObject_list_9F2DF0->RemoveAt(j);
+                j = gBaseGameObjects->RemoveAt(j);
                 pObj->VDestructor(1);
             }
         }
@@ -103,7 +103,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, s32 bKillObjects)
 
     sActiveHero_507678->field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-    gMap_507BA8.field_E0_save_data = pData->field_2B0_pSaveBuffer;
+    gMap.field_E0_save_data = pData->field_2B0_pSaveBuffer;
 
     if (sActiveHero_507678->field_168_ring_pulse_timer)
     {
@@ -140,7 +140,7 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, s32 bKillObjects)
 
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, sActiveHero_507678, 0, 0);
 
-    gMap_507BA8.SetActiveCam_444660(
+    gMap.SetActiveCam_444660(
         pData->field_234_current_level,
         pData->field_236_current_path,
         pData->field_238_current_camera,
@@ -321,7 +321,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
 
     pSaveData->field_0_header = *pHeaderToUse;
 
-    auto lvName = rawLevelNames[static_cast<s32>(gMap_507BA8.field_0_current_level)];
+    auto lvName = rawLevelNames[static_cast<s32>(gMap.mCurrentLevel)];
     if (lvName != nullptr)
     {
         memcpy(
@@ -330,9 +330,9 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
             18);
     }
 
-    if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+    if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
     {
-        s16 path_id = GetPathId(gMap_507BA8.field_2_current_path);
+        s16 path_id = GetPathId(gMap.mCurrentPath);
 
         if (path_id != -1)
         {
@@ -345,7 +345,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
             pSaveData->field_0_header.field_0_frame_1_name[47] = static_cast<s8>(path_id + 0x50);
         }
     }
-    pSaveData->field_234_current_level = gMap_507BA8.field_0_current_level;
+    pSaveData->field_234_current_level = gMap.mCurrentLevel;
     pSaveData->field_206_clear_from_id = sActiveHero_507678->field_148_clear_from_id;
     pSaveData->field_20A_zone_top_left = sActiveHero_507678->field_138_zone_top_left;
     pSaveData->field_20E_zone_bottom_right = sActiveHero_507678->field_13C_zone_bottom_right;
@@ -361,9 +361,9 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     pSaveData->field_220_bSavedHaveShrykull = sActiveHero_507678->field_154_bSavedHaveShrykull;
     pSaveData->field_2A4_restartRuptureFarmsSavedMudokons = gRestartRuptureFarmsSavedMuds_5076C8;
     pSaveData->field_258_bHaveShrykull = sActiveHero_507678->field_16C_bHaveShrykull;
-    pSaveData->field_236_current_path = gMap_507BA8.field_2_current_path;
+    pSaveData->field_236_current_path = gMap.mCurrentPath;
     pSaveData->field_2A2_killed_mudokons = sKilledMudokons_5076BC;
-    pSaveData->field_238_current_camera = gMap_507BA8.field_4_current_camera;
+    pSaveData->field_238_current_camera = gMap.field_4_current_camera;
     pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
     pSaveData->field_240_last_anim_frame = sActiveHero_507678->field_10_anim.field_92_current_frame;
     pSaveData->field_23E_current_motion = sActiveHero_507678->field_FC_current_motion;
@@ -433,7 +433,7 @@ void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     }
     pSaveData->field_2AC_bUseAltSaveHeader = bUseAltSaveHeader_5076B4;
     pSaveData->field_2AE_controller_idx = Input().CurrentController() == InputObject::PadIndex::First ? 0 : 1;
-    gMap_507BA8.SaveBlyData_446900(pSaveData->field_2B0_pSaveBuffer);
+    gMap.SaveBlyData_446900(pSaveData->field_2B0_pSaveBuffer);
 
     pSaveData->field_200_hashValue = Hash(pSaveData);
 }

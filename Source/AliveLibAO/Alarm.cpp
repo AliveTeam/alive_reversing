@@ -17,11 +17,9 @@ void Alarm_ForceLink()
 
 ALIVE_VAR(1, 0x5076A8, s16, alarmInstanceCount_5076A8, 0);
 
-EXPORT Alarm* Alarm::ctor_402570(s16 duration_timer, s16 switchId, s16 timer, Layer layer)
+Alarm::Alarm(s16 duration_timer, s16 switchId, s16 timer, Layer layer)
+    : EffectBase(layer, TPageAbr::eBlend_1)
 {
-    ctor_461550(layer, TPageAbr::eBlend_1);
-
-    SetVTable(this, 0x4BA060);
     field_6C_15_timer = timer + gnFrameCount_507670;
     field_74_switch_id = switchId;
     field_4_typeId = Types::eAlarm_1;
@@ -32,7 +30,7 @@ EXPORT Alarm* Alarm::ctor_402570(s16 duration_timer, s16 switchId, s16 timer, La
     alarmInstanceCount_5076A8++;
     if (alarmInstanceCount_5076A8 > 1)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     field_5E_r = 0;
@@ -40,46 +38,20 @@ EXPORT Alarm* Alarm::ctor_402570(s16 duration_timer, s16 switchId, s16 timer, La
     field_62_b = 0;
 
     // Disable red screen flashing in the stock yards
-    if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+    if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
         gObjList_drawables_504618->Remove_Item(this);
-        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
     }
-    return this;
 }
 
-BaseGameObject* Alarm::dtor_402630()
+Alarm::~Alarm()
 {
-    SetVTable(this, 0x4BA060);
     alarmInstanceCount_5076A8--;
     SwitchStates_Set(field_74_switch_id, 0);
-    return dtor_461630();
 }
 
-BaseGameObject* Alarm::VDestructor(s32 flags)
-{
-    return Vdtor_402830(flags);
-}
-
-Alarm* Alarm::Vdtor_402830(s32 flags)
-{
-    dtor_402630();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-void Alarm::VScreenChanged_402810()
-{
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
-    {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    }
-}
-
-void Alarm::VRender_4027F0(PrimHeader** ppOt)
+void Alarm::VRender(PrimHeader** ppOt)
 {
     if (!sNumCamSwappers_507668)
     {
@@ -87,19 +59,13 @@ void Alarm::VRender_4027F0(PrimHeader** ppOt)
     }
 }
 
-
 void Alarm::VUpdate()
-{
-    VUpdate_402660();
-}
-
-void Alarm::VUpdate_402660()
 {
     Event_Broadcast_417220(kEvent_Alarm_17, this);
 
-    if (field_10_path_id != gMap_507BA8.field_2_current_path || field_12_level_id != gMap_507BA8.field_0_current_level || static_cast<s32>(gnFrameCount_507670) > field_70_duration_timer)
+    if (field_10_path_id != gMap.mCurrentPath || field_12_level_id != gMap.mCurrentLevel || static_cast<s32>(gnFrameCount_507670) > field_70_duration_timer)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -108,7 +74,7 @@ void Alarm::VUpdate_402660()
         case States::eAfterConstructed_0:
             if (Event_Get_417250(kEventHeroDying_3))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -158,7 +124,7 @@ void Alarm::VUpdate_402660()
         case States::eDisabled_4:
             if (Event_Get_417250(kEventHeroDying_3))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -176,14 +142,12 @@ void Alarm::VUpdate_402660()
     field_5E_r = field_68_r_value;
 }
 
-void Alarm::VRender(PrimHeader** ppOt)
-{
-    VRender_4027F0(ppOt);
-}
-
 void Alarm::VScreenChanged()
 {
-    VScreenChanged_402810();
+    if (gMap.mOverlayId != gMap.GetOverlayId())
+    {
+        mFlags.Set(BaseGameObject::eDead);
+    }
 }
 
 } // namespace AO

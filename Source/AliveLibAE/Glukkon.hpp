@@ -173,7 +173,7 @@ class Glukkon final : public BaseAliveGameObject
 public:
     EXPORT Glukkon* ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT static s32 CC CreateFromSaveState_442830(const u8* pBuffer);
 

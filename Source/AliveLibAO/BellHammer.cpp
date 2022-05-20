@@ -117,7 +117,7 @@ BaseGameObject* BellHammer::dtor_405220()
         ResourceManager::FreeResource_455550(ppRes);
     }
 
-    gMap_507BA8.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
     return dtor_417D10();
 }
 
@@ -128,7 +128,7 @@ BaseGameObject* BellHammer::VDestructor(s32 flags)
 
 void BellHammer::VScreenChanged_4054B0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 BellHammer* BellHammer::Vdtor_4054C0(s32 flags)
@@ -201,7 +201,7 @@ void BellHammer::VUpdate_405320()
             Elum::Spawn_410E90(info);
 
             PSX_Point mapCoords = {};
-            gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
+            gMap.GetCurrentCamCoords_444890(&mapCoords);
 
             gElum_507680->field_A8_xpos = (FP_FromInteger(mapCoords.field_0_x + XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0))) - ScaleToGridSize_41FA30(field_BC_sprite_scale);
             gElum_507680->field_AC_ypos = gElum_507680->field_AC_ypos + FP_FromInteger(450);

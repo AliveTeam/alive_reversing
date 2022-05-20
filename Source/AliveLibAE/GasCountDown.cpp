@@ -64,7 +64,7 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo)
 
     field_20_font_context.LoadFontType_433400(2);
     field_30_font.ctor_433590(5, byte_5513D4, &field_20_font_context);
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjList_drawables_5C1124->Push_Back(this);
 
     field_6C_xpos = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
@@ -141,8 +141,8 @@ GasCountDown* GasCountDown::vdtor_4171F0(s32 flags)
 
 void GasCountDown::vScreenChanged_417700()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path)
+    mFlags.Set(BaseGameObject::eDead);
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
         sGasTimer_5C1BE8 = 0;
     }
@@ -220,7 +220,7 @@ void GasCountDown::vUpdate_4172E0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (Event_Get_422C00(kEventDeathResetEnd))
@@ -265,7 +265,7 @@ void GasCountDown::vUpdate_4172E0()
         field_74_time_left = static_cast<s16>(new_timer);
         if (old_timer != field_74_time_left && field_74_time_left > 0)
         {
-            SFX_Play_46FBA0(SoundEffect::RedTick_3, 55, -1000);
+            SFX_Play(SoundEffect::RedTick_3, 55, -1000);
         }
     }
 

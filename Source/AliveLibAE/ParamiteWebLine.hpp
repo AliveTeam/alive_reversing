@@ -22,7 +22,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx) override;
 

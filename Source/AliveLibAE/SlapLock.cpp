@@ -29,8 +29,8 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
     }
 
     const AnimRecord& rec = AnimRec(AnimId::SlapLock_Initiate);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     if (field_118_pTlv->field_10_scale != Scale_short::eFull_0)
     {
@@ -55,9 +55,9 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
 
     field_130_has_ghost = field_118_pTlv->field_18_has_ghost;
 
-    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -174,7 +174,7 @@ void SlapLock::vScreenChanged_43E840()
     {
         GiveInvisibility_43E880();
     }
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void SlapLock::GiveInvisibility_43E880()
@@ -205,7 +205,7 @@ s32 SlapLock::vGetSaveState_43EB30(SlapLock_State* pState)
         return sizeof(SlapLock_State);
     }
 
-    BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_134_id);
+    BaseGameObject* pObj = sObjectIds.Find_449CF0(field_134_id);
     if (pObj)
     {
         pState->field_10_obj_id = pObj->field_C_objectId;
@@ -219,7 +219,7 @@ void SlapLock::vUpdate_43DF90()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -234,9 +234,9 @@ void SlapLock::vUpdate_43DF90()
 
             if (field_134_id != -1)
             {
-                for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+                for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
                 {
-                    BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+                    BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
                     if (!pObj)
                     {
                         break;
@@ -251,8 +251,8 @@ void SlapLock::vUpdate_43DF90()
             }
         }
 
-        BaseGameObject* pRingObj = sObjectIds_5C1B70.Find_449CF0(field_134_id);
-        BaseGameObject* pFlickerObj = sObjectIds_5C1B70.Find_449CF0(field_138_possesion_flicker_id);
+        BaseGameObject* pRingObj = sObjectIds.Find_449CF0(field_134_id);
+        BaseGameObject* pFlickerObj = sObjectIds.Find_449CF0(field_138_possesion_flicker_id);
 
         switch (field_120_state)
         {
@@ -355,7 +355,7 @@ void SlapLock::vUpdate_43DF90()
             {
                 if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer1)
                 {
-                    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                    if (!gMap.Is_Point_In_Current_Camera_4810D0(
                             sActiveHero_5C1B68->field_C2_lvl_number,
                             sActiveHero_5C1B68->field_C0_path_number,
                             sActiveHero_5C1B68->field_B8_xpos,
@@ -485,7 +485,7 @@ s16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }

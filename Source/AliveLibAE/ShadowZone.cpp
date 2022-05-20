@@ -28,8 +28,8 @@ ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 
 
     sShadowZone_dArray_5C1B80->Push_Back(this);
 
-    field_26_path = gMap_5C3030.field_2_current_path;
-    field_24_level = gMap_5C3030.field_0_current_level;
+    field_26_path = gMap.mCurrentPath;
+    field_24_level = gMap.mCurrentLevel;
 
     field_20_tlvInfo = tlvInfo;
 
@@ -140,7 +140,7 @@ ShadowZone* ShadowZone::vdtor_463A70(s32 flags)
 
 void ShadowZone::vScreenChanged_463CC0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 s16 ShadowZone::ApplysToScale_463C70(s16 scale)
@@ -164,7 +164,7 @@ void ShadowZone::vUpdate_463C40()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

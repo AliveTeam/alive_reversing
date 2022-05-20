@@ -19,7 +19,7 @@ class GasCountDown final : public BaseGameObject
 public:
     EXPORT GasCountDown* ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;

@@ -368,7 +368,7 @@ MusicController* MusicController::ctor_442930()
     ctor_487E10(1);
     SetVTable(this, 0x4BBBA8);
 
-    field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
+    mFlags.Set(Options::eSurviveDeathReset_Bit9);
     field_4_typeId = Types::eNone_0;
 
     field_10_bEnableMusic = 1;
@@ -446,7 +446,7 @@ void MusicController::VUpdate_443300()
     {
         field_16_bScreenChanged = FALSE;
 
-        if (gMap_507BA8.field_0_current_level != field_18_level)
+        if (gMap.mCurrentLevel != field_18_level)
         {
             field_3C_music_seq_duration = 0;
             field_34_sync_after_beats = 1;
@@ -468,7 +468,7 @@ void MusicController::VUpdate_443300()
                 field_38_music_seq = SeqId::None_M1;
             }
 
-            field_18_level = gMap_507BA8.field_0_current_level;
+            field_18_level = gMap.mCurrentLevel;
 
             if (field_10_bEnableMusic)
             {
@@ -599,7 +599,7 @@ void MusicController::Shutdown_4437E0()
 {
     if (pMusicController_507B98)
     {
-        pMusicController_507B98->field_6_flags.Set(Options::eDead_Bit3);
+        pMusicController_507B98->mFlags.Set(Options::eDead);
         pMusicController_507B98 = nullptr;
         //nullsub_5();
         Psx_Root_Counter_Event_Free_49C2B0(psx_root_event_507BA0);
@@ -843,7 +843,7 @@ void MusicController::UpdateMusic_442C20()
                 break;
 
             case MusicTypes::eIntenseChase_8:
-                if (gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12)
+                if (gMap.mCurrentLevel == LevelIds::eBoardRoom_12)
                 {
                     idx = 102;
                     field_34_sync_after_beats = 1;

@@ -11,12 +11,10 @@
 #include "Sys_common.hpp"
 #include "Renderer/IRenderer.hpp"
 
-EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(BaseAliveGameObject* pTarget)
+InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    SetVTable(this, 0x545A60);
-
-    SetType(AETypes::eInvisibleEffect_75);
+     SetType(AETypes::eInvisibleEffect_75);
 
     field_44_objId = pTarget->field_8_object_id;
 
@@ -48,14 +46,10 @@ EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(BaseAliveGameObject* pTarge
     field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
     field_48_old_render_mode = pTarget->field_20_animation.field_B_render_mode;
     field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
-
-    return this;
 }
 
-EXPORT void InvisibleEffect::dtor_45F410()
+InvisibleEffect::~InvisibleEffect()
 {
-    SetVTable(this, 0x545A60);
-
     if (field_24_pPal1)
     {
         ae_non_zero_free_495560(field_24_pPal1);
@@ -65,8 +59,6 @@ EXPORT void InvisibleEffect::dtor_45F410()
     {
         ae_non_zero_free_495560(field_30_pPal2);
     }
-
-    BaseGameObject_dtor_4DBEC0();
 }
 
 EXPORT void InvisibleEffect::InstantInvisibility_45FA00()
@@ -95,15 +87,15 @@ EXPORT void InvisibleEffect::BecomeInvisible_45F9E0()
 
 EXPORT void InvisibleEffect::vUpdate_45F4A0()
 {
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_44_objId));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_44_objId));
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (!pTarget || pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (!pTarget || pTarget->mFlags.Get(BaseGameObject::eDead))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -255,17 +247,13 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
                 pTarget->field_114_flags.Clear(Flags_114::e114_Bit8_bInvisible);
 
                 SetUpdateDelay(1);
-                auto pFlicker = ae_new<PossessionFlicker>();
-                if (pFlicker)
-                {
-                    pFlicker->ctor_4319E0(pTarget, 16, 255, 128, 128);
-                }
+                ae_new<PossessionFlicker>(pTarget, 16, 255, 128, 128);
                 field_20_state_or_op = InvisibleState::eSetDead_6;
                 break;
             }
             case InvisibleState::eSetDead_6:
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
             default:
@@ -274,21 +262,6 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             }
         }
     }
-}
-
-EXPORT BaseGameObject* InvisibleEffect::vdtor_45F3E0(s32 flags)
-{
-    dtor_45F410();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-BaseGameObject* InvisibleEffect::VDestructor(s32 flags)
-{
-    return vdtor_45F3E0(flags);
 }
 
 void InvisibleEffect::VUpdate()

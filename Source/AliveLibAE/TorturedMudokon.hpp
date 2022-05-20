@@ -25,7 +25,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
 private:
     EXPORT void SetupTearsAnimation_47BE60(Animation* pAnim);

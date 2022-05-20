@@ -64,14 +64,14 @@ FG1* FG1::ctor_499FC0(u8** pFG1Res)
 
     SetVTable(this, 0x5469C8); // vTbl_FG1_5469C8
 
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetType(AETypes::eFG1_101);
 
-    field_24_level_id = gMap_5C3030.field_0_current_level;
-    field_26_path_id = gMap_5C3030.field_2_current_path;
+    field_24_level_id = gMap.mCurrentLevel;
+    field_26_path_id = gMap.mCurrentPath;
 
     gFG1List_5D1E28->Push_Back(this);
 
@@ -174,5 +174,5 @@ void FG1::VScreenChanged()
 
 void FG1::vScreenChanged_49A520()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }

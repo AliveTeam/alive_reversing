@@ -72,7 +72,7 @@ public:
 
     EXPORT Slurg* ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;

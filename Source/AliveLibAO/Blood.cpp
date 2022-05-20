@@ -148,7 +148,7 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     return this;
 }
@@ -170,7 +170,7 @@ void Blood::VUpdate_407750()
         if (field_112_to_render_count <= 0)
         {
             field_112_to_render_count = 0;
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
 
@@ -217,7 +217,7 @@ BaseGameObject* Blood::Vdtor_407AC0(u32 flags)
 
 void Blood::VScreenChanged_407AB0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void Blood::VRender(PrimHeader** ppOt)
@@ -228,7 +228,7 @@ void Blood::VRender(PrimHeader** ppOt)
 void Blood::VRender_407810(PrimHeader** ppOt)
 {
     const auto bufferIdx = gPsxDisplay_504C78.field_A_buffer_index;
-    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,

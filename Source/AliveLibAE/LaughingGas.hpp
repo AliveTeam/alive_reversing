@@ -36,7 +36,7 @@ public:
 
     EXPORT void dtor_432B80();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VScreenChanged() override;
 

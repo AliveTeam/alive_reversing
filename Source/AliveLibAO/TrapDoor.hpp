@@ -44,7 +44,7 @@ public:
 
     EXPORT BaseGameObject* dtor_4882A0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT TrapDoor* Vdtor_4887D0(s32 flags);
 

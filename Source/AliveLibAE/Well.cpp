@@ -65,7 +65,7 @@ void Well::WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     if (field_3C_bEmitLeaves == Choice_short::eYes_1)
     {
         PSX_Point abeSpawnPos = {};
-        gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
+        gMap.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
 
         field_34_leaf_xpos = FP_FromInteger(pTlv->field_2E_leaf_x);
         if (pTlv->field_2E_leaf_x > 0)
@@ -107,7 +107,7 @@ void Well::WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     if (field_3C_bEmitLeaves == Choice_short::eYes_1)
     {
         PSX_Point abeSpawnPos = {};
-        gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
+        gMap.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
         field_34_leaf_xpos = FP_FromInteger(pTlv->field_22_leaf_x);
 
         if (pTlv->field_22_leaf_x > 0)
@@ -156,7 +156,7 @@ void Well::dtor_4E3090()
 
 void Well::vScreenChanged_4E3070()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 static s16 Well_NextRandom()
@@ -176,7 +176,7 @@ void Well::vUpdate_4E2F60()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         // Reset well state when Abe dies.
         Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
     }

@@ -67,7 +67,7 @@ class Drill final : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT Drill* ctor_4200D0(Path_Drill* pTlv, u32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

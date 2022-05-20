@@ -50,15 +50,15 @@ void BackgroundMusic::VUpdate_4763B0()
 {
     if (field_10_music_id >= 0)
     {
-        if (gMap_507BA8.field_0_current_level != LevelIds::eNone
-            || gMap_507BA8.field_2_current_path != 1
-            || gMap_507BA8.field_4_current_camera != 10)
+        if (gMap.mCurrentLevel != LevelIds::eNone
+            || gMap.mCurrentPath != 1
+            || gMap.field_4_current_camera != 10)
         {
             SND_SEQ_PlaySeq_4775A0(static_cast<SeqId>(field_10_music_id), 0, 0);
         }
         sBackgroundMusic_seq_id_4CFFF8 = field_10_music_id;
     }
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void CC BackgroundMusic::Stop_476290()

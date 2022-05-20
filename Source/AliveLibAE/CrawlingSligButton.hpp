@@ -32,7 +32,7 @@ class CrawlingSligButton final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT CrawlingSligButton* ctor_4148F0(Path_CrawlingSligButton* pTlv, s32 tlvInfo);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     EXPORT void UseButton_414C60();
 

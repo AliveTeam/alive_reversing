@@ -50,12 +50,12 @@ BrewMachine* BrewMachine::ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo)
     field_104_font.ctor_433590(3, fontPalette_550F08, &field_F4_font_context);
 
     const AnimRecord& rec = AnimRec(AnimId::BrewMachine_Button);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 
     field_DC_bApplyShadows &= ~1u;
     field_140_tlvInfo = tlvInfo;
@@ -81,7 +81,7 @@ BrewMachine* BrewMachine::ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo)
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    field_1E6_cam_id = gMap_5C3030.field_4_current_camera;
+    field_1E6_cam_id = gMap.field_4_current_camera;
     return this;
 }
 
@@ -133,13 +133,13 @@ void BrewMachine::vUpdate_4132C0()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void BrewMachine::vRender_4133F0(PrimHeader** ppOt)
 {
-    if (gMap_5C3030.field_4_current_camera == field_1E6_cam_id)
+    if (gMap.field_4_current_camera == field_1E6_cam_id)
     {
         char_type text[12] = {};
         sprintf(text, "%02d", field_144_total_brew_count);

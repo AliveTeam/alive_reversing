@@ -79,7 +79,7 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     ctor_408240(0);
     SetVTable(this, 0x547288);
     field_C_objectId = tlvInfo.all; // todo: check this
-    field_6_flags.Set(Options::eCanExplode_Bit7);
+    mFlags.Set(Options::eCanExplode_Bit7);
 
     field_128_switch_id = pTlv->field_14_switch_id;
 
@@ -102,10 +102,10 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         field_118_flags.Set(SlamDoor_Flags_118::e118_Bit5_Delete);
     }
 
-    const s32 currentLevelId = static_cast<s32>(gMap_5C3030.field_0_current_level);
+    const s32 currentLevelId = static_cast<s32>(gMap.mCurrentLevel);
 
     const AnimRecord& rec = AnimRec(sSlamDoorData_547168[currentLevelId][2]);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1u);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1u);
 
     SetType(AETypes::eSlamDoor_122);
 
@@ -147,7 +147,7 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit1_bClosed);
     }
 
-    SetTint_425600(sSlamDoorTints_5603B0, gMap_5C3030.field_0_current_level);
+    SetTint_425600(sSlamDoorTints_5603B0, gMap.mCurrentLevel);
 
     FP hitX;
     FP hitY;
@@ -276,7 +276,7 @@ void SlamDoor::vUpdate_4AFD50()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     const bool stateUnchanged = SwitchStates_Get_466020(field_128_switch_id) == static_cast<s32>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
@@ -290,10 +290,10 @@ void SlamDoor::vUpdate_4AFD50()
 
                 if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit5_Delete))
                 {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    mFlags.Set(BaseGameObject::eDead);
                 }
-                SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, 900);
-                SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, -100);
+                SFX_Play(SoundEffect::DoorEffect_57, 100, 900);
+                SFX_Play(SoundEffect::DoorEffect_57, 100, -100);
                 field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
             }
         }
@@ -306,8 +306,8 @@ void SlamDoor::vUpdate_4AFD50()
             if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit3_bLastFrame))
             {
                 field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
-                SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, 900);
-                SFX_Play_46FBA0(SoundEffect::DoorEffect_57, 100, -100);
+                SFX_Play(SoundEffect::DoorEffect_57, 100, 900);
+                SFX_Play(SoundEffect::DoorEffect_57, 100, -100);
             }
         }
     }
@@ -321,7 +321,7 @@ void SlamDoor::vUpdate_4AFD50()
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(gMap_5C3030.field_0_current_level)][2]);
+            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(gMap.mCurrentLevel)][2]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
             if (field_CC_sprite_scale == FP_FromInteger(1))
@@ -391,7 +391,7 @@ void SlamDoor::vUpdate_4AFD50()
         }
         else
         {
-            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
+            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(gMap.mCurrentLevel)][0]);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, 0);
             Rect_Clear_418040(&field_11C_pCollisionLine_6_2->field_0_rect);
             field_11C_pCollisionLine_6_2 = nullptr;
@@ -439,7 +439,7 @@ void SlamDoor::vUpdate_4AFD50()
         }
     }
 
-    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
+    mFlags.Set(BaseGameObject::eCanExplode_Bit7, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
 }
 
 s32 SlamDoor::vGetSaveState_4C09D0(u8* pSaveBuffer)
@@ -481,7 +481,7 @@ s32 CC SlamDoor::CreateFromSaveState_4C08B0(const u8* pData)
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlamResID, 0, 0))
     {
-        switch (gMap_5C3030.field_0_current_level)
+        switch (gMap.mCurrentLevel)
         {
             case LevelIds::eNecrum_2:
             case LevelIds::eMudomoVault_3:

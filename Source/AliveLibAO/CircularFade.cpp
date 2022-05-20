@@ -183,7 +183,7 @@ void CircularFade::VRender_47A080(PrimHeader** ppOt)
 
         if (field_E4_flags.Get(CircularFade::eBit3_DestroyOnDone))
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }

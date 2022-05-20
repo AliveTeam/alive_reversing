@@ -37,15 +37,13 @@ EXPORT void CC Dove_static_ctor_41F3A0()
     atexit(Dove_static_dtor_41F400);
 }
 
-Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 maxW, u16 maxH, s32 resourceID, s32 tlvInfo, FP scale)
+Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x544A90);
-
     SetType(AETypes::eDove_35);
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
-    Animation_Init_424E10(frameTableOffset, maxW, maxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
+    Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -82,23 +80,20 @@ Dove* Dove::ctor_41F430(s32 frameTableOffset, s32 maxW, u16 maxH, s32 resourceID
 
     if (bTheOneControllingTheMusic_5BC112)
     {
-        return this;
+        return;
     }
 
     SND_SEQ_PlaySeq_4CA960(SeqId::NecrumAmbient2_17, 0, 1);
     bTheOneControllingTheMusic_5BC112 = 1;
-    return this;
 }
 
-Dove* Dove::ctor_41F660(s32 frameTableOffset, s32 maxW, s16 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
+Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x544A90); // vTbl_Dove_544A90
-
     SetType(AETypes::eDove_35);
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
-    Animation_Init_424E10(frameTableOffset, maxW, maxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
+    Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_14_scale = scale;
@@ -139,39 +134,15 @@ Dove* Dove::ctor_41F660(s32 frameTableOffset, s32 maxW, s16 maxH, s32 resourceID
 
     if (bTheOneControllingTheMusic_5BC112)
     {
-        return this;
+        return;
     }
+
     SND_SEQ_PlaySeq_4CA960(SeqId::NecrumAmbient2_17, 0, 1);
     bTheOneControllingTheMusic_5BC112 = 1;
-
-    return this;
 }
 
-BaseGameObject* Dove::VDestructor(s32 flags)
+Dove::~Dove()
 {
-    return vdtor_41F630(flags);
-}
-
-void Dove::VUpdate()
-{
-    vUpdate_41FAE0();
-}
-
-void Dove::VRender(PrimHeader** ppOt)
-{
-    vRender_4200B0(ppOt);
-}
-
-void Dove::vRender_4200B0(PrimHeader** ppOt)
-{
-    // Kind of pointless, the override just calls base
-    Render_424B90(ppOt);
-}
-
-void Dove::dtor_41F870()
-{
-    SetVTable(this, 0x544A90); // vTbl_Dove_544A90
-
     if (!field_FC_keepInGlobalArray)
     {
         gDovesArray_5BC100.Remove_Item(this);
@@ -186,18 +157,6 @@ void Dove::dtor_41F870()
         SND_SEQ_Stop_4CAE60(SeqId::NecrumAmbient2_17);
         bTheOneControllingTheMusic_5BC112 = 0;
     }
-
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-Dove* Dove::vdtor_41F630(s32 flags)
-{
-    dtor_41F870();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void Dove::AsAlmostACircle_41FA20(FP xpos, FP ypos, u8 angle)
@@ -249,11 +208,11 @@ static s32 sAbePortalTimer_5BC114 = 0;
 static s16 sAbePortalDirection_551546 = 0;
 static s16 sAbePortalWidth_551544 = 0;
 
-void Dove::vUpdate_41FAE0()
+void Dove::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (!bTheOneControllingTheMusic_5BC112)
@@ -327,7 +286,7 @@ void Dove::vUpdate_41FAE0()
         {
             if (static_cast<s32>(sGnFrame_5C1B84) > field_108_timer)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
 
             FP xOff = {};
@@ -388,14 +347,14 @@ void Dove::vUpdate_41FAE0()
             break;
     }
 
-    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
             field_BC_ypos,
             0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

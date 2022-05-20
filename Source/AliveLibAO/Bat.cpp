@@ -26,8 +26,8 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo)
     
     if (!ppRes)
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDead);
         return this;
     }
 
@@ -86,7 +86,7 @@ BaseGameObject* Bat::dtor_404870()
     {
         field_10C->field_C_refCount--;
     }
-    gMap_507BA8.TLV_Reset_446870(field_F0_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_F0_tlvInfo, -1, 0, 0);
     return dtor_417D10();
 }
 
@@ -102,7 +102,7 @@ void Bat::VScreenChanged()
 
 void Bat::VScreenChanged_404FE0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 Bat* Bat::Vdtor_404FF0(s32 flags)
@@ -163,7 +163,7 @@ void Bat::VUpdate_404950()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     if (sNumCamSwappers_507668 != 0)
@@ -242,7 +242,7 @@ void Bat::VUpdate_404950()
 
             if (!field_E4_pLine)
             {
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
             }
 
             if (!sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
@@ -262,9 +262,9 @@ void Bat::VUpdate_404950()
 
                         if (FP_GetExponent(field_A8_xpos) >= bObjRect.x && FP_GetExponent(field_A8_xpos) <= bObjRect.w && FP_GetExponent(field_AC_ypos) >= bObjRect.y && FP_GetExponent(field_AC_ypos) <= bObjRect.h && pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
                         {
-                            for (s32 j = 0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
+                            for (s32 j = 0; j < gBaseGameObjects->Size(); j++)
                             {
-                                BaseGameObject* pMaybeBat = gBaseGameObject_list_9F2DF0->ItemAt(j);
+                                BaseGameObject* pMaybeBat = gBaseGameObjects->ItemAt(j);
                                 if (!pMaybeBat)
                                 {
                                     break;
@@ -296,9 +296,9 @@ void Bat::VUpdate_404950()
 
         case BatStates::eAttackTarget_4:
         {
-            if (field_10C->field_6_flags.Get(BaseGameObject::eDead_Bit3) || Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+            if (field_10C->mFlags.Get(BaseGameObject::eDead) || Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
             {
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
                 return;
             }
 
@@ -334,7 +334,7 @@ void Bat::VUpdate_404950()
             FlyTo_404E50(field_A8_xpos, field_AC_ypos - FP_FromInteger(40), &xSpeed, &ySpeed);
             if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
             {
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
             }
         }
         break;

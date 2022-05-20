@@ -74,8 +74,8 @@ ScreenClipper* ScreenClipper::ctor_40BD60(PSX_Point xy, PSX_Point wh, Layer laye
     SetVTable(this, 0x4BA428);
     field_4_typeId = Types::eScreenClipper_78;
 
-    field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(Options::eDrawable_Bit4);
 
     field_30_rect.x = xy.field_0_x;
     field_30_rect.y = xy.field_2_y;

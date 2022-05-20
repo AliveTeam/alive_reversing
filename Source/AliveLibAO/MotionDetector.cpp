@@ -137,17 +137,17 @@ BaseGameObject* MotionDetector::dtor_437D70()
 
     if (field_F6_bDontComeBack)
     {
-        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 1);
     }
 
     if (field_108_pLaser)
     {
         field_108_pLaser->field_C_refCount--;
-        field_108_pLaser->field_6_flags.Set(Options::eDead_Bit3);
+        field_108_pLaser->mFlags.Set(Options::eDead);
     }
 
     return dtor_417D10();
@@ -160,7 +160,7 @@ void MotionDetector::VScreenChanged()
 
 void MotionDetector::VScreenChanged_438520()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 BaseGameObject* MotionDetector::VDestructor(s32 flags)
@@ -189,7 +189,7 @@ void MotionDetector::VUpdate_437E90()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     if (!sNumCamSwappers_507668)

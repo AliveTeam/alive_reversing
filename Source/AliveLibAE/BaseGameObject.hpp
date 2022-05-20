@@ -181,7 +181,7 @@ public:
         eUpdatable_Bit2 = 0x002,
 
         // bit 03 = 0x004 = dead
-        eDead_Bit3 = 0x004,
+        eDead = 0x004,
 
         // bit 04 = 0x008 = render
         eDrawable_Bit4 = 0x008,
@@ -208,23 +208,18 @@ public:
         eCantKill_Bit11 = 0x400
     };
 
-    // Order must match VTable
-    virtual BaseGameObject* VDestructor(s32) = 0; // Not an actual dtor because the generated compiler code has the param to determine if heap allocated or not
     virtual void VUpdate();
     virtual void VRender(PrimHeader** pOrderingTable);
     virtual void VScreenChanged();
     virtual void VStopAudio();
     virtual s32 VGetSaveState(u8* pSaveBuffer);
 
-private:
-    EXPORT void ScreenChanged_4DC0A0();
-
 protected:
-    EXPORT u8** Add_Resource_4DC130(u32 type, s32 resourceID);
-    EXPORT void BaseGameObject_ctor_4DBFA0(s16 bAddToObjectList, s16 resourceArraySize);
-    EXPORT void BaseGameObject_dtor_4DBEC0();
+    EXPORT u8** Add_Resource(u32 type, s32 resourceID);
+    BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize);
+    virtual ~BaseGameObject();
 
-    EXPORT static s32 CCSTD Find_Flags_4DC170(s32 objectId);
+    EXPORT static s32 CCSTD RefreshId(s32 objectId);
 
     // Helper to check if a timer has expired
     template <class T>
@@ -264,7 +259,7 @@ public:
 private:
     AETypes field_4_typeId;
 public:
-    BitField16<Options> field_6_flags;
+    BitField16<Options> mFlags;
     s32 field_8_object_id;
     s32 field_C_objectId;
     DynamicArrayT<u8*> field_10_resources_array;
@@ -274,4 +269,4 @@ private:
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x20);
 
 
-ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4);
+ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObjects);

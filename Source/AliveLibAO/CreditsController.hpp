@@ -11,7 +11,7 @@ struct Path_CreditsController final : public Path_TLV {};
 class CreditsController final : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
 
     EXPORT CreditsController* ctor_40CFC0(Path_CreditsController* pTlv, s32 tlvInfo);

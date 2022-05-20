@@ -23,7 +23,7 @@ const Types word_4CF158[54] = {
 
 EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, s16 count)
 {
-    switch (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num])
+    switch (word_4CF158[gMap.mOverlayId])
     {
         case Types::eGrenade_40:
         {
@@ -64,7 +64,7 @@ EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, s16 count)
 
 void BaseThrowable::VToDead_41F990()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
     field_10E_bDead = TRUE;
 }
 

@@ -25,7 +25,7 @@ class GasEmitter final : public BaseGameObject
 public:
     EXPORT GasEmitter* ctor_43CAA0(Path_GasEmitter* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;

@@ -21,8 +21,8 @@ ElectricWall* ElectricWall::ctor_421DA0(Path_ElectricWall* pTlv, s32 tlvInfo)
     SetType(AETypes::eElectricWall_39);
 
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
@@ -97,15 +97,15 @@ void ElectricWall::dtor_421FA0()
 
 void ElectricWall::vScreenChanged_422530()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) == CameraPos::eCamInvalid_m1)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) == CameraPos::eCamInvalid_m1)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void ElectricWall::vUpdate_422030()
 {
-    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+    const CameraPos soundDirection = gMap.GetDirection_4811A0(
         field_C2_lvl_number,
         field_C0_path_number,
         field_B8_xpos,
@@ -113,7 +113,7 @@ void ElectricWall::vUpdate_422030()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (SwitchStates_Get_466020(field_F8_switch_id) == field_FA_start_state)

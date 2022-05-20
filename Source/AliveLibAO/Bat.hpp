@@ -24,7 +24,7 @@ public:
     EXPORT Bat* ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo);
     EXPORT BaseGameObject* dtor_404870();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_404FE0();

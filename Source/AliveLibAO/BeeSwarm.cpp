@@ -39,7 +39,7 @@ BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 cha
     const AnimRecord& rec = AO::AnimRec(AnimId::Bee_Swarm);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 16, 1, 0);
-    if (gMap_507BA8.field_0_current_level != LevelIds::eForestTemple_4 && gMap_507BA8.field_0_current_level != LevelIds::eDesertTemple_9)
+    if (gMap.mCurrentLevel != LevelIds::eForestTemple_4 && gMap.mCurrentLevel != LevelIds::eDesertTemple_9)
     {
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 1, 0);
     }
@@ -52,7 +52,7 @@ BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 cha
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         numBeesToUse = 1;
     }
 
@@ -100,7 +100,7 @@ BaseGameObject* BeeSwarm::dtor_47FDF0()
 
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, 0, 0));
 
-    if (gMap_507BA8.field_0_current_level != LevelIds::eForestTemple_4 && gMap_507BA8.field_0_current_level != LevelIds::eDesertTemple_9)
+    if (gMap.mCurrentLevel != LevelIds::eForestTemple_4 && gMap.mCurrentLevel != LevelIds::eDesertTemple_9)
     {
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 0, 0));
     }
@@ -135,20 +135,20 @@ void BeeSwarm::VScreenChanged()
 
 void BeeSwarm::VScreenChange_480D40()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
-        || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    if (gMap.mCurrentLevel != gMap.mLevel
+        || gMap.mCurrentPath != gMap.mPath)
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     if (field_D98_pChaseTarget)
     {
-        if (field_D98_pChaseTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (field_D98_pChaseTarget->mFlags.Get(BaseGameObject::eDead))
         {
             field_D80_state = BeeSwarmStates::eFlyAwayAndDie_3;
             field_D74_chase_target_y -= FP_FromInteger(240);
@@ -161,7 +161,7 @@ void BeeSwarm::VScreenChange_480D40()
 
     if (!sActiveHero_507678 || (field_D98_pChaseTarget == sActiveHero_507678 && sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 }
 
@@ -210,12 +210,12 @@ void BeeSwarm::VUpdate_47FF50()
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
     {
         ToFlyAwayAndDie();
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
     // Chase target has died
-    if (field_D98_pChaseTarget && field_D98_pChaseTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (field_D98_pChaseTarget && field_D98_pChaseTarget->mFlags.Get(BaseGameObject::eDead))
     {
         ToFlyAwayAndDie();
 
@@ -236,14 +236,14 @@ void BeeSwarm::VUpdate_47FF50()
     switch (field_D80_state)
     {
         case BeeSwarmStates::eIdle_0:
-            if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            if (!gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
                     field_A8_xpos,
                     field_AC_ypos,
                     0))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -362,7 +362,7 @@ void BeeSwarm::VUpdate_47FF50()
                 field_DAC_line_follow_speed);
             if (!field_DA8_pLine)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -374,7 +374,7 @@ void BeeSwarm::VUpdate_47FF50()
 
             if (static_cast<s32>(gnFrameCount_507670) > field_D9C_alive_timer)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 

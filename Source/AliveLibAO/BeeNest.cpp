@@ -18,11 +18,11 @@ BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, s32 tlvInfo)
     field_1C_tlvInfo = tlvInfo;
 
     field_20_top_left = pTlv->field_10_top_left;
-    field_18_level = gMap_507BA8.field_0_current_level;
+    field_18_level = gMap.mCurrentLevel;
     field_24_bottom_right = pTlv->field_14_bottom_right;
 
     field_2A_swarm_size = pTlv->field_1A_swarm_size;
-    field_1A_path = gMap_507BA8.field_2_current_path;
+    field_1A_path = gMap.mCurrentPath;
 
     field_28_switch_id = pTlv->field_18_id;
 
@@ -84,20 +84,20 @@ void BeeNest::VScreenChanged()
 
 void BeeNest::VScreenChanged_481040()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || !field_34_pBeeSwarm)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !field_34_pBeeSwarm)
     {
-        gMap_507BA8.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
         if (field_34_pBeeSwarm)
         {
             field_34_pBeeSwarm->field_C_refCount--;
             field_34_pBeeSwarm = nullptr;
         }
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -131,7 +131,7 @@ void BeeNest::VUpdate_480F30()
             break;
 
         case BeeNestStates::eResetIfDead_1:
-            if (field_34_pBeeSwarm->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (field_34_pBeeSwarm->mFlags.Get(BaseGameObject::eDead))
             {
                 field_2E_state = BeeNestStates::eWaitForTrigger_0;
                 field_34_pBeeSwarm->field_C_refCount--;

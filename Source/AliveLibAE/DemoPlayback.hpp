@@ -9,7 +9,7 @@ public:
     // NOTE: Inlined in real game at 0x4D6990
     void ctor();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

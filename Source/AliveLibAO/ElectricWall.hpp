@@ -29,7 +29,7 @@ public:
 
     EXPORT BaseGameObject* dtor_40FE80();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT ElectricWall* Vdtor_410280(s32 flags);
 

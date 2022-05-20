@@ -66,7 +66,7 @@ struct SprtTPage final
 class ScreenManager final : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT ScreenManager* vdtor_407290(s32 flags);
 

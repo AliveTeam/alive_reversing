@@ -20,19 +20,17 @@ struct Colour final
 constexpr Colour greenFart = {32, 128, 32};
 constexpr Colour redFart = {128, 38, 32};
 
-EvilFart* EvilFart::ctor_422E30()
+EvilFart::EvilFart()
+    : BaseAliveGameObject(0)
 {
-    ctor_408240(0);
-    SetVTable(this, 0x544BE0);
-
     SetType(AETypes::eEvilFart_45);
 
     const AnimRecord& rec = AnimRec(AnimId::Fart);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 
     field_DC_bApplyShadows &= ~1u;
 
@@ -93,18 +91,6 @@ EvilFart* EvilFart::ctor_422E30()
 
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_11C_alive_timer = 220;
-
-    return this;
-}
-
-BaseGameObject* EvilFart::VDestructor(s32 flags)
-{
-    return vdtor_4230D0(flags);
-}
-
-void EvilFart::VUpdate()
-{
-    vUpdate_423100();
 }
 
 s16 EvilFart::VTakeDamage_408730(BaseGameObject* pFrom)
@@ -131,7 +117,6 @@ s32 CC EvilFart::CreateFromSaveState_4281C0(const u8* pBuffer)
     ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
 
     auto pFart = ae_new<EvilFart>();
-    pFart->ctor_422E30();
 
     if (pState->field_2C.Get(EvilFart_State::eBit1_bControlled))
     {
@@ -155,7 +140,7 @@ s32 CC EvilFart::CreateFromSaveState_4281C0(const u8* pBuffer)
     pFart->field_20_animation.field_92_current_frame = pState->field_20_anim_cur_frame;
     pFart->field_20_animation.field_E_frame_change_counter = pState->field_22_frame_change_counter;
 
-    pFart->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
+    pFart->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
     pFart->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
 
     if (IsLastFrame(&pFart->field_20_animation))
@@ -195,7 +180,7 @@ s32 EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
     pState->field_20_anim_cur_frame = field_20_animation.field_92_current_frame;
     pState->field_22_frame_change_counter = field_20_animation.field_E_frame_change_counter;
 
-    pState->field_25_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_25_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_24_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
 
     pState->field_26_level = field_120_level;
@@ -282,9 +267,9 @@ void EvilFart::vOnPossesed_423DA0()
 
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
-    field_120_level = gMap_5C3030.field_0_current_level;
-    field_11E_path = gMap_5C3030.field_2_current_path;
-    field_122_camera = gMap_5C3030.field_4_current_camera;
+    field_120_level = gMap.mCurrentLevel;
+    field_11E_path = gMap.mCurrentPath;
+    field_122_camera = gMap.field_4_current_camera;
 
     sControlledCharacter_5C1B8C = this;
 
@@ -303,7 +288,7 @@ void EvilFart::ResetFartColour()
 
 s16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
@@ -316,11 +301,11 @@ s16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
     return 1;
 }
 
-void EvilFart::vUpdate_423100()
+void EvilFart::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_86_HandstoneBegin_45BD00)
@@ -335,7 +320,7 @@ void EvilFart::vUpdate_423100()
             BlowUp();
             if (field_124_state == FartStates::eIdle_0)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             else
             {
@@ -349,8 +334,8 @@ void EvilFart::vUpdate_423100()
     if (field_118_bBlowUp && static_cast<s32>(sGnFrame_5C1B84) > field_12C_back_to_abe_timer)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        gMap_5C3030.SetActiveCam_480D30(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+        mFlags.Set(BaseGameObject::eDead);
+        gMap.SetActiveCam_480D30(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 
     // Show the count to the boom
@@ -360,17 +345,13 @@ void EvilFart::vUpdate_423100()
         {
             if (!field_118_bBlowUp)
             {
-                auto pIndicatorMem = ae_new<ThrowableTotalIndicator>();
-                if (pIndicatorMem)
-                {
-                    pIndicatorMem->ctor_431CB0(
-                        field_B8_xpos,
-                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
-                        field_20_animation.field_C_render_layer,
-                        field_20_animation.field_14_scale,
-                        field_11C_alive_timer / 50,
-                        1);
-                }
+                ae_new<ThrowableTotalIndicator>(
+                    field_B8_xpos,
+                    field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
+                    field_20_animation.field_C_render_layer,
+                    field_20_animation.field_14_scale,
+                    field_11C_alive_timer / 50,
+                    1);
 
                 field_BC_ypos = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50));
                 Mudokon_SFX_457EC0(MudSounds::eFart_7, 0, 10 * (300 - field_11C_alive_timer), this);
@@ -580,15 +561,10 @@ void EvilFart::vUpdate_423100()
 
 void EvilFart::BlowUp()
 {
-    auto pExplosionMem2 = ae_new<Explosion>();
-    if (pExplosionMem2)
-    {
-        pExplosionMem2->ctor_4A1200(
-            field_B8_xpos,
-            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
-            field_CC_sprite_scale,
-            0);
-    }
+    ae_new<Explosion>(field_B8_xpos,
+        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
+        field_CC_sprite_scale,
+        0);
 }
 
 void EvilFart::CalculateFartColour()
@@ -605,20 +581,4 @@ void EvilFart::CalculateFartColour()
     // Linear change from greenFart to redFart
     field_D0_r = FP_GetExponent(FP_FromInteger(redFart.r) - (scaledValue * FP_FromInteger(redFart.r - greenFart.r)));
     field_D2_g = FP_GetExponent(FP_FromInteger(redFart.g) + (scaledValue * FP_FromInteger(greenFart.g - redFart.g)));
-}
-
-void EvilFart::dtor_423D80()
-{
-    SetVTable(this, 0x544BE0);
-    dtor_4080B0();
-}
-
-EvilFart* EvilFart::vdtor_4230D0(s32 flags)
-{
-    dtor_423D80();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }

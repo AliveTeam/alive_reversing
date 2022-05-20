@@ -19,14 +19,14 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
     SetVTable(this, 0x547F10); // vTbl_Water_547F10
 
     const AnimRecord& waterDropRec = AnimRec(AnimId::WaterDrop);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, waterDropRec.mResourceId);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, waterDropRec.mResourceId);
     if (ppRes)
     {
-        Animation_Init_424E10(waterDropRec.mFrameTableOffset, waterDropRec.mMaxW, waterDropRec.mMaxH, ppRes, 1, 1);
+        Animation_Init(waterDropRec.mFrameTableOffset, waterDropRec.mMaxW, waterDropRec.mMaxH, ppRes, 1, 1);
         field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSplashResID);
+        Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSplashResID);
 
         field_114_tlvInfo = tlvInfo;
         field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
@@ -149,13 +149,13 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
     else
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     return this;
@@ -240,9 +240,9 @@ void Water::vScreenChanged_4E1780()
         field_144_sound_channels = 0;
     }
 
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -303,10 +303,10 @@ void Water::vUpdate_4E0B50()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -322,7 +322,7 @@ void Water::vUpdate_4E0B50()
 
     if (field_13C_not_in_camera_count <= 90)
     {
-        const CameraPos soundDir = gMap_5C3030.GetDirection_4811A0(
+        const CameraPos soundDir = gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -433,7 +433,7 @@ void Water::vUpdate_4E0B50()
                 {
                     if (field_124_tlv_data.field_10_max_drops <= 0) // Someone created a water object in the map with no particles.
                     {
-                        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                        mFlags.Set(BaseGameObject::eDead);
                     }
                     else
                     {
@@ -449,7 +449,7 @@ void Water::vUpdate_4E0B50()
 
                         if (allParticlesDead)
                         {
-                            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                            mFlags.Set(BaseGameObject::eDead);
                         }
                     }
                 }
@@ -544,7 +544,7 @@ void Water::vUpdate_4E0B50()
 
 void Water::vRender_4E1440(PrimHeader** ppOt)
 {
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,

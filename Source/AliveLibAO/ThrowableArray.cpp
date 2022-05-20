@@ -88,11 +88,6 @@ EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, u16 path)
     }
 }
 
-BaseGameObject* ThrowableArray::VDestructor(s32 flags)
-{
-    return Vdtor_454690(flags);
-}
-
 void ThrowableArray::VUpdate()
 {
     VUpdate_4542B0();
@@ -108,36 +103,26 @@ void ThrowableArray::VScreenChanged()
     vScreenChange_454300();
 }
 
-BaseGameObject* ThrowableArray::Vdtor_454690(s32 flags)
-{
-    dtor_453F10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
 void ThrowableArray::VUpdate_4542B0()
 {
     if (field_12_flags & 1)
     {
-        LoadRockTypes_454370(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path);
+        LoadRockTypes_454370(gMap.mCurrentLevel, gMap.mCurrentPath);
         Add_453F70(0);
         field_12_flags &= ~1u;
-        field_6_flags.Clear(Options::eUpdatable_Bit2);
+        mFlags.Clear(Options::eUpdatable_Bit2);
     }
 }
 
 void ThrowableArray::vScreenChange_454300()
 {
-    if (gMap_507BA8.field_A_level != LevelIds::eMenu_0 && gMap_507BA8.field_A_level != LevelIds::eCredits_10)
+    if (gMap.mLevel != LevelIds::eMenu_0 && gMap.mLevel != LevelIds::eCredits_10)
     {
-        if (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num] != word_4CF158[gMap_507BA8.GetOverlayId_4440B0()])
+        if (word_4CF158[gMap.mOverlayId] != word_4CF158[gMap.GetOverlayId()])
         {
             if (!(field_12_flags & 1))
             {
-                field_6_flags.Set(Options::eUpdatable_Bit2);
+                mFlags.Set(Options::eUpdatable_Bit2);
                 field_12_flags |= 1;
                 Remove_4540D0(0);
             }
@@ -145,29 +130,27 @@ void ThrowableArray::vScreenChange_454300()
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
-BaseGameObject* ThrowableArray::dtor_453F10()
+ThrowableArray::~ThrowableArray()
 {
     gpThrowableArray_50E26C = nullptr;
     if (field_10_count > 0)
     {
         Remove_4540D0(field_10_count);
     }
-    return dtor_487DF0();
+
 }
 
-ThrowableArray* ThrowableArray::ctor_453EE0()
+ThrowableArray::ThrowableArray()
+    : BaseGameObject(TRUE)
 {
-    ctor_487E10(1);
-    SetVTable(this, 0x4BC040);
-    field_6_flags.Clear(Options::eUpdatable_Bit2);
+    mFlags.Clear(Options::eUpdatable_Bit2);
     field_10_count = 0;
     gpThrowableArray_50E26C = this;
     field_12_flags &= ~7u;
-    return this;
 }
 
 void ThrowableArray::Remove_4540D0(s16 count)
@@ -194,7 +177,7 @@ void ThrowableArray::Remove_4540D0(s16 count)
     u8** ppRes = nullptr;
     if (field_12_flags & 2)
     {
-        switch (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num])
+        switch (word_4CF158[gMap.mOverlayId])
         {
             case Types::eGrenade_40:
                 ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kExplo2AOResID, 0, 0));
@@ -251,7 +234,7 @@ void ThrowableArray::Add_453F70(s16 count)
     {
         if (!(field_12_flags & 2))
         {
-            switch (word_4CF158[gMap_507BA8.field_28_cd_or_overlay_num])
+            switch (word_4CF158[gMap.mOverlayId])
             {
                 case Types::eGrenade_40:
                     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kExplo2AOResID, 1, 0);

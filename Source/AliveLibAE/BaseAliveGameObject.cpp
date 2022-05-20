@@ -19,11 +19,9 @@
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
-EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(s16 resourceArraySize)
+BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
+    : BaseAnimatedWithPhysicsGameObject(resourceArraySize)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(resourceArraySize);
-    SetVTable(this, 0x544000);
-
     field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
     field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
     field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
@@ -49,16 +47,12 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(s16 resourceArraySi
 
     gBaseAliveGameObjects_5C1B7C->Push_Back(this);
 
-    field_6_flags.Set(BaseGameObject::eIsBaseAliveGameObject_Bit6);
-
-    return this;
+    mFlags.Set(BaseGameObject::eIsBaseAliveGameObject_Bit6);
 }
 
-EXPORT void BaseAliveGameObject::dtor_4080B0()
+BaseAliveGameObject::~BaseAliveGameObject()
 {
-    SetVTable(this, 0x544000);
-
-    BaseAliveGameObject* pField_110 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    BaseAliveGameObject* pField_110 = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_110_id));
     gBaseAliveGameObjects_5C1B7C->Remove_Item(this);
 
     if (pField_110)
@@ -71,29 +65,11 @@ EXPORT void BaseAliveGameObject::dtor_4080B0()
     {
         pResourceManager_5C1BB0->Shutdown_465610();
     }
-
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-
-BaseGameObject* BaseAliveGameObject::vdtor_408210(s32 flags)
-{
-    dtor_4080B0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void BaseAliveGameObject::VRender(PrimHeader** ppOt)
 {
-    Render_424B90(ppOt);
-}
-
-BaseGameObject* BaseAliveGameObject::VDestructor(s32 flags)
-{
-    return vdtor_408210(flags);
+    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 }
 
 void BaseAliveGameObject::VUnPosses_408F90()
@@ -262,7 +238,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(s16 cameraWorldXPos, s16 came
 
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 
-    if (sActiveHero_5C1B68 == this && gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2 && gMap_5C3030.field_2_current_path == 2 && (field_106_current_motion == eAbeMotions::Motion_23_RollLoop_453A90 || field_106_current_motion == eAbeMotions::Motion_17_CrouchIdle_456BC0))
+    if (sActiveHero_5C1B68 == this && gMap.mCurrentLevel == LevelIds::eNecrum_2 && gMap.mCurrentPath == 2 && (field_106_current_motion == eAbeMotions::Motion_23_RollLoop_453A90 || field_106_current_motion == eAbeMotions::Motion_17_CrouchIdle_456BC0))
     {
         // Yummy OWI hack - hard code Abe's location when path change to Necrum's first path after the Mines :)
         field_100_pCollisionLine = nullptr;
@@ -334,7 +310,7 @@ void BaseAliveGameObject::vOn_TLV_Collision_4087F0(Path_TLV* /*pTlv*/)
 
 void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(s16 distance)
 {
-    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
     if (!field_100_pCollisionLine)
     {
         return;
@@ -388,9 +364,9 @@ void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(s16 distance)
 
 BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(s16 numGridBlocks)
 {
-    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        auto pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -493,9 +469,9 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFi
     const s16 yposD = FP_GetExponent(ypos);
 
     Bool32 bFound = FALSE;
-    for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
         if (!pObj)
         {
             break;
@@ -533,28 +509,28 @@ EXPORT void BaseAliveGameObject::SetActiveCameraDelayedFromDir_408C40()
             case CameraPos::eCamTop_1:
                 if (field_C8_vely < FP_FromInteger(0))
                 {
-                    gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop_2, this, -1);
+                    gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop_2, this, -1);
                 }
                 break;
 
             case CameraPos::eCamBottom_2:
                 if (field_C8_vely > FP_FromInteger(0))
                 {
-                    gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapBottom_3, this, -1);
+                    gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapBottom_3, this, -1);
                 }
                 break;
 
             case CameraPos::eCamLeft_3:
                 if (field_C4_velx < FP_FromInteger(0))
                 {
-                    gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1);
+                    gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1);
                 }
                 break;
 
             case CameraPos::eCamRight_4:
                 if (field_C4_velx > FP_FromInteger(0))
                 {
-                    gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1);
+                    gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1);
                 }
                 break;
 
@@ -577,25 +553,25 @@ s16 BaseAliveGameObject::MapFollowMe_408D10(s16 snapToGrid)
     }
 
     PSX_Point currentCamXY = {};
-    gMap_5C3030.GetCurrentCamCoords_480680(&currentCamXY);
+    gMap.GetCurrentCamCoords_480680(&currentCamXY);
 
     // Gone off the left edge of the current screen
     if (xposSnapped < currentCamXY.field_0_x && (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) || field_C4_velx < FP_FromInteger(0)))
     {
-        if (sControlledCharacter_5C1B8C == this && gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1))
+        if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1))
         {
-            field_C2_lvl_number = gMap_5C3030.field_0_current_level;
-            field_C0_path_number = gMap_5C3030.field_2_current_path;
+            field_C2_lvl_number = gMap.mCurrentLevel;
+            field_C0_path_number = gMap.mCurrentPath;
             return 1;
         }
     }
     // Gone off the right edge of the current screen
     else if (xposSnapped > currentCamXY.field_0_x + 368 && (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) || field_C4_velx > FP_FromInteger(0)))
     {
-        if (sControlledCharacter_5C1B8C == this && gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1))
+        if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1))
         {
-            field_C2_lvl_number = gMap_5C3030.field_0_current_level;
-            field_C0_path_number = gMap_5C3030.field_2_current_path;
+            field_C2_lvl_number = gMap.mCurrentLevel;
+            field_C0_path_number = gMap.mCurrentPath;
             return 1;
         }
     }
@@ -696,9 +672,9 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind,
     const s32 xposI = FP_GetExponent(xpos);
     const s32 yposI = FP_GetExponent(ypos);
 
-    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

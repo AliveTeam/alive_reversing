@@ -36,7 +36,7 @@ public:
 
     EXPORT void VUpdate_478320();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     s32 field_10_tlvInfo;
     PSX_RECT field_14_rect;

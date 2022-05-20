@@ -22,11 +22,9 @@ struct ParticleBurst_Item final
 ALIVE_ASSERT_SIZEOF(ParticleBurst_Item, 0x88);
 
 
-ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, FP scale, BurstType type, s16 count)
+ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, BurstType type, s32 count)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x5447DC);
-
     SetType(AETypes::eParticleBurst_29);
 
     // TODO: Check it
@@ -44,7 +42,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
         count = 1;
     }
 
-    field_106_count = count;
+    field_106_count = static_cast<s16>(count);
     field_CC_sprite_scale = scale;
     field_F4_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * numOfParticles);
     if (field_F4_ppRes)
@@ -54,7 +52,6 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
         {
             // Placement new each element
             new (&field_F8_pRes[i]) ParticleBurst_Item();
-            SetVTable(&field_F8_pRes[i].field_18_anim, 0x5447CC);
         }
 
         field_104_type = type;
@@ -63,7 +60,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
             case BurstType::eFallingRocks_0:
             {
                 const AnimRecord& rocksRec = AnimRec(AnimId::Explosion_Rocks);
-                Animation_Init_424E10(rocksRec.mFrameTableOffset, rocksRec.mMaxW, rocksRec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, rocksRec.mResourceId), 1, 1u);
+                Animation_Init(rocksRec.mFrameTableOffset, rocksRec.mMaxW, rocksRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rocksRec.mResourceId), 1, 1u);
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 break;
@@ -72,7 +69,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
             case BurstType::eSticks_1:
             {
                 const AnimRecord& sticksRec = AnimRec(AnimId::Explosion_Sticks);
-                Animation_Init_424E10(sticksRec.mFrameTableOffset, sticksRec.mMaxW, sticksRec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, sticksRec.mResourceId), 1, 1u);
+                Animation_Init(sticksRec.mFrameTableOffset, sticksRec.mMaxW, sticksRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, sticksRec.mResourceId), 1, 1u);
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 break;
@@ -81,7 +78,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
             case BurstType::eBigPurpleSparks_2:
             {
                 const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
-                Animation_Init_424E10(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, flareRec.mResourceId), 1, 1u);
+                Animation_Init(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId), 1, 1u);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
@@ -93,7 +90,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
             case BurstType::eSmallPurpleSparks_6:
             {
                 const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
-                Animation_Init_424E10(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, flareRec.mResourceId), 1, 1u);
+                Animation_Init(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId), 1, 1u);
                 field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
@@ -122,9 +119,9 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
                 break;
         }
 
-        if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
+        if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
         else
         {
@@ -183,24 +180,8 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, u32 numOfParticles, 
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
-    return this;
-}
-
-BaseGameObject* ParticleBurst::VDestructor(s32 flags)
-{
-    return vdtor_41D4E0(flags);
-}
-
-void ParticleBurst::VUpdate()
-{
-    vUpdate_41D590();
-}
-
-void ParticleBurst::VRender(PrimHeader** ppOt)
-{
-    vRender_41D7B0(ppOt);
 }
 
 FP* ParticleBurst::Random_Speed_41CEE0(FP* random)
@@ -210,27 +191,15 @@ FP* ParticleBurst::Random_Speed_41CEE0(FP* random)
     return random;
 }
 
-ParticleBurst* ParticleBurst::vdtor_41D4E0(s32 flags)
+ParticleBurst::~ParticleBurst()
 {
-    dtor_41D510();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void ParticleBurst::dtor_41D510()
-{
-    SetVTable(this, 0x5447DC);
     if (field_F4_ppRes)
     {
         ResourceManager::FreeResource_49C330(field_F4_ppRes);
     }
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
+void ParticleBurst::VRender(PrimHeader** ppOt)
 {
     bool bFirst = true;
     if (sNum_CamSwappers_5C1B66 == 0)
@@ -379,7 +348,7 @@ void ParticleBurst::vRender_41D7B0(PrimHeader** ppOt)
     }
 }
 
-void ParticleBurst::vUpdate_41D590()
+void ParticleBurst::VUpdate()
 {
     const s32 v3 = field_CC_sprite_scale != FP_FromInteger(1) ? 2 : 4;
     for (s32 i = 0; i < field_FC_number_of_particles; i++)
@@ -431,11 +400,11 @@ void ParticleBurst::vUpdate_41D590()
 
     if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }

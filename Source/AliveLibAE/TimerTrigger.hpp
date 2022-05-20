@@ -38,7 +38,7 @@ class TimerTrigger final : public BaseGameObject
 public:
     EXPORT TimerTrigger* ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;

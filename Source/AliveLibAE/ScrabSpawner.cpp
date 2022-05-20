@@ -86,7 +86,7 @@ s32 ScrabSpawner::vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState)
 
     if (field_3C_spawned_scrab_id != -1)
     {
-        BaseGameObject* pSpawnedScrab = sObjectIds_5C1B70.Find_449CF0(field_3C_spawned_scrab_id);
+        BaseGameObject* pSpawnedScrab = sObjectIds.Find_449CF0(field_3C_spawned_scrab_id);
         if (pSpawnedScrab)
         {
             pSaveState->field_C_spawned_scrab_id = pSpawnedScrab->field_C_objectId;
@@ -102,9 +102,9 @@ void ScrabSpawner::vUpdate_4AB510()
         field_40_bFindSpawnedScrab = FALSE;
         if (field_3C_spawned_scrab_id != -1)
         {
-            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
-                BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+                BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
                 if (!pObj)
                 {
                     break;
@@ -120,12 +120,12 @@ void ScrabSpawner::vUpdate_4AB510()
         }
     }
 
-    auto pExistingSpawnedScrab = static_cast<Scrab*>(sObjectIds_5C1B70.Find_449CF0(field_3C_spawned_scrab_id));
-    if (!Event_Get_422C00(kEventDeathReset) && !(field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+    auto pExistingSpawnedScrab = static_cast<Scrab*>(sObjectIds.Find_449CF0(field_3C_spawned_scrab_id));
+    if (!Event_Get_422C00(kEventDeathReset) && !(mFlags.Get(BaseGameObject::eDead)))
     {
         if (field_38_state == ScrabSpawnerStates::eScrabSpawned_1)
         {
-            if (!pExistingSpawnedScrab || pExistingSpawnedScrab->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (!pExistingSpawnedScrab || pExistingSpawnedScrab->mFlags.Get(BaseGameObject::eDead))
             {
                 SwitchStates_Do_Operation_465F00(field_24_spawner_switch_id, SwitchOp::eSetFalse_1);
                 field_3C_spawned_scrab_id = -1;
@@ -155,7 +155,7 @@ void ScrabSpawner::vUpdate_4AB510()
                 }
                 else
                 {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    mFlags.Set(BaseGameObject::eDead);
                 }
             }
         }

@@ -36,7 +36,7 @@ public:
     EXPORT static s32 CC CreateFromSaveState_43BD10(const u8* pBuffer);
     EXPORT GameEnderController* ctor_43B840();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;

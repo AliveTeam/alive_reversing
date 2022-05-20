@@ -440,7 +440,7 @@ public:
 
     EXPORT BaseGameObject* dtor_420C80();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

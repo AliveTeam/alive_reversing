@@ -12,12 +12,9 @@
 class PalleteOverwriter final : public BaseGameObject
 {
 public:
-    EXPORT PalleteOverwriter* ctor_4228D0(PSX_Point palXY, s16 palDepth, s16 colour)
+    PalleteOverwriter(PSX_Point palXY, s16 palDepth, s16 colour)
+        : BaseGameObject(FALSE, 0)
     {
-        BaseGameObject_ctor_4DBFA0(FALSE, 0);
-
-        SetVTable(this, 0x544BC4); // vTbl_Class_544BC4
-
         SetType(AETypes::ePalOverwriter_44);
 
         gObjList_drawables_5C1124->Push_Back(this);
@@ -25,7 +22,7 @@ public:
         field_20_pal_xy = palXY;
         field_24_pal_colours_count = palDepth;
 
-        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
         for (auto& palBufferEntry : field_B8_palBuffer)
         {
@@ -36,23 +33,11 @@ public:
         field_C8_pal_x_index = 1;
         field_CC_bFirstUpdate = 1;
         field_CE_bDone = FALSE;
-
-        return this;
     }
 
-    virtual BaseGameObject* VDestructor(s32 flags) override
+    ~PalleteOverwriter()
     {
-        return vdtor_4229C0(flags);
-    }
-
-    virtual void VUpdate() override
-    {
-        vUpdate_422A70();
-    }
-
-    virtual void VRender(PrimHeader** ppOt) override
-    {
-        vRender_422B30(ppOt);
+        gObjList_drawables_5C1124->Remove_Item(this);
     }
 
     virtual void VScreenChanged() override
@@ -60,8 +45,7 @@ public:
         // Stayin' alive
     }
 
-private:
-    EXPORT void vUpdate_422A70()
+    void VUpdate()
     {
         if (field_CC_bFirstUpdate || field_CE_bDone)
         {
@@ -92,24 +76,7 @@ private:
         }
     }
 
-    EXPORT void dtor_4229F0()
-    {
-        SetVTable(this, 0x544BC4); // vTbl_Class_544BC4
-        gObjList_drawables_5C1124->Remove_Item(this);
-        BaseGameObject_dtor_4DBEC0();
-    }
-
-    EXPORT PalleteOverwriter* vdtor_4229C0(s32 flags)
-    {
-        dtor_4229F0();
-        if (flags & 1)
-        {
-            ae_delete_free_495540(this);
-        }
-        return this;
-    }
-
-    EXPORT void vRender_422B30(PrimHeader** /*ppOt*/)
+    void VRender(PrimHeader** /*ppOt*/)
     {
         if (!field_CE_bDone)
         {
@@ -135,21 +102,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xD0);
 
-BaseGameObject* Electrocute::VDestructor(s32 flags)
-{
-    return vdtor_4E6060(flags);
-}
-
-void Electrocute::VUpdate()
-{
-    vUpdate_4E6240();
-}
-
-void Electrocute::VScreenChanged()
-{
-    vScreenChanged_4E65E0();
-}
-
 void Electrocute::VStop_4E6150()
 {
     vStop_4E6150();
@@ -160,11 +112,9 @@ s32 Electrocute::VSub_4E6630()
     return vSub_4E6630();
 }
 
-Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter, s16 bKillTarget)
+Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-
-    SetVTable(this, 0x548100); // vTbl_Class_548100
     SetType(AETypes::eElectrocute_150);
 
     field_20_target_obj_id = pTargetObj->field_8_object_id;
@@ -197,30 +147,13 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, s16 bExtr
     {
         pPalOverwriter = nullptr;
     }
-
-    return this;
 }
 
-Electrocute* Electrocute::vdtor_4E6060(s32 flags)
+Electrocute::~Electrocute()
 {
-    dtor_4E6090();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Electrocute::dtor_4E6090()
-{
-    SetVTable(this, 0x548100); // vTbl_Class_548100
-
     for (auto& pPalOverwriter : field_30_pPalOverwriters)
     {
-        if (pPalOverwriter)
-        {
-            pPalOverwriter->VDestructor(1);
-        }
+        delete pPalOverwriter;
     }
 
     field_20_target_obj_id = -1;
@@ -229,25 +162,22 @@ void Electrocute::dtor_4E6090()
     {
         ae_non_zero_free_495560(field_40_pPalData);
     }
-
-    // NOTE: omitted vtable vTbl_IClass_548128
-    BaseGameObject_dtor_4DBEC0();
 }
 
-void Electrocute::vScreenChanged_4E65E0()
+void Electrocute::VScreenChanged()
 {
-    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_20_target_obj_id));
+    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_20_target_obj_id));
     // If the map has changed or target we are tracking has died then..
-    if (gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710() || (pTargetObj && pTargetObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+    if (gMap.mOverlayId != gMap.GetOverlayId() || (pTargetObj && pTargetObj->mFlags.Get(BaseGameObject::eDead)))
     {
         VStop_4E6150();
     }
 }
 
-void Electrocute::vUpdate_4E6240()
+void Electrocute::VUpdate()
 {
-    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_20_target_obj_id));
-    if (!pTargetObj || pTargetObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_20_target_obj_id));
+    if (!pTargetObj || pTargetObj->mFlags.Get(BaseGameObject::eDead))
     {
         VStop_4E6150();
     }
@@ -278,36 +208,27 @@ void Electrocute::vUpdate_4E6240()
                 break;
 
             case States::eAlphaFadeout_1:
-                field_30_pPalOverwriters[0] = ae_new<PalleteOverwriter>();
-                if (field_30_pPalOverwriters[0])
-                {
-                    field_30_pPalOverwriters[0]->ctor_4228D0(
-                        pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                        pTargetObj->field_20_animation.field_90_pal_depth,
-                        static_cast<s16>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
-                }
+                field_30_pPalOverwriters[0] = ae_new<PalleteOverwriter>(
+                    pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                    pTargetObj->field_20_animation.field_90_pal_depth,
+                    static_cast<s16>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
 
-                field_30_pPalOverwriters[1] = ae_new<PalleteOverwriter>();
+                field_30_pPalOverwriters[1] = ae_new<PalleteOverwriter>(
+                    pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                    pTargetObj->field_20_animation.field_90_pal_depth,
+                    static_cast<s16>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
                 if (field_30_pPalOverwriters[1])
                 {
-                    field_30_pPalOverwriters[1]->ctor_4228D0(
-                        pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                        pTargetObj->field_20_animation.field_90_pal_depth,
-                        static_cast<s16>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
-
                     field_30_pPalOverwriters[1]->SetUpdateDelay(4);
                 }
 
                 if (field_3C_extraOverwriter)
                 {
-                    field_30_pPalOverwriters[2] = ae_new<PalleteOverwriter>();
+                    field_30_pPalOverwriters[2] = ae_new<PalleteOverwriter>(pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                        pTargetObj->field_20_animation.field_90_pal_depth,
+                        static_cast<s16>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
                     if (field_30_pPalOverwriters[2])
                     {
-                        field_30_pPalOverwriters[2]->ctor_4228D0(
-                            pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                            pTargetObj->field_20_animation.field_90_pal_depth,
-                            static_cast<s16>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
-
                         field_30_pPalOverwriters[2]->SetUpdateDelay(8);
                     }
                 }
@@ -351,7 +272,7 @@ void Electrocute::vUpdate_4E6240()
             break;
 
             case States::eKillElectrocute_3:
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 break;
 
             default:
@@ -372,16 +293,13 @@ void Electrocute::vStop_4E6150()
 {
     for (auto& pPalOverwriter : field_30_pPalOverwriters)
     {
-        if (pPalOverwriter)
-        {
-            pPalOverwriter->VDestructor(1);
-            pPalOverwriter = nullptr;
-        }
+        delete pPalOverwriter;
+        pPalOverwriter = nullptr;
     }
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_20_target_obj_id));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_20_target_obj_id));
     if (pTarget)
     {
         if (field_40_pPalData)

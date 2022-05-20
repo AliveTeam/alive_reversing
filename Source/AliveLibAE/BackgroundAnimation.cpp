@@ -5,38 +5,20 @@
 #include "Events.hpp"
 #include "DDCheat.hpp"
 
-BaseGameObject* BackgroundAnimation::VDestructor(s32 flags)
+BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItemInfoUnion tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    return vdtor_40D420(flags);
-}
-
-void BackgroundAnimation::VUpdate()
-{
-    vUpdate_40D450();
-}
-
-void BackgroundAnimation::VScreenChanged()
-{
-    vScreenChanged_40D550();
-}
-
-BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* pTlv, TlvItemInfoUnion tlvInfo)
-{
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x5440F0); // vTbl_BackgroundAnimation_5440F0
-
     SetType(AETypes::eBackgroundAnimation_7);
     field_F8_tlvInfo = tlvInfo;
 
     const BgAnimRecord& anim = BgAnimRec(pTlv->field_10_anim_id);
-    field_F4_res = reinterpret_cast<AnimHeader**>(Add_Resource_4DC130(ResourceManager::Resource_Animation, anim.mBgAnimId));
+    field_F4_res = reinterpret_cast<AnimHeader**>(Add_Resource(ResourceManager::Resource_Animation, anim.mBgAnimId));
     if (!field_F4_res)
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        return this;
+        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDead);
+        return;
     }
-
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -44,7 +26,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* 
     field_FC_animXPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_100_animYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    Animation_Init_424E10(
+    Animation_Init(
         anim.mFrameTableOffset,
         anim.mMaxW,
         anim.mMaxH,
@@ -73,14 +55,13 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(Path_BackgroundAnimation* 
     {
         field_20_animation.field_C_render_layer = Layer::eLayer_1;
     }
-    return this;
 }
 
-void BackgroundAnimation::vUpdate_40D450()
+void BackgroundAnimation::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -89,24 +70,12 @@ void BackgroundAnimation::vUpdate_40D450()
     }
 }
 
-void BackgroundAnimation::vScreenChanged_40D550()
+void BackgroundAnimation::VScreenChanged()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
-void BackgroundAnimation::dtor_40D4C0()
+BackgroundAnimation::~BackgroundAnimation()
 {
-    SetVTable(this, 0x5440F0); // vTbl_BackgroundAnimation_5440F0
     Path::TLV_Reset_4DB8E0(field_F8_tlvInfo.all, -1, 0, 0);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-BaseGameObject* BackgroundAnimation::vdtor_40D420(s32 flags)
-{
-    dtor_40D4C0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }

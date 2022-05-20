@@ -251,7 +251,7 @@ class Slig final : public BaseAliveGameObject
 public:
     EXPORT Slig* ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

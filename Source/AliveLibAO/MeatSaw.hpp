@@ -49,7 +49,7 @@ public:
 
     EXPORT BaseGameObject* dtor_4398F0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT MeatSaw* Vdtor_43A0B0(s32 flags);
 

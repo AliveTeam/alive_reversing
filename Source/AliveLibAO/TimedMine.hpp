@@ -30,7 +30,7 @@ public:
     EXPORT BaseGameObject* dtor_408690();
     EXPORT void StickToLiftPoint_408CA0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VRender(PrimHeader** ppOt) override;

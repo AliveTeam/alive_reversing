@@ -34,15 +34,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x18);
 class MusicTrigger final : public BaseGameObject
 {
 public:
-    EXPORT BaseGameObject* ctor_47FE40(Path_MusicTrigger* pTlv, u32 tlvInfo);
-    EXPORT MusicTrigger* ctor_47FF10(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s32 /*not_used*/, s16 delay);
+    MusicTrigger(Path_MusicTrigger* pTlv, u32 tlvInfo);
+    MusicTrigger(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s32 /*not_used*/, s32 delay);
     EXPORT void Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 delay);
-    EXPORT BaseGameObject* vdtor_47FEE0(s32 flags);
-    EXPORT void dtor_4800C0();
+    ~MusicTrigger();
     EXPORT void vScreenChange_4802A0();
     EXPORT void vUpdate_480140();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

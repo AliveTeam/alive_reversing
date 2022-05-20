@@ -17,7 +17,7 @@ class BrewMachine final : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT BrewMachine* ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 

@@ -619,11 +619,6 @@ void CC Get_fmvs_sectors_494460(const char_type* pMovieName1, const char_type* p
     }
 }
 
-BaseGameObject* Movie::VDestructor(s32 flags)
-{
-    return vdtor_4DFE80(flags);
-}
-
 void Movie::VUpdate()
 {
     vUpdate_4E0030();
@@ -636,8 +631,8 @@ void Movie::VScreenChanged()
 
 void Movie::Init_4DFF60(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume)
 {
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     SetType(AETypes::eMovie_145);
 
@@ -673,15 +668,12 @@ void Movie::Init_4DFF60(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 vol
     ResourceManager::Reclaim_Memory_49C470(0);
 }
 
-Movie* Movie::ctor_4DFDE0(s32 id, u32 pos, s16 bUnknown, s16 flags, s16 volume)
+Movie::Movie(s32 id, u32 pos, s16 bUnknown, s16 flags, s16 volume)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    SetVTable(this, 0x547EF4); // vTbl_Movie_547EF4
-
     CdlLOC cdLoc = {};
     PSX_Pos_To_CdLoc_4FADD0(pos, &cdLoc);
     Init_4DFF60(id, &cdLoc, bUnknown, flags, volume);
-    return this;
 }
 
 void Movie::vUpdate_4E0030()
@@ -689,7 +681,7 @@ void Movie::vUpdate_4E0030()
     if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
         // Skip FMVs in rec/playback mode
-        field_6_flags.Set(BaseGameObject::Options::eDead_Bit3);
+        mFlags.Set(BaseGameObject::Options::eDead);
     }
     else
     {
@@ -722,15 +714,6 @@ void Movie::vUpdate_4E0030()
     DeInit_4E0210();
 }
 
-BaseGameObject* Movie::vdtor_4DFE80(s32 flags)
-{
-    BaseGameObject_dtor_4DBEC0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
 
 void Movie::DeInit_4E0210()
 {
@@ -754,7 +737,7 @@ void Movie::DeInit_4E0210()
     gReverbEnabled = wasReverbEnabled;
     #endif
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 bool AreMovieSkippingInputsHeld()

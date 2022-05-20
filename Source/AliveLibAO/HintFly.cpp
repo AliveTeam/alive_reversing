@@ -1371,7 +1371,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
         field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
         field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-        const char_type* pMsg = gHintFlyMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, pTlv->field_18_message_id);
+        const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->field_18_message_id);
 
         field_118_counter = 20;
         field_11A_msg_len = 0;
@@ -1484,13 +1484,13 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
     else
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDead);
     }
     return this;
 }
@@ -1530,7 +1530,7 @@ void HintFly::VScreenChanged()
 
 void HintFly::VScreenChanged_42BCE0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 BaseGameObject* HintFly::dtor_42ADF0()
@@ -1540,13 +1540,13 @@ BaseGameObject* HintFly::dtor_42ADF0()
     {
         ResourceManager::FreeResource_455550(field_E4_ppRes);
     }
-    gMap_507BA8.TLV_Reset_446870(field_124_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_124_tlvInfo, -1, 0, 0);
     return dtor_417D10();
 }
 
 void HintFly::FormWordAndAdvanceToNextWord_42AF90()
 {
-    const char_type* msgPtr = &gHintFlyMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, field_11C_message_id)[field_11E_msg_idx];
+    const char_type* msgPtr = &gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_11C_message_id)[field_11E_msg_idx];
     LOG_INFO("Word is " << msgPtr);
 
     // Find how long the word is
@@ -1671,7 +1671,7 @@ void HintFly::VUpdate_42B3D0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_112_state)
@@ -1783,7 +1783,7 @@ void HintFly::VUpdate_42B3D0()
             if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
             {
                 s16 len = 0;
-                const char_type* pMsgIter = gHintFlyMessages.GetMessage(gMap_507BA8.field_0_current_level, gMap_507BA8.field_2_current_path, field_11C_message_id) + field_11E_msg_idx;
+                const char_type* pMsgIter = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_11C_message_id) + field_11E_msg_idx;
                 while (*pMsgIter != ' ' && *pMsgIter != '\0')
                 {
                     len += pHintFlyAlphabet_4C7268[(*pMsgIter) - 'A'][0];

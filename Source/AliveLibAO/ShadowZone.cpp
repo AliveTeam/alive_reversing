@@ -16,8 +16,8 @@ ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tl
 
     sShadowZone_dArray_507B08->Push_Back(this);
 
-    field_16_path = gMap_507BA8.field_2_current_path;
-    field_14_level = gMap_507BA8.field_0_current_level;
+    field_16_path = gMap.mCurrentPath;
+    field_14_level = gMap.mCurrentLevel;
 
     field_10_tlvInfo = tlvInfo;
 
@@ -130,7 +130,7 @@ s16 ShadowZone::ApplysToScale(s16 scale)
 BaseGameObject* ShadowZone::dtor_435F10()
 {
     SetVTable(this, 0x4BB728);
-    gMap_507BA8.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
     sShadowZone_dArray_507B08->Remove_Item(this);
     return dtor_487DF0();
 }
@@ -164,13 +164,13 @@ void ShadowZone::VUpdate_435F80()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void ShadowZone::VScreenChanged_435FE0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void ShadowZone::GetColourAmount_435E40(FP* pOut, s16 xpos, s16 ypos)

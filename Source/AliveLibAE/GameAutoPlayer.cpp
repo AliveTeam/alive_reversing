@@ -9,18 +9,18 @@ void Recorder::SaveObjectStates()
     mFile.Write(RecordTypes::FrameCounter);
     mFile.Write(sGnFrame_5C1B84);
 
-    const u32 objCount = gBaseGameObject_list_BB47C4->Size();
+    const u32 objCount = gBaseGameObjects->Size();
     mFile.Write(RecordTypes::ObjectCounter);
     mFile.Write(objCount);
 
     for (u32 i = 0; i < objCount; i++)
     {
         mFile.Write(RecordTypes::ObjectStates);
-        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         const s16 objType = static_cast<s16>(pObj->Type());
         ::fwrite(&objType, sizeof(s16), 1, mFile.GetFile());
 
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             mFile.Write(RecordTypes::AliveObjectStates);
 
@@ -53,9 +53,9 @@ bool Player::ValidateObjectStates()
     ValidateNextTypeIs(RecordTypes::ObjectCounter);
     const u32 objCount = mFile.ReadU32();
 
-    if (static_cast<u32>(gBaseGameObject_list_BB47C4->Size()) != objCount)
+    if (static_cast<u32>(gBaseGameObjects->Size()) != objCount)
     {
-        LOG_ERROR("Got " << gBaseGameObject_list_BB47C4->Size() << " objects but expected " << objCount);
+        LOG_ERROR("Got " << gBaseGameObjects->Size() << " objects but expected " << objCount);
         return false;
     }
 
@@ -66,14 +66,14 @@ bool Player::ValidateObjectStates()
         s16 objType = 0;
         mFile.Read(objType);
 
-        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (static_cast<s16>(pObj->Type()) != objType)
         {
             LOG_ERROR("Got " << static_cast<s16>(pObj->Type()) << " type but expected " << objType);
             return false;
         }
 
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             ValidateNextTypeIs(RecordTypes::AliveObjectStates);
 

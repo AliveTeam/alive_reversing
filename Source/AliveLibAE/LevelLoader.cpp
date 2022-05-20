@@ -37,7 +37,7 @@ void LevelLoader::vUpdate_4DD400()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -56,12 +56,12 @@ void LevelLoader::vUpdate_4DD400()
         }
         else if (field_22_state == States::eFadingOut_1)
         {
-            DeathFadeOut* pFade = static_cast<DeathFadeOut*>(sObjectIds_5C1B70.Find_449CF0(field_30_fade_id));
+            DeathFadeOut* pFade = static_cast<DeathFadeOut*>(sObjectIds.Find_449CF0(field_30_fade_id));
             if (!pFade || pFade->field_7E_bDone)
             {
                 if (field_2A_movie_id)
                 {
-                    gMap_5C3030.SetActiveCam_480D30(
+                    gMap.SetActiveCam_480D30(
                         field_24_level,
                         field_26_path,
                         field_28_camera,
@@ -71,7 +71,7 @@ void LevelLoader::vUpdate_4DD400()
                 }
                 else
                 {
-                    gMap_5C3030.SetActiveCam_480D30(
+                    gMap.SetActiveCam_480D30(
                         field_24_level,
                         field_26_path,
                         field_28_camera,

@@ -12,7 +12,7 @@ class ScreenClipper final : public BaseGameObject
 public:
     EXPORT ScreenClipper* ctor_40BD60(PSX_Point xy, PSX_Point wh, Layer layer);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;

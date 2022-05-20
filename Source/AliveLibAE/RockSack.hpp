@@ -19,7 +19,7 @@ class RockSack final : public BaseAliveGameObject
 public:
     EXPORT RockSack* ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 

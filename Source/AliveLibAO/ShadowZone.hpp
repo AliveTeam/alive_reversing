@@ -37,7 +37,7 @@ public:
 
     EXPORT BaseGameObject* dtor_435F10();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT ShadowZone* Vdtor_436180(s32 flags);
 

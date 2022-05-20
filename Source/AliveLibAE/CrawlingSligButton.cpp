@@ -26,8 +26,8 @@ CrawlingSligButton* CrawlingSligButton::ctor_4148F0(Path_CrawlingSligButton* pTl
     SetType(AETypes::eSligButton_16);
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     field_F4_tlvInfo = tlvInfo;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
@@ -96,7 +96,7 @@ void CrawlingSligButton::vUpdate_414B20()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_102_in_use == 1)

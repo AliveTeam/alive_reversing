@@ -140,9 +140,9 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
     field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, TRUE, FALSE));
 
     const AnimRecord& rec = AnimRec(AnimId::FlyingSlig_Idle);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    //Animation_Init_424E10(116888, 107, 48u, field_10_resources_array.ItemAt(0), 1, 1u);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    //Animation_Init(116888, 107, 48u, field_10_resources_array.ItemAt(0), 1, 1u);
 
     field_15E_useless = 0;
 
@@ -151,7 +151,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
-    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
+    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     field_14C_timer = 0;
     field_DC_bApplyShadows |= 2u;
@@ -376,7 +376,7 @@ s32 CC FlyingSlig::CreateFromSaveState_437E40(const u8* pBuffer)
 
     pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2A_bAnimRender & 1);
     pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_22_bAnimFlipX & 1);
-    pFlyingSlig->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->field_2B_bDrawable & 1);
+    pFlyingSlig->mFlags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->field_2B_bDrawable & 1);
 
     if (IsLastFrame(&pFlyingSlig->field_20_animation))
     {
@@ -483,7 +483,7 @@ s32 FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     pState->field_26_current_frame = field_20_animation.field_92_current_frame;
     pState->field_28_frame_change_counter = field_20_animation.field_E_frame_change_counter;
 
-    pState->field_2B_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2B_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2A_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_2C_current_health = field_10C_health;
     pState->field_30_current_state = field_106_current_motion;
@@ -525,7 +525,7 @@ s32 FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     pState->field_58_obj_id = -1;
     if (field_158_obj_id != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_158_obj_id);
+        auto pObj = sObjectIds.Find_449CF0(field_158_obj_id);
         if (pObj)
         {
             pState->field_58_obj_id = pObj->field_C_objectId;
@@ -579,9 +579,9 @@ void FlyingSlig::dtor_434990()
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-        if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
+        if (gMap.mLevel != LevelIds::eMenu_0)
         {
-            gMap_5C3030.SetActiveCam_480D30(
+            gMap.SetActiveCam_480D30(
                 field_2A0_abe_level,
                 field_2A2_abe_path,
                 field_2A4_abe_camera,
@@ -632,9 +632,9 @@ void FlyingSlig::VScreenChanged()
 
 void FlyingSlig::vScreenChanged_434C10()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710() || (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path && (this != sControlledCharacter_5C1B8C || field_17E_flags.Get(Flags_17E::eBit13_Persistant))))
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || (gMap.mCurrentPath != gMap.mPath && (this != sControlledCharacter_5C1B8C || field_17E_flags.Get(Flags_17E::eBit13_Persistant))))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -664,9 +664,9 @@ void FlyingSlig::vUpdate_434AD0()
 
         if (field_158_obj_id != -1)
         {
-            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
-                BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+                BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
                 if (!pObj)
                 {
                     break;
@@ -683,7 +683,7 @@ void FlyingSlig::vUpdate_434AD0()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -1098,7 +1098,7 @@ void FlyingSlig::Brain_1_Death_4364E0()
 {
     if (static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         Event_Broadcast_422BC0(kEventMudokonComfort, this);
     }
 }
@@ -1136,7 +1136,7 @@ void FlyingSlig::Brain_4_ChasingEnemy_435BC0()
 {
     field_17E_flags.Clear(Flags_17E::eBit3);
 
-    if (Event_Get_422C00(kEventHeroDying) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (Event_Get_422C00(kEventHeroDying) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
         ToAbeDead_436010();
         return;
@@ -1635,7 +1635,7 @@ void FlyingSlig::M_LeverPull_7_439150()
     }
     else
     {
-        auto pSwitch = static_cast<Lever*>(sObjectIds_5C1B70.Find_449CF0(field_158_obj_id));
+        auto pSwitch = static_cast<Lever*>(sObjectIds.Find_449CF0(field_158_obj_id));
         if (pSwitch)
         {
             pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
@@ -2068,7 +2068,7 @@ s16 FlyingSlig::IsPossessed_436A90()
 
 s16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
 {
-    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || Event_Get_422C00(kEventResetting) || IsAbeEnteringDoor_43B030(pObj) || sActiveHero_5C1B68->field_CC_sprite_scale != field_CC_sprite_scale || !IsWallBetween_43A550(this, pObj))
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || Event_Get_422C00(kEventResetting) || IsAbeEnteringDoor_43B030(pObj) || sActiveHero_5C1B68->field_CC_sprite_scale != field_CC_sprite_scale || !IsWallBetween_43A550(this, pObj))
     {
         return 0;
     }
@@ -2704,9 +2704,9 @@ void FlyingSlig::vPossessed_434FB0()
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
     field_17E_flags.Set(Flags_17E::eBit1_Speaking_flag1);
 
-    field_2A0_abe_level = gMap_5C3030.field_0_current_level;
-    field_2A2_abe_path = gMap_5C3030.field_2_current_path;
-    field_2A4_abe_camera = gMap_5C3030.field_4_current_camera;
+    field_2A0_abe_level = gMap.mCurrentLevel;
+    field_2A2_abe_path = gMap.mCurrentPath;
+    field_2A4_abe_camera = gMap.field_4_current_camera;
 
     field_2A8_max_x_speed = FP_FromDouble(5.5) * field_CC_sprite_scale;
     field_2AC_up_vel = FP_FromDouble(-5.5) * field_CC_sprite_scale;
@@ -3342,9 +3342,9 @@ s16 FlyingSlig::TryPullLever_439DB0()
     const s16 rect_h = FP_GetExponent(rect_h_fp);
     const s16 rect_y = FP_GetExponent(rect_y_fp);
 
-    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

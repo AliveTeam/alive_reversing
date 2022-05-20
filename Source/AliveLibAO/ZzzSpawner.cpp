@@ -32,7 +32,7 @@ BaseGameObject* ZzzSpawner::VDestructor(s32 flags)
 BaseGameObject* ZzzSpawner::dtor_472CF0()
 {
     SetVTable(this, 0x4BCBB0);
-    gMap_507BA8.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
     return dtor_487DF0();
 }
 
@@ -63,7 +63,7 @@ ZzzSpawner* ZzzSpawner::ctor_472C80(Path_ZzzSpawner* pTlv, s32 tlvInfo)
 
 void ZzzSpawner::VScreenChanged_472E20()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 
@@ -76,7 +76,7 @@ void ZzzSpawner::VUpdate_472D50()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (!SwitchStates_Get(field_20_switch_id) && static_cast<s32>(gnFrameCount_507670) > field_24_timer)

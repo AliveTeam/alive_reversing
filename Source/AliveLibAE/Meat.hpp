@@ -49,7 +49,7 @@ class Meat final : public BaseThrowable
 public:
     EXPORT Meat* ctor_4694A0(FP xpos, FP ypos, s16 count);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VOnTrapDoorOpen() override;
@@ -108,7 +108,7 @@ class MeatSack final : public BaseAliveGameObject
 {
 public:
     EXPORT MeatSack* ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 

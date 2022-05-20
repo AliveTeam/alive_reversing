@@ -43,10 +43,10 @@ const AETypes throwable_types_55FAFC[252] = {
 
 EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, s16 count)
 {
-    switch (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID])
+    switch (throwable_types_55FAFC[gMap.mOverlayId])
     {
         case AETypes::eBone_11:
-            return ae_new<Bone>()->ctor_4112C0(xpos, ypos, count);
+            return ae_new<Bone>(xpos, ypos, count);
         case AETypes::eMetal_24:
             return ae_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 1, 0);
         case AETypes::eGrenade_65:
@@ -58,6 +58,12 @@ EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, s16 count)
         default:
             return nullptr;
     }
+}
+
+BaseThrowable::BaseThrowable(s16 resourceArraySize)
+    : BaseAliveGameObject(resourceArraySize)
+{
+
 }
 
 void BaseThrowable::VOnPickUpOrSlapped()
@@ -125,7 +131,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
 
 void BaseThrowable::vToDead_4114B0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
     field_11A_bDead = 1;
 }
 

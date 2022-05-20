@@ -40,7 +40,7 @@ DeathGas* DeathGas::ctor_41CF40(Layer layer, s16 amount)
 
     field_4_typeId = Types::eDeathFadeOut_80; // wot moment
     gObjList_drawables_504618->Push_Back(this);
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
     field_16_flag = 0;
 
     for (s32 i = 0; i < 2; i++)
@@ -99,9 +99,9 @@ BaseGameObject* DeathGas::dtor_41D0E0()
 
 void DeathGas::VScreenChanged_41D700()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0() || !sActiveHero_507678)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || !sActiveHero_507678)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -114,7 +114,7 @@ void DeathGas::VUpdate_41D150()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (!field_16_flag)

@@ -28,30 +28,23 @@ enum class ZapLineType : s16
 class ZapLine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ZapLine* ctor_4CC690(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s16 aliveTime, ZapLineType type, Layer layer);
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 aliveTime, ZapLineType type, Layer layer);
+    ~ZapLine();
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-
-private:
-    EXPORT ZapLine* vdtor_4CCAA0(s32 flags);
 
 public:
     EXPORT void CalculateSourceAndDestinationPositions_4CCAD0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
 
 private:
-    EXPORT void dtor_4CCCB0();
-    EXPORT void vScreenChanged_4CDBE0();
     EXPORT void CalculateThickSpriteSegmentPositions_4CCD50();
     EXPORT void CalculateThinSpriteSegmentPositions_4CD110();
     EXPORT void CalculateZapPoints_4CD340();
     EXPORT void CalculateSpritePositionsInner_4CD400(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
     EXPORT void UpdateSpriteVertexPositions_4CD650();
     EXPORT void CalculateSpritePositionsOuter_4CD5D0();
-    EXPORT void vUpdate_4CD790();
-    EXPORT void vRender_4CD8C0(PrimHeader** ppOt);
 
 private:
     enum class ZapLineState : s16

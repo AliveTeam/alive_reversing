@@ -40,7 +40,7 @@ void UXB_ForceLink()
 void UXB::InitBlinkAnim_4DEED0(Animation* pAnimation)
 {
     const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
-    if (pAnimation->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1u, 0, 0))
+    if (pAnimation->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1u, 0, 0))
     {
         pAnimation->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnimation->field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -53,13 +53,13 @@ void UXB::InitBlinkAnim_4DEED0(Animation* pAnimation)
     }
     else
     {
-        field_6_flags.Set(Options::eListAddFailed_Bit1);
+        mFlags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
 void UXB::PlaySFX_4DE930(SoundEffect sfxIdx)
 {
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    if (gMap.Is_Point_In_Current_Camera_4810D0(
             this->field_C2_lvl_number,
             this->field_C0_path_number,
             this->field_B8_xpos,
@@ -135,15 +135,15 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     SetType(AETypes::eUXB_143);
 
     const AnimRecord& activeRec = AnimRec(AnimId::UXB_Active);
-    auto pResource = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, activeRec.mResourceId);
-    Animation_Init_424E10(activeRec.mFrameTableOffset, activeRec.mMaxW, activeRec.mMaxH, pResource, 1, 1u);
+    auto pResource = BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, activeRec.mResourceId);
+    Animation_Init(activeRec.mFrameTableOffset, activeRec.mMaxW, activeRec.mMaxH, pResource, 1, 1u);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
 
-    SetTint_425600(sTintMap_UXB_563A3C, gMap_5C3030.field_0_current_level);
+    SetTint_425600(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
 
-    field_6_flags.Set(BaseGameObject::Options::eInteractive_Bit8);
+    mFlags.Set(BaseGameObject::Options::eInteractive_Bit8);
     field_1C8_flags.Clear(UXB_Flags_1C8::eUnused_Bit0);
     field_118_state = UXBState::eDelay_0;
 
@@ -246,22 +246,22 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     field_124_next_state_frame = sGnFrame_5C1B84;
     field_11C_disabled_resources = static_cast<u16>(tlv_params->field_18_disabled_resources);
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID);
+    Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID);
 
     if (!(field_11C_disabled_resources & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
+        Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     }
     if (!(field_11C_disabled_resources & 2))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
+        Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
     }
 
     const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-    field_6_flags.Set(Options::eInteractive_Bit8);
+    mFlags.Set(Options::eInteractive_Bit8);
     field_DC_bApplyShadows |= 2u;
 
     field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
@@ -321,13 +321,13 @@ void UXB::vOnThrowableHit_4DF7B0(BaseGameObject* /*pFrom*/)
     }
 
     field_118_state = UXBState::eExploding_2;
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
     field_124_next_state_frame = sGnFrame_5C1B84;
 }
 
 s16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
@@ -352,7 +352,7 @@ s16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
             return 0;
     }
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 
     auto pMem = ae_new<BaseBomb>();
     if (pMem)
@@ -385,7 +385,7 @@ void UXB::dtor_4DEF60()
 
     field_128_animation.vCleanUp_40C630();
 
-    field_6_flags.Clear(Options::eInteractive_Bit8);
+    mFlags.Clear(Options::eInteractive_Bit8);
 
     dtor_4080B0();
 }
@@ -484,7 +484,7 @@ void UXB::Update_4DF030()
                 {
                     explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
                 }
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
             }
             break;
     }
@@ -508,7 +508,7 @@ void UXB::Update_4DF030()
             {
                 Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
             }
-            field_6_flags.Set(Options::eDead_Bit3);
+            mFlags.Set(Options::eDead);
         }
     }
 }
@@ -517,7 +517,7 @@ void UXB::Render_4DF3D0(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        if (gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -560,18 +560,18 @@ void UXB::ScreenChanged_4DF9C0()
             if (field_11A_starting_state != UXBState::eDelay_0 || field_118_state != UXBState::eDeactivated_3)
             {
                 Path::TLV_Reset_4DB8E0(field_120_tlv.all, 0, 1, 0);
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
             }
             else
             {
                 Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
             }
         }
         else
         {
             Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
-            field_6_flags.Set(Options::eDead_Bit3);
+            mFlags.Set(Options::eDead);
         }
     }
 }

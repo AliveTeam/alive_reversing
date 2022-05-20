@@ -24,7 +24,7 @@ void RockSack::VUpdate_4575F0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_10_anim.field_92_current_frame == 2)
@@ -140,7 +140,7 @@ BaseGameObject* RockSack::VDestructor(s32 flags)
 BaseGameObject* RockSack::dtor_457580()
 {
     SetVTable(this, 0x4BC120);
-    gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
     return dtor_401000();
 }
 
@@ -190,7 +190,7 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
     field_114_can_play_wobble_sound = 1;
     field_116_force_wobble_sound = 1;
 
-    if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+    if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
         u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, 0, 0);
         field_10_anim.LoadPal_403090(ppPal, 0);
@@ -207,7 +207,7 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
 
 void RockSack::VScreenChanged_457890()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 }

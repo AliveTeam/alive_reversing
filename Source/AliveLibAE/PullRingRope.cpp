@@ -37,10 +37,10 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo)
     SetType(AETypes::ePullRope_103);
 
     const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    SetTint_425600(sPullRingRopeTints_55FD1C, gMap_5C3030.field_0_current_level);
+    SetTint_425600(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -137,10 +137,10 @@ void PullRingRope::dtor_49B660()
 
     Path::TLV_Reset_4DB8E0(field_110_tlvInfo, -1, 0, 0);
 
-    BaseGameObject* pRope = sObjectIds_5C1B70.Find(field_F8_rope_id, AETypes::eLiftRope_108);
+    BaseGameObject* pRope = sObjectIds.Find(field_F8_rope_id, AETypes::eLiftRope_108);
     if (pRope)
     {
-        pRope->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        pRope->mFlags.Set(BaseGameObject::eDead);
     }
 
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
@@ -148,16 +148,16 @@ void PullRingRope::dtor_49B660()
 
 void PullRingRope::vUpdate_49B720()
 {
-    auto pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_FC_ring_puller_id));
-    auto pRope = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_F8_rope_id, AETypes::eLiftRope_108));
+    auto pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_FC_ring_puller_id));
+    auto pRope = static_cast<Rope*>(sObjectIds.Find(field_F8_rope_id, AETypes::eLiftRope_108));
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     // Invalidate ring puller if they've died
-    if (pRingPuller && pRingPuller->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (pRingPuller && pRingPuller->mFlags.Get(BaseGameObject::eDead))
     {
         field_FC_ring_puller_id = -1;
     }
@@ -180,7 +180,7 @@ void PullRingRope::vUpdate_49B720()
                 field_10C_is_pulled &= ~1u;
                 field_100_state = States::eTriggerEvent_2;
 
-                if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
+                if (gMap.mCurrentLevel == LevelIds::eMines_1 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 || gMap.mCurrentLevel == LevelIds::eBarracks_6 || gMap.mCurrentLevel == LevelIds::eBrewery_9)
                 {
                     SFX_Play_46FA90(SoundEffect::IndustrialTrigger_80, 0);
                 }
@@ -284,9 +284,9 @@ void PullRingRope::vUpdate_49B720()
 void PullRingRope::vScreenChanged_49BCB0()
 {
     // If the person pulling the rope is gone then so are we
-    if (!sObjectIds_5C1B70.Find_449CF0(field_FC_ring_puller_id))
+    if (!sObjectIds.Find_449CF0(field_FC_ring_puller_id))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

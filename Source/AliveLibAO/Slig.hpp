@@ -198,7 +198,7 @@ public:
 
     EXPORT BaseGameObject* dtor_465320();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT Slig* Vdtor_465DC0(s32 flags);
 

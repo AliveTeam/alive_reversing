@@ -85,7 +85,7 @@ public:
 
     EXPORT BaseGameObject* dtor_44AB00();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT Paramite* Vdtor_44B300(s32 flags);
 

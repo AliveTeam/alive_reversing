@@ -25,7 +25,7 @@ CreditsController* CreditsController::ctor_418A10(Path_TLV* /*pTlv*/, s32 /*tlvI
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544618);
 
-    field_24_camera_number = gMap_5C3030.field_4_current_camera;
+    field_24_camera_number = gMap.field_4_current_camera;
     field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;
 
     sDoesCreditsControllerExist_5C1B90 = true;
@@ -56,30 +56,30 @@ void CreditsController::Update_418AC0()
         field_24_camera_number++;
         field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;
 
-        if (gMap_5C3030.field_2_current_path == 2)
+        if (gMap.mCurrentPath == 2)
         {
             if (field_24_camera_number > 22)
             {
                 field_24_camera_number = 1;
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eTopToBottom_3, 0, 0);
+                gMap.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, field_24_camera_number, CameraSwapEffects::eTopToBottom_3, 0, 0);
+                gMap.SetActiveCam_480D30(LevelIds::eCredits_16, 2, field_24_camera_number, CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
-            gMap_5C3030.field_CE_free_all_anim_and_palts = 1;
+            gMap.field_CE_free_all_anim_and_palts = 1;
         }
         else
         {
             if (field_24_camera_number > 36)
             {
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
+                gMap.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, field_24_camera_number, CameraSwapEffects::eTopToBottom_3, 0, 0);
+                gMap.SetActiveCam_480D30(LevelIds::eCredits_16, 1, field_24_camera_number, CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
-            gMap_5C3030.field_CE_free_all_anim_and_palts = 1;
+            gMap.field_CE_free_all_anim_and_palts = 1;
         }
     }
 }

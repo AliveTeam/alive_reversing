@@ -7,12 +7,12 @@
 namespace AO {
 void Recorder::SaveObjectStates()
 {
-    const u32 objCount = gBaseGameObject_list_9F2DF0->Size();
+    const u32 objCount = gBaseGameObjects->Size();
     mFile.Write(objCount);
 
     for (u32 i = 0; i < objCount; i++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         const s16 objType = static_cast<s16>(pObj->field_4_typeId);
         ::fwrite(&objType, sizeof(s16), 1, mFile.GetFile());
 
@@ -101,7 +101,7 @@ bool Player::ValidateObjectStates()
         s16 objType = 0;
         mFile.Read(objType);
 
-        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (static_cast<s16>(pObj->field_4_typeId) != objType)
         {
             LOG_ERROR("Got " << static_cast<s16>(pObj->field_4_typeId) << " type but expected " << objType);

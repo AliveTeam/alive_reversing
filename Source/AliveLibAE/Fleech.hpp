@@ -150,7 +150,7 @@ class Fleech final : public BaseAliveGameObject
 public:
     EXPORT Fleech* ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

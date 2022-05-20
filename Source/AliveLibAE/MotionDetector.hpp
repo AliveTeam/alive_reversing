@@ -30,7 +30,7 @@ class MotionDetectorLaser final : public ::BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT MotionDetectorLaser* ctor_468290(FP xpos, FP ypos, FP scale, Layer layer);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
 private:
     EXPORT MotionDetectorLaser* vdtor_468360(s32 flags);
@@ -42,7 +42,7 @@ class MotionDetector final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MotionDetector* ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

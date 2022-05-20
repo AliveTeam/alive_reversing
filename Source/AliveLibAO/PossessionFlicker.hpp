@@ -14,7 +14,7 @@ public:
 
     EXPORT BaseGameObject* dtor_41A940();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT PossessionFlicker* vdtor_41AA70(s32 flags);
 

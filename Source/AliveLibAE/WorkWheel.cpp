@@ -50,8 +50,8 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, s32 tlvInfo)
     field_C_objectId = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Work_Wheel_Idle);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(eBit15_bSemiTrans);
 
@@ -169,7 +169,7 @@ void WorkWheel::vUpdate_4E38E0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_FC_state == WheelStates::eTurning_1)
@@ -177,7 +177,7 @@ void WorkWheel::vUpdate_4E38E0()
         ++field_100_on_counter;
 
         if (!(field_100_on_counter % 10)
-            && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            && gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -197,7 +197,7 @@ void WorkWheel::vUpdate_4E38E0()
     {
         if (field_100_on_counter > field_FE_activation_time)
         {
-            if (gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10 && field_F8_switch_id == 100)
+            if (gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10 && field_F8_switch_id == 100)
             {
                 CreateGameEnderController_43B7A0();
             }
@@ -216,9 +216,9 @@ void WorkWheel::vUpdate_4E38E0()
 
 void WorkWheel::vScreenChanged_4E3AD0()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || field_FC_state == WheelStates::eIdle_0)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_FC_state == WheelStates::eIdle_0)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

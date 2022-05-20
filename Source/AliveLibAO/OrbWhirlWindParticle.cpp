@@ -111,7 +111,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
             }
             else
             {
-                if (!field_E4_pObj || field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                if (!field_E4_pObj || field_E4_pObj->mFlags.Get(BaseGameObject::eDead))
                 {
                     ToStop();
                 }
@@ -130,7 +130,7 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
             break;
 
         case State::State_2_FlyToTarget:
-            if (!field_E4_pObj || field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (!field_E4_pObj || field_E4_pObj->mFlags.Get(BaseGameObject::eDead))
             {
                 ToStop();
             }

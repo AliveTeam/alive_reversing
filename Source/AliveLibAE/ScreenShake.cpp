@@ -8,14 +8,12 @@
 #include "PsxRender.hpp"
 #include "Game.hpp"
 
-EXPORT ScreenShake* ScreenShake::ctor_4ACF70(s16 enableShakeEvent, s16 softerShakes)
-{
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    SetVTable(this, 0x547070); // vTbl_ScreenShake_547070
-
+ ScreenShake::ScreenShake(bool enableShakeEvent, bool softerShakes)
+     : BaseGameObject(TRUE, 0)
+ {
     SetType(AETypes::eScreenShake_118);
 
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     field_44_softerShakes = softerShakes;
     field_40_shakeNumber = 16;
@@ -27,18 +25,14 @@ EXPORT ScreenShake* ScreenShake::ctor_4ACF70(s16 enableShakeEvent, s16 softerSha
     {
         Event_Broadcast_422BC0(kEventScreenShake, this);
     }
-    return this;
 }
 
-EXPORT void ScreenShake::dtor_4AD060()
+ScreenShake::~ScreenShake()
 {
-    SetVTable(this, 0x547070); // vTbl_ScreenShake_547070
-
     gObjList_drawables_5C1124->Remove_Item(this);
-    BaseGameObject_dtor_4DBEC0();
 }
 
-EXPORT void ScreenShake::vUpdate_4AD0E0()
+void ScreenShake::VUpdate()
 {
     if (field_42_enableShakeEvent && !field_44_softerShakes)
     {
@@ -49,16 +43,6 @@ EXPORT void ScreenShake::vUpdate_4AD0E0()
     {
         field_40_shakeNumber--;
     }
-}
-
-EXPORT BaseGameObject* ScreenShake::vdtor_4AD030(s32 flags)
-{
-    dtor_4AD060();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 struct ScreenOffset final
@@ -86,7 +70,7 @@ const ScreenOffset sShakeOffsets_560388[16] = {
     {-9, 9},
 };
 
-EXPORT void ScreenShake::vRender_4AD120(PrimHeader** ppOt)
+void ScreenShake::VRender(PrimHeader** ppOt)
 {
     Prim_ScreenOffset* pPrim = &field_20_screenOffset[gPsxDisplay_5C1130.field_C_buffer_index];
     if (field_40_shakeNumber < 14)
@@ -159,24 +143,9 @@ EXPORT void ScreenShake::vRender_4AD120(PrimHeader** ppOt)
 
         if (!field_40_shakeNumber)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
-}
-
-BaseGameObject* ScreenShake::VDestructor(s32 flags)
-{
-    return vdtor_4AD030(flags);
-}
-
-void ScreenShake::VUpdate()
-{
-    vUpdate_4AD0E0();
-}
-
-void ScreenShake::VRender(PrimHeader** ppOt)
-{
-    vRender_4AD120(ppOt);
 }

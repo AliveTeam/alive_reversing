@@ -71,7 +71,7 @@ s32 LiftMover::VGetSaveState(u8* pSaveBuffer)
 
 void LiftMover::vUpdate_40CE20()
 {
-    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find(field_28_lift_id, AETypes::eLiftPoint_78));
+    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds.Find(field_28_lift_id, AETypes::eLiftPoint_78));
     if (field_32_bMoveInProgress)
     {
         pLift = GetLiftPoint_40D0F0();
@@ -82,10 +82,10 @@ void LiftMover::vUpdate_40CE20()
         field_32_bMoveInProgress = FALSE;
     }
 
-    if (pLift && pLift->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (pLift && pLift->mFlags.Get(BaseGameObject::eDead))
     {
         // Set extra dead for good measure
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         field_28_lift_id = -1;
     }
     else
@@ -211,7 +211,7 @@ void LiftMover::vUpdate_40CE20()
 
         if (Event_Get_422C00(kEventDeathReset))
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }

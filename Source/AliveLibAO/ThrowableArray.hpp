@@ -11,19 +11,17 @@ EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, u16 path);
 class ThrowableArray final : public BaseGameObject
 {
 public:
-    EXPORT ThrowableArray* ctor_453EE0();
-
-    EXPORT BaseGameObject* dtor_453F10();
+    ThrowableArray();
+    ~ThrowableArray();
 
     EXPORT void Remove_4540D0(s16 count);
 
     EXPORT void Add_453F70(s16 count);
 
-    EXPORT BaseGameObject* Vdtor_454690(s32 flags);
     EXPORT void VUpdate_4542B0();
     EXPORT void vScreenChange_454300();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

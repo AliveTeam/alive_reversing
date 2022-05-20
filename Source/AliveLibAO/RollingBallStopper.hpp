@@ -27,7 +27,7 @@ public:
     EXPORT void VScreenChanged_43C130();
     EXPORT void VUpdate_43BF70();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

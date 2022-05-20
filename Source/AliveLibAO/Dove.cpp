@@ -89,7 +89,7 @@ Dove* Dove::ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID
     field_EC_keepInGlobalArray = FALSE;
     field_E8_tlvInfo = tlvInfo;
 
-    if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+    if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
         field_C4_b = 30;
         field_C2_g = 30;
@@ -158,7 +158,7 @@ Dove* Dove::ctor_40EFF0(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID
 
     field_10_anim.SetFrame_402AC0((Math_NextRandom() & 6) + 1);
 
-    if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+    if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
         field_C4_b = 30;
         field_C2_g = 30;
@@ -183,7 +183,7 @@ BaseGameObject* Dove::dtor_40F1B0()
         gDovesArray_4FF938.Remove_Item(this);
         if (field_E8_tlvInfo)
         {
-            gMap_507BA8.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
+            gMap.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
         }
     }
 
@@ -292,7 +292,7 @@ void Dove::VUpdate_40F430()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (!bTheOneControllingTheMusic_4FF94C)
@@ -382,7 +382,7 @@ void Dove::VUpdate_40F430()
         {
             if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
 
             const FP k4Directed = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
@@ -433,13 +433,13 @@ void Dove::VUpdate_40F430()
     const s32 doveScreenYPos = FP_GetExponent(FP_Abs(field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y));
     if (doveScreenYPos > pScreenManager_4FF7C8->field_16_ypos)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     const s32 doveScreenXPos = FP_GetExponent(FP_Abs(field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x));
     if (doveScreenXPos > pScreenManager_4FF7C8->field_14_xpos)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

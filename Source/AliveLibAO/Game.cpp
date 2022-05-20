@@ -407,21 +407,21 @@ EXPORT void CC Game_Loop_437630()
 {
     sBreakGameLoop_507B78 = 0;
 
-    while (!sBreakGameLoop_507B78 && !gBaseGameObject_list_9F2DF0->Empty())
+    while (!sBreakGameLoop_507B78 && !gBaseGameObjects->Empty())
     {
         Events_Reset_Active_417320();
 
         // Update objects
         GetGameAutoPlayer().SyncPoint(SyncPoints::StartGameObjectUpdate);
-        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
-            BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
             if (!pObjIter)
             {
                 break;
             }
 
-            if (pObjIter->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (sNumCamSwappers_507668 == 0 || pObjIter->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            if (pObjIter->mFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mFlags.Get(BaseGameObject::eDead) && (sNumCamSwappers_507668 == 0 || pObjIter->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
                 if (pObjIter->field_8_update_delay > 0)
                 {
@@ -452,7 +452,7 @@ EXPORT void CC Game_Loop_437630()
                 break;
             }
 
-            if (!pDrawable->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pDrawable->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+            if (!pDrawable->mFlags.Get(BaseGameObject::eDead) && pDrawable->mFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 pDrawable->VRender(ppOt);
             }
@@ -466,22 +466,22 @@ EXPORT void CC Game_Loop_437630()
         gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
 
         // Destroy objects with certain flags
-        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
-            BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;
             }
 
-            if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObj->field_C_refCount == 0)
+            if (pObj->mFlags.Get(BaseGameObject::eDead) && pObj->field_C_refCount == 0)
             {
-                i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
+                i = gBaseGameObjects->RemoveAt(i);
                 pObj->VDestructor(1);
             }
         }
 
-        gMap_507BA8.ScreenChange_4444D0();
+        gMap.ScreenChange_4444D0();
         Input().Update(GetGameAutoPlayer());
 
         if (sNumCamSwappers_507668 == 0)
@@ -499,9 +499,9 @@ EXPORT void CC Game_Loop_437630()
     PSX_VSync_496620(0);
     ResourceManager::WaitForPendingResources_41EA60(0);
 
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObjToKill = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObjToKill = gBaseGameObjects->ItemAt(i);
         if (!pObjToKill)
         {
             break;
@@ -509,7 +509,7 @@ EXPORT void CC Game_Loop_437630()
 
         if (pObjToKill->field_C_refCount == 0)
         {
-            i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
+            i = gBaseGameObjects->RemoveAt(i);
             pObjToKill->VDestructor(1);
         }
     }
@@ -542,8 +542,8 @@ EXPORT void Game_Run_4373D0()
     gPsxDisplay_504C78.ctor_40DAB0(&gPsxDisplayParams_4BB830);
     Input().InitPad_4331A0(1);
 
-    gBaseGameObject_list_9F2DF0 = ao_new<DynamicArrayT<BaseGameObject>>();
-    gBaseGameObject_list_9F2DF0->ctor_4043E0(90);
+    gBaseGameObjects = ao_new<DynamicArrayT<BaseGameObject>>();
+    gBaseGameObjects->ctor_4043E0(90);
 
     gObjList_drawables_504618 = ao_new<DynamicArrayT<BaseGameObject>>();
     gObjList_drawables_504618->ctor_4043E0(80);
@@ -558,10 +558,10 @@ EXPORT void Game_Run_4373D0()
 
 #if DEVELOPER_MODE
     // Boot directly to the "abe hello" screen
-    gMap_507BA8.Init_443EE0(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
+    gMap.Init_443EE0(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
 #else
     // Normal copy right screen boot
-    gMap_507BA8.Init_443EE0(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eInstantChange_0, 0, 0);
+    gMap.Init_443EE0(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eInstantChange_0, 0, 0);
 #endif
 
     DDCheat_Allocate_409560();
@@ -578,7 +578,7 @@ EXPORT void Game_Run_4373D0()
 
     DDCheat::ClearProperties_4095B0();
 
-    gMap_507BA8.Shutdown_443F90();
+    gMap.Shutdown_443F90();
 
     if (gObjList_animations_505564)
     {
@@ -592,10 +592,10 @@ EXPORT void Game_Run_4373D0()
         ao_delete_free_447540(gObjList_drawables_504618);
     }
 
-    if (gBaseGameObject_list_9F2DF0)
+    if (gBaseGameObjects)
     {
-        gBaseGameObject_list_9F2DF0->dtor_404440();
-        ao_delete_free_447540(gBaseGameObject_list_9F2DF0);
+        gBaseGameObjects->dtor_404440();
+        ao_delete_free_447540(gBaseGameObjects);
     }
 
     MusicController::Shutdown_4437E0();

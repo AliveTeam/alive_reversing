@@ -35,7 +35,7 @@ class HoistParticle final : public BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT HoistParticle* ctor_431B00(FP xpos, FP ypos, FP scale, s32 frameTableOffset);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 
@@ -54,7 +54,7 @@ public:
 
     EXPORT BaseGameObject* dtor_431A90();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT HoistRocksEffect* vdtor_431CF0(s32 flags);
 

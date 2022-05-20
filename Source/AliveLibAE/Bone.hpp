@@ -50,8 +50,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
 class Bone final : public BaseThrowable
 {
 public:
-    EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, s16 countId);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    Bone(FP xpos, FP ypos, s16 countId);
+    ~Bone();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VThrow_49E460(FP velX, FP velY) override;
@@ -65,19 +66,15 @@ public:
     EXPORT static s32 CC CreateFromSaveState_412C10(const u8* pData);
 
 private:
-    EXPORT Bone* vdtor_411580(s32 flags);
-    EXPORT void dtor_4115B0();
     EXPORT void AddToPlatform_412310();
     EXPORT void vThrow_411670(FP velX, FP velY);
     EXPORT void vOnTrapDoorOpen_412490();
     EXPORT Bool32 vIsFalling_411510();
     EXPORT Bool32 vCanThrow_411530();
     EXPORT s16 OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj);
-    EXPORT void vScreenChanged_4122D0();
     EXPORT Bool32 vCanBeEaten_411560();
     EXPORT s32 vGetSaveState_412ED0(Bone_SaveState* pState);
     EXPORT void InTheAir_4116C0();
-    EXPORT void vUpdate_411BC0();
     EXPORT s16 vGetCount_412500();
 
 private:
@@ -106,17 +103,12 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoneBag, 0x1C);
 class BoneBag final : public BaseAliveGameObject
 {
 public:
-    EXPORT BoneBag* ctor_4125C0(Path_BoneBag* pTlv, s32 tlvInfo);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    BoneBag(Path_BoneBag* pTlv, s32 tlvInfo);
+    ~BoneBag();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-
-private:
-    EXPORT void vScreenChanged_412BF0();
-    EXPORT BoneBag* vdtor_4127C0(s32 flags);
-    EXPORT void dtor_4127F0();
-    EXPORT void vUpdate_412880();
-
+ 
 private:
     s32 field_118_tlvInfo;
     s16 field_11C_bIs_hit;

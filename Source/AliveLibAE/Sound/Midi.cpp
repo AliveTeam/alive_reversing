@@ -823,15 +823,15 @@ EXPORT void CC SND_StopAll_4CB060()
         BackgroundMusic::Stop_4CB000();
         SND_Reset_Ambiance_4CB4B0();
         SND_Stop_All_Seqs_4CA850();
-        for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
-            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;
             }
 
-            if (!pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (!pObj->mFlags.Get(BaseGameObject::eDead))
             {
                 pObj->VStopAudio();
             }

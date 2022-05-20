@@ -92,7 +92,7 @@ void MusicTrigger::Init_443AD0(MusicTriggerMusicType type, TriggeredBy triggered
             {
                 if (SwitchStates_Get(switchId))
                 {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    mFlags.Set(BaseGameObject::eDead);
                 }
             }
             break;
@@ -128,9 +128,9 @@ void MusicTrigger::VScreenChanged()
 
 void MusicTrigger::VScreenChanged_443DD0()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level)
+    if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -158,10 +158,10 @@ void MusicTrigger::VUpdate_443C90()
 {
     if (Event_Get_417250(kEventHeroDying_3))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         if (field_10_tlvInfo >= 0)
         {
-            gMap_507BA8.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
+            gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
         }
     }
 
@@ -198,7 +198,7 @@ void MusicTrigger::VUpdate_443C90()
         {
             if (!SwitchStates_Get(field_1E_switch_id))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -215,7 +215,7 @@ void MusicTrigger::VUpdate_443C90()
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }

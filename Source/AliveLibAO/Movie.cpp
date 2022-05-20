@@ -248,8 +248,8 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
     SetVTable(this, 0x4BD6E0);
 
 
-    field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
-    field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     /*
     // TODO: FIX MOI
@@ -402,7 +402,7 @@ void Movie::VUpdate_489EA0()
 
     if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -422,7 +422,7 @@ void Movie::VUpdate_489EA0()
     // Bail if failed to open
     if (!hMovieFile)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -522,7 +522,7 @@ void Movie::VUpdate_489EA0()
 
     GetMovieIO().mIO_Close(hMovieFile);
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 } // namespace AO

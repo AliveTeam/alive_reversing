@@ -210,11 +210,11 @@ LCDScreen* LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemI
 
     if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
     {
-        field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2B0_message_2_id);
+        field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2B0_message_2_id);
     }
     else
     {
-        field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2AA_message_1_id);
+        field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AA_message_1_id);
     }
 
     //field_A0_message = "                               THIS IS A TEST";
@@ -228,7 +228,7 @@ LCDScreen* LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemI
     sFontDrawScreenSpace_5CA4B4 = 0;
     field_2B4_show_random_message = 1;
     field_2B6_message_rand_min_id = params->field_12_message_rand_min_id;
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
     field_2B8_message_rand_max_id = params->field_14_message_rand_max_id;
     field_2A8_play_sound_toggle = 0;
     gObjList_drawables_5C1124->Push_Back_40CAF0(this);
@@ -240,7 +240,7 @@ void LCDScreen::Update_460A00()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
 #if LCD_PS1_SPEED
@@ -260,18 +260,18 @@ void LCDScreen::Update_460A00()
             if (field_2B4_show_random_message == 1)
             {
                 field_2B4_show_random_message = 0;
-                field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, Math_RandomRange_496AB0(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id));
+                field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, Math_RandomRange_496AB0(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id));
             }
             else
             {
                 field_2B4_show_random_message = 1;
                 if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
                 {
-                    field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2B0_message_2_id);
+                    field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2B0_message_2_id);
                 }
                 else
                 {
-                    field_A0_message = gLCDMessages.GetMessage(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, field_2AA_message_1_id);
+                    field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AA_message_1_id);
                 }
             }
 
@@ -371,7 +371,7 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
 
 void LCDScreen::vSetDead_460F10()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void LCDScreen::dtor_460920()

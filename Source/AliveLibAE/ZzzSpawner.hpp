@@ -18,7 +18,7 @@ class ZzzSpawner final : public BaseGameObject
 public:
     EXPORT ZzzSpawner* ctor_4C4070(Path_ZzzSpawner* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

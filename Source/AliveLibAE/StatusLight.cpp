@@ -55,8 +55,8 @@ StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, u32 tlvInfo)
     field_104_bIgnore_grid_snapping = pTlv->field_1E_bIgnore_grid_snapping;
 
     const AnimRecord& rec = AnimRec(AnimId::Status_Light_Red);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_DC_bApplyShadows &= ~1u;
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -157,5 +157,5 @@ void StatusLight::dtor_4D5790()
 
 void StatusLight::vScreenChanged_4D5820()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }

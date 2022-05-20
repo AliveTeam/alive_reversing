@@ -29,7 +29,7 @@ Rock* Rock::ctor_456960(FP xpos, FP ypos, s16 count)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_6_flags.Clear(Options::eInteractive_Bit8);
+    mFlags.Clear(Options::eInteractive_Bit8);
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -108,7 +108,7 @@ void Rock::VUpdate_456EC0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     switch (field_110_state)
@@ -162,7 +162,7 @@ void Rock::VUpdate_456EC0()
                     field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
                     field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
 
-                    field_6_flags.Set(Options::eInteractive_Bit8);
+                    mFlags.Set(Options::eInteractive_Bit8);
 
                     field_10_anim.field_4_flags.Clear(AnimFlags::eBit8_Loop);
                     field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
@@ -195,7 +195,7 @@ void Rock::VUpdate_456EC0()
             VOnCollisionWith(
                 xy,
                 wh,
-                gBaseGameObject_list_9F2DF0,
+                gBaseGameObjects,
                 1,
                 (TCollisionCallBack) &Rock::OnCollision_457240);
 
@@ -210,14 +210,14 @@ void Rock::VUpdate_456EC0()
             field_B8_vely += FP_FromInteger(1);
             field_A8_xpos += field_B4_velx;
             field_AC_ypos += field_B8_vely;
-            if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            if (!gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
                     field_A8_xpos,
                     field_AC_ypos,
                     0))
             {
-                field_6_flags.Set(Options::eDead_Bit3);
+                mFlags.Set(Options::eDead);
             }
             break;
         default:
@@ -233,10 +233,10 @@ void Rock::VScreenChanged()
 //TODO Identical to AE - merge
 void Rock::VScreenChanged_457310()
 {
-    if (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
-        || gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level)
+    if (gMap.mCurrentPath != gMap.mPath
+        || gMap.mCurrentLevel != gMap.mLevel)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -280,7 +280,7 @@ void Rock::InTheAir_456B60()
 
     if (field_B8_vely > FP_FromInteger(30))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     field_B8_vely += FP_FromInteger(1);
@@ -391,7 +391,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
 //TODO Identical to AE - merge
 s16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pObj->mFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {
         return 1;
     }

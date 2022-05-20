@@ -23,7 +23,7 @@ public:
 
     EXPORT BaseGameObject* dtor_40D5A0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT ParticleBurst* Vdtor_40DA40(s32 flags);
 

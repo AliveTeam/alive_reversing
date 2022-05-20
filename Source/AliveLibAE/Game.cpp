@@ -142,9 +142,9 @@ void DestroyObjects_4A1F20()
 
 
 
-        while (idx < gBaseGameObject_list_BB47C4->Size())
+        while (idx < gBaseGameObjects->Size())
         {
-            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
             idx++;
 
             if (!pObj)
@@ -152,10 +152,10 @@ void DestroyObjects_4A1F20()
                 break;
             }
 
-            if (!(pObj->field_6_flags.Get(BaseGameObject::eSurviveDeathReset_Bit9)))
+            if (!(pObj->mFlags.Get(BaseGameObject::eSurviveDeathReset_Bit9)))
             {
                 DynamicArrayIter iter;
-                iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
+                iter.field_0_pDynamicArray = gBaseGameObjects;
                 iter.field_4_idx = idx;
                 iter.Remove_At_Iter_40CCA0();
 
@@ -485,8 +485,8 @@ EXPORT void CC Game_Run_466D40()
     PSX_CdSetDebug_4FB330(0);
     Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
 
-    gBaseGameObject_list_BB47C4 = ae_new<DynamicArrayT<BaseGameObject>>();
-    gBaseGameObject_list_BB47C4->ctor_40CA60(50);
+    gBaseGameObjects = ae_new<DynamicArrayT<BaseGameObject>>();
+    gBaseGameObjects->ctor_40CA60(50);
 
     gObjList_drawables_5C1124 = ae_new<DynamicArrayT<BaseGameObject>>();
     gObjList_drawables_5C1124->ctor_40CA60(30);
@@ -513,11 +513,11 @@ EXPORT void CC Game_Run_466D40()
     ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
 
     camera.field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, AEResourceID::kUnknownResID_125, 1u, 0);
-    gMap_5C3030.field_24_camera_offset.field_4_y = FP_FromInteger(0);
-    gMap_5C3030.field_24_camera_offset.field_0_x = FP_FromInteger(0);
+    gMap.field_24_camera_offset.field_4_y = FP_FromInteger(0);
+    gMap.field_24_camera_offset.field_0_x = FP_FromInteger(0);
 
     pScreenManager_5BB5F4 = ae_new<ScreenManager>();
-    pScreenManager_5BB5F4->ctor_40E3E0(camera.field_C_pCamRes, &gMap_5C3030.field_24_camera_offset);
+    pScreenManager_5BB5F4->ctor_40E3E0(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
 
     pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) camera.field_C_pCamRes);
     pScreenManager_5BB5F4->MoveImage_40EB70();
@@ -538,7 +538,7 @@ EXPORT void CC Game_Run_466D40()
     #endif
 #endif
 
-    gMap_5C3030.Init_4803F0(LevelIds::eMenu_0, 1, cameraId, CameraSwapEffects::eInstantChange_0, 0, 0);
+    gMap.Init_4803F0(LevelIds::eMenu_0, 1, cameraId, CameraSwapEffects::eInstantChange_0, 0, 0);
 
     DDCheat_Allocate_415320();
     pEventSystem_5BC11C = ae_new<GameSpeak>();
@@ -560,7 +560,7 @@ EXPORT void CC Game_Run_466D40()
     // Shut down start
     Game_Free_LoadingIcon_482D40();
     DDCheat::ClearProperties_415390();
-    gMap_5C3030.Shutdown_4804E0();
+    gMap.Shutdown_4804E0();
 
     if (gObjList_animations_5C1A24)
     {
@@ -580,10 +580,10 @@ EXPORT void CC Game_Run_466D40()
         ae_delete_free_495540(gFG1List_5D1E28);
     }
 
-    if (gBaseGameObject_list_BB47C4)
+    if (gBaseGameObjects)
     {
-        gBaseGameObject_list_BB47C4->dtor_40CAD0();
-        ae_delete_free_495540(gBaseGameObject_list_BB47C4);
+        gBaseGameObjects->dtor_40CAD0();
+        ae_delete_free_495540(gBaseGameObjects);
     }
 
     if (ObjList_5C1B78)
@@ -737,25 +737,25 @@ EXPORT void CC Game_Loop_467230()
     dword_5C2F78 = 0;
     sBreakGameLoop_5C2FE0 = 0;
     bool bPauseMenuObjectFound = false;
-    while (!gBaseGameObject_list_BB47C4->IsEmpty())
+    while (!gBaseGameObjects->IsEmpty())
     {
         Events_Reset_Active_422DA0();
         Slurg::Clear_Slurg_Step_Watch_Points_449A90();
         bSkipGameObjectUpdates_5C2FA0 = 0;
 
         // Update objects
-        for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+        for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObjects->Size(); baseObjIdx++)
         {
-            BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
+            BaseGameObject* pBaseGameObject = gBaseGameObjects->ItemAt(baseObjIdx);
 
             if (!pBaseGameObject || bSkipGameObjectUpdates_5C2FA0)
             {
                 break;
             }
 
-            if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2)
-                && pBaseGameObject->field_6_flags.Get(BaseGameObject::eDead_Bit3) == false
-                && (sNum_CamSwappers_5C1B66 == 0 || pBaseGameObject->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            if (pBaseGameObject->mFlags.Get(BaseGameObject::eUpdatable_Bit2)
+                && pBaseGameObject->mFlags.Get(BaseGameObject::eDead) == false
+                && (sNum_CamSwappers_5C1B66 == 0 || pBaseGameObject->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
                 const s32 updateDelay = pBaseGameObject->UpdateDelay();
                 if (updateDelay <= 0)
@@ -793,13 +793,13 @@ EXPORT void CC Game_Loop_467230()
                 break;
             }
 
-            if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (pObj->mFlags.Get(BaseGameObject::eDead))
             {
-                pObj->field_6_flags.Clear(BaseGameObject::eCantKill_Bit11);
+                pObj->mFlags.Clear(BaseGameObject::eCantKill_Bit11);
             }
-            else if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+            else if (pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                pObj->field_6_flags.Set(BaseGameObject::eCantKill_Bit11);
+                pObj->mFlags.Set(BaseGameObject::eCantKill_Bit11);
                 pObj->VRender(ppOtBuffer);
             }
         }
@@ -813,13 +813,13 @@ EXPORT void CC Game_Loop_467230()
                 break;
             }
 
-            if (pFG1->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (pFG1->mFlags.Get(BaseGameObject::eDead))
             {
-                pFG1->field_6_flags.Clear(BaseGameObject::eCantKill_Bit11);
+                pFG1->mFlags.Clear(BaseGameObject::eCantKill_Bit11);
             }
-            else if (pFG1->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+            else if (pFG1->mFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                pFG1->field_6_flags.Set(BaseGameObject::eCantKill_Bit11);
+                pFG1->mFlags.Set(BaseGameObject::eCantKill_Bit11);
                 pFG1->VRender(ppOtBuffer);
             }
         }
@@ -832,18 +832,18 @@ EXPORT void CC Game_Loop_467230()
         gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
 
         // Destroy objects with certain flags
-        for (s16 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        for (s16 idx = 0; idx < gBaseGameObjects->Size(); idx++)
         {
-            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
             if (!pObj)
             {
                 break;
             }
 
-            if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObj->field_6_flags.Get(BaseGameObject::eCantKill_Bit11) == false)
+            if (pObj->mFlags.Get(BaseGameObject::eDead) && pObj->mFlags.Get(BaseGameObject::eCantKill_Bit11) == false)
             {
                 DynamicArrayIter it;
-                it.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
+                it.field_0_pDynamicArray = gBaseGameObjects;
                 it.field_4_idx = idx + 1;
 
                 it.Remove_At_Iter_40CCA0();
@@ -858,7 +858,7 @@ EXPORT void CC Game_Loop_467230()
 
         bPauseMenuObjectFound = false;
 
-        gMap_5C3030.ScreenChange_480B80();
+        gMap.ScreenChange_480B80();
         sInputObject_5BD4E0.Update(GetGameAutoPlayer());
 
         if (sNum_CamSwappers_5C1B66 == 0)
@@ -894,13 +894,13 @@ EXPORT void CC Game_Loop_467230()
     pResourceManager_5C1BB0->Shutdown_465610();
 
     // Destroy all game objects
-    while (!gBaseGameObject_list_BB47C4->IsEmpty())
+    while (!gBaseGameObjects->IsEmpty())
     {
         DynamicArrayIter iter = {};
-        iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
-        for (s16 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        iter.field_0_pDynamicArray = gBaseGameObjects;
+        for (s16 idx = 0; idx < gBaseGameObjects->Size(); idx++)
         {
-            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
             iter.field_4_idx = idx + 1;
             if (!pObj)
             {

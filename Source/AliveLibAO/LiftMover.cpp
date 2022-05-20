@@ -42,7 +42,7 @@ BaseGameObject* LiftMover::dtor_405550()
         field_18_pLiftPoint->field_C_refCount--;
         field_18_pLiftPoint = nullptr;
     }
-    gMap_507BA8.TLV_Reset_446870(field_14_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_14_tlvInfo, -1, 0, 0);
     return dtor_487DF0();
 }
 
@@ -68,11 +68,11 @@ void LiftMover::VUpdate()
 
 void LiftMover::VUpdate_4055C0()
 {
-    if (field_18_pLiftPoint && field_18_pLiftPoint->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (field_18_pLiftPoint && field_18_pLiftPoint->mFlags.Get(BaseGameObject::eDead))
     {
         field_18_pLiftPoint->field_C_refCount--;
         field_18_pLiftPoint = nullptr;
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -97,11 +97,11 @@ void LiftMover::VUpdate_4055C0()
                     {
                         // Load lift point objects (I guess in case for some reason it got unloaded ??)
                         // AE doesn't do this.
-                        for (s16 y = 0; y < gMap_507BA8.field_26_max_cams_y; y++)
+                        for (s16 y = 0; y < gMap.field_26_max_cams_y; y++)
                         {
-                            for (s16 x = 0; x < gMap_507BA8.field_24_max_cams_x; x++)
+                            for (s16 x = 0; x < gMap.field_24_max_cams_x; x++)
                             {
-                                gMap_507BA8.Loader_446590(x, y, LoadMode::ConstructObject_0, TlvTypes::LiftPoint_8);
+                                gMap.Loader_446590(x, y, LoadMode::ConstructObject_0, TlvTypes::LiftPoint_8);
                             }
                         }
 
@@ -191,7 +191,7 @@ void LiftMover::VUpdate_4055C0()
 
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

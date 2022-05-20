@@ -10,7 +10,7 @@ struct Path_TLV;
 class CreditsController final : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
 
     EXPORT CreditsController* ctor_418A10(Path_TLV* pTlv, s32 tlvInfo);

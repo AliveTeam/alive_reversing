@@ -9,7 +9,7 @@ class Rope final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Rope* ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 

@@ -130,11 +130,11 @@ BaseGameObject* SlingMudokon::dtor_46FB30()
 
     if (field_11E_flags.Get(Flags_11E::eBit1_bDontSetDestroyed))
     {
-        gMap_507BA8.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 1);
     }
 
     // TODO: Check it isn't 2 resources freed here
@@ -171,7 +171,7 @@ void SlingMudokon::VScreenChanged()
 
 void SlingMudokon::VScreenChanged_46FBE0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void SlingMudokon::VUpdate()
@@ -201,7 +201,7 @@ void SlingMudokon::VUpdate_46FBF0()
 
     if (old_x != field_A8_xpos || old_y != field_AC_ypos)
     {
-        field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
+        field_F0_pTlv = gMap.TLV_Get_At_446060(
             nullptr,
             field_A8_xpos,
             field_AC_ypos,
@@ -232,7 +232,7 @@ void SlingMudokon::VUpdate_46FBF0()
 
 void SlingMudokon::VCallBrain_46F880()
 {
-    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -243,7 +243,7 @@ void SlingMudokon::VCallBrain_46F880()
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -665,7 +665,7 @@ s16 SlingMudokon::Brain_1_Spawn_470230()
         case Brain_1_Spawn::eBrain1_Shoot_6:
             if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
 
             if (field_140_timer > static_cast<s32>(gnFrameCount_507670) || sActiveHero_507678->field_100_health <= FP_FromInteger(0))
@@ -718,7 +718,7 @@ s16 SlingMudokon::Brain_1_Spawn_470230()
                     field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 }
 
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 New_DestroyOrCreateObject_Particle_419D00(field_A8_xpos, (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos, field_BC_sprite_scale);
 
                 auto pFlash = ao_new<Flash>();
@@ -960,7 +960,7 @@ s16 SlingMudokon::Brain_2_AskForPassword_4707B0()
         case 8:
             if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
 
             if (field_140_timer > static_cast<s32>(gnFrameCount_507670) || sActiveHero_507678->field_100_health <= FP_FromInteger(0))
@@ -1013,7 +1013,7 @@ s16 SlingMudokon::Brain_2_AskForPassword_4707B0()
                     field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 }
 
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 New_DestroyOrCreateObject_Particle_419D00(field_A8_xpos, (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos, field_BC_sprite_scale);
 
                 auto pFlash = ao_new<Flash>();

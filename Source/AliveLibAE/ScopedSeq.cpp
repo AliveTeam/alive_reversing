@@ -5,10 +5,8 @@
 #include "Sound/Midi.hpp"
 #include "stdlib.hpp"
 
-ScopedSeq* ScopedSeq::ctor_4CB210(s8 ambianceId, CameraPos direction)
+ScopedSeq::ScopedSeq(s32 ambianceId, CameraPos direction)
 {
-    SetVTable(this, 0x547838);
-
     s16 leftVol = 0;
     s16 rightVol = 0;
 
@@ -54,29 +52,10 @@ ScopedSeq* ScopedSeq::ctor_4CB210(s8 ambianceId, CameraPos direction)
     {
         SND_SEQ_Play_4CAB10(field_4_seq_id, 0, 40 * leftVol + 15, 40 * rightVol + 15);
     }
-
-    return this;
 }
 
-ScopedSeq* ScopedSeq::VDestructor(s32 flags)
+ScopedSeq::~ScopedSeq()
 {
-    return vdtor_4CB410(flags);
-}
-
-ScopedSeq* ScopedSeq::vdtor_4CB410(s32 flags)
-{
-    dtor_4CB440();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void ScopedSeq::dtor_4CB440()
-{
-    SetVTable(this, 0x547838);
-
     if (field_4_seq_id >= 0)
     {
         SND_SEQ_Stop_4CAE60(field_4_seq_id);

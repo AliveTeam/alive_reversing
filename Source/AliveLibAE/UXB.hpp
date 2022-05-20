@@ -57,7 +57,7 @@ enum UXB_Flags_1C8
 class UXB final : public BaseAliveGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

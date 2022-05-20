@@ -29,10 +29,8 @@ enum class BoomMachineStates : s16
 class BoomMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BoomMachine* ctor_445B30(Path_BoomMachine* pTlv, s32 tlvInfo);
-
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo);
+    ~BoomMachine();
 
     virtual void VUpdate() override;
 
@@ -43,17 +41,10 @@ public:
     virtual void VHandleButton_445F00();
 
 private:
-    EXPORT void vUpdate_445F50();
-
-    EXPORT void vScreenChange_446020();
 
     EXPORT Bool32 vIsButtonOn_445DF0();
 
     EXPORT void vHandleButton_445F00();
-
-    EXPORT void dtor_445E40();
-
-    EXPORT BoomMachine* vdtor_445E10(s32 flags);
 
 private:
     s32 field_F4_tlvInfo;

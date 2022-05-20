@@ -157,7 +157,7 @@ public:
 
     void KillLiftPoint_194();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT Mudokon* Vdtor_440230(s32 flags);
 

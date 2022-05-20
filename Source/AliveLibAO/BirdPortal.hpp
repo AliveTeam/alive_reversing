@@ -51,7 +51,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     void Fadeout();
 
     s32 field_D4_padding[4];
@@ -70,7 +70,7 @@ public:
     EXPORT BaseGameObject* dtor_452230();
     EXPORT s16 IsScaredAway_4532E0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;

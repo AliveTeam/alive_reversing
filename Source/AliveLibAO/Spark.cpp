@@ -23,7 +23,7 @@ namespace AO {
 Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max)
 {
     ctor_487E10(1);
-    field_6_flags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
 
     SetVTable(this, 0x4BCD48);
     field_4_typeId = Types::eNone_0;
@@ -101,7 +101,7 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     return this;
 }
@@ -110,7 +110,7 @@ BaseGameObject* Spark::dtor_477D40()
 {
     SetVTable(this, 0x4BCD48);
 
-    if (field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+    if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_504618->Remove_Item(this);
     }
@@ -145,7 +145,7 @@ void Spark::VScreenChanged()
 
 void Spark::VScreenChanged_478280()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void Spark::VUpdate()
@@ -157,7 +157,7 @@ void Spark::VUpdate_477DB0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
     if (!sNumCamSwappers_507668)
     {
@@ -179,7 +179,7 @@ void Spark::VUpdate_477DB0()
         }
         else
         {
-            field_6_flags.Set(Options::eDead_Bit3);
+            mFlags.Set(Options::eDead);
         }
     }
 }

@@ -20,8 +20,8 @@ SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo)
     SetVTable(this, 0x547028);
 
     const AnimRecord& rec = AnimRec(AnimId::Security_Door_Idle);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
@@ -49,7 +49,7 @@ SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo)
     field_BC_ypos = FP_FromInteger(pTlv->field_1A_ypos);
 
     PSX_Point point = {};
-    gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&point);
+    gMap.Get_Abe_Spawn_Pos_4806D0(&point);
 
     if (field_B8_xpos > FP_FromInteger(0))
     {
@@ -114,7 +114,7 @@ void SecurityDoor::dtor_4AC260()
 
 void SecurityDoor::vScreenChanged_4AC970()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 SecurityDoor* SecurityDoor::vdtor_4AC230(s32 flags)
@@ -149,7 +149,7 @@ void SecurityDoor::vUpdate_4AC380()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_F8_state)
@@ -324,7 +324,7 @@ void SecurityDoor::vUpdate_4AC380()
             field_12A_unused = 1;
             SwitchStates_Set_465FF0(field_FA_switch_id, 1);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            SFX_Play_46FBA0(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
+            SFX_Play(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
             field_F8_state = SecurityDoorStates::eSuccessChime_1;
             field_124_timer = sGnFrame_5C1B84 + 15;
             return;
@@ -334,7 +334,7 @@ void SecurityDoor::vUpdate_4AC380()
             {
                 return;
             }
-            SFX_Play_46FBA0(SoundEffect::SecurityDoorDeny_38, 60, -720);
+            SFX_Play(SoundEffect::SecurityDoorDeny_38, 60, -720);
             field_F8_state = SecurityDoorStates::eLaughAtFailure_13;
             field_124_timer = sGnFrame_5C1B84 + 15;
             return;
@@ -344,7 +344,7 @@ void SecurityDoor::vUpdate_4AC380()
             {
                 return;
             }
-            SFX_Play_46FBA0(SoundEffect::SecurityDoorLaugh_87, 127, -1000);
+            SFX_Play(SoundEffect::SecurityDoorLaugh_87, 127, -1000);
             field_F8_state = SecurityDoorStates::eInactive_0;
             field_124_timer = sGnFrame_5C1B84 + 90;
             return;

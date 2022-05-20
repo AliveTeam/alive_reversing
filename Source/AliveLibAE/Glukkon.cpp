@@ -120,7 +120,7 @@ s32 CC Glukkon::CreateFromSaveState_442830(const u8* pData)
     const Glukkon_SaveState* pSaveState = reinterpret_cast<const Glukkon_SaveState*>(pData);
     auto pTlv = static_cast<Path_Glukkon*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_44_tlvInfo));
 
-    switch (gMap_5C3030.field_0_current_level)
+    switch (gMap.mCurrentLevel)
     {
         case LevelIds::eFeeCoDepot_5:
         case LevelIds::eFeeCoDepot_Ender_12:
@@ -198,7 +198,7 @@ s32 CC Glukkon::CreateFromSaveState_442830(const u8* pData)
 
     pGlukkon->field_20_animation.field_92_current_frame = pSaveState->field_2A_current_frame;
     pGlukkon->field_20_animation.field_E_frame_change_counter = pSaveState->field_2C_frame_change_counter;
-    pGlukkon->field_6_flags.Set(BaseGameObject::Options::eDrawable_Bit4, pSaveState->field_2F_drawable & 1);
+    pGlukkon->mFlags.Set(BaseGameObject::Options::eDrawable_Bit4, pSaveState->field_2F_drawable & 1);
     pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_26_flipX & 1);
     pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2E_render & 1);
 
@@ -272,37 +272,37 @@ Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo)
         case GlukkonTypes::Normal_4:
         case GlukkonTypes::Normal_5:
         {
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGlukkonResID_801);
+            Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kGlukkonResID_801);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Normal_Idle);
-            u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+            u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
             break;
         }
 
         case GlukkonTypes::StoryAslik_1:
         {
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAslikResID_803);
+            Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAslikResID_803);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Aslik_Idle);
-            u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+            u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
             break;
         }
 
         case GlukkonTypes::StoryDripik_2:
         {
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kDripikResID_805);
+            Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDripikResID_805);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Dripik_Idle);
-            u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+            u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
             break;
         }
 
         case GlukkonTypes::StoryPhleg_3:
         {
-            Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kPhlegResID_807);
+            Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kPhlegResID_807);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Phleg_Idle);
-            u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+            u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
             break;
         }
 
@@ -374,7 +374,7 @@ s32 Glukkon::vGetSaveState_444B90(u8* pSaveBuffer)
     pSaveState->field_2C_frame_change_counter = field_20_animation.field_E_frame_change_counter;
     pSaveState->field_26_flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
     pSaveState->field_2E_render = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
-    pSaveState->field_2F_drawable = field_6_flags.Get(BaseGameObject::Options::eDrawable_Bit4);
+    pSaveState->field_2F_drawable = mFlags.Get(BaseGameObject::Options::eDrawable_Bit4);
     pSaveState->field_30_health = field_10C_health;
     pSaveState->field_34_current_motion = field_106_current_motion;
     pSaveState->field_36_next_motion = field_108_next_motion;
@@ -584,7 +584,7 @@ const FP sGlukkonJumpVelX_54539C[10] = {
 
 void Glukkon::M_Jump_4_443030()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
 
     if (field_20_animation.field_92_current_frame >= 10)
     {
@@ -594,7 +594,7 @@ void Glukkon::M_Jump_4_443030()
 
     if (field_20_animation.field_92_current_frame == 0)
     {
-        SFX_Play_46FBA0(SoundEffect::PickupItem_28, 50, -900);
+        SFX_Play(SoundEffect::PickupItem_28, 50, -900);
         field_F8_LastLineYPos = field_BC_ypos;
         if (pPlatform)
         {
@@ -859,7 +859,7 @@ void Glukkon::M_Speak1_11_4437D0()
 {
     if (field_20_animation.field_92_current_frame == 2 && field_1EA_speak != GlukkonSpeak::None)
     {
-        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        if (gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -1056,7 +1056,7 @@ void Glukkon::M_EndSingleStep_24_443990()
 
 s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 {
-    if (gMap_5C3030.GetDirection_4811A0(
+    if (gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -1066,7 +1066,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
 
-    auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+    auto pObj = sObjectIds.Find_449CF0(field_110_id);
     LiftPoint* pLiftPoint = nullptr;
     if (pObj && pObj->Type() == AETypes::eLiftPoint_78)
     {
@@ -1358,7 +1358,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 
 s16 Glukkon::Brain_1_Panic_4412F0()
 {
-    if (gMap_5C3030.GetDirection_4811A0(
+    if (gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -1368,7 +1368,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
 
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_449CF0(field_110_id));
     if (pLiftPoint && pLiftPoint->Type() == AETypes::eLiftPoint_78 && !pLiftPoint->vOnAnyFloor_461920() && field_210_brain_sub_state != 6)
     {
         field_108_next_motion = eGlukkonMotions::M_Idle_0_442D10;
@@ -1506,7 +1506,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
 
 s16 Glukkon::Brain_2_Slapped_441720()
 {
-    if (gMap_5C3030.GetDirection_4811A0(
+    if (gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -1616,8 +1616,8 @@ s16 Glukkon::Brain_2_Slapped_441720()
 
 s16 Glukkon::Brain_3_PlayerControlled_441A30()
 {
-    auto pDeathFadeOut = static_cast<DeathFadeOut*>(sObjectIds_5C1B70.Find_449CF0(field_208_obj_id));
-    if (gMap_5C3030.GetDirection_4811A0(
+    auto pDeathFadeOut = static_cast<DeathFadeOut*>(sObjectIds.Find_449CF0(field_208_obj_id));
+    if (gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -1719,7 +1719,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
 
                 if (pObj->Type() == AETypes::eSlig_125)
                 {
-                    pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    pObj->mFlags.Set(BaseGameObject::eDead);
                 }
             }
 
@@ -1729,9 +1729,9 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
         case 4:
         {
             pScreenManager_5BB5F4->field_40_flags &= ~0x10000;
-            sLevelId_dword_5CA408 = static_cast<u32>(gMap_5C3030.field_0_current_level);
+            sLevelId_dword_5CA408 = static_cast<u32>(gMap.mCurrentLevel);
 
-            const FmvInfo* pFmvRec = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, field_1A8_tlvData.field_28_movie_to_play_fmvID);
+            const FmvInfo* pFmvRec = Path_Get_FMV_Record_460F70(gMap.mCurrentLevel, field_1A8_tlvData.field_28_movie_to_play_fmvID);
 
             u32 pos = 0;
             Get_fmvs_sectors_494460(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
@@ -1750,7 +1750,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                 return field_210_brain_sub_state;
             }
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes); // TODO: Cast hack
+            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes); // TODO: Cast hack
             if (pDeathFadeOut)
             {
                 pDeathFadeOut->Init_427140(Layer::eLayer_FadeFlash_40, 0, 1, 8);
@@ -1801,7 +1801,7 @@ static GibType AsGibType(GlukkonTypes glukkonType)
 
 s16 Glukkon::Brain_4_Death_442010()
 {
-    if (gMap_5C3030.GetDirection_4811A0(
+    if (gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -1935,7 +1935,7 @@ const PSX_Point v00554768[8] = {
 
 s16 Glukkon::Brain_5_WaitToSpawn_442490()
 {
-    if (gMap_5C3030.GetDirection_4811A0(
+    if (gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -1971,14 +1971,14 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
             return field_210_brain_sub_state;
         }
 
-        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
         field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
 
         SetType(AETypes::eGlukkon_67);
 
         if (field_1A8_tlvData.field_1E_spawn_type == Path_Glukkon::SpawnType::eFullSpawnEffects_3)
         {
-            SFX_Play_46FBA0(SoundEffect::Zap1_49, 60, -300);
+            SFX_Play(SoundEffect::Zap1_49, 60, -300);
 
             for (const auto& p : v00554768)
             {
@@ -2028,9 +2028,9 @@ void Glukkon::Init_43F260()
     field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    SetTint_425600(&kGlukkonTints_5546B4[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&kGlukkonTints_5546B4[0], gMap.mCurrentLevel);
     field_B8_xpos = FP_FromInteger((field_1A8_tlvData.field_8_top_left.field_0_x + field_1A8_tlvData.field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(field_1A8_tlvData.field_8_top_left.field_2_y);
 
@@ -2052,7 +2052,7 @@ void Glukkon::Init_43F260()
             field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
         }
         field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
-        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
         SetBrain(&Glukkon::Brain_5_WaitToSpawn_442490);
         field_210_brain_sub_state = 0;
         SetType(AETypes::eNone_0);
@@ -2143,7 +2143,7 @@ void Glukkon::dtor_43F570()
         Path::TLV_Reset_4DB8E0(field_214_tlv_info, -1, 0, 0);
     }
 
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4); // Seems wrong to do this here ??
+    mFlags.Set(BaseGameObject::eDrawable_Bit4); // Seems wrong to do this here ??
 
     if (this == sControlledCharacter_5C1B8C)
     {
@@ -2187,12 +2187,12 @@ void Glukkon::vUpdate_43F770()
                 vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
             }
         }
-        field_208_obj_id = BaseGameObject::Find_Flags_4DC170(field_208_obj_id);
+        field_208_obj_id = BaseGameObject::FindById(field_208_obj_id);
     }
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -2247,9 +2247,9 @@ void Glukkon::vPossessed_440160()
     SetBrain(&Glukkon::Brain_3_PlayerControlled_441A30);
     field_210_brain_sub_state = 0;
     field_1D4_timer = sGnFrame_5C1B84 + 35;
-    field_1E4_level = gMap_5C3030.field_0_current_level;
-    field_1E6_path = gMap_5C3030.field_2_current_path;
-    field_1E8_camera = gMap_5C3030.field_4_current_camera;
+    field_1E4_level = gMap.mCurrentLevel;
+    field_1E6_path = gMap.mCurrentPath;
+    field_1E8_camera = gMap.field_4_current_camera;
 }
 
 void Glukkon::Update_Slurg_WatchPoints_440600()
@@ -2475,13 +2475,13 @@ s16 Glukkon::ShouldPanic_440200(s16 panicEvenIfNotFacingMe)
         && !(sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         && !BaseAliveGameObject::IsInInvisibleZone_425710(sControlledCharacter_5C1B8C)
         && !Event_Get_422C00(kEventResetting)
-        && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        && gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
             field_BC_ypos,
             0)
-        && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        && gMap.Is_Point_In_Current_Camera_4810D0(
             sControlledCharacter_5C1B8C->field_C2_lvl_number,
             sControlledCharacter_5C1B8C->field_C0_path_number,
             sControlledCharacter_5C1B8C->field_B8_xpos,
@@ -2713,7 +2713,7 @@ s16 Glukkon::DoMovement_444190()
 
 void Glukkon::FollowLine_443EB0()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
     const FP prevXPos = field_B8_xpos;
 
     if (field_100_pCollisionLine)
@@ -2814,13 +2814,13 @@ void CC Glukkon::PlaySound_4447D0(s32 sndIdx, Glukkon* pGlukkon)
         volumeRight = defaultSndIdxVol / 2;
     }
 
-    CameraPos direction = gMap_5C3030.GetDirection_4811A0(
+    CameraPos direction = gMap.GetDirection_4811A0(
         pGlukkon->field_C2_lvl_number,
         pGlukkon->field_C0_path_number,
         pGlukkon->field_B8_xpos,
         pGlukkon->field_BC_ypos);
     PSX_RECT worldRect;
-    gMap_5C3030.Get_Camera_World_Rect_481410(direction, &worldRect);
+    gMap.Get_Camera_World_Rect_481410(direction, &worldRect);
     switch (direction)
     {
         case CameraPos::eCamCurrent_0:
@@ -2872,9 +2872,9 @@ void Glukkon::ToDead_43F640()
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-        if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
+        if (gMap.mLevel != LevelIds::eMenu_0)
         {
-            gMap_5C3030.SetActiveCam_480D30(
+            gMap.SetActiveCam_480D30(
                 field_1E4_level,
                 field_1E6_path,
                 field_1E8_camera,
@@ -2898,7 +2898,7 @@ void Glukkon::ToDead_43F640()
     if (field_1A8_tlvData.field_1C_spawn_switch_id == 0)
     {
         // Don't spawn again, dead
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -3041,13 +3041,13 @@ void Glukkon::vScreenChanged_440110()
     SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
     if (BrainIs(&Glukkon::Brain_5_WaitToSpawn_442490) && !field_210_brain_sub_state)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void Glukkon::vOnTrapDoorOpen_444120()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
     if (pPlatform)
     {
         field_F8_LastLineYPos = field_BC_ypos;

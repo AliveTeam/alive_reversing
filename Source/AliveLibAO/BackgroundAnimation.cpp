@@ -23,8 +23,8 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     field_E4_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (!field_E4_res)
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDead);
         return this;
     }
 
@@ -106,7 +106,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
 BaseGameObject* BackgroundAnimation::dtor_405CB0()
 {
     SetVTable(this, 0x4BA170);
-    gMap_507BA8.TLV_Reset_446870(field_F0_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_F0_tlvInfo, -1, 0, 0);
     if (field_104_sound_channels_mask)
     {
         SND_Stop_Channels_Mask_4774A0(field_104_sound_channels_mask);
@@ -136,7 +136,7 @@ void BackgroundAnimation::VScreenChanged()
 
 void BackgroundAnimation::VScreenChanged_405D30()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void BackgroundAnimation::VStopAudio()
@@ -162,7 +162,7 @@ void BackgroundAnimation::VUpdate_405C30()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {

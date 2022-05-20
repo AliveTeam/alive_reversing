@@ -22,9 +22,9 @@ EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type
     field_10_type = type;
     field_18_xpos = xpos;
     field_1C_ypos = ypos;
-    field_2A_path = gMap_507BA8.field_2_current_path;
+    field_2A_path = gMap.mCurrentPath;
     field_30_pParent = pParent;
-    field_28_level = gMap_507BA8.field_0_current_level;
+    field_28_level = gMap.mCurrentLevel;
     field_2C_scale = scale;
     field_24_unused = unused;
     field_34_number_of_bullets = numberOfBullets;
@@ -50,14 +50,14 @@ void Bullet::VUpdate()
 
 void Bullet::VUpdate_408E30()
 {
-    if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_28_level,
             field_2A_path,
             field_18_xpos,
             field_1C_ypos,
             0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
     const s16 volume = field_2C_scale != FP_FromDouble(0.5) ? 75 : 50;
@@ -126,7 +126,7 @@ void Bullet::VUpdate_408E30()
                     {
                         SFX_Play_43AD70(SoundEffect::Bullet2_2, volume, 0);
                     }
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    mFlags.Set(BaseGameObject::eDead);
                     return;
                 }
             }
@@ -142,7 +142,7 @@ void Bullet::VUpdate_408E30()
                     {
                         SFX_Play_43AD70(SoundEffect::Bullet1_1, volume, 0);
                     }
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    mFlags.Set(BaseGameObject::eDead);
                     return;
                 }
             }
@@ -151,7 +151,7 @@ void Bullet::VUpdate_408E30()
             {
                 field_2C_scale == FP_FromInteger(1) ? PlayBulletSounds(90) : PlayBulletSounds(60);
             }
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
         case BulletType::eZBullet_2:
@@ -190,7 +190,7 @@ void Bullet::VUpdate_408E30()
             if (pShotObj && pShotObj->VTakeDamage(this))
             {
                 PlayBulletSounds(90);
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -220,7 +220,7 @@ void Bullet::VUpdate_408E30()
             {
                 SFX_Play_43AD70(SoundEffect::Bullet2_2, 75, 0);
             }
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -230,7 +230,7 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
     Path_TLV* pZCover = nullptr;
     while (1)
     {
-        pZCover = gMap_507BA8.TLV_Get_At_446060(
+        pZCover = gMap.TLV_Get_At_446060(
             pZCover,
             xpos,
             ypos,

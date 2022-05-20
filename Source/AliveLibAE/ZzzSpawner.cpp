@@ -66,14 +66,14 @@ ZzzSpawner* ZzzSpawner::vdtor_4C4100(s32 flags)
 
 void ZzzSpawner::vScreenChanged_4C4280()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void ZzzSpawner::vUpdate_4C41B0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (!SwitchStates_Get_466020(field_30_switch_id) && static_cast<s32>(sGnFrame_5C1B84) > field_34_Zzz_timer)

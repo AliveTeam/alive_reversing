@@ -33,7 +33,7 @@ public:
 
     EXPORT BaseGameObject* dtor_433540();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT InvisibleSwitch* Vdtor_433740(s32 flags);
 

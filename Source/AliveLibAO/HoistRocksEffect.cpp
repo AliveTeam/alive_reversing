@@ -31,7 +31,7 @@ HoistParticle* HoistParticle::ctor_431B00(FP xpos, FP ypos, FP scale, s32 frameT
     field_AC_ypos = ypos;
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kHoistRocksAOResID, 1, 0);
     s32 maxW = 7;
-    if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+    if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
     {
         maxW = 5;
     }
@@ -56,14 +56,14 @@ void HoistParticle::VUpdate_431BD0()
 {
     if (field_B8_vely >= (field_BC_sprite_scale * FP_FromInteger(10)))
     {
-        if (!gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        if (!gMap.Is_Point_In_Current_Camera_4449C0(
                 field_B2_lvl_number,
                 field_B0_path_number,
                 field_A8_xpos,
                 field_AC_ypos,
                 0))
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
     else
@@ -103,7 +103,7 @@ void HoistRocksEffect::VUpdate()
 
 void HoistRocksEffect::VScreenChanged_431AF0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void HoistRocksEffect::VScreenChanged()
@@ -129,7 +129,7 @@ BaseGameObject* HoistRocksEffect::VDestructor(s32 flags)
 BaseGameObject* HoistRocksEffect::dtor_431A90()
 {
     SetVTable(this, 0x4BB270);
-    gMap_507BA8.TLV_Reset_446870(field_18_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_18_tlvInfo, -1, 0, 0);
     return dtor_487DF0();
 }
 
@@ -155,7 +155,7 @@ void HoistRocksEffect::VUpdate_431860()
             {
                 const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock2);
                 s32 frameTableOffset = normalHoist.mFrameTableOffset;
-                if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+                if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {
                     const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock2);
                     frameTableOffset = ruptureHoist.mFrameTableOffset;
@@ -175,7 +175,7 @@ void HoistRocksEffect::VUpdate_431860()
             {
                 const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock3);
                 s32 frameTableOffset = normalHoist.mFrameTableOffset;
-                if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+                if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {
                     const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock3);
                     frameTableOffset = ruptureHoist.mFrameTableOffset;
@@ -196,7 +196,7 @@ void HoistRocksEffect::VUpdate_431860()
         {
             const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock1);
             s32 frameTableOffset = normalHoist.mFrameTableOffset;
-            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+            if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
             {
                 const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock1);
                 frameTableOffset = ruptureHoist.mFrameTableOffset;

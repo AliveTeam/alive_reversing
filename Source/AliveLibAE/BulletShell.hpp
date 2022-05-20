@@ -9,7 +9,7 @@ class BulletShell final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BulletShell* ctor_4AD340(FP xpos, FP ypos, s16 direction, FP scale);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
 
 private:

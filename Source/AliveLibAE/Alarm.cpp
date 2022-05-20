@@ -11,27 +11,11 @@
 ALIVE_VAR(1, 0x5c1bb4, s16, alarmInstanceCount_5C1BB4, 0);
 ALIVE_VAR(1, 0x550d70, s32, sAlarmObjId_550D70, -1);
 
-BaseGameObject* Alarm::VDestructor(s32 flags)
+Alarm::Alarm(Path_Alarm* pTlv, s32 tlvInfo)
+    : EffectBase(Layer::eLayer_Above_FG1_39, TPageAbr::eBlend_3)
 {
-    return vdtor_4092D0(flags);
-}
-
-void Alarm::VUpdate()
-{
-    vUpdate_409460();
-}
-
-void Alarm::VRender(PrimHeader** ppOt)
-{
-    vRender_409710(ppOt);
-}
-
-Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, s32 tlvInfo)
-{
-    ctor_4AB7A0(Layer::eLayer_Above_FG1_39, TPageAbr::eBlend_3);
     field_84_tlvOffsetLevelPathCamId = tlvInfo;
 
-    SetVTable(this, 0x544074); // vTbl_GlukkonPanic_544074
     SetType(AETypes::eAlarm_1);
 
     field_78_r_value = 0;
@@ -45,15 +29,11 @@ Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, s32 tlvInfo)
     field_72_b = 0;
 
     field_8A_duration = pTlv->field_12_duration;
-
-    return this;
 }
 
-Alarm* Alarm::ctor_4091F0(s16 durationOffset, s16 switchId, s16 timerOffset, Layer layer)
+Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)
+    : EffectBase(layer, TPageAbr::eBlend_3)
 {
-    ctor_4AB7A0(layer, TPageAbr::eBlend_3);
-
-    SetVTable(this, 0x544074);
     SetType(AETypes::eAlarm_1);
 
     field_78_r_value = 0;
@@ -61,14 +41,14 @@ Alarm* Alarm::ctor_4091F0(s16 durationOffset, s16 switchId, s16 timerOffset, Lay
     field_84_tlvOffsetLevelPathCamId = 0xFFFF;
     field_7C_15_timer = sGnFrame_5C1B84 + timerOffset;
     field_80_duration_timer = field_7C_15_timer + durationOffset;
-    field_88_switch_id = switchId;
+    field_88_switch_id = static_cast<s16>(switchId);
 
     alarmInstanceCount_5C1BB4++;
 
     if (alarmInstanceCount_5C1BB4 > 1)
     {
         // More than one instance, kill self
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -78,14 +58,10 @@ Alarm* Alarm::ctor_4091F0(s16 durationOffset, s16 switchId, s16 timerOffset, Lay
     field_6E_r = 0;
     field_70_g = 0;
     field_72_b = 0;
-
-    return this;
 }
 
-void Alarm::dtor_409380()
+Alarm::~Alarm()
 {
-    SetVTable(this, 0x544074); // vTbl_GlukkonPanic_544074
-
     if (field_90_state != States::eWaitForSwitchEnable_0)
     {
         alarmInstanceCount_5C1BB4--;
@@ -107,21 +83,9 @@ void Alarm::dtor_409380()
     {
         Path::TLV_Reset_4DB8E0(field_84_tlvOffsetLevelPathCamId, -1, 0, 0);
     }
-
-    dtor_4AB8F0();
 }
 
-Alarm* Alarm::vdtor_4092D0(s32 flags)
-{
-    dtor_409380();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Alarm::vRender_409710(PrimHeader** ppOt)
+void Alarm::VRender(PrimHeader** ppOt)
 {
     if (sNum_CamSwappers_5C1B66 == 0)
     {
@@ -129,14 +93,14 @@ void Alarm::vRender_409710(PrimHeader** ppOt)
     }
 }
 
-void Alarm::vUpdate_409460()
+void Alarm::VUpdate()
 {
     if (field_90_state != States::eWaitForSwitchEnable_0)
     {
         Event_Broadcast_422BC0(kEventAlarm, this);
         if (static_cast<s32>(sGnFrame_5C1B84) > field_80_duration_timer)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
     }
@@ -146,7 +110,7 @@ void Alarm::vUpdate_409460()
         case States::eWaitForSwitchEnable_0:
             if (Event_Get_422C00(kEventDeathReset))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
 
             if (!SwitchStates_Get_466020(field_88_switch_id))
@@ -158,7 +122,7 @@ void Alarm::vUpdate_409460()
             alarmInstanceCount_5C1BB4++;
             if (alarmInstanceCount_5C1BB4 > 1)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             else
             {
@@ -174,7 +138,7 @@ void Alarm::vUpdate_409460()
         case States::eAfterConstructed_1: // When not created by a map TLV
             if (Event_Get_422C00(kEventHeroDying))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             else
             {
@@ -243,7 +207,7 @@ void Alarm::vUpdate_409460()
         case States::eDisabled_5:
             if (Event_Get_422C00(kEventHeroDying))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             else
             {

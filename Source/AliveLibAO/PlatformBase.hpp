@@ -29,7 +29,7 @@ public:
 
     EXPORT BaseGameObject* Vdtor_4516F0(s32 flags);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     s32 field_10C;
     s32 field_110;

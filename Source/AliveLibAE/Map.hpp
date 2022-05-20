@@ -87,8 +87,8 @@ public:
         eMapBottom_3 = 3,
     };
 
-    LevelIds field_0_current_level;
-    s16 field_2_current_path;
+    LevelIds mCurrentLevel;
+    s16 mCurrentPath;
     s16 field_4_current_camera;
 
     enum class CamChangeStates : s16
@@ -100,8 +100,8 @@ public:
     CamChangeStates field_6_state;
     s16 field_8_force_load;
 
-    LevelIds field_A_level;
-    s16 field_C_path;
+    LevelIds mLevel;
+    s16 mPath;
     s16 field_E_camera;
     CameraSwapEffects field_10_screen_change_effect;
     u16 field_12_fmv_base_id;
@@ -114,7 +114,7 @@ public:
     CameraSwapEffects field_1C;
     s16 field_1E_door;
     s16 field_20;
-    s16 field_22_overlayID;
+    s16 mOverlayId;
 
     FP_Point field_24_camera_offset;
 
@@ -149,7 +149,7 @@ public:
     EXPORT void Get_map_size_480640(PSX_Point* pPoint);
     EXPORT void GetCurrentCamCoords_480680(PSX_Point* pPoint);
     EXPORT void Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint);
-    EXPORT s16 GetOverlayId_480710();
+    EXPORT s16 GetOverlayId();
     EXPORT void Create_FG1s_480F10();
     EXPORT CameraPos Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect);
     EXPORT s16 SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
@@ -186,6 +186,6 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Map, 0xDC);
 
-ALIVE_VAR_EXTERN(Map, gMap_5C3030);
+ALIVE_VAR_EXTERN(Map, gMap);
 ALIVE_VAR_EXTERN(s16, sMap_bDoPurpleLightEffect_5C311C);
 extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10];

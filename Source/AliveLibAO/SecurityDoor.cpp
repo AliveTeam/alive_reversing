@@ -49,7 +49,7 @@ BaseGameObject* SecurityDoor::dtor_4619C0()
     {
         field_E8_state = SecurityDoorStates::eInactive_0;
     }
-    gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, field_E8_state + 1, 0, 0);
+    gMap.TLV_Reset_446870(field_E4_tlvInfo, field_E8_state + 1, 0, 0);
     return dtor_417D10();
 }
 
@@ -111,7 +111,7 @@ SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, s32 tlvInfo)
 
 void SecurityDoor::VScreenChanged_461F80()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 Bool32 SecurityDoor::IsPlayerNear()
@@ -136,7 +136,7 @@ void SecurityDoor::VUpdate_461AD0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     switch (field_E8_state)

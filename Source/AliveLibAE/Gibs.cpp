@@ -32,16 +32,9 @@ EXPORT FP CC Random_40FAF0(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << sGibRandom_550E80) * scale;
 }
 
-EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 bMakeSmaller)
+Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool bMakeSmaller)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-
-    for (GibPart& part : field_104_parts)
-    {
-        SetVTable(&part.field_18_anim, 0x544290); // gVtbl_animation_2a_544290
-    }
-    SetVTable(this, 0x544248); // vTbl_Gibs_544248
-
     field_F4_not_used = nullptr;
 
     AnimRecord headGib = {};
@@ -116,17 +109,17 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
     }
 
     // TODO: It is assumed all 3 gib parts have the same resource id - might not be true for mods
-    u8** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, headGib.mResourceId);
+    u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, headGib.mResourceId);
 
     // TODO: It is assumed all 3 gib parts use the same pal - might not be true for mods
     u8** ppRes = nullptr;
     if (headGib.mPalOverride != PalId::Default)
     {
-        ppRes = Add_Resource_4DC130(ResourceManager::Resource_Palt, PalRec(headGib.mPalOverride).mResourceId);
+        ppRes = Add_Resource(ResourceManager::Resource_Palt, PalRec(headGib.mPalOverride).mResourceId);
     }
 
     // The base class renders the head gib
-    Animation_Init_424E10(
+    Animation_Init(
         headGib.mFrameTableOffset,
         headGib.mMaxW,
         headGib.mMaxH,
@@ -134,9 +127,9 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
         1,
         1);
 
-    if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        return this;
+        return;
     }
 
     field_CC_sprite_scale = scale;
@@ -160,7 +153,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
     else
     {
         // Not a valid scale
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     field_5D6_bMakeSmaller = bMakeSmaller;
@@ -168,7 +161,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
 
     // OG Bug? WTF?? Looks like somehow they didn't condition this param correctly
     // because field_C8_vely and field_FC_dz are always overwritten
-    if (field_5D6_bMakeSmaller == 0)
+    if (!field_5D6_bMakeSmaller)
     {
         field_C8_vely = yOff + Random_40FAF0(scale);
         field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
@@ -181,11 +174,11 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
 
     if (gibType == GibType::Abe_0)
     {
-        SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.field_0_current_level);
+        SetTint_425600(sTintTable_Abe_554D20, gMap.mCurrentLevel);
     }
     else if (gibType == GibType::Mud_3)
     {
-        SetTint_425600(kGibTints_55C744, gMap_5C3030.field_0_current_level);
+        SetTint_425600(kGibTints_55C744, gMap.mCurrentLevel);
     }
     else if (gibType == GibType::BlindMud_4)
     {
@@ -214,8 +207,8 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
                     0))
             {
                 field_5D4_parts_used_count = i;
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-                return this;
+                mFlags.Set(BaseGameObject::eDead);
+                return;
             }
         }
         else
@@ -233,8 +226,8 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
                     0))
             {
                 field_5D4_parts_used_count = i;
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
-                return this;
+                mFlags.Set(BaseGameObject::eDead);
+                return;
             }
         }
 
@@ -272,48 +265,17 @@ EXPORT Gibs* Gibs::ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yO
 
         pPart++;
     }
-
-    return this;
 }
 
-BaseGameObject* Gibs::VDestructor(s32 flags)
+Gibs::~Gibs()
 {
-    return vdtor_410100(flags);
-}
-
-void Gibs::VUpdate()
-{
-    vUpdate_410210();
-}
-
-void Gibs::VRender(PrimHeader** ppOt)
-{
-    vRender_4103A0(ppOt);
-}
-
-void Gibs::dtor_410170()
-{
-    SetVTable(this, 0x544248); // vTbl_Gibs_544248
-
     for (s32 i = 0; i < field_5D4_parts_used_count; i++)
     {
         field_104_parts[i].field_18_anim.vCleanUp_40C630();
     }
-
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-Gibs* Gibs::vdtor_410100(s32 flags)
-{
-    dtor_410170();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Gibs::vUpdate_410210()
+void Gibs::VUpdate()
 {
     field_B8_xpos += field_C4_velx;
     field_BC_ypos += field_C8_vely;
@@ -346,11 +308,11 @@ void Gibs::vUpdate_410210()
 
     if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
-EXPORT void Gibs::vRender_4103A0(PrimHeader** ppOt)
+void Gibs::VRender(PrimHeader** ppOt)
 {
     if (sNum_CamSwappers_5C1B66 > 0)
     {

@@ -81,5 +81,5 @@ SlurgSpawner* SlurgSpawner::vdtor_4C8370(s32 flags)
 void SlurgSpawner::vScreenChanged_4C84A0()
 {
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, field_40_spawned_count, 0, 0);
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }

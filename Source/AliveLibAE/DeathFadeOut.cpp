@@ -5,30 +5,14 @@
 
 ALIVE_VAR(1, 0x5bc204, s32, sIsFadingOut_5BC204, 0);
 
-BaseGameObject* DeathFadeOut::VDestructor(s32 flags)
-{
-    return vdtor_4270F0(flags);
-}
-
-void DeathFadeOut::VUpdate()
-{
-    Update_4271C0();
-}
-
 void DeathFadeOut::VScreenChanged()
 {
     // Empty
 }
 
-void DeathFadeOut::VRender(PrimHeader** ppOt)
+DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr)
+    : EffectBase(layer, abr)
 {
-    vRender_427210(ppOt);
-}
-
-DeathFadeOut* DeathFadeOut::ctor_427030(Layer layer, s16 direction, s16 destroyOnDone, s16 speed, TPageAbr abr)
-{
-    ctor_4AB7A0(layer, abr);
-    SetVTable(this, 0x544DA0); // vTbl_DeathFadeOut_00544DA0
     SetType(AETypes::eMainMenuTransistion_116);
 
     if (direction)
@@ -45,14 +29,12 @@ DeathFadeOut* DeathFadeOut::ctor_427030(Layer layer, s16 direction, s16 destroyO
     field_72_b = field_78_current_fade_rgb;
     field_70_g = field_78_current_fade_rgb;
     field_6E_r = field_78_current_fade_rgb;
-
-    return this;
 }
 
-void DeathFadeOut::Init_427140(Layer layer, s16 direction, s16 destroyOnDone, s16 speed)
+void DeathFadeOut::Init_427140(Layer layer, s32 direction, bool destroyOnDone, s32 speed)
 {
     field_6C_layer = layer;
-    field_7C_direction = direction;
+    field_7C_direction = static_cast<s16>(direction);
     field_7E_bDone = 0;
 
     if (speed > 0)
@@ -67,32 +49,17 @@ void DeathFadeOut::Init_427140(Layer layer, s16 direction, s16 destroyOnDone, s1
 
     if (direction == 0)
     {
-        field_7A_speed = -speed;
+        field_7A_speed = static_cast<s16>(-speed);
     }
     else
     {
-        field_7A_speed = speed;
+        field_7A_speed = static_cast<s16>(speed);
     }
 
     sIsFadingOut_5BC204 = TRUE;
 }
 
-void DeathFadeOut::dtor_427120()
-{
-    dtor_4AB8F0();
-}
-
-DeathFadeOut* DeathFadeOut::vdtor_4270F0(s32 flags)
-{
-    dtor_427120();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void DeathFadeOut::Update_4271C0()
+void DeathFadeOut::VUpdate()
 {
     if (!field_7E_bDone && !field_82)
     {
@@ -111,7 +78,7 @@ void DeathFadeOut::Update_4271C0()
     }
 }
 
-void DeathFadeOut::vRender_427210(PrimHeader** ppOt)
+void DeathFadeOut::VRender(PrimHeader** ppOt)
 {
     field_72_b = field_78_current_fade_rgb;
     field_70_g = field_78_current_fade_rgb;
@@ -126,7 +93,7 @@ void DeathFadeOut::vRender_427210(PrimHeader** ppOt)
         {
             if (field_80_destroy_on_done)
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
         }
         else

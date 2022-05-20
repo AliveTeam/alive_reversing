@@ -22,7 +22,7 @@ void GasEmitter::VUpdate()
 
 void GasEmitter::VScreenChanged_41D900()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void GasEmitter::VScreenChanged()
@@ -64,7 +64,7 @@ BaseGameObject* GasEmitter::dtor_41D840()
 {
     SetVTable(this, 0x4BAF20);
 
-    gMap_507BA8.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
 
     if (gGasEmitter_5009D4 == this)
     {

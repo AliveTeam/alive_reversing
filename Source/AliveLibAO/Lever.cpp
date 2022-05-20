@@ -48,7 +48,7 @@ void Lever::VUpdate_4812D0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_E8_state == LeverState::ePulled_1)
@@ -62,10 +62,10 @@ void Lever::VUpdate_4812D0()
         {
             Event_Broadcast_417220(kEventNoise_0, this);
             Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
-            const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
-            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1
-                || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12
-                || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+            const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
+            if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1
+                || gMap.mCurrentLevel == LevelIds::eBoardRoom_12
+                || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
             {
                 SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 60, 0);
             }
@@ -163,7 +163,7 @@ void Lever::VUpdate_4812D0()
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_E8_state = LeverState::eWaiting_0;
-            const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0_idle_animId);
+            const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[static_cast<s32>(gMap.mCurrentLevel)].field_0_idle_animId);
             field_10_anim.Set_Animation_Data_402A40(
                 rec.mFrameTableOffset,
                 nullptr);
@@ -178,7 +178,7 @@ void Lever::VUpdate()
 
 void Lever::VScreenChanged_4816F0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void Lever::VScreenChanged()
@@ -204,7 +204,7 @@ BaseGameObject* Lever::VDestructor(s32 flags)
 BaseGameObject* Lever::dtor_481260()
 {
     SetVTable(this, 0x4BD100);
-    gMap_507BA8.TLV_Reset_446870(field_EC_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_EC_tlvInfo, -1, 0, 0);
     return dtor_417D10(); // Note: intermediate base skipped
 }
 
@@ -214,7 +214,7 @@ Lever* Lever::ctor_481110(Path_Lever* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BD100);
 
     field_4_typeId = Types::eLever_97;
-    const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
+    const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
     const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_0_idle_animId);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(
@@ -261,7 +261,7 @@ s32 Lever::vPull_481640(s16 bLeftDirection)
 {
     if (field_E8_state == LeverState::eWaiting_0)
     {
-        const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
+        const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
         field_E8_state = LeverState::ePulled_1;
         if (bLeftDirection)
         {

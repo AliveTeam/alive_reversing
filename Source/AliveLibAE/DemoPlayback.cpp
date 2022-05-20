@@ -17,14 +17,14 @@ void DemoPlayback::ctor()
 
     if (sDemoObj_dword_5D1E20)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
         sDemoObj_dword_5D1E20 = this;
-        field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 
-        u32** ppRes = reinterpret_cast<u32**>(Add_Resource_4DC130(ResourceManager::Resource_Demo, AEResourceID::kDemoResID));
+        u32** ppRes = reinterpret_cast<u32**>(Add_Resource(ResourceManager::Resource_Demo, AEResourceID::kDemoResID));
         SetUpdateDelay(1);
         sInputObject_5BD4E0.SetDemoResource_45F1E0(ppRes);
         SetType(AETypes::eDemoPlayback_98);
@@ -79,15 +79,15 @@ void DemoPlayback::vUpdate_4978E0()
         if (gIsDemoStartedManually_5C1B9C)
         {
             // go back to the demo selection menu
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 30, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 30, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         else
         {
             // go back to the main screen
-            gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
 
-        gMap_5C3030.field_CE_free_all_anim_and_palts = 1;
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        gMap.field_CE_free_all_anim_and_palts = 1;
+        mFlags.Set(BaseGameObject::eDead);
     }
 }

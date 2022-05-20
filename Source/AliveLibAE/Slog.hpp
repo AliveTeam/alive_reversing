@@ -121,7 +121,7 @@ public:
 
     EXPORT Slog* ctor_4C42E0(Path_Slog* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

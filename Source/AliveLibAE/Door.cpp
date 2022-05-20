@@ -40,12 +40,14 @@ const AnimId sDoorAnimIdTable_544888[16][2] = {
     {AnimId::Door_Bonewerkz_Closed, AnimId::Door_Bonewerkz_Open},
     {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Open}};
 
-
-Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
+Door::Door()
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+}
 
-    SetVTable(this, 0x5449BC); // vTbl_Door_5449BC
+Door::Door(Path_Door* pTlvData, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
+{
     SetType(AETypes::eDoor_33);
 
     field_F4_tlvInfo = tlvInfo;
@@ -67,7 +69,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
     }
 
     field_FA_door_number = pTlvData->field_18_door_number;
-    if (gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5)
+    if (gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5)
     {
         switch (field_FA_door_number)
         {
@@ -198,38 +200,38 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
         field_102_hub_ids[7] = pTlvData->field_22_hub8;
     }
 
-    const AnimRecord& closedRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap_5C3030.field_0_current_level)][0]);
-    const AnimRecord& openRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID);
+    const AnimRecord& closedRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap.mCurrentLevel)][0]);
+    const AnimRecord& openRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap.mCurrentLevel)][1]);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID);
     if (!ppRes || openRec.mFrameTableOffset == 0)
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        return this;
+        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDead);
+        return;
     }
 
     if (field_FC_current_state == eOpen_0)
     {
-        if (gMap_5C3030.field_22_overlayID == 108)
+        if (gMap.mOverlayId == 108)
         {
             const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
-            Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
+            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
         }
         else
         {
-            Animation_Init_424E10(openRec.mFrameTableOffset, openRec.mMaxW, openRec.mMaxH, ppRes, 1, 1u);
+            Animation_Init(openRec.mFrameTableOffset, openRec.mMaxW, openRec.mMaxH, ppRes, 1, 1u);
         }
     }
     else
     {
-        if (gMap_5C3030.field_22_overlayID == 108)
+        if (gMap.mOverlayId == 108)
         {
             const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Closed);
-            Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
+            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
         }
         else
         {
-            Animation_Init_424E10(closedRec.mFrameTableOffset, closedRec.mMaxW, closedRec.mMaxH, ppRes, 1, 1u);
+            Animation_Init(closedRec.mFrameTableOffset, closedRec.mMaxW, closedRec.mMaxH, ppRes, 1, 1u);
         }
     }
 
@@ -284,9 +286,9 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
 
     // Another OWI special
     FP yAdjustHack = {};
-    if ((gMap_5C3030.field_0_current_level != LevelIds::eBarracks_6 && gMap_5C3030.field_0_current_level != LevelIds::eBarracks_Ender_13) || gMap_5C3030.field_22_overlayID == 108)
+    if ((gMap.mCurrentLevel != LevelIds::eBarracks_6 && gMap.mCurrentLevel != LevelIds::eBarracks_Ender_13) || gMap.mOverlayId == 108)
     {
-        if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14)
+        if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eBonewerkz_Ender_14)
         {
             yAdjustHack = FP_FromInteger(10) * field_CC_sprite_scale;
         }
@@ -304,8 +306,6 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, s32 tlvInfo)
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
     field_DC_bApplyShadows |= 2u;
-
-    return this;
 }
 
 Bool32 Door::vIsOpen_41EB00()
@@ -342,21 +342,6 @@ void Door::vSetClosed_41EBC0()
     field_FC_current_state = eClosed_1;
 }
 
-void Door::vScreenChange_41F080()
-{
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
-}
-
-Door* Door::vdtor_41E9D0(s32 flags)
-{
-    dtor_41EA00();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
 void Door::PlaySound_41EA90()
 {
     s16 volume = 0;
@@ -369,24 +354,20 @@ void Door::PlaySound_41EA90()
         volume = 90;
     }
 
-    SFX_Play_46FBA0(SoundEffect::DoorEffect_57, volume, 900);
-    SFX_Play_46FBA0(SoundEffect::DoorEffect_57, volume, 0);
+    SFX_Play(SoundEffect::DoorEffect_57, volume, 900);
+    SFX_Play(SoundEffect::DoorEffect_57, volume, 0);
 }
 
-void Door::dtor_41EA00()
+Door::~Door()
 {
-    SetVTable(this, 0x5449BC); // vTbl_Door_5449BC
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
-
-    // Note: Skipping intermediate base class that has been optimized out
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void Door::vUpdate_41EBE0()
+void Door::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_115_DoorExit_459A40)
@@ -414,11 +395,7 @@ void Door::vUpdate_41EBE0()
                 if (!SwitchStates_Get_466020(field_100_switch_id) && field_F8_door_type == DoorTypes::eTasksDoorWithSecretMusic_2)
                 {
                     SND_SEQ_Play_4CAB10(SeqId::SecretMusic_32, 1, 127, 127);
-                    auto pMusicTrigger = ae_new<MusicTrigger>();
-                    if (pMusicTrigger)
-                    {
-                        pMusicTrigger->ctor_47FF10(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
-                    }
+                    ae_new<MusicTrigger>(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
                 }
                 SwitchStates_Do_Operation_465F00(field_100_switch_id, SwitchOp::eSetTrue_0);
             }
@@ -436,14 +413,14 @@ void Door::vUpdate_41EBE0()
                     || (field_FE_start_state == DoorStates::eClosed_1 && !SwitchStates_Get_466020(field_100_switch_id)))
                 {
                     field_FC_current_state = DoorStates::eClosing_3;
-                    if (gMap_5C3030.field_22_overlayID == 108)
+                    if (gMap.mOverlayId == 108)
                     {
                         const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
                         field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
                     }
                     else
                     {
-                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
+                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap.mCurrentLevel)][1]);
                         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                     }
 
@@ -459,14 +436,14 @@ void Door::vUpdate_41EBE0()
                 if ((field_FE_start_state == DoorStates::eClosed_1 && SwitchStates_Get_466020(field_100_switch_id)) || (field_FE_start_state == DoorStates::eOpen_0 && !SwitchStates_Get_466020(field_100_switch_id)))
                 {
                     field_FC_current_state = DoorStates::eOpening_2;
-                    if (gMap_5C3030.field_22_overlayID == 108)
+                    if (gMap.mOverlayId == 108)
                     {
                         const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
                         field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
                     }
                     else
                     {
-                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap_5C3030.field_0_current_level)][1]);
+                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap.mCurrentLevel)][1]);
                         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
                     }
 
@@ -506,17 +483,7 @@ void Door::vUpdate_41EBE0()
 
 void Door::VScreenChanged()
 {
-    vScreenChange_41F080();
-}
-
-void Door::VUpdate()
-{
-    vUpdate_41EBE0();
-}
-
-BaseGameObject* Door::VDestructor(s32 flags)
-{
-    return vdtor_41E9D0(flags);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 // ================================================================================================
@@ -524,19 +491,14 @@ BaseGameObject* Door::VDestructor(s32 flags)
 ALIVE_VAR(1, 0xBB4AA0, FP, sTrainDoorXPos_BB4AA0, {});
 ALIVE_VAR(1, 0xBB4AA4, FP, sTrainDoorYPos_BB4AA4, {});
 
-TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, s32 tlvInfo)
+TrainDoor::TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo)
 {
-    // Note: Useless intermediate base ctor omitted
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-
-    SetVTable(this, 0x547AFC);
-
     SetType(AETypes::eDoor_33);
     field_F4_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Train_Closing);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + 24);
@@ -557,34 +519,10 @@ TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, s32 tlvInfo)
         field_FC_current_state = eOpen_0;
     }
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_10_direction == XDirection_int::eRight_1);
-
-    return this;
 }
 
-BaseGameObject* TrainDoor::VDestructor(s32 flags)
+TrainDoor::~TrainDoor()
 {
-    return vdtor_4DD1D0(flags);
-}
-
-void TrainDoor::VUpdate()
-{
-    vUpdate_4DD2A0();
-}
-
-TrainDoor* TrainDoor::vdtor_4DD1D0(s32 flags)
-{
-    dtor_4DD200();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void TrainDoor::dtor_4DD200()
-{
-    SetVTable(this, 0x547AFC);
-
     if (field_FC_current_state == eOpen_0)
     {
         Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
@@ -593,10 +531,9 @@ void TrainDoor::dtor_4DD200()
     {
         Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, 1, 0, 0);
     }
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void TrainDoor::vUpdate_4DD2A0()
+void TrainDoor::VUpdate()
 {
     if (field_FC_current_state == eOpen_0)
     {

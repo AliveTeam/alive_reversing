@@ -227,17 +227,17 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
 
     SetVTable(this, 0x4BC028);
 
-    field_6_flags.Set(Options::eDrawable_Bit4);
-    field_6_flags.Set(Options::eSurviveDeathReset_Bit9);
-    field_6_flags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     field_4_typeId = Types::eFG1_67;
 
     field_10_cam_pos_x = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
     field_12_cam_pos_y = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
 
-    field_16_current_path = gMap_507BA8.field_2_current_path;
-    field_14_current_level = gMap_507BA8.field_0_current_level;
+    field_16_current_path = gMap.mCurrentPath;
+    field_14_current_level = gMap.mCurrentLevel;
 
     gObjList_drawables_504618->Push_Back(this);
 
@@ -289,7 +289,7 @@ void FG1::VScreenChanged()
 
 void FG1::VScreenChanged_453DE0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void FG1::VRender(PrimHeader** ppOt)

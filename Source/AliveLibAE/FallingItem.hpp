@@ -31,7 +31,7 @@ public:
 
     EXPORT FallingItem* ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16 fallInterval, s16 numItems, s16 bResetIdAfterUse);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

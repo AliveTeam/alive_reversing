@@ -27,7 +27,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
 
-    field_6_flags.Set(Options::eInteractive_Bit8);
+    mFlags.Set(Options::eInteractive_Bit8);
     field_1BC_flags.Clear(flags_1BC::eUnused_Bit0);
     field_10C_state = UXBState::eDelay_0;
 
@@ -74,7 +74,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
             const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
             field_11C_anim.Set_Animation_Data_402A40(flashRec.mFrameTableOffset, 0);
 
-            if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            if (gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
                     field_A8_xpos,
@@ -145,7 +145,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
-    if (gMap_507BA8.field_0_current_level == LevelIds::eStockYards_5 || gMap_507BA8.field_0_current_level == LevelIds::eStockYardsReturn_6)
+    if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
         field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
         field_C0_r = 80;
@@ -156,7 +156,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
     }
 
     const FP gridSnap = ScaleToGridSize_41FA30(field_BC_sprite_scale);
-    field_6_flags.Set(Options::eInteractive_Bit8);
+    mFlags.Set(Options::eInteractive_Bit8);
 
     field_D4_collection_rect.x = field_A8_xpos - (gridSnap / FP_FromInteger(2));
     field_D4_collection_rect.y = field_AC_ypos - gridSnap;
@@ -193,7 +193,7 @@ void UXB::InitBlinkAnim()
     }
     else
     {
-        field_6_flags.Set(Options::eListAddFailed_Bit1);
+        mFlags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
@@ -203,11 +203,11 @@ BaseGameObject* UXB::dtor_4891B0()
     SetVTable(this, 0x4BD680);
     if (field_10C_state != UXBState::eExploding_2 || static_cast<s32>(gnFrameCount_507670) < field_118_next_state_frame)
     {
-        gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_114_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset_446870(field_114_tlvInfo, -1, 0, 1);
     }
 
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebombAOResID, 0, 0));
@@ -235,7 +235,7 @@ BaseGameObject* UXB::dtor_4891B0()
 
     field_11C_anim.vCleanUp();
 
-    field_6_flags.Clear(Options::eInteractive_Bit8);
+    mFlags.Clear(Options::eInteractive_Bit8);
 
     return dtor_401000();
 }
@@ -257,22 +257,22 @@ void UXB::VScreenChanged()
 
 void UXB::VScreenChanged_489BD0()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
         if (field_10E_starting_state == UXBState::eDeactivated_3 && field_10C_state != UXBState::eDeactivated_3)
         {
-            gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 1, 1u, 0);
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            gMap.TLV_Reset_446870(field_114_tlvInfo, 1, 1u, 0);
+            mFlags.Set(BaseGameObject::eDead);
         }
         else if (field_10E_starting_state != UXBState::eDelay_0 || field_10C_state != UXBState::eDeactivated_3)
         {
-            gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 0, 1u, 0);
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            gMap.TLV_Reset_446870(field_114_tlvInfo, 0, 1u, 0);
+            mFlags.Set(BaseGameObject::eDead);
         }
         else
         {
-            gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 1, 1u, 0);
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            gMap.TLV_Reset_446870(field_114_tlvInfo, 1, 1u, 0);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -284,7 +284,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
 s16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
@@ -307,7 +307,7 @@ s16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
             return 0;
     }
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 
     auto pBaseBomb = ao_new<BaseBomb>();
     if (pBaseBomb)
@@ -341,7 +341,7 @@ void UXB::VOnThrowableHit_489A30(BaseGameObject* /*pFrom*/)
             0,
             field_BC_sprite_scale);
     }
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
     field_10C_state = UXBState::eExploding_2;
     field_118_next_state_frame = gnFrameCount_507670;
 }
@@ -366,7 +366,7 @@ void UXB::VOnPickUpOrSlapped_4897E0()
             {
                 const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
                 field_11C_anim.Set_Animation_Data_402A40(flashRec.mFrameTableOffset, 0);
-                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
                         field_A8_xpos,
@@ -387,7 +387,7 @@ void UXB::VOnPickUpOrSlapped_4897E0()
             field_8_update_delay = 6;
             const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Active);
             field_10_anim.Set_Animation_Data_402A40(animRec.mFrameTableOffset, 0);
-            if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            if (gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
                     field_A8_xpos,
@@ -470,7 +470,7 @@ void UXB::VUpdate_489380()
                 
                 if (field_1BC_flags.Get(flags_1BC::eIsRed_Bit1))
                 {
-                    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    if (gMap.Is_Point_In_Current_Camera_4449C0(
                             field_B2_lvl_number,
                             field_B0_path_number,
                             field_A8_xpos,
@@ -480,7 +480,7 @@ void UXB::VUpdate_489380()
                         SFX_Play_43AD70(SoundEffect::RedTick_4, 35, 0);
                     }
                 }
-                else if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                else if (gMap.Is_Point_In_Current_Camera_4449C0(
                              field_B2_lvl_number,
                              field_B0_path_number,
                              field_A8_xpos,
@@ -506,7 +506,7 @@ void UXB::VUpdate_489380()
                         0,
                         field_BC_sprite_scale);
                 }
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
     }
@@ -519,18 +519,18 @@ void UXB::VUpdate_489380()
             {
                 if (field_10E_starting_state != UXBState::eDelay_0 || field_10C_state != UXBState::eDeactivated_3)
                 {
-                    gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 0, 1u, 0);
+                    gMap.TLV_Reset_446870(field_114_tlvInfo, 0, 1u, 0);
                 }
                 else
                 {
-                    gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 1, 1u, 0);
+                    gMap.TLV_Reset_446870(field_114_tlvInfo, 1, 1u, 0);
                 }
             }
             else
             {
-                gMap_507BA8.TLV_Reset_446870(field_114_tlvInfo, 1, 1u, 0);
+                gMap.TLV_Reset_446870(field_114_tlvInfo, 1, 1u, 0);
             }
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -576,7 +576,7 @@ void UXB::VRender(PrimHeader** ppOt)
 
 void UXB::VRender_4896C0(PrimHeader** ppOt)
 {
-    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,

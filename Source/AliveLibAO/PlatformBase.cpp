@@ -79,7 +79,7 @@ void PlatformBase::AddDynamicCollision_4512C0(s32 frameTableOffset, s32 maxW, s3
 
     if (!ObjListPlatforms_50766C->Push_Back(this))
     {
-        field_6_flags.Set(Options::eListAddFailed_Bit1);
+        mFlags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
@@ -91,7 +91,7 @@ BaseGameObject* PlatformBase::dtor_451490()
 
     if (field_120_pCollisionLine)
     {
-        if (gMap_507BA8.field_0_current_level == field_B2_lvl_number && gMap_507BA8.field_2_current_path == field_B0_path_number)
+        if (gMap.mCurrentLevel == field_B2_lvl_number && gMap.mCurrentPath == field_B0_path_number)
         {
             Rect_Clear_40C920(&field_120_pCollisionLine->field_0_rect);
         }

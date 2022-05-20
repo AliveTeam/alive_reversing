@@ -5,15 +5,13 @@
 #include "Game.hpp"
 #include "PsxDisplay.hpp"
 
-ScreenClipper* ScreenClipper::ctor_416D60(PSX_Point xy, PSX_Point wh, Layer layer)
+ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
-
-    SetVTable(this, 0x5445C4);
     SetType(AETypes::eScreenClipper_114);
 
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     field_40_rect.x = xy.field_0_x;
     field_40_rect.y = xy.field_2_y;
@@ -23,19 +21,6 @@ ScreenClipper* ScreenClipper::ctor_416D60(PSX_Point xy, PSX_Point wh, Layer laye
     field_48_ot_layer = layer;
 
     gObjList_drawables_5C1124->Push_Back(this);
-
-    // This actually matters here due how its called
-    return this;
-}
-
-BaseGameObject* ScreenClipper::VDestructor(s32 flags)
-{
-    return vdtor_416E00(flags);
-}
-
-void ScreenClipper::VRender(PrimHeader** ppOt)
-{
-    vRender_416F70(ppOt);
 }
 
 void ScreenClipper::VScreenChanged()
@@ -48,7 +33,7 @@ void ScreenClipper::VUpdate()
     // Empty
 }
 
-void ScreenClipper::vRender_416F70(PrimHeader** ot)
+void ScreenClipper::VRender(PrimHeader** ot)
 {
     PSX_RECT clipRect = {};
 
@@ -68,21 +53,9 @@ void ScreenClipper::vRender_416F70(PrimHeader** ot)
     OrderingTable_Add_4F8AA0(OtLayer(ot, field_48_ot_layer), &pClipper->mBase);
 }
 
-void ScreenClipper::dtor_416E30()
+ScreenClipper::~ScreenClipper()
 {
-    SetVTable(this, 0x5445C4);
     gObjList_drawables_5C1124->Remove_Item(this);
-    BaseGameObject_dtor_4DBEC0();
-}
-
-BaseGameObject* ScreenClipper::vdtor_416E00(s32 flags)
-{
-    dtor_416E30();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void ScreenClipper::Update_Clip_Rect_416EB0(PSX_Point xy, PSX_Point wh)

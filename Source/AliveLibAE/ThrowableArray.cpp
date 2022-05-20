@@ -117,37 +117,23 @@ void CC LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber)
     }
 }
 
-ThrowableArray* ThrowableArray::ctor_49A630()
+ThrowableArray::ThrowableArray()
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
-    SetVTable(this, 0x5469E4);
     field_24_throwables.ctor_40C9E0(0);
-    field_6_flags.Clear(BaseGameObject::eUpdatable_Bit2);
+    mFlags.Clear(BaseGameObject::eUpdatable_Bit2);
     field_20_count = 0;
     gpThrowableArray_5D1E2C = this;
     field_22_flags.Clear(Flags_22::eBit1_Unknown);
     field_22_flags.Clear(Flags_22::eBit2_Unknown);
     field_22_flags.Clear(Flags_22::eBit3_Unknown);
-    return this;
 }
 
-void ThrowableArray::dtor_49A6F0()
+ThrowableArray::~ThrowableArray()
 {
-    SetVTable(this, 0x5469E4);
     gpThrowableArray_5D1E2C = 0;
     FreeResourceArray_49AEC0(&field_24_throwables);
     field_24_throwables.dtor_40CAD0();
-    BaseGameObject_dtor_4DBEC0();
-}
-
-BaseGameObject* ThrowableArray::vdtor_49A6C0(s32 flags)
-{
-    dtor_49A6F0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void ThrowableArray::Remove_49AA00(s16 count)
@@ -163,18 +149,18 @@ void ThrowableArray::Remove_49AA00(s16 count)
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
-void ThrowableArray::vUpdate_49AA50()
+void ThrowableArray::VUpdate()
 {
     if (field_22_flags.Get(Flags_22::eBit1_Unknown))
     {
-        LoadRockTypes_49AB30(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path);
+        LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
         Add_49A7A0(0);
         field_22_flags.Clear(Flags_22::eBit1_Unknown);
-        field_6_flags.Clear(BaseGameObject::eUpdatable_Bit2);
+        mFlags.Clear(BaseGameObject::eUpdatable_Bit2);
     }
 }
 
@@ -188,13 +174,13 @@ s32 ThrowableArray::vGetSaveState_49B2A0(u8* pSaveBuffer)
 
 void ThrowableArray::vScreenChange_49AAA0()
 {
-    if (gMap_5C3030.field_A_level != LevelIds::eMenu_0 && gMap_5C3030.field_A_level != LevelIds::eCredits_16)
+    if (gMap.mLevel != LevelIds::eMenu_0 && gMap.mLevel != LevelIds::eCredits_16)
     {
-        if (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID] != throwable_types_55FAFC[gMap_5C3030.GetOverlayId_480710()])
+        if (throwable_types_55FAFC[gMap.mOverlayId] != throwable_types_55FAFC[gMap.GetOverlayId()])
         {
             if (!(field_22_flags.Get(Flags_22::eBit1_Unknown)))
             {
-                field_6_flags.Set(BaseGameObject::eUpdatable_Bit2);
+                mFlags.Set(BaseGameObject::eUpdatable_Bit2);
                 field_22_flags.Set(Flags_22::eBit1_Unknown);
                 Remove_49AA00(0);
             }
@@ -202,15 +188,15 @@ void ThrowableArray::vScreenChange_49AAA0()
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void ThrowableArray::Add_49A7A0(s16 count)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
-        field_6_flags.Clear(BaseGameObject::eDead_Bit3);
+        mFlags.Clear(BaseGameObject::eDead);
     }
 
     if (field_20_count == 0)
@@ -237,34 +223,34 @@ void ThrowableArray::Add_49A7A0(s16 count)
     {
         if (!field_22_flags.Get(Flags_22::eBit2_Unknown))
         {
-            switch (throwable_types_55FAFC[gMap_5C3030.field_22_overlayID])
+            switch (throwable_types_55FAFC[gMap.mOverlayId])
             {
                 case AETypes::eBone_11:
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kBoneResID);
+                    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kBoneResID);
                     break;
 
                 case AETypes::eMetal_24:
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kGrenadeResID);
+                    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
+                    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID);
+                    Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kGrenadeResID);
                     break;
 
                 case AETypes::eGrenade_65:
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kGrenadeResID);
+                    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
+                    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
+                    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
+                    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
+                    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID);
+                    Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kGrenadeResID);
                     break;
 
                 case AETypes::eMeat_84:
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMeatResID);
+                    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMeatResID);
                     break;
 
                 case AETypes::eRock_105:
-                    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAberockResID);
-                    Add_Resource_4DC130(ResourceManager::Resource_Palt, AEResourceID::kAberockResID);
+                    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAberockResID);
+                    Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kAberockResID);
                     break;
 
                 default:
@@ -280,24 +266,10 @@ void ThrowableArray::Add_49A7A0(s16 count)
 
 s32 CC ThrowableArray::CreateFromSaveState_49B200(const u8* pState)
 {
-    LoadRockTypes_49AB30(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path);
+    LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
     auto pArray = ae_new<ThrowableArray>();
-    if (pArray)
-    {
-        pArray->ctor_49A630();
-    }
     pArray->Add_49A7A0(reinterpret_cast<const ThrowableArray_SaveState*>(pState)->field_2_item_count);
     return sizeof(ThrowableArray_SaveState);
-}
-
-BaseGameObject* ThrowableArray::VDestructor(s32 flags)
-{
-    return vdtor_49A6C0(flags);
-}
-
-void ThrowableArray::VUpdate()
-{
-    vUpdate_49AA50();
 }
 
 void ThrowableArray::VRender(PrimHeader** /*ppOt*/)

@@ -17,7 +17,7 @@ public:
     EXPORT void VUpdate_436260();
     EXPORT void VRender_436280(PrimHeader** ppOt);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 

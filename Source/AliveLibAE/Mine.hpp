@@ -29,7 +29,7 @@ enum Mine_Flags_1BC
 class Mine final : public BaseAliveGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

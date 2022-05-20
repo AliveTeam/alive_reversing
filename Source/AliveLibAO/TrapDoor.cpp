@@ -80,9 +80,9 @@ void TrapDoor::VAdd_4886D0(BaseAliveGameObject* pObj)
 
 void TrapDoor::VScreenChanged_488740()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
 
         if (field_13C_self_closing == Choice_short::eYes_1)
         {
@@ -125,22 +125,22 @@ BaseGameObject* TrapDoor::VDestructor(s32 flags)
 BaseGameObject* TrapDoor::dtor_4882A0()
 {
     SetVTable(this, 0x4BD5E0);
-    gMap_507BA8.TLV_Reset_446870(field_128_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_128_tlvInfo, -1, 0, 0);
     return dtor_451490();
 }
 
 void TrapDoor::Open()
 {
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
         }
 
         // Find alive objects..
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // That are on this trap door
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
@@ -172,7 +172,7 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_134_switch_id = pTlv->field_18_switch_id;
     field_138_switch_state = pTlv->field_1A_start_state;
 
-    const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
+    const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
 
     s32 frame_table_offset_1 = 0;
     const AnimRecord& closedRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_4_closed);
@@ -245,10 +245,10 @@ void TrapDoor::VUpdate_4883E0()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    const CameraPos direction = gMap_507BA8.GetDirection(
+    const CameraPos direction = gMap.GetDirection(
         field_B2_lvl_number,
         field_B0_path_number,
         field_140_x,
@@ -262,7 +262,7 @@ void TrapDoor::VUpdate_4883E0()
                 Open();
                 field_136_state = TrapDoorState::eOpening_1;
 
-                const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
+                const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
                 const AnimRecord& openingRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_8_opening);
                 field_10_anim.Set_Animation_Data_402A40(
                     openingRec.mFrameTableOffset,
@@ -270,7 +270,7 @@ void TrapDoor::VUpdate_4883E0()
 
                 SFX_Play_43AED0(SoundEffect::Trapdoor_49, 70, direction);
 
-                if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+                if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {
                     SFX_Play_43AED0(SoundEffect::IndustrialTrigger_97, 45, direction);
                     SFX_Play_43AED0(SoundEffect::IndustrialNoise1_93, 90, direction);
@@ -290,7 +290,7 @@ void TrapDoor::VUpdate_4883E0()
             field_130_stay_open_time--;
             if ((field_13C_self_closing == Choice_short::eYes_1 && !field_130_stay_open_time) || SwitchStates_Get(field_134_switch_id) != SwitchStates_Get(field_138_switch_state))
             {
-                const s32 cur_lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
+                const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
                 const AnimRecord& closingRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_C_closing);
                 field_10_anim.Set_Animation_Data_402A40(
                     closingRec.mFrameTableOffset,
@@ -299,7 +299,7 @@ void TrapDoor::VUpdate_4883E0()
 
                 SFX_Play_43AED0(SoundEffect::Trapdoor_49, 70, direction);
 
-                if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eBoardRoom_12 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+                if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {
                     SFX_Play_43AED0(SoundEffect::IndustrialNoise3_95, 60, direction);
                     SFX_Play_43AED0(SoundEffect::IndustrialNoise2_94, 90, direction);

@@ -221,7 +221,7 @@ BaseGameObject* Paramite::dtor_44AB00()
 
     if (field_14C_pWeb)
     {
-        field_14C_pWeb->field_6_flags.Set(Options::eDead_Bit3);
+        field_14C_pWeb->mFlags.Set(Options::eDead);
         field_14C_pWeb->field_C_refCount--;
         field_14C_pWeb = nullptr;
     }
@@ -247,11 +247,11 @@ BaseGameObject* Paramite::dtor_44AB00()
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 0, 0));
     if (field_100_health <= FP_FromInteger(0))
     {
-        gMap_507BA8.TLV_Reset_446870(field_12C_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset_446870(field_12C_tlvInfo, -1, 0, 1);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_12C_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_12C_tlvInfo, -1, 0, 0);
     }
 
     SND_Seq_Stop_477A60(SeqId::eParamiteNearby_30);
@@ -364,7 +364,7 @@ s16 Paramite::VTakeDamage_44ACC0(BaseGameObject* pFrom)
                     field_B8_vely,
                     field_BC_sprite_scale);
             }
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_100_health = FP_FromInteger(0);
             return 1;
@@ -433,11 +433,11 @@ void Paramite::VOn_Tlv_Collision_44AF30(Path_TLV* pTlv)
     {
         if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             field_100_health = FP_FromInteger(0);
             field_128_never_read = 2;
         }
-        pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
+        pTlv = gMap.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
     }
 }
 
@@ -448,11 +448,11 @@ void Paramite::VScreenChanged()
 
 void Paramite::VScreenChanged_44B2C0()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0()
-        || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
-        || gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level)
+    if (gMap.mOverlayId != gMap.GetOverlayId()
+        || gMap.mCurrentPath != gMap.mPath
+        || gMap.mCurrentLevel != gMap.mLevel)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -490,7 +490,7 @@ void Paramite::VUpdate()
 void Paramite::VUpdate_44A490()
 {
     if (field_100_health > FP_FromInteger(0)
-        && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+        && gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -502,9 +502,9 @@ void Paramite::VUpdate_44A490()
     else
     {
         bool bFound = false;
-        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
-            BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
             if (!pObjIter)
             {
                 break;
@@ -513,7 +513,7 @@ void Paramite::VUpdate_44A490()
             if (pObjIter->field_4_typeId == Types::eParamite_62 && pObjIter != this)
             {
                 Paramite* pOther = static_cast<Paramite*>(pObjIter);
-                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera_4449C0(
                         pOther->field_B2_lvl_number,
                         pOther->field_B0_path_number,
                         pOther->field_A8_xpos,
@@ -534,20 +534,20 @@ void Paramite::VUpdate_44A490()
 
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     if (FP_Abs(field_A8_xpos - sActiveHero_507678->field_A8_xpos) > FP_FromInteger(1536) || FP_Abs(field_AC_ypos - sActiveHero_507678->field_AC_ypos) > FP_FromInteger(480))
     {
         if (field_144_delete_when_far_away == Choice_short::eYes_1)
         {
-            field_6_flags.Set(Options::eDead_Bit3);
+            mFlags.Set(Options::eDead);
         }
         else
         {
             if (field_148_pMeat)
             {
-                if (field_148_pMeat->VIsFalling() || field_148_pMeat->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                if (field_148_pMeat->VIsFalling() || field_148_pMeat->mFlags.Get(BaseGameObject::eDead))
                 {
                     field_148_pMeat->field_C_refCount--;
                     field_148_pMeat = nullptr;
@@ -607,7 +607,7 @@ void Paramite::VUpdate_44A490()
 
         if (oldx != field_A8_xpos || oldy != field_AC_ypos)
         {
-            field_F0_pTlv = gMap_507BA8.TLV_Get_At_446060(
+            field_F0_pTlv = gMap.TLV_Get_At_446060(
                 nullptr,
                 field_A8_xpos,
                 field_AC_ypos,
@@ -743,9 +743,9 @@ void Paramite::VUpdateAnimData_44A460()
 
 s16 Paramite::AnotherParamiteNear_44AF80()
 {
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;
@@ -754,13 +754,13 @@ s16 Paramite::AnotherParamiteNear_44AF80()
         if (pObjIter->field_4_typeId == Types::eParamite_62 && pObjIter != this)
         {
             Paramite* pOther = static_cast<Paramite*>(pObjIter);
-            if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+            if (gMap.Is_Point_In_Current_Camera_4449C0(
                     pOther->field_B2_lvl_number,
                     pOther->field_B0_path_number,
                     pOther->field_A8_xpos,
                     pOther->field_AC_ypos,
                     0)
-                && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                && gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
                     field_A8_xpos,
@@ -805,9 +805,9 @@ void Paramite::ToKnockBack_44B5B0()
 
 Meat* Paramite::FindMeat_44B160()
 {
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;
@@ -818,7 +818,7 @@ Meat* Paramite::FindMeat_44B160()
             auto pMeat = static_cast<Meat*>(pObjIter);
             if (pMeat->VCanEatMe())
             {
-                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera_4449C0(
                         pMeat->field_B2_lvl_number,
                         pMeat->field_B0_path_number,
                         pMeat->field_A8_xpos,
@@ -908,7 +908,7 @@ const SfxDefinition stru_4CDD98[9] = {
 
 void Paramite::Sound_44DBB0(ParamiteSpeak idx)
 {
-    const CameraPos direction = gMap_507BA8.GetDirection(
+    const CameraPos direction = gMap.GetDirection(
         field_B2_lvl_number,
         field_B0_path_number,
         field_A8_xpos,
@@ -918,7 +918,7 @@ void Paramite::Sound_44DBB0(ParamiteSpeak idx)
     s16 volLeft = 0;
 
     PSX_RECT rect = {};
-    gMap_507BA8.Get_Camera_World_Rect_444C30(direction, &rect);
+    gMap.Get_Camera_World_Rect_444C30(direction, &rect);
 
     switch (direction)
     {
@@ -960,7 +960,7 @@ void Paramite::Sound_44DBB0(ParamiteSpeak idx)
 
 void Paramite::SetMusic()
 {
-    if (gMap_507BA8.GetDirection(
+    if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -1014,7 +1014,7 @@ s16 Paramite::Brain_0_Patrol_447A10()
 {
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
@@ -1057,7 +1057,7 @@ s16 Paramite::Brain_0_Patrol_447A10()
 
             // TODO: Inlined HandleEnemyStopper but the directional logic isn't quite the same
             // so can't use it.
-            field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+            field_F0_pTlv = gMap.TLV_Get_At_446260(
                 FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(field_AC_ypos),
                 FP_GetExponent(field_A8_xpos),
@@ -1541,7 +1541,7 @@ s16 Paramite::Brain_1_SurpriseWeb_448D00()
 {
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_110_brain_sub_state)
@@ -1577,7 +1577,7 @@ s16 Paramite::Brain_1_SurpriseWeb_448D00()
         case Brain_1_SurpriseWeb::eBrain1_AppearingRight_1:
             if (sActiveHero_507678->field_A8_xpos <= field_A8_xpos
                 || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale
-                || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                || !gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
                     field_A8_xpos,
@@ -1596,7 +1596,7 @@ s16 Paramite::Brain_1_SurpriseWeb_448D00()
         case Brain_1_SurpriseWeb::eBrain1_AppearingLeft_2:
             if (sActiveHero_507678->field_A8_xpos >= field_A8_xpos
                 || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale
-                || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                || !gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
                     field_A8_xpos,
@@ -1684,7 +1684,7 @@ s16 Paramite::Brain_2_Struggling_44DD70()
 {
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (IsBeeSwarmChasingMe_4022B0())
@@ -1762,7 +1762,7 @@ s16 Paramite::Brain_3_Death_448BF0()
 
     if (field_114_timer < (s32) gnFrameCount_507670)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     return 100;
@@ -1792,7 +1792,7 @@ s16 Paramite::Brain_4_ChasingAbe_449170()
 {
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_138_attack_timer <= static_cast<s32>(gnFrameCount_507670)
@@ -2017,7 +2017,7 @@ s16 Paramite::Brain_4_ChasingAbe_449170()
 
             // TODO: Inlined HandleEnemyStopper but the directional logic isn't quite the same
             // so can't use it.
-            field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+            field_F0_pTlv = gMap.TLV_Get_At_446260(
                 FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(field_AC_ypos),
                 FP_GetExponent(field_A8_xpos),
@@ -2322,10 +2322,10 @@ s16 Paramite::Brain_5_SpottedMeat_449CD0()
 {
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
-    if (field_148_pMeat->VIsFalling() || field_148_pMeat->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (field_148_pMeat->VIsFalling() || field_148_pMeat->mFlags.Get(BaseGameObject::eDead))
     {
         Sound_44DBB0(ParamiteSpeak::DetectedMeat_7);
         SetBrain(&Paramite::Brain_0_Patrol_447A10);
@@ -2617,7 +2617,7 @@ s16 Paramite::Brain_5_SpottedMeat_449CD0()
             }
 
             field_148_pMeat->field_C_refCount--;
-            field_148_pMeat->field_6_flags.Set(Options::eDead_Bit3);
+            field_148_pMeat->mFlags.Set(Options::eDead);
             field_148_pMeat = nullptr;
             field_FE_next_motion = eParamiteMotions::Motion_0_Idle_44B900;
             SetBrain(&Paramite::Brain_0_Patrol_447A10);
@@ -2642,7 +2642,7 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirec
 {
     const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
     const FP numGridBlocksScaled = (kGridSize * FP_FromInteger(numGridBlocks));
-    field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(
+    field_F0_pTlv = gMap.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos + numGridBlocksScaled),
         FP_GetExponent(field_AC_ypos),
         FP_GetExponent(field_A8_xpos + numGridBlocksScaled),
@@ -2670,7 +2670,7 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirec
 void Paramite::Motion_0_Idle_44B900()
 {
     if (!ToNextMotion_44B320()
-        && gMap_507BA8.GetDirection(
+        && gMap.GetDirection(
                field_B2_lvl_number,
                field_B0_path_number,
                field_A8_xpos,
@@ -3121,7 +3121,7 @@ void Paramite::Motion_6_Hop_44CB20()
             field_FC_current_motion = eParamiteMotions::Motion_12_Falling_44C960;
         }
 
-        if (gMap_507BA8.GetDirection(
+        if (gMap.GetDirection(
                 field_B2_lvl_number,
                 field_B0_path_number,
                 field_A8_xpos,
@@ -3396,7 +3396,7 @@ void Paramite::Motion_13_GameSpeakBegin_44D050()
         field_FC_current_motion = eParamiteMotions::Motion_14_PreHiss_44D170;
     }
 
-    if (gMap_507BA8.GetDirection(
+    if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -3460,7 +3460,7 @@ void Paramite::Motion_14_PreHiss_44D170()
         field_FC_current_motion = eParamiteMotions::Motion_17_GameSpeakEnd_44D4F0;
     }
 
-    if (gMap_507BA8.GetDirection(
+    if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -3671,7 +3671,7 @@ void Paramite::Motion_18_RunningAttack_44D5D0()
         ToIdle_44B580();
     }
 
-    if (gMap_507BA8.GetDirection(
+    if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -3731,7 +3731,7 @@ void Paramite::Motion_20_SurpriseWeb_44D9A0()
         Sound_44DBB0(ParamiteSpeak::ClimbingWeb_6);
     }
 
-    if (gMap_507BA8.GetDirection(
+    if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,

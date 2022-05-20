@@ -10,32 +10,11 @@
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
 
-BaseGameObject* Spark::VDestructor(s32 flags)
+Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type)
+    : BaseGameObject(TRUE, 0)
 {
-    return vdtor_4CBE30(flags);
-}
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-void Spark::VUpdate()
-{
-    vUpdate_4CBEF0();
-}
-
-void Spark::VRender(PrimHeader** ppOt)
-{
-    vRender_4CC050(ppOt);
-}
-
-void Spark::VScreenChanged()
-{
-    vScreenChange_4CC4A0();
-}
-
-Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 minAngle, s16 maxAngle, SparkType type)
-{
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-
-    SetVTable(this, 0x54783C); // vTbl_Spark_54783C
     SetType(AETypes::eNone_0);
 
     gObjList_drawables_5C1124->Push_Back(this);
@@ -58,7 +37,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 minAngle, s1
     field_4C_r = 31;
     field_4E_g = 31;
 
-    field_5C_count = count;
+    field_5C_count = static_cast<s16>(count);
 
     field_54_ppSprxRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Sprx, 0, sizeof(SparkRes) * count);
     if (field_54_ppSprxRes)
@@ -70,11 +49,11 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 minAngle, s1
             s32 randAng = 0;
             if (minAngle >= 0)
             {
-                randAng = Math_RandomRange_496AB0(minAngle, maxAngle);
+                randAng = Math_RandomRange_496AB0(static_cast<s16>(minAngle), static_cast<s16>(maxAngle));
             }
             else
             {
-                randAng = minAngle + Math_RandomRange_496AB0(0, maxAngle - minAngle);
+                randAng = minAngle + Math_RandomRange_496AB0(0, static_cast<s16>(maxAngle - minAngle));
             }
             pSparkIter->field_10_ang = static_cast<u8>(randAng);
             pSparkIter->field_14_radius = FP_FromInteger(0);
@@ -91,18 +70,16 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 minAngle, s1
         {
             // Normal drill type sparks
             const AnimRecord& rec = AnimRec(AnimId::Zap_Sparks);
-            u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-            auto pParticle = ae_new<Particle>();
+            u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+            auto pParticle = ae_new<Particle>(
+                field_40_xpos,
+                field_44_ypos,
+                rec.mFrameTableOffset,
+                rec.mMaxW,
+                rec.mMaxH,
+                ppRes);
             if (pParticle)
             {
-                pParticle->ctor_4CC4C0(
-                    field_40_xpos,
-                    field_44_ypos,
-                    rec.mFrameTableOffset,
-                    rec.mMaxW,
-                    rec.mMaxH,
-                    ppRes);
-
                 pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
                 pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
@@ -126,16 +103,15 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 minAngle, s1
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
-    return this;
 }
 
-void Spark::vUpdate_4CBEF0()
+void Spark::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (sNum_CamSwappers_5C1B66 == 0)
@@ -161,14 +137,14 @@ void Spark::vUpdate_4CBEF0()
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }
 
-void Spark::vRender_4CC050(PrimHeader** ppOt)
+void Spark::VRender(PrimHeader** ppOt)
 {
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    if (gMap.Is_Point_In_Current_Camera_4810D0(
             sActiveHero_5C1B68->field_C2_lvl_number,
             sActiveHero_5C1B68->field_C0_path_number,
             field_40_xpos,
@@ -290,26 +266,14 @@ void Spark::vRender_4CC050(PrimHeader** ppOt)
     }
 }
 
-void Spark::vScreenChange_4CC4A0()
+void Spark::VScreenChanged()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
-Spark* Spark::vdtor_4CBE30(s32 flags)
+Spark::~Spark()
 {
-    dtor_4CBE60();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Spark::dtor_4CBE60()
-{
-    SetVTable(this, 0x54783C); // vTbl_Spark_54783C
-
-    if (field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+    if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_5C1124->Remove_Item(this);
     }
@@ -318,6 +282,4 @@ void Spark::dtor_4CBE60()
     {
         ResourceManager::FreeResource_49C330(field_54_ppSprxRes);
     }
-
-    BaseGameObject_dtor_4DBEC0();
 }

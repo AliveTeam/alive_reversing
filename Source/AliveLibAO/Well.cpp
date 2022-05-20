@@ -30,14 +30,14 @@ BaseGameObject* Well::dtor_48B460()
     SetVTable(this, 0x4BD730);
     if (field_E4_tlvInfo != -1)
     {
-        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     }
     return dtor_417D10();
 }
 
 void Well::VScreenChanged_48B450()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void Well::VScreenChanged()
@@ -63,8 +63,8 @@ void Well::VUpdate_48B270()
 {
     if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+        mFlags.Set(BaseGameObject::eDead);
+        gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     }
 
     if (field_100_emit_leaves == Choice_short::eYes_1)
@@ -132,7 +132,7 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     else
     {
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        field_6_flags.Clear(Options::eDrawable_Bit4);
+        mFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
@@ -192,7 +192,7 @@ void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     else
     {
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        field_6_flags.Clear(Options::eDrawable_Bit4);
+        mFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)

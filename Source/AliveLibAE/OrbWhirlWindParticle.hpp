@@ -9,18 +9,17 @@ class BaseGameObject;
 class OrbWhirlWindParticle final
 {
 public:
-    EXPORT OrbWhirlWindParticle* ctor_4E40C0(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit);
+    OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit);
+    ~OrbWhirlWindParticle();
+
     EXPORT s32 IsActive_4E4370();
     EXPORT void Spin_4E4A10(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
     EXPORT void ToStop_4E4AD0();
 
-    // WARNING: Not a derived type - keep virtuals in order for BC
-    EXPORT virtual OrbWhirlWindParticle* vdtor_4E42D0(s8 flags);
-    EXPORT virtual void VUpdate_4E4510();
-    EXPORT virtual void VRender_4E4B10(PrimHeader** ppOt);
+    void Update();
+    void Render(PrimHeader** ppOt);
 
 private:
-    EXPORT void dtor_4E4300();
     EXPORT void CalculateRenderProperties_4E4390(s16 bStarted);
     EXPORT void SetActive_4E4340(u8 active);
 
@@ -73,4 +72,3 @@ private:
     FP field_104_scale_offset_spin_at_target;
     u8** field_108_res;
 };
-ALIVE_ASSERT_SIZEOF(OrbWhirlWindParticle, 0x10C);

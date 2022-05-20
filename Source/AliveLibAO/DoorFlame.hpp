@@ -36,17 +36,12 @@ ALIVE_ASSERT_SIZEOF(Path_DoorFlame, 0x20);
 class DoorFlame final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT DoorFlame* ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo);
+    DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo);
+    ~DoorFlame();
 
     virtual void VStopAudio() override;
 
     EXPORT void VStopAudio_432B60();
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
-
-    EXPORT BaseGameObject* dtor_432AA0();
-
-    EXPORT DoorFlame* Vdtor_432DF0(s32 flags);
 
     virtual void VUpdate() override;
 

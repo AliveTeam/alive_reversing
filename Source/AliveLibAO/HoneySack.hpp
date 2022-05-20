@@ -21,7 +21,7 @@ class HoneySack final : public BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT HoneySack* ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     BaseGameObject* dtor_42BF20();
 

@@ -25,8 +25,8 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
 
     SetType(AETypes::eGreeter_64);
     const AnimRecord& rec = AnimRec(AnimId::Greeter_Moving);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_DC_bApplyShadows |= 2u;
 
@@ -44,7 +44,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
     }
 
 
-    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
+    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     if (pTlv->field_14_start_direction == XDirection_short::eLeft_0)
     {
@@ -90,9 +90,9 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
 
     field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(70, 210);
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
+    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 
     field_12C_timesShot = 0;
 
@@ -195,7 +195,7 @@ s32 CC Greeter::CreateFromSaveState_446040(const u8* pBuffer)
     pGreeter->field_20_animation.field_92_current_frame = pState->field_20_current_frame;
     pGreeter->field_20_animation.field_E_frame_change_counter = pState->field_22_frame_change_counter;
 
-    pGreeter->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
+    pGreeter->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
 
     pGreeter->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
 
@@ -216,9 +216,9 @@ s32 CC Greeter::CreateFromSaveState_446040(const u8* pBuffer)
     pGreeter->field_13E_targetOnLeft = pState->field_46_targetOnLeft;
     pGreeter->field_140_targetOnRight = pState->field_48_targetOnRight;
 
-    auto pDetector = static_cast<MotionDetector*>(sObjectIds_5C1B70.Find_449CF0(pGreeter->field_11C_motionDetectorId));
+    auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find_449CF0(pGreeter->field_11C_motionDetectorId));
 
-    auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find_449CF0(pDetector->field_F8_laser_id));
+    auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_449CF0(pDetector->field_F8_laser_id));
     pLaser->field_B8_xpos = pState->field_4C_motion_laser_xpos;
 
     return sizeof(Greeter_State);
@@ -248,7 +248,7 @@ s32 Greeter::vGetSaveState_446400(Greeter_State* pState)
 
     pState->field_20_current_frame = field_20_animation.field_92_current_frame;
     pState->field_22_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_25_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_25_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_24_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_28_tlvInfo = field_118_tlvInfo;
     pState->field_2C_unused = field_120_unused;
@@ -264,8 +264,8 @@ s32 Greeter::vGetSaveState_446400(Greeter_State* pState)
     pState->field_46_targetOnLeft = field_13E_targetOnLeft;
     pState->field_48_targetOnRight = field_140_targetOnRight;
 
-    auto pMotionDetector = static_cast<MotionDetector*>(sObjectIds_5C1B70.Find_449CF0(field_11C_motionDetectorId));
-    auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find_449CF0(pMotionDetector->field_F8_laser_id));
+    auto pMotionDetector = static_cast<MotionDetector*>(sObjectIds.Find_449CF0(field_11C_motionDetectorId));
+    auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_449CF0(pMotionDetector->field_F8_laser_id));
     pState->field_4C_motion_laser_xpos = pLaser->field_B8_xpos;
 
     return sizeof(Greeter_State);
@@ -290,14 +290,14 @@ void Greeter::vScreenChanged_447DD0()
         const FP xDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
         if (xDistFromPlayer > FP_FromInteger(356))
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
 
         const FP yDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
         if (yDistFromPlayer > FP_FromInteger(240))
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
     }
@@ -316,10 +316,10 @@ void Greeter::dtor_4468E0()
         Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 1);
     }
 
-    BaseGameObject* pMotionDetector = sObjectIds_5C1B70.Find_449CF0(field_11C_motionDetectorId);
+    BaseGameObject* pMotionDetector = sObjectIds.Find_449CF0(field_11C_motionDetectorId);
     if (pMotionDetector)
     {
-        pMotionDetector->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        pMotionDetector->mFlags.Set(BaseGameObject::eDead);
     }
     dtor_4080B0();
 }
@@ -351,7 +351,7 @@ EXPORT void Greeter::BlowUp_447E50()
             0);
     }
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
     field_12E_bDontSetDestroyed = 0;
 }
 
@@ -383,7 +383,7 @@ void Greeter::BounceBackFromShot_447B10()
     const AnimRecord& animRec = AnimRec(AnimId::Greeter_Hit);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
-    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
+    const CameraPos soundDirection = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
     SFX_Play_46FC20(SoundEffect::GreeterKnockback_121, 0, soundDirection, field_CC_sprite_scale);
 }
 
@@ -447,7 +447,7 @@ void Greeter::HandleRollingAlong_447860()
 
 EXPORT s16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3) || FP_GetExponent(field_10C_health) == 0)
+    if (mFlags.Get(BaseGameObject::eDead) || FP_GetExponent(field_10C_health) == 0)
     {
         return 0;
     }
@@ -585,7 +585,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 
     pTarget->VTakeDamage_408730(this);
 
-    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+    const CameraPos soundDirection = gMap.GetDirection_4811A0(
         field_C2_lvl_number,
         field_C0_path_number,
         field_B8_xpos,
@@ -675,7 +675,7 @@ void Greeter::vUpdate_4469B0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_13C_brain_state)
@@ -683,7 +683,7 @@ void Greeter::vUpdate_4469B0()
         case GreeterBrainStates::eBrain_0_Patrol:
             if (!((sGnFrame_5C1B84 - field_124_last_turn_time) % 14))
             {
-                const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+                const CameraPos soundDirection = gMap.GetDirection_4811A0(
                     field_C2_lvl_number,
                     field_C0_path_number,
                     field_B8_xpos,
@@ -774,7 +774,7 @@ void Greeter::vUpdate_4469B0()
         {
             if (!(sGnFrame_5C1B84 % 8))
             {
-                const CameraPos soundDirection2 = gMap_5C3030.GetDirection_4811A0(
+                const CameraPos soundDirection2 = gMap.GetDirection_4811A0(
                     field_C2_lvl_number,
                     field_C0_path_number,
                     field_B8_xpos,
@@ -856,7 +856,7 @@ void Greeter::vUpdate_4469B0()
                 field_BC_ypos = hitY;
                 field_F8_LastLineYPos = hitY;
 
-                const CameraPos soundDirection3 = gMap_5C3030.GetDirection_4811A0(
+                const CameraPos soundDirection3 = gMap.GetDirection_4811A0(
                     field_C2_lvl_number,
                     field_C0_path_number,
                     field_B8_xpos,

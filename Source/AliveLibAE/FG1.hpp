@@ -25,7 +25,7 @@ class FG1 final : public BaseGameObject
 public:
     EXPORT FG1* ctor_499FC0(u8** pFg1Res);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override
     { }

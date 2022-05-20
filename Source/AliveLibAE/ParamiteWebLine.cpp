@@ -19,8 +19,8 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     field_100_tlv_info = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
@@ -85,7 +85,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     field_F4_anim_segment_count = (field_F6_piece_length + field_FA_bottom - field_F8_top) / field_F6_piece_length;
@@ -127,7 +127,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
     return this;
 }
@@ -313,5 +313,5 @@ void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
 
 void ParamiteWebLine::vScreenChanged_4E2BC0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }

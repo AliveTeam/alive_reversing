@@ -51,7 +51,7 @@ class Rock final : public BaseThrowable
 public:
     EXPORT Rock* ctor_49E150(FP xpos, FP ypos, s16 count);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;

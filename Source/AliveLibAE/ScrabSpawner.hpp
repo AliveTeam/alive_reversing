@@ -34,7 +34,7 @@ public:
     EXPORT ScrabSpawner* ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo);
     EXPORT static s32 CC CreateFromSaveState_4ABEB0(const u8* pBuffer);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 

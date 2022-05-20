@@ -1129,15 +1129,15 @@ EXPORT void CC SND_StopAll_4762D0()
     SND_Reset_Ambiance_4765E0();
     SND_Stop_All_Seqs_4774D0();
 
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
         }
 
-        if (!pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (!pObj->mFlags.Get(BaseGameObject::eDead))
         {
             pObj->VStopAudio();
         }

@@ -31,13 +31,10 @@ enum Flags_114
 class BaseAliveGameObject : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BaseAliveGameObject* ctor_408240(s16 resourceArraySize);
-    EXPORT void dtor_4080B0();
-
-    BaseGameObject* vdtor_408210(s32 flags);
+    explicit BaseAliveGameObject(s16 resourceArraySize);
+    ~BaseAliveGameObject();
 
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual BaseGameObject* VDestructor(s32 flags) override;
 
     virtual void VUnPosses_408F90();
     virtual void VPossessed_408F70();

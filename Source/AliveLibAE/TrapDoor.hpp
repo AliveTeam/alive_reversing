@@ -42,7 +42,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
 class TrapDoor final : public PlatformBase
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

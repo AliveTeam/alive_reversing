@@ -39,14 +39,14 @@ const FallingItem_Data sFallingItemData_4BAB20[16] = {
 FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
 {
     ctor_401090();
-    field_6_flags.Set(Options::eCanExplode_Bit7);
+    mFlags.Set(Options::eCanExplode_Bit7);
     SetVTable(this, 0x4BABE0);
 
     field_4_typeId = Types::eRockSpawner_32;
 
     field_10C_tlvInfo = tlvInfo;
 
-    const s32 lvlIdx = static_cast<s32>(gMap_507BA8.field_0_current_level);
+    const s32 lvlIdx = static_cast<s32>(gMap.mCurrentLevel);
     const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(
@@ -57,7 +57,7 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
         1);
 
     field_10_anim.field_C_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
-    if (gMap_507BA8.field_0_current_level == LevelIds::eLines_2)
+    if (gMap.mCurrentLevel == LevelIds::eLines_2)
     {
         field_C0_r = 77;
         field_C2_g = 120;
@@ -95,7 +95,7 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
     field_130_sound_channels = 0;
 
     // Not sure why this rupture farms primary item hack is required
-    if (!pPrimaryFallingItem_4FFA54 && (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13))
+    if (!pPrimaryFallingItem_4FFA54 && (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13))
     {
         pPrimaryFallingItem_4FFA54 = this;
         field_134_created_gnFrame = gnFrameCount_507670;
@@ -117,7 +117,7 @@ BaseGameObject* FallingItem::dtor_41A660()
     {
         pPrimaryFallingItem_4FFA54 = nullptr;
     }
-    gMap_507BA8.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
     return dtor_401000();
 }
 
@@ -133,9 +133,9 @@ FallingItem* FallingItem::Vdtor_41A7F0(s32 flags)
 
 void FallingItem::DamageHitItems_41A6D0()
 {
-    for (s32 idx = 0; idx < gBaseGameObject_list_9F2DF0->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(idx);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
         if (!pObj)
         {
             break;
@@ -143,7 +143,7 @@ void FallingItem::DamageHitItems_41A6D0()
 
         if (pObj != this)
         {
-            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+            if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
@@ -169,7 +169,7 @@ void FallingItem::VUpdate_41A120()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (pPrimaryFallingItem_4FFA54 == this)
@@ -196,11 +196,11 @@ void FallingItem::VUpdate_41A120()
 
         case State::eGoWaitForDelay_1:
         {
-            field_6_flags.Clear(Options::eCanExplode_Bit7);
+            mFlags.Clear(Options::eCanExplode_Bit7);
             field_110_state = State::eWaitForFallDelay_2;
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
-            const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_4_waiting_animId);
+            const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap.mCurrentLevel)].field_4_waiting_animId);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
             field_11C_delay_timer = gnFrameCount_507670 + field_118_fall_interval;
             break;
@@ -257,7 +257,7 @@ void FallingItem::VUpdate_41A120()
                     pScreenShake->ctor_4624D0(0);
                 }
 
-                if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+                if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {
                     ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
                     if (pParticleBurst)
@@ -310,9 +310,9 @@ void FallingItem::VUpdate_41A120()
                 field_130_sound_channels = 0;
             }
 
-            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+            if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
             {
-                if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
                         field_A8_xpos,
@@ -346,15 +346,15 @@ void FallingItem::VUpdate_41A120()
 
             field_116_remaining_falling_items--;
 
-            if ((field_114_max_falling_items && field_116_remaining_falling_items <= 0) || !gMap_507BA8.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_128_xpos, field_12C_ypos, 0))
+            if ((field_114_max_falling_items && field_116_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_128_xpos, field_12C_ypos, 0))
             {
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             else
             {
-                const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap_507BA8.field_0_current_level)].field_0_falling_animId);
+                const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap.mCurrentLevel)].field_0_falling_animId);
                 field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
-                field_6_flags.Set(Options::eCanExplode_Bit7);
+                mFlags.Set(Options::eCanExplode_Bit7);
                 field_B8_vely = FP_FromInteger(0);
                 field_B4_velx = FP_FromInteger(0);
                 field_AC_ypos = field_124_yPosStart;
@@ -375,11 +375,11 @@ void FallingItem::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 
 void FallingItem::VScreenChanged_41A7C0()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
-        || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
+    if (gMap.mCurrentLevel != gMap.mLevel
+        || gMap.mCurrentPath != gMap.mPath
         || field_110_state != State::eFalling_3)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

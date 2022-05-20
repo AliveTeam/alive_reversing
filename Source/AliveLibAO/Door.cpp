@@ -95,7 +95,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
         field_EC_current_state = DoorStates::eOpen_0;
     }
 
-    const s32 idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
+    const s32 idx = static_cast<s32>(gMap.mCurrentLevel);
 
     FP scale = {};
     PathLine* pLine = nullptr;
@@ -109,8 +109,8 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
             ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
             if (!ppRes)
             {
-                field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+                mFlags.Set(BaseGameObject::eDead);
                 return this;
             }
 
@@ -160,7 +160,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
                     field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
                 {
                     field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
-                    gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
+                    gMap.GetCurrentCamCoords_444890(&mapCoords);
                     auto aux = SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x);
                     field_A8_xpos = FP_FromInteger((aux)+mapCoords.field_0_x);
                 }
@@ -172,14 +172,14 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
                 break;
             }
             ResourceManager::FreeResource_455550(ppRes);
-            field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+            mFlags.Set(BaseGameObject::eDead);
             return this;
         }
 
         case DoorStates::eClosed_1:
         {
-            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+            if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
             {
                 field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
                 scale = FP_FromInteger(1);
@@ -193,8 +193,8 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
             ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
             if (!ppRes || openDoor.mFrameTableOffset == 0)
             {
-                field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+                mFlags.Set(BaseGameObject::eDead);
                 return this;
             }
 
@@ -229,7 +229,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
                 scale != FP_FromDouble(0.5) ? 7 : 0x70))
             {
                 field_AC_ypos += FP_FromInteger(4);
-                gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
+                gMap.GetCurrentCamCoords_444890(&mapCoords);
                 field_A8_xpos = FP_FromInteger(SnapToXGrid_41FAA0(scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
             }
             else
@@ -242,7 +242,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
         }
 
         case DoorStates::eHubDoorClosed_2:
-            if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1)
+            if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13 || gMap.mCurrentLevel == LevelIds::eRuptureFarms_1)
             {
                 ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kF2p3dorAOResID, 1, 0);
             }
@@ -278,7 +278,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
 
                     field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
 
-                    if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1)
+                    if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13 || gMap.mCurrentLevel == LevelIds::eRuptureFarms_1)
                     {
                         if (sCollisions_DArray_504C6C->RayCast_40C410(
                                 FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
@@ -291,7 +291,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
                                 7))
                         {
                             field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
-                            gMap_507BA8.GetCurrentCamCoords_444890(&mapCoords);
+                            gMap.GetCurrentCamCoords_444890(&mapCoords);
                             field_A8_xpos = FP_FromInteger(SnapToXGrid_41FAA0(FP_FromInteger(1), FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
                         }
                         else
@@ -319,8 +319,8 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
                     break;
                 }
             }
-            field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+            mFlags.Set(BaseGameObject::eDead);
             return this;
     }
 
@@ -338,7 +338,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
 BaseGameObject* Door::dtor_40E710()
 {
     SetVTable(this, 0x4BA808);
-    gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     return dtor_417D10();
 }
 
@@ -349,7 +349,7 @@ void Door::VScreenChanged()
 
 void Door::VScreenChanged_40EDE0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 BaseGameObject* Door::VDestructor(s32 flags)
@@ -402,7 +402,7 @@ void Door::PlaySound_40E780()
 {
     s16 volume = 0;
 
-    if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarms_1 || gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+    if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
     {
         volume = field_BC_sprite_scale != FP_FromDouble(0.5) ? 90 : 127;
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 75, 75);
@@ -429,7 +429,7 @@ void Door::VUpdate_40E870()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780)
@@ -473,7 +473,7 @@ void Door::VUpdate_40E870()
             }
         }
 
-        const s32 lvl = static_cast<s32>(gMap_507BA8.field_0_current_level);
+        const s32 lvl = static_cast<s32>(gMap.mCurrentLevel);
 
         switch (field_EC_current_state)
         {

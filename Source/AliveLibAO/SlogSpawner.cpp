@@ -12,8 +12,8 @@ namespace AO {
 
 void SlogSpawner::VScreenChanged_475F90()
 {
-    gMap_507BA8.TLV_Reset_446870(field_10_tlvInfo, field_14_spawned_count, 0, 0);
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    gMap.TLV_Reset_446870(field_10_tlvInfo, field_14_spawned_count, 0, 0);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void SlogSpawner::VScreenChanged()
@@ -62,7 +62,7 @@ void SlogSpawner::VUpdate_475E30()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (static_cast<s32>(gnFrameCount_507670) > field_20_spawn_timer && gNumSlogs_9F11C8 < field_28_max_slogs_at_a_time)
@@ -88,8 +88,8 @@ void SlogSpawner::VUpdate_475E30()
 
             if (field_14_spawned_count >= field_26_max_slogs)
             {
-                gMap_507BA8.TLV_Reset_446870(field_10_tlvInfo, field_14_spawned_count, 0, 1);
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                gMap.TLV_Reset_446870(field_10_tlvInfo, field_14_spawned_count, 0, 1);
+                mFlags.Set(BaseGameObject::eDead);
             }
         }
     }

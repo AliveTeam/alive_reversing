@@ -44,7 +44,7 @@ public:
 
     EXPORT BaseGameObject* dtor_401000();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUnPosses();
 

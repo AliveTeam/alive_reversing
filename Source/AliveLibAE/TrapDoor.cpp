@@ -101,7 +101,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
     field_134_switch_id = pTlv->field_10_switch_id;
     field_138_switch_state = pTlv->field_12_start_state;
 
-    const s32 levelIdx = static_cast<s32>(gMap_5C3030.field_0_current_level);
+    const s32 levelIdx = static_cast<s32>(gMap.mCurrentLevel);
 
     s32 frameTableOffset = 0;
     const AnimRecord& closedRec = AnimRec(sTrapDoorData_547B78[levelIdx].field_4_closed);
@@ -129,7 +129,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
         field_D6_scale = 1;
     }
 
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID);
 
     AddDynamicCollision_4971C0(
         closedRec.mFrameTableOffset,
@@ -150,7 +150,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
         field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
-    SetTint_425600(sTrapDoorTints_5639AC, gMap_5C3030.field_0_current_level);
+    SetTint_425600(sTrapDoorTints_5639AC, gMap.mCurrentLevel);
 
     field_140_x = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_144_y = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -188,7 +188,7 @@ s32 CC TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
     auto pState = reinterpret_cast<const TrapDoor_State*>(pData);
     auto pTlv = static_cast<Path_TrapDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_8_tlvInfo));
 
-    switch (gMap_5C3030.field_0_current_level)
+    switch (gMap.mCurrentLevel)
     {
         case LevelIds::eMudomoVault_3:
         case LevelIds::eMudancheeVault_4:
@@ -238,10 +238,10 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    const CameraPos direction = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_140_x, field_144_y);
+    const CameraPos direction = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_140_x, field_144_y);
 
     switch (field_136_state)
     {
@@ -250,10 +250,10 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
             {
                 Open_4DD960();
                 field_136_state = TrapDoorState::eOpening_1;
-                const AnimRecord& openingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_8_opening);
+                const AnimRecord& openingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap.mCurrentLevel)].field_8_opening);
                 field_20_animation.Set_Animation_Data_409C80(openingRec.mFrameTableOffset, 0);
 
-                if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_Ender_12 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_Ender_13 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
+                if (gMap.mCurrentLevel == LevelIds::eMines_1 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eBonewerkz_Ender_14 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_Ender_12 || gMap.mCurrentLevel == LevelIds::eBarracks_6 || gMap.mCurrentLevel == LevelIds::eBarracks_Ender_13 || gMap.mCurrentLevel == LevelIds::eBrewery_9 || gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
                 {
                     SFX_Play_46FC20(SoundEffect::IndustrialTrigger_80, 45, direction);
                     SFX_Play_46FC20(SoundEffect::IndustrialNoise1_76, 90, direction);
@@ -275,12 +275,12 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
 
             if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_id) != field_138_switch_state)
             {
-                const AnimRecord& closingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap_5C3030.field_0_current_level)].field_C_closing);
+                const AnimRecord& closingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap.mCurrentLevel)].field_C_closing);
                 field_20_animation.Set_Animation_Data_409C80(closingRec.mFrameTableOffset, 0);
 
                 field_136_state = TrapDoorState::eClosing_3;
 
-                if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_Ender_12 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_Ender_13 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9 || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
+                if (gMap.mCurrentLevel == LevelIds::eMines_1 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eBonewerkz_Ender_14 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_Ender_12 || gMap.mCurrentLevel == LevelIds::eBarracks_6 || gMap.mCurrentLevel == LevelIds::eBarracks_Ender_13 || gMap.mCurrentLevel == LevelIds::eBrewery_9 || gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
                 {
                     SFX_Play_46FC20(SoundEffect::IndustrialNoise3_78, 60, direction);
                     SFX_Play_46FC20(SoundEffect::IndustrialNoise2_77, 90, direction);
@@ -312,9 +312,9 @@ EXPORT void TrapDoor::vRender_4DDDD0(PrimHeader** ppOt)
 
 EXPORT void TrapDoor::vScreenChanged_4DDE40()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         if (field_13E_self_closing == Choice_short::eYes_1)
         {
             SwitchStates_Set_465FF0(field_134_switch_id, field_138_switch_state == 0);
@@ -376,20 +376,20 @@ void TrapDoor::Add_To_Collisions_Array_4DDA20()
 
 void TrapDoor::Open_4DD960()
 {
-    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
         }
 
         // Find alive objects.
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // That are on this trap door.
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if (sObjectIds_5C1B70.Find_449CF0(pAliveObj->field_110_id) == this)
+            if (sObjectIds.Find_449CF0(pAliveObj->field_110_id) == this)
             {
                 pAliveObj->VOnTrapDoorOpen();
 

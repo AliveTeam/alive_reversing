@@ -59,7 +59,7 @@ GameSpeak* GameSpeak::ctor_40F990()
     ctor_487E10(1);
     SetVTable(this, 0x4BA890);
 
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_1C_event_buffer[0] = -1;
     field_10_last_event = GameSpeakEvents::eNone_m1;
     field_4_typeId = Types::eGameSpeak_24;

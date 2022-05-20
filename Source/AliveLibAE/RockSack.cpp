@@ -17,13 +17,13 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo)
     SetType(AETypes::eRockSack_106);
 
     const AnimRecord& rec = AnimRec(AnimId::RockSack_Idle);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
 
     // Set RockSack idle animation speed.
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + rec.mFrameTableOffset);
     pAnimationHeader->field_0_fps = 0;
 
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -100,14 +100,14 @@ void RockSack::dtor_49F310()
 
 void RockSack::vScreenChanged_49F700()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void RockSack::vUpdate_49F3A0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_20_animation.field_92_current_frame == 2)
@@ -118,7 +118,7 @@ void RockSack::vUpdate_49F3A0()
             {
                 field_120_can_play_wobble_sound = 0;
                 field_122_force_wobble_sound = 0;
-                SFX_Play_46FBA0(SoundEffect::SackWobble_29, 24, Math_RandomRange_496AB0(-2400, -2200));
+                SFX_Play(SoundEffect::SackWobble_29, 24, Math_RandomRange_496AB0(-2400, -2200));
             }
         }
     }

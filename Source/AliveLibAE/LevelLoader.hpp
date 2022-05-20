@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LevelLoader, 0x1C);
 class LevelLoader final : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
 
     EXPORT LevelLoader* ctor_4DD330(Path_LevelLoader* pTlv, u32 tlvInfo);

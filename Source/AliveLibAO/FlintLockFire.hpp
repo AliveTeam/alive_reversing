@@ -21,7 +21,7 @@ public:
 
     EXPORT BaseGameObject* dtor_41AE20();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT FlintLockFire* Vdtor_41B500(s32 flags);
 

@@ -163,7 +163,6 @@ public:
     EXPORT BaseGameObject* vdtor_4CEF00(s32 flags);
     EXPORT void dtor_4CEF30();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override

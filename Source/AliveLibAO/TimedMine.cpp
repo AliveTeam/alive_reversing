@@ -30,7 +30,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_6_flags.Set(Options::eInteractive_Bit8);
+    mFlags.Set(Options::eInteractive_Bit8);
     field_1B8_flags.Clear(TimedMine_Flags_1B8::eStickToLiftPoint_0);
     field_10C_armed = 0;
 
@@ -70,7 +70,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
     }
     else
     {
-        field_6_flags.Set(Options::eListAddFailed_Bit1);
+        mFlags.Set(Options::eListAddFailed_Bit1);
     }
 
     field_10E_ticks_before_explosion = pTlv->field_1E_ticks_before_explosion;
@@ -80,13 +80,13 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
     field_114_timer = gnFrameCount_507670;
     field_110_tlvInfo = tlvInfo;
 
-    SetBaseAnimPaletteTint_4187C0(kTimedMineTints_4C3140, gMap_507BA8.field_0_current_level, 1005);
+    SetBaseAnimPaletteTint_4187C0(kTimedMineTints_4C3140, gMap.mCurrentLevel, 1005);
     field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
     field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
     field_D4_collection_rect.h = field_AC_ypos;
     field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
 
-    field_6_flags.Set(Options::eInteractive_Bit8);
+    mFlags.Set(Options::eInteractive_Bit8);
     field_F8_pLiftPoint = nullptr;
     return this;
 }
@@ -96,11 +96,11 @@ BaseGameObject* TimedMine::dtor_408690()
     SetVTable(this, 0x4BA2C8);
     if (field_10C_armed != 1 || static_cast<s32>(gnFrameCount_507670) < field_114_timer)
     {
-        gMap_507BA8.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap_507BA8.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 1);
     }
 
     field_118_anim.vCleanUp();
@@ -112,7 +112,7 @@ BaseGameObject* TimedMine::dtor_408690()
         field_F8_pLiftPoint = nullptr;
     }
 
-    field_6_flags.Clear(Options::eInteractive_Bit8);
+    mFlags.Clear(Options::eInteractive_Bit8);
     return dtor_401000();
 }
 
@@ -138,14 +138,14 @@ void TimedMine::VScreenChanged()
 
 void TimedMine::VScreenChanged_408DD0()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
     if (field_10C_armed != 1)
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 }
 
@@ -156,7 +156,7 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
 
 s16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
@@ -168,7 +168,7 @@ s16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
         case Types::eExplosion_74:
         case Types::eShrykull_85:
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             auto pBaseBomb = ao_new<BaseBomb>();
             if (pBaseBomb)
             {
@@ -194,7 +194,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
 
 void TimedMine::VRender_408960(PrimHeader** ppOt)
 {
-    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
             field_A8_xpos,
@@ -279,7 +279,7 @@ void TimedMine::VUpdate_408760()
     auto pPlatform = static_cast<LiftPoint*>(field_F8_pLiftPoint);
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (!field_1B8_flags.Get(TimedMine_Flags_1B8::eStickToLiftPoint_0))
@@ -299,7 +299,7 @@ void TimedMine::VUpdate_408760()
         if (static_cast<s32>(gnFrameCount_507670) > (field_1B4_detonation_timer + field_1B0_gnFrame_2))
         {
             field_1B0_gnFrame_2 = gnFrameCount_507670;
-            auto direction = gMap_507BA8.GetDirection(
+            auto direction = gMap.GetDirection(
                 field_B2_lvl_number,
                 field_B0_path_number,
                 field_A8_xpos,
@@ -328,7 +328,7 @@ void TimedMine::VUpdate_408760()
                     field_BC_sprite_scale);
             }
 
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -349,7 +349,7 @@ void TimedMine::VOnThrowableHit_408B10(BaseGameObject* /*pFrom*/)
             0,
             field_BC_sprite_scale);
     }
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
     field_10C_armed = 1;
     field_114_timer = gnFrameCount_507670;
 }

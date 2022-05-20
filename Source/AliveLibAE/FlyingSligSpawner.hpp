@@ -59,7 +59,7 @@ public:
 
     EXPORT FlyingSligSpawner* ctor_433D50(Path_FlyingSligSpawner* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 

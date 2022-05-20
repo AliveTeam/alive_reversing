@@ -10,7 +10,7 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 directio
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     SetVTable(this, 0x547904); // vTbl_CircularFade_547904
 
@@ -31,8 +31,8 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 directio
     field_D0_r = fade_rgb;
 
     const AnimRecord& spotLightRec = AnimRec(AnimId::SpotLight);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID);
-    Animation_Init_424E10(spotLightRec.mFrameTableOffset, spotLightRec.mMaxW, spotLightRec.mMaxH, ppRes, 1, 1u);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID);
+    Animation_Init(spotLightRec.mFrameTableOffset, spotLightRec.mMaxW, spotLightRec.mMaxH, ppRes, 1, 1u);
 
     field_DC_bApplyShadows &= ~1u;
 
@@ -203,7 +203,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
 
         if (field_F4_flags.Get(Flags::eBit3_DestroyOnDone))
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -287,11 +287,11 @@ CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direc
 
     if (surviveDeathReset)
     {
-        pCircularFade->field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        pCircularFade->mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     }
     else
     {
-        pCircularFade->field_6_flags.Clear(BaseGameObject::eSurviveDeathReset_Bit9);
+        pCircularFade->mFlags.Clear(BaseGameObject::eSurviveDeathReset_Bit9);
     }
     return pCircularFade;
 }

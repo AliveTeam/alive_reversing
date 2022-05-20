@@ -12,17 +12,10 @@ enum class LevelIds : s16;
 class EffectBase : public BaseGameObject
 {
 public:
-    EXPORT EffectBase* ctor_461550(Layer layer, TPageAbr abr);
-
-    EXPORT BaseGameObject* dtor_461630();
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
-
-    EXPORT EffectBase* Vdtor_461750(s32 flags);
+    EffectBase(Layer layer, TPageAbr abr);
+    ~EffectBase();
 
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_461690(PrimHeader** ppOt);
 
 protected:
     s16 field_10_path_id;

@@ -23,8 +23,8 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, s16 bottom, s16 top, FP scale)
     }
 
     const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     if (scale == FP_FromInteger(1))
     {
@@ -118,24 +118,24 @@ void ParamiteWeb::vUpdate_4E1F40()
         field_FA_ttl_remainder -= 8;
         if (field_FA_ttl_remainder <= field_F8_ttl)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }
 
 void ParamiteWeb::vScreenChanged_4E1F80()
 {
-    if (gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
+    if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void ParamiteWeb::vRender_4E1BA0(PrimHeader** ppOt)
 {
     PSX_Point camCoords = {};
-    gMap_5C3030.GetCurrentCamCoords_480680(&camCoords);
-    if (field_C2_lvl_number == gMap_5C3030.field_0_current_level && field_C0_path_number == gMap_5C3030.field_2_current_path)
+    gMap.GetCurrentCamCoords_480680(&camCoords);
+    if (field_C2_lvl_number == gMap.mCurrentLevel && field_C0_path_number == gMap.mCurrentPath)
     {
         if (field_B8_xpos >= FP_FromInteger(camCoords.field_0_x) && field_B8_xpos <= FP_FromInteger(camCoords.field_0_x + 1024))
         {

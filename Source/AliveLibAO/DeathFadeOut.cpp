@@ -18,7 +18,7 @@ void DeathFadeOut::VRender_419ED0(PrimHeader** ppOt)
         field_6E_bDone = 1;
         if (field_70_destroy_on_done)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }

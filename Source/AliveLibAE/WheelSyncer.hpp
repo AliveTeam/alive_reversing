@@ -27,7 +27,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WheelSyncer, 0x20);
 class WheelSyncer final : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

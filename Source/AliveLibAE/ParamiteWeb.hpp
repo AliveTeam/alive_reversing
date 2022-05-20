@@ -14,7 +14,7 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
 private:
     EXPORT ParamiteWeb* vdtor_4E1AF0(s32 flags);

@@ -77,7 +77,7 @@ EXPORT void CC Game_ShowLoadingIcon_482D80()
 
     PSX_SetDefDispEnv_4F55A0(&dispBuffer.field_5C_disp_env, 0, 0, 640, 240);
     PSX_PutDispEnv_4F5890(&dispBuffer.field_5C_disp_env);
-    pParticle->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    pParticle->mFlags.Set(BaseGameObject::eDead);
     bHideLoadingIcon_5C1BAA = 1;
 }
 
@@ -88,8 +88,8 @@ ResourceManager* ResourceManager::ctor_464910()
     field_20_files_pending_loading.ctor_40CA60(3);
     field_48_dArray.ctor_40CA60(3);
 
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     SetVTable(this, 0x545EBC); // vTbl_ResourceManager_545EBC
 
     SetType(AETypes::eResourceManager_70);

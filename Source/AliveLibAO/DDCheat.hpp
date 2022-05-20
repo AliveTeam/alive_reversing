@@ -58,7 +58,7 @@ public:
 
     EXPORT BaseGameObject* dtor_409710();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT DDCheat* Vdtor_40A380(s32 flags);
 

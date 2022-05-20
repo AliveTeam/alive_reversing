@@ -32,7 +32,7 @@ void PlatformBase::AddDynamicCollision_4971C0(s32 frameTableOffset, s32 maxW, u1
     field_C8_vely = FP_FromInteger(0);
 
     field_118_count = 0;
-    Animation_Init_424E10(
+    Animation_Init(
         frameTableOffset,
         maxW,
         maxH,
@@ -69,7 +69,7 @@ void PlatformBase::AddDynamicCollision_4971C0(s32 frameTableOffset, s32 maxW, u1
 
     if (!ObjList_5C1B78->Push_Back(this))
     {
-        field_6_flags.Set(Options::eListAddFailed_Bit1);
+        mFlags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
@@ -80,7 +80,7 @@ void PlatformBase::dtor_4973E0()
 
     if (field_124_pCollisionLine)
     {
-        if (gMap_5C3030.field_0_current_level == field_C2_lvl_number && gMap_5C3030.field_2_current_path == field_C0_path_number)
+        if (gMap.mCurrentLevel == field_C2_lvl_number && gMap.mCurrentPath == field_C0_path_number)
         {
             Rect_Clear_418040(&field_124_pCollisionLine->field_0_rect);
         }

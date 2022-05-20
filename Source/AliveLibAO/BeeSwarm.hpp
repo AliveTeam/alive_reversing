@@ -33,7 +33,7 @@ public:
 
     EXPORT BaseGameObject* dtor_47FDF0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT BeeSwarm* Vdtor_480E00(s32 flags);
 

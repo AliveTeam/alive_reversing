@@ -92,7 +92,7 @@ public:
 
     EXPORT BaseGameObject* dtor_45BA50();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VRender(PrimHeader** ppOt) override;
 

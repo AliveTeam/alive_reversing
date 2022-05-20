@@ -203,8 +203,6 @@ public:
 
     EXPORT s16 SetActiveCam_444660(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
 
-    EXPORT s16 GetOverlayId_4440B0();
-
     EXPORT void ScreenChange_4444D0();
 
     void FreePathResourceBlocks();
@@ -280,8 +278,8 @@ public:
 
     EXPORT void SaveBlyData_446900(u8* pSaveBuffer);
 
-    LevelIds field_0_current_level;
-    s16 field_2_current_path;
+    LevelIds mCurrentLevel;
+    s16 mCurrentPath;
     s16 field_4_current_camera;
 
     enum class CamChangeStates : s16
@@ -292,8 +290,8 @@ public:
     };
     CamChangeStates field_6_state;
     s16 field_8_force_load;
-    LevelIds field_A_level;
-    s16 field_C_path;
+    LevelIds mLevel;
+    s16 mPath;
     s16 field_E_camera;
     CameraSwapEffects field_10_screenChangeEffect;
     s16 field_12_fmv_base_id;
@@ -306,7 +304,7 @@ public:
     s16 field_22_camY_idx;
     u16 field_24_max_cams_x;
     u16 field_26_max_cams_y;
-    s16 field_28_cd_or_overlay_num;
+    s16 mOverlayId;
     s16 field_2A;
     FP_Point field_2C_camera_offset;
     Camera* field_34_camera_array[5];
@@ -322,7 +320,7 @@ public:
 
 ALIVE_ASSERT_SIZEOF(Map, 0xE4);
 
-ALIVE_VAR_EXTERN(Map, gMap_507BA8);
+ALIVE_VAR_EXTERN(Map, gMap);
 ALIVE_VAR_EXTERN(s16, sMap_bDoPurpleLightEffect_507C9C);
 
 ALIVE_VAR_EXTERN(OverlayRecords, sOverlayTable_4C5AA8);

@@ -6,7 +6,7 @@
 class PlatformBase : public BaseAliveGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VAdd(BaseAliveGameObject* pObj);
     virtual void VRemove(BaseAliveGameObject* pObj);

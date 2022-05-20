@@ -28,7 +28,7 @@ class SlogSpawner final : public BaseGameObject
 public:
     EXPORT SlogSpawner* ctor_4C7FF0(Path_SlogSpawner* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

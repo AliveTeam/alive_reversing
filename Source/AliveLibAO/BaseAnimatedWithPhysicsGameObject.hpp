@@ -39,7 +39,7 @@ EXPORT FP CC ScaleToGridSize_41FA30(FP scale);
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VRender(PrimHeader** ppOt) override;
 
@@ -63,7 +63,7 @@ public:
 
     EXPORT void SetTint_418750(const TintEntry* pTintArray, LevelIds levelId);
 
-    EXPORT BaseAnimatedWithPhysicsGameObject* ctor_417C10();
+    BaseAnimatedWithPhysicsGameObject();
 
     EXPORT CameraPos Is_In_Current_Camera_417CC0();
 
@@ -74,7 +74,7 @@ protected:
     CameraPos Is_In_Current_Camera();
     void DeathSmokeEffect(bool bPlaySound);
 
-    EXPORT BaseGameObject* dtor_417D10();
+    ~BaseAnimatedWithPhysicsGameObject();
 
     enum class BetweenCamPos : s16
     {
@@ -88,8 +88,6 @@ protected:
     EXPORT s16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, s32 palId);
 
 private:
-    EXPORT BaseAnimatedWithPhysicsGameObject* Vdtor_4189C0(s32 flags);
-
     EXPORT void VRender_417DA0(PrimHeader** ppOt);
 
     EXPORT s16 VOnSameYLevel_418450(BaseAnimatedWithPhysicsGameObject* pOther);

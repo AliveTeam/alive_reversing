@@ -35,7 +35,7 @@ class ZBall final : public BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT ZBall* ctor_478590(Path_ZBall* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
 
     EXPORT ZBall* Vdtor_478860(s32 flags);

@@ -31,7 +31,7 @@ public:
 
     EXPORT void VUpdate_407750();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT BaseGameObject* Vdtor_407AC0(u32 flags);
 

@@ -69,8 +69,8 @@ PauseMenu* PauseMenu::ctor_44DEA0()
     field_4_typeId = Types::ePauseMenu_61;
     field_8_update_delay = 25;
 
-    field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 
     gObjList_drawables_504618->Push_Back(this);
     field_E4_font.ctor_41C170(175, byte_4C5EE8, &sFontContext_4FFD68);
@@ -84,7 +84,7 @@ BaseGameObject* PauseMenu::dtor_44DF40()
 {
     SetVTable(this, 0x4BBD68);
 
-    field_6_flags.Clear(Options::eDrawable_Bit4);
+    mFlags.Clear(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Remove_Item(this);
     field_E4_font.dtor_41C130();
 
@@ -113,9 +113,9 @@ void PauseMenu::VScreenChanged()
 
 void PauseMenu::VScreenChange_44EA90()
 {
-    if (gMap_507BA8.field_A_level == LevelIds::eCredits_10)
+    if (gMap.mLevel == LevelIds::eCredits_10)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -184,7 +184,7 @@ void PauseMenu::VUpdate_44DFB0()
     {
         SND_StopAll_4762D0();
         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
-        field_6_flags.Set(Options::eDrawable_Bit4);
+        mFlags.Set(Options::eDrawable_Bit4);
         field_11C = 1;
         field_124 = 0;
         field_126_page = PauseMenuPages::ePause_0;
@@ -206,9 +206,9 @@ void PauseMenu::VUpdate_44DFB0()
                 {
                     break;
                 }
-                if (!pObjIter->field_6_flags.Get(Options::eDead_Bit3))
+                if (!pObjIter->mFlags.Get(Options::eDead))
                 {
-                    if (pObjIter->field_6_flags.Get(Options::eDrawable_Bit4))
+                    if (pObjIter->mFlags.Get(Options::eDrawable_Bit4))
                     {
                         pObjIter->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
                     }
@@ -308,11 +308,11 @@ void PauseMenu::VUpdate_44DFB0()
                                 field_12E = 0;
                                 field_134 = 1;
                                 SFX_Play_43AD70(SoundEffect::IngameTransition_107, 90, 0);
-                                s32 tmp = static_cast<s32>(gMap_507BA8.field_0_current_level);
-                                if (gMap_507BA8.field_0_current_level == LevelIds::eRuptureFarmsReturn_13)
+                                s32 tmp = static_cast<s32>(gMap.mCurrentLevel);
+                                if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                                 {
                                     s16 row = 0;
-                                    auto pathId = SaveGame::GetPathId(gMap_507BA8.field_2_current_path, &row);
+                                    auto pathId = SaveGame::GetPathId(gMap.mCurrentPath, &row);
 
                                     if (pathId != -1)
                                     {
@@ -320,7 +320,7 @@ void PauseMenu::VUpdate_44DFB0()
                                     }
                                 }
 
-                                auto curPathId = gMap_507BA8.field_2_current_path;
+                                auto curPathId = gMap.mCurrentPath;
                                 char_type curPathIdNumBuf[12] = {};
 
                                 strncpy(&saveNameBuffer_5080C6.characters[2], gLevelNames_4CE1D4[tmp], 19);
@@ -526,15 +526,15 @@ void PauseMenu::VUpdate_44DFB0()
                         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
                         if (pPauseMenu_5080E0 && pPauseMenu_5080E0 == this)
                         {
-                            pPauseMenu_5080E0->field_6_flags.Set(Options::eDead_Bit3);
+                            pPauseMenu_5080E0->mFlags.Set(Options::eDead);
                         }
                         else
                         {
-                            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                            mFlags.Set(BaseGameObject::eDead);
                         }
                         pPauseMenu_5080E0 = 0;
-                        gMap_507BA8.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
-                        gMap_507BA8.field_DC_free_all_anim_and_palts = 1;
+                        gMap.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
+                        gMap.field_DC_free_all_anim_and_palts = 1;
                         Input().SetCurrentController(InputObject::PadIndex::First);
                     }
                     break;
@@ -548,7 +548,7 @@ void PauseMenu::VUpdate_44DFB0()
             if (!field_11C)
             {
                 Input().Update(GetGameAutoPlayer());
-                field_6_flags.Clear(Options::eDrawable_Bit4);
+                mFlags.Clear(Options::eDrawable_Bit4);
                 break;
             }
         }
@@ -748,9 +748,9 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
             char_type cameraNameBuffer[48] = {};
             Path_Format_CameraName_4346B0(
                 cameraNameBuffer,
-                gMap_507BA8.field_0_current_level,
-                gMap_507BA8.field_2_current_path,
-                gMap_507BA8.field_4_current_camera);
+                gMap.mCurrentLevel,
+                gMap.mCurrentPath,
+                gMap.field_4_current_camera);
             cameraNameBuffer[8] = 0;
             if (strlen(cameraNameBuffer) != 0)
             {

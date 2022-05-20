@@ -24,12 +24,12 @@ ExplosionSet* ExplosionSet::ctor_414CA0()
 
     if (pExplosionSet_5BBF68)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
         pExplosionSet_5BBF68 = this;
-        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
         field_50_scale = FP_FromInteger(1);
         field_40 = 0;
         field_42 = 1;
@@ -117,13 +117,13 @@ void ExplosionSet::dtor_414DB0()
 
 void ExplosionSet::vScreenChanged_415190()
 {
-    if (gMap_5C3030.field_0_current_level == gMap_5C3030.field_A_level && gMap_5C3030.field_2_current_path == gMap_5C3030.field_C_path)
+    if (gMap.mCurrentLevel == gMap.mLevel && gMap.mCurrentPath == gMap.mPath)
     {
         field_5C_flags.Clear(Flags_5C::eBit3_Active);
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -176,7 +176,7 @@ void ExplosionSet::vUpdate_414E30()
     BaseGameObject* pDeathResetEvent = Event_Get_422C00(kEventDeathReset);
     if (pDeathResetEvent)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (bEnabled_5C1BB6)
@@ -225,7 +225,7 @@ void ExplosionSet::vUpdate_414E30()
             field_46_spacing_multiplicator++;
             field_44_start_delay = field_56_asset_interval;
 
-            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 && Math_RandomRange_496AB0(1, 5) >= 4)
+            if (gMap.mCurrentLevel == LevelIds::eMines_1 && Math_RandomRange_496AB0(1, 5) >= 4)
             {
                 auto pExplosion = ae_new<Explosion>();
                 if (pExplosion)

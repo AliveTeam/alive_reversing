@@ -35,7 +35,7 @@ public:
 
     EXPORT FootSwitch* ctor_4887F0(Path_FootSwitch* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT FootSwitch* vdtor_488C10(s32 flags);
 

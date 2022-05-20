@@ -40,7 +40,7 @@ BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(s16 eventTy
         return nullptr;
     }
 
-    if (!pObj->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5) || !pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+    if (!pObj->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5) || !pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         return nullptr;
     }
@@ -66,7 +66,7 @@ void CC Events_Reset_Active_417320()
     sEventsToUse_4FFA48 = !sEventsToUse_4FFA48;
 }
 
-void CC Event_Cancel_For_Obj_417350(BaseGameObject* pObj)
+void CC Event_Cancel_For_Obj(BaseGameObject* pObj)
 {
     for (s32 i = 0; i < 2; i++)
     {

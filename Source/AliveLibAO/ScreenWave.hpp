@@ -20,7 +20,7 @@ public:
 
     EXPORT BaseGameObject* dtor_463010();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT ScreenWave* Vdtor_463860(s32 flags);
 

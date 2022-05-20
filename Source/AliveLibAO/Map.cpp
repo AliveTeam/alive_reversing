@@ -320,20 +320,20 @@ const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10]
     CameraSwapEffects::eUnknown_11,
     CameraSwapEffects::eInstantChange_0};
 
-ALIVE_VAR(1, 0x507BA8, Map, gMap_507BA8, {});
+ALIVE_VAR(1, 0x507BA8, Map, gMap, {});
 ALIVE_VAR(1, 0x507C9C, s16, sMap_bDoPurpleLightEffect_507C9C, 0);
 ALIVE_VAR(1, 0x507CA0, s32, gSndChannels_507CA0, 0);
 
 void Map::ctor_static_443E10()
 {
-    gMap_507BA8.ctor();
+    gMap.ctor();
     atexit(Map::dtor_static_443E60);
 }
 
 
 void Map::dtor_static_443E60()
 {
-    gMap_507BA8.Shutdown_443F90();
+    gMap.Shutdown_443F90();
 }
 
 void Map::ctor()
@@ -357,11 +357,11 @@ void Map::Init_443EE0(LevelIds level, s16 path, s16 camera, CameraSwapEffects sc
     field_34_camera_array[3] = nullptr;
     field_34_camera_array[4] = nullptr;
 
-    field_28_cd_or_overlay_num = -1;
+    mOverlayId = -1;
 
     field_4_current_camera = -1;
-    field_2_current_path = -1;
-    field_0_current_level = LevelIds::eNone;
+    mCurrentPath = -1;
+    mCurrentLevel = LevelIds::eNone;
 
     SetActiveCam_444660(level, path, camera, screenChangeEffect, fmvBaseId, forceChange);
     GoTo_Camera_445050();
@@ -409,15 +409,15 @@ void Map::Reset()
 
 s16 Map::SetActiveCam_444660(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
-    if (!forceChange && cam == field_4_current_camera && level == field_0_current_level && path == field_2_current_path)
+    if (!forceChange && cam == field_4_current_camera && level == mCurrentLevel && path == mCurrentPath)
     {
         return 0;
     }
 
     field_E_camera = cam;
     field_12_fmv_base_id = fmvBaseId;
-    field_C_path = path;
-    field_A_level = level;
+    mPath = path;
+    mLevel = level;
     field_10_screenChangeEffect = screenChangeEffect;
     field_6_state = CamChangeStates::eInstantChange_2;
 
@@ -432,11 +432,6 @@ s16 Map::SetActiveCam_444660(LevelIds level, s16 path, s16 cam, CameraSwapEffect
     }
 
     return 1;
-}
-
-s16 Map::GetOverlayId_4440B0()
-{
-    return Path_Get_Bly_Record_434650(field_A_level, field_C_path)->field_C_overlay_id;
 }
 
 void Map::Handle_PathTransition_444DD0()
@@ -454,8 +449,8 @@ void Map::Handle_PathTransition_444DD0()
 
     if (field_18_pAliveObj && pTlv)
     {
-        field_A_level = pTlv->field_18_level;
-        field_C_path = pTlv->field_1A_path;
+        mLevel = pTlv->field_18_level;
+        mPath = pTlv->field_1A_path;
         field_E_camera = pTlv->field_1C_camera;
         field_12_fmv_base_id = pTlv->field_1E_movie;
 
@@ -567,7 +562,7 @@ void Map::Handle_PathTransition_444DD0()
         }
 
         const u32 pCamNameOffset = (sizeof(CameraName) * (field_20_camX_idx + field_22_camY_idx * field_24_max_cams_x));
-        const u8* pPathRes = *GetPathResourceBlockPtr(field_2_current_path);
+        const u8* pPathRes = *GetPathResourceBlockPtr(mCurrentPath);
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
@@ -594,15 +589,15 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible)
             break;
         }
 
-        if (pObjIter->field_6_flags.Get(BaseGameObject::eDrawable_Bit4)
+        if (pObjIter->mFlags.Get(BaseGameObject::eDrawable_Bit4)
             && pObjIter->field_10A_flags.Get(Flags_10A::e10A_Bit6)
             && pObjIter->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render)
-            && !pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3)
+            && !pObjIter->mFlags.Get(BaseGameObject::eDead)
             && pObjIter != sControlledCharacter_50767C)
         {
             bool bAdd = false;
-            if (pObjIter->field_B2_lvl_number == field_0_current_level
-                && pObjIter->field_B0_path_number == field_2_current_path)
+            if (pObjIter->field_B2_lvl_number == mCurrentLevel
+                && pObjIter->field_B0_path_number == mCurrentPath)
             {
                 PSX_RECT rect = {};
                 rect.x = FP_GetExponent(pObjIter->field_A8_xpos);
@@ -663,7 +658,7 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pLight->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                if (!pLight->mFlags.Get(BaseGameObject::eDead))
                 {
                     pLight->VUpdate();
                 }
@@ -678,7 +673,7 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pLight->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                if (!pLight->mFlags.Get(BaseGameObject::eDead))
                 {
                     pLight->field_10_anim.vDecode();
                 }
@@ -692,10 +687,10 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pDrawable->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+                if (!pDrawable->mFlags.Get(BaseGameObject::eDead))
                 {
                     // TODO: Seems strange to check this flag, how did it get in the drawable list if its not a drawable ??
-                    if (pDrawable->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+                    if (pDrawable->mFlags.Get(BaseGameObject::eDrawable_Bit4))
                     {
                         pDrawable->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
                     }
@@ -764,7 +759,7 @@ void Map::ScreenChange_4444D0()
         return;
     }
 
-    if (sMap_bDoPurpleLightEffect_507C9C && field_0_current_level != LevelIds::eBoardRoom_12)
+    if (sMap_bDoPurpleLightEffect_507C9C && mCurrentLevel != LevelIds::eBoardRoom_12)
     {
         RemoveObjectsWithPurpleLight_4440D0(1);
     }
@@ -773,55 +768,55 @@ void Map::ScreenChange_4444D0()
 
     for (s32 i = 0; i < 2; i++) // Not sure why this is done twice?
     {
-        for (s32 j = 0; j < gBaseGameObject_list_9F2DF0->Size(); j++)
+        for (s32 j = 0; j < gBaseGameObjects->Size(); j++)
         {
-            BaseGameObject* pItem = gBaseGameObject_list_9F2DF0->ItemAt(j);
+            BaseGameObject* pItem = gBaseGameObjects->ItemAt(j);
             if (!pItem)
             {
                 break;
             }
 
             pItem->VScreenChanged();
-            if (pItem->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+            if (pItem->mFlags.Get(BaseGameObject::eDead))
             {
                 if (pItem->field_C_refCount == 0)
                 {
-                    j = gBaseGameObject_list_9F2DF0->RemoveAt(j);
+                    j = gBaseGameObjects->RemoveAt(j);
                     pItem->VDestructor(1);
                 }
             }
         }
     }
 
-    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pItem = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        BaseGameObject* pItem = gBaseGameObjects->ItemAt(i);
         if (!pItem)
         {
             break;
         }
 
-        if (pItem->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (pItem->mFlags.Get(BaseGameObject::eDead))
         {
             if (pItem->field_C_refCount == 0)
             {
-                i = gBaseGameObject_list_9F2DF0->RemoveAt(i);
+                i = gBaseGameObjects->RemoveAt(i);
                 pItem->VDestructor(1);
             }
         }
     }
 
-    if (sMap_bDoPurpleLightEffect_507C9C || field_A_level != field_0_current_level)
+    if (sMap_bDoPurpleLightEffect_507C9C || mLevel != mCurrentLevel)
     {
-        if (field_A_level != field_0_current_level)
+        if (mLevel != mCurrentLevel)
         {
             SsUtAllKeyOff_49EDE0(0);
         }
 
         // TODO: Re-check this logic
-        if (field_A_level != LevelIds::eMenu_0)
+        if (mLevel != LevelIds::eMenu_0)
         {
-            if ((field_A_level != LevelIds::eRemoved_11 && field_A_level != LevelIds::eRuptureFarmsReturn_13 && field_A_level != LevelIds::eForestChase_14 && field_A_level != LevelIds::eDesertEscape_15) || (field_A_level == LevelIds::eBoardRoom_12 && field_0_current_level == LevelIds::eBoardRoom_12))
+            if ((mLevel != LevelIds::eRemoved_11 && mLevel != LevelIds::eRuptureFarmsReturn_13 && mLevel != LevelIds::eForestChase_14 && mLevel != LevelIds::eDesertEscape_15) || (mLevel == LevelIds::eBoardRoom_12 && mCurrentLevel == LevelIds::eBoardRoom_12))
             {
                 gSndChannels_507CA0 = 0;
             }
@@ -837,7 +832,7 @@ void Map::ScreenChange_4444D0()
 
 s16 Map::GetOverlayId()
 {
-    return Path_Get_Bly_Record_434650(field_A_level, field_C_path)->field_C_overlay_id;
+    return Path_Get_Bly_Record_434650(mLevel, mPath)->field_C_overlay_id;
 }
 
 Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(s16 cam_x_idx, s16 cam_y_idx)
@@ -850,7 +845,7 @@ Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera_4463B0(s16 cam_x_idx, s16 cam_
         return nullptr;
     }
 
-    u8* pPathData = *GetPathResourceBlockPtr(field_2_current_path);
+    u8* pPathData = *GetPathResourceBlockPtr(mCurrentPath);
     const s32* indexTable = reinterpret_cast<const s32*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
     const s32 indexTableEntry = indexTable[(camX + (camY * field_24_max_cams_x))];
     if (indexTableEntry == -1 || indexTableEntry >= 0x100000)
@@ -868,9 +863,9 @@ void Map::SaveBlyData_446900(u8* pSaveBuffer)
     memcpy(pSaveBuffer, sSwitchStates_505568.mData, sizeof(sSwitchStates_505568.mData));
 
     u8* pAfterSwitchStates = pSaveBuffer + sizeof(sSwitchStates_505568.mData);
-    for (s16 i = 1; i < Path_Get_Num_Paths(field_0_current_level); i++)
+    for (s16 i = 1; i < Path_Get_Num_Paths(mCurrentLevel); i++)
     {
-        const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
+        const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(mCurrentLevel, i);
         if (pPathRec->field_0_blyName)
         {
             auto ppPathRes = GetPathResourceBlockPtr(i);
@@ -924,12 +919,12 @@ void Map::RestoreBlyData_446A90(const u8* pSaveData)
     memcpy(sSwitchStates_505568.mData, pSaveData, sizeof(sSwitchStates_505568.mData));
     const u8* pAfterSwitchStates = pSaveData + sizeof(sSwitchStates_505568.mData);
 
-    for (s16 i = 1; i < Path_Get_Num_Paths(field_0_current_level); i++)
+    for (s16 i = 1; i < Path_Get_Num_Paths(mCurrentLevel); i++)
     {
         auto ppPathRes = GetPathResourceBlockPtr(i);
         if (ppPathRes)
         {
-            const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(field_0_current_level, i);
+            const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(mCurrentLevel, i);
             if (pPathRec->field_0_blyName)
             {
                 const PathData* pPathData = pPathRec->field_4_pPathData;
@@ -971,7 +966,7 @@ void Map::RestoreBlyData_446A90(const u8* pSaveData)
 
 void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx)
 {
-    u8* pPathData = *GetPathResourceBlockPtr(field_2_current_path);
+    u8* pPathData = *GetPathResourceBlockPtr(mCurrentPath);
     u32* pIndexTableStart = reinterpret_cast<u32*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
 
     const s32 totalCams = field_26_max_cams_y * field_24_max_cams_x;
@@ -1060,8 +1055,8 @@ s16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObj
 
     if (pObj && pPathChangeTLV)
     {
-        field_A_level = pPathChangeTLV->field_18_level;
-        field_C_path = pPathChangeTLV->field_1A_path;
+        mLevel = pPathChangeTLV->field_18_level;
+        mPath = pPathChangeTLV->field_1A_path;
         field_E_camera = pPathChangeTLV->field_1C_camera;
         if (swapEffect < 0)
         {
@@ -1104,8 +1099,8 @@ s16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObj
                 break;
         }
 
-        field_C_path = field_2_current_path;
-        field_A_level = field_0_current_level;
+        mPath = mCurrentPath;
+        mLevel = mCurrentLevel;
     }
 
     field_14_direction = direction;
@@ -1124,7 +1119,7 @@ s16 Map::SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObj
 
 s16 Map::Is_Point_In_Current_Camera_4449C0(s32 level, s32 path, FP xpos, FP ypos, s16 width)
 {
-    if (static_cast<LevelIds>(level) != field_0_current_level || path != field_2_current_path) // TODO: Remove when 100%
+    if (static_cast<LevelIds>(level) != mCurrentLevel || path != mCurrentPath) // TODO: Remove when 100%
     {
         return FALSE;
     }
@@ -1214,12 +1209,12 @@ CameraPos Map::Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, s
 
 CameraPos Map::GetDirection_444A40(s32 level, s32 path, FP xpos, FP ypos)
 {
-    if (level != static_cast<s32>(field_0_current_level))
+    if (level != static_cast<s32>(mCurrentLevel))
     {
         return CameraPos::eCamInvalid_m1;
     }
 
-    if (path != field_2_current_path)
+    if (path != mCurrentPath)
     {
         return CameraPos::eCamInvalid_m1;
     }
@@ -1324,7 +1319,7 @@ EXPORT Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 heigh
     }
 
     // Get the offset to where the TLV list starts for this camera cell
-    const s32* indexTable = reinterpret_cast<const s32*>(*GetPathResourceBlockPtr(field_2_current_path) + field_D4_pPathData->field_18_object_index_table_offset);
+    const s32* indexTable = reinterpret_cast<const s32*>(*GetPathResourceBlockPtr(mCurrentPath) + field_D4_pPathData->field_18_object_index_table_offset);
 
     s32 indexTableEntry = indexTable[(grid_cell_x + (grid_cell_y * field_24_max_cams_x))];
     if (indexTableEntry == -1 || indexTableEntry >= 0x100000)
@@ -1332,7 +1327,7 @@ EXPORT Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 heigh
         return nullptr;
     }
 
-    Path_TLV* pTlvIter = reinterpret_cast<Path_TLV*>(*GetPathResourceBlockPtr(field_2_current_path) + indexTableEntry + field_D4_pPathData->field_14_object_offset);
+    Path_TLV* pTlvIter = reinterpret_cast<Path_TLV*>(*GetPathResourceBlockPtr(mCurrentPath) + indexTableEntry + field_D4_pPathData->field_14_object_offset);
     pTlvIter->RangeCheck();
 
     while (right > pTlvIter->field_14_bottom_right.field_0_x
@@ -1389,7 +1384,7 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
             return nullptr;
         }
 
-        u8* ppPathRes = *GetPathResourceBlockPtr(field_2_current_path);
+        u8* ppPathRes = *GetPathResourceBlockPtr(mCurrentPath);
         const s32* pIndexTable = reinterpret_cast<const s32*>(ppPathRes + pPathData->field_18_object_index_table_offset);
         const s32 indexTableEntry = pIndexTable[camX + (field_24_max_cams_x * camY)];
 
@@ -1432,7 +1427,7 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
 
 void Map::sub_447430(u16 pathNum)
 {
-    const auto pPathData = Path_Get_Bly_Record_434650(field_0_current_level, pathNum)->field_4_pPathData;
+    const auto pPathData = Path_Get_Bly_Record_434650(mCurrentLevel, pathNum)->field_4_pPathData;
     const auto pPathRes = *GetPathResourceBlockPtr(pathNum);
 
     const auto counterInit = (pPathData->field_A_bBottom - pPathData->field_6_bRight)
@@ -1543,8 +1538,8 @@ Camera* Map::Create_Camera_445BE0(s16 xpos, s16 ypos, s32 /*a4*/)
     for (s32 i = 0; i < ALIVE_COUNTOF(field_48_stru_5); i++)
     {
         if (field_48_stru_5[i]
-            && field_48_stru_5[i]->field_1A_level == field_0_current_level
-            && field_48_stru_5[i]->field_18_path == field_2_current_path
+            && field_48_stru_5[i]->field_1A_level == mCurrentLevel
+            && field_48_stru_5[i]->field_18_path == mCurrentPath
             && field_48_stru_5[i]->field_14_cam_x == xpos
             && field_48_stru_5[i]->field_16_cam_y == ypos)
         {
@@ -1559,7 +1554,7 @@ Camera* Map::Create_Camera_445BE0(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     // Get a pointer to the camera name from the Path resource
-    const u8* pPathData = *GetPathResourceBlockPtr(field_2_current_path);
+    const u8* pPathData = *GetPathResourceBlockPtr(mCurrentPath);
     auto pCamName = reinterpret_cast<const CameraName*>(&pPathData[(sizeof(CameraName) * (xpos + field_24_max_cams_x * ypos))]);
 
     // Empty/blank camera in the map array
@@ -1581,8 +1576,8 @@ Camera* Map::Create_Camera_445BE0(s16 xpos, s16 ypos, s32 /*a4*/)
 
     newCamera->field_30_flags &= ~1u;
 
-    newCamera->field_1A_level = field_0_current_level;
-    newCamera->field_18_path = field_2_current_path;
+    newCamera->field_1A_level = mCurrentLevel;
+    newCamera->field_18_path = mCurrentPath;
 
     // Calculate hash/resource ID of the camera
     newCamera->field_10_resId = 1 * (pCamName->name[7] - '0') + 10 * (pCamName->name[6] - '0') + 100 * (pCamName->name[4] - '0') + 1000 * (pCamName->name[3] - '0');
@@ -1627,7 +1622,7 @@ static Map_PathsArrayExtended sPathsArrayExtended = {};
 
 void Map::FreePathResourceBlocks()
 {
-    for (s32 i = 0; i < Path_Get_Num_Paths(field_0_current_level); ++i)
+    for (s32 i = 0; i < Path_Get_Num_Paths(mCurrentLevel); ++i)
     {
         if (sPathsArrayExtended.field_0_pPathRecs[i])
         {
@@ -1648,7 +1643,7 @@ void Map::FreePathResourceBlocks()
 void Map::GetPathResourceBlockPtrs()
 {
     // Get pointer to each PATH
-    for (s32 i = 1; i < Path_Get_Num_Paths(field_A_level); ++i)
+    for (s32 i = 1; i < Path_Get_Num_Paths(mLevel); ++i)
     {
         sPathsArrayExtended.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Path, i, TRUE, FALSE);
 
@@ -1687,28 +1682,28 @@ void Map::GoTo_Camera_445050()
 
     //dword_507CA4 = 0; // never read
 
-    if (field_0_current_level != LevelIds::eMenu_0 && field_0_current_level != LevelIds::eCredits_10 && field_0_current_level == LevelIds::eNone)
+    if (mCurrentLevel != LevelIds::eMenu_0 && mCurrentLevel != LevelIds::eCredits_10 && mCurrentLevel == LevelIds::eNone)
     {
         bShowLoadingIcon = TRUE;
     }
 
     if (field_10_screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
-        CameraSwapper* pFmvRet = FMV_Camera_Change_4458D0(nullptr, this, field_0_current_level);
+        CameraSwapper* pFmvRet = FMV_Camera_Change_4458D0(nullptr, this, mCurrentLevel);
         do
         {
             SYS_EventsPump_44FF90();
-            for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
-                BaseGameObject* pBaseGameObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+                BaseGameObject* pBaseGameObj = gBaseGameObjects->ItemAt(i);
                 if (!pBaseGameObj)
                 {
                     break;
                 }
 
-                if (pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
+                if (pBaseGameObj->mFlags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!pBaseGameObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (!sNumCamSwappers_507668 || pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    if (!pBaseGameObj->mFlags.Get(BaseGameObject::eDead) && (!sNumCamSwappers_507668 || pBaseGameObj->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
                         if (pBaseGameObj->field_8_update_delay > 0)
                         {
@@ -1722,23 +1717,23 @@ void Map::GoTo_Camera_445050()
                 }
             }
         }
-        while (!pFmvRet->field_6_flags.Get(BaseGameObject::eDead_Bit3));
+        while (!pFmvRet->mFlags.Get(BaseGameObject::eDead));
     }
 
-    if (field_0_current_level != LevelIds::eMenu_0)
+    if (mCurrentLevel != LevelIds::eMenu_0)
     {
-        if (field_A_level != field_0_current_level || (field_C_path != field_2_current_path && field_10_screenChangeEffect == CameraSwapEffects::ePlay1FMV_5))
+        if (mLevel != mCurrentLevel || (mPath != mCurrentPath && field_10_screenChangeEffect == CameraSwapEffects::ePlay1FMV_5))
         {
             Game_ShowLoadingIcon_445EB0();
         }
     }
 
-    if (field_A_level != field_0_current_level || field_C_path != field_2_current_path)
+    if (mLevel != mCurrentLevel || mPath != mCurrentPath)
     {
-        field_28_cd_or_overlay_num = GetOverlayId();
+        mOverlayId = GetOverlayId();
     }
 
-    if (field_A_level != field_0_current_level)
+    if (mLevel != mCurrentLevel)
     {
         ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
 
@@ -1753,7 +1748,7 @@ void Map::GoTo_Camera_445050()
             }
         }
 
-        if (field_0_current_level != LevelIds::eNone)
+        if (mCurrentLevel != LevelIds::eNone)
         {
             // Close LVL archives
             sLvlArchive_4FFD60.Free_41BEB0();
@@ -1768,21 +1763,21 @@ void Map::GoTo_Camera_445050()
         ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
 
         // Open Path BND
-        auto tmp = sOverlayTable_4C5AA8.records[Path_Get_OverlayIdx(field_A_level)].field_4_pos;
-        sLvlArchive_4FFD60.OpenArchive(CdLvlName(field_A_level), tmp);
+        auto tmp = sOverlayTable_4C5AA8.records[Path_Get_OverlayIdx(mLevel)].field_4_pos;
+        sLvlArchive_4FFD60.OpenArchive(CdLvlName(mLevel), tmp);
 
-        ResourceManager::LoadResourceFile_455270(Path_Get_BndName(field_A_level), nullptr);
+        ResourceManager::LoadResourceFile_455270(Path_Get_BndName(mLevel), nullptr);
 
         GetPathResourceBlockPtrs();
 
-        SND_Load_VABS_477040(Path_Get_MusicInfo(field_A_level), Path_Get_Reverb(field_A_level));
+        SND_Load_VABS_477040(Path_Get_MusicInfo(mLevel), Path_Get_Reverb(mLevel));
 
         // Struct is using AE format so pass address of seq table in the exe to avoid a crash
         //SND_Load_Seqs_477AB0(reinterpret_cast<OpenSeqHandleAE*>(0x4C9E70), rPathRoot.field_C_bsq_file_name);
 
-        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, Path_Get_BsqFileName(field_A_level));
+        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, Path_Get_BsqFileName(mLevel));
         auto pBackgroundMusic = ao_new<BackgroundMusic>();
-        pBackgroundMusic->ctor_476370(Path_Get_BackGroundMusicId(field_A_level));
+        pBackgroundMusic->ctor_476370(Path_Get_BackGroundMusicId(mLevel));
 
         // TODO: Re-add function
         for (s32 i = 0; i < 236; i++)
@@ -1798,35 +1793,35 @@ void Map::GoTo_Camera_445050()
         }
     }
 
-    if (!field_C_path)
+    if (!mPath)
     {
-        field_C_path = 1;
+        mPath = 1;
     }
 
 
-    const auto old_current_path = field_2_current_path;
-    const auto old_current_level = field_0_current_level;
+    const auto old_current_path = mCurrentPath;
+    const auto old_current_level = mCurrentLevel;
 
-    field_DA_bMapChanged = field_C_path != old_current_path || field_A_level != field_0_current_level;
+    field_DA_bMapChanged = mPath != old_current_path || mLevel != mCurrentLevel;
 
     field_4_current_camera = field_E_camera;
-    field_2_current_path = field_C_path;
-    field_0_current_level = field_A_level;
+    mCurrentPath = mPath;
+    mCurrentLevel = mLevel;
 
-    const PathBlyRec* pPathRecord = Path_Get_Bly_Record_434650(field_A_level, field_C_path);
+    const PathBlyRec* pPathRecord = Path_Get_Bly_Record_434650(mLevel, mPath);
     field_D4_pPathData = pPathRecord->field_4_pPathData;
     field_24_max_cams_x = (field_D4_pPathData->field_8_bTop - field_D4_pPathData->field_4_bLeft) / field_D4_pPathData->field_C_grid_width;
     field_26_max_cams_y = (field_D4_pPathData->field_A_bBottom - field_D4_pPathData->field_6_bRight) / field_D4_pPathData->field_E_grid_height;
 
     char_type camNameBuffer[20] = {};
-    Path_Format_CameraName_4346B0(camNameBuffer, field_A_level, field_C_path, field_E_camera);
+    Path_Format_CameraName_4346B0(camNameBuffer, mLevel, mPath, field_E_camera);
 
     const auto totalCams = field_26_max_cams_y * field_24_max_cams_x;
 
     s32 camIdx = 0;
     if (totalCams > 0)
     {
-        auto ppPathRes = GetPathResourceBlockPtr(field_C_path);
+        auto ppPathRes = GetPathResourceBlockPtr(mPath);
         auto pName = reinterpret_cast<CameraName*>(&(*ppPathRes)[0]);
         for (camIdx = 0; camIdx < totalCams; camIdx++)
         {
@@ -1847,20 +1842,20 @@ void Map::GoTo_Camera_445050()
     field_2C_camera_offset.field_0_x = FP_FromInteger(camX_idx * field_D4_pPathData->field_C_grid_width + 440);
     field_2C_camera_offset.field_4_y = FP_FromInteger(camY_idx * field_D4_pPathData->field_E_grid_height + 240);
 
-    if (old_current_path != field_2_current_path || old_current_level != field_0_current_level)
+    if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
         if (sCollisions_DArray_504C6C)
         {
             // OG FIX: Remove any pointers to the line objects that we are about to delete
-            for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
-                BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
+                BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
                 if (!pObjIter)
                 {
                     break;
                 }
 
-                if (pObjIter->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+                if (pObjIter->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
                 {
                     auto pBaseAliveGameObj = static_cast<BaseAliveGameObject*>(pObjIter);
                     pBaseAliveGameObj->field_F4_pLine = nullptr;
@@ -1879,7 +1874,7 @@ void Map::GoTo_Camera_445050()
         }
 
         sCollisions_DArray_504C6C = ao_new<Collisions>();
-        sCollisions_DArray_504C6C->ctor_40CF30(pPathRecord->field_8_pCollisionData, *GetPathResourceBlockPtr(field_2_current_path));
+        sCollisions_DArray_504C6C->ctor_40CF30(pPathRecord->field_8_pCollisionData, *GetPathResourceBlockPtr(mCurrentPath));
     }
 
     if (field_E0_save_data)
@@ -1938,14 +1933,14 @@ void Map::GoTo_Camera_445050()
 
     Loader_446590(field_20_camX_idx, field_22_camY_idx, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
 
-    if (old_current_path != field_2_current_path || old_current_level != field_0_current_level)
+    if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
-        if (sActiveHero_507678 && field_2_current_path == sActiveHero_507678->field_B0_path_number)
+        if (sActiveHero_507678 && mCurrentPath == sActiveHero_507678->field_B0_path_number)
         {
             sActiveHero_507678->VCheckCollisionLineStillValid(10);
         }
 
-        if (gElum_507680 && sControlledCharacter_50767C != gElum_507680 && field_2_current_path == gElum_507680->field_B0_path_number)
+        if (gElum_507680 && sControlledCharacter_50767C != gElum_507680 && mCurrentPath == gElum_507680->field_B0_path_number)
         {
             gElum_507680->VCheckCollisionLineStillValid(10);
         }
@@ -1955,7 +1950,7 @@ void Map::GoTo_Camera_445050()
 
     if (field_10_screenChangeEffect == CameraSwapEffects::ePlay1FMV_5)
     {
-        FMV_Camera_Change_4458D0(field_34_camera_array[0]->field_C_ppBits, this, field_A_level);
+        FMV_Camera_Change_4458D0(field_34_camera_array[0]->field_C_ppBits, this, mLevel);
     }
 
     if (field_10_screenChangeEffect == CameraSwapEffects::eUnknown_11)
@@ -1999,7 +1994,7 @@ void Map::GoTo_Camera_445050()
 void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
 {
     // Get a pointer to the array of index table offsets
-    u8* pPathRes = *GetPathResourceBlockPtr(field_2_current_path);
+    u8* pPathRes = *GetPathResourceBlockPtr(mCurrentPath);
     const s32* indexTable = reinterpret_cast<const s32*>(pPathRes + field_D4_pPathData->field_18_object_index_table_offset);
 
     // Calculate the index of the offset we want for the given camera at x/y
@@ -2024,8 +2019,8 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
                 {
                     TlvItemInfoUnion data;
                     data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
-                    data.parts.levelId = static_cast<u8>(field_0_current_level);
-                    data.parts.pathId = static_cast<u8>(field_2_current_path);
+                    data.parts.levelId = static_cast<u8>(mCurrentLevel);
+                    data.parts.pathId = static_cast<u8>(mCurrentPath);
 
                     // Call the factory to construct the item
                     field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<s16>(pPathTLV->field_4_type.mType)](pPathTLV, this, data, loadMode);
@@ -2056,7 +2051,7 @@ EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
-    if (data.parts.levelId == static_cast<s32>(field_0_current_level))
+    if (data.parts.levelId == static_cast<s32>(mCurrentLevel))
     {
         const auto pBlyRec = Path_Get_Bly_Record_434650(static_cast<LevelIds>(data.parts.levelId), data.parts.pathId);
 

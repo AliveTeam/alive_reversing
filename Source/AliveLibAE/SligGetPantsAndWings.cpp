@@ -17,8 +17,8 @@ SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, s32 tlvI
     field_F8_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     // HACK: See header for details
     auto pHack = static_cast<Path_Slig*>(pTlv);
@@ -59,7 +59,7 @@ void SligGetPantsAndWings::vUpdate_465DD0()
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_F8_tlvInfo);
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_F4_state)
@@ -106,7 +106,7 @@ SligGetPantsAndWings* SligGetPantsAndWings::vdtor_465D10(s32 flags)
 
 void SligGetPantsAndWings::vScreenChanged_465EE0()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void SligGetPantsAndWings::dtor_465D40()

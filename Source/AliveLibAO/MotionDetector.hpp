@@ -36,7 +36,7 @@ public:
         // Empty
     }
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
 
     s32 field_D4[4];
@@ -56,7 +56,7 @@ public:
 
     EXPORT void VScreenChanged_438520();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT MotionDetector* Vdtor_438530(s32 flags);
 

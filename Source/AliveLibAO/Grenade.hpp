@@ -23,7 +23,7 @@ public:
 
     EXPORT Grenade* ctor_41EBD0(FP xpos, FP ypos, s16 numGrenades);
     EXPORT BaseGameObject* dtor_41ECD0();
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
 private:
     EXPORT Grenade* Vdtor_41F9F0(s32 flags);

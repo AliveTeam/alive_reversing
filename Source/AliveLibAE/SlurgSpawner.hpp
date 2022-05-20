@@ -26,7 +26,7 @@ class SlurgSpawner final : public BaseGameObject
 public:
     EXPORT SlurgSpawner* ctor_4C82E0(Path_SlurgSpawner* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

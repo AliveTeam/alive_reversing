@@ -120,7 +120,7 @@ class CrawlingSlig final : public BaseAliveGameObject
 public:
     EXPORT CrawlingSlig* ctor_418C70(Path_CrawlingSlig* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VUpdate() override;
 

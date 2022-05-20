@@ -62,14 +62,14 @@ SlogSpawner* SlogSpawner::vdtor_4C8080(s32 flags)
 void SlogSpawner::vScreenChanged_4C82A0()
 {
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, field_24_tlv_saved_slog_count, 0, 0);
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void SlogSpawner::vUpdate_4C80D0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (static_cast<s32>(sGnFrame_5C1B84) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
@@ -87,7 +87,7 @@ void SlogSpawner::vUpdate_4C80D0()
             if (field_24_tlv_saved_slog_count >= field_36_max_slogs)
             {
                 Path::TLV_Reset_4DB8E0(field_20_tlvInfo, field_24_tlv_saved_slog_count, 0, 1);
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
         }
     }

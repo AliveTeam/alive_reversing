@@ -45,16 +45,11 @@ enum class GibType : s32
 class Gibs final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Gibs* ctor_40FB40(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 bMakeSmaller);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool bMakeSmaller);
+    ~Gibs();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-
-private:
-    EXPORT void dtor_410170();
-    EXPORT Gibs* vdtor_410100(s32 flags);
-    EXPORT void vUpdate_410210();
-    EXPORT void vRender_4103A0(PrimHeader** ppOt);
 
 private:
     void* field_F4_not_used; // Used to be gib data, only used in ctor and replaced with AnimRecords
@@ -63,6 +58,6 @@ private:
     s32 field_100_timer;
     GibPart field_104_parts[7];
     s16 field_5D4_parts_used_count;
-    s16 field_5D6_bMakeSmaller;
+    bool field_5D6_bMakeSmaller;
 };
 ALIVE_ASSERT_SIZEOF(Gibs, 0x5D8);

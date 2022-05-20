@@ -27,7 +27,7 @@ public:
         field_10_pal_xy = palXY;
         field_14_pal_colours_count = palDepth;
 
-        field_6_flags.Set(Options::eDrawable_Bit4);
+        mFlags.Set(Options::eDrawable_Bit4);
 
         for (auto& palBufferEntry : field_A8_palBuffer)
         {
@@ -174,7 +174,7 @@ BaseGameObject* Electrocute::dtor_48D480()
     {
         if (pPalOverwriter)
         {
-            pPalOverwriter->field_6_flags.Set(Options::eDead_Bit3);
+            pPalOverwriter->mFlags.Set(Options::eDead);
         }
     }
 
@@ -209,8 +209,8 @@ Electrocute* Electrocute::Vdtor_48D8E0(s32 flags)
 void Electrocute::VScreenChanged_48D8B0()
 {
     // If the map has changed or target we are tracking has died then..
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0()
-        || (field_10_obj_target && field_10_obj_target->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+    if (gMap.mOverlayId != gMap.GetOverlayId()
+        || (field_10_obj_target && field_10_obj_target->mFlags.Get(BaseGameObject::eDead)))
     {
         Stop_48D510();
     }
@@ -222,7 +222,7 @@ void Electrocute::Stop_48D510()
     {
         if (pPalOverwriter)
         {
-            pPalOverwriter->field_6_flags.Set(Options::eDead_Bit3);
+            pPalOverwriter->mFlags.Set(Options::eDead);
             pPalOverwriter = nullptr;
         }
     }
@@ -245,7 +245,7 @@ void Electrocute::Stop_48D510()
         field_10_obj_target->field_C_refCount--;
         field_10_obj_target = nullptr;
 
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 }
 
@@ -256,7 +256,7 @@ void Electrocute::VUpdate()
 
 void Electrocute::VUpdate_48D5C0()
 {
-    if (field_10_obj_target && field_10_obj_target->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (field_10_obj_target && field_10_obj_target->mFlags.Get(BaseGameObject::eDead))
     {
         Stop_48D510();
         return;
@@ -344,7 +344,7 @@ void Electrocute::VUpdate_48D5C0()
         break;
 
         case States::eKillElectrocute_3:
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             break;
 
         default:

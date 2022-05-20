@@ -8,27 +8,22 @@
 #include "Abe.hpp"
 #include "Game.hpp"
 
-EXPORT BaseGameObject* MusicTrigger::ctor_47FE40(Path_MusicTrigger* pTlv, u32 tlvInfo)
+MusicTrigger::MusicTrigger(Path_MusicTrigger* pTlv, u32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    SetVTable(this, 0x5463DC);
-
     Init_47FFB0(pTlv->field_10_music_type, pTlv->field_12_triggered_by, pTlv->field_14_music_delay);
     field_2C_tl = pTlv->field_8_top_left;
     field_30_br = pTlv->field_C_bottom_right;
     field_20_tlvInfo = tlvInfo;
-    return this;
 }
 
-EXPORT MusicTrigger* MusicTrigger::ctor_47FF10(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s32 /*not_used*/, s16 musicDelay)
+MusicTrigger::MusicTrigger(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s32 /*not_used*/, s32 musicDelay)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    SetVTable(this, 0x5463DC);
-    Init_47FFB0(musicType, triggeredBy, musicDelay);
+    Init_47FFB0(musicType, triggeredBy, static_cast<s16>(musicDelay));
     field_2C_tl = {};
     field_30_br = {};
     field_20_tlvInfo = -1;
-    return this;
 }
 
 EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 musicDelay)
@@ -84,31 +79,19 @@ EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, Triggered
     }
 }
 
-EXPORT BaseGameObject* MusicTrigger::vdtor_47FEE0(s32 flags)
+MusicTrigger::~MusicTrigger()
 {
-    dtor_4800C0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-EXPORT void MusicTrigger::dtor_4800C0()
-{
-    SetVTable(this, 0x5463DC);
     if (field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor))
     {
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
-    BaseGameObject_dtor_4DBEC0();
 }
 
 EXPORT void MusicTrigger::vScreenChange_4802A0()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
+    if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -116,7 +99,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
 {
     if (Event_Get_422C00(kEventHeroDying))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_24_flags.Get(Flags_24::e24_Bit1_TriggeredByTouching))
@@ -143,7 +126,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
     else
@@ -152,11 +135,6 @@ EXPORT void MusicTrigger::vUpdate_480140()
         field_24_flags.Set(Flags_24::e24_Bit2_TriggeredByTimer);
         field_28_counter += sGnFrame_5C1B84;
     }
-}
-
-BaseGameObject* MusicTrigger::VDestructor(s32 flags)
-{
-    return vdtor_47FEE0(flags);
 }
 
 void MusicTrigger::VUpdate()

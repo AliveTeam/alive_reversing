@@ -54,8 +54,8 @@ Lever* Lever::ctor_4D5860(Path_Lever* pTlv, u32 tlvInfo)
 
     SetType(AETypes::eLever_139);
     const AnimRecord& rec = AnimRec(AnimId::Lever_Idle);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_F4_switch_id = pTlv->field_1A_switch_id;
@@ -84,7 +84,7 @@ Lever* Lever::ctor_4D5860(Path_Lever* pTlv, u32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    SetTint_425600(&kLeverTints_563228[0], gMap_5C3030.field_0_current_level);
+    SetTint_425600(&kLeverTints_563228[0], gMap.mCurrentLevel);
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -136,9 +136,9 @@ Lever* Lever::vdtor_4D5AD0(s32 flags)
 
 void Lever::vScreenChanged_4D5B90()
 {
-    if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) || gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
+    if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) || gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -146,7 +146,7 @@ void Lever::vUpdate_4D5C00()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_F8_state == LeverState::ePulled_1)
@@ -158,17 +158,17 @@ void Lever::vUpdate_4D5C00()
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1
-                || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8
-                || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14
-                || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5
-                || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_Ender_12
-                || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6
-                || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_Ender_13
-                || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9
-                || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
+            if (gMap.mCurrentLevel == LevelIds::eMines_1
+                || gMap.mCurrentLevel == LevelIds::eBonewerkz_8
+                || gMap.mCurrentLevel == LevelIds::eBonewerkz_Ender_14
+                || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5
+                || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_Ender_12
+                || gMap.mCurrentLevel == LevelIds::eBarracks_6
+                || gMap.mCurrentLevel == LevelIds::eBarracks_Ender_13
+                || gMap.mCurrentLevel == LevelIds::eBrewery_9
+                || gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
             {
-                SFX_Play_46FBA0(SoundEffect::IndustrialTrigger_80, 30, 400);
+                SFX_Play(SoundEffect::IndustrialTrigger_80, 30, 400);
             }
 
             field_F8_state = LeverState::eFinished_2;

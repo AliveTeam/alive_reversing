@@ -84,10 +84,9 @@ EXPORT s32 CC Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
         ypos -= FP_FromInteger(5);
     }
 
-    auto pPartical = ae_new<Particle>();
+    auto pPartical = ae_new<Particle>(xpos, ypos, dustRec.mFrameTableOffset, dustRec.mMaxW, dustRec.mMaxH, ppAnimData);
     if (pPartical)
     {
-        pPartical->ctor_4CC4C0(xpos, ypos, dustRec.mFrameTableOffset, dustRec.mMaxW, dustRec.mMaxH, ppAnimData);
         pPartical->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
         if (pObj->field_D6_scale == 1)
@@ -157,14 +156,13 @@ EXPORT s32 CC Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        pObj->mFlags.Set(BaseGameObject::eDead);
     }
 
-    auto pParticle = ae_new<Particle>();
+    const AnimRecord& vaporizeRec = AnimRec(AnimId::Vaporize_Particle);
+    auto pParticle = ae_new<Particle>(xpos, ypos, vaporizeRec.mFrameTableOffset, vaporizeRec.mMaxW, vaporizeRec.mMaxH, ppAnimRes);
     if (pParticle)
     {
-        const AnimRecord& vaporizeRec = AnimRec(AnimId::Vaporize_Particle);
-        pParticle->ctor_4CC4C0(xpos, ypos, vaporizeRec.mFrameTableOffset, vaporizeRec.mMaxW, vaporizeRec.mMaxH, ppAnimRes);
         pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
         pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
         pParticle->field_D0_r = 64;
@@ -178,7 +176,7 @@ EXPORT s32 CC Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
 s32 CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
 {
     auto pSlog = static_cast<Slog*>(pObjPtr);
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(pSlog->field_118_target_id));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(pSlog->field_118_target_id));
     if (!pTarget)
     {
         return 1;
@@ -217,17 +215,13 @@ s32 CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
 
     const FP bloodY = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[1])) + pSlog->field_BC_ypos;
 
-    auto pBlood = ae_new<Blood>();
-    if (pBlood)
-    {
-        pBlood->ctor_40F0B0(
-            bloodX,
-            bloodY - FP_FromInteger(8),
-            pSlog->field_C4_velx * FP_FromInteger(2),
-            FP_FromInteger(0),
-            pSlog->field_CC_sprite_scale,
-            50);
-    }
+    ae_new<Blood>(
+        bloodX,
+        bloodY - FP_FromInteger(8),
+        pSlog->field_C4_velx * FP_FromInteger(2),
+        FP_FromInteger(0),
+        pSlog->field_CC_sprite_scale,
+        50);
 
     pSlog->field_11C_biting_target = 1;
     SFX_Play_46FA90(SoundEffect::SlogBite_34, 0);

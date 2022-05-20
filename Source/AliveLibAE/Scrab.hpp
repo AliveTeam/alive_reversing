@@ -178,7 +178,7 @@ class Scrab final : public BaseAliveGameObject
 {
 public:
     EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
 
     virtual void VRender(PrimHeader** ppOt) override

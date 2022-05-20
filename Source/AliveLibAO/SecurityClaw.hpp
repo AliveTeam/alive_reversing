@@ -20,9 +20,7 @@ ALIVE_ASSERT_SIZEOF(Path_SecurityClaw, 0x20);
 class Claw final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    void ctor();
-
-    BaseGameObject* VDestructor(s32 flags) override;
+    Claw();
 
     void VScreenChanged() override;
 
@@ -47,7 +45,7 @@ public:
 
     EXPORT BaseGameObject* dtor_418CE0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     EXPORT SecurityClaw* Vdtor_419700(s32 flags);
 

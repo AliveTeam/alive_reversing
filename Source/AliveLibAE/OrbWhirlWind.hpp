@@ -14,19 +14,14 @@ public:
         eActive = 2
     };
 
-    EXPORT OrbWhirlWind* ctor_4E3C90(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit);
+    OrbWhirlWind(FP xpos, FP ypos, FP scale, bool bIsMudokonSpirit);
+    ~OrbWhirlWind();
+
     EXPORT void ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
     EXPORT void ToStop_4E4050();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-
-private:
-    EXPORT void vRender_4E3F80(PrimHeader** ppOt);
-    EXPORT void vUpdate_4E3E20();
-    EXPORT void dtor_4E3D80();
-    EXPORT OrbWhirlWind* vdtor_4E3D50(s32 flags);
 
 private:
     s32 field_20_particle_spawn_counter;

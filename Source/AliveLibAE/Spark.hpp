@@ -29,18 +29,12 @@ enum class SparkType : s16
 class Spark final : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    EXPORT Spark* ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 minAngle, s16 maxAngle, SparkType type);
-
-private:
-    EXPORT void vUpdate_4CBEF0();
-    EXPORT void vRender_4CC050(PrimHeader** ppOt);
-    EXPORT void vScreenChange_4CC4A0();
-    EXPORT Spark* vdtor_4CBE30(s32 flags);
-    EXPORT void dtor_4CBE60();
+    Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type);
+    ~Spark();
 
 private:
     Prim_SetTPage field_20_tPage[2];

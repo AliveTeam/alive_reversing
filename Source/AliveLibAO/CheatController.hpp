@@ -10,7 +10,7 @@ class CheatController final : public BaseGameObject
 public:
     EXPORT CheatController* ctor_40FBF0();
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
 
     virtual void VScreenChanged() override;
 

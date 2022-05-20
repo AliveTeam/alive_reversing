@@ -529,8 +529,8 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo)
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 1, 0));
 
     const AnimRecord& rec = AnimRec(AnimId::Slig_Idle);
-    u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     SetType(AETypes::eSlig_125);
 
@@ -596,7 +596,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    SetBaseAnimPaletteTint_425690(&sSligTint_560570[0], gMap_5C3030.field_0_current_level, 412);
+    SetBaseAnimPaletteTint_425690(&sSligTint_560570[0], gMap.mCurrentLevel, 412);
 
     FP hitX = {};
     FP hitY = {};
@@ -621,7 +621,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo)
 
     vStackOnObjectsOfType_425840(AETypes::eSlig_125);
 
-    if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 && gMap_5C3030.field_2_current_path == 2 && gMap_5C3030.field_4_current_camera == 5)
+    if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8 && gMap.mCurrentPath == 2 && gMap.field_4_current_camera == 5)
     {
         field_DA_xOffset = 0;
     }
@@ -656,7 +656,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
 {
     if (actor->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        if (gMap_5C3030.field_2_current_path == actor->field_C0_path_number && gMap_5C3030.field_0_current_level == actor->field_C2_lvl_number && actor->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+        if (gMap.mCurrentPath == actor->field_C0_path_number && gMap.mCurrentLevel == actor->field_C2_lvl_number && actor->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
         {
             actor->field_20_animation.field_14_scale = actor->field_CC_sprite_scale;
 
@@ -918,7 +918,7 @@ s32 CC Slig::CreateFromSaveState_4B3B50(const u8* pBuffer)
     pSlig->field_20_animation.field_92_current_frame = pState->field_28_current_frame;
     pSlig->field_20_animation.field_E_frame_change_counter = pState->field_2A_frame_change_counter;
 
-    pSlig->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2D_bDrawable & 1);
+    pSlig->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2D_bDrawable & 1);
 
     pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_24_bFlipX & 1);
     pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2C_bRender & 1);
@@ -1067,7 +1067,7 @@ void Slig::M_StandToWalk_1_4B5F70()
 
 void Slig::M_Walking_2_4B5BC0()
 {
-    if (gMap_5C3030.GetDirection_4811A0(
+    if (gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -1198,7 +1198,7 @@ void Slig::M_Running_4_4B6000()
         field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
     }
 
-    if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0 && MusicController::GetMusicType_47FDA0(0, 0, 0) != MusicController::MusicTypes::ePossessed_9)
+    if (gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0 && MusicController::GetMusicType_47FDA0(0, 0, 0) != MusicController::MusicTypes::ePossessed_9)
     {
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
@@ -1284,7 +1284,7 @@ void Slig::M_Running_4_4B6000()
 
 void Slig::M_TurnAroundStanding_5_4B6390()
 {
-    if (gMap_5C3030.GetDirection_4811A0(
+    if (gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -1872,7 +1872,7 @@ void Slig::M_Sleeping_32_4B89A0()
         if (!(static_cast<s32>(sGnFrame_5C1B84 - 20) % 60))
         {
             Slig_SoundEffect_4BFFE0(SligSfx::eSnooze1_5, this);
-            if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+            if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
                 auto pSnoozeParticle = ae_new<SnoozeParticle>();
                 if (pSnoozeParticle)
@@ -1899,7 +1899,7 @@ void Slig::M_Sleeping_32_4B89A0()
     {
         Slig_SoundEffect_4BFFE0(SligSfx::eSnooze2_4, this);
 
-        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        if (gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -1932,9 +1932,9 @@ void Slig::M_Sleeping_32_4B89A0()
 void Slig::M_SleepingToStand_33_4B8C50()
 {
     // OWI hack - kill all particles, even if they're not ours!
-    for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        auto pObj = gBaseGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -2231,7 +2231,7 @@ void Slig::M_OutToFall_38_4B4570()
     const FP fallDepth = field_BC_ypos - field_F8_LastLineYPos;
     if (fallDepth > FP_FromInteger(16 * 640))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_106_current_motion == eSligMotions::M_LandingSoft_40_4B4530 && fallDepth > FP_FromInteger(180) && !sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos), FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos), TlvTypes::SoftLanding_75))
@@ -2396,7 +2396,7 @@ void Slig::M_PullLever_45_4B8950()
 
 void Slig::M_LiftGrip_46_4B3700()
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_449CF0(field_110_id));
     if (pLiftPoint)
     {
         pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
@@ -2461,7 +2461,7 @@ void Slig::M_LiftUngrip_47_4B3820()
 
 void Slig::M_LiftGripping_48_4B3850()
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_449CF0(field_110_id));
     if (pLiftPoint)
     {
         CheckPlatformVanished_4B3640();
@@ -2535,7 +2535,7 @@ void Slig::M_Beat_51_4B6C00()
 {
     if (field_20_animation.field_92_current_frame == 5)
     {
-        SFX_Play_46FBA0(SoundEffect::AirStream_23, 90, -300);
+        SFX_Play(SoundEffect::AirStream_23, 90, -300);
     }
 
     if (field_20_animation.field_92_current_frame == 8)
@@ -2615,7 +2615,7 @@ s16 Slig::Brain_Death_0_4BBFB0()
     }
     else if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (sControlledCharacter_5C1B8C == this)
@@ -2624,26 +2624,26 @@ s16 Slig::Brain_Death_0_4BBFB0()
         {
             sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
             MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-            gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
 
     if (sControlledCharacter_5C1B8C != this)
     {
-        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        if (!gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
                 field_BC_ypos,
                 0))
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 
     if (field_CC_sprite_scale < FP_FromInteger(0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     return 116;
@@ -2655,10 +2655,10 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_1_4BC410()
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-        gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
     return 117;
 }
 
@@ -2714,7 +2714,7 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
             {
                 if (sControlledCharacter_5C1B8C != this)
                 {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    mFlags.Set(BaseGameObject::eDead);
                 }
             }
 
@@ -2731,7 +2731,7 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
             {
                 if (sControlledCharacter_5C1B8C != this)
                 {
-                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                    mFlags.Set(BaseGameObject::eDead);
                 }
             }
             if (field_10C_health <= FP_FromInteger(0))
@@ -2812,9 +2812,9 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
                 {
                     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
                     sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-                    gMap_5C3030.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam_480D30(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             return field_11C_brain_sub_state;
 
@@ -2862,12 +2862,12 @@ enum Brain_ListeningToGlukkon_GlukkonCommands
 
 s16 Slig::Brain_ListeningToGlukkon_4_4B9D20()
 {
-    auto pGlukkonObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_208_glukkon_obj_id));
-    auto pPlatformObj = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pGlukkonObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_208_glukkon_obj_id));
+    auto pPlatformObj = static_cast<LiftPoint*>(sObjectIds.Find_449CF0(field_110_id));
 
     field_216_flags.Clear(Flags_216::eBit4_HeardGlukkon);
 
-    if (!pGlukkonObj || !pGlukkonObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
+    if (!pGlukkonObj || !pGlukkonObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         PauseALittle_4BDD00();
         field_108_next_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
@@ -3179,7 +3179,7 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
     if (field_160_last_event_index != pEventSystem_5BC11C->field_28_last_event_index)
     {
         field_160_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Glukkon_StayHere_38 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Glukkon_StayHere_38 && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
         {
             field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
             NextCommand_4B9A00(Brain_ListeningToGlukkon_GlukkonCommands::Stay_2, Brain_ListeningToGlukkon_States::IdleListening_1);
@@ -3233,7 +3233,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
     const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
     const s32 bWallHit = WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), directedGridSize);
-    if (field_20E_attention_timeout <= 450 && (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 1) || field_216_flags.Get(Flags_216::eBit1_FollowGlukkon)))
+    if (field_20E_attention_timeout <= 450 && (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 1) || field_216_flags.Get(Flags_216::eBit1_FollowGlukkon)))
     {
         if (field_216_flags.Get(Flags_216::eBit1_FollowGlukkon))
         {
@@ -3478,7 +3478,7 @@ s16 Slig::Brain_Empty_6_4B3420()
 
 s16 Slig::Brain_SpottedEnemy_7_4B3240()
 {
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || field_218_tlv_data.field_2A_chase_abe_when_spotted == Choice_short::eNo_0)
+    if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || field_218_tlv_data.field_2A_chase_abe_when_spotted == Choice_short::eNo_0)
     {
         if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && vIsObj_GettingNear_425420(sControlledCharacter_5C1B8C) && vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(3), sControlledCharacter_5C1B8C) && !Event_Get_422C00(kEventResetting) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         {
@@ -3531,9 +3531,9 @@ s16 Slig::Brain_Empty_9_4B3440()
 
 s16 Slig::Brain_EnemyDead_10_4B3460()
 {
-    if (Event_Get_422C00(kEventDeathReset) && !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (Event_Get_422C00(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return 113;
     }
 
@@ -3585,9 +3585,9 @@ s16 Slig::Brain_KilledEnemy_10_4B35C0()
 
 s16 Slig::Brain_PanicTurning_12_4BC490()
 {
-    if (Event_Get_422C00(kEventDeathReset) && !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (Event_Get_422C00(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return 107;
     }
 
@@ -3688,7 +3688,7 @@ s16 Slig::Brain_PanicRunning_13_4BC780()
     {
         ToPanicRunning_4BCA30();
     }
-    else if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67 && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
+    else if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67 && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
     {
         ToShoot_4BF9A0();
     }
@@ -3774,7 +3774,7 @@ s16 Slig::Brain_Idle_15_4BD800()
         !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && (!field_15E_spotted_possessed_slig || sControlledCharacter_5C1B8C->Type() != AETypes::eSlig_125) &&
         !IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C) &&
         !Event_Get_422C00(kEventResetting) &&
-        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67)
+        gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67)
     {
         RespondToEnemyOrPatrol_4B3140();
         return 104;
@@ -3787,7 +3787,7 @@ s16 Slig::Brain_Idle_15_4BD800()
     }
 
     auto pShooter = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventShooting));
-    if (pShooter && pShooter->field_CC_sprite_scale == field_CC_sprite_scale && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pShooter->field_C2_lvl_number, pShooter->field_C0_path_number, pShooter->field_B8_xpos, pShooter->field_BC_ypos, 0) && pShooter == sControlledCharacter_5C1B8C && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
+    if (pShooter && pShooter->field_CC_sprite_scale == field_CC_sprite_scale && gMap.Is_Point_In_Current_Camera_4810D0(pShooter->field_C2_lvl_number, pShooter->field_C0_path_number, pShooter->field_B8_xpos, pShooter->field_BC_ypos, 0) && pShooter == sControlledCharacter_5C1B8C && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
     {
         if (vIsFacingMe_4254A0(pShooter))
         {
@@ -3807,7 +3807,7 @@ s16 Slig::Brain_Idle_15_4BD800()
         pNoiseOrSpeaking = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventSpeaking));
     }
 
-    if (pNoiseOrSpeaking && pNoiseOrSpeaking->field_CC_sprite_scale == field_CC_sprite_scale && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pNoiseOrSpeaking->field_C2_lvl_number, pNoiseOrSpeaking->field_C0_path_number, pNoiseOrSpeaking->field_B8_xpos, pNoiseOrSpeaking->field_BC_ypos, 0) && pNoiseOrSpeaking != this && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
+    if (pNoiseOrSpeaking && pNoiseOrSpeaking->field_CC_sprite_scale == field_CC_sprite_scale && gMap.Is_Point_In_Current_Camera_4810D0(pNoiseOrSpeaking->field_C2_lvl_number, pNoiseOrSpeaking->field_C0_path_number, pNoiseOrSpeaking->field_B8_xpos, pNoiseOrSpeaking->field_BC_ypos, 0) && pNoiseOrSpeaking != this && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
     {
         if (pNoiseOrSpeaking != sControlledCharacter_5C1B8C)
         {
@@ -3829,7 +3829,7 @@ s16 Slig::Brain_Idle_15_4BD800()
     }
     else
     {
-        if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !InZCover_4BB7C0(sControlledCharacter_5C1B8C) && !InZCover_4BB7C0(this) && !Event_Get_422C00(kEventResetting))
+        if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !InZCover_4BB7C0(sControlledCharacter_5C1B8C) && !InZCover_4BB7C0(this) && !Event_Get_422C00(kEventResetting))
         {
             ToZShoot_4BF9E0();
             return 104;
@@ -3869,7 +3869,7 @@ s16 Slig::Brain_StopChasing_16_4BCE30()
 
 s16 Slig::Brain_Chasing_17_4BCBD0()
 {
-    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && !RenderLayerIs_4BBBC0(sControlledCharacter_5C1B8C) && !Event_Get_422C00(kEventResetting) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67)
+    if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && !RenderLayerIs_4BBBC0(sControlledCharacter_5C1B8C) && !Event_Get_422C00(kEventResetting) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67)
     {
         field_15C_force_alive_state = 0;
         RespondToEnemyOrPatrol_4B3140();
@@ -3884,11 +3884,11 @@ s16 Slig::Brain_Chasing_17_4BCBD0()
         return 118;
     }
 
-    if (field_C0_path_number != gMap_5C3030.field_2_current_path || field_C2_lvl_number != gMap_5C3030.field_0_current_level || (Event_Get_422C00(kEventDeathReset) && !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)))
+    if (field_C0_path_number != gMap.mCurrentPath || field_C2_lvl_number != gMap.mCurrentLevel || (Event_Get_422C00(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
-    else if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    else if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
         SetBrain(&Slig::Brain_StopChasing_16_4BCE30);
         field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_34_stop_chase_delay;
@@ -3901,7 +3901,7 @@ s16 Slig::Brain_StartChasing_18_4BCEB0()
 {
     if (field_120_timer > static_cast<s32>(sGnFrame_5C1B84))
     {
-        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        if (gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -3915,9 +3915,9 @@ s16 Slig::Brain_StartChasing_18_4BCEB0()
     }
     else
     {
-        if (field_C0_path_number != gMap_5C3030.field_2_current_path || field_C2_lvl_number != gMap_5C3030.field_0_current_level)
+        if (field_C0_path_number != gMap.mCurrentPath || field_C2_lvl_number != gMap.mCurrentLevel)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
 
         if (!vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
@@ -3935,9 +3935,9 @@ s16 Slig::Brain_StartChasing_18_4BCEB0()
 
 s16 Slig::Brain_Turning_19_4BDDD0()
 {
-    if (Event_Get_422C00(kEventDeathReset) && !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (Event_Get_422C00(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         return 106;
     }
 
@@ -4076,8 +4076,8 @@ s16 Slig::Brain_Walking_21_4BE0C0()
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
         !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
         !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
-        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
-        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && (!field_15E_spotted_possessed_slig || sControlledCharacter_5C1B8C->Type() != AETypes::eSlig_125) &&
+        gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
+        gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && (!field_15E_spotted_possessed_slig || sControlledCharacter_5C1B8C->Type() != AETypes::eSlig_125) &&
         !IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C) && !Event_Get_422C00(kEventResetting) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67)
     {
         RespondToEnemyOrPatrol_4B3140();
@@ -4085,7 +4085,7 @@ s16 Slig::Brain_Walking_21_4BE0C0()
     else
     {
         auto pShooter = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventShooting));
-        if (pShooter && pShooter->field_CC_sprite_scale == field_CC_sprite_scale && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pShooter->field_C2_lvl_number, pShooter->field_C0_path_number, pShooter->field_B8_xpos, pShooter->field_BC_ypos, 0) && pShooter == sControlledCharacter_5C1B8C && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
+        if (pShooter && pShooter->field_CC_sprite_scale == field_CC_sprite_scale && gMap.Is_Point_In_Current_Camera_4810D0(pShooter->field_C2_lvl_number, pShooter->field_C0_path_number, pShooter->field_B8_xpos, pShooter->field_BC_ypos, 0) && pShooter == sControlledCharacter_5C1B8C && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
         {
             if (vIsFacingMe_4254A0(pShooter))
             {
@@ -4096,7 +4096,7 @@ s16 Slig::Brain_Walking_21_4BE0C0()
                 ToTurn_4BE090();
             }
         }
-        else if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && Event_Get_422C00(kEventAbeOhm) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
+        else if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && Event_Get_422C00(kEventAbeOhm) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
         {
             ToShoot_4BF9A0();
         }
@@ -4116,7 +4116,7 @@ s16 Slig::Brain_Walking_21_4BE0C0()
                 pNoiseOrSpeaker = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventSpeaking));
             }
 
-            if (pNoiseOrSpeaker && pNoiseOrSpeaker->field_CC_sprite_scale == field_CC_sprite_scale && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pNoiseOrSpeaker->field_C2_lvl_number, pNoiseOrSpeaker->field_C0_path_number, pNoiseOrSpeaker->field_B8_xpos, pNoiseOrSpeaker->field_BC_ypos, 0) && pNoiseOrSpeaker != this && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
+            if (pNoiseOrSpeaker && pNoiseOrSpeaker->field_CC_sprite_scale == field_CC_sprite_scale && gMap.Is_Point_In_Current_Camera_4810D0(pNoiseOrSpeaker->field_C2_lvl_number, pNoiseOrSpeaker->field_C0_path_number, pNoiseOrSpeaker->field_B8_xpos, pNoiseOrSpeaker->field_BC_ypos, 0) && pNoiseOrSpeaker != this && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
             {
                 if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
                 {
@@ -4127,7 +4127,7 @@ s16 Slig::Brain_Walking_21_4BE0C0()
                     TurnOrSayWhat_4BEBC0();
                 }
             }
-            else if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !InZCover_4BB7C0(sControlledCharacter_5C1B8C) && !InZCover_4BB7C0(this) && !Event_Get_422C00(kEventResetting))
+            else if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !InZCover_4BB7C0(sControlledCharacter_5C1B8C) && !InZCover_4BB7C0(this) && !Event_Get_422C00(kEventResetting))
             {
                 ToZShoot_4BF9E0();
             }
@@ -4228,7 +4228,7 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
         !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
         !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
-        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && (sControlledCharacter_5C1B8C->Type() != AETypes::eSlig_125 && !field_15E_spotted_possessed_slig) &&
+        gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && (sControlledCharacter_5C1B8C->Type() != AETypes::eSlig_125 && !field_15E_spotted_possessed_slig) &&
         !IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C) && !Event_Get_422C00(kEventResetting) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67)
     {
         RespondToEnemyOrPatrol_4B3140();
@@ -4242,7 +4242,7 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
     {
         // If some fool is trying to shoot us then shoot back
         auto pShootingSlig = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventShooting));
-        if (pShootingSlig && pShootingSlig->field_CC_sprite_scale == field_CC_sprite_scale && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pShootingSlig->field_C2_lvl_number, pShootingSlig->field_C0_path_number, pShootingSlig->field_B8_xpos, pShootingSlig->field_BC_ypos, 0) && pShootingSlig == sControlledCharacter_5C1B8C && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
+        if (pShootingSlig && pShootingSlig->field_CC_sprite_scale == field_CC_sprite_scale && gMap.Is_Point_In_Current_Camera_4810D0(pShootingSlig->field_C2_lvl_number, pShootingSlig->field_C0_path_number, pShootingSlig->field_B8_xpos, pShootingSlig->field_BC_ypos, 0) && pShootingSlig == sControlledCharacter_5C1B8C && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
         {
             if (vIsFacingMe_4254A0(pShootingSlig))
             {
@@ -4263,7 +4263,7 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
             }
 
             // Then kill them
-            if (pNoisyMud && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pNoisyMud->field_C2_lvl_number, pNoisyMud->field_C0_path_number, pNoisyMud->field_B8_xpos, pNoisyMud->field_BC_ypos, 0) && (pNoisyMud == sControlledCharacter_5C1B8C || pNoisyMud->Type() == AETypes::eMudokon_110) && vOnSameYLevel_425520(pNoisyMud) && vIsFacingMe_4254A0(pNoisyMud) && (pNoisyMud != sControlledCharacter_5C1B8C || (!sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))))
+            if (pNoisyMud && gMap.Is_Point_In_Current_Camera_4810D0(pNoisyMud->field_C2_lvl_number, pNoisyMud->field_C0_path_number, pNoisyMud->field_B8_xpos, pNoisyMud->field_BC_ypos, 0) && (pNoisyMud == sControlledCharacter_5C1B8C || pNoisyMud->Type() == AETypes::eMudokon_110) && vOnSameYLevel_425520(pNoisyMud) && vIsFacingMe_4254A0(pNoisyMud) && (pNoisyMud != sControlledCharacter_5C1B8C || (!sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))))
             {
                 ToShoot_4BF9A0();
             }
@@ -4277,7 +4277,7 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
                 }
 
                 // Then say what, stop walking to respond or try to kill them.
-                if (pNoisySlig && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pNoisySlig->field_C2_lvl_number, pNoisySlig->field_C0_path_number, pNoisySlig->field_B8_xpos, pNoisySlig->field_BC_ypos, 0) && (pNoisySlig == sControlledCharacter_5C1B8C || pNoisySlig->Type() != AETypes::eSlig_125) && !vIsFacingMe_4254A0(pNoisySlig) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
+                if (pNoisySlig && gMap.Is_Point_In_Current_Camera_4810D0(pNoisySlig->field_C2_lvl_number, pNoisySlig->field_C0_path_number, pNoisySlig->field_B8_xpos, pNoisySlig->field_BC_ypos, 0) && (pNoisySlig == sControlledCharacter_5C1B8C || pNoisySlig->Type() != AETypes::eSlig_125) && !vIsFacingMe_4254A0(pNoisySlig) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
                 {
                     TurnOrSayWhat_4BEBC0();
                 }
@@ -4417,7 +4417,7 @@ s16 Slig::Brain_Shooting_29_4BF750()
             ToKilledAbe_4B3600();
             return 111;
         }
-        if (!vOnSameYLevel_425520(sControlledCharacter_5C1B8C) || !vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) || IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) || IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || Event_Get_422C00(kEventResetting))
+        if (!vOnSameYLevel_425520(sControlledCharacter_5C1B8C) || !vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) || IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) || IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) || !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || Event_Get_422C00(kEventResetting))
         {
             PauseALittle_4BDD00();
             return 111;
@@ -4429,7 +4429,7 @@ s16 Slig::Brain_Shooting_29_4BF750()
             return 111;
         }
 
-        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && field_218_tlv_data.field_2A_chase_abe_when_spotted == Choice_short::eYes_1)
+        if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && field_218_tlv_data.field_2A_chase_abe_when_spotted == Choice_short::eYes_1)
         {
             ToChase_4BCFF0();
             return 111;
@@ -4496,13 +4496,13 @@ s16 Slig::Brain_Paused_33_4B8DD0()
         return 101;
     }
 
-    if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && (!field_15E_spotted_possessed_slig || sControlledCharacter_5C1B8C->Type() != AETypes::eSlig_125) && !Event_Get_422C00(kEventResetting) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67)
+    if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && (!field_15E_spotted_possessed_slig || sControlledCharacter_5C1B8C->Type() != AETypes::eSlig_125) && !Event_Get_422C00(kEventResetting) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67)
     {
         RespondToEnemyOrPatrol_4B3140();
         return 101;
     }
 
-    if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67)
+    if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting) && sControlledCharacter_5C1B8C->Type() != AETypes::eGlukkon_67)
     {
         ToShoot_4BF9A0();
     }
@@ -4522,7 +4522,7 @@ s16 Slig::Brain_Paused_33_4B8DD0()
         {
             ToTurn_4BE090();
         }
-        else if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !InZCover_4BB7C0(sControlledCharacter_5C1B8C) && !InZCover_4BB7C0(this) && !Event_Get_422C00(kEventResetting))
+        else if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale && vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !InZCover_4BB7C0(sControlledCharacter_5C1B8C) && !InZCover_4BB7C0(this) && !Event_Get_422C00(kEventResetting))
         {
             ToZShoot_4BF9E0();
         }
@@ -4546,7 +4546,7 @@ s16 Slig::Brain_Sleeping_34_4B9170()
         }
 
         const FP wakeUpDistance = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(field_218_tlv_data.field_4A_noise_wake_up_distance);
-        if (vIsObjNearby_4253B0(wakeUpDistance, pEvent) && field_120_timer <= static_cast<s32>(sGnFrame_5C1B84) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
+        if (vIsObjNearby_4253B0(wakeUpDistance, pEvent) && field_120_timer <= static_cast<s32>(sGnFrame_5C1B84) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
         {
             WakeUp_4B93B0();
             return 102;
@@ -4555,7 +4555,7 @@ s16 Slig::Brain_Sleeping_34_4B9170()
 
     if (Event_Get_422C00(kEventSpeaking) || Event_Get_422C00(kEventLoudNoise))
     {
-        if (pEvent != this && field_120_timer <= static_cast<s32>(sGnFrame_5C1B84) && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
+        if (pEvent != this && field_120_timer <= static_cast<s32>(sGnFrame_5C1B84) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !Event_Get_422C00(kEventResetting))
         {
             WakeUp_4B93B0();
             return 102;
@@ -4570,9 +4570,9 @@ s16 Slig::Brain_Sleeping_34_4B9170()
 
     ShouldStillBeAlive_4BBC00();
 
-    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
-        const CameraPos direction = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
+        const CameraPos direction = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
         Start_Slig_sounds_4CB980(direction, 0);
     }
     return 102;
@@ -4583,7 +4583,7 @@ s16 Slig::Brain_ChaseAndDisappear_35_4BF640()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_11C_brain_sub_state == Brain_35_ChaseAndDisappear::eBrain35_Summoned_0)
@@ -4610,7 +4610,7 @@ s16 Slig::Brain_ChaseAndDisappear_35_4BF640()
     else
     {
         if (field_11C_brain_sub_state == Brain_35_ChaseAndDisappear::eBrain35_ReachedDestination_2 
-            && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            && gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -4619,7 +4619,7 @@ s16 Slig::Brain_ChaseAndDisappear_35_4BF640()
         {
             return field_11C_brain_sub_state;
         }
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
         field_10C_health = FP_FromInteger(0);
         return field_11C_brain_sub_state;
     }
@@ -4719,9 +4719,9 @@ void Slig::Init_4BB0D0()
             break;
 
         case Path_Slig::StartState::ListeningToGlukkon_6:
-            for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
-                BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+                BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
                 if (!pObj)
                 {
                     break;
@@ -4730,7 +4730,7 @@ void Slig::Init_4BB0D0()
                 if (pObj->Type() == AETypes::eGlukkon_67)
                 {
                     auto pGlukkon = static_cast<BaseAliveGameObject*>(pObj);
-                    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                    if (gMap.Is_Point_In_Current_Camera_4810D0(
                             pGlukkon->field_C2_lvl_number,
                             pGlukkon->field_C0_path_number,
                             pGlukkon->field_B8_xpos,
@@ -4827,9 +4827,9 @@ void Slig::dtor_4B1CF0()
 
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-        if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
+        if (gMap.mLevel != LevelIds::eMenu_0)
         {
-            gMap_5C3030.SetActiveCam_480D30(
+            gMap.SetActiveCam_480D30(
                 field_146_level,
                 field_148_path,
                 field_14A_camera,
@@ -4936,7 +4936,7 @@ void Slig::vUpdate_4B17C0()
                 }
             }
         }
-        field_208_glukkon_obj_id = BaseGameObject::Find_Flags_4DC170(field_208_glukkon_obj_id);
+        field_208_glukkon_obj_id = BaseGameObject::FindById(field_208_glukkon_obj_id);
         if (BrainIs(&Slig::Brain_ListeningToGlukkon_4_4B9D20))
         {
             sSligsUnderControlCount_BAF7E8++;
@@ -4977,7 +4977,7 @@ void Slig::vUpdate_4B17C0()
 
             // Keep in the map bounds
             PSX_Point mapBounds = {};
-            gMap_5C3030.Get_map_size_480640(&mapBounds);
+            gMap.Get_map_size_480640(&mapBounds);
 
             if (field_B8_xpos < FP_FromInteger(0))
             {
@@ -5057,9 +5057,9 @@ void Slig::vUpdate_4B17C0()
 
 void Slig::vScreenChanged_4B1E20()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710() || (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path && this != sControlledCharacter_5C1B8C))
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || (gMap.mCurrentPath != gMap.mPath && this != sControlledCharacter_5C1B8C))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -5074,9 +5074,9 @@ void Slig::vPossessed_4B2F10()
     SetBrain(&Slig::Brain_Possessed_2_4BBCF0);
     field_11C_brain_sub_state = Brain_2_Possessed::eBrain2_StartPossession_0;
 
-    field_146_level = gMap_5C3030.field_0_current_level;
-    field_148_path = gMap_5C3030.field_2_current_path;
-    field_14A_camera = gMap_5C3030.field_4_current_camera;
+    field_146_level = gMap.mCurrentLevel;
+    field_148_path = gMap.mCurrentPath;
+    field_14A_camera = gMap.field_4_current_camera;
 
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::ePossessed_9, this, 1, 0);
 }
@@ -5166,7 +5166,7 @@ void Slig::ShouldStillBeAlive_4BBC00()
         // Check not falling and not in the current screen
         if (field_106_current_motion != eSligMotions::M_Falling_7_4B42D0
             && field_106_current_motion != eSligMotions::M_OutToFall_38_4B4570
-            && !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            && !gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -5176,12 +5176,12 @@ void Slig::ShouldStillBeAlive_4BBC00()
             if (field_290_points_count <= 0)
             {
                 // No patrol points, die
-                field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                mFlags.Set(BaseGameObject::eDead);
             }
             else
             {
                 s32 i = 0;
-                while (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                while (!gMap.Is_Point_In_Current_Camera_4810D0(
                     field_C2_lvl_number,
                     field_C0_path_number,
                     FP_FromInteger(field_268_points[i].field_0_x),
@@ -5191,7 +5191,7 @@ void Slig::ShouldStillBeAlive_4BBC00()
                     if (i >= field_290_points_count)
                     {
                         // No within any out our patrol points, die
-                        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                        mFlags.Set(BaseGameObject::eDead);
                         break;
                     }
                     i++;
@@ -5592,7 +5592,7 @@ void Slig::ShootOrShootZ()
 
 s16 Slig::GrabNearbyLift()
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_449CF0(field_110_id));
     if (pLiftPoint && pLiftPoint->Type() == AETypes::eLiftPoint_78)
     {
         const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
@@ -5894,7 +5894,7 @@ Bool32 Slig::IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObjec
 
 GameSpeakEvents Slig::LastGlukkonSpeak_4B3090()
 {
-    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 1))
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 1))
     {
         return GameSpeakEvents::eNone_m1;
     }
@@ -6171,7 +6171,7 @@ s32 CCSTD Slig::IsFacingEffectiveLeft_4BB780(Slig* pSlig)
 
 void Slig::MoveOnLine_4B4C40()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
 
     const FP xpos = field_B8_xpos;
     if (field_100_pCollisionLine)
@@ -6236,10 +6236,10 @@ void Slig::PlayerControlStopWalkingIfRequired_4B8540()
 
 void Slig::CheckPlatformVanished_4B3640()
 {
-    BaseGameObject* pLiftPoint = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+    BaseGameObject* pLiftPoint = sObjectIds.Find_449CF0(field_110_id);
     if (pLiftPoint)
     {
-        if (pLiftPoint->field_6_flags.Get(BaseGameObject::eDead_Bit3))
+        if (pLiftPoint->mFlags.Get(BaseGameObject::eDead))
         {
             // Platform is somehow gone, fall.
             const auto savedMotion = field_106_current_motion;
@@ -6252,7 +6252,7 @@ void Slig::CheckPlatformVanished_4B3640()
 
 void Slig::vOnTrapDoorOpen_4B3690()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
@@ -6264,7 +6264,7 @@ void Slig::vOnTrapDoorOpen_4B3690()
 
 s16 Slig::MoveLift_4B3990(FP ySpeed)
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_449CF0(field_110_id));
     if (!pLiftPoint)
     {
         return eSligMotions::M_LiftGripping_48_4B3850;
@@ -6728,9 +6728,9 @@ s32 Slig::vGetSaveState_4BFB10(Slig_State* pState)
 
     if (field_114_flags.Get(Flags_114::e114_Bit11_Electrocuting))
     {
-        for (s32 i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
-            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;
@@ -6753,7 +6753,7 @@ s32 Slig::vGetSaveState_4BFB10(Slig_State* pState)
     pState->field_26_current_motion = field_106_current_motion;
     pState->field_28_current_frame = field_20_animation.field_92_current_frame;
     pState->field_2A_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_2D_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2D_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2C_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_30_health = field_10C_health;
     pState->field_34_current_motion = field_106_current_motion;
@@ -6807,7 +6807,7 @@ s32 Slig::vGetSaveState_4BFB10(Slig_State* pState)
 
     if (field_208_glukkon_obj_id != -1)
     {
-        BaseGameObject* pGlukkon = sObjectIds_5C1B70.Find_449CF0(field_208_glukkon_obj_id);
+        BaseGameObject* pGlukkon = sObjectIds.Find_449CF0(field_208_glukkon_obj_id);
         if (pGlukkon)
         {
             pState->field_94_glukkon_id = pGlukkon->field_C_objectId;
@@ -6925,7 +6925,7 @@ s16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
         if (pObj != this && pObj->Type() == AETypes::eSlig_125)
         {
             auto* pOtherSlig = static_cast<Slig*>(pObj);
-            if (pOtherSlig->field_CC_sprite_scale == sControlledCharacter_5C1B8C->field_CC_sprite_scale && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pOtherSlig->field_C2_lvl_number, pOtherSlig->field_C0_path_number, pOtherSlig->field_B8_xpos, pOtherSlig->field_BC_ypos, 0) && NearOrFacingActiveChar_4B9930(pOtherSlig) && (glukkonSpeak == GameSpeakEvents::Glukkon_Hey_36 || pOtherSlig->BrainIs(&Slig::Brain_ListeningToGlukkon_4_4B9D20)))
+            if (pOtherSlig->field_CC_sprite_scale == sControlledCharacter_5C1B8C->field_CC_sprite_scale && gMap.Is_Point_In_Current_Camera_4810D0(pOtherSlig->field_C2_lvl_number, pOtherSlig->field_C0_path_number, pOtherSlig->field_B8_xpos, pOtherSlig->field_BC_ypos, 0) && NearOrFacingActiveChar_4B9930(pOtherSlig) && (glukkonSpeak == GameSpeakEvents::Glukkon_Hey_36 || pOtherSlig->BrainIs(&Slig::Brain_ListeningToGlukkon_4_4B9D20)))
             {
                 if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5), pOtherSlig))
                 {
@@ -7017,7 +7017,7 @@ s16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
                         }
                     }
 
-                    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, rectY, 0))
+                    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, rectY, 0))
                     {
                         field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
                         field_10C_health = FP_FromInteger(1);
@@ -7184,7 +7184,7 @@ s16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
             {
                 return 1;
             }
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
             field_10C_health = FP_FromInteger(0);
             Event_Broadcast_422BC0(kEventMudokonComfort, this);
             return 1;

@@ -80,7 +80,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 
     pTlv->field_1_unknown = 3;
 
-    const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
+    const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
     const AnimRecord& platformRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_0_platform_anim_id);
     u8** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, platformRec.mResourceId, 1, 0);
     if (pTlv->field_20_scale == Scale_short::eHalf_1)
@@ -226,7 +226,7 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     }
     else
     {
-        field_6_flags.Set(Options::eListAddFailed_Bit1);
+        mFlags.Set(Options::eListAddFailed_Bit1);
     }
     return this;
 }
@@ -347,7 +347,7 @@ void LiftPoint::VUpdate_434D10()
             const FP lineY = FP_FromInteger(field_120_pCollisionLine->field_0_rect.y);
 
             Path_LiftPoint* pLiftTlv = nullptr;
-            Path_TLV* pTlvIter = gMap_507BA8.TLV_Get_At_446060(
+            Path_TLV* pTlvIter = gMap.TLV_Get_At_446060(
                 nullptr,
                 field_A8_xpos,
                 lineY,
@@ -361,7 +361,7 @@ void LiftPoint::VUpdate_434D10()
                     field_130_lift_point_stop_type = pLiftTlv->field_1E_lift_point_stop_type;
                     break;
                 }
-                pTlvIter = gMap_507BA8.TLV_Get_At_446060(
+                pTlvIter = gMap.TLV_Get_At_446060(
                     pTlvIter,
                     field_A8_xpos,
                     lineY,
@@ -559,11 +559,11 @@ void LiftPoint::VUpdate_434D10()
         }
     }
 
-    if (field_B2_lvl_number != gMap_507BA8.field_0_current_level || field_B0_path_number != gMap_507BA8.field_2_current_path || Event_Get_417250(kEventDeathReset_4))
+    if (field_B2_lvl_number != gMap.mCurrentLevel || field_B0_path_number != gMap.mCurrentPath || Event_Get_417250(kEventDeathReset_4))
     {
         if (field_114_count <= 0)
         {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -576,10 +576,10 @@ void LiftPoint::VRender(PrimHeader** ppOt)
 void LiftPoint::VRender_435780(PrimHeader** ppOt)
 {
     PSX_Point mapCoord = {};
-    gMap_507BA8.GetCurrentCamCoords_444890(&mapCoord);
-    if (field_B2_lvl_number == gMap_507BA8.field_0_current_level)
+    gMap.GetCurrentCamCoords_444890(&mapCoord);
+    if (field_B2_lvl_number == gMap.mCurrentLevel)
     {
-        if (field_B0_path_number == gMap_507BA8.field_2_current_path)
+        if (field_B0_path_number == gMap.mCurrentPath)
         {
             if (field_A8_xpos >= FP_FromInteger(mapCoord.field_0_x) && field_A8_xpos <= FP_FromInteger(mapCoord.field_0_x + 1024))
             {
@@ -631,7 +631,7 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
                 {
                     const FP pulley_xpos = FP_FromInteger(field_26C_pulley_xpos);
                     const FP pulley_ypos = FP_FromInteger(field_26E_pulley_ypos);
-                    if (gMap_507BA8.Is_Point_In_Current_Camera_4449C0(
+                    if (gMap.Is_Point_In_Current_Camera_4449C0(
                             field_B2_lvl_number,
                             field_B0_path_number,
                             pulley_xpos,
@@ -687,14 +687,14 @@ void LiftPoint::VScreenChanged_435CC0()
         CreatePulleyIfExists_435AE0(0, -1);
     }
 
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level)
+    if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 
-    if (gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
+    if (gMap.mCurrentPath != gMap.mPath)
     {
-        field_6_flags.Set(Options::eDead_Bit3);
+        mFlags.Set(Options::eDead);
     }
 }
 
@@ -702,7 +702,7 @@ BaseGameObject* LiftPoint::dtor_4355E0()
 {
     SetVTable(this, 0x4BB6C0);
 
-    if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
         return dtor_451490();
     }
@@ -710,21 +710,21 @@ BaseGameObject* LiftPoint::dtor_4355E0()
     if (field_134_pRope2)
     {
         field_134_pRope2->field_C_refCount--;
-        field_134_pRope2->field_6_flags.Set(Options::eDead_Bit3);
+        field_134_pRope2->mFlags.Set(Options::eDead);
     }
 
     if (field_138_pRope1)
     {
         field_138_pRope1->field_C_refCount--;
-        field_138_pRope1->field_6_flags.Set(Options::eDead_Bit3);
+        field_138_pRope1->mFlags.Set(Options::eDead);
     }
 
     field_134_pRope2 = nullptr;
     field_138_pRope1 = nullptr;
 
-    gMap_507BA8.TLV_Reset_446870(field_128_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_128_tlvInfo, -1, 0, 0);
 
-    auto pLiftPointTlv = gMap_507BA8.TLV_Get_At_446260(
+    auto pLiftPointTlv = gMap.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos),
         FP_GetExponent(FP_FromInteger(field_120_pCollisionLine->field_0_rect.y)),
         FP_GetExponent(field_A8_xpos),
@@ -755,7 +755,7 @@ BaseGameObject* LiftPoint::VDestructor(s32 flags)
 
 void LiftPoint::CreatePulleyIfExists_435AE0(s16 camX, s16 camY)
 {
-    auto pTlv = gMap_507BA8.Get_First_TLV_For_Offsetted_Camera_4463B0(camX, camY);
+    auto pTlv = gMap.Get_First_TLV_For_Offsetted_Camera_4463B0(camX, camY);
     if (pTlv)
     {
         while (1)
@@ -771,7 +771,7 @@ void LiftPoint::CreatePulleyIfExists_435AE0(s16 camX, s16 camY)
                 }
             }
 
-            pTlv = gMap_507BA8.TLV_Get_At_446060(pTlv, FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1));
+            pTlv = gMap.TLV_Get_At_446060(pTlv, FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1));
             if (!pTlv)
             {
                 return;
@@ -783,7 +783,7 @@ void LiftPoint::CreatePulleyIfExists_435AE0(s16 camX, s16 camY)
 
         field_26C_pulley_xpos = FP_GetExponent(((k13_scaled + kM10_scaled) / FP_FromInteger(2)) + FP_NoFractional(field_A8_xpos));
 
-        const s32 lvl_idx = static_cast<s32>(gMap_507BA8.field_0_current_level);
+        const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
         const AnimRecord& topWheelRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_10_lift_top_wheel_anim_id);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, topWheelRec.mResourceId, 1, 0);
 

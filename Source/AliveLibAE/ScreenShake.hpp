@@ -7,17 +7,11 @@
 class ScreenShake final : public BaseGameObject
 {
 public:
-    EXPORT ScreenShake* ctor_4ACF70(s16 enableShakeEvent, s16 softerShakes);
-
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    ScreenShake(bool enableShakeEvent, bool softerShakes);
+    ~ScreenShake();
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-
-private:
-    EXPORT void dtor_4AD060();
-    EXPORT void vUpdate_4AD0E0();
-    EXPORT BaseGameObject* vdtor_4AD030(s32 flags);
-    EXPORT void vRender_4AD120(PrimHeader** /*ppOt*/);
 
 private:
     Prim_ScreenOffset field_20_screenOffset[2];

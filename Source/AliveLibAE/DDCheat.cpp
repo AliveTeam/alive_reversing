@@ -129,15 +129,15 @@ void DDCheat::Menu_Teleport_415E20()
     }
     else if (field_38_input_pressed & InputCommands::Enum::eSneak)
     {
-        sTeleport_Level_550F5C = static_cast<s32>(gMap_5C3030.field_0_current_level);
-        sTeleport_Path_550F5E = gMap_5C3030.field_2_current_path;
-        sTeleport_Cam_550F60 = gMap_5C3030.field_4_current_camera;
+        sTeleport_Level_550F5C = static_cast<s32>(gMap.mCurrentLevel);
+        sTeleport_Path_550F5E = gMap.mCurrentPath;
+        sTeleport_Cam_550F60 = gMap.field_4_current_camera;
     }
     else if (field_38_input_pressed & InputCommands::Enum::eUnPause_OrConfirm)
     {
         sDDCheat_FlyingEnabled_5C2C08 = true;
 
-        gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(sTeleport_Level_550F5C), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam_480D30(static_cast<LevelIds>(sTeleport_Level_550F5C), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eInstantChange_0, 0, 0);
         field_3C_flags.Set(DDCheat::Flags_3C::eOnTeleport_Bit3);
     }
 }
@@ -153,21 +153,21 @@ void DDCheat::Menu_Movies_416000()
         sDDCheat_MovieSelectIdx_5BBFF0++;
     }
 
-    if (Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id <= 0)
+    if (Path_Get_FMV_Record_460F70(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id <= 0)
     {
         sDDCheat_MovieSelectIdx_5BBFF0 = 1;
     }
 
     if (field_38_input_pressed & InputCommands::Enum::eDown)
     {
-        Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id--;
+        Path_Get_FMV_Record_460F70(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id--;
     }
     if (field_38_input_pressed & InputCommands::Enum::eUp)
     {
-        FmvInfo* movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0);
+        FmvInfo* movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
         u32 pos = 0;
         Get_fmvs_sectors_494460(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
-        sLevelId_dword_5CA408 = static_cast<s32>(gMap_5C3030.field_0_current_level);
+        sLevelId_dword_5CA408 = static_cast<s32>(gMap.mCurrentLevel);
         auto movieToPlay = ae_new<Movie>();
         if (movieToPlay != nullptr)
         {
@@ -180,21 +180,16 @@ void DDCheat::Menu_Movies_416000()
         }
     }
 
-    const FmvInfo* fmvInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0);
+    const FmvInfo* fmvInfo = Path_Get_FMV_Record_460F70(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
     DDCheat::DebugStr_4F5560("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx_5BBFF0, fmvInfo->field_4_id, fmvInfo->field_0_pName);
     field_20 += 6;
 }
 
 DDCheat::DDCheat()
+    : BaseGameObject(TRUE, 0)
 {
-}
-
-DDCheat* DDCheat::ctor_4153C0()
-{
-    BaseGameObject_ctor_4DBFA0(1, 0);
-    SetVTable(this, 0x544518);
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit4);
     SetType(AETypes::eDDCheat_19);
     field_20 = 0;
@@ -221,25 +216,6 @@ DDCheat* DDCheat::ctor_4153C0()
 #if FORCE_DDCHEAT
     sCommandLine_DDCheatEnabled_5CA4B5 = true;
 #endif
-
-    return this;
-}
-
-
-void DDCheat::dtor_415530()
-{
-    BaseGameObject_dtor_4DBEC0();
-}
-
-
-BaseGameObject* DDCheat::vdtor_415500(s32 flags)
-{
-    dtor_415530();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void DDCheat::AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr)
@@ -290,7 +266,7 @@ void DDCheat::Update_415780()
             if (sActiveHero_5C1B68)
             {
                 PSX_Point pos;
-                gMap_5C3030.GetCurrentCamCoords_480680(&pos);
+                gMap.GetCurrentCamCoords_480680(&pos);
                 sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
                 sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
                 sActiveHero_5C1B68->field_106_current_motion = 3;
@@ -304,7 +280,7 @@ void DDCheat::Update_415780()
             }
         }
 
-        if ((gMap_5C3030.field_0_current_level != LevelIds::eMenu_0 && gMap_5C3030.field_0_current_level != LevelIds::eNone) && sActiveHero_5C1B68 && activePadPressed & InputCommands::Enum::eCheatMode)
+        if ((gMap.mCurrentLevel != LevelIds::eMenu_0 && gMap.mCurrentLevel != LevelIds::eNone) && sActiveHero_5C1B68 && activePadPressed & InputCommands::Enum::eCheatMode)
         {
             sDDCheat_FlyingEnabled_5C2C08 = !sDDCheat_FlyingEnabled_5C2C08;
             if (!sDDCheat_FlyingEnabled_5C2C08)
@@ -351,15 +327,15 @@ void DDCheat::Update_415780()
         {
             DebugStr_4F5560(
                 "\n%sP%dC%d gnframe=%5d",
-                Path_Get_Lvl_Name(gMap_5C3030.field_0_current_level),
-                gMap_5C3030.field_2_current_path,
-                gMap_5C3030.field_4_current_camera,
+                Path_Get_Lvl_Name(gMap.mCurrentLevel),
+                gMap.mCurrentPath,
+                gMap.field_4_current_camera,
                 sGnFrame_5C1B84);
 
 
 
 #if DEVELOPER_MODE
-            if (sActiveHero_5C1B68 && gMap_5C3030.field_0_current_level != LevelIds::eMenu_0)
+            if (sActiveHero_5C1B68 && gMap.mCurrentLevel != LevelIds::eMenu_0)
             {
                 // HACK When quitting sControlledCharacter_5C1B8C becomes a dangling pointer
                 // probably this should be removed as there is no sane way to check this pointer is still valid
@@ -368,7 +344,7 @@ void DDCheat::Update_415780()
                     sControlledCharacter_5C1B8C->Type(),
                     FP_GetDouble(sControlledCharacter_5C1B8C->field_B8_xpos),
                     FP_GetDouble(sControlledCharacter_5C1B8C->field_BC_ypos),
-                    sControlledCharacter_5C1B8C->field_6_flags);
+                    sControlledCharacter_5C1B8C->mFlags);
 
                 DebugStr_4F5560("\nLine=%X\nState=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_motion);
 

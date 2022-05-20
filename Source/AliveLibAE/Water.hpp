@@ -41,7 +41,7 @@ class Water final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Water* ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

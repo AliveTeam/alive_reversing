@@ -29,7 +29,7 @@ class MovingBomb final : public BaseAliveGameObject
 public:
     EXPORT MovingBomb* ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo);
 
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;

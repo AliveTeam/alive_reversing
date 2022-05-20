@@ -7,50 +7,26 @@
 #include "PsxDisplay.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* EffectBase::VDestructor(s32 flags)
+EffectBase::EffectBase(Layer layer, TPageAbr abr)
+    : BaseGameObject(TRUE, 0)
 {
-    return vdtor_4AB8C0(flags);
-}
-
-void EffectBase::VRender(PrimHeader** ppOt)
-{
-    vRender_4AB970(ppOt);
-}
-
-EffectBase* EffectBase::ctor_4AB7A0(Layer layer, TPageAbr abr)
-{
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    SetVTable(this, 0x54700C); // vTbl_EffectBase_54700C
     SetType(AETypes::eEffectBase_115);
     gObjList_drawables_5C1124->Push_Back(this);
-    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-    field_20_path_id = gMap_5C3030.field_2_current_path;
-    field_22_level_id = gMap_5C3030.field_0_current_level;
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    field_20_path_id = gMap.mCurrentPath;
+    field_22_level_id = gMap.mCurrentLevel;
     Init_SetTPage_4F5B60(&field_4C_tPage[0], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, abr, 0, 0));
     Init_SetTPage_4F5B60(&field_4C_tPage[1], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, abr, 0, 0));
     field_6C_layer = layer;
     field_74_bSemiTrans = 1;
-    return this;
 }
 
-void EffectBase::dtor_4AB8F0()
+EffectBase::~EffectBase()
 {
-    SetVTable(this, 0x54700C); // vTbl_EffectBase_54700C
     gObjList_drawables_5C1124->Remove_Item(this);
-    BaseGameObject_dtor_4DBEC0();
 }
 
-EffectBase* EffectBase::vdtor_4AB8C0(s32 flags)
-{
-    dtor_4AB8F0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void EffectBase::vRender_4AB970(PrimHeader** ppOt)
+void EffectBase::VRender(PrimHeader** ppOt)
 {
     Prim_Tile* pTile = &field_24_tile[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile);

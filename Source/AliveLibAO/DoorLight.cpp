@@ -130,7 +130,7 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo)
 BaseGameObject* DoorLight::dtor_4062F0()
 {
     SetVTable(this, 0x4BA1A8);
-    gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     return dtor_417D10();
 }
 
@@ -156,7 +156,7 @@ void DoorLight::VScreenChanged()
 
 void DoorLight::VScreenChanged_406360()
 {
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
     gNextDoorLightUpdate_4C30A8 = -1;
 }
 

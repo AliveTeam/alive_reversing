@@ -18,7 +18,7 @@ public:
 
     EXPORT void VUpdate_48B650();
 
-    BaseGameObject* VDestructor(s32 flags) override;
+    
 
     s32 field_D4_padding[4];
     s16 field_E4_bHitSomething;

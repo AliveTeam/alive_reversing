@@ -18,7 +18,7 @@ class SligGetPantsAndWings final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT SligGetPantsAndWings* ctor_465BF0(Path_TLV* pTlv, s32 tlvInfo);
-    virtual BaseGameObject* VDestructor(s32 flags) override;
+    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

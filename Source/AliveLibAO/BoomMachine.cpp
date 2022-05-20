@@ -15,12 +15,8 @@ namespace AO {
 class GrenadeMachineNozzle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual void VUpdate() override
-    {
-        VUpdate_41E220();
-    }
 
-    EXPORT void VUpdate_41E220()
+    virtual void VUpdate() override
     {
         switch (field_E4_state)
         {
@@ -48,10 +44,6 @@ public:
                     if (!gpThrowableArray_50E26C)
                     {
                         gpThrowableArray_50E26C = ao_new<ThrowableArray>();
-                        if (gpThrowableArray_50E26C)
-                        {
-                            gpThrowableArray_50E26C->ctor_453EE0();
-                        }
                     }
 
                     gpThrowableArray_50E26C->Add_453F70(field_EC_num_grenades);
@@ -90,16 +82,6 @@ public:
     virtual void VScreenChanged() override
     {
         // Empty
-    }
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        dtor_417D10();
-        if (flags & 1)
-        {
-            ao_delete_free_447540(this);
-        }
-        return this;
     }
 
     s32 field_D4_padding[4];
@@ -148,14 +130,9 @@ Bool32 BoomMachine::VIsButtonOn_41E840()
 
 void BoomMachine::VUpdate()
 {
-    VUpdate_41E750();
-}
-
-void BoomMachine::VUpdate_41E750()
-{
     if (Event_Get_417250(kEventDeathReset_4))
     {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_E8_bIsButtonOn == 0)
@@ -183,26 +160,19 @@ void BoomMachine::VUpdate_41E750()
     }
 }
 
-BaseGameObject* BoomMachine::dtor_41E670()
+BoomMachine::~BoomMachine()
 {
-    SetVTable(this, 0x4BB008);
-
     if (field_EC_pNozzle)
     {
         field_EC_pNozzle->field_C_refCount--;
-        field_EC_pNozzle->field_6_flags.Set(Options::eDead_Bit3);
+        field_EC_pNozzle->mFlags.Set(Options::eDead);
     }
 
-    gMap_507BA8.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
-    SetVTable(this, 0x4BB048);
-    return dtor_417D10();
+    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
 }
 
-BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
+BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
-
-    SetVTable(this, 0x4BB008);
     field_4_typeId = Types::eGrenadeMachine_41;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
@@ -234,10 +204,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
             directedScale = -directedScale;
         }
 
-        pNozzle->ctor_417C10();
-        SetVTable(pNozzle, 0x4BAFD0);
-
-        const AnimRecord& rec2 = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
+        const AnimRecord rec2 = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
         u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
         pNozzle->Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
 
@@ -266,32 +233,12 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
     }
 
     field_C8_yOffset = 0;
-    return this;
 }
 
-BaseGameObject* BoomMachine::VDestructor(s32 flags)
-{
-    return Vdtor_41E850(flags);
-}
-
-BoomMachine* BoomMachine::Vdtor_41E850(s32 flags)
-{
-    dtor_41E670();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
 
 void BoomMachine::VScreenChanged()
 {
-    VScreenChanged_41E7F0();
-}
-
-void BoomMachine::VScreenChanged_41E7F0()
-{
-    field_6_flags.Set(BaseGameObject::eDead_Bit3);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 } // namespace AO
