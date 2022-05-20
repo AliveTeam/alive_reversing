@@ -968,7 +968,7 @@ void BirdPortal::vExitPortal_499870()
     }
     else
     {
-        ALIVE_FATAL("Bird portal exit object not found!");
+        LOG_WARNING("Bird portal exit object not found!");
     }
 }
 
