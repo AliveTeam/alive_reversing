@@ -2208,16 +2208,19 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         field_6_flags.Set(Options::eDead_Bit3);
 
         demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
-        if (!gIsDemoStartedManually_5C1B9C)
+        if (gIsDemoStartedManually_5C1B9C)
         {
-            sCurrentDemoIdForIdlingDemoPlayback_5C1BA2++;
-
+            // play the manually picked demo
+            demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
+        }
+        else
+        {
             if (sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 > maxDemoId)
             {
                 // all the "idling" demos have been played, wrap around
-                sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 = 1;
+                sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 = 0;
             }
-            demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2;
+            demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2++; // take the pre-incremented value
         }
 
         char_type file[32] = {};
