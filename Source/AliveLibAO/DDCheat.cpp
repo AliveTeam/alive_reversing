@@ -36,7 +36,7 @@ ALIVE_VAR(1, 0x50771C, s16, sDDCheat_FlyingEnabled_50771C, 0);
 
 using TDDCheatFn = decltype(&DDCheat::Teleport_409CE0);
 
-const TDDCheatFn off_4C3150[] = {
+const TDDCheatFn CheatsFn_4C3150[] = {
     &DDCheat::Teleport_409CE0,
     &DDCheat::Misc_409E90};
 
@@ -48,11 +48,11 @@ DDCheat* DDCheat::ctor_4095D0()
 
     SetVTable(this, 0x4BA340);
     field_4_typeId = Types::eDDCheat_12;
-    field_10 = 0;
-    field_14 = 0;
-    field_18 = 0;
-    field_1C = 0;
-    field_20 = 0;
+    field_10_bInvalidateRect = 0;
+    field_14_SelectedCheat = 0;
+    field_18_backInputPressed = 0;
+    field_1C_unused = 0;
+    field_20_bTeleportCheatActive = 0;
 
     ClearProperties_4095B0();
 
@@ -114,7 +114,7 @@ void DDCheat::VUpdate()
     VUpdate_4098C0();
 }
 
-ALIVE_VAR(1, 0x4FF868, u16, word_4FF868, 0);
+ALIVE_VAR(1, 0x4FF868, u16, unused_4FF868, 0);
 
 ALIVE_VAR(1, 0x4C315C, u32, level_4C315C, 3);
 ALIVE_VAR(1, 0x4C3160, u16, path_4C3160, 1);
@@ -209,49 +209,49 @@ void DDCheat::VUpdate_4098C0()
     if (gDDCheatMode_508BF8)
     {
         const InputObject::PadIndex otherController = Input().CurrentController() == InputObject::PadIndex::First ? InputObject::PadIndex::Second : InputObject::PadIndex::First;
-        Abe* pObj = sActiveHero_507678;
+        Abe* pAbe = sActiveHero_507678;
         s32 cheat_enabled = 0;
 
-        if (word_4FF868)
+        if (unused_4FF868)
         {
             ScreenShot_409720();
         }
-        field_10 = 0;
+        field_10_bInvalidateRect = 0;
 
-        if (field_20 == 0)
+        if (field_20_bTeleportCheatActive == 0)
         {
             cheat_enabled = sDDCheat_FlyingEnabled_50771C;
         }
         else
         {
-            field_20 = 0;
-            if (pObj)
+            field_20_bTeleportCheatActive = 0;
+            if (pAbe)
             {
                 PSX_Point point = {};
                 gMap_507BA8.GetCurrentCamCoords_444890(&point);
-                pObj = sActiveHero_507678;
+                pAbe = sActiveHero_507678;
                 cheat_enabled = 1;
-                pObj->field_A8_xpos = FP_FromInteger(point.field_0_x + 448);
-                pObj->field_AC_ypos = FP_FromInteger(point.field_2_y + 180);
-                pObj->field_FC_current_motion = 3;
-                pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
-                pObj->field_B2_lvl_number = static_cast<LevelIds>(level_4C315C);
-                pObj->field_B0_path_number = static_cast<s16>(path_4C3160);
+                pAbe->field_A8_xpos = FP_FromInteger(point.field_0_x + 448);
+                pAbe->field_AC_ypos = FP_FromInteger(point.field_2_y + 180);
+                pAbe->field_FC_current_motion = eAbeMotions::Motion_3_Fall_42E7F0;
+                pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
+                pAbe->field_B2_lvl_number = static_cast<LevelIds>(level_4C315C);
+                pAbe->field_B0_path_number = static_cast<s16>(path_4C3160);
                 sDDCheat_FlyingEnabled_50771C = 1;
-                field_18 = 0;
+                field_18_backInputPressed = 0;
             }
         }
 
         if (gMap_507BA8.field_0_current_level != LevelIds::eMenu_0)
         {
-            if (pObj)
+            if (pAbe)
             {
                 if (Input().IsAnyHeld(InputCommands::eCheatMode))
                 {
                     sDDCheat_FlyingEnabled_50771C = cheat_enabled == 0;
                     if (sDDCheat_FlyingEnabled_50771C)
                     {
-                        pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
+                        pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                         showDebugCreatureInfo_5076E0 = 0;
                         sControlledCharacter_50767C->field_F4_pLine = nullptr;
                         sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
@@ -280,18 +280,20 @@ void DDCheat::VUpdate_4098C0()
             }
         }
 
-        const auto screenshotCombination = InputCommands::eDoAction | InputCommands::eSneak | InputCommands::eRun;
+        /*const auto screenshotCombination = InputCommands::eDoAction | InputCommands::eSneak | InputCommands::eRun;
         if (Input().IsAllPressed(otherController, screenshotCombination))
         {
-            ScreenShot_409720();
+            // will always be true in the dll version so we disable it because
+            // it would take a bunch of screenshots every frame
+            //ScreenShot_409720();
         }
-        else
+        else*/
         {
             if (cheat_enabled)
             {
-                if (pObj)
+                if (pAbe)
                 {
-                    pObj->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
+                    pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 }
 
                 if (sControlledCharacter_50767C)
@@ -300,6 +302,7 @@ void DDCheat::VUpdate_4098C0()
                     sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
                 }
             }
+
             if (!(gnFrameCount_507670 % 10))
             {
                 gVox_4FF864 = 0;
@@ -314,6 +317,7 @@ void DDCheat::VUpdate_4098C0()
                 }
                 cheat_enabled = sDDCheat_FlyingEnabled_50771C;
             }
+
             if (cheat_enabled || showDebugCreatureInfo_5076E0 || doNothing_4FF860)
             {
                 DebugStr_495990(
@@ -337,8 +341,9 @@ void DDCheat::VUpdate_4098C0()
                 }
 
                 cheat_enabled = sDDCheat_FlyingEnabled_50771C;
-                field_10 = 6;
+                field_10_bInvalidateRect = 6;
             }
+
             if (cheat_enabled)
             {
                 auto isHeld = Input().Held();
@@ -372,27 +377,30 @@ void DDCheat::VUpdate_4098C0()
                 currentlyPressedButtons_4FF854 = isPressed;
                 dword_4C31A8 = 10;
             }
+
             if (field_24_input & InputCommands::eBack)
             {
-                field_18 = field_18 == 0;
+                field_18_backInputPressed = field_18_backInputPressed == 0;
             }
-            if (field_18)
+
+            if (field_18_backInputPressed)
             {
                 if (isPressed & InputCommands::eSneak && isPressed & InputCommands::eCheatMode)
                 {
-                    field_14 = 0;
+                    field_14_SelectedCheat = 0;
                 }
                 else if (field_24_input & InputCommands::eCheatMode)
                 {
-                    field_14++;
-                    if (field_14 >= 2)
+                    field_14_SelectedCheat++;
+                    if (field_14_SelectedCheat >= 2)
                     {
-                        field_14 = 0;
+                        field_14_SelectedCheat = 0;
                     }
                 }
-                (this->*off_4C3150[field_14])();
+                (this->*CheatsFn_4C3150[field_14_SelectedCheat])();
             }
-            if (field_10)
+
+            if (field_10_bInvalidateRect)
             {
                 pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, 240);
             }
@@ -428,7 +436,7 @@ void DDCheat::Teleport_409CE0()
     DebugStr_495990("Camera (Left/Right): %d \n", static_cast<u16>(camera_4C3164));
     DebugStr_495990("Teleport = [] Reset = O\n"); //TODO don't display PSX buttons
     s32 input = field_24_input;
-    field_10 = 6;
+    field_10_bInvalidateRect = 6;
     if (input & InputCommands::eSneak)
     {
         if (level_4C315C)
@@ -488,7 +496,7 @@ void DDCheat::Teleport_409CE0()
                         CameraSwapEffects::eInstantChange_0,
                         0,
                         0);
-                    field_20 = 1;
+                    field_20_bTeleportCheatActive = 1;
                 }
             }
         }
@@ -549,7 +557,7 @@ void DDCheat::Misc_409E90()
     }
     DebugStr_495990("cross = invisible (%s)\n", invisibleDisplayText);
 
-    field_10 = 9;
+    field_10_bInvalidateRect = 9;
     if (!gElum_507680)
     {
         if (sControlledCharacter_50767C != gElum_507680)
