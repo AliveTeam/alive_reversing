@@ -22,11 +22,14 @@ template <typename T, typename... Args>
 inline T* ae_new(Args&&... args)
 {
     void* buffer = ae_new_malloc_4954D0(sizeof(T));
-    if (buffer)
+    if constexpr (sizeof...(args) == 0)
+    {
+        return new (buffer) T;
+    }
+    else
     {
         return new (buffer) T(std::forward<Args>(args)...);
     }
-    return nullptr;
 }
 
 s32 access_impl(char_type const* fileName, s32 accessMode);
