@@ -85,11 +85,6 @@ BrewMachine* BrewMachine::ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo)
     return this;
 }
 
-BaseGameObject* BrewMachine::VDestructor(s32 flags)
-{
-    return vdtor_413290(flags);
-}
-
 void BrewMachine::VUpdate()
 {
     vUpdate_4132C0();

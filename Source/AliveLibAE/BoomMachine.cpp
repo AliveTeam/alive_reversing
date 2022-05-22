@@ -89,28 +89,23 @@ private:
 
                     gpThrowableArray_5D1E2C->Add_49A7A0(field_FC_numGrenades);
 
-                    auto pGrenade = ae_new<Grenade>();
-                    if (pGrenade)
+                    FP directedScale = {};
+                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        FP directedScale = {};
-                        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                        {
-                            directedScale = -field_CC_sprite_scale;
-                        }
-                        else
-                        {
-                            directedScale = field_CC_sprite_scale;
-                        }
-
-                        pGrenade->ctor_447F70(
-                            (FP_FromInteger(6) * directedScale) + field_B8_xpos,
-                            (-FP_FromInteger(6) * field_CC_sprite_scale) + field_BC_ypos,
-                            field_FC_numGrenades,
-                            0,
-                            0,
-                            0);
+                        directedScale = -field_CC_sprite_scale;
                     }
-
+                    else
+                    {
+                        directedScale = field_CC_sprite_scale;
+                    }
+                    auto pGrenade = ae_new<Grenade>(
+                        (FP_FromInteger(6) * directedScale) + field_B8_xpos,
+                        (-FP_FromInteger(6) * field_CC_sprite_scale) + field_BC_ypos,
+                        field_FC_numGrenades,
+                        0,
+                        0,
+                        nullptr);
+ 
                     pGrenade->VThrow_49E460((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
                     const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Nozzle_Idle);
