@@ -48,7 +48,7 @@ const TSlingMudBrain gSlingMudBrainTable_4CFCE0[] = {
 
 SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BCB40);
 
     field_4_typeId = Types::SlingMud_90;

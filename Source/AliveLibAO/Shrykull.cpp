@@ -66,7 +66,7 @@ void Shrykull::VScreenChanged()
 
 Shrykull* Shrykull::ctor_463880()
 {
-    ctor_401090();
+    BaseAliveGameObject();
     mFlags.Set(Options::eCanExplode_Bit7);
     SetVTable(this, 0x4BC9B8);
     field_4_typeId = Types::eShrykull_85;

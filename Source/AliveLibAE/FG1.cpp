@@ -60,7 +60,7 @@ private:
 
 FG1* FG1::ctor_499FC0(u8** pFG1Res)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject(TRUE, 0);
 
     SetVTable(this, 0x5469C8); // vTbl_FG1_5469C8
 

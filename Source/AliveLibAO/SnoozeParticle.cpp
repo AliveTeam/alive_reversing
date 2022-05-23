@@ -82,7 +82,7 @@ void SnoozeParticle::VScreenChanged()
 
 SnoozeParticle* SnoozeParticle::ctor_464320(FP xpos, FP ypos, Layer layer, FP scale)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
 
     mFlags.Set(Options::eDrawable_Bit4);
 

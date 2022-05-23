@@ -70,7 +70,7 @@ BaseGameObject* RollingBall::dtor_458230()
 
 RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BC180);
     field_4_typeId = Types::eRollingBall_72;
     

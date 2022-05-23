@@ -38,7 +38,7 @@ const FallingItem_Data sFallingItemData_4BAB20[16] = {
 
 FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     mFlags.Set(Options::eCanExplode_Bit7);
     SetVTable(this, 0x4BABE0);
 

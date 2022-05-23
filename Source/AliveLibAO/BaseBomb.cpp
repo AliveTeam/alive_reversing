@@ -227,7 +227,7 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
 
 BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, s32 /*unused*/, FP scale)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BAA00);
     field_4_typeId = Types::eBaseBomb_30;
 

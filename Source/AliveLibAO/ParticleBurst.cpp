@@ -35,7 +35,7 @@ static inline FP Random_Speed(FP scale)
 
 ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, FP scale, BurstType type)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BA480);
     field_4_typeId = Types::eParticleBurst_19;
     field_BC_sprite_scale = scale;

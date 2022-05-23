@@ -50,7 +50,7 @@ BaseGameObject* BackgroundGlukkon::dtor_41DCE0()
 
 BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BAF70);
 
     field_4_typeId = Types::eBackgroundGlukkon_42;

@@ -19,7 +19,7 @@ namespace AO {
 
 Rock* Rock::ctor_456960(FP xpos, FP ypos, s16 count)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BC0A8);
     field_4_typeId = Types::eRock_70;
 

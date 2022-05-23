@@ -17,7 +17,7 @@ ALIVE_VAR(1, 0x5c1bf8, u16, gbDrawMeterCountDown_5C1BF8, 0);
 
 ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5451EC);
 
     SetType(AETypes::eColourfulMeter_59);

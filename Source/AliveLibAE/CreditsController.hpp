@@ -13,11 +13,10 @@ public:
     
     virtual void VUpdate() override;
 
-    EXPORT CreditsController* ctor_418A10(Path_TLV* pTlv, s32 tlvInfo);
+    CreditsController(Path_TLV* pTlv, s32 tlvInfo);
+    ~CreditsController();
 
 private:
-    EXPORT void dtor_418A90();
-    EXPORT BaseGameObject* vdtor_418A60(s32 flags);
     EXPORT void Update_418AC0();
 
 public:

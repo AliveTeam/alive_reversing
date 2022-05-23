@@ -33,7 +33,7 @@ ALIVE_VAR(1, 0x5009D0, s32, gDeathGasCount_5009D0, 0);
 
 DeathGas* DeathGas::ctor_41CF40(Layer layer, s16 amount)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BAF08);
 
     gDeathGasCount_5009D0++;

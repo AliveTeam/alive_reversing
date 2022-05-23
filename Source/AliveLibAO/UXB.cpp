@@ -14,7 +14,7 @@ namespace AO {
 
 UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(&field_11C_anim, 0x4BA2B8);
     SetVTable(this, 0x4BD680);
 

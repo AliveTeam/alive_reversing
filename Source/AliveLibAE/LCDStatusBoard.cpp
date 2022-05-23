@@ -46,7 +46,7 @@ void LCDStatusBoard::VScreenChanged()
 
 LCDStatusBoard* LCDStatusBoard::ctor_47B600(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x54635C);
 
     field_100_objectId = a3.all;

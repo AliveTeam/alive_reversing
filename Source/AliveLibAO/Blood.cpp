@@ -21,7 +21,7 @@ void Blood_ForceLink()
 
 Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count)
 {
-    ctor_417C10();
+    
 
     SetVTable(this, 0x4BA248);
 

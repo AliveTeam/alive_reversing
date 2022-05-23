@@ -51,7 +51,7 @@ BaseGameObject* SwitchStateBooleanLogic::dtor_436B00()
 
 SwitchStateBooleanLogic* SwitchStateBooleanLogic::ctor_436AB0(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BB7B8);
 
     field_18_tlvInfo = tlvInfo;

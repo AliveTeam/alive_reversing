@@ -10,7 +10,7 @@ namespace AO {
 
 SligSpawner* SligSpawner::ctor_402850(Path_Slig* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BA078);
 
     field_4_typeId = Types::eSligSpawner_91;

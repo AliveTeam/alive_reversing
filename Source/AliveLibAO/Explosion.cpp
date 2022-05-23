@@ -20,7 +20,7 @@ namespace AO {
 
 Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP exposion_size)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BC218);
     field_4_typeId = Types::eExplosion_74;
     const AnimRecord& rec = AO::AnimRec(AnimId::Explosion);

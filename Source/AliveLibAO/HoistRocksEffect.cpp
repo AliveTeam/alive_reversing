@@ -25,7 +25,7 @@ BaseGameObject* HoistParticle::VDestructor(s32 flags)
 
 HoistParticle* HoistParticle::ctor_431B00(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BB288);
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
@@ -135,7 +135,7 @@ BaseGameObject* HoistRocksEffect::dtor_431A90()
 
 HoistRocksEffect* HoistRocksEffect::ctor_431820(Path_Hoist* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BB270);
     field_18_tlvInfo = tlvInfo;
     field_10_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);

@@ -436,9 +436,9 @@ class Abe final : public BaseAliveGameObject
 public:
     Bool32 Is_Celling_Above();
 
-    EXPORT Abe* ctor_420770(s32 frameTableOffset, s32 a3, s32 a4, s32 a5);
+    Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/);
 
-    EXPORT BaseGameObject* dtor_420C80();
+    ~Abe();
 
     
     virtual void VUpdate() override;

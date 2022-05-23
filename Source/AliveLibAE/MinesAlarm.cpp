@@ -35,7 +35,7 @@ s32 CC MinesAlarm::CreateFromSaveState_417740(const u8* pBuffer)
 
 BaseGameObject* MinesAlarm::ctor_417870(s32 timer)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5445FC);
     SetType(AETypes::eMinesAlarm_25);
     sTimerValue_5C1BFC = timer;

@@ -50,7 +50,7 @@ BaseGameObject* TimerTrigger::dtor_479BE0()
 
 TimerTrigger* TimerTrigger::ctor_479B40(Path_TimerTrigger* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     field_1C_tlvInfo = tlvInfo;
     SetVTable(this, 0x4BCE20);
 

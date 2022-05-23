@@ -17,7 +17,7 @@
 
 Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, u32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x547AE0);
 
     field_4C_pTlv = pTlv; // TODO: Don't think this is used, and it can become a dangling ptr?

@@ -11,11 +11,9 @@
 
 namespace AO {
 
-ScreenShake* ScreenShake::ctor_4624D0(s16 enableShakeEvent)
+ScreenShake::ScreenShake(bool enableShakeEvent)
+    : BaseGameObject(1)
 {
-    ctor_487E10(1);
-    SetVTable(this, 0x4BC950);
-
     field_4_typeId = Types::ScreenShake_82;
 
     mFlags.Set(Options::eDrawable_Bit4);
@@ -29,8 +27,6 @@ ScreenShake* ScreenShake::ctor_4624D0(s16 enableShakeEvent)
     {
         Event_Broadcast_417220(kEventScreenShake_19, this);
     }
-
-    return this;
 }
 
 void ScreenShake::VUpdate()
@@ -50,22 +46,6 @@ void ScreenShake::VUpdate_4625B0()
         field_30_shakeNumber--;
     }
 }
-
-BaseGameObject* ScreenShake::VDestructor(s32 flags)
-{
-    return Vdtor_462770(flags);
-}
-
-ScreenShake* ScreenShake::Vdtor_462770(s32 flags)
-{
-    dtor_462550();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
 
 void ScreenShake::VRender(PrimHeader** ppOt)
 {
@@ -169,11 +149,9 @@ void ScreenShake::VRender_4625E0(PrimHeader** ppOt)
     pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, 240);
 }
 
-BaseGameObject* ScreenShake::dtor_462550()
+ScreenShake::~ScreenShake()
 {
-    SetVTable(this, 0x4BC950);
     gObjList_drawables_504618->Remove_Item(this);
-    return dtor_487DF0();
 }
 
 } // namespace AO

@@ -49,7 +49,7 @@ void Claw::VScreenChanged()
 
 SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
 
     field_4_typeId = Types::eSecurityClaw_31;
 

@@ -35,7 +35,7 @@ BaseGameObject* OneShotSwitchIdSetter::dtor_432EA0()
 
 BaseGameObject* OneShotSwitchIdSetter::ctor_432E10(Path_OneShotSwitchIdSetter* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BB3D8);
 
     field_10_tlvInfo = tlvInfo;

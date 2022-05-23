@@ -27,7 +27,7 @@ void CC GameEnderController::CreateGameEnderController_41C7D0()
     auto pGameEnderController = ao_new<GameEnderController>();
     if (pGameEnderController)
     {
-        pGameEnderController->ctor_487E10(1);
+        pGameEnderController->BaseGameObject(1);
         SetVTable(pGameEnderController, 0x4BAEF0);
         pGameEnderController->field_4_typeId = Types::eGameEnderController_37;
         pGameEnderController->field_14_state = GameEnderController_States::eInit_0;

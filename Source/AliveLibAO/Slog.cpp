@@ -112,7 +112,7 @@ static u8 Slog_NextRandom()
 
 Slog* Slog::ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BCBC8);
 
     field_148 = -1;
@@ -162,7 +162,7 @@ Slog* Slog::ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo)
 
 Slog* Slog::ctor_473050(FP xpos, FP ypos, FP scale)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BCBC8);
 
     field_148 = -1;

@@ -17,7 +17,7 @@ ALIVE_VAR(1, 0x5C1BB6, s16, bEnabled_5C1BB6, FALSE);
 
 ExplosionSet* ExplosionSet::ctor_414CA0()
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5444FC);
 
     SetType(AETypes::eExplosionSet_18);

@@ -284,7 +284,7 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
 
 Slig* Slig::ctor_464D40(Path_Slig* pTlv, s32 tlvInfo)
 {
-    ctor_401090(); // Note: Empty base skipped
+    BaseAliveGameObject(); // Note: Empty base skipped
 
     field_15C_last_event_index = -1;
     field_172_unused = -1;

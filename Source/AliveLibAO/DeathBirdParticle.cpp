@@ -74,7 +74,7 @@ void DeathBirdParticle::VUpdate()
 
 DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, s32 start, s16 bPlaySound, FP scale)
 {
-    ctor_417C10();
+    
 
     SetVTable(this, 0x4BAF38);
     field_4_typeId = Types::eDeathBird_38;

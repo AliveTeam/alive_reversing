@@ -210,7 +210,7 @@ void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scal
 
 Particle* Particle::ctor_478880(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BCDB0);
 
     field_C4_b = 128;

@@ -16,7 +16,7 @@ namespace AO {
 
 Bat* Bat::ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BA0E8);
 
     field_4_typeId = Types::eBat_6;

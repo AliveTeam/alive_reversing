@@ -59,7 +59,7 @@ BaseGameObject* Rope::VDestructor(s32 flags)
 
 Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BC1E0);
     field_4_typeId = Types::eRope_73;
 

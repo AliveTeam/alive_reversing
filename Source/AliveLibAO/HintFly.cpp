@@ -1352,7 +1352,7 @@ static u8 HintFly_NextRandom()
 
 HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BB200);
     field_E4_ppRes = nullptr;
 

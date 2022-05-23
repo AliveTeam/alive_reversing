@@ -20,12 +20,11 @@ void Spark_ForceLink()
 
 namespace AO {
 
-Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max)
+Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
+    : BaseGameObject(1)
 {
-    ctor_487E10(1);
     mFlags.Set(Options::eDrawable_Bit4);
 
-    SetVTable(this, 0x4BCD48);
     field_4_typeId = Types::eNone_0;
 
     gObjList_drawables_504618->Push_Back(this);
@@ -47,7 +46,7 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
     field_3C_r = 31;
     field_3E_g = 31;
 
-    field_4C_count = count;
+    field_4C_count = static_cast<s16>(count);
 
     field_44_ppSprxRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Sprx, 0, sizeof(SparkRes) * count);
     if (field_44_ppSprxRes)
@@ -59,11 +58,11 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
             s32 randAng = 0;
             if (min >= 0)
             {
-                randAng = Math_RandomRange_450F20(min, max);
+                randAng = Math_RandomRange_450F20(static_cast<s16>(min), static_cast<s16>(max));
             }
             else
             {
-                randAng = min + Math_RandomRange_450F20(0, max - min);
+                randAng = min + Math_RandomRange_450F20(0, static_cast<s16>(max - min));
             }
             pSparkIter->field_10_ang = static_cast<u8>(randAng);
             pSparkIter->field_14_radius = FP_FromInteger(0);
@@ -103,13 +102,10 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-    return this;
 }
 
-BaseGameObject* Spark::dtor_477D40()
+Spark::~Spark()
 {
-    SetVTable(this, 0x4BCD48);
-
     if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_504618->Remove_Item(this);
@@ -119,23 +115,6 @@ BaseGameObject* Spark::dtor_477D40()
     {
         ResourceManager::FreeResource_455550(field_44_ppSprxRes);
     }
-
-    return dtor_487DF0();
-}
-
-BaseGameObject* Spark::VDestructor(s32 flags)
-{
-    return Vdtor_478290(flags);
-}
-
-Spark* Spark::Vdtor_478290(s32 flags)
-{
-    dtor_477D40();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Spark::VScreenChanged()

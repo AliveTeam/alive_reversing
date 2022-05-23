@@ -18,14 +18,10 @@ enum class ThrowableTotalIndicatorState : s16
 class ThrowableTotalIndicator final : public BaseGameObject
 {
 public:
-    EXPORT ThrowableTotalIndicator* ctor_41B520(FP xpos, FP ypos, Layer layer, FP scale, s16 count, s16 bFade);
+    ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP scale, s32 count, bool bFade);
 
-    EXPORT BaseGameObject* dtor_41B610();
+    ~ThrowableTotalIndicator();
 
-
-    
-
-    EXPORT BaseGameObject* Vdtor_41BB80(s32 flags);
 
 
     virtual void VScreenChanged() override;

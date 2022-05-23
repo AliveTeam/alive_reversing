@@ -9,7 +9,7 @@
 
 ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x546FF0);
 
     field_20_tlvInfo = tlvInfo;

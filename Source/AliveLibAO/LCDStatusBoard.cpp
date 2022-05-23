@@ -88,7 +88,7 @@ BaseGameObject* LCDStatusBoard::dtor_4419E0()
 
 LCDStatusBoard* LCDStatusBoard::ctor_4418E0(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BBB90);
     field_C8_tlv = tlvInfo;
     field_10_fontContext.LoadFontType_41C040(2);

@@ -18,7 +18,7 @@ s32 CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const u8* pBuffer)
 
 SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x545208);
     SetType(AETypes::eSlapLock_OrbWhirlWind_60);
 

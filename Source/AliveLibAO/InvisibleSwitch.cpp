@@ -39,7 +39,7 @@ BaseGameObject* InvisibleSwitch::dtor_433540()
 
 InvisibleSwitch* InvisibleSwitch::ctor_4334E0(Path_InvisibleSwitch* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BB438);
     field_14_tlvInfo = tlvInfo;
     field_28_state = States::eWaitForTrigger_0;

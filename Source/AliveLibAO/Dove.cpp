@@ -45,7 +45,7 @@ void CC Dove_static_ctor_40EE10()
 
 Dove* Dove::ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BA858);
     field_4_typeId = Types::eBird_22;
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
@@ -108,7 +108,7 @@ Dove* Dove::ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID
 
 Dove* Dove::ctor_40EFF0(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BA858);
 
     field_4_typeId = Types::eBird_22;

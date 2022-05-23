@@ -52,7 +52,7 @@ class LoadingFile final : public BaseGameObject
 public:
     EXPORT LoadingFile* ctor_41E8A0(s32 pos, s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)
     {
-        ctor_487E10(1);
+        BaseGameObject(1);
 
         SetVTable(this, 0x4BB088);
 

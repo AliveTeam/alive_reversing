@@ -16,7 +16,7 @@ class PalleteOverwriter final : public BaseGameObject
 public:
     EXPORT PalleteOverwriter* ctor_416FF0(PSX_Point palXY, s16 palDepth, s16 colour)
     {
-        ctor_487E10(1);
+        BaseGameObject(1);
 
         SetVTable(this, 0x4BA9E8);
 
@@ -134,7 +134,7 @@ ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xC0);
 
 Electrocute* Electrocute::ctor_48D3A0(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
 
     SetVTable(this, 0x4BD7E0);
     field_4_typeId = Types::eElectrocute_103;

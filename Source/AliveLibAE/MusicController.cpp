@@ -412,7 +412,7 @@ BaseGameObject* MusicController::VDestructor(s32 flags)
 
 MusicController* MusicController::ctor_47EE80()
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5463C0); // vTbl_MusicController_5463C0
 
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);

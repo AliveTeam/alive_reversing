@@ -102,7 +102,7 @@ void ScreenManager::InvalidateRect_406CC0(s32 x, s32 y, s32 width, s32 height)
 
 ScreenManager* ScreenManager::ctor_406830(u8** ppBits, FP_Point* pCameraOffset)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BA230);
 
     field_10_pCamPos = pCameraOffset;

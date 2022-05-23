@@ -23,7 +23,7 @@ BaseGameObject* CreditsController::VDestructor(s32 flags)
 
 CreditsController* CreditsController::ctor_40CFC0(Path_CreditsController* /*pTlv*/, s32 /*tlvInfo*/)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BA458);
 
     field_14_camera_number = gMap.field_4_current_camera;

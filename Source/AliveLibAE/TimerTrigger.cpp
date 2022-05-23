@@ -9,7 +9,7 @@
 
 TimerTrigger* TimerTrigger::ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5478E8);
     field_2C_tlvInfo = tlvInfo;
     SetType(AETypes::eTimerTrigger_136);

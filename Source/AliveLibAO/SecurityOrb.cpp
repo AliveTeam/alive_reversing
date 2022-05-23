@@ -20,7 +20,7 @@ namespace AO {
 
 SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BB7D0);
 
     mFlags.Set(Options::eCanExplode_Bit7);

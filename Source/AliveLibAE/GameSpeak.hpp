@@ -87,15 +87,12 @@ public:
     // A new virtual that is never overridden as there are no other known super classes
     virtual EXPORT void PushEvent_4218D0(GameSpeakEvents event);
 
-    EXPORT GameSpeak* ctor_421820();
+    GameSpeak();
+    ~GameSpeak();
 
     EXPORT GameSpeakMatch MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_idx);
 
     EXPORT static s32 CC FillBuffer_421970(s32 code, u8* pBufffer);
-
-private:
-    EXPORT void dtor_4218A0();
-    EXPORT BaseGameObject* vdtor_421870(s32 flags);
 
 private:
     EXPORT void Update_421920();

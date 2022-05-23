@@ -31,7 +31,7 @@ BaseGameObject* ZapLine::dtor_478E90()
 
 ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLineType type, Layer layer)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BCDE8);
 
     field_4_typeId = Types::eZapLine_94;

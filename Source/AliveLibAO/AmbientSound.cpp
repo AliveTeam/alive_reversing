@@ -20,7 +20,7 @@ EXPORT void CC SND_Reset_Ambiance_4765E0()
     {
         if (amb.field_8_pScopedSeq)
         {
-            amb.field_8_pScopedSeq->VDestructor(1);
+            delete amb.field_8_pScopedSeq;
             amb.field_8_pScopedSeq = nullptr;
         }
     }
@@ -29,7 +29,7 @@ EXPORT void CC SND_Reset_Ambiance_4765E0()
     {
         if (amb.field_8_pScopedSeq)
         {
-            amb.field_8_pScopedSeq->VDestructor(1);
+            delete amb.field_8_pScopedSeq;
             amb.field_8_pScopedSeq = nullptr;
         }
     }
@@ -38,7 +38,7 @@ EXPORT void CC SND_Reset_Ambiance_4765E0()
     {
         if (amb.field_8_pScopedSeq)
         {
-            amb.field_8_pScopedSeq->VDestructor(1);
+            delete amb.field_8_pScopedSeq;
             amb.field_8_pScopedSeq = nullptr;
         }
     }

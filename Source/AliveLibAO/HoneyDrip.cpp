@@ -14,7 +14,7 @@ void HoneyDrip::VUpdate()
 
 HoneyDrip* HoneyDrip::ctor_431D10(FP xpos, FP ypos)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BB2C0);
 
     field_C4_b = 128;

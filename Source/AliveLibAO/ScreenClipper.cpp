@@ -69,7 +69,7 @@ BaseGameObject* ScreenClipper::VDestructor(s32 flags)
 
 ScreenClipper* ScreenClipper::ctor_40BD60(PSX_Point xy, PSX_Point wh, Layer layer)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
 
     SetVTable(this, 0x4BA428);
     field_4_typeId = Types::eScreenClipper_78;

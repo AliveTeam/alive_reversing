@@ -11,7 +11,7 @@ void DeathFadeOut::VRender_419ED0(PrimHeader** ppOt)
     field_60_g = field_68_current_fade_rgb;
     field_5E_r = field_68_current_fade_rgb;
 
-    EffectBase::VRender_461690(ppOt);
+    EffectBase::VRender(ppOt);
 
     if ((field_68_current_fade_rgb == 255 && field_6C_direction) || (field_68_current_fade_rgb == 0 && !field_6C_direction))
     {
@@ -83,10 +83,9 @@ void DeathFadeOut::Init_419E40(Layer layer, s16 direction, s16 destroyOnDone, s3
     }
 }
 
-DeathFadeOut* DeathFadeOut::ctor_419DB0(Layer layer, s16 direction, s16 destroyOnDone, s32 speed, TPageAbr abr)
+DeathFadeOut::DeathFadeOut(Layer layer, s16 direction, bool destroyOnDone, s32 speed, TPageAbr abr)
+    : EffectBase(layer, abr)
 {
-    ctor_461550(layer, abr);
-    SetVTable(this, 0x4BAB08);
     field_4_typeId = Types::eDeathFadeOut_80;
 
     if (direction)
@@ -103,18 +102,6 @@ DeathFadeOut* DeathFadeOut::ctor_419DB0(Layer layer, s16 direction, s16 destroyO
     field_62_b = field_68_current_fade_rgb;
     field_60_g = field_68_current_fade_rgb;
     field_5E_r = field_68_current_fade_rgb;
-
-    return this;
-}
-
-BaseGameObject* DeathFadeOut::VDestructor(s32 flags)
-{
-    dtor_461630();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

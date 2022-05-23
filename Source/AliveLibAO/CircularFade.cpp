@@ -10,7 +10,7 @@ namespace AO {
 
 CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BCE38);
 
     if (direction)

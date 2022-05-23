@@ -12,7 +12,7 @@ namespace AO {
 
 FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BD648);
     field_4_typeId = Types::eFootSwitch36;
 

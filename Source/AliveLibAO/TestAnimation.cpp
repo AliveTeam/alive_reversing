@@ -74,7 +74,7 @@ void TestAnimation::ctor()
 
     DisableVTableHack h;
 
-    ctor_417C10();
+    
 
     field_4_typeId = AO::Types::eNone_0;
 

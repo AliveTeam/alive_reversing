@@ -62,17 +62,14 @@ GameSpeakEvents CC Code_LookUp_4C9E40(u32 code, u16 idx, u16 code_len)
 
 ALIVE_VAR(1, 0x5BC11C, GameSpeak*, pEventSystem_5BC11C, nullptr);
 
-GameSpeak* GameSpeak::ctor_421820()
+GameSpeak::GameSpeak()
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject::BaseGameObject_ctor_4DBFA0(1, 0);
-    SetVTable(this, 0x544B20);
-
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9); // Dont destroy on loading save
     field_2C_event_buffer[0] = -1;
     field_20_last_event = GameSpeakEvents::eNone_m1;
     SetType(AETypes::eGameSpeak_38);
     field_28_last_event_index = 0;
-    return this;
 }
 
 GameSpeakMatch GameSpeak::MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_idx)
@@ -147,25 +144,9 @@ s32 CC GameSpeak::FillBuffer_421970(s32 code, u8* pBufffer)
     return len;
 }
 
-void GameSpeak::dtor_4218A0()
+GameSpeak::~GameSpeak()
 {
     pEventSystem_5BC11C = nullptr;
-    BaseGameObject_dtor_4DBEC0();
-}
-
-BaseGameObject* GameSpeak::vdtor_421870(s32 flags)
-{
-    dtor_4218A0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-BaseGameObject* GameSpeak::VDestructor(s32 flags)
-{
-    return vdtor_421870(flags);
 }
 
 void GameSpeak::VUpdate()

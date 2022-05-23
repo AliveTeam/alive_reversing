@@ -8,10 +8,8 @@
 
 namespace AO {
 
-ScopedSeq* ScopedSeq::ctor_476400(s8 ambianceId, CameraPos direction)
+ScopedSeq::ScopedSeq(s32 ambianceId, CameraPos direction)
 {
-    SetVTable(this, 0x4BCD44);
-
     s16 volLeft = 0;
     s16 volRight = 0;
 
@@ -64,13 +62,10 @@ ScopedSeq* ScopedSeq::ctor_476400(s8 ambianceId, CameraPos direction)
         default:
             break;
     }
-    return this;
 }
 
-ScopedSeq* ScopedSeq::VDestructor(s32 flags)
+ScopedSeq::~ScopedSeq()
 {
-    SetVTable(this, 0x4BCD44);
-
     if (field_4_seq_id >= 0)
     {
         SND_Seq_Stop_477A60(static_cast<SeqId>(field_4_seq_id));
@@ -80,13 +75,6 @@ ScopedSeq* ScopedSeq::VDestructor(s32 flags)
     {
         SND_Stop_Channels_Mask_4774A0(field_8_channel_mask);
     }
-
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-
-    return this;
 }
 
 } // namespace AO

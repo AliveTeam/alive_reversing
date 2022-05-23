@@ -112,7 +112,7 @@ BaseGameObject* FlintLockFire::dtor_41AE20()
 
 FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     field_4_typeId = Types::eFlintLockFire_34;
 
     SetVTable(this, 0x4BAEA0);

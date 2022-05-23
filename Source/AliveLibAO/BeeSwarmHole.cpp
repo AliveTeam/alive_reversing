@@ -12,7 +12,7 @@ namespace AO {
 
 BeeSwarmHole* BeeSwarmHole::ctor_4782B0(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BCD60);
 
     field_10_tlvInfo = tlvInfo;

@@ -219,7 +219,7 @@ static LCDMessages gLCDMessages;
 
 LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BB468);
 
     field_2BC_tlv = *pTlv;

@@ -13,7 +13,7 @@ namespace AO {
 
 BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BA120);
 
     field_4_typeId = Types::eBellHammer_27;

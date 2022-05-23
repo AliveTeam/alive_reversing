@@ -53,7 +53,7 @@ ALIVE_VAR(1, 0x4FF888, s16, gGasOn_4FF888, 0);
 
 GasCountDown* GasCountDown::ctor_40BF60(Path_GasCountDown* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BA440);
     field_4_typeId = Types::eGasClock_16;
     field_58_tlvInfo = tlvInfo;

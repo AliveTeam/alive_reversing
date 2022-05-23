@@ -9,22 +9,18 @@
 
 namespace AO {
 
-MusicTrigger* MusicTrigger::ctor_443A60(MusicTriggerMusicType type, TriggeredBy triggeredBy, s32 switchId, s16 delay)
+MusicTrigger::MusicTrigger(MusicTriggerMusicType type, TriggeredBy triggeredBy, s32 switchId, s32 delay)
+    : BaseGameObject(1)
 {
-    ctor_487E10(1);
-    SetVTable(this, 0x4BBBC0);
-    Init_443AD0(type, triggeredBy, static_cast<s16>(switchId), delay);
+    Init_443AD0(type, triggeredBy, static_cast<s16>(switchId), static_cast<s16>(delay));
     field_10_tlvInfo = -1;
-    return this;
 }
 
-MusicTrigger* MusicTrigger::ctor_4439F0(Path_MusicTrigger* pTlv, s32 tlvInfo)
+MusicTrigger::MusicTrigger(Path_MusicTrigger* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    ctor_487E10(1);
-    SetVTable(this, 0x4BBBC0);
     Init_443AD0(pTlv->field_18_music_type, pTlv->field_1A_triggered_by, pTlv->field_1C_switch_id, pTlv->field_1E_music_delay);
     field_10_tlvInfo = tlvInfo;
-    return this;
 }
 
 void MusicTrigger::Init_443AD0(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay)
@@ -109,15 +105,13 @@ void MusicTrigger::Init_443AD0(MusicTriggerMusicType type, TriggeredBy triggered
     }
 }
 
-BaseGameObject* MusicTrigger::dtor_443C20()
+MusicTrigger::~MusicTrigger()
 {
-    SetVTable(this, 0x4BBBC0);
     if (field_14_flags & 4)
     {
         MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
     }
     MusicController::ClearObject(this);
-    return dtor_487DF0();
 }
 
 
@@ -132,21 +126,6 @@ void MusicTrigger::VScreenChanged_443DD0()
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-}
-
-BaseGameObject* MusicTrigger::VDestructor(s32 flags)
-{
-    return Vdtor_443DF0(flags);
-}
-
-MusicTrigger* MusicTrigger::Vdtor_443DF0(s32 flags)
-{
-    dtor_443C20();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void MusicTrigger::VUpdate()

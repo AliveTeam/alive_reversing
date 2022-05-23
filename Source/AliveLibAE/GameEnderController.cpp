@@ -59,7 +59,7 @@ s32 CC GameEnderController::CreateFromSaveState_43BD10(const u8* pBuffer)
 
 GameEnderController* GameEnderController::ctor_43B840()
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x545198);
     SetType(AETypes::eGameEnderController_57);
     field_24_state = GameEnderController_States::eInit_0;

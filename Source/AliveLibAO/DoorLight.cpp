@@ -19,7 +19,7 @@ ALIVE_VAR(1, 0x4FC8A4, s32, gDoorLightUpdateTimer_4FC8A4, 0);
 
 DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
 
     field_E4_tlvInfo = tlvInfo;
     field_E8_width = pTlv->field_1A_size;

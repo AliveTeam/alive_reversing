@@ -23,7 +23,7 @@ void ShadowZone::VScreenChanged()
 
 ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x545E10); // vTbl_ShadowZone_545E10
 
     sShadowZone_dArray_5C1B80->Push_Back(this);

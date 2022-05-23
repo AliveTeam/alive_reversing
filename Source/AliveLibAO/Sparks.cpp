@@ -10,7 +10,7 @@ namespace AO {
 
 Sparks* Sparks::ctor_40A3A0(FP xpos, FP ypos, FP scale)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BA358);
     field_4_typeId = Types::eSpark_15;
 

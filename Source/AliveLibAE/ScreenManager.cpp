@@ -186,7 +186,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
 
 ScreenManager* ScreenManager::ctor_40E3E0(u8** ppBits, FP_Point* pCameraOffset)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject(TRUE, 0);
     field_20_pCamPos = pCameraOffset;
 
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);

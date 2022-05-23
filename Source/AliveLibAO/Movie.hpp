@@ -10,11 +10,7 @@ EXPORT void CC Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_
 class Movie final : public BaseGameObject
 {
 public:
-    EXPORT Movie* ctor_489C90(s32 id, s32 pos, s8 bUnknown, s32 flags, s16 volume);
-
-    
-
-    EXPORT BaseGameObject* Vdtor_475FB0(s32 flags);
+    Movie(s32 id, s32 pos, s8 bUnknown, s32 flags, s16 volume);
 
     virtual void VScreenChanged() override;
 

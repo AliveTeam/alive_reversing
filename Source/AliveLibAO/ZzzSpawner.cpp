@@ -38,7 +38,7 @@ BaseGameObject* ZzzSpawner::dtor_472CF0()
 
 ZzzSpawner* ZzzSpawner::ctor_472C80(Path_ZzzSpawner* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BCBB0);
 
     field_10_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);

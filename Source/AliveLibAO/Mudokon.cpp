@@ -143,7 +143,7 @@ ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);
 
 Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BBB28);
     field_4_typeId = Types::eMudokon_52;
 

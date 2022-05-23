@@ -42,7 +42,7 @@ const TDDCheatFn CheatsFn_4C3150[] = {
 
 DDCheat* DDCheat::ctor_4095D0()
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
     mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 

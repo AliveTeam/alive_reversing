@@ -12,7 +12,7 @@ namespace AO {
 
 EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopper* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
 
     SetVTable(this, 0x4BBAC8);
     field_4_typeId = Types::eRollingBallStopper_60;

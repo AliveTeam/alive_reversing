@@ -101,7 +101,7 @@ static BrainFunctionData<Paramite::TParamiteBrain> sParamiteBrainTable[]{
 
 Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BBBE8);
     field_4_typeId = Types::eParamite_62;
 

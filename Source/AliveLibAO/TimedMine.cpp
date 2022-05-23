@@ -21,7 +21,7 @@ const TintEntry kTimedMineTints_4C3140[3] = {
 
 TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(&field_118_anim, 0x4BA2B8);
     SetVTable(this, 0x4BA2C8);
     field_4_typeId = Types::eTimedMine_8;

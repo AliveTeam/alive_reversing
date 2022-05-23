@@ -55,7 +55,7 @@ void Alarm::VRender(PrimHeader** ppOt)
 {
     if (!sNumCamSwappers_507668)
     {
-        EffectBase::VRender_461690(ppOt);
+        EffectBase::VRender(ppOt);
     }
 }
 

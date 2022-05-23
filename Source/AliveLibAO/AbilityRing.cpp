@@ -43,7 +43,7 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
 
 AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, RingTypes ring_type)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BC090);
 
     field_4_typeId = Types::eAbilityRing_69;

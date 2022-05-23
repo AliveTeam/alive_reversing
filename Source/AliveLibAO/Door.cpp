@@ -69,7 +69,7 @@ const AnimId sDoorAnimdIdTable_4BA508[16][6] = {
 
 Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
 {
-    ctor_417C10(); // NOTE: Pointless base ctor omitted
+     // NOTE: Pointless base ctor omitted
 
     SetVTable(this, 0x4BA808);
     field_4_typeId = Types::eDoor_21;

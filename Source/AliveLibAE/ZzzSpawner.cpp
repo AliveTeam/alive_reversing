@@ -9,7 +9,7 @@
 
 ZzzSpawner* ZzzSpawner::ctor_4C4070(Path_ZzzSpawner* pTlv, s32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x54755C);
 
     field_20_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);

@@ -99,7 +99,7 @@ CheatEntry stru_4C50F8[4] = {
 
 CheatController* CheatController::ctor_40FBF0()
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     SetVTable(this, 0x4BA8A8);
     field_4_typeId = Types::eNone_0;

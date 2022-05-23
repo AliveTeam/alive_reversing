@@ -16,7 +16,7 @@
 
 CameraSwapper* CameraSwapper::ctor_4E4CA0(u8** ppCamRes, s32 movieSector, s32 movieId, s8 movieFlag, s16 movieFlags, s16 movieVol)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
 
     Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay1FMV_5);
@@ -36,7 +36,7 @@ CameraSwapper* CameraSwapper::ctor_4E4CA0(u8** ppCamRes, s32 movieSector, s32 mo
 
 CameraSwapper* CameraSwapper::ctor_4E4DC0(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
 
     Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay2FMVs_9);
@@ -62,7 +62,7 @@ CameraSwapper* CameraSwapper::ctor_4E4DC0(u8** ppCamRes, s32 moviePos1, s32 movi
 
 CameraSwapper* CameraSwapper::ctor_4E4ED0(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 moveFlag3, s16 movieFlags3, s16 movieVol3)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
 
     Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay3FMVs_10);
@@ -93,7 +93,7 @@ CameraSwapper* CameraSwapper::ctor_4E4ED0(u8** ppCamRes, s32 moviePos1, s32 movi
 
 CameraSwapper* CameraSwapper::ctor_4E5000(u8** ppCamRes, CameraSwapEffects changeEffect, s16 xpos, s16 ypos)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
     field_4E_xpos_converted = PsxToPCX(xpos);
     field_50_ypos_converted = ypos;

@@ -53,7 +53,7 @@ BaseGameObject* ParamiteWeb::VDestructor(s32 flags)
 
 ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, s16 bottom, s16 top, FP scale)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BD6F8);
     field_4_typeId = Types::eRope_73;
 

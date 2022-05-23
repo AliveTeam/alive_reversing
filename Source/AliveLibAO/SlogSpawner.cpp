@@ -23,7 +23,7 @@ void SlogSpawner::VScreenChanged()
 
 SlogSpawner* SlogSpawner::ctor_475DD0(Path_SlogSpawner* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
 
     field_10_tlvInfo = tlvInfo;
     SetVTable(this, 0x4BCD00);

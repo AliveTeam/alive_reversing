@@ -43,7 +43,7 @@ EXPORT s16* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, s16* pData)
 
 ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BCD78);
 
     field_4_typeId = Types::eZBall_92;

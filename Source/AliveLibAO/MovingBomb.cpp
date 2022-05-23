@@ -29,7 +29,7 @@ ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
 
 MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     mFlags.Set(Options::eCanExplode_Bit7);
     SetVTable(this, 0x4BBA68);
     field_4_typeId = Types::eTimedMine_8;

@@ -55,7 +55,7 @@ BaseGameObject* MeatSaw::dtor_4398F0()
 
 MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BB990);
     field_4_typeId = Types::eMeatSaw_56;
 

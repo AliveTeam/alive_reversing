@@ -56,7 +56,7 @@ ALIVE_VAR(1, 0x4FF954, GameSpeak*, pEventSystem_4FF954, nullptr);
 
 GameSpeak* GameSpeak::ctor_40F990()
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BA890);
 
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);

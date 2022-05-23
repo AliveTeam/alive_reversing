@@ -83,7 +83,7 @@ EXPORT void CC Game_ShowLoadingIcon_482D80()
 
 ResourceManager* ResourceManager::ctor_464910()
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject(TRUE, 0);
 
     field_20_files_pending_loading.ctor_40CA60(3);
     field_48_dArray.ctor_40CA60(3);

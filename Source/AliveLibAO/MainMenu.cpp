@@ -317,7 +317,7 @@ const MenuFMV sLevelList_4D0300[15] = {
 
 MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, buttonType buttonType, s16 bDestroyOnDone)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BB1C8);
 
     field_4_typeId = Types::MainMenuFade_44;
@@ -511,7 +511,7 @@ void MainMenuTransition::VUpdate()
 
 MainMenuTransition* MainMenuTransition::ctor_436370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed, TPageAbr abr)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BB7A0);
     field_4_typeId = Types::eDeathFadeOut_80;
 
@@ -719,7 +719,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
 
 Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BCE78);
     SetVTable(&field_134_anim, 0x4BA2B8);
 

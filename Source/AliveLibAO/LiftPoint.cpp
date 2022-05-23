@@ -71,7 +71,7 @@ const LiftPointCoord stru_4BB640[16] = {
 
 LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
 
     SetVTable(&field_13C_lift_wheel, 0x4BA2B8);
     SetVTable(&field_1D4_pulley_anim, 0x4BA2B8);

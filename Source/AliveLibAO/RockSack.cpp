@@ -146,7 +146,7 @@ BaseGameObject* RockSack::dtor_457580()
 
 RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BC120);
 
     field_4_typeId = Types::eRockSack_71;

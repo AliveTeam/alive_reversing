@@ -49,7 +49,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
 
 MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 fadeSpeed, TPageAbr abr)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject(TRUE, 0);
 
     SetVTable(this, 0x545EA0); // vTbl_MainMenuTransition_545EA0
 

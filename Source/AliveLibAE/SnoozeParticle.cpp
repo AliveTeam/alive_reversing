@@ -70,7 +70,7 @@ const PSX_Point explosionVerts[6][2] = {
 
 SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, Layer layer, FP scale)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetVTable(this, 0x5472FC);

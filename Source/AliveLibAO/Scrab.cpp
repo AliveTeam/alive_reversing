@@ -106,7 +106,7 @@ static BrainFunctionData<Scrab::TBrainType> sScrabAITable[]{
 
 Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BC710);
 
     field_4_typeId = Types::eScrab_77;

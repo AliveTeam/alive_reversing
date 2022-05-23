@@ -138,7 +138,7 @@ BaseGameObject* OrbWhirlWind::dtor_48B910()
 
 OrbWhirlWind* OrbWhirlWind::ctor_48B870(FP xpos, FP ypos, FP scale)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
 
     SetVTable(this, 0x4BD7A0);
 

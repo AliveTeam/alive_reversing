@@ -10,7 +10,7 @@
 
 SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, s32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x544090);
 
     SetType(AETypes::eSligSpawner_2);

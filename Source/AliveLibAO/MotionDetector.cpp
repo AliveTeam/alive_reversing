@@ -22,7 +22,7 @@ namespace AO {
 
 MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BB878);
     field_4_typeId = Types::eMotionDetector_59;
     const AnimRecord& rec = AO::AnimRec(AnimId::MotionDetector_Flare);
@@ -68,7 +68,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
         if (pMotionDetectors)
         {
-            pMotionDetectors->ctor_417C10();
+            pMotionDetectors->
             SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
             
@@ -91,7 +91,7 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
         if (pMotionDetectors)
         {
-            pMotionDetectors->ctor_417C10();
+            pMotionDetectors->
             SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
             

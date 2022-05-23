@@ -223,7 +223,7 @@ BaseGameObject* FG1::dtor_453DF0()
 
 FG1* FG1::ctor_4539C0(u8** ppRes)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
 
     SetVTable(this, 0x4BC028);
 

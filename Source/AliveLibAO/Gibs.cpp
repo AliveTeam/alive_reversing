@@ -39,7 +39,7 @@ static FP GibRand(FP scale)
 
 Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 {
-    ctor_417C10();
+    
 
     for (GibPart& part : field_F4_parts)
     {

@@ -37,7 +37,7 @@ void HoistRocksEffect::VScreenChanged()
 
 HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, s32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
 
     for (HoistRockParticle& particle : field_30_rocks)
     {

@@ -55,7 +55,7 @@ BaseGameObject* SecurityDoor::dtor_4619C0()
 
 SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     field_F4_event_idx = -1;
     field_108_max_idx = 0;
     field_10A_event_idx = -1;

@@ -32,7 +32,7 @@ ALIVE_ASSERT_SIZEOF(ScreenWave_Data, 0x3700);
 
 ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP speed, s16 radius)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BC9A0);
     field_4_typeId = Types::eScreenWave_83;
     gObjList_drawables_504618->Push_Back(this);

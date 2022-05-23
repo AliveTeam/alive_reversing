@@ -10,7 +10,7 @@
 
 SlogSpawner* SlogSpawner::ctor_4C7FF0(Path_SlogSpawner* pTlv, s32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5476E8);
 
     field_20_tlvInfo = tlvInfo;

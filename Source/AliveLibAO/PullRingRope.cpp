@@ -12,7 +12,7 @@ namespace AO {
 
 PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BC058);
     field_4_typeId = Types::ePullRingRope_68;
 

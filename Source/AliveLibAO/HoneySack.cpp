@@ -15,7 +15,7 @@ namespace AO {
 
 HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BB238);
     field_4_typeId = Types::eHoneySack_45;
 

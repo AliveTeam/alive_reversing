@@ -97,7 +97,7 @@ void Leaf::VScreenChanged()
 
 Leaf* Leaf::ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BD768);
 
     field_C0_r = 100;

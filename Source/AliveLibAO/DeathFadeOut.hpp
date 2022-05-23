@@ -9,7 +9,7 @@ namespace AO {
 class DeathFadeOut final : public EffectBase
 {
 public:
-    EXPORT DeathFadeOut* ctor_419DB0(Layer layer, s16 direction, s16 destroyOnDone, s32 speed, TPageAbr abr);
+    DeathFadeOut(Layer layer, s16 direction, bool destroyOnDone, s32 speed, TPageAbr abr);
 
     EXPORT void Init_419E40(Layer layer, s16 direction, s16 destroyOnDone, s32 speed);
 

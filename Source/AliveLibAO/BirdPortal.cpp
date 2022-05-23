@@ -81,7 +81,7 @@ void BirdPortal::VGiveShrukull(s16 bPlaySound)
 
 BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP scale, PortalType /*portalType*/)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BBFB0);
 
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
@@ -231,7 +231,7 @@ BaseGameObject* BirdPortal::dtor_452230()
 
 BirdPortal* BirdPortal::ctor_4520A0(Path_BirdPortal* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BBFE8);
 
     field_4_typeId = Types::eBirdPortal_65;

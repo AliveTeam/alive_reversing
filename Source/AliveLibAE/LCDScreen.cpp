@@ -174,7 +174,7 @@ static LCDMessages gLCDMessages;
 
 LCDScreen* LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
 {
-    BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x545AAC);
 
     field_C_objectId = itemInfo.all;

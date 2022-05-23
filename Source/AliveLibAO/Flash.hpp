@@ -9,12 +9,8 @@ namespace AO {
 class Flash final : public EffectBase
 {
 public:
-    EXPORT Flash* ctor_41A810(Layer layer, u8 r, u8 g, u8 b, s32 not_used = 1, TPageAbr abr = TPageAbr::eBlend_3, s32 time = 1);
+    Flash(Layer layer, u8 r, u8 g, u8 b, s32 not_used = 1, TPageAbr abr = TPageAbr::eBlend_3, s32 time = 1);
 
-
-    
-
-    EXPORT BaseGameObject* Vdtor_41A890(s32 flags);
 
     virtual void VUpdate() override;
 

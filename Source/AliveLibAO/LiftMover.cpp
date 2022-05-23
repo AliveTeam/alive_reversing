@@ -10,7 +10,7 @@ namespace AO {
 
 LiftMover* LiftMover::ctor_4054E0(Path_LiftMover* pTlv, s32 tlvInfo)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BA158);
 
     field_14_tlvInfo = tlvInfo;

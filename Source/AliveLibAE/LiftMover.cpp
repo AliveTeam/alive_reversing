@@ -10,7 +10,7 @@
 
 EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5440D4);
 
     field_24_tlvInfo = tlvInfo;

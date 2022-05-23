@@ -63,7 +63,7 @@ const u8 byte_4C5EE8[32] = {
 
 PauseMenu* PauseMenu::ctor_44DEA0()
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BBD68);
 
     field_4_typeId = Types::ePauseMenu_61;

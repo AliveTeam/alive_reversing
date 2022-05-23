@@ -15,7 +15,7 @@ ALIVE_VAR(1, 0x5BD4CC, u32, sGasEmiterAudioMask_5BD4CC, 0);
 
 GasEmitter* GasEmitter::ctor_43CAA0(Path_GasEmitter* pTlv, s32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x5451D0);
 
     SetType(AETypes::eNone_0);

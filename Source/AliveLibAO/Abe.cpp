@@ -803,12 +803,6 @@ s32 CC Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObj
     }
 }
 
-
-BaseGameObject* Abe::VDestructor(s32 flags)
-{
-    return vdtor_422A70(flags);
-}
-
 void Abe::VUpdate()
 {
     vUpdate_41FDB0();
@@ -860,12 +854,8 @@ const TintEntry sAbeTints_4C6438[] = {
     {LevelIds_s8::eNone, 102u, 102u, 102u}};
 
 
-Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
+Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
 {
-    ctor_401090();
-
-    SetVTable(this, 0x4BB158);
-
     field_4_typeId = Types::eAbe_43;
 
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
@@ -1016,14 +1006,10 @@ Abe* Abe::ctor_420770(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     
     // Animation test code
     //auto testAnim = ao_new<TestAnimation>(); testAnim->ctor();
-
-    return this;
 }
 
-BaseGameObject* Abe::dtor_420C80()
+Abe::~Abe()
 {
-    SetVTable(this, 0x4BB158);
-
     MusicController::ClearObject(this);
 
     SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
@@ -1138,18 +1124,6 @@ BaseGameObject* Abe::dtor_420C80()
     // OG fix for going back to menu with DDCheat on and then it crashes reading a deleted pointer
     // ditto for the ending where MeatSaw/Invisible switch screen change/update funcs read it.
     sControlledCharacter_50767C = nullptr;
-
-    return dtor_401000();
-}
-
-BaseGameObject* Abe::vdtor_422A70(s32 flags)
-{
-    dtor_420C80();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 const u32 sAbe_xVel_table_4BB118[8] = {262144, 262144, 0, 4294705152, 4294705152, 4294705152, 0, 262144};
@@ -1346,11 +1320,7 @@ void Abe::vUpdate_41FDB0()
                 {
                     field_130_say = 16;
                     field_134_auto_say_timer = gnFrameCount_507670 + Math_RandomRange_450F20(22, 30);
-                    auto pMusicTrigger = ao_new<MusicTrigger>();
-                    if (pMusicTrigger)
-                    {
-                        pMusicTrigger->ctor_443A60(MusicTriggerMusicType::eDeathDrumShort_1, TriggeredBy::eTouching_1, 0, 90);
-                    }
+                    ao_new<MusicTrigger>(MusicTriggerMusicType::eDeathDrumShort_1, TriggeredBy::eTouching_1, 0, 90);
                 }
 
                 if (field_130_say >= 0 && static_cast<s32>(gnFrameCount_507670) >= field_134_auto_say_timer)
@@ -2445,18 +2415,14 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
 
                 if (!bThrowableIndicatorExists_504C70)
                 {
-                    auto pThrowableIndicator = ao_new<ThrowableTotalIndicator>();
-                    if (pThrowableIndicator)
-                    {
-                        const FP v16 = (field_BC_sprite_scale * FP_FromInteger(-30)) + field_AC_ypos;
-                        pThrowableIndicator->ctor_41B520(
-                            (field_BC_sprite_scale * FP_FromInteger(0)) + field_A8_xpos,
-                            v16,
-                            field_10_anim.field_C_layer,
-                            field_10_anim.field_14_scale,
-                            field_19C_throwable_count,
-                            1);
-                    }
+                    const FP v16 = (field_BC_sprite_scale * FP_FromInteger(-30)) + field_AC_ypos;
+                    ao_new<ThrowableTotalIndicator>(
+                                                                          (field_BC_sprite_scale * FP_FromInteger(0)) + field_A8_xpos,
+                                                                               v16,
+                                                                               field_10_anim.field_C_layer,
+                                                                               field_10_anim.field_14_scale,
+                                                                               field_19C_throwable_count,
+                                                                               1);
                 }
                 tryToSlapOrCollect = true;
                 break;
@@ -3247,12 +3213,8 @@ void Abe::VOn_Tlv_Collision_421130(Path_TLV* pTlv)
                 }
                 const FP indicator_ypos = field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-50));
 
-                auto pCheckpointIndicator = ao_new<ThrowableTotalIndicator>();
-                if (pCheckpointIndicator)
-                {
-                    pCheckpointIndicator->ctor_41B520(indicator_xpos, indicator_ypos, field_10_anim.field_C_layer,
-                                                      field_10_anim.field_14_scale, 11, 1);
-                }
+                ao_new<ThrowableTotalIndicator>(indicator_xpos, indicator_ypos, field_10_anim.field_C_layer,
+                                                                            field_10_anim.field_14_scale, 11, 1);
             }
         }
         else if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
@@ -4186,19 +4148,14 @@ void Abe::Motion_0_Idle_423520()
 
                 if (bThrowableIndicatorExists_504C70 == 0)
                 {
-                    auto pThrowableTotalIndicator = ao_new<ThrowableTotalIndicator>();
-                    if (pThrowableTotalIndicator)
-                    {
-                        const FP xOffSet = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(15) : FP_FromInteger(-15) * field_BC_sprite_scale;
+                    const FP xOffSet = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(15) : FP_FromInteger(-15) * field_BC_sprite_scale;
 
-                        pThrowableTotalIndicator->ctor_41B520(
-                            field_A8_xpos + xOffSet,
-                            field_AC_ypos + field_BC_sprite_scale * FP_FromInteger(-50),
-                            field_10_anim.field_C_layer,
-                            field_10_anim.field_14_scale,
-                            field_19C_throwable_count,
-                            TRUE);
-                    }
+                    ao_new<ThrowableTotalIndicator>(field_A8_xpos + xOffSet,
+                                                                                    field_AC_ypos + field_BC_sprite_scale * FP_FromInteger(-50),
+                                                                                    field_10_anim.field_C_layer,
+                                                                                    field_10_anim.field_14_scale,
+                                                                                    field_19C_throwable_count,
+                                                                                    TRUE);
                 }
                 field_FC_current_motion = eAbeMotions::Motion_142_RockThrowStandingHold_429CE0;
 
@@ -5139,19 +5096,14 @@ void Abe::Motion_19_CrouchIdle_4284C0()
 
                 if (!bThrowableIndicatorExists_504C70)
                 {
-                    auto pRockCountGraphic = ao_new<ThrowableTotalIndicator>();
-                    if (pRockCountGraphic)
-                    {
-                        const FP yOff = field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-30));
-                        const FP xOff = field_BC_sprite_scale * (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-10) : FP_FromInteger(10));
-                        pRockCountGraphic->ctor_41B520(
-                            field_A8_xpos + xOff,
-                            yOff,
-                            field_10_anim.field_C_layer,
-                            field_10_anim.field_14_scale,
-                            field_19C_throwable_count,
-                            1);
-                    }
+                    const FP yOff = field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-30));
+                    const FP xOff = field_BC_sprite_scale * (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-10) : FP_FromInteger(10));
+                    ao_new<ThrowableTotalIndicator>(field_A8_xpos + xOff,
+                                                                             yOff,
+                                                                             field_10_anim.field_C_layer,
+                                                                             field_10_anim.field_14_scale,
+                                                                             field_19C_throwable_count,
+                                                                             1);
                 }
 
                 field_FC_current_motion = eAbeMotions::Motion_145_RockThrowCrouchingHold_428930;
@@ -6901,11 +6853,7 @@ void Abe::Motion_59_DeathDropFall_42CBE0()
         {
             Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
-            auto pScreenShake = ao_new<ScreenShake>();
-            if (pScreenShake)
-            {
-                pScreenShake->ctor_4624D0(1);
-            }
+            ao_new<ScreenShake>(true);
         }
         else if (static_cast<s32>(gnFrameCount_507670) >= field_118_timer)
         {
@@ -7022,13 +6970,9 @@ void Abe::Motion_60_Dead_42C4C0()
                 field_158_pDeathFadeout->mFlags.Set(Options::eDead);
                 field_158_pDeathFadeout->field_C_refCount--;
             }
-            field_158_pDeathFadeout = ao_new<DeathFadeOut>();
-            if (field_158_pDeathFadeout)
-            {
-                field_158_pDeathFadeout->ctor_419DB0(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
-            }
-
+            field_158_pDeathFadeout = ao_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
             field_158_pDeathFadeout->field_C_refCount++;
+
             if (field_164_pCircularFade)
             {
                 field_164_pCircularFade->mFlags.Set(Options::eDead);
@@ -7170,12 +7114,7 @@ void Abe::Motion_61_Respawn_42CD20()
                     LoadRockTypes_454370(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
                     if (!gpThrowableArray_50E26C)
                     {
-                        auto pThrowableArray = ao_new<ThrowableArray>();
-                        if (pThrowableArray)
-                        {
-                            pThrowableArray->ctor_453EE0();
-                        }
-                        gpThrowableArray_50E26C = pThrowableArray;
+                        gpThrowableArray_50E26C = ao_new<ThrowableArray>();
                     }
                     gpThrowableArray_50E26C->Add_453F70(field_19C_throwable_count);
                 }
@@ -7301,11 +7240,7 @@ void Abe::Motion_61_Respawn_42CD20()
                 mFlags.Set(Options::eDrawable_Bit4);
                 field_FC_current_motion = eAbeMotions::Motion_3_Fall_42E7F0;
 
-                auto pFlash = ao_new<Flash>();
-                if (pFlash)
-                {
-                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
-                }
+                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
                 field_106_shot = 0;
                 field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
                 field_114_gnFrame = gnFrameCount_507670;
@@ -7380,10 +7315,6 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
                 LoadRockTypes_454370(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
 
                 gpThrowableArray_50E26C = ao_new<ThrowableArray>();
-                if (gpThrowableArray_50E26C)
-                {
-                    gpThrowableArray_50E26C->ctor_453EE0();
-                }
             }
             gpThrowableArray_50E26C->Add_453F70(sActiveHero_507678->field_19C_throwable_count);
         }
@@ -7393,10 +7324,6 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
             if (!gpThrowableArray_50E26C)
             {
                 gpThrowableArray_50E26C = ao_new<ThrowableArray>();
-                if (gpThrowableArray_50E26C)
-                {
-                    gpThrowableArray_50E26C->ctor_453EE0();
-                }
             }
             gpThrowableArray_50E26C->Add_453F70(1);
             gInfiniteGrenades_5076EC = 1;
@@ -8253,11 +8180,7 @@ void Abe::Motion_86_FallLandDie_42EDD0()
     {
         SFX_Play_43AD70(SoundEffect::KillEffect_78, 85, 0);
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 95, 95);
-        auto pScreenShake = ao_new<ScreenShake>();
-        if (pScreenShake)
-        {
-            pScreenShake->ctor_4624D0(1);
-        }
+        ao_new<ScreenShake>(true);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -8432,12 +8355,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         field_16E_cameraIdx = 1;
                         field_164_pCircularFade->mFlags.Set(Options::eDead);
                         field_164_pCircularFade = 0;
-                        auto pDeathFadeOut = ao_new<DeathFadeOut>();
-                        if (pDeathFadeOut)
-                        {
-                            pDeathFadeOut->ctor_419DB0(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
-                        }
-                        field_158_pDeathFadeout = pDeathFadeOut;
+                        field_158_pDeathFadeout = ao_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                         field_190_level = gMap.mCurrentLevel;
                         field_192_path = gMap.mCurrentPath;
                         field_194_camera = gMap.field_4_current_camera;
@@ -8559,12 +8477,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     field_158_pDeathFadeout->mFlags.Set(Options::eDead);
                     field_110_state.stone = StoneStates::eWaitForInput_6;
                     field_16E_cameraIdx++;
-                    auto pDeathFadeOutMem = ao_new<DeathFadeOut>();
-                    if (pDeathFadeOutMem)
-                    {
-                        pDeathFadeOutMem->ctor_419DB0(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
-                    }
-                    field_158_pDeathFadeout = pDeathFadeOutMem;
+                    field_158_pDeathFadeout = ao_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                     gMap.SetActiveCam_444660(camera.level, camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }

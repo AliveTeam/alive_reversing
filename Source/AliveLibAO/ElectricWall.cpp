@@ -16,7 +16,7 @@ namespace AO {
 
 ElectricWall* ElectricWall::ctor_40FCF0(Path_ElectricWall* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BA8C0);
     field_4_typeId = Types::eElectricWall_25;
 

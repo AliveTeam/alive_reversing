@@ -25,7 +25,7 @@ void InvisibleSwitch::VScreenChanged()
 
 InvisibleSwitch* InvisibleSwitch::ctor_45FA70(Path_InvisibleSwitch* pTlv, u32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x545A7C); // vTbl_InvisibleSwitch_545A7C
     field_24_tlvInfo = tlvInfo;
     field_20_switch_id = pTlv->field_10_switch_id;

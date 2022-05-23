@@ -239,14 +239,10 @@ EXPORT void CC Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_
     }
 }
 
-Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 volume)
+Movie::Movie(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 volume)
+    : BaseGameObject(1)
 {
     AE_IMPLEMENTED();
-
-
-    ctor_487E10(1);
-    SetVTable(this, 0x4BD6E0);
-
 
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
     mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
@@ -276,23 +272,6 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
     ResourceManager::Reclaim_Memory_455660(0);
 
     IO_Init_494230(); // Set up IO funcs
-
-    return this;
-}
-
-BaseGameObject* Movie::VDestructor(s32 flags)
-{
-    return Vdtor_475FB0(flags);
-}
-
-BaseGameObject* Movie::Vdtor_475FB0(s32 flags)
-{
-    dtor_487DF0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Movie::VScreenChanged()

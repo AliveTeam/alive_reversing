@@ -40,9 +40,9 @@ enum Flags_10A
 class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BaseAliveGameObject* ctor_401090();
+    BaseAliveGameObject();
 
-    EXPORT BaseGameObject* dtor_401000();
+    ~BaseAliveGameObject();
 
     
 

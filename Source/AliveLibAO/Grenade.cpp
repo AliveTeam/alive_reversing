@@ -36,7 +36,7 @@ void Grenade::VScreenChanged()
 
 Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, s16 numGrenades)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     field_10E_bDead = 0;
     SetVTable(this, 0x4BB0A0);
     field_4_typeId = Types::eGrenade_40;

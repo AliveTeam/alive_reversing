@@ -15,7 +15,7 @@ ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
 
 Mine* Mine::ctor_43A330(Path_Mine* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BBA08);
     SetVTable(&field_118_animation, 0x4BA2B8);
     field_4_typeId = Types::eMine_57;

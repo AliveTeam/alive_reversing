@@ -12,7 +12,7 @@ ALIVE_VAR(1, 0x5D1E20, DemoPlayback*, sDemoObj_dword_5D1E20, nullptr);
 
 void DemoPlayback::ctor()
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x54690C);
 
     if (sDemoObj_dword_5D1E20)

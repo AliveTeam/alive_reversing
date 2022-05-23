@@ -9,9 +9,8 @@ enum class CameraPos : s16;
 class ScopedSeq final
 {
 public:
-    EXPORT ScopedSeq* ctor_476400(s8 ambianceId, CameraPos direction);
-
-    virtual ScopedSeq* VDestructor(s32 flags);
+    ScopedSeq(s32 ambianceId, CameraPos direction);
+    ~ScopedSeq();
 
     s16 field_4_seq_id;
     s16 field_6_pad;

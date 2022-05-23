@@ -24,7 +24,7 @@ static s32 gas_rand()
 
 LaughingGas* LaughingGas::ctor_432400(Layer layer, s32 /*notUsed*/, Path_LaughingGas* pTlv, s32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x545000);
 
     gGasInstanceCount_5BC214++;

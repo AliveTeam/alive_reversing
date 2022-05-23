@@ -24,7 +24,7 @@ const s32 dword_4C5054[11] = {0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000
 
 ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BA3C8);
     field_4_typeId = Types::eChimeLock_14;
 

@@ -21,7 +21,7 @@ namespace AO {
 
 MeatSack* MeatSack::ctor_4390F0(Path_MeatSack* pTlv, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BB930);
 
     field_4_typeId = Types::eMeatStack_55;
@@ -195,7 +195,7 @@ void MeatSack::VScreenChanged_439540()
 
 Meat* Meat::ctor_438550(FP xpos, FP ypos, s16 count)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BB8B0);
 
     field_10E_bDead = 0;

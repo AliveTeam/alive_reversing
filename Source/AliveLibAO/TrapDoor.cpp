@@ -164,7 +164,7 @@ void TrapDoor::Open()
 
 TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     field_12C_flag &= ~1u;
     SetVTable(this, 0x4BD5E0);
 

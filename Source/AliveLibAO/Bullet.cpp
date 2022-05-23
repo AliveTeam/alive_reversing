@@ -14,10 +14,9 @@
 
 namespace AO {
 
-EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets)
+Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets)
+    : BaseGameObject(1)
 {
-    ctor_487E10(1);
-    SetVTable(this, 0x4BA328);
     field_4_typeId = Types::eBullet_10;
     field_10_type = type;
     field_18_xpos = xpos;
@@ -30,17 +29,6 @@ EXPORT Bullet* Bullet::ctor_409380(BaseAliveGameObject* pParent, BulletType type
     field_34_number_of_bullets = numberOfBullets;
     field_20_x_distance = xDist;
     field_12_unused = 0;
-    return this;
-}
-
-BaseGameObject* Bullet::VDestructor(s32 flags)
-{
-    dtor_487DF0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Bullet::VUpdate()
@@ -107,19 +95,11 @@ void Bullet::VUpdate_408E30()
                 {
                     if (field_20_x_distance <= FP_FromInteger(0))
                     {
-                        auto pSpark = ao_new<Spark>();
-                        if (pSpark)
-                        {
-                            pSpark->ctor_477B70(hitX, hitY, field_2C_scale, 6u, -76, 76);
-                        }
+                        ao_new<Spark>(hitX, hitY, field_2C_scale, 6u, -76, 76);
                     }
                     else
                     {
-                        auto pSpark = ao_new<Spark>();
-                        if (pSpark)
-                        {
-                            pSpark->ctor_477B70(hitX, hitY, field_2C_scale, 6u, 50, 205);
-                        }
+                        ao_new<Spark>(hitX, hitY, field_2C_scale, 6u, 50, 205);
                     }
                     New_Smoke_Particles_419A80(hitX, hitY, field_2C_scale, 3, 0);
                     if (Math_RandomRange_450F20(0, 100) < 90 || Math_RandomRange_450F20(0, 128) >= 64)
@@ -204,11 +184,7 @@ void Bullet::VUpdate_408E30()
                     &hitY,
                     0x400))
             {
-                auto pSpark = ao_new<Spark>();
-                if (pSpark)
-                {
-                    pSpark->ctor_477B70(hitX, hitY, FP_FromInteger(1), 9u, -31, 159);
-                }
+                ao_new<Spark>(hitX, hitY, FP_FromInteger(1), 9u, -31, 159);
                 New_Smoke_Particles_419A80(hitX, hitY, FP_FromInteger(1), 3, 0);
             }
 

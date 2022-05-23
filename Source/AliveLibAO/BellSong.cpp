@@ -70,7 +70,7 @@ void BellSong::VUpdate()
 
 BellSong* BellSong::ctor_4760B0(BellsongTypes type, u32 code)
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BCD18);
 
     field_16_type = type;

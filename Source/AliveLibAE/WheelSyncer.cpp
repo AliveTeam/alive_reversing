@@ -23,7 +23,7 @@ void WheelSyncer::VScreenChanged()
 
 WheelSyncer* WheelSyncer::ctor_466090(Path_WheelSyncer* pTlv, u32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
 
     SetVTable(this, 0x545F20); // vTbl_WheelSyncer_545F20
 

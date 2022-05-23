@@ -12,7 +12,7 @@ namespace AO {
 
 LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BA1E0);
 
     field_4_typeId = Types::eNone_0;

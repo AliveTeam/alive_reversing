@@ -19,7 +19,7 @@ void Honey::VUpdate()
 
 Honey* Honey::ctor_431E30(FP xpos, FP ypos)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BB2F8);
     field_4_typeId = Types::eHoney_47;
 

@@ -20,7 +20,7 @@ void LevelLoader::VUpdate()
 
 LevelLoader* LevelLoader::ctor_4DD330(Path_LevelLoader* pTlv, u32 tlvInfo)
 {
-    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    BaseGameObject(TRUE, 0);
     SetVTable(this, 0x547B5C); // vTbl_LevelLoader_547B5C
     field_C_objectId = tlvInfo;
     field_20_switch_id = pTlv->field_10_switch_id;

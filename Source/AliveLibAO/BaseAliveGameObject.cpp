@@ -20,11 +20,10 @@ void BaseAliveGameObject_ForceLink()
 
 ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0, nullptr);
 
-BaseAliveGameObject* BaseAliveGameObject::ctor_401090()
+BaseAliveGameObject::BaseAliveGameObject()
 {
-    ctor_417C10();
+    
 
-    SetVTable(this, 0x4BA000);
 
     field_10A_flags.Clear(Flags_10A::e10A_Bit1_Can_Be_Possessed);
     field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
@@ -48,13 +47,11 @@ BaseAliveGameObject* BaseAliveGameObject::ctor_401090()
     field_104_pending_resource_count = 0;
     gBaseAliveGameObjects_4FC8A0->Push_Back(this);
     mFlags.Set(Options::eIsBaseAliveGameObject_Bit6);
-    return this;
 }
 
 
-BaseGameObject* BaseAliveGameObject::dtor_401000()
+BaseAliveGameObject::~BaseAliveGameObject()
 {
-    SetVTable(this, 0x4BA000);
     gBaseAliveGameObjects_4FC8A0->Remove_Item(this);
 
     if (field_F8_pLiftPoint)
@@ -68,23 +65,6 @@ BaseGameObject* BaseAliveGameObject::dtor_401000()
     {
         ResourceManager::WaitForPendingResources_41EA60(this);
     }
-
-    return dtor_417D10();
-}
-
-BaseGameObject* BaseAliveGameObject::VDestructor(s32 flags)
-{
-    return Vdtor_402540(flags);
-}
-
-BaseGameObject* BaseAliveGameObject::Vdtor_402540(s32 flags)
-{
-    dtor_401000();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void BaseAliveGameObject::VUnPosses()

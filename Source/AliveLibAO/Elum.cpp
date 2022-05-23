@@ -3865,7 +3865,7 @@ void Elum::Spawn_410E90(TlvItemInfoUnion tlvInfo)
 
 Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemInfoUnion tlvInfo)
 {
-    ctor_401090();
+    BaseAliveGameObject();
     SetVTable(this, 0x4BA8F8);
     field_4_typeId = Types::eElum_26;
 

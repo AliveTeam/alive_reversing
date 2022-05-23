@@ -365,7 +365,7 @@ s32 MusicController::GetMusicTime()
 
 MusicController* MusicController::ctor_442930()
 {
-    ctor_487E10(1);
+    BaseGameObject(1);
     SetVTable(this, 0x4BBBA8);
 
     mFlags.Set(Options::eSurviveDeathReset_Bit9);

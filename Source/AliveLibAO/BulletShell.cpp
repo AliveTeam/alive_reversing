@@ -12,7 +12,7 @@ namespace AO {
 
 BulletShell* BulletShell::ctor_462790(FP xpos, FP ypos, s16 direction, FP scale)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BC968);
 
     field_4_typeId = Types::eNone_0;

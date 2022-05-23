@@ -19,25 +19,8 @@ void ThrowableTotalIndicator::VScreenChanged()
     VScreenChanged_41BB70();
 }
 
-BaseGameObject* ThrowableTotalIndicator::Vdtor_41BB80(s32 flags)
+ThrowableTotalIndicator::~ThrowableTotalIndicator()
 {
-    dtor_41B610();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* ThrowableTotalIndicator::VDestructor(s32 flags)
-{
-    return Vdtor_41BB80(flags);
-}
-
-BaseGameObject* ThrowableTotalIndicator::dtor_41B610()
-{
-    SetVTable(this, 0x4BAED8);
-
     if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_504618->Remove_Item(this);
@@ -47,8 +30,6 @@ BaseGameObject* ThrowableTotalIndicator::dtor_41B610()
     {
         bThrowableIndicatorExists_504C70--;
     }
-
-    return dtor_487DF0();
 }
 
 void ThrowableTotalIndicator::VScreenChanged_41BB70()
@@ -329,11 +310,9 @@ void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, Layer layer, FP /*scale*/, s16 count, s16 bFade)
+ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)
+    : BaseGameObject(1)
 {
-    ctor_487E10(1);
-    SetVTable(this, 0x4BAED8);
-
     mFlags.Set(Options::eDrawable_Bit4);
     field_4_typeId = Types::eThrowableTotalIndicator_35;
 
@@ -381,15 +360,13 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_41B520(FP xpos, FP ypos, 
     }
     else
     {
-        field_38_num_to_show = count;
+        field_38_num_to_show = static_cast<s16>(count);
     }
 
     if (bFade)
     {
         bThrowableIndicatorExists_504C70++;
     }
-
-    return this;
 }
 
 } // namespace AO

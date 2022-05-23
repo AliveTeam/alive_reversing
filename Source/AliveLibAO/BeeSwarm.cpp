@@ -26,7 +26,7 @@ ALIVE_VAR(1, 0x5076AC, s16, gBeesNearAbe_5076AC, 0);
 
 BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks)
 {
-    ctor_417C10();
+    
 
     for (auto& bee : field_E4_bees.bees)
     {

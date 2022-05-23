@@ -210,7 +210,7 @@ BaseGameObject* Lever::dtor_481260()
 
 Lever* Lever::ctor_481110(Path_Lever* pTlv, s32 tlvInfo)
 {
-    ctor_417C10();
+    
     SetVTable(this, 0x4BD100);
 
     field_4_typeId = Types::eLever_97;

@@ -7,11 +7,9 @@
 
 ALIVE_VAR(1, 0x563aa4, u8, sLeafRandIdx_563AA4, 8);
 
-Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
+Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x548004); // vTbl_Leaf_548004
-
     field_D0_r = 100;
     field_D2_g = 100;
     field_D4_b = 100;
@@ -52,14 +50,8 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     const s16 randRightVol = Math_RandomRange_496AB0(-900, -700);
     SFX_Play(SoundEffect::Leaf_22, (3 * randLeftVol) / 4, randRightVol);
     SetUpdateDelay(1);
-
-    return this;
 }
 
-BaseGameObject* Leaf::VDestructor(s32 flags)
-{
-    return vdtor_4E32E0(flags);
-}
 
 void Leaf::VUpdate()
 {
@@ -138,20 +130,4 @@ void Leaf::vUpdate_4E3330()
 void Leaf::vScreenChanged_4E35B0()
 {
     mFlags.Set(BaseGameObject::eDead);
-}
-
-void Leaf::dtor_4E3310()
-{
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-Leaf* Leaf::vdtor_4E32E0(s32 flags)
-{
-    dtor_4E3310();
-
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
