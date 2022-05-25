@@ -40,10 +40,10 @@ u32 AutoFILE::ReadU32() const
     return value;
 }
 
-void BaseRecorder::Init(const char* pFileName)
+void BaseRecorder::Init(const char* pFileName, bool autoFlushFile)
 {
-    LOG_INFO("Recording to " << pFileName);
-    if (!mFile.Open(pFileName, "wb"))
+    LOG_INFO("Recording to " << pFileName << " auto flush=" << autoFlushFile ? "yes" : "no");
+    if (!mFile.Open(pFileName, "wb", autoFlushFile))
     {
         ALIVE_FATAL("Can't open recording file for writing");
     }
@@ -79,7 +79,7 @@ void BaseRecorder::SaveSyncPoint(u32 syncPointId)
 void BasePlayer::Init(const char* pFileName)
 {
     LOG_INFO("Playing from " << pFileName);
-    if (!mFile.Open(pFileName, "rb"))
+    if (!mFile.Open(pFileName, "rb", false))
     {
         ALIVE_FATAL("Can't open play back file for reading");
     }
@@ -144,7 +144,8 @@ void BaseGameAutoPlayer::ParseCommandLine(const char* pCmdLine)
     char buffer[256] = {};
     if (ExtractNamePairArgument(buffer, pCmdLine, "-record="))
     {
-        mRecorder.Init(buffer);
+        const bool flushFile = strstr(pCmdLine, "-flush") != nullptr;
+        mRecorder.Init(buffer, flushFile);
         mMode = Mode::Record;
     }
     else if (ExtractNamePairArgument(buffer, pCmdLine, "-play="))

@@ -29,10 +29,11 @@ public:
     AutoFILE& operator=(const AutoFILE&) const = delete;
     AutoFILE() = default;
 
-    bool Open(const char* pFileName, const char* pMode)
+    bool Open(const char* pFileName, const char* pMode, bool autoFlushFile)
     {
         Close();
         mFile = ::fopen(pFileName, pMode);
+        mAutoFlushFile = autoFlushFile;
         return mFile != nullptr;
     }
 
@@ -50,7 +51,9 @@ public:
     bool Write(const TypeToWrite& value)
     {
         static_assert(std::is_pod<TypeToWrite>::value, "TypeToWrite must be pod");
-        return ::fwrite(&value, sizeof(TypeToWrite), 1, mFile) == 1;
+        const bool ret = ::fwrite(&value, sizeof(TypeToWrite), 1, mFile) == 1;
+        Flush();
+        return ret;
     }
 
     template <typename TypeToRead>
@@ -80,7 +83,19 @@ public:
     }
 
 private:
+    void Flush()
+    {
+        if (mAutoFlushFile)
+        {
+            if (::fflush(mFile) != 0)
+            {
+                ALIVE_FATAL("fflush failed");
+            }
+        }
+    }
+
     FILE* mFile = nullptr;
+    bool mAutoFlushFile = false;
 };
 
 struct Pads final
@@ -93,7 +108,7 @@ class BaseRecorder
 public:
     BaseRecorder() = default;
     virtual ~BaseRecorder() = default;
-    void Init(const char* pFileName);
+    void Init(const char* pFileName, bool autoFlushFile);
     void SaveInput(const Pads& data);
     void SaveRng(s32 rng);
 
