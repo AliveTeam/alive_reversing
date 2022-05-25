@@ -1512,8 +1512,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::FallingMeat_Waiting, kNullAnimDetails, {"R1BARREL.BAN", 12148, 66, 42, AO::kF2rockAOResID, PalId::Default}},
     {AnimId::FallingMeat_Falling, kNullAnimDetails, {"R1BARREL.BAN", 12136, 66, 42, AO::kF2rockAOResID, PalId::Default}},
 
-    {AnimId::AO_FallingRock_Falling, kNullAnimDetails, {"F2ROCK.BAN", 11544, 76, 38, AO::kF2rockAOResID, PalId::Default}},
-    {AnimId::AO_FallingRock_Waiting, kNullAnimDetails, {"F2ROCK.BAN", 11504, 76, 38, AO::kF2rockAOResID, PalId::Default}},
+    {AnimId::AO_FallingRock_Falling, kNullAnimDetails, {"F2ROCK.BAN", 11504, 76, 38, AO::kF2rockAOResID, PalId::Default}},
+    {AnimId::AO_FallingRock_Waiting, kNullAnimDetails, {"F2ROCK.BAN", 11544, 76, 38, AO::kF2rockAOResID, PalId::Default}},
 
     {AnimId::Fart, { "EVILFART.BAN", 3532, 61, 39, kEvilFartResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Foot_Switch_Bonewerkz_Idle, { "BWTRIGGR.BAN", 548, 46, 11, kTriggerResID, PalId::Default}, kNullAnimDetails },
