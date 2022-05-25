@@ -79,7 +79,7 @@ bool Paramite::BrainIs(TParamiteBrainFn fn)
 
 Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo)
 {
-    ctor_408240(16);
+    BaseAliveGameObject(16);
     field_160_last_event_index = -1;
     field_174_unused = 0;
     field_176_unused = -1;

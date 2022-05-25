@@ -25,7 +25,7 @@ ALIVE_VAR(1, 0x5C300C, MovingBomb*, gMovingBomb_5C300C, nullptr);
 
 MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     mFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     SetVTable(this, 0x546270);

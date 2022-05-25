@@ -24,9 +24,8 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    EXPORT CheatController* ctor_421BD0();
-    EXPORT BaseGameObject* vdtor_421C10(s32 flags);
-    EXPORT void dtor_421C40();
+    CheatController();
+    ~CheatController();
 
     EXPORT void Update_421C70();
 

@@ -35,10 +35,9 @@ const TintEntry sSecurityOrbTints_55C1EC[18] = {
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 
-SecurityOrb* SecurityOrb::ctor_466350(Path_SecurityOrb* pTlv, s32 tlvInfo)
+SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
 {
-    ctor_408240(0);
-    SetVTable(this, 0x545F3C);
+    BaseAliveGameObject(0);
 
     SetType(AETypes::eSecurityOrb_83);
 
@@ -71,24 +70,10 @@ SecurityOrb* SecurityOrb::ctor_466350(Path_SecurityOrb* pTlv, s32 tlvInfo)
     field_DC_bApplyShadows |= 2u;
     field_11C_state = 0;
     field_124_sound_channels_mask = 0;
-
-    return this;
 }
 
-SecurityOrb* SecurityOrb::vdtor_4664B0(s32 flags)
+SecurityOrb::~SecurityOrb()
 {
-    dtor_4664E0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void SecurityOrb::dtor_4664E0()
-{
-    SetVTable(this, 0x545F3C);
-
     if (field_124_sound_channels_mask)
     {
         SND_Stop_Channels_Mask_4CA810(field_124_sound_channels_mask);
@@ -102,8 +87,6 @@ void SecurityOrb::dtor_4664E0()
     {
         Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 1);
     }
-
-    dtor_4080B0();
 }
 
 void SecurityOrb::vScreenChanged_466D20()

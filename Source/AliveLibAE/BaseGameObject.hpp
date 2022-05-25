@@ -213,11 +213,11 @@ public:
     virtual void VScreenChanged();
     virtual void VStopAudio();
     virtual s32 VGetSaveState(u8* pSaveBuffer);
+    virtual ~BaseGameObject();
 
 protected:
     EXPORT u8** Add_Resource(u32 type, s32 resourceID);
     BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize);
-    virtual ~BaseGameObject();
 
     EXPORT static s32 CCSTD RefreshId(s32 objectId);
 

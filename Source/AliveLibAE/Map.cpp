@@ -118,7 +118,7 @@ void Map::ScreenChange_480B80()
             if (pItem->mFlags.Get(BaseGameObject::eDead))
             {
                 iter.Remove_At_Iter_40CCA0();
-                pItem->VDestructor(1);
+                delete pItem;
             }
         }
     }
@@ -752,11 +752,7 @@ void Map::GoTo_Camera_481890()
             SND_Load_VABS_4CA350(Path_Get_MusicInfo(mLevel), Path_Get_Reverb(mLevel));
             SND_Load_Seqs_4CAED0(sSeqData_558D50.mSeqs, Path_Get_BsqFileName(mLevel));
 
-            auto pBackgroundMusic = ae_new<BackgroundMusic>();
-            if (pBackgroundMusic)
-            {
-                pBackgroundMusic->ctor_4CB110(Path_Get_BackGroundMusicId(mLevel));
-            }
+            ae_new<BackgroundMusic>(Path_Get_BackGroundMusicId(mLevel));
         }
 
         if (!field_8_force_load)
@@ -897,11 +893,7 @@ void Map::GoTo_Camera_481890()
     // Create the screen manager if it hasn't already been done (probably should have always been done by this point though?)
     if (!pScreenManager_5BB5F4)
     {
-        pScreenManager_5BB5F4 = ae_new<ScreenManager>();
-        if (pScreenManager_5BB5F4)
-        {
-            pScreenManager_5BB5F4->ctor_40E3E0(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
-        }
+        pScreenManager_5BB5F4 = ae_new<ScreenManager>(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
     }
 
     sPath_dword_BB47C0->Loader_4DB800(field_D0_cam_x_idx, field_D2_cam_y_idx, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
@@ -955,11 +947,7 @@ void Map::GoTo_Camera_481890()
         {
             if (!field_20)
             {
-                auto obj = ae_new<CameraSwapper>();
-                if (obj)
-                {
-                    obj->ctor_4E5000(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, 368 / 2, 240 / 2);
-                }
+                ae_new<CameraSwapper>(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, 368 / 2, 240 / 2);
             }
             else
             {
@@ -998,19 +986,15 @@ Camera* Map::GetCamera(CameraPos pos)
 
 void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
 {
-    auto obj = ae_new<CameraSwapper>();
-    if (obj)
-    {
-        // TODO: Refactor
-        const FP_Point* pCamPos2 = pScreenManager_5BB5F4->field_20_pCamPos;
-        const s16 doorYDiff = static_cast<s16>(pTlv->field_8_top_left.field_2_y - FP_GetExponent(pCamPos2->field_4_y));
-        FP camX = pCamPos2->field_0_x;
-        const s16 midX = (pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2;
+    // TODO: Refactor
+    const FP_Point* pCamPos2 = pScreenManager_5BB5F4->field_20_pCamPos;
+    const s16 doorYDiff = static_cast<s16>(pTlv->field_8_top_left.field_2_y - FP_GetExponent(pCamPos2->field_4_y));
+    FP camX = pCamPos2->field_0_x;
+    const s16 midX = (pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2;
 
-        const s16 rightPos = static_cast<s16>(midX - FP_GetExponent(camX));
-        const s16 xpos2 = rightPos;
-        obj->ctor_4E5000(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, xpos2, doorYDiff);
-    }
+    const s16 rightPos = static_cast<s16>(midX - FP_GetExponent(camX));
+    const s16 xpos2 = rightPos;
+    ae_new<CameraSwapper>(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, xpos2, doorYDiff);
 }
 
 void Map::Get_map_size_480640(PSX_Point* pPoint)
@@ -1055,8 +1039,7 @@ void Map::Create_FG1s_480F10()
             ResourceManager::Header* pHeader = ResourceManager::Get_Header_49C410(ppRes);
             if (pHeader->field_8_type == ResourceManager::Resource_FG1)
             {
-                FG1* pFG1 = ae_new<FG1>();
-                pFG1->ctor_499FC0(ppRes);
+                ae_new<FG1>(ppRes);
             }
         }
     }
@@ -1189,27 +1172,25 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelId
             &pos2,
             &pos3);
 
-        auto pSwapper = ae_new<CameraSwapper>();
-        return pSwapper->ctor_4E4ED0(
-            ppBits,
-            pos1,
-            pFmvRec1->field_4_id,
-            pos2,
-            pFmvRec2->field_4_id,
-            pos3,
-            pFmvRec3->field_4_id,
+        return ae_new<CameraSwapper>(ppBits,
+                                              pos1,
+                                              pFmvRec1->field_4_id,
+                                              pos2,
+                                              pFmvRec2->field_4_id,
+                                              pos3,
+                                              pFmvRec3->field_4_id,
 
-            pFmvRec1->field_6_flags & 1,
-            pFmvRec1->field_8_flags,
-            pFmvRec1->field_A_volume,
+                                              pFmvRec1->field_6_flags & 1,
+                                              pFmvRec1->field_8_flags,
+                                              pFmvRec1->field_A_volume,
 
-            pFmvRec2->field_6_flags & 1,
-            pFmvRec2->field_8_flags,
-            pFmvRec2->field_A_volume,
+                                              pFmvRec2->field_6_flags & 1,
+                                              pFmvRec2->field_8_flags,
+                                              pFmvRec2->field_A_volume,
 
-            pFmvRec3->field_6_flags & 1,
-            pFmvRec3->field_8_flags,
-            pFmvRec3->field_A_volume);
+                                              pFmvRec3->field_6_flags & 1,
+                                              pFmvRec3->field_8_flags,
+                                              pFmvRec3->field_A_volume);
     }
     else if (pMap->field_12_fmv_base_id >= 100u)
     {
@@ -1220,21 +1201,19 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelId
         u32 cdPos2 = 0;
         Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // HACK
-        auto pSwapper = ae_new<CameraSwapper>();
-        return pSwapper->ctor_4E4DC0(
-            ppBits,
-            cdPos1,
-            pFmvRec1->field_4_id,
-            cdPos2,
-            pFmvRec2->field_4_id,
+        return ae_new<CameraSwapper>(ppBits,
+                                              cdPos1,
+                                              pFmvRec1->field_4_id,
+                                              cdPos2,
+                                              pFmvRec2->field_4_id,
 
-            pFmvRec1->field_6_flags & 1,
-            pFmvRec1->field_8_flags,
-            pFmvRec1->field_A_volume,
+                                              pFmvRec1->field_6_flags & 1,
+                                              pFmvRec1->field_8_flags,
+                                              pFmvRec1->field_A_volume,
 
-            pFmvRec2->field_6_flags & 1,
-            pFmvRec2->field_8_flags,
-            pFmvRec2->field_A_volume);
+                                              pFmvRec2->field_6_flags & 1,
+                                              pFmvRec2->field_8_flags,
+                                              pFmvRec2->field_A_volume);
     }
     else // < 100
     {
@@ -1243,14 +1222,12 @@ BaseGameObject* CC Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelId
         u32 cdPos = 0;
         Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, 0, 0, &cdPos, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // HACK
-        auto pSwapper = ae_new<CameraSwapper>();
-        return pSwapper->ctor_4E4CA0(
-            ppBits,
-            cdPos,
-            pFmvRec1->field_4_id,
-            pFmvRec1->field_6_flags & 1,
-            pFmvRec1->field_8_flags,
-            pFmvRec1->field_A_volume);
+        return ae_new<CameraSwapper>(ppBits,
+                                              cdPos,
+                                              pFmvRec1->field_4_id,
+                                              pFmvRec1->field_6_flags & 1,
+                                              pFmvRec1->field_8_flags,
+                                              pFmvRec1->field_A_volume);
     }
 }
 

@@ -483,14 +483,9 @@ MainMenuFrameTable sMainMenuFrameTable_561CC8[49] = {
 bool gBootToLoadScreen = false;
 #endif
 
-MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOffsetLevelIdPathId)
+MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOffsetLevelIdPathId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-
-
-    SetVTable(this, 0x547958);
-    SetVTable(&field_158_animation, 0x544290);
-
     sMainMenuObjectCounter_BB4400++;
     mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
@@ -618,7 +613,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
         field_20_animation.Set_Animation_Data_409C80(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
-        return this;
+        return;
     }
 
     if (gMap.field_4_current_camera == MainMenuCams::eDemoSelectionCam)
@@ -641,23 +636,10 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         field_20_animation.Set_Animation_Data_409C80(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
     }
-    return this;
 }
 
-BaseGameObject* MainMenuController::vdtor_4CEF00(s32 flags)
+MainMenuController::~MainMenuController()
 {
-    dtor_4CEF30();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void MainMenuController::dtor_4CEF30()
-{
-    SetVTable(this, 0x547958);
-
     Path::TLV_Reset_4DB8E0(field_1F0_tlvOffsetLevelIdPathId, -1, 0, 0);
     field_158_animation.vCleanUp_40C630();
 
@@ -669,12 +651,6 @@ void MainMenuController::dtor_4CEF30()
     sMainMenuObjectCounter_BB4400--;
 
     field_120_font.dtor_433540();
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-BaseGameObject* MainMenuController::VDestructor(s32 flags)
-{
-    return vdtor_4CEF00(flags);
 }
 
 void MainMenuController::VUpdate()
@@ -816,29 +792,24 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
             // Spawn chant star/flare particle at random locations around abes head
             const AnimRecord& flareRec = AnimRec(AnimId::OptionChantOrb_Particle);
             field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, flareRec.mResourceId, FALSE, FALSE);
-            Particle* pParticle = ae_new<Particle>();
-            if (pParticle)
-            {
-                const s16 randX = Math_RandomRange_496AB0(-40, 40) + 184;
-                const s16 randY = Math_RandomRange_496AB0(30, 90);
+            
+            const s16 randX = Math_RandomRange_496AB0(-40, 40) + 184;
+            const s16 randY = Math_RandomRange_496AB0(30, 90);
 
-                const FP xpos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromDouble(randX);
-                FP ypos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromDouble(randY);
-                ypos.fpValue += 0x44D60C; // TODO: 68.83 ??
-
-                pParticle->ctor_4CC4C0(
-                    xpos,
+            const FP xpos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromDouble(randX);
+            FP ypos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromDouble(randY);
+            ypos.fpValue += 0x44D60C; // TODO: 68.83 ??
+            Particle* pParticle = ae_new<Particle>(xpos,
                     ypos,
                     flareRec.mFrameTableOffset,
                     flareRec.mMaxW,
                     flareRec.mMaxH,
                     field_F4_resources.field_0_resources[MenuResIds::eOptionFlare]);
 
-                if (pParticle)
-                {
-                    pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-                    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_39;
-                }
+            if (pParticle)
+            {
+                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+                pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_39;
             }
         }
         return MainMenuNextCam(MainMenuCams::eNoChange);
@@ -1557,11 +1528,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 
             dword_55C128 = -1;
 
-            auto pMovie = ae_new<Movie>();
-            if (pMovie)
-            {
-                pMovie->ctor_4DFDE0(pFmvRecord->field_4_id, input_held, pFmvRecord->field_6_flags & 1, pFmvRecord->field_8_flags, pFmvRecord->field_A_volume);
-            }
+            auto pMovie = ae_new<Movie>(pFmvRecord->field_4_id, input_held, pFmvRecord->field_6_flags & 1, pFmvRecord->field_8_flags, pFmvRecord->field_A_volume);
 
             while (sMovie_ref_count_BB4AE4)
             {
@@ -1823,20 +1790,12 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
             if (!pPauseMenu_5C9300)
             {
                 pPauseMenu_5C9300 = ae_new<PauseMenu>();
-                if (pPauseMenu_5C9300)
-                {
-                    pPauseMenu_5C9300->ctor_48FB80();
-                }
             }
 
             if (sActiveHero_5C1B68 == spAbe_554D5C)
             {
-                sActiveHero_5C1B68 = ae_new<Abe>();
-                if (sActiveHero_5C1B68)
-                {
-                    const AnimRecord& mudWalkRec = AnimRec(AnimId::Mudokon_Walk);
-                    sActiveHero_5C1B68->ctor_44AD10(mudWalkRec.mFrameTableOffset, 85, 57, 55);
-                }
+                const AnimRecord& mudWalkRec = AnimRec(AnimId::Mudokon_Walk);
+                sActiveHero_5C1B68 = ae_new<Abe>(mudWalkRec.mFrameTableOffset, 85, 57, 55);
             }
 
             if (field_208_transition_obj)
@@ -1889,20 +1848,12 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     if (!pPauseMenu_5C9300)
     {
         pPauseMenu_5C9300 = ae_new<PauseMenu>();
-        if (pPauseMenu_5C9300)
-        {
-            pPauseMenu_5C9300->ctor_48FB80();
-        }
     }
 
     if (sActiveHero_5C1B68 == spAbe_554D5C)
     {
-        sActiveHero_5C1B68 = ae_new<Abe>();
-        if (sActiveHero_5C1B68)
-        {
-            const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
-            sActiveHero_5C1B68->ctor_44AD10(rec.mFrameTableOffset, 85, 57, 55);
-        }
+        const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
+        sActiveHero_5C1B68 = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
     }
 
     if (field_23C_T80.Get(Flags::eBit25_CheatLevelSelectLoading))
@@ -1973,16 +1924,11 @@ EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u3
             Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, nullptr, nullptr, &fmvSector, 0, 0);
             sLevelId_dword_5CA408 = 0;
 
-            auto pMovie = ae_new<Movie>();
-            if (pMovie)
-            {
-                pMovie->ctor_4DFDE0(
-                    pFmvRecord->field_4_id,
-                    input_held,
-                    pFmvRecord->field_6_flags & 1,
-                    pFmvRecord->field_8_flags,
-                    pFmvRecord->field_A_volume);
-            }
+            auto pMovie = ae_new<Movie>(pFmvRecord->field_4_id,
+                                        input_held,
+                                        pFmvRecord->field_6_flags & 1,
+                                        pFmvRecord->field_8_flags,
+                                        pFmvRecord->field_A_volume);
 
             while (sMovie_ref_count_BB4AE4)
             {
@@ -2177,11 +2123,10 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 
         if (sActiveHero_5C1B68 == spAbe_554D5C)
         {
-            auto abe = ae_new<Abe>();
+            const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
+            auto abe = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
             if (abe)
             {
-                const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
-                sActiveHero_5C1B68 = abe->ctor_44AD10(rec.mFrameTableOffset, 85, 57, 55);
                 sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
                 sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
             }
@@ -3314,16 +3259,11 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 sLevelId_dword_5CA408 = 0;
 
                 // Create a movie object for the GTI logo
-                auto pMovie = ae_new<Movie>();
-                if (pMovie)
-                {
-                    pMovie->ctor_4DFDE0(
-                        pFmvRecord->field_4_id,
-                        pos,
-                        pFmvRecord->field_6_flags & 1,
-                        pFmvRecord->field_8_flags,
-                        pFmvRecord->field_A_volume);
-                }
+                auto pMovie = ae_new<Movie>(pFmvRecord->field_4_id,
+                                            pos,
+                                            pFmvRecord->field_6_flags & 1,
+                                            pFmvRecord->field_8_flags,
+                                            pFmvRecord->field_A_volume);
 
                 // Run the movie till its done
                 while (sMovie_ref_count_BB4AE4 > 0)
@@ -3345,17 +3285,11 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 // Create movie object for the DD logo
                 Get_fmvs_sectors_494460("DDLOGO.STR", 0, 0, &pos, 0, 0);
                 sLevelId_dword_5CA408 = 0;
-                pMovie = ae_new<Movie>();
-
-                if (pMovie)
-                {
-                    pMovie->ctor_4DFDE0(
-                        pFmvRecord->field_4_id,
-                        pos,
-                        pFmvRecord->field_6_flags & 1,
-                        pFmvRecord->field_8_flags,
-                        pFmvRecord->field_A_volume);
-                }
+                pMovie = ae_new<Movie>(pFmvRecord->field_4_id,
+                                       pos,
+                                       pFmvRecord->field_6_flags & 1,
+                                       pFmvRecord->field_8_flags,
+                                       pFmvRecord->field_A_volume);
 
                 // Run the movie till its done
                 while (sMovie_ref_count_BB4AE4 > 0)

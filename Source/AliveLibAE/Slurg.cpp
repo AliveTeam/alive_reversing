@@ -44,7 +44,7 @@ TintEntry sSlurgTints_560BCC[18] = {
 
 Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(this, 0x547720);
 
     field_128_pTlv = pTlv;

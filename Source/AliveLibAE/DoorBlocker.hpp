@@ -14,15 +14,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorBlocker, 0x14);
 class DoorBlocker final : public BaseAliveGameObject
 {
 public:
-    EXPORT DoorBlocker* ctor_41F0A0(Path_DoorBlocker* pTlv, s32 tlvInfo);
-    EXPORT void dtor_41F310();
+    DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo);
+    ~DoorBlocker();
 
     virtual void VUpdate() override;
-    
 
 private:
     EXPORT void vUpdate_41F250();
-    EXPORT DoorBlocker* vdtor_41F220(s32 flags);
 
 private:
     s16 field_118_bDone;

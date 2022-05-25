@@ -23,9 +23,9 @@ enum class LevelIds : s16;
 class FG1 final : public BaseGameObject
 {
 public:
-    EXPORT FG1* ctor_499FC0(u8** pFg1Res);
+    explicit FG1(u8** pFg1Res);
+    ~FG1();
 
-    
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override
     { }
@@ -33,8 +33,6 @@ public:
 
     EXPORT void vScreenChanged_49A520();
     EXPORT void vRender_49A3C0(PrimHeader** ppOt);
-    EXPORT BaseGameObject* vdtor_49A1E0(s32 flags);
-    EXPORT void dtor_49A540();
     EXPORT s16 Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
     s32 field_20_unused;

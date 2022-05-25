@@ -122,7 +122,7 @@ static u8 Fleech_NextRandom()
 
 Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo)
 {
-    ctor_408240(2);
+    BaseAliveGameObject(2);
     SetVTable(this, 0x544F28);
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);

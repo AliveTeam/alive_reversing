@@ -20,7 +20,7 @@ const FP mineCarWidthUnscaled = FP_FromInteger(12);
 
 MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*a6*/)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(&field_124_anim, 0x544290);
     SetVTable(this, 0x5461FC);
     SetType(AETypes::eMineCar_89);

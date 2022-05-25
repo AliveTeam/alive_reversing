@@ -513,7 +513,7 @@ bool Slig::BrainIs(TSligBrainFn fn)
 
 Slig* Slig::ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo)
 {
-    ctor_408240(17);
+    BaseAliveGameObject(17);
 
     field_160_last_event_index = -1;
     field_176_unused = -1;

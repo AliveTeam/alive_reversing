@@ -58,12 +58,9 @@ private:
     u32 mIdx = 0;
 };
 
-FG1* FG1::ctor_499FC0(u8** pFG1Res)
+FG1::FG1(u8** pFG1Res)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-
-    SetVTable(this, 0x5469C8); // vTbl_FG1_5469C8
-
     mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mFlags.Set(BaseGameObject::eDrawable_Bit4);
@@ -93,31 +90,13 @@ FG1* FG1::ctor_499FC0(u8** pFG1Res)
 
     FG1Reader loader(*this);
     loader.Iterate(pHeader);
-
-    return this;
 }
 
-BaseGameObject* FG1::VDestructor(s32 flags)
-{
-    return vdtor_49A1E0(flags);
-}
 
-BaseGameObject* FG1::vdtor_49A1E0(s32 flags)
+FG1::~FG1()
 {
-    dtor_49A540();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void FG1::dtor_49A540()
-{
-    SetVTable(this, 0x5469C8); // vTbl_FG1_5469C8
     gFG1List_5D1E28->Remove_Item(this);
     ResourceManager::FreeResource_49C330(field_2C_ptr);
-    BaseGameObject_dtor_4DBEC0();
 }
 
 s16 FG1::Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock)

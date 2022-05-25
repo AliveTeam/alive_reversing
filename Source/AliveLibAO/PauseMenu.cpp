@@ -61,11 +61,8 @@ const u8 byte_4C5EE8[32] = {
     78u};
 
 
-PauseMenu* PauseMenu::ctor_44DEA0()
+PauseMenu::PauseMenu()
 {
-    
-    SetVTable(this, 0x4BBD68);
-
     field_4_typeId = Types::ePauseMenu_61;
     field_8_update_delay = 25;
 
@@ -77,33 +74,13 @@ PauseMenu* PauseMenu::ctor_44DEA0()
     field_130 = 0;
     field_11C = 0;
     sDisableFontFlicker_5080E4 = FALSE;
-    return this;
 }
 
-BaseGameObject* PauseMenu::dtor_44DF40()
+PauseMenu::~PauseMenu()
 {
-    SetVTable(this, 0x4BBD68);
-
     mFlags.Clear(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Remove_Item(this);
     field_E4_font.dtor_41C130();
-
-    return dtor_417D10();
-}
-
-BaseGameObject* PauseMenu::VDestructor(s32 flags)
-{
-    return Vdtor_44EAA0(flags);
-}
-
-PauseMenu* PauseMenu::Vdtor_44EAA0(s32 flags)
-{
-    dtor_44DF40();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void PauseMenu::VScreenChanged()

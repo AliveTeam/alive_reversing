@@ -15,7 +15,7 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT void Init_4DFF60(s32 a2, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume);
-    Movie(s32 id, u32 pos, s16 bUnknown, s16 flags, s16 volume);
+    Movie(s32 id, u32 pos, s32 bUnknown, s32 flags, s32 volume);
     EXPORT void vUpdate_4E0030();
 
 private:

@@ -31,26 +31,6 @@ void ScreenManager::MoveImage_40EB70()
     PSX_MoveImage_4F5D50(&rect, 0, 0);
 }
 
-BaseGameObject* ScreenManager::VDestructor(s32 flags)
-{
-    return vdtor_40E460(flags);
-}
-
-void ScreenManager::dtor_40E490()
-{
-    BaseGameObject_dtor_4DBEC0();
-}
-
-BaseGameObject* ScreenManager::vdtor_40E460(s32 flags)
-{
-    dtor_40E490();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
 void ScreenManager::InvalidateRect_40EC90(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
     x = std::max(x, 0);
@@ -184,19 +164,15 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
     UnsetDirtyBits_40EDE0(3);
 }
 
-ScreenManager* ScreenManager::ctor_40E3E0(u8** ppBits, FP_Point* pCameraOffset)
+ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
     field_20_pCamPos = pCameraOffset;
 
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
-    SetVTable(this, 0x5441E4);
-
     Init_40E4B0(ppBits);
-
-    return this;
 }
 
 void ScreenManager::Init_40E4B0(u8** ppBits)
@@ -415,8 +391,7 @@ void DirtyBitTests()
     gBaseGameObjects = ae_new<DynamicArrayT<BaseGameObject>>();
     gBaseGameObjects->ctor_40CA60(50);
 
-    ScreenManager sm;
-    sm.ctor_40E3E0(nullptr, nullptr);
+    ScreenManager sm(nullptr, nullptr);
 
     sm.UnsetDirtyBits_40EDE0(0);
 

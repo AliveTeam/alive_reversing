@@ -16,12 +16,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x18);
 class DoorFlame final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT DoorFlame* ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo);
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        return vdtor_45E690(flags);
-    }
+    DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo);
+    ~DoorFlame();
 
     virtual void VUpdate() override
     {
@@ -39,10 +35,6 @@ public:
     }
 
 private:
-    EXPORT DoorFlame* vdtor_45E690(s32 flags);
-
-    EXPORT void dtor_45E6C0();
-
     EXPORT void vStopAudio_45E7E0();
 
     EXPORT void vScreenChanged_45EA90();

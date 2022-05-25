@@ -61,7 +61,7 @@ const TintEntry sLiftTints_55BF50[18] = {
 
 LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(&field_13C_lift_wheel, 0x544290);  // gVtbl_animation_2a_544290;
     SetVTable(&field_1D4_pulley_anim, 0x544290); // gVtbl_animation_2a_544290;
     SetVTable(this, 0x545CC0);                   // vTbl_LiftPoint_545CC0

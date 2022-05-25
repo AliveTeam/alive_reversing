@@ -20,7 +20,7 @@
 
 EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(this, 0x54566C);
 
     SetType(AETypes::eGreeter_64);

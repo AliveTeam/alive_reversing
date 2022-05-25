@@ -22,12 +22,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x14);
 class SecurityOrb final : public BaseAliveGameObject
 {
 public:
-    EXPORT SecurityOrb* ctor_466350(Path_SecurityOrb* pTlv, s32 tlvInfo);
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        return vdtor_4664B0(flags);
-    }
+    SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo);
+    ~SecurityOrb();
 
     virtual void VUpdate() override
     {
@@ -50,9 +46,6 @@ public:
     }
 
 private:
-    EXPORT SecurityOrb* vdtor_4664B0(s32 flags);
-
-    EXPORT void dtor_4664E0();
 
     EXPORT void vScreenChanged_466D20();
 

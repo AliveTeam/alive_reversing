@@ -62,7 +62,7 @@ s16 Mine::VTakeDamage_408730(BaseGameObject* pFrom)
 
 Mine* Mine::ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
 
     SetVTable(this, 0x546164);
     SetVTable(&field_124_animation, 0x544290);

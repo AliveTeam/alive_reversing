@@ -58,11 +58,10 @@ public:
 
     EXPORT void DecompressCameraToVRam_40EF60(u16** ppBits);
 
-    EXPORT ScreenManager* ctor_40E3E0(u8** ppBits, FP_Point* pCameraOffset);
+    ScreenManager(u8** ppBits, FP_Point* pCameraOffset);
 
     EXPORT void Init_40E4B0(u8** ppBits);
 
-    EXPORT void dtor_40E490();
     EXPORT BaseGameObject* vdtor_40E460(s32 flags);
 
     EXPORT static s32 CC GetTPage_40F040(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);

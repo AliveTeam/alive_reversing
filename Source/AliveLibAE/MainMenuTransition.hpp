@@ -13,12 +13,12 @@ ALIVE_ASSERT_SIZEOF(MainMenuTransition_Polys, 0x100);
 class MainMenuTransition final : public BaseGameObject
 {
 public:
-    EXPORT MainMenuTransition* ctor_464110(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 fadeSpeed, TPageAbr abr);
+    MainMenuTransition(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 fadeSpeed, TPageAbr abr);
+    ~MainMenuTransition();
+
     EXPORT void StartTrans_464370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed);
     EXPORT void Update_464400();
     EXPORT void Render_464470(PrimHeader** ppOt);
-    EXPORT void dtor_4642F0();
-    EXPORT BaseGameObject* vdtor_4642C0(s32 flags);
     EXPORT void vScreenChanged_4648D0();
 
     virtual void VRender(PrimHeader** ppOt) override;

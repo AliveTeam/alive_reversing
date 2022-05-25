@@ -47,12 +47,9 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
         {-16, 0, 256, 1},
 };
 
-MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 fadeSpeed, TPageAbr abr)
+MainMenuTransition::MainMenuTransition(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 fadeSpeed, TPageAbr abr)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-
-    SetVTable(this, 0x545EA0); // vTbl_MainMenuTransition_545EA0
-
     SetType(AETypes::eMainMenuTransistion_116);
 
     gObjList_drawables_5C1124->Push_Back(this);
@@ -87,8 +84,6 @@ MainMenuTransition* MainMenuTransition::ctor_464110(Layer layer, s16 fadeDirecti
     field_24E_width = 320;
     field_250_k120 = 120;
     StartTrans_464370(layer, fadeDirection, bKillWhenDone, fadeSpeed);
-
-    return this;
 }
 
 void MainMenuTransition::StartTrans_464370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)
@@ -252,21 +247,9 @@ void MainMenuTransition::Render_464470(PrimHeader** ppOt)
     }
 }
 
-void MainMenuTransition::dtor_4642F0()
+MainMenuTransition::~MainMenuTransition()
 {
-    SetVTable(this, 0x545EA0); // vTbl_MainMenuTransition_545EA0
     gObjList_drawables_5C1124->Remove_Item(this);
-    BaseGameObject_dtor_4DBEC0();
-}
-
-BaseGameObject* MainMenuTransition::vdtor_4642C0(s32 flags)
-{
-    dtor_4642F0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void MainMenuTransition::vScreenChanged_4648D0()
@@ -285,11 +268,6 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
 void MainMenuTransition::VUpdate()
 {
     Update_464400();
-}
-
-BaseGameObject* MainMenuTransition::VDestructor(s32 flags)
-{
-    return vdtor_4642C0(flags);
 }
 
 void MainMenuTransition::VScreenChanged()

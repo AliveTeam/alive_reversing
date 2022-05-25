@@ -129,7 +129,7 @@ s16 UXB::VTakeDamage_408730(BaseGameObject* pFrom)
 
 UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(&field_128_animation, 0x544290);
     SetVTable(this, 0x547E80);
     SetType(AETypes::eUXB_143);

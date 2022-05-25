@@ -14,97 +14,69 @@
 #include "ScreenClipper.hpp"
 #include "Sys_common.hpp"
 
-CameraSwapper* CameraSwapper::ctor_4E4CA0(u8** ppCamRes, s32 movieSector, s32 movieId, s8 movieFlag, s16 movieFlags, s16 movieVol)
+CameraSwapper::CameraSwapper(u8** ppCamRes, s32 movieSector, s32 movieId, s32 movieFlag, s32 movieFlags, s32 movieVol)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
-
     Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay1FMV_5);
 
     PSX_ResetCallBack_4FAA20();
 
-    Movie* pMovie = ae_new<Movie>();
-    if (pMovie)
-    {
-        pMovie->ctor_4DFDE0(movieId, movieSector, movieFlag, movieFlags, movieVol);
-    }
+    ae_new<Movie>(movieId, movieSector, movieFlag, movieFlags, movieVol);
 
-    field_4C_movie_bPutDispEnv = movieFlags;
-
-    return this;
+    field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags);
 }
 
-CameraSwapper* CameraSwapper::ctor_4E4DC0(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2)
+CameraSwapper::CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
-
     Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay2FMVs_9);
 
     PSX_ResetCallBack_4FAA20();
 
-    Movie* pMovie = ae_new<Movie>();
-    if (pMovie)
-    {
-        pMovie->ctor_4DFDE0(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
-    }
+    ae_new<Movie>(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
 
     field_24_movie_id_3 = movieId2;
     field_20_movie_pos_3 = moviePos2;
-    field_44_movie_vol_3 = movieVol2;
-    field_42_movie_flags_3 = movieFlags2;
-    field_40_movie_flag_3 = movieFlag2;
+    field_44_movie_vol_3 = static_cast<s16>(movieVol2);
+    field_42_movie_flags_3 = static_cast<s16>(movieFlags2);
+    field_40_movie_flag_3 = static_cast<s16>(movieFlag2);
 
-    field_4C_movie_bPutDispEnv = movieFlags1;
-
-    return this;
+    field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags1);
 }
 
-CameraSwapper* CameraSwapper::ctor_4E4ED0(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 moveFlag3, s16 movieFlags3, s16 movieVol3)
+CameraSwapper::CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2, s32 moveFlag3, s32 movieFlags3, s32 movieVol3)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
-
     Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay3FMVs_10);
 
     PSX_ResetCallBack_4FAA20();
-    Movie* pMovie = ae_new<Movie>();
-    if (pMovie)
-    {
-        pMovie->ctor_4DFDE0(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
-    }
+    ae_new<Movie>(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
 
     field_2C_movie_id_2 = movieId2;
     field_28_movie_pos_2 = moviePos2;
-    field_46_movie_flag_2 = movieFlag2;
-    field_48_movie_flags_2 = movieFlags2;
-    field_4A_movie_vol_2 = movieVol2;
+    field_46_movie_flag_2 = static_cast<s16>(movieFlag2);
+    field_48_movie_flags_2 = static_cast<s16>(movieFlags2);
+    field_4A_movie_vol_2 = static_cast<s16>(movieVol2);
 
     field_24_movie_id_3 = movieId3;
     field_20_movie_pos_3 = moviePos3;
-    field_40_movie_flag_3 = moveFlag3;
-    field_42_movie_flags_3 = movieFlags3;
-    field_44_movie_vol_3 = movieVol3;
+    field_40_movie_flag_3 = static_cast<s16>(moveFlag3);
+    field_42_movie_flags_3 = static_cast<s16>(movieFlags3);
+    field_44_movie_vol_3 = static_cast<s16>(movieVol3);
 
-    field_4C_movie_bPutDispEnv = movieFlags1;
-
-    return this;
+    field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags1);
 }
 
-CameraSwapper* CameraSwapper::ctor_4E5000(u8** ppCamRes, CameraSwapEffects changeEffect, s16 xpos, s16 ypos)
+CameraSwapper::CameraSwapper(u8** ppCamRes, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
-    field_4E_xpos_converted = PsxToPCX(xpos);
-    field_50_ypos_converted = ypos;
+    field_4E_xpos_converted = static_cast<s16>(PsxToPCX(xpos));
+    field_50_ypos_converted = static_cast<s16>(ypos);
     Init_4E50C0(ppCamRes, changeEffect);
-    return this;
 }
 
-void CameraSwapper::dtor_4E5790()
+CameraSwapper::~CameraSwapper()
 {
-    SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
-
     sNum_CamSwappers_5C1B66--;
 
     if (field_34_pSubObject)
@@ -121,17 +93,6 @@ void CameraSwapper::dtor_4E5790()
     BackgroundMusic::Play_4CB030();
     MusicController::EnableMusic_47FE10(1);
     Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
-    BaseGameObject_dtor_4DBEC0();
-}
-
-BaseGameObject* CameraSwapper::vdtor_4E4D90(s32 flags)
-{
-    dtor_4E5790();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 const s32 kSliceWidth = 8;
@@ -191,8 +152,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager_5BB5F4->field_44_unused = 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>();
-            field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eRightToLeft_2:
@@ -209,8 +169,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager_5BB5F4->field_44_unused = 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>();
-            field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eTopToBottom_3:
@@ -227,8 +186,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager_5BB5F4->field_44_unused = 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>();
-            field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eBottomToTop_4:
@@ -245,8 +203,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager_5BB5F4->field_44_unused = 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>();
-            field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eVerticalSplit_6:
@@ -263,8 +220,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
             wh.field_0_x = gPsxDisplay_5C1130.field_0_width / 2;
             wh.field_2_y = gPsxDisplay_5C1130.field_2_height;
 
-            field_34_pSubObject = ae_new<ScreenClipper>();
-            field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eHorizontalSplit_7:
@@ -281,8 +237,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
             wh.field_0_x = gPsxDisplay_5C1130.field_0_width;
             wh.field_2_y = gPsxDisplay_5C1130.field_2_height / 2;
 
-            field_34_pSubObject = ae_new<ScreenClipper>();
-            field_34_pSubObject->ctor_416D60(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eBoxOut_8:
@@ -321,8 +276,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
             xy.field_0_x = gPsxDisplay_5C1130.field_0_width - 1;
             xy.field_2_y = gPsxDisplay_5C1130.field_2_height - 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>();
-            field_34_pSubObject->ctor_416D60(xy, {1, 1}, Layer::eLayer_0);
+            field_34_pSubObject = ae_new<ScreenClipper>(xy, PSX_Point{1, 1}, Layer::eLayer_0);
 
             // "Whoosh" door sound effect
             SFX_Play_46FA90(SoundEffect::IngameTransition_84, 127);
@@ -334,8 +288,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
         case CameraSwapEffects::ePlay3FMVs_10:
             pScreenManager_5BB5F4->field_44_unused = 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>();
-            field_34_pSubObject->ctor_416D60({0, 0}, {1, 1}, Layer::eLayer_0);
+            field_34_pSubObject = ae_new<ScreenClipper>(PSX_Point{0, 0}, PSX_Point{1, 1}, Layer::eLayer_0);
             break;
 
         default:
@@ -511,16 +464,11 @@ void CameraSwapper::vUpdate_4E5850()
             // When no movie is playing start the next one
             if (sMovie_ref_count_BB4AE4 == 0)
             {
-                auto pMovie = ae_new<Movie>();
-                if (pMovie)
-                {
-                    pMovie->ctor_4DFDE0(
-                        field_24_movie_id_3,
-                        field_20_movie_pos_3,
-                        field_40_movie_flag_3,
-                        field_42_movie_flags_3,
-                        field_44_movie_vol_3);
-                }
+                ae_new<Movie>(field_24_movie_id_3,
+                                            field_20_movie_pos_3,
+                                            field_40_movie_flag_3,
+                                            field_42_movie_flags_3,
+                                            field_44_movie_vol_3);
                 field_38_changeEffect = CameraSwapEffects::ePlay1FMV_5;
                 field_4C_movie_bPutDispEnv = field_48_movie_flags_2;
             }
@@ -539,16 +487,11 @@ void CameraSwapper::vUpdate_4E5850()
             // When no movie is playing start the next one
             if (sMovie_ref_count_BB4AE4 == 0)
             {
-                auto pMovie = ae_new<Movie>();
-                if (pMovie)
-                {
-                    pMovie->ctor_4DFDE0(
-                        field_2C_movie_id_2,
-                        field_28_movie_pos_2,
-                        field_46_movie_flag_2,
-                        field_48_movie_flags_2,
-                        field_4A_movie_vol_2);
-                }
+                ae_new<Movie>(field_2C_movie_id_2,
+                                            field_28_movie_pos_2,
+                                            field_46_movie_flag_2,
+                                            field_48_movie_flags_2,
+                                            field_4A_movie_vol_2);
                 field_38_changeEffect = CameraSwapEffects::ePlay2FMVs_9;
                 field_4C_movie_bPutDispEnv = field_48_movie_flags_2;
             }
@@ -557,11 +500,6 @@ void CameraSwapper::vUpdate_4E5850()
         default:
             break;
     }
-}
-
-BaseGameObject* CameraSwapper::VDestructor(s32 flags)
-{
-    return vdtor_4E4D90(flags);
 }
 
 void CameraSwapper::VScreenChanged()

@@ -11,7 +11,7 @@
 
 RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(this, 0x546B88);
 
     SetType(AETypes::eRockSack_106);

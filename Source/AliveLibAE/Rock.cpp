@@ -14,7 +14,7 @@
 
 Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(this, 0x546AF8);
     SetType(AETypes::eRock_105);
 

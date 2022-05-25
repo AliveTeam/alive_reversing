@@ -58,9 +58,9 @@ public:
     EXPORT static MusicTypes CC GetMusicType_47FDA0(u16* seq1, u16* seq2, u32* seqTime);
 
     
-    EXPORT MusicController* ctor_47EE80();
-    EXPORT BaseGameObject* vdtor_47EF20(s32 flags);
-    EXPORT void dtor_47EF50();
+    MusicController();
+    ~MusicController();
+
     EXPORT MusicTypes GetMusicType_47FA80(u16* seq, u16* seq2, u32* seqTime);
 
     virtual void VScreenChanged() override;

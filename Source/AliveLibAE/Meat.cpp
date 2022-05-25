@@ -16,7 +16,7 @@
 
 Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(this, 0x546040);
 
     field_11A_bDead = 0;
@@ -461,7 +461,7 @@ const TintEntry kMeatTints_55C254[] = {
 
 MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(this, 0x5460D4);
 
     SetType(AETypes::eMeatSack_85);

@@ -41,7 +41,7 @@ public:
         Resource_3DGibs = 0x65444433,
         Resource_Web = 0x20626557,
         Resource_Spline = 0x6e6c7053, // Went with Spline as in ZapLine.cpp.
-        Resource_Pxtd = 0x50787464, // Added for relive path extension blocks
+        Resource_Pxtd = 0x50787464,   // Added for relive path extension blocks
     };
 
     enum ResourceHeaderFlags : s16
@@ -103,9 +103,8 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x1C);
 
-    EXPORT ResourceManager* ctor_464910();
-    EXPORT BaseGameObject* vdtor_4649B0(s32 flags);
-    EXPORT void dtor_4649E0();
+    ResourceManager();
+    ~ResourceManager();
     EXPORT void vLoadFile_StateMachine_464A70();
     EXPORT void OnResourceLoaded_464CE0();
     EXPORT void LoadResource_464EE0(const char_type* pFileItem, u32 type, u32 resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 bAddUseCount);
@@ -119,8 +118,6 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_464EC0();
-
-    ResourceManager();
 
     struct ResourceHeapItem final
     {

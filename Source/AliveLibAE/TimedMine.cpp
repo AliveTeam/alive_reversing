@@ -57,7 +57,7 @@ void TimedMine::VOnPickUpOrSlapped()
 
 TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
 
     SetVTable(this, 0x5442A8);
     SetVTable(&field_124_animation, 0x544290);

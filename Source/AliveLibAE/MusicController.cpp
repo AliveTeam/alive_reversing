@@ -339,9 +339,6 @@ s32 CC MusicController::Create_47FC40()
     pMusicController_5C3020 = ae_new<MusicController>();
     if (pMusicController_5C3020)
     {
-        // NOTE: OG bug - only ctor was guarded by null check
-        pMusicController_5C3020->ctor_47EE80();
-
         MusicController::SetBaseTimeStamp_47FD00();
         pMusicController_5C3020->EnableMusic_47FB80(FALSE);
     }
@@ -405,16 +402,9 @@ MusicController::MusicTypes CC MusicController::GetMusicType_47FDA0(u16* seq1, u
     return MusicTypes::eTypeNull;
 }
 
-BaseGameObject* MusicController::VDestructor(s32 flags)
+MusicController::MusicController()
+    : BaseGameObject(TRUE, 0)
 {
-    return vdtor_47EF20(flags);
-}
-
-MusicController* MusicController::ctor_47EE80()
-{
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5463C0); // vTbl_MusicController_5463C0
-
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_40_flags_and_idx = -1;
     field_24_currentLevelID = LevelIds::eNone;
@@ -444,29 +434,15 @@ MusicController* MusicController::ctor_47EE80()
     field_20_vol = 100;
     field_22_vol = 127;
     field_3C_unused = 1;
-    return this;
 }
 
-BaseGameObject* MusicController::vdtor_47EF20(s32 flags)
-{
-    dtor_47EF50();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
 
-void MusicController::dtor_47EF50()
+MusicController::~MusicController()
 {
-    SetVTable(this, 0x5463C0); // vTbl_MusicController_5463C0
-
     if (field_40_flags_and_idx > 0)
     {
         SND_SEQ_Stop_4CAE60(field_40_flags_and_idx);
     }
-
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void MusicController::EnableMusic_47FB80(s16 bEnable)

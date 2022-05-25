@@ -50,8 +50,7 @@ EXPORT void CC Game_ShowLoadingIcon_482D80()
     }
     PSX_Display_Buffer dispBuffer = {};
 
-    Particle* pParticle = ae_new<Particle>();
-    pParticle->ctor_4CC4C0(FP_FromInteger(0), FP_FromInteger(0), loadingRec.mFrameTableOffset, loadingRec.mMaxW, loadingRec.mMaxH, ppLoadingAnimRes);
+    Particle* pParticle = ae_new<Particle>(FP_FromInteger(0), FP_FromInteger(0), loadingRec.mFrameTableOffset, loadingRec.mMaxW, loadingRec.mMaxH, ppLoadingAnimRes);
 
     // TODO: May need to clear all other low word bits ?
     pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -81,16 +80,14 @@ EXPORT void CC Game_ShowLoadingIcon_482D80()
     bHideLoadingIcon_5C1BAA = 1;
 }
 
-ResourceManager* ResourceManager::ctor_464910()
+ResourceManager::ResourceManager()
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-
     field_20_files_pending_loading.ctor_40CA60(3);
     field_48_dArray.ctor_40CA60(3);
 
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
-    SetVTable(this, 0x545EBC); // vTbl_ResourceManager_545EBC
 
     SetType(AETypes::eResourceManager_70);
     field_2C_pFileItem = nullptr;
@@ -100,26 +97,13 @@ ResourceManager* ResourceManager::ctor_464910()
     field_3C_pLoadingHeader = nullptr;
     field_42_state = State_Wait_For_Load_Request;
     field_40_seek_attempts = 0;
-    return this;
 }
 
-BaseGameObject* ResourceManager::vdtor_4649B0(s32 flags)
+ResourceManager::~ResourceManager()
 {
-    dtor_4649E0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void ResourceManager::dtor_4649E0()
-{
-    SetVTable(this, 0x545EBC); // vTbl_ResourceManager_545EBC
     Shutdown_465610();
     field_48_dArray.dtor_40CAD0();
     field_20_files_pending_loading.dtor_40CAD0();
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void ResourceManager::vLoadFile_StateMachine_464A70()
@@ -645,11 +629,6 @@ void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
     }
 }
 
-BaseGameObject* ResourceManager::VDestructor(s32 flags)
-{
-    return vdtor_4649B0(flags);
-}
-
 void ResourceManager::VUpdate()
 {
     vLoadFile_StateMachine_464A70();
@@ -663,10 +642,6 @@ EXPORT void ResourceManager::VScreenChanged_464EC0()
 void ResourceManager::VScreenChanged()
 {
     VScreenChanged_464EC0();
-}
-
-ResourceManager::ResourceManager()
-{
 }
 
 void CC ResourceManager::Init_49BCE0()

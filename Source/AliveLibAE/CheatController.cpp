@@ -80,31 +80,17 @@ CheatEntry sCheatArray_5515F8[] = {
     {0xFFFFFFFE, ALIVE_COUNTOF(sCheatKeyArray_PathSkip_5515E8), sCheatKeyArray_PathSkip_5515E8, 0, &CheatController_Cheat_PathSkip_421B30}};
 
 
-CheatController* CheatController::ctor_421BD0()
+CheatController::CheatController()
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    SetVTable(this, 0x544B44);
     SetType(AETypes::eNone_0);
     field_20 = 0;
-    return this;
 }
 
-BaseGameObject* CheatController::vdtor_421C10(s32 flags)
+CheatController::~CheatController()
 {
-    dtor_421C40();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void CheatController::dtor_421C40()
-{
-    SetVTable(this, 0x544B44);
     pCheatController_5BC120 = nullptr;
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void CheatController::Update_421C70()
@@ -140,11 +126,6 @@ void CheatController::Update_421C70()
             }
         }
     }
-}
-
-BaseGameObject* CheatController::VDestructor(s32 flags)
-{
-    return vdtor_421C10(flags);
 }
 
 void CheatController::VUpdate()

@@ -6,11 +6,9 @@
 #include "Sfx.hpp"
 #include "stdlib.hpp"
 
-DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, s32 tlvInfo)
+DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(0)
 {
-    ctor_408240(0);
-    SetVTable(this, 0x544A1C);
-
     mFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     field_11A_switch_id = pTlv->field_12_switch_id;
@@ -45,25 +43,16 @@ DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, s32 tlvInfo)
     }
 
     field_DC_bApplyShadows |= 2u;
-
-    return this;
 }
 
-void DoorBlocker::dtor_41F310()
+DoorBlocker::~DoorBlocker()
 {
-    SetVTable(this, 0x544A1C);
     Path::TLV_Reset_4DB8E0(field_11C_tlvInfo, -1, 0, 0);
-    dtor_4080B0();
 }
 
 void DoorBlocker::VUpdate()
 {
     vUpdate_41F250();
-}
-
-BaseGameObject* DoorBlocker::VDestructor(s32 flags)
-{
-    return vdtor_41F220(flags);
 }
 
 void DoorBlocker::vUpdate_41F250()
@@ -91,14 +80,4 @@ void DoorBlocker::vUpdate_41F250()
             field_118_bDone |= 1u;
         }
     }
-}
-
-DoorBlocker* DoorBlocker::vdtor_41F220(s32 flags)
-{
-    dtor_41F310();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }

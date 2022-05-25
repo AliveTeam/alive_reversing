@@ -118,7 +118,7 @@ const static BrainFunctionData<TSlogBrainFn> sSlogAiTable[4] = {
 
 Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
 {
-    ctor_408240(5);
+    BaseAliveGameObject(5);
     SetVTable(this, 0x547578);
 
     field_134_last_event_index = -1;
@@ -161,7 +161,7 @@ Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chas
 
 Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, s32 tlvInfo)
 {
-    ctor_408240(5);
+    BaseAliveGameObject(5);
     field_134_last_event_index = -1;
     SetVTable(this, 0x547578);
 

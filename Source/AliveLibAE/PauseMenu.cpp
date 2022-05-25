@@ -401,11 +401,6 @@ EXPORT s16 sub_4A2BC0()
     return 0;
 }
 
-BaseGameObject* PauseMenu::VDestructor(s32 flags)
-{
-    return vdtor_48FCB0(flags);
-}
-
 void PauseMenu::VUpdate()
 {
     Update_48FD80();
@@ -422,16 +417,8 @@ void PauseMenu::VScreenChanged()
 }
 
 PauseMenu::PauseMenu()
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-}
-
-PauseMenu* PauseMenu::ctor_48FB80()
-{
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-
-    SetVTable(&field_158_animation, 0x544290);
-    SetVTable(this, 0x546658);
-
     sQuicksave_SaveNextFrame_5CA4D8 = 0;
     sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
@@ -458,30 +445,15 @@ PauseMenu* PauseMenu::ctor_48FB80()
     sub_4A2BC0();
 
     sDisableFontFlicker_5C9304 = 0;
-
-    return this;
 }
 
-void PauseMenu::dtor_48FCE0()
+PauseMenu::~PauseMenu()
 {
-    SetVTable(this, 0x546658);
-
     mFlags.Clear(BaseGameObject::eDrawable_Bit4);
 
     gObjList_drawables_5C1124->Remove_Item(this);
     field_158_animation.vCleanUp_40C630();
     field_F4_font.dtor_433540();
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-BaseGameObject* PauseMenu::vdtor_48FCB0(s32 flags)
-{
-    dtor_48FCE0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void PauseMenu::Init_491760()
@@ -1009,7 +981,6 @@ void PauseMenu::RestartPath()
         if (!gpThrowableArray_5D1E2C)
         {
             gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
-            gpThrowableArray_5D1E2C->ctor_49A630();
         }
 
         gpThrowableArray_5D1E2C->Add_49A7A0(sActiveHero_5C1B68->field_1A2_throwable_count);

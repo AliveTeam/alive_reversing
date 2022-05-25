@@ -114,7 +114,7 @@ bool FlyingSlig::BrainIs(TFlyingSligBrainFn fn)
 FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
 {
     //BaseCtor_4340B0(9); // Omitted for direct call
-    ctor_408240(9);
+    BaseAliveGameObject(9);
 
     field_178_unused = 0;
     field_164_unused = -1;

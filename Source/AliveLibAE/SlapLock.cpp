@@ -15,7 +15,7 @@
 
 SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(this, 0x545224);
 
     SetType(AETypes::eLockedSoul_61);

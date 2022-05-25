@@ -668,12 +668,12 @@ void Movie::Init_4DFF60(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 vol
     ResourceManager::Reclaim_Memory_49C470(0);
 }
 
-Movie::Movie(s32 id, u32 pos, s16 bUnknown, s16 flags, s16 volume)
+Movie::Movie(s32 id, u32 pos, s32 bUnknown, s32 flags, s32 volume)
     : BaseGameObject(TRUE, 0)
 {
     CdlLOC cdLoc = {};
     PSX_Pos_To_CdLoc_4FADD0(pos, &cdLoc);
-    Init_4DFF60(id, &cdLoc, bUnknown, flags, volume);
+    Init_4DFF60(id, &cdLoc, static_cast<s16>(bUnknown), static_cast<s16>(flags), static_cast<s16>(volume));
 }
 
 void Movie::vUpdate_4E0030()

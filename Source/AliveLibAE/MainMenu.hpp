@@ -159,9 +159,8 @@ const s16 NO_SELECTABLE_BUTTONS = -1;
 class MainMenuController final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MainMenuController* ctor_4CE9A0(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
-    EXPORT BaseGameObject* vdtor_4CEF00(s32 flags);
-    EXPORT void dtor_4CEF30();
+    MainMenuController(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
+    ~MainMenuController();
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;

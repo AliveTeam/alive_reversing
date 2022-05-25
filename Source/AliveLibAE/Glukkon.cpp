@@ -256,7 +256,7 @@ bool Glukkon::BrainIs(TGlukkonBrainFn fn)
 
 Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     field_1EC_unused = -1;
     SetVTable(this, 0x5452E0);
 

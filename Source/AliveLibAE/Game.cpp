@@ -159,7 +159,7 @@ void DestroyObjects_4A1F20()
                 iter.field_4_idx = idx;
                 iter.Remove_At_Iter_40CCA0();
 
-                pObj->VDestructor(1);
+                delete pObj;
 
                 // Don't go forwards as we just removed an item otherwise we'd miss one
                 idx = iter.field_4_idx;
@@ -439,8 +439,7 @@ EXPORT void CC SYS_EventsPump_494580()
 
 EXPORT void CC DDCheat_Allocate_415320()
 {
-    auto pDDCheat = ae_new<DDCheat>();
-    pDDCheat->ctor_4153C0();
+    ae_new<DDCheat>();
 }
 
 EXPORT void CC Game_Loop_467230();
@@ -499,7 +498,6 @@ EXPORT void CC Game_Run_466D40()
     gObjList_animations_5C1A24->ctor_40CA60(30);
 
     pResourceManager_5C1BB0 = ae_new<ResourceManager>();
-    pResourceManager_5C1BB0->ctor_464910();
 
     Init_Sound_DynamicArrays_And_Others_43BDB0();
 
@@ -516,8 +514,7 @@ EXPORT void CC Game_Run_466D40()
     gMap.field_24_camera_offset.field_4_y = FP_FromInteger(0);
     gMap.field_24_camera_offset.field_0_x = FP_FromInteger(0);
 
-    pScreenManager_5BB5F4 = ae_new<ScreenManager>();
-    pScreenManager_5BB5F4->ctor_40E3E0(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
+    pScreenManager_5BB5F4 = ae_new<ScreenManager>(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
 
     pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) camera.field_C_pCamRes);
     pScreenManager_5BB5F4->MoveImage_40EB70();
@@ -542,10 +539,8 @@ EXPORT void CC Game_Run_466D40()
 
     DDCheat_Allocate_415320();
     pEventSystem_5BC11C = ae_new<GameSpeak>();
-    pEventSystem_5BC11C->ctor_421820();
 
     pCheatController_5BC120 = ae_new<CheatController>();
-    pCheatController_5BC120->ctor_421BD0();
 
     if (gDebugHelpersEnabled)
     {
@@ -847,7 +842,7 @@ EXPORT void CC Game_Loop_467230()
                 it.field_4_idx = idx + 1;
 
                 it.Remove_At_Iter_40CCA0();
-                pObj->VDestructor(1);
+                delete pObj;
             }
         }
 
@@ -907,7 +902,7 @@ EXPORT void CC Game_Loop_467230()
                 break;
             }
             iter.Remove_At_Iter_40CCA0();
-            pObj->VDestructor(1);
+            delete pObj;
         }
     }
 }

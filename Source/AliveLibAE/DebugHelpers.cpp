@@ -601,7 +601,6 @@ void Command_LoadSave(const std::vector<std::string>& args)
     if (pPauseMenu_5C9300 == nullptr)
     {
         pPauseMenu_5C9300 = ae_new<PauseMenu>();
-        pPauseMenu_5C9300->ctor_48FB80();
         pPauseMenu_5C9300->SetUpdateDelay(0);
     }
 

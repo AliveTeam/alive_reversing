@@ -9,13 +9,8 @@ namespace AO {
 class PauseMenu final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT PauseMenu* ctor_44DEA0();
-
-    EXPORT BaseGameObject* dtor_44DF40();
-
-    
-
-    EXPORT PauseMenu* Vdtor_44EAA0(s32 flags);
+    PauseMenu();
+    ~PauseMenu();
 
     virtual void VScreenChanged() override;
 

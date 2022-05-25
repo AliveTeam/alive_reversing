@@ -168,16 +168,11 @@ void DDCheat::Menu_Movies_416000()
         u32 pos = 0;
         Get_fmvs_sectors_494460(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(gMap.mCurrentLevel);
-        auto movieToPlay = ae_new<Movie>();
-        if (movieToPlay != nullptr)
-        {
-            movieToPlay->ctor_4DFDE0(
-                movieToPlayInfo->field_4_id,
-                pos,
-                movieToPlayInfo->field_6_flags & 1,
-                movieToPlayInfo->field_8_flags,
-                movieToPlayInfo->field_A_volume);
-        }
+        ae_new<Movie>(movieToPlayInfo->field_4_id,
+                                         pos,
+                                         movieToPlayInfo->field_6_flags & 1,
+                                         movieToPlayInfo->field_8_flags,
+                                         movieToPlayInfo->field_A_volume);
     }
 
     const FmvInfo* fmvInfo = Path_Get_FMV_Record_460F70(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
@@ -469,11 +464,6 @@ void DDCheat::Update_415780()
             pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
         }
     }
-}
-
-BaseGameObject* DDCheat::VDestructor(s32 flags)
-{
-    return vdtor_415500(flags);
 }
 
 void DDCheat::VUpdate()

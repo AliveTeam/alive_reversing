@@ -385,7 +385,7 @@ static Mud_Emotion TLV_Emo_To_Internal_Emo(Mud_TLV_Emotion emo)
 
 Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
 {
-    ctor_408240(18);
+    BaseAliveGameObject(18);
 
     field_154_unused = 0;
     field_140_last_event_index = -1;

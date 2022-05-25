@@ -57,10 +57,7 @@ public:
     virtual void VScreenChanged() override;
 
     PauseMenu();
-
-    EXPORT PauseMenu* ctor_48FB80();
-    EXPORT void dtor_48FCE0();
-    EXPORT BaseGameObject* vdtor_48FCB0(s32 flags);
+    ~PauseMenu();
 
     EXPORT void Init_491760();
 

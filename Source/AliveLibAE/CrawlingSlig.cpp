@@ -132,7 +132,7 @@ enum Brain_4_GetKilled
 
 CrawlingSlig* CrawlingSlig::ctor_418C70(Path_CrawlingSlig* pTlv, s32 tlvInfo)
 {
-    ctor_408240(2);
+    BaseAliveGameObject(2);
 
     field_1DC_unused = -1;
     SetVTable(this, 0x5446A8);

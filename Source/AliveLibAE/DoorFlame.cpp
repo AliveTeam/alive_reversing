@@ -15,10 +15,9 @@ ALIVE_VAR(1, 0x5C2C6C, DoorFlame*, pFlameControllingTheSound_5C2C6C, nullptr);
 class FireBackgroundGlow final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT FireBackgroundGlow* ctor_45D890(FP xpos, FP ypos, FP scale)
+    FireBackgroundGlow(FP xpos, FP ypos, FP scale)
+        : BaseAnimatedWithPhysicsGameObject(0)
     {
-        BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-        SetVTable(this, 0x54592C);
         SetType(AETypes::eNone_0);
 
         const AnimRecord& rec = AnimRec(AnimId::Door_FireBackgroundGlow);
@@ -44,12 +43,6 @@ public:
         field_CC_sprite_scale = scale;
 
         Calc_Rect_45DA00();
-        return this;
-    }
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        return vdtor_45D9B0(flags);
     }
 
     virtual void VRender(PrimHeader** ppOt) override
@@ -119,22 +112,6 @@ public:
         }
     }
 
-    EXPORT void dtor_45D9E0()
-    {
-        SetVTable(this, 0x54592C);
-        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-    }
-
-    EXPORT FireBackgroundGlow* vdtor_45D9B0(s32 flags)
-    {
-        dtor_45D9E0();
-        if (flags & 1)
-        {
-            ae_delete_free_495540(this);
-        }
-        return this;
-    }
-
 private:
     FP field_F4_xPos;
     FP field_F8_yPos;
@@ -159,15 +136,9 @@ ALIVE_ASSERT_SIZEOF(FlameSpark, 0x84);
 class FlameSparks final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT FlameSparks* ctor_45DE00(FP xpos, FP ypos)
+    FlameSparks(FP xpos, FP ypos)
+        : BaseAnimatedWithPhysicsGameObject(0)
     {
-        BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-        for (auto& anim : field_F8_sparks)
-        {
-            SetVTable(&anim.field_14, 0x5447CC);
-        }
-
-        SetVTable(this, 0x545974);
         SetType(AETypes::eNone_0);
 
         const AnimRecord& rec = AnimRec(AnimId::Zap_Sparks);
@@ -209,12 +180,6 @@ public:
         }
 
         field_F4_bRender = 0;
-        return this;
-    }
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        return vdtor_45DF90(flags);
     }
 
     virtual void VUpdate() override
@@ -338,23 +303,6 @@ private:
         }
     }
 
-    EXPORT void dtor_45DFC0()
-    {
-        SetVTable(this, 0x545974);
-        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-    }
-
-    EXPORT FlameSparks* vdtor_45DF90(s32 flags)
-    {
-        dtor_45DFC0();
-        if (flags & 1)
-        {
-            ae_delete_free_495540(this);
-        }
-        return this;
-    }
-
-
 private:
     s16 field_F4_bRender;
     //s16 field_F6_pad;
@@ -364,11 +312,9 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(FlameSparks, 0x418);
 
-DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo)
+DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x5459BC);
-
     SetType(AETypes::eNone_0);
     field_F4_tlvInfo = tlvInfo;
 
@@ -406,30 +352,15 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, s32 tlvInfo)
 
     field_FE_2_random = Math_NextRandom() % 2;
 
-    auto pFlameSparks = ae_new<FlameSparks>();
+    auto pFlameSparks = ae_new<FlameSparks>(field_B8_xpos, field_BC_ypos);
     if (pFlameSparks)
     {
-        pFlameSparks->ctor_45DE00(field_B8_xpos, field_BC_ypos);
         field_10C_flame_sparks_id = pFlameSparks->field_8_object_id;
     }
-
-    return this;
 }
 
-DoorFlame* DoorFlame::vdtor_45E690(s32 flags)
+DoorFlame::~DoorFlame()
 {
-    dtor_45E6C0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void DoorFlame::dtor_45E6C0()
-{
-    SetVTable(this, 0x5459BC);
-
     BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_449CF0(field_108_fire_background_glow_id);
     BaseGameObject* pFlameSparks = sObjectIds.Find_449CF0(field_10C_flame_sparks_id);
 
@@ -448,7 +379,6 @@ void DoorFlame::dtor_45E6C0()
     vStopAudio_45E7E0();
 
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void DoorFlame::vStopAudio_45E7E0()
@@ -539,13 +469,11 @@ void DoorFlame::vUpdate_45E830()
 
             if (!pFireBackgroundGlow)
             {
-                pFireBackgroundGlow = ae_new<FireBackgroundGlow>();
+                pFireBackgroundGlow = ae_new<FireBackgroundGlow>(field_B8_xpos,
+                                                                 field_BC_ypos,
+                                                                 field_CC_sprite_scale);
                 if (pFireBackgroundGlow)
                 {
-                    pFireBackgroundGlow->ctor_45D890(
-                        field_B8_xpos,
-                        field_BC_ypos,
-                        field_CC_sprite_scale);
                     field_108_fire_background_glow_id = pFireBackgroundGlow->field_8_object_id;
                 }
             }

@@ -76,7 +76,7 @@ void SlamDoor::VUpdate()
 
 SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(this, 0x547288);
     field_C_objectId = tlvInfo.all; // todo: check this
     mFlags.Set(Options::eCanExplode_Bit7);

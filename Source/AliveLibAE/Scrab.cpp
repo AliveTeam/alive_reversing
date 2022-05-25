@@ -111,7 +111,7 @@ bool Scrab::BrainIs(TScrabBrainFn fn)
 
 Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
 {
-    ctor_408240(14);
+    BaseAliveGameObject(14);
     field_190_unused = 0;
     field_17C_last_event = -1;
     field_192_unused = -1;

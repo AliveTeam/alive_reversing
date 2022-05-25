@@ -35,7 +35,7 @@ ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
 
 EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
     SetVTable(this, 0x544E98);
 
     SetType(AETypes::eRockSpawner_48);
@@ -104,7 +104,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
 
 FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16 fallInterval, s16 numItems, s16 bResetIdAfterUse)
 {
-    ctor_408240(0);
+    BaseAliveGameObject(0);
 
     SetVTable(this, 0x544E98);
     SetType(AETypes::eRockSpawner_48);
