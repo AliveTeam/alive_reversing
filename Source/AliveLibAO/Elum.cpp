@@ -3307,17 +3307,12 @@ void Elum::Motion_43_MidRunToWalk_413E20()
         PSX_Point xy{FP_GetExponent(field_A8_xpos - FP_FromInteger(10)), FP_GetExponent(field_AC_ypos - FP_FromInteger(10))};
         PSX_Point wh{FP_GetExponent(field_A8_xpos + FP_FromInteger(10)), FP_GetExponent(field_AC_ypos + FP_FromInteger(10))};
 
-        // OG bug fix: Check required because if VCheckCollisionLineStillValid just placed us on a lift point
-        // then this would place us on it again result in the lift being leaked
-        if (!field_F8_pLiftPoint)
-        {
-            VOnCollisionWith(
-                xy,
-                wh,
-                ObjListPlatforms_50766C,
-                1,
-                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
-        }
+        VOnCollisionWith(
+            xy,
+            wh,
+            ObjListPlatforms_50766C,
+            1,
+            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
         FP offX = {};
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
