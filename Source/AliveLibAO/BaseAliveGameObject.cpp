@@ -169,6 +169,8 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
                 if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
                     pLine->field_8_type == eLineTypes::eUnknown_36)
                 {
+                    // OG bug fix: didn't remove ourself from the lift!
+                    field_F8_pLiftPoint->VRemove(this);
                     field_F8_pLiftPoint->field_C_refCount--;
                     field_F8_pLiftPoint = nullptr;
 
