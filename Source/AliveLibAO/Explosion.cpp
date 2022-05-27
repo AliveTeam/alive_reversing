@@ -267,7 +267,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
     if (pTlv)
     {
-        if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit2_Destroyed) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2))
+        if (!pTlv->field_0_flags.Get(TLV_Flags::eBit2_Destroyed) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2)
         {
             pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
             const CameraPos dir = gMap_507BA8.GetDirection_444A40(
