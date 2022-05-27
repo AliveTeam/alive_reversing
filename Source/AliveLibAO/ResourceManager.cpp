@@ -934,31 +934,35 @@ s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArray
 {
     auto pItemToAdd = (ResourceHeapItem*) ppRes;
     Header* pHeader = Get_Header_455620(ppRes);
-    u8** pFoundResourceInList = GetLoadedResource_4554F0(pHeader->field_8_type, pHeader->field_C_id, 1, 0);
+    u8** pFoundResourceInList = nullptr;
     if (pHeader->field_8_type != Resource_End)
     {
         while (pHeader->field_8_type != Resource_Pend
                && pHeader->field_0_size
                && !(pHeader->field_0_size & 3))
         {
-            if (pFoundResourceInList) // If we already found it in the list already and incremented the ref count, so mark this as free
+            if (pArray)
             {
-                pHeader->field_8_type = Resource_Free;
-                if (pArray)
+                if (pFoundResourceInList) // If we already found it in the list already and incremented the ref count, so mark this as free
                 {
+                    pHeader->field_8_type = Resource_Free;
+
                     pArray->Push_Back((u8**) pFoundResourceInList);
+
+                    auto pTempHeader = Get_Header_455620(pFoundResourceInList);
+                    pTempHeader->field_4_ref_count++;
                 }
-            }
-            else if (pArray)
-            {
-                pArray->Push_Back((u8**) pItemToAdd);
-                pHeader->field_4_ref_count++;
+                else
+                {
+                    pArray->Push_Back((u8**) pItemToAdd);
+                    pHeader->field_4_ref_count++;
+                }
             }
 
             pHeader = (Header*) ((s8*) pHeader + pHeader->field_0_size);
-               
-            pFoundResourceInList = GetLoadedResource_4554F0(pHeader->field_8_type, pHeader->field_C_id, 1, 0);
 
+            pFoundResourceInList = GetLoadedResource_4554F0(pHeader->field_8_type, pHeader->field_C_id, 0, 0);
+               
             // Out of heap space
             if (pHeader->field_0_size >= kResHeapSize)
             {
