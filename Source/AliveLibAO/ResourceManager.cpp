@@ -934,7 +934,7 @@ s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArray
 {
     auto pItemToAdd = (ResourceHeapItem*) ppRes;
     Header* pHeader = Get_Header_455620(ppRes);
-    u8** pFoundResourceInList = nullptr;
+    u8** pFoundResourceInList = GetLoadedResource_4554F0(pHeader->field_8_type, pHeader->field_C_id, 1, 0);
     if (pHeader->field_8_type != Resource_End)
     {
         while (pHeader->field_8_type != Resource_Pend
