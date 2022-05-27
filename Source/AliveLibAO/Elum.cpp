@@ -3306,6 +3306,7 @@ void Elum::Motion_43_MidRunToWalk_413E20()
 
         PSX_Point xy{FP_GetExponent(field_A8_xpos - FP_FromInteger(10)), FP_GetExponent(field_AC_ypos - FP_FromInteger(10))};
         PSX_Point wh{FP_GetExponent(field_A8_xpos + FP_FromInteger(10)), FP_GetExponent(field_AC_ypos + FP_FromInteger(10))};
+
         VOnCollisionWith(
             xy,
             wh,
