@@ -107,7 +107,10 @@ bool Player::ValidateObjectStates()
             LOG_ERROR("Got " << static_cast<s16>(pObj->field_4_typeId) << " type but expected " << objType);
             validateFailed |= true;
         }
-        validateFailed |= ValidateBaseAliveGameObject(pObj);
+        if (!ValidateBaseAliveGameObject(pObj))
+        {
+            validateFailed |= true;
+        }
     }
 
     if (validateFailed)
