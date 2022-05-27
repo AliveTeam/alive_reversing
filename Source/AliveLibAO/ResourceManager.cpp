@@ -944,6 +944,10 @@ s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArray
             if (pFoundResourceInList) // If we already found it in the list already and incremented the ref count, so mark this as free
             {
                 pHeader->field_8_type = Resource_Free;
+                if (pArray)
+                {
+                    pArray->Push_Back((u8**) pFoundResourceInList);
+                }
             }
             else if (pArray)
             {

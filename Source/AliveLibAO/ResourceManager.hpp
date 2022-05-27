@@ -157,7 +157,6 @@ public:
 
     static EXPORT void CC LoadResource_446C90(const char_type* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
 
-
     static EXPORT u8** CC GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock);
 
     static void CheckResourceIsLoaded(u32 type, AOResourceID resourceId);
