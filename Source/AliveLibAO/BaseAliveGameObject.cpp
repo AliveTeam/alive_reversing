@@ -169,6 +169,8 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
                 if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
                     pLine->field_8_type == eLineTypes::eUnknown_36)
                 {
+                    // OG bug fix: didn't remove ourself from the lift!
+                    field_F8_pLiftPoint->VRemove(this);
                     field_F8_pLiftPoint->field_C_refCount--;
                     field_F8_pLiftPoint = nullptr;
 
@@ -636,9 +638,19 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
         return 1;
     }
 
-    field_F8_pLiftPoint = pPlatform;
-    field_F8_pLiftPoint->VAdd(this);
-    field_F8_pLiftPoint->field_C_refCount++;
+    // OG bug fix, when we call VCheckCollisionLineStillValid it can place us on a new lift
+    // but then we call VOnCollisionWith which can sometimes add us to the same lift again
+    // result in the lift being leaked and then memory corruption/crash later.
+    if (field_F8_pLiftPoint != pPlatform)
+    {
+        field_F8_pLiftPoint = pPlatform;
+        field_F8_pLiftPoint->VAdd(this);
+        field_F8_pLiftPoint->field_C_refCount++;
+    }
+    else
+    {
+        LOG_WARNING("Trying to add to a platform we are already on");
+    }
 
     return 1;
 }

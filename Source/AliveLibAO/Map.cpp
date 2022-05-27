@@ -27,6 +27,7 @@
 #include "Sfx.hpp"
 #include "Elum.hpp"
 #include "Sys.hpp"
+#include "PlatformBase.hpp"
 
 namespace AO {
 
@@ -1864,6 +1865,12 @@ void Map::GoTo_Camera_445050()
                     auto pBaseAliveGameObj = static_cast<BaseAliveGameObject*>(pObjIter);
                     pBaseAliveGameObj->field_F4_pLine = nullptr;
                 }
+            }
+
+            if (ObjListPlatforms_50766C->Size() > 0)
+            {
+                LOG_ERROR(ObjListPlatforms_50766C->Size() << " Platforms have been leaked!");
+                ALIVE_FATAL("Platforms leaked!");
             }
 
 

@@ -18,9 +18,10 @@ void PlatformBase::VRemove(BaseAliveGameObject* pObj)
     VRemove_451680(pObj);
 }
 
-void PlatformBase::VRemove_451680(BaseAliveGameObject* /*pObj*/)
+void PlatformBase::VRemove_451680(BaseAliveGameObject* pObj)
 {
     field_114_count--;
+    LOG_INFO("Remove " << (u64) pObj << " count " << field_114_count << " gnFrame " << gnFrameCount_507670);
 }
 
 void PlatformBase::AddDynamicCollision_4512C0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo)
@@ -141,9 +142,10 @@ BaseGameObject* PlatformBase::VDestructor(s32 flags)
     return Vdtor_4516F0(flags);
 }
 
-void PlatformBase::VAdd_4515D0(BaseAliveGameObject* /*pObj*/)
+void PlatformBase::VAdd_4515D0(BaseAliveGameObject* pObj)
 {
     field_114_count++;
+    LOG_INFO("Add " << (u64) pObj << " count " << field_114_count << " gnFrame " << gnFrameCount_507670);
     field_110 = 1;
 
     if (field_120_pCollisionLine)
