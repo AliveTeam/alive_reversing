@@ -19,7 +19,7 @@ inline T* ao_new(Args&&... args)
     {
         if constexpr (sizeof...(args) == 0)
         {
-            return new (buffer) T;
+            return new (buffer) T();
         }
         else
         {
