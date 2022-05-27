@@ -135,6 +135,13 @@ public:
 
 protected:
     template <typename TypeToValidate>
+    static void SkipValidField(AutoFILE& file)
+    {
+        TypeToValidate tmpValue = {};
+        file.Read(tmpValue);
+    }
+
+    template <typename TypeToValidate>
     static bool ValidField(AutoFILE& file, const TypeToValidate& expectedValue, const char* name)
     {
         TypeToValidate tmpValue = {};

@@ -194,7 +194,15 @@ void BaseGameAutoPlayer::ValidateObjectStates()
             {
                 ALIVE_FATAL("Play back de-synced, see console log for details");
             }
-            mMode = Mode::None;
+            else
+            {
+                static bool warned = false;
+                if (!warned)
+                {
+                    LOG_ERROR("!!!! Play back has de-synced, attempting to carry on");
+                    warned = true;
+                }
+            }
         }
     }
     else if (mMode == Mode::Record)

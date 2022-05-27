@@ -3,6 +3,7 @@
 #include "BaseGameAutoPlayer.hpp"
 
 namespace AO {
+class BaseGameObject;
 
 class Recorder final : public BaseRecorder
 {
@@ -14,6 +15,9 @@ class Player final : public BasePlayer
 {
 public:
     bool ValidateObjectStates() override;
+
+private:
+    bool ValidateBaseAliveGameObject(BaseGameObject* pObj);
 };
 
 class [[nodiscard]] GameAutoPlayer final : public BaseGameAutoPlayer
