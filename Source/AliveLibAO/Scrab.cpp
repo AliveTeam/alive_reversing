@@ -1766,10 +1766,12 @@ void Scrab::Motion_13_RunJumpBegin_45F5D0()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
+        LOG_INFO("frame " << field_10_anim.field_92_current_frame << " run jump fp value: " << sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame].fpValue);
         field_B4_velx = (field_BC_sprite_scale * -sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame]);
     }
     else
     {
+        LOG_INFO("frame " << field_10_anim.field_92_current_frame << " run jump fp value: " << sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame].fpValue);
         field_B4_velx = (field_BC_sprite_scale * sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame]);
     }
 
@@ -1787,10 +1789,10 @@ void Scrab::Motion_13_RunJumpBegin_45F5D0()
         {
             switch (pLine->field_8_type)
             {
-                case 0:
-                case 4:
-                case 32:
-                case 36:
+                case eLineTypes::eFloor_0:
+                case eLineTypes::eBackgroundFloor_4:
+                case eLineTypes::eUnknown_32:
+                case eLineTypes::eUnknown_36:
                 {
                     ToStand();
                     field_F4_pLine = pLine;
@@ -1813,8 +1815,8 @@ void Scrab::Motion_13_RunJumpBegin_45F5D0()
                     return;
                 }
 
-                case 1:
-                case 2:
+                case eLineTypes::eWallLeft_1:
+                case eLineTypes::eWallRight_2:
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
                     return;
 
@@ -1853,10 +1855,12 @@ void Scrab::Motion_14_RunJumpEnd_45F850()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
+        LOG_INFO("frame " << field_10_anim.field_92_current_frame << " run jump end fp value: " << sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame].fpValue);
         field_B4_velx = (field_BC_sprite_scale * -sRunJumpEndVelTable_4BC8C0[field_10_anim.field_92_current_frame]);
     }
     else
     {
+        LOG_INFO("frame " << field_10_anim.field_92_current_frame << " run jump end fp value: " << sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame].fpValue);
         field_B4_velx = (field_BC_sprite_scale * sRunJumpEndVelTable_4BC8C0[field_10_anim.field_92_current_frame]);
     }
 
