@@ -754,7 +754,7 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
             cameraNameBuffer[8] = 0;
             if (strlen(cameraNameBuffer) != 0)
             {
-                for (unsigned idx = 0; idx < strlen(cameraNameBuffer); idx++)
+                for (u32 idx = 0; idx < strlen(cameraNameBuffer); idx++)
                 {
                     s8 letter = cameraNameBuffer[idx];
                     s8 letterCandidate = 0;
@@ -776,7 +776,7 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
             auto polyOffset = field_E4_font.DrawString_41C360(
                 ppOt,
                 cameraNameBuffer,
-                static_cast<s16>(PauseEntry2_4CDE98[0].field_0_x - field_E4_font.MeasureWidth_41C2B0(cameraNameBuffer) / 2),
+                static_cast<s16>(PauseEntry2_4CDE98[0].field_0_x - (field_E4_font.MeasureWidth_41C2B0(cameraNameBuffer) / 2)),
                 PauseEntry2_4CDE98[0].field_2_y,
                 TPageAbr::eBlend_0,
                 1,
