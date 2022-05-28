@@ -1745,7 +1745,7 @@ void Scrab::Motion_12_WalkToStand_45E930()
     }
 }
 
-const FP sRunJumpBeginVelTable_4BC8A0[8] = {
+const FP sRunJumpBeginVelTable_4BC8A0[14] = {
     FP_FromDouble(13.124908447265625),
     FP_FromDouble(12.364852905273438),
     FP_FromDouble(11.541610717773438),
@@ -1753,7 +1753,13 @@ const FP sRunJumpBeginVelTable_4BC8A0[8] = {
     FP_FromDouble(9.345687866210938),
     FP_FromDouble(8.901473999023438),
     FP_FromDouble(8.55975341796875),
-    FP_FromDouble(8.320602416992188)};
+    FP_FromDouble(8.320602416992188),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0)};
 
 void Scrab::Motion_13_RunJumpBegin_45F5D0()
 {
@@ -1766,12 +1772,10 @@ void Scrab::Motion_13_RunJumpBegin_45F5D0()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        LOG_INFO("frame " << field_10_anim.field_92_current_frame << " run jump fp value: " << sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame].fpValue);
         field_B4_velx = (field_BC_sprite_scale * -sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame]);
     }
     else
     {
-        LOG_INFO("frame " << field_10_anim.field_92_current_frame << " run jump fp value: " << sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame].fpValue);
         field_B4_velx = (field_BC_sprite_scale * sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame]);
     }
 
