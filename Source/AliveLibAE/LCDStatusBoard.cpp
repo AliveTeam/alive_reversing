@@ -23,12 +23,6 @@ u8 sStatsSignFontPalette_55CF8C[] = {
 ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
 ALIVE_VAR(1, 0x5C1A20, s8, sZulagNumber_5C1A20, 0);
 
-
-BaseGameObject* LCDStatusBoard::VDestructor(s32 flags)
-{
-    return vdtor_47B7B0(flags);
-}
-
 void LCDStatusBoard::VUpdate()
 {
     vUpdate_47B8D0();
@@ -44,11 +38,9 @@ void LCDStatusBoard::VScreenChanged()
     vScreenChanged_47BC40();
 }
 
-LCDStatusBoard* LCDStatusBoard::ctor_47B600(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
+LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x54635C);
-
     field_100_objectId = a3.all;
 
     if (!sFontType2LoadCount_5BC5E8)
@@ -75,12 +67,10 @@ LCDStatusBoard* LCDStatusBoard::ctor_47B600(Path_LCDStatusBoard* params, TlvItem
         LOG_ERROR("sZulagNumber_5C1A20 is " << sZulagNumber_5C1A20 << " max is 20");
         ALIVE_FATAL("sZulagNumber_5C1A20 out of bounds, don't set your zulag numbe to > 20");
     }
-    return this;
 }
 
-void LCDStatusBoard::dtor_47B7E0()
+LCDStatusBoard::~LCDStatusBoard()
 {
-    SetVTable(this, 0x54635C);
     gObjList_drawables_5C1124->Remove_Item(this);
     Path::TLV_Reset_4DB8E0(field_100_objectId, -1, 0, 0);
 
@@ -93,18 +83,6 @@ void LCDStatusBoard::dtor_47B7E0()
     field_90_font3.dtor_433540();
     field_58_font2.dtor_433540();
     field_20_font1.dtor_433540();
-    BaseGameObject_dtor_4DBEC0();
-}
-
-
-BaseGameObject* LCDStatusBoard::vdtor_47B7B0(s32 flags)
-{
-    dtor_47B7E0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void LCDStatusBoard::vUpdate_47B8D0()

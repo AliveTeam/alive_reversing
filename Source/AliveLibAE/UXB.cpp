@@ -112,11 +112,6 @@ void UXB::VRender(PrimHeader** ppOt)
     Render_4DF3D0(ppOt);
 }
 
-BaseGameObject* UXB::VDestructor(s32 flags)
-{
-    return vdtor_4DEEA0(flags);
-}
-
 void UXB::VScreenChanged()
 {
     ScreenChanged_4DF9C0();
@@ -127,11 +122,9 @@ s16 UXB::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_4DF850(pFrom);
 }
 
-UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
+UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
-    SetVTable(&field_128_animation, 0x544290);
-    SetVTable(this, 0x547E80);
     SetType(AETypes::eUXB_143);
 
     const AnimRecord& activeRec = AnimRec(AnimId::UXB_Active);
@@ -268,8 +261,6 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     field_E4_collection_rect.y = field_BC_ypos - gridSnap;
     field_E4_collection_rect.w = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
     field_E4_collection_rect.h = field_BC_ypos;
-
-    return this;
 }
 
 
@@ -310,16 +301,10 @@ EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
 
 void UXB::vOnThrowableHit_4DF7B0(BaseGameObject* /*pFrom*/)
 {
-    auto pBomb = ae_new<BaseBomb>();
-    if (pBomb)
-    {
-        pBomb->ctor_423E70(
-            field_B8_xpos,
-            field_BC_ypos,
-            0,
-            field_CC_sprite_scale);
-    }
-
+    ae_new<BaseBomb>(field_B8_xpos,
+                                  field_BC_ypos,
+                                  0,
+                                  field_CC_sprite_scale);
     field_118_state = UXBState::eExploding_2;
     mFlags.Set(BaseGameObject::eDead);
     field_124_next_state_frame = sGnFrame_5C1B84;
@@ -354,26 +339,18 @@ s16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
 
     mFlags.Set(BaseGameObject::eDead);
 
-    auto pMem = ae_new<BaseBomb>();
-    if (pMem)
-    {
-        pMem->ctor_423E70(
-            field_B8_xpos,
-            field_BC_ypos,
-            0,
-            field_CC_sprite_scale);
-    }
-
+    ae_new<BaseBomb>(field_B8_xpos,
+                                 field_BC_ypos,
+                                 0,
+                                 field_CC_sprite_scale);
     field_118_state = UXBState::eExploding_2;
     field_124_next_state_frame = sGnFrame_5C1B84;
 
     return 1;
 }
 
-void UXB::dtor_4DEF60()
+UXB::~UXB()
 {
-    SetVTable(this, 0x547E80);
-
     if (field_118_state != UXBState::eExploding_2 || sGnFrame_5C1B84 < field_124_next_state_frame)
     {
         Path::TLV_Reset_4DB8E0(field_120_tlv.all, -1, 0, 0);
@@ -386,18 +363,6 @@ void UXB::dtor_4DEF60()
     field_128_animation.vCleanUp_40C630();
 
     mFlags.Clear(Options::eInteractive_Bit8);
-
-    dtor_4080B0();
-}
-
-BaseGameObject* UXB::vdtor_4DEEA0(s32 flags)
-{
-    dtor_4DEF60();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void UXB::Update_4DF030()
@@ -479,11 +444,7 @@ void UXB::Update_4DF030()
         case UXBState::eExploding_2:
             if (sGnFrame_5C1B84 >= field_124_next_state_frame)
             {
-                auto explosion = ae_new<BaseBomb>();
-                if (explosion)
-                {
-                    explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
-                }
+                ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
                 mFlags.Set(Options::eDead);
             }
             break;
@@ -616,11 +577,7 @@ EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
         ResourceManager::LoadResourceFile_49C170("EXPLODE.BND", 0);
     }
 
-    UXB* pUXB = ae_new<UXB>();
-    if (pUXB)
-    {
-        pUXB->ctor_4DE9A0(uxbPath, pSaveState->field_4_tlv);
-    }
+    UXB* pUXB = ae_new<UXB>(uxbPath, pSaveState->field_4_tlv);
 
     if (pSaveState->field_C_state == UXBState::eDeactivated_3)
     {
@@ -645,7 +602,7 @@ EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
         pUXB->field_1C8_flags.Set(UXB_Flags_1C8::eIsRed_Bit1);
     }
 
-    return sizeof(SaveState_UXB); // 24
+    return sizeof(SaveState_UXB);
 }
 
 s32 UXB::VGetSaveState(u8* __pSaveBuffer)

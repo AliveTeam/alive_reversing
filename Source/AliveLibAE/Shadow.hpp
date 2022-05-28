@@ -7,8 +7,8 @@
 class Shadow final
 {
 public:
-    EXPORT Shadow* ctor_4AC990();
-    EXPORT void dtor_4ACA30();
+    Shadow();
+    ~Shadow();
     EXPORT void Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, s16 scale);
     EXPORT void Render_4ACE60(PrimHeader** ppOt);
 

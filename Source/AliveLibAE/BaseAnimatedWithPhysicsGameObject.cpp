@@ -57,11 +57,7 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
             field_20_animation.vCleanUp_40C630();
         }
 
-        if (field_E0_pShadow)
-        {
-            field_E0_pShadow->dtor_4ACA30();
-            ae_delete_free_495540(field_E0_pShadow);
-        }
+        delete field_E0_pShadow;
     }
 }
 

@@ -51,8 +51,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPoint_State, 0x1C);
 class LiftPoint final : public PlatformBase
 {
 public:
-    EXPORT LiftPoint* ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo);
-
+    LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo);
+    ~LiftPoint();
     
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
@@ -83,8 +83,6 @@ private:
 private:
     EXPORT void CreatePulleyIfExists_462C80();
     EXPORT void vScreenChanged_463020();
-    EXPORT LiftPoint* vdtor_4619D0(s32 flags);
-    EXPORT void dtor_4624E0();
 
 public:
     s16 field_12C_bMoving;

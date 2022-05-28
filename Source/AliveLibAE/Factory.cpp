@@ -121,11 +121,7 @@ EXPORT void CC Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/
         }
         else
         {
-            auto pMainMenuController = ae_new<MainMenuController>();
-            if (pMainMenuController)
-            {
-                pMainMenuController->ctor_4CE9A0(pTlv, tlvOffsetLevelIdPathId);
-            }
+            ae_new<MainMenuController>(pTlv, tlvOffsetLevelIdPathId);
         }
     }
 }
@@ -150,11 +146,7 @@ EXPORT void CC Factory_Hoist_4D9E90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfo
     else if (pHoistTlv->field_10_type == Path_Hoist::Type::eOffScreen)
     {
         // Its an off screen hoist so create the falling rocks effect
-        auto pHoistFallingRocks = ae_new<HoistRocksEffect>();
-        if (pHoistFallingRocks)
-        {
-            pHoistFallingRocks->ctor_45D270(pHoistTlv, tlvOffsetLevelIdPathId.all);
-        }
+        ae_new<HoistRocksEffect>(pHoistTlv, tlvOffsetLevelIdPathId.all);
     }
     else
     {
@@ -236,11 +228,7 @@ EXPORT void CC Factory_Shadow_4D7200(Path_TLV* pTlv, Path* pPath, TlvItemInfoUni
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        auto pShadowZone = ae_new<ShadowZone>();
-        if (pShadowZone)
-        {
-            pShadowZone->ctor_463900(static_cast<Path_ShadowZone*>(pTlv), pPath, tlvInfo.all);
-        }
+        ae_new<ShadowZone>(static_cast<Path_ShadowZone*>(pTlv), pPath, tlvInfo.all);
     }
 }
 
@@ -330,11 +318,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
         // TODO: Meaning of the data in field_1_unknown for lift point
         if (pLiftTlv->field_1_tlv_state & 2 || (pLiftTlv->field_1_tlv_state == 0 && pLiftTlv->field_12_bStart_point == Choice_short::eYes_1))
         {
-            auto pLiftPoint = ae_new<LiftPoint>();
-            if (pLiftPoint)
-            {
-                pLiftPoint->ctor_461030(pLiftTlv, tlvOffsetLevelIdPathId.all);
-            }
+            ae_new<LiftPoint>(pLiftTlv, tlvOffsetLevelIdPathId.all);
             return;
         }
         else
@@ -358,11 +342,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
 
                         if (absX < 5 && pLiftPointIter->field_10_lift_point_id == pLiftTlv->field_10_lift_point_id && (pLiftPointIter->field_1_tlv_state & 2 || pLiftPointIter->field_1_tlv_state == 0) && pLiftPointIter->field_12_bStart_point == Choice_short::eYes_1)
                         {
-                            auto pLiftPoint = ae_new<LiftPoint>();
-                            if (pLiftPoint)
-                            {
-                                pLiftPoint->ctor_461030(pLiftPointIter, tlvOffsetLevelIdPathId.all);
-                            }
+                            ae_new<LiftPoint>(pLiftPointIter, tlvOffsetLevelIdPathId.all);
                             return;
                         }
                     }
@@ -373,11 +353,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
             }
 
             // Default to original
-            auto pLiftPoint = ae_new<LiftPoint>();
-            if (pLiftPoint)
-            {
-                pLiftPoint->ctor_461030(pLiftTlv, tlvOffsetLevelIdPathId.all);
-            }
+            ae_new<LiftPoint>(pLiftTlv, tlvOffsetLevelIdPathId.all);
         }
     }
 }
@@ -394,11 +370,7 @@ EXPORT void CC Factory_ExpressWell_4D7D90(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
         Path_WellBase* pWellTlv = static_cast<Path_WellBase*>(pTlv);
         const FP xpos = FP_FromInteger(pWellTlv->field_8_top_left.field_0_x);
         const FP ypos = FP_FromInteger(pWellTlv->field_8_top_left.field_2_y + 5);
-        auto pExpressWell = ae_new<Well>();
-        if (pExpressWell)
-        {
-            pExpressWell->ctor_4E2BE0(pWellTlv, xpos, ypos, tlvOffsetLevelIdPathId.all);
-        }
+        ae_new<Well>(pWellTlv, xpos, ypos, tlvOffsetLevelIdPathId.all);
     }
 }
 
@@ -449,11 +421,7 @@ EXPORT void CC Factory_RockSack_4D8040(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
     else
     {
-        auto pRockSack = ae_new<RockSack>();
-        if (pRockSack)
-        {
-            pRockSack->ctor_49F100(static_cast<Path_RockSack*>(pTlv), tlvInfo.all);
-        }
+        ae_new<RockSack>(static_cast<Path_RockSack*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -542,11 +510,7 @@ EXPORT void CC Factory_TimedMine_4D87C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItem
     }
     else
     {
-        auto pMine = ae_new<TimedMine>();
-        if (pMine)
-        {
-            pMine->ctor_410600(mine_tlv, tlvOffsetLevelIdPathId);
-        }
+        ae_new<TimedMine>(mine_tlv, tlvOffsetLevelIdPathId);
     }
 }
 
@@ -631,11 +595,7 @@ EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
     }
     else
     {
-        auto pSwitch = ae_new<Lever>();
-        if (pSwitch)
-        {
-            pSwitch->ctor_4D5860(static_cast<Path_Lever*>(pTlv), tlvInfo.all);
-        }
+        ae_new<Lever>(static_cast<Path_Lever*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -726,11 +686,7 @@ EXPORT void CC Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoU
     }
     else
     {
-        auto pMine = ae_new<Mine>();
-        if (pMine)
-        {
-            pMine->ctor_46B120(mine_tlv, tlvOffsetLevelIdPathId);
-        }
+        ae_new<Mine>(mine_tlv, tlvOffsetLevelIdPathId);
     }
 }
 
@@ -759,11 +715,7 @@ EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
     }
     else
     {
-        auto pUXB = ae_new<UXB>();
-        if (pUXB)
-        {
-            pUXB->ctor_4DE9A0(uxb_tlv, tlvOffsetLevelIdPathId);
-        }
+        ae_new<UXB>(uxb_tlv, tlvOffsetLevelIdPathId);
     }
 }
 
@@ -863,12 +815,8 @@ EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
     else
     {
-        auto pTrapDoor = ae_new<TrapDoor>();
-        if (pTrapDoor)
-        {
-            // TODO: OG bug - actually passes Path* instead of Map* .. probably works because this parameter never gets used!
-            pTrapDoor->ctor_4DD570(static_cast<Path_TrapDoor*>(pTlv), &gMap, tlvInfo.all);
-        }
+        // TODO: OG bug - actually passes Path* instead of Map* .. probably works because this parameter never gets used!
+        ae_new<TrapDoor>(static_cast<Path_TrapDoor*>(pTlv), &gMap, tlvInfo.all);
     }
 }
 
@@ -1276,11 +1224,7 @@ EXPORT void CC Factory_LCD_4D6CF0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
         return;
     }
 
-    auto pLCD = ae_new<LCDScreen>();
-    if (pLCD)
-    {
-        pLCD->ctor_460680(static_cast<Path_LCDScreen*>(pTlv), tlvOffsetLevelIdPathId);
-    }
+    ae_new<LCDScreen>(static_cast<Path_LCDScreen*>(pTlv), tlvOffsetLevelIdPathId);
 }
 
 EXPORT void CC Factory_HandStone_4D9FA0(Path_TLV*, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
@@ -1316,11 +1260,8 @@ EXPORT void CC Factory_StatusBoard_4DA3C0(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
         Map::LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::ResourceType::Resource_Font, AEResourceID::kLcdfontResID, loadmode);
         return;
     }
-    auto pStatsSign = ae_new<LCDStatusBoard>();
-    if (pStatsSign)
-    {
-        pStatsSign->ctor_47B600(static_cast<Path_LCDStatusBoard*>(pTlv), tlvOffsetLevelIdPathId);
-    }
+    
+    ae_new<LCDStatusBoard>(static_cast<Path_LCDStatusBoard*>(pTlv), tlvOffsetLevelIdPathId);
 }
 
 EXPORT void CC Factory_WheelSyncer_4DA430(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)

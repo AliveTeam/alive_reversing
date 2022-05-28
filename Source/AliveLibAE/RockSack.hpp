@@ -17,15 +17,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RockSack, 0x1C);
 class RockSack final : public BaseAliveGameObject
 {
 public:
-    EXPORT RockSack* ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo);
-
+    RockSack(Path_RockSack* pTlv, s32 tlvInfo);
+    ~RockSack();
     
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
 private:
-    EXPORT RockSack* vdtor_49F2E0(s32 flags);
-    EXPORT void dtor_49F310();
     EXPORT void vScreenChanged_49F700();
     EXPORT void vUpdate_49F3A0();
 

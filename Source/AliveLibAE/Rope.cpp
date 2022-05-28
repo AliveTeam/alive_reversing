@@ -48,11 +48,9 @@ EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
     }
 }
 
-Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
+Rope::Rope(u16 left, s16 top, u16 bottom, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x546C70); // vTbl_LiftRope_00546C70
-
     SetType(AETypes::eLiftRope_108);
 
     const AnimRecord& rec = AnimRec(AnimId::Lift_Rope);
@@ -99,7 +97,6 @@ Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
     {
         AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-        SetVTable(pSegment, 0x5447CC);                // vTbl_RopeSegment_5447CC
         pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
         pSegment->field_68_anim_ptr = &field_20_animation;
         pSegment->field_C_render_layer = field_20_animation.field_C_render_layer;
@@ -107,13 +104,6 @@ Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
         pSegment->field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
         pSegment->field_4_flags.Clear(AnimFlags::eBit16_bBlending);
     }
-
-    return this;
-}
-
-BaseGameObject* Rope::VDestructor(s32 flags)
-{
-    return vdtor_4A0D80(flags);
 }
 
 void Rope::VUpdate()
@@ -126,21 +116,9 @@ void Rope::VRender(PrimHeader** ppOt)
     vRender_4A0E30(ppOt);
 }
 
-void Rope::dtor_4A0DB0()
+Rope::~Rope()
 {
-    SetVTable(this, 0x546C70); // vTbl_LiftRope_00546C70
     ResourceManager::FreeResource_49C330(field_F8_ppRopeRes);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-Rope* Rope::vdtor_4A0D80(s32 flags)
-{
-    dtor_4A0DB0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)

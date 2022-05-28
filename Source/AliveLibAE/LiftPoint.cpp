@@ -59,13 +59,8 @@ const TintEntry sLiftTints_55BF50[18] = {
     {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
-LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
+LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
 {
-    BaseAliveGameObject(0);
-    SetVTable(&field_13C_lift_wheel, 0x544290);  // gVtbl_animation_2a_544290;
-    SetVTable(&field_1D4_pulley_anim, 0x544290); // gVtbl_animation_2a_544290;
-    SetVTable(this, 0x545CC0);                   // vTbl_LiftPoint_545CC0
-
     field_C_objectId = tlvInfo;
     SetType(AETypes::eLiftPoint_78);
 
@@ -236,12 +231,6 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, s32 tlvInfo)
     {
         mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
-    return this;
-}
-
-BaseGameObject* LiftPoint::VDestructor(s32 flags)
-{
-    return vdtor_4619D0(flags);
 }
 
 void LiftPoint::VRender(PrimHeader** ppOt)
@@ -327,12 +316,7 @@ s32 CC LiftPoint::CreateFromSaveState_4630F0(const u8* pData)
             break;
     }
 
-    auto pLiftPoint = ae_new<LiftPoint>();
-    if (pLiftPoint)
-    {
-        pLiftPoint->ctor_461030(pTlv, pState->field_C_tlvInfo);
-    }
-
+    auto pLiftPoint = ae_new<LiftPoint>(pTlv, pState->field_C_tlvInfo);
     pLiftPoint->field_B8_xpos = pState->field_4_xpos;
     pLiftPoint->field_BC_ypos = pState->field_8_ypos;
     pLiftPoint->SyncCollisionLinePosition_4974E0();
@@ -1038,20 +1022,8 @@ void LiftPoint::vScreenChanged_463020()
     }
 }
 
-LiftPoint* LiftPoint::vdtor_4619D0(s32 flags)
+LiftPoint::~LiftPoint()
 {
-    dtor_4624E0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void LiftPoint::dtor_4624E0()
-{
-    SetVTable(this, 0x545CC0); // vTbl_LiftPoint_545CC0
-
     BaseGameObject* pRope2 = sObjectIds.Find(field_134_rope2_id, AETypes::eLiftRope_108);
     BaseGameObject* pRope1 = sObjectIds.Find(field_138_rope1_id, AETypes::eLiftRope_108);
     if (pRope2)
@@ -1089,6 +1061,4 @@ void LiftPoint::dtor_4624E0()
     }
 
     ResourceManager::FreeResource_49C330(field_274_ppRes);
-
-    dtor_4973E0();
 }

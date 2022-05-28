@@ -8,14 +8,13 @@ class AnimationUnknown;
 class Rope final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Rope* ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale);
-    
+    Rope(u16 left, s16 top, u16 bottom, FP scale);
+    ~Rope();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT void dtor_4A0DB0();
-    EXPORT Rope* vdtor_4A0D80(s32 flags);
     EXPORT void vRender_4A0E30(PrimHeader** ppOt);
 
 private:

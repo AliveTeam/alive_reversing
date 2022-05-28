@@ -172,11 +172,9 @@ public:
 };
 static LCDMessages gLCDMessages;
 
-LCDScreen* LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
+LCDScreen::LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x545AAC);
-
     field_C_objectId = itemInfo.all;
 
     field_2C0_tlv = *params;
@@ -232,8 +230,6 @@ LCDScreen* LCDScreen::ctor_460680(Path_LCDScreen* params, TlvItemInfoUnion itemI
     field_2B8_message_rand_max_id = params->field_14_message_rand_max_id;
     field_2A8_play_sound_toggle = 0;
     gObjList_drawables_5C1124->Push_Back_40CAF0(this);
-
-    return this;
 }
 
 void LCDScreen::Update_460A00()
@@ -374,10 +370,8 @@ void LCDScreen::vSetDead_460F10()
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void LCDScreen::dtor_460920()
+LCDScreen::~LCDScreen()
 {
-    SetVTable(this, 0x545AAC); // vTbl_LCDScreen_545AAC
-
     IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
 
     gObjList_drawables_5C1124->Remove_Item(this);
@@ -388,17 +382,6 @@ void LCDScreen::dtor_460920()
         sFont2Context_5BC5D8.dtor_433510();
     }
     field_60_font.dtor_433540();
-    BaseGameObject_dtor_4DBEC0();
-}
-
-BaseGameObject* LCDScreen::vdtor_4608F0(s32 flags)
-{
-    dtor_460920();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void LCDScreen::VUpdate()
@@ -409,11 +392,6 @@ void LCDScreen::VUpdate()
 void LCDScreen::VRender(PrimHeader** ppOt)
 {
     Render_460CB0(ppOt);
-}
-
-BaseGameObject* LCDScreen::VDestructor(s32 flags)
-{
-    return vdtor_4608F0(flags);
 }
 
 void LCDScreen::VScreenChanged()

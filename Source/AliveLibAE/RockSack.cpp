@@ -9,11 +9,9 @@
 #include "Events.hpp"
 #include "Abe.hpp"
 
-RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo)
+RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
-    SetVTable(this, 0x546B88);
-
     SetType(AETypes::eRockSack_106);
 
     const AnimRecord& rec = AnimRec(AnimId::RockSack_Idle);
@@ -57,18 +55,8 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, s32 tlvInfo)
     field_122_force_wobble_sound = 1;
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
 
     field_DC_bApplyShadows |= 2u;
-    return this;
-}
-
-BaseGameObject* RockSack::VDestructor(s32 flags)
-{
-    return vdtor_49F2E0(flags);
 }
 
 void RockSack::VScreenChanged()
@@ -81,21 +69,9 @@ void RockSack::VUpdate()
     vUpdate_49F3A0();
 }
 
-RockSack* RockSack::vdtor_49F2E0(s32 flags)
+RockSack::~RockSack()
 {
-    dtor_49F310();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void RockSack::dtor_49F310()
-{
-    SetVTable(this, 0x546B88);
     Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
-    dtor_4080B0();
 }
 
 void RockSack::vScreenChanged_49F700()
@@ -172,7 +148,6 @@ void RockSack::vUpdate_49F3A0()
             else
             {
                 gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
-                gpThrowableArray_5D1E2C->ctor_49A630();
             }
 
             gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_rock_amount);

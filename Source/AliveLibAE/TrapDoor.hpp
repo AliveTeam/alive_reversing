@@ -52,11 +52,12 @@ public:
     virtual void VAdd(BaseAliveGameObject* pObj) override;
     virtual void VRemove(BaseAliveGameObject* pObj) override;
 
-    EXPORT TrapDoor* ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
+    TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
+    ~TrapDoor();
+
     EXPORT static s32 CC CreateFromSaveState_4DDED0(const u8* pData);
 
 private:
-    EXPORT BaseGameObject* vdtor_4DD8A0(s32 flags);
     EXPORT void vUpdate_4DDA90();
     EXPORT void vRender_4DDDD0(PrimHeader** ppOt);
     EXPORT void vScreenChanged_4DDE40();
@@ -70,8 +71,6 @@ private:
     EXPORT void Add_To_Collisions_Array_4DDA20();
 
     EXPORT void Open_4DD960();
-
-    EXPORT void dtor_4DD8D0();
 
 private:
     s16 field_12C_unused;

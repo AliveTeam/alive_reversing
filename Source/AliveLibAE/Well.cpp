@@ -10,11 +10,9 @@
 
 ALIVE_VAR(1, 0x563aa0, u32, sWellRndSeed_563AA0, 4);
 
-Well* Well::ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
+Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x547FE8); // vTbl_ExpressWell_547FE8
-
     field_20_tlvInfo = tlvInfo;
     SetType(AETypes::eWell_147);
 
@@ -26,13 +24,6 @@ Well* Well::ctor_4E2BE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     {
         WellExpress_Init_4E2E00(static_cast<Path_WellExpress*>(pTlv), xpos, ypos);
     }
-
-    return this;
-}
-
-BaseGameObject* Well::VDestructor(s32 flags)
-{
-    return vdtor_4E2CA0(flags);
 }
 
 void Well::VUpdate()
@@ -132,26 +123,12 @@ void Well::WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-Well* Well::vdtor_4E2CA0(s32 flags)
+Well::~Well()
 {
-    dtor_4E3090();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Well::dtor_4E3090()
-{
-    SetVTable(this, 0x547FE8); // vTbl_ExpressWell_547FE8
-
     if (field_20_tlvInfo != -1)
     {
         Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
     }
-
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void Well::vScreenChanged_4E3070()
@@ -189,16 +166,11 @@ void Well::vUpdate_4E2F60()
             // Random chance of leaves emitting.
             if (Well_NextRandom() < 10)
             {
-                auto pLeaf = ae_new<Leaf>();
-                if (pLeaf)
-                {
-                    pLeaf->ctor_4E3120(
-                        field_34_leaf_xpos,
-                        field_38_leaf_ypos,
-                        FP_FromInteger(2),
-                        FP_FromInteger(-20),
-                        field_28_scale);
-                }
+                ae_new<Leaf>(field_34_leaf_xpos,
+                                          field_38_leaf_ypos,
+                                          FP_FromInteger(2),
+                                          FP_FromInteger(-20),
+                                          field_28_scale);
             }
         }
     }

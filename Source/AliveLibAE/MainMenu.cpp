@@ -3175,10 +3175,9 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     return 1;
                 }
 
-                field_208_transition_obj = ae_new<MainMenuTransition>();
+                field_208_transition_obj = ae_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_2);
                 if (field_208_transition_obj)
                 {
-                    field_208_transition_obj->ctor_464110(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_2);
                     field_21E_changeScreenState = 2;
                     return 1;
                 }
@@ -3192,10 +3191,9 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     return 1;
                 }
 
-                field_208_transition_obj = ae_new<MainMenuTransition>();
+                field_208_transition_obj = ae_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                 if (field_208_transition_obj)
                 {
-                    field_208_transition_obj->ctor_464110(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                     field_21E_changeScreenState = 2;
                     return 1;
                 }

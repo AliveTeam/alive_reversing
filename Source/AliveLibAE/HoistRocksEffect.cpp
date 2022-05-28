@@ -13,12 +13,8 @@ const static AnimId HoistRocksAnimIdTable_5556E0[4] =
 AnimId::HoistRock2,
 AnimId::HoistRock3,
 AnimId::HoistRock1};
-const static s16 word_5556F0[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
-BaseGameObject* HoistRocksEffect::VDestructor(s32 flags)
-{
-    return vdtor_45D430(flags);
-}
+const static s16 word_5556F0[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
 void HoistRocksEffect::VUpdate()
 {
@@ -35,17 +31,9 @@ void HoistRocksEffect::VScreenChanged()
     vScreenChanged_45D790();
 }
 
-HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, s32 tlvInfo)
+HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-
-    for (HoistRockParticle& particle : field_30_rocks)
-    {
-        SetVTable(&particle.field_10_mAnim, 0x544290); // gVtbl_animation_2a_544290
-    }
-
-    SetVTable(this, 0x545910); // vTbl_Hoist_545910
-
     field_24_tlvInfo = tlvInfo;
 
     field_20_xpos = (pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2;
@@ -101,23 +89,10 @@ HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, s32 tlvInfo)
 
         particle.field_0_state = 0;
     }
-    return this;
 }
 
-HoistRocksEffect* HoistRocksEffect::vdtor_45D430(s32 flags)
+HoistRocksEffect::~HoistRocksEffect()
 {
-    dtor_45D6D0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void HoistRocksEffect::dtor_45D6D0()
-{
-    SetVTable(this, 0x545910); // vTbl_Hoist_545910
-
     gObjList_drawables_5C1124->Remove_Item(this);
 
     for (HoistRockParticle& particle : field_30_rocks)
@@ -126,8 +101,6 @@ void HoistRocksEffect::dtor_45D6D0()
     }
 
     Path::TLV_Reset_4DB8E0(field_24_tlvInfo, -1, 0, 0);
-
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void HoistRocksEffect::Update_45D460()

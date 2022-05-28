@@ -875,11 +875,6 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
 
     // Create shadow
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
-
 
     // Animation test code
     //auto testAnim = ae_new<TestAnimation>(); testAnim->ctor();

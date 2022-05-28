@@ -138,7 +138,7 @@ void EventTests()
 {
     Events_Reset_422D70();
 
-    BaseAnimatedWithPhysicsGameObject bang;
+    BaseAnimatedWithPhysicsGameObject bang(0);
     bang.field_B8_xpos = FP_FromInteger(10);
     bang.field_BC_ypos = FP_FromInteger(20);
     bang.field_D6_scale = 0;

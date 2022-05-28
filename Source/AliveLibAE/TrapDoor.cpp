@@ -56,12 +56,6 @@ const TintEntry sTrapDoorTints_5639AC[18] = {
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 
-
-BaseGameObject* TrapDoor::VDestructor(s32 flags)
-{
-    return vdtor_4DD8A0(flags);
-}
-
 void TrapDoor::VUpdate()
 {
     vUpdate_4DDA90();
@@ -88,10 +82,8 @@ PSX_RECT* TrapDoor::vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx)
 }
 
 
-EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
+TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 {
-    BaseAliveGameObject(0);
-    SetVTable(this, 0x547CE0);
     SetType(AETypes::eTrapDoor_142);
     field_C_objectId = tlvInfo;
 
@@ -179,8 +171,6 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, s32 tlvIn
 
     field_DC_bApplyShadows |= 2u;
     field_13C_stay_open_time = pTlv->field_1E_stay_open_time;
-
-    return this;
 }
 
 s32 CC TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
@@ -208,10 +198,9 @@ s32 CC TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
             break;
     }
 
-    auto pTrapDoor = ae_new<TrapDoor>();
+    auto pTrapDoor = ae_new<TrapDoor>(pTlv, nullptr, pState->field_8_tlvInfo);
     if (pTrapDoor)
     {
-        pTrapDoor->ctor_4DD570(pTlv, nullptr, pState->field_8_tlvInfo);
         pTrapDoor->field_130_stay_open_time2 = pState->field_4_open_time;
         pTrapDoor->field_136_state = pState->field_2_state;
 
@@ -222,16 +211,6 @@ s32 CC TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
     }
 
     return sizeof(TrapDoor_State);
-}
-
-EXPORT BaseGameObject* TrapDoor::vdtor_4DD8A0(s32 flags)
-{
-    dtor_4DD8D0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 EXPORT void TrapDoor::vUpdate_4DDA90()
@@ -407,9 +386,7 @@ void TrapDoor::Open_4DD960()
     ObjList_5C1B78->Remove_Item(this);
 }
 
-void TrapDoor::dtor_4DD8D0()
+TrapDoor::~TrapDoor()
 {
-    SetVTable(this, 0x547CE0);
     Path::TLV_Reset_4DB8E0(field_128_tlvInfo, -1, 0, 0);
-    dtor_4973E0();
 }

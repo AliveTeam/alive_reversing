@@ -33,15 +33,14 @@ public:
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnPickUpOrSlapped() override;
-    EXPORT TimedMine* ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv);
+    TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv);
+    ~TimedMine();
 
 private:
     EXPORT void Update_410A80();
     EXPORT void Render_410CD0(PrimHeader** ppOt);
     EXPORT void InitBlinkAnimation_4108E0(Animation* pAnimation);
     EXPORT void StickToLiftPoint_411100();
-    EXPORT void dtor_410970();
-    EXPORT TimedMine* vdtor_4108B0(s32 flags);
     EXPORT void vScreenChanged_411270();
     EXPORT s16 vTakeDamage_410FA0(BaseGameObject* pFrom);
     EXPORT void vOnThrowableHit_410F00(BaseGameObject* pHitBy);

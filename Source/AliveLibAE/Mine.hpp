@@ -37,11 +37,11 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    EXPORT Mine* ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv);
+    Mine(Path_Mine* pPath, TlvItemInfoUnion tlv);
+    ~Mine();
 
 private:
-    EXPORT Mine* vdtor_46B4C0(s32 flags);
-    EXPORT void dtor_46B4F0();
+
     EXPORT void Update_46B5D0();
     EXPORT void Render_46B7A0(PrimHeader** ppOt);
     EXPORT void ScreenChanged_46BAE0();

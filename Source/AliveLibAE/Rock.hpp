@@ -49,8 +49,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(RockSaveState, 0x38);
 class Rock final : public BaseThrowable
 {
 public:
-    EXPORT Rock* ctor_49E150(FP xpos, FP ypos, s16 count);
-
+    Rock(FP xpos, FP ypos, s16 count);
+    ~Rock();
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -67,8 +67,6 @@ private:
     EXPORT s32 vGetSaveState_49F9A0(RockSaveState* pState);
     EXPORT Bool32 vIsFalling_49E330();
     EXPORT Bool32 vCanThrow_49E350();
-    EXPORT Rock* vdtor_49E370(s32 flags);
-    EXPORT void dtor_49E3A0();
     EXPORT void vThrow_49E460(FP velX, FP velY);
     EXPORT void InTheAir_49E4B0();
     EXPORT s16 OnCollision_49EF10(BaseAliveGameObject* pObj);

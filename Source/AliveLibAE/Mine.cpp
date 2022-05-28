@@ -34,10 +34,6 @@ void Mine::VRender(PrimHeader** ppOt)
     Render_46B7A0(ppOt);
 }
 
-BaseGameObject* Mine::VDestructor(s32 flags)
-{
-    return vdtor_46B4C0(flags);
-}
 
 void Mine::VScreenChanged()
 {
@@ -60,13 +56,9 @@ s16 Mine::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_46BB20(pFrom);
 }
 
-Mine* Mine::ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv)
+Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
-
-    SetVTable(this, 0x546164);
-    SetVTable(&field_124_animation, 0x544290);
-
     SetType(AETypes::eMine_88);
 
     const AnimRecord& rec = AnimRec(AnimId::Mine);
@@ -157,23 +149,11 @@ Mine* Mine::ctor_46B120(Path_Mine* pPath, TlvItemInfoUnion tlv)
     field_E4_collection_rect.y = field_BC_ypos - gridSnap;
     field_E4_collection_rect.w = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
     field_E4_collection_rect.h = field_BC_ypos;
-
-    return this;
 }
 
-Mine* Mine::vdtor_46B4C0(s32 flags)
-{
-    dtor_46B4F0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
 
-void Mine::dtor_46B4F0()
+Mine::~Mine()
 {
-    SetVTable(this, 0x546164); // vTbl_Mine_546164
     if (field_118_detonating == 1)
     {
         Path::TLV_Reset_4DB8E0(field_11C_tlv.all, -1, 0, 1);
@@ -190,7 +170,6 @@ void Mine::dtor_46B4F0()
     {
         sMineSFXOwner_5C3008 = nullptr;
     }
-    dtor_4080B0();
 }
 
 void Mine::Update_46B5D0()
@@ -206,11 +185,7 @@ void Mine::Update_46B5D0()
     {
         if (field_118_detonating == 1 && sGnFrame_5C1B84 >= field_120_gnframe)
         {
-            auto explosion = ae_new<BaseBomb>();
-            if (explosion)
-            {
-                explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
-            }
+            ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
             mFlags.Set(Options::eDead);
         }
     }
@@ -262,7 +237,7 @@ void Mine::Render_46B7A0(PrimHeader** ppOt)
                                                      0,
                                                      0);
 
-            Render_424B90(ppOt);
+            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
     }
 }
@@ -288,12 +263,7 @@ void Mine::vOnPickUpOrSlapped_46B880()
 
 void Mine::vOnThrowableHit_46BA40(BaseGameObject* /*pFrom*/)
 {
-    auto pBomb = ae_new<BaseBomb>();
-    if (pBomb)
-    {
-        pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
-    }
-
+    ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
     mFlags.Set(BaseGameObject::eDead);
     field_118_detonating = 1;
 }
@@ -317,12 +287,7 @@ s16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
         case AETypes::eExplosion_109:
         case AETypes::eMudokon_110:
         case AETypes::eShrykull_121:
-            auto pBomb = ae_new<BaseBomb>();
-            if (pBomb)
-            {
-                pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
-            }
-
+            ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
             mFlags.Set(BaseGameObject::eDead);
             field_118_detonating = 1;
             field_120_gnframe = sGnFrame_5C1B84;

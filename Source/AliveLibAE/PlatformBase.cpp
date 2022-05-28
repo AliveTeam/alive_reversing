@@ -6,10 +6,13 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* PlatformBase::VDestructor(s32 flags)
+PlatformBase::PlatformBase()
+    : BaseAliveGameObject(0)
 {
-    return vdtor_4974B0(flags);
+
 }
+
+
 
 void PlatformBase::VAdd(BaseAliveGameObject* pObj)
 {
@@ -73,9 +76,8 @@ void PlatformBase::AddDynamicCollision_4971C0(s32 frameTableOffset, s32 maxW, u1
     }
 }
 
-void PlatformBase::dtor_4973E0()
+PlatformBase::~PlatformBase()
 {
-    SetVTable(this, 0x546890); // vTbl_PlatformBase_546890
     ObjList_5C1B78->Remove_Item(this);
 
     if (field_124_pCollisionLine)
@@ -85,8 +87,6 @@ void PlatformBase::dtor_4973E0()
             Rect_Clear_418040(&field_124_pCollisionLine->field_0_rect);
         }
     }
-
-    dtor_4080B0();
 }
 
 void PlatformBase::SyncCollisionLinePosition_4974E0()
@@ -109,14 +109,4 @@ EXPORT void PlatformBase::vAddCount_4975B0(BaseAliveGameObject* /*pObj*/)
     {
         SyncCollisionLinePosition_4974E0();
     }
-}
-
-PlatformBase* PlatformBase::vdtor_4974B0(s32 flags)
-{
-    dtor_4973E0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }

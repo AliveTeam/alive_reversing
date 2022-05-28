@@ -12,10 +12,9 @@
 #include "Grid.hpp"
 #include <assert.h>
 
-Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
+Rock::Rock(FP xpos, FP ypos, s16 count)
+    : BaseThrowable(0)
 {
-    BaseAliveGameObject(0);
-    SetVTable(this, 0x546AF8);
     SetType(AETypes::eRock_105);
 
     field_11A_bDead = 0;
@@ -64,16 +63,6 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, s16 count)
     field_11E_volume = 0;
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
-    return this;
-}
-
-BaseGameObject* Rock::VDestructor(s32 flags)
-{
-    return vdtor_49E370(flags);
 }
 
 void Rock::VScreenChanged()
@@ -126,20 +115,8 @@ Bool32 Rock::vCanThrow_49E350()
     return field_11C_state == RockStates::eBouncing_4;
 }
 
-Rock* Rock::vdtor_49E370(s32 flags)
+Rock::~Rock()
 {
-    dtor_49E3A0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Rock::dtor_49E3A0()
-{
-    SetVTable(this, 0x546AF8);
-
     if (!gInfiniteGrenades_5C1BDE && !field_11A_bDead)
     {
         if (gpThrowableArray_5D1E2C)
@@ -147,7 +124,6 @@ void Rock::dtor_49E3A0()
             gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count >= 1 ? field_118_count : 1);
         }
     }
-    dtor_4080B0();
 }
 
 //TODO Identical to AO - merge
@@ -512,8 +488,7 @@ s32 CC Rock::CreateFromSaveState_49F720(const u8* pData)
 {
     auto pState = reinterpret_cast<const RockSaveState*>(pData);
 
-    auto pRock = ae_new<Rock>();
-    pRock->ctor_49E150(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
+    auto pRock = ae_new<Rock>(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
 
     pRock->field_C_objectId = pState->field_4_obj_id;
 

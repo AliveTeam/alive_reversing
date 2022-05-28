@@ -6,11 +6,6 @@
 #include "stdlib.hpp"
 #include "Events.hpp"
 
-BaseGameObject* ShadowZone::VDestructor(s32 flags)
-{
-    return vdtor_463A70(flags);
-}
-
 void ShadowZone::VUpdate()
 {
     vUpdate_463C40();
@@ -21,11 +16,9 @@ void ShadowZone::VScreenChanged()
     vScreenChanged_463CC0();
 }
 
-ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 tlvInfo)
+ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x545E10); // vTbl_ShadowZone_545E10
-
     sShadowZone_dArray_5C1B80->Push_Back(this);
 
     field_26_path = gMap.mCurrentPath;
@@ -56,8 +49,6 @@ ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 
 
     field_34_switch_id = pTlv->field_1A_switch_id;
     field_36_scale = pTlv->field_1C_scale;
-
-    return this;
 }
 
 EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
@@ -120,22 +111,10 @@ EXPORT void CC ShadowZone::ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypo
     }
 }
 
-void ShadowZone::dtor_463BB0()
+ShadowZone::~ShadowZone()
 {
-    SetVTable(this, 0x545E10); // vTbl_ShadowZone_545E10
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
     sShadowZone_dArray_5C1B80->Remove_Item(this);
-    BaseGameObject_dtor_4DBEC0();
-}
-
-ShadowZone* ShadowZone::vdtor_463A70(s32 flags)
-{
-    dtor_463BB0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void ShadowZone::vScreenChanged_463CC0()

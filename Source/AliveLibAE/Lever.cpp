@@ -27,11 +27,6 @@ const TintEntry kLeverTints_563228[18] = {
     {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
-BaseGameObject* Lever::VDestructor(s32 flags)
-{
-    return vdtor_4D5AD0(flags);
-}
-
 void Lever::VUpdate()
 {
     vUpdate_4D5C00();
@@ -47,11 +42,9 @@ s16 Lever::VPull_4D6050(s16 bLeftDirection)
     return vPull_4D6050(bLeftDirection);
 }
 
-Lever* Lever::ctor_4D5860(Path_Lever* pTlv, u32 tlvInfo)
+Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x547A5C);
-
     SetType(AETypes::eLever_139);
     const AnimRecord& rec = AnimRec(AnimId::Lever_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -112,26 +105,11 @@ Lever* Lever::ctor_4D5860(Path_Lever* pTlv, u32 tlvInfo)
 
     field_F8_state = LeverState::eWaiting_0;
     field_DC_bApplyShadows |= 2u;
-
-    return this;
 }
 
-void Lever::dtor_4D5B00()
+Lever::~Lever()
 {
-    SetVTable(this, 0x547A5C); // vTbl_Switch_547A5C
     Path::TLV_Reset_4DB8E0(field_FC_tlvInfo, -1, 0, 0);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-    //Lever::dtor_4D5840(); // Omitted interface base nop.
-}
-
-Lever* Lever::vdtor_4D5AD0(s32 flags)
-{
-    dtor_4D5B00();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void Lever::vScreenChanged_4D5B90()
