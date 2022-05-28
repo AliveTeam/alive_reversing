@@ -1859,12 +1859,10 @@ void Scrab::Motion_14_RunJumpEnd_45F850()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        LOG_INFO("frame " << field_10_anim.field_92_current_frame << " run jump end fp value: " << sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame].fpValue);
         field_B4_velx = (field_BC_sprite_scale * -sRunJumpEndVelTable_4BC8C0[field_10_anim.field_92_current_frame]);
     }
     else
     {
-        LOG_INFO("frame " << field_10_anim.field_92_current_frame << " run jump end fp value: " << sRunJumpBeginVelTable_4BC8A0[field_10_anim.field_92_current_frame].fpValue);
         field_B4_velx = (field_BC_sprite_scale * sRunJumpEndVelTable_4BC8C0[field_10_anim.field_92_current_frame]);
     }
 
