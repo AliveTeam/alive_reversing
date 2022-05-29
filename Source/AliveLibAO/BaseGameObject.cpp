@@ -12,7 +12,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x9F2DF0, DynamicArrayT<BaseGameObject>*, gBaseGameObjects, nullptr);
 
-BaseGameObject::BaseGameObject(s16 bDontAddToObjectList)
+BaseGameObject::BaseGameObject(s16 addToObjectList)
 {
     field_8_update_delay = 0;
     field_C_refCount = 0;
@@ -30,7 +30,7 @@ BaseGameObject::BaseGameObject(s16 bDontAddToObjectList)
     //field_6_flags.Clear(BaseGameObject::Options::eCantKill_Bit11); // NOTE: AE clears this too
     mFlags.Set(BaseGameObject::Options::eUpdatable_Bit2);
 
-    if (!bDontAddToObjectList)
+    if (addToObjectList)
     {
         if (!gBaseGameObjects->Push_Back(this))
         {

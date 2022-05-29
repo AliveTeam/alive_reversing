@@ -132,7 +132,7 @@ public:
         eCantKill_Bit11 = 0x400
     };
 
-    explicit BaseGameObject(s16 bDontAddToObjectList);
+    explicit BaseGameObject(s16 addToObjectList);
     virtual ~BaseGameObject();
 
     virtual void VUpdate()
