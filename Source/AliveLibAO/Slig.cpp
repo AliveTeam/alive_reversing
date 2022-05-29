@@ -387,10 +387,6 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
     field_122_unused = 0;
 
     field_D0_pShadow = ao_new<Shadow>();
-    if (field_D0_pShadow)
-    {
-        field_D0_pShadow->ctor_461FB0();
-    }
 }
 
 Slig::~Slig()
@@ -880,14 +876,12 @@ s16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
             auto pBullet = static_cast<Bullet*>(pFrom);
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
-                auto pBlood = ao_new<Blood>();
-                if (pBlood)
                 {
                     const FP yOff = FP_FromInteger(Math_NextRandom() % 16) - FP_FromInteger(8);
                     const FP xOff = (pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1) * FP_FromInteger(Math_NextRandom() & 15) + FP_FromInteger(16));
                     const FP xPos = (field_BC_sprite_scale * pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
 
-                    pBlood->ctor_4072B0(
+                    ao_new<Blood>(
                         xPos + field_A8_xpos,
                         pBullet->field_1C_ypos,
                         xOff,
@@ -896,14 +890,11 @@ s16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
                         12);
                 }
 
-                auto pBlood2 = ao_new<Blood>();
-                if (pBlood2)
                 {
                     const FP xPos = (field_BC_sprite_scale * pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
-
                     const FP xOff = pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
 
-                    pBlood2->ctor_4072B0(
+                    ao_new<Blood>(
                         xOff + field_A8_xpos,
                         pBullet->field_1C_ypos,
                         xPos,
@@ -4385,11 +4376,7 @@ void Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, u8 a
 {
     if (!array.mArray[ambianceId].field_8_pScopedSeq)
     {
-        array.mArray[ambianceId].field_8_pScopedSeq = ao_new<ScopedSeq>();
-        if (array.mArray[ambianceId].field_8_pScopedSeq)
-        {
-            array.mArray[ambianceId].field_8_pScopedSeq = ao_new<ScopedSeq>(ambianceId, camPos);
-        }
+        array.mArray[ambianceId].field_8_pScopedSeq = ao_new<ScopedSeq>(ambianceId, camPos);
     }
 }
 
@@ -5736,17 +5723,13 @@ void Slig::BlowToGibs_4685A0()
         field_B8_vely,
         field_BC_sprite_scale);
 
-    auto pBlood = ao_new<Blood>();
-    if (pBlood)
-    {
-        pBlood->ctor_4072B0(
-            field_A8_xpos,
-            field_AC_ypos - (FP_FromInteger(30) * field_BC_sprite_scale),
-            FP_FromInteger(0),
-            FP_FromInteger(0),
-            field_BC_sprite_scale,
-            20);
-    }
+    ao_new<Blood>(
+        field_A8_xpos,
+        field_AC_ypos - (FP_FromInteger(30) * field_BC_sprite_scale),
+        FP_FromInteger(0),
+        FP_FromInteger(0),
+        field_BC_sprite_scale,
+        20);
 
     New_Smoke_Particles_419A80(
         field_A8_xpos,

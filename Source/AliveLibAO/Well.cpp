@@ -67,16 +67,12 @@ void Well::VUpdate_48B270()
             // Random chance of leaves emitting
             if (Well_NextRandom() < 10)
             {
-                auto pLeaf = ao_new<Leaf>();
-                if (pLeaf)
-                {
-                    pLeaf->ctor_48B4F0(
-                        field_F8_leaf_xpos,
-                        field_FC_leaf_ypos,
-                        field_F0_exit_x,
-                        field_F4_exit_y,
-                        field_EC_scale);
-                }
+                auto pLeaf = ao_new<Leaf>(
+                    field_F8_leaf_xpos,
+                    field_FC_leaf_ypos,
+                    field_F0_exit_x,
+                    field_F4_exit_y,
+                    field_EC_scale);
 
                 if (field_F4_exit_y > FP_FromInteger(0))
                 {

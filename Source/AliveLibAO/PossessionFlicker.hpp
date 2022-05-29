@@ -10,7 +10,7 @@ class BaseAliveGameObject;
 class PossessionFlicker final : public BaseGameObject
 {
 public:
-    PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 duration, s16 r, s16 g, s16 b);
+    PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b);
     ~PossessionFlicker();
 
     virtual void VScreenChanged() override;

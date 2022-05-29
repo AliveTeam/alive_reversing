@@ -373,10 +373,6 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     field_194_pLiftPoint = nullptr;
 
     field_D0_pShadow = ao_new<Shadow>();
-    if (field_D0_pShadow)
-    {
-        field_D0_pShadow->ctor_461FB0();
-    }
 
     VUpdate();
 }
@@ -691,17 +687,13 @@ s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
                     bloodXOff = FP_FromInteger(24);
                 }
 
-                auto pBlood = ao_new<Blood>();
-                if (pBlood)
-                {
-                    pBlood->ctor_4072B0(
-                        field_A8_xpos,
-                        pBullet->field_1C_ypos,
-                        bloodXOff,
-                        FP_FromInteger(0),
-                        field_BC_sprite_scale,
-                        50);
-                }
+                ao_new<Blood>(
+                    field_A8_xpos,
+                    pBullet->field_1C_ypos,
+                    bloodXOff,
+                    FP_FromInteger(0),
+                    field_BC_sprite_scale,
+                    50);
 
                 Event_Broadcast_417220(kEventMudokonDead_15, sActiveHero_507678);
                 Event_Broadcast_417220(kEventMudokonDead_15, sActiveHero_507678);
@@ -3268,11 +3260,7 @@ s16 Mudokon::Brain_GiveRings_7_43C2F0()
         case 1:
             if (static_cast<s32>(gnFrameCount_507670) > field_1C0_timer)
             {
-                auto pFlicker = ao_new<PossessionFlicker>();
-                if (pFlicker)
-                {
-                    pFlicker->ctor_41A8C0(this, 10, 255, 128, 128);
-                }
+                ao_new<PossessionFlicker>(this, 10, 255, 128, 128);
                 field_1C0_timer = gnFrameCount_507670 + 15;
                 return 2;
             }

@@ -33,7 +33,7 @@ ALIVE_VAR(1, 0x5BD1E4, Data_Byte, sbyte_1_5BD1E4, {});
 ALIVE_VAR(1, 0x5BD218, Data_Byte, sbyte_2_5BD218, {});
 ALIVE_VAR(1, 0x5BD24C, s32, gDeathGasCount_5BD24C, 0);
 
-DeathGas::DeathGas(Layer layer, s16 amount)
+DeathGas::DeathGas(Layer layer, s32 amount)
     : BaseGameObject(TRUE, 0)
 {
     gDeathGasCount_5BD24C++;
@@ -78,7 +78,7 @@ DeathGas::DeathGas(Layer layer, s16 amount)
         }
     }
 
-    field_24_amount = amount;
+    field_24_amount = static_cast<s16>(amount);
 }
 
 void DeathGas::VScreenChanged()

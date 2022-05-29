@@ -206,10 +206,6 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     field_10A_flags.Set(Flags_10A::e10A_Bit6);
 
     field_D0_pShadow = ao_new<Shadow>();
-    if (field_D0_pShadow)
-    {
-        field_D0_pShadow->ctor_461FB0();
-    }
 }
 
 Paramite::~Paramite()
@@ -379,17 +375,13 @@ s16 Paramite::VTakeDamage_44ACC0(BaseGameObject* pFrom)
             field_FC_current_motion = eParamiteMotions::Motion_24_Struggle_44DB70;
             VUpdateAnimData_44A460();
 
-            auto pBlood = ao_new<Blood>();
-            if (pBlood)
-            {
-                pBlood->ctor_4072B0(
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    FP_FromInteger(0),
-                    FP_FromInteger(5),
-                    field_BC_sprite_scale,
-                    50);
-            }
+            ao_new<Blood>(
+                field_A8_xpos,
+                field_AC_ypos,
+                FP_FromInteger(0),
+                FP_FromInteger(5),
+                field_BC_sprite_scale,
+                50);
             break;
         }
     }

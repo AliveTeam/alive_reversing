@@ -650,27 +650,25 @@ s16 SlingMudokon::Brain_1_Spawn_470230()
             {
                 for (s32 i = 0; i < 8; i++)
                 {
-                    auto pDove = ao_new<Dove>();
+                    const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
+                    auto pDove = ao_new<Dove>(
+                        doveRec.mFrameTableOffset,
+                        doveRec.mMaxW,
+                        doveRec.mMaxH,
+                        doveRec.mResourceId,
+                        field_A8_xpos + FP_FromInteger(Math_NextRandom() % 16),
+                        field_AC_ypos - FP_FromInteger(Math_NextRandom() % 16),
+                        field_BC_sprite_scale);
                     if (pDove)
                     {
-                        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
-                        pDove->ctor_40EFF0(
-                            doveRec.mFrameTableOffset,
-                            doveRec.mMaxW,
-                            doveRec.mMaxH,
-                            doveRec.mResourceId,
-                            field_A8_xpos + FP_FromInteger(Math_NextRandom() % 16),
-                            field_AC_ypos - FP_FromInteger(Math_NextRandom() % 16),
-                            field_BC_sprite_scale);
-                    }
-
-                    if (pDove->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                    {
-                        pDove->field_A8_xpos += FP_FromInteger(8);
-                    }
-                    else
-                    {
-                        pDove->field_A8_xpos -= FP_FromInteger(8);
+                        if (pDove->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        {
+                            pDove->field_A8_xpos += FP_FromInteger(8);
+                        }
+                        else
+                        {
+                            pDove->field_A8_xpos -= FP_FromInteger(8);
+                        }
                     }
                 }
 
@@ -937,27 +935,25 @@ s16 SlingMudokon::Brain_2_AskForPassword_4707B0()
             {
                 for (s32 i = 0; i < 8; i++)
                 {
-                    auto pDove = ao_new<Dove>();
+                    const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
+                    auto pDove = ao_new<Dove>(
+                        doveRec.mFrameTableOffset,
+                        doveRec.mMaxW,
+                        doveRec.mMaxH,
+                        doveRec.mResourceId,
+                        field_A8_xpos + FP_FromInteger(Math_NextRandom() % 16),
+                        field_AC_ypos - FP_FromInteger(Math_NextRandom() % 16),
+                        field_BC_sprite_scale);;
                     if (pDove)
                     {
-                        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
-                        pDove->ctor_40EFF0(
-                            doveRec.mFrameTableOffset,
-                            doveRec.mMaxW,
-                            doveRec.mMaxH,
-                            doveRec.mResourceId,
-                            field_A8_xpos + FP_FromInteger(Math_NextRandom() % 16),
-                            field_AC_ypos - FP_FromInteger(Math_NextRandom() % 16),
-                            field_BC_sprite_scale);
-                    }
-
-                    if (pDove->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                    {
-                        pDove->field_A8_xpos += FP_FromInteger(8);
-                    }
-                    else
-                    {
-                        pDove->field_A8_xpos -= FP_FromInteger(8);
+                        if (pDove->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        {
+                            pDove->field_A8_xpos += FP_FromInteger(8);
+                        }
+                        else
+                        {
+                            pDove->field_A8_xpos -= FP_FromInteger(8);
+                        }
                     }
                 }
 

@@ -12,7 +12,7 @@ class PalleteOverwriter;
 class Electrocute final : public BaseGameObject
 {
 public:
-    Electrocute(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter);
+    Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter);
     ~Electrocute();
 
     virtual void VScreenChanged() override;

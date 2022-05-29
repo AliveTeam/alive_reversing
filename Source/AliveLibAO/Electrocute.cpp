@@ -110,7 +110,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xC0);
 
-Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter)
+Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
     : BaseGameObject(1)
 {
     field_4_typeId = Types::eElectrocute_103;
@@ -118,7 +118,7 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter)
     pTargetObj->field_C_refCount++;
     field_10_obj_target = pTargetObj;
     field_32_state = States::eSetNewColour_0;
-    field_24_extraOverwriter = bExtraOverwriter;
+    field_24_extraOverwriter = static_cast<s16>(bExtraOverwriter);
     field_14_overwriter_count = bExtraOverwriter ? 3 : 2;
     field_28_pPalData = nullptr;
 

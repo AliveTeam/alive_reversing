@@ -8,7 +8,7 @@ namespace AO {
 class DeathBirdParticle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    DeathBirdParticle(FP xpos, FP ypos, s32 start, s16 playSound, FP scale);
+    DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 playSound, FP scale);
 
     virtual void VUpdate() override;
 

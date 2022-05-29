@@ -62,10 +62,6 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     field_112_num_items = pTlv->field_20_amount_of_meat;
 
     field_D0_pShadow = ao_new<Shadow>();
-    if (field_D0_pShadow)
-    {
-        field_D0_pShadow->ctor_461FB0();
-    }
 }
 
 MeatSack::~MeatSack()
@@ -202,10 +198,6 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_110_state = 0;
 
     field_D0_pShadow = ao_new<Shadow>();
-    if (field_D0_pShadow)
-    {
-        field_D0_pShadow->ctor_461FB0();
-    }
 }
 
 Meat::~Meat()

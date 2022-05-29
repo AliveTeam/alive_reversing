@@ -17,11 +17,11 @@ void Alarm_ForceLink()
 
 ALIVE_VAR(1, 0x5076A8, s16, alarmInstanceCount_5076A8, 0);
 
-Alarm::Alarm(s16 duration_timer, s16 switchId, s16 timer, Layer layer)
+Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
     : EffectBase(layer, TPageAbr::eBlend_1)
 {
     field_6C_15_timer = timer + gnFrameCount_507670;
-    field_74_switch_id = switchId;
+    field_74_switch_id = static_cast<s16>(switchId);
     field_4_typeId = Types::eAlarm_1;
     field_68_r_value = 0;
     field_6A_state = States::eAfterConstructed_0;

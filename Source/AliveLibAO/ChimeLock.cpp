@@ -44,39 +44,35 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
         scale = FP_FromInteger(1);
     }
 
-    field_114_left_bell = ao_new<Bells>();
+    field_114_left_bell = ao_new<Bells>(
+        BellSize::eBig_0,
+        FP_FromInteger(pTlv->field_10_top_left.field_0_x),
+        FP_FromInteger(pTlv->field_10_top_left.field_2_y),
+        scale);
     if (field_114_left_bell)
     {
-        field_114_left_bell->ctor_40A650(
-            BellSize::eBig_0,
-            FP_FromInteger(pTlv->field_10_top_left.field_0_x),
-            FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-            scale);
         field_114_left_bell->field_C_refCount++;
     }
 
-    field_118_center_bell = ao_new<Bells>();
+    field_118_center_bell = ao_new<Bells>(
+        BellSize::eMedium_1,
+        FP_FromInteger(pTlv->field_10_top_left.field_0_x),
+        FP_FromInteger(pTlv->field_10_top_left.field_2_y),
+        scale);
     if (field_118_center_bell)
     {
-        field_118_center_bell->ctor_40A650(
-            BellSize::eMedium_1,
-            FP_FromInteger(pTlv->field_10_top_left.field_0_x),
-            FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-            scale);
         field_118_center_bell->field_C_refCount++;
     }
 
-    field_11C_right_bell = ao_new<Bells>();
+    field_11C_right_bell = ao_new<Bells>(
+        BellSize::eSmall_2,
+        FP_FromInteger(pTlv->field_10_top_left.field_0_x),
+        FP_FromInteger(pTlv->field_10_top_left.field_2_y),
+        scale);
     if (field_11C_right_bell)
     {
-        field_11C_right_bell->ctor_40A650(
-            BellSize::eSmall_2,
-            FP_FromInteger(pTlv->field_10_top_left.field_0_x),
-            FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-            scale);
         field_11C_right_bell->field_C_refCount++;
     }
-
 
     field_124_code1 = pTlv->field_1C_code1;
 

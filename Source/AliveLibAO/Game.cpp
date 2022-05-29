@@ -563,7 +563,6 @@ EXPORT void Game_Run_4373D0()
     DDCheat_Allocate_409560();
 
     pEventSystem_4FF954 = ao_new<GameSpeak>();
-    pEventSystem_4FF954->ctor_40F990();
 
     pCheatController_4FF958 = ao_new<CheatController>();
 

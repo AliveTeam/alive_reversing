@@ -19,7 +19,7 @@ namespace AO {
 void Blood_ForceLink()
 { }
 
-Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count)
+Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 {
     field_BC_sprite_scale = scale;
 
@@ -46,8 +46,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count)
         field_10_anim.SetFrame_402AC0((field_10_anim.Get_Frame_Count_403540() >> 1) + 1);
     }
 
-    field_116_total_count = count;
-    field_112_to_render_count = count;
+    field_116_total_count = static_cast<s16>(count);
+    field_112_to_render_count = static_cast<s16>(count);
 
     field_E4_ppResBuf = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Blood, 0, count * sizeof(BloodParticle));
     if (field_E4_ppResBuf)

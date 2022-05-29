@@ -200,42 +200,40 @@ void CC Game_ShowLoadingIcon_445EB0()
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     if (ppRes)
     {
-        auto pParticle = ao_new<Particle>();
+        auto pParticle = ao_new<Particle>(FP_FromInteger(0), FP_FromInteger(0), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
         if (pParticle)
         {
-            pParticle->ctor_478880(FP_FromInteger(0), FP_FromInteger(0), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
+            pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+            pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+
+            pParticle->field_10_anim.field_C_layer = Layer::eLayer_0;
+
+            PrimHeader* local_ot[42] = {};
+            PSX_DRAWENV drawEnv = {};
+
+            PSX_SetDefDrawEnv_495EF0(&drawEnv, 0, 0, 640, 240);
+            PSX_PutDrawEnv_495DD0(&drawEnv);
+            PSX_DrawSync_496750(0);
+            PSX_ClearOTag_496760(local_ot, 42);
+
+            pParticle->field_10_anim.vRender(320, 220, local_ot, 0, 0);
+
+            PSX_DrawOTag_4969F0(local_ot);
+            PSX_DrawSync_496750(0);
+
+            PSX_ClearOTag_496760(local_ot, 42);
+
+            pParticle->field_10_anim.vRender(320, gPsxDisplay_504C78.field_2_height + 220, local_ot, 0, 0);
+
+            PSX_DrawOTag_4969F0(local_ot);
+            PSX_DrawSync_496750(0);
+
+            PSX_DISPENV dispEnv = {};
+            PSX_SetDefDispEnv_4959D0(&dispEnv, 0, 0, 640, 240);
+            PSX_PutDispEnv_495CE0(&dispEnv);
+            pParticle->mFlags.Set(BaseGameObject::eDead);
+            bHideLoadingIcon_5076A0 = TRUE;
         }
-
-        pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-
-        pParticle->field_10_anim.field_C_layer = Layer::eLayer_0;
-
-        PrimHeader* local_ot[42] = {};
-        PSX_DRAWENV drawEnv = {};
-
-        PSX_SetDefDrawEnv_495EF0(&drawEnv, 0, 0, 640, 240);
-        PSX_PutDrawEnv_495DD0(&drawEnv);
-        PSX_DrawSync_496750(0);
-        PSX_ClearOTag_496760(local_ot, 42);
-
-        pParticle->field_10_anim.vRender(320, 220, local_ot, 0, 0);
-
-        PSX_DrawOTag_4969F0(local_ot);
-        PSX_DrawSync_496750(0);
-
-        PSX_ClearOTag_496760(local_ot, 42);
-
-        pParticle->field_10_anim.vRender(320, gPsxDisplay_504C78.field_2_height + 220, local_ot, 0, 0);
-
-        PSX_DrawOTag_4969F0(local_ot);
-        PSX_DrawSync_496750(0);
-
-        PSX_DISPENV dispEnv = {};
-        PSX_SetDefDispEnv_4959D0(&dispEnv, 0, 0, 640, 240);
-        PSX_PutDispEnv_495CE0(&dispEnv);
-        pParticle->mFlags.Set(BaseGameObject::eDead);
-        bHideLoadingIcon_5076A0 = TRUE;
     }
 }
 

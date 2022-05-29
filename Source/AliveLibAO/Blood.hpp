@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF(BloodParticle, 0x40);
 class Blood final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count);
+    Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count);
     ~Blood();
 
     virtual void VUpdate() override;

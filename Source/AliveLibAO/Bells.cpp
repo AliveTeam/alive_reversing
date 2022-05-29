@@ -117,11 +117,7 @@ void Bells::VUpdate_40A770()
             {
                 const FP sparkx = field_A8_xpos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + xOff;
                 const FP sparky = field_AC_ypos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + yOff;
-                auto pSpark = ao_new<Sparks>();
-                if (pSpark)
-                {
-                    pSpark->ctor_40A3A0(sparkx, sparky, field_BC_sprite_scale);
-                }
+                ao_new<Sparks>(sparkx, sparky, field_BC_sprite_scale);
             }
         }
 

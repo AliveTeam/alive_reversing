@@ -47,7 +47,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
         {-16, 0, 256, 1},
 };
 
-MainMenuTransition::MainMenuTransition(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 fadeSpeed, TPageAbr abr)
+MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 fadeSpeed, TPageAbr abr)
     : BaseGameObject(TRUE, 0)
 {
     SetType(AETypes::eMainMenuTransistion_116);
@@ -83,7 +83,7 @@ MainMenuTransition::MainMenuTransition(Layer layer, s16 fadeDirection, s16 bKill
     field_colour_fade_value = 0;
     field_24E_width = 320;
     field_250_k120 = 120;
-    StartTrans_464370(layer, fadeDirection, bKillWhenDone, fadeSpeed);
+    StartTrans_464370(layer, static_cast<s16>(fadeDirection), static_cast<s16>(bKillWhenDone), static_cast<s16>(fadeSpeed));
 }
 
 void MainMenuTransition::StartTrans_464370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)

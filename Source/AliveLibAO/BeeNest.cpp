@@ -42,11 +42,7 @@ BeeNest::BeeNest(Path_BeeNest* pTlv, s32 tlvInfo)
     }
 
     // The "idle" swarm that hovers around the nest
-    auto pBeeSwarm = ao_new<BeeSwarm>();
-    if (pBeeSwarm)
-    {
-        pBeeSwarm->ctor_47FC60(field_10_bee_x, field_14_bee_y, FP_FromInteger(0), pTlv->field_22_num_bees, 0);
-    }
+    ao_new<BeeSwarm>(field_10_bee_x, field_14_bee_y, FP_FromInteger(0), pTlv->field_22_num_bees, 0);
 }
 
 BeeNest::~BeeNest()
@@ -93,16 +89,14 @@ void BeeNest::VUpdate_480F30()
         case BeeNestStates::eWaitForTrigger_0:
             if (SwitchStates_Get(field_28_switch_id))
             {
-                field_34_pBeeSwarm = ao_new<BeeSwarm>();
+                field_34_pBeeSwarm = ao_new<BeeSwarm>(
+                    field_10_bee_x,
+                    field_14_bee_y,
+                    field_30_speed,
+                    field_2A_swarm_size,
+                    field_2C_chase_ticks);
                 if (field_34_pBeeSwarm)
                 {
-                    field_34_pBeeSwarm->ctor_47FC60(
-                        field_10_bee_x,
-                        field_14_bee_y,
-                        field_30_speed,
-                        field_2A_swarm_size,
-                        field_2C_chase_ticks);
-
                     field_34_pBeeSwarm->field_C_refCount++;
                     field_34_pBeeSwarm->Chase_47FEB0(sActiveHero_507678);
                     field_2E_state = BeeNestStates::eResetIfDead_1;

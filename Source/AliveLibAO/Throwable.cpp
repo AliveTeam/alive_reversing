@@ -37,10 +37,10 @@ EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, s16 count)
 
         case Types::eMeat_54:
         {
-            auto pMeat = ao_new<Meat>();
+            auto pMeat = ao_new<Meat>(xpos, ypos, count);
             if (pMeat)
             {
-                return pMeat->ctor_438550(xpos, ypos, count);
+                return pMeat;
             }
             break;
         }

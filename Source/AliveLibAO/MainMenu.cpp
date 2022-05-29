@@ -315,7 +315,7 @@ const MenuFMV sLevelList_4D0300[15] = {
     {"Rescue Zulag 4", LevelIds::eRuptureFarmsReturn_13, 14, 1, -1, 1390, 700},
     {"The Boardroom", LevelIds::eBoardRoom_12, 6, 1, -1, 592, 157}};
 
-MainMenuFade::MainMenuFade(s16 xpos, s16 ypos, buttonType buttonType, s16 bDestroyOnDone)
+MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestroyOnDone)
 {
     field_4_typeId = Types::MainMenuFade_44;
 
@@ -335,7 +335,7 @@ MainMenuFade::MainMenuFade(s16 xpos, s16 ypos, buttonType buttonType, s16 bDestr
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_A8_xpos = FP_FromInteger(xpos);
     field_AC_ypos = FP_FromInteger(ypos);
-    field_E8_bDestroyOnDone = bDestroyOnDone;
+    field_E8_bDestroyOnDone = static_cast<s16>(bDestroyOnDone);
     field_E4 = 40;
     field_E6 = 8;
 
@@ -487,7 +487,7 @@ void MainMenuTransition::VUpdate()
     VUpdate_4365C0();
 }
 
-MainMenuTransition::MainMenuTransition(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed, TPageAbr abr)
+MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, TPageAbr abr)
     : BaseGameObject(1)
 {
     field_4_typeId = Types::eDeathFadeOut_80;
@@ -525,7 +525,7 @@ MainMenuTransition::MainMenuTransition(Layer layer, s16 fadeDirection, s16 bKill
     field_246_colour_fade_value = 0;
     field_23E_width = 320;
     field_240_k120 = 120;
-    StartTrans_436560(layer, fadeDirection, bKillWhenDone, speed);
+    StartTrans_436560(layer, static_cast<s16>(fadeDirection), static_cast<s16>(bKillWhenDone), static_cast<s16>(speed));
 }
 
 MainMenuTransition::~MainMenuTransition()
@@ -2623,19 +2623,19 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::OptionChantOrb_Particle);
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-            auto pParticle = ao_new<Particle>();
+
+            const FP screen_y = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+            const FP screen_x = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+
+            auto pParticle = ao_new<Particle>(
+                screen_x + (FP_FromInteger(Math_RandomRange_450F20(-40, 40) + 184)),
+                screen_y + (FP_FromInteger(162 - Math_RandomRange_450F20(30, 90))),
+                rec.mFrameTableOffset,
+                rec.mMaxW,
+                rec.mMaxH,
+                field_E4_res_array[4]);
             if (pParticle)
             {
-                const FP screen_y = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
-                const FP screen_x = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
-                pParticle->ctor_478880(
-                    screen_x + (FP_FromInteger(Math_RandomRange_450F20(-40, 40) + 184)),
-                    screen_y + (FP_FromInteger(162 - Math_RandomRange_450F20(30, 90))),
-                    rec.mFrameTableOffset,
-                    rec.mMaxW,
-                    rec.mMaxH,
-                    field_E4_res_array[4]);
-
                 pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
                 pParticle->field_10_anim.field_C_layer = Layer::eLayer_Above_FG1_39;
             }

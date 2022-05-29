@@ -18,7 +18,7 @@ enum buttonType : u16
 class MainMenuFade final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    MainMenuFade(s16 xpos, s16 ypos, buttonType buttonType, s16 bDestroyOnDone);
+    MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestroyOnDone);
 
     virtual void VUpdate() override;
 
@@ -48,7 +48,7 @@ ALIVE_ASSERT_SIZEOF(MainMenuTransition_Polys, 0x100);
 class MainMenuTransition final : public BaseGameObject
 {
 public:
-    MainMenuTransition(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed, TPageAbr abr);
+    MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, TPageAbr abr);
     ~MainMenuTransition();
 
     virtual void VUpdate() override;
@@ -158,12 +158,7 @@ class Menu final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     Menu(Path_TLV* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_47AAB0();
-
-    
-
-    EXPORT Menu* Vdtor_47FC40(s32 flags);
+    ~Menu();
 
     virtual void VUpdate() override;
 

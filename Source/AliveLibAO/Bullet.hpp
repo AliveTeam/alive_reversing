@@ -20,7 +20,7 @@ enum class LevelIds : s16;
 class Bullet final : public BaseGameObject
 {
 public:
-    Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets);
+    Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s32 numberOfBullets);
 
     
     virtual void VUpdate() override;

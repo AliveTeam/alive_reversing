@@ -30,7 +30,7 @@ ALIVE_ASSERT_SIZEOF(ScreenWave_Data, 0x3700);
 #undef min
 #undef max
 
-ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s16 radius)
+ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 radius)
     : BaseGameObject(1)
 {
     field_4_typeId = Types::eScreenWave_83;
@@ -70,7 +70,7 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s16 ra
 
     if (radius > 0)
     {
-        field_34_max_radius = std::min(field_34_max_radius, radius);
+        field_34_max_radius = std::min(field_34_max_radius, static_cast<s16>(radius));
     }
 
     field_20_fp1 = FP_FromInteger(1);

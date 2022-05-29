@@ -54,27 +54,14 @@ GameSpeakEvents CC Code_LookUp_476050(u32 code, u16 idx, u16 code_len)
 
 ALIVE_VAR(1, 0x4FF954, GameSpeak*, pEventSystem_4FF954, nullptr);
 
-GameSpeak* GameSpeak::ctor_40F990()
+GameSpeak::GameSpeak()
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BA890);
-
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_1C_event_buffer[0] = -1;
     field_10_last_event = GameSpeakEvents::eNone_m1;
     field_4_typeId = Types::eGameSpeak_24;
     field_18_last_event_index = 0;
-    return this;
-}
-
-GameSpeak* GameSpeak::Vdtor_40FB50(s32 flags)
-{
-    dtor_40F9C0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void GameSpeak::VScreenChanged()
@@ -82,16 +69,9 @@ void GameSpeak::VScreenChanged()
     // Empty
 }
 
-BaseGameObject* GameSpeak::VDestructor(s32 flags)
+GameSpeak::~GameSpeak()
 {
-    return Vdtor_40FB50(flags);
-}
-
-BaseGameObject* GameSpeak::dtor_40F9C0()
-{
-    SetVTable(this, 0x4BA890);
     pEventSystem_4FF954 = nullptr;
-    return dtor_487DF0();
 }
 
 void GameSpeak::VPushEvent_40F9E0(GameSpeakEvents event)

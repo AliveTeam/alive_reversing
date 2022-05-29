@@ -162,11 +162,7 @@ void ElectricWall::VUpdate_40FEF0()
                     if (!pObjIter->field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
                     {
                         pObjIter->field_10A_flags.Set(Flags_10A::e10A_Bit5_Electrocuted);
-                        auto pElectrocute = ao_new<Electrocute>();
-                        if (pElectrocute)
-                        {
-                            pElectrocute->ctor_48D3A0(pObjIter, 1);
-                        }
+                        ao_new<Electrocute>(pObjIter, 1);
 
                         pObjIter->VTakeDamage(this);
 

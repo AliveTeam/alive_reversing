@@ -9,7 +9,7 @@ namespace AO {
 class DeathGas final : public BaseGameObject
 {
 public:
-    DeathGas(Layer layer, s16 amount);
+    DeathGas(Layer layer, s32 amount);
     ~DeathGas();
 
     virtual void VUpdate() override;

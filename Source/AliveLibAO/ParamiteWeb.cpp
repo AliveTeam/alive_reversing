@@ -34,7 +34,7 @@ ParamiteWeb::~ParamiteWeb()
     ao_delete_free_447540(field_EC_pRes);
 }
 
-ParamiteWeb::ParamiteWeb(FP xpos, s16 bottom, s16 top, FP scale)
+ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 {
     field_4_typeId = Types::eRope_73;
 
@@ -73,9 +73,9 @@ ParamiteWeb::ParamiteWeb(FP xpos, s16 bottom, s16 top, FP scale)
     field_10_anim.field_A_b = 128;
 
     field_A8_xpos = xpos;
-    field_EA_ttl_remainder = top;
+    field_EA_ttl_remainder = static_cast<s16>(top);
     field_AC_ypos = FP_FromInteger(top);
-    field_E8_ttl = bottom;
+    field_E8_ttl = static_cast<s16>(bottom);
 
     field_E4_number_of_segments = 240 / field_E6_segment_length;
 

@@ -14,7 +14,7 @@
 
 namespace AO {
 
-Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets)
+Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s32 numberOfBullets)
     : BaseGameObject(1)
 {
     field_4_typeId = Types::eBullet_10;
@@ -26,7 +26,7 @@ Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, 
     field_28_level = gMap.mCurrentLevel;
     field_2C_scale = scale;
     field_24_unused = unused;
-    field_34_number_of_bullets = numberOfBullets;
+    field_34_number_of_bullets = static_cast<s16>(numberOfBullets);
     field_20_x_distance = xDist;
     field_12_unused = 0;
 }

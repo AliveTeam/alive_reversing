@@ -44,6 +44,7 @@ class SlingMudokon final : public BaseAliveGameObject
 {
 public:
     SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo);
+    ~SlingMudokon();
 
     virtual void VScreenChanged() override;
 

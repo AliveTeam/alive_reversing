@@ -16,6 +16,7 @@
 #include "Grid.hpp"
 
 Grenade::Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, s32 unused, BaseGameObject* pOwner)
+    : BaseThrowable(0)
 {
     field_11A_bDead = 0;
 

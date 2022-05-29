@@ -112,10 +112,6 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     field_120_pCollisionLine = nullptr;
 
     field_D0_pShadow = ao_new<Shadow>();
-    if (field_D0_pShadow)
-    {
-        field_D0_pShadow->ctor_461FB0();
-    }
 
     // Looks strange, it just bumps the res ref count
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);
@@ -148,7 +144,6 @@ void RollingBall::VUpdate_457AF0()
                 field_114_pRollingBallShaker = ao_new<RollingBallShaker>();
                 if (field_114_pRollingBallShaker)
                 {
-                    field_114_pRollingBallShaker->ctor_4361A0();
                     field_114_pRollingBallShaker->field_C_refCount++;
                 }
             }

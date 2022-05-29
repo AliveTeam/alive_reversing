@@ -10,7 +10,7 @@ class PathLine;
 class BulletShell final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BulletShell(FP xpos, FP ypos, s16 direction, FP scale);
+    BulletShell(FP xpos, FP ypos, s32 direction, FP scale);
 
     virtual void VUpdate() override;
 

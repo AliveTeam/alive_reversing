@@ -782,7 +782,7 @@ void Map::ScreenChange_4444D0()
                 if (pItem->field_C_refCount == 0)
                 {
                     j = gBaseGameObjects->RemoveAt(j);
-                    pItem->VDestructor(1);
+                    delete pItem;
                 }
             }
         }
@@ -801,7 +801,7 @@ void Map::ScreenChange_4444D0()
             if (pItem->field_C_refCount == 0)
             {
                 i = gBaseGameObjects->RemoveAt(i);
-                pItem->VDestructor(1);
+                delete pItem;
             }
         }
     }
@@ -1605,8 +1605,7 @@ void Map::Create_FG1s_4447D0()
             ResourceManager::Header* pHeader = ResourceManager::Get_Header_455620(ppRes);
             if (pHeader->field_8_type == ResourceManager::Resource_FG1)
             {
-                FG1* pFG1 = ao_new<FG1>();
-                pFG1->ctor_4539C0(ppRes);
+                ao_new<FG1>(ppRes);
             }
         }
     }
@@ -1776,8 +1775,7 @@ void Map::GoTo_Camera_445050()
         //SND_Load_Seqs_477AB0(reinterpret_cast<OpenSeqHandleAE*>(0x4C9E70), rPathRoot.field_C_bsq_file_name);
 
         SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, Path_Get_BsqFileName(mLevel));
-        auto pBackgroundMusic = ao_new<BackgroundMusic>();
-        pBackgroundMusic->ctor_476370(Path_Get_BackGroundMusicId(mLevel));
+        ao_new<BackgroundMusic>(Path_Get_BackGroundMusicId(mLevel));
 
         // TODO: Re-add function
         for (s32 i = 0; i < 236; i++)
@@ -1927,8 +1925,7 @@ void Map::GoTo_Camera_445050()
 
     if (!pScreenManager_4FF7C8)
     {
-        pScreenManager_4FF7C8 = ao_new<ScreenManager>();
-        pScreenManager_4FF7C8->ctor_406830(field_34_camera_array[0]->field_C_ppBits, &field_2C_camera_offset);
+        pScreenManager_4FF7C8 = ao_new<ScreenManager>(field_34_camera_array[0]->field_C_ppBits, &field_2C_camera_offset);
     }
 
     Loader_446590(field_20_camX_idx, field_22_camY_idx, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
@@ -1974,8 +1971,7 @@ void Map::GoTo_Camera_445050()
             const auto pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
             const auto xpos = pScreenManager_4FF7C8->field_14_xpos + ((pTlvIter->field_10_top_left.field_0_x + pTlvIter->field_14_bottom_right.field_0_x) / 2) - FP_GetExponent(pCamPos->field_0_x);
             const auto ypos = pScreenManager_4FF7C8->field_16_ypos + pTlvIter->field_10_top_left.field_2_y - FP_GetExponent(pCamPos->field_4_y);
-            auto pCameraSwapperMem = ao_new<CameraSwapper>();
-            pCameraSwapperMem->ctor_48C7A0(
+            ao_new<CameraSwapper>(
                 field_34_camera_array[0]->field_C_ppBits,
                 field_10_screenChangeEffect,
                 static_cast<s16>(xpos),
@@ -1983,8 +1979,7 @@ void Map::GoTo_Camera_445050()
         }
         else
         {
-            auto pCameraSwapper = ao_new<CameraSwapper>();
-            pCameraSwapper->ctor_48C7A0(field_34_camera_array[0]->field_C_ppBits, field_10_screenChangeEffect, 184, 120);
+            ao_new<CameraSwapper>(field_34_camera_array[0]->field_C_ppBits, field_10_screenChangeEffect, 184, 120);
         }
     }
     bHideLoadingIcon_5076A0 = 0;
@@ -2110,8 +2105,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
             &pos2,
             &pos3);
 
-        auto pCameraSwapper = ao_new<CameraSwapper>();
-        return pCameraSwapper->ctor_48C6B0(
+        return ao_new<CameraSwapper>(
             ppBits,
             pos1,
             pFmvRec1->field_4_id,
@@ -2147,8 +2141,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
         u32 cdPos2 = 0;
         Get_fmvs_sectors_44FEB0(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
 
-        auto pCameraSwapperMem = ao_new<CameraSwapper>();
-        return pCameraSwapperMem->ctor_48C5E0(
+        return ao_new<CameraSwapper>(
             ppBits,
             cdPos1,
             pFmvRec1->field_4_id,
@@ -2175,8 +2168,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
 
         u32 cdPos = 0;
         Get_fmvs_sectors_44FEB0(pFmvRecord->field_0_pName, 0, 0, &cdPos, 0, 0);
-        auto pCameraSwapperMem = ao_new<CameraSwapper>();
-        return pCameraSwapperMem->ctor_48C540(
+        return ao_new<CameraSwapper>(
             ppBits,
             cdPos,
             pFmvRecord->field_4_id,

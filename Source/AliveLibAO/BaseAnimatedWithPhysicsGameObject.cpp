@@ -410,11 +410,7 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
             field_10_anim.vCleanUp();
         }
 
-        if (field_D0_pShadow)
-        {
-            field_D0_pShadow->dtor_462030();
-            ao_delete_free_447540(field_D0_pShadow);
-        }
+        delete field_D0_pShadow;
     }
 }
 

@@ -201,10 +201,8 @@ void FG1::Convert_Chunk_To_Render_Block_AE(const Fg1Chunk* pChunk, Fg1Block* pBl
     }
 }
 
-BaseGameObject* FG1::dtor_453DF0()
+FG1::~FG1()
 {
-    SetVTable(this, 0x4BC028);
-
     gObjList_drawables_504618->Remove_Item(this);
 
     for (s32 i = 0; i < field_18_render_block_count; i++)
@@ -218,15 +216,11 @@ BaseGameObject* FG1::dtor_453DF0()
     }
 
     ResourceManager::FreeResource_455550(field_1C_ptr);
-    return dtor_487DF0();
 }
 
-FG1* FG1::ctor_4539C0(u8** ppRes)
+FG1::FG1(u8** ppRes)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-
-    SetVTable(this, 0x4BC028);
-
     mFlags.Set(Options::eDrawable_Bit4);
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
     mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
@@ -268,13 +262,6 @@ FG1* FG1::ctor_4539C0(u8** ppRes)
         FG1Reader loader(*this);
         loader.Iterate(pHeader);
     }
-
-    return this;
-}
-
-BaseGameObject* FG1::VDestructor(s32 flags)
-{
-    return Vdtor_453E90(flags);
 }
 
 void FG1::VUpdate()
@@ -317,16 +304,6 @@ void FG1::VRender_453D50(PrimHeader** ppOt)
                 pScreenManager_4FF7C8->field_2E_idx);
         }
     }
-}
-
-FG1* FG1::Vdtor_453E90(s32 flags)
-{
-    dtor_453DF0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

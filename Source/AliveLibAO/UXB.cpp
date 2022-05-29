@@ -291,15 +291,11 @@ s16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
 
     mFlags.Set(BaseGameObject::eDead);
 
-    auto pBaseBomb = ao_new<BaseBomb>();
-    if (pBaseBomb)
-    {
-        pBaseBomb->ctor_4173A0(
-            field_A8_xpos,
-            field_AC_ypos,
-            0,
-            field_BC_sprite_scale);
-    }
+    ao_new<BaseBomb>(
+        field_A8_xpos,
+        field_AC_ypos,
+        0,
+        field_BC_sprite_scale);
 
     field_10C_state = UXBState::eExploding_2;
     field_118_next_state_frame = gnFrameCount_507670;
@@ -314,15 +310,12 @@ void UXB::VOnThrowableHit(BaseGameObject* pFrom)
 
 void UXB::VOnThrowableHit_489A30(BaseGameObject* /*pFrom*/)
 {
-    auto pBaseBomb = ao_new<BaseBomb>();
-    if (pBaseBomb)
-    {
-        pBaseBomb->ctor_4173A0(
-            field_A8_xpos,
-            field_AC_ypos,
-            0,
-            field_BC_sprite_scale);
-    }
+    ao_new<BaseBomb>(
+        field_A8_xpos,
+        field_AC_ypos,
+        0,
+        field_BC_sprite_scale);
+
     mFlags.Set(BaseGameObject::eDead);
     field_10C_state = UXBState::eExploding_2;
     field_118_next_state_frame = gnFrameCount_507670;
@@ -479,15 +472,11 @@ void UXB::VUpdate_489380()
         case UXBState::eExploding_2:
             if (static_cast<s32>(gnFrameCount_507670) >= field_118_next_state_frame)
             {
-                auto explosion = ao_new<BaseBomb>();
-                if (explosion)
-                {
-                    explosion->ctor_4173A0(
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        0,
-                        field_BC_sprite_scale);
-                }
+                ao_new<BaseBomb>(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    0,
+                    field_BC_sprite_scale);
                 mFlags.Set(BaseGameObject::eDead);
             }
             break;

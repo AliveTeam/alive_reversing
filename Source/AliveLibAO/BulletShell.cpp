@@ -10,7 +10,7 @@
 
 namespace AO {
 
-BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
+BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
 {
     field_4_typeId = Types::eNone_0;
 

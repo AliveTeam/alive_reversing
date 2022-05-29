@@ -9,7 +9,7 @@ namespace AO {
 class Flash final : public EffectBase
 {
 public:
-    Flash(Layer layer, u8 r, u8 g, u8 b, s32 not_used = 1, TPageAbr abr = TPageAbr::eBlend_3, s32 time = 1);
+    Flash(Layer layer, s32 r, s32 g, s32 b, s32 not_used = 1, TPageAbr abr = TPageAbr::eBlend_3, s32 time = 1);
 
 
     virtual void VUpdate() override;

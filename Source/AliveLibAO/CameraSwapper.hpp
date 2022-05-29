@@ -15,7 +15,7 @@ public:
     CameraSwapper(u8** ppBits, s32 movieId, s32 movieFlag, s8 movieFlags, s16 flags, s16 volume);
     CameraSwapper(u8** ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, s8 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2);
     CameraSwapper(u8** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3);
-    CameraSwapper(u8** ppBits, CameraSwapEffects changeEffect, s16 xpos, s16 ypos);
+    CameraSwapper(u8** ppBits, CameraSwapEffects changeEffect, s32 xpos, s32 ypos);
     ~CameraSwapper();
     
 

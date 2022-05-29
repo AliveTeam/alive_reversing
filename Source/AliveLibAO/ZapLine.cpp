@@ -22,7 +22,7 @@ ZapLine::~ZapLine()
     ao_delete_free_450770(field_130_sprite_segment_positions);
 }
 
-ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLineType type, Layer layer)
+ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, Layer layer)
 {
     field_4_typeId = Types::eZapLine_94;
     field_11A_type = type;
@@ -58,7 +58,7 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLineType type, La
     field_12C_zap_points = reinterpret_cast<ZapPoint*>(alloc_450740(sizeof(ZapPoint) * field_120_number_of_pieces_per_segment));
     field_130_sprite_segment_positions = reinterpret_cast<FP_Point*>(alloc_450740(sizeof(FP_Point) * field_11E_number_of_segments));
 
-    field_118_max_alive_time = aliveTime;
+    field_118_max_alive_time = static_cast<s16>(aliveTime);
 
     field_A8_xpos = x1;
     field_AC_ypos = y1;

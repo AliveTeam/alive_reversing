@@ -19,7 +19,7 @@ enum class BurstType : s16
 class ParticleBurst final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    ParticleBurst(FP xpos, FP ypos, s16 particleCount, FP scale, BurstType type);
+    ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, BurstType type);
     ~ParticleBurst();
 
     virtual void VUpdate() override;

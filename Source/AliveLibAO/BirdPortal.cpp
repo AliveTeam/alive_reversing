@@ -274,32 +274,30 @@ void BirdPortal::CreateDovesAndShrykullNumber()
 {
     for (u8 i = 0; i < 6; i++)
     {
-        auto pDove = ao_new<Dove>();
+        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
+        auto pDove = ao_new<Dove>(
+            doveRec.mFrameTableOffset,
+            doveRec.mMaxW,
+            doveRec.mMaxH,
+            doveRec.mResourceId,
+            field_18_xpos,
+            field_1C_ypos,
+            field_34_scale);
         if (pDove)
         {
-            const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
-            pDove->ctor_40EFF0(
-                doveRec.mFrameTableOffset,
-                doveRec.mMaxW,
-                doveRec.mMaxH,
-                doveRec.mResourceId,
-                field_18_xpos,
-                field_1C_ypos,
-                field_34_scale);
             pDove->field_C_refCount++;
-        }
+            if (field_10_portal_type == PortalType::eAbe_0)
+            {
+                pDove->AsAlmostACircle_40F300(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(30)), 42 * i);
+            }
+            else
+            {
+                pDove->AsACircle_40F280(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(30)), 42 * i);
+            }
 
-        if (field_10_portal_type == PortalType::eAbe_0)
-        {
-            pDove->AsAlmostACircle_40F300(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(30)), 42 * i);
+            pDove->field_BC_sprite_scale = field_34_scale;
+            field_4C_pDovesArray->Push_Back(pDove);
         }
-        else
-        {
-            pDove->AsACircle_40F280(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(30)), 42 * i);
-        }
-
-        pDove->field_BC_sprite_scale = field_34_scale;
-        field_4C_pDovesArray->Push_Back(pDove);
     }
 
     if (field_10_portal_type == PortalType::eShrykull_2)
@@ -514,26 +512,25 @@ void BirdPortal::VUpdate_4523D0()
                     u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
                     if (ppLightRes)
                     {
-                        auto pParticle = ao_new<Particle>();
+                        auto pParticle = ao_new<Particle>(
+                            field_40_pTerminator2->field_A8_xpos,
+                            (FP_FromInteger(10) * field_34_scale) + field_40_pTerminator2->field_AC_ypos,
+                            rec.mFrameTableOffset,
+                            rec.mMaxW,
+                            rec.mMaxH,
+                            ppLightRes);
                         if (pParticle)
                         {
-                            pParticle->ctor_478880(
-                                field_40_pTerminator2->field_A8_xpos,
-                                (FP_FromInteger(10) * field_34_scale) + field_40_pTerminator2->field_AC_ypos,
-                                rec.mFrameTableOffset,
-                                rec.mMaxW,
-                                rec.mMaxH,
-                                ppLightRes);
-                        }
-                        pParticle->field_CC_bApplyShadows &= ~1u;
-                        pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-                        pParticle->field_4_typeId = Types::eBirdPortalTerminator_66;
-                        pParticle->field_BC_sprite_scale = field_34_scale;
+                            pParticle->field_CC_bApplyShadows &= ~1u;
+                            pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+                            pParticle->field_4_typeId = Types::eBirdPortalTerminator_66;
+                            pParticle->field_BC_sprite_scale = field_34_scale;
 
-                        if (gnFrameCount_507670 % 2)
-                        {
-                            pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
-                            pParticle->field_10_anim.SetFrame_402AC0(pParticle->field_10_anim.Get_Frame_Count_403540());
+                            if (gnFrameCount_507670 % 2)
+                            {
+                                pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
+                                pParticle->field_10_anim.SetFrame_402AC0(pParticle->field_10_anim.Get_Frame_Count_403540());
+                            }
                         }
 
                         if (direction == CameraPos::eCamCurrent_0)
@@ -587,24 +584,24 @@ void BirdPortal::VUpdate_4523D0()
                 if (static_cast<s32>(gnFrameCount_507670) >= field_30_timer)
                 {
                     field_30_timer = gnFrameCount_507670 + Math_RandomRange_450F20(4, 12);
-                    auto pDoveMem = ao_new<Dove>();
+                    const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
+
+                    auto pDoveMem = ao_new<Dove>(
+                        doveRec.mFrameTableOffset,
+                        doveRec.mMaxW,
+                        doveRec.mMaxH,
+                        doveRec.mResourceId,
+                        field_18_xpos + FP_FromInteger(FP_GetExponent(xOff)),
+                        field_1C_ypos + FP_FromInteger(Math_RandomRange_450F20(-scale32, scale32)),
+                        field_34_scale);
                     if (pDoveMem)
                     {
-                        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
-                        pDoveMem->ctor_40EFF0(
-                            doveRec.mFrameTableOffset,
-                            doveRec.mMaxW,
-                            doveRec.mMaxH,
-                            doveRec.mResourceId,
-                            field_18_xpos + FP_FromInteger(FP_GetExponent(xOff)),
-                            field_1C_ypos + FP_FromInteger(Math_RandomRange_450F20(-scale32, scale32)),
-                            field_34_scale);
+                        SFX_Play_43AD70(SoundEffect::Dove_16, 70, 0);
+                        pDoveMem->field_BC_sprite_scale = field_34_scale;
+                        pDoveMem->AsJoin_40F250(sActiveHero_507678->field_A8_xpos,
+                            FP_FromInteger(Math_RandomRange_450F20(-36, 4)) + sActiveHero_507678->field_AC_ypos);
                     }
 
-                    SFX_Play_43AD70(SoundEffect::Dove_16, 70, 0);
-                    pDoveMem->field_BC_sprite_scale = field_34_scale;
-                    pDoveMem->AsJoin_40F250(sActiveHero_507678->field_A8_xpos,
-                                            FP_FromInteger(Math_RandomRange_450F20(-36, 4)) + sActiveHero_507678->field_AC_ypos);
                     field_58_received_doves++;
                     if (field_58_received_doves == 6)
                     {
@@ -642,20 +639,20 @@ void BirdPortal::VUpdate_4523D0()
                 u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
                 if (ppLightRes)
                 {
-                    auto pParticle_1 = ao_new<Particle>();
+                    auto pParticle_1 = ao_new<Particle>(
+                        field_40_pTerminator2->field_A8_xpos,
+                        field_40_pTerminator2->field_AC_ypos,
+                        rec.mFrameTableOffset,
+                        rec.mMaxW,
+                        rec.mMaxH,
+                        ppLightRes);
                     if (pParticle_1)
                     {
-                        pParticle_1->ctor_478880(
-                            field_40_pTerminator2->field_A8_xpos,
-                            field_40_pTerminator2->field_AC_ypos,
-                            rec.mFrameTableOffset,
-                            rec.mMaxW,
-                            rec.mMaxH,
-                            ppLightRes);
+                        pParticle_1->field_CC_bApplyShadows &= ~1u;
+                        pParticle_1->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+                        pParticle_1->field_BC_sprite_scale = field_34_scale;
                     }
-                    pParticle_1->field_CC_bApplyShadows &= ~1u;
-                    pParticle_1->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-                    pParticle_1->field_BC_sprite_scale = field_34_scale;
+
                 }
 
                 field_14_state = PortalStates::StopSound_11;
@@ -1092,11 +1089,9 @@ s16 BirdPortal::VPortalClipper_4533E0(s16 bUnknown)
     xy.field_2_y = 0;
     wh.field_2_y = 240;
 
-    field_44_pScreenClipper1 = ao_new<ScreenClipper>();
+    field_44_pScreenClipper1 = ao_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
     if (field_44_pScreenClipper1)
     {
-        field_44_pScreenClipper1->ctor_40BD60(xy, wh, Layer::eLayer_0);
-
         if (field_34_scale == FP_FromInteger(1))
         {
             field_44_pScreenClipper1->field_38_ot_layer = Layer::eLayer_BirdPortal_29;
@@ -1107,10 +1102,9 @@ s16 BirdPortal::VPortalClipper_4533E0(s16 bUnknown)
         }
     }
 
-    field_48_pScreenClipper2 = ao_new<ScreenClipper>();
+    field_48_pScreenClipper2 = ao_new<ScreenClipper>(PSX_Point{ 0, 0 }, PSX_Point{ 640, 240 }, Layer::eLayer_0);
     if (field_48_pScreenClipper2)
     {
-        field_48_pScreenClipper2->ctor_40BD60({0, 0}, {640, 240}, Layer::eLayer_0);
         if (field_34_scale == FP_FromInteger(1))
         {
             field_48_pScreenClipper2->field_38_ot_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;

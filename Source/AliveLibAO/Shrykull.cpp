@@ -66,10 +66,7 @@ Shrykull::Shrykull()
     field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 
     field_D0_pShadow = ao_new<Shadow>();
-    if (field_D0_pShadow)
-    {
-        field_D0_pShadow->ctor_461FB0();
-    }
+
     field_122_bResetRingTimer = 0;
 }
 
@@ -199,11 +196,7 @@ void Shrykull::VUpdate_463AE0()
                     field_120_bElectrocute = CanElectrocute(pObj);
                     if (field_120_bElectrocute)
                     {
-                        auto pElectrocute = ao_new<Electrocute>();
-                        if (pElectrocute)
-                        {
-                            pElectrocute->ctor_48D3A0(pObj, 0);
-                        }
+                        ao_new<Electrocute>(pObj, 0);
                         field_114_timer = gnFrameCount_507670 + 3;
 
                         if (pObj->field_4_typeId == Types::eBackgroundGlukkon_42)
@@ -212,22 +205,14 @@ void Shrykull::VUpdate_463AE0()
                         }
                     }
 
-                    auto pFlicker1 = ao_new<PossessionFlicker>();
-                    if (pFlicker1)
-                    {
-                        pFlicker1->ctor_41A8C0(field_11C_obj_being_zapped, 8, 255, 255, 255);
-                    }
+                    ao_new<PossessionFlicker>(field_11C_obj_being_zapped, 8, 255, 255, 255);
 
                     ao_new<AbilityRing>(
                         FP_FromInteger((objRect.x + objRect.w) / 2),
                         FP_FromInteger((objRect.y + objRect.h) / 2),
                         RingTypes::eShrykull_Pulse_Large_5);
 
-                    auto pFlicker2 = ao_new<PossessionFlicker>();
-                    if (pFlicker2)
-                    {
-                        pFlicker2->ctor_41A8C0(this, 8, 255, 255, 255);
-                    }
+                    ao_new<PossessionFlicker>(this, 8, 255, 255, 255);
 
                     ao_new<AbilityRing>(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),

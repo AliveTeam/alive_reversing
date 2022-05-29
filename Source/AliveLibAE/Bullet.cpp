@@ -13,7 +13,7 @@
 #include "ScreenManager.hpp"
 #include "Grid.hpp"
 
-Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets)
+Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s32 numberOfBullets)
     : BaseGameObject(TRUE, 0)
 {
     SetType(AETypes::eBullet_15);
@@ -25,7 +25,7 @@ Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, 
     field_38_level = gMap.mCurrentLevel;
     field_3C_scale = scale;
     field_34_unused = unused;
-    field_44_number_of_bullets = numberOfBullets;
+    field_44_number_of_bullets = static_cast<s16>(numberOfBullets);
     field_30_x_distance = xDist;
     field_22_unused = 0;
 }

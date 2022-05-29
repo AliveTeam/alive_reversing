@@ -173,12 +173,6 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     }
 
     field_D0_pShadow = ao_new<Shadow>();
-    if (field_D0_pShadow)
-    {
-        field_D0_pShadow->ctor_461FB0();
-    }
-
-    return this;
 }
 
 void RockSack::VScreenChanged_457890()

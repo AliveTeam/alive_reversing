@@ -34,6 +34,7 @@ public:
     EXPORT void DamageHitItems_41A6D0();
 
     FallingItem(Path_FallingItem* pTlv, s32 tlvInfo);
+    ~FallingItem();
 
     virtual void VScreenChanged() override;
 

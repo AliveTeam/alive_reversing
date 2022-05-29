@@ -176,11 +176,7 @@ void SecurityOrb::VUpdate_436DF0()
                     ZapLineType::eThick_0,
                     Layer::eLayer_ZapLinesElum_28);
 
-                auto pPossessionFlicker = ao_new<PossessionFlicker>();
-                if (pPossessionFlicker)
-                {
-                    pPossessionFlicker->ctor_41A8C0(sActiveHero_507678, 8, 255, 100, 100);
-                }
+                ao_new<PossessionFlicker>(sActiveHero_507678, 8, 255, 100, 100);
 
                 sActiveHero_507678->VTakeDamage(this);
                 field_114_timer = gnFrameCount_507670 + 8;
@@ -188,26 +184,23 @@ void SecurityOrb::VUpdate_436DF0()
 
                 ao_new<ScreenShake>(1);
 
-                auto pSpark1 = ao_new<Sparks>();
+                auto pSpark1 = ao_new<Sparks>(
+                    field_A8_xpos,
+                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    field_BC_sprite_scale);
                 if (pSpark1)
                 {
-                    pSpark1->ctor_40A3A0(
-                        field_A8_xpos,
-                        field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
-                        field_BC_sprite_scale);
-
                     pSpark1->field_C2_g = 65;
                     pSpark1->field_C4_b = 65;
                     pSpark1->field_C0_r = 255;
                 }
 
-                auto pSpark2 = ao_new<Sparks>();
+                auto pSpark2 = ao_new<Sparks>(
+                    field_A8_xpos,
+                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    field_BC_sprite_scale);
                 if (pSpark2)
                 {
-                    pSpark2->ctor_40A3A0(
-                        field_A8_xpos,
-                        field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
-                        field_BC_sprite_scale);
                     pSpark2->field_C2_g = 65;
                     pSpark2->field_C4_b = 65;
                     pSpark2->field_C0_r = 255;
@@ -216,14 +209,12 @@ void SecurityOrb::VUpdate_436DF0()
 
                 for (s32 i = 0; i < 9; i++)
                 {
-                    auto pSparks = ao_new<Sparks>();
+                    auto pSparks = ao_new<Sparks>(
+                        FP_FromInteger(width / 2),
+                        FP_FromInteger(height / 2),
+                        field_BC_sprite_scale);
                     if (pSparks)
                     {
-                        pSparks->ctor_40A3A0(
-                            FP_FromInteger(width / 2),
-                            FP_FromInteger(height / 2),
-                            field_BC_sprite_scale);
-
                         pSparks->field_C2_g = 65;
                         pSparks->field_C4_b = 65;
                         pSparks->field_C0_r = 255;

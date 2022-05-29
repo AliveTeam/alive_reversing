@@ -97,25 +97,20 @@ void BaseBomb::VUpdate_417580()
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         if (ppRes)
         {
-            Particle* pParticle = ao_new<Particle>();
+            Particle* pParticle = ao_new<Particle>(
+                field_A8_xpos,
+                field_AC_ypos,
+                rec.mFrameTableOffset,
+                rec.mMaxW,
+                rec.mMaxH,
+                ppRes);
             if (pParticle)
             {
-                pParticle->ctor_478880(
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    rec.mFrameTableOffset,
-                    rec.mMaxW,
-                    rec.mMaxH,
-                    ppRes);
+                pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->field_CC_bApplyShadows &= ~1u;
+                pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+                pParticle->field_BC_sprite_scale = field_BC_sprite_scale * FP_FromDouble(0.7);
             }
-            else
-            {
-                pParticle = nullptr;
-            }
-            pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-            pParticle->field_CC_bApplyShadows &= ~1u;
-            pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-            pParticle->field_BC_sprite_scale = field_BC_sprite_scale * FP_FromDouble(0.7);
         }
     }
 

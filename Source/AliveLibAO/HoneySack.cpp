@@ -65,10 +65,9 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
             ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr);
         }
 
-        field_F0_pBee = ao_new<BeeSwarm>();
+        field_F0_pBee = ao_new<BeeSwarm>(field_A8_xpos, field_AC_ypos, FP_FromInteger(0), 5, 0);
         if (field_F0_pBee)
         {
-            field_F0_pBee->ctor_47FC60(field_A8_xpos, field_AC_ypos, FP_FromInteger(0), 5, 0);
             field_F0_pBee->field_C_refCount++;
             field_F0_pBee->field_BC_sprite_scale = field_BC_sprite_scale;
         }
@@ -155,11 +154,8 @@ void HoneySack::VUpdate_42BFE0()
         case State::eDripHoney_0:
             if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
             {
-                auto pHoneyDrip = ao_new<HoneyDrip>();
-                if (pHoneyDrip)
-                {
-                    pHoneyDrip->ctor_431D10(field_F4_drip_target_x, field_F8_drip_target_y);
-                }
+                ao_new<HoneyDrip>(field_F4_drip_target_x, field_F8_drip_target_y);
+
                 field_EC_timer = gnFrameCount_507670 + 90;
             }
             if (!gMap.Is_Point_In_Current_Camera_4449C0(
@@ -221,18 +217,17 @@ void HoneySack::VUpdate_42BFE0()
                 const AnimRecord& rec = AO::AnimRec(AnimId::HoneySack_FallingToSmashed);
                 field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
 
-                auto pNewBee = ao_new<BeeSwarm>();
+                auto pNewBee = ao_new<BeeSwarm>(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    FP_FromInteger(0),
+                    24,
+                    field_100_chase_ticks);
                 if (pNewBee)
                 {
-                    pNewBee->ctor_47FC60(
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        FP_FromInteger(0),
-                        24,
-                        field_100_chase_ticks);
+                    pNewBee->Chase_47FEB0(sActiveHero_507678);
                 }
 
-                pNewBee->Chase_47FEB0(sActiveHero_507678);
                 if (field_F0_pBee)
                 {
                     field_F0_pBee->field_C_refCount--;

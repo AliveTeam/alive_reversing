@@ -12,7 +12,7 @@ void Alarm_ForceLink();
 class Alarm final : public EffectBase
 {
 public:
-    Alarm(s16 a2, s16 switchId, s16 a4, Layer layer);
+    Alarm(s32 a2, s32 switchId, s32 a4, Layer layer);
     ~Alarm();
 
     virtual void VScreenChanged() override;

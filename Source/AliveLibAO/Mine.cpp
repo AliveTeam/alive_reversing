@@ -187,15 +187,11 @@ s16 Mine::VTakeDamage_43AC40(BaseGameObject* pFrom)
         case Types::eShrykull_85:
         {
             mFlags.Set(BaseGameObject::eDead);
-            auto pBaseBomb = ao_new<BaseBomb>();
-            if (pBaseBomb)
-            {
-                pBaseBomb->ctor_4173A0(
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    0,
-                    field_BC_sprite_scale);
-            }
+            ao_new<BaseBomb>(
+                field_A8_xpos,
+                field_AC_ypos,
+                0,
+                field_BC_sprite_scale);
             field_10C_detonating = 1;
             field_114_gnframe = gnFrameCount_507670;
             return 1;
@@ -213,15 +209,11 @@ void Mine::VOnThrowableHit(BaseGameObject* pFrom)
 
 void Mine::VOnThrowableHit_43AB90(BaseGameObject* /*pFrom*/)
 {
-    auto pBaseBomb = ao_new<BaseBomb>();
-    if (pBaseBomb)
-    {
-        pBaseBomb->ctor_4173A0(
-            field_A8_xpos,
-            field_AC_ypos,
-            0,
-            field_BC_sprite_scale);
-    }
+    ao_new<BaseBomb>(
+        field_A8_xpos,
+        field_AC_ypos,
+        0,
+        field_BC_sprite_scale);
     field_10C_detonating = 1;
 }
 
@@ -281,15 +273,11 @@ void Mine::vUpdate_43A7F0()
     {
         if (field_10C_detonating == 1 && static_cast<s32>(gnFrameCount_507670) >= field_114_gnframe)
         {
-            auto pBaseBomb = ao_new<BaseBomb>();
-            if (pBaseBomb)
-            {
-                pBaseBomb->ctor_4173A0(
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    0,
-                    field_BC_sprite_scale);
-            }
+            ao_new<BaseBomb>(
+                field_A8_xpos,
+                field_AC_ypos,
+                0,
+                field_BC_sprite_scale);
             mFlags.Set(BaseGameObject::eDead);
         }
     }

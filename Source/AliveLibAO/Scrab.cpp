@@ -213,10 +213,6 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
     field_134_tlvInfo = tlvInfo;
 
     field_D0_pShadow = ao_new<Shadow>();
-    if (field_D0_pShadow)
-    {
-        field_D0_pShadow->ctor_461FB0();
-    }
 }
 
 Scrab::~Scrab()

@@ -76,11 +76,11 @@ void CameraSwapper::VScreenChanged()
     // Empty
 }
 
-CameraSwapper::CameraSwapper(u8** ppBits, CameraSwapEffects changeEffect, s16 xpos, s16 ypos)
+CameraSwapper::CameraSwapper(u8** ppBits, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
     : BaseGameObject(1)
 {
-    field_40_ypos_converted = ypos;
-    field_3E_xpos_converted = PsxToPCX(xpos);
+    field_40_ypos_converted = static_cast<s16>(ypos);
+    field_3E_xpos_converted = static_cast<s16>(PsxToPCX(xpos));
     Init_48C830(ppBits, changeEffect);
 }
 
@@ -290,7 +290,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
             xy.field_0_x = gPsxDisplay_504C78.field_0_width - 1;
             xy.field_2_y = gPsxDisplay_504C78.field_2_height - 1;
 
-            field_24_pSubObject = ao_new<ScreenClipper>(xy, { 1, 1 }, Layer::eLayer_0);
+            field_24_pSubObject = ao_new<ScreenClipper>(xy, PSX_Point{ 1, 1 }, Layer::eLayer_0);
 
             // "Whoosh" door sound effect
             SFX_Play_43AD70(SoundEffect::IngameTransition_107, 127);
@@ -301,7 +301,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
         case CameraSwapEffects::ePlay2FMVs_9:
         case CameraSwapEffects::ePlay3FMVs_10:
             pScreenManager_4FF7C8->field_38 = 1;
-            field_24_pSubObject = ao_new<ScreenClipper>({ 0, 0 }, { 1, 1 }, Layer::eLayer_0);
+            field_24_pSubObject = ao_new<ScreenClipper>(PSX_Point{ 0, 0 }, PSX_Point{ 1, 1 }, Layer::eLayer_0);
             field_2A_current_slice = 0;
             break;
 

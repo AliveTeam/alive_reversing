@@ -11,7 +11,7 @@ class ScreenClipper final : public BaseGameObject
 {
 public:
     ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer);
-
+    ~ScreenClipper();
     
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

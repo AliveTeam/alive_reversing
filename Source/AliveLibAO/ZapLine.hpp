@@ -30,7 +30,7 @@ enum class ZapLineType : s16
 class ZapLine final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    ZapLine(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLineType type, Layer layer);
+    ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, Layer layer);
     ~ZapLine();
 
     EXPORT void CalculateSourceAndDestinationPositions_478CF0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);

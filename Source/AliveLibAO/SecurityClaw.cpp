@@ -346,41 +346,27 @@ void SecurityClaw::VUpdate_418DE0()
                     8, ZapLineType::eThick_0,
                     Layer::eLayer_ZapLinesElum_28);
 
-                auto pPossessionFlicker = ao_new<PossessionFlicker>();
-                if (pPossessionFlicker)
-                {
-                    pPossessionFlicker->ctor_41A8C0(
-                        sActiveHero_507678,
-                        8,
-                        255,
-                        100,
-                        100);
-                }
+                ao_new<PossessionFlicker>(sActiveHero_507678, 8, 255, 100, 100);
 
                 sActiveHero_507678->VTakeDamage(this);
 
-                auto pSpark = ao_new<Sparks>();
+                auto pSpark = ao_new<Sparks>(
+                    field_A8_xpos,
+                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    field_BC_sprite_scale);
                 if (pSpark)
                 {
-                    pSpark->ctor_40A3A0(
-                        field_A8_xpos,
-                        field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
-                        field_BC_sprite_scale);
-
                     pSpark->field_C2_g = 65;
                     pSpark->field_C4_b = 65;
                     pSpark->field_C0_r = 255;
                 }
 
-
-                auto pSpark2 = ao_new<Sparks>();
+                auto pSpark2 = ao_new<Sparks>(
+                    field_A8_xpos,
+                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    field_BC_sprite_scale);
                 if (pSpark2)
                 {
-                    pSpark2->ctor_40A3A0(
-                        field_A8_xpos,
-                        field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
-                        field_BC_sprite_scale);
-
                     pSpark2->field_C2_g = 65;
                     pSpark2->field_C4_b = 65;
                     pSpark2->field_C0_r = 255;
@@ -388,13 +374,12 @@ void SecurityClaw::VUpdate_418DE0()
 
                 for (s32 i = 0; i < 9; i++)
                 {
-                    auto pSpark3 = ao_new<Sparks>();
+                    auto pSpark3 = ao_new<Sparks>(
+                        hero_mid_x,
+                        hero_mid_y,
+                        field_BC_sprite_scale);
                     if (pSpark3)
                     {
-                        pSpark3->ctor_40A3A0(
-                            hero_mid_x,
-                            hero_mid_y,
-                            field_BC_sprite_scale);
                         pSpark3->field_C2_g = 65;
                         pSpark3->field_C4_b = 65;
                         pSpark3->field_C0_r = 255;

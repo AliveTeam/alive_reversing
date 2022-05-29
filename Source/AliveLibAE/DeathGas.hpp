@@ -9,7 +9,7 @@ ALIVE_VAR_EXTERN(s32, gDeathGasCount_5BD24C);
 class DeathGas final : public BaseGameObject
 {
 public:
-    DeathGas(Layer layer, s16 amount);
+    DeathGas(Layer layer, s32 amount);
     ~DeathGas();
 
     virtual void VScreenChanged() override;

@@ -41,15 +41,15 @@ PossessionFlicker::~PossessionFlicker()
     }
 }
 
-PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 duration, s16 r, s16 g, s16 b)
+PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b)
     : BaseGameObject(1)
 {
     field_10_pObj = pToApplyFlicker;
     field_10_pObj->field_C_refCount++;
 
-    field_18_r = r;
-    field_1A_g = g;
-    field_1C_b = b;
+    field_18_r = static_cast<s16>(r);
+    field_1A_g = static_cast<s16>(g);
+    field_1C_b = static_cast<s16>(b);
 
     field_1E_old_r = pToApplyFlicker->field_C0_r;
     field_20_old_g = pToApplyFlicker->field_C2_g;

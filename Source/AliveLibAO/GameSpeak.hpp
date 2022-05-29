@@ -53,15 +53,10 @@ enum class GameSpeakMatch : s16
 class GameSpeak final : public BaseGameObject
 {
 public:
-    EXPORT GameSpeak* ctor_40F990();
-
-    EXPORT GameSpeak* Vdtor_40FB50(s32 flags);
+    GameSpeak();
+    ~GameSpeak();
 
     virtual void VScreenChanged() override;
-
-    
-
-    EXPORT BaseGameObject* dtor_40F9C0();
 
     // A new virtual that is never overridden as there are no other known super classes
     virtual EXPORT void VPushEvent_40F9E0(GameSpeakEvents event);

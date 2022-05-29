@@ -16,6 +16,6 @@ public:
     s16 field_6_pad;
     s32 field_8_channel_mask;
 };
-ALIVE_ASSERT_SIZEOF(ScopedSeq, 0xC);
+//ALIVE_ASSERT_SIZEOF(ScopedSeq, 0xC);
 
 } // namespace AO

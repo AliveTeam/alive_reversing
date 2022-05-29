@@ -16,7 +16,7 @@ struct PlaybackData final
 class DemoPlayback final : public BaseGameObject
 {
 public:
-    DemoPlayback(u8**, s16 a3);
+    DemoPlayback(u8**, s32 a3);
     ~DemoPlayback();
     
     virtual void VScreenChanged() override;

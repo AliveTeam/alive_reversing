@@ -12,13 +12,12 @@ Particle* CC New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scal
     const AnimRecord& rec = AO::AnimRec(AnimId::DeathFlare_2);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
-    auto pParticle = ao_new<Particle>();
+    auto pParticle = ao_new<Particle>(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
     if (!pParticle)
     {
         return nullptr;
     }
 
-    pParticle->ctor_478880(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
     pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     pParticle->field_BC_sprite_scale = FP_FromInteger(2) * scale;
 
@@ -45,10 +44,9 @@ void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 ty
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
         const AnimRecord& rec = AO::AnimRec(AnimId::SquibSmoke_Particle);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-        auto pParticle = ao_new<Particle>();
+        auto pParticle = ao_new<Particle>(randX, particleY, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
         if (pParticle)
         {
-            pParticle->ctor_478880(randX, particleY, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
             pParticle->field_CC_bApplyShadows &= ~1u;
             pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
             pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -93,11 +91,10 @@ void CC New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 ty
 
 void CC New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, Layer layer)
 {
-    auto pParticle = ao_new<Particle>();
+    const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
+    auto pParticle = ao_new<Particle>(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0));
     if (pParticle)
     {
-        const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
-        pParticle->ctor_478880(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0));
         pParticle->field_CC_bApplyShadows &= ~1u;
         pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
 
@@ -122,11 +119,9 @@ void CC New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
 {
     const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0);
-    auto pParticle = ao_new<Particle>();
+    auto pParticle = ao_new<Particle>(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ppRes);
     if (pParticle)
     {
-        pParticle->ctor_478880(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ppRes);
-
         pParticle->field_CC_bApplyShadows &= ~1u;
         pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
         pParticle->field_C0_r = 100;
@@ -154,10 +149,9 @@ void CC New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
 {
     const AnimRecord& rec = AO::AnimRec(AnimId::ShootingZFire_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    auto pParticle = ao_new<Particle>();
+    auto pParticle = ao_new<Particle>(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
     if (pParticle)
     {
-        pParticle->ctor_478880(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
         pParticle->field_CC_bApplyShadows &= ~1u;
 
         pParticle->field_C4_b = 55;
@@ -183,11 +177,9 @@ void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scal
 {
     const AnimRecord& rec = AO::AnimRec(AnimId::ShootingFire_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    auto pParticle = ao_new<Particle>();
+    auto pParticle = ao_new<Particle>(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
     if (pParticle)
     {
-        pParticle->ctor_478880(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
-
         pParticle->field_CC_bApplyShadows &= ~1u;
         pParticle->field_C4_b = 55;
         pParticle->field_C2_g = 55;
@@ -208,11 +200,8 @@ void CC New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scal
     }
 }
 
-Particle* Particle::ctor_478880(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData)
+Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData)
 {
-    
-    SetVTable(this, 0x4BCDB0);
-
     field_C4_b = 128;
     field_C2_g = 128;
     field_C0_r = 128;
@@ -234,18 +223,6 @@ Particle* Particle::ctor_478880(FP xpos, FP ypos, s32 animFrameTableOffset, s32 
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
     field_E4_scale_amount = FP_FromInteger(0);
-
-    return this;
-}
-
-BaseGameObject* Particle::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Particle::VUpdate()

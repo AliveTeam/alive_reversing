@@ -81,19 +81,16 @@ void BeeSwarmHole::VUpdate_478320()
     if (!bBallFillingHole)
     {
         const FP speed = FP_FromRaw(field_2A_speed << 8);
-        auto pSwarm = ao_new<BeeSwarm>();
+        auto pSwarm = ao_new<BeeSwarm>(
+            FP_FromInteger(field_14_rect.x),
+            FP_FromInteger(field_14_rect.y),
+            speed,
+            field_26_bees_amount,
+            field_28_chase_time);
         if (pSwarm)
         {
-            pSwarm->ctor_47FC60(
-                FP_FromInteger(field_14_rect.x),
-                FP_FromInteger(field_14_rect.y),
-                speed,
-                field_26_bees_amount,
-                field_28_chase_time);
-        }
-
-        switch (field_24_movement_type)
-        {
+            switch (field_24_movement_type)
+            {
             case Path_BeeSwarmHole::MovementType::eHover_0:
                 // Idle around like a chav near a victim
                 break;
@@ -108,14 +105,14 @@ void BeeSwarmHole::VUpdate_478320()
                 FP targetX = {};
                 FP targetY = {};
                 if (sCollisions_DArray_504C6C->RayCast_40C410(
-                        FP_FromInteger(field_14_rect.x),
-                        FP_FromInteger(field_14_rect.y),
-                        FP_FromInteger(field_14_rect.w),
-                        FP_FromInteger(field_14_rect.h),
-                        &pLine,
-                        &targetX,
-                        &targetY,
-                        0x100)
+                    FP_FromInteger(field_14_rect.x),
+                    FP_FromInteger(field_14_rect.y),
+                    FP_FromInteger(field_14_rect.w),
+                    FP_FromInteger(field_14_rect.h),
+                    &pLine,
+                    &targetX,
+                    &targetY,
+                    0x100)
                     == 1)
                 {
                     pSwarm->FollowLine_47FF10(pLine, targetX, targetY, speed + FP_FromInteger(1));
@@ -125,6 +122,7 @@ void BeeSwarmHole::VUpdate_478320()
 
             default:
                 break;
+            }
         }
     }
 }

@@ -40,7 +40,7 @@ Rope::~Rope()
     ao_delete_free_447540(field_E8_pRopeRes);
 }
 
-Rope::Rope(u16 left, s16 top, u16 bottom, FP scale)
+Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 {
     field_4_typeId = Types::eRope_73;
 
@@ -95,14 +95,14 @@ Rope::Rope(u16 left, s16 top, u16 bottom, FP scale)
     field_10_anim.field_9_g = 128;
     field_10_anim.field_A_b = 128;
 
-    field_F2_bottom = bottom;
+    field_F2_bottom = static_cast<s16>(bottom);
     field_E4_rope_segment_count = 240 / field_E6_rope_length + 1;
 
     field_A8_xpos = FP_FromInteger(left);
     field_AC_ypos = FP_FromInteger(bottom);
-    field_EC_left = left;
-    field_F0_right = left;
-    field_EE_top = top;
+    field_EC_left = static_cast<s16>(left);
+    field_F0_right = static_cast<s16>(left);
+    field_EE_top = static_cast<s16>(top);
 
     field_E8_pRopeRes = reinterpret_cast<AnimationUnknown*>(ao_new_malloc_447520(sizeof(AnimationUnknown) * field_E4_rope_segment_count));
     if (field_E8_pRopeRes)

@@ -54,19 +54,15 @@ EXPORT s16* CC Animation_OnFrame_Slig_46F610(void* pObj, s16* pData)
     const FP yOff = pSlig->field_BC_sprite_scale * FP_FromInteger(pData[1]);
     if (pSlig->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        auto pBullet = ao_new<Bullet>();
-        if (pBullet)
-        {
-            pBullet->ctor_409380(
-                pSlig,
-                bulletType,
-                pSlig->field_A8_xpos,
-                yOff + pSlig->field_AC_ypos,
-                FP_FromInteger(-640),
-                0,
-                pSlig->field_BC_sprite_scale,
-                0);
-        }
+        ao_new<Bullet>(
+            pSlig,
+            bulletType,
+            pSlig->field_A8_xpos,
+            yOff + pSlig->field_AC_ypos,
+            FP_FromInteger(-640),
+            0,
+            pSlig->field_BC_sprite_scale,
+            0);
 
         New_ShootingFire_Particle_419720(
             pSlig->field_A8_xpos - xOff,
@@ -74,31 +70,23 @@ EXPORT s16* CC Animation_OnFrame_Slig_46F610(void* pObj, s16* pData)
             1,
             pSlig->field_BC_sprite_scale);
 
-        auto pBulletShell = ao_new<BulletShell>();
-        if (pBulletShell)
-        {
-            pBulletShell->ctor_462790(
-                pSlig->field_A8_xpos,
-                pSlig->field_AC_ypos + yOff,
-                0,
-                pSlig->field_BC_sprite_scale);
-        }
+        ao_new<BulletShell>(
+            pSlig->field_A8_xpos,
+            pSlig->field_AC_ypos + yOff,
+            0,
+            pSlig->field_BC_sprite_scale);
     }
     else
     {
-        auto pBullet = ao_new<Bullet>();
-        if (pBullet)
-        {
-            pBullet->ctor_409380(
-                pSlig,
-                bulletType,
-                pSlig->field_A8_xpos,
-                yOff + pSlig->field_AC_ypos,
-                FP_FromInteger(640),
-                0,
-                pSlig->field_BC_sprite_scale,
-                0);
-        }
+        ao_new<Bullet>(
+            pSlig,
+            bulletType,
+            pSlig->field_A8_xpos,
+            yOff + pSlig->field_AC_ypos,
+            FP_FromInteger(640),
+            0,
+            pSlig->field_BC_sprite_scale,
+            0);
 
         New_ShootingFire_Particle_419720(
             pSlig->field_A8_xpos + xOff,
@@ -106,15 +94,11 @@ EXPORT s16* CC Animation_OnFrame_Slig_46F610(void* pObj, s16* pData)
             0,
             pSlig->field_BC_sprite_scale);
 
-        auto pBulletShell = ao_new<BulletShell>();
-        if (pBulletShell)
-        {
-            pBulletShell->ctor_462790(
-                pSlig->field_A8_xpos,
-                pSlig->field_AC_ypos + yOff,
-                1,
-                pSlig->field_BC_sprite_scale);
-        }
+        ao_new<BulletShell>(
+            pSlig->field_A8_xpos,
+            pSlig->field_AC_ypos + yOff,
+            1,
+            pSlig->field_BC_sprite_scale);
     }
 
     if (pSlig->field_BC_sprite_scale == FP_FromDouble(0.5))
@@ -165,17 +149,13 @@ EXPORT s16* CC Slog_OnFrame_471FD0(void* pObj, s16* pData)
 
                     const FP blood_ypos = (pSlog->field_BC_sprite_scale * FP_FromInteger(pData[1])) + pSlog->field_AC_ypos;
 
-                    auto pBlood = ao_new<Blood>();
-                    if (pBlood)
-                    {
-                        pBlood->ctor_4072B0(
-                            blood_xpos,
-                            blood_ypos - FP_FromInteger(8),
-                            (pSlog->field_B4_velx * FP_FromInteger(2)),
-                            FP_FromInteger(0),
-                            pSlog->field_BC_sprite_scale,
-                            50);
-                    }
+                    ao_new<Blood>(
+                        blood_xpos,
+                        blood_ypos - FP_FromInteger(8),
+                        (pSlog->field_B4_velx * FP_FromInteger(2)),
+                        FP_FromInteger(0),
+                        pSlog->field_BC_sprite_scale,
+                        50);
 
                     pSlog->field_110 = 1;
 

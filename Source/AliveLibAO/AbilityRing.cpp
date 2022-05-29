@@ -351,11 +351,7 @@ void AbilityRing::VUpdate_455ED0()
                 mFlags.Set(BaseGameObject::eDead);
                 field_244_left = FP_FromInteger(0);
                 SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
-                auto pPossessionFlicker = ao_new<PossessionFlicker>();
-                if (pPossessionFlicker)
-                {
-                    pPossessionFlicker->ctor_41A8C0(sActiveHero_507678, 8, 255, 128, 128);
-                }
+                ao_new<PossessionFlicker>(sActiveHero_507678, 8, 255, 128, 128);
             }
             break;
 

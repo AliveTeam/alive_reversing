@@ -14,13 +14,13 @@ namespace AO {
 
 ALIVE_VAR_EXTERN(u8, sRandomSeed_50A228); //Math.cpp
 
-DemoPlayback::DemoPlayback(u8** ppPlaybackData, s16 bFromHandStone)
+DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     : BaseGameObject(1)
 {
     mFlags.Clear(Options::eDrawable_Bit4);
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
     field_4_typeId = Types::eDemoPlayback;
-    field_1C_bFromHandStone = bFromHandStone;
+    field_1C_bFromHandStone = static_cast<s16>(bFromHandStone);
     sDDCheat_FlyingEnabled_50771C = 0;
     if (gAttract_507698 == 0)
     {

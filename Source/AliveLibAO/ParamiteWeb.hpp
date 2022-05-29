@@ -10,7 +10,7 @@ class AnimationUnknown;
 class ParamiteWeb final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    ParamiteWeb(FP xpos, s16 bottom, s16 top, FP scale);
+    ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale);
     ~ParamiteWeb();
     
     EXPORT void VScreenChanged_48AEA0();

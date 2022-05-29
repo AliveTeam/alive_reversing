@@ -165,10 +165,6 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
         field_110_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_D0_pShadow = ao_new<Shadow>();
-        if (field_D0_pShadow)
-        {
-            field_D0_pShadow->ctor_461FB0();
-        }
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
     }
     else
@@ -340,41 +336,30 @@ void MeatSaw::GrindUpObjects_439CD0()
                                 return;
                             }
 
-                            auto pBlood1 = ao_new<Blood>();
-                            if (pBlood1)
-                            {
-                                pBlood1->ctor_4072B0(
-                                    pObjIter->field_A8_xpos,
-                                    FP_FromInteger(ourRect.h - 10),
-                                    FP_FromInteger(-5),
-                                    FP_FromInteger(5),
-                                    field_BC_sprite_scale,
-                                    50);
-                            }
+                            ao_new<Blood>(
+                                pObjIter->field_A8_xpos,
+                                FP_FromInteger(ourRect.h - 10),
+                                FP_FromInteger(-5),
+                                FP_FromInteger(5),
+                                field_BC_sprite_scale,
+                                50);
 
-                            auto pBlood2 = ao_new<Blood>();
-                            if (pBlood2)
-                            {
-                                pBlood2->ctor_4072B0(
-                                    pObjIter->field_A8_xpos,
-                                    FP_FromInteger(ourRect.h - 10),
-                                    FP_FromInteger(0),
-                                    FP_FromInteger(5),
-                                    field_BC_sprite_scale,
-                                    50);
-                            }
+                            ao_new<Blood>(
+                                pObjIter->field_A8_xpos,
+                                FP_FromInteger(ourRect.h - 10),
+                                FP_FromInteger(0),
+                                FP_FromInteger(5),
+                                field_BC_sprite_scale,
+                                50);
 
-                            auto pBlood3 = ao_new<Blood>();
-                            if (pBlood3)
-                            {
-                                pBlood3->ctor_4072B0(
-                                    pObjIter->field_A8_xpos,
-                                    FP_FromInteger(ourRect.h - 10),
-                                    FP_FromInteger(5),
-                                    FP_FromInteger(5),
-                                    field_BC_sprite_scale,
-                                    50);
-                            }
+                            ao_new<Blood>(
+                                pObjIter->field_A8_xpos,
+                                FP_FromInteger(ourRect.h - 10),
+                                FP_FromInteger(5),
+                                FP_FromInteger(5),
+                                field_BC_sprite_scale,
+                                50);
+
                             SFX_Play_43AD70(SoundEffect::KillEffect_78, 127, 0);
                             SFX_Play_43AE60(SoundEffect::KillEffect_78, 127, -700, 0);
                             return;

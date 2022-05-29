@@ -83,7 +83,7 @@ void DeathFadeOut::Init_419E40(Layer layer, s16 direction, s16 destroyOnDone, s3
     }
 }
 
-DeathFadeOut::DeathFadeOut(Layer layer, s16 direction, bool destroyOnDone, s32 speed, TPageAbr abr)
+DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr)
     : EffectBase(layer, abr)
 {
     field_4_typeId = Types::eDeathFadeOut_80;
@@ -97,7 +97,7 @@ DeathFadeOut::DeathFadeOut(Layer layer, s16 direction, bool destroyOnDone, s32 s
         field_68_current_fade_rgb = 255;
     }
 
-    Init_419E40(layer, direction, destroyOnDone, speed);
+    Init_419E40(layer, static_cast<s16>(direction), destroyOnDone, speed);
 
     field_62_b = field_68_current_fade_rgb;
     field_60_g = field_68_current_fade_rgb;

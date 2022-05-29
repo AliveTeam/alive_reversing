@@ -33,7 +33,7 @@ static inline FP Random_Speed(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
-ParticleBurst::ParticleBurst(FP xpos, FP ypos, s16 particleCount, FP scale, BurstType type)
+ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, BurstType type)
 {
     field_4_typeId = Types::eParticleBurst_19;
     field_BC_sprite_scale = scale;
@@ -130,7 +130,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s16 particleCount, FP scale, Burs
                 field_10_anim.field_C_layer = Layer::eLayer_Above_FG1_Half_20;
             }
 
-            field_EC_count = particleCount;
+            field_EC_count = static_cast<s16>(particleCount);
             field_F0_timer = gnFrameCount_507670 + 91;
             field_A8_xpos = xpos;
             field_AC_ypos = ypos;

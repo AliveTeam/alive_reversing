@@ -23,7 +23,11 @@ public:
     ~Dove();
 
     virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VRender(PrimHeader** ppOt) override
+    {
+        BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+    }
+
 
     EXPORT void AsAlmostACircle_41FA20(FP xpos, FP ypos, u8 angle);
     EXPORT void AsACircle_41F980(FP xpos, FP ypos, u8 angle);

@@ -24,7 +24,7 @@ namespace AO {
 ALIVE_VAR(1, 0x5076B0, s16, gBeeInstanceCount_5076B0, 0);
 ALIVE_VAR(1, 0x5076AC, s16, gBeesNearAbe_5076AC, 0);
 
-BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks)
+BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
 {
     field_4_typeId = Types::eBeeSwarm_95;
 
@@ -36,7 +36,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks)
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 1, 0);
     }
 
-    s16 numBeesToUse = 0;
+    s32 numBeesToUse = 0;
     gBeeInstanceCount_5076B0++;
     if (gBeeInstanceCount_5076B0 < 3)
     {
@@ -51,7 +51,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks)
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     if (numBeesToUse <= 25)
     {
-        field_D64_num_bees = numBeesToUse;
+        field_D64_num_bees = static_cast<s16>(numBeesToUse);
     }
     else
     {

@@ -13,7 +13,7 @@ ALIVE_ASSERT_SIZEOF(MainMenuTransition_Polys, 0x100);
 class MainMenuTransition final : public BaseGameObject
 {
 public:
-    MainMenuTransition(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 fadeSpeed, TPageAbr abr);
+    MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 fadeSpeed, TPageAbr abr);
     ~MainMenuTransition();
 
     EXPORT void StartTrans_464370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed);
