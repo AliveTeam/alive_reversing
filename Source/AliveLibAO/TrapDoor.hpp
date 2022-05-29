@@ -38,15 +38,11 @@ class PathLine;
 class TrapDoor final : public PlatformBase
 {
 public:
-    EXPORT TrapDoor* ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
+    TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
+    ~TrapDoor();
 
     void Open();
 
-    EXPORT BaseGameObject* dtor_4882A0();
-
-    
-
-    EXPORT TrapDoor* Vdtor_4887D0(s32 flags);
 
     virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx) override;
 

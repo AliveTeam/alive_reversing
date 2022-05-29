@@ -8,6 +8,9 @@ namespace AO {
 class Grenade final : public BaseThrowable
 {
 public:
+    Grenade(FP xpos, FP ypos, s16 numGrenades);
+    ~Grenade();
+
     EXPORT void AddToPlatform_41F7C0();
     EXPORT s16 BlowUpAfterCountdown_41EDD0();
     EXPORT s16 OnCollision_BounceOff_41F650(BaseGameObject* pHit);
@@ -20,13 +23,9 @@ public:
     virtual void VOnTrapDoorOpen() override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-
-    EXPORT Grenade* ctor_41EBD0(FP xpos, FP ypos, s16 numGrenades);
-    EXPORT BaseGameObject* dtor_41ECD0();
     
 
 private:
-    EXPORT Grenade* Vdtor_41F9F0(s32 flags);
     EXPORT void VScreenChanged_41F720();
     EXPORT void VUpdate_41F240();
     EXPORT void VOnTrapDoorOpen_41F920();

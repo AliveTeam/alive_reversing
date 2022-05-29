@@ -12,23 +12,6 @@ void SwitchStateBooleanLogic::VUpdate()
     VUpdate_436B60();
 }
 
-BaseGameObject* SwitchStateBooleanLogic::Vdtor_436C60(s32 flags)
-{
-    dtor_436B00();
-
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-
-    return this;
-}
-
-BaseGameObject* SwitchStateBooleanLogic::VDestructor(s32 flags)
-{
-    return Vdtor_436C60(flags);
-}
-
 void SwitchStateBooleanLogic::VScreenChanged_436C40()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
@@ -42,18 +25,14 @@ void SwitchStateBooleanLogic::VScreenChanged()
     VScreenChanged_436C40();
 }
 
-BaseGameObject* SwitchStateBooleanLogic::dtor_436B00()
+SwitchStateBooleanLogic::~SwitchStateBooleanLogic()
 {
-    SetVTable(this, 0x4BB7B8);
     gMap.TLV_Reset_446870(field_18_tlvInfo, -1, 0, 0);
-    return dtor_487DF0();
 }
 
-SwitchStateBooleanLogic* SwitchStateBooleanLogic::ctor_436AB0(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo)
+SwitchStateBooleanLogic::SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BB7B8);
-
     field_18_tlvInfo = tlvInfo;
 
     field_10_input_1 = pTlv->field_18_input1;
@@ -62,8 +41,6 @@ SwitchStateBooleanLogic* SwitchStateBooleanLogic::ctor_436AB0(Path_SwitchStateBo
     field_14_output = pTlv->field_1C_output;
 
     field_16_operator = pTlv->field_1E_operator;
-
-    return this;
 }
 
 

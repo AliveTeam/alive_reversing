@@ -16,14 +16,9 @@ struct PlaybackData final
 class DemoPlayback final : public BaseGameObject
 {
 public:
-    EXPORT DemoPlayback* ctor_4517B0(u8**, s16 a3);
-
+    DemoPlayback(u8**, s16 a3);
+    ~DemoPlayback();
     
-
-    EXPORT BaseGameObject* dtor_4518D0();
-
-    EXPORT DemoPlayback* Vdtor_451F50(s32 flags);
-
     virtual void VScreenChanged() override;
 
     virtual void VRender(PrimHeader** ppOt) override;

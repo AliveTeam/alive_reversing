@@ -19,13 +19,7 @@ enum class GameEnderController_States : s16
 class GameEnderController final : public BaseGameObject
 {
 public:
-    static EXPORT void CC CreateGameEnderController_41C7D0();
-
-    EXPORT BaseGameObject* dtor_41C850();
-
-    
-
-    EXPORT GameEnderController* Vdtor_41CD00(s32 flags);
+    GameEnderController();
 
     virtual void VScreenChanged() override;
 

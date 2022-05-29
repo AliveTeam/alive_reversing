@@ -54,20 +54,12 @@ const s16 xPositionDeltaEntries_4CF8E0[39] = {
     0,
     0};
 
-BaseGameObject* SnoozeParticle::VDestructor(s32 flags)
+SnoozeParticle::~SnoozeParticle()
 {
-    return Vdtor_464CE0(flags);
-}
-
-BaseGameObject* SnoozeParticle::dtor_4644A0()
-{
-    SetVTable(this, 0x4BCA18);
-
     if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_504618->Remove_Item(this);
     }
-    return dtor_487DF0();
 }
 
 void SnoozeParticle::VScreenChanged_464CD0()
@@ -80,13 +72,10 @@ void SnoozeParticle::VScreenChanged()
     VScreenChanged_464CD0();
 }
 
-SnoozeParticle* SnoozeParticle::ctor_464320(FP xpos, FP ypos, Layer layer, FP scale)
+SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-
     mFlags.Set(Options::eDrawable_Bit4);
-
-    SetVTable(this, 0x4BCA18);
 
     field_4_typeId = Types::eSnoozParticle_87;
     gObjList_drawables_504618->Push_Back(this);
@@ -118,17 +107,6 @@ SnoozeParticle* SnoozeParticle::ctor_464320(FP xpos, FP ypos, Layer layer, FP sc
     field_38_idx = Math_NextRandom() % 36;
     field_20_dx = FP_FromInteger(xPositionDeltaEntries_4CF8E0[field_38_idx]);
     field_38_idx++;
-    return this;
-}
-
-SnoozeParticle* SnoozeParticle::Vdtor_464CE0(s32 flags)
-{
-    dtor_4644A0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void SnoozeParticle::VUpdate()

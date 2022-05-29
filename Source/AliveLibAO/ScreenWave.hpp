@@ -16,13 +16,8 @@ struct ScreenWave_Data;
 class ScreenWave final : public BaseGameObject
 {
 public:
-    EXPORT ScreenWave* ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP speed, s16 radius);
-
-    EXPORT BaseGameObject* dtor_463010();
-
-    
-
-    EXPORT ScreenWave* Vdtor_463860(s32 flags);
+    ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s16 radius);
+    ~ScreenWave();
 
     virtual void VScreenChanged() override;
 

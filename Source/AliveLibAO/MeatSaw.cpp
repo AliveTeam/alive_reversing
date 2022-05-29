@@ -20,24 +20,9 @@ void MeatSaw::VScreenChanged()
     VScreenChanged_43A060();
 }
 
-MeatSaw* MeatSaw::Vdtor_43A0B0(s32 flags)
-{
-    dtor_4398F0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
 
-BaseGameObject* MeatSaw::VDestructor(s32 flags)
+MeatSaw::~MeatSaw()
 {
-    return Vdtor_43A0B0(flags);
-}
-
-BaseGameObject* MeatSaw::dtor_4398F0()
-{
-    SetVTable(this, 0x4BB990);
     if (field_1A8_flags.Get(flags_1A8::eBit1_ResetOffscreen) && SwitchStates_Get(field_EE_switch_id) != field_F2_switch_value)
     {
         gMap.TLV_Reset_446870(field_100_tlvInfo, 1, 0, 0);
@@ -50,18 +35,13 @@ BaseGameObject* MeatSaw::dtor_4398F0()
     field_110_anim.vCleanUp();
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
-    return dtor_417D10();
 }
 
-MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
+MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BB990);
     field_4_typeId = Types::eMeatSaw_56;
 
-    SetVTable(&field_110_anim, 0x4BA2B8);
-    
-    const AnimRecord& rec = AO::AnimRec(AnimId::MeatSaw_Idle);
+    const AnimRecord rec = AO::AnimRec(AnimId::MeatSaw_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     
@@ -195,7 +175,6 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
     {
         mFlags.Set(Options::eListAddFailed_Bit1);
     }
-    return this;
 }
 
 void MeatSaw::VScreenChanged_43A060()

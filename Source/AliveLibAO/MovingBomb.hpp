@@ -30,13 +30,8 @@ struct Path_MovingBombStopper final : public Path_TLV
 class MovingBomb final : public BaseAliveGameObject
 {
 public:
-    EXPORT MovingBomb* ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_43B2C0();
-
-    
-
-    EXPORT BaseGameObject* Vdtor_43BCC0(s32 flags);
+    MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo);
+    ~MovingBomb();
 
     virtual void VScreenChanged() override;
 

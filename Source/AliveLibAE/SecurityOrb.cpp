@@ -193,21 +193,17 @@ void SecurityOrb::vUpdate_4665A0()
 
             ae_new<ScreenShake>(1, 0);
 
-            auto pSpark = ae_new<Sparks>();
+            auto pSpark = ae_new<Sparks>(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
             if (pSpark)
             {
-                pSpark->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
-
                 pSpark->field_D2_g = 65;
                 pSpark->field_D4_b = 65;
                 pSpark->field_D0_r = 255;
             }
 
-            auto pSpark2 = ae_new<Sparks>();
+            auto pSpark2 = ae_new<Sparks>(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
             if (pSpark2)
             {
-                pSpark2->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
-
                 pSpark2->field_D2_g = 65;
                 pSpark2->field_D4_b = 65;
                 pSpark2->field_D0_r = 255;
@@ -215,10 +211,9 @@ void SecurityOrb::vUpdate_4665A0()
 
             for (s32 i = 0; i < 9; i++)
             {
-                auto pSpark3 = ae_new<Sparks>();
+                auto pSpark3 = ae_new<Sparks>(xpos, ypos, field_CC_sprite_scale);
                 if (pSpark3)
                 {
-                    pSpark3->ctor_416390(xpos, ypos, field_CC_sprite_scale);
                     pSpark3->field_D2_g = 65;
                     pSpark3->field_D4_b = 65;
                     pSpark3->field_D0_r = 255;

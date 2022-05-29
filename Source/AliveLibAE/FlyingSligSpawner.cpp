@@ -116,14 +116,13 @@ void FlyingSligSpawner::vUpdate_433E10()
                 return;
             }
 
-            auto pNewSlig = ae_new<FlyingSlig>();
+            auto pNewSlig = ae_new<FlyingSlig>(pFlyingSligTlv, field_20_tlvInfo);
             if (!pNewSlig)
             {
                 mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
-            pNewSlig->ctor_4342B0(pFlyingSligTlv, field_20_tlvInfo);
             field_24_spawned_slig_id = pNewSlig->field_8_object_id;
             field_3C_bSpawned = TRUE;
             SFX_Play_46FA90(SoundEffect::FlyingSligSpawn_113, 0);

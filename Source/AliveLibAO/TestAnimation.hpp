@@ -5,7 +5,7 @@
 class TestAnimation final : public AO::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    void ctor();
+    TestAnimation();
     void SyncToAbePos();
 
     virtual void VUpdate() override;

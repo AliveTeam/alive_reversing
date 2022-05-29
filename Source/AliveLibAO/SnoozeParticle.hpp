@@ -18,17 +18,12 @@ public:
         eBlowingUp_2 = 2
     };
 
-    EXPORT SnoozeParticle* ctor_464320(FP xpos, FP ypos, Layer layer, FP scale);
+    SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale);
+    ~SnoozeParticle();
 
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_464CD0();
-
-    EXPORT BaseGameObject* dtor_4644A0();
-
-    
-
-    EXPORT SnoozeParticle* Vdtor_464CE0(s32 flags);
 
     virtual void VUpdate() override;
 

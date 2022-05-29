@@ -472,16 +472,12 @@ s16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
     if (field_130_has_ghost == Choice_short::eYes_1)
     {
         field_130_has_ghost = Choice_short::eNo_0;
-        auto pSlapWhirlWind = ae_new<SlapLockWhirlWind>();
-        if (pSlapWhirlWind)
-        {
-            pSlapWhirlWind->ctor_43D7E0(
-                field_118_pTlv->field_12_target_tomb_id1,
-                field_118_pTlv->field_14_target_tomb_id2,
-                field_B8_xpos,
-                field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
-                field_CC_sprite_scale);
-        }
+        ae_new<SlapLockWhirlWind>(
+            field_118_pTlv->field_12_target_tomb_id1,
+            field_118_pTlv->field_14_target_tomb_id2,
+            field_B8_xpos,
+            field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+            field_CC_sprite_scale);
     }
 
     if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eYes_1)

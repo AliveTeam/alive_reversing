@@ -68,13 +68,9 @@ void TestAnimation::DelayLoad()
     }
 }
 
-void TestAnimation::ctor()
+TestAnimation::TestAnimation()
 {
     mLoaded = false;
-
-    DisableVTableHack h;
-
-    
 
     field_4_typeId = AO::Types::eNone_0;
 
@@ -109,18 +105,6 @@ void TestAnimation::VUpdate()
 void TestAnimation::VScreenChanged()
 {
     // Keep alive
-}
-
-AO::BaseGameObject* TestAnimation::VDestructor(s32 flags)
-{
-    // TODO: Destruction of this object will likely crash, but this obj can be removed
-    // once all animations are added to the table
-    // Destruct();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void TestAnimation::VRender(PrimHeader** ppOt)

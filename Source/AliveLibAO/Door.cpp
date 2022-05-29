@@ -67,11 +67,8 @@ const AnimId sDoorAnimdIdTable_4BA508[16][6] = {
     {AnimId::Door_Forest_Closed, AnimId::Door_Forest_Open, AnimId::HubDoor_Forest_Closed, AnimId::HubDoor_Forest_Open, AnimId::FinalTestDoor_Forest_Closed, AnimId::FinalTestDoor_Forest_Open}, // forest chase
     {AnimId::Door_Desert_Closed, AnimId::Door_Desert_Open, AnimId::HubDoor_Desert_Closed, AnimId::HubDoor_Desert_Open, AnimId::FinalTestDoor_Desert_Closed, AnimId::FinalTestDoor_Desert_Open}}; // desert escape
 
-Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
+Door::Door(Path_Door* pTlv, s32 tlvInfo)
 {
-     // NOTE: Pointless base ctor omitted
-
-    SetVTable(this, 0x4BA808);
     field_4_typeId = Types::eDoor_21;
 
     field_E4_tlvInfo = tlvInfo;
@@ -111,7 +108,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
             {
                 mFlags.Clear(BaseGameObject::eDrawable_Bit4);
                 mFlags.Set(BaseGameObject::eDead);
-                return this;
+                return;
             }
 
             if (openDoor.mFrameTableOffset)
@@ -174,7 +171,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
             ResourceManager::FreeResource_455550(ppRes);
             mFlags.Clear(BaseGameObject::eDrawable_Bit4);
             mFlags.Set(BaseGameObject::eDead);
-            return this;
+            return;
         }
 
         case DoorStates::eClosed_1:
@@ -195,7 +192,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
             {
                 mFlags.Clear(BaseGameObject::eDrawable_Bit4);
                 mFlags.Set(BaseGameObject::eDead);
-                return this;
+                return;
             }
 
             if (field_EC_current_state == DoorStates::eOpen_0)
@@ -321,7 +318,7 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
             }
             mFlags.Clear(BaseGameObject::eDrawable_Bit4);
             mFlags.Set(BaseGameObject::eDead);
-            return this;
+            return;
     }
 
     field_A8_xpos += FP_FromInteger(pTlv->field_3E_x_offset);
@@ -332,14 +329,11 @@ Door* Door::ctor_40E010(Path_Door* pTlv, s32 tlvInfo)
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
-    return this;
 }
 
-BaseGameObject* Door::dtor_40E710()
+Door::~Door()
 {
-    SetVTable(this, 0x4BA808);
     gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
-    return dtor_417D10();
 }
 
 void Door::VScreenChanged()
@@ -350,21 +344,6 @@ void Door::VScreenChanged()
 void Door::VScreenChanged_40EDE0()
 {
     mFlags.Set(BaseGameObject::eDead);
-}
-
-BaseGameObject* Door::VDestructor(s32 flags)
-{
-    return Vdtor_40EDF0(flags);
-}
-
-Door* Door::Vdtor_40EDF0(s32 flags)
-{
-    dtor_40E710();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 Bool32 Door::vIsOpen_40E800()

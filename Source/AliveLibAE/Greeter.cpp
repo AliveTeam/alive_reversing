@@ -76,10 +76,9 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
         field_BC_ypos = hitY;
     }
 
-    auto pMotionDetctor = ae_new<MotionDetector>();
+    auto pMotionDetctor = ae_new<MotionDetector>(0, 0, this);
     if (pMotionDetctor)
     {
-        pMotionDetctor->ctor_4683B0(0, 0, this);
         field_11C_motionDetectorId = pMotionDetctor->field_8_object_id;
     }
 

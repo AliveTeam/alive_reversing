@@ -34,15 +34,10 @@ ALIVE_ASSERT_SIZEOF(Path_UXB, 0x24);
 class UXB final : public BaseAliveGameObject
 {
 public:
-    EXPORT UXB* ctor_488C80(Path_UXB* pTlv, s32 tlvInfo);
+    UXB(Path_UXB* pTlv, s32 tlvInfo);
+    ~UXB();
 
     void InitBlinkAnim();
-
-    EXPORT BaseGameObject* dtor_4891B0();
-
-    
-
-    EXPORT BaseGameObject* Vdtor_489C70(s32 flags);
 
     virtual void VScreenChanged() override;
 

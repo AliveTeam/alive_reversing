@@ -9,11 +9,9 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B08, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_507B08, nullptr);
 
-ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
+ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BB728);
-
     sShadowZone_dArray_507B08->Push_Back(this);
 
     field_16_path = gMap.mCurrentPath;
@@ -45,8 +43,6 @@ ShadowZone* ShadowZone::ctor_435D30(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tl
 
     field_24_id = pTlv->field_22_id;
     field_26_scale = pTlv->field_24_scale;
-
-    return this;
 }
 
 void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
@@ -127,27 +123,10 @@ s16 ShadowZone::ApplysToScale(s16 scale)
     return 0;
 }
 
-BaseGameObject* ShadowZone::dtor_435F10()
+ShadowZone::~ShadowZone()
 {
-    SetVTable(this, 0x4BB728);
     gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
     sShadowZone_dArray_507B08->Remove_Item(this);
-    return dtor_487DF0();
-}
-
-BaseGameObject* ShadowZone::VDestructor(s32 flags)
-{
-    return Vdtor_436180(flags);
-}
-
-ShadowZone* ShadowZone::Vdtor_436180(s32 flags)
-{
-    dtor_435F10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void ShadowZone::VScreenChanged()

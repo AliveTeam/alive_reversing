@@ -107,26 +107,9 @@ PSX_RECT* TrapDoor::VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx)
     return VGetBoundingRect_4887B0(pRect, pointIdx);
 }
 
-TrapDoor* TrapDoor::Vdtor_4887D0(s32 flags)
+TrapDoor::~TrapDoor()
 {
-    dtor_4882A0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* TrapDoor::VDestructor(s32 flags)
-{
-    return Vdtor_4887D0(flags);
-}
-
-BaseGameObject* TrapDoor::dtor_4882A0()
-{
-    SetVTable(this, 0x4BD5E0);
     gMap.TLV_Reset_446870(field_128_tlvInfo, -1, 0, 0);
-    return dtor_451490();
 }
 
 void TrapDoor::Open()
@@ -162,11 +145,9 @@ void TrapDoor::Open()
     ObjListPlatforms_50766C->Remove_Item(this);
 }
 
-TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
+TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 {
-    BaseAliveGameObject();
     field_12C_flag &= ~1u;
-    SetVTable(this, 0x4BD5E0);
 
     field_4_typeId = Types::eTrapDoor_98;
     field_134_switch_id = pTlv->field_18_switch_id;
@@ -237,8 +218,6 @@ TrapDoor* TrapDoor::ctor_488010(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_148_bounding_rect.h = pTlv->field_14_bottom_right.field_2_y;
 
     field_10C = 4;
-
-    return this;
 }
 
 void TrapDoor::VUpdate_4883E0()

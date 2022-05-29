@@ -46,7 +46,7 @@ EXPORT void Kill_Objects_451720()
             {
                 // So die
                 j = gBaseGameObjects->RemoveAt(j);
-                pObj->VDestructor(1);
+                delete pObj;
             }
         }
     }

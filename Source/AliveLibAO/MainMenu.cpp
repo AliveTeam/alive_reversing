@@ -315,11 +315,8 @@ const MenuFMV sLevelList_4D0300[15] = {
     {"Rescue Zulag 4", LevelIds::eRuptureFarmsReturn_13, 14, 1, -1, 1390, 700},
     {"The Boardroom", LevelIds::eBoardRoom_12, 6, 1, -1, 592, 157}};
 
-MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, buttonType buttonType, s16 bDestroyOnDone)
+MainMenuFade::MainMenuFade(s16 xpos, s16 ypos, buttonType buttonType, s16 bDestroyOnDone)
 {
-    
-    SetVTable(this, 0x4BB1C8);
-
     field_4_typeId = Types::MainMenuFade_44;
 
     field_C4_b = 128;
@@ -354,11 +351,7 @@ MainMenuFade* MainMenuFade::ctor_42A5A0(s16 xpos, s16 ypos, buttonType buttonTyp
             pObj->mFlags.Set(BaseGameObject::eDead);
         }
     }
-
-    return this;
 }
-
-
 
 void MainMenuFade::VUpdate()
 {
@@ -415,16 +408,6 @@ void MainMenuFade::VRender_42A7A0(PrimHeader** ppOt)
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-BaseGameObject* MainMenuFade::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
 struct MainMenu_TransitionData final
 {
     s16 field_0;
@@ -463,11 +446,6 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
         {-16, 16, 256, 1},
         {-16, 0, 256, 1},
 };
-
-BaseGameObject* MainMenuTransition::VDestructor(s32 flags)
-{
-    return Vdtor_4369F0(flags);
-}
 
 void MainMenuTransition::VScreenChanged_4369D0()
 {
@@ -509,10 +487,9 @@ void MainMenuTransition::VUpdate()
     VUpdate_4365C0();
 }
 
-MainMenuTransition* MainMenuTransition::ctor_436370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed, TPageAbr abr)
+MainMenuTransition::MainMenuTransition(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed, TPageAbr abr)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BB7A0);
     field_4_typeId = Types::eDeathFadeOut_80;
 
     gObjList_drawables_504618->Push_Back(this);
@@ -549,25 +526,11 @@ MainMenuTransition* MainMenuTransition::ctor_436370(Layer layer, s16 fadeDirecti
     field_23E_width = 320;
     field_240_k120 = 120;
     StartTrans_436560(layer, fadeDirection, bKillWhenDone, speed);
-
-    return this;
 }
 
-BaseGameObject* MainMenuTransition::dtor_436500()
+MainMenuTransition::~MainMenuTransition()
 {
-    SetVTable(this, 0x4BB7A0);
     gObjList_drawables_504618->Remove_Item(this);
-    return dtor_487DF0();
-}
-
-MainMenuTransition* MainMenuTransition::Vdtor_4369F0(s32 flags)
-{
-    dtor_436500();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void MainMenuTransition::StartTrans_436560(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)
@@ -717,12 +680,8 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
     }
 }
 
-Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, s32 tlvInfo)
+Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BCE78);
-    SetVTable(&field_134_anim, 0x4BA2B8);
-
     gMainMenuInstanceCount_9F2DE0++;
 
     if (sFontLoaded_507688 == 0)
@@ -840,14 +799,10 @@ Menu* Menu::ctor_47A6F0(Path_TLV* /*pTlv*/, s32 tlvInfo)
     }
 
     sAvailableControllers_4CE598 = (gJoystickAvailable_5079A4 != 0) + 1;
-
-    return this;
 }
 
-BaseGameObject* Menu::dtor_47AAB0()
+Menu::~Menu()
 {
-    SetVTable(this, 0x4BCE78);
-
     gMap.TLV_Reset_446870(field_1D4_tlvInfo, -1, 0, 0);
     field_134_anim.vCleanUp();
 
@@ -879,23 +834,6 @@ BaseGameObject* Menu::dtor_47AAB0()
     gMainMenuInstanceCount_9F2DE0--;
 
     field_FC_font.dtor_41C130();
-
-    return dtor_417D10();
-}
-
-BaseGameObject* Menu::VDestructor(s32 flags)
-{
-    return Vdtor_47FC40(flags);
-}
-
-Menu* Menu::Vdtor_47FC40(s32 flags)
-{
-    dtor_47AAB0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Menu::VUpdate()
@@ -1048,8 +986,7 @@ void Menu::FMV_Select_Update_47E8D0()
             }
             else
             {
-                field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
             }
             field_1CC_fn_update = &Menu::FMV_Or_Level_Select_To_Back_Update_47EC70;
         }
@@ -1347,7 +1284,7 @@ void Menu::ProgressInProgressFilesLoading()
                 {
                     LOG_INFO("Removing dead loading file idx " << i);
                     i = gBaseGameObjects->RemoveAt(i);
-                    pObjIter->VDestructor(1);
+                    delete pObjIter;
                     LOG_INFO("Idx is now " << i);
                 }
                 loadingFileExists = true;
@@ -1470,9 +1407,11 @@ EXPORT void Menu::MainScreen_Update_47AF60()
                 }
                 else
                 {
-                    field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                    field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
-                    field_1E8_pMenuTrans->field_C_refCount++;
+                    field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                    if (field_1E8_pMenuTrans)
+                    {
+                        field_1E8_pMenuTrans->field_C_refCount++;
+                    }
                 }
 
                 const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
@@ -1497,9 +1436,11 @@ EXPORT void Menu::MainScreen_Update_47AF60()
                 field_1E8_pMenuTrans->mFlags.Set(Options::eDead);
             }
 
-            field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-            field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
-            field_1E8_pMenuTrans->field_C_refCount++;
+            field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+            if (field_1E8_pMenuTrans)
+            {
+                field_1E8_pMenuTrans->field_C_refCount++;
+            }
             field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
         }
     }
@@ -1525,9 +1466,11 @@ EXPORT void Menu::MainScreen_Update_47AF60()
             }
             else
             {
-                field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
-                field_1E8_pMenuTrans->field_C_refCount++;
+                field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                if (field_1E8_pMenuTrans)
+                {
+                    field_1E8_pMenuTrans->field_C_refCount++;
+                }
             }
 
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
@@ -1557,9 +1500,11 @@ EXPORT void Menu::MainScreen_Update_47AF60()
             }
             else
             {
-                field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-                field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
-                field_1E8_pMenuTrans->field_C_refCount++;
+                field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                if (field_1E8_pMenuTrans)
+                {
+                    field_1E8_pMenuTrans->field_C_refCount++;
+                }
             }
 
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
@@ -1673,9 +1618,11 @@ void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
         }
         else
         {
-            field_1E8_pMenuTrans = ao_new<MainMenuTransition>();
-            field_1E8_pMenuTrans->ctor_436370(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
-            field_1E8_pMenuTrans->field_C_refCount++;
+            field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+            if (field_1E8_pMenuTrans)
+            {
+                field_1E8_pMenuTrans->field_C_refCount++;
+            }
         }
 
         const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
@@ -2125,16 +2072,12 @@ void Menu::NewGameStart_47B9C0()
 
     if (gAttract_507698)
     {
-        auto pDemoPlayBackMem = ao_new<DemoPlayback>();
-        if (pDemoPlayBackMem)
-        {
-            // OG bug fix: the demo will load a save which will call Kill_Objects_451720 which will delete this object
-            // resulting in a crash when we try access any member vars at the end. Bump the ref count so we can kill ourselves instead.
-            field_C_refCount++;
-            u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
-            pDemoPlayBackMem->ctor_4517B0(ppRes, 0);
-            field_C_refCount--;
-        }
+        // OG bug fix: the demo will load a save which will call Kill_Objects_451720 which will delete this object
+        // resulting in a crash when we try access any member vars at the end. Bump the ref count so we can kill ourselves instead.
+        field_C_refCount++;
+        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
+        ao_new<DemoPlayback>(ppRes, 0);
+        field_C_refCount--;
     }
     else
     {
@@ -2753,19 +2696,11 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             if (Input_JoyStickEnabled())
             {
-                field_1EC_pObj1 = ao_new<MainMenuFade>();
-                if (field_1EC_pObj1)
-                {
-                    field_1EC_pObj1->ctor_42A5A0(stru_4D00E0[8].field_0_xpos, stru_4D00E0[8].field_2_ypos + 36, buttonType::eCircle_0, 0);
-                }
+                field_1EC_pObj1 = ao_new<MainMenuFade>(stru_4D00E0[8].field_0_xpos, stru_4D00E0[8].field_2_ypos + 36, buttonType::eCircle_0, 0);
             }
             else
             {
-                field_1EC_pObj1 = ao_new<MainMenuFade>();
-                if (field_1EC_pObj1)
-                {
-                    field_1EC_pObj1->ctor_42A5A0(181, stru_4D00E0[8].field_2_ypos + 36, buttonType::eCircle_0, 0);
-                }
+                field_1EC_pObj1 = ao_new<MainMenuFade>(181, stru_4D00E0[8].field_2_ypos + 36, buttonType::eCircle_0, 0);
             }
         }
 
@@ -2776,11 +2711,7 @@ void Menu::GameSpeak_Update_47CBD0()
 
         if (Input_JoyStickEnabled())
         {
-            field_1F0_pObj2 = ao_new<MainMenuFade>();
-            if (field_1F0_pObj2)
-            {
-                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[11].field_0_xpos, stru_4D00E0[11].field_2_ypos + 36, buttonType::eCircle_0, 0);
-            }
+            field_1F0_pObj2 = ao_new<MainMenuFade>(stru_4D00E0[11].field_0_xpos, stru_4D00E0[11].field_2_ypos + 36, buttonType::eCircle_0, 0);
         }
         else
         {
@@ -2803,11 +2734,7 @@ void Menu::GameSpeak_Update_47CBD0()
         }
         else if (Input_JoyStickEnabled())
         {
-            field_1F0_pObj2 = ao_new<MainMenuFade>();
-            if (field_1F0_pObj2)
-            {
-                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[10].field_0_xpos, stru_4D00E0[10].field_2_ypos + 36, buttonType::eCircle_0, 0);
-            }
+            field_1F0_pObj2 = ao_new<MainMenuFade>(stru_4D00E0[10].field_0_xpos, stru_4D00E0[10].field_2_ypos + 36, buttonType::eCircle_0, 0);
         }
 
         if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak2_4C65BC))
@@ -2817,11 +2744,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_FollowMe);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eFollowMe_2;
-            auto pFade = ao_new<MainMenuFade>();
-            if (pFade)
-            {
-                pFade->ctor_42A5A0(stru_4D00E0[2].field_0_xpos, stru_4D00E0[2].field_2_ypos + 36, buttonType::eCircle_0, 1);
-            }
+            ao_new<MainMenuFade>(stru_4D00E0[2].field_0_xpos, stru_4D00E0[2].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak4_4C65C4))
         {
@@ -2830,11 +2753,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Wait);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWait_0;
-            auto pFade = ao_new<MainMenuFade>();
-            if (pFade)
-            {
-                pFade->ctor_42A5A0(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, buttonType::eCircle_0, 1);
-            }
+            ao_new<MainMenuFade>(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak1_4C65C8))
         {
@@ -2843,11 +2762,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Hello);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_E4_res_array[1]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eHello_1;
-            auto pFade = ao_new<MainMenuFade>();
-            if (pFade)
-            {
-                pFade->ctor_42A5A0(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, buttonType::eCircle_0, 1);
-            }
+            ao_new<MainMenuFade>(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_GameSpeak3_4C65C0))
         {
@@ -2856,11 +2771,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Anger);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eAngry_3;
-            auto pFade = ao_new<MainMenuFade>();
-            if (pFade)
-            {
-                pFade->ctor_42A5A0(stru_4D00E0[3].field_0_xpos, stru_4D00E0[3].field_2_ypos + 36, buttonType::eCircle_0, 1);
-            }
+            ao_new<MainMenuFade>(stru_4D00E0[3].field_0_xpos, stru_4D00E0[3].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         CycleGameSpeakIdleAnims();
         return;
@@ -2879,11 +2790,7 @@ void Menu::GameSpeak_Update_47CBD0()
         }
         else if (Input_JoyStickEnabled())
         {
-            field_1F0_pObj2 = ao_new<MainMenuFade>();
-            if (field_1F0_pObj2)
-            {
-                field_1F0_pObj2->ctor_42A5A0(stru_4D00E0[12].field_0_xpos, stru_4D00E0[12].field_2_ypos + 36, buttonType::eCircle_0, 0);
-            }
+            field_1F0_pObj2 = ao_new<MainMenuFade>(stru_4D00E0[12].field_0_xpos, stru_4D00E0[12].field_2_ypos + 36, buttonType::eCircle_0, 0);
         }
 
         if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak6_4C65E8))
@@ -2893,11 +2800,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_WhistleHigh);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWhistleHigh_4;
-            auto pFade = ao_new<MainMenuFade>();
-            if (pFade)
-            {
-                pFade->ctor_42A5A0(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, buttonType::eCircle_0, 1);
-            }
+            ao_new<MainMenuFade>(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak5_4C65EC))
         {
@@ -2906,11 +2809,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_WhistleLow);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWhistleLow_5;
-            auto pFade = ao_new<MainMenuFade>();
-            if (pFade)
-            {
-                pFade->ctor_42A5A0(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, buttonType::eCircle_0, 1);
-            }
+            ao_new<MainMenuFade>(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak8_4C65E0))
         {
@@ -2919,11 +2818,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Laugh);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eLaugh_6;
-            auto pFade = ao_new<MainMenuFade>();
-            if (pFade)
-            {
-                pFade->ctor_42A5A0(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, buttonType::eCircle_0, 1);
-            }
+            ao_new<MainMenuFade>(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak7_4C65E4))
         {
@@ -2932,11 +2827,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Fart);
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eFart_7;
-            auto pFade = ao_new<MainMenuFade>();
-            if (pFade)
-            {
-                pFade->ctor_42A5A0(stru_4D00E0[7].field_0_xpos, stru_4D00E0[7].field_2_ypos + 36, buttonType::eCircle_0, 1);
-            }
+            ao_new<MainMenuFade>(stru_4D00E0[7].field_0_xpos, stru_4D00E0[7].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         CycleGameSpeakIdleAnims();
         return;
@@ -2960,11 +2851,7 @@ void Menu::GameSpeak_Update_47CBD0()
     field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, field_E4_res_array[0]);
     field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eMainMenu_9;
 
-    auto pFade2 = ao_new<MainMenuFade>();
-    if (pFade2)
-    {
-        pFade2->ctor_42A5A0(stru_4D00E0[9].field_0_xpos, stru_4D00E0[9].field_2_ypos + 36, buttonType::eCircle_0, 1);
-    }
+    ao_new<MainMenuFade>(stru_4D00E0[9].field_0_xpos, stru_4D00E0[9].field_2_ypos + 36, buttonType::eCircle_0, 1);
 
     field_1CC_fn_update = &Menu::GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0;
 

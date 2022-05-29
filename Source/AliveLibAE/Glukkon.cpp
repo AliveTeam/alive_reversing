@@ -151,87 +151,86 @@ s32 CC Glukkon::CreateFromSaveState_442830(const u8* pData)
             break;
     }
 
-    auto pGlukkon = ae_new<Glukkon>();
+    auto pGlukkon = ae_new<Glukkon>(pTlv, pSaveState->field_44_tlvInfo);
     if (pGlukkon)
     {
-        pGlukkon->ctor_43F030(pTlv, pSaveState->field_44_tlvInfo);
+        pGlukkon->SetType(pSaveState->field_8E_type_id);
+        pGlukkon->field_C_objectId = pSaveState->field_4_object_id;
+        if (pSaveState->field_40_bIsActiveChar)
+        {
+            sControlledCharacter_5C1B8C = pGlukkon;
+        }
+
+        pGlukkon->field_FC_pPathTLV = nullptr;
+        pGlukkon->field_100_pCollisionLine = nullptr;
+
+        pGlukkon->field_B8_xpos = pSaveState->field_8_xpos;
+        pGlukkon->field_BC_ypos = pSaveState->field_C_ypos;
+
+        pGlukkon->field_C4_velx = pSaveState->field_10_xvel;
+        pGlukkon->field_C8_vely = pSaveState->field_14_yvel;
+
+        pGlukkon->field_1D8_falling_velx_scale_factor = pSaveState->field_58_falling_velx_scale_factor;
+        pGlukkon->field_C0_path_number = pSaveState->field_18_path;
+        pGlukkon->field_C2_lvl_number = pSaveState->field_1A_level;
+        pGlukkon->field_CC_sprite_scale = pSaveState->field_1C_sprite_scale;
+
+        pGlukkon->field_D0_r = pSaveState->field_20_r;
+        pGlukkon->field_D2_g = pSaveState->field_22_g;
+        pGlukkon->field_D4_b = pSaveState->field_24_b;
+
+        pGlukkon->field_1A0_red = pSaveState->field_20_r;
+        pGlukkon->field_1A2_green = pSaveState->field_22_g;
+        pGlukkon->field_1A4_blue = pSaveState->field_24_b;
+
+        pGlukkon->field_106_current_motion = pSaveState->field_28_current_motion;
+
+        GlukkonTypes glukType = pGlukkon->field_1A8_tlvData.field_22_glukkon_type;
+        if (glukType > GlukkonTypes::StoryPhleg_3)
+        {
+            glukType = GlukkonTypes::Normal_0;
+        }
+
+        const AnimRecord& animRec = AnimRec(sGlukkonsFrameTableOffsetTable_554524[static_cast<s32>(glukType)][pSaveState->field_28_current_motion]);
+        pGlukkon->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+
+        pGlukkon->field_20_animation.field_92_current_frame = pSaveState->field_2A_current_frame;
+        pGlukkon->field_20_animation.field_E_frame_change_counter = pSaveState->field_2C_frame_change_counter;
+        pGlukkon->mFlags.Set(BaseGameObject::Options::eDrawable_Bit4, pSaveState->field_2F_drawable & 1);
+        pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_26_flipX & 1);
+        pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2E_render & 1);
+
+        if (IsLastFrame(&pGlukkon->field_20_animation))
+        {
+            pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        }
+
+        pGlukkon->field_10C_health = pSaveState->field_30_health;
+        pGlukkon->field_106_current_motion = pSaveState->field_34_current_motion;
+        pGlukkon->field_108_next_motion = pSaveState->field_36_next_motion;
+        pGlukkon->field_F8_LastLineYPos = FP_FromInteger(pSaveState->field_38_last_line_ypos);
+        pGlukkon->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+        pGlukkon->field_1D4_timer = pSaveState->field_54_timer;
+        pGlukkon->field_104_collision_line_type = pSaveState->field_3A_line_type;
+        pGlukkon->field_214_tlv_info = pSaveState->field_44_tlvInfo;
+        pGlukkon->SetBrain(sGlukkon_brain_table_5544A0[pSaveState->field_48_brain_state_idx]);
+        pGlukkon->field_210_brain_sub_state = pSaveState->field_50_brain_sub_state;
+        pGlukkon->field_1E2_prevent_depossession = pSaveState->field_5E_prevent_depossession;
+        pGlukkon->field_1E4_level = pSaveState->field_60_level;
+        pGlukkon->field_1E6_path = pSaveState->field_62_path;
+        pGlukkon->field_1E8_camera = pSaveState->field_64_camera;
+        pGlukkon->field_1EA_speak = pSaveState->field_66_speak;
+        pGlukkon->field_1E0_gamespeak_pitch = pSaveState->field_68_gamespeak_pitch;
+        pGlukkon->field_1DC_previous_ypos = pSaveState->field_6C_previous_ypos;
+        pGlukkon->field_1F0_randomish_speak_timer = pSaveState->field_70_randomish_speak_timer;
+        pGlukkon->field_1F4_turn_or_help_timer = pSaveState->field_74_turn_or_help_timer;
+        pGlukkon->field_1F8_panic_timer = pSaveState->field_78_panic_timer;
+        pGlukkon->field_1FC = pSaveState->field_7C;
+        pGlukkon->field_200_knockback_delay_after_getting_shot_timer = pSaveState->field_80_knockback_delay_after_getting_shot_timer;
+        pGlukkon->field_204_getting_shot_timer = pSaveState->field_84_getting_shot_timer;
+        pGlukkon->field_208_obj_id = pSaveState->field_88_obj_id;
+        pGlukkon->field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed, pSaveState->field_8C_can_be_possessed);
     }
-    pGlukkon->SetType(pSaveState->field_8E_type_id);
-    pGlukkon->field_C_objectId = pSaveState->field_4_object_id;
-    if (pSaveState->field_40_bIsActiveChar)
-    {
-        sControlledCharacter_5C1B8C = pGlukkon;
-    }
-
-    pGlukkon->field_FC_pPathTLV = nullptr;
-    pGlukkon->field_100_pCollisionLine = nullptr;
-
-    pGlukkon->field_B8_xpos = pSaveState->field_8_xpos;
-    pGlukkon->field_BC_ypos = pSaveState->field_C_ypos;
-
-    pGlukkon->field_C4_velx = pSaveState->field_10_xvel;
-    pGlukkon->field_C8_vely = pSaveState->field_14_yvel;
-
-    pGlukkon->field_1D8_falling_velx_scale_factor = pSaveState->field_58_falling_velx_scale_factor;
-    pGlukkon->field_C0_path_number = pSaveState->field_18_path;
-    pGlukkon->field_C2_lvl_number = pSaveState->field_1A_level;
-    pGlukkon->field_CC_sprite_scale = pSaveState->field_1C_sprite_scale;
-
-    pGlukkon->field_D0_r = pSaveState->field_20_r;
-    pGlukkon->field_D2_g = pSaveState->field_22_g;
-    pGlukkon->field_D4_b = pSaveState->field_24_b;
-
-    pGlukkon->field_1A0_red = pSaveState->field_20_r;
-    pGlukkon->field_1A2_green = pSaveState->field_22_g;
-    pGlukkon->field_1A4_blue = pSaveState->field_24_b;
-
-    pGlukkon->field_106_current_motion = pSaveState->field_28_current_motion;
-
-    GlukkonTypes glukType = pGlukkon->field_1A8_tlvData.field_22_glukkon_type;
-    if (glukType > GlukkonTypes::StoryPhleg_3)
-    {
-        glukType = GlukkonTypes::Normal_0;
-    }
-
-    const AnimRecord& animRec = AnimRec(sGlukkonsFrameTableOffsetTable_554524[static_cast<s32>(glukType)][pSaveState->field_28_current_motion]);
-    pGlukkon->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-
-    pGlukkon->field_20_animation.field_92_current_frame = pSaveState->field_2A_current_frame;
-    pGlukkon->field_20_animation.field_E_frame_change_counter = pSaveState->field_2C_frame_change_counter;
-    pGlukkon->mFlags.Set(BaseGameObject::Options::eDrawable_Bit4, pSaveState->field_2F_drawable & 1);
-    pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_26_flipX & 1);
-    pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2E_render & 1);
-
-    if (IsLastFrame(&pGlukkon->field_20_animation))
-    {
-        pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
-    }
-
-    pGlukkon->field_10C_health = pSaveState->field_30_health;
-    pGlukkon->field_106_current_motion = pSaveState->field_34_current_motion;
-    pGlukkon->field_108_next_motion = pSaveState->field_36_next_motion;
-    pGlukkon->field_F8_LastLineYPos = FP_FromInteger(pSaveState->field_38_last_line_ypos);
-    pGlukkon->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
-    pGlukkon->field_1D4_timer = pSaveState->field_54_timer;
-    pGlukkon->field_104_collision_line_type = pSaveState->field_3A_line_type;
-    pGlukkon->field_214_tlv_info = pSaveState->field_44_tlvInfo;
-    pGlukkon->SetBrain(sGlukkon_brain_table_5544A0[pSaveState->field_48_brain_state_idx]);
-    pGlukkon->field_210_brain_sub_state = pSaveState->field_50_brain_sub_state;
-    pGlukkon->field_1E2_prevent_depossession = pSaveState->field_5E_prevent_depossession;
-    pGlukkon->field_1E4_level = pSaveState->field_60_level;
-    pGlukkon->field_1E6_path = pSaveState->field_62_path;
-    pGlukkon->field_1E8_camera = pSaveState->field_64_camera;
-    pGlukkon->field_1EA_speak = pSaveState->field_66_speak;
-    pGlukkon->field_1E0_gamespeak_pitch = pSaveState->field_68_gamespeak_pitch;
-    pGlukkon->field_1DC_previous_ypos = pSaveState->field_6C_previous_ypos;
-    pGlukkon->field_1F0_randomish_speak_timer = pSaveState->field_70_randomish_speak_timer;
-    pGlukkon->field_1F4_turn_or_help_timer = pSaveState->field_74_turn_or_help_timer;
-    pGlukkon->field_1F8_panic_timer = pSaveState->field_78_panic_timer;
-    pGlukkon->field_1FC = pSaveState->field_7C;
-    pGlukkon->field_200_knockback_delay_after_getting_shot_timer = pSaveState->field_80_knockback_delay_after_getting_shot_timer;
-    pGlukkon->field_204_getting_shot_timer = pSaveState->field_84_getting_shot_timer;
-    pGlukkon->field_208_obj_id = pSaveState->field_88_obj_id;
-    pGlukkon->field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed, pSaveState->field_8C_can_be_possessed);
 
     return sizeof(Glukkon_SaveState);
 }

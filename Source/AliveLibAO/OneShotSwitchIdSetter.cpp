@@ -11,33 +11,14 @@ void OneShotSwitchIdSetter::VScreenChanged()
     VScreenChanged_432F00();
 }
 
-BaseGameObject* OneShotSwitchIdSetter::Vdtor_432F10(s32 flags)
+OneShotSwitchIdSetter::~OneShotSwitchIdSetter()
 {
-    dtor_432EA0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* OneShotSwitchIdSetter::VDestructor(s32 flags)
-{
-    return Vdtor_432F10(flags);
-}
-
-BaseGameObject* OneShotSwitchIdSetter::dtor_432EA0()
-{
-    SetVTable(this, 0x4BB3D8);
     gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
-    return dtor_487DF0();
 }
 
-BaseGameObject* OneShotSwitchIdSetter::ctor_432E10(Path_OneShotSwitchIdSetter* pTlv, s32 tlvInfo)
+OneShotSwitchIdSetter::OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BB3D8);
-
     field_10_tlvInfo = tlvInfo;
 
     if (!SwitchStates_Get(236))
@@ -48,8 +29,6 @@ BaseGameObject* OneShotSwitchIdSetter::ctor_432E10(Path_OneShotSwitchIdSetter* p
         }
         SwitchStates_Do_Operation_436A10(236, SwitchOp::eSetTrue_0);
     }
-
-    return this;
 }
 
 void OneShotSwitchIdSetter::VScreenChanged_432F00()

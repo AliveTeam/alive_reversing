@@ -22,37 +22,16 @@ void GameEnderController_ForceLink()
 
 namespace AO {
 
-void CC GameEnderController::CreateGameEnderController_41C7D0()
+GameEnderController::GameEnderController()
+    : BaseGameObject(1)
+
 {
     auto pGameEnderController = ao_new<GameEnderController>();
     if (pGameEnderController)
     {
-        pGameEnderController->BaseGameObject(1);
-        SetVTable(pGameEnderController, 0x4BAEF0);
         pGameEnderController->field_4_typeId = Types::eGameEnderController_37;
         pGameEnderController->field_14_state = GameEnderController_States::eInit_0;
     }
-}
-
-BaseGameObject* GameEnderController::dtor_41C850()
-{
-    SetVTable(this, 0x4BAEF0);
-    return dtor_487DF0();
-}
-
-BaseGameObject* GameEnderController::VDestructor(s32 flags)
-{
-    return Vdtor_41CD00(flags);
-}
-
-GameEnderController* GameEnderController::Vdtor_41CD00(s32 flags)
-{
-    dtor_41C850();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void GameEnderController::VScreenChanged()

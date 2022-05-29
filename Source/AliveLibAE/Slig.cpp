@@ -124,10 +124,10 @@ s32 CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
         shellDirection = 1;
     }
 
-    pBullet = ae_new<Bullet>();
+    pBullet = ae_new<Bullet>(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, bullet_xDist, 0, pSlig->field_CC_sprite_scale, 0);
     if (pBullet)
     {
-        pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, bullet_xDist, 0, pSlig->field_CC_sprite_scale, 0);
+        pBullet->SetUpdateDelay(1);
     }
 
     New_ShootingFire_Particle_426890(fireXpos, yOff + pSlig->field_BC_ypos, fireDirection, pSlig->field_CC_sprite_scale);
@@ -138,19 +138,12 @@ s32 CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
     }
     else
     {
-        auto pShell = ae_new<BulletShell>();
-        if (pShell)
-        {
-            pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, shellDirection, pSlig->field_CC_sprite_scale);
-        }
+        ae_new<BulletShell>(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, shellDirection, pSlig->field_CC_sprite_scale);
         SFX_Play_46FA90(SoundEffect::SligShoot_5, 0);
     }
 
-
     Event_Broadcast_422BC0(kEventShooting, pSlig);
     Event_Broadcast_422BC0(kEventLoudNoise, pSlig);
-
-    pBullet->SetUpdateDelay(1);
 
     Dove::All_FlyAway_41FA60(0);
     return 1;
@@ -2293,19 +2286,15 @@ void Slig::M_ShootZ_42_4B7560()
             bulletType = BulletType::eZBullet_3;
         }
 
-        auto pBullet = ae_new<Bullet>();
-        if (pBullet)
-        {
-            pBullet->ctor_414540(
-                this,
-                bulletType,
-                field_B8_xpos,
-                field_BC_ypos - FP_FromInteger(12),
-                FP_FromInteger(640),
-                0,
-                field_CC_sprite_scale,
-                field_218_tlv_data.field_22_num_times_to_shoot - field_158_num_times_to_shoot - 1);
-        }
+        ae_new<Bullet>(
+            this,
+            bulletType,
+            field_B8_xpos,
+            field_BC_ypos - FP_FromInteger(12),
+            FP_FromInteger(640),
+            0,
+            field_CC_sprite_scale,
+            field_218_tlv_data.field_22_num_times_to_shoot - field_158_num_times_to_shoot - 1);
 
         New_ShootingZFire_Particle_4269B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(12), field_CC_sprite_scale);
 

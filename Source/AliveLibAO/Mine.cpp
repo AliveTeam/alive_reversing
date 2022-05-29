@@ -13,11 +13,9 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
 
-Mine* Mine::ctor_43A330(Path_Mine* pTlv, s32 tlvInfo)
+Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BBA08);
-    SetVTable(&field_118_animation, 0x4BA2B8);
     field_4_typeId = Types::eMine_57;
     
     ///////////////////////////////////////////////////////////////////////////
@@ -111,14 +109,10 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, s32 tlvInfo)
     field_D4_collection_rect.h = field_AC_ypos;
 
     mFlags.Set(Options::eInteractive_Bit8);
-
-    return this;
 }
 
-BaseGameObject* Mine::dtor_43A640()
+Mine::~Mine()
 {
-    SetVTable(this, 0x4BBA08);
-
     if (field_10C_detonating == 1)
     {
         gMap.TLV_Reset_446870(field_110_tlv, -1, 0, 1);
@@ -158,23 +152,6 @@ BaseGameObject* Mine::dtor_43A640()
     {
         sMinePlayingSound_507B88 = nullptr;
     }
-
-    return dtor_401000();
-}
-
-BaseGameObject* Mine::VDestructor(s32 flags)
-{
-    return Vdtor_43AD50(flags);
-}
-
-Mine* Mine::Vdtor_43AD50(s32 flags)
-{
-    dtor_43A640();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Mine::VScreenChanged()

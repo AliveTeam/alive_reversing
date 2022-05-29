@@ -18,7 +18,7 @@ enum buttonType : u16
 class MainMenuFade final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MainMenuFade* ctor_42A5A0(s16 xpos, s16 ypos, buttonType buttonType, s16 bDestroyOnDone);
+    MainMenuFade(s16 xpos, s16 ypos, buttonType buttonType, s16 bDestroyOnDone);
 
     virtual void VUpdate() override;
 
@@ -48,9 +48,8 @@ ALIVE_ASSERT_SIZEOF(MainMenuTransition_Polys, 0x100);
 class MainMenuTransition final : public BaseGameObject
 {
 public:
-    EXPORT MainMenuTransition* ctor_436370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed, TPageAbr abr);
-
-    EXPORT BaseGameObject* dtor_436500();
+    MainMenuTransition(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed, TPageAbr abr);
+    ~MainMenuTransition();
 
     virtual void VUpdate() override;
 
@@ -59,10 +58,6 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_4369D0();
-
-    
-
-    EXPORT MainMenuTransition* Vdtor_4369F0(s32 flags);
 
     EXPORT void StartTrans_436560(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed);
 
@@ -162,7 +157,7 @@ union MenuOption
 class Menu final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Menu* ctor_47A6F0(Path_TLV* pTlv, s32 tlvInfo);
+    Menu(Path_TLV* pTlv, s32 tlvInfo);
 
     EXPORT BaseGameObject* dtor_47AAB0();
 

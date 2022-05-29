@@ -34,11 +34,10 @@ void Grenade::VScreenChanged()
     VScreenChanged_41F720();
 }
 
-Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, s16 numGrenades)
+Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
+    : BaseThrowable()
 {
-    BaseAliveGameObject();
     field_10E_bDead = 0;
-    SetVTable(this, 0x4BB0A0);
     field_4_typeId = Types::eGrenade_40;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Grenade);
@@ -73,13 +72,10 @@ Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, s16 numGrenades)
 
     field_118 = 0;
     field_11C = 0;
-    return this;
 }
 
-BaseGameObject* Grenade::dtor_41ECD0()
+Grenade::~Grenade()
 {
-    SetVTable(this, 0x4BB0A0);
-
     if (field_11C)
     {
         field_11C->field_C_refCount--;
@@ -108,22 +104,6 @@ BaseGameObject* Grenade::dtor_41ECD0()
             gpThrowableArray_50E26C->Remove_4540D0(count);
         }
     }
-    return dtor_401000();
-}
-
-BaseGameObject* Grenade::VDestructor(s32 flags)
-{
-    return Vdtor_41F9F0(flags);
-}
-
-Grenade* Grenade::Vdtor_41F9F0(s32 flags)
-{
-    dtor_41ECD0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Grenade::AddToPlatform_41F7C0()

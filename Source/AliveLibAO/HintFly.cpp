@@ -1350,10 +1350,8 @@ static u8 HintFly_NextRandom()
     return sRandomBytes_4BBE30[sHintFlyRndSeed_4C6AA4++];
 }
 
-HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
+HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BB200);
     field_E4_ppRes = nullptr;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::HintFly);
@@ -1492,7 +1490,6 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
         mFlags.Clear(BaseGameObject::eDrawable_Bit4);
         mFlags.Set(BaseGameObject::eDead);
     }
-    return this;
 }
 
 void HintFly::InitParticle(HintFlyParticle* pParticle)
@@ -1508,21 +1505,6 @@ void HintFly::InitParticle(HintFlyParticle* pParticle)
     }
 }
 
-BaseGameObject* HintFly::VDestructor(s32 flags)
-{
-    return Vdtor_42BCF0(flags);
-}
-
-HintFly* HintFly::Vdtor_42BCF0(s32 flags)
-{
-    dtor_42ADF0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
 void HintFly::VScreenChanged()
 {
     VScreenChanged_42BCE0();
@@ -1533,15 +1515,13 @@ void HintFly::VScreenChanged_42BCE0()
     mFlags.Set(BaseGameObject::eDead);
 }
 
-BaseGameObject* HintFly::dtor_42ADF0()
+HintFly::~HintFly()
 {
-    SetVTable(this, 0x4BB200);
     if (field_E4_ppRes)
     {
         ResourceManager::FreeResource_455550(field_E4_ppRes);
     }
     gMap.TLV_Reset_446870(field_124_tlvInfo, -1, 0, 0);
-    return dtor_417D10();
 }
 
 void HintFly::FormWordAndAdvanceToNextWord_42AF90()

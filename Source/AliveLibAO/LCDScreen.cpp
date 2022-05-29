@@ -217,11 +217,9 @@ public:
 };
 static LCDMessages gLCDMessages;
 
-LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
+LCDScreen::LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BB468);
-
     field_2BC_tlv = *pTlv;
 
     field_2B8_tlv_item_info = tlvInfo;
@@ -273,35 +271,16 @@ LCDScreen* LCDScreen::ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo)
 
     field_2D4 = 0;
     gObjList_drawables_504618->Push_Back(this);
-
-    return this;
 }
 
-BaseGameObject* LCDScreen::dtor_434100()
+LCDScreen::~LCDScreen()
 {
-    SetVTable(this, 0x4BB468);
     IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
 
     gObjList_drawables_504618->Remove_Item(this);
     gMap.TLV_Reset_446870(field_2B8_tlv_item_info, -1, 0, 0);
     field_60_font.dtor_41C130();
     field_50_font_context.dtor_41C110();
-    return dtor_487DF0();
-}
-
-BaseGameObject* LCDScreen::VDestructor(s32 flags)
-{
-    return Vdtor_434630(flags);
-}
-
-BaseGameObject* LCDScreen::Vdtor_434630(s32 flags)
-{
-    dtor_434100();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void LCDScreen::VScreenChanged()

@@ -33,13 +33,8 @@ enum class LevelIds : s16;
 class ShadowZone final : public BaseGameObject
 {
 public:
-    EXPORT ShadowZone* ctor_435D30(Path_ShadowZone* pTlv, Map* pMap, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_435F10();
-
-    
-
-    EXPORT ShadowZone* Vdtor_436180(s32 flags);
+    ShadowZone(Path_ShadowZone* pTlv, Map* pMap, s32 tlvInfo);
+    ~ShadowZone();
 
     virtual void VScreenChanged() override;
 

@@ -30,10 +30,9 @@ ALIVE_ASSERT_SIZEOF(ScreenWave_Data, 0x3700);
 #undef min
 #undef max
 
-ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP speed, s16 radius)
+ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s16 radius)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BC9A0);
     field_4_typeId = Types::eScreenWave_83;
     gObjList_drawables_504618->Push_Back(this);
 
@@ -42,7 +41,7 @@ ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP 
     if (!field_14_ppRes)
     {
         mFlags.Set(BaseGameObject::eDead);
-        return this;
+        return;
     }
 
     field_10_layer = layer;
@@ -113,31 +112,12 @@ ScreenWave* ScreenWave::ctor_462A70(FP xpos, FP ypos, Layer layer, FP width, FP 
             }
         }
     }
-
-    return this;
 }
 
-BaseGameObject* ScreenWave::dtor_463010()
+ScreenWave::~ScreenWave()
 {
-    SetVTable(this, 0x4BC9A0);
     gObjList_drawables_504618->Remove_Item(this);
     ResourceManager::FreeResource_455550(reinterpret_cast<u8**>(field_14_ppRes));
-    return dtor_487DF0();
-}
-
-BaseGameObject* ScreenWave::VDestructor(s32 flags)
-{
-    return Vdtor_463860(flags);
-}
-
-ScreenWave* ScreenWave::Vdtor_463860(s32 flags)
-{
-    dtor_463010();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void ScreenWave::VScreenChanged()

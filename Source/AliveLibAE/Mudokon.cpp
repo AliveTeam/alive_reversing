@@ -748,148 +748,145 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
     }
 
-    auto pMud = ae_new<Mudokon>();
-    pMud->ctor_474F30(pTlv, pState->field_40_tlvInfo);
-
-    if (pState->field_3D_bIsPlayer)
+    auto pMud = ae_new<Mudokon>(pTlv, pState->field_40_tlvInfo);
+    if (pMud)
     {
-        sControlledCharacter_5C1B8C = pMud;
+        if (pState->field_3D_bIsPlayer)
+        {
+            sControlledCharacter_5C1B8C = pMud;
+        }
+
+        pMud->field_FC_pPathTLV = nullptr;
+        pMud->field_100_pCollisionLine = nullptr;
+
+        pMud->field_B8_xpos = pState->field_4_xpos;
+        pMud->field_BC_ypos = pState->field_8_ypos;
+        pMud->field_C4_velx = pState->field_C_velx;
+        pMud->field_C8_vely = pState->field_10_vely;
+
+        pMud->field_134_xVelSlowBy = pState->field_44_velx_slow_by;
+        pMud->field_138_unused = pState->field_48_unused;
+
+        pMud->field_C0_path_number = pState->field_14_path_number;
+        pMud->field_C2_lvl_number = pState->field_16_lvl_number;
+        pMud->field_CC_sprite_scale = pState->field_18_sprite_scale;
+
+        pMud->field_D0_r = pState->field_1C_r;
+        pMud->field_D2_g = pState->field_1E_g;
+        pMud->field_D4_b = pState->field_20_b;
+
+        pMud->field_106_current_motion = pState->field_24_current_motion;
+
+        const AnimRecord& animRec = AnimRec(kMudFrameTableOffsets_55CD00[pMud->field_106_current_motion]);
+        u8** ppRes = pMud->AnimBlockForMotion_474DC0(pState->field_24_current_motion);
+
+        pMud->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
+
+        pMud->field_20_animation.field_92_current_frame = pState->field_26_anim_current_frame;
+        pMud->field_20_animation.field_E_frame_change_counter = pState->field_28_anim_frame_change_counter;
+
+        pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_22_bFlipX & 1);
+        pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2A_bAnimRender & 1);
+
+        pMud->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2B_bDrawable & 1);
+
+        if (IsLastFrame(&pMud->field_20_animation))
+        {
+            pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        }
+
+        pMud->field_10C_health = pState->field_2C_health;
+        pMud->field_106_current_motion = pState->field_30_current_motion;
+        pMud->field_108_next_motion = pState->field_32_next_motion;
+        pMud->field_F8_LastLineYPos = FP_FromInteger(pState->field_34_lastLineYPos);
+
+        pMud->field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed, pState->field_3C_can_be_possessed & 1);
+        pMud->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+
+        pMud->field_104_collision_line_type = pState->field_36_line_type;
+        pMud->field_11C_bird_portal_id = pState->field_4C_portal_id;
+        pMud->field_120_angry_switch_id = pState->field_50_angry_trigger;
+        pMud->field_124 = pState->field_54_savedfield124;
+        pMud->field_128_angry_timer = pState->field_58_angry_timer;
+        pMud->field_130_unused = pState->field_5C_unused;
+        pMud->field_13C_voice_pitch = pState->field_5E_voice_pitch;
+        pMud->field_158_wheel_id = pState->field_60_wheel_id;
+        pMud->field_15C_unused = pState->field_64_unused;
+        pMud->field_160_delayed_speak = pState->field_68;
+        pMud->field_162_maxXOffset = pState->field_6A_maxXOffset;
+
+        if (pState->field_6C.Get(Mudokon_State::Flags_6A::eBit2_unused))
+        {
+            pMud->field_12C_unused = 0;
+        }
+        else
+        {
+            pMud->field_12C_unused = -1;
+        }
+
+        pMud->field_16A_flags.Set(Flags_16A::eBit1_not_rescued, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit4_not_rescued));
+        pMud->field_16A_flags.Set(Flags_16A::eBit2_persist_and_reset_offscreen, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit5_save_state));
+        pMud->field_16A_flags.Set(Flags_16A::eBit3_alerted, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit6_alerted));
+        pMud->field_16A_flags.Set(Flags_16A::eBit4_blind, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit7_blind));
+        pMud->field_16A_flags.Set(Flags_16A::eBit5_following, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit8_following));
+        pMud->field_16A_flags.Set(Flags_16A::eBit6_standing_for_sad_or_angry, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit9_standing_for_sad_or_angry));
+        pMud->field_16A_flags.Set(Flags_16A::eBit7_stopped_at_wheel, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit10_stopped_at_wheel));
+        pMud->field_16A_flags.Set(Flags_16A::eBit8_do_angry, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit11_do_angry));
+        pMud->field_16A_flags.Set(Flags_16A::eBit9_seen_while_sick, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit12_seen_while_sick));
+        pMud->field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit13_stop_trigger));
+
+        pMud->field_18C_unused = pState->field_6C.Get(Mudokon_State::Flags_6A::eBit14_unused);
+        pMud->field_192_return_to_previous_motion = pState->field_6C.Get(Mudokon_State::Flags_6A::eBit15_return_to_previous_motion);
+
+        pMud->field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit16_get_depressed));
+
+        pMud->field_16A_flags.Set(Flags_16A::eBit12_alert_enemies, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit1_alert_enemies));
+        pMud->field_16A_flags.Set(Flags_16A::eBit13, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit2));
+        pMud->field_16A_flags.Set(Flags_16A::eBit14_make_sad_noise, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit3_make_sad_noise));
+        pMud->field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit4_ring_timeout));
+
+        if (pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit5))
+        {
+            pMud->field_16C_flags.Set(Flags_16C::eBit1_Unknown);
+        }
+        else
+        {
+            pMud->field_16C_flags.Clear(Flags_16C::eBit1_Unknown);
+        }
+
+        if (pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit6))
+        {
+            pMud->field_16C_flags.Set(Flags_16C::eBit2_Unknown);
+        }
+        else
+        {
+            pMud->field_16C_flags.Clear(Flags_16C::eBit2_Unknown);
+        }
+
+        if (pMud->field_16A_flags.Get(Flags_16A::eBit3_alerted))
+        {
+            sAlertedMudCount_5C3010++;
+        }
+
+        pMud->field_178_brain_sub_state2 = pState->field_70_brain_sub_state2;
+        pMud->field_17C_stand_idle_timer = pState->field_72_stand_idle_timer;
+        pMud->field_17E_delayed_speak = pState->field_74_delayed_speak;
+        pMud->field_180_emo_tbl = pState->field_76_emo_tlb;
+        pMud->field_182 = pState->field_78;
+        pMud->field_184_next_motion2 = pState->field_7A_motion;
+        pMud->field_18E_brain_state = pState->field_7C_brain_state;
+        pMud->field_190_brain_sub_state = pState->field_7E_brain_sub_state;
+        pMud->field_194_timer = pState->field_80_timer;
+
+        if (pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit6))
+        {
+            sIsMudStandingUp_5C3018 = 1;
+        }
+
+        pMud->field_188_pTblEntry = GetResponseEntry_471790(pState->field_84_response_entry_idx);
     }
 
-    pMud->field_FC_pPathTLV = nullptr;
-    pMud->field_100_pCollisionLine = nullptr;
-
-    pMud->field_B8_xpos = pState->field_4_xpos;
-    pMud->field_BC_ypos = pState->field_8_ypos;
-    pMud->field_C4_velx = pState->field_C_velx;
-    pMud->field_C8_vely = pState->field_10_vely;
-
-    pMud->field_134_xVelSlowBy = pState->field_44_velx_slow_by;
-    pMud->field_138_unused = pState->field_48_unused;
-
-    pMud->field_C0_path_number = pState->field_14_path_number;
-    pMud->field_C2_lvl_number = pState->field_16_lvl_number;
-    pMud->field_CC_sprite_scale = pState->field_18_sprite_scale;
-
-    pMud->field_D0_r = pState->field_1C_r;
-    pMud->field_D2_g = pState->field_1E_g;
-    pMud->field_D4_b = pState->field_20_b;
-
-    pMud->field_106_current_motion = pState->field_24_current_motion;
-
-    const AnimRecord& animRec = AnimRec(kMudFrameTableOffsets_55CD00[pMud->field_106_current_motion]);
-    u8** ppRes = pMud->AnimBlockForMotion_474DC0(pState->field_24_current_motion);
-
-    pMud->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
-
-    pMud->field_20_animation.field_92_current_frame = pState->field_26_anim_current_frame;
-    pMud->field_20_animation.field_E_frame_change_counter = pState->field_28_anim_frame_change_counter;
-
-    pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_22_bFlipX & 1);
-    pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2A_bAnimRender & 1);
-
-    pMud->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2B_bDrawable & 1);
-
-    if (IsLastFrame(&pMud->field_20_animation))
-    {
-        pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
-    }
-
-    pMud->field_10C_health = pState->field_2C_health;
-    pMud->field_106_current_motion = pState->field_30_current_motion;
-    pMud->field_108_next_motion = pState->field_32_next_motion;
-    pMud->field_F8_LastLineYPos = FP_FromInteger(pState->field_34_lastLineYPos);
-
-    pMud->field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed, pState->field_3C_can_be_possessed & 1);
-    pMud->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
-
-    pMud->field_104_collision_line_type = pState->field_36_line_type;
-    pMud->field_11C_bird_portal_id = pState->field_4C_portal_id;
-    pMud->field_120_angry_switch_id = pState->field_50_angry_trigger;
-    pMud->field_124 = pState->field_54_savedfield124;
-    pMud->field_128_angry_timer = pState->field_58_angry_timer;
-    pMud->field_130_unused = pState->field_5C_unused;
-    pMud->field_13C_voice_pitch = pState->field_5E_voice_pitch;
-    pMud->field_158_wheel_id = pState->field_60_wheel_id;
-    pMud->field_15C_unused = pState->field_64_unused;
-    pMud->field_160_delayed_speak = pState->field_68;
-    pMud->field_162_maxXOffset = pState->field_6A_maxXOffset;
-
-    if (pState->field_6C.Get(Mudokon_State::Flags_6A::eBit2_unused))
-    {
-        pMud->field_12C_unused = 0;
-    }
-    else
-    {
-        pMud->field_12C_unused = -1;
-    }
-
-    pMud->field_16A_flags.Set(Flags_16A::eBit1_not_rescued, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit4_not_rescued));
-    pMud->field_16A_flags.Set(Flags_16A::eBit2_persist_and_reset_offscreen, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit5_save_state));
-    pMud->field_16A_flags.Set(Flags_16A::eBit3_alerted, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit6_alerted));
-    pMud->field_16A_flags.Set(Flags_16A::eBit4_blind, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit7_blind));
-    pMud->field_16A_flags.Set(Flags_16A::eBit5_following, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit8_following));
-    pMud->field_16A_flags.Set(Flags_16A::eBit6_standing_for_sad_or_angry, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit9_standing_for_sad_or_angry));
-    pMud->field_16A_flags.Set(Flags_16A::eBit7_stopped_at_wheel, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit10_stopped_at_wheel));
-    pMud->field_16A_flags.Set(Flags_16A::eBit8_do_angry, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit11_do_angry));
-    pMud->field_16A_flags.Set(Flags_16A::eBit9_seen_while_sick, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit12_seen_while_sick));
-    pMud->field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit13_stop_trigger));
-
-    pMud->field_18C_unused = pState->field_6C.Get(Mudokon_State::Flags_6A::eBit14_unused);
-    pMud->field_192_return_to_previous_motion = pState->field_6C.Get(Mudokon_State::Flags_6A::eBit15_return_to_previous_motion);
-
-    pMud->field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit16_get_depressed));
-
-    pMud->field_16A_flags.Set(Flags_16A::eBit12_alert_enemies, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit1_alert_enemies));
-    pMud->field_16A_flags.Set(Flags_16A::eBit13, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit2));
-    pMud->field_16A_flags.Set(Flags_16A::eBit14_make_sad_noise, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit3_make_sad_noise));
-    pMud->field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit4_ring_timeout));
-
-    if (pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit5))
-    {
-        pMud->field_16C_flags.Set(Flags_16C::eBit1_Unknown);
-    }
-    else
-    {
-        pMud->field_16C_flags.Clear(Flags_16C::eBit1_Unknown);
-    }
-
-    if (pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit6))
-    {
-        pMud->field_16C_flags.Set(Flags_16C::eBit2_Unknown);
-    }
-    else
-    {
-        pMud->field_16C_flags.Clear(Flags_16C::eBit2_Unknown);
-    }
-
-    if (pMud->field_16A_flags.Get(Flags_16A::eBit3_alerted))
-    {
-        sAlertedMudCount_5C3010++;
-    }
-
-    pMud->field_178_brain_sub_state2 = pState->field_70_brain_sub_state2;
-    pMud->field_17C_stand_idle_timer = pState->field_72_stand_idle_timer;
-    pMud->field_17E_delayed_speak = pState->field_74_delayed_speak;
-    pMud->field_180_emo_tbl = pState->field_76_emo_tlb;
-    pMud->field_182 = pState->field_78;
-    pMud->field_184_next_motion2 = pState->field_7A_motion;
-    pMud->field_18E_brain_state = pState->field_7C_brain_state;
-    pMud->field_190_brain_sub_state = pState->field_7E_brain_sub_state;
-    pMud->field_194_timer = pState->field_80_timer;
-
-    if (pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit6))
-    {
-        sIsMudStandingUp_5C3018 = 1;
-    }
-
-    pMud->field_188_pTblEntry = GetResponseEntry_471790(pState->field_84_response_entry_idx);
     return sizeof(Mudokon_State);
-}
-
-BaseGameObject* Mudokon::VDestructor(s32 flags)
-{
-    return vdtor_475770(flags);
 }
 
 s32 Mudokon::vGetSaveState_47B080(Mudokon_State* pState)

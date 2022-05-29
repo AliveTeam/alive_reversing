@@ -24,13 +24,8 @@ ALIVE_ASSERT_SIZEOF(Path_LCDScreen, 0x20);
 class LCDScreen final : public BaseGameObject
 {
 public:
-    EXPORT LCDScreen* ctor_433F60(Path_LCDScreen* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_434100();
-
-    
-
-    EXPORT BaseGameObject* Vdtor_434630(s32 flags);
+    LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo);
+    ~LCDScreen();
 
     virtual void VScreenChanged() override;
 

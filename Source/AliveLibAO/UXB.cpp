@@ -12,12 +12,9 @@
 
 namespace AO {
 
-UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
+UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(&field_11C_anim, 0x4BA2B8);
-    SetVTable(this, 0x4BD680);
-
     field_4_typeId = Types::eUXB_99;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::UXB_Active);
@@ -162,8 +159,6 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
     field_D4_collection_rect.y = field_AC_ypos - gridSnap;
     field_D4_collection_rect.w = field_A8_xpos + (gridSnap / FP_FromInteger(2));
     field_D4_collection_rect.h = field_AC_ypos;
-
-    return this;
 }
 
 void UXB::InitBlinkAnim()
@@ -198,9 +193,8 @@ void UXB::InitBlinkAnim()
 }
 
 
-BaseGameObject* UXB::dtor_4891B0()
+UXB::~UXB()
 {
-    SetVTable(this, 0x4BD680);
     if (field_10C_state != UXBState::eExploding_2 || static_cast<s32>(gnFrameCount_507670) < field_118_next_state_frame)
     {
         gMap.TLV_Reset_446870(field_114_tlvInfo, -1, 0, 0);
@@ -236,18 +230,6 @@ BaseGameObject* UXB::dtor_4891B0()
     field_11C_anim.vCleanUp();
 
     mFlags.Clear(Options::eInteractive_Bit8);
-
-    return dtor_401000();
-}
-
-BaseGameObject* UXB::Vdtor_489C70(s32 flags)
-{
-    dtor_4891B0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void UXB::VScreenChanged()
@@ -605,11 +587,6 @@ void UXB::VRender_4896C0(PrimHeader** ppOt)
 
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
-}
-
-BaseGameObject* UXB::VDestructor(s32 flags)
-{
-    return Vdtor_489C70(flags);
 }
 
 } // namespace AO

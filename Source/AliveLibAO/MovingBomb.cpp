@@ -27,11 +27,10 @@ const TintEntry kMovingBombTints_4CD310[4] = {
 
 ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
 
-MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo)
+MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
     mFlags.Set(Options::eCanExplode_Bit7);
-    SetVTable(this, 0x4BBA68);
     field_4_typeId = Types::eTimedMine_8;
     const AnimRecord& rec = AO::AnimRec(AnimId::MovingBomb);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -118,14 +117,10 @@ MovingBomb* MovingBomb::ctor_43AFE0(Path_MovingBomb* pTlv, s32 tlvInfo)
     {
         field_D0_pShadow->ctor_461FB0();
     }
-
-    return this;
 }
 
-BaseGameObject* MovingBomb::dtor_43B2C0()
+MovingBomb::~MovingBomb()
 {
-    SetVTable(this, 0x4BBA68);
-
     if (!(field_128_disabled_resources & 1))
     {
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 0, 0));
@@ -166,23 +161,6 @@ BaseGameObject* MovingBomb::dtor_43B2C0()
         }
         gMovingBomb_507B8C = nullptr;
     }
-
-    return dtor_401000();
-}
-
-BaseGameObject* MovingBomb::VDestructor(s32 flags)
-{
-    return Vdtor_43BCC0(flags);
-}
-
-BaseGameObject* MovingBomb::Vdtor_43BCC0(s32 flags)
-{
-    dtor_43B2C0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void MovingBomb::VScreenChanged_43BC90()

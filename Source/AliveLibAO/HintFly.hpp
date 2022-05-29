@@ -24,19 +24,14 @@ ALIVE_ASSERT_SIZEOF(Path_HintFly, 0x1C);
 class HintFly final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT HintFly* ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo);
+    HintFly(Path_HintFly* pTlv, s32 tlvInfo);
+    ~HintFly();
 
     void InitParticle(HintFlyParticle* pParticle);
-
-    
-
-    EXPORT HintFly* Vdtor_42BCF0(s32 flags);
 
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_42BCE0();
-
-    EXPORT BaseGameObject* dtor_42ADF0();
 
     EXPORT void FormWordAndAdvanceToNextWord_42AF90();
 

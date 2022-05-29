@@ -21,13 +21,8 @@ ALIVE_ASSERT_SIZEOF(Path_Mine, 0x24);
 class Mine final : public BaseAliveGameObject
 {
 public:
-    EXPORT Mine* ctor_43A330(Path_Mine* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_43A640();
-
-    
-
-    EXPORT Mine* Vdtor_43AD50(s32 flags);
+    Mine(Path_Mine* pTlv, s32 tlvInfo);
+    ~Mine();
 
     virtual void VScreenChanged() override;
 

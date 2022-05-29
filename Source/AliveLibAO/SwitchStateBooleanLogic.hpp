@@ -26,17 +26,12 @@ ALIVE_ASSERT_SIZEOF(Path_SwitchStateBooleanLogic, 0x20);
 class SwitchStateBooleanLogic final : public BaseGameObject
 {
 public:
-    EXPORT SwitchStateBooleanLogic* ctor_436AB0(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_436B00();
+    SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo);
+    ~SwitchStateBooleanLogic();
 
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_436C40();
-
-    
-
-    EXPORT BaseGameObject* Vdtor_436C60(s32 flags);
 
     virtual void VUpdate() override;
 

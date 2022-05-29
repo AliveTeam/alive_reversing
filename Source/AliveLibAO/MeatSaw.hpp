@@ -45,13 +45,8 @@ enum class MeatSawStates : s16
 class MeatSaw final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MeatSaw* ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_4398F0();
-
-    
-
-    EXPORT MeatSaw* Vdtor_43A0B0(s32 flags);
+    MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo);
+    ~MeatSaw();
 
     virtual void VScreenChanged() override;
 

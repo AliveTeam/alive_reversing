@@ -14,11 +14,9 @@ namespace AO {
 
 ALIVE_VAR_EXTERN(u8, sRandomSeed_50A228); //Math.cpp
 
-EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(u8** ppPlaybackData, s16 bFromHandStone)
+DemoPlayback::DemoPlayback(u8** ppPlaybackData, s16 bFromHandStone)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BBF98);
-
     mFlags.Clear(Options::eDrawable_Bit4);
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
     field_4_typeId = Types::eDemoPlayback;
@@ -45,41 +43,16 @@ EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(u8** ppPlaybackData, s16 bFromHan
     field_10_state = States::eState_0_Init;
     field_14_ppDemoRes = ppPlaybackData;
     field_8_update_delay = 1;
-    return this;
 }
 
-BaseGameObject* DemoPlayback::VDestructor(s32 flags)
+DemoPlayback::~DemoPlayback()
 {
-    return Vdtor_451F50(flags);
-}
-
-BaseGameObject* DemoPlayback::dtor_4518D0()
-{
-    SetVTable(this, 0x4BBF98);
-
-    //nullsub_59(nullsub_59);
-
     ResourceManager::Clear_Header_Flags_4557F0(field_14_ppDemoRes, ResourceManager::ResourceHeaderFlags::eLocked);
     if (field_18_ppRes)
     {
         ResourceManager::FreeResource_455550(field_18_ppRes);
     }
-
     ResourceManager::FreeResource_455550(field_14_ppDemoRes);
-
-    //nullsub_59(nullsub_59);
-
-    return dtor_487DF0();
-}
-
-DemoPlayback* DemoPlayback::Vdtor_451F50(s32 flags)
-{
-    dtor_4518D0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void DemoPlayback::VScreenChanged()
