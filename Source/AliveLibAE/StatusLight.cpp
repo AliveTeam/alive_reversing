@@ -8,11 +8,6 @@
 #include "stdlib.hpp"
 #include "Grid.hpp"
 
-BaseGameObject* StatusLight::VDestructor(s32 flags)
-{
-    return vdtor_4D5500(flags);
-}
-
 void StatusLight::VUpdate()
 {
     vUpdate_4D5530();
@@ -23,11 +18,9 @@ void StatusLight::VScreenChanged()
     vScreenChanged_4D5820();
 }
 
-StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, u32 tlvInfo)
+StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-
-    SetVTable(this, 0x5479A4); // vTbl_StatusLight_5479A4
     field_F4_tlvInfo = tlvInfo;
     field_F8_switch_id = pTlv->field_10_switch_id;
 
@@ -93,7 +86,6 @@ StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, u32 tlvInfo)
 
     field_108_xpos = field_B8_xpos;
     field_10C_ypos = field_BC_ypos;
-    return this;
 }
 
 void StatusLight::vUpdate_4D5530()
@@ -138,21 +130,9 @@ void StatusLight::vUpdate_4D5530()
     }
 }
 
-StatusLight* StatusLight::vdtor_4D5500(s32 flags)
+StatusLight::~StatusLight()
 {
-    dtor_4D5790();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void StatusLight::dtor_4D5790()
-{
-    SetVTable(this, 0x5479A4); // vTbl_StatusLight_5479A4
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void StatusLight::vScreenChanged_4D5820()

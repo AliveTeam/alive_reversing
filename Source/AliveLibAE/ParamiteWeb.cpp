@@ -7,10 +7,9 @@
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
 
-ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, s16 bottom, s16 top, FP scale)
+ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x547F58);
     SetType(AETypes::eLiftRope_108);
 
     if (scale == FP_FromInteger(1))
@@ -47,9 +46,9 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, s16 bottom, s16 top, FP scale)
     field_20_animation.field_A_b = 128;
 
     field_B8_xpos = xpos;
-    field_FA_ttl_remainder = top;
+    field_FA_ttl_remainder = static_cast<s16>(top);
     field_BC_ypos = FP_FromInteger(top);
-    field_F8_ttl = bottom;
+    field_F8_ttl = static_cast<s16>(bottom);
 
     field_F4_number_of_segments = 240 / field_F6_segment_length;
 
@@ -60,7 +59,6 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, s16 bottom, s16 top, FP scale)
     {
         AnimationUnknown* pSegment = &field_100_pRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-        SetVTable(pSegment, 0x5447CC);
         pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
         pSegment->field_68_anim_ptr = &field_20_animation;
         pSegment->field_C_render_layer = field_20_animation.field_C_render_layer;
@@ -70,8 +68,6 @@ ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, s16 bottom, s16 top, FP scale)
     }
 
     field_104_bEnabled = 0;
-
-    return this;
 }
 
 void ParamiteWeb::VUpdate()
@@ -89,26 +85,9 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
     vRender_4E1BA0(ppOt);
 }
 
-BaseGameObject* ParamiteWeb::VDestructor(s32 flags)
+ParamiteWeb::~ParamiteWeb()
 {
-    return vdtor_4E1AF0(flags);
-}
-
-ParamiteWeb* ParamiteWeb::vdtor_4E1AF0(s32 flags)
-{
-    dtor_4E1B20();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void ParamiteWeb::dtor_4E1B20()
-{
-    SetVTable(this, 0x547F58);
     ResourceManager::FreeResource_49C330(field_FC_ppRes);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void ParamiteWeb::vUpdate_4E1F40()

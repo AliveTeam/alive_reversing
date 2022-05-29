@@ -77,14 +77,13 @@ bool Paramite::BrainIs(TParamiteBrainFn fn)
 }
 
 
-Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo)
+Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(16)
 {
-    BaseAliveGameObject(16);
     field_160_last_event_index = -1;
     field_174_unused = 0;
     field_176_unused = -1;
 
-    SetVTable(this, 0x54640C);
     SetType(AETypes::eParamite_96);
 
     field_C_objectId = tlvInfo;
@@ -220,16 +219,6 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo)
     field_15C_paramite_xOffset = field_DA_xOffset;
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
-    return this;
-}
-
-BaseGameObject* Paramite::VDestructor(s32 flags)
-{
-    return vdtor_487F90(flags);
 }
 
 void Paramite::VUpdate()
@@ -293,11 +282,7 @@ s32 CC Paramite::CreateFromSaveState_4855A0(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("PARAMITE.BND", nullptr);
     }
 
-    auto pParamite = ae_new<Paramite>();
-    if (pParamite)
-    {
-        pParamite->ctor_4879B0(pTlv, pState->field_3C_tlvInfo);
-    }
+    auto pParamite = ae_new<Paramite>(pTlv, pState->field_3C_tlvInfo);
 
     if (pState->field_76_flags.Get(Paramite_State::eBit1_unused))
     {
@@ -2004,10 +1989,10 @@ s16 Paramite::Brain_3_SurpriseWeb_4851B0()
                 field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
                 field_130_timer = sGnFrame_5C1B84 + field_12E_surprise_web_delay_timer;
-                auto pNewWeb = ae_new<ParamiteWeb>();
+                auto pNewWeb = ae_new<ParamiteWeb>(field_B8_xpos, FP_GetExponent(field_BC_ypos) - 20, FP_GetExponent(field_BC_ypos) - 10, field_CC_sprite_scale);
                 if (pNewWeb)
                 {
-                    field_11C_web_id = pNewWeb->ctor_4E1840(field_B8_xpos, FP_GetExponent(field_BC_ypos) - 20, FP_GetExponent(field_BC_ypos) - 10, field_CC_sprite_scale)->field_8_object_id;
+                    field_11C_web_id = pNewWeb->field_8_object_id;
                 }
                 return ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_StartAnimation_2;
             }
@@ -2496,11 +2481,7 @@ s16 Paramite::Brain_7_DeathDrop_484FF0()
 
         Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
-        auto pScreenShake = ae_new<ScreenShake>();
-        if (pScreenShake)
-        {
-            pScreenShake->ctor_4ACF70(0, 0);
-        }
+        ae_new<ScreenShake>(0, 0);
         field_130_timer = sGnFrame_5C1B84 + 30;
         return 2;
     }
@@ -2967,14 +2948,12 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
                 {
                     field_C8_vely = FP_FromInteger(0);
                     field_106_current_motion = eParamiteMotions::M_SurpriseWeb_33_48D760;
-                    auto pWeb = ae_new<ParamiteWeb>();
+                    auto pWeb = ae_new<ParamiteWeb>(field_B8_xpos, FP_GetExponent(field_BC_ypos) - 20,
+                                                    FP_GetExponent(field_BC_ypos) - 10,
+                                                    field_CC_sprite_scale);
                     if (pWeb)
                     {
-                        field_11C_web_id = pWeb->ctor_4E1840(
-                                                   field_B8_xpos, FP_GetExponent(field_BC_ypos) - 20,
-                                                   FP_GetExponent(field_BC_ypos) - 10,
-                                                   field_CC_sprite_scale)
-                                               ->field_8_object_id;
+                        field_11C_web_id = pWeb->field_8_object_id;
                     }
                     field_12C_brain_ret = ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_DescendLoop1_4;
                 }
@@ -3013,14 +2992,12 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
                     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                     field_C8_vely = FP_FromInteger(0);
                     field_106_current_motion = eParamiteMotions::M_SurpriseWeb_33_48D760;
-                    auto pWeb = ae_new<ParamiteWeb>();
+                    auto pWeb = ae_new<ParamiteWeb>(field_B8_xpos, FP_GetExponent(field_BC_ypos) - 20,
+                                                    FP_GetExponent(field_BC_ypos) - 10,
+                                                    field_CC_sprite_scale);
                     if (pWeb)
                     {
-                        field_11C_web_id = pWeb->ctor_4E1840(
-                                                   field_B8_xpos, FP_GetExponent(field_BC_ypos) - 20,
-                                                   FP_GetExponent(field_BC_ypos) - 10,
-                                                   field_CC_sprite_scale)
-                                               ->field_8_object_id;
+                        field_11C_web_id = pWeb->field_8_object_id;
                     }
                     field_12C_brain_ret = ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_DescendLoop1_4;
                 }
@@ -3820,11 +3797,7 @@ void Paramite::M_Falling_11_48B200()
                         field_106_current_motion = eParamiteMotions::M_Death_41_48D8E0;
                         field_130_timer = sGnFrame_5C1B84 + 90;
 
-                        auto pBlood = ae_new<Blood>();
-                        if (pBlood)
-                        {
-                            pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
-                        }
+                        ae_new<Blood>(field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
                     }
                     break;
 
@@ -4921,11 +4894,7 @@ void Paramite::M_Eating_40_48A0F0()
                 auto pSlurg = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(AETypes::eSlurg_129, gridBlock + field_B8_xpos, field_BC_ypos));
                 if (pSlurg)
                 {
-                    auto pBlood = ae_new<Blood>();
-                    if (pBlood)
-                    {
-                        pBlood->ctor_40F0B0(pSlurg->field_B8_xpos, pSlurg->field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 30);
-                    }
+                    ae_new<Blood>(pSlurg->field_B8_xpos, pSlurg->field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 30);
                     pSlurg->mFlags.Set(BaseGameObject::eDead);
                 }
                 else
@@ -5046,10 +5015,8 @@ void Paramite::M_Attack_43_48DB70()
     }
 }
 
-void Paramite::dtor_487FC0()
+Paramite::~Paramite()
 {
-    SetVTable(this, 0x54640C);
-
     BaseGameObject* pObj = sObjectIds.Find_449CF0(field_11C_web_id);
     if (pObj)
     {
@@ -5086,17 +5053,6 @@ void Paramite::dtor_487FC0()
                 0);
         }
     }
-    dtor_4080B0();
-}
-
-Paramite* Paramite::vdtor_487F90(s32 flags)
-{
-    dtor_487FC0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void Paramite::vUpdate_4871B0()
@@ -5122,22 +5078,20 @@ void Paramite::vUpdate_4871B0()
         }
 
         field_104_collision_line_type = 0;
-        field_118_meat_id = BaseGameObject::FindById(field_118_meat_id);
+        field_118_meat_id = BaseGameObject::RefreshId(field_118_meat_id);
         field_120_obj_id = BaseGameObject::RefreshId(field_120_obj_id);
         field_124_pull_ring_rope_id = BaseGameObject::RefreshId(field_124_pull_ring_rope_id);
 
         if (field_11C_web_id != -1)
         {
-            auto pWeb = ae_new<ParamiteWeb>();
+            auto pWeb = ae_new<ParamiteWeb>(field_B8_xpos,
+                                            FP_GetExponent(field_BC_ypos) - 20,
+                                            FP_GetExponent(field_BC_ypos) - 10,
+                                            field_CC_sprite_scale);
             if (pWeb)
             {
-                pWeb->ctor_4E1840(
-                    field_B8_xpos,
-                    FP_GetExponent(field_BC_ypos) - 20,
-                    FP_GetExponent(field_BC_ypos) - 10,
-                    field_CC_sprite_scale);
+                field_11C_web_id = pWeb->field_8_object_id;
             }
-            field_11C_web_id = pWeb->field_8_object_id;
         }
     }
 
@@ -5460,11 +5414,7 @@ s16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
         case AETypes::eExplosion_109:
         {
             Event_Broadcast_422BC0(kEventMudokonComfort | kEventSpeaking, this);
-            auto pGibs = ae_new<Gibs>();
-            if (pGibs)
-            {
-                pGibs->ctor_40FB40(GibType::Slog_2, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
-            }
+            ae_new<Gibs>(GibType::Slog_2, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
             field_10C_health = FP_FromInteger(0);
             mFlags.Set(BaseGameObject::eDead);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -5508,11 +5458,7 @@ s16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
             field_106_current_motion = eParamiteMotions::M_Death_41_48D8E0;
             vUpdateAnim_487170();
 
-            auto pBlood = ae_new<Blood>();
-            if (pBlood)
-            {
-                pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
-            }
+            ae_new<Blood>(field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
 
             if (sControlledCharacter_5C1B8C == this)
             {
@@ -5535,11 +5481,7 @@ s16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
             field_106_current_motion = eParamiteMotions::M_Death_41_48D8E0;
             vUpdateAnim_487170();
 
-            auto pBlood = ae_new<Blood>();
-            if (pBlood)
-            {
-                pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
-            }
+            ae_new<Blood>(field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
 
             if (sControlledCharacter_5C1B8C != this)
             {

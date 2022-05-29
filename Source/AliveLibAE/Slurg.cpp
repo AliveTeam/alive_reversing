@@ -42,11 +42,9 @@ TintEntry sSlurgTints_560BCC[18] = {
     {LevelIds_s8::eBonewerkz_Ender_14, 102u, 127u, 118u},
     {LevelIds_s8::eNone, 102u, 127u, 118u}};
 
-Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
+Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
-    SetVTable(this, 0x547720);
-
     field_128_pTlv = pTlv;
 
     field_11C_state = Slurg_States::eMoving_0;
@@ -109,18 +107,6 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo)
     vStackOnObjectsOfType_425840(AETypes::eSlurg_129);
     field_DC_bApplyShadows |= 2u;
     field_E0_pShadow = ae_new<Shadow>();
-
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
-
-    return this;
-}
-
-BaseGameObject* Slurg::VDestructor(s32 flags)
-{
-    return vdtor_4C8760(flags);
 }
 
 void Slurg::VUpdate()
@@ -153,11 +139,7 @@ s32 CC Slurg::CreateFromSaveState_4C8DF0(const u8* pData)
         ResourceManager::LoadResourceFile_49C170("SLURG.BAN", nullptr);
     }
 
-    auto pSlurg = ae_new<Slurg>();
-    if (pSlurg)
-    {
-        pSlurg->ctor_4C84E0(pTlv, pState->field_24_tlvInfo);
-    }
+    auto pSlurg = ae_new<Slurg>(pTlv, pState->field_24_tlvInfo);
 
     pSlurg->field_B8_xpos = pState->field_4_xpos;
     pSlurg->field_BC_ypos = pState->field_8_ypos;
@@ -183,25 +165,12 @@ s32 CC Slurg::CreateFromSaveState_4C8DF0(const u8* pData)
     return sizeof(Slurg_State);
 }
 
-Slurg* Slurg::vdtor_4C8760(s32 flags)
+Slurg::~Slurg()
 {
-    dtor_4C8A40();
-
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Slurg::dtor_4C8A40()
-{
-    SetVTable(this, 0x547720);
     if (field_12C_tlvInfo == -1)
     {
         Path::TLV_Reset_4DB8E0(0xFFFFFFFF, -1, 0, field_11C_state == Slurg_States::eBurst_2);
     }
-    dtor_4080B0();
 }
 
 void Slurg::Burst_4C8AE0()
@@ -210,17 +179,12 @@ void Slurg::Burst_4C8AE0()
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Burst);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
-    auto pBlood = ae_new<Blood>();
-    if (pBlood)
-    {
-        pBlood->ctor_40F0B0(
-            field_B8_xpos,
-            field_BC_ypos,
-            FP_FromInteger(0),
-            FP_FromInteger(5),
-            field_130_scale,
-            20);
-    }
+    ae_new<Blood>(field_B8_xpos,
+                                field_BC_ypos,
+                                FP_FromInteger(0),
+                                FP_FromInteger(5),
+                                field_130_scale,
+                                20);
 
     Event_Broadcast_422BC0(kEventLoudNoise, this);
     SFX_Play_46FA90(SoundEffect::SlurgKill_89, 127, field_130_scale);

@@ -23,12 +23,10 @@ public:
     
     virtual void VUpdate() override;
 
-    EXPORT LevelLoader* ctor_4DD330(Path_LevelLoader* pTlv, u32 tlvInfo);
+    LevelLoader(Path_LevelLoader* pTlv, u32 tlvInfo);
 
 private:
     EXPORT void vUpdate_4DD400();
-    EXPORT LevelLoader* vdtor_4DD3B0(s32 flags);
-    EXPORT void dtor_4DD3E0();
 
 private:
     s16 field_20_switch_id;

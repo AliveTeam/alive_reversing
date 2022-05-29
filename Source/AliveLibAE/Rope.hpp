@@ -8,7 +8,7 @@ class AnimationUnknown;
 class Rope final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Rope(u16 left, s16 top, u16 bottom, FP scale);
+    Rope(s32 left, s32 top, s32 bottom, FP scale);
     ~Rope();
 
     virtual void VUpdate() override;

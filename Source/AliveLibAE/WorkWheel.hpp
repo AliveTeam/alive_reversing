@@ -44,11 +44,8 @@ public:
     virtual void VStartTurning();
     virtual void VStopTurning(s16 bResetSwitch);
 
-    EXPORT WorkWheel* ctor_4E35D0(Path_WorkWheel* pTlv, s32 tlvInfo);
-
-private:
-    EXPORT void dtor_4E3850();
-    EXPORT WorkWheel* vdtor_4E3820(s32 flags);
+    WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo);
+    ~WorkWheel();
 
 public:
     EXPORT static s32 CC CreateFromSaveState_4E3B10(const u8* pState);

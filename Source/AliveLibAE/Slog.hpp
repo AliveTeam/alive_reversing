@@ -116,12 +116,9 @@ using TSlogMotionFn = void (Slog::*)();
 class Slog final : public BaseAliveGameObject
 {
 public:
-    EXPORT Slog* ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 jumpDelay);
-
-
-    EXPORT Slog* ctor_4C42E0(Path_Slog* pTlv, s32 tlvInfo);
-
-    
+    Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 jumpDelay);
+    Slog(Path_Slog* pTlv, s32 tlvInfo);
+    ~Slog();
 
     virtual void VUpdate() override;
 
@@ -215,11 +212,6 @@ private:
     EXPORT void Init_4C46A0();
 
     EXPORT void vUpdate_4C50D0();
-
-    EXPORT void dtor_4C49A0();
-
-    EXPORT Slog* vdtor_4C4510(s32 flags);
-
 
 private:
     EXPORT void ToIdle_4C5C10();

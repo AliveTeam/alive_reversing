@@ -23,7 +23,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ExplosionSet, 0x24);
 class ExplosionSet final : public BaseGameObject
 {
 public:
-    EXPORT ExplosionSet* ctor_414CA0();
+    ExplosionSet();
+    ~ExplosionSet();
 
     
     virtual void VScreenChanged() override;
@@ -36,14 +37,8 @@ public:
 
 
 private:
-    EXPORT ExplosionSet* vdtor_414D80(s32 flags);
-
-    EXPORT void dtor_414DB0();
-
     EXPORT void vScreenChanged_415190();
-
     EXPORT void vRender_4150D0(PrimHeader** ppOt);
-
     EXPORT void vUpdate_414E30();
 
 private:

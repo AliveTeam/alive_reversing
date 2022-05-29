@@ -9,9 +9,8 @@ ALIVE_VAR_EXTERN(s32, gDeathGasCount_5BD24C);
 class DeathGas final : public BaseGameObject
 {
 public:
-    EXPORT DeathGas* ctor_43C030(Layer layer, s16 amount);
-
-    
+    DeathGas(Layer layer, s16 amount);
+    ~DeathGas();
 
     virtual void VScreenChanged() override;
 
@@ -20,10 +19,6 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT DeathGas* vdtor_43C240(s32 flags);
-
-    EXPORT void dtor_43C270();
-
     EXPORT void vScreenChanged_43CA50();
 
     EXPORT void vUpdate_43C300();

@@ -33,11 +33,9 @@ ALIVE_VAR(1, 0x5BD1E4, Data_Byte, sbyte_1_5BD1E4, {});
 ALIVE_VAR(1, 0x5BD218, Data_Byte, sbyte_2_5BD218, {});
 ALIVE_VAR(1, 0x5BD24C, s32, gDeathGasCount_5BD24C, 0);
 
-DeathGas* DeathGas::ctor_43C030(Layer layer, s16 amount)
+DeathGas::DeathGas(Layer layer, s16 amount)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5451B4);
-
     gDeathGasCount_5BD24C++;
 
     SetType(AETypes::eMainMenuTransistion_116); // wot moment
@@ -81,12 +79,6 @@ DeathGas* DeathGas::ctor_43C030(Layer layer, s16 amount)
     }
 
     field_24_amount = amount;
-    return this;
-}
-
-BaseGameObject* DeathGas::VDestructor(s32 flags)
-{
-    return vdtor_43C240(flags);
 }
 
 void DeathGas::VScreenChanged()
@@ -104,22 +96,11 @@ void DeathGas::VRender(PrimHeader** ppOt)
     vRender_43C350(ppOt);
 }
 
-DeathGas* DeathGas::vdtor_43C240(s32 flags)
-{
-    dtor_43C270();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
 
-void DeathGas::dtor_43C270()
+DeathGas::~DeathGas()
 {
-    SetVTable(this, 0x5451B4);
     gObjList_drawables_5C1124->Remove_Item(this);
     gDeathGasCount_5BD24C--;
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void DeathGas::vScreenChanged_43CA50()

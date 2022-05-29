@@ -9,11 +9,6 @@
 #include "PathData.hpp"
 #include "GameEnderController.hpp"
 
-BaseGameObject* WorkWheel::VDestructor(s32 flags)
-{
-    return vdtor_4E3820(flags);
-}
-
 void WorkWheel::VUpdate()
 {
     vUpdate_4E38E0();
@@ -39,12 +34,9 @@ void WorkWheel::VStopTurning(s16 bResetSwitch)
     vStopTurning_4E3A60(bResetSwitch);
 }
 
-WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, s32 tlvInfo)
+WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-
-    SetVTable(this, 0x548064); // vTbl_WorkWheel_548064
-
     SetType(AETypes::eWheel_148);
 
     field_C_objectId = tlvInfo;
@@ -104,25 +96,11 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_WorkWheel* pTlv, s32 tlvInfo)
     field_DC_bApplyShadows |= 2u;
     field_FC_state = WheelStates::eIdle_0;
     field_F4_tlv_info = tlvInfo;
-
-    return this;
 }
 
-void WorkWheel::dtor_4E3850()
+WorkWheel::~WorkWheel()
 {
-    SetVTable(this, 0x548064); // vTbl_WorkWheel_548064
     Path::TLV_Reset_4DB8E0(field_F4_tlv_info, -1, 0, 0);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-WorkWheel* WorkWheel::vdtor_4E3820(s32 flags)
-{
-    dtor_4E3850();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 s32 CC WorkWheel::CreateFromSaveState_4E3B10(const u8* pState)
@@ -141,11 +119,9 @@ s32 CC WorkWheel::CreateFromSaveState_4E3B10(const u8* pState)
         ResourceManager::LoadResourceFile_49C170("WORKWHEL.BAN", nullptr);
     }
 
-    auto pWheel = ae_new<WorkWheel>();
+    auto pWheel = ae_new<WorkWheel>(pTlv, pData->field_4_tlvInfo);
     if (pWheel)
     {
-        pWheel->ctor_4E35D0(pTlv, pData->field_4_tlvInfo);
-
         if (pData->field_C_state == WheelStates::eTurning_1)
         {
             pWheel->vStartTurning_4E3A20();

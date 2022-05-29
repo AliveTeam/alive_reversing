@@ -24,12 +24,11 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    EXPORT StatusLight* ctor_4D5250(Path_StatusLight* pTlv, u32 tlvInfo);
+    StatusLight(Path_StatusLight* pTlv, u32 tlvInfo);
+    ~StatusLight();
 
 private:
     EXPORT void vUpdate_4D5530();
-    EXPORT StatusLight* vdtor_4D5500(s32 flags);
-    EXPORT void dtor_4D5790();
     EXPORT void vScreenChanged_4D5820();
 
 private:

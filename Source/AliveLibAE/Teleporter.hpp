@@ -9,14 +9,14 @@ class Electrocute;
 class Teleporter final : public BaseGameObject
 {
 public:
-    EXPORT Teleporter* ctor_4DC1E0(Path_Teleporter* pTlv, u32 tlvInfo);
-    
+    Teleporter(Path_Teleporter* pTlv, u32 tlvInfo);
+    ~Teleporter();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT Teleporter* vdtor_4DC350(s32 flags);
-    EXPORT void dtor_4DC380();
+
     EXPORT void vScreenChanged_4DCE80();
     EXPORT void vUpdate_4DC400();
 

@@ -48,13 +48,13 @@ EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, s16 count)
         case AETypes::eBone_11:
             return ae_new<Bone>(xpos, ypos, count);
         case AETypes::eMetal_24:
-            return ae_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 1, 0);
+            return ae_new<Grenade>(xpos, ypos, count, false, 1, nullptr);
         case AETypes::eGrenade_65:
-            return ae_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 0, 0);
+            return ae_new<Grenade>(xpos, ypos, count, false, 0, nullptr);
         case AETypes::eMeat_84:
-            return ae_new<Meat>()->ctor_4694A0(xpos, ypos, count);
+            return ae_new<Meat>(xpos, ypos, count);
         case AETypes::eRock_105:
-            return ae_new<Rock>()->ctor_49E150(xpos, ypos, count);
+            return ae_new<Rock>(xpos, ypos, count);
         default:
             return nullptr;
     }

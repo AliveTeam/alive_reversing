@@ -9,12 +9,8 @@
 class SnoozeParticle final : public BaseGameObject
 {
 public:
-    EXPORT SnoozeParticle* ctor_4B06F0(FP xpos, FP ypos, Layer layer, FP scale);
-
-    BaseGameObject* VDestructor(s32 flags) override
-    {
-        return vdtor_4B08D0(flags);
-    }
+    SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale);
+    ~SnoozeParticle();
 
     virtual void VScreenChanged() override
     {
@@ -39,9 +35,6 @@ public:
     };
 
 private:
-    EXPORT void dtor_4B0900();
-
-    EXPORT SnoozeParticle* vdtor_4B08D0(s32 flags);
 
     EXPORT void vScreenChanged_4B1300();
 

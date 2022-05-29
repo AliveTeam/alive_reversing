@@ -5,11 +5,9 @@
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 
-SlurgSpawner* SlurgSpawner::ctor_4C82E0(Path_SlurgSpawner* pTlv, s32 tlvInfo)
+SlurgSpawner::SlurgSpawner(Path_SlurgSpawner* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x547704);
-
     SetType(AETypes::eSlurgSpawner_128);
     field_20_tlvInfo = tlvInfo;
     field_24_slurg_tlv = pTlv;
@@ -20,12 +18,6 @@ SlurgSpawner* SlurgSpawner::ctor_4C82E0(Path_SlurgSpawner* pTlv, s32 tlvInfo)
     {
         field_40_spawned_count = 0;
     }
-    return this;
-}
-
-BaseGameObject* SlurgSpawner::VDestructor(s32 flags)
-{
-    return vdtor_4C8370(flags);
 }
 
 void SlurgSpawner::VUpdate()
@@ -61,21 +53,6 @@ void SlurgSpawner::vUpdate_4C83C0()
             }
         }
     }
-}
-
-void SlurgSpawner::dtor_4C83A0()
-{
-    BaseGameObject_dtor_4DBEC0();
-}
-
-SlurgSpawner* SlurgSpawner::vdtor_4C8370(s32 flags)
-{
-    dtor_4C83A0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void SlurgSpawner::vScreenChanged_4C84A0()

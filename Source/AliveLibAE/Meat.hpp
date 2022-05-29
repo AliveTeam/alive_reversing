@@ -47,8 +47,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Meat_SaveState, 60);
 class Meat final : public BaseThrowable
 {
 public:
-    EXPORT Meat* ctor_4694A0(FP xpos, FP ypos, s16 count);
-
+    Meat(FP xpos, FP ypos, s16 count);
+    ~Meat();
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -70,8 +70,6 @@ private:
     EXPORT void vOnTrapDoorOpen_46A2E0();
     EXPORT Bool32 vIsFalling_469660();
     EXPORT Bool32 vCanThrow_469680();
-    EXPORT void dtor_4696F0();
-    EXPORT Meat* vdtor_4696C0(s32 flags);
     EXPORT void vThrow_469790(FP velX, FP velY);
     EXPORT s16 vGetCount_46A350();
     EXPORT void InTheAir_4697E0();
@@ -107,14 +105,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x1C);
 class MeatSack final : public BaseAliveGameObject
 {
 public:
-    EXPORT MeatSack* ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo);
-    
+    MeatSack(Path_MeatSack* pTlv, s32 tlvInfo);
+    ~MeatSack();
+
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
 private:
-    EXPORT MeatSack* vdtor_46A5E0(s32 flags);
-    EXPORT void dtor_46A610();
     EXPORT void vScreenChanged_46A9C0();
     EXPORT void vUpdate_46A6A0();
 

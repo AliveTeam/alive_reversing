@@ -35,20 +35,16 @@ enum class SecurityDoorStates : s16
 class SecurityDoor final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT SecurityDoor* ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo);
+    SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo);
+    ~SecurityDoor();
 
     virtual void VScreenChanged() override;
 
     virtual void VUpdate() override;
 
-    
 
 private:
-    EXPORT void dtor_4AC260();
-
     EXPORT void vScreenChanged_4AC970();
-
-    EXPORT SecurityDoor* vdtor_4AC230(s32 flags);
 
     EXPORT s16 IsPlayerNear_4AC300();
 

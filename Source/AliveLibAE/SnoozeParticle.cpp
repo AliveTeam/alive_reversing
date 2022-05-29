@@ -68,12 +68,10 @@ const PSX_Point explosionVerts[6][2] = {
     {{-3, 4}, {-6, 7}},
     {{3, 4}, {6, 7}}};
 
-SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, Layer layer, FP scale)
+SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
     mFlags.Set(BaseGameObject::eDrawable_Bit4);
-
-    SetVTable(this, 0x5472FC);
 
     SetType(AETypes::eSnoozeParticle_124);
     gObjList_drawables_5C1124->Push_Back(this);
@@ -103,27 +101,14 @@ SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, Layer layer, FP sc
     field_48_idx = Math_NextRandom() % 36;
     field_30_dx = FP_FromDouble(xPositionDeltaEntries_560408[field_48_idx]);
     field_48_idx++;
-    return this;
 }
 
-void SnoozeParticle::dtor_4B0900()
+SnoozeParticle::~SnoozeParticle()
 {
-    SetVTable(this, 0x5472FC);
     if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_5C1124->Remove_Item(this);
     }
-    BaseGameObject_dtor_4DBEC0();
-}
-
-SnoozeParticle* SnoozeParticle::vdtor_4B08D0(s32 flags)
-{
-    dtor_4B0900();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void SnoozeParticle::Update_4B0980()

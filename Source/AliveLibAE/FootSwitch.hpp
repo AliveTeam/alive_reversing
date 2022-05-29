@@ -34,15 +34,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FootSwitch_Data, 0xC);
 class FootSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT FootSwitch* ctor_4DE090(Path_FootSwitch* pTlv, s32 tlvInfo);
-
+    FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo);
+    ~FootSwitch();
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT FootSwitch* vdtor_4DE240(s32 flags);
-    EXPORT void dtor_4DE670();
     EXPORT void vScreenChanged_4DE650();
     EXPORT void vUpdate_4DE270();
     EXPORT BaseAliveGameObject* WhoIsStoodOnMe_4DE700();

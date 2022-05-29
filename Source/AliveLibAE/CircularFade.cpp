@@ -6,13 +6,10 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
+CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-
     mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
-
-    SetVTable(this, 0x547904); // vTbl_CircularFade_547904
 
     if (direction)
     {
@@ -50,33 +47,14 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, s16 directio
 
     Init_SetTPage_4F5B60(&field_198_tPages[0], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
     Init_SetTPage_4F5B60(&field_198_tPages[1], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
-    return this;
 }
 
-BaseGameObject* CircularFade::VDestructor(s32 flags)
+CircularFade::~CircularFade()
 {
-    return vdtor_4CE0D0(flags);
-}
-
-CircularFade* CircularFade::vdtor_4CE0D0(s32 flags)
-{
-    dtor_4CE080();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void CircularFade::dtor_4CE080()
-{
-    SetVTable(this, 0x547904); // vTbl_CircularFade_547904
-
     if (!(field_F4_flags.Get(Flags::eBit2_Done)))
     {
         --sNum_CamSwappers_5C1B66;
     }
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void CircularFade::VRender(PrimHeader** ppOt)
@@ -277,13 +255,11 @@ s32 CircularFade::vDone_4CE0B0()
 
 CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 surviveDeathReset)
 {
-    auto pCircularFade = ae_new<CircularFade>();
+    auto pCircularFade = ae_new<CircularFade>(xpos, ypos, scale, direction, destroyOnDone);
     if (!pCircularFade)
     {
         return nullptr;
     }
-
-    pCircularFade->ctor_4CE100(xpos, ypos, scale, direction, destroyOnDone);
 
     if (surviveDeathReset)
     {

@@ -27,11 +27,11 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x1C);
 class FallingItem final : public BaseAliveGameObject
 {
 public:
-    EXPORT FallingItem* ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo);
+    FallingItem(Path_FallingItem* pTlv, s32 tlvInfo);
 
-    EXPORT FallingItem* ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16 fallInterval, s16 numItems, s16 bResetIdAfterUse);
+    FallingItem(s32 xpos, s32 ypos, s32 scale, s32 id, s32 fallInterval, s32 numItems, s32 bResetIdAfterUse);
 
-    
+    ~FallingItem();
 
     virtual void VUpdate() override;
 
@@ -43,10 +43,6 @@ public:
     }
 
 private:
-    EXPORT void dtor_427EB0();
-
-    EXPORT FallingItem* vdtor_427530(s32 flags);
-
     EXPORT void vScreenChanged_428180();
 
     EXPORT void vUpdate_427780();

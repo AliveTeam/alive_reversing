@@ -30,11 +30,9 @@ const TintEntry kDrillTints_551548[18] = {
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 
-Drill* Drill::ctor_4200D0(Path_Drill* pTlv, u32 tlvInfo)
+Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x544AD8);
-
     SetType(AETypes::eDrill_30);
 
     const AnimRecord& rec = AnimRec(AnimId::Drill_Vertical_Off);
@@ -238,20 +236,9 @@ Drill* Drill::ctor_4200D0(Path_Drill* pTlv, u32 tlvInfo)
     field_104_tlv = tlvInfo;
     field_10C_audio_channels_mask = 0;
 
-    auto pShadow = ae_new<Shadow>();
-    if (pShadow)
-    {
-        pShadow->ctor_4AC990();
-    }
-    field_E0_pShadow = pShadow;
+    field_E0_pShadow = ae_new<Shadow>();
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
-    return this;
-}
-
-BaseGameObject* Drill::VDestructor(s32 flags)
-{
-    return vdtor_4206A0(flags);
 }
 
 void Drill::VUpdate()
@@ -300,11 +287,8 @@ s32 CC Drill::CreateFromSaveState_421600(const u8* pData)
         ResourceManager::LoadResourceFile_49C170("DRILL.BAN", 0);
     }
 
-    auto pDrill = ae_new<Drill>();
-    if (pDrill)
-    {
-        pDrill->ctor_4200D0(pTlv, pState->field_8_tlvInfo);
-    }
+    auto pDrill = ae_new<Drill>(pTlv, pState->field_8_tlvInfo);
+
 
     if (pState->field_10_state != DrillStates::State_0_Restart_Cycle)
     {
@@ -483,10 +467,8 @@ void Drill::vUpdate_420C50()
     }
 }
 
-void Drill::dtor_420B60()
+Drill::~Drill()
 {
-    SetVTable(this, 0x544AD8); // vTbl_Grinder_544AD8
-
     if (field_10C_audio_channels_mask)
     {
         SND_Stop_Channels_Mask_4CA810(field_10C_audio_channels_mask);
@@ -501,18 +483,6 @@ void Drill::dtor_420B60()
     {
         Path::TLV_Reset_4DB8E0(field_104_tlv, 0, 0, 0);
     }
-
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-Drill* Drill::vdtor_4206A0(s32 flags)
-{
-    dtor_420B60();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void Drill::vScreenChanged_4214B0()
@@ -631,87 +601,57 @@ void Drill::EmitSparks_4206D0()
         {
             if (field_FA_direction == DrillDirection::eRight_1)
             {
-                auto pSpark1 = ae_new<Spark>();
-                if (pSpark1)
-                {
-                    pSpark1->ctor_4CBBB0(
-                        field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
-                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
-                        field_CC_sprite_scale,
-                        6u,
-                        50,
-                        205,
-                        SparkType::eSmallChantParticle_0);
-                }
+                ae_new<Spark>(field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
+                                             field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                                             field_CC_sprite_scale,
+                                             6u,
+                                             50,
+                                             205,
+                                             SparkType::eSmallChantParticle_0);
 
-                auto pSpark2 = ae_new<Spark>();
-                if (pSpark2)
-                {
-                    pSpark2->ctor_4CBBB0(
-                        field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
-                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
-                        field_CC_sprite_scale,
-                        6u,
-                        50,
-                        205,
-                        SparkType::eSmallChantParticle_0);
-                }
+                ae_new<Spark>(field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
+                                             field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                                             field_CC_sprite_scale,
+                                             6u,
+                                             50,
+                                             205,
+                                             SparkType::eSmallChantParticle_0);
             }
             else if (field_FA_direction == DrillDirection::eLeft_2)
             {
-                auto pSpark1 = ae_new<Spark>();
-                if (pSpark1)
-                {
-                    pSpark1->ctor_4CBBB0(
-                        field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
-                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
-                        field_CC_sprite_scale,
-                        6u,
-                        50,
-                        205,
-                        SparkType::eSmallChantParticle_0);
-                }
+                ae_new<Spark>(field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
+                                             field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                                             field_CC_sprite_scale,
+                                             6u,
+                                             50,
+                                             205,
+                                             SparkType::eSmallChantParticle_0);
 
-                auto pSpark2 = ae_new<Spark>();
-                if (pSpark2)
-                {
-                    pSpark2->ctor_4CBBB0(
-                        field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
-                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
-                        field_CC_sprite_scale,
-                        6u,
-                        50,
-                        205,
-                        SparkType::eSmallChantParticle_0);
-                }
+                ae_new<Spark>(field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
+                                             field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                                             field_CC_sprite_scale,
+                                             6u,
+                                             50,
+                                             205,
+                                             SparkType::eSmallChantParticle_0);
             }
             else if (field_FA_direction == DrillDirection::eDown_0)
             {
-                auto pSpark1 = ae_new<Spark>();
-                if (pSpark1)
-                {
-                    pSpark1->ctor_4CBBB0(
-                        field_B8_xpos,
-                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(22)) - FP_FromInteger(speed),
-                        field_CC_sprite_scale,
-                        6u,
-                        50,
-                        205,
-                        SparkType::eSmallChantParticle_0);
-                }
+                ae_new<Spark>(field_B8_xpos,
+                                             field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(22)) - FP_FromInteger(speed),
+                                             field_CC_sprite_scale,
+                                             6u,
+                                             50,
+                                             205,
+                                             SparkType::eSmallChantParticle_0);
 
-                auto pSpark2 = ae_new<Spark>();
-                if (pSpark2)
-                {
-                    pSpark2->ctor_4CBBB0(
-                        field_B8_xpos,
-                        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(4)) - FP_FromInteger(speed),
-                        field_CC_sprite_scale,
-                        6u,
-                        50,
-                        205,
-                        SparkType::eSmallChantParticle_0);
-                }
+                ae_new<Spark>(field_B8_xpos,
+                                             field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(4)) - FP_FromInteger(speed),
+                                             field_CC_sprite_scale,
+                                             6u,
+                                             50,
+                                             205,
+                                             SparkType::eSmallChantParticle_0);
             }
         }
     }
@@ -770,41 +710,27 @@ s16 Drill::DamageTouchingObjects_421060()
         return 1;
     }
 
-    auto pBlood = ae_new<Blood>();
-    if (pBlood)
-    {
-        pBlood->ctor_40F0B0(
-            pFound->field_B8_xpos,
-            FP_FromInteger(drillRect.h - 10),
-            FP_FromInteger(-5),
-            FP_FromInteger(5),
-            field_CC_sprite_scale,
-            50);
-    }
+    ae_new<Blood>(pFound->field_B8_xpos,
+                                FP_FromInteger(drillRect.h - 10),
+                                FP_FromInteger(-5),
+                                FP_FromInteger(5),
+                                field_CC_sprite_scale,
+                                50);
 
-    auto pBlood2 = ae_new<Blood>();
-    if (pBlood2)
-    {
-        pBlood2->ctor_40F0B0(
-            pFound->field_B8_xpos,
-            FP_FromInteger(drillRect.h - 10),
-            FP_FromInteger(0),
-            FP_FromInteger(5),
-            field_CC_sprite_scale,
-            50);
-    }
 
-    auto pBlood3 = ae_new<Blood>();
-    if (pBlood3)
-    {
-        pBlood3->ctor_40F0B0(
-            pFound->field_B8_xpos,
-            FP_FromInteger(drillRect.h - 10),
-            FP_FromInteger(5),
-            FP_FromInteger(5),
-            field_CC_sprite_scale,
-            50);
-    }
+    ae_new<Blood>(pFound->field_B8_xpos,
+                                 FP_FromInteger(drillRect.h - 10),
+                                 FP_FromInteger(0),
+                                 FP_FromInteger(5),
+                                 field_CC_sprite_scale,
+                                 50);
+
+    ae_new<Blood>(pFound->field_B8_xpos,
+                                 FP_FromInteger(drillRect.h - 10),
+                                 FP_FromInteger(5),
+                                 FP_FromInteger(5),
+                                 field_CC_sprite_scale,
+                                 50);
 
     SFX_Play(SoundEffect::DrillCollision_99, 127, -500);
     SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);

@@ -116,11 +116,9 @@ const static BrainFunctionData<TSlogBrainFn> sSlogAiTable[4] = {
     {&Slog::Brain_Death_3_4C3250, 0x4C3250, "Brain_Death_3"},
 };
 
-Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
+Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
+    : BaseAliveGameObject(5)
 {
-    BaseAliveGameObject(5);
-    SetVTable(this, 0x547578);
-
     field_134_last_event_index = -1;
 
     field_BC_ypos = ypos;
@@ -155,15 +153,12 @@ Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chas
     field_146_total_anger = 10;
     field_148_chase_anger = 20;
     field_156_bone_eating_time = 60;
-
-    return this;
 }
 
-Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, s32 tlvInfo)
+Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(5)
 {
-    BaseAliveGameObject(5);
     field_134_last_event_index = -1;
-    SetVTable(this, 0x547578);
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -212,13 +207,6 @@ Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, s32 tlvInfo)
     }
 
     VUpdate();
-
-    return this;
-}
-
-BaseGameObject* Slog::VDestructor(s32 flags)
-{
-    return vdtor_4C4510(flags);
 }
 
 void Slog::VUpdate()
@@ -294,20 +282,18 @@ s32 CC Slog::CreateFromSaveState_4C54F0(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("DOGKNFD.BAN", nullptr);
     }
 
-    auto pSlog = ae_new<Slog>();
-
+    Slog* pSlog = nullptr;
     if (pState->field_40_tlvInfo == 0xFFFF)
     {
-        pSlog->ctor_4C4540(
-            pState->field_8_xpos,
-            pState->field_C_ypos,
-            pState->field_1C_sprite_scale, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs), pState->field_70_jump_delay);
+        pSlog = ae_new<Slog>(pState->field_8_xpos,
+                                  pState->field_C_ypos,
+                                  pState->field_1C_sprite_scale, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs), pState->field_70_jump_delay);
 
         pSlog->field_C_objectId = pState->field_4_objectId;
     }
     else
     {
-        pSlog->ctor_4C42E0(pTlv, pState->field_40_tlvInfo);
+        pSlog = ae_new<Slog>(pTlv, pState->field_40_tlvInfo);
     }
 
     pSlog->field_FC_pPathTLV = nullptr;
@@ -1049,23 +1035,18 @@ void Slog::M_Sleeping_15_4C6D60()
     {
         if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
         {
-            auto pSnoozeParticle = ae_new<SnoozeParticle>();
-            if (pSnoozeParticle)
+            FP xOff = {};
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                FP xOff = {};
-                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                {
-                    xOff = -(field_CC_sprite_scale * FP_FromInteger(18));
-                }
-                else
-                {
-                    xOff = (field_CC_sprite_scale * FP_FromInteger(18));
-                }
-                pSnoozeParticle->ctor_4B06F0(
-                    xOff + field_B8_xpos,
-                    (field_CC_sprite_scale * FP_FromInteger(-13)) + field_BC_ypos,
-                    field_20_animation.field_C_render_layer, field_20_animation.field_14_scale);
+                xOff = -(field_CC_sprite_scale * FP_FromInteger(18));
             }
+            else
+            {
+                xOff = (field_CC_sprite_scale * FP_FromInteger(18));
+            }
+            ae_new<SnoozeParticle>(xOff + field_B8_xpos,
+                                                          (field_CC_sprite_scale * FP_FromInteger(-13)) + field_BC_ypos,
+                                                          field_20_animation.field_C_render_layer, field_20_animation.field_14_scale);
         }
     }
 }
@@ -1243,15 +1224,10 @@ void Slog::M_Eating_20_4C75F0()
     if (field_20_animation.field_92_current_frame == 3 && !field_20_animation.field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
     {
         SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
-        auto pBlood = ae_new<Blood>();
-        if (pBlood)
-        {
-            pBlood->ctor_40F0B0(
-                ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-25) : FP_FromInteger(25)) * field_CC_sprite_scale + field_B8_xpos,
-                field_BC_ypos - (FP_FromInteger(4) * field_CC_sprite_scale),
-                FP_FromInteger(0), FP_FromInteger(0),
-                field_CC_sprite_scale, 12);
-        }
+        ae_new<Blood>(((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-25) : FP_FromInteger(25)) * field_CC_sprite_scale + field_B8_xpos,
+                      field_BC_ypos - (FP_FromInteger(4) * field_CC_sprite_scale),
+                      FP_FromInteger(0), FP_FromInteger(0),
+                      field_CC_sprite_scale, 12);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2898,10 +2874,6 @@ void Slog::Init_4C46A0()
 
     MapFollowMe_408D10(FALSE);
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
 
     sSlogCount_BAF7F2++;
 
@@ -2930,7 +2902,7 @@ void Slog::vUpdate_4C50D0()
                 1 << field_104_collision_line_type);
         }
         field_104_collision_line_type = 0;
-        field_118_target_id = BaseGameObject::FindById(field_118_target_id);
+        field_118_target_id = BaseGameObject::RefreshId(field_118_target_id);
         field_138_listening_to_slig_id = BaseGameObject::RefreshId(field_138_listening_to_slig_id);
         field_15C_bone_id = BaseGameObject::RefreshId(field_15C_bone_id);
     }
@@ -2992,10 +2964,8 @@ void Slog::vUpdate_4C50D0()
     }
 }
 
-void Slog::dtor_4C49A0()
+Slog::~Slog()
 {
-    SetVTable(this, 0x547578);
-
     field_118_target_id = -1;
     field_138_listening_to_slig_id = -1;
     field_15C_bone_id = -1;
@@ -3011,19 +2981,8 @@ void Slog::dtor_4C49A0()
     {
         sSlogCount_BAF7F2--;
     }
-
-    dtor_4080B0();
 }
 
-Slog* Slog::vdtor_4C4510(s32 flags)
-{
-    dtor_4C49A0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
 
 void Slog::ToIdle_4C5C10()
 {
@@ -3409,45 +3368,30 @@ s16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
                 case BulletType::eNormalBullet_2:
                     if (pBullet->field_30_x_distance <= FP_FromInteger(0))
                     {
-                        auto pBlood = ae_new<Blood>();
-                        if (pBlood)
-                        {
-                            pBlood->ctor_40F0B0(
-                                field_B8_xpos,
-                                pBullet->field_2C_ypos,
-                                FP_FromInteger(-24),
-                                FP_FromInteger(0),
-                                field_CC_sprite_scale, 50);
-                        }
+                        ae_new<Blood>(field_B8_xpos,
+                                                    pBullet->field_2C_ypos,
+                                                    FP_FromInteger(-24),
+                                                    FP_FromInteger(0),
+                                                    field_CC_sprite_scale, 50);
                     }
                     else
                     {
-                        auto pBlood = ae_new<Blood>();
-                        if (pBlood)
-                        {
-                            pBlood->ctor_40F0B0(
-                                field_B8_xpos,
-                                pBullet->field_2C_ypos,
-                                FP_FromInteger(24),
-                                FP_FromInteger(0),
-                                field_CC_sprite_scale, 50);
-                        }
+                        ae_new<Blood>(field_B8_xpos,
+                                                    pBullet->field_2C_ypos,
+                                                    FP_FromInteger(24),
+                                                    FP_FromInteger(0),
+                                                    field_CC_sprite_scale, 50);
                     }
                     break;
 
                 case BulletType::ePossessedSligZBullet_1:
                 case BulletType::eZBullet_3:
                 {
-                    auto pBlood = ae_new<Blood>();
-                    if (pBlood)
-                    {
-                        pBlood->ctor_40F0B0(
-                            field_B8_xpos,
-                            field_BC_ypos - (FP_FromInteger(20) * field_CC_sprite_scale),
-                            FP_FromInteger(0),
-                            FP_FromInteger(0),
-                            field_CC_sprite_scale, 50);
-                    }
+                    ae_new<Blood>(field_B8_xpos,
+                                                field_BC_ypos - (FP_FromInteger(20) * field_CC_sprite_scale),
+                                                FP_FromInteger(0),
+                                                FP_FromInteger(0),
+                                                field_CC_sprite_scale, 50);
                     break;
                 }
 
@@ -3473,24 +3417,15 @@ s16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
         {
             Sfx_4C7D30(SlogSound::DeathWhine_9);
             field_10C_health = FP_FromInteger(0);
-            auto pGibs = ae_new<Gibs>();
-            if (pGibs)
-            {
-                pGibs->ctor_40FB40(GibType::Slog_2, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
-            }
+            ae_new<Gibs>(GibType::Slog_2, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
 
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
-            auto pBlood = ae_new<Blood>();
-            if (pBlood)
-            {
-                pBlood->ctor_40F0B0(
-                    FP_FromInteger((bRect.x + bRect.w) / 2),
-                    FP_FromInteger((bRect.y + bRect.h) / 2),
-                    FP_FromInteger(0),
-                    FP_FromInteger(0),
-                    field_CC_sprite_scale, 50);
-            }
+            ae_new<Blood>(FP_FromInteger((bRect.x + bRect.w) / 2),
+                                        FP_FromInteger((bRect.y + bRect.h) / 2),
+                                        FP_FromInteger(0),
+                                        FP_FromInteger(0),
+                                        field_CC_sprite_scale, 50);
 
             mFlags.Set(BaseGameObject::eDead);
             break;

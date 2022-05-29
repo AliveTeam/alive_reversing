@@ -15,11 +15,9 @@
 ALIVE_VAR(1, 0x5BBF68, ExplosionSet*, pExplosionSet_5BBF68, nullptr);
 ALIVE_VAR(1, 0x5C1BB6, s16, bEnabled_5C1BB6, FALSE);
 
-ExplosionSet* ExplosionSet::ctor_414CA0()
+ExplosionSet::ExplosionSet()
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5444FC);
-
     SetType(AETypes::eExplosionSet_18);
 
     if (pExplosionSet_5BBF68)
@@ -39,12 +37,6 @@ ExplosionSet* ExplosionSet::ctor_414CA0()
         field_5C_flags.Clear(Flags_5C::eBit3_Active);
         gObjList_drawables_5C1124->Push_Back(this);
     }
-    return this;
-}
-
-BaseGameObject* ExplosionSet::VDestructor(s32 flags)
-{
-    return vdtor_414D80(flags);
 }
 
 void ExplosionSet::VScreenChanged()
@@ -97,22 +89,10 @@ void ExplosionSet::Init_4151D0(Path_ExplosionSet* pTlv)
     field_46_spacing_multiplicator = 0;
 }
 
-ExplosionSet* ExplosionSet::vdtor_414D80(s32 flags)
+ExplosionSet::~ExplosionSet()
 {
-    dtor_414DB0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void ExplosionSet::dtor_414DB0()
-{
-    SetVTable(this, 0x5444FC);
     gObjList_drawables_5C1124->Remove_Item(this);
     pExplosionSet_5BBF68 = nullptr;
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void ExplosionSet::vScreenChanged_415190()
@@ -227,13 +207,9 @@ void ExplosionSet::vUpdate_414E30()
 
             if (gMap.mCurrentLevel == LevelIds::eMines_1 && Math_RandomRange_496AB0(1, 5) >= 4)
             {
-                auto pExplosion = ae_new<Explosion>();
-                if (pExplosion)
-                {
-                    const FP explodeX = FP_FromInteger(Math_RandomRange_496AB0(field_48_tlv_rect.y + 20, field_48_tlv_rect.y + 230));
-                    const FP explodeY = FP_FromInteger(Math_RandomRange_496AB0(field_48_tlv_rect.x, xpos));
-                    pExplosion->ctor_4A1200(explodeY, explodeX, field_50_scale, 0);
-                }
+                const FP explodeX = FP_FromInteger(Math_RandomRange_496AB0(field_48_tlv_rect.y + 20, field_48_tlv_rect.y + 230));
+                const FP explodeY = FP_FromInteger(Math_RandomRange_496AB0(field_48_tlv_rect.x, xpos));
+                ae_new<Explosion>(explodeY, explodeX, field_50_scale, 0);
             }
         }
     }

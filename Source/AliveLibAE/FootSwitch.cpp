@@ -48,11 +48,9 @@ const AnimId sFootSwitchData_547D60[15][2] = {
 };
 
 
-FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, s32 tlvInfo)
+FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x547E38);
-
     SetType(AETypes::eFootSwitch_56);
     field_100_obj_id = -1;
 
@@ -84,30 +82,12 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, s32 tlvInfo)
     field_104_bCreateSparks = 0;
     field_F4_tlvInfo = tlvInfo;
     field_106_bFindStander = 1;
-    return this;
 }
 
-BaseGameObject* FootSwitch::VDestructor(s32 flags)
+FootSwitch::~FootSwitch()
 {
-    return vdtor_4DE240(flags);
-}
-
-FootSwitch* FootSwitch::vdtor_4DE240(s32 flags)
-{
-    dtor_4DE670();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void FootSwitch::dtor_4DE670()
-{
-    SetVTable(this, 0x547E38);
     field_100_obj_id = -1;
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void FootSwitch::VUpdate()
@@ -146,17 +126,12 @@ void FootSwitch::vUpdate_4DE270()
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][1]);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
-                auto pParticleBurst = ae_new<ParticleBurst>();
-                if (pParticleBurst)
-                {
-                    pParticleBurst->ctor_41CF50(
-                        field_B8_xpos,
-                        field_BC_ypos + FP_FromInteger(10),
-                        3,
-                        field_CC_sprite_scale,
-                        BurstType::eBigRedSparks_3,
-                        9);
-                }
+                ae_new<ParticleBurst>(field_B8_xpos,
+                                                            field_BC_ypos + FP_FromInteger(10),
+                                                            3,
+                                                            field_CC_sprite_scale,
+                                                            BurstType::eBigRedSparks_3,
+                                                            9);
 
                 if (gMap.mCurrentLevel == LevelIds::eMines_1 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 || gMap.mCurrentLevel == LevelIds::eBarracks_6 || gMap.mCurrentLevel == LevelIds::eBrewery_9)
                 {
@@ -177,30 +152,20 @@ void FootSwitch::vUpdate_4DE270()
 
             if (field_104_bCreateSparks)
             {
-                auto pSpark = ae_new<Spark>();
-                if (pSpark)
-                {
-                    pSpark->ctor_4CBBB0(
-                        field_B8_xpos,
-                        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(6)),
-                        field_CC_sprite_scale,
-                        10,
-                        100,
-                        255,
-                        SparkType::eSmallChantParticle_0);
-                }
+                ae_new<Spark>(field_B8_xpos,
+                                            field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(6)),
+                                            field_CC_sprite_scale,
+                                            10,
+                                            100,
+                                            255,
+                                            SparkType::eSmallChantParticle_0);
 
-                auto pParticleBurst = ae_new<ParticleBurst>();
-                if (pParticleBurst)
-                {
-                    pParticleBurst->ctor_41CF50(
-                        field_B8_xpos,
-                        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(10)),
-                        1,
-                        field_CC_sprite_scale,
-                        BurstType::eBigRedSparks_3,
-                        9);
-                }
+                ae_new<ParticleBurst>(field_B8_xpos,
+                                                            field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(10)),
+                                                            1,
+                                                            field_CC_sprite_scale,
+                                                            BurstType::eBigRedSparks_3,
+                                                            9);
 
                 field_104_bCreateSparks = 0;
             }

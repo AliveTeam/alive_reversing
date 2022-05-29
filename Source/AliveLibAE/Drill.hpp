@@ -65,9 +65,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Drill, 0x28);
 class Drill final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Drill* ctor_4200D0(Path_Drill* pTlv, u32 tlvInfo);
+    Drill(Path_Drill* pTlv, u32 tlvInfo);
+    ~Drill();
 
-    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -78,8 +78,6 @@ public:
 
 private:
     EXPORT void vUpdate_420C50();
-    EXPORT void dtor_420B60();
-    EXPORT Drill* vdtor_4206A0(s32 flags);
     EXPORT void vScreenChanged_4214B0();
     EXPORT void vRender_4213D0(PrimHeader** ppOt);
     EXPORT void vStopAudio_4215C0();

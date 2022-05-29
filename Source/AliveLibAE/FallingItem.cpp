@@ -33,11 +33,9 @@ const AnimId sFallingItemData_544DC0[15][2] = {
 
 ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
 
-EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo)
+FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
-    SetVTable(this, 0x544E98);
-
     SetType(AETypes::eRockSpawner_48);
 
     mFlags.Set(BaseGameObject::eCanExplode_Bit7);
@@ -94,19 +92,11 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, s32 tlvInfo
     }
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
-
-    return this;
 }
 
-FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16 fallInterval, s16 numItems, s16 bResetIdAfterUse)
+ FallingItem::FallingItem(s32 xpos, s32 ypos, s32 scale, s32 id, s32 fallInterval, s32 numItems, s32 bResetIdAfterUse)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
-
-    SetVTable(this, 0x544E98);
     SetType(AETypes::eRockSpawner_48);
 
     mFlags.Set(BaseGameObject::eCanExplode_Bit7);
@@ -122,7 +112,7 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
 
     if (id)
     {
-        field_11E_switch_id = id;
+        field_11E_switch_id = static_cast<s16>(id);
     }
     else
     {
@@ -140,10 +130,10 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
         field_D6_scale = 1;
     }
 
-    field_124_fall_interval = fallInterval;
+    field_124_fall_interval = static_cast<s16>(fallInterval);
 
-    field_120_max_falling_items = numItems;
-    field_122_remaining_falling_items = numItems;
+    field_120_max_falling_items = static_cast<s16>(numItems);
+    field_122_remaining_falling_items = static_cast<s16>(numItems);
 
     const FP xFixed = FP_FromInteger(xpos);
     const FP yFixed = FP_FromInteger(ypos);
@@ -166,17 +156,6 @@ FallingItem* FallingItem::ctor_427560(s16 xpos, s16 ypos, s16 scale, s16 id, s16
     }
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
-
-    return this;
-}
-
-BaseGameObject* FallingItem::VDestructor(s32 flags)
-{
-    return vdtor_427530(flags);
 }
 
 void FallingItem::VUpdate()
@@ -189,25 +168,13 @@ void FallingItem::VScreenChanged()
     vScreenChanged_428180();
 }
 
-void FallingItem::dtor_427EB0()
+FallingItem::~FallingItem()
 {
-    SetVTable(this, 0x544E98);
     if (pPrimaryFallingItem_5BC208 == this)
     {
         pPrimaryFallingItem_5BC208 = nullptr;
     }
     Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
-    dtor_4080B0();
-}
-
-FallingItem* FallingItem::vdtor_427530(s32 flags)
-{
-    dtor_427EB0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void FallingItem::vScreenChanged_428180()
@@ -354,56 +321,39 @@ EXPORT void FallingItem::vUpdate_427780()
             field_134_bHitDrillOrMineCar = FALSE;
             field_11C_state = State::eSmashed_4;
 
-            auto pShake = ae_new<ScreenShake>();
-            if (pShake)
-            {
-                pShake->ctor_4ACF70(0, field_CC_sprite_scale == FP_FromDouble(0.5));
-            }
+            ae_new<ScreenShake>(0, field_CC_sprite_scale == FP_FromDouble(0.5));
 
             if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8)
             {
-                auto pPart = ae_new<ParticleBurst>();
-                if (pPart)
-                {
-                    pPart->ctor_41CF50(
-                        field_B8_xpos,
-                        field_BC_ypos,
-                        20,
-                        field_CC_sprite_scale,
-                        BurstType::eSticks_1,
-                        13);
-                }
+                ae_new<ParticleBurst>(field_B8_xpos,
+                                                   field_BC_ypos,
+                                                   20,
+                                                   field_CC_sprite_scale,
+                                                   BurstType::eSticks_1,
+                                                   13);
 
-                auto pParticle = ae_new<Particle>();
+                const AnimRecord& rec = AnimRec(AnimId::Explosion);
+                u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
+                auto pParticle = ae_new<Particle>(field_B8_xpos,
+                                                  field_BC_ypos - (FP_FromInteger(15) * field_CC_sprite_scale),
+                                                  rec.mFrameTableOffset,
+                                                  rec.mMaxW,
+                                                  rec.mMaxH,
+                                                  ppRes);
                 if (pParticle)
                 {
-                    const AnimRecord& rec = AnimRec(AnimId::Explosion);
-                    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
-                    pParticle->ctor_4CC4C0(
-                        field_B8_xpos,
-                        field_BC_ypos - (FP_FromInteger(15) * field_CC_sprite_scale),
-                        rec.mFrameTableOffset,
-                        rec.mMaxW,
-                        rec.mMaxH,
-                        ppRes);
-
                     pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
                     pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.75);
                 }
             }
             else
             {
-                auto pPartBurst = ae_new<ParticleBurst>();
-                if (pPartBurst)
-                {
-                    pPartBurst->ctor_41CF50(
-                        field_B8_xpos,
-                        field_BC_ypos,
-                        25,
-                        field_CC_sprite_scale,
-                        BurstType::eFallingRocks_0,
-                        13);
-                }
+                ae_new<ParticleBurst>(field_B8_xpos,
+                                                        field_BC_ypos,
+                                                        25,
+                                                        field_CC_sprite_scale,
+                                                        BurstType::eFallingRocks_0,
+                                                        13);
             }
         }
         break;

@@ -59,11 +59,6 @@ struct Quicksave_Obj_SlamDoor final
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
 
-BaseGameObject* SlamDoor::VDestructor(s32 flags)
-{
-    return vdtor_4AFD20(flags);
-}
-
 s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_4C09D0(pSaveBuffer);
@@ -74,10 +69,9 @@ void SlamDoor::VUpdate()
     vUpdate_4AFD50();
 }
 
-SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
+SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
-    SetVTable(this, 0x547288);
     field_C_objectId = tlvInfo.all; // todo: check this
     mFlags.Set(Options::eCanExplode_Bit7);
 
@@ -236,14 +230,10 @@ SlamDoor* SlamDoor::ctor_4AF700(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
 
     field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
     field_DC_bApplyShadows |= 2u;
-
-    return this;
 }
 
-void SlamDoor::dtor_4B0620()
+SlamDoor::~SlamDoor()
 {
-    SetVTable(this, 0x547288);
-
     if (!(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit5_Delete)) || field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
         Path::TLV_Reset_4DB8E0(field_12C_tlvInfo.all, -1, 0, 0);
@@ -258,18 +248,6 @@ void SlamDoor::dtor_4B0620()
     {
         Rect_Clear_418040(&field_120_pCollisionLine_5_1->field_0_rect);
     }
-
-    dtor_4080B0();
-}
-
-SlamDoor* SlamDoor::vdtor_4AFD20(s32 flags)
-{
-    dtor_4B0620();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void SlamDoor::vUpdate_4AFD50()
@@ -496,11 +474,7 @@ s32 CC SlamDoor::CreateFromSaveState_4C08B0(const u8* pData)
         }
     }
 
-    SlamDoor* pSlamDoor = ae_new<SlamDoor>();
-    if (pSlamDoor)
-    {
-        pSlamDoor->ctor_4AF700(static_cast<Path_SlamDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_4_tlv.all)), pSaveState->field_4_tlv);
-    }
+    ae_new<SlamDoor>(static_cast<Path_SlamDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_4_tlv.all)), pSaveState->field_4_tlv);
 
     return sizeof(Quicksave_Obj_SlamDoor);
 }

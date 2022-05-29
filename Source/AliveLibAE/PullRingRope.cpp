@@ -29,11 +29,9 @@ const TintEntry sPullRingRopeTints_55FD1C[18] = {
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
 
-PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo)
+PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x546A00);
-
     SetType(AETypes::ePullRope_103);
 
     const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
@@ -74,26 +72,17 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_10A_sound_direction = pTlv->field_1C_sound_direction;
     field_FC_ring_puller_id = -1;
 
-    auto pRope = ae_new<Rope>();
+    auto pRope = ae_new<Rope>(FP_GetExponent(field_B8_xpos + FP_FromInteger(2)),
+                              FP_GetExponent(field_BC_ypos) - pTlv->field_14_rope_length,
+                              FP_GetExponent(field_BC_ypos),
+                              field_CC_sprite_scale);
     if (pRope)
     {
-        pRope->ctor_4A0A70(
-            FP_GetExponent(field_B8_xpos + FP_FromInteger(2)),
-            FP_GetExponent(field_BC_ypos) - pTlv->field_14_rope_length,
-            FP_GetExponent(field_BC_ypos),
-            field_CC_sprite_scale);
-
         field_F8_rope_id = pRope->field_8_object_id;
         pRope->field_BC_ypos = FP_NoFractional(field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(16)));
     }
 
     field_DC_bApplyShadows |= 2;
-    return this;
-}
-
-BaseGameObject* PullRingRope::VDestructor(s32 flags)
-{
-    return vdtor_49B630(flags);
 }
 
 void PullRingRope::VUpdate()
@@ -121,20 +110,8 @@ void PullRingRope::VMarkAsPulled_49B610()
     return vMarkAsPulled_49B610();
 }
 
-PullRingRope* PullRingRope::vdtor_49B630(s32 flags)
+PullRingRope::~PullRingRope()
 {
-    dtor_49B660();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void PullRingRope::dtor_49B660()
-{
-    SetVTable(this, 0x546A00);
-
     Path::TLV_Reset_4DB8E0(field_110_tlvInfo, -1, 0, 0);
 
     BaseGameObject* pRope = sObjectIds.Find(field_F8_rope_id, AETypes::eLiftRope_108);
@@ -142,8 +119,6 @@ void PullRingRope::dtor_49B660()
     {
         pRope->mFlags.Set(BaseGameObject::eDead);
     }
-
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void PullRingRope::vUpdate_49B720()

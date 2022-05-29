@@ -40,16 +40,15 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Water, 0x1C);
 class Water final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Water* ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo);
-    
+    Water(Path_Water* pTlv, s32 tlvInfo);
+    ~Water();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
 
 private:
-    EXPORT void dtor_4E0880();
-    EXPORT Water* vdtor_4E0850(s32 flags);
     EXPORT void vScreenChanged_4E1780();
     EXPORT void vStopAudio_4E1800();
     EXPORT void Disable_Water_Particle_4E0B10(s16 idx);

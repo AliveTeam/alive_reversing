@@ -24,7 +24,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlurgSpawner, 0x20);
 class SlurgSpawner final : public BaseGameObject
 {
 public:
-    EXPORT SlurgSpawner* ctor_4C82E0(Path_SlurgSpawner* pTlv, s32 tlvInfo);
+    SlurgSpawner(Path_SlurgSpawner* pTlv, s32 tlvInfo);
 
     
     virtual void VUpdate() override;
@@ -32,8 +32,6 @@ public:
 
 private:
     EXPORT void vUpdate_4C83C0();
-    EXPORT void dtor_4C83A0();
-    EXPORT SlurgSpawner* vdtor_4C8370(s32 flags);
     EXPORT void vScreenChanged_4C84A0();
 
 private:

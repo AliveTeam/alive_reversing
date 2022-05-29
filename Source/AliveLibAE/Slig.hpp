@@ -249,9 +249,8 @@ class LiftPoint;
 class Slig final : public BaseAliveGameObject
 {
 public:
-    EXPORT Slig* ctor_4B1370(Path_Slig* pTlv, s32 tlvInfo);
-
-    
+    Slig(Path_Slig* pTlv, s32 tlvInfo);
+    ~Slig();
 
     virtual void VUpdate() override;
 
@@ -397,11 +396,6 @@ public:
 
 private:
     EXPORT void Init_4BB0D0();
-
-    EXPORT void dtor_4B1CF0();
-
-
-    EXPORT Slig* vdtor_4B1790(s32 flags);
 
     EXPORT void vUpdate_4B17C0();
 

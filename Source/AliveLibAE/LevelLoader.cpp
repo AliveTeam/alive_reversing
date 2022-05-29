@@ -8,20 +8,14 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* LevelLoader::VDestructor(s32 flags)
-{
-    return vdtor_4DD3B0(flags);
-}
-
 void LevelLoader::VUpdate()
 {
     vUpdate_4DD400();
 }
 
-LevelLoader* LevelLoader::ctor_4DD330(Path_LevelLoader* pTlv, u32 tlvInfo)
+LevelLoader::LevelLoader(Path_LevelLoader* pTlv, u32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x547B5C); // vTbl_LevelLoader_547B5C
     field_C_objectId = tlvInfo;
     field_20_switch_id = pTlv->field_10_switch_id;
     field_24_level = pTlv->field_12_dest_level;
@@ -30,7 +24,6 @@ LevelLoader* LevelLoader::ctor_4DD330(Path_LevelLoader* pTlv, u32 tlvInfo)
     field_2A_movie_id = pTlv->field_18_movie_id;
     field_2C_tlvInfo = tlvInfo;
     field_22_state = States::eIdle_0;
-    return this;
 }
 
 void LevelLoader::vUpdate_4DD400()
@@ -45,10 +38,9 @@ void LevelLoader::vUpdate_4DD400()
         {
             if (SwitchStates_Get_466020(field_20_switch_id))
             {
-                auto pFade = ae_new<DeathFadeOut>();
+                auto pFade = ae_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 1, 1, 32, TPageAbr::eBlend_2);
                 if (pFade)
                 {
-                    pFade->ctor_427030(Layer::eLayer_FadeFlash_40, 1, 1, 32, TPageAbr::eBlend_2);
                     field_22_state = States::eFadingOut_1;
                     field_30_fade_id = pFade->field_8_object_id;
                 }
@@ -84,19 +76,4 @@ void LevelLoader::vUpdate_4DD400()
             }
         }
     }
-}
-
-LevelLoader* LevelLoader::vdtor_4DD3B0(s32 flags)
-{
-    dtor_4DD3E0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void LevelLoader::dtor_4DD3E0()
-{
-    BaseGameObject_dtor_4DBEC0();
 }

@@ -6,7 +6,8 @@
 class ParamiteWeb final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ParamiteWeb* ctor_4E1840(FP xpos, s16 bottom, s16 top, FP scale);
+    ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale);
+    ~ParamiteWeb();
 
     virtual void VUpdate() override;
 
@@ -14,12 +15,8 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    
 
 private:
-    EXPORT ParamiteWeb* vdtor_4E1AF0(s32 flags);
-
-    EXPORT void dtor_4E1B20();
 
     EXPORT void vUpdate_4E1F40();
 

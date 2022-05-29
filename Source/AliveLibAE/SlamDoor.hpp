@@ -37,12 +37,12 @@ public:
     virtual void VOnThrowableHit(BaseGameObject*) override
     { }
 
-    EXPORT SlamDoor* ctor_4AF700(Path_SlamDoor* tlv_params, TlvItemInfoUnion tlvInfo);
+    SlamDoor(Path_SlamDoor* tlv_params, TlvItemInfoUnion tlvInfo);
+    ~SlamDoor();
+
     EXPORT static s32 CC CreateFromSaveState_4C08B0(const u8*);
 
 private:
-    EXPORT void dtor_4B0620();
-    EXPORT SlamDoor* vdtor_4AFD20(s32 flags);
     EXPORT void vUpdate_4AFD50();
     EXPORT s32 vGetSaveState_4C09D0(u8* pSaveBuffer);
     EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPosition, s16 width);

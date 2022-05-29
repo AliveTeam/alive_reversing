@@ -165,26 +165,21 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
         const FP km10 = FP_FromInteger(-10);
 
 
-        auto pRope1 = ae_new<Rope>();
+        auto pRope1 = ae_new<Rope>(FP_GetExponent((k13 * field_CC_sprite_scale + field_B8_xpos)),
+                                   0, // Start at the very top of the screen
+                                   FP_GetExponent((k25 * field_CC_sprite_scale) + field_BC_ypos),
+                                   field_CC_sprite_scale);
         if (pRope1)
         {
-            pRope1->ctor_4A0A70(
-                FP_GetExponent((k13 * field_CC_sprite_scale + field_B8_xpos)),
-                0, // Start at the very top of the screen
-                FP_GetExponent((k25 * field_CC_sprite_scale) + field_BC_ypos),
-                field_CC_sprite_scale);
-
             field_138_rope1_id = pRope1->field_8_object_id;
         }
 
-        auto pRope2 = ae_new<Rope>();
+        auto pRope2 = ae_new<Rope>(FP_GetExponent((km10 * field_CC_sprite_scale) + field_B8_xpos),
+                                   0, // Start at the very top of the screen
+                                   FP_GetExponent((k25 * field_CC_sprite_scale) + field_BC_ypos),
+                                   field_CC_sprite_scale);
         if (pRope2)
         {
-            pRope2->ctor_4A0A70(
-                FP_GetExponent((km10 * field_CC_sprite_scale) + field_B8_xpos),
-                0, // Start at the very top of the screen
-                FP_GetExponent((k25 * field_CC_sprite_scale) + field_BC_ypos),
-                field_CC_sprite_scale);
             field_134_rope2_id = pRope2->field_8_object_id;
         }
 

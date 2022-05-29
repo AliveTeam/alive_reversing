@@ -70,9 +70,9 @@ class Slurg final : public BaseAliveGameObject
 public:
     EXPORT static void CC Clear_Slurg_Step_Watch_Points_449A90();
 
-    EXPORT Slurg* ctor_4C84E0(Path_Slurg* pTlv, u32 tlvInfo);
+    Slurg(Path_Slurg* pTlv, u32 tlvInfo);
+    ~Slurg();
 
-    
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
@@ -85,8 +85,6 @@ private:
     void GoRight();
 
 private:
-    EXPORT Slurg* vdtor_4C8760(s32 flags);
-    EXPORT void dtor_4C8A40();
     EXPORT void Burst_4C8AE0();
     EXPORT void vUpdate_4C8790();
     EXPORT s16 vTakeDamage_4C8BF0(BaseGameObject* pFrom);

@@ -4817,10 +4817,8 @@ void Slig::Init_4BB0D0()
     }
 }
 
-void Slig::dtor_4B1CF0()
+Slig::~Slig()
 {
-    SetVTable(this, 0x547460);
-
     if (sControlledCharacter_5C1B8C == this)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
@@ -4856,18 +4854,6 @@ void Slig::dtor_4B1CF0()
             }
         }
     }
-
-    dtor_4080B0();
-}
-
-Slig* Slig::vdtor_4B1790(s32 flags)
-{
-    dtor_4B1CF0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 const FP dword_5473E8[8] = {

@@ -48,8 +48,8 @@ EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
     }
 }
 
-Rope::Rope(u16 left, s16 top, u16 bottom, FP scale)
-    : BaseAnimatedWithPhysicsGameObject(0)
+Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
+    : ::BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(AETypes::eLiftRope_108);
 
@@ -80,10 +80,10 @@ Rope::Rope(u16 left, s16 top, u16 bottom, FP scale)
     field_20_animation.field_9_g = static_cast<u8>(field_D2_g);
     field_20_animation.field_A_b = static_cast<u8>(field_D4_b);
 
-    field_102_top = top;
-    field_106_bottom = bottom;
-    field_100_left = left;
-    field_104_right = left;
+    field_102_top = static_cast<s16>(top);
+    field_106_bottom = static_cast<s16>(bottom);
+    field_100_left = static_cast<s16>(left);
+    field_104_right = static_cast<s16>(left);
 
     field_B8_xpos = FP_FromInteger(left);
     field_BC_ypos = FP_FromInteger(bottom);

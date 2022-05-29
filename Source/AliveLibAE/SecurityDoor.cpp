@@ -10,14 +10,12 @@
 #include "Sound/Midi.hpp"
 #include "SwitchStates.hpp"
 
-SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo)
+SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     field_104_event_idx = -1;
     field_118_max_idx = 0;
     field_11A_event_idx = -1;
-
-    SetVTable(this, 0x547028);
 
     const AnimRecord& rec = AnimRec(AnimId::Security_Door_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -82,8 +80,6 @@ SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, s32 tlvInfo)
     {
         field_124_timer = sGnFrame_5C1B84 + 10;
     }
-
-    return this;
 }
 
 void SecurityDoor::VScreenChanged()
@@ -96,35 +92,20 @@ void SecurityDoor::VUpdate()
     vUpdate_4AC380();
 }
 
-BaseGameObject* SecurityDoor::VDestructor(s32 flags)
-{
-    return vdtor_4AC230(flags);
-}
 
-void SecurityDoor::dtor_4AC260()
+SecurityDoor::~SecurityDoor()
 {
-    SetVTable(this, 0x547028);
     if (field_F8_state != SecurityDoorStates::eSuccessChime_1)
     {
         field_F8_state = SecurityDoorStates::eInactive_0;
     }
+
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, static_cast<s16>(field_F8_state) + 1, 0, 0);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void SecurityDoor::vScreenChanged_4AC970()
 {
     mFlags.Set(BaseGameObject::eDead);
-}
-
-SecurityDoor* SecurityDoor::vdtor_4AC230(s32 flags)
-{
-    dtor_4AC260();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 s16 SecurityDoor::IsPlayerNear_4AC300()

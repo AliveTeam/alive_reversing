@@ -6,11 +6,6 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* WheelSyncer::VDestructor(s32 flags)
-{
-    return vdtor_466120(flags);
-}
-
 void WheelSyncer::VUpdate()
 {
     vUpdate_4661D0();
@@ -21,12 +16,9 @@ void WheelSyncer::VScreenChanged()
     vScreenChanged_466310();
 }
 
-WheelSyncer* WheelSyncer::ctor_466090(Path_WheelSyncer* pTlv, u32 tlvInfo)
+WheelSyncer::WheelSyncer(Path_WheelSyncer* pTlv, u32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-
-    SetVTable(this, 0x545F20); // vTbl_WheelSyncer_545F20
-
     field_30_tlvInfo = tlvInfo;
     field_20_input_switch_id1 = pTlv->field_10_input_switch_id1;
     field_22_input_switch_id2 = pTlv->field_12_input_switch_id2;
@@ -36,7 +28,6 @@ WheelSyncer* WheelSyncer::ctor_466090(Path_WheelSyncer* pTlv, u32 tlvInfo)
     field_28_input_switch_id4 = pTlv->field_1A_input_switch_id4;
     field_2A_input_switch_id5 = pTlv->field_1C_input_switch_id5;
     field_2C_input_switch_id6 = pTlv->field_1E_input_switch_id6;
-    return this;
 }
 
 void WheelSyncer::vUpdate_4661D0()
@@ -109,21 +100,9 @@ void WheelSyncer::vUpdate_4661D0()
     }
 }
 
-WheelSyncer* WheelSyncer::vdtor_466120(s32 flags)
+WheelSyncer::~WheelSyncer()
 {
-    dtor_466150();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void WheelSyncer::dtor_466150()
-{
-    SetVTable(this, 0x545F20); // vTbl_WheelSyncer_545F20
     Path::TLV_Reset_4DB8E0(field_30_tlvInfo, -1, 0, 0);
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void WheelSyncer::vScreenChanged_466310()

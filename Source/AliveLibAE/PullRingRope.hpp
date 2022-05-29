@@ -37,8 +37,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PullRingRope, 0x20);
 class PullRingRope final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT PullRingRope* ctor_49B2D0(Path_PullRingRope* pTlv, s32 tlvInfo);
-
+    PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo);
+    ~PullRingRope();
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -47,8 +47,6 @@ public:
     virtual void VMarkAsPulled_49B610();
 
 private:
-    EXPORT PullRingRope* vdtor_49B630(s32 flags);
-    EXPORT void dtor_49B660();
     EXPORT void vUpdate_49B720();
     EXPORT void vScreenChanged_49BCB0();
     EXPORT s16 vPull_49BBD0(BaseGameObject* a2);

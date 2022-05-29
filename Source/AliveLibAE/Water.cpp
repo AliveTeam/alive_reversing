@@ -12,12 +12,9 @@
 #include "PsxDisplay.hpp"
 #include "stdlib.hpp"
 
-Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
+Water::Water(Path_Water* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-
-    SetVTable(this, 0x547F10); // vTbl_Water_547F10
-
     const AnimRecord& waterDropRec = AnimRec(AnimId::WaterDrop);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, waterDropRec.mResourceId);
     if (ppRes)
@@ -157,13 +154,6 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, s32 tlvInfo)
         mFlags.Clear(BaseGameObject::eDrawable_Bit4);
         mFlags.Set(BaseGameObject::eDead);
     }
-
-    return this;
-}
-
-BaseGameObject* Water::VDestructor(s32 flags)
-{
-    return vdtor_4E0850(flags);
 }
 
 void Water::VUpdate()
@@ -186,10 +176,8 @@ void Water::VStopAudio()
     vStopAudio_4E1800();
 }
 
-void Water::dtor_4E0880()
+Water::~Water()
 {
-    SetVTable(this, 0x547F10); // vTbl_Water_547F10
-
     if (field_F4_ppWaterRes)
     {
         ResourceManager::FreeResource_49C330(field_F4_ppWaterRes);
@@ -218,18 +206,6 @@ void Water::dtor_4E0880()
     {
         Path::TLV_Reset_4DB8E0(field_114_tlvInfo, static_cast<s16>(field_FC_state), 0, 0);
     }
-
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-Water* Water::vdtor_4E0850(s32 flags)
-{
-    dtor_4E0880();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void Water::vScreenChanged_4E1780()
@@ -522,18 +498,13 @@ void Water::vUpdate_4E0B50()
 
                         if (!(old_splash_time % 4) && !field_13C_not_in_camera_count)
                         {
-                            auto pParticle = ae_new<Particle>();
-                            if (pParticle)
-                            {
-                                const AnimRecord& splashRec = AnimRec(AnimId::WaterSplash);
-                                pParticle->ctor_4CC4C0(
-                                    FP_NoFractional(pWaterRes->field_0_xpos) + pScreenManager_5BB5F4->field_20_pCamPos->field_0_x,
-                                    FP_NoFractional(pWaterRes->field_4_ypos) + pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
-                                    splashRec.mFrameTableOffset,
-                                    splashRec.mMaxW,
-                                    splashRec.mMaxH,
-                                    field_10_resources_array.ItemAt(1));
-                            }
+                            const AnimRecord& splashRec = AnimRec(AnimId::WaterSplash);
+                            ae_new<Particle>(FP_NoFractional(pWaterRes->field_0_xpos) + pScreenManager_5BB5F4->field_20_pCamPos->field_0_x,
+                                                              FP_NoFractional(pWaterRes->field_4_ypos) + pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
+                                                              splashRec.mFrameTableOffset,
+                                                              splashRec.mMaxW,
+                                                              splashRec.mMaxH,
+                                                              field_10_resources_array.ItemAt(1));
                         }
                     }
                 }

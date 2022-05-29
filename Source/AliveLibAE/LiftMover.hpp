@@ -42,7 +42,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);
 class LiftMover final : public BaseGameObject
 {
 public:
-    EXPORT LiftMover* ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo);
+    LiftMover(Path_LiftMover* pTlv, s32 tlvInfo);
+    ~LiftMover();
+
     EXPORT static s32 CC CreateFromSaveState_40D180(const u8* pData);
 
     
@@ -51,8 +53,6 @@ public:
 
 private:
     EXPORT void vUpdate_40CE20();
-    EXPORT void dtor_40CDA0();
-    EXPORT LiftMover* vdtor_40CD70(s32 flags);
     EXPORT s32 vGetSaveState_40D240(LiftMover_State* pState);
     EXPORT LiftPoint* GetLiftPoint_40D0F0();
 

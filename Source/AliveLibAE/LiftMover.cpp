@@ -8,11 +8,9 @@
 #include "ObjectIds.hpp"
 #include "stdlib.hpp"
 
-EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo)
+LiftMover::LiftMover(Path_LiftMover* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5440D4);
-
     field_24_tlvInfo = tlvInfo;
     field_28_lift_id = -1;
     SetType(AETypes::eLiftMover_9);
@@ -31,7 +29,6 @@ EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, s32 tlvInfo)
 
     field_30_state = LiftMoverStates::eInactive_0;
     field_32_bMoveInProgress = FALSE;
-    return this;
 }
 
 s32 CC LiftMover::CreateFromSaveState_40D180(const u8* pData)
@@ -39,11 +36,9 @@ s32 CC LiftMover::CreateFromSaveState_40D180(const u8* pData)
     auto pState = reinterpret_cast<const LiftMover_State*>(pData);
 
     Path_LiftMover* pTlv = static_cast<Path_LiftMover*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
-    auto pLiftMover = ae_new<LiftMover>();
+    auto pLiftMover = ae_new<LiftMover>(pTlv, pState->field_4_tlvInfo);
     if (pLiftMover)
     {
-        pLiftMover->ctor_40CCD0(pTlv, pState->field_4_tlvInfo);
-
         if (pState->field_8_state != LiftMoverStates::eInactive_0)
         {
             pLiftMover->field_32_bMoveInProgress = TRUE;
@@ -52,11 +47,6 @@ s32 CC LiftMover::CreateFromSaveState_40D180(const u8* pData)
     }
 
     return sizeof(LiftMover_State);
-}
-
-BaseGameObject* LiftMover::VDestructor(s32 flags)
-{
-    return vdtor_40CD70(flags);
 }
 
 void LiftMover::VUpdate()
@@ -216,21 +206,9 @@ void LiftMover::vUpdate_40CE20()
     }
 }
 
-void LiftMover::dtor_40CDA0()
+LiftMover::~LiftMover()
 {
-    SetVTable(this, 0x5440D4);
     Path::TLV_Reset_4DB8E0(field_24_tlvInfo, -1, 0, 0);
-    BaseGameObject_dtor_4DBEC0();
-}
-
-LiftMover* LiftMover::vdtor_40CD70(s32 flags)
-{
-    dtor_40CDA0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 s32 LiftMover::vGetSaveState_40D240(LiftMover_State* pState)

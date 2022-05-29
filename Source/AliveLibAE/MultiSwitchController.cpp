@@ -7,11 +7,6 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-BaseGameObject* MultiSwitchController::VDestructor(s32 flags)
-{
-    return vdtor_4D61A0(flags);
-}
-
 void MultiSwitchController::VUpdate()
 {
     vUpdate_4D6250();
@@ -22,13 +17,12 @@ void MultiSwitchController::VScreenChanged()
     vScreenChanged_4D6860();
 }
 
-MultiSwitchController* MultiSwitchController::ctor_4D60E0(Path_MultiSwitchController* pTlv, u32 tlvInfo)
+MultiSwitchController::MultiSwitchController(Path_MultiSwitchController* pTlv, u32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
     field_40_flags.Clear(Flags_40::eBit1_is_on);
     field_C_objectId = tlvInfo;
     field_30_tlvInfo = tlvInfo;
-    SetVTable(this, 0x547AA8); // vTbl_MultiSwitchController_547AA8
 
     field_34_last_switch_on_time = 0;
     field_38_all_switches_on_or_off_time = 0;
@@ -46,25 +40,11 @@ MultiSwitchController* MultiSwitchController::ctor_4D60E0(Path_MultiSwitchContro
     field_26_input_switch_id4 = pTlv->field_1C_input_switch_id4;
     field_28_input_switch_id5 = pTlv->field_1E_input_switch_id5;
     field_2A_input_switch_id6 = pTlv->field_20_input_switch_id6;
-
-    return this;
 }
 
-MultiSwitchController* MultiSwitchController::vdtor_4D61A0(s32 flags)
+MultiSwitchController::~MultiSwitchController()
 {
-    dtor_4D61D0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void MultiSwitchController::dtor_4D61D0()
-{
-    SetVTable(this, 0x547AA8); // vTbl_MultiSwitchController_547AA8
     Path::TLV_Reset_4DB8E0(field_30_tlvInfo, -1, 0, 0);
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void MultiSwitchController::vScreenChanged_4D6860()

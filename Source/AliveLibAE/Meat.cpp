@@ -14,11 +14,9 @@
 #include "Particle.hpp"
 #include "Grid.hpp"
 
-Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
+Meat::Meat(FP xpos, FP ypos, s16 count)
+    : BaseThrowable(0)
 {
-    BaseAliveGameObject(0);
-    SetVTable(this, 0x546040);
-
     field_11A_bDead = 0;
     SetType(AETypes::eMeat_84);
 
@@ -52,16 +50,6 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, s16 count)
     field_11C_state = MeatStates::eCreated_0;
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
-    return this;
-}
-
-BaseGameObject* Meat::VDestructor(s32 flags)
-{
-    return vdtor_4696C0(flags);
 }
 
 void Meat::VUpdate()
@@ -148,9 +136,8 @@ Bool32 Meat::vCanThrow_469680()
     return field_11C_state == MeatStates::eBeingThrown_2;
 }
 
-void Meat::dtor_4696F0()
+Meat::~Meat()
 {
-    SetVTable(this, 0x546040);
     if (!field_11A_bDead)
     {
         if (gpThrowableArray_5D1E2C)
@@ -158,17 +145,6 @@ void Meat::dtor_4696F0()
             gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count >= 1 ? field_118_count : 1);
         }
     }
-    dtor_4080B0();
-}
-
-Meat* Meat::vdtor_4696C0(s32 flags)
-{
-    dtor_4696F0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void Meat::vThrow_469790(FP velX, FP velY)
@@ -459,11 +435,9 @@ const TintEntry kMeatTints_55C254[] = {
 };
 
 
-MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
+MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
-    SetVTable(this, 0x5460D4);
-
     SetType(AETypes::eMeatSack_85);
 
     const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
@@ -505,17 +479,6 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, s32 tlvInfo)
     field_11E_amount_of_meat = pTlv->field_18_amount_of_meat;
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
-
-    return this;
-}
-
-BaseGameObject* MeatSack::VDestructor(s32 flags)
-{
-    return vdtor_46A5E0(flags);
 }
 
 void MeatSack::VScreenChanged()
@@ -537,8 +500,7 @@ s32 CC Meat::CreateFromSaveState_46A9E0(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
 
-    auto pMeat = ae_new<Meat>();
-    pMeat->ctor_4694A0(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
+    auto pMeat = ae_new<Meat>(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
 
     pMeat->field_C_objectId = pState->field_4_obj_id;
 
@@ -579,21 +541,9 @@ s32 CC Meat::CreateFromSaveState_46A9E0(const u8* pBuffer)
     return sizeof(Meat_SaveState);
 }
 
-MeatSack* MeatSack::vdtor_46A5E0(s32 flags)
+MeatSack::~MeatSack()
 {
-    dtor_46A610();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void MeatSack::dtor_46A610()
-{
-    SetVTable(this, 0x5460D4);
     Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
-    dtor_4080B0();
 }
 
 void MeatSack::vScreenChanged_46A9C0()
@@ -657,18 +607,12 @@ void MeatSack::vUpdate_46A6A0()
             else
             {
                 gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
-                gpThrowableArray_5D1E2C->ctor_49A630();
             }
 
             gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_amount_of_meat);
 
-            auto pMeat = ae_new<Meat>();
-            if (pMeat)
-            {
-                pMeat->ctor_4694A0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_amount_of_meat);
-            }
-
-            pMeat->VThrow_49E460(field_124_velX, field_128_velY);
+            auto pMeat = ae_new<Meat>(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_amount_of_meat);
+             pMeat->VThrow_49E460(field_124_velX, field_128_velY);
             pMeat->field_CC_sprite_scale = field_CC_sprite_scale;
 
             SFX_Play_46FA90(SoundEffect::SackHit_25, 0);

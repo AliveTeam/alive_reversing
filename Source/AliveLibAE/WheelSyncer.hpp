@@ -31,12 +31,11 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    EXPORT WheelSyncer* ctor_466090(Path_WheelSyncer* pTlv, u32 tlvInfo);
+    WheelSyncer(Path_WheelSyncer* pTlv, u32 tlvInfo);
+    ~WheelSyncer();
 
 private:
     EXPORT void vUpdate_4661D0();
-    EXPORT WheelSyncer* vdtor_466120(s32 flags);
-    EXPORT void dtor_466150();
     EXPORT void vScreenChanged_466310();
 
 private:

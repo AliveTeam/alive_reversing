@@ -174,9 +174,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Paramite_State, 0x78);
 class Paramite final : public BaseAliveGameObject
 {
 public:
-    EXPORT Paramite* ctor_4879B0(Path_Paramite* pTlv, s32 tlvInfo);
-
-    
+    Paramite(Path_Paramite* pTlv, s32 tlvInfo);
+    ~Paramite();
 
     virtual void VUpdate() override;
 
@@ -325,8 +324,6 @@ private:
     bool BrainIs(TParamiteBrainFn fn);
 
 private:
-    EXPORT void dtor_487FC0();
-    EXPORT Paramite* vdtor_487F90(s32 flags);
 
     EXPORT void vUpdate_4871B0();
 

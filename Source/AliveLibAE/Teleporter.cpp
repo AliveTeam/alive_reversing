@@ -15,11 +15,9 @@
 #include "ParticleBurst.hpp"
 #include "Electrocute.hpp"
 
-Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, u32 tlvInfo)
+Teleporter::Teleporter(Path_Teleporter* pTlv, u32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x547AE0);
-
     field_4C_pTlv = pTlv; // TODO: Don't think this is used, and it can become a dangling ptr?
     field_34_mTlvData = pTlv->field_10_data;
     field_20_tlvInfo = tlvInfo;
@@ -36,13 +34,6 @@ Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, u32 tlvInfo)
     field_32_bDestroySelf = 0;
     field_30_state = TeleporterState::eWaitForSwitchOn_0;
     field_50_objId = -1;
-
-    return this;
-}
-
-BaseGameObject* Teleporter::VDestructor(s32 flags)
-{
-    return vdtor_4DC350(flags);
 }
 
 void Teleporter::VUpdate()
@@ -55,21 +46,9 @@ void Teleporter::VScreenChanged()
     vScreenChanged_4DCE80();
 }
 
-Teleporter* Teleporter::vdtor_4DC350(s32 flags)
+Teleporter::~Teleporter()
 {
-    dtor_4DC380();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Teleporter::dtor_4DC380()
-{
-    SetVTable(this, 0x547AE0);
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void Teleporter::vScreenChanged_4DCE80()
@@ -83,9 +62,7 @@ void Teleporter::vScreenChanged_4DCE80()
 
 Electrocute* CC Teleporter::Create_ElectrocuteEffect_4DCEB0()
 {
-    auto pObj = ae_new<Electrocute>();
-    pObj->ctor_4E5E80(sControlledCharacter_5C1B8C, TRUE, FALSE);
-    return pObj;
+    return ae_new<Electrocute>(sControlledCharacter_5C1B8C, TRUE, FALSE);
 }
 
 const PSX_Point kSparkOffs_563988[8] = {
@@ -121,11 +98,7 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
             sparkY = yOrg + (sparkOffs.field_2_y);
         }
 
-        auto pSpark = ae_new<Spark>();
-        if (pSpark)
-        {
-            pSpark->ctor_4CBBB0(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
-        }
+        ae_new<Spark>(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
     }
 }
 
@@ -202,17 +175,12 @@ void Teleporter::vUpdate_4DC400()
                             128u,
                             128u);
 
-                        auto pParticleBurst = ae_new<ParticleBurst>();
-                        if (pParticleBurst)
-                        {
-                            pParticleBurst->ctor_41CF50(
-                                sControlledCharacter_5C1B8C->field_B8_xpos,
-                                sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
-                                9u,
-                                FP_FromDouble(0.5),
-                                BurstType::eBigRedSparks_3,
-                                9);
-                        }
+                        ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->field_B8_xpos,
+                                              sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
+                                              9u,
+                                              FP_FromDouble(0.5),
+                                              BurstType::eBigRedSparks_3,
+                                              9);
                     }
                     else
                     {
@@ -226,17 +194,12 @@ void Teleporter::vUpdate_4DC400()
                             128u,
                             128u);
 
-                        auto pParticleBurst = ae_new<ParticleBurst>();
-                        if (pParticleBurst)
-                        {
-                            pParticleBurst->ctor_41CF50(
-                                sControlledCharacter_5C1B8C->field_B8_xpos,
-                                sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
-                                9u,
-                                FP_FromInteger(1),
-                                BurstType::eBigRedSparks_3,
-                                9);
-                        }
+                       ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->field_B8_xpos,
+                                                                    sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
+                                                                    9u,
+                                                                    FP_FromInteger(1),
+                                                                    BurstType::eBigRedSparks_3,
+                                                                    9);
                     }
                     field_54_effect_created = 1;
                 }
@@ -366,31 +329,21 @@ void Teleporter::vUpdate_4DC400()
             // Spawn the falling "red" sparks from Abe's feet that appear after you've arrived at the destination.
             if (sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
             {
-                auto pParticleBurst = ae_new<ParticleBurst>();
-                if (pParticleBurst)
-                {
-                    pParticleBurst->ctor_41CF50(
-                        sControlledCharacter_5C1B8C->field_B8_xpos,
-                        sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9),
-                        6u,
-                        FP_FromDouble(0.5),
-                        BurstType::eBigRedSparks_3,
-                        9);
-                }
+                ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->field_B8_xpos,
+                                                            sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9),
+                                                            6u,
+                                                            FP_FromDouble(0.5),
+                                                            BurstType::eBigRedSparks_3,
+                                                            9);
             }
             else
             {
-                auto pParticleBurst = ae_new<ParticleBurst>();
-                if (pParticleBurst)
-                {
-                    pParticleBurst->ctor_41CF50(
-                        sControlledCharacter_5C1B8C->field_B8_xpos,
-                        sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
-                        6u,
-                        FP_FromInteger(1),
-                        BurstType::eBigRedSparks_3,
-                        9);
-                }
+                ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->field_B8_xpos,
+                                                            sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
+                                                            6u,
+                                                            FP_FromInteger(1),
+                                                            BurstType::eBigRedSparks_3,
+                                                            9);
             }
 
             field_54_effect_created = 0;

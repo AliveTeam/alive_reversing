@@ -8,11 +8,6 @@
 #include "SwitchStates.hpp"
 #include "Abe.hpp"
 
-BaseGameObject* InvisibleSwitch::VDestructor(s32 flags)
-{
-    return vdtor_45FAF0(flags);
-}
-
 void InvisibleSwitch::VUpdate()
 {
     vUpdate_45FBA0();
@@ -23,10 +18,9 @@ void InvisibleSwitch::VScreenChanged()
     vScreenChanged_45FD80();
 }
 
-InvisibleSwitch* InvisibleSwitch::ctor_45FA70(Path_InvisibleSwitch* pTlv, u32 tlvInfo)
+InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, u32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x545A7C); // vTbl_InvisibleSwitch_545A7C
     field_24_tlvInfo = tlvInfo;
     field_20_switch_id = pTlv->field_10_switch_id;
     field_22_action = pTlv->field_12_action;
@@ -36,24 +30,11 @@ InvisibleSwitch* InvisibleSwitch::ctor_45FA70(Path_InvisibleSwitch* pTlv, u32 tl
     field_34_bottom_right = pTlv->field_C_bottom_right;
     field_3A_set_off_alarm = pTlv->field_16_set_off_alarm;
     field_3C_scale = pTlv->field_18_scale;
-    return this;
 }
 
-void InvisibleSwitch::dtor_45FB20()
+InvisibleSwitch::~InvisibleSwitch()
 {
-    SetVTable(this, 0x545A7C); // vTbl_InvisibleSwitch_545A7C
     Path::TLV_Reset_4DB8E0(field_24_tlvInfo, -1, 0, 0);
-    BaseGameObject_dtor_4DBEC0();
-}
-
-InvisibleSwitch* InvisibleSwitch::vdtor_45FAF0(s32 flags)
-{
-    dtor_45FB20();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void InvisibleSwitch::vUpdate_45FBA0()
@@ -68,11 +49,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
             // Fire alarm if set
             if (field_3A_set_off_alarm == Choice_short::eYes_1)
             {
-                auto pAlarm = ae_new<Alarm>();
-                if (pAlarm)
-                {
-                    pAlarm->ctor_4091F0(150, 0, 30, Layer::eLayer_Above_FG1_39);
-                }
+                ae_new<Alarm>(150, 0, 30, Layer::eLayer_Above_FG1_39);
             }
 
             // Go back to waiting for trigger
