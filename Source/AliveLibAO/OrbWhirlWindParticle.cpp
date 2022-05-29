@@ -222,6 +222,12 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
     field_A8_render_as_scale = field_C0_current_scale * field_C4_randomized_scale;
 }
 
+
+OrbWhirlWindParticle::~OrbWhirlWindParticle()
+{
+    field_8_anim.vCleanUp();
+}
+
 void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj)
 {
     field_DC_position_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 16);

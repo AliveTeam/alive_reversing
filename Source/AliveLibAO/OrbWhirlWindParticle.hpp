@@ -12,6 +12,7 @@ class OrbWhirlWindParticle final
 {
 public:
     OrbWhirlWindParticle(FP xpos, FP ypos, FP scale);
+    ~OrbWhirlWindParticle();
 
     // WARNING: Not a derived type - keep virtuals in order for BC
 

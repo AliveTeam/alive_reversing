@@ -23,6 +23,7 @@ inline T* ao_new(Args&&... args)
         }
         else
         {
+            memset(buffer, 0, sizeof(T)); // HACK: Remove when vars are init'ed correctly
             return new (buffer) T(std::forward<Args>(args)...);
         }
     }

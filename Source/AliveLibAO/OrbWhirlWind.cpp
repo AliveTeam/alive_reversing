@@ -53,6 +53,7 @@ void OrbWhirlWind::VUpdate_48B990()
                 field_58_xpos,
                 field_5C_ypos,
                 field_60_scale);
+
             if (pParticle)
             {
                 field_18_particles[field_16_particleIdx++] = pParticle;
@@ -61,10 +62,10 @@ void OrbWhirlWind::VUpdate_48B990()
                 {
                     field_14_particles_state = ParticlesState::eCreated;
                 }
-                ++field_10_particle_spawn_counter;
+               
             }
          }
-
+         ++field_10_particle_spawn_counter;
     }
     else if (field_14_particles_state == ParticlesState::eActive)
     {
