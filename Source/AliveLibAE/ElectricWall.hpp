@@ -22,14 +22,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ElectricWall, 0x18);
 class ElectricWall final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ElectricWall* ctor_421DA0(Path_ElectricWall* pTlv, s32 tlvInfo);
-    
+    ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo);
+    ~ElectricWall();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT ElectricWall* vdtor_421F70(s32 flags);
-    EXPORT void dtor_421FA0();
     EXPORT void vScreenChanged_422530();
     EXPORT void vUpdate_422030();
 

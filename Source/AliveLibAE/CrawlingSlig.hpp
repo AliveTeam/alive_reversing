@@ -118,8 +118,8 @@ enum CrawlingSligMotion : s16
 class CrawlingSlig final : public BaseAliveGameObject
 {
 public:
-    EXPORT CrawlingSlig* ctor_418C70(Path_CrawlingSlig* pTlv, s32 tlvInfo);
-
+    CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo);
+    ~CrawlingSlig();
     
 
     virtual void VUpdate() override;
@@ -170,10 +170,6 @@ private:
 private:
     void SetBrain(TCrawlingSligBrainFn fn);
     bool BrainIs(TCrawlingSligBrainFn fn);
-
-    EXPORT void dtor_418FE0();
-
-    EXPORT CrawlingSlig* vdtor_418FB0(s32 flags);
 
     EXPORT Bool32 PanicOn_419810();
 

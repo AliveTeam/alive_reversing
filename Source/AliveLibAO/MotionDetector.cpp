@@ -249,15 +249,11 @@ void MotionDetector::VUpdate_437E90()
 
                             if (alarmInstanceCount_5076A8 == 0)
                             {
-                                auto pAlarm = ao_new<Alarm>();
-                                if (pAlarm)
-                                {
-                                    pAlarm->ctor_402570(
-                                        field_F4_alarm_duration,
-                                        field_F2_alarm_switch_id,
-                                        0,
-                                        Layer::eLayer_Above_FG1_39);
-                                }
+                                ao_new<Alarm>(
+                                    field_F4_alarm_duration,
+                                    field_F2_alarm_switch_id,
+                                    0,
+                                    Layer::eLayer_Above_FG1_39);
 
                                 if (pObj == sActiveHero_507678)
                                 {

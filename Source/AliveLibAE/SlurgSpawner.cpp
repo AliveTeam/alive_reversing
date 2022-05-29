@@ -46,11 +46,7 @@ void SlurgSpawner::vUpdate_4C83C0()
         {
             field_3E_delay_counter = 0;
             field_40_spawned_count++;
-            auto pSlurg = ae_new<Slurg>();
-            if (pSlurg)
-            {
-                pSlurg->ctor_4C84E0(field_24_slurg_tlv, 0xFFFFFFFF);
-            }
+            ae_new<Slurg>(field_24_slurg_tlv, 0xFFFFFFFF);
         }
     }
 }

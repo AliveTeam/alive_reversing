@@ -27,7 +27,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_Spawner_State, 0x10);
 class SligSpawner final : public BaseGameObject
 {
 public:
-    EXPORT SligSpawner* ctor_409740(Path_Slig* pTlv, s32 tlvInfo);
+    SligSpawner(Path_Slig* pTlv, s32 tlvInfo);
+    ~SligSpawner();
+
     EXPORT static s32 CC CreateFromSaveState_409B10(const u8* pBuffer);
 
     
@@ -36,8 +38,6 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    EXPORT void dtor_409A70();
-    EXPORT SligSpawner* vdtor_409800(s32 flags);
     EXPORT void vScreenChanged_409A30();
     EXPORT void vUpdate_409830();
     EXPORT s32 vGetSaveState_409BB0(Slig_Spawner_State* pState);

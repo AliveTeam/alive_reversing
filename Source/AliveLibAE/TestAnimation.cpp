@@ -57,13 +57,11 @@ void TestAnimation::DelayLoad()
     }
 }
 
-void TestAnimation::ctor()
+TestAnimation::TestAnimation()
+    : BaseAnimatedWithPhysicsGameObject(1)
 {
     mLoaded = false;
 
-    DisableVTableHack h;
-
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(1);
     SetType(AETypes::eNone_0);
 
     field_DC_bApplyShadows &= ~1u;
@@ -98,18 +96,6 @@ void TestAnimation::VUpdate()
 void TestAnimation::VScreenChanged()
 {
     // Keep alive
-}
-
-BaseGameObject* TestAnimation::VDestructor(s32 flags)
-{
-    // TODO: Destruction of this object will likely crash, but this obj can be removed
-    // once all animations are added to the table
-    // Destruct();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void TestAnimation::VRender(PrimHeader** ppOt)

@@ -219,11 +219,7 @@ void SecurityOrb::VUpdate_436DF0()
                 field_114_timer = gnFrameCount_507670 + 8;
                 field_110_state = SecurityOrbStates::eDoFlashAndSound_2;
 
-                auto pScreenShake = ao_new<ScreenShake>();
-                if (pScreenShake)
-                {
-                    pScreenShake->ctor_4624D0(1);
-                }
+                ao_new<ScreenShake>(1);
 
                 auto pSpark1 = ao_new<Sparks>();
                 if (pSpark1)

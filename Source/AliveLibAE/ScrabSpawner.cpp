@@ -7,11 +7,9 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 
-ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo)
+ScrabSpawner::ScrabSpawner(Path_ScrabSpawner* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x546FF0);
-
     field_20_tlvInfo = tlvInfo;
     SetType(AETypes::eScrabSpawner_113);
 
@@ -29,25 +27,21 @@ ScrabSpawner* ScrabSpawner::ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo)
 
     field_3C_spawned_scrab_id = -1;
     field_40_bFindSpawnedScrab = 0;
-
-    return this;
 }
 
 s32 CC ScrabSpawner::CreateFromSaveState_4ABEB0(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const ScrabSpawner_State*>(pBuffer);
     auto pTlv = static_cast<Path_ScrabSpawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
-    auto pScrabSpawner = ae_new<ScrabSpawner>();
-    pScrabSpawner->ctor_4AB450(pTlv, pState->field_4_tlvInfo);
-    pScrabSpawner->field_38_state = pState->field_8_state;
-    pScrabSpawner->field_3C_spawned_scrab_id = pState->field_C_spawned_scrab_id;
-    pScrabSpawner->field_40_bFindSpawnedScrab = 1;
-    return sizeof(ScrabSpawner_State);
-}
+    auto pScrabSpawner = ae_new<ScrabSpawner>(pTlv, pState->field_4_tlvInfo);
+    if (pScrabSpawner)
+    {
+        pScrabSpawner->field_38_state = pState->field_8_state;
+        pScrabSpawner->field_3C_spawned_scrab_id = pState->field_C_spawned_scrab_id;
+        pScrabSpawner->field_40_bFindSpawnedScrab = 1;
+    }
 
-BaseGameObject* ScrabSpawner::VDestructor(s32 flags)
-{
-    return vdtor_4AB4E0(flags);
+    return sizeof(ScrabSpawner_State);
 }
 
 void ScrabSpawner::VUpdate()
@@ -60,21 +54,9 @@ s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
     return vGetSaveState_4ABF50(reinterpret_cast<ScrabSpawner_State*>(pSaveBuffer));
 }
 
-ScrabSpawner* ScrabSpawner::vdtor_4AB4E0(s32 flags)
+ScrabSpawner::~ScrabSpawner()
 {
-    dtor_4AB720();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void ScrabSpawner::dtor_4AB720()
-{
-    SetVTable(this, 0x546FF0);
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
-    BaseGameObject_dtor_4DBEC0();
 }
 
 s32 ScrabSpawner::vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState)
@@ -145,13 +127,14 @@ void ScrabSpawner::vUpdate_4AB510()
 
                 if (pTlv)
                 {
-                    auto pNewScrab = ae_new<Scrab>();
-                    pNewScrab->ctor_4A3C40(pTlv, field_20_tlvInfo, field_26_spawn_direction);
+                    auto pNewScrab = ae_new<Scrab>(pTlv, field_20_tlvInfo, field_26_spawn_direction);
+                    if (pNewScrab)
+                    {
+                        SFX_Play_46FA90(SoundEffect::ScrabSpawn_111, 0);
 
-                    SFX_Play_46FA90(SoundEffect::ScrabSpawn_111, 0);
-
-                    field_38_state = ScrabSpawnerStates::eScrabSpawned_1;
-                    field_3C_spawned_scrab_id = pNewScrab->field_8_object_id;
+                        field_38_state = ScrabSpawnerStates::eScrabSpawned_1;
+                        field_3C_spawned_scrab_id = pNewScrab->field_8_object_id;
+                    }
                 }
                 else
                 {

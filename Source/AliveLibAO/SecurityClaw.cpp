@@ -342,11 +342,7 @@ void SecurityClaw::VUpdate_418DE0()
             {
                 if (!alarmInstanceCount_5076A8)
                 {
-                    auto pAlarm = ao_new<Alarm>();
-                    if (pAlarm)
-                    {
-                        pAlarm->ctor_402570(field_11A_alarm_duration, field_118_alarm_switch_id, 30, Layer::eLayer_Above_FG1_39);
-                    }
+                    ao_new<Alarm>(field_11A_alarm_duration, field_118_alarm_switch_id, 30, Layer::eLayer_Above_FG1_39);
                 }
             }
             break;
@@ -359,11 +355,7 @@ void SecurityClaw::VUpdate_418DE0()
                 const FP hero_mid_x = FP_FromInteger((rect.w + rect.x) / 2);
                 const FP hero_mid_y = FP_FromInteger((rect.h + rect.y) / 2);
 
-                auto pScreenShake = ao_new<ScreenShake>();
-                if (pScreenShake)
-                {
-                    pScreenShake->ctor_4624D0(1);
-                }
+                ao_new<ScreenShake>(1);
 
                 auto pZapLine = ao_new<ZapLine>();
                 if (pZapLine)
@@ -440,20 +432,12 @@ void SecurityClaw::VUpdate_418DE0()
         case SecurityClawStates::eAnimateClaw_DoFlashAndSound_3:
             if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<s32>(gnFrameCount_507670) == field_114_timer - 1)
             {
-                auto pFlash = ao_new<Flash>();
-                if (pFlash)
-                {
-                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
-                }
+                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
             }
 
             if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 4)
             {
-                auto pFlash = ao_new<Flash>();
-                if (pFlash)
-                {
-                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
-                }
+                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
             }
 
             if (field_114_timer - gnFrameCount_507670 == 4)

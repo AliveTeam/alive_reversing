@@ -36,9 +36,8 @@ const TintEntry sSecurityOrbTints_55C1EC[18] = {
 
 
 SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
-
     SetType(AETypes::eSecurityOrb_83);
 
     mFlags.Set(BaseGameObject::eCanExplode_Bit7);
@@ -106,28 +105,20 @@ s16 SecurityOrb::vTakeDamage_466BB0(BaseGameObject* pFrom)
 
     if (pFrom->Type() == AETypes::eMineCar_89 || pFrom->Type() == AETypes::eAbilityRing_104 || pFrom->Type() == AETypes::eShrykull_121)
     {
-        auto pExplosionMem = ae_new<Explosion>();
-        if (pExplosionMem)
-        {
-            pExplosionMem->ctor_4A1200(
-                field_B8_xpos,
-                field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)),
-                field_CC_sprite_scale,
-                0);
-        }
+        ae_new<Explosion>(
+            field_B8_xpos,
+            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)),
+            field_CC_sprite_scale,
+            0);
 
-        auto pGibsMem = ae_new<Gibs>();
-        if (pGibsMem)
-        {
-            pGibsMem->ctor_40FB40(
-                GibType::Metal_5,
-                field_B8_xpos,
-                field_BC_ypos,
-                FP_FromInteger(0),
-                FP_FromInteger(0),
-                field_CC_sprite_scale,
-                0);
-        }
+        ae_new<Gibs>(
+            GibType::Metal_5,
+            field_B8_xpos,
+            field_BC_ypos,
+            FP_FromInteger(0),
+            FP_FromInteger(0),
+            field_CC_sprite_scale,
+            0);
     }
 
     return 1;
@@ -150,19 +141,11 @@ void SecurityOrb::vUpdate_4665A0()
             {
                 if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer - 5 || static_cast<s32>(sGnFrame_5C1B84) == field_120_timer - 1)
                 {
-                    auto pFlash1 = ae_new<Flash>();
-                    if (pFlash1)
-                    {
-                        pFlash1->ctor_428570(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_3, 1);
-                    }
+                    ae_new<Flash>(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_3, 1);
                 }
                 if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer - 4)
                 {
-                    auto pFlash2 = ae_new<Flash>();
-                    if (pFlash2)
-                    {
-                        pFlash2->ctor_428570(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_1, 1);
-                    }
+                    ae_new<Flash>(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_1, 1);
                 }
 
                 const s32 timerFrame = field_120_timer - sGnFrame_5C1B84;
@@ -189,24 +172,16 @@ void SecurityOrb::vUpdate_4665A0()
             const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            auto pZapLine = ae_new<ZapLine>();
-            if (pZapLine)
-            {
-                pZapLine->ctor_4CC690(
-                    field_B8_xpos,
-                    field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale),
-                    xpos,
-                    ypos,
-                    8,
-                    ZapLineType::eThick_0,
-                    Layer::eLayer_ZapLinesMuds_28);
-            }
+            ae_new<ZapLine>(
+                field_B8_xpos,
+                field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale),
+                xpos,
+                ypos,
+                8,
+                ZapLineType::eThick_0,
+                Layer::eLayer_ZapLinesMuds_28);
 
-            auto pFlicker = ae_new<PossessionFlicker>();
-            if (pFlicker)
-            {
-                pFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 100, 100);
-            }
+            ae_new<PossessionFlicker>(sActiveHero_5C1B68, 8, 255, 100, 100);
 
             if (sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
             {
@@ -216,11 +191,7 @@ void SecurityOrb::vUpdate_4665A0()
             field_120_timer = sGnFrame_5C1B84 + 8;
             field_11C_state = 2;
 
-            auto pScreenShake = ae_new<ScreenShake>();
-            if (pScreenShake)
-            {
-                pScreenShake->ctor_4ACF70(1, 0);
-            }
+            ae_new<ScreenShake>(1, 0);
 
             auto pSpark = ae_new<Sparks>();
             if (pSpark)

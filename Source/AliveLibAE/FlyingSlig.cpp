@@ -111,16 +111,12 @@ bool FlyingSlig::BrainIs(TFlyingSligBrainFn fn)
     return ::BrainIs(fn, field_29C_brain_state, sFlyingSligBrainTable);
 }
 
-FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
+FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(9)
 {
-    //BaseCtor_4340B0(9); // Omitted for direct call
-    BaseAliveGameObject(9);
-
     field_178_unused = 0;
     field_164_unused = -1;
     field_17A_unused = -1;
-
-    SetVTable(this, 0x545120);
 
     if (tlvInfo != -1)
     {
@@ -254,11 +250,6 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo)
     field_1E4_unused = 0;
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
-    return this;
 }
 
 const AnimId sFlyingSligFrameTables_552408[28] = {
@@ -340,114 +331,117 @@ s32 CC FlyingSlig::CreateFromSaveState_437E40(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", nullptr);
     }
 
-    auto pFlyingSlig = ae_new<FlyingSlig>();
-    pFlyingSlig->ctor_4342B0(pTlv, pSaveState->field_3C_tlvInfo);
-    pFlyingSlig->field_FC_pPathTLV = nullptr;
-    pFlyingSlig->field_100_pCollisionLine = nullptr;
-
-    pFlyingSlig->field_B8_xpos = pSaveState->field_4_xpos;
-    pFlyingSlig->field_BC_ypos = pSaveState->field_8_ypos;
-
-    pFlyingSlig->field_C4_velx = pSaveState->field_C_velx;
-    pFlyingSlig->field_C8_vely = pSaveState->field_10_vely;
-
-    pFlyingSlig->field_C0_path_number = pSaveState->field_14_path_number;
-    pFlyingSlig->field_C2_lvl_number = pSaveState->field_16_lvl_number;
-    pFlyingSlig->field_CC_sprite_scale = pSaveState->field_18_sprite_scale;
-
-    pFlyingSlig->field_27C_r = pSaveState->field_1C_oldr;
-    pFlyingSlig->field_D0_r = pSaveState->field_1C_oldr;
-
-    pFlyingSlig->field_27E_g = pSaveState->field_1E_oldg;
-    pFlyingSlig->field_D2_g = pSaveState->field_1E_oldg;
-
-    pFlyingSlig->field_280_b = pSaveState->field_20_oldb;
-    pFlyingSlig->field_D4_b = pSaveState->field_20_oldb;
-
-    pFlyingSlig->field_106_current_motion = pSaveState->field_24_current_state;
-
-    u8** ppRes = pFlyingSlig->ResBlockForMotion_4350F0(pSaveState->field_24_current_state);
-    const AnimRecord& animRec = AnimRec(sFlyingSligFrameTables_552408[pFlyingSlig->field_106_current_motion]);
-    pFlyingSlig->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
-
-    pFlyingSlig->field_20_animation.field_92_current_frame = pSaveState->field_26_current_frame;
-
-    pFlyingSlig->field_20_animation.field_E_frame_change_counter = pSaveState->field_28_frame_change_counter;
-
-    pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2A_bAnimRender & 1);
-    pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_22_bAnimFlipX & 1);
-    pFlyingSlig->mFlags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->field_2B_bDrawable & 1);
-
-    if (IsLastFrame(&pFlyingSlig->field_20_animation))
+    auto pFlyingSlig = ae_new<FlyingSlig>(pTlv, pSaveState->field_3C_tlvInfo);
+    if (pFlyingSlig)
     {
-        pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        pFlyingSlig->field_FC_pPathTLV = nullptr;
+        pFlyingSlig->field_100_pCollisionLine = nullptr;
+
+        pFlyingSlig->field_B8_xpos = pSaveState->field_4_xpos;
+        pFlyingSlig->field_BC_ypos = pSaveState->field_8_ypos;
+
+        pFlyingSlig->field_C4_velx = pSaveState->field_C_velx;
+        pFlyingSlig->field_C8_vely = pSaveState->field_10_vely;
+
+        pFlyingSlig->field_C0_path_number = pSaveState->field_14_path_number;
+        pFlyingSlig->field_C2_lvl_number = pSaveState->field_16_lvl_number;
+        pFlyingSlig->field_CC_sprite_scale = pSaveState->field_18_sprite_scale;
+
+        pFlyingSlig->field_27C_r = pSaveState->field_1C_oldr;
+        pFlyingSlig->field_D0_r = pSaveState->field_1C_oldr;
+
+        pFlyingSlig->field_27E_g = pSaveState->field_1E_oldg;
+        pFlyingSlig->field_D2_g = pSaveState->field_1E_oldg;
+
+        pFlyingSlig->field_280_b = pSaveState->field_20_oldb;
+        pFlyingSlig->field_D4_b = pSaveState->field_20_oldb;
+
+        pFlyingSlig->field_106_current_motion = pSaveState->field_24_current_state;
+
+        u8** ppRes = pFlyingSlig->ResBlockForMotion_4350F0(pSaveState->field_24_current_state);
+        const AnimRecord& animRec = AnimRec(sFlyingSligFrameTables_552408[pFlyingSlig->field_106_current_motion]);
+        pFlyingSlig->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
+
+        pFlyingSlig->field_20_animation.field_92_current_frame = pSaveState->field_26_current_frame;
+
+        pFlyingSlig->field_20_animation.field_E_frame_change_counter = pSaveState->field_28_frame_change_counter;
+
+        pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2A_bAnimRender & 1);
+        pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_22_bAnimFlipX & 1);
+        pFlyingSlig->mFlags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->field_2B_bDrawable & 1);
+
+        if (IsLastFrame(&pFlyingSlig->field_20_animation))
+        {
+            pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        }
+
+        pFlyingSlig->field_10C_health = pSaveState->field_2C_current_health;
+        pFlyingSlig->field_106_current_motion = pSaveState->field_30_current_state;
+        pFlyingSlig->field_108_next_motion = pSaveState->field_32_delayed_state;
+        pFlyingSlig->field_F8_LastLineYPos = FP_FromInteger(pSaveState->field_34_lastLineYPos);
+        pFlyingSlig->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+        pFlyingSlig->field_104_collision_line_type = -1;
+
+        if (pSaveState->field_36_line_idx != -1)
+        {
+            pFlyingSlig->field_104_collision_line_type = pSaveState->field_36_line_idx;
+        }
+
+        if (pSaveState->field_3A.Get(FlyingSlig_State::eBit1_bPossessed))
+        {
+            sControlledCharacter_5C1B8C = pFlyingSlig;
+            pFlyingSlig->field_2A8_max_x_speed = (FP_FromDouble(5.5) * pFlyingSlig->field_CC_sprite_scale);
+            pFlyingSlig->field_2AC_up_vel = (FP_FromDouble(-5.5) * pFlyingSlig->field_CC_sprite_scale);
+            pFlyingSlig->field_2B0_down_vel = (FP_FromDouble(5.5) * pFlyingSlig->field_CC_sprite_scale);
+            pFlyingSlig->field_2B4_max_slow_down = (FP_FromDouble(0.25) * pFlyingSlig->field_CC_sprite_scale);
+            pFlyingSlig->field_2B8_max_speed_up = (FP_FromDouble(0.7) * pFlyingSlig->field_CC_sprite_scale);
+        }
+
+        pFlyingSlig->field_17C_launch_switch_id = pSaveState->field_38_launch_switch_id;
+
+
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit5_Throw, pSaveState->field_3A.Get(FlyingSlig_State::eBit2_Throw));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit6_bAlertedAndNotFacingAbe, pSaveState->field_3A.Get(FlyingSlig_State::eBit3_bAlertedAndNotFacingAbe));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit7_DoAction, pSaveState->field_3A.Get(FlyingSlig_State::eBit4_DoAction));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit9_Chanting, pSaveState->field_3A.Get(FlyingSlig_State::eBit5_Chanting));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit10_Speaking_flag2, pSaveState->field_3A.Get(FlyingSlig_State::eBit6_Speaking_flag2));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit1_Speaking_flag1, pSaveState->field_3A.Get(FlyingSlig_State::eBit7_Speaking_flag1));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit2_bLastLine, pSaveState->field_3A.Get(FlyingSlig_State::eBit8_bLastLine));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit3, pSaveState->field_3A.Get(FlyingSlig_State::eBit9));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit4, pSaveState->field_3A.Get(FlyingSlig_State::eBit10));
+
+
+        pFlyingSlig->field_14C_timer = pSaveState->field_40_timer;
+        pFlyingSlig->field_150_grenade_delay = pSaveState->field_44_grenade_delay;
+        pFlyingSlig->field_154_collision_reaction_timer = pSaveState->field_48_collision_reaction_timer;
+        pFlyingSlig->field_184_xSpeed = pSaveState->field_4C_xSpeed;
+        pFlyingSlig->field_188_ySpeed = pSaveState->field_50_ySpeed;
+        pFlyingSlig->field_17D_next_speak = pSaveState->field_54_next_speak;
+        pFlyingSlig->field_160_voice_pitch_min = pSaveState->field_56_voice_pitch_min;
+        pFlyingSlig->field_158_obj_id = pSaveState->field_58_obj_id;
+        pFlyingSlig->field_18C = pSaveState->field_5C;
+        pFlyingSlig->field_190 = pSaveState->field_60;
+        pFlyingSlig->field_194 = pSaveState->field_64;
+        pFlyingSlig->field_198_line_length = pSaveState->field_68_line_length;
+        pFlyingSlig->field_1C4 = pSaveState->field_6C;
+        pFlyingSlig->field_1C8_lever_pull_range_xpos = pSaveState->field_70_lever_pull_range_xpos;
+        pFlyingSlig->field_1CC_lever_pull_range_ypos = pSaveState->field_74_lever_pull_range_ypos;
+        pFlyingSlig->field_1D8_unused = pSaveState->field_78_unused;
+        pFlyingSlig->field_1DC_unused = pSaveState->field_7C_unused;
+        pFlyingSlig->field_1E0_unused = pSaveState->field_80_unused;
+        pFlyingSlig->field_1E4_unused = pSaveState->field_84_unused;
+        pFlyingSlig->field_294_nextXPos = pSaveState->field_88_nextXPos;
+        pFlyingSlig->field_298_nextYPos = pSaveState->field_8C_nextYPos;
+        pFlyingSlig->SetBrain(sFlyingSlig_Brain_table_552350[pSaveState->field_90_fns1_idx]);
+        pFlyingSlig->field_1E8_unused = pSaveState->field_98_unused;
+        pFlyingSlig->field_2A0_abe_level = pSaveState->field_9A_abe_level;
+        pFlyingSlig->field_2A2_abe_path = pSaveState->field_9C_abe_path;
+        pFlyingSlig->field_2A4_abe_camera = pSaveState->field_9E_abe_camera;
+        pFlyingSlig->field_290_bobbing_values_index = pSaveState->field_A4_bobbing_values_index;
+        pFlyingSlig->field_284_bobbing_value = pSaveState->field_A8_bobbing_value;
+        pFlyingSlig->field_28C_bobbing_values_table_index = pSaveState->field_A0_bobbing_values_table_index;
     }
 
-    pFlyingSlig->field_10C_health = pSaveState->field_2C_current_health;
-    pFlyingSlig->field_106_current_motion = pSaveState->field_30_current_state;
-    pFlyingSlig->field_108_next_motion = pSaveState->field_32_delayed_state;
-    pFlyingSlig->field_F8_LastLineYPos = FP_FromInteger(pSaveState->field_34_lastLineYPos);
-    pFlyingSlig->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
-    pFlyingSlig->field_104_collision_line_type = -1;
-
-    if (pSaveState->field_36_line_idx != -1)
-    {
-        pFlyingSlig->field_104_collision_line_type = pSaveState->field_36_line_idx;
-    }
-
-    if (pSaveState->field_3A.Get(FlyingSlig_State::eBit1_bPossessed))
-    {
-        sControlledCharacter_5C1B8C = pFlyingSlig;
-        pFlyingSlig->field_2A8_max_x_speed = (FP_FromDouble(5.5) * pFlyingSlig->field_CC_sprite_scale);
-        pFlyingSlig->field_2AC_up_vel = (FP_FromDouble(-5.5) * pFlyingSlig->field_CC_sprite_scale);
-        pFlyingSlig->field_2B0_down_vel = (FP_FromDouble(5.5) * pFlyingSlig->field_CC_sprite_scale);
-        pFlyingSlig->field_2B4_max_slow_down = (FP_FromDouble(0.25) * pFlyingSlig->field_CC_sprite_scale);
-        pFlyingSlig->field_2B8_max_speed_up = (FP_FromDouble(0.7) * pFlyingSlig->field_CC_sprite_scale);
-    }
-
-    pFlyingSlig->field_17C_launch_switch_id = pSaveState->field_38_launch_switch_id;
-
-
-    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit5_Throw, pSaveState->field_3A.Get(FlyingSlig_State::eBit2_Throw));
-    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit6_bAlertedAndNotFacingAbe, pSaveState->field_3A.Get(FlyingSlig_State::eBit3_bAlertedAndNotFacingAbe));
-    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit7_DoAction, pSaveState->field_3A.Get(FlyingSlig_State::eBit4_DoAction));
-    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit9_Chanting, pSaveState->field_3A.Get(FlyingSlig_State::eBit5_Chanting));
-    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit10_Speaking_flag2, pSaveState->field_3A.Get(FlyingSlig_State::eBit6_Speaking_flag2));
-    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit1_Speaking_flag1, pSaveState->field_3A.Get(FlyingSlig_State::eBit7_Speaking_flag1));
-    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit2_bLastLine, pSaveState->field_3A.Get(FlyingSlig_State::eBit8_bLastLine));
-    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit3, pSaveState->field_3A.Get(FlyingSlig_State::eBit9));
-    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit4, pSaveState->field_3A.Get(FlyingSlig_State::eBit10));
-
-
-    pFlyingSlig->field_14C_timer = pSaveState->field_40_timer;
-    pFlyingSlig->field_150_grenade_delay = pSaveState->field_44_grenade_delay;
-    pFlyingSlig->field_154_collision_reaction_timer = pSaveState->field_48_collision_reaction_timer;
-    pFlyingSlig->field_184_xSpeed = pSaveState->field_4C_xSpeed;
-    pFlyingSlig->field_188_ySpeed = pSaveState->field_50_ySpeed;
-    pFlyingSlig->field_17D_next_speak = pSaveState->field_54_next_speak;
-    pFlyingSlig->field_160_voice_pitch_min = pSaveState->field_56_voice_pitch_min;
-    pFlyingSlig->field_158_obj_id = pSaveState->field_58_obj_id;
-    pFlyingSlig->field_18C = pSaveState->field_5C;
-    pFlyingSlig->field_190 = pSaveState->field_60;
-    pFlyingSlig->field_194 = pSaveState->field_64;
-    pFlyingSlig->field_198_line_length = pSaveState->field_68_line_length;
-    pFlyingSlig->field_1C4 = pSaveState->field_6C;
-    pFlyingSlig->field_1C8_lever_pull_range_xpos = pSaveState->field_70_lever_pull_range_xpos;
-    pFlyingSlig->field_1CC_lever_pull_range_ypos = pSaveState->field_74_lever_pull_range_ypos;
-    pFlyingSlig->field_1D8_unused = pSaveState->field_78_unused;
-    pFlyingSlig->field_1DC_unused = pSaveState->field_7C_unused;
-    pFlyingSlig->field_1E0_unused = pSaveState->field_80_unused;
-    pFlyingSlig->field_1E4_unused = pSaveState->field_84_unused;
-    pFlyingSlig->field_294_nextXPos = pSaveState->field_88_nextXPos;
-    pFlyingSlig->field_298_nextYPos = pSaveState->field_8C_nextYPos;
-    pFlyingSlig->SetBrain(sFlyingSlig_Brain_table_552350[pSaveState->field_90_fns1_idx]);
-    pFlyingSlig->field_1E8_unused = pSaveState->field_98_unused;
-    pFlyingSlig->field_2A0_abe_level = pSaveState->field_9A_abe_level;
-    pFlyingSlig->field_2A2_abe_path = pSaveState->field_9C_abe_path;
-    pFlyingSlig->field_2A4_abe_camera = pSaveState->field_9E_abe_camera;
-    pFlyingSlig->field_290_bobbing_values_index = pSaveState->field_A4_bobbing_values_index;
-    pFlyingSlig->field_284_bobbing_value = pSaveState->field_A8_bobbing_value;
-    pFlyingSlig->field_28C_bobbing_values_table_index = pSaveState->field_A0_bobbing_values_table_index;
     return sizeof(FlyingSlig_State);
 }
 
@@ -571,10 +565,8 @@ s32 FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     return sizeof(FlyingSlig_State);
 }
 
-void FlyingSlig::dtor_434990()
+FlyingSlig::~FlyingSlig()
 {
-    SetVTable(this, 0x545120);
-
     if (sControlledCharacter_5C1B8C == this)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
@@ -606,23 +598,6 @@ void FlyingSlig::dtor_434990()
             }
         }
     }
-
-    BaseAliveGameObject::dtor_4080B0();
-}
-
-BaseGameObject* FlyingSlig::VDestructor(s32 flags)
-{
-    return vdtor_434870(flags);
-}
-
-FlyingSlig* FlyingSlig::vdtor_434870(s32 flags)
-{
-    dtor_434990();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void FlyingSlig::VScreenChanged()
@@ -1049,12 +1024,11 @@ s16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
                 return 1;
             }
             BlowUp_436510();
-            auto pExplosion = ae_new<Explosion>();
+            auto pExplosion = ae_new<Explosion>(field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)), field_CC_sprite_scale, 1);
             if (!pExplosion)
             {
                 return 1;
             }
-            pExplosion->ctor_4A1200(field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)), field_CC_sprite_scale, 1);
             return 1;
         }
 
@@ -2301,15 +2275,13 @@ void FlyingSlig::ThrowGrenade_43A1E0()
         grenadeXVel = -grenadeXVel;
     }
 
-    auto pGrenade = ae_new<Grenade>();
+    auto pGrenade = ae_new<Grenade>(grenadeXPos + field_B8_xpos, grenadeYPos + field_BC_ypos, 0, 1, 0, this);
     if (pGrenade)
     {
-        pGrenade->ctor_447F70(grenadeXPos + field_B8_xpos, grenadeYPos + field_BC_ypos, 0, 1, 0, this);
+        pGrenade->field_CC_sprite_scale = field_CC_sprite_scale;
+        pGrenade->field_D6_scale = field_D6_scale;
+        pGrenade->VThrow_49E460(grenadeXVel, grenadeYVel);
     }
-
-    pGrenade->field_CC_sprite_scale = field_CC_sprite_scale;
-    pGrenade->field_D6_scale = field_D6_scale;
-    pGrenade->VThrow_49E460(grenadeXVel, grenadeYVel);
 
     New_ShootingFire_Particle_426890(xpos + field_B8_xpos, ypos + field_BC_ypos, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), field_CC_sprite_scale);
     Slig_SoundEffect_4BFFE0(SligSfx::eThrowGrenade_8, this);
@@ -2334,17 +2306,10 @@ void FlyingSlig::ThrowGrenade_43A1E0()
 void FlyingSlig::BlowUp_436510()
 {
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
-    auto pGibs = ae_new<Gibs>();
-    if (pGibs)
-    {
-        pGibs->ctor_40FB40(GibType::Slig_1, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
-    }
 
-    auto pBlood = ae_new<Blood>();
-    if (pBlood)
-    {
-        pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 20);
-    }
+    ae_new<Gibs>(GibType::Slig_1, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+
+    ae_new<Blood>(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 20);
 
     New_Smoke_Particles_426C70(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), field_CC_sprite_scale, 3, 128u, 128u, 128u);
     SFX_Play_46FA90(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
@@ -3084,17 +3049,13 @@ s16 FlyingSlig::CollisionUp_43A640(FP velY)
         {
             Slig_GameSpeak_SFX_4C04F0(sGnFrame_5C1B84 & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange_496AB0(256, 512), this);
             field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
-            auto pBurst = ae_new<ParticleBurst>();
-            if (pBurst)
-            {
-                pBurst->ctor_41CF50(
-                    field_B8_xpos,
-                    hitY + (FP_FromInteger(7) * field_CC_sprite_scale),
-                    5u,
-                    field_CC_sprite_scale,
-                    BurstType::eSmallPurpleSparks_6,
-                    9);
-            }
+            ae_new<ParticleBurst>(
+                field_B8_xpos,
+                hitY + (FP_FromInteger(7) * field_CC_sprite_scale),
+                5u,
+                field_CC_sprite_scale,
+                BurstType::eSmallPurpleSparks_6,
+                9);
         }
 
         Slig_SoundEffect_4BFFE0(sGnFrame_5C1B84 & 1 ? SligSfx::eCollideWithWall1_12 : SligSfx::eCollideWithWall2_13, this);
@@ -3244,11 +3205,7 @@ s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
         {
             Slig_GameSpeak_SFX_4C04F0(sGnFrame_5C1B84 & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange_496AB0(256, 512), this);
             field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
-            auto pBurst = ae_new<ParticleBurst>();
-            if (pBurst)
-            {
-                pBurst->ctor_41CF50(sparkX, hitY + (FP_FromInteger(16) * field_CC_sprite_scale), 5u, field_CC_sprite_scale, BurstType::eSmallPurpleSparks_6, 9);
-            }
+            ae_new<ParticleBurst>(sparkX, hitY + (FP_FromInteger(16) * field_CC_sprite_scale), 5u, field_CC_sprite_scale, BurstType::eSmallPurpleSparks_6, 9);
         }
         field_B8_xpos += velX + hitX - xOff;
         return 1;

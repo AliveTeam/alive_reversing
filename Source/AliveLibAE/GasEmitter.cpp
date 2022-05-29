@@ -13,11 +13,9 @@
 ALIVE_VAR(1, 0x5BD4C8, GasEmitter*, sMainGasEmitter_5BD4C8, nullptr);
 ALIVE_VAR(1, 0x5BD4CC, u32, sGasEmiterAudioMask_5BD4CC, 0);
 
-GasEmitter* GasEmitter::ctor_43CAA0(Path_GasEmitter* pTlv, s32 tlvInfo)
+GasEmitter::GasEmitter(Path_GasEmitter* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5451D0);
-
     SetType(AETypes::eNone_0);
 
     field_28_draw_flipper = 1;
@@ -34,13 +32,6 @@ GasEmitter* GasEmitter::ctor_43CAA0(Path_GasEmitter* pTlv, s32 tlvInfo)
     field_38_fp_not_used = FP_FromInteger(1);
 
     field_24_emit_power = Math_NextRandom() % 4;
-
-    return this;
-}
-
-BaseGameObject* GasEmitter::VDestructor(s32 flags)
-{
-    return vdtor_43CB40(flags);
 }
 
 void GasEmitter::VUpdate()
@@ -58,9 +49,8 @@ void GasEmitter::VStopAudio()
     vStopAudio_43CDE0();
 }
 
-void GasEmitter::dtor_43CD20()
+GasEmitter::~GasEmitter()
 {
-    SetVTable(this, 0x5451D0);
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
     if (sMainGasEmitter_5BD4C8 == this)
     {
@@ -68,17 +58,6 @@ void GasEmitter::dtor_43CD20()
         SND_Stop_Channels_Mask_4CA810(sGasEmiterAudioMask_5BD4CC);
         sGasEmiterAudioMask_5BD4CC = 0;
     }
-    BaseGameObject_dtor_4DBEC0();
-}
-
-GasEmitter* GasEmitter::vdtor_43CB40(s32 flags)
-{
-    dtor_43CD20();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void GasEmitter::vStopAudio_43CDE0()

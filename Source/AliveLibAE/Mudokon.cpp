@@ -383,15 +383,12 @@ static Mud_Emotion TLV_Emo_To_Internal_Emo(Mud_TLV_Emotion emo)
     }
 }
 
-Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
+Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(18)
 {
-    BaseAliveGameObject(18);
-
     field_154_unused = 0;
     field_140_last_event_index = -1;
     field_156_unused = -1;
-
-    SetVTable(this, 0x5462E4);
 
     field_11C_bird_portal_id = -1;
     field_12C_unused = -1;
@@ -594,14 +591,8 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo)
     field_162_maxXOffset = field_DA_xOffset;
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
 
     vUpdate_4757A0();
-
-    return this;
 }
 
 void Mudokon::VUpdate()
@@ -1265,20 +1256,8 @@ s16 Mudokon::FacingTarget_473140(BirdPortal* pTarget)
     return FALSE;
 }
 
-Mudokon* Mudokon::vdtor_475770(s32 flags)
+Mudokon::~Mudokon()
 {
-    Mudokon::dtor_475B60();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Mudokon::dtor_475B60()
-{
-    SetVTable(this, 0x5462E4);
-
     auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_449CF0(field_11C_bird_portal_id));
     if (field_10C_health <= FP_FromInteger(0))
     {
@@ -1346,8 +1325,6 @@ void Mudokon::dtor_475B60()
     {
         SND_SEQ_Stop_4CAE60(SeqId::MudokonChant_11);
     }
-
-    dtor_4080B0();
 }
 
 void Mudokon::vScreenChanged_476F30()
@@ -1412,17 +1389,13 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
                 case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
                 case BulletType::eNormalBullet_2:
                 {
-                    auto pBloodFromShot = ae_new<Blood>();
-                    if (pBloodFromShot)
-                    {
-                        pBloodFromShot->ctor_40F0B0(
-                            field_B8_xpos,
-                            field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
-                            pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
-                            FP_FromInteger(0),
-                            field_CC_sprite_scale,
-                            50);
-                    }
+                    ae_new<Blood>(
+                        field_B8_xpos,
+                        field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
+                        pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
+                        FP_FromInteger(0),
+                        field_CC_sprite_scale,
+                        50);
                     SetPal_4772D0(Mud_Emotion::eNormal_0);
                     break;
                 }
@@ -1446,17 +1419,13 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
                 }
 
                 // Nothing saved us, get shot
-                auto pBloodMem = ae_new<Blood>();
-                if (pBloodMem)
-                {
-                    pBloodMem->ctor_40F0B0(
-                        field_B8_xpos,
-                        field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
-                        FP_FromInteger(0),
-                        FP_FromInteger(0),
-                        field_CC_sprite_scale,
-                        50);
-                }
+                ae_new<Blood>(
+                    field_B8_xpos,
+                    field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    50);
 
                 SetPal_4772D0(Mud_Emotion::eNormal_0);
                 // Fall though to other cases below
@@ -1506,59 +1475,43 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
 
             if (field_16A_flags.Get(Flags_16A::eBit4_blind))
             {
-                auto pMudGibs1 = ae_new<Gibs>();
-                if (pMudGibs1)
-                {
-                    pMudGibs1->ctor_40FB40(
-                        GibType::BlindMud_4,
-                        field_B8_xpos,
-                        field_BC_ypos,
-                        FP_FromInteger(0),
-                        FP_FromInteger(0),
-                        field_CC_sprite_scale,
-                        0);
-                }
+                ae_new<Gibs>(
+                    GibType::BlindMud_4,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    0);
 
-                auto pMudGibs2 = ae_new<Gibs>();
-                if (pMudGibs2)
-                {
-                    pMudGibs2->ctor_40FB40(
-                        GibType::BlindMud_4,
-                        field_B8_xpos,
-                        field_BC_ypos,
-                        FP_FromInteger(0),
-                        FP_FromInteger(0),
-                        field_CC_sprite_scale,
-                        0);
-                }
+                ae_new<Gibs>(
+                    GibType::BlindMud_4,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    0);
             }
             else
             {
-                auto pMudGibs1 = ae_new<Gibs>();
-                if (pMudGibs1)
-                {
-                    pMudGibs1->ctor_40FB40(
-                        GibType::Mud_3,
-                        field_B8_xpos,
-                        field_BC_ypos,
-                        FP_FromInteger(0),
-                        FP_FromInteger(0),
-                        field_CC_sprite_scale,
-                        0);
-                }
+                ae_new<Gibs>(
+                    GibType::Mud_3,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    0);
 
-                auto pMudGibs2 = ae_new<Gibs>();
-                if (pMudGibs2)
-                {
-                    pMudGibs2->ctor_40FB40(
-                        GibType::Mud_3,
-                        field_B8_xpos,
-                        field_BC_ypos,
-                        FP_FromInteger(0),
-                        FP_FromInteger(0),
-                        field_CC_sprite_scale,
-                        0);
-                }
+                ae_new<Gibs>(
+                    GibType::Mud_3,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    0);
             }
 
             mFlags.Set(BaseGameObject::eDead);
@@ -1594,17 +1547,13 @@ s16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
                 vGetBoundingRect_424FD0(&bRect, 1);
 
                 auto pFleech = static_cast<BaseAliveGameObject*>(pFrom);
-                auto pBloodFromFleech = ae_new<Blood>();
-                if (pBloodFromFleech)
-                {
-                    pBloodFromFleech->ctor_40F0B0(
-                        field_B8_xpos,
-                        (FP_FromInteger(bRect.y + bRect.h) / FP_FromInteger(2)),
-                        field_B8_xpos - pFleech->field_B8_xpos < FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
-                        FP_FromInteger(0),
-                        field_CC_sprite_scale,
-                        50);
-                }
+                ae_new<Blood>(
+                    field_B8_xpos,
+                    (FP_FromInteger(bRect.y + bRect.h) / FP_FromInteger(2)),
+                    field_B8_xpos - pFleech->field_B8_xpos < FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    50);
 
                 // TODO: Only set if pFrom->field_B8_xpos != field_B8_xpos ??
                 field_106_current_motion = eMudMotions::M_KnockForward_45_474180;
@@ -2026,20 +1975,12 @@ s16 Mudokon::Brain_0_GiveRings_470C10()
                 if (field_168_ring_type == RingTypes::eExplosive_Emit_Effect_2)
                 {
                     // Red flicker
-                    auto pFlicker = ae_new<PossessionFlicker>();
-                    if (pFlicker)
-                    {
-                        pFlicker->ctor_4319E0(this, 10, 255, 128, 128);
-                    }
+                    ae_new<PossessionFlicker>(this, 10, 255, 128, 128);
                 }
                 else
                 {
                     // Greenish flicker
-                    auto pFlicker = ae_new<PossessionFlicker>();
-                    if (pFlicker)
-                    {
-                        pFlicker->ctor_4319E0(this, 10, 255, 255, 32);
-                    }
+                    ae_new<PossessionFlicker>(this, 10, 255, 255, 32);
                 }
                 field_194_timer = sGnFrame_5C1B84 + 15;
                 return Brain_0_GiveRings::eBrain0_GivingRing_8;
@@ -5154,11 +5095,7 @@ s16 Mudokon::Brain_7_FallAndSmackDeath_471600()
         if (static_cast<s32>(sGnFrame_5C1B84) > field_194_timer)
         {
             Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
-            auto pShake = ae_new<ScreenShake>();
-            if (pShake)
-            {
-                pShake->ctor_4ACF70(0, 0);
-            }
+            ae_new<ScreenShake>(0, 0);
             mFlags.Set(BaseGameObject::eDead);
         }
     }
@@ -5486,11 +5423,7 @@ s16 Mudokon::Brain_9_Sick_47A910()
             {
                 field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
                 field_108_next_motion = eMudMotions::M_Idle_0_4724E0;
-                auto pFlicker = ae_new<PossessionFlicker>();
-                if (pFlicker)
-                {
-                    pFlicker->ctor_4319E0(this, 8, 155, 255, 32);
-                }
+                ae_new<PossessionFlicker>(this, 8, 155, 255, 32);
                 return Brain_9_Sick::eBrain9_StandingUp_3;
             }
 
@@ -5874,31 +5807,27 @@ void Mudokon::M_Chisel_11_4732D0()
             {
                 SFX_Play_46FA90(SoundEffect::Chisel_91, 0, field_CC_sprite_scale);
 
-                auto pSpark = ae_new<Spark>();
-                if (pSpark)
+                FP sparkY = {};
+                FP sparkX = {};
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    FP sparkY = {};
-                    FP sparkX = {};
-                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                    {
-                        sparkY = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(3));
-                        sparkX = field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(18));
-                    }
-                    else
-                    {
-                        sparkY = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(3));
-                        sparkX = (field_CC_sprite_scale * FP_FromInteger(18)) + field_B8_xpos;
-                    }
-
-                    pSpark->ctor_4CBBB0(
-                        sparkX + FP_FromInteger(field_DA_xOffset),
-                        sparkY,
-                        field_CC_sprite_scale,
-                        9,
-                        0,
-                        255,
-                        SparkType::eSmallChantParticle_0);
+                    sparkY = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(3));
+                    sparkX = field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(18));
                 }
+                else
+                {
+                    sparkY = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(3));
+                    sparkX = (field_CC_sprite_scale * FP_FromInteger(18)) + field_B8_xpos;
+                }
+
+                ae_new<Spark>(
+                    sparkX + FP_FromInteger(field_DA_xOffset),
+                    sparkY,
+                    field_CC_sprite_scale,
+                    9,
+                    0,
+                    255,
+                    SparkType::eSmallChantParticle_0);
             }
         }
     }
@@ -6446,11 +6375,7 @@ void Mudokon::M_RunJumpMid_36_474570()
 
         SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
 
-        auto pMusicTrigger = ae_new<MusicTrigger>();
-        if (pMusicTrigger)
-        {
-            pMusicTrigger->ctor_47FF10(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
-        }
+        ae_new<MusicTrigger>(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
 
         sRescuedMudokons_5C1BC2++;
 

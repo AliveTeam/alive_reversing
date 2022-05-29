@@ -13,11 +13,9 @@
 #include "Particle.hpp"
 #include "ParticleBurst.hpp"
 
-SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
+SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
-    SetVTable(this, 0x545224);
-
     SetType(AETypes::eLockedSoul_61);
     field_118_pTlv = pTlv;
     field_11C_tlvInfo = tlvInfo;
@@ -76,7 +74,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1_tlv_state == 0)
     {
-        return this;
+        return;
     }
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -92,25 +90,16 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo)
     {
         field_120_state = SlapLockStates::eBroken_3;
     }
-
-    return this;
 }
 
-void SlapLock::dtor_43DF00()
+SlapLock::~SlapLock()
 {
-    SetVTable(this, 0x545224);
     Path::TLV_Reset_4DB8E0(field_11C_tlvInfo, -1, 0, 0);
-    dtor_4080B0();
 }
 
 void SlapLock::VUpdate()
 {
     vUpdate_43DF90();
-}
-
-BaseGameObject* SlapLock::VDestructor(s32 flags)
-{
-    return vdtor_43DED0(flags);
 }
 
 void SlapLock::VScreenChanged()
@@ -139,33 +128,22 @@ s32 CC SlapLock::CreateFromSaveState_43EA00(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("GHOSTTRP.BAN", nullptr);
     }
 
-    auto pSlapLock = ae_new<SlapLock>();
+    auto pSlapLock = ae_new<SlapLock>(pTlv, pState->field_4_tlvInfo);
     if (pSlapLock)
     {
-        pSlapLock->ctor_43DC80(pTlv, pState->field_4_tlvInfo);
+        pSlapLock->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2_render & 1);
+
+        pSlapLock->field_11C_tlvInfo = pState->field_4_tlvInfo;
+
+        pTlv->field_1_tlv_state = pState->field_8_tlv_state;
+
+        pSlapLock->field_120_state = pState->field_A_state;
+        pSlapLock->field_124_timer1 = pState->field_C_timer1;
+        pSlapLock->field_114_flags.Set(Flags_114::e114_Bit1_bShot);
+        pSlapLock->field_13C_timer2 = pState->field_14_timer2;
     }
 
-    pSlapLock->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2_render & 1);
-
-    pSlapLock->field_11C_tlvInfo = pState->field_4_tlvInfo;
-
-    pTlv->field_1_tlv_state = pState->field_8_tlv_state;
-
-    pSlapLock->field_120_state = pState->field_A_state;
-    pSlapLock->field_124_timer1 = pState->field_C_timer1;
-    pSlapLock->field_114_flags.Set(Flags_114::e114_Bit1_bShot);
-    pSlapLock->field_13C_timer2 = pState->field_14_timer2;
     return sizeof(SlapLock_State);
-}
-
-SlapLock* SlapLock::vdtor_43DED0(s32 flags)
-{
-    dtor_43DF00();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void SlapLock::vScreenChanged_43E840()
@@ -405,13 +383,12 @@ void SlapLock::vUpdate_43DF90()
                 }
                 else
                 {
-                    auto pFlicker = ae_new<PossessionFlicker>();
+                    auto pFlicker = ae_new<PossessionFlicker>(sActiveHero_5C1B68, 8, 128, 255, 128);
                     if (pFlicker)
                     {
-                        pFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 128, 255, 128);
+                        field_138_possesion_flicker_id = pFlicker->field_8_object_id;
                     }
                     field_120_state = SlapLockStates::eGiveInvisibilityFromFlicker_6;
-                    field_138_possesion_flicker_id = pFlicker->field_8_object_id;
                 }
                 return;
             }
@@ -517,17 +494,13 @@ s16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
     SFX_Play_46FA90(SoundEffect::SpiritLockBreak_106, 0, field_CC_sprite_scale);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
 
-    auto pParticleBurst = ae_new<ParticleBurst>();
-    if (pParticleBurst)
-    {
-        pParticleBurst->ctor_41CF50(
-            field_B8_xpos,
-            field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
-            15,
-            field_CC_sprite_scale,
-            BurstType::eGreenSparks_5,
-            11);
-    }
+    ae_new<ParticleBurst>(
+        field_B8_xpos,
+        field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+        15,
+        field_CC_sprite_scale,
+        BurstType::eGreenSparks_5,
+        11);
 
     const AnimRecord& animRec = AnimRec(AnimId::SlapLock_Punched);
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);

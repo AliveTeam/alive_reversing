@@ -57,15 +57,13 @@ class FlyingSligSpawner final : public BaseGameObject
 public:
     EXPORT static s32 CC CreateFromSaveState_43B690(const u8* pBuffer);
 
-    EXPORT FlyingSligSpawner* ctor_433D50(Path_FlyingSligSpawner* pTlv, s32 tlvInfo);
-
+    FlyingSligSpawner(Path_FlyingSligSpawner* pTlv, s32 tlvInfo);
+    ~FlyingSligSpawner();
     
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    EXPORT void dtor_434030();
-    EXPORT FlyingSligSpawner* vdtor_433DE0(s32 flags);
     EXPORT void vUpdate_433E10();
     EXPORT s32 vGetSaveState_43B730(FlyingSligSpawner_State* pSaveState);
 

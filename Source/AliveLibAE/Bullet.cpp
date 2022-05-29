@@ -13,10 +13,9 @@
 #include "ScreenManager.hpp"
 #include "Grid.hpp"
 
-Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets)
+Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x54446C);
     SetType(AETypes::eBullet_15);
     field_20_type = type;
     field_28_xpos = xpos;
@@ -29,22 +28,6 @@ Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xp
     field_44_number_of_bullets = numberOfBullets;
     field_30_x_distance = xDist;
     field_22_unused = 0;
-    return this;
-}
-
-BaseGameObject* Bullet::VDestructor(s32 flags)
-{
-    return vdtor_4145E0(flags);
-}
-
-Bullet* Bullet::vdtor_4145E0(s32 flags)
-{
-    BaseGameObject_dtor_4DBEC0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void Bullet::VUpdate()
@@ -120,14 +103,10 @@ void Bullet::vUpdate_413560()
 
                             if (field_30_x_distance <= FP_FromInteger(0))
                             {
-                                auto pSpark = ae_new<Spark>();
-                                if (pSpark)
-                                {
-                                    pSpark->ctor_4CBBB0(
-                                        pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
-                                        field_2C_ypos + FP_NoFractional(randomHeight),
-                                        field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
-                                }
+                                ae_new<Spark>(
+                                    pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
+                                    field_2C_ypos + FP_NoFractional(randomHeight),
+                                    field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
                                 New_Smoke_Particles_426C70(
                                     pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
@@ -135,14 +114,10 @@ void Bullet::vUpdate_413560()
                             }
                             else
                             {
-                                auto pSpark = ae_new<Spark>();
-                                if (pSpark)
-                                {
-                                    pSpark->ctor_4CBBB0(
-                                        pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
-                                        field_2C_ypos + FP_NoFractional(randomHeight),
-                                        field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
-                                }
+                                ae_new<Spark>(
+                                    pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
+                                    field_2C_ypos + FP_NoFractional(randomHeight),
+                                    field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
                                 New_Smoke_Particles_426C70(
                                     pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
@@ -169,26 +144,18 @@ void Bullet::vUpdate_413560()
 
                 if (field_30_x_distance <= FP_FromInteger(0))
                 {
-                    auto pSpark = ae_new<Spark>();
-                    if (pSpark)
-                    {
-                        pSpark->ctor_4CBBB0(
-                            hitX - (field_3C_scale * FP_FromInteger(6)),
-                            (FP_FromInteger(10) * field_3C_scale) + hitY,
-                            field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
-                    }
+                    ae_new<Spark>(
+                        hitX - (field_3C_scale * FP_FromInteger(6)),
+                        (FP_FromInteger(10) * field_3C_scale) + hitY,
+                        field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
                     New_Smoke_Particles_426C70(hitX - (field_3C_scale * FP_FromInteger(6)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
                 }
                 else
                 {
-                    auto pSpark = ae_new<Spark>();
-                    if (pSpark)
-                    {
-                        pSpark->ctor_4CBBB0(
-                            hitX + (field_3C_scale * FP_FromInteger(7)),
-                            (FP_FromInteger(10) * field_3C_scale) + hitY,
-                            field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
-                    }
+                    ae_new<Spark>(
+                        hitX + (field_3C_scale * FP_FromInteger(7)),
+                        (FP_FromInteger(10) * field_3C_scale) + hitY,
+                        field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
                     New_Smoke_Particles_426C70(hitX + (field_3C_scale * FP_FromInteger(7)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
                 }
 
@@ -211,14 +178,11 @@ void Bullet::vUpdate_413560()
 
                     if (field_30_x_distance <= FP_FromInteger(0))
                     {
-                        auto pSpark = ae_new<Spark>();
-                        if (pSpark)
-                        {
-                            pSpark->ctor_4CBBB0(
-                                (field_3C_scale * FP_FromInteger(30)) + pShotObj->field_B8_xpos - FP_FromInteger(randomW),
-                                field_2C_ypos + FP_NoFractional(randomHeight),
-                                field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
-                        }
+
+                        ae_new<Spark>(
+                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->field_B8_xpos - FP_FromInteger(randomW),
+                            field_2C_ypos + FP_NoFractional(randomHeight),
+                            field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
 
                         New_Smoke_Particles_426C70(
                             (field_3C_scale * FP_FromInteger(30)) + pShotObj->field_B8_xpos - FP_FromInteger(randomW),
@@ -227,14 +191,12 @@ void Bullet::vUpdate_413560()
                     }
                     else
                     {
-                        auto pSparkMem = ae_new<Spark>();
-                        if (pSparkMem)
-                        {
-                            pSparkMem->ctor_4CBBB0(
-                                FP_FromInteger(randomW) + pShotObj->field_B8_xpos - (field_3C_scale * FP_FromInteger(30)),
-                                field_2C_ypos + FP_NoFractional(randomHeight),
-                                field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
-                        }
+
+                        ae_new<Spark>(
+                            FP_FromInteger(randomW) + pShotObj->field_B8_xpos - (field_3C_scale * FP_FromInteger(30)),
+                            field_2C_ypos + FP_NoFractional(randomHeight),
+                            field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
+
 
                         New_Smoke_Particles_426C70(
                             FP_FromInteger(randomW) + pShotObj->field_B8_xpos - (field_3C_scale * FP_FromInteger(30)),
@@ -299,11 +261,7 @@ void Bullet::vUpdate_413560()
                     &field_24_pLine, &hitX, &hitY, 0x400)
                 == 1)
             {
-                auto pSpark = ae_new<Spark>();
-                if (pSpark)
-                {
-                    pSpark->ctor_4CBBB0(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
-                }
+                ae_new<Spark>(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
                 New_Smoke_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
             }
             SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
@@ -350,11 +308,7 @@ void Bullet::vUpdate_413560()
                         &field_24_pLine, &hitX, &hitY, 1024)
                     == 1)
                 {
-                    auto pSpark = ae_new<Spark>();
-                    if (pSpark)
-                    {
-                        pSpark->ctor_4CBBB0(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
-                    }
+                    ae_new<Spark>(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
                     New_Smoke_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
                 }
                 SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);

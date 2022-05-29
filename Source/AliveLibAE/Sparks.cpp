@@ -3,10 +3,9 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 
-Sparks* Sparks::ctor_416390(FP xpos, FP ypos, FP scale)
+Sparks::Sparks(FP xpos, FP ypos, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x544534);
     SetType(AETypes::eSparks_22);
 
     const AnimRecord& rec = AnimRec(AnimId::Sparks);
@@ -30,12 +29,6 @@ Sparks* Sparks::ctor_416390(FP xpos, FP ypos, FP scale)
 
     field_C4_velx = FP_FromInteger(Math_RandomRange_496AB0(-8, 8));
     field_C8_vely = FP_FromInteger(Math_RandomRange_496AB0(-6, -3));
-    return this;
-}
-
-BaseGameObject* Sparks::VDestructor(s32 flags)
-{
-    return vdtor_416520(flags);
 }
 
 void Sparks::VUpdate()
@@ -82,19 +75,4 @@ void Sparks::vUpdate_416570()
 void Sparks::vScreenChanged_416720()
 {
     mFlags.Set(BaseGameObject::eDead);
-}
-
-void Sparks::dtor_416550()
-{
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-Sparks* Sparks::vdtor_416520(s32 flags)
-{
-    dtor_416550();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }

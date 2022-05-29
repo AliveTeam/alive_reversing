@@ -81,8 +81,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(MineCar_SaveState, 0x68);
 class MineCar final : public BaseAliveGameObject
 {
 public:
-    EXPORT MineCar* ctor_46BC80(Path_MineCar* pTlv, s32 tlvInfo, s32 a4, s32 a5, s32 a6);
-
+    MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 a4, s32 a5, s32 a6);
+    ~MineCar();
     
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -97,12 +97,9 @@ private:
     EXPORT void LoadAnimation_46BF80(Animation* pAnim);
     EXPORT void vStopAudio_46F9C0();
     EXPORT void vScreenChanged_46F800();
-    EXPORT MineCar* vdtor_46BF50(s32 flags);
-    EXPORT void dtor_46F2A0();
     EXPORT Bool32 CheckRoofCollision_46F6B0(FP hitX, FP hitY);
     EXPORT Bool32 CheckFloorCollision_46F730(FP hitX, FP hitY);
     EXPORT void vUpdate_46C010();
-    EXPORT void vUpdate_REAL_46C010();
     EXPORT void vRender_46E760(PrimHeader** ppOt);
     EXPORT void Stop_46E570();
     EXPORT void Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs dir, s8 bChangeDirection);

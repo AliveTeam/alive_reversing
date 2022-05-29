@@ -36,8 +36,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTrigger_State, 0x10);
 class TimerTrigger final : public BaseGameObject
 {
 public:
-    EXPORT TimerTrigger* ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo);
-
+    TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo);
+    ~TimerTrigger();
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -46,8 +46,6 @@ public:
     EXPORT static s32 CC CreateFromSaveState_4CDF70(const u8* pData);
 
 private:
-    EXPORT TimerTrigger* vdtor_4CDD00(s32 flags);
-    EXPORT void dtor_4CDD30();
     EXPORT void vUpdate_4CDDB0();
     EXPORT void ToggleAllIds_4CDEC0();
     EXPORT void vScreenChanged_4CDF00();

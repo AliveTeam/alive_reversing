@@ -271,17 +271,9 @@ void RollingBall::VUpdate_457AF0()
                         BurstType::eFallingRocks_0);
                 }
 
-                auto pFlash = ao_new<Flash>();
-                if (pFlash)
-                {
-                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
-                }
+                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
 
-                auto pScreenShake = ao_new<ScreenShake>();
-                if (pScreenShake)
-                {
-                    pScreenShake->ctor_4624D0(0);
-                }
+                ao_new<ScreenShake>(0);
 
                 mFlags.Set(Options::eDead);
 
@@ -349,11 +341,7 @@ void RollingBall::VUpdate_457AF0()
             field_E8_LastLineYPos = field_AC_ypos;
             field_B8_vely = (-field_B8_vely * FP_FromDouble(0.8));
 
-            auto pScreenShake = ao_new<ScreenShake>();
-            if (pScreenShake)
-            {
-                pScreenShake->ctor_4624D0(0);
-            }
+            ao_new<ScreenShake>(0);
 
             const CameraPos direction = gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
             SFX_Play_43AED0(SoundEffect::IngameTransition_107, 50, direction);

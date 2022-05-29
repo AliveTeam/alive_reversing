@@ -38,12 +38,9 @@ u8 fontPalette_550F08[32] = {
     24u,
     216u};
 
-BrewMachine* BrewMachine::ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo)
+BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x544424);
-    SetVTable(&field_14C_anim, 0x544290);
-
     SetType(AETypes::eBrewMachine_13);
 
     field_F4_font_context.LoadFontType_433400(2);
@@ -82,7 +79,6 @@ BrewMachine* BrewMachine::ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo)
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_1E6_cam_id = gMap.field_4_current_camera;
-    return this;
 }
 
 void BrewMachine::VUpdate()
@@ -95,23 +91,11 @@ void BrewMachine::VRender(PrimHeader** ppOt)
     vRender_4133F0(ppOt);
 }
 
-BrewMachine* BrewMachine::vdtor_413290(s32 flags)
+BrewMachine::~BrewMachine()
 {
-    dtor_413330();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void BrewMachine::dtor_413330()
-{
-    SetVTable(this, 0x544424);
     Path::TLV_Reset_4DB8E0(field_140_tlvInfo, -1, 0, 0);
     field_104_font.dtor_433540();
     field_F4_font_context.dtor_433510();
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void BrewMachine::vUpdate_4132C0()

@@ -31,14 +31,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_CrawlingSligButton, 0x1C);
 class CrawlingSligButton final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT CrawlingSligButton* ctor_4148F0(Path_CrawlingSligButton* pTlv, s32 tlvInfo);
-    
+    CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInfo);
+    ~CrawlingSligButton();
+
     virtual void VUpdate() override;
     EXPORT void UseButton_414C60();
 
 private:
-    EXPORT CrawlingSligButton* vdtor_414A60(s32 flags);
-    EXPORT void dtor_414A90();
     EXPORT void vUpdate_414B20();
 
 private:

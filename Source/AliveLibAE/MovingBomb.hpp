@@ -27,8 +27,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBombStopper, 0x14);
 class MovingBomb final : public BaseAliveGameObject
 {
 public:
-    EXPORT MovingBomb* ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo);
-
+    MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo);
+    ~MovingBomb();
     
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -37,8 +37,6 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT MovingBomb* vdtor_470040(s32 flags);
-    EXPORT void dtor_4700C0();
     EXPORT void BlowUp_470070();
     EXPORT void vRender_4707D0(PrimHeader** ot);
     EXPORT void vScreenChanged_470B90();

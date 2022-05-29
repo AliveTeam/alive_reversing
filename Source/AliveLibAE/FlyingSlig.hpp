@@ -129,9 +129,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
 class FlyingSlig final : public BaseAliveGameObject
 {
 public:
-    EXPORT FlyingSlig* ctor_4342B0(Path_FlyingSlig* pTlv, s32 tlvInfo);
-
-    
+    FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo);
+    ~FlyingSlig();
 
     virtual void VUpdate() override;
 
@@ -153,23 +152,12 @@ public:
 
 private:
     EXPORT s32 vGetSaveState_43B1E0(FlyingSlig_State* pState);
-
-
-    EXPORT void dtor_434990();
-
-    EXPORT FlyingSlig* vdtor_434870(s32 flags);
-
     EXPORT void vScreenChanged_434C10();
-
-
     EXPORT void vUpdate_434AD0();
-
     EXPORT void vRender_435130(PrimHeader** ot);
-
     EXPORT s16 IsPossessed_436A90();
     EXPORT void sub_4348A0();
     EXPORT void Movement_4396E0();
-
     EXPORT s16 vTakeDamage_434C90(BaseGameObject* pFrom);
 
 public:

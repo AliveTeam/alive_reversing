@@ -35,11 +35,7 @@ EXPORT void CC CreateGameEnderController_43B7A0()
     }
 
     // Otherwise create one
-    auto pGameEnderController = ae_new<GameEnderController>();
-    if (pGameEnderController)
-    {
-        pGameEnderController->ctor_43B840();
-    }
+    ae_new<GameEnderController>();
 }
 
 
@@ -49,7 +45,6 @@ s32 CC GameEnderController::CreateFromSaveState_43BD10(const u8* pBuffer)
     auto pGameEnderController = ae_new<GameEnderController>();
     if (pGameEnderController)
     {
-        pGameEnderController->ctor_43B840();
         pGameEnderController->field_C_objectId = pState->field_4_obj_id;
         pGameEnderController->field_20_timer = sGnFrame_5C1B84 + pState->field_8_timer;
         pGameEnderController->field_24_state = pState->field_C_state;
@@ -57,19 +52,12 @@ s32 CC GameEnderController::CreateFromSaveState_43BD10(const u8* pBuffer)
     return sizeof(GameEnderController_State);
 }
 
-GameEnderController* GameEnderController::ctor_43B840()
+GameEnderController::GameEnderController()
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x545198);
     SetType(AETypes::eGameEnderController_57);
     field_24_state = GameEnderController_States::eInit_0;
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDeathFlareResID);
-    return this;
-}
-
-BaseGameObject* GameEnderController::VDestructor(s32 flags)
-{
-    return vdtor_43B8D0(flags);
 }
 
 void GameEnderController::VScreenChanged()
@@ -85,16 +73,6 @@ void GameEnderController::VUpdate()
 s32 GameEnderController::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_43BCD0(reinterpret_cast<GameEnderController_State*>(pSaveBuffer));
-}
-
-GameEnderController* GameEnderController::vdtor_43B8D0(s32 flags)
-{
-    BaseGameObject_dtor_4DBEC0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void GameEnderController::vScreenChanged_43BC80()

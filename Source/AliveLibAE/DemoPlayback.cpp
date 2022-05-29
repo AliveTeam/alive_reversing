@@ -10,11 +10,9 @@
 
 ALIVE_VAR(1, 0x5D1E20, DemoPlayback*, sDemoObj_dword_5D1E20, nullptr);
 
-void DemoPlayback::ctor()
+DemoPlayback::DemoPlayback()
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x54690C);
-
     if (sDemoObj_dword_5D1E20)
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -31,11 +29,6 @@ void DemoPlayback::ctor()
     }
 }
 
-BaseGameObject* DemoPlayback::VDestructor(s32 flags)
-{
-    return vdtor_497880(flags);
-}
-
 void DemoPlayback::VUpdate()
 {
     vUpdate_4978E0();
@@ -46,24 +39,12 @@ void DemoPlayback::VScreenChanged()
     // Keep alive
 }
 
-void DemoPlayback::dtor_4978B0()
+DemoPlayback::~DemoPlayback()
 {
-    SetVTable(this, 0x54690C);
     if (sDemoObj_dword_5D1E20 == this)
     {
         sDemoObj_dword_5D1E20 = nullptr;
     }
-    BaseGameObject_dtor_4DBEC0();
-}
-
-DemoPlayback* DemoPlayback::vdtor_497880(s32 flags)
-{
-    dtor_4978B0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void DemoPlayback::vUpdate_4978E0()

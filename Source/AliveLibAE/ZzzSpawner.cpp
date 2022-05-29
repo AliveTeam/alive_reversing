@@ -7,11 +7,9 @@
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 
-ZzzSpawner* ZzzSpawner::ctor_4C4070(Path_ZzzSpawner* pTlv, s32 tlvInfo)
+ZzzSpawner::ZzzSpawner(Path_ZzzSpawner* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x54755C);
-
     field_20_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_24_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_2C_tlvInfo = tlvInfo;
@@ -28,13 +26,6 @@ ZzzSpawner* ZzzSpawner::ctor_4C4070(Path_ZzzSpawner* pTlv, s32 tlvInfo)
     field_30_switch_id = pTlv->field_12_switch_id;
     field_38_Zzz_interval = pTlv->field_14_Zzz_interval;
     field_34_Zzz_timer = 0;
-
-    return this;
-}
-
-BaseGameObject* ZzzSpawner::VDestructor(s32 flags)
-{
-    return vdtor_4C4100(flags);
 }
 
 void ZzzSpawner::VUpdate()
@@ -47,21 +38,9 @@ void ZzzSpawner::VScreenChanged()
     vScreenChanged_4C4280();
 }
 
-void ZzzSpawner::dtor_4C4130()
+ZzzSpawner::~ZzzSpawner()
 {
-    SetVTable(this, 0x54755C);
     Path::TLV_Reset_4DB8E0(field_2C_tlvInfo, -1, 0, 0);
-    BaseGameObject_dtor_4DBEC0();
-}
-
-ZzzSpawner* ZzzSpawner::vdtor_4C4100(s32 flags)
-{
-    dtor_4C4130();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void ZzzSpawner::vScreenChanged_4C4280()
@@ -78,11 +57,7 @@ void ZzzSpawner::vUpdate_4C41B0()
 
     if (!SwitchStates_Get_466020(field_30_switch_id) && static_cast<s32>(sGnFrame_5C1B84) > field_34_Zzz_timer)
     {
-        auto pSnoozeParticle = ae_new<SnoozeParticle>();
-        if (pSnoozeParticle)
-        {
-            pSnoozeParticle->ctor_4B06F0(field_20_xpos, field_24_ypos, Layer::eLayer_Above_FG1_39, field_28_scale);
-        }
+        ae_new<SnoozeParticle>(field_20_xpos, field_24_ypos, Layer::eLayer_Above_FG1_39, field_28_scale);
 
         field_34_Zzz_timer = sGnFrame_5C1B84 + field_38_Zzz_interval;
     }

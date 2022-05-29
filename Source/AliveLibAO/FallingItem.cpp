@@ -251,11 +251,7 @@ void FallingItem::VUpdate_41A120()
                 field_AC_ypos = hitY;
                 field_110_state = State::eSmashed_4;
 
-                ScreenShake* pScreenShake = ao_new<ScreenShake>();
-                if (pScreenShake)
-                {
-                    pScreenShake->ctor_4624D0(0);
-                }
+                ao_new<ScreenShake>(0);
 
                 if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {

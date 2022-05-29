@@ -12,11 +12,9 @@
 #include "Sfx.hpp"
 #include "FlyingSlig.hpp"
 
-FlyingSligSpawner* FlyingSligSpawner::ctor_433D50(Path_FlyingSligSpawner* pTlv, s32 tlvInfo)
+FlyingSligSpawner::FlyingSligSpawner(Path_FlyingSligSpawner* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x545090);
-
     SetType(AETypes::eFlyingSligSpawner_55);
 
     if (tlvInfo != -1)
@@ -32,13 +30,6 @@ FlyingSligSpawner* FlyingSligSpawner::ctor_433D50(Path_FlyingSligSpawner* pTlv, 
     field_28_spawner_switch_id = pTlv->field_10.field_16_spawner_switch_id;
     field_3C_bSpawned = 0;
     field_24_spawned_slig_id = -1;
-
-    return this;
-}
-
-BaseGameObject* FlyingSligSpawner::VDestructor(s32 flags)
-{
-    return vdtor_433DE0(flags);
 }
 
 void FlyingSligSpawner::VUpdate()
@@ -56,33 +47,21 @@ s32 CC FlyingSligSpawner::CreateFromSaveState_43B690(const u8* pBuffer)
     const auto pState = reinterpret_cast<const FlyingSligSpawner_State*>(pBuffer);
 
     auto pTlv = static_cast<Path_FlyingSligSpawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
-    auto pFlyingSligSpawner = ae_new<FlyingSligSpawner>();
+
+    auto pFlyingSligSpawner = ae_new<FlyingSligSpawner>(pTlv, pState->field_4_tlvInfo);
     if (pFlyingSligSpawner)
     {
-        pFlyingSligSpawner->ctor_433D50(pTlv, pState->field_4_tlvInfo);
+        pFlyingSligSpawner->field_3C_bSpawned = pState->field_8_bSpawned;
+        pFlyingSligSpawner->field_40_bFirstUpdate |= 2u;
+        pFlyingSligSpawner->field_24_spawned_slig_id = pState->field_C_spawned_slig_obj_id;
     }
 
-    pFlyingSligSpawner->field_3C_bSpawned = pState->field_8_bSpawned;
-    pFlyingSligSpawner->field_40_bFirstUpdate |= 2u;
-    pFlyingSligSpawner->field_24_spawned_slig_id = pState->field_C_spawned_slig_obj_id;
     return sizeof(FlyingSligSpawner_State);
 }
 
-void FlyingSligSpawner::dtor_434030()
+FlyingSligSpawner::~FlyingSligSpawner()
 {
-    SetVTable(this, 0x545090);
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
-    BaseGameObject_dtor_4DBEC0();
-}
-
-FlyingSligSpawner* FlyingSligSpawner::vdtor_433DE0(s32 flags)
-{
-    dtor_434030();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void FlyingSligSpawner::vUpdate_433E10()

@@ -171,9 +171,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
 class Glukkon final : public BaseAliveGameObject
 {
 public:
-    EXPORT Glukkon* ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo);
-
-    
+    Glukkon(Path_Glukkon* pTlv, s32 tlvInfo);
+    ~Glukkon();
 
     EXPORT static s32 CC CreateFromSaveState_442830(const u8* pBuffer);
 
@@ -236,10 +235,6 @@ public:
 
 private:
     EXPORT void Init_43F260();
-
-    EXPORT Glukkon* vdtor_43F230(s32 flags);
-
-    EXPORT void dtor_43F570();
 
     EXPORT void vUpdate_43F770();
 

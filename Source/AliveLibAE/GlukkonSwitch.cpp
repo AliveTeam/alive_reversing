@@ -11,14 +11,13 @@
 #include "SwitchStates.hpp"
 #include "GameSpeak.hpp"
 
-GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
+GlukkonSwitch::GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     field_100_last_event_idx = -1;
     field_114 = 0;
     field_116 = -1;
 
-    SetVTable(this, 0x545534);
     SetType(AETypes::eHelpPhone_68);
 
     const AnimRecord& rec = AnimRec(AnimId::Security_Door_Idle);
@@ -81,13 +80,6 @@ GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     {
         field_120_timer = sGnFrame_5C1B84 + 10;
     }
-
-    return this;
-}
-
-BaseGameObject* GlukkonSwitch::VDestructor(s32 flags)
-{
-    return vdtor_4450C0(flags);
 }
 
 void GlukkonSwitch::VUpdate()
@@ -100,21 +92,9 @@ void GlukkonSwitch::VScreenChanged()
     vScreenChange_4456D0();
 }
 
-void GlukkonSwitch::dtor_4450F0()
+GlukkonSwitch::~GlukkonSwitch()
 {
-    SetVTable(this, 0x545534);
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-GlukkonSwitch* GlukkonSwitch::vdtor_4450C0(s32 flags)
-{
-    dtor_4450F0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void GlukkonSwitch::vScreenChange_4456D0()

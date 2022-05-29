@@ -8,11 +8,9 @@
 #include "Slog.hpp"
 #include "Sfx.hpp"
 
-SlogSpawner* SlogSpawner::ctor_4C7FF0(Path_SlogSpawner* pTlv, s32 tlvInfo)
+SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5476E8);
-
     field_20_tlvInfo = tlvInfo;
 
     field_34_scale = pTlv->field_10_scale;
@@ -30,13 +28,6 @@ SlogSpawner* SlogSpawner::ctor_4C7FF0(Path_SlogSpawner* pTlv, s32 tlvInfo)
     field_2C_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_30_spawn_timer = 0;
-
-    return this;
-}
-
-BaseGameObject* SlogSpawner::VDestructor(s32 flags)
-{
-    return vdtor_4C8080(flags);
 }
 
 void SlogSpawner::VUpdate()
@@ -47,16 +38,6 @@ void SlogSpawner::VUpdate()
 void SlogSpawner::VScreenChanged()
 {
     vScreenChanged_4C82A0();
-}
-
-SlogSpawner* SlogSpawner::vdtor_4C8080(s32 flags)
-{
-    BaseGameObject_dtor_4DBEC0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void SlogSpawner::vScreenChanged_4C82A0()
@@ -77,9 +58,11 @@ void SlogSpawner::vUpdate_4C80D0()
         if (SwitchStates_Get_466020(field_3E_spawner_switch_id))
         {
             field_30_spawn_timer = (field_3C_slog_spawn_interval + sGnFrame_5C1B84) + Math_NextRandom() % 8;
-            auto pSlog = ae_new<Slog>();
-            pSlog->ctor_4C4540(field_28_xpos, field_2C_ypos, field_34_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1), static_cast<s16>(field_40_listen_to_sligs), field_42_chase_delay);
-            pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_3A_start_direction == StartDirection::eLeft_1);
+            auto pSlog = ae_new<Slog>(field_28_xpos, field_2C_ypos, field_34_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1), static_cast<s16>(field_40_listen_to_sligs), field_42_chase_delay);
+            if (pSlog)
+            {
+                pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_3A_start_direction == StartDirection::eLeft_1);
+            }
 
             ++field_24_tlv_saved_slog_count;
             SFX_Play_46FA90(SoundEffect::SlogSpawn_115, 0);

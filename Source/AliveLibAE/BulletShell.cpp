@@ -7,18 +7,15 @@
 
 ALIVE_VAR(1, 0xBAF7E0, s16, sShellCount_BAF7E0, 0);
 
-BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, s16 direction, FP scale)
+BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x54708C);
-
     sShellCount_BAF7E0++;
 
     if (sShellCount_BAF7E0 >= 11)
     {
         mFlags.Clear(BaseGameObject::eDrawable_Bit4);
         mFlags.Set(BaseGameObject::eDead);
-        return this;
     }
     else
     {
@@ -57,12 +54,6 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, s16 direction, FP scale)
         field_C8_vely = FP_FromInteger(Math_RandomRange_496AB0(-4, -1));
         field_100_speed = FP_FromInteger(1);
     }
-    return this;
-}
-
-BaseGameObject* BulletShell::VDestructor(s32 flags)
-{
-    return vdtor_4AD4F0(flags);
 }
 
 void BulletShell::VUpdate()
@@ -70,21 +61,9 @@ void BulletShell::VUpdate()
     vUpdate_4AD550();
 }
 
-BulletShell* BulletShell::vdtor_4AD4F0(s32 flags)
+BulletShell::~BulletShell()
 {
-    dtor_4AD520();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void BulletShell::dtor_4AD520()
-{
-    SetVTable(this, 0x54708C);
     sShellCount_BAF7E0--;
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void BulletShell::vUpdate_4AD550()

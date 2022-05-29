@@ -3905,19 +3905,15 @@ void Slig::Motion_43_ShootZ_468E30()
     }
     else if (field_10_anim.field_92_current_frame == 7)
     {
-        auto pBullet = ao_new<Bullet>();
-        if (pBullet)
-        {
-            pBullet->ctor_409380(
-                this,
-                BulletType::eZBullet_2,
-                field_A8_xpos,
-                field_AC_ypos - FP_FromInteger(12),
-                FP_FromInteger(640),
-                0,
-                field_BC_sprite_scale,
-                field_174_tlv.field_2A_num_times_to_shoot - field_200_num_times_to_shoot - 1);
-        }
+        ao_new<Bullet>(
+            this,
+            BulletType::eZBullet_2,
+            field_A8_xpos,
+            field_AC_ypos - FP_FromInteger(12),
+            FP_FromInteger(640),
+            0,
+            field_BC_sprite_scale,
+            field_174_tlv.field_2A_num_times_to_shoot - field_200_num_times_to_shoot - 1);
 
         New_ShootingZFire_Particle_419810(
             field_A8_xpos,
@@ -4430,7 +4426,7 @@ void Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, u8 a
         array.mArray[ambianceId].field_8_pScopedSeq = ao_new<ScopedSeq>();
         if (array.mArray[ambianceId].field_8_pScopedSeq)
         {
-            array.mArray[ambianceId].field_8_pScopedSeq->ctor_476400(ambianceId, camPos);
+            array.mArray[ambianceId].field_8_pScopedSeq = ao_new<ScopedSeq>(ambianceId, camPos);
         }
     }
 }
@@ -4708,11 +4704,7 @@ s16 Slig::Brain_DeathDropDeath_46C5A0()
 
             Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
 
-            auto pScreenShake = ao_new<ScreenShake>();
-            if (pScreenShake)
-            {
-                pScreenShake->ctor_4624D0(0);
-            }
+            ao_new<ScreenShake>(0);
             field_114_timer = gnFrameCount_507670 + 30;
             return Brain_DeathDropDeath::eSwitchCamToAbe_2;
         }

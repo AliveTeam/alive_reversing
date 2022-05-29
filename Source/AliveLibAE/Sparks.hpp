@@ -6,7 +6,7 @@
 class Sparks final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Sparks* ctor_416390(FP xpos, FP ypos, FP scale);
+    Sparks(FP xpos, FP ypos, FP scale);
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -14,8 +14,6 @@ public:
 private:
     EXPORT void vUpdate_416570();
     EXPORT void vScreenChanged_416720();
-    EXPORT void dtor_416550();
-    EXPORT Sparks* vdtor_416520(s32 flags);
 
 private:
     s32 field_F4_padding;

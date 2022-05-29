@@ -14,7 +14,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ParamiteWebLine, 0x14);
 class ParamiteWebLine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ParamiteWebLine* ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tlvInfo);
+    ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo);
+    ~ParamiteWebLine();
 
     EXPORT void Wobble_4E29D0(s16 ypos);
 

@@ -15,11 +15,9 @@ const u8 byte_5543D0[32] = {
 ALIVE_VAR(1, 0x5c1bfa, u8, gTotalMeterBars_5C1BFA, 0);
 ALIVE_VAR(1, 0x5c1bf8, u16, gbDrawMeterCountDown_5C1BF8, 0);
 
-ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvInfo)
+ColourfulMeter::ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5451EC);
-
     SetType(AETypes::eColourfulMeter_59);
     field_68_tlvInfo = tlvInfo;
 
@@ -69,12 +67,6 @@ ColourfulMeter* ColourfulMeter::ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvIn
     {
         field_70_polys_to_render_count = field_82_bar_count * gTotalMeterBars_5C1BFA;
     }
-    return this;
-}
-
-BaseGameObject* ColourfulMeter::VDestructor(s32 flags)
-{
-    return vdtor_43D050(flags);
 }
 
 void ColourfulMeter::VScreenChanged()
@@ -92,24 +84,12 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
     vRender_43D2B0(ppOt);
 }
 
-ColourfulMeter* ColourfulMeter::vdtor_43D050(s32 flags)
+ColourfulMeter::~ColourfulMeter()
 {
-    dtor_43D080();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void ColourfulMeter::dtor_43D080()
-{
-    SetVTable(this, 0x5451EC);
     gObjList_drawables_5C1124->Remove_Item(this);
     Path::TLV_Reset_4DB8E0(field_68_tlvInfo, -1, 0, 0);
     field_30_font.dtor_433540();
     field_20_font_context.dtor_433510();
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void ColourfulMeter::vScreenChanged_43D7A0()

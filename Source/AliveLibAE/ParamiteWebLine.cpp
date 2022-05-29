@@ -10,11 +10,9 @@
 #include "ShadowZone.hpp"
 #include "Rope.hpp"
 
-ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
+ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(&field_108_anim_flare, 0x544290);
-    SetVTable(this, 0x547FA0);
     SetType(AETypes::eWebLine_146);
     field_100_tlv_info = tlvInfo;
 
@@ -93,7 +91,6 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     for (s32 i = 0; i < field_F4_anim_segment_count; i++)
     {
         new (&field_FC_pRes[i]) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-        SetVTable(&field_FC_pRes[i], 0x5447CC);
 
         field_FC_pRes[i].field_4_flags.Set(AnimFlags::eBit3_Render);
         field_FC_pRes[i].field_68_anim_ptr = &field_20_animation;
@@ -129,7 +126,6 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, s32 tl
     {
         mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
-    return this;
 }
 
 void ParamiteWebLine::Wobble_4E29D0(s16 ypos)
@@ -162,11 +158,6 @@ void ParamiteWebLine::VScreenChanged()
     return vScreenChanged_4E2BC0();
 }
 
-BaseGameObject* ParamiteWebLine::VDestructor(s32 flags)
-{
-    return vdtor_4E2460(flags);
-}
-
 PSX_RECT* ParamiteWebLine::vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx)
 {
     return vGetBoundingRect_4E2B40(pRect, pointIdx);
@@ -177,23 +168,11 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
     vRender_4E2530(ppOt);
 }
 
-ParamiteWebLine* ParamiteWebLine::vdtor_4E2460(s32 flags)
+ParamiteWebLine::~ParamiteWebLine()
 {
-    dtor_4E2490();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void ParamiteWebLine::dtor_4E2490()
-{
-    SetVTable(this, 0x547FA0);
     ae_non_zero_free_495560(field_FC_pRes);
     field_108_anim_flare.vCleanUp_40C630();
     Path::TLV_Reset_4DB8E0(field_100_tlv_info, -1, 0, 0);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void ParamiteWebLine::vUpdate_4E2A50()

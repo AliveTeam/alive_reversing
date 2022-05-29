@@ -28,12 +28,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MotionDetector, 0x24);
 class MotionDetectorLaser final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MotionDetectorLaser* ctor_468290(FP xpos, FP ypos, FP scale, Layer layer);
+    MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer);
 
-    
-
-private:
-    EXPORT MotionDetectorLaser* vdtor_468360(s32 flags);
 };
 ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
 
@@ -41,15 +37,14 @@ ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
 class MotionDetector final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MotionDetector* ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner);
-    
+    MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner);
+    ~MotionDetector();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT MotionDetector* vdtor_468850(s32 flags);
-    EXPORT void dtor_468880();
     EXPORT void vScreenChanged_469460();
     EXPORT void vRender_469120(PrimHeader** ppOt);
     EXPORT s16 IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner);

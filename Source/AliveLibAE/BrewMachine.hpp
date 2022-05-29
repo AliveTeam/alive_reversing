@@ -15,15 +15,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BrewMachine, 0x14);
 class BrewMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BrewMachine* ctor_413060(Path_BrewMachine* pTlv, s32 tlvInfo);
-
+    BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo);
+    ~BrewMachine();
     
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT BrewMachine* vdtor_413290(s32 flags);
-    EXPORT void dtor_413330();
     EXPORT void vUpdate_4132C0();
     EXPORT void vRender_4133F0(PrimHeader** ppOt);
 

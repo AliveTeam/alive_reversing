@@ -338,19 +338,15 @@ void SlingMudokon::Motion_3_ShootStart_46FD90()
                 xDistance = FP_FromInteger(640);
             }
 
-            auto pBullet = ao_new<Bullet>();
-            if (pBullet)
-            {
-                pBullet->ctor_409380(
-                    this,
-                    BulletType::eNormalBullet_1,
-                    bulletXPos,
-                    field_AC_ypos - FP_FromInteger(24),
-                    xDistance,
-                    0,
-                    field_BC_sprite_scale,
-                    0);
-            }
+            ao_new<Bullet>(
+                this,
+                BulletType::eNormalBullet_1,
+                bulletXPos,
+                field_AC_ypos - FP_FromInteger(24),
+                xDistance,
+                0,
+                field_BC_sprite_scale,
+                0);
             field_FC_current_motion = eSlingMudMotions::Motion_4_ShootEnd_46FEA0;
         }
     }
@@ -582,11 +578,7 @@ s16 SlingMudokon::Brain_1_Spawn_470230()
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_FC_current_motion = eSlingMudMotions::Motion_0_Idle_46FCB0;
 
-                auto pFlash = ao_new<Flash>();
-                if (pFlash)
-                {
-                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
-                }
+                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
                 if (field_A8_xpos > sActiveHero_507678->field_A8_xpos)
                 {
@@ -721,11 +713,7 @@ s16 SlingMudokon::Brain_1_Spawn_470230()
                 mFlags.Set(BaseGameObject::eDead);
                 New_DestroyOrCreateObject_Particle_419D00(field_A8_xpos, (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos, field_BC_sprite_scale);
 
-                auto pFlash = ao_new<Flash>();
-                if (pFlash)
-                {
-                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
-                }
+                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }
             return field_13A_brain_sub_state;
 
@@ -766,11 +754,7 @@ s16 SlingMudokon::Brain_2_AskForPassword_4707B0()
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-                auto pFlash = ao_new<Flash>();
-                if (pFlash)
-                {
-                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
-                }
+                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
                 field_140_timer = gnFrameCount_507670 + 30;
 
@@ -1016,11 +1000,7 @@ s16 SlingMudokon::Brain_2_AskForPassword_4707B0()
                 mFlags.Set(BaseGameObject::eDead);
                 New_DestroyOrCreateObject_Particle_419D00(field_A8_xpos, (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos, field_BC_sprite_scale);
 
-                auto pFlash = ao_new<Flash>();
-                if (pFlash)
-                {
-                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
-                }
+                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }
             return field_13A_brain_sub_state;
 

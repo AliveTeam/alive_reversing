@@ -2316,11 +2316,7 @@ void Mudokon::Motion_44_RunJumpMid_43E960()
         SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
 
 
-        auto pMusicMem = ao_new<MusicTrigger>();
-        if (pMusicMem)
-        {
-            pMusicMem->ctor_443A60(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
-        }
+        ao_new<MusicTrigger>(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
 
         sRescuedMudokons_5076C0++;
 
@@ -4427,12 +4423,7 @@ s16 Mudokon::Brain_FallAndSmackDeath_13_43C700()
             if (static_cast<s32>(gnFrameCount_507670) > field_1C0_timer)
             {
                 Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
-
-                auto pShake = ao_new<ScreenShake>();
-                if (pShake)
-                {
-                    pShake->ctor_4624D0(0);
-                }
+                ao_new<ScreenShake>(0);
                 mFlags.Set(BaseGameObject::eDead);
             }
         }

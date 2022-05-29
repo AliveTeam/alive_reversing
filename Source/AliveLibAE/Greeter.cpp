@@ -18,11 +18,9 @@
 #include "Function.hpp"
 #include "Bullet.hpp"
 
-EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
+Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
-    SetVTable(this, 0x54566C);
-
     SetType(AETypes::eGreeter_64);
     const AnimRecord& rec = AnimRec(AnimId::Greeter_Moving);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -97,20 +95,9 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo)
     field_12C_timesShot = 0;
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
 
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
     field_130_bChasing = 0;
-
-    return this;
-}
-
-BaseGameObject* Greeter::VDestructor(s32 flags)
-{
-    return vdtor_4468B0(flags);
 }
 
 void Greeter::VUpdate()
@@ -176,50 +163,51 @@ s32 CC Greeter::CreateFromSaveState_446040(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
     }
 
-    auto pGreeter = ae_new<Greeter>();
-    pGreeter->ctor_4465B0(pTlv, pState->field_28_tlvInfo);
-
-    pGreeter->field_B8_xpos = pState->field_C_xpos;
-    pGreeter->field_BC_ypos = pState->field_10_ypos;
-    pGreeter->field_C4_velx = pState->field_14_velx;
-    pGreeter->field_C8_vely = pState->field_18_vely;
-
-    pGreeter->field_C0_path_number = pState->field_8_path_number;
-    pGreeter->field_C2_lvl_number = pState->field_A_lvl_number;
-    pGreeter->field_CC_sprite_scale = pState->field_1C_sprite_scale;
-
-    pGreeter->field_D0_r = pState->field_2_r;
-    pGreeter->field_D2_g = pState->field_4_g;
-    pGreeter->field_D4_b = pState->field_6_b;
-
-    pGreeter->field_20_animation.field_92_current_frame = pState->field_20_current_frame;
-    pGreeter->field_20_animation.field_E_frame_change_counter = pState->field_22_frame_change_counter;
-
-    pGreeter->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
-
-    pGreeter->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
-
-    if (IsLastFrame(&pGreeter->field_20_animation))
+    auto pGreeter = ae_new<Greeter>(pTlv, pState->field_28_tlvInfo);
+    if (pGreeter)
     {
-        pGreeter->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        pGreeter->field_B8_xpos = pState->field_C_xpos;
+        pGreeter->field_BC_ypos = pState->field_10_ypos;
+        pGreeter->field_C4_velx = pState->field_14_velx;
+        pGreeter->field_C8_vely = pState->field_18_vely;
+
+        pGreeter->field_C0_path_number = pState->field_8_path_number;
+        pGreeter->field_C2_lvl_number = pState->field_A_lvl_number;
+        pGreeter->field_CC_sprite_scale = pState->field_1C_sprite_scale;
+
+        pGreeter->field_D0_r = pState->field_2_r;
+        pGreeter->field_D2_g = pState->field_4_g;
+        pGreeter->field_D4_b = pState->field_6_b;
+
+        pGreeter->field_20_animation.field_92_current_frame = pState->field_20_current_frame;
+        pGreeter->field_20_animation.field_E_frame_change_counter = pState->field_22_frame_change_counter;
+
+        pGreeter->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
+
+        pGreeter->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
+
+        if (IsLastFrame(&pGreeter->field_20_animation))
+        {
+            pGreeter->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        }
+
+        pGreeter->field_118_tlvInfo = pState->field_28_tlvInfo;
+        pGreeter->field_120_unused = pState->field_2C_unused;
+        pGreeter->field_124_last_turn_time = pState->field_30_last_turn_time;
+        pGreeter->field_128_timer = pState->field_34_timer;
+        pGreeter->field_12C_timesShot = pState->field_38_timesShot;
+        pGreeter->field_12E_bDontSetDestroyed = pState->field_3A_bDontSetDestroyed;
+        pGreeter->field_130_bChasing = pState->field_3C_bChasing;
+        pGreeter->field_134_speed = pState->field_40_speed;
+        pGreeter->field_13C_brain_state = pState->field_44_brain_state;
+        pGreeter->field_13E_targetOnLeft = pState->field_46_targetOnLeft;
+        pGreeter->field_140_targetOnRight = pState->field_48_targetOnRight;
+
+        auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find_449CF0(pGreeter->field_11C_motionDetectorId));
+
+        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_449CF0(pDetector->field_F8_laser_id));
+        pLaser->field_B8_xpos = pState->field_4C_motion_laser_xpos;
     }
-
-    pGreeter->field_118_tlvInfo = pState->field_28_tlvInfo;
-    pGreeter->field_120_unused = pState->field_2C_unused;
-    pGreeter->field_124_last_turn_time = pState->field_30_last_turn_time;
-    pGreeter->field_128_timer = pState->field_34_timer;
-    pGreeter->field_12C_timesShot = pState->field_38_timesShot;
-    pGreeter->field_12E_bDontSetDestroyed = pState->field_3A_bDontSetDestroyed;
-    pGreeter->field_130_bChasing = pState->field_3C_bChasing;
-    pGreeter->field_134_speed = pState->field_40_speed;
-    pGreeter->field_13C_brain_state = pState->field_44_brain_state;
-    pGreeter->field_13E_targetOnLeft = pState->field_46_targetOnLeft;
-    pGreeter->field_140_targetOnRight = pState->field_48_targetOnRight;
-
-    auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find_449CF0(pGreeter->field_11C_motionDetectorId));
-
-    auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_449CF0(pDetector->field_F8_laser_id));
-    pLaser->field_B8_xpos = pState->field_4C_motion_laser_xpos;
 
     return sizeof(Greeter_State);
 }
@@ -271,16 +259,6 @@ s32 Greeter::vGetSaveState_446400(Greeter_State* pState)
     return sizeof(Greeter_State);
 }
 
-Greeter* Greeter::vdtor_4468B0(s32 flags)
-{
-    dtor_4468E0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
 void Greeter::vScreenChanged_447DD0()
 {
     BaseGameObject::VScreenChanged();
@@ -303,10 +281,8 @@ void Greeter::vScreenChanged_447DD0()
     }
 }
 
-void Greeter::dtor_4468E0()
+Greeter::~Greeter()
 {
-    SetVTable(this, 0x54566C);
-
     if (field_12E_bDontSetDestroyed)
     {
         Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
@@ -321,35 +297,26 @@ void Greeter::dtor_4468E0()
     {
         pMotionDetector->mFlags.Set(BaseGameObject::eDead);
     }
-    dtor_4080B0();
 }
 
 EXPORT void Greeter::BlowUp_447E50()
 {
     field_10C_health = FP_FromInteger(0);
 
-    auto pExplosion = ae_new<Explosion>();
-    if (pExplosion)
-    {
-        pExplosion->ctor_4A1200(
-            field_B8_xpos,
-            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)),
-            field_CC_sprite_scale,
-            0);
-    }
+    ae_new<Explosion>(
+        field_B8_xpos,
+        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)),
+        field_CC_sprite_scale,
+        0);
 
-    auto pGibs = ae_new<Gibs>();
-    if (pGibs)
-    {
-        pGibs->ctor_40FB40(
-            GibType::Metal_5,
-            field_B8_xpos,
-            field_BC_ypos + FP_FromInteger(50),
-            FP_FromInteger(0),
-            FP_FromInteger(0),
-            field_CC_sprite_scale,
-            0);
-    }
+    ae_new<Gibs>(
+        GibType::Metal_5,
+        field_B8_xpos,
+        field_BC_ypos + FP_FromInteger(50),
+        FP_FromInteger(0),
+        FP_FromInteger(0),
+        field_CC_sprite_scale,
+        0);
 
     mFlags.Set(BaseGameObject::eDead);
     field_12E_bDontSetDestroyed = 0;
@@ -506,82 +473,54 @@ void Greeter::vOnThrowableHit_447DB0(BaseGameObject* /*pFrom*/)
 
 void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 {
-    auto pScreenShake = ae_new<ScreenShake>();
-    if (pScreenShake)
-    {
-        pScreenShake->ctor_4ACF70(0, 0);
-    }
+    ae_new<ScreenShake>(0, 0);
 
-    auto pZapLine = ae_new<ZapLine>();
-    if (pZapLine)
-    {
-        pZapLine->ctor_4CC690(
-            field_B8_xpos,
-            field_BC_ypos - (FP_FromInteger(20) * field_CC_sprite_scale),
-            xpos,
-            ypos,
-            8,
-            ZapLineType::eThick_0,
-            Layer::eLayer_ZapLinesMuds_28);
-    }
+    ae_new<ZapLine>(
+        field_B8_xpos,
+        field_BC_ypos - (FP_FromInteger(20) * field_CC_sprite_scale),
+        xpos,
+        ypos,
+        8,
+        ZapLineType::eThick_0,
+        Layer::eLayer_ZapLinesMuds_28);
 
-    auto pZapLine2 = ae_new<ZapLine>();
-    if (pZapLine2)
-    {
-        pZapLine2->ctor_4CC690(
-            field_B8_xpos,
-            field_BC_ypos,
-            xpos,
-            ypos,
-            8,
-            ZapLineType::eThick_0,
-            Layer::eLayer_ZapLinesMuds_28);
-    }
+    ae_new<ZapLine>(
+        field_B8_xpos,
+        field_BC_ypos,
+        xpos,
+        ypos,
+        8,
+        ZapLineType::eThick_0,
+        Layer::eLayer_ZapLinesMuds_28);
 
-    auto pZapLine3 = ae_new<ZapLine>();
-    if (pZapLine3)
-    {
-        pZapLine3->ctor_4CC690(
-            field_B8_xpos,
-            field_BC_ypos - (FP_FromInteger(50) * field_CC_sprite_scale),
-            xpos,
-            ypos,
-            8,
-            ZapLineType::eThick_0,
-            Layer::eLayer_ZapLinesMuds_28);
-    }
+    ae_new<ZapLine>(
+        field_B8_xpos,
+        field_BC_ypos - (FP_FromInteger(50) * field_CC_sprite_scale),
+        xpos,
+        ypos,
+        8,
+        ZapLineType::eThick_0,
+        Layer::eLayer_ZapLinesMuds_28);
 
-    auto pParticleBurst = ae_new<ParticleBurst>();
-    if (pParticleBurst)
-    {
-        pParticleBurst->ctor_41CF50(
-            xpos,
-            ypos,
-            10,
-            field_CC_sprite_scale,
-            BurstType::eBigRedSparks_3,
-            11);
-    }
+    ae_new<ParticleBurst>(
+        xpos,
+        ypos,
+        10,
+        field_CC_sprite_scale,
+        BurstType::eBigRedSparks_3,
+        11);
 
-    auto pParticleBurst2 = ae_new<ParticleBurst>();
-    if (pParticleBurst2)
-    {
-        pParticleBurst2->ctor_41CF50(
-            field_B8_xpos,
-            field_BC_ypos - (FP_FromInteger(10) * field_CC_sprite_scale),
-            10,
-            field_CC_sprite_scale,
-            BurstType::eBigRedSparks_3,
-            11);
-    }
+    ae_new<ParticleBurst>(
+        field_B8_xpos,
+        field_BC_ypos - (FP_FromInteger(10) * field_CC_sprite_scale),
+        10,
+        field_CC_sprite_scale,
+        BurstType::eBigRedSparks_3,
+        11);
 
     pTarget->field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted);
 
-    auto pElectrocute = ae_new<Electrocute>();
-    if (pElectrocute)
-    {
-        pElectrocute->ctor_4E5E80(pTarget, TRUE, TRUE);
-    }
+    ae_new<Electrocute>(pTarget, TRUE, TRUE);
 
     pTarget->VTakeDamage_408730(this);
 

@@ -16,16 +16,15 @@ class MinesAlarm final : public BaseGameObject
 public:
     EXPORT static void CC Create_4177F0(s32 timer);
     EXPORT static s32 CC CreateFromSaveState_417740(const u8* pBuffer);
-    EXPORT BaseGameObject* ctor_417870(s32 timer);
-    
+    MinesAlarm(s32 timer);
+    ~MinesAlarm();
+
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
     s32 vGetSaveState_4177C0(MinesAlarm_State* pState);
-    EXPORT void dtor_4178E0();
-    EXPORT BaseGameObject* vdtor_4178B0(s32 flags);
     EXPORT void vScreenChanged_417A20();
     EXPORT void vUpdate_417910();
 };

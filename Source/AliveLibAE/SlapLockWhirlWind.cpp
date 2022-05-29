@@ -16,10 +16,9 @@ s32 CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const u8* pBuffer)
     return sizeof(SlapLockWhirlWind_State);
 }
 
-SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale)
+SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x545208);
     SetType(AETypes::eSlapLock_OrbWhirlWind_60);
 
     field_20_xpos = xpos;
@@ -64,26 +63,18 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(s16 doorNumber, s16 switchId, 
 
     if (bFoundTarget)
     {
-        auto pWhirlWind = ae_new<OrbWhirlWind>();
+        auto pWhirlWind = ae_new<OrbWhirlWind>(xpos, ypos, scale, 1);
         if (pWhirlWind)
         {
-            pWhirlWind->ctor_4E3C90(xpos, ypos, scale, 1);
+            field_38_orb_whirlwind_id = pWhirlWind->field_8_object_id;
         }
         field_3C_state = 0;
-        field_38_orb_whirlwind_id = pWhirlWind->field_8_object_id;
         field_40_timer = sGnFrame_5C1B84 + 70;
     }
     else
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-
-    return this;
-}
-
-BaseGameObject* SlapLockWhirlWind::VDestructor(s32 flags)
-{
-    return vdtor_43DA40(flags);
 }
 
 void SlapLockWhirlWind::VUpdate()
@@ -94,22 +85,6 @@ void SlapLockWhirlWind::VUpdate()
 s32 SlapLockWhirlWind::VGetSaveState(u8* pSaveBuffer)
 {
     return vGetSaveState_43DC50(reinterpret_cast<SlapLockWhirlWind_State*>(pSaveBuffer));
-}
-
-void SlapLockWhirlWind::dtor_43DA70()
-{
-    SetVTable(this, 0x545208);
-    BaseGameObject_dtor_4DBEC0();
-}
-
-SlapLockWhirlWind* SlapLockWhirlWind::vdtor_43DA40(s32 flags)
-{
-    dtor_43DA70();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 s32 SlapLockWhirlWind::vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState)

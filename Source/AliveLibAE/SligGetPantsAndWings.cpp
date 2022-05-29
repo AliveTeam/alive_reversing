@@ -8,11 +8,9 @@
 #include "Sfx.hpp"
 #include "Slig.hpp"
 
-SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, s32 tlvInfo)
+SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x545ED8);
-
     SetType(AETypes::eSligGetPantsOrWings_80);
     field_F8_tlvInfo = tlvInfo;
 
@@ -35,19 +33,12 @@ SligGetPantsAndWings* SligGetPantsAndWings::ctor_465BF0(Path_TLV* pTlv, s32 tlvI
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
-    return this;
-}
-
-BaseGameObject* SligGetPantsAndWings::VDestructor(s32 flags)
-{
-    return vdtor_465D10(flags);
 }
 
 void SligGetPantsAndWings::VUpdate()
 {
     vUpdate_465DD0();
 }
-
 
 void SligGetPantsAndWings::VScreenChanged()
 {
@@ -94,24 +85,12 @@ void SligGetPantsAndWings::vUpdate_465DD0()
     }
 }
 
-SligGetPantsAndWings* SligGetPantsAndWings::vdtor_465D10(s32 flags)
-{
-    dtor_465D40();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
 void SligGetPantsAndWings::vScreenChanged_465EE0()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void SligGetPantsAndWings::dtor_465D40()
+SligGetPantsAndWings::~SligGetPantsAndWings()
 {
-    SetVTable(this, 0x545ED8);
     Path::TLV_Reset_4DB8E0(field_F8_tlvInfo, 0, 0, 0);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }

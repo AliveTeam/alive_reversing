@@ -34,7 +34,7 @@ class GameEnderController final : public BaseGameObject
 {
 public:
     EXPORT static s32 CC CreateFromSaveState_43BD10(const u8* pBuffer);
-    EXPORT GameEnderController* ctor_43B840();
+    GameEnderController();
 
     
     virtual void VScreenChanged() override;
@@ -42,7 +42,6 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    EXPORT GameEnderController* vdtor_43B8D0(s32 flags);
     EXPORT void vScreenChanged_43BC80();
     EXPORT s32 vGetSaveState_43BCD0(GameEnderController_State* pState);
     EXPORT void vUpdate_43B920();

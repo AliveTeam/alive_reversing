@@ -109,14 +109,12 @@ bool Scrab::BrainIs(TScrabBrainFn fn)
     return ::BrainIs(fn, field_118_brain_state, sScrabBrainTable);
 }
 
-Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
+Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
+    : BaseAliveGameObject(14)
 {
-    BaseAliveGameObject(14);
     field_190_unused = 0;
     field_17C_last_event = -1;
     field_192_unused = -1;
-
-    SetVTable(this, 0x546DD0);
 
     SetType(AETypes::eScrab_112);
 
@@ -229,17 +227,6 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spa
     ToPatrol_4AA600();
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
-
-    return this;
-}
-
-BaseGameObject* Scrab::VDestructor(s32 flags)
-{
-    return vdtor_4A41B0(flags);
 }
 
 void Scrab::VUpdate()
@@ -334,91 +321,93 @@ s32 CC Scrab::CreateFromSaveState_4A70A0(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("SCRAB.BND", nullptr);
     }
 
-    auto pScrab = ae_new<Scrab>();
-    pScrab->ctor_4A3C40(pTlv, pState->field_44_tlvInfo, ScrabSpawnDirection::eNone_0);
-    pScrab->field_C_objectId = pState->field_4_obj_id;
-
-    if (pState->field_40_bIsControlled)
+    auto pScrab = ae_new<Scrab>(pTlv, pState->field_44_tlvInfo, ScrabSpawnDirection::eNone_0);
+    if (pScrab)
     {
-        sControlledCharacter_5C1B8C = pScrab;
+        pScrab->field_C_objectId = pState->field_4_obj_id;
+
+        if (pState->field_40_bIsControlled)
+        {
+            sControlledCharacter_5C1B8C = pScrab;
+        }
+
+        pScrab->field_FC_pPathTLV = nullptr;
+        pScrab->field_100_pCollisionLine = nullptr;
+
+        pScrab->field_B8_xpos = pState->field_8_xpos;
+        pScrab->field_BC_ypos = pState->field_C_ypos;
+        pScrab->field_C4_velx = pState->field_10_velx;
+        pScrab->field_C8_vely = pState->field_14_vely;
+
+        pScrab->field_134_falling_velx_scale_factor = pState->field_64_falling_velx_scale_factor;
+        pScrab->field_C0_path_number = pState->field_18_path_number;
+        pScrab->field_C2_lvl_number = pState->field_1A_lvl_number;
+        pScrab->field_CC_sprite_scale = pState->field_1C_sprite_scale;
+        pScrab->field_D0_r = pState->field_20_r;
+        pScrab->field_D2_g = pState->field_22_g;
+        pScrab->field_D4_b = pState->field_24_b;
+        pScrab->field_106_current_motion = pState->field_28_current_motion;
+
+        const AnimRecord& animRec = AnimRec(sScrabFrameTableOffsets_5601C0[pState->field_28_current_motion]);
+        u8** ppRes = pScrab->ResBlockForMotion_4A43E0(pState->field_28_current_motion);
+        pScrab->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
+
+        pScrab->field_20_animation.field_92_current_frame = pState->field_2A_current_frame;
+        pScrab->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
+
+        pScrab->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
+
+        pScrab->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bAnimFlipX & 1);
+        pScrab->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bAnimRender & 1);
+
+        if (IsLastFrame(&pScrab->field_20_animation))
+        {
+            pScrab->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        }
+
+        pScrab->field_10C_health = pState->field_30_health;
+        pScrab->field_106_current_motion = pState->field_34_current_motion;
+        pScrab->field_108_next_motion = pState->field_36_next_motion;
+        pScrab->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
+        pScrab->field_130_depossession_timer = pState->field_60_depossession_timer;
+        pScrab->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+        pScrab->field_12C_timer = pState->field_5C_timer;
+        pScrab->field_104_collision_line_type = pState->field_3A_line_type;
+        pScrab->field_144_tlvInfo = pState->field_44_tlvInfo;
+
+        pScrab->SetBrain(sScrab_brain_table_56029C[pState->field_48_brain_idx]);
+
+        pScrab->field_11C_brain_sub_state = pState->field_50_sub_state;
+        pScrab->field_120_obj_id = pState->field_54_obj_id;
+        pScrab->field_124_fight_target_obj_id = pState->field_58_target_obj_id;
+
+        pScrab->field_140_motion_resource_block_index = pState->field_68_motion_resource_block_index;
+        pScrab->field_14C_pause_after_chase_timer = pState->field_6C_spotting_abe_timer;
+        pScrab->field_150_attack_delay_timer = pState->field_70_attack_delay_timer;
+        pScrab->field_154_movement_timer = pState->field_74_movement_timer;
+        pScrab->field_160_sfx_bitmask = pState->field_78_sfx_bitmask;
+        pScrab->field_164_prevent_depossession = pState->field_7C_prevent_depossession;
+
+        pScrab->field_166_level = pState->field_7E_level;
+        pScrab->field_168_path = pState->field_80_path;
+        pScrab->field_16A_camera = pState->field_82_camera;
+        pScrab->field_16C_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_84_input);
+        pScrab->field_170_unused = pState->field_88_unused;
+        pScrab->field_178_shred_power_active = pState->field_8C_shred_power_active;
+        pScrab->field_194_speak = pState->field_8E_speak;
+        pScrab->field_198_max_xpos = pState->field_90_max_xpos;
+        pScrab->field_19C_max_ypos = pState->field_94_max_ypos;
+        pScrab->field_1A2_speak_counter = pState->field_98_speak_counter;
+        pScrab->field_1A4_unused = pState->field_9A_unused;
+        pScrab->field_1A6_unused = pState->field_9C_unused;
+
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit1_attacking, pState->field_9E_flags.Get(Scrab_State::eBit1_attacking));
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit2_unused, pState->field_9E_flags.Get(Scrab_State::eBit2_unused));
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit3_unused, pState->field_9E_flags.Get(Scrab_State::eBit3_unused));
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit4_force_update_animation, pState->field_9E_flags.Get(Scrab_State::eBit4_force_update_animation));
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit5_roar_randomly, pState->field_9E_flags.Get(Scrab_State::eBit5_roar_randomly));
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pState->field_9E_flags.Get(Scrab_State::eBit6_persistant));
     }
-
-    pScrab->field_FC_pPathTLV = nullptr;
-    pScrab->field_100_pCollisionLine = nullptr;
-
-    pScrab->field_B8_xpos = pState->field_8_xpos;
-    pScrab->field_BC_ypos = pState->field_C_ypos;
-    pScrab->field_C4_velx = pState->field_10_velx;
-    pScrab->field_C8_vely = pState->field_14_vely;
-
-    pScrab->field_134_falling_velx_scale_factor = pState->field_64_falling_velx_scale_factor;
-    pScrab->field_C0_path_number = pState->field_18_path_number;
-    pScrab->field_C2_lvl_number = pState->field_1A_lvl_number;
-    pScrab->field_CC_sprite_scale = pState->field_1C_sprite_scale;
-    pScrab->field_D0_r = pState->field_20_r;
-    pScrab->field_D2_g = pState->field_22_g;
-    pScrab->field_D4_b = pState->field_24_b;
-    pScrab->field_106_current_motion = pState->field_28_current_motion;
-
-    const AnimRecord& animRec = AnimRec(sScrabFrameTableOffsets_5601C0[pState->field_28_current_motion]);
-    u8** ppRes = pScrab->ResBlockForMotion_4A43E0(pState->field_28_current_motion);
-    pScrab->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
-
-    pScrab->field_20_animation.field_92_current_frame = pState->field_2A_current_frame;
-    pScrab->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
-
-    pScrab->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
-
-    pScrab->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bAnimFlipX & 1);
-    pScrab->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bAnimRender & 1);
-
-    if (IsLastFrame(&pScrab->field_20_animation))
-    {
-        pScrab->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
-    }
-
-    pScrab->field_10C_health = pState->field_30_health;
-    pScrab->field_106_current_motion = pState->field_34_current_motion;
-    pScrab->field_108_next_motion = pState->field_36_next_motion;
-    pScrab->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
-    pScrab->field_130_depossession_timer = pState->field_60_depossession_timer;
-    pScrab->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
-    pScrab->field_12C_timer = pState->field_5C_timer;
-    pScrab->field_104_collision_line_type = pState->field_3A_line_type;
-    pScrab->field_144_tlvInfo = pState->field_44_tlvInfo;
-
-    pScrab->SetBrain(sScrab_brain_table_56029C[pState->field_48_brain_idx]);
-
-    pScrab->field_11C_brain_sub_state = pState->field_50_sub_state;
-    pScrab->field_120_obj_id = pState->field_54_obj_id;
-    pScrab->field_124_fight_target_obj_id = pState->field_58_target_obj_id;
-
-    pScrab->field_140_motion_resource_block_index = pState->field_68_motion_resource_block_index;
-    pScrab->field_14C_pause_after_chase_timer = pState->field_6C_spotting_abe_timer;
-    pScrab->field_150_attack_delay_timer = pState->field_70_attack_delay_timer;
-    pScrab->field_154_movement_timer = pState->field_74_movement_timer;
-    pScrab->field_160_sfx_bitmask = pState->field_78_sfx_bitmask;
-    pScrab->field_164_prevent_depossession = pState->field_7C_prevent_depossession;
-
-    pScrab->field_166_level = pState->field_7E_level;
-    pScrab->field_168_path = pState->field_80_path;
-    pScrab->field_16A_camera = pState->field_82_camera;
-    pScrab->field_16C_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_84_input);
-    pScrab->field_170_unused = pState->field_88_unused;
-    pScrab->field_178_shred_power_active = pState->field_8C_shred_power_active;
-    pScrab->field_194_speak = pState->field_8E_speak;
-    pScrab->field_198_max_xpos = pState->field_90_max_xpos;
-    pScrab->field_19C_max_ypos = pState->field_94_max_ypos;
-    pScrab->field_1A2_speak_counter = pState->field_98_speak_counter;
-    pScrab->field_1A4_unused = pState->field_9A_unused;
-    pScrab->field_1A6_unused = pState->field_9C_unused;
-
-    pScrab->field_1AA_flags.Set(Flags_1AA::eBit1_attacking, pState->field_9E_flags.Get(Scrab_State::eBit1_attacking));
-    pScrab->field_1AA_flags.Set(Flags_1AA::eBit2_unused, pState->field_9E_flags.Get(Scrab_State::eBit2_unused));
-    pScrab->field_1AA_flags.Set(Flags_1AA::eBit3_unused, pState->field_9E_flags.Get(Scrab_State::eBit3_unused));
-    pScrab->field_1AA_flags.Set(Flags_1AA::eBit4_force_update_animation, pState->field_9E_flags.Get(Scrab_State::eBit4_force_update_animation));
-    pScrab->field_1AA_flags.Set(Flags_1AA::eBit5_roar_randomly, pState->field_9E_flags.Get(Scrab_State::eBit5_roar_randomly));
-    pScrab->field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pState->field_9E_flags.Get(Scrab_State::eBit6_persistant));
 
     return sizeof(Scrab_State);
 }
@@ -533,20 +522,8 @@ s32 Scrab::vGetSaveState_4AB020(Scrab_State* pState)
     return sizeof(Scrab_State);
 }
 
-Scrab* Scrab::vdtor_4A41B0(s32 flags)
+Scrab::~Scrab()
 {
-    dtor_4A42B0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Scrab::dtor_4A42B0()
-{
-    SetVTable(this, 0x546DD0);
-
     field_120_obj_id = -1;
     field_124_fight_target_obj_id = -1;
 
@@ -577,7 +554,6 @@ void Scrab::dtor_4A42B0()
                 0);
         }
     }
-    dtor_4080B0();
 }
 
 void Scrab::vOnTrapDoorOpen_4A7ED0()
@@ -670,7 +646,7 @@ void Scrab::vUpdate_4A3530()
                 1 << field_104_collision_line_type);
         }
         field_104_collision_line_type = 0;
-        field_120_obj_id = BaseGameObject::FindById(field_120_obj_id);
+        field_120_obj_id = BaseGameObject::RefreshId(field_120_obj_id);
         field_124_fight_target_obj_id = BaseGameObject::RefreshId(field_124_fight_target_obj_id);
     }
 

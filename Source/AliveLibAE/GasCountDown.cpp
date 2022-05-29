@@ -54,11 +54,9 @@ const u8 byte_5513D4[40] = {
 ALIVE_VAR(1, 0x5c1be8, s32, sGasTimer_5C1BE8, 0);
 ALIVE_VAR(1, 0x5C1C00, s16, gGasOn_5C1C00, 0);
 
-GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo)
+GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5445E0);
-
     SetType(AETypes::eGasClock_23);
     field_68_tlvInfo = tlvInfo;
 
@@ -84,24 +82,12 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo)
             field_74_time_left = 0;
         }
 
-        auto pAlarm = ae_new<Alarm>();
-        if (pAlarm)
-        {
-            pAlarm->ctor_4091F0(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
-            return this;
-        }
+        ae_new<Alarm>(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
     }
     else
     {
         field_74_time_left = field_76_gas_countdown_timer / 30;
     }
-
-    return this;
-}
-
-BaseGameObject* GasCountDown::VDestructor(s32 flags)
-{
-    return vdtor_4171F0(flags);
 }
 
 void GasCountDown::VScreenChanged()
@@ -119,24 +105,12 @@ void GasCountDown::VUpdate()
     vUpdate_4172E0();
 }
 
-void GasCountDown::dtor_417220()
+GasCountDown::~GasCountDown()
 {
-    SetVTable(this, 0x5445E0);
     gObjList_drawables_5C1124->Remove_Item(this);
     Path::TLV_Reset_4DB8E0(field_68_tlvInfo, -1, 0, 0);
     field_30_font.dtor_433540();
     field_20_font_context.dtor_433510();
-    BaseGameObject_dtor_4DBEC0();
-}
-
-GasCountDown* GasCountDown::vdtor_4171F0(s32 flags)
-{
-    dtor_417220();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void GasCountDown::vScreenChanged_417700()
@@ -207,11 +181,7 @@ void GasCountDown::DealDamage()
         gGasOn_5C1C00 = TRUE;
         if (!gDeathGasCount_5BD24C)
         {
-            auto pGasEffect = ae_new<DeathGas>();
-            if (pGasEffect)
-            {
-                pGasEffect->ctor_43C030(Layer::eLayer_Above_FG1_39, 2);
-            }
+            ae_new<DeathGas>(Layer::eLayer_Above_FG1_39, 2);
         }
     }
 }
@@ -233,11 +203,7 @@ void GasCountDown::vUpdate_4172E0()
     if (!sGasTimer_5C1BE8 && SwitchStates_Get_466020(field_70_start_timer_switch_id) && !SwitchStates_Get_466020(field_72_stop_timer_switch_id))
     {
         sGasTimer_5C1BE8 = sGnFrame_5C1B84;
-        auto pAlarm = ae_new<Alarm>();
-        if (pAlarm)
-        {
-            pAlarm->ctor_4091F0(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
-        }
+        ae_new<Alarm>(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
     }
 
 

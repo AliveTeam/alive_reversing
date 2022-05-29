@@ -892,11 +892,7 @@ EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* pTlv, Path*, TlvItemInfoU
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        auto pMotionDetector = ae_new<MotionDetector>();
-        if (pMotionDetector)
-        {
-            pMotionDetector->ctor_4683B0(static_cast<Path_MotionDetector*>(pTlv), tlvInfo.all, nullptr);
-        }
+        ae_new<MotionDetector>(static_cast<Path_MotionDetector*>(pTlv), tlvInfo.all, nullptr);
     }
 }
 
@@ -910,11 +906,7 @@ EXPORT void CC Factory_SligSpawner_4D79F0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
     else
     {
-        auto pSlig = ae_new<SligSpawner>();
-        if (pSlig)
-        {
-            pSlig->ctor_409740(pSligTlv, tlvInfo.all);
-        }
+        ae_new<SligSpawner>(pSligTlv, tlvInfo.all);
     }
 }
 
@@ -926,11 +918,7 @@ EXPORT void CC Factory_ElectricWall_4DA020(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pElectricWall = ae_new<ElectricWall>();
-        if (pElectricWall)
-        {
-            pElectricWall->ctor_421DA0(static_cast<Path_ElectricWall*>(pTlv), tlvInfo.all);
-        }
+        ae_new<ElectricWall>(static_cast<Path_ElectricWall*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -938,11 +926,7 @@ EXPORT void CC Factory_LiftMover_4DA090(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        auto pLiftMover = ae_new<LiftMover>();
-        if (pLiftMover)
-        {
-            pLiftMover->ctor_40CCD0(static_cast<Path_LiftMover*>(pTlv), tlvInfo.all);
-        }
+        ae_new<LiftMover>(static_cast<Path_LiftMover*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -984,11 +968,7 @@ EXPORT void CC Factory_Scrab_4D9200(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvI
     }
     else
     {
-        auto pScrab = ae_new<Scrab>();
-        if (pScrab)
-        {
-            pScrab->ctor_4A3C40(static_cast<Path_Scrab*>(pTlv), tlvInfo.all, ScrabSpawnDirection::eNone_0);
-        }
+        ae_new<Scrab>(static_cast<Path_Scrab*>(pTlv), tlvInfo.all, ScrabSpawnDirection::eNone_0);
     }
 }
 
@@ -1066,11 +1046,7 @@ EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
     else
     {
-        auto pMud = ae_new<Mudokon>();
-        if (pMud)
-        {
-            pMud->ctor_474F30(pMudTlv, tlvInfo.all);
-        }
+        ae_new<Mudokon>(pMudTlv, tlvInfo.all);
     }
 }
 
@@ -1104,11 +1080,7 @@ EXPORT void CC Factory_MovingBomb_4D8A50(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
     else
     {
-        auto pMovingBomb = ae_new<MovingBomb>();
-        if (pMovingBomb)
-        {
-            pMovingBomb->ctor_46FD40(pMovingBombTlv, tlvInfo.all);
-        }
+        ae_new<MovingBomb>(pMovingBombTlv, tlvInfo.all);
     }
 }
 
@@ -1129,11 +1101,7 @@ EXPORT void CC Factory_TimerTrigger_4DA0E0(Path_TLV* pTlv, Path*, TlvItemInfoUni
 {
     if (loadmode == LoadMode::ConstructObject_0)
     {
-        auto pTimerTrigger = ae_new<TimerTrigger>();
-        if (pTimerTrigger)
-        {
-            pTimerTrigger->ctor_4CDC20(static_cast<Path_TimerTrigger*>(pTlv), tlvInfo.all);
-        }
+        ae_new<TimerTrigger>(static_cast<Path_TimerTrigger*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1256,11 +1224,7 @@ EXPORT void CC Factory_SlogSpawner_4D8BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
     else
     {
-        auto pSlogSpawner = ae_new<SlogSpawner>();
-        if (pSlogSpawner)
-        {
-            pSlogSpawner->ctor_4C7FF0(static_cast<Path_SlogSpawner*>(pTlv), tlvInfo.all);
-        }
+        ae_new<SlogSpawner>(static_cast<Path_SlogSpawner*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1273,11 +1237,7 @@ EXPORT void CC Factory_GasCountdown_4DA480(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pCountDown = ae_new<GasCountDown>();
-        if (pCountDown)
-        {
-            pCountDown->ctor_417010(static_cast<Path_GasCountDown*>(pTlv), tlvInfo.all);
-        }
+        ae_new<GasCountDown>(static_cast<Path_GasCountDown*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1290,11 +1250,7 @@ EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        auto pGasEmitter = ae_new<GasEmitter>();
-        if (pGasEmitter)
-        {
-            pGasEmitter->ctor_43CAA0(static_cast<Path_GasEmitter*>(pTlv), tlvInfo.all);
-        }
+        ae_new<GasEmitter>(static_cast<Path_GasEmitter*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1302,11 +1258,7 @@ EXPORT void CC Factory_ZzzSpawner_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        auto pZzzSpawner = ae_new<ZzzSpawner>();
-        if (pZzzSpawner)
-        {
-            pZzzSpawner->ctor_4C4070(static_cast<Path_ZzzSpawner*>(pTlv), tlvInfo.all);
-        }
+        ae_new<ZzzSpawner>(static_cast<Path_ZzzSpawner*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1350,11 +1302,7 @@ EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
     else
     {
-        auto pGlukkon = ae_new<Glukkon>();
-        if (pGlukkon)
-        {
-            pGlukkon->ctor_43F030(static_cast<Path_Glukkon*>(pTlv), tlvInfo.all);
-        }
+        ae_new<Glukkon>(static_cast<Path_Glukkon*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1380,11 +1328,7 @@ EXPORT void CC Factory_Water_4DA730(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvI
     }
     else
     {
-        auto pWater = ae_new<Water>();
-        if (pWater)
-        {
-            pWater->ctor_4E02C0(static_cast<Path_Water*>(pTlv), tlvInfo.all);
-        }
+        ae_new<Water>(static_cast<Path_Water*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1415,11 +1359,7 @@ EXPORT void CC Create_Gas_4DA8B0(Layer layer, s32 neverUsed, Path_TLV* pTlv, s32
 {
     if (!gGasInstanceCount_5BC214)
     {
-        auto pGas = ae_new<LaughingGas>();
-        if (pGas)
-        {
-            pGas->ctor_432400(layer, neverUsed, static_cast<Path_LaughingGas*>(pTlv), tlvInfo);
-        }
+        ae_new<LaughingGas>(layer, neverUsed, static_cast<Path_LaughingGas*>(pTlv), tlvInfo);
     }
 }
 
@@ -1456,11 +1396,7 @@ EXPORT void CC Factory_FlyingSlig_4D92E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
     else
     {
-        auto pFlyingSlig = ae_new<FlyingSlig>();
-        if (pFlyingSlig)
-        {
-            pFlyingSlig->ctor_4342B0(static_cast<Path_FlyingSlig*>(pTlv), tlvInfo.all);
-        }
+        ae_new<FlyingSlig>(static_cast<Path_FlyingSlig*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1474,11 +1410,7 @@ EXPORT void CC Factory_Fleech_4D8C30(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
     else if (
         gMap.mCurrentLevel != LevelIds::eMudancheeVault_Ender_7 || gMap.mCurrentPath != 9 || gMap.field_4_current_camera != 4)
     {
-        auto pFleech = ae_new<Fleech>();
-        if (pFleech)
-        {
-            pFleech->ctor_429DC0(static_cast<Path_Fleech*>(pTlv), tlvInfo.all);
-        }
+        ae_new<Fleech>(static_cast<Path_Fleech*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1514,11 +1446,7 @@ EXPORT void CC Factory_SlamDoor_4DA9C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
     else
     {
-        auto pSlamDoor = ae_new<SlamDoor>();
-        if (pSlamDoor)
-        {
-            pSlamDoor->ctor_4AF700(static_cast<Path_SlamDoor*>(pTlv), tlvInfo);
-        }
+        ae_new<SlamDoor>(static_cast<Path_SlamDoor*>(pTlv), tlvInfo);
     }
 }
 
@@ -1538,8 +1466,7 @@ EXPORT void CC Factory_DemoSpawnPoint_4D6990(Path_TLV*, Path*, TlvItemInfoUnion,
         {
             if (!sDemoObj_dword_5D1E20)
             {
-                auto pDemoPlayback = ae_new<DemoPlayback>();
-                pDemoPlayback->ctor();
+                ae_new<DemoPlayback>();
             }
         }
     }
@@ -1549,11 +1476,7 @@ EXPORT void CC Factory_Teleporter_4DAA90(Path_TLV* pTlv, Path*, TlvItemInfoUnion
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        auto pTeleporter = ae_new<Teleporter>();
-        if (pTeleporter)
-        {
-            pTeleporter->ctor_4DC1E0(static_cast<Path_Teleporter*>(pTlv), tlvInfo.all);
-        }
+        ae_new<Teleporter>(static_cast<Path_Teleporter*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1591,11 +1514,7 @@ EXPORT void CC Factory_ColorfulMeter_4DAC60(Path_TLV* pTlv, Path*, TlvItemInfoUn
     }
     else
     {
-        auto pMeter = ae_new<ColourfulMeter>();
-        if (pMeter)
-        {
-            pMeter->ctor_43CE40(static_cast<Path_ColourfulMeter*>(pTlv), tlvInfo.all);
-        }
+        ae_new<ColourfulMeter>(static_cast<Path_ColourfulMeter*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1618,11 +1537,7 @@ EXPORT void CC Factory_FlyingSligSpawner_4D9440(Path_TLV* pTlv, Path*, TlvItemIn
     }
     else
     {
-        auto pFlyingSligSpawner = ae_new<FlyingSligSpawner>();
-        if (pFlyingSligSpawner)
-        {
-            pFlyingSligSpawner->ctor_433D50(static_cast<Path_FlyingSligSpawner*>(pTlv), tlvInfo.all);
-        }
+        ae_new<FlyingSligSpawner>(static_cast<Path_FlyingSligSpawner*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1638,11 +1553,7 @@ EXPORT void CC Factory_MineCar_4DACD0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
     else
     {
-        auto pMineCar = ae_new<MineCar>();
-        if (pMineCar)
-        {
-            pMineCar->ctor_46BC80(static_cast<Path_MineCar*>(pTlv), tlvInfo.all, 0, 0, 0);
-        }
+        ae_new<MineCar>(static_cast<Path_MineCar*>(pTlv), tlvInfo.all, 0, 0, 0);
     }
 }
 
@@ -1723,11 +1634,7 @@ EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
     else
     {
-        auto pSlapLock = ae_new<SlapLock>();
-        if (pSlapLock)
-        {
-            pSlapLock->ctor_43DC80(static_cast<Path_SlapLock*>(pTlv), tlvInfo.all);
-        }
+        ae_new<SlapLock>(static_cast<Path_SlapLock*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1739,11 +1646,7 @@ EXPORT void CC Factory_ParamiteWebLine_4D9120(Path_TLV* pTlv, Path*, TlvItemInfo
     }
     else
     {
-        auto pWebLine = ae_new<ParamiteWebLine>();
-        if (pWebLine)
-        {
-            pWebLine->ctor_4E1FC0(static_cast<Path_ParamiteWebLine*>(pTlv), tlvInfo.all);
-        }
+        ae_new<ParamiteWebLine>(static_cast<Path_ParamiteWebLine*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1768,11 +1671,7 @@ EXPORT void CC Factory_BrewMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
     else
     {
-        auto pBrewMachine = ae_new<BrewMachine>();
-        if (pBrewMachine)
-        {
-            pBrewMachine->ctor_413060(static_cast<Path_BrewMachine*>(pTlv), tlvInfo.all);
-        }
+        ae_new<BrewMachine>(static_cast<Path_BrewMachine*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1784,11 +1683,7 @@ EXPORT void CC Factory_ScrabSpawner_4D9270(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pScrabSpawner = ae_new<ScrabSpawner>();
-        if (pScrabSpawner)
-        {
-            pScrabSpawner->ctor_4AB450(static_cast<Path_ScrabSpawner*>(pTlv), tlvInfo.all);
-        }
+        ae_new<ScrabSpawner>(static_cast<Path_ScrabSpawner*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1811,11 +1706,7 @@ EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
     else
     {
-        auto pNakedSlig = ae_new<CrawlingSlig>();
-        if (pNakedSlig)
-        {
-            pNakedSlig->ctor_418C70(static_cast<Path_CrawlingSlig*>(pTlv), tlvInfo.all);
-        }
+        ae_new<CrawlingSlig>(static_cast<Path_CrawlingSlig*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1830,11 +1721,7 @@ EXPORT void CC Factory_SligGetPants_4D9700(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pSligGetPantsAndWings = ae_new<SligGetPantsAndWings>();
-        if (pSligGetPantsAndWings)
-        {
-            pSligGetPantsAndWings->ctor_465BF0(pTlv, tlvInfo.all);
-        }
+        ae_new<SligGetPantsAndWings>(pTlv, tlvInfo.all);
     }
 }
 
@@ -1847,11 +1734,7 @@ EXPORT void CC Factory_SligGetWings_4D9900(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
-        auto pSligGetPantsAndWings = ae_new<SligGetPantsAndWings>();
-        if (pSligGetPantsAndWings)
-        {
-            pSligGetPantsAndWings->ctor_465BF0(pTlv, tlvInfo.all);
-        }
+        ae_new<SligGetPantsAndWings>(pTlv, tlvInfo.all);
     }
 }
 
@@ -1869,11 +1752,7 @@ EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
     else
     {
-        auto pGreeter = ae_new<Greeter>();
-        if (pGreeter)
-        {
-            pGreeter->ctor_4465B0(static_cast<Path_Greeter*>(pTlv), tlvInfo.all);
-        }
+        ae_new<Greeter>(static_cast<Path_Greeter*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1885,11 +1764,7 @@ EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* pTlv, Path*, TlvItemInfo
     }
     else
     {
-        auto pSligButton = ae_new<CrawlingSligButton>();
-        if (pSligButton)
-        {
-            pSligButton->ctor_4148F0(static_cast<Path_CrawlingSligButton*>(pTlv), tlvInfo.all);
-        }
+        ae_new<CrawlingSligButton>(static_cast<Path_CrawlingSligButton*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1901,11 +1776,7 @@ EXPORT void CC Factory_GlukkonSwitch_4DA670(Path_TLV* pTlv, Path*, TlvItemInfoUn
     }
     else
     {
-        auto pGlukkonSwitch = ae_new<GlukkonSwitch>();
-        if (pGlukkonSwitch)
-        {
-            pGlukkonSwitch->ctor_444E60(static_cast<Path_GlukkonSwitch*>(pTlv), tlvInfo.all);
-        }
+        ae_new<GlukkonSwitch>(static_cast<Path_GlukkonSwitch*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1933,11 +1804,7 @@ EXPORT void CC Factory_TorturedMudokon_4D8430(Path_TLV* pTlv, Path*, TlvItemInfo
         }
         else
         {
-            auto pTorturedMud = ae_new<TorturedMudokon>();
-            if (pTorturedMud)
-            {
-                pTorturedMud->ctor_47BC60(static_cast<Path_TorturedMudokon*>(pTlv), tlvInfo.all);
-            }
+            ae_new<TorturedMudokon>(static_cast<Path_TorturedMudokon*>(pTlv), tlvInfo.all);
         }
     }
 }

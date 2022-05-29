@@ -20,8 +20,8 @@ constexpr s16 kMeterBarsXCount = 20;
 class ColourfulMeter final : public BaseGameObject
 {
 public:
-    EXPORT ColourfulMeter* ctor_43CE40(Path_ColourfulMeter* pTlv, s32 tlvInfo);
-
+    ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo);
+    ~ColourfulMeter();
     
 
     virtual void VScreenChanged() override;
@@ -31,10 +31,6 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT ColourfulMeter* vdtor_43D050(s32 flags);
-
-    EXPORT void dtor_43D080();
-
     EXPORT void vScreenChanged_43D7A0();
 
     EXPORT void vUpdate_43D140();

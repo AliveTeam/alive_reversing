@@ -3984,11 +3984,7 @@ Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s
 
     field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
 
-    auto pMusic = ao_new<MusicTrigger>();
-    if (pMusic)
-    {
-        pMusic->ctor_443A60(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 30);
-    }
+    ao_new<MusicTrigger>(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 30);
 
     field_D0_pShadow = ao_new<Shadow>();
     if (field_D0_pShadow)

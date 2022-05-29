@@ -7,10 +7,9 @@
 #include "Map.hpp"
 #include "Events.hpp"
 
-TimerTrigger* TimerTrigger::ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo)
+TimerTrigger::TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5478E8);
     field_2C_tlvInfo = tlvInfo;
     SetType(AETypes::eTimerTrigger_136);
     field_20_input_switch_id = pTlv->field_10_input_switch_id;
@@ -21,12 +20,6 @@ TimerTrigger* TimerTrigger::ctor_4CDC20(Path_TimerTrigger* pTlv, s32 tlvInfo)
     field_24_output_switch_ids[3] = pTlv->field_1A_output_switch_id4;
     field_38_starting_switch_state = static_cast<s16>(SwitchStates_Get_466020(field_20_input_switch_id));
     field_22_state = TimerTriggerStates::eWaitForEnabled_0;
-    return this;
-}
-
-BaseGameObject* TimerTrigger::VDestructor(s32 flags)
-{
-    return vdtor_4CDD00(flags);
 }
 
 void TimerTrigger::VUpdate()
@@ -49,10 +42,9 @@ EXPORT s32 CC TimerTrigger::CreateFromSaveState_4CDF70(const u8* pData)
     auto pState = reinterpret_cast<const TimerTrigger_State*>(pData);
 
     Path_TimerTrigger* pTlv = static_cast<Path_TimerTrigger*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
-    auto pTimerTrigger = ae_new<TimerTrigger>();
+    auto pTimerTrigger = ae_new<TimerTrigger>(pTlv, pState->field_4_tlvInfo);
     if (pTimerTrigger)
     {
-        pTimerTrigger->ctor_4CDC20(pTlv, pState->field_4_tlvInfo);
         pTimerTrigger->field_22_state = pState->field_C_state;
         pTimerTrigger->field_30_trigger_interval_timer = sGnFrame_5C1B84 + pState->field_8_delay_timer_base;
         pTimerTrigger->field_38_starting_switch_state = pState->field_E_starting_switch_state;
@@ -60,21 +52,9 @@ EXPORT s32 CC TimerTrigger::CreateFromSaveState_4CDF70(const u8* pData)
     return sizeof(TimerTrigger_State);
 }
 
-TimerTrigger* TimerTrigger::vdtor_4CDD00(s32 flags)
+TimerTrigger::~TimerTrigger()
 {
-    dtor_4CDD30();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void TimerTrigger::dtor_4CDD30()
-{
-    SetVTable(this, 0x5478E8);
     Path::TLV_Reset_4DB8E0(field_2C_tlvInfo, -1, 0, 0);
-    BaseGameObject_dtor_4DBEC0();
 }
 
 void TimerTrigger::vUpdate_4CDDB0()

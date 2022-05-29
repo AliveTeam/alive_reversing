@@ -76,8 +76,8 @@ enum class GreeterSpeak : s16
 class Greeter final : public BaseAliveGameObject
 {
 public:
-    EXPORT Greeter* ctor_4465B0(Path_Greeter* pTlv, s32 tlvInfo);
-
+    Greeter(Path_Greeter* pTlv, s32 tlvInfo);
+    ~Greeter();
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -92,9 +92,7 @@ private:
     EXPORT s32 vGetSaveState_446400(Greeter_State* pState);
 
 
-    EXPORT Greeter* vdtor_4468B0(s32 flags);
     EXPORT void vScreenChanged_447DD0();
-    EXPORT void dtor_4468E0();
     EXPORT void BlowUp_447E50();
     EXPORT void ChangeDirection_447BD0();
     EXPORT void BounceBackFromShot_447B10();

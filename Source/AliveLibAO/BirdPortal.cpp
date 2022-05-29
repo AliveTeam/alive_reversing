@@ -340,25 +340,24 @@ void BirdPortal::CreateDovesAndShrykullNumber()
 
     if (field_10_portal_type == PortalType::eShrykull_2)
     {
-        field_5C_pThrowableTotalIndicator = ao_new<ThrowableTotalIndicator>();
+        Layer indicatorLayer = Layer::eLayer_0;
+        if (field_34_scale != FP_FromDouble(0.5))
+        {
+            indicatorLayer = Layer::eLayer_27;
+        }
+        else
+        {
+            indicatorLayer = Layer::eLayer_8;
+        }
+        field_5C_pThrowableTotalIndicator = ao_new<ThrowableTotalIndicator>(
+            field_18_xpos,
+            field_1C_ypos + FP_FromInteger(10),
+            indicatorLayer,
+            field_34_scale,
+            field_56_num_muds_for_shrykull,
+            0);
         if (field_5C_pThrowableTotalIndicator)
         {
-            Layer indicatorLayer = Layer::eLayer_0;
-            if (field_34_scale != FP_FromDouble(0.5))
-            {
-                indicatorLayer = Layer::eLayer_27;
-            }
-            else
-            {
-                indicatorLayer = Layer::eLayer_8;
-            }
-            field_5C_pThrowableTotalIndicator->ctor_41B520(
-                field_18_xpos,
-                field_1C_ypos + FP_FromInteger(10),
-                indicatorLayer,
-                field_34_scale,
-                field_56_num_muds_for_shrykull,
-                0);
             field_5C_pThrowableTotalIndicator->field_C_refCount++;
         }
     }
@@ -727,33 +726,21 @@ void BirdPortal::VUpdate_4523D0()
 
         case PortalStates::CreateFlash1_12:
         {
-            auto pFlash = ao_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_41A810(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u);
-            }
+            ao_new<Flash>(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u);
             field_14_state = PortalStates::CreateFlash2_13;
         }
         break;
 
         case PortalStates::CreateFlash2_13:
         {
-            auto pFlash = ao_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_41A810(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_0, 1);
-            }
+            ao_new<Flash>(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_0, 1);
             field_14_state = PortalStates::CreateFlash3_14;
         }
         break;
 
         case PortalStates::CreateFlash3_14:
         {
-            auto pFlash = ao_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_41A810(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
-            }
+            ao_new<Flash>(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
             field_14_state = PortalStates::KillPortal_15;
             field_30_timer = gnFrameCount_507670 + 5;
         }

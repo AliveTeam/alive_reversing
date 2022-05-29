@@ -131,11 +131,7 @@ void GasCountDown::VUpdate_40C0E0()
     if (!sGasTimer_507700 && SwitchStates_Get(field_60_start_switch_id) && !SwitchStates_Get(70))
     {
         sGasTimer_507700 = gnFrameCount_507670;
-        auto pAlarm = ao_new<Alarm>();
-        if (pAlarm)
-        {
-            pAlarm->ctor_402570(3600, 0, 0, Layer::eLayer_Above_FG1_39);
-        }
+        ao_new<Alarm>(3600, 0, 0, Layer::eLayer_Above_FG1_39);
     }
 
     if (!sGasTimer_507700)

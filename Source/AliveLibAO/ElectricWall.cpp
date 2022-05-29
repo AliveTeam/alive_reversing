@@ -192,11 +192,7 @@ void ElectricWall::VUpdate_40FEF0()
 
                         SFX_Play_43AED0(SoundEffect::ElectricZap_46, 127, soundDirection);
 
-                        auto pFlash = ao_new<Flash>();
-                        if (pFlash)
-                        {
-                            pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
-                        }
+                        ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
                     }
                 }
             }

@@ -537,16 +537,13 @@ void CameraSwapper::VUpdate_48CEA0()
             // When no movie is playing start the next one
             if (sMovie_ref_count_9F309C == 0)
             {
-                auto pMovie = ao_new<Movie>();
-                if (pMovie)
-                {
-                    pMovie->ctor_489C90(
-                        field_14_movie_id_3,
-                        field_10_movie_pos_3,
-                        static_cast<s8>(field_30_movie_flag_3),
-                        field_32_movie_flags_3,
-                        field_34_movie_vol_3);
-                }
+                ao_new<Movie>(
+                    field_14_movie_id_3,
+                    field_10_movie_pos_3,
+                    static_cast<s8>(field_30_movie_flag_3),
+                    field_32_movie_flags_3,
+                    field_34_movie_vol_3);
+
                 field_28_changeEffect = CameraSwapEffects::ePlay1FMV_5;
                 field_3C_movie_bPutDispEnv = field_32_movie_flags_3;
             }
@@ -565,16 +562,13 @@ void CameraSwapper::VUpdate_48CEA0()
             // When no movie is playing start the next one
             if (sMovie_ref_count_9F309C == 0)
             {
-                auto pMovie = ao_new<Movie>();
-                if (pMovie)
-                {
-                    pMovie->ctor_489C90(
-                        field_1C_movie_id_2,
-                        field_18_movie_pos_2,
-                        static_cast<s8>(field_36_movie_flag_2),
-                        field_38_movie_flags_2,
-                        field_3A_movie_vol_2);
-                }
+                ao_new<Movie>(
+                    field_1C_movie_id_2,
+                    field_18_movie_pos_2,
+                    static_cast<s8>(field_36_movie_flag_2),
+                    field_38_movie_flags_2,
+                    field_3A_movie_vol_2);
+
                 field_28_changeEffect = CameraSwapEffects::ePlay2FMVs_9;
                 field_3C_movie_bPutDispEnv = field_38_movie_flags_2;
             }

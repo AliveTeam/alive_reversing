@@ -15,10 +15,9 @@
 #include "Function.hpp"
 #include "Sys_common.hpp"
 
-MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale, Layer layer)
+MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x545FB0);
     SetType(AETypes::eRedLaser_111);
     const AnimRecord& rec = AnimRec(AnimId::MotionDetector_Laser);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -28,30 +27,13 @@ MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale
     field_CC_sprite_scale = scale;
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_BC_ypos = ypos;
-    return this;
-}
-
-BaseGameObject* MotionDetectorLaser::VDestructor(s32 flags)
-{
-    return vdtor_468360(flags);
-}
-
-MotionDetectorLaser* MotionDetectorLaser::vdtor_468360(s32 flags)
-{
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 // =====================================================================================
 
-MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner)
+MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x545FF8);
     SetType(AETypes::eGreeterBody_91);
 
     const AnimRecord& rec = AnimRec(AnimId::MotionDetector_Flare);
@@ -108,20 +90,12 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvIn
         if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
         {
             field_100_state = States::eMoveLeft_2;
-            pLaser = ae_new<MotionDetectorLaser>();
-            if (pLaser)
-            {
-                pLaser->ctor_468290(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
-            }
+            ae_new<MotionDetectorLaser>(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
         }
         else if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eRight_0)
         {
             field_100_state = States::eMoveRight_0;
-            pLaser = ae_new<MotionDetectorLaser>();
-            if (pLaser)
-            {
-                pLaser->ctor_468290(field_114_x1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
-            }
+            ae_new<MotionDetectorLaser>(field_114_x1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
         }
         else
         {
@@ -154,7 +128,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvIn
 
         field_10A_alarm_switch_id = pTlv->field_1E_alarm_switch_id;
         field_10C_alarm_duration = pTlv->field_20_alarm_duration;
-        return this;
+        return;
     }
 
     field_10E_bUnknown = 1;
@@ -171,24 +145,16 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, s32 tlvIn
     field_174_speed = FP_FromInteger(2);
     field_100_state = States::eMoveRight_0;
 
-    auto pLaserMem = ae_new<MotionDetectorLaser>();
+    auto pLaserMem = ae_new<MotionDetectorLaser>(pOwner->field_B8_xpos, pOwner->field_BC_ypos, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
     if (pLaserMem)
     {
-        pLaserMem->ctor_468290(pOwner->field_B8_xpos, pOwner->field_BC_ypos, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
+        field_F8_laser_id = pLaserMem->field_8_object_id;
     }
 
-    field_F8_laser_id = pLaserMem->field_8_object_id;
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
     field_FC_owner_id = pOwner->field_8_object_id;
     field_10A_alarm_switch_id = 0;
     field_10C_alarm_duration = 0;
-    return this;
-}
-
-
-BaseGameObject* MotionDetector::VDestructor(s32 flags)
-{
-    return vdtor_468850(flags);
 }
 
 void MotionDetector::VUpdate()
@@ -206,20 +172,8 @@ void MotionDetector::VScreenChanged()
     vScreenChanged_469460();
 }
 
-MotionDetector* MotionDetector::vdtor_468850(s32 flags)
+MotionDetector::~MotionDetector()
 {
-    dtor_468880();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void MotionDetector::dtor_468880()
-{
-    SetVTable(this, 0x545FF8);
-
     if (!field_10E_bUnknown)
     {
         if (field_110_bDontComeBack)
@@ -237,8 +191,6 @@ void MotionDetector::dtor_468880()
     {
         pLaser->mFlags.Set(BaseGameObject::eDead);
     }
-
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void MotionDetector::vScreenChanged_469460()
@@ -411,11 +363,7 @@ void MotionDetector::vUpdate_468A90()
                             // Trigger alarms if its not already blasting
                             if (alarmInstanceCount_5C1BB4 == 0)
                             {
-                                auto pAlarmMem = ae_new<Alarm>();
-                                if (pAlarmMem)
-                                {
-                                    pAlarmMem->ctor_4091F0(field_10C_alarm_duration, field_10A_alarm_switch_id, 0, Layer::eLayer_Above_FG1_39);
-                                }
+                                ae_new<Alarm>(field_10C_alarm_duration, field_10A_alarm_switch_id, 0, Layer::eLayer_Above_FG1_39);
 
                                 if (pObj == sActiveHero_5C1B68 && pObj->field_10C_health > FP_FromInteger(0))
                                 {

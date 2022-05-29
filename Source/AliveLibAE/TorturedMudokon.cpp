@@ -10,14 +10,9 @@
 #include "Function.hpp"
 #include "Abe.hpp"
 
-TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tlvInfo)
+TorturedMudokon::TorturedMudokon(Path_TorturedMudokon* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-
-    SetVTable(this, 0x546378);
-    SetVTable(&field_18C_zap_animation, 0x544290);
-    SetVTable(&field_F4_tears_animation, 0x544290);
-
     SetType(AETypes::eTorturedMud_141);
     field_230_tlvInfo = tlvInfo;
 
@@ -43,7 +38,6 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon* pTlv, s32 tl
         mFlags.Clear(BaseGameObject::eDrawable_Bit4);
         mFlags.Set(BaseGameObject::eDead);
     }
-    return this;
 }
 
 void TorturedMudokon::VRender(PrimHeader** ppOt)
@@ -59,11 +53,6 @@ void TorturedMudokon::VScreenChanged()
 void TorturedMudokon::VUpdate()
 {
     vUpdate_47BF80();
-}
-
-BaseGameObject* TorturedMudokon::VDestructor(s32 flags)
-{
-    return vdtor_47BE30(flags);
 }
 
 void TorturedMudokon::SetupTearsAnimation_47BE60(Animation* pAnim)
@@ -147,9 +136,8 @@ void TorturedMudokon::vRender_47C460(PrimHeader** ppOt)
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 }
 
-void TorturedMudokon::dtor_47C380()
+TorturedMudokon::~TorturedMudokon()
 {
-    SetVTable(this, 0x546378);
     if (field_23E_state != TorturedMudokonState::eReleased_2)
     {
         Path::TLV_Reset_4DB8E0(field_230_tlvInfo, -1, 0, 0);
@@ -157,18 +145,6 @@ void TorturedMudokon::dtor_47C380()
 
     field_F4_tears_animation.vCleanUp_40C630();
     field_18C_zap_animation.vCleanUp_40C630();
-
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-}
-
-TorturedMudokon* TorturedMudokon::vdtor_47BE30(s32 flags)
-{
-    dtor_47C380();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void TorturedMudokon::vUpdate_47BF80()
@@ -256,11 +232,7 @@ void TorturedMudokon::vUpdate_47BF80()
 
     if (field_20_animation.field_92_current_frame == 6 && field_20_animation.field_E_frame_change_counter == field_20_animation.field_10_frame_delay)
     {
-        auto pFlash = ae_new<Flash>();
-        if (pFlash)
-        {
-            pFlash->ctor_428570(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, TPageAbr::eBlend_1, 1);
-        }
+        ae_new<Flash>(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, TPageAbr::eBlend_1, 1);
         field_18C_zap_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         SFX_Play_46FA90(SoundEffect::ElectricZap_39, 70);
         const s16 sndRnd = Math_RandomRange_496AB0(0, 3) - 1;
@@ -279,11 +251,7 @@ void TorturedMudokon::vUpdate_47BF80()
 
     if (field_20_animation.field_92_current_frame >= 7 && !Math_RandomRange_496AB0(0, 10))
     {
-        auto pFlash = ae_new<Flash>();
-        if (pFlash)
-        {
-            pFlash->ctor_428570(Layer::eLayer_Above_FG1_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, TPageAbr::eBlend_1, 1);
-        }
+        ae_new<Flash>(Layer::eLayer_Above_FG1_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, TPageAbr::eBlend_1, 1);
     }
 
     if (SwitchStates_Get_466020(field_23C_release_switch_id))

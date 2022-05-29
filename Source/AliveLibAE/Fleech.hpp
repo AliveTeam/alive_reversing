@@ -148,8 +148,8 @@ using TFleechMotionFn = void (Fleech::*)();
 class Fleech final : public BaseAliveGameObject
 {
 public:
-    EXPORT Fleech* ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo);
-
+    Fleech(Path_Fleech* pTlv, s32 tlvInfo);
+    ~Fleech();
     
 
     virtual void VUpdate() override;
@@ -222,10 +222,6 @@ public:
     EXPORT s16 Brain_3_Death_42D1E0();
 
 private:
-    EXPORT void dtor_42A3A0();
-
-    EXPORT Fleech* vdtor_42A140(s32 flags);
-
     EXPORT void vUpdate_42AB20();
 
     EXPORT void vRender_42A550(PrimHeader** ot);

@@ -32,11 +32,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas, 0x1C);
 class LaughingGas final : public BaseGameObject
 {
 public:
-    EXPORT LaughingGas* ctor_432400(Layer layer, s32 notUsed, Path_LaughingGas* pTlv, s32 tlvInfo);
-
-    EXPORT void dtor_432B80();
-
-    
+    LaughingGas(Layer layer, s32 notUsed, Path_LaughingGas* pTlv, s32 tlvInfo);
+    ~LaughingGas();
 
     virtual void VScreenChanged() override;
 
@@ -48,8 +45,6 @@ private:
     EXPORT void vScreenChanged_432DE0();
 
     EXPORT void Init_432980();
-
-    EXPORT LaughingGas* vdtor_432670(s32 flags);
 
     EXPORT void vRender_432D10(PrimHeader** ppOt);
 

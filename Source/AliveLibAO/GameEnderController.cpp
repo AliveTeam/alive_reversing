@@ -185,10 +185,9 @@ void GameEnderController::VUpdate_41C860()
                                 gpThrowableArray_50E26C = ao_new<ThrowableArray>();
                                 if (gpThrowableArray_50E26C)
                                 {
-                                    gpThrowableArray_50E26C->ctor_453EE0();
+                                    gpThrowableArray_50E26C->Add_453F70(1);
                                 }
                             }
-                            gpThrowableArray_50E26C->Add_453F70(1);
 
                             sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
                             sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;

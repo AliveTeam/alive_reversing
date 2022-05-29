@@ -22,11 +22,9 @@ static s32 gas_rand()
     return (random_seed >> 16) & 0x7FFF;
 }
 
-LaughingGas* LaughingGas::ctor_432400(Layer layer, s32 /*notUsed*/, Path_LaughingGas* pTlv, s32 tlvInfo)
+LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, Path_LaughingGas* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x545000);
-
     gGasInstanceCount_5BC214++;
 
     SetType(AETypes::eLaughingGas_31);
@@ -78,24 +76,15 @@ LaughingGas* LaughingGas::ctor_432400(Layer layer, s32 /*notUsed*/, Path_Laughin
 
     Init_432980();
     VUpdate();
-
-    return this;
 }
 
-void LaughingGas::dtor_432B80()
+LaughingGas::~LaughingGas()
 {
-    SetVTable(this, 0x545000);
     Path::TLV_Reset_4DB8E0(field_24_tlvInfo, -1, 0, 0);
     gObjList_drawables_5C1124->Remove_Item(this);
     gLaughingGasOn_5C1BA4 = FALSE;
     gGasInstanceCount_5BC214--;
     ae_delete_free_495540(field_19C_pMem);
-    BaseGameObject_dtor_4DBEC0();
-}
-
-BaseGameObject* LaughingGas::VDestructor(s32 flags)
-{
-    return vdtor_432670(flags);
 }
 
 void LaughingGas::VScreenChanged()
@@ -180,16 +169,6 @@ void LaughingGas::Init_432980()
     field_5C_prim.w = field_2E_w;
     field_5C_prim.h = field_2C_h;
     field_5C_prim.pData = field_19C_pMem;
-}
-
-LaughingGas* LaughingGas::vdtor_432670(s32 flags)
-{
-    dtor_432B80();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void LaughingGas::vRender_432D10(PrimHeader** ppOt)

@@ -23,8 +23,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GlukkonSwitch, 0x1C);
 class GlukkonSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT GlukkonSwitch* ctor_444E60(Path_GlukkonSwitch* pTlv, s32 tlvInfo);
-
+    GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo);
+    ~GlukkonSwitch();
     
 
     virtual void VUpdate() override;
@@ -32,10 +32,6 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void dtor_4450F0();
-
-    EXPORT GlukkonSwitch* vdtor_4450C0(s32 flags);
-
     EXPORT void vScreenChange_4456D0();
 
     EXPORT s16 PlayerNearMe_445180();

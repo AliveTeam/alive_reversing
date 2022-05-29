@@ -177,8 +177,9 @@ using TScrabMotionFn = void (Scrab::*)();
 class Scrab final : public BaseAliveGameObject
 {
 public:
-    EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection);
-    
+    Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection);
+    ~Scrab();
+
     virtual void VUpdate() override;
 
     virtual void VRender(PrimHeader** ppOt) override
@@ -226,13 +227,7 @@ public:
 private:
     EXPORT s32 vGetSaveState_4AB020(Scrab_State* pState);
 
-
-
-    EXPORT Scrab* vdtor_4A41B0(s32 flags);
-    EXPORT void dtor_4A42B0();
-
     EXPORT void vOnTrapDoorOpen_4A7ED0();
-
 
     EXPORT void vUpdateAnim_4A34F0();
     EXPORT s16 OnFloor_4A41E0();

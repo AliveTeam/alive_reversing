@@ -47,10 +47,6 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     field_11E_volume_modifier = 0;
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
 }
 
 void Bone::VThrow_49E460(FP velX, FP velY)
@@ -649,10 +645,6 @@ BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
     field_122_force_play_sound = 1;
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
 }
 
 void BoneBag::VScreenChanged()

@@ -254,11 +254,11 @@ bool Glukkon::BrainIs(TGlukkonBrainFn fn)
     return ::BrainIs(fn, field_20C_brain_state_fn, sGlukkonBrainTable);
 }
 
-Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo)
+Glukkon::Glukkon(Path_Glukkon* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
+    ;
     field_1EC_unused = -1;
-    SetVTable(this, 0x5452E0);
 
     field_1A8_tlvData = *pTlv;
 
@@ -311,12 +311,6 @@ Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, s32 tlvInfo)
     }
 
     Init_43F260();
-    return this;
-}
-
-BaseGameObject* Glukkon::VDestructor(s32 flags)
-{
-    return vdtor_43F230(flags);
 }
 
 void Glukkon::VUpdate()
@@ -1667,10 +1661,10 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                 sVisitedBonewerks_5C1C02 = 1;
             }
 
-            auto pDeathFadeOutMem = ae_new<DeathFadeOut>();
+            auto pDeathFadeOutMem = ae_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
             if (pDeathFadeOutMem)
             {
-                field_208_obj_id = pDeathFadeOutMem->ctor_427030(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2)->field_8_object_id;
+                field_208_obj_id = pDeathFadeOutMem->field_8_object_id;
             }
         }
             return 3;
@@ -1736,11 +1730,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
             u32 pos = 0;
             Get_fmvs_sectors_494460(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
 
-            auto pMovie = ae_new<Movie>();
-            if (pMovie)
-            {
-                pMovie->ctor_4DFDE0(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8_flags, pFmvRec->field_A_volume);
-            }
+            ae_new<Movie>(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8_flags, pFmvRec->field_A_volume);
         }
             return 5;
 
@@ -1848,30 +1838,22 @@ s16 Glukkon::Brain_4_Death_442010()
 
         case 2:
         {
-            auto pGibs = ae_new<Gibs>();
-            if (pGibs)
-            {
-                pGibs->ctor_40FB40(
-                    AsGibType(field_1A8_tlvData.field_22_glukkon_type),
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    field_C4_velx,
-                    field_C8_vely,
-                    field_CC_sprite_scale,
-                    0);
-            }
+            ae_new<Gibs>(
+                AsGibType(field_1A8_tlvData.field_22_glukkon_type),
+                field_B8_xpos,
+                field_BC_ypos,
+                field_C4_velx,
+                field_C8_vely,
+                field_CC_sprite_scale,
+                0);
 
-            auto pBlood = ae_new<Blood>();
-            if (pBlood)
-            {
-                pBlood->ctor_40F0B0(
-                    field_B8_xpos,
-                    field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
-                    FP_FromInteger(0),
-                    FP_FromInteger(0),
-                    field_CC_sprite_scale,
-                    20);
-            }
+            ae_new<Blood>(
+                field_B8_xpos,
+                field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                field_CC_sprite_scale,
+                20);
 
             New_Smoke_Particles_426C70(
                 field_B8_xpos,
@@ -1984,11 +1966,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
             {
                 const s16 sparkX = FP_GetExponent(FP_FromInteger(p.field_0_x) + field_B8_xpos + FP_FromInteger(13));
                 const s16 sparkY = FP_GetExponent(field_BC_ypos + FP_FromInteger(p.field_2_y) - FP_FromInteger(11));
-                auto pSpark = ae_new<Spark>();
-                if (pSpark)
-                {
-                    pSpark->ctor_4CBBB0(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
-                }
+                ae_new<Spark>(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
             }
 
             PSX_RECT bRect = {};
@@ -1999,17 +1977,14 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
                 FP_FromInteger((bRect.y + bRect.h) / 2) + (field_CC_sprite_scale * FP_FromInteger(60)),
                 field_CC_sprite_scale);
 
-            auto pParticleBurst = ae_new<ParticleBurst>();
-            if (pParticleBurst)
-            {
-                pParticleBurst->ctor_41CF50(
-                    field_B8_xpos,
-                    field_BC_ypos - FP_FromInteger(18),
-                    6,
-                    FP_FromInteger(1),
-                    BurstType::eBigRedSparks_3,
-                    9);
-            }
+            ae_new<ParticleBurst>(
+                field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(18),
+                6,
+                FP_FromInteger(1),
+                BurstType::eBigRedSparks_3,
+                9);
+
             Speak_444640(GlukkonSpeak::Heh_5);
             return 2;
         }
@@ -2113,27 +2088,11 @@ void Glukkon::Init_43F260()
     if (!field_E0_pShadow)
     {
         field_E0_pShadow = ae_new<Shadow>();
-        if (field_E0_pShadow)
-        {
-            field_E0_pShadow->ctor_4AC990();
-        }
     }
 }
 
-Glukkon* Glukkon::vdtor_43F230(s32 flags)
+Glukkon::~Glukkon()
 {
-    dtor_43F570();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void Glukkon::dtor_43F570()
-{
-    SetVTable(this, 0x5452E0);
-
     if (field_10C_health <= FP_FromInteger(0))
     {
         Path::TLV_Reset_4DB8E0(field_214_tlv_info, -1, 0, 1);
@@ -2149,8 +2108,6 @@ void Glukkon::dtor_43F570()
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
     }
-
-    dtor_4080B0();
 }
 
 void Glukkon::vUpdate_43F770()
@@ -2187,7 +2144,7 @@ void Glukkon::vUpdate_43F770()
                 vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
             }
         }
-        field_208_obj_id = BaseGameObject::FindById(field_208_obj_id);
+        field_208_obj_id = BaseGameObject::RefreshId(field_208_obj_id);
     }
 
     if (Event_Get_422C00(kEventDeathReset))
@@ -3074,14 +3031,12 @@ s16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
                 case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
                 case BulletType::eNormalBullet_2:
                 {
-                    auto pBlood1 = ae_new<Blood>();
-                    if (pBlood1)
                     {
                         const FP yRand = (FP_FromInteger(Math_NextRandom() % 16)) - FP_FromInteger(8);
                         const FP xRand = FP_FromInteger(Math_NextRandom() & 0xF); // TODO: Might be wrong as was trying to make this abs() but result is unsigned anyway ??
 
                         const FP xPos = (field_CC_sprite_scale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6)));
-                        pBlood1->ctor_40F0B0(
+                        ae_new<Blood>(
                             xPos + field_B8_xpos,
                             field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale),
                             ((pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(1) : FP_FromInteger(1)) * xRand + FP_FromInteger(16)),
@@ -3090,11 +3045,9 @@ s16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
                             12);
                     }
 
-                    auto pBlood2 = ae_new<Blood>();
-                    if (pBlood2)
                     {
                         const FP xPos = (field_CC_sprite_scale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
-                        pBlood2->ctor_40F0B0(
+                        ae_new<Blood>(
                             xPos + field_B8_xpos,
                             field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale),
                             pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6),
@@ -3108,17 +3061,13 @@ s16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
                 case BulletType::ePossessedSligZBullet_1:
                 case BulletType::eZBullet_3:
                 {
-                    auto pBlood2 = ae_new<Blood>();
-                    if (pBlood2)
-                    {
-                        pBlood2->ctor_40F0B0(
-                            field_B8_xpos,
-                            field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale),
-                            FP_FromInteger(0),
-                            FP_FromInteger(0),
-                            field_CC_sprite_scale,
-                            25);
-                    }
+                    ae_new<Blood>(
+                        field_B8_xpos,
+                        field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale),
+                        FP_FromInteger(0),
+                        FP_FromInteger(0),
+                        field_CC_sprite_scale,
+                        25);
                 }
                 break;
 

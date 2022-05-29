@@ -96,21 +96,13 @@ void Explosion::VUpdate_458D00()
                 pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
             }
 
-            auto pFlash = ao_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
-            }
+            ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
         }
 
         case 4:
         {
-            auto pFlash = ao_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
-            }
+            ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
 
             rect.x = FP_GetExponent(FP_FromInteger(-38) * field_E4_explosion_size);
             rect.w = FP_GetExponent(FP_FromInteger(38) * field_E4_explosion_size);
@@ -136,11 +128,7 @@ void Explosion::VUpdate_458D00()
                 pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
             }
 
-            auto pFlash = ao_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
-            }
+            ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
         }
 

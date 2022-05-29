@@ -22,7 +22,7 @@ enum class BulletType : s16
 class Bullet final : public BaseGameObject
 {
 public:
-    EXPORT Bullet* ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets);
+    Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s16 numberOfBullets);
     
 
     virtual void VUpdate() override;
@@ -31,8 +31,6 @@ public:
     static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
 
 private:
-    EXPORT Bullet* vdtor_4145E0(s32 flags);
-
     EXPORT BaseAliveGameObject* ShootObject_414630(PSX_RECT* pRect);
 
     EXPORT void vUpdate_413560();

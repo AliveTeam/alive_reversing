@@ -1109,18 +1109,13 @@ EXPORT void Factory_AbeStart_486050(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
         if (!pPauseMenu_5080E0)
         {
             pPauseMenu_5080E0 = ao_new<PauseMenu>();
-            if (pPauseMenu_5080E0)
-            {
-                pPauseMenu_5080E0->ctor_44DEA0();
-            }
         }
 
         if (!sActiveHero_507678)
         {
-            sActiveHero_507678 = ao_new<Abe>();
+            sActiveHero_507678 = ao_new<Abe>(55888, 85, 57, 55);
             if (sActiveHero_507678)
             {
-                sActiveHero_507678->ctor_420770(55888, 85, 57, 55);
                 sActiveHero_507678->field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
                 sActiveHero_507678->field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
             }
@@ -2055,11 +2050,7 @@ EXPORT void Factory_DoorFlame_481E80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
-        auto pDoorFlame = ao_new<DoorFlame>();
-        if (pDoorFlame)
-        {
-            pDoorFlame->ctor_432860(static_cast<Path_DoorFlame*>(pTlv), tlvOffsetLevelIdPathId.all);
-        }
+        ao_new<DoorFlame>(static_cast<Path_DoorFlame*>(pTlv), tlvOffsetLevelIdPathId.all);
     }
 }
 
@@ -2285,11 +2276,7 @@ EXPORT void Factory_GrenadeMachine_487860(Path_TLV* pTlv, Map* /*pMap*/, TlvItem
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID);
     }
 
-    auto pGrenadeMachine = ao_new<BoomMachine>();
-    if (pGrenadeMachine)
-    {
-        pGrenadeMachine->ctor_41E420(pBoomMachineTlv, tlvOffsetLevelIdPathId.all);
-    }
+    ao_new<BoomMachine>(pBoomMachineTlv, tlvOffsetLevelIdPathId.all);
 }
 
 
@@ -2385,11 +2372,7 @@ EXPORT void Factory_MusicTrigger_482020(Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        auto pMusicTrigger = ao_new<MusicTrigger>();
-        if (pMusicTrigger)
-        {
-            pMusicTrigger->ctor_4439F0(static_cast<Path_MusicTrigger*>(pTlv), tlvOffsetLevelIdPathId.all);
-        }
+        ao_new<MusicTrigger>(static_cast<Path_MusicTrigger*>(pTlv), tlvOffsetLevelIdPathId.all);
     }
 }
 

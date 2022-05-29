@@ -1066,11 +1066,7 @@ void Menu::FMV_Select_Update_47E8D0()
                     u32 movie1Sector = 0;
                     Get_fmvs_sectors_44FEB0(pFmvRec->field_0_pName, 0, 0, &movie1Sector, 0, 0);
 
-                    auto pMovie = ao_new<Movie>();
-                    if (pMovie)
-                    {
-                        pMovie->ctor_489C90(pFmvRec->field_4_id, movie1Sector, static_cast<s8>(pFmvRec->field_6), pFmvRec->field_A, pFmvRec->field_C_volume);
-                    }
+                    ao_new<Movie>(pFmvRec->field_4_id, movie1Sector, static_cast<s8>(pFmvRec->field_6), pFmvRec->field_A, pFmvRec->field_C_volume);
 
                     while (sMovie_ref_count_9F309C)
                     {
@@ -2123,8 +2119,8 @@ void Menu::NewGameStart_47B9C0()
 {
     if (!sActiveHero_507678)
     {
-        sActiveHero_507678 = ao_new<Abe>();
-        sActiveHero_507678->ctor_420770(55888, 85, 57, 55);
+        const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_Walk);
+        sActiveHero_507678 = ao_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
     }
 
     if (gAttract_507698)
@@ -2145,7 +2141,6 @@ void Menu::NewGameStart_47B9C0()
         if (!pPauseMenu_5080E0)
         {
             pPauseMenu_5080E0 = ao_new<PauseMenu>();
-            pPauseMenu_5080E0->ctor_44DEA0();
         }
 
         if (field_20C_bStartInSpecificMap)
@@ -3466,15 +3461,14 @@ void Menu::LoadSave_Update_47DB40()
     if (!pPauseMenu_5080E0)
     {
         pPauseMenu_5080E0 = ao_new<PauseMenu>();
-        pPauseMenu_5080E0->ctor_44DEA0();
     }
 
     ResourceManager::Reclaim_Memory_455660(0);
 
     if (!sActiveHero_507678)
     {
-        sActiveHero_507678 = ao_new<Abe>();
-        sActiveHero_507678->ctor_420770(55888, 85, 57, 55);
+        const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_Walk);
+        sActiveHero_507678 = ao_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
     }
 
     if (!SaveGame::LoadFromFile_459D30(sSaveNames_9F1DD8[field_1E0_selected_index.raw].field_0_mName))

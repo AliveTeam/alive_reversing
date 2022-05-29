@@ -14,37 +14,22 @@ void CC MinesAlarm::Create_4177F0(s32 timer)
 {
     if (!bCreated_5BC030)
     {
-        auto pMinesAlarm = ae_new<MinesAlarm>();
-        if (pMinesAlarm)
-        {
-            pMinesAlarm->ctor_417870(timer);
-        }
+        ae_new<MinesAlarm>(timer);
     }
 }
 
 s32 CC MinesAlarm::CreateFromSaveState_417740(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MinesAlarm_State*>(pBuffer);
-    auto pMinesAlarm = ae_new<MinesAlarm>();
-    if (pMinesAlarm)
-    {
-        pMinesAlarm->ctor_417870(pState->field_4_timer);
-    }
+    auto pMinesAlarm = ae_new<MinesAlarm>(pState->field_4_timer);
     return sizeof(MinesAlarm_State);
 }
 
-BaseGameObject* MinesAlarm::ctor_417870(s32 timer)
+MinesAlarm::MinesAlarm(s32 timer)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x5445FC);
     SetType(AETypes::eMinesAlarm_25);
     sTimerValue_5C1BFC = timer;
-    return this;
-}
-
-BaseGameObject* MinesAlarm::VDestructor(s32 flags)
-{
-    return vdtor_4178B0(flags);
 }
 
 void MinesAlarm::VScreenChanged()
@@ -69,22 +54,10 @@ s32 MinesAlarm::vGetSaveState_4177C0(MinesAlarm_State* pState)
     return sizeof(MinesAlarm_State);
 }
 
-void MinesAlarm::dtor_4178E0()
+MinesAlarm::~MinesAlarm()
 {
-    SetVTable(this, 0x5445FC);
     sTimerValue_5C1BFC = 0;
     bCreated_5BC030 = FALSE;
-    BaseGameObject_dtor_4DBEC0();
-}
-
-BaseGameObject* MinesAlarm::vdtor_4178B0(s32 flags)
-{
-    dtor_4178E0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void MinesAlarm::vScreenChanged_417A20()
@@ -113,11 +86,7 @@ void MinesAlarm::vUpdate_417910()
     {
         if (!pExplosionSet_5BBF68)
         {
-            auto pExplosionSet = ae_new<ExplosionSet>();
-            if (pExplosionSet)
-            {
-                pExplosionSet->ctor_414CA0();
-            }
+            ae_new<ExplosionSet>();
         }
         pExplosionSet_5BBF68->Start_415300();
         mFlags.Clear(BaseGameObject::eUpdatable_Bit2);

@@ -8,11 +8,9 @@
 #include "ObjectIds.hpp"
 #include "SwitchStates.hpp"
 
-SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, s32 tlvInfo)
+SligSpawner::SligSpawner(Path_Slig* pTlv, s32 tlvInfo)
+    : BaseGameObject(TRUE, 0)
 {
-    BaseGameObject(TRUE, 0);
-    SetVTable(this, 0x544090);
-
     SetType(AETypes::eSligSpawner_2);
 
     if (tlvInfo != 0xFFFF)
@@ -32,12 +30,10 @@ SligSpawner* SligSpawner::ctor_409740(Path_Slig* pTlv, s32 tlvInfo)
 
     field_38_state = SpawnerStates::eInactive_0;
     field_3C_spawned_slig_obj_id = -1;
-    return this;
 }
 
-void SligSpawner::dtor_409A70()
+SligSpawner::~SligSpawner()
 {
-    SetVTable(this, 0x544090);
     if (field_26_flags.Get(SpawnerFlags::eBit1_DontDestroyTLV))
     {
         Path::TLV_Reset_4DB8E0(field_20_tlv_info, -1, 0, 0);
@@ -46,17 +42,6 @@ void SligSpawner::dtor_409A70()
     {
         Path::TLV_Reset_4DB8E0(field_20_tlv_info, -1, 0, 1);
     }
-    BaseGameObject_dtor_4DBEC0();
-}
-
-SligSpawner* SligSpawner::vdtor_409800(s32 flags)
-{
-    dtor_409A70();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void SligSpawner::vScreenChanged_409A30()
@@ -115,13 +100,12 @@ void SligSpawner::vUpdate_409830()
             Path_TLV* pSpawnerTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(field_28_tlv.field_8_top_left.field_0_x, field_28_tlv.field_8_top_left.field_2_y, field_28_tlv.field_8_top_left.field_0_x, field_28_tlv.field_8_top_left.field_2_y, TlvTypes::SligSpawner_37);
             if (pSpawnerTlv)
             {
-                auto pSligMem = ae_new<Slig>();
+                auto pSligMem = ae_new<Slig>(static_cast<Path_Slig*>(pSpawnerTlv), field_20_tlv_info);
                 if (pSligMem)
                 {
-                    pSligMem->ctor_4B1370(static_cast<Path_Slig*>(pSpawnerTlv), field_20_tlv_info);
+                    field_3C_spawned_slig_obj_id = pSligMem->field_8_object_id;
                 }
 
-                field_3C_spawned_slig_obj_id = pSligMem->field_8_object_id;
                 field_38_state = SpawnerStates::eSligSpawned_1;
                 SFX_Play_46FA90(SoundEffect::SligSpawn_114, 0);
             }
@@ -158,17 +142,15 @@ s32 CC SligSpawner::CreateFromSaveState_409B10(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_Spawner_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
-    auto pSpawner = ae_new<SligSpawner>();
-    pSpawner->ctor_409740(pTlv, pState->field_4_tlvInfo);
-    pSpawner->field_38_state = pState->field_8_state;
-    pSpawner->field_3C_spawned_slig_obj_id = pState->field_C_spawned_slig_obj_id;
-    pSpawner->field_40_bFindSpawnedSlig = TRUE;
-    return sizeof(Slig_Spawner_State);
-}
+    auto pSpawner = ae_new<SligSpawner>(pTlv, pState->field_4_tlvInfo);
+    if (pSpawner)
+    {
+        pSpawner->field_38_state = pState->field_8_state;
+        pSpawner->field_3C_spawned_slig_obj_id = pState->field_C_spawned_slig_obj_id;
+        pSpawner->field_40_bFindSpawnedSlig = TRUE;
+    }
 
-BaseGameObject* SligSpawner::VDestructor(s32 flags)
-{
-    return vdtor_409800(flags);
+    return sizeof(Slig_Spawner_State);
 }
 
 void SligSpawner::VUpdate()

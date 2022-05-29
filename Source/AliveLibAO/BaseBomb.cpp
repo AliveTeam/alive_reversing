@@ -63,11 +63,7 @@ void BaseBomb::VUpdate_417580()
             }
 
 
-            Flash* pFlash = ao_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
-            }
+            ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
 
             rect.x = FP_GetExponent(FP_FromInteger(-113) * field_E4_scale);
             rect.w = FP_GetExponent(FP_FromInteger(113) * field_E4_scale);
@@ -79,11 +75,7 @@ void BaseBomb::VUpdate_417580()
 
         case 4:
         {
-            Flash* pFlash = ao_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
-            }
+            ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
             break;
         }
 
@@ -100,11 +92,7 @@ void BaseBomb::VUpdate_417580()
                     BurstType::eBigRedSparks_3);
             }
 
-            Flash* pFlash = ao_new<Flash>();
-            if (pFlash)
-            {
-                pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
-            }
+            ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
         }
 

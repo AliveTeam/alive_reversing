@@ -45,9 +45,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);
 class SlapLock final : public BaseAliveGameObject
 {
 public:
-    EXPORT SlapLock* ctor_43DC80(Path_SlapLock* pTlv, s32 tlvInfo);
+    SlapLock(Path_SlapLock* pTlv, s32 tlvInfo);
+    ~SlapLock();
 
-    EXPORT void dtor_43DF00();
     virtual void VUpdate() override;
     
     virtual void VScreenChanged() override;
@@ -57,7 +57,6 @@ public:
     EXPORT static s32 CC CreateFromSaveState_43EA00(const u8* pBuffer);
 
 private:
-    EXPORT SlapLock* vdtor_43DED0(s32 flags);
     EXPORT void vScreenChanged_43E840();
     EXPORT void GiveInvisibility_43E880();
     EXPORT s32 vGetSaveState_43EB30(SlapLock_State* pState);

@@ -17,18 +17,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x18);
 class GasCountDown final : public BaseGameObject
 {
 public:
-    EXPORT GasCountDown* ctor_417010(Path_GasCountDown* pTlv, s32 tlvInfo);
-
+    GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo);
+    ~GasCountDown();
     
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
 
 private:
-    EXPORT void dtor_417220();
-
-    EXPORT GasCountDown* vdtor_4171F0(s32 flags);
-
     EXPORT void vScreenChanged_417700();
 
     EXPORT void vRender_4175A0(PrimHeader** pOt);

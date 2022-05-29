@@ -8306,16 +8306,14 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         u32 aux = 0;
                         Get_fmvs_sectors_44FEB0(
                             pFmvInfo->field_0_pName, 0, 0, &aux, 0, 0);
-                        auto pMovie = ao_new<Movie>();
-                        if (pMovie)
-                        {
-                            pMovie->ctor_489C90(
-                                pFmvInfo->field_4_id,
-                                aux,
-                                static_cast<s8>(pFmvInfo->field_6),
-                                pFmvInfo->field_A,
-                                pFmvInfo->field_C_volume);
-                        }
+
+                        ao_new<Movie>(
+                            pFmvInfo->field_4_id,
+                            aux,
+                            static_cast<s8>(pFmvInfo->field_6),
+                            pFmvInfo->field_A,
+                            pFmvInfo->field_C_volume);
+
                         field_110_state.stone = StoneStates::eHandstoneMovieDone_2;
                         break;
                     }

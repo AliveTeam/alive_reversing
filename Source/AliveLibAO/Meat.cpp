@@ -134,20 +134,19 @@ void MeatSack::VUpdate_4392C0()
             if (!gpThrowableArray_50E26C)
             {
                 gpThrowableArray_50E26C = ao_new<ThrowableArray>();
-                if (gpThrowableArray_50E26C)
-                {
-                    gpThrowableArray_50E26C->ctor_453EE0();
-                }
             }
 
-            if (gpThrowableArray_50E26C->field_10_count > 0)
+            if (gpThrowableArray_50E26C)
             {
-                field_10_anim.Set_Animation_Data_402A40(MeatSackHitRec.mFrameTableOffset, nullptr);
-                field_110_bDoMeatSackIdleAnim = 1;
-                return;
-            }
+                if (gpThrowableArray_50E26C->field_10_count > 0)
+                {
+                    field_10_anim.Set_Animation_Data_402A40(MeatSackHitRec.mFrameTableOffset, nullptr);
+                    field_110_bDoMeatSackIdleAnim = 1;
+                    return;
+                }
 
-            gpThrowableArray_50E26C->Add_453F70(field_112_num_items);
+                gpThrowableArray_50E26C->Add_453F70(field_112_num_items);
+            }
 
             auto pMeat = ao_new<Meat>();
             if (pMeat)

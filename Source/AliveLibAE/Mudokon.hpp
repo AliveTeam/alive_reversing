@@ -272,10 +272,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
 class Mudokon final : public BaseAliveGameObject
 {
 public:
-    EXPORT Mudokon* ctor_474F30(Path_Mudokon* pTlv, s32 tlvInfo);
-
+    Mudokon(Path_Mudokon* pTlv, s32 tlvInfo);
+    ~Mudokon();
     
-
     virtual void VUpdate() override;
 
     virtual void VScreenChanged() override;
@@ -327,10 +326,6 @@ private:
     EXPORT void vOnTlvCollision_476EA0(Path_TLV* pTlv);
 
     EXPORT s16 FacingTarget_473140(BirdPortal* pTarget);
-
-    EXPORT Mudokon* vdtor_475770(s32 flags);
-
-    EXPORT void dtor_475B60();
 
     EXPORT void vScreenChanged_476F30();
 

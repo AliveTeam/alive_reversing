@@ -111,11 +111,7 @@ void InvisibleSwitch::VUpdate_4335A0()
                 SwitchStates_Do_Operation_436A10(field_10_switch_id, field_12_action);
                 if (field_2A_set_off_alarm == Choice_short::eYes_1)
                 {
-                    auto pAlarm = ao_new<Alarm>();
-                    if (pAlarm)
-                    {
-                        pAlarm->ctor_402570(150, 0, 30, Layer::eLayer_Above_FG1_39);
-                    }
+                    ao_new<Alarm>(150, 0, 30, Layer::eLayer_Above_FG1_39);
                 }
                 field_28_state = States::eWaitForTrigger_0;
             }

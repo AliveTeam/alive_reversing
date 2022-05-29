@@ -120,10 +120,9 @@ static u8 Fleech_NextRandom()
     return sRandomBytes_546744[sFleechRandomIdx_5BC20C++];
 }
 
-Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo)
+Fleech::Fleech(Path_Fleech* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(2)
 {
-    BaseAliveGameObject(2);
-    SetVTable(this, 0x544F28);
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_C_objectId = tlvInfo;
@@ -184,13 +183,6 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, s32 tlvInfo)
         field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
         field_13E_current_anger = field_140_max_anger + (field_142_attack_anger_increaser - field_140_max_anger) / 2;
     }
-
-    return this;
-}
-
-BaseGameObject* Fleech::VDestructor(s32 flags)
-{
-    return vdtor_42A140(flags);
 }
 
 void Fleech::VUpdate()
@@ -272,114 +264,116 @@ s32 CC Fleech::CreateFromSaveState_42DD50(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("FLEEBLOW.BAN", nullptr);
     }
 
-    auto pFleech = ae_new<Fleech>();
-    pFleech->ctor_429DC0(pTlv, pState->field_40_tlvInfo);
-    pFleech->field_C_objectId = pState->field_4_obj_id;
-
-    pFleech->field_FC_pPathTLV = nullptr;
-    pFleech->field_100_pCollisionLine = nullptr;
-
-    pFleech->field_110_id = pState->field_3C_id;
-
-    pFleech->field_B8_xpos = pState->field_8_xpos;
-    pFleech->field_BC_ypos = pState->field_C_ypos;
-    pFleech->field_C4_velx = pState->field_10_velx;
-    pFleech->field_C8_vely = pState->field_14_vely;
-
-    pFleech->field_C0_path_number = pState->field_18_path_number;
-    pFleech->field_C2_lvl_number = pState->field_1A_lvl_number;
-    pFleech->field_CC_sprite_scale = pState->field_1C_sprite_scale;
-
-    pFleech->field_D0_r = pState->field_20_r;
-    pFleech->field_D2_g = pState->field_22_g;
-    pFleech->field_D4_b = pState->field_24_b;
-
-    pFleech->field_106_current_motion = pState->field_28_current_motion;
-    const AnimRecord& animRec = AnimRec(sFleechFrameTableOffsets_5517E4[pFleech->field_106_current_motion]);
-    pFleech->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-    pFleech->field_20_animation.field_92_current_frame = pState->field_2A_anim_current_frame;
-    pFleech->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
-
-    pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bFlipX & 1);
-    pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
-
-    pFleech->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
-
-    if (IsLastFrame(&pFleech->field_20_animation))
+    auto pFleech = ae_new<Fleech>(pTlv, pState->field_40_tlvInfo);
+    if (pFleech)
     {
-        pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        pFleech->field_C_objectId = pState->field_4_obj_id;
+
+        pFleech->field_FC_pPathTLV = nullptr;
+        pFleech->field_100_pCollisionLine = nullptr;
+
+        pFleech->field_110_id = pState->field_3C_id;
+
+        pFleech->field_B8_xpos = pState->field_8_xpos;
+        pFleech->field_BC_ypos = pState->field_C_ypos;
+        pFleech->field_C4_velx = pState->field_10_velx;
+        pFleech->field_C8_vely = pState->field_14_vely;
+
+        pFleech->field_C0_path_number = pState->field_18_path_number;
+        pFleech->field_C2_lvl_number = pState->field_1A_lvl_number;
+        pFleech->field_CC_sprite_scale = pState->field_1C_sprite_scale;
+
+        pFleech->field_D0_r = pState->field_20_r;
+        pFleech->field_D2_g = pState->field_22_g;
+        pFleech->field_D4_b = pState->field_24_b;
+
+        pFleech->field_106_current_motion = pState->field_28_current_motion;
+        const AnimRecord& animRec = AnimRec(sFleechFrameTableOffsets_5517E4[pFleech->field_106_current_motion]);
+        pFleech->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        pFleech->field_20_animation.field_92_current_frame = pState->field_2A_anim_current_frame;
+        pFleech->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
+
+        pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bFlipX & 1);
+        pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
+
+        pFleech->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
+
+        if (IsLastFrame(&pFleech->field_20_animation))
+        {
+            pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        }
+        pFleech->field_10C_health = pState->field_30_health;
+        pFleech->field_106_current_motion = pState->field_34_current_motion;
+        pFleech->field_108_next_motion = pState->field_36_next_motion;
+
+        pFleech->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_lastLineYPos);
+
+        pFleech->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+
+        pFleech->field_104_collision_line_type = pState->field_3A_line_type;
+        pFleech->field_118_tlvInfo = pState->field_40_tlvInfo;
+        pFleech->field_11C_obj_id = pState->field_44_obj_id;
+        pFleech->field_120_unused = pState->field_48_unused;
+        pFleech->field_178_tongue_state = pState->field_4A_save_tongue_state;
+        pFleech->field_17A_tongue_sub_state = pState->field_4C_save_tongue_sub_state;
+        pFleech->field_17C = pState->field_4E;
+        pFleech->field_17E = pState->field_50;
+        pFleech->field_180_tongue_x = pState->field_52_tongue_x;
+        pFleech->field_182_tongue_y = pState->field_54_tongue_y;
+        pFleech->field_184_target_x = pState->field_56_target_x;
+        pFleech->field_186_target_y = pState->field_58_target_y;
+        pFleech->field_188 = pState->field_5A;
+
+        pFleech->field_18A.Set(Flags_18A::e18A_TongueActive_Bit1, pState->field_5C_tongue_active_flag & 1);
+        pFleech->field_18A.Set(Flags_18A::e18A_Render_Bit2, pState->field_5D_render_flag & 1);
+
+        pFleech->field_124_brain_state = pState->field_5E_brain_state;
+        pFleech->field_126_state = pState->field_60_state;
+        pFleech->field_12C = pState->field_64;
+        pFleech->field_128 = pState->field_62;
+        sFleechRandomIdx_5BC20C = pState->field_68_fleech_random_idx;
+        pFleech->field_130 = pState->field_6A;
+        pFleech->field_134_unused = pState->field_6C_unused;
+        pFleech->field_138_velx_factor = pState->field_70_velx_factor;
+        pFleech->field_13C_unused = pState->field_74_unused;
+        pFleech->field_13E_current_anger = pState->field_76_current_anger;
+        pFleech->field_140_max_anger = pState->field_78_max_anger;
+        pFleech->field_142_attack_anger_increaser = pState->field_7A_attack_anger;
+        pFleech->field_144_wake_up_switch_id = pState->field_7C_wakeup_id;
+        pFleech->field_146_wake_up_switch_anger_value = pState->field_7E_wake_up_switch_anger_value;
+        pFleech->field_148_wake_up_switch_value = pState->field_80_wake_up_switch_value;
+        pFleech->field_14A_can_wake_up_switch_id = pState->field_82_can_wake_up_id;
+        pFleech->field_14C = pState->field_84;
+        pFleech->field_14E = pState->field_86;
+        pFleech->field_150_patrol_range = pState->field_88_patrol_range;
+        pFleech->field_152 = pState->field_8A;
+        pFleech->field_154 = pState->field_8C;
+        pFleech->field_156_rnd_crawl = pState->field_8E;
+        pFleech->field_158_chase_delay = pState->field_90_chase_delay;
+        pFleech->field_15A_chase_timer = pState->field_92_chase_timer;
+        pFleech->field_15C_lost_target_timeout = pState->field_94_lost_target_timeout;
+        pFleech->field_15E_lost_target_timer = pState->field_96_lost_target_timer;
+        pFleech->field_160_hoistX = pState->field_98_hoistX;
+        pFleech->field_162_hoistY = pState->field_9A_hoistY;
+        pFleech->field_164 = pState->field_9C;
+        pFleech->field_166_angle = pState->field_9E_angle;
+        pFleech->field_168 = pState->field_A0;
+        pFleech->field_16C = pState->field_A4;
+        pFleech->field_170_danger_obj = pState->field_A8;
+
+        if (pState->field_4_obj_id == pState->field_AC_obj_id)
+        {
+            current_target_object_id_551840 = pFleech->field_8_object_id;
+        }
+
+        pFleech->field_174_flags.Set(Flags_174::eBit1_bHoistDone, pState->field_B0.Get(Fleech_State::eBit1));
+        pFleech->field_174_flags.Set(Flags_174::eBit2, pState->field_B0.Get(Fleech_State::eBit2));
+        pFleech->field_174_flags.Set(Flags_174::eBit3, pState->field_B0.Get(Fleech_State::eBit3));
+        pFleech->field_174_flags.Set(Flags_174::eBit4, pState->field_B0.Get(Fleech_State::eBit4));
+        pFleech->field_174_flags.Set(Flags_174::eBit5_asleep, pState->field_B0.Get(Fleech_State::eBit5));
+        pFleech->field_174_flags.Set(Flags_174::eBit6_goes_to_sleep, pState->field_B0.Get(Fleech_State::eBit6));
+        pFleech->field_174_flags.Set(Flags_174::eBit7_persistant, pState->field_B0.Get(Fleech_State::eBit7));
     }
-    pFleech->field_10C_health = pState->field_30_health;
-    pFleech->field_106_current_motion = pState->field_34_current_motion;
-    pFleech->field_108_next_motion = pState->field_36_next_motion;
-
-    pFleech->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_lastLineYPos);
-
-    pFleech->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
-
-    pFleech->field_104_collision_line_type = pState->field_3A_line_type;
-    pFleech->field_118_tlvInfo = pState->field_40_tlvInfo;
-    pFleech->field_11C_obj_id = pState->field_44_obj_id;
-    pFleech->field_120_unused = pState->field_48_unused;
-    pFleech->field_178_tongue_state = pState->field_4A_save_tongue_state;
-    pFleech->field_17A_tongue_sub_state = pState->field_4C_save_tongue_sub_state;
-    pFleech->field_17C = pState->field_4E;
-    pFleech->field_17E = pState->field_50;
-    pFleech->field_180_tongue_x = pState->field_52_tongue_x;
-    pFleech->field_182_tongue_y = pState->field_54_tongue_y;
-    pFleech->field_184_target_x = pState->field_56_target_x;
-    pFleech->field_186_target_y = pState->field_58_target_y;
-    pFleech->field_188 = pState->field_5A;
-
-    pFleech->field_18A.Set(Flags_18A::e18A_TongueActive_Bit1, pState->field_5C_tongue_active_flag & 1);
-    pFleech->field_18A.Set(Flags_18A::e18A_Render_Bit2, pState->field_5D_render_flag & 1);
-
-    pFleech->field_124_brain_state = pState->field_5E_brain_state;
-    pFleech->field_126_state = pState->field_60_state;
-    pFleech->field_12C = pState->field_64;
-    pFleech->field_128 = pState->field_62;
-    sFleechRandomIdx_5BC20C = pState->field_68_fleech_random_idx;
-    pFleech->field_130 = pState->field_6A;
-    pFleech->field_134_unused = pState->field_6C_unused;
-    pFleech->field_138_velx_factor = pState->field_70_velx_factor;
-    pFleech->field_13C_unused = pState->field_74_unused;
-    pFleech->field_13E_current_anger = pState->field_76_current_anger;
-    pFleech->field_140_max_anger = pState->field_78_max_anger;
-    pFleech->field_142_attack_anger_increaser = pState->field_7A_attack_anger;
-    pFleech->field_144_wake_up_switch_id = pState->field_7C_wakeup_id;
-    pFleech->field_146_wake_up_switch_anger_value = pState->field_7E_wake_up_switch_anger_value;
-    pFleech->field_148_wake_up_switch_value = pState->field_80_wake_up_switch_value;
-    pFleech->field_14A_can_wake_up_switch_id = pState->field_82_can_wake_up_id;
-    pFleech->field_14C = pState->field_84;
-    pFleech->field_14E = pState->field_86;
-    pFleech->field_150_patrol_range = pState->field_88_patrol_range;
-    pFleech->field_152 = pState->field_8A;
-    pFleech->field_154 = pState->field_8C;
-    pFleech->field_156_rnd_crawl = pState->field_8E;
-    pFleech->field_158_chase_delay = pState->field_90_chase_delay;
-    pFleech->field_15A_chase_timer = pState->field_92_chase_timer;
-    pFleech->field_15C_lost_target_timeout = pState->field_94_lost_target_timeout;
-    pFleech->field_15E_lost_target_timer = pState->field_96_lost_target_timer;
-    pFleech->field_160_hoistX = pState->field_98_hoistX;
-    pFleech->field_162_hoistY = pState->field_9A_hoistY;
-    pFleech->field_164 = pState->field_9C;
-    pFleech->field_166_angle = pState->field_9E_angle;
-    pFleech->field_168 = pState->field_A0;
-    pFleech->field_16C = pState->field_A4;
-    pFleech->field_170_danger_obj = pState->field_A8;
-
-    if (pState->field_4_obj_id == pState->field_AC_obj_id)
-    {
-        current_target_object_id_551840 = pFleech->field_8_object_id;
-    }
-
-    pFleech->field_174_flags.Set(Flags_174::eBit1_bHoistDone, pState->field_B0.Get(Fleech_State::eBit1));
-    pFleech->field_174_flags.Set(Flags_174::eBit2, pState->field_B0.Get(Fleech_State::eBit2));
-    pFleech->field_174_flags.Set(Flags_174::eBit3, pState->field_B0.Get(Fleech_State::eBit3));
-    pFleech->field_174_flags.Set(Flags_174::eBit4, pState->field_B0.Get(Fleech_State::eBit4));
-    pFleech->field_174_flags.Set(Flags_174::eBit5_asleep, pState->field_B0.Get(Fleech_State::eBit5));
-    pFleech->field_174_flags.Set(Flags_174::eBit6_goes_to_sleep, pState->field_B0.Get(Fleech_State::eBit6));
-    pFleech->field_174_flags.Set(Flags_174::eBit7_persistant, pState->field_B0.Get(Fleech_State::eBit7));
 
     return sizeof(Fleech_State);
 }
@@ -541,21 +535,17 @@ void Fleech::M_Sleeping_0_42F0B0()
 
                 if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
-                    auto pSnoozeParticle = ae_new<SnoozeParticle>();
-                    if (pSnoozeParticle)
+                    const FP yPos = (field_CC_sprite_scale * FP_FromInteger(-20)) + field_BC_ypos;
+                    FP xOff = {};
+                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        const FP yPos = (field_CC_sprite_scale * FP_FromInteger(-20)) + field_BC_ypos;
-                        FP xOff = {};
-                        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                        {
-                            xOff = -(field_CC_sprite_scale * FP_FromInteger(10));
-                        }
-                        else
-                        {
-                            xOff = (field_CC_sprite_scale * FP_FromInteger(10));
-                        }
-                        pSnoozeParticle->ctor_4B06F0(xOff + field_B8_xpos, yPos, field_20_animation.field_C_render_layer, field_20_animation.field_14_scale);
+                        xOff = -(field_CC_sprite_scale * FP_FromInteger(10));
                     }
+                    else
+                    {
+                        xOff = (field_CC_sprite_scale * FP_FromInteger(10));
+                    }
+                    ae_new<SnoozeParticle>(xOff + field_B8_xpos, yPos, field_20_animation.field_C_render_layer, field_20_animation.field_14_scale);
                 }
             }
         }
@@ -1098,11 +1088,7 @@ void Fleech::M_DeathByFalling_16_42FCE0()
 {
     if (field_10C_health > FP_FromInteger(0))
     {
-        auto pBlood = ae_new<Blood>();
-        if (pBlood)
-        {
-            pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), FP_FromInteger(0), -FP_FromInteger(5), field_CC_sprite_scale, 50);
-        }
+        ae_new<Blood>(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), FP_FromInteger(0), -FP_FromInteger(5), field_CC_sprite_scale, 50);
 
         Sound_430520(FleechSound::DeathByHeight_12);
         Sound_430520(FleechSound::Scared_7);
@@ -1133,21 +1119,17 @@ void Fleech::M_SleepingWithTongue_17_42F370()
                 Sound_430520(FleechSound::SleepingExhale_4);
                 if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
-                    auto pSnoozeParticle = ae_new<SnoozeParticle>();
-                    if (pSnoozeParticle)
+                    const FP yPos = (field_CC_sprite_scale * FP_FromInteger(-20)) + field_BC_ypos;
+                    FP xOff = {};
+                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        const FP yPos = (field_CC_sprite_scale * FP_FromInteger(-20)) + field_BC_ypos;
-                        FP xOff = {};
-                        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                        {
-                            xOff = -(field_CC_sprite_scale * FP_FromInteger(10));
-                        }
-                        else
-                        {
-                            xOff = (field_CC_sprite_scale * FP_FromInteger(10));
-                        }
-                        pSnoozeParticle->ctor_4B06F0(xOff + field_B8_xpos, yPos, field_20_animation.field_C_render_layer, field_20_animation.field_14_scale);
+                        xOff = -(field_CC_sprite_scale * FP_FromInteger(10));
                     }
+                    else
+                    {
+                        xOff = (field_CC_sprite_scale * FP_FromInteger(10));
+                    }
+                    ae_new<SnoozeParticle>(xOff + field_B8_xpos, yPos, field_20_animation.field_C_render_layer, field_20_animation.field_14_scale);
                 }
             }
         }
@@ -1175,19 +1157,15 @@ void Fleech::M_Consume_18_42FDF0()
 
         for (s32 i = 0; i < 3; i++)
         {
-            auto pDove = ae_new<Dove>();
-            if (pDove)
-            {
-                const AnimRecord& doveRec = AnimRec(AnimId::Dove_Flying);
-                pDove->ctor_41F660(
-                    doveRec.mFrameTableOffset,
-                    doveRec.mMaxW,
-                    doveRec.mMaxH,
-                    doveRec.mResourceId,
-                    field_B8_xpos,
-                    field_BC_ypos + FP_FromInteger(10),
-                    field_CC_sprite_scale);
-            }
+            const AnimRecord& doveRec = AnimRec(AnimId::Dove_Flying);
+            auto pDove = ae_new<Dove>(
+                doveRec.mFrameTableOffset,
+                doveRec.mMaxW,
+                doveRec.mMaxH,
+                doveRec.mResourceId,
+                field_B8_xpos,
+                field_BC_ypos + FP_FromInteger(10),
+                field_CC_sprite_scale);
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
@@ -1208,9 +1186,8 @@ void Fleech::M_Consume_18_42FDF0()
     }
 }
 
-void Fleech::dtor_42A3A0()
+Fleech::~Fleech()
 {
-    SetVTable(this, 0x544F28);
     field_170_danger_obj = -1;
     if (field_118_tlvInfo != 0xFFFF)
     {
@@ -1236,18 +1213,6 @@ void Fleech::dtor_42A3A0()
     {
         sFleechCount_5BC20E--;
     }
-
-    dtor_4080B0();
-}
-
-Fleech* Fleech::vdtor_42A140(s32 flags)
-{
-    dtor_42A3A0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
 }
 
 void Fleech::vUpdate_42AB20()
@@ -1272,7 +1237,7 @@ void Fleech::vUpdate_42AB20()
                 1 << field_104_collision_line_type);
         }
         field_104_collision_line_type = 0;
-        field_11C_obj_id = BaseGameObject::FindById(field_11C_obj_id);
+        field_11C_obj_id = BaseGameObject::RefreshId(field_11C_obj_id);
         field_170_danger_obj = BaseGameObject::RefreshId(field_170_danger_obj);
         field_110_id = BaseGameObject::RefreshId(field_110_id);
     }
@@ -1746,10 +1711,6 @@ void Fleech::Init_42A170()
     vStackOnObjectsOfType_425840(AETypes::eFleech_50);
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
 
     sFleechCount_5BC20E++;
 }
@@ -1907,16 +1868,12 @@ void Fleech::TongueUpdate_42BD30()
                         case 0:
                         {
                             Sound_430520(FleechSound::LickTarget_10);
-                            auto pBlood = ae_new<Blood>();
-                            if (pBlood)
-                            {
-                                pBlood->ctor_40F0B0(
-                                    FP_FromInteger(field_17C),
-                                    FP_FromInteger(field_17E),
-                                    field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0 ? FP_FromInteger(2) : FP_FromInteger(-2),
-                                    FP_FromInteger(1),
-                                    field_CC_sprite_scale, 20);
-                            }
+                            ae_new<Blood>(
+                                FP_FromInteger(field_17C),
+                                FP_FromInteger(field_17E),
+                                field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0 ? FP_FromInteger(2) : FP_FromInteger(-2),
+                                FP_FromInteger(1),
+                                field_CC_sprite_scale, 20);
                             break;
                         }
 
@@ -2265,24 +2222,17 @@ s16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         {
             Sound_430520(FleechSound::Scared_7);
             field_10C_health = FP_FromInteger(0);
-            auto pGibsMem = ae_new<Gibs>();
-            if (pGibsMem)
-            {
-                pGibsMem->ctor_40FB40(GibType::Fleech_10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
-            }
+
+            ae_new<Gibs>(GibType::Fleech_10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
 
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
-            auto pBloodMem = ae_new<Blood>();
-            if (pBloodMem)
-            {
-                pBloodMem->ctor_40F0B0(
-                    FP_FromInteger((bRect.x + bRect.w) / 2),
-                    FP_FromInteger((bRect.y + bRect.h) / 2),
-                    FP_FromInteger(0),
-                    FP_FromInteger(0),
-                    field_CC_sprite_scale, 50);
-            }
+            ae_new<Blood>(
+                FP_FromInteger((bRect.x + bRect.w) / 2),
+                FP_FromInteger((bRect.y + bRect.h) / 2),
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                field_CC_sprite_scale, 50);
 
             mFlags.Set(BaseGameObject::eDead);
         }
@@ -2306,27 +2256,15 @@ s16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
 
         case AETypes::eScrab_112:
         {
-            auto pGibsMem2 = ae_new<Gibs>();
-            if (pGibsMem2)
-            {
-                pGibsMem2->ctor_40FB40(GibType::Fleech_10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
-            }
+            ae_new<Gibs>(GibType::Fleech_10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
 
             if (static_cast<BaseAliveGameObject*>(pFrom)->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                auto pBloodMem2 = ae_new<Blood>();
-                if (pBloodMem2)
-                {
-                    pBloodMem2->ctor_40F0B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), -FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);
-                }
+                ae_new<Blood>(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), -FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);
             }
             else
             {
-                auto pBloodMem3 = ae_new<Blood>();
-                if (pBloodMem3)
-                {
-                    pBloodMem3->ctor_40F0B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);
-                }
+                ae_new<Blood>(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);
             }
 
             if (!field_174_flags.Get(Flags_174::eBit4))

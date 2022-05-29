@@ -23,12 +23,11 @@ const TintEntry kMovingBombTints_55C734[4] = {
 
 ALIVE_VAR(1, 0x5C300C, MovingBomb*, gMovingBomb_5C300C, nullptr);
 
-MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
+MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject(0)
 {
-    BaseAliveGameObject(0);
     mFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    SetVTable(this, 0x546270);
     SetType(AETypes::eTimedMine_or_MovingBomb_10);
 
     const AnimRecord& rec = AnimRec(AnimId::MovingBomb);
@@ -100,17 +99,6 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, s32 tlvInfo)
     }
 
     field_E0_pShadow = ae_new<Shadow>();
-    if (field_E0_pShadow)
-    {
-        field_E0_pShadow->ctor_4AC990();
-    }
-
-    return this;
-}
-
-BaseGameObject* MovingBomb::VDestructor(s32 flags)
-{
-    return vdtor_470040(flags);
 }
 
 void MovingBomb::VUpdate()
@@ -138,19 +126,8 @@ void MovingBomb::VScreenChanged()
     vScreenChanged_470B90();
 }
 
-MovingBomb* MovingBomb::vdtor_470040(s32 flags)
+MovingBomb::~MovingBomb()
 {
-    dtor_4700C0();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void MovingBomb::dtor_4700C0()
-{
-    SetVTable(this, 0x546270);
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
     if (pPlatform)
     {
@@ -176,7 +153,6 @@ void MovingBomb::dtor_4700C0()
         }
         gMovingBomb_5C300C = 0;
     }
-    dtor_4080B0();
 }
 
 EXPORT void MovingBomb::BlowUp_470070()
@@ -243,17 +219,9 @@ s16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
         case AETypes::eShrykull_121:
         {
             field_10C_health = FP_FromInteger(0);
-            auto pExplosion = ae_new<Explosion>();
-            if (pExplosion)
-            {
-                pExplosion->ctor_4A1200(field_B8_xpos, field_BC_ypos, field_CC_sprite_scale, 0);
-            }
+            ae_new<Explosion>(field_B8_xpos, field_BC_ypos, field_CC_sprite_scale, 0);
 
-            auto pGibs = ae_new<Gibs>();
-            if (pGibs)
-            {
-                pGibs->ctor_40FB40(GibType::Metal_5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
-            }
+            ae_new<Gibs>(GibType::Metal_5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
 
             field_118_state = States::eKillMovingBomb_7;
 
@@ -460,28 +428,20 @@ void MovingBomb::vUpdate_4701E0()
 
                 field_10C_health = FP_FromInteger(0);
 
-                auto pExplosion = ae_new<Explosion>();
-                if (pExplosion)
-                {
-                    pExplosion->ctor_4A1200(
-                        field_B8_xpos,
-                        field_BC_ypos,
-                        field_CC_sprite_scale,
-                        0);
-                }
+                ae_new<Explosion>(
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    field_CC_sprite_scale,
+                    0);
 
-                auto pGibs = ae_new<Gibs>();
-                if (pGibs)
-                {
-                    pGibs->ctor_40FB40(
-                        GibType::Metal_5,
-                        field_B8_xpos,
-                        field_BC_ypos,
-                        FP_FromInteger(0),
-                        FP_FromInteger(5),
-                        field_CC_sprite_scale,
-                        0);
-                }
+                ae_new<Gibs>(
+                    GibType::Metal_5,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(5),
+                    field_CC_sprite_scale,
+                    0);
 
                 field_118_state = States::eKillMovingBomb_7;
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);

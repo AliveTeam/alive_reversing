@@ -152,13 +152,11 @@ void RockSack::vUpdate_49F3A0()
 
             gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_rock_amount);
 
-            auto pRock = ae_new<Rock>();
+            auto pRock = ae_new<Rock>(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_rock_amount);
             if (pRock)
             {
-                pRock->ctor_49E150(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_rock_amount);
+                pRock->VThrow_49E460(field_124_x_vel, field_128_y_vel);
             }
-
-            pRock->VThrow_49E460(field_124_x_vel, field_128_y_vel);
 
             SFX_Play_46FA90(SoundEffect::SackHit_25, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);

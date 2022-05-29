@@ -38,7 +38,6 @@ Shrykull::Shrykull()
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, sActiveHero_5C1B68->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 
     field_E0_pShadow = ae_new<Shadow>();
-    field_E0_pShadow->ctor_4AC990();
 
     field_12E_bResetRingTimer = 0;
 }

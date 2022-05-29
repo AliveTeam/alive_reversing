@@ -13,15 +13,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockWhirlWind_State, 0x4);
 class SlapLockWhirlWind final : public BaseGameObject
 {
 public:
-    EXPORT SlapLockWhirlWind* ctor_43D7E0(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale);
+    SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale);
     
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     static EXPORT s32 CC CreateFromSaveState_43DC20(const u8* pBuffer);
 
 private:
-    EXPORT void dtor_43DA70();
-    EXPORT SlapLockWhirlWind* vdtor_43DA40(s32 flags);
     EXPORT s32 vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState);
     EXPORT void vUpdate_43DA90();
 

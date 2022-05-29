@@ -18,11 +18,9 @@ const SfxDefinition buttonSfxInfo_544488[8] = {
     // { (s8)160u, (s8)192u, 77u, 0u, (s16)49392, 77 }
 };
 
-CrawlingSligButton* CrawlingSligButton::ctor_4148F0(Path_CrawlingSligButton* pTlv, s32 tlvInfo)
+CrawlingSligButton::CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInfo)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    SetVTable(this, 0x5444B4);
-
     SetType(AETypes::eSligButton_16);
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
@@ -52,12 +50,6 @@ CrawlingSligButton* CrawlingSligButton::ctor_4148F0(Path_CrawlingSligButton* pTl
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
-    return this;
-}
-
-BaseGameObject* CrawlingSligButton::VDestructor(s32 flags)
-{
-    return vdtor_414A60(flags);
 }
 
 void CrawlingSligButton::VUpdate()
@@ -75,21 +67,9 @@ void CrawlingSligButton::UseButton_414C60()
     }
 }
 
-CrawlingSligButton* CrawlingSligButton::vdtor_414A60(s32 flags)
+CrawlingSligButton::~CrawlingSligButton()
 {
-    dtor_414A90();
-    if (flags & 1)
-    {
-        ae_delete_free_495540(this);
-    }
-    return this;
-}
-
-void CrawlingSligButton::dtor_414A90()
-{
-    SetVTable(this, 0x5444B4);
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
-    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void CrawlingSligButton::vUpdate_414B20()

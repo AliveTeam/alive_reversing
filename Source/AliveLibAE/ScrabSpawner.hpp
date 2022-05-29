@@ -31,7 +31,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawner_State, 0x10);
 class ScrabSpawner final : public BaseGameObject
 {
 public:
-    EXPORT ScrabSpawner* ctor_4AB450(Path_ScrabSpawner* pTlv, s32 tlvInfo);
+    ScrabSpawner(Path_ScrabSpawner* pTlv, s32 tlvInfo);
+    ~ScrabSpawner();
+
     EXPORT static s32 CC CreateFromSaveState_4ABEB0(const u8* pBuffer);
 
     
@@ -39,8 +41,6 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    EXPORT ScrabSpawner* vdtor_4AB4E0(s32 flags);
-    EXPORT void dtor_4AB720();
     EXPORT s32 vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState);
     EXPORT void vUpdate_4AB510();
 

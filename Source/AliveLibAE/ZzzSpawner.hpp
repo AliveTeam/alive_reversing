@@ -16,15 +16,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ZzzSpawner, 0x18);
 class ZzzSpawner final : public BaseGameObject
 {
 public:
-    EXPORT ZzzSpawner* ctor_4C4070(Path_ZzzSpawner* pTlv, s32 tlvInfo);
-
+    ZzzSpawner(Path_ZzzSpawner* pTlv, s32 tlvInfo);
+    ~ZzzSpawner();
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void dtor_4C4130();
-    EXPORT ZzzSpawner* vdtor_4C4100(s32 flags);
     EXPORT void vScreenChanged_4C4280();
     EXPORT void vUpdate_4C41B0();
 

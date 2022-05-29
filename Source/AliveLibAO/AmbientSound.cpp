@@ -77,11 +77,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
                 {
                     if (!pAmbianceTbl[1].field_8_pScopedSeq)
                     {
-                        pAmbianceTbl[1].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                        if (pAmbianceTbl[1].field_8_pScopedSeq)
-                        {
-                            pAmbianceTbl[1].field_8_pScopedSeq->ctor_476400(1, direction);
-                        }
+                        pAmbianceTbl[1].field_8_pScopedSeq = ao_new<ScopedSeq>(1, direction);
                         bDangerMusic = true;
                     }
                 }
@@ -89,11 +85,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
                 {
                     if (!pAmbianceTbl->field_8_pScopedSeq)
                     {
-                        pAmbianceTbl[0].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                        if (pAmbianceTbl[0].field_8_pScopedSeq)
-                        {
-                            pAmbianceTbl[0].field_8_pScopedSeq->ctor_476400(0, direction);
-                        }
+                        pAmbianceTbl[0].field_8_pScopedSeq = ao_new<ScopedSeq>(0, direction);
                         bDangerMusic = true;
                     }
                 }
@@ -104,11 +96,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
                 {
                     if (!pAmbianceTbl[3].field_8_pScopedSeq)
                     {
-                        pAmbianceTbl[3].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                        if (pAmbianceTbl[3].field_8_pScopedSeq)
-                        {
-                            pAmbianceTbl[3].field_8_pScopedSeq->ctor_476400(3, direction);
-                        }
+                        pAmbianceTbl[3].field_8_pScopedSeq = ao_new<ScopedSeq>(3, direction);
                         bDangerMusic = true;
                     }
                 }
@@ -116,11 +104,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
                 {
                     if (!pAmbianceTbl[2].field_8_pScopedSeq)
                     {
-                        pAmbianceTbl[2].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                        if (pAmbianceTbl[2].field_8_pScopedSeq)
-                        {
-                            pAmbianceTbl[2].field_8_pScopedSeq->ctor_476400(2, direction);
-                        }
+                        pAmbianceTbl[2].field_8_pScopedSeq = ao_new<ScopedSeq>(2, direction);
                         bDangerMusic = true;
                     }
                 }
@@ -129,11 +113,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
             case TlvTypes::Paramite_48:
                 if (!pAmbianceTbl[4].field_8_pScopedSeq)
                 {
-                    pAmbianceTbl[4].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                    if (pAmbianceTbl[4].field_8_pScopedSeq)
-                    {
-                        pAmbianceTbl[4].field_8_pScopedSeq->ctor_476400(4, direction);
-                    }
+                    pAmbianceTbl[4].field_8_pScopedSeq = ao_new<ScopedSeq>(4, direction);
                     bDangerMusic = true;
                 }
                 break;
@@ -141,11 +121,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
             case TlvTypes::Scrab_72:
                 if (!pAmbianceTbl[5].field_8_pScopedSeq)
                 {
-                    pAmbianceTbl[5].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                    if (pAmbianceTbl[5].field_8_pScopedSeq)
-                    {
-                        pAmbianceTbl[5].field_8_pScopedSeq->ctor_476400(5, direction);
-                    }
+                    pAmbianceTbl[5].field_8_pScopedSeq = ao_new<ScopedSeq>(5, direction);
                     bDangerMusic = true;
                 }
                 break;
@@ -153,11 +129,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
             case TlvTypes::MeatSaw_88:
                 if (!pAmbianceTbl[6].field_8_pScopedSeq)
                 {
-                    pAmbianceTbl[6].field_8_pScopedSeq = ao_new<ScopedSeq>();
-                    if (pAmbianceTbl[6].field_8_pScopedSeq)
-                    {
-                        pAmbianceTbl[6].field_8_pScopedSeq->ctor_476400(6, direction);
-                    }
+                    pAmbianceTbl[6].field_8_pScopedSeq = ao_new<ScopedSeq>(6, direction);
                 }
                 break;
 
@@ -167,11 +139,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
 
         if (bDangerMusic)
         {
-            auto pMusicTrigger = ao_new<MusicTrigger>();
-            if (pMusicTrigger)
-            {
-                pMusicTrigger->ctor_443A60(MusicTriggerMusicType::eDrumAmbience_0, TriggeredBy::eTouching_1, 0, 40);
-            }
+            ao_new<MusicTrigger>(MusicTriggerMusicType::eDrumAmbience_0, TriggeredBy::eTouching_1, 0, 40);
         }
     }
 }
@@ -198,7 +166,7 @@ EXPORT void CC Start_Slig_sounds_476960(CameraPos direction, s8 kZero)
     ScopedSeq** ppSeqPtr = &pTable->mArray[kZero].field_8_pScopedSeq;
     if (!*ppSeqPtr)
     {
-        *ppSeqPtr = ao_new<ScopedSeq>()->ctor_476400(kZero, direction);
+        *ppSeqPtr = ao_new<ScopedSeq>(kZero, direction);
     }
 }
 
@@ -223,7 +191,7 @@ EXPORT void CC Stop_slig_sounds_476A20(CameraPos direction, s8 kZero)
 
     if (pTable->mArray[kZero].field_8_pScopedSeq)
     {
-        pTable->mArray[kZero].field_8_pScopedSeq->VDestructor(1);
+        delete pTable->mArray[kZero].field_8_pScopedSeq;
     }
 }
 

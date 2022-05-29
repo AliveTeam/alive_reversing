@@ -23,16 +23,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasEmitter, 0x14);
 class GasEmitter final : public BaseGameObject
 {
 public:
-    EXPORT GasEmitter* ctor_43CAA0(Path_GasEmitter* pTlv, s32 tlvInfo);
-
+    GasEmitter(Path_GasEmitter* pTlv, s32 tlvInfo);
+    ~GasEmitter();
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
 
 private:
-    EXPORT void dtor_43CD20();
-    EXPORT GasEmitter* vdtor_43CB40(s32 flags);
     EXPORT void vStopAudio_43CDE0();
     EXPORT void vScreenChanged_43CE20();
     EXPORT void vUpdate_43CB70();
