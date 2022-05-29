@@ -20,16 +20,11 @@ public:
 
     EXPORT void AddDynamicCollision_4512C0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
 
-    EXPORT BaseGameObject* dtor_451490();
+    ~PlatformBase();
 
     EXPORT void SyncCollisionLinePosition_451540();
 
     EXPORT void KeepThingsOnPlatform_451690(FP xpos);
-
-
-    EXPORT BaseGameObject* Vdtor_4516F0(s32 flags);
-
-    
 
     s32 field_10C;
     s32 field_110;

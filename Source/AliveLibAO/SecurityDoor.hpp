@@ -42,13 +42,8 @@ public:
 
     EXPORT void VUpdate_461AD0();
 
-    EXPORT SecurityDoor* ctor_461840(Path_SecurityDoor* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_4619C0();
-
-    
-
-    EXPORT SecurityDoor* vdtor_461F90(s32 flags);
+    SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo);
+    ~SecurityDoor();
 
     virtual void VScreenChanged() override;
 

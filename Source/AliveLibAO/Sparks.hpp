@@ -8,7 +8,7 @@ namespace AO {
 class Sparks final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Sparks* ctor_40A3A0(FP xpos, FP ypos, FP scale);
+    Sparks(FP xpos, FP ypos, FP scale);
     EXPORT void VUpdate_40A4F0();
     EXPORT void VScreenChanged_40A640();
 

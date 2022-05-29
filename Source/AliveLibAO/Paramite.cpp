@@ -331,17 +331,14 @@ s16 Paramite::VTakeDamage_44ACC0(BaseGameObject* pFrom)
         case Types::eBaseBomb_30:
         case Types::eExplosion_74:
         {
-            auto pGibs = ao_new<Gibs>();
-            if (pGibs)
-            {
-                pGibs->ctor_407B20(
-                    GibType::Slog_2,
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    field_B4_velx,
-                    field_B8_vely,
-                    field_BC_sprite_scale);
-            }
+            ao_new<Gibs>(
+                GibType::Slog_2,
+                field_A8_xpos,
+                field_AC_ypos,
+                field_B4_velx,
+                field_B8_vely,
+                field_BC_sprite_scale);
+
             mFlags.Set(BaseGameObject::eDead);
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_100_health = FP_FromInteger(0);
@@ -1534,17 +1531,17 @@ s16 Paramite::Brain_1_SurpriseWeb_448D00()
             field_FC_current_motion = eParamiteMotions::Motion_0_Idle_44B900;
 
             MapFollowMe_401D30(TRUE);
-            auto pWeb = ao_new<ParamiteWeb>();
+            auto pWeb = ao_new<ParamiteWeb>(
+                field_A8_xpos,
+                FP_GetExponent(field_AC_ypos) - 20,
+                FP_GetExponent(field_AC_ypos) - 10,
+                field_BC_sprite_scale);
             if (pWeb)
             {
-                pWeb->ctor_48A920(
-                    field_A8_xpos,
-                    FP_GetExponent(field_AC_ypos) - 20,
-                    FP_GetExponent(field_AC_ypos) - 10,
-                    field_BC_sprite_scale);
                 pWeb->field_C_refCount++;
+                field_14C_pWeb = pWeb;
             }
-            field_14C_pWeb = pWeb;
+
             if (sActiveHero_507678->field_A8_xpos >= field_A8_xpos)
             {
                 return Brain_1_SurpriseWeb::eBrain1_AppearingLeft_2;

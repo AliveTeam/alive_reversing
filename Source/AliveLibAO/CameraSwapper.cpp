@@ -18,39 +18,26 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507668, s16, sNumCamSwappers_507668, 0);
 
-CameraSwapper* CameraSwapper::ctor_48C540(u8** ppBits, s32 movieId, s32 movieFlag, s8 movieFlags, s16 flags, s16 volume)
+CameraSwapper::CameraSwapper(u8** ppBits, s32 movieId, s32 movieFlag, s8 movieFlags, s16 flags, s16 volume)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BD7C8);
-
     Init_48C830(ppBits, CameraSwapEffects::ePlay1FMV_5);
 
     PSX_ResetCallBack_49AFB0();
 
-    auto pMovie = ao_new<Movie>();
-    if (pMovie)
-    {
-        pMovie->ctor_489C90(movieFlag, movieId, movieFlags, flags, volume);
-    }
+    ao_new<Movie>(movieFlag, movieId, movieFlags, flags, volume);
 
     field_3C_movie_bPutDispEnv = flags;
-    return this;
 }
 
-CameraSwapper* CameraSwapper::ctor_48C5E0(u8** ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, s8 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
+CameraSwapper::CameraSwapper(u8** ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, s8 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BD7C8);
-
     Init_48C830(ppBits, CameraSwapEffects::ePlay2FMVs_9);
 
     PSX_ResetCallBack_49AFB0();
 
-    auto pMovie = ao_new<Movie>();
-    if (pMovie)
-    {
-        pMovie->ctor_489C90(movieId1, moviePos1, movieFlags1, movieVol1, movieFlag2);
-    }
+    ao_new<Movie>(movieId1, moviePos1, movieFlags1, movieVol1, movieFlag2);
 
     field_14_movie_id_3 = movieFlag1;
     field_10_movie_pos_3 = moviePos2;
@@ -59,23 +46,15 @@ CameraSwapper* CameraSwapper::ctor_48C5E0(u8** ppBits, s32 moviePos1, s32 movieI
     field_30_movie_flag_3 = movieFlag2_1;
 
     field_3C_movie_bPutDispEnv = movieVol1;
-
-    return this;
 }
 
-EXPORT CameraSwapper* CameraSwapper::ctor_48C6B0(u8** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
+CameraSwapper::CameraSwapper(u8** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BD7C8);
-
     Init_48C830(ppBits, CameraSwapEffects::ePlay3FMVs_10);
 
     PSX_ResetCallBack_49AFB0();
-    auto pMovie = ao_new<Movie>();
-    if (pMovie)
-    {
-        pMovie->ctor_489C90(movieIds1, moviePos1, movieFlag1, movieFlags1, movieVol1);
-    }
+    ao_new<Movie>(movieIds1, moviePos1, movieFlag1, movieFlags1, movieVol1);
 
     field_18_movie_pos_2 = moviePos2;
     field_1C_movie_id_2 = movieId2;
@@ -90,48 +69,23 @@ EXPORT CameraSwapper* CameraSwapper::ctor_48C6B0(u8** ppBits, s32 moviePos1, s32
     field_32_movie_flags_3 = movieFlags3;
 
     field_3C_movie_bPutDispEnv = movieFlags1;
-
-    return this;
 }
-
-BaseGameObject* CameraSwapper::VDestructor(s32 flags)
-{
-    return Vdtor_48D380(flags);
-}
-
 
 void CameraSwapper::VScreenChanged()
 {
     // Empty
 }
 
-CameraSwapper* CameraSwapper::Vdtor_48D380(s32 flags)
+CameraSwapper::CameraSwapper(u8** ppBits, CameraSwapEffects changeEffect, s16 xpos, s16 ypos)
+    : BaseGameObject(1)
 {
-    dtor_48CE00();
-
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-CameraSwapper* CameraSwapper::ctor_48C7A0(u8** ppBits, CameraSwapEffects changeEffect, s16 xpos, s16 ypos)
-{
-    BaseGameObject(1);
-    SetVTable(this, 0x4BD7C8);
-
     field_40_ypos_converted = ypos;
     field_3E_xpos_converted = PsxToPCX(xpos);
     Init_48C830(ppBits, changeEffect);
-
-    return this;
 }
 
-BaseGameObject* CameraSwapper::dtor_48CE00()
+CameraSwapper::~CameraSwapper()
 {
-    SetVTable(this, 0x4BD7C8);
-
     sNumCamSwappers_507668--;
 
     if (field_24_pSubObject)
@@ -148,8 +102,6 @@ BaseGameObject* CameraSwapper::dtor_48CE00()
     BackgroundMusic::Play_4762B0();
     MusicController::EnableMusic_443900(1);
     gMap.Start_Sounds_For_Objects_In_Near_Cameras_4467D0();
-
-    return dtor_487DF0();
 }
 
 void CameraSwapper::VUpdate()
@@ -213,8 +165,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager_4FF7C8->field_38 = 1;
 
-            field_24_pSubObject = ao_new<ScreenClipper>();
-            field_24_pSubObject->ctor_40BD60(xy, wh, Layer::eLayer_0);
+            field_24_pSubObject = ao_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eRightToLeft_2:
@@ -231,8 +182,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager_4FF7C8->field_38 = 1;
 
-            field_24_pSubObject = ao_new<ScreenClipper>();
-            field_24_pSubObject->ctor_40BD60(xy, wh, Layer::eLayer_0);
+            field_24_pSubObject = ao_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eTopToBottom_3:
@@ -249,8 +199,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager_4FF7C8->field_38 = 1;
 
-            field_24_pSubObject = ao_new<ScreenClipper>();
-            field_24_pSubObject->ctor_40BD60(xy, wh, Layer::eLayer_0);
+            field_24_pSubObject = ao_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eBottomToTop_4:
@@ -267,8 +216,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager_4FF7C8->field_38 = 1;
 
-            field_24_pSubObject = ao_new<ScreenClipper>();
-            field_24_pSubObject->ctor_40BD60(xy, wh, Layer::eLayer_0);
+            field_24_pSubObject = ao_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eVerticalSplit_6:
@@ -285,8 +233,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
             wh.field_0_x = gPsxDisplay_504C78.field_0_width / 2;
             wh.field_2_y = gPsxDisplay_504C78.field_2_height;
 
-            field_24_pSubObject = ao_new<ScreenClipper>();
-            field_24_pSubObject->ctor_40BD60(xy, wh, Layer::eLayer_0);
+            field_24_pSubObject = ao_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
 
@@ -304,8 +251,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
             wh.field_0_x = gPsxDisplay_504C78.field_0_width;
             wh.field_2_y = gPsxDisplay_504C78.field_2_height / 2;
 
-            field_24_pSubObject = ao_new<ScreenClipper>();
-            field_24_pSubObject->ctor_40BD60(xy, wh, Layer::eLayer_0);
+            field_24_pSubObject = ao_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eBoxOut_8:
@@ -344,8 +290,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
             xy.field_0_x = gPsxDisplay_504C78.field_0_width - 1;
             xy.field_2_y = gPsxDisplay_504C78.field_2_height - 1;
 
-            field_24_pSubObject = ao_new<ScreenClipper>();
-            field_24_pSubObject->ctor_40BD60(xy, {1, 1}, Layer::eLayer_0);
+            field_24_pSubObject = ao_new<ScreenClipper>(xy, { 1, 1 }, Layer::eLayer_0);
 
             // "Whoosh" door sound effect
             SFX_Play_43AD70(SoundEffect::IngameTransition_107, 127);
@@ -356,8 +301,7 @@ void CameraSwapper::Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect)
         case CameraSwapEffects::ePlay2FMVs_9:
         case CameraSwapEffects::ePlay3FMVs_10:
             pScreenManager_4FF7C8->field_38 = 1;
-            field_24_pSubObject = ao_new<ScreenClipper>();
-            field_24_pSubObject->ctor_40BD60({0, 0}, {1, 1}, Layer::eLayer_0);
+            field_24_pSubObject = ao_new<ScreenClipper>({ 0, 0 }, { 1, 1 }, Layer::eLayer_0);
             field_2A_current_slice = 0;
             break;
 

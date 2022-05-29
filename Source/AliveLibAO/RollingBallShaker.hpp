@@ -11,9 +11,9 @@ namespace AO {
 class RollingBallShaker final : public BaseGameObject
 {
 public:
-    EXPORT RollingBallShaker* ctor_4361A0();
-    EXPORT BaseGameObject* dtor_436200();
-    EXPORT RollingBallShaker* Vdtor_436350(s32 flags);
+    RollingBallShaker();
+    ~RollingBallShaker();
+
     EXPORT void VUpdate_436260();
     EXPORT void VRender_436280(PrimHeader** ppOt);
 

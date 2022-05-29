@@ -33,14 +33,7 @@ class FallingItem final : public BaseAliveGameObject
 public:
     EXPORT void DamageHitItems_41A6D0();
 
-
-    EXPORT FallingItem* ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_41A660();
-
-    
-
-    EXPORT FallingItem* Vdtor_41A7F0(s32 flags);
+    FallingItem(Path_FallingItem* pTlv, s32 tlvInfo);
 
     virtual void VScreenChanged() override;
 

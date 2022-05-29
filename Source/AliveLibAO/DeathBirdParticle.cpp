@@ -72,11 +72,8 @@ void DeathBirdParticle::VUpdate()
     VUpdate_41DA60();
 }
 
-DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, s32 start, s16 bPlaySound, FP scale)
+DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s16 bPlaySound, FP scale)
 {
-    
-
-    SetVTable(this, 0x4BAF38);
     field_4_typeId = Types::eDeathBird_38;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::DeathFlare_1);
@@ -109,18 +106,6 @@ DeathBirdParticle* DeathBirdParticle::ctor_41D950(FP xpos, FP ypos, s32 start, s
         field_E5_state = States::eAnimateDeathFlares_0;
         field_EC_bPlaySound = bPlaySound;
     }
-
-    return this;
-}
-
-BaseGameObject* DeathBirdParticle::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

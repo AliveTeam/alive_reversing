@@ -41,11 +41,8 @@ EXPORT s16* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, s16* pData)
     return pData + 4; // A rect I guess ?
 }
 
-ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, s32 tlvInfo)
+ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BCD78);
-
     field_4_typeId = Types::eZBall_92;
 
     field_C4_b = 128;
@@ -116,34 +113,11 @@ ZBall* ZBall::ctor_478590(Path_ZBall* pTlv, s32 tlvInfo)
 
     field_E4_tlvInfo = tlvInfo;
     field_10_anim.field_1C_fn_ptr_array = kZBall_Anim_Frame_Fns_4CEBF8;
-
-    return this;
-}
-
-BaseGameObject* ZBall::VDestructor(s32 flags)
-{
-    return Vdtor_478860(flags);
 }
 
 void ZBall::VUpdate()
 {
     VUpdate_478720();
-}
-
-ZBall* ZBall::Vdtor_478860(s32 flags)
-{
-    dtor_478710();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* ZBall::dtor_478710()
-{
-    SetVTable(this, 0x4BCD78);
-    return dtor_417D10();
 }
 
 void ZBall::VUpdate_478720()

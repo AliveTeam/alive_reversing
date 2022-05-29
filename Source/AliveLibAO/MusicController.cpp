@@ -309,30 +309,29 @@ s16 CC MusicController::Create_4436C0()
     pMusicController_507B98 = ao_new<MusicController>();
     if (pMusicController_507B98)
     {
-        pMusicController_507B98->ctor_442930();
-
         MusicController::SetBaseTimeStamp();
-    }
 
-    psx_root_event_507BA0 = Psx_Root_Counter_49C280(RCntCNT3, 2, 4096, MusicController::OnRootCounter_4437D0);
-    Psx_Root_Counter_49C3B0(psx_root_event_507BA0);
-    Psx_Root_Counter_49C340(RCntCNT3, 1);
-    Psx_Root_Counter_49C360(RCntCNT3);
-    Psx_Root_Counter_49C370(RCntCNT3);
+        psx_root_event_507BA0 = Psx_Root_Counter_49C280(RCntCNT3, 2, 4096, MusicController::OnRootCounter_4437D0);
+        Psx_Root_Counter_49C3B0(psx_root_event_507BA0);
+        Psx_Root_Counter_49C340(RCntCNT3, 1);
+        Psx_Root_Counter_49C360(RCntCNT3);
+        Psx_Root_Counter_49C370(RCntCNT3);
 
-    if (pMusicController_507B98->field_10_bEnableMusic)
-    {
-        pMusicController_507B98->field_10_bEnableMusic = 0;
-        if (pMusicController_507B98->field_4C_current_vol)
+        if (pMusicController_507B98->field_10_bEnableMusic)
         {
-            pMusicController_507B98->field_4A_starting_volume = pMusicController_507B98->field_4C_current_vol;
-            pMusicController_507B98->field_4E_vol = 0;
-            pMusicController_507B98->field_2C_music_start_time = GetMusicTime();
-            pMusicController_507B98->field_50_music_volume_change_time = GetMusicTime();
-            pMusicController_507B98->field_48_vol_state = 2;
+            pMusicController_507B98->field_10_bEnableMusic = 0;
+            if (pMusicController_507B98->field_4C_current_vol)
+            {
+                pMusicController_507B98->field_4A_starting_volume = pMusicController_507B98->field_4C_current_vol;
+                pMusicController_507B98->field_4E_vol = 0;
+                pMusicController_507B98->field_2C_music_start_time = GetMusicTime();
+                pMusicController_507B98->field_50_music_volume_change_time = GetMusicTime();
+                pMusicController_507B98->field_48_vol_state = 2;
+            }
+            pMusicController_507B98->UpdateVolumeState_442A10();
         }
-        pMusicController_507B98->UpdateVolumeState_442A10();
     }
+
     return 1;
 }
 
@@ -363,11 +362,9 @@ s32 MusicController::GetMusicTime()
 #endif
 }
 
-MusicController* MusicController::ctor_442930()
+MusicController::MusicController()
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BBBA8);
-
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
     field_4_typeId = Types::eNone_0;
 
@@ -393,18 +390,14 @@ MusicController* MusicController::ctor_442930()
     field_38_music_seq = SeqId::None_M1;
     field_18_level = LevelIds::eNone;
     field_26_ambient_seq = SeqId::None_M1;
-
-    return this;
 }
 
-BaseGameObject* MusicController::dtor_4429B0()
+MusicController::~MusicController()
 {
-    SetVTable(this, 0x4BBBA8);
     if (field_38_music_seq != SeqId::None_M1)
     {
         SND_Seq_Stop_477A60(field_38_music_seq);
     }
-    return dtor_487DF0();
 }
 
 void MusicController::VScreenChanged()
@@ -415,21 +408,6 @@ void MusicController::VScreenChanged()
 void MusicController::VScreenChanged_443450()
 {
     field_16_bScreenChanged = 1;
-}
-
-MusicController* MusicController::Vdtor_4439D0(s32 flags)
-{
-    dtor_4429B0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* MusicController::VDestructor(s32 flags)
-{
-    return Vdtor_4439D0(flags);
 }
 
 void MusicController::VUpdate_443300()

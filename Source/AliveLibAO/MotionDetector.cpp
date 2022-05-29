@@ -20,10 +20,8 @@ namespace AO {
 #undef min
 #undef max
 
-MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvInfo)
+MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BB878);
     field_4_typeId = Types::eMotionDetector_59;
     const AnimRecord& rec = AO::AnimRec(AnimId::MotionDetector_Flare);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -68,8 +66,6 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
         if (pMotionDetectors)
         {
-            pMotionDetectors->
-            SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
             
             pMotionDetectors->Animation_Init_417FD0(laserRec.mFrameTableOffset, laserRec.mMaxW, laserRec.mMaxH, ppResLaser, 1);
@@ -91,8 +87,6 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
         if (pMotionDetectors)
         {
-            pMotionDetectors->
-            SetVTable(pMotionDetectors, 0x4BB840);
             pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
             
             pMotionDetectors->Animation_Init_417FD0(laserRec.mFrameTableOffset, laserRec.mMaxW, laserRec.mMaxH, ppResLaser, 1);
@@ -122,8 +116,6 @@ MotionDetector* MotionDetector::ctor_437A50(Path_MotionDetector* pTlv, s32 tlvIn
     field_F4_alarm_duration = pTlv->field_28_alarm_duration;
 
     field_F2_alarm_switch_id = pTlv->field_26_alarm_switch_id;
-
-    return this;
 }
 
 void MotionDetector::SetDontComeBack_437E00(s16 bDontComeBack)
@@ -131,10 +123,8 @@ void MotionDetector::SetDontComeBack_437E00(s16 bDontComeBack)
     field_F6_bDontComeBack = bDontComeBack;
 }
 
-BaseGameObject* MotionDetector::dtor_437D70()
+MotionDetector::~MotionDetector()
 {
-    SetVTable(this, 0x4BB878);
-
     if (field_F6_bDontComeBack)
     {
         gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
@@ -149,8 +139,6 @@ BaseGameObject* MotionDetector::dtor_437D70()
         field_108_pLaser->field_C_refCount--;
         field_108_pLaser->mFlags.Set(Options::eDead);
     }
-
-    return dtor_417D10();
 }
 
 void MotionDetector::VScreenChanged()
@@ -162,23 +150,6 @@ void MotionDetector::VScreenChanged_438520()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
-
-BaseGameObject* MotionDetector::VDestructor(s32 flags)
-{
-    return Vdtor_438530(flags);
-}
-
-MotionDetector* MotionDetector::Vdtor_438530(s32 flags)
-{
-    dtor_437D70();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-
-    return this;
-}
-
 
 void MotionDetector::VUpdate()
 {
@@ -366,16 +337,6 @@ void MotionDetector::VRender_438250(PrimHeader** ppOt)
             std::max(y0, std::max(y1, y2)),
             pScreenManager_4FF7C8->field_2E_idx);
     }
-}
-
-BaseGameObject* MotionDetectorLaser::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

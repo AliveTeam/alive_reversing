@@ -24,24 +24,8 @@ void RollingBall::VUpdate()
     VUpdate_457AF0();
 }
 
-RollingBall* RollingBall::Vdtor_458490(s32 flags)
+RollingBall::~RollingBall()
 {
-    dtor_458230();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* RollingBall::VDestructor(s32 flags)
-{
-    return Vdtor_458490(flags);
-}
-
-BaseGameObject* RollingBall::dtor_458230()
-{
-    SetVTable(this, 0x4BC180);
     if (field_112_state != States::eInactive_0)
     {
         gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
@@ -65,13 +49,11 @@ BaseGameObject* RollingBall::dtor_458230()
 
     u8** pRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 0, 0);
     ResourceManager::FreeResource_455550(pRes);
-    return dtor_401000();
 }
 
-RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
+RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BC180);
     field_4_typeId = Types::eRollingBall_72;
     
     const AnimRecord& rec = AO::AnimRec(AnimId::Stone_Ball);
@@ -140,7 +122,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
 
     if (!SwitchStates_Get(field_110_release_switch_id))
     {
-        return this;
+        return;
     }
 
     if (gMap.mCurrentLevel == LevelIds::eForestTemple_4 && gMap.mCurrentPath == 2)
@@ -151,8 +133,6 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
         field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
         field_112_state = States::eCrushedBees_4;
     }
-
-    return this;
 }
 
 void RollingBall::VUpdate_457AF0()
@@ -260,16 +240,12 @@ void RollingBall::VUpdate_457AF0()
         {
             if (WallHit_401930(FP_FromInteger(30), field_B4_velx))
             {
-                auto pParticleBurst = ao_new<ParticleBurst>();
-                if (pParticleBurst)
-                {
-                    pParticleBurst->ctor_40D0F0(
-                        field_A8_xpos,
-                        field_AC_ypos - FP_FromInteger(30),
-                        150,
-                        field_BC_sprite_scale,
-                        BurstType::eFallingRocks_0);
-                }
+                ao_new<ParticleBurst>(
+                    field_A8_xpos,
+                    field_AC_ypos - FP_FromInteger(30),
+                    150,
+                    field_BC_sprite_scale,
+                    BurstType::eFallingRocks_0);
 
                 ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
 

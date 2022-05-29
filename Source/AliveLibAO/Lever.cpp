@@ -186,33 +186,13 @@ void Lever::VScreenChanged()
     VScreenChanged_4816F0();
 }
 
-Lever* Lever::Vdtor_481700(s32 flags)
+Lever::~Lever()
 {
-    dtor_481260();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* Lever::VDestructor(s32 flags)
-{
-    return Vdtor_481700(flags);
-}
-
-BaseGameObject* Lever::dtor_481260()
-{
-    SetVTable(this, 0x4BD100);
     gMap.TLV_Reset_446870(field_EC_tlvInfo, -1, 0, 0);
-    return dtor_417D10(); // Note: intermediate base skipped
 }
 
-Lever* Lever::ctor_481110(Path_Lever* pTlv, s32 tlvInfo)
+Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BD100);
-
     field_4_typeId = Types::eLever_97;
     const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
     const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_0_idle_animId);
@@ -253,8 +233,6 @@ Lever* Lever::ctor_481110(Path_Lever* pTlv, s32 tlvInfo)
     field_F8_sound_direction = pTlv->field_22_sound_direction;
 
     field_E8_state = LeverState::eWaiting_0;
-
-    return this;
 }
 
 s32 Lever::vPull_481640(s16 bLeftDirection)

@@ -141,10 +141,9 @@ static const TintEntry sMudTints_4CD320[] = {
 ALIVE_VAR(1, 0x507B90, s16, sAlertedMudCount_507B90, 0);
 ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);
 
-Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
+Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BBB28);
     field_4_typeId = Types::eMudokon_52;
 
     field_128 = -1;
@@ -380,14 +379,10 @@ Mudokon* Mudokon::ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo)
     }
 
     VUpdate();
-
-    return this;
 }
 
-BaseGameObject* Mudokon::dtor_43F6A0()
+Mudokon::~Mudokon()
 {
-    SetVTable(this, 0x4BBB28);
-
     if (field_100_health <= FP_FromInteger(0))
     {
         sKilledMudokons_5076BC++;
@@ -432,8 +427,6 @@ BaseGameObject* Mudokon::dtor_43F6A0()
     {
         SND_Seq_Stop_477A60(SeqId::eMudokonChant_12);
     }
-
-    return dtor_401000();
 }
 
 void Mudokon::KillLiftPoint_194()
@@ -443,21 +436,6 @@ void Mudokon::KillLiftPoint_194()
         field_194_pLiftPoint->field_C_refCount--;
         field_194_pLiftPoint = nullptr;
     }
-}
-
-BaseGameObject* Mudokon::VDestructor(s32 flags)
-{
-    return Vdtor_440230(flags);
-}
-
-Mudokon* Mudokon::Vdtor_440230(s32 flags)
-{
-    dtor_43F6A0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Mudokon::VUpdate()
@@ -674,29 +652,21 @@ s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
             {
                 field_100_health = FP_FromInteger(0);
 
-                auto pGibs = ao_new<Gibs>();
-                if (pGibs)
-                {
-                    pGibs->ctor_407B20(
-                        GibType::Mud_4,
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        FP_FromInteger(0),
-                        FP_FromInteger(0),
-                        field_BC_sprite_scale);
-                }
+                ao_new<Gibs>(
+                    GibType::Mud_4,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_BC_sprite_scale);
 
-                pGibs = ao_new<Gibs>();
-                if (pGibs)
-                {
-                    pGibs->ctor_407B20(
-                        GibType::Mud_4,
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        FP_FromInteger(0),
-                        FP_FromInteger(0),
-                        field_BC_sprite_scale);
-                }
+                ao_new<Gibs>(
+                    GibType::Mud_4,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_BC_sprite_scale);
 
                 mFlags.Set(BaseGameObject::eDead);
                 Event_Broadcast_417220(kEventMudokonDead_15, sActiveHero_507678);
@@ -3314,25 +3284,20 @@ s16 Mudokon::Brain_GiveRings_7_43C2F0()
                 PSX_RECT ourRect = {};
                 VGetBoundingRect(&ourRect, 1);
 
-                auto pMudRing = ao_new<AbilityRing>();
-                if (pMudRing)
-                {
-                    pMudRing->ctor_455860(
+                    ao_new<AbilityRing>(
                         FP_FromInteger((ourRect.w + ourRect.x) / 2),
                         FP_FromInteger((ourRect.h + ourRect.y) / 2),
                         RingTypes::eExplosive_Emit_Effect_2);
-                }
 
                 PSX_RECT heroRect = {};
                 sActiveHero_507678->VGetBoundingRect(&heroRect, 1);
 
-                auto pAbeRing = ao_new<AbilityRing>();
+                auto pAbeRing = ao_new<AbilityRing>(
+                    FP_FromInteger((heroRect.w + heroRect.x) / 2),
+                    FP_FromInteger((heroRect.h + heroRect.y) / 2),
+                    RingTypes::eExplosive_Give_3);
                 if (pAbeRing)
                 {
-                    pAbeRing->ctor_455860(
-                        FP_FromInteger((heroRect.w + heroRect.x) / 2),
-                        FP_FromInteger((heroRect.h + heroRect.y) / 2),
-                        RingTypes::eExplosive_Give_3);
                     pAbeRing->SetTarget_455EC0(sActiveHero_507678);
                 }
                 field_1C0_timer = gnFrameCount_507670 + 30;

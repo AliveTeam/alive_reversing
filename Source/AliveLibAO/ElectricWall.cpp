@@ -14,10 +14,8 @@
 
 namespace AO {
 
-ElectricWall* ElectricWall::ctor_40FCF0(Path_ElectricWall* pTlv, s32 tlvInfo)
+ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BA8C0);
     field_4_typeId = Types::eElectricWall_25;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Electric_Wall);
@@ -59,29 +57,11 @@ ElectricWall* ElectricWall::ctor_40FCF0(Path_ElectricWall* pTlv, s32 tlvInfo)
     }
 
     field_EC_sound_timer = 0;
-    return this;
 }
 
-BaseGameObject* ElectricWall::dtor_40FE80()
+ElectricWall::~ElectricWall()
 {
-    SetVTable(this, 0x4BA8C0);
     gMap.TLV_Reset_446870(field_E4_tlv, -1, 0, 0);
-    return dtor_417D10();
-}
-
-BaseGameObject* ElectricWall::VDestructor(s32 flags)
-{
-    return Vdtor_410280(flags);
-}
-
-ElectricWall* ElectricWall::Vdtor_410280(s32 flags)
-{
-    dtor_40FE80();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void ElectricWall::VScreenChanged()

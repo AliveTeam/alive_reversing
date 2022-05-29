@@ -69,13 +69,9 @@ const LiftPointCoord stru_4BB640[16] = {
 
 
 
-LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
+LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
+    : PlatformBase()
 {
-    BaseAliveGameObject();
-
-    SetVTable(&field_13C_lift_wheel, 0x4BA2B8);
-    SetVTable(&field_1D4_pulley_anim, 0x4BA2B8);
-    SetVTable(this, 0x4BB6C0);
     field_4_typeId = Types::eLiftPoint_51;
 
     pTlv->field_1_unknown = 3;
@@ -168,26 +164,24 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_B8_vely = FP_FromInteger(0);
         field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
 
-        auto pRopeMem = ao_new<Rope>();
+        auto pRopeMem = ao_new<Rope>(
+            FP_GetExponent(field_A8_xpos + (FP_FromInteger(13) * field_BC_sprite_scale) + FP_FromInteger(stru_4BB640[lvl_idx].field_4)),
+            0,
+            FP_GetExponent(field_AC_ypos + (FP_FromInteger(25) * field_BC_sprite_scale)),
+            field_BC_sprite_scale);
         if (pRopeMem)
         {
-            pRopeMem->ctor_458520(
-                FP_GetExponent(field_A8_xpos + (FP_FromInteger(13) * field_BC_sprite_scale) + FP_FromInteger(stru_4BB640[lvl_idx].field_4)),
-                0,
-                FP_GetExponent(field_AC_ypos + (FP_FromInteger(25) * field_BC_sprite_scale)),
-                field_BC_sprite_scale);
             pRopeMem->field_C_refCount++;
             field_138_pRope1 = pRopeMem;
         }
 
-        auto pRopeMem2 = ao_new<Rope>();
+        auto pRopeMem2 = ao_new<Rope>(
+            FP_GetExponent(field_A8_xpos + (FP_FromInteger(-10) * field_BC_sprite_scale) + FP_FromInteger(stru_4BB640[lvl_idx].field_0)),
+            0,
+            FP_GetExponent(field_AC_ypos + (FP_FromInteger(25) * field_BC_sprite_scale)),
+            field_BC_sprite_scale);;
         if (pRopeMem2)
         {
-            pRopeMem2->ctor_458520(
-                FP_GetExponent(field_A8_xpos + (FP_FromInteger(-10) * field_BC_sprite_scale) + FP_FromInteger(stru_4BB640[lvl_idx].field_0)),
-                0,
-                FP_GetExponent(field_AC_ypos + (FP_FromInteger(25) * field_BC_sprite_scale)),
-                field_BC_sprite_scale);
             pRopeMem2->field_C_refCount++;
             field_134_pRope2 = pRopeMem2;
         }
@@ -228,7 +222,6 @@ LiftPoint* LiftPoint::ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     {
         mFlags.Set(Options::eListAddFailed_Bit1);
     }
-    return this;
 }
 
 void LiftPoint::Move_435740(FP xSpeed, FP ySpeed, s32 /*not_used*/)
@@ -698,13 +691,11 @@ void LiftPoint::VScreenChanged_435CC0()
     }
 }
 
-BaseGameObject* LiftPoint::dtor_4355E0()
+LiftPoint::~LiftPoint()
 {
-    SetVTable(this, 0x4BB6C0);
-
     if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        return dtor_451490();
+        return;
     }
 
     if (field_134_pRope2)
@@ -745,12 +736,6 @@ BaseGameObject* LiftPoint::dtor_4355E0()
     }
 
     ResourceManager::FreeResource_455550(field_274_ppRes);
-    return dtor_451490();
-}
-
-BaseGameObject* LiftPoint::VDestructor(s32 flags)
-{
-    return Vdtor_435D10(flags);
 }
 
 void LiftPoint::CreatePulleyIfExists_435AE0(s16 camX, s16 camY)
@@ -815,16 +800,6 @@ void LiftPoint::CreatePulleyIfExists_435AE0(s16 camX, s16 camY)
         field_134_pRope2->field_EE_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_1D4_pulley_anim.field_14_scale));
         field_138_pRope1->field_EE_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_1D4_pulley_anim.field_14_scale));
     }
-}
-
-LiftPoint* LiftPoint::Vdtor_435D10(s32 flags)
-{
-    dtor_4355E0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

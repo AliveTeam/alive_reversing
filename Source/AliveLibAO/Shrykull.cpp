@@ -218,14 +218,10 @@ void Shrykull::VUpdate_463AE0()
                         pFlicker1->ctor_41A8C0(field_11C_obj_being_zapped, 8, 255, 255, 255);
                     }
 
-                    auto pRing1 = ao_new<AbilityRing>();
-                    if (pRing1)
-                    {
-                        pRing1->ctor_455860(
-                            FP_FromInteger((objRect.x + objRect.w) / 2),
-                            FP_FromInteger((objRect.y + objRect.h) / 2),
-                            RingTypes::eShrykull_Pulse_Large_5);
-                    }
+                    ao_new<AbilityRing>(
+                        FP_FromInteger((objRect.x + objRect.w) / 2),
+                        FP_FromInteger((objRect.y + objRect.h) / 2),
+                        RingTypes::eShrykull_Pulse_Large_5);
 
                     auto pFlicker2 = ao_new<PossessionFlicker>();
                     if (pFlicker2)
@@ -233,14 +229,10 @@ void Shrykull::VUpdate_463AE0()
                         pFlicker2->ctor_41A8C0(this, 8, 255, 255, 255);
                     }
 
-                    auto pAbilityRing2 = ao_new<AbilityRing>();
-                    if (pAbilityRing2)
-                    {
-                        pAbilityRing2->ctor_455860(
-                            FP_FromInteger((ourRect.x + ourRect.w) / 2),
-                            FP_FromInteger((ourRect.y + ourRect.h) / 2),
-                            RingTypes::eShrykull_Pulse_Large_5);
-                    }
+                    ao_new<AbilityRing>(
+                        FP_FromInteger((ourRect.x + ourRect.w) / 2),
+                        FP_FromInteger((ourRect.y + ourRect.h) / 2),
+                        RingTypes::eShrykull_Pulse_Large_5);
 
                     field_11C_obj_being_zapped->field_10A_flags.Set(Flags_10A::e10A_Bit3);
 
@@ -314,16 +306,12 @@ void Shrykull::VUpdate_463AE0()
                     VGetBoundingRect(&ourRect, 1);
                     if (static_cast<s32>(gnFrameCount_507670) == field_114_timer)
                     {
-                        auto pParticleBurst = ao_new<ParticleBurst>();
-                        if (pParticleBurst)
-                        {
-                            pParticleBurst->ctor_40D0F0(
-                                FP_FromInteger((zapRect.x + zapRect.w) / 2),
-                                FP_FromInteger((zapRect.y + zapRect.h) / 2),
-                                20,
-                                field_BC_sprite_scale,
-                                BurstType::eBigPurpleSparks_2);
-                        }
+                        ao_new<ParticleBurst>(
+                            FP_FromInteger((zapRect.x + zapRect.w) / 2),
+                            FP_FromInteger((zapRect.y + zapRect.h) / 2),
+                            20,
+                            field_BC_sprite_scale,
+                            BurstType::eBigPurpleSparks_2);
 
                        ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
                     }

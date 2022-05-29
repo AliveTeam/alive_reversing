@@ -109,7 +109,6 @@ public:
         s16 field_2;
     };
 
-    EXPORT Elum* Vdtor_411710(s32 flags);
     EXPORT void VUpdate_4102A0();
     EXPORT void VRender_410E40(PrimHeader** ppOt);
     EXPORT void vScreenChange_411340();
@@ -121,8 +120,8 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    EXPORT Elum* ctor_410870(s32 a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, s32 a5, TlvItemInfoUnion a6);
-    EXPORT BaseGameObject* dtor_410BC0();
+    Elum(s32 a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, s32 a5, TlvItemInfoUnion a6);
+    ~Elum();
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
@@ -148,8 +147,6 @@ public:
     EXPORT void VFreeUnmountedResources_4112B0();
 
     void ToKnockback();
-
-    EXPORT BaseGameObject* dtor_base_416FE0();
 
     EXPORT u8** GetResBlock_410D00(s16 currentMotion);
 

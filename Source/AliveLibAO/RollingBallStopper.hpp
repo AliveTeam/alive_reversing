@@ -21,9 +21,9 @@ ALIVE_ASSERT_SIZEOF(Path_RollingBallStopper, 0x20);
 class RollingBallStopper final : public BaseAliveGameObject
 {
 public:
-    EXPORT RollingBallStopper* ctor_43BCE0(Path_RollingBallStopper* pTlv, s32 tlvInfo);
-    EXPORT BaseGameObject* Vdtor_43C160(s32 flags);
-    EXPORT BaseGameObject* dtor_43C0A0();
+    RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInfo);
+    ~RollingBallStopper();
+
     EXPORT void VScreenChanged_43C130();
     EXPORT void VUpdate_43BF70();
 

@@ -43,10 +43,8 @@ void CC Dove_static_ctor_40EE10()
     atexit(Dove_static_dtor_40EE30);
 }
 
-Dove* Dove::ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
+Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
 {
-    
-    SetVTable(this, 0x4BA858);
     field_4_typeId = Types::eBird_22;
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
     Animation_Init_417FD0(
@@ -98,19 +96,15 @@ Dove* Dove::ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID
 
     if (bTheOneControllingTheMusic_4FF94C)
     {
-        return this;
+        return;
     }
 
     SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_24, 0, 1);
     bTheOneControllingTheMusic_4FF94C = 1;
-    return this;
 }
 
-Dove* Dove::ctor_40EFF0(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
+Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
 {
-    
-    SetVTable(this, 0x4BA858);
-
     field_4_typeId = Types::eBird_22;
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
@@ -167,17 +161,14 @@ Dove* Dove::ctor_40EFF0(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID
 
     if (bTheOneControllingTheMusic_4FF94C)
     {
-        return this;
+        return;
     }
     SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_24, 0, 1);
     bTheOneControllingTheMusic_4FF94C = 1;
-    return this;
 }
 
-BaseGameObject* Dove::dtor_40F1B0()
+Dove::~Dove()
 {
-    SetVTable(this, 0x4BA858);
-
     if (!field_EC_keepInGlobalArray)
     {
         gDovesArray_4FF938.Remove_Item(this);
@@ -192,8 +183,6 @@ BaseGameObject* Dove::dtor_40F1B0()
         SND_Seq_Stop_477A60(SeqId::Unknown_24);
         bTheOneControllingTheMusic_4FF94C = 0;
     }
-
-    return dtor_417D10();
 }
 
 void Dove::AsAlmostACircle_40F300(FP xpos, FP ypos, u8 angle)
@@ -266,21 +255,6 @@ void Dove::VRender(PrimHeader** ppOt)
 void Dove::VRender_40F960(PrimHeader** ppOt)
 {
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
-}
-
-BaseGameObject* Dove::VDestructor(s32 flags)
-{
-    return Vdtor_40F970(flags);
-}
-
-Dove* Dove::Vdtor_40F970(u32 flags)
-{
-    dtor_40F1B0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Dove::VUpdate()

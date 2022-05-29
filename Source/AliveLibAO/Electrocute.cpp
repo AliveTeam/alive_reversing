@@ -14,12 +14,9 @@ namespace AO {
 class PalleteOverwriter final : public BaseGameObject
 {
 public:
-    EXPORT PalleteOverwriter* ctor_416FF0(PSX_Point palXY, s16 palDepth, s16 colour)
+    PalleteOverwriter(PSX_Point palXY, s16 palDepth, s16 colour)
+        : BaseGameObject(1)
     {
-        BaseGameObject(1);
-
-        SetVTable(this, 0x4BA9E8);
-
         field_4_typeId = Types::ePalOverwriter_29;
 
         gObjList_drawables_504618->Push_Back(this);
@@ -38,30 +35,11 @@ public:
         field_B8_pal_x_index = 1;
         field_BC_bFirstUpdate = 1;
         field_BE_bDone = FALSE;
-
-        return this;
     }
 
-    EXPORT BaseGameObject* dtor_4170B0()
+    ~PalleteOverwriter()
     {
-        SetVTable(this, 0x4BA9E8);
         gObjList_drawables_504618->Remove_Item(this);
-        return dtor_487DF0();
-    }
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        return Vdtor_417200(flags);
-    }
-
-    EXPORT PalleteOverwriter* Vdtor_417200(s32 flags)
-    {
-        dtor_4170B0();
-        if (flags & 1)
-        {
-            ao_delete_free_447540(this);
-        }
-        return this;
     }
 
     virtual void VScreenChanged() override
@@ -132,11 +110,9 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xC0);
 
-Electrocute* Electrocute::ctor_48D3A0(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter)
+Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-
-    SetVTable(this, 0x4BD7E0);
     field_4_typeId = Types::eElectrocute_103;
 
     pTargetObj->field_C_refCount++;
@@ -162,14 +138,10 @@ Electrocute* Electrocute::ctor_48D3A0(BaseAliveGameObject* pTargetObj, s16 bExtr
     {
         pPalOverwriter = nullptr;
     }
-
-    return this;
 }
 
-BaseGameObject* Electrocute::dtor_48D480()
+Electrocute::~Electrocute()
 {
-    SetVTable(this, 0x4BD7E0);
-
     for (auto& pPalOverwriter : field_18_pPalOverwriters)
     {
         if (pPalOverwriter)
@@ -187,23 +159,6 @@ BaseGameObject* Electrocute::dtor_48D480()
     {
         ao_delete_free_450770(field_28_pPalData);
     }
-
-    return dtor_487DF0();
-}
-
-BaseGameObject* Electrocute::VDestructor(s32 flags)
-{
-    return Vdtor_48D8E0(flags);
-}
-
-Electrocute* Electrocute::Vdtor_48D8E0(s32 flags)
-{
-    dtor_48D480();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Electrocute::VScreenChanged_48D8B0()
@@ -277,34 +232,28 @@ void Electrocute::VUpdate_48D5C0()
             return;
 
         case States::eAlphaFadeout_1:
-            field_18_pPalOverwriters[0] = ao_new<PalleteOverwriter>();
-            if (field_18_pPalOverwriters[0])
-                field_18_pPalOverwriters[0]->ctor_416FF0(
-                    field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
-                    field_10_obj_target->field_10_anim.field_90_pal_depth,
-                    static_cast<s16>(Pal_Make_Colour_447950(255u, 255, 255, 1)));
+            field_18_pPalOverwriters[0] = ao_new<PalleteOverwriter>(
+                field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
+                field_10_obj_target->field_10_anim.field_90_pal_depth,
+                static_cast<s16>(Pal_Make_Colour_447950(255u, 255, 255, 1)));
 
-            field_18_pPalOverwriters[1] = ao_new<PalleteOverwriter>();
+            field_18_pPalOverwriters[1] = ao_new<PalleteOverwriter>(
+                field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
+                field_10_obj_target->field_10_anim.field_90_pal_depth,
+                static_cast<s16>(Pal_Make_Colour_447950(64u, 64, 255, 1)));
             if (field_18_pPalOverwriters[1])
             {
-                field_18_pPalOverwriters[1]->ctor_416FF0(
-                    field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
-                    field_10_obj_target->field_10_anim.field_90_pal_depth,
-                    static_cast<s16>(Pal_Make_Colour_447950(64u, 64, 255, 1)));
-
                 field_18_pPalOverwriters[1]->field_8_update_delay = 4;
             }
 
             if (field_24_extraOverwriter)
             {
-                field_18_pPalOverwriters[2] = ao_new<PalleteOverwriter>();
+                field_18_pPalOverwriters[2] = ao_new<PalleteOverwriter>(
+                    field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
+                    field_10_obj_target->field_10_anim.field_90_pal_depth,
+                    static_cast<s16>(Pal_Make_Colour_447950(0, 0, 0, 0)));
                 if (field_18_pPalOverwriters[2])
                 {
-                    field_18_pPalOverwriters[2]->ctor_416FF0(
-                        field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
-                        field_10_obj_target->field_10_anim.field_90_pal_depth,
-                        static_cast<s16>(Pal_Make_Colour_447950(0, 0, 0, 0)));
-
                     field_18_pPalOverwriters[2]->field_8_update_delay = 8;
                     field_32_state = States::eHandleDamage_2;
                 }

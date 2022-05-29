@@ -50,12 +50,9 @@ ALIVE_VAR(1, 0x50768C, s16, bLoadingAFile_50768C, 0);
 class LoadingFile final : public BaseGameObject
 {
 public:
-    EXPORT LoadingFile* ctor_41E8A0(s32 pos, s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)
+    LoadingFile(s32 pos, s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)
+        : BaseGameObject(1)
     {
-        BaseGameObject(1);
-
-        SetVTable(this, 0x4BB088);
-
         gFilesPending_507714++;
 
         mFlags.Set(Options::eSurviveDeathReset_Bit9);
@@ -71,13 +68,10 @@ public:
         PSX_Pos_To_CdLoc_49B340(pos, &field_2A_cdLoc);
 
         field_28_state = 0;
-        return this;
     }
 
-    EXPORT BaseGameObject* dtor_41E870()
+    ~LoadingFile()
     {
-        SetVTable(this, 0x4BB088);
-
         gFilesPending_507714--;
 
         if (field_28_state != 0)
@@ -87,7 +81,6 @@ public:
                 bLoadingAFile_50768C = 0;
             }
         }
-        return dtor_487DF0();
     }
 
     EXPORT void DestroyOnState0_41EA50()
@@ -187,22 +180,6 @@ public:
     virtual void VScreenChanged() override
     {
         // Stay alive
-    }
-
-
-    virtual BaseGameObject* VDestructor(s32 flags) override
-    {
-        return Vdtor_41EBB0(flags);
-    }
-
-    EXPORT LoadingFile* Vdtor_41EBB0(s32 flags)
-    {
-        dtor_41E870();
-        if (flags & 1)
-        {
-            ao_delete_free_447540(this);
-        }
-        return this;
     }
 
     s32 field_10_size;
@@ -558,7 +535,7 @@ EXPORT void CC ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
                 if (pObjIter->mFlags.Get(BaseGameObject::eDead))
                 {
                     i = gBaseGameObjects->RemoveAt(i);
-                    pObjIter->VDestructor(1);
+                    delete pObjIter;
                 }
             }
         }
@@ -741,18 +718,12 @@ LoadingFile* CC ResourceManager::LoadResourceFile_4551E0(const char_type* pFileN
         return nullptr;
     }
 
-    auto pLoadingFile = ao_new<LoadingFile>();
-    if (pLoadingFile)
-    {
-        pLoadingFile->ctor_41E8A0(
-            sLvlArchive_4FFD60.field_4_cd_pos + pFileRec->field_C_start_sector,
-            pFileRec->field_10_num_sectors,
-            fnOnLoad,
-            pCamera1,
-            pCamera2);
-    }
-
-    return pLoadingFile;
+    return ao_new<LoadingFile>(
+        sLvlArchive_4FFD60.field_4_cd_pos + pFileRec->field_C_start_sector,
+        pFileRec->field_10_num_sectors,
+        fnOnLoad,
+        pCamera1,
+        pCamera2);
 }
 
 u8** ResourceManager::Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool locked, BlockAllocMethod allocType)

@@ -19,12 +19,8 @@ namespace AO {
 void Blood_ForceLink()
 { }
 
-Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count)
+Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count)
 {
-    
-
-    SetVTable(this, 0x4BA248);
-
     field_BC_sprite_scale = scale;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Blood);
@@ -150,7 +146,6 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-    return this;
 }
 
 void Blood::VUpdate()
@@ -190,29 +185,12 @@ void Blood::VUpdate_407750()
 }
 
 
-BaseGameObject* Blood::dtor_4076F0()
+ Blood::~Blood()
 {
-    SetVTable(this, 0x4BA248);
     if (field_E4_ppResBuf)
     {
         ResourceManager::FreeResource_455550(field_E4_ppResBuf);
     }
-    return dtor_417D10();
-}
-
-BaseGameObject* Blood::VDestructor(s32 flags)
-{
-    return Vdtor_407AC0(flags);
-}
-
-BaseGameObject* Blood::Vdtor_407AC0(u32 flags)
-{
-    dtor_4076F0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Blood::VScreenChanged_407AB0()

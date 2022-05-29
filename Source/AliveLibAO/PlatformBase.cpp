@@ -83,10 +83,8 @@ void PlatformBase::AddDynamicCollision_4512C0(s32 frameTableOffset, s32 maxW, s3
     }
 }
 
-BaseGameObject* PlatformBase::dtor_451490()
+PlatformBase::~PlatformBase()
 {
-    SetVTable(this, 0x4BBF30);
-
     ObjListPlatforms_50766C->Remove_Item(this);
 
     if (field_120_pCollisionLine)
@@ -96,8 +94,6 @@ BaseGameObject* PlatformBase::dtor_451490()
             Rect_Clear_40C920(&field_120_pCollisionLine->field_0_rect);
         }
     }
-
-    return dtor_401000();
 }
 
 void PlatformBase::SyncCollisionLinePosition_451540()
@@ -124,22 +120,6 @@ void PlatformBase::KeepThingsOnPlatform_451690(FP xpos)
             pObjIter->field_AC_ypos = FP_FromInteger(field_120_pCollisionLine->field_0_rect.y);
         }
     }
-}
-
-BaseGameObject* PlatformBase::Vdtor_4516F0(s32 flags)
-{
-    dtor_451490();
-
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* PlatformBase::VDestructor(s32 flags)
-{
-    return Vdtor_4516F0(flags);
 }
 
 void PlatformBase::VAdd_4515D0(BaseAliveGameObject* pObj)

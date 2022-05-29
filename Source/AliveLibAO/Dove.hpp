@@ -22,11 +22,9 @@ void CC Dove_static_ctor_40EE10();
 class Dove final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Dove* ctor_40EE50(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale);
-
-    EXPORT Dove* ctor_40EFF0(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale);
-
-    EXPORT BaseGameObject* dtor_40F1B0();
+    Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale);
+    Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale);
+    ~Dove();
 
     EXPORT void AsAlmostACircle_40F300(FP xpos, FP ypos, u8 angle);
 
@@ -41,10 +39,6 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT void VRender_40F960(PrimHeader** ppOt);
-
-    
-
-    EXPORT Dove* Vdtor_40F970(u32 flags);
 
     virtual void VUpdate() override;
 

@@ -26,14 +26,12 @@ enum class BellHammerStates : u16
 class BellHammer final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BellHammer* ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo);
-    EXPORT BaseGameObject* dtor_405220();
+    BellHammer(Path_BellHammer* pTlv, s32 tlvInfo);
+    ~BellHammer();
 
     virtual void VScreenChanged() override;
-    
 
     EXPORT void VScreenChanged_4054B0();
-    EXPORT BellHammer* Vdtor_4054C0(s32 flags);
 
     virtual void VUpdate() override;
 

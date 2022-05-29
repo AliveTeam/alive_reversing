@@ -17,15 +17,11 @@ namespace AO {
 ALIVE_VAR(1, 0x4C30A8, s32, gNextDoorLightUpdate_4C30A8, -1);
 ALIVE_VAR(1, 0x4FC8A4, s32, gDoorLightUpdateTimer_4FC8A4, 0);
 
-DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo)
+DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
 {
-    
-
     field_E4_tlvInfo = tlvInfo;
     field_E8_width = pTlv->field_1A_size;
     field_EA_height = pTlv->field_1A_size;
-
-    SetVTable(this, 0x4BA1A8);
 
     field_4_typeId = Types::eNone_0;
     field_EC_bHasID = 0;
@@ -124,29 +120,11 @@ DoorLight* DoorLight::ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo)
 
     field_BC_sprite_scale = FP_FromInteger(1);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
-    return this;
 }
 
-BaseGameObject* DoorLight::dtor_4062F0()
+DoorLight::~DoorLight()
 {
-    SetVTable(this, 0x4BA1A8);
     gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
-    return dtor_417D10();
-}
-
-BaseGameObject* DoorLight::VDestructor(s32 flags)
-{
-    return Vdtor_4064A0(flags);
-}
-
-DoorLight* DoorLight::Vdtor_4064A0(s32 flags)
-{
-    dtor_4062F0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void DoorLight::VScreenChanged()
@@ -203,11 +181,7 @@ void DoorLight::VUpdate_4060A0()
 
                     if (sControlledCharacter_50767C == sActiveHero_507678)
                     {
-                        auto pMusic = ao_new<MusicTrigger>();
-                        if (pMusic)
-                        {
-                            pMusic->ctor_443A60(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
-                        }
+                        ao_new<MusicTrigger>(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
                     }
                     else
                     {

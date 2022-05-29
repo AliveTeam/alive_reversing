@@ -29,13 +29,8 @@ ALIVE_ASSERT_SIZEOF(Path_InvisibleSwitch, 0x24);
 class InvisibleSwitch final : public BaseGameObject
 {
 public:
-    EXPORT InvisibleSwitch* ctor_4334E0(Path_InvisibleSwitch* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_433540();
-
-    
-
-    EXPORT InvisibleSwitch* Vdtor_433740(s32 flags);
+    InvisibleSwitch(Path_InvisibleSwitch* pTlv, s32 tlvInfo);
+    ~InvisibleSwitch();
 
     virtual void VScreenChanged() override;
 

@@ -308,17 +308,13 @@ s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
         {
             Sfx_475BD0(9);
             field_100_health = FP_FromInteger(0);
-            auto pGibs = ao_new<Gibs>();
-            if (pGibs)
-            {
-                pGibs->ctor_407B20(
-                    GibType::Slog_2,
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    field_B4_velx,
-                    field_B8_vely,
-                    field_BC_sprite_scale);
-            }
+            ao_new<Gibs>(
+                GibType::Slog_2,
+                field_A8_xpos,
+                field_AC_ypos,
+                field_B4_velx,
+                field_B8_vely,
+                field_BC_sprite_scale);
 
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);

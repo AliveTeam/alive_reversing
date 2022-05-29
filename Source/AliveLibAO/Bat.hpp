@@ -21,14 +21,12 @@ class PathLine;
 class Bat final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Bat* ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo);
-    EXPORT BaseGameObject* dtor_404870();
-
+    Bat(Path_Bat* pTlv, s32 tlvInfo);
+    ~Bat();
     
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_404FE0();
-    EXPORT Bat* Vdtor_404FF0(s32 flags);
 
     EXPORT void FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed);
 

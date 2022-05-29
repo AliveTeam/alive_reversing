@@ -49,13 +49,8 @@ ALIVE_ASSERT_SIZEOF(Path_Lever, 0x24);
 class Lever final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Lever* ctor_481110(Path_Lever* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_481260();
-
-    
-
-    EXPORT Lever* Vdtor_481700(s32 flags);
+    Lever(Path_Lever* pTlv, s32 tlvInfo);
+    ~Lever();
 
     virtual void VScreenChanged() override;
 

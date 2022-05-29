@@ -26,8 +26,9 @@ enum TimedMine_Flags_1B8
 class TimedMine final : public BaseAliveGameObject
 {
 public:
-    EXPORT TimedMine* ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo);
-    EXPORT BaseGameObject* dtor_408690();
+    TimedMine(Path_TimedMine* pTlv, s32 tlvInfo);
+    ~TimedMine();
+
     EXPORT void StickToLiftPoint_408CA0();
 
     
@@ -44,7 +45,6 @@ private:
     EXPORT void VUpdate_408760();
     EXPORT s16 VTakeDamage_408B90(BaseGameObject* pFrom);
     EXPORT void VScreenChanged_408DD0();
-    EXPORT TimedMine* Vdtor_408E10(s32 flags);
     EXPORT void VRender_408960(PrimHeader** ppOt);
 
 public:

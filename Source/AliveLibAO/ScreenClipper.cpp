@@ -10,21 +10,9 @@
 
 namespace AO {
 
-BaseGameObject* ScreenClipper::Vdtor_40BF40(u32 flags)
+ScreenClipper::~ScreenClipper()
 {
-    dtor_40BDE0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* ScreenClipper::dtor_40BDE0()
-{
-    SetVTable(this, 0x4BA428);
     gObjList_drawables_504618->Remove_Item(this);
-    return dtor_487DF0();
 }
 
 void ScreenClipper::VRender_40BEB0(PrimHeader** ppOt)
@@ -62,16 +50,9 @@ void ScreenClipper::VRender(PrimHeader** ppOt)
     VRender_40BEB0(ppOt);
 }
 
-BaseGameObject* ScreenClipper::VDestructor(s32 flags)
+ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
+    : BaseGameObject(1)
 {
-    return Vdtor_40BF40(flags);
-}
-
-ScreenClipper* ScreenClipper::ctor_40BD60(PSX_Point xy, PSX_Point wh, Layer layer)
-{
-    BaseGameObject(1);
-
-    SetVTable(this, 0x4BA428);
     field_4_typeId = Types::eScreenClipper_78;
 
     mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
@@ -86,7 +67,6 @@ ScreenClipper* ScreenClipper::ctor_40BD60(PSX_Point xy, PSX_Point wh, Layer laye
     field_38_ot_layer = layer;
 
     gObjList_drawables_504618->Push_Back(this);
-    return this;
 }
 
 void ScreenClipper::Update_Clip_Rect_40BE40(PSX_Point xy, PSX_Point wh)

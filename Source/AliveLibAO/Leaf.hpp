@@ -8,7 +8,7 @@ namespace AO {
 class Leaf final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Leaf* ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale);
+    Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale);
 
     virtual void VScreenChanged() override;
 

@@ -27,24 +27,8 @@ void PossessionFlicker::VScreenChanged()
     VScreenChanged_41AA40();
 }
 
-PossessionFlicker* PossessionFlicker::vdtor_41AA70(s32 flags)
+PossessionFlicker::~PossessionFlicker()
 {
-    dtor_41A940();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* PossessionFlicker::VDestructor(s32 flags)
-{
-    return vdtor_41AA70(flags);
-}
-
-BaseGameObject* PossessionFlicker::dtor_41A940()
-{
-    SetVTable(this, 0x4BAC58);
     if (field_10_pObj)
     {
         field_10_pObj->field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
@@ -55,14 +39,11 @@ BaseGameObject* PossessionFlicker::dtor_41A940()
 
         field_10_pObj->field_C_refCount--;
     }
-    return dtor_487DF0();
 }
 
-PossessionFlicker* PossessionFlicker::ctor_41A8C0(BaseAliveGameObject* pToApplyFlicker, s32 duration, s16 r, s16 g, s16 b)
+PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 duration, s16 r, s16 g, s16 b)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BAC58);
-
     field_10_pObj = pToApplyFlicker;
     field_10_pObj->field_C_refCount++;
 
@@ -77,8 +58,6 @@ PossessionFlicker* PossessionFlicker::ctor_41A8C0(BaseAliveGameObject* pToApplyF
     pToApplyFlicker->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
 
     field_14_time_to_flicker = gnFrameCount_507670 + duration;
-
-    return this;
 }
 
 

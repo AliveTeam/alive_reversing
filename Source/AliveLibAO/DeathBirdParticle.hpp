@@ -8,13 +8,11 @@ namespace AO {
 class DeathBirdParticle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT DeathBirdParticle* ctor_41D950(FP xpos, FP ypos, s32 start, s16 playSound, FP scale);
+    DeathBirdParticle(FP xpos, FP ypos, s32 start, s16 playSound, FP scale);
 
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_41DA60();
-
-    
 
     s32 field_D4_padding[4];
     s8 field_E4_random;

@@ -33,13 +33,8 @@ public:
 
     EXPORT void VUpdate_4888E0();
 
-    EXPORT FootSwitch* ctor_4887F0(Path_FootSwitch* pTlv, s32 tlvInfo);
-
-    
-
-    EXPORT FootSwitch* vdtor_488C10(s32 flags);
-
-    EXPORT BaseGameObject* dtor_4889E0();
+    FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo);
+    ~FootSwitch();
 
     virtual void VScreenChanged() override;
 

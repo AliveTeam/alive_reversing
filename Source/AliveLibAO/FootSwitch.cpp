@@ -10,10 +10,8 @@
 
 namespace AO {
 
-FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, s32 tlvInfo)
+FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BD648);
     field_4_typeId = Types::eFootSwitch36;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Foot_Switch_Temple);
@@ -39,34 +37,16 @@ FootSwitch* FootSwitch::ctor_4887F0(Path_FootSwitch* pTlv, s32 tlvInfo)
     SwitchStates_Set(field_EA_switch_id, 0);
 
     field_E4_tlvInfo = tlvInfo;
-    return this;
 }
 
-BaseGameObject* FootSwitch::VDestructor(s32 flags)
+FootSwitch::~FootSwitch()
 {
-    return vdtor_488C10(flags);
-}
-
-FootSwitch* FootSwitch::vdtor_488C10(s32 flags)
-{
-    dtor_4889E0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* FootSwitch::dtor_4889E0()
-{
-    SetVTable(this, 0x4BD648);
     if (field_F0_pStoodOnMe)
     {
         field_F0_pStoodOnMe->field_C_refCount--;
         field_F0_pStoodOnMe = nullptr;
     }
     gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
-    return dtor_417D10();
 }
 
 void FootSwitch::VUpdate()

@@ -29,16 +29,14 @@ ALIVE_ASSERT_SIZEOF(Path_LightEffect, 0x20);
 class DoorLight final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT DoorLight* ctor_405D90(Path_LightEffect* pTlv, s32 tlvInfo);
-    EXPORT BaseGameObject* dtor_4062F0();
-
+    DoorLight(Path_LightEffect* pTlv, s32 tlvInfo);
+    ~DoorLight();
     
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT DoorLight* Vdtor_4064A0(s32 flags);
     EXPORT void VScreenChanged_406360();
     EXPORT void VUpdate_4060A0();
     EXPORT void VRender_406370(PrimHeader** ppOt);

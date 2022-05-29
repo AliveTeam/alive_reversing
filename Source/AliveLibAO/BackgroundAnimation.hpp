@@ -29,13 +29,8 @@ ALIVE_ASSERT_SIZEOF(Path_BackgroundAnimation, 0x20);
 class BackgroundAnimation final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BackgroundAnimation* ctor_405A90(Path_BackgroundAnimation* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_405CB0();
-
-    
-
-    EXPORT BackgroundAnimation* Vdtor_405D70(s32 flags);
+    BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlvInfo);
+    ~BackgroundAnimation();
 
     virtual void VScreenChanged() override;
 

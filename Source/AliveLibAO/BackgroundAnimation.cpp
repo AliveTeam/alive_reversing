@@ -11,11 +11,8 @@
 
 namespace AO {
 
-BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* pTlv, s32 tlvInfo)
+BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BA170);
-
     field_4_typeId = Types::eBackgroundAnimation_5;
     field_F0_tlvInfo = tlvInfo;
 
@@ -25,7 +22,7 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
     {
         mFlags.Clear(BaseGameObject::eDrawable_Bit4);
         mFlags.Set(BaseGameObject::eDead);
-        return this;
+        return;
     }
 
     auto pHeader = reinterpret_cast<AnimHeader*>(*field_E4_res);
@@ -99,34 +96,15 @@ BackgroundAnimation* BackgroundAnimation::ctor_405A90(Path_BackgroundAnimation* 
         field_100_sound_effect = BgAnimSounds::eNone_m1;
     }
     field_104_sound_channels_mask = 0;
-
-    return this;
 }
 
-BaseGameObject* BackgroundAnimation::dtor_405CB0()
+BackgroundAnimation::~BackgroundAnimation()
 {
-    SetVTable(this, 0x4BA170);
     gMap.TLV_Reset_446870(field_F0_tlvInfo, -1, 0, 0);
     if (field_104_sound_channels_mask)
     {
         SND_Stop_Channels_Mask_4774A0(field_104_sound_channels_mask);
     }
-    return dtor_417D10();
-}
-
-BaseGameObject* BackgroundAnimation::VDestructor(s32 flags)
-{
-    return Vdtor_405D70(flags);
-}
-
-BackgroundAnimation* BackgroundAnimation::Vdtor_405D70(s32 flags)
-{
-    dtor_405CB0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void BackgroundAnimation::VScreenChanged()

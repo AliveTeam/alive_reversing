@@ -24,13 +24,8 @@ class PathLine;
 class RollingBall final : public BaseAliveGameObject
 {
 public:
-    EXPORT RollingBall* ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_458230();
-
-    
-
-    EXPORT RollingBall* Vdtor_458490(s32 flags);
+    RollingBall(Path_RollingBall* pTlv, s32 tlvInfo);
+    ~RollingBall();
 
     virtual void VUpdate() override;
 

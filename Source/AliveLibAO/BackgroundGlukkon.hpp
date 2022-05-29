@@ -18,13 +18,8 @@ ALIVE_ASSERT_SIZEOF(Path_BackgroundGlukkon, 0x20);
 class BackgroundGlukkon final : public BaseAliveGameObject
 {
 public:
-    EXPORT BackgroundGlukkon* ctor_41DBD0(Path_BackgroundGlukkon* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_41DCE0();
-
-    
-
-    EXPORT BackgroundGlukkon* Vdtor_41E0F0(s32 flags);
+    BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo);
+    ~BackgroundGlukkon();
 
     virtual void VScreenChanged() override;
 

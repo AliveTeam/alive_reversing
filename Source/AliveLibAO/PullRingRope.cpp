@@ -78,15 +78,13 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 
     field_F4_pPuller = nullptr;
 
-    field_F8_pRope = ao_new<Rope>();
+    field_F8_pRope = ao_new<Rope>(
+        FP_GetExponent(field_A8_xpos + FP_FromInteger((lvl_x_off + 1))),
+        FP_GetExponent(field_AC_ypos) - pTlv->field_1C_rope_length,
+        FP_GetExponent(field_AC_ypos + (FP_FromInteger(field_C8_yOffset))),
+        field_BC_sprite_scale);
     if (field_F8_pRope)
     {
-        field_F8_pRope->ctor_458520(
-            FP_GetExponent(field_A8_xpos + FP_FromInteger((lvl_x_off + 1))),
-            FP_GetExponent(field_AC_ypos) - pTlv->field_1C_rope_length,
-            FP_GetExponent(field_AC_ypos + (FP_FromInteger(field_C8_yOffset))),
-            field_BC_sprite_scale);
-
         field_F8_pRope->field_C_refCount++;
     }
 }

@@ -10,13 +10,8 @@ class BaseAliveGameObject;
 class PossessionFlicker final : public BaseGameObject
 {
 public:
-    EXPORT PossessionFlicker* ctor_41A8C0(BaseAliveGameObject* pToApplyFlicker, s32 duration, s16 r, s16 g, s16 b);
-
-    EXPORT BaseGameObject* dtor_41A940();
-
-    
-
-    EXPORT PossessionFlicker* vdtor_41AA70(s32 flags);
+    PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 duration, s16 r, s16 g, s16 b);
+    ~PossessionFlicker();
 
     virtual void VScreenChanged() override;
 

@@ -51,17 +51,12 @@ void BaseBomb::VUpdate_417580()
 
         case 3:
         {
-            ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
-            if (pParticleBurst)
-            {
-                pParticleBurst->ctor_40D0F0(
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    20,
-                    field_BC_sprite_scale,
-                    BurstType::eBigRedSparks_3);
-            }
-
+            ao_new<ParticleBurst>(
+                field_A8_xpos,
+                field_AC_ypos,
+                20,
+                field_BC_sprite_scale,
+                BurstType::eBigRedSparks_3);
 
             ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
 
@@ -81,16 +76,12 @@ void BaseBomb::VUpdate_417580()
 
         case 7:
         {
-            ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
-            if (pParticleBurst)
-            {
-                pParticleBurst->ctor_40D0F0(
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    20,
-                    field_BC_sprite_scale,
-                    BurstType::eBigRedSparks_3);
-            }
+            ao_new<ParticleBurst>(
+                field_A8_xpos,
+                field_AC_ypos,
+                20,
+                field_BC_sprite_scale,
+                BurstType::eBigRedSparks_3);
 
             ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
@@ -213,10 +204,8 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
     }
 }
 
-BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, s32 /*unused*/, FP scale)
+BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
 {
-    
-    SetVTable(this, 0x4BAA00);
     field_4_typeId = Types::eBaseBomb_30;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Explosion_Mine);
@@ -248,22 +237,14 @@ BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, s32 /*unused*/, FP scale)
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
 
-    auto pScreenShake = ao_new<ScreenShake>();
-    if (pScreenShake)
-    {
-        pScreenShake->ctor_4624D0(1);
-    }
+    ao_new<ScreenShake>(1);
 
-    auto pParticleBurst = ao_new<ParticleBurst>();
-    if (pParticleBurst)
-    {
-        pParticleBurst->ctor_40D0F0(
-            field_A8_xpos,
-            field_AC_ypos,
-            35,
-            field_E4_scale,
-            BurstType::eFallingRocks_0);
-    }
+    ao_new<ParticleBurst>(
+        field_A8_xpos,
+        field_AC_ypos,
+        35,
+        field_E4_scale,
+        BurstType::eFallingRocks_0);
 
     PSX_RECT damageRect = {
         FP_GetExponent(FP_FromInteger(-10) * field_E4_scale),
@@ -274,19 +255,6 @@ BaseBomb* BaseBomb::ctor_4173A0(FP xpos, FP ypos, s32 /*unused*/, FP scale)
 
     word_4FFA4C = 0;
     SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);
-
-    return this;
-}
-
-BaseGameObject* BaseBomb::VDestructor(s32 flags)
-{
-    dtor_417D10();
-
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

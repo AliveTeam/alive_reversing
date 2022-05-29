@@ -25,13 +25,8 @@ ALIVE_ASSERT_SIZEOF(Path_ElectricWall, 0x20);
 class ElectricWall final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ElectricWall* ctor_40FCF0(Path_ElectricWall* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_40FE80();
-
-    
-
-    EXPORT ElectricWall* Vdtor_410280(s32 flags);
+    ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo);
+    ~ElectricWall();
 
     virtual void VScreenChanged() override;
 

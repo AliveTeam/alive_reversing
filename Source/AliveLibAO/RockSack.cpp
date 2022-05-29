@@ -79,23 +79,18 @@ void RockSack::VUpdate_4575F0()
                 if (!gpThrowableArray_50E26C)
                 {
                     gpThrowableArray_50E26C = ao_new<ThrowableArray>();
-                    if (gpThrowableArray_50E26C)
-                    {
-                        gpThrowableArray_50E26C->ctor_453EE0();
-                    }
                 }
 
                 gpThrowableArray_50E26C->Add_453F70(field_112_rock_amount);
 
-                auto pRock = ao_new<Rock>();
+                auto pRock = ao_new<Rock>(
+                    field_A8_xpos,
+                    field_AC_ypos - FP_FromInteger(30),
+                    field_112_rock_amount);
                 if (pRock)
                 {
-                    pRock->ctor_456960(
-                        field_A8_xpos,
-                        field_AC_ypos - FP_FromInteger(30),
-                        field_112_rock_amount);
+                    pRock->VThrow(field_118_x_vel, field_11C_y_vel);
                 }
-                pRock->VThrow(field_118_x_vel, field_11C_y_vel);
 
                 SFX_Play_43AD70(SoundEffect::SackHit_30, 0, 0);
                 Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
@@ -122,33 +117,14 @@ void RockSack::VScreenChanged()
     VScreenChanged_457890();
 }
 
-RockSack* RockSack::Vdtor_4578A0(s32 flags)
+RockSack::~RockSack()
 {
-    dtor_457580();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* RockSack::VDestructor(s32 flags)
-{
-    return Vdtor_4578A0(flags);
-}
-
-BaseGameObject* RockSack::dtor_457580()
-{
-    SetVTable(this, 0x4BC120);
     gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
-    return dtor_401000();
 }
 
-RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
+RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BC120);
-
     field_4_typeId = Types::eRockSack_71;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::RockSack_Idle);

@@ -17,25 +17,8 @@ void BackgroundGlukkon::VScreenChanged()
     VScreenChanged_41E0E0();
 }
 
-BackgroundGlukkon* BackgroundGlukkon::Vdtor_41E0F0(s32 flags)
+BackgroundGlukkon::~BackgroundGlukkon()
 {
-    dtor_41DCE0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* BackgroundGlukkon::VDestructor(s32 flags)
-{
-    return Vdtor_41E0F0(flags);
-}
-
-BaseGameObject* BackgroundGlukkon::dtor_41DCE0()
-{
-    SetVTable(this, 0x4BAF70);
-
     if (field_100_health <= FP_FromInteger(0))
     {
         gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
@@ -44,15 +27,11 @@ BaseGameObject* BackgroundGlukkon::dtor_41DCE0()
     {
         gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
     }
-
-    return dtor_401000();
 }
 
-BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
+BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BAF70);
-
     field_4_typeId = Types::eBackgroundGlukkon_42;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
@@ -75,7 +54,6 @@ BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_BackgroundGlukkon* pTlv, 
     field_120_target_id = pTlv->field_1C_target_id;
     field_11C_voice_adjust = pTlv->field_1E_voice_adjust;
     field_110_state = BackgroundGlukkon::State::eToSetSpeakPauseTimer_0;
-    return this;
 }
 
 void BackgroundGlukkon::VScreenChanged_41E0E0()
@@ -116,14 +94,12 @@ s16 BackgroundGlukkon::VTakeDamage_41DF80(BaseGameObject* pFrom)
     else if (pFrom->field_4_typeId == Types::eElectrocute_103 && field_100_health > FP_FromInteger(0))
     {
         field_100_health = FP_FromInteger(0);
-        auto pExplosion = ao_new<Explosion>();
-        if (pExplosion)
-        {
-            pExplosion->ctor_458B80(
-                field_A8_xpos,
-                field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(40)),
-                field_BC_sprite_scale);
-        }
+
+        ao_new<Explosion>(
+            field_A8_xpos,
+            field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(40)),
+            field_BC_sprite_scale);
+
         mFlags.Set(BaseGameObject::eDead);
     }
     return 1;

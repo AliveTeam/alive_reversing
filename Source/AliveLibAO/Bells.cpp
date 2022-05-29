@@ -11,11 +11,8 @@
 
 namespace AO {
 
-Bells* Bells::ctor_40A650(BellSize bellType, FP xpos, FP ypos, FP scale)
+Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
 {
-    
-    SetVTable(this, 0x4BA390);
-
     mFlags.Clear(Options::eCanExplode_Bit7);
 
     field_4_typeId = Types::eBells_13;
@@ -55,14 +52,6 @@ Bells* Bells::ctor_40A650(BellSize bellType, FP xpos, FP ypos, FP scale)
     field_EC_bDoScreenWave = 0;
     field_F4_sound_cooldown_timer = 0;
     field_F0_sound_pitch_factor = 0;
-
-    return this;
-}
-
-BaseGameObject* Bells::dtor_40A760()
-{
-    SetVTable(this, 0x4BA390);
-    return dtor_417D10();
 }
 
 void Bells::VUpdate()
@@ -103,37 +92,25 @@ void Bells::VUpdate_40A770()
             {
                 xOff = FP_FromInteger(-35);
                 yOff = FP_FromInteger(36);
-                auto pScreenWave = ao_new<ScreenWave>();
-                if (pScreenWave)
-                {
-                    const FP wave_ypos = field_AC_ypos + FP_FromInteger(36);
-                    const FP wave_xpos = field_A8_xpos - FP_FromInteger(35);
-                    pScreenWave->ctor_462A70(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(18), FP_FromInteger(12), 0);
-                }
+                const FP wave_ypos = field_AC_ypos + FP_FromInteger(36);
+                const FP wave_xpos = field_A8_xpos - FP_FromInteger(35);
+                ao_new<ScreenWave>(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(18), FP_FromInteger(12), 0);
             }
             else if (field_EA_sound == Sounds::eHighPitch_2)
             {
                 xOff = FP_FromInteger(37);
                 yOff = FP_FromInteger(32);
-                auto pScreenWave = ao_new<ScreenWave>();
-                if (pScreenWave)
-                {
-                    const FP wave_ypos = field_AC_ypos + FP_FromInteger(32);
-                    const FP wave_xpos = field_A8_xpos + FP_FromInteger(37);
-                    pScreenWave->ctor_462A70(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(12), FP_FromInteger(12), 0);
-                }
+                const FP wave_ypos = field_AC_ypos + FP_FromInteger(32);
+                const FP wave_xpos = field_A8_xpos + FP_FromInteger(37);
+                ao_new<ScreenWave>(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(12), FP_FromInteger(12), 0);
             }
             else if (field_EA_sound == Sounds::eMediumPitch_1)
             {
                 xOff = FP_FromInteger(-4);
                 yOff = FP_FromInteger(24);
-                auto pScreenWave = ao_new<ScreenWave>();
-                if (pScreenWave)
-                {
-                    const FP wave_ypos = field_AC_ypos + FP_FromInteger(24);
-                    const FP wave_xpos = field_A8_xpos - FP_FromInteger(4);
-                    pScreenWave->ctor_462A70(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(14), FP_FromInteger(12), 0);
-                }
+                const FP wave_ypos = field_AC_ypos + FP_FromInteger(24);
+                const FP wave_xpos = field_A8_xpos - FP_FromInteger(4);
+                ao_new<ScreenWave>(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(14), FP_FromInteger(12), 0);
             }
 
             for (s32 i = 0; i < 4; i++)
@@ -173,17 +150,6 @@ void Bells::PlaySounds()
     }
 }
 
-Bells* Bells::Vdtor_40AB00(s32 flags)
-{
-    dtor_40A760();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-
 Bool32 Bells::CanSmash_40AA70()
 {
     return field_E8_bSmashing == 0;
@@ -216,11 +182,6 @@ void Bells::Ring_40AA80()
             field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
         }
     }
-}
-
-BaseGameObject* Bells::VDestructor(s32 flags)
-{
-    return Vdtor_40AB00(flags);
 }
 
 } // namespace AO

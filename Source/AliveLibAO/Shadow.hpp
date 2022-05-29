@@ -10,9 +10,8 @@ namespace AO {
 class Shadow final
 {
 public:
-    EXPORT Shadow* ctor_461FB0();
-
-    EXPORT void dtor_462030();
+    Shadow();
+    ~Shadow();
 
     EXPORT void Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* pRect, FP scale);
 

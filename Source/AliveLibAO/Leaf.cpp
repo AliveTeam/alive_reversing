@@ -95,11 +95,8 @@ void Leaf::VScreenChanged()
     VScreenChanged_48B860();
 }
 
-Leaf* Leaf::ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
+Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 {
-    
-    SetVTable(this, 0x4BD768);
-
     field_C0_r = 100;
     field_C2_g = 100;
     field_C4_b = 100;
@@ -108,7 +105,7 @@ Leaf* Leaf::ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, leafRec.mResourceId, 1, 0);
     if (!ppRes)
     {
-        return this;
+        return;
     }
 
     Animation_Init_417FD0(
@@ -148,18 +145,6 @@ Leaf* Leaf::ctor_48B4F0(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 
     const s16 randRightVol = Math_RandomRange_450F20(-900, -700);
     SFX_Play_43AE60(SoundEffect::Leaf_27, (3 * randLeftVol) / 4, randRightVol, nullptr);
-
-    return this;
-}
-
-BaseGameObject* Leaf::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

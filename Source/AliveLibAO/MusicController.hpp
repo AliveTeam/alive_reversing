@@ -44,9 +44,8 @@ public:
         eSecretAreaLong_16 = 16,
     };
 
-    MusicController* ctor_442930();
-
-    EXPORT BaseGameObject* dtor_4429B0();
+    MusicController();
+    ~MusicController();
 
     virtual void VScreenChanged() override;
 
@@ -55,10 +54,6 @@ public:
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_443300();
-
-    
-
-    EXPORT MusicController* Vdtor_4439D0(s32 flags);
 
     EXPORT static void CC PlayMusic_443810(MusicTypes a1, BaseGameObject* a2, s16 a3, s16 a4);
     

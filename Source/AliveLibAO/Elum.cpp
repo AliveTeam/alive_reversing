@@ -140,25 +140,8 @@ const AnimId gElumAnimIdTables_4C5218[52] = {
     AnimId::Elum_Knockback,
     AnimId::None};
 
-BaseGameObject* Elum::VDestructor(s32 flags)
+Elum::~Elum()
 {
-    return Vdtor_411710(flags);
-}
-
-Elum* Elum::Vdtor_411710(s32 flags)
-{
-    dtor_410BC0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-EXPORT BaseGameObject* Elum::dtor_410BC0()
-{
-    SetVTable(this, 0x4BA8F8);
-
     for (u8**& ppRes : field_174_resources.res)
     {
         if (ppRes && field_10_anim.field_20_ppBlock != ppRes)
@@ -190,8 +173,6 @@ EXPORT BaseGameObject* Elum::dtor_410BC0()
         ResourceManager::FreeResource_455550(
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resID, 1, 0));
     }
-
-    return dtor_base_416FE0();
 }
 
 void Elum::VOn_TLV_Collision(Path_TLV* pTlv)
@@ -269,17 +250,13 @@ s16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
                     field_FC_current_motion = eElumMotions::Motion_19_Dead_415F90;
                 }
 
-                auto pGibs = ao_new<Gibs>();
-                if (pGibs)
-                {
-                    pGibs->ctor_407B20(
-                        GibType::Elum_3,
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        field_B4_velx,
-                        field_B8_vely,
-                        field_BC_sprite_scale);
-                }
+                ao_new<Gibs>(
+                    GibType::Elum_3,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    field_B4_velx,
+                    field_B8_vely,
+                    field_BC_sprite_scale);
 
                 field_100_health = FP_FromInteger(0);
 
@@ -394,12 +371,6 @@ void Elum::VFreeUnmountedResources_4112B0()
     }
 
     field_174_resources.res[22] = nullptr;
-}
-
-BaseGameObject* Elum::dtor_base_416FE0()
-{
-    SetVTable(this, 0x4BA970);
-    return dtor_401000();
 }
 
 u8** Elum::GetResBlock_410D00(s16 currentMotion)
@@ -3853,20 +3824,18 @@ void Elum::Spawn_410E90(TlvItemInfoUnion tlvInfo)
     anythingForTheTimeBeing struct1;
     anythingForTheTimeBeing struct2;
 
-    auto pElum = ao_new<Elum>();
     struct1.field_0 = word_4C52F2;
     struct1.field_2 = tlvInfo.parts.tlvOffset; //todo check it (if it's ever used)
 
     struct2.field_0 = word_4C52F0;
     struct2.field_2 = word_4C52FA;
 
-    pElum->ctor_410870(dword_4C52F4, struct2, struct1, dword_4C52F8, tlvInfo);
+    ao_new<Elum>(dword_4C52F4, struct2, struct1, dword_4C52F8, tlvInfo);
 }
 
-Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemInfoUnion tlvInfo)
+Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemInfoUnion tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BA8F8);
     field_4_typeId = Types::eElum_26;
 
     field_158_last_event_idx = -1;
@@ -3991,8 +3960,6 @@ Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s
     {
         field_D0_pShadow->ctor_461FB0();
     }
-
-    return this;
 }
 
 } // namespace AO

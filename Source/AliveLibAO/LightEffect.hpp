@@ -8,13 +8,8 @@ namespace AO {
 class LightEffect final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT LightEffect* ctor_4064C0(Path_LightEffect* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_406770();
-
-    
-
-    EXPORT LightEffect* Vdtor_406800(s32 flags);
+    LightEffect(Path_LightEffect* pTlv, s32 tlvInfo);
+    ~LightEffect();
 
     EXPORT void VRender_4067F0(PrimHeader** ppOt);
 

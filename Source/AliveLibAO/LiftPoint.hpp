@@ -45,7 +45,8 @@ public:
         eBit7_bIgnoreLiftMover = 0x40,
         eBit8_KeepOnMiddleFloor = 0x80,
     };
-    EXPORT LiftPoint* ctor_434710(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo);
+    LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo);
+    ~LiftPoint();
 
     EXPORT void Move_435740(FP xSpeed, FP ySpeed, s32 not_used);
 
@@ -80,12 +81,6 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_435CC0();
-
-    LiftPoint* Vdtor_435D10(s32 flags);
-
-    EXPORT BaseGameObject* dtor_4355E0();
-
-    
 
     EXPORT void CreatePulleyIfExists_435AE0(s16 camX, s16 camY);
 

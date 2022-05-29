@@ -27,10 +27,10 @@ EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, s16 count)
     {
         case Types::eGrenade_40:
         {
-            auto pGrenade = ao_new<Grenade>();
+            auto pGrenade = ao_new<Grenade>(xpos, ypos, count);
             if (pGrenade)
             {
-                return pGrenade->ctor_41EBD0(xpos, ypos, count);
+                return pGrenade;
             }
             break;
         }
@@ -47,10 +47,10 @@ EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, s16 count)
 
         case Types::eRock_70:
         {
-            auto pRock = ao_new<Rock>();
+            auto pRock = ao_new<Rock>(xpos, ypos, count);
             if (pRock)
             {
-                return pRock->ctor_456960(xpos, ypos, count);
+                return pRock;
             }
             break;
         }

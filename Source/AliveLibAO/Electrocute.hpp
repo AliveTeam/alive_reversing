@@ -12,13 +12,8 @@ class PalleteOverwriter;
 class Electrocute final : public BaseGameObject
 {
 public:
-    EXPORT Electrocute* ctor_48D3A0(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter);
-
-    EXPORT BaseGameObject* dtor_48D480();
-
-    
-
-    EXPORT Electrocute* Vdtor_48D8E0(s32 flags);
+    Electrocute(BaseAliveGameObject* pTargetObj, s16 bExtraOverwriter);
+    ~Electrocute();
 
     virtual void VScreenChanged() override;
 

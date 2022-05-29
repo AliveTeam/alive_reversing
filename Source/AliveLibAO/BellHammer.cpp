@@ -11,11 +11,8 @@
 
 namespace AO {
 
-BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
+BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BA120);
-
     field_4_typeId = Types::eBellHammer_27;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::BellHammer_Idle);
@@ -54,7 +51,7 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
 
     if (gElum_507680)
     {
-        return this;
+        return;
     }
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 0, 0))
@@ -80,14 +77,10 @@ BellHammer* BellHammer::ctor_405010(Path_BellHammer* pTlv, s32 tlvInfo)
         field_EC_pending_resource_count++;
         ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BellHammer::OnResLoaded_405210, this);
     }
-
-    return this;
 }
 
-BaseGameObject* BellHammer::dtor_405220()
+BellHammer::~BellHammer()
 {
-    SetVTable(this, 0x4BA120);
-
     if (field_EC_pending_resource_count)
     {
         ResourceManager::WaitForPendingResources_41EA60(this);
@@ -118,27 +111,11 @@ BaseGameObject* BellHammer::dtor_405220()
     }
 
     gMap.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
-    return dtor_417D10();
-}
-
-BaseGameObject* BellHammer::VDestructor(s32 flags)
-{
-    return Vdtor_4054C0(flags);
 }
 
 void BellHammer::VScreenChanged_4054B0()
 {
     mFlags.Set(BaseGameObject::eDead);
-}
-
-BellHammer* BellHammer::Vdtor_4054C0(s32 flags)
-{
-    dtor_405220();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void BellHammer::VUpdate()

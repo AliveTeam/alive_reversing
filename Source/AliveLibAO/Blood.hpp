@@ -23,17 +23,12 @@ ALIVE_ASSERT_SIZEOF(BloodParticle, 0x40);
 class Blood final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Blood* ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count);
-
-    EXPORT BaseGameObject* dtor_4076F0();
+    Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 count);
+    ~Blood();
 
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_407750();
-
-    
-
-    EXPORT BaseGameObject* Vdtor_407AC0(u32 flags);
 
     virtual void VScreenChanged() override;
 

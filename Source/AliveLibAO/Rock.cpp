@@ -17,10 +17,9 @@
 
 namespace AO {
 
-Rock* Rock::ctor_456960(FP xpos, FP ypos, s16 count)
+Rock::Rock(FP xpos, FP ypos, s16 count)
+    : BaseThrowable()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BC0A8);
     field_4_typeId = Types::eRock_70;
 
     field_10E_bDead = 0;
@@ -68,12 +67,10 @@ Rock* Rock::ctor_456960(FP xpos, FP ypos, s16 count)
     {
         field_D0_pShadow->ctor_461FB0();
     }
-    return this;
 }
 
-BaseGameObject* Rock::dtor_456A90()
+Rock::~Rock()
 {
-    SetVTable(this, 0x4BC0A8);
     if (!gInfiniteGrenades_5076EC && !field_10E_bDead)
     {
         if (gpThrowableArray_50E26C)
@@ -81,22 +78,6 @@ BaseGameObject* Rock::dtor_456A90()
             gpThrowableArray_50E26C->Remove_4540D0(field_10C_count >= 1u ? field_10C_count : 1);
         }
     }
-    return dtor_401000();
-}
-
-BaseGameObject* Rock::VDestructor(s32 flags)
-{
-    return Vdtor_4573D0(flags);
-}
-
-Rock* Rock::Vdtor_4573D0(s32 flags)
-{
-    dtor_456A90();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Rock::VUpdate()

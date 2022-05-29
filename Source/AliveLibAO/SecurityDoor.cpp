@@ -27,42 +27,22 @@ void SecurityDoor::VUpdate()
     VUpdate_461AD0();
 }
 
-SecurityDoor* SecurityDoor::vdtor_461F90(s32 flags)
+SecurityDoor::~SecurityDoor()
 {
-    dtor_4619C0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* SecurityDoor::VDestructor(s32 flags)
-{
-    return vdtor_461F90(flags);
-}
-
-BaseGameObject* SecurityDoor::dtor_4619C0()
-{
-    SetVTable(this, 0x4BC918);
     if (field_E8_state != SecurityDoorStates::eSuccessChime_1)
     {
         field_E8_state = SecurityDoorStates::eInactive_0;
     }
     gMap.TLV_Reset_446870(field_E4_tlvInfo, field_E8_state + 1, 0, 0);
-    return dtor_417D10();
 }
 
-SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, s32 tlvInfo)
+SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
 {
-    
     field_F4_event_idx = -1;
     field_108_max_idx = 0;
     field_10A_event_idx = -1;
 
-    SetVTable(this, 0x4BC918);
-
-    const AnimRecord& rec = AO::AnimRec(AnimId::Security_Door);
+    const AnimRecord rec = AO::AnimRec(AnimId::Security_Door);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
@@ -105,8 +85,6 @@ SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, s32 tlvInfo)
     {
         field_114_timer = gnFrameCount_507670 + 10;
     }
-
-    return this;
 }
 
 void SecurityDoor::VScreenChanged_461F80()

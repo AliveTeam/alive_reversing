@@ -14,11 +14,8 @@
 
 namespace AO {
 
-Bat* Bat::ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo)
+Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BA0E8);
-
     field_4_typeId = Types::eBat_6;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Bat);
@@ -28,7 +25,7 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo)
     {
         mFlags.Clear(BaseGameObject::eDrawable_Bit4);
         mFlags.Set(BaseGameObject::eDead);
-        return this;
+        return;
     }
 
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
@@ -75,24 +72,15 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo)
     field_F4_state = BatStates::eSetTimer_0;
     field_10C = nullptr;
     field_F6_attack_duration = pTlv->field_1E_attack_duration;
-
-    return this;
 }
 
-BaseGameObject* Bat::dtor_404870()
+Bat::~Bat()
 {
-    SetVTable(this, 0x4BA0E8);
     if (field_10C)
     {
         field_10C->field_C_refCount--;
     }
     gMap.TLV_Reset_446870(field_F0_tlvInfo, -1, 0, 0);
-    return dtor_417D10();
-}
-
-BaseGameObject* Bat::VDestructor(s32 flags)
-{
-    return Vdtor_404FF0(flags);
 }
 
 void Bat::VScreenChanged()
@@ -103,16 +91,6 @@ void Bat::VScreenChanged()
 void Bat::VScreenChanged_404FE0()
 {
     mFlags.Set(BaseGameObject::eDead);
-}
-
-Bat* Bat::Vdtor_404FF0(s32 flags)
-{
-    dtor_404870();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Bat::FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)

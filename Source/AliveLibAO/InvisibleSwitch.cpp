@@ -15,32 +15,14 @@ void InvisibleSwitch::VScreenChanged()
     VScreenChanged_433700();
 }
 
-InvisibleSwitch* InvisibleSwitch::Vdtor_433740(s32 flags)
+InvisibleSwitch::~InvisibleSwitch()
 {
-    dtor_433540();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* InvisibleSwitch::VDestructor(s32 flags)
-{
-    return Vdtor_433740(flags);
-}
-
-BaseGameObject* InvisibleSwitch::dtor_433540()
-{
-    SetVTable(this, 0x4BB438);
     gMap.TLV_Reset_446870(field_14_tlvInfo, -1, 0, 0);
-    return dtor_487DF0();
 }
 
-InvisibleSwitch* InvisibleSwitch::ctor_4334E0(Path_InvisibleSwitch* pTlv, s32 tlvInfo)
+InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BB438);
     field_14_tlvInfo = tlvInfo;
     field_28_state = States::eWaitForTrigger_0;
     field_10_switch_id = pTlv->field_18_switch_id;
@@ -50,7 +32,6 @@ InvisibleSwitch* InvisibleSwitch::ctor_4334E0(Path_InvisibleSwitch* pTlv, s32 tl
     field_20_top_left = pTlv->field_10_top_left;
     field_24_bottom_right = pTlv->field_14_bottom_right;
     field_2A_set_off_alarm = pTlv->field_1E_set_off_alarm;
-    return this;
 }
 
 void InvisibleSwitch::VScreenChanged_433700()

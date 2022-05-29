@@ -52,15 +52,9 @@ ALIVE_ASSERT_SIZEOF(DDCheatProperty, 12);
 class DDCheat final : public BaseGameObject
 {
 public:
-    EXPORT DDCheat* ctor_4095D0();
+    DDCheat();
 
     static EXPORT void ClearProperties_4095B0();
-
-    EXPORT BaseGameObject* dtor_409710();
-
-    
-
-    EXPORT DDCheat* Vdtor_40A380(s32 flags);
 
     void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
 

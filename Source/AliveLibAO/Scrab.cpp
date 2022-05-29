@@ -434,17 +434,14 @@ s16 Scrab::VTakeDamage_45BC10(BaseGameObject* pFrom)
             case Types::eBaseBomb_30:
             case Types::eExplosion_74:
             {
-                auto pGibs = ao_new<Gibs>();
-                if (pGibs)
-                {
-                    pGibs->ctor_407B20(
-                        GibType::Slog_2,
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        field_B4_velx,
-                        field_B8_vely,
-                        field_BC_sprite_scale);
-                }
+                ao_new<Gibs>(
+                    GibType::Slog_2,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    field_B4_velx,
+                    field_B8_vely,
+                    field_BC_sprite_scale);
+
                 mFlags.Set(BaseGameObject::eDead);
                 return 1;
             }

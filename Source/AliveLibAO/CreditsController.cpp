@@ -16,39 +16,18 @@ void CreditsController::VUpdate()
     VUpdate_40D020();
 }
 
-BaseGameObject* CreditsController::VDestructor(s32 flags)
+CreditsController::CreditsController(Path_CreditsController* /*pTlv*/, s32 /*tlvInfo*/)
+    : BaseGameObject(1)
 {
-    return Vdtor_40D090(flags);
-}
-
-CreditsController* CreditsController::ctor_40CFC0(Path_CreditsController* /*pTlv*/, s32 /*tlvInfo*/)
-{
-    BaseGameObject(1);
-    SetVTable(this, 0x4BA458);
-
     field_14_camera_number = gMap.field_4_current_camera;
     field_10_next_cam_frame = gnFrameCount_507670 + kShowCreditScreenForTicks;
 
     gCreditsControllerExists_507684 = true;
-
-    return this;
 }
 
-BaseGameObject* CreditsController::dtor_40D000()
+CreditsController::~CreditsController()
 {
-    SetVTable(this, 0x4BA458);
     gCreditsControllerExists_507684 = false;
-    return dtor_487DF0();
-}
-
-CreditsController* CreditsController::Vdtor_40D090(s32 flags)
-{
-    dtor_40D000();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void CreditsController::VUpdate_40D020()

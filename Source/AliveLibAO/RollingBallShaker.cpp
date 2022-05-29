@@ -32,26 +32,20 @@ const static PSX_Pos16 sRollingBallShakerScreenOffsets_4BB740[18] = {
     {0, -1},
     {0, 0}};
 
-RollingBallShaker* RollingBallShaker::ctor_4361A0()
+RollingBallShaker::RollingBallShaker()
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-
     mFlags.Set(Options::eDrawable_Bit4);
-
-    SetVTable(this, 0x4BB788);
 
     field_4_typeId = Types::eRollingBallStopperShaker_58;
     field_30_shake_table_idx = 0;
     field_32_bKillMe = 0; // Set externally
     gObjList_drawables_504618->Push_Back(this);
-    return this;
 }
 
-BaseGameObject* RollingBallShaker::dtor_436200()
+RollingBallShaker::~RollingBallShaker()
 {
-    SetVTable(this, 0x4BB788);
     gObjList_drawables_504618->Remove_Item(this);
-    return dtor_487DF0();
 }
 
 void RollingBallShaker::VUpdate_436260()
@@ -95,11 +89,6 @@ void RollingBallShaker::VRender_436280(PrimHeader** ppOt)
     pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, gPsxDisplay_504C78.field_2_height);
 }
 
-BaseGameObject* RollingBallShaker::VDestructor(s32 flags)
-{
-    return Vdtor_436350(flags);
-}
-
 void RollingBallShaker::VUpdate()
 {
     return VUpdate_436260();
@@ -108,16 +97,6 @@ void RollingBallShaker::VUpdate()
 void RollingBallShaker::VRender(PrimHeader** ppOt)
 {
     VRender_436280(ppOt);
-}
-
-RollingBallShaker* RollingBallShaker::Vdtor_436350(s32 flags)
-{
-    dtor_436200();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

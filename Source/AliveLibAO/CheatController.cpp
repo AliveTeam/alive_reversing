@@ -97,42 +97,22 @@ CheatEntry stru_4C50F8[4] = {
     {1, ALIVE_COUNTOF(sCheatKeyArray_FMV_4C50D8), sCheatKeyArray_FMV_4C50D8, 0, &CheatController_Cheat_FMV_40FBB0},
     {1, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect_4C50E8), sCheatKeyArray_LevelSelect_4C50E8, 0, &CheatController_Cheat_LevelSelect_40FBD0}};
 
-CheatController* CheatController::ctor_40FBF0()
+CheatController::CheatController()
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    SetVTable(this, 0x4BA8A8);
     field_4_typeId = Types::eNone_0;
     field_10 = 0;
-    return this;
 }
-
-BaseGameObject* CheatController::VDestructor(s32 flags)
-{
-    return Vdtor_40FCD0(flags);
-}
-
 
 void CheatController::VScreenChanged()
 {
     // Empty
 }
 
-BaseGameObject* CheatController::dtor_40FC20()
+CheatController::~CheatController()
 {
-    SetVTable(this, 0x4BA8A8);
     pCheatController_4FF958 = nullptr;
-    return dtor_487DF0();
-}
-
-CheatController* CheatController::Vdtor_40FCD0(s32 flags)
-{
-    dtor_40FC20();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void CheatController::VUpdate()

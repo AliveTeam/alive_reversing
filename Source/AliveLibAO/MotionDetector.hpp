@@ -46,19 +46,14 @@ ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xE4);
 class MotionDetector final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MotionDetector* ctor_437A50(Path_MotionDetector* pTlv, s32 tlvInfo);
+    MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo);
+    ~MotionDetector();
 
     EXPORT void SetDontComeBack_437E00(s16 bDontComeBack);
-
-    EXPORT BaseGameObject* dtor_437D70();
 
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_438520();
-
-    
-
-    EXPORT MotionDetector* Vdtor_438530(s32 flags);
 
     virtual void VUpdate() override;
 

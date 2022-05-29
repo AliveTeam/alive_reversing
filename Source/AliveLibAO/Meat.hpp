@@ -23,17 +23,12 @@ ALIVE_ASSERT_SIZEOF(Path_MeatSack, 0x24);
 class MeatSack final : public BaseAliveGameObject
 {
 public:
-    EXPORT MeatSack* ctor_4390F0(Path_MeatSack* pTlv, s32 tlvInfo);
-
+    MeatSack(Path_MeatSack* pTlv, s32 tlvInfo);
+    ~MeatSack();
     
-
-    EXPORT MeatSack* Vdtor_439550(s32 flags);
-
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_439540();
-
-    EXPORT BaseGameObject* dtor_439250();
 
     virtual void VUpdate() override;
 
@@ -53,13 +48,8 @@ ALIVE_ASSERT_SIZEOF(MeatSack, 0x120);
 class Meat final : public BaseThrowable
 {
 public:
-    EXPORT Meat* ctor_438550(FP xpos, FP ypos, s16 count);
-
-    EXPORT BaseGameObject* dtor_438660();
-
-    
-
-    EXPORT Meat* Vdtor_4390D0(s32 flags);
+    Meat(FP xpos, FP ypos, s16 count);
+    ~Meat();
 
     virtual void VScreenChanged() override;
 

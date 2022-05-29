@@ -477,7 +477,7 @@ EXPORT void CC Game_Loop_437630()
             if (pObj->mFlags.Get(BaseGameObject::eDead) && pObj->field_C_refCount == 0)
             {
                 i = gBaseGameObjects->RemoveAt(i);
-                pObj->VDestructor(1);
+                delete pObj;
             }
         }
 
@@ -510,18 +510,14 @@ EXPORT void CC Game_Loop_437630()
         if (pObjToKill->field_C_refCount == 0)
         {
             i = gBaseGameObjects->RemoveAt(i);
-            pObjToKill->VDestructor(1);
+            delete pObjToKill;
         }
     }
 }
 
 EXPORT void CC DDCheat_Allocate_409560()
 {
-    auto pDDCheat = ao_new<DDCheat>();
-    if (pDDCheat)
-    {
-        pDDCheat->ctor_4095D0();
-    }
+    ao_new<DDCheat>();
 }
 
 EXPORT void Game_Run_4373D0()
@@ -570,7 +566,6 @@ EXPORT void Game_Run_4373D0()
     pEventSystem_4FF954->ctor_40F990();
 
     pCheatController_4FF958 = ao_new<CheatController>();
-    pCheatController_4FF958->ctor_40FBF0();
 
     Game_Init_LoadingIcon_445E30();
     Game_Loop_437630();

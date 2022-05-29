@@ -10,13 +10,8 @@ namespace AO {
 class Rock final : public BaseThrowable
 {
 public:
-    EXPORT Rock* ctor_456960(FP xpos, FP ypos, s16 count);
-
-    EXPORT BaseGameObject* dtor_456A90();
-
-    
-
-    EXPORT Rock* Vdtor_4573D0(s32 flags);
+    Rock(FP xpos, FP ypos, s16 count);
+    ~Rock();
 
     virtual void VUpdate() override;
 

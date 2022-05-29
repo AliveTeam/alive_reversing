@@ -958,17 +958,14 @@ s16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
         case Types::eExplosion_74:
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
-                auto pGibs = ao_new<Gibs>();
-                if (pGibs)
-                {
-                    pGibs->ctor_407B20(
-                        GibType::Slig_1,
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        field_B4_velx,
-                        field_B8_vely,
-                        field_BC_sprite_scale);
-                }
+                ao_new<Gibs>(
+                    GibType::Slig_1,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    field_B4_velx,
+                    field_B8_vely,
+                    field_BC_sprite_scale);
+
                 field_100_health = FP_FromInteger(0);
                 SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 90);
                 field_8_update_delay = 40;
@@ -3729,17 +3726,14 @@ void Slig::Motion_38_Possess_46B050()
                 xOff = -xOff;
             }
 
-            auto pGibs = ao_new<Gibs>();
-            if (pGibs)
-            {
-                pGibs->ctor_407B20(
-                    GibType::Slig_1,
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    xOff,
-                    FP_FromInteger(0),
-                    field_BC_sprite_scale);
-            }
+            ao_new<Gibs>(
+                GibType::Slig_1,
+                field_A8_xpos,
+                field_AC_ypos,
+                xOff,
+                FP_FromInteger(0),
+                field_BC_sprite_scale);
+
             New_Smoke_Particles_419A80(
                 field_A8_xpos,
                 field_AC_ypos - (FP_FromInteger(30) * field_BC_sprite_scale),
@@ -5734,17 +5728,13 @@ s16 Slig::Brain_ZShooting_46F290()
 
 void Slig::BlowToGibs_4685A0()
 {
-    auto pGibs = ao_new<Gibs>();
-    if (pGibs)
-    {
-        pGibs->ctor_407B20(
-            GibType::Slig_1,
-            field_A8_xpos,
-            field_AC_ypos,
-            field_B4_velx,
-            field_B8_vely,
-            field_BC_sprite_scale);
-    }
+    ao_new<Gibs>(
+        GibType::Slig_1,
+        field_A8_xpos,
+        field_AC_ypos,
+        field_B4_velx,
+        field_B8_vely,
+        field_BC_sprite_scale);
 
     auto pBlood = ao_new<Blood>();
     if (pBlood)

@@ -10,11 +10,8 @@
 
 namespace AO {
 
-LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, s32 tlvInfo)
+LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BA1E0);
-
     field_4_typeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
 
@@ -44,31 +41,12 @@ LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, s32 tlvInfo)
     field_BC_sprite_scale = FP_FromDouble(0.4);
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
-    return this;
 }
 
-BaseGameObject* LightEffect::dtor_406770()
+LightEffect::~LightEffect()
 {
-    SetVTable(this, 0x4BA1E0);
     gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
-    return dtor_417D10();
 }
-
-BaseGameObject* LightEffect::VDestructor(s32 flags)
-{
-    return Vdtor_406800(flags);
-}
-
-LightEffect* LightEffect::Vdtor_406800(s32 flags)
-{
-    dtor_406770();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
 
 void LightEffect::VRender_4067F0(PrimHeader** /*ppOt*/)
 {

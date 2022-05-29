@@ -40,13 +40,12 @@ const TDDCheatFn CheatsFn_4C3150[] = {
     &DDCheat::Teleport_409CE0,
     &DDCheat::Misc_409E90};
 
-DDCheat* DDCheat::ctor_4095D0()
+DDCheat::DDCheat()
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
     mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    SetVTable(this, 0x4BA340);
     field_4_typeId = Types::eDDCheat_12;
     field_10_bInvalidateRect = 0;
     field_14_SelectedCheat = 0;
@@ -60,33 +59,11 @@ DDCheat* DDCheat::ctor_4095D0()
     AddPropertyEntry("Tweak X ", DDCheatValueType::eInt_6, &gTweak_X_5076D8);
     AddPropertyEntry("Tweak Y ", DDCheatValueType::eInt_6, &gTweak_Y_5076DC);
     AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &sRescuedMudokons_5076C0);
-    return this;
 }
 
 void DDCheat::ClearProperties_4095B0()
 {
     DDCheatProperties_4FF7D8 = {};
-}
-
-BaseGameObject* DDCheat::dtor_409710()
-{
-    SetVTable(this, 0x4BA340);
-    return dtor_487DF0();
-}
-
-BaseGameObject* DDCheat::VDestructor(s32 flags)
-{
-    return Vdtor_40A380(flags);
-}
-
-DDCheat* DDCheat::Vdtor_40A380(s32 flags)
-{
-    dtor_409710();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void DDCheat::AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr)

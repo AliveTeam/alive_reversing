@@ -16,19 +16,13 @@ enum class BellSize : s16
 class Bells final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Bells* ctor_40A650(BellSize bellSize, FP xpos, FP ypos, FP scale);
-
-    EXPORT BaseGameObject* dtor_40A760();
+    Bells(BellSize bellSize, FP xpos, FP ypos, FP scale);
 
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_40A770();
 
     void PlaySounds();
-
-    
-
-    EXPORT Bells* Vdtor_40AB00(s32 flags);
 
     EXPORT Bool32 CanSmash_40AA70();
 

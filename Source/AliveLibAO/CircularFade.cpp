@@ -8,11 +8,8 @@
 
 namespace AO {
 
-CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
+CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
 {
-    
-    SetVTable(this, 0x4BCE38);
-
     if (direction)
     {
         field_1A8_fade_colour = 0;
@@ -50,17 +47,6 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 directio
 
     Init_SetTPage_495FB0(&field_188_tPage[0], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
     Init_SetTPage_495FB0(&field_188_tPage[1], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
-    return this;
-}
-
-BaseGameObject* CircularFade::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void CircularFade::VRender(PrimHeader** ppOt)
@@ -245,12 +231,7 @@ s32 CircularFade::VDone_47A4C0()
 
 CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
 {
-    auto pCircularFade = ao_new<CircularFade>();
-    if (pCircularFade)
-    {
-        pCircularFade->ctor_479E20(xpos, ypos, scale, direction, destroyOnDone);
-    }
-    return pCircularFade;
+    return ao_new<CircularFade>(xpos, ypos, scale, direction, destroyOnDone);
 }
 
 } // namespace AO

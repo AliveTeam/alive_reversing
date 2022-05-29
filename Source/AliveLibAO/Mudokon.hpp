@@ -151,15 +151,10 @@ enum class GameSpeakEvents : s16;
 class Mudokon final : public BaseAliveGameObject
 {
 public:
-    EXPORT Mudokon* ctor_43EED0(Path_TLV* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_43F6A0();
+    Mudokon(Path_TLV* pTlv, s32 tlvInfo);
+    ~Mudokon();
 
     void KillLiftPoint_194();
-
-    
-
-    EXPORT Mudokon* Vdtor_440230(s32 flags);
 
     virtual void VUpdate() override;
 

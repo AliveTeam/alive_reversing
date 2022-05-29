@@ -36,11 +36,10 @@ const FallingItem_Data sFallingItemData_4BAB20[16] = {
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // forest chase
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}};// desert escape
 
-FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
+FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
     mFlags.Set(Options::eCanExplode_Bit7);
-    SetVTable(this, 0x4BABE0);
 
     field_4_typeId = Types::eRockSpawner_32;
 
@@ -106,29 +105,15 @@ FallingItem* FallingItem::ctor_419F30(Path_FallingItem* pTlv, s32 tlvInfo)
     {
         field_D0_pShadow->ctor_461FB0();
     }
-
-    return this;
 }
 
-BaseGameObject* FallingItem::dtor_41A660()
+FallingItem::~FallingItem()
 {
-    SetVTable(this, 0x4BABE0);
     if (pPrimaryFallingItem_4FFA54 == this)
     {
         pPrimaryFallingItem_4FFA54 = nullptr;
     }
     gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
-    return dtor_401000();
-}
-
-FallingItem* FallingItem::Vdtor_41A7F0(s32 flags)
-{
-    dtor_41A660();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void FallingItem::DamageHitItems_41A6D0()
@@ -255,41 +240,29 @@ void FallingItem::VUpdate_41A120()
 
                 if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {
-                    ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
-                    if (pParticleBurst)
-                    {
-                        pParticleBurst->ctor_40D0F0(
-                            field_A8_xpos,
-                            field_AC_ypos,
-                            25,
-                            field_BC_sprite_scale,
-                            BurstType::eMeat_4);
-                    }
-                }
-                else
-                {
-                    ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
-                    if (pParticleBurst)
-                    {
-                        pParticleBurst->ctor_40D0F0(
-                            field_A8_xpos,
-                            field_AC_ypos,
-                            25,
-                            field_BC_sprite_scale,
-                            BurstType::eFallingRocks_0);
-                    }
-                }
-
-                ParticleBurst* pParticleBurst = ao_new<ParticleBurst>();
-                if (pParticleBurst)
-                {
-                    pParticleBurst->ctor_40D0F0(
+                    ao_new<ParticleBurst>(
                         field_A8_xpos,
                         field_AC_ypos,
                         25,
                         field_BC_sprite_scale,
-                        BurstType::eSticks_1);
+                        BurstType::eMeat_4);
                 }
+                else
+                {
+                    ao_new<ParticleBurst>(
+                        field_A8_xpos,
+                        field_AC_ypos,
+                        25,
+                        field_BC_sprite_scale,
+                        BurstType::eFallingRocks_0);
+                }
+
+                ao_new<ParticleBurst>(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    25,
+                    field_BC_sprite_scale,
+                    BurstType::eSticks_1);
             }
             else
             {
@@ -388,11 +361,6 @@ void FallingItem::VUpdate()
 void FallingItem::VScreenChanged()
 {
     VScreenChanged_41A7C0();
-}
-
-BaseGameObject* FallingItem::VDestructor(s32 flags)
-{
-    return Vdtor_41A7F0(flags);
 }
 
 } // namespace AO

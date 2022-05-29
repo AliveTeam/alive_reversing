@@ -14,9 +14,9 @@ public:
     
     virtual void VUpdate() override;
 
-    EXPORT CreditsController* ctor_40CFC0(Path_CreditsController* pTlv, s32 tlvInfo);
-    EXPORT BaseGameObject* dtor_40D000();
-    EXPORT CreditsController* Vdtor_40D090(s32 flags);
+    CreditsController(Path_CreditsController* pTlv, s32 tlvInfo);
+    ~CreditsController();
+
     EXPORT void VUpdate_40D020();
 
     s32 field_10_next_cam_frame;

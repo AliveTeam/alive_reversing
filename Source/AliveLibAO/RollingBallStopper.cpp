@@ -10,11 +10,9 @@
 
 namespace AO {
 
-EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopper* pTlv, s32 tlvInfo)
+RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-
-    SetVTable(this, 0x4BBAC8);
     field_4_typeId = Types::eRollingBallStopper_60;
     
     const AnimRecord& rec = AO::AnimRec(AnimId::Stone_Ball_Stopper);
@@ -91,24 +89,10 @@ EXPORT RollingBallStopper* RollingBallStopper::ctor_43BCE0(Path_RollingBallStopp
     {
         field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(x1, y1 - 35, x1, y1, eLineTypes::eBackgroundWallLeft_5);
     }
-
-    return this;
 }
 
-BaseGameObject* RollingBallStopper::Vdtor_43C160(s32 flags)
+RollingBallStopper::~RollingBallStopper()
 {
-    dtor_43C0A0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* RollingBallStopper::dtor_43C0A0()
-{
-    SetVTable(this, 0x4BBAC8);
-
     if (field_112_state != States::eWaitForTrigger_0)
     {
         gMap.TLV_Reset_446870(field_10C_tlvInfo, 1, 0, 0);
@@ -122,8 +106,6 @@ BaseGameObject* RollingBallStopper::dtor_43C0A0()
     {
         Rect_Clear_40C920(&field_118_pLine->field_0_rect);
     }
-
-    return dtor_401000();
 }
 
 void RollingBallStopper::VScreenChanged_43C130()
@@ -164,11 +146,6 @@ void RollingBallStopper::VUpdate_43BF70()
             }
             break;
     }
-}
-
-BaseGameObject* RollingBallStopper::VDestructor(s32 flags)
-{
-    return Vdtor_43C160(flags);
 }
 
 void RollingBallStopper::VScreenChanged()

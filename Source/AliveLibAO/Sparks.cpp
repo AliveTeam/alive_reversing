@@ -8,10 +8,8 @@
 
 namespace AO {
 
-Sparks* Sparks::ctor_40A3A0(FP xpos, FP ypos, FP scale)
+Sparks::Sparks(FP xpos, FP ypos, FP scale)
 {
-    
-    SetVTable(this, 0x4BA358);
     field_4_typeId = Types::eSpark_15;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
@@ -35,7 +33,6 @@ Sparks* Sparks::ctor_40A3A0(FP xpos, FP ypos, FP scale)
 
     field_B4_velx = FP_FromInteger(Math_RandomRange_450F20(-8, 8));
     field_B8_vely = FP_FromInteger(Math_RandomRange_450F20(-6, -3));
-    return this;
 }
 
 void Sparks::VUpdate()
@@ -84,16 +81,6 @@ void Sparks::VScreenChanged()
 void Sparks::VScreenChanged_40A640()
 {
     mFlags.Set(BaseGameObject::eDead);
-}
-
-BaseGameObject* Sparks::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO
