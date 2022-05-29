@@ -110,11 +110,9 @@ static u8 Slog_NextRandom()
     return sRandomBytes_4BBE30[sSlogRndSeed_9F11C4++];
 }
 
-Slog* Slog::ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo)
+Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BCBC8);
-
     field_148 = -1;
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
@@ -157,14 +155,11 @@ Slog* Slog::ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo)
     {
         field_FC_current_motion = eSlogMotions::Motion_0_Idle_4742E0;
     }
-    return this;
 }
 
-Slog* Slog::ctor_473050(FP xpos, FP ypos, FP scale)
+Slog::Slog(FP xpos, FP ypos, FP scale)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BCBC8);
-
     field_148 = -1;
 
     field_A8_xpos = xpos;
@@ -188,29 +183,10 @@ Slog* Slog::ctor_473050(FP xpos, FP ypos, FP scale)
     field_114_brain_idx = 2;
     field_15A_total_anger = 10;
     field_15C_chase_anger = 20;
-
-    return this;
 }
 
-BaseGameObject* Slog::VDestructor(s32 flags)
+Slog::~Slog()
 {
-    return Vdtor_473CB0(flags);
-}
-
-Slog* Slog::Vdtor_473CB0(s32 flags)
-{
-    dtor_473370();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* Slog::dtor_473370()
-{
-    SetVTable(this, 0x4BCBC8);
-
     if (field_10C_pTarget)
     {
         field_10C_pTarget->field_C_refCount--;
@@ -261,8 +237,6 @@ BaseGameObject* Slog::dtor_473370()
     }
 
     MusicController::ClearObject(this);
-
-    return dtor_401000();
 }
 
 s16 Slog::VTakeDamage(BaseGameObject* pFrom)
@@ -1616,10 +1590,9 @@ void Slog::Motion_16_Sleeping_4752E0()
         }
     }
 
-    auto pSnoozeParticle = ao_new<SnoozeParticle>();
-    if (pSnoozeParticle && bSpawnParticle)
+    if (bSpawnParticle)
     {
-        pSnoozeParticle->ctor_464320(
+        ao_new<SnoozeParticle>(
             field_A8_xpos
                 + ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-18) : FP_FromInteger(18)),
             field_AC_ypos - FP_FromInteger(13),

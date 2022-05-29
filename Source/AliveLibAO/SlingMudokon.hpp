@@ -43,13 +43,7 @@ enum SlingMudBrainStates : u16
 class SlingMudokon final : public BaseAliveGameObject
 {
 public:
-    EXPORT SlingMudokon* ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_46FB30();
-
-    
-
-    EXPORT BaseGameObject* Vdtor_470F30(s32 flags);
+    SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo);
 
     virtual void VScreenChanged() override;
 

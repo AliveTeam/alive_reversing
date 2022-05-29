@@ -79,11 +79,8 @@ void BirdPortal::VGiveShrukull(s16 bPlaySound)
     VGiveShrukull_4535A0(bPlaySound);
 }
 
-BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP scale, PortalType /*portalType*/)
+BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalType /*portalType*/)
 {
-    
-    SetVTable(this, 0x4BBFB0);
-
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorGrow);
@@ -109,18 +106,6 @@ BirdPortalTerminator* BirdPortalTerminator::ctor_451F70(FP xpos, FP ypos, FP sca
     field_C0_r = 255;
     field_C2_g = 128;
     field_C4_b = 64;
-
-    return this;
-}
-
-BaseGameObject* BirdPortalTerminator::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void BirdPortalTerminator::Fadeout()
@@ -137,15 +122,8 @@ void BirdPortalTerminator::Fadeout()
 
 // ==========================================================================
 
-BaseGameObject* BirdPortal::VDestructor(s32 flags)
+BirdPortal::~BirdPortal()
 {
-    return Vdtor_453990(flags);
-}
-
-BaseGameObject* BirdPortal::dtor_452230()
-{
-    SetVTable(this, 0x4BBFE8);
-
     if (field_3C_pTerminator1)
     {
         field_3C_pTerminator1->mFlags.Set(Options::eDead);
@@ -226,14 +204,11 @@ BaseGameObject* BirdPortal::dtor_452230()
             }
         }
     }
-    return dtor_487DF0();
 }
 
-BirdPortal* BirdPortal::ctor_4520A0(Path_BirdPortal* pTlv, s32 tlvInfo)
+BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BBFE8);
-
     field_4_typeId = Types::eBirdPortal_65;
 
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortalTerminatorAOResID, 1, 0);
@@ -288,17 +263,6 @@ BirdPortal* BirdPortal::ctor_4520A0(Path_BirdPortal* pTlv, s32 tlvInfo)
     field_18_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_68_sfx_ret = 0;
     field_1C_ypos = field_28_ypos - (FP_FromInteger(55) * field_34_scale);
-    return this;
-}
-
-BirdPortal* BirdPortal::Vdtor_453990(s32 flags)
-{
-    dtor_452230();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void BirdPortal::VUpdate()
@@ -365,25 +329,17 @@ void BirdPortal::CreateDovesAndShrykullNumber()
 
 void BirdPortal::CreateTerminators()
 {
-    field_3C_pTerminator1 = ao_new<BirdPortalTerminator>();
-    if (field_3C_pTerminator1)
-    {
-        field_3C_pTerminator1->ctor_451F70(
-            field_18_xpos,
-            field_1C_ypos,
-            field_34_scale,
-            field_10_portal_type);
-    }
+    field_3C_pTerminator1 = ao_new<BirdPortalTerminator>(
+        field_18_xpos,
+        field_1C_ypos,
+        field_34_scale,
+        field_10_portal_type);
 
-    field_40_pTerminator2 = ao_new<BirdPortalTerminator>();
-    if (field_40_pTerminator2)
-    {
-        field_40_pTerminator2->ctor_451F70(
-            field_18_xpos,
-            field_1C_ypos,
-            field_34_scale,
-            field_10_portal_type);
-    }
+    field_40_pTerminator2 = ao_new<BirdPortalTerminator>(
+        field_18_xpos,
+        field_1C_ypos,
+        field_34_scale,
+        field_10_portal_type);
 }
 
 void BirdPortal::VUpdate_4523D0()
@@ -886,14 +842,10 @@ void BirdPortal::VGiveShrukull_4535A0(s16 bPlaySound)
         field_30_timer = gnFrameCount_507670 + 12;
         field_58_received_doves = 0;
 
-        field_60_pOrbWhirlWind = ao_new<OrbWhirlWind>();
-        if (field_60_pOrbWhirlWind)
-        {
-            field_60_pOrbWhirlWind->ctor_48B870(
-                sActiveHero_507678->field_A8_xpos,
-                sActiveHero_507678->field_AC_ypos - (sActiveHero_507678->field_BC_sprite_scale * FP_FromInteger(38)),
-                sActiveHero_507678->field_BC_sprite_scale);
-        }
+        field_60_pOrbWhirlWind = ao_new<OrbWhirlWind>(
+            sActiveHero_507678->field_A8_xpos,
+            sActiveHero_507678->field_AC_ypos - (sActiveHero_507678->field_BC_sprite_scale * FP_FromInteger(38)),
+            sActiveHero_507678->field_BC_sprite_scale);
 
         if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_150_Chant_42FD50)
         {

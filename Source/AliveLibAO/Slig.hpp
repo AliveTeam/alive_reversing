@@ -194,13 +194,8 @@ using Path_SligPersist = Path_SligBound;
 class Slig final : public BaseAliveGameObject
 {
 public:
-    EXPORT Slig* ctor_464D40(Path_Slig* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_465320();
-
-    
-
-    EXPORT Slig* Vdtor_465DC0(s32 flags);
+    Slig(Path_Slig* pTlv, s32 tlvInfo);
+    ~Slig();
 
     virtual void VScreenChanged() override;
 

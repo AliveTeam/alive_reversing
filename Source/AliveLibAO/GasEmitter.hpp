@@ -13,15 +13,13 @@ struct Path_GasEmitter final : public Path_TLV
 class GasEmitter final : public BaseGameObject
 {
 public:
-    EXPORT GasEmitter* ctor_41D760(Path_GasEmitter* pTlv, s32 tlvInfo);
+    GasEmitter(Path_GasEmitter* pTlv, s32 tlvInfo);
+    ~GasEmitter();
 
     virtual void VStopAudio() override;
 
     EXPORT void VStopAudio_41D8D0();
     
-
-    EXPORT GasEmitter* Vdtor_41D910(s32 flags);
-
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_41D900();
@@ -29,8 +27,6 @@ public:
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_41D7D0();
-
-    EXPORT BaseGameObject* dtor_41D840();
 
     s32 field_10_tlvInfo;
     s32 field_14_emit_power;

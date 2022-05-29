@@ -29,32 +29,13 @@ void ParamiteWeb::VScreenChanged()
     VScreenChanged_48AEA0();
 }
 
-BaseGameObject* ParamiteWeb::dtor_48AAB0()
+ParamiteWeb::~ParamiteWeb()
 {
-    SetVTable(this, 0x4BD6F8);
     ao_delete_free_447540(field_EC_pRes);
-    return dtor_417D10();
 }
 
-ParamiteWeb* ParamiteWeb::Vdtor_48AEC0(s32 flags)
+ParamiteWeb::ParamiteWeb(FP xpos, s16 bottom, s16 top, FP scale)
 {
-    dtor_48AAB0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* ParamiteWeb::VDestructor(s32 flags)
-{
-    return Vdtor_48AEC0(flags);
-}
-
-ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, s16 bottom, s16 top, FP scale)
-{
-    
-    SetVTable(this, 0x4BD6F8);
     field_4_typeId = Types::eRope_73;
 
     field_C8_yOffset = 0;
@@ -106,7 +87,6 @@ ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, s16 bottom, s16 top, FP scale)
         {
             AnimationUnknown* pSegment = &field_EC_pRes[i];
             pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-            SetVTable(pSegment, 0x4BA470);
             pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
             pSegment->field_68_anim_ptr = &field_10_anim;
             pSegment->field_C_layer = field_10_anim.field_C_layer;
@@ -117,8 +97,6 @@ ParamiteWeb* ParamiteWeb::ctor_48A920(FP xpos, s16 bottom, s16 top, FP scale)
     }
 
     field_F0_bEnabled = 0;
-
-    return this;
 }
 
 void ParamiteWeb::VUpdate_48AE70()

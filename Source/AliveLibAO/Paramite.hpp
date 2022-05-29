@@ -81,13 +81,8 @@ ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
 class Paramite final : public BaseAliveGameObject
 {
 public:
-    EXPORT Paramite* ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_44AB00();
-
-    
-
-    EXPORT Paramite* Vdtor_44B300(s32 flags);
+    Paramite(Path_Paramite* pTlv, s32 tlvInfo);
+    ~Paramite();
 
     EXPORT u8** ResBlockForMotion_44AC10(s16 motion);
 

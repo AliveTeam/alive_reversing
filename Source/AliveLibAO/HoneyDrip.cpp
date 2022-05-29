@@ -12,11 +12,8 @@ void HoneyDrip::VUpdate()
     VUpdate_431DC0();
 }
 
-HoneyDrip* HoneyDrip::ctor_431D10(FP xpos, FP ypos)
+HoneyDrip::HoneyDrip(FP xpos, FP ypos)
 {
-    
-    SetVTable(this, 0x4BB2C0);
-
     field_C4_b = 128;
     field_C2_g = 128;
     field_C0_r = 128;
@@ -30,8 +27,6 @@ HoneyDrip* HoneyDrip::ctor_431D10(FP xpos, FP ypos)
     field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
 
     field_E4_bSoundPlaying = FALSE;
-
-    return this;
 }
 
 void HoneyDrip::VUpdate_431DC0()
@@ -49,16 +44,6 @@ void HoneyDrip::VUpdate_431DC0()
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-}
-
-BaseGameObject* HoneyDrip::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

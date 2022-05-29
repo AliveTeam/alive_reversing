@@ -8,13 +8,7 @@ namespace AO {
 class BackgroundMusic final : public BaseGameObject
 {
 public:
-    EXPORT BackgroundMusic* ctor_476370(s16 musicId);
-
-    EXPORT BaseGameObject* dtor_4763A0();
-
-    
-
-    EXPORT BackgroundMusic* Vdtor_476A80(s32 flags);
+    BackgroundMusic(s16 musicId);
 
     virtual void VUpdate() override;
 

@@ -8,7 +8,7 @@ namespace AO {
 class Explosion final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Explosion* ctor_458B80(FP xpos, FP ypos, FP scale);
+    Explosion(FP xpos, FP ypos, FP scale);
 
     virtual void VUpdate() override;
 

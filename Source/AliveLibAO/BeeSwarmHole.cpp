@@ -10,11 +10,9 @@
 
 namespace AO {
 
-BeeSwarmHole* BeeSwarmHole::ctor_4782B0(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
+BeeSwarmHole::BeeSwarmHole(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BCD60);
-
     field_10_tlvInfo = tlvInfo;
     field_4_typeId = Types::eSligSpawner_91;
 
@@ -33,8 +31,6 @@ BeeSwarmHole* BeeSwarmHole::ctor_4782B0(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
     field_26_bees_amount = pTlv->field_20_bees_amount;
     field_28_chase_time = pTlv->field_22_chase_time;
     field_2A_speed = pTlv->field_24_speed;
-
-    return this;
 }
 
 void BeeSwarmHole::VUpdate()
@@ -131,16 +127,6 @@ void BeeSwarmHole::VUpdate_478320()
                 break;
         }
     }
-}
-
-BaseGameObject* BeeSwarmHole::VDestructor(s32 flags)
-{
-    dtor_487DF0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

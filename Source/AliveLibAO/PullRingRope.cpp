@@ -10,10 +10,8 @@
 
 namespace AO {
 
-PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo)
+PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BC058);
     field_4_typeId = Types::ePullRingRope_68;
 
     s32 lvl_x_off = 0;
@@ -91,7 +89,6 @@ PullRingRope* PullRingRope::ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo)
 
         field_F8_pRope->field_C_refCount++;
     }
-    return this;
 }
 
 Bool32 PullRingRope::vIsNotBeingPulled_454D60()
@@ -112,24 +109,8 @@ void PullRingRope::VScreenChanged()
     VScreenChanged_454D70();
 }
 
-PullRingRope* PullRingRope::Vdtor_454D80(s32 flags)
+PullRingRope::~PullRingRope()
 {
-    dtor_454910();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* PullRingRope::VDestructor(s32 flags)
-{
-    return Vdtor_454D80(flags);
-}
-
-BaseGameObject* PullRingRope::dtor_454910()
-{
-    SetVTable(this, 0x4BC058);
     gMap.TLV_Reset_446870(field_E8_tlv_info, -1, 0, 0);
 
     if (field_F4_pPuller)
@@ -142,8 +123,6 @@ BaseGameObject* PullRingRope::dtor_454910()
         field_F8_pRope->mFlags.Set(Options::eDead);
         field_F8_pRope->field_C_refCount--;
     }
-
-    return dtor_417D10();
 }
 
 s16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)

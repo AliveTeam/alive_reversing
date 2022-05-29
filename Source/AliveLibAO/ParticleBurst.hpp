@@ -19,13 +19,8 @@ enum class BurstType : s16
 class ParticleBurst final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ParticleBurst* ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, FP scale, BurstType type);
-
-    EXPORT BaseGameObject* dtor_40D5A0();
-
-    
-
-    EXPORT ParticleBurst* Vdtor_40DA40(s32 flags);
+    ParticleBurst(FP xpos, FP ypos, s16 particleCount, FP scale, BurstType type);
+    ~ParticleBurst();
 
     virtual void VUpdate() override;
 

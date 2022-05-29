@@ -46,11 +46,9 @@ const TSlingMudBrain gSlingMudBrainTable_4CFCE0[] = {
     &SlingMudokon::Brain_1_Spawn_470230,
     &SlingMudokon::Brain_2_AskForPassword_4707B0};
 
-SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo)
+SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BCB40);
-
     field_4_typeId = Types::SlingMud_90;
 
     field_120_last_event_idx = -1;
@@ -120,14 +118,10 @@ SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo)
     field_11E_flags.Clear(Flags_11E::eBit4_bAbeGettingCloser);
 
     field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
-
-    return this;
 }
 
-BaseGameObject* SlingMudokon::dtor_46FB30()
+SlingMudokon::~SlingMudokon()
 {
-    SetVTable(this, 0x4BCB40);
-
     if (field_11E_flags.Get(Flags_11E::eBit1_bDontSetDestroyed))
     {
         gMap.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 0);
@@ -145,23 +139,6 @@ BaseGameObject* SlingMudokon::dtor_46FB30()
             ResourceManager::FreeResource_455550(field_150_res);
         }
     }
-
-    return dtor_401000();
-}
-
-BaseGameObject* SlingMudokon::VDestructor(s32 flags)
-{
-    return Vdtor_470F30(flags);
-}
-
-BaseGameObject* SlingMudokon::Vdtor_470F30(s32 flags)
-{
-    dtor_46FB30();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void SlingMudokon::VScreenChanged()

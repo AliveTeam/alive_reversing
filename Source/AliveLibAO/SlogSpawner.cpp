@@ -21,12 +21,10 @@ void SlogSpawner::VScreenChanged()
     VScreenChanged_475F90();
 }
 
-SlogSpawner* SlogSpawner::ctor_475DD0(Path_SlogSpawner* pTlv, s32 tlvInfo)
+SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-
     field_10_tlvInfo = tlvInfo;
-    SetVTable(this, 0x4BCD00);
     field_20_spawn_timer = 0;
 
     field_24_scale = pTlv->field_18_scale;
@@ -40,17 +38,6 @@ SlogSpawner* SlogSpawner::ctor_475DD0(Path_SlogSpawner* pTlv, s32 tlvInfo)
 
     field_18_xPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_1C_yPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
-    return this;
-}
-
-BaseGameObject* SlogSpawner::VDestructor(s32 flags)
-{
-    dtor_487DF0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void SlogSpawner::VUpdate()
@@ -73,14 +60,12 @@ void SlogSpawner::VUpdate_475E30()
                                  + gnFrameCount_507670
                                  + field_2C_slog_spawn_interval;
 
-            auto pSlog = ao_new<Slog>();
-            if (pSlog)
-            {
-                pSlog->ctor_473050(
+            auto pSlog = ao_new<Slog>(
                     field_18_xPos,
                     field_1C_yPos,
-                    field_24_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
-
+                    field_24_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));;
+            if (pSlog)
+            {
                 pSlog->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_2A_start_direction == StartDirection::eLeft_1);
             }
 

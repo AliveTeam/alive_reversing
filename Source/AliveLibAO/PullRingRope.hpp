@@ -41,13 +41,8 @@ class Rope;
 class PullRingRope final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT PullRingRope* ctor_4546B0(Path_PullRingRope* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_454910();
-
-    
-
-    EXPORT PullRingRope* Vdtor_454D80(s32 flags);
+    PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo);
+    ~PullRingRope();
 
     virtual void VScreenChanged() override;
 

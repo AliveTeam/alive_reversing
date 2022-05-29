@@ -24,13 +24,8 @@ ALIVE_ASSERT_SIZEOF(Path_ChimeLock, 0x24);
 class ChimeLock final : public BaseAliveGameObject
 {
 public:
-    EXPORT ChimeLock* ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_40AE60();
-
-    
-
-    EXPORT ChimeLock* Vdtor_40BD40(s32 flags);
+    ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo);
+    ~ChimeLock();
 
     virtual void VScreenChanged() override;
 

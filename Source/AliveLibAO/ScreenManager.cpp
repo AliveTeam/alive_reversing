@@ -100,18 +100,15 @@ void ScreenManager::InvalidateRect_406CC0(s32 x, s32 y, s32 width, s32 height)
     InvalidateRect_406E40(x, y, width, height, field_2E_idx);
 }
 
-ScreenManager* ScreenManager::ctor_406830(u8** ppBits, FP_Point* pCameraOffset)
+ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BA230);
-
     field_10_pCamPos = pCameraOffset;
 
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
     mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     Init_4068A0(ppBits);
-    return this;
 }
 
 void ScreenManager::Init_4068A0(u8** ppBits)
@@ -172,11 +169,6 @@ void ScreenManager::Init_4068A0(u8** ppBits)
     field_32_x_idx = 0;
 }
 
-
-BaseGameObject* ScreenManager::VDestructor(s32 flags)
-{
-    return vdtor_407290(flags);
-}
 void ScreenManager::UnsetDirtyBits_FG1_406EF0()
 {
     memset(&field_58_20x16_dirty_bits[4], 0, sizeof(this->field_58_20x16_dirty_bits[4]));
@@ -314,16 +306,6 @@ void ScreenManager::sub_406FF0()
         &field_58_20x16_dirty_bits[field_2E_idx],
         0,
         sizeof(field_58_20x16_dirty_bits[field_2E_idx]));
-}
-
-ScreenManager* ScreenManager::vdtor_407290(s32 flags)
-{
-    dtor_487DF0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

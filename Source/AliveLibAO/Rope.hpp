@@ -10,13 +10,8 @@ class AnimationUnknown;
 class Rope final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Rope* ctor_458520(u16 left, s16 top, u16 bottom, FP scale);
-
-    EXPORT BaseGameObject* dtor_458720();
-
-    
-
-    EXPORT Rope* Vdtor_458B60(s32 flags);
+    Rope(u16 left, s16 top, u16 bottom, FP scale);
+    ~Rope();
 
     virtual void VUpdate() override;
 

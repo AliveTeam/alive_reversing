@@ -20,13 +20,8 @@ ALIVE_ASSERT_SIZEOF(Path_TimerTrigger, 0x24);
 class TimerTrigger final : public BaseGameObject
 {
 public:
-    EXPORT TimerTrigger* ctor_479B40(Path_TimerTrigger* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_479BE0();
-
-    
-
-    EXPORT TimerTrigger* Vdtor_479E00(s32 flags);
+    TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo);
+    ~TimerTrigger();
 
     virtual void VScreenChanged() override;
 

@@ -9,7 +9,8 @@ namespace AO {
 class DeathGas final : public BaseGameObject
 {
 public:
-    EXPORT DeathGas* ctor_41CF40(Layer layer, s16 amount);
+    DeathGas(Layer layer, s16 amount);
+    ~DeathGas();
 
     virtual void VUpdate() override;
 
@@ -18,12 +19,6 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_41D700();
-
-    EXPORT BaseGameObject* dtor_41D0E0();
-
-    
-
-    EXPORT DeathGas* Vdtor_41D740(s32 flags);
 
     virtual void VRender(PrimHeader** ppOt) override;
 

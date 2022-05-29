@@ -18,11 +18,9 @@
 
 namespace AO {
 
-SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo)
+SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BB7D0);
-
     mFlags.Set(Options::eCanExplode_Bit7);
 
     field_4_typeId = Types::SecurityOrb_53;
@@ -49,14 +47,10 @@ SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo)
 
     field_110_state = SecurityOrbStates::eIdle_0;
     field_118_sound_channels = 0;
-
-    return this;
 }
 
-BaseGameObject* SecurityOrb::dtor_436D60()
+SecurityOrb::~SecurityOrb()
 {
-    SetVTable(this, 0x4BB7D0);
-
     if (field_118_sound_channels)
     {
         SND_Stop_Channels_Mask_4774A0(field_118_sound_channels);
@@ -70,22 +64,6 @@ BaseGameObject* SecurityOrb::dtor_436D60()
     {
         gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
     }
-    return dtor_401000();
-}
-
-BaseGameObject* SecurityOrb::VDestructor(s32 flags)
-{
-    return Vdtor_4373B0(flags);
-}
-
-SecurityOrb* SecurityOrb::Vdtor_4373B0(s32 flags)
-{
-    dtor_436D60();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void SecurityOrb::VScreenChanged()
@@ -115,26 +93,19 @@ s16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
         case Types::eAbilityRing_69:
         case Types::eShrykull_85:
         {
-            auto pExplosion = ao_new<Explosion>();
-            if (pExplosion)
-            {
-                pExplosion->ctor_458B80(
-                    field_A8_xpos,
-                    field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(5)),
-                    field_BC_sprite_scale);
-            }
+            ao_new<Explosion>(
+                field_A8_xpos,
+                field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(5)),
+                field_BC_sprite_scale);
 
-            auto pGibs = ao_new<Gibs>();
-            if (pGibs)
-            {
-                pGibs->ctor_407B20(
-                    GibType::Metal_5,
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    FP_FromInteger(0),
-                    FP_FromInteger(0),
-                    field_BC_sprite_scale);
-            }
+            ao_new<Gibs>(
+                GibType::Metal_5,
+                field_A8_xpos,
+                field_AC_ypos,
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                field_BC_sprite_scale);
+
             field_100_health = FP_FromInteger(0);
         }
         break;
@@ -196,18 +167,14 @@ void SecurityOrb::VUpdate_436DF0()
                 const s32 width = abeRect.w + abeRect.x;
                 const s32 height = abeRect.h + abeRect.y;
 
-                auto pZapLine = ao_new<ZapLine>();
-                if (pZapLine)
-                {
-                    pZapLine->ctor_4789A0(
-                        field_A8_xpos,
-                        field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
-                        FP_FromInteger(width / 2),
-                        FP_FromInteger(height / 2),
-                        8,
-                        ZapLineType::eThick_0,
-                        Layer::eLayer_ZapLinesElum_28);
-                }
+                ao_new<ZapLine>(
+                    field_A8_xpos,
+                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    FP_FromInteger(width / 2),
+                    FP_FromInteger(height / 2),
+                    8,
+                    ZapLineType::eThick_0,
+                    Layer::eLayer_ZapLinesElum_28);
 
                 auto pPossessionFlicker = ao_new<PossessionFlicker>();
                 if (pPossessionFlicker)
@@ -268,20 +235,12 @@ void SecurityOrb::VUpdate_436DF0()
         case SecurityOrbStates::eDoFlashAndSound_2:
             if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<s32>(gnFrameCount_507670) == field_114_timer - 1)
             {
-                auto pFlash = ao_new<Flash>();
-                if (pFlash)
-                {
-                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
-                }
+                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
             }
 
             if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 4)
             {
-                auto pFlash = ao_new<Flash>();
-                if (pFlash)
-                {
-                    pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
-                }
+                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
             }
 
             if (field_114_timer - gnFrameCount_507670 == 4)

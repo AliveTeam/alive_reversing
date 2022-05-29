@@ -23,9 +23,6 @@ public:
     Claw();
 
     void VScreenChanged() override;
-
-private:
-    BaseGameObject* Vdtor(s32 flags);
 };
 
 class MotionDetector;
@@ -41,13 +38,8 @@ enum class SecurityClawStates : s16
 class SecurityClaw final : public BaseAliveGameObject
 {
 public:
-    EXPORT SecurityClaw* ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_418CE0();
-
-    
-
-    EXPORT SecurityClaw* Vdtor_419700(s32 flags);
+    SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo);
+    ~SecurityClaw();
 
     virtual void VScreenChanged() override;
 

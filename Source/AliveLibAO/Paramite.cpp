@@ -99,10 +99,9 @@ static BrainFunctionData<Paramite::TParamiteBrain> sParamiteBrainTable[]{
     {&Paramite::Brain_5_SpottedMeat_449CD0, 0x449CD0, "Brain_5_SpottedMeat"},
 };
 
-Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo)
+Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BBBE8);
     field_4_typeId = Types::eParamite_62;
 
     for (s32 i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
@@ -211,14 +210,10 @@ Paramite* Paramite::ctor_44A7A0(Path_Paramite* pTlv, s32 tlvInfo)
     {
         field_D0_pShadow->ctor_461FB0();
     }
-
-    return this;
 }
 
-BaseGameObject* Paramite::dtor_44AB00()
+Paramite::~Paramite()
 {
-    SetVTable(this, 0x4BBBE8);
-
     if (field_14C_pWeb)
     {
         field_14C_pWeb->mFlags.Set(Options::eDead);
@@ -258,23 +253,6 @@ BaseGameObject* Paramite::dtor_44AB00()
 
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
     MusicController::ClearObject(this);
-
-    return dtor_401000();
-}
-
-BaseGameObject* Paramite::VDestructor(s32 flags)
-{
-    return Vdtor_44B300(flags);
-}
-
-Paramite* Paramite::Vdtor_44B300(s32 flags)
-{
-    dtor_44AB00();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 u8** Paramite::ResBlockForMotion_44AC10(s16 motion)

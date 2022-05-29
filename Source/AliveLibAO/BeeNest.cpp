@@ -9,10 +9,9 @@
 
 namespace AO {
 
-BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, s32 tlvInfo)
+BeeNest::BeeNest(Path_BeeNest* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BCEE8);
     field_4_typeId = Types::eBeeNest_96;
 
     field_1C_tlvInfo = tlvInfo;
@@ -48,33 +47,14 @@ BeeNest* BeeNest::ctor_480E20(Path_BeeNest* pTlv, s32 tlvInfo)
     {
         pBeeSwarm->ctor_47FC60(field_10_bee_x, field_14_bee_y, FP_FromInteger(0), pTlv->field_22_num_bees, 0);
     }
-
-    return this;
 }
 
-BaseGameObject* BeeNest::dtor_4810C0()
+BeeNest::~BeeNest()
 {
-    SetVTable(this, 0x4BCEE8);
     if (field_34_pBeeSwarm)
     {
         field_34_pBeeSwarm->field_C_refCount--;
     }
-    return dtor_487DF0();
-}
-
-BaseGameObject* BeeNest::VDestructor(s32 flags)
-{
-    return Vdtor_4810E0(flags);
-}
-
-BeeNest* BeeNest::Vdtor_4810E0(s32 flags)
-{
-    dtor_4810C0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void BeeNest::VScreenChanged()

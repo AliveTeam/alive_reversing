@@ -59,9 +59,9 @@ enum eSlogMotions : s32
 class Slog final : public BaseAliveGameObject
 {
 public:
-    EXPORT Slog* ctor_472EE0(Path_Slog* pTlv, s32 tlvInfo);
-    EXPORT Slog* ctor_473050(FP xpos, FP ypos, FP scale);
-    EXPORT BaseGameObject* dtor_473370();
+    Slog(Path_Slog* pTlv, s32 tlvInfo);
+    Slog(FP xpos, FP ypos, FP scale);
+    ~Slog();
 
     EXPORT s16 HandleEnemyStopper_473BD0();
     EXPORT void ToJump_473FB0();
@@ -89,7 +89,6 @@ private:
     EXPORT void VUpdate_4739C0();
     EXPORT void VOn_Tlv_Collision_473970(Path_TLV* pTlv);
     EXPORT s16 VTakeDamage_473610(BaseGameObject* pFrom);
-    EXPORT Slog* Vdtor_473CB0(s32 flags);
 
 public:
     void SetAnimFrame();

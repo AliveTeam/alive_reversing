@@ -10,17 +10,12 @@ class ZapLine;
 class Shrykull final : public BaseAliveGameObject
 {
 public:
-    EXPORT Shrykull* ctor_463880();
+    Shrykull();
+    ~Shrykull();
 
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_464280();
-
-    
-
-    EXPORT Shrykull* Vdtor_464300(s32 flags);
-
-    EXPORT BaseGameObject* dtor_463990();
 
     virtual void VOnThrowableHit(BaseGameObject*) override;
 

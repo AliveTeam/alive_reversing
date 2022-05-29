@@ -10,13 +10,7 @@ class PathLine;
 class BulletShell final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BulletShell* ctor_462790(FP xpos, FP ypos, s16 direction, FP scale);
-
-    EXPORT BaseGameObject* dtor_4628B0();
-
-    
-
-    EXPORT BulletShell* Vdtor_462A50(s32 flags);
+    BulletShell(FP xpos, FP ypos, s16 direction, FP scale);
 
     virtual void VUpdate() override;
 

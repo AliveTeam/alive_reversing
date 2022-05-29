@@ -9,42 +9,17 @@ namespace AO {
 
 ALIVE_VAR(1, 0x4CFFF8, s16, sBackgroundMusic_seq_id_4CFFF8, -1);
 
-BackgroundMusic* BackgroundMusic::ctor_476370(s16 musicId)
+BackgroundMusic::BackgroundMusic(s16 musicId)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BCD30);
     field_10_music_id = musicId;
     sBackgroundMusic_seq_id_4CFFF8 = -1;
-    return this;
-}
-
-
-BaseGameObject* BackgroundMusic::dtor_4763A0()
-{
-    SetVTable(this, 0x4BCD30);
-    return dtor_487DF0();
-}
-
-BaseGameObject* BackgroundMusic::VDestructor(s32 flags)
-{
-    return Vdtor_476A80(flags);
-}
-
-BackgroundMusic* BackgroundMusic::Vdtor_476A80(s32 flags)
-{
-    dtor_4763A0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void BackgroundMusic::VUpdate()
 {
     VUpdate_4763B0();
 }
-
 
 void BackgroundMusic::VUpdate_4763B0()
 {

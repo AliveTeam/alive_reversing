@@ -18,10 +18,8 @@
 
 namespace AO {
 
-BaseGameObject* Shrykull::dtor_463990()
+Shrykull::~Shrykull()
 {
-    SetVTable(this, 0x4BC9B8);
-
     if (field_118_zap_line)
     {
         field_118_zap_line->field_C_refCount--;
@@ -32,23 +30,6 @@ BaseGameObject* Shrykull::dtor_463990()
     {
         field_11C_obj_being_zapped->field_C_refCount--;
     }
-
-    return dtor_401000();
-}
-
-Shrykull* Shrykull::Vdtor_464300(s32 flags)
-{
-    dtor_463990();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* Shrykull::VDestructor(s32 flags)
-{
-    return Vdtor_464300(flags);
 }
 
 void Shrykull::VScreenChanged_464280()
@@ -64,11 +45,10 @@ void Shrykull::VScreenChanged()
     VScreenChanged_464280();
 }
 
-Shrykull* Shrykull::ctor_463880()
+Shrykull::Shrykull()
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
     mFlags.Set(Options::eCanExplode_Bit7);
-    SetVTable(this, 0x4BC9B8);
     field_4_typeId = Types::eShrykull_85;
     
     const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_ToShrykull);
@@ -91,7 +71,6 @@ Shrykull* Shrykull::ctor_463880()
         field_D0_pShadow->ctor_461FB0();
     }
     field_122_bResetRingTimer = 0;
-    return this;
 }
 
 void Shrykull::VOnThrowableHit(BaseGameObject*)
@@ -203,19 +182,18 @@ void Shrykull::VUpdate_463AE0()
                     }
                     else
                     {
-                        auto pZapLine = ao_new<ZapLine>();
+                        auto pZapLine = ao_new<ZapLine>(
+                            FP_FromInteger((ourRect.x + ourRect.w) / 2),
+                            FP_FromInteger((ourRect.y + ourRect.h) / 2),
+                            FP_FromInteger((objRect.x + objRect.w) / 2),
+                            FP_FromInteger((objRect.y + objRect.h) / 2),
+                            0, ZapLineType::eThin_1,
+                            Layer::eLayer_ZapLinesElum_28);
                         if (pZapLine)
                         {
-                            pZapLine->ctor_4789A0(
-                                FP_FromInteger((ourRect.x + ourRect.w) / 2),
-                                FP_FromInteger((ourRect.y + ourRect.h) / 2),
-                                FP_FromInteger((objRect.x + objRect.w) / 2),
-                                FP_FromInteger((objRect.y + objRect.h) / 2),
-                                0, ZapLineType::eThin_1,
-                                Layer::eLayer_ZapLinesElum_28);
+                            pZapLine->field_C_refCount++;
+                            field_118_zap_line = pZapLine;
                         }
-                        pZapLine->field_C_refCount++;
-                        field_118_zap_line = pZapLine;
                     }
 
                     field_120_bElectrocute = CanElectrocute(pObj);
@@ -347,11 +325,7 @@ void Shrykull::VUpdate_463AE0()
                                 BurstType::eBigPurpleSparks_2);
                         }
 
-                        auto pFlash = ao_new<Flash>();
-                        if (pFlash)
-                        {
-                            pFlash->ctor_41A810(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
-                        }
+                       ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
                     }
                     field_118_zap_line->CalculateSourceAndDestinationPositions_478CF0(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),

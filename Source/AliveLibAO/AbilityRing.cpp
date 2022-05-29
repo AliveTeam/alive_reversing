@@ -19,12 +19,7 @@ namespace AO {
 
 AbilityRing* CC AbilityRing::Factory_447590(FP xpos, FP ypos, RingTypes ring_type)
 {
-    auto pAbilityRing = ao_new<AbilityRing>();
-    if (pAbilityRing)
-    {
-        pAbilityRing->ctor_455860(xpos, ypos, ring_type);
-    }
-    return pAbilityRing;
+    return ao_new<AbilityRing>(xpos, ypos, ring_type);
 }
 
 static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 width2, s32 height2)
@@ -41,11 +36,9 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
     }
 }
 
-AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, RingTypes ring_type)
+AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BC090);
-
     field_4_typeId = Types::eAbilityRing_69;
     field_278_pTarget_obj = nullptr;
     gObjList_drawables_504618->Push_Back(this);
@@ -179,13 +172,10 @@ AbilityRing* AbilityRing::ctor_455860(FP xpos, FP ypos, RingTypes ring_type)
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-    return this;
 }
 
-BaseGameObject* AbilityRing::dtor_455E50()
+AbilityRing::~AbilityRing()
 {
-    SetVTable(this, 0x4BC090);
-
     if (field_278_pTarget_obj)
     {
         field_278_pTarget_obj->field_C_refCount--;
@@ -193,22 +183,6 @@ BaseGameObject* AbilityRing::dtor_455E50()
 
     ResourceManager::FreeResource_455550(field_18_ppRes);
     gObjList_drawables_504618->Remove_Item(this);
-    return dtor_487DF0();
-}
-
-BaseGameObject* AbilityRing::VDestructor(s32 flags)
-{
-    return Vdtor_456940(flags);
-}
-
-BaseGameObject* AbilityRing::Vdtor_456940(s32 flags)
-{
-    dtor_455E50();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void AbilityRing::VRender(PrimHeader** ppOt)

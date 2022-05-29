@@ -8,11 +8,9 @@
 
 namespace AO {
 
-LiftMover* LiftMover::ctor_4054E0(Path_LiftMover* pTlv, s32 tlvInfo)
+LiftMover::LiftMover(Path_LiftMover* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BA158);
-
     field_14_tlvInfo = tlvInfo;
     field_18_pLiftPoint = nullptr;
     field_4_typeId = Types::eLiftMover_7;
@@ -30,35 +28,16 @@ LiftMover* LiftMover::ctor_4054E0(Path_LiftMover* pTlv, s32 tlvInfo)
     }
 
     field_20_state = 0;
-
-    return this;
 }
 
-BaseGameObject* LiftMover::dtor_405550()
+LiftMover::~LiftMover()
 {
-    SetVTable(this, 0x4BA158);
     if (field_18_pLiftPoint)
     {
         field_18_pLiftPoint->field_C_refCount--;
         field_18_pLiftPoint = nullptr;
     }
     gMap.TLV_Reset_446870(field_14_tlvInfo, -1, 0, 0);
-    return dtor_487DF0();
-}
-
-BaseGameObject* LiftMover::VDestructor(s32 flags)
-{
-    return Vdtor_405A50(flags);
-}
-
-EXPORT LiftMover* LiftMover::Vdtor_405A50(s32 flags)
-{
-    dtor_405550();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void LiftMover::VUpdate()

@@ -47,10 +47,9 @@ void Claw::VScreenChanged()
     // Keep alive as the Claw is owned by the SecurityClaw
 }
 
-SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
+SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-
     field_4_typeId = Types::eSecurityClaw_31;
 
     mFlags.Set(Options::eCanExplode_Bit7);
@@ -104,11 +103,9 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
     mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
     field_13C_pArray = nullptr;
     field_128_sound_channels = 0;
-
-    return this;
 }
 
-BaseGameObject* SecurityClaw::dtor_418CE0()
+SecurityClaw::~SecurityClaw()
 {
     if (field_12C_pDetector)
     {
@@ -147,7 +144,6 @@ BaseGameObject* SecurityClaw::dtor_418CE0()
     {
         SND_Stop_Channels_Mask_4774A0(field_128_sound_channels);
     }
-    return dtor_401000();
 }
 
 void SecurityClaw::VScreenChanged()
@@ -174,54 +170,39 @@ s16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
             field_12C_pDetector = 0;
             mFlags.Set(BaseGameObject::eDead);
 
-            auto pExplosion = ao_new<Explosion>();
-            if (pExplosion)
-            {
-                pExplosion->ctor_458B80(
-                    field_A8_xpos,
-                    field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(5),
-                    field_BC_sprite_scale);
-            }
+            ao_new<Explosion>(
+                field_A8_xpos,
+                field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(5),
+                field_BC_sprite_scale);
 
-            auto pGibs = ao_new<Gibs>();
-            if (pGibs)
-            {
-                pGibs->ctor_407B20(
-                    GibType::Metal_5,
-                    field_A8_xpos,
-                    field_AC_ypos + FP_FromInteger(50),
-                    FP_FromInteger(0),
-                    FP_FromInteger(0),
-                    field_BC_sprite_scale);
-            }
+            ao_new<Gibs>(
+                GibType::Metal_5,
+                field_A8_xpos,
+                field_AC_ypos + FP_FromInteger(50),
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                field_BC_sprite_scale);
         }
         else
         {
             field_12C_pDetector = 0;
 
-            auto pGibs = ao_new<Gibs>();
-            if (pGibs)
-            {
-                pGibs->ctor_407B20(
-                    GibType::Metal_5,
-                    field_A8_xpos,
-                    field_AC_ypos + FP_FromInteger(50),
-                    FP_FromInteger(0),
-                    FP_FromInteger(0),
-                    field_BC_sprite_scale);
-            }
+            ao_new<Gibs>(
+                GibType::Metal_5,
+                field_A8_xpos,
+                field_AC_ypos + FP_FromInteger(50),
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                field_BC_sprite_scale);
 
-            pGibs = ao_new<Gibs>();
-            if (pGibs)
-            {
-                pGibs->ctor_407B20(
-                    GibType::Metal_5,
-                    field_A8_xpos,
-                    field_AC_ypos + FP_FromInteger(50),
-                    FP_FromInteger(0),
-                    FP_FromInteger(0),
-                    field_BC_sprite_scale);
-            }
+            ao_new<Gibs>(
+                GibType::Metal_5,
+                field_A8_xpos,
+                field_AC_ypos + FP_FromInteger(50),
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                field_BC_sprite_scale);
+
             mFlags.Set(BaseGameObject::eDead);
         }
     }
@@ -357,17 +338,13 @@ void SecurityClaw::VUpdate_418DE0()
 
                 ao_new<ScreenShake>(1);
 
-                auto pZapLine = ao_new<ZapLine>();
-                if (pZapLine)
-                {
-                    pZapLine->ctor_4789A0(
-                        field_A8_xpos - (FP_FromInteger(3) * field_BC_sprite_scale),
-                        field_AC_ypos + (FP_FromInteger(5) * field_BC_sprite_scale),
-                        hero_mid_x,
-                        hero_mid_y,
-                        8, ZapLineType::eThick_0,
-                        Layer::eLayer_ZapLinesElum_28);
-                }
+                ao_new<ZapLine>(
+                    field_A8_xpos - (FP_FromInteger(3) * field_BC_sprite_scale),
+                    field_AC_ypos + (FP_FromInteger(5) * field_BC_sprite_scale),
+                    hero_mid_x,
+                    hero_mid_y,
+                    8, ZapLineType::eThick_0,
+                    Layer::eLayer_ZapLinesElum_28);
 
                 auto pPossessionFlicker = ao_new<PossessionFlicker>();
                 if (pPossessionFlicker)

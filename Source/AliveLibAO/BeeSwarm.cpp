@@ -24,16 +24,8 @@ namespace AO {
 ALIVE_VAR(1, 0x5076B0, s16, gBeeInstanceCount_5076B0, 0);
 ALIVE_VAR(1, 0x5076AC, s16, gBeesNearAbe_5076AC, 0);
 
-BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks)
+BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks)
 {
-    
-
-    for (auto& bee : field_E4_bees.bees)
-    {
-        SetVTable(&bee.field_10_anim, 0x4BA470);
-    }
-
-    SetVTable(this, 0x4BCEB0);
     field_4_typeId = Types::eBeeSwarm_95;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Bee_Swarm);
@@ -87,13 +79,10 @@ BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 cha
     field_D66_bee_count = 0;
     field_D7C_pos_offset = FP_FromInteger(0);
     field_AC_ypos = ypos;
-    return this;
 }
 
-BaseGameObject* BeeSwarm::dtor_47FDF0()
+BeeSwarm::~BeeSwarm()
 {
-    SetVTable(this, 0x4BCEB0);
-
     gBeeInstanceCount_5076B0--;
 
     gBeesNearAbe_5076AC = 0;
@@ -109,23 +98,6 @@ BaseGameObject* BeeSwarm::dtor_47FDF0()
     {
         field_D98_pChaseTarget->field_C_refCount--;
     }
-
-    return dtor_417D10();
-}
-
-BaseGameObject* BeeSwarm::VDestructor(s32 flags)
-{
-    return Vdtor_480E00(flags);
-}
-
-BeeSwarm* BeeSwarm::Vdtor_480E00(s32 flags)
-{
-    dtor_47FDF0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void BeeSwarm::VScreenChanged()

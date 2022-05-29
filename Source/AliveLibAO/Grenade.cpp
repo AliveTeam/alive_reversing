@@ -494,25 +494,19 @@ s16 Grenade::BlowUpAfterCountdown_41EDD0()
         return 0;
     }
 
-    auto pExplosion = ao_new<Explosion>();
+    auto pExplosion = ao_new<Explosion>(
+        field_A8_xpos,
+        field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(5)),
+        field_BC_sprite_scale);
     if (pExplosion)
     {
-        pExplosion->ctor_458B80(
-            field_A8_xpos,
-            field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(5)),
-            field_BC_sprite_scale);
+        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_11C = pExplosion;
+        pExplosion->field_C_refCount++;
+        field_110_state = States::eWaitForExplodeEnd_6;
     }
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-    field_11C = pExplosion;
-    pExplosion->field_C_refCount++;
-    field_110_state = States::eWaitForExplodeEnd_6;
-
-    auto pGibs = ao_new<Gibs>();
-    if (pGibs)
-    {
-        pGibs->ctor_407B20(GibType::Metal_5, field_A8_xpos, field_AC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_BC_sprite_scale);
-    }
+    ao_new<Gibs>(GibType::Metal_5, field_A8_xpos, field_AC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_BC_sprite_scale);
     return 1;
 }
 

@@ -37,16 +37,8 @@ static FP GibRand(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
-Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
+Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 {
-    
-
-    for (GibPart& part : field_F4_parts)
-    {
-        SetVTable(&part.field_18_anim, 0x4BA2B8);
-    }
-    SetVTable(this, 0x4BA280);
-
     field_E4_pGibData = &kGibData_4C30B0[gibType];
     const AnimRecord& headRec = AO::AnimRec(field_E4_pGibData->field_0_head);
     const AnimRecord& armRec = AO::AnimRec(field_E4_pGibData->field_4_arm);
@@ -140,7 +132,7 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
             {
                 field_5C4_parts_used_count = i;
                 mFlags.Set(BaseGameObject::eDead);
-                return this;
+                return;
             }
         }
         else
@@ -159,7 +151,7 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
             {
                 field_5C4_parts_used_count = i;
                 mFlags.Set(BaseGameObject::eDead);
-                return this;
+                return;
             }
         }
 
@@ -197,8 +189,6 @@ Gibs* Gibs::ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP 
 
         pPart++;
     }
-
-    return this;
 }
 
 void Gibs::VUpdate()
@@ -241,27 +231,13 @@ void Gibs::VUpdate_4080C0()
     }
 }
 
-BaseGameObject* Gibs::dtor_408040()
+Gibs::~Gibs()
 {
-    SetVTable(this, 0x4BA280);
-
     for (s16 i = 0; i < field_5C4_parts_used_count; i++)
     {
         field_F4_parts[i].field_18_anim.vCleanUp();
     }
-    return dtor_417D10();
 }
-
-BaseGameObject* Gibs::Vdtor_4083D0(u32 flags)
-{
-    dtor_408040();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
 
 void Gibs::VRender(PrimHeader** ppOt)
 {
@@ -324,11 +300,6 @@ void Gibs::VRender_408200(PrimHeader** ppOt)
             }
         }
     }
-}
-
-BaseGameObject* Gibs::VDestructor(s32 flags)
-{
-    return Vdtor_4083D0(flags);
 }
 
 } // namespace AO

@@ -56,7 +56,8 @@ ALIVE_ASSERT_SIZEOF(Path_WellLocal, 0x34);
 class Well final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Well* ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
+    Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
+    ~Well();
 
     EXPORT void WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP xpos, FP ypos);
 
@@ -73,12 +74,6 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_48B450();
-
-    EXPORT BaseGameObject* dtor_48B460();
-
-    
-
-    EXPORT Well* vdtor_48B4D0(s32 flags);
 
     s32 field_D4[4];
     s32 field_E4_tlvInfo;

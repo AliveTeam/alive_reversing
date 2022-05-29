@@ -24,16 +24,14 @@ enum class SecurityOrbStates : s16
 class SecurityOrb final : public BaseAliveGameObject
 {
 public:
-    EXPORT SecurityOrb* ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo);
-    EXPORT BaseGameObject* dtor_436D60();
-
+    SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo);
+    ~SecurityOrb();
     
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 
 private:
-    EXPORT SecurityOrb* Vdtor_4373B0(s32 flags);
     EXPORT void VScreenChanged_4373A0();
     EXPORT s16 VTakeDamage_437280(BaseGameObject* pFrom);
     EXPORT void VUpdate_436DF0();

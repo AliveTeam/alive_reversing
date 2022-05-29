@@ -10,14 +10,9 @@ class AnimationUnknown;
 class ParamiteWeb final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ParamiteWeb* ctor_48A920(FP xpos, s16 bottom, s16 top, FP scale);
-
+    ParamiteWeb(FP xpos, s16 bottom, s16 top, FP scale);
+    ~ParamiteWeb();
     
-
-    EXPORT ParamiteWeb* Vdtor_48AEC0(s32 flags);
-
-    EXPORT BaseGameObject* dtor_48AAB0();
-
     EXPORT void VScreenChanged_48AEA0();
 
     virtual void VScreenChanged() override;

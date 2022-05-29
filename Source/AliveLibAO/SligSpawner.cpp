@@ -8,11 +8,9 @@
 
 namespace AO {
 
-SligSpawner* SligSpawner::ctor_402850(Path_Slig* pTlv, s32 tlvInfo)
+SligSpawner::SligSpawner(Path_Slig* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BA078);
-
     field_4_typeId = Types::eSligSpawner_91;
 
     field_10_tlvInfo = tlvInfo;
@@ -21,7 +19,6 @@ SligSpawner* SligSpawner::ctor_402850(Path_Slig* pTlv, s32 tlvInfo)
     field_16_flags = 1;
 
     field_14_slig_spawner_switch_id = pTlv->field_54_slig_spawner_switch_id;
-    return this;
 }
 
 void SligSpawner::VUpdate()
@@ -32,11 +29,6 @@ void SligSpawner::VUpdate()
 void SligSpawner::VScreenChanged()
 {
     VScreenChanged_402960();
-}
-
-BaseGameObject* SligSpawner::VDestructor(s32 flags)
-{
-    return VDtor_4029F0(flags);
 }
 
 EXPORT void SligSpawner::VScreenChanged_402960()
@@ -62,11 +54,7 @@ EXPORT void SligSpawner::VUpdate_4028A0()
 
         if (pTlv)
         {
-            auto pSlig = ao_new<Slig>();
-            if (pSlig)
-            {
-                pSlig->ctor_464D40(pTlv, 0xFFFF);
-            }
+            ao_new<Slig>(pTlv, 0xFFFF);
         }
 
         mFlags.Set(BaseGameObject::eDead);
@@ -74,9 +62,8 @@ EXPORT void SligSpawner::VUpdate_4028A0()
     }
 }
 
-EXPORT BaseGameObject* SligSpawner::dtor_402970()
+SligSpawner::~SligSpawner()
 {
-    SetVTable(this, 0x4BA078);
     if (field_16_flags)
     {
         gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
@@ -85,17 +72,6 @@ EXPORT BaseGameObject* SligSpawner::dtor_402970()
     {
         gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 1);
     }
-    return dtor_487DF0();
-}
-
-EXPORT SligSpawner* SligSpawner::VDtor_4029F0(s32 flags)
-{
-    dtor_402970();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

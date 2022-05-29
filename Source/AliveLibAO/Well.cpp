@@ -19,20 +19,12 @@ static s16 Well_NextRandom()
     return sRandomBytes_4BBE30[sWellRndSeed_4D1488++];
 }
 
-
-BaseGameObject* Well::VDestructor(s32 flags)
+Well::~Well()
 {
-    return vdtor_48B4D0(flags);
-}
-
-BaseGameObject* Well::dtor_48B460()
-{
-    SetVTable(this, 0x4BD730);
     if (field_E4_tlvInfo != -1)
     {
         gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
     }
-    return dtor_417D10();
 }
 
 void Well::VScreenChanged_48B450()
@@ -230,11 +222,8 @@ void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-Well* Well::ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
+Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BD730);
-
     field_E4_tlvInfo = tlvInfo;
     field_4_typeId = Types::eWell_101;
 
@@ -253,17 +242,6 @@ Well* Well::ctor_48AEE0(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     {
         WellExpress_Init_48B110(static_cast<Path_WellExpress*>(pTlv), xpos, ypos);
     }
-    return this;
-}
-
-Well* Well::vdtor_48B4D0(s32 flags)
-{
-    dtor_48B460();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

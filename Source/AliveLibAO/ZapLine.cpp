@@ -14,26 +14,16 @@ void ZapLine_ForceLink()
 
 namespace AO {
 
-BaseGameObject* ZapLine::VDestructor(s32 flags)
+ZapLine::~ZapLine()
 {
-    return Vdtor_479B20(flags);
-}
-
-BaseGameObject* ZapLine::dtor_478E90()
-{
-    SetVTable(this, 0x4BCDE8);
     ResourceManager::FreeResource_455550(field_E8_ppRes);
     ao_delete_free_450770(field_128_sprite_positions);
     ao_delete_free_450770(field_12C_zap_points);
     ao_delete_free_450770(field_130_sprite_segment_positions);
-    return dtor_417D10();
 }
 
-ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLineType type, Layer layer)
+ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLineType type, Layer layer)
 {
-    
-    SetVTable(this, 0x4BCDE8);
-
     field_4_typeId = Types::eZapLine_94;
     field_11A_type = type;
 
@@ -127,18 +117,6 @@ ZapLine* ZapLine::ctor_4789A0(FP x1, FP y1, FP x2, FP y2, s16 aliveTime, ZapLine
     }
 
     CalculateSourceAndDestinationPositions_478CF0(x1, y1, x2, y2);
-
-    return this;
-}
-
-ZapLine* ZapLine::Vdtor_479B20(s32 flags)
-{
-    dtor_478E90();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void ZapLine::CalculateSourceAndDestinationPositions_478CF0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)

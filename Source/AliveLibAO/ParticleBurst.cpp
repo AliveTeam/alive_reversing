@@ -33,10 +33,8 @@ static inline FP Random_Speed(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
-ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, FP scale, BurstType type)
+ParticleBurst::ParticleBurst(FP xpos, FP ypos, s16 particleCount, FP scale, BurstType type)
 {
-    
-    SetVTable(this, 0x4BA480);
     field_4_typeId = Types::eParticleBurst_19;
     field_BC_sprite_scale = scale;
 
@@ -48,7 +46,6 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
         {
             // Placement new each element
             new (&field_E8_pRes[i]) ParticleBurst_Item();
-            SetVTable(&field_E8_pRes[i].field_18_anim, 0x4BA470);
         }
 
         field_F4_type = type;
@@ -183,32 +180,14 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-    return this;
 }
 
-BaseGameObject* ParticleBurst::dtor_40D5A0()
+ParticleBurst::~ParticleBurst()
 {
-    SetVTable(this, 0x4BA480);
     if (field_E4_ppRes)
     {
         ResourceManager::FreeResource_455550(field_E4_ppRes);
     }
-    return dtor_417D10();
-}
-
-BaseGameObject* ParticleBurst::VDestructor(s32 flags)
-{
-    return Vdtor_40DA40(flags);
-}
-
-ParticleBurst* ParticleBurst::Vdtor_40DA40(s32 flags)
-{
-    dtor_40D5A0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void ParticleBurst::VUpdate()

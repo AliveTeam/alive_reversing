@@ -66,11 +66,7 @@ struct SprtTPage final
 class ScreenManager final : public BaseGameObject
 {
 public:
-    
-
-    EXPORT ScreenManager* vdtor_407290(s32 flags);
-
-    EXPORT ScreenManager* ctor_406830(u8** ppBits, FP_Point* pCameraOffset);
+    ScreenManager(u8** ppBits, FP_Point* pCameraOffset);
 
     EXPORT void Init_4068A0(u8** ppBits);
 

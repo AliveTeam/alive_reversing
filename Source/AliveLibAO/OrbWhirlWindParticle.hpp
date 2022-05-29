@@ -11,10 +11,9 @@ class BaseAliveGameObject;
 class OrbWhirlWindParticle final
 {
 public:
-    EXPORT OrbWhirlWindParticle* ctor_48BC10(FP xpos, FP ypos, FP scale);
+    OrbWhirlWindParticle(FP xpos, FP ypos, FP scale);
 
     // WARNING: Not a derived type - keep virtuals in order for BC
-    virtual EXPORT OrbWhirlWindParticle* Vdtor_48C510(s32 flags);
 
     virtual EXPORT void VUpdate_48BF00();
 

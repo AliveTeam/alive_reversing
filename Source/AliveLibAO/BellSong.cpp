@@ -68,28 +68,15 @@ void BellSong::VUpdate()
     VUpdate_476130();
 }
 
-BellSong* BellSong::ctor_4760B0(BellsongTypes type, u32 code)
+BellSong::BellSong(BellsongTypes type, u32 code)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BCD18);
-
     field_16_type = type;
     field_18_code = code;
     field_1C_code_len = Code_Length_475FD0(code);
     field_10_code_idx = 0;
     field_14_bDone = FALSE;
     field_8_update_delay = 15;
-    return this;
-}
-
-BaseGameObject* BellSong::VDestructor(s32 flags)
-{
-    dtor_487DF0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

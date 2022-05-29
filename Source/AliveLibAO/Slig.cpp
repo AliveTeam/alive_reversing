@@ -282,15 +282,12 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
     SFX_SfxDefinition_Play_477330(&sSligSounds_4CFB30[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
 }
 
-Slig* Slig::ctor_464D40(Path_Slig* pTlv, s32 tlvInfo)
+Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject(); // Note: Empty base skipped
-
     field_15C_last_event_index = -1;
     field_172_unused = -1;
     field_170_unused = 0;
-
-    SetVTable(this, 0x4BCA70);
 
     field_210_resources = {};
 
@@ -394,14 +391,10 @@ Slig* Slig::ctor_464D40(Path_Slig* pTlv, s32 tlvInfo)
     {
         field_D0_pShadow->ctor_461FB0();
     }
-
-    return this;
 }
 
-BaseGameObject* Slig::dtor_465320()
+Slig::~Slig()
 {
-    SetVTable(this, 0x4BCA70);
-
     if (sControlledCharacter_50767C == this)
     {
         if (field_14E_level != gMap.mCurrentLevel
@@ -455,23 +448,6 @@ BaseGameObject* Slig::dtor_465320()
     }
     
     MusicController::ClearObject(this);
-
-    return dtor_401000(); // Note: Empty dtor skipped
-}
-
-BaseGameObject* Slig::VDestructor(s32 flags)
-{
-    return Vdtor_465DC0(flags);
-}
-
-Slig* Slig::Vdtor_465DC0(s32 flags)
-{
-    dtor_465320();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Slig::VScreenChanged()
@@ -3486,17 +3462,13 @@ void Slig::Motion_33_Sleeping_46A410()
                     field_AC_ypos,
                     0))
             {
-                auto pSnoozeParticle = ao_new<SnoozeParticle>();
-                if (pSnoozeParticle)
-                {
-                    pSnoozeParticle->ctor_464320(
-                        field_A8_xpos
-                            + ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(20) : FP_FromInteger(-20)),
-                        field_AC_ypos - FP_FromInteger(10),
-                        field_10_anim.field_C_layer,
-                        field_10_anim.field_14_scale);
-                    return;
-                }
+                ao_new<SnoozeParticle>(
+                    field_A8_xpos
+                        + ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(20) : FP_FromInteger(-20)),
+                    field_AC_ypos - FP_FromInteger(10),
+                    field_10_anim.field_C_layer,
+                    field_10_anim.field_14_scale);
+                return;
             }
         }
     }
@@ -3511,17 +3483,13 @@ void Slig::Motion_33_Sleeping_46A410()
                 field_AC_ypos,
                 0))
         {
-            auto pSnoozeParticle = ao_new<SnoozeParticle>();
-            if (pSnoozeParticle)
-            {
-                pSnoozeParticle->ctor_464320(
-                    field_A8_xpos
-                        + ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(20) : FP_FromInteger(-20)),
-                    field_AC_ypos - FP_FromInteger(10),
-                    field_10_anim.field_C_layer,
-                    field_10_anim.field_14_scale);
-                return;
-            }
+            ao_new<SnoozeParticle>(
+                field_A8_xpos
+                    + ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(20) : FP_FromInteger(-20)),
+                field_AC_ypos - FP_FromInteger(10),
+                field_10_anim.field_C_layer,
+                field_10_anim.field_14_scale);
+            return;
         }
     }
 }
@@ -4251,7 +4219,7 @@ s16 Slig::Brain_Paused_466030()
 
     if (!found)
     {
-        GameEnderController::CreateGameEnderController_41C7D0();
+        GameEnderController::GameEnderController();
     }
 
     field_FC_current_motion = eSligMotions::Motion_7_Falling_46A1A0;

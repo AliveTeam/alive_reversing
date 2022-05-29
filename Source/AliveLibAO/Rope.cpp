@@ -11,16 +11,6 @@
 
 namespace AO {
 
-Rope* Rope::Vdtor_458B60(s32 flags)
-{
-    dtor_458720();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
 EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
     const s32 d1 = minY - Y0(pPoly);
@@ -45,22 +35,13 @@ EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
     }
 }
 
-BaseGameObject* Rope::dtor_458720()
+Rope::~Rope()
 {
-    SetVTable(this, 0x4BC1E0);
     ao_delete_free_447540(field_E8_pRopeRes);
-    return dtor_417D10();
 }
 
-BaseGameObject* Rope::VDestructor(s32 flags)
+Rope::Rope(u16 left, s16 top, u16 bottom, FP scale)
 {
-    return Vdtor_458B60(flags);
-}
-
-Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
-{
-    
-    SetVTable(this, 0x4BC1E0);
     field_4_typeId = Types::eRope_73;
 
     field_C8_yOffset = 0;
@@ -132,7 +113,6 @@ Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
             AnimationUnknown* pSegment = &field_E8_pRopeRes[i];
             new (pSegment) AnimationUnknown();
 
-            SetVTable(pSegment, 0x4BA470);
             pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
             pSegment->field_68_anim_ptr = &field_10_anim;
             pSegment->field_C_layer = field_10_anim.field_C_layer;
@@ -141,7 +121,6 @@ Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
             pSegment->field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         }
     }
-    return this;
 }
 
 void Rope::VUpdate()

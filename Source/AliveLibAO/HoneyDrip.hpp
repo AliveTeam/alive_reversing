@@ -8,13 +8,11 @@ namespace AO {
 class HoneyDrip final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT HoneyDrip* ctor_431D10(FP xpos, FP ypos);
+    HoneyDrip(FP xpos, FP ypos);
 
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_431DC0();
-
-    
 
     s32 field_D4[4];
     s16 field_E4_bSoundPlaying;

@@ -42,17 +42,12 @@ enum GibType : s32
 class Gibs final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Gibs* ctor_407B20(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale);
-
-    EXPORT BaseGameObject* dtor_408040();
+    Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale);
+    ~Gibs();
 
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_4080C0();
-
-    
-
-    EXPORT BaseGameObject* Vdtor_4083D0(u32 flags);
 
     virtual void VRender(PrimHeader** ppOt) override;
 

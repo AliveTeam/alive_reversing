@@ -195,26 +195,18 @@ s16 MovingBomb::VTakeDamage_43BB60(BaseGameObject* pFrom)
 
     field_100_health = FP_FromInteger(0);
 
-    auto pExplosion = ao_new<Explosion>();
-    if (pExplosion)
-    {
-        pExplosion->ctor_458B80(
-            field_A8_xpos,
-            field_AC_ypos,
-            field_BC_sprite_scale);
-    }
+    ao_new<Explosion>(
+        field_A8_xpos,
+        field_AC_ypos,
+        field_BC_sprite_scale);
 
-    auto pGibs = ao_new<Gibs>();
-    if (pGibs)
-    {
-        pGibs->ctor_407B20(
-            GibType::Metal_5,
-            field_A8_xpos,
-            field_AC_ypos,
-            FP_FromInteger(0),
-            FP_FromInteger(5),
-            field_BC_sprite_scale);
-    }
+    ao_new<Gibs>(
+        GibType::Metal_5,
+        field_A8_xpos,
+        field_AC_ypos,
+        FP_FromInteger(0),
+        FP_FromInteger(5),
+        field_BC_sprite_scale);
 
     field_10C_state = States::eKillMovingBomb_7;
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -489,26 +481,18 @@ void MovingBomb::VUpdate_43B440()
 
                 field_100_health = FP_FromInteger(0);
 
-                auto pExplosion = ao_new<Explosion>();
-                if (pExplosion)
-                {
-                    pExplosion->ctor_458B80(
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        field_BC_sprite_scale);
-                }
+                ao_new<Explosion>(
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    field_BC_sprite_scale);
 
-                auto pGibs = ao_new<Gibs>();
-                if (pGibs)
-                {
-                    pGibs->ctor_407B20(
-                        GibType::Metal_5,
-                        field_A8_xpos,
-                        field_AC_ypos,
-                        FP_FromInteger(0),
-                        FP_FromInteger(5),
-                        field_BC_sprite_scale);
-                }
+                ao_new<Gibs>(
+                    GibType::Metal_5,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(5),
+                    field_BC_sprite_scale);
 
                 field_10C_state = States::eKillMovingBomb_7;
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);

@@ -104,11 +104,9 @@ static BrainFunctionData<Scrab::TBrainType> sScrabAITable[]{
     {&Scrab::Brain_WalkAround_460D80, 0x460D80, "Brain_460D80"},
 };
 
-Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
+Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BC710);
-
     field_4_typeId = Types::eScrab_77;
 
     for (s32 i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
@@ -219,14 +217,10 @@ Scrab* Scrab::ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo)
     {
         field_D0_pShadow->ctor_461FB0();
     }
-
-    return this;
 }
 
-BaseGameObject* Scrab::dtor_45BA50()
+Scrab::~Scrab()
 {
-    SetVTable(this, 0x4BC710);
-
     if (field_11C_pFight_target)
     {
         field_11C_pFight_target->field_C_refCount--;
@@ -261,13 +255,6 @@ BaseGameObject* Scrab::dtor_45BA50()
 
     MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
     MusicController::ClearObject(this);
-
-    return dtor_401000();
-}
-
-BaseGameObject* Scrab::VDestructor(s32 flags)
-{
-    return Vdtor_45C310(flags);
 }
 
 void Scrab::VRender(PrimHeader** ppOt)
@@ -281,16 +268,6 @@ void Scrab::VRender_45BBF0(PrimHeader** ppOt)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
-}
-
-Scrab* Scrab::Vdtor_45C310(s32 flags)
-{
-    dtor_45BA50();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Scrab::VUpdate()

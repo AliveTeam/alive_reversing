@@ -19,13 +19,8 @@ class BeeSwarm;
 class HoneySack final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT HoneySack* ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo);
-
-    
-
-    BaseGameObject* dtor_42BF20();
-
-    EXPORT HoneySack* Vdtor_42C3B0(s32 flags);
+    HoneySack(Path_HoneySack* pTlv, s32 tlvInfo);
+    ~HoneySack();
 
     virtual void VScreenChanged() override;
 

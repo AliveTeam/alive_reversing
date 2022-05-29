@@ -191,25 +191,8 @@ void OrbWhirlWindParticle::VUpdate_48BF00()
     }
 }
 
-OrbWhirlWindParticle* OrbWhirlWindParticle::Vdtor_48C510(s32 flags)
+OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
 {
-    SetVTable(this, 0x4BD7B8);
-
-    field_8_anim.vCleanUp();
-
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_48BC10(FP xpos, FP ypos, FP scale)
-{
-    SetVTable(&field_8_anim, 0x4BA2B8);
-
-    SetVTable(this, 0x4BD7B8);
-
     const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0);
     field_8_anim.Init_402D20(orbRec.mFrameTableOffset, gObjList_animations_505564, 0, orbRec.mMaxW, orbRec.mMaxH, ppRes, 1, 0, 0);
@@ -237,7 +220,6 @@ OrbWhirlWindParticle* OrbWhirlWindParticle::ctor_48BC10(FP xpos, FP ypos, FP sca
     field_C0_current_scale = scale;
     field_C4_randomized_scale = FP_FromInteger(Math_RandomRange_450F20(7, 10)) / FP_FromInteger(10);
     field_A8_render_as_scale = field_C0_current_scale * field_C4_randomized_scale;
-    return this;
 }
 
 void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj)

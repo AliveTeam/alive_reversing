@@ -48,26 +48,23 @@ public:
 
                     gpThrowableArray_50E26C->Add_453F70(field_EC_num_grenades);
 
-                    auto pNewNade = ao_new<Grenade>();
+                    FP directedScale = {};
+                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    {
+                        directedScale = -field_BC_sprite_scale;
+                    }
+                    else
+                    {
+                        directedScale = field_BC_sprite_scale;
+                    }
+                    auto pNewNade = ao_new<Grenade>(
+                        field_A8_xpos + (FP_FromInteger(6) * directedScale),
+                        field_AC_ypos + (-FP_FromInteger(6) * directedScale),
+                        field_EC_num_grenades);
                     if (pNewNade)
                     {
-                        FP directedScale = {};
-                        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                        {
-                            directedScale = -field_BC_sprite_scale;
-                        }
-                        else
-                        {
-                            directedScale = field_BC_sprite_scale;
-                        }
-
-                        pNewNade->ctor_41EBD0(
-                            field_A8_xpos + (FP_FromInteger(6) * directedScale),
-                            field_AC_ypos + (-FP_FromInteger(6) * directedScale),
-                            field_EC_num_grenades);
+                        pNewNade->VThrow(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
                     }
-
-                    pNewNade->VThrow(field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
                     const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
                     field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);

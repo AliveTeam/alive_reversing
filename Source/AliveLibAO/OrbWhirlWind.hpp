@@ -19,14 +19,8 @@ public:
         eActive = 2
     };
 
-    EXPORT OrbWhirlWind* ctor_48B870(FP xpos, FP ypos, FP scale);
-
-    EXPORT BaseGameObject* dtor_48B910();
-
-
-    
-
-    EXPORT OrbWhirlWind* Vdtor_48C4F0(s32 flags);
+    OrbWhirlWind(FP xpos, FP ypos, FP scale);
+    ~OrbWhirlWind();
 
     virtual void VUpdate() override;
 

@@ -8,15 +8,13 @@ namespace AO {
 class Honey final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Honey* ctor_431E30(FP xpos, FP ypos);
+    Honey(FP xpos, FP ypos);
 
     virtual void VUpdate() override;
 
     virtual void VScreenChanged() override;
 
     EXPORT void VScreenChanged_431EF0();
-
-    
 
     s32 field_D4[4];
     s32 field_E4_tlvInfo;

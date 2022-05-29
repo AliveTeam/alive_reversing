@@ -10,11 +10,8 @@
 
 namespace AO {
 
-BulletShell* BulletShell::ctor_462790(FP xpos, FP ypos, s16 direction, FP scale)
+BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
 {
-    
-    SetVTable(this, 0x4BC968);
-
     field_4_typeId = Types::eNone_0;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Bullet_Shell);
@@ -50,35 +47,12 @@ BulletShell* BulletShell::ctor_462790(FP xpos, FP ypos, s16 direction, FP scale)
     }
     field_B8_vely = FP_FromInteger(Math_RandomRange_450F20(-4, -1));
     field_F0_speed = FP_FromInteger(1);
-    return this;
-}
-
-BaseGameObject* BulletShell::dtor_4628B0()
-{
-    SetVTable(this, 0x4BC968);
-    return dtor_417D10();
-}
-
-BaseGameObject* BulletShell::VDestructor(s32 flags)
-{
-    return Vdtor_462A50(flags);
-}
-
-BulletShell* BulletShell::Vdtor_462A50(s32 flags)
-{
-    dtor_4628B0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void BulletShell::VUpdate()
 {
     VUpdate_4628C0();
 }
-
 
 void BulletShell::VUpdate_4628C0()
 {

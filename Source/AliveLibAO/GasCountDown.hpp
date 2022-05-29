@@ -17,13 +17,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x1C);
 class GasCountDown final : public BaseGameObject
 {
 public:
-    EXPORT GasCountDown* ctor_40BF60(Path_GasCountDown* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_40C050();
-
-    
-
-    EXPORT BaseGameObject* Vdtor_40C3F0(s32 flags);
+    GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo);
+    ~GasCountDown();
 
     virtual void VScreenChanged() override;
 

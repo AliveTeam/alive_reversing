@@ -26,33 +26,15 @@ void TimerTrigger::VScreenChanged()
     VScreenChanged_479DB0();
 }
 
-TimerTrigger* TimerTrigger::Vdtor_479E00(s32 flags)
+TimerTrigger::~TimerTrigger()
 {
-    dtor_479BE0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* TimerTrigger::VDestructor(s32 flags)
-{
-    return Vdtor_479E00(flags);
-}
-
-BaseGameObject* TimerTrigger::dtor_479BE0()
-{
-    SetVTable(this, 0x4BCE20);
     gMap.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
-    return dtor_487DF0();
 }
 
-TimerTrigger* TimerTrigger::ctor_479B40(Path_TimerTrigger* pTlv, s32 tlvInfo)
+TimerTrigger::TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
     field_1C_tlvInfo = tlvInfo;
-    SetVTable(this, 0x4BCE20);
 
     field_24_trigger_interval = pTlv->field_1A_trigger_interval;
 
@@ -72,8 +54,6 @@ TimerTrigger* TimerTrigger::ctor_479B40(Path_TimerTrigger* pTlv, s32 tlvInfo)
     {
         field_28_starting_switch_state = 0;
     }
-
-    return this;
 }
 
 void TimerTrigger::ToggleAllIds()

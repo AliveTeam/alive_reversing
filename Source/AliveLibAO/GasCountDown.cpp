@@ -51,10 +51,9 @@ const u8 byte_4C5080[32] = {
 ALIVE_VAR(1, 0x507700, s32, sGasTimer_507700, 0);
 ALIVE_VAR(1, 0x4FF888, s16, gGasOn_4FF888, 0);
 
-GasCountDown* GasCountDown::ctor_40BF60(Path_GasCountDown* pTlv, s32 tlvInfo)
+GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BA440);
     field_4_typeId = Types::eGasClock_16;
     field_58_tlvInfo = tlvInfo;
     field_10_font_context.LoadFontType_41C040(2);
@@ -71,29 +70,15 @@ GasCountDown* GasCountDown::ctor_40BF60(Path_GasCountDown* pTlv, s32 tlvInfo)
     field_5E_ypos = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + pTlv->field_10_top_left.field_2_y)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
 
     field_60_start_switch_id = pTlv->field_18_start_switch_id;
-    return this;
 }
 
-BaseGameObject* GasCountDown::dtor_40C050()
+GasCountDown::~GasCountDown()
 {
-    SetVTable(this, 0x4BA440);
     gObjList_drawables_504618->Remove_Item(this);
     gMap.TLV_Reset_446870(field_58_tlvInfo, -1, 0, 0);
     field_20_font.dtor_41C130();
     field_10_font_context.dtor_41C110();
-    return dtor_487DF0();
 }
-
-BaseGameObject* GasCountDown::Vdtor_40C3F0(s32 flags)
-{
-    dtor_40C050();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
 
 void GasCountDown::VScreenChanged()
 {
@@ -192,11 +177,7 @@ void GasCountDown::DealDamage()
     if (!gGasOn_4FF888 && field_62_time_left <= 0)
     {
         gGasOn_4FF888 = TRUE;
-        auto pDeathGas = ao_new<DeathGas>();
-        if (pDeathGas)
-        {
-            pDeathGas->ctor_41CF40(Layer::eLayer_Above_FG1_39, 2);
-        }
+        ao_new<DeathGas>(Layer::eLayer_Above_FG1_39, 2);
     }
 }
 
@@ -234,11 +215,6 @@ void GasCountDown::VRender_40C2F0(PrimHeader** ppOt)
         field_5C_xpos + textWidth,
         field_5E_ypos + 16,
         pScreenManager_4FF7C8->field_2E_idx);
-}
-
-BaseGameObject* GasCountDown::VDestructor(s32 flags)
-{
-    return Vdtor_40C3F0(flags);
 }
 
 } // namespace AO

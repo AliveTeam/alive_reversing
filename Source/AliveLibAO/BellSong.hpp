@@ -14,14 +14,11 @@ enum class BellsongTypes : s16
 class BellSong final : public BaseGameObject
 {
 public:
-    EXPORT BellSong* ctor_4760B0(BellsongTypes type, u32 code);
+    BellSong(BellsongTypes type, u32 code);
 
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_476130();
-
-    
-
 
     s32 field_10_code_idx;
     s16 field_14_bDone;

@@ -76,25 +76,8 @@ void FlintLockFire::VStopAudio()
     VStopAudio_41B0C0();
 }
 
-FlintLockFire* FlintLockFire::Vdtor_41B500(s32 flags)
+FlintLockFire::~FlintLockFire()
 {
-    dtor_41AE20();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* FlintLockFire::VDestructor(s32 flags)
-{
-    return Vdtor_41B500(flags);
-}
-
-BaseGameObject* FlintLockFire::dtor_41AE20()
-{
-    SetVTable(this, 0x4BAEA0);
-
     gMap.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
     field_F0_anim.vCleanUp();
 
@@ -107,19 +90,11 @@ BaseGameObject* FlintLockFire::dtor_41AE20()
             SND_Stop_Channels_Mask_4774A0(field_EC_fire_sound);
         }
     }
-    return dtor_417D10();
 }
 
-FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
+FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
 {
-    
     field_4_typeId = Types::eFlintLockFire_34;
-
-    SetVTable(this, 0x4BAEA0);
-
-    SetVTable(&field_F0_anim, 0x4BA2B8);
-    SetVTable(&field_188_anim, 0x4BA2B8);
-    SetVTable(&field_220_anim, 0x4BA2B8);
 
     const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
 
@@ -231,7 +206,6 @@ FlintLockFire* FlintLockFire::ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo)
             field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
         }
     }
-    return this;
 }
 
 void FlintLockFire::VUpdate_41AEE0()
@@ -282,11 +256,7 @@ void FlintLockFire::VUpdate_41AEE0()
                     field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
                 }
 
-                auto pMusicTrigger = ao_new<MusicTrigger>();
-                if (pMusicTrigger)
-                {
-                    pMusicTrigger->ctor_443A60(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
-                }
+                ao_new<MusicTrigger>(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
             }
             break;
 

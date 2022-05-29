@@ -18,10 +18,8 @@
 
 namespace AO {
 
-Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP exposion_size)
+Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
 {
-    
-    SetVTable(this, 0x4BC218);
     field_4_typeId = Types::eExplosion_74;
     const AnimRecord& rec = AO::AnimRec(AnimId::Explosion);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -36,11 +34,7 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP exposion_size)
     field_AC_ypos = ypos;
     field_A8_xpos = xpos;
 
-    auto pScreenShake = ao_new<ScreenShake>();
-    if (pScreenShake)
-    {
-        pScreenShake->ctor_4624D0(TRUE);
-    }
+    ao_new<ScreenShake>(TRUE);
 
     PSX_RECT rect = {};
     rect.x = FP_GetExponent(FP_FromInteger(-10) * exposion_size);
@@ -51,18 +45,6 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP exposion_size)
     DealBlastDamage_459160(&rect);
 
     SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);
-
-    return this;
-}
-
-BaseGameObject* Explosion::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void Explosion::VUpdate()
@@ -90,11 +72,7 @@ void Explosion::VUpdate_458D00()
 
         case 3:
         {
-            auto pParticleBurst = ao_new<ParticleBurst>();
-            if (pParticleBurst)
-            {
-                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
-            }
+            ao_new<ParticleBurst>(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
 
             ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
@@ -122,11 +100,7 @@ void Explosion::VUpdate_458D00()
 
         case 8:
         {
-            auto pParticleBurst = ao_new<ParticleBurst>();
-            if (pParticleBurst)
-            {
-                pParticleBurst->ctor_40D0F0(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
-            }
+            ao_new<ParticleBurst>(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
 
             ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
@@ -266,21 +240,11 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
             if (dir == CameraPos::eCamLeft_3)
             {
-                auto pGibs = ao_new<Gibs>();
-
-                if (pGibs)
-                {
-                    pGibs->ctor_407B20(GibType::Slig_1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
-                }
+                ao_new<Gibs>(GibType::Slig_1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
             }
             else if (dir == CameraPos::eCamRight_4)
             {
-                auto pGibs = ao_new<Gibs>();
-
-                if (pGibs)
-                {
-                    pGibs->ctor_407B20(GibType::Slig_1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
-                }
+                ao_new<Gibs>(GibType::Slig_1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
             }
             Stop_slig_sounds_476A20(dir, 0);
         }

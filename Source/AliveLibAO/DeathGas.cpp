@@ -31,11 +31,9 @@ ALIVE_VAR(1, 0x4FFDB0, Data_Byte, sbyte_1_4FFDB0, {});
 ALIVE_VAR(1, 0x5008B0, Data_Byte, sbyte_2_5008B0, {});
 ALIVE_VAR(1, 0x5009D0, s32, gDeathGasCount_5009D0, 0);
 
-DeathGas* DeathGas::ctor_41CF40(Layer layer, s16 amount)
+DeathGas::DeathGas(Layer layer, s16 amount)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BAF08);
-
     gDeathGasCount_5009D0++;
 
     field_4_typeId = Types::eDeathFadeOut_80; // wot moment
@@ -81,20 +79,12 @@ DeathGas* DeathGas::ctor_41CF40(Layer layer, s16 amount)
     }
 
     field_14_amount = amount;
-    return this;
 }
 
-BaseGameObject* DeathGas::VDestructor(s32 flags)
+DeathGas::~DeathGas()
 {
-    return Vdtor_41D740(flags);
-}
-
-BaseGameObject* DeathGas::dtor_41D0E0()
-{
-    SetVTable(this, 0x4BAF08);
     gObjList_drawables_504618->Remove_Item(this);
     gDeathGasCount_5009D0--;
-    return dtor_487DF0();
 }
 
 void DeathGas::VScreenChanged_41D700()
@@ -130,16 +120,6 @@ void DeathGas::VUpdate_41D150()
 void DeathGas::VUpdate()
 {
     VUpdate_41D150();
-}
-
-DeathGas* DeathGas::Vdtor_41D740(s32 flags)
-{
-    dtor_41D0E0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void DeathGas::VRender(PrimHeader** ppOt)

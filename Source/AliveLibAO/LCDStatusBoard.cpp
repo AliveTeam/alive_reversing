@@ -59,37 +59,19 @@ void LCDStatusBoard::VScreenChanged()
     VScreenChanged_441C70();
 }
 
-LCDStatusBoard* LCDStatusBoard::Vdtor_441C80(s32 flags)
+LCDStatusBoard::~LCDStatusBoard()
 {
-    dtor_4419E0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* LCDStatusBoard::VDestructor(s32 flags)
-{
-    return Vdtor_441C80(flags);
-}
-
-BaseGameObject* LCDStatusBoard::dtor_4419E0()
-{
-    SetVTable(this, 0x4BBB90);
     gObjList_drawables_504618->Remove_Item(this);
     gMap.TLV_Reset_446870(field_C8_tlv, -1, 0, 0);
     field_90_font3.dtor_41C130();
     field_58_font2.dtor_41C130();
     field_20_font1.dtor_41C130();
     field_10_fontContext.dtor_41C110();
-    return dtor_487DF0();
 }
 
-LCDStatusBoard* LCDStatusBoard::ctor_4418E0(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
+LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BBB90);
     field_C8_tlv = tlvInfo;
     field_10_fontContext.LoadFontType_41C040(2);
     field_20_font1.ctor_41C170(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
@@ -101,7 +83,6 @@ LCDStatusBoard* LCDStatusBoard::ctor_4418E0(Path_LCDStatusBoard* pTlv, s32 tlvIn
 
     field_CC_xpos = (pScreenManager_4FF7C8->field_14_xpos + pTlv->field_10_top_left.field_0_x) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
     field_CE_ypos = (pScreenManager_4FF7C8->field_16_ypos + pTlv->field_10_top_left.field_2_y) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
-    return this;
 }
 
 void LCDStatusBoard::VUpdate_441A90()

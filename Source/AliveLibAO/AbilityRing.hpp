@@ -49,11 +49,8 @@ enum class LevelIds : s16;
 class AbilityRing final : public BaseGameObject
 {
 public:
-    EXPORT BaseGameObject* dtor_455E50();
-
-    EXPORT AbilityRing* ctor_455860(FP xpos, FP ypos, RingTypes type);
-
-    EXPORT BaseGameObject* Vdtor_456940(s32 flags);
+    AbilityRing(FP xpos, FP ypos, RingTypes type);
+    ~AbilityRing();
 
     EXPORT static AbilityRing* CC Factory_447590(FP xpos, FP ypos, RingTypes ring_type);
 

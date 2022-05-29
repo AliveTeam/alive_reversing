@@ -17,13 +17,8 @@ ALIVE_ASSERT_SIZEOF(Path_FlintLockFire, 0x1C);
 class FlintLockFire final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT FlintLockFire* ctor_41AA90(Path_FlintLockFire* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_41AE20();
-
-    
-
-    EXPORT FlintLockFire* Vdtor_41B500(s32 flags);
+    FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo);
+    ~FlintLockFire();
 
     virtual void VStopAudio() override;
 

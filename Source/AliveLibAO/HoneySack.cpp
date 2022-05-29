@@ -13,10 +13,8 @@
 
 namespace AO {
 
-HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
+HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
 {
-    
-    SetVTable(this, 0x4BB238);
     field_4_typeId = Types::eHoneySack_45;
 
     const AnimRecord& hangingRec = AO::AnimRec(AnimId::HoneySack_Hanging);
@@ -85,12 +83,10 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
             field_F8_drip_target_y = FP_FromInteger(pHoneyDripTarget->field_10_top_left.field_2_y);
         }
     }
-    return this;
 }
 
-BaseGameObject* HoneySack::dtor_42BF20()
+HoneySack::~HoneySack()
 {
-    SetVTable(this, 0x4BB238);
     mFlags.Clear(Options::eCanExplode_Bit7);
 
     if (field_E8_state == State::eDripHoney_0)
@@ -107,23 +103,6 @@ BaseGameObject* HoneySack::dtor_42BF20()
         field_F0_pBee->field_C_refCount--;
         field_F0_pBee = nullptr;
     }
-
-    return dtor_417D10();
-}
-
-BaseGameObject* HoneySack::VDestructor(s32 flags)
-{
-    return Vdtor_42C3B0(flags);
-}
-
-HoneySack* HoneySack::Vdtor_42C3B0(s32 flags)
-{
-    dtor_42BF20();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 void HoneySack::VScreenChanged()

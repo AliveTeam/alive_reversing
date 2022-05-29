@@ -14,33 +14,14 @@ void ZzzSpawner::VScreenChanged()
     VScreenChanged_472E20();
 }
 
-ZzzSpawner* ZzzSpawner::Vdtor_472E30(s32 flags)
+ZzzSpawner::~ZzzSpawner()
 {
-    dtor_472CF0();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
-BaseGameObject* ZzzSpawner::VDestructor(s32 flags)
-{
-    return Vdtor_472E30(flags);
-}
-
-BaseGameObject* ZzzSpawner::dtor_472CF0()
-{
-    SetVTable(this, 0x4BCBB0);
     gMap.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
-    return dtor_487DF0();
 }
 
-ZzzSpawner* ZzzSpawner::ctor_472C80(Path_ZzzSpawner* pTlv, s32 tlvInfo)
+ZzzSpawner::ZzzSpawner(Path_ZzzSpawner* pTlv, s32 tlvInfo)
+    : BaseGameObject(1)
 {
-    BaseGameObject(1);
-    SetVTable(this, 0x4BCBB0);
-
     field_10_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_14_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_1C_tlvInfo = tlvInfo;
@@ -57,8 +38,6 @@ ZzzSpawner* ZzzSpawner::ctor_472C80(Path_ZzzSpawner* pTlv, s32 tlvInfo)
     field_20_switch_id = pTlv->field_1A_switch_id;
     field_28_Zzz_delay = pTlv->field_1C_Zzz_delay;
     field_24_timer = 0;
-
-    return this;
 }
 
 void ZzzSpawner::VScreenChanged_472E20()
@@ -81,24 +60,21 @@ void ZzzSpawner::VUpdate_472D50()
 
     if (!SwitchStates_Get(field_20_switch_id) && static_cast<s32>(gnFrameCount_507670) > field_24_timer)
     {
-        auto pSnoozeParticle = ao_new<SnoozeParticle>();
-        if (pSnoozeParticle)
+        Layer snoozeLayer = Layer::eLayer_0;
+        if (field_18_scale != FP_FromInteger(1))
         {
-            Layer snoozeLayer = Layer::eLayer_0;
-            if (field_18_scale != FP_FromInteger(1))
-            {
-                snoozeLayer = Layer::eLayer_Above_FG1_Half_20;
-            }
-            else
-            {
-                snoozeLayer = Layer::eLayer_Above_FG1_39;
-            }
-            pSnoozeParticle->ctor_464320(
-                field_10_xpos,
-                field_14_ypos,
-                snoozeLayer,
-                field_18_scale);
+            snoozeLayer = Layer::eLayer_Above_FG1_Half_20;
         }
+        else
+        {
+            snoozeLayer = Layer::eLayer_Above_FG1_39;
+        }
+        ao_new<SnoozeParticle>(
+            field_10_xpos,
+            field_14_ypos,
+            snoozeLayer,
+            field_18_scale);
+
         field_24_timer = gnFrameCount_507670 + field_28_Zzz_delay;
     }
 }

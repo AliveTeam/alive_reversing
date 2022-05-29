@@ -88,17 +88,12 @@ enum class ScrabSounds : u8
 class Scrab final : public BaseAliveGameObject
 {
 public:
-    EXPORT Scrab* ctor_45B5F0(Path_Scrab* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_45BA50();
-
-    
+    Scrab(Path_Scrab* pTlv, s32 tlvInfo);
+    ~Scrab();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
     EXPORT void VRender_45BBF0(PrimHeader** ppOt);
-
-    EXPORT Scrab* Vdtor_45C310(s32 flags);
 
     virtual void VUpdate() override;
 

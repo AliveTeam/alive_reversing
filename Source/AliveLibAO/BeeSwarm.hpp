@@ -29,13 +29,8 @@ struct BeeSwarmParticles final
 class BeeSwarm final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BeeSwarm* ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks);
-
-    EXPORT BaseGameObject* dtor_47FDF0();
-
-    
-
-    EXPORT BeeSwarm* Vdtor_480E00(s32 flags);
+    BeeSwarm(FP xpos, FP ypos, FP speed, s16 numBees, s32 chaseTicks);
+    ~BeeSwarm();
 
     virtual void VScreenChanged() override;
 

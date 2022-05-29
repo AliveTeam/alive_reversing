@@ -30,13 +30,8 @@ enum class LevelIds : s16;
 class BeeNest final : public BaseGameObject
 {
 public:
-    EXPORT BeeNest* ctor_480E20(Path_BeeNest* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_4810C0();
-
-    
-
-    EXPORT BeeNest* Vdtor_4810E0(s32 flags);
+    BeeNest(Path_BeeNest* pTlv, s32 tlvInfo);
+    ~BeeNest();
 
     virtual void VScreenChanged() override;
 

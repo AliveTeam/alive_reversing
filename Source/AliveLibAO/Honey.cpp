@@ -17,10 +17,8 @@ void Honey::VUpdate()
     // Empty
 }
 
-Honey* Honey::ctor_431E30(FP xpos, FP ypos)
+Honey::Honey(FP xpos, FP ypos)
 {
-    
-    SetVTable(this, 0x4BB2F8);
     field_4_typeId = Types::eHoney_47;
 
     field_C4_b = 128;
@@ -33,25 +31,12 @@ Honey* Honey::ctor_431E30(FP xpos, FP ypos)
 
     field_AC_ypos = ypos;
     field_A8_xpos = xpos;
-
-    return this;
 }
 
 void Honey::VScreenChanged_431EF0()
 {
     mFlags.Set(BaseGameObject::eDead);
     gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
-}
-
-
-BaseGameObject* Honey::VDestructor(s32 flags)
-{
-    dtor_417D10();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
 }
 
 } // namespace AO

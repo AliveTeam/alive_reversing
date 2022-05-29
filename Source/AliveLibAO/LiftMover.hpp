@@ -26,12 +26,9 @@ class LiftPoint;
 class LiftMover final : public BaseGameObject
 {
 public:
-    EXPORT LiftMover* ctor_4054E0(Path_LiftMover* pTlv, s32 tlvInfo);
-    EXPORT BaseGameObject* dtor_405550();
-
+    LiftMover(Path_LiftMover* pTlv, s32 tlvInfo);
+    ~LiftMover();
     
-    EXPORT LiftMover* Vdtor_405A50(s32 flags);
-
     virtual void VUpdate() override;
 
     EXPORT void VUpdate_4055C0();

@@ -47,7 +47,7 @@ ALIVE_ASSERT_SIZEOF(Path_BirdPortalExit, 0x1C);
 class BirdPortalTerminator final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BirdPortalTerminator* ctor_451F70(FP xpos, FP ypos, FP scale, PortalType portalType);
+    BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalType portalType);
 
     virtual void VScreenChanged() override;
 
@@ -66,8 +66,9 @@ class Dove;
 class BirdPortal final : public BaseGameObject
 {
 public:
-    EXPORT BirdPortal* ctor_4520A0(Path_BirdPortal* pTlv, s32 tlvInfo);
-    EXPORT BaseGameObject* dtor_452230();
+    BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo);
+    ~BirdPortal();
+
     EXPORT s16 IsScaredAway_4532E0();
 
     
@@ -102,7 +103,6 @@ private:
     EXPORT void VScreenChanged_4538E0();
     EXPORT void VGiveShrukull_4535A0(s16 bPlaySound);
     EXPORT void VUpdate_4523D0();
-    EXPORT BirdPortal* Vdtor_453990(s32 flags);
 
 public:
     PortalType field_10_portal_type;

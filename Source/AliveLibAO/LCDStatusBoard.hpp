@@ -14,13 +14,8 @@ struct Path_LCDStatusBoard final : public Path_TLV
 class LCDStatusBoard final : public BaseGameObject
 {
 public:
-    EXPORT LCDStatusBoard* ctor_4418E0(Path_LCDStatusBoard* pTlv, s32 tlvInfo);
-
-    EXPORT BaseGameObject* dtor_4419E0();
-
-    
-
-    EXPORT LCDStatusBoard* Vdtor_441C80(s32 flags);
+    LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo);
+    ~LCDStatusBoard();
 
     virtual void VScreenChanged() override;
 

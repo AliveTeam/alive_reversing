@@ -22,10 +22,9 @@ namespace AO {
 // TODO: Index is always >=1 so first entry is redundant ??
 const s32 dword_4C5054[11] = {0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
 
-ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
+ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
+    : BaseAliveGameObject()
 {
-    BaseAliveGameObject();
-    SetVTable(this, 0x4BA3C8);
     field_4_typeId = Types::eChimeLock_14;
 
     field_10C_tlvInfo = tlvInfo;
@@ -134,15 +133,11 @@ ChimeLock* ChimeLock::ctor_40AB20(Path_ChimeLock* pTlv, s32 tlvInfo)
     field_164_ChimeLock_num[0] = BellPositions::eNone_0;
     field_164_ChimeLock_num[1] = BellPositions::eNone_0;
     field_110_state = ChimeLockStates::eIdle_0;
-
-    return this;
 }
 
 
-BaseGameObject* ChimeLock::dtor_40AE60()
+ChimeLock::~ChimeLock()
 {
-    SetVTable(this, 0x4BA3C8);
-
     if (field_114_left_bell)
     {
         field_114_left_bell->mFlags.Set(Options::eDead);
@@ -159,20 +154,7 @@ BaseGameObject* ChimeLock::dtor_40AE60()
     }
 
     gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
-
-    return dtor_401000();
 }
-
-ChimeLock* ChimeLock::Vdtor_40BD40(s32 flags)
-{
-    dtor_40AE60();
-    if (flags & 1)
-    {
-        ao_delete_free_447540(this);
-    }
-    return this;
-}
-
 
 void ChimeLock::VScreenChanged()
 {
@@ -431,11 +413,7 @@ void ChimeLock::VUpdate_40AEF0()
                     field_110_state = ChimeLockStates::eNeverRead_6;
                     SwitchStates_Do_Operation_436A10(field_132_solve_switch_id, SwitchOp::eSetTrue_0);
                     VUnPosses();
-                    auto pMusic = ao_new<MusicTrigger>();
-                    if (pMusic)
-                    {
-                        pMusic->ctor_443A60(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
-                    }
+                    ao_new<MusicTrigger>(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
                     return;
                 }
             }
@@ -667,11 +645,6 @@ void ChimeLock::VPossessed_40BC40()
     field_15C_ball_state = BallStates::eIdle_0;
     field_164_ChimeLock_num[0] = BellPositions::eNone_0;
     field_164_ChimeLock_num[1] = BellPositions::eNone_0;
-}
-
-BaseGameObject* ChimeLock::VDestructor(s32 flags)
-{
-    return Vdtor_40BD40(flags);
 }
 
 } // namespace AO
