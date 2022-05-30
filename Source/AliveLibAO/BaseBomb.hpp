@@ -10,11 +10,9 @@ class BaseBomb final : public BaseAnimatedWithPhysicsGameObject
 public:
     BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale);
 
-    EXPORT void DealDamageRect_417A50(const PSX_RECT* pRect);
+    void DealDamageRect(const PSX_RECT* pRect);
 
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_417580();
 
     s32 field_D4_padding[4];
     FP field_E4_scale;

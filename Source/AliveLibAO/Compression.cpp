@@ -8,12 +8,12 @@
 
 namespace AO {
 
-EXPORT void CC Decompress_Type_1_403150(const u8* /*pInput*/, u8* /*pOutput*/, u32 /*compressedLen*/, u32 /*decompressedLen*/)
+void Decompress_Type_1(const u8* /*pInput*/, u8* /*pOutput*/, u32 /*compressedLen*/, u32 /*decompressedLen*/)
 {
     ALIVE_FATAL("Decompress_Type_1_403150 never expected be called");
 }
 
-EXPORT void CC Decompress_Type_2_403390(const u8* pInput, u8* pOutput, s32 decompressedLen)
+void Decompress_Type_2(const u8* pInput, u8* pOutput, s32 decompressedLen)
 {
     // Exactly the same as AE
     CompressionType2_Decompress_40AA50(pInput, pOutput, decompressedLen);
@@ -39,7 +39,7 @@ static void ReadNextSource(PtrStream& stream, s32& control_byte, T& workBits)
     control_byte -= 6;
 }
 
-EXPORT void CC Decompress_Type_3_4031E0(const u8* pInput, u8* pOutput, s32 totalLen, s32 out_len)
+void Decompress_Type_3(const u8* pInput, u8* pOutput, s32 totalLen, s32 out_len)
 {
     u32 inStreamLen = totalLen & ~3u;
     u32 inStreamDirectBytesLen = totalLen & 3;
@@ -118,7 +118,7 @@ EXPORT void CC Decompress_Type_3_4031E0(const u8* pInput, u8* pOutput, s32 total
     }
 }
 
-EXPORT void CC Decompress_Type_4_5_461770(const u8* pInput, u8* pOutput)
+void Decompress_Type_4Or5(const u8* pInput, u8* pOutput)
 {
     // Exactly the same as AE
     CompressionType_4Or5_Decompress_4ABAB0(pInput, pOutput);

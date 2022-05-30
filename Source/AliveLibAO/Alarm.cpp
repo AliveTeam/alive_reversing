@@ -61,7 +61,7 @@ void Alarm::VRender(PrimHeader** ppOt)
 
 void Alarm::VUpdate()
 {
-    Event_Broadcast_417220(kEvent_Alarm_17, this);
+    Event_Broadcast(kEvent_Alarm_17, this);
 
     if (field_10_path_id != gMap.mCurrentPath || field_12_level_id != gMap.mCurrentLevel || static_cast<s32>(gnFrameCount_507670) > field_70_duration_timer)
     {
@@ -72,7 +72,7 @@ void Alarm::VUpdate()
     switch (field_6A_state)
     {
         case States::eAfterConstructed_0:
-            if (Event_Get_417250(kEventHeroDying_3))
+            if (Event_Get(kEventHeroDying_3))
             {
                 mFlags.Set(BaseGameObject::eDead);
                 return;
@@ -122,7 +122,7 @@ void Alarm::VUpdate()
             break;
 
         case States::eDisabled_4:
-            if (Event_Get_417250(kEventHeroDying_3))
+            if (Event_Get(kEventHeroDying_3))
             {
                 mFlags.Set(BaseGameObject::eDead);
                 return;

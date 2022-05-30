@@ -126,7 +126,7 @@ void SecurityOrb::VUpdate()
 
 void SecurityOrb::VUpdate_436DF0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -151,7 +151,7 @@ void SecurityOrb::VUpdate_436DF0()
                 }
             }
 
-            if (Event_Get_417250(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm_8))
             {
                 field_110_state = SecurityOrbStates::eDoZapEffects_1;
                 field_114_timer = gnFrameCount_507670 + 20;

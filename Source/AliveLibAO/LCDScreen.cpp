@@ -226,7 +226,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo)
 
     field_2AC_message_1_id = pTlv->field_18_message_1_id;
 
-    field_50_font_context.LoadFontType_41C040(2);
+    field_50_font_context.LoadFontType(2);
     field_60_font.ctor_41C170(60, sLCDScreen_Palette_4C75A8, &field_50_font_context);
 
     IRenderer::PalRecord rec;
@@ -266,7 +266,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo)
     field_2DC_message_rand_max = pTlv->field_1C_message_rand_max;
 
     sFontDrawScreenSpace_508BF4 = 1;
-    field_2B4_character_width = field_60_font.MeasureWidth_41C200(field_AC_message_buffer[0]);
+    field_2B4_character_width = field_60_font.MeasureCharacterWidth(field_AC_message_buffer[0]);
     sFontDrawScreenSpace_508BF4 = 0;
 
     field_2D4 = 0;
@@ -301,7 +301,7 @@ void LCDScreen::VUpdate()
 
 void LCDScreen::VUpdate_4341B0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -360,14 +360,14 @@ void LCDScreen::VUpdate_4341B0()
             field_60_font.field_28_palette_rect = palSwap;
         }
         sFontDrawScreenSpace_508BF4 = 1;
-        field_2B4_character_width = field_60_font.MeasureWidth_41C200(*field_A0_message);
+        field_2B4_character_width = field_60_font.MeasureCharacterWidth(*field_A0_message);
     }
     sFontDrawScreenSpace_508BF4 = 1;
 
     auto screenLeft = field_2BC_tlv.field_10_top_left.field_0_x - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
     auto screenRight = field_2BC_tlv.field_14_bottom_right.field_0_x - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
 
-    const char_type* slicedText = field_60_font.SliceText_41C6C0(
+    const char_type* slicedText = field_60_font.SliceText(
         field_A0_message,
         PsxToPCX(screenLeft - pScreenManager_4FF7C8->field_14_xpos, 11) - field_2B0_x_offset,
         FP_FromInteger(1),
@@ -424,7 +424,7 @@ void LCDScreen::VRender_434400(PrimHeader** ppOt)
         }
 
         sFontDrawScreenSpace_508BF4 = 1;
-        field_60_font.DrawString_41C360(
+        field_60_font.DrawString(
             ppOt,
             field_A0_message,
             static_cast<s16>(PsxToPCX(screenX, 11) - field_2B0_x_offset),

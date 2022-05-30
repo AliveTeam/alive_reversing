@@ -51,11 +51,6 @@ BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
 
 void BulletShell::VUpdate()
 {
-    VUpdate_4628C0();
-}
-
-void BulletShell::VUpdate_4628C0()
-{
     field_A8_xpos += field_B4_velx;
     field_AC_ypos += field_B8_vely;
 
@@ -63,7 +58,7 @@ void BulletShell::VUpdate_4628C0()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast_40C410(
+    if (sCollisions_DArray_504C6C->RayCast(
             field_A8_xpos,
             field_AC_ypos - field_B8_vely,
             field_A8_xpos,

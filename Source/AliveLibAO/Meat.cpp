@@ -77,7 +77,7 @@ void MeatSack::VUpdate()
 
 void MeatSack::VUpdate_4392C0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -104,7 +104,7 @@ void MeatSack::VUpdate_4392C0()
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::MeatSack_Idle);
-            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             field_110_bDoMeatSackIdleAnim = 0;
         }
         return;
@@ -130,7 +130,7 @@ void MeatSack::VUpdate_4392C0()
             {
                 if (gpThrowableArray_50E26C->field_10_count > 0)
                 {
-                    field_10_anim.Set_Animation_Data_402A40(MeatSackHitRec.mFrameTableOffset, nullptr);
+                    field_10_anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, nullptr);
                     field_110_bDoMeatSackIdleAnim = 1;
                     return;
                 }
@@ -150,7 +150,7 @@ void MeatSack::VUpdate_4392C0()
 
             SFX_Play_43AD70(SoundEffect::SackHit_30, 0, 0);
             Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, nullptr);
-            field_10_anim.Set_Animation_Data_402A40(MeatSackHitRec.mFrameTableOffset, nullptr);
+            field_10_anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, nullptr);
             field_110_bDoMeatSackIdleAnim = 1;
             return;
         }
@@ -295,30 +295,30 @@ void Meat::InTheAir_438720()
     field_AC_ypos += field_B8_vely;
 
     u16 result = 0;
-    const FP CamX_VoidSkipper = CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 8, &result);
-    field_A8_xpos = CamX_VoidSkipper;
+    const FP xVoidSkip = CamX_VoidSkipper(field_A8_xpos, field_B4_velx, 8, &result);
+    field_A8_xpos = xVoidSkip;
 
     if (result)
     {
-        field_114_xpos = CamX_VoidSkipper - field_B4_velx;
+        field_114_xpos = xVoidSkip - field_B4_velx;
     }
 
-    const FP CamY_VoidSkipper = CamY_VoidSkipper_418690(field_AC_ypos, field_B8_vely, 8, &result);
-    field_AC_ypos = CamY_VoidSkipper;
+    const FP yVoidSkip = CamY_VoidSkipper(field_AC_ypos, field_B8_vely, 8, &result);
+    field_AC_ypos = yVoidSkip;
 
     if (result)
     {
-        field_118_ypos = CamY_VoidSkipper - field_B8_vely;
+        field_118_ypos = yVoidSkip - field_B8_vely;
     }
 
     FP hitX = {};
     FP hitY = {};
 
-    const s16 CollisionRaycast = sCollisions_DArray_504C6C->RayCast_40C410(
+    const s16 CollisionRaycast = sCollisions_DArray_504C6C->RayCast(
         field_114_xpos,
         field_118_ypos,
-        CamX_VoidSkipper,
-        CamY_VoidSkipper,
+        xVoidSkip,
+        yVoidSkip,
         &field_124_pLine,
         &hitX,
         &hitY,
@@ -337,15 +337,15 @@ void Meat::InTheAir_438720()
                 {
                     field_110_state = 3;
 
-                    field_A8_xpos = FP_FromInteger(SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(hitX)));
+                    field_A8_xpos = FP_FromInteger(SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(hitX)));
                     field_AC_ypos = hitY;
 
                     field_B8_vely = FP_FromInteger(0);
                     field_B4_velx = FP_FromInteger(0);
 
                     SFX_Play_43AE60(SoundEffect::MeatBounce_43, 0, -650, 0);
-                    Event_Broadcast_417220(kEventNoise_0, this);
-                    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                    Event_Broadcast(kEventNoise_0, this);
+                    Event_Broadcast(kEventSuspiciousNoise_10, this);
                     AddToPlatform_438EA0();
                 }
                 break;
@@ -361,8 +361,8 @@ void Meat::InTheAir_438720()
                 field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
 
                 SFX_Play_43AE60(SoundEffect::MeatBounce_43, 0, -650, 0);
-                Event_Broadcast_417220(kEventNoise_0, this);
-                Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                Event_Broadcast(kEventNoise_0, this);
+                Event_Broadcast(kEventSuspiciousNoise_10, this);
 
                 if (field_B8_vely >= FP_FromInteger(0))
                 {
@@ -381,8 +381,8 @@ void Meat::InTheAir_438720()
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(4));
 
                     SFX_Play_43AE60(SoundEffect::MeatBounce_43, 0, -650, 0);
-                    Event_Broadcast_417220(kEventNoise_0, this);
-                    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                    Event_Broadcast(kEventNoise_0, this);
+                    Event_Broadcast(kEventSuspiciousNoise_10, this);
 
                     if (field_B8_vely < FP_FromInteger(0))
                     {
@@ -408,7 +408,7 @@ void Meat::VUpdate_438A20()
 {
     if (sNumCamSwappers_507668 == 0)
     {
-        if (Event_Get_417250(kEventDeathReset_4))
+        if (Event_Get(kEventDeathReset_4))
         {
             mFlags.Set(Options::eDead);
         }
@@ -455,7 +455,7 @@ void Meat::VUpdate_438A20()
                         field_B4_velx -= FP_FromDouble(0.01);
                     }
 
-                    field_124_pLine = field_124_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+                    field_124_pLine = field_124_pLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
                     if (!field_124_pLine)
                     {
                         field_110_state = 2;
@@ -465,9 +465,9 @@ void Meat::VUpdate_438A20()
                 else
                 {
                     field_B4_velx = FP_FromInteger(0);
-                    field_D4_collection_rect.x = field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
-                    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
-                    field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+                    field_D4_collection_rect.x = field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
+                    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
+                    field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
                     field_D4_collection_rect.h = field_AC_ypos;
 
                     mFlags.Set(Options::eInteractive_Bit8);

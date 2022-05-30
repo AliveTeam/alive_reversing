@@ -16,14 +16,9 @@ public:
     ~Electrocute();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_48D8B0();
-
-    EXPORT void Stop_48D510();
-
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_48D5C0();
+    void Stop();
 
     BaseAliveGameObject* field_10_obj_target;
     s16 field_14_overwriter_count;

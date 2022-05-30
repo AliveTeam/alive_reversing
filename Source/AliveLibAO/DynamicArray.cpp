@@ -29,7 +29,7 @@ void DynamicArray::dtor_404440()
     ao_delete_free_450770(field_0_array);
 }
 
-s16 DynamicArray::Push_Back_404450(void* item)
+s16 DynamicArray::Push_Back(void* item)
 {
     if (!item || !field_0_array)
     {
@@ -61,7 +61,7 @@ s16 DynamicArray::Push_Back_404450(void* item)
     return 1;
 }
 
-s16 DynamicArray::Remove_Item_404520(void* item)
+s16 DynamicArray::Remove_Item(void* item)
 {
     for (s16 idx = 0; idx < field_4_used_size; idx++)
     {

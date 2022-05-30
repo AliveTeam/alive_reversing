@@ -12,19 +12,12 @@ public:
     CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
 
     virtual void VScreenChanged() override;
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_47A030();
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_47A080(PrimHeader** ppOt);
-
     // New virtuals
-    virtual EXPORT s8 VFadeIn_479FE0(u8 direction, s8 destroyOnDone);
-
-    virtual EXPORT s32 VDone_47A4C0();
+    virtual s8 VFadeIn(u8 direction, s8 destroyOnDone);
+    virtual s32 VDone();
 
     s32 field_D4[4];
     enum Flags
@@ -46,6 +39,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(CircularFade, 0x1AC);
 
-EXPORT CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
+CircularFade* Make_Circular_Fade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
 
 } // namespace AO

@@ -33,7 +33,7 @@ public:
                 {
                     field_E4_state = BoomMachineStates::eDropGrenade_3;
                     const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Nozzle_DropGrenade);
-                    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                    field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 }
                 break;
 
@@ -67,7 +67,7 @@ public:
                     }
 
                     const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
-                    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                    field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                     field_E4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -92,12 +92,7 @@ ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0xF0);
 
 void BoomMachine::VHandleButton()
 {
-    VHandleButton_41E6F0();
-}
-
-void BoomMachine::VHandleButton_41E6F0()
-{
-    if (VIsButtonOn_41E840())
+    if (VIsButtonOn())
     {
         if (field_EC_pNozzle->field_E4_state == BoomMachineStates::eInactive_0)
         {
@@ -117,17 +112,12 @@ void BoomMachine::VHandleButton_41E6F0()
 
 Bool32 BoomMachine::VIsButtonOn()
 {
-    return VIsButtonOn_41E840();
-}
-
-Bool32 BoomMachine::VIsButtonOn_41E840()
-{
     return field_E8_bIsButtonOn == 1;
 }
 
 void BoomMachine::VUpdate()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -138,7 +128,7 @@ void BoomMachine::VUpdate()
         {
             field_E8_bIsButtonOn = 1;
             const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
-            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
         }
     }
     else if (field_E8_bIsButtonOn == 1)
@@ -147,7 +137,7 @@ void BoomMachine::VUpdate()
         {
             field_E8_bIsButtonOn = 0;
             const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_Off);
-            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
         }
 
         if (field_10_anim.field_92_current_frame == 3)
@@ -189,7 +179,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         field_BC_sprite_scale = FP_FromInteger(1);
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x) + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x) + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     auto pNozzle = ao_new<GrenadeMachineNozzle>();
@@ -222,7 +212,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     if (gpThrowableArray_50E26C && gpThrowableArray_50E26C->field_10_count)
     {
         field_E8_bIsButtonOn = 1;
-        field_10_anim.Set_Animation_Data_402A40(1572, 0);
+        field_10_anim.Set_Animation_Data(1572, 0);
     }
     else
     {

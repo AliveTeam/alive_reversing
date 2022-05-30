@@ -9,12 +9,12 @@ namespace AO {
 class DynamicArray
 {
 public:
-    EXPORT DynamicArray* ctor_4043E0(s16 startingSize);
-    EXPORT void dtor_404440();
+    DynamicArray* ctor_4043E0(s16 startingSize);
+    void dtor_404440();
 
 protected:
-    EXPORT s16 Push_Back_404450(void* item);
-    EXPORT s16 Remove_Item_404520(void* item);
+    s16 Push_Back(void* item);
+    s16 Remove_Item(void* item);
 
 public:
     void** field_0_array;
@@ -38,12 +38,12 @@ class DynamicArrayT final : public DynamicArray
 public:
     s16 Push_Back(T* pValue)
     {
-        return Push_Back_404450(pValue);
+        return DynamicArray::Push_Back(pValue);
     }
 
     s16 Remove_Item(T* pItemToRemove)
     {
-        return Remove_Item_404520(pItemToRemove);
+        return DynamicArray::Remove_Item(pItemToRemove);
     }
 
     T* ItemAt(s32 idx)

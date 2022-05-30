@@ -112,7 +112,7 @@ FallingItem::~FallingItem()
     gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
 }
 
-void FallingItem::DamageHitItems_41A6D0()
+void FallingItem::DamageHitItems()
 {
     for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
     {
@@ -146,9 +146,9 @@ void FallingItem::DamageHitItems_41A6D0()
     }
 }
 
-void FallingItem::VUpdate_41A120()
+void FallingItem::VUpdate()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -182,7 +182,7 @@ void FallingItem::VUpdate_41A120()
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
             const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap.mCurrentLevel)].field_4_waiting_animId);
-            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             field_11C_delay_timer = gnFrameCount_507670 + field_118_fall_interval;
             break;
         }
@@ -207,7 +207,7 @@ void FallingItem::VUpdate_41A120()
                 }
             }
 
-            DamageHitItems_41A6D0();
+            DamageHitItems();
 
             if (field_B8_vely < FP_FromInteger(20))
             {
@@ -218,7 +218,7 @@ void FallingItem::VUpdate_41A120()
             FP hitX = {};
             FP hitY = {};
 
-            if (sCollisions_DArray_504C6C->RayCast_40C410(
+            if (sCollisions_DArray_504C6C->RayCast(
                     field_A8_xpos,
                     field_AC_ypos,
                     field_A8_xpos,
@@ -318,7 +318,7 @@ void FallingItem::VUpdate_41A120()
             else
             {
                 const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap.mCurrentLevel)].field_0_falling_animId);
-                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 mFlags.Set(Options::eCanExplode_Bit7);
                 field_B8_vely = FP_FromInteger(0);
                 field_B4_velx = FP_FromInteger(0);
@@ -338,7 +338,7 @@ void FallingItem::VOnThrowableHit(BaseGameObject* /*pFrom*/)
     // Empty
 }
 
-void FallingItem::VScreenChanged_41A7C0()
+void FallingItem::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel
         || gMap.mCurrentPath != gMap.mPath
@@ -346,17 +346,6 @@ void FallingItem::VScreenChanged_41A7C0()
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-}
-
-
-void FallingItem::VUpdate()
-{
-    VUpdate_41A120();
-}
-
-void FallingItem::VScreenChanged()
-{
-    VScreenChanged_41A7C0();
 }
 
 } // namespace AO

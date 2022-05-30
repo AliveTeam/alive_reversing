@@ -55,11 +55,6 @@ BeeNest::~BeeNest()
 
 void BeeNest::VScreenChanged()
 {
-    VScreenChanged_481040();
-}
-
-void BeeNest::VScreenChanged_481040()
-{
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -79,11 +74,6 @@ void BeeNest::VScreenChanged_481040()
 
 void BeeNest::VUpdate()
 {
-    VUpdate_480F30();
-}
-
-void BeeNest::VUpdate_480F30()
-{
     switch (field_2E_state)
     {
         case BeeNestStates::eWaitForTrigger_0:
@@ -98,7 +88,7 @@ void BeeNest::VUpdate_480F30()
                 if (field_34_pBeeSwarm)
                 {
                     field_34_pBeeSwarm->field_C_refCount++;
-                    field_34_pBeeSwarm->Chase_47FEB0(sActiveHero_507678);
+                    field_34_pBeeSwarm->Chase(sActiveHero_507678);
                     field_2E_state = BeeNestStates::eResetIfDead_1;
                 }
             }

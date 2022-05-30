@@ -67,8 +67,6 @@ public:
     virtual void VOnTrapDoorOpen();
 
 private:
-    EXPORT BaseGameObject* Vdtor_402540(s32 flags);
-
     EXPORT s16 VTakeDamage_401920(BaseGameObject* pFrom);
 
     EXPORT void VOnPathTransition_401470(s16 camWorldX, s32 camWorldY, CameraPos direction);

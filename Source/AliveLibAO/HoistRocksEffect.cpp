@@ -66,7 +66,7 @@ void HoistParticle::VUpdate_431BD0()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_504C6C->RayCast_40C410(
+        if (sCollisions_DArray_504C6C->RayCast(
                 field_A8_xpos,
                 oldY,
                 field_A8_xpos,

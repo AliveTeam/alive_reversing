@@ -57,19 +57,14 @@ public:
     ~GameSpeak();
 
     virtual void VScreenChanged() override;
-
-    // A new virtual that is never overridden as there are no other known super classes
-    virtual EXPORT void VPushEvent_40F9E0(GameSpeakEvents event);
-
-    void PushEvent_Impl(GameSpeakEvents event);
-
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_40FA20();
+    // A new virtual that is never overridden as there are no other known super classes
+    virtual void VPushEvent(GameSpeakEvents event);
 
-    static EXPORT s16 CC sub_40FA60(s32 code, u8* pBuffer);
-
-    EXPORT GameSpeakMatch MatchBuffer_40FAA0(u8* pBuffer, s16 bufferLen, s16 bufferStartIdx);
+    void PushEvent_Impl(GameSpeakEvents event);
+    static s16 sub_40FA60(s32 code, u8* pBuffer);
+    GameSpeakMatch MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStartIdx);
 
     GameSpeakEvents field_10_last_event;
     s16 field_12;
@@ -81,8 +76,8 @@ ALIVE_ASSERT_SIZEOF(GameSpeak, 0x3C);
 
 ALIVE_VAR_EXTERN(GameSpeak*, pEventSystem_4FF954);
 
-EXPORT s16 CC Code_Length_475FD0(u32 code);
-EXPORT s32 CC Code_Convert_476000(u16 code1, u16 code2);
-EXPORT GameSpeakEvents CC Code_LookUp_476050(u32 code, u16 idx, u16 code_len);
+EXPORT s16 CC Code_Length(u32 code);
+EXPORT s32 CC Code_Convert(u16 code1, u16 code2);
+EXPORT GameSpeakEvents CC Code_LookUp(u32 code, u16 idx, u16 code_len);
 
 } // namespace AO

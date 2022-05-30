@@ -65,11 +65,11 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
         if (pTlv->field_1E_state == UXBStartState::eOn_0)
         {
             u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0);
-            field_11C_anim.LoadPal_403090(ppRes, 0);
+            field_11C_anim.LoadPal(ppRes, 0);
             field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
 
             const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
-            field_11C_anim.Set_Animation_Data_402A40(flashRec.mFrameTableOffset, 0);
+            field_11C_anim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
 
             if (gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
@@ -82,7 +82,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
             }
 
             const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
-            field_10_anim.Set_Animation_Data_402A40(animRec.mFrameTableOffset, 0);
+            field_10_anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
 
             field_10C_state = UXBState::eDeactivated_3;
             field_10E_starting_state = UXBState::eDelay_0;
@@ -101,14 +101,14 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
         else
         {
             u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0);
-            field_11C_anim.LoadPal_403090(ppPal, 0);
+            field_11C_anim.LoadPal(ppPal, 0);
             field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
 
             const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
-            field_11C_anim.Set_Animation_Data_402A40(flashRec.mFrameTableOffset, 0);
+            field_11C_anim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
 
             const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
-            field_10_anim.Set_Animation_Data_402A40(animRec.mFrameTableOffset, 0);
+            field_10_anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
 
             field_10E_starting_state = UXBState::eDeactivated_3;
             field_10C_state = UXBState::eDeactivated_3;
@@ -152,7 +152,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
-    const FP gridSnap = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    const FP gridSnap = ScaleToGridSize(field_BC_sprite_scale);
     mFlags.Set(Options::eInteractive_Bit8);
 
     field_D4_collection_rect.x = field_A8_xpos - (gridSnap / FP_FromInteger(2));
@@ -165,7 +165,7 @@ void UXB::InitBlinkAnim()
 {
     const AnimRecord& tickRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, tickRec.mResourceId, 1, 0);
-    if (field_11C_anim.Init_402D20(
+    if (field_11C_anim.Init(
             tickRec.mFrameTableOffset,
             gObjList_animations_505564,
             this,
@@ -227,7 +227,7 @@ UXB::~UXB()
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 0, 0));
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 0, 0));
 
-    field_11C_anim.vCleanUp();
+    field_11C_anim.VCleanUp();
 
     mFlags.Clear(Options::eInteractive_Bit8);
 }
@@ -340,7 +340,7 @@ void UXB::VOnPickUpOrSlapped_4897E0()
             else
             {
                 const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
-                field_11C_anim.Set_Animation_Data_402A40(flashRec.mFrameTableOffset, 0);
+                field_11C_anim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
@@ -351,7 +351,7 @@ void UXB::VOnPickUpOrSlapped_4897E0()
                     SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
                 }
                 const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Toggle);
-                field_10_anim.Set_Animation_Data_402A40(animRec.mFrameTableOffset, 0);
+                field_10_anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
                 field_10C_state = UXBState::eDeactivated_3;
                 field_118_next_state_frame = gnFrameCount_507670 + 10;
             }
@@ -361,7 +361,7 @@ void UXB::VOnPickUpOrSlapped_4897E0()
             field_10C_state = UXBState::eDelay_0;
             field_8_update_delay = 6;
             const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Active);
-            field_10_anim.Set_Animation_Data_402A40(animRec.mFrameTableOffset, 0);
+            field_10_anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
             if (gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
@@ -395,7 +395,7 @@ void UXB::VUpdate_489380()
             {
                 field_10C_state = UXBState::eActive_1;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Bomb_Flash);
-                field_11C_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
+                field_11C_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                 field_118_next_state_frame = gnFrameCount_507670 + 2;
             }
             break;
@@ -413,17 +413,17 @@ void UXB::VUpdate_489380()
                     field_1BA_red_blink_count--;
                     if (field_1BA_red_blink_count == 0)
                     {
-                        field_11C_anim.LoadPal_403090(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0), 0);
+                        field_11C_anim.LoadPal(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0), 0);
                         field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
                     }
                 }
                 else
                 {
-                    const FrameInfoHeader* pFrameInfo = field_11C_anim.Get_FrameHeader_403A00(-1);
+                    const FrameInfoHeader* pFrameInfo = field_11C_anim.Get_FrameHeader(-1);
 
                     const FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_11C_anim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
 
-                    field_11C_anim.LoadPal_403090(
+                    field_11C_anim.LoadPal(
                         field_11C_anim.field_20_ppBlock,
                         pFrameHeader->field_0_clut_offset);
 
@@ -441,7 +441,7 @@ void UXB::VUpdate_489380()
                 }
 
                 const AnimRecord& rec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
-                field_11C_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
+                field_11C_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                 
                 if (field_1BC_flags.Get(flags_1BC::eIsRed_Bit1))
                 {
@@ -484,7 +484,7 @@ void UXB::VUpdate_489380()
 
     if (field_10C_state != UXBState::eExploding_2)
     {
-        if (Event_Get_417250(kEventDeathReset_4))
+        if (Event_Get(kEventDeathReset_4))
         {
             if (field_10E_starting_state != UXBState::eDeactivated_3 || field_10C_state == UXBState::eDeactivated_3)
             {
@@ -554,7 +554,7 @@ void UXB::VRender_4896C0(PrimHeader** ppOt)
             field_AC_ypos,
             0))
     {
-        field_11C_anim.vRender(
+        field_11C_anim.VRender(
             FP_GetExponent(field_A8_xpos
                            + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
@@ -566,7 +566,7 @@ void UXB::VRender_4896C0(PrimHeader** ppOt)
             0);
 
         PSX_RECT rect = {};
-        field_11C_anim.Get_Frame_Rect_402B50(&rect);
+        field_11C_anim.Get_Frame_Rect(&rect);
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             rect.x,
             rect.y,

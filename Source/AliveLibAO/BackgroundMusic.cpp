@@ -18,11 +18,6 @@ BackgroundMusic::BackgroundMusic(s16 musicId)
 
 void BackgroundMusic::VUpdate()
 {
-    VUpdate_4763B0();
-}
-
-void BackgroundMusic::VUpdate_4763B0()
-{
     if (field_10_music_id >= 0)
     {
         if (gMap.mCurrentLevel != LevelIds::eNone
@@ -36,7 +31,7 @@ void BackgroundMusic::VUpdate_4763B0()
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void CC BackgroundMusic::Stop_476290()
+void BackgroundMusic::Stop()
 {
     if (sBackgroundMusic_seq_id_4CFFF8 >= 0)
     {
@@ -44,7 +39,7 @@ void CC BackgroundMusic::Stop_476290()
     }
 }
 
-void CC BackgroundMusic::Play_4762B0()
+void BackgroundMusic::Play()
 {
     if (sBackgroundMusic_seq_id_4CFFF8 >= 0)
     {

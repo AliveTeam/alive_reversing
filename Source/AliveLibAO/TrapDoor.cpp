@@ -140,7 +140,7 @@ void TrapDoor::Open()
         }
     }
 
-    Rect_Clear_40C920(&field_120_pCollisionLine->field_0_rect);
+    Rect_Clear(&field_120_pCollisionLine->field_0_rect);
     field_120_pCollisionLine = nullptr;
     ObjListPlatforms_50766C->Remove_Item(this);
 }
@@ -195,7 +195,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_144_y = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_140_x = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
 
-    field_10_anim.Set_Animation_Data_402A40(frame_table_offset_1, 0);
+    field_10_anim.Set_Animation_Data(frame_table_offset_1, 0);
     if (pTlv->field_22_direction == XDirection_short::eRight_1)
     {
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
@@ -222,7 +222,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 
 void TrapDoor::VUpdate_4883E0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -243,7 +243,7 @@ void TrapDoor::VUpdate_4883E0()
 
                 const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
                 const AnimRecord& openingRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_8_opening);
-                field_10_anim.Set_Animation_Data_402A40(
+                field_10_anim.Set_Animation_Data(
                     openingRec.mFrameTableOffset,
                     0);
 
@@ -271,7 +271,7 @@ void TrapDoor::VUpdate_4883E0()
             {
                 const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
                 const AnimRecord& closingRec = AO::AnimRec(sTrapDoorData_4BD4A0[cur_lvl].field_C_closing);
-                field_10_anim.Set_Animation_Data_402A40(
+                field_10_anim.Set_Animation_Data(
                     closingRec.mFrameTableOffset,
                     0);
                 field_136_state = TrapDoorState::eClosing_3;
@@ -289,7 +289,7 @@ void TrapDoor::VUpdate_4883E0()
         case TrapDoorState::eClosing_3:
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_120_pCollisionLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(
+                field_120_pCollisionLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line(
                     field_148_bounding_rect.x,
                     field_148_bounding_rect.y,
                     field_148_bounding_rect.w,

@@ -333,7 +333,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
 
     ResourceManager::Init_454DA0();
     SND_Init_476E40();
-    SND_Init_Ambiance_4765C0();
+    SND_Init_Ambiance();
     MusicController::Create_4436C0();
 
     Init_GameStates_41CEC0(); // Note: inlined
@@ -409,7 +409,7 @@ EXPORT void CC Game_Loop_437630()
 
     while (!sBreakGameLoop_507B78 && !gBaseGameObjects->Empty())
     {
-        Events_Reset_Active_417320();
+        Events_Reset_Active();
 
         // Update objects
         GetGameAutoPlayer().SyncPoint(SyncPoints::StartGameObjectUpdate);
@@ -438,7 +438,7 @@ EXPORT void CC Game_Loop_437630()
         // Animate everything
         if (sNumCamSwappers_507668 <= 0)
         {
-            AnimationBase::AnimateAll_4034F0(gObjList_animations_505564);
+            AnimationBase::AnimateAll(gObjList_animations_505564);
         }
 
         // Render objects
@@ -528,7 +528,7 @@ EXPORT void Game_Run_4373D0()
     gTimeOut_NotUsed_507B0C = 6000;
     gFileOffset_NotUsed_507B10 = 34;
 
-    DDCheat::DebugStr_495990("Abe's Oddysee Attract=%d Timeout=%d FileOffset=%d DA Track=NA\n", 0, 200, 34);
+    DDCheat::DebugStr("Abe's Oddysee Attract=%d Timeout=%d FileOffset=%d DA Track=NA\n", 0, 200, 34);
     SYS_EventsPump_44FF90();
     PSX_ResetCallBack_49AFB0();
 
@@ -570,7 +570,7 @@ EXPORT void Game_Run_4373D0()
     Game_Loop_437630();
     Game_Free_LoadingIcon_445E80();
 
-    DDCheat::ClearProperties_4095B0();
+    DDCheat::ClearProperties();
 
     gMap.Shutdown_443F90();
 
@@ -593,7 +593,7 @@ EXPORT void Game_Run_4373D0()
     }
 
     MusicController::Shutdown_4437E0();
-    SND_Reset_Ambiance_4765E0();
+    SND_Reset_Ambiance();
     SND_Shutdown_476EC0();
     PSX_CdControlB_49BB40(8, 0, 0);
     PSX_ResetCallBack_49AFB0();
@@ -601,7 +601,7 @@ EXPORT void Game_Run_4373D0()
     InputObject::Shutdown_433230();
     PSX_ResetGraph_4987E0(3);
 
-    DDCheat::DebugStr_495990("Abe's Oddysee Demo Done\n");
+    DDCheat::DebugStr("Abe's Oddysee Demo Done\n");
 }
 
 

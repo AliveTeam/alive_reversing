@@ -72,22 +72,22 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     FP lineXPos = {};
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        lineXPos = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
+        lineXPos = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
     }
     else
     {
-        lineXPos = FP_NoFractional(oldXPos) - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+        lineXPos = FP_NoFractional(oldXPos) - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
     }
 
     const auto x1 = FP_GetExponent(lineXPos);
     const auto y1 = FP_GetExponent(field_AC_ypos);
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(x1, y1 - 70, x1, y1, eLineTypes::eWallLeft_1);
+        field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line(x1, y1 - 70, x1, y1, eLineTypes::eWallLeft_1);
     }
     else
     {
-        field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line_40C8A0(x1, y1 - 35, x1, y1, eLineTypes::eBackgroundWallLeft_5);
+        field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line(x1, y1 - 35, x1, y1, eLineTypes::eBackgroundWallLeft_5);
     }
 }
 
@@ -104,7 +104,7 @@ RollingBallStopper::~RollingBallStopper()
 
     if (field_118_pLine)
     {
-        Rect_Clear_40C920(&field_118_pLine->field_0_rect);
+        Rect_Clear(&field_118_pLine->field_0_rect);
     }
 }
 
@@ -124,7 +124,7 @@ void RollingBallStopper::VUpdate_43BF70()
         case States::eWaitForTrigger_0:
             if (SwitchStates_Get(field_114_release_switch_id))
             {
-                Rect_Clear_40C920(&field_118_pLine->field_0_rect);
+                Rect_Clear(&field_118_pLine->field_0_rect);
                 field_118_pLine = nullptr;
                 field_112_state = States::eMoveStopper_1;
                 SFX_Play_43AE60(SoundEffect::PickupItem_33, 100, -2400, 0);

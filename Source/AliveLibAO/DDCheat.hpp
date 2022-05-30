@@ -54,25 +54,18 @@ class DDCheat final : public BaseGameObject
 public:
     DDCheat();
 
-    static EXPORT void ClearProperties_4095B0();
-
-    void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
+    static void ClearProperties();
 
     virtual void VScreenChanged() override;
+    void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
 
-    virtual void VUpdate() override;
+    void VUpdate();
 
-    EXPORT void VUpdate_4098C0();
-
-    EXPORT void ScreenShot_409720();
-
-    EXPORT void Teleport_409CE0();
-
-    EXPORT void Misc_409E90();
-
-    EXPORT static s32 DebugFont_Printf_498B40(s32 idx, const char_type* formatStr, ...);
-
-    EXPORT static s32 DebugStr_495990(const char_type* pStr, ...);
+    void ScreenShot();
+    void Teleport();
+    void Misc();
+    static s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...);
+    static s32 DebugStr(const char_type* pStr, ...);
 
     s32 field_10_bInvalidateRect;
     s32 field_14_SelectedCheat;

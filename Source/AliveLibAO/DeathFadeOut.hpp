@@ -11,19 +11,11 @@ class DeathFadeOut final : public EffectBase
 public:
     DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr);
 
-    EXPORT void Init_419E40(Layer layer, s16 direction, s16 destroyOnDone, s32 speed);
-
+    void Init(Layer layer, s16 direction, s16 destroyOnDone, s32 speed);
     virtual void VScreenChanged() override;
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_419E90();
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_419ED0(PrimHeader** ppOt);
-
-    
 
     s16 field_68_current_fade_rgb;
     s16 field_6A_speed;

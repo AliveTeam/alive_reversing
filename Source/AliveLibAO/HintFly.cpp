@@ -1432,7 +1432,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                 vram_x = 4 * vram_x;
             }
 
-            const auto pHeader = reinterpret_cast<const FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
+            const auto pHeader = reinterpret_cast<const FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
             for (s32 i = 0; i < field_11A_msg_len; i++)
             {
@@ -1649,7 +1649,7 @@ void HintFly::VUpdate()
 
 void HintFly::VUpdate_42B3D0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -1659,7 +1659,7 @@ void HintFly::VUpdate_42B3D0()
         case State::eIdleWaitForChanting_1:
             UpdateParticles_42B1B0();
 
-            if (Event_Get_417250(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm_8))
             {
                 field_11E_msg_idx = 0;
                 field_112_state = State::eState_3;
@@ -1672,7 +1672,7 @@ void HintFly::VUpdate_42B3D0()
             {
                 UpdateParticles_42B1B0();
 
-                if (!Event_Get_417250(kEventAbeOhm_8))
+                if (!Event_Get(kEventAbeOhm_8))
                 {
                     for (s32 i = 0; i < field_118_counter; i++)
                     {
@@ -1719,7 +1719,7 @@ void HintFly::VUpdate_42B3D0()
             // TODO: This block is duplicated above
             UpdateParticles_42B1B0();
 
-            if (!Event_Get_417250(kEventAbeOhm_8))
+            if (!Event_Get(kEventAbeOhm_8))
             {
                 for (s32 i = 0; i < field_118_counter; i++)
                 {
@@ -1745,7 +1745,7 @@ void HintFly::VUpdate_42B3D0()
         case State::eState_3:
             UpdateParticles_42B1B0();
 
-            if (!Event_Get_417250(kEventAbeOhm_8))
+            if (!Event_Get(kEventAbeOhm_8))
             {
                 for (s32 i = 0; i < field_118_counter; i++)
                 {
@@ -1778,7 +1778,7 @@ void HintFly::VUpdate_42B3D0()
         case State::eState_4:
             UpdateParticles_42B1B0();
 
-            if (Event_Get_417250(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm_8))
             {
                 if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
                 {
@@ -1812,7 +1812,7 @@ void HintFly::VUpdate_42B3D0()
         case State::eState_5:
             if (field_118_counter == 20)
             {
-                if (Event_Get_417250(kEventAbeOhm_8))
+                if (Event_Get(kEventAbeOhm_8))
                 {
                     field_112_state = State::eIdleWaitForChanting_1;
                 }
@@ -1834,7 +1834,7 @@ void HintFly::VUpdate_42B3D0()
                 InitParticle(&field_E8_pRes[field_120_idx++]);
             }
 
-            if (field_118_counter == 20 && !Event_Get_417250(kEventAbeOhm_8))
+            if (field_118_counter == 20 && !Event_Get(kEventAbeOhm_8))
             {
                 field_112_state = State::eIdleWaitForChanting_1;
             }

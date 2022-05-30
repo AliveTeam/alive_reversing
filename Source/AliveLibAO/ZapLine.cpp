@@ -89,7 +89,7 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
         u0 = 4 * u0;
     }
 
-    auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
+    auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
     const u8 frameW = pFrameHeader->field_4_width;
     const u8 frameH = pFrameHeader->field_5_height;
@@ -131,7 +131,7 @@ void ZapLine::CalculateSourceAndDestinationPositions_478CF0(FP xPosSource, FP yP
 
     s16 xOff = 0;
     s16 yOff = 0;
-    field_10_anim.Get_Frame_Offset_403EE0(&xOff, &yOff);
+    field_10_anim.Get_Frame_Offset(&xOff, &yOff);
 
     field_10C_x_position_source = FP_GetExponent(FP_FromInteger(xOff) + FP_FromInteger(field_10C_x_position_source));
     field_10E_y_position_source = FP_GetExponent(FP_FromInteger(yOff) + FP_FromInteger(field_10E_y_position_source));

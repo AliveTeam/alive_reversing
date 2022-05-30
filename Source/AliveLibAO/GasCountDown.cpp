@@ -56,7 +56,7 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
 {
     field_4_typeId = Types::eGasClock_16;
     field_58_tlvInfo = tlvInfo;
-    field_10_font_context.LoadFontType_41C040(2);
+    field_10_font_context.LoadFontType(2);
     field_20_font.ctor_41C170(5, byte_4C5080, &field_10_font_context);
     mFlags.Set(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Push_Back(this);
@@ -82,11 +82,6 @@ GasCountDown::~GasCountDown()
 
 void GasCountDown::VScreenChanged()
 {
-    VScreenChanged_40C3C0();
-}
-
-void GasCountDown::VScreenChanged_40C3C0()
-{
     mFlags.Set(BaseGameObject::eDead);
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
@@ -96,17 +91,12 @@ void GasCountDown::VScreenChanged_40C3C0()
 
 void GasCountDown::VUpdate()
 {
-    VUpdate_40C0E0();
-}
-
-void GasCountDown::VUpdate_40C0E0()
-{
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (Event_Get_417250(kEvent_5))
+    if (Event_Get(kEvent_5))
     {
         sGasTimer_507700 = 0;
         gGasOn_4FF888 = 0;
@@ -133,7 +123,7 @@ void GasCountDown::VUpdate_40C0E0()
             return;
         }
 
-        if (Event_Get_417250(kEventResetting_6))
+        if (Event_Get(kEventResetting_6))
         {
             sGasTimer_507700++;
         }
@@ -183,16 +173,11 @@ void GasCountDown::DealDamage()
 
 void GasCountDown::VRender(PrimHeader** ppOt)
 {
-    VRender_40C2F0(ppOt);
-}
-
-void GasCountDown::VRender_40C2F0(PrimHeader** ppOt)
-{
     char_type text[128] = {};
     sprintf(text, "%02d:%02d", field_62_time_left / 60, field_62_time_left % 60);
-    const auto textWidth = field_20_font.MeasureWidth_41C2B0(text);
+    const auto textWidth = field_20_font.MeasureTextWidth(text);
 
-    field_20_font.DrawString_41C360(
+    field_20_font.DrawString(
         ppOt,
         text,
         field_5C_xpos,

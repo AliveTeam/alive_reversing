@@ -46,23 +46,12 @@ const FlintLockFireData sFlintLockFireData_4BAC70[] = {
     {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0}};
 
 
-
-void FlintLockFire::VUpdate()
-{
-    VUpdate_41AEE0();
-}
-
-void FlintLockFire::VScreenChanged_41B0B0()
+void FlintLockFire::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void FlintLockFire::VScreenChanged()
-{
-    VScreenChanged_41B0B0();
-}
-
-void FlintLockFire::VStopAudio_41B0C0()
+void FlintLockFire::VStopAudio()
 {
     if (field_EC_fire_sound)
     {
@@ -71,20 +60,15 @@ void FlintLockFire::VStopAudio_41B0C0()
     }
 }
 
-void FlintLockFire::VStopAudio()
-{
-    VStopAudio_41B0C0();
-}
-
 FlintLockFire::~FlintLockFire()
 {
     gMap.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
-    field_F0_anim.vCleanUp();
+    field_F0_anim.VCleanUp();
 
     if (sFlintLockFireData_4BAC70[static_cast<s32>(gMap.mCurrentLevel)].field_24_bFire)
     {
-        field_188_anim.vCleanUp();
-        field_220_anim.vCleanUp();
+        field_188_anim.VCleanUp();
+        field_220_anim.VCleanUp();
         if (field_EC_fire_sound)
         {
             SND_Stop_Channels_Mask_4774A0(field_EC_fire_sound);
@@ -111,7 +95,7 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         1);
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_F0_anim.Init_402D20(
+    field_F0_anim.Init(
         gourdRec.mFrameTableOffset,
         gObjList_animations_505564,
         this,
@@ -131,7 +115,7 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         const AnimRecord& fireRec = AO::AnimRec(AnimId::Fire);
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, fireRec.mResourceId, 1, 0);
         u8** ppFireRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, fireRec.mResourceId, 1, 0);
-        field_188_anim.Init_402D20(
+        field_188_anim.Init(
             fireRec.mFrameTableOffset,
             gObjList_animations_505564,
             this,
@@ -146,13 +130,13 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         field_188_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_188_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-        field_220_anim.Init_402D20(fireRec.mFrameTableOffset, gObjList_animations_505564, this, fireRec.mMaxW, fireRec.mMaxH, ppFireRes, 1, 0, 0);
+        field_220_anim.Init(fireRec.mFrameTableOffset, gObjList_animations_505564, this, fireRec.mMaxW, fireRec.mMaxH, ppFireRes, 1, 0, 0);
         field_220_anim.field_B_render_mode = TPageAbr::eBlend_0;
         field_220_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_220_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_220_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
         field_220_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-        field_220_anim.SetFrame_402AC0(3u);
+        field_220_anim.SetFrame(3u);
     }
 
     field_E4_state = States::eDisabled_0;
@@ -189,9 +173,9 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
     {
         field_E4_state = States::eActivated_2;
         const AnimRecord& activatingRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id);
-        field_10_anim.Set_Animation_Data_402A40(activatingRec.mFrameTableOffset, nullptr);
-        field_10_anim.SetFrame_402AC0(field_10_anim.Get_Frame_Count_403540() - 1);
-        field_10_anim.vDecode();
+        field_10_anim.Set_Animation_Data(activatingRec.mFrameTableOffset, nullptr);
+        field_10_anim.SetFrame(field_10_anim.Get_Frame_Count() - 1);
+        field_10_anim.VDecode();
         field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
         field_F0_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
@@ -208,9 +192,9 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
     }
 }
 
-void FlintLockFire::VUpdate_41AEE0()
+void FlintLockFire::VUpdate()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -224,7 +208,7 @@ void FlintLockFire::VUpdate_41AEE0()
             {
                 field_E4_state = States::eActivating_1;
                 const AnimRecord& activatingRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id);
-                field_10_anim.Set_Animation_Data_402A40(
+                field_10_anim.Set_Animation_Data(
                     activatingRec.mFrameTableOffset,
                     0);
             }
@@ -277,11 +261,6 @@ void FlintLockFire::VUpdate_41AEE0()
 
 void FlintLockFire::VRender(PrimHeader** ppOt)
 {
-    VRender_41B0F0(ppOt);
-}
-
-void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
-{
     if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
     {
         const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
@@ -331,14 +310,14 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
             field_220_anim.field_9_g = static_cast<u8>(g);
             field_220_anim.field_A_b = static_cast<u8>(b);
 
-            field_220_anim.vRender(
+            field_220_anim.VRender(
                 FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
                 FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset - 28)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
                 ppOt,
                 0,
                 0);
 
-            field_188_anim.vRender(
+            field_188_anim.VRender(
                 FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos - 3)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
                 FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset - 28)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
                 ppOt,
@@ -346,14 +325,14 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
                 0);
         }
 
-        field_10_anim.vRender(
+        field_10_anim.VRender(
             FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
             FP_GetExponent(field_AC_ypos + (FP_FromInteger(field_C8_yOffset + pScreenManager_4FF7C8->field_16_ypos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,
             0,
             0);
 
-        field_F0_anim.vRender(
+        field_F0_anim.VRender(
             FP_GetExponent(field_A8_xpos
                            + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
@@ -365,7 +344,7 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
             0);
 
         PSX_RECT frameRect = {};
-        field_10_anim.Get_Frame_Rect_402B50(&frameRect);
+        field_10_anim.Get_Frame_Rect(&frameRect);
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             frameRect.x,
             frameRect.y,
@@ -373,7 +352,7 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
             frameRect.h,
             pScreenManager_4FF7C8->field_2E_idx);
 
-        field_F0_anim.Get_Frame_Rect_402B50(&frameRect);
+        field_F0_anim.Get_Frame_Rect(&frameRect);
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             frameRect.x,
             frameRect.y,
@@ -383,7 +362,7 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.Get_Frame_Rect_402B50(&frameRect);
+            field_188_anim.Get_Frame_Rect(&frameRect);
             pScreenManager_4FF7C8->InvalidateRect_406E40(
                 frameRect.x,
                 frameRect.y,
@@ -391,7 +370,7 @@ void FlintLockFire::VRender_41B0F0(PrimHeader** ppOt)
                 frameRect.h,
                 pScreenManager_4FF7C8->field_2E_idx);
 
-            field_220_anim.Get_Frame_Rect_402B50(&frameRect);
+            field_220_anim.Get_Frame_Rect(&frameRect);
             pScreenManager_4FF7C8->InvalidateRect_406E40(
                 frameRect.x,
                 frameRect.y,

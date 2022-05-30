@@ -73,7 +73,7 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
     field_C8_tlv = tlvInfo;
-    field_10_fontContext.LoadFontType_41C040(2);
+    field_10_fontContext.LoadFontType(2);
     field_20_font1.ctor_41C170(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
     field_58_font2.ctor_41C170(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
     field_90_font3.ctor_41C170(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
@@ -87,7 +87,7 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
 
 void LCDStatusBoard::VUpdate_441A90()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -103,10 +103,10 @@ void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
     char_type text[12] = {};
     sprintf(text, "%02d", Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath) - sRescuedMudokons_5076C0 - sKilledMudokons_5076BC);
 
-    const s16 w1 = static_cast<s16>(field_90_font3.MeasureWidth_41C2B0(text));
+    const s16 w1 = static_cast<s16>(field_90_font3.MeasureTextWidth(text));
     const s16 colourRange = sDisableFontFlicker_5080E4 ? 0 : 50;
 
-    field_90_font3.DrawString_41C360(
+    field_90_font3.DrawString(
         ppOt,
         text,
         field_CC_xpos - w1 + 22,
@@ -124,8 +124,8 @@ void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
         colourRange);
 
     sprintf(text, "%02d", sKilledMudokons_5076BC);
-    const s16 w2 = static_cast<s16>(field_20_font1.MeasureWidth_41C2B0(text));
-    field_20_font1.DrawString_41C360(
+    const s16 w2 = static_cast<s16>(field_20_font1.MeasureTextWidth(text));
+    field_20_font1.DrawString(
         ppOt,
         text,
         field_CC_xpos - w2 + 22,
@@ -143,8 +143,8 @@ void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
         colourRange);
 
     sprintf(text, "%02d", sRescuedMudokons_5076C0);
-    s16 w3 = static_cast<s16>(field_58_font2.MeasureWidth_41C2B0(text));
-    field_58_font2.DrawString_41C360(
+    s16 w3 = static_cast<s16>(field_58_font2.MeasureTextWidth(text));
+    field_58_font2.DrawString(
         ppOt,
         text,
         field_CC_xpos - w3 + 22,

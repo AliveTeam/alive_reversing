@@ -22,17 +22,17 @@ ALIVE_VAR(1, 0x4FFA48, s16, sEventsToUse_4FFA48, 0);
 ALIVE_VAR(1, 0x4FF9A8, Events, sEventPtrs_4FF9A8, {});
 
 
-BaseGameObject* CC Event_Get_417250(s16 eventType)
+BaseGameObject* Event_Get(s16 eventType)
 {
     return sEventPtrs_4FF9A8.field_0_events[sEventsToUse_4FFA48].field_0_event_ptrs[eventType];
 }
 
-void CC Event_Broadcast_417220(s32 eventType, BaseGameObject* pObject)
+void Event_Broadcast(s32 eventType, BaseGameObject* pObject)
 {
     sEventPtrs_4FF9A8.field_0_events[!sEventsToUse_4FFA48].field_0_event_ptrs[eventType] = pObject;
 }
 
-BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(s16 eventType, FP xpos, FP ypos, FP scale)
+BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(s16 eventType, FP xpos, FP ypos, FP scale)
 {
     BaseGameObject* pObj = sEventPtrs_4FF9A8.field_0_events[sEventsToUse_4FFA48].field_0_event_ptrs[eventType];
     if (!pObj)
@@ -56,7 +56,7 @@ BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(s16 eventTy
     return nullptr;
 }
 
-void CC Events_Reset_Active_417320()
+void Events_Reset_Active()
 {
     for (auto& ptr : sEventPtrs_4FF9A8.field_0_events[sEventsToUse_4FFA48].field_0_event_ptrs)
     {
@@ -66,7 +66,7 @@ void CC Events_Reset_Active_417320()
     sEventsToUse_4FFA48 = !sEventsToUse_4FFA48;
 }
 
-void CC Event_Cancel_For_Obj(BaseGameObject* pObj)
+void Event_Cancel_For_Obj(BaseGameObject* pObj)
 {
     for (s32 i = 0; i < 2; i++)
     {

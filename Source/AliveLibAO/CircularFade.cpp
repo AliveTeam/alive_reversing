@@ -20,7 +20,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     }
 
     // NOTE: Inlined
-    VFadeIn_479FE0(static_cast<s8>(direction), destroyOnDone);
+    VFadeIn(static_cast<s8>(direction), destroyOnDone);
 
     const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
     field_C4_b = fade_rgb;
@@ -51,11 +51,6 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
 
 void CircularFade::VRender(PrimHeader** ppOt)
 {
-    VRender_47A080(ppOt);
-}
-
-void CircularFade::VRender_47A080(PrimHeader** ppOt)
-{
     const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
 
     field_C0_r = fade_rgb;
@@ -66,14 +61,14 @@ void CircularFade::VRender_47A080(PrimHeader** ppOt)
     field_10_anim.field_9_g = fade_rgb;
     field_10_anim.field_A_b = fade_rgb;
 
-    field_10_anim.vRender(
+    field_10_anim.VRender(
         FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
         FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
         ppOt,
         0,
         0);
     PSX_RECT frameRect = {};
-    field_10_anim.Get_Frame_Rect_402B50(&frameRect);
+    field_10_anim.Get_Frame_Rect(&frameRect);
     pScreenManager_4FF7C8->InvalidateRect_406E40(
         frameRect.x,
         frameRect.y,
@@ -176,11 +171,6 @@ void CircularFade::VRender_47A080(PrimHeader** ppOt)
 
 void CircularFade::VUpdate()
 {
-    VUpdate_47A030();
-}
-
-void CircularFade::VUpdate_47A030()
-{
     if ((!field_E4_flags.Get(Flags::eBit4_NeverSet) && !field_E4_flags.Get(Flags::eBit2_Done)))
     {
         field_1A8_fade_colour += field_1AA_speed;
@@ -198,7 +188,7 @@ void CircularFade::VUpdate_47A030()
     }
 }
 
-s8 CircularFade::VFadeIn_479FE0(u8 direction, s8 destroyOnDone)
+s8 CircularFade::VFadeIn(u8 direction, s8 destroyOnDone)
 {
     field_E4_flags.Set(Flags::eBit1_FadeIn, direction);
 
@@ -224,12 +214,12 @@ void CircularFade::VScreenChanged()
     // Empty
 }
 
-s32 CircularFade::VDone_47A4C0()
+s32 CircularFade::VDone()
 {
     return field_E4_flags.Get(Flags::eBit2_Done);
 }
 
-CircularFade* CC Make_Circular_Fade_447640(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
+CircularFade* Make_Circular_Fade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
 {
     return ao_new<CircularFade>(xpos, ypos, scale, direction, destroyOnDone);
 }

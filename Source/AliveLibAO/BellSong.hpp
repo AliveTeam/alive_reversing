@@ -18,8 +18,6 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_476130();
-
     s32 field_10_code_idx;
     s16 field_14_bDone;
     BellsongTypes field_16_type;

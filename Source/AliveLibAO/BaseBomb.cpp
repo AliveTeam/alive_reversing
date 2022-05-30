@@ -15,13 +15,13 @@ namespace AO {
 
 ALIVE_VAR(1, 0x4FFA4C, s16, word_4FFA4C, 0);
 
-void BaseBomb::VUpdate_417580()
+void BaseBomb::VUpdate()
 {
     PSX_RECT rect = {};
 
-    Event_Broadcast_417220(kEvent_2, this);
-    Event_Broadcast_417220(kEvent_14, this);
-    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEvent_2, this);
+    Event_Broadcast(kEvent_14, this);
+    Event_Broadcast(kEventSuspiciousNoise_10, this);
 
     switch (field_10_anim.field_92_current_frame)
     {
@@ -30,7 +30,7 @@ void BaseBomb::VUpdate_417580()
             rect.w = FP_GetExponent(FP_FromInteger(30) * field_E4_scale);
             rect.y = FP_GetExponent(FP_FromInteger(-20) * field_E4_scale);
             rect.h = FP_GetExponent(FP_FromInteger(20) * field_E4_scale);
-            DealDamageRect_417A50(&rect);
+            DealDamageRect(&rect);
             break;
 
         case 1:
@@ -38,7 +38,7 @@ void BaseBomb::VUpdate_417580()
             rect.w = FP_GetExponent(FP_FromInteger(50) * field_E4_scale);
             rect.y = FP_GetExponent(FP_FromInteger(-30) * field_E4_scale);
             rect.h = FP_GetExponent(FP_FromInteger(30) * field_E4_scale);
-            DealDamageRect_417A50(&rect);
+            DealDamageRect(&rect);
             break;
 
         case 2:
@@ -46,7 +46,7 @@ void BaseBomb::VUpdate_417580()
             rect.w = FP_GetExponent(FP_FromInteger(80) * field_E4_scale);
             rect.y = FP_GetExponent(FP_FromInteger(-40) * field_E4_scale);
             rect.h = FP_GetExponent(FP_FromInteger(40) * field_E4_scale);
-            DealDamageRect_417A50(&rect);
+            DealDamageRect(&rect);
             break;
 
         case 3:
@@ -64,7 +64,7 @@ void BaseBomb::VUpdate_417580()
             rect.w = FP_GetExponent(FP_FromInteger(113) * field_E4_scale);
             rect.y = FP_GetExponent(FP_FromInteger(-50) * field_E4_scale);
             rect.h = FP_GetExponent(FP_FromInteger(50) * field_E4_scale);
-            DealDamageRect_417A50(&rect);
+            DealDamageRect(&rect);
             break;
         }
 
@@ -120,12 +120,7 @@ void BaseBomb::VUpdate_417580()
     }
 }
 
-void BaseBomb::VUpdate()
-{
-    VUpdate_417580();
-}
-
-void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
+void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
 {
     if (gBaseAliveGameObjects_4FC8A0)
     {
@@ -246,7 +241,7 @@ BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
         FP_GetExponent(FP_FromInteger(-10) * field_E4_scale),
         FP_GetExponent(FP_FromInteger(10) * field_E4_scale),
         FP_GetExponent(FP_FromInteger(10) * field_E4_scale)};
-    DealDamageRect_417A50(&damageRect);
+    DealDamageRect(&damageRect);
 
     word_4FFA4C = 0;
     SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);

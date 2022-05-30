@@ -17,16 +17,8 @@ public:
     ~GasEmitter();
 
     virtual void VStopAudio() override;
-
-    EXPORT void VStopAudio_41D8D0();
-    
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_41D900();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_41D7D0();
 
     s32 field_10_tlvInfo;
     s32 field_14_emit_power;

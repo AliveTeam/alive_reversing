@@ -28,7 +28,7 @@ static void Dove_static_ctor()
     gDovesArray_4FF938.ctor_4043E0(10);
 }
 
-void CC Dove_static_dtor_40EE30()
+void Dove_static_dtor_40EE30()
 {
     if (!(byte_4FF948 & 1))
     {
@@ -37,7 +37,7 @@ void CC Dove_static_dtor_40EE30()
     }
 }
 
-void CC Dove_static_ctor_40EE10()
+void Dove_static_ctor_40EE10()
 {
     Dove_static_ctor(); // inlined
     atexit(Dove_static_dtor_40EE30);
@@ -83,7 +83,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     field_EE_state = State::eOnGround_0;
 
     field_B8_vely = FP_FromInteger(-4 - (Math_NextRandom() & 3));
-    field_10_anim.SetFrame_402AC0(Math_NextRandom() & 7);
+    field_10_anim.SetFrame(Math_NextRandom() & 7);
     field_EC_keepInGlobalArray = FALSE;
     field_E8_tlvInfo = tlvInfo;
 
@@ -150,7 +150,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
 
     field_E8_tlvInfo = 0;
 
-    field_10_anim.SetFrame_402AC0((Math_NextRandom() & 6) + 1);
+    field_10_anim.SetFrame((Math_NextRandom() & 6) + 1);
 
     if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
@@ -185,13 +185,13 @@ Dove::~Dove()
     }
 }
 
-void Dove::AsAlmostACircle_40F300(FP xpos, FP ypos, u8 angle)
+void Dove::AsAlmostACircle(FP xpos, FP ypos, u8 angle)
 {
-    AsACircle_40F280(xpos, ypos, angle);
+    AsACircle(xpos, ypos, angle);
     field_EE_state = State::eAlmostACircle_4;
 }
 
-void Dove::AsACircle_40F280(FP xpos, FP ypos, u8 angle)
+void Dove::AsACircle(FP xpos, FP ypos, u8 angle)
 {
     field_F0_xJoin = xpos;
     field_F4_yJoin = ypos;
@@ -201,7 +201,7 @@ void Dove::AsACircle_40F280(FP xpos, FP ypos, u8 angle)
     // TODO: Removed unused code
 }
 
-void Dove::AsJoin_40F250(FP xpos, FP ypos)
+void Dove::AsJoin(FP xpos, FP ypos)
 {
     field_F0_xJoin = xpos;
     field_F4_yJoin = ypos;
@@ -209,7 +209,7 @@ void Dove::AsJoin_40F250(FP xpos, FP ypos)
     field_F8_timer = gnFrameCount_507670 + 47;
 }
 
-void Dove::FlyAway_40F8F0(s16 a2)
+void Dove::FlyAway(s16 a2)
 {
     if (field_EE_state != State::eFlyAway_1)
     {
@@ -227,7 +227,7 @@ void Dove::FlyAway_40F8F0(s16 a2)
 
 ALIVE_VAR(1, 0x4FF944, s32, bExtraSeqStarted_4FF944, 0);
 
-void Dove::All_FlyAway_40F390()
+void Dove::All_FlyAway()
 {
     for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
     {
@@ -236,7 +236,7 @@ void Dove::All_FlyAway_40F390()
         {
             break;
         }
-        pDove->FlyAway_40F8F0(0);
+        pDove->FlyAway(0);
     }
 
     bExtraSeqStarted_4FF944 = 0;
@@ -249,22 +249,12 @@ void Dove::All_FlyAway_40F390()
 
 void Dove::VRender(PrimHeader** ppOt)
 {
-    VRender_40F960(ppOt);
-}
-
-void Dove::VRender_40F960(PrimHeader** ppOt)
-{
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 }
 
 void Dove::VUpdate()
 {
-    VUpdate_40F430();
-}
-
-void Dove::VUpdate_40F430()
-{
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -278,7 +268,7 @@ void Dove::VUpdate_40F430()
     switch (field_EE_state)
     {
         case State::eOnGround_0:
-            if (Event_Get_417250(kEventSpeaking_1))
+            if (Event_Get(kEventSpeaking_1))
             {
                 for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
                 {
@@ -287,7 +277,7 @@ void Dove::VUpdate_40F430()
                     {
                         break;
                     }
-                    pDoveIter->FlyAway_40F8F0(0); // something is speaking, leg it
+                    pDoveIter->FlyAway(0); // something is speaking, leg it
                 }
 
                 bExtraSeqStarted_4FF944 = 0;
@@ -300,7 +290,7 @@ void Dove::VUpdate_40F430()
 
             if (FP_GetExponent(FP_Abs(field_A8_xpos - sControlledCharacter_50767C->field_A8_xpos)) < 100)
             {
-                if (Event_Get_417250(kEventNoise_0))
+                if (Event_Get(kEventNoise_0))
                 {
                     for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
                     {
@@ -309,7 +299,7 @@ void Dove::VUpdate_40F430()
                         {
                             break;
                         }
-                        pDoveIter->FlyAway_40F8F0(0);
+                        pDoveIter->FlyAway(0);
                     }
 
                     bExtraSeqStarted_4FF944 = 0;
@@ -326,7 +316,7 @@ void Dove::VUpdate_40F430()
             field_E4_counter++;
             if (field_E4_counter == 0)
             {
-                field_10_anim.Set_Animation_Data_402A40(4988, nullptr);
+                field_10_anim.Set_Animation_Data(4988, nullptr);
                 if (!bExtraSeqStarted_4FF944)
                 {
                     bExtraSeqStarted_4FF944 = 16;

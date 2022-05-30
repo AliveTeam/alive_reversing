@@ -22,16 +22,8 @@ public:
     ~BackgroundGlukkon();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_41E0E0();
-
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    EXPORT s16 VTakeDamage_41DF80(BaseGameObject* pFrom);
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_41DD60();
 
     s32 field_10C_tlvInfo;
     enum class State : s16

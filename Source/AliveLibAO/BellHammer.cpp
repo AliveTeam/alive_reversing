@@ -57,25 +57,25 @@ BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 0, 0))
     {
         field_EC_pending_resource_count++;
-        ResourceManager::LoadResourceFile("ELMFALL.BAN", BellHammer::OnResLoaded_405210, this);
+        ResourceManager::LoadResourceFile("ELMFALL.BAN", BellHammer::OnResLoaded, this);
     }
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 0, 0))
     {
         field_EC_pending_resource_count++;
-        ResourceManager::LoadResourceFile("ELMBASIC.BAN", BellHammer::OnResLoaded_405210, this);
+        ResourceManager::LoadResourceFile("ELMBASIC.BAN", BellHammer::OnResLoaded, this);
     }
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 0, 0))
     {
         field_EC_pending_resource_count++;
-        ResourceManager::LoadResourceFile("ELMPRMNT.BAN", BellHammer::OnResLoaded_405210, this);
+        ResourceManager::LoadResourceFile("ELMPRMNT.BAN", BellHammer::OnResLoaded, this);
     }
 
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0))
     {
         field_EC_pending_resource_count++;
-        ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BellHammer::OnResLoaded_405210, this);
+        ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BellHammer::OnResLoaded, this);
     }
 }
 
@@ -113,17 +113,12 @@ BellHammer::~BellHammer()
     gMap.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
 }
 
-void BellHammer::VScreenChanged_4054B0()
+void BellHammer::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
 void BellHammer::VUpdate()
-{
-    VUpdate_405320();
-}
-
-void BellHammer::VUpdate_405320()
 {
     switch (field_E4_state)
     {
@@ -132,7 +127,7 @@ void BellHammer::VUpdate_405320()
             {
                 field_E4_state = BellHammerStates::eSmashingBell_1;
                 const AnimRecord& rec = AO::AnimRec(AnimId::BellHammer_Smashing);
-                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             }
             break;
 
@@ -141,7 +136,7 @@ void BellHammer::VUpdate_405320()
             {
                 field_E4_state = BellHammerStates::eWaitForActivation_0;
                 const AnimRecord& rec = AO::AnimRec(AnimId::BellHammer_Idle);
-                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 SwitchStates_Set(field_E6_switch_id, 0);
 
                 // Spawn the foo if he ain't already here
@@ -175,24 +170,19 @@ void BellHammer::VUpdate_405320()
             field_F0_bSpawnElum = FALSE;
             TlvItemInfoUnion info;
             info.all = field_E8_tlvInfo;
-            Elum::Spawn_410E90(info);
+            Elum::Spawn(info);
 
             PSX_Point mapCoords = {};
             gMap.GetCurrentCamCoords_444890(&mapCoords);
 
-            gElum_507680->field_A8_xpos = (FP_FromInteger(mapCoords.field_0_x + XGrid_Index_To_XPos_41FA60(field_BC_sprite_scale, 0))) - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            gElum_507680->field_A8_xpos = (FP_FromInteger(mapCoords.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, 0))) - ScaleToGridSize(field_BC_sprite_scale);
             gElum_507680->field_AC_ypos = gElum_507680->field_AC_ypos + FP_FromInteger(450);
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
         }
     }
 }
 
-void BellHammer::VScreenChanged()
-{
-    VScreenChanged_4054B0();
-}
-
-void CC BellHammer::OnResLoaded_405210(BellHammer* pThis)
+void CC BellHammer::OnResLoaded(BellHammer* pThis)
 {
     pThis->field_EC_pending_resource_count--;
 }

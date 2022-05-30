@@ -14,7 +14,7 @@ ALIVE_VAR(1, 0x9F11D0, Sound_Ambiance_Array, sTopBottomAmbiance_9F11D0, {});
 ALIVE_VAR(1, 0x9F1228, Sound_Ambiance_Array, sRightAmbiance_9F1228, {});
 ALIVE_VAR(1, 0x9F1280, Sound_Ambiance_Array, sLeftAmbiance_9F1280, {});
 
-EXPORT void CC SND_Reset_Ambiance_4765E0()
+void SND_Reset_Ambiance()
 {
     for (auto& amb : sTopBottomAmbiance_9F11D0.mArray)
     {
@@ -44,7 +44,7 @@ EXPORT void CC SND_Reset_Ambiance_4765E0()
     }
 }
 
-EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
+void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv)
 {
     bool bDangerMusic = false;
 
@@ -144,7 +144,7 @@ EXPORT void CC Start_Sounds_for_TLV_476640(CameraPos direction, Path_TLV* pTlv)
     }
 }
 
-EXPORT void CC Start_Slig_sounds_476960(CameraPos direction, s8 kZero)
+void Start_Slig_sounds(CameraPos direction, s8 kZero)
 {
     Sound_Ambiance_Array* pTable = nullptr;
     switch (direction)
@@ -170,7 +170,7 @@ EXPORT void CC Start_Slig_sounds_476960(CameraPos direction, s8 kZero)
     }
 }
 
-EXPORT void CC Stop_slig_sounds_476A20(CameraPos direction, s8 kZero)
+void Stop_slig_sounds(CameraPos direction, s8 kZero)
 {
     Sound_Ambiance_Array* pTable = nullptr;
     switch (direction)
@@ -196,7 +196,7 @@ EXPORT void CC Stop_slig_sounds_476A20(CameraPos direction, s8 kZero)
 }
 
 
-EXPORT void CC SND_Init_Ambiance_4765C0()
+void SND_Init_Ambiance()
 {
     for (auto& amb : sTopBottomAmbiance_9F11D0.mArray)
     {

@@ -35,7 +35,7 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
     FP hitY = {};
     // OG Bug fix, if bat isn't spawned on a line then we crash
     // so field_E4_pLine is checked here and in VUpdate
-    sCollisions_DArray_504C6C->RayCast_40C410(
+    sCollisions_DArray_504C6C->RayCast(
         FP_FromInteger(pTlv->field_10_top_left.field_0_x),
         FP_FromInteger(pTlv->field_10_top_left.field_2_y),
         FP_FromInteger(pTlv->field_14_bottom_right.field_0_x),
@@ -85,15 +85,10 @@ Bat::~Bat()
 
 void Bat::VScreenChanged()
 {
-    VScreenChanged_404FE0();
-}
-
-void Bat::VScreenChanged_404FE0()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void Bat::FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
+void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
 {
     const FP xd = FP_Abs(xpos - field_104_target_xpos);
     if (xd > FP_FromInteger(350))
@@ -134,12 +129,7 @@ void Bat::FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
 
 void Bat::VUpdate()
 {
-    VUpdate_404950();
-}
-
-void Bat::VUpdate_404950()
-{
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(Options::eDead);
     }
@@ -164,7 +154,7 @@ void Bat::VUpdate_404950()
             {
                 field_F4_state = BatStates::eStartMoving_2;
                 field_100_velx = FP_FromInteger(0);
-                field_10_anim.Set_Animation_Data_402A40(6608, nullptr);
+                field_10_anim.Set_Animation_Data(6608, nullptr);
             }
             break;
 
@@ -180,14 +170,14 @@ void Bat::VUpdate_404950()
 
             if (field_E4_pLine)
             {
-                field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100_velx);
+                field_E4_pLine = field_E4_pLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_100_velx);
             }
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_F4_state = BatStates::eFlying_3;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
-                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 90);
             }
             break;
@@ -215,7 +205,7 @@ void Bat::VUpdate_404950()
 
             if (field_E4_pLine)
             {
-                field_E4_pLine = field_E4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_100_velx);
+                field_E4_pLine = field_E4_pLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_100_velx);
             }
 
             if (!field_E4_pLine)
@@ -257,7 +247,7 @@ void Bat::VUpdate_404950()
 
                                     pBat->field_F4_state = BatStates::eAttackTarget_4;
                                     const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
-                                    pBat->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                                    pBat->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
 
                                     pBat->field_F8_timer = 0;
                                     pBat->field_FC_attack_duration_timer = gnFrameCount_507670 + pBat->field_F6_attack_duration;
@@ -274,7 +264,7 @@ void Bat::VUpdate_404950()
 
         case BatStates::eAttackTarget_4:
         {
-            if (field_10C->mFlags.Get(BaseGameObject::eDead) || Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+            if (field_10C->mFlags.Get(BaseGameObject::eDead) || Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
             {
                 mFlags.Set(Options::eDead);
                 return;
@@ -282,7 +272,7 @@ void Bat::VUpdate_404950()
 
             PSX_RECT bRect = {};
             field_10C->VGetBoundingRect(&bRect, 1);
-            FlyTo_404E50(
+            FlyTo(
                 FP_FromInteger((bRect.w + bRect.x) / 2),
                 FP_FromInteger((bRect.h + bRect.y) / 2),
                 &xSpeed,
@@ -309,8 +299,8 @@ void Bat::VUpdate_404950()
 
         case BatStates::eFlyAwayAndDie_5:
         {
-            FlyTo_404E50(field_A8_xpos, field_AC_ypos - FP_FromInteger(40), &xSpeed, &ySpeed);
-            if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+            FlyTo(field_A8_xpos, field_AC_ypos - FP_FromInteger(40), &xSpeed, &ySpeed);
+            if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
             {
                 mFlags.Set(Options::eDead);
             }

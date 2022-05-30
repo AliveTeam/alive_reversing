@@ -35,11 +35,6 @@ BeeSwarmHole::BeeSwarmHole(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
 
 void BeeSwarmHole::VUpdate()
 {
-    VUpdate_478320();
-}
-
-void BeeSwarmHole::VUpdate_478320()
-{
     if (gMap.Rect_Location_Relative_To_Active_Camera_4448C0(&field_14_rect, 0) != CameraPos::eCamCurrent_0)
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -96,7 +91,7 @@ void BeeSwarmHole::VUpdate_478320()
                 break;
 
             case Path_BeeSwarmHole::MovementType::eAttack_1:
-                pSwarm->Chase_47FEB0(sActiveHero_507678);
+                pSwarm->Chase(sActiveHero_507678);
                 break;
 
             case Path_BeeSwarmHole::MovementType::eFollowPath_2:
@@ -104,7 +99,7 @@ void BeeSwarmHole::VUpdate_478320()
                 PathLine* pLine = nullptr;
                 FP targetX = {};
                 FP targetY = {};
-                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                if (sCollisions_DArray_504C6C->RayCast(
                     FP_FromInteger(field_14_rect.x),
                     FP_FromInteger(field_14_rect.y),
                     FP_FromInteger(field_14_rect.w),
@@ -115,7 +110,7 @@ void BeeSwarmHole::VUpdate_478320()
                     0x100)
                     == 1)
                 {
-                    pSwarm->FollowLine_47FF10(pLine, targetX, targetY, speed + FP_FromInteger(1));
+                    pSwarm->FollowLine(pLine, targetX, targetY, speed + FP_FromInteger(1));
                 }
             }
             break;

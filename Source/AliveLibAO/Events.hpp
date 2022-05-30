@@ -31,13 +31,13 @@ enum Event : s16
     kEventScreenShake_19 = 19,
 };
 
-EXPORT BaseGameObject* CC Event_Get_417250(s16 eventType);
+EXPORT BaseGameObject* CC Event_Get(s16 eventType);
 
-EXPORT void CC Event_Broadcast_417220(s32 eventType, BaseGameObject* pObject);
+EXPORT void CC Event_Broadcast(s32 eventType, BaseGameObject* pObject);
 
-EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_417270(s16 eventType, FP xpos, FP ypos, FP scale);
+EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range(s16 eventType, FP xpos, FP ypos, FP scale);
 
-EXPORT void CC Events_Reset_Active_417320();
+EXPORT void CC Events_Reset_Active();
 
 EXPORT void CC Event_Cancel_For_Obj(BaseGameObject* pObj);
 

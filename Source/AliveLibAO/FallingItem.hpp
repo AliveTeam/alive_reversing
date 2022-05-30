@@ -31,20 +31,14 @@ ALIVE_ASSERT_SIZEOF(Path_FallingItem, 0x24);
 class FallingItem final : public BaseAliveGameObject
 {
 public:
-    EXPORT void DamageHitItems_41A6D0();
-
     FallingItem(Path_FallingItem* pTlv, s32 tlvInfo);
     ~FallingItem();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_41A7C0();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_41A120();
-
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
+
+    void DamageHitItems();
 
 private:
     enum class State : s16

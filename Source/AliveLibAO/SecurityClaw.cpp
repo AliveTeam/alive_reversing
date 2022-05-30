@@ -216,7 +216,7 @@ void SecurityClaw::VUpdate()
 
 void SecurityClaw::VUpdate_418DE0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -290,7 +290,7 @@ void SecurityClaw::VUpdate_418DE0()
                     if (!field_13C_pArray)
                     {
                         const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Upper_NoRotation);
-                        field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                        field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                         field_13C_pArray = ao_new<DynamicArrayT<MotionDetector>>();
                         if (field_13C_pArray)
                         {
@@ -309,17 +309,17 @@ void SecurityClaw::VUpdate_418DE0()
             break;
 
         case SecurityClawStates::eIdle_1:
-            if (Event_Get_417250(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm_8))
             {
                 field_114_timer = gnFrameCount_507670 + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Open);
-                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_130_pClaw->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 SFX_Play_43AD70(SoundEffect::IndustrialNoise3_95, 60, 0);
                 SFX_Play_43AE60(SoundEffect::IndustrialNoise3_95, 90, -1000, 0);
             }
 
-            if (Event_Get_417250(kEvent_2))
+            if (Event_Get(kEvent_2))
             {
                 if (!alarmInstanceCount_5076A8)
                 {
@@ -415,7 +415,7 @@ void SecurityClaw::VUpdate_418DE0()
             {
                 field_110_state = SecurityClawStates::eIdle_1;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Close);
-                field_130_pClaw->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_130_pClaw->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 0, 0);
             }
             break;

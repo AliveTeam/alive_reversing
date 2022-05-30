@@ -12,7 +12,7 @@ namespace AO {
 ALIVE_VAR(1, 0x9F1DCC, ZBall*, gCenter_ZBall_9F1DCC, nullptr);
 ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall_9F1DD0, nullptr);
 
-EXPORT s16* CC Animation_OnFrame_ZBallSmacker_41FB00(void* pObj, s16* pData)
+EXPORT s16* CC Animation_OnFrame_ZBallSmacker(void* pObj, s16* pData)
 {
     auto pZBall = static_cast<ZBall*>(pObj);
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -85,24 +85,24 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
         switch (pTlv->field_18_start_pos)
         {
             case Path_ZBall::StartPos::eCenter_0:
-                field_10_anim.SetFrame_402AC0(6u);
+                field_10_anim.SetFrame(6u);
                 gCenter_ZBall_9F1DCC = this;
                 field_EA_sound_pitch = -800;
                 break;
 
             case Path_ZBall::StartPos::eOut_1:
-                field_10_anim.SetFrame_402AC0(0);
+                field_10_anim.SetFrame(0);
                 gOutZBall_9F1DD0 = this;
                 field_EA_sound_pitch = -400;
                 break;
 
             case Path_ZBall::StartPos::eIn_2:
-                field_10_anim.SetFrame_402AC0(13u);
+                field_10_anim.SetFrame(13u);
                 field_EA_sound_pitch = 0;
                 break;
         }
 
-        field_10_anim.vDecode();
+        field_10_anim.VDecode();
     }
 
     if (pTlv->field_1A_scale != Scale_short::eFull_0)
@@ -122,7 +122,7 @@ void ZBall::VUpdate()
 
 void ZBall::VUpdate_478720()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(Options::eDead);
     }

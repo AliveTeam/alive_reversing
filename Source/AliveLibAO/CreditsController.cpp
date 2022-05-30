@@ -11,11 +11,6 @@ ALIVE_VAR(1, 0x507684, s16, gCreditsControllerExists_507684, false);
 
 constexpr s32 kShowCreditScreenForTicks = 60;
 
-void CreditsController::VUpdate()
-{
-    VUpdate_40D020();
-}
-
 CreditsController::CreditsController(Path_CreditsController* /*pTlv*/, s32 /*tlvInfo*/)
     : BaseGameObject(1)
 {
@@ -30,7 +25,7 @@ CreditsController::~CreditsController()
     gCreditsControllerExists_507684 = false;
 }
 
-void CreditsController::VUpdate_40D020()
+void CreditsController::VUpdate()
 {
     if (field_10_next_cam_frame <= static_cast<s32>(gnFrameCount_507670))
     {

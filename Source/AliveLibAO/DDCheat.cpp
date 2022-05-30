@@ -34,11 +34,11 @@ ALIVE_VAR(1, 0x5076BC, s16, sKilledMudokons_5076BC, 0);
 ALIVE_VAR(1, 0x5076E0, s16, showDebugCreatureInfo_5076E0, 0);
 ALIVE_VAR(1, 0x50771C, s16, sDDCheat_FlyingEnabled_50771C, 0);
 
-using TDDCheatFn = decltype(&DDCheat::Teleport_409CE0);
+using TDDCheatFn = decltype(&DDCheat::Teleport);
 
 const TDDCheatFn CheatsFn_4C3150[] = {
-    &DDCheat::Teleport_409CE0,
-    &DDCheat::Misc_409E90};
+    &DDCheat::Teleport,
+    &DDCheat::Misc};
 
 DDCheat::DDCheat()
     : BaseGameObject(1)
@@ -53,7 +53,7 @@ DDCheat::DDCheat()
     field_1C_unused = 0;
     field_20_bTeleportCheatActive = 0;
 
-    ClearProperties_4095B0();
+    ClearProperties();
 
     AddPropertyEntry("Doors Open ", DDCheatValueType::eShort_4, &gDoorsOpen_5076FC);
     AddPropertyEntry("Tweak X ", DDCheatValueType::eInt_6, &gTweak_X_5076D8);
@@ -61,7 +61,7 @@ DDCheat::DDCheat()
     AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &sRescuedMudokons_5076C0);
 }
 
-void DDCheat::ClearProperties_4095B0()
+void DDCheat::ClearProperties()
 {
     DDCheatProperties_4FF7D8 = {};
 }
@@ -86,11 +86,6 @@ void DDCheat::VScreenChanged()
     // Empty
 }
 
-void DDCheat::VUpdate()
-{
-    VUpdate_4098C0();
-}
-
 ALIVE_VAR(1, 0x4FF868, u16, unused_4FF868, 0);
 
 ALIVE_VAR(1, 0x4C315C, u32, level_4C315C, 3);
@@ -112,7 +107,7 @@ static void writeHeaderElement(const T& element, FILE* f)
     ::fwrite(&element, 1, sizeof(T), f);
 }
 
-void DDCheat::ScreenShot_409720()
+void DDCheat::ScreenShot()
 {
     auto pixelBuffer = reinterpret_cast<u16*>(alloc_450740(640 * sizeof(u16) * gPsxDisplay_504C78.field_2_height));
     if (pixelBuffer)
@@ -176,12 +171,12 @@ void DDCheat::ScreenShot_409720()
     }
 }
 
-EXPORT s32 CC sub_49AD50(s32 /*a1*/)
+s32 sub_49AD50(s32 /*a1*/)
 {
     return 0;
 }
 
-void DDCheat::VUpdate_4098C0()
+void DDCheat::VUpdate()
 {
     if (gDDCheatMode_508BF8)
     {
@@ -191,7 +186,7 @@ void DDCheat::VUpdate_4098C0()
 
         if (unused_4FF868)
         {
-            ScreenShot_409720();
+            ScreenShot();
         }
         field_10_bInvalidateRect = 0;
 
@@ -262,7 +257,7 @@ void DDCheat::VUpdate_4098C0()
         {
             // will always be true in the dll version so we disable it because
             // it would take a bunch of screenshots every frame
-            //ScreenShot_409720();
+            //ScreenShot();
         }
         else*/
         {
@@ -297,21 +292,21 @@ void DDCheat::VUpdate_4098C0()
 
             if (cheat_enabled || showDebugCreatureInfo_5076E0 || doNothing_4FF860)
             {
-                DebugStr_495990(
+                DebugStr(
                     "\n%sP%dC%d %6d",
                     Path_Get_Lvl_Name(gMap.mCurrentLevel),
                     gMap.mCurrentPath,
                     gMap.field_4_current_camera,
                     gnFrameCount_507670);
-                DebugStr_495990(
+                DebugStr(
                     " mem used %5d mem peak %5d",
                     (sManagedMemoryUsedSize_9F0E48 + 999) / 1000,
                     (sPeakedManagedMemUsage_9F0E4C + 999) / 1000);
-                //DebugStr_495990(" Vox %d\n", gVox_4FF864);
+                //DebugStr(" Vox %d\n", gVox_4FF864);
 
                 if (sActiveHero_507678)
                 {
-                    DebugStr_495990(
+                    DebugStr(
                         "\nheroxy=%4d,%4d\n",
                         FP_GetExponent(sActiveHero_507678->field_A8_xpos),
                         FP_GetExponent(sActiveHero_507678->field_AC_ypos));
@@ -405,13 +400,13 @@ const char_type* lvl_names_4C3168[16] = {
 
 ALIVE_VAR(1, 0x4C3164, s16, camera_4C3164, 1);
 
-void DDCheat::Teleport_409CE0()
+void DDCheat::Teleport()
 {
-    DebugStr_495990("\n[Teleport]\n");
-    DebugStr_495990("Level    (L,R):      %s \n", lvl_names_4C3168[level_4C315C]);
-    DebugStr_495990("Path    (Up/Down):   %d \n", path_4C3160);
-    DebugStr_495990("Camera (Left/Right): %d \n", static_cast<u16>(camera_4C3164));
-    DebugStr_495990("Teleport = [] Reset = O\n"); //TODO don't display PSX buttons
+    DebugStr("\n[Teleport]\n");
+    DebugStr("Level    (L,R):      %s \n", lvl_names_4C3168[level_4C315C]);
+    DebugStr("Path    (Up/Down):   %d \n", path_4C3160);
+    DebugStr("Camera (Left/Right): %d \n", static_cast<u16>(camera_4C3164));
+    DebugStr("Teleport = [] Reset = O\n"); //TODO don't display PSX buttons
     s32 input = field_24_input;
     field_10_bInvalidateRect = 6;
     if (input & InputCommands::eSneak)
@@ -482,7 +477,7 @@ void DDCheat::Teleport_409CE0()
 
 ALIVE_VAR(1, 0x4C3158, u32, gScale_4C3158, 100);
 
-void DDCheat::Misc_409E90()
+void DDCheat::Misc()
 {
     if (field_24_input & InputCommands::eLeft)
     {
@@ -517,22 +512,22 @@ void DDCheat::Misc_409E90()
     {
         gAbeInvisibleCheat_5076F8 = gAbeInvisibleCheat_5076F8 == 0;
     }
-    DebugStr_495990("\nScale: up=+5 down=-5 left=100 right=50\n");
-    DebugStr_495990("Scale: %d\n\n", gScale_4C3158);
+    DebugStr("\nScale: up=+5 down=-5 left=100 right=50\n");
+    DebugStr("Scale: %d\n\n", gScale_4C3158);
 
     const char_type* invulnerableDisplayText = "on";
     if (!gAbeInvulnerableCheat_5076E4)
     {
         invulnerableDisplayText = "off";
     }
-    DebugStr_495990("triangle=invulnerable (%s)\n", invulnerableDisplayText);
+    DebugStr("triangle=invulnerable (%s)\n", invulnerableDisplayText);
 
     const char_type* invisibleDisplayText = "on";
     if (!gAbeInvisibleCheat_5076F8)
     {
         invisibleDisplayText = "off";
     }
-    DebugStr_495990("cross = invisible (%s)\n", invisibleDisplayText);
+    DebugStr("cross = invisible (%s)\n", invisibleDisplayText);
 
     field_10_bInvalidateRect = 9;
     if (!gElum_507680)
@@ -557,7 +552,7 @@ void DDCheat::Misc_409E90()
 
 
 
-s32 DDCheat::DebugFont_Printf_498B40(s32 idx, const char_type* formatStr, ...)
+s32 DDCheat::DebugFont_Printf(s32 idx, const char_type* formatStr, ...)
 {
     AE_IMPLEMENTED();
 
@@ -574,14 +569,14 @@ s32 DDCheat::DebugFont_Printf_498B40(s32 idx, const char_type* formatStr, ...)
     return ::DebugFont_Printf_4F8B60(idx, buffer);
 }
 
-s32 DDCheat::DebugStr_495990(const char_type* pStr, ...)
+s32 DDCheat::DebugStr(const char_type* pStr, ...)
 {
     va_list va;
     va_start(va, pStr);
 
     char_type strBuffer[1024];
     vsprintf(strBuffer, pStr, va);
-    DDCheat::DebugFont_Printf_498B40(0, strBuffer);
+    DDCheat::DebugFont_Printf(0, strBuffer);
     return 0;
 }
 

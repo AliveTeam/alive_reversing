@@ -158,7 +158,7 @@ void MotionDetector::VUpdate()
 
 void MotionDetector::VUpdate_437E90()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(Options::eDead);
     }

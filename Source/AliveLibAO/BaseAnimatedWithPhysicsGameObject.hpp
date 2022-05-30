@@ -34,7 +34,7 @@ class BaseAnimatedWithPhysicsGameObject;
 
 using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
 
-EXPORT FP CC ScaleToGridSize_41FA30(FP scale);
+EXPORT FP CC ScaleToGridSize(FP scale);
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {

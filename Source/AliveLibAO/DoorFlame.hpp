@@ -40,12 +40,7 @@ public:
     ~DoorFlame();
 
     virtual void VStopAudio() override;
-
-    EXPORT void VStopAudio_432B60();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_432BA0();
 
     s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;

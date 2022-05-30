@@ -51,21 +51,16 @@ FootSwitch::~FootSwitch()
 
 void FootSwitch::VUpdate()
 {
-    VUpdate_4888E0();
-}
-
-void FootSwitch::VUpdate_4888E0()
-{
     switch (field_E8_state)
     {
         case States::eWaitForStepOnMe_0:
-            field_F0_pStoodOnMe = WhoIsStoodOnMe_488A60();
+            field_F0_pStoodOnMe = WhoIsStoodOnMe();
             if (field_F0_pStoodOnMe)
             {
                 field_F0_pStoodOnMe->field_C_refCount++;
                 SwitchStates_Do_Operation_436A10(field_EA_switch_id, field_EC_action);
                 field_E8_state = States::eWaitForGetOffMe_1;
-                field_10_anim.Set_Animation_Data_402A40(756, 0);
+                field_10_anim.Set_Animation_Data(756, 0);
                 SFX_Play_43AD70(SoundEffect::FootSwitchPress_64, 0, 0);
             }
             break;
@@ -78,7 +73,7 @@ void FootSwitch::VUpdate_4888E0()
             if (field_F0_pStoodOnMe->field_A8_xpos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->field_A8_xpos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->mFlags.Get(BaseGameObject::eDead))
             {
                 field_E8_state = States::eWaitForStepOnMe_0;
-                field_10_anim.Set_Animation_Data_402A40(744, 0);
+                field_10_anim.Set_Animation_Data(744, 0);
                 field_F0_pStoodOnMe->field_C_refCount--;
             }
             break;
@@ -91,15 +86,10 @@ void FootSwitch::VUpdate_4888E0()
 
 void FootSwitch::VScreenChanged()
 {
-    VScreenChanged_4889D0();
-}
-
-void FootSwitch::VScreenChanged_4889D0()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
-BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_488A60()
+BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 {
     PSX_RECT bRectSwitch = {};
     VGetBoundingRect(&bRectSwitch, 1);

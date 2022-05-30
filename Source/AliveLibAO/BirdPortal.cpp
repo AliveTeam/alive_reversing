@@ -29,56 +29,6 @@ void BirdPortalTerminator::VScreenChanged()
     // Staying alive
 }
 
-s16 BirdPortal::VPortalClipper(s16 bUnknown)
-{
-    return VPortalClipper_4533E0(bUnknown);
-}
-
-void BirdPortal::VMudSaved()
-{
-    VMudSaved_453830();
-}
-
-void BirdPortal::VGetMapChange(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
-{
-    VGetMapChange_453840(level, path, camera, screenChangeEffect, movieId);
-}
-
-void BirdPortal::VIncreaseTimerAndKillPortalClipper()
-{
-    VIncreaseTimerAndKillPortalClipper_453810();
-}
-
-void BirdPortal::VKillPortalClipper()
-{
-    VKillPortalClipper_453570();
-}
-
-Bool32 BirdPortal::VStateIs20()
-{
-    return VStateIs20_453800();
-}
-
-void BirdPortal::VExitPortal()
-{
-    VExitPortal_453720();
-}
-
-Bool32 BirdPortal::VStateIs16()
-{
-    return VStateIs16_453710();
-}
-
-Bool32 BirdPortal::VStateIs6()
-{
-    return VStateIs6_453700();
-}
-
-void BirdPortal::VGiveShrukull(s16 bPlaySound)
-{
-    VGiveShrukull_4535A0(bPlaySound);
-}
-
 BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalType /*portalType*/)
 {
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
@@ -250,7 +200,7 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
 
     PathLine* pLine = nullptr;
     FP hitX = {};
-    sCollisions_DArray_504C6C->RayCast_40C410(
+    sCollisions_DArray_504C6C->RayCast(
         FP_FromInteger(pTlv->field_10_top_left.field_0_x),
         FP_FromInteger(pTlv->field_10_top_left.field_2_y),
         FP_FromInteger(pTlv->field_14_bottom_right.field_0_x),
@@ -263,11 +213,6 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
     field_18_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_68_sfx_ret = 0;
     field_1C_ypos = field_28_ypos - (FP_FromInteger(55) * field_34_scale);
-}
-
-void BirdPortal::VUpdate()
-{
-    VUpdate_4523D0();
 }
 
 void BirdPortal::CreateDovesAndShrykullNumber()
@@ -288,11 +233,11 @@ void BirdPortal::CreateDovesAndShrykullNumber()
             pDove->field_C_refCount++;
             if (field_10_portal_type == PortalType::eAbe_0)
             {
-                pDove->AsAlmostACircle_40F300(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(30)), 42 * i);
+                pDove->AsAlmostACircle(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(30)), 42 * i);
             }
             else
             {
-                pDove->AsACircle_40F280(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(30)), 42 * i);
+                pDove->AsACircle(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(30)), 42 * i);
             }
 
             pDove->field_BC_sprite_scale = field_34_scale;
@@ -340,7 +285,7 @@ void BirdPortal::CreateTerminators()
         field_10_portal_type);
 }
 
-void BirdPortal::VUpdate_4523D0()
+void BirdPortal::VUpdate()
 {
     const CameraPos direction = gMap.GetDirection(
         field_64_level,
@@ -378,9 +323,9 @@ void BirdPortal::VUpdate_4523D0()
             }
 
             auto pTarget = Abe::FindObjectToPossess_421410();
-            if (!Event_Get_417250(kEventAbeOhm_8) || pTarget)
+            if (!Event_Get(kEventAbeOhm_8) || pTarget)
             {
-                if (IsScaredAway_4532E0() || Event_Get_417250(kEvent_2) || (Event_Get_417250(kEventAbeOhm_8) && pTarget))
+                if (IsScaredAway() || Event_Get(kEvent_2) || (Event_Get(kEventAbeOhm_8) && pTarget))
                 {
                     for (s32 i = 0; i < field_4C_pDovesArray->Size(); i++)
                     {
@@ -390,7 +335,7 @@ void BirdPortal::VUpdate_4523D0()
                             break;
                         }
                         pDove->field_C_refCount--;
-                        pDove->FlyAway_40F8F0(1);
+                        pDove->FlyAway(1);
                     }
 
                     field_4C_pDovesArray->field_4_used_size = 0;
@@ -429,19 +374,19 @@ void BirdPortal::VUpdate_4523D0()
                     {
                         break;
                     }
-                    pDove->AsJoin_40F250(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(20)));
+                    pDove->AsJoin(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(20)));
                 }
 
                 field_30_timer = gnFrameCount_507670 + 15;
                 field_14_state = PortalStates::JoinDovesInCenter_2;
-                Event_Broadcast_417220(18, this);
+                Event_Broadcast(18, this);
                 SFX_Play_43AD70(SoundEffect::Dove_16, 70, 0);
             }
         }
         break;
 
         case PortalStates::JoinDovesInCenter_2:
-            Event_Broadcast_417220(kEvent_18, this);
+            Event_Broadcast(kEvent_18, this);
             if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
             {
                 CreateTerminators();
@@ -451,7 +396,7 @@ void BirdPortal::VUpdate_4523D0()
             break;
 
         case PortalStates::KillDoves_3:
-            Event_Broadcast_417220(kEvent_18, this);
+            Event_Broadcast(kEvent_18, this);
             if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
             {
                 for (s32 i = 0; i < field_4C_pDovesArray->Size(); i++)
@@ -479,12 +424,12 @@ void BirdPortal::VUpdate_4523D0()
             break;
 
         case PortalStates::CreateTerminators_4:
-            Event_Broadcast_417220(kEvent_18, this);
+            Event_Broadcast(kEvent_18, this);
             if (field_3C_pTerminator1->field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorIdle);
-                field_3C_pTerminator1->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
-                field_40_pTerminator2->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
+                field_3C_pTerminator1->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                field_40_pTerminator2->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                 field_30_timer = gnFrameCount_507670 + 12;
                 field_14_state = PortalStates::ExpandTerminators_5;
                 field_68_sfx_ret = SFX_Play_43AD70(SoundEffect::PortalOpening_67, 0, 0);
@@ -493,7 +438,7 @@ void BirdPortal::VUpdate_4523D0()
             break;
 
         case PortalStates::ExpandTerminators_5:
-            Event_Broadcast_417220(kEvent_18, this);
+            Event_Broadcast(kEvent_18, this);
             field_3C_pTerminator1->field_AC_ypos -= (FP_FromDouble(3.5) * field_34_scale);
             field_40_pTerminator2->field_AC_ypos += (FP_FromDouble(3.5) * field_34_scale);
             if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
@@ -503,8 +448,8 @@ void BirdPortal::VUpdate_4523D0()
             break;
 
         case PortalStates::ActivePortal_6:
-            Event_Broadcast_417220(kEvent_18, this);
-            if ((field_10_portal_type != PortalType::eWorker_1 && field_10_portal_type != PortalType::eShrykull_2) || Event_Get_417250(8))
+            Event_Broadcast(kEvent_18, this);
+            if ((field_10_portal_type != PortalType::eWorker_1 && field_10_portal_type != PortalType::eShrykull_2) || Event_Get(8))
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {
@@ -529,7 +474,7 @@ void BirdPortal::VUpdate_4523D0()
                             if (gnFrameCount_507670 % 2)
                             {
                                 pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
-                                pParticle->field_10_anim.SetFrame_402AC0(pParticle->field_10_anim.Get_Frame_Count_403540());
+                                pParticle->field_10_anim.SetFrame(pParticle->field_10_anim.Get_Frame_Count());
                             }
                         }
 
@@ -541,11 +486,11 @@ void BirdPortal::VUpdate_4523D0()
                 }
                 if (!(gnFrameCount_507670 % 8))
                 {
-                    AbilityRing::Factory_447590(
+                    AbilityRing::Factory(
                         field_3C_pTerminator1->field_A8_xpos,
                         field_3C_pTerminator1->field_AC_ypos + FP_FromInteger(7),
                         RingTypes::eShrykull_Pulse_Orange_6);
-                    AbilityRing::Factory_447590(
+                    AbilityRing::Factory(
                         field_40_pTerminator2->field_A8_xpos,
                         field_40_pTerminator2->field_AC_ypos + FP_FromInteger(7),
                         RingTypes::eShrykull_Pulse_Orange_6);
@@ -553,7 +498,7 @@ void BirdPortal::VUpdate_4523D0()
             }
             else
             {
-                VGiveShrukull_4535A0(0);
+                VGiveShrykull(0);
                 if (field_14_state != PortalStates::ShrykullGetDoves_7)
                 {
                     field_14_state = PortalStates::FadeoutTerminators_22;
@@ -598,7 +543,7 @@ void BirdPortal::VUpdate_4523D0()
                     {
                         SFX_Play_43AD70(SoundEffect::Dove_16, 70, 0);
                         pDoveMem->field_BC_sprite_scale = field_34_scale;
-                        pDoveMem->AsJoin_40F250(sActiveHero_507678->field_A8_xpos,
+                        pDoveMem->AsJoin(sActiveHero_507678->field_A8_xpos,
                             FP_FromInteger(Math_RandomRange_450F20(-36, 4)) + sActiveHero_507678->field_AC_ypos);
                     }
 
@@ -734,8 +679,8 @@ void BirdPortal::VUpdate_4523D0()
             if (field_3C_pTerminator1->field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorIdle);
-                field_3C_pTerminator1->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
-                field_40_pTerminator2->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_3C_pTerminator1->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                field_40_pTerminator2->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_14_state = PortalStates::PortalExit_ExpandTerminators_19;
                 field_30_timer = gnFrameCount_507670 + 12;
             }
@@ -754,8 +699,8 @@ void BirdPortal::VUpdate_4523D0()
             if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorShrink);
-                field_3C_pTerminator1->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
-                field_40_pTerminator2->field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_3C_pTerminator1->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                field_40_pTerminator2->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_14_state = PortalStates::FadeoutTerminators_22;
                 field_30_timer = gnFrameCount_507670 + 30;
 
@@ -789,13 +734,13 @@ void BirdPortal::VUpdate_4523D0()
             break;
     }
 
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
 }
 
-s16 BirdPortal::IsScaredAway_4532E0()
+s16 BirdPortal::IsScaredAway()
 {
     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
@@ -831,7 +776,7 @@ s16 BirdPortal::IsScaredAway_4532E0()
     return FALSE;
 }
 
-void BirdPortal::VGiveShrukull_4535A0(s16 bPlaySound)
+void BirdPortal::VGiveShrykull(s16 bPlaySound)
 {
     if (field_10_portal_type == PortalType::eShrykull_2 && field_56_num_muds_for_shrykull <= 0)
     {
@@ -880,11 +825,6 @@ void BirdPortal::VGiveShrukull_4535A0(s16 bPlaySound)
 
 void BirdPortal::VScreenChanged()
 {
-    VScreenChanged_4538E0();
-}
-
-void BirdPortal::VScreenChanged_4538E0()
-{
     if (field_14_state <= PortalStates::IdlePortal_1 || field_14_state >= PortalStates::KillPortalClipper_21 || ((gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath) && (field_14_state != PortalStates::State_16 || field_10_portal_type != PortalType::eAbe_0 || gMap.mLevel != field_50_dest_level || gMap.mPath != field_52_dest_path)))
     {
         mFlags.Set(Options::eDead);
@@ -928,11 +868,6 @@ void BirdPortal::VScreenChanged_4538E0()
 
 void BirdPortal::VStopAudio()
 {
-    VStopAudio_4532C0();
-}
-
-void BirdPortal::VStopAudio_4532C0()
-{
     if (field_68_sfx_ret)
     {
         SND_Stop_Channels_Mask_4774A0(field_68_sfx_ret);
@@ -940,7 +875,7 @@ void BirdPortal::VStopAudio_4532C0()
     }
 }
 
-void BirdPortal::VKillPortalClipper_453570()
+void BirdPortal::VKillPortalClipper()
 {
     if (field_44_pScreenClipper1)
     {
@@ -952,17 +887,17 @@ void BirdPortal::VKillPortalClipper_453570()
     }
 }
 
-Bool32 BirdPortal::VStateIs6_453700()
+Bool32 BirdPortal::VStateIs6()
 {
     return field_14_state == PortalStates::ActivePortal_6;
 }
 
-Bool32 BirdPortal::VStateIs16_453710()
+Bool32 BirdPortal::VStateIs16()
 {
     return field_14_state == PortalStates::State_16;
 }
 
-void BirdPortal::VExitPortal_453720()
+void BirdPortal::VExitPortal()
 {
     field_66_path = gMap.mCurrentPath;
     field_64_level = gMap.mCurrentLevel;
@@ -972,7 +907,7 @@ void BirdPortal::VExitPortal_453720()
     if (pPortalExitTlv)
     {
         PathLine* pLine = nullptr;
-        sCollisions_DArray_504C6C->RayCast_40C410(
+        sCollisions_DArray_504C6C->RayCast(
             FP_FromInteger(pPortalExitTlv->field_10_top_left.field_0_x),
             FP_FromInteger(pPortalExitTlv->field_10_top_left.field_2_y),
             FP_FromInteger(pPortalExitTlv->field_14_bottom_right.field_0_x),
@@ -1010,23 +945,23 @@ void BirdPortal::VExitPortal_453720()
     }
 }
 
-Bool32 BirdPortal::VStateIs20_453800()
+Bool32 BirdPortal::VStateIs20()
 {
     return field_14_state == PortalStates::State_20;
 }
 
-void BirdPortal::VIncreaseTimerAndKillPortalClipper_453810()
+void BirdPortal::VIncreaseTimerAndKillPortalClipper()
 {
     field_14_state = PortalStates::KillPortalClipper_21;
     field_30_timer = gnFrameCount_507670 + 30;
 }
 
-void BirdPortal::VMudSaved_453830()
+void BirdPortal::VMudSaved()
 {
     field_56_num_muds_for_shrykull--;
 }
 
-void BirdPortal::VGetMapChange_453840(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
+void BirdPortal::VGetMapChange(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
 {
     *level = field_50_dest_level;
     *path = field_52_dest_path;
@@ -1059,7 +994,7 @@ void BirdPortal::VGetMapChange_453840(LevelIds* level, u16* path, u16* camera, C
     *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;
 }
 
-s16 BirdPortal::VPortalClipper_4533E0(s16 bUnknown)
+s16 BirdPortal::VPortalClipper(s16 bUnknown)
 {
     if (bUnknown && field_14_state != PortalStates::ActivePortal_6)
     {

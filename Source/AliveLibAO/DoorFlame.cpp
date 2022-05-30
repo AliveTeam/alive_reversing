@@ -45,7 +45,7 @@ public:
 
         field_BC_sprite_scale = scale;
 
-        Calc_Rect_432010();
+        Calc_Rect();
     }
 
     virtual void VUpdate() override
@@ -61,7 +61,7 @@ public:
             field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
             field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
 
-            field_10_anim.VRender_403AE0(
+            field_10_anim.VRender(
                 FP_GetExponent(field_E4_xPos),
                 FP_GetExponent(field_E8_yPos),
                 ppOt,
@@ -69,7 +69,7 @@ public:
                 FP_GetExponent(field_F0_yOff - field_E8_yPos) + 1);
 
             PSX_RECT rect = {};
-            field_10_anim.Get_Frame_Rect_402B50(&rect);
+            field_10_anim.Get_Frame_Rect(&rect);
             pScreenManager_4FF7C8->InvalidateRect_406E40(
                 rect.x,
                 rect.y,
@@ -79,15 +79,15 @@ public:
         }
     }
 
-    EXPORT void Calc_Rect_432010()
+    void Calc_Rect()
     {
         PSX_Point xy = {};
 
         s16 frameW = 0;
         s16 frameH = 0;
 
-        field_10_anim.Get_Frame_Width_Height_403E80(&frameW, &frameH);
-        field_10_anim.Get_Frame_Offset_403EE0(&xy.field_0_x, &xy.field_2_y);
+        field_10_anim.Get_Frame_Width_Height(&frameW, &frameH);
+        field_10_anim.Get_Frame_Offset(&xy.field_0_x, &xy.field_2_y);
 
         const auto& pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
         const FP screenX = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pCamPos->field_0_x;
@@ -239,7 +239,7 @@ public:
                 const FP screen_top = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
                 const FP screen_bottom = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
 
-                field_10_anim.VRender_403AE0(
+                field_10_anim.VRender(
                     FP_GetExponent(PsxToPCX(field_A8_xpos - screen_left)),
                     FP_GetExponent(field_AC_ypos - screen_top),
                     ppOt,
@@ -247,7 +247,7 @@ public:
                     0);
 
                 PSX_RECT frameRect = {};
-                field_10_anim.Get_Frame_Rect_402B50(&frameRect);
+                field_10_anim.Get_Frame_Rect(&frameRect);
                 pScreenManager_4FF7C8->InvalidateRect_406E40(
                     frameRect.x,
                     frameRect.y,
@@ -268,7 +268,7 @@ public:
                                     FP_GetExponent(anim.field_4_y - screen_top),
                                     ppOt);
 
-                                anim.field_14.GetRenderedSize_404220(&frameRect);
+                                anim.field_14.GetRenderedSize(&frameRect);
                                 pScreenManager_4FF7C8->InvalidateRect_406E40(
                                     frameRect.x,
                                     frameRect.y,
@@ -292,23 +292,13 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(FlameSparks, 0x408);
 
-void DoorFlame::VUpdate()
-{
-    VUpdate_432BA0();
-}
-
-void DoorFlame::VStopAudio_432B60()
+void DoorFlame::VStopAudio()
 {
     if (pFlameControllingTheSound_507734 == this)
     {
         pFlameControllingTheSound_507734 = nullptr;
         SND_Stop_Channels_Mask_4774A0(field_F0_sounds_mask);
     }
-}
-
-void DoorFlame::VStopAudio()
-{
-    VStopAudio_432B60();
 }
 
 DoorFlame::~DoorFlame()
@@ -327,7 +317,7 @@ DoorFlame::~DoorFlame()
         field_FC_pFlameSparks = nullptr;
     }
 
-    VStopAudio_432B60();
+    VStopAudio();
 
     gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
 }
@@ -343,7 +333,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_CC_bApplyShadows |= 1u;
     field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
-    field_EA_frame_count = field_10_anim.Get_Frame_Count_403540();
+    field_EA_frame_count = field_10_anim.Get_Frame_Count();
     field_E8_switch_id = pTlv->field_18_switch_id;
 
     if (pTlv->field_1A_scale == Path_DoorFlame::Scale::eHalf_1 || 
@@ -400,7 +390,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     }
 }
 
-void DoorFlame::VUpdate_432BA0()
+void DoorFlame::VUpdate()
 {
     switch (field_EC_state)
     {
@@ -436,7 +426,7 @@ void DoorFlame::VUpdate_432BA0()
                 field_EE_2_random = 2;
                 if (field_F8_pFireBackgroundGlow)
                 {
-                    field_F8_pFireBackgroundGlow->Calc_Rect_432010();
+                    field_F8_pFireBackgroundGlow->Calc_Rect();
                 }
             }
 

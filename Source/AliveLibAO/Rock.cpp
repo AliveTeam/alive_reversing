@@ -47,15 +47,15 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAberockAOResID, 0, 0);
     if (ppPal)
     {
-        field_10_anim.LoadPal_403090(ppPal, 0);
+        field_10_anim.LoadPal(ppPal, 0);
     }
     else
     {
-        const FrameInfoHeader* pFrameInfo = field_10_anim.Get_FrameHeader_403A00(-1);
+        const FrameInfoHeader* pFrameInfo = field_10_anim.Get_FrameHeader(-1);
 
         const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
 
-        field_10_anim.LoadPal_403090(
+        field_10_anim.LoadPal(
             field_10_anim.field_20_ppBlock,
             pFrameHeader->field_0_clut_offset);
     }
@@ -83,7 +83,7 @@ void Rock::VUpdate()
 
 void Rock::VUpdate_456EC0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(Options::eDead);
     }
@@ -106,7 +106,7 @@ void Rock::VUpdate_456EC0()
                     field_B4_velx -= FP_FromDouble(0.01);
                 }
 
-                field_114_pLine->MoveOnLine_40CA20(
+                field_114_pLine->MoveOnLine(
                     &field_A8_xpos,
                     &field_AC_ypos,
                     field_B4_velx);
@@ -120,10 +120,10 @@ void Rock::VUpdate_456EC0()
             else
             {
                 const s16 x_exp = FP_GetExponent(field_A8_xpos);
-                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, x_exp & 0x3FF);
                 if (abs(xSnapped - x_exp) > 1)
                 {
-                    field_114_pLine = field_114_pLine->MoveOnLine_40CA20(
+                    field_114_pLine = field_114_pLine->MoveOnLine(
                         &field_A8_xpos,
                         &field_AC_ypos,
                         field_B4_velx);
@@ -136,13 +136,13 @@ void Rock::VUpdate_456EC0()
                 else
                 {
                     field_B4_velx = FP_FromInteger(0);
-                    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-                    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+                    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
 
                     mFlags.Set(Options::eInteractive_Bit8);
 
                     field_10_anim.field_4_flags.Clear(AnimFlags::eBit8_Loop);
-                    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+                    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
                     field_D4_collection_rect.h = field_AC_ypos;
                     field_110_state = States::eOnGround_3;
                     field_124_shimmer_timer = gnFrameCount_507670;
@@ -266,12 +266,12 @@ void Rock::InTheAir_456B60()
     field_AC_ypos += field_B8_vely;
 
     u16 result = 0;
-    field_A8_xpos = CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 8, &result);
-    field_AC_ypos = CamY_VoidSkipper_418690(field_AC_ypos, field_B8_vely, 8, &result);
+    field_A8_xpos = CamX_VoidSkipper(field_A8_xpos, field_B4_velx, 8, &result);
+    field_AC_ypos = CamY_VoidSkipper(field_AC_ypos, field_B8_vely, 8, &result);
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast_40C410(
+    if (sCollisions_DArray_504C6C->RayCast(
             field_11C_xpos,
             field_120_ypos,
             field_A8_xpos,
@@ -302,8 +302,8 @@ void Rock::InTheAir_456B60()
                                 vol = 40;
                             }
                             SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
-                            Event_Broadcast_417220(kEventNoise_0, this);
-                            Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+                            Event_Broadcast(kEventNoise_0, this);
+                            Event_Broadcast(kEventSuspiciousNoise_10, this);
                             field_118_vol++;
                         }
                         else
@@ -361,8 +361,8 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
     }
 
     SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
-    Event_Broadcast_417220(kEventNoise_0, this);
-    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventSuspiciousNoise_10, this);
 }
 
 //TODO Identical to AE - merge

@@ -24,12 +24,7 @@ public:
     GameEnderController();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_41CCE0();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_41C860();
 
     s32 field_10_timer;
     GameEnderController_States field_14_state;

@@ -36,11 +36,6 @@ GameEnderController::GameEnderController()
 
 void GameEnderController::VScreenChanged()
 {
-    VScreenChanged_41CCE0();
-}
-
-void GameEnderController::VScreenChanged_41CCE0()
-{
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -49,12 +44,7 @@ void GameEnderController::VScreenChanged_41CCE0()
 
 void GameEnderController::VUpdate()
 {
-    VUpdate_41C860();
-}
-
-void GameEnderController::VUpdate_41C860()
-{
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

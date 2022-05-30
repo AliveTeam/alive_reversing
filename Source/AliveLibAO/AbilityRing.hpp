@@ -52,23 +52,14 @@ public:
     AbilityRing(FP xpos, FP ypos, RingTypes type);
     ~AbilityRing();
 
-    EXPORT static AbilityRing* CC Factory_447590(FP xpos, FP ypos, RingTypes ring_type);
-
-    EXPORT void SetTarget_455EC0(BaseAliveGameObject* pTarget);
+    static AbilityRing* Factory(FP xpos, FP ypos, RingTypes ring_type);
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_4568D0();
-
-    EXPORT void CollideWithObjects_456250();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_455ED0();
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_456340(PrimHeader** ppOt);
+    void SetTarget(BaseAliveGameObject* pTarget);
+    void CollideWithObjects();
 
     Layer field_10_layer;
     s16 field_12_pad;

@@ -67,11 +67,6 @@ void DemoPlayback::VRender(PrimHeader** /*ppOt*/)
 
 void DemoPlayback::VUpdate()
 {
-    VUpdate_451960();
-}
-
-void DemoPlayback::VUpdate_451960()
-{
     //nullsub_59(nullsub_59);
 
     switch (field_10_state)

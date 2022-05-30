@@ -46,7 +46,7 @@ s32 Lever::VPull(s16 bLeftDirection)
 
 void Lever::VUpdate_4812D0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -60,8 +60,8 @@ void Lever::VUpdate_4812D0()
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            Event_Broadcast_417220(kEventNoise_0, this);
-            Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+            Event_Broadcast(kEventNoise_0, this);
+            Event_Broadcast(kEventSuspiciousNoise_10, this);
             const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
             if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1
                 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12
@@ -82,7 +82,7 @@ void Lever::VUpdate_4812D0()
             }
 
             const AnimRecord& rec = AO::AnimRec(animId);
-            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
 
             const auto oldSwitchState = SwitchStates_Get(field_E4_switch_id);
             SwitchStates_Do_Operation_436A10(field_E4_switch_id, field_F2_action);
@@ -164,7 +164,7 @@ void Lever::VUpdate_4812D0()
         {
             field_E8_state = LeverState::eWaiting_0;
             const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[static_cast<s32>(gMap.mCurrentLevel)].field_0_idle_animId);
-            field_10_anim.Set_Animation_Data_402A40(
+            field_10_anim.Set_Animation_Data(
                 rec.mFrameTableOffset,
                 nullptr);
         }
@@ -244,7 +244,7 @@ s32 Lever::vPull_481640(s16 bLeftDirection)
         if (bLeftDirection)
         {
             const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_C_pulling_left_animId);
-            field_10_anim.Set_Animation_Data_402A40(
+            field_10_anim.Set_Animation_Data(
                 rec.mFrameTableOffset,
                 nullptr);
             field_F0_bPulledFromLeft = 1;
@@ -252,7 +252,7 @@ s32 Lever::vPull_481640(s16 bLeftDirection)
         else
         {
             const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_14_pulling_right_animId);
-            field_10_anim.Set_Animation_Data_402A40(
+            field_10_anim.Set_Animation_Data(
                 rec.mFrameTableOffset,
                 nullptr);
             field_F0_bPulledFromLeft = 0;

@@ -27,18 +27,13 @@ ALIVE_ASSERT_SIZEOF(Path_FootSwitch, 0x20);
 class FootSwitch final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT BaseAliveGameObject* WhoIsStoodOnMe_488A60();
-
-    virtual void VUpdate() override;
-
-    EXPORT void VUpdate_4888E0();
-
     FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo);
     ~FootSwitch();
 
     virtual void VScreenChanged() override;
+    virtual void VUpdate() override;
 
-    EXPORT void VScreenChanged_4889D0();
+    BaseAliveGameObject* WhoIsStoodOnMe();
 
     s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;

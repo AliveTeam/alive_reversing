@@ -102,11 +102,6 @@ BeeSwarm::~BeeSwarm()
 
 void BeeSwarm::VScreenChanged()
 {
-    VScreenChange_480D40();
-}
-
-void BeeSwarm::VScreenChange_480D40()
-{
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(Options::eDead);
@@ -137,7 +132,7 @@ void BeeSwarm::VScreenChange_480D40()
     }
 }
 
-void BeeSwarm::FollowLine_47FF10(PathLine* pLine, FP target_x, FP target_y, FP speed)
+void BeeSwarm::FollowLine(PathLine* pLine, FP target_x, FP target_y, FP speed)
 {
     field_DA8_pLine = pLine;
     field_DAC_line_follow_speed = speed;
@@ -147,7 +142,7 @@ void BeeSwarm::FollowLine_47FF10(PathLine* pLine, FP target_x, FP target_y, FP s
     field_D98_pChaseTarget = nullptr;
 }
 
-void BeeSwarm::Chase_47FEB0(BaseAliveGameObject* pChaseTarget)
+void BeeSwarm::Chase(BaseAliveGameObject* pChaseTarget)
 {
     if (field_D98_pChaseTarget)
     {
@@ -169,17 +164,12 @@ void BeeSwarm::Chase_47FEB0(BaseAliveGameObject* pChaseTarget)
 
 void BeeSwarm::VUpdate()
 {
-    VUpdate_47FF50();
-}
-
-void BeeSwarm::VUpdate_47FF50()
-{
     if (sNumCamSwappers_507668 != 0)
     {
         return;
     }
 
-    if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
         ToFlyAwayAndDie();
         mFlags.Set(BaseGameObject::eDead);
@@ -328,7 +318,7 @@ void BeeSwarm::VUpdate_47FF50()
             break;
 
         case BeeSwarmStates::eFollowPathLines_2:
-            field_DA8_pLine = field_DA8_pLine->MoveOnLine_40CA20(
+            field_DA8_pLine = field_DA8_pLine->MoveOnLine(
                 &field_D70_chase_target_x,
                 &field_D74_chase_target_y,
                 field_DAC_line_follow_speed);
@@ -569,11 +559,6 @@ void BeeSwarm::ToFlyAwayAndDie()
 
 void BeeSwarm::VRender(PrimHeader** ppOt)
 {
-    VRender_480AC0(ppOt);
-}
-
-void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
-{
     field_10_anim.field_C_layer = Layer::eLayer_MainMenuButtonBees_38;
     field_10_anim.field_8_r = static_cast<u8>(field_C0_r);
     field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
@@ -597,14 +582,14 @@ void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
         {
             if (bDontClear)
             {
-                field_10_anim.vRender(
+                field_10_anim.VRender(
                     FP_GetExponent(bee->field_0_xpos - campos_x_delta),
                     FP_GetExponent(bee->field_4_ypos - campos_y_delta),
                     ppOt,
                     0,
                     0);
                 bDontClear = 0;
-                field_10_anim.Get_Frame_Rect_402B50(&out);
+                field_10_anim.Get_Frame_Rect(&out);
             }
             else
             {
@@ -612,7 +597,7 @@ void BeeSwarm::VRender_480AC0(PrimHeader** ppOt)
                     FP_GetExponent(PsxToPCX((bee->field_0_xpos - campos_x_delta), FP_FromInteger(11))),
                     FP_GetExponent(bee->field_4_ypos - campos_y_delta),
                     ppOt);
-                bee->field_10_anim.GetRenderedSize_404220(&out);
+                bee->field_10_anim.GetRenderedSize(&out);
             }
 
             out.x = std::min(out.x, xy.field_0_x);

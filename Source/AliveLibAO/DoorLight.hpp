@@ -36,11 +36,6 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-private:
-    EXPORT void VScreenChanged_406360();
-    EXPORT void VUpdate_4060A0();
-    EXPORT void VRender_406370(PrimHeader** ppOt);
-
 public:
     s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;

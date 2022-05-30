@@ -37,7 +37,7 @@ RollingBall::~RollingBall()
 
     if (field_120_pCollisionLine)
     {
-        Rect_Clear_40C920(&field_120_pCollisionLine->field_0_rect);
+        Rect_Clear(&field_120_pCollisionLine->field_0_rect);
     }
 
     if (field_114_pRollingBallShaker)
@@ -90,7 +90,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     FP castX = {};
     FP castY = {};
 
-    if (sCollisions_DArray_504C6C->RayCast_40C410(
+    if (sCollisions_DArray_504C6C->RayCast(
             field_A8_xpos,
             field_AC_ypos,
             field_A8_xpos,
@@ -140,7 +140,7 @@ void RollingBall::VUpdate_457AF0()
             {
                 field_B8_vely = FP_FromDouble(2.5);
                 field_112_state = States::eStartRolling_1;
-                field_10_anim.Set_Animation_Data_402A40(15608, 0);
+                field_10_anim.Set_Animation_Data(15608, 0);
                 field_114_pRollingBallShaker = ao_new<RollingBallShaker>();
                 if (field_114_pRollingBallShaker)
                 {
@@ -196,13 +196,13 @@ void RollingBall::VUpdate_457AF0()
 
             Accelerate_458410();
 
-            field_F4_pLine = field_F4_pLine->MoveOnLine_40CA20(
+            field_F4_pLine = field_F4_pLine->MoveOnLine(
                 &field_A8_xpos,
                 &field_AC_ypos,
                 field_B4_velx);
 
             u16 result = 0;
-            CamX_VoidSkipper_418590(field_A8_xpos, field_B4_velx, 50, &result);
+            CamX_VoidSkipper(field_A8_xpos, field_B4_velx, 50, &result);
             if (result == 1 || result == 2)
             {
                 MapFollowMe_401D30(0);
@@ -210,7 +210,7 @@ void RollingBall::VUpdate_457AF0()
 
             CrushThingsInTheWay_458310();
 
-            if (Event_Get_417250(kEventDeathReset_4))
+            if (Event_Get(kEventDeathReset_4))
             {
                 field_114_pRollingBallShaker->field_C_refCount--;
                 field_114_pRollingBallShaker->field_32_bKillMe = 1;
@@ -276,7 +276,7 @@ void RollingBall::VUpdate_457AF0()
                 return;
             }
 
-            if (Event_Get_417250(kEventDeathReset_4))
+            if (Event_Get(kEventDeathReset_4))
             {
                 mFlags.Set(Options::eDead);
                 CrushThingsInTheWay_458310();
@@ -348,7 +348,7 @@ void RollingBall::VUpdate_457AF0()
         }
 
         case States::eCrushedBees_4:
-            if (field_B2_lvl_number != gMap.mCurrentLevel || field_B0_path_number != gMap.mCurrentPath || Event_Get_417250(kEventDeathReset_4))
+            if (field_B2_lvl_number != gMap.mCurrentLevel || field_B0_path_number != gMap.mCurrentPath || Event_Get(kEventDeathReset_4))
             {
                 mFlags.Set(Options::eDead);
             }

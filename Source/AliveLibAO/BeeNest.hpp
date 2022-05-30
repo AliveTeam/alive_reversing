@@ -34,12 +34,7 @@ public:
     ~BeeNest();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_481040();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_480F30();
 
     FP field_10_bee_x;
     FP field_14_bee_y;

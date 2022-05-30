@@ -32,23 +32,13 @@ public:
     BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks);
     ~BeeSwarm();
 
-    virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChange_480D40();
-
-    EXPORT void FollowLine_47FF10(PathLine* pLine, FP target_x, FP target_y, FP speed);
-
-    EXPORT void Chase_47FEB0(BaseAliveGameObject* pChaseTarget);
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_47FF50();
-
-    void ToFlyAwayAndDie();
-
+    virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_480AC0(PrimHeader** ppOt);
+    void FollowLine(PathLine* pLine, FP target_x, FP target_y, FP speed);
+    void Chase(BaseAliveGameObject* pChaseTarget);
+    void ToFlyAwayAndDie();
 
     s32 field_D4_padding[4];
     BeeSwarmParticles field_E4_bees;

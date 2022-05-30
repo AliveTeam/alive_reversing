@@ -32,7 +32,7 @@ MeatSaw::~MeatSaw()
         gMap.TLV_Reset_446870(field_100_tlvInfo, 0, 0, 0);
     }
 
-    field_110_anim.vCleanUp();
+    field_110_anim.VCleanUp();
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 }
@@ -141,7 +141,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
 
     const AnimRecord& motorRec = AO::AnimRec(AnimId::MeatSawMotor);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, motorRec.mResourceId, 1, 0);
-    if (field_110_anim.Init_402D20(
+    if (field_110_anim.Init(
             motorRec.mFrameTableOffset,
             gObjList_animations_505564,
             this,
@@ -189,7 +189,7 @@ void MeatSaw::VUpdate()
 
 void MeatSaw::VUpdate_4399D0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -222,7 +222,7 @@ void MeatSaw::VUpdate_4399D0()
             {
                 field_E4_state = MeatSawStates::eGoingDown_1;
                 const AnimRecord& rec = AO::AnimRec(AnimId::MeatSaw_Moving);
-                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_1A8_flags.Clear(flags_1A8::eBit3_AutomaticMeatSawIsDown);
                 field_E8_speed2 = field_EA_speed1;
                 field_108_SFX_timer = gnFrameCount_507670 + 2;
@@ -239,7 +239,7 @@ void MeatSaw::VUpdate_4399D0()
                             {
                                 field_E4_state = MeatSawStates::eGoingDown_1;
                                 const AnimRecord& rec = AO::AnimRec(AnimId::MeatSaw_Moving);
-                                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                                 field_1A8_flags.Set(flags_1A8::eBit3_AutomaticMeatSawIsDown);
                                 field_E8_speed2 = field_EC_off_speed;
                                 field_108_SFX_timer = gnFrameCount_507670 + 2;
@@ -291,7 +291,7 @@ void MeatSaw::VUpdate_4399D0()
                 }
 
                 field_104_idle_timer = gnFrameCount_507670 + Math_RandomRange_450F20(minRnd, maxRnd);
-                field_10_anim.Set_Animation_Data_402A40(15200, 0);
+                field_10_anim.Set_Animation_Data(15200, 0);
                 if (field_1A8_flags.Get(flags_1A8::eBit2_SwitchIdMeatSaw))
                 {
                     SwitchStates_Set(field_EE_switch_id, field_F0_switch_value == 0 ? 1 : 0);
@@ -388,7 +388,7 @@ void MeatSaw::VRender_439F50(PrimHeader** ppOt)
         field_C8_yOffset = field_F4;
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-        field_110_anim.vRender(
+        field_110_anim.VRender(
             FP_GetExponent(field_A8_xpos
                            + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
@@ -400,7 +400,7 @@ void MeatSaw::VRender_439F50(PrimHeader** ppOt)
             0);
 
         PSX_RECT rect = {};
-        field_110_anim.Get_Frame_Rect_402B50(&rect);
+        field_110_anim.Get_Frame_Rect(&rect);
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             rect.x,
             rect.y,

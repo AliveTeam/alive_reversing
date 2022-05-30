@@ -49,7 +49,7 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
 
     const AnimRecord& flashRec = AO::AnimRec(AnimId::Mine_Flash);
     u8** ppFLashRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, flashRec.mResourceId, 1, 0);
-    field_118_animation.Init_402D20(
+    field_118_animation.Init(
         flashRec.mFrameTableOffset,
         gObjList_animations_505564,
         this,
@@ -103,9 +103,9 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
-    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
-    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
+    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
     field_D4_collection_rect.h = field_AC_ypos;
 
     mFlags.Set(Options::eInteractive_Bit8);
@@ -122,7 +122,7 @@ Mine::~Mine()
         gMap.TLV_Reset_446870(field_110_tlv, -1, 0, 0);
     }
 
-    field_118_animation.vCleanUp();
+    field_118_animation.VCleanUp();
 
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebombAOResID, 0, 0));
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 0, 0));
@@ -245,7 +245,7 @@ void Mine::VRender_43A970(PrimHeader** ppOt)
             field_AC_ypos,
             0))
     {
-        field_118_animation.vRender(
+        field_118_animation.VRender(
             FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x)),
             FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,
@@ -303,8 +303,8 @@ void Mine::vUpdate_43A7F0()
     }
 
     if (field_10C_detonating != 1
-        && (Event_Get_417250(kEventDeathReset_4)
-            || Event_Get_417250(kEvent_9)
+        && (Event_Get(kEventDeathReset_4)
+            || Event_Get(kEvent_9)
             || field_B2_lvl_number != gMap.mCurrentLevel
             || field_B0_path_number != gMap.mCurrentPath))
     {

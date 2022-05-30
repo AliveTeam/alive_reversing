@@ -777,6 +777,6 @@ EXPORT s32 CC Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitch
 
 EXPORT s32 CC Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero);
 
-EXPORT s32 CC XGrid_Index_To_XPos_41FA60(FP scale, s32 xGridIndex);
+EXPORT s32 CC XGrid_Index_To_XPos(FP scale, s32 xGridIndex);
 
 } // namespace AO

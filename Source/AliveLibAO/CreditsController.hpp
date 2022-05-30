@@ -17,8 +17,6 @@ public:
     CreditsController(Path_CreditsController* pTlv, s32 tlvInfo);
     ~CreditsController();
 
-    EXPORT void VUpdate_40D020();
-
     s32 field_10_next_cam_frame;
     s16 field_14_camera_number;
     s16 field_16_pad;

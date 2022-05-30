@@ -16,17 +16,12 @@ Flash::Flash(Layer layer, s32 r, s32 g, s32 b, s32 /*not_used*/, TPageAbr abr, s
     field_68_flash_time = time + gnFrameCount_507670;
 }
 
-void Flash::VUpdate_41A870()
+void Flash::VUpdate()
 {
     if (static_cast<s32>(gnFrameCount_507670) >= field_68_flash_time)
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-}
-
-void Flash::VUpdate()
-{
-    VUpdate_41A870();
 }
 
 } // namespace AO

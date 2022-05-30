@@ -12,10 +12,7 @@ public:
     ~CheatController();
 
     virtual void VScreenChanged() override;
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_40FC40();
 
     s16 field_10;
     s16 field_12;

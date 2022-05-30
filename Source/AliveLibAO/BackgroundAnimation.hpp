@@ -33,16 +33,8 @@ public:
     ~BackgroundAnimation();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_405D30();
-
     virtual void VStopAudio() override;
-
-    EXPORT void VStopAudio_405D40();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_405C30();
 
     s32 field_D4_padding;
     s32 field_D8_padding;

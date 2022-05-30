@@ -27,16 +27,8 @@ public:
     ~Blood();
 
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_407750();
-
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_407AB0();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_407810(PrimHeader** ppOt);
 
     s32 field_D4_not_used[4];
     u8** field_E4_ppResBuf;

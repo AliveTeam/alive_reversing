@@ -20,7 +20,7 @@ const s32 dword_4CFFCC[11] = {
     1000000000};
 
 
-s16 CC Code_Length_475FD0(u32 code)
+s16 Code_Length(u32 code)
 {
     s16 i = 0;
     for (i = 0; code; ++i)
@@ -30,11 +30,11 @@ s16 CC Code_Length_475FD0(u32 code)
     return i;
 }
 
-s32 CC Code_Convert_476000(u16 code1, u16 code2)
+s32 Code_Convert(u16 code1, u16 code2)
 {
     if (code2)
     {
-        return code2 + code1 * dword_4CFFCC[(Code_Length_475FD0(code2)) + 1];
+        return code2 + code1 * dword_4CFFCC[(Code_Length(code2)) + 1];
     }
     else
     {
@@ -42,12 +42,12 @@ s32 CC Code_Convert_476000(u16 code1, u16 code2)
     }
 }
 
-GameSpeakEvents CC Code_LookUp_476050(u32 code, u16 idx, u16 code_len)
+GameSpeakEvents Code_LookUp(u32 code, u16 idx, u16 code_len)
 {
     u16 code_len_to_use = code_len;
     if (code_len == 0)
     {
-        code_len_to_use = Code_Length_475FD0(code);
+        code_len_to_use = Code_Length(code);
     }
     return static_cast<GameSpeakEvents>(code / dword_4CFFCC[code_len_to_use - idx] % 10);
 }
@@ -74,7 +74,7 @@ GameSpeak::~GameSpeak()
     pEventSystem_4FF954 = nullptr;
 }
 
-void GameSpeak::VPushEvent_40F9E0(GameSpeakEvents event)
+void GameSpeak::VPushEvent(GameSpeakEvents event)
 {
     PushEvent_Impl(event);
     field_14_last_event_frame = gnFrameCount_507670 + 60;
@@ -97,11 +97,6 @@ void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
 
 void GameSpeak::VUpdate()
 {
-    VUpdate_40FA20();
-}
-
-void GameSpeak::VUpdate_40FA20()
-{
     // If the last thing pushed wasn't nothing and its been around for a while then set the last event to nothing
     if (field_10_last_event != GameSpeakEvents::eNone_m1)
     {
@@ -112,17 +107,17 @@ void GameSpeak::VUpdate_40FA20()
     }
 }
 
-s16 CC GameSpeak::sub_40FA60(s32 code, u8* pBuffer)
+s16 GameSpeak::sub_40FA60(s32 code, u8* pBuffer)
 {
-    const s16 len = Code_Length_475FD0(code);
+    const s16 len = Code_Length(code);
     for (s16 idx = 0; idx < len; ++idx)
     {
-        pBuffer[idx] = static_cast<u8>(Code_LookUp_476050(code, idx, len));
+        pBuffer[idx] = static_cast<u8>(Code_LookUp(code, idx, len));
     }
     return len;
 }
 
-GameSpeakMatch GameSpeak::MatchBuffer_40FAA0(u8* pBuffer, s16 bufferLen, s16 bufferStartIdx)
+GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStartIdx)
 {
     if (bufferStartIdx == -1)
     {

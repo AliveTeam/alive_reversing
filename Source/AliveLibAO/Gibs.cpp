@@ -119,7 +119,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         if (i < 2)
         {
             // 2 arm parts
-            if (!pPart->field_18_anim.Init_402D20(
+            if (!pPart->field_18_anim.Init(
                     armRec.mFrameTableOffset,
                     gObjList_animations_505564,
                     this,
@@ -138,7 +138,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         else
         {
             // 2 body parts
-            if (!pPart->field_18_anim.Init_402D20(
+            if (!pPart->field_18_anim.Init(
                     bodyRec.mFrameTableOffset,
                     gObjList_animations_505564,
                     this,
@@ -184,7 +184,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 
         if (ppPal)
         {
-            pPart->field_18_anim.LoadPal_403090(ppPal, 0);
+            pPart->field_18_anim.LoadPal(ppPal, 0);
         }
 
         pPart++;
@@ -192,11 +192,6 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 }
 
 void Gibs::VUpdate()
-{
-    VUpdate_4080C0();
-}
-
-void Gibs::VUpdate_4080C0()
 {
     field_A8_xpos += field_B4_velx;
     field_AC_ypos += field_B8_vely;
@@ -235,17 +230,11 @@ Gibs::~Gibs()
 {
     for (s16 i = 0; i < field_5C4_parts_used_count; i++)
     {
-        field_F4_parts[i].field_18_anim.vCleanUp();
+        field_F4_parts[i].field_18_anim.VCleanUp();
     }
 }
 
 void Gibs::VRender(PrimHeader** ppOt)
-{
-    VRender_408200(ppOt);
-}
-
-
-void Gibs::VRender_408200(PrimHeader** ppOt)
 {
     if (sNumCamSwappers_507668 != 0)
     {
@@ -282,7 +271,7 @@ void Gibs::VRender_408200(PrimHeader** ppOt)
                     pGib->field_18_anim.field_C_layer = Layer::eLayer_FG1_37;
                 }
 
-                pGib->field_18_anim.VRender_403AE0(
+                pGib->field_18_anim.VRender(
                     FP_GetExponent(pGib->field_0_x - left),
                     FP_GetExponent(pGib->field_4_y - up),
                     ppOt,
@@ -290,7 +279,7 @@ void Gibs::VRender_408200(PrimHeader** ppOt)
                     0);
 
                 PSX_RECT frameRect = {};
-                pGib->field_18_anim.Get_Frame_Rect_402B50(&frameRect);
+                pGib->field_18_anim.Get_Frame_Rect(&frameRect);
                 pScreenManager_4FF7C8->InvalidateRect_406E40(
                     frameRect.x,
                     frameRect.y,

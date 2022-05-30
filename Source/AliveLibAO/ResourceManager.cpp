@@ -216,14 +216,14 @@ void CC Game_ShowLoadingIcon_445EB0()
             PSX_DrawSync_496750(0);
             PSX_ClearOTag_496760(local_ot, 42);
 
-            pParticle->field_10_anim.vRender(320, 220, local_ot, 0, 0);
+            pParticle->field_10_anim.VRender(320, 220, local_ot, 0, 0);
 
             PSX_DrawOTag_4969F0(local_ot);
             PSX_DrawSync_496750(0);
 
             PSX_ClearOTag_496760(local_ot, 42);
 
-            pParticle->field_10_anim.vRender(320, gPsxDisplay_504C78.field_2_height + 220, local_ot, 0, 0);
+            pParticle->field_10_anim.VRender(320, gPsxDisplay_504C78.field_2_height + 220, local_ot, 0, 0);
 
             PSX_DrawOTag_4969F0(local_ot);
             PSX_DrawSync_496750(0);

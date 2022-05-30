@@ -27,28 +27,14 @@ public:
     ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo);
     ~ChimeLock();
 
+    virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_40BCD0();
-
     virtual void VPossessed() override;
-
-    EXPORT void VPossessed_40BC40();
-
     virtual void VUnPosses() override;
 
-    EXPORT void VUnPosses_40BC90();
-
-    EXPORT s16 DoNote_40BB20(s16 note);
-
-    EXPORT void SetBallTarget_40B7B0(FP ballTargetX, FP ballTargetY, s16 timer, s16 xSize, s16 ySize, s16 bHitBell);
-
-    EXPORT s16 UpdateBall_40B8A0();
-
-    virtual void VUpdate() override;
-
-    EXPORT void VUpdate_40AEF0();
-
+    s16 DoNote(s16 note);
+    void SetBallTarget(FP ballTargetX, FP ballTargetY, s16 timer, s16 xSize, s16 ySize, s16 bHitBell);
+    s16 UpdateBall();
     void SetTargetBellIfSpace(s16 targetNum);
 
     s32 field_10C_tlvInfo;

@@ -25,14 +25,9 @@ public:
     ~Bat();
     
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_404FE0();
-
-    EXPORT void FlyTo_404E50(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed);
-
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_404950();
+    void FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed);
 
     s32 field_D4_padding[4];
     PathLine* field_E4_pLine;

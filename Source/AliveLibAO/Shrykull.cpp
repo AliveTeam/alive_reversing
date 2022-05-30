@@ -132,7 +132,7 @@ void Shrykull::VUpdate_463AE0()
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                field_10_anim.Set_Animation_Data_402A40(92040, nullptr);
+                field_10_anim.Set_Animation_Data(92040, nullptr);
                 field_10C_state = State::eZapTargets_1;
             }
             break;
@@ -243,7 +243,7 @@ void Shrykull::VUpdate_463AE0()
         case State::eDetransform_2:
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_10_anim.Set_Animation_Data_402A40(92152, nullptr);
+                field_10_anim.Set_Animation_Data(92152, nullptr);
                 field_10C_state = State::eFinish_3;
             }
             break;

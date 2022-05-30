@@ -38,7 +38,7 @@ public:
 
     EXPORT static void CC static_dtor_41C020();
 
-    EXPORT void LoadFontType_41C040(s16 resourceID);
+    EXPORT void LoadFontType(s16 resourceID);
 
 
     EXPORT void dtor_41C110();
@@ -54,19 +54,17 @@ public:
 class AliveFont
 {
 public:
-    EXPORT AliveFont* ctor_41C170(s32 maxCharLength, const u8* palette, FontContext* fontContext);
+    AliveFont* ctor_41C170(s32 maxCharLength, const u8* palette, FontContext* fontContext);
 
-    EXPORT u32 MeasureWidth_41C2B0(const char_type* character);
+    u32 MeasureTextWidth(const char_type* text);
+    s32 MeasureCharacterWidth(char_type character);
+    s32 MeasureScaledTextWidth(const char_type* text, FP scale);
 
-    EXPORT s32 MeasureWidth_41C200(char_type character);
+    s32 DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 a2, Layer otLayer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 a15, s32 colorRandomRange);
 
-    EXPORT s32 MeasureWidth_41C280(const char_type* text, FP scale);
+    void dtor_41C130();
 
-    EXPORT s32 DrawString_41C360(PrimHeader** ppOt, const char_type* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 a2, Layer otLayer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 a15, s32 colorRandomRange);
-
-    EXPORT void dtor_41C130();
-
-    EXPORT const char_type* SliceText_41C6C0(const char_type* text, s32 left, FP scale, s32 right);
+    const char_type* SliceText(const char_type* text, s32 left, FP scale, s32 right);
 
     u8 gap0[32];
     u8** field_20_fnt_poly_block_ptr;

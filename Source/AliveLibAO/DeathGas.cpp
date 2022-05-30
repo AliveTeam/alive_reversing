@@ -87,7 +87,7 @@ DeathGas::~DeathGas()
     gDeathGasCount_5009D0--;
 }
 
-void DeathGas::VScreenChanged_41D700()
+void DeathGas::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || !sActiveHero_507678)
     {
@@ -95,14 +95,9 @@ void DeathGas::VScreenChanged_41D700()
     }
 }
 
-void DeathGas::VScreenChanged()
+void DeathGas::VUpdate()
 {
-    VScreenChanged_41D700();
-}
-
-void DeathGas::VUpdate_41D150()
-{
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -117,16 +112,6 @@ void DeathGas::VUpdate_41D150()
     }
 }
 
-void DeathGas::VUpdate()
-{
-    VUpdate_41D150();
-}
-
-void DeathGas::VRender(PrimHeader** ppOt)
-{
-    VRender_41D190(ppOt);
-}
-
 struct Data_FP final
 {
     FP data[2][5][5];
@@ -135,7 +120,7 @@ ALIVE_VAR(1, 0x500908, Data_FP, xData_500908, {});
 ALIVE_VAR(1, 0x5007E8, Data_FP, yData_5007E8, {});
 ALIVE_VAR(1, 0x4FFD78, Data_Byte, sbyte_3_4FFD78, {});
 
-void DeathGas::VRender_41D190(PrimHeader** ppOt)
+void DeathGas::VRender(PrimHeader** ppOt)
 {
     field_12_unused += 2;
 

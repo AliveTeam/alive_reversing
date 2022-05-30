@@ -156,7 +156,7 @@ void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
                 maxY = 240;
             }
 
-            field_10_anim.VRender_403AE0(640, 240, ppOt, 0, 0);
+            field_10_anim.VRender(640, 240, ppOt, 0, 0);
 
             if (y_start >= minY)
             {
@@ -171,7 +171,7 @@ void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
                     field_EC_pRes[idx].field_A_b = static_cast<u8>(b);
                     field_EC_pRes[idx].VRender2(x_start, y_start + field_C8_yOffset, ppOt);
                     PSX_RECT rect = {};
-                    field_EC_pRes[idx].GetRenderedSize_404220(&rect);
+                    field_EC_pRes[idx].GetRenderedSize(&rect);
                     pScreenManager_4FF7C8->InvalidateRect_406E40(rect.x, rect.y, rect.w, rect.h, pScreenManager_4FF7C8->field_2E_idx);
                     ClipPoly_Vertically_4584B0(&field_EC_pRes[idx].field_10_polys[gPsxDisplay_504C78.field_A_buffer_index], field_C8_yOffset + minY, field_C8_yOffset + maxY);
                     y_start -= field_E6_segment_length;

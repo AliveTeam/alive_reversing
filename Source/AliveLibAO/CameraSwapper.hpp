@@ -17,16 +17,11 @@ public:
     CameraSwapper(u8** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3);
     CameraSwapper(u8** ppBits, CameraSwapEffects changeEffect, s32 xpos, s32 ypos);
     ~CameraSwapper();
-    
 
     virtual void VScreenChanged() override;
-
-
-    EXPORT void Init_48C830(u8** ppCamRes, CameraSwapEffects changeEffect);
-
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_48CEA0();
+    void Init(u8** ppCamRes, CameraSwapEffects changeEffect);
 
     s32 field_10_movie_pos_3;
     s32 field_14_movie_id_3;

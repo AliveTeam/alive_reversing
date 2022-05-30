@@ -18,16 +18,10 @@ public:
     ~FG1();
 
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_453DE0();
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_453D50(PrimHeader** ppOt);
-
-    EXPORT void Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock);
+    void Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock);
     void Convert_Chunk_To_Render_Block_AE(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
     s16 field_10_cam_pos_x;

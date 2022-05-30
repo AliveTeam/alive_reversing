@@ -1126,7 +1126,7 @@ EXPORT void CC SND_StopAll_4762D0()
         SND_Seq_Stop_477A60(static_cast<SeqId>(sBackgroundMusic_seq_id_4CFFF8));
     }
 
-    SND_Reset_Ambiance_4765E0();
+    SND_Reset_Ambiance();
     SND_Stop_All_Seqs_4774D0();
 
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)

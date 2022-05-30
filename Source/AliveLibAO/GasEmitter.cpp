@@ -14,23 +14,12 @@ namespace AO {
 ALIVE_VAR(1, 0x5009D4, GasEmitter*, gGasEmitter_5009D4, nullptr);
 ALIVE_VAR(1, 0x5009D8, u32, gGasEmitterFx_5009D8, 0);
 
-
-void GasEmitter::VUpdate()
-{
-    VUpdate_41D7D0();
-}
-
-void GasEmitter::VScreenChanged_41D900()
+void GasEmitter::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void GasEmitter::VScreenChanged()
-{
-    VScreenChanged_41D900();
-}
-
-void GasEmitter::VStopAudio_41D8D0()
+void GasEmitter::VStopAudio()
 {
     if (gGasEmitter_5009D4 == this)
     {
@@ -38,11 +27,6 @@ void GasEmitter::VStopAudio_41D8D0()
         SND_Stop_Channels_Mask_4774A0(gGasEmitterFx_5009D8);
         gGasEmitterFx_5009D8 = 0;
     }
-}
-
-void GasEmitter::VStopAudio()
-{
-    VStopAudio_41D8D0();
 }
 
 GasEmitter::~GasEmitter()
@@ -73,7 +57,7 @@ GasEmitter::GasEmitter(Path_GasEmitter* pTlv, s32 tlvInfo)
     field_14_emit_power = Math_NextRandom() % 4;
 }
 
-void GasEmitter::VUpdate_41D7D0()
+void GasEmitter::VUpdate()
 {
     if (gGasOn_4FF888 && !(gnFrameCount_507670 + field_14_emit_power % 4))
     {

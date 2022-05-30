@@ -109,20 +109,10 @@ BackgroundAnimation::~BackgroundAnimation()
 
 void BackgroundAnimation::VScreenChanged()
 {
-    VScreenChanged_405D30();
-}
-
-void BackgroundAnimation::VScreenChanged_405D30()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
 void BackgroundAnimation::VStopAudio()
-{
-    VStopAudio_405D40();
-}
-
-void BackgroundAnimation::VStopAudio_405D40()
 {
     if (field_104_sound_channels_mask)
     {
@@ -133,12 +123,7 @@ void BackgroundAnimation::VStopAudio_405D40()
 
 void BackgroundAnimation::VUpdate()
 {
-    VUpdate_405C30();
-}
-
-void BackgroundAnimation::VUpdate_405C30()
-{
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

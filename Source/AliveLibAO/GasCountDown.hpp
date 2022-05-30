@@ -21,18 +21,10 @@ public:
     ~GasCountDown();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_40C3C0();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_40C0E0();
-
-    void DealDamage();
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_40C2F0(PrimHeader** ppOt);
+    void DealDamage();
 
     FontContext field_10_font_context;
     AliveFont field_20_font;

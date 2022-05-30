@@ -1626,7 +1626,7 @@ EXPORT void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvI
     }
     else
     {
-        Elum::Spawn_410E90(tlvOffsetLevelIdPathId);
+        Elum::Spawn(tlvOffsetLevelIdPathId);
         gElum_507680->field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
         gElum_507680->field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     }

@@ -254,7 +254,7 @@ void CC FontContext::static_dtor_41C020()
     sFontContext_4FFD68.dtor_41C110();
 }
 
-void FontContext::LoadFontType_41C040(s16 resourceID)
+void FontContext::LoadFontType(s16 resourceID)
 {
     field_C_resource_id = resourceID;
     auto loadedResource = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Font, resourceID, 1, 0);
@@ -320,7 +320,7 @@ AliveFont* AliveFont::ctor_41C170(s32 maxCharLength, const u8* palette, FontCont
     return this;
 }
 
-EXPORT u32 AliveFont::MeasureWidth_41C2B0(const char_type* text)
+u32 AliveFont::MeasureTextWidth(const char_type* text)
 {
     s32 result = 0;
 
@@ -359,7 +359,7 @@ EXPORT u32 AliveFont::MeasureWidth_41C2B0(const char_type* text)
     return result;
 }
 
-EXPORT s32 AliveFont::MeasureWidth_41C200(char_type character)
+s32 AliveFont::MeasureCharacterWidth(char_type character)
 {
     s32 result = 0;
     s32 charIndex = 0;
@@ -387,13 +387,13 @@ EXPORT s32 AliveFont::MeasureWidth_41C200(char_type character)
 }
 
 
-s32 AliveFont::MeasureWidth_41C280(const char_type* text, FP scale)
+s32 AliveFont::MeasureScaledTextWidth(const char_type* text, FP scale)
 {
-    const FP width = FP_FromInteger(MeasureWidth_41C2B0(text));
+    const FP width = FP_FromInteger(MeasureTextWidth(text));
     return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
 }
 
-EXPORT s32 AliveFont::DrawString_41C360(PrimHeader** ppOt, const char_type* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s32 colorRandomRange)
+s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s32 colorRandomRange)
 {
     if (!sFontDrawScreenSpace_508BF4)
     {
@@ -500,7 +500,7 @@ void AliveFont::dtor_41C130()
     ResourceManager::FreeResource_455550(field_20_fnt_poly_block_ptr);
 }
 
-const char_type* AliveFont::SliceText_41C6C0(const char_type* text, s32 left, FP scale, s32 right)
+const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale, s32 right)
 {
     s32 xOff = 0;
     s32 rightWorldSpace = PsxToPCX(right, 11);

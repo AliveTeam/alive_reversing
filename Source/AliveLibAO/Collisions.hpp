@@ -35,7 +35,7 @@ public:
     s32 field_C_previous;
     s32 field_10_next;
 
-    EXPORT PathLine* MoveOnLine_40CA20(FP* pXPos, FP* pYPos, const FP distToMove);
+    PathLine* MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove);
 };
 ALIVE_ASSERT_SIZEOF(PathLine, 20);
 
@@ -44,19 +44,19 @@ struct CollisionInfo;
 class Collisions final
 {
 public:
-    EXPORT static void CC Factory_40CEC0(const CollisionInfo* pCollisionInfo, const u8* pPathData);
+    static void CC Factory(const CollisionInfo* pCollisionInfo, const u8* pPathData);
 
-    EXPORT void dtor_40CFB0();
+    void dtor_40CFB0();
 
-    EXPORT Collisions* ctor_40CF30(const CollisionInfo* pCollisionInfo, const u8* pPathData);
+    Collisions* ctor_40CF30(const CollisionInfo* pCollisionInfo, const u8* pPathData);
 
-    EXPORT PathLine* Add_Dynamic_Collision_Line_40C8A0(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode);
+    PathLine* Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode);
 
-    EXPORT s16 RayCast_40C410(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
+    s16 RayCast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
 
-    EXPORT PathLine* PreviousLine_40C940(PathLine* pLine);
+    PathLine* PreviousLine(PathLine* pLine);
 
-    EXPORT PathLine* NextLine_40C9B0(PathLine* pLine);
+    PathLine* NextLine(PathLine* pLine);
 
     PathLine* field_0_pArray;
     u16 field_4_current_item_count;
@@ -65,7 +65,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 
-EXPORT PSX_RECT* CCSTD Rect_Clear_40C920(PSX_RECT* pRect);
+PSX_RECT* Rect_Clear(PSX_RECT* pRect);
 
 ALIVE_VAR_EXTERN(Collisions*, sCollisions_DArray_504C6C);
 

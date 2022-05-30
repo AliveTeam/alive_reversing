@@ -109,13 +109,8 @@ public:
         s16 field_2;
     };
 
-    EXPORT void VUpdate_4102A0();
-    EXPORT void VRender_410E40(PrimHeader** ppOt);
-    EXPORT void vScreenChange_411340();
+    static void Spawn(TlvItemInfoUnion tlvInfo);
 
-    EXPORT static void Spawn_410E90(TlvItemInfoUnion tlvInfo);
-
-    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

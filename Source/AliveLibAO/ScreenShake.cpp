@@ -25,7 +25,7 @@ ScreenShake::ScreenShake(bool enableShakeEvent)
 
     if (field_32_enableShakeEvent)
     {
-        Event_Broadcast_417220(kEventScreenShake_19, this);
+        Event_Broadcast(kEventScreenShake_19, this);
     }
 }
 
@@ -38,7 +38,7 @@ void ScreenShake::VUpdate_4625B0()
 {
     if (field_32_enableShakeEvent)
     {
-        Event_Broadcast_417220(kEventScreenShake_19, this);
+        Event_Broadcast(kEventScreenShake_19, this);
     }
 
     if (field_30_shakeNumber > 0)

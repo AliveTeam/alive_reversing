@@ -168,7 +168,7 @@ void LiftMover::VUpdate_4055C0()
             break;
     }
 
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

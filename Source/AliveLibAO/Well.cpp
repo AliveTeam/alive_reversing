@@ -53,7 +53,7 @@ void Well::VRender(PrimHeader** ppOt)
 
 void Well::VUpdate_48B270()
 {
-    if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
         mFlags.Set(BaseGameObject::eDead);
         gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);

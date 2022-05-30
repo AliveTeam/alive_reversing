@@ -208,8 +208,8 @@ void ParticleBurst::VUpdate_40D600()
         pItem->field_10_y_speed += FP_FromDouble(0.25);
 
         u16 result = 0;
-        pItem->field_0_x = CamX_VoidSkipper_418590(pItem->field_0_x, pItem->field_C_x_speed, 16, &result);
-        pItem->field_4_y = CamY_VoidSkipper_418690(pItem->field_4_y, pItem->field_10_y_speed, 16, &result);
+        pItem->field_0_x = CamX_VoidSkipper(pItem->field_0_x, pItem->field_C_x_speed, 16, &result);
+        pItem->field_4_y = CamY_VoidSkipper(pItem->field_4_y, pItem->field_10_y_speed, 16, &result);
 
         if (pItem->field_8_z + FP_FromInteger(300) < FP_FromInteger(15))
         {
@@ -257,7 +257,7 @@ void ParticleBurst::VUpdate_40D600()
         mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -296,13 +296,13 @@ void ParticleBurst::VRender_40D7F0(PrimHeader** ppOt)
                 if (bFirst)
                 {
                     field_10_anim.field_14_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
-                    field_10_anim.VRender_403AE0(
+                    field_10_anim.VRender(
                         FP_GetExponent(PsxToPCX(pItem->field_0_x - screen_left, FP_FromInteger(11))),
                         FP_GetExponent(pItem->field_4_y - screen_bottom),
                         ppOt,
                         0,
                         0);
-                    field_10_anim.Get_Frame_Rect_402B50(&rect);
+                    field_10_anim.Get_Frame_Rect(&rect);
                     bFirst = false;
                 }
                 else
@@ -312,7 +312,7 @@ void ParticleBurst::VRender_40D7F0(PrimHeader** ppOt)
                         FP_GetExponent(PsxToPCX(pItem->field_0_x - screen_left, FP_FromInteger(11))),
                         FP_GetExponent(pItem->field_4_y - screen_bottom),
                         ppOt);
-                    pItem->field_18_anim.GetRenderedSize_404220(&rect);
+                    pItem->field_18_anim.GetRenderedSize(&rect);
                 }
 
                 pScreenManager_4FF7C8->InvalidateRect_406E40(

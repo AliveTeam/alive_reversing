@@ -15,7 +15,7 @@ Shadow::Shadow()
 {
     const AnimRecord& shadowRec = AO::AnimRec(AnimId::ObjectShadow);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, shadowRec.mResourceId, 1, 0);
-    field_18_anim.Init_402D20(shadowRec.mFrameTableOffset, gObjList_animations_505564, 0, shadowRec.mMaxW, shadowRec.mMaxH, ppRes, 1, 0, 0);
+    field_18_anim.Init(shadowRec.mFrameTableOffset, gObjList_animations_505564, 0, shadowRec.mMaxW, shadowRec.mMaxH, ppRes, 1, 0, 0);
 
     field_14_flags.Clear(Flags::eBit1_ShadowAtBottom);
     field_14_flags.Set(Flags::eBit2_Enabled);
@@ -36,7 +36,7 @@ Shadow::Shadow()
 
 Shadow::~Shadow()
 {
-    field_18_anim.vCleanUp();
+    field_18_anim.VCleanUp();
 }
 
 void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale)
@@ -62,7 +62,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_504C6C->RayCast_40C410(
+        if (sCollisions_DArray_504C6C->RayCast(
                 xpos,
                 objY,
                 xpos,
@@ -93,7 +93,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
             // Object is before the line we hit
             if (objX < lineXScreen)
             {
-                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                if (sCollisions_DArray_504C6C->RayCast(
                         FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
                         hitY - FP_FromInteger(2),
                         FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
@@ -114,7 +114,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
                 const FP v23 = FP_NoFractional(((pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineWScreen + 1)))
                              + FP_FromInteger(4);
 
-                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                if (sCollisions_DArray_504C6C->RayCast(
                         v23,
                         hitY - FP_FromInteger(2),
                         v23,
@@ -179,7 +179,7 @@ void Shadow::Render_462410(PrimHeader** ppOt)
         field_18_anim.field_9_g = rgb;
         field_18_anim.field_A_b = rgb;
 
-        field_18_anim.VRender_403AE0(
+        field_18_anim.VRender(
             // Note: OG converted to FP and back here but its pointless
             field_0_x1,
             field_2_y1,
@@ -188,7 +188,7 @@ void Shadow::Render_462410(PrimHeader** ppOt)
             (field_6_y2 - field_2_y1) + 1);
 
         PSX_RECT frameRect = {};
-        field_18_anim.Get_Frame_Rect_402B50(&frameRect);
+        field_18_anim.Get_Frame_Rect(&frameRect);
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             frameRect.x,
             frameRect.y,

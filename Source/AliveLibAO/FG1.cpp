@@ -40,7 +40,7 @@ public:
     void OnPartialChunk(const Fg1Chunk& rChunk) override
     {
         Fg1Block* pRenderBlock = &mFg1.field_20_chnk_res[mIdx++];
-        mFg1.Convert_Chunk_To_Render_Block_453BA0(&rChunk, pRenderBlock);
+        mFg1.Convert_Chunk_To_Render_Block(&rChunk, pRenderBlock);
     }
 
     void OnFullChunk(const Fg1Chunk& rChunk) override
@@ -122,7 +122,7 @@ private:
 
 static const Layer sFg1_layer_to_bits_layer_4BC024[] = {Layer::eLayer_FG1_37, Layer::eLayer_FG1_Half_18};
 
-void FG1::Convert_Chunk_To_Render_Block_453BA0(const Fg1Chunk* pChunk, Fg1Block* pBlock)
+void FG1::Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 {
     const s16 width_rounded = (pChunk->field_8_width + 1) & ~1u;
     if (vram_alloc_450860(pChunk->field_8_width, pChunk->field_A_height, &pBlock->field_58_rect))
@@ -271,20 +271,10 @@ void FG1::VUpdate()
 
 void FG1::VScreenChanged()
 {
-    VScreenChanged_453DE0();
-}
-
-void FG1::VScreenChanged_453DE0()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
 void FG1::VRender(PrimHeader** ppOt)
-{
-    VRender_453D50(ppOt);
-}
-
-void FG1::VRender_453D50(PrimHeader** ppOt)
 {
     for (s32 i = 0; i < field_18_render_block_count; i++)
     {

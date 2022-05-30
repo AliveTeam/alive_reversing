@@ -38,7 +38,7 @@ EXPORT void SligSpawner::VScreenChanged_402960()
 
 EXPORT void SligSpawner::VUpdate_4028A0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

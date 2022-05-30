@@ -56,11 +56,6 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
 
 void Bells::VUpdate()
 {
-    VUpdate_40A770();
-}
-
-void Bells::VUpdate_40A770()
-{
     if (field_F0_sound_pitch_factor > 0 && static_cast<s32>(gnFrameCount_507670) >= field_F4_sound_cooldown_timer)
     {
         field_F4_sound_cooldown_timer = gnFrameCount_507670 + 4;
@@ -131,27 +126,27 @@ void Bells::PlaySounds()
     {
         if (field_EA_sound == Sounds::eLowPitch_0)
         {
-            field_10_anim.Set_Animation_Data_402A40(19240, 0);
+            field_10_anim.Set_Animation_Data(19240, 0);
         }
         else if (field_EA_sound == Sounds::eMediumPitch_1)
         {
-            field_10_anim.Set_Animation_Data_402A40(19368, 0);
+            field_10_anim.Set_Animation_Data(19368, 0);
         }
         else if (field_EA_sound == Sounds::eHighPitch_2)
         {
-            field_10_anim.Set_Animation_Data_402A40(19252, 0);
+            field_10_anim.Set_Animation_Data(19252, 0);
         }
 
         field_E8_bSmashing = 0;
     }
 }
 
-Bool32 Bells::CanSmash_40AA70()
+Bool32 Bells::CanSmash()
 {
     return field_E8_bSmashing == 0;
 }
 
-void Bells::Ring_40AA80()
+void Bells::Ring()
 {
     if (field_E8_bSmashing == 0)
     {
@@ -163,19 +158,19 @@ void Bells::Ring_40AA80()
         {
             field_F0_sound_pitch_factor = 1;
             const AnimRecord& rec = AO::AnimRec(AnimId::BigChime_Moving);
-            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
         }
         else if (field_EA_sound == Sounds::eMediumPitch_1)
         {
             field_F0_sound_pitch_factor = 2;
             const AnimRecord& rec = AO::AnimRec(AnimId::MediumChime_Moving);
-            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
         }
         else if (field_EA_sound == Sounds::eHighPitch_2)
         {
             field_F0_sound_pitch_factor = 3;
             const AnimRecord& rec = AO::AnimRec(AnimId::SmallChime_Moving);
-            field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
         }
     }
 }

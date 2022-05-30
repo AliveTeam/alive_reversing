@@ -30,14 +30,9 @@ public:
     ~BellHammer();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_4054B0();
-
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_405320();
-
-    static EXPORT void CC OnResLoaded_405210(BellHammer* pThis);
+    static void OnResLoaded(BellHammer* pThis);
 
     s32 field_D4_padding;
     s32 field_D8_padding;

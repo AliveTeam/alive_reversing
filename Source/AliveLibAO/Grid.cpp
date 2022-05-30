@@ -2,7 +2,7 @@
 
 namespace AO {
 
-s32 CC XGrid_Index_To_XPos_41FA60(FP scale, s32 xGridIndex)
+s32 XGrid_Index_To_XPos(FP scale, s32 xGridIndex)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -20,7 +20,7 @@ s32 CC XGrid_Index_To_XPos_41FA60(FP scale, s32 xGridIndex)
     return 440;
 }
 
-FP CC ScaleToGridSize_41FA30(FP scale)
+FP ScaleToGridSize(FP scale)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -34,7 +34,7 @@ FP CC ScaleToGridSize_41FA30(FP scale)
     return FP_FromInteger(0);
 }
 
-EXPORT s32 CC SnapToXGrid_41FAA0(FP scale, s32 x)
+s32 SnapToXGrid(FP scale, s32 x)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -67,7 +67,7 @@ EXPORT s32 CC SnapToXGrid_41FAA0(FP scale, s32 x)
 }
 
 
-EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, s16 xMargin, u16* pResult)
+FP CamX_VoidSkipper(FP xpos, FP xvel, s16 xMargin, u16* pResult)
 {
     const FP v1 = xpos - FP_FromInteger(256);
 
@@ -103,7 +103,7 @@ EXPORT FP CC CamX_VoidSkipper_418590(FP xpos, FP xvel, s16 xMargin, u16* pResult
     return result;
 }
 
-EXPORT FP CC CamY_VoidSkipper_418690(FP ypos, FP yvel, s16 yMargin, u16* pResult)
+FP CamY_VoidSkipper(FP ypos, FP yvel, s16 yMargin, u16* pResult)
 {
     const s32 yVal = (FP_GetExponent(ypos) - 120);
     const s32 yIdx = yVal / 240;

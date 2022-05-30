@@ -12,11 +12,8 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4763B0();
-
-    EXPORT static void CC Stop_476290();
-
-    EXPORT static void CC Play_4762B0();
+    static void Stop();
+    static void Play();
 
     s16 field_10_music_id;
     //s16 field_12_padding;

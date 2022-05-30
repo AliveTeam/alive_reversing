@@ -42,21 +42,16 @@ Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
     rect.w = FP_GetExponent(FP_FromInteger(10) * exposion_size);
     rect.h = FP_GetExponent(FP_FromInteger(10) * exposion_size);
 
-    DealBlastDamage_459160(&rect);
+    DealBlastDamage(&rect);
 
     SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);
 }
 
 void Explosion::VUpdate()
 {
-    VUpdate_458D00();
-}
-
-void Explosion::VUpdate_458D00()
-{
-    Event_Broadcast_417220(kEvent_2, this);
-    Event_Broadcast_417220(kEvent_14, this);
-    Event_Broadcast_417220(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEvent_2, this);
+    Event_Broadcast(kEvent_14, this);
+    Event_Broadcast(kEventSuspiciousNoise_10, this);
 
     PSX_RECT rect = {};
 
@@ -67,7 +62,7 @@ void Explosion::VUpdate_458D00()
             rect.w = FP_GetExponent(FP_FromInteger(20) * field_E4_explosion_size);
             rect.y = FP_GetExponent(FP_FromInteger(-20) * field_E4_explosion_size);
             rect.h = FP_GetExponent(FP_FromInteger(10) * field_E4_explosion_size);
-            DealBlastDamage_459160(&rect);
+            DealBlastDamage(&rect);
             break;
 
         case 3:
@@ -86,7 +81,7 @@ void Explosion::VUpdate_458D00()
             rect.w = FP_GetExponent(FP_FromInteger(38) * field_E4_explosion_size);
             rect.y = FP_GetExponent(FP_FromInteger(-38) * field_E4_explosion_size);
             rect.h = FP_GetExponent(FP_FromInteger(19) * field_E4_explosion_size);
-            DealBlastDamage_459160(&rect);
+            DealBlastDamage(&rect);
             break;
         }
 
@@ -95,7 +90,7 @@ void Explosion::VUpdate_458D00()
             rect.w = FP_GetExponent(FP_FromInteger(60) * field_E4_explosion_size);
             rect.y = FP_GetExponent(FP_FromInteger(-60) * field_E4_explosion_size);
             rect.h = FP_GetExponent(FP_FromInteger(30) * field_E4_explosion_size);
-            DealBlastDamage_459160(&rect);
+            DealBlastDamage(&rect);
             break;
 
         case 8:
@@ -149,18 +144,13 @@ void Explosion::VUpdate_458D00()
 
 void Explosion::VScreenChanged()
 {
-    VScreenChanged_459470();
-}
-
-void Explosion::VScreenChanged_459470()
-{
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(BaseGameObject::eDead);
     }
 }
 
-void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
+void Explosion::DealBlastDamage(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects_4FC8A0)
     {
@@ -243,7 +233,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
             {
                 ao_new<Gibs>(GibType::Slig_1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
             }
-            Stop_slig_sounds_476A20(dir, 0);
+            Stop_slig_sounds(dir, 0);
         }
     }
 }

@@ -178,7 +178,7 @@ void Rope::VRender_458780(PrimHeader** ppOt)
                     maxY = 240;
                 }
 
-                field_10_anim.VRender_403AE0(640, 240, ppOt, 0, 0);
+                field_10_anim.VRender(640, 240, ppOt, 0, 0);
                 if (screenY >= minY)
                 {
                     for (s32 idx = 0; idx < field_E4_rope_segment_count; idx++)
@@ -204,7 +204,7 @@ void Rope::VRender_458780(PrimHeader** ppOt)
                             ppOt);
 
                         PSX_RECT rect = {};
-                        field_E8_pRopeRes[idx].GetRenderedSize_404220(&rect);
+                        field_E8_pRopeRes[idx].GetRenderedSize(&rect);
                         pScreenManager_4FF7C8->InvalidateRect_406E40(
                             rect.x,
                             rect.y,

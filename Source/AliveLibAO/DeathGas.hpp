@@ -13,16 +13,8 @@ public:
     ~DeathGas();
 
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_41D150();
-
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_41D700();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_41D190(PrimHeader** ppOt);
 
     s16 field_10_total;
     s16 field_12_unused;

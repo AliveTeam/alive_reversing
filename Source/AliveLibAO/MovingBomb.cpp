@@ -97,7 +97,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast_40C410(
+    if (sCollisions_DArray_504C6C->RayCast(
             field_A8_xpos,
             field_AC_ypos,
             field_A8_xpos + FP_FromInteger(24),
@@ -275,17 +275,17 @@ void MovingBomb::FollowLine_43BA40()
         const FP oldX = field_A8_xpos;
         const FP oldY = field_AC_ypos;
 
-        field_F4_pLine = field_F4_pLine->MoveOnLine_40CA20(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+        field_F4_pLine = field_F4_pLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
         if (field_F4_pLine)
         {
             u16 a4 = 0;
-            const FP screen_x = CamX_VoidSkipper_418590(oldX, field_A8_xpos - oldX, 12, &a4);
+            const FP screen_x = CamX_VoidSkipper(oldX, field_A8_xpos - oldX, 12, &a4);
             if (a4)
             {
                 FP hitX = {};
                 FP hitY = {};
                 field_A8_xpos = screen_x;
-                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                if (sCollisions_DArray_504C6C->RayCast(
                         field_A8_xpos,
                         field_AC_ypos - FP_FromInteger(20),
                         field_A8_xpos,
@@ -300,13 +300,13 @@ void MovingBomb::FollowLine_43BA40()
             }
 
             // OG bug? Why y = oldx, surely y-oldy ?
-            const FP screen_y = CamY_VoidSkipper_418690(oldY, field_AC_ypos - oldX, 12, &a4);
+            const FP screen_y = CamY_VoidSkipper(oldY, field_AC_ypos - oldX, 12, &a4);
             if (a4)
             {
                 FP hitX = {};
                 FP hitY = {};
                 field_AC_ypos = screen_y;
-                if (sCollisions_DArray_504C6C->RayCast_40C410(
+                if (sCollisions_DArray_504C6C->RayCast(
                         field_A8_xpos - FP_FromInteger(20),
                         field_AC_ypos,
                         field_A8_xpos + FP_FromInteger(20),
@@ -330,7 +330,7 @@ void MovingBomb::VUpdate()
 
 void MovingBomb::VUpdate_43B440()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(Options::eDead);
     }
@@ -393,7 +393,7 @@ void MovingBomb::VUpdate_43B440()
     switch (field_10C_state)
     {
         case States::eTriggeredByAlarm_0:
-            if (Event_Get_417250(kEvent_Alarm_17))
+            if (Event_Get(kEvent_Alarm_17))
             {
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_10C_state = States::eMoving_2;

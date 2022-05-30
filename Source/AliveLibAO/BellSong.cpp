@@ -8,7 +8,7 @@
 
 namespace AO {
 
-void BellSong::VUpdate_476130()
+void BellSong::VUpdate()
 {
     if (field_10_code_idx >= field_1C_code_len)
     {
@@ -17,7 +17,7 @@ void BellSong::VUpdate_476130()
 
     if (!field_14_bDone)
     {
-        const GameSpeakEvents code_looked_up = Code_LookUp_476050(field_18_code, static_cast<u16>(field_10_code_idx), field_1C_code_len);
+        const GameSpeakEvents code_looked_up = Code_LookUp(field_18_code, static_cast<u16>(field_10_code_idx), field_1C_code_len);
         switch (field_16_type)
         {
             case BellsongTypes::eChimes:
@@ -63,17 +63,12 @@ void BellSong::VUpdate_476130()
     }
 }
 
-void BellSong::VUpdate()
-{
-    VUpdate_476130();
-}
-
 BellSong::BellSong(BellsongTypes type, u32 code)
     : BaseGameObject(1)
 {
     field_16_type = type;
     field_18_code = code;
-    field_1C_code_len = Code_Length_475FD0(code);
+    field_1C_code_len = Code_Length(code);
     field_10_code_idx = 0;
     field_14_bDone = FALSE;
     field_8_update_delay = 15;

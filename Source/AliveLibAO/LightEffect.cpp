@@ -32,7 +32,7 @@ LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
 
     field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
-    field_10_anim.SetFrame_402AC0(1);
+    field_10_anim.SetFrame(1);
 
     // maybe width height like in door effect
     field_E8 = 0;
@@ -70,7 +70,7 @@ void LightEffect::VRender_4067F0(PrimHeader** /*ppOt*/)
             0);
 
         PSX_RECT rect = {};
-        field_10_anim.Get_Frame_Rect_402B50(&rect);
+        field_10_anim.Get_Frame_Rect(&rect);
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             rect.x,
             rect.y,

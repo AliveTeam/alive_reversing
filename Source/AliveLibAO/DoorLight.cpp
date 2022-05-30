@@ -129,22 +129,11 @@ DoorLight::~DoorLight()
 
 void DoorLight::VScreenChanged()
 {
-    VScreenChanged_406360();
-}
-
-void DoorLight::VScreenChanged_406360()
-{
     mFlags.Set(BaseGameObject::eDead);
     gNextDoorLightUpdate_4C30A8 = -1;
 }
 
-
 void DoorLight::VUpdate()
-{
-    VUpdate_4060A0();
-}
-
-void DoorLight::VUpdate_4060A0()
 {
     if (static_cast<s32>(gnFrameCount_507670) > gDoorLightUpdateTimer_4FC8A4)
     {
@@ -210,11 +199,6 @@ void DoorLight::VUpdate_4060A0()
 
 void DoorLight::VRender(PrimHeader** ppOt)
 {
-    VRender_406370(ppOt);
-}
-
-void DoorLight::VRender_406370(PrimHeader** ppOt)
-{
     if (sNumCamSwappers_507668 == 0)
     {
         const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
@@ -224,7 +208,7 @@ void DoorLight::VRender_406370(PrimHeader** ppOt)
         field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
         field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
 
-        field_10_anim.vRender(
+        field_10_anim.VRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - field_E8_width / 2))),
             FP_GetExponent(FP_FromInteger((FP_GetExponent(ypos) - field_EA_height / 2))),
             ppOt,
@@ -232,7 +216,7 @@ void DoorLight::VRender_406370(PrimHeader** ppOt)
             field_EA_height);
 
         PSX_RECT rect = {};
-        field_10_anim.Get_Frame_Rect_402B50(&rect);
+        field_10_anim.Get_Frame_Rect(&rect);
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             rect.x,
             rect.y,

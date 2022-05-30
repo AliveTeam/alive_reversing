@@ -34,8 +34,6 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_478320();
-
     s32 field_10_tlvInfo;
     PSX_RECT field_14_rect;
     s32 field_1C_interval_timer;

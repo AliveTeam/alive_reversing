@@ -675,7 +675,7 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible)
 
                 if (!pLight->mFlags.Get(BaseGameObject::eDead))
                 {
-                    pLight->field_10_anim.vDecode();
+                    pLight->field_10_anim.VDecode();
                 }
             }
 
@@ -993,7 +993,7 @@ void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, s16 cam
                 {
                     if (pTlv->field_10_top_left.field_2_y >= cam_y_grid_top && pTlv->field_10_top_left.field_2_y <= cam_y_grid_bottom && (!pTlv->field_0_flags.Get(eBit1_Created) && !pTlv->field_0_flags.Get(eBit2_Destroyed)))
                     {
-                        Start_Sounds_for_TLV_476640(direction, pTlv);
+                        Start_Sounds_for_TLV(direction, pTlv);
                     }
                 }
 
@@ -1011,7 +1011,7 @@ void Map::Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, s16 cam
 
 void Map::Start_Sounds_For_Objects_In_Near_Cameras_4467D0()
 {
-    SND_Reset_Ambiance_4765E0();
+    SND_Reset_Ambiance();
 
     if (Get_Camera_World_Rect_444C30(CameraPos::eCamLeft_3, nullptr))
     {
@@ -1164,7 +1164,7 @@ s16 Map::Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect)
 
 CameraPos Map::Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, s16 width)
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         return CameraPos::eCamNone_5;
     }
@@ -2090,7 +2090,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
 
         if (pFmvRec1->field_8_stop_music || pFmvRec2->field_8_stop_music || pFmvRec3->field_8_stop_music)
         {
-            BackgroundMusic::Stop_476290();
+            BackgroundMusic::Stop();
             MusicController::EnableMusic_443900(0);
         }
 
@@ -2133,7 +2133,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
         FmvInfo* pFmvRec2 = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id % 100);
         if (pFmvRec1->field_8_stop_music || pFmvRec2->field_8_stop_music)
         {
-            BackgroundMusic::Stop_476290();
+            BackgroundMusic::Stop();
             MusicController::EnableMusic_443900(0);
         }
 
@@ -2162,7 +2162,7 @@ CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds
         FmvInfo* pFmvRecord = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id);
         if (pFmvRecord->field_8_stop_music)
         {
-            BackgroundMusic::Stop_476290();
+            BackgroundMusic::Stop();
             MusicController::EnableMusic_443900(0);
         }
 

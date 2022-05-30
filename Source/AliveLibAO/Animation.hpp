@@ -182,14 +182,14 @@ enum AnimFlags
 class AnimationBase
 {
 public:
-    virtual void vDecode() = 0;
+    virtual void VDecode() = 0;
 
-    virtual void vRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height) = 0;
+    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height) = 0;
 
-    virtual void vCleanUp() = 0;
+    virtual void VCleanUp() = 0;
 
 
-    static EXPORT void CC AnimateAll_4034F0(DynamicArrayT<AnimationBase>* pAnimList);
+    static void AnimateAll(DynamicArrayT<AnimationBase>* pAnimList);
 
     BitField32<AnimFlags> field_4_flags;
 
@@ -207,35 +207,29 @@ class BaseGameObject;
 class Animation final : public AnimationBase
 {
 public:
-    virtual void vDecode() override;
+    virtual void VDecode() override;
 
-    virtual void vRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height) override;
+    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height) override;
 
-    EXPORT void VRender_403AE0(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height);
+    s16 Set_Animation_Data(s32 frameTable, u8** resBlock);
 
-    EXPORT void VDecode_403550();
+    void SetFrame(s16 newFrame);
 
-    EXPORT s16 Set_Animation_Data_402A40(s32 frameTable, u8** resBlock);
+    s16 Init(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating);
 
-    EXPORT void SetFrame_402AC0(s16 newFrame);
+    s16 Get_Frame_Count();
 
-    EXPORT s16 Init_402D20(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bFlag_17, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating);
+    FrameInfoHeader* Get_FrameHeader(s32 frame);
 
-    EXPORT s16 Get_Frame_Count_403540();
+    void LoadPal(u8** pPalData, s32 palOffset);
 
-    EXPORT FrameInfoHeader* Get_FrameHeader_403A00(s32 frame);
+    void Get_Frame_Rect(PSX_RECT* pRect);
 
-    EXPORT void LoadPal_403090(u8** pPalData, s32 palOffset);
+    void Get_Frame_Width_Height(s16* pWidth, s16* pHeight);
 
-    EXPORT void Get_Frame_Rect_402B50(PSX_RECT* pRect);
+    void Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY);
 
-    EXPORT void Get_Frame_Width_Height_403E80(s16* pWidth, s16* pHeight);
-
-    EXPORT void Get_Frame_Offset_403EE0(s16* pBoundingX, s16* pBoundingY);
-
-    virtual void vCleanUp() override;
-
-    EXPORT void VCleanUp_403F40();
+    virtual void VCleanUp() override;
 
     bool EnsureDecompressionBuffer();
 
@@ -262,15 +256,15 @@ ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 class AnimationUnknown final : public AnimationBase
 {
 public:
-    virtual void vDecode() override;
+    virtual void VDecode() override;
 
-    virtual void vRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height) override;
+    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height) override;
 
-    virtual void vCleanUp() override;
+    virtual void VCleanUp() override;
 
     virtual void VRender2(s32 xpos, s32 ypos, PrimHeader** ppOt);
 
-    EXPORT void GetRenderedSize_404220(PSX_RECT* pRect);
+    void GetRenderedSize(PSX_RECT* pRect);
 
 private:
     EXPORT void VCleanUp2_404280();

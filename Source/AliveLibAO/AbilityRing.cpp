@@ -17,7 +17,7 @@
 
 namespace AO {
 
-AbilityRing* CC AbilityRing::Factory_447590(FP xpos, FP ypos, RingTypes ring_type)
+AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes ring_type)
 {
     return ao_new<AbilityRing>(xpos, ypos, ring_type);
 }
@@ -106,7 +106,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
 
             case RingTypes::eExplosive_Pulse_0:
             case RingTypes::eShrykull_Pulse_Small_4:
-                SetTarget_455EC0(sActiveHero_507678);
+                SetTarget(sActiveHero_507678);
                 [[fallthrough]];
 
             case RingTypes::eShrykull_Pulse_Large_5:
@@ -187,11 +187,6 @@ AbilityRing::~AbilityRing()
 
 void AbilityRing::VRender(PrimHeader** ppOt)
 {
-    VRender_456340(ppOt);
-}
-
-void AbilityRing::VRender_456340(PrimHeader** ppOt)
-{
     if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_270_level,
             field_272_path,
@@ -266,11 +261,6 @@ void AbilityRing::VRender_456340(PrimHeader** ppOt)
 
 void AbilityRing::VUpdate()
 {
-    VUpdate_455ED0();
-}
-
-void AbilityRing::VUpdate_455ED0()
-{
     if (field_278_pTarget_obj)
     {
         if (field_278_pTarget_obj->mFlags.Get(BaseGameObject::eDead))
@@ -325,7 +315,7 @@ void AbilityRing::VUpdate_455ED0()
             return;
 
         case RingTypes::eExplosive_Emit_1:
-            CollideWithObjects_456250();
+            CollideWithObjects();
             [[fallthrough]];
 
         case RingTypes::eExplosive_Emit_Effect_2:
@@ -381,15 +371,10 @@ void AbilityRing::VUpdate_455ED0()
 
 void AbilityRing::VScreenChanged()
 {
-    VScreenChanged_4568D0();
-}
-
-void AbilityRing::VScreenChanged_4568D0()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void AbilityRing::CollideWithObjects_456250()
+void AbilityRing::CollideWithObjects()
 {
     for (auto& rect : field_3C_collide_rects)
     {
@@ -423,7 +408,7 @@ void AbilityRing::CollideWithObjects_456250()
     }
 }
 
-void AbilityRing::SetTarget_455EC0(BaseAliveGameObject* pTarget)
+void AbilityRing::SetTarget(BaseAliveGameObject* pTarget)
 {
     field_278_pTarget_obj = pTarget;
     field_278_pTarget_obj->field_C_refCount++;

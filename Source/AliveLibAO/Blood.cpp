@@ -43,7 +43,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
     if (field_BC_sprite_scale != FP_FromInteger(1))
     {
-        field_10_anim.SetFrame_402AC0((field_10_anim.Get_Frame_Count_403540() >> 1) + 1);
+        field_10_anim.SetFrame((field_10_anim.Get_Frame_Count() >> 1) + 1);
     }
 
     field_116_total_count = static_cast<s16>(count);
@@ -86,7 +86,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
         u8 v0 = field_10_anim.field_84_vram_rect.y & 0xFF;
 
-        FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
+        FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
         const s16 frameW = pFrameHeader->field_4_width;
         const s16 frameH = pFrameHeader->field_5_height;
@@ -150,11 +150,6 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
 void Blood::VUpdate()
 {
-    VUpdate_407750();
-}
-
-void Blood::VUpdate_407750()
-{
     if (field_118_timer > 0)
     {
         if (field_118_timer > 5)
@@ -193,17 +188,12 @@ void Blood::VUpdate_407750()
     }
 }
 
-void Blood::VScreenChanged_407AB0()
+void Blood::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
 void Blood::VRender(PrimHeader** ppOt)
-{
-    VRender_407810(ppOt);
-}
-
-void Blood::VRender_407810(PrimHeader** ppOt)
 {
     const auto bufferIdx = gPsxDisplay_504C78.field_A_buffer_index;
     if (gMap.Is_Point_In_Current_Camera_4449C0(
@@ -234,7 +224,7 @@ void Blood::VRender_407810(PrimHeader** ppOt)
             SetUV0(pSprt, u0, static_cast<u8>(field_10_anim.field_84_vram_rect.y));
 
             FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(
-                &(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader_403A00(-1)->field_0_frame_header_offset]);
+                &(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
             pSprt->field_14_w = pFrameHeader->field_4_width - 1;
             pSprt->field_16_h = pFrameHeader->field_5_height - 1;
@@ -281,11 +271,6 @@ void Blood::VRender_407810(PrimHeader** ppOt)
             (wh.field_2_y + 12),
             pScreenManager_4FF7C8->field_2E_idx);
     }
-}
-
-void Blood::VScreenChanged()
-{
-    VScreenChanged_407AB0();
 }
 
 } // namespace AO

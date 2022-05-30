@@ -11,11 +11,6 @@ public:
     Grenade(FP xpos, FP ypos, s16 numGrenades);
     ~Grenade();
 
-    EXPORT void AddToPlatform_41F7C0();
-    EXPORT s16 BlowUpAfterCountdown_41EDD0();
-    EXPORT s16 OnCollision_BounceOff_41F650(BaseGameObject* pHit);
-    EXPORT s16 InTheAir_41EF10();
-
     virtual s16 VCanThrow() override;
     virtual s16 VIsFalling() override;
     virtual void VTimeToExplodeRandom() override;
@@ -23,17 +18,12 @@ public:
     virtual void VOnTrapDoorOpen() override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+
+    void AddToPlatform();
+    s16 BlowUpAfterCountdown();
+    s16 OnCollision_BounceOff(BaseGameObject* pHit);
+    s16 InTheAir();
     
-
-private:
-    EXPORT void VScreenChanged_41F720();
-    EXPORT void VUpdate_41F240();
-    EXPORT void VOnTrapDoorOpen_41F920();
-    EXPORT void VThrow_41ED90(FP velX, FP velY);
-    EXPORT void VTimeToExplodeRandom_41F9B0();
-    EXPORT s16 VIsFalling_453ED0();
-    EXPORT s16 VCanThrow_453EC0();
-
 public:
     enum class States : s16
     {

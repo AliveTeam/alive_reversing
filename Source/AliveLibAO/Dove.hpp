@@ -26,23 +26,15 @@ public:
     Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale);
     ~Dove();
 
-    EXPORT void AsAlmostACircle_40F300(FP xpos, FP ypos, u8 angle);
-
-    EXPORT void AsACircle_40F280(FP xpos, FP ypos, u8 angle);
-
-    EXPORT void AsJoin_40F250(FP xpos, FP ypos);
-
-    EXPORT void FlyAway_40F8F0(s16 a2);
-
-    EXPORT static void All_FlyAway_40F390();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_40F960(PrimHeader** ppOt);
-
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_40F430();
+    static void All_FlyAway();
+
+    void AsAlmostACircle(FP xpos, FP ypos, u8 angle);
+    void AsACircle(FP xpos, FP ypos, u8 angle);
+    void AsJoin(FP xpos, FP ypos);
+    void FlyAway(s16 a2);
 
     s32 field_D4_padding[4];
     s16 field_E4_counter;

@@ -29,12 +29,7 @@ public:
     ~ElectricWall();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_410220();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_40FEF0();
 
     s32 field_D4_padding[4];
     s32 field_E4_tlv;

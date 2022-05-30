@@ -147,12 +147,12 @@ s16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
     if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRemoved_11 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_UseBegin);
-        field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+        field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
     }
     else
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_UseBegin);
-        field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+        field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
     }
     SFX_Play_43AD70(SoundEffect::RingRopePull_65, 0, 0);
     return 1;
@@ -165,7 +165,7 @@ void PullRingRope::VUpdate()
 
 void PullRingRope::VUpdate_4549A0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -271,12 +271,12 @@ void PullRingRope::VUpdate_4549A0()
             if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_UseEnd);
-                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             }
             else
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_UseEnd);
-                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             }
             break;
 
@@ -291,12 +291,12 @@ void PullRingRope::VUpdate_4549A0()
                 if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {
                     const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_Idle);
-                    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                    field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 }
                 else
                 {
                     const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_Idle);
-                    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, nullptr);
+                    field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 }
             }
             break;

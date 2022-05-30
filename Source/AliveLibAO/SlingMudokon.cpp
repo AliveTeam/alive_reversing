@@ -68,7 +68,7 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast_40C410(
+    if (sCollisions_DArray_504C6C->RayCast(
             FP_FromInteger(pTlv->field_10_top_left.field_0_x),
             FP_FromInteger(pTlv->field_10_top_left.field_2_y),
             FP_FromInteger(pTlv->field_14_bottom_right.field_0_x),
@@ -103,8 +103,8 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
         field_138_brain_state = SlingMudBrainStates::Brain_1_Spawn_470230;
     }
 
-    field_118_code_converted = Code_Convert_476000(pTlv->field_1C_code_1, pTlv->field_1E_code_2);
-    field_11C_code_length = Code_Length_475FD0(field_118_code_converted);
+    field_118_code_converted = Code_Convert(pTlv->field_1C_code_1, pTlv->field_1E_code_2);
+    field_11C_code_length = Code_Length(field_118_code_converted);
 
     field_154_previous_brain_state = 99;
     field_156_always_4 = 99;
@@ -197,7 +197,7 @@ void SlingMudokon::VUpdate_46FBF0()
             // TODO: dead code
             field_FC_current_motion = field_E4_previous_motion;
             VUpdateAnimData_46F8F0();
-            field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
+            field_10_anim.SetFrame(field_E6_last_anim_frame);
             field_13C_redundant = 0;
         }
     }
@@ -242,7 +242,7 @@ void SlingMudokon::VUpdateAnimData_46F8F0()
         ppResBlock = field_150_res;
     }
     const AnimRecord& rec = AO::AnimRec(sSlingMudAnimIdTables_4CFCC8[field_FC_current_motion]);
-    field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, ppResBlock);
+    field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, ppResBlock);
 }
 
 void SlingMudokon::Motion_0_Idle_46FCB0()
@@ -300,7 +300,7 @@ void SlingMudokon::Motion_3_ShootStart_46FD90()
     {
         if (field_10_anim.field_18_frame_table_offset == 22700)
         {
-            const FP frame_x = FP_FromInteger(field_10_anim.Get_FrameHeader_403A00(-1)->field_8_data.points[2].x);
+            const FP frame_x = FP_FromInteger(field_10_anim.Get_FrameHeader(-1)->field_8_data.points[2].x);
             FP bulletXPos = {};
             FP xDistance = {};
 
@@ -387,7 +387,7 @@ s16 SlingMudokon::Brain_0_GiveCode_46FEC0()
             if (field_FC_current_motion || field_10_anim.field_92_current_frame == 0)
             {
                 field_FE_next_motion = 2;
-                switch (Code_LookUp_476050(field_118_code_converted, field_158_code_pos, field_11C_code_length))
+                switch (Code_LookUp(field_118_code_converted, field_158_code_pos, field_11C_code_length))
                 {
                     case GameSpeakEvents::eWhistleHigh_1:
                         Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, this);
@@ -465,13 +465,13 @@ s16 SlingMudokon::Brain_0_GiveCode_46FEC0()
 
                 if (static_cast<s32>(gnFrameCount_507670) <= field_144_timer2)
                 {
-                    if (pEventSystem_4FF954->MatchBuffer_40FAA0(field_124_code_buffer, field_134_buffer_start, field_136_buffer_idx) != GameSpeakMatch::eFullMatch_1 && pEventSystem_4FF954->MatchBuffer_40FAA0(field_124_code_buffer, field_134_buffer_start, field_136_buffer_idx) > GameSpeakMatch::eFullMatch_1)
+                    if (pEventSystem_4FF954->MatchBuffer(field_124_code_buffer, field_134_buffer_start, field_136_buffer_idx) != GameSpeakMatch::eFullMatch_1 && pEventSystem_4FF954->MatchBuffer(field_124_code_buffer, field_134_buffer_start, field_136_buffer_idx) > GameSpeakMatch::eFullMatch_1)
                     {
                         return field_13A_brain_sub_state;
                     }
                 }
 
-                const GameSpeakMatch MatchBuffer = pEventSystem_4FF954->MatchBuffer_40FAA0(field_124_code_buffer, field_134_buffer_start, field_136_buffer_idx);
+                const GameSpeakMatch MatchBuffer = pEventSystem_4FF954->MatchBuffer(field_124_code_buffer, field_134_buffer_start, field_136_buffer_idx);
                 field_13A_brain_sub_state = Brain_0_GiveCode::eBrain0_RespondToProvidedCode_5;
                 if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || sVoiceCheat_507708)
                 {
@@ -607,7 +607,7 @@ s16 SlingMudokon::Brain_1_Spawn_470230()
             break;
 
         case Brain_1_Spawn::eBrain1_PrepareToShoot_5:
-            if (VIsObjNearby((ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(4)), sActiveHero_507678))
+            if (VIsObjNearby((ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)), sActiveHero_507678))
             {
                 field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 field_FE_next_motion = eSlingMudMotions::Motion_3_ShootStart_46FD90;
@@ -632,7 +632,7 @@ s16 SlingMudokon::Brain_1_Spawn_470230()
             return field_13A_brain_sub_state;
 
         case Brain_1_Spawn::eBrain1_Shoot_6:
-            if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+            if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
             {
                 mFlags.Set(BaseGameObject::eDead);
             }
@@ -828,13 +828,13 @@ s16 SlingMudokon::Brain_2_AskForPassword_4707B0()
 
                 if (static_cast<s32>(gnFrameCount_507670) <= field_144_timer2)
                 {
-                    if (pEventSystem_4FF954->MatchBuffer_40FAA0(
+                    if (pEventSystem_4FF954->MatchBuffer(
                             field_124_code_buffer,
                             field_134_buffer_start,
                             field_136_buffer_idx)
                         != GameSpeakMatch::eFullMatch_1)
                     {
-                        if (pEventSystem_4FF954->MatchBuffer_40FAA0(
+                        if (pEventSystem_4FF954->MatchBuffer(
                                 field_124_code_buffer,
                                 field_134_buffer_start,
                                 field_136_buffer_idx)
@@ -845,7 +845,7 @@ s16 SlingMudokon::Brain_2_AskForPassword_4707B0()
                     }
                 }
 
-                field_15A_bCodeMatches = pEventSystem_4FF954->MatchBuffer_40FAA0(
+                field_15A_bCodeMatches = pEventSystem_4FF954->MatchBuffer(
                                 field_124_code_buffer,
                                 field_134_buffer_start,
                                 field_136_buffer_idx)
@@ -899,7 +899,7 @@ s16 SlingMudokon::Brain_2_AskForPassword_4707B0()
             break;
 
         case 7:
-            if (VIsObjNearby((ScaleToGridSize_41FA30(field_BC_sprite_scale) * FP_FromInteger(4)), sActiveHero_507678))
+            if (VIsObjNearby((ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)), sActiveHero_507678))
             {
                 field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 field_FE_next_motion = eSlingMudMotions::Motion_3_ShootStart_46FD90;
@@ -917,7 +917,7 @@ s16 SlingMudokon::Brain_2_AskForPassword_4707B0()
             return 3;
 
         case 8:
-            if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+            if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
             {
                 mFlags.Set(BaseGameObject::eDead);
             }

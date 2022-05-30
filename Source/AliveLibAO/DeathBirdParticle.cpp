@@ -10,7 +10,7 @@
 
 namespace AO {
 
-void DeathBirdParticle::VUpdate_41DA60()
+void DeathBirdParticle::VUpdate()
 {
     switch (field_E5_state)
     {
@@ -18,7 +18,7 @@ void DeathBirdParticle::VUpdate_41DA60()
             if (static_cast<s32>(gnFrameCount_507670) > field_E8_start)
             {
                 // Death "star"
-                field_10_anim.Set_Animation_Data_402A40(6284, 0);
+                field_10_anim.Set_Animation_Data(6284, 0);
                 field_E5_state = States::eTransformStarsToDoves_1;
             }
             break;
@@ -64,11 +64,6 @@ void DeathBirdParticle::VUpdate_41DA60()
     field_A8_xpos += FP_FromInteger(2) * Math_Sine_451110(field_E4_random);
     field_AC_ypos -= FP_FromInteger(2);
     field_E4_random += 5;
-}
-
-void DeathBirdParticle::VUpdate()
-{
-    VUpdate_41DA60();
 }
 
 DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound, FP scale)

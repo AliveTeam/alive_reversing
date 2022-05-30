@@ -38,17 +38,10 @@ public:
     ~BoomMachine();
 
     virtual void VScreenChanged() override;
-
     virtual void VUpdate() override;
-
     virtual Bool32 VIsButtonOn();
-
     virtual void VHandleButton();
 
-private:
-    EXPORT Bool32 VIsButtonOn_41E840();
-
-    EXPORT void VHandleButton_41E6F0();
 
 public:
     s32 field_D4_padding[4];

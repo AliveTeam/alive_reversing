@@ -21,20 +21,9 @@ public:
     ~FlintLockFire();
 
     virtual void VStopAudio() override;
-
-    EXPORT void VStopAudio_41B0C0();
-
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_41B0B0();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_41AEE0();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_41B0F0(PrimHeader** ppOt);
 
     s32 field_D4_padding[4];
     enum class States : s16

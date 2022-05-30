@@ -98,7 +98,7 @@ void BaseThrowable::BaseAddToPlatform()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast_40C410(
+    if (sCollisions_DArray_504C6C->RayCast(
             field_A8_xpos,
             field_AC_ypos - FP_FromInteger(20),
             field_A8_xpos,

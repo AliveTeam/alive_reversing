@@ -69,7 +69,7 @@ public:
     BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo);
     ~BirdPortal();
 
-    EXPORT s16 IsScaredAway_4532E0();
+    s16 IsScaredAway();
 
     
     virtual void VUpdate() override;
@@ -80,7 +80,7 @@ public:
     virtual void VKillPortalClipper();
     virtual void VMudSaved();
     virtual Bool32 VStateIs6();
-    virtual void VGiveShrukull(s16 bPlaySound);
+    virtual void VGiveShrykull(s16 bPlaySound);
     virtual Bool32 VStateIs16();
     virtual void VExitPortal();
     virtual void VIncreaseTimerAndKillPortalClipper();
@@ -90,19 +90,6 @@ public:
 private:
     void CreateDovesAndShrykullNumber();
     void CreateTerminators();
-    EXPORT s16 VPortalClipper_4533E0(s16 bUnknown);
-    EXPORT void VMudSaved_453830();
-    EXPORT void VGetMapChange_453840(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
-    EXPORT void VIncreaseTimerAndKillPortalClipper_453810();
-    EXPORT Bool32 VStateIs20_453800();
-    EXPORT void VExitPortal_453720();
-    EXPORT Bool32 VStateIs16_453710();
-    EXPORT Bool32 VStateIs6_453700();
-    EXPORT void VKillPortalClipper_453570();
-    EXPORT void VStopAudio_4532C0();
-    EXPORT void VScreenChanged_4538E0();
-    EXPORT void VGiveShrukull_4535A0(s16 bPlaySound);
-    EXPORT void VUpdate_4523D0();
 
 public:
     PortalType field_10_portal_type;

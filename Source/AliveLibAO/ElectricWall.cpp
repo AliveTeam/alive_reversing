@@ -25,9 +25,9 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
     field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
 
-    if (field_10_anim.Get_Frame_Count_403540() > 0)
+    if (field_10_anim.Get_Frame_Count() > 0)
     {
-        field_10_anim.SetFrame_402AC0(Math_NextRandom() % field_10_anim.Get_Frame_Count_403540());
+        field_10_anim.SetFrame(Math_NextRandom() % field_10_anim.Get_Frame_Count());
     }
 
     field_C4_b = 80;
@@ -66,11 +66,6 @@ ElectricWall::~ElectricWall()
 
 void ElectricWall::VScreenChanged()
 {
-    VScreenChanged_410220();
-}
-
-void ElectricWall::VScreenChanged_410220()
-{
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos) == CameraPos::eCamInvalid_m1)
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -79,18 +74,13 @@ void ElectricWall::VScreenChanged_410220()
 
 void ElectricWall::VUpdate()
 {
-    VUpdate_40FEF0();
-}
-
-void ElectricWall::VUpdate_40FEF0()
-{
     const CameraPos soundDirection = gMap.GetDirection(
         field_B2_lvl_number,
         field_B0_path_number,
         field_A8_xpos,
         field_AC_ypos);
 
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(Options::eDead);
     }

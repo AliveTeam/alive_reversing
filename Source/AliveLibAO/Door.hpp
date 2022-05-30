@@ -54,24 +54,14 @@ public:
     ~Door();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_40EDE0();
-
-    EXPORT Bool32 vIsOpen_40E800();
-
-    EXPORT void vOpen_40E810();
-
-    EXPORT void vClose_40E830();
-
-    EXPORT void vSetOpen_40E850();
-
-    EXPORT void vSetClosed_40E860();
-
-    EXPORT void PlaySound_40E780();
-
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_40E870();
+    Bool32 vIsOpen_40E800();
+    void vOpen();
+    void vClose();
+    void vSetOpen();
+    void vSetClosed();
+    void PlaySound();
 
     s32 field_D4[4];
     s32 field_E4_tlvInfo;

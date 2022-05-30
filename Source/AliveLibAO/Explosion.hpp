@@ -11,16 +11,9 @@ public:
     Explosion(FP xpos, FP ypos, FP scale);
 
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_459470();
-
-    EXPORT void VUpdate_458D00();
-
-    EXPORT void DealBlastDamage_459160(PSX_RECT* pRect);
-
-    
+    void DealBlastDamage(PSX_RECT* pRect);
 
     s32 field_D4_padding[4];
     FP field_E4_explosion_size;

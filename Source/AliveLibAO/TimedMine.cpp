@@ -46,7 +46,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     }
 
     const AnimRecord& tickRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
-    if (field_118_anim.Init_402D20(
+    if (field_118_anim.Init(
             tickRec.mFrameTableOffset,
             gObjList_animations_505564,
             this,
@@ -79,10 +79,10 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     field_110_tlvInfo = tlvInfo;
 
     SetBaseAnimPaletteTint_4187C0(kTimedMineTints_4C3140, gMap.mCurrentLevel, 1005);
-    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
-    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2));
+    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
     field_D4_collection_rect.h = field_AC_ypos;
-    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
 
     mFlags.Set(Options::eInteractive_Bit8);
     field_F8_pLiftPoint = nullptr;
@@ -99,7 +99,7 @@ TimedMine::~TimedMine()
         gMap.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 1);
     }
 
-    field_118_anim.vCleanUp();
+    field_118_anim.VCleanUp();
 
     if (field_F8_pLiftPoint)
     {
@@ -177,7 +177,7 @@ void TimedMine::VRender_408960(PrimHeader** ppOt)
             field_AC_ypos,
             0))
     {
-        field_118_anim.VRender_403AE0(
+        field_118_anim.VRender(
             FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
             FP_GetExponent(field_AC_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos - FP_GetExponent(field_BC_sprite_scale * FP_FromInteger(14)))
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
@@ -186,7 +186,7 @@ void TimedMine::VRender_408960(PrimHeader** ppOt)
             0);
 
         PSX_RECT pRect = {};
-        field_118_anim.Get_Frame_Rect_402B50(&pRect);
+        field_118_anim.Get_Frame_Rect(&pRect);
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             pRect.x,
             pRect.y,
@@ -203,7 +203,7 @@ void TimedMine::StickToLiftPoint_408CA0()
     FP hitX = {};
     PathLine* pLine = nullptr;
     field_1B8_flags.Set(TimedMine_Flags_1B8::eStickToLiftPoint_0);
-    if (sCollisions_DArray_504C6C->RayCast_40C410(
+    if (sCollisions_DArray_504C6C->RayCast(
             field_A8_xpos,
             field_AC_ypos - FP_FromInteger(20),
             field_A8_xpos,
@@ -253,7 +253,7 @@ void TimedMine::VUpdate()
 void TimedMine::VUpdate_408760()
 {
     auto pPlatform = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -265,9 +265,9 @@ void TimedMine::VUpdate_408760()
 
     if (pPlatform && pPlatform->OnAnyFloor())
     {
-        field_D4_collection_rect.x = field_A8_xpos - ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
-        field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize_41FA30(field_BC_sprite_scale);
-        field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(2);
+        field_D4_collection_rect.x = field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
+        field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
+        field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
         field_D4_collection_rect.h = field_AC_ypos;
     }
     if (field_10C_armed == 1)
@@ -342,9 +342,9 @@ void TimedMine::vOnPickUpOrSlapped_408A80()
             field_1B4_detonation_timer = field_10E_ticks_before_explosion >> 2;
         }
         field_1B0_gnFrame_2 = gnFrameCount_507670;
-        field_10_anim.Set_Animation_Data_402A40(804, 0);
+        field_10_anim.Set_Animation_Data(804, 0);
         field_114_timer = gnFrameCount_507670 + field_10E_ticks_before_explosion;
-        field_118_anim.Set_Animation_Data_402A40(384, 0);
+        field_118_anim.Set_Animation_Data(384, 0);
         SFX_Play_43AD70(SoundEffect::GreenTick_3, 0, 0);
     }
 }

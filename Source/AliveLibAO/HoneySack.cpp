@@ -50,7 +50,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
 
         field_E8_state = State::eUpdateHoneySackOnGround_3;
         const AnimRecord& groundRec = AO::AnimRec(AnimId::HoneySack_OnGround);
-        field_10_anim.Set_Animation_Data_402A40(groundRec.mFrameTableOffset, 0);
+        field_10_anim.Set_Animation_Data(groundRec.mFrameTableOffset, 0);
         field_F0_pBee = nullptr;
     }
     else
@@ -135,7 +135,7 @@ void HoneySack::VUpdate()
 
 void HoneySack::VUpdate_42BFE0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(Options::eDead);
     }
@@ -173,7 +173,7 @@ void HoneySack::VUpdate_42BFE0()
             if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer - 68)
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::HoneySack_Falling);
-                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
+                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                 field_E8_state = State::eFallOnGround_2;
                 field_B4_velx = FP_FromInteger(0);
                 field_B8_vely = FP_FromInteger(0);
@@ -200,7 +200,7 @@ void HoneySack::VUpdate_42BFE0()
             FP hitX = {};
             FP hitY = {};
 
-            if (sCollisions_DArray_504C6C->RayCast_40C410(
+            if (sCollisions_DArray_504C6C->RayCast(
                     field_A8_xpos,
                     oldY,
                     field_A8_xpos,
@@ -215,7 +215,7 @@ void HoneySack::VUpdate_42BFE0()
                 field_AC_ypos = hitY;
                 field_E8_state = State::eUpdateHoneySackOnGround_3;
                 const AnimRecord& rec = AO::AnimRec(AnimId::HoneySack_FallingToSmashed);
-                field_10_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
+                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
 
                 auto pNewBee = ao_new<BeeSwarm>(
                     field_A8_xpos,
@@ -225,7 +225,7 @@ void HoneySack::VUpdate_42BFE0()
                     field_100_chase_ticks);
                 if (pNewBee)
                 {
-                    pNewBee->Chase_47FEB0(sActiveHero_507678);
+                    pNewBee->Chase(sActiveHero_507678);
                 }
 
                 if (field_F0_pBee)

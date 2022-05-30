@@ -174,7 +174,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast_40C410(
+    if (sCollisions_DArray_504C6C->RayCast(
             field_A8_xpos,
             field_AC_ypos,
             field_A8_xpos,
@@ -499,7 +499,7 @@ void Paramite::VUpdate_44A490()
         }
     }
 
-    if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
         mFlags.Set(Options::eDead);
     }
@@ -559,7 +559,7 @@ void Paramite::VUpdate_44A490()
 
         if (showDebugCreatureInfo_5076E0)
         {
-            DDCheat::DebugStr_495990(
+            DDCheat::DebugStr(
                 "Paramite %d %d %d %d\n",
                 field_110_brain_sub_state,
                 field_114_timer,
@@ -598,7 +598,7 @@ void Paramite::VUpdate_44A490()
             {
                 field_FC_current_motion = field_E4_previous_motion;
                 VUpdateAnimData_44A460();
-                field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
+                field_10_anim.SetFrame(field_E6_last_anim_frame);
                 field_140_use_prev_motion = 0;
             }
         }
@@ -607,7 +607,7 @@ void Paramite::VUpdate_44A490()
             VUpdateAnimData_44A460();
             if (oldMotion == eParamiteMotions::Motion_4_Unknown_44B6C0)
             {
-                field_10_anim.SetFrame_402AC0(field_E6_last_anim_frame);
+                field_10_anim.SetFrame(field_E6_last_anim_frame);
             }
         }
     }
@@ -643,12 +643,12 @@ s16 Paramite::ToNextMotion_44B320()
         case eParamiteMotions::Motion_3_Running_44C070:
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromDouble(3.5));
+                field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromDouble(3.5));
                 field_FC_current_motion = eParamiteMotions::Motion_10_RunBegin_44C4C0;
             }
             else
             {
-                field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromDouble(3.5));
+                field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromDouble(3.5));
                 field_FC_current_motion = eParamiteMotions::Motion_10_RunBegin_44C4C0;
             }
             field_FE_next_motion = -1;
@@ -657,12 +657,12 @@ s16 Paramite::ToNextMotion_44B320()
         case eParamiteMotions::Motion_2_Walking_44B9E0:
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_B4_velx = -ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(7);
+                field_B4_velx = -ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(7);
                 field_FC_current_motion = eParamiteMotions::Motion_1_WalkBegin_44BCA0;
             }
             else
             {
-                field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(7));
+                field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(7));
                 field_FC_current_motion = eParamiteMotions::Motion_1_WalkBegin_44BCA0;
             }
             field_FE_next_motion = -1;
@@ -677,11 +677,11 @@ s16 Paramite::ToNextMotion_44B320()
             field_FE_next_motion = -1;
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
             }
             else
             {
-                field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
             }
             return 1;
 
@@ -703,7 +703,7 @@ s16 Paramite::ToNextMotion_44B320()
 void Paramite::VUpdateAnimData_44A460()
 {
     const AnimRecord& rec = AO::AnimRec(sParamiteAnimIdTable_4CDD18[field_FC_current_motion]);
-    field_10_anim.Set_Animation_Data_402A40(
+    field_10_anim.Set_Animation_Data(
         rec.mFrameTableOffset,
         ResBlockForMotion_44AC10(field_FC_current_motion));
 }
@@ -751,7 +751,7 @@ s16 Paramite::AnotherParamiteNear_44AF80()
 void Paramite::ToKnockBack_44B5B0()
 {
     const FP nextX = field_A8_xpos - field_B4_velx;
-    field_A8_xpos = FP_FromInteger((FP_GetExponent(nextX) & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, FP_GetExponent(nextX) & 0x3FF));
+    field_A8_xpos = FP_FromInteger((FP_GetExponent(nextX) & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(nextX) & 0x3FF));
 
     MapFollowMe_401D30(1);
 
@@ -814,7 +814,7 @@ void Paramite::MoveOnLine_44B740()
     const FP old_x = field_A8_xpos;
     if (field_F4_pLine)
     {
-        field_F4_pLine = field_F4_pLine->MoveOnLine_40CA20(
+        field_F4_pLine = field_F4_pLine->MoveOnLine(
             &field_A8_xpos,
             &field_AC_ypos,
             field_B4_velx);
@@ -979,12 +979,12 @@ enum Brain_0_Patrol
 
 s16 Paramite::Brain_0_Patrol_447A10()
 {
-    if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
 
-    const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    const FP kGridSize = ScaleToGridSize(field_BC_sprite_scale);
 
     switch (field_110_brain_sub_state)
     {
@@ -1016,7 +1016,7 @@ s16 Paramite::Brain_0_Patrol_447A10()
                 return Brain_0_Patrol::eBrain0_Idle_12;
             }
 
-            if (Event_Get_417250(kEventAbeOhm_8) && VIsFacingMe(sActiveHero_507678))
+            if (Event_Get(kEventAbeOhm_8) && VIsFacingMe(sActiveHero_507678))
             {
                 field_FE_next_motion = eParamiteMotions::Motion_15_Hiss_44D300;
                 return Brain_0_Patrol::eBrain0_Panic_15;
@@ -1440,7 +1440,7 @@ s16 Paramite::Brain_0_Patrol_447A10()
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
             }
 
-            if (Event_Get_417250(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm_8))
             {
                 field_FE_next_motion = eParamiteMotions::Motion_15_Hiss_44D300;
                 return Brain_0_Patrol::eBrain0_Panic_15;
@@ -1481,7 +1481,7 @@ s16 Paramite::Brain_0_Patrol_447A10()
             return Brain_0_Patrol::eBrain0_Idle_12;
 
         case Brain_0_Patrol::eBrain0_Panic_15:
-            if (!Event_Get_417250(kEventAbeOhm_8))
+            if (!Event_Get(kEventAbeOhm_8))
             {
                 field_FE_next_motion = eParamiteMotions::Motion_0_Idle_44B900;
                 return Brain_0_Patrol::eBrain0_Idle_12;
@@ -1506,7 +1506,7 @@ enum Brain_1_SurpriseWeb
 
 s16 Paramite::Brain_1_SurpriseWeb_448D00()
 {
-    if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -1649,7 +1649,7 @@ enum Brain_2_Struggling
 
 s16 Paramite::Brain_2_Struggling_44DD70()
 {
-    if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -1757,7 +1757,7 @@ enum Brain_4_ChasingAbe
 
 s16 Paramite::Brain_4_ChasingAbe_449170()
 {
-    if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -1772,13 +1772,13 @@ s16 Paramite::Brain_4_ChasingAbe_449170()
         return 0;
     }
 
-    if (Event_Get_417250(kEventAbeOhm_8))
+    if (Event_Get(kEventAbeOhm_8))
     {
         field_FE_next_motion = eParamiteMotions::Motion_15_Hiss_44D300;
         return Brain_4_ChasingAbe::eBrain4_Panic_15;
     }
 
-    const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    const FP kGridSize = ScaleToGridSize(field_BC_sprite_scale);
 
     switch (field_110_brain_sub_state)
     {
@@ -2069,7 +2069,7 @@ s16 Paramite::Brain_4_ChasingAbe_449170()
             }
 
             const s16 x_exp = FP_GetExponent(field_A8_xpos);
-            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, x_exp & 0x3FF);
             if (field_B4_velx < FP_FromInteger(0))
             {
                 if (HandleEnemyStopper(-2, Path_EnemyStopper::StopDirection::Left_0))
@@ -2196,7 +2196,7 @@ s16 Paramite::Brain_4_ChasingAbe_449170()
             }
 
             const s16 x_exp = FP_GetExponent(field_A8_xpos);
-            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, x_exp & 0x3FF);
             if (field_B4_velx > FP_FromInteger(0))
             {
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(0, 1))
@@ -2262,7 +2262,7 @@ s16 Paramite::Brain_4_ChasingAbe_449170()
             return Brain_4_ChasingAbe::eBrain4_Eating_13;
 
         case Brain_4_ChasingAbe::eBrain4_Panic_15:
-            if (Event_Get_417250(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm_8))
             {
                 return field_110_brain_sub_state;
             }
@@ -2287,7 +2287,7 @@ enum Brain_5_SpottedMeat
 
 s16 Paramite::Brain_5_SpottedMeat_449CD0()
 {
-    if (Event_Get_417250(kEventDeathReset_4) || Event_Get_417250(kEvent_9))
+    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
         mFlags.Set(Options::eDead);
     }
@@ -2314,7 +2314,7 @@ s16 Paramite::Brain_5_SpottedMeat_449CD0()
         }
     }
 
-    const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    const FP kGridSize = ScaleToGridSize(field_BC_sprite_scale);
 
     switch (field_110_brain_sub_state)
     {
@@ -2383,7 +2383,7 @@ s16 Paramite::Brain_5_SpottedMeat_449CD0()
         case Brain_5_SpottedMeat::eBrain5_Running_1:
         {
             const s16 x_exp = FP_GetExponent(field_A8_xpos);
-            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, x_exp & 0x3FF);
             if (field_B4_velx < FP_FromInteger(0))
             {
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(1, 1))
@@ -2434,7 +2434,7 @@ s16 Paramite::Brain_5_SpottedMeat_449CD0()
         case Brain_5_SpottedMeat::eBrain5_Walking_2:
         {
             const s16 x_exp = FP_GetExponent(field_A8_xpos);
-            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid_41FAA0(field_BC_sprite_scale, x_exp & 0x3FF);
+            const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, x_exp & 0x3FF);
             if (field_B4_velx < FP_FromInteger(0))
             {
                 if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(1, 1))
@@ -2607,7 +2607,7 @@ bool Paramite::BrainIs(Paramite::TParamiteBrain fn)
 
 s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirection dir)
 {
-    const FP kGridSize = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+    const FP kGridSize = ScaleToGridSize(field_BC_sprite_scale);
     const FP numGridBlocksScaled = (kGridSize * FP_FromInteger(numGridBlocks));
     field_F0_pTlv = gMap.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos + numGridBlocksScaled),
@@ -2662,7 +2662,7 @@ const FP sWalkBeginVelTable_4BBC88[3] = {
 
 void Paramite::Motion_1_WalkBegin_44BCA0()
 {
-    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -2706,7 +2706,7 @@ const FP sWalkVelTable_4BBC50[14] = {
 
 void Paramite::Motion_2_Walking_44B9E0()
 {
-    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -2765,11 +2765,11 @@ void Paramite::Motion_2_Walking_44B9E0()
                 field_FE_next_motion = -1;
                 if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                    field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
                 }
                 else
                 {
-                    field_B4_velx = ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4);
+                    field_B4_velx = ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4);
                 }
             }
 
@@ -2807,7 +2807,7 @@ const FP sRunningTable_4BBCC0[14] = {
 
 void Paramite::Motion_3_Running_44C070()
 {
-    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise_0, this);
 
     FP frameVelx = {};
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -2859,11 +2859,11 @@ void Paramite::Motion_3_Running_44C070()
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
             }
             else
             {
-                field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
             }
         }
 
@@ -2925,11 +2925,11 @@ void Paramite::Motion_3_Running_44C070()
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
             }
             else
             {
-                field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+                field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
             }
         }
 
@@ -2990,7 +2990,7 @@ void Paramite::Motion_5_Turn_44C8E0()
 
         if (ToNextMotion_44B320())
         {
-            field_10_anim.Set_Animation_Data_402A40(field_10_anim.field_18_frame_table_offset, nullptr);
+            field_10_anim.Set_Animation_Data(field_10_anim.field_18_frame_table_offset, nullptr);
         }
         else
         {
@@ -3020,7 +3020,7 @@ const FP sHopVelTable_4BBD28[16] = {
 
 void Paramite::Motion_6_Hop_44CB20()
 {
-    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise_0, this);
 
     FP frameVelX = {};
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -3106,7 +3106,7 @@ const FP State_7_Unknown_VelTable_4BBCA8[2] = {
 
 void Paramite::Motion_7_Unknown_44BF10()
 {
-    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -3141,7 +3141,7 @@ const FP sWalkRunTransVelTable_4BBD18[3] = {
 
 void Paramite::Motion_8_WalkRunTransition_44C790()
 {
-    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise_0, this);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -3190,7 +3190,7 @@ void Paramite::Motion_9_WalkEnd_44BDE0()
     else
     {
         MoveOnLine_44B740();
-        Event_Broadcast_417220(kEventNoise_0, this);
+        Event_Broadcast(kEventNoise_0, this);
 
         if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -3224,7 +3224,7 @@ void Paramite::Motion_10_RunBegin_44C4C0()
         field_140_use_prev_motion = 1;
     }
 
-    Event_Broadcast_417220(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise_0, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), field_B4_velx))
     {
@@ -3402,11 +3402,11 @@ void Paramite::Motion_14_PreHiss_44D170()
         field_FE_next_motion = -1;
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+            field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
         }
         else
         {
-            field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+            field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
         }
     }
 
@@ -3471,11 +3471,11 @@ void Paramite::Motion_15_Hiss_44D300()
         field_FE_next_motion = -1;
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_B4_velx = -(ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+            field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
         }
         else
         {
-            field_B4_velx = (ScaleToGridSize_41FA30(field_BC_sprite_scale) / FP_FromInteger(4));
+            field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
         }
     }
     else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3586,17 +3586,17 @@ void Paramite::Motion_18_RunningAttack_44D5D0()
         FP gridSizeDirected = {};
         if (field_B4_velx >= FP_FromInteger(0))
         {
-            gridSizeDirected = ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            gridSizeDirected = ScaleToGridSize(field_BC_sprite_scale);
         }
         else
         {
-            gridSizeDirected = -ScaleToGridSize_41FA30(field_BC_sprite_scale);
+            gridSizeDirected = -ScaleToGridSize(field_BC_sprite_scale);
         }
 
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        if (sCollisions_DArray_504C6C->RayCast_40C410(
+        if (sCollisions_DArray_504C6C->RayCast(
                 field_A8_xpos + gridSizeDirected,
                 field_AC_ypos - FP_FromInteger(10),
                 field_A8_xpos + gridSizeDirected,
@@ -3659,7 +3659,7 @@ void Paramite::Motion_20_SurpriseWeb_44D9A0()
     FP hitX = {};
     FP hitY = {};
 
-    if (sCollisions_DArray_504C6C->RayCast_40C410(
+    if (sCollisions_DArray_504C6C->RayCast(
             field_A8_xpos,
             field_AC_ypos,
             field_A8_xpos,

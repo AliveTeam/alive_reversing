@@ -31,7 +31,7 @@ void Leaf::VUpdate_48B650()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const auto bCollision = sCollisions_DArray_504C6C->RayCast_40C410(
+    const auto bCollision = sCollisions_DArray_504C6C->RayCast(
         field_A8_xpos,
         field_AC_ypos,
         x2,

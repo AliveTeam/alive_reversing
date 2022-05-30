@@ -49,7 +49,7 @@ void Sparks::VUpdate_40A4F0()
 
     if (field_EA_random == 0)
     {
-        field_10_anim.Set_Animation_Data_402A40(1492, 0);
+        field_10_anim.Set_Animation_Data(1492, 0);
         field_EA_random = -1;
     }
 

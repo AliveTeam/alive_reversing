@@ -20,12 +20,8 @@ public:
     ~DemoPlayback();
     
     virtual void VScreenChanged() override;
-
     virtual void VRender(PrimHeader** ppOt) override;
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_451960();
 
     enum class States : s32
     {

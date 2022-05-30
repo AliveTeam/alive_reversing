@@ -14,17 +14,17 @@ ALIVE_VAR(1, 0x507708, s16, sVoiceCheat_507708, 0);
 ALIVE_VAR(1, 0x50770C, s16, sEnableCheatFMV_50770C, 0);
 ALIVE_VAR(1, 0x507710, s16, sEnableCheatLevelSelect_507710, 0);
 
-EXPORT void CC CheatController_Cheat_FartGas_40FB70()
+void CheatController_Cheat_FartGas()
 {
     sEnableFartGasCheat_507704 = sEnableFartGasCheat_507704 == 0;
 }
 
-EXPORT void CC CheatController_Cheat_VoiceLocks_40FB90()
+void CheatController_Cheat_VoiceLocks()
 {
     sVoiceCheat_507708 = sVoiceCheat_507708 == 0;
 }
 
-EXPORT void CC CheatController_Cheat_LevelSelect_40FBD0()
+void CheatController_Cheat_LevelSelect()
 {
     if (gMap.field_4_current_camera == 1)
     {
@@ -32,7 +32,7 @@ EXPORT void CC CheatController_Cheat_LevelSelect_40FBD0()
     }
 }
 
-EXPORT void CC CheatController_Cheat_FMV_40FBB0()
+void CheatController_Cheat_FMV()
 {
     if (gMap.field_4_current_camera == 1)
     {
@@ -92,10 +92,10 @@ const InputCommands sCheatKeyArray_LevelSelect_4C50E8[] = {
 };
 
 CheatEntry stru_4C50F8[4] = {
-    {~0, ALIVE_COUNTOF(sCheatKeyArray_FartGas_4C50B8), sCheatKeyArray_FartGas_4C50B8, 0, &CheatController_Cheat_FartGas_40FB70},
-    {~0, ALIVE_COUNTOF(sCheatKeyArray_VoiceLocks_4C50C8), sCheatKeyArray_VoiceLocks_4C50C8, 0, &CheatController_Cheat_VoiceLocks_40FB90},
-    {1, ALIVE_COUNTOF(sCheatKeyArray_FMV_4C50D8), sCheatKeyArray_FMV_4C50D8, 0, &CheatController_Cheat_FMV_40FBB0},
-    {1, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect_4C50E8), sCheatKeyArray_LevelSelect_4C50E8, 0, &CheatController_Cheat_LevelSelect_40FBD0}};
+    {~0, ALIVE_COUNTOF(sCheatKeyArray_FartGas_4C50B8), sCheatKeyArray_FartGas_4C50B8, 0, &CheatController_Cheat_FartGas},
+    {~0, ALIVE_COUNTOF(sCheatKeyArray_VoiceLocks_4C50C8), sCheatKeyArray_VoiceLocks_4C50C8, 0, &CheatController_Cheat_VoiceLocks},
+    {1, ALIVE_COUNTOF(sCheatKeyArray_FMV_4C50D8), sCheatKeyArray_FMV_4C50D8, 0, &CheatController_Cheat_FMV},
+    {1, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect_4C50E8), sCheatKeyArray_LevelSelect_4C50E8, 0, &CheatController_Cheat_LevelSelect}};
 
 CheatController::CheatController()
     : BaseGameObject(1)
@@ -116,11 +116,6 @@ CheatController::~CheatController()
 }
 
 void CheatController::VUpdate()
-{
-    VUpdate_40FC40();
-}
-
-void CheatController::VUpdate_40FC40()
 {
     const u16 held = Input().Held();
     if (held)

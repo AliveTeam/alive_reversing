@@ -33,11 +33,6 @@ Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, 
 
 void Bullet::VUpdate()
 {
-    VUpdate_408E30();
-}
-
-void Bullet::VUpdate_408E30()
-{
     if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_28_level,
             field_2A_path,
@@ -72,8 +67,8 @@ void Bullet::VUpdate_408E30()
             shootRect.y = FP_GetExponent(field_1C_ypos - FP_FromInteger(15));
             shootRect.h = FP_GetExponent(field_1C_ypos + FP_FromInteger(5));
 
-            BaseAliveGameObject* pShotObj = ShootObject_409400(&shootRect);
-            if (sCollisions_DArray_504C6C->RayCast_40C410(
+            BaseAliveGameObject* pShotObj = ShootObject(&shootRect);
+            if (sCollisions_DArray_504C6C->RayCast(
                     field_18_xpos,
                     field_1C_ypos,
                     field_20_x_distance + field_18_xpos,
@@ -162,11 +157,11 @@ void Bullet::VUpdate_408E30()
             shootRect.x = FP_GetExponent(distX_1 - distX_2);
             shootRect.w = shootRect.x + 2;
             shootRect.y = FP_GetExponent(sActiveHero_507678->field_AC_ypos)
-                        + sActiveHero_507678->field_10_anim.Get_FrameHeader_403A00(-1)->field_8_data.points[2].y //or points 3?!
+                        + sActiveHero_507678->field_10_anim.Get_FrameHeader(-1)->field_8_data.points[2].y //or points 3?!
                         - 10;
             shootRect.h = shootRect.y + 10;
 
-            BaseAliveGameObject* pShotObj = ShootObject_409400(&shootRect);
+            BaseAliveGameObject* pShotObj = ShootObject(&shootRect);
             if (pShotObj && pShotObj->VTakeDamage(this))
             {
                 PlayBulletSounds(90);
@@ -174,7 +169,7 @@ void Bullet::VUpdate_408E30()
                 return;
             }
 
-            if (sCollisions_DArray_504C6C->RayCast_40C410(
+            if (sCollisions_DArray_504C6C->RayCast(
                     field_18_xpos,
                     field_1C_ypos,
                     distX_1 - distX_2,
@@ -231,7 +226,7 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
     return false;
 }
 
-BaseAliveGameObject* Bullet::ShootObject_409400(PSX_RECT* pRect)
+BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects_4FC8A0)
     {

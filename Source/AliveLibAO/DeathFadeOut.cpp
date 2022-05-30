@@ -5,7 +5,7 @@
 
 namespace AO {
 
-void DeathFadeOut::VRender_419ED0(PrimHeader** ppOt)
+void DeathFadeOut::VRender(PrimHeader** ppOt)
 {
     field_62_b = field_68_current_fade_rgb;
     field_60_g = field_68_current_fade_rgb;
@@ -23,12 +23,7 @@ void DeathFadeOut::VRender_419ED0(PrimHeader** ppOt)
     }
 }
 
-void DeathFadeOut::VRender(PrimHeader** ppOt)
-{
-    VRender_419ED0(ppOt);
-}
-
-void DeathFadeOut::VUpdate_419E90()
+void DeathFadeOut::VUpdate()
 {
     if (!field_6E_bDone && !field_72)
     {
@@ -47,17 +42,12 @@ void DeathFadeOut::VUpdate_419E90()
     }
 }
 
-void DeathFadeOut::VUpdate()
-{
-    VUpdate_419E90();
-}
-
 void DeathFadeOut::VScreenChanged()
 {
     // Empty
 }
 
-void DeathFadeOut::Init_419E40(Layer layer, s16 direction, s16 destroyOnDone, s32 speed)
+void DeathFadeOut::Init(Layer layer, s16 direction, s16 destroyOnDone, s32 speed)
 {
     field_5C_layer = layer;
     field_6C_direction = direction;
@@ -97,7 +87,7 @@ DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 s
         field_68_current_fade_rgb = 255;
     }
 
-    Init_419E40(layer, static_cast<s16>(direction), destroyOnDone, speed);
+    Init(layer, static_cast<s16>(direction), destroyOnDone, speed);
 
     field_62_b = field_68_current_fade_rgb;
     field_60_g = field_68_current_fade_rgb;

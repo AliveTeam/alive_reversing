@@ -45,7 +45,7 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
 void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList)
 {
     FrameTableOffsetExists(frameTableOffset, false, maxW, maxH);
-    const auto init = field_10_anim.Init_402D20(
+    const auto init = field_10_anim.Init(
         frameTableOffset,
         gObjList_animations_505564,
         this,
@@ -149,7 +149,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
             field_10_anim.field_9_g = static_cast<u8>(g);
             field_10_anim.field_A_b = static_cast<u8>(b);
 
-            field_10_anim.vRender(
+            field_10_anim.VRender(
                 FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
                 FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
                 ppOt,
@@ -157,7 +157,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
                 0);
 
             PSX_RECT frameRect = {};
-            field_10_anim.Get_Frame_Rect_402B50(&frameRect);
+            field_10_anim.Get_Frame_Rect(&frameRect);
             pScreenManager_4FF7C8->InvalidateRect_406E40(
                 frameRect.x,
                 frameRect.y,
@@ -301,7 +301,7 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby_418330(FP radius, BaseAnimat
     FP x_abs = FP_Abs(pOtherObj->field_A8_xpos - field_A8_xpos);
     if (x_abs > FP_FromInteger(400))
     {
-        x_abs = x_abs + ScaleToGridSize_41FA30(field_BC_sprite_scale) - FP_FromInteger(656);
+        x_abs = x_abs + ScaleToGridSize(field_BC_sprite_scale) - FP_FromInteger(656);
     }
     return x_abs <= radius;
 }
@@ -341,7 +341,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith_418080(PSX_Point xy, PS
 
 PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* pRect, s32 pointIdx)
 {
-    const FrameInfoHeader* pAnimFrameHeader = field_10_anim.Get_FrameHeader_403A00(-1);
+    const FrameInfoHeader* pAnimFrameHeader = field_10_anim.Get_FrameHeader(-1);
 
     PSX_RECT rect = {};
     // Normally this data is 3 points, one that is the frame offset and then 2 that make up the bounding rect.
@@ -407,7 +407,7 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
         if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
         {
             gObjList_drawables_504618->Remove_Item(this);
-            field_10_anim.vCleanUp();
+            field_10_anim.VCleanUp();
         }
 
         delete field_D0_pShadow;
@@ -435,7 +435,7 @@ s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintE
     {
         return 0;
     }
-    field_10_anim.LoadPal_403090(ppRes, 0);
+    field_10_anim.LoadPal(ppRes, 0);
     ResourceManager::FreeResource_455550(ppRes);
     return 1;
 }

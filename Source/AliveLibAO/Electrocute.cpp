@@ -47,12 +47,7 @@ public:
         // Stayin' alive
     }
 
-    virtual void VRender(PrimHeader** ppOt) override
-    {
-        VRender_4171A0(ppOt);
-    }
-
-    EXPORT void VRender_4171A0(PrimHeader** /*ppOt*/)
+    virtual void VRender(PrimHeader** /*ppOt*/) override
     {
         if (!field_BE_bDone)
         {
@@ -63,11 +58,6 @@ public:
     }
 
     virtual void VUpdate() override
-    {
-        VUpdate_417110();
-    }
-
-    EXPORT void VUpdate_417110()
     {
         if (field_BC_bFirstUpdate || field_BE_bDone)
         {
@@ -161,17 +151,17 @@ Electrocute::~Electrocute()
     }
 }
 
-void Electrocute::VScreenChanged_48D8B0()
+void Electrocute::VScreenChanged()
 {
     // If the map has changed or target we are tracking has died then..
     if (gMap.mOverlayId != gMap.GetOverlayId()
         || (field_10_obj_target && field_10_obj_target->mFlags.Get(BaseGameObject::eDead)))
     {
-        Stop_48D510();
+        Stop();
     }
 }
 
-void Electrocute::Stop_48D510()
+void Electrocute::Stop()
 {
     for (auto& pPalOverwriter : field_18_pPalOverwriters)
     {
@@ -206,14 +196,9 @@ void Electrocute::Stop_48D510()
 
 void Electrocute::VUpdate()
 {
-    VUpdate_48D5C0();
-}
-
-void Electrocute::VUpdate_48D5C0()
-{
     if (field_10_obj_target && field_10_obj_target->mFlags.Get(BaseGameObject::eDead))
     {
-        Stop_48D510();
+        Stop();
         return;
     }
 
@@ -299,11 +284,6 @@ void Electrocute::VUpdate_48D5C0()
         default:
             return;
     }
-}
-
-void Electrocute::VScreenChanged()
-{
-    VScreenChanged_48D8B0();
 }
 
 } // namespace AO

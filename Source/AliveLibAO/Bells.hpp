@@ -20,13 +20,9 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_40A770();
-
     void PlaySounds();
-
-    EXPORT Bool32 CanSmash_40AA70();
-
-    EXPORT void Ring_40AA80();
+    Bool32 CanSmash();
+    void Ring();
 
     s32 field_D4_padding;
     s32 field_D8_padding;

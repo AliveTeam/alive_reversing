@@ -65,8 +65,8 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     }
 
     field_EA_switch_id = pTlv->field_1A_switch_id;
-    field_EC_code_converted = Code_Convert_476000(pTlv->field_1C_code_1, pTlv->field_1E_code2);
-    field_F0_code_len = Code_Length_475FD0(field_EC_code_converted);
+    field_EC_code_converted = Code_Convert(pTlv->field_1C_code_1, pTlv->field_1E_code2);
+    field_F0_code_len = Code_Length(field_EC_code_converted);
     field_10C_top_left = pTlv->field_10_top_left;
     field_110_bottom_right = pTlv->field_14_bottom_right;
     field_A8_xpos = FP_FromInteger(pTlv->field_20_xpos);
@@ -112,7 +112,7 @@ Bool32 SecurityDoor::IsPlayerNear()
 
 void SecurityDoor::VUpdate_461AD0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(Options::eDead);
     }
@@ -143,7 +143,7 @@ void SecurityDoor::VUpdate_461AD0()
 
         case SecurityDoorStates::eSayingHi_2:
             Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eHi_0, 127, -200, 0);
-            field_10_anim.Set_Animation_Data_402A40(992, 0);
+            field_10_anim.Set_Animation_Data(992, 0);
             field_E8_state = SecurityDoorStates::eListeningForHi_3;
             field_114_timer = gnFrameCount_507670 + 150;
             break;
@@ -195,7 +195,7 @@ void SecurityDoor::VUpdate_461AD0()
 
         case SecurityDoorStates::eSayingPassword_6:
         {
-            const GameSpeakEvents code = Code_LookUp_476050(field_EC_code_converted, field_118_max_idx, field_F0_code_len);
+            const GameSpeakEvents code = Code_LookUp(field_EC_code_converted, field_118_max_idx, field_F0_code_len);
             switch (code)
             {
                 case GameSpeakEvents::eUnknown_5:
@@ -215,7 +215,7 @@ void SecurityDoor::VUpdate_461AD0()
                     break;
             }
 
-            field_10_anim.Set_Animation_Data_402A40(992, 0);
+            field_10_anim.Set_Animation_Data(992, 0);
 
             field_118_max_idx++;
             if (field_118_max_idx >= field_F0_code_len)
@@ -294,7 +294,7 @@ void SecurityDoor::VUpdate_461AD0()
 
             if (last_event == GameSpeakEvents::eNone_m1)
             {
-                const auto MatchBuffer = pEventSystem_4FF954->MatchBuffer_40FAA0(field_F8_stru, field_108_max_idx, field_10A_event_idx);
+                const auto MatchBuffer = pEventSystem_4FF954->MatchBuffer(field_F8_stru, field_108_max_idx, field_10A_event_idx);
                 field_11A_unused = static_cast<s16>(MatchBuffer);
                 if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || sVoiceCheat_507708)
                 {

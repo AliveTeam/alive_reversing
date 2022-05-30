@@ -37,7 +37,7 @@ bool RunningAsInjectedDll()
 namespace AO {
     const PathFunctionTable kObjectFactory = {};
 
-    void CC Collisions::Factory_40CEC0(const CollisionInfo* , const u8* )
+    void Collisions::Factory(const CollisionInfo* , const u8* )
     {
 
     }

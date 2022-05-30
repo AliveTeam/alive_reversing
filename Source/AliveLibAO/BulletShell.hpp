@@ -14,8 +14,6 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4628C0();
-
     s32 field_D4[4];
     PathLine* field_E4_pLine;
     s32 field_E8;

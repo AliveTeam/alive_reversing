@@ -22,7 +22,7 @@ void RockSack::VUpdate()
 
 void RockSack::VUpdate_4575F0()
 {
-    if (Event_Get_417250(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -50,7 +50,7 @@ void RockSack::VUpdate_4575F0()
         {
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_10_anim.Set_Animation_Data_402A40(13756, 0);
+                field_10_anim.Set_Animation_Data(13756, 0);
                 field_110_has_been_hit = 0;
             }
         }
@@ -99,12 +99,12 @@ void RockSack::VUpdate_4575F0()
             if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
             {
                 const AnimRecord& hardHitRec = AO::AnimRec(AnimId::RockSack_HardHit);
-                field_10_anim.Set_Animation_Data_402A40(hardHitRec.mFrameTableOffset, 0);
+                field_10_anim.Set_Animation_Data(hardHitRec.mFrameTableOffset, 0);
             }
             else
             {
                 const AnimRecord& softHitRec = AO::AnimRec(AnimId::RockSack_SoftHit);
-                field_10_anim.Set_Animation_Data_402A40(softHitRec.mFrameTableOffset, 0);
+                field_10_anim.Set_Animation_Data(softHitRec.mFrameTableOffset, 0);
             }
 
             field_110_has_been_hit = 1;
@@ -169,7 +169,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
         u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, 0, 0);
-        field_10_anim.LoadPal_403090(ppPal, 0);
+        field_10_anim.LoadPal(ppPal, 0);
     }
 
     field_D0_pShadow = ao_new<Shadow>();

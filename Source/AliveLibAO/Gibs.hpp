@@ -46,12 +46,7 @@ public:
     ~Gibs();
 
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_4080C0();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_408200(PrimHeader** ppOt);
 
     s32 field_D4_padding[4];
     const Gib_Data* field_E4_pGibData;
