@@ -45,7 +45,7 @@
 
 INITIALIZE_EASYLOGGINGPP
 
-static void RunTests()
+void RunTests()
 {
     ::testing::GTEST_FLAG(throw_on_failure) = true;
     s32 argCount = 0;
@@ -69,7 +69,7 @@ static void RunTests()
 
 static void InitOtherHooksAndRunTests()
 {
-    RunTests();
+    //RunTests();
 
     VGA_ForceLink();
     Psx_ForceLink();
