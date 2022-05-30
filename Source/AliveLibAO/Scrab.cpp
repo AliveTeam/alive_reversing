@@ -2157,6 +2157,7 @@ void Scrab::Motion_28_LegKick_45FF60()
     Motion_27_AttackLunge_45FDF0();
 }
 
+
 void Scrab::Motion_29_DeathBegin_45FFA0()
 {
     if (!field_F4_pLine)
@@ -2169,13 +2170,23 @@ void Scrab::Motion_29_DeathBegin_45FFA0()
         }
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    s32 tableVal = 0;
+    if (field_10_anim.field_92_current_frame == -1)
     {
-        field_B4_velx = (field_BC_sprite_scale * -FP_FromRaw(sFeedVelTable_4BC8D0[field_10_anim.field_92_current_frame]));
+        tableVal = 0;
     }
     else
     {
-        field_B4_velx = (field_BC_sprite_scale * FP_FromRaw(sFeedVelTable_4BC8D0[field_10_anim.field_92_current_frame]));
+        tableVal = sFeedVelTable_4BC8D0[field_10_anim.field_92_current_frame];
+    }
+
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_B4_velx = (field_BC_sprite_scale * -FP_FromRaw(tableVal));
+    }
+    else
+    {
+        field_B4_velx = (field_BC_sprite_scale * FP_FromRaw(tableVal));
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))

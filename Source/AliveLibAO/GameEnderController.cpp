@@ -22,16 +22,16 @@ void GameEnderController_ForceLink()
 
 namespace AO {
 
+void GameEnderController::CreateGameEnderController()
+{
+    ao_new<GameEnderController>();
+}
+
 GameEnderController::GameEnderController()
     : BaseGameObject(1)
-
 {
-    auto pGameEnderController = ao_new<GameEnderController>();
-    if (pGameEnderController)
-    {
-        pGameEnderController->field_4_typeId = Types::eGameEnderController_37;
-        pGameEnderController->field_14_state = GameEnderController_States::eInit_0;
-    }
+    field_4_typeId = Types::eGameEnderController_37;
+    field_14_state = GameEnderController_States::eInit_0;
 }
 
 void GameEnderController::VScreenChanged()

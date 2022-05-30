@@ -19,6 +19,8 @@ enum class GameEnderController_States : s16
 class GameEnderController final : public BaseGameObject
 {
 public:
+    static void CreateGameEnderController();
+
     GameEnderController();
 
     virtual void VScreenChanged() override;

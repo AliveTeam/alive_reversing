@@ -4204,7 +4204,7 @@ s16 Slig::Brain_Paused_466030()
 
     if (!found)
     {
-        GameEnderController::GameEnderController();
+        GameEnderController::CreateGameEnderController();
     }
 
     field_FC_current_motion = eSligMotions::Motion_7_Falling_46A1A0;
