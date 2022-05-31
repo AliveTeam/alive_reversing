@@ -22,6 +22,7 @@ template <typename T, typename... Args>
 inline T* ae_new(Args&&... args)
 {
     void* buffer = ae_new_malloc_4954D0(sizeof(T));
+    memset(buffer, 0, sizeof(T));
     if constexpr (sizeof...(args) == 0)
     {
         return new (buffer) T();
