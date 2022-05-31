@@ -10,15 +10,10 @@
 
 namespace AO {
 
-void SlogSpawner::VScreenChanged_475F90()
+void SlogSpawner::VScreenChanged()
 {
     gMap.TLV_Reset_446870(field_10_tlvInfo, field_14_spawned_count, 0, 0);
     mFlags.Set(BaseGameObject::eDead);
-}
-
-void SlogSpawner::VScreenChanged()
-{
-    VScreenChanged_475F90();
 }
 
 SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
@@ -41,11 +36,6 @@ SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
 }
 
 void SlogSpawner::VUpdate()
-{
-    VUpdate_475E30();
-}
-
-void SlogSpawner::VUpdate_475E30()
 {
     if (Event_Get(kEventDeathReset_4))
     {

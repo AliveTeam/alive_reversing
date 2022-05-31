@@ -37,11 +37,6 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
 
 void Sparks::VUpdate()
 {
-    VUpdate_40A4F0();
-}
-
-void Sparks::VUpdate_40A4F0()
-{
     if (field_EA_random > 0)
     {
         field_EA_random--;
@@ -74,11 +69,6 @@ void Sparks::VUpdate_40A4F0()
 }
 
 void Sparks::VScreenChanged()
-{
-    VScreenChanged_40A640();
-}
-
-void Sparks::VScreenChanged_40A640()
 {
     mFlags.Set(BaseGameObject::eDead);
 }

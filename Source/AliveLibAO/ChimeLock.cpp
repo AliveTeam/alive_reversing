@@ -386,7 +386,7 @@ void ChimeLock::VUpdate()
                 if (DoNote(static_cast<s16>(Bell)))
                 {
                     field_110_state = ChimeLockStates::eNeverRead_6;
-                    SwitchStates_Do_Operation_436A10(field_132_solve_switch_id, SwitchOp::eSetTrue_0);
+                    SwitchStates_Do_Operation(field_132_solve_switch_id, SwitchOp::eSetTrue_0);
                     VUnPosses();
                     ao_new<MusicTrigger>(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
                     return;

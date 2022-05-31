@@ -29,14 +29,7 @@ public:
     SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo);
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_475F90();
-
-    
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_475E30();
 
     s32 field_10_tlvInfo;
     s16 field_14_spawned_count;

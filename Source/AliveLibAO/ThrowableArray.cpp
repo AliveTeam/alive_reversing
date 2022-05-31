@@ -11,7 +11,7 @@ namespace AO {
 ALIVE_VAR(1, 0x50E26C, ThrowableArray*, gpThrowableArray_50E26C, nullptr);
 
 
-EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, u16 path)
+void LoadRockTypes(LevelIds levelNumber, u16 path)
 {
     Bool32 bDoLoadingLoop = FALSE;
     const u8 throwableTypeIdx = Path_Get_Bly_Record_434650(levelNumber, path)->field_C_overlay_id & 0xFF;
@@ -88,33 +88,23 @@ EXPORT void CC LoadRockTypes_454370(LevelIds levelNumber, u16 path)
     }
 }
 
-void ThrowableArray::VUpdate()
-{
-    VUpdate_4542B0();
-}
-
 void ThrowableArray::VRender(PrimHeader** /*ppOt*/)
 {
     //Nothing to do here
 }
 
-void ThrowableArray::VScreenChanged()
-{
-    vScreenChange_454300();
-}
-
-void ThrowableArray::VUpdate_4542B0()
+void ThrowableArray::VUpdate()
 {
     if (field_12_flags & 1)
     {
-        LoadRockTypes_454370(gMap.mCurrentLevel, gMap.mCurrentPath);
-        Add_453F70(0);
+        LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
+        Add(0);
         field_12_flags &= ~1u;
         mFlags.Clear(Options::eUpdatable_Bit2);
     }
 }
 
-void ThrowableArray::vScreenChange_454300()
+void ThrowableArray::vScreenChange()
 {
     if (gMap.mLevel != LevelIds::eMenu_0 && gMap.mLevel != LevelIds::eCredits_10)
     {
@@ -124,7 +114,7 @@ void ThrowableArray::vScreenChange_454300()
             {
                 mFlags.Set(Options::eUpdatable_Bit2);
                 field_12_flags |= 1;
-                Remove_4540D0(0);
+                Remove(0);
             }
         }
     }
@@ -139,7 +129,7 @@ ThrowableArray::~ThrowableArray()
     gpThrowableArray_50E26C = nullptr;
     if (field_10_count > 0)
     {
-        Remove_4540D0(field_10_count);
+        Remove(field_10_count);
     }
 
 }
@@ -153,7 +143,7 @@ ThrowableArray::ThrowableArray()
     field_12_flags &= ~7u;
 }
 
-void ThrowableArray::Remove_4540D0(s16 count)
+void ThrowableArray::Remove(s16 count)
 {
     field_10_count -= count;
 
@@ -218,7 +208,7 @@ void ThrowableArray::Remove_4540D0(s16 count)
     }
 }
 
-void ThrowableArray::Add_453F70(s16 count)
+void ThrowableArray::Add(s16 count)
 {
     if (field_10_count == 0)
     {

@@ -234,11 +234,6 @@ UXB::~UXB()
 
 void UXB::VScreenChanged()
 {
-    VScreenChanged_489BD0();
-}
-
-void UXB::VScreenChanged_489BD0()
-{
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
         if (field_10E_starting_state == UXBState::eDeactivated_3 && field_10C_state != UXBState::eDeactivated_3)
@@ -260,11 +255,6 @@ void UXB::VScreenChanged_489BD0()
 }
 
 s16 UXB::VTakeDamage(BaseGameObject* pFrom)
-{
-    return VTakeDamage_489AB0(pFrom);
-}
-
-s16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {
@@ -303,12 +293,7 @@ s16 UXB::VTakeDamage_489AB0(BaseGameObject* pFrom)
     return 1;
 }
 
-void UXB::VOnThrowableHit(BaseGameObject* pFrom)
-{
-    VOnThrowableHit_489A30(pFrom);
-}
-
-void UXB::VOnThrowableHit_489A30(BaseGameObject* /*pFrom*/)
+void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     ao_new<BaseBomb>(
         field_A8_xpos,
@@ -322,11 +307,6 @@ void UXB::VOnThrowableHit_489A30(BaseGameObject* /*pFrom*/)
 }
 
 void UXB::VOnPickUpOrSlapped()
-{
-    VOnPickUpOrSlapped_4897E0();
-}
-
-void UXB::VOnPickUpOrSlapped_4897E0()
 {
     if (field_10C_state != UXBState::eExploding_2)
     {
@@ -375,18 +355,12 @@ void UXB::VOnPickUpOrSlapped_4897E0()
     }
 }
 
-
 void UXB::VUpdate()
-{
-    VUpdate_489380();
-}
-
-void UXB::VUpdate_489380()
 {
     switch (field_10C_state)
     {
         case UXBState::eDelay_0:
-            if (IsColliding_489900())
+            if (IsColliding())
             {
                 field_10C_state = UXBState::eExploding_2;
                 field_118_next_state_frame = gnFrameCount_507670 + 2;
@@ -401,7 +375,7 @@ void UXB::VUpdate_489380()
             break;
 
         case UXBState::eActive_1:
-            if (IsColliding_489900())
+            if (IsColliding())
             {
                 field_10C_state = UXBState::eExploding_2;
                 field_118_next_state_frame = gnFrameCount_507670 + 2;
@@ -506,7 +480,7 @@ void UXB::VUpdate_489380()
     }
 }
 
-s16 UXB::IsColliding_489900()
+s16 UXB::IsColliding()
 {
     PSX_RECT uxbBound = {};
     VGetBoundingRect(&uxbBound, 1);
@@ -539,13 +513,7 @@ s16 UXB::IsColliding_489900()
     return 0;
 }
 
-
 void UXB::VRender(PrimHeader** ppOt)
-{
-    VRender_4896C0(ppOt);
-}
-
-void UXB::VRender_4896C0(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,

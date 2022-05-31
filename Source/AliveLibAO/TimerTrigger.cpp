@@ -8,22 +8,12 @@
 
 namespace AO {
 
-void TimerTrigger::VUpdate()
-{
-    VUpdate_479C40();
-}
-
-void TimerTrigger::VScreenChanged_479DB0()
+void TimerTrigger::VScreenChanged()
 {
     if (field_12_state == State::eWaitForEnabled_0 || field_12_state == State::eCheckForStartAgain_2 || gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-}
-
-void TimerTrigger::VScreenChanged()
-{
-    VScreenChanged_479DB0();
 }
 
 TimerTrigger::~TimerTrigger()
@@ -62,12 +52,12 @@ void TimerTrigger::ToggleAllIds()
     {
         if (id > 1)
         {
-            SwitchStates_Do_Operation_436A10(id, SwitchOp::eToggle_2);
+            SwitchStates_Do_Operation(id, SwitchOp::eToggle_2);
         }
     }
 }
 
-void TimerTrigger::VUpdate_479C40()
+void TimerTrigger::VUpdate()
 {
     switch (field_12_state)
     {

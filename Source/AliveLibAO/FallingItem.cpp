@@ -305,7 +305,7 @@ void FallingItem::VUpdate()
             {
                 if (field_120_reset_switch_id_after_use == Choice_short::eYes_1)
                 {
-                    SwitchStates_Do_Operation_436A10(field_112_switch_id, SwitchOp::eSetFalse_1);
+                    SwitchStates_Do_Operation(field_112_switch_id, SwitchOp::eSetFalse_1);
                 }
             }
 

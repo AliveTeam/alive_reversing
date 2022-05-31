@@ -86,7 +86,7 @@ Grenade::~Grenade()
             {
                 count = 1;
             }
-            gpThrowableArray_50E26C->Remove_4540D0(count);
+            gpThrowableArray_50E26C->Remove(count);
         }
     }
 }

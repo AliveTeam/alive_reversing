@@ -21,7 +21,7 @@ const Types word_4CF158[54] = {
     Types::eNone_0, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eNone_0, Types::eGrenade_40,
     Types::eNone_0, Types::eNone_0, Types::eNone_0, Types::eNone_0};
 
-EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, s16 count)
+BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
 {
     switch (word_4CF158[gMap.mOverlayId])
     {
@@ -62,28 +62,15 @@ EXPORT BaseThrowable* CCSTD Make_Throwable_454560(FP xpos, FP ypos, s16 count)
 }
 
 
-void BaseThrowable::VToDead_41F990()
+void BaseThrowable::VToDead()
 {
     mFlags.Set(BaseGameObject::eDead);
     field_10E_bDead = TRUE;
 }
 
-
-void BaseThrowable::VToDead()
-{
-    VToDead_41F990();
-}
-
-
-s16 BaseThrowable::VGetCount_41F980()
-{
-    return field_10C_count;
-}
-
-
 s16 BaseThrowable::VGetCount()
 {
-    return VGetCount_41F980();
+    return field_10C_count;
 }
 
 void BaseThrowable::VOnPickUpOrSlapped()

@@ -245,7 +245,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo)
 
     if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
     {
-        String_FormatString_450DC0(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AC_message_1_id), field_AC_message_buffer);
+        String_FormatString(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AC_message_1_id), field_AC_message_buffer);
     }
     else
     {
@@ -329,7 +329,7 @@ void LCDScreen::VUpdate_4341B0()
 
                 if (Input_JoyStickEnabled() || rangedRandom != 62)
                 {
-                    String_FormatString_450DC0(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, rangedRandom), field_AC_message_buffer);
+                    String_FormatString(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, rangedRandom), field_AC_message_buffer);
                 }
                 else
                 {
@@ -344,7 +344,7 @@ void LCDScreen::VUpdate_4341B0()
 
                 if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
                 {
-                    String_FormatString_450DC0(
+                    String_FormatString(
                         gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AC_message_1_id),
                         field_AC_message_buffer);
                 }

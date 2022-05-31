@@ -171,7 +171,7 @@ void Shrykull::VUpdate_463AE0()
 
                     if (field_118_zap_line)
                     {
-                        field_118_zap_line->CalculateSourceAndDestinationPositions_478CF0(
+                        field_118_zap_line->CalculateSourceAndDestinationPositions(
                             FP_FromInteger((ourRect.x + ourRect.w) / 2),
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
                             FP_FromInteger((objRect.x + objRect.w) / 2),
@@ -300,7 +300,7 @@ void Shrykull::VUpdate_463AE0()
 
                        ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
                     }
-                    field_118_zap_line->CalculateSourceAndDestinationPositions_478CF0(
+                    field_118_zap_line->CalculateSourceAndDestinationPositions(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
                         FP_FromInteger((zapRect.x + zapRect.w) / 2),

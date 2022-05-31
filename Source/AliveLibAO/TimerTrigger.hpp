@@ -24,13 +24,9 @@ public:
     ~TimerTrigger();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_479DB0();
-
     virtual void VUpdate() override;
 
     void ToggleAllIds();
-    EXPORT void VUpdate_479C40();
 
     u16 field_10_source_switch_id;
 

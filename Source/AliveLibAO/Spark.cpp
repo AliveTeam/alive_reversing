@@ -117,20 +117,10 @@ Spark::~Spark()
 
 void Spark::VScreenChanged()
 {
-    VScreenChanged_478280();
-}
-
-void Spark::VScreenChanged_478280()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
 void Spark::VUpdate()
-{
-    VUpdate_477DB0();
-}
-
-void Spark::VUpdate_477DB0()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -162,11 +152,6 @@ void Spark::VUpdate_477DB0()
 }
 
 void Spark::VRender(PrimHeader** ppOt)
-{
-    VRender_477ED0(ppOt);
-}
-
-void Spark::VRender_477ED0(PrimHeader** ppOt)
 {
     PSX_RECT rect = {};
     rect.x = 32767;

@@ -40,30 +40,13 @@ public:
     void InitBlinkAnim();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_489BD0();
-
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    EXPORT s16 VTakeDamage_489AB0(BaseGameObject* pFrom);
-
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-
-    EXPORT void VOnThrowableHit_489A30(BaseGameObject* pFrom);
-
     virtual void VOnPickUpOrSlapped() override;
-
-    EXPORT void VOnPickUpOrSlapped_4897E0();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_489380();
-
-    EXPORT s16 IsColliding_489900();
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_4896C0(PrimHeader** ppOt);
+    s16 IsColliding();
 
     UXBState field_10C_state;
     UXBState field_10E_starting_state;

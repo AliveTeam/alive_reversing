@@ -154,7 +154,7 @@ void GameEnderController::VUpdate()
                                 gpThrowableArray_50E26C = ao_new<ThrowableArray>();
                                 if (gpThrowableArray_50E26C)
                                 {
-                                    gpThrowableArray_50E26C->Add_453F70(1);
+                                    gpThrowableArray_50E26C->Add(1);
                                 }
                             }
 

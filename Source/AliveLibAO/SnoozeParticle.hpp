@@ -22,16 +22,8 @@ public:
     ~SnoozeParticle();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_464CD0();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_464500();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_464620(PrimHeader** ppOt);
 
     FP field_10_x_start;
     FP field_14_y_start;

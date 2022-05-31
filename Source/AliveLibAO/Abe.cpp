@@ -3122,7 +3122,7 @@ void Abe::vScreenChanged_422640()
             {
                 if (gpThrowableArray_50E26C)
                 {
-                    gpThrowableArray_50E26C->Remove_4540D0(field_19C_throwable_count);
+                    gpThrowableArray_50E26C->Remove(field_19C_throwable_count);
                 }
             }
 
@@ -3494,7 +3494,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
             // The zap makes Abe drop his stuff everywhere
             for (s32 i = 0; i < field_19C_throwable_count; i++)
             {
-                field_198_pThrowable = Make_Throwable_454560(field_A8_xpos, field_AC_ypos - FP_FromInteger(30), 0);
+                field_198_pThrowable = Make_Throwable(field_A8_xpos, field_AC_ypos - FP_FromInteger(30), 0);
 
                 const FP rand1 = FP_FromRaw((Math_NextRandom() - 127) << 11); // TODO: Wat?
                 const FP rand2 = (FP_FromDouble(0.03125) * FP_FromRaw(Math_NextRandom())) - FP_FromInteger(2);
@@ -4109,7 +4109,7 @@ void Abe::Motion_0_Idle_423520()
         {
             if (field_19C_throwable_count > 0 || gInfiniteGrenades_5076EC)
             {
-                field_198_pThrowable = Make_Throwable_454560(
+                field_198_pThrowable = Make_Throwable(
                     field_A8_xpos,
                     field_AC_ypos - FP_FromInteger(40),
                     0);
@@ -5057,7 +5057,7 @@ void Abe::Motion_19_CrouchIdle_4284C0()
         {
             if (field_19C_throwable_count > 0 || gInfiniteGrenades_5076EC)
             {
-                field_198_pThrowable = Make_Throwable_454560(
+                field_198_pThrowable = Make_Throwable(
                     field_A8_xpos,
                     field_AC_ypos - FP_FromInteger(40),
                     0);
@@ -7043,7 +7043,7 @@ void Abe::Motion_61_Respawn_42CD20()
             {
                 if (gpThrowableArray_50E26C)
                 {
-                    gpThrowableArray_50E26C->Remove_4540D0(field_19C_throwable_count);
+                    gpThrowableArray_50E26C->Remove(field_19C_throwable_count);
                 }
             }
             field_19C_throwable_count = 0;
@@ -7073,12 +7073,12 @@ void Abe::Motion_61_Respawn_42CD20()
                 SaveGame::LoadFromMemory_459970(&gSaveBuffer_505668, 0);
                 if (field_19C_throwable_count)
                 {
-                    LoadRockTypes_454370(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
+                    LoadRockTypes(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
                     if (!gpThrowableArray_50E26C)
                     {
                         gpThrowableArray_50E26C = ao_new<ThrowableArray>();
                     }
-                    gpThrowableArray_50E26C->Add_453F70(field_19C_throwable_count);
+                    gpThrowableArray_50E26C->Add(field_19C_throwable_count);
                 }
                 field_114_gnFrame = 1;
                 field_FC_current_motion = eAbeMotions::Motion_61_Respawn_42CD20;
@@ -7272,20 +7272,20 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
         {
             if (!gpThrowableArray_50E26C)
             {
-                LoadRockTypes_454370(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
+                LoadRockTypes(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
 
                 gpThrowableArray_50E26C = ao_new<ThrowableArray>();
             }
-            gpThrowableArray_50E26C->Add_453F70(sActiveHero_507678->field_19C_throwable_count);
+            gpThrowableArray_50E26C->Add(sActiveHero_507678->field_19C_throwable_count);
         }
         if (pSaveData->field_264_bInfiniteGrenades == -1)
         {
-            LoadRockTypes_454370(LevelIds::eRuptureFarmsReturn_13, 19);
+            LoadRockTypes(LevelIds::eRuptureFarmsReturn_13, 19);
             if (!gpThrowableArray_50E26C)
             {
                 gpThrowableArray_50E26C = ao_new<ThrowableArray>();
             }
-            gpThrowableArray_50E26C->Add_453F70(1);
+            gpThrowableArray_50E26C->Add(1);
             gInfiniteGrenades_5076EC = 1;
         }
         else
@@ -8283,7 +8283,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                             field_174_pathStone.dataBellsong.type,
                             Code_Convert(field_174_pathStone.dataBellsong.code1, field_174_pathStone.dataBellsong.code2));
 
-                        SwitchStates_Do_Operation_436A10(field_174_pathStone.dataBellsong.switch_id, SwitchOp::eSetTrue_0);
+                        SwitchStates_Do_Operation(field_174_pathStone.dataBellsong.switch_id, SwitchOp::eSetTrue_0);
                         field_110_state.stone = StoneStates::eBellSongDone_4;
                         break;
                     }

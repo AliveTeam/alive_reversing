@@ -164,7 +164,7 @@ void ThrowableArray::VUpdate()
     }
 }
 
-s32 ThrowableArray::vGetSaveState_49B2A0(u8* pSaveBuffer)
+s32 ThrowableArray::VGetSaveState(u8* pSaveBuffer)
 {
     ThrowableArray_SaveState* pState = reinterpret_cast<ThrowableArray_SaveState*>(pSaveBuffer);
     pState->field_0_unused = 102; // never gets read back, no idea what it means :)
@@ -172,7 +172,7 @@ s32 ThrowableArray::vGetSaveState_49B2A0(u8* pSaveBuffer)
     return sizeof(ThrowableArray_SaveState);
 }
 
-void ThrowableArray::vScreenChange_49AAA0()
+void ThrowableArray::VScreenChanged()
 {
     if (gMap.mLevel != LevelIds::eMenu_0 && gMap.mLevel != LevelIds::eCredits_16)
     {
@@ -264,7 +264,7 @@ void ThrowableArray::Add_49A7A0(s16 count)
     field_20_count += count;
 }
 
-s32 CC ThrowableArray::CreateFromSaveState_49B200(const u8* pState)
+s32 CC ThrowableArray::CreateFromSaveState(const u8* pState)
 {
     LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
     auto pArray = ae_new<ThrowableArray>();
@@ -277,12 +277,3 @@ void ThrowableArray::VRender(PrimHeader** /*ppOt*/)
     // Empty 0x4DBF80
 }
 
-s32 ThrowableArray::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_49B2A0(pSaveBuffer);
-}
-
-void ThrowableArray::VScreenChanged()
-{
-    vScreenChange_49AAA0();
-}

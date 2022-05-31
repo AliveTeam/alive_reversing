@@ -71,7 +71,7 @@ Rock::~Rock()
     {
         if (gpThrowableArray_50E26C)
         {
-            gpThrowableArray_50E26C->Remove_4540D0(field_10C_count >= 1u ? field_10C_count : 1);
+            gpThrowableArray_50E26C->Remove(field_10C_count >= 1u ? field_10C_count : 1);
         }
     }
 }

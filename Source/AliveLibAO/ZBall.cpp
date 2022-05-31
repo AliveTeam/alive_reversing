@@ -117,11 +117,6 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 
 void ZBall::VUpdate()
 {
-    VUpdate_478720();
-}
-
-void ZBall::VUpdate_478720()
-{
     if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(Options::eDead);

@@ -25,9 +25,9 @@ OneShotSwitchIdSetter::OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, s
     {
         for (auto id : pTlv->field_18_ids_to_clear)
         {
-            SwitchStates_Do_Operation_436A10(id, SwitchOp::eSetTrue_0);
+            SwitchStates_Do_Operation(id, SwitchOp::eSetTrue_0);
         }
-        SwitchStates_Do_Operation_436A10(236, SwitchOp::eSetTrue_0);
+        SwitchStates_Do_Operation(236, SwitchOp::eSetTrue_0);
     }
 }
 

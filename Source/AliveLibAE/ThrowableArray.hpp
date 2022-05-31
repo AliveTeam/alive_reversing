@@ -21,17 +21,16 @@ public:
     ThrowableArray();
     ~ThrowableArray();
 
-    EXPORT void Remove_49AA00(s16 count);
-    EXPORT s32 vGetSaveState_49B2A0(u8* pSaveBuffer);
-    EXPORT void vScreenChange_49AAA0();
-    EXPORT void Add_49A7A0(s16 count);
-    EXPORT static s32 CC CreateFromSaveState_49B200(const u8* pState);
-
-    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VScreenChanged() override;
+
+    static s32 CreateFromSaveState(const u8* pState);
+
+    void Remove_49AA00(s16 count);
+    void VScreenChanged();
+    void Add_49A7A0(s16 count);
 
 public:
     s16 field_20_count;

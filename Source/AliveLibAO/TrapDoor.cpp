@@ -41,44 +41,25 @@ const TrapDoor_Data sTrapDoorData_4BD4A0[16] = {
     {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing}, // forest chase
     {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing}}; // desert escape
 
-void TrapDoor::VUpdate()
-{
-    VUpdate_4883E0();
-}
 
-void TrapDoor::VRender_4886F0(PrimHeader** ppOt)
+void TrapDoor::VRender(PrimHeader** ppOt)
 {
     field_A8_xpos += FP_FromInteger(field_13A_xOff);
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     field_A8_xpos -= FP_FromInteger(field_13A_xOff);
 }
 
-void TrapDoor::VRender(PrimHeader** ppOt)
-{
-    VRender_4886F0(ppOt);
-}
-
 void TrapDoor::VRemove(BaseAliveGameObject* pObj)
-{
-    VRemove_4886E0(pObj);
-}
-
-void TrapDoor::VRemove_4886E0(BaseAliveGameObject* pObj)
 {
     PlatformBase::VRemove_451680(pObj);
 }
 
 void TrapDoor::VAdd(BaseAliveGameObject* pObj)
 {
-    VAdd_4886D0(pObj);
-}
-
-void TrapDoor::VAdd_4886D0(BaseAliveGameObject* pObj)
-{
     PlatformBase::VAdd_4515D0(pObj);
 }
 
-void TrapDoor::VScreenChanged_488740()
+void TrapDoor::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
@@ -91,20 +72,10 @@ void TrapDoor::VScreenChanged_488740()
     }
 }
 
-void TrapDoor::VScreenChanged()
-{
-    VScreenChanged_488740();
-}
-
-PSX_RECT* TrapDoor::VGetBoundingRect_4887B0(PSX_RECT* pRect, s32 /*pointIdx*/)
+PSX_RECT* TrapDoor::VGetBoundingRect(PSX_RECT* pRect, s32 /*pointIdx*/)
 {
     *pRect = field_148_bounding_rect;
     return pRect;
-}
-
-PSX_RECT* TrapDoor::VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx)
-{
-    return VGetBoundingRect_4887B0(pRect, pointIdx);
 }
 
 TrapDoor::~TrapDoor()
@@ -220,7 +191,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_10C = 4;
 }
 
-void TrapDoor::VUpdate_4883E0()
+void TrapDoor::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {

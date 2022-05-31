@@ -81,7 +81,7 @@ void RockSack::VUpdate_4575F0()
                     gpThrowableArray_50E26C = ao_new<ThrowableArray>();
                 }
 
-                gpThrowableArray_50E26C->Add_453F70(field_112_rock_amount);
+                gpThrowableArray_50E26C->Add(field_112_rock_amount);
 
                 auto pRock = ao_new<Rock>(
                     field_A8_xpos,

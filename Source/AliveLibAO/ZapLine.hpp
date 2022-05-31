@@ -33,32 +33,20 @@ public:
     ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, Layer layer);
     ~ZapLine();
 
-    EXPORT void CalculateSourceAndDestinationPositions_478CF0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
+    void CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_479B00();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_479840(PrimHeader** ppOt);
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_4796B0();
 
     // Note inlined
     void CalculateSpritePositionsOuter();
 
-    EXPORT void CalculateZapPoints_479380();
-
-    EXPORT void CalculateThinSpriteSegmentPositions_4791F0();
-
-    EXPORT void CalculateThickSpriteSegmentPositions_478F20();
-
-    EXPORT void UpdateSpriteVertexPositions_4795B0();
-
-    EXPORT void CalculateSpritePositionsInner_479400(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
+    void CalculateZapPoints_479380();
+    void CalculateThinSpriteSegmentPositions();
+    void CalculateThickSpriteSegmentPositions();
+    void UpdateSpriteVertexPositions();
+    void CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
 
     s32 field_D4[4];
 

@@ -9,9 +9,6 @@ class Sparks final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     Sparks(FP xpos, FP ypos, FP scale);
-    EXPORT void VUpdate_40A4F0();
-    EXPORT void VScreenChanged_40A640();
-
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;

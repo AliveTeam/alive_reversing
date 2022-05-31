@@ -7,22 +7,12 @@
 
 namespace AO {
 
-void SwitchStateBooleanLogic::VUpdate()
-{
-    VUpdate_436B60();
-}
-
-void SwitchStateBooleanLogic::VScreenChanged_436C40()
+void SwitchStateBooleanLogic::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-}
-
-void SwitchStateBooleanLogic::VScreenChanged()
-{
-    VScreenChanged_436C40();
 }
 
 SwitchStateBooleanLogic::~SwitchStateBooleanLogic()
@@ -44,7 +34,7 @@ SwitchStateBooleanLogic::SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* p
 }
 
 
-void SwitchStateBooleanLogic::VUpdate_436B60()
+void SwitchStateBooleanLogic::VUpdate()
 {
     const s16 id1_value = SwitchStates_Get(field_10_input_1);
     const s16 id2_value = SwitchStates_Get(field_12_input_2);

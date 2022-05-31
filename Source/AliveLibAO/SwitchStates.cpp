@@ -43,7 +43,7 @@ void SwitchStates_ClearAll()
     sSwitchStates_505568 = {};
 }
 
-EXPORT void CC SwitchStates_Do_Operation_436A10(s16 idx, SwitchOp operation)
+void SwitchStates_Do_Operation(s16 idx, SwitchOp operation)
 {
     if (idx >= 2)
     {

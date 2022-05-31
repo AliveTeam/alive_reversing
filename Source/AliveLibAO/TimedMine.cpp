@@ -113,11 +113,6 @@ TimedMine::~TimedMine()
 
 void TimedMine::VScreenChanged()
 {
-    VScreenChanged_408DD0();
-}
-
-void TimedMine::VScreenChanged_408DD0()
-{
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
         mFlags.Set(Options::eDead);
@@ -130,11 +125,6 @@ void TimedMine::VScreenChanged_408DD0()
 }
 
 s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
-{
-    return VTakeDamage_408B90(pFrom);
-}
-
-s16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {
@@ -165,11 +155,6 @@ s16 TimedMine::VTakeDamage_408B90(BaseGameObject* pFrom)
 
 void TimedMine::VRender(PrimHeader** ppOt)
 {
-    VRender_408960(ppOt);
-}
-
-void TimedMine::VRender_408960(PrimHeader** ppOt)
-{
     if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
@@ -197,7 +182,7 @@ void TimedMine::VRender_408960(PrimHeader** ppOt)
     }
 }
 
-void TimedMine::StickToLiftPoint_408CA0()
+void TimedMine::StickToLiftPoint()
 {
     FP hitY = {};
     FP hitX = {};
@@ -247,11 +232,6 @@ void TimedMine::StickToLiftPoint_408CA0()
 
 void TimedMine::VUpdate()
 {
-    VUpdate_408760();
-}
-
-void TimedMine::VUpdate_408760()
-{
     auto pPlatform = static_cast<LiftPoint*>(field_F8_pLiftPoint);
     if (Event_Get(kEventDeathReset_4))
     {
@@ -260,7 +240,7 @@ void TimedMine::VUpdate_408760()
 
     if (!field_1B8_flags.Get(TimedMine_Flags_1B8::eStickToLiftPoint_0))
     {
-        StickToLiftPoint_408CA0();
+        StickToLiftPoint();
     }
 
     if (pPlatform && pPlatform->OnAnyFloor())
@@ -305,12 +285,7 @@ void TimedMine::VUpdate_408760()
     }
 }
 
-void TimedMine::VOnThrowableHit(BaseGameObject* pFrom)
-{
-    VOnThrowableHit_408B10(pFrom);
-}
-
-void TimedMine::VOnThrowableHit_408B10(BaseGameObject* /*pFrom*/)
+void TimedMine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     ao_new<BaseBomb>(
         field_A8_xpos,
@@ -323,12 +298,7 @@ void TimedMine::VOnThrowableHit_408B10(BaseGameObject* /*pFrom*/)
     field_114_timer = gnFrameCount_507670;
 }
 
-void TimedMine::VOnPickUpOrSlapped()
-{
-    vOnPickUpOrSlapped_408A80();
-}
-
-void TimedMine::vOnPickUpOrSlapped_408A80()
+void TimedMine::vOnPickUpOrSlapped()
 {
     if (field_10C_armed != 1)
     {

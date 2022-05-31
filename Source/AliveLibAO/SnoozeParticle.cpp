@@ -62,14 +62,9 @@ SnoozeParticle::~SnoozeParticle()
     }
 }
 
-void SnoozeParticle::VScreenChanged_464CD0()
-{
-    mFlags.Set(BaseGameObject::eDead);
-}
-
 void SnoozeParticle::VScreenChanged()
 {
-    VScreenChanged_464CD0();
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
@@ -110,11 +105,6 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
 }
 
 void SnoozeParticle::VUpdate()
-{
-    VUpdate_464500();
-}
-
-void SnoozeParticle::VUpdate_464500()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -177,12 +167,6 @@ void SnoozeParticle::VUpdate_464500()
     }
 }
 
-
-void SnoozeParticle::VRender(PrimHeader** ppOt)
-{
-    VRender_464620(ppOt);
-}
-
 //Identical to AE
 const PSX_Point explosionVerts[6][2] = {
     {{-3, -4}, {-6, -7}},
@@ -201,7 +185,7 @@ const s16 zVerts[8] = {
     4,
     4};
 
-void SnoozeParticle::VRender_464620(PrimHeader** ppOt)
+void SnoozeParticle::VRender(PrimHeader** ppOt)
 {
     //Identical to AE except xInScreen, yInScreen are offset by pScreenManager_4FF7C8 positions
     PSX_RECT rectToInvalidate = {};

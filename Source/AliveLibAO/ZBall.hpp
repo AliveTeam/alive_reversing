@@ -37,8 +37,6 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_478720();
-
     s32 field_D4_padding[4];
 
     s32 field_E4_tlvInfo;

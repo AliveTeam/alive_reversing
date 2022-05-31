@@ -838,12 +838,11 @@ EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUn
             {
                 pTlvIter->field_0_flags.Set(TLV_Flags::eBit1_Created);
                 pTlvIter->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
-                auto pSlig = ae_new<Slig>(static_cast<Path_Slig*>(pTlvIter), tlvInfo.all);
-                if (pSlig)
-                {
-                    tlvInfo.parts.tlvOffset += static_cast<u16>(
-                        reinterpret_cast<const u8*>(pTlvIter) - reinterpret_cast<const u8*>(pBound));
-                }
+
+                tlvInfo.parts.tlvOffset += static_cast<u16>(
+                    reinterpret_cast<const u8*>(pTlvIter) - reinterpret_cast<const u8*>(pBound));
+                ae_new<Slig>(static_cast<Path_Slig*>(pTlvIter), tlvInfo.all);
+
                 return;
             }
         }

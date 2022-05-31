@@ -46,7 +46,7 @@ public:
                         gpThrowableArray_50E26C = ao_new<ThrowableArray>();
                     }
 
-                    gpThrowableArray_50E26C->Add_453F70(field_EC_num_grenades);
+                    gpThrowableArray_50E26C->Add(field_EC_num_grenades);
 
                     FP directedScale = {};
                     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))

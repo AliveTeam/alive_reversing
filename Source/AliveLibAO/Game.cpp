@@ -396,7 +396,7 @@ EXPORT void CC Game_Shutdown_48E050()
     CreateTimer_48F030(0, nullptr); // Creates a timer that calls a call back which is always null, therefore seems like dead code?
     Input_DisableInput_48E690();
     //SND_MCI_Close_493C30(); // TODO: Seems like more dead code because the mci is never set?
-    SND_SsQuit_4938E0();
+    SND_SsQuit();
     IO_Stop_ASync_IO_Thread_491A80();
     VGA_Shutdown_4900E0();
     Error_ShowErrorStackToUser_48DF10(true);

@@ -9,12 +9,12 @@
 #include "../AliveLibAE/Sound/Sound.hpp"
 
 namespace AO {
-EXPORT void SND_SsQuit_4938E0()
+void SND_SsQuit()
 {
     SND_SsQuit_4EFD50();
 }
 
-EXPORT void CC SND_Restart_476340()
+void SND_Restart()
 {
     MusicController::EnableMusic_443900(1);
     if (sBackgroundMusic_seq_id_4CFFF8 >= 0)

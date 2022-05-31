@@ -1113,7 +1113,7 @@ EXPORT void CC SND_Init_476E40()
     // SND_Buffer_Set_Frequency1 SND_Buffer_Set_Frequency_493790
 
     SND_Init_4CA1F0();
-    SND_Restart_SetCallBack(SND_Restart_476340);
+    SND_Restart_SetCallBack(SND_Restart);
     SND_StopAll_SetCallBack(SND_StopAll_4762D0);
 }
 

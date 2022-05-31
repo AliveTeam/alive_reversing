@@ -30,16 +30,8 @@ public:
     ~Spark();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_478280();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_477DB0();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_477ED0(PrimHeader** ppOt);
 
     Prim_SetTPage field_10_tPage[2];
     FP field_30_xpos;

@@ -14,11 +14,6 @@ namespace AO {
 
 ALIVE_VAR(1, 0x504C70, u16, bThrowableIndicatorExists_504C70, 0);
 
-void ThrowableTotalIndicator::VScreenChanged()
-{
-    VScreenChanged_41BB70();
-}
-
 ThrowableTotalIndicator::~ThrowableTotalIndicator()
 {
     if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
@@ -32,17 +27,12 @@ ThrowableTotalIndicator::~ThrowableTotalIndicator()
     }
 }
 
-void ThrowableTotalIndicator::VScreenChanged_41BB70()
+void ThrowableTotalIndicator::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
 void ThrowableTotalIndicator::VUpdate()
-{
-    VUpdate_41B690();
-}
-
-void ThrowableTotalIndicator::VUpdate_41B690()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -104,11 +94,6 @@ void ThrowableTotalIndicator::VUpdate_41B690()
             field_1C_cur_ypos += field_24_yspeed;
             break;
     }
-}
-
-void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
-{
-    VRender_41B810(ppOt);
 }
 
 const s16 kNum_0[17] = {
@@ -249,7 +234,7 @@ const s16* kNumbersArray_4C56A8[12] = {
     kInfinity,
     kCheckpoint};
 
-void ThrowableTotalIndicator::VRender_41B810(PrimHeader** ppOt)
+void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
 {
     if (*kNumbersArray_4C56A8[field_38_num_to_show] <= 0)
     {

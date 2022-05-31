@@ -27,17 +27,12 @@ Well::~Well()
     }
 }
 
-void Well::VScreenChanged_48B450()
+void Well::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void Well::VScreenChanged()
-{
-    VScreenChanged_48B450();
-}
-
-void Well::VRender_48B3D0(PrimHeader** ppOt)
+void Well::VRender(PrimHeader** ppOt)
 {
     field_A8_xpos += FP_FromInteger(gTweak_X_5076D8);
     field_AC_ypos += FP_FromInteger(gTweak_Y_5076DC);
@@ -46,12 +41,7 @@ void Well::VRender_48B3D0(PrimHeader** ppOt)
     field_AC_ypos -= FP_FromInteger(gTweak_Y_5076DC);
 }
 
-void Well::VRender(PrimHeader** ppOt)
-{
-    VRender_48B3D0(ppOt);
-}
-
-void Well::VUpdate_48B270()
+void Well::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
@@ -93,12 +83,7 @@ void Well::VUpdate_48B270()
     }
 }
 
-void Well::VUpdate()
-{
-    VUpdate_48B270();
-}
-
-void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
+void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
     //u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_anim_id, 1, 0);
     //auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
@@ -158,7 +143,7 @@ void Well::WellExpress_Init_48B110(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-void Well::WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
+void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
     //u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, pTlv->field_1E_anim_id, 1, 0);
     //auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
@@ -232,11 +217,11 @@ Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 
     if (pTlv->field_4_type == TlvTypes::WellLocal_11)
     {
-        WellLocal_Init_48AFA0(static_cast<Path_WellLocal*>(pTlv), xpos, ypos);
+        WellLocal_Init(static_cast<Path_WellLocal*>(pTlv), xpos, ypos);
     }
     else
     {
-        WellExpress_Init_48B110(static_cast<Path_WellExpress*>(pTlv), xpos, ypos);
+        WellExpress_Init(static_cast<Path_WellExpress*>(pTlv), xpos, ypos);
     }
 }
 

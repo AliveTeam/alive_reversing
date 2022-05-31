@@ -135,7 +135,7 @@ void MeatSack::VUpdate_4392C0()
                     return;
                 }
 
-                gpThrowableArray_50E26C->Add_453F70(field_112_num_items);
+                gpThrowableArray_50E26C->Add(field_112_num_items);
             }
 
             auto pMeat = ao_new<Meat>(
@@ -206,7 +206,7 @@ Meat::~Meat()
     {
         if (gpThrowableArray_50E26C)
         {
-            gpThrowableArray_50E26C->Remove_4540D0(field_10C_count >= 1u ? field_10C_count : 1);
+            gpThrowableArray_50E26C->Remove(field_10C_count >= 1u ? field_10C_count : 1);
         }
     }
 }

@@ -59,21 +59,12 @@ public:
     Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
     ~Well();
 
-    EXPORT void WellLocal_Init_48AFA0(Path_WellLocal* pTlv, FP xpos, FP ypos);
-
-    EXPORT void WellExpress_Init_48B110(Path_WellExpress* pTlv, FP xpos, FP ypos);
+    void WellLocal_Init(Path_WellLocal* pTlv, FP xpos, FP ypos);
+    void WellExpress_Init(Path_WellExpress* pTlv, FP xpos, FP ypos);
 
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_48B270();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_48B3D0(PrimHeader** ppOt);
-
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_48B450();
 
     s32 field_D4[4];
     s32 field_E4_tlvInfo;

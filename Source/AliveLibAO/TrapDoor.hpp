@@ -43,32 +43,12 @@ public:
 
     void Open();
 
-
     virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx) override;
-
-    EXPORT PSX_RECT* VGetBoundingRect_4887B0(PSX_RECT* pRect, s32 pointIdx);
-
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_488740();
-
-    EXPORT void VAdd_4886D0(BaseAliveGameObject* pObj);
-
     virtual void VAdd(BaseAliveGameObject* pObj) override;
-
-    EXPORT void VRemove_4886E0(BaseAliveGameObject* pObj);
-
     virtual void VRemove(BaseAliveGameObject* pObj) override;
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_4886F0(PrimHeader** ppOt);
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_4883E0();
-
-
 
     s16 field_12C_flag;
     s16 field_12E_pad;

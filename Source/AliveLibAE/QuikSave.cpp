@@ -156,7 +156,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable = {
     &BirdPortal::CreateFromSaveState_499C90,
     nullptr,
     nullptr,
-    &ThrowableArray::CreateFromSaveState_49B200,
+    &ThrowableArray::CreateFromSaveState,
     nullptr,
     &AbilityRing::CreateFromSaveState_49DF90,
     &Rock::CreateFromSaveState_49F720,

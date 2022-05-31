@@ -30,12 +30,7 @@ public:
     ~SwitchStateBooleanLogic();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_436C40();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_436B60();
 
     u16 field_10_input_1;
     u16 field_12_input_2;

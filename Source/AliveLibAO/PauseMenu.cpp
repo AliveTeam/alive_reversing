@@ -258,7 +258,7 @@ void PauseMenu::VUpdate_44DFB0()
                     {
                         field_11C = 0;
                         SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
-                        SND_Restart_476340();
+                        SND_Restart();
                         break;
                     }
 
@@ -275,7 +275,7 @@ void PauseMenu::VUpdate_44DFB0()
                             {
                                 field_11C = 0;
                                 SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
-                                SND_Restart_476340();
+                                SND_Restart();
                                 break;
                             }
                             case Page1Selectables::eSave_1:
@@ -366,7 +366,7 @@ void PauseMenu::VUpdate_44DFB0()
                         {
                             field_11C = 0;
                             SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
-                            SND_Restart_476340();
+                            SND_Restart();
                         }
                         break;
                     }
@@ -656,7 +656,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
             break;
         }
         char_type formattedString[128] = {};
-        String_FormatString_450DC0(stringBuffer, formattedString);
+        String_FormatString(stringBuffer, formattedString);
         s16 clampedFontWidth;
         if (entry[entryId].field_B == 1)
         {

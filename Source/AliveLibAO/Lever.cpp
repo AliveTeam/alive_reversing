@@ -85,7 +85,7 @@ void Lever::VUpdate_4812D0()
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
 
             const auto oldSwitchState = SwitchStates_Get(field_E4_switch_id);
-            SwitchStates_Do_Operation_436A10(field_E4_switch_id, field_F2_action);
+            SwitchStates_Do_Operation(field_E4_switch_id, field_F2_action);
             const auto newSwitchState = SwitchStates_Get(field_E4_switch_id);
 
             if (oldSwitchState != newSwitchState)

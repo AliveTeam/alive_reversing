@@ -28,9 +28,6 @@ class TimedMine final : public BaseAliveGameObject
 public:
     TimedMine(Path_TimedMine* pTlv, s32 tlvInfo);
     ~TimedMine();
-
-    EXPORT void StickToLiftPoint_408CA0();
-
     
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
@@ -39,14 +36,7 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnPickUpOrSlapped() override;
 
-private:
-    EXPORT void VOnThrowableHit_408B10(BaseGameObject* pFrom);
-    EXPORT void vOnPickUpOrSlapped_408A80();
-    EXPORT void VUpdate_408760();
-    EXPORT s16 VTakeDamage_408B90(BaseGameObject* pFrom);
-    EXPORT void VScreenChanged_408DD0();
-    EXPORT void VRender_408960(PrimHeader** ppOt);
-
+    void StickToLiftPoint();
 public:
     s16 field_10C_armed;
     u16 field_10E_ticks_before_explosion;

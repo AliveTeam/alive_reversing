@@ -19,22 +19,11 @@ class ThrowableTotalIndicator final : public BaseGameObject
 {
 public:
     ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP scale, s32 count, bool bFade);
-
     ~ThrowableTotalIndicator();
 
-
-
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_41BB70();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_41B690();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    EXPORT void VRender_41B810(PrimHeader** ppOt);
 
     FP field_10_xpos;
     FP field_14_ypos;

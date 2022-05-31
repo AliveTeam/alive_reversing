@@ -24,12 +24,7 @@ public:
     ~ZzzSpawner();
 
     virtual void VScreenChanged() override;
-
-    EXPORT void VScreenChanged_472E20();
-
     virtual void VUpdate() override;
-
-    EXPORT void VUpdate_472D50();
 
     FP field_10_xpos;
     FP field_14_ypos;

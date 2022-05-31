@@ -142,7 +142,7 @@ s16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
     field_B8_vely = FP_FromInteger(2);
     field_E4_stay_in_state_ticks = 6;
 
-    SwitchStates_Do_Operation_436A10(field_EE_switch_id, field_F0_action);
+    SwitchStates_Do_Operation(field_EE_switch_id, field_F0_action);
 
     if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRemoved_11 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
     {

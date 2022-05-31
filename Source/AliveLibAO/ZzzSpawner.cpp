@@ -9,11 +9,6 @@
 
 namespace AO {
 
-void ZzzSpawner::VScreenChanged()
-{
-    VScreenChanged_472E20();
-}
-
 ZzzSpawner::~ZzzSpawner()
 {
     gMap.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
@@ -40,18 +35,12 @@ ZzzSpawner::ZzzSpawner(Path_ZzzSpawner* pTlv, s32 tlvInfo)
     field_24_timer = 0;
 }
 
-void ZzzSpawner::VScreenChanged_472E20()
+void ZzzSpawner::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-
 void ZzzSpawner::VUpdate()
-{
-    VUpdate_472D50();
-}
-
-void ZzzSpawner::VUpdate_472D50()
 {
     if (Event_Get(kEventDeathReset_4))
     {

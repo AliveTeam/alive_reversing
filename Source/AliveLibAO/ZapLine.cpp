@@ -116,10 +116,10 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
         }
     }
 
-    CalculateSourceAndDestinationPositions_478CF0(x1, y1, x2, y2);
+    CalculateSourceAndDestinationPositions(x1, y1, x2, y2);
 }
 
-void ZapLine::CalculateSourceAndDestinationPositions_478CF0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
+void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
 {
     field_10C_x_position_source = FP_GetExponent(xPosSource - (pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)));
     field_10E_y_position_source = FP_GetExponent(yPosSource - (pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)));
@@ -141,11 +141,6 @@ void ZapLine::CalculateSourceAndDestinationPositions_478CF0(FP xPosSource, FP yP
 
 void ZapLine::VScreenChanged()
 {
-    VScreenChanged_479B00();
-}
-
-void ZapLine::VScreenChanged_479B00()
-{
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -153,11 +148,6 @@ void ZapLine::VScreenChanged_479B00()
 }
 
 void ZapLine::VRender(PrimHeader** ppOt)
-{
-    VRender_479840(ppOt);
-}
-
-void ZapLine::VRender_479840(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
@@ -237,11 +227,6 @@ void ZapLine::VRender_479840(PrimHeader** ppOt)
 
 void ZapLine::VUpdate()
 {
-    VUpdate_4796B0();
-}
-
-void ZapLine::VUpdate_4796B0()
-{
     field_116_alive_timer++;
 
     switch (field_E4_state)
@@ -251,11 +236,11 @@ void ZapLine::VUpdate_4796B0()
 
             if (field_11A_type == ZapLineType::eThin_1)
             {
-                CalculateThinSpriteSegmentPositions_4791F0();
+                CalculateThinSpriteSegmentPositions();
             }
             else if (field_11A_type == ZapLineType::eThick_0)
             {
-                CalculateThickSpriteSegmentPositions_478F20();
+                CalculateThickSpriteSegmentPositions();
             }
             field_E4_state = ZapLineState::eInitSpritePositions_1;
             break;
@@ -267,7 +252,7 @@ void ZapLine::VUpdate_4796B0()
 
         case ZapLineState::eInitSpriteVertices_2:
         case ZapLineState::eUpdateSpriteVertices_4:
-            UpdateSpriteVertexPositions_4795B0();
+            UpdateSpriteVertexPositions();
 
             if (field_116_alive_timer >= field_118_max_alive_time && field_11A_type != ZapLineType::eThin_1)
             {
@@ -277,11 +262,11 @@ void ZapLine::VUpdate_4796B0()
 
             if (field_11A_type == ZapLineType::eThin_1)
             {
-                CalculateThinSpriteSegmentPositions_4791F0();
+                CalculateThinSpriteSegmentPositions();
             }
             else if (field_11A_type == ZapLineType::eThick_0)
             {
-                CalculateThickSpriteSegmentPositions_478F20();
+                CalculateThickSpriteSegmentPositions();
             }
             field_E4_state = ZapLineState::eUpdateSpritePositions_3;
             break;
@@ -300,7 +285,7 @@ void ZapLine::CalculateSpritePositionsOuter()
         if (i == 0)
         {
             // First item.
-            CalculateSpritePositionsInner_479400(0, 0, 1, 0);
+            CalculateSpritePositionsInner(0, 0, 1, 0);
         }
         else
         {
@@ -308,12 +293,12 @@ void ZapLine::CalculateSpritePositionsOuter()
             if (i == lastIdx)
             {
                 // Last item.
-                CalculateSpritePositionsInner_479400(field_11E_number_of_segments - 2, lastIdx, lastIdx, field_11E_number_of_segments - 1);
+                CalculateSpritePositionsInner(field_11E_number_of_segments - 2, lastIdx, lastIdx, field_11E_number_of_segments - 1);
             }
             else
             {
                 // Other items.
-                CalculateSpritePositionsInner_479400(i - 1, i, i + 1, i);
+                CalculateSpritePositionsInner(i - 1, i, i + 1, i);
             }
         }
     }
@@ -333,7 +318,7 @@ void ZapLine::CalculateZapPoints_479380()
     }
 }
 
-void ZapLine::CalculateThinSpriteSegmentPositions_4791F0()
+void ZapLine::CalculateThinSpriteSegmentPositions()
 {
     field_130_sprite_segment_positions[0].field_0_x = FP_FromInteger(field_10C_x_position_source);
     field_130_sprite_segment_positions[0].field_4_y = FP_FromInteger(field_10E_y_position_source);
@@ -354,7 +339,7 @@ void ZapLine::CalculateThinSpriteSegmentPositions_4791F0()
     }
 }
 
-void ZapLine::CalculateThickSpriteSegmentPositions_478F20()
+void ZapLine::CalculateThickSpriteSegmentPositions()
 {
     s32 v1 = 0;
     if (field_116_alive_timer >= 8)
@@ -420,7 +405,7 @@ void ZapLine::CalculateThickSpriteSegmentPositions_478F20()
     field_134_rects[1].h = gPsxDisplay_504C78.field_2_height;
 }
 
-void ZapLine::UpdateSpriteVertexPositions_4795B0()
+void ZapLine::UpdateSpriteVertexPositions()
 {
     for (s32 i = 0; i < field_11E_number_of_segments; i++)
     {
@@ -434,7 +419,7 @@ void ZapLine::UpdateSpriteVertexPositions_4795B0()
     }
 }
 
-void ZapLine::CalculateSpritePositionsInner_479400(s32 idx1, s32 idx2, s32 idx3, s16 idx4)
+void ZapLine::CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 idx4)
 {
     const FP x1 = field_130_sprite_segment_positions[idx1].field_0_x;
     const FP y1 = field_130_sprite_segment_positions[idx1].field_4_y;

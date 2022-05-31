@@ -89,7 +89,7 @@ void InvisibleSwitch::VUpdate_4335A0()
         case States::eWaitForDelayTimer_1:
             if (field_18_delay_timer <= static_cast<s32>(gnFrameCount_507670))
             {
-                SwitchStates_Do_Operation_436A10(field_10_switch_id, field_12_action);
+                SwitchStates_Do_Operation(field_10_switch_id, field_12_action);
                 if (field_2A_set_off_alarm == Choice_short::eYes_1)
                 {
                     ao_new<Alarm>(150, 0, 30, Layer::eLayer_Above_FG1_39);
