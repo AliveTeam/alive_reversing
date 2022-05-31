@@ -90,12 +90,12 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
         if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
         {
             field_100_state = States::eMoveLeft_2;
-            ae_new<MotionDetectorLaser>(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
+            pLaser = ae_new<MotionDetectorLaser>(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
         }
         else if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eRight_0)
         {
             field_100_state = States::eMoveRight_0;
-            ae_new<MotionDetectorLaser>(field_114_x1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
+            pLaser = ae_new<MotionDetectorLaser>(field_114_x1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
         }
         else
         {
