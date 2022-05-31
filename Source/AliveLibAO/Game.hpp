@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "DynamicArray.hpp"
 
 void Game_ForceLink();
@@ -28,8 +28,8 @@ ALIVE_VAR_EXTERN(s16, gbKillUnsavedMudsDone_5076CC);
 
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C);
 
-EXPORT void CC Init_GameStates_41CEC0();
+void Init_GameStates_41CEC0();
 
-EXPORT void Game_Main_450050();
+void Game_Main_450050();
 
 } // namespace AO

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "Abe.hpp"
@@ -93,106 +93,106 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_45BBF0(PrimHeader** ppOt);
+    void VRender_45BBF0(PrimHeader** ppOt);
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_45B360();
+    void VUpdate_45B360();
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT s16 VTakeDamage_45BC10(BaseGameObject* pFrom);
+    s16 VTakeDamage_45BC10(BaseGameObject* pFrom);
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
-    EXPORT void VOn_TLV_Collision_45BDC0(Path_TLV* pTlv);
+    void VOn_TLV_Collision_45BDC0(Path_TLV* pTlv);
 
     virtual void VScreenChanged() override;
 
-    EXPORT s16 CanSeeAbe_45C100(BaseAliveGameObject* pObj);
+    s16 CanSeeAbe_45C100(BaseAliveGameObject* pObj);
 
-    EXPORT void VScreenChanged_45C290();
+    void VScreenChanged_45C290();
 
-    EXPORT void ToStand_45E310();
+    void ToStand_45E310();
 
-    EXPORT void vUpdateAnim_45B330();
+    void vUpdateAnim_45B330();
 
-    EXPORT u8** ResBlockForMotion_45BB30(s16 motion);
+    u8** ResBlockForMotion_45BB30(s16 motion);
 
-    EXPORT void PlatformCollide_45E580();
+    void PlatformCollide_45E580();
 
     virtual void VOnTrapDoorOpen() override;
 
-    EXPORT void VOnTrapDoorOpen_45E5E0();
+    void VOnTrapDoorOpen_45E5E0();
 
-    EXPORT s16 ToNextMotion_45DFB0();
+    s16 ToNextMotion_45DFB0();
 
     void ToStand();
 
-    EXPORT s32 Scrab_SFX_460B80(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
+    s32 Scrab_SFX_460B80(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
 
-    EXPORT void ToJump_45E340();
+    void ToJump_45E340();
 
-    EXPORT void MoveOnLine_45E450();
+    void MoveOnLine_45E450();
 
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    EXPORT s16 VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj);
+    s16 VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj);
 
-    EXPORT Scrab* FindScrabToFight_45BE30();
+    Scrab* FindScrabToFight_45BE30();
 
-    EXPORT s16 FindAbeOrMud_45BEF0();
+    s16 FindAbeOrMud_45BEF0();
 
     s16 HandleRunning();
 
     s16 GetMotionForPatrolType(ScrabPatrolType ScrabPatrolType);
 
     // Motions
-    EXPORT void Motion_0_Empty_45E3D0();
-    EXPORT void Motion_1_Stand_45E620();
-    EXPORT void Motion_2_Walk_45E730();
-    EXPORT void Motion_3_Run_45EAB0();
-    EXPORT void Motion_4_Turn_45EF30();
-    EXPORT void Motion_5_RunToStand_45ED90();
-    EXPORT void Motion_6_HopBegin_45F3C0();
-    EXPORT void Motion_7_HopMidair_45F1A0();
-    EXPORT void Motion_8_HopLand_45F500();
-    EXPORT void Motion_9_JumpToFall_45EFD0();
-    EXPORT void Motion_10_StandToWalk_45E670();
-    EXPORT void Motion_11_StandToRun_45E9F0();
-    EXPORT void Motion_12_WalkToStand_45E930();
-    EXPORT void Motion_13_RunJumpBegin_45F5D0();
-    EXPORT void Motion_14_RunJumpEnd_45F850();
-    EXPORT void Motion_15_ToFall_45F180();
-    EXPORT void Motion_16_Stamp_45F920();
-    EXPORT void Motion_17_Empty_45F9C0();
-    EXPORT void Motion_18_GetEaten_45FF70();
-    EXPORT void Motion_19_Unused_45F9D0();
-    EXPORT void Motion_20_HowlBegin_45FA60();
-    EXPORT void Motion_21_HowlEnd_45FAF0();
-    EXPORT void Motion_22_Shriek_45FB00();
-    EXPORT void Motion_23_ScrabBattleAnim_45FBA0();
-    EXPORT void Motion_24_FeedToGulp_45FC30();
-    EXPORT void Motion_25_ToFeed_45FCE0();
-    EXPORT void Motion_26_Feed_45FDA0();
-    EXPORT void Motion_27_AttackLunge_45FDF0();
-    EXPORT void Motion_28_LegKick_45FF60();
-    EXPORT void Motion_29_DeathBegin_45FFA0();
+    void Motion_0_Empty_45E3D0();
+    void Motion_1_Stand_45E620();
+    void Motion_2_Walk_45E730();
+    void Motion_3_Run_45EAB0();
+    void Motion_4_Turn_45EF30();
+    void Motion_5_RunToStand_45ED90();
+    void Motion_6_HopBegin_45F3C0();
+    void Motion_7_HopMidair_45F1A0();
+    void Motion_8_HopLand_45F500();
+    void Motion_9_JumpToFall_45EFD0();
+    void Motion_10_StandToWalk_45E670();
+    void Motion_11_StandToRun_45E9F0();
+    void Motion_12_WalkToStand_45E930();
+    void Motion_13_RunJumpBegin_45F5D0();
+    void Motion_14_RunJumpEnd_45F850();
+    void Motion_15_ToFall_45F180();
+    void Motion_16_Stamp_45F920();
+    void Motion_17_Empty_45F9C0();
+    void Motion_18_GetEaten_45FF70();
+    void Motion_19_Unused_45F9D0();
+    void Motion_20_HowlBegin_45FA60();
+    void Motion_21_HowlEnd_45FAF0();
+    void Motion_22_Shriek_45FB00();
+    void Motion_23_ScrabBattleAnim_45FBA0();
+    void Motion_24_FeedToGulp_45FC30();
+    void Motion_25_ToFeed_45FCE0();
+    void Motion_26_Feed_45FDA0();
+    void Motion_27_AttackLunge_45FDF0();
+    void Motion_28_LegKick_45FF60();
+    void Motion_29_DeathBegin_45FFA0();
 
     // Brains
-    EXPORT s16 Brain_Fighting_45C370();
+    s16 Brain_Fighting_45C370();
 
-    EXPORT s16 Brain_BatDeath_45CA60();
+    s16 Brain_BatDeath_45CA60();
 
-    EXPORT s16 Brain_Death_45CB80();
+    s16 Brain_Death_45CB80();
 
-    EXPORT s16 Brain_ChasingEnemy_Real_45CC90();
+    s16 Brain_ChasingEnemy_Real_45CC90();
 
-    EXPORT s16 Brain_ChasingEnemy_45CC90();
+    s16 Brain_ChasingEnemy_45CC90();
 
-    EXPORT s16 Brain_Patrol_460020();
+    s16 Brain_Patrol_460020();
 
-    EXPORT s16 Brain_WalkAround_460D80();
+    s16 Brain_WalkAround_460D80();
 
     using TBrainType = decltype(&Scrab::Brain_Fighting_45C370);
 

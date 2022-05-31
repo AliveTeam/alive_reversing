@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 
-EXPORT s32 CC SnapToXGrid_449930(FP scale, s32 x);
+s32 SnapToXGrid_449930(FP scale, s32 x);
 
-EXPORT FP CC ScaleToGridSize_4498B0(FP scale);
+FP ScaleToGridSize_4498B0(FP scale);

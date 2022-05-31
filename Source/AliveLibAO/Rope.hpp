@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 namespace AO {
@@ -17,7 +17,7 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_458780(PrimHeader** ppOt);
+    void VRender_458780(PrimHeader** ppOt);
 
     s32 field_D4_padding[4];
     s16 field_E4_rope_segment_count;
@@ -30,6 +30,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Rope, 0xF4);
 
-EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY);
+void ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY);
 
 } // namespace AO

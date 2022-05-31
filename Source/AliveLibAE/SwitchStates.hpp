@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 void SwitchStates_ForceLink();
 
-EXPORT void CC SwitchStates_SetRange_465FA0(u16 start, u16 end);
-EXPORT void CC SwitchStates_Set_465FF0(u16 idx, s8 value);
-EXPORT s32 CC SwitchStates_Get_466020(u16 idx);
-EXPORT void CC SwitchStates_Add_466060(u16 idx, s8 value);
+void SwitchStates_SetRange_465FA0(u16 start, u16 end);
+void SwitchStates_Set_465FF0(u16 idx, s8 value);
+s32 SwitchStates_Get_466020(u16 idx);
+void SwitchStates_Add_466060(u16 idx, s8 value);
 
 enum class SwitchOp : s16
 {
@@ -18,7 +18,7 @@ enum class SwitchOp : s16
     eDecrement_4 = 4,
 };
 
-EXPORT void CC SwitchStates_Do_Operation_465F00(s16 idx, SwitchOp operation);
+void SwitchStates_Do_Operation_465F00(s16 idx, SwitchOp operation);
 
 struct SwitchStates final
 {

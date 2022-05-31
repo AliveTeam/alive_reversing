@@ -59,7 +59,7 @@ const s8* SND_HR_Err_To_String_DSound(HRESULT hr)
     return "";
 }
 
-s32 CC SND_CreateDS_DSound(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
+s32 SND_CreateDS_DSound(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
 {
     if (sDSound_BBC344)
     {
@@ -179,7 +179,7 @@ s32 CC SND_CreateDS_DSound(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
 }
 
 
-s32 CC SND_Clear_DSound(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
+s32 SND_Clear_DSound(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size)
 {
     if (!sDSound_BBC344)
     {
@@ -261,7 +261,7 @@ void SND_InitVolumeTable_DSound()
     sVolumeTable_BBBD38[0] = -10000;
 }
 
-EXPORT s8 CC SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSample, s32 isStereo)
+s8 SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSample, s32 isStereo)
 {
     DSBUFFERDESC bufferDesc = {};
     bufferDesc.dwSize = sizeof(DSBUFFERDESC);
@@ -284,7 +284,7 @@ EXPORT s8 CC SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSamp
     return -2;
 }
 
-EXPORT s32 CC SND_SetPrimarySoundBufferFormat_4EE990(s32 sampleRate, s32 bitsPerSample, u8 isStereo)
+s32 SND_SetPrimarySoundBufferFormat_4EE990(s32 sampleRate, s32 bitsPerSample, u8 isStereo)
 {
     WAVEFORMATEX pWaveFormat = {};
 
@@ -302,7 +302,7 @@ EXPORT s32 CC SND_SetPrimarySoundBufferFormat_4EE990(s32 sampleRate, s32 bitsPer
     return -(sPrimarySoundBuffer_BBC388->SetFormat(&pWaveFormat) != 0);
 }
 
-s32 CC SND_LoadSamples_DSound(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundBuffer, u32 sampleCount)
+s32 SND_LoadSamples_DSound(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundBuffer, u32 sampleCount)
 {
     const s32 offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const u32 bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;

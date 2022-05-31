@@ -115,7 +115,7 @@ const TintEntry kGlukkonTints_5546B4[18] = {
     {LevelIds_s8::eBonewerkz_Ender_14, 137u, 137u, 137u},
     {LevelIds_s8::eNone, 137u, 137u, 137u}};
 
-s32 CC Glukkon::CreateFromSaveState_442830(const u8* pData)
+s32 Glukkon::CreateFromSaveState_442830(const u8* pData)
 {
     const Glukkon_SaveState* pSaveState = reinterpret_cast<const Glukkon_SaveState*>(pData);
     auto pTlv = static_cast<Path_Glukkon*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_44_tlvInfo));
@@ -2741,7 +2741,7 @@ SfxDefinition stepSfx_554840[3] = {
     {0u, 3u, 59u, 60u, 0, 254},
     {0u, 3u, 72u, 120u, 0, 254}};
 
-void CC Glukkon::PlaySound_4447D0(s32 sndIdx, Glukkon* pGlukkon)
+void Glukkon::PlaySound_4447D0(s32 sndIdx, Glukkon* pGlukkon)
 {
     s32 volumeLeft, volumeRight;
     s32 defaultSndIdxVol = stepSfx_554840[sndIdx].field_3_default_volume;
@@ -2915,7 +2915,7 @@ SfxDefinition gameSpeak_554858[15] = {
     {0u, 0u, 0u, 0u, 0, 0},
     {0u, 0u, 0u, 0u, 0, 0}};
 
-void CC Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Glukkon* pGlukkon)
+void Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Glukkon* pGlukkon)
 {
     auto sndIdxShort = (s16) sndIdx;
     s16 calcedVolume = volume;
@@ -2933,7 +2933,7 @@ void CC Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, s16 volume, s16
     SFX_SfxDefinition_Play_4CA420(&gameSpeak_554858[sndIdxShort], calcedVolume, pitch, pitch);
 }
 
-Bool32 CCSTD Glukkon::IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther)
+Bool32 Glukkon::IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther)
 {
     FP hitX = {}, hitY = {};
     PathLine* pathLine = nullptr;

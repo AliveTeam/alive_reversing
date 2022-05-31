@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "MainMenu.hpp"
 #include "SwitchStates.hpp"
 
@@ -70,11 +70,11 @@ ALIVE_VAR_EXTERN(s32, sSavedGameToLoadIdx_BB43FC);
 ALIVE_VAR_EXTERN(s32, sTotalSaveFilesCount_BB43E0);
 ALIVE_VAR_EXTERN(u16, sQuickSave_saved_switchResetters_count_BB234C);
 
-EXPORT void CC Quicksave_LoadActive_4C9170();
-EXPORT void CC Quicksave_4C90D0();
-EXPORT void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo);
-EXPORT void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo);
-EXPORT void CC Quicksave_FindSaves_4D4150();
+void Quicksave_LoadActive_4C9170();
+void Quicksave_4C90D0();
+void Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo);
+void Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo);
+void Quicksave_FindSaves_4D4150();
 void QuikSave_RestoreBlyData_D481890_4C9BE0(const u8* pSaveData);
-EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870();
-EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30();
+void Quicksave_SaveSwitchResetterStates_4C9870();
+void Quicksave_RestoreSwitchResetterStates_4C9A30();

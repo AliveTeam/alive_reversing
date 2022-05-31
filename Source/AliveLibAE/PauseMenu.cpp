@@ -395,9 +395,9 @@ void DumpMenus()
             << output_override.rdbuf();
 }
 
-EXPORT s16 sub_4A2BC0()
+s16 sub_4A2BC0()
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
@@ -507,7 +507,7 @@ void PauseMenu::Render_490BD0(PrimHeader** ot)
     pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, pScreenManager_5BB5F4->field_3A_idx);
 }
 
-EXPORT void PauseMenu::Remove_At_Credits_Screen_490D30()
+void PauseMenu::Remove_At_Credits_Screen_490D30()
 {
     if (gMap.mLevel == LevelIds::eCredits_16)
     {
@@ -853,10 +853,6 @@ void PauseMenu::CustomPauseMenuUpdate()
 void PauseMenu_ForceLink()
 {
 #if DEVELOPER_MODE
-    if (RunningAsInjectedDll())
-    {
-        //DumpMenus();
-    }
 
     devTeleportMenuItems.clear();
 
@@ -1516,9 +1512,9 @@ void PauseMenu::Page_Load_Render_4910A0(PrimHeader** ot, PauseMenuPage* mp)
     Page_Base_Render_490A50(ot, mp);
 }
 
-EXPORT u16 CC sub_4A2B70()
+u16 sub_4A2B70()
 {
-    NOT_IMPLEMENTED();
+    
     return 1;
 }
 

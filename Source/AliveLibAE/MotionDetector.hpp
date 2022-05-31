@@ -2,7 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Layer.hpp"
 
 struct Path_MotionDetector final : public Path_TLV
@@ -45,10 +45,10 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vScreenChanged_469460();
-    EXPORT void vRender_469120(PrimHeader** ppOt);
-    EXPORT s16 IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner);
-    EXPORT void vUpdate_468A90();
+    void vScreenChanged_469460();
+    void vRender_469120(PrimHeader** ppOt);
+    s16 IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner);
+    void vUpdate_468A90();
 
 private:
     s32 field_F4_tlvInfo;

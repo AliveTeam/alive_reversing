@@ -41,7 +41,7 @@ const AETypes throwable_types_55FAFC[252] = {
     AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0, AETypes::eNone_0,
     AETypes::eNone_0, AETypes::eNone_0};
 
-EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, s16 count)
+BaseThrowable* Make_Throwable_49AF30(FP xpos, FP ypos, s16 count)
 {
     switch (throwable_types_55FAFC[gMap.mOverlayId])
     {

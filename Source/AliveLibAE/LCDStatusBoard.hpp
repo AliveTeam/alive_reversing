@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
 #include "Font.hpp"
@@ -26,9 +26,9 @@ public:
     LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3);
     ~LCDStatusBoard();
 
-    EXPORT void vUpdate_47B8D0();
-    EXPORT void vRender_47B900(PrimHeader** ppOt);
-    EXPORT void vScreenChanged_47BC40();
+    void vUpdate_47B8D0();
+    void vRender_47B900(PrimHeader** ppOt);
+    void vScreenChanged_47BC40();
 
 public:
     Alive::Font field_20_font1;

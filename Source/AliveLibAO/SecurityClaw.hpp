@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "DynamicArray.hpp"
@@ -43,15 +43,15 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChange_4196F0();
+    void VScreenChange_4196F0();
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT s16 VTakeDamage_419520(BaseGameObject* pFrom);
+    s16 VTakeDamage_419520(BaseGameObject* pFrom);
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_418DE0();
+    void VUpdate_418DE0();
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 

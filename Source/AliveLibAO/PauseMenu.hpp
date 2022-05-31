@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Font.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
@@ -14,15 +14,15 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChange_44EA90();
+    void VScreenChange_44EA90();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_44DFB0();
+    void VUpdate_44DFB0();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_44E6F0(PrimHeader** ppOt);
+    void VRender_44E6F0(PrimHeader** ppOt);
 
     struct PauseEntry final
     {

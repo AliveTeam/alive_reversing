@@ -31,12 +31,12 @@ void SligSpawner::VScreenChanged()
     VScreenChanged_402960();
 }
 
-EXPORT void SligSpawner::VScreenChanged_402960()
+void SligSpawner::VScreenChanged_402960()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-EXPORT void SligSpawner::VUpdate_4028A0()
+void SligSpawner::VUpdate_4028A0()
 {
     if (Event_Get(kEventDeathReset_4))
     {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "PathData.hpp"
 #include "Psx.hpp"
 
@@ -94,10 +94,10 @@ ALIVE_ASSERT_SIZEOF(SaveData, 0x2000);
 class SaveGame final
 {
 public:
-    EXPORT static void CC LoadFromMemory_459970(SaveData* pData, s32 bKillObjects);
-    EXPORT static void CC SaveToMemory_459490(SaveData* pSaveData);
-    EXPORT static s16 CC LoadFromFile_459D30(const char_type* name);
-    EXPORT static Bool32 CC SaveToFile_45A110(const char_type* name);
+    static void LoadFromMemory_459970(SaveData* pData, s32 bKillObjects);
+    static void SaveToMemory_459490(SaveData* pSaveData);
+    static s16 LoadFromFile_459D30(const char_type* name);
+    static Bool32 SaveToFile_45A110(const char_type* name);
 
     static s16 GetPathId(s16 pathToFind, s16* outFoundPathRow = nullptr);
     static s32 Hash(SaveData* table);

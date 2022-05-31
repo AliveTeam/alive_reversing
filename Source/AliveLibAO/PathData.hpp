@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Factory.hpp"
 #include "../AliveLibCommon/AddPointer.hpp"
 
@@ -254,11 +254,11 @@ struct PathRootContainer final
     PathRoot paths[16];
 };
 
-EXPORT const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, u16 path);
+const PathBlyRec* Path_Get_Bly_Record_434650(LevelIds level, u16 path);
 
-EXPORT FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId);
+FmvInfo* Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId);
 
-EXPORT s32 CC Path_Format_CameraName_4346B0(char_type* pNameBuffer, LevelIds level, s16 path, s16 camera);
+s32 Path_Format_CameraName_4346B0(char_type* pNameBuffer, LevelIds level, s16 path, s16 camera);
 
 const char_type* CdLvlName(LevelIds lvlId);
 

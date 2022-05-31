@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 #include "Scrab.hpp"
 
@@ -34,15 +34,15 @@ public:
     ScrabSpawner(Path_ScrabSpawner* pTlv, s32 tlvInfo);
     ~ScrabSpawner();
 
-    EXPORT static s32 CC CreateFromSaveState_4ABEB0(const u8* pBuffer);
+    static s32 CreateFromSaveState_4ABEB0(const u8* pBuffer);
 
     
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    EXPORT s32 vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState);
-    EXPORT void vUpdate_4AB510();
+    s32 vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState);
+    void vUpdate_4AB510();
 
 private:
     s32 field_20_tlvInfo;

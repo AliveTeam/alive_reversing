@@ -31,7 +31,7 @@ LiftMover::LiftMover(Path_LiftMover* pTlv, s32 tlvInfo)
     field_32_bMoveInProgress = FALSE;
 }
 
-s32 CC LiftMover::CreateFromSaveState_40D180(const u8* pData)
+s32 LiftMover::CreateFromSaveState_40D180(const u8* pData)
 {
     auto pState = reinterpret_cast<const LiftMover_State*>(pData);
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Psx.hpp"
 #include "Path.hpp"
 
@@ -30,7 +30,7 @@ public:
     SligSpawner(Path_Slig* pTlv, s32 tlvInfo);
     ~SligSpawner();
 
-    EXPORT static s32 CC CreateFromSaveState_409B10(const u8* pBuffer);
+    static s32 CreateFromSaveState_409B10(const u8* pBuffer);
 
     
     virtual void VUpdate() override;
@@ -38,9 +38,9 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    EXPORT void vScreenChanged_409A30();
-    EXPORT void vUpdate_409830();
-    EXPORT s32 vGetSaveState_409BB0(Slig_Spawner_State* pState);
+    void vScreenChanged_409A30();
+    void vUpdate_409830();
+    s32 vGetSaveState_409BB0(Slig_Spawner_State* pState);
 
 private:
     s32 field_20_tlv_info;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
@@ -220,14 +220,14 @@ public:
     }
 
 
-    EXPORT static s32 CC CreateFromSaveState_4855A0(const u8* pBuffer);
+    static s32 CreateFromSaveState_4855A0(const u8* pBuffer);
 
 private:
-    EXPORT s32 vGetSaveState_48F220(Paramite_State* pState);
+    s32 vGetSaveState_48F220(Paramite_State* pState);
 
 
 public:
-    EXPORT s16 Brain_0_Patrol_4835B0();
+    s16 Brain_0_Patrol_4835B0();
 	s16 Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj);
 	s16 Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj);
 	s16 Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj);
@@ -236,9 +236,9 @@ public:
 	s16 Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj);
     s16 Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj);
 
-    EXPORT s16 Brain_1_Death_484CD0();
+    s16 Brain_1_Death_484CD0();
 
-    EXPORT s16 Brain_2_ChasingAbe_4859D0();
+    s16 Brain_2_ChasingAbe_4859D0();
 	s16 Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj);
 	s16 Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj);
 	s16 Brain_ChasingAbe_State_2_ToWarning();
@@ -256,10 +256,10 @@ public:
 	s16 Brain_ChasingAbe_State_14_Idle();
     s16 Brain_ChasingAbe_State_15_Panic();
 
-    EXPORT s16 Brain_3_SurpriseWeb_4851B0();
-    EXPORT s16 Brain_4_Unused_48F8F0();
+    s16 Brain_3_SurpriseWeb_4851B0();
+    s16 Brain_4_Unused_48F8F0();
 
-    EXPORT s16 Brain_5_SpottedMeat_486880();
+    s16 Brain_5_SpottedMeat_486880();
 	s16 Brain_SpottedMeat_State_0_Idle(Meat* pMeat);
 	s16 Brain_SpottedMeat_State_1_Running(Meat* pMeat);
 	s16 Brain_SpottedMeat_State_2_Walking(Meat* pMeat);
@@ -268,56 +268,56 @@ public:
 	s16 Brain_SpottedMeat_State_5_AttentiveToMeat(Meat* pMeat);
     s16 Brain_SpottedMeat_State_6_Eating(Meat* pMeat);
 
-    EXPORT s16 Brain_6_Possessed_484BC0();
-    EXPORT s16 Brain_7_DeathDrop_484FF0();
-    EXPORT s16 Brain_8_ControlledByGameSpeak_48DFC0();
-    EXPORT s16 Brain_9_ParamiteSpawn_48ED80();
+    s16 Brain_6_Possessed_484BC0();
+    s16 Brain_7_DeathDrop_484FF0();
+    s16 Brain_8_ControlledByGameSpeak_48DFC0();
+    s16 Brain_9_ParamiteSpawn_48ED80();
 
 public:
-    EXPORT void M_Idle_0_489FB0();
-    EXPORT void M_WalkBegin_1_48A7B0();
-    EXPORT void M_Walking_2_48A2D0();
-    EXPORT void M_Running_3_48AA00();
-    EXPORT void M_Turn_4_48B180();
-    EXPORT void M_Hop_5_48B5B0();
-    EXPORT void M_Unused_6_48A930();
-    EXPORT void M_WalkRunTransition_7_48B0C0();
-    EXPORT void M_WalkEnd_8_48A870();
-    EXPORT void M_RunBegin_9_48AF10();
-    EXPORT void M_RunEnd_10_48B000();
-    EXPORT void M_Falling_11_48B200();
-    EXPORT void M_JumpUpBegin_12_48BE40();
-    EXPORT void M_JumpUpMidair_13_48BAF0();
-    EXPORT void M_JumpUpLand_14_48BF00();
-    EXPORT void M_RopePull_15_48D930();
-    EXPORT void M_CloseAttack_16_48DDA0();
-    EXPORT void M_Landing_17_48B590();
-    EXPORT void M_Unused_18_48DF60();
-    EXPORT void M_Knockback_19_48BF50();
-    EXPORT void M_GameSpeakBegin_20_48C010();
-    EXPORT void M_PreHiss_21_48C180();
-    EXPORT void M_Hiss1_22_48C3E0();
-    EXPORT void M_Hiss2_23_48C600();
-    EXPORT void M_Empty_24_48C680();
-    EXPORT void M_AllOYaGameSpeakBegin_25_48C6A0();
-    EXPORT void M_Hiss3_26_48C6F0();
-    EXPORT void M_PostHiss_27_48C780();
-    EXPORT void M_GameSpeakEnd_28_48C8B0();
-    EXPORT void M_GetDepossessedBegin_29_48D9D0();
-    EXPORT void M_GetDepossessedEnd_30_48DB50();
-    EXPORT void M_RunningAttack_31_48C9E0();
-    EXPORT void M_Empty_32_48D740();
-    EXPORT void M_SurpriseWeb_33_48D760();
-    EXPORT void M_WebLeaveDown_34_48D870();
-    EXPORT void M_WebIdle_35_48D400();
-    EXPORT void M_WebGoingUp_36_48D000();
-    EXPORT void M_WebGoingDown_37_48CC60();
-    EXPORT void M_WebGrab_38_48D6C0();
-    EXPORT void M_WebLeaveUp_39_48D8C0();
-    EXPORT void M_Eating_40_48A0F0();
-    EXPORT void M_Death_41_48D8E0();
-    EXPORT void M_Squawk_42_48D900();
-    EXPORT void M_Attack_43_48DB70();
+    void M_Idle_0_489FB0();
+    void M_WalkBegin_1_48A7B0();
+    void M_Walking_2_48A2D0();
+    void M_Running_3_48AA00();
+    void M_Turn_4_48B180();
+    void M_Hop_5_48B5B0();
+    void M_Unused_6_48A930();
+    void M_WalkRunTransition_7_48B0C0();
+    void M_WalkEnd_8_48A870();
+    void M_RunBegin_9_48AF10();
+    void M_RunEnd_10_48B000();
+    void M_Falling_11_48B200();
+    void M_JumpUpBegin_12_48BE40();
+    void M_JumpUpMidair_13_48BAF0();
+    void M_JumpUpLand_14_48BF00();
+    void M_RopePull_15_48D930();
+    void M_CloseAttack_16_48DDA0();
+    void M_Landing_17_48B590();
+    void M_Unused_18_48DF60();
+    void M_Knockback_19_48BF50();
+    void M_GameSpeakBegin_20_48C010();
+    void M_PreHiss_21_48C180();
+    void M_Hiss1_22_48C3E0();
+    void M_Hiss2_23_48C600();
+    void M_Empty_24_48C680();
+    void M_AllOYaGameSpeakBegin_25_48C6A0();
+    void M_Hiss3_26_48C6F0();
+    void M_PostHiss_27_48C780();
+    void M_GameSpeakEnd_28_48C8B0();
+    void M_GetDepossessedBegin_29_48D9D0();
+    void M_GetDepossessedEnd_30_48DB50();
+    void M_RunningAttack_31_48C9E0();
+    void M_Empty_32_48D740();
+    void M_SurpriseWeb_33_48D760();
+    void M_WebLeaveDown_34_48D870();
+    void M_WebIdle_35_48D400();
+    void M_WebGoingUp_36_48D000();
+    void M_WebGoingDown_37_48CC60();
+    void M_WebGrab_38_48D6C0();
+    void M_WebLeaveUp_39_48D8C0();
+    void M_Eating_40_48A0F0();
+    void M_Death_41_48D8E0();
+    void M_Squawk_42_48D900();
+    void M_Attack_43_48DB70();
 
 private:
     void SetBrain(TParamiteBrainFn fn);
@@ -325,69 +325,69 @@ private:
 
 private:
 
-    EXPORT void vUpdate_4871B0();
+    void vUpdate_4871B0();
 
-    EXPORT s16 Find_Paramite_488810();
+    s16 Find_Paramite_488810();
 
-    EXPORT void vUpdateAnim_487170();
+    void vUpdateAnim_487170();
 
-    EXPORT Meat* FindMeat_488930();
+    Meat* FindMeat_488930();
 
-    EXPORT s16 IsNear_488B10(Paramite* pOther);
+    s16 IsNear_488B10(Paramite* pOther);
 
-    EXPORT s16 vOnSameYLevel_488A40(BaseAnimatedWithPhysicsGameObject* pOther);
+    s16 vOnSameYLevel_488A40(BaseAnimatedWithPhysicsGameObject* pOther);
 
-    EXPORT void vUnPosses_488BE0();
+    void vUnPosses_488BE0();
 
-    EXPORT void vPossessed_488B60();
+    void vPossessed_488B60();
 
-    EXPORT s16 vTakeDamage_488250(BaseGameObject* pFrom);
+    s16 vTakeDamage_488250(BaseGameObject* pFrom);
 
-    EXPORT u8** ResBlockForMotion_488130(s16 motion);
+    u8** ResBlockForMotion_488130(s16 motion);
 
-    EXPORT void vOn_TLV_Collision_488640(Path_TLV* pTlv);
+    void vOn_TLV_Collision_488640(Path_TLV* pTlv);
 
-    EXPORT s16 AnotherParamiteNear_4886E0();
+    s16 AnotherParamiteNear_4886E0();
 
-    EXPORT PathLine* WebCollision_4888A0(FP yOff, FP xOff);
+    PathLine* WebCollision_4888A0(FP yOff, FP xOff);
 
-    EXPORT void vRender_488220(PrimHeader** ppOt);
+    void vRender_488220(PrimHeader** ppOt);
 
-    EXPORT void vOnTrapDoorOpen_489F60();
+    void vOnTrapDoorOpen_489F60();
 
-    EXPORT void ToHop_489C20();
+    void ToHop_489C20();
 
-    EXPORT s16 CanIAcceptAGameSpeakCommand_489160();
+    s16 CanIAcceptAGameSpeakCommand_489160();
 
-    EXPORT s16 HandleEnemyStopper_4893B0(s16 numGridBlocks);
+    s16 HandleEnemyStopper_4893B0(s16 numGridBlocks);
 
-    EXPORT PullRingRope* FindPullRope_488F20();
+    PullRingRope* FindPullRope_488F20();
 
-    EXPORT s16 NextPlayerInputMotion_4894C0();
+    s16 NextPlayerInputMotion_4894C0();
 
-    EXPORT s16 FindTarget_488C30();
+    s16 FindTarget_488C30();
 
-    EXPORT s16 ToNextMotion_4898A0();
+    s16 ToNextMotion_4898A0();
 
-    EXPORT void ToIdle_489B70();
+    void ToIdle_489B70();
 
-    EXPORT void ToKnockBack_489BB0();
+    void ToKnockBack_489BB0();
 
-    EXPORT void MoveOnLine_489CA0();
+    void MoveOnLine_489CA0();
 
-    EXPORT void CheckForPlatform_489EA0();
+    void CheckForPlatform_489EA0();
 
-    EXPORT void HandleStopWalking_48A720();
+    void HandleStopWalking_48A720();
 
-    EXPORT void HandleInputRunning_48ADB0();
+    void HandleInputRunning_48ADB0();
 
-    EXPORT static s16 CC StableDelay_48DF80();
+    static s16 StableDelay_48DF80();
 
-    EXPORT void Sound_48F600(ParamiteSpeak soundId, s16 pitch_min);
+    void Sound_48F600(ParamiteSpeak soundId, s16 pitch_min);
 
-    EXPORT void UpdateSlurgWatchPoints_4890D0();
+    void UpdateSlurgWatchPoints_4890D0();
 
-    EXPORT GameSpeakEvents LastSpeak_489040();
+    GameSpeakEvents LastSpeak_489040();
 
 
 private:

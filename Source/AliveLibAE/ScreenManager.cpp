@@ -231,7 +231,7 @@ void ScreenManager::Init_40E4B0(u8** ppBits)
     field_3E_x_idx = 0;
 }
 
-s32 CC ScreenManager::GetTPage_40F040(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
+s32 ScreenManager::GetTPage_40F040(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
 {
     const s16 clampedYPos = *ypos & 0xFF00;
     const s16 clampedXPos = *xpos & 0xFFC0;

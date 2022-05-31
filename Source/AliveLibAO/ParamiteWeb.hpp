@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 namespace AO {
@@ -13,7 +13,7 @@ public:
     ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale);
     ~ParamiteWeb();
     
-    EXPORT void VScreenChanged_48AEA0();
+    void VScreenChanged_48AEA0();
 
     virtual void VScreenChanged() override;
 
@@ -21,9 +21,9 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VUpdate_48AE70();
+    void VUpdate_48AE70();
 
-    EXPORT void VRender_48AB10(PrimHeader** ppOt);
+    void VRender_48AB10(PrimHeader** ppOt);
 
     s32 field_D4[4];
     s16 field_E4_number_of_segments;

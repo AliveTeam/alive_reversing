@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "PlatformBase.hpp"
 #include "Path.hpp"
 
@@ -55,22 +55,22 @@ public:
     TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
     ~TrapDoor();
 
-    EXPORT static s32 CC CreateFromSaveState_4DDED0(const u8* pData);
+    static s32 CreateFromSaveState_4DDED0(const u8* pData);
 
 private:
-    EXPORT void vUpdate_4DDA90();
-    EXPORT void vRender_4DDDD0(PrimHeader** ppOt);
-    EXPORT void vScreenChanged_4DDE40();
-    EXPORT s32 vGetSaveState_4DE050(TrapDoor_State* pState);
-    EXPORT PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, s32 /*not_used*/);
+    void vUpdate_4DDA90();
+    void vRender_4DDDD0(PrimHeader** ppOt);
+    void vScreenChanged_4DDE40();
+    s32 vGetSaveState_4DE050(TrapDoor_State* pState);
+    PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, s32 /*not_used*/);
 
 private:
-    EXPORT void vAdd_4DDD90(BaseAliveGameObject* pObj);
-    EXPORT void vRemove_4DDDB0(BaseAliveGameObject* pObj);
+    void vAdd_4DDD90(BaseAliveGameObject* pObj);
+    void vRemove_4DDDB0(BaseAliveGameObject* pObj);
 
-    EXPORT void Add_To_Collisions_Array_4DDA20();
+    void Add_To_Collisions_Array_4DDA20();
 
-    EXPORT void Open_4DD960();
+    void Open_4DD960();
 
 private:
     s16 field_12C_unused;

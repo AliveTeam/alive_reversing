@@ -155,7 +155,7 @@ MovingBomb::~MovingBomb()
     }
 }
 
-EXPORT void MovingBomb::BlowUp_470070()
+void MovingBomb::BlowUp_470070()
 {
     mFlags.Clear(BaseGameObject::eCanExplode_Bit7);
     field_118_state = States::eBlowingUp_6;

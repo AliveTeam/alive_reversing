@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 #include "FlyingSligSpawner.hpp"
@@ -148,145 +148,145 @@ public:
 
     // TODO: Remaining virtuals
 
-    EXPORT static s32 CC CreateFromSaveState_437E40(const u8* pBuffer);
+    static s32 CreateFromSaveState_437E40(const u8* pBuffer);
 
 private:
-    EXPORT s32 vGetSaveState_43B1E0(FlyingSlig_State* pState);
-    EXPORT void vScreenChanged_434C10();
-    EXPORT void vUpdate_434AD0();
-    EXPORT void vRender_435130(PrimHeader** ot);
-    EXPORT s16 IsPossessed_436A90();
-    EXPORT void sub_4348A0();
-    EXPORT void Movement_4396E0();
-    EXPORT s16 vTakeDamage_434C90(BaseGameObject* pFrom);
+    s32 vGetSaveState_43B1E0(FlyingSlig_State* pState);
+    void vScreenChanged_434C10();
+    void vUpdate_434AD0();
+    void vRender_435130(PrimHeader** ot);
+    s16 IsPossessed_436A90();
+    void sub_4348A0();
+    void Movement_4396E0();
+    s16 vTakeDamage_434C90(BaseGameObject* pFrom);
 
 public:
-    EXPORT void Brain_0_Inactive_4355B0();
-    EXPORT void Brain_1_Death_4364E0();
-    EXPORT void Brain_2_Moving_4356D0();
-    EXPORT void Brain_3_GetAlerted_435750();
-    EXPORT void Brain_4_ChasingEnemy_435BC0();
-    EXPORT void Brain_5_Idle_435820();
-    EXPORT void Brain_6_GameSpeakToMoving_435940();
-    EXPORT void Brain_7_PanicMoving_435990();
-    EXPORT void Brain_8_PanicIdle_435AC0();
-    EXPORT void Brain_9_SpottedEnemy_435E40();
-    EXPORT void Brain_10_LaunchingGrenade_435F10();
-    EXPORT void Brain_11_AbeDead_435FD0();
-    EXPORT void Brain_12_Possessed_436040();
-    EXPORT void Brain_13_Possession_4360F0();
-    EXPORT void Brain_14_DePossession_436180();
-    EXPORT void Brain_15_FlyingSligSpawn_4362C0();
-    EXPORT void Brain_17_FromCrawlingSlig_4355E0();
+    void Brain_0_Inactive_4355B0();
+    void Brain_1_Death_4364E0();
+    void Brain_2_Moving_4356D0();
+    void Brain_3_GetAlerted_435750();
+    void Brain_4_ChasingEnemy_435BC0();
+    void Brain_5_Idle_435820();
+    void Brain_6_GameSpeakToMoving_435940();
+    void Brain_7_PanicMoving_435990();
+    void Brain_8_PanicIdle_435AC0();
+    void Brain_9_SpottedEnemy_435E40();
+    void Brain_10_LaunchingGrenade_435F10();
+    void Brain_11_AbeDead_435FD0();
+    void Brain_12_Possessed_436040();
+    void Brain_13_Possession_4360F0();
+    void Brain_14_DePossession_436180();
+    void Brain_15_FlyingSligSpawn_4362C0();
+    void Brain_17_FromCrawlingSlig_4355E0();
 
 public:
-    EXPORT void M_Idle_0_4385E0();
-    EXPORT void M_HorizontalMovement_1_4386A0();
-    EXPORT void M_IdleToTurn_2_4388B0();
-    EXPORT void M_DownMovement_3_438AA0();
-    EXPORT void M_DownMovementToTurn_4_438CC0();
-    EXPORT void M_UpMovement_5_438DD0();
-    EXPORT void M_UpMovementToTurn_6_439030();
-    EXPORT void M_LeverPull_7_439150();
-    EXPORT void M_GameSpeak_8_4391D0();
-    EXPORT void M_Possession_9_434290();
-    EXPORT void M_EndHorizontalMovement_10_4387D0();
-    EXPORT void M_BeginUpMovement_11_438E40();
-    EXPORT void M_HorizontalToDownMovement_12_438B10();
-    EXPORT void M_UpToHorizontalMovement_13_438F60();
-    EXPORT void M_DownToHorizontalMovement_14_438BF0();
-    EXPORT void M_QuickTurn_15_4387F0();
-    EXPORT void M_IdleToHorizontalMovement_16_438730();
-    EXPORT void M_BeginDownMovement_17_438B80();
-    EXPORT void M_EndDownMovement_18_438C90();
-    EXPORT void M_DownKnockback_19_4390D0();
-    EXPORT void M_UpKnockback_20_439110();
-    EXPORT void M_EndUpMovement_21_438EB0();
-    EXPORT void M_InstantUpXTurn_22_438EE0();
-    EXPORT void M_InstantDownXTurn_23_438F20();
-    EXPORT void M_HorizontalToUpMovement_24_438D60();
-    EXPORT void M_TurnToHorizontalMovement_25_4389E0();
+    void M_Idle_0_4385E0();
+    void M_HorizontalMovement_1_4386A0();
+    void M_IdleToTurn_2_4388B0();
+    void M_DownMovement_3_438AA0();
+    void M_DownMovementToTurn_4_438CC0();
+    void M_UpMovement_5_438DD0();
+    void M_UpMovementToTurn_6_439030();
+    void M_LeverPull_7_439150();
+    void M_GameSpeak_8_4391D0();
+    void M_Possession_9_434290();
+    void M_EndHorizontalMovement_10_4387D0();
+    void M_BeginUpMovement_11_438E40();
+    void M_HorizontalToDownMovement_12_438B10();
+    void M_UpToHorizontalMovement_13_438F60();
+    void M_DownToHorizontalMovement_14_438BF0();
+    void M_QuickTurn_15_4387F0();
+    void M_IdleToHorizontalMovement_16_438730();
+    void M_BeginDownMovement_17_438B80();
+    void M_EndDownMovement_18_438C90();
+    void M_DownKnockback_19_4390D0();
+    void M_UpKnockback_20_439110();
+    void M_EndUpMovement_21_438EB0();
+    void M_InstantUpXTurn_22_438EE0();
+    void M_InstantDownXTurn_23_438F20();
+    void M_HorizontalToUpMovement_24_438D60();
+    void M_TurnToHorizontalMovement_25_4389E0();
 
-    EXPORT s16 IsFacingMovementDirection_43A510();
+    s16 IsFacingMovementDirection_43A510();
 
 public:
-    EXPORT void ToPlayerControlled_4360C0();
+    void ToPlayerControlled_4360C0();
 
-    EXPORT void ToMoving_435720();
+    void ToMoving_435720();
 
-    EXPORT void ToPanicIdle_435B50();
+    void ToPanicIdle_435B50();
 
-    EXPORT void ToChase_435E10();
+    void ToChase_435E10();
 
-    EXPORT s16 CanChase_436850(BaseAliveGameObject* pObj);
+    s16 CanChase_436850(BaseAliveGameObject* pObj);
 
-    EXPORT void Say_436A50(SligSpeak speak, s16 pitch);
+    void Say_436A50(SligSpeak speak, s16 pitch);
 
-    EXPORT s16 sub_4374A0(s16 a2);
+    s16 sub_4374A0(s16 a2);
 
-    EXPORT static s16 CCSTD IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis);
+    static s16 IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis);
 
-    EXPORT static Bool32 CCSTD IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
+    static Bool32 IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
 
-    EXPORT void ThrowGrenade_43A1E0();
+    void ThrowGrenade_43A1E0();
 
-    EXPORT void BlowUp_436510();
+    void BlowUp_436510();
 
-    EXPORT s16 sub_436730();
+    s16 sub_436730();
 
-    EXPORT s16 CanHearAbe_4369C0();
+    s16 CanHearAbe_4369C0();
 
-    EXPORT void ToSpottedEnemy_435E70();
+    void ToSpottedEnemy_435E70();
 
-    EXPORT void ToAbeDead_436010();
+    void ToAbeDead_436010();
 
-    EXPORT void ToAlerted_4357E0();
+    void ToAlerted_4357E0();
 
-    EXPORT void ToPanicMoving_435A50();
+    void ToPanicMoving_435A50();
 
-    EXPORT s16 IsTurning_436AE0();
+    s16 IsTurning_436AE0();
 
-    EXPORT u8** ResBlockForMotion_4350F0(s32 motion);
+    u8** ResBlockForMotion_4350F0(s32 motion);
 
-    EXPORT void ToChantShake_436270();
+    void ToChantShake_436270();
 
-    EXPORT void ToPossesed_436130();
+    void ToPossesed_436130();
 
-    EXPORT void vUpdateAnimRes_4350A0();
+    void vUpdateAnimRes_4350A0();
 
-    EXPORT void PatrolDelay_435860();
+    void PatrolDelay_435860();
 
-    EXPORT s16 CanThrowGrenade_43A490();
+    s16 CanThrowGrenade_43A490();
 
-    EXPORT void ToLaunchingGrenade_435F50();
+    void ToLaunchingGrenade_435F50();
 
-    EXPORT void HandlePlayerControls_439340();
+    void HandlePlayerControls_439340();
 
-    EXPORT s16 sub_437C70(PathLine* pLine);
+    s16 sub_437C70(PathLine* pLine);
 
-    EXPORT TlvTypes FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
+    TlvTypes FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
 
-    EXPORT void vPossessed_434FB0();
+    void vPossessed_434FB0();
 
-    EXPORT s16 sub_436C60(PSX_RECT* pRect, s16 op1);
+    s16 sub_436C60(PSX_RECT* pRect, s16 op1);
 
-    EXPORT Bool32 sub_436B20();
+    Bool32 sub_436B20();
 
-    EXPORT void sub_4373B0();
+    void sub_4373B0();
 
-    EXPORT void vSetMotion_43B1B0(s16 newMotion);
+    void vSetMotion_43B1B0(s16 newMotion);
 
-    EXPORT s16 CollisionUp_43A640(FP velY);
+    s16 CollisionUp_43A640(FP velY);
 
-    EXPORT s16 CollisionDown_43A9E0(FP velY);
+    s16 CollisionDown_43A9E0(FP velY);
 
-    EXPORT s16 CollisionLeftRight_43AC80(FP velX);
+    s16 CollisionLeftRight_43AC80(FP velX);
 
-    EXPORT void PullLever_436450();
+    void PullLever_436450();
 
-    EXPORT s16 TryPullLever_439DB0();
+    s16 TryPullLever_439DB0();
 
-    EXPORT void sub_437AC0(FP a2, FP_Point* pPoint);
+    void sub_437AC0(FP a2, FP_Point* pPoint);
 
 
     void SetBrain(TFlyingSligBrainFn fn);

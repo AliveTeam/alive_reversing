@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Game.hpp"
 #include "Input.hpp"
@@ -82,15 +82,15 @@ public:
 
     DDCheat();
 
-    EXPORT static void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
-    static EXPORT void CC ClearProperties_415390();
-    static EXPORT void DebugStr_4F5560(const char_type* pFormatStr, ...);
+    static void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
+    static void ClearProperties_415390();
+    static void DebugStr_4F5560(const char_type* pFormatStr, ...);
 
-    EXPORT void Menu_Teleport_415E20();
-    EXPORT void Menu_Movies_416000();
+    void Menu_Teleport_415E20();
+    void Menu_Movies_416000();
 
 public:
-    EXPORT void Update_415780();
+    void Update_415780();
 
 public:
     s32 field_20;

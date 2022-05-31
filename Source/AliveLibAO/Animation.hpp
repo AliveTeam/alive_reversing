@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "FixedPoint.hpp"
 #include "DynamicArray.hpp"
 #include "../AliveLibCommon/BitField.hpp"
@@ -267,10 +267,10 @@ public:
     void GetRenderedSize(PSX_RECT* pRect);
 
 private:
-    EXPORT void VCleanUp2_404280();
+    void VCleanUp2_404280();
 
     // New virtual
-    EXPORT void VRender2_403FD0(s32 xpos, s32 ypos, PrimHeader** ppOt);
+    void VRender2_403FD0(s32 xpos, s32 ypos, PrimHeader** ppOt);
 
 public:
     Poly_FT4 field_10_polys[2];

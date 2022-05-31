@@ -74,7 +74,7 @@ void Grenade::VTimeToExplodeRandom_411490()
     vTimeToExplodeRandom_4480A0();
 }
 
-s32 CC Grenade::CreateFromSaveState_449410(const u8* pBuffer)
+s32 Grenade::CreateFromSaveState_449410(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Grenade_SaveState*>(pBuffer);
     auto pGrenade = ae_new<Grenade>(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_savedcount, 0, 0, nullptr);

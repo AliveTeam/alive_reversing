@@ -37,7 +37,7 @@ void Collisions::dtor_4189F0()
     ae_non_zero_free_495560(field_0_pArray);
 }
 
-void CC Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
+void Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
 {
     sCollisions_DArray_5C1128 = ae_new<Collisions>();
     if (sCollisions_DArray_5C1128)
@@ -132,7 +132,7 @@ inline Fixed_24_8 operator/(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     return r;
 }
 
-EXPORT PSX_RECT* CCSTD Rect_Clear_418040(PSX_RECT* pRect)
+PSX_RECT* Rect_Clear_418040(PSX_RECT* pRect)
 {
     if (!pRect)
     {
@@ -147,7 +147,7 @@ EXPORT PSX_RECT* CCSTD Rect_Clear_418040(PSX_RECT* pRect)
 
 s16 Collisions::Raycast_Real_417A60(FP /*X1*/, FP /*Y1*/, FP /*X2*/, FP /*Y2*/, PathLine** /*ppLine*/, FP* /*hitX*/, FP* /*hitY*/, u32 /*modeMask*/)
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
@@ -316,39 +316,11 @@ Bool32 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_1
     FP implX = *hitX;
     FP implY = *hitY;
 
-    PathLine* pLineReal = *ppLine;
+ //   PathLine* pLineReal = *ppLine;
     FP realX = *hitX;
     FP realY = *hitY;
 
     s16 ret_impl = Raycast_Impl(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineImpl, &implX, &implY, modeMask);
-
-    if (RunningAsInjectedDll())
-    {
-        s16 ret_real = Raycast_Real_417A60(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineReal, &realX, &realY, modeMask);
-
-        // TODO: Remove when this is fully re-tested and known to be working
-        if (ret_impl == ret_real)
-        {
-            if (pLineImpl != pLineReal)
-            {
-                ALIVE_FATAL("Line mismatch");
-            }
-
-            if (implX.fpValue != realX.fpValue)
-            {
-                ALIVE_FATAL("X mismatch");
-            }
-
-            if (implY.fpValue != realY.fpValue)
-            {
-                ALIVE_FATAL("Y mismatch");
-            }
-        }
-        else
-        {
-            ALIVE_FATAL("ret mismatch");
-        }
-    }
 
     *ppLine = pLineImpl;
     *hitX = implX;

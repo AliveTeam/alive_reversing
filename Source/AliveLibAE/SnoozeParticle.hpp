@@ -3,7 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Layer.hpp"
 
 class SnoozeParticle final : public BaseGameObject
@@ -36,11 +36,11 @@ public:
 
 private:
 
-    EXPORT void vScreenChanged_4B1300();
+    void vScreenChanged_4B1300();
 
-    EXPORT void Update_4B0980();
+    void Update_4B0980();
 
-    EXPORT void Render_4B0AF0(PrimHeader** ppOt);
+    void Render_4B0AF0(PrimHeader** ppOt);
 
 private:
     FP field_20_x_start;

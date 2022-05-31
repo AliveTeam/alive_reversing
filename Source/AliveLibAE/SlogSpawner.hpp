@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum class StartDirection : s16
 {
@@ -33,8 +33,8 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vScreenChanged_4C82A0();
-    EXPORT void vUpdate_4C80D0();
+    void vScreenChanged_4C82A0();
+    void vUpdate_4C80D0();
 
 private:
     s32 field_20_tlvInfo;

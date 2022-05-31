@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/Types.hpp"
 #include "../AliveLibCommon/logger.hpp"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 
 struct Path_TLV;
@@ -17,7 +17,7 @@ public:
     ~CreditsController();
 
 private:
-    EXPORT void Update_418AC0();
+    void Update_418AC0();
 
 public:
     s32 field_20_next_cam_frame;

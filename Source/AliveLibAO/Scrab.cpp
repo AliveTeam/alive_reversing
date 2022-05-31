@@ -2603,7 +2603,7 @@ s16 Scrab::Brain_Death_45CB80()
 
 s16 Scrab::Brain_ChasingEnemy_Real_45CC90()
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 

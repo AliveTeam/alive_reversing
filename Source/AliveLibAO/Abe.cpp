@@ -630,7 +630,7 @@ SfxDefinition sSFXList_4C6638[49] = {
     {0, 65, 60, 127, 0, 0, 0},
     {0, 65, 64, 80, 0, 0, 0}};
 
-s32 CC Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj)
+s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj)
 {
     s16 sndIndex = 0;
     switch (sfxId)
@@ -763,7 +763,7 @@ s32 CC Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, Ba
     return SFX_SfxDefinition_Play_4770F0(&sSFXList_4C6638[sndIndex], volume, pitchMin, 0x7FFF);
 }
 
-s32 CC Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero)
+s32 Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero)
 {
     if (idx == MudSounds::eLaugh1_8
         && pHero == sActiveHero_507678
@@ -1419,7 +1419,7 @@ void Abe::vRender_420F30(PrimHeader** ppOt)
     }
 }
 
-void CC Abe::Free_Shrykull_Resources_42F4C0()
+void Abe::Free_Shrykull_Resources_42F4C0()
 {
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 0, 0));
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 0, 0));
@@ -1655,7 +1655,7 @@ void Abe::ChangeChantState_430510(s16 bKeepChanting)
     }
 }
 
-BaseAliveGameObject* CC Abe::FindObjectToPossess_421410()
+BaseAliveGameObject* Abe::FindObjectToPossess_421410()
 {
     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
@@ -1679,7 +1679,7 @@ BaseAliveGameObject* CC Abe::FindObjectToPossess_421410()
     return nullptr;
 }
 
-void CC Abe::Get_Shrykull_Resources_42F480()
+void Abe::Get_Shrykull_Resources_42F480()
 {
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 1, 0);
@@ -2700,7 +2700,7 @@ void Abe::Free_Resources_422870()
     }
 }
 
-void CC Abe::Load_Basic_Resources_4228A0()
+void Abe::Load_Basic_Resources_4228A0()
 {
     if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 0, 0) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0))
     {

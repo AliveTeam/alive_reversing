@@ -39,9 +39,9 @@ ALIVE_VAR(1, 0x50EE30, u8*, spResourceHeapStart_50EE30, nullptr);
 ALIVE_VAR(1, 0x9F0E3C, u8*, spResourceHeapEnd_9F0E3C, nullptr);
 
 // TODO: move to correct location
-EXPORT void CC Odd_Sleep_48DD90(u32 /*dwMilliseconds*/)
+void Odd_Sleep_48DD90(u32 /*dwMilliseconds*/)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 ALIVE_VAR(1, 0x507714, s32, gFilesPending_507714, 0);
@@ -83,7 +83,7 @@ public:
         }
     }
 
-    EXPORT void DestroyOnState0_41EA50()
+    void DestroyOnState0_41EA50()
     {
         if (field_28_state == 0)
         {
@@ -96,7 +96,7 @@ public:
         VUpdate_41E900();
     }
 
-    EXPORT void VUpdate_41E900()
+    void VUpdate_41E900()
     {
         switch (field_28_state)
         {
@@ -194,7 +194,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(LoadingFile, 0x30);
 
-void CC Game_ShowLoadingIcon_445EB0()
+void Game_ShowLoadingIcon_445EB0()
 {
     const AnimRecord& rec = AO::AnimRec(AnimId::Loading_Icon2);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -238,7 +238,7 @@ void CC Game_ShowLoadingIcon_445EB0()
 }
 
 
-void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
+void ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
 {
     for (s32 i = 0; i < pLoaded->field_10_file_sections_dArray.Size(); i++)
     {
@@ -273,7 +273,7 @@ void CC ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
     }
 }
 
-void CC ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad)
+void ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad)
 {
     if (bDontLoad)
     {
@@ -363,7 +363,7 @@ void CC ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 typ
     }
 }
 
-void CC ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName, ResourcesToLoadList* pTypeAndIdList, LoadMode loadMode, s16 bDontLoad)
+void ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName, ResourcesToLoadList* pTypeAndIdList, LoadMode loadMode, s16 bDontLoad)
 {
     // Debug_Print_Stub_48DD70("Requesting tag res %s\n", pFileName);
 
@@ -480,7 +480,7 @@ void CC ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName
     }
 }
 
-void CC ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
+void ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
 {
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
@@ -509,7 +509,7 @@ void CC ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
     }
 }
 
-EXPORT void CC ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
+void ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
 {
     while (gFilesPending_507714 > 0)
     {
@@ -553,7 +553,7 @@ EXPORT void CC ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
     }
 }
 
-void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
+void ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
 {
     for (s32 i = 0; i < ObjList_5009E0->Size(); i++)
     {
@@ -604,7 +604,7 @@ void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
     }
 }
 
-s32 CC ResourceManager::SEQ_HashName_454EA0(const char_type* seqFileName)
+s32 ResourceManager::SEQ_HashName_454EA0(const char_type* seqFileName)
 {
     // Clamp max len
     size_t seqFileNameLength = strlen(seqFileName) - 1;
@@ -643,7 +643,7 @@ s32 CC ResourceManager::SEQ_HashName_454EA0(const char_type* seqFileName)
     return hashId;
 }
 
-void CC ResourceManager::Init_454DA0()
+void ResourceManager::Init_454DA0()
 {
     for (s32 i = 1; i < kLinkedListArraySize - 1; i++)
     {
@@ -708,7 +708,7 @@ ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager:
     return pItem;
 }
 
-LoadingFile* CC ResourceManager::LoadResourceFile_4551E0(const char_type* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
+LoadingFile* ResourceManager::LoadResourceFile_4551E0(const char_type* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
 {
     LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(pFileName);
     if (!pFileRec)
@@ -745,18 +745,18 @@ u8** ResourceManager::Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool l
     return ppNewRes;
 }
 
-u8** CC ResourceManager::Alloc_New_Resource_454F20(u32 type, u32 id, u32 size)
+u8** ResourceManager::Alloc_New_Resource_454F20(u32 type, u32 id, u32 size)
 {
     return Alloc_New_Resource_Impl(type, id, size, false, BlockAllocMethod::eFirstMatching);
 }
 
-u8** CC ResourceManager::Allocate_New_Locked_Resource_454F80(u32 type, u32 id, u32 size)
+u8** ResourceManager::Allocate_New_Locked_Resource_454F80(u32 type, u32 id, u32 size)
 {
     return Alloc_New_Resource_Impl(type, id, size, true, BlockAllocMethod::eLastMatching);
 }
 
 
-EXPORT u8** CC ResourceManager::Allocate_New_Block_454FE0(u32 sizeBytes, BlockAllocMethod allocMethod)
+u8** ResourceManager::Allocate_New_Block_454FE0(u32 sizeBytes, BlockAllocMethod allocMethod)
 {
     ResourceHeapItem* pListItem = sFirstLinkedListItem_50EE2C;
     ResourceHeapItem* pHeapMem = nullptr;
@@ -853,12 +853,12 @@ EXPORT u8** CC ResourceManager::Allocate_New_Block_454FE0(u32 sizeBytes, BlockAl
     }
 }
 
-s16 CC ResourceManager::LoadResourceFileWrapper(const char_type* filename, Camera* pCam)
+s16 ResourceManager::LoadResourceFileWrapper(const char_type* filename, Camera* pCam)
 {
     return LoadResourceFile_455270(filename, pCam, BlockAllocMethod::eFirstMatching);
 }
 
-EXPORT s16 CC ResourceManager::LoadResourceFile_455270(const char_type* filename, Camera* pCam, BlockAllocMethod allocMethod)
+s16 ResourceManager::LoadResourceFile_455270(const char_type* filename, Camera* pCam, BlockAllocMethod allocMethod)
 {
     // Note: None gPcOpenEnabled_508BF0 block not impl as never used
 
@@ -899,7 +899,7 @@ EXPORT s16 CC ResourceManager::LoadResourceFile_455270(const char_type* filename
     return 1;
 }
 
-s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u8*>* pArray)
+s16 ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u8*>* pArray)
 {
     auto pItemToAdd = (ResourceHeapItem*) ppRes;
     Header* pHeader = Get_Header_455620(ppRes);
@@ -959,7 +959,7 @@ s16 CC ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArray
     return 1;
 }
 
-u8** CC ResourceManager::GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock)
+u8** ResourceManager::GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock)
 {
     // Iterate all list items
     ResourceHeapItem* pListIter = sFirstLinkedListItem_50EE2C;
@@ -1006,7 +1006,7 @@ void ResourceManager::CheckResourceIsLoaded(u32 type, std::initializer_list<AORe
     }
 }
 
-s16 CC ResourceManager::FreeResource_455550(u8** handle)
+s16 ResourceManager::FreeResource_455550(u8** handle)
 {
     // Note: Checks for ptrs of 0xCDCDCDCD and 0xDDDDDDDD removed
     // because these can only come from the MSVCRT debug runtimes
@@ -1018,7 +1018,7 @@ s16 CC ResourceManager::FreeResource_455550(u8** handle)
 }
 
 
-s16 CC ResourceManager::FreeResource_Impl_4555B0(u8* handle)
+s16 ResourceManager::FreeResource_Impl_4555B0(u8* handle)
 {
     if (handle)
     {
@@ -1039,12 +1039,12 @@ s16 CC ResourceManager::FreeResource_Impl_4555B0(u8* handle)
     return 1;
 }
 
-ResourceManager::Header* CC ResourceManager::Get_Header_455620(u8** ppRes)
+ResourceManager::Header* ResourceManager::Get_Header_455620(u8** ppRes)
 {
     return reinterpret_cast<Header*>((*ppRes - sizeof(Header)));
 }
 
-void CC ResourceManager::Reclaim_Memory_455660(u32 sizeToReclaim)
+void ResourceManager::Reclaim_Memory_455660(u32 sizeToReclaim)
 {
     if (sResources_Pending_Loading_9F0E38 != 0)
     {
@@ -1141,33 +1141,33 @@ void CC ResourceManager::Reclaim_Memory_455660(u32 sizeToReclaim)
     }
 }
 
-void CC ResourceManager::Increment_Pending_Count_4557A0()
+void ResourceManager::Increment_Pending_Count_4557A0()
 {
     sResources_Pending_Loading_9F0E38++;
 }
 
-void CC ResourceManager::Decrement_Pending_Count_4557B0()
+void ResourceManager::Decrement_Pending_Count_4557B0()
 {
     sResources_Pending_Loading_9F0E38--;
 }
 
-void CC ResourceManager::Set_Header_Flags_4557D0(u8** ppRes, s16 flags)
+void ResourceManager::Set_Header_Flags_4557D0(u8** ppRes, s16 flags)
 {
     Get_Header_455620(ppRes)->field_6_flags |= flags;
 }
 
 
-void CC ResourceManager::Clear_Header_Flags_4557F0(u8** ppRes, s16 flags)
+void ResourceManager::Clear_Header_Flags_4557F0(u8** ppRes, s16 flags)
 {
     Get_Header_455620(ppRes)->field_6_flags &= ~flags;
 }
 
-s32 CC ResourceManager::Is_Resources_Pending_4557C0()
+s32 ResourceManager::Is_Resources_Pending_4557C0()
 {
     return sResources_Pending_Loading_9F0E38 > 0 ? 1 : 0;
 }
 
-void CC ResourceManager::Free_Resource_Of_Type_455810(u32 type)
+void ResourceManager::Free_Resource_Of_Type_455810(u32 type)
 {
     ResourceHeapItem* pListItem = sFirstLinkedListItem_50EE2C;
     while (pListItem)

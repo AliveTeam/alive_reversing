@@ -24,8 +24,8 @@ public:
     virtual void VUpdate() override;
 
 private:
-    EXPORT void vScreenChanged_49F700();
-    EXPORT void vUpdate_49F3A0();
+    void vScreenChanged_49F700();
+    void vUpdate_49F3A0();
 
 private:
     s32 field_118_tlvInfo;

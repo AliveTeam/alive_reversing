@@ -102,7 +102,7 @@ void PlatformBase::vRemoveCount_4975E0(BaseAliveGameObject* /*pObj*/)
     --field_118_count;
 }
 
-EXPORT void PlatformBase::vAddCount_4975B0(BaseAliveGameObject* /*pObj*/)
+void PlatformBase::vAddCount_4975B0(BaseAliveGameObject* /*pObj*/)
 {
     ++field_118_count;
     if (field_124_pCollisionLine)

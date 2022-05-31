@@ -11,7 +11,7 @@ ALIVE_ARY(1, 0x5cb888, PSX_RECT, kMaxAllocs, sVramAllocations_5CB888, {});
 ALIVE_VAR(1, 0x5cc888, s32, sVramNumberOfAllocations_5CC888, 0);
 ALIVE_VAR(1, 0x5CC88C, u16, unused_5CC88C, 0);
 
-EXPORT s8 CC Vram_calc_width_4955A0(s32 width, s32 depth)
+s8 Vram_calc_width_4955A0(s32 width, s32 depth)
 {
     switch (depth)
     {
@@ -25,7 +25,7 @@ EXPORT s8 CC Vram_calc_width_4955A0(s32 width, s32 depth)
     return 0;
 }
 
-EXPORT s32 CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, s32 depth)
+s32 Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, s32 depth)
 {
     pRect->x = 1024 - pRect->w;
     if (pRect->x < 0)
@@ -78,7 +78,7 @@ EXPORT s32 CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, s32 depth)
     }
 }
 
-EXPORT s32 CC Vram_alloc_block_4957B0(PSX_RECT* pRect, s32 depth)
+s32 Vram_alloc_block_4957B0(PSX_RECT* pRect, s32 depth)
 {
     if (pRect->w > 1024 || pRect->h > 512)
     {
@@ -155,7 +155,7 @@ EXPORT s32 CC Vram_alloc_block_4957B0(PSX_RECT* pRect, s32 depth)
     return 1;
 }
 
-EXPORT s16 CC Vram_alloc_4956C0(u16 width, s16 height, u16 colourDepth, PSX_RECT* pRect)
+s16 Vram_alloc_4956C0(u16 width, s16 height, u16 colourDepth, PSX_RECT* pRect)
 {
     PSX_RECT rect = {};
 
@@ -175,7 +175,7 @@ EXPORT s16 CC Vram_alloc_4956C0(u16 width, s16 height, u16 colourDepth, PSX_RECT
     return 1;
 }
 
-EXPORT void CC Vram_init_495660()
+void Vram_init_495660()
 {
     for (s32 i = 0; i < kMaxAllocs; i++)
     {
@@ -185,7 +185,7 @@ EXPORT void CC Vram_init_495660()
     sVramNumberOfAllocations_5CC888 = 0;
 }
 
-EXPORT void CC Vram_alloc_explicit_4955F0(s16 x, s16 y, s16 w, s16 h)
+void Vram_alloc_explicit_4955F0(s16 x, s16 y, s16 w, s16 h)
 {
     if (sVramNumberOfAllocations_5CC888 < kMaxAllocs)
     {
@@ -197,7 +197,7 @@ EXPORT void CC Vram_alloc_explicit_4955F0(s16 x, s16 y, s16 w, s16 h)
     }
 }
 
-EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
+void Vram_free_495A60(PSX_Point xy, PSX_Point wh)
 {
 #if RENDERER_OPENGL
     auto pRend = IRenderer::GetRenderer();
@@ -221,7 +221,7 @@ EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
     }
 }
 
-EXPORT Bool32 CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
+Bool32 Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 {
     const s32 x1 = pRect1->x;
     const s32 x2 = pRect2->x;
@@ -285,7 +285,7 @@ static bool Pal_Allocate_Helper(s32& i, s32& palX_idx, s32 maskValue, s32 numBit
     return false;
 }
 
-EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
+s16 Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
 {
     if (!pal_free_count_5C915E)
     {
@@ -335,7 +335,7 @@ EXPORT s16 CC Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
     return 1;
 }
 
-EXPORT void CC Pal_free_483390(PSX_Point xy, s16 palDepth)
+void Pal_free_483390(PSX_Point xy, s16 palDepth)
 {
     const s32 palIdx = xy.field_2_y - pal_ypos_5C9160;
     const s32 palWidthBits = xy.field_0_x - pal_xpos_5C9162;
@@ -354,7 +354,7 @@ EXPORT void CC Pal_free_483390(PSX_Point xy, s16 palDepth)
     }
 }
 
-EXPORT void CC Pal_Area_Init_483080(s16 xpos, s16 ypos, u16 width, u16 height)
+void Pal_Area_Init_483080(s16 xpos, s16 ypos, u16 width, u16 height)
 {
     pal_xpos_5C9162 = xpos;
     pal_ypos_5C9160 = ypos;
@@ -370,7 +370,7 @@ EXPORT void CC Pal_Area_Init_483080(s16 xpos, s16 ypos, u16 width, u16 height)
     }
 }
 
-EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, s16 w, u16* pPalData, PSX_RECT* rect)
+void Pal_Copy_483560(PSX_Point pPoint, s16 w, u16* pPalData, PSX_RECT* rect)
 {
     rect->x = pPoint.field_0_x;
     rect->y = pPoint.field_2_y;
@@ -379,12 +379,12 @@ EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, s16 w, u16* pPalData, PSX_RECT*
     PSX_StoreImage_4F5E90(rect, pPalData);
 }
 
-EXPORT u32 CC Pal_Make_Colour_4834C0(u8 r, u8 g, u8 b, s16 bOpaque)
+u32 Pal_Make_Colour_4834C0(u8 r, u8 g, u8 b, s16 bOpaque)
 {
     return (bOpaque != 0 ? 0x8000 : 0) + ((u32) r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
 }
 
-EXPORT void CC Pal_Set_483510(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect)
+void Pal_Set_483510(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect)
 {
     rect->x = xy.field_0_x;
     rect->y = xy.field_2_y;

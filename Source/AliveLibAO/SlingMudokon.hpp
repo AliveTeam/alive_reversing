@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "GameSpeak.hpp"
@@ -48,32 +48,32 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_46FBE0();
+    void VScreenChanged_46FBE0();
 
-    EXPORT void VUpdate_46FBF0();
+    void VUpdate_46FBF0();
 
     virtual void VUpdate() override;
 
-    EXPORT virtual void VCallBrain_46F880();
+    virtual void VCallBrain_46F880();
 
-    EXPORT virtual void VCallMotion_46F8E0();
+    virtual void VCallMotion_46F8E0();
 
-    EXPORT void VUpdateAnimData_46F8F0();
+    void VUpdateAnimData_46F8F0();
 
     GameSpeakEvents getLastIdx();
 
     // Motions
-    EXPORT void Motion_0_Idle_46FCB0();
-    EXPORT void Motion_1_Angry_46FCF0();
-    EXPORT void Motion_2_Speak_46FD70();
-    EXPORT void Motion_3_ShootStart_46FD90();
-    EXPORT void Motion_4_ShootEnd_46FEA0();
-    EXPORT void Motion_5_AngryToIdle_46FD50();
+    void Motion_0_Idle_46FCB0();
+    void Motion_1_Angry_46FCF0();
+    void Motion_2_Speak_46FD70();
+    void Motion_3_ShootStart_46FD90();
+    void Motion_4_ShootEnd_46FEA0();
+    void Motion_5_AngryToIdle_46FD50();
 
     // Brains
-    EXPORT s16 Brain_0_GiveCode_46FEC0();
-    EXPORT s16 Brain_1_Spawn_470230();
-    EXPORT s16 Brain_2_AskForPassword_4707B0();
+    s16 Brain_0_GiveCode_46FEC0();
+    s16 Brain_1_Spawn_470230();
+    s16 Brain_2_AskForPassword_4707B0();
 
     s32 field_10C_padding;
     s32 field_110_tlvInfo;

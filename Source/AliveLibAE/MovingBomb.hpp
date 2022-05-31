@@ -2,7 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct Path_MovingBomb final : public Path_TLV
 {
@@ -37,14 +37,14 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void BlowUp_470070();
-    EXPORT void vRender_4707D0(PrimHeader** ot);
-    EXPORT void vScreenChanged_470B90();
-    EXPORT void FollowLine_470950();
-    EXPORT s16 vTakeDamage_470990(BaseGameObject* pFrom);
-    EXPORT void vOnThrowableHit_470800(BaseGameObject* pObj);
-    EXPORT s16 HitObject_470830();
-    EXPORT void vUpdate_4701E0();
+    void BlowUp_470070();
+    void vRender_4707D0(PrimHeader** ot);
+    void vScreenChanged_470B90();
+    void FollowLine_470950();
+    s16 vTakeDamage_470990(BaseGameObject* pFrom);
+    void vOnThrowableHit_470800(BaseGameObject* pObj);
+    s16 HitObject_470830();
+    void vUpdate_4701E0();
 
 private:
     enum class States : s16

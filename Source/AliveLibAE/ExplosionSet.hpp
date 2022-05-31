@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
@@ -30,16 +30,16 @@ public:
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
-    EXPORT void Start_415300();
+    void Start_415300();
 
-    EXPORT void Init_4151D0(Path_ExplosionSet* pTlv);
+    void Init_4151D0(Path_ExplosionSet* pTlv);
 
 
 
 private:
-    EXPORT void vScreenChanged_415190();
-    EXPORT void vRender_4150D0(PrimHeader** ppOt);
-    EXPORT void vUpdate_414E30();
+    void vScreenChanged_415190();
+    void vRender_4150D0(PrimHeader** ppOt);
+    void vUpdate_414E30();
 
 private:
     Prim_ScreenOffset field_20[2];

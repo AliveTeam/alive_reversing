@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum class GasColour : s16
 {
@@ -31,9 +31,9 @@ public:
     virtual void VStopAudio() override;
 
 private:
-    EXPORT void vStopAudio_43CDE0();
-    EXPORT void vScreenChanged_43CE20();
-    EXPORT void vUpdate_43CB70();
+    void vStopAudio_43CDE0();
+    void vScreenChanged_43CE20();
+    void vUpdate_43CB70();
 
 private:
     s32 field_20_tlvInfo;

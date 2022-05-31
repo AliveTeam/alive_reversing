@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Primitives.hpp"
@@ -49,19 +49,19 @@ public:
     MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo);
     ~MotionDetector();
 
-    EXPORT void SetDontComeBack_437E00(s16 bDontComeBack);
+    void SetDontComeBack_437E00(s16 bDontComeBack);
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_438520();
+    void VScreenChanged_438520();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_437E90();
+    void VUpdate_437E90();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_438250(PrimHeader** ppOt);
+    void VRender_438250(PrimHeader** ppOt);
 
     s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;

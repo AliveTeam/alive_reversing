@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 namespace AO {
 
-EXPORT s32 CC IO_Init_48E1A0(s8 bAsync);
+s32 IO_Init_48E1A0(s8 bAsync);
 
-EXPORT void IO_Stop_ASync_IO_Thread_491A80();
+void IO_Stop_ASync_IO_Thread_491A80();
 
 } // namespace AO

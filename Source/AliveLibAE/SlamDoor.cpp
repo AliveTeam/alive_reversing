@@ -453,7 +453,7 @@ void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPositi
     }
 }
 
-s32 CC SlamDoor::CreateFromSaveState_4C08B0(const u8* pData)
+s32 SlamDoor::CreateFromSaveState_4C08B0(const u8* pData)
 {
     const Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<const Quicksave_Obj_SlamDoor*>(pData);
 

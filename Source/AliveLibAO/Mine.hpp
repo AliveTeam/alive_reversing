@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibAE/Path.hpp"
@@ -26,29 +26,29 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_43AC10();
+    void VScreenChanged_43AC10();
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT s16 VTakeDamage_43AC40(BaseGameObject* pFrom);
+    s16 VTakeDamage_43AC40(BaseGameObject* pFrom);
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
-    EXPORT void VOnThrowableHit_43AB90(BaseGameObject* pFrom);
+    void VOnThrowableHit_43AB90(BaseGameObject* pFrom);
 
     virtual void VOnPickUpOrSlapped() override;
 
-    EXPORT void VOnPickUpOrSlapped_43AA30();
+    void VOnPickUpOrSlapped_43AA30();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_43A970(PrimHeader** ppOt);
+    void VRender_43A970(PrimHeader** ppOt);
 
     virtual void VUpdate() override;
 
-    EXPORT void vUpdate_43A7F0();
+    void vUpdate_43A7F0();
 
-    EXPORT s16 IsColliding_43AA60();
+    s16 IsColliding_43AA60();
 
     u16 field_10C_detonating;
     s16 field_10E_disabled_resources;

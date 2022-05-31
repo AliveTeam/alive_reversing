@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Animation.hpp"
 #include "AnimationUnknown.hpp"
 #include "Map.hpp"
@@ -42,7 +42,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void Animation_Init(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData);
+    void Animation_Init(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData);
 
     virtual void vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
     // TODO: Just return by value - this is odd optimization the compiler does
@@ -56,20 +56,20 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
 private:
-    EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx);
-    EXPORT s16 IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
-    EXPORT s16 IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther);
-    EXPORT s16 IsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther);
-    EXPORT s16 OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
-    EXPORT void StackOnObjectsOfType_425840(AETypes typeToFind);
-    EXPORT void vOnPickUpOrSlapped_408180();
-    EXPORT void vOnThrowableHit_4081A0(BaseGameObject* pFrom);
+    PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx);
+    s16 IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
+    s16 IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther);
+    s16 IsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther);
+    s16 OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
+    void StackOnObjectsOfType_425840(AETypes typeToFind);
+    void vOnPickUpOrSlapped_408180();
+    void vOnThrowableHit_4081A0(BaseGameObject* pFrom);
 
 public:
-    EXPORT CameraPos Is_In_Current_Camera_424A70();
-    EXPORT void DealDamageRect_4247A0(const PSX_RECT* pRect);
-    EXPORT void OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
-    EXPORT void SetTint_425600(const TintEntry* pTintArray, LevelIds level_id);
+    CameraPos Is_In_Current_Camera_424A70();
+    void DealDamageRect_4247A0(const PSX_RECT* pRect);
+    void OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
+    void SetTint_425600(const TintEntry* pTintArray, LevelIds level_id);
 
 protected:
     void SetRGB(s16 r, s16 g, s16 b);

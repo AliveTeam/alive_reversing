@@ -310,7 +310,7 @@ const AnimId sScrabFrameTableOffsets_5601C0[40] = {
     AnimId::Scrab_LegKick,
     AnimId::Scrab_DeathBegin};
 
-s32 CC Scrab::CreateFromSaveState_4A70A0(const u8* pBuffer)
+s32 Scrab::CreateFromSaveState_4A70A0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Scrab_State*>(pBuffer);
 
@@ -3013,7 +3013,7 @@ void Scrab::M_GetPossessed_22_4AA420()
 
 void Scrab::M_Empty_23_4A9D80()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 void Scrab::M_DeathEnd_24_4AA140()
@@ -3031,7 +3031,7 @@ void Scrab::M_DeathEnd_24_4AA140()
 
 void Scrab::M_Empty_25_4A34D0()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 void Scrab::M_HowlBegin_26_4A9DA0()

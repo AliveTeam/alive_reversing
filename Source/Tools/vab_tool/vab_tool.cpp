@@ -1,6 +1,6 @@
 #include "relive_config.h"
 #include "logger.hpp"
-#include "../../AliveLibCommon/FunctionFwd.hpp"
+#include "../../AliveLibCommon/Function.hpp"
 #include "SDL_main.h"
 #include "Io.hpp"
 #include "Sys.hpp"
@@ -22,11 +22,6 @@ BaseGameAutoPlayer& GetGameAutoPlayer()
     // Use the AE object, doesn't matter for this tool
     static GameAutoPlayer autoPlayer;
     return autoPlayer;
-}
-
-bool CC RunningAsInjectedDll()
-{
-    return false;
 }
 
 static std::vector<u8> ReadLvlFile(LvlArchive& archive, const char_type* fileName)
@@ -53,11 +48,11 @@ static void WriteVec(const char_type* fileName, const std::vector<u8>& vec)
     }
 }
 
-s32 CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
-Bool32 CC sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
-u32* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, VabBodyRecord* pBodyRecords, s32 idx);
+s32 SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
+Bool32 sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx);
+u32* SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, VabBodyRecord* pBodyRecords, s32 idx);
 
-s32 CC SND_SoundsDat_Read(FILE* file, VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx, void* pBuffer)
+s32 SND_SoundsDat_Read(FILE* file, VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx, void* pBuffer)
 {
     const s32 sampleOffset = *SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx); // = field_8_fileOffset
     const s32 sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pVabHeader, pVabBody, idx);

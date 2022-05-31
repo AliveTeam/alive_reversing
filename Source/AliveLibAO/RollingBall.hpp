@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibAE/Path.hpp"
@@ -29,11 +29,11 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_457AF0();
+    void VUpdate_457AF0();
 
-    EXPORT void Accelerate_458410();
+    void Accelerate_458410();
 
-    EXPORT void CrushThingsInTheWay_458310();
+    void CrushThingsInTheWay_458310();
 
     s32 field_10C_tlvInfo;
     u16 field_110_release_switch_id;

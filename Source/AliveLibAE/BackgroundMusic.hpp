@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 
 class BackgroundMusic final : public BaseGameObject
 {
 public:
-    EXPORT static void CC Stop_4CB000();
-    EXPORT static void CC Play_4CB030();
+    static void Stop_4CB000();
+    static void Play_4CB030();
 
     explicit BackgroundMusic(s32 musicId);
 

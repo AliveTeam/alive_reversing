@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
@@ -84,63 +84,63 @@ public:
     Paramite(Path_Paramite* pTlv, s32 tlvInfo);
     ~Paramite();
 
-    EXPORT u8** ResBlockForMotion_44AC10(s16 motion);
+    u8** ResBlockForMotion_44AC10(s16 motion);
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_44ACA0(PrimHeader** ppOt);
+    void VRender_44ACA0(PrimHeader** ppOt);
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT s16 VTakeDamage_44ACC0(BaseGameObject* pFrom);
+    s16 VTakeDamage_44ACC0(BaseGameObject* pFrom);
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
-    EXPORT void VOn_Tlv_Collision_44AF30(Path_TLV* pTlv);
+    void VOn_Tlv_Collision_44AF30(Path_TLV* pTlv);
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_44B2C0();
+    void VScreenChanged_44B2C0();
 
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    EXPORT s16 VOnSameYLevel_44B240(BaseAnimatedWithPhysicsGameObject* pOther);
+    s16 VOnSameYLevel_44B240(BaseAnimatedWithPhysicsGameObject* pOther);
 
     virtual void VOnTrapDoorOpen() override;
 
-    EXPORT void VOnTrapDoorOpen_44B8C0();
+    void VOnTrapDoorOpen_44B8C0();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_44A490();
+    void VUpdate_44A490();
 
-    EXPORT void ToIdle_44B580();
+    void ToIdle_44B580();
 
-    EXPORT s16 ToNextMotion_44B320();
+    s16 ToNextMotion_44B320();
 
-    EXPORT void VUpdateAnimData_44A460();
+    void VUpdateAnimData_44A460();
 
-    EXPORT s16 AnotherParamiteNear_44AF80();
+    s16 AnotherParamiteNear_44AF80();
 
-    EXPORT void ToKnockBack_44B5B0();
+    void ToKnockBack_44B5B0();
 
-    EXPORT Meat* FindMeat_44B160();
+    Meat* FindMeat_44B160();
 
-    EXPORT void MoveOnLine_44B740();
+    void MoveOnLine_44B740();
 
-    EXPORT void Sound_44DBB0(ParamiteSpeak idx);
+    void Sound_44DBB0(ParamiteSpeak idx);
 
-    EXPORT void ToHop_44B660();
+    void ToHop_44B660();
 
     void SetMusic();
 
     // Brains
-    EXPORT s16 Brain_0_Patrol_447A10();
-    EXPORT s16 Brain_1_SurpriseWeb_448D00();
-    EXPORT s16 Brain_2_Struggling_44DD70();
-    EXPORT s16 Brain_3_Death_448BF0();
-    EXPORT s16 Brain_4_ChasingAbe_449170();
-    EXPORT s16 Brain_5_SpottedMeat_449CD0();
+    s16 Brain_0_Patrol_447A10();
+    s16 Brain_1_SurpriseWeb_448D00();
+    s16 Brain_2_Struggling_44DD70();
+    s16 Brain_3_Death_448BF0();
+    s16 Brain_4_ChasingAbe_449170();
+    s16 Brain_5_SpottedMeat_449CD0();
 
 
     using TParamiteBrain = decltype(&Paramite::Brain_0_Patrol_447A10);
@@ -158,32 +158,32 @@ public:
     s16 HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirection dir);
 
     // Motions
-    EXPORT void Motion_0_Idle_44B900();
-    EXPORT void Motion_1_WalkBegin_44BCA0();
-    EXPORT void Motion_2_Walking_44B9E0();
-    EXPORT void Motion_3_Running_44C070();
-    EXPORT void Motion_4_Unknown_44B6C0();
-    EXPORT void Motion_5_Turn_44C8E0();
-    EXPORT void Motion_6_Hop_44CB20();
-    EXPORT void Motion_7_Unknown_44BF10();
-    EXPORT void Motion_8_WalkRunTransition_44C790();
-    EXPORT void Motion_9_WalkEnd_44BDE0();
-    EXPORT void Motion_10_RunBegin_44C4C0();
-    EXPORT void Motion_11_RunEnd_44C620();
-    EXPORT void Motion_12_Falling_44C960();
-    EXPORT void Motion_13_GameSpeakBegin_44D050();
-    EXPORT void Motion_14_PreHiss_44D170();
-    EXPORT void Motion_15_Hiss_44D300();
-    EXPORT void Motion_16_PostHiss_44D440();
-    EXPORT void Motion_17_GameSpeakEnd_44D4F0();
-    EXPORT void Motion_18_RunningAttack_44D5D0();
-    EXPORT void Motion_19_Empty_44D990();
-    EXPORT void Motion_20_SurpriseWeb_44D9A0();
-    EXPORT void Motion_21_WebLeaveDown_44DB00();
-    EXPORT void Motion_22_Unknown_44D8F0();
-    EXPORT void Motion_23_Eating_44B970();
-    EXPORT void Motion_24_Struggle_44DB70();
-    EXPORT void Motion_25_Death_44DB90();
+    void Motion_0_Idle_44B900();
+    void Motion_1_WalkBegin_44BCA0();
+    void Motion_2_Walking_44B9E0();
+    void Motion_3_Running_44C070();
+    void Motion_4_Unknown_44B6C0();
+    void Motion_5_Turn_44C8E0();
+    void Motion_6_Hop_44CB20();
+    void Motion_7_Unknown_44BF10();
+    void Motion_8_WalkRunTransition_44C790();
+    void Motion_9_WalkEnd_44BDE0();
+    void Motion_10_RunBegin_44C4C0();
+    void Motion_11_RunEnd_44C620();
+    void Motion_12_Falling_44C960();
+    void Motion_13_GameSpeakBegin_44D050();
+    void Motion_14_PreHiss_44D170();
+    void Motion_15_Hiss_44D300();
+    void Motion_16_PostHiss_44D440();
+    void Motion_17_GameSpeakEnd_44D4F0();
+    void Motion_18_RunningAttack_44D5D0();
+    void Motion_19_Empty_44D990();
+    void Motion_20_SurpriseWeb_44D9A0();
+    void Motion_21_WebLeaveDown_44DB00();
+    void Motion_22_Unknown_44D8F0();
+    void Motion_23_Eating_44B970();
+    void Motion_24_Struggle_44DB70();
+    void Motion_25_Death_44DB90();
 
 
     TParamiteBrain field_10C_fn;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Animation.hpp"
 #include "FixedPoint.hpp"
 #include "BitField.hpp"
@@ -13,9 +13,9 @@ public:
     Shadow();
     ~Shadow();
 
-    EXPORT void Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* pRect, FP scale);
+    void Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* pRect, FP scale);
 
-    EXPORT void Render_462410(PrimHeader** ppOt);
+    void Render_462410(PrimHeader** ppOt);
 
     s16 field_0_x1;
     s16 field_2_y1;

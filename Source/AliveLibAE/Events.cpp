@@ -47,7 +47,7 @@ const char_type* sEventEnumString[]{
     "ScreenShake",
 };
 
-EXPORT void CC Event_Broadcast_422BC0(s32 eventType, BaseGameObject* pObject)
+void Event_Broadcast_422BC0(s32 eventType, BaseGameObject* pObject)
 {
     sEventPtrs_5BC124.field_0_events[!sEventsToUse_5BC1D4].field_0_event_ptrs[eventType] = pObject;
 
@@ -64,12 +64,12 @@ EXPORT void CC Event_Broadcast_422BC0(s32 eventType, BaseGameObject* pObject)
     }
 }
 
-EXPORT BaseGameObject* CC Event_Get_422C00(s16 eventType)
+BaseGameObject* Event_Get_422C00(s16 eventType)
 {
     return sEventPtrs_5BC124.field_0_events[sEventsToUse_5BC1D4].field_0_event_ptrs[eventType];
 }
 
-EXPORT void CC Events_Reset_422D70()
+void Events_Reset_422D70()
 {
     for (s32 i = 0; i < 2; i++)
     {
@@ -81,7 +81,7 @@ EXPORT void CC Events_Reset_422D70()
     sEventsToUse_5BC1D4 = 0;
 }
 
-EXPORT void CC Events_Reset_Active_422DA0()
+void Events_Reset_Active_422DA0()
 {
     for (s32 i = 0; i < Event::kEventMax; i++)
     {
@@ -94,7 +94,7 @@ EXPORT void CC Events_Reset_Active_422DA0()
 const s32 kGridMapWidth = 375;
 const s32 kGridMapHeight = 260;
 
-EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(s16 eventType, FP xpos, FP ypos, s16 scale)
+BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range_422C30(s16 eventType, FP xpos, FP ypos, s16 scale)
 {
     BaseGameObject* pObj = sEventPtrs_5BC124.field_0_events[sEventsToUse_5BC1D4].field_0_event_ptrs[eventType];
     if (!pObj)
@@ -119,7 +119,7 @@ EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(s16 
     return nullptr;
 }
 
-EXPORT void CC Event_Cancel_For_Obj(BaseGameObject* pObj)
+void Event_Cancel_For_Obj(BaseGameObject* pObj)
 {
     for (s32 i = 0; i < 2; i++)
     {

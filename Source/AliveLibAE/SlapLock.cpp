@@ -117,7 +117,7 @@ s16 SlapLock::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_43E5D0(pFrom);
 }
 
-s32 CC SlapLock::CreateFromSaveState_43EA00(const u8* pBuffer)
+s32 SlapLock::CreateFromSaveState_43EA00(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const SlapLock_State*>(pBuffer);
 

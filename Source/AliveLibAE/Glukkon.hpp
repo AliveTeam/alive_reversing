@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
 
@@ -174,7 +174,7 @@ public:
     Glukkon(Path_Glukkon* pTlv, s32 tlvInfo);
     ~Glukkon();
 
-    EXPORT static s32 CC CreateFromSaveState_442830(const u8* pBuffer);
+    static s32 CreateFromSaveState_442830(const u8* pBuffer);
 
     virtual void VUpdate() override;
 
@@ -193,94 +193,94 @@ public:
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
 public:
-    EXPORT void M_Idle_0_442D10();
-    EXPORT void M_Walk_1_442D30();
-    EXPORT void M_Turn_2_442F10();
-    EXPORT void M_KnockBack_3_442F40();
-    EXPORT void M_Jump_4_443030();
+    void M_Idle_0_442D10();
+    void M_Walk_1_442D30();
+    void M_Turn_2_442F10();
+    void M_KnockBack_3_442F40();
+    void M_Jump_4_443030();
 
     void JumpHelper();
 
-    EXPORT void M_JumpToFall_5_4434C0();
-    EXPORT void M_WalkToFall_6_4434E0();
-    EXPORT void M_Fall_7_443510();
-    EXPORT void M_DeathFall_8_443760();
-    EXPORT void M_Land_9_443790();
-    EXPORT void M_ChantShake_10_443B50();
-    EXPORT void M_Speak1_11_4437D0();
-    EXPORT void M_Speak2_12_4438F0();
-    EXPORT void M_LongLaugh_13_443930();
-    EXPORT void M_BeginWalk_14_443950();
-    EXPORT void M_EndWalk_15_443970();
-    EXPORT void M_StandToJump_16_4439B0();
-    EXPORT void M_JumpToStand_17_4439D0();
-    EXPORT void M_WalkToJump_18_443A00();
-    EXPORT void M_JumpToWalk_19_443A30();
-    EXPORT void M_KnockBackStandBegin_20_442FC0();
-    EXPORT void M_GetShot_21_443A60();
-    EXPORT void M_KnockBackStandEnd_22_443010();
-    EXPORT void M_Speak3_23_443910();
-    EXPORT void M_EndSingleStep_24_443990();
+    void M_JumpToFall_5_4434C0();
+    void M_WalkToFall_6_4434E0();
+    void M_Fall_7_443510();
+    void M_DeathFall_8_443760();
+    void M_Land_9_443790();
+    void M_ChantShake_10_443B50();
+    void M_Speak1_11_4437D0();
+    void M_Speak2_12_4438F0();
+    void M_LongLaugh_13_443930();
+    void M_BeginWalk_14_443950();
+    void M_EndWalk_15_443970();
+    void M_StandToJump_16_4439B0();
+    void M_JumpToStand_17_4439D0();
+    void M_WalkToJump_18_443A00();
+    void M_JumpToWalk_19_443A30();
+    void M_KnockBackStandBegin_20_442FC0();
+    void M_GetShot_21_443A60();
+    void M_KnockBackStandEnd_22_443010();
+    void M_Speak3_23_443910();
+    void M_EndSingleStep_24_443990();
 
 public:
-    EXPORT s16 Brain_0_Calm_WalkAround_440B40();
-    EXPORT s16 Brain_1_Panic_4412F0();
-    EXPORT s16 Brain_2_Slapped_441720();
-    EXPORT s16 Brain_3_PlayerControlled_441A30();
-    EXPORT s16 Brain_4_Death_442010();
-    EXPORT s16 Brain_5_WaitToSpawn_442490();
+    s16 Brain_0_Calm_WalkAround_440B40();
+    s16 Brain_1_Panic_4412F0();
+    s16 Brain_2_Slapped_441720();
+    s16 Brain_3_PlayerControlled_441A30();
+    s16 Brain_4_Death_442010();
+    s16 Brain_5_WaitToSpawn_442490();
 
 public:
-    EXPORT static void CC PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Glukkon* pGlukkon);
+    static void PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Glukkon* pGlukkon);
 
 private:
-    EXPORT void Init_43F260();
+    void Init_43F260();
 
-    EXPORT void vUpdate_43F770();
+    void vUpdate_43F770();
 
-    EXPORT void vPossessed_440160();
+    void vPossessed_440160();
 
-    EXPORT void Update_Slurg_WatchPoints_440600();
+    void Update_Slurg_WatchPoints_440600();
 
-    EXPORT void SetAnim_43F9C0(s16 currentMotion, s16 bClearNextMotion = FALSE);
+    void SetAnim_43F9C0(s16 currentMotion, s16 bClearNextMotion = FALSE);
 
-    EXPORT void Speak_444640(GlukkonSpeak speak);
+    void Speak_444640(GlukkonSpeak speak);
 
-    EXPORT void HandleInput_443BB0();
+    void HandleInput_443BB0();
 
-    EXPORT s16 ShouldPanic_440200(s16 panicEvenIfNotFacingMe);
+    s16 ShouldPanic_440200(s16 panicEvenIfNotFacingMe);
 
-    EXPORT s16 PathBlocked_4442F0(FP a2, s16 checkBounds);
+    s16 PathBlocked_4442F0(FP a2, s16 checkBounds);
 
-    EXPORT void SpeakRandomish_4405D0();
+    void SpeakRandomish_4405D0();
 
-    EXPORT void vRender_4406C0(PrimHeader** ot);
+    void vRender_4406C0(PrimHeader** ot);
 
-    EXPORT s16 DoMovement_444190();
+    s16 DoMovement_444190();
 
-    EXPORT void FollowLine_443EB0();
+    void FollowLine_443EB0();
 
-    EXPORT void GetOnPlatforms_444060();
+    void GetOnPlatforms_444060();
 
-    EXPORT static void CC PlaySound_4447D0(s32 sndIdx, Glukkon* pGlukkon);
+    static void PlaySound_4447D0(s32 sndIdx, Glukkon* pGlukkon);
 
-    EXPORT void ToDead_43F640();
+    void ToDead_43F640();
 
-    EXPORT void vOn_TLV_Collision_4404A0(Path_TLV* pTlv);
+    void vOn_TLV_Collision_4404A0(Path_TLV* pTlv);
 
-    EXPORT static Bool32 CCSTD IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
+    static Bool32 IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
 
-    EXPORT void ToStand_443B70();
+    void ToStand_443B70();
 
-    EXPORT void SlowDown_444700(FP speed);
+    void SlowDown_444700(FP speed);
 
-    EXPORT void vScreenChanged_440110();
+    void vScreenChanged_440110();
 
-    EXPORT s32 vGetSaveState_444B90(u8* pSaveBuffer);
+    s32 vGetSaveState_444B90(u8* pSaveBuffer);
 
-    EXPORT void vOnTrapDoorOpen_444120();
+    void vOnTrapDoorOpen_444120();
 
-    EXPORT s16 vTakeDamage_43FA40(BaseGameObject* pFrom);
+    s16 vTakeDamage_43FA40(BaseGameObject* pFrom);
 
 
     void SetBrain(TGlukkonBrainFn fn);

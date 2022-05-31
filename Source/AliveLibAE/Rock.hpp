@@ -60,17 +60,17 @@ public:
     virtual Bool32 VIsFalling_49E330() override;
     virtual void VTimeToExplodeRandom_411490() override;
 
-    static s32 CC CreateFromSaveState_49F720(const u8* pData);
+    static s32 CreateFromSaveState_49F720(const u8* pData);
 
 private:
-    EXPORT void vScreenChanged_49F030();
-    EXPORT s32 vGetSaveState_49F9A0(RockSaveState* pState);
-    EXPORT Bool32 vIsFalling_49E330();
-    EXPORT Bool32 vCanThrow_49E350();
-    EXPORT void vThrow_49E460(FP velX, FP velY);
-    EXPORT void InTheAir_49E4B0();
-    EXPORT s16 OnCollision_49EF10(BaseAliveGameObject* pObj);
-    EXPORT void vUpdate_49E9F0();
+    void vScreenChanged_49F030();
+    s32 vGetSaveState_49F9A0(RockSaveState* pState);
+    Bool32 vIsFalling_49E330();
+    Bool32 vCanThrow_49E350();
+    void vThrow_49E460(FP velX, FP velY);
+    void InTheAir_49E4B0();
+    s16 OnCollision_49EF10(BaseAliveGameObject* pObj);
+    void vUpdate_49E9F0();
 
     void BounceHorizontally( FP hitX, FP hitY );
 

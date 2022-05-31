@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 class Electrocute;
 
@@ -17,11 +17,11 @@ public:
 
 private:
 
-    EXPORT void vScreenChanged_4DCE80();
-    EXPORT void vUpdate_4DC400();
+    void vScreenChanged_4DCE80();
+    void vUpdate_4DC400();
 
 private:
-    EXPORT static Electrocute* CC Create_ElectrocuteEffect_4DCEB0();
+    static Electrocute* Create_ElectrocuteEffect_4DCEB0();
     void SpawnRingSparks(Path_Teleporter_Data* pTlvData);
 
     s32 field_20_tlvInfo;

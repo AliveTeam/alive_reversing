@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibAE/Path.hpp"
@@ -32,9 +32,9 @@ public:
     virtual void VUpdate() override;
 
 private:
-    EXPORT void VScreenChanged_4373A0();
-    EXPORT s16 VTakeDamage_437280(BaseGameObject* pFrom);
-    EXPORT void VUpdate_436DF0();
+    void VScreenChanged_4373A0();
+    s16 VTakeDamage_437280(BaseGameObject* pFrom);
+    void VUpdate_436DF0();
 
 public:
     s32 field_10C_tlvInfo;

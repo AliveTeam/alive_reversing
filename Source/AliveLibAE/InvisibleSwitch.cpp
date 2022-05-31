@@ -94,7 +94,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
     }
 }
 
-EXPORT void InvisibleSwitch::vScreenChanged_45FD80()
+void InvisibleSwitch::vScreenChanged_45FD80()
 {
     BaseGameObject::VScreenChanged();
     if (field_38_state != States::eWaitForDelayTimer_1)

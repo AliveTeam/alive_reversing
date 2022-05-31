@@ -119,7 +119,7 @@ Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera_4DB610(s16 cam_x_idx, s16 cam
     return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + indexTableEntry]);
 }
 
-Path_TLV* CCSTD Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
+Path_TLV* Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
 {
     return Next_TLV(pTlv);
 }
@@ -316,7 +316,7 @@ u32 Path::TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv)
     return data.all;
 }
 
-Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type)
+Path_TLV* Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type)
 {
     pTlv = Path::Next_TLV_4DB6A0(pTlv);
     if (!pTlv)
@@ -336,7 +336,7 @@ Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type)
     return pTlv;
 }
 
-EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+void Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
@@ -378,7 +378,7 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFla
     }
 }
 
-EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx)
+void Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx)
 {
     Path_TLV* pTlv = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(cam_x_idx, cam_y_idx);
     while (pTlv)
@@ -391,7 +391,7 @@ EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos directi
     }
 }
 
-EXPORT void CCSTD Path::Reset_TLVs_4DBCF0(u16 pathId)
+void Path::Reset_TLVs_4DBCF0(u16 pathId)
 {
     const PathData* pPathData = Path_Get_Bly_Record_460F30(gMap.mCurrentLevel, pathId)->field_4_pPathData;
     const s32 camsX = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;

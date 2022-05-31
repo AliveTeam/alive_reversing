@@ -281,7 +281,7 @@ const AnimId sFlyingSligFrameTables_552408[28] = {
     AnimId::FlyingSlig_TurnToHorizontalMovement,
 };
 
-s32 CC FlyingSlig::CreateFromSaveState_437E40(const u8* pBuffer)
+s32 FlyingSlig::CreateFromSaveState_437E40(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const FlyingSlig_State*>(pBuffer);
 
@@ -1667,7 +1667,7 @@ void FlyingSlig::M_GameSpeak_8_4391D0()
 
 void FlyingSlig::M_Possession_9_434290()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 void FlyingSlig::M_EndHorizontalMovement_10_4387D0()
@@ -2232,12 +2232,12 @@ s16 FlyingSlig::sub_4374A0(s16 a2)
     return 0;
 }
 
-s16 CCSTD FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
+s16 FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
 {
     return Slig::IsAbeEnteringDoor_4BB990(pThis);
 }
 
-Bool32 CCSTD FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj)
+Bool32 FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj)
 {
     // TODO: Duplicated like IsAbeEnteringDoor_4BB990 ??
     PSX_RECT bRect = {};

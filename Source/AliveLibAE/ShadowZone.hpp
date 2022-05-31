@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum class ShadowZoneScale : s16
 {
@@ -36,13 +36,13 @@ public:
     ShadowZone(Path_ShadowZone* pTlv, Path* pPath, u32 tlvInfo);
     ~ShadowZone();
 
-    EXPORT static void CC ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
+    static void ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
 
 private:
-    EXPORT void vScreenChanged_463CC0();
-    EXPORT s16 ApplysToScale_463C70(s16 scale);
-    EXPORT void vUpdate_463C40();
-    EXPORT FP* GetColourAmount_463AA0(FP* pOut, s16 xpos, s16 ypos);
+    void vScreenChanged_463CC0();
+    s16 ApplysToScale_463C70(s16 scale);
+    void vUpdate_463C40();
+    FP* GetColourAmount_463AA0(FP* pOut, s16 xpos, s16 ypos);
 
 private:
     s32 field_20_tlvInfo;

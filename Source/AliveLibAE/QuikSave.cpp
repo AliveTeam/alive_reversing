@@ -325,7 +325,7 @@ ALIVE_ARY(1, 0xBB31D8, SaveFileRec, 128, sSaveFileRecords_BB31D8, {});
 ALIVE_VAR(1, 0xBB43FC, s32, sSavedGameToLoadIdx_BB43FC, 0);
 ALIVE_VAR(1, 0xBB43E0, s32, sTotalSaveFilesCount_BB43E0, 0);
 
-EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
+void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
 {
     sAccumulatedObjectCount_5C1BF4 = quicksaveData->field_200_accumulated_obj_count;
     DestroyObjects_4A1F20();
@@ -344,7 +344,7 @@ EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
     gMap.field_8_force_load = 1;
 }
 
-EXPORT void CC Quicksave_LoadActive_4C9170()
+void Quicksave_LoadActive_4C9170()
 {
     Game_ShowLoadingIcon_482D80();
     Quicksave_LoadFromMemory_4C95A0(&sActiveQuicksaveData_BAF7F8);
@@ -368,7 +368,7 @@ static void WriteFlags(u8*& pSaveBuffer, const Path_TLV* pTlv, const BitField8<T
     pSaveBuffer++;
 }
 
-EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
+void Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
 {
     for (s16 i = 1; i <= Path_Get_Num_Paths(gMap.mCurrentLevel); i++)
     {
@@ -429,7 +429,7 @@ struct SaveFlagsAndData final
 };
 ALIVE_ARY(1, 0xBB233C, SaveFlagsAndData, 8, sSwitchReset_Saved_States_BB233C, {});
 
-EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
+void Quicksave_SaveSwitchResetterStates_4C9870()
 {
     sQuickSave_saved_switchResetters_count_BB234C = 0;
     for (s16 i = 1; i <= Path_Get_Num_Paths(gMap.mCurrentLevel); i++)
@@ -478,7 +478,7 @@ EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
     }
 }
 
-EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
+void Quicksave_RestoreSwitchResetterStates_4C9A30()
 {
     s32 idx = 0;
     for (s16 i = 1; i <= Path_Get_Num_Paths(gMap.mCurrentLevel); i++)
@@ -528,7 +528,7 @@ EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
     sQuickSave_saved_switchResetters_count_BB234C = 0;
 }
 
-void CC MEMCARD_Write_SJISC_String_4A2770(char_type* src, char_type* dst, s32 srcLength)
+void MEMCARD_Write_SJISC_String_4A2770(char_type* src, char_type* dst, s32 srcLength)
 {
     while (srcLength > 0)
     {
@@ -568,14 +568,14 @@ void CC MEMCARD_Write_SJISC_String_4A2770(char_type* src, char_type* dst, s32 sr
     }
 }
 
-EXPORT void CC MEMCARD_Generate_Timestamp_String_4A21F0(char_type* pStr)
+void MEMCARD_Generate_Timestamp_String_4A21F0(char_type* pStr)
 {
     sprintf(pStr, "%03d:%02d",
             (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 / 60 % 1000,
             (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
 }
 
-EXPORT void CC MEMCARD_Write_Timestamp_SJISC_String_4A2290(char_type* dst)
+void MEMCARD_Write_Timestamp_SJISC_String_4A2290(char_type* dst)
 {
     char_type gameTimeStr[12] = {};
     MEMCARD_Generate_Timestamp_String_4A21F0(gameTimeStr);
@@ -605,7 +605,7 @@ EXPORT void CC MEMCARD_Write_Timestamp_SJISC_String_4A2290(char_type* dst)
 ALIVE_VAR(1, 0xBB19F8, Quicksave_PSX_Header, sSaveHeader2_BB19F8, {});
 ALIVE_VAR(1, 0xBB17F8, Quicksave_PSX_Header, sSaveHeader1_BB17F8, {});
 
-EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
+void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 {
     if (sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
     {
@@ -659,7 +659,7 @@ EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
     }
 }
 
-void CC Quicksave_4C90D0()
+void Quicksave_4C90D0()
 {
     Game_ShowLoadingIcon_482D80();
     pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, 0);
@@ -669,7 +669,7 @@ void CC Quicksave_4C90D0()
     Quicksave_SaveToMemory_4C91A0(&sActiveQuicksaveData_BAF7F8);
 }
 
-void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
+void Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
 {
     bUseAltSaveHeader_5C1BBC = pInfo->field_2E_use_alt_save_header;
 
@@ -697,7 +697,7 @@ void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
     sGnFrame_5C1B84 = pInfo->field_0_gnFrame;
 }
 
-void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
+void Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
 {
     PSX_RECT rect = {};
     sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&rect, 1);
@@ -731,7 +731,7 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_10_controlled_scale = sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0);
 }
 
-EXPORT s32 CC Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)
+s32 Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)
 {
     const s32 leftTime = reinterpret_cast<const SaveFileRec*>(pSaveRecLeft)->field_20_lastWriteTimeStamp;
     const s32 rightTime = reinterpret_cast<const SaveFileRec*>(pSaveRecRight)->field_20_lastWriteTimeStamp;
@@ -746,7 +746,7 @@ EXPORT s32 CC Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSave
     }
 }
 
-void CC Quicksave_FindSaves_4D4150()
+void Quicksave_FindSaves_4D4150()
 {
     sTotalSaveFilesCount_BB43E0 = 0;
 

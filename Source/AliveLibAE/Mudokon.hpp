@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 #include "GameSpeak.hpp"
@@ -310,41 +310,41 @@ public:
         vUpdateAnimRes_474D80();
     }
 
-    EXPORT static s32 CC CreateFromSaveState_4717C0(const u8* pBuffer);
+    static s32 CreateFromSaveState_4717C0(const u8* pBuffer);
 
 
 private:
-    EXPORT s32 vGetSaveState_47B080(Mudokon_State* pState);
+    s32 vGetSaveState_47B080(Mudokon_State* pState);
 
 
-    EXPORT void vUpdate_4757A0();
+    void vUpdate_4757A0();
 
-    EXPORT void SetPal_4772D0(Mud_Emotion emotion);
+    void SetPal_4772D0(Mud_Emotion emotion);
 
-    EXPORT void vOnTrapDoorOpen_472350();
+    void vOnTrapDoorOpen_472350();
 
-    EXPORT void vOnTlvCollision_476EA0(Path_TLV* pTlv);
+    void vOnTlvCollision_476EA0(Path_TLV* pTlv);
 
-    EXPORT s16 FacingTarget_473140(BirdPortal* pTarget);
+    s16 FacingTarget_473140(BirdPortal* pTarget);
 
-    EXPORT void vScreenChanged_476F30();
+    void vScreenChanged_476F30();
 
-    EXPORT void vPossessed_4774F0();
+    void vPossessed_4774F0();
 
-    EXPORT s16 vTakeDamage_476270(BaseGameObject* pFrom);
+    s16 vTakeDamage_476270(BaseGameObject* pFrom);
 
     s16 TurningWheelHelloOrAllYaResponse();
 
 public:
-    EXPORT void vUpdateAnimRes_474D80();
+    void vUpdateAnimRes_474D80();
 
 public: // Brains
-    EXPORT s16 Brain_0_GiveRings_470C10();
-    EXPORT s16 Brain_1_Chisel_47C5F0();
-    EXPORT s16 Brain_2_Scrub_47D270();
-    EXPORT s16 Brain_3_TurnWheel_47E0D0();
+    s16 Brain_0_GiveRings_470C10();
+    s16 Brain_1_Chisel_47C5F0();
+    s16 Brain_2_Scrub_47D270();
+    s16 Brain_3_TurnWheel_47E0D0();
 
-    EXPORT s16 Brain_4_ListeningToAbe_477B40();
+    s16 Brain_4_ListeningToAbe_477B40();
 
     s16 Brain_ListeningToAbe_State_0();
     s16 Brain_ListeningToAbe_State_1();
@@ -370,92 +370,92 @@ public: // Brains
     s16 Brain_ListeningToAbe_State_21();
     s16 Brain_ListeningToAbe_State_22();
 
-    EXPORT s16 Brain_5_ShrivelDeath_4714A0();
-    EXPORT s16 Brain_6_Escape_47A560();
-    EXPORT s16 Brain_7_FallAndSmackDeath_471600();
-    EXPORT s16 Brain_8_AngryWorker_47E910();
-    EXPORT s16 Brain_9_Sick_47A910();
+    s16 Brain_5_ShrivelDeath_4714A0();
+    s16 Brain_6_Escape_47A560();
+    s16 Brain_7_FallAndSmackDeath_471600();
+    s16 Brain_8_AngryWorker_47E910();
+    s16 Brain_9_Sick_47A910();
 
 public: // Motions
-    EXPORT void M_Idle_0_4724E0();
-    EXPORT void M_WalkLoop_1_4728B0();
-    EXPORT void M_StandingTurn_2_472BF0();
-    EXPORT void M_Speak_472FA0();
-    EXPORT void M_WalkBegin_7_472AB0();
-    EXPORT void M_WalkToIdle_8_472B30();
-    EXPORT void M_MidWalkToIdle_9_472BD0();
-    EXPORT void M_LeverUse_10_473020();
-    EXPORT void M_Chisel_11_4732D0();
-    EXPORT void M_StartChisel_12_473500();
-    EXPORT void M_StopChisel_13_473530();
-    EXPORT void M_CrouchScrub_14_473560();
-    EXPORT void M_CrouchIdle_15_474040();
-    EXPORT void M_CrouchTurn_16_4740E0();
-    EXPORT void M_StandToCrouch_17_474120();
-    EXPORT void M_CrouchToStand_18_474150();
-    EXPORT void M_WalkToRun_19_473600();
-    EXPORT void M_MidWalkToRun_20_4736D0();
-    EXPORT void M_RunLoop_21_473720();
-    EXPORT void M_RunToWalk_22_4738E0();
-    EXPORT void M_MidRunToWalk_23_4739B0();
-    EXPORT void M_RunSlideStop_24_473A00();
-    EXPORT void M_RunSlideTurn_25_473AA0();
-    EXPORT void M_RunTurnToRun_26_473BB0();
-    EXPORT void M_SneakLoop_27_473C40();
-    EXPORT void M_MidWalkToSneak_28_473D60();
-    EXPORT void M_SneakToWalk_29_473E20();
-    EXPORT void M_WalkToSneak_30_473EE0();
-    EXPORT void M_MidSneakToWalk_31_473F30();
-    EXPORT void M_SneakBegin_32_473F80();
-    EXPORT void M_SneakToIdle_33_473FF0();
-    EXPORT void M_MidSneakToIdle_34_474020();
-    EXPORT void M_RunJumpBegin_35_474460();
-    EXPORT void M_RunJumpMid_36_474570();
-    EXPORT void M_StandToRun_37_4749A0();
-    EXPORT void M_Punch_38_474AA0();
-    EXPORT void M_HoistBegin_39_4748E0();
-    EXPORT void M_HoistLand_40_474780();
-    EXPORT void M_LandSoft1_41_474960();
-    EXPORT void M_LandSoft2_42_4743F0();
-    EXPORT void M_DunnoBegin_43_472790();
-    EXPORT void M_DunnoEnd_44_4727B0();
-    EXPORT void M_KnockForward_45_474180();
-    EXPORT void M_Knockback_46_4742A0();
-    EXPORT void M_KnockbackGetUp_47_474380();
-    EXPORT void M_WalkOffEdge_48_4743C0();
-    EXPORT void M_Fall_49_472C60();
-    EXPORT void M_Chant_50_473040();
-    EXPORT void M_ChantEnd_51_4730D0();
-    EXPORT void M_ToDuck_52_474A20();
-    EXPORT void M_Duck_53_474A40();
-    EXPORT void M_DuckToCrouch_54_474A80();
-    EXPORT void M_DuckKnockback_55_474250();
-    EXPORT void M_SlapOwnHead_56_4727D0();
-    EXPORT void M_TurnWheelBegin_57_474C00();
-    EXPORT void M_TurnWheelLoop_58_474CC0();
-    EXPORT void M_TurnWheelEnd_59_474D30();
+    void M_Idle_0_4724E0();
+    void M_WalkLoop_1_4728B0();
+    void M_StandingTurn_2_472BF0();
+    void M_Speak_472FA0();
+    void M_WalkBegin_7_472AB0();
+    void M_WalkToIdle_8_472B30();
+    void M_MidWalkToIdle_9_472BD0();
+    void M_LeverUse_10_473020();
+    void M_Chisel_11_4732D0();
+    void M_StartChisel_12_473500();
+    void M_StopChisel_13_473530();
+    void M_CrouchScrub_14_473560();
+    void M_CrouchIdle_15_474040();
+    void M_CrouchTurn_16_4740E0();
+    void M_StandToCrouch_17_474120();
+    void M_CrouchToStand_18_474150();
+    void M_WalkToRun_19_473600();
+    void M_MidWalkToRun_20_4736D0();
+    void M_RunLoop_21_473720();
+    void M_RunToWalk_22_4738E0();
+    void M_MidRunToWalk_23_4739B0();
+    void M_RunSlideStop_24_473A00();
+    void M_RunSlideTurn_25_473AA0();
+    void M_RunTurnToRun_26_473BB0();
+    void M_SneakLoop_27_473C40();
+    void M_MidWalkToSneak_28_473D60();
+    void M_SneakToWalk_29_473E20();
+    void M_WalkToSneak_30_473EE0();
+    void M_MidSneakToWalk_31_473F30();
+    void M_SneakBegin_32_473F80();
+    void M_SneakToIdle_33_473FF0();
+    void M_MidSneakToIdle_34_474020();
+    void M_RunJumpBegin_35_474460();
+    void M_RunJumpMid_36_474570();
+    void M_StandToRun_37_4749A0();
+    void M_Punch_38_474AA0();
+    void M_HoistBegin_39_4748E0();
+    void M_HoistLand_40_474780();
+    void M_LandSoft1_41_474960();
+    void M_LandSoft2_42_4743F0();
+    void M_DunnoBegin_43_472790();
+    void M_DunnoEnd_44_4727B0();
+    void M_KnockForward_45_474180();
+    void M_Knockback_46_4742A0();
+    void M_KnockbackGetUp_47_474380();
+    void M_WalkOffEdge_48_4743C0();
+    void M_Fall_49_472C60();
+    void M_Chant_50_473040();
+    void M_ChantEnd_51_4730D0();
+    void M_ToDuck_52_474A20();
+    void M_Duck_53_474A40();
+    void M_DuckToCrouch_54_474A80();
+    void M_DuckKnockback_55_474250();
+    void M_SlapOwnHead_56_4727D0();
+    void M_TurnWheelBegin_57_474C00();
+    void M_TurnWheelLoop_58_474CC0();
+    void M_TurnWheelEnd_59_474D30();
 
 private:
-    EXPORT s16 StableDelay_477570();
-    EXPORT s16 CheckForPortal_4775E0();
-    EXPORT GameSpeakEvents LastGameSpeak_476FF0();
-    EXPORT s16 LaughingGasInCurrentScreen_4774A0();
-    EXPORT void Sound_475EC0(MudSounds idx);
-    EXPORT s16 CanRespond_4770B0();
+    s16 StableDelay_477570();
+    s16 CheckForPortal_4775E0();
+    GameSpeakEvents LastGameSpeak_476FF0();
+    s16 LaughingGasInCurrentScreen_4774A0();
+    void Sound_475EC0(MudSounds idx);
+    s16 CanRespond_4770B0();
 
-    EXPORT u8** AnimBlockForMotion_474DC0(s16 motion);
+    u8** AnimBlockForMotion_474DC0(s16 motion);
 
-    EXPORT void CheckFloorGone_472320();
-    EXPORT void ToStand_4724A0();
+    void CheckFloorGone_472320();
+    void ToStand_4724A0();
 
-    EXPORT s16 FindWheel_4777B0(FP xpos, FP ypos);
-    EXPORT s16 GetBrainSubStateResponse_477AF0(MudAction action);
-    EXPORT s16 StopAtWheel_477880();
-    EXPORT void ToKnockback_473190();
-    EXPORT s16 IsMotionUnknown_4730F0();
-    EXPORT void MoveOnLine_4720D0();
+    s16 FindWheel_4777B0(FP xpos, FP ypos);
+    s16 GetBrainSubStateResponse_477AF0(MudAction action);
+    s16 StopAtWheel_477880();
+    void ToKnockback_473190();
+    s16 IsMotionUnknown_4730F0();
+    void MoveOnLine_4720D0();
 
-    EXPORT static const struct MudEmotionTableEntry* CC ResponseTo_471730(Mud_Emotion emotion, MudAction action);
+    static const struct MudEmotionTableEntry* ResponseTo_471730(Mud_Emotion emotion, MudAction action);
 
     void AddAlerted();
 
@@ -463,17 +463,17 @@ private:
     s16 BrainStartWheelTurning();
     bool NeedToTurnAround();
 
-    EXPORT void ReduceXVelocityBy_472260(FP velXScaleBy);
+    void ReduceXVelocityBy_472260(FP velXScaleBy);
 
-    EXPORT void CheckKnockedOntoABomb_4723C0();
+    void CheckKnockedOntoABomb_4723C0();
 
-    EXPORT void HurtSound_475DB0();
+    void HurtSound_475DB0();
 
-    EXPORT void TakeASlap_476090(BaseGameObject* pFrom);
+    void TakeASlap_476090(BaseGameObject* pFrom);
 
-    EXPORT s32 GetResponseEntryIdx_471760();
+    s32 GetResponseEntryIdx_471760();
 
-    EXPORT static const MudEmotionTableEntry* CCSTD GetResponseEntry_471790(s32 idx);
+    static const MudEmotionTableEntry* GetResponseEntry_471790(s32 idx);
 
 private:
     s32 field_118_tlvInfo;

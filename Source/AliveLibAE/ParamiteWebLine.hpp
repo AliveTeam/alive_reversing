@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 
 struct Path_ParamiteWebLine final : public Path_TLV
@@ -17,7 +17,7 @@ public:
     ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo);
     ~ParamiteWebLine();
 
-    EXPORT void Wobble_4E29D0(s16 ypos);
+    void Wobble_4E29D0(s16 ypos);
 
     virtual void VUpdate() override;
 
@@ -30,18 +30,18 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT ParamiteWebLine* vdtor_4E2460(s32 flags);
+    ParamiteWebLine* vdtor_4E2460(s32 flags);
 
-    EXPORT void dtor_4E2490();
+    void dtor_4E2490();
 
-    EXPORT void vUpdate_4E2A50();
+    void vUpdate_4E2A50();
 
-    EXPORT PSX_RECT* vGetBoundingRect_4E2B40(PSX_RECT* pRect, s32 idx);
+    PSX_RECT* vGetBoundingRect_4E2B40(PSX_RECT* pRect, s32 idx);
 
-    EXPORT void vRender_4E2530(PrimHeader** ppOt);
+    void vRender_4E2530(PrimHeader** ppOt);
 
 private:
-    EXPORT void vScreenChanged_4E2BC0();
+    void vScreenChanged_4E2BC0();
 
     s16 field_F4_anim_segment_count;
     s16 field_F6_piece_length;

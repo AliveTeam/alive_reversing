@@ -182,7 +182,7 @@ void BellHammer::VUpdate()
     }
 }
 
-void CC BellHammer::OnResLoaded(BellHammer* pThis)
+void BellHammer::OnResLoaded(BellHammer* pThis)
 {
     pThis->field_EC_pending_resource_count--;
 }

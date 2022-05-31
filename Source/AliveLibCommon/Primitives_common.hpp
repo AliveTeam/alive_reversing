@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Psx_common.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 
 struct PrimHeaderPart_Normal final

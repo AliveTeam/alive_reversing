@@ -197,12 +197,12 @@ void PsxDisplay::Movie_Render_40DE60(u16 bufferIdx)
     PSX_ClearOTag_496760(field_C_drawEnv[0].field_70_ot_buffer, field_8_buffer_size);
 }
 
-EXPORT s32 CC DebugFont_Init_487EC0()
+s32 DebugFont_Init_487EC0()
 {
     return ::DebugFont_Init_4DCF40();
 }
 
-EXPORT void CC DebugFont_Flush_487F50()
+void DebugFont_Flush_487F50()
 {
     ::DebugFont_Flush_4DD050();
 }

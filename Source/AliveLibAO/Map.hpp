@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/Psx_common.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "PathData.hpp"
@@ -111,7 +111,7 @@ struct Path_TLV
     PSX_Point field_14_bottom_right;
 
     // Note: Part of Path object in AE
-    EXPORT static Path_TLV* CCSTD Next_446460(Path_TLV* pTlv);
+    static Path_TLV* Next_446460(Path_TLV* pTlv);
 
     // Note: must be inlined as its used by the api
     static Path_TLV* Next(Path_TLV* pTlv)
@@ -133,7 +133,7 @@ struct Path_TLV
         return reinterpret_cast<Path_TLV*>(pNext);
     }
 
-    EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type);
+    static Path_TLV* TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type);
 
     // Some strange self terminate check that is inlined everywhere
     void RangeCheck()
@@ -191,92 +191,92 @@ public:
         eMapBottom_3 = 3,
     };
 
-    EXPORT static void ctor_static_443E10();
-    EXPORT static void dtor_static_443E60();
+    static void ctor_static_443E10();
+    static void dtor_static_443E60();
 
     void ctor();
 
-    EXPORT void Init_443EE0(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
+    void Init_443EE0(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
 
-    EXPORT void Shutdown_443F90();
+    void Shutdown_443F90();
     void Reset();
 
-    EXPORT s16 SetActiveCam_444660(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
+    s16 SetActiveCam_444660(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
 
-    EXPORT void ScreenChange_4444D0();
+    void ScreenChange_4444D0();
 
     void FreePathResourceBlocks();
     void GetPathResourceBlockPtrs();
     u8** GetPathResourceBlockPtr(u32 pathId);
     void ClearPathResourceBlocks();
 
-    EXPORT void GoTo_Camera_445050();
+    void GoTo_Camera_445050();
 
-    EXPORT void Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad);
+    void Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad);
 
-    EXPORT void TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
+    void TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
 
-    EXPORT void RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible);
+    void RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible);
 
-    EXPORT void Handle_PathTransition_444DD0();
+    void Handle_PathTransition_444DD0();
 
     void ScreenChange_Common();
 
-    EXPORT void Get_map_size_444870(PSX_Point* pPoint);
+    void Get_map_size_444870(PSX_Point* pPoint);
 
-    EXPORT void GetCurrentCamCoords_444890(PSX_Point* pPoint);
+    void GetCurrentCamCoords_444890(PSX_Point* pPoint);
     s16 GetOverlayId();
 
-    EXPORT static CameraSwapper* CC FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds levelId);
+    static CameraSwapper* FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds levelId);
 
-    EXPORT void Create_FG1s_4447D0();
+    void Create_FG1s_4447D0();
 
-    EXPORT Camera* Create_Camera_445BE0(s16 xpos, s16 ypos, s32 a4);
+    Camera* Create_Camera_445BE0(s16 xpos, s16 ypos, s32 a4);
 
-    EXPORT void RestoreBlyData_446A90(const u8* pSaveData);
+    void RestoreBlyData_446A90(const u8* pSaveData);
 
-    EXPORT void Load_Path_Items_445DA0(Camera* pCamera, LoadMode loadMode);
+    void Load_Path_Items_445DA0(Camera* pCamera, LoadMode loadMode);
 
-    EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, s32 camX);
+    Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, s32 camX);
 
-    EXPORT Path_TLV* TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind);
+    Path_TLV* TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind);
 
-    EXPORT Path_TLV* TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
+    Path_TLV* TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
 
-    EXPORT void sub_447430(u16 pathNum);
+    void sub_447430(u16 pathNum);
 
     CameraPos GetDirection(LevelIds level, s32 path, FP xpos, FP ypos)
     {
         return GetDirection_444A40(static_cast<s32>(level), path, xpos, ypos);
     }
 
-    EXPORT CameraPos GetDirection_444A40(s32 level, s32 path, FP xpos, FP ypos);
+    CameraPos GetDirection_444A40(s32 level, s32 path, FP xpos, FP ypos);
 
-    EXPORT CameraPos Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, s16 width);
+    CameraPos Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, s16 width);
 
-    EXPORT s16 Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect);
+    s16 Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect);
 
     s16 Is_Point_In_Current_Camera_4449C0(LevelIds level, s32 path, FP xpos, FP ypos, s16 width)
     {
         return Is_Point_In_Current_Camera_4449C0(static_cast<s32>(level), path, xpos, ypos, width);
     }
 
-    EXPORT s16 Is_Point_In_Current_Camera_4449C0(s32 level, s32 path, FP xpos, FP ypos, s16 width);
+    s16 Is_Point_In_Current_Camera_4449C0(s32 level, s32 path, FP xpos, FP ypos, s16 width);
 
-    EXPORT s16 SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect);
+    s16 SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect);
 
     Camera* GetCamera(CameraPos pos);
 
     // NOTE: Global func in AE
-    EXPORT void Start_Sounds_For_Objects_In_Near_Cameras_4467D0();
+    void Start_Sounds_For_Objects_In_Near_Cameras_4467D0();
 
     // NOTE: Part of Path object in AE
-    EXPORT void Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
+    void Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
 
     // NOTE: Part of Path object in AE
-    EXPORT Path_TLV* Get_First_TLV_For_Offsetted_Camera_4463B0(s16 camX, s16 camY);
+    Path_TLV* Get_First_TLV_For_Offsetted_Camera_4463B0(s16 camX, s16 camY);
 
-    EXPORT void SaveBlyData_446900(u8* pSaveBuffer);
+    void SaveBlyData_446900(u8* pSaveBuffer);
 
     LevelIds mCurrentLevel;
     s16 mCurrentPath;
@@ -326,6 +326,6 @@ ALIVE_VAR_EXTERN(s16, sMap_bDoPurpleLightEffect_507C9C);
 ALIVE_VAR_EXTERN(OverlayRecords, sOverlayTable_4C5AA8);
 ALIVE_VAR_EXTERN(Camera*, sCameraBeingLoaded_507C98);
 
-EXPORT s32 CC MaxGridBlocks_41FA10(FP scale);
+s32 MaxGridBlocks_41FA10(FP scale);
 
 } // namespace AO

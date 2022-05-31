@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include <atomic>
 
 #if USE_SDL2
@@ -39,14 +39,14 @@ struct IO_Movie_Handle final
 ALIVE_ASSERT_SIZEOF(IO_Movie_Handle, 0x20);
 
 
-EXPORT IO_Handle* CC IO_Open_4F2320(const char_type* fileName, s32 modeFlag);
-EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile);
-EXPORT s32 CC IO_Seek_4F2490(IO_Handle* hFile, s32 offset, s32 origin);
-EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile);
-EXPORT u32 WINAPI FS_IOThread_4F25A0(LPVOID lpThreadParameter);
-EXPORT s32 CC IO_Issue_ASync_Read_4F2430(IO_Handle* hFile, s32 always3, void* readBuffer, size_t bytesToRead, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 /*notUsed3*/);
-EXPORT s32 CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount);
-EXPORT void IO_Init_494230();
+IO_Handle* IO_Open_4F2320(const char_type* fileName, s32 modeFlag);
+void IO_WaitForComplete_4F2510(IO_Handle* hFile);
+s32 IO_Seek_4F2490(IO_Handle* hFile, s32 offset, s32 origin);
+void IO_fclose_4F24E0(IO_Handle* hFile);
+u32 WINAPI FS_IOThread_4F25A0(LPVOID lpThreadParameter);
+s32 IO_Issue_ASync_Read_4F2430(IO_Handle* hFile, s32 always3, void* readBuffer, size_t bytesToRead, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 /*notUsed3*/);
+s32 IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount);
+void IO_Init_494230();
 
 IO_FileHandleType IO_Open(const char_type* fileName, const char_type* mode);
 s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin);
@@ -54,12 +54,12 @@ s32 IO_Close(IO_FileHandleType pHandle);
 size_t IO_Read(IO_FileHandleType pHandle, void* ptr, size_t size, size_t maxnum);
 
 
-EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0();
+void IO_Stop_ASync_IO_Thread_4F26B0();
 bool IO_CreateThread();
 bool IO_DirectoryExists(const char_type* pDirName);
 
 using TEnumCallBack = void(const char_type*, u32);
-void EXPORT IO_EnumerateDirectory(const char_type* fileName, TEnumCallBack cb);
+void IO_EnumerateDirectory(const char_type* fileName, TEnumCallBack cb);
 
 ALIVE_VAR_EXTERN(u32, sIoThreadId_BBC558);
 ALIVE_VAR_EXTERN(Bool32, sIOSyncReads_BD2A5C);

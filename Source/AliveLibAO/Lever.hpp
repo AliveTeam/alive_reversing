@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "ScopedSeq.hpp"
@@ -54,16 +54,16 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_4816F0();
+    void VScreenChanged_4816F0();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4812D0();
+    void VUpdate_4812D0();
 
     // New virtual
     virtual s32 VPull(s16 bLeftDirection);
 
-    EXPORT s32 vPull_481640(s16 bLeftDirection);
+    s32 vPull_481640(s16 bLeftDirection);
 
     s32 field_D4_padding[4];
     s16 field_E4_switch_id;

@@ -468,7 +468,7 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeT
 }
 
 
-EXPORT CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_417CC0()
+CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_417CC0()
 {
     PSX_RECT rect = {};
     VGetBoundingRect(&rect, 1);

@@ -1,6 +1,5 @@
 #include "stdafx_common.h"
 #include "Masher.hpp"
-#include "Function.hpp"
 #include "masher_tables.hpp"
 #include "Sys_common.hpp"
 #include <array>
@@ -964,7 +963,7 @@ s32 Masher::ReadNextFrame_4E6B30()
     return ++field_68_frame_number < field_4_ddv_header.field_C_number_of_frames + 2;
 }
 
-s32 CC Masher::ReadNextFrameToMemory_4EAC30(Masher* pMasher)
+s32 Masher::ReadNextFrameToMemory_4EAC30(Masher* pMasher)
 {
     s32* pFrameSize = pMasher->field_74_pCurrentFrameSize;
     s32 sizeToRead = *pFrameSize;
@@ -1074,13 +1073,13 @@ void Masher::VideoFrameDecode_4E6C60(u8* pPixelBuffer)
 ALIVE_VAR(1, 0xbbb9b4, s32, gMasher_num_channels_BBB9B4, 0);
 ALIVE_VAR(1, 0xbbb9a8, s32, gMasher_bits_per_sample_BBB9A8, 0);
 
-void CC Masher::DDV_Set_Channels_And_BitsPerSample_4ECFD0(s32 numChannels, s32 bitsPerSample)
+void Masher::DDV_Set_Channels_And_BitsPerSample_4ECFD0(s32 numChannels, s32 bitsPerSample)
 {
     gMasher_num_channels_BBB9B4 = numChannels;
     gMasher_bits_per_sample_BBB9A8 = bitsPerSample;
 }
 
-void CC Masher::DDV_DecompressAudioFrame_4ECFF0(s32* pMasherFrame, u8* pDecodedFrame, s32 frameSize)
+void Masher::DDV_DecompressAudioFrame_4ECFF0(s32* pMasherFrame, u8* pDecodedFrame, s32 frameSize)
 {
     AudioDecompressor decompressor;
     const s32 bytesPerSample = gMasher_bits_per_sample_BBB9A8 / 8;
@@ -1108,7 +1107,7 @@ void CC Masher::DDV_DecompressAudioFrame_4ECFF0(s32* pMasherFrame, u8* pDecodedF
     }
 }
 
-void* CC Masher::GetDecompressedAudioFrame_4EAC60(Masher* pMasher)
+void* Masher::GetDecompressedAudioFrame_4EAC60(Masher* pMasher)
 {
     void* result = nullptr;
     if (pMasher->field_60_bHasAudio

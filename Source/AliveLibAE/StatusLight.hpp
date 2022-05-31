@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 
 struct Path_StatusLight final : public Path_TLV
@@ -28,8 +28,8 @@ public:
     ~StatusLight();
 
 private:
-    EXPORT void vUpdate_4D5530();
-    EXPORT void vScreenChanged_4D5820();
+    void vUpdate_4D5530();
+    void vScreenChanged_4D5820();
 
 private:
     u32 field_F4_tlvInfo;

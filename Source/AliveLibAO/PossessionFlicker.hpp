@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 
 namespace AO {
@@ -15,11 +15,11 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_41AA40();
+    void VScreenChanged_41AA40();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_41A9B0();
+    void VUpdate_41A9B0();
 
     BaseAliveGameObject* field_10_pObj;
     s32 field_14_time_to_flicker;

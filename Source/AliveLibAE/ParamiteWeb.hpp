@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 class ParamiteWeb final : public ::BaseAnimatedWithPhysicsGameObject
@@ -18,11 +18,11 @@ public:
 
 private:
 
-    EXPORT void vUpdate_4E1F40();
+    void vUpdate_4E1F40();
 
-    EXPORT void vScreenChanged_4E1F80();
+    void vScreenChanged_4E1F80();
 
-    EXPORT void vRender_4E1BA0(PrimHeader** ppOt);
+    void vRender_4E1BA0(PrimHeader** ppOt);
 
 public:
     s16 field_F4_number_of_segments;

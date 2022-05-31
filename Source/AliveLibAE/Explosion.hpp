@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 class Explosion final : public ::BaseAnimatedWithPhysicsGameObject
 {
@@ -13,7 +13,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void DealBlastDamage_4A1BD0(PSX_RECT* pRect);
+    void DealBlastDamage_4A1BD0(PSX_RECT* pRect);
 
 private:
     s16 field_F4_bSmall;

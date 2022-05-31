@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Animation.hpp"
 #include "FixedPoint.hpp"
 
@@ -16,11 +16,11 @@ public:
 
     // WARNING: Not a derived type - keep virtuals in order for BC
 
-    virtual EXPORT void VUpdate_48BF00();
+    virtual void VUpdate_48BF00();
 
-    EXPORT void SetActive(u8 active);
+    void SetActive(u8 active);
 
-    virtual EXPORT void VRender_48C430(PrimHeader** ppOt);
+    virtual void VRender_48C430(PrimHeader** ppOt);
 
     // NOTE: inlined
     s32 IsActive();
@@ -28,7 +28,7 @@ public:
     // NOTE: inlined
     void ToStop();
 
-    EXPORT void CalculateRenderProperties_48BDC0(s16 bStarted);
+    void CalculateRenderProperties_48BDC0(s16 bStarted);
 
     void Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
 

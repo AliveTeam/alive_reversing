@@ -61,31 +61,31 @@ InvisibleEffect::~InvisibleEffect()
     }
 }
 
-EXPORT void InvisibleEffect::InstantInvisibility_45FA00()
+void InvisibleEffect::InstantInvisibility_45FA00()
 {
     field_4A_flags.Set(Flags_4A::eIsInvisible_Bit3);
     SetUpdateDelay(1);
     field_20_state_or_op = InvisibleState::eSetInvisibile_1;
 }
 
-EXPORT void InvisibleEffect::BecomeVisible_45FA30()
+void InvisibleEffect::BecomeVisible_45FA30()
 {
     field_20_state_or_op = InvisibleState::eBecomeVisible_4;
 }
 
-EXPORT void InvisibleEffect::ClearInvisibility_45FA50()
+void InvisibleEffect::ClearInvisibility_45FA50()
 {
     SetUpdateDelay(1);
     field_20_state_or_op = InvisibleState::eClearInvisibility_5;
 }
 
-EXPORT void InvisibleEffect::BecomeInvisible_45F9E0()
+void InvisibleEffect::BecomeInvisible_45F9E0()
 {
     SetUpdateDelay(1);
     field_20_state_or_op = InvisibleState::eSetInvisibile_1;
 }
 
-EXPORT void InvisibleEffect::vUpdate_45F4A0()
+void InvisibleEffect::vUpdate_45F4A0()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_44_objId));
     if (Event_Get_422C00(kEventDeathReset))

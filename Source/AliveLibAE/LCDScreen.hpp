@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Font.hpp"
 #include "Path.hpp"
@@ -24,9 +24,9 @@ public:
     LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo);
     ~LCDScreen();
 
-    EXPORT void Update_460A00();
-    EXPORT void Render_460CB0(PrimHeader** ppOt);
-    EXPORT void vSetDead_460F10();
+    void Update_460A00();
+    void Render_460CB0(PrimHeader** ppOt);
+    void vSetDead_460F10();
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;

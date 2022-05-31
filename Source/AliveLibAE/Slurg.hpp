@@ -68,7 +68,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Slurg_State, 0x2C);
 class Slurg final : public BaseAliveGameObject
 {
 public:
-    EXPORT static void CC Clear_Slurg_Step_Watch_Points_449A90();
+    static void Clear_Slurg_Step_Watch_Points_449A90();
 
     Slurg(Path_Slurg* pTlv, u32 tlvInfo);
     ~Slurg();
@@ -78,19 +78,19 @@ public:
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
 
-    EXPORT static s32 CC CreateFromSaveState_4C8DF0(const u8* pData);
+    static s32 CreateFromSaveState_4C8DF0(const u8* pData);
 
 private:
     void GoLeft();
     void GoRight();
 
 private:
-    EXPORT void Burst_4C8AE0();
-    EXPORT void vUpdate_4C8790();
-    EXPORT s16 vTakeDamage_4C8BF0(BaseGameObject* pFrom);
-    EXPORT void vOn_TLV_Collision_4C8C20(Path_TLV* pTlv);
+    void Burst_4C8AE0();
+    void vUpdate_4C8790();
+    s16 vTakeDamage_4C8BF0(BaseGameObject* pFrom);
+    void vOn_TLV_Collision_4C8C20(Path_TLV* pTlv);
 
-    EXPORT s32 vSaveState_4C8FC0(Slurg_State* pState);
+    s32 vSaveState_4C8FC0(Slurg_State* pState);
 
 private:
     s16 field_116_padding;

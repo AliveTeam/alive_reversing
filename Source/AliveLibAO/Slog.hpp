@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 
@@ -63,13 +63,13 @@ public:
     Slog(FP xpos, FP ypos, FP scale);
     ~Slog();
 
-    EXPORT s16 HandleEnemyStopper_473BD0();
-    EXPORT void ToJump_473FB0();
-    EXPORT void Sfx_475BD0(s32 idx);
-    EXPORT s16 IsPlayerNear_471930();
-    EXPORT BaseAliveGameObject* FindAbeMudOrSlig_4722F0();
-    EXPORT void Init_473130();
-    EXPORT s16 ToNextMotion_473CE0();
+    s16 HandleEnemyStopper_473BD0();
+    void ToJump_473FB0();
+    void Sfx_475BD0(s32 idx);
+    s16 IsPlayerNear_471930();
+    BaseAliveGameObject* FindAbeMudOrSlig_4722F0();
+    void Init_473130();
+    s16 ToNextMotion_473CE0();
     void ToIdle();
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
@@ -83,52 +83,52 @@ public:
 
 private:
     void VOnTrapDoorOpen_4740C0();
-    EXPORT void VOnThrowableHit_4735F0(BaseGameObject* pFrom);
-    EXPORT void VRender_4735D0(PrimHeader** ppOt);
-    EXPORT void VScreenChanged_473480();
-    EXPORT void VUpdate_4739C0();
-    EXPORT void VOn_Tlv_Collision_473970(Path_TLV* pTlv);
-    EXPORT s16 VTakeDamage_473610(BaseGameObject* pFrom);
+    void VOnThrowableHit_4735F0(BaseGameObject* pFrom);
+    void VRender_4735D0(PrimHeader** ppOt);
+    void VScreenChanged_473480();
+    void VUpdate_4739C0();
+    void VOn_Tlv_Collision_473970(Path_TLV* pTlv);
+    s16 VTakeDamage_473610(BaseGameObject* pFrom);
 
 public:
     void SetAnimFrame();
 
     u8** ResBlockForMotion(s16 motion);
 
-    EXPORT void MoveOnLine_4740F0();
+    void MoveOnLine_4740F0();
 
     // Motions
-    EXPORT void Motion_0_Idle_4742E0();
-    EXPORT void Motion_1_Walk_4743F0();
-    EXPORT void Motion_2_Run_4749A0();
-    EXPORT void Motion_3_TurnAround_474C70();
-    EXPORT void Motion_4_Fall_4750C0();
-    EXPORT void Motion_5_Unknown_474070();
-    EXPORT void Motion_6_MoveHeadUpwards_474220();
-    EXPORT void Motion_7_SlideTurn_474DB0();
-    EXPORT void Motion_8_StopRunning_474EC0();
-    EXPORT void Motion_9_StartWalking_474690();
-    EXPORT void Motion_10_EndWalking_4747D0();
-    EXPORT void Motion_11_Land_475AB0();
-    EXPORT void Motion_12_Unknown_475B50();
-    EXPORT void Motion_13_StartFastBarking_475B70();
-    EXPORT void Motion_14_EndFastBarking_475BB0();
-    EXPORT void Motion_15_AngryBark_475290();
-    EXPORT void Motion_16_Sleeping_4752E0();
-    EXPORT void Motion_17_MoveHeadDownwards_475510();
-    EXPORT void Motion_18_WakeUp_475460();
-    EXPORT void Motion_19_JumpForwards_475610();
-    EXPORT void Motion_20_JumpUpwards_475890();
-    EXPORT void Motion_21_Eating_475900();
-    EXPORT void Motion_22_Dying_475A90();
-    EXPORT void Motion_23_Scratch_475550();
-    EXPORT void Motion_24_Growl_475590();
+    void Motion_0_Idle_4742E0();
+    void Motion_1_Walk_4743F0();
+    void Motion_2_Run_4749A0();
+    void Motion_3_TurnAround_474C70();
+    void Motion_4_Fall_4750C0();
+    void Motion_5_Unknown_474070();
+    void Motion_6_MoveHeadUpwards_474220();
+    void Motion_7_SlideTurn_474DB0();
+    void Motion_8_StopRunning_474EC0();
+    void Motion_9_StartWalking_474690();
+    void Motion_10_EndWalking_4747D0();
+    void Motion_11_Land_475AB0();
+    void Motion_12_Unknown_475B50();
+    void Motion_13_StartFastBarking_475B70();
+    void Motion_14_EndFastBarking_475BB0();
+    void Motion_15_AngryBark_475290();
+    void Motion_16_Sleeping_4752E0();
+    void Motion_17_MoveHeadDownwards_475510();
+    void Motion_18_WakeUp_475460();
+    void Motion_19_JumpForwards_475610();
+    void Motion_20_JumpUpwards_475890();
+    void Motion_21_Eating_475900();
+    void Motion_22_Dying_475A90();
+    void Motion_23_Scratch_475550();
+    void Motion_24_Growl_475590();
 
     // Brains
-    EXPORT s16 Brain_0_ListeningToSlig_472450();
-    EXPORT s16 Brain_1_Idle_4719C0();
-    EXPORT s16 Brain_2_ChasingAbe_470F50();
-    EXPORT s16 Brain_3_Dead_4721B0();
+    s16 Brain_0_ListeningToSlig_472450();
+    s16 Brain_1_Idle_4719C0();
+    s16 Brain_2_ChasingAbe_470F50();
+    s16 Brain_3_Dead_4721B0();
 
     // Inlined
     s16 Facing(FP xpos);

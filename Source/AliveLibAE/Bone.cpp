@@ -89,7 +89,7 @@ s16 Bone::VGetCount_448080()
     return vGetCount_412500();
 }
 
-s32 CC Bone::CreateFromSaveState_412C10(const u8* pData)
+s32 Bone::CreateFromSaveState_412C10(const u8* pData)
 {
     auto pState = reinterpret_cast<const Bone_SaveState*>(pData);
 

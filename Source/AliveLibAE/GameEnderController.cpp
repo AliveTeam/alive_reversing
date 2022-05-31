@@ -17,7 +17,7 @@
 ALIVE_VAR(1, 0x5C1BC6, s16, sFeeco_Restart_KilledMudCount_5C1BC6, 0);
 ALIVE_VAR(1, 0x5C1BC8, s16, sFeecoRestart_SavedMudCount_5C1BC8, 0);
 
-EXPORT void CC CreateGameEnderController_43B7A0()
+void CreateGameEnderController_43B7A0()
 {
     // Exit if it already exists
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -39,7 +39,7 @@ EXPORT void CC CreateGameEnderController_43B7A0()
 }
 
 
-s32 CC GameEnderController::CreateFromSaveState_43BD10(const u8* pBuffer)
+s32 GameEnderController::CreateFromSaveState_43BD10(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const GameEnderController_State*>(pBuffer);
     auto pGameEnderController = ae_new<GameEnderController>();

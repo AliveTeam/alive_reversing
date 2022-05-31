@@ -214,9 +214,9 @@ public:
 
 };
 
-EXPORT void CC Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
+void Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
 {
-    AE_IMPLEMENTED();
+    // AE_IMPLEMENTED();
 
     sMovieNameIdx_508C0C = 0;
 
@@ -242,7 +242,7 @@ EXPORT void CC Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_
 Movie::Movie(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 volume)
     : BaseGameObject(1)
 {
-    AE_IMPLEMENTED();
+    // AE_IMPLEMENTED();
 
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
     mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
@@ -377,7 +377,7 @@ private:
 
 void Movie::VUpdate_489EA0()
 {
-    AE_IMPLEMENTED();
+    // AE_IMPLEMENTED();
 
     if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {

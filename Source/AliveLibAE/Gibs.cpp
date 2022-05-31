@@ -27,7 +27,7 @@ const TintEntry kGibTints_55C744[] = {
 
 ALIVE_VAR(1, 0x550e80, s16, sGibRandom_550E80, 13);
 
-EXPORT FP CC Random_40FAF0(FP scale)
+FP Random_40FAF0(FP scale)
 {
     return FP_FromRaw((Math_NextRandom() - 128) << sGibRandom_550E80) * scale;
 }

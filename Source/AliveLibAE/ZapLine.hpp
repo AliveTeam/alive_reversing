@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Layer.hpp"
 
 struct ZapLineSprites final
@@ -36,15 +36,15 @@ public:
     virtual void VScreenChanged() override;
 
 public:
-    EXPORT void CalculateSourceAndDestinationPositions_4CCAD0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
+    void CalculateSourceAndDestinationPositions_4CCAD0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
 
 private:
-    EXPORT void CalculateThickSpriteSegmentPositions_4CCD50();
-    EXPORT void CalculateThinSpriteSegmentPositions_4CD110();
-    EXPORT void CalculateZapPoints_4CD340();
-    EXPORT void CalculateSpritePositionsInner_4CD400(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
-    EXPORT void UpdateSpriteVertexPositions_4CD650();
-    EXPORT void CalculateSpritePositionsOuter_4CD5D0();
+    void CalculateThickSpriteSegmentPositions_4CCD50();
+    void CalculateThinSpriteSegmentPositions_4CD110();
+    void CalculateZapPoints_4CD340();
+    void CalculateSpritePositionsInner_4CD400(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
+    void UpdateSpriteVertexPositions_4CD650();
+    void CalculateSpritePositionsOuter_4CD5D0();
 
 private:
     enum class ZapLineState : s16

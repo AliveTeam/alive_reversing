@@ -289,7 +289,7 @@ OpenSeqHandleAE g_SeqTable_4C9E70[165] = {
     {"ALL_8_1.SEQ", 0, 0, 90, -1, nullptr},
     {nullptr, 0, 0, 0, 0, nullptr}};
 
-EXPORT s32 CC MaxGridBlocks_41FA10(FP scale)
+s32 MaxGridBlocks_41FA10(FP scale)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -1276,7 +1276,7 @@ CameraPos Map::GetDirection_444A40(s32 level, s32 path, FP xpos, FP ypos)
     }
 }
 
-EXPORT Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind)
+Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind)
 {
     s32 right = 0;
     s32 left = 0;
@@ -2041,7 +2041,7 @@ void Map::Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLo
     }
 }
 
-EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
@@ -2079,7 +2079,7 @@ EXPORT void Map::TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 
 }
 
 
-CameraSwapper* CC Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds levelId)
+CameraSwapper* Map::FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds levelId)
 {
     if (pMap->field_12_fmv_base_id > 10000u)
     {
@@ -2190,12 +2190,12 @@ void Map::Get_map_size_444870(PSX_Point* pPoint)
     pPoint->field_2_y = field_D4_pPathData->field_A_bBottom;
 }
 
-Path_TLV* CCSTD Path_TLV::Next_446460(Path_TLV* pTlv)
+Path_TLV* Path_TLV::Next_446460(Path_TLV* pTlv)
 {
     return Next(pTlv);
 }
 
-EXPORT Path_TLV* CCSTD Path_TLV::TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type)
+Path_TLV* Path_TLV::TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type)
 {
     pTlv->RangeCheck();
 

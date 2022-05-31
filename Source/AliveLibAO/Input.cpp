@@ -38,7 +38,7 @@ const InputCommands sInputKey_GameSpeak6_4C65E8 = eHop;
 const InputCommands sInputKey_GameSpeak7_4C65E4 = eThrowItem;
 const InputCommands sInputKey_GameSpeak8_4C65E0 = eDoAction;
 
-EXPORT void InputObject::InitPad_4331A0(u32 /*padCount*/)
+void InputObject::InitPad_4331A0(u32 /*padCount*/)
 {
     for (PSX_Pad& pad : field_0_pads)
     {
@@ -403,7 +403,7 @@ void InputObject::Update(BaseGameAutoPlayer& gameAutoPlayer)
     //}
 }
 
-EXPORT void CC InputObject::Shutdown_433230()
+void InputObject::Shutdown_433230()
 {
 }
 
@@ -540,17 +540,17 @@ u16 InputObject::Released() const
     return sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_8_released;
 }
 
-Bool32 CC Input_IsChanting_4334C0()
+Bool32 Input_IsChanting_4334C0()
 {
     return Input_IsChanting_45F260();
 }
 
-void CC Input_SetKeyState_48E610(s32 key, s8 bIsDown)
+void Input_SetKeyState_48E610(s32 key, s8 bIsDown)
 {
     Input_SetKeyState_4EDD80(key, bIsDown);
 }
 
-EXPORT s8 CC Input_IsVKPressed_48E5D0(s32 key)
+s8 Input_IsVKPressed_48E5D0(s32 key)
 {
     return Input_IsVKPressed_4EDD40(key);
 }
@@ -558,7 +558,7 @@ EXPORT s8 CC Input_IsVKPressed_48E5D0(s32 key)
 // from the MainMenu class
 ALIVE_VAR_EXTERN(s32, gJoystickAvailable_5079A4);
 
-EXPORT void CC Input_Init_44EB60()
+void Input_Init_44EB60()
 {
     Input_Init_491BC0();
 
@@ -568,14 +568,14 @@ EXPORT void CC Input_Init_44EB60()
     }
 }
 
-EXPORT void Input_DisableInput_48E690()
+void Input_DisableInput_48E690()
 {
     Input_DisableInputForPauseMenuAndDebug_4EDDC0();
 }
 
 // Only really needed for SHIFT being pressed for the AO ddcheat, may as well just remove the requirement
 // for shift to be pressed because it is a pain anyway.
-EXPORT void Input_GetCurrentKeyStates_48E630()
+void Input_GetCurrentKeyStates_48E630()
 {
 }
 
@@ -594,17 +594,17 @@ const char_type* Input_GetButtonString(InputCommands inputCommand, bool forceKey
         Input_JoyStickEnabled() ? controller_type : 0);
 }
 
-EXPORT const char_type* CC Input_GetButtonString_44F1C0(InputCommands inputCommand)
+const char_type* Input_GetButtonString_44F1C0(InputCommands inputCommand)
 {
     return Input_GetButtonString(inputCommand);
 }
 
-EXPORT s32 CC Input_Remap_44F300(InputCommands inputCmd)
+s32 Input_Remap_44F300(InputCommands inputCmd)
 {
     return Input_Remap_492680(static_cast<::InputCommands::Enum>(AOInputCommandsToAEInputCommands(MakeAOInputBits(inputCmd)).Raw().all));
 }
 
-EXPORT s8 Input_GetLastPressedKey_44F2C0()
+s8 Input_GetLastPressedKey_44F2C0()
 {
     // AE impl
     return static_cast<s8>(::Input_GetLastPressedKey_492610());
@@ -621,7 +621,7 @@ EXPORT s8 Input_GetLastPressedKey_44F2C0()
     //return result;
 }
 
-EXPORT s32 Input_Enable_48E6A0()
+s32 Input_Enable_48E6A0()
 {
     // AE impl
     ::Input_EnableInput_4EDDD0();
@@ -632,7 +632,7 @@ EXPORT s32 Input_Enable_48E6A0()
     //return 0;
 }
 
-EXPORT void Input_Reset_44F2F0()
+void Input_Reset_44F2F0()
 {
     // Funcs below call AE impls in standalone
     Input_Enable_48E6A0();
@@ -665,7 +665,7 @@ void Input_SetJoyStickEnabled(bool enabled)
 
 ALIVE_VAR(1, 0x508A64, u32, dword_508A64, 0);
 
-EXPORT s32 CC Input_SaveSettingsIni_44F460()
+s32 Input_SaveSettingsIni_44F460()
 {
     // Call AE func both in standalone and DLL
     Input_SaveSettingsIni_Common(true);

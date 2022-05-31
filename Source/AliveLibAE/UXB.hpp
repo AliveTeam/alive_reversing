@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
@@ -69,19 +69,19 @@ public:
     UXB(Path_UXB* params, TlvItemInfoUnion itemInfo);
     ~UXB();
 
-    EXPORT static s32 CC CreateFromSaveState_4DFAE0(const u8*);
+    static s32 CreateFromSaveState_4DFAE0(const u8*);
 
 private:
-    EXPORT void vOnPickUpOrSlapped_4DF540();
-    EXPORT void vOnThrowableHit_4DF7B0(BaseGameObject* pFrom);
-    EXPORT s16 vTakeDamage_4DF850(BaseGameObject* pFrom);
-    EXPORT void Update_4DF030();
-    EXPORT void Render_4DF3D0(PrimHeader** ppOt);
-    EXPORT void ScreenChanged_4DF9C0();
-    EXPORT s32 GetSaveState_4DFD40(u8* pSaveBuffer);
-    EXPORT void InitBlinkAnim_4DEED0(Animation* pAnimation);
-    EXPORT void PlaySFX_4DE930(SoundEffect sfxIdx);
-    EXPORT s32 IsColliding_4DF630();
+    void vOnPickUpOrSlapped_4DF540();
+    void vOnThrowableHit_4DF7B0(BaseGameObject* pFrom);
+    s16 vTakeDamage_4DF850(BaseGameObject* pFrom);
+    void Update_4DF030();
+    void Render_4DF3D0(PrimHeader** ppOt);
+    void ScreenChanged_4DF9C0();
+    s32 GetSaveState_4DFD40(u8* pSaveBuffer);
+    void InitBlinkAnim_4DEED0(Animation* pAnimation);
+    void PlaySFX_4DE930(SoundEffect sfxIdx);
+    s32 IsColliding_4DF630();
 
 private:
     UXBState field_118_state;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "SwitchStates.hpp"
@@ -46,15 +46,15 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_454D70();
+    void VScreenChanged_454D70();
 
-    EXPORT Bool32 vIsNotBeingPulled_454D60();
+    Bool32 vIsNotBeingPulled_454D60();
 
-    EXPORT s16 Pull_454CB0(BaseAliveGameObject* pFrom);
+    s16 Pull_454CB0(BaseAliveGameObject* pFrom);
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4549A0();
+    void VUpdate_4549A0();
 
     s32 field_D4_padding[4];
     s32 field_E4_stay_in_state_ticks;

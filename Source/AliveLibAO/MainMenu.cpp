@@ -38,14 +38,14 @@ const AnimId buttonAnimIds_4BB1B8[4] = {
 ALIVE_VAR(1, 0x507690, s16, sSoundMono_507690, 0);
 
 // TODO: Move out
-EXPORT void SND_Set_Mono_477020()
+void SND_Set_Mono_477020()
 {
     //nullsub_63();
     sSoundMono_507690 = 1;
 }
 
 // TODO: Move out
-EXPORT void SND_Set_Stereo_477030()
+void SND_Set_Stereo_477030()
 {
     //nullsub_64();
     sSoundMono_507690 = 0;
@@ -1319,7 +1319,7 @@ void Menu::MainScreen_Render_47BED0(PrimHeader** ppOt)
     }
 }
 
-EXPORT void Menu::MainScreen_Update_47AF60()
+void Menu::MainScreen_Update_47AF60()
 {
     // Calculate idle timers for playing game play demos
     s32 bSmallerTimeout = 0;
@@ -1764,13 +1764,13 @@ void Menu::To_FMV_Or_Level_Select_Update_47EC30()
 
 void Menu::Update_NoRefs_47E3C0()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 
 void Menu::Render_NoRefs_47E5B0(PrimHeader** /*ppOt*/)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 
@@ -3574,7 +3574,7 @@ void Menu::Load_Update_47D760()
     }
 }
 
-s32 CC Menu::StringsEqual_47DA20(const void* pStr1, const void* pStr2)
+s32 Menu::StringsEqual_47DA20(const void* pStr1, const void* pStr2)
 {
     return _strcmpi(static_cast<const char_type*>(pStr1), static_cast<const char_type*>(pStr2));
 }
@@ -3821,12 +3821,12 @@ void Menu::GameSpeak_To_MainScreen_Update_47D690()
     }
 }
 
-void CC Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
+void Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
 {
     pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
 }
 
-void CC Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset)
+void Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset)
 {
     char_type text[32] = {};
     strcpy(text, Input_GetButtonString(static_cast<InputCommands>(input_command), false)); // TODO: Strongly type all the way back to the button structure

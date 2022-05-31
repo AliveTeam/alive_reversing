@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 class LiftPoint;
 
@@ -45,16 +45,16 @@ public:
     LiftMover(Path_LiftMover* pTlv, s32 tlvInfo);
     ~LiftMover();
 
-    EXPORT static s32 CC CreateFromSaveState_40D180(const u8* pData);
+    static s32 CreateFromSaveState_40D180(const u8* pData);
 
     
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    EXPORT void vUpdate_40CE20();
-    EXPORT s32 vGetSaveState_40D240(LiftMover_State* pState);
-    EXPORT LiftPoint* GetLiftPoint_40D0F0();
+    void vUpdate_40CE20();
+    s32 vGetSaveState_40D240(LiftMover_State* pState);
+    LiftPoint* GetLiftPoint_40D0F0();
 
 private:
     s16 field_20_lift_mover_switch_id;

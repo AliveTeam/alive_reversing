@@ -9,7 +9,7 @@
 #include "ObjectIds.hpp"
 #include "Door.hpp"
 
-s32 CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const u8* pBuffer)
+s32 SlapLockWhirlWind::CreateFromSaveState_43DC20(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const SlapLockWhirlWind_State*>(pBuffer);
     SwitchStates_Do_Operation_465F00(pSaveState->field_2_switch_id, SwitchOp::eSetTrue_0);

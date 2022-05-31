@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
@@ -21,15 +21,15 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_463110();
+    void VScreenChanged_463110();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_463080();
+    void VUpdate_463080();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_463130(PrimHeader** ppOt);
+    void VRender_463130(PrimHeader** ppOt);
 
     Layer field_10_layer;
     s16 field_12_pad;

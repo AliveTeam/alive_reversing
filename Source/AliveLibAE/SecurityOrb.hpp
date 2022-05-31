@@ -2,7 +2,7 @@
 
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct Path_SecurityClaw final : public Path_TLV
 {
@@ -47,11 +47,11 @@ public:
 
 private:
 
-    EXPORT void vScreenChanged_466D20();
+    void vScreenChanged_466D20();
 
-    EXPORT s16 vTakeDamage_466BB0(BaseGameObject* pFrom);
+    s16 vTakeDamage_466BB0(BaseGameObject* pFrom);
 
-    EXPORT void vUpdate_4665A0();
+    void vUpdate_4665A0();
 
 private:
     s32 field_118_tlvInfo;

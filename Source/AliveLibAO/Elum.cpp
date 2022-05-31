@@ -854,7 +854,7 @@ const SfxDefinition sElumSfx_4C5398[12] = {
     {0, 5, 66, 60, -1, 1, 0},
     {0, 21, 64, 60, -1, 1, 0}};
 
-void CC Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
+void Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
 {
     switch (soundId)
     {

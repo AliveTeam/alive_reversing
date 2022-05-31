@@ -329,7 +329,7 @@ const MusicController_Record2 stru_55D008[118] = {
     {SeqId::MainMenuAmbient_0, 0u}};
 
 
-s32 CC MusicController::Create_47FC40()
+s32 MusicController::Create_47FC40()
 {
     if (pMusicController_5C3020)
     {
@@ -345,17 +345,17 @@ s32 CC MusicController::Create_47FC40()
     return 1;
 }
 
-void CC MusicController::SetBaseTimeStamp_47FD00()
+void MusicController::SetBaseTimeStamp_47FD00()
 {
     sMusicControllerBaseTimeStamp_5C301C = GetGameAutoPlayer().SysGetTicks();
 }
 
-void CC MusicController::UpdateMusicTime_47F8B0()
+void MusicController::UpdateMusicTime_47F8B0()
 {
     sMusicTime_5C3024 = (3 * GetGameAutoPlayer().SysGetTicks() - 3 * sMusicControllerBaseTimeStamp_5C301C) / 100;
 }
 
-void CC MusicController::Shutdown_47FD20()
+void MusicController::Shutdown_47FD20()
 {
     if (pMusicController_5C3020)
     {
@@ -393,7 +393,7 @@ MusicController::MusicTypes MusicController::GetMusicType_47FA80(u16* seq, u16* 
     return field_42_type;
 }
 
-MusicController::MusicTypes CC MusicController::GetMusicType_47FDA0(u16* seq1, u16* seq2, u32* seqTime)
+MusicController::MusicTypes MusicController::GetMusicType_47FDA0(u16* seq1, u16* seq2, u32* seqTime)
 {
     if (pMusicController_5C3020)
     {
@@ -924,7 +924,7 @@ void MusicController::UpdateAmbiance_47F0B0()
     }
 }
 
-void CC MusicController::PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, s8 bFlag0x20)
+void MusicController::PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, s8 bFlag0x20)
 {
     if (pMusicController_5C3020)
     {
@@ -932,7 +932,7 @@ void CC MusicController::PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameOb
     }
 }
 
-void CC MusicController::EnableMusic_47FE10(s16 bOn)
+void MusicController::EnableMusic_47FE10(s16 bOn)
 {
     pMusicController_5C3020->EnableMusic_47FB80(bOn);
 }

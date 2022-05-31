@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "relive_config.h"
 
 #if _WIN32
@@ -33,7 +33,7 @@ enum class MessageBoxButton
     eYes,
 };
 
-MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char_type* message, const char_type* title, MessageBoxType type = MessageBoxType::eStandard);
+MessageBoxButton Sys_MessageBox(TWindowHandleType windowHandle, const char_type* message, const char_type* title, MessageBoxType type = MessageBoxType::eStandard);
 void Sys_Main_Common();
 
 #include <string>

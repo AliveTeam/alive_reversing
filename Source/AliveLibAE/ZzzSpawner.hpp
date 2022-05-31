@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct Path_ZzzSpawner final : public Path_TLV
 {
@@ -23,8 +23,8 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vScreenChanged_4C4280();
-    EXPORT void vUpdate_4C41B0();
+    void vScreenChanged_4C4280();
+    void vUpdate_4C41B0();
 
 private:
     FP field_20_xpos;

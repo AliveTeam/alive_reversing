@@ -147,8 +147,8 @@ ALIVE_VAR(1, 0xA89190, s8, sbDisableSeqs_A89190, 0);
 ALIVE_VAR(1, 0x4E8FD8, u32, sLastTime_4E8FD8, 0xFFFFFFFF);
 ALIVE_VAR(1, 0xA8919C, u8, sControllerValue_A8919C, 0);
 
-EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx);
-EXPORT void CC SsUtKeyOffV_49EE50(s16 idx);
+s32 MIDI_ParseMidiMessage_49DD30(s32 idx);
+void SsUtKeyOffV_49EE50(s16 idx);
 
 class AOPsxSpuApiVars final : public IPsxSpuApiVars
 {
@@ -266,99 +266,99 @@ private:
 
 static AOPsxSpuApiVars sAoSpuVars;
 
-EXPORT void CC SND_Reset_476BA0()
+void SND_Reset_476BA0()
 {
     SND_Reset_4C9FB0();
 }
 
-EXPORT void CC SsUtAllKeyOff_49EDE0(s32 mode)
+void SsUtAllKeyOff_49EDE0(s32 mode)
 {
     SsUtAllKeyOff_4FDFE0(mode);
 }
 
-EXPORT void CC SND_Stop_All_Seqs_4774D0()
+void SND_Stop_All_Seqs_4774D0()
 {
     SND_Stop_All_Seqs_4CA850();
 }
 
-EXPORT void CC SsSeqCalledTbyT_49E9F0()
+void SsSeqCalledTbyT_49E9F0()
 {
     SsSeqCalledTbyT_4FDC80();
 }
 
-EXPORT s32 CC SND_New_492790(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo)
+s32 SND_New_492790(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo)
 {
     return SND_New_4EEFF0(pSnd, sampleLength, sampleRate, bitsPerSample, isStereo);
 }
 
-EXPORT s32 CC SND_Load_492F40(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen)
+s32 SND_Load_492F40(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen)
 {
     return SND_Load_4EF680(pSnd, pWaveData, waveDataLen);
 }
 
-EXPORT s16 CC SsVabOpenHead_49CFB0(VabHeader* pVabHeader)
+s16 SsVabOpenHead_49CFB0(VabHeader* pVabHeader)
 {
     return SsVabOpenHead_4FC620(pVabHeader);
 }
 
-EXPORT void CC SND_Stop_Channels_Mask_4774A0(s32 mask)
+void SND_Stop_Channels_Mask_4774A0(s32 mask)
 {
     SND_Stop_Channels_Mask_4CA810(mask);
 }
 
-EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop)
+s16 SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop)
 {
     return SND_SEQ_PlaySeq_4CA960(static_cast<u16>(idx), static_cast<s16>(repeatCount), bDontStop);
 }
 
-EXPORT void CC SND_Seq_Stop_477A60(SeqId idx)
+void SND_Seq_Stop_477A60(SeqId idx)
 {
     SND_SEQ_Stop_4CAE60(static_cast<u16>(idx));
 }
-EXPORT s16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
+s16 SND_SsIsEos_DeInlined_477930(SeqId idx)
 {
     return static_cast<s16>(SND_SsIsEos_DeInlined_4CACD0(static_cast<u16>(idx)));
 }
 
-EXPORT s32 CC SND_PlayEx_493040(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
+s32 SND_PlayEx_493040(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
 {
     return SND_PlayEx_4EF740(pSnd, panLeft, panRight, freq, pMidiStru, playFlags, priority);
 }
 
-EXPORT s32 CC SND_Get_Buffer_Status_491D40(s32 idx)
+s32 SND_Get_Buffer_Status_491D40(s32 idx)
 {
     return SND_Get_Buffer_Status_4EE8F0(idx);
 }
 
 // TODO: Check correct one
-EXPORT s32 CC SND_Buffer_Set_Frequency_493820(s32 idx, f32 freq)
+s32 SND_Buffer_Set_Frequency_493820(s32 idx, f32 freq)
 {
     return SND_Buffer_Set_Frequency_4EFC00(idx, freq);
 }
 
 // TODO: Check is 2nd one
-EXPORT s32 CC SND_Buffer_Set_Frequency_493790(s32 idx, f32 freq)
+s32 SND_Buffer_Set_Frequency_493790(s32 idx, f32 freq)
 {
     return SND_Buffer_Set_Frequency_4EFC00(idx, freq);
 }
 
-EXPORT void CC SsSeqStop_49E6E0(s16 idx)
+void SsSeqStop_49E6E0(s16 idx)
 {
     SsSeqStop_4FD9C0(idx);
 }
 
-EXPORT void CC MIDI_SetTempo_49E8F0(s16 idx, s16 kZero, s16 tempo)
+void MIDI_SetTempo_49E8F0(s16 idx, s16 kZero, s16 tempo)
 {
     MIDI_SetTempo_4FDB80(idx, kZero, tempo);
 }
 
-EXPORT s32 CC MIDI_Allocate_Channel_49D660(s32 not_used, s32 priority)
+s32 MIDI_Allocate_Channel_49D660(s32 not_used, s32 priority)
 {
     return MIDI_Allocate_Channel_4FCA50(not_used, priority);
 }
 
 // NOTE: Impl is not the same as AE
-EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s32 leftVolume, s32 rightVolume, s32 volume)
+s32 MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s32 leftVolume, s32 rightVolume, s32 volume)
 {
     auto vabId_ = vabId;
     auto leftVolume_ = leftVolume;
@@ -532,7 +532,7 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49D730(s32 vabId, s32 program, s32 note, s
     return 0;
 }
 
-EXPORT s32 CC MIDI_PlayerPlayMidiNote_49DAD0(s32 vabId, s32 program, s32 note, s32 leftVol, s32 rightVol, s32 volume)
+s32 MIDI_PlayerPlayMidiNote_49DAD0(s32 vabId, s32 program, s32 note, s32 leftVol, s32 rightVol, s32 volume)
 {
     if (rightVol >= 64)
     {
@@ -545,13 +545,13 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_49DAD0(s32 vabId, s32 program, s32 note, s
 }
 
 
-EXPORT s32 CC SND_Stop_Sample_At_Idx_493570(s32 idx)
+s32 SND_Stop_Sample_At_Idx_493570(s32 idx)
 {
     return SND_Stop_Sample_At_Idx_4EFA90(idx);
 }
 
 // NOTE!!! not the same as AE
-EXPORT void CC SsUtKeyOffV_49EE50(s16 idx)
+void SsUtKeyOffV_49EE50(s16 idx)
 {
     const auto adsr_state = GetSpuApiVars()->sMidi_Channels().channels[idx].field_1C_adsr.field_3_state;
     auto pChannel = &GetSpuApiVars()->sMidi_Channels().channels[idx];
@@ -587,7 +587,7 @@ enum MidiEvent
     OtherCommands_F0 = 0xF0
 };
 
-EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
+s32 MIDI_ParseMidiMessage_49DD30(s32 idx)
 {
     MIDI_SeqSong* pCtx = &GetSpuApiVars()->sMidiSeqSongs(idx);
     u8** ppSeqData = &pCtx->field_0_seq_data;
@@ -821,12 +821,12 @@ EXPORT s32 CC MIDI_ParseMidiMessage_49DD30(s32 idx)
     return 1;
 }
 
-EXPORT void CC SND_Shutdown_476EC0()
+void SND_Shutdown_476EC0()
 {
     SND_Shutdown_4CA280();
 }
 
-EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
+void SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
 {
     SND_SEQ_SetVol_4CAD20(static_cast<u16>(idx), volLeft, volRight);
 }
@@ -843,7 +843,7 @@ static VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, s32 i_3)
 }
 
 // Loads vab body sample data to memory
-EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
+void SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
 {
     if (vabId < 0)
     {
@@ -928,7 +928,7 @@ EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
     }
 }
 
-EXPORT s16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
+s16 SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
 {
     // Fail if no file name
     if (!pSoundBlockInfo->field_0_vab_header_name)
@@ -988,7 +988,7 @@ EXPORT s16 CC SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
     return 1;
 }
 
-EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
+void SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     GetMidiVars()->sSnd_ReloadAbeResources() = FALSE;
@@ -1023,14 +1023,14 @@ EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
     }
 }
 
-EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char_type* bsqFileName)
+void SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char_type* bsqFileName)
 {
     SND_Load_Seqs_Impl(
         reinterpret_cast<::OpenSeqHandle*>(pSeqTable),
         bsqFileName);
 }
 
-EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight)
+s16 SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight)
 {
     const auto ret = SND_SEQ_PlaySeq_4CA960(static_cast<u16>(idx), static_cast<s16>(repeatCount), 1); // TODO ??
 
@@ -1083,23 +1083,23 @@ static ::SfxDefinition ToAeSfxDef(const SfxDefinition* sfxDef)
     return aeDef;
 }
 
-EXPORT s32 CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+s32 SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
 {
     const ::SfxDefinition aeDef = ToAeSfxDef(sfxDef);
     return SFX_SfxDefinition_Play_4CA700(&aeDef, volLeft, volRight, pitch_min, pitch_max);
 }
 
-EXPORT s32 CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol, s32 pitch_min, s32 pitch_max)
+s32 SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol, s32 pitch_min, s32 pitch_max)
 {
     const ::SfxDefinition aeDef = ToAeSfxDef(sfxDef);
     return SFX_SfxDefinition_Play_4CA420(&aeDef, static_cast<s16>(vol), static_cast<s16>(pitch_min), static_cast<s16>(pitch_max));
 }
 
-EXPORT void CC SND_Init_Real_476E40()
+void SND_Init_Real_476E40()
 {
 }
 
-EXPORT void CC SND_Init_476E40()
+void SND_Init_476E40()
 {
     SetSpuApiVars(&sAoSpuVars);
     SetMidiApiVars(&sAoMidiVars);
@@ -1117,7 +1117,7 @@ EXPORT void CC SND_Init_476E40()
     SND_StopAll_SetCallBack(SND_StopAll_4762D0);
 }
 
-EXPORT void CC SND_StopAll_4762D0()
+void SND_StopAll_4762D0()
 {
     MusicController::EnableMusic_443900(0);
 

@@ -54,15 +54,15 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    EXPORT static s32 CC CreateFromSaveState_43EA00(const u8* pBuffer);
+    static s32 CreateFromSaveState_43EA00(const u8* pBuffer);
 
 private:
-    EXPORT void vScreenChanged_43E840();
-    EXPORT void GiveInvisibility_43E880();
-    EXPORT s32 vGetSaveState_43EB30(SlapLock_State* pState);
-    EXPORT void vUpdate_43DF90();
-    EXPORT void GiveInvisibilityPowerUp_43E910();
-    EXPORT s16 vTakeDamage_43E5D0(BaseGameObject* pFrom);
+    void vScreenChanged_43E840();
+    void GiveInvisibility_43E880();
+    s32 vGetSaveState_43EB30(SlapLock_State* pState);
+    void vUpdate_43DF90();
+    void GiveInvisibilityPowerUp_43E910();
+    s16 vTakeDamage_43E5D0(BaseGameObject* pFrom);
 
 private:
     Path_SlapLock* field_118_pTlv;

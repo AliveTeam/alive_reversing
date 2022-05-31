@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
 
@@ -14,11 +14,11 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4625B0();
+    void VUpdate_4625B0();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_4625E0(PrimHeader** ppOt);
+    void VRender_4625E0(PrimHeader** ppOt);
 
 
     Prim_ScreenOffset field_10_screenOffset[2];

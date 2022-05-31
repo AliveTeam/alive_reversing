@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "Primitives.hpp"
@@ -57,7 +57,7 @@ enum class LevelIds : s16;
 class AbilityRing final : public BaseGameObject
 {
 public:
-    EXPORT static AbilityRing* CC Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale);
+    static AbilityRing* Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale);
     AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale);
     ~AbilityRing();
 
@@ -69,13 +69,13 @@ public:
     // New virtuals
     virtual void VSetTarget(BaseGameObject* pTarget);
 
-    static EXPORT s32 CC CreateFromSaveState_49DF90(const u8* pBuffer);
+    static s32 CreateFromSaveState_49DF90(const u8* pBuffer);
 
 private:
-    EXPORT void vSetTarget_49D140(BaseGameObject* pTarget);
-    EXPORT void CollideWithObjects_49D5E0(s16 bDealDamage);
-    EXPORT void vScreenChanged_49DE70();
-    EXPORT s32 GetSaveState(AbilityRing_State* pSaveState);
+    void vSetTarget_49D140(BaseGameObject* pTarget);
+    void CollideWithObjects_49D5E0(s16 bDealDamage);
+    void vScreenChanged_49DE70();
+    s32 GetSaveState(AbilityRing_State* pSaveState);
 
 private:
     Layer field_20_layer;

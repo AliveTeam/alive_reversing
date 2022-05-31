@@ -25,11 +25,11 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4575F0();
+    void VUpdate_4575F0();
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_457890();
+    void VScreenChanged_457890();
 
     s32 field_10C_tlvInfo;
     s16 field_110_has_been_hit;

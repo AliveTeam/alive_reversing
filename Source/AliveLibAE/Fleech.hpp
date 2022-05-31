@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Primitives.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
@@ -168,35 +168,35 @@ public:
 
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_42DD50(const u8* pBuffer);
+    static s32 CreateFromSaveState_42DD50(const u8* pBuffer);
 
 private:
-    EXPORT s32 vGetSaveState_42FF80(Fleech_State* pState);
+    s32 vGetSaveState_42FF80(Fleech_State* pState);
 
 
 public:
-    EXPORT void M_Sleeping_0_42F0B0();
-    EXPORT void M_WakingUp_1_42F270();
-    EXPORT void M_Unknown_2_42F2F0();
-    EXPORT void M_Idle_3_42E850();
-    EXPORT void M_Crawl_4_42E960();
-    EXPORT void M_PatrolCry_5_42E810();
-    EXPORT void M_Knockback_6_42EAF0();
-    EXPORT void M_StopCrawling_7_42EBB0();
-    EXPORT void M_StopMidCrawlCycle_8_42EB20();
-    EXPORT void M_Fall_9_42ECD0();
-    EXPORT void M_Land_10_42F330();
-    EXPORT void M_RaiseHead_11_42F590();
-    EXPORT void M_Climb_12_42F7F0();
-    EXPORT void M_SettleOnGround_13_42FB00();
-    EXPORT void M_ExtendTongueFromEnemy_14_42FBD0();
-    EXPORT void M_RetractTongueFromEnemey_15_42FC40();
-    EXPORT void M_DeathByFalling_16_42FCE0();
-    EXPORT void M_SleepingWithTongue_17_42F370();
-    EXPORT void M_Consume_18_42FDF0();
+    void M_Sleeping_0_42F0B0();
+    void M_WakingUp_1_42F270();
+    void M_Unknown_2_42F2F0();
+    void M_Idle_3_42E850();
+    void M_Crawl_4_42E960();
+    void M_PatrolCry_5_42E810();
+    void M_Knockback_6_42EAF0();
+    void M_StopCrawling_7_42EBB0();
+    void M_StopMidCrawlCycle_8_42EB20();
+    void M_Fall_9_42ECD0();
+    void M_Land_10_42F330();
+    void M_RaiseHead_11_42F590();
+    void M_Climb_12_42F7F0();
+    void M_SettleOnGround_13_42FB00();
+    void M_ExtendTongueFromEnemy_14_42FBD0();
+    void M_RetractTongueFromEnemey_15_42FC40();
+    void M_DeathByFalling_16_42FCE0();
+    void M_SleepingWithTongue_17_42F370();
+    void M_Consume_18_42FDF0();
 
 public:
-    EXPORT s16 Brain_0_Patrol_430BA0();
+    s16 Brain_0_Patrol_430BA0();
     s16 Brain_Patrol_State_0();
     s16 Brain_Patrol_State_1();
     s16 Brain_Patrol_State_2();
@@ -209,93 +209,93 @@ public:
     s16 Brain_Patrol_State_9();
     s16 Brain_Patrol_State_10();
 
-    EXPORT s16 Brain_1_ChasingAbe_428760();
+    s16 Brain_1_ChasingAbe_428760();
 	s16 Brain_ChasingAbe_State_0(BaseAliveGameObject* pObj);
 
-	EXPORT s16 Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj);
 	s16 Brain_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj);
 
 	s16 Brain_ChasingAbe_State_2(BaseAliveGameObject* pObj);
     s16 Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj);
 
-    EXPORT s16 Brain_2_Scared_42D310();
-    EXPORT s16 Brain_3_Death_42D1E0();
+    s16 Brain_2_Scared_42D310();
+    s16 Brain_3_Death_42D1E0();
 
 private:
-    EXPORT void vUpdate_42AB20();
+    void vUpdate_42AB20();
 
-    EXPORT void vRender_42A550(PrimHeader** ot);
+    void vRender_42A550(PrimHeader** ot);
 
-    EXPORT void RenderEx_42C5A0(PrimHeader** ot);
+    void RenderEx_42C5A0(PrimHeader** ot);
 
-    EXPORT void vScreenChanged_42A4C0();
+    void vScreenChanged_42A4C0();
 
-    EXPORT void vOn_Tlv_Collision_42AAB0(Path_TLV* pTlv);
+    void vOn_Tlv_Collision_42AAB0(Path_TLV* pTlv);
 
 private:
-    EXPORT s16 IsScrabOrParamiteNear_42B440(FP radius);
+    s16 IsScrabOrParamiteNear_42B440(FP radius);
 
 
-    EXPORT void Init_42A170();
-    EXPORT void InitTonguePolys_42B6E0();
-    EXPORT void SetAnim_429D80();
-    EXPORT void ResetTarget_42CF70();
+    void Init_42A170();
+    void InitTonguePolys_42B6E0();
+    void SetAnim_429D80();
+    void ResetTarget_42CF70();
 
-    EXPORT s16 GotNoTarget_42CFA0();
+    s16 GotNoTarget_42CFA0();
 
-    EXPORT void SetTarget_42CF50();
+    void SetTarget_42CF50();
 
-    EXPORT void TongueHangingFromWall_42B9A0(s16 a2, s16 a3);
+    void TongueHangingFromWall_42B9A0(s16 a2, s16 a3);
 
-    EXPORT void TongueUpdate_42BD30();
+    void TongueUpdate_42BD30();
 
-    EXPORT void ToIdle_42E520();
+    void ToIdle_42E520();
 
-    EXPORT s32 Sound_430520(FleechSound soundId);
+    s32 Sound_430520(FleechSound soundId);
 
-    EXPORT u8** ResBlockForMotion_42A530(s32 motion);
+    u8** ResBlockForMotion_42A530(s32 motion);
 
-    EXPORT s16 CanMove_42E3E0();
+    s16 CanMove_42E3E0();
 
-    EXPORT s16 HandleEnemyStopperOrSlamDoor_42ADC0(s32 velX);
+    s16 HandleEnemyStopperOrSlamDoor_42ADC0(s32 velX);
 
-    EXPORT s32 UpdateWakeUpSwitchValue_4308B0();
+    s32 UpdateWakeUpSwitchValue_4308B0();
 
-    EXPORT s16 vTakeDamage_42A5C0(BaseGameObject* pFrom);
+    s16 vTakeDamage_42A5C0(BaseGameObject* pFrom);
 
-    EXPORT void sub_42B8C0();
+    void sub_42B8C0();
 
-    EXPORT void vOnTrapDoorOpen_42E5C0();
+    void vOnTrapDoorOpen_42E5C0();
 
-    EXPORT void SetTongueState1_42B9F0();
+    void SetTongueState1_42B9F0();
 
-    EXPORT void IncreaseAnger_430920();
+    void IncreaseAnger_430920();
 
-    EXPORT s16 InRange_4307C0(BaseAliveGameObject* pObj);
+    s16 InRange_4307C0(BaseAliveGameObject* pObj);
 
-    EXPORT s32 TongueActive_42B8A0();
+    s32 TongueActive_42B8A0();
 
-    EXPORT void PullTargetIn_42BAF0();
+    void PullTargetIn_42BAF0();
 
-    EXPORT void sub_42BA10();
+    void sub_42BA10();
 
-    EXPORT void SetTongueState5_42BAD0();
+    void SetTongueState5_42BAD0();
 
-    EXPORT BaseAliveGameObject* FindMudOrAbe_42CFD0();
+    BaseAliveGameObject* FindMudOrAbe_42CFD0();
 
-    EXPORT void MoveAlongFloor_42E600();
+    void MoveAlongFloor_42E600();
 
-    EXPORT s16 IsNear_428670(BaseAliveGameObject* pObj);
+    s16 IsNear_428670(BaseAliveGameObject* pObj);
 
-    EXPORT void vOnThrowableHit_42A590(BaseGameObject* pFrom);
+    void vOnThrowableHit_42A590(BaseGameObject* pFrom);
 
-    EXPORT Bool32 Collision_42B290(s16 alwaysOne);
+    Bool32 Collision_42B290(s16 alwaysOne);
 
-    EXPORT Path_Hoist* TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection);
+    Path_Hoist* TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection);
 
 
 public:
-    EXPORT void vOnFrame_42BC50(s16* pData);
+    void vOnFrame_42BC50(s16* pData);
 
 private:
     s32 field_118_tlvInfo;
@@ -384,4 +384,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Fleech, 0x42C);
 
-EXPORT s32 CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData);
+s32 Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData);

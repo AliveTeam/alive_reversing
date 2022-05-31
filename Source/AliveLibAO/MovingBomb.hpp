@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibAE/Path.hpp"
@@ -35,27 +35,27 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_43BC90();
+    void VScreenChanged_43BC90();
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT s16 VTakeDamage_43BB60(BaseGameObject* pFrom);
+    s16 VTakeDamage_43BB60(BaseGameObject* pFrom);
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_43B910(PrimHeader** ppOt);
+    void VRender_43B910(PrimHeader** ppOt);
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
-    EXPORT void VOnThrowableHit_43B930(BaseGameObject* pFrom);
+    void VOnThrowableHit_43B930(BaseGameObject* pFrom);
 
-    EXPORT s16 HitObject_43B970();
+    s16 HitObject_43B970();
 
-    EXPORT void FollowLine_43BA40();
+    void FollowLine_43BA40();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_43B440();
+    void VUpdate_43B440();
 
     enum class States : s16
     {

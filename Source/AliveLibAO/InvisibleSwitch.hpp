@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
 
@@ -34,11 +34,11 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_433700();
+    void VScreenChanged_433700();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4335A0();
+    void VUpdate_4335A0();
 
     s16 field_10_switch_id;
     SwitchOp field_12_action;

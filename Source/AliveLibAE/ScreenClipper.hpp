@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
 #include "Layer.hpp"
@@ -16,7 +16,7 @@ public:
     virtual void VUpdate() override;
 
 public:
-    EXPORT void Update_Clip_Rect_416EB0(PSX_Point xy, PSX_Point wh);
+    void Update_Clip_Rect_416EB0(PSX_Point xy, PSX_Point wh);
 
 private:
     Prim_PrimClipper field_20_clippers[2];

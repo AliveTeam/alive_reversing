@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 class Sparks final : public ::BaseAnimatedWithPhysicsGameObject
@@ -12,8 +12,8 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vUpdate_416570();
-    EXPORT void vScreenChanged_416720();
+    void vUpdate_416570();
+    void vScreenChanged_416720();
 
 private:
     s32 field_F4_padding;

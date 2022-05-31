@@ -49,9 +49,9 @@ ALIVE_VAR(1, 0xab4a00, s32, sDDCheat_Unused1_AB4A00, 0);
 ALIVE_VAR(1, 0x5BBFF0, s16, sDDCheat_MovieSelectIdx_5BBFF0, 0);
 ALIVE_VAR_EXTERN(u32, sLevelId_dword_5CA408);
 
-EXPORT void DDCheat_SaveScreenshot_415550()
+void DDCheat_SaveScreenshot_415550()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 struct DDCheatProperties final
@@ -227,7 +227,7 @@ void DDCheat::AddPropertyEntry(const char_type* text, DDCheatValueType valueType
     }
 }
 
-void CC DDCheat::ClearProperties_415390()
+void DDCheat::ClearProperties_415390()
 {
     DDCheatProperties_5BBF78 = {};
 }

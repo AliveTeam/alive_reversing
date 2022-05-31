@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Layer.hpp"
 
@@ -19,11 +19,11 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT void vScreenChanged_43CA50();
+    void vScreenChanged_43CA50();
 
-    EXPORT void vUpdate_43C300();
+    void vUpdate_43C300();
 
-    EXPORT void vRender_43C350(PrimHeader** ppOt);
+    void vRender_43C350(PrimHeader** ppOt);
 
 private:
     s16 field_20_total;

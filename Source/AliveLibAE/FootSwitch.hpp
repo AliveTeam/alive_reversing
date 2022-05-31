@@ -2,7 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum class SwitchOp : s16;
 
@@ -41,9 +41,9 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vScreenChanged_4DE650();
-    EXPORT void vUpdate_4DE270();
-    EXPORT BaseAliveGameObject* WhoIsStoodOnMe_4DE700();
+    void vScreenChanged_4DE650();
+    void vUpdate_4DE270();
+    BaseAliveGameObject* WhoIsStoodOnMe_4DE700();
 
 private:
     s32 field_F4_tlvInfo;

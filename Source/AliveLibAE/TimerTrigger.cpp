@@ -37,7 +37,7 @@ s32 TimerTrigger::VGetSaveState(u8* pSaveBuffer)
     return vGetSaveState_4CE030(reinterpret_cast<TimerTrigger_State*>(pSaveBuffer));
 }
 
-EXPORT s32 CC TimerTrigger::CreateFromSaveState_4CDF70(const u8* pData)
+s32 TimerTrigger::CreateFromSaveState_4CDF70(const u8* pData)
 {
     auto pState = reinterpret_cast<const TimerTrigger_State*>(pData);
 

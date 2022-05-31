@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 class BaseAliveGameObject;
 class PalleteOverwriter;
@@ -22,8 +22,8 @@ public:
     ~Electrocute();
 
 private:
-    EXPORT void vStop_4E6150();
-    EXPORT s32 vSub_4E6630();
+    void vStop_4E6150();
+    s32 vSub_4E6630();
 
 public:
     s32 field_20_target_obj_id;

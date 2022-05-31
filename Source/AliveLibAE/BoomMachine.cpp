@@ -34,7 +34,7 @@ public:
         field_F4_state = BoomMachineStates::eInactive_0;
     }
 
-    EXPORT void DropGrenadeAnimation_445820()
+    void DropGrenadeAnimation_445820()
     {
         if (field_F4_state == BoomMachineStates::eInactive_0)
         {
@@ -43,7 +43,7 @@ public:
         }
     }
 
-    EXPORT void AlreadyUsed_445860()
+    void AlreadyUsed_445860()
     {
         if (field_F4_state == BoomMachineStates::eInactive_0)
         {

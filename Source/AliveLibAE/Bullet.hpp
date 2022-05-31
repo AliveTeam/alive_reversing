@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "FixedPoint.hpp"
 #include "Psx.hpp"
 
@@ -31,9 +31,9 @@ public:
     static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
 
 private:
-    EXPORT BaseAliveGameObject* ShootObject_414630(PSX_RECT* pRect);
+    BaseAliveGameObject* ShootObject_414630(PSX_RECT* pRect);
 
-    EXPORT void vUpdate_413560();
+    void vUpdate_413560();
 
     void PlayBulletSounds(s16 volume);
 

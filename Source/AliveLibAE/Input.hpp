@@ -1,28 +1,28 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 typedef s32 (*t_InputCallback)();
 
-EXPORT u8 CC Input_GetInputEnabled_4EDDE0();
-EXPORT void CC Input_EnableInput_4EDDD0();
-EXPORT void CC Input_InitKeyStateArray_4EDD60();
-EXPORT void Input_SaveSettingsIni_Common(bool isAo);
-EXPORT void Input_SaveSettingsIni_492840();
-EXPORT void CC Input_DisableInputForPauseMenuAndDebug_4EDDC0();
-EXPORT void CC Input_Init_491BC0();
-EXPORT void CC Input_SetKeyState_4EDD80(s32 key, s8 bIsDown);
-EXPORT bool CC Input_IsVKPressed_4EDD40(s32 key);
-EXPORT u32 Input_GetLastPressedKey_492610();
-EXPORT void Input_Reset_492660();
-EXPORT u32 Input_IsChanting_45F260();
-EXPORT void CC Input_Pads_Reset_4FA960();
-EXPORT void CC Input_Init_Names_491870();
-EXPORT const char_type* CC Input_GetButtonString_492530(const char_type* idx, s32 controllerType);
+u8 Input_GetInputEnabled_4EDDE0();
+void Input_EnableInput_4EDDD0();
+void Input_InitKeyStateArray_4EDD60();
+void Input_SaveSettingsIni_Common(bool isAo);
+void Input_SaveSettingsIni_492840();
+void Input_DisableInputForPauseMenuAndDebug_4EDDC0();
+void Input_Init_491BC0();
+void Input_SetKeyState_4EDD80(s32 key, s8 bIsDown);
+bool Input_IsVKPressed_4EDD40(s32 key);
+u32 Input_GetLastPressedKey_492610();
+void Input_Reset_492660();
+u32 Input_IsChanting_45F260();
+void Input_Pads_Reset_4FA960();
+void Input_Init_Names_491870();
+const char_type* Input_GetButtonString_492530(const char_type* idx, s32 controllerType);
 
-EXPORT bool Input_JoyStickEnabled();
-EXPORT void Input_SetJoyStickEnabled(bool enabled);
-EXPORT bool Input_JoyStickAvailable();
+bool Input_JoyStickEnabled();
+void Input_SetJoyStickEnabled(bool enabled);
+bool Input_JoyStickAvailable();
 
 namespace InputCommands {
 
@@ -115,9 +115,9 @@ extern const InputCommands::Enum sInputKey_Chant;
 #define kHoistZTurn "\x1b"
 #define kDPad "\x1a"
 
-EXPORT s32 CC Input_Remap_492680(InputCommands::Enum inputCmd);
-EXPORT void CC Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad);
-EXPORT s32 CC Input_Read_Pad_4FA9C0(s32 padNum);
+s32 Input_Remap_492680(InputCommands::Enum inputCmd);
+void Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad);
+s32 Input_Read_Pad_4FA9C0(s32 padNum);
 
 struct InputPadObject final
 {
@@ -170,13 +170,13 @@ class BaseGameAutoPlayer;
 class InputObject final
 {
 public:
-    EXPORT s32 Is_Demo_Playing_45F220();
-    EXPORT void UnsetDemoPlaying_45F240();
-    EXPORT void SetDemoResource_45F1E0(u32** pDemoRes);
-    EXPORT void Update(BaseGameAutoPlayer& autoPlayer);
-    EXPORT static u32 CC PsxButtonsToKeyboardInput_45EE40(u32 cmd);
-    EXPORT static s8 CC KeyboardInputToPsxButtons_45EF70(s32 cmd);
-    EXPORT void CC ShutDown_45F020();
+    s32 Is_Demo_Playing_45F220();
+    void UnsetDemoPlaying_45F240();
+    void SetDemoResource_45F1E0(u32** pDemoRes);
+    void Update(BaseGameAutoPlayer& autoPlayer);
+    static u32 PsxButtonsToKeyboardInput_45EE40(u32 cmd);
+    static s8 KeyboardInputToPsxButtons_45EF70(s32 cmd);
+    void ShutDown_45F020();
 
 public:
     InputPadObject field_0_pads[2];
@@ -192,7 +192,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 
-EXPORT InputObject& Input();
+InputObject& Input();
 
 ALIVE_VAR_EXTERN(InputObject, sInputObject_5BD4E0);
 ALIVE_VAR_EXTERN(u16, sCurrentControllerIndex_5C1BBE);

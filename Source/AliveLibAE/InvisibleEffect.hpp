@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
 #include "Primitives.hpp"
@@ -30,11 +30,11 @@ public:
 
     explicit InvisibleEffect(BaseAliveGameObject* pTarget);
     ~InvisibleEffect();
-    EXPORT void InstantInvisibility_45FA00();
-    EXPORT void BecomeVisible_45FA30();
-    EXPORT void ClearInvisibility_45FA50();
-    EXPORT void BecomeInvisible_45F9E0();
-    EXPORT void vUpdate_45F4A0();
+    void InstantInvisibility_45FA00();
+    void BecomeVisible_45FA30();
+    void ClearInvisibility_45FA50();
+    void BecomeInvisible_45F9E0();
+    void vUpdate_45F4A0();
 
     
     virtual void VUpdate() override;

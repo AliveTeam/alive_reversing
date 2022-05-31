@@ -420,7 +420,7 @@ const SfxDefinition sSFXList_555160[] = {
 
 
 
-EXPORT s32 CC Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj)
+s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj)
 {
     s32 sndVolume;
     s16 sndIndex = 0;
@@ -618,7 +618,7 @@ const FP_Point sThrowVelocities_555118[9] = {
     {FP_FromInteger(0), FP_FromInteger(0)},
     {FP_FromInteger(0), FP_FromInteger(0)}};
 
-s32 CC Animation_OnFrame_Abe_455F80(void* pPtr, s16* pData)
+s32 Animation_OnFrame_Abe_455F80(void* pPtr, s16* pData)
 {
     auto pAbe = static_cast<Abe*>(pPtr);
     auto pFramePos = reinterpret_cast<PSX_Point*>(pData);
@@ -677,7 +677,7 @@ enum AbeResources
     eAbeWell = 15,
 };
 
-EXPORT s32 CC XGrid_Index_To_XPos_4498F0(FP scale, s32 xGridIndex)
+s32 XGrid_Index_To_XPos_4498F0(FP scale, s32 xGridIndex)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -1022,7 +1022,7 @@ enum ResourceIndices
     eGas_21 = 21,
 };
 
-s32 CC Abe::CreateFromSaveState_44D4F0(const u8* pData)
+s32 Abe::CreateFromSaveState_44D4F0(const u8* pData)
 {
     const Abe_SaveState* pSaveState = reinterpret_cast<const Abe_SaveState*>(pData);
 
@@ -2748,7 +2748,7 @@ void Abe::Free_Resources_44D420()
     }
 }
 
-EXPORT Bool32 Abe::IsStanding_449D30()
+Bool32 Abe::IsStanding_449D30()
 {
     return field_106_current_motion == eAbeMotions::Motion_0_Idle_44EEB0
         || field_106_current_motion == eAbeMotions::Motion_2_StandingTurn_451830
@@ -5818,7 +5818,7 @@ void Abe::Motion_59_Null_459450()
 
 void Abe::Motion_60_Unused_4A3200()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 void Abe::Motion_61_TurnToRun_456530()
@@ -8522,7 +8522,7 @@ void Abe::TryHoist_44ED30()
     }
 }
 
-void CC Abe::Create_Fart_421D20()
+void Abe::Create_Fart_421D20()
 {
     ae_new<EvilFart>();
 }
@@ -9748,7 +9748,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
     return 1;
 }
 
-EXPORT void Abe::ChangeChantState_45BB90(s16 bLaughAtChantEnd)
+void Abe::ChangeChantState_45BB90(s16 bLaughAtChantEnd)
 {
     if (bLaughAtChantEnd)
     {
@@ -9794,7 +9794,7 @@ static void playAbeSFX(MudSounds idx, s16 volume, s32 pitch)
         static_cast<s16>(pitch), static_cast<s16>(pitch));
 }
 
-EXPORT void CC Mudokon_SFX_457EC0(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHero)
+void Mudokon_SFX_457EC0(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHero)
 {
     switch (idx)
     {

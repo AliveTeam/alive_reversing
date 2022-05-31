@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 
 namespace AO {
@@ -15,7 +15,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_464280();
+    void VScreenChanged_464280();
 
     virtual void VOnThrowableHit(BaseGameObject*) override;
 
@@ -25,7 +25,7 @@ public:
 
     bool CanElectrocute(BaseGameObject* pObj) const;
 
-    EXPORT void VUpdate_463AE0();
+    void VUpdate_463AE0();
 
     enum class State : s16
     {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/BitField.hpp"
 #include "Psx.hpp"
 
@@ -67,42 +67,42 @@ public:
     virtual void VOnTrapDoorOpen();
 
 private:
-    EXPORT s16 VTakeDamage_401920(BaseGameObject* pFrom);
+    s16 VTakeDamage_401920(BaseGameObject* pFrom);
 
-    EXPORT void VOnPathTransition_401470(s16 camWorldX, s32 camWorldY, CameraPos direction);
+    void VOnPathTransition_401470(s16 camWorldX, s32 camWorldY, CameraPos direction);
 
-    EXPORT void VSetMotion_402520(s16 state);
+    void VSetMotion_402520(s16 state);
 
-    EXPORT void VSetXSpawn_401150(s16 camWorldX, s32 screenXPos);
+    void VSetXSpawn_401150(s16 camWorldX, s32 screenXPos);
 
-    EXPORT void VSetYSpawn_401380(s32 camWorldY, s16 bLeft);
+    void VSetYSpawn_401380(s32 camWorldY, s16 bLeft);
 
-    EXPORT void VCheckCollisionLineStillValid_401A90(s32 distance);
+    void VCheckCollisionLineStillValid_401A90(s32 distance);
 
 protected:
-    EXPORT void SetActiveCameraDelayedFromDir_401C90();
+    void SetActiveCameraDelayedFromDir_401C90();
 
-    EXPORT static void CC OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);
+    static void OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);
 
-    EXPORT s16 IsBeeSwarmChasingMe_4022B0();
+    s16 IsBeeSwarmChasingMe_4022B0();
 
-    EXPORT void UsePathTransScale_4020D0();
+    void UsePathTransScale_4020D0();
 
-    EXPORT static BaseGameObject* CC FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos);
+    static BaseGameObject* FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos);
 
-    EXPORT BirdPortal* IntoBirdPortal_402350(s16 distance);
+    BirdPortal* IntoBirdPortal_402350(s16 distance);
 
 
 
-    EXPORT s16 WallHit_401930(FP offY, FP offX);
+    s16 WallHit_401930(FP offY, FP offX);
 
-    EXPORT s16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
+    s16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
 
-    EXPORT s16 Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist);
+    s16 Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist);
 
 public:
-    EXPORT s16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);
-    EXPORT s16 MapFollowMe_401D30(s16 snapToGrid);
+    s16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);
+    s16 MapFollowMe_401D30(s16 snapToGrid);
 
 public:
     FP_RECT field_D4_collection_rect;

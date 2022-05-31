@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
@@ -42,9 +42,9 @@ public:
 
 private:
 
-    EXPORT Bool32 vIsButtonOn_445DF0();
+    Bool32 vIsButtonOn_445DF0();
 
-    EXPORT void vHandleButton_445F00();
+    void vHandleButton_445F00();
 
 private:
     s32 field_F4_tlvInfo;

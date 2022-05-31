@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "Animation.hpp"
@@ -28,9 +28,9 @@ public:
     ~HoistRocksEffect();
 
 private:
-    EXPORT void Update_45D460();
-    EXPORT void Render_45D7B0(PrimHeader** ppOt);
-    EXPORT void vScreenChanged_45D790();
+    void Update_45D460();
+    void Render_45D7B0(PrimHeader** ppOt);
+    void vScreenChanged_45D790();
 
 private:
     s16 field_20_xpos;

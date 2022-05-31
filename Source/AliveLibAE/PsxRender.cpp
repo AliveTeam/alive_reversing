@@ -154,7 +154,7 @@ void Psx_Render_Float_Table_Init()
     }
 }
 
-EXPORT s32 CC PSX_poly_helper_fixed_point_scale_517FA0(s32 fixedPoint, s32 scaleFactor)
+s32 PSX_poly_helper_fixed_point_scale_517FA0(s32 fixedPoint, s32 scaleFactor)
 {
     return (static_cast<s64>(fixedPoint) * scaleFactor) / 0x10000;
 }
@@ -171,7 +171,7 @@ static inline void WriteSinglePixelOfXLine(u16* pVRam, s32 xLeft, s32 xRight, T 
     }
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(u16* pVRam, s32 ySize)
+void PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(u16* pVRam, s32 ySize)
 {
     const u32 pitch = (u32) spBitmap_C2D038->field_10_locked_pitch / sizeof(u16);
 
@@ -306,7 +306,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(u16* pVRam, 
 }
 
 // TODO: Refactor/remove duplication
-EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(u16* pVRam, s32 ySize)
+void PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(u16* pVRam, s32 ySize)
 {
     const u32 pitch = (u32) spBitmap_C2D038->field_10_locked_pitch / sizeof(u16);
     Render_Unknown* pLeft = &left_side_BD3320;
@@ -465,7 +465,7 @@ static inline u16 Calc_Abr_Pixel(const Psx_Test& abr_lut, u16 vram_pixel, u16 cl
          | abr_lut.g[(clut_pixel >> 6) & 0x1F][(vram_pixel >> 6) & 0x1F];
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(u16* pVRam, s32 ySize)
+void PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(u16* pVRam, s32 ySize)
 {
     const u32 pitch = (u32) spBitmap_C2D038->field_10_locked_pitch / sizeof(u16);
 
@@ -610,12 +610,12 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(u16* pV
     }
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890(u16* /*a1*/, s32 /*a2*/)
+void PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890(u16* /*a1*/, s32 /*a2*/)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(u16* pVram, s32 ySize)
+void PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(u16* pVram, s32 ySize)
 {
     Render_Unknown* pLeft = &left_side_BD3320;
     Render_Unknown* pRight = &right_side_BD32A0;
@@ -644,7 +644,7 @@ EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(u16* pVram, 
     }
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(u16* pVRam, s32 ySize)
+void PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(u16* pVRam, s32 ySize)
 {
     const auto lut_b = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].b[(sPoly_fill_colour_BD3350 & 0x1F)][0];
     const auto lut_r = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].r[(sPoly_fill_colour_BD3350 >> 11) & 0x1F][0];
@@ -678,7 +678,7 @@ EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(u16* pVRa
     }
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(u16* pVram, s32 ySize)
+void PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(u16* pVram, s32 ySize)
 {
     const Render_Unknown* pRight = &right_side_BD32A0;
     const Render_Unknown* pLeft = &left_side_BD3320;
@@ -780,12 +780,12 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(u16* pVra
     }
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90(u16* /*a1*/, s32 /*a2*/)
+void PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90(u16* /*a1*/, s32 /*a2*/)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(u16* pVRam, s32 ySize)
+void PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(u16* pVRam, s32 ySize)
 {
     const Render_Unknown* pLeft = &left_side_BD3320;
     const Render_Unknown* pRight = &right_side_BD32A0;
@@ -837,7 +837,7 @@ EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(u16* pVRam, 
     }
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0(u16* pVram, s32 yCount)
+void PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0(u16* pVram, s32 yCount)
 {
     const u32 pitch = (u32) spBitmap_C2D038->field_10_locked_pitch / sizeof(u16);
 
@@ -973,7 +973,7 @@ static void CalculateBlendingModesLUT()
         }
     }
 }
-EXPORT s32 CC PSX_EMU_SetDispType_4F9960(s32 dispType)
+s32 PSX_EMU_SetDispType_4F9960(s32 dispType)
 {
     if (dispType != 2)
     {
@@ -1047,7 +1047,7 @@ EXPORT s32 CC PSX_EMU_SetDispType_4F9960(s32 dispType)
 }
 
 
-EXPORT void CC PSX_Pal_Conversion_4F98D0(const u16* pDataToConvert, u16* pConverted, u32 size)
+void PSX_Pal_Conversion_4F98D0(const u16* pDataToConvert, u16* pConverted, u32 size)
 {
     if (sVGA_DisplayType_BD1468 == 5)
     {
@@ -1063,9 +1063,9 @@ EXPORT void CC PSX_Pal_Conversion_4F98D0(const u16* pDataToConvert, u16* pConver
     }
 }
 
-EXPORT void CC Add_Dirty_Area_4ED970(s32 /*x*/, s32 /*y*/, s32 /*w*/, s32 /*h*/)
+void Add_Dirty_Area_4ED970(s32 /*x*/, s32 /*y*/, s32 /*w*/, s32 /*h*/)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 template <typename T>
@@ -1091,7 +1091,7 @@ static void VRam_Rect_Fill(u16* pVRamIter, s32 rect_w, s32 rect_h, s32 pitch_wor
     }
 }
 
-EXPORT s32 CC PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, u8 r, u8 g, u8 b)
+s32 PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, u8 r, u8 g, u8 b)
 {
     if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
     {
@@ -1204,7 +1204,7 @@ static bool Pop_OTInformation(PrimHeader** otBuffer, OTInformation& info)
     return false;
 }
 
-EXPORT void CC PSX_ClearOTag_4F6290(PrimHeader** otBuffer, s32 otBufferSize)
+void PSX_ClearOTag_4F6290(PrimHeader** otBuffer, s32 otBufferSize)
 {
     // PSX_OrderingTable_SaveRecord_4F62C0(otBuffer, otBufferSize);
     Push_OTInformation(otBuffer, otBufferSize);
@@ -1222,7 +1222,7 @@ EXPORT void CC PSX_ClearOTag_4F6290(PrimHeader** otBuffer, s32 otBufferSize)
     otBuffer[i] = reinterpret_cast<PrimHeader*>(static_cast<size_t>(0xFFFFFFFF));
 }
 
-EXPORT void CC PSX_OrderingTable_SaveRecord_4F62C0(s32** otBuffer, s32 otBufferSize)
+void PSX_OrderingTable_SaveRecord_4F62C0(s32** otBuffer, s32 otBufferSize)
 {
     s32 otIdx = 0;
     for (otIdx = 0; otIdx < 32; otIdx++)
@@ -1244,7 +1244,7 @@ EXPORT void CC PSX_OrderingTable_SaveRecord_4F62C0(s32** otBuffer, s32 otBufferS
     sOt_Stack_BD0D88[otIdx].field_8_pOt_End = &otBuffer[otBufferSize];
 }
 
-EXPORT s32 CC PSX_OT_Idx_From_Ptr_4F6A40(s32** ot)
+s32 PSX_OT_Idx_From_Ptr_4F6A40(s32** ot)
 {
     for (s32 i = 0; i < 32; i++)
     {
@@ -1257,9 +1257,9 @@ EXPORT s32 CC PSX_OT_Idx_From_Ptr_4F6A40(s32** ot)
     return -1;
 }
 
-EXPORT void CC PSX_4F6ED0(u16* /*pVRam*/, s32 /*width*/, s32 /*height*/, s32 /*r*/, s32 /*g*/, s32 /*b*/, s32 /*pitch*/)
+void PSX_4F6ED0(u16* /*pVRam*/, s32 /*width*/, s32 /*height*/, s32 /*r*/, s32 /*g*/, s32 /*b*/, s32 /*pitch*/)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 static s32 sLast_TILE_r_578328 = 0;
@@ -1311,12 +1311,12 @@ void PSX_Render_TILE_Blended_Large_Impl(u16* pVRam, s32 width, s32 height, s32 r
     }
 }
 
-EXPORT void CC PSX_Render_TILE_Blended_Large_4F6D00(u16* pVRam, s32 width, s32 height, s32 r, s32 g, s32 b, s32 pitch)
+void PSX_Render_TILE_Blended_Large_4F6D00(u16* pVRam, s32 width, s32 height, s32 r, s32 g, s32 b, s32 pitch)
 {
     PSX_Render_TILE_Blended_Large_Impl(pVRam, width, height, r, g, b, pitch);
 }
 
-EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* pPrim)
+void PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* pPrim)
 {
     if (!spBitmap_C2D038->field_4_pLockedPixels)
     {
@@ -1896,27 +1896,27 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, s3
         fnDecompress);
 }
 
-EXPORT void CC PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(OT_Prim* pPrim, s32 width, s32 height, const void* pCompressed)
+void PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(OT_Prim* pPrim, s32 width, s32 height, const void* pCompressed)
 {
     PSX_Render_Poly_FT4_Direct_Impl<16>(true, pPrim, width, height, pCompressed, Decompress_Next_Type6);
 }
 
-EXPORT void CC PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(OT_Prim* pPrim, s32 width, s32 height, const void* pCompressed)
+void PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(OT_Prim* pPrim, s32 width, s32 height, const void* pCompressed)
 {
     PSX_Render_Poly_FT4_Direct_Impl<16>(false, pPrim, width, height, pCompressed, Decompress_Next_Type6);
 }
 
-EXPORT void CC PSX_Render_PolyFT4_8bit_SemiTrans_501B00(OT_Prim* pPrim, s32 width, s32 height, const void* pCompressed)
+void PSX_Render_PolyFT4_8bit_SemiTrans_501B00(OT_Prim* pPrim, s32 width, s32 height, const void* pCompressed)
 {
     PSX_Render_Poly_FT4_Direct_Impl<64>(true, pPrim, width, height, pCompressed, Decompress_Next_Type3);
 }
 
-EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, s32 width, s32 height, const void* pData)
+void PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, s32 width, s32 height, const void* pData)
 {
     PSX_Render_Poly_FT4_Direct_Impl<64>(false, pPrim, width, height, pData, Decompress_Next_Type3);
 }
 
-EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, s32 width, s32 height, const void* pCompressedData)
+void PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, s32 width, s32 height, const void* pCompressedData)
 {
     assert(sRedShift_C215C4 == 11); // Should be the only possible case
     if (pOt->field_B_flags & 2 && k1_dword_55EF90)
@@ -1930,7 +1930,7 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, s32 width, s32 heigh
 }
 
 // Only possible to be used by FG1
-EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* pPrim, s32 width, s32 height, const u32* pFg1Data, s32 xoffset, s32 yoffset)
+void PSX_Render_PolyFT4_16bit_517990(OT_Prim* pPrim, s32 width, s32 height, const u32* pFg1Data, s32 xoffset, s32 yoffset)
 {
     s32 xConverted = pPrim->field_14_verts[0].field_0_x0 / 16;
     s32 yConverted = pPrim->field_14_verts[0].field_4_y0 / 16;
@@ -2001,7 +2001,7 @@ EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* pPrim, s32 width, s32 he
     }
 }
 
-EXPORT void CC PSX_Render_PolyFT4_4bit_517880(OT_Prim* pOt, s32 width, s32 height, const void* pCompressed)
+void PSX_Render_PolyFT4_4bit_517880(OT_Prim* pOt, s32 width, s32 height, const void* pCompressed)
 {
     assert(sRedShift_C215C4 == 11); // Should be the only possible case
     if (pOt->field_B_flags & 2)
@@ -2115,7 +2115,7 @@ static inline void Convert_Vertex_UV(OT_Vert* pConverted, T* pPoly, EPolyType po
     }
 }
 
-EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pData, s32 xoff, s32 yoff)
+OT_Prim* PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pData, s32 xoff, s32 yoff)
 {
     PrimAny any;
     any.mVoid = pData;
@@ -2299,7 +2299,7 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
     }
 }
 
-EXPORT void CC PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* pOrigin, Render_Unknown* pSlope, s32 idx1, s32 idx2)
+void PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* pOrigin, Render_Unknown* pSlope, s32 idx1, s32 idx2)
 {
     const OT_Vert* pV1 = &pVerts_dword_BD3264[idx1];
     const OT_Vert* pV2 = &pVerts_dword_BD3264[idx2];
@@ -2331,7 +2331,7 @@ EXPORT void CC PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* pOrigin, Render
 }
 
 
-EXPORT void CC PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown* pOrigin, Render_Unknown* pSlope, s32 idx1, s32 idx2)
+void PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown* pOrigin, Render_Unknown* pSlope, s32 idx1, s32 idx2)
 {
     // Calculate slope between verts
     const s32 v1_x = pVerts_dword_BD3264[idx1].field_0_x0;
@@ -2360,7 +2360,7 @@ EXPORT void CC PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown* pOrigin, Render
     pOrigin->field_0_x += (v1_y_rounded * pSlope->field_0_x) / 16; // Div16 is conversion of fixed 16:16 ?
 }
 
-EXPORT void CC PSX_poly_Textured_517FC0(Render_Unknown* pOrigin, Render_Unknown* pSlope, s32 idx1, s32 idx2)
+void PSX_poly_Textured_517FC0(Render_Unknown* pOrigin, Render_Unknown* pSlope, s32 idx1, s32 idx2)
 {
     const OT_Vert* pV1 = &pVerts_dword_BD3264[idx1];
     const OT_Vert* pV2 = &pVerts_dword_BD3264[idx2];
@@ -2392,7 +2392,7 @@ EXPORT void CC PSX_poly_Textured_517FC0(Render_Unknown* pOrigin, Render_Unknown*
     pOrigin->field_18_v = (pV1->field_18_v * 1024) + (v1_y_rounded * pSlope->field_18_v) / 16;
 }
 
-EXPORT void CC PSX_poly_Textured_Unknown_5180B0(Render_Unknown* /*pOrigin*/, Render_Unknown* /*pSlope*/, s32 /*idx1*/, s32 /*idx2*/)
+void PSX_poly_Textured_Unknown_5180B0(Render_Unknown* /*pOrigin*/, Render_Unknown* /*pSlope*/, s32 /*idx1*/, s32 /*idx2*/)
 {
     /*
     const OT_Vert* pV1 = &pVerts_dword_BD3264[idx1];
@@ -2425,7 +2425,7 @@ EXPORT void CC PSX_poly_Textured_Unknown_5180B0(Render_Unknown* /*pOrigin*/, Ren
 using TCalculateSlopes = decltype(&PSX_poly_FShaded_NoTexture_517DF0);
 using TRenderScanLines = decltype(&PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0);
 
-EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculateSlopes pCalcSlopes, TRenderScanLines pRenderScanLines)
+void PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculateSlopes pCalcSlopes, TRenderScanLines pRenderScanLines)
 {
     if (pPrim->field_C_vert_count < 3)
     {
@@ -2559,9 +2559,9 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculat
     }
 }
 
-EXPORT OT_Prim* CC PSX_clip_polys_4FE710(OT_Prim* pOt);
+OT_Prim* PSX_clip_polys_4FE710(OT_Prim* pOt);
 
-EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, s32 xoff, s32 yoff)
+void PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, s32 xoff, s32 yoff)
 {
     if (!prim)
     {
@@ -2652,7 +2652,7 @@ enum LineSegmentClipEdges
     eTop = 0x8,
 };
 
-EXPORT s8 CC PSX_Calc_LineSegment_Clip_Edges_4FE460(s32 x, s32 y)
+s8 PSX_Calc_LineSegment_Clip_Edges_4FE460(s32 x, s32 y)
 {
     s8 result = 0;
 
@@ -2677,9 +2677,9 @@ EXPORT s8 CC PSX_Calc_LineSegment_Clip_Edges_4FE460(s32 x, s32 y)
     return result;
 }
 
-EXPORT void CC PSX_Clip_LineSegment_Against_DrawEnv_4FE640(s32* pX, s32* pY, s32 xDiff, s32 yDiff, s8 clipEdges)
+void PSX_Clip_LineSegment_Against_DrawEnv_4FE640(s32* pX, s32* pY, s32 xDiff, s32 yDiff, s8 clipEdges)
 {
-    // NOT_IMPLEMENTED();
+    // 
 
     if (clipEdges & LineSegmentClipEdges::eLeft)
     {
@@ -2712,7 +2712,7 @@ EXPORT void CC PSX_Clip_LineSegment_Against_DrawEnv_4FE640(s32* pX, s32* pY, s32
     }
 }
 
-EXPORT s8 CC PSX_Clip_Line_Segments_4FE4F0(s32* pX0, s32* pY0, s32* pX1, s32* pY1)
+s8 PSX_Clip_Line_Segments_4FE4F0(s32* pX0, s32* pY0, s32* pX1, s32* pY1)
 {
     const s32 y0_fixed = 16 * *pY0;
     const s32 x1_fixed = 16 * *pX1;
@@ -2775,7 +2775,7 @@ EXPORT s8 CC PSX_Clip_Line_Segments_4FE4F0(s32* pX0, s32* pY0, s32* pX1, s32* pY
     return 1;
 }
 
-EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, s32 x0, s32 y0, s32 x1, s32 y1, u8 r0, u8 g0, u8 b0, u8 r1, u8 g1, u8 b1)
+void PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, s32 x0, s32 y0, s32 x1, s32 y1, u8 r0, u8 g0, u8 b0, u8 r1, u8 g1, u8 b1)
 {
     if (!PSX_Clip_Line_Segments_4FE4F0(&x0, &y0, &x1, &y1))
     {
@@ -2914,7 +2914,7 @@ EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, s32 x0, s32 y
     }
 }
 
-EXPORT void CC PSX_EMU_Render_F_LineSegment_4F80C0(s32 x0, s32 y0, s32 x1, s32 y1, s32 r, s32 g, s32 b)
+void PSX_EMU_Render_F_LineSegment_4F80C0(s32 x0, s32 y0, s32 x1, s32 y1, s32 r, s32 g, s32 b)
 {
     if (!PSX_Clip_Line_Segments_4FE4F0(&x0, &y0, &x1, &y1))
     {
@@ -3011,7 +3011,7 @@ EXPORT void CC PSX_EMU_Render_F_LineSegment_4F80C0(s32 x0, s32 y0, s32 x1, s32 y
     }
 }
 
-EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, s32 offX, s32 offY)
+void PSX_Render_Line_Prim_4F7D90(void* pOtPrim, s32 offX, s32 offY)
 {
     PrimAny any;
     any.mVoid = pOtPrim;
@@ -3146,7 +3146,7 @@ EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, s32 offX, s32 offY)
     }
 }
 
-EXPORT void CC PSX_RenderLaughingGasEffect_4F7B80(s32 xpos, s32 ypos, s32 width, s32 height, u16* pData)
+void PSX_RenderLaughingGasEffect_4F7B80(s32 xpos, s32 ypos, s32 width, s32 height, u16* pData)
 {
     const u16 pixel_mask = ~((1 << sRedShift_C215C4) | (1 << sGreenShift_C1D180) | (1 << sBlueShift_C19140) | (1 << sSemiTransShift_C215C0));
     const s32 pitchWords = spBitmap_C2D038->field_10_locked_pitch / sizeof(u16);
@@ -3435,7 +3435,7 @@ static bool DrawOTagImpl(PrimHeader** ppOt, s16 drawEnv_of0, s16 drawEnv_of1)
     return false;
 }
 
-EXPORT void CC PSX_DrawOTag_4F6540(PrimHeader** ppOt)
+void PSX_DrawOTag_4F6540(PrimHeader** ppOt)
 {
     if (!sPsxEmu_EndFrameFnPtr_C1D17C || !sPsxEmu_EndFrameFnPtr_C1D17C(0))
     {
@@ -3492,7 +3492,7 @@ EXPORT void CC PSX_DrawOTag_4F6540(PrimHeader** ppOt)
     }
 }
 
-EXPORT void CC PSX_TPage_Change_4F6430(s16 tPage)
+void PSX_TPage_Change_4F6430(s16 tPage)
 {
     if (sActiveTPage_578318 != tPage)
     {
@@ -3520,7 +3520,7 @@ EXPORT void CC PSX_TPage_Change_4F6430(s16 tPage)
     }
 }
 
-EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pScreen, const PSX_RECT* pToRender, PSX_RECT* pOverlapRect, s32* uStart, s32* vStart)
+bool PSX_Rects_intersect_point_4FA100(const PSX_RECT* pScreen, const PSX_RECT* pToRender, PSX_RECT* pOverlapRect, s32* uStart, s32* vStart)
 {
     const bool bOverlaps = PSX_Rects_overlap_4FA0B0(pScreen, pToRender) ? true : false;
     if (bOverlaps)
@@ -3568,7 +3568,7 @@ EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pScreen, const P
 }
 
 // TODO: Can be refactored MUCH further
-EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, s32 u, s32 v, u8 r, u8 g, u8 b, u16 clut, s8 bSemiTrans)
+void PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, s32 u, s32 v, u8 r, u8 g, u8 b, u16 clut, s8 bSemiTrans)
 {
     const s32 tpagey = sTexture_page_y_BD0F10 + v;
     const u32 rect_w = pRect->w;
@@ -3754,7 +3754,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, s32 u, s32
 }
 
 // TODO: Can be refactored further
-EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(const PSX_RECT* pRect, s32 u, s32 v, u8 r, u8 g, u8 b, u16 clut, s8 bSemiTrans)
+void PSX_EMU_Render_SPRT_8bit_51F660(const PSX_RECT* pRect, s32 u, s32 v, u8 r, u8 g, u8 b, u16 clut, s8 bSemiTrans)
 {
     const s32 tpagex = sTexture_page_x_BD0F0C + (u / 2);
     const s32 tpagey = sTexture_page_y_BD0F10 + v;
@@ -3885,7 +3885,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(const PSX_RECT* pRect, s32 u, s32
     }
 }
 
-EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, s32 u, s32 v, u8 r, u8 g, u8 b, s32 /*clut*/, s8 bSemiTrans)
+void PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, s32 u, s32 v, u8 r, u8 g, u8 b, s32 /*clut*/, s8 bSemiTrans)
 {
     const s32 texture_row_width = (1 << tpage_width_57831C) - pRect->w;
     const u32 line_pitch = (u32) spBitmap_C2D038->field_10_locked_pitch >> 1;
@@ -3971,7 +3971,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, s32 u, s3
     }
 }
 
-EXPORT void CC PSX_EMU_Render_SPRT_51EF90(s16 x, s16 y, s32 u, s32 v, u8 r, u8 g, u8 b, s16 w, s16 h, u16 clut, s32 semiTrans)
+void PSX_EMU_Render_SPRT_51EF90(s16 x, s16 y, s32 u, s32 v, u8 r, u8 g, u8 b, s16 w, s16 h, u16 clut, s32 semiTrans)
 {
     // Get the screen rect
     PSX_RECT screenRect = {};
@@ -4233,7 +4233,7 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
     } // outer loop
 }
 
-EXPORT OT_Prim* CC PSX_clip_polys_4FE710(OT_Prim* pOt)
+OT_Prim* PSX_clip_polys_4FE710(OT_Prim* pOt)
 {
     return PSX_clip_polys_impl(pOt);
 }

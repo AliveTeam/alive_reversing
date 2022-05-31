@@ -91,7 +91,7 @@ u8** BaseGameObject::Add_Resource(u32 type, s32 resourceID)
     return ppRes;
 }
 
-EXPORT s32 CCSTD BaseGameObject::RefreshId(s32 objectId)
+s32 BaseGameObject::RefreshId(s32 objectId)
 {
     if (objectId != -1)
     {

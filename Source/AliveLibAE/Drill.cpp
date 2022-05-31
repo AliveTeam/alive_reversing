@@ -266,7 +266,7 @@ s32 Drill::VGetSaveState(u8* pSaveBuffer)
     return vGetSaveState_4217B0(pSaveBuffer);
 }
 
-s32 CC Drill::CreateFromSaveState_421600(const u8* pData)
+s32 Drill::CreateFromSaveState_421600(const u8* pData)
 {
     const Drill_State* pState = reinterpret_cast<const Drill_State*>(pData);
 

@@ -24,7 +24,7 @@ ALIVE_VAR(1, 0xAC0BE0, TRootCallBackFn, sRootCounerFn_AC0BE0, nullptr);
 ALIVE_VAR(1, 0x507B9C, s32, sMusicTime_507B9C, 0);
 
 
-EXPORT s32 CC Psx_Root_Counter_49C280(s32 event, s32 unknown1, s32 unknown2, TRootCallBackFn pFn)
+s32 Psx_Root_Counter_49C280(s32 event, s32 unknown1, s32 unknown2, TRootCallBackFn pFn)
 {
     if (event == RCntCNT3 && unknown1 == 2 && unknown2 == 4096)
     {
@@ -33,7 +33,7 @@ EXPORT s32 CC Psx_Root_Counter_49C280(s32 event, s32 unknown1, s32 unknown2, TRo
     return 1;
 }
 
-EXPORT s32 CC Psx_Root_Counter_Event_Free_49C2B0(s32 event)
+s32 Psx_Root_Counter_Event_Free_49C2B0(s32 event)
 {
     if (event == RCntCNT3)
     {
@@ -42,22 +42,22 @@ EXPORT s32 CC Psx_Root_Counter_Event_Free_49C2B0(s32 event)
     return 1;
 }
 
-EXPORT s32 CC Psx_Root_Counter_49C3B0(s32 /*not_used*/)
+s32 Psx_Root_Counter_49C3B0(s32 /*not_used*/)
 {
     return 0;
 }
 
-EXPORT s32 CC Psx_Root_Counter_49C340(s32 /*a1*/, s32 /*a2*/)
+s32 Psx_Root_Counter_49C340(s32 /*a1*/, s32 /*a2*/)
 {
     return 0;
 }
 
-EXPORT s32 Psx_Root_Counter_49C360(s32 /*not_used*/)
+s32 Psx_Root_Counter_49C360(s32 /*not_used*/)
 {
     return 0;
 }
 
-EXPORT s32 CC Psx_Root_Counter_49C370(s32 /*counter*/)
+s32 Psx_Root_Counter_49C370(s32 /*counter*/)
 {
     return 0;
 }
@@ -299,7 +299,7 @@ const MusicController_Record2 rec2s_4CD5A8[124] = {
     {SeqId::Unknown_163, 220},
     {SeqId::Unknown_0, 0}};
 
-s16 CC MusicController::Create_4436C0()
+s16 MusicController::Create_4436C0()
 {
     if (pMusicController_507B98)
     {
@@ -339,14 +339,14 @@ s16 CC MusicController::Create_4436C0()
 static u32 sMusicControllerBaseTimeStamp = 0;
 #endif
 
-void CC MusicController::SetBaseTimeStamp()
+void MusicController::SetBaseTimeStamp()
 {
 #if USE_SDL2
     sMusicControllerBaseTimeStamp = GetGameAutoPlayer().SysGetTicks();
 #endif
 }
 
-void CC MusicController::UpdateMusicTime()
+void MusicController::UpdateMusicTime()
 {
 #if USE_SDL2
     sMusicTime_507B9C = (3 * GetGameAutoPlayer().SysGetTicks() - 3 * sMusicControllerBaseTimeStamp) / 100;
@@ -475,7 +475,7 @@ void MusicController::VUpdate()
     VUpdate_443300();
 }
 
-void CC MusicController::PlayMusic_443810(MusicTypes musicType, BaseGameObject* pObj, s16 a3, s16 a4)
+void MusicController::PlayMusic_443810(MusicTypes musicType, BaseGameObject* pObj, s16 a3, s16 a4)
 {
     if (pMusicController_507B98)
     {
@@ -491,7 +491,7 @@ void MusicController::ClearObject(BaseGameObject* pObj)
     }
 }
 
-MusicController::MusicTypes CC MusicController::GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration)
+MusicController::MusicTypes MusicController::GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration)
 {
     MusicController::UpdateMusicTime();
 
@@ -585,7 +585,7 @@ void MusicController::Shutdown_4437E0()
     }
 }
 
-void CC MusicController::EnableMusic_443900(s16 bEnable)
+void MusicController::EnableMusic_443900(s16 bEnable)
 {
     MusicController::UpdateMusicTime();
 
@@ -613,7 +613,7 @@ void CC MusicController::EnableMusic_443900(s16 bEnable)
     }
 }
 
-s32 CC MusicController::OnRootCounter_4437D0()
+s32 MusicController::OnRootCounter_4437D0()
 {
     sMusicTime_507B9C++;
     return 0;

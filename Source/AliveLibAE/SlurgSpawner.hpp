@@ -31,8 +31,8 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vUpdate_4C83C0();
-    EXPORT void vScreenChanged_4C84A0();
+    void vUpdate_4C83C0();
+    void vScreenChanged_4C84A0();
 
 private:
     s32 field_20_tlvInfo;

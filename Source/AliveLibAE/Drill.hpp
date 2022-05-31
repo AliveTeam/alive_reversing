@@ -3,7 +3,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/BitField.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum class DrillDirection : s16
 {
@@ -74,16 +74,16 @@ public:
     virtual void VStopAudio() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_421600(const u8* pData);
+    static s32 CreateFromSaveState_421600(const u8* pData);
 
 private:
-    EXPORT void vUpdate_420C50();
-    EXPORT void vScreenChanged_4214B0();
-    EXPORT void vRender_4213D0(PrimHeader** ppOt);
-    EXPORT void vStopAudio_4215C0();
-    EXPORT s32 vGetSaveState_4217B0(u8* /*pSaveBuffer*/);
-    EXPORT void EmitSparks_4206D0();
-    EXPORT s16 DamageTouchingObjects_421060();
+    void vUpdate_420C50();
+    void vScreenChanged_4214B0();
+    void vRender_4213D0(PrimHeader** ppOt);
+    void vStopAudio_4215C0();
+    s32 vGetSaveState_4217B0(u8* /*pSaveBuffer*/);
+    void EmitSparks_4206D0();
+    s16 DamageTouchingObjects_421060();
 
 private:
     DrillStates field_F4_state;

@@ -14,42 +14,42 @@ ALIVE_ARY(1, 0x5BC220, LvlFileRecord, 32, sOpenFileNames_5BC220, {});
 ALIVE_VAR(1, 0x5BC520, LvlArchive, sLvlArchive_5BC520, {});
 ALIVE_VAR(1, 0x5C3110, LvlArchive, stru_5C3110, {});
 
-EXPORT void CC static_lvl_destruct_4803B0()
+void static_lvl_destruct_4803B0()
 {
     stru_5C3110.Free_433130();
 }
 
-EXPORT void CC static_lvl_init_480350()
+void static_lvl_init_480350()
 {
     //static_lvl_ctor_nullsub_49();
     atexit(static_lvl_destruct_4803B0);
 }
 
-EXPORT void CC LvlArchive_static_dtor_432E60()
+void LvlArchive_static_dtor_432E60()
 {
     sLvlArchive_5BC520.Free_433130();
 }
 
-EXPORT void CC LvlArchive_Static_init_432E00()
+void LvlArchive_Static_init_432E00()
 {
     atexit(LvlArchive_static_dtor_432E60);
 }
 
-EXPORT s32 CC File_pc_open_4FA2C0(const char_type* /*fileName*/, s32 /*mode*/)
+s32 File_pc_open_4FA2C0(const char_type* /*fileName*/, s32 /*mode*/)
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
-EXPORT s32 CC File_seek_4FA490(s32 /*hFile*/, s32 /*distance*/, s32 /*method*/)
+s32 File_seek_4FA490(s32 /*hFile*/, s32 /*distance*/, s32 /*method*/)
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
-EXPORT s32 CC File_close_4FA530(s32 /*hFile*/)
+s32 File_close_4FA530(s32 /*hFile*/)
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct ParticleBurst_Item;
 
@@ -26,7 +26,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT FP* Random_Speed_41CEE0(FP* random);
+    FP* Random_Speed_41CEE0(FP* random);
 
 private:
     u8** field_F4_ppRes;

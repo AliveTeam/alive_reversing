@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/pch_shared.h"
 #include "Psx.hpp"
 
@@ -49,9 +49,9 @@ public:
     s16 field_E_padding;
     PSX_Display_Buffer field_10_drawEnv[2];
 
-    EXPORT void ctor_41DC30();
-    EXPORT void PutCurrentDispEnv_41DFA0();
-    EXPORT void PSX_Display_Render_OT_41DDF0();
+    void ctor_41DC30();
+    void PutCurrentDispEnv_41DFA0();
+    void PSX_Display_Render_OT_41DDF0();
 };
 // TODO: Size
 
@@ -60,9 +60,9 @@ ALIVE_VAR_EXTERN(bool, sCommandLine_NoFrameSkip_5CA4D1);
 ALIVE_VAR_EXTERN(s16, sbDebugFontLoaded_BB4A24);
 ALIVE_VAR_EXTERN(s32, sbDisplayRenderFrame_55EF8C);
 
-EXPORT void CC DebugFont_Flush_4DD050();
-EXPORT s32 CC DebugFont_Printf_4F8B60(s32 idx, const char_type* formatStr, ...);
-EXPORT s32 CC DebugFont_Init_4DCF40();
+void DebugFont_Flush_4DD050();
+s32 DebugFont_Printf_4F8B60(s32 idx, const char_type* formatStr, ...);
+s32 DebugFont_Init_4DCF40();
 
 void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect);
 

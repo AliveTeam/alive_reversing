@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
@@ -35,11 +35,11 @@ public:
     }
 
 private:
-    EXPORT void vStopAudio_45E7E0();
+    void vStopAudio_45E7E0();
 
-    EXPORT void vScreenChanged_45EA90();
+    void vScreenChanged_45EA90();
 
-    EXPORT void vUpdate_45E830();
+    void vUpdate_45E830();
 
 private:
     s32 field_F4_tlvInfo;

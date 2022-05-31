@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Types.hpp"
 
 struct Movie_IO final
@@ -87,20 +87,20 @@ public:
     s32 ReadNextFrame_4E6B30();
 
     // Same as 0x52897C in MSGI.exe
-    static s32 CC ReadNextFrameToMemory_4EAC30(Masher* pMasher);
+    static s32 ReadNextFrameToMemory_4EAC30(Masher* pMasher);
 
     // Same as 0x528985 in MGSI.exe
     void Decode_4EA670();
     void VideoFrameDecode_4E6C60(u8* pPixelBuffer);
 
     // Same as 0x52B015 in MGSI.exe
-    static void CC DDV_Set_Channels_And_BitsPerSample_4ECFD0(s32 numChannels, s32 bitsPerSample);
+    static void DDV_Set_Channels_And_BitsPerSample_4ECFD0(s32 numChannels, s32 bitsPerSample);
 
     // Same as 0x52B028 in MGSI.exe
-    static void CC DDV_DecompressAudioFrame_4ECFF0(s32* pMasherFrame, BYTE* pDecodedFrame, s32 frameSize);
+    static void DDV_DecompressAudioFrame_4ECFF0(s32* pMasherFrame, BYTE* pDecodedFrame, s32 frameSize);
 
     // Same as 0x52899C in MGSI.exe
-    static void* CC GetDecompressedAudioFrame_4EAC60(Masher* pMasher);
+    static void* GetDecompressedAudioFrame_4EAC60(Masher* pMasher);
 
 private:
     struct Macroblock_RGB_Struct final

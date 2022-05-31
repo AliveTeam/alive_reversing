@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum class SwitchOp : s16;
 
@@ -31,10 +31,10 @@ public:
     ~MultiSwitchController();
 
 private:
-    EXPORT void vScreenChanged_4D6860();
-    EXPORT void vUpdate_4D6250();
-    EXPORT void WaitingForAllOn_4D6290();
-    EXPORT void WaitingForAllOff_4D65B0();
+    void vScreenChanged_4D6860();
+    void vUpdate_4D6250();
+    void WaitingForAllOn_4D6290();
+    void WaitingForAllOff_4D65B0();
 
 private:
     u16 field_20_input_switch_id1;

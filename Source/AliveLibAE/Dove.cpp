@@ -16,12 +16,12 @@ ALIVE_VAR(1, 0x5bc112, s16, bTheOneControllingTheMusic_5BC112, 0);
 ALIVE_VAR(1, 0x5BC100, DynamicArrayT<Dove>, gDovesArray_5BC100, {});
 ALIVE_VAR(1, 0x5BC110, u8, byte_5BC110, 0);
 
-EXPORT void CC Dove_static_ctor_41F3C0()
+void Dove_static_ctor_41F3C0()
 {
     gDovesArray_5BC100.ctor_40CA60(3);
 }
 
-EXPORT void CC Dove_static_dtor_41F400()
+void Dove_static_dtor_41F400()
 {
     // Flag to guard against multiple destruction - although seems impossible given its in the table once
     if (!(byte_5BC110 & 1))
@@ -31,7 +31,7 @@ EXPORT void CC Dove_static_dtor_41F400()
     }
 }
 
-EXPORT void CC Dove_static_ctor_41F3A0()
+void Dove_static_ctor_41F3A0()
 {
     Dove_static_ctor_41F3C0();
     atexit(Dove_static_dtor_41F400);
@@ -358,7 +358,7 @@ void Dove::VUpdate()
     }
 }
 
-void CC Dove::All_FlyAway_41FA60(Bool32 spookedInstantly)
+void Dove::All_FlyAway_41FA60(Bool32 spookedInstantly)
 {
     for (s32 i = 0; i < gDovesArray_5BC100.Size(); i++)
     {

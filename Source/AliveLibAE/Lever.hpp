@@ -2,7 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum class LeverState : s16
 {
@@ -55,9 +55,9 @@ public:
     ~Lever();
 
 private:
-    EXPORT void vUpdate_4D5C00();
-    EXPORT void vScreenChanged_4D5B90();
-    EXPORT s16 vPull_4D6050(s16 bLeftDirection);
+    void vUpdate_4D5C00();
+    void vScreenChanged_4D5B90();
+    s16 vPull_4D6050(s16 bLeftDirection);
 
 private:
     s16 field_F4_switch_id;

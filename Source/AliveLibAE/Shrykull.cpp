@@ -63,7 +63,7 @@ void Shrykull::VScreenChanged()
     }
 }
 
-s16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
+s16 Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
 {
     switch (pObj->Type())
     {
@@ -83,7 +83,7 @@ s16 CCSTD Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
     }
 }
 
-s16 CCSTD Shrykull::CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 Shrykull::CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     return (
                pObj->Type() == AETypes::eTimedMine_or_MovingBomb_10 || pObj->Type() == AETypes::eMine_88 || pObj->Type() == AETypes::eUXB_143 || pObj->Type() == AETypes::eSlig_125 || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eSlog_126 || pObj->Type() == AETypes::eGlukkon_67 || pObj->Type() == AETypes::eSecurityClaw_47 || pObj->Type() == AETypes::eSecurityOrb_83)

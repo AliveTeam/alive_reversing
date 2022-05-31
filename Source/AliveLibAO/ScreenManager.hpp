@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "Primitives.hpp"
@@ -13,11 +13,11 @@ enum class LevelIds : s16;
 class Camera final
 {
 public:
-    EXPORT Camera* ctor_4446E0();
+    Camera* ctor_4446E0();
 
-    EXPORT void dtor_444700();
+    void dtor_444700();
 
-    EXPORT static void CC On_Loaded_4447A0(Camera* pThis);
+    static void On_Loaded_4447A0(Camera* pThis);
 
     DynamicArrayT<u8*> field_0_array;
     u8** field_C_ppBits;
@@ -68,21 +68,21 @@ class ScreenManager final : public BaseGameObject
 public:
     ScreenManager(u8** ppBits, FP_Point* pCameraOffset);
 
-    EXPORT void Init_4068A0(u8** ppBits);
+    void Init_4068A0(u8** ppBits);
 
-    EXPORT void MoveImage_406C40();
+    void MoveImage_406C40();
 
-    EXPORT void InvalidateRect_406CC0(s32 x, s32 y, s32 width, s32 height);
+    void InvalidateRect_406CC0(s32 x, s32 y, s32 width, s32 height);
 
-    EXPORT void DecompressCameraToVRam_407110(u16** ppBits);
+    void DecompressCameraToVRam_407110(u16** ppBits);
 
-    EXPORT void UnsetDirtyBits_FG1_406EF0();
+    void UnsetDirtyBits_FG1_406EF0();
 
-    EXPORT void InvalidateRect_406E40(s32 x, s32 y, s32 width, s32 height, s32 idx);
+    void InvalidateRect_406E40(s32 x, s32 y, s32 width, s32 height, s32 idx);
 
-    EXPORT void InvalidateRect_Layer3_406F20(s32 x, s32 y, s32 width, s32 height);
+    void InvalidateRect_Layer3_406F20(s32 x, s32 y, s32 width, s32 height);
 
-    EXPORT void InvalidateRect_406D80(s32 x, s32 y, s32 width, s32 height, s32 idx);
+    void InvalidateRect_406D80(s32 x, s32 y, s32 width, s32 height, s32 idx);
 
     virtual void VScreenChanged() override;
 
@@ -92,9 +92,9 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_406A60(PrimHeader** ppOt);
+    void VRender_406A60(PrimHeader** ppOt);
 
-    EXPORT void sub_406FF0();
+    void sub_406FF0();
 
     FP_Point* field_10_pCamPos;
     s16 field_14_xpos;

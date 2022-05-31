@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
@@ -40,14 +40,14 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_461AD0();
+    void VUpdate_461AD0();
 
     SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo);
     ~SecurityDoor();
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_461F80();
+    void VScreenChanged_461F80();
 
     s32 field_D4[4];
     s32 field_E4_tlvInfo;

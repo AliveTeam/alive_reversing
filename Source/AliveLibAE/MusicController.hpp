@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 
 class BaseAliveGameObject;
@@ -51,35 +51,35 @@ public:
     };
 
 
-    EXPORT static s32 CC Create_47FC40();
-    EXPORT static void CC SetBaseTimeStamp_47FD00();
-    EXPORT static void CC Shutdown_47FD20();
-    EXPORT static void CC UpdateMusicTime_47F8B0();
-    EXPORT static MusicTypes CC GetMusicType_47FDA0(u16* seq1, u16* seq2, u32* seqTime);
+    static s32 Create_47FC40();
+    static void SetBaseTimeStamp_47FD00();
+    static void Shutdown_47FD20();
+    static void UpdateMusicTime_47F8B0();
+    static MusicTypes GetMusicType_47FDA0(u16* seq1, u16* seq2, u32* seqTime);
 
     
     MusicController();
     ~MusicController();
 
-    EXPORT MusicTypes GetMusicType_47FA80(u16* seq, u16* seq2, u32* seqTime);
+    MusicTypes GetMusicType_47FA80(u16* seq, u16* seq2, u32* seqTime);
 
     virtual void VScreenChanged() override;
-    EXPORT void vsub_ScreenChange_47F8F0();
+    void vsub_ScreenChange_47F8F0();
 
     virtual void VUpdate() override;
-    EXPORT void Update_47F730();
+    void Update_47F730();
 
 
-    EXPORT void EnableMusic_47FB80(s16 enable);
-    EXPORT void SetMusicVolumeDelayed_47FB00(s16 vol, s16 delay);
-    EXPORT void UpdateVolumeState_47EFD0();
-    EXPORT void PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, s8 bFlag0x20);
+    void EnableMusic_47FB80(s16 enable);
+    void SetMusicVolumeDelayed_47FB00(s16 vol, s16 delay);
+    void UpdateVolumeState_47EFD0();
+    void PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, s8 bFlag0x20);
 
-    EXPORT void UpdateMusic_47F260();
-    EXPORT void UpdateAmbiance_47F0B0();
+    void UpdateMusic_47F260();
+    void UpdateAmbiance_47F0B0();
 
-    EXPORT static void CC PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, s8 bFlag0x20);
-    EXPORT static void CC EnableMusic_47FE10(s16 bOn);
+    static void PlayMusic_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, s8 bFlag0x20);
+    static void EnableMusic_47FE10(s16 bOn);
 
 private:
     u16 field_20_vol;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum class LevelIds : s16;
 
@@ -58,17 +58,17 @@ public:
     virtual void VPossessed_408F70() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_4281C0(const u8* pBuffer);
+    static s32 CreateFromSaveState_4281C0(const u8* pBuffer);
 
 private:
-    EXPORT s32 vGetSaveState_4283F0(EvilFart_State* pState);
+    s32 vGetSaveState_4283F0(EvilFart_State* pState);
 
-    EXPORT void InputControlFart_423BB0();
-    EXPORT void vOnPossesed_423DA0();
+    void InputControlFart_423BB0();
+    void vOnPossesed_423DA0();
 
     void ResetFartColour();
 
-    EXPORT s16 VTakeDamage_423B70(BaseGameObject* pFrom);
+    s16 VTakeDamage_423B70(BaseGameObject* pFrom);
 
     void CalculateFartColour();
     void BlowUp();

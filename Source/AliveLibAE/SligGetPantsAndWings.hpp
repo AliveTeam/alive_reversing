@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
@@ -24,8 +24,8 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vUpdate_465DD0();
-    EXPORT void vScreenChanged_465EE0();
+    void vUpdate_465DD0();
+    void vScreenChanged_465EE0();
 
 private:
     State field_F4_state;

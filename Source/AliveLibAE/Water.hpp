@@ -2,7 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct Water_Res final
 {
@@ -49,12 +49,12 @@ public:
     virtual void VStopAudio() override;
 
 private:
-    EXPORT void vScreenChanged_4E1780();
-    EXPORT void vStopAudio_4E1800();
-    EXPORT void Disable_Water_Particle_4E0B10(s16 idx);
-    EXPORT void Add_Water_Particle_4E09A0();
-    EXPORT void vUpdate_4E0B50();
-    EXPORT void vRender_4E1440(PrimHeader** ppOt);
+    void vScreenChanged_4E1780();
+    void vStopAudio_4E1800();
+    void Disable_Water_Particle_4E0B10(s16 idx);
+    void Add_Water_Particle_4E09A0();
+    void vUpdate_4E0B50();
+    void vRender_4E1440(PrimHeader** ppOt);
 
 private:
     u8** field_F4_ppWaterRes;

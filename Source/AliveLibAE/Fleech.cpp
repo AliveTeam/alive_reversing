@@ -249,7 +249,7 @@ const static AnimId sFleechFrameTableOffsets_5517E4[19] = {
 
 ALIVE_VAR(1, 0x551840, s32, current_target_object_id_551840, -1);
 
-s32 CC Fleech::CreateFromSaveState_42DD50(const u8* pBuffer)
+s32 Fleech::CreateFromSaveState_42DD50(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Fleech_State*>(pBuffer);
 
@@ -1642,7 +1642,7 @@ const TintEntry kFleechTints_551844[15] = {
     {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
-s32 CC Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData)
+s32 Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData)
 {
     reinterpret_cast<Fleech*>(pObj)->vOnFrame_42BC50(pData);
     return 1;

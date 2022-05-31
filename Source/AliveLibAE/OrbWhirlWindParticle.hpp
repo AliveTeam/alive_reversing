@@ -12,16 +12,16 @@ public:
     OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit);
     ~OrbWhirlWindParticle();
 
-    EXPORT s32 IsActive_4E4370();
-    EXPORT void Spin_4E4A10(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
-    EXPORT void ToStop_4E4AD0();
+    s32 IsActive_4E4370();
+    void Spin_4E4A10(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
+    void ToStop_4E4AD0();
 
     void Update();
     void Render(PrimHeader** ppOt);
 
 private:
-    EXPORT void CalculateRenderProperties_4E4390(s16 bStarted);
-    EXPORT void SetActive_4E4340(u8 active);
+    void CalculateRenderProperties_4E4390(s16 bStarted);
+    void SetActive_4E4340(u8 active);
 
 private:
     enum Flags_4

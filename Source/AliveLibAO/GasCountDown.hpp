@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Font.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 
 namespace AO {

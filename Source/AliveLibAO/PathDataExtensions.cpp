@@ -34,7 +34,7 @@ s32 Path_GoodEndingMuds(LevelIds lvlId, u32 pathNum)
 
 static u8* sPathExtData[static_cast<u32>(LevelIds::eDesertEscape_15) + 1] = {};
 
-EXPORT s32 sub_402560();
+s32 sub_402560();
 
 template<typename T>
 static void SetAndLog(const char_type* propertyName, T& dst, T newVal)

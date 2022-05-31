@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "PlatformBase.hpp"
 #include "Path.hpp"
 
@@ -59,30 +59,30 @@ public:
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_4630F0(const u8* pData);
+    static s32 CreateFromSaveState_4630F0(const u8* pData);
 
 public:
-    EXPORT void vKeepOnMiddleFloor_461870();
-    EXPORT Bool32 vOnTopFloor_461890();
-    EXPORT Bool32 vOnMiddleFloor_4618C0();
-    EXPORT Bool32 vOnBottomFloor_4618F0();
-    EXPORT Bool32 vOnAnyFloor_461920();
-    EXPORT Bool32 vOnAFloorLiftMoverCanUse_461960();
-    EXPORT Bool32 vMovingToFloorLevel_4619B0();
+    void vKeepOnMiddleFloor_461870();
+    Bool32 vOnTopFloor_461890();
+    Bool32 vOnMiddleFloor_4618C0();
+    Bool32 vOnBottomFloor_4618F0();
+    Bool32 vOnAnyFloor_461920();
+    Bool32 vOnAFloorLiftMoverCanUse_461960();
+    Bool32 vMovingToFloorLevel_4619B0();
 
-    EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, s32 not_used);
-
-private:
-    EXPORT void vRender_462730(PrimHeader** ppOt);
-    EXPORT void vUpdate_461AE0();
-    EXPORT void MoveObjectsOnLift_497600(FP xVelocity);
-    EXPORT static void CCSTD sub_461000(Path_TLV* pTlv);
-    EXPORT void vStayOnFloor_461A00(s16 floor, Path_LiftPoint* pTlv);
-    EXPORT s32 vGetSaveState_4637D0(LiftPoint_State* pState);
+    void vMove_4626A0(FP xSpeed, FP ySpeed, s32 not_used);
 
 private:
-    EXPORT void CreatePulleyIfExists_462C80();
-    EXPORT void vScreenChanged_463020();
+    void vRender_462730(PrimHeader** ppOt);
+    void vUpdate_461AE0();
+    void MoveObjectsOnLift_497600(FP xVelocity);
+    static void sub_461000(Path_TLV* pTlv);
+    void vStayOnFloor_461A00(s16 floor, Path_LiftPoint* pTlv);
+    s32 vGetSaveState_4637D0(LiftPoint_State* pState);
+
+private:
+    void CreatePulleyIfExists_462C80();
+    void vScreenChanged_463020();
 
 public:
     s16 field_12C_bMoving;

@@ -108,7 +108,7 @@ ALIVE_VAR(1, 0x9F0E60, u16, word_9F0E60, 0);
 ALIVE_VAR(1, 0x504624, u16, word_504624, 0);
 ALIVE_VAR(1, 0x504626, u16, word_504626, 0);
 
-EXPORT s16 Reset_Unknown_45A5B0()
+s16 Reset_Unknown_45A5B0()
 {
     word_9F1188 = -1;
     word_504620 = -1;

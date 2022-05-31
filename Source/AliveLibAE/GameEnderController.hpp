@@ -1,9 +1,9 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
-EXPORT void CC CreateGameEnderController_43B7A0();
+void CreateGameEnderController_43B7A0();
 
 enum class GameEnderController_States : s16
 {
@@ -33,7 +33,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderController_State, 0x10);
 class GameEnderController final : public BaseGameObject
 {
 public:
-    EXPORT static s32 CC CreateFromSaveState_43BD10(const u8* pBuffer);
+    static s32 CreateFromSaveState_43BD10(const u8* pBuffer);
     GameEnderController();
 
     
@@ -42,9 +42,9 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    EXPORT void vScreenChanged_43BC80();
-    EXPORT s32 vGetSaveState_43BCD0(GameEnderController_State* pState);
-    EXPORT void vUpdate_43B920();
+    void vScreenChanged_43BC80();
+    s32 vGetSaveState_43BCD0(GameEnderController_State* pState);
+    void vUpdate_43B920();
 
 private:
     s32 field_20_timer;

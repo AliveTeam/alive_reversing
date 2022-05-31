@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BellSong.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
@@ -449,269 +449,269 @@ public:
 
     virtual void VOnTrapDoorOpen() override;
 
-    EXPORT void VOnTrapDoorOpen_42EED0();
+    void VOnTrapDoorOpen_42EED0();
 
     // Virtual impls
-    EXPORT BaseGameObject* vdtor_422A70(s32 flags);
-    EXPORT void vUpdate_41FDB0();
-    EXPORT void vRender_420F30(PrimHeader** ppOt);
-    EXPORT void vScreenChanged_422640();
+    BaseGameObject* vdtor_422A70(s32 flags);
+    void vUpdate_41FDB0();
+    void vRender_420F30(PrimHeader** ppOt);
+    void vScreenChanged_422640();
 
-    EXPORT void VOn_Tlv_Collision_421130(Path_TLV* pTlv);
+    void VOn_Tlv_Collision_421130(Path_TLV* pTlv);
 
 
     // Non virtuals
 
     bool CheckForPortalAndRunJump();
 
-    static EXPORT void Free_Shrykull_Resources_42F4C0();
+    static void Free_Shrykull_Resources_42F4C0();
 
-    EXPORT void FreeElumRes_420F80();
+    void FreeElumRes_420F80();
 
-    EXPORT void ToDeathDropFall_42C3D0();
+    void ToDeathDropFall_42C3D0();
 
-    EXPORT Bool32 IsStanding_41FC10();
+    Bool32 IsStanding_41FC10();
 
-    EXPORT void FollowLift_42EE90();
+    void FollowLift_42EE90();
 
-    EXPORT void ExitShrykull_42F440(s16 bResetRingTimer);
+    void ExitShrykull_42F440(s16 bResetRingTimer);
 
-    EXPORT s16 RunTryEnterWell_425880();
+    s16 RunTryEnterWell_425880();
 
-    EXPORT void ChangeChantState_430510(s16 bKeepChanting);
+    void ChangeChantState_430510(s16 bKeepChanting);
 
-    EXPORT static BaseAliveGameObject* CC FindObjectToPossess_421410();
+    static BaseAliveGameObject* FindObjectToPossess_421410();
 
-    EXPORT static void CC Get_Shrykull_Resources_42F480();
+    static void Get_Shrykull_Resources_42F480();
 
-    EXPORT void ToDieFinal_42C400();
+    void ToDieFinal_42C400();
 
-    EXPORT void ToKnockback_422D90(s16 bUnknownSound, s16 bDelayedAnger);
+    void ToKnockback_422D90(s16 bUnknownSound, s16 bDelayedAnger);
 
-    EXPORT u8** StateToAnimResource_4204F0(s16 motion);
+    u8** StateToAnimResource_4204F0(s16 motion);
 
-    EXPORT void ToIdle_422D50();
+    void ToIdle_422D50();
 
-    EXPORT void MoveForward_422FC0();
+    void MoveForward_422FC0();
 
-    EXPORT s16 MoveLiftUpOrDown_42F190(FP ySpeed);
+    s16 MoveLiftUpOrDown_42F190(FP ySpeed);
 
-    EXPORT void ElumFree_4228F0();
+    void ElumFree_4228F0();
 
-    EXPORT s16 DoGameSpeak_42F5C0(u16 input);
+    s16 DoGameSpeak_42F5C0(u16 input);
 
-    EXPORT void SyncToElum_42D850(s16 elumMotion);
+    void SyncToElum_42D850(s16 elumMotion);
 
-    EXPORT void PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch);
+    void PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch);
 
-    EXPORT void CrouchingGameSpeak_427F90();
+    void CrouchingGameSpeak_427F90();
 
-    EXPORT void FallOnBombs_4231B0();
+    void FallOnBombs_4231B0();
 
-    EXPORT s16 ToLeftRightMovement_422AA0();
+    s16 ToLeftRightMovement_422AA0();
 
-    EXPORT void MoveWithVelocity_4257F0(FP speed);
+    void MoveWithVelocity_4257F0(FP speed);
 
-    EXPORT void ToNewElumSyncMotion_422520(s16 elum_frame);
+    void ToNewElumSyncMotion_422520(s16 elum_frame);
 
-    EXPORT void SetActiveControlledCharacter_421480();
+    void SetActiveControlledCharacter_421480();
 
-    EXPORT PullRingRope* GetPullRope_422580();
+    PullRingRope* GetPullRope_422580();
 
-    EXPORT void Free_Resources_422870();
+    void Free_Resources_422870();
 
-    EXPORT static void CC Load_Basic_Resources_4228A0();
+    static void Load_Basic_Resources_4228A0();
 
-    EXPORT void LoadMountElumResources_42E690();
+    void LoadMountElumResources_42E690();
 
-    EXPORT void ElumKnockForward_42E780(s32 not_used);
+    void ElumKnockForward_42E780(s32 not_used);
 
-    EXPORT s16 TryMountElum_42E600();
+    s16 TryMountElum_42E600();
 
-    EXPORT void BulletDamage_4220B0(Bullet* a2);
+    void BulletDamage_4220B0(Bullet* a2);
 
-    EXPORT s16 RunTryEnterDoor_4259C0();
+    s16 RunTryEnterDoor_4259C0();
 
     Bool32 NearDoorIsOpen();
 
-    EXPORT void IntoPortalStates_4262A0();
+    void IntoPortalStates_4262A0();
 
-    EXPORT void TryHoist_423420();
+    void TryHoist_423420();
 
-    EXPORT s16 HandleDoAction_429A70();
+    s16 HandleDoAction_429A70();
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT s16 VTakeDamage_4214E0(BaseGameObject* pFrom);
+    s16 VTakeDamage_4214E0(BaseGameObject* pFrom);
 
     void New_RandomizedChant_Particle();
 
     // Motions
-    EXPORT void Motion_0_Idle_423520();
-    EXPORT void Motion_1_WalkLoop_423F90();
-    EXPORT void Motion_2_StandingTurn_426040();
-    EXPORT void Motion_3_Fall_42E7F0();
-    EXPORT void Motion_4_WalkToIdle_4243C0();
-    EXPORT void Motion_5_MidWalkToIdle_424490();
-    EXPORT void Motion_6_WalkBegin_424300();
-    EXPORT void Motion_7_Speak_42F950();
-    EXPORT void Motion_8_Speak_42F9D0();
-    EXPORT void Motion_9_Speak_42FA50();
-    EXPORT void Motion_10_Speak_42FAD0();
-    EXPORT void Motion_11_Speak_42FB50();
-    EXPORT void Motion_12_Speak_42FBD0();
-    EXPORT void Motion_13_Speak_42FC50();
-    EXPORT void Motion_14_Speak_42FCD0();
-    EXPORT void Motion_15_Null_42A210();
-    EXPORT void Motion_16_HoistBegin_426E40();
-    EXPORT void Motion_17_HoistIdle_4269E0();
-    EXPORT void Motion_18_HoistLand_426EB0();
-    EXPORT void Motion_19_CrouchIdle_4284C0();
-    EXPORT void Motion_20_CrouchToStand_428AF0();
-    EXPORT void Motion_21_StandToCrouch_427F40();
-    EXPORT void Motion_22_CrouchSpeak_428A30();
-    EXPORT void Motion_23_CrouchSpeak_428A90();
-    EXPORT void Motion_24_RollBegin_427A20();
-    EXPORT void Motion_25_RollLoop_427BB0();
-    EXPORT void Motion_26_RollEnd_427EA0();
-    EXPORT void Motion_27_RunSlideStop_425B60();
-    EXPORT void Motion_28_RunTurn_425CE0();
-    EXPORT void Motion_29_HopBegin_4267B0();
-    EXPORT void Motion_30_HopMid_4264D0();
-    EXPORT void Motion_31_HopLand_426940();
-    EXPORT void Motion_32_RunJumpBegin_427440();
-    EXPORT void Motion_33_RunJumpMid_426FA0();
-    EXPORT void Motion_34_RunJumpLand_427560();
-    EXPORT void Motion_35_RunLoop_425060();
-    EXPORT void Motion_36_DunnoBegin_423260();
-    EXPORT void Motion_37_DunnoMid_4232C0();
-    EXPORT void Motion_38_DunnoEnd_423310();
-    EXPORT void Motion_39_CrouchTurn_4288C0();
-    EXPORT void Motion_40_RunToRoll_427AE0();
-    EXPORT void Motion_41_StandingToRun_425530();
-    EXPORT void Motion_42_SneakLoop_424BB0();
-    EXPORT void Motion_43_WalkToSneak_424790();
-    EXPORT void Motion_44_SneakToWalk_4249A0();
-    EXPORT void Motion_45_MidWalkToSneak_424890();
-    EXPORT void Motion_46_MidSneakToWalk_424AA0();
-    EXPORT void Motion_47_SneakBegin_424ED0();
-    EXPORT void Motion_48_SneakToIdle_424F80();
-    EXPORT void Motion_49_MidSneakToIdle_424FF0();
-    EXPORT void Motion_50_WalkToRun_424560();
-    EXPORT void Motion_51_MidWalkToRun_424670();
-    EXPORT void Motion_52_RunToWalk_4255E0();
-    EXPORT void Motion_53_MidRunToWalk_4256E0();
-    EXPORT void Motion_54_RunTurnToRun_425EA0();
-    EXPORT void Motion_55_RunTurnToWalk_425F70();
-    EXPORT void Motion_56_RunJumpLandRun_4278E0();
-    EXPORT void Motion_57_RunJumpLand_Walk_427980();
-    EXPORT void Motion_58_ToSpeak_42F8D0();
-    EXPORT void Motion_59_DeathDropFall_42CBE0();
-    EXPORT void Motion_60_Dead_42C4C0();
-    EXPORT void Motion_61_Respawn_42CD20();
-    EXPORT void Motion_62_LoadedSaveSpawn_45ADD0();
-    EXPORT void Motion_63_TurnToRun_42A0A0();
-    EXPORT void Motion_64_LedgeAscend_428B60();
-    EXPORT void Motion_65_LedgeDescend_428C00();
-    EXPORT void Motion_66_LedgeHang_428D90();
-    EXPORT void Motion_67_ToOffScreenHoist_428C50();
-    EXPORT void Motion_68_LedgeHangWobble_428E50();
-    EXPORT void Motion_69_RingRopePullHang_4299B0();
-    EXPORT void Motion_70_Knockback_428FB0();
-    EXPORT void Motion_71_KnockbackGetUp_429240();
-    EXPORT void Motion_72_PushWall_4292A0();
-    EXPORT void Motion_73_RollingKnockback_4291D0();
-    EXPORT void Motion_74_JumpIntoWell_430EC0();
-    EXPORT void Motion_75_ToInsideOfAWellLocal_431090();
-    EXPORT void Motion_76_ToWellShotOut_431720();
-    EXPORT void Motion_77_WellBegin_430F10();
-    EXPORT void Motion_78_InsideWellLocal_4310A0();
-    EXPORT void Motion_79_WellShotOut_431730();
-    EXPORT void Motion_80_ToWellBegin_430EF0();
-    EXPORT void Motion_81_InsideWellExpress_431320();
-    EXPORT void Motion_82_WellExpressShotOut_4315A0();
-    EXPORT void Motion_83_ToWellBegin_430F00();
-    EXPORT void Motion_84_ToInsideWellLocal_431080();
-    EXPORT void Motion_85_ToWellShotOut_431710();
-    EXPORT void Motion_86_FallLandDie_42EDD0();
-    EXPORT void Motion_87_ToFall_428FA0();
-    EXPORT void Motion_88_HandstoneBegin_430590();
-    EXPORT void Motion_89_HandstoneEnd_430E80();
-    EXPORT void Motion_90_GrenadeMachineUse_430EA0();
-    EXPORT void Motion_91_FallingFromGrab_429780();
-    EXPORT void Motion_92_ForceDownFromHoist_4297C0();
-    EXPORT void Motion_93_WalkOffEdge_429840();
-    EXPORT void Motion_94_RunOffEdge_429860();
-    EXPORT void Motion_95_SneakOffEdge_429880();
-    EXPORT void Motion_96_HopToFall_4298A0();
-    EXPORT void Motion_97_RunJumpToFall_429930();
-    EXPORT void Motion_98_LandSoft_42ED40();
-    EXPORT void Motion_99_HoistBeginLong_426DC0();
-    EXPORT void Motion_100_RollOffLedge_429950();
-    EXPORT void Motion_101_LeverUse_429970();
-    EXPORT void Motion_102_ElumWalkLoop_42DCA0();
-    EXPORT void Motion_103_ElumIdle_42DCD0();
-    EXPORT void Motion_104_ElumRunSlideStop_42DF00();
-    EXPORT void Motion_105_ElumRunTurn_42DF10();
-    EXPORT void Motion_106_Null_42DF20();
-    EXPORT void Motion_107_ElumHopBegin_42DF30();
-    EXPORT void Motion_108_ElumHopMid_42DF40();
-    EXPORT void Motion_109_ElumHopLand_42DF50();
-    EXPORT void Motion_110_ElumRunJumpBegin_42DF60();
-    EXPORT void Motion_111_ElumRunJumpMid_42DF70();
-    EXPORT void Motion_112_ElumRunJumpLand_42DF80();
-    EXPORT void Motion_113_ElumTurn_42DF90();
-    EXPORT void Motion_114_ElumRunLoop_42DFA0();
-    EXPORT void Motion_115_ElumSpeak_4299F0();
-    EXPORT void Motion_116_Null_42DFB0();
-    EXPORT void Motion_117_ElumWalkBegin_42DFC0();
-    EXPORT void Motion_118_ElumRunBegin_42DFD0();
-    EXPORT void Motion_119_Null_42DFE0();
-    EXPORT void Motion_120_ElumRunToWalk_42DFF0();
-    EXPORT void Motion_121_ElumMidRunToWalk_42E000();
-    EXPORT void Motion_122_ElumRunTurnToRun_42E010();
-    EXPORT void Motion_123_ElumRunTurnToWalk_42E020();
-    EXPORT void Motion_124_ElumWalkEnd_42DCB0();
-    EXPORT void Motion_125_ElumMidWalkEnd_42DCC0();
-    EXPORT void Motion_126_ElumBeesStruggling_42E080();
-    EXPORT void Motion_127_SlapBomb_429A20();
-    EXPORT void Motion_128_KnockForward_429330();
-    EXPORT void Motion_129_RollingKnockForward_4294F0();
-    EXPORT void Motion_130_KnockForwardGetUp_429560();
-    EXPORT void Motion_131_LiftUseUp_42F150();
-    EXPORT void Motion_132_LiftUseDown_42F170();
-    EXPORT void Motion_133_LiftGrabBegin_42EF20();
-    EXPORT void Motion_134_LiftGrabEnd_42EFE0();
-    EXPORT void Motion_135_LiftGrabIdle_42F000();
-    EXPORT void Motion_136_ElumMountEnd_42E110();
-    EXPORT void Motion_137_ElumUnmountBegin_42E2B0();
-    EXPORT void Motion_138_ElumUnmountEnd_42E390();
-    EXPORT void Motion_139_ElumMountBegin_42E090();
-    EXPORT void Motion_140_BeesStruggling_423F30();
-    EXPORT void Motion_141_BeesStrugglingOnLift_42F390();
-    EXPORT void Motion_142_RockThrowStandingHold_429CE0();
-    EXPORT void Motion_143_RockThrowStandingThrow_429FD0();
-    EXPORT void Motion_144_RockThrowStandingEnd_429DE0();
-    EXPORT void Motion_145_RockThrowCrouchingHold_428930();
-    EXPORT void Motion_146_RockThrowCrouchingThrow_4289F0();
-    EXPORT void Motion_147_ShotRolling_4295C0();
-    EXPORT void Motion_148_Shot_4296A0();
-    EXPORT void Motion_149_PickupItem_42A030();
-    EXPORT void Motion_150_Chant_42FD50();
-    EXPORT void Motion_151_ChantEnd_430530();
-    EXPORT void Motion_152_ElumFallOffEdge_42E030();
-    EXPORT void Motion_153_ElumFall_42E040();
-    EXPORT void Motion_154_ElumLand_42E050();
-    EXPORT void Motion_155_ElumJumpToFall_42E060();
-    EXPORT void Motion_156_DoorEnter_42D370();
-    EXPORT void Motion_157_DoorExit_42D780();
-    EXPORT void Motion_158_ElumKnockback_42E070();
-    EXPORT void Motion_159_Idle_RubEyes_423360();
-    EXPORT void Motion_160_Idle_Stretch_Arms_4233A0();
-    EXPORT void Motion_161_Idle_Yawn_4233E0();
-    EXPORT void Motion_162_ToShrykull_42F410();
-    EXPORT void Motion_163_ShrykullEnd_42F520();
-    EXPORT void Motion_164_PoisonGasDeath_42A120();
+    void Motion_0_Idle_423520();
+    void Motion_1_WalkLoop_423F90();
+    void Motion_2_StandingTurn_426040();
+    void Motion_3_Fall_42E7F0();
+    void Motion_4_WalkToIdle_4243C0();
+    void Motion_5_MidWalkToIdle_424490();
+    void Motion_6_WalkBegin_424300();
+    void Motion_7_Speak_42F950();
+    void Motion_8_Speak_42F9D0();
+    void Motion_9_Speak_42FA50();
+    void Motion_10_Speak_42FAD0();
+    void Motion_11_Speak_42FB50();
+    void Motion_12_Speak_42FBD0();
+    void Motion_13_Speak_42FC50();
+    void Motion_14_Speak_42FCD0();
+    void Motion_15_Null_42A210();
+    void Motion_16_HoistBegin_426E40();
+    void Motion_17_HoistIdle_4269E0();
+    void Motion_18_HoistLand_426EB0();
+    void Motion_19_CrouchIdle_4284C0();
+    void Motion_20_CrouchToStand_428AF0();
+    void Motion_21_StandToCrouch_427F40();
+    void Motion_22_CrouchSpeak_428A30();
+    void Motion_23_CrouchSpeak_428A90();
+    void Motion_24_RollBegin_427A20();
+    void Motion_25_RollLoop_427BB0();
+    void Motion_26_RollEnd_427EA0();
+    void Motion_27_RunSlideStop_425B60();
+    void Motion_28_RunTurn_425CE0();
+    void Motion_29_HopBegin_4267B0();
+    void Motion_30_HopMid_4264D0();
+    void Motion_31_HopLand_426940();
+    void Motion_32_RunJumpBegin_427440();
+    void Motion_33_RunJumpMid_426FA0();
+    void Motion_34_RunJumpLand_427560();
+    void Motion_35_RunLoop_425060();
+    void Motion_36_DunnoBegin_423260();
+    void Motion_37_DunnoMid_4232C0();
+    void Motion_38_DunnoEnd_423310();
+    void Motion_39_CrouchTurn_4288C0();
+    void Motion_40_RunToRoll_427AE0();
+    void Motion_41_StandingToRun_425530();
+    void Motion_42_SneakLoop_424BB0();
+    void Motion_43_WalkToSneak_424790();
+    void Motion_44_SneakToWalk_4249A0();
+    void Motion_45_MidWalkToSneak_424890();
+    void Motion_46_MidSneakToWalk_424AA0();
+    void Motion_47_SneakBegin_424ED0();
+    void Motion_48_SneakToIdle_424F80();
+    void Motion_49_MidSneakToIdle_424FF0();
+    void Motion_50_WalkToRun_424560();
+    void Motion_51_MidWalkToRun_424670();
+    void Motion_52_RunToWalk_4255E0();
+    void Motion_53_MidRunToWalk_4256E0();
+    void Motion_54_RunTurnToRun_425EA0();
+    void Motion_55_RunTurnToWalk_425F70();
+    void Motion_56_RunJumpLandRun_4278E0();
+    void Motion_57_RunJumpLand_Walk_427980();
+    void Motion_58_ToSpeak_42F8D0();
+    void Motion_59_DeathDropFall_42CBE0();
+    void Motion_60_Dead_42C4C0();
+    void Motion_61_Respawn_42CD20();
+    void Motion_62_LoadedSaveSpawn_45ADD0();
+    void Motion_63_TurnToRun_42A0A0();
+    void Motion_64_LedgeAscend_428B60();
+    void Motion_65_LedgeDescend_428C00();
+    void Motion_66_LedgeHang_428D90();
+    void Motion_67_ToOffScreenHoist_428C50();
+    void Motion_68_LedgeHangWobble_428E50();
+    void Motion_69_RingRopePullHang_4299B0();
+    void Motion_70_Knockback_428FB0();
+    void Motion_71_KnockbackGetUp_429240();
+    void Motion_72_PushWall_4292A0();
+    void Motion_73_RollingKnockback_4291D0();
+    void Motion_74_JumpIntoWell_430EC0();
+    void Motion_75_ToInsideOfAWellLocal_431090();
+    void Motion_76_ToWellShotOut_431720();
+    void Motion_77_WellBegin_430F10();
+    void Motion_78_InsideWellLocal_4310A0();
+    void Motion_79_WellShotOut_431730();
+    void Motion_80_ToWellBegin_430EF0();
+    void Motion_81_InsideWellExpress_431320();
+    void Motion_82_WellExpressShotOut_4315A0();
+    void Motion_83_ToWellBegin_430F00();
+    void Motion_84_ToInsideWellLocal_431080();
+    void Motion_85_ToWellShotOut_431710();
+    void Motion_86_FallLandDie_42EDD0();
+    void Motion_87_ToFall_428FA0();
+    void Motion_88_HandstoneBegin_430590();
+    void Motion_89_HandstoneEnd_430E80();
+    void Motion_90_GrenadeMachineUse_430EA0();
+    void Motion_91_FallingFromGrab_429780();
+    void Motion_92_ForceDownFromHoist_4297C0();
+    void Motion_93_WalkOffEdge_429840();
+    void Motion_94_RunOffEdge_429860();
+    void Motion_95_SneakOffEdge_429880();
+    void Motion_96_HopToFall_4298A0();
+    void Motion_97_RunJumpToFall_429930();
+    void Motion_98_LandSoft_42ED40();
+    void Motion_99_HoistBeginLong_426DC0();
+    void Motion_100_RollOffLedge_429950();
+    void Motion_101_LeverUse_429970();
+    void Motion_102_ElumWalkLoop_42DCA0();
+    void Motion_103_ElumIdle_42DCD0();
+    void Motion_104_ElumRunSlideStop_42DF00();
+    void Motion_105_ElumRunTurn_42DF10();
+    void Motion_106_Null_42DF20();
+    void Motion_107_ElumHopBegin_42DF30();
+    void Motion_108_ElumHopMid_42DF40();
+    void Motion_109_ElumHopLand_42DF50();
+    void Motion_110_ElumRunJumpBegin_42DF60();
+    void Motion_111_ElumRunJumpMid_42DF70();
+    void Motion_112_ElumRunJumpLand_42DF80();
+    void Motion_113_ElumTurn_42DF90();
+    void Motion_114_ElumRunLoop_42DFA0();
+    void Motion_115_ElumSpeak_4299F0();
+    void Motion_116_Null_42DFB0();
+    void Motion_117_ElumWalkBegin_42DFC0();
+    void Motion_118_ElumRunBegin_42DFD0();
+    void Motion_119_Null_42DFE0();
+    void Motion_120_ElumRunToWalk_42DFF0();
+    void Motion_121_ElumMidRunToWalk_42E000();
+    void Motion_122_ElumRunTurnToRun_42E010();
+    void Motion_123_ElumRunTurnToWalk_42E020();
+    void Motion_124_ElumWalkEnd_42DCB0();
+    void Motion_125_ElumMidWalkEnd_42DCC0();
+    void Motion_126_ElumBeesStruggling_42E080();
+    void Motion_127_SlapBomb_429A20();
+    void Motion_128_KnockForward_429330();
+    void Motion_129_RollingKnockForward_4294F0();
+    void Motion_130_KnockForwardGetUp_429560();
+    void Motion_131_LiftUseUp_42F150();
+    void Motion_132_LiftUseDown_42F170();
+    void Motion_133_LiftGrabBegin_42EF20();
+    void Motion_134_LiftGrabEnd_42EFE0();
+    void Motion_135_LiftGrabIdle_42F000();
+    void Motion_136_ElumMountEnd_42E110();
+    void Motion_137_ElumUnmountBegin_42E2B0();
+    void Motion_138_ElumUnmountEnd_42E390();
+    void Motion_139_ElumMountBegin_42E090();
+    void Motion_140_BeesStruggling_423F30();
+    void Motion_141_BeesStrugglingOnLift_42F390();
+    void Motion_142_RockThrowStandingHold_429CE0();
+    void Motion_143_RockThrowStandingThrow_429FD0();
+    void Motion_144_RockThrowStandingEnd_429DE0();
+    void Motion_145_RockThrowCrouchingHold_428930();
+    void Motion_146_RockThrowCrouchingThrow_4289F0();
+    void Motion_147_ShotRolling_4295C0();
+    void Motion_148_Shot_4296A0();
+    void Motion_149_PickupItem_42A030();
+    void Motion_150_Chant_42FD50();
+    void Motion_151_ChantEnd_430530();
+    void Motion_152_ElumFallOffEdge_42E030();
+    void Motion_153_ElumFall_42E040();
+    void Motion_154_ElumLand_42E050();
+    void Motion_155_ElumJumpToFall_42E060();
+    void Motion_156_DoorEnter_42D370();
+    void Motion_157_DoorExit_42D780();
+    void Motion_158_ElumKnockback_42E070();
+    void Motion_159_Idle_RubEyes_423360();
+    void Motion_160_Idle_Stretch_Arms_4233A0();
+    void Motion_161_Idle_Yawn_4233E0();
+    void Motion_162_ToShrykull_42F410();
+    void Motion_163_ShrykullEnd_42F520();
+    void Motion_164_PoisonGasDeath_42A120();
 
     s16 field_10C_prev_held;
     s16 field_10E_released_buttons;
@@ -773,10 +773,10 @@ ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_50767C);
 ALIVE_VAR_EXTERN(s16, gAbeInvulnerableCheat_5076E4);
 ALIVE_VAR_EXTERN(s16, gAbeInvisibleCheat_5076F8);
 
-EXPORT s32 CC Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
+s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 
-EXPORT s32 CC Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero);
+s32 Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero);
 
-EXPORT s32 CC XGrid_Index_To_XPos(FP scale, s32 xGridIndex);
+s32 XGrid_Index_To_XPos(FP scale, s32 xGridIndex);
 
 } // namespace AO

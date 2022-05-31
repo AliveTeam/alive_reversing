@@ -20,50 +20,50 @@ s32 access_impl(char_type const* fileName, s32 accessMode)
 }
 
 // stdlib proxys, see comment on STDLIB_FUNCTION for details.
-EXPORT void CC ae_internal_free_521334(void* ptr)
+void ae_internal_free_521334(void* ptr)
 {
-    STDLIB_FUNCTION();
+    
     ::free(ptr);
 }
 
-EXPORT void* CC ae_internal_malloc_5212C0(size_t size)
+void* ae_internal_malloc_5212C0(size_t size)
 {
-    STDLIB_FUNCTION();
+    
     return ::malloc(size);
 }
 
-EXPORT void* CC ae_realloc_522335(void* ptr, size_t size)
+void* ae_realloc_522335(void* ptr, size_t size)
 {
-    STDLIB_FUNCTION();
+    
     return ::realloc(ptr, size);
 }
 
-EXPORT s32 CC ae_fseek_521955(FILE* stream, s32 offset, s32 origin)
+s32 ae_fseek_521955(FILE* stream, s32 offset, s32 origin)
 {
-    STDLIB_FUNCTION();
+    
     return fseek(stream, offset, origin);
 }
 
-EXPORT size_t CC ae_fread_520B5C(void* ptr, size_t size, size_t count, FILE* stream)
+size_t ae_fread_520B5C(void* ptr, size_t size, size_t count, FILE* stream)
 {
-    STDLIB_FUNCTION();
+    
     return fread(ptr, size, count, stream);
 }
 
-EXPORT FILE* CC ae_fopen_520C64(const char_type* filename, const char_type* mode)
+FILE* ae_fopen_520C64(const char_type* filename, const char_type* mode)
 {
-    STDLIB_FUNCTION();
+    
     return fopen(filename, mode);
 }
 
-EXPORT s32 CC ae_fclose_520CBE(FILE* stream)
+s32 ae_fclose_520CBE(FILE* stream)
 {
-    STDLIB_FUNCTION();
+    
     return fclose(stream);
 }
 
 // Game specific stdlib wrappers
-EXPORT void* CC ae_malloc_4F4E60(size_t size)
+void* ae_malloc_4F4E60(size_t size)
 {
     if (size > 0)
     {
@@ -73,12 +73,12 @@ EXPORT void* CC ae_malloc_4F4E60(size_t size)
     ALIVE_FATAL("0 bytes allocated");
 }
 
-EXPORT void* CC ae_new_malloc_4954D0(size_t size)
+void* ae_new_malloc_4954D0(size_t size)
 {
     return ae_internal_malloc_5212C0(size);
 }
 
-EXPORT void* CC ae_malloc_non_zero_4954F0(size_t size)
+void* ae_malloc_non_zero_4954F0(size_t size)
 {
     if (size == 0)
     {
@@ -87,7 +87,7 @@ EXPORT void* CC ae_malloc_non_zero_4954F0(size_t size)
     return ae_internal_malloc_5212C0(size);
 }
 
-EXPORT void CC ae_free_4F4EA0(void* ptr)
+void ae_free_4F4EA0(void* ptr)
 {
     if (ptr)
     {
@@ -99,23 +99,23 @@ EXPORT void CC ae_free_4F4EA0(void* ptr)
     }
 }
 
-EXPORT void CC ae_delete_free_495540(void* ptr)
+void ae_delete_free_495540(void* ptr)
 {
     ae_internal_free_521334(ptr);
 }
 
-EXPORT void CC ae_non_zero_free_495560(void* ptr)
+void ae_non_zero_free_495560(void* ptr)
 {
     ae_internal_free_521334(ptr);
 }
 
-EXPORT void* CC realloc_4F4E80(void* ptr, size_t size)
+void* realloc_4F4E80(void* ptr, size_t size)
 {
     return ae_realloc_522335(ptr, size);
 }
 
-EXPORT s32 CC ae_remove_520B27(const char* lpFileName)
+s32 ae_remove_520B27(const char* lpFileName)
 {
-    STDLIB_FUNCTION();
+    
     return ::remove(lpFileName);
 }

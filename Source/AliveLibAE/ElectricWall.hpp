@@ -2,7 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum ElectricWallStartState : s16
 {
@@ -29,8 +29,8 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vScreenChanged_422530();
-    EXPORT void vUpdate_422030();
+    void vScreenChanged_422530();
+    void vUpdate_422030();
 
 private:
     s32 field_F4_tlvInfo;

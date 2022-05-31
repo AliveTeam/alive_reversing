@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 namespace AO {
@@ -24,11 +24,11 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_40D600();
+    void VUpdate_40D600();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_40D7F0(PrimHeader** ppOt);
+    void VRender_40D7F0(PrimHeader** ppOt);
 
     s32 field_D4_padding[4];
     u8** field_E4_ppRes;

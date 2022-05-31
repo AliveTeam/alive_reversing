@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
@@ -31,19 +31,19 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_42BCE0();
+    void VScreenChanged_42BCE0();
 
-    EXPORT void FormWordAndAdvanceToNextWord_42AF90();
+    void FormWordAndAdvanceToNextWord_42AF90();
 
-    EXPORT void UpdateParticles_42B1B0();
+    void UpdateParticles_42B1B0();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_42B3D0();
+    void VUpdate_42B3D0();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_42BAD0(PrimHeader** ppOt);
+    void VRender_42BAD0(PrimHeader** ppOt);
 
     s32 field_D4[4];
     u8** field_E4_ppRes;

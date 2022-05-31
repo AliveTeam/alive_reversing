@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 
@@ -38,15 +38,15 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_435FE0();
+    void VScreenChanged_435FE0();
 
-    EXPORT void GetColourAmount_435E40(FP* pOut, s16 xpos, s16 ypos);
+    void GetColourAmount_435E40(FP* pOut, s16 xpos, s16 ypos);
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_435F80();
+    void VUpdate_435F80();
 
-    EXPORT static void CC ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
+    static void ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
 
     // Note: Completely inlined in AO
     s16 ApplysToScale(s16 scale);

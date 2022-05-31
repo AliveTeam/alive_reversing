@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "FixedPoint.hpp"
 #include "Psx.hpp"
 #include "ResourceManager.hpp"
@@ -8,7 +8,7 @@
 
 void Map_ForceLink();
 
-EXPORT void CC static_map_init_4802D0();
+void static_map_init_4802D0();
 
 
 struct Map_PathsArray_Extended final
@@ -132,35 +132,35 @@ public:
     u8* field_D8_restore_quick_save;
 
 
-    EXPORT void ScreenChange_480B80();
+    void ScreenChange_480B80();
 
     void FreePathResourceBlocks();
     void GetPathResourceBlockPtrs();
     u8** GetPathResourceBlockPtr(u32 pathId);
     void ClearPathResourceBlocks();
 
-    EXPORT void RemoveObjectsWithPurpleLight_480740(s16 a2);
-    EXPORT void Handle_PathTransition_481610();
-    EXPORT void Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
-    EXPORT void Shutdown_4804E0();
-    EXPORT void Reset_4805D0();
-    EXPORT void GoTo_Camera_481890();
+    void RemoveObjectsWithPurpleLight_480740(s16 a2);
+    void Handle_PathTransition_481610();
+    void Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
+    void Shutdown_4804E0();
+    void Reset_4805D0();
+    void GoTo_Camera_481890();
 
-    EXPORT void Get_map_size_480640(PSX_Point* pPoint);
-    EXPORT void GetCurrentCamCoords_480680(PSX_Point* pPoint);
-    EXPORT void Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint);
-    EXPORT s16 GetOverlayId();
-    EXPORT void Create_FG1s_480F10();
-    EXPORT CameraPos Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect);
-    EXPORT s16 SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
-    EXPORT static BaseGameObject* CC FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds lvlId);
-    EXPORT Camera* Create_Camera_4829E0(s16 xpos, s16 ypos, s32 a4);
-    EXPORT static void CCSTD Load_Path_Items_482C10(Camera* pCamera, LoadMode loadMode);
+    void Get_map_size_480640(PSX_Point* pPoint);
+    void GetCurrentCamCoords_480680(PSX_Point* pPoint);
+    void Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint);
+    s16 GetOverlayId();
+    void Create_FG1s_480F10();
+    CameraPos Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect);
+    s16 SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
+    static BaseGameObject* FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds lvlId);
+    Camera* Create_Camera_4829E0(s16 xpos, s16 ypos, s32 a4);
+    static void Load_Path_Items_482C10(Camera* pCamera, LoadMode loadMode);
 
-    EXPORT static void CC LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = 0);
-    EXPORT static void CC LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad = 0);
+    static void LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = 0);
+    static void LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad = 0);
 
-    EXPORT s16 SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, s16 kMinus1);
+    s16 SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, s16 kMinus1);
 
     // Type safe wrappers as s32 level is bigger than the enum type size
     s16 Is_Point_In_Current_Camera_4810D0(LevelIds level, s32 path, FP xpos, FP ypos, s16 width)
@@ -173,11 +173,11 @@ public:
         return GetDirection_4811A0(static_cast<s32>(level), path, xpos, ypos);
     }
 
-    EXPORT s16 Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect);
+    s16 Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect);
 
 private:
-    EXPORT s16 Is_Point_In_Current_Camera_4810D0(s32 level, s32 path, FP xpos, FP ypos, s16 width);
-    EXPORT CameraPos GetDirection_4811A0(s32 level, s32 path, FP xpos, FP ypos);
+    s16 Is_Point_In_Current_Camera_4810D0(s32 level, s32 path, FP xpos, FP ypos, s16 width);
+    CameraPos GetDirection_4811A0(s32 level, s32 path, FP xpos, FP ypos);
 
     Camera* GetCamera(CameraPos pos);
 

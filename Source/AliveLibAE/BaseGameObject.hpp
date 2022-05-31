@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "DynamicArray.hpp"
 #include "../AliveLibCommon/BitField.hpp"
 
@@ -216,10 +216,10 @@ public:
     virtual ~BaseGameObject();
 
 protected:
-    EXPORT u8** Add_Resource(u32 type, s32 resourceID);
+    u8** Add_Resource(u32 type, s32 resourceID);
     BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize);
 
-    EXPORT static s32 CCSTD RefreshId(s32 objectId);
+    static s32 RefreshId(s32 objectId);
 
     // Helper to check if a timer has expired
     template <class T>

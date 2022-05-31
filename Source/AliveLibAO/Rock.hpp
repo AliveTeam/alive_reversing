@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Throwable.hpp"
@@ -15,23 +15,23 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_456EC0();
+    void VUpdate_456EC0();
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_457310();
+    void VScreenChanged_457310();
 
     virtual void VThrow(FP velX, FP velY) override;
 
-    EXPORT void VThrow_456B20(FP velX, FP velY);
+    void VThrow_456B20(FP velX, FP velY);
 
     virtual s16 VCanThrow() override;
 
-    EXPORT s16 VCanThrow_4573C0();
+    s16 VCanThrow_4573C0();
 
-    EXPORT void InTheAir_456B60();
+    void InTheAir_456B60();
 
-    EXPORT s16 OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj);
+    s16 OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj);
 
     virtual s16 VIsFalling() override;
 

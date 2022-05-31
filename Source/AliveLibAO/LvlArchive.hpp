@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 namespace AO {
 
@@ -35,23 +35,23 @@ struct LvlHeader final
 class LvlArchive
 {
 public:
-    EXPORT static void CC ctor_static_41BBA0();
+    static void ctor_static_41BBA0();
 
-    EXPORT static void CC dtor_static_41BBB0();
+    static void dtor_static_41BBB0();
 
-    EXPORT static void CC ctor_static_443E70();
+    static void ctor_static_443E70();
 
-    EXPORT static void CC dtor_static_443E80();
+    static void dtor_static_443E80();
 
-    EXPORT bool OpenArchive(const char_type* fileName, s32 pos);
+    bool OpenArchive(const char_type* fileName, s32 pos);
 
-    EXPORT void OpenArchive_41BC60(s32 pos);
+    void OpenArchive_41BC60(s32 pos);
 
-    EXPORT s16 Free_41BEB0();
+    s16 Free_41BEB0();
 
-    EXPORT LvlFileRecord* Find_File_Record_41BED0(const char_type* pFileName);
+    LvlFileRecord* Find_File_Record_41BED0(const char_type* pFileName);
 
-    EXPORT s16 Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer);
+    s16 Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer);
 
 private:
     u8** field_0_0x2800_res;

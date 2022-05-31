@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 #include "BaseGameObject.hpp"
 
@@ -55,7 +55,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSpawner_State, 0x10);
 class FlyingSligSpawner final : public BaseGameObject
 {
 public:
-    EXPORT static s32 CC CreateFromSaveState_43B690(const u8* pBuffer);
+    static s32 CreateFromSaveState_43B690(const u8* pBuffer);
 
     FlyingSligSpawner(Path_FlyingSligSpawner* pTlv, s32 tlvInfo);
     ~FlyingSligSpawner();
@@ -64,8 +64,8 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    EXPORT void vUpdate_433E10();
-    EXPORT s32 vGetSaveState_43B730(FlyingSligSpawner_State* pSaveState);
+    void vUpdate_433E10();
+    s32 vGetSaveState_43B730(FlyingSligSpawner_State* pSaveState);
 
 private:
     s32 field_20_tlvInfo;

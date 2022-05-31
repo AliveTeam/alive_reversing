@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 namespace AO {
 
-EXPORT void Error_WarningMessageBox_48E470(const char_type* pWarningMsg, ...);
+void Error_WarningMessageBox_48E470(const char_type* pWarningMsg, ...);
 
-EXPORT void CC Error_ShowErrorStackToUser_48DF10(bool bDisplayAsOneMessage);
+void Error_ShowErrorStackToUser_48DF10(bool bDisplayAsOneMessage);
 
 } // namespace AO

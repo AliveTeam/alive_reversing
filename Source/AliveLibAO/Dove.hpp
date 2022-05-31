@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 #include "FixedPoint.hpp"
@@ -17,7 +17,7 @@ struct Path_Dove final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Dove, 0x20);
 
-void CC Dove_static_ctor_40EE10();
+void Dove_static_ctor_40EE10();
 
 class Dove final : public BaseAnimatedWithPhysicsGameObject
 {

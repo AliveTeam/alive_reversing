@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Primitives_common.hpp"
 
 void RollingBallShaker_ForceLink();
@@ -14,8 +14,8 @@ public:
     RollingBallShaker();
     ~RollingBallShaker();
 
-    EXPORT void VUpdate_436260();
-    EXPORT void VRender_436280(PrimHeader** ppOt);
+    void VUpdate_436260();
+    void VRender_436280(PrimHeader** ppOt);
 
     
     virtual void VUpdate() override;

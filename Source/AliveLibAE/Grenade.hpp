@@ -78,35 +78,35 @@ public:
 
     // Next 2 virtuals are base
 
-    EXPORT static s32 CC CreateFromSaveState_449410(const u8* pBuffer);
+    static s32 CreateFromSaveState_449410(const u8* pBuffer);
 
 private:
-    EXPORT s32 GetSaveState_4496B0(Grenade_SaveState* pState);
+    s32 GetSaveState_4496B0(Grenade_SaveState* pState);
 
-    EXPORT void Init_448110(FP xpos, FP ypos);
+    void Init_448110(FP xpos, FP ypos);
 
-    EXPORT void vOnTrapDoorOpen_449390();
+    void vOnTrapDoorOpen_449390();
 
 
-    EXPORT void vThrow_4482E0(FP velX, FP velY);
+    void vThrow_4482E0(FP velX, FP velY);
 
-    EXPORT Bool32 vCanThrow_49A5F0();
+    Bool32 vCanThrow_49A5F0();
 
-    EXPORT Bool32 vIsFalling_49A610();
+    Bool32 vIsFalling_49A610();
 
-    EXPORT void vTimeToExplodeRandom_4480A0();
+    void vTimeToExplodeRandom_4480A0();
 
-    EXPORT void BlowUp_4483C0(s16 bSmallExplosion);
+    void BlowUp_4483C0(s16 bSmallExplosion);
 
-    EXPORT s16 TimeToBlowUp_448350();
+    s16 TimeToBlowUp_448350();
 
-    EXPORT s16 InTheAir_4484F0(s16 blowUpOnFloorTouch);
+    s16 InTheAir_4484F0(s16 blowUpOnFloorTouch);
 
-    EXPORT void AddToPlatform_449210();
+    void AddToPlatform_449210();
 
-    EXPORT s16 OnCollision_BounceOff_448F90(BaseGameObject* pHit);
+    s16 OnCollision_BounceOff_448F90(BaseGameObject* pHit);
 
-    EXPORT s16 OnCollision_InstantExplode_4490D0(BaseGameObject* pHit);
+    s16 OnCollision_InstantExplode_4490D0(BaseGameObject* pHit);
 
 
 private:

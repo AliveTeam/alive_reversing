@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Map.hpp"
 #include "MusicController.hpp"
@@ -41,17 +41,17 @@ public:
     MusicTrigger(MusicTriggerMusicType type, TriggeredBy triggeredBy, s32 switchId, s32 delay);
     MusicTrigger(Path_MusicTrigger* pTlv, s32 tlvInfo);
 
-    EXPORT void Init_443AD0(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay);
+    void Init_443AD0(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay);
 
     ~MusicTrigger();
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_443DD0();
+    void VScreenChanged_443DD0();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_443C90();
+    void VUpdate_443C90();
 
     s32 field_10_tlvInfo;
     /* enum Flags_14

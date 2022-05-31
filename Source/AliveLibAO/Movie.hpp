@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 
 namespace AO {
 
-EXPORT void CC Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector);
+void Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector);
 
 class Movie final : public BaseGameObject
 {
@@ -16,7 +16,7 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_489EA0();
+    void VUpdate_489EA0();
 
     s16 field_10_flags;
     s16 field_12;

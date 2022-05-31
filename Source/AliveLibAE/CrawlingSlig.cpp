@@ -267,7 +267,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     return vGetSaveState_41C9A0(reinterpret_cast<CrawlingSlig_State*>(pSaveBuffer));
 }
 
-s32 CC CrawlingSlig::CreateFromSaveState_41AE80(const u8* pBuffer)
+s32 CrawlingSlig::CreateFromSaveState_41AE80(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const CrawlingSlig_State*>(pBuffer);
 
@@ -483,7 +483,7 @@ u8** CrawlingSlig::GetAnimBlock_419950(s32 /*currentMotion*/)
     return field_10_resources_array.ItemAt(0);
 }
 
-s16 CC CrawlingSlig::NextRandom_4197D0()
+s16 CrawlingSlig::NextRandom_4197D0()
 {
     return (Math_NextRandom() & 1) == 0;
 }
@@ -1735,7 +1735,7 @@ void CrawlingSlig::M_Shaking_12_418C30()
 
 void CrawlingSlig::M_Empty_13_418C50()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 void CrawlingSlig::M_ShakingToIdle_14_41C040()

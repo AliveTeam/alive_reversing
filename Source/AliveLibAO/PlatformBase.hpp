@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 
 namespace AO {
@@ -14,17 +14,17 @@ public:
 
     virtual void VRemove(BaseAliveGameObject* pObj);
 
-    EXPORT void VAdd_4515D0(BaseAliveGameObject* pObj);
+    void VAdd_4515D0(BaseAliveGameObject* pObj);
 
-    EXPORT void VRemove_451680(BaseAliveGameObject* pObj);
+    void VRemove_451680(BaseAliveGameObject* pObj);
 
-    EXPORT void AddDynamicCollision_4512C0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
+    void AddDynamicCollision_4512C0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
 
     ~PlatformBase();
 
-    EXPORT void SyncCollisionLinePosition_451540();
+    void SyncCollisionLinePosition_451540();
 
-    EXPORT void KeepThingsOnPlatform_451690(FP xpos);
+    void KeepThingsOnPlatform_451690(FP xpos);
 
     s32 field_10C;
     s32 field_110;

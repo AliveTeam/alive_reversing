@@ -35,8 +35,8 @@ public:
     ~WheelSyncer();
 
 private:
-    EXPORT void vUpdate_4661D0();
-    EXPORT void vScreenChanged_466310();
+    void vUpdate_4661D0();
+    void vScreenChanged_466310();
 
 private:
     s16 field_20_input_switch_id1;

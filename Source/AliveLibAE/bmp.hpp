@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/relive_config.h"
 
 #ifdef _WIN32
@@ -39,15 +39,15 @@ struct Bitmap final
 };
 ALIVE_ASSERT_SIZEOF(Bitmap, 0x1C);
 
-EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags);
-EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp);
-EXPORT s32 CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b);
-EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour);
-EXPORT void CC BMP_unlock_4F2100(Bitmap* pBmp);
-EXPORT void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc);
-EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap);
-EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags);
-EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 fgColour, s32 bgColour, LPCSTR lpString);
-EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* pBmp);
+s32 BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags);
+void Bmp_Free_4F1950(Bitmap* pBmp);
+s32 Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b);
+s32 BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour);
+void BMP_unlock_4F2100(Bitmap* pBmp);
+void BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc);
+LPVOID BMP_Lock_4F1FF0(Bitmap* pBitmap);
+s32 BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags);
+void BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 fgColour, s32 bgColour, LPCSTR lpString);
+LONG BMP_Get_Font_Height_4F21F0(Bitmap* pBmp);
 
 ALIVE_VAR_EXTERN(u8, gVGA_force_sys_memory_surfaces_BC0BB4);

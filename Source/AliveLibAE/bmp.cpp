@@ -9,7 +9,7 @@ ALIVE_VAR(1, 0xBC0BB4, u8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 
 #if USE_SDL2
 
-EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags)
+s32 BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags)
 {
     if (flags != 0)
     {
@@ -25,7 +25,7 @@ EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBm
     return -1;
 }
 
-EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
+s32 BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
 {
     const SDL_Rect clearRect = {pRect->left, pRect->right, pRect->top, pRect->bottom};
     if (SDL_FillRect(pBmp->field_0_pSurface, &clearRect, fillColour /*SDL_MapRGB(pBmp->field_0_pSurface->format, 255, 0, 0)*/) != 0)
@@ -35,7 +35,7 @@ EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColo
     return 0;
 }
 
-EXPORT void CC BMP_unlock_4F2100(Bitmap* pBmp)
+void BMP_unlock_4F2100(Bitmap* pBmp)
 {
     if (pBmp->field_4_pLockedPixels && pBmp->field_0_pSurface)
     {
@@ -44,7 +44,7 @@ EXPORT void CC BMP_unlock_4F2100(Bitmap* pBmp)
     }
 }
 
-EXPORT void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc)
+void BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc)
 {
     if (pBmp && hdc)
     {
@@ -52,18 +52,18 @@ EXPORT void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc)
     }
 }
 
-EXPORT HDC CC BMP_Get_DC_4F2150(Bitmap* /*pBmp*/)
+HDC BMP_Get_DC_4F2150(Bitmap* /*pBmp*/)
 {
     // No impl required
     return nullptr;
 }
 
-EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* /*pBmp*/)
+LONG BMP_Get_Font_Height_4F21F0(Bitmap* /*pBmp*/)
 {
     return 10;
 }
 
-EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(s32 bpp)
+s32 BMP_New_convert_BPP_4F1CC0(s32 bpp)
 {
     s32 converted = 0;
     switch (bpp)
@@ -99,7 +99,7 @@ EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(s32 bpp)
     return converted;
 }
 
-EXPORT s32 CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b)
+s32 Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b)
 {
     s32 converted = 0;
     switch (pBmp->field_15_pixel_format)
@@ -131,7 +131,7 @@ EXPORT s32 CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b)
     return converted;
 }
 
-EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
+void Bmp_Free_4F1950(Bitmap* pBmp)
 {
     if (pBmp && pBmp->field_0_pSurface)
     {
@@ -144,7 +144,7 @@ EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
     }
 }
 
-EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags)
+s32 BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags)
 {
     if (!pBitmap || !width || !height)
     {
@@ -209,7 +209,7 @@ EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFo
     return 0;
 }
 
-EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
+LPVOID BMP_Lock_4F1FF0(Bitmap* pBitmap)
 {
     // Already locked or we don't have a surface
     if (pBitmap->field_4_pLockedPixels || !pBitmap->field_0_pSurface)
@@ -1250,7 +1250,7 @@ const u8 sBitmapFont[] = {
     0x00,
 };
 
-EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 /*fgColour*/, s32 /*bgColour*/, LPCSTR lpString)
+void BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 /*fgColour*/, s32 /*bgColour*/, LPCSTR lpString)
 {
     SDL_Surface* pFontBmp = SDL_LoadBMP_RW(SDL_RWFromConstMem(sBitmapFont, sizeof(sBitmapFont)), SDL_TRUE);
 
@@ -1305,7 +1305,7 @@ void BmpTests()
 } // namespace AETest::TestsBmp
 
 #else
-EXPORT HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPDIRECTDRAWSURFACE* ppSurface)
+HRESULT BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPDIRECTDRAWSURFACE* ppSurface)
 {
     *ppSurface = nullptr;
 
@@ -1325,7 +1325,7 @@ EXPORT HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPD
     return hr;
 }
 
-EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags)
+s32 BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags)
 {
     HRESULT hr = S_OK;
     bool addError = true;
@@ -1372,7 +1372,7 @@ EXPORT s32 CC BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBm
 
 ALIVE_VAR(1, 0xBBC458, DDBLTFX, blt_fx_stru_BBC458, {});
 
-EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
+s32 BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
 {
     RECT rect = *pRect;
 
@@ -1445,7 +1445,7 @@ EXPORT s32 CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColo
     return -1;
 }
 
-EXPORT void CC BMP_unlock_4F2100(Bitmap* pBmp)
+void BMP_unlock_4F2100(Bitmap* pBmp)
 {
     if (pBmp->field_4_pLockedPixels && pBmp->field_0_pSurface)
     {
@@ -1458,7 +1458,7 @@ EXPORT void CC BMP_unlock_4F2100(Bitmap* pBmp)
     }
 }
 
-EXPORT void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc)
+void BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc)
 {
     if (pBmp && hdc)
     {
@@ -1470,7 +1470,7 @@ EXPORT void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc)
     }
 }
 
-EXPORT HDC CC BMP_Get_DC_4F2150(Bitmap* pBmp)
+HDC BMP_Get_DC_4F2150(Bitmap* pBmp)
 {
     if (!pBmp || pBmp->field_4_pLockedPixels || !pBmp->field_0_pSurface)
     {
@@ -1488,7 +1488,7 @@ EXPORT HDC CC BMP_Get_DC_4F2150(Bitmap* pBmp)
     return dc;
 }
 
-EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* pBmp)
+LONG BMP_Get_Font_Height_4F21F0(Bitmap* pBmp)
 {
     HDC dc = BMP_Get_DC_4F2150(pBmp);
     TEXTMETRICA tm = {};
@@ -1505,7 +1505,7 @@ EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* pBmp)
     return textHeight;
 }
 
-EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(s32 bpp)
+s32 BMP_New_convert_BPP_4F1CC0(s32 bpp)
 {
     s32 converted = 0;
     switch (bpp)
@@ -1541,7 +1541,7 @@ EXPORT s32 CC BMP_New_convert_BPP_4F1CC0(s32 bpp)
     return converted;
 }
 
-EXPORT s32 CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b)
+s32 Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b)
 {
     s32 converted = 0;
     switch (pBmp->field_15_pixel_format)
@@ -1573,7 +1573,7 @@ EXPORT s32 CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b)
     return converted;
 }
 
-EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
+void Bmp_Free_4F1950(Bitmap* pBmp)
 {
     if (pBmp && pBmp->field_0_pSurface)
     {
@@ -1586,7 +1586,7 @@ EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
     }
 }
 
-EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags)
+s32 BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags)
 {
     if (!pBitmap || !width || !height)
     {
@@ -1709,7 +1709,7 @@ EXPORT s32 CC BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFo
 
 ALIVE_VAR(1, 0xBBC3E8, DDSURFACEDESC, sBmpSurfaceDesc_BBC3E8, {});
 
-EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
+LPVOID BMP_Lock_4F1FF0(Bitmap* pBitmap)
 {
     // Already locked or we don't have a surface
     if (pBitmap->field_4_pLockedPixels || !pBitmap->field_0_pSurface)
@@ -1746,7 +1746,7 @@ EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
     return nullptr;
 }
 
-EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 fgColour, s32 bgColour, LPCSTR lpString)
+void BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 fgColour, s32 bgColour, LPCSTR lpString)
 {
     const HDC dc = BMP_Get_DC_4F2150(pBmp);
     if (bgColour)
@@ -1926,12 +1926,12 @@ public:
     }
 };
 
-HDC CC Stub_BMP_Get_DC_4F2150(Bitmap*)
+HDC Stub_BMP_Get_DC_4F2150(Bitmap*)
 {
     return nullptr;
 }
 
-void CC Stub_BMP_Release_DC_4F21A0(Bitmap*, HDC)
+void Stub_BMP_Release_DC_4F21A0(Bitmap*, HDC)
 {
 }
 

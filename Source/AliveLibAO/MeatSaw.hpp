@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibAE/Path.hpp"
@@ -50,17 +50,17 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_43A060();
+    void VScreenChanged_43A060();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4399D0();
+    void VUpdate_4399D0();
 
-    EXPORT void GrindUpObjects_439CD0();
+    void GrindUpObjects_439CD0();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_439F50(PrimHeader** ppOt);
+    void VRender_439F50(PrimHeader** ppOt);
 
     s32 field_D4_padding[4];
     MeatSawStates field_E4_state;

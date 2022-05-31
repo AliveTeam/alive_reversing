@@ -173,7 +173,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_13C_stay_open_time = pTlv->field_1E_stay_open_time;
 }
 
-s32 CC TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
+s32 TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
 {
     auto pState = reinterpret_cast<const TrapDoor_State*>(pData);
     auto pTlv = static_cast<Path_TrapDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_8_tlvInfo));
@@ -213,7 +213,7 @@ s32 CC TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
     return sizeof(TrapDoor_State);
 }
 
-EXPORT void TrapDoor::vUpdate_4DDA90()
+void TrapDoor::vUpdate_4DDA90()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -282,14 +282,14 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
     }
 }
 
-EXPORT void TrapDoor::vRender_4DDDD0(PrimHeader** ppOt)
+void TrapDoor::vRender_4DDDD0(PrimHeader** ppOt)
 {
     field_B8_xpos += FP_FromInteger(field_13A_xOff);
     BaseAliveGameObject::VRender(ppOt);
     field_B8_xpos -= FP_FromInteger(field_13A_xOff);
 }
 
-EXPORT void TrapDoor::vScreenChanged_4DDE40()
+void TrapDoor::vScreenChanged_4DDE40()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
@@ -301,7 +301,7 @@ EXPORT void TrapDoor::vScreenChanged_4DDE40()
     }
 }
 
-EXPORT s32 TrapDoor::vGetSaveState_4DE050(TrapDoor_State* pState)
+s32 TrapDoor::vGetSaveState_4DE050(TrapDoor_State* pState)
 {
     pState->field_0_type = AETypes::eTrapDoor_142;
     pState->field_4_open_time = field_130_stay_open_time2;
@@ -310,7 +310,7 @@ EXPORT s32 TrapDoor::vGetSaveState_4DE050(TrapDoor_State* pState)
     return sizeof(TrapDoor_State);
 }
 
-EXPORT PSX_RECT* TrapDoor::vGetBoundingRect_4DD870(PSX_RECT* pRect, s32 /*not_used*/)
+PSX_RECT* TrapDoor::vGetBoundingRect_4DD870(PSX_RECT* pRect, s32 /*not_used*/)
 {
     *pRect = field_148_bounding_rect;
     return pRect;

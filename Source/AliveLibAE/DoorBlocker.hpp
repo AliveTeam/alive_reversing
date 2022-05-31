@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
@@ -20,7 +20,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    EXPORT void vUpdate_41F250();
+    void vUpdate_41F250();
 
 private:
     s16 field_118_bDone;

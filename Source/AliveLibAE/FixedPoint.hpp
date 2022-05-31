@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Math.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 
@@ -33,5 +33,5 @@ inline FixedPoint operator/(const FixedPoint& lhs, const FixedPoint& rhs)
     return f;
 }
 
-EXPORT s32 CC Math_SquareRoot_Int_496E70(s32 value);
-EXPORT FP CC Math_SquareRoot_FP_496E90(FP value);
+s32 Math_SquareRoot_Int_496E70(s32 value);
+FP Math_SquareRoot_FP_496E90(FP value);

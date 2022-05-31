@@ -2,7 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum class WheelStates : s16
 {
@@ -48,14 +48,14 @@ public:
     ~WorkWheel();
 
 public:
-    EXPORT static s32 CC CreateFromSaveState_4E3B10(const u8* pState);
+    static s32 CreateFromSaveState_4E3B10(const u8* pState);
 
 private:
-    EXPORT s32 vGetSaveState_4E3C40(WorkWheel_SaveState* pState);
-    EXPORT void vUpdate_4E38E0();
-    EXPORT void vScreenChanged_4E3AD0();
-    EXPORT void vStartTurning_4E3A20();
-    EXPORT void vStopTurning_4E3A60(s16 bResetSwitch);
+    s32 vGetSaveState_4E3C40(WorkWheel_SaveState* pState);
+    void vUpdate_4E38E0();
+    void vScreenChanged_4E3AD0();
+    void vStartTurning_4E3A20();
+    void vStopTurning_4E3A60(s16 bResetSwitch);
 
 private:
     s32 field_F4_tlv_info;

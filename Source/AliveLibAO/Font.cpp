@@ -7,7 +7,7 @@
 #include "Sys_common.hpp"
 #include "Primitives.hpp"
 #include "PsxDisplay.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "ScreenManager.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
@@ -244,12 +244,12 @@ const Font_AtlasEntry sFont2Atlas_4C58B8[104] = {
     {60, 132, 20, 15}};
 
 
-void CC FontContext::static_ctor_41C010()
+void FontContext::static_ctor_41C010()
 {
     atexit(static_dtor_41C020);
 }
 
-void CC FontContext::static_dtor_41C020()
+void FontContext::static_dtor_41C020()
 {
     sFontContext_4FFD68.dtor_41C110();
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 class DemoPlayback final : public BaseGameObject
 {
@@ -13,7 +13,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vUpdate_4978E0();
+    void vUpdate_4978E0();
 };
 ALIVE_ASSERT_SIZEOF(DemoPlayback, 0x20);
 

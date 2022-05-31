@@ -7,12 +7,12 @@
 ALIVE_VAR(1, 0x5C1B70, ObjectIds, sObjectIds, {});
 
 // static_'s are called before main
-EXPORT void CC static_ObjectIds_ctor_43EC50()
+void static_ObjectIds_ctor_43EC50()
 {
     sObjectIds.ctor_449AE0(101);
 }
 
-EXPORT void CC static_ObjectIds_init_43EC30()
+void static_ObjectIds_init_43EC30()
 {
     static_ObjectIds_ctor_43EC50();
     atexit(ObjectIds::dtor_43EC90);

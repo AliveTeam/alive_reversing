@@ -101,7 +101,7 @@ void Winmain_ForceLink()
 
 // Manual calls to construct global static objects when not running as dll/injected into the real game.
 // There are only a very small amount of global static constructors to call.
-EXPORT void Static_Inits_AE()
+void Static_Inits_AE()
 {
     static_ObjectIds_init_43EC30();
     Dove_static_ctor_41F3A0();
@@ -114,7 +114,7 @@ EXPORT void Static_Inits_AE()
 }
 
 
-EXPORT s32 CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
+s32 CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("Main enter");
     AE_Sys_Main(hInstance, lpCmdLine, nShowCmd);

@@ -61,22 +61,22 @@ public:
     virtual Bool32 VCanEatMe_4696A0();
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_46A9E0(const u8* pBuffer);
+    static s32 CreateFromSaveState_46A9E0(const u8* pBuffer);
 
 
 private:
-    EXPORT void vScreenChanged_46A130();
-    EXPORT void AddToPlatform_46A170();
-    EXPORT void vOnTrapDoorOpen_46A2E0();
-    EXPORT Bool32 vIsFalling_469660();
-    EXPORT Bool32 vCanThrow_469680();
-    EXPORT void vThrow_469790(FP velX, FP velY);
-    EXPORT s16 vGetCount_46A350();
-    EXPORT void InTheAir_4697E0();
-    EXPORT s16 OnCollision_469FF0(BaseGameObject* pHit);
-    EXPORT void vUpdate_469BA0();
-    EXPORT s32 vGetSaveState_46AC40(Meat_SaveState* pState);
-    EXPORT Bool32 vCanEatMe_4696A0();
+    void vScreenChanged_46A130();
+    void AddToPlatform_46A170();
+    void vOnTrapDoorOpen_46A2E0();
+    Bool32 vIsFalling_469660();
+    Bool32 vCanThrow_469680();
+    void vThrow_469790(FP velX, FP velY);
+    s16 vGetCount_46A350();
+    void InTheAir_4697E0();
+    s16 OnCollision_469FF0(BaseGameObject* pHit);
+    void vUpdate_469BA0();
+    s32 vGetSaveState_46AC40(Meat_SaveState* pState);
+    Bool32 vCanEatMe_4696A0();
 
 private:
     MeatStates field_11C_state;
@@ -112,8 +112,8 @@ public:
     virtual void VUpdate() override;
 
 private:
-    EXPORT void vScreenChanged_46A9C0();
-    EXPORT void vUpdate_46A6A0();
+    void vScreenChanged_46A9C0();
+    void vUpdate_46A6A0();
 
 
 private:

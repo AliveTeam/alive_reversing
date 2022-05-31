@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 class PathLine;
@@ -14,7 +14,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    EXPORT void vUpdate_4AD550();
+    void vUpdate_4AD550();
 
 private:
     PathLine* field_F4_pLine;

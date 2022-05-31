@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
@@ -42,13 +42,13 @@ public:
 
 private:
 
-    EXPORT void Update_46B5D0();
-    EXPORT void Render_46B7A0(PrimHeader** ppOt);
-    EXPORT void ScreenChanged_46BAE0();
-    EXPORT void vOnPickUpOrSlapped_46B880();
-    EXPORT void vOnThrowableHit_46BA40(BaseGameObject* pFrom);
-    EXPORT s16 vTakeDamage_46BB20(BaseGameObject* pFrom);
-    EXPORT bool IsColliding_46B8C0();
+    void Update_46B5D0();
+    void Render_46B7A0(PrimHeader** ppOt);
+    void ScreenChanged_46BAE0();
+    void vOnPickUpOrSlapped_46B880();
+    void vOnThrowableHit_46BA40(BaseGameObject* pFrom);
+    s16 vTakeDamage_46BB20(BaseGameObject* pFrom);
+    bool IsColliding_46B8C0();
 
 public:
     u16 field_118_detonating;

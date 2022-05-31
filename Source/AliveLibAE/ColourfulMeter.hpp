@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Font.hpp"
 #include "Primitives.hpp"
@@ -31,11 +31,11 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT void vScreenChanged_43D7A0();
+    void vScreenChanged_43D7A0();
 
-    EXPORT void vUpdate_43D140();
+    void vUpdate_43D140();
 
-    EXPORT void vRender_43D2B0(PrimHeader** ppOt);
+    void vRender_43D2B0(PrimHeader** ppOt);
 
 private:
     Font_Context field_20_font_context;

@@ -1728,12 +1728,12 @@ s16 Slig::GetNextMotionIncGameSpeak_467700(u16 input)
     return -1;
 }
 
-Bool32 CCSTD Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
+Bool32 Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
 {
     return pThis->field_10_anim.field_C_layer == Layer::eLayer_BeforeWell_Half_3 || pThis->field_10_anim.field_C_layer == Layer::eLayer_BeforeWell_22;
 }
 
-s16 CCSTD Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
+s16 Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
 {
     if (((pThis->field_4_typeId == Types::eAbe_43) && (pThis->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 && pThis->field_10_anim.field_92_current_frame > 7)) || (pThis->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780 && pThis->field_10_anim.field_92_current_frame < 4))
     {
@@ -1742,7 +1742,7 @@ s16 CCSTD Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
     return 0;
 }
 
-s16 CCSTD Slig::IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight)
+s16 Slig::IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight)
 {
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -1759,7 +1759,7 @@ s16 CCSTD Slig::IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight)
         == 1;
 }
 
-void CC Slig::Slig_GameSpeak_SFX_46F560(SligSpeak effectId, s32 defaultVol, s32 pitch_min, BaseAliveGameObject* pObj)
+void Slig::Slig_GameSpeak_SFX_46F560(SligSpeak effectId, s32 defaultVol, s32 pitch_min, BaseAliveGameObject* pObj)
 {
     s32 volume = defaultVol;
     if (defaultVol == 0)
@@ -1776,7 +1776,7 @@ void CC Slig::Slig_GameSpeak_SFX_46F560(SligSpeak effectId, s32 defaultVol, s32 
     SFX_SfxDefinition_Play_4770F0(&sSligSounds2[static_cast<s32>(effectId)], volume, pitch_min, pitch_min);
 }
 
-s16 CCSTD Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     /* TODO: Not used in AE but might be possible to activate in AO
     if (gAbeInvisibleCheat_5076F8)
@@ -1819,7 +1819,7 @@ void Slig::ToStand()
     MapFollowMe_401D30(TRUE);
 }
 
-s16 CCSTD Slig::IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 Slig::IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     PSX_RECT bRect = {};
     pObj->VGetBoundingRect(&bRect, 1);

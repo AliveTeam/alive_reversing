@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 #if _WIN32
     #if !USE_SDL2
@@ -12,13 +12,13 @@
         #include "d3d.h"
 
 RECT ClientToScreenConvert(HWND hwnd);
-EXPORT const s8* CC DX_HR_To_String_4F4EC0(HRESULT hr);
-EXPORT s32 CC DD_Shutdown_4F0790(s32 bDestroyDD);
-EXPORT s32 CC DD_Init_4F0840(s32 a1);
-EXPORT s32 CC DD_Init_4F02D0(HWND hwnd, bool bFullScreen, s32 forceSoftwareSurfaces);
-EXPORT s32 CC DD_Enable_4F0380(HWND hwnd, s32 width, s32 height, s32 bpp, s32 flipMode, s32 a6);
-EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRect, s32 screenMode);
-EXPORT void CC DD_Flip_4F15D0();
+const s8* DX_HR_To_String_4F4EC0(HRESULT hr);
+s32 DD_Shutdown_4F0790(s32 bDestroyDD);
+s32 DD_Init_4F0840(s32 a1);
+s32 DD_Init_4F02D0(HWND hwnd, bool bFullScreen, s32 forceSoftwareSurfaces);
+s32 DD_Enable_4F0380(HWND hwnd, s32 width, s32 height, s32 bpp, s32 flipMode, s32 a6);
+void DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRect, s32 screenMode);
+void DD_Flip_4F15D0();
 
 ALIVE_VAR_EXTERN(LPDIRECTDRAW, sDDraw_BBC3D4);
 ALIVE_VAR_EXTERN(LPDIRECTDRAWSURFACE, sDD_primary_surface_BBC3C8);

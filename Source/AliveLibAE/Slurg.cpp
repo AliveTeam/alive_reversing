@@ -14,7 +14,7 @@ ALIVE_VAR(1, 0x5C1C08, u16, sSlurg_Step_Watch_Points_Idx_5C1C08, 0);
 ALIVE_ARY(1, 0x5BD4DC, s8, 2, sSlurg_Step_Watch_Points_Count_5BD4DC, {});
 ALIVE_ARY(1, 0x5C1B28, Slurg_Step_Watch_Points, 2, sSlurg_Step_Watch_Points_5C1B28, {});
 
-EXPORT void CC Slurg::Clear_Slurg_Step_Watch_Points_449A90()
+void Slurg::Clear_Slurg_Step_Watch_Points_449A90()
 {
     sSlurg_Step_Watch_Points_Idx_5C1C08 = !sSlurg_Step_Watch_Points_Idx_5C1C08;
     sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = 0;
@@ -129,7 +129,7 @@ void Slurg::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_4C8C20(pTlv);
 }
 
-s32 CC Slurg::CreateFromSaveState_4C8DF0(const u8* pData)
+s32 Slurg::CreateFromSaveState_4C8DF0(const u8* pData)
 {
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
     auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_24_tlvInfo));

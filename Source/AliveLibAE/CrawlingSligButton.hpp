@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
@@ -35,10 +35,10 @@ public:
     ~CrawlingSligButton();
 
     virtual void VUpdate() override;
-    EXPORT void UseButton_414C60();
+    void UseButton_414C60();
 
 private:
-    EXPORT void vUpdate_414B20();
+    void vUpdate_414B20();
 
 private:
     s32 field_F4_tlvInfo;

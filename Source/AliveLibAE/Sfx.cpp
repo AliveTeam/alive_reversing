@@ -131,7 +131,7 @@ const SfxDefinition sSfxEntries_55C2A0[] = {
     {0u, 6u, 64u, 127u, 0, 0}};
 
 
-s32 CC SFX_Play_46FB10(SoundEffect sfxId, s32 leftVol, s32 rightVol, FP scale)
+s32 SFX_Play_46FB10(SoundEffect sfxId, s32 leftVol, s32 rightVol, FP scale)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -142,7 +142,7 @@ s32 CC SFX_Play_46FB10(SoundEffect sfxId, s32 leftVol, s32 rightVol, FP scale)
     return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], static_cast<s16>(leftVol), static_cast<s16>(rightVol), 0x7FFF, 0x7FFF);
 }
 
-s32 CC SFX_Play(SoundEffect sfxIdx, s16 volume, s32 pitch, FP scale)
+s32 SFX_Play(SoundEffect sfxIdx, s16 volume, s32 pitch, FP scale)
 {
     if (!volume)
     {
@@ -155,7 +155,7 @@ s32 CC SFX_Play(SoundEffect sfxIdx, s16 volume, s32 pitch, FP scale)
     return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, static_cast<s16>(pitch), static_cast<s16>(pitch));
 }
 
-s32 CC SFX_Play_46FA90(SoundEffect sfxIdx, s16 volume, FP scale)
+s32 SFX_Play_46FA90(SoundEffect sfxIdx, s16 volume, FP scale)
 {
     if (!volume)
     {
@@ -168,7 +168,7 @@ s32 CC SFX_Play_46FA90(SoundEffect sfxIdx, s16 volume, FP scale)
     return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, 0x7FFF, 0x7FFF);
 }
 
-s32 CC SFX_Play_46FC20(SoundEffect sfxId, s16 volume, CameraPos direction, FP scale)
+s32 SFX_Play_46FC20(SoundEffect sfxId, s16 volume, CameraPos direction, FP scale)
 {
     if (!volume)
     {
@@ -214,7 +214,7 @@ const SfxDefinition sSligGameSpeakEntries_560868[21] = {
     {0u, 0u, 0u, 0u, 0, 0},
     {0u, 0u, 0u, 0u, 0, 0}};
 
-EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s16 defaultVol, const SfxDefinition* pSfx, s16* pLeftVol, s16* pRightVol)
+s16 Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s16 defaultVol, const SfxDefinition* pSfx, s16* pLeftVol, s16* pRightVol)
 {
     if (defaultVol == 0)
     {
@@ -292,7 +292,7 @@ EXPORT s16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject
     }
 }
 
-void CC Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, s16 defaultVol, s16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
+void Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, s16 defaultVol, s16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     const s32 idx = static_cast<s32>(effectId);
     assert(idx < ALIVE_COUNTOF(sSligGameSpeakEntries_560868));

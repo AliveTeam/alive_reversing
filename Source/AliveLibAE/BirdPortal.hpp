@@ -2,7 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum class LevelIds : s16;
 
@@ -57,10 +57,10 @@ public:
     BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalType portalType);
     virtual void VScreenChanged() override;
     
-    EXPORT void Fadeout_497AC0();
+    void Fadeout_497AC0();
 
 private:
-    EXPORT BaseAnimatedWithPhysicsGameObject* vdtor_497A70(s32 flags);
+    BaseAnimatedWithPhysicsGameObject* vdtor_497A70(s32 flags);
 };
 ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xF4);
 
@@ -91,33 +91,33 @@ public:
     virtual void VKillPortalClipper_499A20();
     virtual void VGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
-    EXPORT static s32 CC CreateFromSaveState_499C90(const u8* pBuffer);
+    static s32 CreateFromSaveState_499C90(const u8* pBuffer);
 
 
 private:
-    EXPORT void vStopAudio_499260();
-    EXPORT s32 vGetSaveState_499F50(u8* pState);
+    void vStopAudio_499260();
+    s32 vGetSaveState_499F50(u8* pState);
 
-    EXPORT s16 vPortalClipper_499430(s16 bUnknown);
-    EXPORT void vKillPortalClipper_499610();
-    EXPORT void vMudSaved_499A50();
-    EXPORT Bool32 vActivePortal_499830();
-    EXPORT void vGiveShryukull_499680(s16 bPlaySound);
-    EXPORT Bool32 vAbeInsidePortal_499850();
-    EXPORT void vExitPortal_499870();
-    EXPORT Bool32 vPortalExit_AbeExitting_499A00();
-    EXPORT void vIncreaseTimerAndKillPortalClipper_499A20();
-    EXPORT void vGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
+    s16 vPortalClipper_499430(s16 bUnknown);
+    void vKillPortalClipper_499610();
+    void vMudSaved_499A50();
+    Bool32 vActivePortal_499830();
+    void vGiveShryukull_499680(s16 bPlaySound);
+    Bool32 vAbeInsidePortal_499850();
+    void vExitPortal_499870();
+    Bool32 vPortalExit_AbeExitting_499A00();
+    void vIncreaseTimerAndKillPortalClipper_499A20();
+    void vGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
-    EXPORT s16 IsScaredAway_4992A0();
+    s16 IsScaredAway_4992A0();
 
-    EXPORT void CreateDovesAndShrykullNumber_497B50();
+    void CreateDovesAndShrykullNumber_497B50();
 
-    EXPORT void KillTerminators_499220();
+    void KillTerminators_499220();
 
-    EXPORT void CreateTerminators_497D10();
+    void CreateTerminators_497D10();
 
-    EXPORT s16 GetEvent_499A70();
+    s16 GetEvent_499A70();
 
 private:
     s32 field_20_tlvInfo;

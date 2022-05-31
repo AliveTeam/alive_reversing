@@ -45,7 +45,7 @@ ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
     field_26_scale = pTlv->field_24_scale;
 }
 
-void CC ShadowZone::ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
+void ShadowZone::ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
 {
     for (s32 idx = 0; idx < sShadowZone_dArray_507B08->Size(); idx++)
     {

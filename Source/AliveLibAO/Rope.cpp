@@ -11,7 +11,7 @@
 
 namespace AO {
 
-EXPORT void CC ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
+void ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
     const s32 d1 = minY - Y0(pPoly);
     const s16 polyHeight = Y3(pPoly) - Y0(pPoly);

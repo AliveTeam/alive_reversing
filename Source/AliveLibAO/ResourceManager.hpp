@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Psx.hpp"
 #include "AnimResources.hpp"
 #include "Factory.hpp"
@@ -12,7 +12,7 @@ class BaseAliveGameObject;
 class Camera;
 class LoadingFile;
 
-EXPORT void CC Game_ShowLoadingIcon_445EB0();
+void Game_ShowLoadingIcon_445EB0();
 
 // TODO Argument type is always Camera* ?
 using TLoaderFn = void(CC*)(void*);
@@ -119,9 +119,9 @@ public:
         eLastMatching = 2
     };
 
-    static EXPORT s32 CC SEQ_HashName_454EA0(const char_type* seqFileName);
+    static s32 SEQ_HashName_454EA0(const char_type* seqFileName);
 
-    EXPORT static void CC Init_454DA0();
+    static void Init_454DA0();
 
     static ResourceHeapItem* Push_List_Item();
 
@@ -129,66 +129,66 @@ public:
 
     static ResourceHeapItem* Split_block(ResourceHeapItem* pItem, s32 size);
 
-    static EXPORT void CC On_Loaded_446C10(ResourceManager_FileRecord* pLoaded);
+    static void On_Loaded_446C10(ResourceManager_FileRecord* pLoaded);
 
-    static EXPORT s16 CC Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u8*>* pArray);
+    static s16 Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u8*>* pArray);
 
     static u8** Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool locked, BlockAllocMethod allocType);
 
-    static EXPORT u8** CC Alloc_New_Resource_454F20(u32 type, u32 id, u32 size);
+    static u8** Alloc_New_Resource_454F20(u32 type, u32 id, u32 size);
 
-    static EXPORT u8** CC Allocate_New_Block_454FE0(u32 sizeBytes, BlockAllocMethod allocMethod);
+    static u8** Allocate_New_Block_454FE0(u32 sizeBytes, BlockAllocMethod allocMethod);
 
-    static EXPORT s16 CC FreeResource_Impl_4555B0(u8* handle);
+    static s16 FreeResource_Impl_4555B0(u8* handle);
 
-    static EXPORT void CC Increment_Pending_Count_4557A0();
+    static void Increment_Pending_Count_4557A0();
 
-    static EXPORT void CC Decrement_Pending_Count_4557B0();
+    static void Decrement_Pending_Count_4557B0();
 
-    static EXPORT s32 CC Is_Resources_Pending_4557C0();
+    static s32 Is_Resources_Pending_4557C0();
 
-    static EXPORT void CC WaitForPendingResources_41EA60(BaseGameObject* pObj);
+    static void WaitForPendingResources_41EA60(BaseGameObject* pObj);
 
-    static EXPORT void CC Reclaim_Memory_455660(u32 sizeToReclaim);
+    static void Reclaim_Memory_455660(u32 sizeToReclaim);
 
-    static EXPORT s16 CC FreeResource_455550(u8** ppRes);
+    static s16 FreeResource_455550(u8** ppRes);
 
-    static EXPORT void CC LoadResource_446C90(const char_type* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
+    static void LoadResource_446C90(const char_type* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
 
 
-    static EXPORT u8** CC GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock);
+    static u8** GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock);
 
     static void CheckResourceIsLoaded(u32 type, AOResourceID resourceId);
     static void CheckResourceIsLoaded(u32 type, std::initializer_list<AOResourceID>& resourceIds);
 
-    static EXPORT void CC LoadingLoop_41EAD0(s16 bShowLoadingIcon);
+    static void LoadingLoop_41EAD0(s16 bShowLoadingIcon);
 
-    static s16 CC LoadResourceFileWrapper(const char_type* filename, Camera* pCam);
+    static s16 LoadResourceFileWrapper(const char_type* filename, Camera* pCam);
 
-    static EXPORT s16 CC LoadResourceFile_455270(const char_type* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
+    static s16 LoadResourceFile_455270(const char_type* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
 
-    static EXPORT u8** CC Allocate_New_Locked_Resource_454F80(u32 type, u32 id, u32 size);
+    static u8** Allocate_New_Locked_Resource_454F80(u32 type, u32 id, u32 size);
 
-    static EXPORT void CC Set_Header_Flags_4557D0(u8** ppRes, s16 flags);
+    static void Set_Header_Flags_4557D0(u8** ppRes, s16 flags);
 
-    static EXPORT void CC Clear_Header_Flags_4557F0(u8** ppRes, s16 flags);
+    static void Clear_Header_Flags_4557F0(u8** ppRes, s16 flags);
 
     template <class T, class Y>
-    static EXPORT LoadingFile* CC LoadResourceFile(const char_type* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
+    static LoadingFile* LoadResourceFile(const char_type* pFileName, T pOnLoadFn, Y* pOnLoadFnArgument, Y* pCamera2 = nullptr)
     {
         // TODO: Change the camera types to void*'s
         return LoadResourceFile_4551E0(pFileName, reinterpret_cast<TLoaderFn>(pOnLoadFn), reinterpret_cast<Camera*>(pOnLoadFnArgument), reinterpret_cast<Camera*>(pCamera2));
     }
 
-    static EXPORT LoadingFile* CC LoadResourceFile_4551E0(const char_type* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
+    static LoadingFile* LoadResourceFile_4551E0(const char_type* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2);
 
-    static EXPORT void CC Free_Resource_Of_Type_455810(u32 type);
+    static void Free_Resource_Of_Type_455810(u32 type);
 
-    static EXPORT void CC Free_Resources_For_Camera_447170(Camera* pCamera);
+    static void Free_Resources_For_Camera_447170(Camera* pCamera);
 
-    static EXPORT void CC LoadResourcesFromList_446E80(const char_type* pFileName, ResourcesToLoadList* pList, LoadMode loadMode, s16);
+    static void LoadResourcesFromList_446E80(const char_type* pFileName, ResourcesToLoadList* pList, LoadMode loadMode, s16);
 
-    static EXPORT Header* CC Get_Header_455620(u8** ppRes);
+    static Header* Get_Header_455620(u8** ppRes);
 };
 
 ALIVE_VAR_EXTERN(s16, bHideLoadingIcon_5076A0);

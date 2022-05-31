@@ -24,7 +24,7 @@ const TintEntry kRopeTints_55FD68[18] = {
     {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
-EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
+void ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
     const s32 d1 = minY - Y0(pPoly);
     const s16 polyHeight = Y3(pPoly) - Y0(pPoly);
@@ -121,7 +121,7 @@ Rope::~Rope()
     ResourceManager::FreeResource_49C330(field_F8_ppRopeRes);
 }
 
-EXPORT void Rope::vRender_4A0E30(PrimHeader** ppOt)
+void Rope::vRender_4A0E30(PrimHeader** ppOt)
 {
     PSX_Point camPos = {};
     gMap.GetCurrentCamCoords_480680(&camPos);

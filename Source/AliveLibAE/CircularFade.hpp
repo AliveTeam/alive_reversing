@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 class CircularFade final : public ::BaseAnimatedWithPhysicsGameObject
@@ -19,10 +19,10 @@ public:
     ~CircularFade();
 
 private:
-    EXPORT void vRender_4CE3F0(PrimHeader** ppOt);
-    EXPORT void vUpdate_4CE380();
-    EXPORT s32 vFadeIn_4CE300(s16 direction, s8 destroyOnDone); // TODO: Likely no return
-    EXPORT s32 vDone_4CE0B0();
+    void vRender_4CE3F0(PrimHeader** ppOt);
+    void vUpdate_4CE380();
+    s32 vFadeIn_4CE300(s16 direction, s8 destroyOnDone); // TODO: Likely no return
+    s32 vDone_4CE0B0();
 
 private:
     enum Flags
@@ -44,4 +44,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(CircularFade, 0x1BC);
 
-EXPORT CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 surviveDeathReset);
+CircularFade* Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 surviveDeathReset);

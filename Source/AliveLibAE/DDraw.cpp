@@ -29,7 +29,7 @@ RECT ClientToScreenConvert(HWND hwnd)
     return screenRect;
 }
 
-EXPORT const s8* CC DX_HR_To_String_4F4EC0(HRESULT hr)
+const s8* DX_HR_To_String_4F4EC0(HRESULT hr)
 {
     switch (hr)
     {
@@ -118,7 +118,7 @@ EXPORT const s8* CC DX_HR_To_String_4F4EC0(HRESULT hr)
         case DDERR_TOOBIGWIDTH:
             return "DDERR_TOOBIGWIDTH\nWidth requested by DirectDraw is too large.";
         case DDERR_UNSUPPORTEDFORMAT:
-            return "DDERR_UNSUPPORTEDFORMAT\nFOURCC format requested is unsupported by DirectDraw.";
+            return "DDERR_UNSUPPORTEDFORMAT\nFOURformat requested is unsupported by DirectDraw.";
         case DDERR_UNSUPPORTEDMASK:
             return "DDERR_UNSUPPORTEDMASK\nBitmask in the pixel format requested is unsupported by DirectDraw.";
         case DDERR_VERTICALBLANKINPROGRESS:
@@ -274,7 +274,7 @@ ALIVE_VAR(1, 0xBBC3AC, s32, sbDD_FlipMode_BBC3AC, 0); // TODO: Make Enum
 ALIVE_VAR(1, 0xBBC3E0, LONG, sDD_old_win_style_BBC3E0, 0);
 
 
-EXPORT s32 CC DD_Shutdown_4F0790(s32 bDestroyDD)
+s32 DD_Shutdown_4F0790(s32 bDestroyDD)
 {
     if (sDDraw_BBC3D4)
     {
@@ -287,7 +287,7 @@ EXPORT s32 CC DD_Shutdown_4F0790(s32 bDestroyDD)
         if (sDD_surface_backbuffer_BBC3CC)
         {
             sDD_surface_backbuffer_BBC3CC->Release();
-            sDD_surface_backbuffer_BBC3CC = nullptr;
+            sDD_surface_backbuffer_BBC3= nullptr;
         }
 
         if (sDD_primary_surface_BBC3C8)
@@ -319,7 +319,7 @@ ALIVE_VAR(1, 0xBBC3A0, Bool32, sDD_VideoMemory_BBC3A0, FALSE);
 ALIVE_VAR(1, 0xBBC3C0, u32, sDDColourKey_BBC3C0, 0);
 ALIVE_VAR(1, 0xBBC3BC, bool, sbFullScreen_BBC3BC, 0);
 
-EXPORT LPDIRECTDRAWSURFACE CC DD_Create_Surface_4F0CB0(s32 width, s32 height, s32 bSetUnknownCaps)
+LPDIRECTDRAWSURFACE DD_Create_Surface_4F0CB0(s32 width, s32 height, s32 bSetUnknownCaps)
 {
     DDSURFACEDESC surfaceDesc = {};
     surfaceDesc.dwSize = sizeof(surfaceDesc);
@@ -351,7 +351,7 @@ EXPORT LPDIRECTDRAWSURFACE CC DD_Create_Surface_4F0CB0(s32 width, s32 height, s3
     return pSurface;
 }
 
-EXPORT s32 CC DD_RestoreSurfacesIfRequired_4F01D0(HRESULT hr, IDirectDrawSurface* pSurface1, IDirectDrawSurface* pSurface2)
+s32 DD_RestoreSurfacesIfRequired_4F01D0(HRESULT hr, IDirectDrawSurface* pSurface1, IDirectDrawSurface* pSurface2)
 {
     if (hr == DDERR_SURFACELOST)
     {
@@ -404,7 +404,7 @@ EXPORT s32 CC DD_RestoreSurfacesIfRequired_4F01D0(HRESULT hr, IDirectDrawSurface
 
         #pragma comment(lib, "ddraw.lib") // DirectDrawCreate
 
-EXPORT s32 CC DD_Init_4F02D0(HWND hwnd, bool bFullScreen, s32 forceSoftwareSurfaces)
+s32 DD_Init_4F02D0(HWND hwnd, bool bFullScreen, s32 forceSoftwareSurfaces)
 {
     if (!sDDraw_BBC3D4)
     {
@@ -440,7 +440,7 @@ EXPORT s32 CC DD_Init_4F02D0(HWND hwnd, bool bFullScreen, s32 forceSoftwareSurfa
     return 1;
 }
 
-EXPORT void CC DD_Blt_4F0170(IDirectDrawSurface* pSourceSurface, LPRECT pSrcRect, IDirectDrawSurface* pTargetSurface, LPRECT pDstRect, s32 bltFlags)
+void DD_Blt_4F0170(IDirectDrawSurface* pSourceSurface, LPRECT pSrcRect, IDirectDrawSurface* pTargetSurface, LPRECT pDstRect, s32 bltFlags)
 {
     const HRESULT hr = pTargetSurface->Blt(pDstRect, pSourceSurface, pSrcRect, bltFlags | DDBLT_WAIT, nullptr); // 0x1000000
     if (FAILED(hr))
@@ -450,7 +450,7 @@ EXPORT void CC DD_Blt_4F0170(IDirectDrawSurface* pSourceSurface, LPRECT pSrcRect
     }
 }
 
-EXPORT void CC DD_Flip_4F15D0()
+void DD_Flip_4F15D0()
 {
     if (!sDD_primary_surface_BBC3C8 || !sDD_surface_backbuffer_BBC3CC)
     {
@@ -497,7 +497,7 @@ EXPORT void CC DD_Flip_4F15D0()
     }
 }
 
-EXPORT s32 CC DD_SetDisplayMode_4F0730(u32 width, u32 height, u32 bpp)
+s32 DD_SetDisplayMode_4F0730(u32 width, u32 height, u32 bpp)
 {
     // TODO: HACK
     HWND hwnd;
@@ -529,7 +529,7 @@ EXPORT s32 CC DD_SetDisplayMode_4F0730(u32 width, u32 height, u32 bpp)
 ALIVE_VAR(1, 0xBBC3A4, s32, sDD_Width_BBC3A4, 0);
 ALIVE_VAR(1, 0xBBC3A8, s32, sDD_Height_BBC3A8, 0);
 
-EXPORT s32 CC DD_Enable_4F0380(HWND /*hwnd*/, s32 width, s32 height, s32 bpp, s32 flipMode, s32 a6)
+s32 DD_Enable_4F0380(HWND /*hwnd*/, s32 width, s32 height, s32 bpp, s32 flipMode, s32 a6)
 {
     sbDD_FlipMode_BBC3AC = flipMode;
     //byte_BBC3C4[0] = 0; // TODO: Never used?
@@ -758,7 +758,7 @@ static s32 CreateDDObjects(s32 backBufferCount)
 
     if (backBufferCount == 2)
     {
-        sDD_surface_backbuffer_BBC3CC = DD_Create_Surface_4F0CB0(sDD_Width_BBC3A4, sDD_Height_BBC3A8, 0);
+        sDD_surface_backbuffer_BBC3= DD_Create_Surface_4F0CB0(sDD_Width_BBC3A4, sDD_Height_BBC3A8, 0);
         if (!sDD_surface_backbuffer_BBC3CC)
         {
             Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 506, -1, DX_HR_To_String_4F4EC0(0));
@@ -790,7 +790,7 @@ static s32 CreateDDObjects(s32 backBufferCount)
     return InitColourKeyAndPallete(sDD_primary_surface_BBC3C8);
 }
 
-EXPORT s32 CC DD_Init_4F0840(s32 backBufferCount)
+s32 DD_Init_4F0840(s32 backBufferCount)
 {
     if (!sbFullScreen_BBC3BC)
     {
@@ -813,7 +813,7 @@ EXPORT s32 CC DD_Init_4F0840(s32 backBufferCount)
                 return 0;
             }
             sDD_primary_surface_BBC3C8->AddRef();
-            sDD_surface_backbuffer_BBC3CC = sDD_primary_surface_BBC3C8;
+            sDD_surface_backbuffer_BBC3= sDD_primary_surface_BBC3C8;
             return InitColourKeyAndPallete(sDD_primary_surface_BBC3C8);
         }
         return CreateDDObjects(backBufferCount);
@@ -853,17 +853,17 @@ EXPORT s32 CC DD_Init_4F0840(s32 backBufferCount)
     return InitColourKeyAndPallete(sDD_primary_surface_BBC3C8);
 }
 
-EXPORT void CC DD_mode_blt1_4F11E0(IDirectDrawSurface* /*pSurface*/, RECT* /*pRect*/, s32 /*screenMode*/)
+void DD_mode_blt1_4F11E0(IDirectDrawSurface* /*pSurface*/, RECT* /*pRect*/, s32 /*screenMode*/)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC DD_mode_blt2_4F0F60(IDirectDrawSurface* /*pSurface*/, RECT* /*pRect*/, s32 /*screenMode*/)
+void DD_mode_blt2_4F0F60(IDirectDrawSurface* /*pSurface*/, RECT* /*pRect*/, s32 /*screenMode*/)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRect, s32 screenMode)
+void DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRect, s32 screenMode)
 {
     if (sDD_primary_surface_BBC3C8 && pSurf)
     {

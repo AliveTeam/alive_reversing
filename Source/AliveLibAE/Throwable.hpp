@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/AddPointer.hpp"
 
 class BaseThrowable;
 
-EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, s16 count);
+BaseThrowable* Make_Throwable_49AF30(FP xpos, FP ypos, s16 count);
 
 // NOTE: This base type must exist but seems to have been decimated by the compiler, so this contains pure virtuals for
 // non common virtuals, and virtuals for common virtuals.
@@ -32,10 +32,10 @@ public:
     void BaseAddToPlatform(FnTypeMatcher cb);
 
 private:
-    EXPORT void vToDead_4114B0();
-    EXPORT void vOnPickUpOrSlapped_4114D0();
+    void vToDead_4114B0();
+    void vOnPickUpOrSlapped_4114D0();
 
-    EXPORT s16 vGetCount_448080();
+    s16 vGetCount_448080();
 
 protected:
     s16 field_118_count;

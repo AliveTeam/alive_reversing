@@ -12,7 +12,7 @@
 #include "PossessionFlicker.hpp"
 #include "stdlib.hpp"
 
-AbilityRing* CC AbilityRing::Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale)
+AbilityRing* AbilityRing::Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale)
 {
     return ae_new<AbilityRing>(xpos, ypos, type, scale);
 }
@@ -497,7 +497,7 @@ s32 AbilityRing::GetSaveState(AbilityRing_State* pSaveState)
     return sizeof(AbilityRing_State);
 }
 
-s32 CC AbilityRing::CreateFromSaveState_49DF90(const u8* pBuffer)
+s32 AbilityRing::CreateFromSaveState_49DF90(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
     auto pRing = ae_new<AbilityRing>(pState->field_4_xpos, pState->field_8_ypos, pState->field_C_ring_type, pState->field_10_scale);

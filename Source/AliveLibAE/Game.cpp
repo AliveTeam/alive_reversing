@@ -99,14 +99,14 @@ bool gDebugHelpersEnabled = false;
 #include "ColourfulMeter.hpp"
 #include "GasCountDown.hpp"
 
-EXPORT void CC Init_GameStates_43BF40()
+void Init_GameStates_43BF40()
 {
     sKilledMudokons_5C1BC0 = sFeeco_Restart_KilledMudCount_5C1BC6;
     sRescuedMudokons_5C1BC2 = sFeecoRestart_SavedMudCount_5C1BC8;
 
     // TODO: Check that the unused vars here really are unused
     //word_5C1BCA = 0;
-    //word_5C1BCC = 0;
+    //word_5C1B= 0;
     //word_5C1BF0 = 0;
 
     gGasOn_5C1C00 = 0;
@@ -120,7 +120,7 @@ EXPORT void CC Init_GameStates_43BF40()
     SwitchStates_SetRange_465FA0(2u, 255u);
 }
 
-EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
+bool Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 {
 #if _WIN32
     CHAR RootPathName[4] = {};
@@ -167,7 +167,7 @@ void DestroyObjects_4A1F20()
     }
 }
 
-EXPORT f64 CC Calculate_FPS_495250(s32 frameCount)
+f64 Calculate_FPS_495250(s32 frameCount)
 {
     static u32 sLastTime_5CA338 = SYS_GetTicks() - 500;
     const u32 curTime = SYS_GetTicks();
@@ -186,7 +186,7 @@ EXPORT f64 CC Calculate_FPS_495250(s32 frameCount)
     return sFps_55EFDC;
 }
 
-EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, f32 fps)
+void DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, f32 fps)
 {
     char_type strBuffer[125] = {};
     sprintf(strBuffer, "%02.1f fps ", fps);
@@ -195,23 +195,23 @@ EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, f32 fps)
     Add_Dirty_Area_4ED970(0, 0, 97, 32);
 }
 
-EXPORT void CC sub_4FBA20()
+void sub_4FBA20()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC CheckShiftCapslock_4953B0()
+void CheckShiftCapslock_4953B0()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Draw_Debug_Strings_4F2800()
+void Draw_Debug_Strings_4F2800()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 
-EXPORT s32 CC Game_End_Frame_4950F0(u32 flags)
+s32 Game_End_Frame_4950F0(u32 flags)
 {
     if (flags & 1)
     {
@@ -267,12 +267,12 @@ EXPORT s32 CC Game_End_Frame_4950F0(u32 flags)
     return 0;
 }
 
-EXPORT void CC VLC_Tables_Init_496720()
+void VLC_Tables_Init_496720()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/, const char_type* pCommandLine)
+void Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/, const char_type* pCommandLine)
 {
     //nullsub_2(); // Note: Pruned
     IO_Init_494230();
@@ -379,9 +379,9 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLine
     VLC_Tables_Init_496720();
 }
 
-EXPORT s32 CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
+s32 CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
@@ -390,12 +390,12 @@ ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<AnimationBase>*, gObjList_animations_5C1A24
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124, nullptr);
 
 
-EXPORT void CC static_init_set_default_hero_43EC10()
+void static_init_set_default_hero_43EC10()
 {
     sActiveHero_5C1B68 = spAbe_554D5C;
 }
 
-EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
+void Init_Sound_DynamicArrays_And_Others_43BDB0()
 {
     DebugFont_Init_4DCF40();
     word_5C1B94 = 1; // Used in dead overlay stuff, CD number ??
@@ -426,7 +426,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
     Init_GameStates_43BF40(); // Init other vars + switch states
 }
 
-EXPORT void CC SYS_EventsPump_494580()
+void SYS_EventsPump_494580()
 {
     if (Sys_PumpMessages_4EE4F4())
     {
@@ -436,15 +436,15 @@ EXPORT void CC SYS_EventsPump_494580()
     sub_4FBA20();
 }
 
-EXPORT void CC DDCheat_Allocate_415320()
+void DDCheat_Allocate_415320()
 {
     ae_new<DDCheat>();
 }
 
-EXPORT void CC Game_Loop_467230();
+void Game_Loop_467230();
 
 
-EXPORT void CC Game_Init_LoadingIcon_482CD0()
+void Game_Init_LoadingIcon_482CD0()
 {
     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, 1u, 0);
     if (!ppRes)
@@ -455,7 +455,7 @@ EXPORT void CC Game_Init_LoadingIcon_482CD0()
     ResourceManager::Set_Header_Flags_49C650(ppRes, ResourceManager::ResourceHeaderFlags::eNeverFree);
 }
 
-EXPORT void CC Game_Free_LoadingIcon_482D40()
+void Game_Free_LoadingIcon_482D40()
 {
     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, 0, 0);
     if (ppRes)
@@ -468,7 +468,7 @@ EXPORT void CC Game_Free_LoadingIcon_482D40()
 extern bool gBootToLoadScreen;
 #endif
 
-EXPORT void CC Game_Run_466D40()
+void Game_Run_466D40()
 {
     // Begin start up
     SYS_EventsPump_494580();
@@ -622,17 +622,17 @@ EXPORT void CC Game_Run_466D40()
     PSX_ResetGraph_4F8800(0);
 }
 
-EXPORT void CC Game_SetExitCallBack_4F2BA0(TExitGameCallBack callBack)
+void Game_SetExitCallBack_4F2BA0(TExitGameCallBack callBack)
 {
     sGame_OnExitCallback_BBFB00 = callBack;
 }
 
-EXPORT void CC Game_ExitGame_4954B0()
+void Game_ExitGame_4954B0()
 {
     PSX_EMU_VideoDeAlloc_4FA010();
 }
 
-EXPORT void CC Game_Shutdown_4F2C30()
+void Game_Shutdown_4F2C30()
 {
     if (sGame_OnExitCallback_BBFB00)
     {
@@ -648,7 +648,7 @@ EXPORT void CC Game_Shutdown_4F2C30()
     VGA_Shutdown_4F3170();
 }
 
-EXPORT s32 TMR_Init_4EDE20()
+s32 TMR_Init_4EDE20()
 {
 #if USE_SDL2
     return 0;
@@ -667,7 +667,7 @@ EXPORT s32 TMR_Init_4EDE20()
 #endif
 }
 
-EXPORT s32 CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
+s32 Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
 {
     static bool sbGameShutdownSet_BBC560 = false;
     if (!sbGameShutdownSet_BBC560)
@@ -699,7 +699,7 @@ EXPORT s32 CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
     return 0;
 }
 
-EXPORT void CC Game_Main_4949F0()
+void Game_Main_4949F0()
 {
     // Inits
     Init_Input_Timer_And_IO_4F2BF0(false);
@@ -726,7 +726,7 @@ EXPORT void CC Game_Main_4949F0()
     Game_Shutdown_4F2C30();
 }
 
-EXPORT void CC Game_Loop_467230()
+void Game_Loop_467230()
 {
     dword_5C2F78 = 0;
     sBreakGameLoop_5C2FE0 = 0;

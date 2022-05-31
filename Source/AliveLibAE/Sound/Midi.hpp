@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 
 struct SoundBlockInfo;
@@ -39,8 +39,8 @@ public:
     virtual s16 LoadResourceFile(const char_type* pFileName, Camera* pCamera) = 0;
 };
 
-EXPORT IMidiVars* GetMidiVars();
-EXPORT void SetMidiApiVars(IMidiVars* pVars);
+IMidiVars* GetMidiVars();
+void SetMidiApiVars(IMidiVars* pVars);
 
 using TReclaimMemoryFn = void(CC*)(u32);
 using TLoadResourceFileFn = s16(CC*)(const s8*, Camera*);
@@ -49,31 +49,31 @@ using TSNDRestart = void(CC*)();
 using TSNDStopAll = void(CC*)();
 
 // So AO can redirect SND_StopAll_4CB060 to its own func when called from SYS_ funcs
-EXPORT void SND_StopAll_SetCallBack(TSNDStopAll cb);
+void SND_StopAll_SetCallBack(TSNDStopAll cb);
 
 // So AO can redirect SND_Restart_4CB0E0 to its own func when called from SYS_ funcs
-EXPORT void SND_Restart_SetCallBack(TSNDRestart cb);
+void SND_Restart_SetCallBack(TSNDRestart cb);
 
 
-EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsqFileName);
+void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsqFileName);
 
-EXPORT void SND_Stop_All_Seqs_4CA850();
+void SND_Stop_All_Seqs_4CA850();
 
-EXPORT void CC SND_StopAll_4CB060();
-EXPORT void CC SND_Init_4CA1F0();
-EXPORT void CC SND_Shutdown_4CA280();
-EXPORT void CC SND_Stop_Channels_Mask_4CA810(u32 bitMask);
-EXPORT void SND_Reset_4C9FB0();
-EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb);
-EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char_type* bsqFileName);
-EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx);
-EXPORT s8 CC SND_Seq_Table_Valid_4CAFE0();
-EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop);
-EXPORT void CC SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight);
-EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight);
-EXPORT s32 CC SND_SsIsEos_DeInlined_4CACD0(u16 idx);
-EXPORT s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
-EXPORT s32 CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max);
+void SND_StopAll_4CB060();
+void SND_Init_4CA1F0();
+void SND_Shutdown_4CA280();
+void SND_Stop_Channels_Mask_4CA810(u32 bitMask);
+void SND_Reset_4C9FB0();
+void SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb);
+void SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char_type* bsqFileName);
+void SND_SEQ_Stop_4CAE60(u16 idx);
+s8 SND_Seq_Table_Valid_4CAFE0();
+s16 SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop);
+void SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight);
+s16 SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight);
+s32 SND_SsIsEos_DeInlined_4CACD0(u16 idx);
+s32 SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
+s32 SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max);
 
 enum SeqId
 {

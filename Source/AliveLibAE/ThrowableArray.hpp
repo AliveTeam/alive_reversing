@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 
 enum class LevelIds : s16;
 
-EXPORT void CCSTD FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray);
-EXPORT void CC LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber);
+void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray);
+void LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber);
 
 class ThrowableArray final : public BaseGameObject
 {

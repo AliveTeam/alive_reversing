@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "relive_config.h"
 
 
@@ -104,35 +104,35 @@ struct SoundBuffer final
 };
 ALIVE_ASSERT_SIZEOF(SoundBuffer, 0x14);
 
-EXPORT u32 CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry);
-EXPORT s32 CC SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size);
-EXPORT void CC SND_SsQuit_4EFD50();
-EXPORT s32 CC SND_CreateDS_4EEAA0(u32 sampleRate, s32 bitsPerSample, s32 isStereo);
-EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX* pWaveFormat, s32 sampleRate, u8 bitsPerSample, s32 isStereo);
-EXPORT s32 CC SND_New_4EEFF0(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo);
-EXPORT s32 CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen);
-EXPORT const char_type* CC SND_HR_Err_To_String_4EEC70(HRESULT hr);
-EXPORT s32 CC SND_Free_4EFA30(SoundEntry* pSnd);
-EXPORT void CC SND_Restart_4CB0E0();
-EXPORT s32 CC SND_SetPrimarySoundBufferFormat_4EE990(s32 sampleRate, s32 bitsPerSample, u8 isStereo);
-EXPORT void CC SND_InitVolumeTable_4EEF60();
-EXPORT s8 CC SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSample, s32 isStereo);
-EXPORT s32 CC SND_Renew_4EEDD0(SoundEntry* pSnd);
-EXPORT s32 CC SND_Get_Buffer_Status_4EE8F0(s32 idx);
-EXPORT s32 CC SND_Stop_Sample_At_Idx_4EFA90(s32 idx);
-EXPORT s32 CC SND_Buffer_Set_Volume_4EFAD0(s32 idx, s32 vol);
-EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(s32 sampleIdx, s32 field10);
-EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC90(s32 idx, f32 hzChangeFreq);
-EXPORT s32 CC SND_Buffer_Set_Frequency_4EFC00(s32 idx, f32 freq);
-EXPORT s32 CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundBuffer, u32 sampleCount);
-EXPORT u32* CC SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/);
+u32 SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry);
+s32 SND_Clear_4EF350(SoundEntry* pSoundEntry, u32 sampleOffset, u32 size);
+void SND_SsQuit_4EFD50();
+s32 SND_CreateDS_4EEAA0(u32 sampleRate, s32 bitsPerSample, s32 isStereo);
+void SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX* pWaveFormat, s32 sampleRate, u8 bitsPerSample, s32 isStereo);
+s32 SND_New_4EEFF0(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsPerSample, s32 isStereo);
+s32 SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen);
+const char_type* SND_HR_Err_To_String_4EEC70(HRESULT hr);
+s32 SND_Free_4EFA30(SoundEntry* pSnd);
+void SND_Restart_4CB0E0();
+s32 SND_SetPrimarySoundBufferFormat_4EE990(s32 sampleRate, s32 bitsPerSample, u8 isStereo);
+void SND_InitVolumeTable_4EEF60();
+s8 SND_CreatePrimarySoundBuffer_4EEEC0(s32 sampleRate, s32 bitsPerSample, s32 isStereo);
+s32 SND_Renew_4EEDD0(SoundEntry* pSnd);
+s32 SND_Get_Buffer_Status_4EE8F0(s32 idx);
+s32 SND_Stop_Sample_At_Idx_4EFA90(s32 idx);
+s32 SND_Buffer_Set_Volume_4EFAD0(s32 idx, s32 vol);
+SoundBuffer* SND_Get_Sound_Buffer_4EF970(s32 sampleIdx, s32 field10);
+s32 SND_Buffer_Set_Frequency_4EFC90(s32 idx, f32 hzChangeFreq);
+s32 SND_Buffer_Set_Frequency_4EFC00(s32 idx, f32 freq);
+s32 SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, u32 sampleOffset, u8* pSoundBuffer, u32 sampleCount);
+u32* SND_4F00B0(u32* /*a1*/, u32 /*a2*/, s32 /*a3*/);
 
 struct MIDI_Channel;
-EXPORT s32 CC SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority);
+s32 SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority);
 
 struct SoundApi final
 {
-    EXPORT SoundApi();
+    SoundApi();
     decltype(&SND_Get_Sound_Entry_Pos_4EF620) SND_Get_Sound_Entry_Pos;
     decltype(&SND_Clear_4EF350) SND_Clear;
     decltype(&SND_SsQuit_4EFD50) SND_SsQuit;
@@ -162,7 +162,7 @@ struct SoundApi final
     decltype(&SND_PlayEx_4EF740) SND_PlayEx;
 };
 
-EXPORT SoundApi& GetSoundAPI();
+SoundApi& GetSoundAPI();
 
 // Vars used only by other sound driver impls
 ALIVE_ARY_EXTERN(s32, 127, sVolumeTable_BBBD38);

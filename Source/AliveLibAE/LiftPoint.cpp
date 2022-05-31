@@ -260,7 +260,7 @@ static void LoadLiftResourceBans(const char_type* pRopeBanName, const char_type*
     }
 }
 
-s32 CC LiftPoint::CreateFromSaveState_4630F0(const u8* pData)
+s32 LiftPoint::CreateFromSaveState_4630F0(const u8* pData)
 {
     const LiftPoint_State* pState = reinterpret_cast<const LiftPoint_State*>(pData);
 
@@ -402,7 +402,7 @@ Bool32 LiftPoint::vMovingToFloorLevel_4619B0()
     return field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel);
 }
 
-EXPORT void LiftPoint::vMove_4626A0(FP xSpeed, FP ySpeed, s32 /*not_used*/)
+void LiftPoint::vMove_4626A0(FP xSpeed, FP ySpeed, s32 /*not_used*/)
 {
     field_C4_velx = xSpeed * field_CC_sprite_scale;
     field_C8_vely = ySpeed * field_CC_sprite_scale;
@@ -855,7 +855,7 @@ void LiftPoint::MoveObjectsOnLift_497600(FP xVelocity)
     }
 }
 
-void CCSTD LiftPoint::sub_461000(Path_TLV* pTlv)
+void LiftPoint::sub_461000(Path_TLV* pTlv)
 {
     pTlv->field_0_flags.Clear(eBit1_Created);
     pTlv->field_0_flags.Clear(eBit2_Destroyed);

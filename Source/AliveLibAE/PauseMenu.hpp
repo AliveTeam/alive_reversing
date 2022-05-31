@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Animation.hpp"
 #include "Game.hpp"
@@ -59,27 +59,27 @@ public:
     PauseMenu();
     ~PauseMenu();
 
-    EXPORT void Init_491760();
+    void Init_491760();
 
-    EXPORT void Update_48FD80();
-    EXPORT void Render_490BD0(PrimHeader** ot);
+    void Update_48FD80();
+    void Render_490BD0(PrimHeader** ot);
 
-    EXPORT void Remove_At_Credits_Screen_490D30();
+    void Remove_At_Credits_Screen_490D30();
 
-    EXPORT void Page_Main_Update_4903E0();
-    EXPORT void Page_Base_Render_490A50(PrimHeader** ot, PauseMenuPage* mp);
+    void Page_Main_Update_4903E0();
+    void Page_Base_Render_490A50(PrimHeader** ot, PauseMenuPage* mp);
 
-    EXPORT void Page_ControlsActions_Update_48FA60();
-    EXPORT void Page_ReallyQuit_Update_490930();
+    void Page_ControlsActions_Update_48FA60();
+    void Page_ReallyQuit_Update_490930();
 
-    EXPORT void Page_Save_Update_491210();
-    EXPORT void Page_Save_Render_491660(PrimHeader** ot, PauseMenuPage* pPage);
+    void Page_Save_Update_491210();
+    void Page_Save_Render_491660(PrimHeader** ot, PauseMenuPage* pPage);
 
-    EXPORT void Page_Status_Update_4916A0();
-    EXPORT void Page_Status_Render_491710(PrimHeader** ot, PauseMenuPage* pPage);
+    void Page_Status_Update_4916A0();
+    void Page_Status_Render_491710(PrimHeader** ot, PauseMenuPage* pPage);
 
-    EXPORT void Page_Load_Update_490D50();
-    EXPORT void Page_Load_Render_4910A0(PrimHeader** ot, PauseMenuPage* mp);
+    void Page_Load_Update_490D50();
+    void Page_Load_Render_4910A0(PrimHeader** ot, PauseMenuPage* mp);
 
     using t_PmPage_Update = decltype(&PauseMenu::Page_Main_Update_4903E0);
     using t_PmPage_Render = decltype(&PauseMenu::Page_Base_Render_490A50);

@@ -124,7 +124,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
     return vGetSaveState_446400(reinterpret_cast<Greeter_State*>(pSaveBuffer));
 }
 
-s32 CC Greeter::CreateFromSaveState_446040(const u8* pBuffer)
+s32 Greeter::CreateFromSaveState_446040(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Greeter_State*>(pBuffer);
     auto pTlv = static_cast<Path_Greeter*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_28_tlvInfo));
@@ -298,7 +298,7 @@ Greeter::~Greeter()
     }
 }
 
-EXPORT void Greeter::BlowUp_447E50()
+void Greeter::BlowUp_447E50()
 {
     field_10C_health = FP_FromInteger(0);
 
@@ -411,7 +411,7 @@ void Greeter::HandleRollingAlong_447860()
     }
 }
 
-EXPORT s16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
+s16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead) || FP_GetExponent(field_10C_health) == 0)
     {

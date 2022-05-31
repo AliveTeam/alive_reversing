@@ -24,7 +24,7 @@ ALIVE_VAR(1, 0x500A18, SaveData, gSaveBuffer_500A18, {});
 
 ALIVE_VAR(1, 0x505668, SaveData, gSaveBuffer_505668, {});
 
-EXPORT void Kill_Objects_451720()
+void Kill_Objects_451720()
 {
     ResourceManager::LoadingLoop_41EAD0(0);
 
@@ -307,7 +307,7 @@ s16 SaveGame::GetPathId(s16 pathToFind, s16* outFoundPathRow)
     return path_id;
 }
 
-void CC SaveGame::SaveToMemory_459490(SaveData* pSaveData)
+void SaveGame::SaveToMemory_459490(SaveData* pSaveData)
 {
     Save_PSX_Header* pHeaderToUse = nullptr;
     if (bUseAltSaveHeader_5076B4)
@@ -450,7 +450,7 @@ s32 SaveGame::Hash(SaveData* sData)
     return counter;
 }
 
-s16 CC SaveGame::LoadFromFile_459D30(const char_type* name)
+s16 SaveGame::LoadFromFile_459D30(const char_type* name)
 {
     char_type buffer[40] = {};
 
@@ -486,7 +486,7 @@ s16 CC SaveGame::LoadFromFile_459D30(const char_type* name)
     }
 }
 
-Bool32 CC SaveGame::SaveToFile_45A110(const char_type* name)
+Bool32 SaveGame::SaveToFile_45A110(const char_type* name)
 {
     char_type buffer[40] = {};
 

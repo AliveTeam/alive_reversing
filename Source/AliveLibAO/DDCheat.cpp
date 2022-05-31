@@ -554,7 +554,7 @@ void DDCheat::Misc()
 
 s32 DDCheat::DebugFont_Printf(s32 idx, const char_type* formatStr, ...)
 {
-    AE_IMPLEMENTED();
+    // AE_IMPLEMENTED();
 
     va_list va;
     va_start(va, formatStr);

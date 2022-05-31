@@ -1,19 +1,13 @@
 #include "logger.hpp"
 #include "Function.hpp"
-#include "ExportHooker.hpp"
 #include "BaseGameObject.hpp"
 #include "Game.hpp"
 #include "../AliveLibAO/WinMain.hpp"
 #include "GameAutoPlayer.hpp"
 
-bool RunningAsInjectedDll()
-{
-    return true;
-}
-
 extern "C"
 {
-    EXPORT void CC ForceThisDllToLoadInAbeWinExe()
+    void ForceThisDllToLoadInAbeWinExe()
     {
         // Never called because:
         // The patched Exoddus.exe loads this Dll and its WinMain calls this function but:
@@ -46,11 +40,6 @@ static void AODllProcessAttach(HINSTANCE hinstDLL)
     RedirectIoStream(true);
 
     LOG_INFO("DLL_PROCESS_ATTACH");
-
-    LOG_INFO("Applying detours...");
-    ExportHooker hooker(hinstDLL);
-    hooker.Apply(false); // Change to true to update decompiled_functions.txt
-    LOG_INFO("Detours done");
 }
 
 BOOL WINAPI DllMain(

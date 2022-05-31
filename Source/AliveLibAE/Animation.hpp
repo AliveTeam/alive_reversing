@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AnimationBase.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "DynamicArray.hpp"
 #include "Psx.hpp"
 #include "BaseGameObject.hpp"
@@ -114,20 +114,20 @@ struct FrameHeader final
 class Animation final : public AnimationBase
 {
 public:
-    EXPORT s16 Set_Animation_Data_409C80(s32 frameTableOffset, u8** pAnimRes);
-    EXPORT void Animation_Pal_Free_40C4C0();
+    s16 Set_Animation_Data_409C80(s32 frameTableOffset, u8** pAnimRes);
+    void Animation_Pal_Free_40C4C0();
 
     bool EnsureDecompressionBuffer();
     void DecompressFrame();
 
-    EXPORT virtual void vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
-    EXPORT virtual void vCleanUp_40C630() override;
+    virtual void vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
+    virtual void vCleanUp_40C630() override;
 
-    EXPORT void vDecode2_40B200();
-    EXPORT virtual void vDecode_40AC90() override;
+    void vDecode2_40B200();
+    virtual void vDecode_40AC90() override;
     bool DecodeCommon();
 
-    EXPORT void Invoke_CallBacks_40B7A0();
+    void Invoke_CallBacks_40B7A0();
 
     void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted);
 
@@ -150,15 +150,15 @@ public:
     BaseGameObject* field_94_pGameObj;
 
 public:
-    EXPORT void SetFrame_409D50(s16 newFrame);
-    EXPORT FrameInfoHeader* Get_FrameHeader_40B730(s16 frame);
-    EXPORT void Get_Frame_Rect_409E10(PSX_RECT* pRect);
-    EXPORT u16 Get_Frame_Count_40AC70();
-    EXPORT s16 Init_40A030(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData, s32 pal_depth, s8 unknown3);
-    EXPORT void Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY);
-    EXPORT void Get_Frame_Width_Height_40C400(s16* pWidth, s16* pHeight);
+    void SetFrame_409D50(s16 newFrame);
+    FrameInfoHeader* Get_FrameHeader_40B730(s16 frame);
+    void Get_Frame_Rect_409E10(PSX_RECT* pRect);
+    u16 Get_Frame_Count_40AC70();
+    s16 Init_40A030(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData, s32 pal_depth, s8 unknown3);
+    void Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY);
+    void Get_Frame_Width_Height_40C400(s16* pWidth, s16* pHeight);
 
-    EXPORT void Load_Pal_40A530(u8** pAnimData, s32 palOffset);
+    void Load_Pal_40A530(u8** pAnimData, s32 palOffset);
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 

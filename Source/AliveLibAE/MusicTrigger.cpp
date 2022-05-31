@@ -26,7 +26,7 @@ MusicTrigger::MusicTrigger(MusicTriggerMusicType musicType, TriggeredBy triggere
     field_20_tlvInfo = -1;
 }
 
-EXPORT void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 musicDelay)
+void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 musicDelay)
 {
     field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
     field_24_flags.Clear(Flags_24::e24_Bit2_TriggeredByTimer);
@@ -87,7 +87,7 @@ MusicTrigger::~MusicTrigger()
     }
 }
 
-EXPORT void MusicTrigger::vScreenChange_4802A0()
+void MusicTrigger::vScreenChange_4802A0()
 {
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
@@ -95,7 +95,7 @@ EXPORT void MusicTrigger::vScreenChange_4802A0()
     }
 }
 
-EXPORT void MusicTrigger::vUpdate_480140()
+void MusicTrigger::vUpdate_480140()
 {
     if (Event_Get_422C00(kEventHeroDying))
     {

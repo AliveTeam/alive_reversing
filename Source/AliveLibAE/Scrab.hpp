@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
@@ -222,127 +222,127 @@ public:
         vOnTrapDoorOpen_4A7ED0();
     }
 
-    EXPORT static s32 CC CreateFromSaveState_4A70A0(const u8* pBuffer);
+    static s32 CreateFromSaveState_4A70A0(const u8* pBuffer);
 
 private:
-    EXPORT s32 vGetSaveState_4AB020(Scrab_State* pState);
+    s32 vGetSaveState_4AB020(Scrab_State* pState);
 
-    EXPORT void vOnTrapDoorOpen_4A7ED0();
+    void vOnTrapDoorOpen_4A7ED0();
 
-    EXPORT void vUpdateAnim_4A34F0();
-    EXPORT s16 OnFloor_4A41E0();
+    void vUpdateAnim_4A34F0();
+    s16 OnFloor_4A41E0();
 
-    EXPORT void vUpdate_4A3530();
+    void vUpdate_4A3530();
 
-    EXPORT void Update_Slurg_Step_Watch_Points_4A5780();
+    void Update_Slurg_Step_Watch_Points_4A5780();
 
 public:
-    EXPORT s16 Brain_0_Patrol_4AA630();
+    s16 Brain_0_Patrol_4AA630();
 
     s16 Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj);
 
-    EXPORT s16 Brain_1_ChasingEnemy_4A6470();
-    EXPORT s16 Brain_2_Fighting_4A5840();
-    EXPORT s16 Brain_3_Death_4A62B0();
-    EXPORT s16 Brain_4_ShrinkDeath_4A6420();
-    EXPORT s16 Brain_5_Possessed_4A6180();
+    s16 Brain_1_ChasingEnemy_4A6470();
+    s16 Brain_2_Fighting_4A5840();
+    s16 Brain_3_Death_4A62B0();
+    s16 Brain_4_ShrinkDeath_4A6420();
+    s16 Brain_5_Possessed_4A6180();
 
     void SetBrain(TScrabBrainFn fn);
     bool BrainIs(TScrabBrainFn fn);
 
 public:
-    EXPORT void M_Stand_0_4A8220();
-    EXPORT void M_Walk_1_4A84D0();
-    EXPORT void M_Run_2_4A89C0();
-    EXPORT void M_Turn_3_4A91A0();
-    EXPORT void M_RunToStand_4_4A90C0();
-    EXPORT void M_HopBegin_5_4A96C0();
-    EXPORT void M_HopMidair_6_4A9490();
-    EXPORT void M_HopLand_7_4A9890();
-    EXPORT void M_JumpToFall_8_4A9220();
-    EXPORT void M_StandToWalk_9_4A8450();
-    EXPORT void M_StandToRun_10_4A8900();
-    EXPORT void M_WalkToStand_11_4A8880();
-    EXPORT void M_RunJumpBegin_12_4A99C0();
-    EXPORT void M_RunJumpEnd_13_4A9BE0();
-    EXPORT void M_WalkToFall_14_4A9460();
-    EXPORT void M_RunToFall_15_4A9430();
-    EXPORT void M_WalkToRun_16_4A8D60();
-    EXPORT void M_RunToWalk_17_4A8D90();
-    EXPORT void M_Knockback_18_4AA490();
-    EXPORT void M_GetEaten_19_4AA3E0();
-    EXPORT void M_Fall_20_4A93E0();
-    EXPORT void M_Stamp_21_4A9CC0();
-    EXPORT void M_GetPossessed_22_4AA420();
-    EXPORT void M_Empty_23_4A9D80();
-    EXPORT void M_DeathEnd_24_4AA140();
-    EXPORT void M_Empty_25_4A34D0();
-    EXPORT void M_HowlBegin_26_4A9DA0();
-    EXPORT void M_HowlEnd_27_4A9E60();
-    EXPORT void M_GetDepossessedBegin_28_4AA200();
-    EXPORT void M_GetDepossessedEnd_29_4AA3C0();
-    EXPORT void M_Shriek_30_4A9EA0();
-    EXPORT void M_ScrabBattleAnim_31_4A9F30();
-    EXPORT void M_AttackSpin_32_4A8DC0();
-    EXPORT void M_FeedToGulp_33_4A9FA0();
-    EXPORT void M_GulpToStand_34_4A9FF0();
-    EXPORT void M_StandToFeed_35_4AA010();
-    EXPORT void M_Feed_36_4AA030();
-    EXPORT void M_AttackLunge_37_4AA0B0();
-    EXPORT void M_LegKick_38_4AA120();
-    EXPORT void M_DeathBegin_39_4AA190();
+    void M_Stand_0_4A8220();
+    void M_Walk_1_4A84D0();
+    void M_Run_2_4A89C0();
+    void M_Turn_3_4A91A0();
+    void M_RunToStand_4_4A90C0();
+    void M_HopBegin_5_4A96C0();
+    void M_HopMidair_6_4A9490();
+    void M_HopLand_7_4A9890();
+    void M_JumpToFall_8_4A9220();
+    void M_StandToWalk_9_4A8450();
+    void M_StandToRun_10_4A8900();
+    void M_WalkToStand_11_4A8880();
+    void M_RunJumpBegin_12_4A99C0();
+    void M_RunJumpEnd_13_4A9BE0();
+    void M_WalkToFall_14_4A9460();
+    void M_RunToFall_15_4A9430();
+    void M_WalkToRun_16_4A8D60();
+    void M_RunToWalk_17_4A8D90();
+    void M_Knockback_18_4AA490();
+    void M_GetEaten_19_4AA3E0();
+    void M_Fall_20_4A93E0();
+    void M_Stamp_21_4A9CC0();
+    void M_GetPossessed_22_4AA420();
+    void M_Empty_23_4A9D80();
+    void M_DeathEnd_24_4AA140();
+    void M_Empty_25_4A34D0();
+    void M_HowlBegin_26_4A9DA0();
+    void M_HowlEnd_27_4A9E60();
+    void M_GetDepossessedBegin_28_4AA200();
+    void M_GetDepossessedEnd_29_4AA3C0();
+    void M_Shriek_30_4A9EA0();
+    void M_ScrabBattleAnim_31_4A9F30();
+    void M_AttackSpin_32_4A8DC0();
+    void M_FeedToGulp_33_4A9FA0();
+    void M_GulpToStand_34_4A9FF0();
+    void M_StandToFeed_35_4AA010();
+    void M_Feed_36_4AA030();
+    void M_AttackLunge_37_4AA0B0();
+    void M_LegKick_38_4AA120();
+    void M_DeathBegin_39_4AA190();
 
 
 private:
-    EXPORT s16 vOnSameYLevel_4A5400(BaseAnimatedWithPhysicsGameObject* pOther);
+    s16 vOnSameYLevel_4A5400(BaseAnimatedWithPhysicsGameObject* pOther);
 
-    EXPORT void ToPatrol_4AA600();
+    void ToPatrol_4AA600();
 
-    EXPORT void ToStand_4A75A0();
+    void ToStand_4A75A0();
 
-    EXPORT void MoveOnLine_4A7D20();
+    void MoveOnLine_4A7D20();
 
-    EXPORT void PlatformCollide_4A7E50();
+    void PlatformCollide_4A7E50();
 
-    EXPORT BaseAliveGameObject* Find_Fleech_4A4C90();
+    BaseAliveGameObject* Find_Fleech_4A4C90();
 
-    EXPORT void vPossesed_4A5620();
+    void vPossesed_4A5620();
 
-    EXPORT u8** ResBlockForMotion_4A43E0(s16 motion);
+    u8** ResBlockForMotion_4A43E0(s16 motion);
 
-    EXPORT void vScreenChanged_4A5560();
+    void vScreenChanged_4A5560();
 
-    EXPORT void vRender_4A45B0(PrimHeader** ppOt);
+    void vRender_4A45B0(PrimHeader** ppOt);
 
-    EXPORT void TryMoveOrStand_4A7570();
+    void TryMoveOrStand_4A7570();
 
-    EXPORT s16 ToNextMotion_4A7920();
+    s16 ToNextMotion_4A7920();
 
-    EXPORT s16 PlayerControlled_4A76A0();
+    s16 PlayerControlled_4A76A0();
 
-    EXPORT void ToJump_4A75E0();
+    void ToJump_4A75E0();
 
-    EXPORT s16 vTakeDamage_4A45E0(BaseGameObject* pFrom);
+    s16 vTakeDamage_4A45E0(BaseGameObject* pFrom);
 
-    EXPORT void vOn_TLV_Collision_4A4B80(Path_TLV* pTlv);
+    void vOn_TLV_Collision_4A4B80(Path_TLV* pTlv);
 
-    EXPORT void KnockBack_4AA530();
+    void KnockBack_4AA530();
 
-    EXPORT s32 Scrab_SFX_4AADB0(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
+    s32 Scrab_SFX_4AADB0(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
 
-    EXPORT void KillTarget_4A7F20(BaseAliveGameObject* pTarget);
+    void KillTarget_4A7F20(BaseAliveGameObject* pTarget);
 
-    EXPORT s16 FindAbeOrMud_4A4FD0();
+    s16 FindAbeOrMud_4A4FD0();
 
-    EXPORT s16 CanSeeAbe_4A51A0(BaseAliveGameObject* pObj);
+    s16 CanSeeAbe_4A51A0(BaseAliveGameObject* pObj);
 
-    EXPORT static Bool32 CCSTD LineOfSightTo_4A52D0(Scrab* pThis, BaseAliveGameObject* pObj);
+    static Bool32 LineOfSightTo_4A52D0(Scrab* pThis, BaseAliveGameObject* pObj);
 
-    EXPORT Scrab* FindScrabToFight_4A4E20();
+    Scrab* FindScrabToFight_4A4E20();
 
-    EXPORT s16 Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, s16 bCheckLeftRightBounds);
+    s16 Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, s16 bCheckLeftRightBounds);
 
-    EXPORT GameSpeakEvents LastSpeak_4A56F0();
+    GameSpeakEvents LastSpeak_4A56F0();
 
 private:
     TScrabBrainFn field_118_brain_state;

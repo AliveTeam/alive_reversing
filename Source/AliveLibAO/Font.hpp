@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "Psx.hpp"
 #include "Primitives.hpp"
@@ -34,14 +34,14 @@ ALIVE_ASSERT_SIZEOF(Font_AtlasEntry, 0x4);
 class FontContext
 {
 public:
-    EXPORT static void CC static_ctor_41C010();
+    static void static_ctor_41C010();
 
-    EXPORT static void CC static_dtor_41C020();
+    static void static_dtor_41C020();
 
-    EXPORT void LoadFontType(s16 resourceID);
+    void LoadFontType(s16 resourceID);
 
 
-    EXPORT void dtor_41C110();
+    void dtor_41C110();
 
 
     PSX_RECT field_0_rect;

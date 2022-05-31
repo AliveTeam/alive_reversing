@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Psx.hpp"
 #include "../AliveLibCommon/BitField.hpp"
 #include "FixedPoint.hpp"
@@ -238,19 +238,19 @@ enum class LoadMode : s16;
 class Path
 {
 public:
-    EXPORT void ctor_4DB170();
-    EXPORT void dtor_4DB1A0();
-    EXPORT void Free_4DB1C0();
-    EXPORT void Init_4DB200(const PathData* pPathData, LevelIds level, s16 path, s16 cameraId, u8** ppPathRes);
+    void ctor_4DB170();
+    void dtor_4DB1A0();
+    void Free_4DB1C0();
+    void Init_4DB200(const PathData* pPathData, LevelIds level, s16 path, s16 cameraId, u8** ppPathRes);
 
 
-    EXPORT void Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToLoad);
+    void Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToLoad);
 
-    EXPORT Path_TLV* Get_First_TLV_For_Offsetted_Camera_4DB610(s16 cam_x_idx, s16 cam_y_idx);
-    EXPORT static Path_TLV* CCSTD Next_TLV_4DB6A0(Path_TLV* pTlv);
+    Path_TLV* Get_First_TLV_For_Offsetted_Camera_4DB610(s16 cam_x_idx, s16 cam_y_idx);
+    static Path_TLV* Next_TLV_4DB6A0(Path_TLV* pTlv);
 
     // note: inline as used by the API
-    static Path_TLV* CCSTD Next_TLV(Path_TLV* pTlv)
+    static Path_TLV* Next_TLV(Path_TLV* pTlv)
     {
         if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
         {
@@ -263,18 +263,18 @@ public:
         return reinterpret_cast<Path_TLV*>(pNext);
     }
 
-    EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes objectType, s16 camX);
-    EXPORT Path_TLV* TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes objectType);
-    EXPORT Path_TLV* TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
-    EXPORT Path_TLV* TLV_From_Offset_Lvl_Cam_4DB770(u32 tlvOffset_levelId_PathId);
+    Path_TLV* TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes objectType, s16 camX);
+    Path_TLV* TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes objectType);
+    Path_TLV* TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
+    Path_TLV* TLV_From_Offset_Lvl_Cam_4DB770(u32 tlvOffset_levelId_PathId);
 
-    EXPORT u32 TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv);
+    u32 TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv);
 
-    EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type);
-    EXPORT static void CCSTD TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
-    EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
+    static Path_TLV* TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, TlvTypes type);
+    static void TLV_Reset_4DB8E0(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
+    static void Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
 
-    EXPORT static void CCSTD Reset_TLVs_4DBCF0(u16 pathId);
+    static void Reset_TLVs_4DBCF0(u16 pathId);
 
     LevelIds field_0_levelId;
     u16 field_2_pathId;
@@ -289,7 +289,7 @@ ALIVE_ASSERT_SIZEOF(Path, 0x14);
 
 enum class CameraPos : s16;
 
-EXPORT void CC Stop_slig_sounds_4CBA70(CameraPos direction, s8 kZero);
+void Stop_slig_sounds_4CBA70(CameraPos direction, s8 kZero);
 
 struct Path_Teleporter_Data
 {

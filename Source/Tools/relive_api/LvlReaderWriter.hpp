@@ -4,7 +4,7 @@
 
 #include "../../AliveLibAE/LvlArchive.hpp"
 
-#include "../../AliveLibCommon/FunctionFwd.hpp"
+#include "../../AliveLibCommon/Function.hpp"
 #include "relive_api_exceptions.hpp"
 #include "file_api.hpp"
 #include "RoundUp.hpp"

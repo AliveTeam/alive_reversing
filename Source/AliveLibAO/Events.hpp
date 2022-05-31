@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "FixedPoint.hpp"
 
 namespace AO {
@@ -31,14 +31,14 @@ enum Event : s16
     kEventScreenShake_19 = 19,
 };
 
-EXPORT BaseGameObject* CC Event_Get(s16 eventType);
+BaseGameObject* Event_Get(s16 eventType);
 
-EXPORT void CC Event_Broadcast(s32 eventType, BaseGameObject* pObject);
+void Event_Broadcast(s32 eventType, BaseGameObject* pObject);
 
-EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range(s16 eventType, FP xpos, FP ypos, FP scale);
+BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(s16 eventType, FP xpos, FP ypos, FP scale);
 
-EXPORT void CC Events_Reset_Active();
+void Events_Reset_Active();
 
-EXPORT void CC Event_Cancel_For_Obj(BaseGameObject* pObj);
+void Event_Cancel_For_Obj(BaseGameObject* pObj);
 
 } // namespace AO

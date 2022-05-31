@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 
@@ -20,7 +20,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_432F00();
+    void VScreenChanged_432F00();
 
     s32 field_10_tlvInfo;
 };

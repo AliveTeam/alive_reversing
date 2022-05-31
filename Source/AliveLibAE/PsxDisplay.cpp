@@ -16,7 +16,7 @@
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
 
-EXPORT void CC PSX_Calc_FrameSkip_4945D0()
+void PSX_Calc_FrameSkip_4945D0()
 {
     static u32 delta_time_ring_buffer_5CA310[10] = {};
     static u32 sPreviousTime_5CA4C8 = 0;
@@ -75,13 +75,13 @@ ALIVE_ASSERT_SIZEOF(DebugTexts, 0x80C);
 ALIVE_VAR(1, 0xBD0F28, s32, sFntCount_BD0F28, 0);
 ALIVE_ARY(1, 0xC27640, DebugTexts, 4, sTexts_C27640, {});
 
-EXPORT void CC DebugFont_Reset_4F8B40()
+void DebugFont_Reset_4F8B40()
 {
     memset(sTexts_C27640, 0, sizeof(DebugTexts) * 4); // 8240u
     sFntCount_BD0F28 = 0;
 }
 
-EXPORT void CC DebugFont_Update_Text_4F8BE0(s32 idx)
+void DebugFont_Update_Text_4F8BE0(s32 idx)
 {
     if (idx >= 0 && idx <= 3)
     {
@@ -95,7 +95,7 @@ ALIVE_VAR(1, 0xBB4A24, s16, sbDebugFontLoaded_BB4A24, 0);
 ALIVE_VAR(1, 0xBB47C8, s32, sDebugTextIdx_BB47C8, 0);
 
 
-EXPORT s32 CC DebugFont_Open_4F8AB0(u8 xMargin, u8 yMargin, u8 displayWidth, u8 displayHeight, u8 bgColour, u32 maxLenChars)
+s32 DebugFont_Open_4F8AB0(u8 xMargin, u8 yMargin, u8 displayWidth, u8 displayHeight, u8 bgColour, u32 maxLenChars)
 {
     const s32 idx = sFntCount_BD0F28;
     if (sFntCount_BD0F28 == 4)
@@ -122,7 +122,7 @@ EXPORT s32 CC DebugFont_Open_4F8AB0(u8 xMargin, u8 yMargin, u8 displayWidth, u8 
     return idx;
 }
 
-EXPORT s32 CC DebugFont_Init_4DCF40() // Font
+s32 DebugFont_Init_4DCF40() // Font
 {
     if (!sbDebugFontLoaded_BB4A24)
     {
@@ -138,7 +138,7 @@ EXPORT s32 CC DebugFont_Init_4DCF40() // Font
 }
 
 
-EXPORT s32 CC DebugFont_Printf_4F8B60(s32 idx, const char_type* formatStr, ...)
+s32 DebugFont_Printf_4F8B60(s32 idx, const char_type* formatStr, ...)
 {
     va_list va;
     va_start(va, formatStr);
@@ -153,7 +153,7 @@ EXPORT s32 CC DebugFont_Printf_4F8B60(s32 idx, const char_type* formatStr, ...)
     return static_cast<s32>(strlen(sTexts_C27640[idx].field_9_text.field_0_src_txt));
 }
 
-EXPORT void CC DebugFont_Flush_4DD050()
+void DebugFont_Flush_4DD050()
 {
     DebugFont_Printf_4F8B60(sDebugTextIdx_BB47C8, sDebugFontTmpBuffer_BB47CC);
     DebugFont_Update_Text_4F8BE0(sDebugTextIdx_BB47C8);

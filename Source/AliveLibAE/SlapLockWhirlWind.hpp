@@ -17,11 +17,11 @@ public:
     
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    static EXPORT s32 CC CreateFromSaveState_43DC20(const u8* pBuffer);
+    static s32 CreateFromSaveState_43DC20(const u8* pBuffer);
 
 private:
-    EXPORT s32 vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState);
-    EXPORT void vUpdate_43DA90();
+    s32 vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState);
+    void vUpdate_43DA90();
 
 public:
     s16 SwitchId() const;

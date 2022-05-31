@@ -2,7 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct FallingItem_Data final
 {
@@ -43,11 +43,11 @@ public:
     }
 
 private:
-    EXPORT void vScreenChanged_428180();
+    void vScreenChanged_428180();
 
-    EXPORT void vUpdate_427780();
+    void vUpdate_427780();
 
-    EXPORT void DamageHitItems_427F40();
+    void DamageHitItems_427F40();
 
 private:
     s32 field_118_tlvInfo;

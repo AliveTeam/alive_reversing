@@ -2,7 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 enum class SwitchOp : s16;
 
@@ -47,11 +47,11 @@ public:
     virtual void VMarkAsPulled_49B610();
 
 private:
-    EXPORT void vUpdate_49B720();
-    EXPORT void vScreenChanged_49BCB0();
-    EXPORT s16 vPull_49BBD0(BaseGameObject* a2);
-    EXPORT Bool32 vIsNotBeingPulled_49BC90();
-    EXPORT void vMarkAsPulled_49B610();
+    void vUpdate_49B720();
+    void vScreenChanged_49BCB0();
+    s16 vPull_49BBD0(BaseGameObject* a2);
+    Bool32 vIsNotBeingPulled_49BC90();
+    void vMarkAsPulled_49B610();
 
 private:
     s32 field_F4_stay_in_state_ticks;

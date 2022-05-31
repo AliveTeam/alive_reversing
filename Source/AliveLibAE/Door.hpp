@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
@@ -58,12 +58,12 @@ public:
     Door(Path_Door* pTlvData, s32 tlvInfo);
     ~Door();
 
-    EXPORT Bool32 vIsOpen_41EB00();
-    EXPORT void vOpen_41EB20();
-    EXPORT void vClose_41EB50();
-    EXPORT void vSetOpen_41EBA0();
-    EXPORT void vSetClosed_41EBC0();
-    EXPORT void PlaySound_41EA90();
+    Bool32 vIsOpen_41EB00();
+    void vOpen_41EB20();
+    void vClose_41EB50();
+    void vSetOpen_41EBA0();
+    void vSetClosed_41EBC0();
+    void PlaySound_41EA90();
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;

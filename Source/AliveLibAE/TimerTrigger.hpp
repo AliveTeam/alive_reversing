@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct Path_TimerTrigger final : public Path_TLV
 {
@@ -43,13 +43,13 @@ public:
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_4CDF70(const u8* pData);
+    static s32 CreateFromSaveState_4CDF70(const u8* pData);
 
 private:
-    EXPORT void vUpdate_4CDDB0();
-    EXPORT void ToggleAllIds_4CDEC0();
-    EXPORT void vScreenChanged_4CDF00();
-    EXPORT s32 vGetSaveState_4CE030(TimerTrigger_State* pState);
+    void vUpdate_4CDDB0();
+    void ToggleAllIds_4CDEC0();
+    void vScreenChanged_4CDF00();
+    s32 vGetSaveState_4CE030(TimerTrigger_State* pState);
 
 private:
     s16 field_20_input_switch_id;

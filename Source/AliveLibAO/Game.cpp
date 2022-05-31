@@ -42,19 +42,19 @@ namespace AO {
 
 // TODO: Move these few funcs to correct location
 #ifdef _WIN32
-EXPORT s32 CC Add_Dirty_Area_48D910(s32, s32, s32, s32)
+s32 Add_Dirty_Area_48D910(s32, s32, s32, s32)
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
-EXPORT s32 MessageBox_48E3F0(const char_type* /*pTitle*/, s32 /*lineNumber*/, const char_type* /*pMsg*/, ...)
+s32 MessageBox_48E3F0(const char_type* /*pTitle*/, s32 /*lineNumber*/, const char_type* /*pMsg*/, ...)
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
-EXPORT s32 CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+s32 Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
 
@@ -151,9 +151,9 @@ EXPORT s32 CC Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam
 }
 using TFilter = AddPointer_t<s32 CC(HWND, UINT, WPARAM, LPARAM)>;
 
-EXPORT void CC Sys_SetWindowProc_Filter_48E950(TFilter)
+void Sys_SetWindowProc_Filter_48E950(TFilter)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 #endif
@@ -190,7 +190,7 @@ ALIVE_ARY(1, 0x4CECC8, s8, 3, gDriveLetter_4CECC8, {'D', ':', '0'});
 
 
 
-EXPORT s32 CC Game_End_Frame_4505D0(u32 bSkip)
+s32 Game_End_Frame_4505D0(u32 bSkip)
 {
     return Game_End_Frame_4950F0(bSkip);
 }
@@ -285,7 +285,7 @@ static void Main_ParseCommandLineArguments()
     //Main_Set_HWND_499900(Sys_GetWindowHandle_48E930()); // Note: Set global is never read
 }
 
-EXPORT void CC Init_GameStates_41CEC0()
+void Init_GameStates_41CEC0()
 {
     sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
     sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
@@ -296,7 +296,7 @@ EXPORT void CC Init_GameStates_41CEC0()
 }
 
 
-EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
+void Init_Sound_DynamicArrays_And_Others_41CD20()
 {
     DebugFont_Init_487EC0();
 
@@ -343,7 +343,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
     SwitchStates_ClearAll();
 }
 
-EXPORT void CC Game_Init_LoadingIcon_445E30()
+void Game_Init_LoadingIcon_445E30()
 {
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 1, 0);
     if (!ppRes)
@@ -354,7 +354,7 @@ EXPORT void CC Game_Init_LoadingIcon_445E30()
     ResourceManager::Set_Header_Flags_4557D0(ppRes, ResourceManager::ResourceHeaderFlags::eNeverFree);
 }
 
-EXPORT void CC Game_Free_LoadingIcon_445E80()
+void Game_Free_LoadingIcon_445E80()
 {
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 0, 0);
     if (ppRes)
@@ -368,24 +368,24 @@ using TExitGameCB = AddPointer_t<void CC()>;
 
 ALIVE_VAR(1, 0x9F664C, TExitGameCB, sGame_OnExitCallback_9F664C, nullptr);
 
-EXPORT void CC Game_SetExitCallBack_48E040(TExitGameCB)
+void Game_SetExitCallBack_48E040(TExitGameCB)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Game_ExitGame_450730()
+void Game_ExitGame_450730()
 {
     PSX_EMU_VideoDeAlloc_49A550();
 }
 
 
-EXPORT s32 CC CreateTimer_48F030(s32, void*)
+s32 CreateTimer_48F030(s32, void*)
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
-EXPORT void CC Game_Shutdown_48E050()
+void Game_Shutdown_48E050()
 {
     if (sGame_OnExitCallback_9F664C)
     {
@@ -403,7 +403,7 @@ EXPORT void CC Game_Shutdown_48E050()
 }
 
 
-EXPORT void CC Game_Loop_437630()
+void Game_Loop_437630()
 {
     sBreakGameLoop_507B78 = 0;
 
@@ -515,12 +515,12 @@ EXPORT void CC Game_Loop_437630()
     }
 }
 
-EXPORT void CC DDCheat_Allocate_409560()
+void DDCheat_Allocate_409560()
 {
     ao_new<DDCheat>();
 }
 
-EXPORT void Game_Run_4373D0()
+void Game_Run_4373D0()
 {
     SYS_EventsPump_44FF90();
 
@@ -605,7 +605,7 @@ EXPORT void Game_Run_4373D0()
 }
 
 
-EXPORT void Game_Main_450050()
+void Game_Main_450050()
 {
     BaseAliveGameObject_ForceLink();
 

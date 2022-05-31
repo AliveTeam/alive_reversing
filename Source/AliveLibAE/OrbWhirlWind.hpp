@@ -17,8 +17,8 @@ public:
     OrbWhirlWind(FP xpos, FP ypos, FP scale, bool bIsMudokonSpirit);
     ~OrbWhirlWind();
 
-    EXPORT void ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
-    EXPORT void ToStop_4E4050();
+    void ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
+    void ToStop_4E4050();
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;

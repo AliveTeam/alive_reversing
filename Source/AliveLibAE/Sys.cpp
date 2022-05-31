@@ -36,30 +36,30 @@ static int totalConnectedJoysticks = 0;
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
 static bool saveMenuOpen = false;
 
-EXPORT void setSaveMenuOpen(bool val)
+void setSaveMenuOpen(bool val)
 {
     saveMenuOpen = val;
 }
 #endif
 
-EXPORT void CC Sys_Set_Hwnd_4F2C50(TWindowHandleType hwnd)
+void Sys_Set_Hwnd_4F2C50(TWindowHandleType hwnd)
 {
     hWnd_BBFB04 = hwnd;
     // Note: Not setting byte BBE6F8
 }
 
-EXPORT TWindowHandleType CC Sys_GetHWnd_4F2C70()
+TWindowHandleType Sys_GetHWnd_4F2C70()
 {
     return hWnd_BBFB04;
 }
 
-EXPORT Bool32 CC Sys_IsAnyKeyDown_4EDDF0()
+Bool32 Sys_IsAnyKeyDown_4EDDF0()
 {
     return sIsAKeyDown_BD309C;
 }
 
 #if _WIN32
-EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     switch (msg)
@@ -232,7 +232,7 @@ void AE_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd)
 }
 
 #if _WIN32
-EXPORT void CC Sys_SetWindowProc_Filter_4EE197(TWindowProcFilter pFilter)
+void Sys_SetWindowProc_Filter_4EE197(TWindowProcFilter pFilter)
 {
     sWindowProcFilter_BBB9F8 = pFilter;
 }
@@ -242,7 +242,7 @@ ALIVE_VAR(1, 0x5CA230, SoundEntry*, sMovieSoundEntry_5CA230, nullptr);
 
 #if _WIN32
     #if !USE_SDL2
-EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
 
@@ -1015,12 +1015,12 @@ static s32 Sys_EventFilter(void* /*userData*/, SDL_Event* event)
 }
 #endif
 
-EXPORT Bool32 CC Sys_IsAppActive_4EDF30()
+Bool32 Sys_IsAppActive_4EDF30()
 {
     return sAppIsActivated_BBBA00;
 }
 
-EXPORT s8 CC Sys_PumpMessages_4EE4F4()
+s8 Sys_PumpMessages_4EE4F4()
 {
 #if USE_SDL2
     SDL_Event event;
@@ -1087,17 +1087,17 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
 #endif
 }
 
-EXPORT TWindowHandleType CC Sys_GetWindowHandle_4EE180()
+TWindowHandleType Sys_GetWindowHandle_4EE180()
 {
     return sHwnd_BBB9F4;
 }
 
-EXPORT LPSTR CC Sys_GetCommandLine_4EE176()
+LPSTR Sys_GetCommandLine_4EE176()
 {
     return sCommandLine_BBB9E8;
 }
 
-EXPORT void CC Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
+void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
 {
 #if USE_SDL2
     SDL_SetWindowSize(Sys_GetWindowHandle_4EE180(), width, height);
@@ -1114,7 +1114,7 @@ EXPORT void CC Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
 }
 
 #if USE_SDL2
-static s32 CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
+static s32 Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
     s32 sdlWindowAttributes = 0;
 
@@ -1150,7 +1150,7 @@ static s32 CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWind
     return 0;
 }
 #else
-static s32 CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
+static s32 Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
     WNDCLASSA windowClass = {};
     windowClass.style = CS_VREDRAW | CS_HREDRAW;
@@ -1158,14 +1158,7 @@ static s32 CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindow
     windowClass.cbClsExtra = 0;
     windowClass.cbWndExtra = 0;
     windowClass.hInstance = sInstance_BBB9EC;
-    if (RunningAsInjectedDll())
-    {
-        windowClass.hIcon = ::LoadIconA(sInstance_BBB9EC, IDI_APPLICATION);
-    }
-    else
-    {
-        windowClass.hIcon = ::LoadIconA(sInstance_BBB9EC, MAKEINTRESOURCE(IDI_MAIN_ICON));
-    }
+    windowClass.hIcon = ::LoadIconA(sInstance_BBB9EC, MAKEINTRESOURCE(IDI_MAIN_ICON));
     windowClass.hCursor = ::LoadCursorA(sInstance_BBB9EC, IDC_WAIT);
     windowClass.hbrBackground = nullptr;
     windowClass.lpszMenuName = lpClassName;
@@ -1214,7 +1207,7 @@ static s32 CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindow
 }
 #endif
 
-EXPORT s32 CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
+s32 Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
 #if USE_SDL2
     return Sys_WindowClass_Register_SDL(lpClassName, lpWindowName, x, y, nWidth, nHeight);

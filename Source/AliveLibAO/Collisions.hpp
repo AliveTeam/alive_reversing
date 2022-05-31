@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Psx.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "FixedPoint.hpp"
 
 namespace AO {
@@ -44,7 +44,7 @@ struct CollisionInfo;
 class Collisions final
 {
 public:
-    static void CC Factory(const CollisionInfo* pCollisionInfo, const u8* pPathData);
+    static void Factory(const CollisionInfo* pCollisionInfo, const u8* pPathData);
 
     void dtor_40CFB0();
 

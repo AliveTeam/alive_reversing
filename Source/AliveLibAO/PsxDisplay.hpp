@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Psx_common.hpp"
 #include "FixedPoint.hpp"
 
@@ -55,13 +55,13 @@ ALIVE_ASSERT_SIZEOF(PSX_Display_Buffer, 0x470);
 class PsxDisplay final
 {
 public:
-    EXPORT PsxDisplay* ctor_40DAB0(const PSX_Display_Params* pParams);
+    PsxDisplay* ctor_40DAB0(const PSX_Display_Params* pParams);
 
-    EXPORT void PSX_Display_Render_OT_40DD20();
+    void PSX_Display_Render_OT_40DD20();
 
-    EXPORT void PutCurrentDispEnv_40DE40();
+    void PutCurrentDispEnv_40DE40();
 
-    EXPORT void Movie_Render_40DE60(u16 bufferIdx);
+    void Movie_Render_40DE60(u16 bufferIdx);
 
     u16 field_0_width;
     u16 field_2_height;
@@ -76,9 +76,9 @@ ALIVE_ASSERT_SIZEOF(PsxDisplay, 0x8EC);
 ALIVE_VAR_EXTERN(PSX_Display_Params, gPsxDisplayParams_4BB830);
 ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay_504C78);
 
-EXPORT s32 CC DebugFont_Init_487EC0();
+s32 DebugFont_Init_487EC0();
 
-EXPORT void CC DebugFont_Flush_487F50();
+void DebugFont_Flush_487F50();
 
 
 } // namespace AO

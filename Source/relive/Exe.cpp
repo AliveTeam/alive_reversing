@@ -4,7 +4,6 @@
 
 #if _WIN32
     #include <windows.h>
-    #include "ExportHooker.hpp"
 #endif
 
 #include "../AliveLibAE/WinMain.hpp"
@@ -75,48 +74,48 @@ extern "C"
 
 // Auto splitter looks for this guid, if it exists then it assumes its the 64bit relive
 #ifdef _WIN64
-    EXPORT constexpr GuidStr k64BitGuid = {"{069DDB51-609D-49AB-B69D-5CC6D13E73EE}"};
+    constexpr GuidStr k64BitGuid = {"{069DDB51-609D-49AB-B69D-5CC6D13E73EE}"};
 
     // If not exported the var will get optimized away
-    EXPORT const void* Get64BitInfo()
+    const void* Get64BitInfo()
     {
         return &k64BitGuid;
     }
 #endif
 
 #ifdef _WIN32
-    EXPORT constexpr AEGameInfo kAeInfo = {
+    constexpr AEGameInfo kAeInfo = {
         "{DBC2AE1C-A5DE-465F-A89A-C385BE1DEFCC}",
         // 2 byte padding (32bit)
         &gameType,
-        &LocalVar_gMap.mCurrentLevel,
-        &LocalVar_gMap.mCurrentPath,
-        &LocalVar_gMap.field_4_current_camera,
-        &LocalVar_gMap.field_12_fmv_base_id,
-        &LocalVar_sGnFrame_5C1B84,
-        &LocalVar_spAbe_554D5C,
+        &gMap.mCurrentLevel,
+        &gMap.mCurrentPath,
+        &gMap.field_4_current_camera,
+        &gMap.field_12_fmv_base_id,
+        &sGnFrame_5C1B84,
+        &spAbe_554D5C,
         offsetof(Abe, field_BC_ypos),
-        &LocalVar_sDisableFontFlicker_5C9304};
+        & sDisableFontFlicker_5C9304};
 
-    EXPORT const void* GetAeInfo()
+    const void* GetAeInfo()
     {
         return &kAeInfo;
     }
 
-    EXPORT constexpr AOGameInfo kAoInfo = {
+    constexpr AOGameInfo kAoInfo = {
         "{1D2E2B5A-19EE-4776-A0EE-98F49F781370}",
         // 2 byte padding (32bit)
         &gameType,
-        &AO::LocalVar_gMap.mCurrentLevel,
-        &AO::LocalVar_gMap.mCurrentPath,
-        &AO::LocalVar_gMap.field_4_current_camera,
-        &AO::LocalVar_gnFrameCount_507670,
-        &AO::LocalVar_sActiveHero_507678,
+        &AO::gMap.mCurrentLevel,
+        &AO::gMap.mCurrentPath,
+        &AO::gMap.field_4_current_camera,
+        &AO::gnFrameCount_507670,
+        &AO::sActiveHero_507678,
         offsetof(AO::Abe, field_AC_ypos) + sizeof(s16), // +2 for exp only
-        &AO::LocalVar_sDisableFontFlicker_5080E4,
-        &AO::LocalVar_sSwitchStates_505568.mData[70]};
+        &AO::sDisableFontFlicker_5080E4,
+        &AO::sSwitchStates_505568.mData[70]};
 
-    EXPORT const void* GetAoInfo()
+    const void* GetAoInfo()
     {
         return &kAoInfo;
     }
@@ -246,8 +245,6 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     ::SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
     RedirectIoStream(true);
 
-    ExportHooker hooker(hInstance);
-    hooker.Apply();
 #endif
     LOG_INFO("Relive: " << BuildAndBitnesString());
 
@@ -303,11 +300,6 @@ s32 main(s32 argc, char_type** argv)
         args += argv[i] + std::string(" ");
     }
     return WinMain(0, 0, const_cast<LPSTR>(args.c_str()), 1);
-}
-
-bool RunningAsInjectedDll()
-{
-    return false;
 }
 
 #ifdef __APPLE__

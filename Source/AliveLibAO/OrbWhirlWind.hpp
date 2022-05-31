@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
@@ -24,15 +24,15 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_48B990();
+    void VUpdate_48B990();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_48BA90(PrimHeader** ppOt);
+    void VRender_48BA90(PrimHeader** ppOt);
 
-    EXPORT void ToSpin_48BAD0(FP xpos, FP ypos, BaseAliveGameObject* pObj);
+    void ToSpin_48BAD0(FP xpos, FP ypos, BaseAliveGameObject* pObj);
 
-    EXPORT void ToStop_48BBB0();
+    void ToStop_48BBB0();
 
     s32 field_10_particle_spawn_counter;
     ParticlesState field_14_particles_state;

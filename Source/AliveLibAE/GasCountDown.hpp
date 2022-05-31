@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 #include "BaseGameObject.hpp"
 #include "Font.hpp"
@@ -25,11 +25,11 @@ public:
     virtual void VUpdate() override;
 
 private:
-    EXPORT void vScreenChanged_417700();
+    void vScreenChanged_417700();
 
-    EXPORT void vRender_4175A0(PrimHeader** pOt);
+    void vRender_4175A0(PrimHeader** pOt);
 
-    EXPORT void vUpdate_4172E0();
+    void vUpdate_4172E0();
 
     void DealDamage();
 

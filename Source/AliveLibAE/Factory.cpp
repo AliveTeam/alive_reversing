@@ -104,7 +104,7 @@ struct CompileTimeResourceList final
     }
 };
 
-EXPORT void CC Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (sMainMenuObjectCounter_BB4400 == 0)
     {
@@ -126,16 +126,16 @@ EXPORT void CC Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/
     }
 }
 
-EXPORT void CC Factory_ContinuePoint_4D6970(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_ContinuePoint_4D6970(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
-EXPORT void CC Factory_PathTransition_4D68A0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_PathTransition_4D68A0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_Hoist_4D9E90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_Hoist_4D9E90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     Path_Hoist* pHoistTlv = static_cast<Path_Hoist*>(pTlv);
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
@@ -154,7 +154,7 @@ EXPORT void CC Factory_Hoist_4D9E90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfo
     }
 }
 
-EXPORT void CC Factory_Edge_4D68C0(Path_TLV* /*pTlv*/, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_Edge_4D68C0(Path_TLV* /*pTlv*/, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -166,12 +166,12 @@ EXPORT void CC Factory_Edge_4D68C0(Path_TLV* /*pTlv*/, Path* /*pPath*/, TlvItemI
     }
 }
 
-EXPORT void CC Factory_DeathDrop_4D6930(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_DeathDrop_4D6930(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_Door_4D6F00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_Door_4D6F00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -224,7 +224,7 @@ EXPORT void CC Factory_Door_4D6F00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOf
     }
 }
 
-EXPORT void CC Factory_Shadow_4D7200(Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_Shadow_4D7200(Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
@@ -244,7 +244,7 @@ static void LoadLiftPointResources(const char_type* ropeBan, const char_type* li
     gMap.LoadResourcesFromList_4DBE70(liftBan, kResources.AsList(), loadMode);
 }
 
-EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+void Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -358,7 +358,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
 }
 
-EXPORT void CC Factory_ExpressWell_4D7D90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_ExpressWell_4D7D90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -374,7 +374,7 @@ EXPORT void CC Factory_ExpressWell_4D7D90(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
     }
 }
 
-EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -409,7 +409,7 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
     }
 }
 
-EXPORT void CC Factory_RockSack_4D8040(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_RockSack_4D8040(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -425,7 +425,7 @@ EXPORT void CC Factory_RockSack_4D8040(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
 }
 
-EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -451,7 +451,7 @@ EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
 }
 
-EXPORT void CC Factory_PullRingRope_4D8320(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_PullRingRope_4D8320(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -477,7 +477,7 @@ EXPORT void CC Factory_PullRingRope_4D8320(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_TimedMine_4D87C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_TimedMine_4D87C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     auto mine_tlv = static_cast<Path_TimedMine*>(pTlv);
 
@@ -532,7 +532,7 @@ static void LoadWalkingSligResources(s16 disabledResources, LoadMode loadMode)
     gMap.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, loadMode);
 }
 
-EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_Slig_4D7BC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
     const auto disabledResources = pSligTlv->field_48_disable_resources;
@@ -558,7 +558,7 @@ static void LoadSlogResources(LoadMode loadMode)
     gMap.LoadResource_4DBE00("DOGKNFD.BAN", ResourceManager::Resource_Animation, AEResourceID::kDogknfdResID, loadMode);
 }
 
-EXPORT void CC Factory_Slog_4D8B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_Slog_4D8B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -570,7 +570,7 @@ EXPORT void CC Factory_Slog_4D8B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
     }
 }
 
-EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_Switch_4D8CF0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -583,12 +583,12 @@ EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
     }
 }
 
-EXPORT void CC Factory_Null_4D69E0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_Null_4D69E0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_SecurityOrb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_SecurityOrb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     Path_SecurityOrb* pSecurityOrbTlv = static_cast<Path_SecurityOrb*>(pTlv);
     const s16 disabledResources = pSecurityOrbTlv->field_12_disabled_resources;
@@ -608,17 +608,17 @@ EXPORT void CC Factory_SecurityOrb_4D8D80(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
 }
 
-EXPORT void CC Factory_Null_4D6A00(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_Null_4D6A00(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_Pulley_4D6A20(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_Pulley_4D6A20(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
     // Nothing to do.
 }
 
-EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* pTlv, Path*, TlvItemInfoUnion, LoadMode loadmode)
+void Factory_AbeStart_4D9030(Path_TLV* pTlv, Path*, TlvItemInfoUnion, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2 && !gAttract_5C1BA0)
     {
@@ -640,12 +640,12 @@ EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* pTlv, Path*, TlvItemInfoUnion, 
     }
 }
 
-EXPORT void CC Factory_WellExpress_4D7E60(Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_WellExpress_4D7E60(Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     Factory_ExpressWell_4D7D90(pTlv, pPath, tlvOffsetLevelIdPathId, loadmode);
 }
 
-EXPORT void CC Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     auto mine_tlv = static_cast<Path_Mine*>(pTlv);
 
@@ -674,7 +674,7 @@ EXPORT void CC Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoU
     }
 }
 
-EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+void Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto uxb_tlv = static_cast<Path_UXB*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -703,7 +703,7 @@ EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
     }
 }
 
-EXPORT void CC Factory_Paramite_4D9190(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_Paramite_4D9190(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -725,7 +725,7 @@ EXPORT void CC Factory_Paramite_4D9190(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
 }
 
-EXPORT void CC Factory_MovieHandStone_4D9F50(Path_TLV*, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_MovieHandStone_4D9F50(Path_TLV*, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -737,7 +737,7 @@ EXPORT void CC Factory_MovieHandStone_4D9F50(Path_TLV*, Path*, TlvItemInfoUnion 
     }
 }
 
-EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_BirdPortal_4D9AA0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     auto pBirdPortalTlv = static_cast<Path_BirdPortal*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -770,12 +770,12 @@ EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_PortalExit_4D9A80(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_PortalExit_4D9A80(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -800,9 +800,9 @@ EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
 }
 
-EXPORT void CC Factory_RollingRock_4D9C70(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_RollingRock_4D9C70(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
@@ -818,7 +818,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
     return nullptr;
 }
 
-EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     auto pBound = static_cast<Path_SligBound*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -849,12 +849,12 @@ EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUn
     }
 }
 
-EXPORT void CC Factory_InvisibleZone_4D6A40(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_InvisibleZone_4D6A40(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_FootSwitch_4D9D00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_FootSwitch_4D9D00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -880,14 +880,14 @@ EXPORT void CC Factory_FootSwitch_4D9D00(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_ChantSuppressor_WithArms_4D9E10(Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_ChantSuppressor_WithArms_4D9E10(Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     // TODO: Most of the code for the chant suppressor with arms is still in the game
     // check if it can be re-added at some point.
     Factory_SecurityOrb_4D8D80(pTlv, pPath, tlvInfo, loadMode);
 }
 
-EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_MotionDetector_4D9E40(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -895,7 +895,7 @@ EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* pTlv, Path*, TlvItemInfoU
     }
 }
 
-EXPORT void CC Factory_SligSpawner_4D79F0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_SligSpawner_4D79F0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
     const auto disabledResources = pSligTlv->field_48_disable_resources;
@@ -909,7 +909,7 @@ EXPORT void CC Factory_SligSpawner_4D79F0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
 }
 
-EXPORT void CC Factory_ElectricWall_4DA020(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_ElectricWall_4DA020(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -921,7 +921,7 @@ EXPORT void CC Factory_ElectricWall_4DA020(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_LiftMover_4DA090(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_LiftMover_4DA090(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
@@ -929,7 +929,7 @@ EXPORT void CC Factory_LiftMover_4DA090(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
 }
 
-EXPORT void CC Factory_MeatSack_4D8140(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_MeatSack_4D8140(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -959,7 +959,7 @@ static CompileTimeResourceList<12> kScrabResources(
      {ResourceManager::Resource_Animation, AEResourceID::kArsskwrResID},
      {ResourceManager::Resource_Animation, AEResourceID::kArscrshResID}});
 
-EXPORT void CC Factory_Scrab_4D9200(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_Scrab_4D9200(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -971,34 +971,34 @@ EXPORT void CC Factory_Scrab_4D9200(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvI
     }
 }
 
-EXPORT void CC Factory_Null_4DA130(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_Null_4DA130(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
-EXPORT void CC Factory_ScrabLeftBound_4D6A80(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_ScrabLeftBound_4D6A80(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
-EXPORT void CC Factory_ScrabRightBound_4D6AA0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_ScrabRightBound_4D6AA0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_SligBoundRight_4D79A0(Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_SligBoundRight_4D79A0(Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     Factory_SligBoundLeft_4D7740(pTlv, pPath, tlvInfo, loadMode);
 }
 
-EXPORT void CC Factory_SligPersist_4D79D0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_SligPersist_4D79D0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
-EXPORT void CC Factory_EnemyStopper_4D6AC0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_EnemyStopper_4D6AC0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_InvisibleSwitch_4D6E40(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_InvisibleSwitch_4D6E40(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1006,7 +1006,7 @@ EXPORT void CC Factory_InvisibleSwitch_4D6E40(Path_TLV* pTlv, Path*, TlvItemInfo
     }
 }
 
-EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_Mudokon_4D8EC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     auto pMudTlv = static_cast<Path_Mudokon*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -1049,12 +1049,12 @@ EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
 }
 
-EXPORT void CC Factory_ZSligCover_4D6A60(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_ZSligCover_4D6A60(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_DoorFlame_4D70D0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_DoorFlame_4D70D0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1067,7 +1067,7 @@ EXPORT void CC Factory_DoorFlame_4D70D0(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
 }
 
-EXPORT void CC Factory_MovingBomb_4D8A50(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_MovingBomb_4D8A50(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     auto pMovingBombTlv = static_cast<Path_MovingBomb*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -1083,20 +1083,20 @@ EXPORT void CC Factory_MovingBomb_4D8A50(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_Null_4D8A30(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_Null_4D8A30(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
-EXPORT void CC Factory_4D7160(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_4D7160(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
-EXPORT void CC Factory_Null_4D6AE0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_Null_4D6AE0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_TimerTrigger_4DA0E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_TimerTrigger_4DA0E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::ConstructObject_0)
     {
@@ -1104,7 +1104,7 @@ EXPORT void CC Factory_TimerTrigger_4DA0E0(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_SecurityDoor_4DA150(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_SecurityDoor_4DA150(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1116,7 +1116,7 @@ EXPORT void CC Factory_SecurityDoor_4DA150(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_GrenadeMachine_4DA1C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_GrenadeMachine_4DA1C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     auto pTlvBooMachine = static_cast<Path_BoomMachine*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -1138,7 +1138,7 @@ EXPORT void CC Factory_GrenadeMachine_4DA1C0(Path_TLV* pTlv, Path*, TlvItemInfoU
     }
 }
 
-EXPORT void CC Factory_BackgroundAnimation_4D84F0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_BackgroundAnimation_4D84F0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
@@ -1146,7 +1146,7 @@ EXPORT void CC Factory_BackgroundAnimation_4D84F0(Path_TLV* pTlv, Path* /*pPath*
     }
 }
 
-EXPORT void CC Factory_LCD_4D6CF0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_LCD_4D6CF0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -1157,7 +1157,7 @@ EXPORT void CC Factory_LCD_4D6CF0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
     ae_new<LCDScreen>(static_cast<Path_LCDScreen*>(pTlv), tlvOffsetLevelIdPathId);
 }
 
-EXPORT void CC Factory_HandStone_4D9FA0(Path_TLV*, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_HandStone_4D9FA0(Path_TLV*, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -1170,7 +1170,7 @@ EXPORT void CC Factory_HandStone_4D9FA0(Path_TLV*, Path*, TlvItemInfoUnion tlvOf
     }
 }
 
-EXPORT void CC Factory_CreditsController_4D6D60(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_CreditsController_4D6D60(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2 && !sDoesCreditsControllerExist_5C1B90)
     {
@@ -1178,12 +1178,12 @@ EXPORT void CC Factory_CreditsController_4D6D60(Path_TLV* pTlv, Path*, TlvItemIn
     }
 }
 
-EXPORT void CC Factory_Null_4D6910(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_Null_4D6910(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_StatusBoard_4DA3C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_StatusBoard_4DA3C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -1194,7 +1194,7 @@ EXPORT void CC Factory_StatusBoard_4DA3C0(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
     ae_new<LCDStatusBoard>(static_cast<Path_LCDStatusBoard*>(pTlv), tlvOffsetLevelIdPathId);
 }
 
-EXPORT void CC Factory_WheelSyncer_4DA430(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_WheelSyncer_4DA430(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
@@ -1202,7 +1202,7 @@ EXPORT void CC Factory_WheelSyncer_4DA430(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
 }
 
-EXPORT void CC Factory_MusicTrigger_4D71B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_MusicTrigger_4D71B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
@@ -1210,12 +1210,12 @@ EXPORT void CC Factory_MusicTrigger_4D71B0(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_Light_4D8590(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_Light_4D8590(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_SlogSpawner_4D8BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_SlogSpawner_4D8BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1227,7 +1227,7 @@ EXPORT void CC Factory_SlogSpawner_4D8BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
 }
 
-EXPORT void CC Factory_GasCountdown_4DA480(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_GasCountdown_4DA480(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1240,12 +1240,12 @@ EXPORT void CC Factory_GasCountdown_4DA480(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_4D6C50(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_4D6C50(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1253,7 +1253,7 @@ EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_ZzzSpawner_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_ZzzSpawner_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1261,7 +1261,7 @@ EXPORT void CC Factory_ZzzSpawner_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_Glukkon_4DA550(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     static CompileTimeResourceList<2> kGlukkon_563534({{ResourceManager::Resource_Animation, AEResourceID::kGlkbasicResID},
                                                        {ResourceManager::Resource_Animation, AEResourceID::kGlukkonResID_801}});
@@ -1305,20 +1305,20 @@ EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
 }
 
-EXPORT void CC Factory_KillUnsavedMudokons_4DA6E0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_KillUnsavedMudokons_4DA6E0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
-EXPORT void CC Factory_SoftLanding_4D6950(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_SoftLanding_4D6950(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
-EXPORT void CC Factory_Null_4D6B00(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_Null_4D6B00(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_Water_4DA730(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_Water_4DA730(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -1331,12 +1331,12 @@ EXPORT void CC Factory_Water_4DA730(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvI
     }
 }
 
-EXPORT void CC Factory_Null_4DA7C0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_Null_4DA7C0(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Factory_WorkWheel_4D6B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_WorkWheel_4D6B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -1349,12 +1349,12 @@ EXPORT void CC Factory_WorkWheel_4D6B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
 }
 
-EXPORT void CC Factory_Null_4DA850(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
+void Factory_Null_4DA850(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC Create_Gas_4DA8B0(Layer layer, s32 neverUsed, Path_TLV* pTlv, s32 tlvInfo)
+void Create_Gas_4DA8B0(Layer layer, s32 neverUsed, Path_TLV* pTlv, s32 tlvInfo)
 {
     if (!gGasInstanceCount_5BC214)
     {
@@ -1362,7 +1362,7 @@ EXPORT void CC Create_Gas_4DA8B0(Layer layer, s32 neverUsed, Path_TLV* pTlv, s32
     }
 }
 
-EXPORT void CC Factory_LaughingGas_4DA870(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_LaughingGas_4DA870(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1387,7 +1387,7 @@ static void LoadFlyingSligResources(LoadMode loadMode)
 }
 
 
-EXPORT void CC Factory_FlyingSlig_4D92E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_FlyingSlig_4D92E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1399,7 +1399,7 @@ EXPORT void CC Factory_FlyingSlig_4D92E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_Fleech_4D8C30(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_Fleech_4D8C30(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1413,7 +1413,7 @@ EXPORT void CC Factory_Fleech_4D8C30(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
     }
 }
 
-EXPORT void CC Factory_Slurgs_4DA950(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_Slurgs_4DA950(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1425,7 +1425,7 @@ EXPORT void CC Factory_Slurgs_4DA950(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
     }
 }
 
-EXPORT void CC Factory_SlamDoor_4DA9C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_SlamDoor_4DA9C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -1449,7 +1449,7 @@ EXPORT void CC Factory_SlamDoor_4DA9C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
 }
 
-EXPORT void CC Factory_LevelLoader_4D6BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_LevelLoader_4D6BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
@@ -1457,7 +1457,7 @@ EXPORT void CC Factory_LevelLoader_4D6BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
 }
 
-EXPORT void CC Factory_DemoSpawnPoint_4D6990(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode loadMode)
+void Factory_DemoSpawnPoint_4D6990(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1471,7 +1471,7 @@ EXPORT void CC Factory_DemoSpawnPoint_4D6990(Path_TLV*, Path*, TlvItemInfoUnion,
     }
 }
 
-EXPORT void CC Factory_Teleporter_4DAA90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_Teleporter_4DAA90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
@@ -1479,7 +1479,7 @@ EXPORT void CC Factory_Teleporter_4DAA90(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1491,7 +1491,7 @@ EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_Drill_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_Drill_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -1505,7 +1505,7 @@ EXPORT void CC Factory_Drill_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvI
     }
 }
 
-EXPORT void CC Factory_ColorfulMeter_4DAC60(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_ColorfulMeter_4DAC60(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1517,7 +1517,7 @@ EXPORT void CC Factory_ColorfulMeter_4DAC60(Path_TLV* pTlv, Path*, TlvItemInfoUn
     }
 }
 
-EXPORT void CC Factory_FlyingSligSpawner_4D9440(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_FlyingSligSpawner_4D9440(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1540,7 +1540,7 @@ EXPORT void CC Factory_FlyingSligSpawner_4D9440(Path_TLV* pTlv, Path*, TlvItemIn
     }
 }
 
-EXPORT void CC Factory_MineCar_4DACD0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_MineCar_4DACD0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1556,7 +1556,7 @@ EXPORT void CC Factory_MineCar_4DACD0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
 }
 
-EXPORT void CC Factory_BoneBag_4D80B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_BoneBag_4D80B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1574,7 +1574,7 @@ EXPORT void CC Factory_BoneBag_4D80B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
 }
 
-EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_ExplosionSet_4DADC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1605,7 +1605,7 @@ EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_MultiSwitchController_4D6C00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_MultiSwitchController_4D6C00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
@@ -1613,7 +1613,7 @@ EXPORT void CC Factory_MultiSwitchController_4D6C00(Path_TLV* pTlv, Path*, TlvIt
     }
 }
 
-EXPORT void CC Factory_StatusLight_4DA7E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_StatusLight_4DA7E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -1625,7 +1625,7 @@ EXPORT void CC Factory_StatusLight_4DA7E0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
 }
 
-EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_SlapLock_4DAF20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1637,7 +1637,7 @@ EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
 }
 
-EXPORT void CC Factory_ParamiteWebLine_4D9120(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_ParamiteWebLine_4D9120(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1649,7 +1649,7 @@ EXPORT void CC Factory_ParamiteWebLine_4D9120(Path_TLV* pTlv, Path*, TlvItemInfo
     }
 }
 
-EXPORT void CC Factory_Alarm_4DAF90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_Alarm_4DAF90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode == LoadMode::ConstructObject_0)
     {
@@ -1657,7 +1657,7 @@ EXPORT void CC Factory_Alarm_4DAF90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfo
     }
 }
 
-EXPORT void CC Factory_BrewMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_BrewMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -1674,7 +1674,7 @@ EXPORT void CC Factory_BrewMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
 }
 
-EXPORT void CC Factory_ScrabSpawner_4D9270(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_ScrabSpawner_4D9270(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1686,7 +1686,7 @@ EXPORT void CC Factory_ScrabSpawner_4D9270(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_NakedSlig_4D95A0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1709,7 +1709,7 @@ EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
 }
 
-EXPORT void CC Factory_SligGetPants_4D9700(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_SligGetPants_4D9700(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
     const auto disabledResources = pSligTlv->field_48_disable_resources;
@@ -1724,7 +1724,7 @@ EXPORT void CC Factory_SligGetPants_4D9700(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_SligGetWings_4D9900(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_SligGetWings_4D9900(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1737,7 +1737,7 @@ EXPORT void CC Factory_SligGetWings_4D9900(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1755,7 +1755,7 @@ EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
 }
 
-EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_NakedSligButton_4DB100(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1767,7 +1767,7 @@ EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* pTlv, Path*, TlvItemInfo
     }
 }
 
-EXPORT void CC Factory_GlukkonSwitch_4DA670(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_GlukkonSwitch_4DA670(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1779,7 +1779,7 @@ EXPORT void CC Factory_GlukkonSwitch_4DA670(Path_TLV* pTlv, Path*, TlvItemInfoUn
     }
 }
 
-EXPORT void CC Factory_DoorBlocker_4DAAE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_DoorBlocker_4DAAE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1791,7 +1791,7 @@ EXPORT void CC Factory_DoorBlocker_4DAAE0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
 }
 
-EXPORT void CC Factory_TorturedMudokon_4D8430(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_TorturedMudokon_4D8430(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (!pTlv->field_1_tlv_state)
     {
@@ -1808,7 +1808,7 @@ EXPORT void CC Factory_TorturedMudokon_4D8430(Path_TLV* pTlv, Path*, TlvItemInfo
     }
 }
 
-EXPORT void CC Factory_TrainDoor_4D6E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_TrainDoor_4D6E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {

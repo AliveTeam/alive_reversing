@@ -3,7 +3,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 #include "Font.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct Path_BrewMachine final : public Path_TLV
 {
@@ -22,8 +22,8 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT void vUpdate_4132C0();
-    EXPORT void vRender_4133F0(PrimHeader** ppOt);
+    void vUpdate_4132C0();
+    void vRender_4133F0(PrimHeader** ppOt);
 
 private:
     Font_Context field_F4_font_context;

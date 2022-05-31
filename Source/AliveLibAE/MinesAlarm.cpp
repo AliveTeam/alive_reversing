@@ -10,7 +10,7 @@
 ALIVE_VAR(1, 0x5BC030, s32, bCreated_5BC030, FALSE);
 ALIVE_VAR(1, 0x5C1BFC, s32, sTimerValue_5C1BFC, 0);
 
-void CC MinesAlarm::Create_4177F0(s32 timer)
+void MinesAlarm::Create_4177F0(s32 timer)
 {
     if (!bCreated_5BC030)
     {
@@ -18,7 +18,7 @@ void CC MinesAlarm::Create_4177F0(s32 timer)
     }
 }
 
-s32 CC MinesAlarm::CreateFromSaveState_417740(const u8* pBuffer)
+s32 MinesAlarm::CreateFromSaveState_417740(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MinesAlarm_State*>(pBuffer);
     ae_new<MinesAlarm>(pState->field_4_timer);

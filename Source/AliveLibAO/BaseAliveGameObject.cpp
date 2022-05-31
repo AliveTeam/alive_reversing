@@ -676,7 +676,7 @@ s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* 
         field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70);
 }
 
-void CC BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
+void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
 {
     ppRes->field_104_pending_resource_count--;
 }
@@ -854,7 +854,7 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
     }
 }
 
-BaseGameObject* CC BaseAliveGameObject::FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos)
+BaseGameObject* BaseAliveGameObject::FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos)
 {
     const s32 xpos_int = FP_GetExponent(xpos);
     const s32 ypos_int = FP_GetExponent(ypos);

@@ -1,21 +1,21 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 namespace AO {
 
 struct Path_TLV;
 enum class CameraPos : s16;
 
-EXPORT void CC SND_Reset_Ambiance();
+void SND_Reset_Ambiance();
 
-EXPORT void CC Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv);
+void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv);
 
-EXPORT void CC SND_Init_Ambiance();
+void SND_Init_Ambiance();
 
-EXPORT void CC Start_Slig_sounds(CameraPos direction, s8 kZero);
+void Start_Slig_sounds(CameraPos direction, s8 kZero);
 
-EXPORT void CC Stop_slig_sounds(CameraPos direction, s8 kZero);
+void Stop_slig_sounds(CameraPos direction, s8 kZero);
 
 class ScopedSeq;
 struct Sound_Ambiance final

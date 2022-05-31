@@ -102,7 +102,7 @@ set_target_properties(relive_api_unit_test PROPERTIES UNITY_BUILD OFF) # too big
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
-# Setup GCC and Clang warnings
+# Setup Gand Clang warnings
 add_library(project_warnings INTERFACE)
 export(TARGETS project_warnings FILE project_warnings.cmake)
 

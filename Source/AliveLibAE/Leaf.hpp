@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 class Leaf final : public ::BaseAnimatedWithPhysicsGameObject
 {
@@ -12,8 +12,8 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vUpdate_4E3330();
-    EXPORT void vScreenChanged_4E35B0();
+    void vUpdate_4E3330();
+    void vScreenChanged_4E35B0();
 
 private:
     s16 field_F4_bHitSomething;

@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF(ErrorData, 0x10C);
 ALIVE_ARY(1, 0xBBC570, ErrorData, 32, sErrors_BBC570, {});
 ALIVE_VAR(1, 0xBBC564, s32, sErrorIndex_BBC564, 0);
 
-EXPORT void CC Error_PushErrorRecord_4F2920(const char_type* pSourceFileName, s32 lineNumber, s32 minusOne, const char_type* errMsg)
+void Error_PushErrorRecord_4F2920(const char_type* pSourceFileName, s32 lineNumber, s32 minusOne, const char_type* errMsg)
 {
     if (sErrorIndex_BBC564 == 32)
     {
@@ -36,17 +36,17 @@ EXPORT void CC Error_PushErrorRecord_4F2920(const char_type* pSourceFileName, s3
     sErrorIndex_BBC564++;
 }
 
-/*EXPORT not big enough to hook*/ void CC Error_NullPrint_4F28C0(const s8* msg)
+/*not big enough to hook*/ void Error_NullPrint_4F28C0(const s8* msg)
 {
     LOG_ERROR(msg);
 }
 
-/*EXPORT not big enough to hook*/ void CC Error_NullPrint_4F28D0(const char_type* msg)
+/*not big enough to hook*/ void Error_NullPrint_4F28D0(const char_type* msg)
 {
     LOG_ERROR(msg);
 }
 
-EXPORT void CC Error_DisplayMessageBox_4F2C80(const char_type* msg, s32 lineNum, const char_type* formatStr, ...)
+void Error_DisplayMessageBox_4F2C80(const char_type* msg, s32 lineNum, const char_type* formatStr, ...)
 {
     static char_type sErrorMessage_BBFBA8[2052];
     static char_type sErrorTitle_BC03B4[2048];
@@ -67,7 +67,7 @@ EXPORT void CC Error_DisplayMessageBox_4F2C80(const char_type* msg, s32 lineNum,
 }
 
 
-EXPORT void Error_MessageBox_4F2D00(const char_type* pFileName, s32 lineNum, const char_type* formatStr, ...)
+void Error_MessageBox_4F2D00(const char_type* pFileName, s32 lineNum, const char_type* formatStr, ...)
 {
     static char_type sErrorMsg_BBEEFC[2048];
     static char_type sErrorTitle_BBF6FC[1024];
@@ -90,7 +90,7 @@ EXPORT void Error_MessageBox_4F2D00(const char_type* pFileName, s32 lineNum, con
     Sys_MessageBox(Sys_GetHWnd_4F2C70(), sErrorMsg_BBEEFC, sErrorTitle_BBF6FC);
 }
 
-EXPORT void Error_WarningMessageBox_4F2D80(const char_type* pWarningMsg, ...)
+void Error_WarningMessageBox_4F2D80(const char_type* pWarningMsg, ...)
 {
     static char_type sWarningMsg_BBE6FC[2048];
     va_list va;
@@ -99,7 +99,7 @@ EXPORT void Error_WarningMessageBox_4F2D80(const char_type* pWarningMsg, ...)
     Sys_MessageBox(Sys_GetHWnd_4F2C70(), sWarningMsg_BBE6FC, "Warning");
 }
 
-EXPORT void CC Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
+void Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
 {
     if (!sErrorIndex_BBC564)
     {

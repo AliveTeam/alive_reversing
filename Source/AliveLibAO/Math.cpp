@@ -33,33 +33,30 @@ ALIVE_VAR(1, 0x50A228, u8, sRandomSeed_50A228, 0);
 
 u8 Math_NextRandom()
 {
-    if (!RunningAsInjectedDll())
-    {
-        return sRandomBytes_4BBE30[sRandomSeed_50A228++];
-    }
-    return ::Math_NextRandom(); // Ae ver
+    return sRandomBytes_4BBE30[sRandomSeed_50A228++];
+    //return ::Math_NextRandom(); // Ae ver
 }
 
-s16 CC Math_RandomRange_450F20(s16 min, s16 max)
+s16 Math_RandomRange_450F20(s16 min, s16 max)
 {
-    AE_IMPLEMENTED();
+    // AE_IMPLEMENTED();
     return Math_RandomRange_496AB0(min, max);
 }
 
-FP CC Math_Sine_451110(u8 v)
+FP Math_Sine_451110(u8 v)
 {
-    AE_IMPLEMENTED();
+    // AE_IMPLEMENTED();
     return Math_Sine_496DD0(v);
 }
 
-FP CC Math_Cosine_4510A0(u8 v)
+FP Math_Cosine_4510A0(u8 v)
 {
-    AE_IMPLEMENTED();
+    // AE_IMPLEMENTED();
     return Math_Cosine_496CD0(v);
 }
 
 
-s32 CC Math_Distance_451270(s32 x1, s32 y1, s32 x2, s32 y2)
+s32 Math_Distance_451270(s32 x1, s32 y1, s32 x2, s32 y2)
 {
     s32 dx = x1 - x2;
     if (dx < 0)
@@ -83,13 +80,13 @@ s32 CC Math_Distance_451270(s32 x1, s32 y1, s32 x2, s32 y2)
     }
 }
 
-s32 CC Math_SquareRoot_Int_4511B0(s32 a1)
+s32 Math_SquareRoot_Int_4511B0(s32 a1)
 {
-    AE_IMPLEMENTED();
+    // AE_IMPLEMENTED();
     return Math_SquareRoot_Int_496E70(a1);
 }
 
-FP CC Math_SquareRoot_FP_451210(FP v)
+FP Math_SquareRoot_FP_451210(FP v)
 {
     if (v == FP_FromInteger(0))
     {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
 #include "Psx.hpp"
@@ -36,8 +36,8 @@ public:
     ~InvisibleSwitch();
 
 private:
-    EXPORT void vUpdate_45FBA0();
-    EXPORT void vScreenChanged_45FD80();
+    void vUpdate_45FBA0();
+    void vScreenChanged_45FD80();
 
 private:
     s16 field_20_switch_id;

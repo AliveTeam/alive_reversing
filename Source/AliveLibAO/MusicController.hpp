@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 
 namespace AO {
@@ -14,11 +14,11 @@ enum class LevelIds : s16;
 class MusicController final : public BaseGameObject
 {
 public:
-    EXPORT static s16 CC Create_4436C0();
+    static s16 Create_4436C0();
 
-    static void CC SetBaseTimeStamp();
+    static void SetBaseTimeStamp();
 
-    static void CC UpdateMusicTime();
+    static void UpdateMusicTime();
 
     static s32 GetMusicTime();
 
@@ -49,32 +49,32 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_443450();
+    void VScreenChanged_443450();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_443300();
+    void VUpdate_443300();
 
-    EXPORT static void CC PlayMusic_443810(MusicTypes a1, BaseGameObject* a2, s16 a3, s16 a4);
+    static void PlayMusic_443810(MusicTypes a1, BaseGameObject* a2, s16 a3, s16 a4);
     
     static void ClearObject(BaseGameObject* pObj);
 
-    EXPORT static MusicTypes CC GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration);
+    static MusicTypes GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration);
 
-    EXPORT void UpdateVolumeState_442A10();
+    void UpdateVolumeState_442A10();
 
-    static EXPORT void Shutdown_4437E0();
+    static void Shutdown_4437E0();
 
-    static EXPORT void CC EnableMusic_443900(s16 bEnable);
+    static void EnableMusic_443900(s16 bEnable);
 
-    static EXPORT s32 CC OnRootCounter_4437D0();
+    static s32 OnRootCounter_4437D0();
 
-    EXPORT void PlayMusic_443460(MusicTypes a2, BaseGameObject* a3, s16 a4, s16 a5);
+    void PlayMusic_443460(MusicTypes a2, BaseGameObject* a3, s16 a4, s16 a5);
     void DoClearObject(BaseGameObject* pObj);
 
-    EXPORT void UpdateMusic_442C20();
+    void UpdateMusic_442C20();
 
-    EXPORT void UpdateAmbiance_442AC0();
+    void UpdateAmbiance_442AC0();
 
     s16 SetMusicVolumeDelayed(s16 vol, s16 delay);
 

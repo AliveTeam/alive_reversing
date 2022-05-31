@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
@@ -24,8 +24,8 @@ public:
     RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInfo);
     ~RollingBallStopper();
 
-    EXPORT void VScreenChanged_43C130();
-    EXPORT void VUpdate_43BF70();
+    void VScreenChanged_43C130();
+    void VUpdate_43BF70();
 
     
     virtual void VUpdate() override;

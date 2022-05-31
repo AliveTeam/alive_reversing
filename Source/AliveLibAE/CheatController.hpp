@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Input.hpp"
 
@@ -27,7 +27,7 @@ public:
     CheatController();
     ~CheatController();
 
-    EXPORT void Update_421C70();
+    void Update_421C70();
 
 public:
     s16 field_20;

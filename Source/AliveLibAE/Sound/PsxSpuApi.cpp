@@ -186,12 +186,12 @@ static AEPsxSpuApiVars gAeSpuVars;
 static IPsxSpuApiVars* gSpuVars = &gAeSpuVars; // Default to AE vars
 
 
-EXPORT void SetSpuApiVars(IPsxSpuApiVars* pVars)
+void SetSpuApiVars(IPsxSpuApiVars* pVars)
 {
     gSpuVars = pVars;
 }
 
-EXPORT IPsxSpuApiVars* GetSpuApiVars()
+IPsxSpuApiVars* GetSpuApiVars()
 {
     return gSpuVars;
 }
@@ -211,13 +211,13 @@ inline unsigned SwapBytes<unsigned>(unsigned value)
     return unsigned(SwapBytes<u16>(static_cast<u16>(value)) << 16) | SwapBytes<u16>(static_cast<u16>(value >> 16));
 }
 
-EXPORT void CC MIDI_ADSR_Update_4FDCE0();
-EXPORT s16 CC MIDI_PitchBend_4FDEC0(s16 field4_match, s16 pitch);
-EXPORT void CC MIDI_Read_SEQ_Header_4FD870(u8** pSrc, SeqHeader* pDst, u32 size);
-EXPORT void CC MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo);
-EXPORT s32 CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, s32 vol);
-EXPORT s32 CC MIDI_Stop_Existing_Single_Note_4FCFF0(s32 VabIdAndProgram, s32 note);
-EXPORT void CC MIDI_Wait_4FCE50();
+void MIDI_ADSR_Update_4FDCE0();
+s16 MIDI_PitchBend_4FDEC0(s16 field4_match, s16 pitch);
+void MIDI_Read_SEQ_Header_4FD870(u8** pSrc, SeqHeader* pDst, u32 size);
+void MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo);
+s32 MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, s32 vol);
+s32 MIDI_Stop_Existing_Single_Note_4FCFF0(s32 VabIdAndProgram, s32 note);
+void MIDI_Wait_4FCE50();
 
 void SsExt_CloseAllVabs()
 {
@@ -241,7 +241,7 @@ void SsExt_StopPlayingSamples()
     }
 }
 
-EXPORT void CC SSInit_4FC230()
+void SSInit_4FC230()
 {
     gSpuVars->sGlobalVolumeLevel_right() = 127;
     gSpuVars->sGlobalVolumeLevel_left() = 127;
@@ -249,24 +249,24 @@ EXPORT void CC SSInit_4FC230()
     GetSoundAPI().SND_CreateDS(22050u, 16, 1);
 }
 
-EXPORT void CC SpuInitHot_4FC320()
+void SpuInitHot_4FC320()
 {
     gSpuVars->sMidi_Inited_dword() = 1;
     gSpuVars->sMidiTime() = SYS_GetTicks();
 }
 
-EXPORT void SsEnd_4FC350()
+void SsEnd_4FC350()
 {
     gSpuVars->sMidi_Inited_dword() = 0;
 }
 
-EXPORT void CC SsSetMVol_4FC360(s16 left, s16 right)
+void SsSetMVol_4FC360(s16 left, s16 right)
 {
     gSpuVars->sGlobalVolumeLevel_left() = left;
     gSpuVars->sGlobalVolumeLevel_right() = right;
 }
 
-EXPORT u32* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, VabBodyRecord* pBodyRecords, s32 idx)
+u32* SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, VabBodyRecord* pBodyRecords, s32 idx)
 {
     if (!pVabHeader || idx < 0)
     {
@@ -283,7 +283,7 @@ EXPORT u32* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader* pVabHeader, Vab
 }
 
 // TODO: Reverse/refactor properly
-EXPORT s32 CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx)
+s32 SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx)
 {
     s32 result; // eax
 
@@ -299,18 +299,18 @@ EXPORT s32 CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader* pVabHeader, VabBody
 }
 
 // TODO: Reverse/refactor properly
-EXPORT s32 CC sub_4FC440(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx)
+s32 sub_4FC440(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx)
 {
     return *(SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx) - 1); // -1 = field_4_unused
 }
 
 // TODO: Reverse/refactor properly
-EXPORT Bool32 CC sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx)
+Bool32 sub_4FC470(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx)
 {
     return sub_4FC440(pVabHeader, pVabBody, idx) < 0;
 }
 
-EXPORT s32 CC SND_SoundsDat_Read_4FC4E0(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx, void* pBuffer)
+s32 SND_SoundsDat_Read_4FC4E0(VabHeader* pVabHeader, VabBodyRecord* pVabBody, s32 idx, void* pBuffer)
 {
     const s32 sampleOffset = *SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx); // = field_8_fileOffset
     const s32 sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pVabHeader, pVabBody, idx);
@@ -325,7 +325,7 @@ EXPORT s32 CC SND_SoundsDat_Read_4FC4E0(VabHeader* pVabHeader, VabBodyRecord* pV
     return sampleLen;
 }
 
-EXPORT void CC SsVabClose_4FC5B0(s32 vabId)
+void SsVabClose_4FC5B0(s32 vabId)
 {
     SsUtAllKeyOff_4FDFE0(0); // TODO: Check argument ??
 
@@ -343,7 +343,7 @@ EXPORT void CC SsVabClose_4FC5B0(s32 vabId)
 }
 
 
-EXPORT s16 CC SsVabOpenHead_4FC620(VabHeader* pVabHeader)
+s16 SsVabOpenHead_4FC620(VabHeader* pVabHeader)
 {
     if (!pVabHeader)
     {
@@ -421,7 +421,7 @@ EXPORT s16 CC SsVabOpenHead_4FC620(VabHeader* pVabHeader)
 }
 
 // Loads sounds dat to memory
-EXPORT void CC SsVabTransBody_4FC840(VabBodyRecord* pVabBody, s16 vabId)
+void SsVabTransBody_4FC840(VabBodyRecord* pVabBody, s16 vabId)
 {
     if (vabId < 0)
     {
@@ -499,13 +499,13 @@ EXPORT void CC SsVabTransBody_4FC840(VabBodyRecord* pVabBody, s16 vabId)
     }
 }
 
-EXPORT s32 CC MIDI_Invert_4FCA40(s32 /*not_used*/, s32 value)
+s32 MIDI_Invert_4FCA40(s32 /*not_used*/, s32 value)
 {
     return 127 - value;
 }
 
 
-EXPORT s32 CC MIDI_Allocate_Channel_4FCA50(s32 /*not_used*/, s32 priority)
+s32 MIDI_Allocate_Channel_4FCA50(s32 /*not_used*/, s32 priority)
 {
     s32 lowestEndTime = -999999;
     u32 timeMod24 = gSpuVars->sMidiTime() % 24;
@@ -547,7 +547,7 @@ EXPORT s32 CC MIDI_Allocate_Channel_4FCA50(s32 /*not_used*/, s32 priority)
 }
 
 
-EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 leftVolume, s32 rightVolume, s32 volume)
+s32 MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 leftVolume, s32 rightVolume, s32 volume)
 {
     const s32 noteKeyNumber = (note >> 8) & 127;
     s32 leftVol2 = leftVolume;
@@ -710,7 +710,7 @@ EXPORT s32 CC MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 lef
 }
 
 
-EXPORT void CC MIDI_Wait_4FCE50()
+void MIDI_Wait_4FCE50()
 {
     while (SYS_GetTicks() < gSpuVars->sMidi_WaitUntil())
     {
@@ -719,7 +719,7 @@ EXPORT void CC MIDI_Wait_4FCE50()
 }
 
 
-EXPORT s32 CC MIDI_PlayerPlayMidiNote_4FCE80(s32 vabId, s32 program, s32 note, s32 leftVol, s32 rightVol, s32 volume)
+s32 MIDI_PlayerPlayMidiNote_4FCE80(s32 vabId, s32 program, s32 note, s32 leftVol, s32 rightVol, s32 volume)
 {
     if (gSpuVars->sSoundDatIsNull())
     {
@@ -737,7 +737,7 @@ EXPORT s32 CC MIDI_PlayerPlayMidiNote_4FCE80(s32 vabId, s32 program, s32 note, s
 }
 
 
-EXPORT s32 CC SsVoKeyOn_4FCF10(s32 vabIdAndProgram, s32 pitch, u16 leftVol, u16 rightVol)
+s32 SsVoKeyOn_4FCF10(s32 vabIdAndProgram, s32 pitch, u16 leftVol, u16 rightVol)
 {
     MIDI_Stop_Existing_Single_Note_4FCFF0((vabIdAndProgram & 127) | (((vabIdAndProgram >> 8) & 31) << 8), pitch);
 
@@ -762,7 +762,7 @@ EXPORT s32 CC SsVoKeyOn_4FCF10(s32 vabIdAndProgram, s32 pitch, u16 leftVol, u16 
 }
 
 
-EXPORT s32 CC MIDI_Stop_Existing_Single_Note_4FCFF0(s32 VabIdAndProgram, s32 note)
+s32 MIDI_Stop_Existing_Single_Note_4FCFF0(s32 VabIdAndProgram, s32 note)
 {
     const s32 vabId = (VabIdAndProgram >> 8) & 31;
     if (!gSpuVars->sVagCounts()[vabId])
@@ -789,7 +789,7 @@ EXPORT s32 CC MIDI_Stop_Existing_Single_Note_4FCFF0(s32 VabIdAndProgram, s32 not
 
 // TODO: Removed 4FD0C0
 
-EXPORT s32 CC MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru)
+s32 MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru)
 {
     s32 ret = 0;
     u8 midiByte = 0;
@@ -807,9 +807,9 @@ EXPORT s32 CC MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru)
 
 
 // TODO: Complete tests so this can be rewritten
-EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
+s32 MIDI_ParseMidiMessage_4FD100(s32 idx)
 {
-    //NOT_IMPLEMENTED();
+    //
 
     s32 idx2;                   // ebp
     MIDI_SeqSong* pCtx;         // esi
@@ -841,7 +841,7 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
     s16 v31 = 0;                   // bp
     u8 v33;                        // cl
     s32 v34;                       // eax
-    void(CC * pFn)(s32, u32, u32); // eax
+    void(* pFn)(s32, u32, u32); // eax
     u8* v36;                       // eax
     s8 v37;                        // al
     s32 v38;                       // eax
@@ -1132,17 +1132,17 @@ EXPORT s32 CC MIDI_ParseMidiMessage_4FD100(s32 idx)
     return 0;
 }
 
-EXPORT u8 CC MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData)
+u8 MIDI_ReadByte_4FD6B0(MIDI_SeqSong* pData)
 {
     return *pData->field_0_seq_data++;
 }
 
-EXPORT void CC MIDI_SkipBytes_4FD6C0(MIDI_SeqSong* pData, s32 length)
+void MIDI_SkipBytes_4FD6C0(MIDI_SeqSong* pData, s32 length)
 {
     pData->field_0_seq_data += length;
 }
 
-EXPORT s16 CC SsSeqOpen_4FD6D0(u8* pSeqData, s16 seqIdx)
+s16 SsSeqOpen_4FD6D0(u8* pSeqData, s16 seqIdx)
 {
     // Read header
     SeqHeader seqHeader = {};
@@ -1217,14 +1217,14 @@ EXPORT s16 CC SsSeqOpen_4FD6D0(u8* pSeqData, s16 seqIdx)
     return static_cast<s16>(freeIdx);
 }
 
-EXPORT void CC MIDI_Read_SEQ_Header_4FD870(u8** pSrc, SeqHeader* pDst, u32 size)
+void MIDI_Read_SEQ_Header_4FD870(u8** pSrc, SeqHeader* pDst, u32 size)
 {
     memcpy(pDst, *pSrc, size);
     (*pSrc) += size;
 }
 
 
-EXPORT void CC SsSeqClose_4FD8D0(s16 idx)
+void SsSeqClose_4FD8D0(s16 idx)
 {
     SsSeqStop_4FD9C0(idx);
     gSpuVars->sMidiSeqSongs(idx).field_C_volume = 0;
@@ -1233,7 +1233,7 @@ EXPORT void CC SsSeqClose_4FD8D0(s16 idx)
 }
 
 
-EXPORT void CC SsSeqPlay_4FD900(u16 idx, s8 repeatMode, s16 repeatCount)
+void SsSeqPlay_4FD900(u16 idx, s8 repeatMode, s16 repeatCount)
 {
     if (idx < 32u)
     {
@@ -1269,7 +1269,7 @@ EXPORT void CC SsSeqPlay_4FD900(u16 idx, s8 repeatMode, s16 repeatCount)
 }
 
 
-EXPORT void CC SsSeqStop_4FD9C0(s16 idx)
+void SsSeqStop_4FD9C0(s16 idx)
 {
     if (gSpuVars->sMidiSeqSongs(idx).field_0_seq_data)
     {
@@ -1297,7 +1297,7 @@ EXPORT void CC SsSeqStop_4FD9C0(s16 idx)
 
 // TODO: Removed 4FDA60
 
-EXPORT u16 CC SsIsEos_4FDA80(s16 idx, s16 kZero)
+u16 SsIsEos_4FDA80(s16 idx, s16 kZero)
 {
     if (!kZero)
     {
@@ -1313,7 +1313,7 @@ EXPORT u16 CC SsIsEos_4FDA80(s16 idx, s16 kZero)
 }
 
 
-EXPORT void CC SsSeqSetVol_4FDAC0(s16 idx, s16 volLeft, s16 volRight)
+void SsSeqSetVol_4FDAC0(s16 idx, s16 volLeft, s16 volRight)
 {
     if (gSpuVars->sMidiSeqSongs(idx).field_0_seq_data)
     {
@@ -1326,7 +1326,7 @@ EXPORT void CC SsSeqSetVol_4FDAC0(s16 idx, s16 volLeft, s16 volRight)
 
 // TODO: Removed 4FDB40
 
-EXPORT void CC MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo)
+void MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo)
 {
     if (!kZero)
     {
@@ -1341,7 +1341,7 @@ EXPORT void CC MIDI_SetTempo_4FDB80(s16 idx, s16 kZero, s16 tempo)
     }
 }
 
-EXPORT void CC SsSetTickMode_4FDC20(s32)
+void SsSetTickMode_4FDC20(s32)
 {
     // Stub
 }
@@ -1349,7 +1349,7 @@ EXPORT void CC SsSetTickMode_4FDC20(s32)
 // TODO: Removed 4FDC30
 
 
-EXPORT void CC SsSeqCalledTbyT_4FDC80()
+void SsSeqCalledTbyT_4FDC80()
 {
     if (!gSpuVars->sbDisableSeqs())
     {
@@ -1374,7 +1374,7 @@ EXPORT void CC SsSeqCalledTbyT_4FDC80()
     }
 }
 
-EXPORT void CC MIDI_ADSR_Update_4FDCE0()
+void MIDI_ADSR_Update_4FDCE0()
 {
     for (s32 i = 0; i < kNumChannels; i++)
     {
@@ -1461,7 +1461,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
 }
 
 
-EXPORT s32 CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, s32 vol)
+s32 MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, s32 vol)
 {
     if (pData->field_8_left_vol == vol)
     {
@@ -1480,7 +1480,7 @@ EXPORT s32 CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, s32 vol)
 }
 
 
-EXPORT s16 CC MIDI_PitchBend_4FDEC0(s16 program, s16 pitch)
+s16 MIDI_PitchBend_4FDEC0(s16 program, s16 pitch)
 {
     const f32 pitcha = pow(1.059463094359f, (f32) pitch * 0.0078125f);
     for (s32 i = 0; i < kNumChannels; i++)
@@ -1495,7 +1495,7 @@ EXPORT s16 CC MIDI_PitchBend_4FDEC0(s16 program, s16 pitch)
 }
 
 
-EXPORT s16 CC SsUtChangePitch_4FDF70(s16 voice, s32 /*vabId*/, s32 /*prog*/, s16 old_note, s16 old_fine, s16 new_note, s16 new_fine)
+s16 SsUtChangePitch_4FDF70(s16 voice, s32 /*vabId*/, s32 /*prog*/, s16 old_note, s16 old_fine, s16 new_note, s16 new_fine)
 {
     const f32 freq = pow(1.059463094359f, (f32)(new_fine + ((new_note - (s32) old_note) << 7) - old_fine) * 0.0078125f);
     GetSoundAPI().SND_Buffer_Set_Frequency1(gSpuVars->sMidi_Channels().channels[voice].field_0_sound_buffer_field_4, freq);
@@ -1503,7 +1503,7 @@ EXPORT s16 CC SsUtChangePitch_4FDF70(s16 voice, s32 /*vabId*/, s32 /*prog*/, s16
 }
 
 
-EXPORT void CC SsUtAllKeyOff_4FDFE0(s32)
+void SsUtAllKeyOff_4FDFE0(s32)
 {
     // Stop all backwards
     s16 idx = kNumChannels - 1;
@@ -1515,7 +1515,7 @@ EXPORT void CC SsUtAllKeyOff_4FDFE0(s32)
 }
 
 
-EXPORT s16 CC SsUtKeyOffV_4FE010(s16 idx)
+s16 SsUtKeyOffV_4FE010(s16 idx)
 {
     MIDI_Channel* pChannel = &gSpuVars->sMidi_Channels().channels[idx];
     if (pChannel->field_1C_adsr.field_3_state)
@@ -1531,14 +1531,14 @@ EXPORT s16 CC SsUtKeyOffV_4FE010(s16 idx)
     return 0;
 }
 
-EXPORT void SsVabTransCompleted_4FE060(s32)
+void SsVabTransCompleted_4FE060(s32)
 {
     // Stub
 }
 
 // TODO: Removed 4FE081
 
-EXPORT void CC SsSetTableSize_4FE0B0(void*, s32, s32)
+void SsSetTableSize_4FE0B0(void*, s32, s32)
 {
     // Stub
 }
@@ -1553,38 +1553,38 @@ EXPORT void CC SsSetTableSize_4FE0B0(void*, s32, s32)
 
 // TODO: Removed 4FE330
 
-EXPORT void SsUtReverbOn_4FE340()
+void SsUtReverbOn_4FE340()
 {
     // Stub
 }
 
-EXPORT void SsUtReverbOff_4FE350()
+void SsUtReverbOff_4FE350()
 {
     // Stub
 }
-EXPORT void CC SsUtSetReverbType_4FE360(s32)
-{
-    // Stub
-}
-
-EXPORT void SsUtSetReverbDepth_4FE380(s32, s32)
+void SsUtSetReverbType_4FE360(s32)
 {
     // Stub
 }
 
-EXPORT void SpuClearReverbWorkArea_4FA690(s32)
+void SsUtSetReverbDepth_4FE380(s32, s32)
 {
     // Stub
 }
 
-
-EXPORT void CC SND_CallBack_4020A4()
+void SpuClearReverbWorkArea_4FA690(s32)
 {
     // Stub
 }
 
 
-EXPORT void CC VSyncCallback_4F8C40(TVSyncCallBackFn)
+void SND_CallBack_4020A4()
+{
+    // Stub
+}
+
+
+void VSyncCallback_4F8C40(TVSyncCallBackFn)
 {
     // Stub
 }

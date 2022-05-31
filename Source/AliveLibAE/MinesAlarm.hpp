@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct MinesAlarm_State final
 {
@@ -14,8 +14,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(MinesAlarm_State, 0x8);
 class MinesAlarm final : public BaseGameObject
 {
 public:
-    EXPORT static void CC Create_4177F0(s32 timer);
-    EXPORT static s32 CC CreateFromSaveState_417740(const u8* pBuffer);
+    static void Create_4177F0(s32 timer);
+    static s32 CreateFromSaveState_417740(const u8* pBuffer);
     MinesAlarm(s32 timer);
     ~MinesAlarm();
 
@@ -25,8 +25,8 @@ public:
 
 private:
     s32 vGetSaveState_4177C0(MinesAlarm_State* pState);
-    EXPORT void vScreenChanged_417A20();
-    EXPORT void vUpdate_417910();
+    void vScreenChanged_417A20();
+    void vUpdate_417910();
 };
 ALIVE_ASSERT_SIZEOF(MinesAlarm, 0x20);
 

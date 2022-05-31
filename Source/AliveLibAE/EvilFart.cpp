@@ -108,7 +108,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     return vGetSaveState_4283F0(reinterpret_cast<EvilFart_State*>(pSaveBuffer));
 }
 
-s32 CC EvilFart::CreateFromSaveState_4281C0(const u8* pBuffer)
+s32 EvilFart::CreateFromSaveState_4281C0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const EvilFart_State*>(pBuffer);
 

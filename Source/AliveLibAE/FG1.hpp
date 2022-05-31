@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "DynamicArray.hpp"
 #include "Primitives.hpp"
@@ -31,9 +31,9 @@ public:
     { }
     virtual void VScreenChanged() override;
 
-    EXPORT void vScreenChanged_49A520();
-    EXPORT void vRender_49A3C0(PrimHeader** ppOt);
-    EXPORT s16 Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock);
+    void vScreenChanged_49A520();
+    void vRender_49A3C0(PrimHeader** ppOt);
+    s16 Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
     s32 field_20_unused;
     LevelIds field_24_level_id;

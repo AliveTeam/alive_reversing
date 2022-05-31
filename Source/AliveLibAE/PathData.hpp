@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Factory.hpp"
 #include "Collisions.hpp"
 
@@ -160,12 +160,12 @@ struct SeqHandleTable final
     OpenSeqHandle mSeqs[145];
 };
 
-EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathId);
+const PathBlyRec* Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathId);
 
 // note: has to be writable
-EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId);
+FmvInfo* Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId);
 
-EXPORT void CC Path_Format_CameraName_460FB0(char_type* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId);
+void Path_Format_CameraName_460FB0(char_type* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId);
 
 const char_type* CdLvlName(LevelIds lvlId);
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
@@ -44,11 +44,11 @@ public:
 
 
 private:
-    EXPORT void vScreenChanged_4AC970();
+    void vScreenChanged_4AC970();
 
-    EXPORT s16 IsPlayerNear_4AC300();
+    s16 IsPlayerNear_4AC300();
 
-    EXPORT void vUpdate_4AC380();
+    void vUpdate_4AC380();
 
 
 private:

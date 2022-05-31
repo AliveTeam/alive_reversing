@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 class Shrykull final : public BaseAliveGameObject
 {
@@ -17,9 +17,9 @@ public:
     { }
 
 private:
-    EXPORT static s16 CCSTD CanElectrocute_4AED10(BaseGameObject* pObj);
+    static s16 CanElectrocute_4AED10(BaseGameObject* pObj);
 
-    EXPORT static s16 CCSTD CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj);
+    static s16 CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj);
 
 private:
     enum class State : s16

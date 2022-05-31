@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Throwable.hpp"
@@ -28,11 +28,11 @@ public:
     
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_439540();
+    void VScreenChanged_439540();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4392C0();
+    void VUpdate_4392C0();
 
     s32 field_10C_tlvInfo;
     s16 field_110_bDoMeatSackIdleAnim;
@@ -53,43 +53,43 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_438E70();
+    void VScreenChanged_438E70();
 
     virtual void VThrow(FP velX, FP velY) override;
 
-    EXPORT void VThrow_4386E0(FP velX, FP velY);
+    void VThrow_4386E0(FP velX, FP velY);
 
     virtual s16 VCanThrow() override;
 
-    EXPORT s16 VCanThrow_4390B0();
+    s16 VCanThrow_4390B0();
 
     virtual Bool32 VCanEatMe();
 
-    EXPORT Bool32 VCanEatMe_4390C0();
+    Bool32 VCanEatMe_4390C0();
 
-    EXPORT s16 VIsFalling_4573B0();
+    s16 VIsFalling_4573B0();
 
     virtual s16 VIsFalling() override;
 
     virtual void VTimeToExplodeRandom() override;
 
-    EXPORT void InTheAir_438720();
+    void InTheAir_438720();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_438A20();
+    void VUpdate_438A20();
 
-    EXPORT s16 OnCollision_438D80(BaseAliveGameObject* pObj);
+    s16 OnCollision_438D80(BaseAliveGameObject* pObj);
 
-    EXPORT void AddToPlatform_438EA0();
+    void AddToPlatform_438EA0();
 
     virtual void VOnTrapDoorOpen() override;
 
-    EXPORT void VOnTrapDoorOpen_438FD0();
+    void VOnTrapDoorOpen_438FD0();
 
     virtual s16 VGetCount() override;
 
-    EXPORT s16 VGetCount_439020();
+    s16 VGetCount_439020();
 
     s16 field_110_state;
     s16 field_112;

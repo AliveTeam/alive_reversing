@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 #include "Font.hpp"
@@ -29,15 +29,15 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_434620();
+    void VScreenChanged_434620();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4341B0();
+    void VUpdate_4341B0();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_434400(PrimHeader** ppOt);
+    void VRender_434400(PrimHeader** ppOt);
 
     Prim_PrimClipper field_10_prim_clippers[2][2];
     FontContext field_50_font_context;

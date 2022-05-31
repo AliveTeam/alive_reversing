@@ -1,10 +1,10 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 
-EXPORT void CC Dove_static_ctor_41F3A0();
+void Dove_static_ctor_41F3A0();
 
 struct Path_Dove final : public Path_TLV
 {
@@ -29,12 +29,12 @@ public:
     }
 
 
-    EXPORT void AsAlmostACircle_41FA20(FP xpos, FP ypos, u8 angle);
-    EXPORT void AsACircle_41F980(FP xpos, FP ypos, u8 angle);
-    EXPORT void AsJoin_41F940(FP xpos, FP ypos);
-    EXPORT void FlyAway_420020(Bool32 spookedInstantly);
+    void AsAlmostACircle_41FA20(FP xpos, FP ypos, u8 angle);
+    void AsACircle_41F980(FP xpos, FP ypos, u8 angle);
+    void AsJoin_41F940(FP xpos, FP ypos);
+    void FlyAway_420020(Bool32 spookedInstantly);
 
-    static void CC All_FlyAway_41FA60(Bool32 spookedInstantly);
+    static void All_FlyAway_41FA60(Bool32 spookedInstantly);
 
 private:
     s16 field_F4_counter;

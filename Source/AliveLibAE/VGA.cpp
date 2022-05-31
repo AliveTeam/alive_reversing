@@ -40,14 +40,14 @@ bool s_VGA_FilterScreen = false;
 
 #if USE_SDL2
 
-EXPORT s32 CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
+s32 VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
-    //  NOT_IMPLEMENTED();
+    //  
     LOG_INFO("Stub"); // Can't be empty func otherwise NOT_IMPLEMENT'ed searcher will look into the next function
     return 0;
 }
 
-EXPORT void CC VGA_Shutdown_4F3170()
+void VGA_Shutdown_4F3170()
 {
     #if _WIN32
         #if !USE_SDL2
@@ -56,7 +56,7 @@ EXPORT void CC VGA_Shutdown_4F3170()
         if (!sVGA_own_surfaces_BD0BFA)
         {
             sDD_primary_surface_BBC3C8 = nullptr;
-            sDD_surface_backbuffer_BBC3CC = nullptr;
+            sDD_surface_backbuffer_BBC3= nullptr;
         }
 
         // TODO: Leak in SDL2 as this won't ever be hit ??
@@ -67,7 +67,7 @@ EXPORT void CC VGA_Shutdown_4F3170()
 
         //DD_Shutdown_4F0790(1);
         sDD_primary_surface_BBC3C8 = nullptr;
-        sDD_surface_backbuffer_BBC3CC = nullptr;
+        sDD_surface_backbuffer_BBC3= nullptr;
     }
         #endif
     #endif
@@ -81,32 +81,32 @@ EXPORT void CC VGA_Shutdown_4F3170()
     memset(&sVGA_bmp_back_buffer_BD2A40, 0, sizeof(sVGA_bmp_back_buffer_BD2A40));
 }
 
-EXPORT bool VGA_IsWindowMode_4F31E0()
+bool VGA_IsWindowMode_4F31E0()
 {
     return sVGA_IsWindowMode_BD0BF8;
 }
 
-EXPORT Bitmap* VGA_GetBitmap_4F3F00()
+Bitmap* VGA_GetBitmap_4F3F00()
 {
     return &sVGA_bmp_primary_BD2A20;
 }
 
-EXPORT s32 VGA_GetPixelFormat_4F3EE0()
+s32 VGA_GetPixelFormat_4F3EE0()
 {
     return sVGA_bmp_primary_BD2A20.field_15_pixel_format;
 }
 
-EXPORT s32 CC VGA_Convert_Colour_4F4DB0(s32 r, s32 g, s32 b)
+s32 VGA_Convert_Colour_4F4DB0(s32 r, s32 g, s32 b)
 {
     return Bmp_Convert_Colour_4F17D0(VGA_GetBitmap_4F3F00(), r, g, b);
 }
 
-EXPORT s32 CC VGA_ClearRect_4F4CF0(RECT* pRect, u32 fillColour)
+s32 VGA_ClearRect_4F4CF0(RECT* pRect, u32 fillColour)
 {
     return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
 
-EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMode*/)
+void VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMode*/)
 {
     SDL_Rect copyRect = {};
     if (pRect)
@@ -207,17 +207,17 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMod
     IRenderer::GetRenderer()->EndFrame();
 }
 
-EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
+void VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
 {
     VGA_CopyToFront_4F3730(pBmp, pRect, 0);
 }
 
-EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, u8 screenMode)
+void VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, u8 screenMode)
 {
     VGA_CopyToFront_4F3730(pBmp, pRect, screenMode);
 }
 
-EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSurfaceType** ppSurface)
+s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSurfaceType** ppSurface)
 {
     // TODO: Window sub classing for VGA_WindowSubClass_4F2F50 removed as it only exists to support 8 bpp mode.
 
@@ -323,12 +323,12 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
     return 0;
 }
 
-EXPORT void VGA_BuffUnlockPtr_4F2FB0()
+void VGA_BuffUnlockPtr_4F2FB0()
 {
     // TODO
 }
 
-EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(s32 /*always3*/)
+LPVOID VGA_BuffLockPtr_4F30A0(s32 /*always3*/)
 {
     // TODO
     return nullptr;
@@ -337,23 +337,23 @@ EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(s32 /*always3*/)
 #else
 
     #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-EXPORT s32 CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
+s32 VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
-    //  NOT_IMPLEMENTED();
+    //  
     LOG_INFO("Stub"); // Can't be empty func otherwise NOT_IMPLEMENT'ed searcher will look into the next function
     return 0;
 }
     #endif
 
 
-EXPORT void CC VGA_Shutdown_4F3170()
+void VGA_Shutdown_4F3170()
 {
     if (sDD_primary_surface_BBC3C8)
     {
         if (!sVGA_own_surfaces_BD0BFA)
         {
             sDD_primary_surface_BBC3C8 = nullptr;
-            sDD_surface_backbuffer_BBC3CC = nullptr;
+            sDD_surface_backbuffer_BBC3= nullptr;
         }
 
         if (sVGA_Bmp0_BD0BD0.field_0_pSurface)
@@ -363,7 +363,7 @@ EXPORT void CC VGA_Shutdown_4F3170()
 
         DD_Shutdown_4F0790(1);
         sDD_primary_surface_BBC3C8 = nullptr;
-        sDD_surface_backbuffer_BBC3CC = nullptr;
+        sDD_surface_backbuffer_BBC3= nullptr;
     }
 
     sVGA_Inited_BC0BB8 = false;
@@ -372,32 +372,32 @@ EXPORT void CC VGA_Shutdown_4F3170()
     memset(&sVGA_bmp_back_buffer_BD2A40, 0, sizeof(sVGA_bmp_back_buffer_BD2A40));
 }
 
-EXPORT bool VGA_IsWindowMode_4F31E0()
+bool VGA_IsWindowMode_4F31E0()
 {
     return sVGA_IsWindowMode_BD0BF8;
 }
 
-EXPORT Bitmap* VGA_GetBitmap_4F3F00()
+Bitmap* VGA_GetBitmap_4F3F00()
 {
     return &sVGA_bmp_primary_BD2A20;
 }
 
-EXPORT s32 VGA_GetPixelFormat_4F3EE0()
+s32 VGA_GetPixelFormat_4F3EE0()
 {
     return sVGA_bmp_primary_BD2A20.field_15_pixel_format;
 }
 
-EXPORT s32 CC VGA_Convert_Colour_4F4DB0(s32 r, s32 g, s32 b)
+s32 VGA_Convert_Colour_4F4DB0(s32 r, s32 g, s32 b)
 {
     return Bmp_Convert_Colour_4F17D0(VGA_GetBitmap_4F3F00(), r, g, b);
 }
 
-EXPORT s32 CC VGA_ClearRect_4F4CF0(RECT* pRect, u32 fillColour)
+s32 VGA_ClearRect_4F4CF0(RECT* pRect, u32 fillColour)
 {
     return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
 
-EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
+void VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
 {
     Bitmap* pBitmapToUse; // ebp
     s32 srcWidth;         // ebx
@@ -654,17 +654,17 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
     }
 }
 
-EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, u8 screenMode)
+void VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, u8 screenMode)
 {
     VGA_CopyToFront_4F3730(pBmp, pRect, screenMode);
 }
 
-EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
+void VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
 {
     VGA_CopyToFront_4F3730(pBmp, pRect, 0);
 }
 
-EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSurfaceType** ppSurface)
+s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSurfaceType** ppSurface)
 {
     s32 result = 0;
 
@@ -681,7 +681,7 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
         {
             sVGA_own_surfaces_BD0BFA = false;
             sDD_primary_surface_BBC3C8 = *ppSurface;
-            sDD_surface_backbuffer_BBC3CC = *ppSurface;
+            sDD_surface_backbuffer_BBC3= *ppSurface;
             backbufferCount = 1;
         }
         else
@@ -818,7 +818,7 @@ EXPORT s32 CC VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbuffer
     return result;
 }
 
-EXPORT void VGA_BuffUnlockPtr_4F2FB0()
+void VGA_BuffUnlockPtr_4F2FB0()
 {
     if (sbVga_LockedType_BD0BF0)
     {
@@ -845,7 +845,7 @@ EXPORT void VGA_BuffUnlockPtr_4F2FB0()
 }
 
 
-EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(s32 always3)
+LPVOID VGA_BuffLockPtr_4F30A0(s32 always3)
 {
     LPVOID pLockedBuffer = sVgaLockBuffer_BD0BF4;
     if (!pLockedBuffer)

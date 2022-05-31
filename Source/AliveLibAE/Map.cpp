@@ -48,17 +48,17 @@ const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10]
     CameraSwapEffects::eUnknown_11,
     CameraSwapEffects::eInstantChange_0};
 
-EXPORT void CC static_map_construct_4802F0()
+void static_map_construct_4802F0()
 {
     gMap.Reset_4805D0();
 }
 
-EXPORT void CC static_map_destruct_480330()
+void static_map_destruct_480330()
 {
     gMap.Shutdown_4804E0();
 }
 
-EXPORT void CC static_map_init_4802D0()
+void static_map_init_4802D0()
 {
     static_map_construct_4802F0();
     atexit(static_map_destruct_480330);
@@ -1090,7 +1090,7 @@ s16 Map::Is_Point_In_Current_Camera_4810D0(s32 level, s32 path, FP xpos, FP ypos
 }
 
 
-EXPORT CameraPos Map::Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect)
+CameraPos Map::Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect)
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -1152,7 +1152,7 @@ s16 Map::SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffect
     return 1;
 }
 
-BaseGameObject* CC Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds lvlId)
+BaseGameObject* Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds lvlId)
 {
     if (pMap->field_12_fmv_base_id > 10000u)
     {
@@ -1295,7 +1295,7 @@ Camera* Map::Create_Camera_4829E0(s16 xpos, s16 ypos, s32 /*a4*/)
     return newCamera;
 }
 
-void CCSTD Map::Load_Path_Items_482C10(Camera* pCamera, LoadMode loadMode)
+void Map::Load_Path_Items_482C10(Camera* pCamera, LoadMode loadMode)
 {
     if (!pCamera)
     {
@@ -1327,7 +1327,7 @@ void CCSTD Map::Load_Path_Items_482C10(Camera* pCamera, LoadMode loadMode)
     }
 }
 
-void CC Map::LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad)
+void Map::LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad)
 {
     if (!bDontLoad)
     {
@@ -1339,7 +1339,7 @@ void CC Map::LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resou
     }
 }
 
-void CC Map::LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad)
+void Map::LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad)
 {
     if (!bDontLoad)
     {

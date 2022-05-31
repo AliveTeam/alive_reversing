@@ -1908,7 +1908,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     return MainMenuNextCam(MainMenuCams::eNoChange);
 }
 
-EXPORT MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input_held)
+MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input_held)
 {
     if (input_held & InputCommands::Enum::eUnPause_OrConfirm)
     {
@@ -2045,9 +2045,10 @@ s8 MainMenuController::checkIfDemoFileExists_4D1430(char_type* input)
     strcat(fileName, buffer);
     fileName[0] = sCdRomDrives_5CA488[0];
 
+    int idx = 1;
     while (access_impl(fileName, 0) != 0)
     {
-        fileName[0] = (sCdRomDrives_5CA488++)[1];
+        fileName[0] = sCdRomDrives_5CA488[idx++];
         if (!fileName[0])
         {
             return 0;
@@ -2271,7 +2272,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
     return MainMenuNextCam(MainMenuCams::eNoChange); // Nothing Pressed
 }
 
-EXPORT MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
+MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
 {
     bool indexChanged = false;
 
@@ -2380,9 +2381,9 @@ void MainMenuController::tLoadGame_Load_4D42F0()
     field_1F4_credits_next_frame = 0;
 }
 
-EXPORT void sub_4A2D40()
+void sub_4A2D40()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 
@@ -3116,7 +3117,7 @@ void MainMenuController::Update_4CF010()
     }
 }
 
-s32 CCSTD MainMenuController::GetPageIndexFromCam_4D05A0(s32 camId)
+s32 MainMenuController::GetPageIndexFromCam_4D05A0(s32 camId)
 {
     for (s32 i = 0; i < 24; i++)
     {

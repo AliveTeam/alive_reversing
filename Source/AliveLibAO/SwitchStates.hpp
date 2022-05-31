@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 namespace AO {
 
@@ -21,7 +21,7 @@ enum class SwitchOp : s16
     eDecrement_4 = 4,
 };
 
-EXPORT void CC SwitchStates_Do_Operation(s16 idx, SwitchOp operation);
+void SwitchStates_Do_Operation(s16 idx, SwitchOp operation);
 
 void SwitchStates_Add(u16 idx, s8 value);
 void SwitchStates_ClearAll();

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <FunctionFwd.hpp>
+#include <Function.hpp>
 #include "Animation.hpp"
 #include "BitField.hpp"
 
@@ -9,8 +9,8 @@ class Shadow final
 public:
     Shadow();
     ~Shadow();
-    EXPORT void Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, s16 scale);
-    EXPORT void Render_4ACE60(PrimHeader** ppOt);
+    void Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, s16 scale);
+    void Render_4ACE60(PrimHeader** ppOt);
 
 private:
     s16 field_0_x1;

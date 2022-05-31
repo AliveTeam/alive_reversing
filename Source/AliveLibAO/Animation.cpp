@@ -631,7 +631,7 @@ bool Animation::EnsureDecompressionBuffer()
     return field_24_dbuf != nullptr;
 }
 
-void CC AnimationBase::AnimateAll(DynamicArrayT<AnimationBase>* pAnimList)
+void AnimationBase::AnimateAll(DynamicArrayT<AnimationBase>* pAnimList)
 {
     for (s32 i = 0; i < pAnimList->Size(); i++)
     {
@@ -920,7 +920,7 @@ void Animation::LoadPal(u8** pAnimData, s32 palOffset)
 }
 
 
-static void CC Poly_FT4_Get_Rect(PSX_RECT* pRect, const Poly_FT4* pPoly)
+static void Poly_FT4_Get_Rect(PSX_RECT* pRect, const Poly_FT4* pPoly)
 {
     if (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(pPoly->mBase.header.rgb_code.code_or_pad) == PrimTypeCodes::ePolyFT4)
     {

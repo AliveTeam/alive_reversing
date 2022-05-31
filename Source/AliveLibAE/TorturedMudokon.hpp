@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
@@ -30,11 +30,11 @@ public:
     
 
 private:
-    EXPORT void SetupTearsAnimation_47BE60(Animation* pAnim);
-    EXPORT void SetupZapAnimation_47BEF0(Animation* pAnim);
-    EXPORT void vScreenChanged_47C440();
-    EXPORT void vRender_47C460(PrimHeader** ppOt);
-    EXPORT void vUpdate_47BF80();
+    void SetupTearsAnimation_47BE60(Animation* pAnim);
+    void SetupZapAnimation_47BEF0(Animation* pAnim);
+    void vScreenChanged_47C440();
+    void vRender_47C460(PrimHeader** ppOt);
+    void vUpdate_47BF80();
 
 private:
     Animation field_F4_tears_animation;

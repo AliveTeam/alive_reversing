@@ -50,7 +50,7 @@ public:
         vRender_45DCD0(ppOt);
     }
 
-    EXPORT void Calc_Rect_45DA00()
+    void Calc_Rect_45DA00()
     {
         PSX_Point xy = {};
 
@@ -80,7 +80,7 @@ public:
         field_100_yOff = screenY + FP_FromInteger(offYScaled + FP_GetExponent(frameHScaled)) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);
     }
 
-    EXPORT void vRender_45DCD0(PrimHeader** ppOt)
+    void vRender_45DCD0(PrimHeader** ppOt)
     {
         if (Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
         {
@@ -192,13 +192,13 @@ public:
         vRender_45E260(ppOt);
     }
 
-    EXPORT void SetRenderEnabled_45E240(s16 bEnable)
+    void SetRenderEnabled_45E240(s16 bEnable)
     {
         field_F4_bRender = bEnable;
     }
 
 private:
-    EXPORT void vUpdate_45DFE0()
+    void vUpdate_45DFE0()
     {
         // HACK/WTF this seems to move the base animation off screen so it can never been seen??
         PSX_RECT rect = {};
@@ -245,7 +245,7 @@ private:
         }
     }
 
-    EXPORT void vRender_45E260(PrimHeader** ppOt)
+    void vRender_45E260(PrimHeader** ppOt)
     {
         if (sNum_CamSwappers_5C1B66 == 0)
         {

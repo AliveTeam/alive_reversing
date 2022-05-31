@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 namespace AO {
 
@@ -76,8 +76,8 @@ ALIVE_ASSERT_SIZEOF(GameSpeak, 0x3C);
 
 ALIVE_VAR_EXTERN(GameSpeak*, pEventSystem_4FF954);
 
-EXPORT s16 CC Code_Length(u32 code);
-EXPORT s32 CC Code_Convert(u16 code1, u16 code2);
-EXPORT GameSpeakEvents CC Code_LookUp(u32 code, u16 idx, u16 code_len);
+s16 Code_Length(u32 code);
+s32 Code_Convert(u16 code1, u16 code2);
+GameSpeakEvents Code_LookUp(u32 code, u16 idx, u16 code_len);
 
 } // namespace AO

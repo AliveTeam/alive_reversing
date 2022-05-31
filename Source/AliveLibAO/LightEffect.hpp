@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "DoorLight.hpp"
 
 namespace AO {
@@ -11,17 +11,17 @@ public:
     LightEffect(Path_LightEffect* pTlv, s32 tlvInfo);
     ~LightEffect();
 
-    EXPORT void VRender_4067F0(PrimHeader** ppOt);
+    void VRender_4067F0(PrimHeader** ppOt);
 
     virtual void VRender(PrimHeader** ppOt) override;
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_4067E0();
+    void VScreenChanged_4067E0();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_406610();
+    void VUpdate_406610();
 
     s32 field_D4;
     s32 field_D8;

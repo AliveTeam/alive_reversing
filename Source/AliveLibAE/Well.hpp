@@ -2,7 +2,7 @@
 
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 
 struct Path_WellBase;
@@ -19,10 +19,10 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos);
-    EXPORT void WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos);
-    EXPORT void vScreenChanged_4E3070();
-    EXPORT void vUpdate_4E2F60();
+    void WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos);
+    void WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos);
+    void vScreenChanged_4E3070();
+    void vUpdate_4E2F60();
 
 private:
     s32 field_20_tlvInfo;

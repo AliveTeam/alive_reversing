@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Animation.hpp"
 #include "Primitives.hpp"
@@ -8,16 +8,16 @@
 
 void Game_ForceLink();
 
-EXPORT void CC static_init_set_default_hero_43EC10();
+void static_init_set_default_hero_43EC10();
 
 namespace AETest::TestsGame {
 void GameTests();
 }
 
-EXPORT void CC Game_Main_4949F0();
-EXPORT void DestroyObjects_4A1F20();
-EXPORT void CC Init_GameStates_43BF40();
-EXPORT s32 CC Game_End_Frame_4950F0(u32 flags);
+void Game_Main_4949F0();
+void DestroyObjects_4A1F20();
+void Init_GameStates_43BF40();
+s32 Game_End_Frame_4950F0(u32 flags);
 
 ALIVE_VAR_EXTERN(u32, sGnFrame_5C1B84);
 ALIVE_VAR_EXTERN(bool, sCommandLine_DDCheatEnabled_5CA4B5);

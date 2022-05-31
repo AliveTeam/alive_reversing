@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "FixedPoint.hpp"
 
 namespace AETest::TestsEvent {
@@ -35,9 +35,9 @@ enum Event : s16
 class BaseGameObject;
 class BaseAnimatedWithPhysicsGameObject;
 
-EXPORT void CC Event_Broadcast_422BC0(s32 event, BaseGameObject* pObject);
-EXPORT BaseGameObject* CC Event_Get_422C00(s16 eventType);
-EXPORT void CC Events_Reset_422D70();
-EXPORT void CC Events_Reset_Active_422DA0();
-EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(s16 eventType, FP xpos, FP ypos, s16 scale);
-EXPORT void CC Event_Cancel_For_Obj(BaseGameObject* pObj);
+void Event_Broadcast_422BC0(s32 event, BaseGameObject* pObject);
+BaseGameObject* Event_Get_422C00(s16 eventType);
+void Events_Reset_422D70();
+void Events_Reset_Active_422DA0();
+BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range_422C30(s16 eventType, FP xpos, FP ypos, s16 scale);
+void Event_Cancel_For_Obj(BaseGameObject* pObj);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "DynamicArray.hpp"
 #include "BaseGameObject.hpp"
 #include "Animation.hpp"
@@ -167,10 +167,10 @@ public:
     virtual void VScreenChanged() override
     { }
 
-    EXPORT void Render_4CF4C0(PrimHeader** ppOt);
-    EXPORT void Update_4CF010();
+    void Render_4CF4C0(PrimHeader** ppOt);
+    void Update_4CF010();
 
-    EXPORT static s32 CCSTD GetPageIndexFromCam_4D05A0(s32 camId);
+    static s32 GetPageIndexFromCam_4D05A0(s32 camId);
 
     enum MainMenuGamespeakAnimIds
     {
@@ -228,101 +228,101 @@ public:
         eParamite_IdleVariation = 42, // Randomly moves its tenticles every so often
     };
 
-    EXPORT void Set_Anim_4D05E0(s16 a2, s16 a3 = 0);
-    EXPORT void Load_Anim_Pal_4D06A0(Animation* pAnim);
-    EXPORT s32 ChangeScreenAndIntroLogic_4CF640();
-    EXPORT void AnimationAndSoundLogic_4CFE80();
-    EXPORT void UpdateHighliteGlow_4D0630();
-    EXPORT static void callback_4D06E0(MainMenuController* a1);
-    EXPORT static void DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, Alive::Font* font, s32* polyIndex, s8 a5);
+    void Set_Anim_4D05E0(s16 a2, s16 a3 = 0);
+    void Load_Anim_Pal_4D06A0(Animation* pAnim);
+    s32 ChangeScreenAndIntroLogic_4CF640();
+    void AnimationAndSoundLogic_4CFE80();
+    void UpdateHighliteGlow_4D0630();
+    static void callback_4D06E0(MainMenuController* a1);
+    static void DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, Alive::Font* font, s32* polyIndex, s8 a5);
 
     // Page Functions
-    EXPORT void AbeSpeak_Render_4D2060(PrimHeader** ot);
-    EXPORT MainMenuNextCam AbeSpeak_Update_4D2D20(u32 input_held);
+    void AbeSpeak_Render_4D2060(PrimHeader** ot);
+    MainMenuNextCam AbeSpeak_Update_4D2D20(u32 input_held);
 
-    EXPORT void SligSpeak_Render_4D2370(PrimHeader** ot);
-    EXPORT MainMenuNextCam SligSpeak_Update_4D3280(u32 input_held);
-    EXPORT void SligSpeak_Unload_4D3170();
-    EXPORT void SligSpeak_Load_4D3090();
+    void SligSpeak_Render_4D2370(PrimHeader** ot);
+    MainMenuNextCam SligSpeak_Update_4D3280(u32 input_held);
+    void SligSpeak_Unload_4D3170();
+    void SligSpeak_Load_4D3090();
 
-    EXPORT void GlukkonSpeak_Render_4D23C0(PrimHeader** ot);
-    EXPORT MainMenuNextCam GlukkonSpeak_Update_4D3670(u32 input_held);
-    EXPORT void GlukkonSpeak_Unload_4D3560();
-    EXPORT void GlukkonSpeak_Load_4D3480();
+    void GlukkonSpeak_Render_4D23C0(PrimHeader** ot);
+    MainMenuNextCam GlukkonSpeak_Update_4D3670(u32 input_held);
+    void GlukkonSpeak_Unload_4D3560();
+    void GlukkonSpeak_Load_4D3480();
 
-    EXPORT void ScrabSpeak_Render_4D2410(PrimHeader** ot);
-    EXPORT MainMenuNextCam ScrabSpeak_Update_4D3A60(u32 input_held);
-    EXPORT void ScrabSpeak_Unload_4D3950();
-    EXPORT void ScrabSpeak_Load_4D3870();
+    void ScrabSpeak_Render_4D2410(PrimHeader** ot);
+    MainMenuNextCam ScrabSpeak_Update_4D3A60(u32 input_held);
+    void ScrabSpeak_Unload_4D3950();
+    void ScrabSpeak_Load_4D3870();
 
-    EXPORT void ParamiteSpeak_Render_4D2460(PrimHeader** ot);
-    EXPORT MainMenuNextCam ParamiteSpeak_Update_4D3D60(u32 input_held);
-    EXPORT void ParamiteSpeak_Unload_4D3C50();
-    EXPORT void ParamiteSpeak_Load_4D3B70();
+    void ParamiteSpeak_Render_4D2460(PrimHeader** ot);
+    MainMenuNextCam ParamiteSpeak_Update_4D3D60(u32 input_held);
+    void ParamiteSpeak_Unload_4D3C50();
+    void ParamiteSpeak_Load_4D3B70();
 
-    EXPORT MainMenuNextCam Gamespeak_Update_4D1FC0(u32 input_held);
+    MainMenuNextCam Gamespeak_Update_4D1FC0(u32 input_held);
 
     void RenderOnScreenTextHelper(PrimHeader** ot, const MainMenuText* menuTextArray, s32 count, s8 isSingleChar);
 
-    EXPORT void AbeMotions_Render_4D25E0(PrimHeader** ot);
-    EXPORT void Gamespeak_Render_4D24F0(PrimHeader** ot);
-    EXPORT void Options_Render_4D2540(PrimHeader** ot);
-    EXPORT void BackStory_Or_NewGame_Render_4D2630(PrimHeader** ot);
+    void AbeMotions_Render_4D25E0(PrimHeader** ot);
+    void Gamespeak_Render_4D24F0(PrimHeader** ot);
+    void Options_Render_4D2540(PrimHeader** ot);
+    void BackStory_Or_NewGame_Render_4D2630(PrimHeader** ot);
 
-    EXPORT void ControllerMenu_Render_Text_4D26C0(PrimHeader** pOt);
+    void ControllerMenu_Render_Text_4D26C0(PrimHeader** pOt);
 
-    EXPORT void Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt);
+    void Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt);
 
-    EXPORT void t_Unload_AbeSpeak_Res_4D49F0();
+    void t_Unload_AbeSpeak_Res_4D49F0();
 
-    EXPORT void t_Load_AbeSpeak_Res_4D4A20();
+    void t_Load_AbeSpeak_Res_4D4A20();
 
-    EXPORT MainMenuNextCam Page_FMV_Level_Update_4D4AB0(u32 input_held);
+    MainMenuNextCam Page_FMV_Level_Update_4D4AB0(u32 input_held);
 
     void Unload_AbeSpeakResources();
     void Load_AbeSpeakResources();
 
     // Front End
-    EXPORT MainMenuNextCam Page_Front_Update_4D0720(u32 input);
-    EXPORT void Page_Front_Render_4D24B0(PrimHeader** ot);
+    MainMenuNextCam Page_Front_Update_4D0720(u32 input);
+    void Page_Front_Render_4D24B0(PrimHeader** ot);
 
-    EXPORT MainMenuNextCam LoadNewGame_Update_4D0920(u32 input);
+    MainMenuNextCam LoadNewGame_Update_4D0920(u32 input);
 
-    EXPORT MainMenuNextCam BackStory_Or_NewGame_Update_4D1C60(u32 input_held);
-    EXPORT void BackStory_Or_NewGame_Load_4D1BA0();
-    EXPORT void BackStory_Or_NewGame_Unload_4D1BE0();
+    MainMenuNextCam BackStory_Or_NewGame_Update_4D1C60(u32 input_held);
+    void BackStory_Or_NewGame_Load_4D1BA0();
+    void BackStory_Or_NewGame_Unload_4D1BE0();
 
-    EXPORT MainMenuNextCam LoadDemo_Update_4D1040(u32 input);
-    EXPORT MainMenuNextCam DemoSelect_Update_4D0E10(u32 input);
-    EXPORT MainMenuNextCam Options_Update_4D1AB0(u32 input);
+    MainMenuNextCam LoadDemo_Update_4D1040(u32 input);
+    MainMenuNextCam DemoSelect_Update_4D0E10(u32 input);
+    MainMenuNextCam Options_Update_4D1AB0(u32 input);
 
-    EXPORT MainMenuNextCam AbeMotions_Update_4D1F50(u32 input);
+    MainMenuNextCam AbeMotions_Update_4D1F50(u32 input);
 
-    EXPORT MainMenuNextCam PSX_Cooperative_Mode_Update_4D49B0(u32 input);
+    MainMenuNextCam PSX_Cooperative_Mode_Update_4D49B0(u32 input);
 
-    EXPORT MainMenuNextCam PSX_Gamemode_Selection_Update_4D48C0(u32 input);
+    MainMenuNextCam PSX_Gamemode_Selection_Update_4D48C0(u32 input);
 
-    EXPORT void RemapInput_Load_4D17E0();
+    void RemapInput_Load_4D17E0();
 
-    EXPORT void ControllerMenu_Load_4D16B0();
+    void ControllerMenu_Load_4D16B0();
 
-    EXPORT void RemapInput_Render_4D2A10(PrimHeader** ot);
+    void RemapInput_Render_4D2A10(PrimHeader** ot);
 
-    EXPORT MainMenuNextCam ControllerMenu_Update_4D16D0(u32 input);
+    MainMenuNextCam ControllerMenu_Update_4D16D0(u32 input);
 
-    EXPORT MainMenuNextCam RemapInput_Update_4D1820(u32 input);
+    MainMenuNextCam RemapInput_Update_4D1820(u32 input);
 
-    EXPORT MainMenuNextCam tLoadGame_Input_4D3EF0(u32 input);
-    EXPORT void tLoadGame_Render_4D44D0(PrimHeader** pOt);
+    MainMenuNextCam tLoadGame_Input_4D3EF0(u32 input);
+    void tLoadGame_Render_4D44D0(PrimHeader** pOt);
 
-    EXPORT void tLoadGame_Load_4D42F0();
-    EXPORT static s8 CC checkIfDemoFileExists_4D1430(char_type* path);
-    EXPORT static void CC remove_ISO9660_Suffix_4D1660(char_type* out, const char_type* in);
+    void tLoadGame_Load_4D42F0();
+    static s8 checkIfDemoFileExists_4D1430(char_type* path);
+    static void remove_ISO9660_Suffix_4D1660(char_type* out, const char_type* in);
 
-    EXPORT void tLoadGame_Unload_4D4360();
+    void tLoadGame_Unload_4D4360();
 
     // "Quit" page load
-    EXPORT void Game_Force_Quit_Load_4D1A90();
+    void Game_Force_Quit_Load_4D1A90();
 
     static MainMenuController* gMainMenuController;
 

@@ -24,9 +24,9 @@ public:
         e4Bit,
     };
 
-    EXPORT static IRenderer* GetRenderer();
-    EXPORT static void CreateRenderer(Renderers type);
-    EXPORT static void FreeRenderer();
+    static IRenderer* GetRenderer();
+    static void CreateRenderer(Renderers type);
+    static void FreeRenderer();
 
     struct PalRecord final
     {

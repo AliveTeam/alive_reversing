@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "DynamicArray.hpp"
 #include "Animation.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
@@ -46,40 +46,40 @@ public:
     virtual BirdPortal* VIntoBirdPortal_408FD0(s16 gridBlocks);
     virtual void VOnTrapDoorOpen();
 
-    EXPORT static s16 CCSTD IsInInvisibleZone_425710(BaseAliveGameObject* pObj);
+    static s16 IsInInvisibleZone_425710(BaseAliveGameObject* pObj);
 
 private:
-    EXPORT void vUnPosses_408F90();
-    EXPORT void vPossessed_408F70();
-    EXPORT void vSetMotion_4081C0(s16 state);
-    EXPORT void vOnPathTransition_408320(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction);
-    EXPORT s16 vTakeDamage_408730(BaseGameObject* pFrom);
-    EXPORT void vOn_TLV_Collision_4087F0(Path_TLV* pTlv);
-    EXPORT void vCheckCollisionLineStillValid_408A40(s16 distance);
-    EXPORT BirdPortal* vIntoBirdPortal_408FD0(s16 gridBlocks);
-    EXPORT void vOnTrapDoorOpen_4081F0();
+    void vUnPosses_408F90();
+    void vPossessed_408F70();
+    void vSetMotion_4081C0(s16 state);
+    void vOnPathTransition_408320(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction);
+    s16 vTakeDamage_408730(BaseGameObject* pFrom);
+    void vOn_TLV_Collision_4087F0(Path_TLV* pTlv);
+    void vCheckCollisionLineStillValid_408A40(s16 distance);
+    BirdPortal* vIntoBirdPortal_408FD0(s16 gridBlocks);
+    void vOnTrapDoorOpen_4081F0();
 
 protected:
-    EXPORT s16 SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, s32 resourceID);
+    s16 SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, s32 resourceID);
 
-    EXPORT Bool32 Check_IsOnEndOfLine_408E90(s16 direction, s16 distance);
+    Bool32 Check_IsOnEndOfLine_408E90(s16 direction, s16 distance);
 
-    EXPORT BaseAliveGameObject* GetStackedSlapTarget_425290(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos);
+    BaseAliveGameObject* GetStackedSlapTarget_425290(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos);
 
-
-public:
-    EXPORT void SetActiveCameraDelayedFromDir_408C40();
 
 public:
-    EXPORT s16 MapFollowMe_408D10(s16 snapToGrid);
+    void SetActiveCameraDelayedFromDir_408C40();
+
+public:
+    s16 MapFollowMe_408D10(s16 snapToGrid);
 
 protected:
-    EXPORT Bool32 WallHit_408750(FP offY, FP offX);
-    EXPORT Bool32 InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
-    EXPORT BaseGameObject* FindObjectOfType_425180(AETypes typeToFind, FP xpos, FP ypos);
+    Bool32 WallHit_408750(FP offY, FP offX);
+    Bool32 InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
+    BaseGameObject* FindObjectOfType_425180(AETypes typeToFind, FP xpos, FP ypos);
 
 public:
-    EXPORT s16 OnTrapDoorIntersection_408BA0(PlatformBase* pOther);
+    s16 OnTrapDoorIntersection_408BA0(PlatformBase* pOther);
 
 public:
     s16 field_F4_previous_motion;

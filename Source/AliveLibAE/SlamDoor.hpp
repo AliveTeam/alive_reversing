@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Factory.hpp"
 #include "Path.hpp"
 
@@ -40,12 +40,12 @@ public:
     SlamDoor(Path_SlamDoor* tlv_params, TlvItemInfoUnion tlvInfo);
     ~SlamDoor();
 
-    EXPORT static s32 CC CreateFromSaveState_4C08B0(const u8*);
+    static s32 CreateFromSaveState_4C08B0(const u8*);
 
 private:
-    EXPORT void vUpdate_4AFD50();
-    EXPORT s32 vGetSaveState_4C09D0(u8* pSaveBuffer);
-    EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPosition, s16 width);
+    void vUpdate_4AFD50();
+    s32 vGetSaveState_4C09D0(u8* pSaveBuffer);
+    void ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPosition, s16 width);
 
 private:
     BitField16<SlamDoor_Flags_118> field_118_flags;

@@ -40,7 +40,7 @@ const InputCommands::Enum sCheatKeyArray_PathSkip_5515E8[6] = {
     InputCommands::Enum::eLeft,
     InputCommands::Enum::eRight};
 
-EXPORT void CC CheatController_Cheat_FMV_421AD0()
+void CheatController_Cheat_FMV_421AD0()
 {
     if (gMap.field_4_current_camera == 1)
     {
@@ -48,7 +48,7 @@ EXPORT void CC CheatController_Cheat_FMV_421AD0()
     }
 }
 
-EXPORT void CC CheatController_Cheat_LevelSelect_421B00()
+void CheatController_Cheat_LevelSelect_421B00()
 {
     if (gMap.field_4_current_camera == 1)
     {
@@ -56,7 +56,7 @@ EXPORT void CC CheatController_Cheat_LevelSelect_421B00()
     }
 }
 
-EXPORT void CC CheatController_Cheat_PathSkip_421B30()
+void CheatController_Cheat_PathSkip_421B30()
 {
     char_type nameBuffer[20];
 

@@ -185,7 +185,7 @@ void FallingItem::vScreenChanged_428180()
     }
 }
 
-EXPORT void FallingItem::vUpdate_427780()
+void FallingItem::vUpdate_427780()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {

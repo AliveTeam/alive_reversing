@@ -2,7 +2,7 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct Path_GlukkonSwitch final : public Path_TLV
 {
@@ -32,11 +32,11 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vScreenChange_4456D0();
+    void vScreenChange_4456D0();
 
-    EXPORT s16 PlayerNearMe_445180();
+    s16 PlayerNearMe_445180();
 
-    EXPORT void vUpdate_445200();
+    void vUpdate_445200();
 
 private:
     s32 field_F4_tlvInfo;

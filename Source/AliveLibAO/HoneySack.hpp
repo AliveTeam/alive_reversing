@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibAE/Path.hpp"
@@ -24,15 +24,15 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_42C390();
+    void VScreenChanged_42C390();
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
-    EXPORT void VOnThrowableHit_42C370(BaseGameObject* pFrom);
+    void VOnThrowableHit_42C370(BaseGameObject* pFrom);
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_42BFE0();
+    void VUpdate_42BFE0();
 
     s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;

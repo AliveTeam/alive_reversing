@@ -4,7 +4,7 @@
 #include "Sound/Midi.hpp"
 
 #if USE_SDL2_SOUND
-    #include "../AliveLibCommon/FunctionFwd.hpp"
+    #include "../AliveLibCommon/Function.hpp"
     #include "stdlib.hpp"
     #include "SDL.h"
     #include <atomic>

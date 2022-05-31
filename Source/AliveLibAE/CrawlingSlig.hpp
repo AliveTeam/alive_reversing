@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
 
@@ -136,80 +136,80 @@ public:
 
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_41AE80(const u8* pBuffer);
+    static s32 CreateFromSaveState_41AE80(const u8* pBuffer);
 
 private:
-    EXPORT s32 vGetSaveState_41C9A0(CrawlingSlig_State* pState);
+    s32 vGetSaveState_41C9A0(CrawlingSlig_State* pState);
 
-    EXPORT void vPossessed_4195F0();
+    void vPossessed_4195F0();
 
-    EXPORT void Set_AnimAndMotion_419890(s16 currentMotion, s16 bClearNextMotion);
+    void Set_AnimAndMotion_419890(s16 currentMotion, s16 bClearNextMotion);
 
-    EXPORT void UpdateAnimBlock_419900();
+    void UpdateAnimBlock_419900();
 
-    EXPORT u8** GetAnimBlock_419950(s32 currentMotion);
+    u8** GetAnimBlock_419950(s32 currentMotion);
 
-    EXPORT static s16 CC NextRandom_4197D0();
+    static s16 NextRandom_4197D0();
 
-    EXPORT void vUpdate_419100();
+    void vUpdate_419100();
 
-    EXPORT void vRender_419990(PrimHeader** ot);
+    void vRender_419990(PrimHeader** ot);
 
-    EXPORT s16 HandleEnemyStopper_41C740(FP velX);
+    s16 HandleEnemyStopper_41C740(FP velX);
 
-    EXPORT Path_TLV* FindPantsOrWings_419750();
+    Path_TLV* FindPantsOrWings_419750();
 
-    EXPORT BaseGameObject* FindSligButton_419840();
+    BaseGameObject* FindSligButton_419840();
 
-    EXPORT void vOnTrapDoorOpen_41C580();
+    void vOnTrapDoorOpen_41C580();
 
-    EXPORT void vOn_TLV_Collision_419680(Path_TLV* pTlv);
+    void vOn_TLV_Collision_419680(Path_TLV* pTlv);
 
-    EXPORT s16 vTakeDamage_4192B0(BaseGameObject* pFrom);
+    s16 vTakeDamage_4192B0(BaseGameObject* pFrom);
 
 private:
     void SetBrain(TCrawlingSligBrainFn fn);
     bool BrainIs(TCrawlingSligBrainFn fn);
 
-    EXPORT Bool32 PanicOn_419810();
+    Bool32 PanicOn_419810();
 
-    EXPORT void ToIdle_41C070();
+    void ToIdle_41C070();
 
-    EXPORT void HandleCommon_41C0B0();
+    void HandleCommon_41C0B0();
 
-    EXPORT s16 CanCrawl_41C5D0();
+    s16 CanCrawl_41C5D0();
 
-    EXPORT void MoveOnLine_41C3D0();
+    void MoveOnLine_41C3D0();
 
-    EXPORT void PlatformCollide_41C500();
+    void PlatformCollide_41C500();
 
 public:
-    EXPORT s16 Brain_0_Sleeping_419DE0();
-    EXPORT s16 Brain_1_Idle_419F60();
-    EXPORT s16 Brain_2_PanicGetALocker_419FE0();
-    EXPORT s16 Brain_3_Possessed_41A5B0();
-    EXPORT s16 Brain_4_GetKilled_41A880();
-    EXPORT s16 Brain_5_Transformed_41ADF0();
+    s16 Brain_0_Sleeping_419DE0();
+    s16 Brain_1_Idle_419F60();
+    s16 Brain_2_PanicGetALocker_419FE0();
+    s16 Brain_3_Possessed_41A5B0();
+    s16 Brain_4_GetKilled_41A880();
+    s16 Brain_5_Transformed_41ADF0();
 
 
-    EXPORT void M_Idle_0_41B260();
-    EXPORT void M_UsingButton_1_41B890();
-    EXPORT void M_WakingUp_2_41BF00();
-    EXPORT void M_Crawling_3_41B280();
-    EXPORT void M_StartFalling_4_41B620();
-    EXPORT void M_Falling_5_41B650();
-    EXPORT void M_Landing_6_41B870();
-    EXPORT void M_ToShakingToIdle_7_41C010();
-    EXPORT void M_Speaking_8_41BF70();
-    EXPORT void M_Snoozing_9_41BD80();
-    EXPORT void M_PushingWall_10_41B400();
-    EXPORT void M_TurnAround_11_41B590();
-    EXPORT void M_Shaking_12_418C30();
-    EXPORT void M_Empty_13_418C50();
-    EXPORT void M_ShakingToIdle_14_41C040();
-    EXPORT void M_EndCrawling_15_41B600();
-    EXPORT void M_IdleToPushingWall_16_41B3C0();
-    EXPORT void M_EndPushingWall_17_41B3A0();
+    void M_Idle_0_41B260();
+    void M_UsingButton_1_41B890();
+    void M_WakingUp_2_41BF00();
+    void M_Crawling_3_41B280();
+    void M_StartFalling_4_41B620();
+    void M_Falling_5_41B650();
+    void M_Landing_6_41B870();
+    void M_ToShakingToIdle_7_41C010();
+    void M_Speaking_8_41BF70();
+    void M_Snoozing_9_41BD80();
+    void M_PushingWall_10_41B400();
+    void M_TurnAround_11_41B590();
+    void M_Shaking_12_418C30();
+    void M_Empty_13_418C50();
+    void M_ShakingToIdle_14_41C040();
+    void M_EndCrawling_15_41B600();
+    void M_IdleToPushingWall_16_41B3C0();
+    void M_EndPushingWall_17_41B3A0();
 
 private:
     s32 field_118_tlvInfo;

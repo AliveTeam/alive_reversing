@@ -2,7 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct Path_Greeter final : public Path_TLV
 {
@@ -85,25 +85,25 @@ public:
     virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_446040(const u8* pBuffer);
+    static s32 CreateFromSaveState_446040(const u8* pBuffer);
 
 
 private:
-    EXPORT s32 vGetSaveState_446400(Greeter_State* pState);
+    s32 vGetSaveState_446400(Greeter_State* pState);
 
 
-    EXPORT void vScreenChanged_447DD0();
-    EXPORT void BlowUp_447E50();
-    EXPORT void ChangeDirection_447BD0();
-    EXPORT void BounceBackFromShot_447B10();
-    EXPORT void HandleRollingAlong_447860();
-    EXPORT s16 vTakeDamage_447C20(BaseGameObject* pFrom);
-    EXPORT void vOnThrowableHit_447DB0(BaseGameObject* pFrom);
-    EXPORT void ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
-    EXPORT void RandomishSpeak_447A70(GreeterSpeak effect);
-    EXPORT Bool32 ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
-    EXPORT BaseAliveGameObject* GetMudToZap_447690();
-    EXPORT void vUpdate_4469B0();
+    void vScreenChanged_447DD0();
+    void BlowUp_447E50();
+    void ChangeDirection_447BD0();
+    void BounceBackFromShot_447B10();
+    void HandleRollingAlong_447860();
+    s16 vTakeDamage_447C20(BaseGameObject* pFrom);
+    void vOnThrowableHit_447DB0(BaseGameObject* pFrom);
+    void ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
+    void RandomishSpeak_447A70(GreeterSpeak effect);
+    Bool32 ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
+    BaseAliveGameObject* GetMudToZap_447690();
+    void vUpdate_4469B0();
 
 private:
     s32 field_118_tlvInfo;

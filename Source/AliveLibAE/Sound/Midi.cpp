@@ -20,7 +20,7 @@
 #include "AmbientSound.hpp"
 
 
-EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch);
+void SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch);
 
 const s32 kSeqTableSizeAE = 144;
 
@@ -132,17 +132,17 @@ public:
 static AEMidiVars sAEMidiVars;
 static IMidiVars* spMidiVars = &sAEMidiVars; // Default to AE vars
 
-EXPORT IMidiVars* GetMidiVars()
+IMidiVars* GetMidiVars()
 {
     return spMidiVars;
 }
 
-EXPORT void SetMidiApiVars(IMidiVars* pVars)
+void SetMidiApiVars(IMidiVars* pVars)
 {
     spMidiVars = pVars;
 }
 
-EXPORT void CC SND_Free_All_VABS_4C9EB0()
+void SND_Free_All_VABS_4C9EB0()
 {
     SoundBlockInfo* pIter = GetMidiVars()->sLastLoadedSoundBlockInfo();
     while (pIter && pIter->field_4_vab_body_name)
@@ -156,7 +156,7 @@ EXPORT void CC SND_Free_All_VABS_4C9EB0()
     GetMidiVars()->sLastLoadedSoundBlockInfo() = nullptr;
 }
 
-EXPORT void CC SND_Free_All_Seqs_4C9F40()
+void SND_Free_All_Seqs_4C9F40()
 {
     for (s32 i = 0; i < GetMidiVars()->MidiTableSize(); i++)
     {
@@ -169,7 +169,7 @@ EXPORT void CC SND_Free_All_Seqs_4C9F40()
     }
 }
 
-EXPORT void SND_Reset_4C9FB0()
+void SND_Reset_4C9FB0()
 {
     SND_Stop_All_Seqs_4CA850();
     SND_Free_All_Seqs_4C9F40();
@@ -178,7 +178,7 @@ EXPORT void SND_Reset_4C9FB0()
 }
 
 
-EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
+s16 SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
 {
     // Fail if no file name
     if (!pSoundBlockInfo->field_0_vab_header_name)
@@ -263,13 +263,13 @@ EXPORT s16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
 
 // TODO: PSX has VSyncCallback here 0x800592dc
 
-EXPORT s32 CC MIDI_Play_Single_Note_4CA1B0(s32 vabIdAndProgram, s32 note, s32 leftVol, s32 rightVol)
+s32 MIDI_Play_Single_Note_4CA1B0(s32 vabIdAndProgram, s32 note, s32 leftVol, s32 rightVol)
 {
     // NOTE: word_BB2E40 is used as a guard here, but it is never read anywhere else
     return SsVoKeyOn_4FCF10(vabIdAndProgram, note, static_cast<u16>(leftVol), static_cast<u16>(rightVol));
 }
 
-EXPORT void CC SND_Init_4CA1F0()
+void SND_Init_4CA1F0()
 {
     SSInit_4FC230();
     SsSetTableSize_4FE0B0(nullptr, 16, 1);
@@ -288,7 +288,7 @@ EXPORT void CC SND_Init_4CA1F0()
 
 // SND_SetStereo_NoRefs_4CA330
 
-EXPORT void SND_Shutdown_4CA280()
+void SND_Shutdown_4CA280()
 {
     SND_Reset_4C9FB0();
 
@@ -315,7 +315,7 @@ EXPORT void SND_Shutdown_4CA280()
 }
 
 
-EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
+void SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     GetMidiVars()->sSnd_ReloadAbeResources() = FALSE;
@@ -352,7 +352,7 @@ EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 }
 
 
-s32 CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
+s32 SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
 {
     if (!volume)
     {
@@ -400,7 +400,7 @@ s32 CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s1
 }
 
 
-EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch)
+void SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch)
 {
     s32 v3 = 0;
     s16 v4 = 0;
@@ -427,7 +427,7 @@ EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, 
     }
 }
 
-EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
+s32 SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
 {
     s32 volClamped = 0;
     if (vol < 10)
@@ -478,7 +478,7 @@ EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16
     return channelBits;
 }
 
-s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+s32 SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
 {
     if (pitch_min == 0x7FFF)
     {
@@ -528,7 +528,7 @@ s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s
     return midiHandle;
 }
 
-EXPORT void CC SND_Stop_Channels_Mask_4CA810(u32 bitMask)
+void SND_Stop_Channels_Mask_4CA810(u32 bitMask)
 {
     for (s32 i = 0; i < 24; i++) // TODO: Constant
     {
@@ -541,7 +541,7 @@ EXPORT void CC SND_Stop_Channels_Mask_4CA810(u32 bitMask)
     }
 }
 
-EXPORT void SND_Stop_All_Seqs_4CA850()
+void SND_Stop_All_Seqs_4CA850()
 {
     // TODO: Why is there 16 of these but 32 of sMidiStruct2Ary32_C13400? Seems like they should match in size
     GetMidiVars()->sSeqsPlaying_count_word() = 0;
@@ -561,7 +561,7 @@ EXPORT void SND_Stop_All_Seqs_4CA850()
 }
 
 
-EXPORT void SND_Seq_Stop_4CA8E0()
+void SND_Seq_Stop_4CA8E0()
 {
     for (s16 i = 0; i < 16; i++)
     {
@@ -578,7 +578,7 @@ EXPORT void SND_Seq_Stop_4CA8E0()
     }
 }
 
-EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop)
+s16 SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop)
 {
     OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
     if (!rec.field_C_ppSeq_Data)
@@ -641,7 +641,7 @@ EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop)
 }
 
 
-EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
+s16 SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
 {
     OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
     if (!rec.field_C_ppSeq_Data)
@@ -723,7 +723,7 @@ EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 vol
 }
 
 
-EXPORT s32 CC SND_SsIsEos_DeInlined_4CACD0(u16 idx)
+s32 SND_SsIsEos_DeInlined_4CACD0(u16 idx)
 {
     OpenSeqHandle* pRec = &GetMidiVars()->sSeqDataTable()[idx];
     if (pRec->field_A_id_seqOpenId != -1 && pRec->field_C_ppSeq_Data)
@@ -734,7 +734,7 @@ EXPORT s32 CC SND_SsIsEos_DeInlined_4CACD0(u16 idx)
 }
 
 
-EXPORT void CC SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight)
+void SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight)
 {
     u16 limitedIdx = idx & 0xFFFF;
     if (GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId != -1
@@ -746,7 +746,7 @@ EXPORT void CC SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight)
 }
 
 
-EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx)
+void SND_SEQ_Stop_4CAE60(u16 idx)
 {
     if (GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId != -1 && GetMidiVars()->sSeqDataTable()[idx].field_C_ppSeq_Data)
     {
@@ -757,7 +757,7 @@ EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx)
     }
 }
 
-EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
+void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
 {
     if (pSeqTable && bsqFileName)
     {
@@ -795,23 +795,23 @@ EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsq
     }
 }
 
-EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
+void SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
 {
     SND_Load_Seqs_Impl(pSeqTable, bsqFileName);
 }
 
-EXPORT s8 CC SND_Seq_Table_Valid_4CAFE0()
+s8 SND_Seq_Table_Valid_4CAFE0()
 {
     return GetMidiVars()->sSeqDataTable() != 0;
 }
 
 // So AO can redirect SND_StopAll_4CB060 to its own func when called from SYS_ funcs
-EXPORT void SND_StopAll_SetCallBack(TSNDStopAll cb)
+void SND_StopAll_SetCallBack(TSNDStopAll cb)
 {
     sSNDStopAllCallBack = cb;
 }
 
-EXPORT void CC SND_StopAll_4CB060()
+void SND_StopAll_4CB060()
 {
     if (sSNDStopAllCallBack)
     {
@@ -842,12 +842,12 @@ EXPORT void CC SND_StopAll_4CB060()
 
 
 // So AO can redirect SND_Restart_4CB0E0 to its own func when called from SYS_ funcs
-EXPORT void SND_Restart_SetCallBack(TSNDRestart cb)
+void SND_Restart_SetCallBack(TSNDRestart cb)
 {
     sSNDRestartCallBack = cb;
 }
 
-EXPORT void CC SND_Restart_4CB0E0()
+void SND_Restart_4CB0E0()
 {
     if (sSNDRestartCallBack)
     {

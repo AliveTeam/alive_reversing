@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 class BaseGameAutoPlayer;
 
@@ -106,30 +106,30 @@ const InputCommands sInputKey_Chant = static_cast<InputCommands>(eRightGameSpeak
 #define kAO_Crouch "\x0f"
 
 
-EXPORT Bool32 CC Input_IsChanting_4334C0();
-EXPORT void Input_InitKeyStateArray_48E5F0();
-EXPORT void CC Input_SetKeyState_48E610(s32 key, s8 bIsDown);
+Bool32 Input_IsChanting_4334C0();
+void Input_InitKeyStateArray_48E5F0();
+void Input_SetKeyState_48E610(s32 key, s8 bIsDown);
 
 
 
-EXPORT void Input_GetCurrentKeyStates_48E630();
+void Input_GetCurrentKeyStates_48E630();
 
-EXPORT s8 CC Input_IsVKPressed_48E5D0(s32 key);
+s8 Input_IsVKPressed_48E5D0(s32 key);
 
-EXPORT void CC Input_Init_44EB60();
+void Input_Init_44EB60();
 
-EXPORT void Input_DisableInput_48E690();
+void Input_DisableInput_48E690();
 
 const char_type* Input_GetButtonString(InputCommands inputCommand, bool forceKeyboardLookupIfGamepadFails = true);
-EXPORT const char_type* Input_GetButtonString_44F1C0(InputCommands inputCommand);
+const char_type* Input_GetButtonString_44F1C0(InputCommands inputCommand);
 
-EXPORT s32 CC Input_Remap_44F300(InputCommands inputCmd);
+s32 Input_Remap_44F300(InputCommands inputCmd);
 
-EXPORT s32 CC Input_SaveSettingsIni_44F460();
+s32 Input_SaveSettingsIni_44F460();
 
-EXPORT s8 Input_GetLastPressedKey_44F2C0();
+s8 Input_GetLastPressedKey_44F2C0();
 
-EXPORT void Input_Reset_44F2F0();
+void Input_Reset_44F2F0();
 
 bool Input_JoyStickEnabled();
 void Input_SetJoyStickEnabled(bool enabled);
@@ -139,16 +139,16 @@ bool Input_JoyStickAvailable();
 class InputObject final
 {
 public:
-    EXPORT void InitPad_4331A0(u32 padCount);
+    void InitPad_4331A0(u32 padCount);
 
     // BC break of Update_433250
     void Update(BaseGameAutoPlayer& gameAutoPlayer);
 
-    static EXPORT void CC Shutdown_433230();
+    static void Shutdown_433230();
 
-    EXPORT void SetDemoRes_433470(u32** ppDemoRes);
+    void SetDemoRes_433470(u32** ppDemoRes);
 
-    EXPORT s32 IsDemoPlaying_4334A0();
+    s32 IsDemoPlaying_4334A0();
 
     PSX_Pad field_0_pads[2];
     u32** field_18_demo_res;

@@ -72,7 +72,7 @@ void MultiSwitchController::vUpdate_4D6250()
     }
 }
 
-EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
+void MultiSwitchController::WaitingForAllOn_4D6290()
 {
     const s32 id1_value = SwitchStates_Get_466020(field_20_input_switch_id1);
     if (id1_value)
@@ -180,7 +180,7 @@ EXPORT void MultiSwitchController::WaitingForAllOn_4D6290()
     }
 }
 
-EXPORT void MultiSwitchController::WaitingForAllOff_4D65B0()
+void MultiSwitchController::WaitingForAllOff_4D65B0()
 {
     s32 id1_value = 0;
     if (field_20_input_switch_id1 > 1u)

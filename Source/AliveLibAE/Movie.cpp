@@ -23,7 +23,7 @@ static bool wasReverbEnabled;
 
 ALIVE_VAR(1, 0x5ca208, SoundEntry, fmv_sound_entry_5CA208, {});
 
-EXPORT Masher* CC Masher_Alloc_4EAB80(
+Masher* Masher_Alloc_4EAB80(
     const char_type* pFileName,
     Masher_Header** ppMasherHeader,
     Masher_VideoHeader** ppMasherVideoHeader,
@@ -55,7 +55,7 @@ EXPORT Masher* CC Masher_Alloc_4EAB80(
     }
 }
 
-EXPORT void CC Masher_DeAlloc_4EAC00(Masher* pMasher)
+void Masher_DeAlloc_4EAC00(Masher* pMasher)
 {
     if (pMasher)
     {
@@ -64,12 +64,12 @@ EXPORT void CC Masher_DeAlloc_4EAC00(Masher* pMasher)
     }
 }
 
-EXPORT s32 CC Masher_ReadNextFrame_4EAC20(Masher* pMasher)
+s32 Masher_ReadNextFrame_4EAC20(Masher* pMasher)
 {
     return pMasher->ReadNextFrame_4E6B30();
 }
 
-EXPORT void CC Masher_DecodeVideoFrame_4EAC40(Masher* pMasher, void* pSurface)
+void Masher_DecodeVideoFrame_4EAC40(Masher* pMasher, void* pSurface)
 {
     pMasher->VideoFrameDecode_4E6C60((u8*) pSurface);
 }
@@ -87,7 +87,7 @@ ALIVE_VAR(1, 0x5CA1F0, s32, current_audio_offset_5CA1F0, 0);
 ALIVE_VAR(1, 0x5CA1FC, s32, fmv_num_played_audio_frames_5CA1FC, 0);
 ALIVE_VAR(1, 0x5CA22C, s32, oldBufferPlayPos_5CA22C, 0);
 
-EXPORT s8 CC DDV_StartAudio_493DF0()
+s8 DDV_StartAudio_493DF0()
 {
     if (!bHasAudio_5CA234)
     {
@@ -154,24 +154,24 @@ EXPORT s8 CC DDV_StartAudio_493DF0()
 }
 
 #if USE_SDL2
-EXPORT void DDV_Null_493F30()
+void DDV_Null_493F30()
 {
     // Do nothing
 }
 
-EXPORT void CC DD_Null_Flip_4940F0()
+void DD_Null_Flip_4940F0()
 {
     // Do nothing
 }
 #else
-EXPORT void DDV_Null_493F30()
+void DDV_Null_493F30()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
-EXPORT void CC DD_Null_Flip_4940F0()
+void DD_Null_Flip_4940F0()
 {
-    NOT_IMPLEMENTED();
+    
 }
 #endif
 
@@ -317,7 +317,7 @@ static void Render_DDV_Frame(Bitmap& tmpBmp)
     }
 }
 
-EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
+s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
 {
     if (!*pMovieName)
     {
@@ -570,7 +570,7 @@ EXPORT s8 CC DDV_Play_Impl_4932E0(const char_type* pMovieName)
     return 1;
 }
 
-EXPORT s8 CC DDV_Play_493210(const char_type* pDDVName)
+s8 DDV_Play_493210(const char_type* pDDVName)
 {
     sMovieSoundEntry_5CA230 = &fmv_sound_entry_5CA208;
     const s8 ret = DDV_Play_Impl_4932E0(pDDVName);
@@ -595,7 +595,7 @@ struct MovieQueue final
 
 ALIVE_VAR(1, 0x5CA348, MovieQueue, sMovieNames_5CA348, {});
 
-void CC Get_fmvs_sectors_494460(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
+void Get_fmvs_sectors_494460(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
 {
     // NOTE: Unused globals that also had the "fake" sector number assigned have been omitted.
     sMovieNameIdx_5CA4C4 = 0;

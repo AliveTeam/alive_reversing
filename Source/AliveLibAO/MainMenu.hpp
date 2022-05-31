@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Primitives.hpp"
 #include "Font.hpp"
@@ -22,11 +22,11 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_42A730();
+    void VUpdate_42A730();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_42A7A0(PrimHeader** ppOt);
+    void VRender_42A7A0(PrimHeader** ppOt);
 
     
 
@@ -53,17 +53,17 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4365C0();
+    void VUpdate_4365C0();
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_4369D0();
+    void VScreenChanged_4369D0();
 
-    EXPORT void StartTrans_436560(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed);
+    void StartTrans_436560(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed);
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_436610(PrimHeader** ppOt);
+    void VRender_436610(PrimHeader** ppOt);
 
     s16 field_10_current_Value;
     s16 field_12_change_by_speed;
@@ -162,106 +162,106 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_47ABB0();
+    void VUpdate_47ABB0();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_47AC00(PrimHeader** ppOt);
+    void VRender_47AC00(PrimHeader** ppOt);
 
     virtual void VScreenChanged() override;
 
     void ProgressInProgressFilesLoading();
 
 
-    EXPORT void WaitForDoorToOpen_47B550();
-    EXPORT void WaitForAbesHeadPoppingThroughDoor_47B5E0();
-    EXPORT void AbePopThroughDoor_47B620();
-    EXPORT void CopyRight_Update_47B4C0();
-    EXPORT void FMV_Select_Update_47E8D0();
-    EXPORT void SayHelloWaitForLoading_47B690();
-    EXPORT void WaitForAbeSayHello_47B770();
-    EXPORT void MainScreen_Update_47AF60();
-    EXPORT void GoToSelectedMenuPage_47BC50();
-    EXPORT void WaitForSpeakFinishAndStartChangeEffect_47BB90();
-    EXPORT void ToNextMenuPage_47BD80();
-    EXPORT void ToLoading_47B7E0();
-    EXPORT void ToGameSpeak_Update_47D620();
-    EXPORT void To_FMV_Or_Level_Select_Update_47EC30();
-    EXPORT void Update_NoRefs_47E3C0();
-    EXPORT void To_Load_Update_47D8E0();
-    EXPORT void To_Options_Update_47C250();
-    EXPORT void Loading_Update_47B870();
-    EXPORT void NewGameStart_47B9C0();
-    EXPORT void Options_Update_47BF90();
-    EXPORT void Options_WaitForAbeSpeak_Update_47C280();
-    EXPORT void Option_GoTo_Selected_Update_47C2C0();
-    EXPORT void Options_To_Selected_After_Cam_Change_Update_47C330();
-    EXPORT void To_Options_Controller_Update_47F2E0();
-    EXPORT void To_Options_Sound_Update_47C6F0();
-    EXPORT void To_MainScreen_Update_47BB60();
-    EXPORT void Options_Sound_Update_47C420();
-    EXPORT void Options_WaitForAbeSayOK_Update_47C720();
-    EXPORT void Options_WaitForScreenTrans_Update_47C760();
-    EXPORT void To_MainOptions_Screen_After_Camera_Change_Update_47C7A0();
-    EXPORT void GameSpeak_Update_47CBD0();
-    EXPORT void FMV_Or_Level_Select_To_Back_Update_47EC70();
-    EXPORT void To_Credits_Update_47F140();
-    EXPORT void Level_Cheat_To_Loading_Update_47ED50();
-    EXPORT void Options_Controller_Update_47F210();
-    EXPORT void GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330();
-    EXPORT void Goto_ConfigureController_OrSave_SettingIni_Update_47F380();
-    EXPORT void To_ButtonRemap_Update_47F860();
-    EXPORT void ButtonRemap_Update_47F6F0();
-    EXPORT void To_LoadSave_Update_47DB10();
-    EXPORT void LoadSave_Update_47DB40();
-    EXPORT void SaveLoadFailed_Update_47DCD0();
-    EXPORT void To_ShowAbeMotions_ChangeCamera_Update_47F8A0();
-    EXPORT void To_ShowAbeMotions_SaveSettings_Update_47F8E0();
-    EXPORT void To_ToggleMotions_Update_47C9E0();
-    EXPORT void Credits_Update_47F190();
-    EXPORT void CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170();
+    void WaitForDoorToOpen_47B550();
+    void WaitForAbesHeadPoppingThroughDoor_47B5E0();
+    void AbePopThroughDoor_47B620();
+    void CopyRight_Update_47B4C0();
+    void FMV_Select_Update_47E8D0();
+    void SayHelloWaitForLoading_47B690();
+    void WaitForAbeSayHello_47B770();
+    void MainScreen_Update_47AF60();
+    void GoToSelectedMenuPage_47BC50();
+    void WaitForSpeakFinishAndStartChangeEffect_47BB90();
+    void ToNextMenuPage_47BD80();
+    void ToLoading_47B7E0();
+    void ToGameSpeak_Update_47D620();
+    void To_FMV_Or_Level_Select_Update_47EC30();
+    void Update_NoRefs_47E3C0();
+    void To_Load_Update_47D8E0();
+    void To_Options_Update_47C250();
+    void Loading_Update_47B870();
+    void NewGameStart_47B9C0();
+    void Options_Update_47BF90();
+    void Options_WaitForAbeSpeak_Update_47C280();
+    void Option_GoTo_Selected_Update_47C2C0();
+    void Options_To_Selected_After_Cam_Change_Update_47C330();
+    void To_Options_Controller_Update_47F2E0();
+    void To_Options_Sound_Update_47C6F0();
+    void To_MainScreen_Update_47BB60();
+    void Options_Sound_Update_47C420();
+    void Options_WaitForAbeSayOK_Update_47C720();
+    void Options_WaitForScreenTrans_Update_47C760();
+    void To_MainOptions_Screen_After_Camera_Change_Update_47C7A0();
+    void GameSpeak_Update_47CBD0();
+    void FMV_Or_Level_Select_To_Back_Update_47EC70();
+    void To_Credits_Update_47F140();
+    void Level_Cheat_To_Loading_Update_47ED50();
+    void Options_Controller_Update_47F210();
+    void GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330();
+    void Goto_ConfigureController_OrSave_SettingIni_Update_47F380();
+    void To_ButtonRemap_Update_47F860();
+    void ButtonRemap_Update_47F6F0();
+    void To_LoadSave_Update_47DB10();
+    void LoadSave_Update_47DB40();
+    void SaveLoadFailed_Update_47DCD0();
+    void To_ShowAbeMotions_ChangeCamera_Update_47F8A0();
+    void To_ShowAbeMotions_SaveSettings_Update_47F8E0();
+    void To_ToggleMotions_Update_47C9E0();
+    void Credits_Update_47F190();
+    void CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170();
 
-    EXPORT void Load_Update_47D760();
+    void Load_Update_47D760();
     void CycleGameSpeakIdleAnims();
 
-    EXPORT static s32 CC StringsEqual_47DA20(const void* pStr1, const void* pStr2);
+    static s32 StringsEqual_47DA20(const void* pStr1, const void* pStr2);
 
     // Compared via address
-    EXPORT void ToggleMotions_Update_47C800();
-    EXPORT void Toggle_Motions_Screens_Update_47C8F0();
+    void ToggleMotions_Update_47C800();
+    void Toggle_Motions_Screens_Update_47C8F0();
 
-    EXPORT void MotionsScreen_Back_Update_47CA10();
+    void MotionsScreen_Back_Update_47CA10();
 
-    EXPORT void Motions_ToOptions_Update_47CA50();
+    void Motions_ToOptions_Update_47CA50();
 
-    EXPORT void To_MainScreenOrLoad_Update_47DA90();
+    void To_MainScreenOrLoad_Update_47DA90();
 
-    EXPORT void Load_BackToMainScreen_Update_47DA40();
+    void Load_BackToMainScreen_Update_47DA40();
 
-    EXPORT void GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0();
+    void GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0();
 
-    EXPORT void GamespeakBack_WaitForScreenTrans_Update_47D650();
+    void GamespeakBack_WaitForScreenTrans_Update_47D650();
 
-    EXPORT void GameSpeak_To_MainScreen_Update_47D690();
+    void GameSpeak_To_MainScreen_Update_47D690();
 
-    EXPORT void ToggleMotions_Render_47CAB0(PrimHeader** ppOt);
-    EXPORT void SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt);
-    EXPORT void ButtonRemap_Render_47F940(PrimHeader** ppOt);
-    EXPORT void Options_Sound_Render_47C630(PrimHeader** ppOt);
-    EXPORT void Options_Controller_Render_47F430(PrimHeader** ppOt);
-    EXPORT void Empty_Render_47AC80(PrimHeader** ppOt);
-    EXPORT void FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt);
-    EXPORT void MainScreen_Render_47BED0(PrimHeader** ppOt);
-    EXPORT void GameSpeak_Render_47D700(PrimHeader** ppOt);
-    EXPORT void Render_NoRefs_47E5B0(PrimHeader** ppOt);
-    EXPORT void Load_Render_47DDA0(PrimHeader** ppOt);
-    EXPORT void Options_Render_47C190(PrimHeader** ppOt);
+    void ToggleMotions_Render_47CAB0(PrimHeader** ppOt);
+    void SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt);
+    void ButtonRemap_Render_47F940(PrimHeader** ppOt);
+    void Options_Sound_Render_47C630(PrimHeader** ppOt);
+    void Options_Controller_Render_47F430(PrimHeader** ppOt);
+    void Empty_Render_47AC80(PrimHeader** ppOt);
+    void FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt);
+    void MainScreen_Render_47BED0(PrimHeader** ppOt);
+    void GameSpeak_Render_47D700(PrimHeader** ppOt);
+    void Render_NoRefs_47E5B0(PrimHeader** ppOt);
+    void Load_Render_47DDA0(PrimHeader** ppOt);
+    void Options_Render_47C190(PrimHeader** ppOt);
 
-    EXPORT void FMV_Or_Level_Select_Back_Update_47ECB0();
+    void FMV_Or_Level_Select_Back_Update_47ECB0();
 
-    EXPORT static void CC OnResourceLoaded_47ADA0(Menu* pMenu);
+    static void OnResourceLoaded_47ADA0(Menu* pMenu);
 
-    EXPORT static void CC RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset);
+    static void RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset);
 
     s32 field_D4[4];
     u8** field_E4_res_array[6];

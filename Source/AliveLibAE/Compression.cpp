@@ -30,7 +30,7 @@ static bool Expand3To4Bytes(s32& remainingCount, PtrStream& stream, u8* ret, u32
     return true;
 }
 
-EXPORT void CC CompressionType2_Decompress_40AA50(const u8* pSrc, u8* pDst, u32 dataSize)
+void CompressionType2_Decompress_40AA50(const u8* pSrc, u8* pDst, u32 dataSize)
 {
     PtrStream stream(&pSrc);
 
@@ -76,7 +76,7 @@ static void ReadNextSource(PtrStream& stream, s32& control_byte, T& dstIndex)
     control_byte -= 6;
 }
 
-EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const u8* pData, u8* decompressedData)
+void CompressionType_3Ae_Decompress_40A6A0(const u8* pData, u8* decompressedData)
 {
     PtrStream stream(&pData);
 
@@ -140,7 +140,7 @@ EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const u8* pData, u8* decomp
     }
 }
 
-EXPORT void CC CompressionType_4Or5_Decompress_4ABAB0(const u8* pData, u8* decompressedData)
+void CompressionType_4Or5_Decompress_4ABAB0(const u8* pData, u8* decompressedData)
 {
     CompressionType_4Or5_Decompress(pData, decompressedData);
 }
@@ -160,7 +160,7 @@ static u8 NextNibble(PtrStream& stream, bool& readLo, u8& srcByte)
     }
 }
 
-EXPORT void CC CompressionType6Ae_Decompress_40A8A0(const u8* pSrc, u8* pDst)
+void CompressionType6Ae_Decompress_40A8A0(const u8* pSrc, u8* pDst)
 {
     PtrStream stream(&pSrc);
 

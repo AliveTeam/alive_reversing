@@ -272,7 +272,7 @@ const AnimId sParamiteAnimIdTable_55D660[44] = {
     AnimId::Paramite_Squawk,
     AnimId::Paramite_Attack};
 
-s32 CC Paramite::CreateFromSaveState_4855A0(const u8* pBuffer)
+s32 Paramite::CreateFromSaveState_4855A0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Paramite_State*>(pBuffer);
     auto pTlv = static_cast<Path_Paramite*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_3C_tlvInfo));
@@ -4519,7 +4519,7 @@ void Paramite::M_RunningAttack_31_48C9E0()
 
 void Paramite::M_Empty_32_48D740()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 void Paramite::M_SurpriseWeb_33_48D760()
@@ -4931,7 +4931,7 @@ void Paramite::M_Eating_40_48A0F0()
 
 void Paramite::M_Death_41_48D8E0()
 {
-    NOT_IMPLEMENTED();
+    
 }
 
 void Paramite::M_Squawk_42_48D900()
@@ -6150,7 +6150,7 @@ ALIVE_VAR(1, 0x5C92EC, s16, sParamiteDelayIdx_5C92EC, 0);
 
 const s16 sParamiteDelayTable_55D7B8[4] = {0, 5, 10, 0};
 
-s16 CC Paramite::StableDelay_48DF80()
+s16 Paramite::StableDelay_48DF80()
 {
     if (sParamiteDelayIdx_5C92EC >= 3u)
     {

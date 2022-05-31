@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
 #include "Primitives.hpp"
@@ -42,22 +42,22 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    EXPORT void vScreenChanged_432DE0();
+    void vScreenChanged_432DE0();
 
-    EXPORT void Init_432980();
+    void Init_432980();
 
-    EXPORT void vRender_432D10(PrimHeader** ppOt);
+    void vRender_432D10(PrimHeader** ppOt);
 
-    EXPORT void DoRender_432740();
+    void DoRender_432740();
 
-    EXPORT s16 CounterOver_432DA0();
+    s16 CounterOver_432DA0();
 
-    EXPORT void vUpdate_432C40();
+    void vUpdate_432C40();
 
-    EXPORT f32 Calc_X_4326A0(f32* a2, s32 xIndex);
-    EXPORT f32 Calc_Y_4326F0(f32* a2, s32 yIndex);
+    f32 Calc_X_4326A0(f32* a2, s32 xIndex);
+    f32 Calc_Y_4326F0(f32* a2, s32 yIndex);
 
-    EXPORT void sub_4328A0();
+    void sub_4328A0();
 
 private:
     s32 field_20_padding;

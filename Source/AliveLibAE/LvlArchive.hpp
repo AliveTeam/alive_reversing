@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "ResourceManager.hpp"
 
-EXPORT void CC LvlArchive_Static_init_432E00();
-EXPORT void CC static_lvl_init_480350();
+void LvlArchive_Static_init_432E00();
+void static_lvl_init_480350();
 
 struct LvlFileRecord final
 {
@@ -37,11 +37,11 @@ struct LvlHeader final
 class LvlArchive final
 {
 public:
-    EXPORT s32 Open_Archive_432E80(const char_type* fileName);
-    EXPORT LvlFileRecord* Find_File_Record_433160(const char_type* pFileName);
-    EXPORT s32 Read_File_433070(const char_type* pFileName, void* pBuffer);
-    EXPORT s32 Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer);
-    EXPORT s32 Free_433130();
+    s32 Open_Archive_432E80(const char_type* fileName);
+    LvlFileRecord* Find_File_Record_433160(const char_type* pFileName);
+    s32 Read_File_433070(const char_type* pFileName, void* pBuffer);
+    s32 Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer);
+    s32 Free_433130();
 
 private:
     u8** field_0_0x2800_res;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
@@ -132,41 +132,41 @@ public:
 
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    EXPORT static s32 CC CreateFromSaveState_4C54F0(const u8* pBuffer);
+    static s32 CreateFromSaveState_4C54F0(const u8* pBuffer);
 
 private:
-    EXPORT s32 vGetSaveState_4C78F0(Slog_State* pState);
+    s32 vGetSaveState_4C78F0(Slog_State* pState);
 
 
 public:
     // Motions
-    EXPORT void M_Idle_0_4C5F90();
-    EXPORT void M_Walk_1_4C60C0();
-    EXPORT void M_Run_2_4C6340();
-    EXPORT void M_TurnAround_3_4C65C0();
-    EXPORT void M_Fall_4_4C6930();
-    EXPORT void M_MoveHeadUpwards_5_4C5F20();
-    EXPORT void M_StopRunning_6_4C66C0();
-    EXPORT void M_SlideTurn_7_4C6790();
-    EXPORT void M_StartWalking_8_4C62E0();
-    EXPORT void M_EndWalking_9_4C6310();
-    EXPORT void M_Land_10_4C7820();
-    EXPORT void M_Unused_11_4C7860();
-    EXPORT void M_StartFastBarking_12_4C7880();
-    EXPORT void M_EndFastBarking_13_4C78D0();
-    EXPORT void M_AngryBark_14_4C6CF0();
-    EXPORT void M_Sleeping_15_4C6D60();
-    EXPORT void M_MoveHeadDownwards_16_4C70D0();
-    EXPORT void M_WakeUp_17_4C7000();
-    EXPORT void M_JumpForwards_18_4C7210();
-    EXPORT void M_JumpUpwards_19_4C7470();
-    EXPORT void M_Eating_20_4C75F0();
-    EXPORT void M_Dying_21_4C77F0();
-    EXPORT void M_Scratch_22_4C7120();
-    EXPORT void M_Growl_23_4C7170();
+    void M_Idle_0_4C5F90();
+    void M_Walk_1_4C60C0();
+    void M_Run_2_4C6340();
+    void M_TurnAround_3_4C65C0();
+    void M_Fall_4_4C6930();
+    void M_MoveHeadUpwards_5_4C5F20();
+    void M_StopRunning_6_4C66C0();
+    void M_SlideTurn_7_4C6790();
+    void M_StartWalking_8_4C62E0();
+    void M_EndWalking_9_4C6310();
+    void M_Land_10_4C7820();
+    void M_Unused_11_4C7860();
+    void M_StartFastBarking_12_4C7880();
+    void M_EndFastBarking_13_4C78D0();
+    void M_AngryBark_14_4C6CF0();
+    void M_Sleeping_15_4C6D60();
+    void M_MoveHeadDownwards_16_4C70D0();
+    void M_WakeUp_17_4C7000();
+    void M_JumpForwards_18_4C7210();
+    void M_JumpUpwards_19_4C7470();
+    void M_Eating_20_4C75F0();
+    void M_Dying_21_4C77F0();
+    void M_Scratch_22_4C7120();
+    void M_Growl_23_4C7170();
 
 public:
-    EXPORT s16 Brain_ListeningToSlig_0_4C3790();
+    s16 Brain_ListeningToSlig_0_4C3790();
 
     s16 Brain_ListeningToSlig_State_0_Init();
     s16 Brain_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead);
@@ -176,9 +176,9 @@ public:
     s16 Brain_ListeningToSlig_State_5_Waiting();
     s16 Brain_ListeningToSlig_State_6_Responding();
 
-    EXPORT s16 Brain_Idle_1_4C2830();
+    s16 Brain_Idle_1_4C2830();
 
-    EXPORT s16 Brain_ChasingAbe_2_4C0A00();
+    s16 Brain_ChasingAbe_2_4C0A00();
     s16 Brain_ChasingAbe_State_0_Init();
     s16 Brain_ChasingAbe_State_1_Waiting();
     s16 Brain_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget);
@@ -201,50 +201,50 @@ public:
     s16 Brain_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget);
     s16 Brain_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget);
 
-    EXPORT s16 Brain_Death_3_4C3250();
+    s16 Brain_Death_3_4C3250();
 
 private:
-    EXPORT u8** ResBlockForMotion_4C4A80(s16 motion);
+    u8** ResBlockForMotion_4C4A80(s16 motion);
 
 
-    EXPORT void SetAnimFrame_4C42A0();
+    void SetAnimFrame_4C42A0();
 
-    EXPORT void Init_4C46A0();
+    void Init_4C46A0();
 
-    EXPORT void vUpdate_4C50D0();
+    void vUpdate_4C50D0();
 
 private:
-    EXPORT void ToIdle_4C5C10();
+    void ToIdle_4C5C10();
 
-    EXPORT void Sfx_4C7D30(SlogSound effectId);
+    void Sfx_4C7D30(SlogSound effectId);
 
-    EXPORT void ToJump_4C5C60();
+    void ToJump_4C5C60();
 
-    EXPORT s16 ToNextMotion_4C5A30();
+    s16 ToNextMotion_4C5A30();
 
-    EXPORT Bool32 CollisionCheck_4C5480(FP hitY, FP hitX);
+    Bool32 CollisionCheck_4C5480(FP hitY, FP hitX);
 
-    EXPORT void MoveOnLine_4C5DA0();
+    void MoveOnLine_4C5DA0();
 
-    EXPORT Bone* FindBone_4C25B0();
+    Bone* FindBone_4C25B0();
 
-    EXPORT BaseAliveGameObject* FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp);
+    BaseAliveGameObject* FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp);
 
-    EXPORT void vOn_TrapDoor_Open_4C5D50();
+    void vOn_TrapDoor_Open_4C5D50();
 
-    EXPORT void vOn_Tlv_Collision_4C5060(Path_TLV* pTlv);
+    void vOn_Tlv_Collision_4C5060(Path_TLV* pTlv);
 
-    EXPORT s16 vTakeDamage_4C4B80(BaseGameObject* pFrom);
+    s16 vTakeDamage_4C4B80(BaseGameObject* pFrom);
 
-    EXPORT void vOnThrowableHit_4C4B50(BaseGameObject* pFrom);
+    void vOnThrowableHit_4C4B50(BaseGameObject* pFrom);
 
-    EXPORT s16 PlayerOrNakedSligNear_4C26A0();
+    s16 PlayerOrNakedSligNear_4C26A0();
 
-    EXPORT void DelayedResponse_4C3750(s16 responseIdx);
+    void DelayedResponse_4C3750(s16 responseIdx);
 
-    EXPORT s16 HandleEnemyStopper_4C5340();
+    s16 HandleEnemyStopper_4C5340();
 
-    EXPORT s16 Facing_4C4020(FP xpos);
+    s16 Facing_4C4020(FP xpos);
 
 public:
     s32 field_118_target_id;

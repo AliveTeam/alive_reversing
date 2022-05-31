@@ -12,12 +12,12 @@ ALIVE_VAR(1, 0x507C90, LvlArchive, stru_507C90, {});
 
 const static s32 kSectorSize = 2048;
 
-EXPORT void CC LvlArchive::ctor_static_41BBA0()
+void LvlArchive::ctor_static_41BBA0()
 {
     atexit(dtor_static_41BBB0);
 }
 
-EXPORT void CC LvlArchive::dtor_static_41BBB0()
+void LvlArchive::dtor_static_41BBB0()
 {
     if (sLvlArchive_4FFD60.field_0_0x2800_res)
     {
@@ -26,13 +26,13 @@ EXPORT void CC LvlArchive::dtor_static_41BBB0()
     }
 }
 
-EXPORT void CC LvlArchive::ctor_static_443E70()
+void LvlArchive::ctor_static_443E70()
 {
     atexit(dtor_static_443E80);
 }
 
 
-EXPORT void CC LvlArchive::dtor_static_443E80()
+void LvlArchive::dtor_static_443E80()
 {
     stru_507C90.Free_41BEB0();
 }
@@ -54,7 +54,7 @@ static s32 ReadFirstSector(s32 pos, u8* pSector)
     return bOk;
 }
 
-EXPORT bool LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
+bool LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
 {
     // HACK: Added so that AE PSX emu lib works as we don't have a mapping of CDPos <> FileName in the AE emu
     // (it was a stupid idea so I guess they removed it in the next iteration)
@@ -115,12 +115,12 @@ EXPORT bool LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
     return true;
 }
 
-EXPORT void LvlArchive::OpenArchive_41BC60(s32 pos)
+void LvlArchive::OpenArchive_41BC60(s32 pos)
 {
     OpenArchive(nullptr, pos);
 }
 
-EXPORT s16 LvlArchive::Free_41BEB0()
+s16 LvlArchive::Free_41BEB0()
 {
     if (field_0_0x2800_res)
     {
@@ -130,7 +130,7 @@ EXPORT s16 LvlArchive::Free_41BEB0()
     return 0;
 }
 
-EXPORT LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const char_type* pFileName)
+LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const char_type* pFileName)
 {
     // NOTE: PcOpen branches removed
 
@@ -155,7 +155,7 @@ EXPORT LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const char_type* pFile
     return nullptr;
 }
 
-EXPORT s16 LvlArchive::Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer)
+s16 LvlArchive::Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer)
 {
     if (!pFileRec || !pBuffer)
     {

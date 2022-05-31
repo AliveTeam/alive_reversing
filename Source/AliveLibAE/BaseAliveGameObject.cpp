@@ -117,7 +117,7 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
     vOnTrapDoorOpen_4081F0();
 }
 
-s16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* pObj)
+s16 BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* pObj)
 {
     /* OG unused feature to always appear as if you are in an invisible zone
     if (word_5C1BE4)
@@ -181,7 +181,7 @@ void BaseAliveGameObject::vSetMotion_4081C0(s16 state)
     field_106_current_motion = state;
 }
 
-EXPORT s32 CC MaxGridBlocks_449880(FP scale)
+s32 MaxGridBlocks_449880(FP scale)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -500,7 +500,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(s32 idToFi
     return nullptr;
 }
 
-EXPORT void BaseAliveGameObject::SetActiveCameraDelayedFromDir_408C40()
+void BaseAliveGameObject::SetActiveCameraDelayedFromDir_408C40()
 {
     if (sControlledCharacter_5C1B8C == this)
     {
@@ -578,7 +578,7 @@ s16 BaseAliveGameObject::MapFollowMe_408D10(s16 snapToGrid)
     return 0;
 }
 
-EXPORT Bool32 BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
+Bool32 BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions_DArray_5C1128->Raycast_417A60(

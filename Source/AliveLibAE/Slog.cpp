@@ -24,6 +24,7 @@
 #include "PsxDisplay.hpp"
 #include "Mudokon.hpp"
 #include "Grid.hpp"
+#include "Function.hpp"
 
 ALIVE_VAR(1, 0xBAF7F2, s16, sSlogCount_BAF7F2, 0);
 
@@ -268,7 +269,7 @@ const AnimId sSlogFrameOffsetTable_5609D8[24] = {
 
 ALIVE_VAR(1, 0xBAF7F0, u8, sSlogRandomIdx_BAF7F0, 0);
 
-s32 CC Slog::CreateFromSaveState_4C54F0(const u8* pBuffer)
+s32 Slog::CreateFromSaveState_4C54F0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slog_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slog*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_40_tlvInfo));
@@ -2952,7 +2953,7 @@ void Slog::vUpdate_4C50D0()
         // TODO: This is extra debug logging to figure out the motion names
         if (oldBrain != sSlog_fns_brain_560A38[field_120_brain_state_idx])
         {
-            LOG_INFO("Slog: Old brain = " << GetOriginalFn(oldBrain, sSlogAiTable).fnName << " new brain = " << GetOriginalFn(sSlog_fns_brain_560A38[field_120_brain_state_idx], sSlogAiTable).fnName);
+           // LOG_INFO("Slog: Old brain = " << GetOriginalFn(oldBrain, sSlogAiTable).fnName << " new brain = " << GetOriginalFn(sSlog_fns_brain_560A38[field_120_brain_state_idx], sSlogAiTable).fnName);
 
             //LOG_INFO("Slog: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
         }

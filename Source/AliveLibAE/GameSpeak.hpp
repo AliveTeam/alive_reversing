@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Game.hpp"
 
@@ -85,17 +85,17 @@ public:
     virtual void VScreenChanged() override;
 
     // A new virtual that is never overridden as there are no other known super classes
-    virtual EXPORT void PushEvent_4218D0(GameSpeakEvents event);
+    virtual void PushEvent_4218D0(GameSpeakEvents event);
 
     GameSpeak();
     ~GameSpeak();
 
-    EXPORT GameSpeakMatch MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_idx);
+    GameSpeakMatch MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_idx);
 
-    EXPORT static s32 CC FillBuffer_421970(s32 code, u8* pBufffer);
+    static s32 FillBuffer_421970(s32 code, u8* pBufffer);
 
 private:
-    EXPORT void Update_421920();
+    void Update_421920();
     void PushEvent_Impl(GameSpeakEvents event);
 
 public:
@@ -109,8 +109,8 @@ ALIVE_ASSERT_SIZEOF(GameSpeak, 0x4C);
 
 ALIVE_VAR_EXTERN(GameSpeak*, pEventSystem_5BC11C);
 
-EXPORT s16 CC Code_Length_4C9DB0(u32 code);
+s16 Code_Length_4C9DB0(u32 code);
 
-EXPORT s32 CC Code_Convert_4C9DF0(u16 code1, u16 code2);
+s32 Code_Convert_4C9DF0(u16 code1, u16 code2);
 
-EXPORT GameSpeakEvents CC Code_LookUp_4C9E40(u32 code, u16 idx, u16 code_len);
+GameSpeakEvents Code_LookUp_4C9E40(u32 code, u16 idx, u16 code_len);

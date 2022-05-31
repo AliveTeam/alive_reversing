@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Primitives.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FixedPoint.hpp"

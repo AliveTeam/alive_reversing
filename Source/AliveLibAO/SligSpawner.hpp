@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "Map.hpp"
 
@@ -19,8 +19,8 @@ public:
     
 
 private:
-    EXPORT void VScreenChanged_402960();
-    EXPORT void VUpdate_4028A0();
+    void VScreenChanged_402960();
+    void VUpdate_4028A0();
 
 private:
     s32 field_10_tlvInfo;

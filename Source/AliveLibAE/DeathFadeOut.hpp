@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "EffectBase.hpp"
 #include "Layer.hpp"
 
@@ -13,7 +13,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
     DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr);
-    EXPORT void Init_427140(Layer layer, s32 direction, bool destroyOnDone, s32 speed);
+    void Init_427140(Layer layer, s32 direction, bool destroyOnDone, s32 speed);
 
 private:
     s16 field_78_current_fade_rgb;

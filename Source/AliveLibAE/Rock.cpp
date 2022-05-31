@@ -484,7 +484,7 @@ s32 Rock::vGetSaveState_49F9A0(RockSaveState* pState)
     return sizeof(RockSaveState);
 }
 
-s32 CC Rock::CreateFromSaveState_49F720(const u8* pData)
+s32 Rock::CreateFromSaveState_49F720(const u8* pData)
 {
     auto pState = reinterpret_cast<const RockSaveState*>(pData);
 

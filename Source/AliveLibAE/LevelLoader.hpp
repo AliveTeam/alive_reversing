@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseGameObject.hpp"
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 
 enum class LevelIds : s16;
@@ -26,7 +26,7 @@ public:
     LevelLoader(Path_LevelLoader* pTlv, u32 tlvInfo);
 
 private:
-    EXPORT void vUpdate_4DD400();
+    void vUpdate_4DD400();
 
 private:
     s16 field_20_switch_id;

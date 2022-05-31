@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
@@ -31,7 +31,7 @@ public:
     
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_4055C0();
+    void VUpdate_4055C0();
 
     LiftPoint* FindLiftPointWithId(s16 id);
 

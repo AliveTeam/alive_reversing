@@ -264,7 +264,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 }
 
 
-EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
+void UXB::vOnPickUpOrSlapped_4DF540()
 {
     if (field_118_state != UXBState::eExploding_2)
     {
@@ -554,7 +554,7 @@ s32 UXB::GetSaveState_4DFD40(u8* __pSaveBuffer)
     return sizeof(SaveState_UXB);
 }
 
-EXPORT s32 CC UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
+s32 UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
 {
     const SaveState_UXB* pSaveState = reinterpret_cast<const SaveState_UXB*>(__pSaveState);
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
@@ -37,14 +37,14 @@ public:
     ~TimedMine();
 
 private:
-    EXPORT void Update_410A80();
-    EXPORT void Render_410CD0(PrimHeader** ppOt);
-    EXPORT void InitBlinkAnimation_4108E0(Animation* pAnimation);
-    EXPORT void StickToLiftPoint_411100();
-    EXPORT void vScreenChanged_411270();
-    EXPORT s16 vTakeDamage_410FA0(BaseGameObject* pFrom);
-    EXPORT void vOnThrowableHit_410F00(BaseGameObject* pHitBy);
-    EXPORT void vOnPickUpOrSlapped_410E30();
+    void Update_410A80();
+    void Render_410CD0(PrimHeader** ppOt);
+    void InitBlinkAnimation_4108E0(Animation* pAnimation);
+    void StickToLiftPoint_411100();
+    void vScreenChanged_411270();
+    s16 vTakeDamage_410FA0(BaseGameObject* pFrom);
+    void vOnThrowableHit_410F00(BaseGameObject* pHitBy);
+    void vOnPickUpOrSlapped_410E30();
 
 public:
     u16 field_118_armed;

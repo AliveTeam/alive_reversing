@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 namespace AO {
@@ -12,7 +12,7 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_431DC0();
+    void VUpdate_431DC0();
 
     s32 field_D4[4];
     s16 field_E4_bSoundPlaying;

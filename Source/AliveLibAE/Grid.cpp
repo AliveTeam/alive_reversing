@@ -1,6 +1,6 @@
 #include "Grid.hpp"
 
-EXPORT s32 CC SnapToXGrid_449930(FP scale, s32 x)
+s32 SnapToXGrid_449930(FP scale, s32 x)
 {
     if (scale == FP_FromDouble(0.5))
     {
@@ -32,7 +32,7 @@ EXPORT s32 CC SnapToXGrid_449930(FP scale, s32 x)
     }
 }
 
-FP CC ScaleToGridSize_4498B0(FP scaleFP)
+FP ScaleToGridSize_4498B0(FP scaleFP)
 {
     if (scaleFP == FP_FromDouble(0.5))
     {

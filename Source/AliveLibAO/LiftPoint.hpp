@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Animation.hpp"
 #include "PlatformBase.hpp"
@@ -48,7 +48,7 @@ public:
     LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo);
     ~LiftPoint();
 
-    EXPORT void Move_435740(FP xSpeed, FP ySpeed, s32 not_used);
+    void Move_435740(FP xSpeed, FP ySpeed, s32 not_used);
 
     void StayOnFloor(s16 floor, Path_LiftPoint* pTlv);
 
@@ -72,17 +72,17 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_434D10();
+    void VUpdate_434D10();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_435780(PrimHeader** ppOt);
+    void VRender_435780(PrimHeader** ppOt);
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_435CC0();
+    void VScreenChanged_435CC0();
 
-    EXPORT void CreatePulleyIfExists_435AE0(s16 camX, s16 camY);
+    void CreatePulleyIfExists_435AE0(s16 camX, s16 camY);
 
     s16 field_12C_bMoving;
     s16 field_12E;

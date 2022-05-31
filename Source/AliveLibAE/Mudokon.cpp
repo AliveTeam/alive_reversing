@@ -671,7 +671,7 @@ ALIVE_VAR(1, 0x5C3010, s16, sAlertedMudCount_5C3010, 0);
 ALIVE_VAR(1, 0x5C3018, s16, sIsMudStandingUp_5C3018, 0);
 
 
-s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
+s32 Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Mudokon_State*>(pBuffer);
 
@@ -7355,7 +7355,7 @@ void Mudokon::MoveOnLine_4720D0()
     }
 }
 
-const struct MudEmotionTableEntry* CC Mudokon::ResponseTo_471730(Mud_Emotion emotion, MudAction action)
+const struct MudEmotionTableEntry* Mudokon::ResponseTo_471730(Mud_Emotion emotion, MudAction action)
 {
     return &kMudEmoTable_55C790.field_0_data[static_cast<s32>(emotion)][static_cast<s32>(action)];
 }
@@ -7542,7 +7542,7 @@ s32 Mudokon::GetResponseEntryIdx_471760()
     return -1;
 }
 
-const MudEmotionTableEntry* CCSTD Mudokon::GetResponseEntry_471790(s32 idx)
+const MudEmotionTableEntry* Mudokon::GetResponseEntry_471790(s32 idx)
 {
     if (idx == -1)
     {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 // TODO: Can be made into a template when all usages are reversed.
 void DynamicArray_ForceLink();
@@ -8,11 +8,11 @@ void DynamicArray_ForceLink();
 class DynamicArray
 {
 public:
-    EXPORT DynamicArray* ctor_40CA60(s16 startingSize);
-    EXPORT DynamicArray* ctor_40C9E0(s16 startingSize);
-    EXPORT void dtor_40CAD0();
+    DynamicArray* ctor_40CA60(s16 startingSize);
+    DynamicArray* ctor_40C9E0(s16 startingSize);
+    void dtor_40CAD0();
 
-    EXPORT s16 Expand_40CBE0(s16 expandSize);
+    s16 Expand_40CBE0(s16 expandSize);
     bool IsEmpty() const
     {
         return field_4_used_size == 0;
@@ -23,10 +23,10 @@ public:
     }
 
 public:
-    EXPORT s16 Push_Back_40CAF0(void* pValue);
+    s16 Push_Back_40CAF0(void* pValue);
 
 protected:
-    EXPORT s16 Remove_Item_40CB60(void* pItemToRemove);
+    s16 Remove_Item_40CB60(void* pItemToRemove);
     void** field_0_array;
 
 public:
@@ -70,7 +70,7 @@ public:
 class DynamicArrayIter final
 {
 public:
-    EXPORT void Remove_At_Iter_40CCA0();
+    void Remove_At_Iter_40CCA0();
 
     DynamicArray* field_0_pDynamicArray;
     s16 field_4_idx;

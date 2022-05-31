@@ -13,7 +13,7 @@ const PathData kNullPathData = {};
 
 const u32 kMaxPaths = 99;
 
-EXPORT s32 sub_402560()
+s32 sub_402560()
 {
     return 0;
 }
@@ -813,17 +813,17 @@ static PathRootContainer gMapData_4CAB58 = {
      {g_F2_Paths_4C8DE0, g_F2_Fmvs_4C8A70, g_F2_SoundBlock_4C8E80, "F2SEQ.BSQ", 23, 6, "F4", 9, 0, 23, "\\F4.LVL;1", 22, "\\F4.OVL;1", 21, "\\F2.MOV;1", "F2.IDX", "F4PATH.BND"},
      {g_D2_Paths_4C95E0, g_D2_Fmvs_4C9270, g_D2_SoundBlock_4C96A0, "D2SEQ.BSQ", 23, 1, "D7", 11, 0, 35, "\\D7.LVL;1", 34, "\\D7.OVL;1", 33, "\\D2.MOV;1", "D2.IDX", "D7PATH.BND"}}};
 
-const PathBlyRec* CC Path_Get_Bly_Record_434650(LevelIds level, u16 path)
+const PathBlyRec* Path_Get_Bly_Record_434650(LevelIds level, u16 path)
 {
     return &gMapData_4CAB58.paths[static_cast<s32>(level)].field_0_pBlyArrayPtr[path];
 }
 
-FmvInfo* CC Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId)
+FmvInfo* Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId)
 {
     return &gMapData_4CAB58.paths[static_cast<s32>(levelId)].field_4_pFmvArray[fmvId];
 }
 
-s32 CC Path_Format_CameraName_4346B0(char_type* pNameBuffer, LevelIds level, s16 path, s16 camera)
+s32 Path_Format_CameraName_4346B0(char_type* pNameBuffer, LevelIds level, s16 path, s16 camera)
 {
     return ::sprintf(pNameBuffer, "%sP%02dC%02d.CAM", gMapData_4CAB58.paths[static_cast<s32>(level)].field_14_lvl_name, path, camera);
 }

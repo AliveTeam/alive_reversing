@@ -59,12 +59,12 @@ Text::~Text()
     field_20_font.dtor_433540();
 }
 
-EXPORT void Text::SetYPos_46AFB0(s32 /*not_used*/, s16 ypos)
+void Text::SetYPos_46AFB0(s32 /*not_used*/, s16 ypos)
 {
     field_5E_ypos = ypos;
 }
 
-EXPORT void Text::Render_46AFD0(PrimHeader** ppOt)
+void Text::Render_46AFD0(PrimHeader** ppOt)
 {
     const s16 ypos = field_5E_ypos + 100;
     const s32 xpos = (368 / 2) - (field_5C_xpos / 2);
@@ -140,7 +140,7 @@ EXPORT void Text::Render_46AFD0(PrimHeader** ppOt)
 // MainMenuController::ChangeScreenAndIntroLogic_4CF640 will call with type 3 (Shown on boot, says Abe's Exoddus).
 
 // TODO: When above functions are reversed clean up this function to remove strange dead cases..
-EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, MessageType messageType)
+s8 Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, MessageType messageType)
 {
     if (messageType == MessageType::eSkipMovie_1)
     {

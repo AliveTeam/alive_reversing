@@ -60,7 +60,7 @@ void Teleporter::vScreenChanged_4DCE80()
     field_32_bDestroySelf = 1;
 }
 
-Electrocute* CC Teleporter::Create_ElectrocuteEffect_4DCEB0()
+Electrocute* Teleporter::Create_ElectrocuteEffect_4DCEB0()
 {
     return ae_new<Electrocute>(sControlledCharacter_5C1B8C, TRUE, FALSE);
 }

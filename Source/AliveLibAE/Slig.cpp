@@ -54,7 +54,7 @@ const SfxDefinition kSfxInfoTable_5607E0[17] = {
     {0u, 3u, 37u, 60u, 0, 0},
     {0u, 3u, 38u, 60u, 0, 0}};
 
-void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
+void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
 {
     const SfxDefinition* pEffect = &kSfxInfoTable_5607E0[static_cast<s32>(effect)];
     s16 vLeft = 0;
@@ -80,7 +80,7 @@ void CC Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
     }
 }
 
-s32 CC Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
+s32 Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
 {
     auto pSlig = reinterpret_cast<Slig*>(pObj);
     auto pPoints = reinterpret_cast<PSX_Point*>(pData);
@@ -788,7 +788,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     return vGetSaveState_4BFB10(reinterpret_cast<Slig_State*>(pSaveBuffer));
 }
 
-s32 CC Slig::CreateFromSaveState_4B3B50(const u8* pBuffer)
+s32 Slig::CreateFromSaveState_4B3B50(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_5C_tlvInfo));
@@ -3428,13 +3428,13 @@ s16 Slig::Brain_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonOb
 
 s16 Slig::Brain_Empty_5_4B3220()
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
 s16 Slig::Brain_Empty_6_4B3420()
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
@@ -3481,13 +3481,13 @@ s16 Slig::Brain_SpottedEnemy_7_4B3240()
 
 s16 Slig::Brain_Empty_8_4B3120()
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
 s16 Slig::Brain_Empty_9_4B3440()
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
@@ -4311,13 +4311,13 @@ s16 Slig::Brain_DiscussionWhat_25_4BF380()
 
 s16 Slig::Brain_Empty_26_4BF620()
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
 s16 Slig::Brain_Empty_27_4BF600()
 {
-    NOT_IMPLEMENTED();
+    
     return 0;
 }
 
@@ -6095,7 +6095,7 @@ void Slig::GoAlertedOrSayWhat_4BF140()
     }
 }
 
-s32 CCSTD Slig::IsFacingEffectiveLeft_4BB780(Slig* pSlig)
+s32 Slig::IsFacingEffectiveLeft_4BB780(Slig* pSlig)
 {
     s32 flipX = pSlig->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
     if (pSlig->field_106_current_motion == eSligMotions::M_TurnAroundStanding_5_4B6390 && pSlig->field_20_animation.field_92_current_frame > 4)
@@ -6377,7 +6377,7 @@ ALIVE_VAR(1, 0xBAF7EC, s16, sDelayIdx_BAF7EC, 0);
 const s16 sDelayTable_56075C[6] = {0, 6, 10, 8, 4, 12};
 
 
-s16 CC Slig::SligStableDelay_4B99B0()
+s16 Slig::SligStableDelay_4B99B0()
 {
     // Similar to the mudokon delay stuff
 
@@ -6630,7 +6630,7 @@ void Slig::RespondToEnemyOrPatrol_4B3140()
     }
 }
 
-s16 CCSTD Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
+s16 Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
 {
     if (((pThis->Type() == AETypes::eAbe_69) && (pThis->field_106_current_motion == eAbeMotions::Motion_114_DoorEnter_459470 && pThis->field_20_animation.field_92_current_frame > 7)) || (pThis->field_106_current_motion == eAbeMotions::Motion_115_DoorExit_459A40 && pThis->field_20_animation.field_92_current_frame < 4))
     {
@@ -6820,7 +6820,7 @@ static s16 IsInZCover(Path_TLV* pTlv, PSX_RECT* pRect)
     return FALSE;
 }
 
-s16 CCSTD Slig::InZCover_4BB7C0(BaseAliveGameObject* pObj)
+s16 Slig::InZCover_4BB7C0(BaseAliveGameObject* pObj)
 {
     PSX_RECT bRect = {};
     pObj->vGetBoundingRect_424FD0(&bRect, 1);
@@ -6828,7 +6828,7 @@ s16 CCSTD Slig::InZCover_4BB7C0(BaseAliveGameObject* pObj)
     return Bullet::InZBulletCover(pObj->field_B8_xpos, FP_FromInteger(bRect.y), bRect);
 }
 
-Bool32 CCSTD Slig::RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis)
+Bool32 Slig::RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis)
 {
     return pThis->field_20_animation.field_C_render_layer == Layer::eLayer_BeforeWell_Half_3 || pThis->field_20_animation.field_C_render_layer == Layer::eLayer_BeforeWell_22;
 }

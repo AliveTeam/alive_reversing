@@ -966,7 +966,7 @@ void Mudokon::CheckFloorGone_43C9B0()
     }
 }
 
-s16 CC Mudokon::IsAbeSneaking_43D660(Mudokon* /*pMud*/)
+s16 Mudokon::IsAbeSneaking_43D660(Mudokon* /*pMud*/)
 {
     return sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_42_SneakLoop_424BB0
         || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_47_SneakBegin_424ED0

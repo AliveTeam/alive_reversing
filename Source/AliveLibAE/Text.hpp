@@ -21,8 +21,8 @@ public:
     Text(const char_type* pMessage, s32 renderCount, s32 bShadow);
     ~Text();
 
-    EXPORT void SetYPos_46AFB0(s32 /*not_used*/, s16 ypos);
-    EXPORT void Render_46AFD0(PrimHeader** ppOt);
+    void SetYPos_46AFB0(s32 /*not_used*/, s16 ypos);
+    void Render_46AFD0(PrimHeader** ppOt);
 
 private:
     Alive::Font field_20_font;
@@ -36,4 +36,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Text, 0xA4);
 
-EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, MessageType messageType);
+s8 Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, MessageType messageType);

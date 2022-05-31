@@ -7,15 +7,10 @@ SET(AliveLibSrcCommon
     CompressionType_4Or5.cpp
     CompressionType_4Or5.hpp
     FG1Reader.hpp
-    ExportHooker.hpp
-    ExportHooker.cpp
     CamDecompressor.cpp
     CamDecompressor.hpp
     vlctable.hpp
     logger.hpp
-    Function.cpp
-    Function.hpp
-    FunctionFwd.hpp
     Primitives_common.hpp
     Primitives_common.cpp
     Sys_common.hpp

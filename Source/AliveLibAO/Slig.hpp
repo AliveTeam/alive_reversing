@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 
@@ -199,218 +199,218 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_465480();
+    void VScreenChanged_465480();
 
-    EXPORT void Init_46B890();
+    void Init_46B890();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_465050();
+    void VUpdate_465050();
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    EXPORT void VRender_465590(PrimHeader** ppOt);
+    void VRender_465590(PrimHeader** ppOt);
 
     virtual void VOnTrapDoorOpen() override;
 
-    EXPORT void VOnTrapDoorOpen_466350();
+    void VOnTrapDoorOpen_466350();
 
     virtual void VUnPosses() override;
 
-    EXPORT void VUnPosses_465D80();
+    void VUnPosses_465D80();
 
     virtual void VPossessed() override;
 
-    EXPORT void VPossessed_465C80();
+    void VPossessed_465C80();
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    EXPORT s16 VTakeDamage_465640(BaseGameObject* pFrom);
+    s16 VTakeDamage_465640(BaseGameObject* pFrom);
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
-    EXPORT void VOn_TLV_Collision_465CF0(Path_TLV* pTlv);
+    void VOn_TLV_Collision_465CF0(Path_TLV* pTlv);
 
     virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    EXPORT s16 VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* pOther);
+    s16 VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* pOther);
 
-    EXPORT s16 VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pObj);
+    s16 VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pObj);
 
-    EXPORT void VUpdateAnimData_464D00();
+    void VUpdateAnimData_464D00();
 
-    EXPORT void Vshot_465C30();
+    void Vshot_465C30();
 
-    EXPORT void MoveOnLine_467490();
+    void MoveOnLine_467490();
 
-    EXPORT void ToKnockBack_467300();
+    void ToKnockBack_467300();
 
-    EXPORT void PlayerControlRunningSlideStopOrTurnFrame4_469900();
+    void PlayerControlRunningSlideStopOrTurnFrame4_469900();
 
-    EXPORT void PlayerControlRunningSlideStopOrTurnFrame12_469A80();
+    void PlayerControlRunningSlideStopOrTurnFrame12_469A80();
 
-    EXPORT void SlowDown_469D50(FP speed);
+    void SlowDown_469D50(FP speed);
 
-    EXPORT s16 HandlePlayerControlled_4667B0();
+    s16 HandlePlayerControlled_4667B0();
 
     void OperateLift();
 
-    EXPORT s16 MainMovement_467020();
+    s16 MainMovement_467020();
 
-    EXPORT void Slig_SoundEffect_46F310(SligSfx sfxIdx);
+    void Slig_SoundEffect_46F310(SligSfx sfxIdx);
 
-    EXPORT u8** ResBlockForMotion_4654D0(s16 motion);
+    u8** ResBlockForMotion_4654D0(s16 motion);
 
-    EXPORT Bool32 VIs8_465630(s16 motion);
+    Bool32 VIs8_465630(s16 motion);
 
-    EXPORT void ToShoot_46F1D0();
-    EXPORT void ToZShoot_46F200();
+    void ToShoot_46F1D0();
+    void ToZShoot_46F200();
 
-    EXPORT void ShouldStilBeAlive_46C0D0();
+    void ShouldStilBeAlive_46C0D0();
 
-    EXPORT void ToAbeDead_466270();
+    void ToAbeDead_466270();
 
-    EXPORT void WaitOrWalk_46E440();
+    void WaitOrWalk_46E440();
 
-    EXPORT s32 IsFacingEffectiveLeft_46BD70(Slig* pSlig);
+    s32 IsFacingEffectiveLeft_46BD70(Slig* pSlig);
 
-    EXPORT void PauseALittle_46DBD0();
+    void PauseALittle_46DBD0();
 
-    EXPORT void ToTurn_46DE70();
+    void ToTurn_46DE70();
 
-    EXPORT void ToPanicRunning_46CC20();
+    void ToPanicRunning_46CC20();
 
-    EXPORT void ToPanic_46CD40();
+    void ToPanic_46CD40();
 
-    EXPORT void ToChase_46D080();
+    void ToChase_46D080();
 
-    EXPORT void ToKilledAbe_4662E0();
+    void ToKilledAbe_4662E0();
 
-    EXPORT s16 FindBeatTarget_46D0E0(s32 typeToFind, s32 gridBlocks);
+    s16 FindBeatTarget_46D0E0(s32 typeToFind, s32 gridBlocks);
 
-    EXPORT s16 HandleEnemyStopper_46BF30(s32 gridBlocks);
+    s16 HandleEnemyStopper_46BF30(s32 gridBlocks);
 
-    EXPORT void RespondToEnemyOrPatrol_465DF0();
+    void RespondToEnemyOrPatrol_465DF0();
 
-    EXPORT void TurnOrWalk_46D5B0(s32 a2);
+    void TurnOrWalk_46D5B0(s32 a2);
 
     void ToPanicTurn();
 
     void PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame);
 
-    EXPORT s16 GetNextMotionIncGameSpeak_467700(u16 input);
+    s16 GetNextMotionIncGameSpeak_467700(u16 input);
 
-    EXPORT static Bool32 CCSTD RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
+    static Bool32 RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
 
-    EXPORT static s16 CCSTD IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);
+    static s16 IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);
 
-    EXPORT static s16 CCSTD IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight);
+    static s16 IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight);
 
-    static EXPORT void CC Slig_GameSpeak_SFX_46F560(SligSpeak effectId, s32 defaultVol, s32 pitch_min, BaseAliveGameObject* pObj);
+    static void Slig_GameSpeak_SFX_46F560(SligSpeak effectId, s32 defaultVol, s32 pitch_min, BaseAliveGameObject* pObj);
 
-    static EXPORT s16 CCSTD IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
+    static s16 IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
 
     void ToStand();
 
-    static EXPORT s16 CCSTD IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj);
+    static s16 IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj);
 
     void CheckPlatformVanished();
 
-    EXPORT s16 MoveLift_4665E0(FP ySpeed);
+    s16 MoveLift_4665E0(FP ySpeed);
 
-    EXPORT void GameSpeakResponse_46ED60();
+    void GameSpeakResponse_46ED60();
 
     // Motions
-    EXPORT void Motion_0_StandIdle_467640();
-    EXPORT void Motion_1_StandToWalk_4695D0();
-    EXPORT void Motion_2_Walking_469130();
-    EXPORT void Motion_3_StandToRun_469C00();
-    EXPORT void Motion_4_Running_469690();
-    EXPORT void Motion_5_TurnAroundStanding_469C80();
-    EXPORT void Motion_6_Shoot_468820();
-    EXPORT void Motion_7_Falling_46A1A0();
-    EXPORT void Motion_8_Unknown_4673E0();
-    EXPORT void Motion_9_SlidingToStand_469DF0();
-    EXPORT void Motion_10_SlidingTurn_469F10();
-    EXPORT void Motion_11_SlidingTurnToWalk_46A120();
-    EXPORT void Motion_12_SlidingTurnToRun_46A160();
-    EXPORT void Motion_13_ReloadGun_4687B0();
-    EXPORT void Motion_14_ShootToStand_468810();
-    EXPORT void Motion_15_SteppingToStand_469080();
-    EXPORT void Motion_16_StandingToStep_468FD0();
-    EXPORT void Motion_17_DepossessingAbort_468750();
-    EXPORT void Motion_18_GameSpeak_467B10();
-    EXPORT void Motion_19_WalkToStand_469610();
-    EXPORT void Motion_20_Recoil_468D30();
-    EXPORT void Motion_21_SpeakHereBoy_467BD0();
-    EXPORT void Motion_22_SpeakHi_467C90();
-    EXPORT void Motion_23_SpeakFreeze_467D50();
-    EXPORT void Motion_24_SpeakGetHim_467E10();
-    EXPORT void Motion_25_SpeakLaugh_467ED0();
-    EXPORT void Motion_26_SpeakBullshit1_467F90();
-    EXPORT void Motion_27_SpeakLookOut_468050();
-    EXPORT void Motion_28_SpeakBullshit2_468110();
-    EXPORT void Motion_29_SpeakPanic_4681D0();
-    EXPORT void Motion_30_SpeakWhat_468290();
-    EXPORT void Motion_31_SpeakAIFreeze_468350();
-    EXPORT void Motion_32_Blurgh_468410();
-    EXPORT void Motion_33_Sleeping_46A410();
-    EXPORT void Motion_34_SleepingToStand_46A5F0();
-    EXPORT void Motion_35_Knockback_46A720();
-    EXPORT void Motion_36_KnockbackToStand_46A7F0();
-    EXPORT void Motion_37_Depossessing_4684D0();
-    EXPORT void Motion_38_Possess_46B050();
-    EXPORT void Motion_39_OutToFall_46A9E0();
-    EXPORT void Motion_40_FallingInitiate_46AA60();
-    EXPORT void Motion_41_LandingSoft_46A390();
-    EXPORT void Motion_42_LandingFatal_46AFE0();
-    EXPORT void Motion_43_ShootZ_468E30();
-    EXPORT void Motion_44_ShootZtoStand_468F70();
-    EXPORT void Motion_45_Smash_46A990();
-    EXPORT void Motion_46_ToIdle_46A590();
-    EXPORT void Motion_47_LiftUp_4665A0();
-    EXPORT void Motion_48_LiftDown_4665C0();
-    EXPORT void Motion_49_LiftGrip_4663A0();
-    EXPORT void Motion_50_LiftUngrip_466460();
-    EXPORT void Motion_51_LiftGripping_466480();
-    EXPORT void Motion_52_Beat_46AA90();
+    void Motion_0_StandIdle_467640();
+    void Motion_1_StandToWalk_4695D0();
+    void Motion_2_Walking_469130();
+    void Motion_3_StandToRun_469C00();
+    void Motion_4_Running_469690();
+    void Motion_5_TurnAroundStanding_469C80();
+    void Motion_6_Shoot_468820();
+    void Motion_7_Falling_46A1A0();
+    void Motion_8_Unknown_4673E0();
+    void Motion_9_SlidingToStand_469DF0();
+    void Motion_10_SlidingTurn_469F10();
+    void Motion_11_SlidingTurnToWalk_46A120();
+    void Motion_12_SlidingTurnToRun_46A160();
+    void Motion_13_ReloadGun_4687B0();
+    void Motion_14_ShootToStand_468810();
+    void Motion_15_SteppingToStand_469080();
+    void Motion_16_StandingToStep_468FD0();
+    void Motion_17_DepossessingAbort_468750();
+    void Motion_18_GameSpeak_467B10();
+    void Motion_19_WalkToStand_469610();
+    void Motion_20_Recoil_468D30();
+    void Motion_21_SpeakHereBoy_467BD0();
+    void Motion_22_SpeakHi_467C90();
+    void Motion_23_SpeakFreeze_467D50();
+    void Motion_24_SpeakGetHim_467E10();
+    void Motion_25_SpeakLaugh_467ED0();
+    void Motion_26_SpeakBullshit1_467F90();
+    void Motion_27_SpeakLookOut_468050();
+    void Motion_28_SpeakBullshit2_468110();
+    void Motion_29_SpeakPanic_4681D0();
+    void Motion_30_SpeakWhat_468290();
+    void Motion_31_SpeakAIFreeze_468350();
+    void Motion_32_Blurgh_468410();
+    void Motion_33_Sleeping_46A410();
+    void Motion_34_SleepingToStand_46A5F0();
+    void Motion_35_Knockback_46A720();
+    void Motion_36_KnockbackToStand_46A7F0();
+    void Motion_37_Depossessing_4684D0();
+    void Motion_38_Possess_46B050();
+    void Motion_39_OutToFall_46A9E0();
+    void Motion_40_FallingInitiate_46AA60();
+    void Motion_41_LandingSoft_46A390();
+    void Motion_42_LandingFatal_46AFE0();
+    void Motion_43_ShootZ_468E30();
+    void Motion_44_ShootZtoStand_468F70();
+    void Motion_45_Smash_46A990();
+    void Motion_46_ToIdle_46A590();
+    void Motion_47_LiftUp_4665A0();
+    void Motion_48_LiftDown_4665C0();
+    void Motion_49_LiftGrip_4663A0();
+    void Motion_50_LiftUngrip_466460();
+    void Motion_51_LiftGripping_466480();
+    void Motion_52_Beat_46AA90();
 
     // Brains
-    EXPORT s16 Brain_SpottedEnemy_465EB0();
-    EXPORT s16 Brain_Paused_466030();
-    EXPORT s16 Brain_EnemyDead_466190();
-    EXPORT s16 Brain_KilledEnemy_4662A0();
-    EXPORT s16 Brain_Unknown_46B250();
-    EXPORT s16 Brain_Sleeping_46B4E0();
+    s16 Brain_SpottedEnemy_465EB0();
+    s16 Brain_Paused_466030();
+    s16 Brain_EnemyDead_466190();
+    s16 Brain_KilledEnemy_4662A0();
+    s16 Brain_Unknown_46B250();
+    s16 Brain_Sleeping_46B4E0();
     void WakeUp();
-    EXPORT s16 Brain_WakingUp_46B700();
-    EXPORT s16 Brain_Inactive_46B780();
-    EXPORT s16 Brain_Possessed_46C190();
-    EXPORT s16 Brain_Death_46C3A0();
-    EXPORT s16 Brain_DeathDropDeath_46C5A0();
-    EXPORT s16 Brain_ReturnControlToAbeAndDie_46C760();
-    EXPORT s16 Brain_PanicTurning_46C7C0();
-    EXPORT s16 Brain_PanicRunning_46CA20();
-    EXPORT s16 Brain_PanicYelling_46CC50();
-    EXPORT s16 Brain_Chasing_46CD60();
-    EXPORT s16 Brain_StopChasing_46CF20();
-    EXPORT s16 Brain_StartChasing_46CF90();
-    EXPORT s16 Brain_Idle_46D6E0();
-    EXPORT s16 Brain_Turning_46DC70();
-    EXPORT s16 Brain_Walking_46DE90();
-    EXPORT s16 Brain_GetAlertedTurn_46E520();
-    EXPORT s16 Brain_GetAlerted_46E800();
-    EXPORT s16 Brain_StoppingNextToMudokon_46EBB0();
-    EXPORT s16 Brain_BeatingUp_46EC40();
-    EXPORT s16 Brain_Discussion_46ECE0();
-    EXPORT s16 Brain_ChaseAndDisappear_46EEE0();
-    EXPORT s16 Brain_Shooting_46EFD0();
-    EXPORT s16 Brain_ZSpottedEnemy_46F260();
-    EXPORT s16 Brain_ZShooting_46F290();
+    s16 Brain_WakingUp_46B700();
+    s16 Brain_Inactive_46B780();
+    s16 Brain_Possessed_46C190();
+    s16 Brain_Death_46C3A0();
+    s16 Brain_DeathDropDeath_46C5A0();
+    s16 Brain_ReturnControlToAbeAndDie_46C760();
+    s16 Brain_PanicTurning_46C7C0();
+    s16 Brain_PanicRunning_46CA20();
+    s16 Brain_PanicYelling_46CC50();
+    s16 Brain_Chasing_46CD60();
+    s16 Brain_StopChasing_46CF20();
+    s16 Brain_StartChasing_46CF90();
+    s16 Brain_Idle_46D6E0();
+    s16 Brain_Turning_46DC70();
+    s16 Brain_Walking_46DE90();
+    s16 Brain_GetAlertedTurn_46E520();
+    s16 Brain_GetAlerted_46E800();
+    s16 Brain_StoppingNextToMudokon_46EBB0();
+    s16 Brain_BeatingUp_46EC40();
+    s16 Brain_Discussion_46ECE0();
+    s16 Brain_ChaseAndDisappear_46EEE0();
+    s16 Brain_Shooting_46EFD0();
+    s16 Brain_ZSpottedEnemy_46F260();
+    s16 Brain_ZShooting_46F290();
 
-    EXPORT void BlowToGibs_4685A0();
+    void BlowToGibs_4685A0();
 
     using TBrainFn = decltype(&Slig::Brain_ZShooting_46F290);
 

@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include <gtest/gtest.h>
 
-EXPORT s32 CC Math_SquareRoot_Shifted_496E20(u32 value, s16 iterations)
+s32 Math_SquareRoot_Shifted_496E20(u32 value, s16 iterations)
 {
     u32 value_shifted = value;
     s32 ret = 0;
@@ -24,12 +24,12 @@ EXPORT s32 CC Math_SquareRoot_Shifted_496E20(u32 value, s16 iterations)
     return ret;
 }
 
-EXPORT s32 CC Math_SquareRoot_Int_496E70(s32 value)
+s32 Math_SquareRoot_Int_496E70(s32 value)
 {
     return Math_SquareRoot_Shifted_496E20(value, 0); // 15 iterations
 }
 
-EXPORT FP CC Math_SquareRoot_FP_496E90(FP value)
+FP Math_SquareRoot_FP_496E90(FP value)
 {
     return FP_FromRaw(Math_SquareRoot_Shifted_496E20(value.fpValue, 16)); // 23 iterations (16/2+15)
 }

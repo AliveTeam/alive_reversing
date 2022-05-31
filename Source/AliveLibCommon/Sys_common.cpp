@@ -25,7 +25,7 @@ u32 SYS_GetTicks()
 #endif
 }
 
-MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char_type* message, const char_type* title, MessageBoxType type)
+MessageBoxButton Sys_MessageBox(TWindowHandleType windowHandle, const char_type* message, const char_type* title, MessageBoxType type)
 {
 #if USE_SDL2
     SDL_MessageBoxData data = {};

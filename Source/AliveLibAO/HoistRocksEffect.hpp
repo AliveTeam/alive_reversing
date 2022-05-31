@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
@@ -37,7 +37,7 @@ public:
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_431BD0();
+    void VUpdate_431BD0();
 
     s32 field_D4[4];
     s16 field_E4_bHitGround;
@@ -53,11 +53,11 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_431AF0();
+    void VScreenChanged_431AF0();
 
     virtual void VUpdate() override;
 
-    EXPORT void VUpdate_431860();
+    void VUpdate_431860();
 
     FP field_10_xpos;
     FP field_14_ypos;

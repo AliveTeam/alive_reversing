@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/FunctionFwd.hpp"
+#include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 namespace AO {
@@ -14,7 +14,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    EXPORT void VScreenChanged_431EF0();
+    void VScreenChanged_431EF0();
 
     s32 field_D4[4];
     s32 field_E4_tlvInfo;

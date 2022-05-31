@@ -8,7 +8,7 @@
 
 ALIVE_VAR(1, 0x5d1e2c, ThrowableArray*, gpThrowableArray_5D1E2C, nullptr);
 
-void CCSTD FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
+void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
 {
     while (pArray->Size())
     {
@@ -18,7 +18,7 @@ void CCSTD FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
     }
 }
 
-void CC LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber)
+void LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber)
 {
     Bool32 bDoLoadingLoop = FALSE;
     const u8 throwableTypeIdx = LOBYTE(Path_Get_Bly_Record_460F30(levelNumber, pathNumber)->field_C_overlay_id);
@@ -264,7 +264,7 @@ void ThrowableArray::Add_49A7A0(s16 count)
     field_20_count += count;
 }
 
-s32 CC ThrowableArray::CreateFromSaveState(const u8* pState)
+s32 ThrowableArray::CreateFromSaveState(const u8* pState)
 {
     LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
     auto pArray = ae_new<ThrowableArray>();
