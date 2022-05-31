@@ -298,7 +298,7 @@ void TimedMine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
     field_114_timer = gnFrameCount_507670;
 }
 
-void TimedMine::vOnPickUpOrSlapped()
+void TimedMine::VOnPickUpOrSlapped()
 {
     if (field_10C_armed != 1)
     {

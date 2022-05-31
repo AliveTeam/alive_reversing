@@ -104,7 +104,7 @@ void ThrowableArray::VUpdate()
     }
 }
 
-void ThrowableArray::vScreenChange()
+void ThrowableArray::VScreenChanged()
 {
     if (gMap.mLevel != LevelIds::eMenu_0 && gMap.mLevel != LevelIds::eCredits_10)
     {

@@ -29,7 +29,7 @@ public:
     static s32 CreateFromSaveState(const u8* pState);
 
     void Remove_49AA00(s16 count);
-    void VScreenChanged();
+
     void Add_49A7A0(s16 count);
 
 public:
