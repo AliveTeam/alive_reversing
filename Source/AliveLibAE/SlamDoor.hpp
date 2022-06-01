@@ -40,7 +40,7 @@ public:
     SlamDoor(Path_SlamDoor* tlv_params, TlvItemInfoUnion tlvInfo);
     ~SlamDoor();
 
-    static s32 CreateFromSaveState_4C08B0(const u8*);
+    static s32 CreateFromSaveState(const u8*);
 
 private:
     void vUpdate_4AFD50();

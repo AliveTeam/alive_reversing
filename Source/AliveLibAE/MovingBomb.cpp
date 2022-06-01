@@ -101,31 +101,6 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     field_E0_pShadow = ae_new<Shadow>();
 }
 
-void MovingBomb::VUpdate()
-{
-    vUpdate_4701E0();
-}
-
-void MovingBomb::VRender(PrimHeader** ppOt)
-{
-    vRender_4707D0(ppOt);
-}
-
-void MovingBomb::VOnThrowableHit(BaseGameObject* pFrom)
-{
-    vOnThrowableHit_470800(pFrom);
-}
-
-s16 MovingBomb::VTakeDamage_408730(BaseGameObject* pFrom)
-{
-    return vTakeDamage_470990(pFrom);
-}
-
-void MovingBomb::VScreenChanged()
-{
-    vScreenChanged_470B90();
-}
-
 MovingBomb::~MovingBomb()
 {
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
@@ -155,7 +130,7 @@ MovingBomb::~MovingBomb()
     }
 }
 
-void MovingBomb::BlowUp_470070()
+void MovingBomb::BlowUp()
 {
     mFlags.Clear(BaseGameObject::eCanExplode_Bit7);
     field_118_state = States::eBlowingUp_6;
@@ -164,7 +139,7 @@ void MovingBomb::BlowUp_470070()
     SFX_Play_46FA90(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
 }
 
-void MovingBomb::vRender_4707D0(PrimHeader** ot)
+void MovingBomb::VRender(PrimHeader** ot)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -172,7 +147,7 @@ void MovingBomb::vRender_4707D0(PrimHeader** ot)
     }
 }
 
-void MovingBomb::vScreenChanged_470B90()
+void MovingBomb::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
 
@@ -197,7 +172,7 @@ void MovingBomb::vScreenChanged_470B90()
     }
 }
 
-void MovingBomb::FollowLine_470950()
+void MovingBomb::FollowLine()
 {
     if (field_100_pCollisionLine)
     {
@@ -205,7 +180,7 @@ void MovingBomb::FollowLine_470950()
     }
 }
 
-s16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
+s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead) || field_10C_health <= FP_FromInteger(0))
     {
@@ -239,15 +214,15 @@ s16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
     }
 }
 
-void MovingBomb::vOnThrowableHit_470800(BaseGameObject* /*pObj*/)
+void MovingBomb::VOnThrowableHit(BaseGameObject* /*pObj*/)
 {
     if (!field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
-        BlowUp_470070();
+        BlowUp();
     }
 }
 
-s16 MovingBomb::HitObject_470830()
+s16 MovingBomb::HitObject()
 {
     PSX_RECT bRect = {};
     vGetBoundingRect_424FD0(&bRect, 1);
@@ -278,7 +253,7 @@ s16 MovingBomb::HitObject_470830()
     return 0;
 }
 
-void MovingBomb::vUpdate_4701E0()
+void MovingBomb::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -287,11 +262,11 @@ void MovingBomb::vUpdate_4701E0()
 
     if (field_118_state < States::eBlowingUp_6)
     {
-        if (HitObject_470830())
+        if (HitObject())
         {
             if (!field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
             {
-                BlowUp_470070();
+                BlowUp();
             }
         }
     }
@@ -364,7 +339,7 @@ void MovingBomb::vUpdate_4701E0()
                 field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
             }
 
-            FollowLine_470950();
+            FollowLine();
 
             field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                 FP_GetExponent(field_B8_xpos),
@@ -390,7 +365,7 @@ void MovingBomb::vUpdate_4701E0()
                 field_120_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(field_12A_min, field_12C_max);
             }
 
-            FollowLine_470950();
+            FollowLine();
             break;
 
         case States::eWaitABit_4:
@@ -406,7 +381,7 @@ void MovingBomb::vUpdate_4701E0()
                 field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
             }
 
-            FollowLine_470950();
+            FollowLine();
 
             field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                 FP_GetExponent(field_B8_xpos),

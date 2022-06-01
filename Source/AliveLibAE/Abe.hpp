@@ -450,31 +450,19 @@ public:
     Abe(s32 frameTableOffset, s32 r, s32 g, s32 b);
     ~Abe();
 
-    static s32 CreateFromSaveState_44D4F0(const u8* pData);
+    static s32 CreateFromSaveState(const u8* pData);
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
-    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
-    virtual BirdPortal* VIntoBirdPortal_408FD0(s16 gridBlocks) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+    virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
 
     void DoRunJump();
 
-    // Virtual impls
-    BaseGameObject* vdtor_44B350(s32 flags);
-    void Update_449DC0();
-    void vRender_44B580(PrimHeader** ppOt);
-    void vScreenChanged_44D240();
-    s32 vGetSaveState_457110(u8* pSaveBuffer);
-    s16 vTakeDamage_44BB50(BaseGameObject* pFrom);
-    void vOn_TLV_Collision_44B5D0(Path_TLV* pTlv);
-    BirdPortal* vIntoBirdPortal_44E970(s16 gridBlocks);
-    void vOnTrapDoorOpen_45A570();
-
-    // Non virtuals
     void ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger);
     BaseAliveGameObject* FindObjectToPossess_44B7B0();
     void Load_Basic_Resources_44D460();

@@ -59,7 +59,7 @@ public:
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    static s32 CreateFromSaveState_4630F0(const u8* pData);
+    static s32 CreateFromSaveState(const u8* pData);
 
 public:
     void vKeepOnMiddleFloor_461870();

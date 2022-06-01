@@ -44,7 +44,7 @@ SligSpawner::~SligSpawner()
     }
 }
 
-void SligSpawner::vScreenChanged_409A30()
+void SligSpawner::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_38_state == SpawnerStates::eInactive_0)
     {
@@ -52,7 +52,7 @@ void SligSpawner::vScreenChanged_409A30()
     }
 }
 
-void SligSpawner::vUpdate_409830()
+void SligSpawner::VUpdate()
 {
     if (field_40_bFindSpawnedSlig)
     {
@@ -138,7 +138,7 @@ s32 SligSpawner::vGetSaveState_409BB0(Slig_Spawner_State* pState)
     return sizeof(Slig_Spawner_State);
 }
 
-s32 SligSpawner::CreateFromSaveState_409B10(const u8* pBuffer)
+s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_Spawner_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
@@ -151,16 +151,6 @@ s32 SligSpawner::CreateFromSaveState_409B10(const u8* pBuffer)
     }
 
     return sizeof(Slig_Spawner_State);
-}
-
-void SligSpawner::VUpdate()
-{
-    vUpdate_409830();
-}
-
-void SligSpawner::VScreenChanged()
-{
-    vScreenChanged_409A30();
 }
 
 s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)

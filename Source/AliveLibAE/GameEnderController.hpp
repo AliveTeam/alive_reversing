@@ -33,7 +33,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderController_State, 0x10);
 class GameEnderController final : public BaseGameObject
 {
 public:
-    static s32 CreateFromSaveState_43BD10(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
     GameEnderController();
 
     

@@ -15,7 +15,7 @@ class MinesAlarm final : public BaseGameObject
 {
 public:
     static void Create_4177F0(s32 timer);
-    static s32 CreateFromSaveState_417740(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
     MinesAlarm(s32 timer);
     ~MinesAlarm();
 

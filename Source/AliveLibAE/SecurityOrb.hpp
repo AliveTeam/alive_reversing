@@ -25,33 +25,13 @@ public:
     SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo);
     ~SecurityOrb();
 
-    virtual void VUpdate() override
-    {
-        vUpdate_4665A0();
-    }
-
-    virtual void VScreenChanged() override
-    {
-        vScreenChanged_466D20();
-    }
-
+    virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* /*pFrom*/) override
     {
         // Empty
     }
-
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override
-    {
-        return vTakeDamage_466BB0(pFrom);
-    }
-
-private:
-
-    void vScreenChanged_466D20();
-
-    s16 vTakeDamage_466BB0(BaseGameObject* pFrom);
-
-    void vUpdate_4665A0();
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
 private:
     s32 field_118_tlvInfo;

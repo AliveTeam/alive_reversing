@@ -443,7 +443,7 @@ void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPositi
 
     if (pObj->Type() == AETypes::eMudokon2_81 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69)
     {
-        pObj->VTakeDamage_408730(this);
+        pObj->VTakeDamage(this);
     }
 
     if (pObj->Type() == AETypes::eBone_11)
@@ -453,7 +453,7 @@ void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPositi
     }
 }
 
-s32 SlamDoor::CreateFromSaveState_4C08B0(const u8* pData)
+s32 SlamDoor::CreateFromSaveState(const u8* pData)
 {
     const Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<const Quicksave_Obj_SlamDoor*>(pData);
 

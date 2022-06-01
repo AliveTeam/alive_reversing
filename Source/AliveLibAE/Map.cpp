@@ -437,7 +437,7 @@ void Map::Handle_PathTransition_481610()
                 break;
         }
 
-        field_18_pAliveObj->VOnPathTransition_408320(
+        field_18_pAliveObj->VOnPathTransition(
             field_D0_cam_x_idx * field_D4_ptr->field_A_grid_width,
             field_D2_cam_y_idx * field_D4_ptr->field_C_grid_height,
             remapped);
@@ -903,7 +903,7 @@ void Map::GoTo_Camera_481890()
         {
             if (mCurrentPath == sActiveHero_5C1B68->field_C0_path_number)
             {
-                sActiveHero_5C1B68->VCheckCollisionLineStillValid_408A40(10);
+                sActiveHero_5C1B68->VCheckCollisionLineStillValid(10);
             }
         }
     }

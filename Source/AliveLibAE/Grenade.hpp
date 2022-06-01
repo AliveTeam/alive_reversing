@@ -78,7 +78,7 @@ public:
 
     // Next 2 virtuals are base
 
-    static s32 CreateFromSaveState_449410(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
     s32 GetSaveState_4496B0(Grenade_SaveState* pState);

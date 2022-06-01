@@ -55,7 +55,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSpawner_State, 0x10);
 class FlyingSligSpawner final : public BaseGameObject
 {
 public:
-    static s32 CreateFromSaveState_43B690(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
     FlyingSligSpawner(Path_FlyingSligSpawner* pTlv, s32 tlvInfo);
     ~FlyingSligSpawner();

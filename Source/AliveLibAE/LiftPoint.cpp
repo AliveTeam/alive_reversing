@@ -104,7 +104,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     SetTint_425600(sLiftTints_55BF50, gMap.mCurrentLevel);
 
     const FP oldX = field_B8_xpos;
-    MapFollowMe_408D10(TRUE);
+    MapFollowMe(TRUE);
     const s16 xSnapDelta = FP_GetExponent(field_B8_xpos - oldX);
     field_11C_x_offset -= xSnapDelta;
     field_11E_width_offset -= xSnapDelta;
@@ -260,7 +260,7 @@ static void LoadLiftResourceBans(const char_type* pRopeBanName, const char_type*
     }
 }
 
-s32 LiftPoint::CreateFromSaveState_4630F0(const u8* pData)
+s32 LiftPoint::CreateFromSaveState(const u8* pData)
 {
     const LiftPoint_State* pState = reinterpret_cast<const LiftPoint_State*>(pData);
 
@@ -832,7 +832,7 @@ void LiftPoint::MoveObjectsOnLift_497600(FP xVelocity)
                 // Keep the player in the screen
                 const FP oldVelY = pObj->field_C8_vely;
                 pObj->field_C8_vely = field_C8_vely;
-                pObj->SetActiveCameraDelayedFromDir_408C40();
+                pObj->SetActiveCameraDelayedFromDir();
 
                 // And keep the old velY
                 pObj->field_C8_vely = oldVelY;

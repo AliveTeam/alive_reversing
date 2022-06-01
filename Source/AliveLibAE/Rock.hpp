@@ -60,7 +60,7 @@ public:
     virtual Bool32 VIsFalling_49E330() override;
     virtual void VTimeToExplodeRandom_411490() override;
 
-    static s32 CreateFromSaveState_49F720(const u8* pData);
+    static s32 CreateFromSaveState(const u8* pData);
 
 private:
     void vScreenChanged_49F030();

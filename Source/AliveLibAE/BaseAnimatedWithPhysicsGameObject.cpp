@@ -440,7 +440,7 @@ void BaseAnimatedWithPhysicsGameObject::DealDamageRect_4247A0(const PSX_RECT* pR
                 {
                     if (field_CC_sprite_scale == (pObj->field_CC_sprite_scale * FP_FromDouble(2.75)))
                     {
-                        pObj->VTakeDamage_408730(this);
+                        pObj->VTakeDamage(this);
                     }
                 }
             }

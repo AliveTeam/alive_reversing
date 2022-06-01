@@ -121,22 +121,13 @@ public:
     ~Slog();
 
     virtual void VUpdate() override;
-
     virtual void VOnTrapDoorOpen() override;
-
-    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
-
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
-
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    static s32 CreateFromSaveState_4C54F0(const u8* pBuffer);
-
-private:
-    s32 vGetSaveState_4C78F0(Slog_State* pState);
-
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 public:
     // Motions
@@ -211,8 +202,6 @@ private:
 
     void Init_4C46A0();
 
-    void vUpdate_4C50D0();
-
 private:
     void ToIdle_4C5C10();
 
@@ -229,14 +218,6 @@ private:
     Bone* FindBone_4C25B0();
 
     BaseAliveGameObject* FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp);
-
-    void vOn_TrapDoor_Open_4C5D50();
-
-    void vOn_Tlv_Collision_4C5060(Path_TLV* pTlv);
-
-    s16 vTakeDamage_4C4B80(BaseGameObject* pFrom);
-
-    void vOnThrowableHit_4C4B50(BaseGameObject* pFrom);
 
     s16 PlayerOrNakedSligNear_4C26A0();
 

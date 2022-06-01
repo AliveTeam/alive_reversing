@@ -54,22 +54,15 @@ public:
     EvilFart();
 
     virtual void VUpdate() override;
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
-    virtual void VPossessed_408F70() override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual void VPossessed() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    static s32 CreateFromSaveState_4281C0(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    s32 vGetSaveState_4283F0(EvilFart_State* pState);
-
     void InputControlFart_423BB0();
-    void vOnPossesed_423DA0();
-
     void ResetFartColour();
-
-    s16 VTakeDamage_423B70(BaseGameObject* pFrom);
-
     void CalculateFartColour();
     void BlowUp();
 

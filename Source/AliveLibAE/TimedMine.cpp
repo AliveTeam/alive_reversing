@@ -20,35 +20,6 @@
 
 static TintEntry sTimedMineTint_550EB8[1] = {{LevelIds_s8::eNone, 127u, 127u, 127u}};
 
-void TimedMine::VUpdate()
-{
-    Update_410A80();
-}
-
-void TimedMine::VRender(PrimHeader** ppOt)
-{
-    Render_410CD0(ppOt);
-}
-
-void TimedMine::VScreenChanged()
-{
-    vScreenChanged_411270();
-}
-
-s16 TimedMine::VTakeDamage_408730(BaseGameObject* pFrom)
-{
-    return vTakeDamage_410FA0(pFrom);
-}
-
-void TimedMine::VOnThrowableHit(BaseGameObject* pFrom)
-{
-    vOnThrowableHit_410F00(pFrom);
-}
-
-void TimedMine::VOnPickUpOrSlapped()
-{
-    vOnPickUpOrSlapped_410E30();
-}
 
 TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     : BaseAliveGameObject(0)
@@ -103,7 +74,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     field_11C_tlv = tlv.all;
     field_120_gnframe = sGnFrame_5C1B84;
-    SetBaseAnimPaletteTint_425690(sTimedMineTint_550EB8, gMap.mCurrentLevel, kBombResID);
+    SetBaseAnimPaletteTint(sTimedMineTint_550EB8, gMap.mCurrentLevel, kBombResID);
 
     const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     mFlags.Set(Options::eInteractive_Bit8);
@@ -117,7 +88,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     field_110_id = -1;
 }
 
-void TimedMine::Update_410A80()
+void TimedMine::VUpdate()
 {
     auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_449CF0(field_110_id));
     if (Event_Get_422C00(kEventDeathReset))
@@ -165,7 +136,7 @@ void TimedMine::Update_410A80()
     }
 }
 
-void TimedMine::Render_410CD0(PrimHeader** ppOt)
+void TimedMine::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
@@ -281,7 +252,7 @@ TimedMine::~TimedMine()
     mFlags.Clear(BaseGameObject::eInteractive_Bit8);
 }
 
-void TimedMine::vScreenChanged_411270()
+void TimedMine::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
@@ -293,7 +264,7 @@ void TimedMine::vScreenChanged_411270()
     }
 }
 
-s16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
+s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {
@@ -319,7 +290,7 @@ s16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
     }
 }
 
-void TimedMine::vOnThrowableHit_410F00(BaseGameObject* /*pHitBy*/)
+void TimedMine::VOnThrowableHit(BaseGameObject* /*pHitBy*/)
 {
     ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
     
@@ -328,7 +299,7 @@ void TimedMine::vOnThrowableHit_410F00(BaseGameObject* /*pHitBy*/)
     field_120_gnframe = sGnFrame_5C1B84;
 }
 
-void TimedMine::vOnPickUpOrSlapped_410E30()
+void TimedMine::VOnPickUpOrSlapped()
 {
     if (field_118_armed != 1)
     {

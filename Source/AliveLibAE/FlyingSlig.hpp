@@ -133,32 +133,19 @@ public:
     ~FlyingSlig();
 
     virtual void VUpdate() override;
-
     virtual void VRender(PrimHeader** ppOt) override;
-
     virtual void VScreenChanged() override;
-
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
-
-    virtual void VPossessed_408F70() override;
-
-    virtual void VSetMotion_4081C0(s16 state) override;
-
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual void VPossessed() override;
+    virtual void VSetMotion(s16 state) override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    // TODO: Remaining virtuals
-
-    static s32 CreateFromSaveState_437E40(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    s32 vGetSaveState_43B1E0(FlyingSlig_State* pState);
-    void vScreenChanged_434C10();
-    void vUpdate_434AD0();
-    void vRender_435130(PrimHeader** ot);
     s16 IsPossessed_436A90();
     void sub_4348A0();
     void Movement_4396E0();
-    s16 vTakeDamage_434C90(BaseGameObject* pFrom);
 
 public:
     void Brain_0_Inactive_4355B0();
@@ -265,8 +252,6 @@ public:
     s16 sub_437C70(PathLine* pLine);
 
     TlvTypes FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
-
-    void vPossessed_434FB0();
 
     s16 sub_436C60(PSX_RECT* pRect, s16 op1);
 

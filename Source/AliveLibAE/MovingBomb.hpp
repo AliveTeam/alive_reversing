@@ -33,18 +33,13 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VScreenChanged() override;
 
 private:
-    void BlowUp_470070();
-    void vRender_4707D0(PrimHeader** ot);
-    void vScreenChanged_470B90();
-    void FollowLine_470950();
-    s16 vTakeDamage_470990(BaseGameObject* pFrom);
-    void vOnThrowableHit_470800(BaseGameObject* pObj);
-    s16 HitObject_470830();
-    void vUpdate_4701E0();
+    void BlowUp();
+    void FollowLine();
+    s16 HitObject();
 
 private:
     enum class States : s16

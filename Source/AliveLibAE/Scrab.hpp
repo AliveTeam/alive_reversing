@@ -181,59 +181,25 @@ public:
     ~Scrab();
 
     virtual void VUpdate() override;
+    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VPossessed() override;
+    virtual void VScreenChanged() override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
-    virtual void VRender(PrimHeader** ppOt) override
-    {
-        vRender_4A45B0(ppOt);
-    }
-
-    virtual void VPossessed_408F70() override
-    {
-        vPossesed_4A5620();
-    }
-
-    virtual void VScreenChanged() override
-    {
-        vScreenChanged_4A5560();
-    }
-
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override
-    {
-        return vTakeDamage_4A45E0(pFrom);
-    }
-
-    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override
-    {
-        return vOn_TLV_Collision_4A4B80(pTlv);
-    }
-
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override
-    {
-        return vGetSaveState_4AB020(reinterpret_cast<Scrab_State*>(pSaveBuffer));
-    }
-
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override
     {
         return vOnSameYLevel_4A5400(pOther);
     }
 
-    virtual void VOnTrapDoorOpen() override
-    {
-        vOnTrapDoorOpen_4A7ED0();
-    }
+    virtual void VOnTrapDoorOpen() override;
 
-    static s32 CreateFromSaveState_4A70A0(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    s32 vGetSaveState_4AB020(Scrab_State* pState);
-
-    void vOnTrapDoorOpen_4A7ED0();
-
     void vUpdateAnim_4A34F0();
     s16 OnFloor_4A41E0();
-
-    void vUpdate_4A3530();
-
     void Update_Slurg_Step_Watch_Points_4A5780();
 
 public:
@@ -295,53 +261,24 @@ public:
 
 private:
     s16 vOnSameYLevel_4A5400(BaseAnimatedWithPhysicsGameObject* pOther);
-
     void ToPatrol_4AA600();
-
     void ToStand_4A75A0();
-
     void MoveOnLine_4A7D20();
-
     void PlatformCollide_4A7E50();
-
     BaseAliveGameObject* Find_Fleech_4A4C90();
-
-    void vPossesed_4A5620();
-
     u8** ResBlockForMotion_4A43E0(s16 motion);
-
-    void vScreenChanged_4A5560();
-
-    void vRender_4A45B0(PrimHeader** ppOt);
-
     void TryMoveOrStand_4A7570();
-
     s16 ToNextMotion_4A7920();
-
     s16 PlayerControlled_4A76A0();
-
     void ToJump_4A75E0();
-
-    s16 vTakeDamage_4A45E0(BaseGameObject* pFrom);
-
-    void vOn_TLV_Collision_4A4B80(Path_TLV* pTlv);
-
     void KnockBack_4AA530();
-
     s32 Scrab_SFX_4AADB0(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
-
     void KillTarget_4A7F20(BaseAliveGameObject* pTarget);
-
     s16 FindAbeOrMud_4A4FD0();
-
     s16 CanSeeAbe_4A51A0(BaseAliveGameObject* pObj);
-
     static Bool32 LineOfSightTo_4A52D0(Scrab* pThis, BaseAliveGameObject* pObj);
-
     Scrab* FindScrabToFight_4A4E20();
-
     s16 Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, s16 bCheckLeftRightBounds);
-
     GameSpeakEvents LastSpeak_4A56F0();
 
 private:
@@ -420,4 +357,4 @@ private:
     };
     BitField16<Flags_1AA> field_1AA_flags;
 };
-ALIVE_ASSERT_SIZEOF(Scrab, 0x1AC);
+//ALIVE_ASSERT_SIZEOF(Scrab, 0x1AC);

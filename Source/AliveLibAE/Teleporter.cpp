@@ -284,7 +284,7 @@ void Teleporter::vUpdate_4DC400()
             // XPos = TLV xpos + TLV middle point
             sControlledCharacter_5C1B8C->field_B8_xpos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_0_x) + FP_FromInteger((pTeleporterTlv->field_C_bottom_right.field_0_x - pTeleporterTlv->field_8_top_left.field_0_x) / 2);
 
-            sControlledCharacter_5C1B8C->MapFollowMe_408D10(TRUE);
+            sControlledCharacter_5C1B8C->MapFollowMe(TRUE);
 
             const u8 lineType = sControlledCharacter_5C1B8C->field_D6_scale == 0 ? 0xF0 : 0x1F;
 

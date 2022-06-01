@@ -30,21 +30,15 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     
     virtual void VScreenChanged() override;
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnPickUpOrSlapped() override;
     TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv);
     ~TimedMine();
 
 private:
-    void Update_410A80();
-    void Render_410CD0(PrimHeader** ppOt);
     void InitBlinkAnimation_4108E0(Animation* pAnimation);
     void StickToLiftPoint_411100();
-    void vScreenChanged_411270();
-    s16 vTakeDamage_410FA0(BaseGameObject* pFrom);
-    void vOnThrowableHit_410F00(BaseGameObject* pHitBy);
-    void vOnPickUpOrSlapped_410E30();
 
 public:
     u16 field_118_armed;

@@ -173,7 +173,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_13C_stay_open_time = pTlv->field_1E_stay_open_time;
 }
 
-s32 TrapDoor::CreateFromSaveState_4DDED0(const u8* pData)
+s32 TrapDoor::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const TrapDoor_State*>(pData);
     auto pTlv = static_cast<Path_TrapDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_8_tlvInfo));

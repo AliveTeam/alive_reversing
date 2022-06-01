@@ -48,7 +48,7 @@ public:
     ~WorkWheel();
 
 public:
-    static s32 CreateFromSaveState_4E3B10(const u8* pState);
+    static s32 CreateFromSaveState(const u8* pState);
 
 private:
     s32 vGetSaveState_4E3C40(WorkWheel_SaveState* pState);

@@ -88,12 +88,12 @@ SecurityOrb::~SecurityOrb()
     }
 }
 
-void SecurityOrb::vScreenChanged_466D20()
+void SecurityOrb::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-s16 SecurityOrb::vTakeDamage_466BB0(BaseGameObject* pFrom)
+s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {
@@ -124,7 +124,7 @@ s16 SecurityOrb::vTakeDamage_466BB0(BaseGameObject* pFrom)
     return 1;
 }
 
-void SecurityOrb::vUpdate_4665A0()
+void SecurityOrb::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -185,7 +185,7 @@ void SecurityOrb::vUpdate_4665A0()
 
             if (sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
             {
-                sActiveHero_5C1B68->VTakeDamage_408730(this);
+                sActiveHero_5C1B68->VTakeDamage(this);
             }
 
             field_120_timer = sGnFrame_5C1B84 + 8;

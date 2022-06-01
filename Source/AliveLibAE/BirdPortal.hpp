@@ -91,7 +91,7 @@ public:
     virtual void VKillPortalClipper_499A20();
     virtual void VGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
-    static s32 CreateFromSaveState_499C90(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 
 private:

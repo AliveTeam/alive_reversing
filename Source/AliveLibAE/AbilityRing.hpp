@@ -69,7 +69,7 @@ public:
     // New virtuals
     virtual void VSetTarget(BaseGameObject* pTarget);
 
-    static s32 CreateFromSaveState_49DF90(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
     void vSetTarget_49D140(BaseGameObject* pTarget);

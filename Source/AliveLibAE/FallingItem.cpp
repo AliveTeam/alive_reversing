@@ -468,7 +468,7 @@ void FallingItem::DamageHitItems_427F40()
 
                             if (doDamage)
                             {
-                                static_cast<BaseAliveGameObject*>(pAliveObj)->VTakeDamage_408730(this);
+                                static_cast<BaseAliveGameObject*>(pAliveObj)->VTakeDamage(this);
                             }
                         }
                     }

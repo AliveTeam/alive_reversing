@@ -1022,7 +1022,7 @@ enum ResourceIndices
     eGas_21 = 21,
 };
 
-s32 Abe::CreateFromSaveState_44D4F0(const u8* pData)
+s32 Abe::CreateFromSaveState(const u8* pData)
 {
     const Abe_SaveState* pSaveState = reinterpret_cast<const Abe_SaveState*>(pData);
 
@@ -1231,46 +1231,6 @@ s32 Abe::CreateFromSaveState_44D4F0(const u8* pData)
     return sizeof(Abe_SaveState);
 }
 
-void Abe::VUpdate()
-{
-    Update_449DC0();
-}
-
-void Abe::VRender(PrimHeader** ppOt)
-{
-    vRender_44B580(ppOt);
-}
-
-void Abe::VScreenChanged()
-{
-    vScreenChanged_44D240();
-}
-
-s32 Abe::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_457110(pSaveBuffer);
-}
-
-s16 Abe::VTakeDamage_408730(BaseGameObject* pFrom)
-{
-    return vTakeDamage_44BB50(pFrom);
-}
-
-void Abe::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
-{
-    vOn_TLV_Collision_44B5D0(pTlv);
-}
-
-BirdPortal* Abe::VIntoBirdPortal_408FD0(s16 gridBlocks)
-{
-    return vIntoBirdPortal_44E970(gridBlocks);
-}
-
-void Abe::VOnTrapDoorOpen()
-{
-    vOnTrapDoorOpen_45A570();
-}
-
 const FP sAbe_xVel_table_545770[8] = {
     FP_FromInteger(4),
     FP_FromInteger(4),
@@ -1294,7 +1254,7 @@ const FP sAbe_yVel_table_545790[8] = {
 ALIVE_VAR(1, 0x5c1bda, s16, gAbeBulletProof_5C1BDA, 0);
 
 
-void Abe::Update_449DC0()
+void Abe::VUpdate()
 {
     if (gAbeBulletProof_5C1BDA) // Some flag to reset HP?
     {
@@ -1427,7 +1387,7 @@ void Abe::Update_449DC0()
             if (field_BC_ypos >= mapHeight)
             {
                 field_BC_ypos = mapHeight - FP_FromDouble(1.0);
-                SetActiveCameraDelayedFromDir_408C40();
+                SetActiveCameraDelayedFromDir();
                 return;
             }
         }
@@ -1437,7 +1397,7 @@ void Abe::Update_449DC0()
             field_C8_vely = FP_FromInteger(0);
         }
 
-        SetActiveCameraDelayedFromDir_408C40();
+        SetActiveCameraDelayedFromDir();
     }
     else
     {
@@ -1473,7 +1433,7 @@ void Abe::Update_449DC0()
                 field_BC_ypos,
                 field_B8_xpos,
                 field_BC_ypos);
-            VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
+            VOn_TLV_Collision(field_FC_pPathTLV);
         }
 
         if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
@@ -1691,16 +1651,16 @@ void Abe::Update_449DC0()
             field_1AE_flags.Clear(Flags_1AE::e1AE_Bit2_do_quicksave);
             sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_save_num = field_1B0_save_num;
             Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
-            vGetSaveState_457110(reinterpret_cast<u8*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
+            VGetSaveState(reinterpret_cast<u8*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
             sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states = sSwitchStates_5C1A28;
             Quicksave_4C90D0();
         }
     }
 }
 
-BirdPortal* Abe::vIntoBirdPortal_44E970(s16 gridBlocks)
+BirdPortal* Abe::VIntoBirdPortal(s16 gridBlocks)
 {
-    auto pPortal = BaseAliveGameObject::VIntoBirdPortal_408FD0(gridBlocks);
+    auto pPortal = BaseAliveGameObject::VIntoBirdPortal(gridBlocks);
     if (pPortal && pPortal->field_24_portal_type == PortalType::eAbe_0)
     {
         return pPortal;
@@ -1708,7 +1668,7 @@ BirdPortal* Abe::vIntoBirdPortal_44E970(s16 gridBlocks)
     return nullptr;
 }
 
-void Abe::vOnTrapDoorOpen_45A570()
+void Abe::VOnTrapDoorOpen()
 {
     // Handles falling when previously was on a platform, stop turning a wheel if we where turning one etc.
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
@@ -1717,7 +1677,7 @@ void Abe::vOnTrapDoorOpen_45A570()
     {
         if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)))
         {
-            VSetMotion_4081C0(eAbeMotions::Motion_93_WalkOffEdge_455970);
+            VSetMotion(eAbeMotions::Motion_93_WalkOffEdge_455970);
         }
 
         pPlatform->VRemove(this);
@@ -1758,7 +1718,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
             field_B8_xpos -= field_C4_velx;
         }
 
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
 
         field_C4_velx = FP_FromInteger(0);
 
@@ -1794,7 +1754,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
     }
 }
 
-void Abe::vRender_44B580(PrimHeader** ppOt)
+void Abe::VRender(PrimHeader** ppOt)
 {
     // When in death shrivel don't reset scale else can't shrivel into a black blob
     if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)))
@@ -1808,7 +1768,7 @@ void Abe::vRender_44B580(PrimHeader** ppOt)
     }
 }
 
-void Abe::vScreenChanged_44D240()
+void Abe::VScreenChanged()
 {
     if (sControlledCharacter_5C1B8C == this)
     {
@@ -1888,7 +1848,7 @@ void Abe::vScreenChanged_44D240()
     }
 }
 
-s32 Abe::vGetSaveState_457110(u8* pSaveBuffer)
+s32 Abe::VGetSaveState(u8* pSaveBuffer)
 {
     Abe_SaveState* pSaveState = reinterpret_cast<Abe_SaveState*>(pSaveBuffer);
 
@@ -2141,7 +2101,7 @@ s32 Abe::vGetSaveState_457110(u8* pSaveBuffer)
     return sizeof(Abe_SaveState);
 }
 
-s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
+s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 {
     // Stop chant sound music.
     SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
@@ -2537,7 +2497,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             if (field_10C_health > FP_FromInteger(0))
             {
                 ToKnockback_44E700(1, 1);
-                VCheckCollisionLineStillValid_408A40(5);
+                VCheckCollisionLineStillValid(5);
                 field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
             }
             break;
@@ -2565,7 +2525,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     {
         if (field_10C_health == FP_FromInteger(0))
         {
-            sControlledCharacter_5C1B8C->VUnPosses_408F90();
+            sControlledCharacter_5C1B8C->VUnPosses();
             // We are the "active" player again
             GiveControlBackToMe_44BA10();
         }
@@ -2574,7 +2534,7 @@ s16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     return ret;
 }
 
-void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
+void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     for (; pTlv; pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
                      pTlv,
@@ -2996,7 +2956,7 @@ void Abe::Motion_0_Idle_44EEB0()
         {
             field_106_current_motion = eAbeMotions::Motion_27_HopBegin_4521C0;
 
-            BaseGameObject* pObj = VIntoBirdPortal_408FD0(2);
+            BaseGameObject* pObj = VIntoBirdPortal(2);
             if (pObj)
             {
                 field_1A4_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -3394,7 +3354,7 @@ void Abe::Motion_1_WalkLoop_44FBA0()
 
         Environment_SFX_457A40(EnvironmentSfx::eWalkingFootstep_1, 0, 32767, this);
 
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
 
         if (sInputKey_Run_5550E8 & pressed)
         {
@@ -3549,7 +3509,7 @@ void Abe::Motion_3_Fall_459B60()
     FP hitY = {};
     PathLine* pPathLine = nullptr;
     const s32 bCollision = InAirCollision_408810(&pPathLine, &hitX, &hitY, FP_FromDouble(1.80));
-    SetActiveCameraDelayedFromDir_408C40();
+    SetActiveCameraDelayedFromDir();
 
     // Are we falling into a local well?
     field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
@@ -3602,7 +3562,7 @@ void Abe::Motion_3_Fall_459B60()
                 field_B8_xpos = hitX;
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
                 field_100_pCollisionLine = pPathLine;
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 field_124_timer = sGnFrame_5C1B84 + 30;
 
                 // See if there is a soft landing at our feet (given we known we just hit the floor)
@@ -3645,7 +3605,7 @@ void Abe::Motion_3_Fall_459B60()
                     wh,
                     ObjList_5C1B78,
                     1,
-                    reinterpret_cast<TCollisionCallBack>(&BaseAliveGameObject::OnTrapDoorIntersection_408BA0)); // Danger danger.. but will probably work.. can't see how else they would have got this to work
+                    reinterpret_cast<TCollisionCallBack>(&BaseAliveGameObject::OnTrapDoorIntersection)); // Danger danger.. but will probably work.. can't see how else they would have got this to work
             }
             break;
 
@@ -3713,7 +3673,7 @@ void Abe::Motion_3_Fall_459B60()
 
         field_B8_xpos = FP_FromInteger((field_FC_pPathTLV->field_8_top_left.field_0_x + field_FC_pPathTLV->field_C_bottom_right.field_0_x) / 2);
 
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
 
         if (!sCollisions_DArray_5C1128->Raycast_417A60(
                 field_B8_xpos,
@@ -3758,13 +3718,13 @@ void Abe::Motion_4_WalkToIdle_44FFC0()
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            MapFollowMe_408D10(TRUE);
+            MapFollowMe(TRUE);
 
             if (field_108_next_motion == eAbeMotions::Motion_28_HopMid_451C50)
             {
                 field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
                 field_106_current_motion = eAbeMotions::Motion_27_HopBegin_4521C0;
-                BaseGameObject* pObj = VIntoBirdPortal_408FD0(2);
+                BaseGameObject* pObj = VIntoBirdPortal(2);
                 if (pObj)
                 {
                     field_1A4_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -3890,7 +3850,7 @@ void Abe::Motion_14_HoistIdle_452440()
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
-    SetActiveCameraDelayedFromDir_408C40();
+    SetActiveCameraDelayedFromDir();
 
     if (bCollision)
     {
@@ -3904,7 +3864,7 @@ void Abe::Motion_14_HoistIdle_452440()
                 field_B8_xpos = hitX;
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
 
-                MapFollowMe_408D10(1);
+                MapFollowMe(1);
 
                 field_100_pCollisionLine = pLine;
 
@@ -3916,7 +3876,7 @@ void Abe::Motion_14_HoistIdle_452440()
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent((field_BC_ypos + FP_FromInteger(5)))},
                     ObjList_5C1B78,
                     1,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                 break;
             }
         }
@@ -4026,7 +3986,7 @@ void Abe::Motion_14_HoistIdle_452440()
                             {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5))},
                             ObjList_5C1B78,
                             1,
-                            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+                            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                     }
                 }
                 field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
@@ -4375,7 +4335,7 @@ void Abe::Motion_23_RollLoop_453A90()
             }
             else if (field_20_animation.field_92_current_frame == 0 || field_20_animation.field_92_current_frame == 4 || field_20_animation.field_92_current_frame == 8)
             {
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
 
                 if ((field_C4_velx > FP_FromInteger(0) && !Input().isPressed(sInputKey_Right_5550D0)) || (field_C4_velx < FP_FromInteger(0) && !Input().isPressed(sInputKey_Left_5550D4)))
                 {
@@ -4410,7 +4370,7 @@ void Abe::Motion_24_453D00()
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
                 field_C4_velx = FP_FromInteger(0);
             }
@@ -4435,7 +4395,7 @@ void Abe::Motion_25_RunSlideStop_451330()
         {
             if (field_20_animation.field_92_current_frame != 15)
             {
-                MapFollowMe_408D10(FALSE);
+                MapFollowMe(FALSE);
             }
 
             const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
@@ -4444,7 +4404,7 @@ void Abe::Motion_25_RunSlideStop_451330()
                 if (field_20_animation.field_92_current_frame == 15)
                 {
                     Environment_SFX_457A40(EnvironmentSfx::eSlideStop_0, 0, 32767, this);
-                    MapFollowMe_408D10(TRUE);
+                    MapFollowMe(TRUE);
 
                     if (!ToLeftRightMovement_44E340())
                     {
@@ -4478,9 +4438,9 @@ void Abe::Motion_26_RunTurn_451500()
             && !RunTryEnterWell_451060()
             && !RunTryEnterDoor_451220())
         {
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || (MapFollowMe_408D10(FALSE) && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || (MapFollowMe(FALSE) && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
 
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -4535,7 +4495,7 @@ void Abe::Motion_27_HopBegin_4521C0()
             }
         }
         field_B8_xpos += field_C4_velx;
-        SetActiveCameraDelayedFromDir_408C40();
+        SetActiveCameraDelayedFromDir();
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -4556,7 +4516,7 @@ void Abe::Motion_27_HopBegin_4521C0()
 
         if (field_1A8_portal_id == -1)
         {
-            BaseGameObject* pObj = VIntoBirdPortal_408FD0(2);
+            BaseGameObject* pObj = VIntoBirdPortal(2);
             if (pObj)
             {
                 field_1A4_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -4589,7 +4549,7 @@ void Abe::Motion_28_HopMid_451C50()
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
-    SetActiveCameraDelayedFromDir_408C40();
+    SetActiveCameraDelayedFromDir();
 
     if (bCollision)
     {
@@ -4614,9 +4574,9 @@ void Abe::Motion_28_HopMid_451C50()
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5))},
                     ObjList_5C1B78,
                     1,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
 
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 field_106_current_motion = eAbeMotions::Motion_29_HopLand_4523D0;
                 field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
                 return;
@@ -4644,7 +4604,7 @@ void Abe::Motion_28_HopMid_451C50()
         {
             field_B8_xpos = FP_FromInteger((pEdgeTlv->field_8_top_left.field_0_x + pEdgeTlv->field_C_bottom_right.field_0_x) / 2);
 
-            MapFollowMe_408D10(TRUE);
+            MapFollowMe(TRUE);
 
             if (sCollisions_DArray_5C1128->Raycast_417A60(
                     field_B8_xpos,
@@ -4770,7 +4730,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
     PathLine* pLine = nullptr;
     const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
 
-    SetActiveCameraDelayedFromDir_408C40();
+    SetActiveCameraDelayedFromDir();
 
     if (bCollision)
     {
@@ -4791,7 +4751,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
                         {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5))},
                         ObjList_5C1B78,
                         1,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                 }
                 field_108_next_motion = eAbeMotions::Motion_0_Idle_44EEB0;
                 return;
@@ -4852,7 +4812,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
             {
                 field_B8_xpos = FP_FromInteger((field_FC_pPathTLV->field_8_top_left.field_0_x + field_FC_pPathTLV->field_C_bottom_right.field_0_x) / 2);
 
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
                 field_E0_pShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
                 field_100_pCollisionLine = pLine;
@@ -4881,7 +4841,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
                             {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5))},
                             ObjList_5C1B78,
                             1,
-                            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+                            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                     }
                 }
             }
@@ -4921,14 +4881,14 @@ void Abe::Motion_32_RunJumpLand_453460()
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, 32767, this);
 
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
 
         const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
         if (sInputKey_Left_5550D4 & pressed)
         {
             if (sInputKey_Hop_5550E0 & field_118_prev_held)
             {
-                BaseGameObject* pPortal = VIntoBirdPortal_408FD0(3);
+                BaseGameObject* pPortal = VIntoBirdPortal(3);
                 if (pPortal)
                 {
                     field_1A4_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -4974,7 +4934,7 @@ void Abe::Motion_32_RunJumpLand_453460()
         {
             if (sInputKey_Hop_5550E0 & field_118_prev_held)
             {
-                BaseGameObject* pPortal = VIntoBirdPortal_408FD0(3);
+                BaseGameObject* pPortal = VIntoBirdPortal(3);
                 if (pPortal)
                 {
                     field_1A4_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -5012,7 +4972,7 @@ void Abe::Motion_32_RunJumpLand_453460()
         }
         else if (sInputKey_Hop_5550E0 & field_118_prev_held)
         {
-            BaseGameObject* pPortal = VIntoBirdPortal_408FD0(2);
+            BaseGameObject* pPortal = VIntoBirdPortal(2);
             if (pPortal)
             {
                 field_1A4_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -5039,7 +4999,7 @@ void Abe::Motion_32_RunJumpLand_453460()
 
 void Abe::DoRunJump()
 {
-    BaseGameObject* pObj = VIntoBirdPortal_408FD0(3);
+    BaseGameObject* pObj = VIntoBirdPortal(3);
     if (pObj)
     {
         field_1A4_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -5089,7 +5049,7 @@ void Abe::Motion_33_RunLoop_4508E0()
         {
             Environment_SFX_457A40(EnvironmentSfx::eRunningFootstep_2, 0, 32767, this);
 
-            MapFollowMe_408D10(TRUE);
+            MapFollowMe(TRUE);
 
             // Turning around?
             if ((field_C4_velx > FP_FromInteger(0) && Input().isPressed(sInputKey_Left_5550D4)) || (field_C4_velx < FP_FromInteger(0) && Input().isPressed(sInputKey_Right_5550D0)))
@@ -5166,7 +5126,7 @@ void Abe::Motion_33_RunLoop_4508E0()
     }
     else
     {
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
         if (field_118_prev_held & sInputKey_Hop_5550E0)
         {
             DoRunJump();
@@ -5251,7 +5211,7 @@ void Abe::Motion_40_SneakLoop_450550()
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
     {
         ToIdle_44E6B0();
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
     }
     else
     {
@@ -5292,7 +5252,7 @@ void Abe::Motion_40_SneakLoop_450550()
             else if (field_20_animation.field_92_current_frame == 6 || field_20_animation.field_92_current_frame == 16)
             {
                 Environment_SFX_457A40(EnvironmentSfx::eSneakFootstep_3, 0, 32767, this);
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 if ((sInputKey_Left_5550D4 | sInputKey_Right_5550D0) & pressed)
                 {
                     // Sneak to walk
@@ -5335,7 +5295,7 @@ void Abe::Motion_41_WalkToSneak_450250()
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
     }
     else
     {
@@ -5364,7 +5324,7 @@ void Abe::Motion_42_SneakToWalk_4503D0()
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
     }
     else
     {
@@ -5410,7 +5370,7 @@ void Abe::Motion_45_SneakBegin_4507A0()
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
     }
     else
     {
@@ -5429,7 +5389,7 @@ void Abe::Motion_46_SneakToIdle_450870()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
         ToIdle_44E6B0();
     }
 }
@@ -5465,7 +5425,7 @@ void Abe::Motion_48_WalkToRun_4500A0()
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
     }
     else
     {
@@ -5872,7 +5832,7 @@ void Abe::Motion_62_Punch_454750()
             }
 
             // Try to get the next "stacked" mud - e.g if we have like 20 muds on 1 grid block this will iterate through them
-            pSlapTarget = GetStackedSlapTarget_425290(pSlapTarget->field_8_object_id, AETypes::eMudokon_110, gridSize, field_BC_ypos - kFP5);
+            pSlapTarget = GetStackedSlapTarget(pSlapTarget->field_8_object_id, AETypes::eMudokon_110, gridSize, field_BC_ypos - kFP5);
         }
 
         if (!pSlapTarget)
@@ -5897,7 +5857,7 @@ void Abe::Motion_62_Punch_454750()
 
         if (pSlapTarget)
         {
-            static_cast<BaseAliveGameObject*>(pSlapTarget)->VTakeDamage_408730(this);
+            static_cast<BaseAliveGameObject*>(pSlapTarget)->VTakeDamage(this);
         }
     }
 
@@ -5927,7 +5887,7 @@ void Abe::Motion_63_Sorry_454670()
         auto pMud = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(AETypes::eMudokon_110, xOff, yOff));
         if (pMud)
         {
-            pMud->VTakeDamage_408730(this);
+            pMud->VTakeDamage(this);
         }
 
         Mudokon_SFX_457EC0(MudSounds::eSorry_27, 0, 0, this);
@@ -5963,7 +5923,7 @@ void Abe::Motion_65_LedgeAscend_4548E0()
     {
         // Now the ascend is done go back to stand idle
         field_E0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit1_ShadowAtBottom);
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
         ToIdle_44E6B0();
     }
 }
@@ -6087,7 +6047,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5))},
                     ObjList_5C1B78,
                     1,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
             }
         }
         field_106_current_motion = eAbeMotions::Motion_67_LedgeHang_454E20;
@@ -6443,7 +6403,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
                 pExpress->field_1A_exit_y);
         }
 
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
 
         field_BC_ypos += field_C8_vely;
 
@@ -6487,7 +6447,7 @@ void Abe::Motion_80_WellShotOut_45D150()
         field_B8_xpos += field_C4_velx;
         field_BC_ypos += field_C8_vely;
 
-        SetActiveCameraDelayedFromDir_408C40();
+        SetActiveCameraDelayedFromDir();
 
         field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
             nullptr,
@@ -7648,7 +7608,7 @@ void Abe::Motion_112_Chant_45B1C0()
 
             sControlledCharacter_5C1B8C = pPossessTarget;
 
-            pPossessTarget->VPossessed_408F70();
+            pPossessTarget->VPossessed();
 
             field_154_possessed_object_id = -1;
 
@@ -7888,7 +7848,7 @@ void Abe::Motion_114_DoorEnter_459470()
             field_B8_xpos = FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_0_x) + FP_FromInteger((field_FC_pPathTLV->field_C_bottom_right.field_0_x - field_FC_pPathTLV->field_8_top_left.field_0_x) / 2);
 
 
-            MapFollowMe_408D10(TRUE);
+            MapFollowMe(TRUE);
 
             PathLine* pathLine = nullptr;
             FP hitX = {};
@@ -8006,7 +7966,7 @@ void Abe::Motion_115_DoorExit_459A40()
             field_B8_xpos,
             field_BC_ypos);
 
-        VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
+        VOn_TLV_Collision(field_FC_pPathTLV);
         ToIdle_44E6B0();
     }
 }
@@ -8336,7 +8296,7 @@ void Abe::ToIdle_44E6B0()
     field_106_current_motion = eAbeMotions::Motion_0_Idle_44EEB0;
     field_118_prev_held = 0;
     field_11C_released_buttons = 0;
-    MapFollowMe_408D10(TRUE);
+    MapFollowMe(TRUE);
 }
 
 void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch)
@@ -8557,7 +8517,7 @@ s16 Abe::TryEnterMineCar_4569E0()
                             field_120_state.raw = 0;
                             field_106_current_motion = eAbeMotions::Motion_116_MineCarEnter_458780;
                             field_B8_xpos = FP_FromInteger((mineCarRect.x + mineCarRect.w) / 2);
-                            MapFollowMe_408D10(TRUE);
+                            MapFollowMe(TRUE);
                             return 1;
                         }
                     }
@@ -8710,7 +8670,7 @@ void Abe::MoveForward_44E9A0()
                 {static_cast<s16>(bRect.w + 5), static_cast<s16>(bRect.h + 5)}, // TODO: Is it really on both ??
                 ObjList_5C1B78,
                 1,
-                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
         }
         else if (pTrapdoor)
         {
@@ -8933,7 +8893,7 @@ s16 Abe::RunTryEnterDoor_451220()
     field_120_state.raw = 0;
     field_106_current_motion = eAbeMotions::Motion_114_DoorEnter_459470;
     field_B8_xpos = FP_FromInteger((pDoorTlv->field_8_top_left.field_0_x + pDoorTlv->field_C_bottom_right.field_0_x) / 2);
-    MapFollowMe_408D10(TRUE);
+    MapFollowMe(TRUE);
     return 1;
 }
 
@@ -9203,7 +9163,7 @@ void Abe::FallOnBombs_44EC10()
 
             if (bOurRect.x <= objRect.w && bOurRect.w >= objRect.x && bOurRect.h >= objRect.y && bOurRect.y <= objRect.h)
             {
-                pObj->VTakeDamage_408730(this);
+                pObj->VTakeDamage(this);
             }
         }
     }
@@ -9631,7 +9591,7 @@ void Abe::FollowLift_45A500()
             VOnTrapDoorOpen();
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift);
         }
-        SetActiveCameraDelayedFromDir_408C40();
+        SetActiveCameraDelayedFromDir();
     }
 }
 

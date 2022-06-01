@@ -57,31 +57,23 @@ enum UXB_Flags_1C8
 class UXB final : public BaseAliveGameObject
 {
 public:
-    
+    UXB(Path_UXB* params, TlvItemInfoUnion itemInfo);
+    ~UXB();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VOnPickUpOrSlapped() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    UXB(Path_UXB* params, TlvItemInfoUnion itemInfo);
-    ~UXB();
-
-    static s32 CreateFromSaveState_4DFAE0(const u8*);
+    static s32 CreateFromSaveState(const u8*);
 
 private:
-    void vOnPickUpOrSlapped_4DF540();
-    void vOnThrowableHit_4DF7B0(BaseGameObject* pFrom);
-    s16 vTakeDamage_4DF850(BaseGameObject* pFrom);
-    void Update_4DF030();
-    void Render_4DF3D0(PrimHeader** ppOt);
-    void ScreenChanged_4DF9C0();
-    s32 GetSaveState_4DFD40(u8* pSaveBuffer);
-    void InitBlinkAnim_4DEED0(Animation* pAnimation);
-    void PlaySFX_4DE930(SoundEffect sfxIdx);
-    s32 IsColliding_4DF630();
+    void InitBlinkAnim(Animation* pAnimation);
+    void PlaySFX(SoundEffect sfxIdx);
+    s32 IsColliding();
 
 private:
     UXBState field_118_state;

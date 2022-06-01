@@ -23,39 +23,6 @@ void Mine_ForceLink()
 
 ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
 
-
-void Mine::VUpdate()
-{
-    Update_46B5D0();
-}
-
-void Mine::VRender(PrimHeader** ppOt)
-{
-    Render_46B7A0(ppOt);
-}
-
-
-void Mine::VScreenChanged()
-{
-    ScreenChanged_46BAE0();
-}
-
-
-void Mine::VOnPickUpOrSlapped()
-{
-    vOnPickUpOrSlapped_46B880();
-}
-
-void Mine::VOnThrowableHit(BaseGameObject* pFrom)
-{
-    vOnThrowableHit_46BA40(pFrom);
-}
-
-s16 Mine::VTakeDamage_408730(BaseGameObject* pFrom)
-{
-    return vTakeDamage_46BB20(pFrom);
-}
-
 Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     : BaseAliveGameObject(0)
 {
@@ -172,7 +139,7 @@ Mine::~Mine()
     }
 }
 
-void Mine::Update_46B5D0()
+void Mine::VUpdate()
 {
     const s16 onScreen = gMap.Is_Point_In_Current_Camera_4810D0(
         field_C2_lvl_number,
@@ -204,7 +171,7 @@ void Mine::Update_46B5D0()
                 sMineSFXOwner_5C3008 = nullptr;
             }
         }
-        if (Mine::IsColliding_46B8C0())
+        if (Mine::IsColliding())
         {
             field_118_detonating = 1;
             field_120_gnframe = sGnFrame_5C1B84;
@@ -220,7 +187,7 @@ void Mine::Update_46B5D0()
     }
 }
 
-void Mine::Render_46B7A0(PrimHeader** ppOt)
+void Mine::VRender(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -242,7 +209,7 @@ void Mine::Render_46B7A0(PrimHeader** ppOt)
     }
 }
 
-void Mine::ScreenChanged_46BAE0()
+void Mine::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel
         || gMap.mCurrentPath != gMap.mPath
@@ -252,7 +219,7 @@ void Mine::ScreenChanged_46BAE0()
     }
 }
 
-void Mine::vOnPickUpOrSlapped_46B880()
+void Mine::VOnPickUpOrSlapped()
 {
     if (field_118_detonating != 1)
     {
@@ -261,14 +228,14 @@ void Mine::vOnPickUpOrSlapped_46B880()
     }
 }
 
-void Mine::vOnThrowableHit_46BA40(BaseGameObject* /*pFrom*/)
+void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
     mFlags.Set(BaseGameObject::eDead);
     field_118_detonating = 1;
 }
 
-s16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
+s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {
@@ -295,7 +262,7 @@ s16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
     }
 }
 
-bool Mine::IsColliding_46B8C0()
+bool Mine::IsColliding()
 {
     PSX_RECT mineBound;
     vGetBoundingRect_424FD0(&mineBound, 1);

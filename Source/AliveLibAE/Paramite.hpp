@@ -179,54 +179,22 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(PrimHeader** ppOt) override
-    {
-        vRender_488220(ppOt);
-    }
-
+    virtual void VRender(PrimHeader** ppOt) override;
     virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override
     {
         return vOnSameYLevel_488A40(pOther);
     }
 
-    virtual void VUnPosses_408F90() override
-    {
-        vUnPosses_488BE0();
-    }
+    virtual void VUnPosses() override;
+    virtual void VPossessed() override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+    virtual void VOnTrapDoorOpen() override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    virtual void VPossessed_408F70() override
-    {
-        vPossessed_488B60();
-    }
-
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override
-    {
-        return vTakeDamage_488250(pFrom);
-    }
-
-    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override
-    {
-        return vOn_TLV_Collision_488640(pTlv);
-    }
-
-    virtual void VOnTrapDoorOpen() override
-    {
-        vOnTrapDoorOpen_489F60();
-    }
-
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override
-    {
-        return vGetSaveState_48F220(reinterpret_cast<Paramite_State*>(pSaveBuffer));
-    }
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 
-    static s32 CreateFromSaveState_4855A0(const u8* pBuffer);
-
-private:
-    s32 vGetSaveState_48F220(Paramite_State* pState);
-
-
-public:
     s16 Brain_0_Patrol_4835B0();
 	s16 Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj);
 	s16 Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj);
@@ -325,8 +293,6 @@ private:
 
 private:
 
-    void vUpdate_4871B0();
-
     s16 Find_Paramite_488810();
 
     void vUpdateAnim_487170();
@@ -337,23 +303,11 @@ private:
 
     s16 vOnSameYLevel_488A40(BaseAnimatedWithPhysicsGameObject* pOther);
 
-    void vUnPosses_488BE0();
-
-    void vPossessed_488B60();
-
-    s16 vTakeDamage_488250(BaseGameObject* pFrom);
-
     u8** ResBlockForMotion_488130(s16 motion);
-
-    void vOn_TLV_Collision_488640(Path_TLV* pTlv);
 
     s16 AnotherParamiteNear_4886E0();
 
     PathLine* WebCollision_4888A0(FP yOff, FP xOff);
-
-    void vRender_488220(PrimHeader** ppOt);
-
-    void vOnTrapDoorOpen_489F60();
 
     void ToHop_489C20();
 

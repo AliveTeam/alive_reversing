@@ -97,27 +97,7 @@ SlapLock::~SlapLock()
     Path::TLV_Reset_4DB8E0(field_11C_tlvInfo, -1, 0, 0);
 }
 
-void SlapLock::VUpdate()
-{
-    vUpdate_43DF90();
-}
-
-void SlapLock::VScreenChanged()
-{
-    vScreenChanged_43E840();
-}
-
-s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_43EB30(reinterpret_cast<SlapLock_State*>(pSaveBuffer));
-}
-
-s16 SlapLock::VTakeDamage_408730(BaseGameObject* pFrom)
-{
-    return vTakeDamage_43E5D0(pFrom);
-}
-
-s32 SlapLock::CreateFromSaveState_43EA00(const u8* pBuffer)
+s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const SlapLock_State*>(pBuffer);
 
@@ -146,16 +126,16 @@ s32 SlapLock::CreateFromSaveState_43EA00(const u8* pBuffer)
     return sizeof(SlapLock_State);
 }
 
-void SlapLock::vScreenChanged_43E840()
+void SlapLock::VScreenChanged()
 {
     if (field_120_state == SlapLockStates::eFlickerHero_5 || field_120_state == SlapLockStates::eGiveInvisibilityFromFlicker_6)
     {
-        GiveInvisibility_43E880();
+        GiveInvisibility();
     }
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void SlapLock::GiveInvisibility_43E880()
+void SlapLock::GiveInvisibility()
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
     if (sActiveHero_5C1B68)
@@ -167,8 +147,10 @@ void SlapLock::GiveInvisibility_43E880()
     }
 }
 
-s32 SlapLock::vGetSaveState_43EB30(SlapLock_State* pState)
+s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 {
+    auto pState = reinterpret_cast<SlapLock_State*>(pSaveBuffer);
+
     pState->field_0_type = AETypes::eLockedSoul_61;
     pState->field_2_render = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) & 1;
     pState->field_4_tlvInfo = field_11C_tlvInfo;
@@ -191,7 +173,7 @@ s32 SlapLock::vGetSaveState_43EB30(SlapLock_State* pState)
     return sizeof(SlapLock_State);
 }
 
-void SlapLock::vUpdate_43DF90()
+void SlapLock::VUpdate()
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
 
@@ -351,7 +333,7 @@ void SlapLock::vUpdate_43DF90()
                     }
                     else
                     {
-                        GiveInvisibilityPowerUp_43E910();
+                        SetInvisibilityTarget();
                         field_120_state = SlapLockStates::eFlickerHero_5;
                     }
                 }
@@ -398,14 +380,14 @@ void SlapLock::vUpdate_43DF90()
                 {
                     return;
                 }
-                GiveInvisibility_43E880();
+                GiveInvisibility();
                 field_13C_timer2 = sGnFrame_5C1B84 + 60;
                 field_120_state = SlapLockStates::eBroken_3;
                 break;
             }
             case SlapLockStates::eGiveInvisibility_7:
             {
-                GiveInvisibility_43E880();
+                GiveInvisibility();
                 field_13C_timer2 = sGnFrame_5C1B84 + 60;
                 field_120_state = SlapLockStates::eBroken_3;
                 break;
@@ -418,7 +400,7 @@ void SlapLock::vUpdate_43DF90()
     }
 }
 
-void SlapLock::GiveInvisibilityPowerUp_43E910()
+void SlapLock::SetInvisibilityTarget()
 {
     AbilityRing::Factory_482F80(
         field_B8_xpos,
@@ -441,7 +423,7 @@ void SlapLock::GiveInvisibilityPowerUp_43E910()
     pRing->VSetTarget(sActiveHero_5C1B68);
 }
 
-s16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
+s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
 
@@ -482,7 +464,7 @@ s16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
 
     if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eYes_1)
     {
-        GiveInvisibilityPowerUp_43E910();
+        SetInvisibilityTarget();
     }
 
     field_120_state = SlapLockStates::eSlapped_2;

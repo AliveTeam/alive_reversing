@@ -130,7 +130,7 @@ void Bullet::vUpdate_413560()
                             }
                         }
 
-                        if (pShotObj->VTakeDamage_408730(this))
+                        if (pShotObj->VTakeDamage(this))
                         {
                             if (pShotObj->Type() != AETypes::eGreeter_64 && pShotObj->Type() != AETypes::eMineCar_89)
                             {
@@ -210,7 +210,7 @@ void Bullet::vUpdate_413560()
                     }
                 }
 
-                if (pShotObj->VTakeDamage_408730(this))
+                if (pShotObj->VTakeDamage(this))
                 {
                     if (pShotObj->Type() != AETypes::eGreeter_64 && pShotObj->Type() != AETypes::eMineCar_89)
                     {
@@ -240,7 +240,7 @@ void Bullet::vUpdate_413560()
             BaseAliveGameObject* pShootObj = ShootObject_414630(&rect);
             if (pShootObj)
             {
-                if (pShootObj->VTakeDamage_408730(this))
+                if (pShootObj->VTakeDamage(this))
                 {
                     if (pShootObj->Type() != AETypes::eGreeter_64 && pShootObj->Type() != AETypes::eMineCar_89)
                     {
@@ -292,7 +292,7 @@ void Bullet::vUpdate_413560()
             rect.h = rect.h;
 
             BaseAliveGameObject* pShootObj = ShootObject_414630(&rect);
-            if (pShootObj && pShootObj->VTakeDamage_408730(this) && pShootObj->Type() != AETypes::eGreeter_64 && pShootObj->Type() != AETypes::eMineCar_89)
+            if (pShootObj && pShootObj->VTakeDamage(this) && pShootObj->Type() != AETypes::eGreeter_64 && pShootObj->Type() != AETypes::eMineCar_89)
             {
                 PlayBulletSounds(90);
             }

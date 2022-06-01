@@ -229,12 +229,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
     field_E0_pShadow = ae_new<Shadow>();
 }
 
-void Scrab::VUpdate()
-{
-    vUpdate_4A3530();
-}
-
-void Scrab::vOn_TLV_Collision_4A4B80(Path_TLV* pTlv)
+void Scrab::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv != nullptr)
     {
@@ -310,7 +305,7 @@ const AnimId sScrabFrameTableOffsets_5601C0[40] = {
     AnimId::Scrab_LegKick,
     AnimId::Scrab_DeathBegin};
 
-s32 Scrab::CreateFromSaveState_4A70A0(const u8* pBuffer)
+s32 Scrab::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Scrab_State*>(pBuffer);
 
@@ -412,12 +407,14 @@ s32 Scrab::CreateFromSaveState_4A70A0(const u8* pBuffer)
     return sizeof(Scrab_State);
 }
 
-s32 Scrab::vGetSaveState_4AB020(Scrab_State* pState)
+s32 Scrab::VGetSaveState(u8* pSaveBuffer)
 {
     if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         return 0;
     }
+
+    auto pState = reinterpret_cast<Scrab_State*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eScrab_112;
     pState->field_4_obj_id = field_C_objectId;
@@ -527,7 +524,7 @@ Scrab::~Scrab()
     field_120_obj_id = -1;
     field_124_fight_target_obj_id = -1;
 
-    vOnTrapDoorOpen_4A7ED0();
+    VOnTrapDoorOpen();
 
     if (field_10C_health <= FP_FromInteger(0))
     {
@@ -556,7 +553,7 @@ Scrab::~Scrab()
     }
 }
 
-void Scrab::vOnTrapDoorOpen_4A7ED0()
+void Scrab::VOnTrapDoorOpen()
 {
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
     if (pPlatform)
@@ -624,7 +621,7 @@ const FP vely_input_entries_546DA4[11] = {
     FP_FromInteger(0)};
 
 
-void Scrab::vUpdate_4A3530()
+void Scrab::VUpdate()
 {
     if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
@@ -723,7 +720,7 @@ void Scrab::vUpdate_4A3530()
                     field_C8_vely = FP_FromInteger(0);
                 }
 
-                SetActiveCameraDelayedFromDir_408C40();
+                SetActiveCameraDelayedFromDir();
                 field_F8_LastLineYPos = field_BC_ypos;
                 return;
             }
@@ -765,7 +762,7 @@ void Scrab::vUpdate_4A3530()
                     field_BC_ypos,
                     field_B8_xpos,
                     field_BC_ypos);
-                VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
+                VOn_TLV_Collision(field_FC_pPathTLV);
             }
 
             if (oldMotion != field_106_current_motion || field_1AA_flags.Get(Flags_1AA::eBit4_force_update_animation))
@@ -830,7 +827,7 @@ void Scrab::vUpdate_4A3530()
             if (sControlledCharacter_5C1B8C == this && field_110_id != -1)
             {
                 field_C8_vely = field_BC_ypos - field_13C_last_ypos;
-                SetActiveCameraDelayedFromDir_408C40();
+                SetActiveCameraDelayedFromDir();
             }
             field_13C_last_ypos = field_BC_ypos;
             return;
@@ -986,7 +983,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
                 }
             }
 
-            if (Check_IsOnEndOfLine_408E90(
+            if (Check_IsOnEndOfLine(
                     field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX),
                     field_106_current_motion != eScrabMotions::M_Run_2_4A89C0 ? 1 : 3)
                 || Handle_SlamDoor_or_EnemyStopper_4A4830(field_C4_velx, 1))
@@ -1015,7 +1012,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
                     return Brain_0_Patrol::eBrain0_KickFleech_7;
                 }
 
-                if (Check_IsOnEndOfLine_408E90(
+                if (Check_IsOnEndOfLine(
                         field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX),
                         field_106_current_motion != eScrabMotions::M_Run_2_4A89C0 ? 1 : 3)
                     || // TODO: check order is correct
@@ -1287,7 +1284,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
                 {
                     field_106_current_motion = eScrabMotions::M_Turn_3_4A91A0;
                     field_108_next_motion = -1;
-                    MapFollowMe_408D10(TRUE);
+                    MapFollowMe(TRUE);
                 }
                 return Brain_1_ChasingEnemy::eBrain1_Turning_3;
             }
@@ -1566,7 +1563,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
     //Jump at the end of the ledge
     FP xOffset = (field_C4_velx >= FP_FromInteger(0)) ? ScaleToGridSize_4498B0(field_CC_sprite_scale) : -ScaleToGridSize_4498B0(field_CC_sprite_scale);
     if (xPosition < 6
-        && Check_IsOnEndOfLine_408E90(field_C4_velx < FP_FromInteger(0), 1)
+        && Check_IsOnEndOfLine(field_C4_velx < FP_FromInteger(0), 1)
         && ((pObj->field_BC_ypos - field_BC_ypos < FP_FromInteger(5))
             || sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                 FP_GetExponent(field_B8_xpos + xOffset),
@@ -1574,7 +1571,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
                 FP_GetExponent(field_B8_xpos + xOffset),
                 FP_GetExponent(field_BC_ypos + FP_FromInteger(10)),
                 TlvTypes::ElectricWall_38))
-        && !Check_IsOnEndOfLine_408E90(field_C4_velx < FP_FromInteger(0), 3))
+        && !Check_IsOnEndOfLine(field_C4_velx < FP_FromInteger(0), 3))
     {
         ToJump_4A75E0();
         field_108_next_motion = -1;
@@ -1638,7 +1635,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
         {
             field_106_current_motion = eScrabMotions::M_Turn_3_4A91A0;
             field_108_next_motion = -1;
-            MapFollowMe_408D10(TRUE);
+            MapFollowMe(TRUE);
         }
         return Brain_1_ChasingEnemy::eBrain1_Turning_3;
     }
@@ -1771,7 +1768,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
             {
                 xPos += FP_FromInteger(50);
             }
-            if (!Handle_SlamDoor_or_EnemyStopper_4A4830(field_C4_velx, 0) && !Check_IsOnEndOfLine_408E90(sIsFlipped, 2) && vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(10), pTarget))
+            if (!Handle_SlamDoor_or_EnemyStopper_4A4830(field_C4_velx, 0) && !Check_IsOnEndOfLine(sIsFlipped, 2) && vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(10), pTarget))
             {
                 if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, xPos, field_BC_ypos, 0))
                 {
@@ -1839,7 +1836,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
                 field_10C_health = FP_FromInteger(0);
             }
 
-            MapFollowMe_408D10(TRUE);
+            MapFollowMe(TRUE);
             field_106_current_motion = eScrabMotions::M_ScrabBattleAnim_31_4A9F30;
             field_12C_timer = sGnFrame_5C1B84 + 40;
             return Brain_2_Fighting::eBrain2_Battling_10;
@@ -2184,12 +2181,12 @@ void Scrab::M_Walk_1_4A84D0()
             {
                 if (field_108_next_motion != eScrabMotions::M_Run_2_4A89C0)
                 {
-                    MapFollowMe_408D10(TRUE);
+                    MapFollowMe(TRUE);
                     return;
                 }
                 field_106_current_motion = eScrabMotions::M_WalkToRun_16_4A8D60;
                 field_108_next_motion = -1;
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 return;
             }
 
@@ -2198,7 +2195,7 @@ void Scrab::M_Walk_1_4A84D0()
                 field_106_current_motion = eScrabMotions::M_AttackSpin_32_4A8DC0;
                 field_12C_timer = sGnFrame_5C1B84 + field_174_possessed_max_whirl_attack_duration;
                 field_108_next_motion = -1;
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 return;
             }
 
@@ -2206,7 +2203,7 @@ void Scrab::M_Walk_1_4A84D0()
             {
                 field_106_current_motion = eScrabMotions::M_WalkToRun_16_4A8D60;
                 field_108_next_motion = -1;
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 return;
             }
 
@@ -2214,11 +2211,11 @@ void Scrab::M_Walk_1_4A84D0()
             {
                 field_106_current_motion = eScrabMotions::M_HopBegin_5_4A96C0;
                 field_108_next_motion = -1;
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 return;
             }
 
-            MapFollowMe_408D10(TRUE);
+            MapFollowMe(TRUE);
             return;
 
         default:
@@ -2290,7 +2287,7 @@ void Scrab::M_Run_2_4A89C0()
                     {
                         field_106_current_motion = eScrabMotions::M_RunToWalk_17_4A8D90;
                         field_108_next_motion = -1;
-                        MapFollowMe_408D10(TRUE);
+                        MapFollowMe(TRUE);
                         return;
                     }
 
@@ -2299,7 +2296,7 @@ void Scrab::M_Run_2_4A89C0()
                         if (field_108_next_motion == eScrabMotions::M_AttackSpin_32_4A8DC0)
                         {
                             field_106_current_motion = eScrabMotions::M_AttackSpin_32_4A8DC0;
-                            MapFollowMe_408D10(TRUE);
+                            MapFollowMe(TRUE);
                             return;
                         }
 
@@ -2308,11 +2305,11 @@ void Scrab::M_Run_2_4A89C0()
                             ToStand_4A75A0();
                             field_106_current_motion = eScrabMotions::M_ScrabBattleAnim_31_4A9F30;
                             field_108_next_motion = -1;
-                            MapFollowMe_408D10(TRUE);
+                            MapFollowMe(TRUE);
                             return;
                         }
 
-                        MapFollowMe_408D10(TRUE);
+                        MapFollowMe(TRUE);
                         return;
                     }
                 }
@@ -2325,14 +2322,14 @@ void Scrab::M_Run_2_4A89C0()
                             if (!sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
                             {
                                 field_106_current_motion = eScrabMotions::M_RunToWalk_17_4A8D90;
-                                MapFollowMe_408D10(TRUE);
+                                MapFollowMe(TRUE);
                                 return;
                             }
 
                             if (sInputObject_5BD4E0.isPressed(sInputKey_Hop_5550E0))
                             {
                                 ToJump_4A75E0();
-                                MapFollowMe_408D10(TRUE);
+                                MapFollowMe(TRUE);
                                 return;
                             }
 
@@ -2341,17 +2338,17 @@ void Scrab::M_Run_2_4A89C0()
                                 field_12C_timer = MakeTimer(field_174_possessed_max_whirl_attack_duration);
                                 field_106_current_motion = eScrabMotions::M_AttackSpin_32_4A8DC0;
                                 field_108_next_motion = -1;
-                                MapFollowMe_408D10(TRUE);
+                                MapFollowMe(TRUE);
                                 return;
                             }
 
-                            MapFollowMe_408D10(TRUE);
+                            MapFollowMe(TRUE);
                             return;
                         }
                     }
                 }
                 field_106_current_motion = eScrabMotions::M_RunToStand_4_4A90C0;
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 return;
 
             default:
@@ -2409,7 +2406,7 @@ void Scrab::M_RunToStand_4_4A90C0()
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 TryMoveOrStand_4A7570();
             }
         }
@@ -2526,7 +2523,7 @@ void Scrab::M_HopMidair_6_4A9490()
 
         if (sControlledCharacter_5C1B8C == this)
         {
-            SetActiveCameraDelayedFromDir_408C40();
+            SetActiveCameraDelayedFromDir();
         }
 
         if (bCollision)
@@ -2636,7 +2633,7 @@ void Scrab::M_JumpToFall_8_4A9220()
     const auto bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
     if (sControlledCharacter_5C1B8C == this)
     {
-        SetActiveCameraDelayedFromDir_408C40();
+        SetActiveCameraDelayedFromDir();
     }
 
     if (bHit)
@@ -2652,7 +2649,7 @@ void Scrab::M_JumpToFall_8_4A9220()
                 PlatformCollide_4A7E50();
                 field_BC_ypos = hitY;
                 field_B8_xpos = hitX;
-                MapFollowMe_408D10(TRUE);
+                MapFollowMe(TRUE);
                 break;
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
@@ -2786,7 +2783,7 @@ void Scrab::M_RunJumpBegin_12_4A99C0()
         const auto bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
         if (sControlledCharacter_5C1B8C == this)
         {
-            SetActiveCameraDelayedFromDir_408C40();
+            SetActiveCameraDelayedFromDir();
         }
 
         if (bHit)
@@ -3244,7 +3241,7 @@ void Scrab::M_AttackSpin_32_4A8DC0()
         }
     }
 
-    MapFollowMe_408D10(0);
+    MapFollowMe(0);
 
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
     {
@@ -3401,7 +3398,7 @@ void Scrab::ToStand_4A75A0()
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
     field_106_current_motion = eScrabMotions::M_Stand_0_4A8220;
-    MapFollowMe_408D10(TRUE);
+    MapFollowMe(TRUE);
 }
 
 void Scrab::MoveOnLine_4A7D20()
@@ -3459,7 +3456,7 @@ void Scrab::PlatformCollide_4A7E50()
 
     const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
     const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-    vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+    vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
 }
 
 BaseAliveGameObject* Scrab::Find_Fleech_4A4C90()
@@ -3496,7 +3493,7 @@ BaseAliveGameObject* Scrab::Find_Fleech_4A4C90()
     return nullptr;
 }
 
-void Scrab::vPossesed_4A5620()
+void Scrab::VPossessed()
 {
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
     field_164_prevent_depossession = 1;
@@ -3567,7 +3564,7 @@ u8** Scrab::ResBlockForMotion_4A43E0(s16 motion)
     return field_10_resources_array.ItemAt(field_140_motion_resource_block_index);
 }
 
-void Scrab::vScreenChanged_4A5560()
+void Scrab::VScreenChanged()
 {
     BaseGameObject* pChaseTarget = sObjectIds.Find_449CF0(field_120_obj_id);
 
@@ -3587,7 +3584,7 @@ void Scrab::vScreenChanged_4A5560()
     }
 }
 
-void Scrab::vRender_4A45B0(PrimHeader** ppOt)
+void Scrab::VRender(PrimHeader** ppOt)
 {
     if (UpdateDelay() == 0)
     {
@@ -3605,7 +3602,7 @@ void Scrab::TryMoveOrStand_4A7570()
 
 s16 Scrab::ToNextMotion_4A7920()
 {
-    MapFollowMe_408D10(TRUE);
+    MapFollowMe(TRUE);
 
     if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0) && field_11C_brain_sub_state != 0)
     {
@@ -3829,7 +3826,7 @@ void Scrab::ToJump_4A75E0()
     field_100_pCollisionLine = nullptr;
 }
 
-s16 Scrab::vTakeDamage_4A45E0(BaseGameObject* pFrom)
+s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
 {
     if (field_10C_health <= FP_FromInteger(0))
     {
@@ -3916,7 +3913,7 @@ void Scrab::KnockBack_4AA530()
     }
     field_C4_velx = (v4 / FP_FromInteger(2));
 
-    MapFollowMe_408D10(TRUE);
+    MapFollowMe(TRUE);
 
     if (field_C8_vely < FP_FromInteger(0))
     {
@@ -4063,7 +4060,7 @@ void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
 
                                             if (PSX_Rects_overlap_no_adjustment(&objRect, &bOurRect))
                                             {
-                                                if (pObj->VTakeDamage_408730(this))
+                                                if (pObj->VTakeDamage(this))
                                                 {
                                                     bKilledTarget = true;
                                                     SFX_Play_46FA90(SoundEffect::KillEffect_64, 0);

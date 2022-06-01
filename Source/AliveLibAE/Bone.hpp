@@ -63,7 +63,7 @@ public:
     virtual Bool32 VCanBeEaten_411560();
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VGetCount_448080() override;
-    static s32 CreateFromSaveState_412C10(const u8* pData);
+    static s32 CreateFromSaveState(const u8* pData);
 
 private:
     void AddToPlatform_412310();

@@ -157,26 +157,13 @@ public:
     void KillLiftPoint_194();
 
     virtual void VUpdate() override;
-
     virtual void VOnTrapDoorOpen() override;
-
-    void VOnTrapDoorOpen_43C9F0();
-
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
-
-    void VOnTlvCollision_43FD90(Path_TLV* pTlv);
-
-    void VUpdate_43F560();
+    virtual void VScreenChanged() override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
     virtual void VUpdateResBlock_43EDB0();
 
-    virtual void VScreenChanged() override;
-
-    void VScreenChanged_43FFC0();
-
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    s16 VTakeDamage_43F830(BaseGameObject* pFrom);
 
     s16 DoSmashDamage();
 

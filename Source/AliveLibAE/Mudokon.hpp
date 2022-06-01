@@ -279,30 +279,12 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override
-    {
-        return vGetSaveState_47B080(reinterpret_cast<Mudokon_State*>(pSaveBuffer));
-    }
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    virtual void VPossessed_408F70() override
-    {
-        vPossessed_4774F0();
-    }
-
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override
-    {
-        return vTakeDamage_476270(pFrom);
-    }
-
-    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override
-    {
-        vOnTlvCollision_476EA0(pTlv);
-    }
-
-    virtual void VOnTrapDoorOpen() override
-    {
-        vOnTrapDoorOpen_472350();
-    }
+    virtual void VPossessed() override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+    virtual void VOnTrapDoorOpen() override;
 
     // New virtuals
     virtual void VUpdateAnimRes_474D80()
@@ -310,29 +292,12 @@ public:
         vUpdateAnimRes_474D80();
     }
 
-    static s32 CreateFromSaveState_4717C0(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 
 private:
-    s32 vGetSaveState_47B080(Mudokon_State* pState);
-
-
-    void vUpdate_4757A0();
-
-    void SetPal_4772D0(Mud_Emotion emotion);
-
-    void vOnTrapDoorOpen_472350();
-
-    void vOnTlvCollision_476EA0(Path_TLV* pTlv);
-
-    s16 FacingTarget_473140(BirdPortal* pTarget);
-
-    void vScreenChanged_476F30();
-
-    void vPossessed_4774F0();
-
-    s16 vTakeDamage_476270(BaseGameObject* pFrom);
-
+    void SetPal(Mud_Emotion emotion);
+    s16 FacingTarget(BirdPortal* pTarget);
     s16 TurningWheelHelloOrAllYaResponse();
 
 public:

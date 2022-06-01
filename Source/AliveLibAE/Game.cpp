@@ -734,7 +734,7 @@ void Game_Loop_467230()
     while (!gBaseGameObjects->IsEmpty())
     {
         Events_Reset_Active_422DA0();
-        Slurg::Clear_Slurg_Step_Watch_Points_449A90();
+        Slurg::Clear_Slurg_Step_Watch_Points();
         bSkipGameObjectUpdates_5C2FA0 = 0;
 
         // Update objects

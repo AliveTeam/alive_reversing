@@ -29,26 +29,18 @@ enum Mine_Flags_1BC
 class Mine final : public BaseAliveGameObject
 {
 public:
-    
+    Mine(Path_Mine* pPath, TlvItemInfoUnion tlv);
+    ~Mine();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VOnPickUpOrSlapped() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
-
-    Mine(Path_Mine* pPath, TlvItemInfoUnion tlv);
-    ~Mine();
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
 private:
-
-    void Update_46B5D0();
-    void Render_46B7A0(PrimHeader** ppOt);
-    void ScreenChanged_46BAE0();
-    void vOnPickUpOrSlapped_46B880();
-    void vOnThrowableHit_46BA40(BaseGameObject* pFrom);
-    s16 vTakeDamage_46BB20(BaseGameObject* pFrom);
-    bool IsColliding_46B8C0();
+    bool IsColliding();
 
 public:
     u16 field_118_detonating;

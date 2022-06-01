@@ -9,7 +9,7 @@
 #include "ObjectIds.hpp"
 #include "Door.hpp"
 
-s32 SlapLockWhirlWind::CreateFromSaveState_43DC20(const u8* pBuffer)
+s32 SlapLockWhirlWind::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const SlapLockWhirlWind_State*>(pBuffer);
     SwitchStates_Do_Operation_465F00(pSaveState->field_2_switch_id, SwitchOp::eSetTrue_0);
@@ -77,24 +77,15 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
     }
 }
 
-void SlapLockWhirlWind::VUpdate()
-{
-    vUpdate_43DA90();
-}
-
 s32 SlapLockWhirlWind::VGetSaveState(u8* pSaveBuffer)
 {
-    return vGetSaveState_43DC50(reinterpret_cast<SlapLockWhirlWind_State*>(pSaveBuffer));
-}
-
-s32 SlapLockWhirlWind::vGetSaveState_43DC50(SlapLockWhirlWind_State* pSaveState)
-{
+    SlapLockWhirlWind_State* pSaveState = reinterpret_cast<SlapLockWhirlWind_State*>(pSaveBuffer);
     pSaveState->field_0_type = AETypes::eSlapLock_OrbWhirlWind_60;
     pSaveState->field_2_switch_id = field_44_switch_id;
     return sizeof(SlapLockWhirlWind_State);
 }
 
-void SlapLockWhirlWind::vUpdate_43DA90()
+void SlapLockWhirlWind::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {

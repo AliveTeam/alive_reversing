@@ -61,7 +61,7 @@ public:
     virtual Bool32 VCanEatMe_4696A0();
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    static s32 CreateFromSaveState_46A9E0(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 
 private:

@@ -39,7 +39,7 @@ void CreateGameEnderController_43B7A0()
 }
 
 
-s32 GameEnderController::CreateFromSaveState_43BD10(const u8* pBuffer)
+s32 GameEnderController::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const GameEnderController_State*>(pBuffer);
     auto pGameEnderController = ae_new<GameEnderController>();

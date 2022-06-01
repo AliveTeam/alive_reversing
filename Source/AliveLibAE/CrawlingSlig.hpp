@@ -120,28 +120,20 @@ class CrawlingSlig final : public BaseAliveGameObject
 public:
     CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo);
     ~CrawlingSlig();
-    
 
     virtual void VUpdate() override;
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    virtual void VPossessed_408F70() override;
-
+    virtual void VPossessed() override;
     virtual void VOnTrapDoorOpen() override;
-
-    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
-
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
-
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    static s32 CreateFromSaveState_41AE80(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
     s32 vGetSaveState_41C9A0(CrawlingSlig_State* pState);
 
-    void vPossessed_4195F0();
 
     void Set_AnimAndMotion_419890(s16 currentMotion, s16 bClearNextMotion);
 
@@ -149,11 +141,7 @@ private:
 
     u8** GetAnimBlock_419950(s32 currentMotion);
 
-    static s16 NextRandom_4197D0();
-
-    void vUpdate_419100();
-
-    void vRender_419990(PrimHeader** ot);
+    static s16 NextRandom();
 
     s16 HandleEnemyStopper_41C740(FP velX);
 
@@ -161,11 +149,6 @@ private:
 
     BaseGameObject* FindSligButton_419840();
 
-    void vOnTrapDoorOpen_41C580();
-
-    void vOn_TLV_Collision_419680(Path_TLV* pTlv);
-
-    s16 vTakeDamage_4192B0(BaseGameObject* pFrom);
 
 private:
     void SetBrain(TCrawlingSligBrainFn fn);

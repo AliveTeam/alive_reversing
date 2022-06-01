@@ -175,7 +175,7 @@ void Shrykull::VUpdate()
 
                         if (pObj->Type() == AETypes::eGlukkon_67)
                         {
-                            pObj->VTakeDamage_408730(this);
+                            pObj->VTakeDamage(this);
                         }
                     }
 
@@ -296,7 +296,7 @@ void Shrykull::VUpdate()
                 {
                     if (!field_12C_bElectrocute)
                     {
-                        pExistingBeingZappedObj->VTakeDamage_408730(this);
+                        pExistingBeingZappedObj->VTakeDamage(this);
                     }
                     field_128_obj_being_zapped_id = -1;
                 }

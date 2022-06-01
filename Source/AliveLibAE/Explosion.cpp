@@ -211,7 +211,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
 
             if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && field_D6_scale == pObj->field_D6_scale)
             {
-                pObj->VTakeDamage_408730(this);
+                pObj->VTakeDamage(this);
             }
         }
     }

@@ -18,7 +18,7 @@ void MinesAlarm::Create_4177F0(s32 timer)
     }
 }
 
-s32 MinesAlarm::CreateFromSaveState_417740(const u8* pBuffer)
+s32 MinesAlarm::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MinesAlarm_State*>(pBuffer);
     ae_new<MinesAlarm>(pState->field_4_timer);

@@ -252,7 +252,7 @@ void Electrocute::VUpdate()
 
                     if (field_2C_bKillTarget)
                     {
-                        pTargetObj->VTakeDamage_408730(this);
+                        pTargetObj->VTakeDamage(this);
                     }
                     else
                     {
@@ -317,7 +317,7 @@ void Electrocute::vStop_4E6150()
             pTarget->field_114_flags.Clear(Flags_114::e114_Bit11_Electrocuting);
         }
 
-        pTarget->VTakeDamage_408730(this);
+        pTarget->VTakeDamage(this);
         field_20_target_obj_id = -1;
     }
 }

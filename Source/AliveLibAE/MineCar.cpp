@@ -46,7 +46,7 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
         field_D6_scale = 0;
     }
 
-    MapFollowMe_408D10(TRUE);
+    MapFollowMe(TRUE);
 
     FP hitX = {};
     FP hitY = {};
@@ -94,36 +94,6 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
     field_1C4_velx_index = 0;
 }
 
-void MineCar::VUpdate()
-{
-    vUpdate_46C010();
-}
-
-void MineCar::VRender(PrimHeader** ppOt)
-{
-    vRender_46E760(ppOt);
-}
-
-void MineCar::VScreenChanged()
-{
-    vScreenChanged_46F800();
-}
-
-void MineCar::VStopAudio()
-{
-    vStopAudio_46F9C0();
-}
-
-s32 MineCar::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_467E10(reinterpret_cast<MineCar_SaveState*>(pSaveBuffer));
-}
-
-s16 MineCar::VTakeDamage_408730(BaseGameObject* pFrom)
-{
-    return vTakeDamage_46F7D0(pFrom);
-}
-
 const AnimId sMineCarFrameTable[7] = {
     AnimId::Mine_Car_Closed,
     AnimId::Mine_Car_Open,
@@ -133,7 +103,7 @@ const AnimId sMineCarFrameTable[7] = {
     AnimId::Mine_Car_Tread_Move_A,
     AnimId::Mine_Car_Tread_Move_B};
 
-s32 MineCar::CreateFromSaveState_467740(const u8* pBuffer)
+s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MineCar_SaveState*>(pBuffer);
     auto pTlv = static_cast<Path_MineCar*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4C_tlvInfo));
@@ -332,7 +302,7 @@ void MineCar::LoadAnimation_46BF80(Animation* pAnim)
     }
 }
 
-void MineCar::vStopAudio_46F9C0()
+void MineCar::VStopAudio()
 {
     if (field_1D0_sound_channels_mask)
     {
@@ -341,7 +311,7 @@ void MineCar::vStopAudio_46F9C0()
     }
 }
 
-void MineCar::vScreenChanged_46F800()
+void MineCar::VScreenChanged()
 {
     if (field_1D0_sound_channels_mask)
     {
@@ -405,7 +375,7 @@ Bool32 MineCar::CheckFloorCollision_46F730(FP hitX, FP hitY)
     return TRUE;
 }
 
-void MineCar::vRender_46E760(PrimHeader** ppOt)
+void MineCar::VRender(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -725,7 +695,7 @@ void MineCar::RunThingsOver_46F380()
                     if (PSX_Rects_overlap_no_adjustment(&ourRect, &targetRect))
                     {
                         // Get run over by the mine car
-                        pAliveObj->VTakeDamage_408730(this);
+                        pAliveObj->VTakeDamage(this);
                     }
                 }
             }
@@ -733,13 +703,15 @@ void MineCar::RunThingsOver_46F380()
     }
 }
 
-s16 MineCar::vTakeDamage_46F7D0(BaseGameObject* /*pFrom*/)
+s16 MineCar::VTakeDamage(BaseGameObject* /*pFrom*/)
 {
     return !mFlags.Get(BaseGameObject::eDead);
 }
 
-s32 MineCar::vGetSaveState_467E10(MineCar_SaveState* pState)
+s32 MineCar::VGetSaveState(u8* pSaveBuffer)
 {
+    auto pState = reinterpret_cast<MineCar_SaveState*>(pSaveBuffer);
+
     pState->field_0_type = AETypes::eMineCar_89;
 
     pState->field_4_xpos = field_B8_xpos;
@@ -862,7 +834,7 @@ s32 MineCar::vGetSaveState_467E10(MineCar_SaveState* pState)
     return sizeof(MineCar_SaveState);
 }
 
-void MineCar::vUpdate_46C010()
+void MineCar::VUpdate()
 {
     if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
@@ -1007,7 +979,7 @@ void MineCar::State_1_ParkedWithAbe()
     const FP mineCarWidth = field_CC_sprite_scale * mineCarWidthUnscaled;
     const FP mineCarWidthAdjusted = mineCarWidth + kGridSize;
 
-    VCheckCollisionLineStillValid_408A40(10);
+    VCheckCollisionLineStillValid(10);
 
     // Abe exits minecar
     //
@@ -1027,7 +999,7 @@ void MineCar::State_1_ParkedWithAbe()
         field_1CC_spawned_path = gMap.mCurrentPath;
         field_1CE_spawned_camera = gMap.field_4_current_camera;
 
-        sActiveHero_5C1B68->VCheckCollisionLineStillValid_408A40(10);
+        sActiveHero_5C1B68->VCheckCollisionLineStillValid(10);
 
         SFX_Play(SoundEffect::DoorEffect_57, 100, 500, field_CC_sprite_scale);
 
@@ -1562,7 +1534,7 @@ void MineCar::State_2_Moving()
         field_B8_xpos += field_C4_velx;
         field_BC_ypos += field_C8_vely;
 
-        SetActiveCameraDelayedFromDir_408C40();
+        SetActiveCameraDelayedFromDir();
         RunThingsOver_46F380();
 
         return;
@@ -1593,7 +1565,7 @@ void MineCar::State_2_Moving()
         field_B8_xpos += field_C4_velx;
         field_BC_ypos += field_C8_vely;
 
-        SetActiveCameraDelayedFromDir_408C40();
+        SetActiveCameraDelayedFromDir();
         RunThingsOver_46F380();
 
         return;
@@ -1609,7 +1581,7 @@ void MineCar::State_3_Falling()
     const FP mineCarWidth = field_CC_sprite_scale * mineCarWidthUnscaled;
     const FP mineCarWidthAdjusted = mineCarWidth + kGridSize;
 
-    SetActiveCameraDelayedFromDir_408C40();
+    SetActiveCameraDelayedFromDir();
     field_1C2_falling_counter++;
 
     if (field_1D0_sound_channels_mask)

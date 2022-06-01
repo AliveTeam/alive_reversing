@@ -14,7 +14,7 @@ ALIVE_VAR(1, 0x5C1C08, u16, sSlurg_Step_Watch_Points_Idx_5C1C08, 0);
 ALIVE_ARY(1, 0x5BD4DC, s8, 2, sSlurg_Step_Watch_Points_Count_5BD4DC, {});
 ALIVE_ARY(1, 0x5C1B28, Slurg_Step_Watch_Points, 2, sSlurg_Step_Watch_Points_5C1B28, {});
 
-void Slurg::Clear_Slurg_Step_Watch_Points_449A90()
+void Slurg::Clear_Slurg_Step_Watch_Points()
 {
     sSlurg_Step_Watch_Points_Idx_5C1C08 = !sSlurg_Step_Watch_Points_Idx_5C1C08;
     sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = 0;
@@ -109,27 +109,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     field_E0_pShadow = ae_new<Shadow>();
 }
 
-void Slurg::VUpdate()
-{
-    vUpdate_4C8790();
-}
-
-s32 Slurg::VGetSaveState(u8* pSaveBuffer)
-{
-    return vSaveState_4C8FC0(reinterpret_cast<Slurg_State*>(pSaveBuffer));
-}
-
-s16 Slurg::VTakeDamage_408730(BaseGameObject* pFrom)
-{
-    return vTakeDamage_4C8BF0(pFrom);
-}
-
-void Slurg::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
-{
-    vOn_TLV_Collision_4C8C20(pTlv);
-}
-
-s32 Slurg::CreateFromSaveState_4C8DF0(const u8* pData)
+s32 Slurg::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
     auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_24_tlvInfo));
@@ -195,7 +175,7 @@ void Slurg::Burst_4C8AE0()
     }
 }
 
-void Slurg::vUpdate_4C8790()
+void Slurg::VUpdate()
 {
     const FP oldXPos = field_B8_xpos;
     if (Event_Get_422C00(kEventDeathReset))
@@ -283,11 +263,11 @@ void Slurg::vUpdate_4C8790()
             field_B8_xpos,
             field_BC_ypos);
 
-        VOn_TLV_Collision_4087F0(field_128_pTlv);
+        VOn_TLV_Collision(field_128_pTlv);
     }
 }
 
-s16 Slurg::vTakeDamage_4C8BF0(BaseGameObject* pFrom)
+s16 Slurg::VTakeDamage(BaseGameObject* pFrom)
 {
     // Slurgs are tough little dudes, only Paramites can smack 'em up.
     if (pFrom->Type() == AETypes::eParamite_96)
@@ -299,7 +279,7 @@ s16 Slurg::vTakeDamage_4C8BF0(BaseGameObject* pFrom)
     return 0;
 }
 
-void Slurg::vOn_TLV_Collision_4C8C20(Path_TLV* pTlv)
+void Slurg::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
@@ -322,26 +302,28 @@ void Slurg::vOn_TLV_Collision_4C8C20(Path_TLV* pTlv)
 
     if (field_118_flags.Get(SlurgFlags::Bit1_Direction))
     {
-        if (WallHit_408750(field_130_scale * FP_FromInteger(8), -(field_130_scale * FP_FromInteger(6))) || Check_IsOnEndOfLine_408E90(1, 1))
+        if (WallHit_408750(field_130_scale * FP_FromInteger(8), -(field_130_scale * FP_FromInteger(6))) || Check_IsOnEndOfLine(1, 1))
         {
             GoLeft();
         }
     }
     else
     {
-        if (WallHit_408750(field_130_scale * FP_FromInteger(8), field_130_scale * FP_FromInteger(6)) || Check_IsOnEndOfLine_408E90(0, 1))
+        if (WallHit_408750(field_130_scale * FP_FromInteger(8), field_130_scale * FP_FromInteger(6)) || Check_IsOnEndOfLine(0, 1))
         {
             GoRight();
         }
     }
 }
 
-s32 Slurg::vSaveState_4C8FC0(Slurg_State* pState)
+s32 Slurg::VGetSaveState(u8* pSaveBuffer)
 {
     if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         return 0;
     }
+
+    auto pState = reinterpret_cast<Slurg_State*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eSlurg_129;
     pState->field_4_xpos = field_B8_xpos;

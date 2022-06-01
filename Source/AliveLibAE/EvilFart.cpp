@@ -93,22 +93,7 @@ EvilFart::EvilFart()
     field_11C_alive_timer = 220;
 }
 
-s16 EvilFart::VTakeDamage_408730(BaseGameObject* pFrom)
-{
-    return VTakeDamage_423B70(pFrom);
-}
-
-void EvilFart::VPossessed_408F70()
-{
-    vOnPossesed_423DA0();
-}
-
-s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_4283F0(reinterpret_cast<EvilFart_State*>(pSaveBuffer));
-}
-
-s32 EvilFart::CreateFromSaveState_4281C0(const u8* pBuffer)
+s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const EvilFart_State*>(pBuffer);
 
@@ -159,8 +144,10 @@ s32 EvilFart::CreateFromSaveState_4281C0(const u8* pBuffer)
     return sizeof(EvilFart_State);
 }
 
-s32 EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
+s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 {
+    auto pState = reinterpret_cast<EvilFart_State*>(pSaveBuffer);
+
     pState->field_0_type = AETypes::eEvilFart_45;
 
     pState->field_C_xpos = field_B8_xpos;
@@ -258,7 +245,7 @@ void EvilFart::InputControlFart_423BB0()
     }
 }
 
-void EvilFart::vOnPossesed_423DA0()
+void EvilFart::VPossessed()
 {
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -286,7 +273,7 @@ void EvilFart::ResetFartColour()
     field_D4_b = greenFart.b;
 }
 
-s16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
+s16 EvilFart::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {
@@ -439,7 +426,7 @@ void EvilFart::VUpdate()
         }
 
         InputControlFart_423BB0();
-        SetActiveCameraDelayedFromDir_408C40();
+        SetActiveCameraDelayedFromDir();
 
         FP x2Offset = {};
         if (field_C4_velx < FP_FromInteger(0))

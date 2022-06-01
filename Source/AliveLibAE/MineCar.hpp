@@ -89,26 +89,19 @@ public:
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    static s32 CreateFromSaveState_467740(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
     void LoadAnimation_46BF80(Animation* pAnim);
-    void vStopAudio_46F9C0();
-    void vScreenChanged_46F800();
     Bool32 CheckRoofCollision_46F6B0(FP hitX, FP hitY);
     Bool32 CheckFloorCollision_46F730(FP hitX, FP hitY);
-    void vUpdate_46C010();
-    void vRender_46E760(PrimHeader** ppOt);
     void Stop_46E570();
     void Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs dir, s8 bChangeDirection);
     s16 IsBlocked_46F4A0(MineCarDirs a2, s32 a3);
     s16 FollowDirection_46EA00();
     void RunThingsOver_46F380();
-    s16 vTakeDamage_46F7D0(BaseGameObject* pFrom);
-
-    s32 vGetSaveState_467E10(MineCar_SaveState* pState);
 
     void State_0_ParkedWithoutAbe();
     void State_1_ParkedWithAbe();

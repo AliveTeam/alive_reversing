@@ -174,23 +174,16 @@ public:
     Glukkon(Path_Glukkon* pTlv, s32 tlvInfo);
     ~Glukkon();
 
-    static s32 CreateFromSaveState_442830(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
     virtual void VUpdate() override;
-
     virtual void VRender(PrimHeader** ppOt) override;
-
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-
     virtual void VScreenChanged() override;
-
-    virtual void VPossessed_408F70() override;
-
-    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
-
+    virtual void VPossessed() override;
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
     virtual void VOnTrapDoorOpen() override;
-
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
 public:
     void M_Idle_0_442D10();
@@ -235,54 +228,21 @@ public:
 
 private:
     void Init_43F260();
-
-    void vUpdate_43F770();
-
-    void vPossessed_440160();
-
     void Update_Slurg_WatchPoints_440600();
-
     void SetAnim_43F9C0(s16 currentMotion, s16 bClearNextMotion = FALSE);
-
     void Speak_444640(GlukkonSpeak speak);
-
     void HandleInput_443BB0();
-
     s16 ShouldPanic_440200(s16 panicEvenIfNotFacingMe);
-
     s16 PathBlocked_4442F0(FP a2, s16 checkBounds);
-
     void SpeakRandomish_4405D0();
-
-    void vRender_4406C0(PrimHeader** ot);
-
     s16 DoMovement_444190();
-
     void FollowLine_443EB0();
-
     void GetOnPlatforms_444060();
-
     static void PlaySound_4447D0(s32 sndIdx, Glukkon* pGlukkon);
-
     void ToDead_43F640();
-
-    void vOn_TLV_Collision_4404A0(Path_TLV* pTlv);
-
     static Bool32 IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
-
     void ToStand_443B70();
-
     void SlowDown_444700(FP speed);
-
-    void vScreenChanged_440110();
-
-    s32 vGetSaveState_444B90(u8* pSaveBuffer);
-
-    void vOnTrapDoorOpen_444120();
-
-    s16 vTakeDamage_43FA40(BaseGameObject* pFrom);
-
-
     void SetBrain(TGlukkonBrainFn fn);
     bool BrainIs(TGlukkonBrainFn fn);
 

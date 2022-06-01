@@ -497,7 +497,7 @@ s32 AbilityRing::GetSaveState(AbilityRing_State* pSaveState)
     return sizeof(AbilityRing_State);
 }
 
-s32 AbilityRing::CreateFromSaveState_49DF90(const u8* pBuffer)
+s32 AbilityRing::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
     auto pRing = ae_new<AbilityRing>(pState->field_4_xpos, pState->field_8_ypos, pState->field_C_ring_type, pState->field_10_scale);
@@ -546,7 +546,7 @@ void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
                     {
                         if (bDealDamage == 1)
                         {
-                            pObj->VTakeDamage_408730(this);
+                            pObj->VTakeDamage(this);
                         }
                     }
                     else if (pObj->Type() == AETypes::eMudokon_110)
@@ -557,7 +557,7 @@ void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
                             if (pObj->field_10C_health > FP_FromInteger(0))
                             {
                                 // heal the sick mudokon
-                                pObj->VPossessed_408F70();
+                                pObj->VPossessed();
                             }
                         }
                     }
@@ -601,7 +601,7 @@ void AbilityRing::vScreenChanged_49DE70()
                     // Only heal alive muds in the same screen
                     if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
                     {
-                        pObj->VPossessed_408F70();
+                        pObj->VPossessed();
                     }
                 }
             }

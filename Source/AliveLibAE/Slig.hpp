@@ -257,31 +257,19 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
     virtual void VScreenChanged() override;
-
-    virtual void VPossessed_408F70() override;
-
-    virtual void VUnPosses_408F90() override;
-
-    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
-
+    virtual void VPossessed() override;
+    virtual void VUnPosses() override;
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
     virtual void VOnTrapDoorOpen() override;
-
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
     virtual s16 vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther) override;
-
     virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override;
-
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    static s32 CreateFromSaveState_4B3B50(const u8* pBuffer);
-
+    static s32 CreateFromSaveState(const u8* pBuffer);
     static s16 IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
 
-private:
-    s32 vGetSaveState_4BFB10(Slig_State* pState);
-
-public:
     void M_StandIdle_0_4B4EC0();
     void M_StandToWalk_1_4B5F70();
     void M_Walking_2_4B5BC0();
@@ -395,19 +383,7 @@ public:
     s16 Brain_ChaseAndDisappear_35_4BF640();
 
 private:
-    void Init_4BB0D0();
-
-    void vUpdate_4B17C0();
-
-    void vRender_4B1F80(PrimHeader** ot);
-
-    void vScreenChanged_4B1E20();
-
-    void vPossessed_4B2F10();
-
-    void vUnPosses_4B3050();
-
-    void vOnTlvCollision_4B2FB0(Path_TLV* pTlv);
+    void Init();
 
     void vShot_4B2EA0();
 
@@ -489,8 +465,6 @@ private:
 
     void CheckPlatformVanished_4B3640();
 
-    void vOnTrapDoorOpen_4B3690();
-
     s16 MoveLift_4B3990(FP ySpeed);
 
     void SlowDown_4B6450(FP speed);
@@ -529,8 +503,6 @@ private:
     void NextCommand_4B9A00(s16 speakTableIndex, s16 responseState);
 
     s16 HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak);
-
-    s16 vTakeDamage_4B2470(BaseGameObject* pFrom);
 
     s16 vIsFacingMe_4B23D0(BaseAnimatedWithPhysicsGameObject* pWho);
 

@@ -153,28 +153,15 @@ public:
     
 
     virtual void VUpdate() override;
-
     virtual void VRender(PrimHeader** ppOt) override;
-
     virtual void VScreenChanged() override;
-
-    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
-
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
-
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
-
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
-    static s32 CreateFromSaveState_42DD50(const u8* pBuffer);
-
-private:
-    s32 vGetSaveState_42FF80(Fleech_State* pState);
-
-
-public:
     void M_Sleeping_0_42F0B0();
     void M_WakingUp_1_42F270();
     void M_Unknown_2_42F2F0();
@@ -222,77 +209,35 @@ public:
     s16 Brain_3_Death_42D1E0();
 
 private:
-    void vUpdate_42AB20();
-
-    void vRender_42A550(PrimHeader** ot);
-
-    void RenderEx_42C5A0(PrimHeader** ot);
-
-    void vScreenChanged_42A4C0();
-
-    void vOn_Tlv_Collision_42AAB0(Path_TLV* pTlv);
-
-private:
-    s16 IsScrabOrParamiteNear_42B440(FP radius);
-
-
+    void RenderEx(PrimHeader** ot);
+    s16 IsScrabOrParamiteNear(FP radius);
     void Init_42A170();
     void InitTonguePolys_42B6E0();
     void SetAnim_429D80();
     void ResetTarget_42CF70();
-
     s16 GotNoTarget_42CFA0();
-
     void SetTarget_42CF50();
-
     void TongueHangingFromWall_42B9A0(s16 a2, s16 a3);
-
     void TongueUpdate_42BD30();
-
     void ToIdle_42E520();
-
     s32 Sound_430520(FleechSound soundId);
-
     u8** ResBlockForMotion_42A530(s32 motion);
-
     s16 CanMove_42E3E0();
-
     s16 HandleEnemyStopperOrSlamDoor_42ADC0(s32 velX);
-
     s32 UpdateWakeUpSwitchValue_4308B0();
-
-    s16 vTakeDamage_42A5C0(BaseGameObject* pFrom);
-
     void sub_42B8C0();
-
-    void vOnTrapDoorOpen_42E5C0();
-
     void SetTongueState1_42B9F0();
-
     void IncreaseAnger_430920();
-
     s16 InRange_4307C0(BaseAliveGameObject* pObj);
-
     s32 TongueActive_42B8A0();
-
     void PullTargetIn_42BAF0();
-
     void sub_42BA10();
-
     void SetTongueState5_42BAD0();
-
     BaseAliveGameObject* FindMudOrAbe_42CFD0();
-
     void MoveAlongFloor_42E600();
-
     s16 IsNear_428670(BaseAliveGameObject* pObj);
-
-    void vOnThrowableHit_42A590(BaseGameObject* pFrom);
-
     Bool32 Collision_42B290(s16 alwaysOne);
-
     Path_Hoist* TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection);
-
 
 public:
     void vOnFrame_42BC50(s16* pData);

@@ -436,11 +436,6 @@ void Mudokon::KillLiftPoint_194()
 
 void Mudokon::VUpdate()
 {
-    VUpdate_43F560();
-}
-
-void Mudokon::VUpdate_43F560()
-{
     if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -583,11 +578,6 @@ void Mudokon::VUpdateResBlock_43EDB0()
 
 void Mudokon::VScreenChanged()
 {
-    VScreenChanged_43FFC0();
-}
-
-void Mudokon::VScreenChanged_43FFC0()
-{
     // Map/overlay changed or mud shouldn't persist
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || !field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
     {
@@ -621,11 +611,6 @@ void Mudokon::VScreenChanged_43FFC0()
 }
 
 s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
-{
-    return VTakeDamage_43F830(pFrom);
-}
-
-s16 Mudokon::VTakeDamage_43F830(BaseGameObject* pFrom)
 {
     switch (pFrom->field_4_typeId)
     {
@@ -1208,11 +1193,6 @@ s16 Mudokon::IAmNearestToAbe_440120()
 
 void Mudokon::VOnTrapDoorOpen()
 {
-    VOnTrapDoorOpen_43C9F0();
-}
-
-void Mudokon::VOnTrapDoorOpen_43C9F0()
-{
     if (field_F8_pLiftPoint)
     {
         if (field_106_shot)
@@ -1231,11 +1211,6 @@ void Mudokon::VOnTrapDoorOpen_43C9F0()
 }
 
 void Mudokon::VOn_TLV_Collision(Path_TLV* pTlv)
-{
-    VOnTlvCollision_43FD90(pTlv);
-}
-
-void Mudokon::VOnTlvCollision_43FD90(Path_TLV* pTlv)
 {
     if (pTlv)
     {

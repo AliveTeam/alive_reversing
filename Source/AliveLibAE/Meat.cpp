@@ -496,7 +496,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     return vGetSaveState_46AC40(reinterpret_cast<Meat_SaveState*>(pSaveBuffer));
 }
 
-s32 Meat::CreateFromSaveState_46A9E0(const u8* pBuffer)
+s32 Meat::CreateFromSaveState(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
 

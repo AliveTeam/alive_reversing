@@ -82,28 +82,20 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    static s32 CreateFromSaveState_446040(const u8* pBuffer);
-
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    s32 vGetSaveState_446400(Greeter_State* pState);
-
-
-    void vScreenChanged_447DD0();
-    void BlowUp_447E50();
-    void ChangeDirection_447BD0();
-    void BounceBackFromShot_447B10();
-    void HandleRollingAlong_447860();
-    s16 vTakeDamage_447C20(BaseGameObject* pFrom);
-    void vOnThrowableHit_447DB0(BaseGameObject* pFrom);
-    void ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
-    void RandomishSpeak_447A70(GreeterSpeak effect);
-    Bool32 ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
-    BaseAliveGameObject* GetMudToZap_447690();
-    void vUpdate_4469B0();
+    void BlowUp();
+    void ChangeDirection();
+    void BounceBackFromShot();
+    void HandleRollingAlong();
+    void ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
+    void RandomishSpeak(GreeterSpeak effect);
+    Bool32 ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
+    BaseAliveGameObject* GetMudToZap();
 
 private:
     s32 field_118_tlvInfo;

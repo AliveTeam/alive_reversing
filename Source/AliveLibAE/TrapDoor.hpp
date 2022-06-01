@@ -55,7 +55,7 @@ public:
     TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
     ~TrapDoor();
 
-    static s32 CreateFromSaveState_4DDED0(const u8* pData);
+    static s32 CreateFromSaveState(const u8* pData);
 
 private:
     void vUpdate_4DDA90();

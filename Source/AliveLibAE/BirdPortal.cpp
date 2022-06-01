@@ -656,7 +656,7 @@ void BirdPortal::VGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, C
     vGetMapChange_499AE0(level, path, camera, screenChangeEffect, movieId);
 }
 
-s32 BirdPortal::CreateFromSaveState_499C90(const u8* pBuffer)
+s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const BirdPortal_State*>(pBuffer);
     auto pTlv = static_cast<Path_BirdPortal*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_4_tlvInfo));

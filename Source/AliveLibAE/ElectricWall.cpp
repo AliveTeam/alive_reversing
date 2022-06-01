@@ -186,7 +186,7 @@ void ElectricWall::vUpdate_422030()
 
                                 ae_new<Electrocute>(pObj, 1, 1);
 
-                                pObj->VTakeDamage_408730(this);
+                                pObj->VTakeDamage(this);
 
                                 SFX_Play_46FC20(SoundEffect::ElectricZap_39, 127, soundDirection, field_CC_sprite_scale);
 

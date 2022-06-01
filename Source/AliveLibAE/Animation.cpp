@@ -198,7 +198,7 @@ s32 Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
         return 1;
     }
 
-    if (!pTarget->VTakeDamage_408730(pSlog))
+    if (!pTarget->VTakeDamage(pSlog))
     {
         return 1;
     }

@@ -36,42 +36,31 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    virtual void VUnPosses_408F90();
-    virtual void VPossessed_408F70();
-    virtual void VSetMotion_4081C0(s16 state);
-    virtual void VOnPathTransition_408320(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction);
-    virtual s16 VTakeDamage_408730(BaseGameObject* pFrom);
-    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv);
-    virtual void VCheckCollisionLineStillValid_408A40(s16 distance);
-    virtual BirdPortal* VIntoBirdPortal_408FD0(s16 gridBlocks);
+    virtual void VUnPosses();
+    virtual void VPossessed();
+    virtual void VSetMotion(s16 state);
+    virtual void VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction);
+    virtual s16 VTakeDamage(BaseGameObject* pFrom);
+    virtual void VOn_TLV_Collision(Path_TLV* pTlv);
+    virtual void VCheckCollisionLineStillValid(s16 distance);
+    virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
     virtual void VOnTrapDoorOpen();
 
-    static s16 IsInInvisibleZone_425710(BaseAliveGameObject* pObj);
-
-private:
-    void vUnPosses_408F90();
-    void vPossessed_408F70();
-    void vSetMotion_4081C0(s16 state);
-    void vOnPathTransition_408320(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction);
-    s16 vTakeDamage_408730(BaseGameObject* pFrom);
-    void vOn_TLV_Collision_4087F0(Path_TLV* pTlv);
-    void vCheckCollisionLineStillValid_408A40(s16 distance);
-    BirdPortal* vIntoBirdPortal_408FD0(s16 gridBlocks);
-    void vOnTrapDoorOpen_4081F0();
+    static s16 IsInInvisibleZone(BaseAliveGameObject* pObj);
 
 protected:
-    s16 SetBaseAnimPaletteTint_425690(TintEntry* pTintArray, LevelIds level_id, s32 resourceID);
+    s16 SetBaseAnimPaletteTint(TintEntry* pTintArray, LevelIds level_id, s32 resourceID);
 
-    Bool32 Check_IsOnEndOfLine_408E90(s16 direction, s16 distance);
+    Bool32 Check_IsOnEndOfLine(s16 direction, s16 distance);
 
-    BaseAliveGameObject* GetStackedSlapTarget_425290(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos);
+    BaseAliveGameObject* GetStackedSlapTarget(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos);
 
-
-public:
-    void SetActiveCameraDelayedFromDir_408C40();
 
 public:
-    s16 MapFollowMe_408D10(s16 snapToGrid);
+    void SetActiveCameraDelayedFromDir();
+
+public:
+    s16 MapFollowMe(s16 snapToGrid);
 
 protected:
     Bool32 WallHit_408750(FP offY, FP offX);
@@ -79,7 +68,7 @@ protected:
     BaseGameObject* FindObjectOfType_425180(AETypes typeToFind, FP xpos, FP ypos);
 
 public:
-    s16 OnTrapDoorIntersection_408BA0(PlatformBase* pOther);
+    s16 OnTrapDoorIntersection(PlatformBase* pOther);
 
 public:
     s16 field_F4_previous_motion;

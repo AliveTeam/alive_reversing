@@ -37,7 +37,7 @@ void UXB_ForceLink()
 {
 }
 
-void UXB::InitBlinkAnim_4DEED0(Animation* pAnimation)
+void UXB::InitBlinkAnim(Animation* pAnimation)
 {
     const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
     if (pAnimation->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1u, 0, 0))
@@ -57,7 +57,7 @@ void UXB::InitBlinkAnim_4DEED0(Animation* pAnimation)
     }
 }
 
-void UXB::PlaySFX_4DE930(SoundEffect sfxIdx)
+void UXB::PlaySFX(SoundEffect sfxIdx)
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(
             this->field_C2_lvl_number,
@@ -70,7 +70,7 @@ void UXB::PlaySFX_4DE930(SoundEffect sfxIdx)
     }
 }
 
-s32 UXB::IsColliding_4DF630()
+s32 UXB::IsColliding()
 {
     PSX_RECT uxbBound = {};
     vGetBoundingRect_424FD0(&uxbBound, 1);
@@ -102,25 +102,7 @@ s32 UXB::IsColliding_4DF630()
     return 0;
 }
 
-void UXB::VUpdate()
-{
-    Update_4DF030();
-}
 
-void UXB::VRender(PrimHeader** ppOt)
-{
-    Render_4DF3D0(ppOt);
-}
-
-void UXB::VScreenChanged()
-{
-    ScreenChanged_4DF9C0();
-}
-
-s16 UXB::VTakeDamage_408730(BaseGameObject* pFrom)
-{
-    return vTakeDamage_4DF850(pFrom);
-}
 
 UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     : BaseAliveGameObject(0)
@@ -173,7 +155,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         field_D6_scale = 1;
     }
 
-    InitBlinkAnim_4DEED0(&field_128_animation);
+    InitBlinkAnim(&field_128_animation);
     if (tlv_params->field_1_tlv_state) // Stores the activated/deactivated state for UXB.
     {
         if (tlv_params->field_16_start_state == Path_UXB::StartState::eOn_0)
@@ -182,7 +164,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
             const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
             field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
-            PlaySFX_4DE930(SoundEffect::GreenTick_2);
+            PlaySFX(SoundEffect::GreenTick_2);
 
             const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -264,7 +246,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 }
 
 
-void UXB::vOnPickUpOrSlapped_4DF540()
+void UXB::VOnPickUpOrSlapped()
 {
     if (field_118_state != UXBState::eExploding_2)
     {
@@ -279,7 +261,7 @@ void UXB::vOnPickUpOrSlapped_4DF540()
             {
                 const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
                 field_128_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
-                PlaySFX_4DE930(SoundEffect::GreenTick_2);
+                PlaySFX(SoundEffect::GreenTick_2);
 
                 const AnimRecord& animRec = AnimRec(AnimId::UXB_Toggle);
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -294,12 +276,12 @@ void UXB::vOnPickUpOrSlapped_4DF540()
             SetUpdateDelay(6);
             const AnimRecord& animRec = AnimRec(AnimId::UXB_Active);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            PlaySFX_4DE930(SoundEffect::RedTick_3);
+            PlaySFX(SoundEffect::RedTick_3);
         }
     }
 }
 
-void UXB::vOnThrowableHit_4DF7B0(BaseGameObject* /*pFrom*/)
+void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     ae_new<BaseBomb>(field_B8_xpos,
                                   field_BC_ypos,
@@ -310,7 +292,7 @@ void UXB::vOnThrowableHit_4DF7B0(BaseGameObject* /*pFrom*/)
     field_124_next_state_frame = sGnFrame_5C1B84;
 }
 
-s16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
+s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {
@@ -365,12 +347,12 @@ UXB::~UXB()
     mFlags.Clear(Options::eInteractive_Bit8);
 }
 
-void UXB::Update_4DF030()
+void UXB::VUpdate()
 {
     switch (field_118_state)
     {
         case UXBState::eDelay_0:
-            if (IsColliding_4DF630())
+            if (IsColliding())
             {
                 field_118_state = UXBState::eExploding_2;
                 field_124_next_state_frame = sGnFrame_5C1B84 + 2;
@@ -389,7 +371,7 @@ void UXB::Update_4DF030()
             break;
 
         case UXBState::eActive_1:
-            if (IsColliding_4DF630())
+            if (IsColliding())
             {
                 field_118_state = UXBState::eExploding_2;
                 field_124_next_state_frame = sGnFrame_5C1B84 + 2;
@@ -429,11 +411,11 @@ void UXB::Update_4DF030()
 
                 if (field_1C8_flags.Get(UXB_Flags_1C8::eIsRed_Bit1))
                 {
-                    PlaySFX_4DE930(SoundEffect::RedTick_3);
+                    PlaySFX(SoundEffect::RedTick_3);
                 }
                 else
                 {
-                    PlaySFX_4DE930(SoundEffect::GreenTick_2);
+                    PlaySFX(SoundEffect::GreenTick_2);
                 }
 
                 field_118_state = UXBState::eDelay_0;
@@ -474,7 +456,7 @@ void UXB::Update_4DF030()
     }
 }
 
-void UXB::Render_4DF3D0(PrimHeader** ppOt)
+void UXB::VRender(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -507,7 +489,7 @@ void UXB::Render_4DF3D0(PrimHeader** ppOt)
     }
 }
 
-void UXB::ScreenChanged_4DF9C0()
+void UXB::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
 
@@ -537,7 +519,7 @@ void UXB::ScreenChanged_4DF9C0()
     }
 }
 
-s32 UXB::GetSaveState_4DFD40(u8* __pSaveBuffer)
+s32 UXB::VGetSaveState(u8* __pSaveBuffer)
 {
     SaveState_UXB* pSaveState = reinterpret_cast<SaveState_UXB*>(__pSaveBuffer);
 
@@ -554,7 +536,7 @@ s32 UXB::GetSaveState_4DFD40(u8* __pSaveBuffer)
     return sizeof(SaveState_UXB);
 }
 
-s32 UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
+s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 {
     const SaveState_UXB* pSaveState = reinterpret_cast<const SaveState_UXB*>(__pSaveState);
 
@@ -605,17 +587,3 @@ s32 UXB::CreateFromSaveState_4DFAE0(const u8* __pSaveState)
     return sizeof(SaveState_UXB);
 }
 
-s32 UXB::VGetSaveState(u8* __pSaveBuffer)
-{
-    return GetSaveState_4DFD40(__pSaveBuffer);
-}
-
-void UXB::VOnPickUpOrSlapped()
-{
-    vOnPickUpOrSlapped_4DF540();
-}
-
-void UXB::VOnThrowableHit(BaseGameObject* pFrom)
-{
-    vOnThrowableHit_4DF7B0(pFrom);
-}

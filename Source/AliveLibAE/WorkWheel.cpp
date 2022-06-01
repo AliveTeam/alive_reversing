@@ -103,7 +103,7 @@ WorkWheel::~WorkWheel()
     Path::TLV_Reset_4DB8E0(field_F4_tlv_info, -1, 0, 0);
 }
 
-s32 WorkWheel::CreateFromSaveState_4E3B10(const u8* pState)
+s32 WorkWheel::CreateFromSaveState(const u8* pState)
 {
     const WorkWheel_SaveState* pData = reinterpret_cast<const WorkWheel_SaveState*>(pState);
 

@@ -34,7 +34,7 @@ public:
     ScrabSpawner(Path_ScrabSpawner* pTlv, s32 tlvInfo);
     ~ScrabSpawner();
 
-    static s32 CreateFromSaveState_4ABEB0(const u8* pBuffer);
+    static s32 CreateFromSaveState(const u8* pBuffer);
 
     
     virtual void VUpdate() override;

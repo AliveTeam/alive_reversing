@@ -24,10 +24,6 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    void vUpdate_465DD0();
-    void vScreenChanged_465EE0();
-
-private:
     State field_F4_state;
     //s16 field_F6_pad;
     s32 field_F8_tlvInfo;

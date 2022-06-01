@@ -159,7 +159,7 @@ void GasCountDown::DealDamage()
     {
         if (-field_74_time_left > 2)
         {
-            sActiveHero_5C1B68->VTakeDamage_408730(this);
+            sActiveHero_5C1B68->VTakeDamage(this);
             for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
             {
                 BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
@@ -169,7 +169,7 @@ void GasCountDown::DealDamage()
                 }
                 if (pObj->Type() == AETypes::eMudokon_110)
                 {
-                    pObj->VTakeDamage_408730(this);
+                    pObj->VTakeDamage(this);
                 }
             }
         }

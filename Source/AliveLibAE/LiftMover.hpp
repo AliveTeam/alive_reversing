@@ -45,7 +45,7 @@ public:
     LiftMover(Path_LiftMover* pTlv, s32 tlvInfo);
     ~LiftMover();
 
-    static s32 CreateFromSaveState_40D180(const u8* pData);
+    static s32 CreateFromSaveState(const u8* pData);
 
     
     virtual void VUpdate() override;
