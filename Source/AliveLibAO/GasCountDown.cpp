@@ -57,7 +57,7 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
     field_4_typeId = Types::eGasClock_16;
     field_58_tlvInfo = tlvInfo;
     field_10_font_context.LoadFontType(2);
-    field_20_font.ctor_41C170(5, byte_4C5080, &field_10_font_context);
+    field_20_font.Load(5, byte_4C5080, &field_10_font_context);
     mFlags.Set(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Push_Back(this);
 
@@ -76,8 +76,6 @@ GasCountDown::~GasCountDown()
 {
     gObjList_drawables_504618->Remove_Item(this);
     gMap.TLV_Reset(field_58_tlvInfo, -1, 0, 0);
-    field_20_font.dtor_41C130();
-    field_10_font_context.dtor_41C110();
 }
 
 void GasCountDown::VScreenChanged()

@@ -109,11 +109,7 @@ BirdPortal::~BirdPortal()
 
         field_4C_pDovesArray->field_4_used_size = 0;
 
-        if (field_4C_pDovesArray)
-        {
-            field_4C_pDovesArray->dtor_404440();
-            ao_delete_free_447540(field_4C_pDovesArray);
-        }
+        relive_delete field_4C_pDovesArray;
     }
 
     if (field_5C_pThrowableTotalIndicator)
@@ -304,11 +300,7 @@ void BirdPortal::VUpdate()
     switch (field_14_state)
     {
         case PortalStates::CreatePortal_0:
-            field_4C_pDovesArray = ao_new<DynamicArrayT<Dove>>();
-            if (field_4C_pDovesArray)
-            {
-                field_4C_pDovesArray->ctor_4043E0(6);
-            }
+            field_4C_pDovesArray = ao_new<DynamicArrayT<Dove>>(6);
 
             CreateDovesAndShrykullNumber();
             field_14_state = PortalStates::IdlePortal_1;
@@ -339,12 +331,7 @@ void BirdPortal::VUpdate()
                     }
 
                     field_4C_pDovesArray->field_4_used_size = 0;
-                    if (field_4C_pDovesArray)
-                    {
-                        field_4C_pDovesArray->dtor_404440();
-                        ao_delete_free_447540(field_4C_pDovesArray);
-                    }
-
+                    relive_delete field_4C_pDovesArray;
                     field_4C_pDovesArray = nullptr;
 
                     if (field_5C_pThrowableTotalIndicator)
@@ -412,12 +399,7 @@ void BirdPortal::VUpdate()
                 }
 
                 field_4C_pDovesArray->field_4_used_size = 0;
-                if (field_4C_pDovesArray)
-                {
-                    field_4C_pDovesArray->dtor_404440();
-                    ao_delete_free_447540(field_4C_pDovesArray);
-                }
-
+                relive_delete field_4C_pDovesArray;
                 field_4C_pDovesArray = nullptr;
                 field_14_state = PortalStates::CreateTerminators_4;
             }

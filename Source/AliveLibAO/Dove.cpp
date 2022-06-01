@@ -14,34 +14,11 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4FF94C, s16, bTheOneControllingTheMusic_4FF94C, 0);
-
-ALIVE_VAR(1, 0x4FF938, DynamicArrayT<Dove>, gDovesArray_4FF938, {});
-ALIVE_VAR(1, 0x4FF948, u8, byte_4FF948, 0);
-ALIVE_VAR(1, 0x4FF950, s32, abePortalTimer_4FF950, 0);
-ALIVE_VAR(1, 0x4C50AC, s16, abePortalWidth_4C50AC, 30);
-ALIVE_VAR(1, 0x4C50B0, s16, abePortalDirection_4C50B0, -1);
-
-
-static void Dove_static_ctor()
-{
-    gDovesArray_4FF938.ctor_4043E0(10);
-}
-
-void Dove_static_dtor_40EE30()
-{
-    if (!(byte_4FF948 & 1))
-    {
-        byte_4FF948 |= 1u;
-        gDovesArray_4FF938.dtor_404440();
-    }
-}
-
-void Dove_static_ctor_40EE10()
-{
-    Dove_static_ctor(); // inlined
-    atexit(Dove_static_dtor_40EE30);
-}
+static bool bTheOneControllingTheMusic_4FF94C = false;
+static DynamicArrayT<Dove> gDovesArray_4FF938{10};
+static s32 abePortalTimer_4FF950 = 0;
+static s16 abePortalWidth_4C50AC = 30;
+static s16 abePortalDirection_4C50B0 = -1;
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
 {
@@ -100,7 +77,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     }
 
     SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_24, 0, 1);
-    bTheOneControllingTheMusic_4FF94C = 1;
+    bTheOneControllingTheMusic_4FF94C = true;
 }
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)

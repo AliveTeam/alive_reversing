@@ -53,10 +53,6 @@ LCDStatusBoard::~LCDStatusBoard()
 {
     gObjList_drawables_504618->Remove_Item(this);
     gMap.TLV_Reset(field_C8_tlv, -1, 0, 0);
-    field_90_font3.dtor_41C130();
-    field_58_font2.dtor_41C130();
-    field_20_font1.dtor_41C130();
-    field_10_fontContext.dtor_41C110();
 }
 
 LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
@@ -64,9 +60,9 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
 {
     field_C8_tlv = tlvInfo;
     field_10_fontContext.LoadFontType(2);
-    field_20_font1.ctor_41C170(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
-    field_58_font2.ctor_41C170(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
-    field_90_font3.ctor_41C170(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
+    field_20_font1.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
+    field_58_font2.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
+    field_90_font3.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
 
     mFlags.Set(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Push_Back(this);

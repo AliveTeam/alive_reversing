@@ -243,17 +243,6 @@ const Font_AtlasEntry sFont2Atlas_4C58B8[104] = {
     {40, 132, 20, 15},
     {60, 132, 20, 15}};
 
-
-void FontContext::static_ctor_41C010()
-{
-    atexit(static_dtor_41C020);
-}
-
-void FontContext::static_dtor_41C020()
-{
-    sFontContext_4FFD68.dtor_41C110();
-}
-
 void FontContext::LoadFontType(s16 resourceID)
 {
     field_C_resource_id = resourceID;
@@ -283,7 +272,7 @@ void FontContext::LoadFontType(s16 resourceID)
     }
 }
 
-void FontContext::dtor_41C110()
+FontContext::~FontContext()
 {
     if (field_0_rect.x > 0)
     {
@@ -293,7 +282,7 @@ void FontContext::dtor_41C110()
     }
 }
 
-AliveFont* AliveFont::ctor_41C170(s32 maxCharLength, const u8* palette, FontContext* fontContext)
+void AliveFont::Load(s32 maxCharLength, const u8* palette, FontContext* fontContext)
 {
     field_34_font_context = fontContext;
 
@@ -317,7 +306,6 @@ AliveFont* AliveFont::ctor_41C170(s32 maxCharLength, const u8* palette, FontCont
         fontContext->field_C_resource_id,
         sizeof(Poly_FT4) * 2 * maxCharLength);
     field_24_fnt_poly_array = reinterpret_cast<Poly_FT4*>(*field_20_fnt_poly_block_ptr);
-    return this;
 }
 
 u32 AliveFont::MeasureTextWidth(const char_type* text)
@@ -493,7 +481,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
     return polyOffset + characterRenderCount;
 }
 
-void AliveFont::dtor_41C130()
+AliveFont::~AliveFont()
 {
     IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_28_palette_rect.x, field_28_palette_rect.y, field_28_palette_rect.w});
     field_28_palette_rect.x = 0;

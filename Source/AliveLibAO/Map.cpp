@@ -324,19 +324,7 @@ ALIVE_VAR(1, 0x507BA8, Map, gMap, {});
 ALIVE_VAR(1, 0x507C9C, s16, sMap_bDoPurpleLightEffect_507C9C, 0);
 ALIVE_VAR(1, 0x507CA0, s32, gSndChannels_507CA0, 0);
 
-void Map::ctor_static_443E10()
-{
-    gMap.ctor();
-    atexit(Map::dtor_static_443E60);
-}
-
-
-void Map::dtor_static_443E60()
-{
-    gMap.Shutdown();
-}
-
-void Map::ctor()
+Map::Map()
 {
     for (s32 i = 0; i < ALIVE_COUNTOF(field_34_camera_array); i++)
     {
@@ -381,8 +369,7 @@ void Map::Shutdown()
     {
         if (field_34_camera_array[i])
         {
-            field_34_camera_array[i]->dtor_444700();
-            ao_delete_free_447540(field_34_camera_array[i]);
+            relive_delete field_34_camera_array[i];
             field_34_camera_array[i] = nullptr;
         }
     }
@@ -574,11 +561,9 @@ void Map::Handle_PathTransition()
 
 void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 {
-    auto pObjectsWithLightsArray = ao_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>();
-    pObjectsWithLightsArray->ctor_4043E0(16);
+    auto pObjectsWithLightsArray = ao_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>(16);
 
-    auto pPurpleLightArray = ao_new<DynamicArrayT<Particle>>();
-    pPurpleLightArray->ctor_4043E0(16);
+    auto pPurpleLightArray = ao_new<DynamicArrayT<Particle>>(16);
 
     bool bAddedALight = false;
     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
@@ -721,17 +706,8 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
     pObjectsWithLightsArray->field_4_used_size = 0;
     pPurpleLightArray->field_4_used_size = 0;
 
-    if (pObjectsWithLightsArray)
-    {
-        pObjectsWithLightsArray->dtor_404440();
-        ao_delete_free_447540(pObjectsWithLightsArray);
-    }
-
-    if (pPurpleLightArray)
-    {
-        pPurpleLightArray->dtor_404440();
-        ao_delete_free_447540(pPurpleLightArray);
-    }
+    relive_delete pObjectsWithLightsArray;
+    relive_delete pPurpleLightArray;
 }
 
 void Map::ScreenChange_Common()
@@ -1564,7 +1540,6 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     auto newCamera = ao_new<Camera>();
-    newCamera->ctor_4446E0();
 
     // Copy in the camera name from the Path resource and append .CAM
     memset(newCamera->field_1E_fileName, 0, sizeof(newCamera->field_1E_fileName));
@@ -1741,8 +1716,7 @@ void Map::GoTo_Camera()
         {
             if (field_34_camera_array[i])
             {
-                field_34_camera_array[i]->dtor_444700();
-                ao_delete_free_447540(field_34_camera_array[i]);
+                relive_delete field_34_camera_array[i];
                 field_34_camera_array[i] = nullptr;
             }
         }
@@ -1910,8 +1884,7 @@ void Map::GoTo_Camera()
     {
         if (field_48_stru_5[i])
         {
-            field_48_stru_5[i]->dtor_444700();
-            ao_delete_free_447540(field_48_stru_5[i]);
+            relive_delete field_48_stru_5[i];
             field_48_stru_5[i] = nullptr;
         }
     }

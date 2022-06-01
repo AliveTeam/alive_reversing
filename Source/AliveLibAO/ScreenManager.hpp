@@ -13,9 +13,8 @@ enum class LevelIds : s16;
 class Camera final
 {
 public:
-    Camera* ctor_4446E0();
-
-    void dtor_444700();
+    Camera();
+    ~Camera();
 
     static void On_Loaded_4447A0(Camera* pThis);
 

@@ -17,8 +17,6 @@ struct Path_Dove final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Dove, 0x20);
 
-void Dove_static_ctor_40EE10();
-
 class Dove final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

@@ -70,7 +70,7 @@ PauseMenu::PauseMenu()
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 
     gObjList_drawables_504618->Push_Back(this);
-    field_E4_font.ctor_41C170(175, byte_4C5EE8, &sFontContext_4FFD68);
+    field_E4_font.Load(175, byte_4C5EE8, &sFontContext_4FFD68);
     field_130 = 0;
     field_11C = 0;
     sDisableFontFlicker_5080E4 = FALSE;
@@ -80,7 +80,6 @@ PauseMenu::~PauseMenu()
 {
     mFlags.Clear(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Remove_Item(this);
-    field_E4_font.dtor_41C130();
 }
 
 void PauseMenu::VScreenChanged()

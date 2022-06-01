@@ -5,26 +5,20 @@
 
 namespace AO {
 
-DynamicArray* DynamicArray::ctor_4043E0(s16 startingSize)
+DynamicArray::DynamicArray(s32 startingSize)
 {
     const auto sizeInBytes = startingSize * sizeof(void*);
     field_0_array = reinterpret_cast<void**>(alloc_450740(sizeInBytes));
 
-    field_4_used_size = 0;
-    field_6_max_size = 0;
-
     if (field_0_array)
     {
         memset(field_0_array, 0, sizeInBytes);
-        field_4_used_size = 0;
-        field_6_max_size = startingSize;
+        field_6_max_size = static_cast<s16>(startingSize);
         field_8_expand_size = 10;
     }
-
-    return this;
 }
 
-void DynamicArray::dtor_404440()
+DynamicArray::~DynamicArray()
 {
     ao_delete_free_450770(field_0_array);
 }

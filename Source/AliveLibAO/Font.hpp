@@ -34,14 +34,9 @@ ALIVE_ASSERT_SIZEOF(Font_AtlasEntry, 0x4);
 class FontContext
 {
 public:
-    static void static_ctor_41C010();
-
-    static void static_dtor_41C020();
-
     void LoadFontType(s16 resourceID);
 
-
-    void dtor_41C110();
+    ~FontContext();
 
 
     PSX_RECT field_0_rect;
@@ -54,15 +49,14 @@ public:
 class AliveFont
 {
 public:
-    AliveFont* ctor_41C170(s32 maxCharLength, const u8* palette, FontContext* fontContext);
+    void Load(s32 maxCharLength, const u8* palette, FontContext* fontContext);
+    ~AliveFont();
 
     u32 MeasureTextWidth(const char_type* text);
     s32 MeasureCharacterWidth(char_type character);
     s32 MeasureScaledTextWidth(const char_type* text, FP scale);
 
     s32 DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 a2, Layer otLayer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 a15, s32 colorRandomRange);
-
-    void dtor_41C130();
 
     const char_type* SliceText(const char_type* text, s32 left, FP scale, s32 right);
 

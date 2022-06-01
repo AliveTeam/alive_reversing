@@ -191,10 +191,7 @@ public:
         eMapBottom_3 = 3,
     };
 
-    static void ctor_static_443E10();
-    static void dtor_static_443E60();
-
-    void ctor();
+    Map();
 
     void Init(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
 

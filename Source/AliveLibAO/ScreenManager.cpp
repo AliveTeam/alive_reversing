@@ -14,15 +14,14 @@ namespace AO {
 ALIVE_VAR(1, 0x4FF7C8, ScreenManager*, pScreenManager_4FF7C8, nullptr);
 ALIVE_ARY(1, 0x4FC8A8, SprtTPage, 300, sSpriteTPageBuffer_4FC8A8, {});
 
-Camera* Camera::ctor_4446E0()
+Camera::Camera()
+    : field_0_array(10)
 {
-    field_0_array.ctor_4043E0(10);
     field_30_flags &= ~1u;
     field_C_ppBits = nullptr;
-    return this;
 }
 
-void Camera::dtor_444700()
+Camera::~Camera()
 {
     ResourceManager::FreeResource_455550(field_C_ppBits);
 
@@ -37,8 +36,6 @@ void Camera::dtor_444700()
         ResourceManager::FreeResource_455550(ppRes);
         i = field_0_array.RemoveAt(i);
     }
-
-    field_0_array.dtor_404440();
 }
 
 

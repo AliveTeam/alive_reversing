@@ -41,7 +41,7 @@ void TestAnimation::DelayLoad()
         LOG_WARNING("Anim resource already loaded - BAN/BND name not verified/loaded by test animation");
     }
 
-    static AO::DynamicArrayT<u8 *> resourceArray;
+    static AO::DynamicArrayT<u8*> resourceArray{50};
 
     u8** ppRes = Add_Resource(resourceArray, AO::ResourceManager::Resource_Animation, animRec.mResourceId);
     Animation_Init_417FD0(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1);

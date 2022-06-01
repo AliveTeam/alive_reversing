@@ -319,17 +319,13 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
     gFilesPending_507714 = 0;
     bLoadingAFile_50768C = 0;
 
-    ObjListPlatforms_50766C = ao_new<DynamicArrayT<BaseGameObject>>();
-    ObjListPlatforms_50766C->ctor_4043E0(20);
+    ObjListPlatforms_50766C = ao_new<DynamicArrayT<BaseGameObject>>(20);
 
-    ObjList_5009E0 = ao_new<DynamicArrayT<ResourceManager::ResourceManager_FileRecord>>();
-    ObjList_5009E0->ctor_4043E0(10); // not used in AE
+    ObjList_5009E0 = ao_new<DynamicArrayT<ResourceManager::ResourceManager_FileRecord>>(10); // not used in AE
 
-    sShadowZone_dArray_507B08 = ao_new<DynamicArrayT<ShadowZone>>();
-    sShadowZone_dArray_507B08->ctor_4043E0(4);
+    sShadowZone_dArray_507B08 = ao_new<DynamicArrayT<ShadowZone>>(4);
 
-    gBaseAliveGameObjects_4FC8A0 = ao_new<DynamicArrayT<BaseAliveGameObject>>();
-    gBaseAliveGameObjects_4FC8A0->ctor_4043E0(20);
+    gBaseAliveGameObjects_4FC8A0 = ao_new<DynamicArrayT<BaseAliveGameObject>>(20);
 
     ResourceManager::Init_454DA0();
     SND_Init_476E40();
@@ -538,14 +534,11 @@ void Game_Run_4373D0()
     gPsxDisplay_504C78.ctor_40DAB0(&gPsxDisplayParams_4BB830);
     Input().InitPad(1);
 
-    gBaseGameObjects = ao_new<DynamicArrayT<BaseGameObject>>();
-    gBaseGameObjects->ctor_4043E0(90);
+    gBaseGameObjects = ao_new<DynamicArrayT<BaseGameObject>>(90);
 
-    gObjList_drawables_504618 = ao_new<DynamicArrayT<BaseGameObject>>();
-    gObjList_drawables_504618->ctor_4043E0(80);
+    gObjList_drawables_504618 = ao_new<DynamicArrayT<BaseGameObject>>(80);
 
-    gObjList_animations_505564 = ao_new<DynamicArrayT<AnimationBase>>();
-    gObjList_animations_505564->ctor_4043E0(80);
+    gObjList_animations_505564 = ao_new<DynamicArrayT<AnimationBase>>(80);
 
     Init_Sound_DynamicArrays_And_Others_41CD20();
     Input_Init();
@@ -574,23 +567,9 @@ void Game_Run_4373D0()
 
     gMap.Shutdown();
 
-    if (gObjList_animations_505564)
-    {
-        gObjList_animations_505564->dtor_404440();
-        ao_delete_free_447540(gObjList_animations_505564);
-    }
-
-    if (gObjList_drawables_504618)
-    {
-        gObjList_drawables_504618->dtor_404440();
-        ao_delete_free_447540(gObjList_drawables_504618);
-    }
-
-    if (gBaseGameObjects)
-    {
-        gBaseGameObjects->dtor_404440();
-        ao_delete_free_447540(gBaseGameObjects);
-    }
+    relive_delete gObjList_animations_505564;
+    relive_delete gObjList_drawables_504618;
+    relive_delete gBaseGameObjects;
 
     MusicController::Shutdown();
     SND_Reset_Ambiance();

@@ -265,12 +265,7 @@ void ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
     // pLoaded is done with now, remove it
     ObjList_5009E0->Remove_Item(pLoaded);
 
-    if (pLoaded)
-    {
-        // And destruct/free it
-        pLoaded->dtor_447510();
-        ao_delete_free_447540(pLoaded);
-    }
+    relive_delete pLoaded;
 }
 
 void ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad)
@@ -332,7 +327,6 @@ void ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, 
         auto pFileRec = ao_new<ResourceManager_FileRecord>();
         if (pFileRec)
         {
-            pFileRec->field_10_file_sections_dArray.ctor_4043E0(10);
             pFileRec->field_0_fileName = pFileName;
             pFileRec->field_4_pResourcesToLoadList = nullptr;
             pFileRec->field_8_type = type;
@@ -432,11 +426,6 @@ void ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName, R
         }
 
         auto pNewFileRec = ao_new<ResourceManager_FileRecord>();
-        if (pNewFileRec)
-        {
-            pNewFileRec->field_10_file_sections_dArray.ctor_4043E0(10);
-        }
-
         pNewFileRec->field_0_fileName = pFileName;
         pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
         pNewFileRec->field_8_type = 0;
@@ -597,8 +586,7 @@ void ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
                 }
 
                 i = ObjList_5009E0->RemoveAt(i);
-                pObjIter->dtor_447510();
-                ao_delete_free_447540(pObjIter);
+                relive_delete pObjIter;
             }
         }
     }

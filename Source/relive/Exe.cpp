@@ -221,7 +221,6 @@ BaseGameAutoPlayer& GetGameAutoPlayer()
 static s32 AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("AO standalone starting...");
-    AO::Static_Inits_AO();
     PopulateAutoSplitterVars(GameType::eAo);
     return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 }

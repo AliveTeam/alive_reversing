@@ -133,11 +133,7 @@ SecurityClaw::~SecurityClaw()
             pObjIter->mFlags.Set(Options::eDead);
         }
 
-        if (field_13C_pArray)
-        {
-            field_13C_pArray->dtor_404440();
-            ao_delete_free_447540(field_13C_pArray);
-        }
+        relive_delete field_13C_pArray;
     }
 
     if (field_128_sound_channels)
@@ -276,11 +272,7 @@ void SecurityClaw::VUpdate()
                     {
                         const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Upper_NoRotation);
                         field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                        field_13C_pArray = ao_new<DynamicArrayT<MotionDetector>>();
-                        if (field_13C_pArray)
-                        {
-                            field_13C_pArray->ctor_4043E0(10);
-                        }
+                        field_13C_pArray = ao_new<DynamicArrayT<MotionDetector>>(10);
                     }
 
                     pDetector->field_A8_xpos = field_A8_xpos - FP_FromInteger(1);

@@ -91,9 +91,10 @@ public:
     class ResourceManager_FileRecord final
     {
     public:
-        void dtor_447510()
+        ResourceManager_FileRecord()
+            : field_10_file_sections_dArray(10)
         {
-            field_10_file_sections_dArray.dtor_404440();
+
         }
 
         const char_type* field_0_fileName;

@@ -12,31 +12,6 @@ ALIVE_VAR(1, 0x507C90, LvlArchive, stru_507C90, {});
 
 const static s32 kSectorSize = 2048;
 
-void LvlArchive::ctor_static_41BBA0()
-{
-    atexit(dtor_static_41BBB0);
-}
-
-void LvlArchive::dtor_static_41BBB0()
-{
-    if (sLvlArchive_4FFD60.field_0_0x2800_res)
-    {
-        ResourceManager::FreeResource_455550(sLvlArchive_4FFD60.field_0_0x2800_res);
-        sLvlArchive_4FFD60.field_0_0x2800_res = 0;
-    }
-}
-
-void LvlArchive::ctor_static_443E70()
-{
-    atexit(dtor_static_443E80);
-}
-
-
-void LvlArchive::dtor_static_443E80()
-{
-    stru_507C90.Free_41BEB0();
-}
-
 static s32 ReadFirstSector(s32 pos, u8* pSector)
 {
     pos = 0; // AE lib hack
@@ -128,6 +103,11 @@ s16 LvlArchive::Free_41BEB0()
         field_0_0x2800_res = nullptr;
     }
     return 0;
+}
+
+LvlArchive::~LvlArchive()
+{
+    Free_41BEB0();
 }
 
 LvlFileRecord* LvlArchive::Find_File_Record(const char_type* pFileName)

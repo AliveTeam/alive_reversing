@@ -9,25 +9,26 @@ namespace AO {
 class DynamicArray
 {
 public:
-    DynamicArray* ctor_4043E0(s16 startingSize);
-    void dtor_404440();
+    explicit DynamicArray(s32 startingSize);
+    ~DynamicArray();
+
+    DynamicArray(const DynamicArray& rhs) = delete;
+    DynamicArray& operator=(const DynamicArray&) const = delete;
 
 protected:
     s16 Push_Back(void* item);
     s16 Remove_Item(void* item);
 
 public:
-    void** field_0_array;
+    void** field_0_array = nullptr;
 
 public:
-    s16 field_4_used_size;
+    s16 field_4_used_size = 0;
 
 private:
-    s16 field_6_max_size;
-    s16 field_8_expand_size;
-    s16 field_A_pad;
+    s16 field_6_max_size = 0;
+    s16 field_8_expand_size = 0;
 };
-
 ALIVE_ASSERT_SIZEOF(DynamicArray, 0xC);
 
 
@@ -36,6 +37,8 @@ template <class T>
 class DynamicArrayT final : public DynamicArray
 {
 public:
+    using DynamicArray::DynamicArray;
+
     s16 Push_Back(T* pValue)
     {
         return DynamicArray::Push_Back(pValue);

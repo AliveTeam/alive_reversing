@@ -680,7 +680,7 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
         sFontLoaded_507688 = 1;
     }
 
-    field_FC_font.ctor_41C170(240, sFontPal_4D0090, &sFontContext_4FFD68);
+    field_FC_font.Load(240, sFontPal_4D0090, &sFontContext_4FFD68);
     field_E4_res_array[0] = nullptr;
     field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbespek2AOResID, 1, 0);
     field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kOptionFlareAOResID, 1, 0);
@@ -822,8 +822,6 @@ Menu::~Menu()
     }
 
     gMainMenuInstanceCount_9F2DE0--;
-
-    field_FC_font.dtor_41C130();
 }
 
 void Menu::VUpdate()

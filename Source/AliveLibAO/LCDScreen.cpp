@@ -227,7 +227,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo)
     field_2AC_message_1_id = pTlv->field_18_message_1_id;
 
     field_50_font_context.LoadFontType(2);
-    field_60_font.ctor_41C170(60, sLCDScreen_Palette_4C75A8, &field_50_font_context);
+    field_60_font.Load(60, sLCDScreen_Palette_4C75A8, &field_50_font_context);
 
     IRenderer::PalRecord rec;
     rec.depth = 16;
@@ -279,8 +279,6 @@ LCDScreen::~LCDScreen()
 
     gObjList_drawables_504618->Remove_Item(this);
     gMap.TLV_Reset(field_2B8_tlv_item_info, -1, 0, 0);
-    field_60_font.dtor_41C130();
-    field_50_font_context.dtor_41C110();
 }
 
 void LCDScreen::VScreenChanged()

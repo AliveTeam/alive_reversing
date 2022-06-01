@@ -35,14 +35,6 @@ struct LvlHeader final
 class LvlArchive
 {
 public:
-    static void ctor_static_41BBA0();
-
-    static void dtor_static_41BBB0();
-
-    static void ctor_static_443E70();
-
-    static void dtor_static_443E80();
-
     bool OpenArchive(const char_type* fileName, s32 pos);
 
     void OpenArchive_41BC60(s32 pos);
@@ -52,6 +44,8 @@ public:
     LvlFileRecord* Find_File_Record(const char_type* pFileName);
 
     s16 Read_File(const LvlFileRecord* pFileRec, void* pBuffer);
+
+    ~LvlArchive();
 
 private:
     u8** field_0_0x2800_res;

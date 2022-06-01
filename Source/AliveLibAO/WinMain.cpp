@@ -53,15 +53,6 @@
 
 namespace AO {
 
-void Static_Inits_AO()
-{
-    Dove_static_ctor_40EE10();
-    LvlArchive::ctor_static_41BBA0();
-    FontContext::static_ctor_41C010();
-    Map::ctor_static_443E10();
-    LvlArchive::ctor_static_443E70();
-}
-
 void WinMain_ForceLink()
 {
 }
