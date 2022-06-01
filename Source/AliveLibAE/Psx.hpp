@@ -7,8 +7,6 @@
 
 struct Bitmap;
 
-void Psx_ForceLink();
-
 using TPsxEmuCallBack = AddPointer_t<s32(u32)>;
 
 void PSX_DispEnv_Set_4ED960(s32 mode);
@@ -79,8 +77,3 @@ ALIVE_VAR_EXTERN(s32, sPsx_drawenv_clipx_BDCD40);
 ALIVE_VAR_EXTERN(s32, sPsx_drawenv_clipy_BDCD44);
 ALIVE_VAR_EXTERN(s32, sPsx_drawenv_clipw_BDCD48);
 ALIVE_VAR_EXTERN(s32, sPsx_drawenv_cliph_BDCD4C);
-
-
-namespace AETest::TestsPsx {
-void PsxTests();
-}

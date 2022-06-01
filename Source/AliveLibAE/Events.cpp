@@ -132,36 +132,3 @@ void Event_Cancel_For_Obj(BaseGameObject* pObj)
         }
     }
 }
-
-namespace AETest::TestsEvent {
-void EventTests()
-{
-    Events_Reset_422D70();
-
-    BaseAnimatedWithPhysicsGameObject bang(0);
-    bang.field_B8_xpos = FP_FromInteger(10);
-    bang.field_BC_ypos = FP_FromInteger(20);
-    bang.field_D6_scale = 0;
-    bang.mFlags.Set(BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5);
-    bang.mFlags.Set(BaseAliveGameObject::eDrawable_Bit4);
-    Event_Broadcast_422BC0(Event::kEventLoudNoise, &bang);
-
-    Events_Reset_Active_422DA0();
-
-    ASSERT_EQ(&bang, Event_Get_422C00(Event::kEventLoudNoise));
-    ASSERT_EQ(nullptr, Event_Get_422C00(Event::kEventAlarm));
-
-    ASSERT_EQ(&bang, Event_Is_Event_In_Range_422C30(Event::kEventLoudNoise, FP_FromInteger(10), FP_FromInteger(20), 0));
-    ASSERT_EQ(nullptr, Event_Is_Event_In_Range_422C30(Event::kEventLoudNoise, FP_FromInteger(kGridMapWidth * 2), FP_FromInteger(kGridMapHeight * 2), 0));
-
-    Event_Cancel_For_Obj(&bang);
-    ASSERT_EQ(nullptr, Event_Get_422C00(Event::kEventLoudNoise));
-
-    sEventPtrs_5BC124.field_0_events[0].field_0_event_ptrs[Event::kEventLoudNoise] = &bang;
-    sEventPtrs_5BC124.field_0_events[1].field_0_event_ptrs[Event::kEventLoudNoise] = &bang;
-
-    Event_Cancel_For_Obj(&bang);
-    ASSERT_EQ(nullptr, sEventPtrs_5BC124.field_0_events[0].field_0_event_ptrs[Event::kEventLoudNoise]);
-    ASSERT_EQ(nullptr, sEventPtrs_5BC124.field_0_events[1].field_0_event_ptrs[Event::kEventLoudNoise]);
-}
-} // namespace AETest::TestsEvent

@@ -421,57 +421,6 @@ PathLine* Collisions::NextLine_418180(PathLine* pLine)
     return nullptr;
 }
 
-namespace AETest::TestsCollision {
-void CollisionTests()
-{
-    Collisions c;
-    FP x1 = {};
-    FP y1 = {};
-    FP x2 = {};
-    FP y2 = {};
-    PathLine* line = nullptr;
-    FP x = {};
-    FP y = {};
-
-    x1.fpValue = 0x03d99a00;
-    y1.fpValue = 0x014b028f;
-    x2.fpValue = 0x03d99a00;
-    y2.fpValue = 0x023b028f;
-
-    PathLine test = {
-        {0x02bc, 0x01cc, 0x0659, 0x01cc},
-        eLineTypes::eFloor_0,
-        0,
-        -1,
-        -1,
-        -1,
-        -1,
-        0x039d};
-
-    c.field_0_pArray = reinterpret_cast<PathLine*>(ae_malloc_non_zero_4954F0(1 * sizeof(PathLine)));
-    memcpy(c.field_0_pArray, &test, 1 * sizeof(PathLine));
-    c.field_4_current_item_count = 1;
-    c.field_C_max_count = 1;
-
-    s32 ret = c.Raycast_Impl(x1, y1, x2, y2, &line, &x, &y, 0xF);
-    ASSERT_EQ(TRUE, ret);
-
-    FP expectedX = {};
-    expectedX.fpValue = 0x03d99a00;
-
-    FP expectedY = {};
-    expectedY.fpValue = 0x01cb7200;
-
-    ASSERT_EQ(TRUE, ret);
-    ASSERT_EQ(expectedX, x);
-    ASSERT_EQ(expectedY, y);
-
-    ASSERT_TRUE(memcmp(&test, line, sizeof(PathLine)) == 0);
-
-    c.dtor_4189F0();
-}
-} // namespace AETest::TestsCollision
-
 static s32 ClampMinus1To1(s32 value)
 {
     if (value < 0)

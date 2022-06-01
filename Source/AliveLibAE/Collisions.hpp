@@ -4,10 +4,6 @@
 #include "FixedPoint.hpp"
 #include "Psx.hpp"
 
-namespace AETest::TestsCollision {
-void CollisionTests();
-}
-
 enum eLineTypes : u8
 {
     eFloor_0 = 0,

@@ -5,8 +5,6 @@
 #include "Factory.hpp"
 #include "Path.hpp"
 
-void SlamDoor_ForceLink();
-
 enum SlamDoor_Flags_118
 {
     e118_Bit1_bClosed = 0x1,

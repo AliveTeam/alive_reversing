@@ -3,8 +3,6 @@
 #include "../AliveLibCommon/Function.hpp"
 
 // TODO: Can be made into a template when all usages are reversed.
-void DynamicArray_ForceLink();
-
 class DynamicArray
 {
 public:

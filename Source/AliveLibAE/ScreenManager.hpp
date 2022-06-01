@@ -62,8 +62,6 @@ public:
 
     void Init_40E4B0(u8** ppBits);
 
-    BaseGameObject* vdtor_40E460(s32 flags);
-
     static s32 GetTPage_40F040(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);
 
     virtual void VRender(PrimHeader** ppOt) override;
@@ -104,7 +102,3 @@ public:
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);
 
 ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager_5BB5F4);
-
-namespace AETest::TestsScreenManager {
-void ScreenManagerTests();
-}

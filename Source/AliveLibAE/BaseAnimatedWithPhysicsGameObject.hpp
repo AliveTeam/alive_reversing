@@ -8,10 +8,6 @@
 #include "Map.hpp"
 #include "PathData.hpp"
 
-namespace AETest::TestsBaseAnimatedWithPhysicsGameObject {
-void BaseAnimatedWithPhysicsGameObjectTests();
-}
-
 class Shadow;
 
 struct TintEntry final

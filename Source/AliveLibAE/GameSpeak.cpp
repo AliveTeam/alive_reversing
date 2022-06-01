@@ -3,9 +3,6 @@
 #include "stdlib.hpp"
 #include "Function.hpp"
 
-void GameSpeak_ForceLink()
-{ }
-
 const s32 code_base_560F0C[12] = {
     0,
     1,

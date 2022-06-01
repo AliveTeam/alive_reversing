@@ -4,9 +4,6 @@
 #include "PtrStream.hpp"
 #include "CompressionType_4Or5.hpp"
 
-void Compression_ForceLink()
-{ }
-
 static bool Expand3To4Bytes(s32& remainingCount, PtrStream& stream, u8* ret, u32& dstPos)
 {
     if (!remainingCount)

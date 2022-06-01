@@ -7,8 +7,6 @@
 #include "Factory.hpp"
 #include "Animation.hpp"
 
-void Mine_ForceLink();
-
 struct Path_Mine final : public Path_TLV
 {
     s16 field_10_num_patterns;

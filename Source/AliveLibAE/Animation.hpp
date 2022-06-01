@@ -15,10 +15,6 @@ extern TFrameCallBackType kSlog_Anim_Frame_Fns_55EFBC[2];
 extern TFrameCallBackType kFlyingSlig_Anim_Frames_Fns_55EFC4[3];
 extern TFrameCallBackType kFleech_Anim_Frame_Fns_55EFD0[3];
 
-namespace AETest::TestsAnimation {
-void AnimationTests();
-}
-
 struct AnimHeader final
 {
     s16 field_0_max_w;

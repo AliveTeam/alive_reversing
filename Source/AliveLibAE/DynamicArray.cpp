@@ -3,9 +3,6 @@
 #include "stdlib.hpp"
 #include "Function.hpp"
 
-void DynamicArray_ForceLink()
-{ }
-
 DynamicArray* DynamicArray::ctor_40CA60(s16 startingSize)
 {
     if (startingSize == 0)

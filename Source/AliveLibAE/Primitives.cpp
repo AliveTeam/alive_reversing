@@ -4,10 +4,6 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 
-void Primitives_ForceLink()
-{ }
-
-
 void Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage)
 {
     SetUnknown(&pPrim->mBase);

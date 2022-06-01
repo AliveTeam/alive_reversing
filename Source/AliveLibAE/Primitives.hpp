@@ -6,9 +6,6 @@
 #include "Psx.hpp"
 #include "Layer.hpp"
 
-void Primitives_ForceLink();
-
-
 void Sprt_Init_4F8910(Prim_Sprt* pPrim);
 
 void PolyG3_Init_4F8890(Poly_G3* pPoly);

@@ -384,38 +384,3 @@ void ScreenManager::AddCurrentSPRT_TPage(PrimHeader** ppOt)
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
     }
 }
-
-namespace AETest::TestsScreenManager {
-void DirtyBitTests()
-{
-    gBaseGameObjects = ae_new<DynamicArrayT<BaseGameObject>>();
-    gBaseGameObjects->ctor_40CA60(50);
-
-    ScreenManager sm(nullptr, nullptr);
-
-    sm.UnsetDirtyBits_40EDE0(0);
-
-    ASSERT_EQ(0, sm.IsDirty_40EBC0(0, 1, 1));
-
-    sm.InvalidateRect_40EC10(0, 0, 32, 16);
-
-    // ?? should be 1 ??
-    ASSERT_EQ(0, sm.IsDirty_40EBC0(0, 0, 0));
-
-    gBaseGameObjects->dtor_40CAD0();
-    gBaseGameObjects = nullptr;
-
-    // Test dirty bit helpers
-
-    sm.field_64_20x16_dirty_bits->SetTile(2, 8, true);
-    sm.field_64_20x16_dirty_bits->SetTile(1, 4, false);
-
-    ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetTile(2, 8), true);
-    ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetTile(1, 4), false);
-}
-
-void ScreenManagerTests()
-{
-    //DirtyBitTests();
-}
-} // namespace AETest::TestsScreenManager

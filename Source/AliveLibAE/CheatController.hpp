@@ -4,8 +4,6 @@
 #include "BaseGameObject.hpp"
 #include "Input.hpp"
 
-void CheatController_ForceLink();
-
 struct CheatEntry final
 {
     u32 field_0_level_mask;

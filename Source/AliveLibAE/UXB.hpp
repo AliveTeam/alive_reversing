@@ -8,8 +8,6 @@
 #include "Animation.hpp"
 #include "Sfx.hpp"
 
-void UXB_ForceLink();
-
 enum class UXBState : u16
 {
     eDelay_0 = 0,

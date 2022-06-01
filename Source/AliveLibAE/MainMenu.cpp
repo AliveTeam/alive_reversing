@@ -3847,10 +3847,6 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
     sFontDrawScreenSpace_5CA4B4 = oldDrawInScreenSpace;
 }
 
-void MainMenu_ForceLink()
-{
-}
-
 void MainMenuController::Unload_AbeSpeakResources()
 {
     // If they are currently loading wait for them to finish

@@ -41,10 +41,8 @@
 #include "Movie.hpp"
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
+#include "Function.hpp"
 #include <string>
-
-void Game_ForceLink()
-{ }
 
 using TExitGameCallBack = AddPointer_t<void CC()>;
 
@@ -901,32 +899,7 @@ void Game_Loop_467230()
                 break;
             }
             iter.Remove_At_Iter_40CCA0();
-            delete pObj;
+            relive_delete pObj;
         }
     }
 }
-
-
-namespace AETest::TestsGame {
-static void Test_PSX_getTPage_4F60E0()
-{
-    ASSERT_EQ(0, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0));
-
-    ASSERT_EQ(32, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
-    ASSERT_EQ(64, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
-    ASSERT_EQ(96, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_3, 0, 0));
-
-    ASSERT_EQ(128, PSX_getTPage_4F60E0(TPageMode::e8Bit_1, TPageAbr::eBlend_0, 0, 0));
-    ASSERT_EQ(256, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0));
-    // ASSERT_EQ(384, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0));
-
-    ASSERT_EQ(1, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 64, 0));
-    ASSERT_EQ(2, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 64 * 2, 64));
-    ASSERT_EQ(18, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 64 * 2, 64 * 4));
-}
-
-void GameTests()
-{
-    Test_PSX_getTPage_4F60E0();
-}
-} // namespace AETest::TestsGame

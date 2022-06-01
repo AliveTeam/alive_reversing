@@ -17,10 +17,6 @@
 #include "BaseBomb.hpp"
 #include "Grid.hpp"
 
-void Mine_ForceLink()
-{
-}
-
 ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
 
 Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)

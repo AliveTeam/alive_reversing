@@ -20,9 +20,6 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Layer.hpp"
 
-void PauseMenu_ForceLink();
-
-
 class PauseMenu;
 struct PauseMenuPage;
 

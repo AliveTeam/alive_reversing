@@ -45,59 +45,9 @@
 
 INITIALIZE_EASYLOGGINGPP
 
-void RunTests()
-{
-    ::testing::GTEST_FLAG(throw_on_failure) = true;
-    s32 argCount = 0;
-    LPSTR cmdLine = Sys_GetCommandLine_4EE176();
-    ::testing::InitGoogleMock(&argCount, &cmdLine);
-
-    AETest::TestsCollision::CollisionTests();
-    AETest::TestsVRam::VRamTests();
-    AETest::TestsAnimation::AnimationTests();
-    AETest::TestsBmp::BmpTests();
-    AETest::TestsPsxDisplay::PsxDisplayTests();
-    AETest::TestsPsx::PsxTests();
-    AETest::TestsGame::GameTests();
-    AETest::TestsEvent::EventTests();
-    AETest::TestsScreenManager::ScreenManagerTests();
-    AETest::TestsObjectIds::ObjectIdsTests();
-    AETest::TestsPsxRender::PsxRenderTests();
-    AETest::TestsBaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObjectTests();
-    AETest::TestsMath::Math_Tests();
-}
-
-static void InitOtherHooksAndRunTests()
-{
-    //RunTests();
-
-    VGA_ForceLink();
-    Psx_ForceLink();
-    DynamicArray_ForceLink();
-    Math_ForceLink();
-    Game_ForceLink();
-    GameSpeak_ForceLink();
-    DDCheat_ForceLink();
-    Map_ForceLink();
-    PauseMenu_ForceLink();
-    Font_ForceLink();
-    Primitives_ForceLink();
-    FixedPoint_ForceLink();
-    SwitchStates_ForceLink();
-    MainMenu_ForceLink();
-    Compression_ForceLink();
-    StatsSign_ForceLink();
-    UXB_ForceLink();
-    Mine_ForceLink();
-    SlamDoor_ForceLink();
-}
-
 ALIVE_VAR(1, 0xBBBA04, s32, sExitCode_BBBA04, 0);
 ALIVE_VAR(1, 0xBBBA54, HINSTANCE, sPrevInstance_BBBA54, nullptr);
 
-void Winmain_ForceLink()
-{
-}
 
 // Manual calls to construct global static objects when not running as dll/injected into the real game.
 // There are only a very small amount of global static constructors to call.
@@ -119,7 +69,6 @@ s32 CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR 
     LOG_INFO("Main enter");
     AE_Sys_Main(hInstance, lpCmdLine, nShowCmd);
     sPrevInstance_BBBA54 = hPrevInstance;
-    InitOtherHooksAndRunTests();
     Game_Main_4949F0();
     LOG_INFO("Main exit");
     return sExitCode_BBBA04;

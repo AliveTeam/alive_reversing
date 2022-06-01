@@ -160,36 +160,6 @@ void DebugFont_Flush_4DD050()
     sDebugFontTmpBuffer_BB47CC[0] = 0;
 }
 
-namespace AETest::TestsPsxDisplay {
-static void Test_DebugFont_4F8AB0()
-{
-    DebugFont_Reset_4F8B40();
-
-    DebugFont_Open_4F8AB0(8, 16, 77, 200, 33, 600);
-    ASSERT_EQ(16, sTexts_C27640[0].field_1_yMargin);
-    ASSERT_EQ(0, sTexts_C27640[0].field_9_text.field_0_src_txt[0]);
-    ASSERT_EQ(0, sTexts_C27640[0].field_9_text.field_400_dst_txt[0]);
-
-    DebugFont_Open_4F8AB0(8, 22, 77, 200, 33, 600);
-    ASSERT_EQ(22, sTexts_C27640[1].field_1_yMargin);
-
-    DebugFont_Open_4F8AB0(8, 33, 77, 200, 33, 600);
-    ASSERT_EQ(33, sTexts_C27640[2].field_1_yMargin);
-
-    DebugFont_Open_4F8AB0(8, 55, 77, 200, 33, 600);
-    ASSERT_EQ(55, sTexts_C27640[3].field_1_yMargin);
-
-    ASSERT_EQ(-1, DebugFont_Open_4F8AB0(8, 33, 77, 200, 33, 600));
-
-    DebugFont_Reset_4F8B40();
-}
-
-void PsxDisplayTests()
-{
-    Test_DebugFont_4F8AB0();
-}
-} // namespace AETest::TestsPsxDisplay
-
 void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
 {
     if (sFntCount_BD0F28 <= 0)

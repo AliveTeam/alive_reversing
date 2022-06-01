@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "Sys_common.hpp"
+#include "BaseGameObject.hpp"
 
 ALIVE_VAR(1, 0x5C1B70, ObjectIds, sObjectIds, {});
 
@@ -141,8 +142,6 @@ BaseGameObject* ObjectIds::Find_449CF0(TObjectId_KeyType idToFind)
     return pFound;
 }
 
-#include "BaseGameObject.hpp"
-
 BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, AETypes type)
 {
     BaseGameObject* pItem = Find_449CF0(idToFind);
@@ -193,53 +192,3 @@ s32 ObjectIds::GetHighestUsedId()
 
     return nextId;
 }
-
-#include <gmock/gmock.h>
-
-namespace AETest::TestsObjectIds {
-class FakeGameObject final : public BaseGameObject
-{
-public:
-    FakeGameObject() : BaseGameObject(TRUE, 0) { }
-};
-
-void ObjectIdsTests()
-{
-    ObjectIds ids;
-    ids.ctor_449AE0(101);
-
-    FakeGameObject p;
-    p.SetType(AETypes::eAlarm_1);
-    ids.Insert(1, &p);
-
-    ASSERT_EQ(&p, ids.Find(1, AETypes::eAlarm_1));
-
-    FakeGameObject p2;
-    p2.SetType(AETypes::eAlarm_1);
-    ids.Insert(1, &p2);
-
-    ASSERT_EQ(&p2, ids.Find(1, AETypes::eAlarm_1));
-
-    ids.Remove_449C60(1);
-
-    ASSERT_EQ(&p, ids.Find(1, AETypes::eAlarm_1));
-
-    ids.Remove_449C60(1);
-
-    ASSERT_EQ(nullptr, ids.Find(1, AETypes::eAlarm_1));
-
-    ASSERT_EQ(nullptr, ids.Find(9999, AETypes::eAlarm_1));
-
-    for (s32 i = 0; i < 3000; i++)
-    {
-        ids.Insert(i, &p);
-    }
-
-    for (s32 i = 0; i < 3000; i++)
-    {
-        ids.Remove_449C60(i);
-    }
-
-    ids.Destructor();
-}
-} // namespace AETest::TestsObjectIds

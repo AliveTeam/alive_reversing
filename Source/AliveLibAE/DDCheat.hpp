@@ -8,8 +8,6 @@
 #include "BaseAliveGameObject.hpp"
 #include "FixedPoint.hpp"
 
-void DDCheat_ForceLink();
-
 enum class DDCheatValueType : s32
 {
     eShort_1 = 1,

@@ -27,9 +27,6 @@
 #include "Sys.hpp"
 #include <assert.h>
 
-void Map_ForceLink()
-{ }
-
 ALIVE_VAR(1, 0x5c311c, s16, sMap_bDoPurpleLightEffect_5C311C, 0);
 ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
 ALIVE_VAR(1, 0x5c3120, u32, sSoundChannelsMask_5C3120, 0);

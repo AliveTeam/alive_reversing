@@ -5,9 +5,6 @@
 #include "GameAutoPlayer.hpp"
 #include <gmock/gmock.h>
 
-void Math_ForceLink()
-{ }
-
 // clang-format off
 ALIVE_ARY(1, 0x546744, u8, 256, sRandomBytes_546744,
 {
@@ -263,28 +260,3 @@ FP Math_Tan_496F70(const FP value1, const FP value2)
     }
     return FP_FromInteger(0);
 }
-
-namespace AETest::TestsMath {
-void Math_Tests()
-{
-    for (u8 i = 0; i < 64; i++)
-    {
-        ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[i]), Math_Cosine_496CD0(i));
-    }
-
-    for (u8 i = 65; i < 128; i++)
-    {
-        ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[127 - i]), Math_Cosine_496CD0(i));
-    }
-
-    for (u8 i = 128; i < 192; i++)
-    {
-        ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[i - 128]), Math_Cosine_496CD0(i));
-    }
-
-    for (u8 i = 192; i < 255; i++)
-    {
-        ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[255 - i]), Math_Cosine_496CD0(i));
-    }
-}
-} // namespace AETest::TestsMath

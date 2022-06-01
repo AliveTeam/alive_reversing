@@ -14,10 +14,6 @@
     #endif
 #endif
 
-namespace AETest::TestsBmp {
-void BmpTests();
-}
-
 #if USE_SDL2
     #include "SDL.h"
 using TSurfaceType = SDL_Surface;

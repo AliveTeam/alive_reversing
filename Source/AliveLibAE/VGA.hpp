@@ -3,8 +3,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "bmp.hpp"
 
-void VGA_ForceLink();
-
 void VGA_Shutdown_4F3170();
 void VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect);
 void VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, u8 screenMode);

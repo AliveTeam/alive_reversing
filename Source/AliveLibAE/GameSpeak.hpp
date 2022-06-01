@@ -4,8 +4,6 @@
 #include "BaseGameObject.hpp"
 #include "Game.hpp"
 
-void GameSpeak_ForceLink();
-
 enum class GameSpeakEvents : s16
 {
     eSameAsLast_m2 = -2,

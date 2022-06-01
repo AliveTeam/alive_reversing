@@ -3,10 +3,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "FixedPoint.hpp"
 
-namespace AETest::TestsEvent {
-void EventTests();
-}
-
 // Note, names taken from Abe's Exoddus PC Demo
 enum Event : s16
 {

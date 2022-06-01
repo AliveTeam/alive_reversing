@@ -478,7 +478,3 @@ s32 SlamDoor::CreateFromSaveState(const u8* pData)
 
     return sizeof(Quicksave_Obj_SlamDoor);
 }
-
-void SlamDoor_ForceLink()
-{
-}

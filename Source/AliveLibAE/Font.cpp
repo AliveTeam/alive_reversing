@@ -8,10 +8,6 @@
 #include "Sys_common.hpp"
 #include "Renderer/IRenderer.hpp"
 
-void Font_ForceLink()
-{
-}
-
 /*
  Notes for when coming across crazy width conversions:
  If it looks like this:

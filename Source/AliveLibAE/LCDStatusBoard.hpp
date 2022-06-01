@@ -5,8 +5,6 @@
 #include "Path.hpp"
 #include "Font.hpp"
 
-void StatsSign_ForceLink();
-
 struct Path_LCDStatusBoard final : public Path_TLV
 {
     s16 field_10_number_of_muds;

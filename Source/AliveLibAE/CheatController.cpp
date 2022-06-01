@@ -7,9 +7,6 @@
 #include "MainMenu.hpp"
 #include "QuikSave.hpp"
 
-void CheatController_ForceLink()
-{ }
-
 ALIVE_VAR(1, 0x5BC120, CheatController*, pCheatController_5BC120, nullptr);
 
 const InputCommands::Enum sCheatKeyArray_MovieSelect_5515C0[8] = {

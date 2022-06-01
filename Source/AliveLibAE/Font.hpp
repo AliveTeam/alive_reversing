@@ -13,8 +13,6 @@
 #include "ScreenManager.hpp"
 #include "FixedPoint.hpp"
 
-void Font_ForceLink();
-
 void static_font1context_init_433300();
 void static_font2context_init_433380();
 

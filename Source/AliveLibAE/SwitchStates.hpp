@@ -2,8 +2,6 @@
 
 #include "../AliveLibCommon/Function.hpp"
 
-void SwitchStates_ForceLink();
-
 void SwitchStates_SetRange_465FA0(u16 start, u16 end);
 void SwitchStates_Set_465FF0(u16 idx, s8 value);
 s32 SwitchStates_Get_466020(u16 idx);

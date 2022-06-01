@@ -10,8 +10,6 @@
 #include "Input.hpp"
 #include "BitField.hpp"
 
-void MainMenu_ForceLink();
-
 enum class LevelIds : s16;
 
 struct MenuFMV final

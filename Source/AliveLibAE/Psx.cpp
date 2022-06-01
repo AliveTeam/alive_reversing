@@ -19,9 +19,6 @@
 
 extern bool gLatencyHack;
 
-void Psx_ForceLink()
-{ }
-
 ALIVE_VAR(1, 0x578325, s8, sVSync_Unused_578325, 0);
 ALIVE_VAR(1, 0xBD0F2C, s32, sVSyncLastMillisecond_BD0F2C, 0);
 ALIVE_VAR(1, 0xBD0F24, s32, sLastFrameTimestampMilliseconds_BD0F24, 0);
@@ -926,18 +923,3 @@ s32 PSX_DrawSync_4F6280(s32 /*mode*/)
 {
     return 0;
 }
-
-namespace AETest::TestsPsx {
-static void Test_PSX_ClearOTag_4F6290()
-{
-    PrimHeader* ot[5] = {};
-    PSX_ClearOTag_4F6290(ot, 5);
-    ASSERT_EQ(ot[0], (PrimHeader*) &ot[1]);
-    ASSERT_EQ(ot[4], (PrimHeader*) static_cast<size_t>(0xFFFFFFFF));
-}
-
-void PsxTests()
-{
-    Test_PSX_ClearOTag_4F6290();
-}
-} // namespace AETest::TestsPsx

@@ -6,13 +6,7 @@
 #include "Primitives.hpp"
 #include "PathData.hpp"
 
-void Game_ForceLink();
-
 void static_init_set_default_hero_43EC10();
-
-namespace AETest::TestsGame {
-void GameTests();
-}
 
 void Game_Main_4949F0();
 void DestroyObjects_4A1F20();

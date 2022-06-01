@@ -10,9 +10,6 @@
 #include "ResourceManager.hpp"
 #include "Abe.hpp"
 
-void DDCheat_ForceLink()
-{ }
-
 ALIVE_VAR(1, 0x5c1be6, s16, sDoorsOpen_5C1BE6, 0);
 ALIVE_VAR(1, 0x5c1bd0, s32, sTweakX_5C1BD0, 0);
 ALIVE_VAR(1, 0x5c1bd4, s32, sTweakY_5C1BD4, 0);

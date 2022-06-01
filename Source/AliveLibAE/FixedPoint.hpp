@@ -4,9 +4,6 @@
 #include "Math.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 
-void FixedPoint_ForceLink();
-
-
 inline FixedPoint& operator*=(FixedPoint& lhs, const FixedPoint& rhs)
 {
     lhs.fpValue = Math_FixedPoint_Multiply_496C50(lhs.fpValue, rhs.fpValue);

@@ -65,7 +65,3 @@ s32 DebugFont_Printf_4F8B60(s32 idx, const char_type* formatStr, ...);
 s32 DebugFont_Init_4DCF40();
 
 void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect);
-
-namespace AETest::TestsPsxDisplay {
-void PsxDisplayTests();
-}

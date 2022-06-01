@@ -5,9 +5,6 @@
 struct PSX_RECT;
 struct PrimHeader;
 
-namespace AETest::TestsPsxRender {
-void PsxRenderTests();
-}
 union PrimAny;
 
 void DrawOTag_Render_SPRT(PrimAny& any, s16 drawEnv_of0, s16 drawEnv_of1, s16 width, s16 height);

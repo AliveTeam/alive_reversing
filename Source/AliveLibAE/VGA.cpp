@@ -12,10 +12,6 @@
 #include "Renderer/SoftwareRenderer.hpp"
 #include "Renderer/DirectX9Renderer.hpp"
 
-void VGA_ForceLink()
-{ }
-
-
 ALIVE_VAR(1, 0xBD0BFA, bool, sVGA_own_surfaces_BD0BFA, false);
 ALIVE_VAR(1, 0xBC0BB8, bool, sVGA_Inited_BC0BB8, false);
 ALIVE_VAR(1, 0xBD0BF8, bool, sVGA_IsWindowMode_BD0BF8, false);

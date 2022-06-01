@@ -6,8 +6,6 @@
 #include "ResourceManager.hpp"
 #include "Path.hpp"
 
-void Map_ForceLink();
-
 void static_map_init_4802D0();
 
 

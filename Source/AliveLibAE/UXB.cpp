@@ -33,10 +33,6 @@ const TintEntry sTintMap_UXB_563A3C[19] = {
     {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
-void UXB_ForceLink()
-{
-}
-
 void UXB::InitBlinkAnim(Animation* pAnimation)
 {
     const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);

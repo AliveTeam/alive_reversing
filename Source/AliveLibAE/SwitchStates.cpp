@@ -4,9 +4,6 @@
 
 ALIVE_VAR(1, 0x5c1a28, SwitchStates, sSwitchStates_5C1A28, {});
 
-void SwitchStates_ForceLink()
-{ }
-
 void SwitchStates_SetRange_465FA0(u16 start, u16 end)
 {
     if (start <= end)
