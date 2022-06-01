@@ -56,14 +56,14 @@ void Path_Set_NewData_FromLvls()
         if (pCdLvlName && archive.OpenArchive(pCdLvlName, 0))
         {
             // Check for hard coded data replacement
-            LvlFileRecord* pRec = archive.Find_File_Record_41BED0(Path_Get_BndName(static_cast<LevelIds>(lvlIdx)));
+            LvlFileRecord* pRec = archive.Find_File_Record(Path_Get_BndName(static_cast<LevelIds>(lvlIdx)));
             if (pRec)
             {
                 // Load the file data
                 delete[] sPathExtData[lvlIdx];
 
                 u8* pTmp = new u8[pRec->field_10_num_sectors * 2048];
-                archive.Read_File_41BE40(pRec, pTmp);
+                archive.Read_File(pRec, pTmp);
 
                 // Keep the loaded data in scope for however long the game is running
                 sPathExtData[lvlIdx] = pTmp;

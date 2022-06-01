@@ -92,11 +92,11 @@ TimedMine::~TimedMine()
 {
     if (field_10C_armed != 1 || static_cast<s32>(gnFrameCount_507670) < field_114_timer)
     {
-        gMap.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(field_110_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset(field_110_tlvInfo, -1, 0, 1);
     }
 
     field_118_anim.VCleanUp();

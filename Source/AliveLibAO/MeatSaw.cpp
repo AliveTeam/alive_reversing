@@ -15,21 +15,15 @@
 
 namespace AO {
 
-void MeatSaw::VScreenChanged()
-{
-    VScreenChanged_43A060();
-}
-
-
 MeatSaw::~MeatSaw()
 {
     if (field_1A8_flags.Get(flags_1A8::eBit1_ResetOffscreen) && SwitchStates_Get(field_EE_switch_id) != field_F2_switch_value)
     {
-        gMap.TLV_Reset_446870(field_100_tlvInfo, 1, 0, 0);
+        gMap.TLV_Reset(field_100_tlvInfo, 1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset_446870(field_100_tlvInfo, 0, 0, 0);
+        gMap.TLV_Reset(field_100_tlvInfo, 0, 0, 0);
     }
 
     field_110_anim.VCleanUp();
@@ -173,7 +167,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     }
 }
 
-void MeatSaw::VScreenChanged_43A060()
+void MeatSaw::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !sControlledCharacter_50767C || // Can be nullptr during the game ender
         FP_Abs(sControlledCharacter_50767C->field_A8_xpos - field_A8_xpos) > FP_FromInteger(1024))
@@ -183,11 +177,6 @@ void MeatSaw::VScreenChanged_43A060()
 }
 
 void MeatSaw::VUpdate()
-{
-    VUpdate_4399D0();
-}
-
-void MeatSaw::VUpdate_4399D0()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -372,11 +361,6 @@ void MeatSaw::GrindUpObjects_439CD0()
 }
 
 void MeatSaw::VRender(PrimHeader** ppOt)
-{
-    VRender_439F50(ppOt);
-}
-
-void MeatSaw::VRender_439F50(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,

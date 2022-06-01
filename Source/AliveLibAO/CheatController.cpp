@@ -26,7 +26,7 @@ void CheatController_Cheat_VoiceLocks()
 
 void CheatController_Cheat_LevelSelect()
 {
-    if (gMap.field_4_current_camera == 1)
+    if (gMap.mCurrentCamera == 1)
     {
         sEnableCheatLevelSelect_507710 = sEnableCheatLevelSelect_507710 == 0;
     }
@@ -34,7 +34,7 @@ void CheatController_Cheat_LevelSelect()
 
 void CheatController_Cheat_FMV()
 {
-    if (gMap.field_4_current_camera == 1)
+    if (gMap.mCurrentCamera == 1)
     {
         sEnableCheatFMV_50770C = sEnableCheatFMV_50770C == 0;
     }

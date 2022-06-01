@@ -120,7 +120,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
 void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
 {
     PSX_Point camCoords = {};
-    gMap.GetCurrentCamCoords_444890(&camCoords);
+    gMap.GetCurrentCamCoords(&camCoords);
     if (field_B2_lvl_number == gMap.mCurrentLevel && field_B0_path_number == gMap.mCurrentPath)
     {
         if (field_A8_xpos >= FP_FromInteger(camCoords.field_0_x) && field_A8_xpos <= FP_FromInteger(camCoords.field_0_x + 1024))

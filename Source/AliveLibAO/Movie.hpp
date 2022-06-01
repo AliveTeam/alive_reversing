@@ -13,10 +13,7 @@ public:
     Movie(s32 id, s32 pos, s8 bUnknown, s32 flags, s16 volume);
 
     virtual void VScreenChanged() override;
-
     virtual void VUpdate() override;
-
-    void VUpdate_489EA0();
 
     s16 field_10_flags;
     s16 field_12;

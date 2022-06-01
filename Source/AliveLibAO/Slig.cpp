@@ -239,7 +239,7 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
     {
         volRight = sSligSounds_4CFB30[sfxIdxInt].field_C_default_volume / 2;
     }
-    gMap.Get_Camera_World_Rect_444C30(dir, &worldRect);
+    gMap.Get_Camera_World_Rect(dir, &worldRect);
     switch (dir)
     {
         case CameraPos::eCamCurrent_0:
@@ -395,16 +395,16 @@ Slig::~Slig()
     {
         if (field_14E_level != gMap.mCurrentLevel
             || field_150_path != gMap.mCurrentPath
-            || field_152_camera != gMap.field_4_current_camera)
+            || field_152_camera != gMap.mCurrentCamera)
         {
             Event_Broadcast(kEvent_7, this);
         }
 
         sControlledCharacter_50767C = sActiveHero_507678;
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
 
         if (gMap.mLevel != LevelIds::eMenu_0 && gMap.mLevel != LevelIds::eNone)
-            gMap.SetActiveCam_444660(
+            gMap.SetActiveCam(
                 field_14E_level,
                 field_150_path,
                 field_152_camera,
@@ -513,7 +513,7 @@ void Slig::Init_46B890()
     {
         field_210_resources.res[15] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknokzAOResID, 1, 0);
     }
-    field_11C_current_camera = gMap.field_4_current_camera;
+    field_11C_current_camera = gMap.mCurrentCamera;
     field_20E_spotted_possessed_slig = 0;
     field_114_timer = gnFrameCount_507670 + field_174_tlv.field_1C_pause_time;
 
@@ -587,7 +587,7 @@ void Slig::Init_46B890()
     {
         for (s16 xCam = -2; xCam < 3; xCam++)
         {
-            auto pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera_4463B0(xCam, yCam);
+            auto pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera(xCam, yCam);
             while (pTlvIter)
             {
                 bool addPoint = false;
@@ -661,7 +661,7 @@ void Slig::VUpdate_465050()
 
     if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::ePossessed_6, this, 1, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_6, this, 1, 0);
     }
 
     if (sDDCheat_FlyingEnabled_50771C && sControlledCharacter_50767C == this)
@@ -686,7 +686,7 @@ void Slig::VUpdate_465050()
             field_AC_ypos += field_B8_vely;
 
             PSX_Point mapSize = {};
-            gMap.Get_map_size_444870(&mapSize);
+            gMap.Get_map_size(&mapSize);
 
             if (field_A8_xpos < FP_FromInteger(0))
             {
@@ -823,9 +823,9 @@ void Slig::VUnPosses()
 void Slig::VUnPosses_465D80()
 {
     field_FE_next_motion = eSligMotions::Motion_0_StandIdle_467640;
-    field_11C_current_camera = gMap.field_4_current_camera;
+    field_11C_current_camera = gMap.mCurrentCamera;
     field_114_timer = gnFrameCount_507670 + 180;
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
 }
 
 void Slig::VPossessed()
@@ -856,9 +856,9 @@ void Slig::VPossessed_465C80()
 
     field_14E_level = gMap.mCurrentLevel;
     field_150_path = gMap.mCurrentPath;
-    field_152_camera = gMap.field_4_current_camera;
+    field_152_camera = gMap.mCurrentCamera;
 
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::ePossessed_6, this, 1, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_6, this, 1, 0);
 }
 
 
@@ -1223,7 +1223,7 @@ void Slig::ToShoot_46F1D0()
     field_FE_next_motion = eSligMotions::Motion_6_Shoot_468820;
     SetBrain(&Slig::Brain_Shooting_46EFD0);
     field_200_num_times_to_shoot = 0;
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
 }
 
 void Slig::ToZShoot_46F200()
@@ -1232,7 +1232,7 @@ void Slig::ToZShoot_46F200()
     field_114_timer = gnFrameCount_507670 + field_174_tlv.field_4C_z_shoot_delay;
     SetBrain(&Slig::Brain_ZSpottedEnemy_46F260);
     field_118_unused = Math_RandomRange_450F20(3, 5);
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
 }
 
 void Slig::ShouldStilBeAlive_46C0D0()
@@ -1294,7 +1294,7 @@ void Slig::WaitOrWalk_46E440()
     if (!IsFacingEffectiveLeft_46BD70(this) && (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2)) + field_A8_xpos >= FP_FromInteger(field_13C_zone_rect.w))
     {
         PauseALittle_46DBD0();
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
         return;
     }
 
@@ -1302,12 +1302,12 @@ void Slig::WaitOrWalk_46E440()
     if (IsFacingEffectiveLeft_46BD70(this) && (field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2))) <= FP_FromInteger(field_13C_zone_rect.x))
     {
         PauseALittle_46DBD0();
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
         return;
     }
 
     Brain_Walking_46DE90();
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
 }
 
 s32 Slig::IsFacingEffectiveLeft_46BD70(Slig* pSlig)
@@ -1356,7 +1356,7 @@ void Slig::ToPanicRunning_46CC20()
     field_FE_next_motion = eSligMotions::Motion_4_Running_469690;
     SetBrain(&Slig::Brain_PanicRunning_46CA20);
     Brain_PanicRunning_46CA20();
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
 }
 
 void Slig::ToPanic_46CD40()
@@ -1375,7 +1375,7 @@ void Slig::ToChase_46D080()
     }
     field_FE_next_motion = eSligMotions::Motion_0_StandIdle_467640;
     SetBrain(&Slig::Brain_StartChasing_46CF90);
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
 }
 
 void Slig::ToKilledAbe_4662E0()
@@ -1847,7 +1847,7 @@ s16 Slig::MoveLift_4665E0(FP ySpeed)
 {
     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
 
-    pLiftPoint->Move_435740(FP_FromInteger(0), ySpeed, 0);
+    pLiftPoint->Move(FP_FromInteger(0), ySpeed, 0);
     CheckPlatformVanished();
     field_B8_vely = pLiftPoint->field_B8_vely;
 
@@ -1899,7 +1899,7 @@ s16 Slig::MoveLift_4665E0(FP ySpeed)
         return eSligMotions::Motion_50_LiftUngrip_466460;
     }
 
-    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     return eSligMotions::Motion_51_LiftGripping_466480;
 }
 
@@ -2080,9 +2080,9 @@ void Slig::OperateLift()
 
         const auto camPos = gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
         if ((camPos != CameraPos::eCamCurrent_0 && camPos != CameraPos::eCamInvalid_m1)
-            && MusicController::GetAbmientAndMusicInfo_443840(nullptr, nullptr, nullptr) <= MusicController::MusicTypes::eChase_4)
+            && MusicController::GetAbmientAndMusicInfo(nullptr, nullptr, nullptr) <= MusicController::MusicTypes::eChase_4)
         {
-            MusicController::PlayMusic_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
+            MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
         }
         Slig::Slig_SoundEffect_46F310(SligSfx::eStandingTurn_1);
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2592,9 +2592,9 @@ void Slig::Motion_2_Walking_469130()
             field_A8_xpos,
             field_AC_ypos)
             >= CameraPos::eCamCurrent_0
-        && MusicController::GetAbmientAndMusicInfo_443840(nullptr, nullptr, nullptr) <= MusicController::MusicTypes::eChase_4)
+        && MusicController::GetAbmientAndMusicInfo(nullptr, nullptr, nullptr) <= MusicController::MusicTypes::eChase_4)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
     }
 
     field_126_input |= Input().Held();
@@ -2751,9 +2751,9 @@ void Slig::Motion_4_Running_469690()
             field_A8_xpos,
             field_AC_ypos)
             >= CameraPos::eCamCurrent_0
-        && MusicController::GetAbmientAndMusicInfo_443840(nullptr, nullptr, nullptr) != MusicController::MusicTypes::ePossessed_6)
+        && MusicController::GetAbmientAndMusicInfo(nullptr, nullptr, nullptr) != MusicController::MusicTypes::ePossessed_6)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
     }
 
     field_126_input |= Input().Held();
@@ -2844,9 +2844,9 @@ void Slig::Motion_5_TurnAroundStanding_469C80()
             field_A8_xpos,
             field_AC_ypos)
             >= CameraPos::eCamCurrent_0
-        && MusicController::GetAbmientAndMusicInfo_443840(nullptr, nullptr, nullptr) <= MusicController::MusicTypes::eChase_4)
+        && MusicController::GetAbmientAndMusicInfo(nullptr, nullptr, nullptr) <= MusicController::MusicTypes::eChase_4)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
     }
 
     Slig_SoundEffect_46F310(SligSfx::eStandingTurn_1);
@@ -3547,7 +3547,7 @@ void Slig::Motion_34_SleepingToStand_46A5F0()
         default:
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                MusicController::PlayMusic_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
+                MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
                 MainMovement_467020();
             }
             break;
@@ -3748,7 +3748,7 @@ void Slig::Motion_38_Possess_46B050()
             field_B8_vely = FP_FromInteger(0);
             field_B4_velx = FP_FromInteger(0);
             field_100_health = FP_FromInteger(0);
-            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+            MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
             field_8_update_delay = 40;
             field_114_timer = gnFrameCount_507670 + 60;
             SetBrain(&Slig::Brain_Death_46C3A0);
@@ -3937,7 +3937,7 @@ void Slig::Motion_49_LiftGrip_4663A0()
 {
     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
 
-    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     field_B8_vely = FP_FromInteger(0);
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3988,7 +3988,7 @@ void Slig::Motion_51_LiftGripping_466480()
 
     auto pLift = static_cast<LiftPoint*>(field_F8_pLiftPoint);
 
-    pLift->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLift->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     field_B8_vely = FP_FromInteger(0);
 
     if (Input().IsAnyPressed(sInputKey_Up_4C6598))
@@ -4359,7 +4359,7 @@ void Slig::WakeUp()
 {
     field_FE_next_motion = eSligMotions::Motion_34_SleepingToStand_46A5F0;
     SetBrain(&Slig::Brain_WakingUp_46B700);
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eChase_4, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
     auto pTlv = static_cast<Path_Slig*>(gMap.TLV_Get_At_446260(
         field_174_tlv.field_10_top_left.field_0_x,
         field_174_tlv.field_10_top_left.field_2_y,
@@ -4584,14 +4584,14 @@ s16 Slig::Brain_Death_46C3A0()
         {
             if (field_14E_level != gMap.mCurrentLevel
                 || field_150_path != gMap.mCurrentPath
-                || field_152_camera != gMap.field_4_current_camera)
+                || field_152_camera != gMap.mCurrentCamera)
             {
                 Event_Broadcast(kEvent_7, this);
             }
 
             sControlledCharacter_50767C = sActiveHero_507678;
-            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
-            gMap.SetActiveCam_444660(
+            MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
+            gMap.SetActiveCam(
                 field_14E_level,
                 field_150_path,
                 field_152_camera,
@@ -4663,9 +4663,9 @@ s16 Slig::Brain_DeathDropDeath_46C5A0()
             {
                 if (sControlledCharacter_50767C == this)
                 {
-                    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+                    MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
                     sControlledCharacter_50767C = sActiveHero_507678;
-                    gMap.SetActiveCam_444660(field_14E_level, field_150_path, field_152_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(field_14E_level, field_150_path, field_152_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
                 mFlags.Set(BaseGameObject::eDead);
             }
@@ -4681,8 +4681,8 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
     if (sControlledCharacter_50767C == this)
     {
         sControlledCharacter_50767C = sActiveHero_507678;
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
-        gMap.SetActiveCam_444660(
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
+        gMap.SetActiveCam(
             field_14E_level,
             field_150_path,
             field_152_camera,
@@ -4760,7 +4760,7 @@ s16 Slig::Brain_PanicTurning_46C7C0()
         field_FE_next_motion = eSligMotions::Motion_4_Running_469690;
         SetBrain(&Slig::Brain_PanicRunning_46CA20);
         Brain_PanicRunning_46CA20();
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
     }
     else
     {
@@ -4820,7 +4820,7 @@ s16 Slig::Brain_PanicRunning_46CA20()
         field_FE_next_motion = eSligMotions::Motion_4_Running_469690;
         SetBrain(&Slig::Brain_PanicRunning_46CA20);
         Brain_PanicRunning_46CA20();
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
     }
     return 109;
 }
@@ -4922,7 +4922,7 @@ s16 Slig::Brain_StopChasing_46CF20()
     else
     {
         field_20C_force_alive_state = 0;
-        field_11C_current_camera = gMap.field_4_current_camera;
+        field_11C_current_camera = gMap.mCurrentCamera;
         ToTurn_46DE70();
     }
     return 119;
@@ -5754,7 +5754,7 @@ void Slig::BlowToGibs_4685A0()
     field_B8_vely = FP_FromInteger(0);
     field_B4_velx = FP_FromInteger(0);
     field_100_health = FP_FromInteger(0);
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
     field_114_timer = gnFrameCount_507670 + 60;
     field_8_update_delay = 40;
     SetBrain(&Slig::Brain_Death_46C3A0);

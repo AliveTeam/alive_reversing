@@ -18,16 +18,8 @@ public:
     ~LCDStatusBoard();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_441C70();
-
     virtual void VUpdate() override;
-
-    void VUpdate_441A90();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_441AB0(PrimHeader** ppOt);
 
     FontContext field_10_fontContext;
     AliveFont field_20_font1;

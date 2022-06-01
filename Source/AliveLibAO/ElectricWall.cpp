@@ -61,7 +61,7 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
 
 ElectricWall::~ElectricWall()
 {
-    gMap.TLV_Reset_446870(field_E4_tlv, -1, 0, 0);
+    gMap.TLV_Reset(field_E4_tlv, -1, 0, 0);
 }
 
 void ElectricWall::VScreenChanged()

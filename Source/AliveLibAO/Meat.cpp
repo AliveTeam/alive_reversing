@@ -66,16 +66,10 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
 MeatSack::~MeatSack()
 {
-    gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
 }
-
 
 void MeatSack::VUpdate()
-{
-    VUpdate_4392C0();
-}
-
-void MeatSack::VUpdate_4392C0()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -158,11 +152,6 @@ void MeatSack::VUpdate_4392C0()
 }
 
 void MeatSack::VScreenChanged()
-{
-    VScreenChanged_439540();
-}
-
-void MeatSack::VScreenChanged_439540()
 {
     mFlags.Set(BaseGameObject::eDead);
 }

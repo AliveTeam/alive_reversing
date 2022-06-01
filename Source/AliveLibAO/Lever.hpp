@@ -53,17 +53,10 @@ public:
     ~Lever();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_4816F0();
-
     virtual void VUpdate() override;
-
-    void VUpdate_4812D0();
 
     // New virtual
     virtual s32 VPull(s16 bLeftDirection);
-
-    s32 vPull_481640(s16 bLeftDirection);
 
     s32 field_D4_padding[4];
     s16 field_E4_switch_id;

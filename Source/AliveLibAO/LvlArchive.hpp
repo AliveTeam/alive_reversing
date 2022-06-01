@@ -49,9 +49,9 @@ public:
 
     s16 Free_41BEB0();
 
-    LvlFileRecord* Find_File_Record_41BED0(const char_type* pFileName);
+    LvlFileRecord* Find_File_Record(const char_type* pFileName);
 
-    s16 Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer);
+    s16 Read_File(const LvlFileRecord* pFileRec, void* pBuffer);
 
 private:
     u8** field_0_0x2800_res;

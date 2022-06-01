@@ -195,7 +195,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 
         field_27A_flags.Clear(Flags::eBit5_bHasPulley);
 
-        CreatePulleyIfExists_435AE0(0, 0);
+        CreatePulleyIfExists(0, 0);
 
         field_278_lift_point_id = pTlv->field_18_lift_point_id;
         field_130_lift_point_stop_type = pTlv->field_1E_lift_point_stop_type;
@@ -224,7 +224,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     }
 }
 
-void LiftPoint::Move_435740(FP xSpeed, FP ySpeed, s32 /*not_used*/)
+void LiftPoint::Move(FP xSpeed, FP ySpeed, s32 /*not_used*/)
 {
     field_B4_velx = xSpeed;
     field_B8_vely = ySpeed;
@@ -288,11 +288,6 @@ bool LiftPoint::OnAFloorLiftMoverCanUse() const
 }
 
 void LiftPoint::VUpdate()
-{
-    VUpdate_434D10();
-}
-
-void LiftPoint::VUpdate_434D10()
 {
     if (field_12C_bMoving & 1)
     {
@@ -563,13 +558,8 @@ void LiftPoint::VUpdate_434D10()
 
 void LiftPoint::VRender(PrimHeader** ppOt)
 {
-    VRender_435780(ppOt);
-}
-
-void LiftPoint::VRender_435780(PrimHeader** ppOt)
-{
     PSX_Point mapCoord = {};
-    gMap.GetCurrentCamCoords_444890(&mapCoord);
+    gMap.GetCurrentCamCoords(&mapCoord);
     if (field_B2_lvl_number == gMap.mCurrentLevel)
     {
         if (field_B0_path_number == gMap.mCurrentPath)
@@ -670,14 +660,9 @@ void LiftPoint::VRender_435780(PrimHeader** ppOt)
 
 void LiftPoint::VScreenChanged()
 {
-    VScreenChanged_435CC0();
-}
-
-void LiftPoint::VScreenChanged_435CC0()
-{
     if (!field_27A_flags.Get(Flags::eBit5_bHasPulley))
     {
-        CreatePulleyIfExists_435AE0(0, -1);
+        CreatePulleyIfExists(0, -1);
     }
 
     if (gMap.mCurrentLevel != gMap.mLevel)
@@ -713,7 +698,7 @@ LiftPoint::~LiftPoint()
     field_134_pRope2 = nullptr;
     field_138_pRope1 = nullptr;
 
-    gMap.TLV_Reset_446870(field_128_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_128_tlvInfo, -1, 0, 0);
 
     auto pLiftPointTlv = gMap.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos),
@@ -738,9 +723,9 @@ LiftPoint::~LiftPoint()
     ResourceManager::FreeResource_455550(field_274_ppRes);
 }
 
-void LiftPoint::CreatePulleyIfExists_435AE0(s16 camX, s16 camY)
+void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
 {
-    auto pTlv = gMap.Get_First_TLV_For_Offsetted_Camera_4463B0(camX, camY);
+    auto pTlv = gMap.Get_First_TLV_For_Offsetted_Camera(camX, camY);
     if (pTlv)
     {
         while (1)

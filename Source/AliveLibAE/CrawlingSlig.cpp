@@ -415,7 +415,7 @@ void CrawlingSlig::VPossessed()
     field_1AC_timer = sGnFrame_5C1B84 + 35;
     field_1BA_prev_level = gMap.mCurrentLevel;
     field_1BC_prev_path = gMap.mCurrentPath;
-    field_1BE_prev_camera = gMap.field_4_current_camera;
+    field_1BE_prev_camera = gMap.mCurrentCamera;
 }
 
 void CrawlingSlig::Set_AnimAndMotion_419890(s16 currentMotion, s16 bClearNextMotion)

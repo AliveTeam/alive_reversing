@@ -20,7 +20,7 @@ void BackgroundMusic::VUpdate()
 {
     if (field_20_music_id >= 0)
     {
-        if (gMap.mCurrentLevel != LevelIds::eNone || gMap.mCurrentPath != 1 || gMap.field_4_current_camera != 10)
+        if (gMap.mCurrentLevel != LevelIds::eNone || gMap.mCurrentPath != 1 || gMap.mCurrentCamera != 10)
         {
             SND_SEQ_PlaySeq_4CA960(field_20_music_id, 0, 0);
         }

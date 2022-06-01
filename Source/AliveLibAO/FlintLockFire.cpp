@@ -62,7 +62,7 @@ void FlintLockFire::VStopAudio()
 
 FlintLockFire::~FlintLockFire()
 {
-    gMap.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_E8_tlvInfo, -1, 0, 0);
     field_F0_anim.VCleanUp();
 
     if (sFlintLockFireData_4BAC70[static_cast<s32>(gMap.mCurrentLevel)].field_24_bFire)

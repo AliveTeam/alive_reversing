@@ -89,7 +89,7 @@ public:
 
     LevelIds mCurrentLevel;
     s16 mCurrentPath;
-    s16 field_4_current_camera;
+    s16 mCurrentCamera;
 
     enum class CamChangeStates : s16
     {
@@ -102,7 +102,7 @@ public:
 
     LevelIds mLevel;
     s16 mPath;
-    s16 field_E_camera;
+    s16 mCamera;
     CameraSwapEffects field_10_screen_change_effect;
     u16 field_12_fmv_base_id;
 

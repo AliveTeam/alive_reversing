@@ -174,7 +174,7 @@ Dove::~Dove()
         gDovesArray_4FF938.Remove_Item(this);
         if (field_E8_tlvInfo)
         {
-            gMap.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
+            gMap.TLV_Reset(field_E8_tlvInfo, -1, 0, 0);
         }
     }
 

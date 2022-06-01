@@ -903,7 +903,7 @@ Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_10_anim.field_1C_fn_ptr_array = kAbe_Anim_Frame_Fns_4CEBEC;
 
     PSX_Point pPoint = {};
-    gMap.GetCurrentCamCoords_444890(&pPoint);
+    gMap.GetCurrentCamCoords(&pPoint);
     field_A8_xpos = FP_FromInteger(pPoint.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, 4));
     field_AC_ypos = FP_FromInteger(pPoint.field_2_y + 240);
     field_120_x_vel_slow_by = FP_FromInteger(0);
@@ -1137,7 +1137,7 @@ void Abe::VUpdate()
                 field_AC_ypos += field_B8_vely;
 
                 PSX_Point mapSize = {};
-                gMap.Get_map_size_444870(&mapSize);
+                gMap.Get_map_size(&mapSize);
 
                 if (field_A8_xpos < FP_FromInteger(0))
                 {
@@ -1487,7 +1487,7 @@ void Abe::ToDeathDropFall_42C3D0()
     field_FC_current_motion = eAbeMotions::Motion_59_DeathDropFall_42CBE0;
     field_114_gnFrame = 0;
     field_100_health = FP_FromInteger(0);
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 1, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 1, 0);
 }
 
 Bool32 Abe::IsStanding_41FC10()
@@ -1665,7 +1665,7 @@ void Abe::ToDieFinal_42C400()
     field_FC_current_motion = eAbeMotions::Motion_60_Dead_42C4C0;
     field_114_gnFrame = 0;
     field_100_health = FP_FromInteger(0);
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
 }
 
 void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
@@ -1679,7 +1679,7 @@ void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
 
         if (field_188_pOrbWhirlWind)
         {
-            field_188_pOrbWhirlWind->ToStop_48BBB0();
+            field_188_pOrbWhirlWind->ToStop();
             field_188_pOrbWhirlWind = nullptr;
         }
 
@@ -3021,7 +3021,7 @@ s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
 {
     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
 
-    pLiftPoint->Move_435740(FP_FromInteger(0), yVelocity, 0);
+    pLiftPoint->Move(FP_FromInteger(0), yVelocity, 0);
     FollowLift_42EE90();
 
     if (gBeeInstanceCount_5076B0 && gBeesNearAbe_5076AC)
@@ -3071,7 +3071,7 @@ s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
         return eAbeMotions::Motion_134_LiftGrabEnd_42EFE0;
     }
 
-    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     return eAbeMotions::Motion_135_LiftGrabIdle_42F000;
 }
 
@@ -3148,9 +3148,9 @@ void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
 
                 field_144_saved_level = gMap.mCurrentLevel;
                 field_142_saved_path = gMap.mCurrentPath;
-                field_140_saved_camera = gMap.field_4_current_camera;
+                field_140_saved_camera = gMap.mCurrentCamera;
 
-                if (gRestartRuptureFarmsSavedMuds_5076C8 == 0 && gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13 && gMap.mCurrentPath == 19 && gMap.field_4_current_camera == 3)
+                if (gRestartRuptureFarmsSavedMuds_5076C8 == 0 && gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13 && gMap.mCurrentPath == 19 && gMap.mCurrentCamera == 3)
                 {
                     gRestartRuptureFarmsKilledMuds_5076C4 = sKilledMudokons_5076BC;
                     gRestartRuptureFarmsSavedMuds_5076C8 = sRescuedMudokons_5076C0;
@@ -3309,7 +3309,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
     if (field_188_pOrbWhirlWind)
     {
-        field_188_pOrbWhirlWind->ToStop_48BBB0();
+        field_188_pOrbWhirlWind->ToStop();
         field_188_pOrbWhirlWind = nullptr;
     }
 
@@ -4370,7 +4370,7 @@ void Abe::Motion_2_StandingTurn_426040()
 
                     if (pSwitch)
                     {
-                        pSwitch->vPull_481640(field_A8_xpos < pSwitch->field_A8_xpos);
+                        pSwitch->VPull(field_A8_xpos < pSwitch->field_A8_xpos);
                     }
                 }
                 field_FE_next_motion = eAbeMotions::Motion_0_Idle_423520;
@@ -4848,7 +4848,7 @@ void Abe::Motion_17_HoistIdle_4269E0()
             {
                 if (pHoist->field_18_hoist_type == Path_Hoist::Type::eOffScreen)
                 {
-                    if (gMap.SetActiveCameraDelayed_444CA0(Map::MapDirections::eMapTop_2, this, -1))
+                    if (gMap.SetActiveCameraDelayed(Map::MapDirections::eMapTop_2, this, -1))
                     {
                         PSX_Prevent_Rendering_44FFB0();
                         field_FC_current_motion = eAbeMotions::Motion_67_ToOffScreenHoist_428C50;
@@ -5482,7 +5482,7 @@ void Abe::IntoPortalStates_4262A0()
                 CameraSwapEffects screenChangeEffect = {};
                 u16 movieId = 0;
                 field_1A0_portal->VGetMapChange(&level, &path, &camera, &screenChangeEffect, &movieId);
-                gMap.SetActiveCam_444660(level, path, camera, screenChangeEffect, movieId, FALSE);
+                gMap.SetActiveCam(level, path, camera, screenChangeEffect, movieId, FALSE);
                 field_19E_portal_sub_state = PortalSubStates::eSetNewAbePosition_4;
             }
             break;
@@ -6796,7 +6796,7 @@ void Abe::Motion_59_DeathDropFall_42CBE0()
             field_FC_current_motion = eAbeMotions::Motion_60_Dead_42C4C0;
             field_114_gnFrame = 0;
             field_100_health = FP_FromInteger(0);
-            MusicController::PlayMusic_443810(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
+            MusicController::static_PlayMusic(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
         }
     }
 }
@@ -6878,7 +6878,7 @@ void Abe::Motion_60_Dead_42C4C0()
                     }
                 }
                 field_114_gnFrame++;
-                MusicController::PlayMusic_443810(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
+                MusicController::static_PlayMusic(MusicController::MusicTypes::eDeathLong_14, this, 1, 0);
             }
             return;
         }
@@ -6961,7 +6961,7 @@ void Abe::Motion_60_Dead_42C4C0()
                 field_FC_current_motion = eAbeMotions::Motion_61_Respawn_42CD20;
                 field_118_timer = gnFrameCount_507670 + 2;
                 field_114_gnFrame = 0;
-                MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 1, 0);
+                MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 1, 0);
                 if (field_168_ring_pulse_timer && field_16C_bHaveShrykull)
                 {
                     Abe::Free_Shrykull_Resources_42F4C0();
@@ -7028,12 +7028,12 @@ void Abe::Motion_61_Respawn_42CD20()
                 }
                 if (field_140_saved_camera > 300u)
                 {
-                    field_140_saved_camera = gMap.field_4_current_camera;
+                    field_140_saved_camera = gMap.mCurrentCamera;
                     field_142_saved_path = gMap.mCurrentPath;
                     field_144_saved_level = gMap.mCurrentLevel;
 
                     PSX_Point camPos = {};
-                    gMap.GetCurrentCamCoords_444890(&camPos);
+                    gMap.GetCurrentCamCoords(&camPos);
                     field_138_zone_top_left.field_0_x = camPos.field_0_x + 512;
                     field_138_zone_top_left.field_2_y = camPos.field_2_y + 240;
                 }
@@ -7161,7 +7161,7 @@ void Abe::Motion_61_Respawn_42CD20()
             {
                 field_D0_pShadow->field_14_flags.Set(Shadow::Flags::eBit2_Enabled);
                 field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit1_ShadowAtBottom);
-                MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+                MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
                 field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 mFlags.Set(Options::eDrawable_Bit4);
@@ -7999,16 +7999,16 @@ void Abe::Motion_81_InsideWellExpress_431320()
     }
     if (field_190_level != gMap.mCurrentLevel
         || field_192_path != gMap.mCurrentPath
-        || field_194_camera != gMap.field_4_current_camera)
+        || field_194_camera != gMap.mCurrentCamera)
     {
         field_114_gnFrame = 1;
         if (pExpressWell->field_3A_movie_id)
         {
-            gMap.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::ePlay1FMV_5, pExpressWell->field_3A_movie_id, 0);
+            gMap.SetActiveCam(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::ePlay1FMV_5, pExpressWell->field_3A_movie_id, 0);
         }
         else
         {
-            gMap.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         field_FC_current_motion = eAbeMotions::Motion_82_WellExpressShotOut_4315A0;
     }
@@ -8026,7 +8026,7 @@ void Abe::Motion_81_InsideWellExpress_431320()
 void Abe::Motion_82_WellExpressShotOut_4315A0()
 {
     PSX_Point camCoords = {};
-    gMap.GetCurrentCamCoords_444890(&camCoords);
+    gMap.GetCurrentCamCoords(&camCoords);
     Path_WellBase* pWell = nullptr;
     Path_TLV* pTlvIter = nullptr;
     do
@@ -8275,8 +8275,8 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         field_158_pDeathFadeout = ao_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                         field_190_level = gMap.mCurrentLevel;
                         field_192_path = gMap.mCurrentPath;
-                        field_194_camera = gMap.field_4_current_camera;
-                        gMap.SetActiveCam_444660(
+                        field_194_camera = gMap.mCurrentCamera;
+                        gMap.SetActiveCam(
                             field_174_pathStone.dataHandstone.camera1.level,
                             field_174_pathStone.dataHandstone.camera1.path,
                             field_174_pathStone.dataHandstone.camera1.camera,
@@ -8395,7 +8395,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     field_110_state.stone = StoneStates::eWaitForInput_6;
                     field_16E_cameraIdx++;
                     field_158_pDeathFadeout = ao_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
-                    gMap.SetActiveCam_444660(camera.level, camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(camera.level, camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }
             break;
@@ -8405,7 +8405,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
             {
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_110_state.stone = StoneStates::eCircularFadeExit_13;
-                gMap.SetActiveCam_444660(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+                gMap.SetActiveCam(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
             }
             break;
         case StoneStates::eCircularFadeExit_13:
@@ -8930,7 +8930,7 @@ void Abe::Motion_132_LiftUseDown_42F170()
 void Abe::Motion_133_LiftGrabBegin_42EF20()
 {
     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
 
     field_B8_vely = FP_FromInteger(0);
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -8969,7 +8969,7 @@ void Abe::Motion_135_LiftGrabIdle_42F000()
     FollowLift_42EE90();
 
     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
 
     field_B8_vely = FP_FromInteger(0);
 
@@ -9053,7 +9053,7 @@ void Abe::Motion_136_ElumMountEnd_42E110()
             field_1A4_resources.res[58] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_112, 1, 0);
             field_FC_current_motion = eAbeMotions::Motion_103_ElumIdle_42DCD0;
             sControlledCharacter_50767C = gElum_507680;
-            MusicController::PlayMusic_443810(MusicController::MusicTypes::eAbeOnElum_1, nullptr, 0, 0);
+            MusicController::static_PlayMusic(MusicController::MusicTypes::eAbeOnElum_1, nullptr, 0, 0);
             sActiveHero_507678->field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
             Environment_SFX_42A220(EnvironmentSfx::eAbeMountedElumNoise_19, 0, 0x7FFF, this);
         }
@@ -9164,7 +9164,7 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
             }
         }
         sControlledCharacter_50767C = sActiveHero_507678;
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
         sActiveHero_507678->field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
         ToIdle_422D50();
     }
@@ -9201,7 +9201,7 @@ void Abe::Motion_141_BeesStrugglingOnLift_42F390()
 {
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
 
-    pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(12), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(12), 0);
     if (pLiftPoint)
     {
         field_B8_vely = pLiftPoint->field_B8_vely;
@@ -9472,7 +9472,7 @@ void Abe::Motion_150_Chant_42FD50()
                 field_FC_current_motion = eAbeMotions::Motion_151_ChantEnd_430530;
                 if (field_188_pOrbWhirlWind)
                 {
-                    field_188_pOrbWhirlWind->ToStop_48BBB0();
+                    field_188_pOrbWhirlWind->ToStop();
                     field_188_pOrbWhirlWind = nullptr;
                 }
                 return;
@@ -9507,7 +9507,7 @@ void Abe::Motion_150_Chant_42FD50()
                     field_114_gnFrame = gnFrameCount_507670 + 70;
                     if (field_188_pOrbWhirlWind)
                     {
-                        field_188_pOrbWhirlWind->ToStop_48BBB0();
+                        field_188_pOrbWhirlWind->ToStop();
                         field_188_pOrbWhirlWind = nullptr;
                     }
                 }
@@ -9527,7 +9527,7 @@ void Abe::Motion_150_Chant_42FD50()
                     field_18C_pObjToPossess->VGetBoundingRect(
                         &rect,
                         1);
-                    field_188_pOrbWhirlWind->ToSpin_48BAD0(
+                    field_188_pOrbWhirlWind->ToSpin(
                         FP_FromInteger((rect.w + rect.x) / 2),
                         FP_FromInteger((rect.h + rect.y) / 2),
                         pObjToPossess);
@@ -9568,7 +9568,7 @@ void Abe::Motion_150_Chant_42FD50()
             }
             if (field_188_pOrbWhirlWind)
             {
-                field_188_pOrbWhirlWind->ToStop_48BBB0();
+                field_188_pOrbWhirlWind->ToStop();
                 field_188_pOrbWhirlWind = nullptr;
             }
             break;
@@ -9773,7 +9773,7 @@ void Abe::Motion_156_DoorEnter_42D370()
             {
                 flag = 1;
             }
-            gMap.SetActiveCam_444660(
+            gMap.SetActiveCam(
                 pDoorTlv->field_18_level,
                 pDoorTlv->field_1A_path,
                 pDoorTlv->field_1C_camera,
@@ -9789,7 +9789,7 @@ void Abe::Motion_156_DoorEnter_42D370()
             field_B2_lvl_number = gMap.mCurrentLevel;
             field_B0_path_number = gMap.mCurrentPath;
             gMap.field_1E_door = 0;
-            auto pPathDoor = static_cast<Path_Door*>(gMap.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::Door_6, 0));
+            auto pPathDoor = static_cast<Path_Door*>(gMap.TLV_First_Of_Type_In_Camera(TlvTypes::Door_6, 0));
             field_F0_pTlv = pPathDoor;
 
             while (pPathDoor->field_20_door_number != field_196_door_id)

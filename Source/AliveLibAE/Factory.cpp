@@ -1407,7 +1407,7 @@ void Factory_Fleech_4D8C30(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Load
         gMap.LoadResource_4DBE00("FLEEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kFleeBlowResID_580, loadMode);
     }
     else if (
-        gMap.mCurrentLevel != LevelIds::eMudancheeVault_Ender_7 || gMap.mCurrentPath != 9 || gMap.field_4_current_camera != 4)
+        gMap.mCurrentLevel != LevelIds::eMudancheeVault_Ender_7 || gMap.mCurrentPath != 9 || gMap.mCurrentCamera != 4)
     {
         ae_new<Fleech>(static_cast<Path_Fleech*>(pTlv), tlvInfo.all);
     }

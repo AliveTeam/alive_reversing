@@ -9,7 +9,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x9F30A0, s32, gOrbWhirlWind_instace_count_9F30A0, 0);
 
-void OrbWhirlWind::ToSpin_48BAD0(FP xpos, FP ypos, BaseAliveGameObject* pObj)
+void OrbWhirlWind::ToSpin(FP xpos, FP ypos, BaseAliveGameObject* pObj)
 {
     for (s32 i = 0; i < field_16_particleIdx; i++)
     {
@@ -24,7 +24,7 @@ void OrbWhirlWind::ToSpin_48BAD0(FP xpos, FP ypos, BaseAliveGameObject* pObj)
     field_14_particles_state = ParticlesState::eActive;
 }
 
-void OrbWhirlWind::VRender_48BA90(PrimHeader** ppOt)
+void OrbWhirlWind::VRender(PrimHeader** ppOt)
 {
     for (s32 i = 0; i < field_16_particleIdx; i++)
     {
@@ -38,12 +38,7 @@ void OrbWhirlWind::VRender_48BA90(PrimHeader** ppOt)
     }
 }
 
-void OrbWhirlWind::VRender(PrimHeader** ppOt)
-{
-    VRender_48BA90(ppOt);
-}
-
-void OrbWhirlWind::VUpdate_48B990()
+void OrbWhirlWind::VUpdate()
 {
     if (field_14_particles_state == OrbWhirlWind::ParticlesState::eCreating)
     {
@@ -100,11 +95,6 @@ void OrbWhirlWind::VUpdate_48B990()
     }
 }
 
-void OrbWhirlWind::VUpdate()
-{
-    VUpdate_48B990();
-}
-
 OrbWhirlWind::~OrbWhirlWind()
 {
     gObjList_drawables_504618->Remove_Item(this);
@@ -142,7 +132,7 @@ OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale)
     gOrbWhirlWind_instace_count_9F30A0++;
 }
 
-void OrbWhirlWind::ToStop_48BBB0()
+void OrbWhirlWind::ToStop()
 {
     for (s32 i = 0; i < field_16_particleIdx; i++)
     {

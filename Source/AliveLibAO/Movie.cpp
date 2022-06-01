@@ -279,12 +279,6 @@ void Movie::VScreenChanged()
     // Empty
 }
 
-void Movie::VUpdate()
-{
-    VUpdate_489EA0();
-}
-
-
 static void Render_Str_Frame(Bitmap& tmpBmp)
 {
     // Copy into the emulated vram - when FMV ends the "screen" still have the last video frame "stick"
@@ -375,7 +369,7 @@ private:
 
 
 
-void Movie::VUpdate_489EA0()
+void Movie::VUpdate()
 {
     // AE_IMPLEMENTED();
 

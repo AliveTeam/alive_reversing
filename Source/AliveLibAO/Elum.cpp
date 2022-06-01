@@ -192,7 +192,7 @@ void Elum::VOn_TLV_Collision(Path_TLV* pTlv)
                 field_138_continue_rect.h = pContinueTlv->field_14_bottom_right.field_2_y;
 
                 field_148_continue_path = gMap.mCurrentPath;
-                field_14C_continue_camera = gMap.field_4_current_camera;
+                field_14C_continue_camera = gMap.mCurrentCamera;
                 field_14A_continue_level = gMap.mCurrentLevel;
                 field_150_continue_sprite_scale = field_BC_sprite_scale;
                 field_144_bRespawnOnDead = 1;
@@ -773,7 +773,7 @@ s16 Elum::ToNextMotionAbeControlled_411E40()
 void Elum::HandleElumPathTrans_411460()
 {
     PSX_Point camCoords = {};
-    gMap.GetCurrentCamCoords_444890(&camCoords);
+    gMap.GetCurrentCamCoords(&camCoords);
 
     if (sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1620,7 +1620,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
             field_170_flags.Set(Elum::Flags_170::eStungByBees_Bit2);
 
-            field_146_honey_ypos = gMap.field_4_current_camera;
+            field_146_honey_ypos = gMap.mCurrentCamera;
 
             field_122_bDontFollowAbe = 0;
 
@@ -3513,7 +3513,7 @@ void Elum::VUpdate()
             field_AC_ypos += field_B8_vely;
 
             PSX_Point map_size = {};
-            gMap.Get_map_size_444870(&map_size);
+            gMap.Get_map_size(&map_size);
 
             if (field_A8_xpos < FP_FromInteger(0))
             {

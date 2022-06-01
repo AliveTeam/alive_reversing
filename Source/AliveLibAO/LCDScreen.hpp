@@ -28,16 +28,9 @@ public:
     ~LCDScreen();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_434620();
-
     virtual void VUpdate() override;
-
-    void VUpdate_4341B0();
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    void VRender_434400(PrimHeader** ppOt);
 
     Prim_PrimClipper field_10_prim_clippers[2][2];
     FontContext field_50_font_context;

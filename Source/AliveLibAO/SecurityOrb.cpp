@@ -58,11 +58,11 @@ SecurityOrb::~SecurityOrb()
 
     if (field_100_health > FP_FromInteger(0))
     {
-        gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 1);
     }
 }
 

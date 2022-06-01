@@ -394,7 +394,7 @@ void Map::Handle_PathTransition_481610()
     {
         mLevel = pPathChangeTLV->field_10_level;
         mPath = pPathChangeTLV->field_12_path;
-        field_E_camera = pPathChangeTLV->field_14_camera;
+        mCamera = pPathChangeTLV->field_14_camera;
         field_12_fmv_base_id = pPathChangeTLV->field_16_movie;
 
         field_10_screen_change_effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->field_18_wipe];
@@ -471,7 +471,7 @@ void Map::Handle_PathTransition_481610()
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
-        field_E_camera = 1 * (pCameraName->name[7] - '0') + 10 * (pCameraName->name[6] - '0');
+        mCamera = 1 * (pCameraName->name[7] - '0') + 10 * (pCameraName->name[6] - '0');
 
         GoTo_Camera_481890();
     }
@@ -559,7 +559,7 @@ void Map::Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects sc
 
     mOverlayId = -1;
 
-    field_4_current_camera = static_cast<s16>(-1);
+    mCurrentCamera = static_cast<s16>(-1);
     mCurrentPath = static_cast<s16>(-1);
     mCurrentLevel = LevelIds::eNone;
 
@@ -778,7 +778,7 @@ void Map::GoTo_Camera_481890()
 
     mCurrentPath = mPath;
     mCurrentLevel = mLevel;
-    field_4_current_camera = field_E_camera;
+    mCurrentCamera = mCamera;
 
     const PathBlyRec* pPathRec_1 = Path_Get_Bly_Record_460F30(mLevel, mPath);
     field_D4_ptr = pPathRec_1->field_4_pPathData;
@@ -787,7 +787,7 @@ void Map::GoTo_Camera_481890()
         field_D4_ptr,
         mLevel,
         mPath,
-        field_E_camera,
+        mCamera,
         GetPathResourceBlockPtr(mPath));
 
     if (sQuickSave_saved_switchResetters_count_BB234C > 0)
@@ -796,7 +796,7 @@ void Map::GoTo_Camera_481890()
     }
 
     char_type pStrBuffer[13] = {};
-    Path_Format_CameraName_460FB0(pStrBuffer, mLevel, mPath, field_E_camera);
+    Path_Format_CameraName_460FB0(pStrBuffer, mLevel, mPath, mCamera);
 
     u32 pCamNameOffset = 0;
     if (sizeof(CameraName) * sPath_dword_BB47C0->field_6_cams_on_x * sPath_dword_BB47C0->field_8_cams_on_y > 0)
@@ -1127,12 +1127,12 @@ CameraPos Map::Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect)
 
 s16 Map::SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
-    if (!forceChange && cam == field_4_current_camera && level == mCurrentLevel && path == mCurrentPath)
+    if (!forceChange && cam == mCurrentCamera && level == mCurrentLevel && path == mCurrentPath)
     {
         return 0;
     }
 
-    field_E_camera = cam;
+    mCamera = cam;
     field_12_fmv_base_id = fmvBaseId;
     mPath = path;
     mLevel = level;
@@ -1369,7 +1369,7 @@ s16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObj
     {
         mLevel = pPathChangeTLV->field_10_level;
         mPath = pPathChangeTLV->field_12_path;
-        field_E_camera = pPathChangeTLV->field_14_camera;
+        mCamera = pPathChangeTLV->field_14_camera;
         if (swapEffect < 0)
         {
             // Map the TLV/editor value of screen change to the internal screen change

@@ -3508,7 +3508,7 @@ void Scrab::VPossessed()
     field_12C_timer = sGnFrame_5C1B84 + 35;
     field_166_level = gMap.mCurrentLevel;
     field_168_path = gMap.mCurrentPath;
-    field_16A_camera = gMap.field_4_current_camera;
+    field_16A_camera = gMap.mCurrentCamera;
 }
 
 u8** Scrab::ResBlockForMotion_4A43E0(s16 motion)

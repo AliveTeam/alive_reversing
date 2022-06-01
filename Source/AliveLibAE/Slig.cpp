@@ -611,7 +611,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
 
     vStackOnObjectsOfType_425840(AETypes::eSlig_125);
 
-    if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8 && gMap.mCurrentPath == 2 && gMap.field_4_current_camera == 5)
+    if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8 && gMap.mCurrentPath == 2 && gMap.mCurrentCamera == 5)
     {
         field_DA_xOffset = 0;
     }
@@ -5111,7 +5111,7 @@ void Slig::VPossessed()
 
     field_146_level = gMap.mCurrentLevel;
     field_148_path = gMap.mCurrentPath;
-    field_14A_camera = gMap.field_4_current_camera;
+    field_14A_camera = gMap.mCurrentCamera;
 
     MusicController::PlayMusic_47FD60(MusicController::MusicTypes::ePossessed_9, this, 1, 0);
 }

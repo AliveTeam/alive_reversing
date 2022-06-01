@@ -138,9 +138,9 @@ void SaveGame::LoadFromMemory_459970(SaveData* pData, s32 bKillObjects)
     sActiveHero_507678->field_FC_current_motion = eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0;
     sActiveHero_507678->field_114_gnFrame = 0;
 
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, sActiveHero_507678, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, sActiveHero_507678, 0, 0);
 
-    gMap.SetActiveCam_444660(
+    gMap.SetActiveCam(
         pData->field_234_current_level,
         pData->field_236_current_path,
         pData->field_238_current_camera,
@@ -363,7 +363,7 @@ void SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     pSaveData->field_258_bHaveShrykull = sActiveHero_507678->field_16C_bHaveShrykull;
     pSaveData->field_236_current_path = gMap.mCurrentPath;
     pSaveData->field_2A2_killed_mudokons = sKilledMudokons_5076BC;
-    pSaveData->field_238_current_camera = gMap.field_4_current_camera;
+    pSaveData->field_238_current_camera = gMap.mCurrentCamera;
     pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
     pSaveData->field_240_last_anim_frame = sActiveHero_507678->field_10_anim.field_92_current_frame;
     pSaveData->field_23E_current_motion = sActiveHero_507678->field_FC_current_motion;
@@ -433,7 +433,7 @@ void SaveGame::SaveToMemory_459490(SaveData* pSaveData)
     }
     pSaveData->field_2AC_bUseAltSaveHeader = bUseAltSaveHeader_5076B4;
     pSaveData->field_2AE_controller_idx = Input().CurrentController() == InputObject::PadIndex::First ? 0 : 1;
-    gMap.SaveBlyData_446900(pSaveData->field_2B0_pSaveBuffer);
+    gMap.SaveBlyData(pSaveData->field_2B0_pSaveBuffer);
 
     pSaveData->field_200_hashValue = Hash(pSaveData);
 }

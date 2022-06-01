@@ -125,7 +125,7 @@ s16 ShadowZone::ApplysToScale(s16 scale)
 
 ShadowZone::~ShadowZone()
 {
-    gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
     sShadowZone_dArray_507B08->Remove_Item(this);
 }
 

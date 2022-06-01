@@ -118,7 +118,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
     field_F2_alarm_switch_id = pTlv->field_26_alarm_switch_id;
 }
 
-void MotionDetector::SetDontComeBack_437E00(s16 bDontComeBack)
+void MotionDetector::SetDontComeBack(s16 bDontComeBack)
 {
     field_F6_bDontComeBack = bDontComeBack;
 }
@@ -127,11 +127,11 @@ MotionDetector::~MotionDetector()
 {
     if (field_F6_bDontComeBack)
     {
-        gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 1);
     }
 
     if (field_108_pLaser)
@@ -143,20 +143,10 @@ MotionDetector::~MotionDetector()
 
 void MotionDetector::VScreenChanged()
 {
-    VScreenChanged_438520();
-}
-
-void MotionDetector::VScreenChanged_438520()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
 void MotionDetector::VUpdate()
-{
-    VUpdate_437E90();
-}
-
-void MotionDetector::VUpdate_437E90()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -286,13 +276,7 @@ void MotionDetector::VUpdate_437E90()
     }
 }
 
-
 void MotionDetector::VRender(PrimHeader** ppOt)
-{
-    VRender_438250(ppOt);
-}
-
-void MotionDetector::VRender_438250(PrimHeader** ppOt)
 {
     field_A8_xpos += FP_FromInteger(11);
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);

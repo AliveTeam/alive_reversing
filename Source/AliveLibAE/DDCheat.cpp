@@ -131,7 +131,7 @@ void DDCheat::Menu_Teleport_415E20()
     {
         sTeleport_Level_550F5C = static_cast<s32>(gMap.mCurrentLevel);
         sTeleport_Path_550F5E = gMap.mCurrentPath;
-        sTeleport_Cam_550F60 = gMap.field_4_current_camera;
+        sTeleport_Cam_550F60 = gMap.mCurrentCamera;
     }
     else if (field_38_input_pressed & InputCommands::Enum::eUnPause_OrConfirm)
     {
@@ -324,7 +324,7 @@ void DDCheat::Update_415780()
                 "\n%sP%dC%d gnframe=%5d",
                 Path_Get_Lvl_Name(gMap.mCurrentLevel),
                 gMap.mCurrentPath,
-                gMap.field_4_current_camera,
+                gMap.mCurrentCamera,
                 sGnFrame_5C1B84);
 
 

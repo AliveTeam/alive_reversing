@@ -11,7 +11,7 @@ namespace AO {
 
 ZzzSpawner::~ZzzSpawner()
 {
-    gMap.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_1C_tlvInfo, -1, 0, 0);
 }
 
 ZzzSpawner::ZzzSpawner(Path_ZzzSpawner* pTlv, s32 tlvInfo)

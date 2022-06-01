@@ -140,11 +140,11 @@ MovingBomb::~MovingBomb()
 
     if (field_10C_state == States::eBlowingUp_6 || field_10C_state == States::eKillMovingBomb_7)
     {
-        gMap.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset(field_110_tlvInfo, -1, 0, 1);
     }
     else
     {
-        gMap.TLV_Reset_446870(field_110_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(field_110_tlvInfo, -1, 0, 0);
     }
 
     if (gMovingBomb_507B8C == this)
@@ -158,7 +158,7 @@ MovingBomb::~MovingBomb()
     }
 }
 
-void MovingBomb::VScreenChanged_43BC90()
+void MovingBomb::VScreenChanged()
 {
     if (field_12A_persist_offscreen == Choice_short::eNo_0 || gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
@@ -167,11 +167,6 @@ void MovingBomb::VScreenChanged_43BC90()
 }
 
 s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
-{
-    return VTakeDamage_43BB60(pFrom);
-}
-
-s16 MovingBomb::VTakeDamage_43BB60(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {
@@ -211,23 +206,13 @@ s16 MovingBomb::VTakeDamage_43BB60(BaseGameObject* pFrom)
 
 void MovingBomb::VRender(PrimHeader** ppOt)
 {
-    VRender_43B910(ppOt);
-}
-
-void MovingBomb::VRender_43B910(PrimHeader** ppOt)
-{
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 
-void MovingBomb::VOnThrowableHit(BaseGameObject* pFrom)
-{
-    VOnThrowableHit_43B930(pFrom);
-}
-
-void MovingBomb::VOnThrowableHit_43B930(BaseGameObject* /*pFrom*/)
+void MovingBomb::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     mFlags.Clear(Options::eCanExplode_Bit7);
     field_10C_state = States::eBlowingUp_6;
@@ -236,7 +221,7 @@ void MovingBomb::VOnThrowableHit_43B930(BaseGameObject* /*pFrom*/)
     SFX_Play_Mono(SoundEffect::GreenTick_3, 100, 0);
 }
 
-s16 MovingBomb::HitObject_43B970()
+s16 MovingBomb::HitObject()
 {
     PSX_RECT ourRect = {};
     VGetBoundingRect(&ourRect, 1);
@@ -268,7 +253,7 @@ s16 MovingBomb::HitObject_43B970()
     return 0;
 }
 
-void MovingBomb::FollowLine_43BA40()
+void MovingBomb::FollowLine()
 {
     if (field_F4_pLine)
     {
@@ -325,11 +310,6 @@ void MovingBomb::FollowLine_43BA40()
 
 void MovingBomb::VUpdate()
 {
-    VUpdate_43B440();
-}
-
-void MovingBomb::VUpdate_43B440()
-{
     if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(Options::eDead);
@@ -337,7 +317,7 @@ void MovingBomb::VUpdate_43B440()
 
     if (field_10C_state == States::eTriggeredByAlarm_0 || field_10C_state == States::eTriggeredBySwitch_1 || field_10C_state == States::eMoving_2 || field_10C_state == States::eStopMoving_3 || field_10C_state == States::eWaitABit_4 || field_10C_state == States::eToMoving_5)
     {
-        if (HitObject_43B970())
+        if (HitObject())
         {
             mFlags.Clear(Options::eCanExplode_Bit7);
             field_10C_state = States::eBlowingUp_6;
@@ -413,7 +393,7 @@ void MovingBomb::VUpdate_43B440()
                 field_B4_velx += (field_BC_sprite_scale * FP_FromDouble(0.5));
             }
 
-            FollowLine_43BA40();
+            FollowLine();
 
             field_F0_pTlv = gMap.TLV_Get_At_446260(
                 FP_GetExponent(field_A8_xpos),
@@ -439,7 +419,7 @@ void MovingBomb::VUpdate_43B440()
                 field_114_timer = gnFrameCount_507670 + Math_RandomRange_450F20(field_11E_max, field_120_min);
             }
 
-            FollowLine_43BA40();
+            FollowLine();
             break;
 
         case States::eWaitABit_4:
@@ -455,7 +435,7 @@ void MovingBomb::VUpdate_43B440()
                 field_B4_velx += (field_BC_sprite_scale * FP_FromDouble(0.5));
             }
 
-            FollowLine_43BA40();
+            FollowLine();
 
             field_F0_pTlv = gMap.TLV_Get_At_446260(
                 FP_GetExponent(field_A8_xpos),
@@ -505,11 +485,6 @@ void MovingBomb::VUpdate_43B440()
         default:
             break;
     }
-}
-
-void MovingBomb::VScreenChanged()
-{
-    VScreenChanged_43BC90();
 }
 
 } // namespace AO

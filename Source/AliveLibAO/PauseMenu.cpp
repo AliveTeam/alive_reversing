@@ -510,7 +510,7 @@ void PauseMenu::VUpdate_44DFB0()
                             mFlags.Set(BaseGameObject::eDead);
                         }
                         pPauseMenu_5080E0 = 0;
-                        gMap.SetActiveCam_444660(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
+                        gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
                         gMap.field_DC_free_all_anim_and_palts = 1;
                         Input().SetCurrentController(InputObject::PadIndex::First);
                     }
@@ -727,7 +727,7 @@ void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
                 cameraNameBuffer,
                 gMap.mCurrentLevel,
                 gMap.mCurrentPath,
-                gMap.field_4_current_camera);
+                gMap.mCurrentCamera);
             cameraNameBuffer[8] = 0;
             if (strlen(cameraNameBuffer) != 0)
             {

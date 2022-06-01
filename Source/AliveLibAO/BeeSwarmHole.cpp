@@ -35,10 +35,10 @@ BeeSwarmHole::BeeSwarmHole(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
 
 void BeeSwarmHole::VUpdate()
 {
-    if (gMap.Rect_Location_Relative_To_Active_Camera_4448C0(&field_14_rect, 0) != CameraPos::eCamCurrent_0)
+    if (gMap.Rect_Location_Relative_To_Active_Camera(&field_14_rect, 0) != CameraPos::eCamCurrent_0)
     {
         mFlags.Set(BaseGameObject::eDead);
-        gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
     }
 
     if (static_cast<s32>(gnFrameCount_507670) < field_1C_interval_timer)

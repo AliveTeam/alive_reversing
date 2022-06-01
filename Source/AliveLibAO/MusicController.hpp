@@ -14,12 +14,9 @@ enum class LevelIds : s16;
 class MusicController final : public BaseGameObject
 {
 public:
-    static s16 Create_4436C0();
-
+    static s16 Create();
     static void SetBaseTimeStamp();
-
     static void UpdateMusicTime();
-
     static s32 GetMusicTime();
 
     enum class MusicTypes : s16
@@ -48,34 +45,22 @@ public:
     ~MusicController();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_443450();
-
     virtual void VUpdate() override;
 
-    void VUpdate_443300();
-
-    static void PlayMusic_443810(MusicTypes a1, BaseGameObject* a2, s16 a3, s16 a4);
-    
+    static void static_PlayMusic(MusicTypes a1, BaseGameObject* a2, s16 a3, s16 a4);
     static void ClearObject(BaseGameObject* pObj);
+    static MusicTypes GetAbmientAndMusicInfo(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration);
 
-    static MusicTypes GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration);
+    void UpdateVolumeState();
 
-    void UpdateVolumeState_442A10();
+    static void Shutdown();
+    static void EnableMusic(s16 bEnable);
+    static s32 OnRootCounter();
 
-    static void Shutdown_4437E0();
-
-    static void EnableMusic_443900(s16 bEnable);
-
-    static s32 OnRootCounter_4437D0();
-
-    void PlayMusic_443460(MusicTypes a2, BaseGameObject* a3, s16 a4, s16 a5);
+    void PlayMusic(MusicTypes a2, BaseGameObject* a3, s16 a4, s16 a5);
     void DoClearObject(BaseGameObject* pObj);
-
-    void UpdateMusic_442C20();
-
-    void UpdateAmbiance_442AC0();
-
+    void UpdateMusic();
+    void UpdateAmbiance();
     s16 SetMusicVolumeDelayed(s16 vol, s16 delay);
 
     s16 field_10_bEnableMusic;

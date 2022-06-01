@@ -115,11 +115,11 @@ Mine::~Mine()
 {
     if (field_10C_detonating == 1)
     {
-        gMap.TLV_Reset_446870(field_110_tlv, -1, 0, 1);
+        gMap.TLV_Reset(field_110_tlv, -1, 0, 1);
     }
     else
     {
-        gMap.TLV_Reset_446870(field_110_tlv, -1, 0, 0);
+        gMap.TLV_Reset(field_110_tlv, -1, 0, 0);
     }
 
     field_118_animation.VCleanUp();
@@ -156,11 +156,6 @@ Mine::~Mine()
 
 void Mine::VScreenChanged()
 {
-    VScreenChanged_43AC10();
-}
-
-void Mine::VScreenChanged_43AC10()
-{
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !(field_1B0_flags & 2))
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -168,11 +163,6 @@ void Mine::VScreenChanged_43AC10()
 }
 
 s16 Mine::VTakeDamage(BaseGameObject* pFrom)
-{
-    return VTakeDamage_43AC40(pFrom);
-}
-
-s16 Mine::VTakeDamage_43AC40(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {
@@ -202,12 +192,7 @@ s16 Mine::VTakeDamage_43AC40(BaseGameObject* pFrom)
     }
 }
 
-void Mine::VOnThrowableHit(BaseGameObject* pFrom)
-{
-    VOnThrowableHit_43AB90(pFrom);
-}
-
-void Mine::VOnThrowableHit_43AB90(BaseGameObject* /*pFrom*/)
+void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     ao_new<BaseBomb>(
         field_A8_xpos,
@@ -219,11 +204,6 @@ void Mine::VOnThrowableHit_43AB90(BaseGameObject* /*pFrom*/)
 
 void Mine::VOnPickUpOrSlapped()
 {
-    VOnPickUpOrSlapped_43AA30();
-}
-
-void Mine::VOnPickUpOrSlapped_43AA30()
-{
     if (field_10C_detonating != 1)
     {
         field_10C_detonating = 1;
@@ -232,11 +212,6 @@ void Mine::VOnPickUpOrSlapped_43AA30()
 }
 
 void Mine::VRender(PrimHeader** ppOt)
-{
-    VRender_43A970(ppOt);
-}
-
-void Mine::VRender_43A970(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
@@ -256,11 +231,6 @@ void Mine::VRender_43A970(PrimHeader** ppOt)
 }
 
 void Mine::VUpdate()
-{
-    vUpdate_43A7F0();
-}
-
-void Mine::vUpdate_43A7F0()
 {
     const s16 bInCamera = gMap.Is_Point_In_Current_Camera_4449C0(
         field_B2_lvl_number,
@@ -295,7 +265,7 @@ void Mine::vUpdate_43A7F0()
             }
         }
 
-        if (IsColliding_43AA60())
+        if (IsColliding())
         {
             field_10C_detonating = 1;
             field_114_gnframe = gnFrameCount_507670;
@@ -312,7 +282,7 @@ void Mine::vUpdate_43A7F0()
     }
 }
 
-s16 Mine::IsColliding_43AA60()
+s16 Mine::IsColliding()
 {
     PSX_RECT bRect = {};
     VGetBoundingRect(&bRect, 1);

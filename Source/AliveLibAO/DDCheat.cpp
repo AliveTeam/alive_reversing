@@ -200,7 +200,7 @@ void DDCheat::VUpdate()
             if (pAbe)
             {
                 PSX_Point point = {};
-                gMap.GetCurrentCamCoords_444890(&point);
+                gMap.GetCurrentCamCoords(&point);
                 pAbe = sActiveHero_507678;
                 cheat_enabled = 1;
                 pAbe->field_A8_xpos = FP_FromInteger(point.field_0_x + 448);
@@ -296,7 +296,7 @@ void DDCheat::VUpdate()
                     "\n%sP%dC%d %6d",
                     Path_Get_Lvl_Name(gMap.mCurrentLevel),
                     gMap.mCurrentPath,
-                    gMap.field_4_current_camera,
+                    gMap.mCurrentCamera,
                     gnFrameCount_507670);
                 DebugStr(
                     " mem used %5d mem peak %5d",
@@ -449,7 +449,7 @@ void DDCheat::Teleport()
     {
         path_4C3160 = gMap.mCurrentPath;
         level_4C315C = static_cast<u32>(gMap.mCurrentLevel);
-        camera_4C3164 = gMap.field_4_current_camera;
+        camera_4C3164 = gMap.mCurrentCamera;
     }
     else if (input & InputCommands::eDoAction)
     {
@@ -461,7 +461,7 @@ void DDCheat::Teleport()
                 if (camera_4C3164 <= 21)
                 {
                     sDDCheat_FlyingEnabled_50771C = 1;
-                    gMap.SetActiveCam_444660(
+                    gMap.SetActiveCam(
                         static_cast<LevelIds>(level_4C315C),
                         path_4C3160,
                         camera_4C3164,

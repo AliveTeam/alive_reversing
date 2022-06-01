@@ -109,11 +109,11 @@ SecurityClaw::~SecurityClaw()
 {
     if (field_12C_pDetector)
     {
-        gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 1);
     }
 
     if (field_130_pClaw)
@@ -128,7 +128,7 @@ SecurityClaw::~SecurityClaw()
         {
             auto pObjIter = field_13C_pArray->ItemAt(i);
 
-            pObjIter->SetDontComeBack_437E00(field_12C_pDetector);
+            pObjIter->SetDontComeBack(field_12C_pDetector);
             pObjIter->field_C_refCount--;
             pObjIter->mFlags.Set(Options::eDead);
         }

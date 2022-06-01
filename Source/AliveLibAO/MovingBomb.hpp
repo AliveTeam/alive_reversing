@@ -34,28 +34,13 @@ public:
     ~MovingBomb();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_43BC90();
-
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    s16 VTakeDamage_43BB60(BaseGameObject* pFrom);
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_43B910(PrimHeader** ppOt);
-
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-
-    void VOnThrowableHit_43B930(BaseGameObject* pFrom);
-
-    s16 HitObject_43B970();
-
-    void FollowLine_43BA40();
-
     virtual void VUpdate() override;
 
-    void VUpdate_43B440();
+    s16 HitObject();
+    void FollowLine();
 
     enum class States : s16
     {

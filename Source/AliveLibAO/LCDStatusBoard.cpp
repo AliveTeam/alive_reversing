@@ -44,25 +44,15 @@ const u8 sStatsSignFontPalette_4CD570[32] = {
     24u,
     216u};
 
-void LCDStatusBoard::VUpdate()
-{
-    VUpdate_441A90();
-}
-
-void LCDStatusBoard::VScreenChanged_441C70()
-{
-    mFlags.Set(BaseGameObject::eDead);
-}
-
 void LCDStatusBoard::VScreenChanged()
 {
-    VScreenChanged_441C70();
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 LCDStatusBoard::~LCDStatusBoard()
 {
     gObjList_drawables_504618->Remove_Item(this);
-    gMap.TLV_Reset_446870(field_C8_tlv, -1, 0, 0);
+    gMap.TLV_Reset(field_C8_tlv, -1, 0, 0);
     field_90_font3.dtor_41C130();
     field_58_font2.dtor_41C130();
     field_20_font1.dtor_41C130();
@@ -85,7 +75,7 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
     field_CE_ypos = (pScreenManager_4FF7C8->field_16_ypos + pTlv->field_10_top_left.field_2_y) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
 }
 
-void LCDStatusBoard::VUpdate_441A90()
+void LCDStatusBoard::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -94,11 +84,6 @@ void LCDStatusBoard::VUpdate_441A90()
 }
 
 void LCDStatusBoard::VRender(PrimHeader** ppOt)
-{
-    VRender_441AB0(ppOt);
-}
-
-void LCDStatusBoard::VRender_441AB0(PrimHeader** ppOt)
 {
     char_type text[12] = {};
     sprintf(text, "%02d", Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath) - sRescuedMudokons_5076C0 - sKilledMudokons_5076BC);

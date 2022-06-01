@@ -20,8 +20,6 @@ public:
 
     virtual void VScreenChanged() override;
 
-    void VScreenChanged_432F00();
-
     s32 field_10_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(OneShotSwitchIdSetter, 0x14);

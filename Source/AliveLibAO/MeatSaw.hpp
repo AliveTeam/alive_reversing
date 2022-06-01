@@ -49,18 +49,10 @@ public:
     ~MeatSaw();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_43A060();
-
     virtual void VUpdate() override;
-
-    void VUpdate_4399D0();
-
-    void GrindUpObjects_439CD0();
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    void VRender_439F50(PrimHeader** ppOt);
+    void GrindUpObjects_439CD0();
 
     s32 field_D4_padding[4];
     MeatSawStates field_E4_state;

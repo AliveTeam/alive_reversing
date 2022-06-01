@@ -171,7 +171,7 @@ void ZBall::VUpdate()
         mFlags.Set(Options::eDead);
         if (field_E4_tlvInfo != -1)
         {
-            gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+            gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
         }
     }
 }

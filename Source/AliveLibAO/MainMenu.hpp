@@ -21,14 +21,7 @@ public:
     MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestroyOnDone);
 
     virtual void VUpdate() override;
-
-    void VUpdate_42A730();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_42A7A0(PrimHeader** ppOt);
-
-    
 
     s32 field_D4[4];
     s16 field_E4;

@@ -17,7 +17,7 @@ void SwitchStateBooleanLogic::VScreenChanged()
 
 SwitchStateBooleanLogic::~SwitchStateBooleanLogic()
 {
-    gMap.TLV_Reset_446870(field_18_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_18_tlvInfo, -1, 0, 0);
 }
 
 SwitchStateBooleanLogic::SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo)

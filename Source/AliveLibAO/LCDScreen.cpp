@@ -278,28 +278,17 @@ LCDScreen::~LCDScreen()
     IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
 
     gObjList_drawables_504618->Remove_Item(this);
-    gMap.TLV_Reset_446870(field_2B8_tlv_item_info, -1, 0, 0);
+    gMap.TLV_Reset(field_2B8_tlv_item_info, -1, 0, 0);
     field_60_font.dtor_41C130();
     field_50_font_context.dtor_41C110();
 }
 
 void LCDScreen::VScreenChanged()
 {
-    VScreenChanged_434620();
-}
-
-void LCDScreen::VScreenChanged_434620()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
-
 void LCDScreen::VUpdate()
-{
-    VUpdate_4341B0();
-}
-
-void LCDScreen::VUpdate_4341B0()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -384,11 +373,6 @@ void LCDScreen::VUpdate_4341B0()
 }
 
 void LCDScreen::VRender(PrimHeader** ppOt)
-{
-    VRender_434400(ppOt);
-}
-
-void LCDScreen::VRender_434400(PrimHeader** ppOt)
 {
     if (sNumCamSwappers_507668 == 0)
     {

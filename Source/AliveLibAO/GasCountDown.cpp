@@ -75,7 +75,7 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
 GasCountDown::~GasCountDown()
 {
     gObjList_drawables_504618->Remove_Item(this);
-    gMap.TLV_Reset_446870(field_58_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_58_tlvInfo, -1, 0, 0);
     field_20_font.dtor_41C130();
     field_10_font_context.dtor_41C110();
 }

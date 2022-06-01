@@ -139,7 +139,7 @@ BirdPortal::~BirdPortal()
         field_68_sfx_ret = 0;
     }
 
-    gMap.TLV_Reset_446870(field_2C_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_2C_tlvInfo, -1, 0, 0);
     if (field_14_state >= PortalStates::PortalExit_SetPosition_17)
     {
         if (sActiveHero_507678)
@@ -550,7 +550,7 @@ void BirdPortal::VUpdate()
                     field_58_received_doves++;
                     if (field_58_received_doves == 6)
                     {
-                        field_60_pOrbWhirlWind->ToSpin_48BAD0(
+                        field_60_pOrbWhirlWind->ToSpin(
                             sActiveHero_507678->field_A8_xpos,
                             sActiveHero_507678->field_AC_ypos - (sActiveHero_507678->field_BC_sprite_scale * FP_FromInteger(38)),
                             sActiveHero_507678);
@@ -902,7 +902,7 @@ void BirdPortal::VExitPortal()
     field_66_path = gMap.mCurrentPath;
     field_64_level = gMap.mCurrentLevel;
 
-    auto pPortalExitTlv = static_cast<Path_BirdPortalExit*>(gMap.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::BirdPortalExit_53, 0));
+    auto pPortalExitTlv = static_cast<Path_BirdPortalExit*>(gMap.TLV_First_Of_Type_In_Camera(TlvTypes::BirdPortalExit_53, 0));
 
     if (pPortalExitTlv)
     {

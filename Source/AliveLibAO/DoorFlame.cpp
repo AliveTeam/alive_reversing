@@ -180,7 +180,7 @@ public:
     virtual void VUpdate() override
     {
         PSX_RECT rect = {};
-        gMap.Get_Camera_World_Rect_444C30(CameraPos::eCamCurrent_0, &rect);
+        gMap.Get_Camera_World_Rect(CameraPos::eCamCurrent_0, &rect);
         field_A8_xpos = FP_FromInteger(rect.w + 16);
         field_AC_ypos = FP_FromInteger(rect.y - 16);
         if (field_E4_bRender)
@@ -319,7 +319,7 @@ DoorFlame::~DoorFlame()
 
     VStopAudio();
 
-    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
 DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)

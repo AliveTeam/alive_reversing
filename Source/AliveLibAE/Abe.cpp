@@ -6521,7 +6521,7 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
     field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
     field_F8_LastLineYPos = field_BC_ypos;
 
-    if (field_19A_to_level != gMap.mCurrentLevel || field_19C_to_path != gMap.mCurrentPath || field_19E_to_camera != gMap.field_4_current_camera)
+    if (field_19A_to_level != gMap.mCurrentLevel || field_19C_to_path != gMap.mCurrentPath || field_19E_to_camera != gMap.mCurrentCamera)
     {
         field_124_timer = 1;
 
@@ -6785,7 +6785,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                         field_148_fade_obj_id = pFade33->field_8_object_id;
                     }
 
-                    field_19E_to_camera = gMap.field_4_current_camera;
+                    field_19E_to_camera = gMap.mCurrentCamera;
                     gMap.SetActiveCam_480D30(field_C2_lvl_number, field_C0_path_number, field_186_to_camera_id[0], CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }
@@ -7745,14 +7745,14 @@ void Abe::Motion_114_DoorEnter_459470()
             bool hackChange = false;
             if (gMap.mCurrentLevel == LevelIds::eMudomoVault_Ender_11)
             {
-                if (gMap.mCurrentPath == 13 && gMap.field_4_current_camera == 14 && field_1AC_flags.Get(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender))
+                if (gMap.mCurrentPath == 13 && gMap.mCurrentCamera == 14 && field_1AC_flags.Get(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender))
                 {
                     hackChange = true;
                 }
             }
             else if (gMap.mCurrentLevel == LevelIds::eMudancheeVault_Ender_7)
             {
-                if (gMap.mCurrentPath == 11 && gMap.field_4_current_camera == 2 && field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender))
+                if (gMap.mCurrentPath == 11 && gMap.mCurrentCamera == 2 && field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender))
                 {
                     hackChange = true;
                 }

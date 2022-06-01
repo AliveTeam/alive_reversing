@@ -506,7 +506,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
     field_F4_resources.field_0_resources[MenuResIds::eUnknown] = nullptr;
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
 
-    if (gMap.field_4_current_camera == MainMenuCams::eCheatMenu_SelectFMVCam)
+    if (gMap.mCurrentCamera == MainMenuCams::eCheatMenu_SelectFMVCam)
     {
         field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = nullptr;
         field_F4_resources.field_0_resources[MenuResIds::eMenuDoor] = nullptr;
@@ -544,7 +544,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
     field_200_highlite_glow_speed = -8;
     field_1F0_tlvOffsetLevelIdPathId = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
 
-    field_214_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(gMap.field_4_current_camera));
+    field_214_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(gMap.mCurrentCamera));
     field_21C_camSwapEffectState = camTransEffectState::eConstructed_1;
     field_21E_changeScreenState = 0;
     field_1F8_page_timeout = 0;
@@ -563,7 +563,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
     field_23C_T80.Clear(Flags::eBit23_unused);
     field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
 
-    if (gMap.field_4_current_camera == MainMenuCams::eMainMenuCam)
+    if (gMap.mCurrentCamera == MainMenuCams::eMainMenuCam)
     {
         MainMenuController::Set_Anim_4D05E0(eAbe_EnterThroughDoor, 0);
         field_23C_T80.Set(Flags::eBit17_bDisableChangingSelection);
@@ -601,7 +601,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
     sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
     sFeecoRestart_SavedMudCount_5C1BC8 = 0;
 
-    if (gMap.field_4_current_camera == MainMenuCams::eCheatMenu_SelectFMVCam)
+    if (gMap.mCurrentCamera == MainMenuCams::eCheatMenu_SelectFMVCam)
     {
         field_1FC_button_index = 0;
         field_250_selected_entry_index = 0;
@@ -616,7 +616,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
         return;
     }
 
-    if (gMap.field_4_current_camera == MainMenuCams::eDemoSelectionCam)
+    if (gMap.mCurrentCamera == MainMenuCams::eDemoSelectionCam)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbespeakResID, 0, 0))
@@ -2945,11 +2945,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
 // Todo: needs cleanup
 void MainMenuController::HandleMainMenuUpdate()
 {
-    if (gMap.field_4_current_camera == MainMenuCams::eRemapInputsCam || gMap.field_4_current_camera == MainMenuCams::eDummyBlankCam || gMap.field_4_current_camera == MainMenuCams::eLoadGameMenuCam)
+    if (gMap.mCurrentCamera == MainMenuCams::eRemapInputsCam || gMap.mCurrentCamera == MainMenuCams::eDummyBlankCam || gMap.mCurrentCamera == MainMenuCams::eLoadGameMenuCam)
     {
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
-    else if (gMap.field_4_current_camera == MainMenuCams::eBackstory_Or_NewGameCam || gMap.field_4_current_camera == MainMenuCams::eGameIsLoading_ShaddapCam)
+    else if (gMap.mCurrentCamera == MainMenuCams::eBackstory_Or_NewGameCam || gMap.mCurrentCamera == MainMenuCams::eGameIsLoading_ShaddapCam)
     {
         MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
@@ -3064,7 +3064,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
         const MainMenuNextCam pageUpdateReturnedCam = (this->*(pPage->field_10_fn_update))(inputHeld);
 
-        if (pageUpdateReturnedCam.page_update_camera == MainMenuCams::eNoChange || pageUpdateReturnedCam.page_update_camera == gMap.field_4_current_camera)
+        if (pageUpdateReturnedCam.page_update_camera == MainMenuCams::eNoChange || pageUpdateReturnedCam.page_update_camera == gMap.mCurrentCamera)
         {
             // stay on the same screen
             return;

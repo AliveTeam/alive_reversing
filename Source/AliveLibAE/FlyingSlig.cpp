@@ -2643,7 +2643,7 @@ void FlyingSlig::VPossessed()
 
     field_2A0_abe_level = gMap.mCurrentLevel;
     field_2A2_abe_path = gMap.mCurrentPath;
-    field_2A4_abe_camera = gMap.field_4_current_camera;
+    field_2A4_abe_camera = gMap.mCurrentCamera;
 
     field_2A8_max_x_speed = FP_FromDouble(5.5) * field_CC_sprite_scale;
     field_2AC_up_vel = FP_FromDouble(-5.5) * field_CC_sprite_scale;

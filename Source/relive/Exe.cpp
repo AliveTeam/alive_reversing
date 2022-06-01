@@ -90,7 +90,7 @@ extern "C"
         &gameType,
         &gMap.mCurrentLevel,
         &gMap.mCurrentPath,
-        &gMap.field_4_current_camera,
+        &gMap.mCurrentCamera,
         &gMap.field_12_fmv_base_id,
         &sGnFrame_5C1B84,
         &spAbe_554D5C,
@@ -108,7 +108,7 @@ extern "C"
         &gameType,
         &AO::gMap.mCurrentLevel,
         &AO::gMap.mCurrentPath,
-        &AO::gMap.field_4_current_camera,
+        &AO::gMap.mCurrentCamera,
         &AO::gnFrameCount_507670,
         &AO::sActiveHero_507678,
         offsetof(AO::Abe, field_AC_ypos) + sizeof(s16), // +2 for exp only

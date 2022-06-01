@@ -334,7 +334,7 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
     ResourceManager::Init_454DA0();
     SND_Init_476E40();
     SND_Init_Ambiance();
-    MusicController::Create_4436C0();
+    MusicController::Create();
 
     Init_GameStates(); // Note: inlined
 
@@ -481,7 +481,7 @@ void Game_Loop_437630()
             }
         }
 
-        gMap.ScreenChange_4444D0();
+        gMap.ScreenChange();
         Input().Update(GetGameAutoPlayer());
 
         if (sNumCamSwappers_507668 == 0)
@@ -554,10 +554,10 @@ void Game_Run_4373D0()
 
 #if DEVELOPER_MODE
     // Boot directly to the "abe hello" screen
-    gMap.Init_443EE0(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
+    gMap.Init(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
 #else
     // Normal copy right screen boot
-    gMap.Init_443EE0(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eInstantChange_0, 0, 0);
+    gMap.Init(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eInstantChange_0, 0, 0);
 #endif
 
     DDCheat_Allocate_409560();
@@ -572,7 +572,7 @@ void Game_Run_4373D0()
 
     DDCheat::ClearProperties();
 
-    gMap.Shutdown_443F90();
+    gMap.Shutdown();
 
     if (gObjList_animations_505564)
     {
@@ -592,7 +592,7 @@ void Game_Run_4373D0()
         ao_delete_free_447540(gBaseGameObjects);
     }
 
-    MusicController::Shutdown_4437E0();
+    MusicController::Shutdown();
     SND_Reset_Ambiance();
     SND_Shutdown_476EC0();
     PSX_CdControlB_49BB40(8, 0, 0);

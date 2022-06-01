@@ -95,11 +95,11 @@ RollingBallStopper::~RollingBallStopper()
 {
     if (field_112_state != States::eWaitForTrigger_0)
     {
-        gMap.TLV_Reset_446870(field_10C_tlvInfo, 1, 0, 0);
+        gMap.TLV_Reset(field_10C_tlvInfo, 1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset_446870(field_10C_tlvInfo, 0, 0, 0);
+        gMap.TLV_Reset(field_10C_tlvInfo, 0, 0, 0);
     }
 
     if (field_118_pLine)

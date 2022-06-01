@@ -46,7 +46,7 @@ FootSwitch::~FootSwitch()
         field_F0_pStoodOnMe->field_C_refCount--;
         field_F0_pStoodOnMe = nullptr;
     }
-    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
 void FootSwitch::VUpdate()

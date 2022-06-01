@@ -256,7 +256,7 @@ void EvilFart::VPossessed()
 
     field_120_level = gMap.mCurrentLevel;
     field_11E_path = gMap.mCurrentPath;
-    field_122_camera = gMap.field_4_current_camera;
+    field_122_camera = gMap.mCurrentCamera;
 
     sControlledCharacter_5C1B8C = this;
 

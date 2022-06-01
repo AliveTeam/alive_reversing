@@ -937,17 +937,17 @@ s16 SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
     }
 
     // Find the VH file record
-    LvlFileRecord* pVabHeaderFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_0_vab_header_name);
+    LvlFileRecord* pVabHeaderFile = sLvlArchive_4FFD60.Find_File_Record(pSoundBlockInfo->field_0_vab_header_name);
 
     s32 headerSize = pVabHeaderFile->field_10_num_sectors << 11;
 
     u8** ppVabHeader = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_VabHeader, vabId, headerSize);
 
     pSoundBlockInfo->field_C_pVabHeader = *ppVabHeader;
-    sLvlArchive_4FFD60.Read_File_41BE40(pVabHeaderFile, *ppVabHeader);
+    sLvlArchive_4FFD60.Read_File(pVabHeaderFile, *ppVabHeader);
 
     // Find the VB file record
-    LvlFileRecord* pVabBodyFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_4_vab_body_name);
+    LvlFileRecord* pVabBodyFile = sLvlArchive_4FFD60.Find_File_Record(pSoundBlockInfo->field_4_vab_body_name);
     if (!pVabBodyFile)
     {
         // For some reason its acceptable to assume we have a VH with no VB, but the VH must always exist, this happens for MONK.VB
@@ -978,7 +978,7 @@ s16 SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
         }
     }
 
-    sLvlArchive_4FFD60.Read_File_41BE40(pVabBodyFile, *ppVabBody);
+    sLvlArchive_4FFD60.Read_File(pVabBodyFile, *ppVabBody);
     pSoundBlockInfo->field_8_vab_id = SsVabOpenHead_49CFB0(reinterpret_cast<VabHeader*>(pSoundBlockInfo->field_C_pVabHeader));
     SsVabTransBody_49D3E0(reinterpret_cast<VabBodyRecord*>(*ppVabBody), static_cast<s16>(pSoundBlockInfo->field_8_vab_id));
     SsVabTransCompleted_4FE060(SS_WAIT_COMPLETED);
@@ -1119,7 +1119,7 @@ void SND_Init_476E40()
 
 void SND_StopAll_4762D0()
 {
-    MusicController::EnableMusic_443900(0);
+    MusicController::EnableMusic(0);
 
     if (sBackgroundMusic_seq_id_4CFFF8 >= 0)
     {

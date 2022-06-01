@@ -80,7 +80,7 @@ PSX_RECT* TrapDoor::VGetBoundingRect(PSX_RECT* pRect, s32 /*pointIdx*/)
 
 TrapDoor::~TrapDoor()
 {
-    gMap.TLV_Reset_446870(field_128_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_128_tlvInfo, -1, 0, 0);
 }
 
 void TrapDoor::Open()

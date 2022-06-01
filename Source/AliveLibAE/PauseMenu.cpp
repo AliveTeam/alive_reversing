@@ -1065,7 +1065,7 @@ void PauseMenu::Page_Main_Update_4903E0()
                     sSaveString_5C931C,
                     gMap.mCurrentLevel,
                     gMap.mCurrentPath,
-                    gMap.field_4_current_camera);
+                    gMap.mCurrentCamera);
                 // Null terminate it
                 sSaveString_5C931C[8] = 0;
                 // Append the editor arrow s8
@@ -1609,7 +1609,7 @@ void PauseMenu::Update_48FD80()
                     sScreenStringBuffer_5C92F0,
                     gMap.mCurrentLevel,
                     gMap.mCurrentPath,
-                    gMap.field_4_current_camera);
+                    gMap.mCurrentCamera);
 
                 // TODO: never read ??
                 //byte_5C92F8 = 0;

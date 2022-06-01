@@ -2165,7 +2165,7 @@ void Glukkon::VPossessed()
     field_1D4_timer = sGnFrame_5C1B84 + 35;
     field_1E4_level = gMap.mCurrentLevel;
     field_1E6_path = gMap.mCurrentPath;
-    field_1E8_camera = gMap.field_4_current_camera;
+    field_1E8_camera = gMap.mCurrentCamera;
 }
 
 void Glukkon::Update_Slurg_WatchPoints_440600()

@@ -23,16 +23,10 @@ public:
     ~OrbWhirlWind();
 
     virtual void VUpdate() override;
-
-    void VUpdate_48B990();
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    void VRender_48BA90(PrimHeader** ppOt);
-
-    void ToSpin_48BAD0(FP xpos, FP ypos, BaseAliveGameObject* pObj);
-
-    void ToStop_48BBB0();
+    void ToSpin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
+    void ToStop();
 
     s32 field_10_particle_spawn_counter;
     ParticlesState field_14_particles_state;

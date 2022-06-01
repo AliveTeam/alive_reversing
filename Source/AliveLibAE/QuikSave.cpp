@@ -629,7 +629,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
         sprintf(src, "%2sP%02dC%02d",
                 Path_Get_Lvl_Name(gMap.mCurrentLevel),
                 gMap.mCurrentPath,
-                gMap.field_4_current_camera);
+                gMap.mCurrentCamera);
         MEMCARD_Write_SJISC_String_4A2770(src, &pSave->field_0_header.field_0_frame_1_name[32], 8);
         Quicksave_SaveWorldInfo_4C9310(&pSave->field_204_world_info);
         pSave->field_45C_switch_states = sSwitchStates_5C1A28;
@@ -705,7 +705,7 @@ void Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_0_gnFrame = sGnFrame_5C1B84;
     pInfo->field_4_level = gMap.mCurrentLevel;
     pInfo->field_6_path = gMap.mCurrentPath;
-    pInfo->field_8_cam = gMap.field_4_current_camera;
+    pInfo->field_8_cam = gMap.mCurrentCamera;
     pInfo->field_2E_use_alt_save_header = bUseAltSaveHeader_5C1BBC;
 
     for (s32 i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_zulag); i++)

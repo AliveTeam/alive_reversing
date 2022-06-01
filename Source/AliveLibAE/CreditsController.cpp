@@ -18,7 +18,7 @@ constexpr s32 kShowCreditScreenForTicks = 160;
 CreditsController::CreditsController(Path_TLV* /*pTlv*/, s32 /*tlvInfo*/)
    : BaseGameObject(TRUE, 0)
 {
-    field_24_camera_number = gMap.field_4_current_camera;
+    field_24_camera_number = gMap.mCurrentCamera;
     field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;
 
     sDoesCreditsControllerExist_5C1B90 = true;

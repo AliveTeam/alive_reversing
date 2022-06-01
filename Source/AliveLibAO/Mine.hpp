@@ -25,30 +25,13 @@ public:
     ~Mine();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_43AC10();
-
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    s16 VTakeDamage_43AC40(BaseGameObject* pFrom);
-
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-
-    void VOnThrowableHit_43AB90(BaseGameObject* pFrom);
-
     virtual void VOnPickUpOrSlapped() override;
-
-    void VOnPickUpOrSlapped_43AA30();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_43A970(PrimHeader** ppOt);
-
     virtual void VUpdate() override;
 
-    void vUpdate_43A7F0();
-
-    s16 IsColliding_43AA60();
+    s16 IsColliding();
 
     u16 field_10C_detonating;
     s16 field_10E_disabled_resources;

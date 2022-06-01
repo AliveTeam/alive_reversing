@@ -78,7 +78,7 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    field_1E6_cam_id = gMap.field_4_current_camera;
+    field_1E6_cam_id = gMap.mCurrentCamera;
 }
 
 void BrewMachine::VUpdate()
@@ -118,7 +118,7 @@ void BrewMachine::vUpdate_4132C0()
 
 void BrewMachine::vRender_4133F0(PrimHeader** ppOt)
 {
-    if (gMap.field_4_current_camera == field_1E6_cam_id)
+    if (gMap.mCurrentCamera == field_1E6_cam_id)
     {
         char_type text[12] = {};
         sprintf(text, "%02d", field_144_total_brew_count);

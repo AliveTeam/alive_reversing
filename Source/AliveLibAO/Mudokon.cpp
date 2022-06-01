@@ -391,11 +391,11 @@ Mudokon::~Mudokon()
 
     if (!field_144_flags.Get(Flags_144::e144_Bit2) || field_100_health <= FP_FromInteger(0) || field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
     {
-        gMap.TLV_Reset_446870(field_10C, -1, 0, 1);
+        gMap.TLV_Reset(field_10C, -1, 0, 1);
     }
     else
     {
-        gMap.TLV_Reset_446870(field_10C, -1, 0, 0);
+        gMap.TLV_Reset(field_10C, -1, 0, 0);
     }
 
     for (auto& res : field_148_res_array.res)
@@ -866,7 +866,7 @@ u8** Mudokon::GetResBlockForMotion_43EDE0(s16 motion)
 void Mudokon::DoPathTrans_43FE00()
 {
     PSX_Point camCoords = {};
-    gMap.GetCurrentCamCoords_444890(&camCoords);
+    gMap.GetCurrentCamCoords(&camCoords);
 
     if (sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1513,11 +1513,11 @@ void Mudokon::Motion_12_LiftUse_43D360()
     auto pLiftPoint = static_cast<LiftPoint*>(field_194_pLiftPoint);
     if (!pLiftPoint->OnAnyFloor() || pLiftPoint->field_27A_flags.Get(LiftPoint::Flags::eBit7_bIgnoreLiftMover))
     {
-        pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(3), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(3), 0);
     }
     else
     {
-        pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
         field_FC_current_motion = eMudMotions::Motion_14_LiftGrabEnd_43D420;
         field_FE_next_motion = eMudMotions::Motion_0_Idle_43CA70;
     }
@@ -3213,7 +3213,7 @@ s16 Mudokon::Brain_LeverUse_6_43C250()
     auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + directedGridSize, field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale)));
     if (pSwitch)
     {
-        pSwitch->vPull_481640(field_A8_xpos < pSwitch->field_A8_xpos);
+        pSwitch->VPull(field_A8_xpos < pSwitch->field_A8_xpos);
     }
 
     return 1;

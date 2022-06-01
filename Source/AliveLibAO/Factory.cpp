@@ -149,7 +149,7 @@ void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOff
         }
         else
         {
-            gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         }
     }
 }
@@ -168,7 +168,7 @@ void Factory_Edge_481730(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlv
     }
     else
     {
-        gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -295,7 +295,7 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
                     && pLiftObj->field_B2_lvl_number == gMap.mCurrentLevel
                     && pLiftObj->field_B0_path_number == gMap.mCurrentPath)
                 {
-                    gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                    gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                     return;
                 }
             }
@@ -318,7 +318,7 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
             s16 pointNumber = 1;
             while (pointNumber < 8)
             {
-                pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera_4463B0(
+                pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera(
                     0,
                     pointNumber / 2 * (pointNumber % 2 != 0 ? -1 : 1));
                 while (pTlvIter)
@@ -1058,7 +1058,7 @@ void Factory_ElumWall_487370(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion
     }
     else
     {
-        gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -1352,7 +1352,7 @@ void Factory_BellSong_487450(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -1441,7 +1441,7 @@ void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
-            Path_TLV* pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera_4463B0(camX_idx, 0);
+            Path_TLV* pTlvIter = gMap.Get_First_TLV_For_Offsetted_Camera(camX_idx, 0);
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
             if (pTlvIter)
             {
@@ -1978,7 +1978,7 @@ void Factory_MenuController_481AC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUni
 
 void Factory_481FB0(Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
-    LOG_ERROR("lvl = " << static_cast<s32>(pMap->mCurrentLevel) << " path = " << pMap->mCurrentPath << " camera = " << pMap->field_4_current_camera);
+    LOG_ERROR("lvl = " << static_cast<s32>(pMap->mCurrentLevel) << " path = " << pMap->mCurrentPath << " camera = " << pMap->mCurrentCamera);
     ALIVE_FATAL("Didn't expect Factory_481FB0 to ever be used, please post the log in #oddworld_dev on discord");
 }
 
@@ -2096,7 +2096,7 @@ void Factory_HandStone_487480(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnio
     }
     else
     {
-        gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -2341,7 +2341,7 @@ void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
                 sActiveHero_507678->field_168_ring_pulse_timer = 0;
             }
         }
-        gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -2398,7 +2398,7 @@ void Factory_KillUnsavedMuds_487DA0(Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUn
         {
             gbKillUnsavedMudsDone_5076CC = 1;
             sKilledMudokons_5076BC = 28 - sRescuedMudokons_5076C0;
-            gMap.TLV_Reset_446870(tlvOffsetLevelIdPathId.all, -1, 0, 1);
+            gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 1);
         }
     }
 }

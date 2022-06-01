@@ -33,7 +33,7 @@ SecurityDoor::~SecurityDoor()
     {
         field_E8_state = SecurityDoorStates::eInactive_0;
     }
-    gMap.TLV_Reset_446870(field_E4_tlvInfo, field_E8_state + 1, 0, 0);
+    gMap.TLV_Reset(field_E4_tlvInfo, field_E8_state + 1, 0, 0);
 }
 
 SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)

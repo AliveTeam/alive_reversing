@@ -22,7 +22,7 @@ void BackgroundMusic::VUpdate()
     {
         if (gMap.mCurrentLevel != LevelIds::eNone
             || gMap.mCurrentPath != 1
-            || gMap.field_4_current_camera != 10)
+            || gMap.mCurrentCamera != 10)
         {
             SND_SEQ_PlaySeq_4775A0(static_cast<SeqId>(field_10_music_id), 0, 0);
         }

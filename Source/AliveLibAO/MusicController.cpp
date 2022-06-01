@@ -14,7 +14,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B98, MusicController*, pMusicController_507B98, nullptr);
 
-using TRootCallBackFn = decltype(&MusicController::OnRootCounter_4437D0);
+using TRootCallBackFn = decltype(&MusicController::OnRootCounter);
 
 constexpr auto RCntCNT3 = 0xf2000003; // VSync (VBlank)
 
@@ -299,7 +299,7 @@ const MusicController_Record2 rec2s_4CD5A8[124] = {
     {SeqId::Unknown_163, 220},
     {SeqId::Unknown_0, 0}};
 
-s16 MusicController::Create_4436C0()
+s16 MusicController::Create()
 {
     if (pMusicController_507B98)
     {
@@ -311,7 +311,7 @@ s16 MusicController::Create_4436C0()
     {
         MusicController::SetBaseTimeStamp();
 
-        psx_root_event_507BA0 = Psx_Root_Counter_49C280(RCntCNT3, 2, 4096, MusicController::OnRootCounter_4437D0);
+        psx_root_event_507BA0 = Psx_Root_Counter_49C280(RCntCNT3, 2, 4096, MusicController::OnRootCounter);
         Psx_Root_Counter_49C3B0(psx_root_event_507BA0);
         Psx_Root_Counter_49C340(RCntCNT3, 1);
         Psx_Root_Counter_49C360(RCntCNT3);
@@ -328,7 +328,7 @@ s16 MusicController::Create_4436C0()
                 pMusicController_507B98->field_50_music_volume_change_time = GetMusicTime();
                 pMusicController_507B98->field_48_vol_state = 2;
             }
-            pMusicController_507B98->UpdateVolumeState_442A10();
+            pMusicController_507B98->UpdateVolumeState();
         }
     }
 
@@ -402,15 +402,10 @@ MusicController::~MusicController()
 
 void MusicController::VScreenChanged()
 {
-    VScreenChanged_443450();
-}
-
-void MusicController::VScreenChanged_443450()
-{
     field_16_bScreenChanged = 1;
 }
 
-void MusicController::VUpdate_443300()
+void MusicController::VUpdate()
 {
     MusicController::UpdateMusicTime();
 
@@ -451,35 +446,30 @@ void MusicController::VUpdate_443300()
             if (field_10_bEnableMusic)
             {
                 SetMusicVolumeDelayed(field_12_target_volume, 0);
-                PlayMusic_443460(MusicTypes::eType0, nullptr, 1, 0);
+                PlayMusic(MusicTypes::eType0, nullptr, 1, 0);
             }
         }
     }
 
     if (field_3A_type > MusicTypes::eAbeOnElum_1 && GetMusicTime() - field_40_started_time >= 160)
     {
-        PlayMusic_443460(MusicTypes::eType0, nullptr, 1, 0);
+        PlayMusic(MusicTypes::eType0, nullptr, 1, 0);
     }
 
-    UpdateVolumeState_442A10();
+    UpdateVolumeState();
 
     if (field_10_bEnableMusic)
     {
-        UpdateMusic_442C20();
-        UpdateAmbiance_442AC0();
+        UpdateMusic();
+        UpdateAmbiance();
     }
 }
 
-void MusicController::VUpdate()
-{
-    VUpdate_443300();
-}
-
-void MusicController::PlayMusic_443810(MusicTypes musicType, BaseGameObject* pObj, s16 a3, s16 a4)
+void MusicController::static_PlayMusic(MusicTypes musicType, BaseGameObject* pObj, s16 a3, s16 a4)
 {
     if (pMusicController_507B98)
     {
-        pMusicController_507B98->PlayMusic_443460(musicType, pObj, a3, a4);
+        pMusicController_507B98->PlayMusic(musicType, pObj, a3, a4);
     }
 }
 
@@ -491,7 +481,7 @@ void MusicController::ClearObject(BaseGameObject* pObj)
     }
 }
 
-MusicController::MusicTypes MusicController::GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration)
+MusicController::MusicTypes MusicController::GetAbmientAndMusicInfo(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration)
 {
     MusicController::UpdateMusicTime();
 
@@ -524,7 +514,7 @@ MusicController::MusicTypes MusicController::GetAbmientAndMusicInfo_443840(SeqId
     return pMusicController_507B98->field_3A_type;
 }
 
-void MusicController::UpdateVolumeState_442A10()
+void MusicController::UpdateVolumeState()
 {
     switch (field_48_vol_state)
     {
@@ -573,7 +563,7 @@ void MusicController::UpdateVolumeState_442A10()
     }
 }
 
-void MusicController::Shutdown_4437E0()
+void MusicController::Shutdown()
 {
     if (pMusicController_507B98)
     {
@@ -585,7 +575,7 @@ void MusicController::Shutdown_4437E0()
     }
 }
 
-void MusicController::EnableMusic_443900(s16 bEnable)
+void MusicController::EnableMusic(s16 bEnable)
 {
     MusicController::UpdateMusicTime();
 
@@ -609,17 +599,17 @@ void MusicController::EnableMusic_443900(s16 bEnable)
         {
             pMusicController_507B98->SetMusicVolumeDelayed(0, 0);
         }
-        pMusicController_507B98->UpdateVolumeState_442A10();
+        pMusicController_507B98->UpdateVolumeState();
     }
 }
 
-s32 MusicController::OnRootCounter_4437D0()
+s32 MusicController::OnRootCounter()
 {
     sMusicTime_507B9C++;
     return 0;
 }
 
-void MusicController::PlayMusic_443460(MusicTypes musicType, BaseGameObject* pObj, s16 a4, s16 a5)
+void MusicController::PlayMusic(MusicTypes musicType, BaseGameObject* pObj, s16 a4, s16 a5)
 {
     MusicController::UpdateMusicTime();
 
@@ -728,7 +718,7 @@ s16 MusicController::SetMusicVolumeDelayed(s16 vol, s16 delay)
     return ret;
 }
 
-void MusicController::UpdateMusic_442C20()
+void MusicController::UpdateMusic()
 {
     const s32 counterVal = GetMusicTime();
 
@@ -984,7 +974,7 @@ void MusicController::UpdateMusic_442C20()
     }
 }
 
-void MusicController::UpdateAmbiance_442AC0()
+void MusicController::UpdateAmbiance()
 {
     if (field_24_bAmbientMusicEnabled || field_26_ambient_seq == SeqId::None_M1)
     {

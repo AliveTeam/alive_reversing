@@ -49,19 +49,11 @@ public:
     MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo);
     ~MotionDetector();
 
-    void SetDontComeBack_437E00(s16 bDontComeBack);
-
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_438520();
-
     virtual void VUpdate() override;
-
-    void VUpdate_437E90();
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    void VRender_438250(PrimHeader** ppOt);
+    void SetDontComeBack(s16 bDontComeBack);
 
     s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;

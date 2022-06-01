@@ -209,11 +209,11 @@ Slog::~Slog()
     {
         if (field_100_health <= FP_FromInteger(0))
         {
-            gMap.TLV_Reset_446870(field_138_tlvInfo, -1, 0, 1);
+            gMap.TLV_Reset(field_138_tlvInfo, -1, 0, 1);
         }
         else
         {
-            gMap.TLV_Reset_446870(field_138_tlvInfo, -1, 0, 0);
+            gMap.TLV_Reset(field_138_tlvInfo, -1, 0, 0);
         }
     }
 
@@ -229,7 +229,7 @@ Slog::~Slog()
         }
     }
 
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
 
     if (!field_178_bShot)
     {
@@ -720,7 +720,7 @@ void Slog::ToJump_473FB0()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eIntenseChase_8, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eIntenseChase_8, this, 0, 0);
     }
 }
 
@@ -768,7 +768,7 @@ void Slog::Sfx_475BD0(s32 soundId)
         field_A8_xpos,
         field_AC_ypos);
     PSX_RECT worldRect;
-    gMap.Get_Camera_World_Rect_444C30(direction, &worldRect);
+    gMap.Get_Camera_World_Rect(direction, &worldRect);
     volumeLeft = volumeRight;
     switch (direction)
     {
@@ -1009,13 +1009,13 @@ void Slog::Motion_0_Idle_4742E0()
                            field_AC_ypos)
                            >= CameraPos::eCamCurrent_0)
                 {
-                    if (MusicController::GetAbmientAndMusicInfo_443840(nullptr, nullptr, nullptr) == MusicController::MusicTypes::eSlogChaseTension)
+                    if (MusicController::GetAbmientAndMusicInfo(nullptr, nullptr, nullptr) == MusicController::MusicTypes::eSlogChaseTension)
                     {
-                        MusicController::PlayMusic_443810(MusicController::MusicTypes::eSlogChaseTension, this, 0, 0);
+                        MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChaseTension, this, 0, 0);
                     }
                     else
                     {
-                        MusicController::PlayMusic_443810(MusicController::MusicTypes::eSlogTension, this, 0, 0);
+                        MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogTension, this, 0, 0);
                     }
                 }
             }
@@ -1136,7 +1136,7 @@ void Slog::Motion_2_Run_4749A0()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eIntenseChase_8, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eIntenseChase_8, this, 0, 0);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -1592,7 +1592,7 @@ void Slog::Motion_17_MoveHeadDownwards_475510()
         }
     }
 
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
 }
 
 void Slog::Motion_18_WakeUp_475460()
@@ -1628,7 +1628,7 @@ void Slog::Motion_18_WakeUp_475460()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eSlogTension, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogTension, this, 0, 0);
     }
 }
 
@@ -1731,7 +1731,7 @@ void Slog::Motion_20_JumpUpwards_475890()
             field_A8_xpos,
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eSlogChaseTension, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChaseTension, this, 0, 0);
 
     if (field_10_anim.field_92_current_frame == 5)
     {

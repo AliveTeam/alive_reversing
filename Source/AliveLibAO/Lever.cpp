@@ -39,12 +39,7 @@ const Lever_Data gLeverData_4BCF40[16] = {
     {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // forest chase
     {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right}};                                                                 // desert escape
 
-s32 Lever::VPull(s16 bLeftDirection)
-{
-    return vPull_481640(bLeftDirection);
-}
-
-void Lever::VUpdate_4812D0()
+void Lever::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -171,24 +166,14 @@ void Lever::VUpdate_4812D0()
     }
 }
 
-void Lever::VUpdate()
-{
-    VUpdate_4812D0();
-}
-
-void Lever::VScreenChanged_4816F0()
+void Lever::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void Lever::VScreenChanged()
-{
-    VScreenChanged_4816F0();
-}
-
 Lever::~Lever()
 {
-    gMap.TLV_Reset_446870(field_EC_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_EC_tlvInfo, -1, 0, 0);
 }
 
 Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
@@ -235,7 +220,7 @@ Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
     field_E8_state = LeverState::eWaiting_0;
 }
 
-s32 Lever::vPull_481640(s16 bLeftDirection)
+s32 Lever::VPull(s16 bLeftDirection)
 {
     if (field_E8_state == LeverState::eWaiting_0)
     {

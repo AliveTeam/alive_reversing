@@ -96,7 +96,7 @@ CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
 {
     PSX_RECT rect = {};
     VGetBoundingRect(&rect, 1);
-    return gMap.Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
+    return gMap.Rect_Location_Relative_To_Active_Camera(&rect, 0);
 }
 
 void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
@@ -472,7 +472,7 @@ CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_417CC0()
 {
     PSX_RECT rect = {};
     VGetBoundingRect(&rect, 1);
-    return gMap.Rect_Location_Relative_To_Active_Camera_4448C0(&rect, 0);
+    return gMap.Rect_Location_Relative_To_Active_Camera(&rect, 0);
 }
 
 

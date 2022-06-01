@@ -45,10 +45,10 @@ LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
 
 LightEffect::~LightEffect()
 {
-    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
-void LightEffect::VRender_4067F0(PrimHeader** /*ppOt*/)
+void LightEffect::VRender(PrimHeader** /*ppOt*/)
 {
     // Pretty much the same as door effect render - commented out because OG is empty which means the "stock yard stars" are missing.
     // However rendering as-is produces over bright ugly looking stars and is probably why DD turned it off
@@ -81,27 +81,13 @@ void LightEffect::VRender_4067F0(PrimHeader** /*ppOt*/)
     */
 }
 
-void LightEffect::VRender(PrimHeader** ppOt)
-{
-    VRender_4067F0(ppOt);
-}
-
 void LightEffect::VScreenChanged()
-{
-    VScreenChanged_4067E0();
-}
-
-void LightEffect::VScreenChanged_4067E0()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void LightEffect::VUpdate()
-{
-    VUpdate_406610();
-}
 
-void LightEffect::VUpdate_406610()
+void LightEffect::VUpdate()
 {
     if (static_cast<s32>(gnFrameCount_507670) >= field_EC_rnd1)
     {

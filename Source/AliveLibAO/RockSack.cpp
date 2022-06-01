@@ -119,7 +119,7 @@ void RockSack::VScreenChanged()
 
 RockSack::~RockSack()
 {
-    gMap.TLV_Reset_446870(field_10C_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
 }
 
 RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)

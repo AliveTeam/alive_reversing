@@ -12,18 +12,18 @@ namespace AO {
 MusicTrigger::MusicTrigger(MusicTriggerMusicType type, TriggeredBy triggeredBy, s32 switchId, s32 delay)
     : BaseGameObject(1)
 {
-    Init_443AD0(type, triggeredBy, static_cast<s16>(switchId), static_cast<s16>(delay));
+    Init(type, triggeredBy, static_cast<s16>(switchId), static_cast<s16>(delay));
     field_10_tlvInfo = -1;
 }
 
 MusicTrigger::MusicTrigger(Path_MusicTrigger* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
-    Init_443AD0(pTlv->field_18_music_type, pTlv->field_1A_triggered_by, pTlv->field_1C_switch_id, pTlv->field_1E_music_delay);
+    Init(pTlv->field_18_music_type, pTlv->field_1A_triggered_by, pTlv->field_1C_switch_id, pTlv->field_1E_music_delay);
     field_10_tlvInfo = tlvInfo;
 }
 
-void MusicTrigger::Init_443AD0(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay)
+void MusicTrigger::Init(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay)
 {
     field_14_flags &= ~7u;
     field_4_typeId = Types::eNone_0;
@@ -109,18 +109,12 @@ MusicTrigger::~MusicTrigger()
 {
     if (field_14_flags & 4)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
     }
     MusicController::ClearObject(this);
 }
 
-
 void MusicTrigger::VScreenChanged()
-{
-    VScreenChanged_443DD0();
-}
-
-void MusicTrigger::VScreenChanged_443DD0()
 {
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
@@ -130,17 +124,12 @@ void MusicTrigger::VScreenChanged_443DD0()
 
 void MusicTrigger::VUpdate()
 {
-    VUpdate_443C90();
-}
-
-void MusicTrigger::VUpdate_443C90()
-{
     if (Event_Get(kEventHeroDying_3))
     {
         mFlags.Set(BaseGameObject::eDead);
         if (field_10_tlvInfo >= 0)
         {
-            gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
+            gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
         }
     }
 
@@ -150,7 +139,7 @@ void MusicTrigger::VUpdate_443C90()
         {
             field_14_flags &= ~1u;
 
-            MusicController::PlayMusic_443810(
+            MusicController::static_PlayMusic(
                 field_1C_music_type,
                 this,
                 ((u8) field_14_flags >> 2) & 1,
@@ -167,7 +156,7 @@ void MusicTrigger::VUpdate_443C90()
     {
         if (!(field_14_flags & 2))
         {
-            MusicController::PlayMusic_443810(field_1C_music_type, this, (field_14_flags >> 2) & 1, 1);
+            MusicController::static_PlayMusic(field_1C_music_type, this, (field_14_flags >> 2) & 1, 1);
             field_14_flags |= 2u;
             field_18_counter += gnFrameCount_507670;
             return;
@@ -183,14 +172,14 @@ void MusicTrigger::VUpdate_443C90()
 
             if (field_18_counter < 0)
             {
-                MusicController::PlayMusic_443810(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
+                MusicController::static_PlayMusic(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
                 return;
             }
         }
 
         if (static_cast<s32>(gnFrameCount_507670) < field_18_counter)
         {
-            MusicController::PlayMusic_443810(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
+            MusicController::static_PlayMusic(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
         }
         else
         {

@@ -62,7 +62,7 @@ void BeeNest::VScreenChanged()
 
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !field_34_pBeeSwarm)
     {
-        gMap.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(field_1C_tlvInfo, -1, 0, 0);
         if (field_34_pBeeSwarm)
         {
             field_34_pBeeSwarm->field_C_refCount--;

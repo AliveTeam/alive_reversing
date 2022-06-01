@@ -12,7 +12,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x4D148C, u8, sLeafRandIdx_4D148C, 8);
 
-void Leaf::VUpdate_48B650()
+void Leaf::VUpdate()
 {
     field_B8_vely += FP_FromDouble(0.5);
 
@@ -80,19 +80,9 @@ void Leaf::VUpdate_48B650()
     }
 }
 
-void Leaf::VUpdate()
-{
-    VUpdate_48B650();
-}
-
-void Leaf::VScreenChanged_48B860()
-{
-    mFlags.Set(BaseGameObject::eDead);
-}
-
 void Leaf::VScreenChanged()
 {
-    VScreenChanged_48B860();
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)

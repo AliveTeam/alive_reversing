@@ -27,12 +27,7 @@ public:
     ~MeatSack();
     
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_439540();
-
     virtual void VUpdate() override;
-
-    void VUpdate_4392C0();
 
     s32 field_10C_tlvInfo;
     s16 field_110_bDoMeatSackIdleAnim;

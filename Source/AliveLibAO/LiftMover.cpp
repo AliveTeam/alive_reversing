@@ -37,15 +37,10 @@ LiftMover::~LiftMover()
         field_18_pLiftPoint->field_C_refCount--;
         field_18_pLiftPoint = nullptr;
     }
-    gMap.TLV_Reset_446870(field_14_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_14_tlvInfo, -1, 0, 0);
 }
 
 void LiftMover::VUpdate()
-{
-    VUpdate_4055C0();
-}
-
-void LiftMover::VUpdate_4055C0()
 {
     if (field_18_pLiftPoint && field_18_pLiftPoint->mFlags.Get(BaseGameObject::eDead))
     {
@@ -80,7 +75,7 @@ void LiftMover::VUpdate_4055C0()
                         {
                             for (s16 x = 0; x < gMap.field_24_max_cams_x; x++)
                             {
-                                gMap.Loader_446590(x, y, LoadMode::ConstructObject_0, TlvTypes::LiftPoint_8);
+                                gMap.Loader(x, y, LoadMode::ConstructObject_0, TlvTypes::LiftPoint_8);
                             }
                         }
 
@@ -105,7 +100,7 @@ void LiftMover::VUpdate_4055C0()
             }
             else
             {
-                pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), field_1C_speed, 0);
 
                 if ((field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
                 {
@@ -117,11 +112,11 @@ void LiftMover::VUpdate_4055C0()
         case 2:
             if (!pLiftPoint->OnAFloorLiftMoverCanUse())
             {
-                pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), field_1C_speed, 0);
             }
             else
             {
-                pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+                pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
                 field_20_state = 5;
             }
             break;
@@ -129,7 +124,7 @@ void LiftMover::VUpdate_4055C0()
         case 3:
             if (pLiftPoint->OnAFloorLiftMoverCanUse())
             {
-                pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), field_1C_speed, 0);
 
                 if ((field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
                 {
@@ -146,13 +141,13 @@ void LiftMover::VUpdate_4055C0()
         case 4:
             if (pLiftPoint->OnAFloorLiftMoverCanUse())
             {
-                pLiftPoint->Move_435740(FP_FromInteger(0), FP_FromInteger(0), 0);
+                pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
                 field_20_state = 0;
                 field_1C_speed = -field_1C_speed;
             }
             else
             {
-                pLiftPoint->Move_435740(FP_FromInteger(0), field_1C_speed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), field_1C_speed, 0);
             }
             break;
 

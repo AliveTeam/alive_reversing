@@ -31,7 +31,7 @@ Honey::Honey(FP xpos, FP ypos)
 void Honey::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
-    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
 } // namespace AO

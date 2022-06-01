@@ -100,7 +100,7 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
 
 BackgroundAnimation::~BackgroundAnimation()
 {
-    gMap.TLV_Reset_446870(field_F0_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_F0_tlvInfo, -1, 0, 0);
     if (field_104_sound_channels_mask)
     {
         SND_Stop_Channels_Mask_4774A0(field_104_sound_channels_mask);

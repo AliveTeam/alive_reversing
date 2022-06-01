@@ -196,48 +196,48 @@ public:
 
     void ctor();
 
-    void Init_443EE0(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
+    void Init(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
 
-    void Shutdown_443F90();
+    void Shutdown();
     void Reset();
 
-    s16 SetActiveCam_444660(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
+    s16 SetActiveCam(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
 
-    void ScreenChange_4444D0();
+    void ScreenChange();
 
     void FreePathResourceBlocks();
     void GetPathResourceBlockPtrs();
     u8** GetPathResourceBlockPtr(u32 pathId);
     void ClearPathResourceBlocks();
 
-    void GoTo_Camera_445050();
+    void GoTo_Camera();
 
-    void Loader_446590(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad);
+    void Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad);
 
-    void TLV_Reset_446870(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
+    void TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
 
-    void RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible);
+    void RemoveObjectsWithPurpleLight(s16 bMakeInvisible);
 
-    void Handle_PathTransition_444DD0();
+    void Handle_PathTransition();
 
     void ScreenChange_Common();
 
-    void Get_map_size_444870(PSX_Point* pPoint);
+    void Get_map_size(PSX_Point* pPoint);
 
-    void GetCurrentCamCoords_444890(PSX_Point* pPoint);
+    void GetCurrentCamCoords(PSX_Point* pPoint);
     s16 GetOverlayId();
 
-    static CameraSwapper* FMV_Camera_Change_4458D0(u8** ppBits, Map* pMap, LevelIds levelId);
+    static CameraSwapper* FMV_Camera_Change(u8** ppBits, Map* pMap, LevelIds levelId);
 
-    void Create_FG1s_4447D0();
+    void Create_FG1s();
 
-    Camera* Create_Camera_445BE0(s16 xpos, s16 ypos, s32 a4);
+    Camera* Create_Camera(s16 xpos, s16 ypos, s32 a4);
 
-    void RestoreBlyData_446A90(const u8* pSaveData);
+    void RestoreBlyData(const u8* pSaveData);
 
-    void Load_Path_Items_445DA0(Camera* pCamera, LoadMode loadMode);
+    void Load_Path_Items(Camera* pCamera, LoadMode loadMode);
 
-    Path_TLV* TLV_First_Of_Type_In_Camera_4464A0(TlvTypes type, s32 camX);
+    Path_TLV* TLV_First_Of_Type_In_Camera(TlvTypes type, s32 camX);
 
     Path_TLV* TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind);
 
@@ -252,9 +252,9 @@ public:
 
     CameraPos GetDirection_444A40(s32 level, s32 path, FP xpos, FP ypos);
 
-    CameraPos Rect_Location_Relative_To_Active_Camera_4448C0(PSX_RECT* pRect, s16 width);
+    CameraPos Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect, s16 width);
 
-    s16 Get_Camera_World_Rect_444C30(CameraPos camIdx, PSX_RECT* pRect);
+    s16 Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect);
 
     s16 Is_Point_In_Current_Camera_4449C0(LevelIds level, s32 path, FP xpos, FP ypos, s16 width)
     {
@@ -263,24 +263,24 @@ public:
 
     s16 Is_Point_In_Current_Camera_4449C0(s32 level, s32 path, FP xpos, FP ypos, s16 width);
 
-    s16 SetActiveCameraDelayed_444CA0(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect);
+    s16 SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect);
 
     Camera* GetCamera(CameraPos pos);
 
     // NOTE: Global func in AE
-    void Start_Sounds_For_Objects_In_Near_Cameras_4467D0();
+    void Start_Sounds_For_Objects_In_Near_Cameras();
 
     // NOTE: Part of Path object in AE
-    void Start_Sounds_For_Objects_In_Camera_4466A0(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
+    void Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
 
     // NOTE: Part of Path object in AE
-    Path_TLV* Get_First_TLV_For_Offsetted_Camera_4463B0(s16 camX, s16 camY);
+    Path_TLV* Get_First_TLV_For_Offsetted_Camera(s16 camX, s16 camY);
 
-    void SaveBlyData_446900(u8* pSaveBuffer);
+    void SaveBlyData(u8* pSaveBuffer);
 
     LevelIds mCurrentLevel;
     s16 mCurrentPath;
-    s16 field_4_current_camera;
+    s16 mCurrentCamera;
 
     enum class CamChangeStates : s16
     {
@@ -292,7 +292,7 @@ public:
     s16 field_8_force_load;
     LevelIds mLevel;
     s16 mPath;
-    s16 field_E_camera;
+    s16 mCamera;
     CameraSwapEffects field_10_screenChangeEffect;
     s16 field_12_fmv_base_id;
     MapDirections field_14_direction;

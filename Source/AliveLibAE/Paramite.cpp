@@ -4413,7 +4413,7 @@ void Paramite::M_GetDepossessedBegin_29_48D9D0()
             SetBrain(&Paramite::Brain_0_Patrol_4835B0);
             field_12C_brain_ret = 0;
             gMap.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
-            if (field_152_return_camera != gMap.field_4_current_camera)
+            if (field_152_return_camera != gMap.mCurrentCamera)
             {
                 if (field_178_flags.Get(Flags_178::eBit6_spawned))
                 {
@@ -5392,7 +5392,7 @@ void Paramite::VPossessed()
     field_130_timer = sGnFrame_5C1B84 + 30;
     field_14E_return_level = gMap.mCurrentLevel;
     field_150_return_path = gMap.mCurrentPath;
-    field_152_return_camera = gMap.field_4_current_camera;
+    field_152_return_camera = gMap.mCurrentCamera;
 }
 
 s16 Paramite::VTakeDamage(BaseGameObject* pFrom)

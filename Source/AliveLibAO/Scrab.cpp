@@ -242,14 +242,14 @@ Scrab::~Scrab()
 
     if (field_100_health <= FP_FromInteger(0))
     {
-        gMap.TLV_Reset_446870(field_134_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset(field_134_tlvInfo, -1, 0, 1);
     }
     else
     {
-        gMap.TLV_Reset_446870(field_134_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(field_134_tlvInfo, -1, 0, 0);
     }
 
-    MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
     MusicController::ClearObject(this);
 }
 
@@ -770,7 +770,7 @@ s32 Scrab::Scrab_SFX_460B80(ScrabSounds soundId, s32 /*vol*/, s32 pitch, s16 app
         field_A8_xpos,
         field_AC_ypos);
     PSX_RECT worldRect;
-    gMap.Get_Camera_World_Rect_444C30(direction, &worldRect);
+    gMap.Get_Camera_World_Rect(direction, &worldRect);
     volumeLeft = volumeRight;
     if (applyDirection)
     {
@@ -1054,7 +1054,7 @@ void Scrab::Motion_1_Stand_45E620()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType11, this, 0, 0);
     }
 }
 
@@ -1161,7 +1161,7 @@ void Scrab::Motion_2_Walk_45E730()
                 field_AC_ypos)
             >= CameraPos::eCamCurrent_0)
         {
-            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+            MusicController::static_PlayMusic(MusicController::MusicTypes::eType11, this, 0, 0);
         }
     }
 }
@@ -1286,7 +1286,7 @@ void Scrab::Motion_3_Run_45EAB0()
                     field_AC_ypos)
                 >= CameraPos::eCamCurrent_0)
             {
-                MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+                MusicController::static_PlayMusic(MusicController::MusicTypes::eType12, this, 0, 0);
             }
         }
     }
@@ -1812,7 +1812,7 @@ void Scrab::Motion_13_RunJumpBegin_45F5D0()
                 field_AC_ypos)
             >= CameraPos::eCamCurrent_0)
         {
-            MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+            MusicController::static_PlayMusic(MusicController::MusicTypes::eType11, this, 0, 0);
         }
     }
 }
@@ -1885,7 +1885,7 @@ void Scrab::Motion_16_Stamp_45F920()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType12, this, 0, 0);
     }
 }
 
@@ -1924,7 +1924,7 @@ void Scrab::Motion_19_Unused_45F9D0()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType11, this, 0, 0);
     }
 }
 
@@ -1950,7 +1950,7 @@ void Scrab::Motion_20_HowlBegin_45FA60()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType12, this, 0, 0);
     }
 }
 
@@ -1984,7 +1984,7 @@ void Scrab::Motion_22_Shriek_45FB00()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType11, this, 0, 0);
     }
 }
 
@@ -2007,7 +2007,7 @@ void Scrab::Motion_23_ScrabBattleAnim_45FBA0()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType12, this, 0, 0);
     }
 }
 
@@ -2034,7 +2034,7 @@ void Scrab::Motion_24_FeedToGulp_45FC30()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType11, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType11, this, 0, 0);
     }
 }
 
@@ -2148,7 +2148,7 @@ void Scrab::Motion_27_AttackLunge_45FDF0()
             field_AC_ypos)
         >= CameraPos::eCamCurrent_0)
     {
-        MusicController::PlayMusic_443810(MusicController::MusicTypes::eType12, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eType12, this, 0, 0);
     }
 }
 

@@ -41,17 +41,12 @@ public:
     MusicTrigger(MusicTriggerMusicType type, TriggeredBy triggeredBy, s32 switchId, s32 delay);
     MusicTrigger(Path_MusicTrigger* pTlv, s32 tlvInfo);
 
-    void Init_443AD0(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay);
+    void Init(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay);
 
     ~MusicTrigger();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_443DD0();
-
     virtual void VUpdate() override;
-
-    void VUpdate_443C90();
 
     s32 field_10_tlvInfo;
     /* enum Flags_14

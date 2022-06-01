@@ -42,7 +42,7 @@ const InputCommands::Enum sCheatKeyArray_PathSkip_5515E8[6] = {
 
 void CheatController_Cheat_FMV_421AD0()
 {
-    if (gMap.field_4_current_camera == 1)
+    if (gMap.mCurrentCamera == 1)
     {
         sEnableCheatFMV_5C1BEC = !sEnableCheatFMV_5C1BEC;
     }
@@ -50,7 +50,7 @@ void CheatController_Cheat_FMV_421AD0()
 
 void CheatController_Cheat_LevelSelect_421B00()
 {
-    if (gMap.field_4_current_camera == 1)
+    if (gMap.mCurrentCamera == 1)
     {
         sEnableCheatLevelSelect_5C1BEE = !sEnableCheatLevelSelect_5C1BEE;
     }

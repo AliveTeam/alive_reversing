@@ -710,7 +710,7 @@ ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager:
 
 LoadingFile* ResourceManager::LoadResourceFile_4551E0(const char_type* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
 {
-    LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(pFileName);
+    LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record(pFileName);
     if (!pFileRec)
     {
         return nullptr;
@@ -864,7 +864,7 @@ s16 ResourceManager::LoadResourceFile_455270(const char_type* filename, Camera* 
 
     ResourceManager::LoadingLoop_41EAD0(0);
 
-    LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(filename);
+    LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record(filename);
     if (!pFileRec)
     {
         return 0;
@@ -883,13 +883,13 @@ s16 ResourceManager::LoadResourceFile_455270(const char_type* filename, Camera* 
     }
 
     // NOTE: Not sure why this is done twice, perhaps the above memory compact can invalidate the ptr?
-    pFileRec = sLvlArchive_4FFD60.Find_File_Record_41BED0(filename);
+    pFileRec = sLvlArchive_4FFD60.Find_File_Record(filename);
     if (!pFileRec)
     {
         return 0;
     }
 
-    if (!sLvlArchive_4FFD60.Read_File_41BE40(pFileRec, Get_Header_455620(ppRes)))
+    if (!sLvlArchive_4FFD60.Read_File(pFileRec, Get_Header_455620(ppRes)))
     {
         FreeResource_455550(ppRes);
         return 0;

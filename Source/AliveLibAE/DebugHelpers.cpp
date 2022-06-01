@@ -972,7 +972,7 @@ public:
             camBuffer,
             gMap.mCurrentLevel,
             gMap.mCurrentPath,
-            gMap.field_4_current_camera);
+            gMap.mCurrentCamera);
         sprintf(titleBuffer, "Oddworld Abe's Exoddus DEV MODE - %s", camBuffer);
         Sys_SetWindowText(Sys_GetHWnd_4F2C70(), titleBuffer);
 

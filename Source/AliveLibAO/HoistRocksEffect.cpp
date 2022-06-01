@@ -90,7 +90,7 @@ void HoistRocksEffect::VScreenChanged()
 
 HoistRocksEffect::~HoistRocksEffect()
 {
-    gMap.TLV_Reset_446870(field_18_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_18_tlvInfo, -1, 0, 0);
 }
 
 HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)

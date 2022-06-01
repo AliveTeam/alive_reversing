@@ -130,7 +130,7 @@ s16 LvlArchive::Free_41BEB0()
     return 0;
 }
 
-LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const char_type* pFileName)
+LvlFileRecord* LvlArchive::Find_File_Record(const char_type* pFileName)
 {
     // NOTE: PcOpen branches removed
 
@@ -155,7 +155,7 @@ LvlFileRecord* LvlArchive::Find_File_Record_41BED0(const char_type* pFileName)
     return nullptr;
 }
 
-s16 LvlArchive::Read_File_41BE40(const LvlFileRecord* pFileRec, void* pBuffer)
+s16 LvlArchive::Read_File(const LvlFileRecord* pFileRec, void* pBuffer)
 {
     if (!pFileRec || !pBuffer)
     {

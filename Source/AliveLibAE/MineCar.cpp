@@ -89,7 +89,7 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
     field_1D6_continue_move_input = static_cast<s16>(sInputKey_ThrowItem_5550F4);
 
     field_1CC_spawned_path = gMap.mCurrentPath;
-    field_1CE_spawned_camera = gMap.field_4_current_camera;
+    field_1CE_spawned_camera = gMap.mCurrentCamera;
     field_1D0_sound_channels_mask = 0;
     field_1C4_velx_index = 0;
 }
@@ -997,7 +997,7 @@ void MineCar::State_1_ParkedWithAbe()
 
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_1CC_spawned_path = gMap.mCurrentPath;
-        field_1CE_spawned_camera = gMap.field_4_current_camera;
+        field_1CE_spawned_camera = gMap.mCurrentCamera;
 
         sActiveHero_5C1B68->VCheckCollisionLineStillValid(10);
 

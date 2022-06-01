@@ -14,7 +14,7 @@ constexpr s32 kShowCreditScreenForTicks = 60;
 CreditsController::CreditsController(Path_CreditsController* /*pTlv*/, s32 /*tlvInfo*/)
     : BaseGameObject(1)
 {
-    field_14_camera_number = gMap.field_4_current_camera;
+    field_14_camera_number = gMap.mCurrentCamera;
     field_10_next_cam_frame = gnFrameCount_507670 + kShowCreditScreenForTicks;
 
     gCreditsControllerExists_507684 = true;
@@ -34,12 +34,12 @@ void CreditsController::VUpdate()
         {
             field_10_next_cam_frame = gnFrameCount_507670 + 60;
             field_14_camera_number = 1;
-            gMap.SetActiveCam_444660(LevelIds::eCredits_10, 1, 1, CameraSwapEffects::eTopToBottom_3, 0, 0);
+            gMap.SetActiveCam(LevelIds::eCredits_10, 1, 1, CameraSwapEffects::eTopToBottom_3, 0, 0);
             sBreakGameLoop_507B78 = 1;
         }
         else
         {
-            gMap.SetActiveCam_444660(LevelIds::eCredits_10, 1, field_14_camera_number, CameraSwapEffects::eTopToBottom_3, 0, 0);
+            gMap.SetActiveCam(LevelIds::eCredits_10, 1, field_14_camera_number, CameraSwapEffects::eTopToBottom_3, 0, 0);
             field_10_next_cam_frame = gnFrameCount_507670 + 60;
         }
     }

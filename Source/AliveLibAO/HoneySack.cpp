@@ -75,7 +75,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
         field_F4_drip_target_x = FP_FromInteger(0);
         field_F8_drip_target_y = FP_FromInteger(0);
 
-        Path_TLV* pHoneyDripTarget = gMap.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::HoneyDripTarget_42, 0);
+        Path_TLV* pHoneyDripTarget = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::HoneyDripTarget_42, 0);
         if (pHoneyDripTarget)
         {
             field_F4_drip_target_x = FP_FromInteger(pHoneyDripTarget->field_10_top_left.field_0_x);
@@ -90,11 +90,11 @@ HoneySack::~HoneySack()
 
     if (field_E8_state == State::eDripHoney_0)
     {
-        gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset_446870(field_E4_tlvInfo, FP_GetExponent(field_AC_ypos - field_FC_ypos2), 0, 0);
+        gMap.TLV_Reset(field_E4_tlvInfo, FP_GetExponent(field_AC_ypos - field_FC_ypos2), 0, 0);
     }
 
     if (field_F0_pBee)

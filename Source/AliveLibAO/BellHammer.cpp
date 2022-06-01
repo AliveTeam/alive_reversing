@@ -110,7 +110,7 @@ BellHammer::~BellHammer()
         ResourceManager::FreeResource_455550(ppRes);
     }
 
-    gMap.TLV_Reset_446870(field_E8_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_E8_tlvInfo, -1, 0, 0);
 }
 
 void BellHammer::VScreenChanged()
@@ -173,7 +173,7 @@ void BellHammer::VUpdate()
             Elum::Spawn(info);
 
             PSX_Point mapCoords = {};
-            gMap.GetCurrentCamCoords_444890(&mapCoords);
+            gMap.GetCurrentCamCoords(&mapCoords);
 
             gElum_507680->field_A8_xpos = (FP_FromInteger(mapCoords.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, 0))) - ScaleToGridSize(field_BC_sprite_scale);
             gElum_507680->field_AC_ypos = gElum_507680->field_AC_ypos + FP_FromInteger(450);

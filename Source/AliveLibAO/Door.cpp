@@ -157,7 +157,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                     field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
                 {
                     field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
-                    gMap.GetCurrentCamCoords_444890(&mapCoords);
+                    gMap.GetCurrentCamCoords(&mapCoords);
                     auto aux = SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x);
                     field_A8_xpos = FP_FromInteger((aux)+mapCoords.field_0_x);
                 }
@@ -226,7 +226,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 scale != FP_FromDouble(0.5) ? 7 : 0x70))
             {
                 field_AC_ypos += FP_FromInteger(4);
-                gMap.GetCurrentCamCoords_444890(&mapCoords);
+                gMap.GetCurrentCamCoords(&mapCoords);
                 field_A8_xpos = FP_FromInteger(SnapToXGrid(scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
             }
             else
@@ -288,7 +288,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                                 7))
                         {
                             field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
-                            gMap.GetCurrentCamCoords_444890(&mapCoords);
+                            gMap.GetCurrentCamCoords(&mapCoords);
                             field_A8_xpos = FP_FromInteger(SnapToXGrid(FP_FromInteger(1), FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
                         }
                         else
@@ -333,7 +333,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
 Door::~Door()
 {
-    gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
 void Door::VScreenChanged()

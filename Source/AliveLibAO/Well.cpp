@@ -23,7 +23,7 @@ Well::~Well()
 {
     if (field_E4_tlvInfo != -1)
     {
-        gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
     }
 }
 
@@ -46,7 +46,7 @@ void Well::VUpdate()
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
         mFlags.Set(BaseGameObject::eDead);
-        gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
     }
 
     if (field_100_emit_leaves == Choice_short::eYes_1)

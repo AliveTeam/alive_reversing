@@ -11,17 +11,9 @@ public:
     LightEffect(Path_LightEffect* pTlv, s32 tlvInfo);
     ~LightEffect();
 
-    void VRender_4067F0(PrimHeader** ppOt);
-
     virtual void VRender(PrimHeader** ppOt) override;
-
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_4067E0();
-
     virtual void VUpdate() override;
-
-    void VUpdate_406610();
 
     s32 field_D4;
     s32 field_D8;

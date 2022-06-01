@@ -6,14 +6,9 @@
 
 namespace AO {
 
-void OneShotSwitchIdSetter::VScreenChanged()
-{
-    VScreenChanged_432F00();
-}
-
 OneShotSwitchIdSetter::~OneShotSwitchIdSetter()
 {
-    gMap.TLV_Reset_446870(field_10_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
 }
 
 OneShotSwitchIdSetter::OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, s32 tlvInfo)
@@ -31,7 +26,7 @@ OneShotSwitchIdSetter::OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, s
     }
 }
 
-void OneShotSwitchIdSetter::VScreenChanged_432F00()
+void OneShotSwitchIdSetter::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }

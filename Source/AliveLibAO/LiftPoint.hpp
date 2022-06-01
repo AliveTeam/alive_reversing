@@ -48,7 +48,7 @@ public:
     LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo);
     ~LiftPoint();
 
-    void Move_435740(FP xSpeed, FP ySpeed, s32 not_used);
+    void Move(FP xSpeed, FP ySpeed, s32 not_used);
 
     void StayOnFloor(s16 floor, Path_LiftPoint* pTlv);
 
@@ -71,18 +71,10 @@ public:
     bool OnAFloorLiftMoverCanUse() const;
 
     virtual void VUpdate() override;
-
-    void VUpdate_434D10();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_435780(PrimHeader** ppOt);
-
     virtual void VScreenChanged() override;
 
-    void VScreenChanged_435CC0();
-
-    void CreatePulleyIfExists_435AE0(s16 camX, s16 camY);
+    void CreatePulleyIfExists(s16 camX, s16 camY);
 
     s16 field_12C_bMoving;
     s16 field_12E;

@@ -31,8 +31,6 @@ public:
     
     virtual void VUpdate() override;
 
-    void VUpdate_4055C0();
-
     LiftPoint* FindLiftPointWithId(s16 id);
 
     u16 field_10_lift_mover_switch_id;
