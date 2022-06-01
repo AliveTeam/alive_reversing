@@ -143,11 +143,11 @@ void SecurityOrb::VUpdate_436DF0()
 
                 if (field_BC_sprite_scale == FP_FromDouble(0.5))
                 {
-                    field_118_sound_channels = SFX_Play_43AE60(SoundEffect::SecurityOrb_56, 35, 720);
+                    field_118_sound_channels = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 35, 720);
                 }
                 else
                 {
-                    field_118_sound_channels = SFX_Play_43AE60(SoundEffect::SecurityOrb_56, 55, 700);
+                    field_118_sound_channels = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 55, 700);
                 }
             }
 
@@ -236,11 +236,11 @@ void SecurityOrb::VUpdate_436DF0()
 
             if (field_114_timer - gnFrameCount_507670 == 4)
             {
-                SFX_Play_43AD70(SoundEffect::Zap1_57, 0, 0);
+                SFX_Play_Mono(SoundEffect::Zap1_57, 0, 0);
             }
             else if (field_114_timer - gnFrameCount_507670 == 1)
             {
-                SFX_Play_43AD70(SoundEffect::Zap2_58, 0, 0);
+                SFX_Play_Mono(SoundEffect::Zap2_58, 0, 0);
             }
 
             if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)

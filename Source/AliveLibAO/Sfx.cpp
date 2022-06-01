@@ -122,7 +122,7 @@ const SfxDefinition sSfxEntries_4CCA38[] = {
     {0, 62, 62, 90, -1000, -1000, 0},
     {0, 64, 39, 90, -1000, -1000, 0}};
 
-s32 SFX_Play_43AE60(SoundEffect sfxIdx, s32 volume, s32 pitch, BaseAnimatedWithPhysicsGameObject* pObj)
+s32 SFX_Play_Pitch(SoundEffect sfxIdx, s32 volume, s32 pitch, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (volume > 0)
     {
@@ -135,7 +135,7 @@ s32 SFX_Play_43AE60(SoundEffect sfxIdx, s32 volume, s32 pitch, BaseAnimatedWithP
     return SFX_SfxDefinition_Play_4770F0(&sSfxEntries_4CCA38[sfxIdx], volume, pitch, pitch);
 }
 
-s32 SFX_Play_43AD70(SoundEffect sfxIdx, s32 volume, BaseAnimatedWithPhysicsGameObject* pObj)
+s32 SFX_Play_Mono(SoundEffect sfxIdx, s32 volume, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (volume > 0)
     {
@@ -148,7 +148,7 @@ s32 SFX_Play_43AD70(SoundEffect sfxIdx, s32 volume, BaseAnimatedWithPhysicsGameO
     return SFX_SfxDefinition_Play_4770F0(&sSfxEntries_4CCA38[sfxIdx], volume, 0x7FFF, 0x7FFF);
 }
 
-s32 SFX_Play_43ADE0(SoundEffect sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWithPhysicsGameObject* pObj)
+s32 SFX_Play_Stereo(SoundEffect sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     s16 left = 0;
     s16 right = 0;
@@ -166,7 +166,7 @@ s32 SFX_Play_43ADE0(SoundEffect sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWi
     return SFX_SfxDefinition_Play_477330(&sSfxEntries_4CCA38[sfxId], left, right, 0x7FFF, 0x7FFF);
 }
 
-s32 SFX_Play_43AED0(SoundEffect sfxId, s32 volume, CameraPos direction)
+s32 SFX_Play_Camera(SoundEffect sfxId, s32 volume, CameraPos direction)
 {
     switch (direction)
     {

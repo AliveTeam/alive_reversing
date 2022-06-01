@@ -23,16 +23,8 @@ public:
     ~HoneySack();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_42C390();
-
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-
-    void VOnThrowableHit_42C370(BaseGameObject* pFrom);
-
     virtual void VUpdate() override;
-
-    void VUpdate_42BFE0();
 
     s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;

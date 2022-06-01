@@ -225,7 +225,7 @@ void ParticleBurst::VUpdate_40D600()
                         pItem->field_4_y,
                         0))
                 {
-                    SFX_Play_43AE60(SoundEffect::KillEffect_78, 50, Math_RandomRange_450F20(-900, -300));
+                    SFX_Play_Pitch(SoundEffect::KillEffect_78, 50, Math_RandomRange_450F20(-900, -300));
                 }
             }
             else
@@ -238,15 +238,15 @@ void ParticleBurst::VUpdate_40D600()
                 const u8 next_rand = Math_NextRandom();
                 if (next_rand < 43)
                 {
-                    SFX_Play_43AED0(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamLeft_3);
+                    SFX_Play_Camera(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamLeft_3);
                 }
                 else if (next_rand >= 85)
                 {
-                    SFX_Play_43AED0(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamRight_4);
+                    SFX_Play_Camera(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamRight_4);
                 }
                 else
                 {
-                    SFX_Play_43AED0(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamCurrent_0);
+                    SFX_Play_Camera(SoundEffect::ParticleBurst_32, volume, CameraPos::eCamCurrent_0);
                 }
             }
         }

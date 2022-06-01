@@ -631,7 +631,7 @@ void Map::RemoveObjectsWithPurpleLight_4440D0(s16 bMakeInvisible)
 
     if (bAddedALight)
     {
-        SFX_Play_43AE60(SoundEffect::PossessEffect_21, 40, 2400, 0);
+        SFX_Play_Pitch(SoundEffect::PossessEffect_21, 40, 2400, 0);
 
         const auto kTotal = bMakeInvisible != 0 ? 12 : 4;
         for (s32 counter = 0; counter < kTotal; counter++)

@@ -7,11 +7,6 @@
 
 namespace AO {
 
-void Honey::VScreenChanged()
-{
-    VScreenChanged_431EF0();
-}
-
 void Honey::VUpdate()
 {
     // Empty
@@ -33,7 +28,7 @@ Honey::Honey(FP xpos, FP ypos)
     field_A8_xpos = xpos;
 }
 
-void Honey::VScreenChanged_431EF0()
+void Honey::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
     gMap.TLV_Reset_446870(field_E4_tlvInfo, -1, 0, 0);

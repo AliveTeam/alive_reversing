@@ -289,7 +289,7 @@ void Mine::vUpdate_43A7F0()
             {
                 if (bInCamera)
                 {
-                    SFX_Play_43AD70(SoundEffect::RedTick_4, 35, 0);
+                    SFX_Play_Mono(SoundEffect::RedTick_4, 35, 0);
                 }
                 sMinePlayingSound_507B88 = this;
             }

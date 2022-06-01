@@ -151,7 +151,7 @@ Elum::~Elum()
     }
 
     gElum_507680 = nullptr;
-    VOnTrapDoorOpen_412700();
+    VOnTrapDoorOpen();
 
     ResourceManager::FreeResource_455550(
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0));
@@ -175,13 +175,8 @@ Elum::~Elum()
     }
 }
 
+
 void Elum::VOn_TLV_Collision(Path_TLV* pTlv)
-{
-    VOn_TLV_Collision_410F10(pTlv);
-}
-
-
-void Elum::VOn_TLV_Collision_410F10(Path_TLV* pTlv)
 {
     while (pTlv)
     {
@@ -226,11 +221,6 @@ void Elum::VOn_TLV_Collision_410F10(Path_TLV* pTlv)
 
 s16 Elum::VTakeDamage(BaseGameObject* pFrom)
 {
-    return VTakeDamage_411020(pFrom);
-}
-
-s16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
-{
     switch (pFrom->field_4_typeId)
     {
         case Types::eBullet_10:
@@ -239,7 +229,7 @@ s16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
             if (field_100_health > FP_FromInteger(0))
             {
                 Elum_SFX_416E10(ElumSounds::eExploding_7, 0);
-                SFX_Play_43AD70(SoundEffect::KillEffect_78, 75, 0);
+                SFX_Play_Mono(SoundEffect::KillEffect_78, 75, 0);
 
                 if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
                 {
@@ -289,11 +279,6 @@ s16 Elum::VTakeDamage_411020(BaseGameObject* pFrom)
     return 1;
 }
 
-void Elum::VOnTrapDoorOpen()
-{
-    VOnTrapDoorOpen_412700();
-}
-
 void Elum::ToKnockback()
 {
     field_B4_velx = FP_FromInteger(0);
@@ -307,7 +292,7 @@ void Elum::ToKnockback()
     Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 95, -200, this);
 }
 
-void Elum::VOnTrapDoorOpen_412700()
+void Elum::VOnTrapDoorOpen()
 {
     if (field_F8_pLiftPoint)
     {

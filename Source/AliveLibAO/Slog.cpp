@@ -1756,7 +1756,7 @@ void Slog::Motion_21_Eating_475900()
     {
         if (field_10_anim.field_92_current_frame == 3 && !field_10_anim.field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
         {
-            SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 100, 0);
+            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 100, 0);
             const FP bloodYPos = field_AC_ypos - (FP_FromInteger(4) * field_BC_sprite_scale);
             const FP bloodXPos = ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromInteger(25) : FP_FromInteger(25) * field_BC_sprite_scale);
             ao_new<Blood>(

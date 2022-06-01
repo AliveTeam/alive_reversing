@@ -75,14 +75,14 @@ void DemoPlayback::VUpdate()
             sActiveHero_507678->mFlags.Set(Options::eDrawable_Bit4);
             sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-            Input().SetDemoRes_433470(reinterpret_cast<u32**>(field_14_ppDemoRes));
+            Input().SetDemoRes(reinterpret_cast<u32**>(field_14_ppDemoRes));
 
             mFlags.Set(Options::eDrawable_Bit4);
             field_10_state = States::eState_1_Playing;
             break;
 
         case States::eState_1_Playing:
-            if (!Input().IsDemoPlaying_4334A0())
+            if (!Input().IsDemoPlaying())
             {
                 if (gAttract_507698)
                 {

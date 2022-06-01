@@ -204,12 +204,12 @@ void MeatSaw::VUpdate_4399D0()
 
     if (!(field_10C_FrameCount % 87))
     {
-        SFX_Play_43AED0(SoundEffect::MeatsawOffscreen_88, 45, direction);
+        SFX_Play_Camera(SoundEffect::MeatsawOffscreen_88, 45, direction);
     }
 
     if (!(field_10C_FrameCount % 25))
     {
-        SFX_Play_43AED0(SoundEffect::MeatsawIdle_89, 45, direction);
+        SFX_Play_Camera(SoundEffect::MeatsawIdle_89, 45, direction);
     }
 
     field_10C_FrameCount++;
@@ -255,7 +255,7 @@ void MeatSaw::VUpdate_4399D0()
 
             if (!((gnFrameCount_507670 - field_108_SFX_timer) % 8))
             {
-                SFX_Play_43AED0(SoundEffect::MeatsawDown_91, 50, direction);
+                SFX_Play_Camera(SoundEffect::MeatsawDown_91, 50, direction);
             }
 
             if (field_F4 >= field_E6_max_rise_time)
@@ -269,7 +269,7 @@ void MeatSaw::VUpdate_4399D0()
             if (!((gnFrameCount_507670 - field_108_SFX_timer) % 10))
             {
                 field_108_SFX_timer = gnFrameCount_507670;
-                SFX_Play_43AED0(SoundEffect::MeatsawUp_90, 50, direction);
+                SFX_Play_Camera(SoundEffect::MeatsawUp_90, 50, direction);
             }
 
             field_F4 -= field_E8_speed2;
@@ -360,8 +360,8 @@ void MeatSaw::GrindUpObjects_439CD0()
                                 field_BC_sprite_scale,
                                 50);
 
-                            SFX_Play_43AD70(SoundEffect::KillEffect_78, 127, 0);
-                            SFX_Play_43AE60(SoundEffect::KillEffect_78, 127, -700, 0);
+                            SFX_Play_Mono(SoundEffect::KillEffect_78, 127, 0);
+                            SFX_Play_Pitch(SoundEffect::KillEffect_78, 127, -700, 0);
                             return;
                         }
                     }

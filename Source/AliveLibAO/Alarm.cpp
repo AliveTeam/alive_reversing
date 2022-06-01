@@ -82,7 +82,7 @@ void Alarm::VUpdate()
             {
                 field_6A_state = States::eEnabling_1;
 
-                SFX_Play_43AD70(SoundEffect::Alarm_45, 0, 0);
+                SFX_Play_Mono(SoundEffect::Alarm_45, 0, 0);
 
                 if (field_74_switch_id)
                 {
@@ -99,7 +99,7 @@ void Alarm::VUpdate()
                 field_68_r_value = 100;
                 field_6C_15_timer = gnFrameCount_507670 + 15;
                 field_6A_state = States::eOnFlash_2;
-                SFX_Play_43AD70(SoundEffect::Alarm_45, 0, 0);
+                SFX_Play_Mono(SoundEffect::Alarm_45, 0, 0);
             }
             break;
 
@@ -131,7 +131,7 @@ void Alarm::VUpdate()
             if (static_cast<s32>(gnFrameCount_507670) > field_6C_15_timer)
             {
                 field_6A_state = States::eEnabling_1;
-                SFX_Play_43AD70(SoundEffect::Alarm_45, 0, 0);
+                SFX_Play_Mono(SoundEffect::Alarm_45, 0, 0);
             }
             break;
 

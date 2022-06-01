@@ -30,20 +30,11 @@ public:
     void InitParticle(HintFlyParticle* pParticle);
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_42BCE0();
-
-    void FormWordAndAdvanceToNextWord_42AF90();
-
-    void UpdateParticles_42B1B0();
-
     virtual void VUpdate() override;
-
-    void VUpdate_42B3D0();
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    void VRender_42BAD0(PrimHeader** ppOt);
+    void FormWordAndAdvanceToNextWord();
+    void UpdateParticles();
 
     s32 field_D4[4];
     u8** field_E4_ppRes;

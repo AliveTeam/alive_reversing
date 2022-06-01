@@ -240,8 +240,8 @@ void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
     if (!floor)
     {
         field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - field_11C_y_offset);
-        SFX_Play_43AD70(SoundEffect::LiftStop_35, 0);
-        SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -2000);
+        SFX_Play_Mono(SoundEffect::LiftStop_35, 0);
+        SFX_Play_Pitch(SoundEffect::LiftStop_35, 80, -2000);
     }
 
     field_12C_bMoving &= ~1u;
@@ -328,8 +328,8 @@ void LiftPoint::VUpdate_434D10()
                 field_B8_vely = FP_FromInteger(0);
                 field_12C_bMoving &= ~1u;
                 field_27A_flags.Clear(Flags::eBit6_bMoveToFloorLevel);
-                SFX_Play_43AD70(SoundEffect::LiftStop_35, 0);
-                SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -2000);
+                SFX_Play_Mono(SoundEffect::LiftStop_35, 0);
+                SFX_Play_Pitch(SoundEffect::LiftStop_35, 80, -2000);
                 Event_Broadcast(kEventNoise_0, this);
                 Event_Broadcast(kEventSuspiciousNoise_10, this);
             }
@@ -548,7 +548,7 @@ void LiftPoint::VUpdate_434D10()
     {
         if (field_13C_lift_wheel.field_4_flags.Get(AnimFlags::eBit2_Animate))
         {
-            SFX_Play_43AD70(SoundEffect::WheelSqueak_36, 0);
+            SFX_Play_Mono(SoundEffect::WheelSqueak_36, 0);
         }
     }
 

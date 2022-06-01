@@ -55,7 +55,7 @@ void Lever::VUpdate_4812D0()
     {
         if (field_10_anim.field_92_current_frame == 3)
         {
-            SFX_Play_43AD70(SoundEffect::LeverPull_75, 0, 0);
+            SFX_Play_Mono(SoundEffect::LeverPull_75, 0, 0);
         }
 
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -67,7 +67,7 @@ void Lever::VUpdate_4812D0()
                 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12
                 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
             {
-                SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 60, 0);
+                SFX_Play_Mono(SoundEffect::IndustrialTrigger_97, 60, 0);
             }
             field_E8_state = LeverState::eFinished_2;
 
@@ -114,19 +114,19 @@ void Lever::VUpdate_4812D0()
                     switch (field_F4_on_sound)
                     {
                         case LeverSoundType::eWell_1:
-                            SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
+                            SFX_Play_Stereo(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                             break;
                         case LeverSoundType::eSwitchBellHammer_2:
-                            SFX_Play_43ADE0(SoundEffect::SwitchBellHammer_12, 100 * leftVol + 25, 100 * rightVol + 25, 0);
+                            SFX_Play_Stereo(SoundEffect::SwitchBellHammer_12, 100 * leftVol + 25, 100 * rightVol + 25, 0);
                             return;
                         case LeverSoundType::eDoor_3:
-                            SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
+                            SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
                             break;
                         case LeverSoundType::eElectricWall_4:
-                            SFX_Play_43ADE0(SoundEffect::Zap1_57, 35 * leftVol + 25, 35 * rightVol + 25, 0);
+                            SFX_Play_Stereo(SoundEffect::Zap1_57, 35 * leftVol + 25, 35 * rightVol + 25, 0);
                             break;
                         case LeverSoundType::eSecurityOrb_5:
-                            SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 25, 35 * rightVol + 25, 0);
+                            SFX_Play_Stereo(SoundEffect::SecurityOrb_56, 35 * leftVol + 25, 35 * rightVol + 25, 0);
                             break;
                         default:
                             return;
@@ -137,19 +137,19 @@ void Lever::VUpdate_4812D0()
                     switch (field_F6_off_sound)
                     {
                         case LeverSoundType::eWell_1:
-                            SFX_Play_43ADE0(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
+                            SFX_Play_Stereo(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                             break;
                         case LeverSoundType::eSwitchBellHammer_2:
-                            SFX_Play_43ADE0(SoundEffect::SwitchBellHammer_12, 110 * leftVol + 25, 110 * rightVol + 25, 0);
+                            SFX_Play_Stereo(SoundEffect::SwitchBellHammer_12, 110 * leftVol + 25, 110 * rightVol + 25, 0);
                             break;
                         case LeverSoundType::eDoor_3:
-                            SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
+                            SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
                             break;
                         case LeverSoundType::eElectricWall_4:
-                            SFX_Play_43ADE0(SoundEffect::Zap1_57, 80 * leftVol + 25, 80 * rightVol + 25, 0);
+                            SFX_Play_Stereo(SoundEffect::Zap1_57, 80 * leftVol + 25, 80 * rightVol + 25, 0);
                             break;
                         case LeverSoundType::eSecurityOrb_5:
-                            SFX_Play_43ADE0(SoundEffect::SecurityOrb_56, 35 * leftVol + 75, 35 * rightVol + 75, 0);
+                            SFX_Play_Stereo(SoundEffect::SecurityOrb_56, 35 * leftVol + 75, 35 * rightVol + 75, 0);
                             break;
                         default:
                             return;

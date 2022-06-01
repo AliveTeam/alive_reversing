@@ -103,11 +103,11 @@ s16* Animation_OnFrame_Slig(void* pObj, s16* pData)
 
     if (pSlig->field_BC_sprite_scale == FP_FromDouble(0.5))
     {
-        SFX_Play_43AD70(SoundEffect::SligShoot_6, 85);
+        SFX_Play_Mono(SoundEffect::SligShoot_6, 85);
     }
     else
     {
-        SFX_Play_43AD70(SoundEffect::SligShoot_6, 0);
+        SFX_Play_Mono(SoundEffect::SligShoot_6, 0);
     }
 
     Event_Broadcast(kEvent_2, pSlig);
@@ -159,7 +159,7 @@ s16* Slog_OnFrame(void* pObj, s16* pData)
 
                     pSlog->field_110 = 1;
 
-                    SFX_Play_43AD70(SoundEffect::SlogBite_39, 0);
+                    SFX_Play_Mono(SoundEffect::SlogBite_39, 0);
                 }
             }
         }

@@ -2836,7 +2836,7 @@ void Paramite::Motion_3_Running_44C070()
 
     if (field_10_anim.field_92_current_frame == 3)
     {
-        SFX_Play_43AE60(SoundEffect::PickupItem_33, 45, -600, 0);
+        SFX_Play_Pitch(SoundEffect::PickupItem_33, 45, -600, 0);
         if (field_FE_next_motion == eParamiteMotions::Motion_2_Walking_44B9E0)
         {
             field_FC_current_motion = eParamiteMotions::Motion_8_WalkRunTransition_44C790;
@@ -3350,7 +3350,7 @@ void Paramite::Motion_13_GameSpeakBegin_44D050()
             {
                 if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
                 {
-                    SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
+                    SFX_Play_Mono(SoundEffect::KillEffect_78, 0, 0);
                     Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 0, 0, sActiveHero_507678);
                 }
                 sActiveHero_507678->VTakeDamage(this);
@@ -3749,7 +3749,7 @@ void Paramite::Motion_23_Eating_44B970()
 {
     if (field_10_anim.field_92_current_frame == 5)
     {
-        SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 0, 0);
+        SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 0, 0);
     }
 
     if (field_FE_next_motion != -1 && !ToNextMotion_44B320())
@@ -3762,7 +3762,7 @@ void Paramite::Motion_24_Struggle_44DB70()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, 0);
+        SFX_Play_Mono(SoundEffect::KillEffect_78, 0, 0);
     }
 }
 

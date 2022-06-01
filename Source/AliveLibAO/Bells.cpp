@@ -63,15 +63,15 @@ void Bells::VUpdate()
 
         if (field_EA_sound == Sounds::eLowPitch_0)
         {
-            SFX_Play_43AD70(SoundEffect::BellChime_LowPitch_52, 0, 0);
+            SFX_Play_Mono(SoundEffect::BellChime_LowPitch_52, 0, 0);
         }
         else if (field_EA_sound == Sounds::eMediumPitch_1)
         {
-            SFX_Play_43AE60(SoundEffect::BellChime_MediumPitch_51, 45 * (field_F0_sound_pitch_factor + 1), 128 - (field_F0_sound_pitch_factor << 7), 0);
+            SFX_Play_Pitch(SoundEffect::BellChime_MediumPitch_51, 45 * (field_F0_sound_pitch_factor + 1), 128 - (field_F0_sound_pitch_factor << 7), 0);
         }
         else if (field_EA_sound == Sounds::eHighPitch_2)
         {
-            SFX_Play_43AE60(SoundEffect::BellChime_HighPitch_50, 30 * (field_F0_sound_pitch_factor + 1), (2 - field_F0_sound_pitch_factor) << 7, 0);
+            SFX_Play_Pitch(SoundEffect::BellChime_HighPitch_50, 30 * (field_F0_sound_pitch_factor + 1), (2 - field_F0_sound_pitch_factor) << 7, 0);
         }
     }
 

@@ -227,7 +227,7 @@ void SecurityClaw::VUpdate_418DE0()
         {
             SND_Stop_Channels_Mask_4774A0(field_128_sound_channels);
         }
-        field_128_sound_channels = SFX_Play_43AE60(SoundEffect::SecurityOrb_56, 55, -300, 0);
+        field_128_sound_channels = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 55, -300, 0);
     }
 
     if (sActiveHero_507678 == sControlledCharacter_50767C)
@@ -315,8 +315,8 @@ void SecurityClaw::VUpdate_418DE0()
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Open);
                 field_130_pClaw->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                SFX_Play_43AD70(SoundEffect::IndustrialNoise3_95, 60, 0);
-                SFX_Play_43AE60(SoundEffect::IndustrialNoise3_95, 90, -1000, 0);
+                SFX_Play_Mono(SoundEffect::IndustrialNoise3_95, 60, 0);
+                SFX_Play_Pitch(SoundEffect::IndustrialNoise3_95, 90, -1000, 0);
             }
 
             if (Event_Get(kEvent_2))
@@ -404,11 +404,11 @@ void SecurityClaw::VUpdate_418DE0()
 
             if (field_114_timer - gnFrameCount_507670 == 4)
             {
-                SFX_Play_43AD70(SoundEffect::Zap1_57, 0, 0);
+                SFX_Play_Mono(SoundEffect::Zap1_57, 0, 0);
             }
             else if (field_114_timer - gnFrameCount_507670 == 1)
             {
-                SFX_Play_43AD70(SoundEffect::Zap2_58, 0, 0);
+                SFX_Play_Mono(SoundEffect::Zap2_58, 0, 0);
             }
 
             if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
@@ -416,7 +416,7 @@ void SecurityClaw::VUpdate_418DE0()
                 field_110_state = SecurityClawStates::eIdle_1;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Close);
                 field_130_pClaw->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 0, 0);
+                SFX_Play_Mono(SoundEffect::IndustrialTrigger_97, 0, 0);
             }
             break;
 

@@ -90,7 +90,7 @@ void BulletShell::VUpdate()
             {
                 volume = 19;
             }
-            SFX_Play_43AD70(SoundEffect::BulletShell_7, volume, 0);
+            SFX_Play_Mono(SoundEffect::BulletShell_7, volume, 0);
             field_EC_hitCount++;
         }
     }

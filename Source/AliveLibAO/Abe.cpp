@@ -698,11 +698,11 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             s32 result = 0;
             if (pAliveObj && pAliveObj->field_BC_sprite_scale == FP_FromDouble(0.5))
             {
-                result = SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 20, 0);
+                result = SFX_Play_Mono(SoundEffect::AbeGenericMovement_37, 20, 0);
             }
             else
             {
-                result = SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 35, 0);
+                result = SFX_Play_Mono(SoundEffect::AbeGenericMovement_37, 35, 0);
             }
             return result;
         }
@@ -803,34 +803,7 @@ s32 Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject
     }
 }
 
-void Abe::VUpdate()
-{
-    vUpdate_41FDB0();
-}
-
-void Abe::VRender(PrimHeader** ppOt)
-{
-    vRender_420F30(ppOt);
-}
-
-void Abe::VScreenChanged()
-{
-    vScreenChanged_422640();
-}
-
-
-void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
-{
-    VOn_Tlv_Collision_421130(pTlv);
-}
-
-
 void Abe::VOnTrapDoorOpen()
-{
-    VOnTrapDoorOpen_42EED0();
-}
-
-void Abe::VOnTrapDoorOpen_42EED0()
 {
     if (field_F8_pLiftPoint)
     {
@@ -860,7 +833,7 @@ Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
 
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
 
-    Init_GameStates_41CEC0();
+    Init_GameStates();
 
     // Zero out the resource array
     field_1A4_resources = {};
@@ -1124,7 +1097,7 @@ Abe::~Abe()
 const u32 sAbe_xVel_table_4BB118[8] = {262144, 262144, 0, 4294705152, 4294705152, 4294705152, 0, 262144};
 const u32 sAbe_yVel_table_4BB138[8] = {0, 4294705152, 4294705152, 4294705152, 0, 262144, 262144, 262144};
 
-void Abe::vUpdate_41FDB0()
+void Abe::VUpdate()
 {
     if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit1))
     {
@@ -1133,7 +1106,7 @@ void Abe::vUpdate_41FDB0()
             field_100_health = FP_FromInteger(1);
         }
 
-        if (!Input_IsChanting_4334C0())
+        if (!Input_IsChanting())
         {
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit7);
         }
@@ -1301,7 +1274,7 @@ void Abe::vUpdate_41FDB0()
                                     FP_FromInteger((bRect.w + bRect.x) / 2),
                                     FP_FromInteger((bRect.h + bRect.y) / 2),
                                     field_16C_bHaveShrykull != 0 ? RingTypes::eShrykull_Pulse_Small_4 : RingTypes::eExplosive_Pulse_0);
-                                SFX_Play_43AE60(SoundEffect::PossessEffect_21, 25, 2650, 0);
+                                SFX_Play_Pitch(SoundEffect::PossessEffect_21, 25, 2650, 0);
                             }
                         }
                         else
@@ -1405,7 +1378,7 @@ void Abe::vUpdate_41FDB0()
     }
 }
 
-void Abe::vRender_420F30(PrimHeader** ppOt)
+void Abe::VRender(PrimHeader** ppOt)
 {
     // When in death shrivel don't reset scale else can't shrivel into a black blob
     if (!(field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel)))
@@ -2072,7 +2045,7 @@ void Abe::ElumFree_4228F0()
 
 s16 Abe::DoGameSpeak_42F5C0(u16 input)
 {
-    if (Input_IsChanting_4334C0())
+    if (Input_IsChanting())
     {
         field_114_gnFrame = gnFrameCount_507670 + 90;
         SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant1_11, 0, 1);
@@ -2438,7 +2411,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
             {
                 if (bStandToCrouch)
                 {
-                    SFX_Play_43AD70(SoundEffect::PickupItem_33, 0, this);
+                    SFX_Play_Mono(SoundEffect::PickupItem_33, 0, this);
                     field_15C_pThrowable->field_C_refCount--;
                     field_15C_pThrowable->VOnPickUpOrSlapped();
                     field_15C_pThrowable = nullptr;
@@ -2970,8 +2943,8 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     Environment_SFX_42A220(EnvironmentSfx::eElumHitWall_14, 0, 0x7FFF, this);
     Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 127, 0, this);
     Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
-    SFX_Play_43AE60(SoundEffect::Eating1_79, 0, -500, this);
-    SFX_Play_43AD70(SoundEffect::KillEffect_78, 0, this);
+    SFX_Play_Pitch(SoundEffect::Eating1_79, 0, -500, this);
+    SFX_Play_Mono(SoundEffect::KillEffect_78, 0, this);
 }
 
 Bool32 Abe::NearDoorIsOpen()
@@ -3102,7 +3075,7 @@ s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
     return eAbeMotions::Motion_135_LiftGrabIdle_42F000;
 }
 
-void Abe::vScreenChanged_422640()
+void Abe::VScreenChanged()
 {
     if (sControlledCharacter_50767C == this || sControlledCharacter_50767C == gElum_507680)
     {
@@ -3148,7 +3121,7 @@ void Abe::vScreenChanged_422640()
 
 
 
-void Abe::VOn_Tlv_Collision_421130(Path_TLV* pTlv)
+void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
@@ -3327,13 +3300,7 @@ s16 Abe::HandleDoAction_429A70()
     return eAbeMotions::Motion_36_DunnoBegin_423260;
 }
 
-
 s16 Abe::VTakeDamage(BaseGameObject* pFrom)
-{
-    return VTakeDamage_4214E0(pFrom);
-}
-
-s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
 {
     SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
 
@@ -3525,7 +3492,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                     return 1;
                 }
                 ToKnockback_422D90(1, 1);
-                SFX_Play_43AD70(SoundEffect::KillEffect_78, 127);
+                SFX_Play_Mono(SoundEffect::KillEffect_78, 127);
             }
             break;
 
@@ -3638,10 +3605,10 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                     field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(7.8));
                 }
 
-                SFX_Play_43AD70(SoundEffect::KillEffect_78, 127, 0);
+                SFX_Play_Mono(SoundEffect::KillEffect_78, 127, 0);
                 if (pAliveObj->field_4_typeId != Types::eParamite_62)
                 {
-                    SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 90);
+                    SFX_Play_Mono(SoundEffect::FallingItemHit_53, 90);
                 }
             }
             break;
@@ -3695,7 +3662,7 @@ s16 Abe::VTakeDamage_4214E0(BaseGameObject* pFrom)
                     field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(-7.8));
                 }
 
-                SFX_Play_43AD70(SoundEffect::KillEffect_78, 127, 0);
+                SFX_Play_Mono(SoundEffect::KillEffect_78, 127, 0);
             }
             break;
 
@@ -3860,7 +3827,7 @@ void Abe::TryHoist_423420()
 void Abe::Motion_0_Idle_423520()
 {
     FollowLift_42EE90();
-    if (Input_IsChanting_4334C0() && !field_2A8_flags.Get(Flags_2A8::e2A8_Bit7))
+    if (Input_IsChanting() && !field_2A8_flags.Get(Flags_2A8::e2A8_Bit7))
     {
         if (field_168_ring_pulse_timer && field_16C_bHaveShrykull)
         {
@@ -5576,7 +5543,7 @@ void Abe::Motion_30_HopMid_4264D0()
                     FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(50)),
                     TlvTypes::ElumStart_38))
             {
-                SFX_Play_43AD70(SoundEffect::RingBellHammer_9, 0, 0);
+                SFX_Play_Mono(SoundEffect::RingBellHammer_9, 0, 0);
             }
             field_FE_next_motion = eAbeMotions::Motion_0_Idle_423520;
             ToKnockback_422D90(1, 1);
@@ -5736,7 +5703,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 FP_GetExponent(field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(50)),
                 TlvTypes::ElumStart_38))
         {
-            SFX_Play_43AD70(SoundEffect::RingBellHammer_9, 0, 0);
+            SFX_Play_Mono(SoundEffect::RingBellHammer_9, 0, 0);
         }
         field_FE_next_motion = eAbeMotions::Motion_0_Idle_423520;
         ToKnockback_422D90(1, 1);
@@ -6950,7 +6917,7 @@ void Abe::Motion_60_Dead_42C4C0()
             {
                 if (!field_104_pending_resource_count)
                 {
-                    VOnTrapDoorOpen_42EED0();
+                    VOnTrapDoorOpen();
                     field_F4_pLine = nullptr;
                     if (gElum_507680)
                     {
@@ -7165,7 +7132,7 @@ void Abe::Motion_61_Respawn_42CD20()
                         pDove->field_BC_sprite_scale = field_BC_sprite_scale;
                     }
                 }
-                SFX_Play_43AD70(SoundEffect::RespawnDove_17, 0, this);
+                SFX_Play_Mono(SoundEffect::RespawnDove_17, 0, this);
                 field_118_timer = gnFrameCount_507670 + 45;
                 field_114_gnFrame = 3;
             }
@@ -7175,7 +7142,7 @@ void Abe::Motion_61_Respawn_42CD20()
         {
             if (field_118_timer - gnFrameCount_507670 == 10)
             {
-                SFX_Play_43AD70(SoundEffect::Respawn_22, 90, 0);
+                SFX_Play_Mono(SoundEffect::Respawn_22, 90, 0);
             }
             if (static_cast<s32>(gnFrameCount_507670) > field_118_timer)
             {
@@ -7788,7 +7755,7 @@ void Abe::Motion_77_WellBegin_430F10()
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_114_gnFrame = 15;
-        SFX_Play_43AD70(SoundEffect::WellEnter_25, 0, this);
+        SFX_Play_Mono(SoundEffect::WellEnter_25, 0, this);
 
         switch (field_FC_current_motion)
         {
@@ -7888,7 +7855,7 @@ void Abe::Motion_78_InsideWellLocal_4310A0()
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
         }
 
-        SFX_Play_43AD70(SoundEffect::WellExit_24, 0, this);
+        SFX_Play_Mono(SoundEffect::WellExit_24, 0, this);
 
         field_FC_current_motion++; // can be motion 76 and 79 maybe more?
 
@@ -8138,7 +8105,7 @@ void Abe::Motion_86_FallLandDie_42EDD0()
 
     if (field_10_anim.field_92_current_frame == 0)
     {
-        SFX_Play_43AD70(SoundEffect::KillEffect_78, 85, 0);
+        SFX_Play_Mono(SoundEffect::KillEffect_78, 85, 0);
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 95, 95);
         ao_new<ScreenShake>(true);
     }
@@ -8183,7 +8150,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 
                 field_110_state.stone = StoneStates::eGetHandstoneType_1;
-                SFX_Play_43AD70(SoundEffect::IngameTransition_107, 90, 0);
+                SFX_Play_Mono(SoundEffect::IngameTransition_107, 90, 0);
                 field_F0_pTlv = gMap.TLV_Get_At_446260(
                     FP_GetExponent(field_A8_xpos),
                     FP_GetExponent(field_AC_ypos),
@@ -8205,7 +8172,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         FP_GetExponent(field_A8_xpos),
                         FP_GetExponent(field_AC_ypos),
                         TlvTypes::MovieStone_51);
-                    sAbeSound_507730 = SFX_Play_43AE60(SoundEffect::HandstoneTransition_13, 127, -300, 0);
+                    sAbeSound_507730 = SFX_Play_Pitch(SoundEffect::HandstoneTransition_13, 127, -300, 0);
                     if (!field_F0_pTlv)
                         field_F0_pTlv = gMap.TLV_Get_At_446260(
                             FP_GetExponent(field_A8_xpos),
@@ -8391,7 +8358,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                 {
                     field_158_pDeathFadeout->Init(Layer::eLayer_FadeFlash_40, 1, 0, 8);
                     field_110_state.stone = StoneStates::eSetActiveCamToAbeOrWaitForInput_7;
-                    SFX_Play_43AD70(SoundEffect::IngameTransition_107, 90, 0);
+                    SFX_Play_Mono(SoundEffect::IngameTransition_107, 90, 0);
                 }
             }
             break;
@@ -9044,7 +9011,7 @@ void Abe::Motion_136_ElumMountEnd_42E110()
             if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
-                SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 0, this);
+                SFX_Play_Mono(SoundEffect::AbeGenericMovement_37, 0, this);
             }
             break;
 
@@ -9061,7 +9028,7 @@ void Abe::Motion_136_ElumMountEnd_42E110()
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
                 Environment_SFX_42A220(EnvironmentSfx::eMountElumSmackNoise_17, 0, 0x7FFF, this);
-                SFX_Play_43AD70(SoundEffect::MountingElum_38, 0, this);
+                SFX_Play_Mono(SoundEffect::MountingElum_38, 0, this);
             }
             break;
 
@@ -9126,7 +9093,7 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
             if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
-                SFX_Play_43AD70(SoundEffect::AbeGenericMovement_37, 17, this);
+                SFX_Play_Mono(SoundEffect::AbeGenericMovement_37, 17, this);
             }
             break;
 
@@ -9150,7 +9117,7 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
             if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
-                SFX_Play_43AD70(SoundEffect::MountingElum_38, 0, this);
+                SFX_Play_Mono(SoundEffect::MountingElum_38, 0, this);
             }
             break;
 
@@ -9310,7 +9277,7 @@ void Abe::Motion_143_RockThrowStandingThrow_429FD0()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        SFX_Play_43AD70(SoundEffect::AirStream_28, 0, this);
+        SFX_Play_Mono(SoundEffect::AirStream_28, 0, this);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -9360,7 +9327,7 @@ void Abe::Motion_146_RockThrowCrouchingThrow_4289F0()
 
     if (!field_10_anim.field_92_current_frame)
     {
-        SFX_Play_43AD70(SoundEffect::AirStream_28, 0, this);
+        SFX_Play_Mono(SoundEffect::AirStream_28, 0, this);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -9437,7 +9404,7 @@ void Abe::Motion_149_PickupItem_42A030()
 {
     if (field_10_anim.field_92_current_frame == 7)
     {
-        SFX_Play_43AD70(SoundEffect::PickupItem_33, 0, this);
+        SFX_Play_Mono(SoundEffect::PickupItem_33, 0, this);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -9500,7 +9467,7 @@ void Abe::Motion_150_Chant_42FD50()
 
             if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)
                  || field_10_anim.field_92_current_frame == 3)
-                && !Input_IsChanting_4334C0())
+                && !Input_IsChanting())
             {
                 field_FC_current_motion = eAbeMotions::Motion_151_ChantEnd_430530;
                 if (field_188_pOrbWhirlWind)
@@ -9552,7 +9519,7 @@ void Abe::Motion_150_Chant_42FD50()
                 if (field_18C_pObjToPossess)
                 {
                     field_18C_pObjToPossess->field_C_refCount++;
-                    SFX_Play_43AE60(SoundEffect::PossessEffect_21, 0, -600, 0);
+                    SFX_Play_Pitch(SoundEffect::PossessEffect_21, 0, -600, 0);
                     field_114_gnFrame = gnFrameCount_507670 + 30;
                     field_110_state.chant = ChantStates::ePossessVictim_1;
 
@@ -9633,7 +9600,7 @@ void Abe::Motion_150_Chant_42FD50()
                 ao_new<PossessionFlicker>(sControlledCharacter_50767C, 60, 128, 255, 255);
 
                 SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
-                SFX_Play_43AE60(SoundEffect::PossessEffect_21, 70, 400, 0);
+                SFX_Play_Pitch(SoundEffect::PossessEffect_21, 70, 400, 0);
                 field_110_state.chant = ChantStates::eWaitForUnpossessing_3;
             }
             else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -9984,13 +9951,13 @@ void Abe::Motion_164_PoisonGasDeath_42A120()
     switch (field_10_anim.field_92_current_frame)
     {
         case 0:
-            SFX_Play_43AE60(SoundEffect::Choke_98, 127, 128, 0);
+            SFX_Play_Pitch(SoundEffect::Choke_98, 127, 128, 0);
             break;
         case 9:
-            SFX_Play_43AE60(SoundEffect::Choke_98, 127, 384, 0);
+            SFX_Play_Pitch(SoundEffect::Choke_98, 127, 384, 0);
             break;
         case 28:
-            SFX_Play_43AE60(SoundEffect::Choke_98, 127, 640, 0);
+            SFX_Play_Pitch(SoundEffect::Choke_98, 127, 640, 0);
             break;
         case 32:
             Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, 0, this);

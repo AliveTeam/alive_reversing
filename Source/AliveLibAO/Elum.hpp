@@ -119,16 +119,8 @@ public:
     ~Elum();
 
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
-
-    void VOn_TLV_Collision_410F10(Path_TLV* pTlv);
-
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    s16 VTakeDamage_411020(BaseGameObject* pFrom);
-
     virtual void VOnTrapDoorOpen() override;
-
-    void VOnTrapDoorOpen_412700();
 
     // TODO: Add new virtuals
     void VLoadUnmountedResources_411260();

@@ -378,7 +378,7 @@ void LCDScreen::VUpdate_4341B0()
         field_A4_message_cutoff_ptr = slicedText;
         if (*slicedText != ' ')
         {
-            SFX_Play_43AD70(SoundEffect::LCDScreen_87, 0, 0);
+            SFX_Play_Mono(SoundEffect::LCDScreen_87, 0, 0);
         }
     }
 }

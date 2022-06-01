@@ -1507,11 +1507,6 @@ void HintFly::InitParticle(HintFlyParticle* pParticle)
 
 void HintFly::VScreenChanged()
 {
-    VScreenChanged_42BCE0();
-}
-
-void HintFly::VScreenChanged_42BCE0()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
@@ -1524,7 +1519,7 @@ HintFly::~HintFly()
     gMap.TLV_Reset_446870(field_124_tlvInfo, -1, 0, 0);
 }
 
-void HintFly::FormWordAndAdvanceToNextWord_42AF90()
+void HintFly::FormWordAndAdvanceToNextWord()
 {
     const char_type* msgPtr = &gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_11C_message_id)[field_11E_msg_idx];
     LOG_INFO("Word is " << msgPtr);
@@ -1589,7 +1584,7 @@ void HintFly::FormWordAndAdvanceToNextWord_42AF90()
     }
 }
 
-void HintFly::UpdateParticles_42B1B0()
+void HintFly::UpdateParticles()
 {
     for (s32 i = 0; i < field_118_counter; i++)
     {
@@ -1613,7 +1608,7 @@ void HintFly::UpdateParticles_42B1B0()
 
             if (i < 1 && Math_RandomRange_450F20(0, 100) < 40)
             {
-                SFX_Play_43AE60(SoundEffect::HintFly_60, Math_RandomRange_450F20(24, 30), pParticle->field_1C_sound_pitch, 0);
+                SFX_Play_Pitch(SoundEffect::HintFly_60, Math_RandomRange_450F20(24, 30), pParticle->field_1C_sound_pitch, 0);
             }
         }
         else if (pParticle->field_8_state == 2)
@@ -1625,7 +1620,7 @@ void HintFly::UpdateParticles_42B1B0()
 
             if (i < 1 && Math_RandomRange_450F20(0, 100) < 40)
             {
-                SFX_Play_43AE60(SoundEffect::HintFly_60, Math_RandomRange_450F20(24, 30), 0, 0);
+                SFX_Play_Pitch(SoundEffect::HintFly_60, Math_RandomRange_450F20(24, 30), 0, 0);
             }
         }
         else if (pParticle->field_8_state == 3)
@@ -1635,19 +1630,13 @@ void HintFly::UpdateParticles_42B1B0()
             pParticle->field_4_ypos += (Math_Cosine_4510A0(pParticle->field_20_angle) * FP_FromInteger(2));
             if (i < 1 && Math_RandomRange_450F20(0, 100) < 20)
             {
-                SFX_Play_43AD70(SoundEffect::HintFly_60, Math_RandomRange_450F20(18, 24), 0);
+                SFX_Play_Mono(SoundEffect::HintFly_60, Math_RandomRange_450F20(18, 24), 0);
             }
         }
     }
 }
 
-
 void HintFly::VUpdate()
-{
-    VUpdate_42B3D0();
-}
-
-void HintFly::VUpdate_42B3D0()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -1657,7 +1646,7 @@ void HintFly::VUpdate_42B3D0()
     switch (field_112_state)
     {
         case State::eIdleWaitForChanting_1:
-            UpdateParticles_42B1B0();
+            UpdateParticles();
 
             if (Event_Get(kEventAbeOhm_8))
             {
@@ -1670,7 +1659,7 @@ void HintFly::VUpdate_42B3D0()
         case State::eState_2:
             if (field_118_counter == field_122_target_count)
             {
-                UpdateParticles_42B1B0();
+                UpdateParticles();
 
                 if (!Event_Get(kEventAbeOhm_8))
                 {
@@ -1689,7 +1678,7 @@ void HintFly::VUpdate_42B3D0()
 
                 if (field_118_counter == field_122_target_count)
                 {
-                    FormWordAndAdvanceToNextWord_42AF90();
+                    FormWordAndAdvanceToNextWord();
                     field_112_state = State::eState_4;
                     field_10C_timer = gnFrameCount_507670 + 30;
                 }
@@ -1717,7 +1706,7 @@ void HintFly::VUpdate_42B3D0()
             }
 
             // TODO: This block is duplicated above
-            UpdateParticles_42B1B0();
+            UpdateParticles();
 
             if (!Event_Get(kEventAbeOhm_8))
             {
@@ -1736,14 +1725,14 @@ void HintFly::VUpdate_42B3D0()
 
             if (field_118_counter == field_122_target_count)
             {
-                FormWordAndAdvanceToNextWord_42AF90();
+                FormWordAndAdvanceToNextWord();
                 field_112_state = State::eState_4;
                 field_10C_timer = gnFrameCount_507670 + 30;
             }
             break;
 
         case State::eState_3:
-            UpdateParticles_42B1B0();
+            UpdateParticles();
 
             if (!Event_Get(kEventAbeOhm_8))
             {
@@ -1776,7 +1765,7 @@ void HintFly::VUpdate_42B3D0()
             return;
 
         case State::eState_4:
-            UpdateParticles_42B1B0();
+            UpdateParticles();
 
             if (Event_Get(kEventAbeOhm_8))
             {
@@ -1820,7 +1809,7 @@ void HintFly::VUpdate_42B3D0()
             [[fallthrough]];
 
         case State::eState_6:
-            UpdateParticles_42B1B0();
+            UpdateParticles();
             if (field_120_idx >= 20)
             {
                 field_118_counter -= 8;
@@ -1846,11 +1835,6 @@ void HintFly::VUpdate_42B3D0()
 }
 
 void HintFly::VRender(PrimHeader** ppOt)
-{
-    VRender_42BAD0(ppOt);
-}
-
-void HintFly::VRender_42BAD0(PrimHeader** ppOt)
 {
     Prim_SetTPage* pTPage = &field_EC_tPages[gPsxDisplay_504C78.field_A_buffer_index];
 

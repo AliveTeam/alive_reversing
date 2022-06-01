@@ -99,7 +99,7 @@ void Bullet::VUpdate()
                     New_Smoke_Particles_419A80(hitX, hitY, field_2C_scale, 3, 0);
                     if (Math_RandomRange_450F20(0, 100) < 90 || Math_RandomRange_450F20(0, 128) >= 64)
                     {
-                        SFX_Play_43AD70(SoundEffect::Bullet2_2, volume, 0);
+                        SFX_Play_Mono(SoundEffect::Bullet2_2, volume, 0);
                     }
                     mFlags.Set(BaseGameObject::eDead);
                     return;
@@ -111,11 +111,11 @@ void Bullet::VUpdate()
                 {
                     if (Math_RandomRange_450F20(0, 100) < 70)
                     {
-                        SFX_Play_43AD70(SoundEffect::Bullet2_2, volume, 0);
+                        SFX_Play_Mono(SoundEffect::Bullet2_2, volume, 0);
                     }
                     if (Math_RandomRange_450F20(0, 128) < 64)
                     {
-                        SFX_Play_43AD70(SoundEffect::Bullet1_1, volume, 0);
+                        SFX_Play_Mono(SoundEffect::Bullet1_1, volume, 0);
                     }
                     mFlags.Set(BaseGameObject::eDead);
                     return;
@@ -185,11 +185,11 @@ void Bullet::VUpdate()
 
             if (Math_RandomRange_450F20(0, 128) < 64)
             {
-                SFX_Play_43AD70(SoundEffect::Bullet1_1, 75, 0);
+                SFX_Play_Mono(SoundEffect::Bullet1_1, 75, 0);
             }
             else
             {
-                SFX_Play_43AD70(SoundEffect::Bullet2_2, 75, 0);
+                SFX_Play_Mono(SoundEffect::Bullet2_2, 75, 0);
             }
             mFlags.Set(BaseGameObject::eDead);
         }
@@ -284,9 +284,9 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
 void Bullet::PlayBulletSounds(s16 volume)
 {
-    SFX_Play_43AE60(SoundEffect::AirStream_28, volume, 2000, 0);
-    SFX_Play_43AE60(SoundEffect::MeatBounce_43, volume, Math_RandomRange_450F20(300, 700), 0);
-    SFX_Play_43AE60(SoundEffect::KillEffect_78, volume, Math_RandomRange_450F20(900, 1400), 0);
+    SFX_Play_Pitch(SoundEffect::AirStream_28, volume, 2000, 0);
+    SFX_Play_Pitch(SoundEffect::MeatBounce_43, volume, Math_RandomRange_450F20(300, 700), 0);
+    SFX_Play_Pitch(SoundEffect::KillEffect_78, volume, Math_RandomRange_450F20(900, 1400), 0);
 }
 
 } // namespace AO

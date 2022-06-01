@@ -197,7 +197,7 @@ void MotionDetector::VUpdate_437E90()
                         {
                             if (gnFrameCount_507670 % 2)
                             {
-                                SFX_Play_43AD70(SoundEffect::Zap2_58, 45, 0);
+                                SFX_Play_Mono(SoundEffect::Zap2_58, 45, 0);
                             }
                         }
 
@@ -244,7 +244,7 @@ void MotionDetector::VUpdate_437E90()
                     {
                         field_E8_state = States::eWaitThenMoveLeft_1;
                         field_EC_timer = gnFrameCount_507670 + 15;
-                        SFX_Play_43AD70(SoundEffect::MenuNavigation_61, 0);
+                        SFX_Play_Mono(SoundEffect::MenuNavigation_61, 0);
                     }
                     else
                     {
@@ -264,7 +264,7 @@ void MotionDetector::VUpdate_437E90()
                     {
                         field_E8_state = States::eWaitThenMoveRight_3;
                         field_EC_timer = gnFrameCount_507670 + 15;
-                        SFX_Play_43AD70(SoundEffect::MenuNavigation_61, 0);
+                        SFX_Play_Mono(SoundEffect::MenuNavigation_61, 0);
                     }
                     else
                     {

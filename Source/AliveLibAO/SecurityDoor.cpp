@@ -242,7 +242,7 @@ void SecurityDoor::VUpdate_461AD0()
         {
             if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
             {
-                SFX_Play_43AE60(SoundEffect::Alarm_45, 60, -720, 0);
+                SFX_Play_Pitch(SoundEffect::Alarm_45, 60, -720, 0);
                 field_E8_state = SecurityDoorStates::eLaughAtFailure_10;
                 field_114_timer = gnFrameCount_507670 + 15;
             }
@@ -300,13 +300,13 @@ void SecurityDoor::VUpdate_461AD0()
                 {
                     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
                     SwitchStates_Set(field_EA_switch_id, 1);
-                    SFX_Play_43AE60(SoundEffect::SligBleh_112, 127, -700, 0);
+                    SFX_Play_Pitch(SoundEffect::SligBleh_112, 127, -700, 0);
                     field_E8_state = SecurityDoorStates::eSuccessChime_1;
                     field_114_timer = gnFrameCount_507670 + 15;
                 }
                 else
                 {
-                    SFX_Play_43AE60(SoundEffect::Alarm_45, 60, -720, 0);
+                    SFX_Play_Pitch(SoundEffect::Alarm_45, 60, -720, 0);
                     field_E8_state = SecurityDoorStates::eLaughAtFailure_10;
                     field_114_timer = gnFrameCount_507670 + 15;
                 }
@@ -317,7 +317,7 @@ void SecurityDoor::VUpdate_461AD0()
         case SecurityDoorStates::eLaughAtFailure_10:
             if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
             {
-                SFX_Play_43AE60(SoundEffect::SligLaugh_110, 127, -1000, 0);
+                SFX_Play_Pitch(SoundEffect::SligLaugh_110, 127, -1000, 0);
                 field_E8_state = SecurityDoorStates::eInactive_0;
                 field_114_timer = gnFrameCount_507670 + 90;
             }

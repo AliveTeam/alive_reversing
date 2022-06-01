@@ -260,7 +260,7 @@ void TimedMine::VUpdate()
                 field_B0_path_number,
                 field_A8_xpos,
                 field_AC_ypos);
-            SFX_Play_43AED0(SoundEffect::GreenTick_3, 50, direction);
+            SFX_Play_Camera(SoundEffect::GreenTick_3, 50, direction);
 
             //~7 limits the number to multiples of 8
             if (((field_114_timer - gnFrameCount_507670) & ~7) >= 18 * 8)
@@ -315,7 +315,7 @@ void TimedMine::VOnPickUpOrSlapped()
         field_10_anim.Set_Animation_Data(804, 0);
         field_114_timer = gnFrameCount_507670 + field_10E_ticks_before_explosion;
         field_118_anim.Set_Animation_Data(384, 0);
-        SFX_Play_43AD70(SoundEffect::GreenTick_3, 0, 0);
+        SFX_Play_Mono(SoundEffect::GreenTick_3, 0, 0);
     }
 }
 

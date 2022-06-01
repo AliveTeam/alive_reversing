@@ -52,12 +52,7 @@ public:
     ~HoistRocksEffect();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_431AF0();
-
     virtual void VUpdate() override;
-
-    void VUpdate_431860();
 
     FP field_10_xpos;
     FP field_14_ypos;

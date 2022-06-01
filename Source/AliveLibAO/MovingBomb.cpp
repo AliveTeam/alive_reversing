@@ -233,7 +233,7 @@ void MovingBomb::VOnThrowableHit_43B930(BaseGameObject* /*pFrom*/)
     field_10C_state = States::eBlowingUp_6;
     field_B8_vely = FP_FromInteger(0);
     field_114_timer = gnFrameCount_507670 + 1;
-    SFX_Play_43AD70(SoundEffect::GreenTick_3, 100, 0);
+    SFX_Play_Mono(SoundEffect::GreenTick_3, 100, 0);
 }
 
 s16 MovingBomb::HitObject_43B970()
@@ -343,7 +343,7 @@ void MovingBomb::VUpdate_43B440()
             field_10C_state = States::eBlowingUp_6;
             field_B8_vely = FP_FromInteger(0);
             field_114_timer = gnFrameCount_507670 + 1;
-            SFX_Play_43AD70(SoundEffect::GreenTick_3, 100);
+            SFX_Play_Mono(SoundEffect::GreenTick_3, 100);
         }
     }
 
@@ -366,11 +366,11 @@ void MovingBomb::VUpdate_43B440()
                 {
                     if (field_10C_state == States::eWaitABit_4)
                     {
-                        field_124_sound_channels = SFX_Play_43AD70(SoundEffect::SecurityOrb_56, 55);
+                        field_124_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_56, 55);
                     }
                     else
                     {
-                        field_124_sound_channels = SFX_Play_43AD70(SoundEffect::SecurityOrb_56, 80);
+                        field_124_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_56, 80);
                     }
                 }
             }
@@ -383,7 +383,7 @@ void MovingBomb::VUpdate_43B440()
                 }
                 else
                 {
-                    field_124_sound_channels = SFX_Play_43AD70(SoundEffect::SecurityOrb_56, 12, 0);
+                    field_124_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_56, 12, 0);
                     gMovingBomb_507B8C = this;
                 }
             }
@@ -472,7 +472,7 @@ void MovingBomb::VUpdate_43B440()
         case States::eBlowingUp_6:
             if (field_114_timer <= static_cast<s32>(gnFrameCount_507670))
             {
-                SFX_Play_43AD70(SoundEffect::GreenTick_3, 100, 0);
+                SFX_Play_Mono(SoundEffect::GreenTick_3, 100, 0);
 
                 field_100_health = FP_FromInteger(0);
 

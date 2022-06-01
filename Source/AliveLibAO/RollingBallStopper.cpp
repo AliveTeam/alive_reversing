@@ -127,8 +127,8 @@ void RollingBallStopper::VUpdate_43BF70()
                 Rect_Clear(&field_118_pLine->field_0_rect);
                 field_118_pLine = nullptr;
                 field_112_state = States::eMoveStopper_1;
-                SFX_Play_43AE60(SoundEffect::PickupItem_33, 100, -2400, 0);
-                SFX_Play_43AE60(SoundEffect::LiftStop_35, 80, -800, 0);
+                SFX_Play_Pitch(SoundEffect::PickupItem_33, 100, -2400, 0);
+                SFX_Play_Pitch(SoundEffect::LiftStop_35, 80, -800, 0);
             }
             break;
 

@@ -78,7 +78,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
                     field_AC_ypos,
                     0))
             {
-                SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
+                SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
             }
 
             const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
@@ -328,7 +328,7 @@ void UXB::VOnPickUpOrSlapped()
                         field_AC_ypos,
                         0))
                 {
-                    SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
+                    SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
                 }
                 const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Toggle);
                 field_10_anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
@@ -349,7 +349,7 @@ void UXB::VOnPickUpOrSlapped()
                     field_AC_ypos,
                     0))
             {
-                SFX_Play_43AD70(SoundEffect::RedTick_4, 35, 0);
+                SFX_Play_Mono(SoundEffect::RedTick_4, 35, 0);
             }
         }
     }
@@ -426,7 +426,7 @@ void UXB::VUpdate()
                             field_AC_ypos,
                             0))
                     {
-                        SFX_Play_43AD70(SoundEffect::RedTick_4, 35, 0);
+                        SFX_Play_Mono(SoundEffect::RedTick_4, 35, 0);
                     }
                 }
                 else if (gMap.Is_Point_In_Current_Camera_4449C0(
@@ -436,7 +436,7 @@ void UXB::VUpdate()
                              field_AC_ypos,
                              0))
                 {
-                    SFX_Play_43AD70(SoundEffect::GreenTick_3, 35, 0);
+                    SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
                 }
                 field_10C_state = UXBState::eDelay_0;
                 field_118_next_state_frame = gnFrameCount_507670 + 10; // UXB change color delay

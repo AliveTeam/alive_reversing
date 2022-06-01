@@ -154,7 +154,7 @@ s16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
         const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_UseBegin);
         field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
     }
-    SFX_Play_43AD70(SoundEffect::RingRopePull_65, 0, 0);
+    SFX_Play_Mono(SoundEffect::RingRopePull_65, 0, 0);
     return 1;
 }
 
@@ -184,7 +184,7 @@ void PullRingRope::VUpdate_4549A0()
         case States::eBeingPulled_1:
             if (field_10_anim.field_92_current_frame == 2)
             {
-                SFX_Play_43AD70(SoundEffect::RingRopePull_65, 0);
+                SFX_Play_Mono(SoundEffect::RingRopePull_65, 0);
             }
 
             field_AC_ypos += field_B8_vely;
@@ -198,7 +198,7 @@ void PullRingRope::VUpdate_4549A0()
 
                 if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {
-                    SFX_Play_43AD70(SoundEffect::IndustrialTrigger_97, 0);
+                    SFX_Play_Mono(SoundEffect::IndustrialTrigger_97, 0);
                 }
 
                 const auto oldSwitchValue = SwitchStates_Get(field_EE_switch_id);
@@ -231,13 +231,13 @@ void PullRingRope::VUpdate_4549A0()
                         switch (field_FC_on_sound)
                         {
                             case PullRingSwitchSound::eWellExit_1:
-                                SFX_Play_43ADE0(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
                             case PullRingSwitchSound::RingBellHammer_2:
-                                SFX_Play_43ADE0(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
                             case PullRingSwitchSound::eDoorEffect_3:
-                                SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
+                                SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
                                 break;
                         }
                     }
@@ -246,13 +246,13 @@ void PullRingRope::VUpdate_4549A0()
                         switch (field_FE_off_sound)
                         {
                             case PullRingSwitchSound::eWellExit_1:
-                                SFX_Play_43ADE0(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
                             case PullRingSwitchSound::RingBellHammer_2:
-                                SFX_Play_43ADE0(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
                             case PullRingSwitchSound::eDoorEffect_3:
-                                SFX_Play_43ADE0(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
+                                SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
                                 break;
                         }
                     }

@@ -71,11 +71,11 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 
         if (Math_NextRandom() >= 128u)
         {
-            SFX_Play_43AE60(SoundEffect::Empty_106, rndVol, rndPitch, 0);
+            SFX_Play_Pitch(SoundEffect::Empty_106, rndVol, rndPitch, 0);
         }
         else
         {
-            SFX_Play_43AE60(SoundEffect::Empty_105, rndVol, rndPitch, 0);
+            SFX_Play_Pitch(SoundEffect::Empty_105, rndVol, rndPitch, 0);
         }
 
         field_10_anim.Set_Animation_Data(46232, 0);
@@ -127,13 +127,13 @@ void BackgroundGlukkon::VUpdate()
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
                             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                            SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim1);
                             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                            SFX_Play_43AE60(SoundEffect::GlukkonKillHim1_101, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(SoundEffect::GlukkonKillHim1_101, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
@@ -143,13 +143,13 @@ void BackgroundGlukkon::VUpdate()
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
                             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                            SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim2);
                             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                            SFX_Play_43AE60(SoundEffect::GlukkonKillHim2_102, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(SoundEffect::GlukkonKillHim2_102, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
@@ -159,13 +159,13 @@ void BackgroundGlukkon::VUpdate()
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
                             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                            SFX_Play_43AE60(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim1);
                             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                            SFX_Play_43AE60(SoundEffect::Empty_105, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(SoundEffect::Empty_105, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
@@ -175,7 +175,7 @@ void BackgroundGlukkon::VUpdate()
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim2);
                             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                            SFX_Play_43AE60(SoundEffect::Empty_106, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(SoundEffect::Empty_106, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;

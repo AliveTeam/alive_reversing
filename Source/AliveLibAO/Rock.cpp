@@ -301,7 +301,7 @@ void Rock::InTheAir_456B60()
                             {
                                 vol = 40;
                             }
-                            SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
+                            SFX_Play_Mono(SoundEffect::RockBounce_31, vol, 0);
                             Event_Broadcast(kEventNoise_0, this);
                             Event_Broadcast(kEventSuspiciousNoise_10, this);
                             field_118_vol++;
@@ -360,7 +360,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
         vol = 40;
     }
 
-    SFX_Play_43AD70(SoundEffect::RockBounce_31, vol, 0);
+    SFX_Play_Mono(SoundEffect::RockBounce_31, vol, 0);
     Event_Broadcast(kEventNoise_0, this);
     Event_Broadcast(kEventSuspiciousNoise_10, this);
 }
@@ -389,7 +389,7 @@ s16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
 
     pObj->VOnThrowableHit(this);
 
-    SFX_Play_43AD70(SoundEffect::RockBounceOnMine_29, 80, 0);
+    SFX_Play_Mono(SoundEffect::RockBounceOnMine_29, 80, 0);
     return 0;
 }
 

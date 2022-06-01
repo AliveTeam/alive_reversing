@@ -10,11 +10,6 @@
 
 namespace AO {
 
-void InvisibleSwitch::VScreenChanged()
-{
-    VScreenChanged_433700();
-}
-
 InvisibleSwitch::~InvisibleSwitch()
 {
     gMap.TLV_Reset_446870(field_14_tlvInfo, -1, 0, 0);
@@ -34,7 +29,7 @@ InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, s32 tlvInfo)
     field_2A_set_off_alarm = pTlv->field_1E_set_off_alarm;
 }
 
-void InvisibleSwitch::VScreenChanged_433700()
+void InvisibleSwitch::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
@@ -48,11 +43,6 @@ void InvisibleSwitch::VScreenChanged_433700()
 }
 
 void InvisibleSwitch::VUpdate()
-{
-    VUpdate_4335A0();
-}
-
-void InvisibleSwitch::VUpdate_4335A0()
 {
     switch (field_28_state)
     {

@@ -183,7 +183,7 @@ void ChimeLock::VUnPosses()
     field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = ChimeLockStates::eIdle_0;
     sActiveHero_507678->SetActiveControlledCharacter_421480();
-    SFX_Play_43AE60(SoundEffect::PossessEffect_21, 70, 400, 0);
+    SFX_Play_Pitch(SoundEffect::PossessEffect_21, 70, 400, 0);
 }
 
 s16 ChimeLock::DoNote(s16 note)
@@ -454,12 +454,12 @@ void ChimeLock::VUpdate()
 
             if (!field_130_song_matching && !sVoiceCheat_507708)
             {
-                if (!Input_IsChanting_4334C0())
+                if (!Input_IsChanting())
                 {
                     field_138_flags |= 1u;
                 }
 
-                if (field_138_flags & 1 && Input_IsChanting_4334C0())
+                if (field_138_flags & 1 && Input_IsChanting())
                 {
                     field_136_unpossession_timer = 30;
                     field_110_state = ChimeLockStates::eUnPossessing_3;
@@ -468,7 +468,7 @@ void ChimeLock::VUpdate()
                     field_164_ChimeLock_num[0] = BellPositions::eNone_0;
                     field_164_ChimeLock_num[1] = BellPositions::eNone_0;
 
-                    SFX_Play_43AE60(SoundEffect::PossessEffect_21, 0, -600, 0);
+                    SFX_Play_Pitch(SoundEffect::PossessEffect_21, 0, -600, 0);
                     return;
                 }
 
@@ -547,7 +547,7 @@ void ChimeLock::VUpdate()
                 SetBallTarget(field_13C_targetX, field_140_targetY, 36, Math_RandomRange_450F20(6, 9), Math_RandomRange_450F20(6, 9), 0);
             }
 
-            if (!Input_IsChanting_4334C0())
+            if (!Input_IsChanting())
             {
                 field_110_state = ChimeLockStates::ePossessed_2;
             }

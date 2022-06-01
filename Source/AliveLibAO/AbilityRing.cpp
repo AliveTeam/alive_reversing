@@ -91,7 +91,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
                 field_266_r = 80;
                 field_268_g = 0;
                 field_26A_b = 0;
-                SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
+                SFX_Play_Mono(SoundEffect::IngameTransition_107, 0, 0);
                 break;
 
             case RingTypes::eExplosive_Give_3:
@@ -340,7 +340,7 @@ void AbilityRing::VUpdate()
             {
                 mFlags.Set(BaseGameObject::eDead);
                 field_244_left = FP_FromInteger(0);
-                SFX_Play_43AD70(SoundEffect::IngameTransition_107, 0, 0);
+                SFX_Play_Mono(SoundEffect::IngameTransition_107, 0, 0);
                 ao_new<PossessionFlicker>(sActiveHero_507678, 8, 255, 128, 128);
             }
             break;

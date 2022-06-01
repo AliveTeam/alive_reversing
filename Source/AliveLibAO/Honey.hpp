@@ -11,10 +11,7 @@ public:
     Honey(FP xpos, FP ypos);
 
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_431EF0();
 
     s32 field_D4[4];
     s32 field_E4_tlvInfo;

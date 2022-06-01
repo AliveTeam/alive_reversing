@@ -106,30 +106,30 @@ const InputCommands sInputKey_Chant = static_cast<InputCommands>(eRightGameSpeak
 #define kAO_Crouch "\x0f"
 
 
-Bool32 Input_IsChanting_4334C0();
-void Input_InitKeyStateArray_48E5F0();
-void Input_SetKeyState_48E610(s32 key, s8 bIsDown);
+Bool32 Input_IsChanting();
+void Input_InitKeyStateArray();
+void Input_SetKeyState(s32 key, s8 bIsDown);
 
 
 
-void Input_GetCurrentKeyStates_48E630();
+void Input_GetCurrentKeyStates();
 
-s8 Input_IsVKPressed_48E5D0(s32 key);
+s8 Input_IsVKPressed(s32 key);
 
-void Input_Init_44EB60();
+void Input_Init();
 
-void Input_DisableInput_48E690();
+void Input_DisableInput();
 
 const char_type* Input_GetButtonString(InputCommands inputCommand, bool forceKeyboardLookupIfGamepadFails = true);
 const char_type* Input_GetButtonString_44F1C0(InputCommands inputCommand);
 
-s32 Input_Remap_44F300(InputCommands inputCmd);
+s32 Input_Remap(InputCommands inputCmd);
 
-s32 Input_SaveSettingsIni_44F460();
+s32 Input_SaveSettingsIni();
 
-s8 Input_GetLastPressedKey_44F2C0();
+s8 Input_GetLastPressedKey();
 
-void Input_Reset_44F2F0();
+void Input_Reset();
 
 bool Input_JoyStickEnabled();
 void Input_SetJoyStickEnabled(bool enabled);
@@ -139,16 +139,16 @@ bool Input_JoyStickAvailable();
 class InputObject final
 {
 public:
-    void InitPad_4331A0(u32 padCount);
+    void InitPad(u32 padCount);
 
     // BC break of Update_433250
     void Update(BaseGameAutoPlayer& gameAutoPlayer);
 
-    static void Shutdown_433230();
+    static void Shutdown();
 
-    void SetDemoRes_433470(u32** ppDemoRes);
+    void SetDemoRes(u32** ppDemoRes);
 
-    s32 IsDemoPlaying_4334A0();
+    s32 IsDemoPlaying();
 
     PSX_Pad field_0_pads[2];
     u32** field_18_demo_res;

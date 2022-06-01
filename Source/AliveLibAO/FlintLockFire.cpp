@@ -187,7 +187,7 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
             field_220_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
             field_220_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-            field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
+            field_EC_fire_sound = SFX_Play_Mono(SoundEffect::Fire_69, 0, 0);
         }
     }
 }
@@ -219,8 +219,8 @@ void FlintLockFire::VUpdate()
             {
                 if (field_10_anim.field_92_current_frame == 6)
                 {
-                    SFX_Play_43AD70(SoundEffect::FlintLock_68, 0, 0);
-                    SFX_Play_43AD70(SoundEffect::PostFlint_70, 0, 0);
+                    SFX_Play_Mono(SoundEffect::FlintLock_68, 0, 0);
+                    SFX_Play_Mono(SoundEffect::PostFlint_70, 0, 0);
                 }
             }
 
@@ -237,7 +237,7 @@ void FlintLockFire::VUpdate()
                     field_220_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
                     field_220_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-                    field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
+                    field_EC_fire_sound = SFX_Play_Mono(SoundEffect::Fire_69, 0, 0);
                 }
 
                 ao_new<MusicTrigger>(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
@@ -249,7 +249,7 @@ void FlintLockFire::VUpdate()
             {
                 if (!field_EC_fire_sound)
                 {
-                    field_EC_fire_sound = SFX_Play_43AD70(SoundEffect::Fire_69, 0, 0);
+                    field_EC_fire_sound = SFX_Play_Mono(SoundEffect::Fire_69, 0, 0);
                 }
             }
             break;

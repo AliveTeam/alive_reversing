@@ -54,7 +54,7 @@ void DeathBirdParticle::VUpdate()
                     pDove->field_BC_sprite_scale = field_BC_sprite_scale;
                     if (field_EC_bPlaySound)
                     {
-                        SFX_Play_43AD70(SoundEffect::AbeDove_18, 0, 0);
+                        SFX_Play_Mono(SoundEffect::AbeDove_18, 0, 0);
                     }
                 }
             }

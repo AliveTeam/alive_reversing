@@ -162,7 +162,7 @@ void RollingBall::VUpdate_457AF0()
         {
             if (!(field_10_anim.field_92_current_frame % 3))
             {
-                SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
+                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
 
             Accelerate_458410();
@@ -191,7 +191,7 @@ void RollingBall::VUpdate_457AF0()
         {
             if (!(field_10_anim.field_92_current_frame % 3))
             {
-                SFX_Play_43AD70(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
+                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
 
             Accelerate_458410();
@@ -249,7 +249,7 @@ void RollingBall::VUpdate_457AF0()
                 mFlags.Set(Options::eDead);
 
                 const CameraPos direction = gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
-                SFX_Play_43AED0(SoundEffect::IngameTransition_107, 50, direction);
+                SFX_Play_Camera(SoundEffect::IngameTransition_107, 50, direction);
 
                 switch (direction)
                 {
@@ -315,7 +315,7 @@ void RollingBall::VUpdate_457AF0()
             ao_new<ScreenShake>(0);
 
             const CameraPos direction = gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
-            SFX_Play_43AED0(SoundEffect::IngameTransition_107, 50, direction);
+            SFX_Play_Camera(SoundEffect::IngameTransition_107, 50, direction);
 
             switch (direction)
             {

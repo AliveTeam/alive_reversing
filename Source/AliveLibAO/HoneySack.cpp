@@ -106,34 +106,19 @@ HoneySack::~HoneySack()
 
 void HoneySack::VScreenChanged()
 {
-    VScreenChanged_42C390();
-}
-
-void HoneySack::VScreenChanged_42C390()
-{
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(BaseGameObject::eDead);
     }
 }
 
-void HoneySack::VOnThrowableHit(BaseGameObject* pFrom)
-{
-    VOnThrowableHit_42C370(pFrom);
-}
-
-void HoneySack::VOnThrowableHit_42C370(BaseGameObject* /*pFrom*/)
+void HoneySack::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     mFlags.Clear(Options::eCanExplode_Bit7);
     field_E8_state = State::eSetFallAnimation_1;
 }
 
 void HoneySack::VUpdate()
-{
-    VUpdate_42BFE0();
-}
-
-void HoneySack::VUpdate_42BFE0()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -210,7 +195,7 @@ void HoneySack::VUpdate_42BFE0()
                     &hitY,
                     field_BC_sprite_scale == FP_FromInteger(1) ? 0x01 : 0x10))
             {
-                SFX_Play_43AD70(SoundEffect::MountingElum_38, 90, 0);
+                SFX_Play_Mono(SoundEffect::MountingElum_38, 90, 0);
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);
                 field_AC_ypos = hitY;
                 field_E8_state = State::eUpdateHoneySackOnGround_3;

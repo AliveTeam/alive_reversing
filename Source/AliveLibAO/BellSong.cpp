@@ -25,13 +25,13 @@ void BellSong::VUpdate()
                 switch (code_looked_up)
                 {
                     case GameSpeakEvents::eWhistleHigh_1:
-                        SFX_Play_43AD70(SoundEffect::BellChime_LowPitch_52, 0);
+                        SFX_Play_Mono(SoundEffect::BellChime_LowPitch_52, 0);
                         break;
                     case GameSpeakEvents::eWhistleLow_2:
-                        SFX_Play_43AD70(SoundEffect::BellChime_MediumPitch_51, 0);
+                        SFX_Play_Mono(SoundEffect::BellChime_MediumPitch_51, 0);
                         break;
                     default:
-                        SFX_Play_43AD70(SoundEffect::BellChime_HighPitch_50, 0);
+                        SFX_Play_Mono(SoundEffect::BellChime_HighPitch_50, 0);
                 }
                 field_8_update_delay = 15;
                 break;

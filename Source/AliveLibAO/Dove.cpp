@@ -320,7 +320,7 @@ void Dove::VUpdate()
                 if (!bExtraSeqStarted_4FF944)
                 {
                     bExtraSeqStarted_4FF944 = 16;
-                    SFX_Play_43AD70(SoundEffect::Dove_16, 0, 0);
+                    SFX_Play_Mono(SoundEffect::Dove_16, 0, 0);
                 }
             }
 

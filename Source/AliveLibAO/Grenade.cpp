@@ -351,7 +351,7 @@ s16 Grenade::InTheAir()
                 {
                     vol = 40;
                 }
-                SFX_Play_43AD70(SoundEffect::GrenadeBounce_82, vol);
+                SFX_Play_Mono(SoundEffect::GrenadeBounce_82, vol);
                 field_118++;
                 Event_Broadcast(kEventNoise_0, this);
                 Event_Broadcast(kEventSuspiciousNoise_10, this);
@@ -386,7 +386,7 @@ s16 Grenade::InTheAir()
                     {
                         vol = 40;
                     }
-                    SFX_Play_43AD70(SoundEffect::GrenadeBounce_82, vol, 0);
+                    SFX_Play_Mono(SoundEffect::GrenadeBounce_82, vol, 0);
                     Event_Broadcast(kEventNoise_0, this);
                     Event_Broadcast(kEventSuspiciousNoise_10, this);
                     Event_Broadcast(kEventSpeaking_1, this);
@@ -406,7 +406,7 @@ s16 Grenade::InTheAir()
                         vol = 40;
                     }
 
-                    SFX_Play_43AD70(SoundEffect::GrenadeBounce_82, vol, 0);
+                    SFX_Play_Mono(SoundEffect::GrenadeBounce_82, vol, 0);
                     Event_Broadcast(kEventNoise_0, this);
                     Event_Broadcast(kEventSuspiciousNoise_10, this);
                     Event_Broadcast(kEventSpeaking_1, this);
@@ -445,7 +445,7 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 
     pHit2->VOnThrowableHit(this);
 
-    SFX_Play_43AD70(SoundEffect::RockBounceOnMine_29, 0, 0);
+    SFX_Play_Mono(SoundEffect::RockBounceOnMine_29, 0, 0);
     return 0;
 }
 
@@ -455,7 +455,7 @@ s16 Grenade::BlowUpAfterCountdown()
     const s16 timer = field_112_explode_timer;
     if (!(timer % 16))
     {
-        SFX_Play_43AD70(SoundEffect::GreenTick_3, 0, 0);
+        SFX_Play_Mono(SoundEffect::GreenTick_3, 0, 0);
     }
 
     if (timer)

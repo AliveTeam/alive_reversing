@@ -28,8 +28,8 @@ ALIVE_VAR_EXTERN(s16, gbKillUnsavedMudsDone_5076CC);
 
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C);
 
-void Init_GameStates_41CEC0();
+void Init_GameStates();
 
-void Game_Main_450050();
+void Game_Main();
 
 } // namespace AO

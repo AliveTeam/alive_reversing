@@ -20,12 +20,12 @@ struct Path_SlingMudokon final : public Path_TLV
 ALIVE_ASSERT_SIZEOF(Path_SlingMudokon, 0x20);
 
 #define SLING_MUD_MOTIONS_ENUM(ENTRY) \
-    ENTRY(Motion_0_Idle_46FCB0)       \
-    ENTRY(Motion_1_Angry_46FCF0)      \
-    ENTRY(Motion_2_Speak_46FD70)      \
-    ENTRY(Motion_3_ShootStart_46FD90) \
-    ENTRY(Motion_4_ShootEnd_46FEA0)   \
-    ENTRY(Motion_5_AngryToIdle_46FD50)
+    ENTRY(Motion_0_Idle)       \
+    ENTRY(Motion_1_Angry)      \
+    ENTRY(Motion_2_Speak)      \
+    ENTRY(Motion_3_ShootStart) \
+    ENTRY(Motion_4_ShootEnd)   \
+    ENTRY(Motion_5_AngryToIdle)
 
 #define MAKE_ENUM(VAR) VAR,
 enum eSlingMudMotions : s32
@@ -35,9 +35,9 @@ enum eSlingMudMotions : s32
 
 enum SlingMudBrainStates : u16
 {
-    Brain_0_GiveCode_46FEC0 = 0,
-    Brain_1_Spawn_470230 = 1,
-    Brain_2_AskForPassword_4707B0 = 2
+    Brain_0_GiveCode = 0,
+    Brain_1_Spawn = 1,
+    Brain_2_AskForPassword = 2
 };
 
 class SlingMudokon final : public BaseAliveGameObject
@@ -47,33 +47,27 @@ public:
     ~SlingMudokon();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_46FBE0();
-
-    void VUpdate_46FBF0();
-
     virtual void VUpdate() override;
 
-    virtual void VCallBrain_46F880();
+    virtual void VCallBrain();
+    virtual void VCallMotion();
 
-    virtual void VCallMotion_46F8E0();
-
-    void VUpdateAnimData_46F8F0();
+    void VUpdateAnimData();
 
     GameSpeakEvents getLastIdx();
 
     // Motions
-    void Motion_0_Idle_46FCB0();
-    void Motion_1_Angry_46FCF0();
-    void Motion_2_Speak_46FD70();
-    void Motion_3_ShootStart_46FD90();
-    void Motion_4_ShootEnd_46FEA0();
-    void Motion_5_AngryToIdle_46FD50();
+    void Motion_0_Idle();
+    void Motion_1_Angry();
+    void Motion_2_Speak();
+    void Motion_3_ShootStart();
+    void Motion_4_ShootEnd();
+    void Motion_5_AngryToIdle();
 
     // Brains
-    s16 Brain_0_GiveCode_46FEC0();
-    s16 Brain_1_Spawn_470230();
-    s16 Brain_2_AskForPassword_4707B0();
+    s16 Brain_0_GiveCode();
+    s16 Brain_1_Spawn();
+    s16 Brain_2_AskForPassword();
 
     s32 field_10C_padding;
     s32 field_110_tlvInfo;

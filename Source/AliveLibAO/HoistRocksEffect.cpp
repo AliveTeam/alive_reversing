@@ -83,19 +83,9 @@ void HoistParticle::VUpdate_431BD0()
     }
 }
 
-void HoistRocksEffect::VUpdate()
-{
-    VUpdate_431860();
-}
-
-void HoistRocksEffect::VScreenChanged_431AF0()
-{
-    mFlags.Set(BaseGameObject::eDead);
-}
-
 void HoistRocksEffect::VScreenChanged()
 {
-    VScreenChanged_431AF0();
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 HoistRocksEffect::~HoistRocksEffect()
@@ -111,7 +101,7 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
     field_14_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 }
 
-void HoistRocksEffect::VUpdate_431860()
+void HoistRocksEffect::VUpdate()
 {
     const auto rnd = Math_RandomRange_450F20(1, 4) - 2;
     if (rnd)

@@ -33,12 +33,7 @@ public:
     ~InvisibleSwitch();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_433700();
-
     virtual void VUpdate() override;
-
-    void VUpdate_4335A0();
 
     s16 field_10_switch_id;
     SwitchOp field_12_action;

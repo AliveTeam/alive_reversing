@@ -133,7 +133,7 @@ void GasCountDown::VUpdate()
         field_62_time_left = static_cast<s16>(newTimer);
         if (oldTimer != field_62_time_left && field_62_time_left > 0)
         {
-            SFX_Play_43AE60(SoundEffect::RedTick_4, 55, -1000, 0);
+            SFX_Play_Pitch(SoundEffect::RedTick_4, 55, -1000, 0);
         }
     }
 

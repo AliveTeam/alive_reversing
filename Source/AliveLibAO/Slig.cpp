@@ -654,7 +654,7 @@ const u32 sSligVelYTable_4BCA50[] = {0, 4294705152, 4294705152, 4294705152, 0, 2
 
 void Slig::VUpdate_465050()
 {
-    if (!Input_IsChanting_4334C0())
+    if (!Input_IsChanting())
     {
         field_254_prevent_depossession &= ~4u;
     }
@@ -958,7 +958,7 @@ s16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
                     field_BC_sprite_scale);
 
                 field_100_health = FP_FromInteger(0);
-                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 90);
+                SFX_Play_Mono(SoundEffect::FallingItemHit_53, 90);
                 field_8_update_delay = 40;
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
@@ -1035,8 +1035,8 @@ s16 Slig::VTakeDamage_465640(BaseGameObject* pFrom)
         default:
             if (field_100_health > FP_FromInteger(0))
             {
-                SFX_Play_43AD70(SoundEffect::KillEffect_78, 127);
-                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 90);
+                SFX_Play_Mono(SoundEffect::KillEffect_78, 127);
+                SFX_Play_Mono(SoundEffect::FallingItemHit_53, 90);
             }
             break;
     }
@@ -1653,7 +1653,7 @@ s16 Slig::GetNextMotionIncGameSpeak_467700(u16 input)
         }
     }
 
-    if (Input_IsChanting_4334C0())
+    if (Input_IsChanting())
     {
         if (field_254_prevent_depossession & 4)
         {
@@ -1661,7 +1661,7 @@ s16 Slig::GetNextMotionIncGameSpeak_467700(u16 input)
         }
 
         field_128_timer = gnFrameCount_507670 + 30;
-        SFX_Play_43AD70(SoundEffect::PossessEffect_21, 0, 0);
+        SFX_Play_Mono(SoundEffect::PossessEffect_21, 0, 0);
         return eSligMotions::Motion_37_Depossessing_4684D0;
     }
 
@@ -2175,7 +2175,7 @@ s16 Slig::HandlePlayerControlled_4667B0()
     if (Input().IsAnyHeld(sInputKey_DoAction_4C65A4)
         && !(pressed & (sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
     {
-        if (!Input_IsChanting_4334C0())
+        if (!Input_IsChanting())
         {
             Path_Lever* pTlv = static_cast<Path_Lever*>(gMap.TLV_Get_At_446260(
                 FP_GetExponent(field_A8_xpos),
@@ -2238,7 +2238,7 @@ s16 Slig::HandlePlayerControlled_4667B0()
     if (pressed & sInputKey_ThrowItem_4C65B4
         && !(pressed & (sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
     {
-        if (!Input_IsChanting_4334C0())
+        if (!Input_IsChanting())
         {
             field_FC_current_motion = eSligMotions::Motion_6_Shoot_468820;
             field_128_timer = gnFrameCount_507670 + 60;
@@ -2248,7 +2248,7 @@ s16 Slig::HandlePlayerControlled_4667B0()
     if (pressed & sInputKey_FartRoll_4C65B0
         && !(pressed & (sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
     {
-        if (!Input_IsChanting_4334C0())
+        if (!Input_IsChanting())
         {
             field_FC_current_motion = eSligMotions::Motion_52_Beat_46AA90;
             field_128_timer = gnFrameCount_507670 + 60;
@@ -2544,13 +2544,13 @@ void Slig::Motion_0_StandIdle_467640()
     {
         if (sControlledCharacter_50767C == this && field_100_health > FP_FromInteger(0))
         {
-            if (Input_IsChanting_4334C0())
+            if (Input_IsChanting())
             {
                 if (!(field_254_prevent_depossession & 4))
                 {
                     field_FC_current_motion = eSligMotions::Motion_37_Depossessing_4684D0;
                     field_128_timer = gnFrameCount_507670 + 30;
-                    SFX_Play_43AD70(SoundEffect::PossessEffect_21, 0, 0);
+                    SFX_Play_Mono(SoundEffect::PossessEffect_21, 0, 0);
                     return;
                 }
             }
@@ -3360,11 +3360,11 @@ void Slig::Motion_20_Recoil_468D30()
     }
     else if (field_BC_sprite_scale == FP_FromDouble(0.5))
     {
-        SFX_Play_43AD70(SoundEffect::SligShoot_6, 85, 0);
+        SFX_Play_Mono(SoundEffect::SligShoot_6, 85, 0);
     }
     else
     {
-        SFX_Play_43AD70(SoundEffect::SligShoot_6, 0, 0);
+        SFX_Play_Mono(SoundEffect::SligShoot_6, 0, 0);
     }
 }
 
@@ -3674,7 +3674,7 @@ void Slig::Motion_37_Depossessing_4684D0()
     {
         if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            if (!Input_IsChanting_4334C0())
+            if (!Input_IsChanting())
             {
                 field_FC_current_motion = eSligMotions::Motion_17_DepossessingAbort_468750;
             }
@@ -3734,13 +3734,13 @@ void Slig::Motion_38_Possess_46B050()
 
             if (field_BC_sprite_scale == FP_FromDouble(0.5))
             {
-                SFX_Play_43AD70(SoundEffect::KillEffect_78, 80);
-                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 60);
+                SFX_Play_Mono(SoundEffect::KillEffect_78, 80);
+                SFX_Play_Mono(SoundEffect::FallingItemHit_53, 60);
             }
             else
             {
-                SFX_Play_43AD70(SoundEffect::KillEffect_78, 127);
-                SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 90);
+                SFX_Play_Mono(SoundEffect::KillEffect_78, 127);
+                SFX_Play_Mono(SoundEffect::FallingItemHit_53, 90);
             }
 
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -3831,7 +3831,7 @@ void Slig::Motion_42_LandingFatal_46AFE0()
     if (field_10_anim.field_92_current_frame == 0)
     {
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
-        SFX_Play_43AD70(SoundEffect::KillEffect_78, 80);
+        SFX_Play_Mono(SoundEffect::KillEffect_78, 80);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3875,11 +3875,11 @@ void Slig::Motion_43_ShootZ_468E30()
 
         if (field_BC_sprite_scale == FP_FromDouble(0.5))
         {
-            SFX_Play_43AD70(SoundEffect::SligShoot_6, 85, 0);
+            SFX_Play_Mono(SoundEffect::SligShoot_6, 85, 0);
         }
         else
         {
-            SFX_Play_43AD70(SoundEffect::SligShoot_6, 0, 0);
+            SFX_Play_Mono(SoundEffect::SligShoot_6, 0, 0);
         }
 
         // The doves don't like bullets
@@ -4018,7 +4018,7 @@ void Slig::Motion_52_Beat_46AA90()
 {
     if (field_10_anim.field_92_current_frame == 5)
     {
-        SFX_Play_43AE60(SoundEffect::AirStream_28, 90, -300);
+        SFX_Play_Pitch(SoundEffect::AirStream_28, 90, -300);
     }
     if (field_10_anim.field_92_current_frame == 8)
     {
@@ -4050,7 +4050,7 @@ void Slig::Motion_52_Beat_46AA90()
                 {
                     pObjIter->VTakeDamage(this);
                     Event_Broadcast(kEventNoise_0, this);
-                    SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 60);
+                    SFX_Play_Mono(SoundEffect::FallingItemHit_53, 60);
                     return;
                 }
             }
@@ -5740,13 +5740,13 @@ void Slig::BlowToGibs_4685A0()
 
     if (field_BC_sprite_scale == FP_FromDouble(0.5))
     {
-        SFX_Play_43AD70(SoundEffect::KillEffect_78, 80, 0);
-        SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 60, 0);
+        SFX_Play_Mono(SoundEffect::KillEffect_78, 80, 0);
+        SFX_Play_Mono(SoundEffect::FallingItemHit_53, 60, 0);
     }
     else
     {
-        SFX_Play_43AD70(SoundEffect::KillEffect_78, 127, 0);
-        SFX_Play_43AD70(SoundEffect::FallingItemHit_53, 90, 0);
+        SFX_Play_Mono(SoundEffect::KillEffect_78, 127, 0);
+        SFX_Play_Mono(SoundEffect::FallingItemHit_53, 90, 0);
     }
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);

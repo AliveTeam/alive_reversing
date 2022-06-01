@@ -84,13 +84,13 @@ s32 Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
                     "Oddworld Abe's Oddysee 2.0\nPC version by Digital Dialect\n\nBuild date: %s %s\n",
                     "Oct 22 1997",
                     "14:32:52");
-                Input_InitKeyStateArray_48E5F0();
+                Input_InitKeyStateArray();
             }
-            Input_SetKeyState_48E610(static_cast<s32>(wParam), 1);
+            Input_SetKeyState(static_cast<s32>(wParam), 1);
             return 0;
 
         case WM_KEYUP:
-            Input_SetKeyState_48E610(static_cast<s32>(wParam), 0);
+            Input_SetKeyState(static_cast<s32>(wParam), 0);
             break;
 
         case WM_SETCURSOR:
@@ -113,7 +113,7 @@ s32 Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
         case WM_EXITMENULOOP:
         case WM_ENTERSIZEMOVE:
         case WM_EXITSIZEMOVE:
-            Input_InitKeyStateArray_48E5F0();
+            Input_InitKeyStateArray();
             break;
 
         case WM_INITMENUPOPUP:
@@ -130,7 +130,7 @@ s32 Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
             {
                 ret = -1;
             }
-            Input_SetKeyState_48E610(static_cast<s32>(wParam), 1);
+            Input_SetKeyState(static_cast<s32>(wParam), 1);
             break;
 
         case WM_SYSKEYUP:
@@ -139,7 +139,7 @@ s32 Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
             {
                 ret = -1;
             }
-            Input_SetKeyState_48E610(static_cast<s32>(wParam), 0);
+            Input_SetKeyState(static_cast<s32>(wParam), 0);
             break;
 
         case WM_TIMER:
@@ -231,8 +231,8 @@ static void Main_ParseCommandLineArguments()
     {
         if (_strcmpi(pCmdLine, "-it_is_me_your_father") == 0)
         {
-            Input_GetCurrentKeyStates_48E630();
-            if (Input_IsVKPressed_48E5D0(VK_SHIFT))
+            Input_GetCurrentKeyStates();
+            if (Input_IsVKPressed(VK_SHIFT))
             {
                 gDDCheatMode_508BF8 = 1;
                 PSX_DispEnv_Set_48D900(2);
@@ -285,7 +285,7 @@ static void Main_ParseCommandLineArguments()
     //Main_Set_HWND_499900(Sys_GetWindowHandle_48E930()); // Note: Set global is never read
 }
 
-void Init_GameStates_41CEC0()
+void Init_GameStates()
 {
     sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
     sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
@@ -336,7 +336,7 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
     SND_Init_Ambiance();
     MusicController::Create_4436C0();
 
-    Init_GameStates_41CEC0(); // Note: inlined
+    Init_GameStates(); // Note: inlined
 
     // TODO: The switch state clearing is done in Init_GameStates in AE
     // check this is not an AO bug
@@ -394,7 +394,7 @@ void Game_Shutdown_48E050()
     }
 
     CreateTimer_48F030(0, nullptr); // Creates a timer that calls a call back which is always null, therefore seems like dead code?
-    Input_DisableInput_48E690();
+    Input_DisableInput();
     //SND_MCI_Close_493C30(); // TODO: Seems like more dead code because the mci is never set?
     SND_SsQuit();
     IO_Stop_ASync_IO_Thread_491A80();
@@ -536,7 +536,7 @@ void Game_Run_4373D0()
     //Nop_49BB50();
 
     gPsxDisplay_504C78.ctor_40DAB0(&gPsxDisplayParams_4BB830);
-    Input().InitPad_4331A0(1);
+    Input().InitPad(1);
 
     gBaseGameObjects = ao_new<DynamicArrayT<BaseGameObject>>();
     gBaseGameObjects->ctor_4043E0(90);
@@ -548,7 +548,7 @@ void Game_Run_4373D0()
     gObjList_animations_505564->ctor_4043E0(80);
 
     Init_Sound_DynamicArrays_And_Others_41CD20();
-    Input_Init_44EB60();
+    Input_Init();
 
     Path_Set_NewData_FromLvls();
 
@@ -598,14 +598,14 @@ void Game_Run_4373D0()
     PSX_CdControlB_49BB40(8, 0, 0);
     PSX_ResetCallBack_49AFB0();
     PSX_StopCallBack_49AFC0();
-    InputObject::Shutdown_433230();
+    InputObject::Shutdown();
     PSX_ResetGraph_4987E0(3);
 
     DDCheat::DebugStr("Abe's Oddysee Demo Done\n");
 }
 
 
-void Game_Main_450050()
+void Game_Main()
 {
     BaseAliveGameObject_ForceLink();
 

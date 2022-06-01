@@ -93,7 +93,7 @@ s32 CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR 
     ForceLinks();
     AO_Sys_Main(hInstance, lpCmdLine, nShowCmd);
     sPrevInstance_9F7784 = hPrevInstance;
-    Game_Main_450050();
+    Game_Main();
     LOG_INFO("Main exit");
     return sExitCode_9F7734;
 }

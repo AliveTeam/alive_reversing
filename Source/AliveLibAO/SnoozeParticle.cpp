@@ -160,7 +160,7 @@ void SnoozeParticle::VUpdate()
                 }
                 else
                 {
-                    SFX_Play_43AD70(SoundEffect::ZPop_5, 0, 0);
+                    SFX_Play_Mono(SoundEffect::ZPop_5, 0, 0);
                     mFlags.Set(BaseGameObject::eDead);
                 }
         }

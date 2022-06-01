@@ -437,113 +437,55 @@ public:
     Bool32 Is_Celling_Above();
 
     Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/);
-
     ~Abe();
-
     
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
-
     virtual void VOnTrapDoorOpen() override;
-
-    void VOnTrapDoorOpen_42EED0();
-
-    // Virtual impls
-    BaseGameObject* vdtor_422A70(s32 flags);
-    void vUpdate_41FDB0();
-    void vRender_420F30(PrimHeader** ppOt);
-    void vScreenChanged_422640();
-
-    void VOn_Tlv_Collision_421130(Path_TLV* pTlv);
-
-
-    // Non virtuals
-
-    bool CheckForPortalAndRunJump();
-
-    static void Free_Shrykull_Resources_42F4C0();
-
-    void FreeElumRes_420F80();
-
-    void ToDeathDropFall_42C3D0();
-
-    Bool32 IsStanding_41FC10();
-
-    void FollowLift_42EE90();
-
-    void ExitShrykull_42F440(s16 bResetRingTimer);
-
-    s16 RunTryEnterWell_425880();
-
-    void ChangeChantState_430510(s16 bKeepChanting);
-
-    static BaseAliveGameObject* FindObjectToPossess_421410();
-
-    static void Get_Shrykull_Resources_42F480();
-
-    void ToDieFinal_42C400();
-
-    void ToKnockback_422D90(s16 bUnknownSound, s16 bDelayedAnger);
-
-    u8** StateToAnimResource_4204F0(s16 motion);
-
-    void ToIdle_422D50();
-
-    void MoveForward_422FC0();
-
-    s16 MoveLiftUpOrDown_42F190(FP ySpeed);
-
-    void ElumFree_4228F0();
-
-    s16 DoGameSpeak_42F5C0(u16 input);
-
-    void SyncToElum_42D850(s16 elumMotion);
-
-    void PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch);
-
-    void CrouchingGameSpeak_427F90();
-
-    void FallOnBombs_4231B0();
-
-    s16 ToLeftRightMovement_422AA0();
-
-    void MoveWithVelocity_4257F0(FP speed);
-
-    void ToNewElumSyncMotion_422520(s16 elum_frame);
-
-    void SetActiveControlledCharacter_421480();
-
-    PullRingRope* GetPullRope_422580();
-
-    void Free_Resources_422870();
-
-    static void Load_Basic_Resources_4228A0();
-
-    void LoadMountElumResources_42E690();
-
-    void ElumKnockForward_42E780(s32 not_used);
-
-    s16 TryMountElum_42E600();
-
-    void BulletDamage_4220B0(Bullet* a2);
-
-    s16 RunTryEnterDoor_4259C0();
-
-    Bool32 NearDoorIsOpen();
-
-    void IntoPortalStates_4262A0();
-
-    void TryHoist_423420();
-
-    s16 HandleDoAction_429A70();
-
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    s16 VTakeDamage_4214E0(BaseGameObject* pFrom);
 
+    bool CheckForPortalAndRunJump();
+    static void Free_Shrykull_Resources_42F4C0();
+    void FreeElumRes_420F80();
+    void ToDeathDropFall_42C3D0();
+    Bool32 IsStanding_41FC10();
+    void FollowLift_42EE90();
+    void ExitShrykull_42F440(s16 bResetRingTimer);
+    s16 RunTryEnterWell_425880();
+    void ChangeChantState_430510(s16 bKeepChanting);
+    static BaseAliveGameObject* FindObjectToPossess_421410();
+    static void Get_Shrykull_Resources_42F480();
+    void ToDieFinal_42C400();
+    void ToKnockback_422D90(s16 bUnknownSound, s16 bDelayedAnger);
+    u8** StateToAnimResource_4204F0(s16 motion);
+    void ToIdle_422D50();
+    void MoveForward_422FC0();
+    s16 MoveLiftUpOrDown_42F190(FP ySpeed);
+    void ElumFree_4228F0();
+    s16 DoGameSpeak_42F5C0(u16 input);
+    void SyncToElum_42D850(s16 elumMotion);
+    void PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch);
+    void CrouchingGameSpeak_427F90();
+    void FallOnBombs_4231B0();
+    s16 ToLeftRightMovement_422AA0();
+    void MoveWithVelocity_4257F0(FP speed);
+    void ToNewElumSyncMotion_422520(s16 elum_frame);
+    void SetActiveControlledCharacter_421480();
+    PullRingRope* GetPullRope_422580();
+    void Free_Resources_422870();
+    static void Load_Basic_Resources_4228A0();
+    void LoadMountElumResources_42E690();
+    void ElumKnockForward_42E780(s32 not_used);
+    s16 TryMountElum_42E600();
+    void BulletDamage_4220B0(Bullet* a2);
+    s16 RunTryEnterDoor_4259C0();
+    Bool32 NearDoorIsOpen();
+    void IntoPortalStates_4262A0();
+    void TryHoist_423420();
+    s16 HandleDoAction_429A70();
     void New_RandomizedChant_Particle();
 
     // Motions

@@ -297,7 +297,7 @@ void BirdPortal::VUpdate()
     {
         if (field_14_state > PortalStates::CreateTerminators_4 && field_14_state < PortalStates::StopSound_11)
         {
-            field_68_sfx_ret = SFX_Play_43AED0(SoundEffect::PortalOpening_67, 45, direction);
+            field_68_sfx_ret = SFX_Play_Camera(SoundEffect::PortalOpening_67, 45, direction);
         }
     }
 
@@ -318,7 +318,7 @@ void BirdPortal::VUpdate()
         {
             if (static_cast<s32>(gnFrameCount_507670) >= field_30_timer)
             {
-                SFX_Play_43AD70(SoundEffect::Dove_16, 35, 0);
+                SFX_Play_Mono(SoundEffect::Dove_16, 35, 0);
                 field_30_timer = gnFrameCount_507670 + Math_RandomRange_450F20(24, 40);
             }
 
@@ -354,7 +354,7 @@ void BirdPortal::VUpdate()
                         field_5C_pThrowableTotalIndicator = nullptr;
                     }
 
-                    SFX_Play_43AD70(SoundEffect::Dove_16, 70, 0);
+                    SFX_Play_Mono(SoundEffect::Dove_16, 70, 0);
                     mFlags.Set(BaseGameObject::eDead);
                 }
             }
@@ -380,7 +380,7 @@ void BirdPortal::VUpdate()
                 field_30_timer = gnFrameCount_507670 + 15;
                 field_14_state = PortalStates::JoinDovesInCenter_2;
                 Event_Broadcast(18, this);
-                SFX_Play_43AD70(SoundEffect::Dove_16, 70, 0);
+                SFX_Play_Mono(SoundEffect::Dove_16, 70, 0);
             }
         }
         break;
@@ -432,8 +432,8 @@ void BirdPortal::VUpdate()
                 field_40_pTerminator2->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                 field_30_timer = gnFrameCount_507670 + 12;
                 field_14_state = PortalStates::ExpandTerminators_5;
-                field_68_sfx_ret = SFX_Play_43AD70(SoundEffect::PortalOpening_67, 0, 0);
-                SFX_Play_43AE60(SoundEffect::IngameTransition_107, 115, 300, 0);
+                field_68_sfx_ret = SFX_Play_Mono(SoundEffect::PortalOpening_67, 0, 0);
+                SFX_Play_Pitch(SoundEffect::IngameTransition_107, 115, 300, 0);
             }
             break;
 
@@ -480,7 +480,7 @@ void BirdPortal::VUpdate()
 
                         if (direction == CameraPos::eCamCurrent_0)
                         {
-                            SFX_Play_43AE60(SoundEffect::BirdPortalSpark_48, 50, 2400, 0);
+                            SFX_Play_Pitch(SoundEffect::BirdPortalSpark_48, 50, 2400, 0);
                         }
                     }
                 }
@@ -541,7 +541,7 @@ void BirdPortal::VUpdate()
                         field_34_scale);
                     if (pDoveMem)
                     {
-                        SFX_Play_43AD70(SoundEffect::Dove_16, 70, 0);
+                        SFX_Play_Mono(SoundEffect::Dove_16, 70, 0);
                         pDoveMem->field_BC_sprite_scale = field_34_scale;
                         pDoveMem->AsJoin(sActiveHero_507678->field_A8_xpos,
                             FP_FromInteger(Math_RandomRange_450F20(-36, 4)) + sActiveHero_507678->field_AC_ypos);
@@ -606,7 +606,7 @@ void BirdPortal::VUpdate()
                 field_40_pTerminator2->mFlags.Set(Options::eDead);
                 field_3C_pTerminator1 = nullptr;
                 field_40_pTerminator2 = nullptr;
-                SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 100, -1800, 0);
+                SFX_Play_Pitch(SoundEffect::MenuNavigation_61, 100, -1800, 0);
             }
             break;
 
@@ -671,7 +671,7 @@ void BirdPortal::VUpdate()
             CreateTerminators();
 
             field_14_state = PortalStates::PortalExit_CreateTerminators_18;
-            field_68_sfx_ret = SFX_Play_43AD70(SoundEffect::PortalOpening_67, 0, 0);
+            field_68_sfx_ret = SFX_Play_Mono(SoundEffect::PortalOpening_67, 0, 0);
         }
         break;
 
@@ -819,7 +819,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
     if (bPlaySound)
     {
-        SFX_Play_43AE60(SoundEffect::MenuNavigation_61, 70, -1600, 0);
+        SFX_Play_Pitch(SoundEffect::MenuNavigation_61, 70, -1600, 0);
     }
 }
 

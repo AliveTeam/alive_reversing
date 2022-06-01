@@ -7,11 +7,6 @@
 
 namespace AO {
 
-void HoneyDrip::VUpdate()
-{
-    VUpdate_431DC0();
-}
-
 HoneyDrip::HoneyDrip(FP xpos, FP ypos)
 {
     field_C4_b = 128;
@@ -29,14 +24,14 @@ HoneyDrip::HoneyDrip(FP xpos, FP ypos)
     field_E4_bSoundPlaying = FALSE;
 }
 
-void HoneyDrip::VUpdate_431DC0()
+void HoneyDrip::VUpdate()
 {
     field_A8_xpos += field_B4_velx;
     field_AC_ypos += field_B8_vely;
 
     if (field_10_anim.field_92_current_frame == 7 && !field_E4_bSoundPlaying)
     {
-        SFX_Play_43AD70(SoundEffect::HoneyDrip_26, 0, 0);
+        SFX_Play_Mono(SoundEffect::HoneyDrip_26, 0, 0);
         field_E4_bSoundPlaying = TRUE;
     }
 

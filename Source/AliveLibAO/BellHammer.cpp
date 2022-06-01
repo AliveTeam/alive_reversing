@@ -150,7 +150,7 @@ void BellHammer::VUpdate()
                 // Play those bell smashing sounds
                 if (field_10_anim.field_92_current_frame == 5)
                 {
-                    SFX_Play_43AD70(SoundEffect::RingBellHammer_9, 0, 0);
+                    SFX_Play_Mono(SoundEffect::RingBellHammer_9, 0, 0);
                 }
                 else if (field_10_anim.field_92_current_frame == 15)
                 {

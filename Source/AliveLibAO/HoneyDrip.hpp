@@ -12,8 +12,6 @@ public:
 
     virtual void VUpdate() override;
 
-    void VUpdate_431DC0();
-
     s32 field_D4[4];
     s16 field_E4_bSoundPlaying;
     s16 field_E6;

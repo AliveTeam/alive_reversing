@@ -90,7 +90,7 @@ void MeatSack::VUpdate_4392C0()
             {
                 field_114_bPlayWobbleSound = 0;
                 field_116_always_0 = 0;
-                SFX_Play_43AE60(SoundEffect::SackWobble_34, 24, Math_RandomRange_450F20(-2400, -2200), 0);
+                SFX_Play_Pitch(SoundEffect::SackWobble_34, 24, Math_RandomRange_450F20(-2400, -2200), 0);
             }
         }
     }
@@ -148,7 +148,7 @@ void MeatSack::VUpdate_4392C0()
                 pMeat->field_BC_sprite_scale = field_BC_sprite_scale;
             }
 
-            SFX_Play_43AD70(SoundEffect::SackHit_30, 0, 0);
+            SFX_Play_Mono(SoundEffect::SackHit_30, 0, 0);
             Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, nullptr);
             field_10_anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, nullptr);
             field_110_bDoMeatSackIdleAnim = 1;
@@ -343,7 +343,7 @@ void Meat::InTheAir_438720()
                     field_B8_vely = FP_FromInteger(0);
                     field_B4_velx = FP_FromInteger(0);
 
-                    SFX_Play_43AE60(SoundEffect::MeatBounce_43, 0, -650, 0);
+                    SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
                     Event_Broadcast(kEventNoise_0, this);
                     Event_Broadcast(kEventSuspiciousNoise_10, this);
                     AddToPlatform_438EA0();
@@ -360,7 +360,7 @@ void Meat::InTheAir_438720()
 
                 field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
 
-                SFX_Play_43AE60(SoundEffect::MeatBounce_43, 0, -650, 0);
+                SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
                 Event_Broadcast(kEventNoise_0, this);
                 Event_Broadcast(kEventSuspiciousNoise_10, this);
 
@@ -380,7 +380,7 @@ void Meat::InTheAir_438720()
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(4));
 
-                    SFX_Play_43AE60(SoundEffect::MeatBounce_43, 0, -650, 0);
+                    SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
                     Event_Broadcast(kEventNoise_0, this);
                     Event_Broadcast(kEventSuspiciousNoise_10, this);
 
@@ -545,7 +545,7 @@ s16 Meat::OnCollision_438D80(BaseAliveGameObject* pHit)
     }
 
     pHit->VOnThrowableHit(this);
-    SFX_Play_43AE60(SoundEffect::MeatBounce_43, 0, -650, 0);
+    SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
     return 0;
 }
 

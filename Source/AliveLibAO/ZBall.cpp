@@ -126,7 +126,7 @@ void ZBall::VUpdate()
     {
         if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 13)
         {
-            SFX_Play_43AE60(SoundEffect::ZBall_62, 50, field_EA_sound_pitch, nullptr);
+            SFX_Play_Pitch(SoundEffect::ZBall_62, 50, field_EA_sound_pitch, nullptr);
         }
     }
 
@@ -134,7 +134,7 @@ void ZBall::VUpdate()
     {
         if (field_10_anim.field_92_current_frame == 3 || field_10_anim.field_92_current_frame == 16)
         {
-            SFX_Play_43AE60(SoundEffect::SackWobble_34, 40, field_EA_sound_pitch - 2400, nullptr);
+            SFX_Play_Pitch(SoundEffect::SackWobble_34, 40, field_EA_sound_pitch - 2400, nullptr);
         }
     }
 

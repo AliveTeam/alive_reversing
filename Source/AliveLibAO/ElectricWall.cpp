@@ -103,7 +103,7 @@ void ElectricWall::VUpdate()
         if (static_cast<s32>(gnFrameCount_507670) >= field_EC_sound_timer)
         {
             // set a random starting frame
-            SFX_Play_43AED0(SoundEffect::BirdPortalSpark_48, 45, soundDirection);
+            SFX_Play_Camera(SoundEffect::BirdPortalSpark_48, 45, soundDirection);
             field_EC_sound_timer = gnFrameCount_507670 + Math_RandomRange_450F20(24, 40);
         }
 
@@ -142,7 +142,7 @@ void ElectricWall::VUpdate()
 
                         if (RectsOverlap(bRectBigger, objRect) && pObjIter->field_100_health > FP_FromInteger(0))
                         {
-                            SFX_Play_43AED0(SoundEffect::ElectricGateLoud_47, 45, soundDirection);
+                            SFX_Play_Camera(SoundEffect::ElectricGateLoud_47, 45, soundDirection);
                         }
                     }
                 }
@@ -156,7 +156,7 @@ void ElectricWall::VUpdate()
 
                         pObjIter->VTakeDamage(this);
 
-                        SFX_Play_43AED0(SoundEffect::ElectricZap_46, 127, soundDirection);
+                        SFX_Play_Camera(SoundEffect::ElectricZap_46, 127, soundDirection);
 
                         ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
                     }

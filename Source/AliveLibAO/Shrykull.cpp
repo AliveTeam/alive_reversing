@@ -125,9 +125,9 @@ void Shrykull::VUpdate_463AE0()
         case State::eTransform_0:
             if (field_10_anim.field_92_current_frame == 0)
             {
-                SFX_Play_43AE60(SoundEffect::Shrykull1_108, 127, -2000);
-                SFX_Play_43AE60(SoundEffect::Shrykull2_109, 127, 0);
-                SFX_Play_43AD70(SoundEffect::IngameTransition_107, 127);
+                SFX_Play_Pitch(SoundEffect::Shrykull1_108, 127, -2000);
+                SFX_Play_Pitch(SoundEffect::Shrykull2_109, 127, 0);
+                SFX_Play_Mono(SoundEffect::IngameTransition_107, 127);
             }
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -142,11 +142,11 @@ void Shrykull::VUpdate_463AE0()
             {
                 if (Math_NextRandom() >= 128u)
                 {
-                    SFX_Play_43AE60(SoundEffect::Shrykull2_109, 127, 0);
+                    SFX_Play_Pitch(SoundEffect::Shrykull2_109, 127, 0);
                 }
                 else
                 {
-                    SFX_Play_43AE60(SoundEffect::Shrykull1_108, 127, 0);
+                    SFX_Play_Pitch(SoundEffect::Shrykull1_108, 127, 0);
                 }
             }
 
@@ -221,8 +221,8 @@ void Shrykull::VUpdate_463AE0()
 
                     field_11C_obj_being_zapped->field_10A_flags.Set(Flags_10A::e10A_Bit3);
 
-                    SFX_Play_43AE60(SoundEffect::Respawn_22, 100, 2000);
-                    SFX_Play_43AD70(SoundEffect::Zap1_57, 0);
+                    SFX_Play_Pitch(SoundEffect::Respawn_22, 100, 2000);
+                    SFX_Play_Mono(SoundEffect::Zap1_57, 0);
 
                     field_10C_state = State::eKillTargets_4;
                     field_110_timer = gnFrameCount_507670 + 12;
@@ -251,8 +251,8 @@ void Shrykull::VUpdate_463AE0()
         case State::eFinish_3:
             if (field_10_anim.field_92_current_frame == 0)
             {
-                SFX_Play_43AE60(SoundEffect::Shrykull1_108, 127, -2000);
-                SFX_Play_43AE60(SoundEffect::Shrykull2_109, 127, 0);
+                SFX_Play_Pitch(SoundEffect::Shrykull1_108, 127, -2000);
+                SFX_Play_Pitch(SoundEffect::Shrykull2_109, 127, 0);
             }
 
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -267,11 +267,11 @@ void Shrykull::VUpdate_463AE0()
             {
                 if (Math_NextRandom() >= 128u)
                 {
-                    SFX_Play_43AE60(SoundEffect::Shrykull2_109, 127, 0);
+                    SFX_Play_Pitch(SoundEffect::Shrykull2_109, 127, 0);
                 }
                 else
                 {
-                    SFX_Play_43AE60(SoundEffect::Shrykull1_108, 127, 0);
+                    SFX_Play_Pitch(SoundEffect::Shrykull1_108, 127, 0);
                 }
             }
 
