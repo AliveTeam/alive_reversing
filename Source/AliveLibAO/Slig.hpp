@@ -197,130 +197,62 @@ public:
     Slig(Path_Slig* pTlv, s32 tlvInfo);
     ~Slig();
 
+    void Init();
+
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_465480();
-
-    void Init_46B890();
-
     virtual void VUpdate() override;
-
-    void VUpdate_465050();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_465590(PrimHeader** ppOt);
-
     virtual void VOnTrapDoorOpen() override;
-
-    void VOnTrapDoorOpen_466350();
-
     virtual void VUnPosses() override;
-
-    void VUnPosses_465D80();
-
     virtual void VPossessed() override;
-
-    void VPossessed_465C80();
-
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    s16 VTakeDamage_465640(BaseGameObject* pFrom);
-
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
-
-    void VOn_TLV_Collision_465CF0(Path_TLV* pTlv);
-
     virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
-
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    s16 VOnSameYLevel_46BD00(BaseAnimatedWithPhysicsGameObject* pOther);
-
-    s16 VIsFacingMe_4655B0(BaseAnimatedWithPhysicsGameObject* pObj);
-
-    void VUpdateAnimData_464D00();
-
-    void Vshot_465C30();
-
-    void MoveOnLine_467490();
-
-    void ToKnockBack_467300();
-
-    void PlayerControlRunningSlideStopOrTurnFrame4_469900();
-
-    void PlayerControlRunningSlideStopOrTurnFrame12_469A80();
-
-    void SlowDown_469D50(FP speed);
-
-    s16 HandlePlayerControlled_4667B0();
-
+    void VUpdateAnimData();
+    void Vshot();
+    void MoveOnLine();
+    void ToKnockBack();
+    void PlayerControlRunningSlideStopOrTurnFrame4();
+    void PlayerControlRunningSlideStopOrTurnFrame12();
+    void SlowDown(FP speed);
+    s16 HandlePlayerControlled();
     void OperateLift();
-
     s16 MainMovement_467020();
-
     void Slig_SoundEffect_46F310(SligSfx sfxIdx);
-
     u8** ResBlockForMotion_4654D0(s16 motion);
-
     Bool32 VIs8_465630(s16 motion);
-
     void ToShoot_46F1D0();
     void ToZShoot_46F200();
-
     void ShouldStilBeAlive_46C0D0();
-
     void ToAbeDead_466270();
-
     void WaitOrWalk_46E440();
-
     s32 IsFacingEffectiveLeft_46BD70(Slig* pSlig);
-
     void PauseALittle_46DBD0();
-
     void ToTurn_46DE70();
-
     void ToPanicRunning_46CC20();
-
     void ToPanic_46CD40();
-
     void ToChase_46D080();
-
     void ToKilledAbe_4662E0();
-
     s16 FindBeatTarget_46D0E0(s32 typeToFind, s32 gridBlocks);
-
     s16 HandleEnemyStopper_46BF30(s32 gridBlocks);
-
     void RespondToEnemyOrPatrol_465DF0();
-
     void TurnOrWalk_46D5B0(s32 a2);
-
     void ToPanicTurn();
-
     void PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame);
-
     s16 GetNextMotionIncGameSpeak_467700(u16 input);
-
     static Bool32 RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
-
     static s16 IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);
-
     static s16 IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight);
-
     static void Slig_GameSpeak_SFX_46F560(SligSpeak effectId, s32 defaultVol, s32 pitch_min, BaseAliveGameObject* pObj);
-
     static s16 IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj);
-
     void ToStand();
-
     static s16 IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj);
-
     void CheckPlatformVanished();
-
     s16 MoveLift_4665E0(FP ySpeed);
-
     void GameSpeakResponse_46ED60();
+
 
     // Motions
     void Motion_0_StandIdle_467640();

@@ -136,7 +136,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
 
             if (field_CC_bApplyShadows & 1)
             {
-                ShadowZone::ShadowZones_Calculate_Colour_435FF0(
+                ShadowZone::ShadowZones_Calculate_Colour(
                     FP_GetExponent(field_A8_xpos),         // Left side
                     (boundingRect.y + boundingRect.h) / 2, // Middle of Height
                     field_C6_scale,
@@ -158,7 +158,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
 
             PSX_RECT frameRect = {};
             field_10_anim.Get_Frame_Rect(&frameRect);
-            pScreenManager_4FF7C8->InvalidateRect_406E40(
+            pScreenManager_4FF7C8->InvalidateRect(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,
@@ -167,12 +167,12 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
 
             if (field_D0_pShadow)
             {
-                field_D0_pShadow->Calculate_Position_462040(
+                field_D0_pShadow->Calculate_Position(
                     field_A8_xpos,
                     field_AC_ypos,
                     &frameRect,
                     field_BC_sprite_scale);
-                field_D0_pShadow->Render_462410(ppOt);
+                field_D0_pShadow->Render(ppOt);
             }
         }
     }

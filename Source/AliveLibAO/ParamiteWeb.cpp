@@ -11,22 +11,12 @@
 
 namespace AO {
 
-void ParamiteWeb::VUpdate()
-{
-    VUpdate_48AE70();
-}
-
-void ParamiteWeb::VScreenChanged_48AEA0()
+void ParamiteWeb::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-}
-
-void ParamiteWeb::VScreenChanged()
-{
-    VScreenChanged_48AEA0();
 }
 
 ParamiteWeb::~ParamiteWeb()
@@ -99,7 +89,7 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     field_F0_bEnabled = 0;
 }
 
-void ParamiteWeb::VUpdate_48AE70()
+void ParamiteWeb::VUpdate()
 {
     if (field_F0_bEnabled == 1)
     {
@@ -111,13 +101,8 @@ void ParamiteWeb::VUpdate_48AE70()
     }
 }
 
-void ParamiteWeb::VRender(PrimHeader** ppOt)
-{
-    VRender_48AB10(ppOt);
-}
-
 //TODO @ 100% - merge with Rope::vRender()
-void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
+void ParamiteWeb::VRender(PrimHeader** ppOt)
 {
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);
@@ -165,14 +150,14 @@ void ParamiteWeb::VRender_48AB10(PrimHeader** ppOt)
                     s16 r = 128;
                     s16 g = 128;
                     s16 b = 128;
-                    ShadowZone::ShadowZones_Calculate_Colour_435FF0(FP_GetExponent(field_A8_xpos), ypos_int - (idx * field_E6_segment_length), field_C6_scale, &r, &g, &b);
+                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(field_A8_xpos), ypos_int - (idx * field_E6_segment_length), field_C6_scale, &r, &g, &b);
                     field_EC_pRes[idx].field_8_r = static_cast<u8>(r);
                     field_EC_pRes[idx].field_9_g = static_cast<u8>(g);
                     field_EC_pRes[idx].field_A_b = static_cast<u8>(b);
                     field_EC_pRes[idx].VRender2(x_start, y_start + field_C8_yOffset, ppOt);
                     PSX_RECT rect = {};
                     field_EC_pRes[idx].GetRenderedSize(&rect);
-                    pScreenManager_4FF7C8->InvalidateRect_406E40(rect.x, rect.y, rect.w, rect.h, pScreenManager_4FF7C8->field_2E_idx);
+                    pScreenManager_4FF7C8->InvalidateRect(rect.x, rect.y, rect.w, rect.h, pScreenManager_4FF7C8->field_2E_idx);
                     ClipPoly_Vertically_4584B0(&field_EC_pRes[idx].field_10_polys[gPsxDisplay_504C78.field_A_buffer_index], field_C8_yOffset + minY, field_C8_yOffset + maxY);
                     y_start -= field_E6_segment_length;
                     if (y_start < minY)

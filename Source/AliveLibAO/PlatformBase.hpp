@@ -10,21 +10,14 @@ class Map;
 class PlatformBase : public BaseAliveGameObject
 {
 public:
-    virtual void VAdd(BaseAliveGameObject* pObj);
-
-    virtual void VRemove(BaseAliveGameObject* pObj);
-
-    void VAdd_4515D0(BaseAliveGameObject* pObj);
-
-    void VRemove_451680(BaseAliveGameObject* pObj);
-
-    void AddDynamicCollision_4512C0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
-
     ~PlatformBase();
 
-    void SyncCollisionLinePosition_451540();
+    virtual void VAdd(BaseAliveGameObject* pObj);
+    virtual void VRemove(BaseAliveGameObject* pObj);
 
-    void KeepThingsOnPlatform_451690(FP xpos);
+    void AddDynamicCollision(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
+    void SyncCollisionLinePosition();
+    void KeepThingsOnPlatform(FP xpos);
 
     s32 field_10C;
     s32 field_110;

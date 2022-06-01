@@ -32,7 +32,7 @@ void OrbWhirlWind::VRender(PrimHeader** ppOt)
         {
             if (!field_18_particles[i]->IsActive())
             {
-                field_18_particles[i]->VRender_48C430(ppOt);
+                field_18_particles[i]->Render(ppOt);
             }
         }
     }
@@ -89,7 +89,7 @@ void OrbWhirlWind::VUpdate()
         {
             if (!field_18_particles[i]->IsActive())
             {
-                field_18_particles[i]->VUpdate_48BF00();
+                field_18_particles[i]->Update();
             }
         }
     }

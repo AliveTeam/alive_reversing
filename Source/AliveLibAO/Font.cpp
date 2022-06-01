@@ -488,7 +488,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
         poly += 2;
     }
 
-    pScreenManager_4FF7C8->InvalidateRect_406E40(x, y - 1, offsetX, y + 24, pScreenManager_4FF7C8->field_2E_idx);
+    pScreenManager_4FF7C8->InvalidateRect(x, y - 1, offsetX, y + 24, pScreenManager_4FF7C8->field_2E_idx);
 
     return polyOffset + characterRenderCount;
 }

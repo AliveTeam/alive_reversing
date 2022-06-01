@@ -17,16 +17,6 @@
 
 namespace AO {
 
-void SecurityDoor::VScreenChanged()
-{
-    VScreenChanged_461F80();
-}
-
-void SecurityDoor::VUpdate()
-{
-    VUpdate_461AD0();
-}
-
 SecurityDoor::~SecurityDoor()
 {
     if (field_E8_state != SecurityDoorStates::eSuccessChime_1)
@@ -87,7 +77,7 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     }
 }
 
-void SecurityDoor::VScreenChanged_461F80()
+void SecurityDoor::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
@@ -110,7 +100,7 @@ Bool32 SecurityDoor::IsPlayerNear()
     return 0;
 }
 
-void SecurityDoor::VUpdate_461AD0()
+void SecurityDoor::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {

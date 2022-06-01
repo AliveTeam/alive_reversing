@@ -108,7 +108,7 @@ RollingBallStopper::~RollingBallStopper()
     }
 }
 
-void RollingBallStopper::VScreenChanged_43C130()
+void RollingBallStopper::VScreenChanged()
 {
     if (field_112_state == States::eMoveStopper_1)
     {
@@ -117,7 +117,7 @@ void RollingBallStopper::VScreenChanged_43C130()
     mFlags.Set(Options::eDead);
 }
 
-void RollingBallStopper::VUpdate_43BF70()
+void RollingBallStopper::VUpdate()
 {
     switch (field_112_state)
     {
@@ -146,16 +146,6 @@ void RollingBallStopper::VUpdate_43BF70()
             }
             break;
     }
-}
-
-void RollingBallStopper::VScreenChanged()
-{
-    VScreenChanged_43C130();
-}
-
-void RollingBallStopper::VUpdate()
-{
-    VUpdate_43BF70();
 }
 
 } // namespace AO

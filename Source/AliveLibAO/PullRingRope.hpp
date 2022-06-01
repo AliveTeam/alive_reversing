@@ -45,16 +45,10 @@ public:
     ~PullRingRope();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_454D70();
-
-    Bool32 vIsNotBeingPulled_454D60();
-
-    s16 Pull_454CB0(BaseAliveGameObject* pFrom);
-
     virtual void VUpdate() override;
 
-    void VUpdate_4549A0();
+    Bool32 vIsNotBeingPulled();
+    s16 Pull(BaseAliveGameObject* pFrom);
 
     s32 field_D4_padding[4];
     s32 field_E4_stay_in_state_ticks;

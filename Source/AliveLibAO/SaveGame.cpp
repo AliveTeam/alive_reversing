@@ -52,7 +52,7 @@ void Kill_Objects_451720()
     }
 }
 
-void SaveGame::LoadFromMemory_459970(SaveData* pData, s32 bKillObjects)
+void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 {
     TRACE_ENTRYEXIT;
 
@@ -307,7 +307,7 @@ s16 SaveGame::GetPathId(s16 pathToFind, s16* outFoundPathRow)
     return path_id;
 }
 
-void SaveGame::SaveToMemory_459490(SaveData* pSaveData)
+void SaveGame::SaveToMemory(SaveData* pSaveData)
 {
     Save_PSX_Header* pHeaderToUse = nullptr;
     if (bUseAltSaveHeader_5076B4)
@@ -450,7 +450,7 @@ s32 SaveGame::Hash(SaveData* sData)
     return counter;
 }
 
-s16 SaveGame::LoadFromFile_459D30(const char_type* name)
+s16 SaveGame::LoadFromFile(const char_type* name)
 {
     char_type buffer[40] = {};
 
@@ -473,7 +473,7 @@ s16 SaveGame::LoadFromFile_459D30(const char_type* name)
     if (hashVal == gSaveBuffer_500A18.field_200_hashValue)
     {
         gSaveBuffer_505668 = gSaveBuffer_500A18;
-        LoadFromMemory_459970(&gSaveBuffer_505668, 1);
+        LoadFromMemory(&gSaveBuffer_505668, 1);
         gSaveBuffer_505668.field_238_current_camera = gSaveBuffer_505668.field_216_saved_camera;
         Input().SetCurrentController(InputObject::PadIndex::First);
         gSaveBuffer_505668.field_234_current_level = gSaveBuffer_505668.field_212_saved_level;
@@ -486,7 +486,7 @@ s16 SaveGame::LoadFromFile_459D30(const char_type* name)
     }
 }
 
-Bool32 SaveGame::SaveToFile_45A110(const char_type* name)
+Bool32 SaveGame::SaveToFile(const char_type* name)
 {
     char_type buffer[40] = {};
 

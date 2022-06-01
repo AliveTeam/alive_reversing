@@ -68,32 +68,21 @@ class ScreenManager final : public BaseGameObject
 public:
     ScreenManager(u8** ppBits, FP_Point* pCameraOffset);
 
-    void Init_4068A0(u8** ppBits);
-
-    void MoveImage_406C40();
-
-    void InvalidateRect_406CC0(s32 x, s32 y, s32 width, s32 height);
-
-    void DecompressCameraToVRam_407110(u16** ppBits);
-
-    void UnsetDirtyBits_FG1_406EF0();
-
-    void InvalidateRect_406E40(s32 x, s32 y, s32 width, s32 height, s32 idx);
-
-    void InvalidateRect_Layer3_406F20(s32 x, s32 y, s32 width, s32 height);
-
-    void InvalidateRect_406D80(s32 x, s32 y, s32 width, s32 height, s32 idx);
-
     virtual void VScreenChanged() override;
-
     virtual void VUpdate() override;
-
-    s32 GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);
-
     virtual void VRender(PrimHeader** ppOt) override;
 
-    void VRender_406A60(PrimHeader** ppOt);
+    void Init(u8** ppBits);
+    void MoveImage();
+    void DecompressCameraToVRam(u16** ppBits);
+    void UnsetDirtyBits_FG1();
 
+    void InvalidateRect(s32 x, s32 y, s32 width, s32 height, s32 idx);
+    void InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height);
+    void InvalidateRect_Idx3(s32 x, s32 y, s32 width, s32 height);
+    void InvalidateRect_IdxPlus4(s32 x, s32 y, s32 width, s32 height, s32 idx);
+
+    s32 GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);
     void sub_406FF0();
 
     FP_Point* field_10_pCamPos;

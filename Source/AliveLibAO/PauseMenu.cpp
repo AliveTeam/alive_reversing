@@ -85,20 +85,10 @@ PauseMenu::~PauseMenu()
 
 void PauseMenu::VScreenChanged()
 {
-    VScreenChange_44EA90();
-}
-
-void PauseMenu::VScreenChange_44EA90()
-{
     if (gMap.mLevel == LevelIds::eCredits_10)
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-}
-
-void PauseMenu::VUpdate()
-{
-    VUpdate_44DFB0();
 }
 
 ALIVE_VAR(1, 0x9F1188, s16, word_9F1188, 0);
@@ -155,7 +145,7 @@ enum PauseMenuPages
     eQuit_3 = 3
 };
 
-void PauseMenu::VUpdate_44DFB0()
+void PauseMenu::VUpdate()
 {
     if (Input().IsAnyHeld(InputCommands::ePause))
     {
@@ -356,7 +346,7 @@ void PauseMenu::VUpdate_44DFB0()
                             }
                             else
                             {
-                                SaveGame::SaveToFile_45A110(&saveNameBuffer_5080C6.characters[2]);
+                                SaveGame::SaveToFile(&saveNameBuffer_5080C6.characters[2]);
                                 field_12C = 5;
                                 field_12A = 13;
                                 field_122 = 120;
@@ -534,11 +524,6 @@ void PauseMenu::VUpdate_44DFB0()
     }
 }
 
-void PauseMenu::VRender(PrimHeader** ppOt)
-{
-    VRender_44E6F0(ppOt);
-}
-
 ALIVE_VAR(1, 0xA88B90, s8, byte_A88B90, 0);
 
 PauseMenu::PauseEntry pauseEntries_4CDE50[6] = {
@@ -702,7 +687,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
     Init_SetTPage_495FB0(prim_tpage, 0, 0, PSX_getTPage_4965D0(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Menu_41), &pPrim->mBase.header);
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Menu_41), &prim_tpage->mBase);
-    pScreenManager_4FF7C8->InvalidateRect_406E40(
+    pScreenManager_4FF7C8->InvalidateRect(
         0,
         0,
         640,
@@ -710,7 +695,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
         pScreenManager_4FF7C8->field_2E_idx);
 }
 
-void PauseMenu::VRender_44E6F0(PrimHeader** ppOt)
+void PauseMenu::VRender(PrimHeader** ppOt)
 {
     switch (field_126_page)
     {

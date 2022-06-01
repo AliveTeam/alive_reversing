@@ -282,7 +282,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
 
         if (field_CC_bApplyShadows & 1)
         {
-            ShadowZone::ShadowZones_Calculate_Colour_435FF0(
+            ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(FP_FromInteger((bRect.y + bRect.h) / 2)),
                 field_C6_scale,
@@ -345,7 +345,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
 
         PSX_RECT frameRect = {};
         field_10_anim.Get_Frame_Rect(&frameRect);
-        pScreenManager_4FF7C8->InvalidateRect_406E40(
+        pScreenManager_4FF7C8->InvalidateRect(
             frameRect.x,
             frameRect.y,
             frameRect.w,
@@ -353,7 +353,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
             pScreenManager_4FF7C8->field_2E_idx);
 
         field_F0_anim.Get_Frame_Rect(&frameRect);
-        pScreenManager_4FF7C8->InvalidateRect_406E40(
+        pScreenManager_4FF7C8->InvalidateRect(
             frameRect.x,
             frameRect.y,
             frameRect.w,
@@ -363,7 +363,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
             field_188_anim.Get_Frame_Rect(&frameRect);
-            pScreenManager_4FF7C8->InvalidateRect_406E40(
+            pScreenManager_4FF7C8->InvalidateRect(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,
@@ -371,7 +371,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
                 pScreenManager_4FF7C8->field_2E_idx);
 
             field_220_anim.Get_Frame_Rect(&frameRect);
-            pScreenManager_4FF7C8->InvalidateRect_406E40(
+            pScreenManager_4FF7C8->InvalidateRect(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,

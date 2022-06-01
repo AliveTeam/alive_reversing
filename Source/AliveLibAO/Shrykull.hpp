@@ -14,18 +14,11 @@ public:
     ~Shrykull();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_464280();
-
     virtual void VOnThrowableHit(BaseGameObject*) override;
-
     virtual void VUpdate() override;
 
     bool CanKill(BaseAnimatedWithPhysicsGameObject* pObj);
-
     bool CanElectrocute(BaseGameObject* pObj) const;
-
-    void VUpdate_463AE0();
 
     enum class State : s16
     {

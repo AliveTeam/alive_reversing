@@ -90,7 +90,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_C6_scale = 1;
     }
 
-    AddDynamicCollision_4512C0(
+    AddDynamicCollision(
         platformRec.mFrameTableOffset,
         platformRec.mMaxW,
         platformRec.mMaxH,
@@ -486,9 +486,9 @@ void LiftPoint::VUpdate()
 
         if (field_120_pCollisionLine)
         {
-            SyncCollisionLinePosition_451540();
+            SyncCollisionLinePosition();
         }
-        KeepThingsOnPlatform_451690(field_B4_velx);
+        KeepThingsOnPlatform(field_B4_velx);
     }
 
     const FP FP_25xScale = FP_FromInteger(25) * field_BC_sprite_scale;
@@ -575,7 +575,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                 PSX_RECT boundingRect = {};
                 VGetBoundingRect(&boundingRect, 1);
 
-                ShadowZone::ShadowZones_Calculate_Colour_435FF0(
+                ShadowZone::ShadowZones_Calculate_Colour(
                     FP_GetExponent(field_A8_xpos),
                     (boundingRect.y + boundingRect.h) / 2,
                     field_C6_scale,
@@ -603,7 +603,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
 
                 PSX_RECT liftWheelRect = {};
                 field_13C_lift_wheel.Get_Frame_Rect(&liftWheelRect);
-                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                pScreenManager_4FF7C8->InvalidateRect(
                     liftWheelRect.x,
                     liftWheelRect.y,
                     liftWheelRect.w,
@@ -625,7 +625,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                         s16 g = field_C2_g;
                         s16 b = field_C4_b;
 
-                        ShadowZone::ShadowZones_Calculate_Colour_435FF0(
+                        ShadowZone::ShadowZones_Calculate_Colour(
                             field_26C_pulley_xpos,
                             field_26E_pulley_ypos,
                             field_C6_scale,
@@ -645,7 +645,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                             0);
                         PSX_RECT pulleyRect = {};
                         field_1D4_pulley_anim.Get_Frame_Rect(&pulleyRect);
-                        pScreenManager_4FF7C8->InvalidateRect_406E40(
+                        pScreenManager_4FF7C8->InvalidateRect(
                             pulleyRect.x,
                             pulleyRect.y,
                             pulleyRect.w,

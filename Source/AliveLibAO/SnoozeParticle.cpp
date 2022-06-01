@@ -288,7 +288,7 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     Init_SetTPage_495FB0(thisTPage, 1, 0, tPage);
     OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &thisTPage->mBase);
 
-    pScreenManager_4FF7C8->InvalidateRect_406E40(
+    pScreenManager_4FF7C8->InvalidateRect(
         rectToInvalidate.x, rectToInvalidate.y,
         rectToInvalidate.w, rectToInvalidate.h,
         pScreenManager_4FF7C8->field_2E_idx);

@@ -26,38 +26,34 @@ enum class ParamiteSpeak : u8
     None_11 = 11,
 };
 
-#define PARAMITE_MOTIONS_ENUM(ENTRY)         \
-    ENTRY(Motion_0_Idle_44B900)              \
-    ENTRY(Motion_1_WalkBegin_44BCA0)         \
-    ENTRY(Motion_2_Walking_44B9E0)           \
-    ENTRY(Motion_3_Running_44C070)           \
-    ENTRY(Motion_4_Unknown_44B6C0)           \
-    ENTRY(Motion_5_Turn_44C8E0)              \
-    ENTRY(Motion_6_Hop_44CB20)               \
-    ENTRY(Motion_7_Unknown_44BF10)           \
-    ENTRY(Motion_8_WalkRunTransition_44C790) \
-    ENTRY(Motion_9_WalkEnd_44BDE0)           \
-    ENTRY(Motion_10_RunBegin_44C4C0)         \
-    ENTRY(Motion_11_RunEnd_44C620)           \
-    ENTRY(Motion_12_Falling_44C960)          \
-    ENTRY(Motion_13_GameSpeakBegin_44D050)   \
-    ENTRY(Motion_14_PreHiss_44D170)          \
-    ENTRY(Motion_15_Hiss_44D300)             \
-    ENTRY(Motion_16_PostHiss_44D440)         \
-    ENTRY(Motion_17_GameSpeakEnd_44D4F0)     \
-    ENTRY(Motion_18_RunningAttack_44D5D0)    \
-    ENTRY(Motion_19_Empty_44D990)            \
-    ENTRY(Motion_20_SurpriseWeb_44D9A0)      \
-    ENTRY(Motion_21_WebLeaveDown_44DB00)         \
-    ENTRY(Motion_22_Unknown_44D8F0)          \
-    ENTRY(Motion_23_Eating_44B970)           \
-    ENTRY(Motion_24_Struggle_44DB70)         \
-    ENTRY(Motion_25_Death_44DB90)
-
-#define MAKE_ENUM(VAR) VAR,
-enum eParamiteMotions : s32
+enum class eParamiteMotions : s32
 {
-    PARAMITE_MOTIONS_ENUM(MAKE_ENUM)
+    Motion_0_Idle,
+    Motion_1_WalkBegin,
+    Motion_2_Walking,
+    Motion_3_Running,
+    Motion_4_Unknown,
+    Motion_5_Turn,
+    Motion_6_Hop,
+    Motion_7_Unknown,
+    Motion_8_WalkRunTransition,
+    Motion_9_WalkEnd,
+    Motion_10_RunBegin,
+    Motion_11_RunEnd,
+    Motion_12_Falling,
+    Motion_13_GameSpeakBegin,
+    Motion_14_PreHiss,
+    Motion_15_Hiss,
+    Motion_16_PostHiss,
+    Motion_17_GameSpeakEnd,
+    Motion_18_RunningAttack,
+    Motion_19_Empty,
+    Motion_20_SurpriseWeb,
+    Motion_21_WebLeaveDown,
+    Motion_22_Unknown,
+    Motion_23_Eating,
+    Motion_24_Struggle,
+    Motion_25_Death
 };
 
 class ParamiteWeb;
@@ -84,66 +80,46 @@ public:
     Paramite(Path_Paramite* pTlv, s32 tlvInfo);
     ~Paramite();
 
-    u8** ResBlockForMotion_44AC10(s16 motion);
+    eParamiteMotions GetNextMotion() const
+    {
+        return static_cast<eParamiteMotions>(field_FE_next_motion);
+    }
+    eParamiteMotions GetCurrentMotion() const
+    {
+        return static_cast<eParamiteMotions>(field_FC_current_motion);
+    }
+
+    u8** ResBlockForMotion(s16 motion);
 
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_44ACA0(PrimHeader** ppOt);
-
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    s16 VTakeDamage_44ACC0(BaseGameObject* pFrom);
-
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
-
-    void VOn_Tlv_Collision_44AF30(Path_TLV* pTlv);
-
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_44B2C0();
-
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
-
-    s16 VOnSameYLevel_44B240(BaseAnimatedWithPhysicsGameObject* pOther);
-
     virtual void VOnTrapDoorOpen() override;
-
-    void VOnTrapDoorOpen_44B8C0();
-
     virtual void VUpdate() override;
 
-    void VUpdate_44A490();
-
-    void ToIdle_44B580();
-
-    s16 ToNextMotion_44B320();
-
-    void VUpdateAnimData_44A460();
-
-    s16 AnotherParamiteNear_44AF80();
-
-    void ToKnockBack_44B5B0();
-
-    Meat* FindMeat_44B160();
-
-    void MoveOnLine_44B740();
-
-    void Sound_44DBB0(ParamiteSpeak idx);
-
-    void ToHop_44B660();
-
+    void ToIdle();
+    s16 ToNextMotion();
+    void VUpdateAnimData();
+    s16 AnotherParamiteNear();
+    void ToKnockBack();
+    Meat* FindMeat();
+    void MoveOnLine();
+    void Sound(ParamiteSpeak idx);
+    void ToHop();
     void SetMusic();
 
     // Brains
-    s16 Brain_0_Patrol_447A10();
-    s16 Brain_1_SurpriseWeb_448D00();
-    s16 Brain_2_Struggling_44DD70();
-    s16 Brain_3_Death_448BF0();
-    s16 Brain_4_ChasingAbe_449170();
-    s16 Brain_5_SpottedMeat_449CD0();
+    s16 Brain_0_Patrol();
+    s16 Brain_1_SurpriseWeb();
+    s16 Brain_2_Struggling();
+    s16 Brain_3_Death();
+    s16 Brain_4_ChasingAbe();
+    s16 Brain_5_SpottedMeat();
 
 
-    using TParamiteBrain = decltype(&Paramite::Brain_0_Patrol_447A10);
+    using TParamiteBrain = decltype(&Paramite::Brain_0_Patrol);
 
     void SetBrain(TParamiteBrain fn);
 
@@ -158,32 +134,32 @@ public:
     s16 HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirection dir);
 
     // Motions
-    void Motion_0_Idle_44B900();
-    void Motion_1_WalkBegin_44BCA0();
-    void Motion_2_Walking_44B9E0();
-    void Motion_3_Running_44C070();
-    void Motion_4_Unknown_44B6C0();
-    void Motion_5_Turn_44C8E0();
-    void Motion_6_Hop_44CB20();
-    void Motion_7_Unknown_44BF10();
-    void Motion_8_WalkRunTransition_44C790();
-    void Motion_9_WalkEnd_44BDE0();
-    void Motion_10_RunBegin_44C4C0();
-    void Motion_11_RunEnd_44C620();
-    void Motion_12_Falling_44C960();
-    void Motion_13_GameSpeakBegin_44D050();
-    void Motion_14_PreHiss_44D170();
-    void Motion_15_Hiss_44D300();
-    void Motion_16_PostHiss_44D440();
-    void Motion_17_GameSpeakEnd_44D4F0();
-    void Motion_18_RunningAttack_44D5D0();
-    void Motion_19_Empty_44D990();
-    void Motion_20_SurpriseWeb_44D9A0();
-    void Motion_21_WebLeaveDown_44DB00();
-    void Motion_22_Unknown_44D8F0();
-    void Motion_23_Eating_44B970();
-    void Motion_24_Struggle_44DB70();
-    void Motion_25_Death_44DB90();
+    void Motion_0_Idle();
+    void Motion_1_WalkBegin();
+    void Motion_2_Walking();
+    void Motion_3_Running();
+    void Motion_4_Unknown();
+    void Motion_5_Turn();
+    void Motion_6_Hop();
+    void Motion_7_Unknown();
+    void Motion_8_WalkRunTransition();
+    void Motion_9_WalkEnd();
+    void Motion_10_RunBegin();
+    void Motion_11_RunEnd();
+    void Motion_12_Falling();
+    void Motion_13_GameSpeakBegin();
+    void Motion_14_PreHiss();
+    void Motion_15_Hiss();
+    void Motion_16_PostHiss();
+    void Motion_17_GameSpeakEnd();
+    void Motion_18_RunningAttack();
+    void Motion_19_Empty();
+    void Motion_20_SurpriseWeb();
+    void Motion_21_WebLeaveDown();
+    void Motion_22_Unknown();
+    void Motion_23_Eating();
+    void Motion_24_Struggle();
+    void Motion_25_Death();
 
 
     TParamiteBrain field_10C_fn;

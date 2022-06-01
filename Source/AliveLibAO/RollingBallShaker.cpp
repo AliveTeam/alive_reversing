@@ -48,7 +48,7 @@ RollingBallShaker::~RollingBallShaker()
     gObjList_drawables_504618->Remove_Item(this);
 }
 
-void RollingBallShaker::VUpdate_436260()
+void RollingBallShaker::VUpdate()
 {
     field_30_shake_table_idx++;
 
@@ -58,7 +58,7 @@ void RollingBallShaker::VUpdate_436260()
     }
 }
 
-void RollingBallShaker::VRender_436280(PrimHeader** ppOt)
+void RollingBallShaker::VRender(PrimHeader** ppOt)
 {
     Prim_ScreenOffset* pPrim = &field_10_prim_screen_offset[gPsxDisplay_504C78.field_A_buffer_index + 1];
     if (field_32_bKillMe != 0)
@@ -86,17 +86,7 @@ void RollingBallShaker::VRender_436280(PrimHeader** ppOt)
         InitType_ScreenOffset_496000(pPrim, &screenOff);
         OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
     }
-    pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, gPsxDisplay_504C78.field_2_height);
-}
-
-void RollingBallShaker::VUpdate()
-{
-    return VUpdate_436260();
-}
-
-void RollingBallShaker::VRender(PrimHeader** ppOt)
-{
-    VRender_436280(ppOt);
+    pScreenManager_4FF7C8->InvalidateRectCurrentIdx(0, 0, 640, gPsxDisplay_504C78.field_2_height);
 }
 
 } // namespace AO

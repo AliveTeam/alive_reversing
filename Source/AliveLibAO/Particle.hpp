@@ -12,8 +12,6 @@ public:
 
     virtual void VUpdate() override;
 
-    void VUpdate_478930();
-
     s32 field_D4_padding[4];
     FP field_E4_scale_amount;
 };

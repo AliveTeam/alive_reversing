@@ -32,17 +32,12 @@ Shrykull::~Shrykull()
     }
 }
 
-void Shrykull::VScreenChanged_464280()
+void Shrykull::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-}
-
-void Shrykull::VScreenChanged()
-{
-    VScreenChanged_464280();
 }
 
 Shrykull::Shrykull()
@@ -73,11 +68,6 @@ Shrykull::Shrykull()
 void Shrykull::VOnThrowableHit(BaseGameObject*)
 {
     // Empty
-}
-
-void Shrykull::VUpdate()
-{
-    VUpdate_463AE0();
 }
 
 bool Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
@@ -118,7 +108,7 @@ bool Shrykull::CanElectrocute(BaseGameObject* pObj) const
     }
 }
 
-void Shrykull::VUpdate_463AE0()
+void Shrykull::VUpdate()
 {
     switch (field_10C_state)
     {

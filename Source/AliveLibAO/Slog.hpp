@@ -63,13 +63,13 @@ public:
     Slog(FP xpos, FP ypos, FP scale);
     ~Slog();
 
-    s16 HandleEnemyStopper_473BD0();
-    void ToJump_473FB0();
-    void Sfx_475BD0(s32 idx);
-    s16 IsPlayerNear_471930();
-    BaseAliveGameObject* FindAbeMudOrSlig_4722F0();
-    void Init_473130();
-    s16 ToNextMotion_473CE0();
+    s16 HandleEnemyStopper();
+    void ToJump();
+    void Sfx(s32 idx);
+    s16 IsPlayerNear();
+    BaseAliveGameObject* FindAbeMudOrSlig();
+    void Init();
+    s16 ToNextMotion();
     void ToIdle();
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
@@ -80,22 +80,9 @@ public:
     virtual void VOnTrapDoorOpen() override;
     virtual void VUpdate() override;
     
-
-private:
-    void VOnTrapDoorOpen_4740C0();
-    void VOnThrowableHit_4735F0(BaseGameObject* pFrom);
-    void VRender_4735D0(PrimHeader** ppOt);
-    void VScreenChanged_473480();
-    void VUpdate_4739C0();
-    void VOn_Tlv_Collision_473970(Path_TLV* pTlv);
-    s16 VTakeDamage_473610(BaseGameObject* pFrom);
-
-public:
     void SetAnimFrame();
-
     u8** ResBlockForMotion(s16 motion);
-
-    void MoveOnLine_4740F0();
+    void MoveOnLine();
 
     // Motions
     void Motion_0_Idle_4742E0();

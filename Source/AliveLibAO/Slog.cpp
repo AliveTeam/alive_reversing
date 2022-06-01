@@ -127,7 +127,7 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
         field_BC_sprite_scale = FP_FromDouble(0.5);
     }
 
-    Init_473130();
+    Init();
 
     field_138_tlvInfo = tlvInfo;
     field_114_brain_idx = 1;
@@ -166,7 +166,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
     field_AC_ypos = ypos;
     field_BC_sprite_scale = scale;
 
-    Init_473130();
+    Init();
 
     field_116_brain_sub_state = 0;
 
@@ -241,11 +241,6 @@ Slog::~Slog()
 
 s16 Slog::VTakeDamage(BaseGameObject* pFrom)
 {
-    return VTakeDamage_473610(pFrom);
-}
-
-s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
-{
     if (field_100_health <= FP_FromInteger(0))
     {
         return 1;
@@ -278,7 +273,7 @@ s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
                     50);
             }
 
-            Sfx_475BD0(9);
+            Sfx(9);
 
             field_100_health = FP_FromInteger(0);
             field_114_brain_idx = 3;
@@ -298,7 +293,7 @@ s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
         case Types::eMeatSaw_56:
         case Types::eExplosion_74:
         {
-            Sfx_475BD0(9);
+            Sfx(9);
             field_100_health = FP_FromInteger(0);
             ao_new<Gibs>(
                 GibType::Slog_2,
@@ -328,7 +323,7 @@ s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
                 return 1;
             }
             field_17C_res = 1;
-            Sfx_475BD0(9);
+            Sfx(9);
             break;
 
         case Types::eZBall_92:
@@ -336,7 +331,7 @@ s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
 
         case Types::eRockSpawner_32:
         case Types::eRollingBall_72:
-            Slog::Sfx_475BD0(9);
+            Slog::Sfx(9);
             [[fallthrough]];
 
         case Types::eElectrocute_103:
@@ -354,18 +349,13 @@ s16 Slog::VTakeDamage_473610(BaseGameObject* pFrom)
         }
 
         default:
-            Sfx_475BD0(9);
+            Sfx(9);
             break;
     }
     return 1;
 }
 
 void Slog::VOn_TLV_Collision(Path_TLV* pTlv)
-{
-    VOn_Tlv_Collision_473970(pTlv);
-}
-
-void Slog::VOn_Tlv_Collision_473970(Path_TLV* pTlv)
 {
     while (pTlv)
     {
@@ -379,11 +369,6 @@ void Slog::VOn_Tlv_Collision_473970(Path_TLV* pTlv)
 }
 
 void Slog::VUpdate()
-{
-    VUpdate_4739C0();
-}
-
-void Slog::VUpdate_4739C0()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -484,7 +469,7 @@ u8** Slog::ResBlockForMotion(s16 motion)
     }
 }
 
-void Slog::MoveOnLine_4740F0()
+void Slog::MoveOnLine()
 {
     const FP xpos = field_A8_xpos;
     if (field_F4_pLine)
@@ -545,7 +530,7 @@ const TintEntry sSlogTints_4CFE10[3] = {
     {LevelIds_s8::eStockYardsReturn_6, 48u, 48u, 48u},
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
-void Slog::Init_473130()
+void Slog::Init()
 {
     field_184_resources[0] = nullptr;
     field_184_resources[1] = nullptr;
@@ -622,7 +607,7 @@ void Slog::Init_473130()
     gNumSlogs_9F11C8++;
 }
 
-s16 Slog::ToNextMotion_473CE0()
+s16 Slog::ToNextMotion()
 {
     switch (field_FE_next_motion)
     {
@@ -691,7 +676,7 @@ void Slog::ToIdle()
     field_128 = 60 * Slog_NextRandom() / 256 + gnFrameCount_507670 + 120;
 }
 
-void Slog::ToJump_473FB0()
+void Slog::ToJump()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -711,7 +696,7 @@ void Slog::ToJump_473FB0()
 
     field_F4_pLine = nullptr;
 
-    Sfx_475BD0(8);
+    Sfx(8);
 
     if (gMap.GetDirection(
             field_B2_lvl_number,
@@ -746,7 +731,7 @@ SfxDefinition sSlogSfx_4CFE40[20] = {
     {0, 22, 35, 45, 0, 0, 0},
     {0, 22, 36, 45, 0, 0, 0}};
 
-void Slog::Sfx_475BD0(s32 soundId)
+void Slog::Sfx(s32 soundId)
 {
     s32 volumeLeft = 0;
     s32 volumeRight = 0;
@@ -807,7 +792,7 @@ void Slog::Sfx_475BD0(s32 soundId)
                                   static_cast<s16>(sndDef.field_10_pitch_max));
 }
 
-s16 Slog::IsPlayerNear_471930()
+s16 Slog::IsPlayerNear()
 {
     if (FP_Abs(sActiveHero_507678->field_A8_xpos - field_A8_xpos) >= (FP_FromInteger(100) * field_BC_sprite_scale) || FP_Abs(sActiveHero_507678->field_AC_ypos - field_AC_ypos) >= (FP_FromInteger(25) * field_BC_sprite_scale) || sActiveHero_507678->field_BC_sprite_scale != field_BC_sprite_scale)
     {
@@ -816,7 +801,7 @@ s16 Slog::IsPlayerNear_471930()
     return 1;
 }
 
-BaseAliveGameObject* Slog::FindAbeMudOrSlig_4722F0()
+BaseAliveGameObject* Slog::FindAbeMudOrSlig()
 {
     BaseAliveGameObject* pResult = nullptr;
     FP minDist = FP_FromInteger(gPsxDisplay_504C78.field_0_width);
@@ -868,11 +853,6 @@ BaseAliveGameObject* Slog::FindAbeMudOrSlig_4722F0()
 
 void Slog::VScreenChanged()
 {
-    VScreenChanged_473480();
-}
-
-void Slog::VScreenChanged_473480()
-{
     if (gMap.mCurrentLevel != gMap.mLevel
         || gMap.mCurrentPath != gMap.mPath
         || gMap.mOverlayId != gMap.GetOverlayId())
@@ -901,28 +881,18 @@ void Slog::VScreenChanged_473480()
 
 void Slog::VRender(PrimHeader** ppOt)
 {
-    VRender_4735D0(ppOt);
-}
-
-void Slog::VRender_4735D0(PrimHeader** ppOt)
-{
     if (field_8_update_delay == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }
 
-void Slog::VOnThrowableHit(BaseGameObject* pFrom)
-{
-    VOnThrowableHit_4735F0(pFrom);
-}
-
-void Slog::VOnThrowableHit_4735F0(BaseGameObject* /*pFrom*/)
+void Slog::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     field_156 += field_15C_chase_anger;
 }
 
-s16 Slog::HandleEnemyStopper_473BD0()
+s16 Slog::HandleEnemyStopper()
 {
     FP xpos = {};
     if (field_B4_velx >= FP_FromInteger(0))
@@ -961,14 +931,9 @@ s16 Slog::HandleEnemyStopper_473BD0()
 
 void Slog::VOnTrapDoorOpen()
 {
-    VOnTrapDoorOpen_4740C0();
-}
-
-void Slog::VOnTrapDoorOpen_4740C0()
-{
     if (field_F8_pLiftPoint)
     {
-        field_F8_pLiftPoint->VRemove_451680(this);
+        field_F8_pLiftPoint->VRemove(this);
         field_F8_pLiftPoint->field_C_refCount--;
         field_F8_pLiftPoint = nullptr;
     }
@@ -976,11 +941,11 @@ void Slog::VOnTrapDoorOpen_4740C0()
 
 void Slog::Motion_0_Idle_4742E0()
 {
-    if (!ToNextMotion_473CE0())
+    if (!ToNextMotion())
     {
         if (field_FE_next_motion == eSlogMotions::Motion_19_JumpForwards_475610)
         {
-            ToJump_473FB0();
+            ToJump();
         }
         else if (field_FE_next_motion == -1)
         {
@@ -1076,7 +1041,7 @@ void Slog::Motion_1_Walk_4743F0()
     }
     else
     {
-        MoveOnLine_4740F0();
+        MoveOnLine();
 
         if (field_FC_current_motion == eSlogMotions::Motion_1_Walk_4743F0)
         {
@@ -1154,18 +1119,18 @@ void Slog::Motion_2_Run_4749A0()
     }
     else
     {
-        MoveOnLine_4740F0();
+        MoveOnLine();
 
         if (field_FC_current_motion == eSlogMotions::Motion_2_Run_4749A0)
         {
             if (Slog_NextRandom() < 35u)
             {
-                Sfx_475BD0(5);
+                Sfx(5);
             }
 
             if (field_10_anim.field_92_current_frame == 7)
             {
-                Sfx_475BD0(16);
+                Sfx(16);
             }
 
             if (field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 7)
@@ -1183,7 +1148,7 @@ void Slog::Motion_2_Run_4749A0()
                 }
                 else if (field_FE_next_motion == eSlogMotions::Motion_19_JumpForwards_475610)
                 {
-                    ToJump_473FB0();
+                    ToJump();
                     field_FE_next_motion = -1;
                 }
                 else if (field_FE_next_motion != -1)
@@ -1297,7 +1262,7 @@ void Slog::Motion_6_MoveHeadUpwards_474220()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Sfx_475BD0(2);
+        Sfx(2);
         field_144 = 1;
     }
 
@@ -1305,7 +1270,7 @@ void Slog::Motion_6_MoveHeadUpwards_474220()
     {
         if (Math_RandomRange_450F20(0, 100) < 30)
         {
-            Sfx_475BD0(4);
+            Sfx(4);
         }
 
         ToIdle();
@@ -1329,7 +1294,7 @@ void Slog::Motion_7_SlideTurn_474DB0()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Sfx_475BD0(13);
+        Sfx(13);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -1348,7 +1313,7 @@ void Slog::Motion_7_SlideTurn_474DB0()
     }
     else
     {
-        MoveOnLine_4740F0();
+        MoveOnLine();
     }
 }
 
@@ -1385,7 +1350,7 @@ void Slog::Motion_8_StopRunning_474EC0()
     }
     else
     {
-        MoveOnLine_4740F0();
+        MoveOnLine();
 
         if (field_FC_current_motion == eSlogMotions::Motion_8_StopRunning_474EC0)
         {
@@ -1432,7 +1397,7 @@ void Slog::Motion_9_StartWalking_474690()
     }
     else
     {
-        MoveOnLine_4740F0();
+        MoveOnLine();
     }
 }
 
@@ -1442,7 +1407,7 @@ void Slog::Motion_10_EndWalking_4747D0()
     {
         MapFollowMe_401D30(0);
 
-        if (!ToNextMotion_473CE0())
+        if (!ToNextMotion())
         {
             ToIdle();
         }
@@ -1463,7 +1428,7 @@ void Slog::Motion_10_EndWalking_4747D0()
     }
     else
     {
-        MoveOnLine_4740F0();
+        MoveOnLine();
     }
 }
 
@@ -1471,7 +1436,7 @@ void Slog::Motion_11_Land_475AB0()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Sfx_475BD0(15);
+        Sfx(15);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1492,7 +1457,7 @@ void Slog::Motion_13_StartFastBarking_475B70()
 {
     if (field_10_anim.field_92_current_frame == 0)
     {
-        Sfx_475BD0(2);
+        Sfx(2);
         field_144 = 1;
     }
 
@@ -1517,7 +1482,7 @@ void Slog::Motion_15_AngryBark_475290()
 {
     if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 6)
     {
-        Sfx_475BD0(5);
+        Sfx(5);
     }
 
     if (field_FE_next_motion != -1)
@@ -1544,7 +1509,7 @@ void Slog::Motion_16_Sleeping_4752E0()
     {
         if (!((gnFrameCount_507670 - 20) % 60))
         {
-            Sfx_475BD0(11);
+            Sfx(11);
             if (gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
@@ -1558,7 +1523,7 @@ void Slog::Motion_16_Sleeping_4752E0()
     }
     else
     {
-        Sfx_475BD0(10);
+        Sfx(10);
         if (gMap.Is_Point_In_Current_Camera_4449C0(
                 field_B2_lvl_number,
                 field_B0_path_number,
@@ -1617,7 +1582,7 @@ void Slog::Motion_18_WakeUp_475460()
         {
             field_FC_current_motion = field_FE_next_motion;
             field_FE_next_motion = -1;
-            Sfx_475BD0(4);
+            Sfx(4);
         }
     }
 
@@ -1735,7 +1700,7 @@ void Slog::Motion_20_JumpUpwards_475890()
 
     if (field_10_anim.field_92_current_frame == 5)
     {
-        Sfx_475BD0(6);
+        Sfx(6);
     }
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1775,7 +1740,7 @@ void Slog::Motion_21_Eating_475900()
                 if (static_cast<s32>(gnFrameCount_507670) > field_164_timer && Math_RandomRange_450F20(0, 100) < 60)
                 {
                     field_164_timer = gnFrameCount_507670 + 16;
-                    Sfx_475BD0(3);
+                    Sfx(3);
                 }
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
             }
@@ -1824,7 +1789,7 @@ void Slog::Motion_24_Growl_475590()
     {
         if (field_144)
         {
-            Sfx_475BD0(3);
+            Sfx(3);
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
             field_144 = 0;
             field_164_timer = gnFrameCount_507670 + 12;
@@ -2076,7 +2041,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
 
         case GameSpeakEvents::eUnknown_25:
         {
-            field_10C_pTarget = FindAbeMudOrSlig_4722F0();
+            field_10C_pTarget = FindAbeMudOrSlig();
             if (field_10C_pTarget)
             {
                 field_10C_pTarget->field_C_refCount++;
@@ -2334,7 +2299,7 @@ s16 Slog::Brain_1_Idle_4719C0()
                 }
             }
 
-            if (IsPlayerNear_471930())
+            if (IsPlayerNear())
             {
                 field_156 += 2;
             }
@@ -2402,7 +2367,7 @@ s16 Slog::Brain_1_Idle_4719C0()
                 }
             }
 
-            if (IsPlayerNear_471930())
+            if (IsPlayerNear())
             {
                 field_156 += 2;
             }
@@ -2489,12 +2454,12 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
             field_172 = 0;
             field_16C_pUnknown = nullptr;
             field_FE_next_motion = eSlogMotions::Motion_2_Run_4749A0;
-            Sfx_475BD0(8);
+            Sfx(8);
             return 1;
 
         case 1:
         {
-            if ((field_B4_velx != FP_FromInteger(0) && HandleEnemyStopper_473BD0()) || WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+            if ((field_B4_velx != FP_FromInteger(0) && HandleEnemyStopper()) || WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
             {
                 field_FE_next_motion = eSlogMotions::Motion_7_SlideTurn_474DB0;
                 field_174 = field_B4_velx < FP_FromInteger(0);
@@ -2686,7 +2651,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
             return 1;
 
         case 9:
-            if (field_B4_velx > FP_FromInteger(0) && HandleEnemyStopper_473BD0())
+            if (field_B4_velx > FP_FromInteger(0) && HandleEnemyStopper())
             {
                 field_FE_next_motion = eSlogMotions::Motion_7_SlideTurn_474DB0;
                 field_174 = field_B4_velx < FP_FromInteger(0);

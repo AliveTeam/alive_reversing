@@ -69,7 +69,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
         0);
     PSX_RECT frameRect = {};
     field_10_anim.Get_Frame_Rect(&frameRect);
-    pScreenManager_4FF7C8->InvalidateRect_406E40(
+    pScreenManager_4FF7C8->InvalidateRect(
         frameRect.x,
         frameRect.y,
         frameRect.w,
@@ -151,7 +151,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
     if (field_1A8_fade_colour < 255)
     {
-        pScreenManager_4FF7C8->InvalidateRect_406CC0(
+        pScreenManager_4FF7C8->InvalidateRectCurrentIdx(
             0,
             0,
             gPsxDisplay_504C78.field_0_width,

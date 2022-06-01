@@ -24,10 +24,6 @@ public:
     RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInfo);
     ~RollingBallStopper();
 
-    void VScreenChanged_43C130();
-    void VUpdate_43BF70();
-
-    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

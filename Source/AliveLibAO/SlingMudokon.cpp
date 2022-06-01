@@ -60,7 +60,7 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_FC_current_motion = eSlingMudMotions::Motion_0_Idle;
+    SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -237,14 +237,14 @@ void SlingMudokon::VUpdateAnimData()
 
 void SlingMudokon::Motion_0_Idle()
 {
-    if (field_FE_next_motion == eSlingMudMotions::Motion_1_Angry)
+    if (GetNextMotion() == eSlingMudMotions::Motion_1_Angry)
     {
-        field_FC_current_motion = eSlingMudMotions::Motion_1_Angry;
+        SetCurrentMotion(eSlingMudMotions::Motion_1_Angry);
         field_FE_next_motion = -1;
     }
-    else if (!field_10_anim.field_92_current_frame && field_FE_next_motion == eSlingMudMotions::Motion_2_Speak)
+    else if (!field_10_anim.field_92_current_frame && GetNextMotion() == eSlingMudMotions::Motion_2_Speak)
     {
-        field_FC_current_motion = eSlingMudMotions::Motion_2_Speak;
+        SetCurrentMotion(eSlingMudMotions::Motion_2_Speak);
         field_FE_next_motion = -1;
     }
 }
@@ -256,14 +256,14 @@ void SlingMudokon::Motion_1_Angry()
         SFX_Play_Mono(SoundEffect::SlingshotExtend_83, 0, 0);
     }
 
-    if (field_FE_next_motion == eSlingMudMotions::Motion_3_ShootStart)
+    if (GetNextMotion() == eSlingMudMotions::Motion_3_ShootStart)
     {
-        field_FC_current_motion = eSlingMudMotions::Motion_3_ShootStart;
+        SetCurrentMotion(eSlingMudMotions::Motion_3_ShootStart);
         field_FE_next_motion = -1;
     }
-    else if (field_FE_next_motion == eSlingMudMotions::Motion_5_AngryToIdle)
+    else if (GetNextMotion() == eSlingMudMotions::Motion_5_AngryToIdle)
     {
-        field_FC_current_motion = eSlingMudMotions::Motion_5_AngryToIdle;
+        SetCurrentMotion(eSlingMudMotions::Motion_5_AngryToIdle);
         field_FE_next_motion = -1;
     }
 }
@@ -274,7 +274,7 @@ void SlingMudokon::Motion_2_Speak()
     {
         if (field_10_anim.field_18_frame_table_offset == 22744)
         {
-            field_FC_current_motion = eSlingMudMotions::Motion_0_Idle;
+            SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
         }
     }
 }
@@ -314,7 +314,7 @@ void SlingMudokon::Motion_3_ShootStart()
                 0,
                 field_BC_sprite_scale,
                 0);
-            field_FC_current_motion = eSlingMudMotions::Motion_4_ShootEnd;
+            SetCurrentMotion(eSlingMudMotions::Motion_4_ShootEnd);
         }
     }
 }
@@ -323,7 +323,7 @@ void SlingMudokon::Motion_4_ShootEnd()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eSlingMudMotions::Motion_0_Idle;
+        SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
     }
 }
 
@@ -331,7 +331,7 @@ void SlingMudokon::Motion_5_AngryToIdle()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_FC_current_motion = eSlingMudMotions::Motion_0_Idle;
+        SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
     }
 }
 
@@ -543,7 +543,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             {
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-                field_FC_current_motion = eSlingMudMotions::Motion_0_Idle;
+                SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
 
                 ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
@@ -559,7 +559,7 @@ s16 SlingMudokon::Brain_1_Spawn()
         case Brain_1_Spawn::eBrain1_GetAngry_3:
             if (VIsObj_GettingNear_On_X(sActiveHero_507678))
             {
-                field_FE_next_motion = eSlingMudMotions::Motion_1_Angry;
+                SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = gnFrameCount_507670 + 40;
                 Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
                 return Brain_1_Spawn::eBrain1_PrepareToShoot_5;
@@ -584,7 +584,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             }
             else if (field_11E_flags.Get(Flags_11E::eBit4_bAbeGettingCloser))
             {
-                field_FE_next_motion = eSlingMudMotions::Motion_1_Angry;
+                SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = gnFrameCount_507670 + 40;
                 Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
                 return Brain_1_Spawn::eBrain1_PrepareToShoot_5;
@@ -600,7 +600,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             if (VIsObjNearby((ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)), sActiveHero_507678))
             {
                 field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
-                field_FE_next_motion = eSlingMudMotions::Motion_3_ShootStart;
+                SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
                 field_140_timer = gnFrameCount_507670 + 15;
                 return Brain_1_Spawn::eBrain1_Shoot_6;
             }
@@ -615,7 +615,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 {
                     field_11E_flags.Clear(Flags_11E::eBit4_bAbeGettingCloser);
                     field_140_timer = gnFrameCount_507670 + 40;
-                    field_FE_next_motion = eSlingMudMotions::Motion_5_AngryToIdle;
+                    SetNextMotion(eSlingMudMotions::Motion_5_AngryToIdle);
                     return Brain_1_Spawn::eBrain1_GetAngry_3;
                 }
             }
@@ -723,7 +723,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
 
                 field_140_timer = gnFrameCount_507670 + 30;
 
-                field_FC_current_motion = eSlingMudMotions::Motion_0_Idle;
+                SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
                 if (field_A8_xpos > sActiveHero_507678->field_A8_xpos)
                 {
                     field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
@@ -737,7 +737,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
         case 3:
             if (VIsObj_GettingNear_On_X(sActiveHero_507678))
             {
-                field_FE_next_motion = eSlingMudMotions::Motion_1_Angry;
+                SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = gnFrameCount_507670 + 40;
                 Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
                 return 7;
@@ -748,13 +748,13 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 return field_13A_brain_sub_state;
             }
             Mudokon_SFX_42A4D0(MudSounds::ePassword_9, 0, 300, this);
-            field_FE_next_motion = eSlingMudMotions::Motion_2_Speak;
+            SetNextMotion(eSlingMudMotions::Motion_2_Speak);
             return 4;
 
         case 4:
             if (VIsObj_GettingNear_On_X(sActiveHero_507678))
             {
-                field_FE_next_motion = eSlingMudMotions::Motion_1_Angry;
+                SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = gnFrameCount_507670 + 40;
                 Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
                 return 7;
@@ -855,7 +855,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 return field_13A_brain_sub_state;
             }
 
-            field_FE_next_motion = eSlingMudMotions::Motion_1_Angry;
+            SetNextMotion(eSlingMudMotions::Motion_1_Angry);
             field_140_timer = gnFrameCount_507670 + 40;
             Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
             return 7;
@@ -892,7 +892,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             if (VIsObjNearby((ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)), sActiveHero_507678))
             {
                 field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
-                field_FE_next_motion = eSlingMudMotions::Motion_3_ShootStart;
+                SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
                 field_140_timer = gnFrameCount_507670 + 15;
                 return 8;
             }
@@ -902,7 +902,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 return field_13A_brain_sub_state;
             }
 
-            field_FE_next_motion = eSlingMudMotions::Motion_5_AngryToIdle;
+            SetNextMotion(eSlingMudMotions::Motion_5_AngryToIdle);
             field_140_timer = gnFrameCount_507670 + 30;
             return 3;
 

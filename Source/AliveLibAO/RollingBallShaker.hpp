@@ -14,10 +14,6 @@ public:
     RollingBallShaker();
     ~RollingBallShaker();
 
-    void VUpdate_436260();
-    void VRender_436280(PrimHeader** ppOt);
-
-    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 

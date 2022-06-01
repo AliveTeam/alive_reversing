@@ -3158,7 +3158,7 @@ void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
                 gOldKilledMuds_5076D0 = sKilledMudokons_5076BC;
                 gOldSavedMuds_5076D4 = sRescuedMudokons_5076C0;
 
-                SaveGame::SaveToMemory_459490(&gSaveBuffer_505668);
+                SaveGame::SaveToMemory(&gSaveBuffer_505668);
 
                 const FP camXPos = FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
 
@@ -4823,7 +4823,7 @@ void Abe::Motion_17_HoistIdle_4269E0()
     field_160_pRope = GetPullRope_422580();
     if (field_160_pRope)
     {
-        if (field_160_pRope->Pull_454CB0(this))
+        if (field_160_pRope->Pull(this))
         {
             field_FC_current_motion = eAbeMotions::Motion_69_RingRopePullHang_4299B0;
             field_FE_next_motion = eAbeMotions::Motion_0_Idle_423520;
@@ -7021,7 +7021,7 @@ void Abe::Motion_61_Respawn_42CD20()
                 {
                     if (field_F8_pLiftPoint->mFlags.Get(Options::eDrawable_Bit4))
                     {
-                        field_F8_pLiftPoint->VRemove_451680(this);
+                        field_F8_pLiftPoint->VRemove(this);
                         field_F8_pLiftPoint->field_C_refCount--;
                         field_F8_pLiftPoint = nullptr;
                     }
@@ -7037,7 +7037,7 @@ void Abe::Motion_61_Respawn_42CD20()
                     field_138_zone_top_left.field_0_x = camPos.field_0_x + 512;
                     field_138_zone_top_left.field_2_y = camPos.field_2_y + 240;
                 }
-                SaveGame::LoadFromMemory_459970(&gSaveBuffer_505668, 0);
+                SaveGame::LoadFromMemory(&gSaveBuffer_505668, 0);
                 if (field_19C_throwable_count)
                 {
                     LoadRockTypes(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
@@ -7535,7 +7535,7 @@ void Abe::Motion_68_LedgeHangWobble_428E50()
 
 void Abe::Motion_69_RingRopePullHang_4299B0()
 {
-    if (field_160_pRope->vIsNotBeingPulled_454D60())
+    if (field_160_pRope->vIsNotBeingPulled())
     {
         field_FC_current_motion = eAbeMotions::Motion_91_FallingFromGrab_429780;
         field_160_pRope->field_C_refCount--;
@@ -8294,9 +8294,9 @@ void Abe::Motion_88_HandstoneBegin_430590()
             if (sMovie_ref_count_9F309C == 0)
             {
                 gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
-                pScreenManager_4FF7C8->DecompressCameraToVRam_407110(
+                pScreenManager_4FF7C8->DecompressCameraToVRam(
                     reinterpret_cast<u16**>(gMap.field_34_camera_array[0]->field_C_ppBits));
-                pScreenManager_4FF7C8->MoveImage_406C40();
+                pScreenManager_4FF7C8->MoveImage();
                 pScreenManager_4FF7C8->field_36_flags |= 1;
                 field_164_pCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;

@@ -89,22 +89,17 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     }
 }
 
-Bool32 PullRingRope::vIsNotBeingPulled_454D60()
+Bool32 PullRingRope::vIsNotBeingPulled()
 {
     return field_EC_state != States::eBeingPulled_1;
 }
 
-void PullRingRope::VScreenChanged_454D70()
+void PullRingRope::VScreenChanged()
 {
     if (!field_F4_pPuller)
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-}
-
-void PullRingRope::VScreenChanged()
-{
-    VScreenChanged_454D70();
 }
 
 PullRingRope::~PullRingRope()
@@ -123,7 +118,7 @@ PullRingRope::~PullRingRope()
     }
 }
 
-s16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
+s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
 {
     if (!pFrom)
     {
@@ -159,11 +154,6 @@ s16 PullRingRope::Pull_454CB0(BaseAliveGameObject* pFrom)
 }
 
 void PullRingRope::VUpdate()
-{
-    VUpdate_4549A0();
-}
-
-void PullRingRope::VUpdate_4549A0()
 {
     if (Event_Get(kEventDeathReset_4))
     {

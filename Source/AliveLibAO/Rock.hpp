@@ -14,29 +14,14 @@ public:
     ~Rock();
 
     virtual void VUpdate() override;
-
-    void VUpdate_456EC0();
-
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_457310();
-
     virtual void VThrow(FP velX, FP velY) override;
-
-    void VThrow_456B20(FP velX, FP velY);
-
     virtual s16 VCanThrow() override;
-
-    s16 VCanThrow_4573C0();
-
-    void InTheAir_456B60();
-
-    s16 OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj);
-
     virtual s16 VIsFalling() override;
-
     virtual void VTimeToExplodeRandom() override;
 
+    void InTheAir();
+    s16 OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
     void BounceHorizontally( FP hitX, FP hitY );
 
     enum class States : s16

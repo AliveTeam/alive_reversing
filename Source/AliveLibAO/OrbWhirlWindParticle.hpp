@@ -14,13 +14,10 @@ public:
     OrbWhirlWindParticle(FP xpos, FP ypos, FP scale);
     ~OrbWhirlWindParticle();
 
-    // WARNING: Not a derived type - keep virtuals in order for BC
-
-    virtual void VUpdate_48BF00();
+    void Update();
+    void Render(PrimHeader** ppOt);
 
     void SetActive(u8 active);
-
-    virtual void VRender_48C430(PrimHeader** ppOt);
 
     // NOTE: inlined
     s32 IsActive();
@@ -28,8 +25,7 @@ public:
     // NOTE: inlined
     void ToStop();
 
-    void CalculateRenderProperties_48BDC0(s16 bStarted);
-
+    void CalculateRenderProperties(s16 bStarted);
     void Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
 
     s32 field_4_flags;

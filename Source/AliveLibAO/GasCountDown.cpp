@@ -194,7 +194,7 @@ void GasCountDown::VRender(PrimHeader** ppOt)
         textWidth + field_5C_xpos,
         sDisableFontFlicker_5080E4 ? 0 : 50);
 
-    pScreenManager_4FF7C8->InvalidateRect_406E40(
+    pScreenManager_4FF7C8->InvalidateRect(
         field_5C_xpos,
         field_5E_ypos,
         field_5C_xpos + textWidth,

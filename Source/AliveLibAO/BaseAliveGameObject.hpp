@@ -41,32 +41,25 @@ class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     BaseAliveGameObject();
-
     ~BaseAliveGameObject();
 
-    
 
     virtual void VUnPosses();
-
     virtual void VPossessed();
-
     virtual void VSetMotion(s16 state);
-
     virtual void VSetXSpawn(s16 camWorldX, s32 screenXPos);
-
     virtual void VSetYSpawn(s32 camWorldY, s16 bLeft);
-
     virtual void VOnPathTransition(s16 camWorldX, s32 camWorldY, CameraPos direction);
-
     virtual s16 VTakeDamage(BaseGameObject* pFrom);
-
     virtual void VOn_TLV_Collision(Path_TLV* pTlv);
-
     virtual void VCheckCollisionLineStillValid(s32 distance);
-
     virtual void VOnTrapDoorOpen();
 
+
+
 private:
+
+
     s16 VTakeDamage_401920(BaseGameObject* pFrom);
 
     void VOnPathTransition_401470(s16 camWorldX, s32 camWorldY, CameraPos direction);
@@ -80,6 +73,22 @@ private:
     void VCheckCollisionLineStillValid_401A90(s32 distance);
 
 protected:
+    template<class T>
+    inline void SetCurrentMotion(T motion)
+    {
+        field_FC_current_motion = static_cast<s16>(motion);
+    }
+    template<class T>
+    inline void SetNextMotion(T motion)
+    {
+        field_FE_next_motion = static_cast<s16>(motion);
+    }
+    template<class T>
+    inline void SetPreviousMotion(T motion)
+    {
+        field_E4_previous_motion = static_cast<s16>(motion);
+    }
+
     void SetActiveCameraDelayedFromDir_401C90();
 
     static void OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);

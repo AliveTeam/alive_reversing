@@ -156,7 +156,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         biggestW = w3;
     }
 
-    pScreenManager_4FF7C8->InvalidateRect_406E40(
+    pScreenManager_4FF7C8->InvalidateRect(
         field_CC_xpos,
         field_CE_ypos,
         biggestW,

@@ -68,20 +68,10 @@ SecurityOrb::~SecurityOrb()
 
 void SecurityOrb::VScreenChanged()
 {
-    VScreenChanged_4373A0();
-}
-
-void SecurityOrb::VScreenChanged_4373A0()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
 s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
-{
-    return VTakeDamage_437280(pFrom);
-}
-
-s16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {
@@ -120,11 +110,6 @@ s16 SecurityOrb::VTakeDamage_437280(BaseGameObject* pFrom)
 }
 
 void SecurityOrb::VUpdate()
-{
-    VUpdate_436DF0();
-}
-
-void SecurityOrb::VUpdate_436DF0()
 {
     if (Event_Get(kEventDeathReset_4))
     {

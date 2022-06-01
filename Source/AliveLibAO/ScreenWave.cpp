@@ -122,11 +122,6 @@ ScreenWave::~ScreenWave()
 
 void ScreenWave::VScreenChanged()
 {
-    VScreenChanged_463110();
-}
-
-void ScreenWave::VScreenChanged_463110()
-{
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -134,11 +129,6 @@ void ScreenWave::VScreenChanged_463110()
 }
 
 void ScreenWave::VUpdate()
-{
-    VUpdate_463080();
-}
-
-void ScreenWave::VUpdate_463080()
 {
     if (FP_GetExponent(field_2C) <= field_34_max_radius)
     {
@@ -165,11 +155,6 @@ void ScreenWave::VUpdate_463080()
 }
 
 void ScreenWave::VRender(PrimHeader** ppOt)
-{
-    VRender_463130(ppOt);
-}
-
-void ScreenWave::VRender_463130(PrimHeader** ppOt)
 {
     if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_3A_level,
@@ -301,7 +286,7 @@ void ScreenWave::VRender_463130(PrimHeader** ppOt)
         }
         if (clearRectSize.y <= clearRectSize.h && clearRectSize.x <= clearRectSize.w)
         {
-            pScreenManager_4FF7C8->InvalidateRect_406E40(
+            pScreenManager_4FF7C8->InvalidateRect(
                 clearRectSize.x,
                 clearRectSize.y,
                 clearRectSize.w,

@@ -39,7 +39,7 @@ Shadow::~Shadow()
     field_18_anim.VCleanUp();
 }
 
-void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale)
+void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale)
 {
     if (field_14_flags.Get(Flags::eBit2_Enabled))
     {
@@ -163,7 +163,7 @@ void Shadow::Calculate_Position_462040(FP xpos, FP ypos, PSX_RECT* frameRect, FP
     }
 }
 
-void Shadow::Render_462410(PrimHeader** ppOt)
+void Shadow::Render(PrimHeader** ppOt)
 {
     if (field_14_flags.Get(Flags::eBit2_Enabled))
     {
@@ -189,7 +189,7 @@ void Shadow::Render_462410(PrimHeader** ppOt)
 
         PSX_RECT frameRect = {};
         field_18_anim.Get_Frame_Rect(&frameRect);
-        pScreenManager_4FF7C8->InvalidateRect_406E40(
+        pScreenManager_4FF7C8->InvalidateRect(
             frameRect.x,
             frameRect.y,
             frameRect.w,

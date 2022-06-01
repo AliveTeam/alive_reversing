@@ -37,16 +37,10 @@ public:
     ~ShadowZone();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_435FE0();
-
-    void GetColourAmount_435E40(FP* pOut, s16 xpos, s16 ypos);
-
     virtual void VUpdate() override;
 
-    void VUpdate_435F80();
-
-    static void ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
+    void GetColourAmount(FP* pOut, s16 xpos, s16 ypos);
+    static void ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
 
     // Note: Completely inlined in AO
     s16 ApplysToScale(s16 scale);

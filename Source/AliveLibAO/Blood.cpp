@@ -264,7 +264,7 @@ void Blood::VRender(PrimHeader** ppOt)
         Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
         OrderingTable_Add_498A80(OtLayer(ppOt, field_11C_render_layer), &pTPage->mBase);
 
-        pScreenManager_4FF7C8->InvalidateRect_406E40(
+        pScreenManager_4FF7C8->InvalidateRect(
             (xy.field_0_x - 12),
             (xy.field_2_y - 12),
             (wh.field_0_x + 12),

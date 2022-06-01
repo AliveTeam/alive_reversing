@@ -92,59 +92,27 @@ public:
     ~Scrab();
 
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_45BBF0(PrimHeader** ppOt);
-
     virtual void VUpdate() override;
-
-    void VUpdate_45B360();
-
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    s16 VTakeDamage_45BC10(BaseGameObject* pFrom);
-
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
-
-    void VOn_TLV_Collision_45BDC0(Path_TLV* pTlv);
-
     virtual void VScreenChanged() override;
-
-    s16 CanSeeAbe_45C100(BaseAliveGameObject* pObj);
-
-    void VScreenChanged_45C290();
-
-    void ToStand_45E310();
-
-    void vUpdateAnim_45B330();
-
-    u8** ResBlockForMotion_45BB30(s16 motion);
-
-    void PlatformCollide_45E580();
-
     virtual void VOnTrapDoorOpen() override;
-
-    void VOnTrapDoorOpen_45E5E0();
-
-    s16 ToNextMotion_45DFB0();
-
-    void ToStand();
-
-    s32 Scrab_SFX_460B80(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
-
-    void ToJump_45E340();
-
-    void MoveOnLine_45E450();
-
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
-    s16 VOnSameYLevel_45C180(BaseAnimatedWithPhysicsGameObject* pObj);
+    s16 CanSeeAbe(BaseAliveGameObject* pObj);
+    void vUpdateAnim();
+    u8** ResBlockForMotion(s16 motion);
+    void PlatformCollide();
+    s16 ToNextMotion();
+    void ToStand();
+    s32 Scrab_SFX(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
+    void ToJump();
+    void MoveOnLine();
 
-    Scrab* FindScrabToFight_45BE30();
 
-    s16 FindAbeOrMud_45BEF0();
-
+    Scrab* FindScrabToFight();
+    s16 FindAbeOrMud();
     s16 HandleRunning();
-
     s16 GetMotionForPatrolType(ScrabPatrolType ScrabPatrolType);
 
     // Motions
@@ -181,17 +149,11 @@ public:
 
     // Brains
     s16 Brain_Fighting_45C370();
-
     s16 Brain_BatDeath_45CA60();
-
     s16 Brain_Death_45CB80();
-
     s16 Brain_ChasingEnemy_Real_45CC90();
-
     s16 Brain_ChasingEnemy_45CC90();
-
     s16 Brain_Patrol_460020();
-
     s16 Brain_WalkAround_460D80();
 
     using TBrainType = decltype(&Scrab::Brain_Fighting_45C370);

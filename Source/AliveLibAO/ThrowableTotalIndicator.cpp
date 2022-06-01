@@ -287,7 +287,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
     Init_SetTPage_495FB0(&field_17C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 1, 0, PSX_getTPage_4965D0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
     OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &field_17C_tPage->mBase);
 
-    pScreenManager_4FF7C8->InvalidateRect_406E40(
+    pScreenManager_4FF7C8->InvalidateRect(
         PsxToPCX(xpos - 31),
         ypos - 21,
         PsxToPCX(xpos + 31),

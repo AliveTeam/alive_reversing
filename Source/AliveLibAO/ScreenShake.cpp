@@ -31,11 +31,6 @@ ScreenShake::ScreenShake(bool enableShakeEvent)
 
 void ScreenShake::VUpdate()
 {
-    VUpdate_4625B0();
-}
-
-void ScreenShake::VUpdate_4625B0()
-{
     if (field_32_enableShakeEvent)
     {
         Event_Broadcast(kEventScreenShake_19, this);
@@ -45,11 +40,6 @@ void ScreenShake::VUpdate_4625B0()
     {
         field_30_shakeNumber--;
     }
-}
-
-void ScreenShake::VRender(PrimHeader** ppOt)
-{
-    VRender_4625E0(ppOt);
 }
 
 const FP_Point stru_4CF850[16] = {
@@ -71,7 +61,7 @@ const FP_Point stru_4CF850[16] = {
     {FP_FromInteger(-9), FP_FromInteger(9)}};
 
 
-void ScreenShake::VRender_4625E0(PrimHeader** ppOt)
+void ScreenShake::VRender(PrimHeader** ppOt)
 {
     if (field_30_shakeNumber < 14)
     {
@@ -146,7 +136,7 @@ void ScreenShake::VRender_4625E0(PrimHeader** ppOt)
     }
 
 
-    pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, 240);
+    pScreenManager_4FF7C8->InvalidateRectCurrentIdx(0, 0, 640, 240);
 }
 
 ScreenShake::~ScreenShake()

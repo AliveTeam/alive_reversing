@@ -148,20 +148,10 @@ SecurityClaw::~SecurityClaw()
 
 void SecurityClaw::VScreenChanged()
 {
-    VScreenChange_4196F0();
-}
-
-void SecurityClaw::VScreenChange_4196F0()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
 s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
-{
-    return VTakeDamage_419520(pFrom);
-}
-
-s16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
 {
     if (!mFlags.Get(BaseGameObject::eDead))
     {
@@ -210,11 +200,6 @@ s16 SecurityClaw::VTakeDamage_419520(BaseGameObject* pFrom)
 }
 
 void SecurityClaw::VUpdate()
-{
-    VUpdate_418DE0();
-}
-
-void SecurityClaw::VUpdate_418DE0()
 {
     if (Event_Get(kEventDeathReset_4))
     {

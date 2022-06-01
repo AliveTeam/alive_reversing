@@ -217,7 +217,7 @@ void DoorLight::VRender(PrimHeader** ppOt)
 
         PSX_RECT rect = {};
         field_10_anim.Get_Frame_Rect(&rect);
-        pScreenManager_4FF7C8->InvalidateRect_406E40(
+        pScreenManager_4FF7C8->InvalidateRect(
             rect.x,
             rect.y,
             rect.w,

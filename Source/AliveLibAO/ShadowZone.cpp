@@ -45,7 +45,7 @@ ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
     field_26_scale = pTlv->field_24_scale;
 }
 
-void ShadowZone::ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
+void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
 {
     for (s32 idx = 0; idx < sShadowZone_dArray_507B08->Size(); idx++)
     {
@@ -60,7 +60,7 @@ void ShadowZone::ShadowZones_Calculate_Colour_435FF0(s32 xpos, s32 ypos, s16 sca
             FP amount = {};
 
             // TODO: This was probably a reference, refactor later
-            pShadow->GetColourAmount_435E40(&amount, static_cast<s16>(xpos), static_cast<s16>(ypos));
+            pShadow->GetColourAmount(&amount, static_cast<s16>(xpos), static_cast<s16>(ypos));
 
             *r = FP_GetExponent(FP_FromInteger(*r) + (pShadow->field_28_r * amount));
             *b = FP_GetExponent(FP_FromInteger(*b) + (pShadow->field_30_b * amount));
@@ -129,17 +129,7 @@ ShadowZone::~ShadowZone()
     sShadowZone_dArray_507B08->Remove_Item(this);
 }
 
-void ShadowZone::VScreenChanged()
-{
-    VScreenChanged_435FE0();
-}
-
 void ShadowZone::VUpdate()
-{
-    VUpdate_435F80();
-}
-
-void ShadowZone::VUpdate_435F80()
 {
     if (Event_Get(kEventDeathReset_4))
     {
@@ -147,12 +137,12 @@ void ShadowZone::VUpdate_435F80()
     }
 }
 
-void ShadowZone::VScreenChanged_435FE0()
+void ShadowZone::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void ShadowZone::GetColourAmount_435E40(FP* pOut, s16 xpos, s16 ypos)
+void ShadowZone::GetColourAmount(FP* pOut, s16 xpos, s16 ypos)
 {
     const s32 deltaX = abs(xpos - field_18_centre_x);
     const s32 deltaY = abs(ypos - field_1A_centre_y);

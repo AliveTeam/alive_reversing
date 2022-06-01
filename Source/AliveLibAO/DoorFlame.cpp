@@ -70,7 +70,7 @@ public:
 
             PSX_RECT rect = {};
             field_10_anim.Get_Frame_Rect(&rect);
-            pScreenManager_4FF7C8->InvalidateRect_406E40(
+            pScreenManager_4FF7C8->InvalidateRect(
                 rect.x,
                 rect.y,
                 rect.w,
@@ -248,7 +248,7 @@ public:
 
                 PSX_RECT frameRect = {};
                 field_10_anim.Get_Frame_Rect(&frameRect);
-                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                pScreenManager_4FF7C8->InvalidateRect(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
@@ -269,7 +269,7 @@ public:
                                     ppOt);
 
                                 anim.field_14.GetRenderedSize(&frameRect);
-                                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                                pScreenManager_4FF7C8->InvalidateRect(
                                     frameRect.x,
                                     frameRect.y,
                                     frameRect.w,

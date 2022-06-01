@@ -374,7 +374,7 @@ void DDCheat::VUpdate()
 
             if (field_10_bInvalidateRect)
             {
-                pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, 240);
+                pScreenManager_4FF7C8->InvalidateRectCurrentIdx(0, 0, 640, 240);
             }
         }
     }

@@ -19,18 +19,14 @@ struct Path_SlingMudokon final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_SlingMudokon, 0x20);
 
-#define SLING_MUD_MOTIONS_ENUM(ENTRY) \
-    ENTRY(Motion_0_Idle)       \
-    ENTRY(Motion_1_Angry)      \
-    ENTRY(Motion_2_Speak)      \
-    ENTRY(Motion_3_ShootStart) \
-    ENTRY(Motion_4_ShootEnd)   \
-    ENTRY(Motion_5_AngryToIdle)
-
-#define MAKE_ENUM(VAR) VAR,
-enum eSlingMudMotions : s32
+enum class eSlingMudMotions : s32
 {
-    SLING_MUD_MOTIONS_ENUM(MAKE_ENUM)
+    Motion_0_Idle,
+    Motion_1_Angry,
+    Motion_2_Speak,
+    Motion_3_ShootStart,
+    Motion_4_ShootEnd,
+    Motion_5_AngryToIdle
 };
 
 enum SlingMudBrainStates : u16
@@ -53,6 +49,11 @@ public:
     virtual void VCallMotion();
 
     void VUpdateAnimData();
+
+    eSlingMudMotions GetNextMotion() const
+    {
+        return static_cast<eSlingMudMotions>(field_FE_next_motion);
+    }
 
     GameSpeakEvents getLastIdx();
 

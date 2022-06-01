@@ -280,7 +280,7 @@ void Gibs::VRender(PrimHeader** ppOt)
 
                 PSX_RECT frameRect = {};
                 pGib->field_18_anim.Get_Frame_Rect(&frameRect);
-                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                pScreenManager_4FF7C8->InvalidateRect(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,

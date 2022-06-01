@@ -48,7 +48,7 @@ void Camera::On_Loaded_4447A0(Camera* pThis)
     pThis->field_C_ppBits = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Bits, pThis->field_10_resId, 1, 0);
 }
 
-void ScreenManager::MoveImage_406C40()
+void ScreenManager::MoveImage()
 {
     PSX_RECT rect = {};
     rect.x = field_20_upos;
@@ -58,7 +58,7 @@ void ScreenManager::MoveImage_406C40()
     PSX_MoveImage_4961A0(&rect, 0, 0);
 }
 
-void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
+void ScreenManager::DecompressCameraToVRam(u16** ppBits)
 {
     PSX_RECT rect = { 0, 0, 16, 240 };
     u8** pRes = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
@@ -95,9 +95,9 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
     }
 }
 
-void ScreenManager::InvalidateRect_406CC0(s32 x, s32 y, s32 width, s32 height)
+void ScreenManager::InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height)
 {
-    InvalidateRect_406E40(x, y, width, height, field_2E_idx);
+    InvalidateRect(x, y, width, height, field_2E_idx);
 }
 
 ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
@@ -108,10 +108,10 @@ ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
     mFlags.Set(Options::eSurviveDeathReset_Bit9);
     mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    Init_4068A0(ppBits);
+    Init(ppBits);
 }
 
-void ScreenManager::Init_4068A0(u8** ppBits)
+void ScreenManager::Init(u8** ppBits)
 {
     field_36_flags |= 1;
 
@@ -125,7 +125,7 @@ void ScreenManager::Init_4068A0(u8** ppBits)
     field_26_cam_height = 240;
 
     Vram_alloc_explicit_4507F0(0, 272, 640, 512);
-    DecompressCameraToVRam_407110(reinterpret_cast<u16**>(ppBits));
+    DecompressCameraToVRam(reinterpret_cast<u16**>(ppBits));
 
     field_18_screen_sprites = &sSpriteTPageBuffer_4FC8A8[0];
 
@@ -169,13 +169,13 @@ void ScreenManager::Init_4068A0(u8** ppBits)
     field_32_x_idx = 0;
 }
 
-void ScreenManager::UnsetDirtyBits_FG1_406EF0()
+void ScreenManager::UnsetDirtyBits_FG1()
 {
     memset(&field_58_20x16_dirty_bits[4], 0, sizeof(this->field_58_20x16_dirty_bits[4]));
     memset(&field_58_20x16_dirty_bits[5], 0, sizeof(this->field_58_20x16_dirty_bits[5]));
 }
 
-void ScreenManager::InvalidateRect_406E40(s32 x, s32 y, s32 width, s32 height, s32 idx)
+void ScreenManager::InvalidateRect(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
     x = std::max(x, 0);
     y = std::max(y, 0);
@@ -192,15 +192,15 @@ void ScreenManager::InvalidateRect_406E40(s32 x, s32 y, s32 width, s32 height, s
     }
 }
 
-void ScreenManager::InvalidateRect_Layer3_406F20(s32 x, s32 y, s32 width, s32 height)
+void ScreenManager::InvalidateRect_Idx3(s32 x, s32 y, s32 width, s32 height)
 {
-    InvalidateRect_406E40(x, y, width, height, 3);
+    InvalidateRect(x, y, width, height, 3);
 }
 
 
-void ScreenManager::InvalidateRect_406D80(s32 x, s32 y, s32 width, s32 height, s32 idx)
+void ScreenManager::InvalidateRect_IdxPlus4(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
-    InvalidateRect_406E40(x, y, width, height, idx + 4);
+    InvalidateRect(x, y, width, height, idx + 4);
 }
 
 void ScreenManager::VScreenChanged()
@@ -224,11 +224,6 @@ s32 ScreenManager::GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
 }
 
 void ScreenManager::VRender(PrimHeader** ppOt)
-{
-    VRender_406A60(ppOt);
-}
-
-void ScreenManager::VRender_406A60(PrimHeader** ppOt)
 {
     if (!(field_36_flags & 1)) // Render enabled flag ?
     {

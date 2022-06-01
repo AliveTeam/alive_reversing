@@ -1888,7 +1888,7 @@ void HintFly::VRender(PrimHeader** ppOt)
     Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pTPage->mBase);
 
-    pScreenManager_4FF7C8->InvalidateRect_406E40(
+    pScreenManager_4FF7C8->InvalidateRect(
         rect.x - 6,
         rect.y - 6,
         rect.w + 9,

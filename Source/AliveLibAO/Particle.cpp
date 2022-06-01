@@ -227,11 +227,6 @@ Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 max
 
 void Particle::VUpdate()
 {
-    VUpdate_478930();
-}
-
-void Particle::VUpdate_478930()
-{
     field_A8_xpos += field_B4_velx;
     field_AC_ypos += field_B8_vely;
 

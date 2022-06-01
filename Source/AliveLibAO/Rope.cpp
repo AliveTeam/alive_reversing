@@ -130,11 +130,6 @@ void Rope::VUpdate()
 
 void Rope::VRender(PrimHeader** ppOt)
 {
-    VRender_458780(ppOt);
-}
-
-void Rope::VRender_458780(PrimHeader** ppOt)
-{
     PSX_Point camPos = {};
     gMap.GetCurrentCamCoords(&camPos);
     if (field_B2_lvl_number == gMap.mCurrentLevel)
@@ -186,7 +181,7 @@ void Rope::VRender_458780(PrimHeader** ppOt)
                         s16 r = 128;
                         s16 g = 128;
                         s16 b = 128;
-                        ShadowZone::ShadowZones_Calculate_Colour_435FF0(
+                        ShadowZone::ShadowZones_Calculate_Colour(
                             FP_GetExponent(field_A8_xpos),
                             ypos - (idx * field_E6_rope_length),
                             field_C6_scale,
@@ -205,7 +200,7 @@ void Rope::VRender_458780(PrimHeader** ppOt)
 
                         PSX_RECT rect = {};
                         field_E8_pRopeRes[idx].GetRenderedSize(&rect);
-                        pScreenManager_4FF7C8->InvalidateRect_406E40(
+                        pScreenManager_4FF7C8->InvalidateRect(
                             rect.x,
                             rect.y,
                             rect.w,

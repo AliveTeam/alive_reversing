@@ -13,16 +13,8 @@ public:
     ~PauseMenu();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChange_44EA90();
-
     virtual void VUpdate() override;
-
-    void VUpdate_44DFB0();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_44E6F0(PrimHeader** ppOt);
 
     struct PauseEntry final
     {

@@ -15,7 +15,7 @@ ScreenClipper::~ScreenClipper()
     gObjList_drawables_504618->Remove_Item(this);
 }
 
-void ScreenClipper::VRender_40BEB0(PrimHeader** ppOt)
+void ScreenClipper::VRender(PrimHeader** ppOt)
 {
     PSX_RECT clipRect = {};
 
@@ -45,11 +45,6 @@ void ScreenClipper::VScreenChanged()
     // Empty
 }
 
-void ScreenClipper::VRender(PrimHeader** ppOt)
-{
-    VRender_40BEB0(ppOt);
-}
-
 ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
     : BaseGameObject(1)
 {
@@ -69,7 +64,7 @@ ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
     gObjList_drawables_504618->Push_Back(this);
 }
 
-void ScreenClipper::Update_Clip_Rect_40BE40(PSX_Point xy, PSX_Point wh)
+void ScreenClipper::Update_Clip_Rect(PSX_Point xy, PSX_Point wh)
 {
     field_30_rect.x = std::min(xy.field_0_x, field_30_rect.x);
     field_30_rect.y = std::min(xy.field_2_y, field_30_rect.y);

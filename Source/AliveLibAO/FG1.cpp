@@ -48,7 +48,7 @@ public:
         // For some reason the screen manage doesn't work the same as in AE and this won't
         // result in full blocks getting drawn. Therefore we should never see this get called
         // as all blocks are partial (full blocks are "fake" partial blocks).
-        pScreenManager_4FF7C8->InvalidateRect_406D80(
+        pScreenManager_4FF7C8->InvalidateRect_IdxPlus4(
             rChunk.field_4_xpos_or_compressed_size,
             rChunk.field_6_ypos,
             rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
@@ -92,7 +92,7 @@ public:
 
     void OnFullChunk(const Fg1Chunk& rChunk) override
     {
-        pScreenManager_4FF7C8->InvalidateRect_406D80(
+        pScreenManager_4FF7C8->InvalidateRect_IdxPlus4(
             rChunk.field_4_xpos_or_compressed_size,
             rChunk.field_6_ypos,
             rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
@@ -286,7 +286,7 @@ void FG1::VRender(PrimHeader** ppOt)
 
             OrderingTable_Add_498A80(OtLayer(ppOt, pBlock->field_66_mapped_layer), &pPoly->mBase.header);
 
-            pScreenManager_4FF7C8->InvalidateRect_406E40(
+            pScreenManager_4FF7C8->InvalidateRect(
                 X0(pPoly),
                 Y0(pPoly),
                 X3(pPoly),

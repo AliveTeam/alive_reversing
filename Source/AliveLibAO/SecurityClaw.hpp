@@ -42,17 +42,8 @@ public:
     ~SecurityClaw();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChange_4196F0();
-
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-
-    s16 VTakeDamage_419520(BaseGameObject* pFrom);
-
     virtual void VUpdate() override;
-
-    void VUpdate_418DE0();
-
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
     s32 field_10C_tlvInfo;

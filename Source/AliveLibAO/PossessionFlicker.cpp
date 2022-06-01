@@ -7,12 +7,7 @@
 
 namespace AO {
 
-void PossessionFlicker::VUpdate()
-{
-    VUpdate_41A9B0();
-}
-
-void PossessionFlicker::VScreenChanged_41AA40()
+void PossessionFlicker::VScreenChanged()
 {
     if (field_10_pObj->mFlags.Get(BaseGameObject::eDead))
     {
@@ -20,11 +15,6 @@ void PossessionFlicker::VScreenChanged_41AA40()
         field_10_pObj = nullptr;
         mFlags.Set(Options::eDead);
     }
-}
-
-void PossessionFlicker::VScreenChanged()
-{
-    VScreenChanged_41AA40();
 }
 
 PossessionFlicker::~PossessionFlicker()
@@ -61,7 +51,7 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
 }
 
 
-void PossessionFlicker::VUpdate_41A9B0()
+void PossessionFlicker::VUpdate()
 {
     bool bFlicker = false;
     if (field_10_pObj->mFlags.Get(BaseGameObject::eDead))

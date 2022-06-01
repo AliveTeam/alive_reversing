@@ -24,12 +24,7 @@ public:
     ~RockSack();
 
     virtual void VUpdate() override;
-
-    void VUpdate_4575F0();
-
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_457890();
 
     s32 field_10C_tlvInfo;
     s16 field_110_has_been_hit;

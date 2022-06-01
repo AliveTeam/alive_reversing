@@ -13,13 +13,7 @@ public:
     ~ScreenShake();
 
     virtual void VUpdate() override;
-
-    void VUpdate_4625B0();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_4625E0(PrimHeader** ppOt);
-
 
     Prim_ScreenOffset field_10_screenOffset[2];
     s16 field_30_shakeNumber;

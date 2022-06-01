@@ -19,11 +19,6 @@
 
 namespace AO {
 
-void RollingBall::VUpdate()
-{
-    VUpdate_457AF0();
-}
-
 RollingBall::~RollingBall()
 {
     if (field_112_state != States::eInactive_0)
@@ -131,7 +126,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     }
 }
 
-void RollingBall::VUpdate_457AF0()
+void RollingBall::VUpdate()
 {
     switch (field_112_state)
     {
@@ -165,7 +160,7 @@ void RollingBall::VUpdate_457AF0()
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
 
-            Accelerate_458410();
+            Accelerate();
 
             PathLine* pLine = nullptr;
             FP hitX = {};
@@ -194,7 +189,7 @@ void RollingBall::VUpdate_457AF0()
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
 
-            Accelerate_458410();
+            Accelerate();
 
             field_F4_pLine = field_F4_pLine->MoveOnLine(
                 &field_A8_xpos,
@@ -208,7 +203,7 @@ void RollingBall::VUpdate_457AF0()
                 MapFollowMe_401D30(0);
             }
 
-            CrushThingsInTheWay_458310();
+            CrushThingsInTheWay();
 
             if (Event_Get(kEventDeathReset_4))
             {
@@ -279,7 +274,7 @@ void RollingBall::VUpdate_457AF0()
             if (Event_Get(kEventDeathReset_4))
             {
                 mFlags.Set(Options::eDead);
-                CrushThingsInTheWay_458310();
+                CrushThingsInTheWay();
                 return;
             }
 
@@ -299,12 +294,12 @@ void RollingBall::VUpdate_457AF0()
                         field_AC_ypos = FP_FromInteger(1300);
                         field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
                         field_112_state = States::eCrushedBees_4;
-                        CrushThingsInTheWay_458310();
+                        CrushThingsInTheWay();
                         return;
                     }
                     mFlags.Set(Options::eDead);
                 }
-                CrushThingsInTheWay_458310();
+                CrushThingsInTheWay();
                 return;
             }
 
@@ -321,27 +316,27 @@ void RollingBall::VUpdate_457AF0()
             {
                 case CameraPos::eCamCurrent_0:
                     SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 60, 60);
-                    CrushThingsInTheWay_458310();
+                    CrushThingsInTheWay();
                     break;
 
                 case CameraPos::eCamTop_1:
                 case CameraPos::eCamBottom_2:
                     SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 40, 40);
-                    CrushThingsInTheWay_458310();
+                    CrushThingsInTheWay();
                     break;
 
                 case CameraPos::eCamLeft_3:
                     SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 40, 13);
-                    CrushThingsInTheWay_458310();
+                    CrushThingsInTheWay();
                     break;
 
                 case CameraPos::eCamRight_4:
                     SND_SEQ_Play_477760(SeqId::eExplosion1_21, 1, 13, 40);
-                    CrushThingsInTheWay_458310();
+                    CrushThingsInTheWay();
                     break;
 
                 default:
-                    CrushThingsInTheWay_458310();
+                    CrushThingsInTheWay();
                     return;
             }
             return;
@@ -359,7 +354,7 @@ void RollingBall::VUpdate_457AF0()
     }
 }
 
-void RollingBall::Accelerate_458410()
+void RollingBall::Accelerate()
 {
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -379,7 +374,7 @@ void RollingBall::Accelerate_458410()
     }
 }
 
-void RollingBall::CrushThingsInTheWay_458310()
+void RollingBall::CrushThingsInTheWay()
 {
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {

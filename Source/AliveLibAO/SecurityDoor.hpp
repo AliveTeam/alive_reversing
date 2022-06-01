@@ -36,18 +36,13 @@ enum SecurityDoorStates : s16
 class SecurityDoor final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Bool32 IsPlayerNear();
-
-    virtual void VUpdate() override;
-
-    void VUpdate_461AD0();
-
     SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo);
     ~SecurityDoor();
 
+    virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    void VScreenChanged_461F80();
+    Bool32 IsPlayerNear();
 
     s32 field_D4[4];
     s32 field_E4_tlvInfo;

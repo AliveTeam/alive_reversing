@@ -1589,7 +1589,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 
 void Map::Create_FG1s()
 {
-    pScreenManager_4FF7C8->UnsetDirtyBits_FG1_406EF0();
+    pScreenManager_4FF7C8->UnsetDirtyBits_FG1();
 
     Camera* pCamera = field_34_camera_array[0];
     for (s32 i = 0; i < pCamera->field_0_array.Size(); i++)
@@ -1952,9 +1952,9 @@ void Map::GoTo_Camera()
 
     if (field_10_screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
-        pScreenManager_4FF7C8->DecompressCameraToVRam_407110(reinterpret_cast<u16**>(field_34_camera_array[0]->field_C_ppBits));
-        pScreenManager_4FF7C8->InvalidateRect_406CC0(0, 0, 640, 240);
-        pScreenManager_4FF7C8->MoveImage_406C40();
+        pScreenManager_4FF7C8->DecompressCameraToVRam(reinterpret_cast<u16**>(field_34_camera_array[0]->field_C_ppBits));
+        pScreenManager_4FF7C8->InvalidateRectCurrentIdx(0, 0, 640, 240);
+        pScreenManager_4FF7C8->MoveImage();
         pScreenManager_4FF7C8->field_36_flags = (pScreenManager_4FF7C8->field_36_flags & ~1) ^ 1;
     }
 

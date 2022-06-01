@@ -14,10 +14,7 @@ public:
     ~Rope();
 
     virtual void VUpdate() override;
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_458780(PrimHeader** ppOt);
 
     s32 field_D4_padding[4];
     s16 field_E4_rope_segment_count;

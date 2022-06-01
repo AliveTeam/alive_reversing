@@ -14,12 +14,7 @@ public:
     ~PossessionFlicker();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_41AA40();
-
     virtual void VUpdate() override;
-
-    void VUpdate_41A9B0();
 
     BaseAliveGameObject* field_10_pObj;
     s32 field_14_time_to_flicker;

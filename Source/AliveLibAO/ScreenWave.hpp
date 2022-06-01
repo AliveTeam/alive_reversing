@@ -20,16 +20,8 @@ public:
     ~ScreenWave();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_463110();
-
     virtual void VUpdate() override;
-
-    void VUpdate_463080();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_463130(PrimHeader** ppOt);
 
     Layer field_10_layer;
     s16 field_12_pad;

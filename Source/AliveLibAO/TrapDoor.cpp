@@ -51,12 +51,12 @@ void TrapDoor::VRender(PrimHeader** ppOt)
 
 void TrapDoor::VRemove(BaseAliveGameObject* pObj)
 {
-    PlatformBase::VRemove_451680(pObj);
+    PlatformBase::VRemove(pObj);
 }
 
 void TrapDoor::VAdd(BaseAliveGameObject* pObj)
 {
-    PlatformBase::VAdd_4515D0(pObj);
+    PlatformBase::VAdd(pObj);
 }
 
 void TrapDoor::VScreenChanged()
@@ -154,7 +154,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kP6c1trapAOResID, 1, 0);
 
-    AddDynamicCollision_4512C0(
+    AddDynamicCollision(
         closedRec.mFrameTableOffset,
         closedRec.mMaxW,
         closedRec.mMaxH,

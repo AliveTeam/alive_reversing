@@ -23,12 +23,7 @@ public:
     ~ParticleBurst();
 
     virtual void VUpdate() override;
-
-    void VUpdate_40D600();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_40D7F0(PrimHeader** ppOt);
 
     s32 field_D4_padding[4];
     u8** field_E4_ppRes;

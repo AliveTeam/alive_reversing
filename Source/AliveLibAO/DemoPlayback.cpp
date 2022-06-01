@@ -29,7 +29,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
         {
             mFlags.Clear(Options::eDead);
         }
-        SaveGame::SaveToMemory_459490(reinterpret_cast<SaveData*>(*field_18_ppRes));
+        SaveGame::SaveToMemory(reinterpret_cast<SaveData*>(*field_18_ppRes));
     }
     else
     {
@@ -38,7 +38,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
 
     auto pd = reinterpret_cast<PlaybackData*>(*ppPlaybackData);
     ResourceManager::Set_Header_Flags_4557D0(ppPlaybackData, ResourceManager::ResourceHeaderFlags::eLocked);
-    SaveGame::LoadFromMemory_459970(&pd->saveData, 1);
+    SaveGame::LoadFromMemory(&pd->saveData, 1);
     sRandomSeed_50A228 = pd->randomSeed;
     field_10_state = States::eState_0_Init;
     field_14_ppDemoRes = ppPlaybackData;
@@ -100,7 +100,7 @@ void DemoPlayback::VUpdate()
                 }
                 else
                 {
-                    SaveGame::LoadFromMemory_459970(&reinterpret_cast<PlaybackData*>(*field_18_ppRes)->saveData, 1);
+                    SaveGame::LoadFromMemory(&reinterpret_cast<PlaybackData*>(*field_18_ppRes)->saveData, 1);
                 }
 
                 field_10_state = States::eState_2_Done;

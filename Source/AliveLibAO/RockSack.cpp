@@ -17,11 +17,6 @@ namespace AO {
 
 void RockSack::VUpdate()
 {
-    VUpdate_4575F0();
-}
-
-void RockSack::VUpdate_4575F0()
-{
     if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -112,11 +107,6 @@ void RockSack::VUpdate_4575F0()
     }
 }
 
-void RockSack::VScreenChanged()
-{
-    VScreenChanged_457890();
-}
-
 RockSack::~RockSack()
 {
     gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
@@ -175,7 +165,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     field_D0_pShadow = ao_new<Shadow>();
 }
 
-void RockSack::VScreenChanged_457890()
+void RockSack::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }

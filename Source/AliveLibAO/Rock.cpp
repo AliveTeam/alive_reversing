@@ -78,11 +78,6 @@ Rock::~Rock()
 
 void Rock::VUpdate()
 {
-    VUpdate_456EC0();
-}
-
-void Rock::VUpdate_456EC0()
-{
     if (Event_Get(kEventDeathReset_4))
     {
         mFlags.Set(Options::eDead);
@@ -91,7 +86,7 @@ void Rock::VUpdate_456EC0()
     switch (field_110_state)
     {
         case States::eFallingOutOfRockSack_1:
-            InTheAir_456B60();
+            InTheAir();
             break;
 
         case States::eRolling_2:
@@ -164,7 +159,7 @@ void Rock::VUpdate_456EC0()
 
         case States::eBouncing_4:
         {
-            InTheAir_456B60();
+            InTheAir();
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
             const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
@@ -174,7 +169,7 @@ void Rock::VUpdate_456EC0()
                 wh,
                 gBaseGameObjects,
                 1,
-                (TCollisionCallBack) &Rock::OnCollision_457240);
+                (TCollisionCallBack) &Rock::OnCollision);
 
             if (field_B8_vely > FP_FromInteger(30))
             {
@@ -202,13 +197,8 @@ void Rock::VUpdate_456EC0()
     }
 }
 
-void Rock::VScreenChanged()
-{
-    VScreenChanged_457310();
-}
-
 //TODO Identical to AE - merge
-void Rock::VScreenChanged_457310()
+void Rock::VScreenChanged()
 {
     if (gMap.mCurrentPath != gMap.mPath
         || gMap.mCurrentLevel != gMap.mLevel)
@@ -217,13 +207,8 @@ void Rock::VScreenChanged_457310()
     }
 }
 
-void Rock::VThrow(FP velX, FP velY)
-{
-    VThrow_456B20(velX, velY);
-}
-
 //TODO Identical to AE - merge
-void Rock::VThrow_456B20(FP velX, FP velY)
+void Rock::VThrow(FP velX, FP velY)
 {
     field_B4_velx = velX;
     field_B8_vely = velY;
@@ -242,15 +227,10 @@ void Rock::VThrow_456B20(FP velX, FP velY)
 
 s16 Rock::VCanThrow()
 {
-    return VCanThrow_4573C0();
-}
-
-s16 Rock::VCanThrow_4573C0()
-{
     return field_110_state == States::eBouncing_4;
 }
 
-void Rock::InTheAir_456B60()
+void Rock::InTheAir()
 {
     field_11C_xpos = field_A8_xpos;
     field_120_ypos = field_AC_ypos;
@@ -366,7 +346,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
 }
 
 //TODO Identical to AE - merge
-s16 Rock::OnCollision_457240(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (!pObj->mFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {

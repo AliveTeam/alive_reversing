@@ -31,11 +31,6 @@ public:
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 
-private:
-    void VScreenChanged_4373A0();
-    s16 VTakeDamage_437280(BaseGameObject* pFrom);
-    void VUpdate_436DF0();
-
 public:
     s32 field_10C_tlvInfo;
     SecurityOrbStates field_110_state;

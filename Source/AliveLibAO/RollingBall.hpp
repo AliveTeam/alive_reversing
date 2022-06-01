@@ -29,11 +29,8 @@ public:
 
     virtual void VUpdate() override;
 
-    void VUpdate_457AF0();
-
-    void Accelerate_458410();
-
-    void CrushThingsInTheWay_458310();
+    void Accelerate();
+    void CrushThingsInTheWay();
 
     s32 field_10C_tlvInfo;
     u16 field_110_release_switch_id;

@@ -192,11 +192,6 @@ ParticleBurst::~ParticleBurst()
 
 void ParticleBurst::VUpdate()
 {
-    VUpdate_40D600();
-}
-
-void ParticleBurst::VUpdate_40D600()
-{
     for (s32 i = 0; i < field_EC_count; i++)
     {
         ParticleBurst_Item* pItem = &field_E8_pRes[i];
@@ -265,11 +260,6 @@ void ParticleBurst::VUpdate_40D600()
 
 void ParticleBurst::VRender(PrimHeader** ppOt)
 {
-    VRender_40D7F0(ppOt);
-}
-
-void ParticleBurst::VRender_40D7F0(PrimHeader** ppOt)
-{
     if (sNumCamSwappers_507668 != 0)
     {
         return;
@@ -315,7 +305,7 @@ void ParticleBurst::VRender_40D7F0(PrimHeader** ppOt)
                     pItem->field_18_anim.GetRenderedSize(&rect);
                 }
 
-                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                pScreenManager_4FF7C8->InvalidateRect(
                     rect.x,
                     rect.y,
                     rect.w,

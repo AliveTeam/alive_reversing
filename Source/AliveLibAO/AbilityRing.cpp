@@ -236,7 +236,7 @@ void AbilityRing::VRender(PrimHeader** ppOt)
 
                 OrderingTable_Add_498A80(OtLayer(ppOt, field_10_layer), &pPoly->mBase.header);
 
-                pScreenManager_4FF7C8->InvalidateRect_406E40(
+                pScreenManager_4FF7C8->InvalidateRect(
                     rect.x,
                     rect.y,
                     rect.w,
