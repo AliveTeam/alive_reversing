@@ -11,10 +11,11 @@ class Camera final // TODO: May actually just be "ResourceList" ?
 {
 public:
     Camera();
+    ~Camera();
 
 public:
-    void ctor_480DD0();
-    void dtor_480E00();
+    void Free();
+
     static void On_Loaded_480ED0(Camera* pCamera);
 
     DynamicArrayT<u8*> field_0;

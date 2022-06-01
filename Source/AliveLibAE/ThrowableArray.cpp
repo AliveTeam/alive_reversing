@@ -119,8 +119,8 @@ void LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber)
 
 ThrowableArray::ThrowableArray()
     : BaseGameObject(TRUE, 0)
+    , field_24_throwables(1)
 {
-    field_24_throwables.ctor_40C9E0(0);
     mFlags.Clear(BaseGameObject::eUpdatable_Bit2);
     field_20_count = 0;
     gpThrowableArray_5D1E2C = this;
@@ -131,9 +131,8 @@ ThrowableArray::ThrowableArray()
 
 ThrowableArray::~ThrowableArray()
 {
-    gpThrowableArray_5D1E2C = 0;
+    gpThrowableArray_5D1E2C = nullptr;
     FreeResourceArray_49AEC0(&field_24_throwables);
-    field_24_throwables.dtor_40CAD0();
 }
 
 void ThrowableArray::Remove_49AA00(s16 count)

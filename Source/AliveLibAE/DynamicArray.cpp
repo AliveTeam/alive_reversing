@@ -3,7 +3,7 @@
 #include "stdlib.hpp"
 #include "Function.hpp"
 
-DynamicArray* DynamicArray::ctor_40CA60(s16 startingSize)
+DynamicArray::DynamicArray(s32 startingSize)
 {
     if (startingSize == 0)
     {
@@ -16,24 +16,13 @@ DynamicArray* DynamicArray::ctor_40CA60(s16 startingSize)
 
     if (field_0_array)
     {
-        field_6_max_size = startingSize;
+        field_6_max_size = static_cast<s16>(startingSize);
         field_8_expand_size = 8;
     }
 
-    return this;
 }
 
-DynamicArray* DynamicArray::ctor_40C9E0(s16 startingSize)
-{
-    ctor_40CA60(startingSize);
-    for (s32 i = 0; i < startingSize; i++)
-    {
-        Push_Back_40CAF0(nullptr);
-    }
-    return this;
-}
-
-void DynamicArray::dtor_40CAD0()
+DynamicArray::~DynamicArray()
 {
     ae_non_zero_free_495560(field_0_array);
 }

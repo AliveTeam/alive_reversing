@@ -6,9 +6,11 @@
 class DynamicArray
 {
 public:
-    DynamicArray* ctor_40CA60(s16 startingSize);
-    DynamicArray* ctor_40C9E0(s16 startingSize);
-    void dtor_40CAD0();
+    explicit DynamicArray(s32 startingSize);
+    ~DynamicArray();
+
+    DynamicArray(const DynamicArray& rhs) = delete;
+    DynamicArray& operator=(const DynamicArray& rhs) const = delete;
 
     s16 Expand_40CBE0(s16 expandSize);
     bool IsEmpty() const
@@ -44,6 +46,8 @@ template <class T>
 class DynamicArrayT final : public DynamicArray
 {
 public:
+    using DynamicArray::DynamicArray;
+
     s16 Push_Back(T* pValue)
     {
         return Push_Back_40CAF0(pValue);

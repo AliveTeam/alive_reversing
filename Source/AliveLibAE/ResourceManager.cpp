@@ -82,10 +82,9 @@ void Game_ShowLoadingIcon_482D80()
 
 ResourceManager::ResourceManager()
     : BaseGameObject(TRUE, 0)
+    , field_20_files_pending_loading(3)
+    , field_48_dArray(3)
 {
-    field_20_files_pending_loading.ctor_40CA60(3);
-    field_48_dArray.ctor_40CA60(3);
-
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
@@ -102,8 +101,6 @@ ResourceManager::ResourceManager()
 ResourceManager::~ResourceManager()
 {
     Shutdown_465610();
-    field_48_dArray.dtor_40CAD0();
-    field_20_files_pending_loading.dtor_40CAD0();
 }
 
 void ResourceManager::vLoadFile_StateMachine_464A70()
@@ -298,17 +295,9 @@ void ResourceManager::OnResourceLoaded_464CE0()
 
     // Free/destruct the removed item
     ae_non_zero_free_495560(field_2C_pFileItem->field_0_fileName);
-    if (field_2C_pFileItem)
-    {
-        field_2C_pFileItem->dtor_464EA0();
-        ae_delete_free_495540(field_2C_pFileItem);
-    }
-    field_2C_pFileItem = nullptr;
-}
 
-void ResourceManager::ResourceManager_FileRecord::dtor_464EA0()
-{
-    field_10_file_sections_dArray.dtor_40CAD0();
+    relive_delete field_2C_pFileItem;
+    field_2C_pFileItem = nullptr;
 }
 
 void ResourceManager::LoadResource_464EE0(const char_type* pFileItem, u32 type, u32 resourceID, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
@@ -380,7 +369,6 @@ void ResourceManager::LoadResource_464EE0(const char_type* pFileItem, u32 type, 
     }
 
     auto pNewFileRec = ae_new<ResourceManager_FileRecord>();
-    pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);
     pNewFileRec->field_0_fileName = reinterpret_cast<char_type*>(ae_malloc_non_zero_4954F0(strlen(pFileItem) + 1));
     strcpy(pNewFileRec->field_0_fileName, pFileItem);
     pNewFileRec->field_4_pResourcesToLoadList = 0;
@@ -460,7 +448,6 @@ void ResourceManager::LoadResourcesFromList_465150(const char_type* pFileName, R
         // Only do ctor stuff if we created a new record
 
         // TODO: De-inline ctor
-        pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);
         pNewFileRec->field_0_fileName = reinterpret_cast<char_type*>(ae_malloc_non_zero_4954F0(strlen(pFileName) + 1));
         strcpy(pNewFileRec->field_0_fileName, pFileName);
         pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
@@ -491,12 +478,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char_type* pFileName, R
 void ResourceManager::LoadResourceFile_465460(const char_type* filename, Camera* pCam, Camera* pCam2, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
 {
     auto pFileRecord = ae_new<ResourceManager_FileRecord>();
-    if (pFileRecord)
-    {
-        // TODO: De-inline this ctor
-        pFileRecord->field_10_file_sections_dArray.ctor_40CA60(3);
-    }
-
+   
     pFileRecord->field_0_fileName = reinterpret_cast<char_type*>(ae_malloc_non_zero_4954F0(strlen(filename) + 1));
     strcpy(pFileRecord->field_0_fileName, filename);
     pFileRecord->field_4_pResourcesToLoadList = 0;
@@ -575,8 +557,7 @@ void ResourceManager::Shutdown_465610()
         iter.Remove_At_Iter_40CCA0();
         ae_non_zero_free_495560(pFileRec->field_0_fileName);
 
-        pFileRec->dtor_464EA0();
-        ae_delete_free_495540(pFileRec);
+        relive_delete pFileRec;
 
         fileIdx = iter.field_4_idx;
     }
@@ -622,8 +603,7 @@ void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
             {
                 filesIter.Remove_At_Iter_40CCA0();
                 ae_non_zero_free_495560(pFileItem->field_0_fileName);
-                pFileItem->dtor_464EA0();
-                ae_delete_free_495540(pFileItem);
+                relive_delete pFileItem;
             }
         }
     }

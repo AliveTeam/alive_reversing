@@ -53,11 +53,6 @@ ALIVE_VAR(1, 0xBBBA54, HINSTANCE, sPrevInstance_BBBA54, nullptr);
 // There are only a very small amount of global static constructors to call.
 void Static_Inits_AE()
 {
-    static_ObjectIds_init_43EC30();
-    Dove_static_ctor_41F3A0();
-    LvlArchive_Static_init_432E00();
-    static_map_init_4802D0();
-    static_lvl_init_480350();
     static_init_set_default_hero_43EC10();
     static_font1context_init_433300();
     static_font2context_init_433380();

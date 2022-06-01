@@ -405,17 +405,13 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
     sGnFrame_5C1B84 = 0;
     sbLoadingInProgress_5C1B96 = 0;
 
-    ObjList_5C1B78 = ae_new<DynamicArrayT<BaseGameObject>>(); // For trap doors/dynamic platforms?
-    ObjList_5C1B78->ctor_40CA60(20);
+    ObjList_5C1B78 = ae_new<DynamicArrayT<BaseGameObject>>(20); // For trap doors/dynamic platforms?
 
-    ObjList_5BD4D8 = ae_new<DynamicArray>();
-    ObjList_5BD4D8->ctor_40CA60(10); // Never seems to be used?
+    ObjList_5BD4D8 = ae_new<DynamicArray>(10); // Never seems to be used?
 
-    sShadowZone_dArray_5C1B80 = ae_new<DynamicArrayT<ShadowZone>>();
-    sShadowZone_dArray_5C1B80->ctor_40CA60(4);
+    sShadowZone_dArray_5C1B80 = ae_new<DynamicArrayT<ShadowZone>>(4);
 
-    gBaseAliveGameObjects_5C1B7C = ae_new<DynamicArrayT<BaseAliveGameObject>>();
-    gBaseAliveGameObjects_5C1B7C->ctor_40CA60(20);
+    gBaseAliveGameObjects_5C1B7C = ae_new<DynamicArrayT<BaseAliveGameObject>>(20);
 
     ResourceManager::Init_49BCE0();
     SND_Init_4CA1F0();
@@ -481,25 +477,19 @@ void Game_Run_466D40()
     PSX_CdSetDebug_4FB330(0);
     Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
 
-    gBaseGameObjects = ae_new<DynamicArrayT<BaseGameObject>>();
-    gBaseGameObjects->ctor_40CA60(50);
+    gBaseGameObjects = ae_new<DynamicArrayT<BaseGameObject>>(50);
 
-    gObjList_drawables_5C1124 = ae_new<DynamicArrayT<BaseGameObject>>();
-    gObjList_drawables_5C1124->ctor_40CA60(30);
+    gObjList_drawables_5C1124 = ae_new<DynamicArrayT<BaseGameObject>>(30);
 
-    gFG1List_5D1E28 = ae_new<DynamicArrayT<FG1>>();
-    gFG1List_5D1E28->ctor_40CA60(4);
+    gFG1List_5D1E28 = ae_new<DynamicArrayT<FG1>>(4);
 
-
-    gObjList_animations_5C1A24 = ae_new<DynamicArrayT<AnimationBase>>();
-    gObjList_animations_5C1A24->ctor_40CA60(30);
+    gObjList_animations_5C1A24 = ae_new<DynamicArrayT<AnimationBase>>(30);
 
     pResourceManager_5C1BB0 = ae_new<ResourceManager>();
 
     Init_Sound_DynamicArrays_And_Others_43BDB0();
 
     Camera camera;
-    camera.ctor_480DD0();
 
     Path_Set_NewData_FromLvls();
     
@@ -518,7 +508,7 @@ void Game_Run_466D40()
 
     sLvlArchive_5BC520.Free_433130();
 
-    camera.dtor_480E00();
+    camera.Free();
 
     Input_Init_491BC0();
     s16 cameraId = 25;
@@ -554,59 +544,15 @@ void Game_Run_466D40()
     DDCheat::ClearProperties_415390();
     gMap.Shutdown_4804E0();
 
-    if (gObjList_animations_5C1A24)
-    {
-        gObjList_animations_5C1A24->dtor_40CAD0();
-        ae_delete_free_495540(gObjList_animations_5C1A24);
-    }
-
-    if (gObjList_drawables_5C1124)
-    {
-        gObjList_drawables_5C1124->dtor_40CAD0();
-        ae_delete_free_495540(gObjList_drawables_5C1124);
-    }
-
-    if (gFG1List_5D1E28)
-    {
-        gFG1List_5D1E28->dtor_40CAD0();
-        ae_delete_free_495540(gFG1List_5D1E28);
-    }
-
-    if (gBaseGameObjects)
-    {
-        gBaseGameObjects->dtor_40CAD0();
-        ae_delete_free_495540(gBaseGameObjects);
-    }
-
-    if (ObjList_5C1B78)
-    {
-        ObjList_5C1B78->dtor_40CAD0();
-        ae_delete_free_495540(ObjList_5C1B78);
-    }
-
-    if (ObjList_5BD4D8)
-    {
-        ObjList_5BD4D8->dtor_40CAD0();
-        ae_delete_free_495540(ObjList_5BD4D8);
-    }
-
-    if (sShadowZone_dArray_5C1B80)
-    {
-        sShadowZone_dArray_5C1B80->dtor_40CAD0();
-        ae_delete_free_495540(sShadowZone_dArray_5C1B80);
-    }
-
-    if (gBaseAliveGameObjects_5C1B7C)
-    {
-        gBaseAliveGameObjects_5C1B7C->dtor_40CAD0();
-        ae_delete_free_495540(gBaseAliveGameObjects_5C1B7C);
-    }
-
-    if (sCollisions_DArray_5C1128)
-    {
-        sCollisions_DArray_5C1128->dtor_4189F0();
-        ae_delete_free_495540(sCollisions_DArray_5C1128);
-    }
+    relive_delete gObjList_animations_5C1A24;
+    relive_delete gObjList_drawables_5C1124;
+    relive_delete gFG1List_5D1E28;
+    relive_delete gBaseGameObjects;
+    relive_delete ObjList_5C1B78;
+    relive_delete ObjList_5BD4D8;
+    relive_delete sShadowZone_dArray_5C1B80;
+    relive_delete gBaseAliveGameObjects_5C1B7C;
+    relive_delete sCollisions_DArray_5C1128;
 
     pMusicController_5C3020 = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?
     MusicController::Shutdown_47FD20();

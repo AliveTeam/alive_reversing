@@ -45,22 +45,6 @@ const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10]
     CameraSwapEffects::eUnknown_11,
     CameraSwapEffects::eInstantChange_0};
 
-void static_map_construct_4802F0()
-{
-    gMap.Reset_4805D0();
-}
-
-void static_map_destruct_480330()
-{
-    gMap.Shutdown_4804E0();
-}
-
-void static_map_init_4802D0()
-{
-    static_map_construct_4802F0();
-    atexit(static_map_destruct_480330);
-}
-
 void Map::ScreenChange_Common()
 {
     if (field_6_state == CamChangeStates::eSliceCam_1)
@@ -221,11 +205,9 @@ void Map::ClearPathResourceBlocks()
 
 void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
 {
-    auto pObjectsWithLightsArray = ae_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>();
-    pObjectsWithLightsArray->ctor_40CA60(16);
+    auto pObjectsWithLightsArray = ae_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>(16);
 
-    auto pPurpleLightArray = ae_new<DynamicArrayT<Particle>>();
-    pPurpleLightArray->ctor_40CA60(16);
+    auto pPurpleLightArray = ae_new<DynamicArrayT<Particle>>(16);
 
     bool bAddedALight = false;
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -361,17 +343,8 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
     pObjectsWithLightsArray->field_4_used_size = 0;
     pPurpleLightArray->field_4_used_size = 0;
 
-    if (pObjectsWithLightsArray)
-    {
-        pObjectsWithLightsArray->dtor_40CAD0();
-        ae_delete_free_495540(pObjectsWithLightsArray);
-    }
-
-    if (pPurpleLightArray)
-    {
-        pPurpleLightArray->dtor_40CAD0();
-        ae_delete_free_495540(pPurpleLightArray);
-    }
+    relive_delete pObjectsWithLightsArray;
+    relive_delete pPurpleLightArray;
 }
 
 void Map::Handle_PathTransition_481610()
@@ -581,8 +554,7 @@ void Map::Shutdown_4804E0()
     {
         if (field_2C_camera_array[i])
         {
-            field_2C_camera_array[i]->dtor_480E00();
-            ae_delete_free_495540(field_2C_camera_array[i]);
+            relive_delete field_2C_camera_array[i];
             field_2C_camera_array[i] = nullptr;
         }
     }
@@ -599,6 +571,16 @@ void Map::Shutdown_4804E0()
 
     ResourceManager::Reclaim_Memory_49C470(0);
     Reset_4805D0();
+}
+
+Map::Map()
+{
+    Reset_4805D0();
+}
+
+Map::~Map()
+{
+    Shutdown_4804E0();
 }
 
 void Map::Reset_4805D0()
@@ -690,8 +672,7 @@ void Map::GoTo_Camera_481890()
         {
             if (field_2C_camera_array[i])
             {
-                field_2C_camera_array[i]->dtor_480E00();
-                ae_delete_free_495540(field_2C_camera_array[i]);
+                relive_delete field_2C_camera_array[i];
                 field_2C_camera_array[i] = nullptr;
             }
         }
@@ -874,8 +855,7 @@ void Map::GoTo_Camera_481890()
     {
         if (field_40_stru_5[i])
         {
-            field_40_stru_5[i]->dtor_480E00();
-            ae_delete_free_495540(field_40_stru_5[i]);
+            relive_delete field_40_stru_5[i];
             field_40_stru_5[i] = nullptr;
         }
     }
@@ -1268,7 +1248,6 @@ Camera* Map::Create_Camera_4829E0(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     Camera* newCamera = ae_new<Camera>();
-    newCamera->ctor_480DD0();
 
     // Copy in the camera name from the Path resource and append .CAM
     memset(newCamera->field_1E_cam_name, 0, sizeof(newCamera->field_1E_cam_name));

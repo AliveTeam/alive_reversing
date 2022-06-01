@@ -3,9 +3,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "ResourceManager.hpp"
 
-void LvlArchive_Static_init_432E00();
-void static_lvl_init_480350();
-
 struct LvlFileRecord final
 {
     char_type field_0_file_name[12];
@@ -42,6 +39,10 @@ public:
     s32 Read_File_433070(const char_type* pFileName, void* pBuffer);
     s32 Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer);
     s32 Free_433130();
+    ~LvlArchive()
+    {
+        Free_433130();
+    }
 
 private:
     u8** field_0_0x2800_res;

@@ -3,19 +3,19 @@
 #include "ResourceManager.hpp"
 
 Camera::Camera()
+    : field_0(3)
 {
-}
-
-void Camera::ctor_480DD0()
-{
-    field_0.ctor_40CA60(3);
     field_30_flags &= ~1u;
     field_C_pCamRes = nullptr;
 }
 
-void Camera::dtor_480E00()
+void Camera::Free()
 {
-    ResourceManager::FreeResource_49C330(field_C_pCamRes);
+    if (field_C_pCamRes)
+    {
+        ResourceManager::FreeResource_49C330(field_C_pCamRes);
+        field_C_pCamRes = nullptr;
+    }
 
     DynamicArrayIter iter = {};
     iter.field_0_pDynamicArray = &field_0;
@@ -31,8 +31,11 @@ void Camera::dtor_480E00()
         ResourceManager::FreeResource_49C330(pItem);
         iter.Remove_At_Iter_40CCA0();
     }
+}
 
-    field_0.dtor_40CAD0();
+Camera::~Camera()
+{
+    Free();
 }
 
 void Camera::On_Loaded_480ED0(Camera* pCamera)

@@ -5,26 +5,9 @@
 #include "Sys_common.hpp"
 #include "BaseGameObject.hpp"
 
-ALIVE_VAR(1, 0x5C1B70, ObjectIds, sObjectIds, {});
+ObjectIds sObjectIds{101};
 
-// static_'s are called before main
-void static_ObjectIds_ctor_43EC50()
-{
-    sObjectIds.ctor_449AE0(101);
-}
-
-void static_ObjectIds_init_43EC30()
-{
-    static_ObjectIds_ctor_43EC50();
-    atexit(ObjectIds::dtor_43EC90);
-}
-
-void ObjectIds::dtor_43EC90()
-{
-    sObjectIds.Destructor();
-}
-
-void ObjectIds::Destructor()
+ObjectIds::~ObjectIds()
 {
     for (u32 i = 0; i < field_0_buffer_size; i++)
     {
@@ -45,7 +28,7 @@ void ObjectIds::Destructor()
     ae_non_zero_free_495560(field_4_pBuffer);
 }
 
-void ObjectIds::ctor_449AE0(u32 size)
+ObjectIds::ObjectIds(u32 size)
 {
     // Allocate the array and set all items to nullptr
     field_0_buffer_size = size;

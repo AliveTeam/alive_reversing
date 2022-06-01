@@ -6,9 +6,6 @@
 #include "ResourceManager.hpp"
 #include "Path.hpp"
 
-void static_map_init_4802D0();
-
-
 struct Map_PathsArray_Extended final
 {
     u8** field_0_pPathRecs[99];
@@ -142,6 +139,8 @@ public:
     void Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
     void Shutdown_4804E0();
     void Reset_4805D0();
+    Map();
+    ~Map();
     void GoTo_Camera_481890();
 
     void Get_map_size_480640(PSX_Point* pPoint);

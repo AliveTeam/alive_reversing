@@ -11,31 +11,8 @@
 #include "stdlib.hpp"
 #include "Grid.hpp"
 
-ALIVE_VAR(1, 0x5bc112, s16, bTheOneControllingTheMusic_5BC112, 0);
-
-ALIVE_VAR(1, 0x5BC100, DynamicArrayT<Dove>, gDovesArray_5BC100, {});
-ALIVE_VAR(1, 0x5BC110, u8, byte_5BC110, 0);
-
-void Dove_static_ctor_41F3C0()
-{
-    gDovesArray_5BC100.ctor_40CA60(3);
-}
-
-void Dove_static_dtor_41F400()
-{
-    // Flag to guard against multiple destruction - although seems impossible given its in the table once
-    if (!(byte_5BC110 & 1))
-    {
-        byte_5BC110 |= 1u;
-        gDovesArray_5BC100.dtor_40CAD0();
-    }
-}
-
-void Dove_static_ctor_41F3A0()
-{
-    Dove_static_ctor_41F3C0();
-    atexit(Dove_static_dtor_41F400);
-}
+static bool bTheOneControllingTheMusic_5BC112 = false;
+static DynamicArrayT<Dove> gDovesArray_5BC100{3};
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -84,7 +61,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     }
 
     SND_SEQ_PlaySeq_4CA960(SeqId::NecrumAmbient2_17, 0, 1);
-    bTheOneControllingTheMusic_5BC112 = 1;
+    bTheOneControllingTheMusic_5BC112 = true;
 }
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
@@ -138,7 +115,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
     }
 
     SND_SEQ_PlaySeq_4CA960(SeqId::NecrumAmbient2_17, 0, 1);
-    bTheOneControllingTheMusic_5BC112 = 1;
+    bTheOneControllingTheMusic_5BC112 = true;
 }
 
 Dove::~Dove()

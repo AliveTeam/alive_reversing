@@ -4,8 +4,6 @@
 
 class BaseGameObject;
 
-void static_ObjectIds_init_43EC30();
-
 using TObjectId_KeyType = s32;
 
 struct ObjectId_Record final
@@ -22,9 +20,8 @@ enum class AETypes : s16;
 class ObjectIds
 {
 public:
-    void Destructor();
-    static void dtor_43EC90();
-    void ctor_449AE0(u32 size);
+    ~ObjectIds();
+    explicit ObjectIds(u32 size);
     u32 Id_To_Buffer_Size_Range_449BA0(TObjectId_KeyType id);
     ObjectId_Record* Find_By_Id_449BC0(TObjectId_KeyType idToFind, ObjectId_Record** ppLastMatch);
     void Insert(TObjectId_KeyType objCount, BaseGameObject* pGameObj);

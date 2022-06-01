@@ -93,13 +93,16 @@ public:
 
     struct ResourceManager_FileRecord final
     {
+        ResourceManager_FileRecord()
+            : field_10_file_sections_dArray(3)
+        {
+
+        }
         char_type* field_0_fileName;
         ResourcesToLoadList* field_4_pResourcesToLoadList;
         u32 field_8_type;
         u32 field_C_id;
         DynamicArrayT<ResourceManager_FilePartRecord_18> field_10_file_sections_dArray;
-
-        void dtor_464EA0();
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x1C);
 
