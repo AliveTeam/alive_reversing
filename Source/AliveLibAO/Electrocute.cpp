@@ -7,7 +7,7 @@
 #include "stdlib.hpp"
 #include "VRam.hpp"
 #include "Map.hpp"
-#include "Renderer/IRenderer.hpp"
+#include "../AliveLibAE/Renderer/IRenderer.hpp"
 
 namespace AO {
 

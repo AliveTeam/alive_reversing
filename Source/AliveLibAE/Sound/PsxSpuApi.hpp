@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "Sound/Sound.hpp"
+#include "../AliveLibAE/Sound/Sound.hpp"
 #include "Io.hpp"
 
 struct ProgAtr final

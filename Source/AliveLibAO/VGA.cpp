@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdafx_ao.h"
 #include "VGA.hpp"
 #include "Function.hpp"
 #include "../AliveLibAE/VGA.hpp"

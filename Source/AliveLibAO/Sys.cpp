@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdafx_ao.h"
 #include "Sys.hpp"
 #include "Function.hpp"
 #include "Input.hpp"

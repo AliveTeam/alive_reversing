@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdafx_ao.h"
 #include "Error.hpp"
 #include "Function.hpp"
 #include "../AliveLibAE/Error.hpp"

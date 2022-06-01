@@ -13,7 +13,7 @@
 #include "StringFormatters.hpp"
 #include "Primitives_common.hpp"
 #include "Input.hpp"
-#include "Renderer/IRenderer.hpp"
+#include "../AliveLibAE/Renderer/IRenderer.hpp"
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 
 namespace AO {

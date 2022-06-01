@@ -149,11 +149,6 @@ if(WIN32)
 endif()
 # -----------------------------------------------------------------------------
 
-if (WIN32 AND NOT MINGW)
-    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveDllAE)
-    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveDllAO)
-endif()
-
 add_dependencies(AliveLibCommon UpdateConfigHeader)
 
 if(WIN32)

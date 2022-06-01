@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Sound.hpp"
-#include "Sound/Midi.hpp"
+#include "../AliveLibAE/Sound/Midi.hpp"
 
 #if USE_SDL2_SOUND
     #include "../AliveLibCommon/Function.hpp"

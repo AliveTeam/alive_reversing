@@ -22,7 +22,7 @@
 #include "Collisions.hpp"
 #include "Slog.hpp"
 #include "Blood.hpp"
-#include "Renderer/IRenderer.hpp"
+#include "../AliveLibAE/Renderer/IRenderer.hpp"
 #include "AnimResources.hpp"
 
 // Fix pollution from windows.h

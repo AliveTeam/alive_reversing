@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdafx_ao.h"
 #include "Sound.hpp"
 #include "Function.hpp"
 #include "Map.hpp"

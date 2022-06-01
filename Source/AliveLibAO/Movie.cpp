@@ -12,11 +12,11 @@
 #include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibAE/VGA.hpp"
 #include "../AliveLibAE/Input.hpp"
-#include "Sound/SDLSoundBuffer.hpp"
+#include "../AliveLibAE/Sound/SDLSoundBuffer.hpp"
 #include "GameAutoPlayer.hpp"
 
 #define NO_WAVE
-#include "Sound/Sound.hpp"
+#include "../AliveLibAE/Sound/Sound.hpp"
 
 namespace AO {
 

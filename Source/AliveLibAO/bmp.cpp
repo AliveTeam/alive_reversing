@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdafx_ao.h"
 #include "../AliveLibCommon/Function.hpp"
 #include "bmp.hpp"
 #include "Function.hpp"

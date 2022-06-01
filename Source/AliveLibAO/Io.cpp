@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdafx_ao.h"
 #include "Io.hpp"
 #include "Function.hpp"
 

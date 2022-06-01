@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "VRam.hpp"
 #include "../AliveLibAE/VRam.hpp"
-#include "Renderer/IRenderer.hpp"
+#include "../AliveLibAE/Renderer/IRenderer.hpp"
 
 namespace AO {
 

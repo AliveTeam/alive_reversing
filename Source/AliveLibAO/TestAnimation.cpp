@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdafx_ao.h"
 #include "TestAnimation.hpp"
 #include "Abe.hpp"
 #include "ResourceManager.hpp"
