@@ -379,19 +379,10 @@ else()
         set(WIN32_LIBS ${WIN32_LIBS} Detours)
     endif()
 
-    # TODO: Clean up
-    if (WIN32)
-        # On windows AO lib uses AE dll for AE funcs which causes AO dll to depend on AE dll
-        # however even though it is linked to the standalone exes it will not cause those to depend on AE dll
-        set(AE_LIB AliveLibAE)
-    else()
-        # For linux the dlls are not compiled so it must use the lib instead which is fine for only building standalone
-        set(AE_LIB AliveLibAE)
-    endif()
 endif()
 
 target_link_libraries(AliveLibAO
-    ${AE_LIB}
+    AliveLibAE
     AliveLibCommon
     EasyLogging++
     googletest
