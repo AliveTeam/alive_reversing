@@ -10,7 +10,7 @@
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObjects, nullptr);
 
 BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
-    : field_10_resources_array(resourceArraySize)
+    : field_10_resources_array(resourceArraySize, true)
 {
     field_1C_update_delay = 0;
 

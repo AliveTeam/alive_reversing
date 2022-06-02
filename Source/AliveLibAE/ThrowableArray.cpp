@@ -119,7 +119,7 @@ void LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber)
 
 ThrowableArray::ThrowableArray()
     : BaseGameObject(TRUE, 0)
-    , field_24_throwables(0)
+    , field_24_throwables(0, true)
 {
     mFlags.Clear(BaseGameObject::eUpdatable_Bit2);
     field_20_count = 0;

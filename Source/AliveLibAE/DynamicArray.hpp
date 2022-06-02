@@ -6,7 +6,7 @@
 class DynamicArray
 {
 public:
-    explicit DynamicArray(s32 startingSize);
+    explicit DynamicArray(s32 startingSize, bool bPushBack = false);
     ~DynamicArray();
 
     DynamicArray(const DynamicArray& rhs) = delete;
