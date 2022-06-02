@@ -370,7 +370,7 @@ static void WriteFlags(u8*& pSaveBuffer, const Path_TLV* pTlv, const BitField8<T
 
 void Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
 {
-    for (s16 i = 1; i <= Path_Get_Num_Paths(gMap.mCurrentLevel); i++)
+    for (s16 i = 1; i < Path_Get_Num_Paths(gMap.mCurrentLevel); i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap.mCurrentLevel, i);
         if (pPathRec->field_0_blyName)

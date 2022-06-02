@@ -68,6 +68,6 @@ public:
     FP field_FC_xpos_offset2;
     FP field_104_scale_offset_spin_at_target;
 };
-ALIVE_ASSERT_SIZEOF(OrbWhirlWindParticle, 0x104);
+//ALIVE_ASSERT_SIZEOF(OrbWhirlWindParticle, 0x104);
 
 } // namespace AO
