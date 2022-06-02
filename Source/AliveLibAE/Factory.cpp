@@ -627,7 +627,7 @@ void Factory_AbeStart_4D9030(Path_TLV* pTlv, Path*, TlvItemInfoUnion, LoadMode l
             pPauseMenu_5C9300 = ae_new<PauseMenu>();
         }
 
-        if (sActiveHero_5C1B68 == spAbe_554D5C)
+        if (!sActiveHero_5C1B68)
         {
             const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
             sActiveHero_5C1B68 = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);

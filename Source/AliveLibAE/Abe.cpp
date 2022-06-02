@@ -942,7 +942,7 @@ Abe::~Abe()
 
     field_164_wheel_id = -1;
 
-    sActiveHero_5C1B68 = spAbe_554D5C;
+    sActiveHero_5C1B68 = nullptr;
 }
 
 const char_type* sAbe_ResNames_545830[22] = {
@@ -1027,7 +1027,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     const Abe_SaveState* pSaveState = reinterpret_cast<const Abe_SaveState*>(pData);
 
     Abe* pAbe = sActiveHero_5C1B68;
-    if (sActiveHero_5C1B68 == spAbe_554D5C)
+    if (!sActiveHero_5C1B68)
     {
         pAbe = ae_new<Abe>(58808, 85, 57, 55);
         sActiveHero_5C1B68 = pAbe;

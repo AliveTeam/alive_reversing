@@ -80,8 +80,6 @@ ALIVE_VAR(1, 0xC2D03C, s32, sNumRenderedPrims_C2D03C, 0);
 ALIVE_VAR(1, 0x5CA300, s32, sFrameCount_5CA300, 0);
 
 ALIVE_VAR(1, 0x5C1B94, s16, word_5C1B94, 0);
-ALIVE_VAR(1, 0x554D5C, Abe*, spAbe_554D5C, nullptr);
-
 
 ALIVE_VAR(1, 0x5C2F6C, u32, dword_5C2F6C, 0);
 ALIVE_VAR(1, 0x5C1BA0, u16, gAttract_5C1BA0, 0);
@@ -388,18 +386,13 @@ ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<AnimationBase>*, gObjList_animations_5C1A24
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124, nullptr);
 
 
-void static_init_set_default_hero_43EC10()
-{
-    sActiveHero_5C1B68 = spAbe_554D5C;
-}
-
 void Init_Sound_DynamicArrays_And_Others_43BDB0()
 {
     DebugFont_Init_4DCF40();
     word_5C1B94 = 1; // Used in dead overlay stuff, CD number ??
     //Overlays_Init_43BFC0(); // Note: Pointless because never used in PC
     pPauseMenu_5C9300 = nullptr;
-    sActiveHero_5C1B68 = spAbe_554D5C;
+    sActiveHero_5C1B68 = nullptr;
     sControlledCharacter_5C1B8C = 0;
     sNum_CamSwappers_5C1B66 = 0;
     sGnFrame_5C1B84 = 0;

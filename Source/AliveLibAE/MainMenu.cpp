@@ -1792,7 +1792,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
                 pPauseMenu_5C9300 = ae_new<PauseMenu>();
             }
 
-            if (sActiveHero_5C1B68 == spAbe_554D5C)
+            if (!sActiveHero_5C1B68)
             {
                 const AnimRecord& mudWalkRec = AnimRec(AnimId::Mudokon_Walk);
                 sActiveHero_5C1B68 = ae_new<Abe>(mudWalkRec.mFrameTableOffset, 85, 57, 55);
@@ -1850,7 +1850,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         pPauseMenu_5C9300 = ae_new<PauseMenu>();
     }
 
-    if (sActiveHero_5C1B68 == spAbe_554D5C)
+    if (!sActiveHero_5C1B68)
     {
         const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
         sActiveHero_5C1B68 = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
@@ -2122,12 +2122,13 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
         ResourceManager::Reclaim_Memory_49C470(0);
 
-        if (sActiveHero_5C1B68 == spAbe_554D5C)
+        if (!sActiveHero_5C1B68)
         {
             const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
             auto abe = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
             if (abe)
             {
+                sActiveHero_5C1B68 = abe;
                 sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
                 sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
             }
@@ -2136,7 +2137,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
                 sActiveHero_5C1B68 = nullptr;
             }
         }
-
+        
         gAttract_5C1BA0 = 1;
 
         if (field_208_transition_obj)

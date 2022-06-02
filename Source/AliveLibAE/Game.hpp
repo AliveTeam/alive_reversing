@@ -6,8 +6,6 @@
 #include "Primitives.hpp"
 #include "PathData.hpp"
 
-void static_init_set_default_hero_43EC10();
-
 void Game_Main_4949F0();
 void DestroyObjects_4A1F20();
 void Init_GameStates_43BF40();
@@ -25,7 +23,6 @@ ALIVE_VAR_EXTERN(s16, sNum_CamSwappers_5C1B66);
 ALIVE_VAR_EXTERN(s32, dword_5CA4D4);
 ALIVE_VAR_EXTERN(s32, k1_dword_55EF90);
 ALIVE_VAR_EXTERN(s16, sBreakGameLoop_5C2FE0);
-ALIVE_VAR_EXTERN(class Abe*, spAbe_554D5C);
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, ObjList_5C1B78);
 class ShadowZone;
 ALIVE_VAR_EXTERN(DynamicArrayT<ShadowZone>*, sShadowZone_dArray_5C1B80);

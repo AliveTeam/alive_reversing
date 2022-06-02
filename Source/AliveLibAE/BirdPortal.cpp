@@ -823,7 +823,7 @@ Bool32 BirdPortal::vActivePortal_499830()
 
 void BirdPortal::vGiveShryukull_499680(s16 bPlaySound)
 {
-    if (sActiveHero_5C1B68 != spAbe_554D5C)
+    if (sActiveHero_5C1B68)
     {
         if (field_24_portal_type == PortalType::eShrykull_2 && field_82_num_muds_for_shrykull <= 0)
         {

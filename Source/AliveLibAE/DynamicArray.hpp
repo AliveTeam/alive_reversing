@@ -27,14 +27,14 @@ public:
 
 protected:
     s16 Remove_Item_40CB60(void* pItemToRemove);
-    void** field_0_array;
+    void** field_0_array = nullptr;
 
 public:
-    s16 field_4_used_size;
+    s16 field_4_used_size = 0;
 
 private:
-    s16 field_6_max_size;
-    s16 field_8_expand_size;
+    s16 field_6_max_size = 0;
+    s16 field_8_expand_size = 0;
     // padding
 
     friend class DynamicArrayIter;
