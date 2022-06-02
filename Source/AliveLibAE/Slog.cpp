@@ -379,7 +379,7 @@ s32 CC Slog::CreateFromSaveState_4C54F0(const u8* pBuffer)
     pSlog->field_160_flags.Set(Flags_160::eBit4_Hungry, pState->field_74_flags.Get(Slog_State::eBit7_Hungry));
     pSlog->field_160_flags.Set(Flags_160::eBit5_CommandedToAttack, pState->field_74_flags.Get(Slog_State::eBit8_CommandedToAttack));
     pSlog->field_160_flags.Set(Flags_160::eBit6_HitByAbilityRing, pState->field_74_flags.Get(Slog_State::eBit9_HitByAbilityRing));
-   // pSlog->field_160_flags.Set(Flags_160::eBit2_ListenToSligs, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs));
+    pSlog->field_160_flags.Set(Flags_160::eBit2_ListenToSligs, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs));
 
     if (pSlog->field_160_flags.Get(Flags_160::eBit3_Shot))
     {
@@ -497,8 +497,7 @@ s32 Slog::vGetSaveState_4C78F0(Slog_State* pState)
     pState->field_74_flags.Set(Slog_State::eBit7_Hungry, field_160_flags.Get(Flags_160::eBit4_Hungry));
     pState->field_74_flags.Set(Slog_State::eBit8_CommandedToAttack, field_160_flags.Get(Flags_160::eBit5_CommandedToAttack));
     pState->field_74_flags.Set(Slog_State::eBit9_HitByAbilityRing, field_160_flags.Get(Flags_160::eBit6_HitByAbilityRing));
-    // Never set by OG in testing
-   // pState->field_74_flags.Set(Slog_State::eBit10_ListenToSligs, field_160_flags.Get(Flags_160::eBit2_ListenToSligs));
+    pState->field_74_flags.Set(Slog_State::eBit10_ListenToSligs, field_160_flags.Get(Flags_160::eBit2_ListenToSligs));
 
     return sizeof(Slog_State);
 }
