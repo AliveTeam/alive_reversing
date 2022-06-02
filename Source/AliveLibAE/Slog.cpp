@@ -379,7 +379,7 @@ s32 CC Slog::CreateFromSaveState_4C54F0(const u8* pBuffer)
     pSlog->field_160_flags.Set(Flags_160::eBit4_Hungry, pState->field_74_flags.Get(Slog_State::eBit7_Hungry));
     pSlog->field_160_flags.Set(Flags_160::eBit5_CommandedToAttack, pState->field_74_flags.Get(Slog_State::eBit8_CommandedToAttack));
     pSlog->field_160_flags.Set(Flags_160::eBit6_HitByAbilityRing, pState->field_74_flags.Get(Slog_State::eBit9_HitByAbilityRing));
-    pSlog->field_160_flags.Set(Flags_160::eBit2_ListenToSligs, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs));
+   // pSlog->field_160_flags.Set(Flags_160::eBit2_ListenToSligs, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs));
 
     if (pSlog->field_160_flags.Get(Flags_160::eBit3_Shot))
     {
@@ -489,15 +489,16 @@ s32 Slog::vGetSaveState_4C78F0(Slog_State* pState)
     pState->field_72_slog_random_index = sSlogRandomIdx_BAF7F0;
 
     pState->field_74_flags.Set(Slog_State::eBit1_BitingTarget, field_11C_biting_target & 1);
-    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter_5C1B8C == this); // Lol can't be possessed anyway so ??
-    pState->field_74_flags.Set(Slog_State::eBit3_Asleep, field_160_flags.Get(Flags_160::eBit7_Asleep));
-    pState->field_74_flags.Set(Slog_State::eBit4_MovedOffScreen, field_160_flags.Get(Flags_160::eBit8_Asleep));
+    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter_5C1B8C == this); // Can never happen so is always 0
+    pState->field_74_flags.Set(Slog_State::eBit3_Asleep, field_160_flags.Get(Flags_160::eBit8_Asleep));
+    pState->field_74_flags.Set(Slog_State::eBit4_MovedOffScreen, field_160_flags.Get(Flags_160::eBit9_MovedOffScreen));
     pState->field_74_flags.Set(Slog_State::eBit5_StopRunning, field_160_flags.Get(Flags_160::eBit1_StopRunning));
     pState->field_74_flags.Set(Slog_State::eBit6_Shot, field_160_flags.Get(Flags_160::eBit3_Shot));
     pState->field_74_flags.Set(Slog_State::eBit7_Hungry, field_160_flags.Get(Flags_160::eBit4_Hungry));
     pState->field_74_flags.Set(Slog_State::eBit8_CommandedToAttack, field_160_flags.Get(Flags_160::eBit5_CommandedToAttack));
     pState->field_74_flags.Set(Slog_State::eBit9_HitByAbilityRing, field_160_flags.Get(Flags_160::eBit6_HitByAbilityRing));
-    pState->field_74_flags.Set(Slog_State::eBit10_ListenToSligs, field_160_flags.Get(Flags_160::eBit2_ListenToSligs));
+    // Never set by OG in testing
+   // pState->field_74_flags.Set(Slog_State::eBit10_ListenToSligs, field_160_flags.Get(Flags_160::eBit2_ListenToSligs));
 
     return sizeof(Slog_State);
 }
