@@ -6,17 +6,19 @@
 class DynamicArray
 {
 public:
-    explicit DynamicArray(s32 startingSize, bool bPushBack = false);
+    explicit DynamicArray(s32 startingSize);
     ~DynamicArray();
 
     DynamicArray(const DynamicArray& rhs) = delete;
     DynamicArray& operator=(const DynamicArray& rhs) const = delete;
 
     s16 Expand_40CBE0(s16 expandSize);
+
     bool IsEmpty() const
     {
         return field_4_used_size == 0;
     }
+
     s16 Size() const
     {
         return field_4_used_size;

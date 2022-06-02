@@ -10,8 +10,17 @@
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObjects, nullptr);
 
 BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
-    : field_10_resources_array(resourceArraySize, true)
+    : field_10_resources_array(resourceArraySize)
 {
+    // Pre-allocate the array with nullptr entries so that it can be
+    // used like a fixed size array in the derived type.
+    // TODO: If its never used dynamically in the derived type then it actually can become a fixed
+    // compile time sized array at some point.
+    for (s32 i = 0; i < resourceArraySize; i++)
+    {
+        field_10_resources_array.Push_Back(nullptr);
+    }
+
     field_1C_update_delay = 0;
 
     SetType(AETypes::eNone_0);
