@@ -63,7 +63,7 @@ private:
             case BoomMachineStates::eAlreadyUsed_1:
                 if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
                 {
-                    SFX_Play(SoundEffect::ZPop_4, 60, -1800);
+                    SFX_Play_Pitch(SoundEffect::ZPop_4, 60, -1800);
                     field_F4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -80,14 +80,14 @@ private:
             case BoomMachineStates::eDropGrenade_3:
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
                 {
-                    SFX_Play(SoundEffect::PickupItem_28, 127, -900);
+                    SFX_Play_Pitch(SoundEffect::PickupItem_28, 127, -900);
 
                     if (!gpThrowableArray_5D1E2C)
                     {
                         gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
                     }
 
-                    gpThrowableArray_5D1E2C->Add_49A7A0(field_FC_numGrenades);
+                    gpThrowableArray_5D1E2C->Add(field_FC_numGrenades);
 
                     FP directedScale = {};
                     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -106,7 +106,7 @@ private:
                         0,
                         nullptr);
  
-                    pGrenade->VThrow_49E460((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                    pGrenade->VThrow((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
                     const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Nozzle_Idle);
                     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
@@ -210,7 +210,7 @@ void BoomMachine::VUpdate()
 
         if (field_20_animation.field_92_current_frame == 3)
         {
-            SFX_Play(SoundEffect::RedTick_3, 25, -1200);
+            SFX_Play_Pitch(SoundEffect::RedTick_3, 25, -1200);
         }
     }
 }

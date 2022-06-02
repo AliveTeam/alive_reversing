@@ -12,20 +12,9 @@ public:
     SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale);
     ~SnoozeParticle();
 
-    virtual void VScreenChanged() override
-    {
-        vScreenChanged_4B1300();
-    }
-
-    virtual void VRender(PrimHeader** ppOt) override
-    {
-        Render_4B0AF0(ppOt);
-    }
-
-    virtual void VUpdate() override
-    {
-        Update_4B0980();
-    }
+    virtual void VScreenChanged() override;
+    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VUpdate() override;
 
     enum class SnoozeParticleState : s16
     {
@@ -33,14 +22,6 @@ public:
         eUnused_1 = 1,
         eBlowingUp_2 = 2
     };
-
-private:
-
-    void vScreenChanged_4B1300();
-
-    void Update_4B0980();
-
-    void Render_4B0AF0(PrimHeader** ppOt);
 
 private:
     FP field_20_x_start;

@@ -9,31 +9,6 @@
 #include "PathData.hpp"
 #include "GameEnderController.hpp"
 
-void WorkWheel::VUpdate()
-{
-    vUpdate_4E38E0();
-}
-
-void WorkWheel::VScreenChanged()
-{
-    vScreenChanged_4E3AD0();
-}
-
-s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_4E3C40(reinterpret_cast<WorkWheel_SaveState*>(pSaveBuffer));
-}
-
-void WorkWheel::VStartTurning()
-{
-    vStartTurning_4E3A20();
-}
-
-void WorkWheel::VStopTurning(s16 bResetSwitch)
-{
-    vStopTurning_4E3A60(bResetSwitch);
-}
-
 WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -124,7 +99,7 @@ s32 WorkWheel::CreateFromSaveState(const u8* pState)
     {
         if (pData->field_C_state == WheelStates::eTurning_1)
         {
-            pWheel->vStartTurning_4E3A20();
+            pWheel->VStartTurning();
         }
 
         pWheel->field_100_on_counter = pData->field_8_snd_counter;
@@ -132,8 +107,10 @@ s32 WorkWheel::CreateFromSaveState(const u8* pState)
     return sizeof(WorkWheel_SaveState);
 }
 
-s32 WorkWheel::vGetSaveState_4E3C40(WorkWheel_SaveState* pState)
+s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
 {
+    auto pState = reinterpret_cast<WorkWheel_SaveState*>(pSaveBuffer);
+
     pState->field_0_id = AETypes::eWheel_148;
     pState->field_4_tlvInfo = field_F4_tlv_info;
     pState->field_8_snd_counter = field_100_on_counter;
@@ -141,7 +118,7 @@ s32 WorkWheel::vGetSaveState_4E3C40(WorkWheel_SaveState* pState)
     return sizeof(WorkWheel_SaveState);
 }
 
-void WorkWheel::vUpdate_4E38E0()
+void WorkWheel::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -180,17 +157,17 @@ void WorkWheel::vUpdate_4E38E0()
 
             if (field_102_off_time > 0 && field_100_on_counter > field_102_off_time)
             {
-                SwitchStates_Set_465FF0(field_F8_switch_id, 0);
+                SwitchStates_Set(field_F8_switch_id, 0);
             }
             else
             {
-                SwitchStates_Set_465FF0(field_F8_switch_id, 1);
+                SwitchStates_Set(field_F8_switch_id, 1);
             }
         }
     }
 }
 
-void WorkWheel::vScreenChanged_4E3AD0()
+void WorkWheel::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_FC_state == WheelStates::eIdle_0)
     {
@@ -198,7 +175,7 @@ void WorkWheel::vScreenChanged_4E3AD0()
     }
 }
 
-void WorkWheel::vStartTurning_4E3A20()
+void WorkWheel::VStartTurning()
 {
     if (field_FC_state == WheelStates::eIdle_0)
     {
@@ -208,7 +185,7 @@ void WorkWheel::vStartTurning_4E3A20()
     }
 }
 
-void WorkWheel::vStopTurning_4E3A60(s16 bResetSwitch)
+void WorkWheel::VStopTurning(s16 bResetSwitch)
 {
     if (field_FC_state == WheelStates::eTurning_1)
     {
@@ -222,7 +199,7 @@ void WorkWheel::vStopTurning_4E3A60(s16 bResetSwitch)
         {
             if (bResetSwitch)
             {
-                SwitchStates_Set_465FF0(field_F8_switch_id, 0);
+                SwitchStates_Set(field_F8_switch_id, 0);
             }
         }
     }

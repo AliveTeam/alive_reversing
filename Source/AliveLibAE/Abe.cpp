@@ -507,11 +507,11 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
         case EnvironmentSfx::eRunJumpOrLedgeHoist_11:
             if (pAliveObj && pAliveObj->field_CC_sprite_scale == FP_FromDouble(0.5))
             {
-                return SFX_Play_46FA90(SoundEffect::AbeGenericMovement_32, 20);
+                return SFX_Play_Mono(SoundEffect::AbeGenericMovement_32, 20);
             }
             else
             {
-                return SFX_Play_46FA90(SoundEffect::AbeGenericMovement_32, 35);
+                return SFX_Play_Mono(SoundEffect::AbeGenericMovement_32, 35);
             }
 
         case EnvironmentSfx::eExhaustingHoistNoise_10:
@@ -660,7 +660,7 @@ s32 Animation_OnFrame_Abe_455F80(void* pPtr, s16* pData)
     {
         pThrowable->field_B8_xpos = xOff + sActiveHero_5C1B68->field_B8_xpos;
         pThrowable->field_BC_ypos = (pAbe->field_CC_sprite_scale * FP_FromInteger(pFramePos->field_2_y)) + sActiveHero_5C1B68->field_BC_ypos;
-        pThrowable->VThrow_49E460(tableX, tableY);
+        pThrowable->VThrow(tableX, tableY);
         pThrowable->field_CC_sprite_scale = pAbe->field_CC_sprite_scale;
         pThrowable->field_D6_scale = pAbe->field_D6_scale;
         sActiveHero_5C1B68->field_158_throwable_id = -1;
@@ -850,7 +850,7 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift);
 
     // Changes Abe's "default" colour depending on the level we are in
-    SetTint_425600(&sTintTable_Abe_554D20[0], gMap.mCurrentLevel);
+    SetTint(&sTintTable_Abe_554D20[0], gMap.mCurrentLevel);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
@@ -1084,7 +1084,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
     sActiveHero_5C1B68->field_20_animation.Load_Pal_40A530(sActiveHero_5C1B68->field_20_animation.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 
-    sActiveHero_5C1B68->SetTint_425600(sTintTable_Abe_554D20, gMap.mCurrentLevel);
+    sActiveHero_5C1B68->SetTint(sTintTable_Abe_554D20, gMap.mCurrentLevel);
     sActiveHero_5C1B68->field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
     sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     sActiveHero_5C1B68->field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
@@ -1577,13 +1577,13 @@ void Abe::VUpdate()
                             }
 
                             PSX_RECT rect = {};
-                            vGetBoundingRect_424FD0(&rect, 1);
+                            VGetBoundingRect(&rect, 1);
                             AbilityRing::Factory_482F80(
                                 FP_FromInteger((rect.x + rect.w) / 2),
                                 FP_FromInteger((rect.y + rect.h) / 2),
                                 ringType, field_CC_sprite_scale);
 
-                            SFX_Play(SoundEffect::PossessEffect_17, 25, 2650);
+                            SFX_Play_Pitch(SoundEffect::PossessEffect_17, 25, 2650);
                         }
                     }
                     else
@@ -1650,10 +1650,10 @@ void Abe::VUpdate()
         {
             field_1AE_flags.Clear(Flags_1AE::e1AE_Bit2_do_quicksave);
             sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_save_num = field_1B0_save_num;
-            Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
+            Quicksave_SaveWorldInfo(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
             VGetSaveState(reinterpret_cast<u8*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
             sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states = sSwitchStates_5C1A28;
-            Quicksave_4C90D0();
+            DoQuicksave();
         }
     }
 }
@@ -1744,7 +1744,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
 
         if (pfield_158)
         {
-            pfield_158->VToDead_4114B0();
+            pfield_158->VToDead();
             field_158_throwable_id = -1;
             if (!gInfiniteGrenades_5C1BDE)
             {
@@ -1787,7 +1787,7 @@ void Abe::VScreenChanged()
         }
 
         // Set the correct tint for this map
-        SetTint_425600(sTintTable_Abe_554D20, gMap.mLevel);
+        SetTint(sTintTable_Abe_554D20, gMap.mLevel);
 
         if (gMap.mCurrentLevel != LevelIds::eNone)
         {
@@ -1795,7 +1795,7 @@ void Abe::VScreenChanged()
             {
                 if (gpThrowableArray_5D1E2C)
                 {
-                    gpThrowableArray_5D1E2C->Remove_49AA00(field_1A2_throwable_count);
+                    gpThrowableArray_5D1E2C->Remove(field_1A2_throwable_count);
                 }
             }
 
@@ -2253,11 +2253,11 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 // Random explode time ?
                 const FP rand1 = FP_FromRaw((Math_NextRandom() - 127) << 11); // TODO: Wat?
                 const FP rand2 = (FP_FromDouble(0.03125) * FP_FromRaw(Math_NextRandom())) - FP_FromInteger(2);
-                pThrowable->VThrow_49E460(rand1, rand2);
+                pThrowable->VThrow(rand1, rand2);
 
                 pThrowable->field_CC_sprite_scale = field_CC_sprite_scale;
                 pThrowable->field_D6_scale = field_D6_scale;
-                pThrowable->VTimeToExplodeRandom_411490(); // Start count down ?
+                pThrowable->VTimeToExplodeRandom(); // Start count down ?
             }
             field_1A2_throwable_count = 0;
             break;
@@ -2273,7 +2273,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     return 1;
                 }
                 ToKnockback_44E700(1, 1);
-                SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
+                SFX_Play_Mono(SoundEffect::KillEffect_64, 127);
             }
             break;
 
@@ -2303,7 +2303,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 PSX_RECT bRect = {};
-                vGetBoundingRect_424FD0(&bRect, 1);
+                VGetBoundingRect(&bRect, 1);
 
                 ae_new<Blood>(field_B8_xpos,
                     // Put YPos in the middle of who is getting damaged
@@ -2341,8 +2341,8 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     field_C4_velx = field_CC_sprite_scale * FP_FromDouble(7.8);
                 }
 
-                SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
-                SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90);
+                SFX_Play_Mono(SoundEffect::KillEffect_64, 127);
+                SFX_Play_Mono(SoundEffect::FallingItemHit_47, 90);
             }
             break;
 
@@ -2375,7 +2375,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 field_10C_health = FP_FromInteger(0);
 
                 PSX_RECT bRect = {};
-                vGetBoundingRect_424FD0(&bRect, 1);
+                VGetBoundingRect(&bRect, 1);
 
                 ae_new<Blood>(
                     field_B8_xpos,
@@ -2419,11 +2419,11 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     field_C4_velx = field_CC_sprite_scale * FP_FromDouble(7.8);
                 }
 
-                SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
+                SFX_Play_Mono(SoundEffect::KillEffect_64, 127);
 
                 if (pFrom->Type() != AETypes::eParamite_96)
                 {
-                    SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90);
+                    SFX_Play_Mono(SoundEffect::FallingItemHit_47, 90);
                 }
             }
             break;
@@ -2471,7 +2471,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     field_C4_velx = field_CC_sprite_scale * FP_FromDouble(-7.8);
                 }
 
-                SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
+                SFX_Play_Mono(SoundEffect::KillEffect_64, 127);
             }
             break;
 
@@ -2581,7 +2581,7 @@ void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
                     {
                         if (i != pResetSwitchRange->field_16_skip_switch_id && i > 1)
                         {
-                            SwitchStates_Set_465FF0(i, 0);
+                            SwitchStates_Set(i, 0);
                         }
                     }
                 }
@@ -2620,7 +2620,7 @@ BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
                 case AETypes::eParamite_96:
                 case AETypes::eScrab_112:
                 case AETypes::eSlig_125:
-                    if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
+                    if (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
                     {
                         const s16 distance = static_cast<s16>(Math_Distance_496EB0(
                             FP_GetExponent(field_B8_xpos),
@@ -2658,7 +2658,7 @@ BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
 
                     // Second priority
                 case AETypes::eGlukkon_67:
-                    if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+                    if (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                     {
                         pInRangeGlukkon = pObj;
                     }
@@ -3575,7 +3575,7 @@ void Abe::Motion_3_Fall_459B60()
 
                 if (pSoftLanding)
                 {
-                    if (!SwitchStates_Get_466020(static_cast<s16>(pSoftLanding->field_10_switch_id)))
+                    if (!SwitchStates_Get(static_cast<s16>(pSoftLanding->field_10_switch_id)))
                     {
                         pSoftLanding = nullptr;
                     }
@@ -3600,7 +3600,7 @@ void Abe::Motion_3_Fall_459B60()
 
                 PSX_Point xy{FP_GetExponent(field_B8_xpos - FP_FromInteger(10)), FP_GetExponent(field_BC_ypos - FP_FromInteger(10))};
                 PSX_Point wh{FP_GetExponent(field_B8_xpos + FP_FromInteger(10)), FP_GetExponent(field_BC_ypos + FP_FromInteger(10))};
-                vOnCollisionWith_424EE0(
+                VOnCollisionWith(
                     xy,
                     wh,
                     ObjList_5C1B78,
@@ -3871,7 +3871,7 @@ void Abe::Motion_14_HoistIdle_452440()
                 field_106_current_motion = eAbeMotions::Motion_15_HoistLand_452BA0;
                 field_F4_previous_motion = eAbeMotions::Motion_14_HoistIdle_452440;
 
-                vOnCollisionWith_424EE0(
+                VOnCollisionWith(
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent((field_BC_ypos + FP_FromInteger(5)))},
                     ObjList_5C1B78,
@@ -3981,7 +3981,7 @@ void Abe::Motion_14_HoistIdle_452440()
                     if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || 
                         field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                     {
-                        vOnCollisionWith_424EE0(
+                        VOnCollisionWith(
                             {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
                             {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5))},
                             ObjList_5C1B78,
@@ -4569,7 +4569,7 @@ void Abe::Motion_28_HopMid_451C50()
                 field_C4_velx = FP_FromInteger(0);
                 field_C8_vely = FP_FromInteger(0);
 
-                vOnCollisionWith_424EE0(
+                VOnCollisionWith(
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5))},
                     ObjList_5C1B78,
@@ -4746,7 +4746,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
                 if (pLine->field_8_type == eLineTypes::eUnknown_32)
                 {
-                    vOnCollisionWith_424EE0(
+                    VOnCollisionWith(
                         {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
                         {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5))},
                         ObjList_5C1B78,
@@ -4836,7 +4836,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
                     if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
                         field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                     {
-                        vOnCollisionWith_424EE0(
+                        VOnCollisionWith(
                             {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
                             {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5))},
                             ObjList_5C1B78,
@@ -5572,7 +5572,7 @@ void Abe::Motion_56_DeathDropFall_4591F0()
         }
         else if (static_cast<s32>(sGnFrame_5C1B84) == field_128.field_0_abe_timer - 24)
         {
-            SFX_Play_46FA90(SoundEffect::KillEffect_64, 85);
+            SFX_Play_Mono(SoundEffect::KillEffect_64, 85);
             ae_new<ScreenShake>(true, false);
         }
         else if (static_cast<s32>(sGnFrame_5C1B84) >= field_128.field_0_abe_timer)
@@ -5751,7 +5751,7 @@ void Abe::Motion_57_Dead_4589A0()
                 0,
                 1,
                 1);
-            Quicksave_LoadActive_4C9170();
+            Quicksave_LoadActive();
             return;
         default:
             return;
@@ -6042,7 +6042,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
             if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
                 field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
-                vOnCollisionWith_424EE0(
+                VOnCollisionWith(
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
                     {FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5))},
                     ObjList_5C1B78,
@@ -6169,7 +6169,7 @@ void Abe::Motion_71_Knockback_455090()
             if (field_106_current_motion == eAbeMotions::Motion_84_FallLandDie_45A420)
             {
                 field_106_current_motion = eAbeMotions::Motion_71_Knockback_455090;
-                SFX_Play_46FA90(SoundEffect::KillEffect_64, 85);
+                SFX_Play_Mono(SoundEffect::KillEffect_64, 85);
                 SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 95, 95);
             }
             else if (field_106_current_motion == eAbeMotions::Motion_16_LandSoft_45A360)
@@ -6328,7 +6328,7 @@ void Abe::Motion_78_WellBegin_45C810()
     {
         field_124_timer = 15;
 
-        SFX_Play_46FA90(SoundEffect::WellEnter_21, 0, field_CC_sprite_scale);
+        SFX_Play_Mono(SoundEffect::WellEnter_21, 0, field_CC_sprite_scale);
 
         if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                 FP_GetExponent(field_B8_xpos),
@@ -6376,7 +6376,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
         if (pBaseWell->field_4_type == TlvTypes::LocalWell_8)
         {
             Path_WellLocal* pLocal = static_cast<Path_WellLocal*>(pBaseWell);
-            if (SwitchStates_Get_466020(pBaseWell->field_2_switch_id))
+            if (SwitchStates_Get(pBaseWell->field_2_switch_id))
             {
                 Calc_Well_Velocity_45C530(
                     FP_GetExponent(field_B8_xpos),
@@ -6416,7 +6416,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
             field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
         }
 
-        SFX_Play_46FA90(SoundEffect::WellExit_20, 0, field_CC_sprite_scale);
+        SFX_Play_Mono(SoundEffect::WellExit_20, 0, field_CC_sprite_scale);
 
         ++field_106_current_motion;
         field_F8_LastLineYPos = field_BC_ypos;
@@ -6503,7 +6503,7 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
     }
 
     Path_WellExpress* pExpressWell = static_cast<Path_WellExpress*>(field_FC_pPathTLV);
-    if (SwitchStates_Get_466020(pExpressWell->field_2_switch_id))
+    if (SwitchStates_Get(pExpressWell->field_2_switch_id))
     {
         field_19A_to_level = pExpressWell->field_24_enabled_well_level;
         field_19C_to_path = pExpressWell->field_26_enabled_well_path;
@@ -6640,7 +6640,7 @@ void Abe::Motion_84_FallLandDie_45A420()
 
     if (field_20_animation.field_92_current_frame == 0)
     {
-        SFX_Play_46FA90(SoundEffect::KillEffect_64, 85);
+        SFX_Play_Mono(SoundEffect::KillEffect_64, 85);
         SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 95, 95);
         ae_new<ScreenShake>(true, false);
     }
@@ -6694,7 +6694,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                 field_14C_circular_fade_id = pCircularFade2->field_8_object_id;
                 field_120_state.stone = StoneStates::eGetHandstoneType_1;
 
-                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
+                SFX_Play_Mono(SoundEffect::IngameTransition_84, 90);
 
                 field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                     FP_GetExponent(field_B8_xpos),
@@ -6703,7 +6703,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                     FP_GetExponent(field_BC_ypos),
                     TlvTypes::MovieHandStone_27);
 
-                sHandstoneSoundChannels_5C2C68 = SFX_Play(SoundEffect::HandstoneTransition_12, 127, -300);
+                sHandstoneSoundChannels_5C2C68 = SFX_Play_Pitch(SoundEffect::HandstoneTransition_12, 127, -300);
 
                 s32 switch_id = 0;
                 Path_MovieStone* pMovieStoneTlv = static_cast<Path_MovieStone*>(field_FC_pPathTLV);
@@ -6744,7 +6744,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                 {
                     if (switch_id > 1)
                     {
-                        SwitchStates_Set_465FF0(static_cast<s16>(switch_id), 1);
+                        SwitchStates_Set(static_cast<s16>(switch_id), 1);
                     }
 
                     field_180_hand_stone_type = field_FC_pPathTLV->field_4_type.mType;
@@ -6828,7 +6828,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                 {
                     pFade->Init_427140(Layer::eLayer_FadeFlash_40, 1, 0, 8);
                     field_120_state.stone = StoneStates::eCamChangeTransition_5;
-                    SFX_Play_46FA90(SoundEffect::IngameTransition_84, 90);
+                    SFX_Play_Mono(SoundEffect::IngameTransition_84, 90);
                 }
             }
             break;
@@ -6932,7 +6932,7 @@ void Abe::Motion_89_BrewMachineBegin_4584C0()
         {
             if (field_120_state.raw > 11u && !((field_120_state.raw - 12) % 6))
             {
-                SFX_Play(SoundEffect::BrewMachineUseEnd_119, 0, 32 * field_120_state.raw);
+                SFX_Play_Pitch(SoundEffect::BrewMachineUseEnd_119, 0, 32 * field_120_state.raw);
             }
             field_120_state.raw++;
         }
@@ -6945,18 +6945,18 @@ void Abe::Motion_89_BrewMachineBegin_4584C0()
     {
         if (GetEvilFart_4585F0(FALSE))
         {
-            SFX_Play_46FA90(SoundEffect::BrewMachineUseStart_116, 0);
+            SFX_Play_Mono(SoundEffect::BrewMachineUseStart_116, 0);
         }
         else
         {
-            SFX_Play_46FA90(SoundEffect::BrewMachineUseEmpty_118, 0);
+            SFX_Play_Mono(SoundEffect::BrewMachineUseEmpty_118, 0);
         }
     }
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (GetEvilFart_4585F0(TRUE))
         {
-            SFX_Play_46FA90(SoundEffect::BrewMachineUseMid_117, 0);
+            SFX_Play_Mono(SoundEffect::BrewMachineUseMid_117, 0);
             field_120_state.raw = 1;
         }
         else
@@ -7208,7 +7208,7 @@ void Abe::Motion_104_RockThrowStandingHold_455DF0()
 
     if (!Input().isPressed(sInputKey_ThrowItem_5550F4)) // ?? isn't released like in the crouching motion ??
     {
-        pRock->VToDead_4114B0();
+        pRock->VToDead();
         field_158_throwable_id = -1;
         field_106_current_motion = eAbeMotions::Motion_106_RockThrowStandingEnd_455F20;
         if (!gInfiniteGrenades_5C1BDE)
@@ -7222,7 +7222,7 @@ void Abe::Motion_105_RockThrowStandingThrow_456460()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
-        SFX_Play_46FA90(SoundEffect::AirStream_23, 0, field_CC_sprite_scale);
+        SFX_Play_Mono(SoundEffect::AirStream_23, 0, field_CC_sprite_scale);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -7257,7 +7257,7 @@ void Abe::Motion_107_RockThrowCrouchingHold_454410()
 
     if (Input().IsReleased(sInputKey_ThrowItem_5550F4))
     {
-        pRock->VToDead_4114B0();
+        pRock->VToDead();
         field_158_throwable_id = -1;
         field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
         if (!gInfiniteGrenades_5C1BDE)
@@ -7271,7 +7271,7 @@ void Abe::Motion_108_RockThrowCrouchingThrow_454500()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
-        SFX_Play_46FA90(SoundEffect::AirStream_23, 0, field_CC_sprite_scale);
+        SFX_Play_Mono(SoundEffect::AirStream_23, 0, field_CC_sprite_scale);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -7347,7 +7347,7 @@ void Abe::Motion_111_PickupItem_4564A0()
 
     if (field_20_animation.field_92_current_frame == 7)
     {
-        SFX_Play_46FA90(SoundEffect::PickupItem_28, 0, field_CC_sprite_scale);
+        SFX_Play_Mono(SoundEffect::PickupItem_28, 0, field_CC_sprite_scale);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -7394,7 +7394,7 @@ void Abe::Motion_112_Chant_45B1C0()
                 if (!field_16C_bHaveShrykull && !field_16E_bHaveInvisiblity && !(field_1AC_flags.Get(Flags_1AC::e1AC_eBit15_have_healing)))
                 {
                     PSX_RECT bRect = {};
-                    vGetBoundingRect_424FD0(&bRect, 1);
+                    VGetBoundingRect(&bRect, 1);
 
                     AbilityRing::Factory_482F80(
                         FP_FromInteger((bRect.x + bRect.w) / 2),
@@ -7450,7 +7450,7 @@ void Abe::Motion_112_Chant_45B1C0()
                             {
                                 if (pObjIter->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed)) // TODO: Is sick flag ?
                                 {
-                                    if (pObjIter->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObjIter->field_10C_health > FP_FromInteger(0))
+                                    if (pObjIter->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObjIter->field_10C_health > FP_FromInteger(0))
                                     {
                                         bAliveMudIsInSameScreen = true;
                                     }
@@ -7461,7 +7461,7 @@ void Abe::Motion_112_Chant_45B1C0()
                         if (bAliveMudIsInSameScreen)
                         {
                             PSX_RECT bRect = {};
-                            vGetBoundingRect_424FD0(&bRect, 1);
+                            VGetBoundingRect(&bRect, 1);
 
                             AbilityRing::Factory_482F80(
                                 FP_FromInteger((bRect.x + bRect.w) / 2),
@@ -7535,12 +7535,12 @@ void Abe::Motion_112_Chant_45B1C0()
             }
 
             field_154_possessed_object_id = pObj->field_8_object_id;
-            SFX_Play(SoundEffect::PossessEffect_17, 0, -600);
+            SFX_Play_Pitch(SoundEffect::PossessEffect_17, 0, -600);
             field_120_state.chant = ChantStates::ePossessVictim_1;
             field_124_timer = sGnFrame_5C1B84 + 30;
 
             PSX_RECT bRect = {};
-            pObj->vGetBoundingRect_424FD0(&bRect, 1);
+            pObj->VGetBoundingRect(&bRect, 1);
 
             pOrbWhirlWind->ToSpin_4E3FD0(
                 FP_FromInteger((bRect.w - bRect.x) / 2),
@@ -7559,7 +7559,7 @@ void Abe::Motion_112_Chant_45B1C0()
 
             if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
             {
-                if (!pPossessTarget || pPossessTarget->mFlags.Get(BaseGameObject::eDead) || pPossessTarget->field_10C_health <= FP_FromInteger(0) || pPossessTarget->Is_In_Current_Camera_424A70() != CameraPos::eCamCurrent_0)
+                if (!pPossessTarget || pPossessTarget->mFlags.Get(BaseGameObject::eDead) || pPossessTarget->field_10C_health <= FP_FromInteger(0) || pPossessTarget->Is_In_Current_Camera() != CameraPos::eCamCurrent_0)
                 {
                     field_106_current_motion = eAbeMotions::Motion_113_ChantEnd_45BBE0;
                     field_154_possessed_object_id = -1;
@@ -7620,7 +7620,7 @@ void Abe::Motion_112_Chant_45B1C0()
             ae_new<PossessionFlicker>(sControlledCharacter_5C1B8C, 60, 128, 255, 255);
 
             SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
-            SFX_Play(SoundEffect::PossessEffect_17, 70, 400);
+            SFX_Play_Pitch(SoundEffect::PossessEffect_17, 70, 400);
             field_120_state.chant = ChantStates::eWaitForUnpossessing_3;
         }
             return;
@@ -7736,7 +7736,7 @@ void Abe::Motion_114_DoorEnter_459470()
             {
                 if (field_1A2_throwable_count > 0 && gpThrowableArray_5D1E2C)
                 {
-                    gpThrowableArray_5D1E2C->Remove_49AA00(field_1A2_throwable_count);
+                    gpThrowableArray_5D1E2C->Remove(field_1A2_throwable_count);
                     field_1A2_throwable_count = 0;
                 }
             }
@@ -8148,7 +8148,7 @@ void Abe::Motion_127_TurnWheelLoop_456750()
     if (field_120_state.wheel == WorkWheelStates::eTurningWheel_0 || field_120_state.wheel == WorkWheelStates::eCheckForNoLongerTurningWheel_1) // The state we enter the main state at.
     {
         Path_LevelLoader* pLevelLoader = static_cast<Path_LevelLoader*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::LevelLoader_86, 0));
-        if (pLevelLoader && SwitchStates_Get_466020(pLevelLoader->field_10_switch_id))
+        if (pLevelLoader && SwitchStates_Get(pLevelLoader->field_10_switch_id))
         {
             field_120_state.wheel = WorkWheelStates::eMapChanging_2;
             SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
@@ -8222,13 +8222,13 @@ void Abe::Motion_129_PoisonGasDeath_4565C0()
     switch (field_20_animation.field_92_current_frame)
     {
         case 0:
-            SFX_Play(SoundEffect::Choke_81, 127, 128);
+            SFX_Play_Pitch(SoundEffect::Choke_81, 127, 128);
             break;
         case 9:
-            SFX_Play(SoundEffect::Choke_81, 127, 384);
+            SFX_Play_Pitch(SoundEffect::Choke_81, 127, 384);
             break;
         case 28:
-            SFX_Play(SoundEffect::Choke_81, 127, 640);
+            SFX_Play_Pitch(SoundEffect::Choke_81, 127, 640);
             break;
         case 32:
             Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 0, this);
@@ -8345,7 +8345,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
             case AETypes::eMeat_84:
             case AETypes::eRock_105:
                 field_106_current_motion = eAbeMotions::Motion_111_PickupItem_4564A0;
-                field_1A2_throwable_count += static_cast<s8>(static_cast<BaseThrowable*>(pSlappableOrCollectable)->VGetCount_448080()); // TODO: Check types are correct.
+                field_1A2_throwable_count += static_cast<s8>(static_cast<BaseThrowable*>(pSlappableOrCollectable)->VGetCount()); // TODO: Check types are correct.
                 if (!bThrowableIndicatorExists_5C112C)
                 {
                     const FP yoff = (field_CC_sprite_scale * FP_FromInteger(-30)) + field_BC_ypos;
@@ -8375,7 +8375,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
             {
                 if (bStandToCrouch)
                 {
-                    SFX_Play_46FA90(SoundEffect::PickupItem_28, 0, field_CC_sprite_scale);
+                    SFX_Play_Mono(SoundEffect::PickupItem_28, 0, field_CC_sprite_scale);
                     pSlappableOrCollectable->VOnPickUpOrSlapped();
                     field_160_slappable_or_pick_item_id = -1;
                     field_106_current_motion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
@@ -8502,10 +8502,10 @@ s16 Abe::TryEnterMineCar_4569E0()
             if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
                 PSX_RECT abeRect = {};
-                vGetBoundingRect_424FD0(&abeRect, 1);
+                VGetBoundingRect(&abeRect, 1);
 
                 PSX_RECT mineCarRect = {};
-                pObj->vGetBoundingRect_424FD0(&mineCarRect, 1);
+                pObj->VGetBoundingRect(&mineCarRect, 1);
 
                 if (PSX_Rects_overlap_no_adjustment(&abeRect, &mineCarRect) && pObj->field_CC_sprite_scale == field_CC_sprite_scale && pObj->Type() == AETypes::eMineCar_89)
                 {
@@ -8663,9 +8663,9 @@ void Abe::MoveForward_44E9A0()
             }
 
             PSX_RECT bRect = {};
-            vGetBoundingRect_424FD0(&bRect, 1);
+            VGetBoundingRect(&bRect, 1);
 
-            vOnCollisionWith_424EE0(
+            VOnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {static_cast<s16>(bRect.w + 5), static_cast<s16>(bRect.h + 5)}, // TODO: Is it really on both ??
                 ObjList_5C1B78,
@@ -9147,7 +9147,7 @@ s16 Abe::CantBeDamaged_44BAB0()
 void Abe::FallOnBombs_44EC10()
 {
     PSX_RECT bOurRect = {};
-    vGetBoundingRect_424FD0(&bOurRect, 1);
+    VGetBoundingRect(&bOurRect, 1);
     for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
@@ -9159,7 +9159,7 @@ void Abe::FallOnBombs_44EC10()
         if (pObj->Type() == AETypes::eMine_88 || pObj->Type() == AETypes::eUXB_143)
         {
             PSX_RECT objRect = {};
-            pObj->vGetBoundingRect_424FD0(&objRect, 1);
+            pObj->VGetBoundingRect(&objRect, 1);
 
             if (bOurRect.x <= objRect.w && bOurRect.w >= objRect.x && bOurRect.h >= objRect.y && bOurRect.y <= objRect.h)
             {
@@ -9189,7 +9189,7 @@ s16 Abe::ForceDownIfHoisting_44BA30()
 void Abe::BulletDamage_44C980(Bullet* pBullet)
 {
     PSX_RECT rect = {};
-    vGetBoundingRect_424FD0(&rect, 1);
+    VGetBoundingRect(&rect, 1);
 
     enum class ShootKind
     {
@@ -9198,7 +9198,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         eRolling_2 = 2,
     };
 
-    if (Is_In_Current_Camera_424A70() != CameraPos::eCamCurrent_0 || field_10C_health <= FP_FromInteger(0))
+    if (Is_In_Current_Camera() != CameraPos::eCamCurrent_0 || field_10C_health <= FP_FromInteger(0))
     {
         return;
     }
@@ -9386,8 +9386,8 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
     Environment_SFX_457A40(EnvironmentSfx::eElumHitWall_14, 0, 32767, this);
     Mudokon_SFX_457EC0(MudSounds::eHurt2_9, 127, 0, this);
     Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 32767, this);
-    SFX_Play(SoundEffect::Eating1_65, 0, -500, field_CC_sprite_scale);
-    SFX_Play_46FA90(SoundEffect::KillEffect_64, 0, field_CC_sprite_scale);
+    SFX_Play_Pitch(SoundEffect::Eating1_65, 0, -500, field_CC_sprite_scale);
+    SFX_Play_Mono(SoundEffect::KillEffect_64, 0, field_CC_sprite_scale);
 }
 
 void Abe::GiveControlBackToMe_44BA10()
@@ -9414,7 +9414,7 @@ PullRingRope* Abe::GetPullRope_44D120()
             if (pRope->field_CC_sprite_scale == field_CC_sprite_scale)
             {
                 PSX_RECT bRect = {};
-                pRope->vGetBoundingRect_424FD0(&bRect, 1);
+                pRope->VGetBoundingRect(&bRect, 1);
 
                 // Check we are near its ypos.
                 if ((field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(75))) <= pRope->field_BC_ypos && field_BC_ypos > pRope->field_BC_ypos)
@@ -9441,7 +9441,7 @@ void Abe::IntoPortalStates_451990()
         switch (field_1A4_portal_sub_state)
         {
             case PortalSubStates::eJumpingInsidePortal_0:
-                vGetBoundingRect_424FD0(&bRect, 1);
+                VGetBoundingRect(&bRect, 1);
                 if ((field_C4_velx > FP_FromInteger(0) && FP_FromInteger(bRect.x) > pBirdPortal->field_2C_xpos) || (field_C4_velx < FP_FromInteger(0) && FP_FromInteger(bRect.w) < pBirdPortal->field_2C_xpos))
                 {
                     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -9662,7 +9662,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
 s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
 {
     PSX_RECT abeRect = {};
-    vGetBoundingRect_424FD0(&abeRect, 1);
+    VGetBoundingRect(&abeRect, 1);
 
     BrewMachine* pBrewMachine = nullptr;
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -9678,7 +9678,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
             pBrewMachine = static_cast<BrewMachine*>(pObj);
 
             PSX_RECT bRect = {};
-            pBrewMachine->vGetBoundingRect_424FD0(&bRect, 1);
+            pBrewMachine->VGetBoundingRect(&bRect, 1);
 
             if (RectsOverlap(abeRect, bRect) && pBrewMachine->field_CC_sprite_scale == field_CC_sprite_scale && pBrewMachine->field_144_total_brew_count > 0 && field_198_has_evil_fart == FALSE)
             {

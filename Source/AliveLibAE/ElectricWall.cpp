@@ -53,7 +53,7 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     field_F8_switch_id = pTlv->field_12_switch_id;
     field_FA_start_state = pTlv->field_14_start_state;
 
-    if (SwitchStates_Get_466020(field_F8_switch_id) == field_FA_start_state)
+    if (SwitchStates_Get(field_F8_switch_id) == field_FA_start_state)
     {
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
@@ -97,7 +97,7 @@ void ElectricWall::vUpdate_422030()
         mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (SwitchStates_Get_466020(field_F8_switch_id) == field_FA_start_state)
+    if (SwitchStates_Get(field_F8_switch_id) == field_FA_start_state)
     {
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
@@ -123,12 +123,12 @@ void ElectricWall::vUpdate_422030()
         // Play sound every so often
         if (static_cast<s32>(sGnFrame_5C1B84) >= field_FC_sound_timer)
         {
-            SFX_Play_46FC20(SoundEffect::BirdPortalSpark_41, 45, soundDirection, field_CC_sprite_scale);
+            SFX_Play_Camera(SoundEffect::BirdPortalSpark_41, 45, soundDirection, field_CC_sprite_scale);
             field_FC_sound_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(24, 40);
         }
 
         PSX_RECT bRect = {};
-        vGetBoundingRect_424FD0(&bRect, 1);
+        VGetBoundingRect(&bRect, 1);
 
         PSX_RECT bRectBigger;
         bRectBigger.x = FP_GetExponent(field_B8_xpos - FP_FromInteger(4));
@@ -158,7 +158,7 @@ void ElectricWall::vUpdate_422030()
                     if (pObj->field_D6_scale == field_D6_scale)
                     {
                         PSX_RECT objRect = {};
-                        pObj->vGetBoundingRect_424FD0(&objRect, 1);
+                        pObj->VGetBoundingRect(&objRect, 1);
 
                         // If touching rect then we are fried
                         if (!RectsOverlap(bRectBigger, objRect))
@@ -173,7 +173,7 @@ void ElectricWall::vUpdate_422030()
                                 if (RectsOverlap(bRectBigger, objRect) && pObj->field_10C_health > FP_FromInteger(0))
                                 {
                                     // When near play the buzzing sound
-                                    SFX_Play_46FC20(SoundEffect::ElectricGateLoud_40, 45, soundDirection, field_CC_sprite_scale);
+                                    SFX_Play_Camera(SoundEffect::ElectricGateLoud_40, 45, soundDirection, field_CC_sprite_scale);
                                 }
                             }
                         }
@@ -188,7 +188,7 @@ void ElectricWall::vUpdate_422030()
 
                                 pObj->VTakeDamage(this);
 
-                                SFX_Play_46FC20(SoundEffect::ElectricZap_39, 127, soundDirection, field_CC_sprite_scale);
+                                SFX_Play_Camera(SoundEffect::ElectricZap_39, 127, soundDirection, field_CC_sprite_scale);
 
                                 ae_new<Flash>(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
                             }

@@ -67,7 +67,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
         }
     }
 
-    if (SwitchStates_Get_466020(pTlv->field_14_target_tomb_id2))
+    if (SwitchStates_Get(pTlv->field_14_target_tomb_id2))
     {
         field_130_has_ghost = Choice_short::eNo_0;
     }
@@ -189,7 +189,7 @@ void SlapLock::VUpdate()
 
             if (field_118_pTlv->field_1_tlv_state)
             {
-                SwitchStates_Do_Operation_465F00(field_118_pTlv->field_14_target_tomb_id2, SwitchOp::eSetTrue_0);
+                SwitchStates_Do_Operation(field_118_pTlv->field_14_target_tomb_id2, SwitchOp::eSetTrue_0);
             }
 
             if (field_134_id != -1)
@@ -244,7 +244,7 @@ void SlapLock::VUpdate()
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
                 field_120_state = SlapLockStates::eIdle_1;
-                SFX_Play_46FA90(SoundEffect::SpiritLockShake_105, 0);
+                SFX_Play_Mono(SoundEffect::SpiritLockShake_105, 0);
                 return;
             }
             case SlapLockStates::eIdle_1:
@@ -409,7 +409,7 @@ void SlapLock::SetInvisibilityTarget()
         field_CC_sprite_scale);
 
     PSX_RECT bRect = {};
-    sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
+    sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
 
     AbilityRing* pRing = AbilityRing::Factory_482F80(
         FP_FromInteger((bRect.x + bRect.w) / 2),
@@ -468,8 +468,8 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
     }
 
     field_120_state = SlapLockStates::eSlapped_2;
-    SwitchStates_Do_Operation_465F00(field_118_pTlv->field_1E_toggle_switch_id, SwitchOp::eToggle_2);
-    SFX_Play_46FA90(SoundEffect::SpiritLockBreak_106, 0, field_CC_sprite_scale);
+    SwitchStates_Do_Operation(field_118_pTlv->field_1E_toggle_switch_id, SwitchOp::eToggle_2);
+    SFX_Play_Mono(SoundEffect::SpiritLockBreak_106, 0, field_CC_sprite_scale);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
 
     ae_new<ParticleBurst>(

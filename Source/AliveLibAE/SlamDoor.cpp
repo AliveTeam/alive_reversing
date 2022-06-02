@@ -59,16 +59,6 @@ struct Quicksave_Obj_SlamDoor final
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
 
-s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_4C09D0(pSaveBuffer);
-}
-
-void SlamDoor::VUpdate()
-{
-    vUpdate_4AFD50();
-}
-
 SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     : BaseAliveGameObject(0)
 {
@@ -129,7 +119,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         field_D8_yOffset = FP_GetExponent(field_CC_sprite_scale * FP_FromDouble(-68.0));
     }
 
-    s32 switchState = SwitchStates_Get_466020(field_128_switch_id);
+    s32 switchState = SwitchStates_Get(field_128_switch_id);
     s32 bitIsOpen = static_cast<s32>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
 
     if (switchState == bitIsOpen)
@@ -141,7 +131,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit1_bClosed);
     }
 
-    SetTint_425600(sSlamDoorTints_5603B0, gMap.mCurrentLevel);
+    SetTint(sSlamDoorTints_5603B0, gMap.mCurrentLevel);
 
     FP hitX;
     FP hitY;
@@ -250,14 +240,14 @@ SlamDoor::~SlamDoor()
     }
 }
 
-void SlamDoor::vUpdate_4AFD50()
+void SlamDoor::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
 
-    const bool stateUnchanged = SwitchStates_Get_466020(field_128_switch_id) == static_cast<s32>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
+    const bool stateUnchanged = SwitchStates_Get(field_128_switch_id) == static_cast<s32>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
     if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -270,8 +260,8 @@ void SlamDoor::vUpdate_4AFD50()
                 {
                     mFlags.Set(BaseGameObject::eDead);
                 }
-                SFX_Play(SoundEffect::DoorEffect_57, 100, 900);
-                SFX_Play(SoundEffect::DoorEffect_57, 100, -100);
+                SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
+                SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
                 field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
             }
         }
@@ -284,8 +274,8 @@ void SlamDoor::vUpdate_4AFD50()
             if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit3_bLastFrame))
             {
                 field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
-                SFX_Play(SoundEffect::DoorEffect_57, 100, 900);
-                SFX_Play(SoundEffect::DoorEffect_57, 100, -100);
+                SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
+                SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
             }
         }
     }
@@ -334,7 +324,7 @@ void SlamDoor::vUpdate_4AFD50()
             }
 
             PSX_RECT bRect = {};
-            vGetBoundingRect_424FD0(&bRect, 1);
+            VGetBoundingRect(&bRect, 1);
 
             if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
             {
@@ -354,14 +344,14 @@ void SlamDoor::vUpdate_4AFD50()
                     if (pObj->Type() != AETypes::eSlamDoor_122)
                     {
                         PSX_RECT bObjRect = {};
-                        pObj->vGetBoundingRect_424FD0(&bObjRect, 1);
+                        pObj->VGetBoundingRect(&bObjRect, 1);
 
                         // Some hack that prevents Abe getting knocked back when rolling or falling near a closing slam door
                         bObjRect.x += 3;
 
                         if (PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect) && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
                         {
-                            ClearInsideSlamDoor_4B0530(pObj, bRect.x, bRect.w);
+                            ClearInsideSlamDoor(pObj, bRect.x, bRect.w);
                         }
                     }
                 }
@@ -382,7 +372,7 @@ void SlamDoor::vUpdate_4AFD50()
     if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
         PSX_RECT bRect = {};
-        vGetBoundingRect_424FD0(&bRect, 1);
+        VGetBoundingRect(&bRect, 1);
 
         if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
         {
@@ -403,13 +393,13 @@ void SlamDoor::vUpdate_4AFD50()
                 if (pObj->Type() != AETypes::eSlamDoor_122 && pObj->Type() != AETypes::eGrenade_65)
                 {
                     PSX_RECT bObjRect = {};
-                    pObj->vGetBoundingRect_424FD0(&bObjRect, 1);
+                    pObj->VGetBoundingRect(&bObjRect, 1);
 
                     if (FP_GetExponent(pObj->field_B8_xpos) > bRect.x && FP_GetExponent(pObj->field_B8_xpos) < bRect.w && PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
                     {
                         if (pObj->field_CC_sprite_scale == field_CC_sprite_scale || (pObj->Type() == AETypes::eSlog_126 && field_CC_sprite_scale == FP_FromInteger(1)))
                         {
-                            ClearInsideSlamDoor_4B0530(pObj, bRect.x, bRect.w);
+                            ClearInsideSlamDoor(pObj, bRect.x, bRect.w);
                         }
                     }
                 }
@@ -420,7 +410,7 @@ void SlamDoor::vUpdate_4AFD50()
     mFlags.Set(BaseGameObject::eCanExplode_Bit7, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
 }
 
-s32 SlamDoor::vGetSaveState_4C09D0(u8* pSaveBuffer)
+s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
 {
     Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<Quicksave_Obj_SlamDoor*>(pSaveBuffer);
 
@@ -430,7 +420,7 @@ s32 SlamDoor::vGetSaveState_4C09D0(u8* pSaveBuffer)
     return sizeof(Quicksave_Obj_SlamDoor);
 }
 
-void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPosition, s16 width)
+void SlamDoor::ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16 width)
 {
     if (FP_GetExponent(pObj->field_B8_xpos) - xPosition >= width - FP_GetExponent(pObj->field_B8_xpos))
     {

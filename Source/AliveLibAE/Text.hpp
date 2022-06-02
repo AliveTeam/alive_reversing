@@ -14,15 +14,14 @@ enum class MessageType : s32
 class Text final : public BaseGameObject
 {
 public:
+    Text(const char_type* pMessage, s32 renderCount, s32 bShadow);
+    ~Text();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    Text(const char_type* pMessage, s32 renderCount, s32 bShadow);
-    ~Text();
-
-    void SetYPos_46AFB0(s32 /*not_used*/, s16 ypos);
-    void Render_46AFD0(PrimHeader** ppOt);
+    void SetYPos(s32 /*not_used*/, s16 ypos);
 
 private:
     Alive::Font field_20_font;
@@ -36,4 +35,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Text, 0xA4);
 
-s8 Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, MessageType messageType);
+s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageType);

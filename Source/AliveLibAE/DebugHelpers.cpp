@@ -591,7 +591,7 @@ void Command_Midi1(const std::vector<std::string>& args)
 {
     const SoundEffect arg1 = static_cast<SoundEffect>(std::stoi(args[0]));
 
-    SFX_Play_46FA90(arg1, 0);
+    SFX_Play_Mono(arg1, 0);
 
     DEV_CONSOLE_MESSAGE("Played Midi1", 6);
 }
@@ -612,7 +612,7 @@ void Command_LoadSave(const std::vector<std::string>& args)
     if (!saveFile.fail())
     {
         saveFile.read(reinterpret_cast<char_type*>(&sActiveQuicksaveData_BAF7F8), sizeof(sActiveQuicksaveData_BAF7F8));
-        Quicksave_LoadActive_4C9170();
+        Quicksave_LoadActive();
         saveFile.close();
         DEV_CONSOLE_PRINTF("Loaded Save %s", filePath.c_str());
     }
@@ -634,7 +634,7 @@ void Command_DDV(const std::vector<std::string>& args)
             break;
         }
 
-        if (!Display_Full_Screen_Message_Blocking_465820(Path_Get_Unknown(static_cast<LevelIds>(sLevelId_dword_5CA408)), MessageType::eSkipMovie_1))
+        if (!Display_Full_Screen_Message_Blocking(Path_Get_Unknown(static_cast<LevelIds>(sLevelId_dword_5CA408)), MessageType::eSkipMovie_1))
         {
             break;
         }
@@ -670,13 +670,13 @@ void Command_Ring(const std::vector<std::string>& args)
     s32 ringType = std::stoi(args[0]);
 
     PSX_RECT rect = {};
-    sActiveHero_5C1B68->vGetBoundingRect_424FD0(&rect, 1);
+    sActiveHero_5C1B68->VGetBoundingRect(&rect, 1);
     AbilityRing::Factory_482F80(
         FP_FromInteger((rect.x + rect.w) / 2),
         FP_FromInteger((rect.y + rect.h) / 2),
         static_cast<RingTypes>(ringType), sActiveHero_5C1B68->field_CC_sprite_scale);
 
-    SFX_Play(SoundEffect::PossessEffect_17, 25, 2650);
+    SFX_Play_Pitch(SoundEffect::PossessEffect_17, 25, 2650);
 }
 
 struct DebugKeyBinds final
@@ -2165,7 +2165,7 @@ void Cheat_OpenAllDoors()
 {
     for (s32 i = 0; i < 256; i++)
     {
-        SwitchStates_Set_465FF0(static_cast<u16>(i), 1);
+        SwitchStates_Set(static_cast<u16>(i), 1);
     }
 
     DEV_CONSOLE_MESSAGE("(CHEAT) All doors opened", 4);

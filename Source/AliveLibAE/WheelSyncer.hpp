@@ -27,16 +27,11 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WheelSyncer, 0x20);
 class WheelSyncer final : public BaseGameObject
 {
 public:
-    
-    virtual void VUpdate() override;
-    virtual void VScreenChanged() override;
-
     WheelSyncer(Path_WheelSyncer* pTlv, u32 tlvInfo);
     ~WheelSyncer();
 
-private:
-    void vUpdate_4661D0();
-    void vScreenChanged_466310();
+    virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 
 private:
     s16 field_20_input_switch_id1;

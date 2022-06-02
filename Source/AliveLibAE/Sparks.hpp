@@ -12,10 +12,6 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    void vUpdate_416570();
-    void vScreenChanged_416720();
-
-private:
     s32 field_F4_padding;
     s16 field_F8_padding;
     s16 field_FA_16_random;

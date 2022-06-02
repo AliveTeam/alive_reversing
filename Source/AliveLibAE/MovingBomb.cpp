@@ -69,7 +69,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
 
-    SetTint_425600(&kMovingBombTints_55C734[0], gMap.mCurrentLevel);
+    SetTint(&kMovingBombTints_55C734[0], gMap.mCurrentLevel);
 
     field_134_disabled_resources = pTlv->field_1A_disabled_resources;
     if (!(field_134_disabled_resources & 1))
@@ -136,7 +136,7 @@ void MovingBomb::BlowUp()
     field_118_state = States::eBlowingUp_6;
     field_C8_vely = FP_FromInteger(0);
     field_120_timer = sGnFrame_5C1B84 + 1;
-    SFX_Play_46FA90(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
+    SFX_Play_Mono(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
 }
 
 void MovingBomb::VRender(PrimHeader** ot)
@@ -225,7 +225,7 @@ void MovingBomb::VOnThrowableHit(BaseGameObject* /*pObj*/)
 s16 MovingBomb::HitObject()
 {
     PSX_RECT bRect = {};
-    vGetBoundingRect_424FD0(&bRect, 1);
+    VGetBoundingRect(&bRect, 1);
     for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
@@ -241,7 +241,7 @@ s16 MovingBomb::HitObject()
                 if (pObj->field_10C_health > FP_FromInteger(0))
                 {
                     PSX_RECT objRect = {};
-                    pObj->vGetBoundingRect_424FD0(&objRect, 1);
+                    pObj->VGetBoundingRect(&objRect, 1);
                     if (bRect.x <= objRect.w && bRect.w >= objRect.x && bRect.h >= objRect.y && bRect.y <= objRect.h && pObj->field_CC_sprite_scale == field_CC_sprite_scale && pObj->field_C0_path_number == field_C0_path_number)
                     {
                         return 1;
@@ -284,18 +284,18 @@ void MovingBomb::VUpdate()
                 SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
             }
 
-            if (vIsObjNearby_4253B0(FP_FromInteger(700), sActiveHero_5C1B68))
+            if (VIsObjNearby(FP_FromInteger(700), sActiveHero_5C1B68))
             {
                 const FP yDelta = FP_Abs(sActiveHero_5C1B68->field_BC_ypos - field_BC_ypos);
                 if (yDelta <= FP_FromInteger(700))
                 {
                     if (field_118_state == States::eWaitABit_4)
                     {
-                        field_130_sound_channels = SFX_Play_46FA90(SoundEffect::SecurityOrb_48, 55, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 55, field_CC_sprite_scale);
                     }
                     else
                     {
-                        field_130_sound_channels = SFX_Play_46FA90(SoundEffect::SecurityOrb_48, 80, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 80, field_CC_sprite_scale);
                     }
                     gMovingBomb_5C300C = this;
                 }
@@ -308,7 +308,7 @@ void MovingBomb::VUpdate()
                     }
                     else
                     {
-                        field_130_sound_channels = SFX_Play_46FA90(SoundEffect::SecurityOrb_48, 12, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 12, field_CC_sprite_scale);
                         gMovingBomb_5C300C = this;
                     }
                 }
@@ -327,7 +327,7 @@ void MovingBomb::VUpdate()
             break;
 
         case States::eTriggeredBySwitch_1:
-            if (SwitchStates_Get_466020(field_128_start_moving_switch_id))
+            if (SwitchStates_Get(field_128_start_moving_switch_id))
             {
                 field_118_state = States::eMoving_2;
             }
@@ -399,7 +399,7 @@ void MovingBomb::VUpdate()
         case States::eBlowingUp_6:
             if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
             {
-                SFX_Play_46FA90(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
+                SFX_Play_Mono(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
 
                 field_10C_health = FP_FromInteger(0);
 

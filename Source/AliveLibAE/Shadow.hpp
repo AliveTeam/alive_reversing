@@ -9,8 +9,8 @@ class Shadow final
 public:
     Shadow();
     ~Shadow();
-    void Calculate_Position_4ACA50(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, s16 scale);
-    void Render_4ACE60(PrimHeader** ppOt);
+    void Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, s16 scale);
+    void Render(PrimHeader** ppOt);
 
 private:
     s16 field_0_x1;

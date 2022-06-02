@@ -103,10 +103,10 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         }
     }
 
-    CalculateSourceAndDestinationPositions_4CCAD0(xPosSource, yPosSource, xPosDest, yPosDest);
+    CalculateSourceAndDestinationPositions(xPosSource, yPosSource, xPosDest, yPosDest);
 }
 
-void ZapLine::CalculateSourceAndDestinationPositions_4CCAD0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
+void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
 {
     field_11C_x_position_source = FP_GetExponent(xPosSource - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
     field_11E_y_position_source = FP_GetExponent(yPosSource - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
@@ -142,7 +142,7 @@ void ZapLine::VScreenChanged()
     }
 }
 
-void ZapLine::CalculateThickSpriteSegmentPositions_4CCD50()
+void ZapLine::CalculateThickSpriteSegmentPositions()
 {
     // TODO: Convert bit operations to something more readable.
     s32 v1 = 0;
@@ -209,7 +209,7 @@ void ZapLine::CalculateThickSpriteSegmentPositions_4CCD50()
     field_144_rects[1].h = gPsxDisplay_5C1130.field_2_height;
 }
 
-void ZapLine::CalculateThinSpriteSegmentPositions_4CD110()
+void ZapLine::CalculateThinSpriteSegmentPositions()
 {
     field_140_sprite_segment_positions[0].field_0_x = FP_FromInteger(field_11C_x_position_source);
     field_140_sprite_segment_positions[0].field_4_y = FP_FromInteger(field_11E_y_position_source);
@@ -230,7 +230,7 @@ void ZapLine::CalculateThinSpriteSegmentPositions_4CD110()
     }
 }
 
-void ZapLine::CalculateZapPoints_4CD340()
+void ZapLine::CalculateZapPoints()
 {
     FP acc = FP_FromInteger(0);
     const FP delta = FP_FromInteger(1) / FP_FromInteger(field_130_number_of_pieces_per_segment);
@@ -244,7 +244,7 @@ void ZapLine::CalculateZapPoints_4CD340()
     }
 }
 
-void ZapLine::CalculateSpritePositionsInner_4CD400(s32 idx1, s32 idx2, s32 idx3, s16 idx4)
+void ZapLine::CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 idx4)
 {
     const FP x1 = field_140_sprite_segment_positions[idx1].field_0_x;
     const FP y1 = field_140_sprite_segment_positions[idx1].field_4_y;
@@ -273,7 +273,7 @@ void ZapLine::CalculateSpritePositionsInner_4CD400(s32 idx1, s32 idx2, s32 idx3,
     }
 }
 
-void ZapLine::UpdateSpriteVertexPositions_4CD650()
+void ZapLine::UpdateSpriteVertexPositions()
 {
     for (s32 i = 0; i < field_12E_number_of_segments; i++)
     {
@@ -287,14 +287,14 @@ void ZapLine::UpdateSpriteVertexPositions_4CD650()
     }
 }
 
-void ZapLine::CalculateSpritePositionsOuter_4CD5D0()
+void ZapLine::CalculateSpritePositionsOuter()
 {
     for (s16 i = 0; i < field_12E_number_of_segments; i++)
     {
         if (i == 0)
         {
             // First item.
-            CalculateSpritePositionsInner_4CD400(0, 0, 1, 0);
+            CalculateSpritePositionsInner(0, 0, 1, 0);
         }
         else
         {
@@ -302,12 +302,12 @@ void ZapLine::CalculateSpritePositionsOuter_4CD5D0()
             if (i == lastIdx)
             {
                 // Last item.
-                CalculateSpritePositionsInner_4CD400(field_12E_number_of_segments - 2, lastIdx, lastIdx, field_12E_number_of_segments - 1);
+                CalculateSpritePositionsInner(field_12E_number_of_segments - 2, lastIdx, lastIdx, field_12E_number_of_segments - 1);
             }
             else
             {
                 // Other items.
-                CalculateSpritePositionsInner_4CD400(i - 1, i, i + 1, i);
+                CalculateSpritePositionsInner(i - 1, i, i + 1, i);
             }
         }
     }
@@ -321,28 +321,28 @@ void ZapLine::VUpdate()
     switch (field_F4_state)
     {
         case ZapLineState::eInit_0:
-            CalculateZapPoints_4CD340();
+            CalculateZapPoints();
 
             if (field_12A_type == ZapLineType::eThin_1)
             {
-                CalculateThinSpriteSegmentPositions_4CD110();
+                CalculateThinSpriteSegmentPositions();
             }
             else if (field_12A_type == ZapLineType::eThick_0)
             {
-                CalculateThickSpriteSegmentPositions_4CCD50();
+                CalculateThickSpriteSegmentPositions();
             }
 
             field_F4_state = ZapLineState::eInitSpritePositions_1;
             break;
 
         case ZapLineState::eInitSpritePositions_1:
-            CalculateSpritePositionsOuter_4CD5D0();
+            CalculateSpritePositionsOuter();
             field_F4_state = ZapLineState::eInitSpriteVertices_2;
             break;
 
         case ZapLineState::eInitSpriteVertices_2:
         case ZapLineState::eUpdateSpriteVertices_4:
-            UpdateSpriteVertexPositions_4CD650();
+            UpdateSpriteVertexPositions();
 
             if (field_126_alive_timer >= field_128_max_alive_time && field_12A_type != ZapLineType::eThin_1)
             {
@@ -352,17 +352,17 @@ void ZapLine::VUpdate()
 
             if (field_12A_type == ZapLineType::eThin_1)
             {
-                CalculateThinSpriteSegmentPositions_4CD110();
+                CalculateThinSpriteSegmentPositions();
             }
             else if (field_12A_type == ZapLineType::eThick_0)
             {
-                CalculateThickSpriteSegmentPositions_4CCD50();
+                CalculateThickSpriteSegmentPositions();
             }
             field_F4_state = ZapLineState::eUpdateSpritePositions_3;
             break;
 
         case ZapLineState::eUpdateSpritePositions_3:
-            CalculateSpritePositionsOuter_4CD5D0();
+            CalculateSpritePositionsOuter();
             field_F4_state = ZapLineState::eUpdateSpriteVertices_4;
             break;
     }

@@ -46,7 +46,7 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    SetTint_425600(sSecurityOrbTints_55C1EC, gMap.mCurrentLevel);
+    SetTint(sSecurityOrbTints_55C1EC, gMap.mCurrentLevel);
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -151,11 +151,11 @@ void SecurityOrb::VUpdate()
                 const s32 timerFrame = field_120_timer - sGnFrame_5C1B84;
                 if (timerFrame == 4)
                 {
-                    SFX_Play_46FA90(SoundEffect::Zap1_49, 0, field_CC_sprite_scale);
+                    SFX_Play_Mono(SoundEffect::Zap1_49, 0, field_CC_sprite_scale);
                 }
                 else if (timerFrame == 1)
                 {
-                    SFX_Play_46FA90(SoundEffect::Zap2_50, 0, field_CC_sprite_scale);
+                    SFX_Play_Mono(SoundEffect::Zap2_50, 0, field_CC_sprite_scale);
                 }
 
                 if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
@@ -167,7 +167,7 @@ void SecurityOrb::VUpdate()
         else if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
         {
             PSX_RECT bRect = {};
-            sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
+            sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
 
             const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
@@ -232,11 +232,11 @@ void SecurityOrb::VUpdate()
 
             if (field_CC_sprite_scale == FP_FromDouble(0.5))
             {
-                field_124_sound_channels_mask = SFX_Play(SoundEffect::SecurityOrb_48, 35, 720, field_CC_sprite_scale);
+                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 35, 720, field_CC_sprite_scale);
             }
             else
             {
-                field_124_sound_channels_mask = SFX_Play(SoundEffect::SecurityOrb_48, 55, 700, field_CC_sprite_scale);
+                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 55, 700, field_CC_sprite_scale);
             }
         }
 

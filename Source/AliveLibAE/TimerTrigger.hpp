@@ -46,10 +46,7 @@ public:
     static s32 CreateFromSaveState(const u8* pData);
 
 private:
-    void vUpdate_4CDDB0();
-    void ToggleAllIds_4CDEC0();
-    void vScreenChanged_4CDF00();
-    s32 vGetSaveState_4CE030(TimerTrigger_State* pState);
+    void ToggleAllIds();
 
 private:
     s16 field_20_input_switch_id;

@@ -106,7 +106,7 @@ void MainMenuTransition::StartTrans_464370(Layer layer, s16 fadeDirection, s16 b
     if (fadeDirection)
     {
         field_22_change_by_speed = speed;
-        SFX_Play_46FA90(SoundEffect::MenuTransition_7, 0);
+        SFX_Play_Mono(SoundEffect::MenuTransition_7, 0);
     }
     else
     {

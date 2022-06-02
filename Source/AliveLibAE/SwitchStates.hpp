@@ -2,10 +2,10 @@
 
 #include "../AliveLibCommon/Function.hpp"
 
-void SwitchStates_SetRange_465FA0(u16 start, u16 end);
-void SwitchStates_Set_465FF0(u16 idx, s8 value);
-s32 SwitchStates_Get_466020(u16 idx);
-void SwitchStates_Add_466060(u16 idx, s8 value);
+void SwitchStates_SetRange(u16 start, u16 end);
+void SwitchStates_Set(u16 idx, s8 value);
+s32 SwitchStates_Get(u16 idx);
+void SwitchStates_Add(u16 idx, s8 value);
 
 enum class SwitchOp : s16
 {
@@ -16,7 +16,7 @@ enum class SwitchOp : s16
     eDecrement_4 = 4,
 };
 
-void SwitchStates_Do_Operation_465F00(s16 idx, SwitchOp operation);
+void SwitchStates_Do_Operation(s16 idx, SwitchOp operation);
 
 struct SwitchStates final
 {

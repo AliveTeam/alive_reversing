@@ -55,22 +55,16 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    virtual void VThrow_49E460(FP velX, FP velY) override;
-    virtual Bool32 VCanThrow_49E350() override;
-    virtual Bool32 VIsFalling_49E330() override;
-    virtual void VTimeToExplodeRandom_411490() override;
+    virtual void VThrow(FP velX, FP velY) override;
+    virtual Bool32 VCanThrow() override;
+    virtual Bool32 VIsFalling() override;
+    virtual void VTimeToExplodeRandom() override;
 
     static s32 CreateFromSaveState(const u8* pData);
 
 private:
-    void vScreenChanged_49F030();
-    s32 vGetSaveState_49F9A0(RockSaveState* pState);
-    Bool32 vIsFalling_49E330();
-    Bool32 vCanThrow_49E350();
-    void vThrow_49E460(FP velX, FP velY);
-    void InTheAir_49E4B0();
-    s16 OnCollision_49EF10(BaseAliveGameObject* pObj);
-    void vUpdate_49E9F0();
+    void InTheAir();
+    s16 OnCollision(BaseAliveGameObject* pObj);
 
     void BounceHorizontally( FP hitX, FP hitY );
 

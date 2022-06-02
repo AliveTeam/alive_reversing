@@ -74,7 +74,7 @@ void MultiSwitchController::vUpdate_4D6250()
 
 void MultiSwitchController::WaitingForAllOn_4D6290()
 {
-    const s32 id1_value = SwitchStates_Get_466020(field_20_input_switch_id1);
+    const s32 id1_value = SwitchStates_Get(field_20_input_switch_id1);
     if (id1_value)
     {
         if (field_34_last_switch_on_time == 0 && field_20_input_switch_id1 > 1u)
@@ -83,7 +83,7 @@ void MultiSwitchController::WaitingForAllOn_4D6290()
         }
     }
 
-    const s32 id2_value = SwitchStates_Get_466020(field_22_input_switch_id2);
+    const s32 id2_value = SwitchStates_Get(field_22_input_switch_id2);
     if (id2_value)
     {
         if (field_34_last_switch_on_time == 0 && field_22_input_switch_id2 > 1u)
@@ -92,7 +92,7 @@ void MultiSwitchController::WaitingForAllOn_4D6290()
         }
     }
 
-    const s32 id3_value = SwitchStates_Get_466020(field_24_input_switch_id3);
+    const s32 id3_value = SwitchStates_Get(field_24_input_switch_id3);
     if (id3_value)
     {
         if (field_34_last_switch_on_time == 0 && field_24_input_switch_id3 > 1u)
@@ -101,7 +101,7 @@ void MultiSwitchController::WaitingForAllOn_4D6290()
         }
     }
 
-    const s32 id4_value = SwitchStates_Get_466020(field_26_input_switch_id4);
+    const s32 id4_value = SwitchStates_Get(field_26_input_switch_id4);
     if (id4_value)
     {
         if (field_34_last_switch_on_time == 0 && field_26_input_switch_id4 > 1u)
@@ -110,7 +110,7 @@ void MultiSwitchController::WaitingForAllOn_4D6290()
         }
     }
 
-    const s32 id5_value = SwitchStates_Get_466020(field_28_input_switch_id5);
+    const s32 id5_value = SwitchStates_Get(field_28_input_switch_id5);
     if (id5_value)
     {
         if (field_34_last_switch_on_time == 0 && field_28_input_switch_id5 > 1u)
@@ -119,7 +119,7 @@ void MultiSwitchController::WaitingForAllOn_4D6290()
         }
     }
 
-    const s32 id6_value = SwitchStates_Get_466020(field_2A_input_switch_id6);
+    const s32 id6_value = SwitchStates_Get(field_2A_input_switch_id6);
     if (id6_value)
     {
         if (field_34_last_switch_on_time == 0 && field_2A_input_switch_id6 > 1u)
@@ -138,7 +138,7 @@ void MultiSwitchController::WaitingForAllOn_4D6290()
         field_38_all_switches_on_or_off_time = sGnFrame_5C1B84;
         if (field_38_all_switches_on_or_off_time - field_34_last_switch_on_time <= field_3C_on_off_delay)
         {
-            SwitchStates_Do_Operation_465F00(field_2C_output_switch_id, field_2E_action);
+            SwitchStates_Do_Operation(field_2C_output_switch_id, field_2E_action);
             field_40_flags.Set(Flags_40::eBit1_is_on);
             field_34_last_switch_on_time = 0;
             field_38_all_switches_on_or_off_time = 0;
@@ -148,32 +148,32 @@ void MultiSwitchController::WaitingForAllOn_4D6290()
     {
         if (field_20_input_switch_id1 > 1u)
         {
-            SwitchStates_Set_465FF0(field_20_input_switch_id1, 0);
+            SwitchStates_Set(field_20_input_switch_id1, 0);
         }
 
         if (field_22_input_switch_id2 > 1u)
         {
-            SwitchStates_Set_465FF0(field_22_input_switch_id2, 0);
+            SwitchStates_Set(field_22_input_switch_id2, 0);
         }
 
         if (field_24_input_switch_id3 > 1u)
         {
-            SwitchStates_Set_465FF0(field_24_input_switch_id3, 0);
+            SwitchStates_Set(field_24_input_switch_id3, 0);
         }
 
         if (field_26_input_switch_id4 > 1u)
         {
-            SwitchStates_Set_465FF0(field_26_input_switch_id4, 0);
+            SwitchStates_Set(field_26_input_switch_id4, 0);
         }
 
         if (field_28_input_switch_id5 > 1u)
         {
-            SwitchStates_Set_465FF0(field_28_input_switch_id5, 0);
+            SwitchStates_Set(field_28_input_switch_id5, 0);
         }
 
         if (field_2A_input_switch_id6 > 1u)
         {
-            SwitchStates_Set_465FF0(field_2A_input_switch_id6, 0);
+            SwitchStates_Set(field_2A_input_switch_id6, 0);
         }
 
         field_34_last_switch_on_time = 0;
@@ -185,7 +185,7 @@ void MultiSwitchController::WaitingForAllOff_4D65B0()
     s32 id1_value = 0;
     if (field_20_input_switch_id1 > 1u)
     {
-        id1_value = SwitchStates_Get_466020(field_20_input_switch_id1);
+        id1_value = SwitchStates_Get(field_20_input_switch_id1);
     }
     if (id1_value == 0)
     {
@@ -198,7 +198,7 @@ void MultiSwitchController::WaitingForAllOff_4D65B0()
     s32 id2_value = 0;
     if (field_22_input_switch_id2 > 1u)
     {
-        id2_value = SwitchStates_Get_466020(field_22_input_switch_id2);
+        id2_value = SwitchStates_Get(field_22_input_switch_id2);
     }
     if (id2_value == 0)
     {
@@ -211,7 +211,7 @@ void MultiSwitchController::WaitingForAllOff_4D65B0()
     s32 id3_value = 0;
     if (field_24_input_switch_id3 > 1u)
     {
-        id3_value = SwitchStates_Get_466020(field_24_input_switch_id3);
+        id3_value = SwitchStates_Get(field_24_input_switch_id3);
     }
     if (id3_value == 0)
     {
@@ -224,7 +224,7 @@ void MultiSwitchController::WaitingForAllOff_4D65B0()
     s32 id4_value = 0;
     if (field_26_input_switch_id4 > 1u)
     {
-        id4_value = SwitchStates_Get_466020(field_26_input_switch_id4);
+        id4_value = SwitchStates_Get(field_26_input_switch_id4);
     }
     if (id4_value == 0)
     {
@@ -237,7 +237,7 @@ void MultiSwitchController::WaitingForAllOff_4D65B0()
     s32 id5_value = 0;
     if (field_28_input_switch_id5 > 1u)
     {
-        id5_value = SwitchStates_Get_466020(field_28_input_switch_id5);
+        id5_value = SwitchStates_Get(field_28_input_switch_id5);
     }
     if (id5_value == 0)
     {
@@ -250,7 +250,7 @@ void MultiSwitchController::WaitingForAllOff_4D65B0()
     s32 id6_value = 0;
     if (field_2A_input_switch_id6 > 1u)
     {
-        id6_value = SwitchStates_Get_466020(field_2A_input_switch_id6);
+        id6_value = SwitchStates_Get(field_2A_input_switch_id6);
     }
     if (id6_value == 0)
     {
@@ -270,7 +270,7 @@ void MultiSwitchController::WaitingForAllOff_4D65B0()
         field_38_all_switches_on_or_off_time = sGnFrame_5C1B84;
         if (field_38_all_switches_on_or_off_time - field_34_last_switch_on_time <= field_3C_on_off_delay)
         {
-            SwitchStates_Do_Operation_465F00(field_2C_output_switch_id, field_2E_action);
+            SwitchStates_Do_Operation(field_2C_output_switch_id, field_2E_action);
             field_40_flags.Clear(Flags_40::eBit1_is_on);
             field_34_last_switch_on_time = 0;
         }

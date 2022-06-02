@@ -66,21 +66,6 @@ BaseThrowable::BaseThrowable(s16 resourceArraySize)
 
 }
 
-void BaseThrowable::VOnPickUpOrSlapped()
-{
-    vOnPickUpOrSlapped_4114D0();
-}
-
-s16 BaseThrowable::VGetCount_448080()
-{
-    return vGetCount_448080();
-}
-
-void BaseThrowable::VToDead_4114B0()
-{
-    vToDead_4114B0();
-}
-
 void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
 {
     FP hitX = {};
@@ -114,7 +99,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
                         auto pPlatform = static_cast<PlatformBase*>(pObj);
 
                         PSX_RECT bRect = {};
-                        pPlatform->vGetBoundingRect_424FD0(&bRect, 1);
+                        pPlatform->VGetBoundingRect(&bRect, 1);
 
                         if (FP_GetExponent(field_B8_xpos) > bRect.x && FP_GetExponent(field_B8_xpos) < bRect.w && FP_GetExponent(field_BC_ypos) < bRect.h)
                         {
@@ -129,18 +114,18 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
     }
 }
 
-void BaseThrowable::vToDead_4114B0()
+void BaseThrowable::VToDead()
 {
     mFlags.Set(BaseGameObject::eDead);
     field_11A_bDead = 1;
 }
 
-void BaseThrowable::vOnPickUpOrSlapped_4114D0()
+void BaseThrowable::VOnPickUpOrSlapped()
 {
-    VToDead_4114B0();
+    VToDead();
 }
 
-s16 BaseThrowable::vGetCount_448080()
+s16 BaseThrowable::VGetCount()
 {
     return field_118_count;
 }

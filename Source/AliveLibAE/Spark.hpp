@@ -29,12 +29,12 @@ enum class SparkType : s16
 class Spark final : public BaseGameObject
 {
 public:
-    
+    Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type);
+    ~Spark();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type);
-    ~Spark();
 
 private:
     Prim_SetTPage field_20_tPage[2];

@@ -6,16 +6,6 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-void WheelSyncer::VUpdate()
-{
-    vUpdate_4661D0();
-}
-
-void WheelSyncer::VScreenChanged()
-{
-    vScreenChanged_466310();
-}
-
 WheelSyncer::WheelSyncer(Path_WheelSyncer* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
@@ -30,14 +20,14 @@ WheelSyncer::WheelSyncer(Path_WheelSyncer* pTlv, u32 tlvInfo)
     field_2C_input_switch_id6 = pTlv->field_1E_input_switch_id6;
 }
 
-void WheelSyncer::vUpdate_4661D0()
+void WheelSyncer::VUpdate()
 {
-    const s32 state1 = SwitchStates_Get_466020(field_20_input_switch_id1);
-    const s32 state2 = SwitchStates_Get_466020(field_22_input_switch_id2);
-    const s32 state3 = SwitchStates_Get_466020(field_26_input_switch_id3);
-    const s32 state4 = SwitchStates_Get_466020(field_28_input_switch_id4);
-    const s32 state5 = SwitchStates_Get_466020(field_2A_input_switch_id5);
-    const s32 state6 = SwitchStates_Get_466020(field_2C_input_switch_id6);
+    const s32 state1 = SwitchStates_Get(field_20_input_switch_id1);
+    const s32 state2 = SwitchStates_Get(field_22_input_switch_id2);
+    const s32 state3 = SwitchStates_Get(field_26_input_switch_id3);
+    const s32 state4 = SwitchStates_Get(field_28_input_switch_id4);
+    const s32 state5 = SwitchStates_Get(field_2A_input_switch_id5);
+    const s32 state6 = SwitchStates_Get(field_2C_input_switch_id6);
 
     s32 switchValue = 0;
 
@@ -92,7 +82,7 @@ void WheelSyncer::vUpdate_4661D0()
             break;
     }
 
-    SwitchStates_Set_465FF0(field_24_trigger_id, static_cast<s8>(switchValue));
+    SwitchStates_Set(field_24_trigger_id, static_cast<s8>(switchValue));
 
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -105,7 +95,7 @@ WheelSyncer::~WheelSyncer()
     Path::TLV_Reset_4DB8E0(field_30_tlvInfo, -1, 0, 0);
 }
 
-void WheelSyncer::vScreenChanged_466310()
+void WheelSyncer::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {

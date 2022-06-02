@@ -103,7 +103,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    SetTint_425600(&kParamiteTints_55D73C[0], gMap.mCurrentLevel);
+    SetTint(&kParamiteTints_55D73C[0], gMap.mCurrentLevel);
 
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
@@ -136,7 +136,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    if (!vIsFacingMe_4254A0(sActiveHero_5C1B68))
+    if (!VIsFacingMe(sActiveHero_5C1B68))
     {
         field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
     }
@@ -213,7 +213,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     field_140_tlvInfo = tlvInfo;
     MapFollowMe(TRUE);
 
-    vStackOnObjectsOfType_425840(AETypes::eParamite_96);
+    VStackOnObjectsOfType(AETypes::eParamite_96);
 
     field_DC_bApplyShadows |= 2u;
     field_15C_paramite_xOffset = field_DA_xOffset;
@@ -744,7 +744,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     }
 
     auto pFleech = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(AETypes::eFleech_50, gridBlockAHead, field_BC_ypos));
-    if (pFleech && vIsFacingMe_4254A0(pFleech))
+    if (pFleech && VIsFacingMe(pFleech))
     {
         field_108_next_motion = eParamiteMotions::M_Attack_43_48DB70;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LookingForInvisibleAbe_15;
@@ -772,7 +772,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
         }
     }
 
-    if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C))
+    if (VOnSameYLevel(sControlledCharacter_5C1B8C))
     {
         if (sControlledCharacter_5C1B8C->Type() == AETypes::eParamite_96)
         {
@@ -821,7 +821,7 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
-    if (!pObj || !vOnSameYLevel_425520(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
+    if (!pObj || !VOnSameYLevel(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
     {
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -873,18 +873,18 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
         }
     }
 
-    if (!vIsObj_GettingNear_425420(pObj))
+    if (!VIsObj_GettingNear(pObj))
     {
         return field_12C_brain_ret;
     }
 
-    if (vIsObjNearby_4253B0(kGridSize * FP_FromInteger(8), pObj))
+    if (VIsObjNearby(kGridSize * FP_FromInteger(8), pObj))
     {
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
-    if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(10), pObj))
+    if (!VIsObjNearby(kGridSize * FP_FromInteger(10), pObj))
     {
         return field_12C_brain_ret;
     }
@@ -896,7 +896,7 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
-    if (!pObj || !vOnSameYLevel_425520(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
+    if (!pObj || !VOnSameYLevel(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
     {
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -949,13 +949,13 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
         }
     }
 
-    if (vIsObj_GettingNear_425420(pObj) || (vIsObjNearby_4253B0(kGridSize * FP_FromInteger(10), pObj)))
+    if (VIsObj_GettingNear(pObj) || (VIsObjNearby(kGridSize * FP_FromInteger(10), pObj)))
     {
-        if (!vIsObj_GettingNear_425420(pObj))
+        if (!VIsObj_GettingNear(pObj))
         {
             return field_12C_brain_ret;
         }
-        if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(8), pObj))
+        if (!VIsObjNearby(kGridSize * FP_FromInteger(8), pObj))
         {
             return field_12C_brain_ret;
         }
@@ -971,7 +971,7 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
-    if (!pObj || !vOnSameYLevel_425520(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
+    if (!pObj || !VOnSameYLevel(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
     {
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -1012,12 +1012,12 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
-    if (vIsObj_GettingNear_425420(pObj))
+    if (VIsObj_GettingNear(pObj))
     {
         return field_12C_brain_ret;
     }
 
-    if (vIsObjNearby_4253B0(kGridSize * FP_FromInteger(7), pObj))
+    if (VIsObjNearby(kGridSize * FP_FromInteger(7), pObj))
     {
         return field_12C_brain_ret;
     }
@@ -1038,7 +1038,7 @@ s16 Paramite::Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Idle_0;
     }
 
-    if (!pObj || !vOnSameYLevel_425520(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
+    if (!pObj || !VOnSameYLevel(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
     {
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -1052,19 +1052,19 @@ s16 Paramite::Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
 
-    if (vIsObjNearby_4253B0(kGridSize * FP_FromInteger(3), pObj))
+    if (VIsObjNearby(kGridSize * FP_FromInteger(3), pObj))
     {
         field_108_next_motion = eParamiteMotions::M_RunningAttack_31_48C9E0;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Attacking_9;
     }
 
-    if (vIsObj_GettingNear_425420(pObj))
+    if (VIsObj_GettingNear(pObj))
     {
         field_108_next_motion = eParamiteMotions::M_Hiss1_22_48C3E0;
     }
     else
     {
-        if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(8), pObj))
+        if (!VIsObjNearby(kGridSize * FP_FromInteger(8), pObj))
         {
             field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
             return ParamiteEnums::Brain_0_Patrol::eBrain0_ApproachingAbe_4;
@@ -1097,7 +1097,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Idle_0;
     }
 
-    if (!pObj || !vOnSameYLevel_425520(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
+    if (!pObj || !VOnSameYLevel(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
     {
         if (!FindTarget_488C30())
         {
@@ -1115,7 +1115,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
     }
 
-    if (Event_Get_422C00(kEventAbeOhm) && vIsFacingMe_4254A0(pObj))
+    if (Event_Get_422C00(kEventAbeOhm) && VIsFacingMe(pObj))
     {
         field_108_next_motion = eParamiteMotions::M_Hiss1_22_48C3E0;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Panic_16;
@@ -1136,9 +1136,9 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
     }
 
     // mid range - warn abe if cornered or wait for new movement
-    if (vIsObjNearby_4253B0(kGridSize * FP_FromInteger(6), pObj))
+    if (VIsObjNearby(kGridSize * FP_FromInteger(6), pObj))
     {
-        if (vIsFacingMe_4254A0(pObj))
+        if (VIsFacingMe(pObj))
         {
             if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
@@ -1159,7 +1159,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
         }
 
         // close range - run away or attack if cornered
-        if (vIsObjNearby_4253B0(kGridSize * FP_FromInteger(4), pObj))
+        if (VIsObjNearby(kGridSize * FP_FromInteger(4), pObj))
         {
             if ((!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) || !Check_IsOnEndOfLine(1, 2)) && (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) || !Check_IsOnEndOfLine(0, 2)))
             {
@@ -1185,9 +1185,9 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
     }
 
     // far range - follow abe
-    if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(8), pObj))
+    if (!VIsObjNearby(kGridSize * FP_FromInteger(8), pObj))
     {
-        if (!vIsFacingMe_4254A0(pObj))
+        if (!VIsFacingMe(pObj))
         {
             if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine(0, 2)) || (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine(1, 2)))
             {
@@ -1202,7 +1202,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
         }
     }
 
-    if (vIsFacingMe_4254A0(pObj))
+    if (VIsFacingMe(pObj))
     {
         return field_12C_brain_ret;
     }
@@ -1214,7 +1214,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
-    if (!pObj || !vOnSameYLevel_425520(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
+    if (!pObj || !VOnSameYLevel(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
     {
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -1255,18 +1255,18 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
-    if (vIsObj_GettingNear_425420(pObj) && vIsObjNearby_4253B0(kGridSize * FP_FromInteger(4), pObj))
+    if (VIsObj_GettingNear(pObj) && VIsObjNearby(kGridSize * FP_FromInteger(4), pObj))
     {
         field_108_next_motion = eParamiteMotions::M_Running_3_48AA00;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_RunningFromAbe_3;
     }
 
-    if (vIsObj_GettingNear_425420(pObj))
+    if (VIsObj_GettingNear(pObj))
     {
         return field_12C_brain_ret;
     }
 
-    if (vIsObjNearby_4253B0(kGridSize * FP_FromInteger(7), pObj))
+    if (VIsObjNearby(kGridSize * FP_FromInteger(7), pObj))
     {
         return field_12C_brain_ret;
     }
@@ -1360,7 +1360,7 @@ s16 Paramite::Brain_2_ChasingAbe_4859D0()
 
     if (pObj && !pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && (pObj->Type() != AETypes::eFleech_50 || pObj->field_10C_health > FP_FromInteger(0)))
     {
-        if (field_148_timer > static_cast<s32>(sGnFrame_5C1B84) || (vOnSameYLevel_425520(pObj) && field_CC_sprite_scale == pObj->field_CC_sprite_scale))
+        if (field_148_timer > static_cast<s32>(sGnFrame_5C1B84) || (VOnSameYLevel(pObj) && field_CC_sprite_scale == pObj->field_CC_sprite_scale))
         {
             if (gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
             {
@@ -1528,20 +1528,20 @@ s16 Paramite::Brain_ChasingAbe_State_2_ToWarning()
 
 s16 Paramite::Brain_ChasingAbe_State_11_Walking(BaseAliveGameObject* pObj)
 {
-    if (!vIsFacingMe_4254A0(pObj))
+    if (!VIsFacingMe(pObj))
     {
         field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Turning_10;
     }
 
-    if (!vOnSameYLevel_425520(pObj))
+    if (!VOnSameYLevel(pObj))
     {
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Walking_11;
     }
 
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-    if (vIsObjNearby_4253B0(kGridSize, pObj))
+    if (VIsObjNearby(kGridSize, pObj))
     {
         field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
         field_130_timer = sGnFrame_5C1B84 + 28;
@@ -1571,14 +1571,14 @@ s16 Paramite::Brain_ChasingAbe_State_11_Walking(BaseAliveGameObject* pObj)
 
 s16 Paramite::Brain_ChasingAbe_State_7_Chasing(BaseAliveGameObject* pObj)
 {
-    if (!vOnSameYLevel_425520(pObj) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), pObj->field_B8_xpos - field_B8_xpos))
+    if (!VOnSameYLevel(pObj) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), pObj->field_B8_xpos - field_B8_xpos))
     {
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
     else
     {
-        if (!vIsFacingMe_4254A0(pObj))
+        if (!VIsFacingMe(pObj))
         {
             field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
             return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_TurningWhileChasing_9;
@@ -1624,7 +1624,7 @@ s16 Paramite::Brain_ChasingAbe_State_7_Chasing(BaseAliveGameObject* pObj)
 
         const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
-        if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(4), pObj))
+        if (!VIsObjNearby(kGridSize * FP_FromInteger(4), pObj))
         {
             return field_12C_brain_ret;
         }
@@ -1649,11 +1649,11 @@ s16 Paramite::Brain_ChasingAbe_State_12_WalkingToHop(BaseAliveGameObject* pObj)
         return field_12C_brain_ret;
     }
 
-    if (vIsFacingMe_4254A0(pObj))
+    if (VIsFacingMe(pObj))
     {
         const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
-        if (vIsObjNearby_4253B0(kGridSize, pObj))
+        if (VIsObjNearby(kGridSize, pObj))
         {
             field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
             field_130_timer = sGnFrame_5C1B84 + 28;
@@ -1681,7 +1681,7 @@ s16 Paramite::Brain_ChasingAbe_State_10_Turning(BaseAliveGameObject* pObj)
 
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
-    if (vIsObjNearby_4253B0(kGridSize, pObj))
+    if (VIsObjNearby(kGridSize, pObj))
     {
         field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
         field_130_timer = sGnFrame_5C1B84 + 28;
@@ -1711,12 +1711,12 @@ s16 Paramite::Brain_ChasingAbe_State_10_Turning(BaseAliveGameObject* pObj)
 
 s16 Paramite::Brain_ChasingAbe_State_5_ToChasing(BaseAliveGameObject* pObj)
 {
-    if (!vOnSameYLevel_425520(pObj))
+    if (!VOnSameYLevel(pObj))
     {
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
-    if (!vIsFacingMe_4254A0(pObj))
+    if (!VIsFacingMe(pObj))
     {
         field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_QuickAttack_6;
@@ -1739,13 +1739,13 @@ s16 Paramite::Brain_ChasingAbe_State_5_ToChasing(BaseAliveGameObject* pObj)
         }
     }
 
-    if (vIsObjNearby_4253B0(kGridSize, pObj))
+    if (VIsObjNearby(kGridSize, pObj))
     {
         field_108_next_motion = eParamiteMotions::M_CloseAttack_16_48DDA0;
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
-    if (vIsObjNearby_4253B0(kGridSize * FP_FromInteger(4), pObj))
+    if (VIsObjNearby(kGridSize * FP_FromInteger(4), pObj))
     {
         if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), pObj->field_B8_xpos - field_B8_xpos))
         {
@@ -1809,9 +1809,9 @@ s16 Paramite::Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj)
 
     if (pObj->field_10C_health > FP_FromInteger(0))
     {
-        if (vIsFacingMe_4254A0(pObj))
+        if (VIsFacingMe(pObj))
         {
-            if (vIsObjNearby_4253B0(kGridSize * FP_FromInteger(4), pObj))
+            if (VIsObjNearby(kGridSize * FP_FromInteger(4), pObj))
             {
                 if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), pObj->field_B8_xpos - field_B8_xpos))
                 {
@@ -1853,9 +1853,9 @@ s16 Paramite::Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj)
     }
     else
     {
-        if (vIsFacingMe_4254A0(pObj))
+        if (VIsFacingMe(pObj))
         {
-            if (vIsObjNearby_4253B0(kGridSize, pObj))
+            if (VIsObjNearby(kGridSize, pObj))
             {
                 field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
                 field_130_timer = sGnFrame_5C1B84 + 28;
@@ -1891,7 +1891,7 @@ s16 Paramite::Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj)
 
 s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
 {
-    if (!vOnSameYLevel_425520(pObj))
+    if (!VOnSameYLevel(pObj))
     {
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
@@ -1903,7 +1903,7 @@ s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
 
     if (pObj->field_10C_health > FP_FromInteger(0))
     {
-        if (vIsFacingMe_4254A0(pObj))
+        if (VIsFacingMe(pObj))
         {
             if (field_178_flags.Get(Flags_178::eBit1_hiss_before_attack))
             {
@@ -1924,11 +1924,11 @@ s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
     }
     else
     {
-        if (vIsFacingMe_4254A0(pObj))
+        if (VIsFacingMe(pObj))
         {
             const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
-            if (vIsObjNearby_4253B0(kGridSize, pObj))
+            if (VIsObjNearby(kGridSize, pObj))
             {
                 field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
                 field_130_timer = sGnFrame_5C1B84 + 28;
@@ -1981,7 +1981,7 @@ s16 Paramite::Brain_3_SurpriseWeb_4851B0()
             return ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_Appearing_1;
 
         case ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_Appearing_1:
-            if (field_14C_id != 0 && SwitchStates_Get_466020(field_14C_id))
+            if (field_14C_id != 0 && SwitchStates_Get(field_14C_id))
             {
                 field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
@@ -2088,7 +2088,7 @@ s16 Paramite::Brain_5_SpottedMeat_486880()
         mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (!pMeat || pMeat->VIsFalling_49E330())
+    if (!pMeat || pMeat->VIsFalling())
     {
         Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
         field_118_meat_id = -1;
@@ -2136,13 +2136,13 @@ s16 Paramite::Brain_5_SpottedMeat_486880()
 
 s16 Paramite::Brain_SpottedMeat_State_6_Eating(Meat* pMeat)
 {
-    if (!vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
+    if (!VIsObjNearby(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
     {
         field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Walking_2;
     }
 
-    if (!vIsFacingMe_4254A0(pMeat))
+    if (!VIsFacingMe(pMeat))
     {
         if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
         {
@@ -2166,14 +2166,14 @@ s16 Paramite::Brain_SpottedMeat_State_6_Eating(Meat* pMeat)
 
 s16 Paramite::Brain_SpottedMeat_State_5_AttentiveToMeat(Meat* pMeat)
 {
-    if (!vIsFacingMe_4254A0(pMeat))
+    if (!VIsFacingMe(pMeat))
     {
         Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
         field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Turning_4;
     }
 
-    if (vIsObj_GettingNear_425420(pMeat))
+    if (VIsObj_GettingNear(pMeat))
     {
         return field_12C_brain_ret;
     }
@@ -2197,13 +2197,13 @@ s16 Paramite::Brain_SpottedMeat_State_5_AttentiveToMeat(Meat* pMeat)
     }
 
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-    if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(3), pMeat))
+    if (!VIsObjNearby(kGridSize * FP_FromInteger(3), pMeat))
     {
         field_108_next_motion = eParamiteMotions::M_Running_3_48AA00;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Running_1;
     }
 
-    if (!vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
+    if (!VIsObjNearby(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
     {
         field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Walking_2;
@@ -2226,7 +2226,7 @@ s16 Paramite::Brain_SpottedMeat_State_4_Turning(Meat* pMeat)
         return field_12C_brain_ret;
     }
 
-    if (!vIsFacingMe_4254A0(pMeat))
+    if (!VIsFacingMe(pMeat))
     {
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Idle_0;
@@ -2278,7 +2278,7 @@ s16 Paramite::Brain_SpottedMeat_State_2_Walking(Meat* pMeat)
         }
     }
 
-    if (!vIsFacingMe_4254A0(pMeat))
+    if (!VIsFacingMe(pMeat))
     {
         if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
         {
@@ -2288,7 +2288,7 @@ s16 Paramite::Brain_SpottedMeat_State_2_Walking(Meat* pMeat)
         }
     }
 
-    if (!vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
+    if (!VIsObjNearby(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
     {
         return field_12C_brain_ret;
     }
@@ -2327,7 +2327,7 @@ s16 Paramite::Brain_SpottedMeat_State_1_Running(Meat* pMeat)
         }
     }
 
-    if (!vIsFacingMe_4254A0(pMeat))
+    if (!VIsFacingMe(pMeat))
     {
         if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
         {
@@ -2337,7 +2337,7 @@ s16 Paramite::Brain_SpottedMeat_State_1_Running(Meat* pMeat)
         }
     }
 
-    if (vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
+    if (VIsObjNearby(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
     {
         if (pMeat->field_130_pLine)
         {
@@ -2348,7 +2348,7 @@ s16 Paramite::Brain_SpottedMeat_State_1_Running(Meat* pMeat)
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Running_1;
     }
 
-    if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(3), pMeat))
+    if (!VIsObjNearby(kGridSize * FP_FromInteger(3), pMeat))
     {
         return field_12C_brain_ret;
     }
@@ -2359,7 +2359,7 @@ s16 Paramite::Brain_SpottedMeat_State_1_Running(Meat* pMeat)
 
 s16 Paramite::Brain_SpottedMeat_State_0_Idle(Meat* pMeat)
 {
-    if (!vIsFacingMe_4254A0(pMeat))
+    if (!VIsFacingMe(pMeat))
     {
         if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
         {
@@ -2369,7 +2369,7 @@ s16 Paramite::Brain_SpottedMeat_State_0_Idle(Meat* pMeat)
         }
     }
 
-    if (vIsObj_GettingNear_425420(pMeat))
+    if (VIsObj_GettingNear(pMeat))
     {
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
@@ -2393,13 +2393,13 @@ s16 Paramite::Brain_SpottedMeat_State_0_Idle(Meat* pMeat)
         }
     }
 
-    if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(3), pMeat))
+    if (!VIsObjNearby(kGridSize * FP_FromInteger(3), pMeat))
     {
         field_108_next_motion = eParamiteMotions::M_Running_3_48AA00;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Running_1;
     }
 
-    if (vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
+    if (VIsObjNearby(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
     {
         if (field_B8_xpos == pMeat->field_B8_xpos)
         {
@@ -2507,7 +2507,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
         SetBrain(&Paramite::Brain_0_Patrol_4835B0);
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
     }
-    if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C))
+    if (VOnSameYLevel(sControlledCharacter_5C1B8C))
     {
         if (sControlledCharacter_5C1B8C->field_106_current_motion == eParamiteMotions::M_Attack_43_48DB70 || sControlledCharacter_5C1B8C->field_106_current_motion == eParamiteMotions::M_RunningAttack_31_48C9E0)
         {
@@ -2528,7 +2528,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Inactive_0:
         {
             field_178_flags.Clear(Flags_178::eBit7_alerted);
-            s16 result = vIsFacingMe_4254A0(sControlledCharacter_5C1B8C);
+            s16 result = VIsFacingMe(sControlledCharacter_5C1B8C);
             if (result)
             {
                 field_108_next_motion = eParamiteMotions::M_Empty_24_48C680;
@@ -2550,7 +2550,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
         }
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1:
-            if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+            if (VIsFacingMe(sControlledCharacter_5C1B8C))
             {
                 FP gridBlock = {};
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -2563,7 +2563,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                 }
 
                 auto pFleech = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(AETypes::eFleech_50, gridBlock, field_BC_ypos));
-                if (pFleech && vIsFacingMe_4254A0(pFleech))
+                if (pFleech && VIsFacingMe(pFleech))
                 {
                     field_108_next_motion = eParamiteMotions::M_Attack_43_48DB70;
                     field_158_next_brain_ret = 1;
@@ -2593,7 +2593,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
                     default:
-                        if (!vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(3), sControlledCharacter_5C1B8C))
+                        if (!VIsObjNearby(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(3), sControlledCharacter_5C1B8C))
                         {
                             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                             {
@@ -2604,7 +2604,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                                         field_130_timer = sGnFrame_5C1B84 + StableDelay_48DF80();
                                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdleToWalking_4;
                                     }
-                                    if (!Check_IsOnEndOfLine(1, 4) && vOnSameYLevel_425520(sControlledCharacter_5C1B8C))
+                                    if (!Check_IsOnEndOfLine(1, 4) && VOnSameYLevel(sControlledCharacter_5C1B8C))
                                     {
                                         field_108_next_motion = eParamiteMotions::M_Hop_5_48B5B0;
                                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Jumping_3;
@@ -2622,7 +2622,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                                     }
                                 }
 
-                                if (!Check_IsOnEndOfLine(0, 4) && vOnSameYLevel_425520(sControlledCharacter_5C1B8C))
+                                if (!Check_IsOnEndOfLine(0, 4) && VOnSameYLevel(sControlledCharacter_5C1B8C))
                                 {
                                     field_108_next_motion = eParamiteMotions::M_Hop_5_48B5B0;
                                     return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Jumping_3;
@@ -2662,7 +2662,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
             break;
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Falling_2:
-            if (!vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+            if (!VIsFacingMe(sControlledCharacter_5C1B8C))
             {
                 field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
@@ -2684,7 +2684,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                 field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
-            else if (!vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale), sControlledCharacter_5C1B8C))
+            else if (!VIsObjNearby(ScaleToGridSize_4498B0(field_CC_sprite_scale), sControlledCharacter_5C1B8C))
             {
                 return field_12C_brain_ret;
             }
@@ -2711,7 +2711,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingWalking_5;
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingWalking_5:
-            if (!vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+            if (!VIsFacingMe(sControlledCharacter_5C1B8C))
             {
                 field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
@@ -2734,13 +2734,13 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                 }
             }
 
-            if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(3), sControlledCharacter_5C1B8C))
+            if (VIsObjNearby(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(3), sControlledCharacter_5C1B8C))
             {
                 field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
 
-            if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(5), sControlledCharacter_5C1B8C))
+            if (VIsObjNearby(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(5), sControlledCharacter_5C1B8C))
             {
                 return field_12C_brain_ret;
             }
@@ -2771,7 +2771,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingRunning_6;
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingRunning_6:
-            if (!vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+            if (!VIsFacingMe(sControlledCharacter_5C1B8C))
             {
                 field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
@@ -2790,14 +2790,14 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                 }
                 else
                 {
-                    if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(3), sControlledCharacter_5C1B8C))
+                    if (VIsObjNearby(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(3), sControlledCharacter_5C1B8C))
                     {
                         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
                     }
                     else
                     {
-                        if (!vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(5), sControlledCharacter_5C1B8C))
+                        if (!VIsObjNearby(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(5), sControlledCharacter_5C1B8C))
                         {
                             return field_12C_brain_ret;
                         }
@@ -2833,7 +2833,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
             break;
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Idle_9:
-            if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+            if (VIsFacingMe(sControlledCharacter_5C1B8C))
             {
                 const GameSpeakEvents lastSpeak = LastSpeak_489040();
                 switch (lastSpeak)
@@ -2934,10 +2934,10 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
             break;
 
         case ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_PreSpawn_1:
-            if (SwitchStates_Get_466020(field_14C_id))
+            if (SwitchStates_Get(field_14C_id))
             {
                 field_178_flags.Set(Flags_178::eBit6_spawned);
-                SFX_Play_46FA90(SoundEffect::ParamiteSpawn_110, 0);
+                SFX_Play_Mono(SoundEffect::ParamiteSpawn_110, 0);
                 field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
@@ -3061,7 +3061,7 @@ void Paramite::M_Idle_0_489FB0()
     {
         field_106_current_motion = eParamiteMotions::M_GetDepossessedBegin_29_48D9D0;
         field_138_depossession_timer = sGnFrame_5C1B84 + 30;
-        SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
+        SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
     }
     else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak1_555104))
     {
@@ -3323,7 +3323,7 @@ void Paramite::M_Running_3_48AA00()
         {
             if (field_20_animation.field_92_current_frame == 3)
             {
-                SFX_Play(SoundEffect::PickupItem_28, 45, -600);
+                SFX_Play_Pitch(SoundEffect::PickupItem_28, 45, -600);
             }
             else
             {
@@ -3543,7 +3543,7 @@ void Paramite::M_Hop_5_48B5B0()
 
             if (field_20_animation.field_92_current_frame == 3)
             {
-                SFX_Play(SoundEffect::PickupItem_28, 50, -500);
+                SFX_Play_Pitch(SoundEffect::PickupItem_28, 50, -500);
             }
             else if (field_20_animation.field_92_current_frame == 12)
             {
@@ -3829,7 +3829,7 @@ void Paramite::M_JumpUpBegin_12_48BE40()
     }
     else if (field_20_animation.field_92_current_frame == 3)
     {
-        SFX_Play(SoundEffect::PickupItem_28, 50, -500);
+        SFX_Play_Pitch(SoundEffect::PickupItem_28, 50, -500);
     }
 }
 
@@ -3999,10 +3999,10 @@ void Paramite::M_CloseAttack_16_48DDA0()
         if (pObj)
         {
             PSX_RECT otherRect = {};
-            pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+            pObj->VGetBoundingRect(&otherRect, 1);
 
             PSX_RECT ourRect = {};
-            vGetBoundingRect_424FD0(&ourRect, 1);
+            VGetBoundingRect(&ourRect, 1);
 
             s16 right = 0;
             s16 left = 0;
@@ -4088,14 +4088,14 @@ void Paramite::M_GameSpeakBegin_20_48C010()
     if (pObj)
     {
         PSX_RECT otherRect = {};
-        pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+        pObj->VGetBoundingRect(&otherRect, 1);
 
         PSX_RECT ourRect = {};
-        vGetBoundingRect_424FD0(&ourRect, 1);
+        VGetBoundingRect(&ourRect, 1);
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
-            if (vIsObj_GettingNear_425420(pObj))
+            if (VIsObj_GettingNear(pObj))
             {
                 if (field_CC_sprite_scale == pObj->field_CC_sprite_scale)
                 {
@@ -4103,7 +4103,7 @@ void Paramite::M_GameSpeakBegin_20_48C010()
                     {
                         if (pObj->field_10C_health > FP_FromInteger(0))
                         {
-                            SFX_Play_46FA90(SoundEffect::KillEffect_64, 0);
+                            SFX_Play_Mono(SoundEffect::KillEffect_64, 0);
                             Mudokon_SFX_457EC0(MudSounds::eHurt2_9, 0, 0, pObj);
                         }
                         pObj->VTakeDamage(this);
@@ -4125,14 +4125,14 @@ void Paramite::M_PreHiss_21_48C180()
     if (pObj)
     {
         PSX_RECT otherRect = {};
-        pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+        pObj->VGetBoundingRect(&otherRect, 1);
 
         PSX_RECT ourRect = {};
-        vGetBoundingRect_424FD0(&ourRect, 1);
+        VGetBoundingRect(&ourRect, 1);
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
-            if (vIsObj_GettingNear_425420(pObj))
+            if (VIsObj_GettingNear(pObj))
             {
                 if (field_CC_sprite_scale == pObj->field_CC_sprite_scale)
                 {
@@ -4195,14 +4195,14 @@ void Paramite::M_Hiss1_22_48C3E0()
     if (pObj)
     {
         PSX_RECT otherRect = {};
-        pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+        pObj->VGetBoundingRect(&otherRect, 1);
 
         PSX_RECT ourRect = {};
-        vGetBoundingRect_424FD0(&ourRect, 1);
+        VGetBoundingRect(&ourRect, 1);
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
-            if (vIsObj_GettingNear_425420(pObj))
+            if (VIsObj_GettingNear(pObj))
             {
                 if (field_CC_sprite_scale == pObj->field_CC_sprite_scale)
                 {
@@ -4323,14 +4323,14 @@ void Paramite::M_PostHiss_27_48C780()
     if (pObj)
     {
         PSX_RECT otherRect = {};
-        pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+        pObj->VGetBoundingRect(&otherRect, 1);
 
         PSX_RECT ourRect = {};
-        vGetBoundingRect_424FD0(&ourRect, 1);
+        VGetBoundingRect(&ourRect, 1);
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
-            if (vIsObj_GettingNear_425420(pObj))
+            if (VIsObj_GettingNear(pObj))
             {
                 if (field_CC_sprite_scale == pObj->field_CC_sprite_scale)
                 {
@@ -4355,14 +4355,14 @@ void Paramite::M_GameSpeakEnd_28_48C8B0()
     if (pObj)
     {
         PSX_RECT otherRect = {};
-        pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+        pObj->VGetBoundingRect(&otherRect, 1);
 
         PSX_RECT ourRect = {};
-        vGetBoundingRect_424FD0(&ourRect, 1);
+        VGetBoundingRect(&ourRect, 1);
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
-            if (vIsObj_GettingNear_425420(pObj))
+            if (VIsObj_GettingNear(pObj))
             {
                 if (field_CC_sprite_scale == pObj->field_CC_sprite_scale)
                 {
@@ -4472,10 +4472,10 @@ void Paramite::M_RunningAttack_31_48C9E0()
         if (pObj)
         {
             PSX_RECT otherRect = {};
-            pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+            pObj->VGetBoundingRect(&otherRect, 1);
 
             PSX_RECT ourRect = {};
-            vGetBoundingRect_424FD0(&ourRect, 1);
+            VGetBoundingRect(&ourRect, 1);
 
             s16 right = 0;
             s16 left = 0;
@@ -4896,13 +4896,13 @@ void Paramite::M_Eating_40_48A0F0()
                 }
                 else
                 {
-                    SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
+                    SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
                 }
             }
         }
         else
         {
-            SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
+            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
         }
     }
 
@@ -4977,10 +4977,10 @@ void Paramite::M_Attack_43_48DB70()
     if (pObj)
     {
         PSX_RECT otherRect = {};
-        pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+        pObj->VGetBoundingRect(&otherRect, 1);
 
         PSX_RECT ourRect = {};
-        vGetBoundingRect_424FD0(&ourRect, 1);
+        VGetBoundingRect(&ourRect, 1);
 
         s16 right = 0;
         s16 left = 0;
@@ -5124,7 +5124,7 @@ void Paramite::VUpdate()
         }
         else if (pMeat)
         {
-            if (pMeat->VIsFalling_49E330() || pMeat->mFlags.Get(BaseGameObject::eDead))
+            if (pMeat->VIsFalling() || pMeat->mFlags.Get(BaseGameObject::eDead))
             {
                 field_118_meat_id = -1;
                 field_108_next_motion = 0;
@@ -5363,7 +5363,7 @@ s16 Paramite::vOnSameYLevel_488A40(BaseAnimatedWithPhysicsGameObject* pOther)
     if (pOther)
     {
         PSX_RECT bRect = {};
-        pOther->vGetBoundingRect_424FD0(&bRect, 1);
+        pOther->VGetBoundingRect(&bRect, 1);
 
         if ((FP_Abs(field_BC_ypos - FP_FromInteger(bRect.h)) < field_CC_sprite_scale * FP_FromInteger(40)) || (pOther->Type() == AETypes::eParamite_96 && static_cast<Paramite*>(pOther)->field_106_current_motion == eParamiteMotions::M_JumpUpMidair_13_48BAF0))
         {
@@ -5652,7 +5652,7 @@ s16 Paramite::CanIAcceptAGameSpeakCommand_489160()
 
             if (!pParamite->BrainIs(&Paramite::Brain_8_ControlledByGameSpeak_48DFC0) && gMap.Is_Point_In_Current_Camera_4810D0(pParamite->field_C2_lvl_number, pParamite->field_C0_path_number, pParamite->field_B8_xpos, pParamite->field_BC_ypos, 0))
             {
-                if (sControlledCharacter_5C1B8C->vIsFacingMe_4254A0(pParamite) && !sControlledCharacter_5C1B8C->vIsFacingMe_4254A0(this))
+                if (sControlledCharacter_5C1B8C->VIsFacingMe(pParamite) && !sControlledCharacter_5C1B8C->VIsFacingMe(this))
                 {
                     return 0;
                 }
@@ -5663,7 +5663,7 @@ s16 Paramite::CanIAcceptAGameSpeakCommand_489160()
                         FP_GetExponent(pParamite->field_B8_xpos),
                         FP_GetExponent(pParamite->field_BC_ypos)))
                 {
-                    if (sControlledCharacter_5C1B8C->vIsFacingMe_4254A0(pParamite) == sControlledCharacter_5C1B8C->vIsFacingMe_4254A0(this))
+                    if (sControlledCharacter_5C1B8C->VIsFacingMe(pParamite) == sControlledCharacter_5C1B8C->VIsFacingMe(this))
                     {
                         return 0;
                     }
@@ -5684,7 +5684,7 @@ s16 Paramite::HandleEnemyStopper_4893B0(s16 numGridBlocks)
         TlvTypes::EnemyStopper_47));
 
     // No stopper or its disabled
-    if (!pEnemyStopper || !SwitchStates_Get_466020(pEnemyStopper->field_12_switch_id))
+    if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->field_12_switch_id))
     {
         return 0;
     }
@@ -5721,7 +5721,7 @@ PullRingRope* Paramite::FindPullRope_488F20()
             if (pRope->field_CC_sprite_scale == field_CC_sprite_scale)
             {
                 PSX_RECT bRect = {};
-                pRope->vGetBoundingRect_424FD0(&bRect, 1);
+                pRope->VGetBoundingRect(&bRect, 1);
                 if ((field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(40))) <= pRope->field_BC_ypos && field_BC_ypos > pRope->field_BC_ypos)
                 {
                     if (field_B8_xpos > FP_FromInteger(bRect.x) && field_B8_xpos < FP_FromInteger(bRect.w))
@@ -5833,7 +5833,7 @@ s16 Paramite::NextPlayerInputMotion_4894C0()
                     if (pTarget)
                     {
                         field_120_obj_id = -1;
-                        if (vIsObjNearby_4253B0(kGridSize * FP_FromDouble(0.5), pTarget))
+                        if (VIsObjNearby(kGridSize * FP_FromDouble(0.5), pTarget))
                         {
                             field_106_current_motion = eParamiteMotions::M_CloseAttack_16_48DDA0;
                             return 1;
@@ -5908,7 +5908,7 @@ s16 Paramite::FindTarget_488C30()
         }
     }
 
-    if (vOnSameYLevel_425520(sActiveHero_5C1B68) && !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale && !WallHit_408750((sActiveHero_5C1B68->field_CC_sprite_scale * FP_FromInteger(20)), sActiveHero_5C1B68->field_B8_xpos - field_B8_xpos))
+    if (VOnSameYLevel(sActiveHero_5C1B68) && !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale && !WallHit_408750((sActiveHero_5C1B68->field_CC_sprite_scale * FP_FromInteger(20)), sActiveHero_5C1B68->field_B8_xpos - field_B8_xpos))
     {
         field_120_obj_id = sActiveHero_5C1B68->field_8_object_id;
         return 1;
@@ -6100,7 +6100,7 @@ void Paramite::CheckForPlatform_489EA0()
     wh.field_0_x = FP_GetExponent(field_B8_xpos + FP_FromInteger(5));
     wh.field_2_y = FP_GetExponent(field_BC_ypos + FP_FromInteger(5));
 
-    vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+    VOnCollisionWith(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
 }
 
 void Paramite::HandleStopWalking_48A720()

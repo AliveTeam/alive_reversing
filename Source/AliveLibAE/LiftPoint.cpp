@@ -101,7 +101,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
         field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
-    SetTint_425600(sLiftTints_55BF50, gMap.mCurrentLevel);
+    SetTint(sLiftTints_55BF50, gMap.mCurrentLevel);
 
     const FP oldX = field_B8_xpos;
     MapFollowMe(TRUE);
@@ -431,8 +431,8 @@ void LiftPoint::vRender_462730(PrimHeader** ppOt)
             s16 b = field_D4_b;
 
             PSX_RECT bRect = {};
-            vGetBoundingRect_424FD0(&bRect, 1);
-            ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+            VGetBoundingRect(&bRect, 1);
+            ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(field_B8_xpos),
                 (bRect.h + bRect.y) / 2,
                 field_D6_scale,
@@ -444,7 +444,7 @@ void LiftPoint::vRender_462730(PrimHeader** ppOt)
             field_13C_lift_wheel.field_9_g = static_cast<u8>(g);
             field_13C_lift_wheel.field_A_b = static_cast<u8>(b);
 
-            if (gMap.mCurrentLevel != LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+            if (gMap.mCurrentLevel != LevelIds::eNecrum_2 && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.vRender_40B820(
                     FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
@@ -476,7 +476,7 @@ void LiftPoint::vRender_462730(PrimHeader** ppOt)
                     g = field_D2_g;
                     b = field_D4_b;
 
-                    ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                    ShadowZone::ShadowZones_Calculate_Colour(
                         field_26C_pulley_xpos,
                         field_26E_pulley_ypos,
                         field_D6_scale,
@@ -509,7 +509,7 @@ void LiftPoint::vRender_462730(PrimHeader** ppOt)
             // The base animation is the actual lift/platform itself
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-            if (gMap.mCurrentLevel == LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+            if (gMap.mCurrentLevel == LevelIds::eNecrum_2 && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.vRender_40B820(
                     FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
@@ -568,8 +568,8 @@ void LiftPoint::vUpdate_461AE0()
                 field_C8_vely = FP_FromInteger(0);
                 field_12C_bMoving &= ~1u;
                 field_280_flags.Clear(LiftFlags::eBit5_bMoveToFloorLevel);
-                SFX_Play_46FA90(SoundEffect::LiftStop_30, 0);
-                SFX_Play(SoundEffect::LiftStop_30, 80, -2000);
+                SFX_Play_Mono(SoundEffect::LiftStop_30, 0);
+                SFX_Play_Pitch(SoundEffect::LiftStop_30, 80, -2000);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
             }
@@ -799,12 +799,12 @@ void LiftPoint::vUpdate_461AE0()
     {
         if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.field_4_flags.Get(AnimFlags::eBit2_Animate))
         {
-            SFX_Play_46FA90(SoundEffect::WheelSqueak_31, 0);
+            SFX_Play_Mono(SoundEffect::WheelSqueak_31, 0);
         }
     }
     else if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.field_4_flags.Get(AnimFlags::eBit2_Animate) && sGnFrame_5C1B84 & 1)
     {
-        SFX_Play_46FA90(SoundEffect::WheelSqueak_31, 0);
+        SFX_Play_Mono(SoundEffect::WheelSqueak_31, 0);
     }
 
     if ((field_C2_lvl_number != gMap.mCurrentLevel || field_C0_path_number != gMap.mCurrentPath || Event_Get_422C00(kEventDeathReset))
@@ -867,8 +867,8 @@ void LiftPoint::vStayOnFloor_461A00(s16 floor, Path_LiftPoint* pTlv)
     if (!floor)
     {
         field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + -field_120_y_offset);
-        SFX_Play_46FA90(SoundEffect::LiftStop_30, 0);
-        SFX_Play(SoundEffect::LiftStop_30, 80, -2000);
+        SFX_Play_Mono(SoundEffect::LiftStop_30, 0);
+        SFX_Play_Pitch(SoundEffect::LiftStop_30, 80, -2000);
     }
 
     field_12C_bMoving &= ~1;

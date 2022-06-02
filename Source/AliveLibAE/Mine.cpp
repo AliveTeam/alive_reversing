@@ -159,7 +159,7 @@ void Mine::VUpdate()
         {
             if (onScreen)
             {
-                SFX_Play_46FA90(SoundEffect::RedTick_3, 35);
+                SFX_Play_Mono(SoundEffect::RedTick_3, 35);
                 sMineSFXOwner_5C3008 = this;
             }
             else
@@ -261,7 +261,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 bool Mine::IsColliding()
 {
     PSX_RECT mineBound;
-    vGetBoundingRect_424FD0(&mineBound, 1);
+    VGetBoundingRect(&mineBound, 1);
 
     for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
@@ -276,7 +276,7 @@ bool Mine::IsColliding()
         if (pObj->field_114_flags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
         {
             PSX_RECT objBound;
-            pObj->vGetBoundingRect_424FD0(&objBound, 1);
+            pObj->VGetBoundingRect(&objBound, 1);
 
             s32 objX = FP_GetExponent(pObj->field_B8_xpos);
             s32 objY = FP_GetExponent(pObj->field_BC_ypos);

@@ -81,20 +81,20 @@ void CrawlingSligButton::vUpdate_414B20()
 
     if (field_102_in_use == 1)
     {
-        SFX_Play_46FA90(SoundEffect::LeverPull_63, 0);
+        SFX_Play_Mono(SoundEffect::LeverPull_63, 0);
         Event_Broadcast_422BC0(kEventNoise, this);
         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
-        const s32 old_switch_state = SwitchStates_Get_466020(field_F8_switch_id);
-        SwitchStates_Do_Operation_465F00(field_F8_switch_id, field_FA_action);
-        const s32 new_switch_state = SwitchStates_Get_466020(field_F8_switch_id);
+        const s32 old_switch_state = SwitchStates_Get(field_F8_switch_id);
+        SwitchStates_Do_Operation(field_F8_switch_id, field_FA_action);
+        const s32 new_switch_state = SwitchStates_Get(field_F8_switch_id);
 
         if (old_switch_state != new_switch_state)
         {
             const auto sound_id = new_switch_state ? field_FC_on_sound : field_FE_off_sound;
             if (sound_id != CrawlingSligButtonSounds::None_0)
             {
-                SFX_Play_46FB10(
+                SFX_Play_Stereo(
                     static_cast<SoundEffect>(buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_0_block_idx),
                     buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 2),
                     buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 1),

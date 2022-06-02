@@ -263,8 +263,8 @@ public:
     virtual void VOnTrapDoorOpen() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    virtual s16 vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther) override;
-    virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
+    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     static s32 CreateFromSaveState(const u8* pBuffer);

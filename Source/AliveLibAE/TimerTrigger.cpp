@@ -18,23 +18,8 @@ TimerTrigger::TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo)
     field_24_output_switch_ids[1] = pTlv->field_16_output_switch_id2;
     field_24_output_switch_ids[2] = pTlv->field_18_output_switch_id3;
     field_24_output_switch_ids[3] = pTlv->field_1A_output_switch_id4;
-    field_38_starting_switch_state = static_cast<s16>(SwitchStates_Get_466020(field_20_input_switch_id));
+    field_38_starting_switch_state = static_cast<s16>(SwitchStates_Get(field_20_input_switch_id));
     field_22_state = TimerTriggerStates::eWaitForEnabled_0;
-}
-
-void TimerTrigger::VUpdate()
-{
-    vUpdate_4CDDB0();
-}
-
-void TimerTrigger::VScreenChanged()
-{
-    vScreenChanged_4CDF00();
-}
-
-s32 TimerTrigger::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_4CE030(reinterpret_cast<TimerTrigger_State*>(pSaveBuffer));
 }
 
 s32 TimerTrigger::CreateFromSaveState(const u8* pData)
@@ -57,12 +42,12 @@ TimerTrigger::~TimerTrigger()
     Path::TLV_Reset_4DB8E0(field_2C_tlvInfo, -1, 0, 0);
 }
 
-void TimerTrigger::vUpdate_4CDDB0()
+void TimerTrigger::VUpdate()
 {
     switch (field_22_state)
     {
         case TimerTriggerStates::eWaitForEnabled_0:
-            if (SwitchStates_Get_466020(field_20_input_switch_id) != field_38_starting_switch_state)
+            if (SwitchStates_Get(field_20_input_switch_id) != field_38_starting_switch_state)
             {
                 field_22_state = TimerTriggerStates::eWaitForFirstTrigger_1;
                 field_30_trigger_interval_timer = sGnFrame_5C1B84 + field_34_trigger_interval;
@@ -72,13 +57,13 @@ void TimerTrigger::vUpdate_4CDDB0()
         case TimerTriggerStates::eWaitForFirstTrigger_1:
             if (field_30_trigger_interval_timer <= static_cast<s32>(sGnFrame_5C1B84))
             {
-                ToggleAllIds_4CDEC0();
+                ToggleAllIds();
                 field_22_state = TimerTriggerStates::eCheckForStartAgain_2;
             }
             break;
 
         case TimerTriggerStates::eCheckForStartAgain_2:
-            if (SwitchStates_Get_466020(field_20_input_switch_id) == field_38_starting_switch_state)
+            if (SwitchStates_Get(field_20_input_switch_id) == field_38_starting_switch_state)
             {
                 field_22_state = TimerTriggerStates::eWaitForSecondTrigger_3;
                 field_30_trigger_interval_timer = sGnFrame_5C1B84 + field_34_trigger_interval;
@@ -88,7 +73,7 @@ void TimerTrigger::vUpdate_4CDDB0()
         case TimerTriggerStates::eWaitForSecondTrigger_3:
             if (field_30_trigger_interval_timer <= (s32) sGnFrame_5C1B84)
             {
-                ToggleAllIds_4CDEC0();
+                ToggleAllIds();
                 field_22_state = TimerTriggerStates::eWaitForEnabled_0;
             }
             break;
@@ -100,18 +85,18 @@ void TimerTrigger::vUpdate_4CDDB0()
     }
 }
 
-void TimerTrigger::ToggleAllIds_4CDEC0()
+void TimerTrigger::ToggleAllIds()
 {
     for (auto& id : field_24_output_switch_ids)
     {
         if (id != 0)
         {
-            SwitchStates_Do_Operation_465F00(id, SwitchOp::eToggle_2);
+            SwitchStates_Do_Operation(id, SwitchOp::eToggle_2);
         }
     }
 }
 
-void TimerTrigger::vScreenChanged_4CDF00()
+void TimerTrigger::VScreenChanged()
 {
     if (field_22_state == TimerTriggerStates::eWaitForEnabled_0 || field_22_state == TimerTriggerStates::eCheckForStartAgain_2 || gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
@@ -119,8 +104,10 @@ void TimerTrigger::vScreenChanged_4CDF00()
     }
 }
 
-s32 TimerTrigger::vGetSaveState_4CE030(TimerTrigger_State* pState)
+s32 TimerTrigger::VGetSaveState(u8* pSaveBuffer)
 {
+    auto pState = reinterpret_cast<TimerTrigger_State*>(pSaveBuffer);
+
     pState->field_0_type = AETypes::eTimerTrigger_136;
     pState->field_4_tlvInfo = field_2C_tlvInfo;
     pState->field_C_state = field_22_state;

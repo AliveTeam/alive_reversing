@@ -85,7 +85,7 @@ void DeathBirdParticle::VUpdate()
 
                 if (field_FC_bPlaySound)
                 {
-                    SFX_Play_46FA90(SoundEffect::AbeDove_15, 0);
+                    SFX_Play_Mono(SoundEffect::AbeDove_15, 0);
                 }
             }
             break;

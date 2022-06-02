@@ -264,7 +264,7 @@ ALIVE_VAR(1, 0x5c1bbc, u16, bUseAltSaveHeader_5C1BBC, 0);
 
 ALIVE_VAR(1, 0xbb234c, u16, sQuickSave_saved_switchResetters_count_BB234C, 0);
 
-void QuikSave_RestoreBlyData_D481890_4C9BE0(const u8* pSaveData)
+void QuikSave_RestoreBlyData(const u8* pSaveData)
 {
     const u16* pSaveData2 = reinterpret_cast<const u16*>(pSaveData);
 
@@ -331,7 +331,7 @@ void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
     DestroyObjects_4A1F20();
     Events_Reset_422D70();
     bSkipGameObjectUpdates_5C2FA0 = 1;
-    Quicksave_ReadWorldInfo_4C9490(&quicksaveData->field_204_world_info);
+    Quicksave_ReadWorldInfo(&quicksaveData->field_204_world_info);
     sSwitchStates_5C1A28 = quicksaveData->field_45C_switch_states;
     gMap.field_D8_restore_quick_save = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);
     gMap.SetActiveCam_480D30(
@@ -344,7 +344,7 @@ void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
     gMap.field_8_force_load = 1;
 }
 
-void Quicksave_LoadActive_4C9170()
+void Quicksave_LoadActive()
 {
     Game_ShowLoadingIcon_482D80();
     Quicksave_LoadFromMemory_4C95A0(&sActiveQuicksaveData_BAF7F8);
@@ -429,7 +429,7 @@ struct SaveFlagsAndData final
 };
 ALIVE_ARY(1, 0xBB233C, SaveFlagsAndData, 8, sSwitchReset_Saved_States_BB233C, {});
 
-void Quicksave_SaveSwitchResetterStates_4C9870()
+void Quicksave_SaveSwitchResetterStates()
 {
     sQuickSave_saved_switchResetters_count_BB234C = 0;
     for (s16 i = 1; i <= Path_Get_Num_Paths(gMap.mCurrentLevel); i++)
@@ -478,7 +478,7 @@ void Quicksave_SaveSwitchResetterStates_4C9870()
     }
 }
 
-void Quicksave_RestoreSwitchResetterStates_4C9A30()
+void Quicksave_RestoreSwitchResetterStates()
 {
     s32 idx = 0;
     for (s16 i = 1; i <= Path_Get_Num_Paths(gMap.mCurrentLevel); i++)
@@ -631,7 +631,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
                 gMap.mCurrentPath,
                 gMap.mCurrentCamera);
         MEMCARD_Write_SJISC_String_4A2770(src, &pSave->field_0_header.field_0_frame_1_name[32], 8);
-        Quicksave_SaveWorldInfo_4C9310(&pSave->field_204_world_info);
+        Quicksave_SaveWorldInfo(&pSave->field_204_world_info);
         pSave->field_45C_switch_states = sSwitchStates_5C1A28;
 
         u8* pDataIter = pSave->field_55C_objects_state_data;
@@ -659,7 +659,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
     }
 }
 
-void Quicksave_4C90D0()
+void DoQuicksave()
 {
     Game_ShowLoadingIcon_482D80();
     pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, 0);
@@ -669,7 +669,7 @@ void Quicksave_4C90D0()
     Quicksave_SaveToMemory_4C91A0(&sActiveQuicksaveData_BAF7F8);
 }
 
-void Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
+void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
 {
     bUseAltSaveHeader_5C1BBC = pInfo->field_2E_use_alt_save_header;
 
@@ -697,10 +697,10 @@ void Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
     sGnFrame_5C1B84 = pInfo->field_0_gnFrame;
 }
 
-void Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
+void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
 {
     PSX_RECT rect = {};
-    sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&rect, 1);
+    sControlledCharacter_5C1B8C->VGetBoundingRect(&rect, 1);
 
     pInfo->field_0_gnFrame = sGnFrame_5C1B84;
     pInfo->field_4_level = gMap.mCurrentLevel;
@@ -746,7 +746,7 @@ s32 Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)
     }
 }
 
-void Quicksave_FindSaves_4D4150()
+void Quicksave_FindSaves()
 {
     sTotalSaveFilesCount_BB43E0 = 0;
 

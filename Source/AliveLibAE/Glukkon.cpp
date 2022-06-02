@@ -547,7 +547,7 @@ void Glukkon::M_Jump_4_443030()
 
     if (field_20_animation.field_92_current_frame == 0)
     {
-        SFX_Play(SoundEffect::PickupItem_28, 50, -900);
+        SFX_Play_Pitch(SoundEffect::PickupItem_28, 50, -900);
         field_F8_LastLineYPos = field_BC_ypos;
         if (pPlatform)
         {
@@ -783,7 +783,7 @@ void Glukkon::M_DeathFall_8_443760()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
-        SFX_Play_46FA90(SoundEffect::KillEffect_64, 85);
+        SFX_Play_Mono(SoundEffect::KillEffect_64, 85);
     }
 }
 
@@ -880,7 +880,7 @@ void Glukkon::M_Speak1_11_4437D0()
 
             if (field_1EA_speak == GlukkonSpeak::Help_6)
             {
-                SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetTrue_0);
+                SwitchStates_Do_Operation(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetTrue_0);
             }
         }
         field_1EA_speak = GlukkonSpeak::None;
@@ -1363,7 +1363,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
             }
             else if (static_cast<s32>(sGnFrame_5C1B84) - field_1F8_panic_timer > field_1A8_tlvData.field_1A_to_calm_delay)
             {
-                SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
                 SetBrain(&Glukkon::Brain_0_Calm_WalkAround_440B40);
                 return 0;
             }
@@ -1495,7 +1495,7 @@ s16 Glukkon::Brain_2_Slapped_441720()
             }
             else if ((s32)(sGnFrame_5C1B84 - field_1F8_panic_timer) > field_1A8_tlvData.field_1A_to_calm_delay)
             {
-                SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
                 SetBrain(&Glukkon::Brain_0_Calm_WalkAround_440B40);
 
                 if (FP_FromInteger(field_1A8_tlvData.field_8_top_left.field_0_x) >= field_B8_xpos)
@@ -1595,12 +1595,12 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
             if ((field_1A8_tlvData.field_22_glukkon_type != GlukkonTypes::StoryAslik_1 &&
                 field_1A8_tlvData.field_22_glukkon_type != GlukkonTypes::StoryDripik_2 &&
                 field_1A8_tlvData.field_22_glukkon_type != GlukkonTypes::StoryPhleg_3) ||
-                !SwitchStates_Get_466020(field_1A8_tlvData.field_26_play_movie_switch_id))
+                !SwitchStates_Get(field_1A8_tlvData.field_26_play_movie_switch_id))
             {
                 if (Input_IsChanting_45F260() && field_106_current_motion != eGlukkonMotions::M_Jump_4_443030 && !field_1E2_prevent_depossession)
                 {
                     field_1D4_timer = sGnFrame_5C1B84 + 30;
-                    SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
+                    SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
                     SetAnim_43F9C0(10, TRUE);
                     return 2;
                 }
@@ -1631,7 +1631,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
         case 2:
             if (Input_IsChanting_45F260()
                 || ((field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::StoryAslik_1 || field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::StoryDripik_2 || field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::StoryPhleg_3)
-                    && SwitchStates_Get_466020(field_1A8_tlvData.field_26_play_movie_switch_id)))
+                    && SwitchStates_Get(field_1A8_tlvData.field_26_play_movie_switch_id)))
             {
                 if (!(static_cast<s32>(sGnFrame_5C1B84) % 4))
                 {
@@ -1710,7 +1710,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
             GetSoundAPI().SND_Restart();
             pScreenManager_5BB5F4->field_40_flags |= 0x10000;
             field_1D4_timer = sGnFrame_5C1B84 + 30;
-            SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
+            SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
             SetAnim_43F9C0(10, TRUE);
             return 2;
 
@@ -1823,8 +1823,8 @@ s16 Glukkon::Brain_4_Death_442010()
                 128u,
                 128u);
 
-            SFX_Play_46FA90(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
-            SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90, field_CC_sprite_scale);
+            SFX_Play_Mono(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
+            SFX_Play_Mono(SoundEffect::FallingItemHit_47, 90, field_CC_sprite_scale);
 
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -1888,7 +1888,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
 
     if (field_210_brain_sub_state == 0)
     {
-        if (!SwitchStates_Get_466020(field_1A8_tlvData.field_1C_spawn_switch_id))
+        if (!SwitchStates_Get(field_1A8_tlvData.field_1C_spawn_switch_id))
         {
             return field_210_brain_sub_state;
         }
@@ -1919,7 +1919,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
 
         if (field_1A8_tlvData.field_1E_spawn_type == Path_Glukkon::SpawnType::eFullSpawnEffects_3)
         {
-            SFX_Play(SoundEffect::Zap1_49, 60, -300);
+            SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -300);
 
             for (const auto& p : v00554768)
             {
@@ -1929,7 +1929,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
             }
 
             PSX_RECT bRect = {};
-            vGetBoundingRect_424FD0(&bRect, 1);
+            VGetBoundingRect(&bRect, 1);
 
             New_DestroyOrCreateObject_Particle_426F40(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
@@ -1949,7 +1949,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
         }
         else
         {
-            SFX_Play_46FA90(SoundEffect::GlukkonSpawn_112, 0);
+            SFX_Play_Mono(SoundEffect::GlukkonSpawn_112, 0);
             Speak_444640(GlukkonSpeak::Heh_5);
             return 2;
         }
@@ -1964,7 +1964,7 @@ void Glukkon::Init_43F260()
 
     mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    SetTint_425600(&kGlukkonTints_5546B4[0], gMap.mCurrentLevel);
+    SetTint(&kGlukkonTints_5546B4[0], gMap.mCurrentLevel);
     field_B8_xpos = FP_FromInteger((field_1A8_tlvData.field_8_top_left.field_0_x + field_1A8_tlvData.field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(field_1A8_tlvData.field_8_top_left.field_2_y);
 
@@ -2093,14 +2093,14 @@ void Glukkon::VUpdate()
             if (field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_32 || field_100_pCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
                 PSX_RECT bRect = {};
-                vGetBoundingRect_424FD0(&bRect, 1);
+                VGetBoundingRect(&bRect, 1);
 
                 PSX_Point xy = {bRect.x, bRect.y};
                 PSX_Point wh = {bRect.w, bRect.h};
                 xy.field_2_y += 5;
                 wh.field_2_y += 5;
 
-                vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                VOnCollisionWith(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
             }
         }
         field_208_obj_id = BaseGameObject::RefreshId(field_208_obj_id);
@@ -2156,7 +2156,7 @@ void Glukkon::VUpdate()
 
 void Glukkon::VPossessed()
 {
-    SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
+    SwitchStates_Do_Operation(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
     field_1E2_prevent_depossession = 1;
     SetAnim_43F9C0(eGlukkonMotions::M_ChantShake_10_443B50, TRUE);
@@ -2403,7 +2403,7 @@ s16 Glukkon::ShouldPanic_440200(s16 panicEvenIfNotFacingMe)
             sControlledCharacter_5C1B8C->field_B8_xpos,
             sControlledCharacter_5C1B8C->field_BC_ypos,
             0)
-        && (panicEvenIfNotFacingMe || vIsFacingMe_4254A0(sControlledCharacter_5C1B8C)))
+        && (panicEvenIfNotFacingMe || VIsFacingMe(sControlledCharacter_5C1B8C)))
     {
         return 1;
     }
@@ -2469,7 +2469,7 @@ s16 Glukkon::PathBlocked_4442F0(FP /*a2*/, s16 checkBounds)
 
     auto pSlamDoorTlv = static_cast<Path_SlamDoor*>(field_FC_pPathTLV);
 
-    if (pSlamDoorTlv && ((pSlamDoorTlv->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get_466020(pSlamDoorTlv->field_14_switch_id)) || (pSlamDoorTlv->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get_466020(pSlamDoorTlv->field_14_switch_id))))
+    if (pSlamDoorTlv && ((pSlamDoorTlv->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoorTlv->field_14_switch_id)) || (pSlamDoorTlv->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoorTlv->field_14_switch_id))))
     {
         return 1;
     }
@@ -2484,7 +2484,7 @@ s16 Glukkon::PathBlocked_4442F0(FP /*a2*/, s16 checkBounds)
     auto pEnemyStopper = static_cast<Path_EnemyStopper*>(field_FC_pPathTLV);
     if (pEnemyStopper
         && (pEnemyStopper->field_10_stop_direction == direction || pEnemyStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2)
-        && SwitchStates_Get_466020(pEnemyStopper->field_12_switch_id))
+        && SwitchStates_Get(pEnemyStopper->field_12_switch_id))
     {
         return 1;
     }
@@ -2688,7 +2688,7 @@ void Glukkon::FollowLine_443EB0()
 
 void Glukkon::GetOnPlatforms_444060()
 {
-    vOnCollisionWith_424EE0(
+    VOnCollisionWith(
         {FP_GetExponent(field_B8_xpos - FP_FromInteger(5)), FP_GetExponent(field_BC_ypos - FP_FromInteger(5))},
         {FP_GetExponent(field_B8_xpos + FP_FromInteger(5)), FP_GetExponent(field_BC_ypos + FP_FromInteger(5))},
         ObjList_5C1B78,
@@ -2800,15 +2800,15 @@ void Glukkon::ToDead_43F640()
         }
     }
 
-    SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
+    SwitchStates_Do_Operation(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
 
     if ((field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::StoryAslik_1 ||
         field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::StoryDripik_2 ||
         field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::StoryPhleg_3) &&
-        !SwitchStates_Get_466020(field_1A8_tlvData.field_26_play_movie_switch_id))
+        !SwitchStates_Get(field_1A8_tlvData.field_26_play_movie_switch_id))
     {
         // If an exec is dead trigger ze gas
-        SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_24_death_switch_id, SwitchOp::eSetTrue_0);
+        SwitchStates_Do_Operation(field_1A8_tlvData.field_24_death_switch_id, SwitchOp::eSetTrue_0);
     }
 
     if (field_1A8_tlvData.field_1C_spawn_switch_id == 0)
@@ -2821,7 +2821,7 @@ void Glukkon::ToDead_43F640()
         if (field_1A8_tlvData.field_1C_spawn_switch_id > 1)
         {
             // If above 1 then its an actual switch id
-            SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_1C_spawn_switch_id, SwitchOp::eSetFalse_1);
+            SwitchStates_Do_Operation(field_1A8_tlvData.field_1C_spawn_switch_id, SwitchOp::eSetFalse_1);
         }
 
         // Spawn again if id is 1 or above
@@ -2899,7 +2899,7 @@ Bool32 Glukkon::IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObje
     PathLine* pathLine = nullptr;
 
     PSX_RECT bRect = {};
-    pOther->vGetBoundingRect_424FD0(&bRect, 1);
+    pOther->VGetBoundingRect(&bRect, 1);
     const FP X2 = FP_FromInteger((bRect.x + bRect.w) / 2);
     const FP Y2 = FP_FromInteger((bRect.y + bRect.y) / 2);
 
@@ -2954,7 +2954,7 @@ void Glukkon::SlowDown_444700(FP speed)
 void Glukkon::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
-    SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
+    SwitchStates_Do_Operation(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
     if (BrainIs(&Glukkon::Brain_5_WaitToSpawn_442490) && !field_210_brain_sub_state)
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -3122,7 +3122,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
                 field_210_brain_sub_state = 5;
                 Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 32767, this);
                 Event_Broadcast_422BC0(kEventMudokonComfort, this);
-                if (!vIsFacingMe_4254A0(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
+                if (!VIsFacingMe(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
                 {
                     field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
                 }

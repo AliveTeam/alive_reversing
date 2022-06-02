@@ -30,23 +30,13 @@ SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
     field_30_spawn_timer = 0;
 }
 
-void SlogSpawner::VUpdate()
-{
-    vUpdate_4C80D0();
-}
-
 void SlogSpawner::VScreenChanged()
-{
-    vScreenChanged_4C82A0();
-}
-
-void SlogSpawner::vScreenChanged_4C82A0()
 {
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, field_24_tlv_saved_slog_count, 0, 0);
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void SlogSpawner::vUpdate_4C80D0()
+void SlogSpawner::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -55,7 +45,7 @@ void SlogSpawner::vUpdate_4C80D0()
 
     if (static_cast<s32>(sGnFrame_5C1B84) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
     {
-        if (SwitchStates_Get_466020(field_3E_spawner_switch_id))
+        if (SwitchStates_Get(field_3E_spawner_switch_id))
         {
             field_30_spawn_timer = (field_3C_slog_spawn_interval + sGnFrame_5C1B84) + Math_NextRandom() % 8;
             auto pSlog = ae_new<Slog>(field_28_xpos, field_2C_ypos, field_34_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1), static_cast<s16>(field_40_listen_to_sligs), field_42_chase_delay);
@@ -65,7 +55,7 @@ void SlogSpawner::vUpdate_4C80D0()
             }
 
             ++field_24_tlv_saved_slog_count;
-            SFX_Play_46FA90(SoundEffect::SlogSpawn_115, 0);
+            SFX_Play_Mono(SoundEffect::SlogSpawn_115, 0);
 
             if (field_24_tlv_saved_slog_count >= field_36_max_slogs)
             {

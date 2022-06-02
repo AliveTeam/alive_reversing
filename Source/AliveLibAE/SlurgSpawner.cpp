@@ -22,16 +22,6 @@ SlurgSpawner::SlurgSpawner(Path_SlurgSpawner* pTlv, s32 tlvInfo)
 
 void SlurgSpawner::VUpdate()
 {
-    vUpdate_4C83C0();
-}
-
-void SlurgSpawner::VScreenChanged()
-{
-    vScreenChanged_4C84A0();
-}
-
-void SlurgSpawner::vUpdate_4C83C0()
-{
     if (sDDCheat_ShowAI_Info_5C1BD8)
     {
         DDCheat::DebugStr_4F5560("SPAWNER EXISTS/n");
@@ -42,7 +32,7 @@ void SlurgSpawner::vUpdate_4C83C0()
     if (field_3E_delay_counter >= field_28_path_data.field_8_spawn_delay_between_slurgs &&
         field_40_spawned_count < field_28_path_data.field_A_max_slurgs)
     {
-        if (SwitchStates_Get_466020(field_28_path_data.field_C_switch_id))
+        if (SwitchStates_Get(field_28_path_data.field_C_switch_id))
         {
             field_3E_delay_counter = 0;
             field_40_spawned_count++;
@@ -51,7 +41,7 @@ void SlurgSpawner::vUpdate_4C83C0()
     }
 }
 
-void SlurgSpawner::vScreenChanged_4C84A0()
+void SlurgSpawner::VScreenChanged()
 {
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, field_40_spawned_count, 0, 0);
     mFlags.Set(BaseGameObject::eDead);

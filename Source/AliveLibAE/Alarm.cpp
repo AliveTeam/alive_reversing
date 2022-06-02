@@ -76,7 +76,7 @@ Alarm::~Alarm()
     {
         if (field_88_switch_id)
         {
-            SwitchStates_Set_465FF0(field_88_switch_id, 0);
+            SwitchStates_Set(field_88_switch_id, 0);
         }
     }
     else
@@ -113,7 +113,7 @@ void Alarm::VUpdate()
                 mFlags.Set(BaseGameObject::eDead);
             }
 
-            if (!SwitchStates_Get_466020(field_88_switch_id))
+            if (!SwitchStates_Get(field_88_switch_id))
             {
                 field_6E_r = field_78_r_value;
                 return;
@@ -130,7 +130,7 @@ void Alarm::VUpdate()
             }
 
             field_90_state = States::eEnabling_2;
-            SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
+            SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
             field_80_duration_timer = sGnFrame_5C1B84 + field_8A_duration;
             field_6E_r = field_78_r_value;
             break;
@@ -149,7 +149,7 @@ void Alarm::VUpdate()
                 }
 
                 field_90_state = States::eEnabling_2;
-                SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
+                SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
 
                 if (!field_88_switch_id)
                 {
@@ -157,7 +157,7 @@ void Alarm::VUpdate()
                     return;
                 }
 
-                SwitchStates_Set_465FF0(field_88_switch_id, 1);
+                SwitchStates_Set(field_88_switch_id, 1);
                 field_6E_r = field_78_r_value;
             }
             break;
@@ -174,7 +174,7 @@ void Alarm::VUpdate()
             field_78_r_value = 100;
             field_90_state = States::eOnFlash_3;
             field_7C_15_timer = sGnFrame_5C1B84 + 15;
-            SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
+            SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
             field_6E_r = field_78_r_value;
             break;
 
@@ -214,7 +214,7 @@ void Alarm::VUpdate()
                 if (static_cast<s32>(sGnFrame_5C1B84) > field_7C_15_timer)
                 {
                     field_90_state = States::eEnabling_2;
-                    SFX_Play_46FA90(SoundEffect::SecurityDoorDeny_38, 0);
+                    SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
                 }
                 field_6E_r = field_78_r_value;
             }

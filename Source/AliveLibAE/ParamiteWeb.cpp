@@ -158,7 +158,7 @@ void ParamiteWeb::vRender_4E1BA0(PrimHeader** ppOt)
                     s16 r = 128;
                     s16 g = 128;
                     s16 b = 128;
-                    ShadowZone::ShadowZones_Calculate_Colour_463CE0(FP_GetExponent(field_B8_xpos), ypos_int - (idx * field_F6_segment_length), field_D6_scale, &r, &g, &b);
+                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(field_B8_xpos), ypos_int - (idx * field_F6_segment_length), field_D6_scale, &r, &g, &b);
                     field_100_pRes[idx].field_8_r = static_cast<u8>(r);
                     field_100_pRes[idx].field_9_g = static_cast<u8>(g);
                     field_100_pRes[idx].field_A_b = static_cast<u8>(b);

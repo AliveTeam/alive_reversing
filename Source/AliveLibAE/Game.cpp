@@ -113,7 +113,7 @@ void Init_GameStates_43BF40()
 
     gAbeBulletProof_5C1BDA = 0;
 
-    SwitchStates_SetRange_465FA0(2u, 255u);
+    SwitchStates_SetRange(2u, 255u);
 }
 
 bool Is_Cd_Rom_Drive_495470(CHAR driveLetter)

@@ -28,13 +28,8 @@ class SlogSpawner final : public BaseGameObject
 public:
     SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo);
 
-    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-
-private:
-    void vScreenChanged_4C82A0();
-    void vUpdate_4C80D0();
 
 private:
     s32 field_20_tlvInfo;

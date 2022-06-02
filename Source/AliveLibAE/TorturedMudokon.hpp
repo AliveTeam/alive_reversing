@@ -30,11 +30,8 @@ public:
     
 
 private:
-    void SetupTearsAnimation_47BE60(Animation* pAnim);
-    void SetupZapAnimation_47BEF0(Animation* pAnim);
-    void vScreenChanged_47C440();
-    void vRender_47C460(PrimHeader** ppOt);
-    void vUpdate_47BF80();
+    void SetupTearsAnimation(Animation* pAnim);
+    void SetupZapAnimation(Animation* pAnim);
 
 private:
     Animation field_F4_tears_animation;

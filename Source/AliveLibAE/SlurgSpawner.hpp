@@ -25,14 +25,9 @@ class SlurgSpawner final : public BaseGameObject
 {
 public:
     SlurgSpawner(Path_SlurgSpawner* pTlv, s32 tlvInfo);
-
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-
-private:
-    void vUpdate_4C83C0();
-    void vScreenChanged_4C84A0();
 
 private:
     s32 field_20_tlvInfo;

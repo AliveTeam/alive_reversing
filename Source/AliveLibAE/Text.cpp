@@ -17,11 +17,6 @@ void Text::VUpdate()
     // Empty
 }
 
-void Text::VRender(PrimHeader** ppOt)
-{
-    Render_46AFD0(ppOt);
-}
-
 void Text::VScreenChanged()
 {
     // Empty
@@ -59,12 +54,12 @@ Text::~Text()
     field_20_font.dtor_433540();
 }
 
-void Text::SetYPos_46AFB0(s32 /*not_used*/, s16 ypos)
+void Text::SetYPos(s32 /*not_used*/, s16 ypos)
 {
     field_5E_ypos = ypos;
 }
 
-void Text::Render_46AFD0(PrimHeader** ppOt)
+void Text::VRender(PrimHeader** ppOt)
 {
     const s16 ypos = field_5E_ypos + 100;
     const s32 xpos = (368 / 2) - (field_5C_xpos / 2);
@@ -140,7 +135,7 @@ void Text::Render_46AFD0(PrimHeader** ppOt)
 // MainMenuController::ChangeScreenAndIntroLogic_4CF640 will call with type 3 (Shown on boot, says Abe's Exoddus).
 
 // TODO: When above functions are reversed clean up this function to remove strange dead cases..
-s8 Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, MessageType messageType)
+s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageType)
 {
     if (messageType == MessageType::eSkipMovie_1)
     {
@@ -166,7 +161,7 @@ s8 Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, MessageType mes
             pTextObj2 = ae_new<Text>("or esc to skip the movie", 1, 0);
             if (pTextObj2)
             {
-                pTextObj2->SetYPos_46AFB0(0, 30);
+                pTextObj2->SetYPos(0, 30);
             }
             break;
 
@@ -174,7 +169,7 @@ s8 Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, MessageType mes
             pTextObj2 = ae_new<Text>("or esc to skip the demo", 1, 0);
             if (pTextObj2)
             {
-                pTextObj2->SetYPos_46AFB0(0, 30);
+                pTextObj2->SetYPos(0, 30);
             }
             break;
     }

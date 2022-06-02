@@ -62,7 +62,7 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
 
-    SetTint_425600(sFootSwitchTints_5639F4, gMap.mCurrentLevel);
+    SetTint(sFootSwitchTints_5639F4, gMap.mCurrentLevel);
 
     field_FA_switch_id = pTlv->field_10_switch_id;
 
@@ -120,7 +120,7 @@ void FootSwitch::vUpdate_4DE270()
             {
                 field_100_obj_id = pStoodOnMeNow->field_8_object_id;
 
-                SwitchStates_Do_Operation_465F00(field_FA_switch_id, field_FC_action);
+                SwitchStates_Do_Operation(field_FA_switch_id, field_FC_action);
                 field_F8_state = States::eWaitForGetOffMe_1;
 
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][1]);
@@ -135,12 +135,12 @@ void FootSwitch::vUpdate_4DE270()
 
                 if (gMap.mCurrentLevel == LevelIds::eMines_1 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 || gMap.mCurrentLevel == LevelIds::eBarracks_6 || gMap.mCurrentLevel == LevelIds::eBrewery_9)
                 {
-                    SFX_Play(SoundEffect::IndustrialTrigger_80, 30, 400);
-                    SFX_Play(SoundEffect::IndustrialNoise1_76, 60, 800);
+                    SFX_Play_Pitch(SoundEffect::IndustrialTrigger_80, 30, 400);
+                    SFX_Play_Pitch(SoundEffect::IndustrialNoise1_76, 60, 800);
                 }
                 else
                 {
-                    SFX_Play_46FA90(SoundEffect::FootSwitchPress_55, 0);
+                    SFX_Play_Mono(SoundEffect::FootSwitchPress_55, 0);
                 }
             }
 
@@ -180,7 +180,7 @@ void FootSwitch::vUpdate_4DE270()
         case States::eWaitForGetOffMe_1:
         {
             PSX_RECT bRect = {};
-            vGetBoundingRect_424FD0(&bRect, 1);
+            VGetBoundingRect(&bRect, 1);
 
             // Have they left the switch or died?
             if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
@@ -212,7 +212,7 @@ void FootSwitch::vScreenChanged_4DE650()
 BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
 {
     PSX_RECT bRectSwitch = {};
-    vGetBoundingRect_424FD0(&bRectSwitch, 1);
+    VGetBoundingRect(&bRectSwitch, 1);
     bRectSwitch.y -= 3;
 
     if (field_FE_trigger_by == FootSwitchTriggerBy::eAnyone_1)
@@ -230,7 +230,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
                 PSX_RECT theirRect = {};
-                pAliveObj->vGetBoundingRect_424FD0(&theirRect, 1);
+                pAliveObj->VGetBoundingRect(&theirRect, 1);
 
                 const s32 xpos = FP_GetExponent(pAliveObj->field_B8_xpos);
 
@@ -244,7 +244,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
     else if (field_FE_trigger_by == FootSwitchTriggerBy::eAbe_0)
     {
         PSX_RECT bRect = {};
-        sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
+        sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
 
         const s32 xpos = FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos);
 

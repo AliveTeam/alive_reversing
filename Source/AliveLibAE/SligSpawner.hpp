@@ -32,13 +32,9 @@ public:
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
-    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-
-private:
-    s32 vGetSaveState_409BB0(Slig_Spawner_State* pState);
 
 private:
     s32 field_20_tlv_info;

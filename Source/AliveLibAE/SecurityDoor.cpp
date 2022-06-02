@@ -82,17 +82,6 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     }
 }
 
-void SecurityDoor::VScreenChanged()
-{
-    vScreenChanged_4AC970();
-}
-
-void SecurityDoor::VUpdate()
-{
-    vUpdate_4AC380();
-}
-
-
 SecurityDoor::~SecurityDoor()
 {
     if (field_F8_state != SecurityDoorStates::eSuccessChime_1)
@@ -103,12 +92,12 @@ SecurityDoor::~SecurityDoor()
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, static_cast<s16>(field_F8_state) + 1, 0, 0);
 }
 
-void SecurityDoor::vScreenChanged_4AC970()
+void SecurityDoor::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-s16 SecurityDoor::IsPlayerNear_4AC300()
+s16 SecurityDoor::IsPlayerNear()
 {
     const s16 xpos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
     const s16 ypos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
@@ -126,7 +115,7 @@ s16 SecurityDoor::IsPlayerNear_4AC300()
     return 0;
 }
 
-void SecurityDoor::vUpdate_4AC380()
+void SecurityDoor::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -141,7 +130,7 @@ void SecurityDoor::vUpdate_4AC380()
                 return;
             }
 
-            if (IsPlayerNear_4AC300())
+            if (IsPlayerNear())
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_F8_state = SecurityDoorStates::eSayingHi_2;
@@ -303,9 +292,9 @@ void SecurityDoor::vUpdate_4AC380()
                 return;
             }
             field_12A_unused = 1;
-            SwitchStates_Set_465FF0(field_FA_switch_id, 1);
+            SwitchStates_Set(field_FA_switch_id, 1);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            SFX_Play(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
+            SFX_Play_Pitch(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
             field_F8_state = SecurityDoorStates::eSuccessChime_1;
             field_124_timer = sGnFrame_5C1B84 + 15;
             return;
@@ -315,7 +304,7 @@ void SecurityDoor::vUpdate_4AC380()
             {
                 return;
             }
-            SFX_Play(SoundEffect::SecurityDoorDeny_38, 60, -720);
+            SFX_Play_Pitch(SoundEffect::SecurityDoorDeny_38, 60, -720);
             field_F8_state = SecurityDoorStates::eLaughAtFailure_13;
             field_124_timer = sGnFrame_5C1B84 + 15;
             return;
@@ -325,7 +314,7 @@ void SecurityDoor::vUpdate_4AC380()
             {
                 return;
             }
-            SFX_Play(SoundEffect::SecurityDoorLaugh_87, 127, -1000);
+            SFX_Play_Pitch(SoundEffect::SecurityDoorLaugh_87, 127, -1000);
             field_F8_state = SecurityDoorStates::eInactive_0;
             field_124_timer = sGnFrame_5C1B84 + 90;
             return;

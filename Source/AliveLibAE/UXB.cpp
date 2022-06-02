@@ -62,14 +62,14 @@ void UXB::PlaySFX(SoundEffect sfxIdx)
             this->field_BC_ypos,
             0))
     {
-        SFX_Play_46FA90(sfxIdx, 35);
+        SFX_Play_Mono(sfxIdx, 35);
     }
 }
 
 s32 UXB::IsColliding()
 {
     PSX_RECT uxbBound = {};
-    vGetBoundingRect_424FD0(&uxbBound, 1);
+    VGetBoundingRect(&uxbBound, 1);
 
     for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
@@ -83,7 +83,7 @@ s32 UXB::IsColliding()
         if (pObj->field_114_flags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
         {
             PSX_RECT objBound = {};
-            pObj->vGetBoundingRect_424FD0(&objBound, 1);
+            pObj->VGetBoundingRect(&objBound, 1);
 
             const s32 objX = FP_GetExponent(pObj->field_B8_xpos);
             const s32 objY = FP_GetExponent(pObj->field_BC_ypos);
@@ -112,7 +112,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
 
-    SetTint_425600(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
+    SetTint(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
 
     mFlags.Set(BaseGameObject::Options::eInteractive_Bit8);
     field_1C8_flags.Clear(UXB_Flags_1C8::eUnused_Bit0);

@@ -36,15 +36,15 @@ public:
     virtual void VScreenChanged() override;
 
 public:
-    void CalculateSourceAndDestinationPositions_4CCAD0(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
+    void CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
 
 private:
-    void CalculateThickSpriteSegmentPositions_4CCD50();
-    void CalculateThinSpriteSegmentPositions_4CD110();
-    void CalculateZapPoints_4CD340();
-    void CalculateSpritePositionsInner_4CD400(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
-    void UpdateSpriteVertexPositions_4CD650();
-    void CalculateSpritePositionsOuter_4CD5D0();
+    void CalculateThickSpriteSegmentPositions();
+    void CalculateThinSpriteSegmentPositions();
+    void CalculateZapPoints();
+    void CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
+    void UpdateSpriteVertexPositions();
+    void CalculateSpritePositionsOuter();
 
 private:
     enum class ZapLineState : s16

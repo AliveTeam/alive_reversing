@@ -67,13 +67,13 @@ public:
 
     virtual void VOnTrapDoorOpen() override;
 
-    virtual void VThrow_49E460(FP velX, FP velY) override;
+    virtual void VThrow(FP velX, FP velY) override;
 
-    virtual Bool32 VCanThrow_49E350() override;
+    virtual Bool32 VCanThrow() override;
 
-    virtual Bool32 VIsFalling_49E330() override;
+    virtual Bool32 VIsFalling() override;
 
-    virtual void VTimeToExplodeRandom_411490() override;
+    virtual void VTimeToExplodeRandom() override;
 
 
     // Next 2 virtuals are base

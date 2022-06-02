@@ -271,11 +271,11 @@ void GlukkonSwitch::vUpdate_445200()
             {
                 return;
             }
-            SFX_Play(SoundEffect::GlukkonSwitchBleh_88, 127, -700); //Bleh!
+            SFX_Play_Pitch(SoundEffect::GlukkonSwitchBleh_88, 127, -700); //Bleh!
             Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Laugh_7, 127, -200, 0);
             const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            SwitchStates_Do_Operation_465F00(field_FA_ok_switch_id, SwitchOp::eToggle_2);
+            SwitchStates_Do_Operation(field_FA_ok_switch_id, SwitchOp::eToggle_2);
             field_F8_state = 1;
             field_120_timer = sGnFrame_5C1B84 + 15;
             return;
@@ -302,7 +302,7 @@ void GlukkonSwitch::vUpdate_445200()
             Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Heh_5, 127, -200, 0);
             const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-            SwitchStates_Do_Operation_465F00(field_FC_fail_switch_id, SwitchOp::eSetTrue_0);
+            SwitchStates_Do_Operation(field_FC_fail_switch_id, SwitchOp::eSetTrue_0);
             field_F8_state = 0;
             field_120_timer = sGnFrame_5C1B84 + 90;
             return;

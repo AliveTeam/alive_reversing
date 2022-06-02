@@ -73,7 +73,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
         // Only render if in the active level, path and camera
         if (gMap.mCurrentPath == field_C0_path_number
             && gMap.mCurrentLevel == field_C2_lvl_number
-            && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+            && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
             field_20_animation.field_14_scale = field_CC_sprite_scale;
 
@@ -82,11 +82,11 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             s16 b = field_D4_b;
 
             PSX_RECT boundingRect = {};
-            vGetBoundingRect_424FD0(&boundingRect, 1);
+            VGetBoundingRect(&boundingRect, 1);
 
             if (field_DC_bApplyShadows & 1)
             {
-                ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                ShadowZone::ShadowZones_Calculate_Colour(
                     FP_GetExponent(field_B8_xpos),         // Left side
                     (boundingRect.y + boundingRect.h) / 2, // Middle of Height
                     field_D6_scale,
@@ -117,13 +117,13 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
 
             if (field_E0_pShadow)
             {
-                field_E0_pShadow->Calculate_Position_4ACA50(
+                field_E0_pShadow->Calculate_Position(
                     field_B8_xpos,
                     field_BC_ypos,
                     &frameRect,
                     field_CC_sprite_scale,
                     field_D6_scale);
-                field_E0_pShadow->Render_4ACE60(ppOt);
+                field_E0_pShadow->Render(ppOt);
             }
         }
     }
@@ -181,52 +181,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
-{
-    OnCollisionWith_424EE0(xy, wh, pObjList, startingPointIdx, pFn);
-}
-
-PSX_RECT* BaseAnimatedWithPhysicsGameObject::vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx)
-{
-    return GetBoundingRect_424FD0(pRect, pointIdx);
-}
-
-s16 BaseAnimatedWithPhysicsGameObject::vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject* pObj)
-{
-    return IsObjNearby_4253B0(radius, pObj);
-}
-
-s16 BaseAnimatedWithPhysicsGameObject::vIsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pObj)
-{
-    return IsObj_GettingNear_On_X_425420(pObj);
-}
-
-s16 BaseAnimatedWithPhysicsGameObject::vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther)
-{
-    return IsFacingMe_4254A0(pOther);
-}
-
-s16 BaseAnimatedWithPhysicsGameObject::vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
-{
-    return OnSameYLevel_425520(pOther);
-}
-
-void BaseAnimatedWithPhysicsGameObject::vStackOnObjectsOfType_425840(AETypes typeToFind)
-{
-    StackOnObjectsOfType_425840(typeToFind);
-}
-
-void BaseAnimatedWithPhysicsGameObject::VOnPickUpOrSlapped()
-{
-    vOnPickUpOrSlapped_408180();
-}
-
-void BaseAnimatedWithPhysicsGameObject::VOnThrowableHit(BaseGameObject* pFrom)
-{
-    vOnThrowableHit_4081A0(pFrom);
-}
-
-PSX_RECT* BaseAnimatedWithPhysicsGameObject::GetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx)
+PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx)
 {
     const FrameInfoHeader* pAnimFrameHeader = field_20_animation.Get_FrameHeader_40B730(-1);
 
@@ -271,7 +226,7 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::GetBoundingRect_424FD0(PSX_RECT* pR
     return pRect;
 }
 
-s16 BaseAnimatedWithPhysicsGameObject::IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject* pObj)
+s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     FP distance = pObj->field_B8_xpos - field_B8_xpos;
 
@@ -283,7 +238,7 @@ s16 BaseAnimatedWithPhysicsGameObject::IsObjNearby_4253B0(FP radius, BaseAnimate
     return distance <= radius;
 }
 
-s16 BaseAnimatedWithPhysicsGameObject::IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->field_B8_xpos < field_B8_xpos && pOther->field_C4_velx > field_C4_velx)
     {
@@ -302,7 +257,7 @@ s16 BaseAnimatedWithPhysicsGameObject::IsObj_GettingNear_On_X_425420(BaseAnimate
 }
 
 // Muds use this to face "away" from Abe when stood on the same grid block. Also used to follow Abe in the correct direction etc.
-s16 BaseAnimatedWithPhysicsGameObject::IsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->field_B8_xpos == field_B8_xpos
         && pOther->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -326,14 +281,14 @@ s16 BaseAnimatedWithPhysicsGameObject::IsFacingMe_4254A0(BaseAnimatedWithPhysics
 }
 
 // This is how Scrabs, Fleeches (and probably other stuff) know you are on the same "floor"
-s16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
+s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     // Get bounding rects
     PSX_RECT ourRect = {};
-    GetBoundingRect_424FD0(&ourRect, 1);
+    VGetBoundingRect(&ourRect, 1);
 
     PSX_RECT theirRect = {};
-    pOther->GetBoundingRect_424FD0(&theirRect, 1);
+    pOther->VGetBoundingRect(&theirRect, 1);
 
     // Get mid Y of each
     const s32 theirMidY = (theirRect.h + theirRect.y) / 2;
@@ -352,7 +307,7 @@ s16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithPhysi
     return FALSE;
 }
 
-void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(AETypes typeToFind)
+void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(AETypes typeToFind)
 {
     // For some reason this isn't const in the real game
     const s16 kData[6] = {
@@ -380,17 +335,17 @@ void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(AETypes type
     field_DA_xOffset = FP_GetExponent(FP_FromInteger(kData[data_idx]) * field_CC_sprite_scale);
 }
 
-void BaseAnimatedWithPhysicsGameObject::vOnPickUpOrSlapped_408180()
+void BaseAnimatedWithPhysicsGameObject::VOnPickUpOrSlapped()
 {
     // Empty
 }
 
-void BaseAnimatedWithPhysicsGameObject::vOnThrowableHit_4081A0(BaseGameObject* /*pFrom*/)
+void BaseAnimatedWithPhysicsGameObject::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     // Empty
 }
 
-void BaseAnimatedWithPhysicsGameObject::DealDamageRect_4247A0(const PSX_RECT* pRect)
+void BaseAnimatedWithPhysicsGameObject::DealDamageRect(const PSX_RECT* pRect)
 {
     if (gBaseAliveGameObjects_5C1B7C)
     {
@@ -448,14 +403,14 @@ void BaseAnimatedWithPhysicsGameObject::DealDamageRect_4247A0(const PSX_RECT* pR
     }
 }
 
-CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_424A70()
+CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
 {
     PSX_RECT rect = {};
-    vGetBoundingRect_424FD0(&rect, 1);
+    VGetBoundingRect(&rect, 1);
     return gMap.Rect_Location_Relative_To_Active_Camera_480FE0(&rect);
 }
 
-void BaseAnimatedWithPhysicsGameObject::OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
+void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
 {
     if (!pObjList)
     {
@@ -478,7 +433,7 @@ void BaseAnimatedWithPhysicsGameObject::OnCollisionWith_424EE0(PSX_Point xy, PSX
             if (pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 PSX_RECT bRect = {};
-                pObj->GetBoundingRect_424FD0(&bRect, startingPointIdx);
+                pObj->VGetBoundingRect(&bRect, startingPointIdx);
                 if (xy.field_0_x <= bRect.w && xy.field_2_y <= bRect.h && wh.field_0_x >= bRect.x && wh.field_2_y >= bRect.y && field_D6_scale == pObj->field_D6_scale)
                 {
                     if (!(this->*(pFn))(pObj))
@@ -491,7 +446,7 @@ void BaseAnimatedWithPhysicsGameObject::OnCollisionWith_424EE0(PSX_Point xy, PSX
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::SetTint_425600(const TintEntry* pTintArray, LevelIds level_id)
+void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, LevelIds level_id)
 {
     while (pTintArray->field_0_level != static_cast<s32>(level_id)) // TODO: HACK in static data its a byte which doesn't match the enum size
     {
@@ -529,7 +484,7 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
 
         if (bPlaySound == true)
         {
-            SFX_Play(SoundEffect::Vaporize_79, 25, FP_GetExponent((FP_FromInteger(2200) * field_CC_sprite_scale)));
+            SFX_Play_Pitch(SoundEffect::Vaporize_79, 25, FP_GetExponent((FP_FromInteger(2200) * field_CC_sprite_scale)));
         }
     }
 }

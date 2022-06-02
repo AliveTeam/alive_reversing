@@ -6,16 +6,6 @@
 #include "stdlib.hpp"
 #include "Events.hpp"
 
-void ShadowZone::VUpdate()
-{
-    vUpdate_463C40();
-}
-
-void ShadowZone::VScreenChanged()
-{
-    vScreenChanged_463CC0();
-}
-
 ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
@@ -51,7 +41,7 @@ ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 tlvInfo)
     field_36_scale = pTlv->field_1C_scale;
 }
 
-void ShadowZone::ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
+void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
 {
     for (s32 idx = 0; idx < sShadowZone_dArray_5C1B80->Size(); idx++)
     {
@@ -61,11 +51,11 @@ void ShadowZone::ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypos, s16 sca
             break;
         }
 
-        if (pShadow->ApplysToScale_463C70(scale))
+        if (pShadow->ApplysToScale(scale))
         {
             FP amount = {};
             // TODO: This was probably a reference, refactor later
-            pShadow->GetColourAmount_463AA0(&amount, static_cast<s16>(xpos), static_cast<s16>(ypos));
+            pShadow->GetColourAmount(&amount, static_cast<s16>(xpos), static_cast<s16>(ypos));
 
             *r = FP_GetExponent(FP_FromInteger(*r) + (pShadow->field_38_r * amount));
             *b = FP_GetExponent(FP_FromInteger(*b) + (pShadow->field_40_b * amount));
@@ -117,12 +107,12 @@ ShadowZone::~ShadowZone()
     sShadowZone_dArray_5C1B80->Remove_Item(this);
 }
 
-void ShadowZone::vScreenChanged_463CC0()
+void ShadowZone::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-s16 ShadowZone::ApplysToScale_463C70(s16 scale)
+s16 ShadowZone::ApplysToScale(s16 scale)
 {
     if (field_36_scale == ShadowZoneScale::eBoth_0)
     {
@@ -139,7 +129,7 @@ s16 ShadowZone::ApplysToScale_463C70(s16 scale)
     return 0;
 }
 
-void ShadowZone::vUpdate_463C40()
+void ShadowZone::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -147,7 +137,7 @@ void ShadowZone::vUpdate_463C40()
     }
 }
 
-FP* ShadowZone::GetColourAmount_463AA0(FP* pOut, s16 xpos, s16 ypos)
+FP* ShadowZone::GetColourAmount(FP* pOut, s16 xpos, s16 ypos)
 {
     const s32 deltaX = abs(xpos - field_28_centre_x);
     const s32 deltaY = abs(ypos - field_2A_center_y);

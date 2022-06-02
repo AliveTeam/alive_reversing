@@ -28,22 +28,20 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);
 class SlamDoor final : public BaseAliveGameObject
 {
 public:
-    
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    virtual void VUpdate() override;
-
-    virtual void VOnThrowableHit(BaseGameObject*) override
-    { }
-
     SlamDoor(Path_SlamDoor* tlv_params, TlvItemInfoUnion tlvInfo);
     ~SlamDoor();
+
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VUpdate() override;
+    virtual void VOnThrowableHit(BaseGameObject*) override
+    {
+        // Empty
+    }
 
     static s32 CreateFromSaveState(const u8*);
 
 private:
-    void vUpdate_4AFD50();
-    s32 vGetSaveState_4C09D0(u8* pSaveBuffer);
-    void ClearInsideSlamDoor_4B0530(BaseAliveGameObject* pObj, s16 xPosition, s16 width);
+    void ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16 width);
 
 private:
     BitField16<SlamDoor_Flags_118> field_118_flags;

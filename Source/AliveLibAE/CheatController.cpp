@@ -67,7 +67,7 @@ void CheatController_Cheat_PathSkip_421B30()
         memcpy(&sActiveQuicksaveData_BAF7F8, *resource, sizeof(sActiveQuicksaveData_BAF7F8));
         ResourceManager::FreeResource_49C330(resource);
         sActiveQuicksaveData_BAF7F8.field_200_accumulated_obj_count = 1024;
-        Quicksave_LoadActive_4C9170();
+        Quicksave_LoadActive();
     }
 }
 

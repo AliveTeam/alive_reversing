@@ -111,7 +111,7 @@ SnoozeParticle::~SnoozeParticle()
     }
 }
 
-void SnoozeParticle::Update_4B0980()
+void SnoozeParticle::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -166,7 +166,7 @@ void SnoozeParticle::Update_4B0980()
                 }
                 else
                 {
-                    SFX_Play_46FA90(SoundEffect::ZPop_4, 0, field_38_scale);
+                    SFX_Play_Mono(SoundEffect::ZPop_4, 0, field_38_scale);
                     mFlags.Set(BaseGameObject::eDead);
                 }
                 break;
@@ -174,7 +174,7 @@ void SnoozeParticle::Update_4B0980()
     }
 }
 
-void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
+void SnoozeParticle::VRender(PrimHeader** ppOt)
 {
     PSX_RECT rectToInvalidate = {};
     FP_Point* pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
@@ -282,7 +282,7 @@ void SnoozeParticle::Render_4B0AF0(PrimHeader** ppOt)
         pScreenManager_5BB5F4->field_3A_idx);
 }
 
-void SnoozeParticle::vScreenChanged_4B1300()
+void SnoozeParticle::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }

@@ -61,7 +61,7 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
         FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
         FP_GetExponent(FP_FromInteger(10) * field_f4_scale),
         FP_GetExponent(FP_FromInteger(10) * field_f4_scale)};
-    DealDamageRect_4247A0(&damageRect);
+    DealDamageRect(&damageRect);
 
     // alternate between Explosion1 and Explosion2 on each call
     static s32 staticIdFlip = 0;
@@ -85,7 +85,7 @@ void BaseBomb::VUpdate()
             rect.w = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
             rect.y = FP_GetExponent(FP_FromInteger(-20) * field_f4_scale);
             rect.h = FP_GetExponent(FP_FromInteger(20) * field_f4_scale);
-            DealDamageRect_4247A0(&rect);
+            DealDamageRect(&rect);
             break;
 
         case 1:
@@ -93,7 +93,7 @@ void BaseBomb::VUpdate()
             rect.w = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
             rect.y = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
             rect.h = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
-            DealDamageRect_4247A0(&rect);
+            DealDamageRect(&rect);
             break;
 
         case 2:
@@ -101,7 +101,7 @@ void BaseBomb::VUpdate()
             rect.w = FP_GetExponent(FP_FromInteger(80) * field_f4_scale);
             rect.y = FP_GetExponent(FP_FromInteger(-40) * field_f4_scale);
             rect.h = FP_GetExponent(FP_FromInteger(40) * field_f4_scale);
-            DealDamageRect_4247A0(&rect);
+            DealDamageRect(&rect);
             break;
 
         case 3:
@@ -120,7 +120,7 @@ void BaseBomb::VUpdate()
             rect.w = FP_GetExponent(FP_FromInteger(113) * field_f4_scale);
             rect.y = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
             rect.h = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
-            DealDamageRect_4247A0(&rect);
+            DealDamageRect(&rect);
             break;
         }
 

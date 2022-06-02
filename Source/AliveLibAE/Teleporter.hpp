@@ -16,12 +16,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-
-    void vScreenChanged_4DCE80();
-    void vUpdate_4DC400();
-
-private:
-    static Electrocute* Create_ElectrocuteEffect_4DCEB0();
+    static Electrocute* Create_ElectrocuteEffect();
     void SpawnRingSparks(Path_Teleporter_Data* pTlvData);
 
     s32 field_20_tlvInfo;

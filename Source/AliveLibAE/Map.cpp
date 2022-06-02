@@ -135,7 +135,7 @@ void Map::ScreenChange_480B80()
         ScreenChange_Common();
         return;
     }
-    sSoundChannelsMask_5C3120 = SND_4CA5D0(0, 0, 36, 70, 0, 0);
+    sSoundChannelsMask_5C3120 = SND_MIDI(0, 0, 36, 70, 0, 0);
     ScreenChange_Common();
 }
 
@@ -225,7 +225,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
                 auto pBaseObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
                 PSX_RECT objRect = {};
-                pBaseObj->vGetBoundingRect_424FD0(&objRect, 1);
+                pBaseObj->VGetBoundingRect(&objRect, 1);
 
                 if (pBaseObj->field_DC_bApplyShadows & 2)
                 {
@@ -254,7 +254,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
 
     if (bAddedALight)
     {
-        SFX_Play(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
 
         for (s32 counter = 0; counter < 12; counter++)
         {
@@ -643,7 +643,7 @@ void Map::GoTo_Camera_481890()
         {
             SND_Stop_Channels_Mask_4CA810(sSoundChannelsMask_5C3120);
         }
-        sSoundChannelsMask_5C3120 = SND_4CA5D0(0, 0, 36, 70, 0, 0);
+        sSoundChannelsMask_5C3120 = SND_MIDI(0, 0, 36, 70, 0, 0);
     }
 
     if (mCurrentLevel != LevelIds::eMenu_0 && mCurrentLevel != LevelIds::eNone)
@@ -712,7 +712,7 @@ void Map::GoTo_Camera_481890()
                     break;
                 }
             }
-            Display_Full_Screen_Message_Blocking_465820(Path_Get_Unknown(mLevel), MessageType::eLongTitle_0);
+            Display_Full_Screen_Message_Blocking(Path_Get_Unknown(mLevel), MessageType::eLongTitle_0);
         }
 
         // Open Path BND
@@ -735,7 +735,7 @@ void Map::GoTo_Camera_481890()
 
         if (!field_8_force_load)
         {
-            SwitchStates_SetRange_465FA0(2, 255);
+            SwitchStates_SetRange(2, 255);
         }
 
         if (field_CE_free_all_anim_and_palts)
@@ -770,7 +770,7 @@ void Map::GoTo_Camera_481890()
 
     if (sQuickSave_saved_switchResetters_count_BB234C > 0)
     {
-        Quicksave_RestoreSwitchResetterStates_4C9A30();
+        Quicksave_RestoreSwitchResetterStates();
     }
 
     char_type pStrBuffer[13] = {};
@@ -822,7 +822,7 @@ void Map::GoTo_Camera_481890()
 
     if (field_D8_restore_quick_save)
     {
-        QuikSave_RestoreBlyData_D481890_4C9BE0(field_D8_restore_quick_save);
+        QuikSave_RestoreBlyData(field_D8_restore_quick_save);
         field_D8_restore_quick_save = nullptr;
     }
 

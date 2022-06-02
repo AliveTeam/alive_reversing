@@ -8,16 +8,6 @@
 #include "stdlib.hpp"
 #include "Grid.hpp"
 
-void StatusLight::VUpdate()
-{
-    vUpdate_4D5530();
-}
-
-void StatusLight::VScreenChanged()
-{
-    vScreenChanged_4D5820();
-}
-
 StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -88,16 +78,16 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     field_10C_ypos = field_BC_ypos;
 }
 
-void StatusLight::vUpdate_4D5530()
+void StatusLight::VUpdate()
 {
     // TODO: Document how this works
 
     field_B8_xpos = FP_FromInteger(sTweakX_5C1BD0) + field_108_xpos;
     field_BC_ypos = FP_FromInteger(sTweakY_5C1BD4) + field_10C_ypos;
 
-    if (SwitchStates_Get_466020(field_F8_switch_id))
+    if (SwitchStates_Get(field_F8_switch_id))
     {
-        if ((!SwitchStates_Get_466020(field_FA_id1) && field_FA_id1) || (!SwitchStates_Get_466020(field_FC_id2) && field_FC_id2) || (!SwitchStates_Get_466020(field_FE_id3) && field_FE_id3) || (!SwitchStates_Get_466020(field_100_id4) && field_100_id4) || (!SwitchStates_Get_466020(field_102_id5) && field_102_id5)
+        if ((!SwitchStates_Get(field_FA_id1) && field_FA_id1) || (!SwitchStates_Get(field_FC_id2) && field_FC_id2) || (!SwitchStates_Get(field_FE_id3) && field_FE_id3) || (!SwitchStates_Get(field_100_id4) && field_100_id4) || (!SwitchStates_Get(field_102_id5) && field_102_id5)
             || (sGnFrame_5C1B84 % 8) >= 4)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -109,7 +99,7 @@ void StatusLight::vUpdate_4D5530()
         const AnimRecord& animRec = AnimRec(AnimId::Status_Light_Green);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
     }
-    else if (SwitchStates_Get_466020(field_FA_id1) || SwitchStates_Get_466020(field_FC_id2) || SwitchStates_Get_466020(field_FE_id3) || SwitchStates_Get_466020(field_100_id4) || SwitchStates_Get_466020(field_102_id5))
+    else if (SwitchStates_Get(field_FA_id1) || SwitchStates_Get(field_FC_id2) || SwitchStates_Get(field_FE_id3) || SwitchStates_Get(field_100_id4) || SwitchStates_Get(field_102_id5))
     {
         if ((sGnFrame_5C1B84 % 8) >= 4)
         {
@@ -135,7 +125,7 @@ StatusLight::~StatusLight()
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
 }
 
-void StatusLight::vScreenChanged_4D5820()
+void StatusLight::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }

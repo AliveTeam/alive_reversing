@@ -843,7 +843,7 @@ void FlyingSlig::Movement_4396E0()
     if (field_17E_flags.Get(Flags_17E::eBit5_Throw))
     {
         if (static_cast<s32>(sGnFrame_5C1B84) > field_150_grenade_delay && 
-            (field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) || SwitchStates_Get_466020(field_17C_launch_switch_id) ||
+            (field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) || SwitchStates_Get(field_17C_launch_switch_id) ||
              field_114_flags.Get(Flags_114::e114_Bit4_bPossesed)) && CanThrowGrenade_43A490())
         {
             ThrowGrenade_43A1E0();
@@ -957,7 +957,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
             if (static_cast<Bullet*>(pFrom)->field_20_type == BulletType::eZBullet_3)
             {
                 PSX_RECT bRect = {};
-                vGetBoundingRect_424FD0(&bRect, 1);
+                VGetBoundingRect(&bRect, 1);
                 Path_TLV* pTlv = nullptr;
                 do
                 {
@@ -1069,7 +1069,7 @@ void FlyingSlig::Brain_3_GetAlerted_435750()
     {
         field_14C_timer++;
     }
-    else if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+    else if (VIsFacingMe(sControlledCharacter_5C1B8C))
     {
         if (!sub_436730() && static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
         {
@@ -1112,7 +1112,7 @@ void FlyingSlig::Brain_4_ChasingEnemy_435BC0()
 
         if (static_cast<s32>(sGnFrame_5C1B84) > field_150_grenade_delay && CanThrowGrenade_43A490())
         {
-            if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+            if (VIsFacingMe(sControlledCharacter_5C1B8C))
             {
                 if (!(Math_NextRandom() & 15))
                 {
@@ -1201,7 +1201,7 @@ void FlyingSlig::Brain_9_SpottedEnemy_435E40()
 
 void FlyingSlig::Brain_10_LaunchingGrenade_435F10()
 {
-    if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+    if (VIsFacingMe(sControlledCharacter_5C1B8C))
     {
         field_17E_flags.Set(Flags_17E::eBit5_Throw);
     }
@@ -2029,7 +2029,7 @@ s16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
         return 1;
     }
 
-    if (vIsFacingMe_4254A0(pObj) && !IsInInvisibleZone(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
+    if (VIsFacingMe(pObj) && !IsInInvisibleZone(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         return 1;
     }
@@ -2218,7 +2218,7 @@ Bool32 FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGam
 {
     // TODO: Duplicated like IsAbeEnteringDoor_4BB990 ??
     PSX_RECT bRect = {};
-    pObj->vGetBoundingRect_424FD0(&bRect, 1);
+    pObj->VGetBoundingRect(&bRect, 1);
 
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -2257,7 +2257,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
     {
         pGrenade->field_CC_sprite_scale = field_CC_sprite_scale;
         pGrenade->field_D6_scale = field_D6_scale;
-        pGrenade->VThrow_49E460(grenadeXVel, grenadeYVel);
+        pGrenade->VThrow(grenadeXVel, grenadeYVel);
     }
 
     New_ShootingFire_Particle_426890(xpos + field_B8_xpos, ypos + field_BC_ypos, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), field_CC_sprite_scale);
@@ -2289,8 +2289,8 @@ void FlyingSlig::BlowUp_436510()
     ae_new<Blood>(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 20);
 
     New_Smoke_Particles_426C70(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), field_CC_sprite_scale, 3, 128u, 128u, 128u);
-    SFX_Play_46FA90(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
-    SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90, field_CC_sprite_scale);
+    SFX_Play_Mono(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
+    SFX_Play_Mono(SoundEffect::FallingItemHit_47, 90, field_CC_sprite_scale);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -2394,7 +2394,7 @@ u8** FlyingSlig::ResBlockForMotion_4350F0(s32 /*motion*/)
 
 void FlyingSlig::ToChantShake_436270()
 {
-    SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
+    SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
     VSetMotion(eFlyingSligMotions::M_Possession_9_434290);
     SetBrain(&FlyingSlig::Brain_14_DePossession_436180);
     field_14C_timer = sGnFrame_5C1B84 + 45;
@@ -2442,7 +2442,7 @@ s16 FlyingSlig::CanThrowGrenade_43A490()
 
 void FlyingSlig::ToLaunchingGrenade_435F50()
 {
-    if (!vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsTurning_436AE0())
+    if (!VIsFacingMe(sControlledCharacter_5C1B8C) && !IsTurning_436AE0())
     {
         if (field_18C == FP_FromInteger(0))
         {
@@ -3284,7 +3284,7 @@ s16 FlyingSlig::TryPullLever_439DB0()
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
             PSX_RECT bObjRect = {};
-            pAliveObj->vGetBoundingRect_424FD0(&bObjRect, 1);
+            pAliveObj->VGetBoundingRect(&bObjRect, 1);
             if (rect_w <= bObjRect.w && rect_x >= bObjRect.x && rect_y >= bObjRect.y && rect_h <= bObjRect.h)
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))

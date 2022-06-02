@@ -760,7 +760,7 @@ void Factory_BirdPortal_4D9AA0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, 
             gMap.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplineResID, loadMode);
         }
     }
-    else if (SwitchStates_Get_466020(pBirdPortalTlv->field_20_create_portal_switch_id))
+    else if (SwitchStates_Get(pBirdPortalTlv->field_20_create_portal_switch_id))
     {
         ae_new<BirdPortal>(pBirdPortalTlv, tlvInfo.all);
     }

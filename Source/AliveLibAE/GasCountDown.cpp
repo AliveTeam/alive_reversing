@@ -200,7 +200,7 @@ void GasCountDown::vUpdate_4172E0()
     }
 
     // Enable
-    if (!sGasTimer_5C1BE8 && SwitchStates_Get_466020(field_70_start_timer_switch_id) && !SwitchStates_Get_466020(field_72_stop_timer_switch_id))
+    if (!sGasTimer_5C1BE8 && SwitchStates_Get(field_70_start_timer_switch_id) && !SwitchStates_Get(field_72_stop_timer_switch_id))
     {
         sGasTimer_5C1BE8 = sGnFrame_5C1B84;
         ae_new<Alarm>(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
@@ -215,7 +215,7 @@ void GasCountDown::vUpdate_4172E0()
     else
     {
         // Running
-        if (SwitchStates_Get_466020(field_72_stop_timer_switch_id))
+        if (SwitchStates_Get(field_72_stop_timer_switch_id))
         {
             sGasTimer_5C1BE8 = 0;
             return;
@@ -231,7 +231,7 @@ void GasCountDown::vUpdate_4172E0()
         field_74_time_left = static_cast<s16>(new_timer);
         if (old_timer != field_74_time_left && field_74_time_left > 0)
         {
-            SFX_Play(SoundEffect::RedTick_3, 55, -1000);
+            SFX_Play_Pitch(SoundEffect::RedTick_3, 55, -1000);
         }
     }
 

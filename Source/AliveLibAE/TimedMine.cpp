@@ -49,7 +49,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
         field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
     }
 
-    InitBlinkAnimation_4108E0(&field_124_animation);
+    InitBlinkAnimation(&field_124_animation);
 
     field_11A_ticks_before_explosion = pPath->field_16_ticks_before_explosion;
 
@@ -98,7 +98,7 @@ void TimedMine::VUpdate()
 
     if (!field_1C4_flags.Get(TimedMine_Flags_1C4::eStickToLiftPoint_0))
     {
-        StickToLiftPoint_411100();
+        StickToLiftPoint();
     }
 
     if (pPlatform && pPlatform->vOnAnyFloor_461920())
@@ -115,7 +115,7 @@ void TimedMine::VUpdate()
         {
             field_1BC_gnFrame_2 = sGnFrame_5C1B84;
             const CameraPos soundDir = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
-            SFX_Play_46FC20(SoundEffect::GreenTick_2, 50, soundDir);
+            SFX_Play_Camera(SoundEffect::GreenTick_2, 50, soundDir);
 
             // TODO: Modulus ?
             if (((field_120_gnframe - sGnFrame_5C1B84) & 0xFFFFFFF8) >= 144)
@@ -166,7 +166,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
     }
 }
 
-void TimedMine::InitBlinkAnimation_4108E0(Animation* pAnimation)
+void TimedMine::InitBlinkAnimation(Animation* pAnimation)
 {
     const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
     if (pAnimation->Init_40A030(tickRec.mFrameTableOffset, gObjList_animations_5C1A24, this, tickRec.mMaxW, tickRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, tickRec.mResourceId), 1, 0, 0))
@@ -186,7 +186,7 @@ void TimedMine::InitBlinkAnimation_4108E0(Animation* pAnimation)
     }
 }
 
-void TimedMine::StickToLiftPoint_411100()
+void TimedMine::StickToLiftPoint()
 {
     FP hitX = {};
     FP hitY = {};
@@ -215,7 +215,7 @@ void TimedMine::StickToLiftPoint_411100()
                     {
                         PSX_RECT bRect = {};
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);
-                        pLiftPoint->vGetBoundingRect_424FD0(&bRect, 1);
+                        pLiftPoint->VGetBoundingRect(&bRect, 1);
                         if (FP_GetExponent(field_B8_xpos) > bRect.x && FP_GetExponent(field_B8_xpos) < bRect.w && FP_GetExponent(field_BC_ypos) < bRect.h)
                         {
                             pLiftPoint->VAdd(this);
@@ -318,6 +318,6 @@ void TimedMine::VOnPickUpOrSlapped()
         const AnimRecord& flashRec = AnimRec(AnimId::Bomb_Flash);
         field_120_gnframe = sGnFrame_5C1B84 + field_11A_ticks_before_explosion;
         field_124_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
-        SFX_Play_46FA90(SoundEffect::GreenTick_2, 0);
+        SFX_Play_Mono(SoundEffect::GreenTick_2, 0);
     }
 }

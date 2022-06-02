@@ -15,9 +15,6 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    void vRender_4A0E30(PrimHeader** ppOt);
-
-private:
     s16 field_F4_rope_segment_count;
 
 public:

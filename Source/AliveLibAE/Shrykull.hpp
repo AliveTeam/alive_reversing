@@ -14,12 +14,13 @@ public:
     virtual void VScreenChanged() override;
 
     virtual void VOnThrowableHit(BaseGameObject*) override
-    { }
+    {
+        // Empty
+    }
 
 private:
-    static s16 CanElectrocute_4AED10(BaseGameObject* pObj);
-
-    static s16 CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj);
+    static s16 CanElectrocute(BaseGameObject* pObj);
+    static s16 CanKill(BaseAnimatedWithPhysicsGameObject* pObj);
 
 private:
     enum class State : s16

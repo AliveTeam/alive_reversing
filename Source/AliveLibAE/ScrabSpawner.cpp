@@ -44,23 +44,15 @@ s32 ScrabSpawner::CreateFromSaveState(const u8* pBuffer)
     return sizeof(ScrabSpawner_State);
 }
 
-void ScrabSpawner::VUpdate()
-{
-    vUpdate_4AB510();
-}
-
-s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_4ABF50(reinterpret_cast<ScrabSpawner_State*>(pSaveBuffer));
-}
-
 ScrabSpawner::~ScrabSpawner()
 {
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
 }
 
-s32 ScrabSpawner::vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState)
+s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
 {
+    auto pSaveState = reinterpret_cast<ScrabSpawner_State*>(pSaveBuffer);
+
     pSaveState->field_0_type = AETypes::eScrabSpawner_113;
     pSaveState->field_4_tlvInfo = field_20_tlvInfo;
     pSaveState->field_8_state = field_38_state;
@@ -77,7 +69,7 @@ s32 ScrabSpawner::vGetSaveState_4ABF50(ScrabSpawner_State* pSaveState)
     return sizeof(ScrabSpawner_State);
 }
 
-void ScrabSpawner::vUpdate_4AB510()
+void ScrabSpawner::VUpdate()
 {
     if (field_40_bFindSpawnedScrab)
     {
@@ -109,14 +101,14 @@ void ScrabSpawner::vUpdate_4AB510()
         {
             if (!pExistingSpawnedScrab || pExistingSpawnedScrab->mFlags.Get(BaseGameObject::eDead))
             {
-                SwitchStates_Do_Operation_465F00(field_24_spawner_switch_id, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation(field_24_spawner_switch_id, SwitchOp::eSetFalse_1);
                 field_3C_spawned_scrab_id = -1;
                 field_38_state = ScrabSpawnerStates::eInactive_0;
             }
         }
         else if (field_38_state == ScrabSpawnerStates::eInactive_0)
         {
-            if (SwitchStates_Get_466020(field_24_spawner_switch_id))
+            if (SwitchStates_Get(field_24_spawner_switch_id))
             {
                 auto pTlv = static_cast<Path_ScrabSpawner*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                     field_28_tlv_data.field_8_top_left.field_0_x,
@@ -130,7 +122,7 @@ void ScrabSpawner::vUpdate_4AB510()
                     auto pNewScrab = ae_new<Scrab>(pTlv, field_20_tlvInfo, field_26_spawn_direction);
                     if (pNewScrab)
                     {
-                        SFX_Play_46FA90(SoundEffect::ScrabSpawn_111, 0);
+                        SFX_Play_Mono(SoundEffect::ScrabSpawn_111, 0);
 
                         field_38_state = ScrabSpawnerStates::eScrabSpawned_1;
                         field_3C_spawned_scrab_id = pNewScrab->field_8_object_id;

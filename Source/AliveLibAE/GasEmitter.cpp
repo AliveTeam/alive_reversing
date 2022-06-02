@@ -77,7 +77,7 @@ void GasEmitter::vScreenChanged_43CE20()
 
 void GasEmitter::vUpdate_43CB70()
 {
-    if ((gGasOn_5C1C00 && !((sGnFrame_5C1B84 + field_24_emit_power) % 4)) || (SwitchStates_Get_466020(field_2A_switch_id) && field_28_draw_flipper && Math_RandomRange_496AB0(0, 1)))
+    if ((gGasOn_5C1C00 && !((sGnFrame_5C1B84 + field_24_emit_power) % 4)) || (SwitchStates_Get(field_2A_switch_id) && field_28_draw_flipper && Math_RandomRange_496AB0(0, 1)))
     {
         switch (field_2C_gas_colour)
         {
@@ -107,9 +107,9 @@ void GasEmitter::vUpdate_43CB70()
 
         if (!sMainGasEmitter_5BD4C8)
         {
-            SFX_Play_46FA90(SoundEffect::Gas1_82, 127);
+            SFX_Play_Mono(SoundEffect::Gas1_82, 127);
             sMainGasEmitter_5BD4C8 = this;
-            sGasEmiterAudioMask_5BD4CC = SFX_Play_46FA90(SoundEffect::Gas2_83, 127);
+            sGasEmiterAudioMask_5BD4CC = SFX_Play_Mono(SoundEffect::Gas2_83, 127);
         }
     }
 

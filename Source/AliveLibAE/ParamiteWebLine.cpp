@@ -158,7 +158,7 @@ void ParamiteWebLine::VScreenChanged()
     return vScreenChanged_4E2BC0();
 }
 
-PSX_RECT* ParamiteWebLine::vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx)
+PSX_RECT* ParamiteWebLine::VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx)
 {
     return vGetBoundingRect_4E2B40(pRect, pointIdx);
 }
@@ -194,7 +194,7 @@ void ParamiteWebLine::vUpdate_4E2A50()
         if (field_1A0_pulse_position > field_FA_bottom)
         {
             field_1A0_pulse_position = field_F8_top;
-            SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::WebDrop1_103, SoundEffect::WebDrop2_104)), Math_RandomRange_496AB0(40, 80));
+            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::WebDrop1_103, SoundEffect::WebDrop2_104)), Math_RandomRange_496AB0(40, 80));
             field_106_wobble_pos = field_F8_top;
             return;
         }
@@ -266,7 +266,7 @@ void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
         }
 
         const s16 render_xpos = FP_GetExponent(xVal);
-        ShadowZone::ShadowZones_Calculate_Colour_463CE0(render_xpos, render_ypos, field_D6_scale, &r, &g, &b);
+        ShadowZone::ShadowZones_Calculate_Colour(render_xpos, render_ypos, field_D6_scale, &r, &g, &b);
         field_FC_pRes[idx].field_8_r = static_cast<u8>(r);
         field_FC_pRes[idx].field_9_g = static_cast<u8>(g);
         field_FC_pRes[idx].field_A_b = static_cast<u8>(b);

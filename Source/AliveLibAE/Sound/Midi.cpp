@@ -427,7 +427,7 @@ void SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch)
     }
 }
 
-s32 SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
+s32 SND_MIDI(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
 {
     s32 volClamped = 0;
     if (vol < 10)

@@ -59,27 +59,17 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     field_DC_bApplyShadows |= 2u;
 }
 
-void RockSack::VScreenChanged()
-{
-    vScreenChanged_49F700();
-}
-
-void RockSack::VUpdate()
-{
-    vUpdate_49F3A0();
-}
-
 RockSack::~RockSack()
 {
     Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
 }
 
-void RockSack::vScreenChanged_49F700()
+void RockSack::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void RockSack::vUpdate_49F3A0()
+void RockSack::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -94,7 +84,7 @@ void RockSack::vUpdate_49F3A0()
             {
                 field_120_can_play_wobble_sound = 0;
                 field_122_force_wobble_sound = 0;
-                SFX_Play(SoundEffect::SackWobble_29, 24, Math_RandomRange_496AB0(-2400, -2200));
+                SFX_Play_Pitch(SoundEffect::SackWobble_29, 24, Math_RandomRange_496AB0(-2400, -2200));
             }
         }
     }
@@ -120,10 +110,10 @@ void RockSack::vUpdate_49F3A0()
         }
 
         PSX_RECT bPlayerRect = {};
-        sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bPlayerRect, 1);
+        sActiveHero_5C1B68->VGetBoundingRect(&bPlayerRect, 1);
 
         PSX_RECT bRect = {};
-        vGetBoundingRect_424FD0(&bRect, 1);
+        VGetBoundingRect(&bRect, 1);
 
         if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
         {
@@ -150,15 +140,15 @@ void RockSack::vUpdate_49F3A0()
                 gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
             }
 
-            gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_rock_amount);
+            gpThrowableArray_5D1E2C->Add(field_11E_rock_amount);
 
             auto pRock = ae_new<Rock>(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_rock_amount);
             if (pRock)
             {
-                pRock->VThrow_49E460(field_124_x_vel, field_128_y_vel);
+                pRock->VThrow(field_124_x_vel, field_128_y_vel);
             }
 
-            SFX_Play_46FA90(SoundEffect::SackHit_25, 0);
+            SFX_Play_Mono(SoundEffect::SackHit_25, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_31_RunJumpMid_452C10)

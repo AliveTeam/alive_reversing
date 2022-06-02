@@ -28,34 +28,24 @@ ZzzSpawner::ZzzSpawner(Path_ZzzSpawner* pTlv, s32 tlvInfo)
     field_34_Zzz_timer = 0;
 }
 
-void ZzzSpawner::VUpdate()
-{
-    vUpdate_4C41B0();
-}
-
-void ZzzSpawner::VScreenChanged()
-{
-    vScreenChanged_4C4280();
-}
-
 ZzzSpawner::~ZzzSpawner()
 {
     Path::TLV_Reset_4DB8E0(field_2C_tlvInfo, -1, 0, 0);
 }
 
-void ZzzSpawner::vScreenChanged_4C4280()
+void ZzzSpawner::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void ZzzSpawner::vUpdate_4C41B0()
+void ZzzSpawner::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (!SwitchStates_Get_466020(field_30_switch_id) && static_cast<s32>(sGnFrame_5C1B84) > field_34_Zzz_timer)
+    if (!SwitchStates_Get(field_30_switch_id) && static_cast<s32>(sGnFrame_5C1B84) > field_34_Zzz_timer)
     {
         ae_new<SnoozeParticle>(field_20_xpos, field_24_ypos, Layer::eLayer_Above_FG1_39, field_28_scale);
 

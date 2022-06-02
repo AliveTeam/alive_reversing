@@ -46,7 +46,7 @@ LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, Path_LaughingGas* pTlv, s
         field_36_bLaughing_gas = Choice_short::eNo_0;
     }
 
-    if (SwitchStates_Get_466020(field_48_tlv_data.field_2_laughing_gas_switch_id))
+    if (SwitchStates_Get(field_48_tlv_data.field_2_laughing_gas_switch_id))
     {
         field_34_bEnabled = 1;
         field_54_amount_on = FP_FromInteger(1);
@@ -246,7 +246,7 @@ void LaughingGas::vUpdate_432C40()
         mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (SwitchStates_Get_466020(field_48_tlv_data.field_2_laughing_gas_switch_id))
+    if (SwitchStates_Get(field_48_tlv_data.field_2_laughing_gas_switch_id))
     {
         field_34_bEnabled = 1;
     }

@@ -126,7 +126,7 @@ void Bullet::vUpdate_413560()
 
                             if (Math_RandomRange_496AB0(0, 100) < 90)
                             {
-                                SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                             }
                         }
 
@@ -161,7 +161,7 @@ void Bullet::vUpdate_413560()
 
                 if (Math_RandomRange_496AB0(0, 100) < 90)
                 {
-                    SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                    SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                 }
                 mFlags.Set(BaseGameObject::eDead);
                 return;
@@ -206,7 +206,7 @@ void Bullet::vUpdate_413560()
 
                     if (Math_RandomRange_496AB0(0, 100) < 90)
                     {
-                        SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                        SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                     }
                 }
 
@@ -223,7 +223,7 @@ void Bullet::vUpdate_413560()
 
             if (Math_RandomRange_496AB0(0, 100) < 70)
             {
-                SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
             }
             mFlags.Set(BaseGameObject::eDead);
             return;
@@ -264,7 +264,7 @@ void Bullet::vUpdate_413560()
                 ae_new<Spark>(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
                 New_Smoke_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
             }
-            SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
+            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
             mFlags.Set(BaseGameObject::eDead);
             return;
         }
@@ -285,7 +285,7 @@ void Bullet::vUpdate_413560()
             }
 
             PSX_RECT rect = {};
-            sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&rect, 1);
+            sControlledCharacter_5C1B8C->VGetBoundingRect(&rect, 1);
             rect.x = FP_GetExponent(rectXPos);
             rect.y = rect.h - 10;
             rect.w = rect.x + 2;
@@ -311,7 +311,7 @@ void Bullet::vUpdate_413560()
                     ae_new<Spark>(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
                     New_Smoke_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
                 }
-                SFX_Play_46FA90(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
+                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
             }
             mFlags.Set(BaseGameObject::eDead);
             return;
@@ -382,7 +382,7 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
                         pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eMineCar_89 || (pObj->Type() == AETypes::eSlig_125 && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == AETypes::eFlyingSlig_54 && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == AETypes::eCrawlingSlig_26 && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == AETypes::eGlukkon_67 && sControlledCharacter_5C1B8C == pObj))
                     {
                         PSX_RECT bRect = {};
-                        pObj->vGetBoundingRect_424FD0(&bRect, 1);
+                        pObj->VGetBoundingRect(&bRect, 1);
 
                         if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
                         {
@@ -411,7 +411,7 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
 
 void Bullet::PlayBulletSounds(s16 volume)
 {
-    SFX_Play(SoundEffect::AirStream_23, volume, 2000);
-    SFX_Play(SoundEffect::MeatBounce_36, volume, Math_RandomRange_496AB0(300, 700));
-    SFX_Play(SoundEffect::KillEffect_64, volume, Math_RandomRange_496AB0(900, 1400));
+    SFX_Play_Pitch(SoundEffect::AirStream_23, volume, 2000);
+    SFX_Play_Pitch(SoundEffect::MeatBounce_36, volume, Math_RandomRange_496AB0(300, 700));
+    SFX_Play_Pitch(SoundEffect::KillEffect_64, volume, Math_RandomRange_496AB0(900, 1400));
 }

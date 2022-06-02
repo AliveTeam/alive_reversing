@@ -16,7 +16,7 @@ public:
     virtual void VUpdate() override;
 
 public:
-    void Update_Clip_Rect_416EB0(PSX_Point xy, PSX_Point wh);
+    void Update_Clip_Rect(PSX_Point xy, PSX_Point wh);
 
 private:
     Prim_PrimClipper field_20_clippers[2];

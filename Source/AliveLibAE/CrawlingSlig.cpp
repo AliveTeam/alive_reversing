@@ -141,7 +141,7 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, 1, 0));
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1, 1);
 
-    SetTint_425600(&kCrawlingSligTints_5514B8[0], gMap.mCurrentLevel);
+    SetTint(&kCrawlingSligTints_5514B8[0], gMap.mCurrentLevel);
 
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
 
@@ -545,7 +545,7 @@ s16 CrawlingSlig::HandleEnemyStopper_41C740(FP /*velX*/)
         TlvTypes::SlamDoor_85));
     field_FC_pPathTLV = pSlamDoor;
 
-    if (pSlamDoor && ((pSlamDoor->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get_466020(pSlamDoor->field_14_switch_id)) || (pSlamDoor->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get_466020(pSlamDoor->field_14_switch_id))))
+    if (pSlamDoor && ((pSlamDoor->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoor->field_14_switch_id)) || (pSlamDoor->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoor->field_14_switch_id))))
     {
         return 1;
     }
@@ -558,7 +558,7 @@ s16 CrawlingSlig::HandleEnemyStopper_41C740(FP /*velX*/)
         TlvTypes::EnemyStopper_47));
     field_FC_pPathTLV = pStopper;
 
-    return pStopper && (pStopper->field_10_stop_direction == direction || pStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get_466020(pStopper->field_12_switch_id);
+    return pStopper && (pStopper->field_10_stop_direction == direction || pStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get(pStopper->field_12_switch_id);
 }
 
 Path_TLV* CrawlingSlig::FindPantsOrWings_419750()
@@ -750,7 +750,7 @@ CrawlingSlig::~CrawlingSlig()
 
 Bool32 CrawlingSlig::PanicOn_419810()
 {
-    return SwitchStates_Get_466020(field_1E8_tlv.field_18_panic_switch_id) != 0;
+    return SwitchStates_Get(field_1E8_tlv.field_18_panic_switch_id) != 0;
 }
 
 void CrawlingSlig::ToIdle_41C070()
@@ -1099,7 +1099,7 @@ s16 CrawlingSlig::Brain_3_Possessed_41A5B0()
                 return field_208_brain_sub_state;
             }
             field_1AC_timer = sGnFrame_5C1B84 + 30;
-            SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
+            SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
             Set_AnimAndMotion_419890(CrawlingSligMotion::M_Shaking_12_418C30, TRUE);
             return Brain_2_Possessed::eBrain3_Unpossessing_2;
 
@@ -1228,8 +1228,8 @@ s16 CrawlingSlig::Brain_4_GetKilled_41A880()
                 128u,
                 128u);
 
-            SFX_Play_46FA90(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
-            SFX_Play_46FA90(SoundEffect::FallingItemHit_47, 90, field_CC_sprite_scale);
+            SFX_Play_Mono(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
+            SFX_Play_Mono(SoundEffect::FallingItemHit_47, 90, field_CC_sprite_scale);
 
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
@@ -1330,7 +1330,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
     {
         if (field_20_animation.field_92_current_frame == 7)
         {
-            SFX_Play_46FA90(SoundEffect::CrawlingSligTransformStart_93, 0);
+            SFX_Play_Mono(SoundEffect::CrawlingSligTransformStart_93, 0);
         }
 
         if (static_cast<s32>(sGnFrame_5C1B84) == field_1AC_timer - 1)
@@ -1346,7 +1346,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
             {
                 // Transform to a walking slig
 
-                SFX_Play_46FA90(SoundEffect::SligSpawn_114, 0);
+                SFX_Play_Mono(SoundEffect::SligSpawn_114, 0);
 
                 auto pWalkingSlig = ae_new<Slig>(static_cast<Path_Slig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(field_1E4_pPantsOrWingsTlv));
                 if (pWalkingSlig)
@@ -1375,7 +1375,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
             {
                 // Transform to a flying slig
 
-                SFX_Play_46FA90(SoundEffect::FlyingSligSpawn_113, 0);
+                SFX_Play_Mono(SoundEffect::FlyingSligSpawn_113, 0);
 
                 auto pFlyingSlig = ae_new<FlyingSlig>(static_cast<Path_FlyingSlig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(field_1E4_pPantsOrWingsTlv));
                 if (pFlyingSlig)
@@ -1581,7 +1581,7 @@ void CrawlingSlig::M_Speaking_8_41BF70()
 {
     if (field_20_animation.field_92_current_frame == 2 && field_1C0_speak != SligSpeak::eNone)
     {
-        if (gMap.mCurrentPath == field_C0_path_number && gMap.mCurrentLevel == field_C2_lvl_number && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+        if (gMap.mCurrentPath == field_C0_path_number && gMap.mCurrentLevel == field_C2_lvl_number && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
             Slig_GameSpeak_SFX_4C04F0(field_1C0_speak, 0, 0, this);
         }
@@ -1977,14 +1977,14 @@ void CrawlingSlig::MoveOnLine_41C3D0()
 void CrawlingSlig::PlatformCollide_41C500()
 {
     PSX_RECT bRect = {};
-    vGetBoundingRect_424FD0(&bRect, 1);
+    VGetBoundingRect(&bRect, 1);
 
     PSX_Point xy = {bRect.x, bRect.y};
     PSX_Point wh = {bRect.w, bRect.h};
     xy.field_2_y += 5;
     wh.field_2_y += 5;
 
-    vOnCollisionWith_424EE0(
+    VOnCollisionWith(
         xy,
         wh,
         ObjList_5C1B78, 1,

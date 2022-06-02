@@ -42,35 +42,22 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
 class TrapDoor final : public PlatformBase
 {
 public:
-    
+    TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
+    ~TrapDoor();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx) override;
-
+    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx) override;
     virtual void VAdd(BaseAliveGameObject* pObj) override;
     virtual void VRemove(BaseAliveGameObject* pObj) override;
-
-    TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
-    ~TrapDoor();
 
     static s32 CreateFromSaveState(const u8* pData);
 
 private:
-    void vUpdate_4DDA90();
-    void vRender_4DDDD0(PrimHeader** ppOt);
-    void vScreenChanged_4DDE40();
-    s32 vGetSaveState_4DE050(TrapDoor_State* pState);
-    PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, s32 /*not_used*/);
-
-private:
-    void vAdd_4DDD90(BaseAliveGameObject* pObj);
-    void vRemove_4DDDB0(BaseAliveGameObject* pObj);
-
-    void Add_To_Collisions_Array_4DDA20();
-
-    void Open_4DD960();
+    void Add_To_Collisions_Array();
+    void Open();
 
 private:
     s16 field_12C_unused;

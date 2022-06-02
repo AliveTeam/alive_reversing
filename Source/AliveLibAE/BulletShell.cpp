@@ -113,7 +113,7 @@ void BulletShell::vUpdate_4AD550()
                 volume = 19;
             }
 
-            SFX_Play_46FA90(SoundEffect::BulletShell_6, volume);
+            SFX_Play_Mono(SoundEffect::BulletShell_6, volume);
             field_FC_hitCount++;
         }
     }

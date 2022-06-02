@@ -96,7 +96,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
     }
 
     PSX_RECT bRect = {};
-    pObj->vGetBoundingRect_424FD0(&bRect, 1);
+    pObj->VGetBoundingRect(&bRect, 1);
 
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         bRect.x,
@@ -301,14 +301,14 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
             pLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PSX_RECT bRect = {};
-            vGetBoundingRect_424FD0(&bRect, 1);
+            VGetBoundingRect(&bRect, 1);
 
             PSX_Point xy = {bRect.x, bRect.y};
             PSX_Point wh = {bRect.w, bRect.h};
             xy.field_2_y += 5;
             wh.field_2_y += 5;
 
-            vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+            VOnCollisionWith(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
         }
     }
     else
@@ -370,7 +370,7 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
 
 s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, LevelIds level_id, s32 resourceID)
 {
-    SetTint_425600(pTintArray, level_id);
+    SetTint(pTintArray, level_id);
 
     u8** pPalResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, resourceID, 1u, 0);
 
@@ -443,7 +443,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(s32 idToFind, AET
             {
                 PSX_RECT bRect = {};
                 BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-                pAliveObj->vGetBoundingRect_424FD0(&bRect, 1);
+                pAliveObj->VGetBoundingRect(&bRect, 1);
                 // TODO: Similar to PSX_Rects_overlap_no_adjustment
                 if (xposD >= bRect.x && xposD <= bRect.w && yposD >= bRect.y && yposD <= bRect.h)
                 {
@@ -459,7 +459,7 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir()
 {
     if (sControlledCharacter_5C1B8C == this)
     {
-        switch (Is_In_Current_Camera_424A70())
+        switch (Is_In_Current_Camera())
         {
             case CameraPos::eCamTop_1:
                 if (field_C8_vely < FP_FromInteger(0))
@@ -641,7 +641,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind,
             if (pCasted->field_D6_scale == field_D6_scale)
             {
                 PSX_RECT bRect = {};
-                pCasted->vGetBoundingRect_424FD0(&bRect, 1);
+                pCasted->VGetBoundingRect(&bRect, 1);
 
                 if (xposI >= bRect.x && xposI <= bRect.w && yposI >= bRect.y && yposI <= bRect.h)
                 {
@@ -656,7 +656,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind,
 s16 BaseAliveGameObject::OnTrapDoorIntersection(PlatformBase* pPlatform)
 {
     PSX_RECT bRect = {};
-    pPlatform->vGetBoundingRect_424FD0(&bRect, 1);
+    pPlatform->VGetBoundingRect(&bRect, 1);
 
     if (FP_GetExponent(field_B8_xpos) < bRect.x || FP_GetExponent(field_B8_xpos) > bRect.w || FP_GetExponent(field_BC_ypos) > bRect.h)
     {

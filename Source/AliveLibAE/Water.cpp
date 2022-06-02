@@ -156,26 +156,6 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
     }
 }
 
-void Water::VUpdate()
-{
-    vUpdate_4E0B50();
-}
-
-void Water::VRender(PrimHeader** ppOt)
-{
-    vRender_4E1440(ppOt);
-}
-
-void Water::VScreenChanged()
-{
-    vScreenChanged_4E1780();
-}
-
-void Water::VStopAudio()
-{
-    vStopAudio_4E1800();
-}
-
 Water::~Water()
 {
     if (field_F4_ppWaterRes)
@@ -208,7 +188,7 @@ Water::~Water()
     }
 }
 
-void Water::vScreenChanged_4E1780()
+void Water::VScreenChanged()
 {
     if (field_144_sound_channels)
     {
@@ -222,7 +202,7 @@ void Water::vScreenChanged_4E1780()
     }
 }
 
-void Water::vStopAudio_4E1800()
+void Water::VStopAudio()
 {
     if (field_144_sound_channels)
     {
@@ -231,14 +211,14 @@ void Water::vStopAudio_4E1800()
     }
 }
 
-void Water::Disable_Water_Particle_4E0B10(s16 idx)
+void Water::Disable_Water_Particle(s16 idx)
 {
     field_F8_pWaterRes[idx].field_18_enabled = 0;
     field_10C_particle_count--;
     field_10E_current_particle_idx = idx;
 }
 
-void Water::Add_Water_Particle_4E09A0()
+void Water::Add_Water_Particle()
 {
     if (field_10C_particle_count != field_124_tlv_data.field_10_max_drops)
     {
@@ -275,7 +255,7 @@ void Water::Add_Water_Particle_4E09A0()
     }
 }
 
-void Water::vUpdate_4E0B50()
+void Water::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -308,7 +288,7 @@ void Water::vUpdate_4E0B50()
         {
             case WaterState::eInit_0:
                 field_138_splash_time = 0;
-                if (!SwitchStates_Get_466020(field_124_tlv_data.field_12_switch_id))
+                if (!SwitchStates_Get(field_124_tlv_data.field_12_switch_id))
                 {
                     field_FC_state = WaterState::eInactive_4;
                 }
@@ -316,7 +296,7 @@ void Water::vUpdate_4E0B50()
                 {
                     field_FC_state = WaterState::eFlowing_2;
                     field_140_water_duration = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_water_duration;
-                    field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
+                    field_144_sound_channels = SFX_Play_Camera(SoundEffect::WaterFall_95, 40, soundDir);
                 }
                 break;
 
@@ -328,7 +308,7 @@ void Water::vUpdate_4E0B50()
 
                 if (field_110_current_drops > 3 && !field_144_sound_channels)
                 {
-                    field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
+                    field_144_sound_channels = SFX_Play_Camera(SoundEffect::WaterFall_95, 40, soundDir);
                 }
 
                 if (field_110_current_drops < (s16)(field_124_tlv_data.field_10_max_drops >> 5))
@@ -339,7 +319,7 @@ void Water::vUpdate_4E0B50()
                         {
                             break;
                         }
-                        Add_Water_Particle_4E09A0();
+                        Add_Water_Particle();
                     }
                 }
                 else
@@ -353,7 +333,7 @@ void Water::vUpdate_4E0B50()
                 field_110_current_drops = Math_NextRandom() % (field_124_tlv_data.field_10_max_drops >> 4);
                 if (field_110_current_drops > 3 && !field_144_sound_channels)
                 {
-                    field_144_sound_channels = SFX_Play_46FC20(SoundEffect::WaterFall_95, 40, soundDir);
+                    field_144_sound_channels = SFX_Play_Camera(SoundEffect::WaterFall_95, 40, soundDir);
                 }
 
                 for (s32 i = 0; i < field_110_current_drops; i++)
@@ -362,10 +342,10 @@ void Water::vUpdate_4E0B50()
                     {
                         break;
                     }
-                    Add_Water_Particle_4E09A0();
+                    Add_Water_Particle();
                 }
 
-                if (!SwitchStates_Get_466020(field_124_tlv_data.field_12_switch_id))
+                if (!SwitchStates_Get(field_124_tlv_data.field_12_switch_id))
                 {
                     field_FC_state = WaterState::eStopping_3;
                     field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
@@ -392,14 +372,14 @@ void Water::vUpdate_4E0B50()
                         {
                             break;
                         }
-                        Add_Water_Particle_4E09A0();
+                        Add_Water_Particle();
                     }
                 }
                 else
                 {
                     SND_Stop_Channels_Mask_4CA810(field_144_sound_channels);
                     field_144_sound_channels = 0;
-                    SFX_Play_46FC20(SoundEffect::WaterEnd_96, 40, soundDir);
+                    SFX_Play_Camera(SoundEffect::WaterEnd_96, 40, soundDir);
                     field_FC_state = WaterState::eInactive_4;
                 }
                 break;
@@ -429,11 +409,11 @@ void Water::vUpdate_4E0B50()
                         }
                     }
                 }
-                else if (SwitchStates_Get_466020(field_124_tlv_data.field_12_switch_id))
+                else if (SwitchStates_Get(field_124_tlv_data.field_12_switch_id))
                 {
                     field_110_current_drops = 0;
                     field_FC_state = WaterState::eStarting_1;
-                    SFX_Play_46FC20(SoundEffect::WaterStart_94, 40, soundDir);
+                    SFX_Play_Camera(SoundEffect::WaterStart_94, 40, soundDir);
                 }
                 break;
 
@@ -460,7 +440,7 @@ void Water::vUpdate_4E0B50()
                         pWaterRes->field_C_delta_x.fpValue -= pWaterRes->field_C_delta_x.fpValue >> 3;
                         if (pWaterRes->field_1A_splash_time == 0)
                         {
-                            Disable_Water_Particle_4E0B10(i);
+                            Disable_Water_Particle(i);
                         }
                     }
                 }
@@ -513,7 +493,7 @@ void Water::vUpdate_4E0B50()
     }
 }
 
-void Water::vRender_4E1440(PrimHeader** ppOt)
+void Water::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,

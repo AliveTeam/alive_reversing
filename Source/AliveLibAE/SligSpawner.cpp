@@ -89,13 +89,13 @@ void SligSpawner::VUpdate()
     {
         if (!pSpawnedSlig || pSpawnedSlig->mFlags.Get(BaseGameObject::eDead) || pSpawnedSlig->field_10C_health <= FP_FromInteger(0))
         {
-            SwitchStates_Set_465FF0(field_24_slig_spawner_switch_id, 0);
+            SwitchStates_Set(field_24_slig_spawner_switch_id, 0);
             field_38_state = SpawnerStates::eInactive_0;
         }
     }
     else if (field_38_state == SpawnerStates::eInactive_0)
     {
-        if (SwitchStates_Get_466020(field_24_slig_spawner_switch_id))
+        if (SwitchStates_Get(field_24_slig_spawner_switch_id))
         {
             Path_TLV* pSpawnerTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(field_28_tlv.field_8_top_left.field_0_x, field_28_tlv.field_8_top_left.field_2_y, field_28_tlv.field_8_top_left.field_0_x, field_28_tlv.field_8_top_left.field_2_y, TlvTypes::SligSpawner_37);
             if (pSpawnerTlv)
@@ -107,7 +107,7 @@ void SligSpawner::VUpdate()
                 }
 
                 field_38_state = SpawnerStates::eSligSpawned_1;
-                SFX_Play_46FA90(SoundEffect::SligSpawn_114, 0);
+                SFX_Play_Mono(SoundEffect::SligSpawn_114, 0);
             }
 
             if (!field_26_flags.Get(SpawnerFlags::eBit2_UnlimitedSpawns))
@@ -119,8 +119,10 @@ void SligSpawner::VUpdate()
     }
 }
 
-s32 SligSpawner::vGetSaveState_409BB0(Slig_Spawner_State* pState)
+s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
 {
+    auto pState = reinterpret_cast<Slig_Spawner_State*>(pSaveBuffer);
+
     pState->field_0_type = AETypes::eSligSpawner_2;
     pState->field_4_tlvInfo = field_20_tlv_info;
     pState->field_8_state = field_38_state;
@@ -151,9 +153,4 @@ s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
     }
 
     return sizeof(Slig_Spawner_State);
-}
-
-s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_409BB0(reinterpret_cast<Slig_Spawner_State*>(pSaveBuffer));
 }

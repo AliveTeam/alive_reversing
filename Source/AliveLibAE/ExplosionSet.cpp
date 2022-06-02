@@ -215,7 +215,7 @@ void ExplosionSet::vUpdate_414E30()
         {
             if (field_54_switch_id > 0)
             {
-                if (SwitchStates_Get_466020(field_54_switch_id))
+                if (SwitchStates_Get(field_54_switch_id))
                 {
                     bEnabled_5C1BB6 = 1;
                 }

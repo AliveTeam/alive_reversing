@@ -502,7 +502,7 @@ void EvilFart::VUpdate()
                     field_124_state = FartStates::eDechanting_2;
                     field_128_timer = sGnFrame_5C1B84 + 15;
                     field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 50;
-                    SFX_Play_46FA90(SoundEffect::PossessEffect_17, 0);
+                    SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
                 }
             }
         }

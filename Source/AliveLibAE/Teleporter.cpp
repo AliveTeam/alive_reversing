@@ -27,7 +27,7 @@ Teleporter::Teleporter(Path_Teleporter* pTlv, u32 tlvInfo)
     field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
     field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
 
-    field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_switch_id);
+    field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
 
     field_54_effect_created = 0;
 
@@ -36,22 +36,12 @@ Teleporter::Teleporter(Path_Teleporter* pTlv, u32 tlvInfo)
     field_50_objId = -1;
 }
 
-void Teleporter::VUpdate()
-{
-    vUpdate_4DC400();
-}
-
-void Teleporter::VScreenChanged()
-{
-    vScreenChanged_4DCE80();
-}
-
 Teleporter::~Teleporter()
 {
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
 }
 
-void Teleporter::vScreenChanged_4DCE80()
+void Teleporter::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
@@ -60,7 +50,7 @@ void Teleporter::vScreenChanged_4DCE80()
     field_32_bDestroySelf = 1;
 }
 
-Electrocute* Teleporter::Create_ElectrocuteEffect_4DCEB0()
+Electrocute* Teleporter::Create_ElectrocuteEffect()
 {
     return ae_new<Electrocute>(sControlledCharacter_5C1B8C, TRUE, FALSE);
 }
@@ -102,7 +92,7 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
     }
 }
 
-void Teleporter::vUpdate_4DC400()
+void Teleporter::VUpdate()
 {
     Electrocute* pObj = static_cast<Electrocute*>(sObjectIds.Find(field_50_objId, AETypes::eElectrocute_150));
 
@@ -115,12 +105,12 @@ void Teleporter::vUpdate_4DC400()
                 mFlags.Set(BaseGameObject::eDead);
             }
 
-            if (SwitchStates_Get_466020(field_34_mTlvData.field_1A_switch_id) == field_2C_switch_state)
+            if (SwitchStates_Get(field_34_mTlvData.field_1A_switch_id) == field_2C_switch_state)
             {
                 return;
             }
 
-            field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_switch_id);
+            field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
 
             if (!sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                     FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos),
@@ -138,9 +128,9 @@ void Teleporter::vUpdate_4DC400()
             }
 
             field_30_state = TeleporterState::eIntoTeleporter_1;
-            field_50_objId = Teleporter::Create_ElectrocuteEffect_4DCEB0()->field_8_object_id;
+            field_50_objId = Teleporter::Create_ElectrocuteEffect()->field_8_object_id;
 
-            SFX_Play(SoundEffect::Zap1_49, 60, -400);
+            SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -400);
             sControlledCharacter_5C1B8C->field_114_flags.Set(Flags_114::e114_Bit10_Teleporting);
 
             SpawnRingSparks(&field_34_mTlvData);
@@ -255,7 +245,7 @@ void Teleporter::vUpdate_4DC400()
                 }
             }
 
-            SFX_Play(SoundEffect::Zap1_49, 60, -300, tlvData.field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+            SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -300, tlvData.field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
             SpawnRingSparks(&tlvData);
 
             if (tlvData.field_1C_scale != Scale_short::eFull_0)
@@ -318,7 +308,7 @@ void Teleporter::vUpdate_4DC400()
         {
             // Visual effects.
             PSX_RECT bRect = {};
-            sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&bRect, 1);
+            sControlledCharacter_5C1B8C->VGetBoundingRect(&bRect, 1);
 
             // White flash in the middle of Abe's body.
             New_DestroyOrCreateObject_Particle_426F40(
@@ -349,7 +339,7 @@ void Teleporter::vUpdate_4DC400()
             field_54_effect_created = 0;
             sControlledCharacter_5C1B8C->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             sControlledCharacter_5C1B8C->field_114_flags.Clear(Flags_114::e114_Bit10_Teleporting);
-            field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_switch_id);
+            field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
             field_30_state = TeleporterState::eWaitForSwitchOn_0;
         }
         break;

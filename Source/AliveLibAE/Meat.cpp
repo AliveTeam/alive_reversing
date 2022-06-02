@@ -67,27 +67,27 @@ void Meat::VOnTrapDoorOpen()
     vOnTrapDoorOpen_46A2E0();
 }
 
-void Meat::VThrow_49E460(FP velX, FP velY)
+void Meat::VThrow(FP velX, FP velY)
 {
     vThrow_469790(velX, velY);
 }
 
-Bool32 Meat::VCanThrow_49E350()
+Bool32 Meat::VCanThrow()
 {
     return vCanThrow_469680();
 }
 
-Bool32 Meat::VIsFalling_49E330()
+Bool32 Meat::VIsFalling()
 {
     return vIsFalling_469660();
 }
 
-void Meat::VTimeToExplodeRandom_411490()
+void Meat::VTimeToExplodeRandom()
 {
     // TODO
 }
 
-s16 Meat::VGetCount_448080()
+s16 Meat::VGetCount()
 {
     return vGetCount_46A350();
 }
@@ -142,7 +142,7 @@ Meat::~Meat()
     {
         if (gpThrowableArray_5D1E2C)
         {
-            gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count >= 1 ? field_118_count : 1);
+            gpThrowableArray_5D1E2C->Remove(field_118_count >= 1 ? field_118_count : 1);
         }
     }
 }
@@ -204,7 +204,7 @@ void Meat::InTheAir_4697E0()
                     field_11C_state = MeatStates::eBecomeAPickUp_3;
                     field_C8_vely = FP_FromInteger(0);
                     field_C4_velx = FP_FromInteger(0);
-                    SFX_Play(SoundEffect::MeatBounce_36, 0, -650);
+                    SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     Event_Broadcast_422BC0(kEventNoise, this);
                     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                     AddToPlatform_46A170();
@@ -218,7 +218,7 @@ void Meat::InTheAir_4697E0()
                     field_B8_xpos = hitX;
                     field_BC_ypos = hitY;
                     field_C4_velx = (-field_C4_velx / FP_FromInteger(4));
-                    SFX_Play(SoundEffect::MeatBounce_36, 0, -650);
+                    SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     Event_Broadcast_422BC0(kEventNoise, this);
                     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                     if (field_C8_vely < FP_FromInteger(0))
@@ -236,7 +236,7 @@ void Meat::InTheAir_4697E0()
                     field_B8_xpos = hitX;
                     field_BC_ypos = hitY;
                     field_C4_velx = (-field_C4_velx / FP_FromInteger(4));
-                    SFX_Play(SoundEffect::MeatBounce_36, 0, -650);
+                    SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     Event_Broadcast_422BC0(kEventNoise, this);
                     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                     if (field_C8_vely < FP_FromInteger(0))
@@ -254,7 +254,7 @@ void Meat::InTheAir_4697E0()
                     field_B8_xpos = hitX;
                     field_BC_ypos = hitY + FP_FromInteger(1);
                     field_C8_vely = FP_FromInteger(0);
-                    SFX_Play(SoundEffect::MeatBounce_36, 0, -650);
+                    SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     Event_Broadcast_422BC0(kEventNoise, this);
                     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                 }
@@ -278,7 +278,7 @@ s16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
     }
 
     PSX_RECT bRect = {};
-    static_cast<BaseAliveGameObject*>(pHit)->vGetBoundingRect_424FD0(&bRect, 1);
+    static_cast<BaseAliveGameObject*>(pHit)->VGetBoundingRect(&bRect, 1);
 
     if (field_120_xpos < FP_FromInteger(bRect.x) || field_120_xpos > FP_FromInteger(bRect.w))
     {
@@ -293,7 +293,7 @@ s16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
 
     static_cast<BaseAliveGameObject*>(pHit)->VOnThrowableHit(this);
 
-    SFX_Play(SoundEffect::MeatBounce_36, 0, -650);
+    SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
 
     return 0;
 }
@@ -318,10 +318,10 @@ void Meat::vUpdate_469BA0()
             {
                 InTheAir_4697E0();
                 PSX_RECT bRect = {};
-                vGetBoundingRect_424FD0(&bRect, 1);
+                VGetBoundingRect(&bRect, 1);
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                 const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-                vOnCollisionWith_424EE0(
+                VOnCollisionWith(
                     xy,
                     wh,
                     gBaseGameObjects,
@@ -443,7 +443,7 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    SetTint_425600(&kMeatTints_55C254[0], gMap.mCurrentLevel);
+    SetTint(&kMeatTints_55C254[0], gMap.mCurrentLevel);
 
     field_DC_bApplyShadows &= ~1u;
     field_118_tlvInfo = tlvInfo;
@@ -566,7 +566,7 @@ void MeatSack::vUpdate_46A6A0()
             {
                 field_120_bPlayWobbleSound = 0;
                 field_122_always_0 = 0;
-                SFX_Play(SoundEffect::SackWobble_29, 24, Math_RandomRange_496AB0(-2400, -2200));
+                SFX_Play_Pitch(SoundEffect::SackWobble_29, 24, Math_RandomRange_496AB0(-2400, -2200));
             }
         }
     }
@@ -587,10 +587,10 @@ void MeatSack::vUpdate_46A6A0()
     else
     {
         PSX_RECT abeRect = {};
-        sActiveHero_5C1B68->vGetBoundingRect_424FD0(&abeRect, 1);
+        sActiveHero_5C1B68->VGetBoundingRect(&abeRect, 1);
 
         PSX_RECT ourRect = {};
-        vGetBoundingRect_424FD0(&ourRect, 1);
+        VGetBoundingRect(&ourRect, 1);
 
         if (RectsOverlap(ourRect, abeRect) && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
         {
@@ -609,13 +609,13 @@ void MeatSack::vUpdate_46A6A0()
                 gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
             }
 
-            gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_amount_of_meat);
+            gpThrowableArray_5D1E2C->Add(field_11E_amount_of_meat);
 
             auto pMeat = ae_new<Meat>(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_amount_of_meat);
-             pMeat->VThrow_49E460(field_124_velX, field_128_velY);
+             pMeat->VThrow(field_124_velX, field_128_velY);
             pMeat->field_CC_sprite_scale = field_CC_sprite_scale;
 
-            SFX_Play_46FA90(SoundEffect::SackHit_25, 0);
+            SFX_Play_Mono(SoundEffect::SackHit_25, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             field_20_animation.Set_Animation_Data_409C80(MeatSackHitRec.mFrameTableOffset, 0);

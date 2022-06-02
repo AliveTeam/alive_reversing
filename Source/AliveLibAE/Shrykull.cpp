@@ -63,7 +63,7 @@ void Shrykull::VScreenChanged()
     }
 }
 
-s16 Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
+s16 Shrykull::CanElectrocute(BaseGameObject* pObj)
 {
     switch (pObj->Type())
     {
@@ -83,7 +83,7 @@ s16 Shrykull::CanElectrocute_4AED10(BaseGameObject* pObj)
     }
 }
 
-s16 Shrykull::CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj)
+s16 Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     return (
                pObj->Type() == AETypes::eTimedMine_or_MovingBomb_10 || pObj->Type() == AETypes::eMine_88 || pObj->Type() == AETypes::eUXB_143 || pObj->Type() == AETypes::eSlig_125 || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eSlog_126 || pObj->Type() == AETypes::eGlukkon_67 || pObj->Type() == AETypes::eSecurityClaw_47 || pObj->Type() == AETypes::eSecurityOrb_83)
@@ -100,9 +100,9 @@ void Shrykull::VUpdate()
         case State::eTransform_0:
             if (field_20_animation.field_92_current_frame == 0)
             {
-                SFX_Play(SoundEffect::Shrykull1_85, 127, -2000);
-                SFX_Play(SoundEffect::Shrykull2_86, 127, 0);
-                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 127);
+                SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -2000);
+                SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
+                SFX_Play_Mono(SoundEffect::IngameTransition_84, 127);
             }
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -118,11 +118,11 @@ void Shrykull::VUpdate()
             {
                 if (Math_NextRandom() >= 128u)
                 {
-                    SFX_Play(SoundEffect::Shrykull2_86, 127, 0);
+                    SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
                 }
                 else
                 {
-                    SFX_Play(SoundEffect::Shrykull1_85, 127, 0);
+                    SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, 0);
                 }
             }
 
@@ -134,19 +134,19 @@ void Shrykull::VUpdate()
                     break;
                 }
 
-                if (CanKill_4AEC50(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit5_ZappedByShrykull))
+                if (CanKill(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit5_ZappedByShrykull))
                 {
                     field_128_obj_being_zapped_id = pObj->field_8_object_id;
 
                     PSX_RECT objRect = {};
-                    pObj->vGetBoundingRect_424FD0(&objRect, 1);
+                    pObj->VGetBoundingRect(&objRect, 1);
 
                     PSX_RECT ourRect = {};
-                    vGetBoundingRect_424FD0(&ourRect, 1);
+                    VGetBoundingRect(&ourRect, 1);
 
                     if (pExistingZapLine)
                     {
-                        pExistingZapLine->CalculateSourceAndDestinationPositions_4CCAD0(
+                        pExistingZapLine->CalculateSourceAndDestinationPositions(
                             FP_FromInteger((ourRect.x + ourRect.w) / 2),
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
                             FP_FromInteger((objRect.x + objRect.w) / 2),
@@ -167,7 +167,7 @@ void Shrykull::VUpdate()
                         }
                     }
 
-                    field_12C_bElectrocute = CanElectrocute_4AED10(pObj);
+                    field_12C_bElectrocute = CanElectrocute(pObj);
                     if (field_12C_bElectrocute)
                     {
                         ae_new<Electrocute>(pObj, 0, 1);
@@ -193,8 +193,8 @@ void Shrykull::VUpdate()
 
                     pObj->field_114_flags.Set(Flags_114::e114_Bit5_ZappedByShrykull);
 
-                    SFX_Play(SoundEffect::ShrykullZap_18, 100, 2000);
-                    SFX_Play_46FA90(SoundEffect::Zap1_49, 0);
+                    SFX_Play_Pitch(SoundEffect::ShrykullZap_18, 100, 2000);
+                    SFX_Play_Mono(SoundEffect::Zap1_49, 0);
 
                     field_118_state = State::eKillTargets_4;
                     field_11C_timer = sGnFrame_5C1B84 + 12;
@@ -216,17 +216,17 @@ void Shrykull::VUpdate()
             {
                 if (Math_NextRandom() >= 0x80u)
                 {
-                    SFX_Play(SoundEffect::Shrykull2_86, 127, -512);
+                    SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, -512);
                 }
                 else
                 {
-                    SFX_Play(SoundEffect::Shrykull1_85, 127, -512);
+                    SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -512);
                 }
             }
             else if (field_20_animation.field_92_current_frame == 20)
             {
-                SFX_Play(SoundEffect::Shrykull1_85, 127, -2000);
-                SFX_Play(SoundEffect::Shrykull2_86, 127, 0);
+                SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -2000);
+                SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
             }
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -250,11 +250,11 @@ void Shrykull::VUpdate()
             {
                 if (Math_NextRandom() >= 128u)
                 {
-                    SFX_Play(SoundEffect::Shrykull2_86, 127, 0);
+                    SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
                 }
                 else
                 {
-                    SFX_Play(SoundEffect::Shrykull1_85, 127, 0);
+                    SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, 0);
                 }
             }
 
@@ -267,10 +267,10 @@ void Shrykull::VUpdate()
                 else
                 {
                     PSX_RECT zapRect = {};
-                    pExistingBeingZappedObj->vGetBoundingRect_424FD0(&zapRect, 1);
+                    pExistingBeingZappedObj->VGetBoundingRect(&zapRect, 1);
 
                     PSX_RECT ourRect = {};
-                    vGetBoundingRect_424FD0(&ourRect, 1);
+                    VGetBoundingRect(&ourRect, 1);
 
                     if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer)
                     {
@@ -281,7 +281,7 @@ void Shrykull::VUpdate()
 
                         ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1u, TPageAbr::eBlend_3, 1);
                     }
-                    pExistingZapLine->CalculateSourceAndDestinationPositions_4CCAD0(
+                    pExistingZapLine->CalculateSourceAndDestinationPositions(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
                         FP_FromInteger((zapRect.x + zapRect.w) / 2),

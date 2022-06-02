@@ -38,7 +38,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    SetTint_425600(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
+    SetTint(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -142,7 +142,7 @@ void PullRingRope::vUpdate_49B720()
         case States::eBeingPulled_1:
             if (field_20_animation.field_92_current_frame == 2)
             {
-                SFX_Play_46FA90(SoundEffect::RingRopePull_56, 0);
+                SFX_Play_Mono(SoundEffect::RingRopePull_56, 0);
             }
 
             field_BC_ypos += field_C8_vely;
@@ -157,7 +157,7 @@ void PullRingRope::vUpdate_49B720()
 
                 if (gMap.mCurrentLevel == LevelIds::eMines_1 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 || gMap.mCurrentLevel == LevelIds::eBarracks_6 || gMap.mCurrentLevel == LevelIds::eBrewery_9)
                 {
-                    SFX_Play_46FA90(SoundEffect::IndustrialTrigger_80, 0);
+                    SFX_Play_Mono(SoundEffect::IndustrialTrigger_80, 0);
                 }
             }
             break;
@@ -172,9 +172,9 @@ void PullRingRope::vUpdate_49B720()
                 const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseEnd);
                 field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
 
-                const s32 oldSwitchValue = SwitchStates_Get_466020(field_102_switch_id);
-                SwitchStates_Do_Operation_465F00(field_102_switch_id, field_104_action);
-                if (oldSwitchValue != SwitchStates_Get_466020(field_102_switch_id))
+                const s32 oldSwitchValue = SwitchStates_Get(field_102_switch_id);
+                SwitchStates_Do_Operation(field_102_switch_id, field_104_action);
+                if (oldSwitchValue != SwitchStates_Get(field_102_switch_id))
                 {
                     s32 leftVol = 0;
                     s32 rightVol = 0;
@@ -194,7 +194,7 @@ void PullRingRope::vUpdate_49B720()
                         rightVol = 1;
                     }
 
-                    if (SwitchStates_Get_466020(field_102_switch_id))
+                    if (SwitchStates_Get(field_102_switch_id))
                     {
                         switch (field_106_on_sound)
                         {
@@ -202,13 +202,13 @@ void PullRingRope::vUpdate_49B720()
                                 // don't play additional sound effects
                                 break;
                             case PullRingSwitchSound::eWellExit_1:
-                                SFX_Play_46FB10(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
+                                SFX_Play_Stereo(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
                             case PullRingSwitchSound::eRingUnknownTrigger_2: // ring bell hammer from AO?
-                                SFX_Play_46FB10(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
+                                SFX_Play_Stereo(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
                             case PullRingSwitchSound::eDoorEffect_3:
-                                SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
+                                SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
                                 break;
                         }
                     }
@@ -220,13 +220,13 @@ void PullRingRope::vUpdate_49B720()
                                 // don't play additional sound effects
                                 break;
                             case PullRingSwitchSound::eWellExit_1:
-                                SFX_Play_46FB10(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
+                                SFX_Play_Stereo(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
                             case PullRingSwitchSound::eRingUnknownTrigger_2:
-                                SFX_Play_46FB10(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
+                                SFX_Play_Stereo(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
                             case PullRingSwitchSound::eDoorEffect_3:
-                                SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
+                                SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
                                 break;
                         }
                     }
@@ -278,7 +278,7 @@ s16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
     field_F4_stay_in_state_ticks = 6;
     const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseBegin);
     field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
-    SFX_Play_46FA90(SoundEffect::RingRopePull_56, 0);
+    SFX_Play_Mono(SoundEffect::RingRopePull_56, 0);
     return 1;
 }
 

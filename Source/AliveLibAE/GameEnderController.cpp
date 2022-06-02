@@ -81,7 +81,7 @@ void GameEnderController::vScreenChanged_43BC80()
     {
         if (sRescuedMudokons_5C1BC2 < 150)
         {
-            SwitchStates_Set_465FF0(100u, 0);
+            SwitchStates_Set(100u, 0);
         }
     }
 
@@ -110,7 +110,7 @@ void GameEnderController::vUpdate_43B920()
     switch (field_24_state)
     {
         case GameEnderController_States::eInit_0:
-            if (SwitchStates_Get_466020(100u))
+            if (SwitchStates_Get(100u))
             {
                 field_24_state = GameEnderController_States::eDetermineEnding_1;
             }

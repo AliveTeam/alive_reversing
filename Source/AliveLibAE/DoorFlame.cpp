@@ -82,7 +82,7 @@ public:
 
     void vRender_45DCD0(PrimHeader** ppOt)
     {
-        if (Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+        if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
             //if (k1_dword_55EF90)
             {
@@ -339,7 +339,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     field_108_fire_background_glow_id = -1;
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y) + (FP_FromInteger(15) * field_CC_sprite_scale);
 
-    if (SwitchStates_Get_466020(field_F8_switch_id))
+    if (SwitchStates_Get(field_F8_switch_id))
     {
         field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         field_FC_state = States::eEnabled_1;
@@ -426,7 +426,7 @@ void DoorFlame::vUpdate_45E830()
                 pFlameSparks->SetRenderEnabled_45E240(0);
             }
 
-            if (SwitchStates_Get_466020(field_F8_switch_id))
+            if (SwitchStates_Get(field_F8_switch_id))
             {
                 field_FC_state = States::eEnabled_1;
             }
@@ -443,7 +443,7 @@ void DoorFlame::vUpdate_45E830()
             if (!pFlameControllingTheSound_5C2C6C)
             {
                 pFlameControllingTheSound_5C2C6C = this;
-                field_100_sounds_mask = SFX_Play_46FA90(SoundEffect::Fire_59, 40);
+                field_100_sounds_mask = SFX_Play_Mono(SoundEffect::Fire_59, 40);
             }
 
             if (--field_FE_2_random <= 0)
@@ -462,7 +462,7 @@ void DoorFlame::vUpdate_45E830()
                 pFlameSparks->SetRenderEnabled_45E240(1);
             }
 
-            if (!SwitchStates_Get_466020(field_F8_switch_id))
+            if (!SwitchStates_Get(field_F8_switch_id))
             {
                 field_FC_state = States::eDisabled_0;
             }

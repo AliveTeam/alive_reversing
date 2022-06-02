@@ -26,6 +26,9 @@ enum TimedMine_Flags_1C4
 class TimedMine final : public BaseAliveGameObject
 {
 public:
+    TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv);
+    ~TimedMine();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     
@@ -33,12 +36,10 @@ public:
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VOnPickUpOrSlapped() override;
-    TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv);
-    ~TimedMine();
 
 private:
-    void InitBlinkAnimation_4108E0(Animation* pAnimation);
-    void StickToLiftPoint_411100();
+    void InitBlinkAnimation(Animation* pAnimation);
+    void StickToLiftPoint();
 
 public:
     u16 field_118_armed;

@@ -327,7 +327,7 @@ void Greeter::BounceBackFromShot()
     field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
 
     const CameraPos soundDirection = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
-    SFX_Play_46FC20(SoundEffect::GreeterKnockback_121, 0, soundDirection, field_CC_sprite_scale);
+    SFX_Play_Camera(SoundEffect::GreeterKnockback_121, 0, soundDirection, field_CC_sprite_scale);
 }
 
 void Greeter::HandleRollingAlong()
@@ -526,8 +526,8 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         field_B8_xpos,
         field_BC_ypos);
 
-    SFX_Play_46FC20(SoundEffect::Zap1_49, 0, soundDirection, field_CC_sprite_scale);
-    SFX_Play_46FC20(SoundEffect::Zap2_50, 0, soundDirection, field_CC_sprite_scale);
+    SFX_Play_Camera(SoundEffect::Zap1_49, 0, soundDirection, field_CC_sprite_scale);
+    SFX_Play_Camera(SoundEffect::Zap2_50, 0, soundDirection, field_CC_sprite_scale);
 
     RandomishSpeak(GreeterSpeak::eLaugh_3);
 
@@ -559,10 +559,10 @@ void Greeter::RandomishSpeak(GreeterSpeak effect)
 Bool32 Greeter::ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem)
 {
     PSX_RECT usRect = {};
-    vGetBoundingRect_424FD0(&usRect, 1);
+    VGetBoundingRect(&usRect, 1);
 
     PSX_RECT bRectThem = {};
-    pThem->vGetBoundingRect_424FD0(&bRectThem, 1);
+    pThem->VGetBoundingRect(&bRectThem, 1);
 
     FP hitX = {};
     FP hitY = {};
@@ -592,7 +592,7 @@ BaseAliveGameObject* Greeter::GetMudToZap()
         if (pObj->Type() == AETypes::eMudokon_110)
         {
             PSX_RECT bRect = {};
-            pObj->vGetBoundingRect_424FD0(&bRect, 1);
+            pObj->VGetBoundingRect(&bRect, 1);
 
             const FP xMid = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP yMid = FP_FromInteger((bRect.y + bRect.h) / 2);
@@ -623,7 +623,7 @@ void Greeter::VUpdate()
                     field_C0_path_number,
                     field_B8_xpos,
                     field_BC_ypos);
-                SFX_Play_46FC20(SoundEffect::WheelSqueak_31, 10, soundDirection, field_CC_sprite_scale);
+                SFX_Play_Camera(SoundEffect::WheelSqueak_31, 10, soundDirection, field_CC_sprite_scale);
             }
 
             field_C8_vely = FP_FromInteger(0);
@@ -714,7 +714,7 @@ void Greeter::VUpdate()
                     field_C0_path_number,
                     field_B8_xpos,
                     field_BC_ypos);
-                SFX_Play_46FC20(SoundEffect::WheelSqueak_31, 10, soundDirection2, field_CC_sprite_scale);
+                SFX_Play_Camera(SoundEffect::WheelSqueak_31, 10, soundDirection2, field_CC_sprite_scale);
             }
 
             field_C4_velx = -(field_CC_sprite_scale * FP_FromInteger(5));
@@ -724,7 +724,7 @@ void Greeter::VUpdate()
             }
 
             PSX_RECT bRect = {};
-            sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
+            sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
 
             const FP midX = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP midY = FP_FromInteger((bRect.y + bRect.h) / 2);
@@ -735,7 +735,7 @@ void Greeter::VUpdate()
                 if (pGonnaZapYa)
                 {
                     PSX_RECT bZapRect = {};
-                    pGonnaZapYa->vGetBoundingRect_424FD0(&bZapRect, 1);
+                    pGonnaZapYa->VGetBoundingRect(&bZapRect, 1);
 
                     ZapTarget(
                         FP_FromInteger((bZapRect.x + bZapRect.w) / 2),
@@ -797,7 +797,7 @@ void Greeter::VUpdate()
                     field_B8_xpos,
                     hitY);
 
-                SFX_Play_46FC20(SoundEffect::GreeterLand_120, 0, soundDirection3, field_CC_sprite_scale);
+                SFX_Play_Camera(SoundEffect::GreeterLand_120, 0, soundDirection3, field_CC_sprite_scale);
                 if (field_C8_vely > -FP_FromInteger(1))
                 {
                     field_C8_vely = FP_FromInteger(0);

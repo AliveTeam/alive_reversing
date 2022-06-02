@@ -4,7 +4,7 @@
 
 ALIVE_VAR(1, 0x5c1a28, SwitchStates, sSwitchStates_5C1A28, {});
 
-void SwitchStates_SetRange_465FA0(u16 start, u16 end)
+void SwitchStates_SetRange(u16 start, u16 end)
 {
     if (start <= end)
     {
@@ -12,12 +12,12 @@ void SwitchStates_SetRange_465FA0(u16 start, u16 end)
     }
 }
 
-void SwitchStates_Set_465FF0(u16 idx, s8 value)
+void SwitchStates_Set(u16 idx, s8 value)
 {
     sSwitchStates_5C1A28.mData[idx] = value;
 }
 
-s32 SwitchStates_Get_466020(u16 idx)
+s32 SwitchStates_Get(u16 idx)
 {
     if (idx >= ALIVE_COUNTOF(sSwitchStates_5C1A28.mData))
     {
@@ -38,44 +38,44 @@ s32 SwitchStates_Get_466020(u16 idx)
     return sSwitchStates_5C1A28.mData[idx];
 }
 
-void SwitchStates_Add_466060(u16 idx, s8 value)
+void SwitchStates_Add(u16 idx, s8 value)
 {
     sSwitchStates_5C1A28.mData[idx] += value;
 }
 
-void SwitchStates_Do_Operation_465F00(s16 idx, SwitchOp operation)
+void SwitchStates_Do_Operation(s16 idx, SwitchOp operation)
 {
     if (idx >= 2)
     {
         switch (operation)
         {
             case SwitchOp::eSetTrue_0:
-                SwitchStates_Set_465FF0(idx, 1);
+                SwitchStates_Set(idx, 1);
                 break;
 
             case SwitchOp::eSetFalse_1:
-                SwitchStates_Set_465FF0(idx, 0);
+                SwitchStates_Set(idx, 0);
                 break;
 
             case SwitchOp::eToggle_2:
-                if (SwitchStates_Get_466020(idx))
+                if (SwitchStates_Get(idx))
                 {
                     // Its on, so turn off
-                    SwitchStates_Set_465FF0(idx, 0);
+                    SwitchStates_Set(idx, 0);
                 }
                 else
                 {
                     // Its off, so turn on
-                    SwitchStates_Set_465FF0(idx, 1);
+                    SwitchStates_Set(idx, 1);
                 }
                 break;
 
             case SwitchOp::eIncrement_3:
-                SwitchStates_Add_466060(idx, 1);
+                SwitchStates_Add(idx, 1);
                 break;
 
             case SwitchOp::eDecrement_4:
-                SwitchStates_Add_466060(idx, -1);
+                SwitchStates_Add(idx, -1);
                 break;
         }
     }

@@ -23,10 +23,6 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    void vScreenChanged_4C4280();
-    void vUpdate_4C41B0();
-
-private:
     FP field_20_xpos;
     FP field_24_ypos;
     FP field_28_scale;

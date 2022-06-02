@@ -49,12 +49,8 @@ public:
     virtual void VStopAudio() override;
 
 private:
-    void vScreenChanged_4E1780();
-    void vStopAudio_4E1800();
-    void Disable_Water_Particle_4E0B10(s16 idx);
-    void Add_Water_Particle_4E09A0();
-    void vUpdate_4E0B50();
-    void vRender_4E1440(PrimHeader** ppOt);
+    void Disable_Water_Particle(s16 idx);
+    void Add_Water_Particle();
 
 private:
     u8** field_F4_ppWaterRes;

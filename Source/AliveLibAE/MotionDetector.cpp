@@ -116,7 +116,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
             field_F8_laser_id = pLaser->field_8_object_id;
             field_108_disable_switch_id = pTlv->field_1C_disable_switch_id;
 
-            if (SwitchStates_Get_466020(field_108_disable_switch_id) == 0)
+            if (SwitchStates_Get(field_108_disable_switch_id) == 0)
             {
                 pLaser->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             }
@@ -212,7 +212,7 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
     {
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, AETypes::eRedLaser_111));
         PSX_RECT bLaserRect = {};
-        pLaser->vGetBoundingRect_424FD0(&bLaserRect, 1);
+        pLaser->VGetBoundingRect(&bLaserRect, 1);
 
         const FP camXFp = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
         const FP camYFp = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
@@ -313,7 +313,7 @@ void MotionDetector::vUpdate_468A90()
         if (!pOwner)
         {
             // A laser not part of greeter and disabled, do nothing.
-            if (SwitchStates_Get_466020(field_108_disable_switch_id))
+            if (SwitchStates_Get(field_108_disable_switch_id))
             {
                 pLaser->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 return;
@@ -322,7 +322,7 @@ void MotionDetector::vUpdate_468A90()
         }
 
         PSX_RECT bLaserRect = {};
-        pLaser->vGetBoundingRect_424FD0(&bLaserRect, 1);
+        pLaser->VGetBoundingRect(&bLaserRect, 1);
 
         field_178_bObjectInLaser = 0;
 
@@ -337,7 +337,7 @@ void MotionDetector::vUpdate_468A90()
             if (pObj->Type() != AETypes::eTimedMine_or_MovingBomb_10 && (pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eMudokon_110 || !pOwner))
             {
                 PSX_RECT objRect = {};
-                pObj->vGetBoundingRect_424FD0(&objRect, 1);
+                pObj->VGetBoundingRect(&objRect, 1);
 
                 // Can't use PSX_Rects_overlap_no_adjustment because its checking <= and adjusting x/y
                 if (bLaserRect.x <= (objRect.w - 8)
@@ -350,7 +350,7 @@ void MotionDetector::vUpdate_468A90()
                     {
                         if (sGnFrame_5C1B84 % 2)
                         {
-                            SFX_Play_46FA90(SoundEffect::Zap2_50, 45);
+                            SFX_Play_Mono(SoundEffect::Zap2_50, 45);
                         }
                     }
 
@@ -430,7 +430,7 @@ void MotionDetector::vUpdate_468A90()
                         field_C0_path_number,
                         field_B8_xpos,
                         field_BC_ypos);
-                    SFX_Play_46FC20(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
+                    SFX_Play_Camera(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
                 }
                 else
                 {
@@ -455,7 +455,7 @@ void MotionDetector::vUpdate_468A90()
                         field_C0_path_number,
                         field_B8_xpos,
                         field_BC_ypos);
-                    SFX_Play_46FC20(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
+                    SFX_Play_Camera(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
                 }
                 else
                 {

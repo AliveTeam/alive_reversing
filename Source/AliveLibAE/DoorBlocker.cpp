@@ -37,7 +37,7 @@ DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    if (SwitchStates_Get_466020(field_11A_switch_id))
+    if (SwitchStates_Get(field_11A_switch_id))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -71,10 +71,10 @@ void DoorBlocker::vUpdate_41F250()
                 mFlags.Set(BaseGameObject::eDead);
             }
         }
-        else if (SwitchStates_Get_466020(field_11A_switch_id))
+        else if (SwitchStates_Get(field_11A_switch_id))
         {
-            SFX_Play(SoundEffect::DoorEffect_57, 100, 900);
-            SFX_Play(SoundEffect::DoorEffect_57, 100, -100);
+            SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
+            SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
             const AnimRecord& animRec = AnimRec(AnimId::Door_Lock_Open);
             field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, 0);
             field_118_bDone |= 1u;

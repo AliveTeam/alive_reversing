@@ -180,7 +180,7 @@ public:
     virtual void VUpdate() override;
 
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override
+    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override
     {
         return vOnSameYLevel_488A40(pOther);
     }

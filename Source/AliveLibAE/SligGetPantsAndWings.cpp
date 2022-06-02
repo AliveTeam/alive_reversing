@@ -57,7 +57,7 @@ void SligGetPantsAndWings::VUpdate()
             if (static_cast<s32>(sGnFrame_5C1B84) > field_FC_timer)
             {
                 field_F4_state = State::eFinished_2;
-                SFX_Play_46FA90(SoundEffect::NakedSligTransformEnd_92, 0);
+                SFX_Play_Mono(SoundEffect::NakedSligTransformEnd_92, 0);
                 const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Open);
                 field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
             }

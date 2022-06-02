@@ -209,11 +209,11 @@ void Dove::VUpdate()
             if (Event_Get_422C00(kEventNoise))
             {
                 // player getting near
-                if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
+                if (VIsObjNearby(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
                 {
                     Dove::All_FlyAway_41FA60(1);
                 }
-                if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
+                if (VIsObjNearby(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
                 {
                     // noise is too near, leg it
                     Dove::All_FlyAway_41FA60(0);
@@ -230,7 +230,7 @@ void Dove::VUpdate()
                 if (!bExtraSeqStarted_5BC10C)
                 {
                     bExtraSeqStarted_5BC10C = 13;
-                    SFX_Play_46FA90(SoundEffect::Dove_13, 0);
+                    SFX_Play_Mono(SoundEffect::Dove_13, 0);
                 }
             }
 

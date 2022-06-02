@@ -42,7 +42,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
 
-    SetTint_425600(kDrillTints_551548, gMap.mCurrentLevel);
+    SetTint(kDrillTints_551548, gMap.mCurrentLevel);
     Path_Drill_Data tlvData = pTlv->field_10_data;
 
     field_128_flags.Clear(Flags::eBit2_ToggleStartState_StartOn);
@@ -60,7 +60,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
 
     field_F8_switch_id = tlvData.field_16_switch_id;
 
-    if (SwitchStates_Get_466020(field_F8_switch_id) && field_128_flags.Get(Flags::eBit1_StartOff))
+    if (SwitchStates_Get(field_F8_switch_id) && field_128_flags.Get(Flags::eBit1_StartOff))
     {
         field_128_flags.Set(Flags::eBit2_ToggleStartState_StartOn);
     }
@@ -104,7 +104,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             field_C0_path_number,
             field_B8_xpos,
             field_BC_ypos);
-        field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, direction);
+        field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, direction);
     }
 
     switch (field_FA_direction)
@@ -330,7 +330,7 @@ void Drill::vUpdate_420C50()
         case DrillStates::State_0_Restart_Cycle:
             if (Expired(field_108_off_timer) || field_128_flags.Get(eBit4_Toggle))
             {
-                if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get_466020(field_F8_switch_id) == (field_128_flags.Get(eBit1_StartOff))))
+                if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get(field_F8_switch_id) == (field_128_flags.Get(eBit1_StartOff))))
                 {
                     field_F4_state = DrillStates::State_1_Going_Down;
 
@@ -353,7 +353,7 @@ void Drill::vUpdate_420C50()
 
                     field_128_flags.Clear(Flags::eBit5_SpeedChanged);
                     field_11C_speed2 = field_118_speed;
-                    field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, soundDirection);
+                    field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
                     return;
                 }
             }
@@ -389,14 +389,14 @@ void Drill::vUpdate_420C50()
 
                 field_128_flags.Set(Flags::eBit5_SpeedChanged);
                 field_11C_speed2 = field_120_off_speed;
-                field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, soundDirection);
+                field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
             }
             break;
 
         case DrillStates::State_1_Going_Down:
             if (!field_10C_audio_channels_mask)
             {
-                field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, soundDirection);
+                field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
             }
 
             DamageTouchingObjects_421060();
@@ -405,7 +405,7 @@ void Drill::vUpdate_420C50()
             if (field_124_xyoff <= FP_FromInteger(0))
             {
                 field_F4_state = DrillStates::State_2_GoingUp;
-                SFX_Play_46FC20(SoundEffect::DrillCollision_99, 50, soundDirection, FP_FromInteger(1));
+                SFX_Play_Camera(SoundEffect::DrillCollision_99, 50, soundDirection, FP_FromInteger(1));
             }
             EmitSparks_4206D0();
             break;
@@ -413,7 +413,7 @@ void Drill::vUpdate_420C50()
         case DrillStates::State_2_GoingUp:
             if (!field_10C_audio_channels_mask)
             {
-                field_10C_audio_channels_mask = SFX_Play_46FC20(SoundEffect::DrillMovement_97, 25, soundDirection);
+                field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
             }
 
             DamageTouchingObjects_421060();
@@ -428,7 +428,7 @@ void Drill::vUpdate_420C50()
                 }
 
                 field_F4_state = DrillStates::State_0_Restart_Cycle;
-                SFX_Play_46FC20(SoundEffect::DrillCollision_99, 50, soundDirection);
+                SFX_Play_Camera(SoundEffect::DrillCollision_99, 50, soundDirection);
 
                 s16 max_off = 0;
                 s16 min_off = 0;
@@ -458,7 +458,7 @@ void Drill::vUpdate_420C50()
 
                 if (field_128_flags.Get(eBit4_Toggle))
                 {
-                    SwitchStates_Set_465FF0(field_F8_switch_id, !field_128_flags.Get(eBit1_StartOff));
+                    SwitchStates_Set(field_F8_switch_id, !field_128_flags.Get(eBit1_StartOff));
                 }
             }
 
@@ -475,7 +475,7 @@ Drill::~Drill()
         field_10C_audio_channels_mask = 0;
     }
 
-    if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get_466020(field_F8_switch_id) != field_128_flags.Get(Flags::eBit1_StartOff))
+    if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get(field_F8_switch_id) != field_128_flags.Get(Flags::eBit1_StartOff))
     {
         Path::TLV_Reset_4DB8E0(field_104_tlv, 1, 0, 0);
     }
@@ -660,7 +660,7 @@ void Drill::EmitSparks_4206D0()
 s16 Drill::DamageTouchingObjects_421060()
 {
     PSX_RECT drillRect = {};
-    vGetBoundingRect_424FD0(&drillRect, 1);
+    VGetBoundingRect(&drillRect, 1);
 
     if (field_FA_direction == DrillDirection::eDown_0)
     {
@@ -683,7 +683,7 @@ s16 Drill::DamageTouchingObjects_421060()
                 if (pObj->Type() != AETypes::eMeat_84 && pObj->Type() != AETypes::eEvilFart_45 && (pObj->Type() != AETypes::eAbe_69 || pObj->field_106_current_motion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
                 {
                     PSX_RECT objRect = {};
-                    pObj->vGetBoundingRect_424FD0(&objRect, 1);
+                    pObj->VGetBoundingRect(&objRect, 1);
 
                     if (RectsOverlap(drillRect, objRect) && pObj->field_D6_scale == field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
                     {
@@ -732,9 +732,9 @@ s16 Drill::DamageTouchingObjects_421060()
                                  field_CC_sprite_scale,
                                  50);
 
-    SFX_Play(SoundEffect::DrillCollision_99, 127, -500);
-    SFX_Play_46FA90(SoundEffect::KillEffect_64, 127);
-    SFX_Play(SoundEffect::KillEffect_64, 127, -700);
+    SFX_Play_Pitch(SoundEffect::DrillCollision_99, 127, -500);
+    SFX_Play_Mono(SoundEffect::KillEffect_64, 127);
+    SFX_Play_Pitch(SoundEffect::KillEffect_64, 127, -700);
 
     return 1;
 }

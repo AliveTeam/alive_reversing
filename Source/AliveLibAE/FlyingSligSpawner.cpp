@@ -96,12 +96,12 @@ void FlyingSligSpawner::vUpdate_433E10()
         {
             if (!pCurrentSlig || pCurrentSlig->mFlags.Get(BaseGameObject::eDead))
             {
-                SwitchStates_Do_Operation_465F00(field_28_spawner_switch_id, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation(field_28_spawner_switch_id, SwitchOp::eSetFalse_1);
                 field_24_spawned_slig_id = -1;
                 field_3C_bSpawned = FALSE;
             }
         }
-        else if (SwitchStates_Get_466020(field_28_spawner_switch_id))
+        else if (SwitchStates_Get(field_28_spawner_switch_id))
         {
             auto pFlyingSligTlv = static_cast<Path_FlyingSlig*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                 field_2C_tlv_header.field_8_top_left.field_0_x,
@@ -125,7 +125,7 @@ void FlyingSligSpawner::vUpdate_433E10()
 
             field_24_spawned_slig_id = pNewSlig->field_8_object_id;
             field_3C_bSpawned = TRUE;
-            SFX_Play_46FA90(SoundEffect::FlyingSligSpawn_113, 0);
+            SFX_Play_Mono(SoundEffect::FlyingSligSpawn_113, 0);
         }
     }
 }

@@ -77,7 +77,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     field_11E_moving_timer = pTlv->field_10_slurg_data.field_0_moving_timer;
     field_120_delay_random = pTlv->field_10_slurg_data.field_0_moving_timer;
 
-    SetTint_425600(&sSlurgTints_560BCC[0], gMap.mCurrentLevel);
+    SetTint(&sSlurgTints_560BCC[0], gMap.mCurrentLevel);
 
     FP hitX = {};
     FP hitY = {};
@@ -104,7 +104,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
         field_118_flags.Set(SlurgFlags::Bit1_Direction);
     }
 
-    vStackOnObjectsOfType_425840(AETypes::eSlurg_129);
+    VStackOnObjectsOfType(AETypes::eSlurg_129);
     field_DC_bApplyShadows |= 2u;
     field_E0_pShadow = ae_new<Shadow>();
 }
@@ -153,7 +153,7 @@ Slurg::~Slurg()
     }
 }
 
-void Slurg::Burst_4C8AE0()
+void Slurg::Burst()
 {
     field_11C_state = Slurg_States::eBurst_2;
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Burst);
@@ -167,11 +167,11 @@ void Slurg::Burst_4C8AE0()
                                 20);
 
     Event_Broadcast_422BC0(kEventLoudNoise, this);
-    SFX_Play_46FA90(SoundEffect::SlurgKill_89, 127, field_130_scale);
+    SFX_Play_Mono(SoundEffect::SlurgKill_89, 127, field_130_scale);
 
     if (field_11A_switch_id > 1)
     {
-        SwitchStates_Add_466060(field_11A_switch_id, 1);
+        SwitchStates_Add(field_11A_switch_id, 1);
     }
 }
 
@@ -192,7 +192,7 @@ void Slurg::VUpdate()
     }
 
     PSX_RECT bRect = {};
-    vGetBoundingRect_424FD0(&bRect, 1);
+    VGetBoundingRect(&bRect, 1);
 
     if (field_11C_state != Slurg_States::eBurst_2)
     {
@@ -203,7 +203,7 @@ void Slurg::VUpdate()
             const Slurg_Step_Watch_Point* pPoint = &sSlurg_Step_Watch_Points_5C1B28[idx].field_0_points[i];
             if (pPoint->field_0_xPos > bRect.x - 2 && pPoint->field_0_xPos < bRect.w + 2 && pPoint->field_2_yPos > bRect.y - 4 && pPoint->field_2_yPos < bRect.h + 4)
             {
-                Burst_4C8AE0();
+                Burst();
                 break;
             }
         }
@@ -232,7 +232,7 @@ void Slurg::VUpdate()
             if (field_20_animation.field_92_current_frame == 0
                 && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
-                SFX_Play_46FA90(SoundEffect::SlurgStop_90, 0);
+                SFX_Play_Mono(SoundEffect::SlurgStop_90, 0);
             }
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -272,7 +272,7 @@ s16 Slurg::VTakeDamage(BaseGameObject* pFrom)
     // Slurgs are tough little dudes, only Paramites can smack 'em up.
     if (pFrom->Type() == AETypes::eParamite_96)
     {
-        Burst_4C8AE0();
+        Burst();
         return 1;
     }
 

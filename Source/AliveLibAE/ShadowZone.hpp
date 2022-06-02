@@ -29,20 +29,17 @@ enum class LevelIds : s16;
 class ShadowZone final : public BaseGameObject
 {
 public:
-    
-    virtual void VUpdate() override;
-    virtual void VScreenChanged() override;
-
     ShadowZone(Path_ShadowZone* pTlv, Path* pPath, u32 tlvInfo);
     ~ShadowZone();
 
-    static void ShadowZones_Calculate_Colour_463CE0(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
+    virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
+
+    static void ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
 
 private:
-    void vScreenChanged_463CC0();
-    s16 ApplysToScale_463C70(s16 scale);
-    void vUpdate_463C40();
-    FP* GetColourAmount_463AA0(FP* pOut, s16 xpos, s16 ypos);
+    s16 ApplysToScale(s16 scale);
+    FP* GetColourAmount(FP* pOut, s16 xpos, s16 ypos);
 
 private:
     s32 field_20_tlvInfo;

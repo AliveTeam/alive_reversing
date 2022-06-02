@@ -55,14 +55,14 @@ public:
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual void VThrow_49E460(FP velX, FP velY) override;
+    virtual void VThrow(FP velX, FP velY) override;
     virtual void VOnTrapDoorOpen() override;
-    virtual Bool32 VCanThrow_49E350() override;
-    virtual Bool32 VIsFalling_49E330() override;
-    virtual void VTimeToExplodeRandom_411490() override;
+    virtual Bool32 VCanThrow() override;
+    virtual Bool32 VIsFalling() override;
+    virtual void VTimeToExplodeRandom() override;
     virtual Bool32 VCanBeEaten_411560();
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    virtual s16 VGetCount_448080() override;
+    virtual s16 VGetCount() override;
     static s32 CreateFromSaveState(const u8* pData);
 
 private:

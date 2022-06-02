@@ -40,32 +40,20 @@ public:
 
     void Animation_Init(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData);
 
-    virtual void vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
+    virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
     // TODO: Just return by value - this is odd optimization the compiler does
-    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx);
-    virtual s16 vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
-    virtual s16 vIsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pObj);
-    virtual s16 vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther);
-    virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
-    virtual void vStackOnObjectsOfType_425840(AETypes typeToFind);
+    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx);
+    virtual s16 VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
+    virtual s16 VIsObj_GettingNear(BaseAnimatedWithPhysicsGameObject* pObj);
+    virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther);
+    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther);
+    virtual void VStackOnObjectsOfType(AETypes typeToFind);
     virtual void VOnPickUpOrSlapped();
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
-private:
-    PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx);
-    s16 IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
-    s16 IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther);
-    s16 IsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther);
-    s16 OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
-    void StackOnObjectsOfType_425840(AETypes typeToFind);
-    void vOnPickUpOrSlapped_408180();
-    void vOnThrowableHit_4081A0(BaseGameObject* pFrom);
-
-public:
-    CameraPos Is_In_Current_Camera_424A70();
-    void DealDamageRect_4247A0(const PSX_RECT* pRect);
-    void OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
-    void SetTint_425600(const TintEntry* pTintArray, LevelIds level_id);
+    CameraPos Is_In_Current_Camera();
+    void DealDamageRect(const PSX_RECT* pRect);
+    void SetTint(const TintEntry* pTintArray, LevelIds level_id);
 
 protected:
     void SetRGB(s16 r, s16 g, s16 b);

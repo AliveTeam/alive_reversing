@@ -279,7 +279,7 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_34_pSubObject = ae_new<ScreenClipper>(xy, PSX_Point{1, 1}, Layer::eLayer_0);
 
             // "Whoosh" door sound effect
-            SFX_Play_46FA90(SoundEffect::IngameTransition_84, 127);
+            SFX_Play_Mono(SoundEffect::IngameTransition_84, 127);
         }
         break;
 
@@ -329,7 +329,7 @@ void CameraSwapper::vUpdate_4E5850()
             }
 
             pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(xpos, 0, width, gPsxDisplay_5C1130.field_2_height);
-            field_34_pSubObject->Update_Clip_Rect_416EB0({xpos, 0}, {static_cast<s16>(width + 1), gPsxDisplay_5C1130.field_2_height});
+            field_34_pSubObject->Update_Clip_Rect({xpos, 0}, {static_cast<s16>(width + 1), gPsxDisplay_5C1130.field_2_height});
         }
         break;
 
@@ -348,7 +348,7 @@ void CameraSwapper::vUpdate_4E5850()
             s16 height = (field_56_slice_width * (field_3A_current_slice + 1));
 
             pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, ypos, gPsxDisplay_5C1130.field_0_width, height);
-            field_34_pSubObject->Update_Clip_Rect_416EB0({0, ypos}, {gPsxDisplay_5C1130.field_0_width, height});
+            field_34_pSubObject->Update_Clip_Rect({0, ypos}, {gPsxDisplay_5C1130.field_0_width, height});
         }
         break;
 
@@ -366,7 +366,7 @@ void CameraSwapper::vUpdate_4E5850()
             const s16 halfDisplayWidth = gPsxDisplay_5C1130.field_0_width / 2;
 
             pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(static_cast<s16>(halfDisplayWidth - xpos), 0, static_cast<s16>(xpos + halfDisplayWidth), gPsxDisplay_5C1130.field_2_height);
-            field_34_pSubObject->Update_Clip_Rect_416EB0({static_cast<s16>(halfDisplayWidth - xpos), 0}, {static_cast<s16>(xpos + halfDisplayWidth + 1), gPsxDisplay_5C1130.field_2_height});
+            field_34_pSubObject->Update_Clip_Rect({static_cast<s16>(halfDisplayWidth - xpos), 0}, {static_cast<s16>(xpos + halfDisplayWidth + 1), gPsxDisplay_5C1130.field_2_height});
         }
         break;
 
@@ -384,7 +384,7 @@ void CameraSwapper::vUpdate_4E5850()
             const s16 halfDisplayHeight = gPsxDisplay_5C1130.field_2_height / 2;
 
             pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, static_cast<s16>(halfDisplayHeight - ypos), 640, static_cast<s16>(halfDisplayHeight + ypos));
-            field_34_pSubObject->Update_Clip_Rect_416EB0({0, static_cast<s16>(halfDisplayHeight - ypos)}, {640, static_cast<s16>(halfDisplayHeight + ypos)});
+            field_34_pSubObject->Update_Clip_Rect({0, static_cast<s16>(halfDisplayHeight - ypos)}, {640, static_cast<s16>(halfDisplayHeight + ypos)});
         }
         break;
 
@@ -418,7 +418,7 @@ void CameraSwapper::vUpdate_4E5850()
             rect_wh.field_0_x = width + 1;
             rect_wh.field_2_y = height;
 
-            field_34_pSubObject->Update_Clip_Rect_416EB0(rect_xy, rect_wh);
+            field_34_pSubObject->Update_Clip_Rect(rect_xy, rect_wh);
         }
         break;
 

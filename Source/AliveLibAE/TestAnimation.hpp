@@ -9,11 +9,7 @@ public:
     void SyncToAbePos();
 
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
-
-    
-
     virtual void VRender(PrimHeader** ppOt) override;
 
     void DelayLoad();

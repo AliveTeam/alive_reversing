@@ -91,18 +91,18 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
             case 30002:
                 if (sVisitedBonewerks_5C1C02)
                 {
-                    SwitchStates_Set_465FF0(255u, 1);
+                    SwitchStates_Set(255u, 1);
                 }
 
                 if (sVisitedBarracks_5C1C04)
                 {
-                    SwitchStates_Set_465FF0(254u, 1);
+                    SwitchStates_Set(254u, 1);
                 }
 
                 if (sVisitedFeecoEnder_5C1C06)
                 {
-                    SwitchStates_Set_465FF0(255u, 0);
-                    SwitchStates_Set_465FF0(254u, 0);
+                    SwitchStates_Set(255u, 0);
+                    SwitchStates_Set(254u, 0);
                 }
                 break;
 
@@ -118,17 +118,17 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
                     }
                     if (sVisitedBonewerks_5C1C02)
                     {
-                        SwitchStates_Set_465FF0(250u, 1);
+                        SwitchStates_Set(250u, 1);
                     }
                 }
 
                 if (sVisitedBarracks_5C1C04)
                 {
-                    SwitchStates_Set_465FF0(251u, 1);
+                    SwitchStates_Set(251u, 1);
                 }
                 if (sVisitedFeecoEnder_5C1C06)
                 {
-                    SwitchStates_Set_465FF0(253u, 1);
+                    SwitchStates_Set(253u, 1);
                 }
                 break;
             default:
@@ -147,19 +147,19 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         field_102_hub_ids[6] = pTlvData->field_22_hub7;
         field_102_hub_ids[7] = pTlvData->field_22_hub8;
 
-        if (SwitchStates_Get_466020(field_102_hub_ids[0]) && SwitchStates_Get_466020(field_102_hub_ids[1]) && SwitchStates_Get_466020(field_102_hub_ids[2]) && SwitchStates_Get_466020(field_102_hub_ids[3]) && SwitchStates_Get_466020(field_102_hub_ids[4]) && SwitchStates_Get_466020(field_102_hub_ids[5]) && SwitchStates_Get_466020(field_102_hub_ids[6]) && SwitchStates_Get_466020(field_102_hub_ids[7]))
+        if (SwitchStates_Get(field_102_hub_ids[0]) && SwitchStates_Get(field_102_hub_ids[1]) && SwitchStates_Get(field_102_hub_ids[2]) && SwitchStates_Get(field_102_hub_ids[3]) && SwitchStates_Get(field_102_hub_ids[4]) && SwitchStates_Get(field_102_hub_ids[5]) && SwitchStates_Get(field_102_hub_ids[6]) && SwitchStates_Get(field_102_hub_ids[7]))
         {
-            SwitchStates_Do_Operation_465F00(field_100_switch_id, SwitchOp::eSetTrue_0);
+            SwitchStates_Do_Operation(field_100_switch_id, SwitchOp::eSetTrue_0);
         }
         else
         {
-            SwitchStates_Do_Operation_465F00(field_100_switch_id, SwitchOp::eSetFalse_1);
+            SwitchStates_Do_Operation(field_100_switch_id, SwitchOp::eSetFalse_1);
         }
     }
 
     if (field_FE_start_state == eOpen_0)
     {
-        if (SwitchStates_Get_466020(field_100_switch_id))
+        if (SwitchStates_Get(field_100_switch_id))
         {
             // Its open but the switch id is on which causes it to close
             field_FC_current_state = eClosed_1;
@@ -171,7 +171,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     }
     else
     {
-        if (SwitchStates_Get_466020(field_100_switch_id))
+        if (SwitchStates_Get(field_100_switch_id))
         {
             // Its closed but the id is on which causes it to open
             field_FC_current_state = eOpen_0;
@@ -354,8 +354,8 @@ void Door::PlaySound_41EA90()
         volume = 90;
     }
 
-    SFX_Play(SoundEffect::DoorEffect_57, volume, 900);
-    SFX_Play(SoundEffect::DoorEffect_57, volume, 0);
+    SFX_Play_Pitch(SoundEffect::DoorEffect_57, volume, 900);
+    SFX_Play_Pitch(SoundEffect::DoorEffect_57, volume, 0);
 }
 
 Door::~Door()
@@ -383,25 +383,25 @@ void Door::VUpdate()
         field_FA_door_number = -1;
         if (field_F8_door_type == DoorTypes::eTasksDoorWithSecretMusic_2 || field_F8_door_type == DoorTypes::eTasksDoor_3)
         {
-            if (SwitchStates_Get_466020(field_102_hub_ids[0])
-                && SwitchStates_Get_466020(field_102_hub_ids[1])
-                && SwitchStates_Get_466020(field_102_hub_ids[2])
-                && SwitchStates_Get_466020(field_102_hub_ids[3])
-                && SwitchStates_Get_466020(field_102_hub_ids[4])
-                && SwitchStates_Get_466020(field_102_hub_ids[5])
-                && SwitchStates_Get_466020(field_102_hub_ids[6])
-                && SwitchStates_Get_466020(field_102_hub_ids[7]))
+            if (SwitchStates_Get(field_102_hub_ids[0])
+                && SwitchStates_Get(field_102_hub_ids[1])
+                && SwitchStates_Get(field_102_hub_ids[2])
+                && SwitchStates_Get(field_102_hub_ids[3])
+                && SwitchStates_Get(field_102_hub_ids[4])
+                && SwitchStates_Get(field_102_hub_ids[5])
+                && SwitchStates_Get(field_102_hub_ids[6])
+                && SwitchStates_Get(field_102_hub_ids[7]))
             {
-                if (!SwitchStates_Get_466020(field_100_switch_id) && field_F8_door_type == DoorTypes::eTasksDoorWithSecretMusic_2)
+                if (!SwitchStates_Get(field_100_switch_id) && field_F8_door_type == DoorTypes::eTasksDoorWithSecretMusic_2)
                 {
                     SND_SEQ_Play_4CAB10(SeqId::SecretMusic_32, 1, 127, 127);
                     ae_new<MusicTrigger>(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
                 }
-                SwitchStates_Do_Operation_465F00(field_100_switch_id, SwitchOp::eSetTrue_0);
+                SwitchStates_Do_Operation(field_100_switch_id, SwitchOp::eSetTrue_0);
             }
             else
             {
-                SwitchStates_Do_Operation_465F00(field_100_switch_id, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation(field_100_switch_id, SwitchOp::eSetFalse_1);
             }
         }
         switch (field_FC_current_state)
@@ -409,8 +409,8 @@ void Door::VUpdate()
             case DoorStates::eOpen_0:
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-                if ((!field_FE_start_state && SwitchStates_Get_466020(field_100_switch_id))
-                    || (field_FE_start_state == DoorStates::eClosed_1 && !SwitchStates_Get_466020(field_100_switch_id)))
+                if ((!field_FE_start_state && SwitchStates_Get(field_100_switch_id))
+                    || (field_FE_start_state == DoorStates::eClosed_1 && !SwitchStates_Get(field_100_switch_id)))
                 {
                     field_FC_current_state = DoorStates::eClosing_3;
                     if (gMap.mOverlayId == 108)
@@ -433,7 +433,7 @@ void Door::VUpdate()
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
-                if ((field_FE_start_state == DoorStates::eClosed_1 && SwitchStates_Get_466020(field_100_switch_id)) || (field_FE_start_state == DoorStates::eOpen_0 && !SwitchStates_Get_466020(field_100_switch_id)))
+                if ((field_FE_start_state == DoorStates::eClosed_1 && SwitchStates_Get(field_100_switch_id)) || (field_FE_start_state == DoorStates::eOpen_0 && !SwitchStates_Get(field_100_switch_id)))
                 {
                     field_FC_current_state = DoorStates::eOpening_2;
                     if (gMap.mOverlayId == 108)

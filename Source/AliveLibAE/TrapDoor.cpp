@@ -55,33 +55,6 @@ const TintEntry sTrapDoorTints_5639AC[18] = {
     {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
-
-void TrapDoor::VUpdate()
-{
-    vUpdate_4DDA90();
-}
-
-void TrapDoor::VRender(PrimHeader** ppOt)
-{
-    vRender_4DDDD0(ppOt);
-}
-
-void TrapDoor::VScreenChanged()
-{
-    vScreenChanged_4DDE40();
-}
-
-s32 TrapDoor::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_4DE050(reinterpret_cast<TrapDoor_State*>(pSaveBuffer));
-}
-
-PSX_RECT* TrapDoor::vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx)
-{
-    return vGetBoundingRect_4DD870(pRect, pointIdx);
-}
-
-
 TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 {
     SetType(AETypes::eTrapDoor_142);
@@ -97,7 +70,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 
     s32 frameTableOffset = 0;
     const AnimRecord& closedRec = AnimRec(sTrapDoorData_547B78[levelIdx].field_4_closed);
-    if (field_138_switch_state == SwitchStates_Get_466020(field_134_switch_id))
+    if (field_138_switch_state == SwitchStates_Get(field_134_switch_id))
     {
         field_136_state = TrapDoorState::eOpen_2;
         const AnimRecord& openRec = AnimRec(sTrapDoorData_547B78[levelIdx].field_0_open);
@@ -142,7 +115,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
-    SetTint_425600(sTrapDoorTints_5639AC, gMap.mCurrentLevel);
+    SetTint(sTrapDoorTints_5639AC, gMap.mCurrentLevel);
 
     field_140_x = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_144_y = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -160,7 +133,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 
     if (field_136_state == TrapDoorState::eOpen_2)
     {
-        Open_4DD960();
+        Open();
     }
 
     field_148_bounding_rect.x = pTlv->field_8_top_left.field_0_x;
@@ -206,14 +179,14 @@ s32 TrapDoor::CreateFromSaveState(const u8* pData)
 
         if (pState->field_2_state == TrapDoorState::eClosing_3 || pState->field_2_state == TrapDoorState::eOpening_1)
         {
-            pTrapDoor->Open_4DD960();
+            pTrapDoor->Open();
         }
     }
 
     return sizeof(TrapDoor_State);
 }
 
-void TrapDoor::vUpdate_4DDA90()
+void TrapDoor::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -225,17 +198,17 @@ void TrapDoor::vUpdate_4DDA90()
     switch (field_136_state)
     {
         case TrapDoorState::eClosed_0:
-            if (SwitchStates_Get_466020(field_134_switch_id) == field_138_switch_state)
+            if (SwitchStates_Get(field_134_switch_id) == field_138_switch_state)
             {
-                Open_4DD960();
+                Open();
                 field_136_state = TrapDoorState::eOpening_1;
                 const AnimRecord& openingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap.mCurrentLevel)].field_8_opening);
                 field_20_animation.Set_Animation_Data_409C80(openingRec.mFrameTableOffset, 0);
 
                 if (gMap.mCurrentLevel == LevelIds::eMines_1 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eBonewerkz_Ender_14 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_Ender_12 || gMap.mCurrentLevel == LevelIds::eBarracks_6 || gMap.mCurrentLevel == LevelIds::eBarracks_Ender_13 || gMap.mCurrentLevel == LevelIds::eBrewery_9 || gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
                 {
-                    SFX_Play_46FC20(SoundEffect::IndustrialTrigger_80, 45, direction);
-                    SFX_Play_46FC20(SoundEffect::IndustrialNoise1_76, 90, direction);
+                    SFX_Play_Camera(SoundEffect::IndustrialTrigger_80, 45, direction);
+                    SFX_Play_Camera(SoundEffect::IndustrialNoise1_76, 90, direction);
                 }
             }
             break;
@@ -243,7 +216,7 @@ void TrapDoor::vUpdate_4DDA90()
         case TrapDoorState::eOpening_1:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                SFX_Play_46FC20(SoundEffect::TrapdoorOpen_43, 70, direction);
+                SFX_Play_Camera(SoundEffect::TrapdoorOpen_43, 70, direction);
                 field_136_state = TrapDoorState::eOpen_2;
                 field_130_stay_open_time2 = field_13C_stay_open_time;
             }
@@ -252,7 +225,7 @@ void TrapDoor::vUpdate_4DDA90()
         case TrapDoorState::eOpen_2:
             field_130_stay_open_time2--;
 
-            if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_id) != field_138_switch_state)
+            if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get(field_134_switch_id) != field_138_switch_state)
             {
                 const AnimRecord& closingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap.mCurrentLevel)].field_C_closing);
                 field_20_animation.Set_Animation_Data_409C80(closingRec.mFrameTableOffset, 0);
@@ -261,8 +234,8 @@ void TrapDoor::vUpdate_4DDA90()
 
                 if (gMap.mCurrentLevel == LevelIds::eMines_1 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eBonewerkz_Ender_14 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_Ender_12 || gMap.mCurrentLevel == LevelIds::eBarracks_6 || gMap.mCurrentLevel == LevelIds::eBarracks_Ender_13 || gMap.mCurrentLevel == LevelIds::eBrewery_9 || gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
                 {
-                    SFX_Play_46FC20(SoundEffect::IndustrialNoise3_78, 60, direction);
-                    SFX_Play_46FC20(SoundEffect::IndustrialNoise2_77, 90, direction);
+                    SFX_Play_Camera(SoundEffect::IndustrialNoise3_78, 60, direction);
+                    SFX_Play_Camera(SoundEffect::IndustrialNoise2_77, 90, direction);
                 }
             }
             break;
@@ -270,10 +243,10 @@ void TrapDoor::vUpdate_4DDA90()
         case TrapDoorState::eClosing_3:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                SFX_Play_46FC20(SoundEffect::TrapdoorClose_42, 70, direction);
-                Add_To_Collisions_Array_4DDA20();
+                SFX_Play_Camera(SoundEffect::TrapdoorClose_42, 70, direction);
+                Add_To_Collisions_Array();
                 field_136_state = TrapDoorState::eClosed_0;
-                SwitchStates_Set_465FF0(field_134_switch_id, field_138_switch_state == 0);
+                SwitchStates_Set(field_134_switch_id, field_138_switch_state == 0);
             }
             break;
 
@@ -282,27 +255,29 @@ void TrapDoor::vUpdate_4DDA90()
     }
 }
 
-void TrapDoor::vRender_4DDDD0(PrimHeader** ppOt)
+void TrapDoor::VRender(PrimHeader** ppOt)
 {
     field_B8_xpos += FP_FromInteger(field_13A_xOff);
     BaseAliveGameObject::VRender(ppOt);
     field_B8_xpos -= FP_FromInteger(field_13A_xOff);
 }
 
-void TrapDoor::vScreenChanged_4DDE40()
+void TrapDoor::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(BaseGameObject::eDead);
         if (field_13E_self_closing == Choice_short::eYes_1)
         {
-            SwitchStates_Set_465FF0(field_134_switch_id, field_138_switch_state == 0);
+            SwitchStates_Set(field_134_switch_id, field_138_switch_state == 0);
         }
     }
 }
 
-s32 TrapDoor::vGetSaveState_4DE050(TrapDoor_State* pState)
+s32 TrapDoor::VGetSaveState(u8* pSaveBuffer)
 {
+    auto pState = reinterpret_cast<TrapDoor_State*>(pSaveBuffer);
+
     pState->field_0_type = AETypes::eTrapDoor_142;
     pState->field_4_open_time = field_130_stay_open_time2;
     pState->field_2_state = field_136_state;
@@ -310,7 +285,7 @@ s32 TrapDoor::vGetSaveState_4DE050(TrapDoor_State* pState)
     return sizeof(TrapDoor_State);
 }
 
-PSX_RECT* TrapDoor::vGetBoundingRect_4DD870(PSX_RECT* pRect, s32 /*not_used*/)
+PSX_RECT* TrapDoor::VGetBoundingRect(PSX_RECT* pRect, s32 /*not_used*/)
 {
     *pRect = field_148_bounding_rect;
     return pRect;
@@ -318,25 +293,15 @@ PSX_RECT* TrapDoor::vGetBoundingRect_4DD870(PSX_RECT* pRect, s32 /*not_used*/)
 
 void TrapDoor::VAdd(BaseAliveGameObject* pObj)
 {
-    vAdd_4DDD90(pObj);
+    PlatformBase::VAdd(pObj);
 }
 
 void TrapDoor::VRemove(BaseAliveGameObject* pObj)
 {
-    vRemove_4DDDB0(pObj);
-}
-
-void TrapDoor::vAdd_4DDD90(BaseAliveGameObject* pObj)
-{
-    PlatformBase::VAdd(pObj);
-}
-
-void TrapDoor::vRemove_4DDDB0(BaseAliveGameObject* pObj)
-{
     PlatformBase::VRemove(pObj);
 }
 
-void TrapDoor::Add_To_Collisions_Array_4DDA20()
+void TrapDoor::Add_To_Collisions_Array()
 {
     field_124_pCollisionLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line_417FA0(
         field_148_bounding_rect.x,
@@ -353,7 +318,7 @@ void TrapDoor::Add_To_Collisions_Array_4DDA20()
     ObjList_5C1B78->Push_Back(this);
 }
 
-void TrapDoor::Open_4DD960()
+void TrapDoor::Open()
 {
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {

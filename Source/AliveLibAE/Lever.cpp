@@ -77,7 +77,7 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    SetTint_425600(&kLeverTints_563228[0], gMap.mCurrentLevel);
+    SetTint(&kLeverTints_563228[0], gMap.mCurrentLevel);
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -131,7 +131,7 @@ void Lever::vUpdate_4D5C00()
     {
         if (field_20_animation.field_92_current_frame == 3)
         {
-            SFX_Play_46FA90(SoundEffect::LeverPull_63, 0);
+            SFX_Play_Mono(SoundEffect::LeverPull_63, 0);
         }
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -146,7 +146,7 @@ void Lever::vUpdate_4D5C00()
                 || gMap.mCurrentLevel == LevelIds::eBrewery_9
                 || gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
             {
-                SFX_Play(SoundEffect::IndustrialTrigger_80, 30, 400);
+                SFX_Play_Pitch(SoundEffect::IndustrialTrigger_80, 30, 400);
             }
 
             field_F8_state = LeverState::eFinished_2;
@@ -162,9 +162,9 @@ void Lever::vUpdate_4D5C00()
                 field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
             }
 
-            const s32 switch_state = SwitchStates_Get_466020(field_F4_switch_id);
-            SwitchStates_Do_Operation_465F00(field_F4_switch_id, field_102_action);
-            const s32 switch_state_after_op = SwitchStates_Get_466020(field_F4_switch_id);
+            const s32 switch_state = SwitchStates_Get(field_F4_switch_id);
+            SwitchStates_Do_Operation(field_F4_switch_id, field_102_action);
+            const s32 switch_state_after_op = SwitchStates_Get(field_F4_switch_id);
             if (switch_state != switch_state_after_op)
             {
                 s32 volLeft = 0;
@@ -191,35 +191,35 @@ void Lever::vUpdate_4D5C00()
                     switch (field_104_on_sound)
                     {
                         case LeverSoundType::eWell_1:
-                            SFX_Play_46FB10(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
+                            SFX_Play_Stereo(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
                             Event_Broadcast_422BC0(kEventNoise, this);
                             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eUnknown_2:
-                            SFX_Play_46FB10(SoundEffect::SwitchUnknownTrigger_11, 100 * volLeft + 25, 100 * volRight + 25);
+                            SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 100 * volLeft + 25, 100 * volRight + 25);
                             Event_Broadcast_422BC0(kEventNoise, this);
                             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eDoor_3:
-                            SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
+                            SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
                             Event_Broadcast_422BC0(kEventNoise, this);
                             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eElectricWall_4:
-                            SFX_Play_46FB10(SoundEffect::Zap1_49, 35 * volLeft + 25, 35 * volRight + 25);
+                            SFX_Play_Stereo(SoundEffect::Zap1_49, 35 * volLeft + 25, 35 * volRight + 25);
                             Event_Broadcast_422BC0(kEventNoise, this);
                             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eSecurityOrb_5:
-                            SFX_Play_46FB10(SoundEffect::SecurityOrb_48, 35 * volLeft + 25, 35 * volRight + 25);
+                            SFX_Play_Stereo(SoundEffect::SecurityOrb_48, 35 * volLeft + 25, 35 * volRight + 25);
                             return;
 
                         case LeverSoundType::eLift_6:
-                            SFX_Play_46FB10(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
+                            SFX_Play_Stereo(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
                             Event_Broadcast_422BC0(kEventNoise, this);
                             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                             break;
@@ -233,35 +233,35 @@ void Lever::vUpdate_4D5C00()
                     switch (field_106_off_sound)
                     {
                         case LeverSoundType::eWell_1:
-                            SFX_Play_46FB10(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
+                            SFX_Play_Stereo(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
                             Event_Broadcast_422BC0(kEventNoise, this);
                             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eUnknown_2:
-                            SFX_Play_46FB10(SoundEffect::SwitchUnknownTrigger_11, 110 * volLeft + 25, 110 * volRight + 25);
+                            SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 110 * volLeft + 25, 110 * volRight + 25);
                             Event_Broadcast_422BC0(kEventNoise, this);
                             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eDoor_3:
-                            SFX_Play_46FB10(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
+                            SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
                             Event_Broadcast_422BC0(kEventNoise, this);
                             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eElectricWall_4:
-                            SFX_Play_46FB10(SoundEffect::Zap1_49, 80 * volLeft + 25, 80 * volRight + 25);
+                            SFX_Play_Stereo(SoundEffect::Zap1_49, 80 * volLeft + 25, 80 * volRight + 25);
                             Event_Broadcast_422BC0(kEventNoise, this);
                             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eSecurityOrb_5:
-                            SFX_Play_46FB10(SoundEffect::SecurityOrb_48, 35 * volLeft + 75, 35 * volRight + 75);
+                            SFX_Play_Stereo(SoundEffect::SecurityOrb_48, 35 * volLeft + 75, 35 * volRight + 75);
                             break;
 
                         case LeverSoundType::eLift_6:
-                            SFX_Play_46FB10(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
+                            SFX_Play_Stereo(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
                             Event_Broadcast_422BC0(kEventNoise, this);
                             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                             break;

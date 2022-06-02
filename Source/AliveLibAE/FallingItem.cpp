@@ -199,11 +199,11 @@ void FallingItem::vUpdate_427780()
         {
             if (field_D6_scale == 1)
             {
-                SFX_Play_46FA90(SoundEffect::FallingItemPresence1_74, 45);
+                SFX_Play_Mono(SoundEffect::FallingItemPresence1_74, 45);
             }
             else
             {
-                SFX_Play_46FA90(SoundEffect::FallingItemPresence1_74, 20);
+                SFX_Play_Mono(SoundEffect::FallingItemPresence1_74, 20);
             }
         }
 
@@ -211,11 +211,11 @@ void FallingItem::vUpdate_427780()
         {
             if (field_D6_scale == 1)
             {
-                SFX_Play_46FA90(SoundEffect::FallingItemPresence2_75, 45);
+                SFX_Play_Mono(SoundEffect::FallingItemPresence2_75, 45);
             }
             else
             {
-                SFX_Play_46FA90(SoundEffect::FallingItemPresence2_75, 20);
+                SFX_Play_Mono(SoundEffect::FallingItemPresence2_75, 20);
             }
         }
     }
@@ -223,7 +223,7 @@ void FallingItem::vUpdate_427780()
     switch (field_11C_state)
     {
         case State::eWaitForIdEnable_0:
-            if (field_11E_switch_id && SwitchStates_Get_466020(field_11E_switch_id))
+            if (field_11E_switch_id && SwitchStates_Get(field_11E_switch_id))
             {
                 mFlags.Clear(BaseGameObject::eCanExplode_Bit7);
                 field_11C_state = State::eWaitForFallDelay_2;
@@ -259,11 +259,11 @@ void FallingItem::vUpdate_427780()
                 field_12E_do_sound_in_state_falling = TRUE;
                 if (field_D6_scale == 1)
                 {
-                    field_140_sound_channels = SFX_Play(SoundEffect::AirStream_23, 50, -2600);
+                    field_140_sound_channels = SFX_Play_Pitch(SoundEffect::AirStream_23, 50, -2600);
                 }
                 else
                 {
-                    field_140_sound_channels = SFX_Play(SoundEffect::AirStream_23, 25, -2600);
+                    field_140_sound_channels = SFX_Play_Pitch(SoundEffect::AirStream_23, 25, -2600);
                 }
             }
             break;
@@ -277,11 +277,11 @@ void FallingItem::vUpdate_427780()
                     field_12E_do_sound_in_state_falling = FALSE;
                     if (field_D6_scale == 1)
                     {
-                        SFX_Play(SoundEffect::AirStream_23, 127, -1300);
+                        SFX_Play_Pitch(SoundEffect::AirStream_23, 127, -1300);
                     }
                     else
                     {
-                        SFX_Play(SoundEffect::AirStream_23, 64, -1300);
+                        SFX_Play_Pitch(SoundEffect::AirStream_23, 64, -1300);
                     }
                 }
             }
@@ -366,22 +366,22 @@ void FallingItem::vUpdate_427780()
             }
 
             Event_Broadcast_422BC0(kEventLoudNoise, this);
-            SFX_Play_46FA90(SoundEffect::FallingItemLand_62, 0, field_CC_sprite_scale);
+            SFX_Play_Mono(SoundEffect::FallingItemLand_62, 0, field_CC_sprite_scale);
 
             if (field_D6_scale == 1)
             {
-                SFX_Play(SoundEffect::FallingItemHit_47, 110, -1536);
+                SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 110, -1536);
             }
             else
             {
-                SFX_Play(SoundEffect::FallingItemHit_47, 55, -1536);
+                SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 55, -1536);
             }
 
             if (field_11E_switch_id)
             {
                 if (field_12C_reset_switch_id_after_use == Choice_short::eYes_1)
                 {
-                    SwitchStates_Do_Operation_465F00(field_11E_switch_id, SwitchOp::eSetFalse_1);
+                    SwitchStates_Do_Operation(field_11E_switch_id, SwitchOp::eSetFalse_1);
                 }
             }
 
@@ -425,10 +425,10 @@ void FallingItem::DamageHitItems_427F40()
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
                 PSX_RECT fallingItemRect = {};
-                vGetBoundingRect_424FD0(&fallingItemRect, 1);
+                VGetBoundingRect(&fallingItemRect, 1);
 
                 PSX_RECT objRect = {};
-                pAliveObj->vGetBoundingRect_424FD0(&objRect, 1);
+                pAliveObj->VGetBoundingRect(&objRect, 1);
 
                 if (pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
                 {

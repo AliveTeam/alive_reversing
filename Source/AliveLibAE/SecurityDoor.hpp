@@ -39,17 +39,10 @@ public:
     ~SecurityDoor();
 
     virtual void VScreenChanged() override;
-
     virtual void VUpdate() override;
 
-
 private:
-    void vScreenChanged_4AC970();
-
-    s16 IsPlayerNear_4AC300();
-
-    void vUpdate_4AC380();
-
+    s16 IsPlayerNear();
 
 private:
     s32 field_F4_tlvInfo;

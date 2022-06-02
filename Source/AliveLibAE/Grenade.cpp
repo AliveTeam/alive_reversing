@@ -54,22 +54,22 @@ void Grenade::VOnTrapDoorOpen()
     vOnTrapDoorOpen_449390();
 }
 
-void Grenade::VThrow_49E460(FP velX, FP velY)
+void Grenade::VThrow(FP velX, FP velY)
 {
     vThrow_4482E0(velX, velY);
 }
 
-Bool32 Grenade::VCanThrow_49E350()
+Bool32 Grenade::VCanThrow()
 {
     return vCanThrow_49A5F0();
 }
 
-Bool32 Grenade::VIsFalling_49E330()
+Bool32 Grenade::VIsFalling()
 {
     return vIsFalling_49A610();
 }
 
-void Grenade::VTimeToExplodeRandom_411490()
+void Grenade::VTimeToExplodeRandom()
 {
     vTimeToExplodeRandom_4480A0();
 }
@@ -281,7 +281,7 @@ Grenade::~Grenade()
     {
         if (gpThrowableArray_5D1E2C)
         {
-            gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count >= 1 ? field_118_count : 1);
+            gpThrowableArray_5D1E2C->Remove(field_118_count >= 1 ? field_118_count : 1);
         }
     }
 }
@@ -292,7 +292,7 @@ s16 Grenade::TimeToBlowUp_448350()
     const s16 timer = field_122_explode_timer;
     if (!(timer % 16))
     {
-        SFX_Play_46FA90(SoundEffect::GreenTick_2, 0);
+        SFX_Play_Mono(SoundEffect::GreenTick_2, 0);
     }
 
     if (timer)
@@ -418,11 +418,11 @@ void Grenade::VUpdate()
                 if (!TimeToBlowUp_448350())
                 {
                     PSX_RECT bRect = {};
-                    vGetBoundingRect_424FD0(&bRect, 1);
+                    VGetBoundingRect(&bRect, 1);
 
                     const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                     const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-                    vOnCollisionWith_424EE0(xy, wh, gBaseGameObjects, 1, (TCollisionCallBack) &Grenade::OnCollision_BounceOff_448F90);
+                    VOnCollisionWith(xy, wh, gBaseGameObjects, 1, (TCollisionCallBack) &Grenade::OnCollision_BounceOff_448F90);
                 }
             }
             else
@@ -464,11 +464,11 @@ void Grenade::VUpdate()
             InTheAir_4484F0(TRUE);
 
             PSX_RECT bRect = {};
-            vGetBoundingRect_424FD0(&bRect, 1);
+            VGetBoundingRect(&bRect, 1);
 
             const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
             const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-            vOnCollisionWith_424EE0(xy, wh, gBaseGameObjects, 1, (TCollisionCallBack) &Grenade::OnCollision_InstantExplode_4490D0);
+            VOnCollisionWith(xy, wh, gBaseGameObjects, 1, (TCollisionCallBack) &Grenade::OnCollision_InstantExplode_4490D0);
 
             if (field_134_bExplodeNow)
             {
@@ -536,7 +536,7 @@ s16 Grenade::InTheAir_4484F0(s16 blowUpOnFloorTouch)
             {
                 vol = 40;
             }
-            SFX_Play_46FA90(SoundEffect::GrenadeBounce_68, vol);
+            SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
             Event_Broadcast_422BC0(kEventNoise, this);
             Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
             Event_Broadcast_422BC0(kEventSpeaking, this);
@@ -571,7 +571,7 @@ s16 Grenade::InTheAir_4484F0(s16 blowUpOnFloorTouch)
                     vol = 40;
                 }
 
-                SFX_Play_46FA90(SoundEffect::GrenadeBounce_68, vol);
+                SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
                 ++field_124;
 
                 Event_Broadcast_422BC0(kEventNoise, this);
@@ -606,7 +606,7 @@ s16 Grenade::InTheAir_4484F0(s16 blowUpOnFloorTouch)
                     {
                         vol = 40;
                     }
-                    SFX_Play_46FA90(SoundEffect::GrenadeBounce_68, vol);
+                    SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
                     Event_Broadcast_422BC0(kEventNoise, this);
                     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                     Event_Broadcast_422BC0(kEventSpeaking, this);
@@ -625,7 +625,7 @@ s16 Grenade::InTheAir_4484F0(s16 blowUpOnFloorTouch)
                     {
                         vol = 40;
                     }
-                    SFX_Play_46FA90(SoundEffect::GrenadeBounce_68, vol);
+                    SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
                     Event_Broadcast_422BC0(kEventNoise, this);
                     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                     Event_Broadcast_422BC0(kEventSpeaking, this);
@@ -660,7 +660,7 @@ s16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
     }
 
     PSX_RECT bRect = {};
-    pHit2->vGetBoundingRect_424FD0(&bRect, 1);
+    pHit2->VGetBoundingRect(&bRect, 1);
 
     if (field_128_xpos < FP_FromInteger(bRect.x + 12) || field_128_xpos > FP_FromInteger(bRect.w - 12))
     {
@@ -675,7 +675,7 @@ s16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
 
     pHit2->VOnThrowableHit(this);
 
-    SFX_Play_46FA90(SoundEffect::RockBounceOnMine_24, 0);
+    SFX_Play_Mono(SoundEffect::RockBounceOnMine_24, 0);
     return 0;
 }
 

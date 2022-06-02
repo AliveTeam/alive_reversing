@@ -56,7 +56,7 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     const AnimRecord& rec = AnimRec(AnimId::Lift_Rope);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    SetTint_425600(kRopeTints_55FD68, gMap.mCurrentLevel);
+    SetTint(kRopeTints_55FD68, gMap.mCurrentLevel);
 
     field_20_animation.field_14_scale = scale;
     field_CC_sprite_scale = scale;
@@ -111,17 +111,12 @@ void Rope::VUpdate()
     // nullsub@4A11E0
 }
 
-void Rope::VRender(PrimHeader** ppOt)
-{
-    vRender_4A0E30(ppOt);
-}
-
 Rope::~Rope()
 {
     ResourceManager::FreeResource_49C330(field_F8_ppRopeRes);
 }
 
-void Rope::vRender_4A0E30(PrimHeader** ppOt)
+void Rope::VRender(PrimHeader** ppOt)
 {
     PSX_Point camPos = {};
     gMap.GetCurrentCamCoords_480680(&camPos);
@@ -173,7 +168,7 @@ void Rope::vRender_4A0E30(PrimHeader** ppOt)
                     s16 g = field_D2_g;
                     s16 b = field_D4_b;
 
-                    ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                    ShadowZone::ShadowZones_Calculate_Colour(
                         FP_GetExponent(field_B8_xpos),
                         ypos - (idx * field_F6_rope_length),
                         field_D6_scale,

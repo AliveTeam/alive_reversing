@@ -206,7 +206,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
 
     IRenderer::GetRenderer()->PalSetData(rec, sLCDScreen_Palette2);
 
-    if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
+    if (SwitchStates_Get(field_2B2_toggle_message_switch_id))
     {
         field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2B0_message_2_id);
     }
@@ -217,7 +217,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
 
     //field_A0_message = "                               THIS IS A TEST";
 
-    String_FormatString_4969D0(field_A0_message, field_A8_message_buffer, 512, 1);
+    String_FormatString(field_A0_message, field_A8_message_buffer, 512, 1);
     field_A0_message = field_A8_message_buffer;
     field_A4_message_cutoff_ptr = nullptr;
     field_2AC_x_offset = 0;
@@ -261,7 +261,7 @@ void LCDScreen::Update_460A00()
             else
             {
                 field_2B4_show_random_message = 1;
-                if (SwitchStates_Get_466020(field_2B2_toggle_message_switch_id))
+                if (SwitchStates_Get(field_2B2_toggle_message_switch_id))
                 {
                     field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2B0_message_2_id);
                 }
@@ -271,7 +271,7 @@ void LCDScreen::Update_460A00()
                 }
             }
 
-            String_FormatString_4969D0(field_A0_message, field_A8_message_buffer, 512, 1);
+            String_FormatString(field_A0_message, field_A8_message_buffer, 512, 1);
             field_A0_message = field_A8_message_buffer;
 
             auto palSwap = field_98_pal_rect;
@@ -302,7 +302,7 @@ void LCDScreen::Update_460A00()
         {
             if (field_2A8_play_sound_toggle)
             {
-                SFX_Play_46FA90(SoundEffect::LCDScreen_73, 0);
+                SFX_Play_Mono(SoundEffect::LCDScreen_73, 0);
             }
         }
     }

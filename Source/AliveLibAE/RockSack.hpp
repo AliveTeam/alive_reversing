@@ -24,10 +24,6 @@ public:
     virtual void VUpdate() override;
 
 private:
-    void vScreenChanged_49F700();
-    void vUpdate_49F3A0();
-
-private:
     s32 field_118_tlvInfo;
     s16 field_11C_has_been_hit;
     s16 field_11E_rock_amount;

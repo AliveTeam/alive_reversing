@@ -58,7 +58,7 @@ ScreenClipper::~ScreenClipper()
     gObjList_drawables_5C1124->Remove_Item(this);
 }
 
-void ScreenClipper::Update_Clip_Rect_416EB0(PSX_Point xy, PSX_Point wh)
+void ScreenClipper::Update_Clip_Rect(PSX_Point xy, PSX_Point wh)
 {
     field_40_rect.x = std::min(xy.field_0_x, field_40_rect.x);
     field_40_rect.y = std::min(xy.field_2_y, field_40_rect.y);

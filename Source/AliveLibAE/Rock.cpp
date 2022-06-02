@@ -65,38 +65,13 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     field_E0_pShadow = ae_new<Shadow>();
 }
 
-void Rock::VScreenChanged()
-{
-    vScreenChanged_49F030();
-}
-
-s32 Rock::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_49F9A0(reinterpret_cast<RockSaveState*>(pSaveBuffer));
-}
-
-void Rock::VThrow_49E460(FP velX, FP velY)
-{
-    vThrow_49E460(velX, velY);
-}
-
-Bool32 Rock::VCanThrow_49E350()
-{
-    return vCanThrow_49E350();
-}
-
-Bool32 Rock::VIsFalling_49E330()
-{
-    return vIsFalling_49E330();
-}
-
-void Rock::VTimeToExplodeRandom_411490()
+void Rock::VTimeToExplodeRandom()
 {
     // Calls actual implementation of 0x411490 which is empty.
 }
 
 //TODO Identical to AO - merge
-void Rock::vScreenChanged_49F030()
+void Rock::VScreenChanged()
 {
     if (gMap.mCurrentPath != gMap.mPath
         || gMap.mCurrentLevel != gMap.mLevel)
@@ -105,12 +80,12 @@ void Rock::vScreenChanged_49F030()
     }
 }
 
-Bool32 Rock::vIsFalling_49E330()
+Bool32 Rock::VIsFalling()
 {
     return field_11C_state == RockStates::eFallingOutOfWorld_5;
 }
 
-Bool32 Rock::vCanThrow_49E350()
+Bool32 Rock::VCanThrow()
 {
     return field_11C_state == RockStates::eBouncing_4;
 }
@@ -121,13 +96,13 @@ Rock::~Rock()
     {
         if (gpThrowableArray_5D1E2C)
         {
-            gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count >= 1 ? field_118_count : 1);
+            gpThrowableArray_5D1E2C->Remove(field_118_count >= 1 ? field_118_count : 1);
         }
     }
 }
 
 //TODO Identical to AO - merge
-void Rock::vThrow_49E460(FP velX, FP velY)
+void Rock::VThrow(FP velX, FP velY)
 {
     field_C4_velx = velX;
     field_C8_vely = velY;
@@ -144,7 +119,7 @@ void Rock::vThrow_49E460(FP velX, FP velY)
     }
 }
 
-void Rock::InTheAir_49E4B0()
+void Rock::InTheAir()
 {
     field_120_xpos = field_B8_xpos;
     field_124_ypos = field_BC_ypos;
@@ -223,7 +198,7 @@ void Rock::InTheAir_49E4B0()
                         vol = 40;
                     }
 
-                    SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
+                    SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
                     Event_Broadcast_422BC0(kEventNoise, this);
                     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                     field_11E_volume++;
@@ -241,7 +216,7 @@ void Rock::InTheAir_49E4B0()
                     {
                         vol = 40;
                     }
-                    SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
+                    SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
                     Event_Broadcast_422BC0(kEventNoise, this);
                     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                 }
@@ -283,13 +258,13 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
     {
         vol = 40;
     }
-    SFX_Play_46FA90(SoundEffect::RockBounce_26, vol);
+    SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 }
 
 //TODO Identical to AO - merge
-s16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
+s16 Rock::OnCollision(BaseAliveGameObject* pObj)
 {
     if (!pObj->mFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -297,7 +272,7 @@ s16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
     }
 
     PSX_RECT bRect = {};
-    pObj->vGetBoundingRect_424FD0(&bRect, 1);
+    pObj->VGetBoundingRect(&bRect, 1);
 
     if (field_120_xpos < FP_FromInteger(bRect.x) || field_120_xpos > FP_FromInteger(bRect.w))
     {
@@ -312,16 +287,11 @@ s16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
 
     pObj->VOnThrowableHit(this);
 
-    SFX_Play_46FA90(SoundEffect::RockBounceOnMine_24, 80);
+    SFX_Play_Mono(SoundEffect::RockBounceOnMine_24, 80);
     return 0;
 }
 
 void Rock::VUpdate()
-{
-    vUpdate_49E9F0();
-}
-
-void Rock::vUpdate_49E9F0()
 {
     auto pObj = sObjectIds.Find_449CF0(field_110_id);
     if (Event_Get_422C00(kEventDeathReset))
@@ -357,7 +327,7 @@ void Rock::vUpdate_49E9F0()
             break;
 
         case RockStates::eFallingOutOfRockSack_1:
-            InTheAir_49E4B0();
+            InTheAir();
             return;
 
         case RockStates::eRolling_2:
@@ -416,15 +386,15 @@ void Rock::vUpdate_49E9F0()
 
         case RockStates::eBouncing_4:
         {
-            InTheAir_49E4B0();
+            InTheAir();
             PSX_RECT bRect = {};
-            vGetBoundingRect_424FD0(&bRect, 1);
+            VGetBoundingRect(&bRect, 1);
             const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
             const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-            vOnCollisionWith_424EE0(xy, wh,
+            VOnCollisionWith(xy, wh,
                                     gBaseGameObjects,
                                     1,
-                                    (TCollisionCallBack) &Rock::OnCollision_49EF10);
+                                    (TCollisionCallBack) &Rock::OnCollision);
 
             if (field_C8_vely > FP_FromInteger(30))
             {
@@ -445,8 +415,10 @@ void Rock::vUpdate_49E9F0()
     }
 }
 
-s32 Rock::vGetSaveState_49F9A0(RockSaveState* pState)
+s32 Rock::VGetSaveState(u8* pSaveBuffer)
 {
+    auto pState = reinterpret_cast<RockSaveState*>(pSaveBuffer);
+
     pState->field_0_type = AETypes::eRock_105;
     pState->field_4_obj_id = field_C_objectId;
 

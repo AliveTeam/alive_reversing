@@ -18,25 +18,15 @@ Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 
     if (pTlv->field_4_type == TlvTypes::LocalWell_8)
     {
-        WellLocal_Init_4E2CD0(static_cast<Path_WellLocal*>(pTlv), xpos, ypos);
+        WellLocal_Init(static_cast<Path_WellLocal*>(pTlv), xpos, ypos);
     }
     else
     {
-        WellExpress_Init_4E2E00(static_cast<Path_WellExpress*>(pTlv), xpos, ypos);
+        WellExpress_Init(static_cast<Path_WellExpress*>(pTlv), xpos, ypos);
     }
 }
 
-void Well::VUpdate()
-{
-    vUpdate_4E2F60();
-}
-
-void Well::VScreenChanged()
-{
-    vScreenChanged_4E3070();
-}
-
-void Well::WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
+void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
     if (pTlv->field_0_scale != Scale_short::eFull_0)
     {
@@ -81,7 +71,7 @@ void Well::WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-void Well::WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
+void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
     if (pTlv->field_0_scale != Scale_short::eFull_0)
     {
@@ -131,7 +121,7 @@ Well::~Well()
     }
 }
 
-void Well::vScreenChanged_4E3070()
+void Well::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
@@ -149,7 +139,7 @@ static s16 Well_NextRandom()
     return curRand;
 }
 
-void Well::vUpdate_4E2F60()
+void Well::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -161,7 +151,7 @@ void Well::vUpdate_4E2F60()
     if (field_3C_bEmitLeaves == Choice_short::eYes_1)
     {
         // Always on or has been enabled?
-        if (field_24_switch_id == 0 || SwitchStates_Get_466020(field_24_switch_id))
+        if (field_24_switch_id == 0 || SwitchStates_Get(field_24_switch_id))
         {
             // Random chance of leaves emitting.
             if (Well_NextRandom() < 10)

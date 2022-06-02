@@ -83,7 +83,7 @@ public:
 private:
     void GoLeft();
     void GoRight();
-    void Burst_4C8AE0();
+    void Burst();
 
     s16 field_116_padding;
     BitField16<SlurgFlags> field_118_flags;

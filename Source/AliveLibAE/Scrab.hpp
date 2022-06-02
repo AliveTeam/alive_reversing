@@ -188,19 +188,15 @@ public:
     virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
 
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    virtual s16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override
-    {
-        return vOnSameYLevel_4A5400(pOther);
-    }
-
+    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
     virtual void VOnTrapDoorOpen() override;
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    void vUpdateAnim_4A34F0();
-    s16 OnFloor_4A41E0();
-    void Update_Slurg_Step_Watch_Points_4A5780();
+    void vUpdateAnim();
+    s16 OnFloor();
+    void Update_Slurg_Step_Watch_Points();
 
 public:
     s16 Brain_0_Patrol_4AA630();
@@ -260,26 +256,25 @@ public:
 
 
 private:
-    s16 vOnSameYLevel_4A5400(BaseAnimatedWithPhysicsGameObject* pOther);
-    void ToPatrol_4AA600();
-    void ToStand_4A75A0();
-    void MoveOnLine_4A7D20();
-    void PlatformCollide_4A7E50();
-    BaseAliveGameObject* Find_Fleech_4A4C90();
-    u8** ResBlockForMotion_4A43E0(s16 motion);
-    void TryMoveOrStand_4A7570();
-    s16 ToNextMotion_4A7920();
-    s16 PlayerControlled_4A76A0();
-    void ToJump_4A75E0();
-    void KnockBack_4AA530();
-    s32 Scrab_SFX_4AADB0(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
-    void KillTarget_4A7F20(BaseAliveGameObject* pTarget);
-    s16 FindAbeOrMud_4A4FD0();
-    s16 CanSeeAbe_4A51A0(BaseAliveGameObject* pObj);
-    static Bool32 LineOfSightTo_4A52D0(Scrab* pThis, BaseAliveGameObject* pObj);
-    Scrab* FindScrabToFight_4A4E20();
-    s16 Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, s16 bCheckLeftRightBounds);
-    GameSpeakEvents LastSpeak_4A56F0();
+    void ToPatrol();
+    void ToStand();
+    void MoveOnLine();
+    void PlatformCollide();
+    BaseAliveGameObject* Find_Fleech();
+    u8** ResBlockForMotion(s16 motion);
+    void TryMoveOrStand();
+    s16 ToNextMotion();
+    s16 PlayerControlled();
+    void ToJump();
+    void KnockBack();
+    s32 Scrab_SFX(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection);
+    void KillTarget(BaseAliveGameObject* pTarget);
+    s16 FindAbeOrMud();
+    s16 CanSeeAbe(BaseAliveGameObject* pObj);
+    static Bool32 LineOfSightTo(Scrab* pThis, BaseAliveGameObject* pObj);
+    Scrab* FindScrabToFight();
+    s16 Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds);
+    GameSpeakEvents LastSpeak();
 
 private:
     TScrabBrainFn field_118_brain_state;

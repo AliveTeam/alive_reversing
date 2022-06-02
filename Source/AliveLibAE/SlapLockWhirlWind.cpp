@@ -12,7 +12,7 @@
 s32 SlapLockWhirlWind::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const SlapLockWhirlWind_State*>(pBuffer);
-    SwitchStates_Do_Operation_465F00(pSaveState->field_2_switch_id, SwitchOp::eSetTrue_0);
+    SwitchStates_Do_Operation(pSaveState->field_2_switch_id, SwitchOp::eSetTrue_0);
     return sizeof(SlapLockWhirlWind_State);
 }
 
@@ -98,7 +98,7 @@ void SlapLockWhirlWind::VUpdate()
         {
             if (!(static_cast<s32>(sGnFrame_5C1B84) % 10))
             {
-                SFX_Play(
+                SFX_Play_Pitch(
                     SoundEffect::FlyingSpirit2_108,
                     static_cast<s16>(127 - (static_cast<s32>(sGnFrame_5C1B84) - field_40_timer) / 2),
                     4 * (sGnFrame_5C1B84 - field_40_timer));
@@ -106,7 +106,7 @@ void SlapLockWhirlWind::VUpdate()
 
             if (!pWhirlWind || pWhirlWind->mFlags.Get(BaseGameObject::eDead))
             {
-                SwitchStates_Do_Operation_465F00(field_44_switch_id, SwitchOp::eSetTrue_0);
+                SwitchStates_Do_Operation(field_44_switch_id, SwitchOp::eSetTrue_0);
                 mFlags.Set(BaseGameObject::eDead);
             }
         }
@@ -116,11 +116,11 @@ void SlapLockWhirlWind::VUpdate()
             {
                 if (static_cast<s32>(sGnFrame_5C1B84) % 20)
                 {
-                    SFX_Play_46FA90(SoundEffect::FlyingSpirit1_107, 0);
+                    SFX_Play_Mono(SoundEffect::FlyingSpirit1_107, 0);
                 }
                 else
                 {
-                    SFX_Play_46FA90(SoundEffect::FlyingSpirit2_108, 0);
+                    SFX_Play_Mono(SoundEffect::FlyingSpirit2_108, 0);
                 }
             }
 

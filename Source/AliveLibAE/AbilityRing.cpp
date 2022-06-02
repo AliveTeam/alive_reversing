@@ -115,7 +115,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
                     }
                 }
 
-                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
+                SFX_Play_Mono(SoundEffect::IngameTransition_84, 0);
                 break;
 
             case RingTypes::eExplosive_Give_3:
@@ -364,7 +364,7 @@ void AbilityRing::VUpdate()
             field_26E_screenX = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
             field_270_screenY = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
             PSX_RECT bRect = {};
-            pTarget->vGetBoundingRect_424FD0(&bRect, 1);
+            pTarget->VGetBoundingRect(&bRect, 1);
             field_272_screenXPos = (bRect.x + bRect.w) / 2 - field_26E_screenX;
             field_274_screenYPos = (bRect.y + bRect.h) / 2 - field_270_screenY;
         }
@@ -442,7 +442,7 @@ void AbilityRing::VUpdate()
             {
                 mFlags.Set(BaseGameObject::eDead);
                 field_254_left = FP_FromInteger(0);
-                SFX_Play_46FA90(SoundEffect::IngameTransition_84, 0);
+                SFX_Play_Mono(SoundEffect::IngameTransition_84, 0);
                 if (field_284_ring_type == RingTypes::eExplosive_Give_3)
                 {
                     ae_new<PossessionFlicker>(sActiveHero_5C1B68, 8, 255, 128, 128);
@@ -534,7 +534,7 @@ void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
         }
 
         PSX_RECT bRect = {};
-        pObj->vGetBoundingRect_424FD0(&bRect, 1);
+        pObj->VGetBoundingRect(&bRect, 1);
 
         if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
         {
@@ -599,7 +599,7 @@ void AbilityRing::vScreenChanged_49DE70()
                 if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
                 {
                     // Only heal alive muds in the same screen
-                    if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
+                    if (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
                     {
                         pObj->VPossessed();
                     }

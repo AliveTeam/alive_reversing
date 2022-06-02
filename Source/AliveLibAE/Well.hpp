@@ -19,10 +19,8 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    void WellExpress_Init_4E2E00(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos);
-    void WellLocal_Init_4E2CD0(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos);
-    void vScreenChanged_4E3070();
-    void vUpdate_4E2F60();
+    void WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos);
+    void WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos);
 
 private:
     s32 field_20_tlvInfo;

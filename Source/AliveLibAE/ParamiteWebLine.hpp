@@ -25,7 +25,7 @@ public:
 
     
 
-    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, s32 pointIdx) override;
+    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx) override;
 
     virtual void VRender(PrimHeader** ppOt) override;
 

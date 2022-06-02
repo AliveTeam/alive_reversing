@@ -101,7 +101,7 @@ void BirdPortal::VUpdate()
     {
         if (field_28_state > PortalStates::CreateTerminators_4 && field_28_state < PortalStates::StopSound_11)
         {
-            field_90_sfx_ret = SFX_Play_46FC20(SoundEffect::PortalOpening_58, 45, direction);
+            field_90_sfx_ret = SFX_Play_Camera(SoundEffect::PortalOpening_58, 45, direction);
         }
     }
 
@@ -115,7 +115,7 @@ void BirdPortal::VUpdate()
         case PortalStates::IdlePortal_1:
             if (static_cast<s32>(sGnFrame_5C1B84) >= field_5C_timer)
             {
-                SFX_Play_46FA90(SoundEffect::Dove_13, 35, field_60_scale);
+                SFX_Play_Mono(SoundEffect::Dove_13, 35, field_60_scale);
                 field_5C_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(24, 40);
             }
 
@@ -139,7 +139,7 @@ void BirdPortal::VUpdate()
                 field_28_state = PortalStates::JoinDovesInCenter_2;
                 field_5C_timer = sGnFrame_5C1B84 + 15;
                 Event_Broadcast_422BC0(GetEvent_499A70(), this);
-                SFX_Play_46FA90(SoundEffect::Dove_13, 70, field_60_scale);
+                SFX_Play_Mono(SoundEffect::Dove_13, 70, field_60_scale);
             }
             else if (IsScaredAway_4992A0() || Event_Get_422C00(kEventShooting))
             {
@@ -159,7 +159,7 @@ void BirdPortal::VUpdate()
                 {
                     pThrowableIndicator->mFlags.Set(BaseGameObject::eDead);
                 }
-                SFX_Play_46FA90(SoundEffect::Dove_13, 70, field_60_scale);
+                SFX_Play_Mono(SoundEffect::Dove_13, 70, field_60_scale);
                 mFlags.Set(BaseGameObject::eDead);
             }
             break;
@@ -199,8 +199,8 @@ void BirdPortal::VUpdate()
                 pTerminator2->field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
                 field_5C_timer = sGnFrame_5C1B84 + 12;
                 field_28_state = PortalStates::ExpandTerminators_5;
-                field_90_sfx_ret = SFX_Play_46FA90(SoundEffect::PortalOpening_58, 0, field_60_scale);
-                SFX_Play(SoundEffect::IngameTransition_84, 115, 300, field_60_scale);
+                field_90_sfx_ret = SFX_Play_Mono(SoundEffect::PortalOpening_58, 0, field_60_scale);
+                SFX_Play_Pitch(SoundEffect::IngameTransition_84, 115, 300, field_60_scale);
             }
             break;
 
@@ -243,7 +243,7 @@ void BirdPortal::VUpdate()
 
                         if (direction == CameraPos::eCamCurrent_0)
                         {
-                            SFX_Play(SoundEffect::BirdPortalSpark_41, 50, 2400, field_60_scale);
+                            SFX_Play_Pitch(SoundEffect::BirdPortalSpark_41, 50, 2400, field_60_scale);
                         }
                     }
                     ResourceManager::FreeResource_49C330(ppLightRes);
@@ -307,7 +307,7 @@ void BirdPortal::VUpdate()
                         field_30_ypos + FP_FromInteger(Math_RandomRange_496AB0(-scale32, scale32)),
                         field_60_scale);
 
-                    SFX_Play_46FA90(SoundEffect::Dove_13, 70, field_60_scale);
+                    SFX_Play_Mono(SoundEffect::Dove_13, 70, field_60_scale);
                     pDove_1->field_CC_sprite_scale = field_60_scale;
                     pDove_1->AsJoin_41F940(sActiveHero_5C1B68->field_B8_xpos, FP_FromInteger(Math_RandomRange_496AB0(-36, 4)) + sActiveHero_5C1B68->field_BC_ypos);
                     field_84_received_doves++;
@@ -367,7 +367,7 @@ void BirdPortal::VUpdate()
                 pTerminator2->mFlags.Set(BaseGameObject::eDead);
                 field_6C_terminator_id = -1;
                 field_70_terminator_id = -1;
-                SFX_Play(SoundEffect::MenuNavigation_52, 100, -1800, field_60_scale);
+                SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 100, -1800, field_60_scale);
             }
             break;
 
@@ -432,7 +432,7 @@ void BirdPortal::VUpdate()
             CreateTerminators_497D10();
 
             field_28_state = PortalStates::PortalExit_CreateTerminators_18;
-            field_90_sfx_ret = SFX_Play_46FA90(SoundEffect::PortalOpening_58, 0, field_60_scale);
+            field_90_sfx_ret = SFX_Play_Mono(SoundEffect::PortalOpening_58, 0, field_60_scale);
         }
         break;
 
@@ -854,7 +854,7 @@ void BirdPortal::vGiveShryukull_499680(s16 bPlaySound)
 
         if (bPlaySound)
         {
-            SFX_Play(SoundEffect::MenuNavigation_52, 70, -1600, field_60_scale);
+            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 70, -1600, field_60_scale);
         }
     }
 }
@@ -995,7 +995,7 @@ BirdPortal::~BirdPortal()
         field_90_sfx_ret = 0;
     }
 
-    if (SwitchStates_Get_466020(field_66_delete_portal_switch_id))
+    if (SwitchStates_Get(field_66_delete_portal_switch_id))
     {
         // Never come back
         Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 1);

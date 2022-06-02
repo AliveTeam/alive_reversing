@@ -28,9 +28,8 @@ public:
 
     static s32 CreateFromSaveState(const u8* pState);
 
-    void Remove_49AA00(s16 count);
-
-    void Add_49A7A0(s16 count);
+    void Remove(s16 count);
+    void Add(s16 count);
 
 public:
     s16 field_20_count;

@@ -188,10 +188,10 @@ s32 Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
     }
 
     PSX_RECT bTargetRect = {};
-    pTarget->vGetBoundingRect_424FD0(&bTargetRect, 1);
+    pTarget->VGetBoundingRect(&bTargetRect, 1);
 
     PSX_RECT bSlogRect = {};
-    pSlog->vGetBoundingRect_424FD0(&bSlogRect, 1);
+    pSlog->VGetBoundingRect(&bSlogRect, 1);
 
     if (bSlogRect.x > bTargetRect.w || bSlogRect.w < bTargetRect.x || bSlogRect.h < bTargetRect.y || bSlogRect.y > bTargetRect.h || pTarget->field_CC_sprite_scale != FP_FromInteger(1) || pSlog->field_11C_biting_target)
     {
@@ -224,7 +224,7 @@ s32 Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
         50);
 
     pSlog->field_11C_biting_target = 1;
-    SFX_Play_46FA90(SoundEffect::SlogBite_34, 0);
+    SFX_Play_Mono(SoundEffect::SlogBite_34, 0);
 
     return 1;
 }

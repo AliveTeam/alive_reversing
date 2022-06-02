@@ -51,13 +51,6 @@ public:
     static s32 CreateFromSaveState(const u8* pState);
 
 private:
-    s32 vGetSaveState_4E3C40(WorkWheel_SaveState* pState);
-    void vUpdate_4E38E0();
-    void vScreenChanged_4E3AD0();
-    void vStartTurning_4E3A20();
-    void vStopTurning_4E3A60(s16 bResetSwitch);
-
-private:
     s32 field_F4_tlv_info;
     s16 field_F8_switch_id;
     s16 field_FA_padding;
