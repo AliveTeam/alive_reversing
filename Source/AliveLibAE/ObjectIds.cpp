@@ -4,7 +4,9 @@
 #include "Sys_common.hpp"
 #include "BaseGameObject.hpp"
 
-ObjectIds sObjectIds{101};
+static constexpr u32 kObjectIdsArrayStartingSize = 101;
+
+ObjectIds sObjectIds{kObjectIdsArrayStartingSize};
 
 ObjectIds::~ObjectIds()
 {
@@ -68,6 +70,10 @@ void ObjectIds::Insert(TObjectId_KeyType nextId, BaseGameObject* pGameObj)
 {
     // Create new record
     ObjectId_Record* pRec = relive_new ObjectId_Record();
+    if (!pRec)
+    {
+        ALIVE_FATAL("OOM");
+    }
     pRec->field_0_id = nextId;
     pRec->field_4_obj_ptr = pGameObj;
 
