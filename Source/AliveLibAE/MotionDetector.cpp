@@ -333,7 +333,7 @@ void MotionDetector::VUpdate()
                 {
                     if (pObj == sActiveHero_5C1B68)
                     {
-                        if (sGnFrame_5C1B84 % 2)
+                        if (sGnFrame % 2)
                         {
                             SFX_Play_Mono(SoundEffect::Zap2_50, 45);
                         }
@@ -409,7 +409,7 @@ void MotionDetector::VUpdate()
                 if (pLaser->mBaseAnimatedWithPhysicsGameObject_XPos >= field_11C_y1_fp)
                 {
                     field_100_state = States::eWaitThenMoveLeft_1;
-                    field_104_timer = sGnFrame_5C1B84 + 15;
+                    field_104_timer = sGnFrame + 15;
                     const CameraPos soundDirection = gMap.GetDirection_4811A0(
                         field_C2_lvl_number,
                         field_C0_path_number,
@@ -424,7 +424,7 @@ void MotionDetector::VUpdate()
                 break;
 
             case States::eWaitThenMoveLeft_1:
-                if (static_cast<s32>(sGnFrame_5C1B84) > field_104_timer)
+                if (static_cast<s32>(sGnFrame) > field_104_timer)
                 {
                     field_100_state = States::eMoveLeft_2;
                 }
@@ -434,7 +434,7 @@ void MotionDetector::VUpdate()
                 if (pLaser->mBaseAnimatedWithPhysicsGameObject_XPos <= field_114_x1_fp)
                 {
                     field_100_state = States::eWaitThenMoveRight_3;
-                    field_104_timer = sGnFrame_5C1B84 + 15;
+                    field_104_timer = sGnFrame + 15;
                     const CameraPos soundDirection = gMap.GetDirection_4811A0(
                         field_C2_lvl_number,
                         field_C0_path_number,
@@ -449,7 +449,7 @@ void MotionDetector::VUpdate()
                 break;
 
             case States::eWaitThenMoveRight_3:
-                if (static_cast<s32>(sGnFrame_5C1B84) > field_104_timer)
+                if (static_cast<s32>(sGnFrame) > field_104_timer)
                 {
                     field_100_state = States::eMoveRight_0;
                 }

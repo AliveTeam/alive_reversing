@@ -136,7 +136,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos + FP_FromInteger(2);
 
-    field_100_timer = sGnFrame_5C1B84 + 91;
+    field_100_timer = sGnFrame + 91;
 
     if (scale == FP_FromInteger(1))
     {
@@ -306,7 +306,7 @@ void Gibs::VUpdate()
         }
     }
 
-    if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
+    if (static_cast<s32>(sGnFrame) > field_100_timer)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

@@ -69,7 +69,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
             pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange_450F20(2, 4));
         }
 
-        field_50_timer = gnFrameCount_507670 + 3;
+        field_50_timer = sGnFrame + 3;
 
         const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -128,9 +128,9 @@ void Spark::VUpdate()
     }
     if (!sNumCamSwappers_507668)
     {
-        if (static_cast<s32>(gnFrameCount_507670) < field_50_timer)
+        if (static_cast<s32>(sGnFrame) < field_50_timer)
         {
-            if (static_cast<s32>(gnFrameCount_507670) == field_50_timer - 1)
+            if (static_cast<s32>(sGnFrame) == field_50_timer - 1)
             {
                 field_4C_count /= 3;
             }

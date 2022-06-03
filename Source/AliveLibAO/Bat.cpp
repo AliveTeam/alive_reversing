@@ -146,11 +146,11 @@ void Bat::VUpdate()
     {
         case BatStates::eSetTimer_0:
             field_F4_state = BatStates::eInit_1;
-            field_F8_timer = gnFrameCount_507670 + field_EC_ticks_before_moving;
+            field_F8_timer = sGnFrame + field_EC_ticks_before_moving;
             break;
 
         case BatStates::eInit_1:
-            if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
+            if (static_cast<s32>(sGnFrame) > field_F8_timer)
             {
                 field_F4_state = BatStates::eStartMoving_2;
                 field_100_velx = FP_FromInteger(0);
@@ -178,7 +178,7 @@ void Bat::VUpdate()
                 field_F4_state = BatStates::eFlying_3;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
                 field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 90);
+                field_F8_timer = sGnFrame + Math_RandomRange_450F20(0, 90);
             }
             break;
 
@@ -197,10 +197,10 @@ void Bat::VUpdate()
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Bat1_41, SoundEffect::Bat2_42) & 0xFF), Math_RandomRange_450F20(20, 26), 0);
             }
 
-            if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
+            if (static_cast<s32>(sGnFrame) > field_F8_timer)
             {
                 SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
-                field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 240);
+                field_F8_timer = sGnFrame + Math_RandomRange_450F20(120, 240);
             }
 
             if (field_E4_pLine)
@@ -250,7 +250,7 @@ void Bat::VUpdate()
                                     pBat->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
 
                                     pBat->field_F8_timer = 0;
-                                    pBat->field_FC_attack_duration_timer = gnFrameCount_507670 + pBat->field_F6_attack_duration;
+                                    pBat->field_FC_attack_duration_timer = sGnFrame + pBat->field_F6_attack_duration;
 
                                     pBat->field_104_target_xpos = pBat->field_10C->field_A8_xpos;
                                     pBat->field_108_target_ypos = pBat->field_10C->field_AC_ypos;
@@ -280,15 +280,15 @@ void Bat::VUpdate()
 
             if (FP_Abs(xSpeed) < FP_FromInteger(10))
             {
-                if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
+                if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<s32>(sGnFrame) > field_F8_timer)
                 {
                     field_10C->VTakeDamage(this);
-                    field_F8_timer = gnFrameCount_507670 + 30;
+                    field_F8_timer = sGnFrame + 30;
                     SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
                 }
             }
 
-            if (field_FC_attack_duration_timer <= static_cast<s32>(gnFrameCount_507670))
+            if (field_FC_attack_duration_timer <= static_cast<s32>(sGnFrame))
             {
                 field_10C->mBaseGameObjectRefCount--;
                 field_10C = nullptr;

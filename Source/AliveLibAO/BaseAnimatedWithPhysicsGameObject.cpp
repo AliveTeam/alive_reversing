@@ -102,7 +102,7 @@ CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
 void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
 {
     // note: mudokons used % 4
-    if (!(gnFrameCount_507670 % 5))
+    if (!(sGnFrame % 5))
     {
         New_Smoke_Particles_419A80(
             field_A8_xpos + (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale),

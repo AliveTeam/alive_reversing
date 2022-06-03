@@ -126,7 +126,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             }
         }
         // Has its own random seed based on the frame counter.. no idea why
-        field_114_rand_seed = static_cast<u8>(gnFrameCount_507670);
+        field_114_rand_seed = static_cast<u8>(sGnFrame);
 
         for (s32 i = 0; i < field_112_to_render_count; i++)
         {

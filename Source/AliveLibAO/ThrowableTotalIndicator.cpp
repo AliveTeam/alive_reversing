@@ -48,10 +48,10 @@ void ThrowableTotalIndicator::VUpdate()
     {
         case ThrowableTotalIndicatorState::eCreated_0:
         {
-            field_18_cur_xpos = field_10_xpos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<u8>(2 * gnFrameCount_507670)));
-            field_1C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<u8>(2 * gnFrameCount_507670))) + field_14_ypos;
+            field_18_cur_xpos = field_10_xpos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<u8>(2 * sGnFrame)));
+            field_1C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<u8>(2 * sGnFrame))) + field_14_ypos;
 
-            const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<u8>(3 * gnFrameCount_507670))) + 80;
+            const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<u8>(3 * sGnFrame))) + 80;
 
             field_32_r = rgb;
             field_34_g = rgb;

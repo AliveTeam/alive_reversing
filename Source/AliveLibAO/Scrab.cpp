@@ -406,7 +406,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
                 mHealth = FP_FromInteger(0);
                 SetBrain(&Scrab::Brain_Death_45CB80);
                 field_130_unused = 2;
-                field_118_timer = gnFrameCount_507670 + 90;
+                field_118_timer = sGnFrame + 90;
                 mCurrentMotion = eScrabMotions::Motion_29_DeathBegin_45FFA0;
                 vUpdateAnim();
                 break;
@@ -435,7 +435,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
                 mHealth = FP_FromInteger(0);
                 SetBrain(&Scrab::Brain_Death_45CB80);
                 field_130_unused = 2;
-                field_118_timer = gnFrameCount_507670 + 90;
+                field_118_timer = sGnFrame + 90;
                 mCurrentMotion = eScrabMotions::Motion_29_DeathBegin_45FFA0;
                 vUpdateAnim();
                 break;
@@ -2336,11 +2336,11 @@ s16 Scrab::Brain_Fighting_45C370()
                 return field_110_brain_sub_state;
             }
             mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
-            field_118_timer = gnFrameCount_507670 + 30;
+            field_118_timer = sGnFrame + 30;
             return 6;
 
         case 6:
-            if (field_118_timer > static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer > static_cast<s32>(sGnFrame))
             {
                 return field_110_brain_sub_state;
             }
@@ -2354,11 +2354,11 @@ s16 Scrab::Brain_Fighting_45C370()
                 return field_110_brain_sub_state;
             }
             mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
-            field_118_timer = gnFrameCount_507670 + 20;
+            field_118_timer = sGnFrame + 20;
             return 8;
 
         case 8:
-            if (field_118_timer > static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer > static_cast<s32>(sGnFrame))
             {
                 return field_110_brain_sub_state;
             }
@@ -2400,11 +2400,11 @@ s16 Scrab::Brain_Fighting_45C370()
             }
             mCurrentMotion = eScrabMotions::Motion_23_ScrabBattleAnim_45FBA0;
             field_188_flags &= ~1u;
-            field_118_timer = gnFrameCount_507670 + 40;
+            field_118_timer = sGnFrame + 40;
             return 12;
 
         case 12:
-            if (field_118_timer > static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer > static_cast<s32>(sGnFrame))
             {
                 return field_110_brain_sub_state;
             }
@@ -2421,7 +2421,7 @@ s16 Scrab::Brain_Fighting_45C370()
             {
                 field_11C_pFight_target = nullptr;
                 mCurrentMotion = eScrabMotions::Motion_1_Stand_45E620;
-                field_118_timer = gnFrameCount_507670 + 20;
+                field_118_timer = sGnFrame + 20;
                 return 13;
             }
             else
@@ -2432,31 +2432,31 @@ s16 Scrab::Brain_Fighting_45C370()
                 SetBrain(&Scrab::Brain_Death_45CB80);
                 mCurrentMotion = eScrabMotions::Motion_29_DeathBegin_45FFA0;
                 field_130_unused = 2;
-                field_118_timer = gnFrameCount_507670 + 90;
+                field_118_timer = sGnFrame + 90;
                 return 0;
             }
             break;
 
         case 13:
-            if (field_118_timer > static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer > static_cast<s32>(sGnFrame))
             {
                 return field_110_brain_sub_state;
             }
             mNextMotion = eScrabMotions::Motion_16_Stamp_45F920;
-            field_118_timer = gnFrameCount_507670 + 75;
+            field_118_timer = sGnFrame + 75;
             return 14;
 
         case 14:
-            if (field_118_timer > static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer > static_cast<s32>(sGnFrame))
             {
                 return field_110_brain_sub_state;
             }
             mNextMotion = eScrabMotions::Motion_20_HowlBegin_45FA60;
-            field_118_timer = gnFrameCount_507670 + 45;
+            field_118_timer = sGnFrame + 45;
             return 15;
 
         case 15:
-            if (field_118_timer <= static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer <= static_cast<s32>(sGnFrame))
             {
                 mNextMotion = 1;
                 SetBrain(&Scrab::Brain_WalkAround_460D80); // patrol ??
@@ -2482,13 +2482,13 @@ s16 Scrab::Brain_BatDeath_45CA60()
             if (mCurrentMotion == eScrabMotions::Motion_1_Stand_45E620)
             {
                 mNextMotion = eScrabMotions::Motion_20_HowlBegin_45FA60;
-                field_118_timer = gnFrameCount_507670 + 45;
+                field_118_timer = sGnFrame + 45;
                 return Brain_BatDeath::eWalkAway_1;
             }
             break;
 
         case Brain_BatDeath::eWalkAway_1:
-            if (field_118_timer <= static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer <= static_cast<s32>(sGnFrame))
             {
                 mNextMotion = eScrabMotions::Motion_2_Walk_45E730;
                 return Brain_BatDeath::eStartShrieking_2;
@@ -2519,7 +2519,7 @@ s16 Scrab::Brain_BatDeath_45CA60()
                 {
                     SetBrain(&Scrab::Brain_Death_45CB80);
                     field_130_unused = 2;
-                    field_118_timer = gnFrameCount_507670 + 90;
+                    field_118_timer = sGnFrame + 90;
                     mCurrentMotion = eScrabMotions::Motion_29_DeathBegin_45FFA0;
                 }
             }
@@ -2534,7 +2534,7 @@ s16 Scrab::Brain_BatDeath_45CA60()
 
 s16 Scrab::Brain_Death_45CB80()
 {
-    if (field_118_timer > static_cast<s32>(gnFrameCount_507670) && field_118_timer < static_cast<s32>(gnFrameCount_507670) + 80)
+    if (field_118_timer > static_cast<s32>(sGnFrame) && field_118_timer < static_cast<s32>(sGnFrame) + 80)
     {
         field_BC_sprite_scale -= FP_FromDouble(0.008);
         field_C0_r -= 2;
@@ -2542,12 +2542,12 @@ s16 Scrab::Brain_Death_45CB80()
         field_C4_b -= 2;
     }
 
-    if (static_cast<s32>(gnFrameCount_507670) < field_118_timer - 24)
+    if (static_cast<s32>(sGnFrame) < field_118_timer - 24)
     {
         DeathSmokeEffect(true);
     }
 
-    if (field_118_timer < static_cast<s32>(gnFrameCount_507670))
+    if (field_118_timer < static_cast<s32>(sGnFrame))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -2586,7 +2586,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
     }
 
     if (field_120_pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
-        || (field_13C_spotting_timer <= static_cast<s32>(gnFrameCount_507670)
+        || (field_13C_spotting_timer <= static_cast<s32>(sGnFrame)
             && !CanSeeAbe(field_120_pTarget)
             && field_120_pTarget->mHealth > FP_FromInteger(0)
             && gMap.Is_Point_In_Current_Camera_4449C0(
@@ -2637,7 +2637,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
             {
                 return field_110_brain_sub_state;
             }
-            field_13C_spotting_timer = gnFrameCount_507670 + field_138_spotting_abe_delay;
+            field_13C_spotting_timer = sGnFrame + field_138_spotting_abe_delay;
             return 1;
 
         case 1:
@@ -2652,9 +2652,9 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                 || WallHit_401930(field_BC_sprite_scale * FP_FromInteger(30), field_120_pTarget->field_A8_xpos - field_A8_xpos)
                 || field_120_pTarget->mHealth <= FP_FromInteger(0))
             {
-                if (mCurrentMotion == eScrabMotions::Motion_1_Stand_45E620 && Math_NextRandom() < 26u && (field_188_flags & 0x20) && (gnFrameCount_507670 - field_140_last_shriek_timer) > 60)
+                if (mCurrentMotion == eScrabMotions::Motion_1_Stand_45E620 && Math_NextRandom() < 26u && (field_188_flags & 0x20) && (sGnFrame - field_140_last_shriek_timer) > 60)
                 {
-                    field_140_last_shriek_timer = gnFrameCount_507670;
+                    field_140_last_shriek_timer = sGnFrame;
                     mNextMotion = eScrabMotions::Motion_22_Shriek_45FB00;
                     return 17;
                 }
@@ -2740,9 +2740,9 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                 const bool bSwitchOn = SwitchStates_Get(pStopper->field_1A_switch_id) ? true : false;
                 if ((bLeft || bRight || bBoth) && !bSwitchOn)
                 {
-                    if (mCurrentMotion == eScrabMotions::Motion_1_Stand_45E620 && Math_NextRandom() < 26u && (field_188_flags & 0x20) && (gnFrameCount_507670 - field_140_last_shriek_timer) > 60)
+                    if (mCurrentMotion == eScrabMotions::Motion_1_Stand_45E620 && Math_NextRandom() < 26u && (field_188_flags & 0x20) && (sGnFrame - field_140_last_shriek_timer) > 60)
                     {
-                        field_140_last_shriek_timer = gnFrameCount_507670;
+                        field_140_last_shriek_timer = sGnFrame;
                         mNextMotion = eScrabMotions::Motion_22_Shriek_45FB00;
                         return 17;
                     }
@@ -2756,7 +2756,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                 return 10;
             }
 
-            field_118_timer = gnFrameCount_507670 + field_114_attack_delay;
+            field_118_timer = sGnFrame + field_114_attack_delay;
             return 8;
         }
 
@@ -2985,7 +2985,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                 return 10;
             }
 
-            if (field_118_timer > static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer > static_cast<s32>(sGnFrame))
             {
                 if (mCurrentMotion != eScrabMotions::Motion_1_Stand_45E620 || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
@@ -3075,7 +3075,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
                     field_188_flags &= ~4u;
                     mNextMotion = eScrabMotions::Motion_16_Stamp_45F920;
-                    field_118_timer = gnFrameCount_507670 + 30;
+                    field_118_timer = sGnFrame + 30;
                     return 15;
                 }
 
@@ -3158,7 +3158,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
             {
                 field_188_flags &= ~4u;
                 mNextMotion = eScrabMotions::Motion_16_Stamp_45F920;
-                field_118_timer = gnFrameCount_507670 + 30;
+                field_118_timer = sGnFrame + 30;
                 return 15;
             }
             return field_110_brain_sub_state;
@@ -3186,11 +3186,11 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
             }
             field_188_flags &= ~4u;
             mNextMotion = eScrabMotions::Motion_16_Stamp_45F920;
-            field_118_timer = gnFrameCount_507670 + 30;
+            field_118_timer = sGnFrame + 30;
             return 15;
 
         case 15:
-            if (field_118_timer <= static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer <= static_cast<s32>(sGnFrame))
             {
                 if (FP_Abs(field_120_pTarget->field_AC_ypos - field_AC_ypos) >= FP_FromInteger(5))
                 {
@@ -3401,7 +3401,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (mCurrentMotion == eScrabMotions::Motion_4_Turn_45EF30 && field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
-                field_118_timer = gnFrameCount_507670 + Math_RandomRange_450F20(field_144_left_min_delay, field_146_left_max_delay);
+                field_118_timer = sGnFrame + Math_RandomRange_450F20(field_144_left_min_delay, field_146_left_max_delay);
                 return 3;
             }
             return field_110_brain_sub_state;
@@ -3417,7 +3417,7 @@ s16 Scrab::Brain_Patrol_460020()
                 }
             }
 
-            if (field_118_timer > static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer > static_cast<s32>(sGnFrame))
             {
                 return field_110_brain_sub_state;
             }
@@ -3425,7 +3425,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (Math_NextRandom() < 30u)
             {
                 mNextMotion = eScrabMotions::Motion_20_HowlBegin_45FA60;
-                field_118_timer = gnFrameCount_507670 + 30;
+                field_118_timer = sGnFrame + 30;
                 return 7;
             }
 
@@ -3469,7 +3469,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (mCurrentMotion == eScrabMotions::Motion_4_Turn_45EF30 && field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
-                field_118_timer = gnFrameCount_507670 + Math_RandomRange_450F20(field_148_right_min_delay, field_14A_right_max_delay);
+                field_118_timer = sGnFrame + Math_RandomRange_450F20(field_148_right_min_delay, field_14A_right_max_delay);
                 return 6;
             }
             return field_110_brain_sub_state;
@@ -3485,7 +3485,7 @@ s16 Scrab::Brain_Patrol_460020()
                 }
             }
 
-            if (field_118_timer > static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer > static_cast<s32>(sGnFrame))
             {
                 return field_110_brain_sub_state;
             }
@@ -3493,7 +3493,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (Math_NextRandom() < 30u)
             {
                 mNextMotion = eScrabMotions::Motion_20_HowlBegin_45FA60;
-                field_118_timer = gnFrameCount_507670 + 30;
+                field_118_timer = sGnFrame + 30;
                 return 7;
             }
 
@@ -3501,7 +3501,7 @@ s16 Scrab::Brain_Patrol_460020()
             return 1;
 
         case 7:
-            if (field_118_timer > static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer > static_cast<s32>(sGnFrame))
             {
                 return field_110_brain_sub_state;
             }
@@ -3605,14 +3605,14 @@ s16 Scrab::Brain_WalkAround_460D80()
                 }
             }
 
-            if (field_118_timer > static_cast<s32>(gnFrameCount_507670))
+            if (field_118_timer > static_cast<s32>(sGnFrame))
             {
-                if (Math_NextRandom() >= 8u || !(field_188_flags & 0x20) || gnFrameCount_507670 - field_140_last_shriek_timer <= 90)
+                if (Math_NextRandom() >= 8u || !(field_188_flags & 0x20) || sGnFrame - field_140_last_shriek_timer <= 90)
                 {
                     return field_110_brain_sub_state;
                 }
                 mNextMotion = eScrabMotions::Motion_22_Shriek_45FB00;
-                field_140_last_shriek_timer = gnFrameCount_507670;
+                field_140_last_shriek_timer = sGnFrame;
                 return 5;
             }
 
@@ -3708,7 +3708,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                 return 4;
             }
 
-            if (Math_NextRandom() >= 8u || !(field_188_flags & 0x20) || gnFrameCount_507670 - field_140_last_shriek_timer <= 90)
+            if (Math_NextRandom() >= 8u || !(field_188_flags & 0x20) || sGnFrame - field_140_last_shriek_timer <= 90)
             {
                 if (mLiftPoint)
                 {
@@ -3725,7 +3725,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                 return field_110_brain_sub_state;
             }
 
-            field_140_last_shriek_timer = gnFrameCount_507670;
+            field_140_last_shriek_timer = sGnFrame;
             mNextMotion = eScrabMotions::Motion_22_Shriek_45FB00;
             return 5;
         }
@@ -3758,7 +3758,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                 return 4;
             }
 
-            if (Math_NextRandom() >= 8u || !(field_188_flags & 0x20) || gnFrameCount_507670 - field_140_last_shriek_timer <= 90)
+            if (Math_NextRandom() >= 8u || !(field_188_flags & 0x20) || sGnFrame - field_140_last_shriek_timer <= 90)
             {
                 if (mLiftPoint)
                 {
@@ -3775,7 +3775,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                 return field_110_brain_sub_state;
             }
 
-            field_140_last_shriek_timer = gnFrameCount_507670;
+            field_140_last_shriek_timer = sGnFrame;
             mNextMotion = eScrabMotions::Motion_22_Shriek_45FB00;
             return 5;
         }
@@ -3788,11 +3788,11 @@ s16 Scrab::Brain_WalkAround_460D80()
 
             if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_118_timer = gnFrameCount_507670 + Math_RandomRange_450F20(field_144_left_min_delay, field_146_left_max_delay);
+                field_118_timer = sGnFrame + Math_RandomRange_450F20(field_144_left_min_delay, field_146_left_max_delay);
             }
             else
             {
-                field_118_timer = gnFrameCount_507670 + Math_RandomRange_450F20(field_148_right_min_delay, field_14A_right_max_delay);
+                field_118_timer = sGnFrame + Math_RandomRange_450F20(field_148_right_min_delay, field_14A_right_max_delay);
             }
 
             return 1;

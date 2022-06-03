@@ -171,7 +171,7 @@ void Shrykull::VUpdate()
                     if (field_12C_bElectrocute)
                     {
                         ae_new<Electrocute>(pObj, 0, 1);
-                        field_120_timer = sGnFrame_5C1B84 + 3;
+                        field_120_timer = sGnFrame + 3;
 
                         if (pObj->Type() == AETypes::eGlukkon_67)
                         {
@@ -197,7 +197,7 @@ void Shrykull::VUpdate()
                     SFX_Play_Mono(SoundEffect::Zap1_49, 0);
 
                     field_118_state = State::eKillTargets_4;
-                    field_11C_timer = sGnFrame_5C1B84 + 12;
+                    field_11C_timer = sGnFrame + 12;
                     field_12E_bResetRingTimer = 1;
                     return;
                 }
@@ -272,7 +272,7 @@ void Shrykull::VUpdate()
                     PSX_RECT ourRect = {};
                     VGetBoundingRect(&ourRect, 1);
 
-                    if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer)
+                    if (static_cast<s32>(sGnFrame) == field_120_timer)
                     {
                         ae_new<ParticleBurst>(
                             FP_FromInteger((zapRect.x + zapRect.w) / 2),
@@ -289,7 +289,7 @@ void Shrykull::VUpdate()
                 }
             }
 
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_11C_timer)
+            if (static_cast<s32>(sGnFrame) > field_11C_timer)
             {
                 field_118_state = State::eZapTargets_1;
                 if (pExistingBeingZappedObj)

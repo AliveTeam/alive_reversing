@@ -70,7 +70,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
     field_11C_tlv = tlv;
-    field_120_gnframe = sGnFrame_5C1B84;
+    field_120_gnframe = sGnFrame;
     const AnimRecord& mineFlashrec = AnimRec(AnimId::Mine_Flash);
     field_124_animation.Init(mineFlashrec.mFrameTableOffset, gObjList_animations_5C1A24, this, mineFlashrec.mMaxW, mineFlashrec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, mineFlashrec.mResourceId), 1u, 0, 0);
 
@@ -146,7 +146,7 @@ void Mine::VUpdate()
 
     if (field_118_detonating)
     {
-        if (field_118_detonating == 1 && sGnFrame_5C1B84 >= field_120_gnframe)
+        if (field_118_detonating == 1 && sGnFrame >= field_120_gnframe)
         {
             ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
             mBaseGameObjectFlags.Set(Options::eDead);
@@ -170,7 +170,7 @@ void Mine::VUpdate()
         if (Mine::IsColliding())
         {
             field_118_detonating = 1;
-            field_120_gnframe = sGnFrame_5C1B84;
+            field_120_gnframe = sGnFrame;
         }
     }
     if (field_118_detonating != 1)
@@ -220,7 +220,7 @@ void Mine::VOnPickUpOrSlapped()
     if (field_118_detonating != 1)
     {
         field_118_detonating = 1;
-        field_120_gnframe = sGnFrame_5C1B84 + 5;
+        field_120_gnframe = sGnFrame + 5;
     }
 }
 
@@ -253,7 +253,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
             ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_118_detonating = 1;
-            field_120_gnframe = sGnFrame_5C1B84;
+            field_120_gnframe = sGnFrame;
             return 1;
     }
 }

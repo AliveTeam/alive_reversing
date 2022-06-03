@@ -15,11 +15,11 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
 {
     field_B8_render_angle += field_BC_counter;
 
-    if (bStarted && field_BC_counter <= field_BE_max && !(gnFrameCount_507670 % 3))
+    if (bStarted && field_BC_counter <= field_BE_max && !(sGnFrame % 3))
     {
         field_BC_counter++;
     }
-    else if (!bStarted && field_BC_counter >= 1 && !(gnFrameCount_507670 % 3))
+    else if (!bStarted && field_BC_counter >= 1 && !(sGnFrame % 3))
     {
         field_BC_counter--;
         field_D4_radiusX += FP_FromInteger(4);
@@ -41,7 +41,7 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
 void OrbWhirlWindParticle::ToStop()
 {
     field_B4_state = State::State_4_Stop;
-    field_DC_position_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 32);
+    field_DC_position_timer = sGnFrame + Math_RandomRange_450F20(0, 32);
 }
 
 s32 OrbWhirlWindParticle::IsActive()
@@ -99,9 +99,9 @@ void OrbWhirlWindParticle::Update()
             break;
 
         case State::State_1_Spin:
-            if (static_cast<s32>(gnFrameCount_507670) < field_DC_position_timer + 16)
+            if (static_cast<s32>(sGnFrame) < field_DC_position_timer + 16)
             {
-                if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
+                if (static_cast<s32>(sGnFrame) >= field_DC_position_timer)
                 {
                     field_D0_ypos_mid += field_B0_ypos_increment;
                     field_D4_radiusX -= FP_FromInteger(2);
@@ -122,7 +122,7 @@ void OrbWhirlWindParticle::Update()
                     field_FC_xpos_offset2 = field_D0_ypos_mid;
                     field_F4_xpos_offset = field_D0_ypos_mid;
                     field_C8_scale_offset_fly_to_target = (field_E4_pObj->field_BC_sprite_scale - field_C0_current_scale) / FP_FromInteger(16);
-                    field_DC_position_timer = gnFrameCount_507670 + 16;
+                    field_DC_position_timer = sGnFrame + 16;
                     field_B4_state = State::State_2_FlyToTarget;
                     CalculateRenderProperties(1);
                 }
@@ -142,10 +142,10 @@ void OrbWhirlWindParticle::Update()
                 const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
                 const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-                if (static_cast<s32>(gnFrameCount_507670) < field_DC_position_timer)
+                if (static_cast<s32>(sGnFrame) < field_DC_position_timer)
                 {
                     field_C0_current_scale += field_C8_scale_offset_fly_to_target;
-                    const FP v25 = FP_FromInteger(16 - (field_DC_position_timer - gnFrameCount_507670)) / FP_FromInteger(16);
+                    const FP v25 = FP_FromInteger(16 - (field_DC_position_timer - sGnFrame)) / FP_FromInteger(16);
                     field_F8_ypos_offset = ((xpos - field_F0_scale) * v25) + field_F0_scale;
                     field_FC_xpos_offset2 = ((ypos - field_F4_xpos_offset) * v25) + field_F4_xpos_offset;
                     field_CC_xpos_mid = field_F8_ypos_offset + ((FP_FromInteger(32) * field_C0_current_scale) * Math_Sine_451110(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
@@ -161,7 +161,7 @@ void OrbWhirlWindParticle::Update()
                     field_D4_radiusX = FP_FromInteger(40);
                     field_AC_radiusX_offset = field_D4_radiusX / FP_FromInteger(32);
                     field_104_scale_offset_spin_at_target = field_C0_current_scale * FP_FromInteger(Math_RandomRange_450F20(-16, 16));
-                    field_DC_position_timer = gnFrameCount_507670 + 32;
+                    field_DC_position_timer = sGnFrame + 32;
                     field_B4_state = State::State_3_SpinAtTarget;
                 }
                 CalculateRenderProperties(1);
@@ -169,17 +169,17 @@ void OrbWhirlWindParticle::Update()
             break;
 
         case State::State_3_SpinAtTarget:
-            if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
+            if (static_cast<s32>(sGnFrame) >= field_DC_position_timer)
             {
                 SetActive(IsActive() ? 0 : 1);
             }
-            field_D0_ypos_mid = (field_104_scale_offset_spin_at_target * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(128) * FP_FromInteger(32 - (field_DC_position_timer + gnFrameCount_507670)) / FP_FromInteger(32)) & 0xFF)) + field_FC_xpos_offset2;
+            field_D0_ypos_mid = (field_104_scale_offset_spin_at_target * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(128) * FP_FromInteger(32 - (field_DC_position_timer + sGnFrame)) / FP_FromInteger(32)) & 0xFF)) + field_FC_xpos_offset2;
             field_D4_radiusX -= field_AC_radiusX_offset;
             CalculateRenderProperties(1);
             break;
 
         case State::State_4_Stop:
-            if (static_cast<s32>(gnFrameCount_507670) >= field_DC_position_timer)
+            if (static_cast<s32>(sGnFrame) >= field_DC_position_timer)
             {
                 SetActive(IsActive() ? 0 : 1);
             }
@@ -230,7 +230,7 @@ OrbWhirlWindParticle::~OrbWhirlWindParticle()
 
 void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj)
 {
-    field_DC_position_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 16);
+    field_DC_position_timer = sGnFrame + Math_RandomRange_450F20(0, 16);
     field_B4_state = State::State_1_Spin;
     field_E4_pObj = pObj;
 

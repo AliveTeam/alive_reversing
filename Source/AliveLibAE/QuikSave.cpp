@@ -571,8 +571,8 @@ void MEMCARD_Write_SJISC_String_4A2770(char_type* src, char_type* dst, s32 srcLe
 void MEMCARD_Generate_Timestamp_String_4A21F0(char_type* pStr)
 {
     sprintf(pStr, "%03d:%02d",
-            (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 / 60 % 1000,
-            (s32)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
+            (s32)(sGnFrame - sGameStartedFrame_5C1B88) / 30 / 60 / 60 % 1000,
+            (s32)(sGnFrame - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
 }
 
 void MEMCARD_Write_Timestamp_SJISC_String_4A2290(char_type* dst)
@@ -694,7 +694,7 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
     sVisitedBonewerks_5C1C02 = pInfo->field_32_visited_bonewerks;
     sVisitedBarracks_5C1C04 = pInfo->field_34_visited_barracks;
     sVisitedFeecoEnder_5C1C06 = pInfo->field_36_visited_feeco_ender;
-    sGnFrame_5C1B84 = pInfo->field_0_gnFrame;
+    sGnFrame = pInfo->field_0_gnFrame;
 }
 
 void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
@@ -702,7 +702,7 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     PSX_RECT rect = {};
     sControlledCharacter_5C1B8C->VGetBoundingRect(&rect, 1);
 
-    pInfo->field_0_gnFrame = sGnFrame_5C1B84;
+    pInfo->field_0_gnFrame = sGnFrame;
     pInfo->field_4_level = gMap.mCurrentLevel;
     pInfo->field_6_path = gMap.mCurrentPath;
     pInfo->field_8_cam = gMap.mCurrentCamera;

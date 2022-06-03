@@ -725,7 +725,7 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
     field_1E2_rgb = 40;
     field_1E4_colour_counter = -8;
     field_1D4_tlvInfo = tlvInfo;
-    field_1D8_timer = gnFrameCount_507670 + 150;
+    field_1D8_timer = sGnFrame + 150;
 
     // copy right boot screen
     field_1CC_fn_update = &Menu::CopyRight_Update_47B4C0;
@@ -889,13 +889,13 @@ void Menu::WaitForDoorToOpen_47B550()
         ResourceManager::FreeResource_455550(field_E4_res_array[3]);
         field_204_flags &= ~2u;
         field_E4_res_array[3] = nullptr;
-        field_1D8_timer = gnFrameCount_507670 + 15;
+        field_1D8_timer = sGnFrame + 15;
     }
 }
 
 void Menu::WaitForAbesHeadPoppingThroughDoor_47B5E0()
 {
-    if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
+    if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
         field_204_flags |= 2u;
         field_10_anim.Set_Animation_Data(37364, nullptr);
@@ -922,15 +922,15 @@ void Menu::CopyRight_Update_47B4C0()
 {
     if (gMap.mCurrentCamera == 23)
     {
-        if (static_cast<s32>(gnFrameCount_507670) > field_1D8_timer)
+        if (static_cast<s32>(sGnFrame) > field_1D8_timer)
         {
-            field_1D8_timer = gnFrameCount_507670 + 150;
+            field_1D8_timer = sGnFrame + 150;
             gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eCopyright_10, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
     else
     {
-        if (static_cast<s32>(gnFrameCount_507670) > field_1D8_timer || gMap.mCurrentCamera != 10)
+        if (static_cast<s32>(sGnFrame) > field_1D8_timer || gMap.mCurrentCamera != 10)
         {
             gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::ePlay1FMV_5, 30102, 0);
             field_1CC_fn_update = &Menu::WaitForDoorToOpen_47B550;
@@ -1246,7 +1246,7 @@ void Menu::WaitForAbeSayHello_47B770()
         field_10_anim.SetFrame(7u);
         field_1CC_fn_update = &Menu::MainScreen_Update_47AF60;
         field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
-        field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(300, 450);
+        field_1D8_timer = sGnFrame + Math_RandomRange_450F20(300, 450);
     }
 }
 
@@ -1509,10 +1509,10 @@ void Menu::MainScreen_Update_47AF60()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
             field_204_flags &= ~4u;
-            field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
+            field_1D8_timer = sGnFrame + Math_RandomRange_450F20(120, 450);
         }
     }
-    else if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
+    else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
         if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -2169,10 +2169,10 @@ void Menu::Options_Update_47BF90()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
             field_204_flags &= ~4u;
-            field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
+            field_1D8_timer = sGnFrame + Math_RandomRange_450F20(120, 450);
         }
     }
-    else if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
+    else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
         if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -2543,10 +2543,10 @@ void Menu::Options_Sound_Update_47C420()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
             field_204_flags &= ~4u;
-            field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
+            field_1D8_timer = sGnFrame + Math_RandomRange_450F20(120, 450);
         }
     }
-    else if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
+    else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
         if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -2607,7 +2607,7 @@ void Menu::GameSpeak_Update_47CBD0()
 
     if (field_204_flags & 1)
     {
-        if (field_1E0_selected_index.gamespeak_menu == GameSpeakOptions::eChant_8 && !(gnFrameCount_507670 % 8))
+        if (field_1E0_selected_index.gamespeak_menu == GameSpeakOptions::eChant_8 && !(sGnFrame % 8))
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::OptionChantOrb_Particle);
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -2869,12 +2869,12 @@ void Menu::CycleGameSpeakIdleAnims()
                 const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
                 field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
                 field_204_flags &= ~4u;
-                field_1D8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(120, 450);
+                field_1D8_timer = sGnFrame + Math_RandomRange_450F20(120, 450);
             }
         }
         else
         {
-            if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
+            if (field_1D8_timer <= static_cast<s32>(sGnFrame))
             {
                 if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
@@ -2900,7 +2900,7 @@ void Menu::To_Credits_Update_47F140()
 {
     field_1CC_fn_update = &Menu::Credits_Update_47F190;
     field_1D0_fn_render = &Menu::Empty_Render_47AC80;
-    field_1D8_timer = gnFrameCount_507670 + 60;
+    field_1D8_timer = sGnFrame + 60;
 }
 
 void Menu::Level_Cheat_To_Loading_Update_47ED50()
@@ -3450,7 +3450,7 @@ void Menu::To_ToggleMotions_Update_47C9E0()
 
 void Menu::Credits_Update_47F190()
 {
-    if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
+    if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
         field_208_camera++;
 
@@ -3465,7 +3465,7 @@ void Menu::Credits_Update_47F190()
         {
             // Next credits screen
             gMap.SetActiveCam(LevelIds::eCredits_10, 1, static_cast<s16>(field_208_camera), CameraSwapEffects::eTopToBottom_3, 0, 0);
-            field_1D8_timer = gnFrameCount_507670 + 60;
+            field_1D8_timer = sGnFrame + 60;
         }
     }
 }

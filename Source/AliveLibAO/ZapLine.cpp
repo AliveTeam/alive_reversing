@@ -369,7 +369,7 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
     field_130_sprite_segment_positions[field_11E_number_of_segments - 1].field_4_y = FP_FromInteger(field_112_y_position_destination);
 
     s32 angExtra = 0;
-    if ((gnFrameCount_507670 / 8) & 1)
+    if ((sGnFrame / 8) & 1)
     {
         angExtra = 0;
     }

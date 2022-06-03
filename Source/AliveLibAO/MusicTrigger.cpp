@@ -148,7 +148,7 @@ void MusicTrigger::VUpdate()
 
             if (field_18_counter >= 0)
             {
-                field_18_counter += gnFrameCount_507670;
+                field_18_counter += sGnFrame;
             }
         }
     }
@@ -158,7 +158,7 @@ void MusicTrigger::VUpdate()
         {
             MusicController::static_PlayMusic(field_1C_music_type, this, (field_14_flags >> 2) & 1, 1);
             field_14_flags |= 2u;
-            field_18_counter += gnFrameCount_507670;
+            field_18_counter += sGnFrame;
             return;
         }
 
@@ -177,7 +177,7 @@ void MusicTrigger::VUpdate()
             }
         }
 
-        if (static_cast<s32>(gnFrameCount_507670) < field_18_counter)
+        if (static_cast<s32>(sGnFrame) < field_18_counter)
         {
             MusicController::static_PlayMusic(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
         }

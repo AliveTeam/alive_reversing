@@ -181,7 +181,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    field_120_deadtimer = gnFrameCount_507670 + 600;
+    field_120_deadtimer = sGnFrame + 600;
     field_124_pLine = 0;
     field_10C_count = count;
     field_110_state = 0;
@@ -437,19 +437,19 @@ void Meat::VUpdate()
             case 4:
                 if (gMap.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos, 0))
                 {
-                    field_120_deadtimer = gnFrameCount_507670 + 600;
+                    field_120_deadtimer = sGnFrame + 600;
                 }
 
-                if (static_cast<s32>(gnFrameCount_507670) > field_11C_timer)
+                if (static_cast<s32>(sGnFrame) > field_11C_timer)
                 {
                     New_Shiny_Particle_4199A0(
                         field_A8_xpos + field_BC_sprite_scale,
                         field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
                         Layer::eLayer_Foreground_36);
-                    field_11C_timer = Math_NextRandom() % 16 + gnFrameCount_507670 + 60;
+                    field_11C_timer = Math_NextRandom() % 16 + sGnFrame + 60;
                 }
-                if (field_120_deadtimer < static_cast<s32>(gnFrameCount_507670))
+                if (field_120_deadtimer < static_cast<s32>(sGnFrame))
                 {
                     mBaseGameObjectFlags.Set(Options::eDead);
                 }

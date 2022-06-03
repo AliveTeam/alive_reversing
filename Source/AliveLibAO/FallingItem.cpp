@@ -97,7 +97,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     if (!pPrimaryFallingItem_4FFA54 && (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13))
     {
         pPrimaryFallingItem_4FFA54 = this;
-        field_134_created_gnFrame = gnFrameCount_507670;
+        field_134_created_gnFrame = sGnFrame;
     }
 
     field_D0_pShadow = ao_new<Shadow>();
@@ -155,12 +155,12 @@ void FallingItem::VUpdate()
 
     if (pPrimaryFallingItem_4FFA54 == this)
     {
-        if (!((gnFrameCount_507670 - field_134_created_gnFrame) % 87))
+        if (!((sGnFrame - field_134_created_gnFrame) % 87))
         {
             SFX_Play_Mono(SoundEffect::MeatsawOffscreen_88, 45, 0);
         }
 
-        if (!((gnFrameCount_507670 - field_134_created_gnFrame) % 25))
+        if (!((sGnFrame - field_134_created_gnFrame) % 25))
         {
             SFX_Play_Mono(SoundEffect::MeatsawIdle_89, 45, 0);
         }
@@ -183,12 +183,12 @@ void FallingItem::VUpdate()
             field_B8_vely = FP_FromInteger(0);
             const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap.mCurrentLevel)].field_4_waiting_animId);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-            field_11C_delay_timer = gnFrameCount_507670 + field_118_fall_interval;
+            field_11C_delay_timer = sGnFrame + field_118_fall_interval;
             break;
         }
 
         case State::eWaitForFallDelay_2:
-            if (static_cast<s32>(gnFrameCount_507670) >= field_11C_delay_timer)
+            if (static_cast<s32>(sGnFrame) >= field_11C_delay_timer)
             {
                 field_110_state = State::eFalling_3;
                 field_122_do_sound_in_state_falling = TRUE;

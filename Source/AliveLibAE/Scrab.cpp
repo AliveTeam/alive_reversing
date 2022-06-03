@@ -159,7 +159,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
 
     field_164_prevent_depossession = 0;
     field_16C_input = 0;
-    field_170_unused = sGnFrame_5C1B84;
+    field_170_unused = sGnFrame;
     field_1A2_speak_counter = 0;
     field_1A4_unused = 0;
     field_1A6_unused = 25;
@@ -789,7 +789,7 @@ void Scrab::VUpdate()
                     return;
                 }
 
-                if (mHealth > FP_FromInteger(0) && !(static_cast<s32>(sGnFrame_5C1B84) % 4))
+                if (mHealth > FP_FromInteger(0) && !(static_cast<s32>(sGnFrame) % 4))
                 {
                     // Draw green particle
                     s16 particleXRand = Math_RandomRange(40, 50);
@@ -849,7 +849,7 @@ void Scrab::Update_Slurg_Step_Watch_Points()
 {
     if (mCurrentMotion == eScrabMotions::M_Walk_1_4A84D0 || mCurrentMotion == eScrabMotions::M_Run_2_4A89C0 || mCurrentMotion == eScrabMotions::M_Stamp_21_4A9CC0 || mCurrentMotion == eScrabMotions::M_AttackSpin_32_4A8DC0)
     {
-        if (sGnFrame_5C1B84 & 1)
+        if (sGnFrame & 1)
         {
             const s8 count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
             if (count < 5)
@@ -940,7 +940,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
         if (pOtherScrab->Type() == AETypes::eScrab_112 && pOtherScrab->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed))
         {
             mNextMotion = eScrabMotions::M_HowlBegin_26_4A9DA0;
-            field_150_attack_delay_timer = sGnFrame_5C1B84 + 90;
+            field_150_attack_delay_timer = sGnFrame + 90;
             return Brain_1_ChasingEnemy::eBrain1_Idle_1;
         }
 
@@ -1022,13 +1022,13 @@ s16 Scrab::Brain_0_Patrol_4AA630()
                     return Brain_0_Patrol::eBrain0_Turning_2;
                 }
 
-                if (Math_NextRandom() >= 3u || static_cast<s32>(sGnFrame_5C1B84 - field_154_movement_timer) <= 150)
+                if (Math_NextRandom() >= 3u || static_cast<s32>(sGnFrame - field_154_movement_timer) <= 150)
                 {
                     return field_11C_brain_sub_state;
                 }
 
                 mNextMotion = eScrabMotions::M_Shriek_30_4A9EA0;
-                field_154_movement_timer = sGnFrame_5C1B84;
+                field_154_movement_timer = sGnFrame;
                 return Brain_0_Patrol::eBrain0_Shriek_5;
             }
             else
@@ -1059,7 +1059,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
                 maxTimer = field_15E_right_max_delay;
                 minTimer = field_15C_right_min_delay;
             }
-            field_12C_timer = sGnFrame_5C1B84 + Math_RandomRange(minTimer, maxTimer);
+            field_12C_timer = sGnFrame + Math_RandomRange(minTimer, maxTimer);
             return Brain_0_Patrol::eBrain0_Idle_3;
         }
 
@@ -1074,17 +1074,17 @@ s16 Scrab::Brain_0_Patrol_4AA630()
                 }
                 else
                 {
-                    if (static_cast<s32>(sGnFrame_5C1B84) <= field_12C_timer)
+                    if (static_cast<s32>(sGnFrame) <= field_12C_timer)
                     {
                         return field_11C_brain_sub_state;
                     }
 
-                    if (Math_NextRandom() >= 30u || static_cast<s32>(sGnFrame_5C1B84 - field_154_movement_timer) <= 150)
+                    if (Math_NextRandom() >= 30u || static_cast<s32>(sGnFrame - field_154_movement_timer) <= 150)
                     {
                         return Brain_0_Patrol::eBrain0_ToMoving_0;
                     }
                     mNextMotion = eScrabMotions::M_HowlBegin_26_4A9DA0;
-                    field_154_movement_timer = sGnFrame_5C1B84;
+                    field_154_movement_timer = sGnFrame;
                     return Brain_0_Patrol::eBrain0_Howling_4;
                 }
             }
@@ -1151,7 +1151,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
             if (field_194_speak == GameSpeakEvents::Scrab_Shriek_54)
             {
                 mNextMotion = eScrabMotions::M_Shriek_30_4A9EA0;
-                field_154_movement_timer = sGnFrame_5C1B84;
+                field_154_movement_timer = sGnFrame;
                 return Brain_0_Patrol::eBrain0_Shriek_5;
             }
             else if (field_194_speak == GameSpeakEvents::Scrab_Howl_53)
@@ -1171,11 +1171,11 @@ s16 Scrab::Brain_0_Patrol_4AA630()
                 return field_11C_brain_sub_state;
             }
             mNextMotion = eScrabMotions::M_Stamp_21_4A9CC0;
-            field_12C_timer = sGnFrame_5C1B84 + 30;
+            field_12C_timer = sGnFrame + 30;
             return Brain_0_Patrol::eBrain0_PostInvisibilitySmash_10;
 
         case Brain_0_Patrol::eBrain0_PostInvisibilitySmash_10:
-            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame) && static_cast<s32>(sGnFrame_5C1B84) > field_12C_timer)
+            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame) && static_cast<s32>(sGnFrame) > field_12C_timer)
             {
                 mNextMotion = eScrabMotions::M_Stand_0_4A8220;
                 return Brain_0_Patrol::eBrain0_ToMoving_0;
@@ -1206,7 +1206,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
     }
 
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
-    if (!pObj || mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (static_cast<s32>(sGnFrame_5C1B84) > field_14C_pause_after_chase_timer && !CanSeeAbe(pObj)))
+    if (!pObj || mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (static_cast<s32>(sGnFrame) > field_14C_pause_after_chase_timer && !CanSeeAbe(pObj)))
     {
         field_120_obj_id = -1;
         mNextMotion = eScrabMotions::M_Stand_0_4A8220;
@@ -1224,7 +1224,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
 
     if (CanSeeAbe(pObj))
     {
-        field_14C_pause_after_chase_timer = sGnFrame_5C1B84 + field_148_pause_after_chase_delay;
+        field_14C_pause_after_chase_timer = sGnFrame + field_148_pause_after_chase_delay;
     }
 
     if (Event_Is_Event_In_Range(kEventAbeOhm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, -1) && field_11C_brain_sub_state != 26) //TODO OG bug? mNextMotion instead of field_11C_sub_state
@@ -1258,7 +1258,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
     {
         case Brain_1_ChasingEnemy::eBrain1_Inactive_0:
         {
-            field_150_attack_delay_timer = sGnFrame_5C1B84 + field_128_attack_delay;
+            field_150_attack_delay_timer = sGnFrame + field_128_attack_delay;
             return Brain_1_ChasingEnemy::eBrain1_Idle_1;
         }
         case Brain_1_ChasingEnemy::eBrain1_Idle_1:
@@ -1300,7 +1300,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
                 mNextMotion = eScrabMotions::M_LegKick_38_4AA120;
                 return Brain_1_ChasingEnemy::eBrain1_Attacking_8;
             }
-            else if (CanSeeAbe(pObj) && static_cast<s32>(sGnFrame_5C1B84) >= field_150_attack_delay_timer)
+            else if (CanSeeAbe(pObj) && static_cast<s32>(sGnFrame) >= field_150_attack_delay_timer)
             {
                 if (Handle_SlamDoor_or_EnemyStopper(field_C4_velx, 0))
                 {
@@ -1311,12 +1311,12 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
             }
             else
             {
-                if (Math_NextRandom() >= 16u || static_cast<s32>(sGnFrame_5C1B84 - field_154_movement_timer) <= 60)
+                if (Math_NextRandom() >= 16u || static_cast<s32>(sGnFrame - field_154_movement_timer) <= 60)
                 {
                     return Brain_1_ChasingEnemy::eBrain1_Idle_1;
                 }
                 mNextMotion = eScrabMotions::M_Shriek_30_4A9EA0;
-                field_154_movement_timer = sGnFrame_5C1B84;
+                field_154_movement_timer = sGnFrame;
                 return Brain_1_ChasingEnemy::eBrain1_Shriek_14;
             }
         }
@@ -1424,7 +1424,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
                 return field_11C_brain_sub_state;
             }
             mNextMotion = eScrabMotions::M_Stamp_21_4A9CC0;
-            field_12C_timer = sGnFrame_5C1B84 + 30;
+            field_12C_timer = sGnFrame + 30;
             return Brain_1_ChasingEnemy::eBrain1_SmashingEnemy_11;
 
         case Brain_1_ChasingEnemy::eBrain1_EnemyDead_10:
@@ -1440,7 +1440,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
             return Brain_1_ChasingEnemy::eBrain1_Walking_9;
 
         case Brain_1_ChasingEnemy::eBrain1_SmashingEnemy_11:
-            if (static_cast<s32>(sGnFrame_5C1B84) <= field_12C_timer)
+            if (static_cast<s32>(sGnFrame) <= field_12C_timer)
             {
                 return field_11C_brain_sub_state;
             }
@@ -1512,7 +1512,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
             if (field_194_speak == GameSpeakEvents::Scrab_Shriek_54)
             {
                 mNextMotion = eScrabMotions::M_Shriek_30_4A9EA0;
-                field_154_movement_timer = sGnFrame_5C1B84;
+                field_154_movement_timer = sGnFrame;
                 return Brain_1_ChasingEnemy::eBrain1_Shriek_14;
             }
 
@@ -1656,7 +1656,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
         field_120_obj_id = field_124_fight_target_obj_id;
         field_124_fight_target_obj_id = -1;
         SetBrain(&Scrab::Brain_1_ChasingEnemy_4A6470);
-        field_150_attack_delay_timer = sGnFrame_5C1B84 + 90;
+        field_150_attack_delay_timer = sGnFrame + 90;
         mNextMotion = eScrabMotions::M_HowlBegin_26_4A9DA0;
         return Brain_2_Fighting::eBrain2_SpottedOpponent_1;
     }
@@ -1791,7 +1791,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
             return Brain_2_Fighting::eBrain2_Yelling_6;
 
         case Brain_2_Fighting::eBrain2_Idle_5:
-            if (static_cast<s32>(sGnFrame_5C1B84) <= field_12C_timer)
+            if (static_cast<s32>(sGnFrame) <= field_12C_timer)
             {
                 return field_11C_brain_sub_state;
             }
@@ -1804,7 +1804,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
                 return field_11C_brain_sub_state;
             }
             mNextMotion = eScrabMotions::M_Stand_0_4A8220;
-            field_12C_timer = sGnFrame_5C1B84 + 20;
+            field_12C_timer = sGnFrame + 20;
             return Brain_2_Fighting::eBrain2_Idle_5;
 
         case Brain_2_Fighting::eBrain2_Shriek_7:
@@ -1838,11 +1838,11 @@ s16 Scrab::Brain_2_Fighting_4A5840()
 
             MapFollowMe(TRUE);
             mCurrentMotion = eScrabMotions::M_ScrabBattleAnim_31_4A9F30;
-            field_12C_timer = sGnFrame_5C1B84 + 40;
+            field_12C_timer = sGnFrame + 40;
             return Brain_2_Fighting::eBrain2_Battling_10;
 
         case Brain_2_Fighting::eBrain2_Battling_10:
-            if (static_cast<s32>(sGnFrame_5C1B84) <= field_12C_timer)
+            if (static_cast<s32>(sGnFrame) <= field_12C_timer)
             {
                 return field_11C_brain_sub_state;
             }
@@ -1859,15 +1859,15 @@ s16 Scrab::Brain_2_Fighting_4A5840()
                 mBaseAnimatedWithPhysicsGameObject_XPos = pTarget->mBaseAnimatedWithPhysicsGameObject_XPos;
                 mCurrentMotion = eScrabMotions::M_DeathBegin_39_4AA190;
                 field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
-                field_12C_timer = sGnFrame_5C1B84 + 90;
+                field_12C_timer = sGnFrame + 90;
                 return field_11C_brain_sub_state;
             }
             mCurrentMotion = eScrabMotions::M_Stand_0_4A8220;
-            field_12C_timer = sGnFrame_5C1B84 + 5;
+            field_12C_timer = sGnFrame + 5;
             return Brain_2_Fighting::eBrain2_Victorious_11;
 
         case Brain_2_Fighting::eBrain2_Victorious_11:
-            if (static_cast<s32>(sGnFrame_5C1B84) <= field_12C_timer)
+            if (static_cast<s32>(sGnFrame) <= field_12C_timer)
             {
                 return field_11C_brain_sub_state;
             }
@@ -1940,7 +1940,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
 
 s16 Scrab::Brain_3_Death_4A62B0()
 {
-    if (field_12C_timer < static_cast<s32>((sGnFrame_5C1B84 + 80)))
+    if (field_12C_timer < static_cast<s32>((sGnFrame + 80)))
     {
         field_CC_sprite_scale -= FP_FromDouble(0.008);
         field_D0_r -= 2;
@@ -1948,12 +1948,12 @@ s16 Scrab::Brain_3_Death_4A62B0()
         field_D4_b -= 2;
     }
 
-    if (static_cast<s32>(sGnFrame_5C1B84) < field_12C_timer - 24)
+    if (static_cast<s32>(sGnFrame) < field_12C_timer - 24)
     {
         DeathSmokeEffect(true);
     }
 
-    if (field_12C_timer < static_cast<s32>(sGnFrame_5C1B84))
+    if (field_12C_timer < static_cast<s32>(sGnFrame))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1972,7 +1972,7 @@ s16 Scrab::Brain_4_ShrinkDeath_4A6420()
         field_CC_sprite_scale -= FP_FromDouble(0.03);
     }
 
-    if (field_12C_timer < static_cast<s32>(sGnFrame_5C1B84))
+    if (field_12C_timer < static_cast<s32>(sGnFrame))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1997,7 +1997,7 @@ s16 Scrab::Brain_5_Possessed_4A6180()
 
     if (field_11C_brain_sub_state == 0)
     {
-        if (static_cast<s32>(sGnFrame_5C1B84) <= field_12C_timer)
+        if (static_cast<s32>(sGnFrame) <= field_12C_timer)
         {
             return field_11C_brain_sub_state;
         }
@@ -2026,7 +2026,7 @@ void Scrab::M_Stand_0_4A8220()
 
         if (Input_IsChanting_45F260() && !field_164_prevent_depossession)
         {
-            field_130_depossession_timer = sGnFrame_5C1B84 + 30;
+            field_130_depossession_timer = sGnFrame + 30;
             SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
             mCurrentMotion = eScrabMotions::M_GetDepossessedBegin_28_4AA200;
             return;
@@ -2050,7 +2050,7 @@ void Scrab::M_Stand_0_4A8220()
         {
             mCurrentMotion = eScrabMotions::M_AttackSpin_32_4A8DC0;
             mNextMotion = -1;
-            field_12C_timer = sGnFrame_5C1B84 + field_174_possessed_max_whirl_attack_duration;
+            field_12C_timer = sGnFrame + field_174_possessed_max_whirl_attack_duration;
             return;
         }
 
@@ -2193,7 +2193,7 @@ void Scrab::M_Walk_1_4A84D0()
             if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction) && field_178_shred_power_active)
             {
                 mCurrentMotion = eScrabMotions::M_AttackSpin_32_4A8DC0;
-                field_12C_timer = sGnFrame_5C1B84 + field_174_possessed_max_whirl_attack_duration;
+                field_12C_timer = sGnFrame + field_174_possessed_max_whirl_attack_duration;
                 mNextMotion = -1;
                 MapFollowMe(TRUE);
                 return;
@@ -3035,7 +3035,7 @@ void Scrab::M_HowlBegin_26_4A9DA0()
 {
     if (field_20_animation.field_92_current_frame == 2)
     {
-        if (sGnFrame_5C1B84 & 1)
+        if (sGnFrame & 1)
         {
             Event_Broadcast(kEventLoudNoise, this);
             Scrab_SFX(ScrabSounds::eYell_8, 0, Math_RandomRange(-1600, -900), 1);
@@ -3098,7 +3098,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
             }
         }
 
-        if (!(static_cast<s32>(sGnFrame_5C1B84) % 4))
+        if (!(static_cast<s32>(sGnFrame) % 4))
         {
             const FP xRnd = FP_FromInteger(Math_RandomRange(-20, 20));
             const FP yRnd = FP_FromInteger(Math_RandomRange(20, 50));
@@ -3107,7 +3107,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
             New_TintChant_Particle(xpos, ypos, field_CC_sprite_scale, Layer::eLayer_0);
         }
 
-        if (static_cast<s32>(sGnFrame_5C1B84) > field_130_depossession_timer || sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+        if (static_cast<s32>(sGnFrame) > field_130_depossession_timer || sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
         {
             sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
@@ -3133,7 +3133,7 @@ void Scrab::M_Shriek_30_4A9EA0()
 {
     if (field_20_animation.field_92_current_frame == 4)
     {
-        if (sGnFrame_5C1B84 & 1)
+        if (sGnFrame & 1)
         {
             Event_Broadcast(kEventLoudNoise, this);
             Scrab_SFX(ScrabSounds::eHowl_0, 0, 0x7FFF, 1);
@@ -3505,7 +3505,7 @@ void Scrab::VPossessed()
     field_11C_brain_sub_state = 0;
     field_120_obj_id = -1;
     field_124_fight_target_obj_id = -1;
-    field_12C_timer = sGnFrame_5C1B84 + 35;
+    field_12C_timer = sGnFrame + 35;
     field_166_level = gMap.mCurrentLevel;
     field_168_path = gMap.mCurrentPath;
     field_16A_camera = gMap.mCurrentCamera;
@@ -3859,7 +3859,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
             Event_Broadcast(kEventMudokonComfort | kEventSpeaking, this);
             SetBrain(&Scrab::Brain_4_ShrinkDeath_4A6420);
             mCurrentMotion = eScrabMotions::M_GetEaten_19_4AA3E0;
-            field_12C_timer = sGnFrame_5C1B84 + 90;
+            field_12C_timer = sGnFrame + 90;
             vUpdateAnim();
             if (sControlledCharacter_5C1B8C == this)
             {
@@ -3884,7 +3884,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
     Event_Broadcast(kEventMudokonComfort | kEventSpeaking, this);
     mHealth = FP_FromInteger(0);
     SetBrain(&Scrab::Brain_3_Death_4A62B0);
-    field_12C_timer = sGnFrame_5C1B84 + 90;
+    field_12C_timer = sGnFrame + 90;
     mCurrentMotion = eScrabMotions::M_DeathBegin_39_4AA190;
     vUpdateAnim();
 
@@ -3921,7 +3921,7 @@ void Scrab::KnockBack()
     }
 
     mCurrentMotion = eScrabMotions::M_Knockback_18_4AA490;
-    field_130_depossession_timer = sGnFrame_5C1B84 + 10;
+    field_130_depossession_timer = sGnFrame + 10;
 }
 
 const SfxDefinition getSfxDef(ScrabSounds effectId)

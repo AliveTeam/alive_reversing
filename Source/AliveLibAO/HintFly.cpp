@@ -1652,7 +1652,7 @@ void HintFly::VUpdate()
             {
                 field_11E_msg_idx = 0;
                 field_112_state = State::eState_3;
-                field_10C_timer = gnFrameCount_507670 + 15;
+                field_10C_timer = sGnFrame + 15;
             }
             return;
 
@@ -1680,7 +1680,7 @@ void HintFly::VUpdate()
                 {
                     FormWordAndAdvanceToNextWord();
                     field_112_state = State::eState_4;
-                    field_10C_timer = gnFrameCount_507670 + 30;
+                    field_10C_timer = sGnFrame + 30;
                 }
             }
 
@@ -1727,7 +1727,7 @@ void HintFly::VUpdate()
             {
                 FormWordAndAdvanceToNextWord();
                 field_112_state = State::eState_4;
-                field_10C_timer = gnFrameCount_507670 + 30;
+                field_10C_timer = sGnFrame + 30;
             }
             break;
 
@@ -1749,7 +1749,7 @@ void HintFly::VUpdate()
                 return;
             }
 
-            if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
+            if (static_cast<s32>(sGnFrame) > field_10C_timer)
             {
                 s16 len = 0;
                 const char_type* pMsgIter = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_11C_message_id) + field_11E_msg_idx;
@@ -1769,7 +1769,7 @@ void HintFly::VUpdate()
 
             if (Event_Get(kEventAbeOhm_8))
             {
-                if (static_cast<s32>(gnFrameCount_507670) > field_10C_timer)
+                if (static_cast<s32>(sGnFrame) > field_10C_timer)
                 {
                     for (s32 i = 0; i < field_118_counter; i++)
                     {
@@ -1780,7 +1780,7 @@ void HintFly::VUpdate()
                         field_E8_pRes[i].field_8_state = 3;
                     }
                     field_112_state = State::eState_3;
-                    field_10C_timer = gnFrameCount_507670 + 15;
+                    field_10C_timer = sGnFrame + 15;
                 }
             }
             else

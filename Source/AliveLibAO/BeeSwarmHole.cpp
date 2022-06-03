@@ -41,12 +41,12 @@ void BeeSwarmHole::VUpdate()
         gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
     }
 
-    if (static_cast<s32>(gnFrameCount_507670) < field_1C_interval_timer)
+    if (static_cast<s32>(sGnFrame) < field_1C_interval_timer)
     {
         return;
     }
 
-    field_1C_interval_timer = static_cast<s32>(gnFrameCount_507670) + field_20_interval;
+    field_1C_interval_timer = static_cast<s32>(sGnFrame) + field_20_interval;
 
     bool bBallFillingHole = false;
     for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)

@@ -56,9 +56,9 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
 
 void Bells::VUpdate()
 {
-    if (field_F0_sound_pitch_factor > 0 && static_cast<s32>(gnFrameCount_507670) >= field_F4_sound_cooldown_timer)
+    if (field_F0_sound_pitch_factor > 0 && static_cast<s32>(sGnFrame) >= field_F4_sound_cooldown_timer)
     {
-        field_F4_sound_cooldown_timer = gnFrameCount_507670 + 4;
+        field_F4_sound_cooldown_timer = sGnFrame + 4;
         field_F0_sound_pitch_factor--;
 
         if (field_EA_sound == Sounds::eLowPitch_0)

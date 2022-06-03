@@ -214,7 +214,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     }
 
     field_120_tlv = itemInfo;
-    field_124_next_state_frame = sGnFrame_5C1B84;
+    field_124_next_state_frame = sGnFrame;
     field_11C_disabled_resources = static_cast<u16>(tlv_params->field_18_disabled_resources);
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
@@ -246,12 +246,12 @@ void UXB::VOnPickUpOrSlapped()
 {
     if (field_118_state != UXBState::eExploding_2)
     {
-        if (field_118_state != UXBState::eDeactivated_3 || field_124_next_state_frame > sGnFrame_5C1B84)
+        if (field_118_state != UXBState::eDeactivated_3 || field_124_next_state_frame > sGnFrame)
         {
             if (field_1C6_red_blink_count)
             {
                 field_118_state = UXBState::eExploding_2;
-                field_124_next_state_frame = sGnFrame_5C1B84 + 2;
+                field_124_next_state_frame = sGnFrame + 2;
             }
             else
             {
@@ -263,7 +263,7 @@ void UXB::VOnPickUpOrSlapped()
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 field_118_state = UXBState::eDeactivated_3;
 
-                field_124_next_state_frame = sGnFrame_5C1B84 + 10;
+                field_124_next_state_frame = sGnFrame + 10;
             }
         }
         else
@@ -285,7 +285,7 @@ void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
                                   field_CC_sprite_scale);
     field_118_state = UXBState::eExploding_2;
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    field_124_next_state_frame = sGnFrame_5C1B84;
+    field_124_next_state_frame = sGnFrame;
 }
 
 s16 UXB::VTakeDamage(BaseGameObject* pFrom)
@@ -322,14 +322,14 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
                                  0,
                                  field_CC_sprite_scale);
     field_118_state = UXBState::eExploding_2;
-    field_124_next_state_frame = sGnFrame_5C1B84;
+    field_124_next_state_frame = sGnFrame;
 
     return 1;
 }
 
 UXB::~UXB()
 {
-    if (field_118_state != UXBState::eExploding_2 || sGnFrame_5C1B84 < field_124_next_state_frame)
+    if (field_118_state != UXBState::eExploding_2 || sGnFrame < field_124_next_state_frame)
     {
         Path::TLV_Reset(field_120_tlv.all, -1, 0, 0);
     }
@@ -351,14 +351,14 @@ void UXB::VUpdate()
             if (IsColliding())
             {
                 field_118_state = UXBState::eExploding_2;
-                field_124_next_state_frame = sGnFrame_5C1B84 + 2;
+                field_124_next_state_frame = sGnFrame + 2;
             }
-            else if (field_124_next_state_frame <= sGnFrame_5C1B84)
+            else if (field_124_next_state_frame <= sGnFrame)
             {
                 const AnimRecord& flashRec = AnimRec(AnimId::Bomb_Flash);
                 field_118_state = UXBState::eActive_1;
                 field_128_animation.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
-                field_124_next_state_frame = sGnFrame_5C1B84 + 2;
+                field_124_next_state_frame = sGnFrame + 2;
             }
             break;
 
@@ -370,9 +370,9 @@ void UXB::VUpdate()
             if (IsColliding())
             {
                 field_118_state = UXBState::eExploding_2;
-                field_124_next_state_frame = sGnFrame_5C1B84 + 2;
+                field_124_next_state_frame = sGnFrame + 2;
             }
-            else if (field_124_next_state_frame <= sGnFrame_5C1B84)
+            else if (field_124_next_state_frame <= sGnFrame)
             {
                 if (field_1C6_red_blink_count)
                 {
@@ -415,12 +415,12 @@ void UXB::VUpdate()
                 }
 
                 field_118_state = UXBState::eDelay_0;
-                field_124_next_state_frame = sGnFrame_5C1B84 + 10; // UXB change color delay.
+                field_124_next_state_frame = sGnFrame + 10; // UXB change color delay.
             }
             break;
 
         case UXBState::eExploding_2:
-            if (sGnFrame_5C1B84 >= field_124_next_state_frame)
+            if (sGnFrame >= field_124_next_state_frame)
             {
                 ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
                 mBaseGameObjectFlags.Set(Options::eDead);

@@ -137,7 +137,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             }
 
             field_FC_number_of_particles = static_cast<s16>(numOfParticles);
-            field_100_timer = sGnFrame_5C1B84 + 91;
+            field_100_timer = sGnFrame + 91;
             mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
             mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
@@ -361,7 +361,7 @@ void ParticleBurst::VUpdate()
 
         if (field_106_count == 9)
         {
-            if ((sGnFrame_5C1B84 + i) & v3)
+            if ((sGnFrame + i) & v3)
             {
                 field_F8_pRes[i].field_0_x -= FP_FromInteger(1);
             }
@@ -380,7 +380,7 @@ void ParticleBurst::VUpdate()
             //Math_RandomRange_496AB0(-64, 46);
 
             // TODO: This might be wrong
-            const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((field_100_timer - sGnFrame_5C1B84) / 91) + 25);
+            const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((field_100_timer - sGnFrame) / 91) + 25);
 
             const u8 next_rand = Math_NextRandom();
             if (next_rand < 43)
@@ -398,7 +398,7 @@ void ParticleBurst::VUpdate()
         }
     }
 
-    if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
+    if (static_cast<s32>(sGnFrame) > field_100_timer)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

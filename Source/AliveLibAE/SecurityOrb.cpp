@@ -139,16 +139,16 @@ void SecurityOrb::VUpdate()
         {
             if (stateM1 == 1)
             {
-                if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer - 5 || static_cast<s32>(sGnFrame_5C1B84) == field_120_timer - 1)
+                if (static_cast<s32>(sGnFrame) == field_120_timer - 5 || static_cast<s32>(sGnFrame) == field_120_timer - 1)
                 {
                     ae_new<Flash>(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_3, 1);
                 }
-                if (static_cast<s32>(sGnFrame_5C1B84) == field_120_timer - 4)
+                if (static_cast<s32>(sGnFrame) == field_120_timer - 4)
                 {
                     ae_new<Flash>(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_1, 1);
                 }
 
-                const s32 timerFrame = field_120_timer - sGnFrame_5C1B84;
+                const s32 timerFrame = field_120_timer - sGnFrame;
                 if (timerFrame == 4)
                 {
                     SFX_Play_Mono(SoundEffect::Zap1_49, 0, field_CC_sprite_scale);
@@ -158,13 +158,13 @@ void SecurityOrb::VUpdate()
                     SFX_Play_Mono(SoundEffect::Zap2_50, 0, field_CC_sprite_scale);
                 }
 
-                if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
+                if (static_cast<s32>(sGnFrame) > field_120_timer)
                 {
                     field_11C_state = 0;
                 }
             }
         }
-        else if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
+        else if (static_cast<s32>(sGnFrame) > field_120_timer)
         {
             PSX_RECT bRect = {};
             sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
@@ -188,7 +188,7 @@ void SecurityOrb::VUpdate()
                 sActiveHero_5C1B68->VTakeDamage(this);
             }
 
-            field_120_timer = sGnFrame_5C1B84 + 8;
+            field_120_timer = sGnFrame + 8;
             field_11C_state = 2;
 
             ae_new<ScreenShake>(1, 0);
@@ -245,7 +245,7 @@ void SecurityOrb::VUpdate()
             if (!sActiveHero_5C1B68->field_168_ring_pulse_timer || !sActiveHero_5C1B68->field_16C_bHaveShrykull || sActiveHero_5C1B68->field_CC_sprite_scale != FP_FromInteger(1))
             {
                 field_11C_state = 1;
-                field_120_timer = sGnFrame_5C1B84 + 20;
+                field_120_timer = sGnFrame + 20;
             }
         }
     }

@@ -44,7 +44,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
 
     field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
-    field_12C_deadtimer = sGnFrame_5C1B84 + 600;
+    field_12C_deadtimer = sGnFrame + 600;
     field_130_pLine = nullptr;
     field_118_count = count;
     field_11C_state = MeatStates::eCreated_0;
@@ -337,10 +337,10 @@ void Meat::VUpdate()
             case MeatStates::eWaitForPickUp_4:
                 if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
                 {
-                    field_12C_deadtimer = sGnFrame_5C1B84 + 600;
+                    field_12C_deadtimer = sGnFrame + 600;
                 }
 
-                if (static_cast<s32>(sGnFrame_5C1B84) > field_128_timer && !v2)
+                if (static_cast<s32>(sGnFrame) > field_128_timer && !v2)
                 {
                     // That strange "shimmer" the meat gives off
                     New_TintShiny_Particle(
@@ -348,9 +348,9 @@ void Meat::VUpdate()
                         mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
                         Layer::eLayer_Foreground_36);
-                    field_128_timer = Math_NextRandom() % 16 + sGnFrame_5C1B84 + 60;
+                    field_128_timer = Math_NextRandom() % 16 + sGnFrame + 60;
                 }
-                if (field_12C_deadtimer < (s32) sGnFrame_5C1B84)
+                if (field_12C_deadtimer < (s32) sGnFrame)
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
@@ -473,7 +473,7 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
 
     pMeat->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
-    pMeat->field_128_timer = sGnFrame_5C1B84;
+    pMeat->field_128_timer = sGnFrame;
     pMeat->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
 
     pMeat->field_118_count = pState->field_2A_count;

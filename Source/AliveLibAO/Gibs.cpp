@@ -57,7 +57,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     field_A8_xpos = xpos;
     field_AC_ypos = ypos + FP_FromInteger(2);
 
-    field_F0_timer = gnFrameCount_507670 + 91;
+    field_F0_timer = sGnFrame + 91;
 
     if (scale == FP_FromInteger(1))
     {
@@ -220,7 +220,7 @@ void Gibs::VUpdate()
         }
     }
 
-    if (static_cast<s32>(gnFrameCount_507670) > field_F0_timer)
+    if (static_cast<s32>(sGnFrame) > field_F0_timer)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

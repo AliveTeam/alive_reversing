@@ -119,7 +119,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
 
     field_114_tlvInfo = tlvInfo;
-    field_118_next_state_frame = gnFrameCount_507670;
+    field_118_next_state_frame = sGnFrame;
     field_110_disabled_resources = static_cast<s16>(pTlv->field_20_disabled_resources);
 
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebombAOResID, 1, 0);
@@ -195,7 +195,7 @@ void UXB::InitBlinkAnim()
 
 UXB::~UXB()
 {
-    if (field_10C_state != UXBState::eExploding_2 || static_cast<s32>(gnFrameCount_507670) < field_118_next_state_frame)
+    if (field_10C_state != UXBState::eExploding_2 || static_cast<s32>(sGnFrame) < field_118_next_state_frame)
     {
         gMap.TLV_Reset(field_114_tlvInfo, -1, 0, 0);
     }
@@ -288,7 +288,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
         field_BC_sprite_scale);
 
     field_10C_state = UXBState::eExploding_2;
-    field_118_next_state_frame = gnFrameCount_507670;
+    field_118_next_state_frame = sGnFrame;
 
     return 1;
 }
@@ -303,19 +303,19 @@ void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_10C_state = UXBState::eExploding_2;
-    field_118_next_state_frame = gnFrameCount_507670;
+    field_118_next_state_frame = sGnFrame;
 }
 
 void UXB::VOnPickUpOrSlapped()
 {
     if (field_10C_state != UXBState::eExploding_2)
     {
-        if (field_10C_state != UXBState::eDeactivated_3 || field_118_next_state_frame > static_cast<s32>(gnFrameCount_507670))
+        if (field_10C_state != UXBState::eDeactivated_3 || field_118_next_state_frame > static_cast<s32>(sGnFrame))
         {
             if (field_1BA_red_blink_count)
             {
                 field_10C_state = UXBState::eExploding_2;
-                field_118_next_state_frame = gnFrameCount_507670 + 2;
+                field_118_next_state_frame = sGnFrame + 2;
             }
             else
             {
@@ -333,7 +333,7 @@ void UXB::VOnPickUpOrSlapped()
                 const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Toggle);
                 field_10_anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
                 field_10C_state = UXBState::eDeactivated_3;
-                field_118_next_state_frame = gnFrameCount_507670 + 10;
+                field_118_next_state_frame = sGnFrame + 10;
             }
         }
         else
@@ -363,9 +363,9 @@ void UXB::VUpdate()
             if (IsColliding())
             {
                 field_10C_state = UXBState::eExploding_2;
-                field_118_next_state_frame = gnFrameCount_507670 + 2;
+                field_118_next_state_frame = sGnFrame + 2;
             }
-            else if (field_118_next_state_frame <= static_cast<s32>(gnFrameCount_507670))
+            else if (field_118_next_state_frame <= static_cast<s32>(sGnFrame))
             {
                 field_10C_state = UXBState::eActive_1;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Bomb_Flash);
@@ -378,9 +378,9 @@ void UXB::VUpdate()
             if (IsColliding())
             {
                 field_10C_state = UXBState::eExploding_2;
-                field_118_next_state_frame = gnFrameCount_507670 + 2;
+                field_118_next_state_frame = sGnFrame + 2;
             }
-            else if (field_118_next_state_frame <= static_cast<s32>(gnFrameCount_507670))
+            else if (field_118_next_state_frame <= static_cast<s32>(sGnFrame))
             {
                 if (field_1BA_red_blink_count)
                 {
@@ -439,12 +439,12 @@ void UXB::VUpdate()
                     SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
                 }
                 field_10C_state = UXBState::eDelay_0;
-                field_118_next_state_frame = gnFrameCount_507670 + 10; // UXB change color delay
+                field_118_next_state_frame = sGnFrame + 10; // UXB change color delay
             }
             break;
 
         case UXBState::eExploding_2:
-            if (static_cast<s32>(gnFrameCount_507670) >= field_118_next_state_frame)
+            if (static_cast<s32>(sGnFrame) >= field_118_next_state_frame)
             {
                 ao_new<BaseBomb>(
                     field_A8_xpos,

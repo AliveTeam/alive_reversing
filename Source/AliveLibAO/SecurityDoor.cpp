@@ -73,7 +73,7 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
 
     if (field_E8_state != SecurityDoorStates::eSuccessChime_1)
     {
-        field_114_timer = gnFrameCount_507670 + 10;
+        field_114_timer = sGnFrame + 10;
     }
 }
 
@@ -110,7 +110,7 @@ void SecurityDoor::VUpdate()
     switch (field_E8_state)
     {
         case SecurityDoorStates::eInactive_0:
-            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 if (IsPlayerNear())
                 {
@@ -125,7 +125,7 @@ void SecurityDoor::VUpdate()
             break;
 
         case SecurityDoorStates::eSuccessChime_1:
-            if (static_cast<s32>(gnFrameCount_507670) == field_114_timer)
+            if (static_cast<s32>(sGnFrame) == field_114_timer)
             {
                 SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
             }
@@ -135,7 +135,7 @@ void SecurityDoor::VUpdate()
             Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eHi_0, 127, -200, 0);
             field_10_anim.Set_Animation_Data(992, 0);
             field_E8_state = SecurityDoorStates::eListeningForHi_3;
-            field_114_timer = gnFrameCount_507670 + 150;
+            field_114_timer = sGnFrame + 150;
             break;
 
         case SecurityDoorStates::eListeningForHi_3:
@@ -161,9 +161,9 @@ void SecurityDoor::VUpdate()
             if (last_event == GameSpeakEvents::Slig_Hi_23)
             {
                 field_E8_state = SecurityDoorStates::eWaitingToSayPassword_4;
-                field_114_timer = gnFrameCount_507670 + 30;
+                field_114_timer = sGnFrame + 30;
             }
-            else if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            else if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 field_E8_state = SecurityDoorStates::eInactive_0;
             }
@@ -171,7 +171,7 @@ void SecurityDoor::VUpdate()
         }
 
         case SecurityDoorStates::eWaitingToSayPassword_4:
-            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 field_E8_state = SecurityDoorStates::ePreparingToSayPassword_5;
             }
@@ -211,18 +211,18 @@ void SecurityDoor::VUpdate()
             if (field_118_max_idx >= field_F0_code_len)
             {
                 field_E8_state = SecurityDoorStates::eListeningForPassword_8;
-                field_114_timer = gnFrameCount_507670 + 60;
+                field_114_timer = sGnFrame + 60;
             }
             else
             {
                 field_E8_state = SecurityDoorStates::ePausing_7;
-                field_114_timer = gnFrameCount_507670 + 30;
+                field_114_timer = sGnFrame + 30;
             }
             break;
         }
 
         case SecurityDoorStates::ePausing_7:
-            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 field_E8_state = SecurityDoorStates::eSayingPassword_6;
             }
@@ -230,11 +230,11 @@ void SecurityDoor::VUpdate()
 
         case SecurityDoorStates::eListeningForPassword_8:
         {
-            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 SFX_Play_Pitch(SoundEffect::Alarm_45, 60, -720, 0);
                 field_E8_state = SecurityDoorStates::eLaughAtFailure_10;
-                field_114_timer = gnFrameCount_507670 + 15;
+                field_114_timer = sGnFrame + 15;
             }
 
             GameSpeakEvents last_event = {};
@@ -292,24 +292,24 @@ void SecurityDoor::VUpdate()
                     SwitchStates_Set(field_EA_switch_id, 1);
                     SFX_Play_Pitch(SoundEffect::SligBleh_112, 127, -700, 0);
                     field_E8_state = SecurityDoorStates::eSuccessChime_1;
-                    field_114_timer = gnFrameCount_507670 + 15;
+                    field_114_timer = sGnFrame + 15;
                 }
                 else
                 {
                     SFX_Play_Pitch(SoundEffect::Alarm_45, 60, -720, 0);
                     field_E8_state = SecurityDoorStates::eLaughAtFailure_10;
-                    field_114_timer = gnFrameCount_507670 + 15;
+                    field_114_timer = sGnFrame + 15;
                 }
             }
             break;
         }
 
         case SecurityDoorStates::eLaughAtFailure_10:
-            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 SFX_Play_Pitch(SoundEffect::SligLaugh_110, 127, -1000, 0);
                 field_E8_state = SecurityDoorStates::eInactive_0;
-                field_114_timer = gnFrameCount_507670 + 90;
+                field_114_timer = sGnFrame + 90;
             }
             break;
 

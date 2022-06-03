@@ -139,12 +139,12 @@ void SecurityOrb::VUpdate()
             if (Event_Get(kEventAbeOhm_8))
             {
                 field_110_state = SecurityOrbStates::eDoZapEffects_1;
-                field_114_timer = gnFrameCount_507670 + 20;
+                field_114_timer = sGnFrame + 20;
             }
             break;
 
         case SecurityOrbStates::eDoZapEffects_1:
-            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 PSX_RECT abeRect = {};
                 sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
@@ -164,7 +164,7 @@ void SecurityOrb::VUpdate()
                 ao_new<PossessionFlicker>(sActiveHero_507678, 8, 255, 100, 100);
 
                 sActiveHero_507678->VTakeDamage(this);
-                field_114_timer = gnFrameCount_507670 + 8;
+                field_114_timer = sGnFrame + 8;
                 field_110_state = SecurityOrbStates::eDoFlashAndSound_2;
 
                 ao_new<ScreenShake>(1);
@@ -209,26 +209,26 @@ void SecurityOrb::VUpdate()
             break;
 
         case SecurityOrbStates::eDoFlashAndSound_2:
-            if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<s32>(gnFrameCount_507670) == field_114_timer - 1)
+            if (static_cast<s32>(sGnFrame) == field_114_timer - 5 || static_cast<s32>(sGnFrame) == field_114_timer - 1)
             {
                 ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
             }
 
-            if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 4)
+            if (static_cast<s32>(sGnFrame) == field_114_timer - 4)
             {
                 ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
             }
 
-            if (field_114_timer - gnFrameCount_507670 == 4)
+            if (field_114_timer - sGnFrame == 4)
             {
                 SFX_Play_Mono(SoundEffect::Zap1_57, 0, 0);
             }
-            else if (field_114_timer - gnFrameCount_507670 == 1)
+            else if (field_114_timer - sGnFrame == 1)
             {
                 SFX_Play_Mono(SoundEffect::Zap2_58, 0, 0);
             }
 
-            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 field_110_state = SecurityOrbStates::eIdle_0;
             }

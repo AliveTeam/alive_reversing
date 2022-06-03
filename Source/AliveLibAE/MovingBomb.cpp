@@ -56,7 +56,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     field_124_speed = FP_FromRaw(pTlv->field_10_speed << 8);
     field_C4_velx = FP_FromRaw(pTlv->field_1C_start_speed << 8);
     field_128_start_moving_switch_id = pTlv->field_12_start_moving_switch_id;
-    field_120_timer = sGnFrame_5C1B84;
+    field_120_timer = sGnFrame;
     field_11C_tlvInfo = tlvInfo;
     field_12C_max = 0;
     field_12A_min = 0;
@@ -135,7 +135,7 @@ void MovingBomb::BlowUp()
     mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
     field_118_state = States::eBlowingUp_6;
     field_C8_vely = FP_FromInteger(0);
-    field_120_timer = sGnFrame_5C1B84 + 1;
+    field_120_timer = sGnFrame + 1;
     SFX_Play_Mono(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
 }
 
@@ -201,7 +201,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
             field_118_state = States::eKillMovingBomb_7;
 
             field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-            field_120_timer = sGnFrame_5C1B84 + 4;
+            field_120_timer = sGnFrame + 4;
         }
             return 0;
 
@@ -362,14 +362,14 @@ void MovingBomb::VUpdate()
             if (field_C4_velx < FP_FromInteger(0))
             {
                 field_118_state = States::eWaitABit_4;
-                field_120_timer = sGnFrame_5C1B84 + Math_RandomRange(field_12A_min, field_12C_max);
+                field_120_timer = sGnFrame + Math_RandomRange(field_12A_min, field_12C_max);
             }
 
             FollowLine();
             break;
 
         case States::eWaitABit_4:
-            if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
+            if (field_120_timer <= static_cast<s32>(sGnFrame))
             {
                 field_118_state = States::eToMoving_5;
             }
@@ -397,7 +397,7 @@ void MovingBomb::VUpdate()
             break;
 
         case States::eBlowingUp_6:
-            if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
+            if (field_120_timer <= static_cast<s32>(sGnFrame))
             {
                 SFX_Play_Mono(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
 
@@ -420,12 +420,12 @@ void MovingBomb::VUpdate()
 
                 field_118_state = States::eKillMovingBomb_7;
                 field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-                field_120_timer = sGnFrame_5C1B84 + 4;
+                field_120_timer = sGnFrame + 4;
             }
             break;
 
         case States::eKillMovingBomb_7:
-            if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
+            if (field_120_timer <= static_cast<s32>(sGnFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }

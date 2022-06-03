@@ -420,7 +420,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->field_5D_render_flag = field_18A.Get(Flags_18A::e18A_Render_Bit2);
     pState->field_5E_brain_state = field_124_brain_state;
     pState->field_60_state = field_126_state;
-    pState->field_64 = field_12C - sGnFrame_5C1B84;
+    pState->field_64 = field_12C - sGnFrame;
     pState->field_62 = field_128;
     pState->field_68_fleech_random_idx = sFleechRandomIdx_5BC20C;
     pState->field_6A = field_130;
@@ -488,9 +488,9 @@ void Fleech::M_Sleeping_0_42F0B0()
 {
     if (mNextMotion == -1)
     {
-        if (field_20_animation.field_92_current_frame || sGnFrame_5C1B84 & 3)
+        if (field_20_animation.field_92_current_frame || sGnFrame & 3)
         {
-            if (field_20_animation.field_92_current_frame == 4 && !(sGnFrame_5C1B84 & 3))
+            if (field_20_animation.field_92_current_frame == 4 && !(sGnFrame & 3))
             {
                 Sound_430520(FleechSound::SleepingExhale_4);
 
@@ -1058,7 +1058,7 @@ void Fleech::M_DeathByFalling_16_42FCE0()
         field_124_brain_state = eFleechBrains::eBrain_3_Death_42D1E0;
         field_174_flags.Set(Flags_174::eBit3);
         mNextMotion = -1;
-        field_12C = sGnFrame_5C1B84 + 127;
+        field_12C = sGnFrame + 127;
         sFleechCount_5BC20E--;
     }
 }
@@ -1073,9 +1073,9 @@ void Fleech::M_SleepingWithTongue_17_42F370()
     }
     else
     {
-        if (field_20_animation.field_92_current_frame || sGnFrame_5C1B84 & 3)
+        if (field_20_animation.field_92_current_frame || sGnFrame & 3)
         {
-            if (field_20_animation.field_92_current_frame == 4 && !(sGnFrame_5C1B84 & 3))
+            if (field_20_animation.field_92_current_frame == 4 && !(sGnFrame & 3))
             {
                 Sound_430520(FleechSound::SleepingExhale_4);
                 if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
@@ -1972,7 +1972,7 @@ void Fleech::ToIdle_42E520()
     field_C8_vely = FP_FromInteger(0);
     mCurrentMotion = eFleechMotions::M_Idle_3_42E850;
     mNextMotion = -1;
-    field_134_unused = 60 * sRandomBytes_546744[sFleechRandomIdx_5BC20C++] / 256 + sGnFrame_5C1B84 + 120;
+    field_134_unused = 60 * sRandomBytes_546744[sFleechRandomIdx_5BC20C++] / 256 + sGnFrame + 120;
 }
 
 const SfxDefinition getSfxDef(FleechSound effectId)
@@ -2205,7 +2205,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             field_124_brain_state = eFleechBrains::eBrain_3_Death_42D1E0;
             mNextMotion = -1;
-            field_12C = sGnFrame_5C1B84 + 127;
+            field_12C = sGnFrame + 127;
             mCurrentMotion = eFleechMotions::M_Idle_3_42E850;
             SetAnim_429D80();
             field_20_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
@@ -2237,7 +2237,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             field_124_brain_state = eFleechBrains::eBrain_3_Death_42D1E0;
             mCurrentMotion = eFleechMotions::M_Idle_3_42E850;
-            field_12C = sGnFrame_5C1B84 + 127;
+            field_12C = sGnFrame + 127;
             mNextMotion = -1;
             SetAnim_429D80();
             field_20_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
@@ -2743,7 +2743,7 @@ s16 Fleech::Brain_Patrol_State_1()
         return field_126_state;
     }
 
-    if (!(static_cast<s32>(sGnFrame_5C1B84) % 16))
+    if (!(static_cast<s32>(sGnFrame) % 16))
     {
         if (field_13E_current_anger > 0)
         {
@@ -2855,7 +2855,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
         }
     }
 
-    if (!(static_cast<s32>(sGnFrame_5C1B84) % 32))
+    if (!(static_cast<s32>(sGnFrame) % 32))
     {
         if (field_13E_current_anger > 0)
         {
@@ -4228,7 +4228,7 @@ s16 Fleech::Brain_3_Death_42D1E0()
     field_11C_obj_id = -1;
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-    if (field_12C < static_cast<s32>(sGnFrame_5C1B84 + 80))
+    if (field_12C < static_cast<s32>(sGnFrame + 80))
     {
         field_CC_sprite_scale -= FP_FromDouble(0.022);
         field_D0_r -= 2;
@@ -4236,7 +4236,7 @@ s16 Fleech::Brain_3_Death_42D1E0()
         field_D4_b -= 2;
     }
 
-    if (static_cast<s32>(sGnFrame_5C1B84) < field_12C - 24)
+    if (static_cast<s32>(sGnFrame) < field_12C - 24)
     {
         DeathSmokeEffect(false);
     }

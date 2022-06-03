@@ -47,7 +47,7 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
 
     pToApplyFlicker->field_10_anim.mRenderMode = TPageAbr::eBlend_1;
 
-    field_14_time_to_flicker = gnFrameCount_507670 + duration;
+    field_14_time_to_flicker = sGnFrame + duration;
 }
 
 
@@ -68,7 +68,7 @@ void PossessionFlicker::VUpdate()
 
     if (bFlicker)
     {
-        if (gnFrameCount_507670 % 2)
+        if (sGnFrame % 2)
         {
             field_10_pObj->field_C0_r = field_1E_old_r;
             field_10_pObj->field_C2_g = field_20_old_g;
@@ -81,7 +81,7 @@ void PossessionFlicker::VUpdate()
             field_10_pObj->field_C4_b = field_1C_b;
         }
 
-        if (static_cast<s32>(gnFrameCount_507670) > field_14_time_to_flicker)
+        if (static_cast<s32>(sGnFrame) > field_14_time_to_flicker)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }

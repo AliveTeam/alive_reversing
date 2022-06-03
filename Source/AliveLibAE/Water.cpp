@@ -61,7 +61,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
 
             if (field_FC_state == WaterState::eFlowing_2)
             {
-                field_140_water_duration = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_water_duration;
+                field_140_water_duration = sGnFrame + field_124_tlv_data.field_1A_water_duration;
             }
 
             field_148_bHitTimeout &= ~1u;
@@ -295,13 +295,13 @@ void Water::VUpdate()
                 else
                 {
                     field_FC_state = WaterState::eFlowing_2;
-                    field_140_water_duration = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_water_duration;
+                    field_140_water_duration = sGnFrame + field_124_tlv_data.field_1A_water_duration;
                     field_144_sound_channels = SFX_Play_Camera(SoundEffect::WaterFall_95, 40, soundDir);
                 }
                 break;
 
             case WaterState::eStarting_1:
-                if (!(sGnFrame_5C1B84 % 4))
+                if (!(sGnFrame % 4))
                 {
                     field_110_current_drops++;
                 }
@@ -325,7 +325,7 @@ void Water::VUpdate()
                 else
                 {
                     field_FC_state = WaterState::eFlowing_2;
-                    field_140_water_duration = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_water_duration;
+                    field_140_water_duration = sGnFrame + field_124_tlv_data.field_1A_water_duration;
                 }
                 break;
 
@@ -351,7 +351,7 @@ void Water::VUpdate()
                     field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
                 }
 
-                if (field_124_tlv_data.field_1A_water_duration && static_cast<s32>(sGnFrame_5C1B84) >= field_140_water_duration)
+                if (field_124_tlv_data.field_1A_water_duration && static_cast<s32>(sGnFrame) >= field_140_water_duration)
                 {
                     field_148_bHitTimeout |= 1u;
                     field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
@@ -360,7 +360,7 @@ void Water::VUpdate()
                 break;
 
             case WaterState::eStopping_3:
-                if (!(sGnFrame_5C1B84 % 4))
+                if (!(sGnFrame % 4))
                 {
                     --field_110_current_drops;
                 }

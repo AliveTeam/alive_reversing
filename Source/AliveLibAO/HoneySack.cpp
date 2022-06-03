@@ -58,7 +58,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
         mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
         field_E8_state = State::eDripHoney_0;
-        field_EC_timer = gnFrameCount_507670 + 90;
+        field_EC_timer = sGnFrame + 90;
 
         if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kWaspAOResID, 0, 0))
         {
@@ -137,11 +137,11 @@ void HoneySack::VUpdate()
     switch (field_E8_state)
     {
         case State::eDripHoney_0:
-            if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
+            if (static_cast<s32>(sGnFrame) > field_EC_timer)
             {
                 ao_new<HoneyDrip>(field_F4_drip_target_x, field_F8_drip_target_y);
 
-                field_EC_timer = gnFrameCount_507670 + 90;
+                field_EC_timer = sGnFrame + 90;
             }
             if (!gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
@@ -155,7 +155,7 @@ void HoneySack::VUpdate()
             break;
 
         case State::eSetFallAnimation_1:
-            if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer - 68)
+            if (static_cast<s32>(sGnFrame) > field_EC_timer - 68)
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::HoneySack_Falling);
                 field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);

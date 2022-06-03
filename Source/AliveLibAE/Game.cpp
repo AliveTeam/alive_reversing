@@ -48,7 +48,7 @@ using TExitGameCallBack = AddPointer_t<void CC()>;
 
 ALIVE_VAR(1, 0xBBFB00, TExitGameCallBack, sGame_OnExitCallback_BBFB00, nullptr);
 
-ALIVE_VAR(1, 0x5C1B84, u32, sGnFrame_5C1B84, 0);
+ALIVE_VAR(1, 0x5C1B84, u32, sGnFrame, 0);
 
 // Timer
 ALIVE_VAR(1, 0xBBB9D4, u32, sTimer_period_BBB9D4, 0);
@@ -395,7 +395,7 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
     sActiveHero_5C1B68 = nullptr;
     sControlledCharacter_5C1B8C = 0;
     sNum_CamSwappers_5C1B66 = 0;
-    sGnFrame_5C1B84 = 0;
+    sGnFrame = 0;
     sbLoadingInProgress_5C1B96 = 0;
 
     ObjList_5C1B78 = ae_new<DynamicArrayT<BaseGameObject>>(20); // For trap doors/dynamic platforms?
@@ -794,7 +794,7 @@ void Game_Loop_467230()
 
         if (sNum_CamSwappers_5C1B66 == 0)
         {
-            sGnFrame_5C1B84++;
+            sGnFrame++;
         }
 
         if (sBreakGameLoop_5C2FE0)

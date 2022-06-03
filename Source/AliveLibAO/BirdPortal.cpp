@@ -308,10 +308,10 @@ void BirdPortal::VUpdate()
 
         case PortalStates::IdlePortal_1:
         {
-            if (static_cast<s32>(gnFrameCount_507670) >= field_30_timer)
+            if (static_cast<s32>(sGnFrame) >= field_30_timer)
             {
                 SFX_Play_Mono(SoundEffect::Dove_16, 35, 0);
-                field_30_timer = gnFrameCount_507670 + Math_RandomRange_450F20(24, 40);
+                field_30_timer = sGnFrame + Math_RandomRange_450F20(24, 40);
             }
 
             auto pTarget = Abe::FindObjectToPossess_421410();
@@ -364,7 +364,7 @@ void BirdPortal::VUpdate()
                     pDove->AsJoin(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(20)));
                 }
 
-                field_30_timer = gnFrameCount_507670 + 15;
+                field_30_timer = sGnFrame + 15;
                 field_14_state = PortalStates::JoinDovesInCenter_2;
                 Event_Broadcast(18, this);
                 SFX_Play_Mono(SoundEffect::Dove_16, 70, 0);
@@ -374,17 +374,17 @@ void BirdPortal::VUpdate()
 
         case PortalStates::JoinDovesInCenter_2:
             Event_Broadcast(kEvent_18, this);
-            if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
+            if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
                 CreateTerminators();
-                field_30_timer = gnFrameCount_507670 + 5;
+                field_30_timer = sGnFrame + 5;
                 field_14_state = PortalStates::KillDoves_3;
             }
             break;
 
         case PortalStates::KillDoves_3:
             Event_Broadcast(kEvent_18, this);
-            if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
+            if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
                 for (s32 i = 0; i < field_4C_pDovesArray->Size(); i++)
                 {
@@ -412,7 +412,7 @@ void BirdPortal::VUpdate()
                 const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorIdle);
                 field_3C_pTerminator1->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                 field_40_pTerminator2->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                field_30_timer = gnFrameCount_507670 + 12;
+                field_30_timer = sGnFrame + 12;
                 field_14_state = PortalStates::ExpandTerminators_5;
                 field_68_sfx_ret = SFX_Play_Mono(SoundEffect::PortalOpening_67, 0, 0);
                 SFX_Play_Pitch(SoundEffect::IngameTransition_107, 115, 300, 0);
@@ -423,7 +423,7 @@ void BirdPortal::VUpdate()
             Event_Broadcast(kEvent_18, this);
             field_3C_pTerminator1->field_AC_ypos -= (FP_FromDouble(3.5) * field_34_scale);
             field_40_pTerminator2->field_AC_ypos += (FP_FromDouble(3.5) * field_34_scale);
-            if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
+            if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
                 field_14_state = PortalStates::ActivePortal_6;
             }
@@ -453,7 +453,7 @@ void BirdPortal::VUpdate()
                             pParticle->mBaseGameObjectTypeId = Types::eBirdPortalTerminator_66;
                             pParticle->field_BC_sprite_scale = field_34_scale;
 
-                            if (gnFrameCount_507670 % 2)
+                            if (sGnFrame % 2)
                             {
                                 pParticle->field_10_anim.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
                                 pParticle->field_10_anim.SetFrame(pParticle->field_10_anim.Get_Frame_Count());
@@ -466,7 +466,7 @@ void BirdPortal::VUpdate()
                         }
                     }
                 }
-                if (!(gnFrameCount_507670 % 8))
+                if (!(sGnFrame % 8))
                 {
                     AbilityRing::Factory(
                         field_3C_pTerminator1->field_A8_xpos,
@@ -484,7 +484,7 @@ void BirdPortal::VUpdate()
                 if (field_14_state != PortalStates::ShrykullGetDoves_7)
                 {
                     field_14_state = PortalStates::FadeoutTerminators_22;
-                    field_30_timer = gnFrameCount_507670 + 30;
+                    field_30_timer = sGnFrame + 30;
                 }
             }
             break;
@@ -493,7 +493,7 @@ void BirdPortal::VUpdate()
             if (field_58_received_doves >= 7)
             {
                 field_14_state = PortalStates::GetShrykull_9;
-                field_30_timer = gnFrameCount_507670 + 20;
+                field_30_timer = sGnFrame + 20;
             }
             else
             {
@@ -508,9 +508,9 @@ void BirdPortal::VUpdate()
                 }
 
                 const s16 scale32 = FP_GetExponent(field_34_scale * FP_FromInteger(32));
-                if (static_cast<s32>(gnFrameCount_507670) >= field_30_timer)
+                if (static_cast<s32>(sGnFrame) >= field_30_timer)
                 {
-                    field_30_timer = gnFrameCount_507670 + Math_RandomRange_450F20(4, 12);
+                    field_30_timer = sGnFrame + Math_RandomRange_450F20(4, 12);
                     const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
 
                     auto pDoveMem = ao_new<Dove>(
@@ -543,11 +543,11 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::GetShrykull_9:
-            if (static_cast<s32>(gnFrameCount_507670) >= field_30_timer)
+            if (static_cast<s32>(sGnFrame) >= field_30_timer)
             {
                 Abe::Get_Shrykull_Resources_42F480();
                 field_14_state = PortalStates::CollapseTerminators_10;
-                sActiveHero_507678->field_168_ring_pulse_timer = gnFrameCount_507670 + 32000;
+                sActiveHero_507678->field_168_ring_pulse_timer = sGnFrame + 32000;
                 sActiveHero_507678->field_16C_bHaveShrykull = TRUE;
                 if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_150_Chant_42FD50)
                 {
@@ -583,7 +583,7 @@ void BirdPortal::VUpdate()
                 }
 
                 field_14_state = PortalStates::StopSound_11;
-                field_30_timer = gnFrameCount_507670 + 5;
+                field_30_timer = sGnFrame + 5;
                 field_3C_pTerminator1->mBaseGameObjectFlags.Set(Options::eDead);
                 field_40_pTerminator2->mBaseGameObjectFlags.Set(Options::eDead);
                 field_3C_pTerminator1 = nullptr;
@@ -593,7 +593,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::StopSound_11:
-            if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
+            if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
                 if (field_68_sfx_ret)
                 {
@@ -622,12 +622,12 @@ void BirdPortal::VUpdate()
         {
             ao_new<Flash>(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
             field_14_state = PortalStates::KillPortal_15;
-            field_30_timer = gnFrameCount_507670 + 5;
+            field_30_timer = sGnFrame + 5;
         }
         break;
 
         case PortalStates::KillPortal_15:
-            if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
+            if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
                 if (field_10_portal_type == PortalType::eWorker_1 || field_10_portal_type == PortalType::eShrykull_2)
                 {
@@ -664,27 +664,27 @@ void BirdPortal::VUpdate()
                 field_3C_pTerminator1->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_40_pTerminator2->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_14_state = PortalStates::PortalExit_ExpandTerminators_19;
-                field_30_timer = gnFrameCount_507670 + 12;
+                field_30_timer = sGnFrame + 12;
             }
             break;
 
         case PortalStates::PortalExit_ExpandTerminators_19:
             field_3C_pTerminator1->field_AC_ypos -= (FP_FromDouble(3.5) * field_34_scale);
             field_40_pTerminator2->field_AC_ypos += (FP_FromDouble(3.5) * field_34_scale);
-            if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
+            if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
                 field_14_state = PortalStates::State_20;
             }
             break;
 
         case PortalStates::KillPortalClipper_21:
-            if (static_cast<s32>(gnFrameCount_507670) > field_30_timer)
+            if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorShrink);
                 field_3C_pTerminator1->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_40_pTerminator2->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_14_state = PortalStates::FadeoutTerminators_22;
-                field_30_timer = gnFrameCount_507670 + 30;
+                field_30_timer = sGnFrame + 30;
 
                 if (field_44_pScreenClipper1)
                 {
@@ -701,7 +701,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::FadeoutTerminators_22:
-            if (static_cast<s32>(gnFrameCount_507670) <= field_30_timer)
+            if (static_cast<s32>(sGnFrame) <= field_30_timer)
             {
                 field_3C_pTerminator1->Fadeout();
                 field_40_pTerminator2->Fadeout();
@@ -763,7 +763,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
     if (field_10_portal_type == PortalType::eShrykull_2 && field_56_num_muds_for_shrykull <= 0)
     {
         field_14_state = PortalStates::ShrykullGetDoves_7;
-        field_30_timer = gnFrameCount_507670 + 12;
+        field_30_timer = sGnFrame + 12;
         field_58_received_doves = 0;
 
         field_60_pOrbWhirlWind = ao_new<OrbWhirlWind>(
@@ -935,7 +935,7 @@ Bool32 BirdPortal::VStateIs20()
 void BirdPortal::VIncreaseTimerAndKillPortalClipper()
 {
     field_14_state = PortalStates::KillPortalClipper_21;
-    field_30_timer = gnFrameCount_507670 + 30;
+    field_30_timer = sGnFrame + 30;
 }
 
 void BirdPortal::VMudSaved()

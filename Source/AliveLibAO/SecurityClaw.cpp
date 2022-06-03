@@ -202,7 +202,7 @@ void SecurityClaw::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (!(gnFrameCount_507670 % 20))
+    if (!(sGnFrame % 20))
     {
         if (field_128_sound_channels)
         {
@@ -288,7 +288,7 @@ void SecurityClaw::VUpdate()
         case SecurityClawStates::eIdle_1:
             if (Event_Get(kEventAbeOhm_8))
             {
-                field_114_timer = gnFrameCount_507670 + 20;
+                field_114_timer = sGnFrame + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Open);
                 field_130_pClaw->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
@@ -306,7 +306,7 @@ void SecurityClaw::VUpdate()
             break;
 
         case SecurityClawStates::eDoZapEffects_2:
-            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 PSX_RECT rect = {};
                 sActiveHero_507678->VGetBoundingRect(&rect, 1);
@@ -364,31 +364,31 @@ void SecurityClaw::VUpdate()
                 }
 
                 field_110_state = SecurityClawStates::eAnimateClaw_DoFlashAndSound_3;
-                field_114_timer = gnFrameCount_507670 + 8;
+                field_114_timer = sGnFrame + 8;
             }
             break;
 
         case SecurityClawStates::eAnimateClaw_DoFlashAndSound_3:
-            if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 5 || static_cast<s32>(gnFrameCount_507670) == field_114_timer - 1)
+            if (static_cast<s32>(sGnFrame) == field_114_timer - 5 || static_cast<s32>(sGnFrame) == field_114_timer - 1)
             {
                 ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
             }
 
-            if (static_cast<s32>(gnFrameCount_507670) == field_114_timer - 4)
+            if (static_cast<s32>(sGnFrame) == field_114_timer - 4)
             {
                 ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
             }
 
-            if (field_114_timer - gnFrameCount_507670 == 4)
+            if (field_114_timer - sGnFrame == 4)
             {
                 SFX_Play_Mono(SoundEffect::Zap1_57, 0, 0);
             }
-            else if (field_114_timer - gnFrameCount_507670 == 1)
+            else if (field_114_timer - sGnFrame == 1)
             {
                 SFX_Play_Mono(SoundEffect::Zap2_58, 0, 0);
             }
 
-            if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 field_110_state = SecurityClawStates::eIdle_1;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Close);

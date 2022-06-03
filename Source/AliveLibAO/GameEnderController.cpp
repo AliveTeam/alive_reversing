@@ -55,12 +55,12 @@ void GameEnderController::VUpdate()
             if (sSwitchStates_505568.mData[70])
             {
                 field_14_state = GameEnderController_States::eDetermineEnding_1;
-                field_10_timer = gnFrameCount_507670 + 50;
+                field_10_timer = sGnFrame + 50;
             }
             break;
 
         case GameEnderController_States::eDetermineEnding_1:
-            if (field_10_timer <= static_cast<s32>(gnFrameCount_507670))
+            if (field_10_timer <= static_cast<s32>(sGnFrame))
             {
                 // Wait for murdering everyone to finish
                 if (sActiveHero_507678->mCurrentMotion != eAbeMotions::Motion_162_ToShrykull_42F410 && sActiveHero_507678->mCurrentMotion != eAbeMotions::Motion_163_ShrykullEnd_42F520)

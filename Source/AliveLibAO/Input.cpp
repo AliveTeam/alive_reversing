@@ -309,11 +309,11 @@ void InputObject::Update(BaseGameAutoPlayer& gameAutoPlayer)
             return;
         }
 
-        if (static_cast<s32>(gnFrameCount_507670) >= field_28_command_duration)
+        if (static_cast<s32>(sGnFrame) >= field_28_command_duration)
         {
             const u32 command = (*field_18_demo_res)[field_1C_demo_command_index++];
             field_24_command = command >> 16;
-            field_28_command_duration = gnFrameCount_507670 + (command & 0xFFFF);
+            field_28_command_duration = sGnFrame + (command & 0xFFFF);
 
             // End demo/quit command
             if (command & 0x8000)
@@ -374,11 +374,11 @@ void InputObject::Update(BaseGameAutoPlayer& gameAutoPlayer)
     //        return;
     //    }
 
-    //    if (static_cast<s32>(gnFrameCount_507670) >= field_28_command_duration)
+    //    if (static_cast<s32>(sGnFrame) >= field_28_command_duration)
     //    {
     //        const u32 command = (*field_18_demo_res)[field_1C_demo_command_index++];
     //        field_24_command = command >> 16;
-    //        field_28_command_duration = gnFrameCount_507670 + command & 0xFFFF;
+    //        field_28_command_duration = sGnFrame + command & 0xFFFF;
 
     //        // End demo/quit command
     //        if (command & 0x8000)

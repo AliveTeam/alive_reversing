@@ -534,10 +534,10 @@ void ChimeLock::VUpdate()
                 return;
             }
 
-            if (static_cast<s32>(gnFrameCount_507670) >= field_12C_timer)
+            if (static_cast<s32>(sGnFrame) >= field_12C_timer)
             {
                 SetTargetBellIfSpace(field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10);
-                field_12C_timer = gnFrameCount_507670 + 15;
+                field_12C_timer = sGnFrame + 15;
             }
             return;
 
@@ -561,7 +561,7 @@ void ChimeLock::VUpdate()
                 }
             }
 
-            if (!(gnFrameCount_507670 % 4))
+            if (!(sGnFrame % 4))
             {
                 return;
             }
@@ -616,7 +616,7 @@ void ChimeLock::VPossessed()
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = ChimeLockStates::ePossessed_2;
     field_128_idx = 0;
-    field_12C_timer = gnFrameCount_507670 + 45;
+    field_12C_timer = sGnFrame + 45;
     field_15C_ball_state = BallStates::eIdle_0;
     field_164_ChimeLock_num[0] = BellPositions::eNone_0;
     field_164_ChimeLock_num[1] = BellPositions::eNone_0;

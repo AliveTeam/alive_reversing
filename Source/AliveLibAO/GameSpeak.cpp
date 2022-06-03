@@ -77,7 +77,7 @@ GameSpeak::~GameSpeak()
 void GameSpeak::VPushEvent(GameSpeakEvents event)
 {
     PushEvent_Impl(event);
-    field_14_last_event_frame = gnFrameCount_507670 + 60;
+    field_14_last_event_frame = sGnFrame + 60;
 }
 
 
@@ -100,7 +100,7 @@ void GameSpeak::VUpdate()
     // If the last thing pushed wasn't nothing and its been around for a while then set the last event to nothing
     if (field_10_last_event != GameSpeakEvents::eNone_m1)
     {
-        if (gnFrameCount_507670 > field_14_last_event_frame)
+        if (sGnFrame > field_14_last_event_frame)
         {
             PushEvent_Impl(GameSpeakEvents::eNone_m1);
         }

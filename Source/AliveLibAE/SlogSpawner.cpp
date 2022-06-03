@@ -43,11 +43,11 @@ void SlogSpawner::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (static_cast<s32>(sGnFrame_5C1B84) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
+    if (static_cast<s32>(sGnFrame) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
     {
         if (SwitchStates_Get(field_3E_spawner_switch_id))
         {
-            field_30_spawn_timer = (field_3C_slog_spawn_interval + sGnFrame_5C1B84) + Math_NextRandom() % 8;
+            field_30_spawn_timer = (field_3C_slog_spawn_interval + sGnFrame) + Math_NextRandom() % 8;
             auto pSlog = ae_new<Slog>(field_28_xpos, field_2C_ypos, field_34_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1), static_cast<s16>(field_40_listen_to_sligs), field_42_chase_delay);
             if (pSlog)
             {

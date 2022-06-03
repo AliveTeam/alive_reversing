@@ -183,7 +183,7 @@ void Dove::AsJoin(FP xpos, FP ypos)
     field_F0_xJoin = xpos;
     field_F4_yJoin = ypos;
     field_EE_state = State::eJoin_2;
-    field_F8_timer = gnFrameCount_507670 + 47;
+    field_F8_timer = sGnFrame + 47;
 }
 
 void Dove::FlyAway(s16 a2)
@@ -321,7 +321,7 @@ void Dove::VUpdate()
 
         case State::eJoin_2:
         {
-            if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
+            if (static_cast<s32>(sGnFrame) > field_F8_timer)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -346,9 +346,9 @@ void Dove::VUpdate()
             return;
 
         case State::eAlmostACircle_4:
-            if (abePortalTimer_4FF950 != static_cast<s32>(gnFrameCount_507670))
+            if (abePortalTimer_4FF950 != static_cast<s32>(sGnFrame))
             {
-                abePortalTimer_4FF950 = gnFrameCount_507670;
+                abePortalTimer_4FF950 = sGnFrame;
                 abePortalWidth_4C50AC += abePortalDirection_4C50B0;
 
                 if (abePortalWidth_4C50AC == 0)

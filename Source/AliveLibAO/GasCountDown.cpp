@@ -103,7 +103,7 @@ void GasCountDown::VUpdate()
     // Enable
     if (!sGasTimer_507700 && SwitchStates_Get(field_60_start_switch_id) && !SwitchStates_Get(70))
     {
-        sGasTimer_507700 = gnFrameCount_507670;
+        sGasTimer_507700 = sGnFrame;
         ao_new<Alarm>(3600, 0, 0, Layer::eLayer_Above_FG1_39);
     }
 
@@ -127,7 +127,7 @@ void GasCountDown::VUpdate()
         }
 
         const s32 oldTimer = field_62_time_left;
-        const s32 newTimer = 120 - (static_cast<s32>(gnFrameCount_507670) - sGasTimer_507700) / 30;
+        const s32 newTimer = 120 - (static_cast<s32>(sGnFrame) - sGasTimer_507700) / 30;
         field_62_time_left = static_cast<s16>(newTimer);
         if (oldTimer != field_62_time_left && field_62_time_left > 0)
         {

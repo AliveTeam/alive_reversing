@@ -1102,7 +1102,7 @@ public:
 
         if (mCommandLineEnabled)
         {
-            std::string trail = (sGnFrame_5C1B84 % 10 < 5) ? "" : "_";
+            std::string trail = (sGnFrame % 10 < 5) ? "" : "_";
             pIndex = mFont.DrawString_4337D0(ppOt, (">" + mCommandLineInput + trail).c_str(), 0, 232, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_FadeFlash_40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
             pIndex = mFont.DrawString_4337D0(ppOt, (" " + mAutoComplete).c_str(), 0, 232, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_FadeFlash_40, 30, 30, 30, pIndex, FP_FromDouble(1.0), 640, 0);
         }

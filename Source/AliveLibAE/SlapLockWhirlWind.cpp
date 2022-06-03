@@ -69,7 +69,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
             field_38_orb_whirlwind_id = pWhirlWind->field_8_object_id;
         }
         field_3C_state = 0;
-        field_40_timer = sGnFrame_5C1B84 + 70;
+        field_40_timer = sGnFrame + 70;
     }
     else
     {
@@ -96,12 +96,12 @@ void SlapLockWhirlWind::VUpdate()
         OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds.Find_Impl(field_38_orb_whirlwind_id));
         if (field_3C_state == 1)
         {
-            if (!(static_cast<s32>(sGnFrame_5C1B84) % 10))
+            if (!(static_cast<s32>(sGnFrame) % 10))
             {
                 SFX_Play_Pitch(
                     SoundEffect::FlyingSpirit2_108,
-                    static_cast<s16>(127 - (static_cast<s32>(sGnFrame_5C1B84) - field_40_timer) / 2),
-                    4 * (sGnFrame_5C1B84 - field_40_timer));
+                    static_cast<s16>(127 - (static_cast<s32>(sGnFrame) - field_40_timer) / 2),
+                    4 * (sGnFrame - field_40_timer));
             }
 
             if (!pWhirlWind || pWhirlWind->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
@@ -112,9 +112,9 @@ void SlapLockWhirlWind::VUpdate()
         }
         else if (field_3C_state == 0)
         {
-            if (!(static_cast<s32>(sGnFrame_5C1B84) % 10))
+            if (!(static_cast<s32>(sGnFrame) % 10))
             {
-                if (static_cast<s32>(sGnFrame_5C1B84) % 20)
+                if (static_cast<s32>(sGnFrame) % 20)
                 {
                     SFX_Play_Mono(SoundEffect::FlyingSpirit1_107, 0);
                 }
@@ -124,7 +124,7 @@ void SlapLockWhirlWind::VUpdate()
                 }
             }
 
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_40_timer)
+            if (static_cast<s32>(sGnFrame) > field_40_timer)
             {
                 if (pWhirlWind)
                 {

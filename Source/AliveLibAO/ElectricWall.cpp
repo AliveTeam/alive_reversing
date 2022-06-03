@@ -94,17 +94,17 @@ void ElectricWall::VUpdate()
         field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
         // Keep flipping direction
-        if (!(gnFrameCount_507670 % 8))
+        if (!(sGnFrame % 8))
         {
             field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
         }
 
         // Play sound every so often
-        if (static_cast<s32>(gnFrameCount_507670) >= field_EC_sound_timer)
+        if (static_cast<s32>(sGnFrame) >= field_EC_sound_timer)
         {
             // set a random starting frame
             SFX_Play_Camera(SoundEffect::BirdPortalSpark_48, 45, soundDirection);
-            field_EC_sound_timer = gnFrameCount_507670 + Math_RandomRange_450F20(24, 40);
+            field_EC_sound_timer = sGnFrame + Math_RandomRange_450F20(24, 40);
         }
 
 
@@ -134,7 +134,7 @@ void ElectricWall::VUpdate()
                 if (!RectsOverlap(bRectBigger, objRect))
                 {
                     // Not touching, so every so often check if we are near
-                    if (!(gnFrameCount_507670 % 3))
+                    if (!(sGnFrame % 3))
                     {
                         // Make each side of the rect wider
                         objRect.x -= 50;

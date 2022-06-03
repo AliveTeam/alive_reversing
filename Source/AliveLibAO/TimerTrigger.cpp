@@ -66,12 +66,12 @@ void TimerTrigger::VUpdate()
             if (SwitchStates_Get(field_10_source_switch_id) != field_28_starting_switch_state)
             {
                 field_12_state = State::eWaitForFirstTrigger_1;
-                field_20_trigger_interval_timer = gnFrameCount_507670 + field_24_trigger_interval;
+                field_20_trigger_interval_timer = sGnFrame + field_24_trigger_interval;
             }
             break;
 
         case State::eWaitForFirstTrigger_1:
-            if (field_20_trigger_interval_timer <= static_cast<s32>(gnFrameCount_507670))
+            if (field_20_trigger_interval_timer <= static_cast<s32>(sGnFrame))
             {
                 ToggleAllIds();
                 field_12_state = State::eCheckForStartAgain_2;
@@ -82,12 +82,12 @@ void TimerTrigger::VUpdate()
             if (SwitchStates_Get(field_10_source_switch_id) == field_28_starting_switch_state)
             {
                 field_12_state = State::eWaitForSecondTrigger_3;
-                field_20_trigger_interval_timer = gnFrameCount_507670 + field_24_trigger_interval;
+                field_20_trigger_interval_timer = sGnFrame + field_24_trigger_interval;
             }
             break;
 
         case State::eWaitForSecondTrigger_3:
-            if (field_20_trigger_interval_timer <= static_cast<s32>(gnFrameCount_507670))
+            if (field_20_trigger_interval_timer <= static_cast<s32>(sGnFrame))
             {
                 ToggleAllIds();
                 field_12_state = State::eWaitForEnabled_0;

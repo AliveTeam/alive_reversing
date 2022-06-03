@@ -88,7 +88,7 @@ void StatusLight::VUpdate()
     if (SwitchStates_Get(field_F8_switch_id))
     {
         if ((!SwitchStates_Get(field_FA_id1) && field_FA_id1) || (!SwitchStates_Get(field_FC_id2) && field_FC_id2) || (!SwitchStates_Get(field_FE_id3) && field_FE_id3) || (!SwitchStates_Get(field_100_id4) && field_100_id4) || (!SwitchStates_Get(field_102_id5) && field_102_id5)
-            || (sGnFrame_5C1B84 % 8) >= 4)
+            || (sGnFrame % 8) >= 4)
         {
             field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
         }
@@ -101,7 +101,7 @@ void StatusLight::VUpdate()
     }
     else if (SwitchStates_Get(field_FA_id1) || SwitchStates_Get(field_FC_id2) || SwitchStates_Get(field_FE_id3) || SwitchStates_Get(field_100_id4) || SwitchStates_Get(field_102_id5))
     {
-        if ((sGnFrame_5C1B84 % 8) >= 4)
+        if ((sGnFrame % 8) >= 4)
         {
             field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
         }

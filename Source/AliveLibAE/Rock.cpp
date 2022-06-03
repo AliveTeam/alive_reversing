@@ -355,7 +355,7 @@ void Rock::VUpdate()
                     field_E4_collection_rect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(field_CC_sprite_scale);
                     field_11C_state = RockStates::eOnGround_3;
                     field_20_animation.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
-                    field_128_shimmer_timer = sGnFrame_5C1B84;
+                    field_128_shimmer_timer = sGnFrame;
                     return;
                 }
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx);
@@ -371,7 +371,7 @@ void Rock::VUpdate()
             return;
 
         case RockStates::eOnGround_3:
-            if (static_cast<s32>(sGnFrame_5C1B84) <= field_128_shimmer_timer || pObj)
+            if (static_cast<s32>(sGnFrame) <= field_128_shimmer_timer || pObj)
             {
                 return;
             }
@@ -381,7 +381,7 @@ void Rock::VUpdate()
                 (field_CC_sprite_scale * FP_FromInteger(-7)) + mBaseAnimatedWithPhysicsGameObject_YPos,
                 FP_FromDouble(0.3),
                 Layer::eLayer_Foreground_36);
-            field_128_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
+            field_128_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame + 60;
             return;
 
         case RockStates::eBouncing_4:
@@ -489,7 +489,7 @@ s32 Rock::CreateFromSaveState(const u8* pData)
 
     pRock->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
-    pRock->field_128_shimmer_timer = sGnFrame_5C1B84;
+    pRock->field_128_shimmer_timer = sGnFrame;
 
     pRock->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
 

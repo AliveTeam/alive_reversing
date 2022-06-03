@@ -75,7 +75,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
 
-    field_114_timer = gnFrameCount_507670;
+    field_114_timer = sGnFrame;
     field_110_tlvInfo = tlvInfo;
 
     SetBaseAnimPaletteTint_4187C0(kTimedMineTints_4C3140, gMap.mCurrentLevel, 1005);
@@ -90,7 +90,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
 
 TimedMine::~TimedMine()
 {
-    if (field_10C_armed != 1 || static_cast<s32>(gnFrameCount_507670) < field_114_timer)
+    if (field_10C_armed != 1 || static_cast<s32>(sGnFrame) < field_114_timer)
     {
         gMap.TLV_Reset(field_110_tlvInfo, -1, 0, 0);
     }
@@ -145,7 +145,7 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
                 0,
                 field_BC_sprite_scale);
             field_10C_armed = 1;
-            field_114_timer = gnFrameCount_507670;
+            field_114_timer = sGnFrame;
             return 1;
         }
         default:
@@ -252,9 +252,9 @@ void TimedMine::VUpdate()
     }
     if (field_10C_armed == 1)
     {
-        if (static_cast<s32>(gnFrameCount_507670) > (field_1B4_detonation_timer + field_1B0_gnFrame_2))
+        if (static_cast<s32>(sGnFrame) > (field_1B4_detonation_timer + field_1B0_gnFrame_2))
         {
-            field_1B0_gnFrame_2 = gnFrameCount_507670;
+            field_1B0_gnFrame_2 = sGnFrame;
             auto direction = gMap.GetDirection(
                 field_B2_lvl_number,
                 field_B0_path_number,
@@ -263,16 +263,16 @@ void TimedMine::VUpdate()
             SFX_Play_Camera(SoundEffect::GreenTick_3, 50, direction);
 
             //~7 limits the number to multiples of 8
-            if (((field_114_timer - gnFrameCount_507670) & ~7) >= 18 * 8)
+            if (((field_114_timer - sGnFrame) & ~7) >= 18 * 8)
             {
                 field_1B4_detonation_timer = 18;
             }
             else
             {
-                field_1B4_detonation_timer = (field_114_timer - gnFrameCount_507670) / 8;
+                field_1B4_detonation_timer = (field_114_timer - sGnFrame) / 8;
             }
         }
-        if (static_cast<s32>(gnFrameCount_507670) >= field_114_timer)
+        if (static_cast<s32>(sGnFrame) >= field_114_timer)
         {
             ao_new<BaseBomb>(
                 field_A8_xpos,
@@ -295,7 +295,7 @@ void TimedMine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_10C_armed = 1;
-    field_114_timer = gnFrameCount_507670;
+    field_114_timer = sGnFrame;
 }
 
 void TimedMine::VOnPickUpOrSlapped()
@@ -311,9 +311,9 @@ void TimedMine::VOnPickUpOrSlapped()
         {
             field_1B4_detonation_timer = field_10E_ticks_before_explosion >> 2;
         }
-        field_1B0_gnFrame_2 = gnFrameCount_507670;
+        field_1B0_gnFrame_2 = sGnFrame;
         field_10_anim.Set_Animation_Data(804, 0);
-        field_114_timer = gnFrameCount_507670 + field_10E_ticks_before_explosion;
+        field_114_timer = sGnFrame + field_10E_ticks_before_explosion;
         field_118_anim.Set_Animation_Data(384, 0);
         SFX_Play_Mono(SoundEffect::GreenTick_3, 0, 0);
     }

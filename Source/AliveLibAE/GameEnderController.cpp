@@ -46,7 +46,7 @@ s32 GameEnderController::CreateFromSaveState(const u8* pBuffer)
     if (pGameEnderController)
     {
         pGameEnderController->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
-        pGameEnderController->field_20_timer = sGnFrame_5C1B84 + pState->field_8_timer;
+        pGameEnderController->field_20_timer = sGnFrame + pState->field_8_timer;
         pGameEnderController->field_24_state = pState->field_C_state;
     }
     return sizeof(GameEnderController_State);
@@ -82,7 +82,7 @@ s32 GameEnderController::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_0_type = AETypes::eGameEnderController_57;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
-    pState->field_8_timer = field_20_timer - sGnFrame_5C1B84;
+    pState->field_8_timer = field_20_timer - sGnFrame;
     pState->field_C_state = field_24_state;
     return sizeof(GameEnderController_State);
 }

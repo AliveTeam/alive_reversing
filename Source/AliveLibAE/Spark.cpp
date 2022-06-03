@@ -60,7 +60,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
             pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange(2, 4));
         }
 
-        field_60_timer = sGnFrame_5C1B84 + 3;
+        field_60_timer = sGnFrame + 3;
 
         if (field_64_type == SparkType::eBigChantParticle_1)
         {
@@ -116,9 +116,9 @@ void Spark::VUpdate()
 
     if (sNum_CamSwappers_5C1B66 == 0)
     {
-        if (static_cast<s32>(sGnFrame_5C1B84) < field_60_timer)
+        if (static_cast<s32>(sGnFrame) < field_60_timer)
         {
-            if (static_cast<s32>(sGnFrame_5C1B84) == field_60_timer - 1)
+            if (static_cast<s32>(sGnFrame) == field_60_timer - 1)
             {
                 // Reduce spark count as time passes
                 field_5C_count /= 3;

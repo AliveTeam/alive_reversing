@@ -69,7 +69,7 @@ void MultiSwitchController::WaitingForAllOn()
     {
         if (field_34_last_switch_on_time == 0 && field_20_input_switch_id1 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -78,7 +78,7 @@ void MultiSwitchController::WaitingForAllOn()
     {
         if (field_34_last_switch_on_time == 0 && field_22_input_switch_id2 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -87,7 +87,7 @@ void MultiSwitchController::WaitingForAllOn()
     {
         if (field_34_last_switch_on_time == 0 && field_24_input_switch_id3 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -96,7 +96,7 @@ void MultiSwitchController::WaitingForAllOn()
     {
         if (field_34_last_switch_on_time == 0 && field_26_input_switch_id4 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -105,7 +105,7 @@ void MultiSwitchController::WaitingForAllOn()
     {
         if (field_34_last_switch_on_time == 0 && field_28_input_switch_id5 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -114,7 +114,7 @@ void MultiSwitchController::WaitingForAllOn()
     {
         if (field_34_last_switch_on_time == 0 && field_2A_input_switch_id6 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -125,7 +125,7 @@ void MultiSwitchController::WaitingForAllOn()
 
     if (id1_value && id2_value && id3_value && id4_value && id5_value && id6_value && field_38_all_switches_on_or_off_time == 0)
     {
-        field_38_all_switches_on_or_off_time = sGnFrame_5C1B84;
+        field_38_all_switches_on_or_off_time = sGnFrame;
         if (field_38_all_switches_on_or_off_time - field_34_last_switch_on_time <= field_3C_on_off_delay)
         {
             SwitchStates_Do_Operation(field_2C_output_switch_id, field_2E_action);
@@ -134,7 +134,7 @@ void MultiSwitchController::WaitingForAllOn()
             field_38_all_switches_on_or_off_time = 0;
         }
     }
-    else if (static_cast<s32>(sGnFrame_5C1B84) - field_34_last_switch_on_time > field_3C_on_off_delay)
+    else if (static_cast<s32>(sGnFrame) - field_34_last_switch_on_time > field_3C_on_off_delay)
     {
         if (field_20_input_switch_id1 > 1u)
         {
@@ -181,7 +181,7 @@ void MultiSwitchController::WaitingForAllOff()
     {
         if (field_34_last_switch_on_time == 0 && field_20_input_switch_id1 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -194,7 +194,7 @@ void MultiSwitchController::WaitingForAllOff()
     {
         if (field_34_last_switch_on_time == 0 && field_22_input_switch_id2 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -207,7 +207,7 @@ void MultiSwitchController::WaitingForAllOff()
     {
         if (field_34_last_switch_on_time == 0 && field_24_input_switch_id3 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -220,7 +220,7 @@ void MultiSwitchController::WaitingForAllOff()
     {
         if (field_34_last_switch_on_time == 0 && field_26_input_switch_id4 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -233,7 +233,7 @@ void MultiSwitchController::WaitingForAllOff()
     {
         if (field_34_last_switch_on_time == 0 && field_28_input_switch_id5 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -246,7 +246,7 @@ void MultiSwitchController::WaitingForAllOff()
     {
         if (field_34_last_switch_on_time == 0 && field_2A_input_switch_id6 > 1u)
         {
-            field_34_last_switch_on_time = sGnFrame_5C1B84;
+            field_34_last_switch_on_time = sGnFrame;
         }
     }
 
@@ -257,7 +257,7 @@ void MultiSwitchController::WaitingForAllOff()
 
     if (!id1_value && !id2_value && !id3_value && !id4_value && !id5_value && !id6_value && field_38_all_switches_on_or_off_time == 0)
     {
-        field_38_all_switches_on_or_off_time = sGnFrame_5C1B84;
+        field_38_all_switches_on_or_off_time = sGnFrame;
         if (field_38_all_switches_on_or_off_time - field_34_last_switch_on_time <= field_3C_on_off_delay)
         {
             SwitchStates_Do_Operation(field_2C_output_switch_id, field_2E_action);

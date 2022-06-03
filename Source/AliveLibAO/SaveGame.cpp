@@ -89,7 +89,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     gRestartRuptureFarmsKilledMuds_5076C4 = pData->field_2A6_restartRuptureFarmsKilledMudokons;
 
     sActiveHero_507678->mHealth = FP_FromInteger(1);
-    sActiveHero_507678->field_11C_regen_health_timer = gnFrameCount_507670;
+    sActiveHero_507678->field_11C_regen_health_timer = sGnFrame;
     sActiveHero_507678->field_BC_sprite_scale = pData->field_230_ah_sprite_scale;
     sActiveHero_507678->field_118_timer = pData->field_24C_field_118;
     sActiveHero_507678->field_19C_throwable_count = static_cast<s8>(pData->field_250_throwable_count); // TODO: Type check when other save func done
@@ -127,7 +127,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     if (pData->field_2A8_gasTimer)
     {
-        sGasTimer_507700 = gnFrameCount_507670 - pData->field_2A8_gasTimer;
+        sGasTimer_507700 = sGnFrame - pData->field_2A8_gasTimer;
     }
     else
     {
@@ -425,7 +425,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     }
     if (sGasTimer_507700)
     {
-        pSaveData->field_2A8_gasTimer = (gnFrameCount_507670 - sGasTimer_507700 <= 1) ? 1 : gnFrameCount_507670 - sGasTimer_507700;
+        pSaveData->field_2A8_gasTimer = (sGnFrame - sGasTimer_507700 <= 1) ? 1 : sGnFrame - sGasTimer_507700;
     }
     else
     {

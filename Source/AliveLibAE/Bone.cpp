@@ -41,7 +41,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
 
     field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
-    field_12C_time_to_live = sGnFrame_5C1B84 + 300;
+    field_12C_time_to_live = sGnFrame + 300;
     field_118_count = countId;
     field_11C_state = BoneStates::eSpawned_0;
     field_11E_volume_modifier = 0;
@@ -87,7 +87,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
     pBone->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
-    pBone->field_128_shine_timer = sGnFrame_5C1B84;
+    pBone->field_128_shine_timer = sGnFrame;
 
     pBone->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
     pBone->field_118_count = pState->field_2A_count;
@@ -469,7 +469,7 @@ void Bone::VUpdate()
                     field_11C_state = BoneStates::eOnGround_3;
                     mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
                     field_20_animation.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
-                    field_128_shine_timer = sGnFrame_5C1B84;
+                    field_128_shine_timer = sGnFrame;
                     AddToPlatform();
                     return;
                 }
@@ -489,10 +489,10 @@ void Bone::VUpdate()
         case BoneStates::eOnGround_3:
             if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
             {
-                field_12C_time_to_live = sGnFrame_5C1B84 + 300;
+                field_12C_time_to_live = sGnFrame + 300;
             }
 
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_128_shine_timer && !pObj)
+            if (static_cast<s32>(sGnFrame) > field_128_shine_timer && !pObj)
             {
                 // For the shiny star twinkle effect.
                 New_TintShiny_Particle(
@@ -501,10 +501,10 @@ void Bone::VUpdate()
                     FP_FromDouble(0.3),
                     Layer::eLayer_Foreground_36);
 
-                field_128_shine_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
+                field_128_shine_timer = (Math_NextRandom() % 16) + sGnFrame + 60;
             }
 
-            if (field_12C_time_to_live < static_cast<s32>(sGnFrame_5C1B84))
+            if (field_12C_time_to_live < static_cast<s32>(sGnFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }

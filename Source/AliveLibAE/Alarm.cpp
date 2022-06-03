@@ -39,7 +39,7 @@ Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)
     field_78_r_value = 0;
     field_90_state = States::eAfterConstructed_1;
     field_84_tlvOffsetLevelPathCamId = 0xFFFF;
-    field_7C_15_timer = sGnFrame_5C1B84 + timerOffset;
+    field_7C_15_timer = sGnFrame + timerOffset;
     field_80_duration_timer = field_7C_15_timer + durationOffset;
     field_88_switch_id = static_cast<s16>(switchId);
 
@@ -98,7 +98,7 @@ void Alarm::VUpdate()
     if (field_90_state != States::eWaitForSwitchEnable_0)
     {
         Event_Broadcast(kEventAlarm, this);
-        if (static_cast<s32>(sGnFrame_5C1B84) > field_80_duration_timer)
+        if (static_cast<s32>(sGnFrame) > field_80_duration_timer)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
@@ -131,7 +131,7 @@ void Alarm::VUpdate()
 
             field_90_state = States::eEnabling_2;
             SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
-            field_80_duration_timer = sGnFrame_5C1B84 + field_8A_duration;
+            field_80_duration_timer = sGnFrame + field_8A_duration;
             mEffectBaseRed = field_78_r_value;
             break;
 
@@ -142,7 +142,7 @@ void Alarm::VUpdate()
             }
             else
             {
-                if (static_cast<s32>(sGnFrame_5C1B84) <= field_7C_15_timer)
+                if (static_cast<s32>(sGnFrame) <= field_7C_15_timer)
                 {
                     mEffectBaseRed = field_78_r_value;
                     return;
@@ -173,13 +173,13 @@ void Alarm::VUpdate()
 
             field_78_r_value = 100;
             field_90_state = States::eOnFlash_3;
-            field_7C_15_timer = sGnFrame_5C1B84 + 15;
+            field_7C_15_timer = sGnFrame + 15;
             SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
             mEffectBaseRed = field_78_r_value;
             break;
 
         case States::eOnFlash_3:
-            if (static_cast<s32>(sGnFrame_5C1B84) <= field_7C_15_timer)
+            if (static_cast<s32>(sGnFrame) <= field_7C_15_timer)
             {
                 mEffectBaseRed = field_78_r_value;
                 return;
@@ -199,7 +199,7 @@ void Alarm::VUpdate()
             }
 
             field_78_r_value = 0;
-            field_7C_15_timer = sGnFrame_5C1B84 + 15;
+            field_7C_15_timer = sGnFrame + 15;
             field_90_state = States::eDisabled_5;
             mEffectBaseRed = field_78_r_value;
             break;
@@ -211,7 +211,7 @@ void Alarm::VUpdate()
             }
             else
             {
-                if (static_cast<s32>(sGnFrame_5C1B84) > field_7C_15_timer)
+                if (static_cast<s32>(sGnFrame) > field_7C_15_timer)
                 {
                     field_90_state = States::eEnabling_2;
                     SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);

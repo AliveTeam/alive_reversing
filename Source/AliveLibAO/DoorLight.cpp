@@ -96,7 +96,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
 
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {
-        gNextDoorLightUpdate_4C30A8 = gnFrameCount_507670;
+        gNextDoorLightUpdate_4C30A8 = sGnFrame;
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
     }
 
@@ -135,17 +135,17 @@ void DoorLight::VScreenChanged()
 
 void DoorLight::VUpdate()
 {
-    if (static_cast<s32>(gnFrameCount_507670) > gDoorLightUpdateTimer_4FC8A4)
+    if (static_cast<s32>(sGnFrame) > gDoorLightUpdateTimer_4FC8A4)
     {
-        gNextDoorLightUpdate_4C30A8 = gnFrameCount_507670 + Math_RandomRange_450F20(6, 20);
+        gNextDoorLightUpdate_4C30A8 = sGnFrame + Math_RandomRange_450F20(6, 20);
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
         field_C0_r = 32;
         field_C2_g = 32;
         field_C4_b = 32;
     }
-    else if (static_cast<s32>(gnFrameCount_507670) >= gNextDoorLightUpdate_4C30A8)
+    else if (static_cast<s32>(sGnFrame) >= gNextDoorLightUpdate_4C30A8)
     {
-        const FP lightAngle = (FP_FromInteger(128) * FP_FromInteger(gnFrameCount_507670 - gNextDoorLightUpdate_4C30A8) / FP_FromInteger(gDoorLightUpdateTimer_4FC8A4 - gNextDoorLightUpdate_4C30A8));
+        const FP lightAngle = (FP_FromInteger(128) * FP_FromInteger(sGnFrame - gNextDoorLightUpdate_4C30A8) / FP_FromInteger(gDoorLightUpdateTimer_4FC8A4 - gNextDoorLightUpdate_4C30A8));
 
         const FP lightAngleCosine = -Math_Cosine_4510A0(FP_GetExponent(lightAngle) & 0xFF);
         const s32 rgbVal = FP_GetExponent(FP_FromInteger(255) * lightAngleCosine) + 32;

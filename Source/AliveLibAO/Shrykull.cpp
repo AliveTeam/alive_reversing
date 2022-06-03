@@ -187,7 +187,7 @@ void Shrykull::VUpdate()
                     if (field_120_bElectrocute)
                     {
                         ao_new<Electrocute>(pObj, 0);
-                        field_114_timer = gnFrameCount_507670 + 3;
+                        field_114_timer = sGnFrame + 3;
 
                         if (pObj->mBaseGameObjectTypeId == Types::eBackgroundGlukkon_42)
                         {
@@ -215,7 +215,7 @@ void Shrykull::VUpdate()
                     SFX_Play_Mono(SoundEffect::Zap1_57, 0);
 
                     field_10C_state = State::eKillTargets_4;
-                    field_110_timer = gnFrameCount_507670 + 12;
+                    field_110_timer = sGnFrame + 12;
                     field_122_bResetRingTimer = 1;
                     return;
                 }
@@ -279,7 +279,7 @@ void Shrykull::VUpdate()
 
                     PSX_RECT ourRect = {};
                     VGetBoundingRect(&ourRect, 1);
-                    if (static_cast<s32>(gnFrameCount_507670) == field_114_timer)
+                    if (static_cast<s32>(sGnFrame) == field_114_timer)
                     {
                         ao_new<ParticleBurst>(
                             FP_FromInteger((zapRect.x + zapRect.w) / 2),
@@ -298,7 +298,7 @@ void Shrykull::VUpdate()
                 }
             }
 
-            if (static_cast<s32>(gnFrameCount_507670) > field_110_timer)
+            if (static_cast<s32>(sGnFrame) > field_110_timer)
             {
                 field_10C_state = State::eZapTargets_1;
 

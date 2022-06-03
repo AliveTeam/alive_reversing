@@ -4,7 +4,7 @@
 #include "DynamicArray.hpp"
 #include "../AliveLibCommon/BitField.hpp"
 
-ALIVE_VAR_EXTERN(u32, sGnFrame_5C1B84);
+ALIVE_VAR_EXTERN(u32, sGnFrame);
 
 enum class AETypes : s16
 {
@@ -205,13 +205,13 @@ protected:
     template <class T>
     static inline bool Expired(const T& value)
     {
-        return static_cast<s32>(sGnFrame_5C1B84) > value;
+        return static_cast<s32>(sGnFrame) > value;
     }
 
     template <class T>
     static s32 MakeTimer(const T value)
     {
-        return static_cast<s32>(sGnFrame_5C1B84) + value;
+        return static_cast<s32>(sGnFrame) + value;
     }
 
 public:

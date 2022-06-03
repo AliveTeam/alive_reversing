@@ -90,7 +90,7 @@ HoistRocksEffect::~HoistRocksEffect()
 
 void HoistRocksEffect::VUpdate()
 {
-    if (field_28_timer <= static_cast<s32>(sGnFrame_5C1B84))
+    if (field_28_timer <= static_cast<s32>(sGnFrame))
     {
         s32 idx = 0;
         while (field_30_rocks[idx].field_0_state != 0)
@@ -122,7 +122,7 @@ void HoistRocksEffect::VUpdate()
             const s32 randomAnimAndUpdate = 2 * Math_RandomRange(0, 3);
             const AnimRecord& rec = AnimRec(HoistRocksAnimIdTable_5556E0[randomAnimAndUpdate / 2]);
             field_30_rocks[idx].field_10_mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-            field_28_timer = sGnFrame_5C1B84 + Math_RandomRange(word_5556F0[randomAnimAndUpdate], 2 * word_5556F0[randomAnimAndUpdate]);
+            field_28_timer = sGnFrame + Math_RandomRange(word_5556F0[randomAnimAndUpdate], 2 * word_5556F0[randomAnimAndUpdate]);
         }
     }
 

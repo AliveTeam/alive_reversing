@@ -49,12 +49,12 @@ void SligGetPantsAndWings::VUpdate()
             if (pTlv->field_1_tlv_state)
             {
                 field_F4_state = State::eActive_1;
-                field_FC_timer = sGnFrame_5C1B84 + 8;
+                field_FC_timer = sGnFrame + 8;
             }
             break;
 
         case State::eActive_1:
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_FC_timer)
+            if (static_cast<s32>(sGnFrame) > field_FC_timer)
             {
                 field_F4_state = State::eFinished_2;
                 SFX_Play_Mono(SoundEffect::NakedSligTransformEnd_92, 0);

@@ -206,7 +206,7 @@ void MeatSaw::VUpdate()
     switch (field_E4_state)
     {
         case MeatSawStates::eIdle_0:
-            if ((field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670) || (field_1A8_flags.Get(flags_1A8::eBit2_SwitchIdMeatSaw))) &&
+            if ((field_104_idle_timer <= static_cast<s32>(sGnFrame) || (field_1A8_flags.Get(flags_1A8::eBit2_SwitchIdMeatSaw))) &&
                 (!field_1A8_flags.Get(flags_1A8::eBit1_ResetOffscreen) || SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
             {
                 field_E4_state = MeatSawStates::eGoingDown_1;
@@ -214,7 +214,7 @@ void MeatSaw::VUpdate()
                 field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_1A8_flags.Clear(flags_1A8::eBit3_AutomaticMeatSawIsDown);
                 field_E8_speed2 = field_EA_speed1;
-                field_108_SFX_timer = gnFrameCount_507670 + 2;
+                field_108_SFX_timer = sGnFrame + 2;
             }
             else
             {
@@ -224,14 +224,14 @@ void MeatSaw::VUpdate()
                     {
                         if (field_EC_off_speed)
                         {
-                            if (field_104_idle_timer <= static_cast<s32>(gnFrameCount_507670))
+                            if (field_104_idle_timer <= static_cast<s32>(sGnFrame))
                             {
                                 field_E4_state = MeatSawStates::eGoingDown_1;
                                 const AnimRecord& rec = AO::AnimRec(AnimId::MeatSaw_Moving);
                                 field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                                 field_1A8_flags.Set(flags_1A8::eBit3_AutomaticMeatSawIsDown);
                                 field_E8_speed2 = field_EC_off_speed;
-                                field_108_SFX_timer = gnFrameCount_507670 + 2;
+                                field_108_SFX_timer = sGnFrame + 2;
                             }
                         }
                     }
@@ -242,7 +242,7 @@ void MeatSaw::VUpdate()
         case MeatSawStates::eGoingDown_1:
             field_F4 += field_E8_speed2;
 
-            if (!((gnFrameCount_507670 - field_108_SFX_timer) % 8))
+            if (!((sGnFrame - field_108_SFX_timer) % 8))
             {
                 SFX_Play_Camera(SoundEffect::MeatsawDown_91, 50, direction);
             }
@@ -250,14 +250,14 @@ void MeatSaw::VUpdate()
             if (field_F4 >= field_E6_max_rise_time)
             {
                 field_E4_state = MeatSawStates::eGoingUp_2;
-                field_108_SFX_timer = gnFrameCount_507670 + 2;
+                field_108_SFX_timer = sGnFrame + 2;
             }
             break;
 
         case MeatSawStates::eGoingUp_2:
-            if (!((gnFrameCount_507670 - field_108_SFX_timer) % 10))
+            if (!((sGnFrame - field_108_SFX_timer) % 10))
             {
-                field_108_SFX_timer = gnFrameCount_507670;
+                field_108_SFX_timer = sGnFrame;
                 SFX_Play_Camera(SoundEffect::MeatsawUp_90, 50, direction);
             }
 
@@ -279,7 +279,7 @@ void MeatSaw::VUpdate()
                     minRnd = field_F6_switch_min_time_off;
                 }
 
-                field_104_idle_timer = gnFrameCount_507670 + Math_RandomRange_450F20(minRnd, maxRnd);
+                field_104_idle_timer = sGnFrame + Math_RandomRange_450F20(minRnd, maxRnd);
                 field_10_anim.Set_Animation_Data(15200, 0);
                 if (field_1A8_flags.Get(flags_1A8::eBit2_SwitchIdMeatSaw))
                 {

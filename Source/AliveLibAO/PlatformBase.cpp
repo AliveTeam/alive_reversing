@@ -11,7 +11,7 @@ namespace AO {
 void PlatformBase::VRemove(BaseAliveGameObject* pObj)
 {
     mPlatformBaseCount--;
-    LOG_INFO("Remove " << (u64) pObj << " count " << mPlatformBaseCount << " gnFrame " << gnFrameCount_507670);
+    LOG_INFO("Remove " << (u64) pObj << " count " << mPlatformBaseCount << " gnFrame " << sGnFrame);
 }
 
 void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo)
@@ -115,7 +115,7 @@ void PlatformBase::KeepThingsOnPlatform(FP xpos)
 void PlatformBase::VAdd(BaseAliveGameObject* pObj)
 {
     mPlatformBaseCount++;
-    LOG_INFO("Add " << (u64) pObj << " count " << mPlatformBaseCount << " gnFrame " << gnFrameCount_507670);
+    LOG_INFO("Add " << (u64) pObj << " count " << mPlatformBaseCount << " gnFrame " << sGnFrame);
     field_110 = 1;
 
     if (mPlatformBaseCollisionLine)

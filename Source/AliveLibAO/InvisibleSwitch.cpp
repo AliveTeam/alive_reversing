@@ -68,7 +68,7 @@ void InvisibleSwitch::VUpdate()
                             || (field_2C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromInteger(1)))
                         {
                             field_28_state = States::eWaitForDelayTimer_1;
-                            field_18_delay_timer = gnFrameCount_507670 + field_1C_delay;
+                            field_18_delay_timer = sGnFrame + field_1C_delay;
                         }
                     }
                 }
@@ -77,7 +77,7 @@ void InvisibleSwitch::VUpdate()
         }
 
         case States::eWaitForDelayTimer_1:
-            if (field_18_delay_timer <= static_cast<s32>(gnFrameCount_507670))
+            if (field_18_delay_timer <= static_cast<s32>(sGnFrame))
             {
                 SwitchStates_Do_Operation(field_10_switch_id, field_12_action);
                 if (field_2A_set_off_alarm == Choice_short::eYes_1)

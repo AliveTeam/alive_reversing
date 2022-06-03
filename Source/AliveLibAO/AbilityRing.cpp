@@ -45,7 +45,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
     // TODO: OG issue - using frame counter as res id again
-    field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Wave, gnFrameCount_507670, sizeof(AbilityRing_PolyBuffer) * 64);
+    field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Wave, sGnFrame, sizeof(AbilityRing_PolyBuffer) * 64);
 
     if (field_18_ppRes)
     {

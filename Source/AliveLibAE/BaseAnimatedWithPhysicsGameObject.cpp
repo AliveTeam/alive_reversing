@@ -473,7 +473,7 @@ void BaseAnimatedWithPhysicsGameObject::SetRGB(s16 r, s16 g, s16 b)
 void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
 {
     // note: mudokons used % 4
-    if (!(sGnFrame_5C1B84 % 5))
+    if (!(sGnFrame % 5))
     {
         New_Smoke_Particles(
             (FP_FromInteger(Math_RandomRange(-24, 24)) * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_XPos,

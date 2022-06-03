@@ -13,7 +13,7 @@ CreditsController::CreditsController(Path_TLV* /*pTlv*/, s32 /*tlvInfo*/)
    : BaseGameObject(TRUE, 0)
 {
     field_24_camera_number = gMap.mCurrentCamera;
-    field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;
+    field_20_next_cam_frame = sGnFrame + kShowCreditScreenForTicks;
 
     sDoesCreditsControllerExist_5C1B90 = true;
 }
@@ -25,10 +25,10 @@ CreditsController::~CreditsController()
 
 void CreditsController::VUpdate()
 {
-    if (field_20_next_cam_frame <= static_cast<s32>(sGnFrame_5C1B84))
+    if (field_20_next_cam_frame <= static_cast<s32>(sGnFrame))
     {
         field_24_camera_number++;
-        field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;
+        field_20_next_cam_frame = sGnFrame + kShowCreditScreenForTicks;
 
         if (gMap.mCurrentPath == 2)
         {

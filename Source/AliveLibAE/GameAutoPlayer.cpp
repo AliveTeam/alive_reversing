@@ -7,7 +7,7 @@
 void Recorder::SaveObjectStates()
 {
     mFile.Write(RecordTypes::FrameCounter);
-    mFile.Write(sGnFrame_5C1B84);
+    mFile.Write(sGnFrame);
 
     const u32 objCount = gBaseGameObjects->Size();
     mFile.Write(RecordTypes::ObjectCounter);
@@ -45,7 +45,7 @@ bool Player::ValidateObjectStates()
     ValidateNextTypeIs(RecordTypes::FrameCounter);
 
     const u32 gnFrame = mFile.ReadU32();
-    if (gnFrame != sGnFrame_5C1B84)
+    if (gnFrame != sGnFrame)
     {
         return false;
     }

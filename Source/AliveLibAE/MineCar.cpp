@@ -451,7 +451,7 @@ void MineCar::Move(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum in
     field_20_animation.Set_Animation_Data(frameTabeOffset, nullptr);
 
     field_11C_state = MineCarStates::eMoving_2;
-    field_1C8_frame_mod_16 = static_cast<s32>(sGnFrame_5C1B84) % 16;
+    field_1C8_frame_mod_16 = static_cast<s32>(sGnFrame) % 16;
 
     if (!field_1D0_sound_channels_mask)
     {
@@ -1106,7 +1106,7 @@ void MineCar::State_1_ParkedWithAbe()
         {
             if (sInputObject_5BD4E0.isPressed(inputKey))
             {
-                if (field_1BC_turn_direction != MineCarDirs::eLeft_2 && !(static_cast<s32>(sGnFrame_5C1B84) % 6))
+                if (field_1BC_turn_direction != MineCarDirs::eLeft_2 && !(static_cast<s32>(sGnFrame) % 6))
                 {
                     SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
                 }
@@ -1189,7 +1189,7 @@ void MineCar::State_1_ParkedWithAbe()
     {
         if (sInputObject_5BD4E0.isPressed(inputKey))
         {
-            if (field_1BC_turn_direction != MineCarDirs::eRight_1 && !(static_cast<s32>(sGnFrame_5C1B84) % 6))
+            if (field_1BC_turn_direction != MineCarDirs::eRight_1 && !(static_cast<s32>(sGnFrame) % 6))
             {
                 SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
             }
@@ -1326,7 +1326,7 @@ void MineCar::HandleUpDown()
         {
             if (field_1BC_turn_direction != MineCarDirs::eDown_0)
             {
-                if (!(static_cast<s32>(sGnFrame_5C1B84) % 6))
+                if (!(static_cast<s32>(sGnFrame) % 6))
                 {
                     SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
                 }
@@ -1404,7 +1404,7 @@ void MineCar::HandleUpDown()
     {
         if (sInputObject_5BD4E0.isPressed(inputKey))
         {
-            if (field_1BC_turn_direction != MineCarDirs::eUp_3 && !(static_cast<s32>(sGnFrame_5C1B84) % 6))
+            if (field_1BC_turn_direction != MineCarDirs::eUp_3 && !(static_cast<s32>(sGnFrame) % 6))
             {
                 SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
             }

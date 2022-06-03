@@ -305,7 +305,7 @@ void DDCheat::VUpdate()
         }
 
         // Unused
-        //if (!(sGnFrame_5C1B84 % 10))
+        //if (!(sGnFrame % 10))
         //{
         //    sDDCheat_Unknown_5BC004 = 0;
         //    for (s32 i = 0; i < 24; i++)
@@ -322,7 +322,7 @@ void DDCheat::VUpdate()
                 Path_Get_Lvl_Name(gMap.mCurrentLevel),
                 gMap.mCurrentPath,
                 gMap.mCurrentCamera,
-                sGnFrame_5C1B84);
+                sGnFrame);
 
 
 

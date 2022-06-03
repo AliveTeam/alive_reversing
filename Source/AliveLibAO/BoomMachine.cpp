@@ -21,7 +21,7 @@ public:
         switch (field_E4_state)
         {
             case BoomMachineStates::eAlreadyUsed_1:
-                if (static_cast<s32>(gnFrameCount_507670) > field_E8_timer)
+                if (static_cast<s32>(sGnFrame) > field_E8_timer)
                 {
                     SFX_Play_Pitch(SoundEffect::ZPop_5, 60, -1800, 0);
                     field_E4_state = BoomMachineStates::eInactive_0;
@@ -29,7 +29,7 @@ public:
                 break;
 
             case BoomMachineStates::eDropGrenadeAnimation_2:
-                if (static_cast<s32>(gnFrameCount_507670) > field_E8_timer)
+                if (static_cast<s32>(sGnFrame) > field_E8_timer)
                 {
                     field_E4_state = BoomMachineStates::eDropGrenade_3;
                     const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Nozzle_DropGrenade);
@@ -97,7 +97,7 @@ void BoomMachine::VHandleButton()
         if (field_EC_pNozzle->field_E4_state == BoomMachineStates::eInactive_0)
         {
             field_EC_pNozzle->field_E4_state = BoomMachineStates::eDropGrenadeAnimation_2;
-            field_EC_pNozzle->field_E8_timer = gnFrameCount_507670 + 10;
+            field_EC_pNozzle->field_E8_timer = sGnFrame + 10;
         }
     }
     else
@@ -105,7 +105,7 @@ void BoomMachine::VHandleButton()
         if (field_EC_pNozzle->field_E4_state == BoomMachineStates::eInactive_0)
         {
             field_EC_pNozzle->field_E4_state = BoomMachineStates::eAlreadyUsed_1;
-            field_EC_pNozzle->field_E8_timer = gnFrameCount_507670 + 10;
+            field_EC_pNozzle->field_E8_timer = sGnFrame + 10;
         }
     }
 }

@@ -45,7 +45,7 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
     field_110_tlv = tlvInfo;
-    field_114_gnframe = gnFrameCount_507670;
+    field_114_gnframe = sGnFrame;
 
     const AnimRecord& flashRec = AO::AnimRec(AnimId::Mine_Flash);
     u8** ppFLashRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, flashRec.mResourceId, 1, 0);
@@ -183,7 +183,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
                 0,
                 field_BC_sprite_scale);
             field_10C_detonating = 1;
-            field_114_gnframe = gnFrameCount_507670;
+            field_114_gnframe = sGnFrame;
             return 1;
         }
 
@@ -207,7 +207,7 @@ void Mine::VOnPickUpOrSlapped()
     if (field_10C_detonating != 1)
     {
         field_10C_detonating = 1;
-        field_114_gnframe = gnFrameCount_507670 + 5;
+        field_114_gnframe = sGnFrame + 5;
     }
 }
 
@@ -241,7 +241,7 @@ void Mine::VUpdate()
 
     if (field_10C_detonating)
     {
-        if (field_10C_detonating == 1 && static_cast<s32>(gnFrameCount_507670) >= field_114_gnframe)
+        if (field_10C_detonating == 1 && static_cast<s32>(sGnFrame) >= field_114_gnframe)
         {
             ao_new<BaseBomb>(
                 field_A8_xpos,
@@ -268,7 +268,7 @@ void Mine::VUpdate()
         if (IsColliding())
         {
             field_10C_detonating = 1;
-            field_114_gnframe = gnFrameCount_507670;
+            field_114_gnframe = sGnFrame;
         }
     }
 

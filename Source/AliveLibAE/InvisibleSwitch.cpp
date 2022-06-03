@@ -31,7 +31,7 @@ void InvisibleSwitch::VUpdate()
 {
     if (field_38_state == States::eWaitForDelayTimer_1)
     {
-        if (field_28_delay_timer <= static_cast<s32>(sGnFrame_5C1B84))
+        if (field_28_delay_timer <= static_cast<s32>(sGnFrame))
         {
             // Timer expired, do the operation
             SwitchStates_Do_Operation(field_20_switch_id, field_22_action);
@@ -70,7 +70,7 @@ void InvisibleSwitch::VUpdate()
                             || (field_3C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0)))
                         {
                             field_38_state = States::eWaitForDelayTimer_1;
-                            field_28_delay_timer = sGnFrame_5C1B84 + field_2C_delay;
+                            field_28_delay_timer = sGnFrame + field_2C_delay;
                         }
                     }
                 }

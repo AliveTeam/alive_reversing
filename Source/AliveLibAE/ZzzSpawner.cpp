@@ -45,10 +45,10 @@ void ZzzSpawner::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (!SwitchStates_Get(field_30_switch_id) && static_cast<s32>(sGnFrame_5C1B84) > field_34_Zzz_timer)
+    if (!SwitchStates_Get(field_30_switch_id) && static_cast<s32>(sGnFrame) > field_34_Zzz_timer)
     {
         ae_new<SnoozeParticle>(field_20_xpos, field_24_ypos, Layer::eLayer_Above_FG1_39, field_28_scale);
 
-        field_34_Zzz_timer = sGnFrame_5C1B84 + field_38_Zzz_interval;
+        field_34_Zzz_timer = sGnFrame + field_38_Zzz_interval;
     }
 }

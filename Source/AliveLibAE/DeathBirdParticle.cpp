@@ -49,7 +49,7 @@ void DeathBirdParticle::VUpdate()
     switch (field_F5_state)
     {
         case States::eAnimateDeathFlares_0:
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_start)
+            if (static_cast<s32>(sGnFrame) > field_F8_start)
             {
                 // Death "star"
                 field_20_animation.Set_Animation_Data(9912, 0);

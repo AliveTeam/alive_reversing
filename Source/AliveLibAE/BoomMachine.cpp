@@ -39,7 +39,7 @@ public:
         if (field_F4_state == BoomMachineStates::eInactive_0)
         {
             field_F4_state = BoomMachineStates::eDropGrenadeAnimation_2;
-            field_F8_timer = sGnFrame_5C1B84 + 10;
+            field_F8_timer = sGnFrame + 10;
         }
     }
 
@@ -48,7 +48,7 @@ public:
         if (field_F4_state == BoomMachineStates::eInactive_0)
         {
             field_F4_state = BoomMachineStates::eAlreadyUsed_1;
-            field_F8_timer = sGnFrame_5C1B84 + 10;
+            field_F8_timer = sGnFrame + 10;
         }
     }
 
@@ -61,7 +61,7 @@ private:
                 // do nothing
                 break;
             case BoomMachineStates::eAlreadyUsed_1:
-                if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
+                if (static_cast<s32>(sGnFrame) > field_F8_timer)
                 {
                     SFX_Play_Pitch(SoundEffect::ZPop_4, 60, -1800);
                     field_F4_state = BoomMachineStates::eInactive_0;
@@ -69,7 +69,7 @@ private:
                 break;
 
             case BoomMachineStates::eDropGrenadeAnimation_2:
-                if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_timer)
+                if (static_cast<s32>(sGnFrame) > field_F8_timer)
                 {
                     field_F4_state = BoomMachineStates::eDropGrenade_3;
                     const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Nozzle_DropGrenade);

@@ -777,7 +777,7 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
     if (field_230_target_entry_index != 8 && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
     {
         // Only 1 when chanting
-        if (field_230_target_entry_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
+        if (field_230_target_entry_index == 1 && (sGnFrame % 8) == 0)
         {
             // Spawn chant star/flare particle at random locations around abes head
             const AnimRecord& flareRec = AnimRec(AnimId::OptionChantOrb_Particle);
@@ -1541,7 +1541,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
         {
             sDoesCreditsControllerExist_5C1B90 = 1;
             field_240_credits_current_cam = 1;
-            field_1F4_credits_next_frame = sGnFrame_5C1B84 + 160;
+            field_1F4_credits_next_frame = sGnFrame + 160;
             gMap.SetActiveCam(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         return MainMenuNextCam(MainMenuCams::eNoChange);
@@ -1942,7 +1942,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
         else if (field_1FC_button_index == 1) // Start game
         {
             sCurrentControllerIndex_5C1BBE = 0;
-            sGameStartedFrame_5C1B88 = sGnFrame_5C1B84;
+            sGameStartedFrame_5C1B88 = sGnFrame;
             return MainMenuNextCam(MainMenuCams::eGameIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS);
         }
     }
@@ -2470,7 +2470,7 @@ MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(u32 inp
 {
     if (input & InputCommands::Enum::eUnPause_OrConfirm)
     {
-        sGameStartedFrame_5C1B88 = sGnFrame_5C1B84;
+        sGameStartedFrame_5C1B88 = sGnFrame;
         sCurrentControllerIndex_5C1BBE = 0;
         const Bool32 twoPlayerModeSelected = field_1FC_button_index == 1;
 
@@ -2903,11 +2903,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
         return;
     }
 
-    if (field_1F4_credits_next_frame <= static_cast<s32>(sGnFrame_5C1B84))
+    if (field_1F4_credits_next_frame <= static_cast<s32>(sGnFrame))
     {
         const auto currentCam = field_240_credits_current_cam + 1;
         field_240_credits_current_cam = currentCam;
-        field_1F4_credits_next_frame = sGnFrame_5C1B84 + 160;
+        field_1F4_credits_next_frame = sGnFrame + 160;
         if (gMap.mCurrentPath == 2)
         {
             if (currentCam > 22)
@@ -3488,10 +3488,10 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
         switch (field_220_frame_table_idx)
         {
             case MainMenuGamespeakAnimIds::eAbe_Idle:
-                if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
+                if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame))
                 {
                     Set_Anim_4D05E0(eAbe_IdleBlinking, 0);
-                    field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange(120, 450);
+                    field_224_timer_anim_delay = sGnFrame + Math_RandomRange(120, 450);
                 }
                 break;
 
@@ -3522,7 +3522,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                                                              reinterpret_cast<Camera*>(this), nullptr);
                 }
                 field_23C_T80.Clear(Flags::eBit17_bDisableChangingSelection);
-                field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange(300, 450);
+                field_224_timer_anim_delay = sGnFrame + Math_RandomRange(300, 450);
                 break;
 
             case MainMenuGamespeakAnimIds::eAbe_Chant:
@@ -3554,26 +3554,26 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 break;
 
             case MainMenuGamespeakAnimIds::eGlukkon_Idle:
-                if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
+                if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame))
                 {
                     Set_Anim_4D05E0(eGlukkon_IdleVariation);
-                    field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange(120, 450);
+                    field_224_timer_anim_delay = sGnFrame + Math_RandomRange(120, 450);
                 }
                 break;
 
             case MainMenuGamespeakAnimIds::eScrab_Idle:
-                if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
+                if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame))
                 {
                     Set_Anim_4D05E0(eScrab_IdleVariation);
-                    field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange(120, 450);
+                    field_224_timer_anim_delay = sGnFrame + Math_RandomRange(120, 450);
                 }
                 break;
 
             case MainMenuGamespeakAnimIds::eParamite_Idle:
-                if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame_5C1B84))
+                if (field_224_timer_anim_delay <= static_cast<s32>(sGnFrame))
                 {
                     Set_Anim_4D05E0(eParamite_IdleVariation);
-                    field_224_timer_anim_delay = sGnFrame_5C1B84 + Math_RandomRange(120, 450);
+                    field_224_timer_anim_delay = sGnFrame + Math_RandomRange(120, 450);
                 }
                 break;
 

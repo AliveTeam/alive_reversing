@@ -313,12 +313,12 @@ void EvilFart::VUpdate()
             {
                 field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                 field_118_bBlowUp = 1;
-                field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 35;
+                field_12C_back_to_abe_timer = sGnFrame + 35;
             }
         }
     }
 
-    if (field_118_bBlowUp && static_cast<s32>(sGnFrame_5C1B84) > field_12C_back_to_abe_timer)
+    if (field_118_bBlowUp && static_cast<s32>(sGnFrame) > field_12C_back_to_abe_timer)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -357,7 +357,7 @@ void EvilFart::VUpdate()
     {
         if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
         {
-            if (!(sGnFrame_5C1B84 % 3))
+            if (!(sGnFrame % 3))
             {
                 FP velocityToUse = {};
 
@@ -419,7 +419,7 @@ void EvilFart::VUpdate()
                 SND_Stop_Channels_Mask(field_130_sound_channels);
                 field_130_sound_channels = 0;
             }
-            if (!(sGnFrame_5C1B84 % 30) && !Math_RandomRange(0, 1))
+            if (!(sGnFrame % 30) && !Math_RandomRange(0, 1))
             {
                 Mudokon_SFX(MudSounds::eFart_7, 50, Math_RandomRange(-1500, -2000), nullptr);
             }
@@ -500,8 +500,8 @@ void EvilFart::VUpdate()
                 if (!field_11A_bPossesed)
                 {
                     field_124_state = FartStates::eDechanting_2;
-                    field_128_timer = sGnFrame_5C1B84 + 15;
-                    field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 50;
+                    field_128_timer = sGnFrame + 15;
+                    field_12C_back_to_abe_timer = sGnFrame + 50;
                     SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
                 }
             }
@@ -519,7 +519,7 @@ void EvilFart::VUpdate()
             return;
         }
 
-        if (!(sGnFrame_5C1B84 % 4))
+        if (!(sGnFrame % 4))
         {
             if (field_118_bBlowUp)
             {
@@ -535,7 +535,7 @@ void EvilFart::VUpdate()
                 Layer::eLayer_0);
         }
 
-        if (!field_118_bBlowUp && static_cast<s32>(sGnFrame_5C1B84) > field_128_timer)
+        if (!field_118_bBlowUp && static_cast<s32>(sGnFrame) > field_128_timer)
         {
             BlowUp();
 

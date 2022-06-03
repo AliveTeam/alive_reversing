@@ -666,7 +666,7 @@ s16 Elum::ToNextMotion_4120F0()
         case eElumMotions::Motion_29_BeesStruggling_412A90:
             Elum_SFX_416E10(ElumSounds::eBeesStruggle_3, 0);
             mCurrentMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
-            field_110_timer = gnFrameCount_507670 + 25;
+            field_110_timer = sGnFrame + 25;
             mNextMotion = -1;
             return 1;
 
@@ -1119,7 +1119,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                     {
                         if (FP_Abs(xd) > (kGridSize / FP_FromInteger(2)))
                         {
-                            field_114_respond_timer = gnFrameCount_507670 + 14;
+                            field_114_respond_timer = sGnFrame + 14;
                             return 12;
                         }
                     }
@@ -1132,7 +1132,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
-                    field_114_respond_timer = gnFrameCount_507670 + 14;
+                    field_114_respond_timer = sGnFrame + 14;
                     return 9;
                 }
             }
@@ -1143,7 +1143,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
-                    field_114_respond_timer = gnFrameCount_507670 + 28;
+                    field_114_respond_timer = sGnFrame + 28;
                     return 11;
                 }
             }
@@ -1154,7 +1154,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 && Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
             {
                 field_122_bDontFollowAbe = 1;
-                field_114_respond_timer = gnFrameCount_507670 + 14;
+                field_114_respond_timer = sGnFrame + 14;
                 return 5;
             }
 
@@ -1213,7 +1213,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             return 2;
 
         case 5:
-            if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
+            if (static_cast<s32>(sGnFrame) < field_114_respond_timer)
             {
                 return field_12A_brain_sub_state;
             }
@@ -1257,7 +1257,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                         return 2;
                     }
 
-                    field_114_respond_timer = gnFrameCount_507670 + 14;
+                    field_114_respond_timer = sGnFrame + 14;
                     return 12;
                 }
             }
@@ -1269,7 +1269,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
                     field_122_bDontFollowAbe = 1;
-                    field_114_respond_timer = gnFrameCount_507670 + 14;
+                    field_114_respond_timer = sGnFrame + 14;
                     return 5;
                 }
             }
@@ -1280,7 +1280,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
-                    field_114_respond_timer = gnFrameCount_507670 + 14;
+                    field_114_respond_timer = sGnFrame + 14;
                     return 8;
                 }
             }
@@ -1290,7 +1290,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 && gMap.mCurrentPath == field_B0_path_number
                 && Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
             {
-                field_114_respond_timer = gnFrameCount_507670 + 28;
+                field_114_respond_timer = sGnFrame + 28;
                 return 10;
             }
 
@@ -1311,7 +1311,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             return 6;
 
         case 8:
-            if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
+            if (static_cast<s32>(sGnFrame) < field_114_respond_timer)
             {
                 return field_12A_brain_sub_state;
             }
@@ -1319,7 +1319,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             return 6;
 
         case 9:
-            if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
+            if (static_cast<s32>(sGnFrame) < field_114_respond_timer)
             {
                 return field_12A_brain_sub_state;
             }
@@ -1327,7 +1327,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             return 2;
 
         case 10:
-            if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
+            if (static_cast<s32>(sGnFrame) < field_114_respond_timer)
             {
                 return field_12A_brain_sub_state;
             }
@@ -1335,7 +1335,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             return 6;
 
         case 11:
-            if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
+            if (static_cast<s32>(sGnFrame) < field_114_respond_timer)
             {
                 return field_12A_brain_sub_state;
             }
@@ -1343,7 +1343,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             return 2;
 
         case 12:
-            if (static_cast<s32>(gnFrameCount_507670) < field_114_respond_timer)
+            if (static_cast<s32>(sGnFrame) < field_114_respond_timer)
             {
                 return field_12A_brain_sub_state;
             }
@@ -1389,7 +1389,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             {
                 field_122_bDontFollowAbe = 1;
                 mNextMotion = eElumMotions::Motion_1_Idle_412990;
-                field_114_respond_timer = gnFrameCount_507670 + 14;
+                field_114_respond_timer = sGnFrame + 14;
                 return 5;
             }
 
@@ -1648,7 +1648,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             return field_12A_brain_sub_state;
 
         case 5:
-            if (mCurrentMotion != eElumMotions::Motion_29_BeesStruggling_412A90 || field_110_timer > static_cast<s32>(gnFrameCount_507670))
+            if (mCurrentMotion != eElumMotions::Motion_29_BeesStruggling_412A90 || field_110_timer > static_cast<s32>(sGnFrame))
             {
                 return field_12A_brain_sub_state;
             }
@@ -1719,7 +1719,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 if (Check_IsOnEndOfLine_4021A0(0, 1))
                 {
                     mNextMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
-                    field_110_timer = gnFrameCount_507670 + 40;
+                    field_110_timer = sGnFrame + 40;
                     return 5;
                 }
             }
@@ -1729,7 +1729,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 if (Check_IsOnEndOfLine_4021A0(1, 1))
                 {
                     mNextMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
-                    field_110_timer = gnFrameCount_507670 + 40;
+                    field_110_timer = sGnFrame + 40;
                     return 5;
                 }
             }
@@ -1746,11 +1746,11 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             }
 
             mNextMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
-            field_110_timer = gnFrameCount_507670 + 40;
+            field_110_timer = sGnFrame + 40;
             return 5;
 
         case 8:
-            if (field_110_timer > static_cast<s32>(gnFrameCount_507670))
+            if (field_110_timer > static_cast<s32>(sGnFrame))
             {
                 return field_12A_brain_sub_state;
             }
@@ -1798,7 +1798,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 if (Check_IsOnEndOfLine_4021A0(0, 1))
                 {
                     mNextMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
-                    field_110_timer = gnFrameCount_507670 + 40;
+                    field_110_timer = sGnFrame + 40;
                     return 8;
                 }
             }
@@ -1807,7 +1807,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 if (Check_IsOnEndOfLine_4021A0(1, 1))
                 {
                     mNextMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
-                    field_110_timer = gnFrameCount_507670 + 40;
+                    field_110_timer = sGnFrame + 40;
                     return 8;
                 }
             }
@@ -1817,7 +1817,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 if (mCurrentMotion == eElumMotions::Motion_1_Idle_412990)
                 {
                     mNextMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
-                    field_110_timer = gnFrameCount_507670 + 40;
+                    field_110_timer = sGnFrame + 40;
                     return 8;
                 }
                 else
@@ -1855,7 +1855,7 @@ void Elum::Motion_1_Idle_412990()
             field_174_resources.res[20] = nullptr;
             mCurrentMotion = eElumMotions::Motion_49_AbeUnmountingBegin_415D00;
         }
-        else if (gnFrameCount_507670 - field_110_timer > 200 && sControlledCharacter_50767C != this)
+        else if (sGnFrame - field_110_timer > 200 && sControlledCharacter_50767C != this)
         {
             if (field_174_resources.res[30])
             {
@@ -2051,7 +2051,7 @@ void Elum::Motion_4_Turn_4140F0()
             Elum_SFX_416E10(ElumSounds::eBeesStruggle_3, 0);
             mCurrentMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
             mNextMotion = -1;
-            field_110_timer = gnFrameCount_507670 + 25;
+            field_110_timer = sGnFrame + 25;
         }
         else if (ToNextMotion_4120F0())
         {
@@ -2087,7 +2087,7 @@ void Elum::Motion_5_WalkToIdle_4132D0()
         {
             Elum_SFX_416E10(ElumSounds::eBeesStruggle_3, 0);
             mCurrentMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
-            field_110_timer = gnFrameCount_507670 + 25;
+            field_110_timer = sGnFrame + 25;
             mNextMotion = -1;
         }
         else if (mNextMotion == eElumMotions::Motion_44_ScratchBegin_412730)
@@ -2401,7 +2401,7 @@ void Elum::Motion_19_Dead_415F90()
 
             field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
             field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
-            field_110_timer = gnFrameCount_507670;
+            field_110_timer = sGnFrame;
 
             field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero_507678->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
 
@@ -3086,7 +3086,7 @@ void Elum::Motion_37_RunSlideStop_4142E0()
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
             mCurrentMotion = eAbeMotions::Motion_1_WalkLoop_423F90;
-            field_110_timer = gnFrameCount_507670;
+            field_110_timer = sGnFrame;
             field_10E_pressed = 0;
             MapFollowMe_401D30(TRUE);
         }
@@ -3355,7 +3355,7 @@ void Elum::Motion_46_ScratchEnd_412800()
         {
             Elum_SFX_416E10(ElumSounds::eBeesStruggle_3, 0);
             mCurrentMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
-            field_110_timer = gnFrameCount_507670 + 25;
+            field_110_timer = sGnFrame + 25;
             mNextMotion = -1;
             return;
         }
@@ -3367,7 +3367,7 @@ void Elum::Motion_46_ScratchEnd_412800()
 void Elum::ToIdle()
 {
     field_118_jump_velx = FP_FromInteger(0);
-    field_110_timer = gnFrameCount_507670;
+    field_110_timer = sGnFrame;
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
     mCurrentMotion = eElumMotions::Motion_1_Idle_412990;
@@ -3445,13 +3445,13 @@ void Elum::Motion_50_Knockback_415DC0()
         if (mCurrentMotion == eElumMotions::Motion_1_Idle_412990)
         {
             mCurrentMotion = eElumMotions::Motion_50_Knockback_415DC0;
-            field_110_timer = gnFrameCount_507670 + 10;
+            field_110_timer = sGnFrame + 10;
         }
     }
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (field_110_timer <= static_cast<s32>(gnFrameCount_507670))
+        if (field_110_timer <= static_cast<s32>(sGnFrame))
         {
             if (BaseAliveGameObjectCollisionLine)
             {
@@ -3896,7 +3896,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
     field_12C_honey_xpos = 0;
 
     field_144_bRespawnOnDead = 0;
-    field_110_timer = gnFrameCount_507670;
+    field_110_timer = sGnFrame;
 
     field_A8_xpos = sActiveHero_507678->field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2));
     field_AC_ypos = sActiveHero_507678->field_AC_ypos - FP_FromInteger(5);

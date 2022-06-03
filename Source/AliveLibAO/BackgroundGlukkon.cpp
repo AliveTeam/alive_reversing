@@ -106,16 +106,16 @@ void BackgroundGlukkon::VUpdate()
     {
         case BackgroundGlukkon::State::eToSetSpeakPauseTimer_0:
             field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;
-            field_118_never_read = gnFrameCount_507670 + Math_RandomRange_450F20(20, 40);
+            field_118_never_read = sGnFrame + Math_RandomRange_450F20(20, 40);
             break;
 
         case BackgroundGlukkon::State::eSetSpeakPauseTimer_1:
             field_110_state = BackgroundGlukkon::State::eRandomizedLaugh_2;
-            field_114_speak_pause_timer = gnFrameCount_507670 + Math_RandomRange_450F20(12, 20);
+            field_114_speak_pause_timer = sGnFrame + Math_RandomRange_450F20(12, 20);
             break;
 
         case BackgroundGlukkon::State::eRandomizedLaugh_2:
-            if (static_cast<s32>(gnFrameCount_507670) > field_114_speak_pause_timer)
+            if (static_cast<s32>(sGnFrame) > field_114_speak_pause_timer)
             {
                 const auto rndVol = Math_RandomRange_450F20(110, 127);
                 const auto rndPitch = ((Math_NextRandom() % 4) * 128) + 200;

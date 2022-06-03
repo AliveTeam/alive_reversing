@@ -114,13 +114,13 @@ void MusicTrigger::VUpdate()
             field_24_flags.Set(Flags_24::e24_Bit2_TriggeredByTimer);
             if (field_28_counter >= 0)
             {
-                field_28_counter += sGnFrame_5C1B84;
+                field_28_counter += sGnFrame;
             }
         }
     }
     else if (field_24_flags.Get(Flags_24::e24_Bit2_TriggeredByTimer))
     {
-        if (field_28_counter < 0 || static_cast<s32>(sGnFrame_5C1B84) < field_28_counter)
+        if (field_28_counter < 0 || static_cast<s32>(sGnFrame) < field_28_counter)
         {
             MusicController::static_PlayMusic(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 0);
         }
@@ -133,6 +133,6 @@ void MusicTrigger::VUpdate()
     {
         MusicController::static_PlayMusic(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 1);
         field_24_flags.Set(Flags_24::e24_Bit2_TriggeredByTimer);
-        field_28_counter += sGnFrame_5C1B84;
+        field_28_counter += sGnFrame;
     }
 }

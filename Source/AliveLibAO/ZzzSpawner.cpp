@@ -47,7 +47,7 @@ void ZzzSpawner::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (!SwitchStates_Get(field_20_switch_id) && static_cast<s32>(gnFrameCount_507670) > field_24_timer)
+    if (!SwitchStates_Get(field_20_switch_id) && static_cast<s32>(sGnFrame) > field_24_timer)
     {
         Layer snoozeLayer = Layer::eLayer_0;
         if (field_18_scale != FP_FromInteger(1))
@@ -64,7 +64,7 @@ void ZzzSpawner::VUpdate()
             snoozeLayer,
             field_18_scale);
 
-        field_24_timer = gnFrameCount_507670 + field_28_Zzz_delay;
+        field_24_timer = sGnFrame + field_28_Zzz_delay;
     }
 }
 

@@ -92,7 +92,7 @@ extern "C"
         &gMap.mCurrentPath,
         &gMap.mCurrentCamera,
         &gMap.field_12_fmv_base_id,
-        &sGnFrame_5C1B84,
+        &sGnFrame,
         &sActiveHero_5C1B68,
         offsetof(Abe, mBaseAnimatedWithPhysicsGameObject_YPos),
         & sDisableFontFlicker_5C9304};
@@ -109,7 +109,7 @@ extern "C"
         &AO::gMap.mCurrentLevel,
         &AO::gMap.mCurrentPath,
         &AO::gMap.mCurrentCamera,
-        &AO::gnFrameCount_507670,
+        &AO::sGnFrame,
         &AO::sActiveHero_507678,
         offsetof(AO::Abe, field_AC_ypos) + sizeof(s16), // +2 for exp only
         &AO::sDisableFontFlicker_5080E4,

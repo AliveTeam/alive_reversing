@@ -30,7 +30,7 @@ TorturedMudokon::TorturedMudokon(Path_TorturedMudokon* pTlv, s32 tlvInfo)
         SetupTearsAnimation(&field_F4_tears_animation);
         SetupZapAnimation(&field_18C_zap_animation);
         field_240_pain_sound_pitch = Math_RandomRange(800, 1000);
-        field_234_flash_colour_timer = sGnFrame_5C1B84 + 100;
+        field_234_flash_colour_timer = sGnFrame + 100;
         field_238_flash_colour_counter = 0;
     }
     else
@@ -140,10 +140,10 @@ void TorturedMudokon::VUpdate()
         return;
     }
 
-    if (field_234_flash_colour_timer == static_cast<s32>(sGnFrame_5C1B84))
+    if (field_234_flash_colour_timer == static_cast<s32>(sGnFrame))
     {
         field_238_flash_colour_counter++;
-        field_234_flash_colour_timer = sGnFrame_5C1B84 + 100;
+        field_234_flash_colour_timer = sGnFrame + 100;
         if (field_238_flash_colour_counter == 4)
         {
             field_238_flash_colour_counter = 0;
@@ -199,7 +199,7 @@ void TorturedMudokon::VUpdate()
     switch (field_238_flash_colour_counter)
     {
         case 0:
-            rgbBase = static_cast<u8>((field_234_flash_colour_timer & 0xFF) - sGnFrame_5C1B84);
+            rgbBase = static_cast<u8>((field_234_flash_colour_timer & 0xFF) - sGnFrame);
             break;
 
         case 1:
@@ -207,7 +207,7 @@ void TorturedMudokon::VUpdate()
             break;
 
         case 2:
-            rgbBase = static_cast<u8>(sGnFrame_5C1B84 - (field_234_flash_colour_timer & 0xFF) + 100);
+            rgbBase = static_cast<u8>(sGnFrame - (field_234_flash_colour_timer & 0xFF) + 100);
             break;
 
         case 3:

@@ -40,7 +40,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
     }
 
     field_120_state = SlapLockStates::eShaking_0;
-    field_124_timer1 = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + 25;
+    field_124_timer1 = (Math_NextRandom() & 7) + sGnFrame + 25;
     field_134_id = -1;
     field_138_possesion_flicker_id = -1;
     const FP midX = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -79,8 +79,8 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
 
     field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
-    field_124_timer1 = sGnFrame_5C1B84 + 60;
-    field_13C_timer2 = sGnFrame_5C1B84 + 30;
+    field_124_timer1 = sGnFrame + 60;
+    field_13C_timer2 = sGnFrame + 30;
 
     if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eYes_1)
     {
@@ -143,7 +143,7 @@ void SlapLock::GiveInvisibility()
         sActiveHero_5C1B68->field_176_invisibility_duration = field_118_pTlv->field_1C_invisibility_duration;
         sActiveHero_5C1B68->field_16C_bHaveShrykull = 0;
         sActiveHero_5C1B68->field_16E_bHaveInvisiblity = 1;
-        sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
+        sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame + 200000;
     }
 }
 
@@ -220,7 +220,7 @@ void SlapLock::VUpdate()
             {
                 if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eYes_1)
                 {
-                    if (!(sGnFrame_5C1B84 & 63))
+                    if (!(sGnFrame & 63))
                     {
                         AbilityRing::Factory_482F80(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -230,7 +230,7 @@ void SlapLock::VUpdate()
                     }
                 }
 
-                if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer1)
+                if (static_cast<s32>(sGnFrame) <= field_124_timer1)
                 {
                     return;
                 }
@@ -251,7 +251,7 @@ void SlapLock::VUpdate()
             {
                 if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eYes_1)
                 {
-                    if (!(sGnFrame_5C1B84 & 63))
+                    if (!(sGnFrame & 63))
                     {
                         AbilityRing::Factory_482F80(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -270,7 +270,7 @@ void SlapLock::VUpdate()
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
                 field_120_state = SlapLockStates::eShaking_0;
-                field_124_timer1 = Math_NextRandom() + sGnFrame_5C1B84 + 25;
+                field_124_timer1 = Math_NextRandom() + sGnFrame + 25;
                 return;
             }
             case SlapLockStates::eSlapped_2:
@@ -284,7 +284,7 @@ void SlapLock::VUpdate()
 
                 if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eNo_0)
                 {
-                    field_13C_timer2 = sGnFrame_5C1B84 + 60;
+                    field_13C_timer2 = sGnFrame + 60;
                     field_120_state = SlapLockStates::eBroken_3;
                     break;
                 }
@@ -297,7 +297,7 @@ void SlapLock::VUpdate()
             }
             case SlapLockStates::eBroken_3:
             {
-                if (static_cast<s32>(sGnFrame_5C1B84) <= field_13C_timer2)
+                if (static_cast<s32>(sGnFrame) <= field_13C_timer2)
                 {
                     return;
                 }
@@ -308,12 +308,12 @@ void SlapLock::VUpdate()
                     FP_FromDouble(0.3),
                     field_20_animation.mRenderLayer);
 
-                field_13C_timer2 = Math_RandomRange(-30, 30) + sGnFrame_5C1B84 + 60;
+                field_13C_timer2 = Math_RandomRange(-30, 30) + sGnFrame + 60;
                 return;
             }
             case SlapLockStates::eEmitInvisibilityPowerupRing_4:
             {
-                if (static_cast<s32>(sGnFrame_5C1B84) > field_124_timer1)
+                if (static_cast<s32>(sGnFrame) > field_124_timer1)
                 {
                     if (!gMap.Is_Point_In_Current_Camera_4810D0(
                             sActiveHero_5C1B68->field_C2_lvl_number,
@@ -329,7 +329,7 @@ void SlapLock::VUpdate()
                             mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
                             RingTypes::eInvisible_Pulse_Large_8,
                             field_CC_sprite_scale);
-                        field_124_timer1 = Math_RandomRange(1, 10) + sGnFrame_5C1B84 + 55;
+                        field_124_timer1 = Math_RandomRange(1, 10) + sGnFrame + 55;
                     }
                     else
                     {
@@ -338,7 +338,7 @@ void SlapLock::VUpdate()
                     }
                 }
 
-                if (static_cast<s32>(sGnFrame_5C1B84) <= field_13C_timer2)
+                if (static_cast<s32>(sGnFrame) <= field_13C_timer2)
                 {
                     return;
                 }
@@ -349,7 +349,7 @@ void SlapLock::VUpdate()
                     FP_FromDouble(0.3),
                     field_20_animation.mRenderLayer);
 
-                field_13C_timer2 = Math_RandomRange(-30, 30) + sGnFrame_5C1B84 + 60;
+                field_13C_timer2 = Math_RandomRange(-30, 30) + sGnFrame + 60;
                 return;
             }
             case SlapLockStates::eFlickerHero_5:
@@ -381,14 +381,14 @@ void SlapLock::VUpdate()
                     return;
                 }
                 GiveInvisibility();
-                field_13C_timer2 = sGnFrame_5C1B84 + 60;
+                field_13C_timer2 = sGnFrame + 60;
                 field_120_state = SlapLockStates::eBroken_3;
                 break;
             }
             case SlapLockStates::eGiveInvisibility_7:
             {
                 GiveInvisibility();
-                field_13C_timer2 = sGnFrame_5C1B84 + 60;
+                field_13C_timer2 = sGnFrame + 60;
                 field_120_state = SlapLockStates::eBroken_3;
                 break;
             }

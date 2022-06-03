@@ -13,12 +13,12 @@ Flash::Flash(Layer layer, s32 r, s32 g, s32 b, s32 /*not_used*/, TPageAbr abr, s
     mEffectBaseRed = static_cast<s16>(r);
     mEffectBaseGreen = static_cast<s16>(g);
     mEffectBaseBlue = static_cast<s16>(b);
-    field_68_flash_time = time + gnFrameCount_507670;
+    field_68_flash_time = time + sGnFrame;
 }
 
 void Flash::VUpdate()
 {
-    if (static_cast<s32>(gnFrameCount_507670) >= field_68_flash_time)
+    if (static_cast<s32>(sGnFrame) >= field_68_flash_time)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

@@ -185,7 +185,7 @@ void MotionDetector::VUpdate()
                     {
                         if (pObj == sActiveHero_507678)
                         {
-                            if (gnFrameCount_507670 % 2)
+                            if (sGnFrame % 2)
                             {
                                 SFX_Play_Mono(SoundEffect::Zap2_58, 45, 0);
                             }
@@ -233,7 +233,7 @@ void MotionDetector::VUpdate()
                     if (field_108_pLaser->field_A8_xpos >= field_100_bottom_right_x)
                     {
                         field_E8_state = States::eWaitThenMoveLeft_1;
-                        field_EC_timer = gnFrameCount_507670 + 15;
+                        field_EC_timer = sGnFrame + 15;
                         SFX_Play_Mono(SoundEffect::MenuNavigation_61, 0);
                     }
                     else
@@ -243,7 +243,7 @@ void MotionDetector::VUpdate()
                     break;
 
                 case States::eWaitThenMoveLeft_1:
-                    if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
+                    if (static_cast<s32>(sGnFrame) > field_EC_timer)
                     {
                         field_E8_state = States::eMoveLeft_2;
                     }
@@ -253,7 +253,7 @@ void MotionDetector::VUpdate()
                     if (field_108_pLaser->field_A8_xpos <= field_F8_top_left_x)
                     {
                         field_E8_state = States::eWaitThenMoveRight_3;
-                        field_EC_timer = gnFrameCount_507670 + 15;
+                        field_EC_timer = sGnFrame + 15;
                         SFX_Play_Mono(SoundEffect::MenuNavigation_61, 0);
                     }
                     else
@@ -263,7 +263,7 @@ void MotionDetector::VUpdate()
                     break;
 
                 case States::eWaitThenMoveRight_3:
-                    if (static_cast<s32>(gnFrameCount_507670) > field_EC_timer)
+                    if (static_cast<s32>(sGnFrame) > field_EC_timer)
                     {
                         field_E8_state = States::eMoveRight_0;
                     }

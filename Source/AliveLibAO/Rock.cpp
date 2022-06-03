@@ -140,20 +140,20 @@ void Rock::VUpdate()
                     mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
                     mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
                     field_110_state = States::eOnGround_3;
-                    field_124_shimmer_timer = gnFrameCount_507670;
+                    field_124_shimmer_timer = sGnFrame;
                 }
             }
             break;
 
         case States::eOnGround_3:
-            if (static_cast<s32>(gnFrameCount_507670) > field_124_shimmer_timer)
+            if (static_cast<s32>(sGnFrame) > field_124_shimmer_timer)
             {
                 New_Shiny_Particle_4199A0(
                     (field_BC_sprite_scale * FP_FromInteger(1)) + field_A8_xpos,
                     (field_BC_sprite_scale * FP_FromInteger(-7)) + field_AC_ypos,
                     FP_FromDouble(0.3),
                     Layer::eLayer_Foreground_36);
-                field_124_shimmer_timer = (Math_NextRandom() % 16) + gnFrameCount_507670 + 60;
+                field_124_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame + 60;
             }
             break;
 

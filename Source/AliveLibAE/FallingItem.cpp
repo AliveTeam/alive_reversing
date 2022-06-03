@@ -88,7 +88,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     if (!pPrimaryFallingItem_5BC208)
     {
         pPrimaryFallingItem_5BC208 = this;
-        field_144_created_gnFrame = sGnFrame_5C1B84;
+        field_144_created_gnFrame = sGnFrame;
     }
 
     mShadow = ae_new<Shadow>();
@@ -152,7 +152,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     if (!pPrimaryFallingItem_5BC208)
     {
         pPrimaryFallingItem_5BC208 = this;
-        field_144_created_gnFrame = sGnFrame_5C1B84;
+        field_144_created_gnFrame = sGnFrame;
     }
 
     mShadow = ae_new<Shadow>();
@@ -185,7 +185,7 @@ void FallingItem::VUpdate()
     // The primary item controls the main sound effects, otherwise there would be a crazy amount of smashing sounds
     if (pPrimaryFallingItem_5BC208 == this)
     {
-        if (!((sGnFrame_5C1B84 - field_144_created_gnFrame) % 87))
+        if (!((sGnFrame - field_144_created_gnFrame) % 87))
         {
             if (field_D6_scale == 1)
             {
@@ -197,7 +197,7 @@ void FallingItem::VUpdate()
             }
         }
 
-        if (!((sGnFrame_5C1B84 - field_144_created_gnFrame) % 25))
+        if (!((sGnFrame - field_144_created_gnFrame) % 25))
         {
             if (field_D6_scale == 1)
             {
@@ -223,7 +223,7 @@ void FallingItem::VUpdate()
                 const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap.mCurrentLevel)][1]);
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
-                field_128_fall_interval_timer = sGnFrame_5C1B84 + field_124_fall_interval;
+                field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
             }
             break;
 
@@ -238,12 +238,12 @@ void FallingItem::VUpdate()
             const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap.mCurrentLevel)][1]);
             field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
-            field_128_fall_interval_timer = sGnFrame_5C1B84 + field_124_fall_interval;
+            field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
             break;
         }
 
         case State::eWaitForFallDelay_2:
-            if (static_cast<s32>(sGnFrame_5C1B84) >= field_128_fall_interval_timer)
+            if (static_cast<s32>(sGnFrame) >= field_128_fall_interval_timer)
             {
                 field_11C_state = State::eFalling_3;
                 field_12E_do_sound_in_state_falling = TRUE;

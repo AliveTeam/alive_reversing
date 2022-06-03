@@ -782,7 +782,7 @@ void LiftPoint::VUpdate()
             SFX_Play_Mono(SoundEffect::WheelSqueak_31, 0);
         }
     }
-    else if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.mAnimFlags.Get(AnimFlags::eBit2_Animate) && sGnFrame_5C1B84 & 1)
+    else if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.mAnimFlags.Get(AnimFlags::eBit2_Animate) && sGnFrame & 1)
     {
         SFX_Play_Mono(SoundEffect::WheelSqueak_31, 0);
     }

@@ -113,7 +113,7 @@ void DDCheat::ScreenShot()
     if (pixelBuffer)
     {
         char_type fileNameBuffer[16] = {};
-        ::sprintf(fileNameBuffer, "SD%06ld.TGA", static_cast<long int>(gnFrameCount_507670 % 1000000));
+        ::sprintf(fileNameBuffer, "SD%06ld.TGA", static_cast<long int>(sGnFrame % 1000000));
         const auto fileHandle = ::fopen(fileNameBuffer, "wb");
         if (!fileHandle)
         {
@@ -275,7 +275,7 @@ void DDCheat::VUpdate()
                 }
             }
 
-            if (!(gnFrameCount_507670 % 10))
+            if (!(sGnFrame % 10))
             {
                 gVox_4FF864 = 0;
                 auto counter = 0;
@@ -297,7 +297,7 @@ void DDCheat::VUpdate()
                     Path_Get_Lvl_Name(gMap.mCurrentLevel),
                     gMap.mCurrentPath,
                     gMap.mCurrentCamera,
-                    gnFrameCount_507670);
+                    sGnFrame);
                 DebugStr(
                     " mem used %5d mem peak %5d",
                     (sManagedMemoryUsedSize_9F0E48 + 999) / 1000,

@@ -119,7 +119,7 @@ void BeeSwarm::VScreenChanged()
         {
             field_D80_state = BeeSwarmStates::eFlyAwayAndDie_3;
             field_D74_chase_target_y -= FP_FromInteger(240);
-            field_D9C_alive_timer = gnFrameCount_507670 + 120;
+            field_D9C_alive_timer = sGnFrame + 120;
             gBeesNearAbe_5076AC = 0;
             field_D98_pChaseTarget->mBaseGameObjectRefCount--;
             field_D98_pChaseTarget = nullptr;
@@ -159,7 +159,7 @@ void BeeSwarm::Chase(BaseAliveGameObject* pChaseTarget)
     field_D70_chase_target_x = pChaseTarget->field_A8_xpos;
     field_D74_chase_target_y = pChaseTarget->field_AC_ypos;
 
-    field_D9C_alive_timer = gnFrameCount_507670 + field_D84_chaseTicks;
+    field_D9C_alive_timer = sGnFrame + field_D84_chaseTicks;
 }
 
 void BeeSwarm::VUpdate()
@@ -210,7 +210,7 @@ void BeeSwarm::VUpdate()
             break;
 
         case BeeSwarmStates::eAttackChase_1:
-            if (static_cast<s32>(gnFrameCount_507670) > field_D9C_alive_timer)
+            if (static_cast<s32>(sGnFrame) > field_D9C_alive_timer)
             {
                 ToFlyAwayAndDie();
             }
@@ -259,9 +259,9 @@ void BeeSwarm::VUpdate()
                     gBeesNearAbe_5076AC = FALSE;
                 }
 
-                if (static_cast<s32>(gnFrameCount_507670) <= field_DA0_do_damage_or_pain_sound_timer)
+                if (static_cast<s32>(sGnFrame) <= field_DA0_do_damage_or_pain_sound_timer)
                 {
-                    if (!(gnFrameCount_507670 % 10) && Math_RandomRange_450F20(0, 100) < 70)
+                    if (!(sGnFrame % 10) && Math_RandomRange_450F20(0, 100) < 70)
                     {
                         // Check every single object just to see if its sActiveHero_507678 (nice algorithm lads)
                         // and play pain sounds if so and in the damage rect.
@@ -293,7 +293,7 @@ void BeeSwarm::VUpdate()
                 }
                 else
                 {
-                    field_DA0_do_damage_or_pain_sound_timer = gnFrameCount_507670 + 30;
+                    field_DA0_do_damage_or_pain_sound_timer = sGnFrame + 30;
 
                     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
                     {
@@ -334,7 +334,7 @@ void BeeSwarm::VUpdate()
                 field_D7C_pos_offset += FP_FromDouble(0.2);
             }
 
-            if (static_cast<s32>(gnFrameCount_507670) > field_D9C_alive_timer)
+            if (static_cast<s32>(sGnFrame) > field_D9C_alive_timer)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -344,7 +344,7 @@ void BeeSwarm::VUpdate()
             break;
     }
 
-    if (!(gnFrameCount_507670 % 4) && field_DA4_update_chase_timer < static_cast<s32>(gnFrameCount_507670))
+    if (!(sGnFrame % 4) && field_DA4_update_chase_timer < static_cast<s32>(sGnFrame))
     {
         if (field_D80_state != BeeSwarmStates::eIdle_0 && field_D80_state != BeeSwarmStates::eFlyAwayAndDie_3)
         {
@@ -383,8 +383,8 @@ void BeeSwarm::VUpdate()
                             field_D70_chase_target_x = pObjIter->field_A8_xpos;
                             field_D74_chase_target_y = pObjIter->field_AC_ypos;
 
-                            field_D9C_alive_timer = gnFrameCount_507670 + field_D84_chaseTicks;
-                            field_DA4_update_chase_timer = gnFrameCount_507670 + 60;
+                            field_D9C_alive_timer = sGnFrame + field_D84_chaseTicks;
+                            field_DA4_update_chase_timer = sGnFrame + 60;
 
                             // ?? why not check < 0 then calc
                             if (oldChaseTimer != 0)
@@ -415,7 +415,7 @@ void BeeSwarm::VUpdate()
         const FP distToTargetX = field_D70_chase_target_x - pBee->field_0_xpos;
         const FP distToTargetY = field_D74_chase_target_y - pBee->field_4_ypos;
 
-        if (field_E4_bees.bees[i].field_C_timer < static_cast<s32>(gnFrameCount_507670))
+        if (field_E4_bees.bees[i].field_C_timer < static_cast<s32>(sGnFrame))
         {
             const FP abs_new_chase_x = FP_Abs(distToTargetX);
             const FP abs_new_chase_y = FP_Abs(distToTargetY);
@@ -458,7 +458,7 @@ void BeeSwarm::VUpdate()
             }
 
             pBee->field_9_angle_speed = static_cast<s8>(angSpeed >> 2);
-            pBee->field_C_timer = gnFrameCount_507670 + 5;
+            pBee->field_C_timer = sGnFrame + 5;
         }
 
         FP xMove = {};
@@ -533,7 +533,7 @@ void BeeSwarm::VUpdate()
         pBee->field_8_angle = Math_NextRandom();
         pBee->field_9_angle_speed = (Math_NextRandom() >> 4) - 8;
 
-        pBee->field_C_timer = gnFrameCount_507670 + 5;
+        pBee->field_C_timer = sGnFrame + 5;
 
         field_D66_bee_count++;
     }
@@ -544,7 +544,7 @@ void BeeSwarm::VUpdate()
 
 void BeeSwarm::ToFlyAwayAndDie()
 {
-    field_D9C_alive_timer = gnFrameCount_507670 + 120;
+    field_D9C_alive_timer = sGnFrame + 120;
     field_D74_chase_target_y -= FP_FromInteger(240);
     field_D80_state = BeeSwarmStates::eFlyAwayAndDie_3;
 

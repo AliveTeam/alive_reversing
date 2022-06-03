@@ -85,7 +85,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
     field_140_targetOnRight = 0;
     field_13E_targetOnLeft = 0;
 
-    field_128_timer = sGnFrame_5C1B84 + Math_RandomRange(70, 210);
+    field_128_timer = sGnFrame + Math_RandomRange(70, 210);
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
@@ -304,7 +304,7 @@ void Greeter::ChangeDirection()
     field_C4_velx = FP_FromInteger(0);
     const AnimRecord& animRec = AnimRec(AnimId::Greeter_Turn);
     field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
-    field_124_last_turn_time = sGnFrame_5C1B84;
+    field_124_last_turn_time = sGnFrame;
 }
 
 void Greeter::BounceBackFromShot()
@@ -531,7 +531,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 
     RandomishSpeak(GreeterSpeak::eLaugh_3);
 
-    field_128_timer = sGnFrame_5C1B84 + Math_RandomRange(160, 200);
+    field_128_timer = sGnFrame + Math_RandomRange(160, 200);
     field_13E_targetOnLeft = 0;
     field_140_targetOnRight = 0;
 }
@@ -542,11 +542,11 @@ void Greeter::RandomishSpeak(GreeterSpeak effect)
     field_C4_velx = FP_FromInteger(0);
     const AnimRecord& animRec = AnimRec(AnimId::Greeter_Speak);
     field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
-    field_120_unused = sGnFrame_5C1B84 + 25;
+    field_120_unused = sGnFrame + 25;
 
     if (effect == GreeterSpeak::eRandomized_1000)
     {
-        const s32 randomSpeak = static_cast<s32>(sGnFrame_5C1B84 % 4);
+        const s32 randomSpeak = static_cast<s32>(sGnFrame % 4);
         // Will be one of: Hi_0, HereBoy_1,  GetHim_2 or Laugh_3
         Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(randomSpeak), 100, 700, this);
     }
@@ -616,7 +616,7 @@ void Greeter::VUpdate()
     switch (field_13C_brain_state)
     {
         case GreeterBrainStates::eBrain_0_Patrol:
-            if (!((sGnFrame_5C1B84 - field_124_last_turn_time) % 14))
+            if (!((sGnFrame - field_124_last_turn_time) % 14))
             {
                 const CameraPos soundDirection = gMap.GetDirection_4811A0(
                     field_C2_lvl_number,
@@ -656,7 +656,7 @@ void Greeter::VUpdate()
                 }
             }
 
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_128_timer)
+            if (static_cast<s32>(sGnFrame) > field_128_timer)
             {
                 RandomishSpeak(GreeterSpeak::eRandomized_1000);
             }
@@ -690,7 +690,7 @@ void Greeter::VUpdate()
                 const AnimRecord& animRec = AnimRec(AnimId::Greeter_Moving);
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 field_C8_vely = FP_FromInteger(0);
-                field_128_timer = sGnFrame_5C1B84 + Math_RandomRange(160, 200);
+                field_128_timer = sGnFrame + Math_RandomRange(160, 200);
             }
             break;
 
@@ -707,7 +707,7 @@ void Greeter::VUpdate()
 
         case GreeterBrainStates::eBrain_4_Chase:
         {
-            if (!(sGnFrame_5C1B84 % 8))
+            if (!(sGnFrame % 8))
             {
                 const CameraPos soundDirection2 = gMap.GetDirection_4811A0(
                     field_C2_lvl_number,
@@ -759,7 +759,7 @@ void Greeter::VUpdate()
             if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 RandomishSpeak(GreeterSpeak::eWhat_9);
-                field_128_timer = sGnFrame_5C1B84 + Math_RandomRange(160, 200);
+                field_128_timer = sGnFrame + Math_RandomRange(160, 200);
             }
             break;
 

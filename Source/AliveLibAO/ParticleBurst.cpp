@@ -131,7 +131,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             }
 
             field_EC_count = static_cast<s16>(particleCount);
-            field_F0_timer = gnFrameCount_507670 + 91;
+            field_F0_timer = sGnFrame + 91;
             field_A8_xpos = xpos;
             field_AC_ypos = ypos;
 
@@ -228,7 +228,7 @@ void ParticleBurst::VUpdate()
                 // TODO: Never used by OG ??
                 // Math_RandomRange_450F20(-64, 46);
 
-                const s16 volume = static_cast<s16>(Math_RandomRange_450F20(-10, 10) + ((field_F0_timer - gnFrameCount_507670) / 91) + 25);
+                const s16 volume = static_cast<s16>(Math_RandomRange_450F20(-10, 10) + ((field_F0_timer - sGnFrame) / 91) + 25);
 
                 const u8 next_rand = Math_NextRandom();
                 if (next_rand < 43)
@@ -247,7 +247,7 @@ void ParticleBurst::VUpdate()
         }
     }
 
-    if (static_cast<s32>(gnFrameCount_507670) > field_F0_timer)
+    if (static_cast<s32>(sGnFrame) > field_F0_timer)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

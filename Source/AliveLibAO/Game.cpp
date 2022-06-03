@@ -159,7 +159,7 @@ void Sys_SetWindowProc_Filter_48E950(TFilter)
 #endif
 
 
-ALIVE_VAR(1, 0x507670, u32, gnFrameCount_507670, 0);
+ALIVE_VAR(1, 0x507670, u32, sGnFrame, 0);
 ALIVE_VAR(1, 0x504618, DynamicArrayT<BaseGameObject>*, gObjList_drawables_504618, nullptr);
 
 ALIVE_VAR(1, 0x50766C, DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C, nullptr);
@@ -314,7 +314,7 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
     sActiveHero_507678 = nullptr;
     sControlledCharacter_50767C = nullptr;
     sNumCamSwappers_507668 = 0;
-    gnFrameCount_507670 = 0;
+    sGnFrame = 0;
 
     gFilesPending_507714 = 0;
     bLoadingAFile_50768C = 0;
@@ -482,7 +482,7 @@ void Game_Loop_437630()
 
         if (sNumCamSwappers_507668 == 0)
         {
-            gnFrameCount_507670++;
+            sGnFrame++;
         }
 
         GetGameAutoPlayer().ValidateObjectStates();

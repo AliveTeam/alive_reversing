@@ -11,7 +11,7 @@ void DestroyObjects_4A1F20();
 void Init_GameStates_43BF40();
 s32 Game_End_Frame_4950F0(u32 flags);
 
-ALIVE_VAR_EXTERN(u32, sGnFrame_5C1B84);
+ALIVE_VAR_EXTERN(u32, sGnFrame);
 ALIVE_VAR_EXTERN(bool, sCommandLine_DDCheatEnabled_5CA4B5);
 ALIVE_VAR_EXTERN(bool, sCommandLine_ShowFps_5CA4D0);
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124);

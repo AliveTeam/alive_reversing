@@ -159,7 +159,7 @@ void Dove::AsJoin(FP xpos, FP ypos)
     field_100_xJoin = xpos;
     field_104_yJoin = ypos;
     field_FE_state = State::eJoin_2;
-    field_108_timer = sGnFrame_5C1B84 + 47;
+    field_108_timer = sGnFrame + 47;
 }
 
 void Dove::FlyAway(Bool32 spookedInstantly)
@@ -261,7 +261,7 @@ void Dove::VUpdate()
 
         case State::eJoin_2:
         {
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_108_timer)
+            if (static_cast<s32>(sGnFrame) > field_108_timer)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -295,11 +295,11 @@ void Dove::VUpdate()
             return;
 
         case State::eAlmostACircle_4:
-            if (sAbePortalTimer_5BC114 != static_cast<s32>(sGnFrame_5C1B84))
+            if (sAbePortalTimer_5BC114 != static_cast<s32>(sGnFrame))
             {
                 // increase or decrease the width of the Abe portal
                 sAbePortalWidth_551544 += sAbePortalDirection_551546;
-                sAbePortalTimer_5BC114 = sGnFrame_5C1B84;
+                sAbePortalTimer_5BC114 = sGnFrame;
 
                 if (sAbePortalWidth_551544 == 0)
                 {
