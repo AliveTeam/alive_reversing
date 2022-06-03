@@ -393,7 +393,7 @@ s32 SFX_SfxDefinition_Play_Mono(const SfxDefinition* sfxDef, s16 volume, s16 pit
     if (pitch_min || pitch_max)
     {
         // Note: Inlined in psx
-        SFX_SetPitch_4CA510(sfxDef, midiHandle, Math_RandomRange_496AB0(pitch_min, pitch_max));
+        SFX_SetPitch_4CA510(sfxDef, midiHandle, Math_RandomRange(pitch_min, pitch_max));
     }
 
     return midiHandle;
@@ -452,7 +452,7 @@ s32 SND_MIDI(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
 
     if (min || max)
     {
-        s16 randomValue = Math_RandomRange_496AB0(min, max);
+        s16 randomValue = Math_RandomRange(min, max);
 
         s32 v9;  // edi
         s16 v10; // bx
@@ -522,7 +522,7 @@ s32 SFX_SfxDefinition_Play_Stereo(const SfxDefinition* sfxDef, s16 volLeft, s16 
 
     if (pitch_min || pitch_max)
     {
-        SFX_SetPitch_4CA510(sfxDef, midiHandle, Math_RandomRange_496AB0(pitch_min, pitch_max));
+        SFX_SetPitch_4CA510(sfxDef, midiHandle, Math_RandomRange(pitch_min, pitch_max));
     }
 
     return midiHandle;
@@ -820,8 +820,8 @@ void SND_StopAll()
     else
     {
         MusicController::static_EnableMusic(FALSE);
-        BackgroundMusic::Stop_4CB000();
-        SND_Reset_Ambiance_4CB4B0();
+        BackgroundMusic::Stop();
+        SND_Reset_Ambiance();
         SND_Stop_All_Seqs();
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
@@ -856,8 +856,8 @@ void SND_Restart_4CB0E0()
     else
     {
         MusicController::static_EnableMusic(TRUE);
-        BackgroundMusic::Play_4CB030();
-        Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
+        BackgroundMusic::Play();
+        Start_Sounds_For_Objects_In_Near_Cameras();
     }
 }
 
@@ -865,5 +865,5 @@ void SND_Restart_4CB0E0()
 
 // Next -> Scoped seq object
 
-// Next -> SND_Init_Ambiance_4CB480, SND_Reset_Ambiance_4CB4B0, Start_Sounds_for_TLV_4CB530, Start_Slig_sounds_4CB980
-// Stop_slig_sounds_4CBA70 Path::Start_Sounds_For_Objects_In_Camera_4CBAF0, Start_Sounds_For_Objects_In_Near_Cameras_4CBB60
+// Next -> SND_Init_Ambiance, SND_Reset_Ambiance, Start_Sounds_for_TLV, Start_Slig_sounds
+// Stop_slig_sounds_4CBA70 Path::Start_Sounds_For_Objects_In_Camera_4CBAF0, Start_Sounds_For_Objects_In_Near_Cameras

@@ -4,12 +4,12 @@
 #include "stdlib.hpp"
 #include "Sys_common.hpp"
 
-void AnimationBase::vDecode_40AC90()
+void AnimationBase::VDecode()
 {
     ALIVE_FATAL("Should never be called");
 }
 
-void AnimationBase::vRender_40B820(s32 /*xpos*/, s32 /*ypos*/, PrimHeader** /*pOt*/, s16 /*width*/, s32 /*height*/)
+void AnimationBase::VRender(s32 /*xpos*/, s32 /*ypos*/, PrimHeader** /*pOt*/, s16 /*width*/, s32 /*height*/)
 {
     ALIVE_FATAL("Should never be called");
     //    return 0;
@@ -22,7 +22,7 @@ s8 AnimationBase::Animation_v_40BEE0(s16 /*a2*/, s16 /*a3*/, s32 /*a4*/, s16 /*a
     return 0;
 }
 
-void AnimationBase::AnimateAll_40AC20(DynamicArrayT<AnimationBase>* pAnims)
+void AnimationBase::AnimateAll(DynamicArrayT<AnimationBase>* pAnims)
 {
     for (auto i = 0; i < pAnims->Size(); i++)
     {
@@ -42,7 +42,7 @@ void AnimationBase::AnimateAll_40AC20(DynamicArrayT<AnimationBase>* pAnims)
             pAnim->field_E_frame_change_counter--;
             if (pAnim->field_E_frame_change_counter == 0)
             {
-                pAnim->vDecode_40AC90();
+                pAnim->VDecode();
             }
         }
     }

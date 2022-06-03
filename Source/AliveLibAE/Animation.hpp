@@ -110,20 +110,20 @@ struct FrameHeader final
 class Animation final : public AnimationBase
 {
 public:
-    s16 Set_Animation_Data_409C80(s32 frameTableOffset, u8** pAnimRes);
-    void Animation_Pal_Free_40C4C0();
+    s16 Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes);
+    void Animation_Pal_Free();
 
     bool EnsureDecompressionBuffer();
     void DecompressFrame();
 
-    virtual void vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
-    virtual void vCleanUp_40C630() override;
+    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
+    virtual void VCleanUp() override;
 
-    void vDecode2_40B200();
-    virtual void vDecode_40AC90() override;
+    void vDecode2();
+    virtual void VDecode() override;
     bool DecodeCommon();
 
-    void Invoke_CallBacks_40B7A0();
+    void Invoke_CallBacks();
 
     void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted);
 
@@ -146,15 +146,15 @@ public:
     BaseGameObject* field_94_pGameObj;
 
 public:
-    void SetFrame_409D50(s16 newFrame);
-    FrameInfoHeader* Get_FrameHeader_40B730(s16 frame);
-    void Get_Frame_Rect_409E10(PSX_RECT* pRect);
-    u16 Get_Frame_Count_40AC70();
-    s16 Init_40A030(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData, s32 pal_depth, s8 unknown3);
-    void Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY);
-    void Get_Frame_Width_Height_40C400(s16* pWidth, s16* pHeight);
+    void SetFrame(s16 newFrame);
+    FrameInfoHeader* Get_FrameHeader(s16 frame);
+    void Get_Frame_Rect(PSX_RECT* pRect);
+    u16 Get_Frame_Count();
+    s16 Init(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData, s32 pal_depth, s8 unknown3);
+    void Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY);
+    void Get_Frame_Width_Height(s16* pWidth, s16* pHeight);
 
-    void Load_Pal_40A530(u8** pAnimData, s32 palOffset);
+    void Load_Pal(u8** pAnimData, s32 palOffset);
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 

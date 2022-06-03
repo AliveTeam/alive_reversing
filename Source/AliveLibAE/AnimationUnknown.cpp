@@ -5,34 +5,24 @@
 #include "stdlib.hpp"
 #include "Sys_common.hpp"
 
-void AnimationUnknown::vDecode_40AC90()
+void AnimationUnknown::VDecode()
 {
     // VNull_409C20
 }
 
-void AnimationUnknown::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height)
-{
-    vRender_40C690(xpos, ypos, ppOt, width, height);
-}
-
-void AnimationUnknown::vCleanUp_40C630()
-{
-    vCleanUp_40C9C0();
-}
-
-void AnimationUnknown::GetRenderedSize_40C980(PSX_RECT* pRect)
+void AnimationUnknown::GetRenderedSize(PSX_RECT* pRect)
 {
     Poly_FT4_Get_Rect_409DA0(pRect, &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index]);
 }
 
-void AnimationUnknown::vRender_40C690(s32 xpos, s32 ypos, PrimHeader** ppOt, s32 /*width*/, s32 /*height*/)
+void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*width*/, s32 /*height*/)
 {
     Poly_FT4* pPoly = &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index];
     if (field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         // Copy from animation to local
         *pPoly = field_68_anim_ptr->field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
-        FrameInfoHeader* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader_40B730(-1);
+        FrameInfoHeader* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader(-1);
 
         if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit22_DeadMode))
         {
@@ -134,7 +124,7 @@ void AnimationUnknown::vRender_40C690(s32 xpos, s32 ypos, PrimHeader** ppOt, s32
     }
 }
 
-void AnimationUnknown::vCleanUp_40C9C0()
+void AnimationUnknown::VCleanUp()
 {
     field_68_anim_ptr = nullptr;
 }

@@ -65,12 +65,12 @@ void Game_ShowLoadingIcon_482D80()
     // using other parts of the OT while another part is drawn, but it was bugged because it cleared the other anyway
     // on PC it seems fine to just always start at zero.
     PSX_ClearOTag_4F6290(dispBuffer.field_70_ot_buffer, 43);
-    pParticle->field_20_animation.vRender_40B820(320, 220, dispBuffer.field_70_ot_buffer, 0, 0);
+    pParticle->field_20_animation.VRender(320, 220, dispBuffer.field_70_ot_buffer, 0, 0);
     PSX_DrawOTag_4F6540(dispBuffer.field_70_ot_buffer);
     PSX_DrawSync_4F6280(0);
 
     PSX_ClearOTag_4F6290(dispBuffer.field_70_ot_buffer, 43);
-    pParticle->field_20_animation.vRender_40B820(320, 640 - 164, dispBuffer.field_70_ot_buffer, 0, 0);
+    pParticle->field_20_animation.VRender(320, 640 - 164, dispBuffer.field_70_ot_buffer, 0, 0);
     PSX_DrawOTag_4F6540(dispBuffer.field_70_ot_buffer);
     PSX_DrawSync_4F6280(0);
 
@@ -249,7 +249,7 @@ void ResourceManager::OnResourceLoaded_464CE0()
 
             if (pFilePart->field_8_pCamera)
             {
-                pFilePart->field_8_pCamera->field_0.Push_Back_40CAF0(ppRes);
+                pFilePart->field_8_pCamera->field_0.Push_Back(ppRes);
             }
 
             if (pFilePart->field_10_pFn)
@@ -276,7 +276,7 @@ void ResourceManager::OnResourceLoaded_464CE0()
 
                     if (pFilePart->field_8_pCamera)
                     {
-                        pFilePart->field_8_pCamera->field_0.Push_Back_40CAF0(pItem2);
+                        pFilePart->field_8_pCamera->field_0.Push_Back(pItem2);
                     }
                 }
             }
@@ -286,7 +286,7 @@ void ResourceManager::OnResourceLoaded_464CE0()
                 pFilePart->field_10_pFn(pFilePart->field_C_fn_arg_pCamera);
             }
         }
-        fileSectionsArrayIter.Remove_At_Iter_40CCA0();
+        fileSectionsArrayIter.Remove_At_Iter();
         ae_delete_free_495540(pFilePart);
     }
 
@@ -307,7 +307,7 @@ void ResourceManager::LoadResource_464EE0(const char_type* pFileItem, u32 type, 
     {
         if (pCamera)
         {
-            pCamera->field_0.Push_Back_40CAF0(pLoadedRes);
+            pCamera->field_0.Push_Back(pLoadedRes);
         }
 
         if (pFn)
@@ -415,7 +415,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char_type* pFileName, R
         for (s32 i = 0; i < pTypeAndIdList->field_0_count; i++)
         {
             // Add to array optionally bumping the ref count
-            pCamera->field_0.Push_Back_40CAF0(GetLoadedResource_49C2A0(
+            pCamera->field_0.Push_Back(GetLoadedResource_49C2A0(
                 pTypeAndIdList->field_4_items[i].field_0_type,
                 pTypeAndIdList->field_4_items[i].field_4_res_id,
                 addUseCount,
@@ -548,13 +548,13 @@ void ResourceManager::Shutdown_465610()
             {
                 break;
             }
-            fileSectionsIter.Remove_At_Iter_40CCA0();
+            fileSectionsIter.Remove_At_Iter();
             ae_delete_free_495540(pFileSection);
 
             fileSectionIdx = fileSectionsIter.field_4_idx;
         }
 
-        iter.Remove_At_Iter_40CCA0();
+        iter.Remove_At_Iter();
         ae_non_zero_free_495560(pFileRec->field_0_fileName);
 
         relive_delete pFileRec;
@@ -594,14 +594,14 @@ void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
 
                 if (pFilePartItem->field_C_fn_arg_pCamera == pCamera)
                 {
-                    filePartsIter.Remove_At_Iter_40CCA0();
+                    filePartsIter.Remove_At_Iter();
                     ae_delete_free_495540(pFilePartItem);
                 }
             }
 
             if (pFileItem->field_10_file_sections_dArray.IsEmpty())
             {
-                filesIter.Remove_At_Iter_40CCA0();
+                filesIter.Remove_At_Iter();
                 ae_non_zero_free_495560(pFileItem->field_0_fileName);
                 relive_delete pFileItem;
             }
@@ -880,7 +880,7 @@ s16 ResourceManager::Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArrayT<u
         {
             if (pArray)
             {
-                pArray->Push_Back_40CAF0(pItemToAdd);
+                pArray->Push_Back((u8**)pItemToAdd);
             }
 
             pHeader = (Header*) ((s8*) pHeader + pHeader->field_0_size);

@@ -39,27 +39,12 @@ ExplosionSet::ExplosionSet()
     }
 }
 
-void ExplosionSet::VScreenChanged()
-{
-    vScreenChanged_415190();
-}
-
-void ExplosionSet::VRender(PrimHeader** ppOt)
-{
-    vRender_4150D0(ppOt);
-}
-
-void ExplosionSet::VUpdate()
-{
-    vUpdate_414E30();
-}
-
-void ExplosionSet::Start_415300()
+void ExplosionSet::Start()
 {
     bEnabled_5C1BB6 = 1;
 }
 
-void ExplosionSet::Init_4151D0(Path_ExplosionSet* pTlv)
+void ExplosionSet::Init(Path_ExplosionSet* pTlv)
 {
     field_48_tlv_rect.x = pTlv->field_8_top_left.field_0_x;
     field_48_tlv_rect.y = pTlv->field_8_top_left.field_2_y;
@@ -95,7 +80,7 @@ ExplosionSet::~ExplosionSet()
     pExplosionSet_5BBF68 = nullptr;
 }
 
-void ExplosionSet::vScreenChanged_415190()
+void ExplosionSet::VScreenChanged()
 {
     if (gMap.mCurrentLevel == gMap.mLevel && gMap.mCurrentPath == gMap.mPath)
     {
@@ -126,7 +111,7 @@ const Point2 stru_550F38[12] = {
     {0, 0},
     {0, 0}};
 
-void ExplosionSet::vRender_4150D0(PrimHeader** ppOt)
+void ExplosionSet::VRender(PrimHeader** ppOt)
 {
     if (bEnabled_5C1BB6)
     {
@@ -151,9 +136,9 @@ void ExplosionSet::vRender_4150D0(PrimHeader** ppOt)
     }
 }
 
-void ExplosionSet::vUpdate_414E30()
+void ExplosionSet::VUpdate()
 {
-    BaseGameObject* pDeathResetEvent = Event_Get_422C00(kEventDeathReset);
+    BaseGameObject* pDeathResetEvent = Event_Get(kEventDeathReset);
     if (pDeathResetEvent)
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -201,10 +186,10 @@ void ExplosionSet::vUpdate_414E30()
             field_46_spacing_multiplicator++;
             field_44_start_delay = field_56_asset_interval;
 
-            if (gMap.mCurrentLevel == LevelIds::eMines_1 && Math_RandomRange_496AB0(1, 5) >= 4)
+            if (gMap.mCurrentLevel == LevelIds::eMines_1 && Math_RandomRange(1, 5) >= 4)
             {
-                const FP explodeX = FP_FromInteger(Math_RandomRange_496AB0(field_48_tlv_rect.y + 20, field_48_tlv_rect.y + 230));
-                const FP explodeY = FP_FromInteger(Math_RandomRange_496AB0(field_48_tlv_rect.x, xpos));
+                const FP explodeX = FP_FromInteger(Math_RandomRange(field_48_tlv_rect.y + 20, field_48_tlv_rect.y + 230));
+                const FP explodeY = FP_FromInteger(Math_RandomRange(field_48_tlv_rect.x, xpos));
                 ae_new<Explosion>(explodeY, explodeX, field_50_scale, 0);
             }
         }

@@ -31,12 +31,12 @@ ALIVE_VAR(1, 0x5bc004, s32, sDDCheat_Unknown_5BC004, 0);
 ALIVE_VAR(1, 0x5bbff4, u32, sDDCheat_PrevDebugInput_5BBFF4, 0);
 ALIVE_VAR(1, 0x550fa8, s32, sDDCheat_DebugInputDelay_550FA8, 0);
 
-using TDDCheatMenu = decltype(&DDCheat::Menu_Teleport_415E20);
+using TDDCheatMenu = decltype(&DDCheat::Menu_Teleport);
 
 #define DDCHEAT_MENU_COUNT 2
 ALIVE_ARY(1, 0x550f50, TDDCheatMenu, DDCHEAT_MENU_COUNT, sDDCheat_FnTable_550F50, {
-                                                                                      &DDCheat::Menu_Teleport_415E20,
-                                                                                      &DDCheat::Menu_Movies_416000,
+                                                                                      &DDCheat::Menu_Teleport,
+                                                                                      &DDCheat::Menu_Movies,
                                                                                   });
 
 ALIVE_VAR(1, 0x5bc008, s16, sScreenshotOnNextFrame_5BC008, 0);
@@ -80,13 +80,13 @@ ALIVE_ARY(1, 0x550f64, const char_type*, 17, sTeleportLevelNameTable_550F64, {
                                                                       });
 
 
-void DDCheat::Menu_Teleport_415E20()
+void DDCheat::Menu_Teleport()
 {
-    DebugStr_4F5560("\n[Teleport]\n");
-    DebugStr_4F5560("Level (1,2):         %s\n", sTeleportLevelNameTable_550F64[sTeleport_Level_550F5C]);
-    DebugStr_4F5560("Path    (Up/Down):   %d\n", sTeleport_Path_550F5E);
-    DebugStr_4F5560("Camera (Left/Right): %d\n", sTeleport_Cam_550F60);
-    DebugStr_4F5560("Teleport = Enter Reset = Alt\n");
+    DebugStr("\n[Teleport]\n");
+    DebugStr("Level (1,2):         %s\n", sTeleportLevelNameTable_550F64[sTeleport_Level_550F5C]);
+    DebugStr("Path    (Up/Down):   %d\n", sTeleport_Path_550F5E);
+    DebugStr("Camera (Left/Right): %d\n", sTeleport_Cam_550F60);
+    DebugStr("Teleport = Enter Reset = Alt\n");
 
     field_20 += 6;
 
@@ -139,7 +139,7 @@ void DDCheat::Menu_Teleport_415E20()
     }
 }
 
-void DDCheat::Menu_Movies_416000()
+void DDCheat::Menu_Movies()
 {
     if (field_38_input_pressed & InputCommands::Enum::eLeft)
     {
@@ -173,7 +173,7 @@ void DDCheat::Menu_Movies_416000()
     }
 
     const FmvInfo* fmvInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
-    DDCheat::DebugStr_4F5560("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx_5BBFF0, fmvInfo->field_4_id, fmvInfo->field_0_pName);
+    DDCheat::DebugStr("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx_5BBFF0, fmvInfo->field_4_id, fmvInfo->field_0_pName);
     field_20 += 6;
 }
 
@@ -191,7 +191,7 @@ DDCheat::DDCheat()
     field_30 = 0;
     field_34 = 0;
 
-    ClearProperties_415390();
+    ClearProperties();
 
     // The code below allows changing of certain variables in memory using in game controls.
     // There's no code using any of this in the retail final build as the compiler occluded it.
@@ -224,12 +224,12 @@ void DDCheat::AddPropertyEntry(const char_type* text, DDCheatValueType valueType
     }
 }
 
-void DDCheat::ClearProperties_415390()
+void DDCheat::ClearProperties()
 {
     DDCheatProperties_5BBF78 = {};
 }
 
-void DDCheat::DebugStr_4F5560(const char_type* pFormatStr, ...)
+void DDCheat::DebugStr(const char_type* pFormatStr, ...)
 {
     char_type buffer[1024] = {};
     va_list va;
@@ -239,7 +239,7 @@ void DDCheat::DebugStr_4F5560(const char_type* pFormatStr, ...)
     DebugFont_Printf_4F8B60(0, buffer);
 }
 
-void DDCheat::Update_415780()
+void DDCheat::VUpdate()
 {
     if (sScreenshotOnNextFrame_5BC008)
     {
@@ -317,7 +317,7 @@ void DDCheat::Update_415780()
 
         if (sDDCheat_FlyingEnabled_5C2C08 || sDDCheat_ShowAI_Info_5C1BD8 || sDDCheat_AlwaysShow_5BC000)
         {
-            DebugStr_4F5560(
+            DebugStr(
                 "\n%sP%dC%d gnframe=%5d",
                 Path_Get_Lvl_Name(gMap.mCurrentLevel),
                 gMap.mCurrentPath,
@@ -331,22 +331,22 @@ void DDCheat::Update_415780()
             {
                 // HACK When quitting sControlledCharacter_5C1B8C becomes a dangling pointer
                 // probably this should be removed as there is no sane way to check this pointer is still valid
-                DebugStr_4F5560(
+                DebugStr(
                     "\n[obj %i] xy=%.3f,%.3f flags=%x",
                     sControlledCharacter_5C1B8C->Type(),
                     FP_GetDouble(sControlledCharacter_5C1B8C->field_B8_xpos),
                     FP_GetDouble(sControlledCharacter_5C1B8C->field_BC_ypos),
                     sControlledCharacter_5C1B8C->mFlags);
 
-                DebugStr_4F5560("\nLine=%X\nState=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_motion);
+                DebugStr("\nLine=%X\nState=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_motion);
 
                 if (sControlledCharacter_5C1B8C->Type() == AETypes::eAbe_69)
                 {
-                    DebugStr_4F5560("\nStateName=%s", sAbeMotionNames[sControlledCharacter_5C1B8C->field_106_current_motion]);
+                    DebugStr("\nStateName=%s", sAbeMotionNames[sControlledCharacter_5C1B8C->field_106_current_motion]);
                 }
             }
 #else
-            DebugStr_4F5560(
+            DebugStr(
                 "\nheroxy=%4d,%4d",
                 FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos),
                 FP_GetExponent(sActiveHero_5C1B68->field_BC_ypos));
@@ -461,9 +461,4 @@ void DDCheat::Update_415780()
             pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
         }
     }
-}
-
-void DDCheat::VUpdate()
-{
-    Update_415780();
 }

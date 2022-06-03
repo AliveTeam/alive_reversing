@@ -16,7 +16,7 @@ public:
 public:
     void Free();
 
-    static void On_Loaded_480ED0(Camera* pCamera);
+    static void On_Loaded(Camera* pCamera);
 
     DynamicArrayT<u8*> field_0;
     u8** field_C_pCamRes;

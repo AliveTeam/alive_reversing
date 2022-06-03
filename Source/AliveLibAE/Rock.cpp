@@ -47,15 +47,15 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     u8** ppPal = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kAberockResID, 0, 0);
     if (ppPal)
     {
-        field_20_animation.Load_Pal_40A530(ppPal, 0);
+        field_20_animation.Load_Pal(ppPal, 0);
     }
     else
     {
-        const FrameInfoHeader* pFrameInfo = field_20_animation.Get_FrameHeader_40B730(-1);
+        const FrameInfoHeader* pFrameInfo = field_20_animation.Get_FrameHeader(-1);
 
         const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
 
-        field_20_animation.Load_Pal_40A530(
+        field_20_animation.Load_Pal(
             field_20_animation.field_20_ppBlock,
             pFrameHeader->field_0_clut_offset);
     }
@@ -136,7 +136,7 @@ void Rock::InTheAir()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_120_xpos,
             field_124_ypos,
             field_B8_xpos,
@@ -199,8 +199,8 @@ void Rock::InTheAir()
                     }
 
                     SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
-                    Event_Broadcast_422BC0(kEventNoise, this);
-                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
                     field_11E_volume++;
                 }
                 break;
@@ -217,14 +217,14 @@ void Rock::InTheAir()
                         vol = 40;
                     }
                     SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
-                    Event_Broadcast_422BC0(kEventNoise, this);
-                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
                 }
                 break;
         }
     }
 
-    if (sCollisions_DArray_5C1128->Raycast_417A60(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &field_100_pCollisionLine, &hitX, &hitY, field_D6_scale == 1 ? 0x06 : 0x60) == 1)
+    if (sCollisions_DArray_5C1128->Raycast(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &field_100_pCollisionLine, &hitX, &hitY, field_D6_scale == 1 ? 0x06 : 0x60) == 1)
     {
         switch (field_100_pCollisionLine->field_8_type)
         {
@@ -259,8 +259,8 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
         vol = 40;
     }
     SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
-    Event_Broadcast_422BC0(kEventNoise, this);
-    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 }
 
 //TODO Identical to AO - merge
@@ -294,7 +294,7 @@ s16 Rock::OnCollision(BaseAliveGameObject* pObj)
 void Rock::VUpdate()
 {
     auto pObj = sObjectIds.Find_Impl(field_110_id);
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -308,7 +308,7 @@ void Rock::VUpdate()
         }
         else
         {
-            sCollisions_DArray_5C1128->Raycast_417A60(
+            sCollisions_DArray_5C1128->Raycast(
                 field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(10),
                 field_B8_xpos,
@@ -341,7 +341,7 @@ void Rock::VUpdate()
                 {
                     field_C4_velx -= FP_FromDouble(0.01);
                 }
-                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
             }
             else
             {
@@ -358,7 +358,7 @@ void Rock::VUpdate()
                     field_128_shimmer_timer = sGnFrame_5C1B84;
                     return;
                 }
-                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
             }
 
             if (field_100_pCollisionLine)

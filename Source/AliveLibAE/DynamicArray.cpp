@@ -26,7 +26,7 @@ DynamicArray::~DynamicArray()
     ae_non_zero_free_495560(field_0_array);
 }
 
-s16 DynamicArray::Push_Back_40CAF0(void* pValue)
+s16 DynamicArray::Push_Back(void* pValue)
 {
     if (!field_0_array)
     {
@@ -36,7 +36,7 @@ s16 DynamicArray::Push_Back_40CAF0(void* pValue)
     // If we have no more elements then expand the array
     if (field_4_used_size == field_6_max_size)
     {
-        if (!Expand_40CBE0(field_8_expand_size))
+        if (!Expand(field_8_expand_size))
         {
             return 0;
         }
@@ -46,7 +46,7 @@ s16 DynamicArray::Push_Back_40CAF0(void* pValue)
     return 1;
 }
 
-s16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
+s16 DynamicArray::Remove_Item(void* pItemToRemove)
 {
     DynamicArrayIter arrayIter;
     arrayIter.field_0_pDynamicArray = this;
@@ -63,14 +63,14 @@ s16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
 
         if (pCurrentItem == pItemToRemove)
         {
-            arrayIter.Remove_At_Iter_40CCA0();
+            arrayIter.Remove_At_Iter();
             return 1;
         }
     }
     return 0;
 }
 
-s16 DynamicArray::Expand_40CBE0(s16 expandSize)
+s16 DynamicArray::Expand(s16 expandSize)
 {
     // Calculate new size and allocate buffer
     const s16 newSize = field_6_max_size + expandSize;
@@ -97,7 +97,7 @@ s16 DynamicArray::Expand_40CBE0(s16 expandSize)
     return 1;
 }
 
-void DynamicArrayIter::Remove_At_Iter_40CCA0()
+void DynamicArrayIter::Remove_At_Iter()
 {
     field_4_idx--;
     field_0_pDynamicArray->field_4_used_size--;

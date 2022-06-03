@@ -56,7 +56,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     FP hitY;
     FP hitX;
 
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             FP_FromInteger(v7 / 2),
             v8,
             FP_FromInteger(v7 / 2),
@@ -72,7 +72,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     field_11C_tlv = tlv;
     field_120_gnframe = sGnFrame_5C1B84;
     const AnimRecord& mineFlashrec = AnimRec(AnimId::Mine_Flash);
-    field_124_animation.Init_40A030(mineFlashrec.mFrameTableOffset, gObjList_animations_5C1A24, this, mineFlashrec.mMaxW, mineFlashrec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, mineFlashrec.mResourceId), 1u, 0, 0);
+    field_124_animation.Init(mineFlashrec.mFrameTableOffset, gObjList_animations_5C1A24, this, mineFlashrec.mMaxW, mineFlashrec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, mineFlashrec.mResourceId), 1u, 0, 0);
 
     field_124_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_124_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
@@ -126,7 +126,7 @@ Mine::~Mine()
         Path::TLV_Reset(field_11C_tlv.all, -1, 0, 0);
     }
 
-    field_124_animation.vCleanUp_40C630();
+    field_124_animation.VCleanUp();
     mFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
     if (sMineSFXOwner_5C3008 == this)
@@ -175,7 +175,7 @@ void Mine::VUpdate()
     }
     if (field_118_detonating != 1)
     {
-        BaseGameObject* pEventObj = Event_Get_422C00(kEventDeathReset);
+        BaseGameObject* pEventObj = Event_Get(kEventDeathReset);
         if (pEventObj || field_C2_lvl_number != gMap.mCurrentLevel || field_C0_path_number != gMap.mCurrentPath)
         {
             mFlags.Set(Options::eDead);
@@ -194,7 +194,7 @@ void Mine::VRender(PrimHeader** ppOt)
                 field_BC_ypos,
                 0))
         {
-            this->field_124_animation.vRender_40B820(FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+            this->field_124_animation.VRender(FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                                                      FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
                                                      ppOt,
                                                      0,

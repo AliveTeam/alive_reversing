@@ -81,14 +81,11 @@ public:
     DDCheat();
 
     static void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
-    static void ClearProperties_415390();
-    static void DebugStr_4F5560(const char_type* pFormatStr, ...);
+    static void ClearProperties();
+    static void DebugStr(const char_type* pFormatStr, ...);
 
-    void Menu_Teleport_415E20();
-    void Menu_Movies_416000();
-
-public:
-    void Update_415780();
+    void Menu_Teleport();
+    void Menu_Movies();
 
 public:
     s32 field_20;

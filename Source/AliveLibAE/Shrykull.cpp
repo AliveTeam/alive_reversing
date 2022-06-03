@@ -108,7 +108,7 @@ void Shrykull::VUpdate()
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
                 const AnimRecord& rec = AnimRec(AnimId::ShrykullTransform);
-                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_118_state = State::eZapTargets_1;
             }
             break;
@@ -232,7 +232,7 @@ void Shrykull::VUpdate()
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 const AnimRecord& rec = AnimRec(AnimId::ShrykullDetransform);
-                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_118_state = State::eFinish_3;
             }
             break;

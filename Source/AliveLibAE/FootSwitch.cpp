@@ -101,7 +101,7 @@ void FootSwitch::VUpdate()
         {
             field_100_obj_id = pLastStoodOnMe->field_8_object_id;
             const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][1]);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_F8_state = States::eWaitForGetOffMe_1;
         }
     }
@@ -119,7 +119,7 @@ void FootSwitch::VUpdate()
                 field_F8_state = States::eWaitForGetOffMe_1;
 
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][1]);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
                 ae_new<ParticleBurst>(field_B8_xpos,
                                                             field_BC_ypos + FP_FromInteger(10),
@@ -183,7 +183,7 @@ void FootSwitch::VUpdate()
             {
                 field_F8_state = States::eWaitForStepOnMe_0;
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][0]);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 field_100_obj_id = -1;
             }
             break;

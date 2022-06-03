@@ -43,7 +43,7 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
     for (HoistRockParticle& particle : field_30_rocks)
     {
         const AnimRecord& rec = AnimRec(AnimId::HoistRock1);
-        particle.field_10_mAnim.Init_40A030(
+        particle.field_10_mAnim.Init(
             rec.mFrameTableOffset,
             gObjList_animations_5C1A24,
             this,
@@ -82,7 +82,7 @@ HoistRocksEffect::~HoistRocksEffect()
 
     for (HoistRockParticle& particle : field_30_rocks)
     {
-        particle.field_10_mAnim.vCleanUp_40C630();
+        particle.field_10_mAnim.VCleanUp();
     }
 
     Path::TLV_Reset(field_24_tlvInfo, -1, 0, 0);
@@ -106,23 +106,23 @@ void HoistRocksEffect::VUpdate()
             s32 randomXScaled = 0;
             if (field_2C_scale == FP_FromDouble(1.0))
             {
-                randomXScaled = Math_RandomRange_496AB0(-8, 8);
+                randomXScaled = Math_RandomRange(-8, 8);
             }
             else
             {
-                randomXScaled = Math_RandomRange_496AB0(-4, 4);
+                randomXScaled = Math_RandomRange(-4, 4);
             }
 
             field_30_rocks[idx].field_4_xpos = FP_FromInteger(field_20_xpos + randomXScaled);
-            field_30_rocks[idx].field_8_ypos = FP_FromInteger(field_22_ypos + Math_RandomRange_496AB0(-4, 4));
+            field_30_rocks[idx].field_8_ypos = FP_FromInteger(field_22_ypos + Math_RandomRange(-4, 4));
 
             field_30_rocks[idx].field_C_yVel = FP_FromInteger(0);
             field_30_rocks[idx].field_0_state = 1;
 
-            const s32 randomAnimAndUpdate = 2 * Math_RandomRange_496AB0(0, 3);
+            const s32 randomAnimAndUpdate = 2 * Math_RandomRange(0, 3);
             const AnimRecord& rec = AnimRec(HoistRocksAnimIdTable_5556E0[randomAnimAndUpdate / 2]);
-            field_30_rocks[idx].field_10_mAnim.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
-            field_28_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(word_5556F0[randomAnimAndUpdate], 2 * word_5556F0[randomAnimAndUpdate]);
+            field_30_rocks[idx].field_10_mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+            field_28_timer = sGnFrame_5C1B84 + Math_RandomRange(word_5556F0[randomAnimAndUpdate], 2 * word_5556F0[randomAnimAndUpdate]);
         }
     }
 
@@ -154,7 +154,7 @@ void HoistRocksEffect::VUpdate()
                 PathLine* pLine = nullptr;
                 FP hitX = {};
                 FP hitY = {};
-                if (sCollisions_DArray_5C1128->Raycast_417A60(
+                if (sCollisions_DArray_5C1128->Raycast(
                         particle.field_4_xpos,
                         particle.field_8_ypos - particle.field_C_yVel,
                         particle.field_4_xpos,
@@ -179,7 +179,7 @@ void HoistRocksEffect::VRender(PrimHeader** ppOt)
     {
         if (particle.field_0_state)
         {
-            particle.field_10_mAnim.vRender_40B820(
+            particle.field_10_mAnim.VRender(
                 FP_GetExponent(particle.field_4_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                 FP_GetExponent(particle.field_8_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
                 ppOt,
@@ -187,7 +187,7 @@ void HoistRocksEffect::VRender(PrimHeader** ppOt)
                 0);
 
             PSX_RECT frameRect = {};
-            particle.field_10_mAnim.Get_Frame_Rect_409E10(&frameRect);
+            particle.field_10_mAnim.Get_Frame_Rect(&frameRect);
             pScreenManager_5BB5F4->InvalidateRect_40EC90(
                 frameRect.x,
                 frameRect.y,

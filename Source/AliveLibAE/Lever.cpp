@@ -70,7 +70,7 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     PathLine* pPathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             field_BC_ypos,
             field_B8_xpos,
@@ -107,7 +107,7 @@ void Lever::VScreenChanged()
 
 void Lever::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -139,12 +139,12 @@ void Lever::VUpdate()
             if (field_100_flags.Get(Flags_100::eBit1_lever_anim_left_direction))
             {
                 const AnimRecord& animRec = AnimRec(AnimId::Lever_Pull_Release_Left);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             else
             {
                 const AnimRecord& animRec = AnimRec(AnimId::Lever_Pull_Release_Right);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
 
             const s32 switch_state = SwitchStates_Get(field_F4_switch_id);
@@ -177,26 +177,26 @@ void Lever::VUpdate()
                     {
                         case LeverSoundType::eWell_1:
                             SFX_Play_Stereo(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
-                            Event_Broadcast_422BC0(kEventNoise, this);
-                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            Event_Broadcast(kEventNoise, this);
+                            Event_Broadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eUnknown_2:
                             SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 100 * volLeft + 25, 100 * volRight + 25);
-                            Event_Broadcast_422BC0(kEventNoise, this);
-                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            Event_Broadcast(kEventNoise, this);
+                            Event_Broadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eDoor_3:
                             SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
-                            Event_Broadcast_422BC0(kEventNoise, this);
-                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            Event_Broadcast(kEventNoise, this);
+                            Event_Broadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eElectricWall_4:
                             SFX_Play_Stereo(SoundEffect::Zap1_49, 35 * volLeft + 25, 35 * volRight + 25);
-                            Event_Broadcast_422BC0(kEventNoise, this);
-                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            Event_Broadcast(kEventNoise, this);
+                            Event_Broadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eSecurityOrb_5:
@@ -205,8 +205,8 @@ void Lever::VUpdate()
 
                         case LeverSoundType::eLift_6:
                             SFX_Play_Stereo(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
-                            Event_Broadcast_422BC0(kEventNoise, this);
-                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            Event_Broadcast(kEventNoise, this);
+                            Event_Broadcast(kEventSuspiciousNoise, this);
                             break;
 
                         default:
@@ -219,26 +219,26 @@ void Lever::VUpdate()
                     {
                         case LeverSoundType::eWell_1:
                             SFX_Play_Stereo(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
-                            Event_Broadcast_422BC0(kEventNoise, this);
-                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            Event_Broadcast(kEventNoise, this);
+                            Event_Broadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eUnknown_2:
                             SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 110 * volLeft + 25, 110 * volRight + 25);
-                            Event_Broadcast_422BC0(kEventNoise, this);
-                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            Event_Broadcast(kEventNoise, this);
+                            Event_Broadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eDoor_3:
                             SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
-                            Event_Broadcast_422BC0(kEventNoise, this);
-                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            Event_Broadcast(kEventNoise, this);
+                            Event_Broadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eElectricWall_4:
                             SFX_Play_Stereo(SoundEffect::Zap1_49, 80 * volLeft + 25, 80 * volRight + 25);
-                            Event_Broadcast_422BC0(kEventNoise, this);
-                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            Event_Broadcast(kEventNoise, this);
+                            Event_Broadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eSecurityOrb_5:
@@ -247,8 +247,8 @@ void Lever::VUpdate()
 
                         case LeverSoundType::eLift_6:
                             SFX_Play_Stereo(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
-                            Event_Broadcast_422BC0(kEventNoise, this);
-                            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                            Event_Broadcast(kEventNoise, this);
+                            Event_Broadcast(kEventSuspiciousNoise, this);
                             break;
 
                         default:
@@ -264,7 +264,7 @@ void Lever::VUpdate()
         {
             field_F8_state = LeverState::eWaiting_0;
             const AnimRecord& animRec = AnimRec(AnimId::Lever_Idle);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         }
     }
 }
@@ -281,13 +281,13 @@ s16 Lever::VPull(s16 bLeftDirection)
     if (bLeftDirection)
     {
         const AnimRecord& animRec = AnimRec(AnimId::Lever_Pull_Left);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         field_100_flags.Set(Flags_100::eBit1_lever_anim_left_direction);
     }
     else
     {
         const AnimRecord& animRec = AnimRec(AnimId::Lever_Pull_Right);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         field_100_flags.Clear(Flags_100::eBit1_lever_anim_left_direction);
     }
 

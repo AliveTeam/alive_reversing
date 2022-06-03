@@ -23,7 +23,7 @@
 
     if (field_42_enableShakeEvent && !field_44_softerShakes)
     {
-        Event_Broadcast_422BC0(kEventScreenShake, this);
+        Event_Broadcast(kEventScreenShake, this);
     }
 }
 
@@ -36,7 +36,7 @@ void ScreenShake::VUpdate()
 {
     if (field_42_enableShakeEvent && !field_44_softerShakes)
     {
-        Event_Broadcast_422BC0(kEventScreenShake, this);
+        Event_Broadcast(kEventScreenShake, this);
     }
 
     if (field_40_shakeNumber > 0)

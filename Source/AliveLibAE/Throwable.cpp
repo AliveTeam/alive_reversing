@@ -71,7 +71,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             field_BC_ypos - FP_FromInteger(20),
             field_B8_xpos,

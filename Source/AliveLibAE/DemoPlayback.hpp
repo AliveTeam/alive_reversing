@@ -12,8 +12,6 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-private:
-    void vUpdate_4978E0();
 };
 ALIVE_ASSERT_SIZEOF(DemoPlayback, 0x20);
 

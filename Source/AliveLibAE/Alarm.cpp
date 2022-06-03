@@ -97,7 +97,7 @@ void Alarm::VUpdate()
 {
     if (field_90_state != States::eWaitForSwitchEnable_0)
     {
-        Event_Broadcast_422BC0(kEventAlarm, this);
+        Event_Broadcast(kEventAlarm, this);
         if (static_cast<s32>(sGnFrame_5C1B84) > field_80_duration_timer)
         {
             mFlags.Set(BaseGameObject::eDead);
@@ -108,7 +108,7 @@ void Alarm::VUpdate()
     switch (field_90_state)
     {
         case States::eWaitForSwitchEnable_0:
-            if (Event_Get_422C00(kEventDeathReset))
+            if (Event_Get(kEventDeathReset))
             {
                 mFlags.Set(BaseGameObject::eDead);
             }
@@ -136,7 +136,7 @@ void Alarm::VUpdate()
             break;
 
         case States::eAfterConstructed_1: // When not created by a map TLV
-            if (Event_Get_422C00(kEventHeroDying))
+            if (Event_Get(kEventHeroDying))
             {
                 mFlags.Set(BaseGameObject::eDead);
             }
@@ -205,7 +205,7 @@ void Alarm::VUpdate()
             break;
 
         case States::eDisabled_5:
-            if (Event_Get_422C00(kEventHeroDying))
+            if (Event_Get(kEventHeroDying))
             {
                 mFlags.Set(BaseGameObject::eDead);
             }

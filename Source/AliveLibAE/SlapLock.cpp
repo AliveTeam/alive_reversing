@@ -177,7 +177,7 @@ void SlapLock::VUpdate()
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo));
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -241,7 +241,7 @@ void SlapLock::VUpdate()
                 }
 
                 const AnimRecord& animRec = AnimRec(AnimId::SlapLock_Shaking);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
                 field_120_state = SlapLockStates::eIdle_1;
                 SFX_Play_Mono(SoundEffect::SpiritLockShake_105, 0);
@@ -267,7 +267,7 @@ void SlapLock::VUpdate()
                 }
 
                 const AnimRecord& animRec = AnimRec(AnimId::SlapLock_Initiate);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
                 field_120_state = SlapLockStates::eShaking_0;
                 field_124_timer1 = Math_NextRandom() + sGnFrame_5C1B84 + 25;
@@ -303,12 +303,12 @@ void SlapLock::VUpdate()
                 }
 
                 New_TintShiny_Particle(
-                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-2, 2)) + FP_FromInteger(1))) + field_B8_xpos,
-                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
+                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + field_B8_xpos,
+                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
                     FP_FromDouble(0.3),
                     field_20_animation.field_C_render_layer);
 
-                field_13C_timer2 = Math_RandomRange_496AB0(-30, 30) + sGnFrame_5C1B84 + 60;
+                field_13C_timer2 = Math_RandomRange(-30, 30) + sGnFrame_5C1B84 + 60;
                 return;
             }
             case SlapLockStates::eEmitInvisibilityPowerupRing_4:
@@ -329,7 +329,7 @@ void SlapLock::VUpdate()
                             field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
                             RingTypes::eInvisible_Pulse_Large_8,
                             field_CC_sprite_scale);
-                        field_124_timer1 = Math_RandomRange_496AB0(1, 10) + sGnFrame_5C1B84 + 55;
+                        field_124_timer1 = Math_RandomRange(1, 10) + sGnFrame_5C1B84 + 55;
                     }
                     else
                     {
@@ -344,12 +344,12 @@ void SlapLock::VUpdate()
                 }
 
                 New_TintShiny_Particle(
-                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-2, 2)) + FP_FromInteger(1))) + field_B8_xpos,
-                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
+                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + field_B8_xpos,
+                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
                     FP_FromDouble(0.3),
                     field_20_animation.field_C_render_layer);
 
-                field_13C_timer2 = Math_RandomRange_496AB0(-30, 30) + sGnFrame_5C1B84 + 60;
+                field_13C_timer2 = Math_RandomRange(-30, 30) + sGnFrame_5C1B84 + 60;
                 return;
             }
             case SlapLockStates::eFlickerHero_5:
@@ -470,7 +470,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
     field_120_state = SlapLockStates::eSlapped_2;
     SwitchStates_Do_Operation(field_118_pTlv->field_1E_toggle_switch_id, SwitchOp::eToggle_2);
     SFX_Play_Mono(SoundEffect::SpiritLockBreak_106, 0, field_CC_sprite_scale);
-    Event_Broadcast_422BC0(kEventLoudNoise, this);
+    Event_Broadcast(kEventLoudNoise, this);
 
     ae_new<ParticleBurst>(
         field_B8_xpos,
@@ -481,7 +481,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
         11);
 
     const AnimRecord& animRec = AnimRec(AnimId::SlapLock_Punched);
-    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
     field_118_pTlv->field_1_tlv_state = 1;
     return 1;

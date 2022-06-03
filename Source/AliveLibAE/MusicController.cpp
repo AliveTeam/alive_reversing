@@ -563,7 +563,7 @@ void MusicController::VUpdate()
 {
     MusicController::UpdateMusicTime();
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         field_58_flags.Set(Flags_58::e58_Dead_Bit3);
         field_28_object_id = sActiveHero_5C1B68->field_8_object_id;
@@ -714,7 +714,7 @@ void MusicController::UpdateMusic()
             case MusicTypes::eDrumAmbience_3: // The rupture farms screen change random ambiance?
                 if (field_58_flags.Get(Flags_58::e58_UnPause_Bit6))
                 {
-                    idx = Math_RandomRange_496AB0(0, 1);
+                    idx = Math_RandomRange(0, 1);
                 }
                 else
                 {
@@ -866,7 +866,7 @@ void MusicController::UpdateAmbiance()
             // be bugged
             if (field_42_type != MusicTypes::eNone_0)
             {
-                random = Math_RandomRange_496AB0(
+                random = Math_RandomRange(
                     stru_55D1E0[static_cast<s32>(field_24_currentLevelID)].field_0[0].field_2_min,
                     stru_55D1E0[static_cast<s32>(field_24_currentLevelID)].field_0[0].field_3_max);
             }
@@ -880,7 +880,7 @@ void MusicController::UpdateAmbiance()
                     total += rec.field_0;
                     if (rec.field_0 < 0 || calculatedTime < total)
                     {
-                        random = Math_RandomRange_496AB0(rec.field_2_min, rec.field_3_max);
+                        random = Math_RandomRange(rec.field_2_min, rec.field_3_max);
                         found = true;
                         break;
                     }

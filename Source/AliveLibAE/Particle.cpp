@@ -123,7 +123,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
     FP velYCounter = {};
     for (s32 i = 0; i < count; i++)
     {
-        FP randX = (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) * scale) + xpos;
+        FP randX = (FP_FromInteger(Math_RandomRange(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
         const AnimRecord& squibSmokeRec = AnimRec(AnimId::SquibSmoke_Particle);
         u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, squibSmokeRec.mResourceId, 0, 0);
@@ -139,8 +139,8 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
             pParticle->field_D2_g = g;
             pParticle->field_D4_b = b;
 
-            pParticle->field_C4_velx = (scale * FP_FromInteger(Math_RandomRange_496AB0(-10, 10))) / FP_FromInteger(10);
-            pParticle->field_C8_vely = ((scale * velYCounter) * FP_FromInteger(Math_RandomRange_496AB0(50, 50))) / FP_FromInteger(100);
+            pParticle->field_C4_velx = (scale * FP_FromInteger(Math_RandomRange(-10, 10))) / FP_FromInteger(10);
+            pParticle->field_C8_vely = ((scale * velYCounter) * FP_FromInteger(Math_RandomRange(50, 50))) / FP_FromInteger(100);
             pParticle->field_CC_sprite_scale = scale;
 
             if (scale == FP_FromInteger(1))
@@ -165,8 +165,8 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
 
 void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
 {
-    const FP ypos = pObj->field_BC_ypos - (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(30, 60)));
-    const FP xpos = (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20))) + pObj->field_B8_xpos;
+    const FP ypos = pObj->field_BC_ypos - (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange(30, 60)));
+    const FP xpos = (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange(-20, 20))) + pObj->field_B8_xpos;
     New_TintChant_Particle(xpos, ypos, pObj->field_CC_sprite_scale, Layer::eLayer_0);
 }
 

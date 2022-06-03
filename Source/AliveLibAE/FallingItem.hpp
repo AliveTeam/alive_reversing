@@ -28,26 +28,18 @@ class FallingItem final : public BaseAliveGameObject
 {
 public:
     FallingItem(Path_FallingItem* pTlv, s32 tlvInfo);
-
     FallingItem(s32 xpos, s32 ypos, s32 scale, s32 id, s32 fallInterval, s32 numItems, s32 bResetIdAfterUse);
-
     ~FallingItem();
 
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
-
     virtual void VOnThrowableHit(BaseGameObject*) override
     {
         // FallingItem__vnullsub_75
     }
 
 private:
-    void vScreenChanged_428180();
-
-    void vUpdate_427780();
-
-    void DamageHitItems_427F40();
+    void DamageHitItems();
 
 private:
     s32 field_118_tlvInfo;

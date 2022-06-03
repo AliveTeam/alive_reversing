@@ -81,16 +81,6 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
     field_1E6_cam_id = gMap.mCurrentCamera;
 }
 
-void BrewMachine::VUpdate()
-{
-    vUpdate_4132C0();
-}
-
-void BrewMachine::VRender(PrimHeader** ppOt)
-{
-    vRender_4133F0(ppOt);
-}
-
 BrewMachine::~BrewMachine()
 {
     Path::TLV_Reset(field_140_tlvInfo, -1, 0, 0);
@@ -98,7 +88,7 @@ BrewMachine::~BrewMachine()
     field_F4_font_context.dtor_433510();
 }
 
-void BrewMachine::vUpdate_4132C0()
+void BrewMachine::VUpdate()
 {
     Path_BrewMachine* pTlv = static_cast<Path_BrewMachine*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_140_tlvInfo));
     if (field_144_total_brew_count > 0)
@@ -110,13 +100,13 @@ void BrewMachine::vUpdate_4132C0()
         pTlv->field_1_tlv_state = 50;
     }
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
 }
 
-void BrewMachine::vRender_4133F0(PrimHeader** ppOt)
+void BrewMachine::VRender(PrimHeader** ppOt)
 {
     if (gMap.mCurrentCamera == field_1E6_cam_id)
     {

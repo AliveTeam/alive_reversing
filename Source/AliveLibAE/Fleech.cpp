@@ -248,7 +248,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 
         pFleech->field_106_current_motion = pState->field_28_current_motion;
         const AnimRecord& animRec = AnimRec(sFleechFrameTableOffsets_5517E4[pFleech->field_106_current_motion]);
-        pFleech->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        pFleech->field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         pFleech->field_20_animation.field_92_current_frame = pState->field_2A_anim_current_frame;
         pFleech->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
 
@@ -571,7 +571,7 @@ void Fleech::M_Idle_3_42E850()
             FP hitX = {};
             FP hitY = {};
             PathLine* pLine = nullptr;
-            if (field_106_current_motion == eFleechMotions::M_Idle_3_42E850 && field_20_animation.field_92_current_frame == 0 && !sCollisions_DArray_5C1128->Raycast_417A60(field_B8_xpos - FP_FromInteger(5), field_BC_ypos - FP_FromInteger(5), field_B8_xpos + FP_FromInteger(5), field_BC_ypos + FP_FromInteger(1), &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
+            if (field_106_current_motion == eFleechMotions::M_Idle_3_42E850 && field_20_animation.field_92_current_frame == 0 && !sCollisions_DArray_5C1128->Raycast(field_B8_xpos - FP_FromInteger(5), field_BC_ypos - FP_FromInteger(5), field_B8_xpos + FP_FromInteger(5), field_BC_ypos + FP_FromInteger(1), &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
             {
                 field_138_velx_factor = FP_FromInteger(0);
                 field_F8_LastLineYPos = field_BC_ypos;
@@ -615,7 +615,7 @@ void Fleech::M_Crawl_4_42E960()
     field_C4_velx = (field_CC_sprite_scale * velXTable);
 
     const FP k1Directed = FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0) ? -1 : 1);
-    if (WallHit_408750(FP_FromInteger((field_CC_sprite_scale >= FP_FromInteger(1)) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * k1Directed))
+    if (WallHit(FP_FromInteger((field_CC_sprite_scale >= FP_FromInteger(1)) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * k1Directed))
     {
         ToIdle_42E520();
     }
@@ -681,7 +681,7 @@ void Fleech::M_Knockback_6_42EAF0()
 void Fleech::M_StopCrawling_7_42EBB0()
 {
     const FP k1Directed = FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1);
-    if (WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * k1Directed))
+    if (WallHit(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * k1Directed))
     {
         ToIdle_42E520();
     }
@@ -705,7 +705,7 @@ void Fleech::M_StopCrawling_7_42EBB0()
 void Fleech::M_StopMidCrawlCycle_8_42EB20()
 {
     const FP k1Directed = FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? -1 : 1); // TODO: Correct way around ??
-    if (WallHit_408750(
+    if (WallHit(
             FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5),
             ScaleToGridSize(field_CC_sprite_scale) * k1Directed)
         || field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -763,7 +763,7 @@ void Fleech::M_Fall_9_42ECD0()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             xpos,
             ypos,
             field_B8_xpos,
@@ -929,7 +929,7 @@ void Fleech::M_Climb_12_42F7F0()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_5C1128->Raycast_417A60(pX1, pY1, pX2, field_C8_vely + field_BC_ypos, &pLine, &hitX, &hitY, field_D6_scale != 0 ? 6 : 0x60))
+        if (sCollisions_DArray_5C1128->Raycast(pX1, pY1, pX2, field_C8_vely + field_BC_ypos, &pLine, &hitX, &hitY, field_D6_scale != 0 ? 6 : 0x60))
         {
             switch (pLine->field_8_type)
             {
@@ -989,7 +989,7 @@ void Fleech::M_SettleOnGround_13_42FB00()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_5C1128->Raycast_417A60(
+        if (sCollisions_DArray_5C1128->Raycast(
                 field_B8_xpos - FP_FromInteger(5),
                 field_BC_ypos - FP_FromInteger(5),
                 field_B8_xpos + FP_FromInteger(5),
@@ -1187,7 +1187,7 @@ void Fleech::VUpdate()
         }
         else
         {
-            sCollisions_DArray_5C1128->Raycast_417A60(
+            sCollisions_DArray_5C1128->Raycast(
                 field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(20),
                 field_B8_xpos,
@@ -1203,7 +1203,7 @@ void Fleech::VUpdate()
         field_110_id = BaseGameObject::RefreshId(field_110_id);
     }
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -1243,7 +1243,7 @@ void Fleech::VUpdate()
             {
                 field_106_current_motion = field_F4_previous_motion;
                 SetAnim_429D80();
-                field_20_animation.SetFrame_409D50(field_F6_anim_frame);
+                field_20_animation.SetFrame(field_F6_anim_frame);
                 field_128 = 0;
             }
         }
@@ -1558,7 +1558,7 @@ s16 Fleech::IsScrabOrParamiteNear(FP radius)
                     {
                         if (VIsObjNearby(radius, pObj))
                         {
-                            if (!WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos))
+                            if (!WallHit(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos))
                             {
                                 if (!pNearestScrabOrParamite)
                                 {
@@ -1653,7 +1653,7 @@ void Fleech::Init_42A170()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             field_BC_ypos,
             field_B8_xpos,
@@ -1714,7 +1714,7 @@ void Fleech::SetAnim_429D80()
 {
     u8** ppRes = ResBlockForMotion_42A530(field_106_current_motion);
     const AnimRecord& animRec = AnimRec(sFleechFrameTableOffsets_5517E4[field_106_current_motion]);
-    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
+    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
 }
 
 void Fleech::ResetTarget_42CF70()
@@ -1986,9 +1986,9 @@ s32 Fleech::Sound_430520(FleechSound soundId)
     s16 defaultSndIdxVol = effectDef.field_3_default_volume;
     if (soundId == FleechSound::CrawlRNG1_14)
     {
-        const s32 rndIdx = Math_RandomRange_496AB0(14, 16);
+        const s32 rndIdx = Math_RandomRange(14, 16);
         effectDef = getSfxDef(static_cast<FleechSound>(rndIdx));
-        defaultSndIdxVol = effectDef.field_3_default_volume + Math_RandomRange_496AB0(-10, 10);
+        defaultSndIdxVol = effectDef.field_3_default_volume + Math_RandomRange(-10, 10);
     }
 
     if (field_CC_sprite_scale == FP_FromDouble(0.5))
@@ -2074,7 +2074,7 @@ s16 Fleech::CanMove_42E3E0()
 
     const FP yDist = FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5);
     const FP xDist = ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? -1 : 1); // TODO: Correct way around ?
-    if (!WallHit_408750(yDist, xDist) && !HandleEnemyStopperOrSlamDoor_42ADC0(1))
+    if (!WallHit(yDist, xDist) && !HandleEnemyStopperOrSlamDoor_42ADC0(1))
     {
         field_106_current_motion = eFleechMotions::M_Crawl_4_42E960;
         field_108_next_motion = -1;
@@ -2281,16 +2281,16 @@ void Fleech::IncreaseAnger_430920()
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        BaseAnimatedWithPhysicsGameObject* pEvent = Event_Is_Event_In_Range_422C30(kEventSpeaking, field_B8_xpos, field_BC_ypos, field_D6_scale);
+        BaseAnimatedWithPhysicsGameObject* pEvent = Event_Is_Event_In_Range(kEventSpeaking, field_B8_xpos, field_BC_ypos, field_D6_scale);
 
         if (!pEvent)
         {
-            pEvent = Event_Is_Event_In_Range_422C30(kEventAlarm, field_B8_xpos, field_BC_ypos, field_D6_scale);
+            pEvent = Event_Is_Event_In_Range(kEventAlarm, field_B8_xpos, field_BC_ypos, field_D6_scale);
         }
 
         if (!pEvent)
         {
-            pEvent = Event_Is_Event_In_Range_422C30(kEventLoudNoise, field_B8_xpos, field_BC_ypos, field_D6_scale);
+            pEvent = Event_Is_Event_In_Range(kEventLoudNoise, field_B8_xpos, field_BC_ypos, field_D6_scale);
         }
 
         if (pEvent)
@@ -2312,7 +2312,7 @@ void Fleech::IncreaseAnger_430920()
             }
         }
 
-        pEvent = Event_Is_Event_In_Range_422C30(kEventNoise, field_B8_xpos, field_BC_ypos, field_D6_scale);
+        pEvent = Event_Is_Event_In_Range(kEventNoise, field_B8_xpos, field_BC_ypos, field_D6_scale);
         if (pEvent)
         {
             if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(6), pEvent))
@@ -2442,7 +2442,7 @@ void Fleech::MoveAlongFloor_42E600()
     if (field_100_pCollisionLine)
     {
         PathLine* pOldLine = field_100_pCollisionLine;
-        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
         if (field_100_pCollisionLine && ((field_D6_scale != 0 ? 1 : 16) & (1 << field_100_pCollisionLine->field_8_type)))
         {
             if (pPlatform)
@@ -2531,7 +2531,7 @@ Bool32 Fleech::Collision_42B290(s16 alwaysOne)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions_DArray_5C1128->Raycast_417A60(x1, y1, x2, y2, &pLine, &hitX, &hitY, field_D6_scale ? 0x01 : 0x10) == 0;
+    return sCollisions_DArray_5C1128->Raycast(x1, y1, x2, y2, &pLine, &hitX, &hitY, field_D6_scale ? 0x01 : 0x10) == 0;
 }
 
 Path_Hoist* Fleech::TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection)
@@ -2568,7 +2568,7 @@ Path_Hoist* Fleech::TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection)
         return nullptr;
     }
 
-    if (WallHit_408750(
+    if (WallHit(
             FP_FromInteger(field_CC_sprite_scale < FP_FromInteger(1) ? 5 : 10),
             FP_FromInteger(pHoist->field_8_top_left.field_0_x + (field_CC_sprite_scale < FP_FromInteger(1) ? 6 : 12)) - field_B8_xpos))
     {
@@ -2914,7 +2914,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
 
     if (pTarget)
     {
-        if (!pTarget->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && VOnSameYLevel(pTarget) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pTarget->field_B8_xpos, pTarget->field_BC_ypos, 0) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pTarget->field_B8_xpos - field_B8_xpos))
+        if (!pTarget->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && VOnSameYLevel(pTarget) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pTarget->field_B8_xpos, pTarget->field_BC_ypos, 0) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !WallHit(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pTarget->field_B8_xpos - field_B8_xpos))
         {
             field_13E_current_anger = field_142_attack_anger_increaser + 1;
             return PatrolStates::State_8;
@@ -3234,7 +3234,7 @@ s16 Fleech::Brain_1_ChasingAbe_428760()
             }
 
             field_174_flags.Clear(Flags_174::eBit2);
-            if (!WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale)))
+            if (!WallHit(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale)))
             {
                 return 1;
             }
@@ -3261,7 +3261,7 @@ s16 Fleech::Brain_1_ChasingAbe_428760()
                 return field_126_state;
             }
 
-            if (pObj == sActiveHero_5C1B68 && VOnSameYLevel(sActiveHero_5C1B68) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, sActiveHero_5C1B68->field_B8_xpos, sActiveHero_5C1B68->field_BC_ypos, 0) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !WallHit_408750(FP_FromInteger((field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5)), sActiveHero_5C1B68->field_B8_xpos - field_B8_xpos))
+            if (pObj == sActiveHero_5C1B68 && VOnSameYLevel(sActiveHero_5C1B68) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, sActiveHero_5C1B68->field_B8_xpos, sActiveHero_5C1B68->field_BC_ypos, 0) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && !WallHit(FP_FromInteger((field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5)), sActiveHero_5C1B68->field_B8_xpos - field_B8_xpos))
             {
                 return 1;
             }
@@ -3425,7 +3425,7 @@ s16 Fleech::Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj)
     auto pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_170_danger_obj));
     if (pDangerObj == sControlledCharacter_5C1B8C)
     {
-        if (Collision_42B290(1) || HandleEnemyStopperOrSlamDoor_42ADC0(1) || WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1)))
+        if (Collision_42B290(1) || HandleEnemyStopperOrSlamDoor_42ADC0(1) || WallHit(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1)))
         {
             field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
             field_124_brain_state = eFleechBrains::eBrain_2_Scared_42D310;
@@ -3588,7 +3588,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     {
         // Check for blocked by wall
         const FP k1Directed = FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -1 : 1);
-        if (WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * k1Directed))
+        if (WallHit(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * k1Directed))
         {
             field_108_next_motion = eFleechMotions::M_StopMidCrawlCycle_8_42EB20;
             field_174_flags.Set(Flags_174::eBit2, field_C4_velx < FP_FromInteger(0));
@@ -3672,7 +3672,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     {
         if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(3), pObj))
         {
-            if (pObj->field_CC_sprite_scale == field_CC_sprite_scale && VIsFacingMe(pObj) && !WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos) && GotNoTarget_42CFA0() && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+            if (pObj->field_CC_sprite_scale == field_CC_sprite_scale && VIsFacingMe(pObj) && !WallHit(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos) && GotNoTarget_42CFA0() && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
                 SetTarget_42CF50();
                 field_108_next_motion = eFleechMotions::M_ExtendTongueFromEnemy_14_42FBD0;
@@ -3689,7 +3689,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
             if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(2), pObj))
             {
                 if (pObj->field_CC_sprite_scale == field_CC_sprite_scale
-                    && VIsFacingMe(pObj) && !WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos) && GotNoTarget_42CFA0() && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                    && VIsFacingMe(pObj) && !WallHit(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos) && GotNoTarget_42CFA0() && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
                     SetTarget_42CF50();
                     field_108_next_motion = eFleechMotions::M_ExtendTongueFromEnemy_14_42FBD0;
@@ -3811,7 +3811,7 @@ s16 Fleech::Brain_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj)
         if (VIsFacingMe(pObj))
         {
             const FP v48 = FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -1 : 1);
-            if (WallHit_408750(
+            if (WallHit(
                     FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5),
                     ScaleToGridSize(field_CC_sprite_scale) * v48))
             {
@@ -3945,7 +3945,7 @@ s16 Fleech::Brain_2_Scared_42D310()
             if (field_C4_velx != FP_FromInteger(0))
             {
                 const FP v9 = FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -1 : 1);
-                if (WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(0) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * v9))
+                if (WallHit(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(0) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * v9))
                 {
                     field_108_next_motion = eFleechMotions::M_StopMidCrawlCycle_8_42EB20;
                     field_174_flags.Set(Flags_174::eBit2, field_C4_velx < FP_FromInteger(0));
@@ -3986,7 +3986,7 @@ s16 Fleech::Brain_2_Scared_42D310()
                 else
                 {
                     const FP k1Directed = FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1);
-                    if (WallHit_408750(
+                    if (WallHit(
                             FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5),
                             ScaleToGridSize(field_CC_sprite_scale) * k1Directed))
                     {
@@ -4015,7 +4015,7 @@ s16 Fleech::Brain_2_Scared_42D310()
         case 3u:
         {
             const FP v22 = FP_FromInteger((field_174_flags.Get(Flags_174::eBit2)) != 0 ? -1 : 1);
-            if (!WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * v22))
+            if (!WallHit(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(field_CC_sprite_scale) * v22))
             {
                 return 1;
             }
@@ -4059,7 +4059,7 @@ s16 Fleech::Brain_2_Scared_42D310()
                 return 1;
             }
 
-            if (VOnSameYLevel(pDangerObj) && VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(3), pDangerObj) && pDangerObj->field_CC_sprite_scale == field_CC_sprite_scale && VIsFacingMe(pDangerObj) && !WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pDangerObj->field_B8_xpos - field_B8_xpos) && GotNoTarget_42CFA0())
+            if (VOnSameYLevel(pDangerObj) && VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(3), pDangerObj) && pDangerObj->field_CC_sprite_scale == field_CC_sprite_scale && VIsFacingMe(pDangerObj) && !WallHit(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pDangerObj->field_B8_xpos - field_B8_xpos) && GotNoTarget_42CFA0())
             {
                 field_11C_obj_id = field_170_danger_obj;
                 return 5;
@@ -4104,7 +4104,7 @@ s16 Fleech::Brain_2_Scared_42D310()
                     return field_126_state;
                 }
 
-                if (WallHit_408750(
+                if (WallHit(
                         FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5),
                         pDangerObj->field_B8_xpos - field_B8_xpos)
                     || !GotNoTarget_42CFA0())

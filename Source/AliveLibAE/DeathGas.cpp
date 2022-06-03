@@ -81,29 +81,13 @@ DeathGas::DeathGas(Layer layer, s32 amount)
     field_24_amount = static_cast<s16>(amount);
 }
 
-void DeathGas::VScreenChanged()
-{
-    vScreenChanged_43CA50();
-}
-
-void DeathGas::VUpdate()
-{
-    vUpdate_43C300();
-}
-
-void DeathGas::VRender(PrimHeader** ppOt)
-{
-    vRender_43C350(ppOt);
-}
-
-
 DeathGas::~DeathGas()
 {
     gObjList_drawables_5C1124->Remove_Item(this);
     gDeathGasCount_5BD24C--;
 }
 
-void DeathGas::vScreenChanged_43CA50()
+void DeathGas::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || !sActiveHero_5C1B68)
     {
@@ -111,9 +95,9 @@ void DeathGas::vScreenChanged_43CA50()
     }
 }
 
-void DeathGas::vUpdate_43C300()
+void DeathGas::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -129,7 +113,7 @@ void DeathGas::vUpdate_43C300()
     }
 }
 
-void DeathGas::vRender_43C350(PrimHeader** ppOt)
+void DeathGas::VRender(PrimHeader** ppOt)
 {
     field_22_unused += 2;
 

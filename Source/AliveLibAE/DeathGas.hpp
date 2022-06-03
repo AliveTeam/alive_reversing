@@ -13,17 +13,8 @@ public:
     ~DeathGas();
 
     virtual void VScreenChanged() override;
-
     virtual void VUpdate() override;
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-private:
-    void vScreenChanged_43CA50();
-
-    void vUpdate_43C300();
-
-    void vRender_43C350(PrimHeader** ppOt);
 
 private:
     s16 field_20_total;

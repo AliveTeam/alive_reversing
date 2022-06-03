@@ -10,19 +10,17 @@ class PalleteOverwriter;
 class Electrocute final : public BaseGameObject
 {
 public:
-    
+    Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget);
+    ~Electrocute();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
     // New virtuals
-    virtual void VStop_4E6150();
+    virtual void VStop();
     virtual s32 VSub_4E6630();
 
-    Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget);
-    ~Electrocute();
-
 private:
-    void vStop_4E6150();
     s32 vSub_4E6630();
 
 public:

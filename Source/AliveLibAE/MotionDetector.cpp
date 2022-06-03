@@ -288,7 +288,7 @@ void MotionDetector::VUpdate()
     MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, AETypes::eRedLaser_111));
     Greeter* pOwner = static_cast<Greeter*>(sObjectIds.Find(field_FC_owner_id, AETypes::eGreeter_64));
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -352,7 +352,7 @@ void MotionDetector::VUpdate()
 
                                 if (pObj == sActiveHero_5C1B68 && pObj->field_10C_health > FP_FromInteger(0))
                                 {
-                                    Mudokon_SFX_457EC0(MudSounds::eOops_14, 0, 0, 0);
+                                    Mudokon_SFX(MudSounds::eOops_14, 0, 0, 0);
                                 }
                             }
                         }

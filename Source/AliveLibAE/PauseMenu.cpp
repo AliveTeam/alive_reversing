@@ -437,7 +437,7 @@ PauseMenu::~PauseMenu()
     mFlags.Clear(BaseGameObject::eDrawable_Bit4);
 
     gObjList_drawables_5C1124->Remove_Item(this);
-    field_158_animation.vCleanUp_40C630();
+    field_158_animation.VCleanUp();
     field_F4_font.dtor_433540();
 }
 
@@ -451,7 +451,7 @@ void PauseMenu::Init()
     u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kNormaliconResID);
 
     const AnimRecord& rec = AnimRec(AnimId::NormalMudIcon);
-    if (field_158_animation.Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppAnimData, 1, 0, 0))
+    if (field_158_animation.Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppAnimData, 1, 0, 0))
     {
         this->field_158_animation.field_C_render_layer = field_20_animation.field_C_render_layer;
         this->field_158_animation.field_14_scale = field_CC_sprite_scale;
@@ -1343,7 +1343,7 @@ void PauseMenu::Page_Status_Render(PrimHeader** ot, PauseMenuPage* pPage)
 {
     // Render the status icon
     field_158_animation.field_C_render_layer = Layer::eLayer_Menu_41;
-    field_158_animation.vRender_40B820(180, 100, ot, 0, 0);
+    field_158_animation.VRender(180, 100, ot, 0, 0);
 
     // Render the text
     Page_Base_Render(ot, pPage);
@@ -1625,23 +1625,23 @@ void PauseMenu::VUpdate()
                 if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eNormal_0)
                 {
                     const AnimRecord& normalRec = AnimRec(AnimId::NormalMudIcon);
-                    field_158_animation.Set_Animation_Data_409C80(normalRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, normalRec.mResourceId, 1u, 0));
+                    field_158_animation.Set_Animation_Data(normalRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, normalRec.mResourceId, 1u, 0));
                 }
                 else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eSad_3)
                 {
                     const AnimRecord& angryRec = AnimRec(AnimId::AngryMudIcon);
-                    field_158_animation.Set_Animation_Data_409C80(angryRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, angryRec.mResourceId, 1u, 0));
+                    field_158_animation.Set_Animation_Data(angryRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, angryRec.mResourceId, 1u, 0));
                 }
                 else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eHappy_5)
                 {
                     const AnimRecord& happyRec = AnimRec(AnimId::HappyMudIcon);
-                    field_158_animation.Set_Animation_Data_409C80(happyRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, happyRec.mResourceId, 1u, 0));
+                    field_158_animation.Set_Animation_Data(happyRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, happyRec.mResourceId, 1u, 0));
                 }
 
-                FrameInfoHeader* pFrameInfoHeader = field_158_animation.Get_FrameHeader_40B730(0);
+                FrameInfoHeader* pFrameInfoHeader = field_158_animation.Get_FrameHeader(0);
                 FrameHeader* pHeader = reinterpret_cast<FrameHeader*>(&(*field_158_animation.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
-                field_158_animation.Load_Pal_40A530(field_158_animation.field_20_ppBlock, pHeader->field_0_clut_offset);
+                field_158_animation.Load_Pal(field_158_animation.field_20_ppBlock, pHeader->field_0_clut_offset);
                 sDisableFontFlicker_5C9304 = 1;
                 field_144_active_menu = sPM_Page_Main_5465B0;
 

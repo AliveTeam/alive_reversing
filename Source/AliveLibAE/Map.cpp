@@ -98,7 +98,7 @@ void Map::ScreenChange()
             // Did the screen change kill the object?
             if (pItem->mFlags.Get(BaseGameObject::eDead))
             {
-                iter.Remove_At_Iter_40CCA0();
+                iter.Remove_At_Iter();
                 delete pItem;
             }
         }
@@ -297,7 +297,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 if (!pLight->mFlags.Get(BaseGameObject::eDead))
                 {
-                    pLight->field_20_animation.vDecode_40AC90();
+                    pLight->field_20_animation.VDecode();
                 }
             }
 
@@ -1069,7 +1069,7 @@ s16 Map::Is_Point_In_Current_Camera_4810D0(s32 level, s32 path, FP xpos, FP ypos
 
 CameraPos Map::Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect)
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         return CameraPos::eCamNone_5;
     }
@@ -1284,7 +1284,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
         if (loadMode == LoadMode::ConstructObject_0)
         {
             // Async camera load
-            ResourceManager::LoadResourceFile_49C130(pCamera->field_1E_cam_name, Camera::On_Loaded_480ED0, pCamera, pCamera);
+            ResourceManager::LoadResourceFile_49C130(pCamera->field_1E_cam_name, Camera::On_Loaded, pCamera, pCamera);
 
             sCameraBeingLoaded_5C3118 = pCamera;
             sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, LoadMode::LoadResourceFromList_1, TlvTypes::None_m1); // none = load all

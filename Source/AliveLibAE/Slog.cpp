@@ -400,7 +400,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
     pSlog->field_106_current_motion = pState->field_28_current_motion;
     u8** ppRes = pSlog->ResBlockForMotion_4C4A80(pState->field_28_current_motion);
     const AnimRecord& animRec = AnimRec(sSlogFrameOffsetTable_5609D8[pSlog->field_106_current_motion]);
-    pSlog->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
+    pSlog->field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
 
     pSlog->field_20_animation.field_92_current_frame = pState->field_2A_anim_cur_frame;
     pSlog->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
@@ -727,7 +727,7 @@ void Slog::M_Fall_4_4C6930()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             xposBeforeChange,
             yposBeforeChange - (field_CC_sprite_scale * FP_FromInteger(20)),
             field_B8_xpos,
@@ -787,7 +787,7 @@ void Slog::M_MoveHeadUpwards_5_4C5F20()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (Math_RandomRange_496AB0(0, 100) < 30)
+        if (Math_RandomRange(0, 100) < 30)
         {
             Sfx_4C7D30(SlogSound::IdleGrrAlt_4);
         }
@@ -1089,7 +1089,7 @@ void Slog::M_JumpForwards_18_4C7210()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(oldXPos, oldYPos - k20Scaled, field_B8_xpos, field_BC_ypos, &pLine, &hitX, &hitY, 15) == 1)
+    if (sCollisions_DArray_5C1128->Raycast(oldXPos, oldYPos - k20Scaled, field_B8_xpos, field_BC_ypos, &pLine, &hitX, &hitY, 15) == 1)
     {
         switch (pLine->field_8_type)
         {
@@ -1144,7 +1144,7 @@ void Slog::M_JumpUpwards_19_4C7470()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             FP_FromInteger(bRect.x),
             FP_FromInteger(bRect.y),
             FP_FromInteger(bRect.w),
@@ -1153,7 +1153,7 @@ void Slog::M_JumpUpwards_19_4C7470()
     {
         if (field_20_animation.field_92_current_frame < 12)
         {
-            field_20_animation.SetFrame_409D50(24 - field_20_animation.field_92_current_frame);
+            field_20_animation.SetFrame(24 - field_20_animation.field_92_current_frame);
         }
     }
 
@@ -1196,7 +1196,7 @@ void Slog::M_Eating_20_4C75F0()
 
     if (field_20_animation.field_92_current_frame == 3 && !field_20_animation.field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
     {
-        SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
+        SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
         ae_new<Blood>(((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-25) : FP_FromInteger(25)) * field_CC_sprite_scale + field_B8_xpos,
                       field_BC_ypos - (FP_FromInteger(4) * field_CC_sprite_scale),
                       FP_FromInteger(0), FP_FromInteger(0),
@@ -1205,9 +1205,9 @@ void Slog::M_Eating_20_4C75F0()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (Math_RandomRange_496AB0(0, 100) < 85)
+        if (Math_RandomRange(0, 100) < 85)
         {
-            if (static_cast<s32>(sGnFrame_5C1B84) > field_150_growl_timer && Math_RandomRange_496AB0(0, 100) < 60)
+            if (static_cast<s32>(sGnFrame_5C1B84) > field_150_growl_timer && Math_RandomRange(0, 100) < 60)
             {
                 field_150_growl_timer = sGnFrame_5C1B84 + 16;
                 Sfx_4C7D30(SlogSound::IdleGrrr_3);
@@ -1666,12 +1666,12 @@ s16 Slog::Brain_Idle_1_4C2830()
             break;
 
         case 1:
-            if (Event_Is_Event_In_Range_422C30(kEventSuspiciousNoise, field_B8_xpos, field_BC_ypos, 1))
+            if (Event_Is_Event_In_Range(kEventSuspiciousNoise, field_B8_xpos, field_BC_ypos, 1))
             {
                 field_142_anger_level++;
             }
 
-            if (Event_Is_Event_In_Range_422C30(kEventSpeaking, field_B8_xpos, field_BC_ypos, 1))
+            if (Event_Is_Event_In_Range(kEventSpeaking, field_B8_xpos, field_BC_ypos, 1))
             {
                 field_142_anger_level += Slog_NextRandom() % 8 + 15;
             }
@@ -1719,12 +1719,12 @@ s16 Slog::Brain_Idle_1_4C2830()
             return 1;
 
         case 4:
-            if (Event_Is_Event_In_Range_422C30(kEventSuspiciousNoise, field_B8_xpos, field_BC_ypos, 1))
+            if (Event_Is_Event_In_Range(kEventSuspiciousNoise, field_B8_xpos, field_BC_ypos, 1))
             {
                 field_142_anger_level++;
             }
 
-            if (Event_Is_Event_In_Range_422C30(kEventSpeaking, field_B8_xpos, field_BC_ypos, 1))
+            if (Event_Is_Event_In_Range(kEventSpeaking, field_B8_xpos, field_BC_ypos, 1))
             {
                 field_142_anger_level += Slog_NextRandom() % 8 + 15;
             }
@@ -1782,12 +1782,12 @@ s16 Slog::Brain_Idle_1_4C2830()
             return 3;
 
         case 5:
-            if (Event_Is_Event_In_Range_422C30(kEventSuspiciousNoise, field_B8_xpos, field_BC_ypos, 1))
+            if (Event_Is_Event_In_Range(kEventSuspiciousNoise, field_B8_xpos, field_BC_ypos, 1))
             {
                 field_142_anger_level++;
             }
 
-            if (Event_Is_Event_In_Range_422C30(kEventSpeaking, field_B8_xpos, field_BC_ypos, 1))
+            if (Event_Is_Event_In_Range(kEventSpeaking, field_B8_xpos, field_BC_ypos, 1))
             {
                 field_142_anger_level += Math_NextRandom() % 8 + 15;
             }
@@ -2085,7 +2085,7 @@ s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTar
                 return 16;
             }
 
-            if (Math_RandomRange_496AB0(0, 100) < 20)
+            if (Math_RandomRange(0, 100) < 20)
             {
                 field_106_current_motion = eSlogMotions::M_Growl_23_4C7170;
             }
@@ -2110,7 +2110,7 @@ s16 Slog::Brain_ChasingAbe_State_14_CheckingIfBoneNearby()
         return 0;
     }
 
-    if (FP_Abs(field_BC_ypos - pBone->field_BC_ypos) <= FP_FromInteger(50) || pBone->VCanBeEaten_411560())
+    if (FP_Abs(field_BC_ypos - pBone->field_BC_ypos) <= FP_FromInteger(50) || pBone->VCanBeEaten())
     {
         if (pBone->VIsFalling())
         {
@@ -2162,7 +2162,7 @@ s16 Slog::Brain_ChasingAbe_State_13_EatingBone()
         return 2;
     }
 
-    if (FP_Abs(field_BC_ypos - pBone->field_BC_ypos) <= FP_FromInteger(50) || pBone->VCanBeEaten_411560())
+    if (FP_Abs(field_BC_ypos - pBone->field_BC_ypos) <= FP_FromInteger(50) || pBone->VCanBeEaten())
     {
         if (VIsFacingMe(pBone))
         {
@@ -2210,7 +2210,7 @@ s16 Slog::Brain_ChasingAbe_State_12_WalkingToBone()
         field_108_next_motion = eSlogMotions::M_Walk_1_4C60C0;
     }
 
-    if (FP_Abs(field_BC_ypos - pBone->field_BC_ypos) <= FP_FromInteger(50) || pBone->VCanBeEaten_411560())
+    if (FP_Abs(field_BC_ypos - pBone->field_BC_ypos) <= FP_FromInteger(50) || pBone->VCanBeEaten())
     {
         if (VIsFacingMe(pBone))
         {
@@ -2247,7 +2247,7 @@ s16 Slog::Brain_ChasingAbe_State_11_ChasingAfterBone()
         return 2;
     }
 
-    if (FP_Abs(field_BC_ypos - pBone->field_BC_ypos) <= FP_FromInteger(50) || pBone->VCanBeEaten_411560())
+    if (FP_Abs(field_BC_ypos - pBone->field_BC_ypos) <= FP_FromInteger(50) || pBone->VCanBeEaten())
     {
         if (!VIsFacingMe(pBone) && field_106_current_motion == eSlogMotions::M_Run_2_4C6340)
         {
@@ -2468,19 +2468,19 @@ s16 Slog::Brain_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget)
     {
         if (pTarget->field_10C_health > FP_FromInteger(0))
         {
-            field_124_timer = Math_RandomRange_496AB0(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
+            field_124_timer = Math_RandomRange(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
             return 1;
         }
 
         if (FP_Abs(pTarget->field_B8_xpos - field_B8_xpos) > ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(2))
         {
-            field_124_timer = Math_RandomRange_496AB0(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
+            field_124_timer = Math_RandomRange(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
             return 1;
         }
 
         if (FP_Abs(pTarget->field_BC_ypos - field_BC_ypos) > ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(2))
         {
-            field_124_timer = Math_RandomRange_496AB0(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
+            field_124_timer = Math_RandomRange(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
             return 1;
         }
 
@@ -2618,19 +2618,19 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
             {
                 if (pTarget->field_10C_health > FP_FromInteger(0))
                 {
-                    field_124_timer = Math_RandomRange_496AB0(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
+                    field_124_timer = Math_RandomRange(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
                     return 1;
                 }
 
                 if (FP_Abs(pTarget->field_B8_xpos - field_B8_xpos) > (ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(2)))
                 {
-                    field_124_timer = Math_RandomRange_496AB0(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
+                    field_124_timer = Math_RandomRange(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
                     return 1;
                 }
 
                 if (FP_Abs(pTarget->field_BC_ypos - field_BC_ypos) > (ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(2)))
                 {
-                    field_124_timer = Math_RandomRange_496AB0(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
+                    field_124_timer = Math_RandomRange(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
                     return 1;
                 }
                 field_124_timer = sGnFrame_5C1B84 + 90;
@@ -2692,7 +2692,7 @@ s16 Slog::Brain_ChasingAbe_State_0_Init()
     field_11C_biting_target = 0;
     field_15A_jump_counter = 0;
     field_15C_bone_id = -1;
-    field_124_timer = Math_RandomRange_496AB0(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
+    field_124_timer = Math_RandomRange(1, 3) + sGnFrame_5C1B84 + field_158_chase_delay;
     Sfx_4C7D30(SlogSound::AttackGrowl_8);
     return 1;
 }
@@ -2765,7 +2765,7 @@ void Slog::SetAnimFrame_4C42A0()
 {
     const AnimRecord& animRec = AnimRec(sSlogFrameOffsetTable_5609D8[field_106_current_motion]);
     u8** ppRes = ResBlockForMotion_4C4A80(field_106_current_motion);
-    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, ppRes);
+    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
 }
 
 const TintEntry sSlogTints_560A48[] = {
@@ -2828,7 +2828,7 @@ void Slog::Init_4C46A0()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos, field_BC_ypos,
             field_B8_xpos, field_BC_ypos + FP_FromInteger(24),
             &field_100_pCollisionLine, &hitX, &hitY, 1)
@@ -2864,7 +2864,7 @@ void Slog::VUpdate()
         }
         else
         {
-            sCollisions_DArray_5C1128->Raycast_417A60(
+            sCollisions_DArray_5C1128->Raycast(
                 field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(20),
                 field_B8_xpos,
@@ -2880,7 +2880,7 @@ void Slog::VUpdate()
         field_15C_bone_id = BaseGameObject::RefreshId(field_15C_bone_id);
     }
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -2903,7 +2903,7 @@ void Slog::VUpdate()
         field_122_brain_state_result = (this->*sSlog_fns_brain_560A38[field_120_brain_state_idx])();
         if (sDDCheat_ShowAI_Info_5C1BD8)
         {
-            DDCheat::DebugStr_4F5560("Slog:  Motion=%d  BrainState=%d\n", field_106_current_motion, field_122_brain_state_result);
+            DDCheat::DebugStr("Slog:  Motion=%d  BrainState=%d\n", field_106_current_motion, field_122_brain_state_result);
         }
 
         const FP oldXPos = field_B8_xpos;
@@ -3112,7 +3112,7 @@ s16 Slog::ToNextMotion_4C5A30()
 Bool32 Slog::CollisionCheck_4C5480(FP hitY, FP hitX)
 {
     PathLine* pLine = nullptr;
-    return sCollisions_DArray_5C1128->Raycast_417A60(field_B8_xpos, field_BC_ypos - hitY, field_B8_xpos + hitX, field_BC_ypos - hitY, &pLine, &hitX, &hitY, 6) != 0;
+    return sCollisions_DArray_5C1128->Raycast(field_B8_xpos, field_BC_ypos - hitY, field_B8_xpos + hitX, field_BC_ypos - hitY, &pLine, &hitX, &hitY, 6) != 0;
 }
 
 void Slog::MoveOnLine_4C5DA0()
@@ -3122,7 +3122,7 @@ void Slog::MoveOnLine_4C5DA0()
 
     if (field_100_pCollisionLine)
     {
-        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
         if (field_100_pCollisionLine)
         {
             if (pPlatform)
@@ -3175,7 +3175,7 @@ Bone* Slog::FindBone_4C25B0()
             {
                 if (gMap.Is_Point_In_Current_Camera_4810D0(pBone->field_C2_lvl_number, pBone->field_C0_path_number, pBone->field_B8_xpos, pBone->field_BC_ypos, 0) && pBone->field_D6_scale == field_D6_scale)
                 {
-                    if (FP_Abs(field_BC_ypos - pBone->field_BC_ypos) <= FP_FromInteger(50) || pBone->VCanBeEaten_411560())
+                    if (FP_Abs(field_BC_ypos - pBone->field_BC_ypos) <= FP_FromInteger(50) || pBone->VCanBeEaten())
                     {
                         return pBone;
                     }

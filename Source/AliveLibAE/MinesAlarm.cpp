@@ -57,7 +57,7 @@ void MinesAlarm::VScreenChanged()
 
 void MinesAlarm::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -75,7 +75,7 @@ void MinesAlarm::VUpdate()
         {
             ae_new<ExplosionSet>();
         }
-        pExplosionSet_5BBF68->Start_415300();
+        pExplosionSet_5BBF68->Start();
         mFlags.Clear(BaseGameObject::eUpdatable_Bit2);
     }
 }

@@ -84,7 +84,7 @@ void WheelSyncer::VUpdate()
 
     SwitchStates_Set(field_24_trigger_id, static_cast<s8>(switchValue));
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

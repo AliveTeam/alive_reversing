@@ -90,7 +90,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
         return TRUE;
     }*/
 
-    if (Event_Get_422C00(kEventAbeOhm))
+    if (Event_Get(kEventAbeOhm))
     {
         return FALSE;
     }
@@ -167,7 +167,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
             else
             {
                 // TODO: This is actually wrong!!
-                const u32 off = field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset;
+                const u32 off = field_20_animation.Get_FrameHeader(-1)->field_0_frame_header_offset;
                 field_BC_ypos = FP_FromInteger((*field_20_animation.field_20_ppBlock)[off + 5] + cameraWorldYPos + 236);
             }
             break;
@@ -209,7 +209,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
         PathLine* pLine = nullptr;
         if (field_100_pCollisionLine)
         {
-            if (sCollisions_DArray_5C1128->Raycast_417A60(
+            if (sCollisions_DArray_5C1128->Raycast(
                     field_B8_xpos, field_BC_ypos - FP_FromInteger(40),
                     field_B8_xpos, field_BC_ypos + FP_FromInteger(40),
                     &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
@@ -225,7 +225,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
         else
         {
             field_F8_LastLineYPos = field_BC_ypos - oldY + field_F8_LastLineYPos;
-            if (sCollisions_DArray_5C1128->Raycast_417A60(
+            if (sCollisions_DArray_5C1128->Raycast(
                     field_B8_xpos, field_F8_LastLineYPos - FP_FromInteger(40),
                     field_B8_xpos, field_F8_LastLineYPos + FP_FromInteger(40),
                     &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
@@ -284,7 +284,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             yBottom,
             field_B8_xpos,
@@ -336,7 +336,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
                 {
                     if (pBirdPortal->field_2C_xpos - field_B8_xpos <= (ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks)) && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                     {
-                        if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->VPortalClipper_499430(1))
+                        if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
                             field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
                             return pBirdPortal;
@@ -350,7 +350,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
                 {
                     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->VPortalClipper_499430(1))
+                        if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
                             field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
                             return pBirdPortal;
@@ -379,7 +379,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, LevelIds 
         return 0;
     }
 
-    field_20_animation.Load_Pal_40A530(pPalResource, 0);
+    field_20_animation.Load_Pal(pPalResource, 0);
     ResourceManager::FreeResource_49C330(pPalResource);
     return 1;
 }
@@ -406,7 +406,7 @@ Bool32 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions_DArray_5C1128->Raycast_417A60(
+    return sCollisions_DArray_5C1128->Raycast(
                xLoc + xPosSnapped,
                field_BC_ypos - FP_FromInteger(4),
                xLoc + xPosSnapped,
@@ -533,10 +533,10 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     return 0;
 }
 
-Bool32 BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
+Bool32 BaseAliveGameObject::WallHit(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
-    return sCollisions_DArray_5C1128->Raycast_417A60(
+    return sCollisions_DArray_5C1128->Raycast(
                field_B8_xpos,
                field_BC_ypos - offY,
                field_B8_xpos + offX,
@@ -548,7 +548,7 @@ Bool32 BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
         != 0; // TODO: Enum for line types
 }
 
-Bool32 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
+Bool32 BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
 {
     field_C8_vely += field_CC_sprite_scale * velY;
     if (field_C8_vely > (field_CC_sprite_scale * FP_FromInteger(20)))
@@ -562,7 +562,7 @@ Bool32 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hit
     field_B8_xpos += field_C4_velx;
     field_BC_ypos += field_C8_vely;
 
-    auto bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+    auto bCollision = sCollisions_DArray_5C1128->Raycast(
         oldXPos,
         oldYPos,
         field_B8_xpos,
@@ -583,7 +583,7 @@ Bool32 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hit
         velYClamped = FP_FromInteger(4);
     }
 
-    bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+    bCollision = sCollisions_DArray_5C1128->Raycast(
         field_B8_xpos,
         field_BC_ypos,
         field_B8_xpos + field_C4_velx,
@@ -611,7 +611,7 @@ Bool32 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hit
     }
 
     const FP k10Scaled = field_CC_sprite_scale * FP_FromInteger(10);
-    return sCollisions_DArray_5C1128->Raycast_417A60(
+    return sCollisions_DArray_5C1128->Raycast(
         oldXPos,
         oldYPos - k10Scaled,
         field_B8_xpos,
@@ -622,7 +622,7 @@ Bool32 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hit
         field_D6_scale != 0 ? 6 : 96);
 }
 
-BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(AETypes typeToFind, FP xpos, FP ypos)
+BaseGameObject* BaseAliveGameObject::FindObjectOfType(AETypes typeToFind, FP xpos, FP ypos)
 {
     const s32 xposI = FP_GetExponent(xpos);
     const s32 yposI = FP_GetExponent(ypos);

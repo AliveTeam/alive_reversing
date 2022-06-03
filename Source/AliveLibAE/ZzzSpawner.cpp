@@ -40,7 +40,7 @@ void ZzzSpawner::VScreenChanged()
 
 void ZzzSpawner::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

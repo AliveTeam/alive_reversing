@@ -54,7 +54,7 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
         if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
         {
             gObjList_drawables_5C1124->Remove_Item(this);
-            field_20_animation.vCleanUp_40C630();
+            field_20_animation.VCleanUp();
         }
 
         delete field_E0_pShadow;
@@ -99,7 +99,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             field_20_animation.field_9_g = static_cast<u8>(g);
             field_20_animation.field_A_b = static_cast<u8>(b);
 
-            field_20_animation.vRender_40B820(
+            field_20_animation.VRender(
                 FP_GetExponent((FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
                 FP_GetExponent((FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y)),
                 ppOt,
@@ -107,7 +107,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
                 0);
 
             PSX_RECT frameRect = {};
-            field_20_animation.Get_Frame_Rect_409E10(&frameRect);
+            field_20_animation.Get_Frame_Rect(&frameRect);
             pScreenManager_5BB5F4->InvalidateRect_40EC90(
                 frameRect.x,
                 frameRect.y,
@@ -133,7 +133,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
 void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData)
 {
     FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
-    if (field_20_animation.Init_40A030(
+    if (field_20_animation.Init(
             frameTableOffset,
             gObjList_animations_5C1A24,
             this,
@@ -157,7 +157,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
         bool added = true;
         if (bAddToDrawableList)
         {
-            added = gObjList_drawables_5C1124->Push_Back_40CAF0(this) ? true : false;
+            added = gObjList_drawables_5C1124->Push_Back(this) ? true : false;
         }
 
         if (added)
@@ -183,7 +183,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
 
 PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx)
 {
-    const FrameInfoHeader* pAnimFrameHeader = field_20_animation.Get_FrameHeader_40B730(-1);
+    const FrameInfoHeader* pAnimFrameHeader = field_20_animation.Get_FrameHeader(-1);
 
     PSX_RECT rect = {};
     // Normally this data is 3 points, one that is the frame offset and then 2 that make up the bounding rect.
@@ -476,7 +476,7 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
     if (!(sGnFrame_5C1B84 % 5))
     {
         New_Smoke_Particles(
-            (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
+            (FP_FromInteger(Math_RandomRange(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
             field_BC_ypos - FP_FromInteger(6),
             field_CC_sprite_scale / FP_FromInteger(2),
             2,

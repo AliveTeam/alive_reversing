@@ -61,7 +61,7 @@ public:
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    void InputControlFart_423BB0();
+    void InputControlFart();
     void ResetFartColour();
     void CalculateFartColour();
     void BlowUp();

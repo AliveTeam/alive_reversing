@@ -102,11 +102,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xD0);
 
-void Electrocute::VStop_4E6150()
-{
-    vStop_4E6150();
-}
-
 s32 Electrocute::VSub_4E6630()
 {
     return vSub_4E6630();
@@ -170,7 +165,7 @@ void Electrocute::VScreenChanged()
     // If the map has changed or target we are tracking has died then..
     if (gMap.mOverlayId != gMap.GetOverlayId() || (pTargetObj && pTargetObj->mFlags.Get(BaseGameObject::eDead)))
     {
-        VStop_4E6150();
+        VStop();
     }
 }
 
@@ -179,7 +174,7 @@ void Electrocute::VUpdate()
     BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
     if (!pTargetObj || pTargetObj->mFlags.Get(BaseGameObject::eDead))
     {
-        VStop_4E6150();
+        VStop();
     }
     else
     {
@@ -289,7 +284,7 @@ void Electrocute::VUpdate()
     }
 }
 
-void Electrocute::vStop_4E6150()
+void Electrocute::VStop()
 {
     for (auto& pPalOverwriter : field_30_pPalOverwriters)
     {

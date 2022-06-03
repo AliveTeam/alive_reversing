@@ -72,10 +72,7 @@ public:
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    void vSetTarget_49D140(BaseGameObject* pTarget);
-    void CollideWithObjects_49D5E0(s16 bDealDamage);
-    void vScreenChanged_49DE70();
-    s32 GetSaveState(AbilityRing_State* pSaveState);
+    void CollideWithObjects(s16 bDealDamage);
 
 private:
     Layer field_20_layer;

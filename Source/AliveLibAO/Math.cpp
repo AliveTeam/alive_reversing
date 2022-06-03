@@ -40,7 +40,7 @@ u8 Math_NextRandom()
 s16 Math_RandomRange_450F20(s16 min, s16 max)
 {
     // AE_IMPLEMENTED();
-    return Math_RandomRange_496AB0(min, max);
+    return Math_RandomRange(min, max);
 }
 
 FP Math_Sine_451110(u8 v)

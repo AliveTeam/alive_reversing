@@ -152,7 +152,7 @@ void DestroyObjects_4A1F20()
                 DynamicArrayIter iter;
                 iter.field_0_pDynamicArray = gBaseGameObjects;
                 iter.field_4_idx = idx;
-                iter.Remove_At_Iter_40CCA0();
+                iter.Remove_At_Iter();
 
                 delete pObj;
 
@@ -408,7 +408,7 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
 
     ResourceManager::Init_49BCE0();
     SND_Init();
-    SND_Init_Ambiance_4CB480();
+    SND_Init_Ambiance();
     MusicController::Create();
     Init_GameStates_43BF40(); // Init other vars + switch states
 }
@@ -534,7 +534,7 @@ void Game_Run_466D40()
 
     // Shut down start
     Game_Free_LoadingIcon_482D40();
-    DDCheat::ClearProperties_415390();
+    DDCheat::ClearProperties();
     gMap.Shutdown();
 
     relive_delete gObjList_animations_5C1A24;
@@ -550,7 +550,7 @@ void Game_Run_466D40()
     pMusicController_5C3020 = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?
     MusicController::Shutdown();
 
-    SND_Reset_Ambiance_4CB4B0();
+    SND_Reset_Ambiance();
     SND_Shutdown();
     PSX_CdControlB_4FB320(8, 0, 0);
     PSX_ResetCallBack_4FAA20();
@@ -670,7 +670,7 @@ void Game_Loop_467230()
     bool bPauseMenuObjectFound = false;
     while (!gBaseGameObjects->IsEmpty())
     {
-        Events_Reset_Active_422DA0();
+        Events_Reset_Active();
         Slurg::Clear_Slurg_Step_Watch_Points();
         bSkipGameObjectUpdates_5C2FA0 = 0;
 
@@ -710,7 +710,7 @@ void Game_Loop_467230()
         // Animate everything
         if (sNum_CamSwappers_5C1B66 <= 0)
         {
-            AnimationBase::AnimateAll_40AC20(gObjList_animations_5C1A24);
+            AnimationBase::AnimateAll(gObjList_animations_5C1A24);
         }
 
         PrimHeader** ppOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
@@ -777,7 +777,7 @@ void Game_Loop_467230()
                 it.field_0_pDynamicArray = gBaseGameObjects;
                 it.field_4_idx = idx + 1;
 
-                it.Remove_At_Iter_40CCA0();
+                it.Remove_At_Iter();
                 delete pObj;
             }
         }
@@ -837,7 +837,7 @@ void Game_Loop_467230()
             {
                 break;
             }
-            iter.Remove_At_Iter_40CCA0();
+            iter.Remove_At_Iter();
             relive_delete pObj;
         }
     }

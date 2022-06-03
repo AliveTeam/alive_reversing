@@ -157,7 +157,7 @@ void Rope::VRender(PrimHeader** ppOt)
                 maxY = 240;
             }
 
-            field_20_animation.vRender_40B820(640, 240, ppOt, 0, 0);
+            field_20_animation.VRender(640, 240, ppOt, 0, 0);
 
             if (screenY >= minY)
             {
@@ -181,7 +181,7 @@ void Rope::VRender(PrimHeader** ppOt)
                     field_FC_pRopeRes[idx].field_A_b = static_cast<u8>(b);
 
                     // Render the segment
-                    field_FC_pRopeRes[idx].vRender_40B820(
+                    field_FC_pRopeRes[idx].VRender(
                         screenX,
                         screenY,
                         ppOt,
@@ -189,7 +189,7 @@ void Rope::VRender(PrimHeader** ppOt)
                         0);
 
                     PSX_RECT rect = {};
-                    field_FC_pRopeRes[idx].GetRenderedSize_40C980(&rect);
+                    field_FC_pRopeRes[idx].GetRenderedSize(&rect);
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(
                         rect.x,
                         rect.y,

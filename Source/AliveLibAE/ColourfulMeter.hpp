@@ -22,20 +22,10 @@ class ColourfulMeter final : public BaseGameObject
 public:
     ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo);
     ~ColourfulMeter();
-    
 
     virtual void VScreenChanged() override;
-
     virtual void VUpdate() override;
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-private:
-    void vScreenChanged_43D7A0();
-
-    void vUpdate_43D140();
-
-    void vRender_43D2B0(PrimHeader** ppOt);
 
 private:
     Font_Context field_20_font_context;

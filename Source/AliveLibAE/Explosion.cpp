@@ -60,16 +60,16 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
     rect.w = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
     rect.h = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
 
-    DealBlastDamage_4A1BD0(&rect);
+    DealBlastDamage(&rect);
 
     SND_SEQ_PlaySeq(SeqId::Explosion1_14, 1, 1);
 }
 
 void Explosion::VUpdate()
 {
-    Event_Broadcast_422BC0(kEventShooting, this);
-    Event_Broadcast_422BC0(kEventLoudNoise, this);
-    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+    Event_Broadcast(kEventShooting, this);
+    Event_Broadcast(kEventLoudNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     PSX_RECT rect = {};
 
@@ -80,7 +80,7 @@ void Explosion::VUpdate()
             rect.w = FP_GetExponent(FP_FromInteger(20) * field_FC_explosion_size);
             rect.y = FP_GetExponent(FP_FromInteger(-20) * field_FC_explosion_size);
             rect.h = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
-            DealBlastDamage_4A1BD0(&rect);
+            DealBlastDamage(&rect);
             break;
 
         case 4:
@@ -90,7 +90,7 @@ void Explosion::VUpdate()
             rect.w = FP_GetExponent(FP_FromInteger(38) * field_FC_explosion_size);
             rect.y = FP_GetExponent(FP_FromInteger(-38) * field_FC_explosion_size);
             rect.h = FP_GetExponent(FP_FromInteger(19) * field_FC_explosion_size);
-            DealBlastDamage_4A1BD0(&rect);
+            DealBlastDamage(&rect);
         }
         break;
 
@@ -100,7 +100,7 @@ void Explosion::VUpdate()
             rect.w = FP_GetExponent(FP_FromInteger(60) * field_FC_explosion_size);
             rect.y = FP_GetExponent(FP_FromInteger(-60) * field_FC_explosion_size);
             rect.h = FP_GetExponent(FP_FromInteger(30) * field_FC_explosion_size);
-            DealBlastDamage_4A1BD0(&rect);
+            DealBlastDamage(&rect);
             break;
 
         case 8:
@@ -176,7 +176,7 @@ void Explosion::VScreenChanged()
     }
 }
 
-void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
+void Explosion::DealBlastDamage(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects_5C1B7C)
     {

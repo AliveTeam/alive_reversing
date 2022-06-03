@@ -86,16 +86,16 @@ class AnimationBase
 {
 public:
     // TODO: Virtuals must be on the base type, yet there is only 1 vtable pointing to derived?
-    virtual void vDecode_40AC90();
+    virtual void VDecode();
 
-    virtual void vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height);
-    virtual void vCleanUp_40C630() = 0;
+    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height);
+    virtual void VCleanUp() = 0;
 
     // TODO: Restore vTable entry.
     //virtual s16 Animationv_40B200();
     virtual s8 Animation_v_40BEE0(s16 a2, s16 a3, s32 a4, s16 a5, s16 op1);
 
-    static void AnimateAll_40AC20(DynamicArrayT<AnimationBase>* pAnimations);
+    static void AnimateAll(DynamicArrayT<AnimationBase>* pAnimations);
 
     BitField32<AnimFlags> field_4_flags;
     u8 field_8_r;

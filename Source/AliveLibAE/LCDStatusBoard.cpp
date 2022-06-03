@@ -37,7 +37,7 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
     field_C8_font4.ctor_433590(3, sStatsSignFontPalette_55CF8C, &sFont2Context_5BC5D8);
 
     mFlags.Set(eDrawable_Bit4);
-    gObjList_drawables_5C1124->Push_Back_40CAF0(this);
+    gObjList_drawables_5C1124->Push_Back(this);
     field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
     field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
@@ -68,7 +68,7 @@ LCDStatusBoard::~LCDStatusBoard()
 
 void LCDStatusBoard::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(eDead);
     }

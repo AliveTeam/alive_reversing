@@ -195,7 +195,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         if (i < 2)
         {
             // 2 arm parts
-            if (!pPart->field_18_anim.Init_40A030(
+            if (!pPart->field_18_anim.Init(
                     armGib.mFrameTableOffset,
                     gObjList_animations_5C1A24,
                     this,
@@ -214,7 +214,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         else
         {
             // 2 body parts
-            if (!pPart->field_18_anim.Init_40A030(
+            if (!pPart->field_18_anim.Init(
                     bodyGib.mFrameTableOffset,
                     gObjList_animations_5C1A24,
                     this,
@@ -260,7 +260,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
         if (ppRes)
         {
-            pPart->field_18_anim.Load_Pal_40A530(ppRes, 0);
+            pPart->field_18_anim.Load_Pal(ppRes, 0);
         }
 
         pPart++;
@@ -271,7 +271,7 @@ Gibs::~Gibs()
 {
     for (s32 i = 0; i < field_5D4_parts_used_count; i++)
     {
-        field_104_parts[i].field_18_anim.vCleanUp_40C630();
+        field_104_parts[i].field_18_anim.VCleanUp();
     }
 }
 
@@ -362,10 +362,10 @@ void Gibs::VRender(PrimHeader** ppOt)
                     const s32 xpos = FP_GetExponent(field_104_parts[i].field_0_x - camXPos);
                     const s32 ypos = FP_GetExponent(field_104_parts[i].field_4_y - camYPos);
 
-                    field_104_parts[i].field_18_anim.vRender_40B820(xpos, ypos, ppOt, 0, 0);
+                    field_104_parts[i].field_18_anim.VRender(xpos, ypos, ppOt, 0, 0);
 
                     PSX_RECT frameRect = {};
-                    field_104_parts[i].field_18_anim.Get_Frame_Rect_409E10(&frameRect);
+                    field_104_parts[i].field_18_anim.Get_Frame_Rect(&frameRect);
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(
                         frameRect.x,
                         frameRect.y,

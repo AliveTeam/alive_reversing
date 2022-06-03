@@ -115,7 +115,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     u8** ppLiftWheels = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftWheelsResID);
     const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<s32>(gMap.mCurrentLevel)];
     const AnimRecord& bottomWheelRec = AnimRec(rLiftWheelData.field_C_lift_bottom_wheel_anim_id);
-    if (field_13C_lift_wheel.Init_40A030(
+    if (field_13C_lift_wheel.Init(
             bottomWheelRec.mFrameTableOffset,
             gObjList_animations_5C1A24,
             this,
@@ -426,7 +426,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
 
             if (gMap.mCurrentLevel != LevelIds::eNecrum_2 && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
-                field_13C_lift_wheel.vRender_40B820(
+                field_13C_lift_wheel.VRender(
                     FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
                     FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * field_CC_sprite_scale)),
                     ppOt,
@@ -434,7 +434,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                     0);
 
                 PSX_RECT frameRect = {};
-                field_13C_lift_wheel.Get_Frame_Rect_409E10(&frameRect);
+                field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
                 pScreenManager_5BB5F4->InvalidateRect_40EC90(
                     frameRect.x,
                     frameRect.y,
@@ -468,7 +468,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                     field_1D4_pulley_anim.field_9_g = static_cast<u8>(g);
                     field_1D4_pulley_anim.field_A_b = static_cast<u8>(b);
 
-                    field_1D4_pulley_anim.vRender_40B820(
+                    field_1D4_pulley_anim.VRender(
                         FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                         FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
                         ppOt,
@@ -476,7 +476,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                         0);
 
                     PSX_RECT frameRect = {};
-                    field_1D4_pulley_anim.Get_Frame_Rect_409E10(&frameRect);
+                    field_1D4_pulley_anim.Get_Frame_Rect(&frameRect);
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(
                         frameRect.x,
                         frameRect.y,
@@ -491,7 +491,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
 
             if (gMap.mCurrentLevel == LevelIds::eNecrum_2 && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
-                field_13C_lift_wheel.vRender_40B820(
+                field_13C_lift_wheel.VRender(
                     FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
                     FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * field_CC_sprite_scale)),
                     ppOt,
@@ -499,7 +499,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                     0);
 
                 PSX_RECT frameRect = {};
-                field_13C_lift_wheel.Get_Frame_Rect_409E10(&frameRect);
+                field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
                 pScreenManager_5BB5F4->InvalidateRect_40EC90(
                     frameRect.x,
                     frameRect.y,
@@ -550,8 +550,8 @@ void LiftPoint::VUpdate()
                 field_280_flags.Clear(LiftFlags::eBit5_bMoveToFloorLevel);
                 SFX_Play_Mono(SoundEffect::LiftStop_30, 0);
                 SFX_Play_Pitch(SoundEffect::LiftStop_30, 80, -2000);
-                Event_Broadcast_422BC0(kEventNoise, this);
-                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                Event_Broadcast(kEventNoise, this);
+                Event_Broadcast(kEventSuspiciousNoise, this);
             }
         }
         else
@@ -787,7 +787,7 @@ void LiftPoint::VUpdate()
         SFX_Play_Mono(SoundEffect::WheelSqueak_31, 0);
     }
 
-    if ((field_C2_lvl_number != gMap.mCurrentLevel || field_C0_path_number != gMap.mCurrentPath || Event_Get_422C00(kEventDeathReset))
+    if ((field_C2_lvl_number != gMap.mCurrentLevel || field_C0_path_number != gMap.mCurrentPath || Event_Get(kEventDeathReset))
         && field_118_count <= 0)
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -857,8 +857,8 @@ void LiftPoint::vStayOnFloor(s16 floor, Path_LiftPoint* pTlv)
     pTlv->field_10_lift_point_id = field_278_lift_point_id;
     field_C8_vely = FP_FromInteger(0);
 
-    Event_Broadcast_422BC0(kEventNoise, this);
-    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 }
 
 s32 LiftPoint::VGetSaveState(u8* pSaveBuffer)
@@ -940,7 +940,7 @@ void LiftPoint::CreatePulleyIfExists()
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftWheelsResID);
     const LiftPointData& data = sLiftPointData_545AC8[static_cast<s32>(gMap.mCurrentLevel)];
     const AnimRecord& topWheelRec = AnimRec(data.field_10_lift_top_wheel_anim_id);
-    field_1D4_pulley_anim.Init_40A030(
+    field_1D4_pulley_anim.Init(
         topWheelRec.mFrameTableOffset,
         gObjList_animations_5C1A24,
         this,
@@ -1030,11 +1030,11 @@ LiftPoint::~LiftPoint()
         pTlv->field_0_flags.Clear(eBit2_Destroyed);
     }
 
-    field_13C_lift_wheel.vCleanUp_40C630();
+    field_13C_lift_wheel.VCleanUp();
 
     if (field_280_flags.Get(LiftFlags::eBit4_bHasPulley))
     {
-        field_1D4_pulley_anim.vCleanUp_40C630();
+        field_1D4_pulley_anim.VCleanUp();
     }
 
     ResourceManager::FreeResource_49C330(field_274_ppRes);

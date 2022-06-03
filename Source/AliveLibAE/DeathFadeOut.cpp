@@ -24,14 +24,14 @@ DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 s
         field_78_current_fade_rgb = 255;
     }
 
-    Init_427140(layer, direction, destroyOnDone, speed);
+    Init(layer, direction, destroyOnDone, speed);
 
     field_72_b = field_78_current_fade_rgb;
     field_70_g = field_78_current_fade_rgb;
     field_6E_r = field_78_current_fade_rgb;
 }
 
-void DeathFadeOut::Init_427140(Layer layer, s32 direction, bool destroyOnDone, s32 speed)
+void DeathFadeOut::Init(Layer layer, s32 direction, bool destroyOnDone, s32 speed)
 {
     field_6C_layer = layer;
     field_7C_direction = static_cast<s16>(direction);

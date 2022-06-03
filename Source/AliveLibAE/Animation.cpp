@@ -154,7 +154,7 @@ s32 Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
     FP xpos = xOff + pObj->field_B8_xpos;
     FP ypos = (pObj->field_CC_sprite_scale * (FP_FromInteger(pData[1]) + FP_FromInteger(25))) + pObj->field_BC_ypos;
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         pObj->mFlags.Set(BaseGameObject::eDead);
     }
@@ -229,7 +229,7 @@ s32 Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
     return 1;
 }
 
-// TODO: Array is possibly bigger, called by AnimationEx::Invoke_CallBacks_40B7A0
+// TODO: Array is possibly bigger, called by AnimationEx::Invoke_CallBacks
 TFrameCallBackType kAbe_Anim_Frame_Fns_55EF98[5] = {
     Animation_OnFrame_Common_Null_455F40,
     Animation_OnFrame_Null_455F60,
@@ -359,10 +359,10 @@ void Animation::DecompressFrame()
         field_4_flags.Toggle(AnimFlags::eBit10_alternating_flag);
     }
 
-    const FrameInfoHeader* pFrameInfo = Get_FrameHeader_40B730(-1); // -1 = use current frame
+    const FrameInfoHeader* pFrameInfo = Get_FrameHeader(-1); // -1 = use current frame
     if (pFrameInfo->field_6_count > 0)
     {
-        Invoke_CallBacks_40B7A0();
+        Invoke_CallBacks();
     }
 
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
@@ -416,7 +416,7 @@ inline s16 FP_AdjustedToInteger(FP fp, FP adjustment)
     return FP_GetExponent(fp + adjustment);
 }
 
-void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height)
+void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height)
 {
     if ((field_84_vram_rect.x || field_84_vram_rect.y) && !(field_4_flags.Get(AnimFlags::eBit25_bDecompressDone)))
     {
@@ -443,7 +443,7 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
         return;
     }
 
-    FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_40B730(-1);
+    FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader(-1);
     FrameHeader* pFrameHeader = (FrameHeader*) &(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset];
 
     FP frame_width_fixed;
@@ -599,24 +599,24 @@ void Animation::vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width,
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_C_render_layer), &pPoly->mBase.header);
 }
 
-void Animation::vCleanUp_40C630()
+void Animation::VCleanUp()
 {
     gObjList_animations_5C1A24->Remove_Item(this);
-    Animation_Pal_Free_40C4C0();
+    Animation_Pal_Free();
     ResourceManager::FreeResource_49C330(field_24_dbuf);
 }
 
-void Animation::vDecode2_40B200()
+void Animation::vDecode2()
 {
     ALIVE_FATAL("Impossible - this kind of anim data don't exist");
 }
 
-void Animation::vDecode_40AC90()
+void Animation::VDecode()
 {
     if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
     {
         // Never hit ?
-        vDecode2_40B200();
+        vDecode2();
         return;
     }
 
@@ -712,14 +712,14 @@ bool Animation::DecodeCommon()
     return true;
 }
 
-void Animation::Invoke_CallBacks_40B7A0()
+void Animation::Invoke_CallBacks()
 {
     if (!field_20_ppBlock || !field_1C_fn_ptr_array)
     {
         return;
     }
 
-    FrameInfoHeader* pFrameHeaderCopy = Get_FrameHeader_40B730(-1);
+    FrameInfoHeader* pFrameHeaderCopy = Get_FrameHeader(-1);
     // This data can be an array of u32's + other data up to field_6_count
     // which appears AFTER the usual data.
     u32* pCallBackData = reinterpret_cast<u32*>(&pFrameHeaderCopy->field_8_data.points[3]);
@@ -736,7 +736,7 @@ void Animation::Invoke_CallBacks_40B7A0()
     }
 }
 
-s16 Animation::Set_Animation_Data_409C80(s32 frameTableOffset, u8** pAnimRes)
+s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
 {
     FrameTableOffsetExists(frameTableOffset, true);
     if (pAnimRes)
@@ -772,7 +772,7 @@ s16 Animation::Set_Animation_Data_409C80(s32 frameTableOffset, u8** pAnimRes)
     field_E_frame_change_counter = 1;
     field_92_current_frame = -1;
 
-    vDecode_40AC90();
+    VDecode();
 
     // Reset to start frame
     field_E_frame_change_counter = 1;
@@ -781,7 +781,7 @@ s16 Animation::Set_Animation_Data_409C80(s32 frameTableOffset, u8** pAnimRes)
     return 1;
 }
 
-void Animation::Animation_Pal_Free_40C4C0()
+void Animation::Animation_Pal_Free()
 {
     if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
     {
@@ -804,7 +804,7 @@ void Animation::Animation_Pal_Free_40C4C0()
     }
 }
 
-void Animation::SetFrame_409D50(s16 newFrame)
+void Animation::SetFrame(s16 newFrame)
 {
     if (field_20_ppBlock)
     {
@@ -827,7 +827,7 @@ void Animation::SetFrame_409D50(s16 newFrame)
 
 ALIVE_VAR(1, 0x5440AC, FrameInfoHeader, sBlankFrameInfoHeader_5440AC, {});
 
-FrameInfoHeader* Animation::Get_FrameHeader_40B730(s16 frame)
+FrameInfoHeader* Animation::Get_FrameHeader(s16 frame)
 {
     if (!field_20_ppBlock)
     {
@@ -857,7 +857,7 @@ FrameInfoHeader* Animation::Get_FrameHeader_40B730(s16 frame)
     return pFrame;
 }
 
-void Animation::Get_Frame_Rect_409E10(PSX_RECT* pRect)
+void Animation::Get_Frame_Rect(PSX_RECT* pRect)
 {
     Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
     if (!field_4_flags.Get(AnimFlags::eBit20_use_xy_offset))
@@ -883,13 +883,13 @@ void Animation::Get_Frame_Rect_409E10(PSX_RECT* pRect)
     pRect->h = std::max(max_y0_y1, max_y2_y3);
 }
 
-u16 Animation::Get_Frame_Count_40AC70()
+u16 Animation::Get_Frame_Count()
 {
     AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset); // TODO: Make getting offset to animation header cleaner
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
+s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
 {
     FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
@@ -964,7 +964,7 @@ s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     field_8_r = 0;
     field_14_scale = FP_FromInteger(1);
 
-    FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_40B730(0);
+    FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader(0);
     u8* pAnimData = *field_20_ppBlock;
 
     const FrameHeader* pFrameHeader_1 = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
@@ -1027,7 +1027,7 @@ s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
         IRenderer::PalRecord palRec{0, 0, pal_depth};
         if (!IRenderer::GetRenderer()->PalAlloc(palRec))
         {
-            Animation_Pal_Free_40C4C0();
+            Animation_Pal_Free();
             return 0;
         }
 
@@ -1049,7 +1049,7 @@ s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     }
 
     // Get first frame decompressed/into VRAM
-    vDecode_40AC90();
+    VDecode();
 
     field_E_frame_change_counter = 1;
     field_92_current_frame = -1;
@@ -1057,7 +1057,7 @@ s16 Animation::Init_40A030(s32 frameTableOffset, DynamicArray* /*animList*/, Bas
     return 1;
 }
 
-void Animation::Load_Pal_40A530(u8** pAnimData, s32 palOffset)
+void Animation::Load_Pal(u8** pAnimData, s32 palOffset)
 {
     if (pAnimData)
     {
@@ -1072,17 +1072,17 @@ void Animation::Load_Pal_40A530(u8** pAnimData, s32 palOffset)
     }
 }
 
-void Animation::Get_Frame_Offset_40C480(s16* pBoundingX, s16* pBoundingY)
+void Animation::Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY)
 {
-    FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(-1);
+    FrameInfoHeader* pFrameHeader = Get_FrameHeader(-1);
     *pBoundingX = pFrameHeader->field_8_data.offsetAndRect.mOffset.x;
     *pBoundingY = pFrameHeader->field_8_data.offsetAndRect.mOffset.y;
 }
 
 
-void Animation::Get_Frame_Width_Height_40C400(s16* pWidth, s16* pHeight)
+void Animation::Get_Frame_Width_Height(s16* pWidth, s16* pHeight)
 {
-    FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(-1);
+    FrameInfoHeader* pFrameHeader = Get_FrameHeader(-1);
     if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
     {
         ALIVE_FATAL("Mode should never be used");

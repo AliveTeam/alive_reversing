@@ -29,7 +29,7 @@ void Camera::Free()
             break;
         }
         ResourceManager::FreeResource_49C330(pItem);
-        iter.Remove_At_Iter_40CCA0();
+        iter.Remove_At_Iter();
     }
 }
 
@@ -38,7 +38,7 @@ Camera::~Camera()
     Free();
 }
 
-void Camera::On_Loaded_480ED0(Camera* pCamera)
+void Camera::On_Loaded(Camera* pCamera)
 {
     pCamera->field_30_flags |= 1;
     pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);

@@ -47,28 +47,17 @@ public:
     virtual void VOnTrapDoorOpen();
 
     static s16 IsInInvisibleZone(BaseAliveGameObject* pObj);
+    void SetActiveCameraDelayedFromDir();
+    s16 MapFollowMe(s16 snapToGrid);
+    s16 OnTrapDoorIntersection(PlatformBase* pOther);
 
 protected:
     s16 SetBaseAnimPaletteTint(TintEntry* pTintArray, LevelIds level_id, s32 resourceID);
-
     Bool32 Check_IsOnEndOfLine(s16 direction, s16 distance);
-
     BaseAliveGameObject* GetStackedSlapTarget(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos);
-
-
-public:
-    void SetActiveCameraDelayedFromDir();
-
-public:
-    s16 MapFollowMe(s16 snapToGrid);
-
-protected:
-    Bool32 WallHit_408750(FP offY, FP offX);
-    Bool32 InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
-    BaseGameObject* FindObjectOfType_425180(AETypes typeToFind, FP xpos, FP ypos);
-
-public:
-    s16 OnTrapDoorIntersection(PlatformBase* pOther);
+    Bool32 WallHit(FP offY, FP offX);
+    Bool32 InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
+    BaseGameObject* FindObjectOfType(AETypes typeToFind, FP xpos, FP ypos);
 
 public:
     s16 field_F4_previous_motion;

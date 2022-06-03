@@ -385,7 +385,7 @@ void Path::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx
     {
         if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit1_Created) || (pTlv->field_0_flags.Get(TLV_Flags::eBit2_Destroyed))))
         {
-            Start_Sounds_for_TLV_4CB530(direction, pTlv);
+            Start_Sounds_for_TLV(direction, pTlv);
         }
         pTlv = Next_TLV(pTlv);
     }

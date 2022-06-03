@@ -12,7 +12,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, TRUE, FALSE);
     field_108_res = ppRes;
 
-    field_8_Anim.Init_40A030(orbRec.mFrameTableOffset, gObjList_animations_5C1A24, 0, orbRec.mMaxW, orbRec.mMaxH, ppRes, 1, 0, 0);
+    field_8_Anim.Init(orbRec.mFrameTableOffset, gObjList_animations_5C1A24, 0, orbRec.mMaxW, orbRec.mMaxH, ppRes, 1, 0, 0);
 
     field_B6_unused = bIsMudokonSpirit;
 
@@ -35,19 +35,19 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
         field_8_Anim.field_A_b = 80;
     }
 
-    field_8_Anim.SetFrame_409D50(Math_RandomRange_496AB0(0, field_8_Anim.Get_Frame_Count_40AC70() - 1));
+    field_8_Anim.SetFrame(Math_RandomRange(0, field_8_Anim.Get_Frame_Count() - 1));
     SetActive(0);
     field_B4_state = State::State_0_Start;
-    field_B8_render_angle = Math_RandomRange_496AB0(0, 255);
+    field_B8_render_angle = Math_RandomRange(0, 255);
     field_BC_counter = 1;
-    field_BE_max = Math_RandomRange_496AB0(9, 15);
+    field_BE_max = Math_RandomRange(9, 15);
     field_CC_xpos_mid = xpos;
-    field_D0_ypos_mid = ypos + FP_FromInteger(Math_RandomRange_496AB0(-12, 12));
+    field_D0_ypos_mid = ypos + FP_FromInteger(Math_RandomRange(-12, 12));
     field_E0_yMove = ypos - FP_FromInteger(16);
-    field_D4_radiusX = FP_FromInteger(Math_RandomRange_496AB0(37, 43));
+    field_D4_radiusX = FP_FromInteger(Math_RandomRange(37, 43));
     field_D8_radiusY = FP_FromDouble(0.25) * field_D4_radiusX;
     field_C0_current_scale = scale;
-    field_C4_randomized_scale = FP_FromInteger(Math_RandomRange_496AB0(7, 10)) / FP_FromInteger(10);
+    field_C4_randomized_scale = FP_FromInteger(Math_RandomRange(7, 10)) / FP_FromInteger(10);
     field_A8_render_as_scale = (field_C0_current_scale * field_C4_randomized_scale);
 }
 
@@ -58,7 +58,7 @@ s32 OrbWhirlWindParticle::IsActive()
 
 void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
 {
-    field_DC_position_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 16);
+    field_DC_position_timer = sGnFrame_5C1B84 + Math_RandomRange(0, 16);
     field_B4_state = State::State_1_Spin;
     field_E4_pObj = pObj;
     field_B0_ypos_increment = (field_C0_current_scale * (field_E0_yMove - field_D0_ypos_mid)) / FP_FromInteger(16);
@@ -70,7 +70,7 @@ void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj
 void OrbWhirlWindParticle::ToStop()
 {
     field_B4_state = State::State_4_Stop;
-    field_DC_position_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 32);
+    field_DC_position_timer = sGnFrame_5C1B84 + Math_RandomRange(0, 32);
 }
 
 void OrbWhirlWindParticle::Update()
@@ -153,7 +153,7 @@ void OrbWhirlWindParticle::Update()
                     field_B8_render_angle = 192;
                     field_D4_radiusX = FP_FromInteger(40);
                     field_AC_radiusX_offset = field_D4_radiusX / FP_FromInteger(32);
-                    field_104_scale_offset_spin_at_target = field_C0_current_scale * FP_FromInteger(Math_RandomRange_496AB0(-16, 16));
+                    field_104_scale_offset_spin_at_target = field_C0_current_scale * FP_FromInteger(Math_RandomRange(-16, 16));
                     field_DC_position_timer = sGnFrame_5C1B84 + 32;
                     field_B4_state = State::State_3_SpinAtTarget;
                 }
@@ -207,7 +207,7 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
             const FP xpos = field_A0_xpos_render_offset - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
             const FP ypos = field_A4_ypos_render_offset - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(5);
 
-            field_8_Anim.vRender_40B820(
+            field_8_Anim.VRender(
                 FP_GetExponent(xpos),
                 FP_GetExponent(ypos),
                 ppOt,
@@ -215,7 +215,7 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
                 0);
 
             PSX_RECT r = {};
-            field_8_Anim.Get_Frame_Rect_409E10(&r);
+            field_8_Anim.Get_Frame_Rect(&r);
             pScreenManager_5BB5F4->InvalidateRect_40EC90(r.x, r.y, r.w, r.h, pScreenManager_5BB5F4->field_3A_idx);
         }
     }
@@ -223,7 +223,7 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 
 OrbWhirlWindParticle::~OrbWhirlWindParticle()
 {
-    field_8_Anim.vCleanUp_40C630();
+    field_8_Anim.VCleanUp();
     ResourceManager::FreeResource_49C330(field_108_res);
 }
 

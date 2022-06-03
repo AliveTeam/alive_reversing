@@ -149,7 +149,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
             case RingTypes::eShrykull_Pulse_Small_4:
             case RingTypes::eInvisible_Pulse_Small_7:
             case RingTypes::eHealing_Pulse_14:
-                vSetTarget_49D140(sActiveHero_5C1B68);
+                VSetTarget(sActiveHero_5C1B68);
                 [[fallthrough]];
 
             case RingTypes::eShrykull_Pulse_Large_5:
@@ -408,11 +408,11 @@ void AbilityRing::VUpdate()
         case RingTypes::eHealing_Emit_12:
             if (field_284_ring_type == RingTypes::eHealing_Emit_12)
             {
-                CollideWithObjects_49D5E0(FALSE);
+                CollideWithObjects(FALSE);
             }
             else
             {
-                CollideWithObjects_49D5E0(TRUE);
+                CollideWithObjects(TRUE);
             }
             [[fallthrough]];
 
@@ -457,11 +457,8 @@ void AbilityRing::VUpdate()
 
 s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
 {
-    return GetSaveState(reinterpret_cast<AbilityRing_State*>(pSaveBuffer));
-}
+    auto pSaveState = reinterpret_cast<AbilityRing_State*>(pSaveBuffer);
 
-s32 AbilityRing::GetSaveState(AbilityRing_State* pSaveState)
-{
     pSaveState->field_0_type = AETypes::eAbilityRing_104;
     pSaveState->field_4_xpos = field_24C_xpos;
     pSaveState->field_8_ypos = field_250_ypos;
@@ -515,7 +512,7 @@ s32 AbilityRing::CreateFromSaveState(const u8* pBuffer)
 }
 
 
-void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
+void AbilityRing::CollideWithObjects(s16 bDealDamage)
 {
     for (s32 i = 0; i < field_28C_count; i++)
     {
@@ -569,20 +566,10 @@ void AbilityRing::CollideWithObjects_49D5E0(s16 bDealDamage)
 
 void AbilityRing::VSetTarget(BaseGameObject* pTarget)
 {
-    vSetTarget_49D140(pTarget);
-}
-
-void AbilityRing::vSetTarget_49D140(BaseGameObject* pTarget)
-{
     field_288_target_obj_id = pTarget->field_8_object_id;
 }
 
 void AbilityRing::VScreenChanged()
-{
-    vScreenChanged_49DE70();
-}
-
-void AbilityRing::vScreenChanged_49DE70()
 {
     if (field_284_ring_type == RingTypes::eHealing_Emit_12)
     {

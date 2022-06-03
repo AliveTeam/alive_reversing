@@ -163,9 +163,9 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
 
         SetRGB0(
             poly,
-            static_cast<u8>(r + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
-            static_cast<u8>(g + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
-            static_cast<u8>(b + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)));
+            static_cast<u8>(r + Math_RandomRange(-colorRandomRange, colorRandomRange)),
+            static_cast<u8>(g + Math_RandomRange(-colorRandomRange, colorRandomRange)),
+            static_cast<u8>(b + Math_RandomRange(-colorRandomRange, colorRandomRange)));
 
         SetTPage(poly, static_cast<s16>(tpage));
         SetClut(poly, static_cast<s16>(clut));

@@ -16,9 +16,6 @@ public:
     CreditsController(Path_TLV* pTlv, s32 tlvInfo);
     ~CreditsController();
 
-private:
-    void Update_418AC0();
-
 public:
     s32 field_20_next_cam_frame;
     s16 field_24_camera_number;

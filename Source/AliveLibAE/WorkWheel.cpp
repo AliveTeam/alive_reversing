@@ -50,7 +50,7 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     PathLine* pathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             field_BC_ypos,
             field_B8_xpos,
@@ -120,7 +120,7 @@ s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
 
 void WorkWheel::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -137,7 +137,7 @@ void WorkWheel::VUpdate()
                 field_BC_ypos,
                 0))
         {
-            const s16 randomVol = Math_RandomRange_496AB0(-30, 0);
+            const s16 randomVol = Math_RandomRange(-30, 0);
             SND_SEQ_Play(SeqId::WheelSqueak_19, 1, randomVol + 127, randomVol + 127);
         }
     }
@@ -181,7 +181,7 @@ void WorkWheel::VStartTurning()
     {
         field_FC_state = WheelStates::eTurning_1;
         const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Turning);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
 }
 
@@ -193,7 +193,7 @@ void WorkWheel::VStopTurning(s16 bResetSwitch)
 
         // Spin it.
         const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Idle);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
         if (field_104_turn_off_when_stopped == Choice_short::eYes_1)
         {

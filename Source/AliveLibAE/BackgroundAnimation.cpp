@@ -59,7 +59,7 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItem
 
 void BackgroundAnimation::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

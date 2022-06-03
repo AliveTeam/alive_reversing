@@ -22,13 +22,13 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
     field_20_animation.field_8_r = 80;
 
     field_CC_sprite_scale = scale * (((FP_FromInteger(Math_NextRandom() % 6)) / FP_FromInteger(10)) + FP_FromDouble(0.7));
-    field_FA_16_random = Math_RandomRange_496AB0(0, 16);
+    field_FA_16_random = Math_RandomRange(0, 16);
 
     field_B8_xpos = xpos;
     field_BC_ypos = ypos;
 
-    field_C4_velx = FP_FromInteger(Math_RandomRange_496AB0(-8, 8));
-    field_C8_vely = FP_FromInteger(Math_RandomRange_496AB0(-6, -3));
+    field_C4_velx = FP_FromInteger(Math_RandomRange(-8, 8));
+    field_C8_vely = FP_FromInteger(Math_RandomRange(-6, -3));
 }
 
 void Sparks::VUpdate()
@@ -41,7 +41,7 @@ void Sparks::VUpdate()
     if (field_FA_16_random == 0)
     {
         const AnimRecord& animRec = AnimRec(AnimId::Sparks);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         field_FA_16_random = -1;
     }
 

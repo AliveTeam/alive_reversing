@@ -6,15 +6,11 @@
 class AnimationUnknown final : public AnimationBase
 {
 public:
-    virtual void vDecode_40AC90() override;
-    virtual void vRender_40B820(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
-    virtual void vCleanUp_40C630() override;
+    virtual void VDecode() override;
+    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*width*/, s32 /*height*/) override;
+    virtual void VCleanUp() override;
 
-    void GetRenderedSize_40C980(PSX_RECT* pRect);
-
-private:
-    void vRender_40C690(s32 xpos, s32 ypos, PrimHeader** ppOt, s32 width, s32 height);
-    void vCleanUp_40C9C0();
+    void GetRenderedSize(PSX_RECT* pRect);
 
 public:
     Poly_FT4 field_10_polys[2];

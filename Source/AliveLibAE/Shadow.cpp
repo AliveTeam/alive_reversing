@@ -9,7 +9,7 @@ Shadow::Shadow()
 {
     const AnimRecord& shadowRec = AnimRec(AnimId::ObjectShadow);
     u8** ppAnimRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
-    field_18_animation.Init_40A030(shadowRec.mFrameTableOffset, gObjList_animations_5C1A24, 0, shadowRec.mMaxW, shadowRec.mMaxH, ppAnimRes, 1, 0, 0);
+    field_18_animation.Init(shadowRec.mFrameTableOffset, gObjList_animations_5C1A24, 0, shadowRec.mMaxW, shadowRec.mMaxH, ppAnimRes, 1, 0, 0);
 
     field_14_flags.Clear(Flags::eBit1_ShadowAtBottom);
     field_14_flags.Set(Flags::eBit2_Enabled);
@@ -30,7 +30,7 @@ Shadow::Shadow()
 
 Shadow::~Shadow()
 {
-    field_18_animation.vCleanUp_40C630();
+    field_18_animation.VCleanUp();
 }
 
 void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, s16 scale)
@@ -56,7 +56,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        if (sCollisions_DArray_5C1128->Raycast_417A60(
+        if (sCollisions_DArray_5C1128->Raycast(
                 xpos,
                 objY,
                 xpos,
@@ -86,7 +86,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             // Object is before the line we hit
             if (objX < lineXScreen)
             {
-                if (sCollisions_DArray_5C1128->Raycast_417A60(
+                if (sCollisions_DArray_5C1128->Raycast(
                         FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
                         hitY - FP_FromInteger(2),
                         FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
@@ -103,7 +103,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             // Object is after the line we hit
             if (objW > lineWScreen)
             {
-                if (sCollisions_DArray_5C1128->Raycast_417A60(
+                if (sCollisions_DArray_5C1128->Raycast(
                         FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
                         hitY - FP_FromInteger(2),
                         FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
@@ -171,7 +171,7 @@ void Shadow::Render(PrimHeader** ppOt)
             field_18_animation.field_A_b = 127;
         }
 
-        field_18_animation.vRender_40B820(
+        field_18_animation.VRender(
             // Note: OG converted to FP and back here but its pointless
             field_0_x1,
             field_2_y1,
@@ -180,7 +180,7 @@ void Shadow::Render(PrimHeader** ppOt)
             (field_6_y2 - field_2_y1) + 1);
 
         PSX_RECT frameRect = {};
-        field_18_animation.Get_Frame_Rect_409E10(&frameRect);
+        field_18_animation.Get_Frame_Rect(&frameRect);
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             frameRect.x,
             frameRect.y,

@@ -143,28 +143,28 @@ public:
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    s16 IsPossessed_436A90();
+    s16 IsPossessed();
     void sub_4348A0();
-    void Movement_4396E0();
+    void Movement();
 
 public:
-    void Brain_0_Inactive_4355B0();
-    void Brain_1_Death_4364E0();
-    void Brain_2_Moving_4356D0();
-    void Brain_3_GetAlerted_435750();
-    void Brain_4_ChasingEnemy_435BC0();
-    void Brain_5_Idle_435820();
-    void Brain_6_GameSpeakToMoving_435940();
-    void Brain_7_PanicMoving_435990();
-    void Brain_8_PanicIdle_435AC0();
-    void Brain_9_SpottedEnemy_435E40();
-    void Brain_10_LaunchingGrenade_435F10();
-    void Brain_11_AbeDead_435FD0();
-    void Brain_12_Possessed_436040();
-    void Brain_13_Possession_4360F0();
-    void Brain_14_DePossession_436180();
-    void Brain_15_FlyingSligSpawn_4362C0();
-    void Brain_17_FromCrawlingSlig_4355E0();
+    void Brain_0_Inactive();
+    void Brain_1_Death();
+    void Brain_2_Moving();
+    void Brain_3_GetAlerted();
+    void Brain_4_ChasingEnemy();
+    void Brain_5_Idle();
+    void Brain_6_GameSpeakToMoving();
+    void Brain_7_PanicMoving();
+    void Brain_8_PanicIdle();
+    void Brain_9_SpottedEnemy();
+    void Brain_10_LaunchingGrenade();
+    void Brain_11_AbeDead();
+    void Brain_12_Possessed();
+    void Brain_13_Possession();
+    void Brain_14_DePossession();
+    void Brain_15_FlyingSligSpawn();
+    void Brain_17_FromCrawlingSlig();
 
 public:
     void M_Idle_0_4385E0();
@@ -198,81 +198,43 @@ public:
 
 public:
     void ToPlayerControlled_4360C0();
-
     void ToMoving_435720();
-
     void ToPanicIdle_435B50();
-
     void ToChase_435E10();
-
     s16 CanChase_436850(BaseAliveGameObject* pObj);
-
     void Say_436A50(SligSpeak speak, s16 pitch);
-
     s16 sub_4374A0(s16 a2);
-
     static s16 IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis);
-
     static Bool32 IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
-
     void ThrowGrenade_43A1E0();
-
     void BlowUp_436510();
-
     s16 sub_436730();
-
     s16 CanHearAbe_4369C0();
-
     void ToSpottedEnemy_435E70();
-
     void ToAbeDead_436010();
-
     void ToAlerted_4357E0();
-
     void ToPanicMoving_435A50();
-
     s16 IsTurning_436AE0();
-
     u8** ResBlockForMotion_4350F0(s32 motion);
-
     void ToChantShake_436270();
-
     void ToPossesed_436130();
-
     void vUpdateAnimRes_4350A0();
-
     void PatrolDelay_435860();
-
     s16 CanThrowGrenade_43A490();
-
     void ToLaunchingGrenade_435F50();
-
     void HandlePlayerControls_439340();
-
     s16 sub_437C70(PathLine* pLine);
-
     TlvTypes FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
-
     s16 sub_436C60(PSX_RECT* pRect, s16 op1);
-
     Bool32 sub_436B20();
-
     void sub_4373B0();
-
     void vSetMotion_43B1B0(s16 newMotion);
-
     s16 CollisionUp_43A640(FP velY);
-
     s16 CollisionDown_43A9E0(FP velY);
-
     s16 CollisionLeftRight_43AC80(FP velX);
-
     void PullLever_436450();
-
     s16 TryPullLever_439DB0();
-
     void sub_437AC0(FP a2, FP_Point* pPoint);
-
 
     void SetBrain(TFlyingSligBrainFn fn);
     bool BrainIs(TFlyingSligBrainFn fn);

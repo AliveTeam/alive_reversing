@@ -80,7 +80,7 @@ void FlyingSligSpawner::VUpdate()
     }
 
     BaseGameObject* pCurrentSlig = sObjectIds.Find_Impl(field_24_spawned_slig_id);
-    if (!Event_Get_422C00(kEventDeathReset) && !mFlags.Get(BaseGameObject::eDead))
+    if (!Event_Get(kEventDeathReset) && !mFlags.Get(BaseGameObject::eDead))
     {
         if (field_3C_bSpawned)
         {

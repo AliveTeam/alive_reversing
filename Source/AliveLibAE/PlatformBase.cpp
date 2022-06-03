@@ -54,11 +54,11 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, u16 maxH,
         field_D6_scale = 0;
     }
 
-    FrameInfoHeader* pFrameHeader = field_20_animation.Get_FrameHeader_40B730(0);
+    FrameInfoHeader* pFrameHeader = field_20_animation.Get_FrameHeader(0);
     field_BC_ypos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * field_CC_sprite_scale);
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
 
-    field_124_pCollisionLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line_417FA0(
+    field_124_pCollisionLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
         pTlv->field_8_top_left.field_0_x,
         pTlv->field_8_top_left.field_2_y,
         pTlv->field_C_bottom_right.field_0_x,
@@ -84,7 +84,7 @@ PlatformBase::~PlatformBase()
     {
         if (gMap.mCurrentLevel == field_C2_lvl_number && gMap.mCurrentPath == field_C0_path_number)
         {
-            Rect_Clear_418040(&field_124_pCollisionLine->field_0_rect);
+            Rect_Clear(&field_124_pCollisionLine->field_0_rect);
         }
     }
 }

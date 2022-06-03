@@ -41,13 +41,13 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 
     field_F4_bHitSomething &= ~1u;
 
-    s16 randLeftVol = Math_RandomRange_496AB0(19, 24);
+    s16 randLeftVol = Math_RandomRange(19, 24);
     if (field_CC_sprite_scale == FP_FromDouble(0.5))
     {
         randLeftVol -= 7;
     }
 
-    const s16 randRightVol = Math_RandomRange_496AB0(-900, -700);
+    const s16 randRightVol = Math_RandomRange(-900, -700);
     SFX_Play_Pitch(SoundEffect::Leaf_22, (3 * randLeftVol) / 4, randRightVol);
     SetUpdateDelay(1);
 }
@@ -71,7 +71,7 @@ void Leaf::VUpdate()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const auto bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+    const auto bCollision = sCollisions_DArray_5C1128->Raycast(
         field_B8_xpos,
         field_BC_ypos,
         x2,

@@ -205,13 +205,13 @@ void ThrowableArray::Add(s16 count)
             u8** ppRes1 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbepickResID, 1, 0);
             if (ppRes1)
             {
-                field_24_throwables.Push_Back_40CAF0(ppRes1);
+                field_24_throwables.Push_Back(ppRes1);
             }
 
             u8** ppRes2 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID, 1, 0);
             if (ppRes2)
             {
-                field_24_throwables.Push_Back_40CAF0(ppRes2);
+                field_24_throwables.Push_Back(ppRes2);
             }
 
             field_22_flags.Set(Flags_22::eBit3_Unknown);

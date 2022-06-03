@@ -45,20 +45,15 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
 
         if (direction)
         {
-            field_C4_velx = FP_FromInteger(Math_RandomRange_496AB0(-6, -3));
+            field_C4_velx = FP_FromInteger(Math_RandomRange(-6, -3));
         }
         else
         {
-            field_C4_velx = FP_FromInteger(Math_RandomRange_496AB0(3, 6));
+            field_C4_velx = FP_FromInteger(Math_RandomRange(3, 6));
         }
-        field_C8_vely = FP_FromInteger(Math_RandomRange_496AB0(-4, -1));
+        field_C8_vely = FP_FromInteger(Math_RandomRange(-4, -1));
         field_100_speed = FP_FromInteger(1);
     }
-}
-
-void BulletShell::VUpdate()
-{
-    vUpdate_4AD550();
 }
 
 BulletShell::~BulletShell()
@@ -66,7 +61,7 @@ BulletShell::~BulletShell()
     sShellCount_BAF7E0--;
 }
 
-void BulletShell::vUpdate_4AD550()
+void BulletShell::VUpdate()
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {
@@ -80,7 +75,7 @@ void BulletShell::vUpdate_4AD550()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             field_BC_ypos - field_C8_vely,
             field_B8_xpos,

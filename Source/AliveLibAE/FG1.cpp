@@ -25,7 +25,7 @@ public:
     void OnPartialChunk(const Fg1Chunk& rChunk) override
     {
         Fg1Block* pRenderBlock = &mFg1.field_30_chnk_res[mIdx++];
-        mFg1.Convert_Chunk_To_Render_Block_49A210(&rChunk, pRenderBlock);
+        mFg1.Convert_Chunk_To_Render_Block(&rChunk, pRenderBlock);
     }
 
     void OnFullChunk(const Fg1Chunk& rChunk) override
@@ -99,7 +99,7 @@ FG1::~FG1()
     ResourceManager::FreeResource_49C330(field_2C_ptr);
 }
 
-s16 FG1::Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock)
+s16 FG1::Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 {
     // Map the layer from FG1 internal to OT layer
     pBlock->field_66_mapped_layer = sFg1_layer_to_bits_layer_5469BC[pChunk->field_2_layer_or_decompressed_size];
@@ -127,11 +127,6 @@ s16 FG1::Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* 
 
 void FG1::VRender(PrimHeader** ppOt)
 {
-    vRender_49A3C0(ppOt);
-}
-
-void FG1::vRender_49A3C0(PrimHeader** ppOt)
-{
     for (s32 i = 0; i < field_28_render_block_count; i++)
     {
         Poly_FT4* pPoly = &field_30_chnk_res[i].field_0_polys[gPsxDisplay_5C1130.field_C_buffer_index];
@@ -147,11 +142,6 @@ void FG1::vRender_49A3C0(PrimHeader** ppOt)
 }
 
 void FG1::VScreenChanged()
-{
-    vScreenChanged_49A520();
-}
-
-void FG1::vScreenChanged_49A520()
 {
     mFlags.Set(BaseGameObject::eDead);
 }

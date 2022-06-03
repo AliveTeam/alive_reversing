@@ -59,7 +59,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     FP hitY = {};
     FP hitX = {};
 
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             field_BC_ypos,
             field_B8_xpos,
@@ -91,7 +91,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 void TimedMine::VUpdate()
 {
     auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(field_110_id));
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(Options::eDead);
     }
@@ -145,7 +145,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
             field_BC_ypos,
             0))
     {
-        field_124_animation.vRender_40B820(
+        field_124_animation.VRender(
             FP_GetExponent((field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
             FP_GetExponent((field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromDouble(14)))),
             ppOt,
@@ -153,7 +153,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
             0);
 
         PSX_RECT frameRect = {};
-        field_124_animation.Get_Frame_Rect_409E10(&frameRect);
+        field_124_animation.Get_Frame_Rect(&frameRect);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             frameRect.x,
@@ -169,7 +169,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
 void TimedMine::InitBlinkAnimation(Animation* pAnimation)
 {
     const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
-    if (pAnimation->Init_40A030(tickRec.mFrameTableOffset, gObjList_animations_5C1A24, this, tickRec.mMaxW, tickRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, tickRec.mResourceId), 1, 0, 0))
+    if (pAnimation->Init(tickRec.mFrameTableOffset, gObjList_animations_5C1A24, this, tickRec.mMaxW, tickRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, tickRec.mResourceId), 1, 0, 0))
     {
         pAnimation->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnimation->field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -191,7 +191,7 @@ void TimedMine::StickToLiftPoint()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             field_BC_ypos - FP_FromInteger(20),
             field_B8_xpos, field_BC_ypos + FP_FromInteger(20),
@@ -241,7 +241,7 @@ TimedMine::~TimedMine()
         Path::TLV_Reset(field_11C_tlv, -1, 0, 1);
     }
 
-    field_124_animation.vCleanUp_40C630();
+    field_124_animation.VCleanUp();
 
     if (pPlatform)
     {
@@ -314,10 +314,10 @@ void TimedMine::VOnPickUpOrSlapped()
         }
         field_1BC_gnFrame_2 = sGnFrame_5C1B84;
         const AnimRecord& animRec = AnimRec(AnimId::TimedMine_Activated);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         const AnimRecord& flashRec = AnimRec(AnimId::Bomb_Flash);
         field_120_gnframe = sGnFrame_5C1B84 + field_11A_ticks_before_explosion;
-        field_124_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
+        field_124_animation.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
         SFX_Play_Mono(SoundEffect::GreenTick_2, 0);
     }
 }

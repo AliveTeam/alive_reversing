@@ -57,8 +57,8 @@ public:
         s16 frameW = 0;
         s16 frameH = 0;
 
-        field_20_animation.Get_Frame_Width_Height_40C400(&frameW, &frameH);
-        field_20_animation.Get_Frame_Offset_40C480(&xy.field_0_x, &xy.field_2_y);
+        field_20_animation.Get_Frame_Width_Height(&frameW, &frameH);
+        field_20_animation.Get_Frame_Offset(&xy.field_0_x, &xy.field_2_y);
 
         const auto& pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
         const FP screenX = field_B8_xpos - pCamPos->field_0_x;
@@ -93,7 +93,7 @@ public:
                 const FP xOff = field_FC_xOff - field_F4_xPos;
                 const FP yOff = field_100_yOff - field_F8_yPos;
 
-                field_20_animation.vRender_40B820(
+                field_20_animation.VRender(
                     FP_GetExponent(field_F4_xPos),
                     FP_GetExponent(field_F8_yPos),
                     ppOt,
@@ -101,7 +101,7 @@ public:
                     FP_GetExponent(yOff) + 1);
 
                 PSX_RECT frameRect = {};
-                field_20_animation.Get_Frame_Rect_409E10(&frameRect);
+                field_20_animation.Get_Frame_Rect(&frameRect);
                 pScreenManager_5BB5F4->InvalidateRect_40EC90(
                     frameRect.x,
                     frameRect.y,
@@ -165,7 +165,7 @@ public:
             anim.field_14.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
             // TODO: clean this up
-            const s32 rndLayer = static_cast<s32>(field_20_animation.field_C_render_layer) + Math_RandomRange_496AB0(-1, 1);
+            const s32 rndLayer = static_cast<s32>(field_20_animation.field_C_render_layer) + Math_RandomRange(-1, 1);
             anim.field_14.field_C_render_layer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = field_CC_sprite_scale;
 
@@ -175,7 +175,7 @@ public:
             anim.field_8_off_x = FP_FromInteger(0);
             anim.field_C_off_y = FP_FromInteger(0);
 
-            anim.field_10_random64 = Math_RandomRange_496AB0(0, 64);
+            anim.field_10_random64 = Math_RandomRange(0, 64);
             anim.field_12_bVisible = 0;
         }
 
@@ -216,7 +216,7 @@ private:
                     if (anim.field_10_random64 <= 0)
                     {
                         anim.field_12_bVisible = 1;
-                        anim.field_10_random64 = Math_RandomRange_496AB0(7, 9);
+                        anim.field_10_random64 = Math_RandomRange(7, 9);
 
                         anim.field_0_x = field_410_xpos;
                         anim.field_4_y = field_414_ypos;
@@ -239,7 +239,7 @@ private:
                 else
                 {
                     anim.field_12_bVisible = 0;
-                    anim.field_10_random64 = Math_RandomRange_496AB0(90, 240);
+                    anim.field_10_random64 = Math_RandomRange(90, 240);
                 }
             }
         }
@@ -255,7 +255,7 @@ private:
                 field_20_animation.field_9_g = 32;
                 field_20_animation.field_A_b = 32;
 
-                field_20_animation.vRender_40B820(
+                field_20_animation.VRender(
                     FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                     FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
                     ppOt,
@@ -263,7 +263,7 @@ private:
                     0);
 
                 PSX_RECT frameRect = {};
-                field_20_animation.Get_Frame_Rect_409E10(&frameRect);
+                field_20_animation.Get_Frame_Rect(&frameRect);
                 pScreenManager_5BB5F4->InvalidateRect_40EC90(
                     frameRect.x,
                     frameRect.y,
@@ -281,14 +281,14 @@ private:
                         {
                             if (anim.field_4_y >= pScreenManager_5BB5F4->field_20_pCamPos->field_4_y && anim.field_4_y <= pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(240))
                             {
-                                anim.field_14.vRender_40B820(
+                                anim.field_14.VRender(
                                     FP_GetExponent(anim.field_0_x - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                                     FP_GetExponent(anim.field_4_y - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
                                     ppOt,
                                     0,
                                     0);
 
-                                anim.field_14.GetRenderedSize_40C980(&frameRect);
+                                anim.field_14.GetRenderedSize(&frameRect);
                                 pScreenManager_5BB5F4->InvalidateRect_40EC90(
                                     frameRect.x,
                                     frameRect.y,
@@ -325,8 +325,8 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_DC_bApplyShadows |= 1u;
     field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
-    field_FA_frame_count = field_20_animation.Get_Frame_Count_40AC70();
-    field_20_animation.SetFrame_409D50(Math_RandomRange_496AB0(0, field_FA_frame_count - 1));
+    field_FA_frame_count = field_20_animation.Get_Frame_Count();
+    field_20_animation.SetFrame(Math_RandomRange(0, field_FA_frame_count - 1));
 
     field_F8_switch_id = pTlv->field_10_switch_id;
 
@@ -376,12 +376,12 @@ DoorFlame::~DoorFlame()
         field_10C_flame_sparks_id = -1;
     }
 
-    vStopAudio_45E7E0();
+    VStopAudio();
 
     Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }
 
-void DoorFlame::vStopAudio_45E7E0()
+void DoorFlame::VStopAudio()
 {
     if (pFlameControllingTheSound_5C2C6C == this)
     {
@@ -391,7 +391,7 @@ void DoorFlame::vStopAudio_45E7E0()
     }
 }
 
-void DoorFlame::vScreenChanged_45EA90()
+void DoorFlame::VScreenChanged()
 {
     BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_Impl(field_108_fire_background_glow_id);
     BaseGameObject* pFlameSparks = sObjectIds.Find_Impl(field_10C_flame_sparks_id);
@@ -411,7 +411,7 @@ void DoorFlame::vScreenChanged_45EA90()
     }
 }
 
-void DoorFlame::vUpdate_45E830()
+void DoorFlame::VUpdate()
 {
     auto pFireBackgroundGlow = static_cast<FireBackgroundGlow*>(sObjectIds.Find_Impl(field_108_fire_background_glow_id));
     auto pFlameSparks = static_cast<FlameSparks*>(sObjectIds.Find_Impl(field_10C_flame_sparks_id));

@@ -52,7 +52,7 @@ void TestAnimation::DelayLoad()
         u8** ppPal = Add_Resource(ResourceManager::Resource_Palt, palRec.mResourceId);
         if (ppPal)
         {
-            field_20_animation.Load_Pal_40A530(ppPal, 0);
+            field_20_animation.Load_Pal(ppPal, 0);
         }
     }
 }

@@ -12,7 +12,7 @@ public:
     DynamicArray(const DynamicArray& rhs) = delete;
     DynamicArray& operator=(const DynamicArray& rhs) const = delete;
 
-    s16 Expand_40CBE0(s16 expandSize);
+    s16 Expand(s16 expandSize);
 
     bool IsEmpty() const
     {
@@ -25,10 +25,10 @@ public:
     }
 
 public:
-    s16 Push_Back_40CAF0(void* pValue);
+    s16 Push_Back(void* pValue);
 
 protected:
-    s16 Remove_Item_40CB60(void* pItemToRemove);
+    s16 Remove_Item(void* pItemToRemove);
     void** field_0_array = nullptr;
 
 public:
@@ -52,12 +52,12 @@ public:
 
     s16 Push_Back(T* pValue)
     {
-        return Push_Back_40CAF0(pValue);
+        return DynamicArray::Push_Back(pValue);
     }
 
     s16 Remove_Item(T* pItemToRemove)
     {
-        return Remove_Item_40CB60(pItemToRemove);
+        return DynamicArray::Remove_Item(pItemToRemove);
     }
 
     T* ItemAt(s32 idx)
@@ -74,7 +74,7 @@ public:
 class DynamicArrayIter final
 {
 public:
-    void Remove_At_Iter_40CCA0();
+    void Remove_At_Iter();
 
     DynamicArray* field_0_pDynamicArray;
     s16 field_4_idx;

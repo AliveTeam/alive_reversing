@@ -52,7 +52,7 @@ void DeathBirdParticle::VUpdate()
             if (static_cast<s32>(sGnFrame_5C1B84) > field_F8_start)
             {
                 // Death "star"
-                field_20_animation.Set_Animation_Data_409C80(9912, 0);
+                field_20_animation.Set_Animation_Data(9912, 0);
                 field_F5_state = States::eTransformStarsToDoves_1;
             }
             break;

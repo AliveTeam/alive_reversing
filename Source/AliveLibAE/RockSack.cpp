@@ -71,7 +71,7 @@ void RockSack::VScreenChanged()
 
 void RockSack::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -84,7 +84,7 @@ void RockSack::VUpdate()
             {
                 field_120_can_play_wobble_sound = 0;
                 field_122_force_wobble_sound = 0;
-                SFX_Play_Pitch(SoundEffect::SackWobble_29, 24, Math_RandomRange_496AB0(-2400, -2200));
+                SFX_Play_Pitch(SoundEffect::SackWobble_29, 24, Math_RandomRange(-2400, -2200));
             }
         }
     }
@@ -98,7 +98,7 @@ void RockSack::VUpdate()
         if (field_11C_has_been_hit == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& animRec = AnimRec(AnimId::RockSack_Idle);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_11C_has_been_hit = 0;
         }
     }
@@ -106,7 +106,7 @@ void RockSack::VUpdate()
     {
         if (field_20_animation.field_E_frame_change_counter == 0)
         {
-            field_20_animation.field_E_frame_change_counter = Math_RandomRange_496AB0(2, 10);
+            field_20_animation.field_E_frame_change_counter = Math_RandomRange(2, 10);
         }
 
         PSX_RECT bPlayerRect = {};
@@ -124,12 +124,12 @@ void RockSack::VUpdate()
                     if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
-                        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                     }
                     else
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::RockSack_SoftHit);
-                        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                     }
                     field_11C_has_been_hit = 1;
                     return;
@@ -154,12 +154,12 @@ void RockSack::VUpdate()
             if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_31_RunJumpMid_452C10)
             {
                 const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             else
             {
                 const AnimRecord& animRec = AnimRec(AnimId::RockSack_SoftHit);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             field_11C_has_been_hit = 1;
         }

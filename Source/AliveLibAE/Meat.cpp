@@ -149,7 +149,7 @@ void Meat::InTheAir()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &field_130_pLine, &hitX, &hitY, field_D6_scale == 0 ? 0xF0 : 0xF) == 1)
+    if (sCollisions_DArray_5C1128->Raycast(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &field_130_pLine, &hitX, &hitY, field_D6_scale == 0 ? 0xF0 : 0xF) == 1)
     {
         switch (field_130_pLine->field_8_type)
         {
@@ -165,8 +165,8 @@ void Meat::InTheAir()
                     field_C8_vely = FP_FromInteger(0);
                     field_C4_velx = FP_FromInteger(0);
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
-                    Event_Broadcast_422BC0(kEventNoise, this);
-                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
                     AddToPlatform();
                 }
                 break;
@@ -179,8 +179,8 @@ void Meat::InTheAir()
                     field_BC_ypos = hitY;
                     field_C4_velx = (-field_C4_velx / FP_FromInteger(4));
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
-                    Event_Broadcast_422BC0(kEventNoise, this);
-                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
                     if (field_C8_vely < FP_FromInteger(0))
                     {
                         field_C8_vely = FP_FromInteger(0);
@@ -197,8 +197,8 @@ void Meat::InTheAir()
                     field_BC_ypos = hitY;
                     field_C4_velx = (-field_C4_velx / FP_FromInteger(4));
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
-                    Event_Broadcast_422BC0(kEventNoise, this);
-                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
                     if (field_C8_vely < FP_FromInteger(0))
                     {
                         field_C8_vely = FP_FromInteger(0);
@@ -215,8 +215,8 @@ void Meat::InTheAir()
                     field_BC_ypos = hitY + FP_FromInteger(1);
                     field_C8_vely = FP_FromInteger(0);
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
-                    Event_Broadcast_422BC0(kEventNoise, this);
-                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
                 }
                 break;
         }
@@ -263,7 +263,7 @@ void Meat::VUpdate()
     auto v2 = sObjectIds.Find_Impl(field_110_id);
     if (sNum_CamSwappers_5C1B66 == 0)
     {
-        if (Event_Get_422C00(kEventDeathReset))
+        if (Event_Get(kEventDeathReset))
         {
             mFlags.Set(BaseGameObject::eDead);
         }
@@ -313,7 +313,7 @@ void Meat::VUpdate()
                         field_C4_velx -= FP_FromDouble(0.01);
                     }
 
-                    field_130_pLine = field_130_pLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                    field_130_pLine = field_130_pLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
                     if (!field_130_pLine)
                     {
                         field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
@@ -498,7 +498,7 @@ void MeatSack::VScreenChanged()
 
 void MeatSack::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -511,7 +511,7 @@ void MeatSack::VUpdate()
             {
                 field_120_bPlayWobbleSound = 0;
                 field_122_always_0 = 0;
-                SFX_Play_Pitch(SoundEffect::SackWobble_29, 24, Math_RandomRange_496AB0(-2400, -2200));
+                SFX_Play_Pitch(SoundEffect::SackWobble_29, 24, Math_RandomRange(-2400, -2200));
             }
         }
     }
@@ -525,7 +525,7 @@ void MeatSack::VUpdate()
         if (field_11C_bDoMeatSackIdleAnim == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
-            field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
+            field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
             field_11C_bDoMeatSackIdleAnim = 0;
         }
     }
@@ -544,7 +544,7 @@ void MeatSack::VUpdate()
             {
                 if (gpThrowableArray_5D1E2C->field_20_count)
                 {
-                    field_20_animation.Set_Animation_Data_409C80(MeatSackHitRec.mFrameTableOffset, 0);
+                    field_20_animation.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, 0);
                     field_11C_bDoMeatSackIdleAnim = 1;
                     return;
                 }
@@ -563,7 +563,7 @@ void MeatSack::VUpdate()
             SFX_Play_Mono(SoundEffect::SackHit_25, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
-            field_20_animation.Set_Animation_Data_409C80(MeatSackHitRec.mFrameTableOffset, 0);
+            field_20_animation.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, 0);
             field_11C_bDoMeatSackIdleAnim = 1;
         }
     }

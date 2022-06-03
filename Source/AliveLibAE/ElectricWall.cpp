@@ -26,9 +26,9 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
 
-    if (field_20_animation.Get_Frame_Count_40AC70() > 0)
+    if (field_20_animation.Get_Frame_Count() > 0)
     {
-        field_20_animation.SetFrame_409D50(sElecticWallFrames_55165C[Math_RandomRange_496AB0(0, 4)]);
+        field_20_animation.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
     }
 
     field_DC_bApplyShadows &= ~1;
@@ -61,22 +61,12 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     field_FC_sound_timer = 0;
 }
 
-void ElectricWall::VUpdate()
-{
-    vUpdate_422030();
-}
-
-void ElectricWall::VScreenChanged()
-{
-    vScreenChanged_422530();
-}
-
 ElectricWall::~ElectricWall()
 {
     Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }
 
-void ElectricWall::vScreenChanged_422530()
+void ElectricWall::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) == CameraPos::eCamInvalid_m1)
     {
@@ -84,7 +74,7 @@ void ElectricWall::vScreenChanged_422530()
     }
 }
 
-void ElectricWall::vUpdate_422030()
+void ElectricWall::VUpdate()
 {
     const CameraPos soundDirection = gMap.GetDirection_4811A0(
         field_C2_lvl_number,
@@ -92,7 +82,7 @@ void ElectricWall::vUpdate_422030()
         field_B8_xpos,
         field_BC_ypos);
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -106,9 +96,9 @@ void ElectricWall::vUpdate_422030()
         // If we are about to become visible set a random starting frame
         if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render)))
         {
-            if (field_20_animation.Get_Frame_Count_40AC70() > 0)
+            if (field_20_animation.Get_Frame_Count() > 0)
             {
-                field_20_animation.SetFrame_409D50(sElecticWallFrames_55165C[Math_RandomRange_496AB0(0, 4)]);
+                field_20_animation.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
             }
         }
 
@@ -124,7 +114,7 @@ void ElectricWall::vUpdate_422030()
         if (static_cast<s32>(sGnFrame_5C1B84) >= field_FC_sound_timer)
         {
             SFX_Play_Camera(SoundEffect::BirdPortalSpark_41, 45, soundDirection, field_CC_sprite_scale);
-            field_FC_sound_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(24, 40);
+            field_FC_sound_timer = sGnFrame_5C1B84 + Math_RandomRange(24, 40);
         }
 
         PSX_RECT bRect = {};

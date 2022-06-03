@@ -117,12 +117,12 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
                 const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_On);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             else
             {
                 const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_Off);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
 
             field_F6_width = pTlv->field_C_bottom_right.field_2_y - pTlv->field_8_top_left.field_2_y;
@@ -145,12 +145,12 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
                 const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             else
             {
                 const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_Off);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
 
             field_F6_width = pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x;
@@ -175,12 +175,12 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
                 const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             else
             {
                 const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_Off);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
 
             field_F6_width = pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x;
@@ -241,31 +241,6 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 }
 
-void Drill::VUpdate()
-{
-    vUpdate_420C50();
-}
-
-void Drill::VRender(PrimHeader** ppOt)
-{
-    vRender_4213D0(ppOt);
-}
-
-void Drill::VScreenChanged()
-{
-    vScreenChanged_4214B0();
-}
-
-void Drill::VStopAudio()
-{
-    vStopAudio_4215C0();
-}
-
-s32 Drill::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_4217B0(pSaveBuffer);
-}
-
 s32 Drill::CreateFromSaveState(const u8* pData)
 {
     const Drill_State* pState = reinterpret_cast<const Drill_State*>(pData);
@@ -297,14 +272,14 @@ s32 Drill::CreateFromSaveState(const u8* pData)
             case DrillDirection::eDown_0:
             {
                 const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_On);
-                pDrill->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                pDrill->field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 break;
             }
             case DrillDirection::eRight_1:
             case DrillDirection::eLeft_2:
             {
                 const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                pDrill->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                pDrill->field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 break;
             }
         }
@@ -316,9 +291,9 @@ s32 Drill::CreateFromSaveState(const u8* pData)
     return sizeof(Drill_State);
 }
 
-void Drill::vUpdate_420C50()
+void Drill::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -339,14 +314,14 @@ void Drill::vUpdate_420C50()
                         case DrillDirection::eDown_0:
                         {
                             const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_On);
-                            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                             break;
                         }
                         case DrillDirection::eRight_1:
                         case DrillDirection::eLeft_2:
                         {
                             const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                             break;
                         }
                     }
@@ -367,21 +342,21 @@ void Drill::vUpdate_420C50()
                     case DrillDirection::eDown_0:
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_On);
-                        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                         break;
                     }
 
                     case DrillDirection::eRight_1:
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                         break;
                     }
 
                     case DrillDirection::eLeft_2:
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
                         break;
                     }
@@ -399,7 +374,7 @@ void Drill::vUpdate_420C50()
                 field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
             }
 
-            DamageTouchingObjects_421060();
+            DamageTouchingObjects();
 
             field_124_xyoff = field_124_xyoff - field_11C_speed2;
             if (field_124_xyoff <= FP_FromInteger(0))
@@ -407,7 +382,7 @@ void Drill::vUpdate_420C50()
                 field_F4_state = DrillStates::State_2_GoingUp;
                 SFX_Play_Camera(SoundEffect::DrillCollision_99, 50, soundDirection, FP_FromInteger(1));
             }
-            EmitSparks_4206D0();
+            EmitSparks();
             break;
 
         case DrillStates::State_2_GoingUp:
@@ -416,7 +391,7 @@ void Drill::vUpdate_420C50()
                 field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
             }
 
-            DamageTouchingObjects_421060();
+            DamageTouchingObjects();
 
             field_124_xyoff = field_11C_speed2 + field_124_xyoff;
             if (field_124_xyoff >= FP_FromInteger(field_F6_width))
@@ -443,17 +418,17 @@ void Drill::vUpdate_420C50()
                     min_off = field_FC_min_off_time;
                 }
 
-                field_108_off_timer = MakeTimer(Math_RandomRange_496AB0(min_off, max_off));
+                field_108_off_timer = MakeTimer(Math_RandomRange(min_off, max_off));
 
                 if (field_FA_direction == DrillDirection::eDown_0)
                 {
                     const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_Off);
-                    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 }
                 else
                 {
                     const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_Off);
-                    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 }
 
                 if (field_128_flags.Get(eBit4_Toggle))
@@ -462,7 +437,7 @@ void Drill::vUpdate_420C50()
                 }
             }
 
-            EmitSparks_4206D0();
+            EmitSparks();
             break;
     }
 }
@@ -485,7 +460,7 @@ Drill::~Drill()
     }
 }
 
-void Drill::vScreenChanged_4214B0()
+void Drill::VScreenChanged()
 {
     if (field_F4_state != DrillStates::State_0_Restart_Cycle)
     {
@@ -535,7 +510,7 @@ void Drill::vScreenChanged_4214B0()
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void Drill::vRender_4213D0(PrimHeader** ppOt)
+void Drill::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
@@ -562,7 +537,7 @@ void Drill::vRender_4213D0(PrimHeader** ppOt)
     }
 }
 
-void Drill::vStopAudio_4215C0()
+void Drill::VStopAudio()
 {
     if (field_10C_audio_channels_mask)
     {
@@ -571,7 +546,7 @@ void Drill::vStopAudio_4215C0()
     }
 }
 
-s32 Drill::vGetSaveState_4217B0(u8* pSaveBuffer)
+s32 Drill::VGetSaveState(u8* pSaveBuffer)
 {
     Drill_State* pState = reinterpret_cast<Drill_State*>(pSaveBuffer);
     pState->field_0 = 30;
@@ -582,7 +557,7 @@ s32 Drill::vGetSaveState_4217B0(u8* pSaveBuffer)
     return sizeof(Drill_State);
 }
 
-void Drill::EmitSparks_4206D0()
+void Drill::EmitSparks()
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
@@ -597,7 +572,7 @@ void Drill::EmitSparks_4206D0()
         }
 
         // 1 in 6 chance of sparks
-        if (Math_RandomRange_496AB0(0, 6) == 0)
+        if (Math_RandomRange(0, 6) == 0)
         {
             if (field_FA_direction == DrillDirection::eRight_1)
             {
@@ -657,7 +632,7 @@ void Drill::EmitSparks_4206D0()
     }
 }
 
-s16 Drill::DamageTouchingObjects_421060()
+s16 Drill::DamageTouchingObjects()
 {
     PSX_RECT drillRect = {};
     VGetBoundingRect(&drillRect, 1);

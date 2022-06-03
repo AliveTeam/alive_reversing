@@ -60,7 +60,7 @@ EvilFart::EvilFart()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos - FP_FromInteger(3),
             field_BC_ypos,
             field_B8_xpos + FP_FromInteger(3),
@@ -181,7 +181,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     return sizeof(EvilFart_State);
 }
 
-void EvilFart::InputControlFart_423BB0()
+void EvilFart::InputControlFart()
 {
     const FP kFartSpeed = FP_FromDouble(0.2);
     const u32 pressedKeys = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
@@ -290,7 +290,7 @@ s16 EvilFart::VTakeDamage(BaseGameObject* pFrom)
 
 void EvilFart::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -341,7 +341,7 @@ void EvilFart::VUpdate()
                     1);
 
                 field_BC_ypos = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50));
-                Mudokon_SFX_457EC0(MudSounds::eFart_7, 0, 10 * (300 - field_11C_alive_timer), this);
+                Mudokon_SFX(MudSounds::eFart_7, 0, 10 * (300 - field_11C_alive_timer), this);
                 field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(50);
             }
         }
@@ -408,7 +408,7 @@ void EvilFart::VUpdate()
                     SND_Stop_Channels_Mask(field_130_sound_channels);
                 }
 
-                Mudokon_SFX_457EC0(MudSounds::eFart_7, 50, FP_GetExponent(velocityToUse * FP_FromInteger(250)) - 2000, nullptr);
+                Mudokon_SFX(MudSounds::eFart_7, 50, FP_GetExponent(velocityToUse * FP_FromInteger(250)) - 2000, nullptr);
                 field_130_sound_channels = 0; // TODO OG BUG ?? v32;
             }
         }
@@ -419,13 +419,13 @@ void EvilFart::VUpdate()
                 SND_Stop_Channels_Mask(field_130_sound_channels);
                 field_130_sound_channels = 0;
             }
-            if (!(sGnFrame_5C1B84 % 30) && !Math_RandomRange_496AB0(0, 1))
+            if (!(sGnFrame_5C1B84 % 30) && !Math_RandomRange(0, 1))
             {
-                Mudokon_SFX_457EC0(MudSounds::eFart_7, 50, Math_RandomRange_496AB0(-1500, -2000), nullptr);
+                Mudokon_SFX(MudSounds::eFart_7, 50, Math_RandomRange(-1500, -2000), nullptr);
             }
         }
 
-        InputControlFart_423BB0();
+        InputControlFart();
         SetActiveCameraDelayedFromDir();
 
         FP x2Offset = {};
@@ -451,7 +451,7 @@ void EvilFart::VUpdate()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_5C1128->Raycast_417A60(
+        if (sCollisions_DArray_5C1128->Raycast(
                 field_B8_xpos,
                 field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
                 x2Offset + field_B8_xpos + field_C4_velx,
@@ -468,7 +468,7 @@ void EvilFart::VUpdate()
             field_B8_xpos += field_C4_velx;
         }
 
-        if (sCollisions_DArray_5C1128->Raycast_417A60(
+        if (sCollisions_DArray_5C1128->Raycast(
                 field_B8_xpos,
                 field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
                 field_B8_xpos + field_C4_velx + x2Offset,
@@ -526,8 +526,8 @@ void EvilFart::VUpdate()
                 return;
             }
 
-            const FP yposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
-            const FP xposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20)));
+            const FP yposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange(-20, 10)));
+            const FP xposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange(-20, 20)));
             New_TintChant_Particle(
                 xposOffset + field_B8_xpos,
                 yposOffset + field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),

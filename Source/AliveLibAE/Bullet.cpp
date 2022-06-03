@@ -32,11 +32,6 @@ Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, 
 
 void Bullet::VUpdate()
 {
-    vUpdate_413560();
-}
-
-void Bullet::vUpdate_413560()
-{
     if (!gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos, field_2C_ypos, 0) && !gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos + FP_FromInteger(10), field_2C_ypos, 0) && !gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos - FP_FromInteger(10), field_2C_ypos, 0))
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -50,8 +45,8 @@ void Bullet::vUpdate_413560()
         case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
         case BulletType::eNormalBullet_2:
         {
-            s32 randomW = FP_GetExponent(FP_FromInteger(Math_RandomRange_496AB0(1, 5)) * field_3C_scale);
-            const FP randomHeight = FP_FromInteger(Math_RandomRange_496AB0(1, 5)) * field_3C_scale;
+            s32 randomW = FP_GetExponent(FP_FromInteger(Math_RandomRange(1, 5)) * field_3C_scale);
+            const FP randomHeight = FP_FromInteger(Math_RandomRange(1, 5)) * field_3C_scale;
 
             PSX_RECT shootRect = {};
             if (field_30_x_distance > FP_FromInteger(0))
@@ -73,13 +68,13 @@ void Bullet::vUpdate_413560()
                 shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(10));
             }
 
-            BaseAliveGameObject* pShotObj = ShootObject_414630(&shootRect);
+            BaseAliveGameObject* pShotObj = ShootObject(&shootRect);
 
             const s16 vol = field_3C_scale != FP_FromDouble(0.5) ? 90 : 60;
 
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions_DArray_5C1128->Raycast_417A60(
+            if (sCollisions_DArray_5C1128->Raycast(
                     field_28_xpos,
                     field_2C_ypos - (FP_FromInteger(10) * field_3C_scale),
                     field_30_x_distance + field_28_xpos,
@@ -124,9 +119,9 @@ void Bullet::vUpdate_413560()
                                     field_3C_scale, 3, 128u, 128u, 128u);
                             }
 
-                            if (Math_RandomRange_496AB0(0, 100) < 90)
+                            if (Math_RandomRange(0, 100) < 90)
                             {
-                                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                             }
                         }
 
@@ -159,9 +154,9 @@ void Bullet::vUpdate_413560()
                     New_Smoke_Particles(hitX + (field_3C_scale * FP_FromInteger(7)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
                 }
 
-                if (Math_RandomRange_496AB0(0, 100) < 90)
+                if (Math_RandomRange(0, 100) < 90)
                 {
-                    SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                    SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                 }
                 mFlags.Set(BaseGameObject::eDead);
                 return;
@@ -204,9 +199,9 @@ void Bullet::vUpdate_413560()
                             field_3C_scale, 3, 128u, 128u, 128u);
                     }
 
-                    if (Math_RandomRange_496AB0(0, 100) < 90)
+                    if (Math_RandomRange(0, 100) < 90)
                     {
-                        SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                        SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                     }
                 }
 
@@ -221,9 +216,9 @@ void Bullet::vUpdate_413560()
                 return;
             }
 
-            if (Math_RandomRange_496AB0(0, 100) < 70)
+            if (Math_RandomRange(0, 100) < 70)
             {
-                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
             }
             mFlags.Set(BaseGameObject::eDead);
             return;
@@ -237,7 +232,7 @@ void Bullet::vUpdate_413560()
             rect.w = static_cast<s16>(xSnapped - 25 + 50);
             rect.y = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
             rect.h = static_cast<s16>(rect.y + 240);
-            BaseAliveGameObject* pShootObj = ShootObject_414630(&rect);
+            BaseAliveGameObject* pShootObj = ShootObject(&rect);
             if (pShootObj)
             {
                 if (pShootObj->VTakeDamage(this))
@@ -253,7 +248,7 @@ void Bullet::vUpdate_413560()
 
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions_DArray_5C1128->Raycast_417A60(
+            if (sCollisions_DArray_5C1128->Raycast(
                     sControlledCharacter_5C1B8C->field_B8_xpos,
                     FP_FromInteger(rect.y),
                     sControlledCharacter_5C1B8C->field_B8_xpos,
@@ -264,7 +259,7 @@ void Bullet::vUpdate_413560()
                 ae_new<Spark>(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
                 New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
             }
-            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
+            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
             mFlags.Set(BaseGameObject::eDead);
             return;
         }
@@ -291,7 +286,7 @@ void Bullet::vUpdate_413560()
             rect.w = rect.x + 2;
             rect.h = rect.h;
 
-            BaseAliveGameObject* pShootObj = ShootObject_414630(&rect);
+            BaseAliveGameObject* pShootObj = ShootObject(&rect);
             if (pShootObj && pShootObj->VTakeDamage(this) && pShootObj->Type() != AETypes::eGreeter_64 && pShootObj->Type() != AETypes::eMineCar_89)
             {
                 PlayBulletSounds(90);
@@ -300,7 +295,7 @@ void Bullet::vUpdate_413560()
             {
                 FP hitX = {};
                 FP hitY = {};
-                if (sCollisions_DArray_5C1128->Raycast_417A60(
+                if (sCollisions_DArray_5C1128->Raycast(
                         field_28_xpos,
                         field_2C_ypos,
                         rectXPos,
@@ -311,7 +306,7 @@ void Bullet::vUpdate_413560()
                     ae_new<Spark>(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
                     New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
                 }
-                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
+                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
             }
             mFlags.Set(BaseGameObject::eDead);
             return;
@@ -355,7 +350,7 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
     return false;
 }
 
-BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
+BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects_5C1B7C)
     {
@@ -412,6 +407,6 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
 void Bullet::PlayBulletSounds(s16 volume)
 {
     SFX_Play_Pitch(SoundEffect::AirStream_23, volume, 2000);
-    SFX_Play_Pitch(SoundEffect::MeatBounce_36, volume, Math_RandomRange_496AB0(300, 700));
-    SFX_Play_Pitch(SoundEffect::KillEffect_64, volume, Math_RandomRange_496AB0(900, 1400));
+    SFX_Play_Pitch(SoundEffect::MeatBounce_36, volume, Math_RandomRange(300, 700));
+    SFX_Play_Pitch(SoundEffect::KillEffect_64, volume, Math_RandomRange(900, 1400));
 }

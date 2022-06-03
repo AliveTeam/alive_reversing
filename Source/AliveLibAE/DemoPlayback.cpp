@@ -29,11 +29,6 @@ DemoPlayback::DemoPlayback()
     }
 }
 
-void DemoPlayback::VUpdate()
-{
-    vUpdate_4978E0();
-}
-
 void DemoPlayback::VScreenChanged()
 {
     // Keep alive
@@ -47,9 +42,9 @@ DemoPlayback::~DemoPlayback()
     }
 }
 
-void DemoPlayback::vUpdate_4978E0()
+void DemoPlayback::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         sInputObject_5BD4E0.UnsetDemoPlaying_45F240();
     }

@@ -131,7 +131,7 @@ s16 ShadowZone::ApplysToScale(s16 scale)
 
 void ShadowZone::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

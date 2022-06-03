@@ -30,7 +30,7 @@ void BackgroundMusic::VUpdate()
 }
 
 // In order of functions in the orignal game these are not part of this object
-void BackgroundMusic::Stop_4CB000()
+void BackgroundMusic::Stop()
 {
     if (sBackgroundMusic_seq_id_560F78 >= 0)
     {
@@ -38,7 +38,7 @@ void BackgroundMusic::Stop_4CB000()
     }
 }
 
-void BackgroundMusic::Play_4CB030()
+void BackgroundMusic::Play()
 {
     if (sBackgroundMusic_seq_id_560F78 >= 0)
     {

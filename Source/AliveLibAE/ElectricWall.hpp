@@ -29,10 +29,6 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    void vScreenChanged_422530();
-    void vUpdate_422030();
-
-private:
     s32 field_F4_tlvInfo;
     s16 field_F8_switch_id;
     ElectricWallStartState field_FA_start_state;

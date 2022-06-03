@@ -281,7 +281,7 @@ void Grenade::VUpdate()
     auto pExplosion = sObjectIds.Find_Impl(field_11C_explosion_id);
 
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -295,7 +295,7 @@ void Grenade::VUpdate()
         }
         else
         {
-            sCollisions_DArray_5C1128->Raycast_417A60(
+            sCollisions_DArray_5C1128->Raycast(
                 field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(10),
                 field_B8_xpos,
@@ -336,7 +336,7 @@ void Grenade::VUpdate()
                 }
 
                 auto oldLine = field_100_pCollisionLine;
-                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
                 if (field_110_id != -1 && field_100_pCollisionLine != oldLine)
                 {
                     VOnTrapDoorOpen();
@@ -351,7 +351,7 @@ void Grenade::VUpdate()
             else if (abs(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)) - FP_GetExponent(field_B8_xpos)) > 1)
             {
                 auto oldLine = field_100_pCollisionLine;
-                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
                 if (field_110_id != -1 && field_100_pCollisionLine != oldLine)
                 {
                     VOnTrapDoorOpen();
@@ -406,7 +406,7 @@ void Grenade::VUpdate()
         case GrenadeStates::eHitGround_5:
             field_C4_velx = FP_FromRaw(field_C4_velx.fpValue / 2);
 
-            field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+            field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
             if (!field_100_pCollisionLine)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
@@ -487,7 +487,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_128_xpos,
             field_12C_ypos,
             field_B8_xpos,
@@ -509,9 +509,9 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                 vol = 40;
             }
             SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
-            Event_Broadcast_422BC0(kEventNoise, this);
-            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-            Event_Broadcast_422BC0(kEventSpeaking, this);
+            Event_Broadcast(kEventNoise, this);
+            Event_Broadcast(kEventSuspiciousNoise, this);
+            Event_Broadcast(kEventSpeaking, this);
         }
         else
         {
@@ -546,14 +546,14 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                 SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
                 ++field_124;
 
-                Event_Broadcast_422BC0(kEventNoise, this);
-                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                Event_Broadcast_422BC0(kEventSpeaking, this);
+                Event_Broadcast(kEventNoise, this);
+                Event_Broadcast(kEventSuspiciousNoise, this);
+                Event_Broadcast(kEventSpeaking, this);
             }
         }
     }
 
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_128_xpos,
             field_12C_ypos,
             field_B8_xpos,
@@ -579,9 +579,9 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                         vol = 40;
                     }
                     SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
-                    Event_Broadcast_422BC0(kEventNoise, this);
-                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                    Event_Broadcast_422BC0(kEventSpeaking, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    Event_Broadcast(kEventSpeaking, this);
                 }
                 break;
 
@@ -598,9 +598,9 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                         vol = 40;
                     }
                     SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
-                    Event_Broadcast_422BC0(kEventNoise, this);
-                    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                    Event_Broadcast_422BC0(kEventSpeaking, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    Event_Broadcast(kEventSpeaking, this);
                 }
                 break;
 

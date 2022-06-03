@@ -51,7 +51,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             field_BC_ypos,
             field_B8_xpos + FP_FromInteger(20),
@@ -105,7 +105,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
 
     const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
     u8** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
-    if (field_108_anim_flare.Init_40A030(orbRec.mFrameTableOffset, gObjList_animations_5C1A24, this, orbRec.mMaxW, orbRec.mMaxH, ppFlareRes, 1u, 0, 0))
+    if (field_108_anim_flare.Init(orbRec.mFrameTableOffset, gObjList_animations_5C1A24, this, orbRec.mMaxW, orbRec.mMaxH, ppFlareRes, 1u, 0, 0))
     {
         field_108_anim_flare.field_8_r = 100;
         field_108_anim_flare.field_9_g = 100;
@@ -120,7 +120,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         field_108_anim_flare.field_4_flags.Set(AnimFlags::eBit7_SwapXY);
 
         field_1A0_pulse_position = field_F8_top;
-        field_1A4_delay_counter = Math_RandomRange_496AB0(0, 10);
+        field_1A4_delay_counter = Math_RandomRange(0, 10);
     }
     else
     {
@@ -151,7 +151,7 @@ void ParamiteWebLine::Wobble(s16 ypos)
 ParamiteWebLine::~ParamiteWebLine()
 {
     ae_non_zero_free_495560(field_FC_pRes);
-    field_108_anim_flare.vCleanUp_40C630();
+    field_108_anim_flare.VCleanUp();
     Path::TLV_Reset(field_100_tlv_info, -1, 0, 0);
 }
 
@@ -174,7 +174,7 @@ void ParamiteWebLine::VUpdate()
         if (field_1A0_pulse_position > field_FA_bottom)
         {
             field_1A0_pulse_position = field_F8_top;
-            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::WebDrop1_103, SoundEffect::WebDrop2_104)), Math_RandomRange_496AB0(40, 80));
+            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::WebDrop1_103, SoundEffect::WebDrop2_104)), Math_RandomRange(40, 80));
             field_106_wobble_pos = field_F8_top;
             return;
         }
@@ -201,16 +201,16 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
 {
     if (!field_104_wobble_idx && !field_1A4_delay_counter)
     {
-        field_108_anim_flare.vRender_40B820(
+        field_108_anim_flare.VRender(
             FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
             FP_GetExponent(FP_FromInteger(field_1A0_pulse_position) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
             ppOt, 0, 0);
         PSX_RECT rect = {};
-        field_108_anim_flare.Get_Frame_Rect_409E10(&rect);
+        field_108_anim_flare.Get_Frame_Rect(&rect);
         pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
     }
 
-    field_20_animation.vRender_40B820(640, 240, ppOt, 0, 0);
+    field_20_animation.VRender(640, 240, ppOt, 0, 0);
 
     s32 idx = 0;
     s16 render_ypos = field_FA_bottom;
@@ -251,13 +251,13 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
         field_FC_pRes[idx].field_9_g = static_cast<u8>(g);
         field_FC_pRes[idx].field_A_b = static_cast<u8>(b);
 
-        field_FC_pRes[idx].vRender_40B820(
+        field_FC_pRes[idx].VRender(
             FP_GetExponent(FP_FromInteger(render_xpos) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
             FP_GetExponent(FP_FromInteger(render_ypos) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
             ppOt, 0, 0);
 
         PSX_RECT rect = {};
-        field_FC_pRes[idx].GetRenderedSize_40C980(&rect);
+        field_FC_pRes[idx].GetRenderedSize(&rect);
         pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
 
         ClipPoly_Vertically_4A09E0(

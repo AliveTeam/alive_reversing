@@ -20,7 +20,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
         field_1B8_fade_colour = 255;
     }
 
-    vFadeIn_4CE300(direction, destroyOnDone);
+    VFadeIn(direction, destroyOnDone);
 
     const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
     field_D4_b = fade_rgb;
@@ -59,11 +59,6 @@ CircularFade::~CircularFade()
 
 void CircularFade::VRender(PrimHeader** ppOt)
 {
-    vRender_4CE3F0(ppOt);
-}
-
-void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
-{
     const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
 
     field_D4_b = fade_rgb;
@@ -73,7 +68,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
     field_20_animation.field_9_g = fade_rgb;
     field_20_animation.field_A_b = fade_rgb;
 
-    field_20_animation.vRender_40B820(
+    field_20_animation.VRender(
         FP_GetExponent(FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
         FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
         ppOt,
@@ -81,7 +76,7 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
         0);
 
     PSX_RECT frameRect = {};
-    field_20_animation.Get_Frame_Rect_409E10(&frameRect);
+    field_20_animation.Get_Frame_Rect(&frameRect);
 
     pScreenManager_5BB5F4->InvalidateRect_40EC90(
         frameRect.x,
@@ -188,11 +183,6 @@ void CircularFade::vRender_4CE3F0(PrimHeader** ppOt)
 
 void CircularFade::VUpdate()
 {
-    vUpdate_4CE380();
-}
-
-void CircularFade::vUpdate_4CE380()
-{
     if ((!field_F4_flags.Get(Flags::eBit4_NeverSet) && !field_F4_flags.Get(Flags::eBit2_Done)))
     {
         field_1B8_fade_colour += field_1BA_speed;
@@ -210,12 +200,7 @@ void CircularFade::vUpdate_4CE380()
     }
 }
 
-s32 CircularFade::VFadeIn_4CE300(s16 direction, s8 destroyOnDone)
-{
-    return vFadeIn_4CE300(direction, destroyOnDone);
-}
-
-s32 CircularFade::vFadeIn_4CE300(s16 direction, s8 destroyOnDone) // TODO: Likely no return
+s32 CircularFade::VFadeIn(s16 direction, s8 destroyOnDone) // TODO: Likely no return
 {
     sNum_CamSwappers_5C1B66++;
 
@@ -243,12 +228,7 @@ void CircularFade::VScreenChanged()
     // null sub
 }
 
-s32 CircularFade::VDone_4CE0B0()
-{
-    return vDone_4CE0B0();
-}
-
-s32 CircularFade::vDone_4CE0B0()
+s32 CircularFade::VDone()
 {
     return field_F4_flags.Get(Flags::eBit2_Done);
 }

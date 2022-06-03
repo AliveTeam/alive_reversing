@@ -63,7 +63,7 @@ static ReliveAPI::TAliveFatalCb fnAliveFatalCb = nullptr;
     abort();
 }
 
-void CC Collisions::Factory_4188A0(const CollisionInfo*, const u8*)
+void CC Collisions::Factory(const CollisionInfo*, const u8*)
 {
 
 }

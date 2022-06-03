@@ -49,15 +49,15 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
             s32 randAng = 0;
             if (minAngle >= 0)
             {
-                randAng = Math_RandomRange_496AB0(static_cast<s16>(minAngle), static_cast<s16>(maxAngle));
+                randAng = Math_RandomRange(static_cast<s16>(minAngle), static_cast<s16>(maxAngle));
             }
             else
             {
-                randAng = minAngle + Math_RandomRange_496AB0(0, static_cast<s16>(maxAngle - minAngle));
+                randAng = minAngle + Math_RandomRange(0, static_cast<s16>(maxAngle - minAngle));
             }
             pSparkIter->field_10_ang = static_cast<u8>(randAng);
             pSparkIter->field_14_radius = FP_FromInteger(0);
-            pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange_496AB0(2, 4));
+            pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange(2, 4));
         }
 
         field_60_timer = sGnFrame_5C1B84 + 3;
@@ -109,7 +109,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
 
 void Spark::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -131,7 +131,7 @@ void Spark::VUpdate()
                 pSpark->field_4_y0 = pSpark->field_14_radius * Math_Cosine_496CD0(pSpark->field_10_ang);
                 pSpark->field_8_x1 = (pSpark->field_14_radius + pSpark->field_18_len) * Math_Sine_496DD0(pSpark->field_10_ang);
                 pSpark->field_C_y1 = (pSpark->field_14_radius + pSpark->field_18_len) * Math_Cosine_496CD0(pSpark->field_10_ang);
-                pSpark->field_14_radius = pSpark->field_18_len + FP_FromInteger(Math_RandomRange_496AB0(2, 5));
+                pSpark->field_14_radius = pSpark->field_18_len + FP_FromInteger(Math_RandomRange(2, 5));
                 pSpark->field_18_len = pSpark->field_18_len + FP_FromInteger(2);
             }
         }

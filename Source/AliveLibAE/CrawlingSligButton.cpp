@@ -52,18 +52,13 @@ CrawlingSligButton::CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInf
     field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
 }
 
-void CrawlingSligButton::VUpdate()
-{
-    vUpdate_414B20();
-}
-
-void CrawlingSligButton::UseButton_414C60()
+void CrawlingSligButton::UseButton()
 {
     if (!field_102_in_use)
     {
         field_102_in_use = 1;
         const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButtonUse);
-        field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
     }
 }
 
@@ -72,9 +67,9 @@ CrawlingSligButton::~CrawlingSligButton()
     Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }
 
-void CrawlingSligButton::vUpdate_414B20()
+void CrawlingSligButton::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -82,8 +77,8 @@ void CrawlingSligButton::vUpdate_414B20()
     if (field_102_in_use == 1)
     {
         SFX_Play_Mono(SoundEffect::LeverPull_63, 0);
-        Event_Broadcast_422BC0(kEventNoise, this);
-        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+        Event_Broadcast(kEventNoise, this);
+        Event_Broadcast(kEventSuspiciousNoise, this);
 
         const s32 old_switch_state = SwitchStates_Get(field_F8_switch_id);
         SwitchStates_Do_Operation(field_F8_switch_id, field_FA_action);
@@ -104,6 +99,6 @@ void CrawlingSligButton::vUpdate_414B20()
 
         field_102_in_use = 0;
         const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
-        field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
     }
 }

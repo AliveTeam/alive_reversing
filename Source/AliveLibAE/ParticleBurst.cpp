@@ -241,7 +241,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
 
                 if (field_20_animation.field_14_scale <= FP_FromInteger(1))
                 {
-                    field_20_animation.vRender_40B820(
+                    field_20_animation.VRender(
                         FP_GetExponent(field_F8_pRes[i].field_0_x - camX),
                         FP_GetExponent(field_F8_pRes[i].field_4_y - camY),
                         ppOt,
@@ -251,7 +251,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                     bFirst = false;
 
                     PSX_RECT frameRect = {};
-                    field_20_animation.Get_Frame_Rect_409E10(&frameRect);
+                    field_20_animation.Get_Frame_Rect(&frameRect);
                     if (field_106_count == 9)
                     {
                         if (field_20_animation.field_8_r > 5)
@@ -297,7 +297,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
 
                 if (field_F8_pRes[i].field_18_anim.field_6C_scale <= FP_FromInteger(1))
                 {
-                    field_F8_pRes[i].field_18_anim.vRender_40B820(
+                    field_F8_pRes[i].field_18_anim.VRender(
                         FP_GetExponent(field_F8_pRes[i].field_0_x - camX),
                         FP_GetExponent(field_F8_pRes[i].field_4_y - camY),
                         ppOt,
@@ -305,7 +305,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                         0);
 
                     PSX_RECT frameRect = {};
-                    field_F8_pRes[i].field_18_anim.GetRenderedSize_40C980(&frameRect);
+                    field_F8_pRes[i].field_18_anim.GetRenderedSize(&frameRect);
 
                     if (field_106_count == 9)
                     {
@@ -380,7 +380,7 @@ void ParticleBurst::VUpdate()
             //Math_RandomRange_496AB0(-64, 46);
 
             // TODO: This might be wrong
-            const s16 volume = static_cast<s16>(Math_RandomRange_496AB0(-10, 10) + ((field_100_timer - sGnFrame_5C1B84) / 91) + 25);
+            const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((field_100_timer - sGnFrame_5C1B84) / 91) + 25);
 
             const u8 next_rand = Math_NextRandom();
             if (next_rand < 43)
@@ -403,7 +403,7 @@ void ParticleBurst::VUpdate()
         mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

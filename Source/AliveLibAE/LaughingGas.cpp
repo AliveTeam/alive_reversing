@@ -226,7 +226,7 @@ s16 LaughingGas::CounterOver()
 
 void LaughingGas::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

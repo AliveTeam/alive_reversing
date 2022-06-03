@@ -120,7 +120,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_140_x = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_144_y = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    field_20_animation.Set_Animation_Data_409C80(frameTableOffset, 0);
+    field_20_animation.Set_Animation_Data(frameTableOffset, 0);
 
     if (pTlv->field_1A_direction == XDirection_short::eRight_1) // TODO: check if this is the correct direction
     {
@@ -188,7 +188,7 @@ s32 TrapDoor::CreateFromSaveState(const u8* pData)
 
 void TrapDoor::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -203,7 +203,7 @@ void TrapDoor::VUpdate()
                 Open();
                 field_136_state = TrapDoorState::eOpening_1;
                 const AnimRecord& openingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap.mCurrentLevel)].field_8_opening);
-                field_20_animation.Set_Animation_Data_409C80(openingRec.mFrameTableOffset, 0);
+                field_20_animation.Set_Animation_Data(openingRec.mFrameTableOffset, 0);
 
                 if (gMap.mCurrentLevel == LevelIds::eMines_1 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eBonewerkz_Ender_14 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_Ender_12 || gMap.mCurrentLevel == LevelIds::eBarracks_6 || gMap.mCurrentLevel == LevelIds::eBarracks_Ender_13 || gMap.mCurrentLevel == LevelIds::eBrewery_9 || gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
                 {
@@ -228,7 +228,7 @@ void TrapDoor::VUpdate()
             if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get(field_134_switch_id) != field_138_switch_state)
             {
                 const AnimRecord& closingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap.mCurrentLevel)].field_C_closing);
-                field_20_animation.Set_Animation_Data_409C80(closingRec.mFrameTableOffset, 0);
+                field_20_animation.Set_Animation_Data(closingRec.mFrameTableOffset, 0);
 
                 field_136_state = TrapDoorState::eClosing_3;
 
@@ -303,7 +303,7 @@ void TrapDoor::VRemove(BaseAliveGameObject* pObj)
 
 void TrapDoor::Add_To_Collisions_Array()
 {
-    field_124_pCollisionLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line_417FA0(
+    field_124_pCollisionLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
         field_148_bounding_rect.x,
         field_148_bounding_rect.y,
         field_148_bounding_rect.w,
@@ -346,7 +346,7 @@ void TrapDoor::Open()
         }
     }
 
-    Rect_Clear_418040(&field_124_pCollisionLine->field_0_rect);
+    Rect_Clear(&field_124_pCollisionLine->field_0_rect);
     field_124_pCollisionLine = nullptr;
     ObjList_5C1B78->Remove_Item(this);
 }

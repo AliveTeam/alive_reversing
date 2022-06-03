@@ -72,7 +72,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
         u8 v0 = field_20_animation.field_84_vram_rect.y & 0xFF;
 
-        FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]);
+        FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
         const s16 frameW = pFrameHeader->field_4_width;
         const s16 frameH = pFrameHeader->field_5_height;
@@ -201,7 +201,7 @@ void Blood::VRender(PrimHeader** ppOt)
             SetUV0(pSprt, u0, static_cast<u8>(field_20_animation.field_84_vram_rect.y));
 
             FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(
-                &(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]);
+                &(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
             pSprt->field_14_w = pFrameHeader->field_4_width - 1;
             pSprt->field_16_h = pFrameHeader->field_5_height - 1;

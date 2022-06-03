@@ -323,7 +323,7 @@ struct Abe_1BC_20_sub_object final
 };
 ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
-void Mudokon_SFX_457EC0(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHero);
+void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHero);
 
 struct Abe_SaveState final
 {

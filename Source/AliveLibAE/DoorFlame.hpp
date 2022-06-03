@@ -19,27 +19,9 @@ public:
     DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo);
     ~DoorFlame();
 
-    virtual void VUpdate() override
-    {
-        vUpdate_45E830();
-    }
-
-    virtual void VStopAudio() override
-    {
-        vStopAudio_45E7E0();
-    }
-
-    virtual void VScreenChanged() override
-    {
-        vScreenChanged_45EA90();
-    }
-
-private:
-    void vStopAudio_45E7E0();
-
-    void vScreenChanged_45EA90();
-
-    void vUpdate_45E830();
+    virtual void VUpdate() override;
+    virtual void VStopAudio() override;
+    virtual void VScreenChanged() override;
 
 private:
     s32 field_F4_tlvInfo;

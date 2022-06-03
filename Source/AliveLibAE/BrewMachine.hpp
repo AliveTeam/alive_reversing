@@ -22,10 +22,6 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    void vUpdate_4132C0();
-    void vRender_4133F0(PrimHeader** ppOt);
-
-private:
     Font_Context field_F4_font_context;
     Alive::Font field_104_font;
     s16 field_13C_textX;

@@ -28,12 +28,12 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override
-    { }
+    {
+        // Empty
+    }
     virtual void VScreenChanged() override;
 
-    void vScreenChanged_49A520();
-    void vRender_49A3C0(PrimHeader** ppOt);
-    s16 Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock);
+    s16 Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
     s32 field_20_unused;
     LevelIds field_24_level_id;

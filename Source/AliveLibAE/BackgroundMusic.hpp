@@ -6,8 +6,8 @@
 class BackgroundMusic final : public BaseGameObject
 {
 public:
-    static void Stop_4CB000();
-    static void Play_4CB030();
+    static void Stop();
+    static void Play();
 
     explicit BackgroundMusic(s32 musicId);
 

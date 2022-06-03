@@ -14,8 +14,8 @@ public:
     CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2, s32 moveFlag3, s32 movieFlags3, s32 movieVol3);
     CameraSwapper(u8** ppCamRes, CameraSwapEffects changeEffect, s32 xpos, s32 ypos);
     ~CameraSwapper();
-    void Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect);
-    void vUpdate_4E5850();
+
+    void Init(u8** ppCamRes, CameraSwapEffects changeEffect);
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;

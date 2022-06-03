@@ -81,7 +81,7 @@ u32 Math_FixedPoint_Divide_496B70(s32 op1, s32 op2)
     return result;
 }
 
-s16 Math_RandomRange_496AB0(s16 min, s16 max)
+s16 Math_RandomRange(s16 min, s16 max)
 {
     s16 tempMax = max;
     s16 tempMin = min;

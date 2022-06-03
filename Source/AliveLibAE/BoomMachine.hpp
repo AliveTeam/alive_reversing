@@ -33,18 +33,9 @@ public:
     ~BoomMachine();
 
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
-
-    virtual Bool32 VIsButtonOn_445DF0();
-
-    virtual void VHandleButton_445F00();
-
-private:
-
-    Bool32 vIsButtonOn_445DF0();
-
-    void vHandleButton_445F00();
+    virtual Bool32 VIsButtonOn();
+    virtual void VHandleButton();
 
 private:
     s32 field_F4_tlvInfo;

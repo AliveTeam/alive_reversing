@@ -132,39 +132,24 @@ public:
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    s32 vGetSaveState_41C9A0(CrawlingSlig_State* pState);
-
 
     void Set_AnimAndMotion_419890(s16 currentMotion, s16 bClearNextMotion);
-
-    void UpdateAnimBlock_419900();
-
-    u8** GetAnimBlock_419950(s32 currentMotion);
-
+    void UpdateAnimBlock();
+    u8** GetAnimBlock(s32 currentMotion);
     static s16 NextRandom();
+    s16 HandleEnemyStopper(FP velX);
+    Path_TLV* FindPantsOrWings();
+    BaseGameObject* FindSligButton();
 
-    s16 HandleEnemyStopper_41C740(FP velX);
-
-    Path_TLV* FindPantsOrWings_419750();
-
-    BaseGameObject* FindSligButton_419840();
-
-
-private:
     void SetBrain(TCrawlingSligBrainFn fn);
     bool BrainIs(TCrawlingSligBrainFn fn);
 
-    Bool32 PanicOn_419810();
-
-    void ToIdle_41C070();
-
-    void HandleCommon_41C0B0();
-
-    s16 CanCrawl_41C5D0();
-
-    void MoveOnLine_41C3D0();
-
-    void PlatformCollide_41C500();
+    Bool32 PanicOn();
+    void ToIdle();
+    void HandleCommon();
+    s16 CanCrawl();
+    void MoveOnLine();
+    void PlatformCollide();
 
 public:
     s16 Brain_0_Sleeping_419DE0();

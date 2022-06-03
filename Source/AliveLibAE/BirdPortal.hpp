@@ -57,10 +57,7 @@ public:
     BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalType portalType);
     virtual void VScreenChanged() override;
     
-    void Fadeout_497AC0();
-
-private:
-    BaseAnimatedWithPhysicsGameObject* vdtor_497A70(s32 flags);
+    void Fadeout();
 };
 ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xF4);
 
@@ -80,44 +77,25 @@ public:
 
     // New virtuals
 
-    virtual s16 VPortalClipper_499430(s16 bUnknown);
-    virtual void VKillPortalClipper_499610();
-    virtual void VMudSaved_499A50();
-    virtual Bool32 VActivePortal_499830();
-    virtual void VGiveShrukull_499680(s16 bPlaySound);
-    virtual Bool32 VAbeInsidePortal_499850();
-    virtual void VExitPortal_499870();
-    virtual Bool32 VPortalExit_AbeExitting_499A00();
-    virtual void VKillPortalClipper_499A20();
-    virtual void VGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
+    virtual s16 VPortalClipper(s16 bUnknown);
+    virtual void VKillPortalClipper();
+    virtual void VMudSaved();
+    virtual Bool32 VActivePortal();
+    virtual void VGiveShrykull(s16 bPlaySound);
+    virtual Bool32 VAbeInsidePortal();
+    virtual void VExitPortal();
+    virtual Bool32 VPortalExit_AbeExitting();
+    virtual void VIncreaseTimerAndKillPortalClipper();
+    virtual void VGetMapChange(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
-
 private:
-    void vStopAudio_499260();
-    s32 vGetSaveState_499F50(u8* pState);
-
-    s16 vPortalClipper_499430(s16 bUnknown);
-    void vKillPortalClipper_499610();
-    void vMudSaved_499A50();
-    Bool32 vActivePortal_499830();
-    void vGiveShryukull_499680(s16 bPlaySound);
-    Bool32 vAbeInsidePortal_499850();
-    void vExitPortal_499870();
-    Bool32 vPortalExit_AbeExitting_499A00();
-    void vIncreaseTimerAndKillPortalClipper_499A20();
-    void vGetMapChange_499AE0(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
-
-    s16 IsScaredAway_4992A0();
-
-    void CreateDovesAndShrykullNumber_497B50();
-
-    void KillTerminators_499220();
-
-    void CreateTerminators_497D10();
-
-    s16 GetEvent_499A70();
+    s16 IsScaredAway();
+    void CreateDovesAndShrykullNumber();
+    void KillTerminators();
+    void CreateTerminators();
+    s16 GetEvent();
 
 private:
     s32 field_20_tlvInfo;

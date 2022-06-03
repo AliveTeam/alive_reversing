@@ -37,7 +37,7 @@ void Collisions::dtor_4189F0()
     ae_non_zero_free_495560(field_0_pArray);
 }
 
-void Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
+void Collisions::Factory(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
 {
     sCollisions_DArray_5C1128 = ae_new<Collisions>();
     if (sCollisions_DArray_5C1128)
@@ -132,7 +132,7 @@ inline Fixed_24_8 operator/(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     return r;
 }
 
-PSX_RECT* Rect_Clear_418040(PSX_RECT* pRect)
+PSX_RECT* Rect_Clear(PSX_RECT* pRect)
 {
     if (!pRect)
     {
@@ -143,12 +143,6 @@ PSX_RECT* Rect_Clear_418040(PSX_RECT* pRect)
     pRect->y = 0;
     pRect->h = 0;
     return pRect;
-}
-
-s16 Collisions::Raycast_Real_417A60(FP /*X1*/, FP /*Y1*/, FP /*X2*/, FP /*Y2*/, PathLine** /*ppLine*/, FP* /*hitX*/, FP* /*hitY*/, u32 /*modeMask*/)
-{
-    
-    return 0;
 }
 
 s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
@@ -308,7 +302,7 @@ s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16,
     return FALSE;
 }
 
-Bool32 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
+Bool32 Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
 {
     // Take 2 copies of the input before anything changes them, important as the caller can pass in defaults - don't overwrite them if we don't
     // find a collision!
@@ -329,7 +323,7 @@ Bool32 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_1
     return ret_impl;
 }
 
-PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode)
+PathLine* Collisions::Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode)
 {
     bool freeItemFound = false;
     s32 idx = field_8_item_count;
@@ -360,7 +354,7 @@ PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, 
     return pAddedLine;
 }
 
-PathLine* Collisions::Get_Line_At_Idx_418070(s16 idx)
+PathLine* Collisions::Get_Line_At_Idx(s16 idx)
 {
     if (idx == -1)
     {
@@ -371,7 +365,7 @@ PathLine* Collisions::Get_Line_At_Idx_418070(s16 idx)
 
 const s32 kNearLineTollerance = 8;
 
-PathLine* Collisions::PreviousLine_4180A0(PathLine* pLine)
+PathLine* Collisions::PreviousLine(PathLine* pLine)
 {
     if (pLine->field_A_previous != -1)
     {
@@ -396,7 +390,7 @@ PathLine* Collisions::PreviousLine_4180A0(PathLine* pLine)
     return nullptr;
 }
 
-PathLine* Collisions::NextLine_418180(PathLine* pLine)
+PathLine* Collisions::NextLine(PathLine* pLine)
 {
     if (pLine->field_C_next != -1)
     {
@@ -447,7 +441,7 @@ static s32 ClampMinus1To1(FP value)
     return 1;
 }
 
-PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
+PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 {
     const FP xpos = *pXPos;
     const FP ypos = *pYPos;
@@ -479,26 +473,26 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
 
             if (yPosRet > FP_FromInteger(field_0_rect.h))
             {
-                PathLine* pNextLine = sCollisions_DArray_5C1128->NextLine_418180(this);
+                PathLine* pNextLine = sCollisions_DArray_5C1128->NextLine(this);
                 if (!pNextLine)
                 {
                     return nullptr;
                 }
                 *pXPos = FP_FromInteger(pNextLine->field_0_rect.x);
                 *pYPos = FP_FromInteger(pNextLine->field_0_rect.y);
-                return pNextLine->MoveOnLine_418260(pXPos, pYPos, yPosRet - (FP_FromInteger(field_0_rect.h)));
+                return pNextLine->MoveOnLine(pXPos, pYPos, yPosRet - (FP_FromInteger(field_0_rect.h)));
             }
 
             if (yPosRet < FP_FromInteger(field_0_rect.y))
             {
-                PathLine* pPreviousLine = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
+                PathLine* pPreviousLine = sCollisions_DArray_5C1128->PreviousLine(this);
                 if (!pPreviousLine)
                 {
                     return nullptr;
                 }
                 *pXPos = FP_FromInteger(pPreviousLine->field_0_rect.w);
                 *pYPos = FP_FromInteger(pPreviousLine->field_0_rect.h);
-                return pPreviousLine->MoveOnLine_418260(pXPos, pYPos, yPosRet - (FP_FromInteger(field_0_rect.y)));
+                return pPreviousLine->MoveOnLine(pXPos, pYPos, yPosRet - (FP_FromInteger(field_0_rect.y)));
             }
         }
         else
@@ -506,26 +500,26 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
             yPosRet = ypos - distToMove;
             if (yPosRet < FP_FromInteger(field_0_rect.h))
             {
-                PathLine* pNextLine = sCollisions_DArray_5C1128->NextLine_418180(this);
+                PathLine* pNextLine = sCollisions_DArray_5C1128->NextLine(this);
                 if (!pNextLine)
                 {
                     return nullptr;
                 }
                 *pXPos = FP_FromInteger(pNextLine->field_0_rect.x);
                 *pYPos = FP_FromInteger(pNextLine->field_0_rect.y);
-                return pNextLine->MoveOnLine_418260(pXPos, pYPos, (FP_FromInteger(field_0_rect.h)) - yPosRet);
+                return pNextLine->MoveOnLine(pXPos, pYPos, (FP_FromInteger(field_0_rect.h)) - yPosRet);
             }
 
             if (yPosRet > FP_FromInteger(field_0_rect.y))
             {
-                PathLine* pPreviousLine = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
+                PathLine* pPreviousLine = sCollisions_DArray_5C1128->PreviousLine(this);
                 if (!pPreviousLine)
                 {
                     return nullptr;
                 }
                 *pXPos = FP_FromInteger(pPreviousLine->field_0_rect.w);
                 *pYPos = FP_FromInteger(pPreviousLine->field_0_rect.h);
-                return pPreviousLine->MoveOnLine_418260(pXPos, pYPos, (FP_FromInteger(field_0_rect.y)) - yPosRet);
+                return pPreviousLine->MoveOnLine(pXPos, pYPos, (FP_FromInteger(field_0_rect.y)) - yPosRet);
             }
         }
         *pYPos = yPosRet;
@@ -565,7 +559,7 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
 
     if (xCalc1 == xCalc2)
     {
-        PathLine* pNextLine = sCollisions_DArray_5C1128->NextLine_418180(this);
+        PathLine* pNextLine = sCollisions_DArray_5C1128->NextLine(this);
         if (!pNextLine)
         {
             return nullptr;
@@ -579,7 +573,7 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
 
         *pXPos = FP_FromInteger(pNextLine->field_0_rect.x);
         *pYPos = FP_FromInteger(pNextLine->field_0_rect.y);
-        return pNextLine->MoveOnLine_418260(pXPos, pYPos, root2 - root1);
+        return pNextLine->MoveOnLine(pXPos, pYPos, root2 - root1);
     }
 
 
@@ -588,7 +582,7 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
 
     if (yCalc1 == yCalc2)
     {
-        PathLine* pPreviousLine = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
+        PathLine* pPreviousLine = sCollisions_DArray_5C1128->PreviousLine(this);
         if (!pPreviousLine)
         {
             return nullptr;
@@ -603,7 +597,7 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
 
         *pXPos = FP_FromInteger(pPreviousLine->field_0_rect.w);
         *pYPos = FP_FromInteger(pPreviousLine->field_0_rect.h);
-        return pPreviousLine->MoveOnLine_418260(pXPos, pYPos, root2 - root1);
+        return pPreviousLine->MoveOnLine(pXPos, pYPos, root2 - root1);
     }
 
     *pXPos = xPosRet;

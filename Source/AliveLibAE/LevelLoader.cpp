@@ -23,7 +23,7 @@ LevelLoader::LevelLoader(Path_LevelLoader* pTlv, u32 tlvInfo)
 
 void LevelLoader::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

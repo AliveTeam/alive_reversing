@@ -42,7 +42,7 @@ public:
     s16 field_10_next2;    // And... also never used
     s16 field_12_line_length;
 
-    PathLine* MoveOnLine_418260(FP* xpos, FP* ypos, FP velX);
+    PathLine* MoveOnLine(FP* xpos, FP* ypos, FP velX);
 };
 ALIVE_ASSERT_SIZEOF(PathLine, 0x14);
 
@@ -53,13 +53,12 @@ class Collisions final
 public:
     Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
     void dtor_4189F0();
-    static void Factory_4188A0(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
-    s16 Raycast_Real_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
-    Bool32 Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
-    PathLine* Add_Dynamic_Collision_Line_417FA0(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode);
-    PathLine* Get_Line_At_Idx_418070(s16 idx);
-    PathLine* PreviousLine_4180A0(PathLine* pLine);
-    PathLine* NextLine_418180(PathLine* pLine);
+    static void Factory(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
+    Bool32 Raycast(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
+    PathLine* Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode);
+    PathLine* Get_Line_At_Idx(s16 idx);
+    PathLine* PreviousLine(PathLine* pLine);
+    PathLine* NextLine(PathLine* pLine);
     s16 Raycast_Impl(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
 
 public:
@@ -72,8 +71,8 @@ ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 
 struct PSX_RECT;
 
-PSX_RECT* Rect_Clear_418040(PSX_RECT* pRect);
+PSX_RECT* Rect_Clear(PSX_RECT* pRect);
 
-using TCollisionsFactory = decltype(&Collisions::Factory_4188A0);
+using TCollisionsFactory = decltype(&Collisions::Factory);
 
 ALIVE_VAR_EXTERN(Collisions*, sCollisions_DArray_5C1128);

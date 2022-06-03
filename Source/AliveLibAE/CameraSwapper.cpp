@@ -17,7 +17,7 @@
 CameraSwapper::CameraSwapper(u8** ppCamRes, s32 movieSector, s32 movieId, s32 movieFlag, s32 movieFlags, s32 movieVol)
     : BaseGameObject(TRUE, 0)
 {
-    Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay1FMV_5);
+    Init(ppCamRes, CameraSwapEffects::ePlay1FMV_5);
 
     PSX_ResetCallBack_4FAA20();
 
@@ -29,7 +29,7 @@ CameraSwapper::CameraSwapper(u8** ppCamRes, s32 movieSector, s32 movieId, s32 mo
 CameraSwapper::CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2)
     : BaseGameObject(TRUE, 0)
 {
-    Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay2FMVs_9);
+    Init(ppCamRes, CameraSwapEffects::ePlay2FMVs_9);
 
     PSX_ResetCallBack_4FAA20();
 
@@ -47,7 +47,7 @@ CameraSwapper::CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 mov
 CameraSwapper::CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2, s32 moveFlag3, s32 movieFlags3, s32 movieVol3)
     : BaseGameObject(TRUE, 0)
 {
-    Init_4E50C0(ppCamRes, CameraSwapEffects::ePlay3FMVs_10);
+    Init(ppCamRes, CameraSwapEffects::ePlay3FMVs_10);
 
     PSX_ResetCallBack_4FAA20();
     ae_new<Movie>(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
@@ -72,7 +72,7 @@ CameraSwapper::CameraSwapper(u8** ppCamRes, CameraSwapEffects changeEffect, s32 
 {
     field_4E_xpos_converted = static_cast<s16>(PsxToPCX(xpos));
     field_50_ypos_converted = static_cast<s16>(ypos);
-    Init_4E50C0(ppCamRes, changeEffect);
+    Init(ppCamRes, changeEffect);
 }
 
 CameraSwapper::~CameraSwapper()
@@ -90,14 +90,14 @@ CameraSwapper::~CameraSwapper()
         sMap_bDoPurpleLightEffect_5C311C = 0;
     }
 
-    BackgroundMusic::Play_4CB030();
+    BackgroundMusic::Play();
     MusicController::static_EnableMusic(1);
-    Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
+    Start_Sounds_For_Objects_In_Near_Cameras();
 }
 
 const s32 kSliceWidth = 8;
 
-void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
+void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
 {
     mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
@@ -297,11 +297,6 @@ void CameraSwapper::Init_4E50C0(u8** ppCamRes, CameraSwapEffects changeEffect)
 }
 
 void CameraSwapper::VUpdate()
-{
-    vUpdate_4E5850();
-}
-
-void CameraSwapper::vUpdate_4E5850()
 {
     if (mFlags.Get(BaseGameObject::eDead))
     {

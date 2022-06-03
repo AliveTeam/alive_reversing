@@ -35,10 +35,7 @@ public:
     ~CrawlingSligButton();
 
     virtual void VUpdate() override;
-    void UseButton_414C60();
-
-private:
-    void vUpdate_414B20();
+    void UseButton();
 
 private:
     s32 field_F4_tlvInfo;

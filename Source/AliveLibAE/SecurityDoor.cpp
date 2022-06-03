@@ -117,7 +117,7 @@ s16 SecurityDoor::IsPlayerNear()
 
 void SecurityDoor::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -152,7 +152,7 @@ void SecurityDoor::VUpdate()
         {
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHi_0, 127, -200, 0);
             const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_F8_state = SecurityDoorStates::eListeningForHi_3;
             field_124_timer = sGnFrame_5C1B84 + 150;
             return;
@@ -215,7 +215,7 @@ void SecurityDoor::VUpdate()
             }
 
             const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             if (++field_128_max_idx >= field_100_code_len)
             {
                 field_F8_state = SecurityDoorStates::eListeningForPassword_9;

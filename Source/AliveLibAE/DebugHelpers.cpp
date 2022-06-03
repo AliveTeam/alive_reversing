@@ -153,7 +153,7 @@ public:
                 {
                     if (aliveObj->field_20_animation.field_92_current_frame != -1)
                     {
-                        FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
+                        FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
                             y += static_cast<s16>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
@@ -215,7 +215,7 @@ public:
                 {
                     if (aliveObj->field_20_animation.field_92_current_frame != -1)
                     {
-                        FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
+                        FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
                             y += static_cast<s32>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
@@ -499,7 +499,7 @@ void Command_HelperUpdate()
             s32 centerIndex = ((i + 5) % 10);
             FP xOffset = FP_FromDouble(pos.field_0_x + (subDevide * centerIndex));
             FP yOffset = FP_FromDouble(pos.field_2_y);
-            if (sCollisions_DArray_5C1128->Raycast_417A60(xOffset, yOffset,
+            if (sCollisions_DArray_5C1128->Raycast(xOffset, yOffset,
                                                           xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1))
             {
                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
@@ -508,7 +508,7 @@ void Command_HelperUpdate()
                 sActiveHero_5C1B68->field_BC_ypos = rY;
                 break;
             }
-            else if (sCollisions_DArray_5C1128->Raycast_417A60(xOffset, yOffset,
+            else if (sCollisions_DArray_5C1128->Raycast(xOffset, yOffset,
                                                                xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1 << 4))
             {
                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
@@ -572,7 +572,7 @@ void Command_Event(const std::vector<std::string>& args)
         DEV_CONSOLE_MESSAGE_C("Invalid event id", 6, 127, 0, 0);
         return;
     }
-    Event_Broadcast_422BC0(static_cast<Event>(eventId), sControlledCharacter_5C1B8C);
+    Event_Broadcast(static_cast<Event>(eventId), sControlledCharacter_5C1B8C);
 }
 
 void Command_Menu(const std::vector<std::string>& args)
@@ -716,7 +716,7 @@ void Command_Spawn(const std::vector<std::string>& args)
     FP hitX;
     FP hitY;
     PathLine* pLine;
-    if (sCollisions_DArray_5C1128->Raycast_417A60(FP_FromInteger(spawnX), FP_FromInteger(spawnY), FP_FromInteger(spawnX), FP_FromInteger(spawnY + 1000), &pLine, &hitX, &hitY, 1))
+    if (sCollisions_DArray_5C1128->Raycast(FP_FromInteger(spawnX), FP_FromInteger(spawnY), FP_FromInteger(spawnX), FP_FromInteger(spawnY + 1000), &pLine, &hitX, &hitY, 1))
     {
         spawnX = FP_GetExponent(hitX);
         spawnY = FP_GetExponent(hitY);
@@ -746,51 +746,51 @@ void Command_Spawn(const std::vector<std::string>& args)
     if (objName == "mud")
     {
         factoryTLV = &mudPath;
-        factoryFunc = &Factory_Mudokon_4D8EC0;
+        factoryFunc = &Factory_Mudokon;
     }
     else if (objName == "slig")
     {
-        factoryFunc = &Factory_Slig_4D7BC0;
+        factoryFunc = &Factory_Slig;
     }
     else if (objName == "nslig")
     {
-        factoryFunc = &Factory_NakedSlig_4D95A0;
+        factoryFunc = &Factory_CrawlingSlig;
     }
     else if (objName == "fleech")
     {
-        factoryFunc = &Factory_Fleech_4D8C30;
+        factoryFunc = &Factory_Fleech;
     }
     else if (objName == "slog")
     {
-        factoryFunc = &Factory_Slog_4D8B20;
+        factoryFunc = &Factory_Slog;
     }
     else if (objName == "elec")
     {
-        factoryFunc = &Factory_ElectricWall_4DA020;
+        factoryFunc = &Factory_ElectricWall;
     }
     else if (objName == "paramite")
     {
-        factoryFunc = &Factory_Paramite_4D9190;
+        factoryFunc = &Factory_Paramite;
     }
     else if (objName == "uxb")
     {
-        factoryFunc = &Factory_UXB_4D8960;
+        factoryFunc = &Factory_UXB;
     }
     else if (objName == "mine")
     {
-        factoryFunc = &Factory_Mine_4D8890;
+        factoryFunc = &Factory_Mine;
     }
     else if (objName == "greeter")
     {
-        factoryFunc = &Factory_Greeter_4DAFE0;
+        factoryFunc = &Factory_Greeter;
     }
     else if (objName == "scrab")
     {
-        factoryFunc = &Factory_Scrab_4D9200;
+        factoryFunc = &Factory_Scrab;
     }
     else if (objName == "fslig")
     {
-        factoryFunc = &Factory_FlyingSlig_4D92E0;
+        factoryFunc = &Factory_FlyingSlig;
     }
     else
     {
@@ -1911,11 +1911,11 @@ public:
 
     virtual void VRender(PrimHeader** ot) override
     {
-        mAnim[0].vRender_40B820(40 + (1 * 85), 40 + (1 * 90), ot, 0, 0);
-        mAnim[1].vRender_40B820(40 + (2 * 85), 40 + (1 * 90), ot, 0, 0);
-        mAnim[2].vRender_40B820(40 + (1 * 85), 40 + (2 * 90), ot, 0, 0);
-        mAnim[3].vRender_40B820(40 + (2 * 85), 40 + (2 * 90), ot, 0, 0);
-        mAnim[4].vRender_40B820(180 + 90, 170 + 45, ot, 0, 0);
+        mAnim[0].VRender(40 + (1 * 85), 40 + (1 * 90), ot, 0, 0);
+        mAnim[1].VRender(40 + (2 * 85), 40 + (1 * 90), ot, 0, 0);
+        mAnim[2].VRender(40 + (1 * 85), 40 + (2 * 90), ot, 0, 0);
+        mAnim[3].VRender(40 + (2 * 85), 40 + (2 * 90), ot, 0, 0);
+        mAnim[4].VRender(180 + 90, 170 + 45, ot, 0, 0);
 
         OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_InBirdPortal_30), &mPolyFT4[0].mBase.header);
 
@@ -1940,13 +1940,13 @@ private:
             {
                 // 4 bit
                 mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, loadingRec.mResourceId, TRUE, FALSE);
-                mAnim[i].Init_40A030(loadingRec.mFrameTableOffset, gObjList_animations_5C1A24, this, loadingRec.mMaxW, loadingRec.mMaxH, mAnimRes[i], 1, 0, 0);
+                mAnim[i].Init(loadingRec.mFrameTableOffset, gObjList_animations_5C1A24, this, loadingRec.mMaxW, loadingRec.mMaxH, mAnimRes[i], 1, 0, 0);
             }
             else
             {
                 // 8 bit
                 mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, abeGibRec.mResourceId, TRUE, FALSE);
-                mAnim[i].Init_40A030(abeGibRec.mFrameTableOffset, gObjList_animations_5C1A24, this, abeGibRec.mMaxW, abeGibRec.mMaxH, mAnimRes[i], 1, 0, 0);
+                mAnim[i].Init(abeGibRec.mFrameTableOffset, gObjList_animations_5C1A24, this, abeGibRec.mMaxW, abeGibRec.mMaxH, mAnimRes[i], 1, 0, 0);
             }
             // No 16 bit test case because there are simply no 16bit sprites at all in the game data
 

@@ -84,7 +84,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             field_BC_ypos,
             field_B8_xpos + FP_FromInteger(24),
@@ -176,7 +176,7 @@ void MovingBomb::FollowLine()
 {
     if (field_100_pCollisionLine)
     {
-        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
     }
 }
 
@@ -255,7 +255,7 @@ s16 MovingBomb::HitObject()
 
 void MovingBomb::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -319,7 +319,7 @@ void MovingBomb::VUpdate()
     switch (field_118_state)
     {
         case States::eTriggeredByAlarm_0:
-            if (Event_Get_422C00(kEventAlarm))
+            if (Event_Get(kEventAlarm))
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_118_state = States::eMoving_2;
@@ -362,7 +362,7 @@ void MovingBomb::VUpdate()
             if (field_C4_velx < FP_FromInteger(0))
             {
                 field_118_state = States::eWaitABit_4;
-                field_120_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(field_12A_min, field_12C_max);
+                field_120_timer = sGnFrame_5C1B84 + Math_RandomRange(field_12A_min, field_12C_max);
             }
 
             FollowLine();

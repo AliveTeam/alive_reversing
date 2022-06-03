@@ -229,12 +229,12 @@ LCDScreen::LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
     mFlags.Set(BaseGameObject::eDrawable_Bit4);
     field_2B8_message_rand_max_id = params->field_14_message_rand_max_id;
     field_2A8_play_sound_toggle = 0;
-    gObjList_drawables_5C1124->Push_Back_40CAF0(this);
+    gObjList_drawables_5C1124->Push_Back(this);
 }
 
 void LCDScreen::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -256,7 +256,7 @@ void LCDScreen::VUpdate()
             if (field_2B4_show_random_message == 1)
             {
                 field_2B4_show_random_message = 0;
-                field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, Math_RandomRange_496AB0(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id));
+                field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, Math_RandomRange(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id));
             }
             else
             {

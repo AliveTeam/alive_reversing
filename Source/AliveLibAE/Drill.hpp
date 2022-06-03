@@ -77,13 +77,8 @@ public:
     static s32 CreateFromSaveState(const u8* pData);
 
 private:
-    void vUpdate_420C50();
-    void vScreenChanged_4214B0();
-    void vRender_4213D0(PrimHeader** ppOt);
-    void vStopAudio_4215C0();
-    s32 vGetSaveState_4217B0(u8* /*pSaveBuffer*/);
-    void EmitSparks_4206D0();
-    s16 DamageTouchingObjects_421060();
+    void EmitSparks();
+    s16 DamageTouchingObjects();
 
 private:
     DrillStates field_F4_state;

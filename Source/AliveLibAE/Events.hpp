@@ -31,9 +31,9 @@ enum Event : s16
 class BaseGameObject;
 class BaseAnimatedWithPhysicsGameObject;
 
-void Event_Broadcast_422BC0(s32 event, BaseGameObject* pObject);
-BaseGameObject* Event_Get_422C00(s16 eventType);
-void Events_Reset_422D70();
-void Events_Reset_Active_422DA0();
-BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range_422C30(s16 eventType, FP xpos, FP ypos, s16 scale);
+void Event_Broadcast(s32 event, BaseGameObject* pObject);
+BaseGameObject* Event_Get(s16 eventType);
+void Events_Reset();
+void Events_Reset_Active();
+BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(s16 eventType, FP xpos, FP ypos, s16 scale);
 void Event_Cancel_For_Obj(BaseGameObject* pObj);

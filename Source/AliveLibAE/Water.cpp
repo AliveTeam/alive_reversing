@@ -93,7 +93,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
 
             const u8 v0 = field_20_animation.field_84_vram_rect.y & 0xFF;
 
-            const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]);
+            const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader(-1)->field_0_frame_header_offset]);
             field_120_frame_width = pFrameHeader->field_4_width;
             field_122_frame_height = pFrameHeader->field_5_height;
 
@@ -257,7 +257,7 @@ void Water::Add_Water_Particle()
 
 void Water::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

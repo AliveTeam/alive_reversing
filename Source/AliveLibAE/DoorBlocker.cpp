@@ -52,12 +52,7 @@ DoorBlocker::~DoorBlocker()
 
 void DoorBlocker::VUpdate()
 {
-    vUpdate_41F250();
-}
-
-void DoorBlocker::vUpdate_41F250()
-{
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -76,7 +71,7 @@ void DoorBlocker::vUpdate_41F250()
             SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
             SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
             const AnimRecord& animRec = AnimRec(AnimId::Door_Lock_Open);
-            field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, 0);
+            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, 0);
             field_118_bDone |= 1u;
         }
     }

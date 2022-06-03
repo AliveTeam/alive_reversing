@@ -24,7 +24,7 @@ void SlurgSpawner::VUpdate()
 {
     if (sDDCheat_ShowAI_Info_5C1BD8)
     {
-        DDCheat::DebugStr_4F5560("SPAWNER EXISTS/n");
+        DDCheat::DebugStr("SPAWNER EXISTS/n");
     }
 
     field_3E_delay_counter++;

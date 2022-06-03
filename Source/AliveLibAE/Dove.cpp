@@ -24,7 +24,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    gDovesArray_5BC100.Push_Back_40CAF0(this);
+    gDovesArray_5BC100.Push_Back(this);
 
     field_20_animation.field_14_scale = scale;
     field_CC_sprite_scale = scale;
@@ -51,7 +51,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
 
     field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     field_FE_state = State::eOnGround_0;
-    field_20_animation.SetFrame_409D50(Math_NextRandom() % 8);
+    field_20_animation.SetFrame(Math_NextRandom() % 8);
     field_FC_keepInGlobalArray = FALSE;
     field_F8_tlvInfo = tlvInfo;
 
@@ -107,7 +107,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
 
     field_F8_tlvInfo = 0;
 
-    field_20_animation.SetFrame_409D50(Math_NextRandom() & 6);
+    field_20_animation.SetFrame(Math_NextRandom() & 6);
 
     if (bTheOneControllingTheMusic_5BC112)
     {
@@ -136,13 +136,13 @@ Dove::~Dove()
     }
 }
 
-void Dove::AsAlmostACircle_41FA20(FP xpos, FP ypos, u8 angle)
+void Dove::AsAlmostACircle(FP xpos, FP ypos, u8 angle)
 {
-    AsACircle_41F980(xpos, ypos, angle);
+    AsACircle(xpos, ypos, angle);
     field_FE_state = State::eAlmostACircle_4;
 }
 
-void Dove::AsACircle_41F980(FP xpos, FP ypos, u8 angle)
+void Dove::AsACircle(FP xpos, FP ypos, u8 angle)
 {
     field_100_xJoin = xpos;
     field_104_yJoin = ypos;
@@ -154,7 +154,7 @@ void Dove::AsACircle_41F980(FP xpos, FP ypos, u8 angle)
     //(Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale;
 }
 
-void Dove::AsJoin_41F940(FP xpos, FP ypos)
+void Dove::AsJoin(FP xpos, FP ypos)
 {
     field_100_xJoin = xpos;
     field_104_yJoin = ypos;
@@ -162,7 +162,7 @@ void Dove::AsJoin_41F940(FP xpos, FP ypos)
     field_108_timer = sGnFrame_5C1B84 + 47;
 }
 
-void Dove::FlyAway_420020(Bool32 spookedInstantly)
+void Dove::FlyAway(Bool32 spookedInstantly)
 {
     if (field_FE_state != State::eFlyAway_1)
     {
@@ -187,7 +187,7 @@ static s16 sAbePortalWidth_551544 = 0;
 
 void Dove::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -201,22 +201,22 @@ void Dove::VUpdate()
     switch (field_FE_state)
     {
         case State::eOnGround_0:
-            if (Event_Get_422C00(kEventSpeaking))
+            if (Event_Get(kEventSpeaking))
             {
-                Dove::All_FlyAway_41FA60(0); // something is speaking, leg it
+                Dove::All_FlyAway(0); // something is speaking, leg it
             }
 
-            if (Event_Get_422C00(kEventNoise))
+            if (Event_Get(kEventNoise))
             {
                 // player getting near
                 if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
                 {
-                    Dove::All_FlyAway_41FA60(1);
+                    Dove::All_FlyAway(1);
                 }
                 if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
                 {
                     // noise is too near, leg it
-                    Dove::All_FlyAway_41FA60(0);
+                    Dove::All_FlyAway(0);
                 }
             }
             break;
@@ -226,7 +226,7 @@ void Dove::VUpdate()
             if (field_F4_counter == 0)
             {
                 const AnimRecord& rec = AnimRec(AnimId::Dove_Flying);
-                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, 0);
+                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
                 if (!bExtraSeqStarted_5BC10C)
                 {
                     bExtraSeqStarted_5BC10C = 13;
@@ -335,7 +335,7 @@ void Dove::VUpdate()
     }
 }
 
-void Dove::All_FlyAway_41FA60(Bool32 spookedInstantly)
+void Dove::All_FlyAway(Bool32 spookedInstantly)
 {
     for (s32 i = 0; i < gDovesArray_5BC100.Size(); i++)
     {
@@ -345,7 +345,7 @@ void Dove::All_FlyAway_41FA60(Bool32 spookedInstantly)
             break;
         }
 
-        pDove->FlyAway_420020(spookedInstantly);
+        pDove->FlyAway(spookedInstantly);
     }
 
     bExtraSeqStarted_5BC10C = 0; // TODO: Never read ??

@@ -24,17 +24,11 @@ class Bullet final : public BaseGameObject
 public:
     Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s32 numberOfBullets);
     
-
     virtual void VUpdate() override;
-
-
     static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
 
 private:
-    BaseAliveGameObject* ShootObject_414630(PSX_RECT* pRect);
-
-    void vUpdate_413560();
-
+    BaseAliveGameObject* ShootObject(PSX_RECT* pRect);
     void PlayBulletSounds(s16 volume);
 
 public:

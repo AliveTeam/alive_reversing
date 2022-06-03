@@ -81,7 +81,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             field_BC_ypos,
             field_B8_xpos,
@@ -157,7 +157,7 @@ void Slurg::Burst()
 {
     field_11C_state = Slurg_States::eBurst_2;
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Burst);
-    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
     ae_new<Blood>(field_B8_xpos,
                                 field_BC_ypos,
@@ -166,7 +166,7 @@ void Slurg::Burst()
                                 field_130_scale,
                                 20);
 
-    Event_Broadcast_422BC0(kEventLoudNoise, this);
+    Event_Broadcast(kEventLoudNoise, this);
     SFX_Play_Mono(SoundEffect::SlurgKill_89, 127, field_130_scale);
 
     if (field_11A_switch_id > 1)
@@ -178,17 +178,17 @@ void Slurg::Burst()
 void Slurg::VUpdate()
 {
     const FP oldXPos = field_B8_xpos;
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_11E_moving_timer == 0)
     {
-        field_11E_moving_timer = Math_RandomRange_496AB0(field_120_delay_random, field_120_delay_random + 20);
+        field_11E_moving_timer = Math_RandomRange(field_120_delay_random, field_120_delay_random + 20);
         field_11C_state = Slurg_States::eStopped_1;
         const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
 
     PSX_RECT bRect = {};
@@ -239,7 +239,7 @@ void Slurg::VUpdate()
             {
                 field_11C_state = Slurg_States::eMoving_0;
                 const AnimRecord& animRec = AnimRec(AnimId::Slurg_Move);
-                field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             break;
 
@@ -302,14 +302,14 @@ void Slurg::VOn_TLV_Collision(Path_TLV* pTlv)
 
     if (field_118_flags.Get(SlurgFlags::Bit1_Direction))
     {
-        if (WallHit_408750(field_130_scale * FP_FromInteger(8), -(field_130_scale * FP_FromInteger(6))) || Check_IsOnEndOfLine(1, 1))
+        if (WallHit(field_130_scale * FP_FromInteger(8), -(field_130_scale * FP_FromInteger(6))) || Check_IsOnEndOfLine(1, 1))
         {
             GoLeft();
         }
     }
     else
     {
-        if (WallHit_408750(field_130_scale * FP_FromInteger(8), field_130_scale * FP_FromInteger(6)) || Check_IsOnEndOfLine(0, 1))
+        if (WallHit(field_130_scale * FP_FromInteger(8), field_130_scale * FP_FromInteger(6)) || Check_IsOnEndOfLine(0, 1))
         {
             GoRight();
         }
@@ -351,7 +351,7 @@ void Slurg::GoLeft()
 
     field_11C_state = Slurg_States::eStopped_1;
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
-    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 }
 
 void Slurg::GoRight()
@@ -361,5 +361,5 @@ void Slurg::GoRight()
 
     field_11C_state = Slurg_States::eStopped_1;
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
-    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 }

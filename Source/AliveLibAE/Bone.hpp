@@ -60,22 +60,15 @@ public:
     virtual Bool32 VCanThrow() override;
     virtual Bool32 VIsFalling() override;
     virtual void VTimeToExplodeRandom() override;
-    virtual Bool32 VCanBeEaten_411560();
+    virtual Bool32 VCanBeEaten();
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VGetCount() override;
     static s32 CreateFromSaveState(const u8* pData);
 
 private:
-    void AddToPlatform_412310();
-    void vThrow_411670(FP velX, FP velY);
-    void vOnTrapDoorOpen_412490();
-    Bool32 vIsFalling_411510();
-    Bool32 vCanThrow_411530();
-    s16 OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj);
-    Bool32 vCanBeEaten_411560();
-    s32 vGetSaveState_412ED0(Bone_SaveState* pState);
-    void InTheAir_4116C0();
-    s16 vGetCount_412500();
+    void AddToPlatform();
+    s16 OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
+    void InTheAir();
 
 private:
     BoneStates field_11C_state;

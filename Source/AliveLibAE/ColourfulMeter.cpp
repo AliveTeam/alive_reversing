@@ -69,21 +69,6 @@ ColourfulMeter::ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo)
     }
 }
 
-void ColourfulMeter::VScreenChanged()
-{
-    vScreenChanged_43D7A0();
-}
-
-void ColourfulMeter::VUpdate()
-{
-    vUpdate_43D140();
-}
-
-void ColourfulMeter::VRender(PrimHeader** ppOt)
-{
-    vRender_43D2B0(ppOt);
-}
-
 ColourfulMeter::~ColourfulMeter()
 {
     gObjList_drawables_5C1124->Remove_Item(this);
@@ -92,7 +77,7 @@ ColourfulMeter::~ColourfulMeter()
     field_20_font_context.dtor_433510();
 }
 
-void ColourfulMeter::vScreenChanged_43D7A0()
+void ColourfulMeter::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 
@@ -102,15 +87,15 @@ void ColourfulMeter::vScreenChanged_43D7A0()
     }
 }
 
-void ColourfulMeter::vUpdate_43D140()
+void ColourfulMeter::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
         gTotalMeterBars_5C1BFA = 0;
     }
 
-    if (Event_Get_422C00(kEventDeathResetEnd))
+    if (Event_Get(kEventDeathResetEnd))
     {
         gbDrawMeterCountDown_5C1BF8 = 0;
     }
@@ -189,7 +174,7 @@ const PSX_Point stru_5543F0[kMeterBarsXCount] = {
     {42, 9},
 };
 
-void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
+void ColourfulMeter::VRender(PrimHeader** ppOt)
 {
     const s16 screenXOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(4));
     const s16 screenYOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(4));

@@ -30,16 +30,9 @@ public:
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
-    void Start_415300();
 
-    void Init_4151D0(Path_ExplosionSet* pTlv);
-
-
-
-private:
-    void vScreenChanged_415190();
-    void vRender_4150D0(PrimHeader** ppOt);
-    void vUpdate_414E30();
+    void Init(Path_ExplosionSet* pTlv);
+    void Start();
 
 private:
     Prim_ScreenOffset field_20[2];

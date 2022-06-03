@@ -126,7 +126,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
 void SecurityOrb::VUpdate()
 {
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -240,7 +240,7 @@ void SecurityOrb::VUpdate()
             }
         }
 
-        if (Event_Get_422C00(kEventAbeOhm))
+        if (Event_Get(kEventAbeOhm))
         {
             if (!sActiveHero_5C1B68->field_168_ring_pulse_timer || !sActiveHero_5C1B68->field_16C_bHaveShrykull || sActiveHero_5C1B68->field_CC_sprite_scale != FP_FromInteger(1))
             {

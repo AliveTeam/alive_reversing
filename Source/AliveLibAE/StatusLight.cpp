@@ -56,7 +56,7 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     PathLine* pPathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const auto bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+    const auto bCollision = sCollisions_DArray_5C1128->Raycast(
         field_B8_xpos,
         field_BC_ypos,
         field_B8_xpos,
@@ -97,7 +97,7 @@ void StatusLight::VUpdate()
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         }
         const AnimRecord& animRec = AnimRec(AnimId::Status_Light_Green);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
     else if (SwitchStates_Get(field_FA_id1) || SwitchStates_Get(field_FC_id2) || SwitchStates_Get(field_FE_id3) || SwitchStates_Get(field_100_id4) || SwitchStates_Get(field_102_id5))
     {
@@ -110,13 +110,13 @@ void StatusLight::VUpdate()
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         }
         const AnimRecord& animRec = AnimRec(AnimId::Status_Light_Red);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
     else
     {
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         const AnimRecord& animRec = AnimRec(AnimId::Status_Light_Red);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
 }
 

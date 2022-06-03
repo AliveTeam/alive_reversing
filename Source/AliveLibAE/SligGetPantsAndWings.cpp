@@ -38,7 +38,7 @@ SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
 void SligGetPantsAndWings::VUpdate()
 {
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_F8_tlvInfo);
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -59,7 +59,7 @@ void SligGetPantsAndWings::VUpdate()
                 field_F4_state = State::eFinished_2;
                 SFX_Play_Mono(SoundEffect::NakedSligTransformEnd_92, 0);
                 const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Open);
-                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             }
             break;
 
@@ -68,7 +68,7 @@ void SligGetPantsAndWings::VUpdate()
             {
                 field_F4_state = State::eWaiting_0;
                 const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
-                field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 pTlv->field_1_tlv_state = 0;
             }
             break;

@@ -7,12 +7,6 @@
 
 ALIVE_VAR(1, 0x5c1b90, s16, sDoesCreditsControllerExist_5C1B90, false);
 
-
-void CreditsController::VUpdate()
-{
-    Update_418AC0();
-}
-
 constexpr s32 kShowCreditScreenForTicks = 160;
 
 CreditsController::CreditsController(Path_TLV* /*pTlv*/, s32 /*tlvInfo*/)
@@ -29,7 +23,7 @@ CreditsController::~CreditsController()
     sDoesCreditsControllerExist_5C1B90 = false;
 }
 
-void CreditsController::Update_418AC0()
+void CreditsController::VUpdate()
 {
     if (field_20_next_cam_frame <= static_cast<s32>(sGnFrame_5C1B84))
     {

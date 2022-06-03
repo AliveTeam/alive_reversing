@@ -90,7 +90,7 @@ CheatController::~CheatController()
     pCheatController_5BC120 = nullptr;
 }
 
-void CheatController::Update_421C70()
+void CheatController::VUpdate()
 {
     auto held = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
 
@@ -123,11 +123,6 @@ void CheatController::Update_421C70()
             }
         }
     }
-}
-
-void CheatController::VUpdate()
-{
-    Update_421C70();
 }
 
 void CheatController::VRender(PrimHeader** /*ppOt*/)

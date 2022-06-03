@@ -80,7 +80,7 @@ void SligSpawner::VUpdate()
 
     const auto pSpawnedSlig = static_cast<Slig*>(sObjectIds.Find_Impl(field_3C_spawned_slig_obj_id));
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }

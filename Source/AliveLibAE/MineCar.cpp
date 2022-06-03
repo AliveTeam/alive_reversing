@@ -50,7 +50,7 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
+    if (sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos,
             field_BC_ypos,
             field_B8_xpos,
@@ -190,7 +190,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         }
 
         const AnimRecord& animRec = AnimRec(sMineCarFrameTable[remapped1]);
-        pMineCar->field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        pMineCar->field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         pMineCar->field_20_animation.field_92_current_frame = pState->field_2A_current_anim_frame;
 
 
@@ -235,7 +235,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         }
 
         const AnimRecord& animRec2 = AnimRec(sMineCarFrameTable[remapped2]);
-        pMineCar->field_124_anim.Set_Animation_Data_409C80(animRec2.mFrameTableOffset, nullptr);
+        pMineCar->field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
         pMineCar->field_124_anim.field_92_current_frame = pState->field_2A_current_anim_frame;
 
 
@@ -287,7 +287,7 @@ void MineCar::LoadAnimation(Animation* pAnim)
     const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Tread_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
 
-    if (pAnim->Init_40A030(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
+    if (pAnim->Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnim->field_4_flags.Clear(AnimFlags::eBit16_bBlending);
@@ -329,13 +329,13 @@ MineCar::~MineCar()
         SND_Stop_Channels_Mask(field_1D0_sound_channels_mask);
         field_1D0_sound_channels_mask = 0;
     }
-    field_124_anim.vCleanUp_40C630();
+    field_124_anim.VCleanUp();
 }
 
 Bool32 MineCar::CheckRoofCollision(FP hitX, FP hitY)
 {
     PathLine* pPathLine = nullptr;
-    return sCollisions_DArray_5C1128->Raycast_417A60(
+    return sCollisions_DArray_5C1128->Raycast(
         field_B8_xpos + hitX,
         field_BC_ypos,
         field_B8_xpos + hitX,
@@ -352,7 +352,7 @@ Bool32 MineCar::CheckFloorCollision(FP hitX, FP hitY)
     PathLine* pPathLine = nullptr;
 
     if (
-        !sCollisions_DArray_5C1128->Raycast_417A60(
+        !sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos + hitX,
             field_BC_ypos - FP_FromInteger(4),
             field_B8_xpos + hitX,
@@ -403,7 +403,7 @@ void MineCar::VRender(PrimHeader** ppOt)
 
         if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos + FP_FromInteger(30), field_BC_ypos, 0) || gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)), 0) || gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos - FP_FromInteger(30), field_BC_ypos, 0))
         {
-            field_124_anim.vRender_40B820(
+            field_124_anim.VRender(
                 FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
                 FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
                 ppOt,
@@ -412,7 +412,7 @@ void MineCar::VRender(PrimHeader** ppOt)
         }
 
         PSX_RECT frameRect = {};
-        field_124_anim.Get_Frame_Rect_409E10(&frameRect);
+        field_124_anim.Get_Frame_Rect(&frameRect);
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             frameRect.x,
             frameRect.y,
@@ -438,8 +438,8 @@ void MineCar::Stop()
 
     SFX_Play_Mono(SoundEffect::MinecarStop_101, 127, field_CC_sprite_scale);
     
-    field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
-    field_124_anim.Set_Animation_Data_409C80(animRec2.mFrameTableOffset, nullptr);
+    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
 
     field_1C4_velx_index = 0;
 
@@ -448,7 +448,7 @@ void MineCar::Stop()
 
 void MineCar::Move(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs turnDirection, s8 bChangeDirection)
 {
-    field_20_animation.Set_Animation_Data_409C80(frameTabeOffset, nullptr);
+    field_20_animation.Set_Animation_Data(frameTabeOffset, nullptr);
 
     field_11C_state = MineCarStates::eMoving_2;
     field_1C8_frame_mod_16 = static_cast<s32>(sGnFrame_5C1B84) % 16;
@@ -460,7 +460,7 @@ void MineCar::Move(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum in
 
     const AnimRecord& animRec2 = AnimRec(AnimId::Mine_Car_Tread_Move_A);
 
-    field_124_anim.Set_Animation_Data_409C80(animRec2.mFrameTableOffset, nullptr);
+    field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
 
     field_C4_velx = velX;
     field_C8_vely = velY;
@@ -528,8 +528,8 @@ s16 MineCar::FollowDirection()
     // If we're moving horizontally and hit a wall...
     //
     if (
-        (field_C4_velx > FP_FromInteger(0) && WallHit_408750(halfHeight, step + FP_FromInteger(1))) ||
-        (field_C4_velx < FP_FromInteger(0) && WallHit_408750(halfHeight, -step))
+        (field_C4_velx > FP_FromInteger(0) && WallHit(halfHeight, step + FP_FromInteger(1))) ||
+        (field_C4_velx < FP_FromInteger(0) && WallHit(halfHeight, -step))
     )
     {
         // ...continue vertically
@@ -599,11 +599,11 @@ s16 MineCar::FollowDirection()
         case MineCarDirs::eRight_1:
         {
             const bool bLeftWall1 =
-                WallHit_408750(mineCarHeight - FP_FromInteger(2), -(step + FP_FromInteger(4))) ||
-                WallHit_408750(-FP_FromInteger(2),                -(step + FP_FromInteger(4)));
+                WallHit(mineCarHeight - FP_FromInteger(2), -(step + FP_FromInteger(4))) ||
+                WallHit(-FP_FromInteger(2),                -(step + FP_FromInteger(4)));
             const bool bLeftWall2 =
-                WallHit_408750(mineCarHeight + FP_FromInteger(1), -(step + FP_FromInteger(4))) ||
-                WallHit_408750(FP_FromInteger(1),                 -(step + FP_FromInteger(4)));
+                WallHit(mineCarHeight + FP_FromInteger(1), -(step + FP_FromInteger(4))) ||
+                WallHit(FP_FromInteger(1),                 -(step + FP_FromInteger(4)));
 
             if (
                 (field_C8_vely > FP_FromInteger(0) && !bLeftWall1) ||
@@ -620,11 +620,11 @@ s16 MineCar::FollowDirection()
         case MineCarDirs::eLeft_2:
         {
             const bool bRightWall1 =
-                WallHit_408750(mineCarHeight - FP_FromInteger(2), step + FP_FromInteger(4)) ||
-                WallHit_408750(-FP_FromInteger(2),                step + FP_FromInteger(4));
+                WallHit(mineCarHeight - FP_FromInteger(2), step + FP_FromInteger(4)) ||
+                WallHit(-FP_FromInteger(2),                step + FP_FromInteger(4));
             const bool bRightWall2 =
-                WallHit_408750(mineCarHeight + FP_FromInteger(1), step + FP_FromInteger(4)) ||
-                WallHit_408750(FP_FromInteger(1),                 step + FP_FromInteger(4));
+                WallHit(mineCarHeight + FP_FromInteger(1), step + FP_FromInteger(4)) ||
+                WallHit(FP_FromInteger(1),                 step + FP_FromInteger(4));
 
             if (
                 (field_C8_vely > FP_FromInteger(0) && !bRightWall1) ||
@@ -842,7 +842,7 @@ void MineCar::VUpdate()
 
         if (field_104_collision_line_type != -1)
         {
-            sCollisions_DArray_5C1128->Raycast_417A60(
+            sCollisions_DArray_5C1128->Raycast(
                 field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(20),
                 field_B8_xpos,
@@ -862,7 +862,7 @@ void MineCar::VUpdate()
         }
     }
 
-    if (Event_Get_422C00(kEventDeathReset))
+    if (Event_Get(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
@@ -924,7 +924,7 @@ void MineCar::VUpdate()
     PathLine* pPathLine = nullptr;
 
     if (
-        !sCollisions_DArray_5C1128->Raycast_417A60(
+        !sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos - mineCarWidthAdjusted,
             field_BC_ypos + field_C8_vely - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
             field_B8_xpos + mineCarWidthAdjusted,
@@ -956,7 +956,7 @@ void MineCar::State_0_ParkedWithoutAbe()
     {
         const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Closed);
 
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         field_11C_state = MineCarStates::eParkedWithAbe_1;
         sControlledCharacter_5C1B8C = this;
         field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
@@ -992,8 +992,8 @@ void MineCar::State_1_ParkedWithAbe()
         sActiveHero_5C1B68->field_BC_ypos = field_BC_ypos;
         field_11C_state = MineCarStates::eParkedWithoutAbe_0;
         
-        field_124_anim.Set_Animation_Data_409C80(animRec2.mFrameTableOffset, nullptr);
-        field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
+        field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_1CC_spawned_path = gMap.mCurrentPath;
@@ -1043,8 +1043,8 @@ void MineCar::State_1_ParkedWithAbe()
             )
         ) &&
         !(
-            WallHit_408750(mineCarHeight * FP_FromDouble(0.5), mineCarWidthAdjusted + FP_FromInteger(1)) &&
-            WallHit_408750(mineCarHeight - FP_FromInteger(8), mineCarWidthAdjusted + FP_FromInteger(1))
+            WallHit(mineCarHeight * FP_FromDouble(0.5), mineCarWidthAdjusted + FP_FromInteger(1)) &&
+            WallHit(mineCarHeight - FP_FromInteger(8), mineCarWidthAdjusted + FP_FromInteger(1))
         )
     )
     {
@@ -1102,7 +1102,7 @@ void MineCar::State_1_ParkedWithAbe()
     }
     else
     {
-        if (WallHit_408750(mineCarHeight * FP_FromDouble(0.5), mineCarWidthAdjusted + FP_FromInteger(1)))
+        if (WallHit(mineCarHeight * FP_FromDouble(0.5), mineCarWidthAdjusted + FP_FromInteger(1)))
         {
             if (sInputObject_5BD4E0.isPressed(inputKey))
             {
@@ -1128,8 +1128,8 @@ void MineCar::State_1_ParkedWithAbe()
             )
         ) &&
         !(
-            WallHit_408750(mineCarHeight * FP_FromDouble(0.5), -mineCarWidthAdjusted) &&
-            WallHit_408750(mineCarHeight - FP_FromInteger(8), -mineCarWidthAdjusted)
+            WallHit(mineCarHeight * FP_FromDouble(0.5), -mineCarWidthAdjusted) &&
+            WallHit(mineCarHeight - FP_FromInteger(8), -mineCarWidthAdjusted)
         )
     )
     {
@@ -1208,7 +1208,7 @@ bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncA
     FP hitY = {};
 
     if (
-        sCollisions_DArray_5C1128->Raycast_417A60(
+        sCollisions_DArray_5C1128->Raycast(
             rayCastX1,
             rayCastY1,
             rayCastX2,
@@ -1276,7 +1276,7 @@ void MineCar::HandleUpDown()
 
         if (
             HandleState1Move(
-                &MineCar::WallHit_408750,
+                &MineCar::WallHit,
                 hitY,
                 hitX,
                 hitY2,
@@ -1296,7 +1296,7 @@ void MineCar::HandleUpDown()
                 true
             ) ||
             HandleState1Move(
-                &MineCar::WallHit_408750,
+                &MineCar::WallHit,
                 hitY,
                 -hitX,
                 hitY2,
@@ -1356,7 +1356,7 @@ void MineCar::HandleUpDown()
 
         if (
             HandleState1Move(
-                &MineCar::WallHit_408750,
+                &MineCar::WallHit,
                 hitY,
                 hitX,
                 hitY2,
@@ -1376,7 +1376,7 @@ void MineCar::HandleUpDown()
                 true
             ) ||
             HandleState1Move(
-                &MineCar::WallHit_408750,
+                &MineCar::WallHit,
                 hitY,
                 -hitX,
                 hitY2,
@@ -1453,7 +1453,7 @@ void MineCar::State_2_Moving()
     PathLine* pPathLine = nullptr;
 
     if (
-        !sCollisions_DArray_5C1128->Raycast_417A60(
+        !sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos - mineCarWidthAdjusted,
             field_BC_ypos + field_C8_vely - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
             field_B8_xpos + mineCarWidthAdjusted,
@@ -1471,7 +1471,7 @@ void MineCar::State_2_Moving()
     }
 
     if (
-        !sCollisions_DArray_5C1128->Raycast_417A60(
+        !sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos + field_C4_velx,
             field_BC_ypos,
             field_B8_xpos + field_C4_velx,
@@ -1489,7 +1489,7 @@ void MineCar::State_2_Moving()
     }
 
     if (
-        !sCollisions_DArray_5C1128->Raycast_417A60(
+        !sCollisions_DArray_5C1128->Raycast(
             field_B8_xpos + field_C4_velx,
             field_BC_ypos,
             field_B8_xpos + field_C4_velx,
@@ -1593,8 +1593,8 @@ void MineCar::State_3_Falling()
     if (field_C4_velx > FP_FromInteger(0))
     {
         if (
-            WallHit_408750(mineCarHeight, mineCarWidthAdjusted) ||
-            WallHit_408750(FP_FromInteger(0), mineCarWidthAdjusted)
+            WallHit(mineCarHeight, mineCarWidthAdjusted) ||
+            WallHit(FP_FromInteger(0), mineCarWidthAdjusted)
         )
         {
             field_C4_velx = FP_FromInteger(0);
@@ -1615,8 +1615,8 @@ void MineCar::State_3_Falling()
     if (field_C4_velx < FP_FromInteger(0))
     {
         if (
-            WallHit_408750(mineCarHeight, -mineCarWidthAdjusted) ||
-            WallHit_408750(FP_FromInteger(0), -mineCarWidthAdjusted)
+            WallHit(mineCarHeight, -mineCarWidthAdjusted) ||
+            WallHit(FP_FromInteger(0), -mineCarWidthAdjusted)
         )
         {
             field_C4_velx = FP_FromInteger(0);
@@ -1638,7 +1638,7 @@ void MineCar::State_3_Falling()
     FP hitY = {};
     PathLine* pPathLine = nullptr;
 
-    if (InAirCollision_408810(&pPathLine, &hitX, &hitY, FP_FromDouble(1.8)))
+    if (InAirCollision(&pPathLine, &hitX, &hitY, FP_FromDouble(1.8)))
     {
         field_BC_ypos = hitY;
         field_F8_LastLineYPos = hitY;

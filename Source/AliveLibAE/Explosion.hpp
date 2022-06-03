@@ -9,11 +9,10 @@ public:
     Explosion(FP xpos, FP ypos, FP scale, bool bSmall);
 
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
 
 private:
-    void DealBlastDamage_4A1BD0(PSX_RECT* pRect);
+    void DealBlastDamage(PSX_RECT* pRect);
 
 private:
     s16 field_F4_bSmall;

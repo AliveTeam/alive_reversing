@@ -6,23 +6,16 @@
 class CircularFade final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    
+    CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
+    ~CircularFade();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
     // New virtuals
-    virtual s32 VFadeIn_4CE300(s16 direction, s8 destroyOnDone);
-    virtual s32 VDone_4CE0B0();
-
-    CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
-    ~CircularFade();
-
-private:
-    void vRender_4CE3F0(PrimHeader** ppOt);
-    void vUpdate_4CE380();
-    s32 vFadeIn_4CE300(s16 direction, s8 destroyOnDone); // TODO: Likely no return
-    s32 vDone_4CE0B0();
+    virtual s32 VFadeIn(s16 direction, s8 destroyOnDone); // TODO: Likely no return
+    virtual s32 VDone();
 
 private:
     enum Flags
