@@ -53,7 +53,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     SetType(AETypes::eSlurg_129);
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -131,7 +131,7 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
     pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_14_flipX & 1);
     pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_1C_bRender & 1);
 
-    pSlurg->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_1D_bDrawable & 1);
+    pSlurg->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_1D_bDrawable & 1);
 
     if (IsLastFrame(&pSlurg->field_20_animation))
     {
@@ -180,7 +180,7 @@ void Slurg::VUpdate()
     const FP oldXPos = field_B8_xpos;
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_11E_moving_timer == 0)
@@ -246,7 +246,7 @@ void Slurg::VUpdate()
         case Slurg_States::eBurst_2:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -334,7 +334,7 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
     pState->field_16_current_motion = field_106_current_motion;
     pState->field_18_anim_current_frame = field_20_animation.field_92_current_frame;
     pState->field_1A_anim_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_1D_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_1D_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_1C_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_20_frame_table_offset = field_20_animation.field_18_frame_table_offset;
     pState->field_24_tlvInfo = field_12C_tlvInfo;

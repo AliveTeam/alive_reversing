@@ -11,7 +11,7 @@
 LevelLoader::LevelLoader(Path_LevelLoader* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    field_C_objectId = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvInfo;
     field_20_switch_id = pTlv->field_10_switch_id;
     field_24_level = pTlv->field_12_dest_level;
     field_26_path = pTlv->field_14_dest_path;
@@ -25,7 +25,7 @@ void LevelLoader::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {

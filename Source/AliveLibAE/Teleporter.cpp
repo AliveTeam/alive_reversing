@@ -45,7 +45,7 @@ void Teleporter::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     field_32_bDestroySelf = 1;
 }
@@ -102,7 +102,7 @@ void Teleporter::VUpdate()
         {
             if (field_32_bDestroySelf)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
             if (SwitchStates_Get(field_34_mTlvData.field_1A_switch_id) == field_2C_switch_state)
@@ -143,7 +143,7 @@ void Teleporter::VUpdate()
             {
                 if (pObj->VSub_4E6630() || field_54_effect_created)
                 {
-                    if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
+                    if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
                     {
                         return;
                     }
@@ -194,7 +194,7 @@ void Teleporter::VUpdate()
                     field_54_effect_created = 1;
                 }
 
-                if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
+                if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
                 {
                     return;
                 }

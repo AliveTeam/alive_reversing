@@ -10,8 +10,8 @@ ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
 {
     SetType(AETypes::eScreenClipper_114);
 
-    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     field_40_rect.x = xy.field_0_x;
     field_40_rect.y = xy.field_2_y;

@@ -12,7 +12,7 @@ namespace AO {
 BeeNest::BeeNest(Path_BeeNest* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
-    field_4_typeId = Types::eBeeNest_96;
+    mBaseGameObjectTypeId = Types::eBeeNest_96;
 
     field_1C_tlvInfo = tlvInfo;
 
@@ -49,7 +49,7 @@ BeeNest::~BeeNest()
 {
     if (field_34_pBeeSwarm)
     {
-        field_34_pBeeSwarm->field_C_refCount--;
+        field_34_pBeeSwarm->mBaseGameObjectRefCount--;
     }
 }
 
@@ -57,7 +57,7 @@ void BeeNest::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !field_34_pBeeSwarm)
@@ -65,10 +65,10 @@ void BeeNest::VScreenChanged()
         gMap.TLV_Reset(field_1C_tlvInfo, -1, 0, 0);
         if (field_34_pBeeSwarm)
         {
-            field_34_pBeeSwarm->field_C_refCount--;
+            field_34_pBeeSwarm->mBaseGameObjectRefCount--;
             field_34_pBeeSwarm = nullptr;
         }
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -87,7 +87,7 @@ void BeeNest::VUpdate()
                     field_2C_chase_ticks);
                 if (field_34_pBeeSwarm)
                 {
-                    field_34_pBeeSwarm->field_C_refCount++;
+                    field_34_pBeeSwarm->mBaseGameObjectRefCount++;
                     field_34_pBeeSwarm->Chase(sActiveHero_507678);
                     field_2E_state = BeeNestStates::eResetIfDead_1;
                 }
@@ -95,10 +95,10 @@ void BeeNest::VUpdate()
             break;
 
         case BeeNestStates::eResetIfDead_1:
-            if (field_34_pBeeSwarm->mFlags.Get(BaseGameObject::eDead))
+            if (field_34_pBeeSwarm->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 field_2E_state = BeeNestStates::eWaitForTrigger_0;
-                field_34_pBeeSwarm->field_C_refCount--;
+                field_34_pBeeSwarm->mBaseGameObjectRefCount--;
                 field_34_pBeeSwarm = nullptr;
                 SwitchStates_Set(field_28_switch_id, 0);
             }

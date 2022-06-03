@@ -138,7 +138,7 @@ void ZapLine::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -346,7 +346,7 @@ void ZapLine::VUpdate()
 
             if (field_126_alive_timer >= field_128_max_alive_time && field_12A_type != ZapLineType::eThin_1)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 

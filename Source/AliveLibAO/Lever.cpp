@@ -43,7 +43,7 @@ void Lever::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_E8_state == LeverState::ePulled_1)
@@ -168,7 +168,7 @@ void Lever::VUpdate()
 
 void Lever::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 Lever::~Lever()
@@ -178,7 +178,7 @@ Lever::~Lever()
 
 Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eLever_97;
+    mBaseGameObjectTypeId = Types::eLever_97;
     const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
     const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_0_idle_animId);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

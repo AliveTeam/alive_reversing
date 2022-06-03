@@ -12,7 +12,7 @@ namespace AO {
 
 PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::ePullRingRope_68;
+    mBaseGameObjectTypeId = Types::ePullRingRope_68;
 
     s32 lvl_x_off = 0;
     switch (gMap.mCurrentLevel)
@@ -85,7 +85,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
         field_BC_sprite_scale);
     if (field_F8_pRope)
     {
-        field_F8_pRope->field_C_refCount++;
+        field_F8_pRope->mBaseGameObjectRefCount++;
     }
 }
 
@@ -98,7 +98,7 @@ void PullRingRope::VScreenChanged()
 {
     if (!field_F4_pPuller)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -108,13 +108,13 @@ PullRingRope::~PullRingRope()
 
     if (field_F4_pPuller)
     {
-        field_F4_pPuller->field_C_refCount--;
+        field_F4_pPuller->mBaseGameObjectRefCount--;
     }
 
     if (field_F8_pRope)
     {
-        field_F8_pRope->mFlags.Set(Options::eDead);
-        field_F8_pRope->field_C_refCount--;
+        field_F8_pRope->mBaseGameObjectFlags.Set(Options::eDead);
+        field_F8_pRope->mBaseGameObjectRefCount--;
     }
 }
 
@@ -131,7 +131,7 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
     }
 
     field_F4_pPuller = pFrom;
-    field_F4_pPuller->field_C_refCount++;
+    field_F4_pPuller->mBaseGameObjectRefCount++;
 
     field_EC_state = States::eBeingPulled_1;
     field_B8_vely = FP_FromInteger(2);
@@ -157,14 +157,14 @@ void PullRingRope::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_F4_pPuller)
     {
-        if (field_F4_pPuller->mFlags.Get(BaseGameObject::eDead))
+        if (field_F4_pPuller->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
-            field_F4_pPuller->field_C_refCount--;
+            field_F4_pPuller->mBaseGameObjectRefCount--;
             field_F4_pPuller = nullptr;
         }
     }
@@ -253,7 +253,7 @@ void PullRingRope::VUpdate()
         case States::eTriggerEvent_2:
             field_B8_vely = FP_FromInteger(4);
             field_EC_state = States::eReturnToIdle_3;
-            field_F4_pPuller->field_C_refCount--;
+            field_F4_pPuller->mBaseGameObjectRefCount--;
             field_F4_pPuller = nullptr;
 
             field_E4_stay_in_state_ticks = 3;

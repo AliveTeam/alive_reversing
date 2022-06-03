@@ -295,7 +295,7 @@ void Drill::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     const CameraPos soundDirection = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
@@ -507,7 +507,7 @@ void Drill::VScreenChanged()
     }
     */
 
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void Drill::VRender(PrimHeader** ppOt)
@@ -651,9 +651,9 @@ s16 Drill::DamageTouchingObjects()
             return 0;
         }
 
-        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eRockSpawner_48)
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eRockSpawner_48)
         {
-            if (pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 if (pObj->Type() != AETypes::eMeat_84 && pObj->Type() != AETypes::eEvilFart_45 && (pObj->Type() != AETypes::eAbe_69 || pObj->field_106_current_motion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
                 {

@@ -140,9 +140,9 @@ void Explosion::VUpdate()
 
             if (pParticle)
             {
-                if (pParticle->mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+                if (pParticle->mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
                 {
-                    pParticle->mFlags.Set(BaseGameObject::eDead);
+                    pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
 
                 pParticle->field_DC_bApplyShadows &= ~1u;
@@ -164,7 +164,7 @@ void Explosion::VUpdate()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -172,7 +172,7 @@ void Explosion::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -204,7 +204,7 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
             break;
         }
 
-        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             PSX_RECT boundRect = {};
             pObj->VGetBoundingRect(&boundRect, 1);

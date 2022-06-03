@@ -244,8 +244,8 @@ Movie::Movie(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 volume)
 {
     // AE_IMPLEMENTED();
 
-    mFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     /*
     // TODO: FIX MOI
@@ -262,7 +262,7 @@ Movie::Movie(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 volume)
     */
 
     field_28 = id;
-    field_4_typeId = Types::eMovie_100;
+    mBaseGameObjectTypeId = Types::eMovie_100;
     field_2C = 0;
     field_10_flags = 4 * (bUnknown & 1) | (field_10_flags & ~7);
     field_3C = 1;
@@ -375,7 +375,7 @@ void Movie::VUpdate()
 
     if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -395,7 +395,7 @@ void Movie::VUpdate()
     // Bail if failed to open
     if (!hMovieFile)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -495,7 +495,7 @@ void Movie::VUpdate()
 
     GetMovieIO().mIO_Close(hMovieFile);
 
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 } // namespace AO

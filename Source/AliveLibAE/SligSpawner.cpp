@@ -15,7 +15,7 @@ SligSpawner::SligSpawner(Path_Slig* pTlv, s32 tlvInfo)
 
     if (tlvInfo != 0xFFFF)
     {
-        field_C_objectId = tlvInfo;
+        mBaseGameObjectTlvInfo = tlvInfo;
     }
 
     field_20_tlv_info = tlvInfo;
@@ -48,7 +48,7 @@ void SligSpawner::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_38_state == SpawnerStates::eInactive_0)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -68,7 +68,7 @@ void SligSpawner::VUpdate()
                     break;
                 }
 
-                if (pObj->Type() == AETypes::eSlig_125 && pObj->field_C_objectId == field_3C_spawned_slig_obj_id)
+                if (pObj->Type() == AETypes::eSlig_125 && pObj->mBaseGameObjectTlvInfo == field_3C_spawned_slig_obj_id)
                 {
                     // Seems redundant ?
                     field_3C_spawned_slig_obj_id = pObj->field_8_object_id;
@@ -82,12 +82,12 @@ void SligSpawner::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_38_state == SpawnerStates::eSligSpawned_1)
     {
-        if (!pSpawnedSlig || pSpawnedSlig->mFlags.Get(BaseGameObject::eDead) || pSpawnedSlig->field_10C_health <= FP_FromInteger(0))
+        if (!pSpawnedSlig || pSpawnedSlig->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || pSpawnedSlig->field_10C_health <= FP_FromInteger(0))
         {
             SwitchStates_Set(field_24_slig_spawner_switch_id, 0);
             field_38_state = SpawnerStates::eInactive_0;
@@ -112,7 +112,7 @@ void SligSpawner::VUpdate()
 
             if (!field_26_flags.Get(SpawnerFlags::eBit2_UnlimitedSpawns))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 field_26_flags.Clear(SpawnerFlags::eBit1_DontDestroyTLV);
             }
         }
@@ -135,7 +135,7 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
     BaseGameObject* pSpawnedSlig = sObjectIds.Find_Impl(field_3C_spawned_slig_obj_id);
     if (pSpawnedSlig)
     {
-        pState->field_C_spawned_slig_obj_id = pSpawnedSlig->field_C_objectId;
+        pState->field_C_spawned_slig_obj_id = pSpawnedSlig->mBaseGameObjectTlvInfo;
     }
     return sizeof(Slig_Spawner_State);
 }

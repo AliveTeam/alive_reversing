@@ -22,7 +22,7 @@ namespace AO {
 MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eMeatStack_55;
+    mBaseGameObjectTypeId = Types::eMeatStack_55;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::MeatSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -73,7 +73,7 @@ void MeatSack::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_10_anim.field_92_current_frame == 2)
@@ -153,7 +153,7 @@ void MeatSack::VUpdate()
 
 void MeatSack::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 Meat::Meat(FP xpos, FP ypos, s16 count)
@@ -161,7 +161,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
 {
     field_10E_bDead = 0;
 
-    field_4_typeId = Types::eMeat_54;
+    mBaseGameObjectTypeId = Types::eMeat_54;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Meat);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -176,7 +176,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_B4_velx = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
     field_11C_timer = 0;
-    mFlags.Clear(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -204,7 +204,7 @@ void Meat::VScreenChanged()
 {
     if (gMap.mCurrentPath != gMap.mPath || gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -369,7 +369,7 @@ void Meat::VUpdate()
     {
         if (Event_Get(kEventDeathReset_4))
         {
-            mFlags.Set(Options::eDead);
+            mBaseGameObjectFlags.Set(Options::eDead);
         }
 
         // TODO: states enum
@@ -392,7 +392,7 @@ void Meat::VUpdate()
 
                 if (field_AC_ypos > FP_FromInteger(gMap.field_D4_pPathData->field_A_bBottom))
                 {
-                    mFlags.Set(Options::eDead);
+                    mBaseGameObjectFlags.Set(Options::eDead);
                 }
                 break;
             }
@@ -429,7 +429,7 @@ void Meat::VUpdate()
                     field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
                     field_D4_collection_rect.h = field_AC_ypos;
 
-                    mFlags.Set(Options::eInteractive_Bit8);
+                    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
                     field_110_state = 4;
                 }
                 break;
@@ -451,7 +451,7 @@ void Meat::VUpdate()
                 }
                 if (field_120_deadtimer < static_cast<s32>(gnFrameCount_507670))
                 {
-                    mFlags.Set(Options::eDead);
+                    mBaseGameObjectFlags.Set(Options::eDead);
                 }
                 break;
 
@@ -467,7 +467,7 @@ void Meat::VUpdate()
                         field_B8_vely + field_AC_ypos,
                         0))
                 {
-                    mFlags.Set(Options::eDead);
+                    mBaseGameObjectFlags.Set(Options::eDead);
                 }
                 break;
 
@@ -479,12 +479,12 @@ void Meat::VUpdate()
 
 s16 Meat::OnCollision(BaseAliveGameObject* pHit)
 {
-    if (!pHit->mFlags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pHit->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {
         return 1;
     }
 
-    if (pHit->field_4_typeId == Types::eMine_57 || pHit->field_4_typeId == Types::eUXB_99 || pHit->field_4_typeId == Types::eTimedMine_8)
+    if (pHit->mBaseGameObjectTypeId == Types::eMine_57 || pHit->mBaseGameObjectTypeId == Types::eUXB_99 || pHit->mBaseGameObjectTypeId == Types::eTimedMine_8)
     {
         return 1;
     }
@@ -518,7 +518,7 @@ void Meat::VOnTrapDoorOpen()
     if (field_F8_pLiftPoint)
     {
         field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
         field_F8_pLiftPoint = nullptr;
         if (field_110_state == 3 || field_110_state == 4)
         {

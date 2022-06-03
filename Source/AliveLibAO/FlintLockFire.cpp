@@ -48,7 +48,7 @@ const FlintLockFireData sFlintLockFireData_4BAC70[] = {
 
 void FlintLockFire::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void FlintLockFire::VStopAudio()
@@ -78,7 +78,7 @@ FlintLockFire::~FlintLockFire()
 
 FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eFlintLockFire_34;
+    mBaseGameObjectTypeId = Types::eFlintLockFire_34;
 
     const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
 
@@ -196,7 +196,7 @@ void FlintLockFire::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);

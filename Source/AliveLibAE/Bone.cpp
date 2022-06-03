@@ -36,7 +36,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     field_124_ypos = ypos;
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
-    mFlags.Clear(BaseGameObject::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
     field_130_hit_object &= ~1u;
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -60,7 +60,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
     auto pBone = ae_new<Bone>(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
 
-    pBone->field_C_objectId = pState->field_4_obj_id;
+    pBone->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
     pBone->field_B8_xpos = pState->field_8_xpos;
     pBone->field_BC_ypos = pState->field_C_ypos;
@@ -82,8 +82,8 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Bone_SaveState::eBit3_bLoop));
     pBone->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Bone_SaveState::eBit1_bRender));
 
-    pBone->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Bone_SaveState::eBit2_bDrawable));
-    pBone->mFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Bone_SaveState::eBit4_bInteractive));
+    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Bone_SaveState::eBit2_bDrawable));
+    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Bone_SaveState::eBit4_bInteractive));
 
     pBone->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
@@ -168,7 +168,7 @@ Bool32 Bone::VCanThrow()
 
 s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    if (!pObj->mFlags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {
         return 1;
     }
@@ -208,7 +208,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     if (pObj->Type() == AETypes::eMine_88 || pObj->Type() == AETypes::eUXB_143)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     return 0;
@@ -218,7 +218,7 @@ void Bone::VScreenChanged()
 {
     if (gMap.mCurrentPath != gMap.mPath || gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -232,7 +232,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<Bone_SaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eBone_11;
-    pState->field_4_obj_id = field_C_objectId;
+    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->field_8_xpos = field_B8_xpos;
     pState->field_C_ypos = field_BC_ypos;
@@ -248,8 +248,8 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     pState->field_20_flags.Set(Bone_SaveState::eBit3_bLoop, field_20_animation.field_4_flags.Get(AnimFlags::eBit8_Loop));
     pState->field_20_flags.Set(Bone_SaveState::eBit1_bRender, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
 
-    pState->field_20_flags.Set(Bone_SaveState::eBit2_bDrawable, mFlags.Get(BaseGameObject::eDrawable_Bit4));
-    pState->field_20_flags.Set(Bone_SaveState::eBit4_bInteractive, mFlags.Get(BaseGameObject::eInteractive_Bit8));
+    pState->field_20_flags.Set(Bone_SaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
+    pState->field_20_flags.Set(Bone_SaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
 
     pState->field_20_flags.Set(Bone_SaveState::eBit5_bHitObject, field_130_hit_object & 1);
 
@@ -282,7 +282,7 @@ void Bone::InTheAir()
 
     if (field_C8_vely > FP_FromInteger(30))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     field_C8_vely += FP_FromInteger(1);
@@ -418,7 +418,7 @@ void Bone::VUpdate()
     auto pObj = sObjectIds.Find_Impl(field_110_id);
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_11C_state)
@@ -467,7 +467,7 @@ void Bone::VUpdate()
                     field_E4_collection_rect.h = field_BC_ypos;
 
                     field_11C_state = BoneStates::eOnGround_3;
-                    mFlags.Set(BaseGameObject::eInteractive_Bit8);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
                     field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
                     field_128_shine_timer = sGnFrame_5C1B84;
                     AddToPlatform();
@@ -506,7 +506,7 @@ void Bone::VUpdate()
 
             if (field_12C_time_to_live < static_cast<s32>(sGnFrame_5C1B84))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             return;
 
@@ -522,7 +522,7 @@ void Bone::VUpdate()
 
             if (field_BC_ypos > FP_FromInteger(gMap.field_D4_ptr->field_6_bBottom))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
         }
             return;
@@ -533,7 +533,7 @@ void Bone::VUpdate()
             field_BC_ypos = field_C8_vely + field_BC_ypos;
             if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             return;
     }
@@ -616,7 +616,7 @@ BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
 
 void BoneBag::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 BoneBag::~BoneBag()
@@ -628,7 +628,7 @@ void BoneBag::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_20_animation.field_92_current_frame == 2)

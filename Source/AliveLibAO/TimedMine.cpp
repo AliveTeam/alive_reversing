@@ -22,13 +22,13 @@ const TintEntry kTimedMineTints_4C3140[3] = {
 TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eTimedMine_8;
+    mBaseGameObjectTypeId = Types::eTimedMine_8;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::TimedMine_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    mFlags.Set(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     field_1B8_flags.Clear(TimedMine_Flags_1B8::eStickToLiftPoint_0);
     field_10C_armed = 0;
 
@@ -68,7 +68,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     }
     else
     {
-        mFlags.Set(Options::eListAddFailed_Bit1);
+        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
     }
 
     field_10E_ticks_before_explosion = pTlv->field_1E_ticks_before_explosion;
@@ -84,7 +84,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     field_D4_collection_rect.h = field_AC_ypos;
     field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
 
-    mFlags.Set(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     field_F8_pLiftPoint = nullptr;
 }
 
@@ -104,41 +104,41 @@ TimedMine::~TimedMine()
     if (field_F8_pLiftPoint)
     {
         field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
         field_F8_pLiftPoint = nullptr;
     }
 
-    mFlags.Clear(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 }
 
 void TimedMine::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (field_10C_armed != 1)
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
 
 s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->mBaseGameObjectTypeId)
     {
         case Types::eAbe_43:
         case Types::eAbilityRing_69:
         case Types::eExplosion_74:
         case Types::eShrykull_85:
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             ao_new<BaseBomb>(
                 field_A8_xpos,
                 field_AC_ypos,
@@ -211,7 +211,7 @@ void TimedMine::StickToLiftPoint()
                         break;
                     }
 
-                    if (pObj->field_4_typeId == Types::eLiftPoint_51)
+                    if (pObj->mBaseGameObjectTypeId == Types::eLiftPoint_51)
                     {
                         PSX_RECT pObjRect = {};
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);
@@ -220,7 +220,7 @@ void TimedMine::StickToLiftPoint()
                         {
                             field_F8_pLiftPoint = pLiftPoint;
                             pLiftPoint->VAdd(this);
-                            field_F8_pLiftPoint->field_C_refCount++;
+                            field_F8_pLiftPoint->mBaseGameObjectRefCount++;
                             return;
                         }
                     }
@@ -235,7 +235,7 @@ void TimedMine::VUpdate()
     auto pPlatform = static_cast<LiftPoint*>(field_F8_pLiftPoint);
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (!field_1B8_flags.Get(TimedMine_Flags_1B8::eStickToLiftPoint_0))
@@ -280,7 +280,7 @@ void TimedMine::VUpdate()
                 0,
                 field_BC_sprite_scale);
 
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -293,7 +293,7 @@ void TimedMine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
         0,
         field_BC_sprite_scale);
 
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_10C_armed = 1;
     field_114_timer = gnFrameCount_507670;
 }

@@ -177,7 +177,7 @@ void BoomMachine::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (!field_FC_bIsButtonOn)
@@ -207,7 +207,7 @@ void BoomMachine::VUpdate()
 
 void BoomMachine::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 Bool32 BoomMachine::VIsButtonOn()
@@ -236,7 +236,7 @@ BoomMachine::~BoomMachine()
     BaseGameObject* pObj = sObjectIds.Find_Impl(field_F8_nozzle_id);
     if (pObj)
     {
-        pObj->mFlags.Set(BaseGameObject::eDead);
+        pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }

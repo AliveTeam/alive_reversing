@@ -58,7 +58,7 @@ const TintEntry sTrapDoorTints_5639AC[18] = {
 TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 {
     SetType(AETypes::eTrapDoor_142);
-    field_C_objectId = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvInfo;
 
     field_12C_unused &= ~1u;
 
@@ -127,8 +127,8 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_11C_x_offset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - field_B8_xpos);
-    field_11E_width_offset = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - field_B8_xpos);
+    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - field_B8_xpos);
+    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - field_B8_xpos);
     field_13A_xOff = pTlv->field_1C_xOff;
 
     if (field_136_state == TrapDoorState::eOpen_2)
@@ -190,7 +190,7 @@ void TrapDoor::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     const CameraPos direction = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_140_x, field_144_y);
@@ -266,7 +266,7 @@ void TrapDoor::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         if (field_13E_self_closing == Choice_short::eYes_1)
         {
             SwitchStates_Set(field_134_switch_id, field_138_switch_state == 0);
@@ -281,7 +281,7 @@ s32 TrapDoor::VGetSaveState(u8* pSaveBuffer)
     pState->field_0_type = AETypes::eTrapDoor_142;
     pState->field_4_open_time = field_130_stay_open_time2;
     pState->field_2_state = field_136_state;
-    pState->field_8_tlvInfo = field_128_tlvInfo;
+    pState->field_8_tlvInfo = mPlatformBaseTlvInfo;
     return sizeof(TrapDoor_State);
 }
 
@@ -329,7 +329,7 @@ void TrapDoor::Open()
         }
 
         // Find alive objects.
-        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // That are on this trap door.
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
@@ -353,5 +353,5 @@ void TrapDoor::Open()
 
 TrapDoor::~TrapDoor()
 {
-    Path::TLV_Reset(field_128_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
 }

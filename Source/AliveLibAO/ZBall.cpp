@@ -23,7 +23,7 @@ s16* Animation_OnFrame_ZBallSmacker(void* pObj, s16* pData)
             break;
         }
 
-        if (pBase->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pBase->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // If the object is within the ZBall rect then smack it
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pBase);
@@ -43,7 +43,7 @@ s16* Animation_OnFrame_ZBallSmacker(void* pObj, s16* pData)
 
 ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eZBall_92;
+    mBaseGameObjectTypeId = Types::eZBall_92;
 
     field_C4_b = 128;
     field_C2_g = 128;
@@ -119,7 +119,7 @@ void ZBall::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (gCenter_ZBall_9F1DCC == this || gOutZBall_9F1DD0 == this)
@@ -168,7 +168,7 @@ void ZBall::VUpdate()
             field_AC_ypos,
             0))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
         if (field_E4_tlvInfo != -1)
         {
             gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);

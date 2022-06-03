@@ -13,7 +13,7 @@ LiftMover::LiftMover(Path_LiftMover* pTlv, s32 tlvInfo)
 {
     field_14_tlvInfo = tlvInfo;
     field_18_pLiftPoint = nullptr;
-    field_4_typeId = Types::eLiftMover_7;
+    mBaseGameObjectTypeId = Types::eLiftMover_7;
 
     field_10_lift_mover_switch_id = pTlv->field_18_lift_mover_switch_id;
     field_12_target_lift_point_id = pTlv->field_1A_target_lift_point_id;
@@ -34,7 +34,7 @@ LiftMover::~LiftMover()
 {
     if (field_18_pLiftPoint)
     {
-        field_18_pLiftPoint->field_C_refCount--;
+        field_18_pLiftPoint->mBaseGameObjectRefCount--;
         field_18_pLiftPoint = nullptr;
     }
     gMap.TLV_Reset(field_14_tlvInfo, -1, 0, 0);
@@ -42,11 +42,11 @@ LiftMover::~LiftMover()
 
 void LiftMover::VUpdate()
 {
-    if (field_18_pLiftPoint && field_18_pLiftPoint->mFlags.Get(BaseGameObject::eDead))
+    if (field_18_pLiftPoint && field_18_pLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        field_18_pLiftPoint->field_C_refCount--;
+        field_18_pLiftPoint->mBaseGameObjectRefCount--;
         field_18_pLiftPoint = nullptr;
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -85,7 +85,7 @@ void LiftMover::VUpdate()
 
                     if (field_18_pLiftPoint)
                     {
-                        field_18_pLiftPoint->field_C_refCount++;
+                        field_18_pLiftPoint->mBaseGameObjectRefCount++;
                         field_20_state = 1;
                     }
                 }
@@ -165,7 +165,7 @@ void LiftMover::VUpdate()
 
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -179,7 +179,7 @@ LiftPoint* LiftMover::FindLiftPointWithId(s16 id)
             break;
         }
 
-        if (pItem->field_4_typeId == Types::eLiftPoint_51)
+        if (pItem->mBaseGameObjectTypeId == Types::eLiftPoint_51)
         {
             auto pLiftPoint = static_cast<LiftPoint*>(pItem);
             if (pLiftPoint->field_278_lift_point_id == id)

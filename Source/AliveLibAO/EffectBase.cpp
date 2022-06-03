@@ -13,9 +13,9 @@ namespace AO {
 EffectBase::EffectBase(Layer layer, TPageAbr abr)
     : BaseGameObject(TRUE)
 {
-    field_4_typeId = Types::eEffectBase_79;
+    mBaseGameObjectTypeId = Types::eEffectBase_79;
     gObjList_drawables_504618->Push_Back(this);
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     field_10_path_id = gMap.mCurrentPath;
     field_12_level_id = gMap.mCurrentLevel;
     for (s32 i = 0; i < 2; i++)

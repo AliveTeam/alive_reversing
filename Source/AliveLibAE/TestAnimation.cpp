@@ -66,8 +66,8 @@ TestAnimation::TestAnimation()
 
     field_DC_bApplyShadows &= ~1u;
 
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 }
 
 void TestAnimation::SyncToAbePos()

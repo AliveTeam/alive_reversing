@@ -33,12 +33,12 @@ void InvisibleSwitch::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (field_28_state != States::eWaitForDelayTimer_1)
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
 
@@ -91,7 +91,7 @@ void InvisibleSwitch::VUpdate()
 
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

@@ -15,8 +15,8 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItem
     field_F4_res = reinterpret_cast<AnimHeader**>(Add_Resource(ResourceManager::Resource_Animation, anim.mBgAnimId));
     if (!field_F4_res)
     {
-        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -61,7 +61,7 @@ void BackgroundAnimation::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -72,7 +72,7 @@ void BackgroundAnimation::VUpdate()
 
 void BackgroundAnimation::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 BackgroundAnimation::~BackgroundAnimation()

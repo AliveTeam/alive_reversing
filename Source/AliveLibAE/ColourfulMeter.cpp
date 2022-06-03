@@ -26,7 +26,7 @@ ColourfulMeter::ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo)
 
     field_20_font_context.LoadFontType_433400(2);
     field_30_font.ctor_433590(5, byte_5543D0, &field_20_font_context);
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjList_drawables_5C1124->Push_Back(this);
 
     field_6C_text_x = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
@@ -79,7 +79,7 @@ ColourfulMeter::~ColourfulMeter()
 
 void ColourfulMeter::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
@@ -91,7 +91,7 @@ void ColourfulMeter::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         gTotalMeterBars_5C1BFA = 0;
     }
 

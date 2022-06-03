@@ -12,7 +12,7 @@ namespace AO {
 
 LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eNone_0;
+    mBaseGameObjectTypeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Star);
@@ -83,7 +83,7 @@ void LightEffect::VRender(PrimHeader** /*ppOt*/)
 
 void LightEffect::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 

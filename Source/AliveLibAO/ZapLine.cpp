@@ -24,7 +24,7 @@ ZapLine::~ZapLine()
 
 ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, Layer layer)
 {
-    field_4_typeId = Types::eZapLine_94;
+    mBaseGameObjectTypeId = Types::eZapLine_94;
     field_11A_type = type;
 
     AnimId animId = AnimId::None;
@@ -143,7 +143,7 @@ void ZapLine::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -256,7 +256,7 @@ void ZapLine::VUpdate()
 
             if (field_116_alive_timer >= field_118_max_alive_time && field_11A_type != ZapLineType::eThin_1)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 

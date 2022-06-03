@@ -17,9 +17,9 @@ ALIVE_VAR_EXTERN(u8, sRandomSeed_50A228); //Math.cpp
 DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     : BaseGameObject(1)
 {
-    mFlags.Clear(Options::eDrawable_Bit4);
-    mFlags.Set(Options::eSurviveDeathReset_Bit9);
-    field_4_typeId = Types::eDemoPlayback;
+    mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mBaseGameObjectTypeId = Types::eDemoPlayback;
     field_1C_bFromHandStone = static_cast<s16>(bFromHandStone);
     sDDCheat_FlyingEnabled_50771C = 0;
     if (gAttract_507698 == 0)
@@ -27,7 +27,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
         field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Play, 1, sizeof(SaveData));
         if (!field_18_ppRes)
         {
-            mFlags.Clear(Options::eDead);
+            mBaseGameObjectFlags.Clear(Options::eDead);
         }
         SaveGame::SaveToMemory(reinterpret_cast<SaveData*>(*field_18_ppRes));
     }
@@ -42,7 +42,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     sRandomSeed_50A228 = pd->randomSeed;
     field_10_state = States::eState_0_Init;
     field_14_ppDemoRes = ppPlaybackData;
-    field_8_update_delay = 1;
+    mBaseGameObjectUpdateDelay = 1;
 }
 
 DemoPlayback::~DemoPlayback()
@@ -72,12 +72,12 @@ void DemoPlayback::VUpdate()
     switch (field_10_state)
     {
         case States::eState_0_Init:
-            sActiveHero_507678->mFlags.Set(Options::eDrawable_Bit4);
+            sActiveHero_507678->mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
             sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
             Input().SetDemoRes(reinterpret_cast<u32**>(field_14_ppDemoRes));
 
-            mFlags.Set(Options::eDrawable_Bit4);
+            mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
             field_10_state = States::eState_1_Playing;
             break;
 
@@ -104,14 +104,14 @@ void DemoPlayback::VUpdate()
                 }
 
                 field_10_state = States::eState_2_Done;
-                field_8_update_delay = 2;
-                mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectUpdateDelay = 2;
+                mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
 
         case States::eState_2_Done:
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             break;
     }
 }

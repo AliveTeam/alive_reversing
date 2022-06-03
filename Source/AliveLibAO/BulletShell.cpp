@@ -12,7 +12,7 @@ namespace AO {
 
 BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
 {
-    field_4_typeId = Types::eNone_0;
+    mBaseGameObjectTypeId = Types::eNone_0;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Bullet_Shell);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -102,12 +102,12 @@ void BulletShell::VUpdate()
             field_AC_ypos,
             0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_EC_hitCount >= 3)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

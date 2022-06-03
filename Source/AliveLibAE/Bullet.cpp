@@ -34,7 +34,7 @@ void Bullet::VUpdate()
 {
     if (!gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos, field_2C_ypos, 0) && !gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos + FP_FromInteger(10), field_2C_ypos, 0) && !gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos - FP_FromInteger(10), field_2C_ypos, 0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -132,7 +132,7 @@ void Bullet::VUpdate()
                                 PlayBulletSounds(vol);
                             }
                         }
-                        mFlags.Set(BaseGameObject::eDead);
+                        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                         return;
                     }
                 }
@@ -158,7 +158,7 @@ void Bullet::VUpdate()
                 {
                     SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                 }
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -212,7 +212,7 @@ void Bullet::VUpdate()
                         PlayBulletSounds(vol);
                     }
                 }
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -220,7 +220,7 @@ void Bullet::VUpdate()
             {
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
             }
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
         }
 
@@ -240,7 +240,7 @@ void Bullet::VUpdate()
                     if (pShootObj->Type() != AETypes::eGreeter_64 && pShootObj->Type() != AETypes::eMineCar_89)
                     {
                         PlayBulletSounds(90);
-                        mFlags.Set(BaseGameObject::eDead);
+                        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                         return;
                     }
                 }
@@ -260,7 +260,7 @@ void Bullet::VUpdate()
                 New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
             }
             SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
         }
 
@@ -308,12 +308,12 @@ void Bullet::VUpdate()
                 }
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
             }
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
         }
 
         default:
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
     }
 }

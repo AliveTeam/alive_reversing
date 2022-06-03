@@ -13,7 +13,7 @@
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type)
     : BaseGameObject(TRUE, 0)
 {
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetType(AETypes::eNone_0);
 
@@ -103,7 +103,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -111,7 +111,7 @@ void Spark::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (sNum_CamSwappers_5C1B66 == 0)
@@ -137,7 +137,7 @@ void Spark::VUpdate()
         }
         else
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -268,12 +268,12 @@ void Spark::VRender(PrimHeader** ppOt)
 
 void Spark::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 Spark::~Spark()
 {
-    if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_5C1124->Remove_Item(this);
     }

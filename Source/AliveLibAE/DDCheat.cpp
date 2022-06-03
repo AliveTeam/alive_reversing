@@ -180,8 +180,8 @@ void DDCheat::Menu_Movies()
 DDCheat::DDCheat()
     : BaseGameObject(TRUE, 0)
 {
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit4);
     SetType(AETypes::eDDCheat_19);
     field_20 = 0;

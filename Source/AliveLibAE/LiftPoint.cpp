@@ -61,7 +61,7 @@ const TintEntry sLiftTints_55BF50[18] = {
 
 LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
 {
-    field_C_objectId = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvInfo;
     SetType(AETypes::eLiftPoint_78);
 
     pTlv->field_1_tlv_state = 3;
@@ -106,8 +106,8 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     const FP oldX = field_B8_xpos;
     MapFollowMe(TRUE);
     const s16 xSnapDelta = FP_GetExponent(field_B8_xpos - oldX);
-    field_11C_x_offset -= xSnapDelta;
-    field_11E_width_offset -= xSnapDelta;
+    mPlatformBaseXOffset -= xSnapDelta;
+    mPlatformBaseWidthOffset -= xSnapDelta;
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -224,7 +224,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     }
     else
     {
-        mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
@@ -308,7 +308,7 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
         pRope1->field_102_top = FP_GetExponent(FP_FromInteger(pLiftPoint->field_26E_pulley_ypos) + FP_FromInteger(-19) * pLiftPoint->field_CC_sprite_scale);
     }
 
-    pLiftPoint->field_128_tlvInfo = pState->field_C_tlvInfo;
+    pLiftPoint->mPlatformBaseTlvInfo = pState->field_C_tlvInfo;
     pLiftPoint->field_27C_pTlv = pState->field_10_pTlv;
     pLiftPoint->field_270_floorYLevel = pState->field_14_floorYLevel;
     pLiftPoint->field_130_lift_point_stop_type = pState->field_18_lift_point_stop_type;
@@ -609,7 +609,7 @@ void LiftPoint::VUpdate()
             if (pLiftTlv)
             {
                 sub_461000(pLiftTlv);
-                field_270_floorYLevel = FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y + -field_120_y_offset);
+                field_270_floorYLevel = FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y + -mPlatformBaseYOffset);
             }
             else
             {
@@ -788,9 +788,9 @@ void LiftPoint::VUpdate()
     }
 
     if ((field_C2_lvl_number != gMap.mCurrentLevel || field_C0_path_number != gMap.mCurrentPath || Event_Get(kEventDeathReset))
-        && field_118_count <= 0)
+        && mPlatformBaseCount <= 0)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -824,7 +824,7 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
             // Keep ypos on the platform
             pObj->field_BC_ypos = FP_FromInteger(field_124_pCollisionLine->field_0_rect.y);
 
-            if (pObj->mFlags.Get(BaseGameObject::eInteractive_Bit8))
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8))
             {
                 pObj->field_E4_collection_rect.x = pObj->field_B8_xpos - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
                 pObj->field_E4_collection_rect.y = pObj->field_BC_ypos - ScaleToGridSize(field_CC_sprite_scale);
@@ -846,7 +846,7 @@ void LiftPoint::vStayOnFloor(s16 floor, Path_LiftPoint* pTlv)
 {
     if (!floor)
     {
-        field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + -field_120_y_offset);
+        field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + -mPlatformBaseYOffset);
         SFX_Play_Mono(SoundEffect::LiftStop_30, 0);
         SFX_Play_Pitch(SoundEffect::LiftStop_30, 80, -2000);
     }
@@ -868,7 +868,7 @@ s32 LiftPoint::VGetSaveState(u8* pSaveBuffer)
     pState->field_0_type = AETypes::eLiftPoint_78;
     pState->field_4_xpos = field_B8_xpos;
     pState->field_8_ypos = field_BC_ypos;
-    pState->field_C_tlvInfo = field_128_tlvInfo;
+    pState->field_C_tlvInfo = mPlatformBaseTlvInfo;
     pState->field_10_pTlv = field_27C_pTlv;
     pState->field_14_floorYLevel = field_270_floorYLevel;
     pState->field_18_lift_point_stop_type = field_130_lift_point_stop_type;
@@ -995,7 +995,7 @@ void LiftPoint::VScreenChanged()
 
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -1005,17 +1005,17 @@ LiftPoint::~LiftPoint()
     BaseGameObject* pRope1 = sObjectIds.Find(field_138_rope1_id, AETypes::eLiftRope_108);
     if (pRope2)
     {
-        pRope2->mFlags.Set(BaseGameObject::eDead);
+        pRope2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_134_rope2_id = -1;
     }
 
     if (pRope1)
     {
-        pRope1->mFlags.Set(BaseGameObject::eDead);
+        pRope1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_138_rope1_id = -1;
     }
 
-    Path::TLV_Reset(field_128_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
 
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(field_B8_xpos),

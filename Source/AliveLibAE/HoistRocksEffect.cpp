@@ -36,7 +36,7 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
 
     if (gObjList_drawables_5C1124->Push_Back(this))
     {
-        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     }
 
     u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kHoistRocks);
@@ -200,5 +200,5 @@ void HoistRocksEffect::VRender(PrimHeader** ppOt)
 
 void HoistRocksEffect::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }

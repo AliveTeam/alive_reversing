@@ -46,7 +46,7 @@ const u8 sStatsSignFontPalette_4CD570[32] = {
 
 void LCDStatusBoard::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 LCDStatusBoard::~LCDStatusBoard()
@@ -64,7 +64,7 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
     field_58_font2.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
     field_90_font3.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
 
-    mFlags.Set(Options::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Push_Back(this);
 
     field_CC_xpos = (pScreenManager_4FF7C8->field_14_xpos + pTlv->field_10_top_left.field_0_x) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
@@ -75,7 +75,7 @@ void LCDStatusBoard::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

@@ -22,7 +22,7 @@ static s16 abePortalDirection_4C50B0 = -1;
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
 {
-    field_4_typeId = Types::eBird_22;
+    mBaseGameObjectTypeId = Types::eBird_22;
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
     Animation_Init_417FD0(
         frameTableOffset,
@@ -82,7 +82,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
 {
-    field_4_typeId = Types::eBird_22;
+    mBaseGameObjectTypeId = Types::eBird_22;
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
     Animation_Init_417FD0(
@@ -233,7 +233,7 @@ void Dove::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (!bTheOneControllingTheMusic_4FF94C)
@@ -323,7 +323,7 @@ void Dove::VUpdate()
         {
             if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
             const FP k4Directed = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
@@ -374,13 +374,13 @@ void Dove::VUpdate()
     const s32 doveScreenYPos = FP_GetExponent(FP_Abs(field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y));
     if (doveScreenYPos > pScreenManager_4FF7C8->field_16_ypos)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     const s32 doveScreenXPos = FP_GetExponent(FP_Abs(field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x));
     if (doveScreenXPos > pScreenManager_4FF7C8->field_14_xpos)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

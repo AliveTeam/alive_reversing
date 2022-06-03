@@ -221,7 +221,7 @@ void Elum::VOn_TLV_Collision(Path_TLV* pTlv)
 
 s16 Elum::VTakeDamage(BaseGameObject* pFrom)
 {
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->mBaseGameObjectTypeId)
     {
         case Types::eBullet_10:
         case Types::eBaseBomb_30:
@@ -297,7 +297,7 @@ void Elum::VOnTrapDoorOpen()
     if (field_F8_pLiftPoint)
     {
         field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
         field_F8_pLiftPoint = nullptr;
     }
 }
@@ -544,7 +544,7 @@ void Elum::CheckLiftPointGoneAndSetCamera()
 {
     if (field_F8_pLiftPoint)
     {
-        if (field_F8_pLiftPoint->mFlags.Get(BaseGameObject::eDead))
+        if (field_F8_pLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             VOnTrapDoorOpen();
             field_170_flags.Set(Elum::Flags_170::eFalling_Bit3);
@@ -822,7 +822,7 @@ void Elum::HandleElumPathTrans_411460()
     field_B2_lvl_number = gMap.mCurrentLevel;
     field_B0_path_number = gMap.mCurrentPath;
 
-    field_8_update_delay = 20;
+    mBaseGameObjectUpdateDelay = 20;
 }
 
 const SfxDefinition sElumSfx_4C5398[12] = {
@@ -935,7 +935,7 @@ void Elum::FindHoney_411600()
                 break;
             }
 
-            if (pObjIter->field_4_typeId == Types::eHoney_47)
+            if (pObjIter->mBaseGameObjectTypeId == Types::eHoney_47)
             {
                 auto pHoney = static_cast<Honey*>(pObjIter);
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
@@ -3726,7 +3726,7 @@ void Elum::VRender(PrimHeader** ppOt)
 {
     if (field_B2_lvl_number == gMap.mCurrentLevel
         && field_B0_path_number == gMap.mCurrentPath
-        && !field_8_update_delay)
+        && !mBaseGameObjectUpdateDelay)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -3736,7 +3736,7 @@ void Elum::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -3744,11 +3744,11 @@ void Elum::VScreenChanged()
         {
             if (gMap.mCurrentLevel == LevelIds::eLines_2)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             else if (gMap.mCurrentLevel == LevelIds::eDesert_8 && gMap.mPath == 9)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             else if (field_B0_path_number == gMap.mCurrentPath)
             {
@@ -3806,7 +3806,7 @@ void Elum::Spawn(TlvItemInfoUnion tlvInfo)
 Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemInfoUnion tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eElum_26;
+    mBaseGameObjectTypeId = Types::eElum_26;
 
     field_158_last_event_idx = -1;
     field_16C_never_read = 0;

@@ -20,7 +20,7 @@ namespace AO {
 Rock::Rock(FP xpos, FP ypos, s16 count)
     : BaseThrowable()
 {
-    field_4_typeId = Types::eRock_70;
+    mBaseGameObjectTypeId = Types::eRock_70;
 
     field_10E_bDead = 0;
 
@@ -28,7 +28,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    mFlags.Clear(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -80,7 +80,7 @@ void Rock::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     switch (field_110_state)
@@ -134,7 +134,7 @@ void Rock::VUpdate()
                     field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
                     field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
 
-                    mFlags.Set(Options::eInteractive_Bit8);
+                    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
                     field_10_anim.field_4_flags.Clear(AnimFlags::eBit8_Loop);
                     field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
@@ -189,7 +189,7 @@ void Rock::VUpdate()
                     field_AC_ypos,
                     0))
             {
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
             break;
         default:
@@ -203,7 +203,7 @@ void Rock::VScreenChanged()
     if (gMap.mCurrentPath != gMap.mPath
         || gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -237,7 +237,7 @@ void Rock::InTheAir()
 
     if (field_B8_vely > FP_FromInteger(30))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     field_B8_vely += FP_FromInteger(1);
@@ -348,7 +348,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
 //TODO Identical to AE - merge
 s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    if (!pObj->mFlags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {
         return 1;
     }

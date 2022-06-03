@@ -15,9 +15,9 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySoun
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
 
-    if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -81,7 +81,7 @@ void DeathBirdParticle::VUpdate()
                 }
 
                 pDove->field_CC_sprite_scale = field_CC_sprite_scale;
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
                 if (field_FC_bPlaySound)
                 {

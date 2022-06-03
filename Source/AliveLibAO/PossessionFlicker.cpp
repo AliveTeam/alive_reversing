@@ -9,11 +9,11 @@ namespace AO {
 
 void PossessionFlicker::VScreenChanged()
 {
-    if (field_10_pObj->mFlags.Get(BaseGameObject::eDead))
+    if (field_10_pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        field_10_pObj->field_C_refCount--;
+        field_10_pObj->mBaseGameObjectRefCount--;
         field_10_pObj = nullptr;
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
 
@@ -27,7 +27,7 @@ PossessionFlicker::~PossessionFlicker()
         field_10_pObj->field_C2_g = field_20_old_g;
         field_10_pObj->field_C4_b = field_22_old_b;
 
-        field_10_pObj->field_C_refCount--;
+        field_10_pObj->mBaseGameObjectRefCount--;
     }
 }
 
@@ -35,7 +35,7 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
     : BaseGameObject(1)
 {
     field_10_pObj = pToApplyFlicker;
-    field_10_pObj->field_C_refCount++;
+    field_10_pObj->mBaseGameObjectRefCount++;
 
     field_18_r = static_cast<s16>(r);
     field_1A_g = static_cast<s16>(g);
@@ -54,11 +54,11 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
 void PossessionFlicker::VUpdate()
 {
     bool bFlicker = false;
-    if (field_10_pObj->mFlags.Get(BaseGameObject::eDead))
+    if (field_10_pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        field_10_pObj->field_C_refCount--;
+        field_10_pObj->mBaseGameObjectRefCount--;
         field_10_pObj = nullptr;
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         bFlicker = false;
     }
     else
@@ -83,7 +83,7 @@ void PossessionFlicker::VUpdate()
 
         if (static_cast<s32>(gnFrameCount_507670) > field_14_time_to_flicker)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }

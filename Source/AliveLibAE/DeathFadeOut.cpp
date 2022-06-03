@@ -93,7 +93,7 @@ void DeathFadeOut::VRender(PrimHeader** ppOt)
         {
             if (field_80_destroy_on_done)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
         }
         else

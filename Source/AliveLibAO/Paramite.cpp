@@ -102,7 +102,7 @@ static BrainFunctionData<Paramite::TParamiteBrain> sParamiteBrainTable[]{
 Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eParamite_62;
+    mBaseGameObjectTypeId = Types::eParamite_62;
 
     for (s32 i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
     {
@@ -212,14 +212,14 @@ Paramite::~Paramite()
 {
     if (field_14C_pWeb)
     {
-        field_14C_pWeb->mFlags.Set(Options::eDead);
-        field_14C_pWeb->field_C_refCount--;
+        field_14C_pWeb->mBaseGameObjectFlags.Set(Options::eDead);
+        field_14C_pWeb->mBaseGameObjectRefCount--;
         field_14C_pWeb = nullptr;
     }
 
     if (field_148_pMeat)
     {
-        field_148_pMeat->field_C_refCount--;
+        field_148_pMeat->mBaseGameObjectRefCount--;
     }
 
     VOnTrapDoorOpen();
@@ -293,7 +293,7 @@ u8** Paramite::ResBlockForMotion(s16 motion)
 
 void Paramite::VRender(PrimHeader** ppOt)
 {
-    if (field_8_update_delay == 0)
+    if (mBaseGameObjectUpdateDelay == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -308,11 +308,11 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
 
     if (field_148_pMeat)
     {
-        field_148_pMeat->field_C_refCount--;
+        field_148_pMeat->mBaseGameObjectRefCount--;
         field_148_pMeat = nullptr;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->mBaseGameObjectTypeId)
     {
         case Types::eBaseBomb_30:
         case Types::eExplosion_74:
@@ -325,7 +325,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
                 field_B8_vely,
                 field_BC_sprite_scale);
 
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_100_health = FP_FromInteger(0);
             return 1;
@@ -384,7 +384,7 @@ void Paramite::VOn_TLV_Collision(Path_TLV* pTlv)
     {
         if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_100_health = FP_FromInteger(0);
             field_128_never_read = 2;
         }
@@ -398,7 +398,7 @@ void Paramite::VScreenChanged()
         || gMap.mCurrentPath != gMap.mPath
         || gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -412,7 +412,7 @@ void Paramite::VOnTrapDoorOpen()
     if (field_F8_pLiftPoint)
     {
         field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
         field_F8_pLiftPoint = nullptr;
         SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
     }
@@ -441,7 +441,7 @@ void Paramite::VUpdate()
                 break;
             }
 
-            if (pObjIter->field_4_typeId == Types::eParamite_62 && pObjIter != this)
+            if (pObjIter->mBaseGameObjectTypeId == Types::eParamite_62 && pObjIter != this)
             {
                 Paramite* pOther = static_cast<Paramite*>(pObjIter);
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
@@ -465,22 +465,22 @@ void Paramite::VUpdate()
 
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (FP_Abs(field_A8_xpos - sActiveHero_507678->field_A8_xpos) > FP_FromInteger(1536) || FP_Abs(field_AC_ypos - sActiveHero_507678->field_AC_ypos) > FP_FromInteger(480))
     {
         if (field_144_delete_when_far_away == Choice_short::eYes_1)
         {
-            mFlags.Set(Options::eDead);
+            mBaseGameObjectFlags.Set(Options::eDead);
         }
         else
         {
             if (field_148_pMeat)
             {
-                if (field_148_pMeat->VIsFalling() || field_148_pMeat->mFlags.Get(BaseGameObject::eDead))
+                if (field_148_pMeat->VIsFalling() || field_148_pMeat->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
-                    field_148_pMeat->field_C_refCount--;
+                    field_148_pMeat->mBaseGameObjectRefCount--;
                     field_148_pMeat = nullptr;
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     SetBrain(&Paramite::Brain_0_Patrol);
@@ -682,7 +682,7 @@ s16 Paramite::AnotherParamiteNear()
             break;
         }
 
-        if (pObjIter->field_4_typeId == Types::eParamite_62 && pObjIter != this)
+        if (pObjIter->mBaseGameObjectTypeId == Types::eParamite_62 && pObjIter != this)
         {
             Paramite* pOther = static_cast<Paramite*>(pObjIter);
             if (gMap.Is_Point_In_Current_Camera_4449C0(
@@ -744,7 +744,7 @@ Meat* Paramite::FindMeat()
             break;
         }
 
-        if (pObjIter->field_4_typeId == Types::eMeat_54)
+        if (pObjIter->mBaseGameObjectTypeId == Types::eMeat_54)
         {
             auto pMeat = static_cast<Meat*>(pObjIter);
             if (pMeat->VCanEatMe())
@@ -945,7 +945,7 @@ s16 Paramite::Brain_0_Patrol()
 {
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     const FP kGridSize = ScaleToGridSize(field_BC_sprite_scale);
@@ -968,7 +968,7 @@ s16 Paramite::Brain_0_Patrol()
             if (field_148_pMeat)
             {
                 SetBrain(&Paramite::Brain_5_SpottedMeat);
-                field_148_pMeat->field_C_refCount++;
+                field_148_pMeat->mBaseGameObjectRefCount++;
                 return Brain_0_Patrol::eBrain0_Inactive_0;
             }
 
@@ -1332,7 +1332,7 @@ s16 Paramite::Brain_0_Patrol()
             if (field_148_pMeat)
             {
                 SetBrain(&Paramite::Brain_5_SpottedMeat);
-                field_148_pMeat->field_C_refCount++;
+                field_148_pMeat->mBaseGameObjectRefCount++;
                 return 0;
             }
 
@@ -1393,7 +1393,7 @@ s16 Paramite::Brain_0_Patrol()
             if (field_148_pMeat)
             {
                 SetBrain(&Paramite::Brain_5_SpottedMeat);
-                field_148_pMeat->field_C_refCount++;
+                field_148_pMeat->mBaseGameObjectRefCount++;
                 return 0;
             }
 
@@ -1472,7 +1472,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
 {
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_110_brain_sub_state)
@@ -1494,7 +1494,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
                 field_BC_sprite_scale);
             if (pWeb)
             {
-                pWeb->field_C_refCount++;
+                pWeb->mBaseGameObjectRefCount++;
                 field_14C_pWeb = pWeb;
             }
 
@@ -1558,7 +1558,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
             if (GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
             {
                 field_14C_pWeb->field_F0_bEnabled = TRUE;
-                field_14C_pWeb->field_C_refCount--;
+                field_14C_pWeb->mBaseGameObjectRefCount--;
                 field_14C_pWeb = nullptr;
                 SetBrain(&Paramite::Brain_0_Patrol);
                 return Brain_0_Patrol::eBrain0_Inactive_0;
@@ -1589,7 +1589,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
             else
             {
                 field_14C_pWeb->field_F0_bEnabled = TRUE;
-                field_14C_pWeb->field_C_refCount--;
+                field_14C_pWeb->mBaseGameObjectRefCount--;
                 field_14C_pWeb = nullptr;
                 SetBrain(&Paramite::Brain_0_Patrol);
                 return Brain_0_Patrol::eBrain0_Inactive_0;
@@ -1615,7 +1615,7 @@ s16 Paramite::Brain_2_Struggling()
 {
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (IsBeeSwarmChasingMe_4022B0())
@@ -1693,7 +1693,7 @@ s16 Paramite::Brain_3_Death()
 
     if (field_114_timer < (s32) gnFrameCount_507670)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     return 100;
@@ -1723,7 +1723,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 {
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_138_attack_timer <= static_cast<s32>(gnFrameCount_507670)
@@ -2253,14 +2253,14 @@ s16 Paramite::Brain_5_SpottedMeat()
 {
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    if (field_148_pMeat->VIsFalling() || field_148_pMeat->mFlags.Get(BaseGameObject::eDead))
+    if (field_148_pMeat->VIsFalling() || field_148_pMeat->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         Sound(ParamiteSpeak::DetectedMeat_7);
         SetBrain(&Paramite::Brain_0_Patrol);
-        field_148_pMeat->field_C_refCount--;
+        field_148_pMeat->mBaseGameObjectRefCount--;
         field_148_pMeat = nullptr;
         SetNextMotion(eParamiteMotions::Motion_0_Idle);
         return Brain_0_Patrol::eBrain0_Inactive_0;
@@ -2270,7 +2270,7 @@ s16 Paramite::Brain_5_SpottedMeat()
     {
         if (FP_Abs(field_148_pMeat->field_AC_ypos - field_AC_ypos) > FP_FromInteger(20))
         {
-            field_148_pMeat->field_C_refCount--;
+            field_148_pMeat->mBaseGameObjectRefCount--;
             field_148_pMeat = nullptr;
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
             SetBrain(&Paramite::Brain_0_Patrol);
@@ -2547,8 +2547,8 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return field_110_brain_sub_state;
             }
 
-            field_148_pMeat->field_C_refCount--;
-            field_148_pMeat->mFlags.Set(Options::eDead);
+            field_148_pMeat->mBaseGameObjectRefCount--;
+            field_148_pMeat->mBaseGameObjectFlags.Set(Options::eDead);
             field_148_pMeat = nullptr;
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
             SetBrain(&Paramite::Brain_0_Patrol);

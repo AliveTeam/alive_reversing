@@ -71,7 +71,7 @@ void MusicTrigger::Init(MusicTriggerMusicType musicType, TriggeredBy triggeredBy
 
     if (triggeredBy == TriggeredBy::eTimer_0)
     {
-        SetUpdateDelay(musicDelay); // OG bug? field_1C_update_delay should've been field_28_counter?
+        SetUpdateDelay(musicDelay); // OG bug? mBaseGameObjectUpdateDelay should've been field_28_counter?
     }
     else if (triggeredBy == TriggeredBy::eTouching_1)
     {
@@ -91,7 +91,7 @@ void MusicTrigger::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -99,7 +99,7 @@ void MusicTrigger::VUpdate()
 {
     if (Event_Get(kEventHeroDying))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_24_flags.Get(Flags_24::e24_Bit1_TriggeredByTouching))
@@ -126,7 +126,7 @@ void MusicTrigger::VUpdate()
         }
         else
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
     else

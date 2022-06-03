@@ -76,7 +76,7 @@ void Game_ShowLoadingIcon_482D80()
 
     PSX_SetDefDispEnv_4F55A0(&dispBuffer.field_5C_disp_env, 0, 0, 640, 240);
     PSX_PutDispEnv_4F5890(&dispBuffer.field_5C_disp_env);
-    pParticle->mFlags.Set(BaseGameObject::eDead);
+    pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     bHideLoadingIcon_5C1BAA = 1;
 }
 
@@ -85,8 +85,8 @@ ResourceManager::ResourceManager()
     , field_20_files_pending_loading(3)
     , field_48_dArray(3)
 {
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     SetType(AETypes::eResourceManager_70);
     field_2C_pFileItem = nullptr;

@@ -237,34 +237,34 @@ protected:
 public:
     void SetUpdateDelay(s32 updateDelay)
     {
-        field_1C_update_delay = updateDelay;
+        mBaseGameObjectUpdateDelay = updateDelay;
     }
 
     s32 UpdateDelay() const
     {
-        return field_1C_update_delay;
+        return mBaseGameObjectUpdateDelay;
     }
 
 public:
     void SetType(AETypes type)
     {
-        field_4_typeId = type;
+        mBaseGameObjectTypeId = type;
     }
 
     AETypes Type() const
     {
-        return field_4_typeId;
+        return mBaseGameObjectTypeId;
     }
 
 private:
-    AETypes field_4_typeId;
+    AETypes mBaseGameObjectTypeId;
 public:
-    BitField16<Options> mFlags;
+    BitField16<Options> mBaseGameObjectFlags;
     s32 field_8_object_id;
-    s32 field_C_objectId;
+    s32 mBaseGameObjectTlvInfo;
     DynamicArrayT<u8*> field_10_resources_array;
 private:
-    s32 field_1C_update_delay;
+    s32 mBaseGameObjectUpdateDelay;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x20);
 

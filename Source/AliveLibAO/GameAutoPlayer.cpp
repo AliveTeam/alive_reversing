@@ -13,10 +13,10 @@ void Recorder::SaveObjectStates()
     for (u32 i = 0; i < objCount; i++)
     {
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-        const s16 objType = static_cast<s16>(pObj->field_4_typeId);
+        const s16 objType = static_cast<s16>(pObj->mBaseGameObjectTypeId);
         ::fwrite(&objType, sizeof(s16), 1, mFile.GetFile());
 
-        const u32 isBaseAliveGameObject = pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6);
+        const u32 isBaseAliveGameObject = pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6);
         mFile.Write(isBaseAliveGameObject);
         if (isBaseAliveGameObject)
         {
@@ -41,7 +41,7 @@ bool Player::ValidateBaseAliveGameObject(BaseGameObject* pObj)
     const u32 isBaseAliveGameObject = mFile.ReadU32();
     if (isBaseAliveGameObject)
     {
-        if (!pObj || !pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (!pObj || !pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             if (pObj)
             {
@@ -102,9 +102,9 @@ bool Player::ValidateObjectStates()
         mFile.Read(objType);
 
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-        if (static_cast<s16>(pObj->field_4_typeId) != objType)
+        if (static_cast<s16>(pObj->mBaseGameObjectTypeId) != objType)
         {
-            LOG_ERROR("Got " << static_cast<s16>(pObj->field_4_typeId) << " type but expected " << objType);
+            LOG_ERROR("Got " << static_cast<s16>(pObj->mBaseGameObjectTypeId) << " type but expected " << objType);
             validateFailed |= true;
         }
         if (!ValidateBaseAliveGameObject(pObj))

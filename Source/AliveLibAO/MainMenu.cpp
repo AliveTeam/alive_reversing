@@ -317,7 +317,7 @@ const MenuFMV sLevelList_4D0300[15] = {
 
 MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestroyOnDone)
 {
-    field_4_typeId = Types::MainMenuFade_44;
+    mBaseGameObjectTypeId = Types::MainMenuFade_44;
 
     field_C4_b = 128;
     field_C2_g = 128;
@@ -346,9 +346,9 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
         {
             break;
         }
-        if (pObj->field_4_typeId == Types::MainMenuFade_44 && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_A8_xpos == field_A8_xpos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_AC_ypos == field_AC_ypos)
+        if (pObj->mBaseGameObjectTypeId == Types::MainMenuFade_44 && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_A8_xpos == field_A8_xpos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_AC_ypos == field_AC_ypos)
         {
-            pObj->mFlags.Set(BaseGameObject::eDead);
+            pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -364,7 +364,7 @@ void MainMenuFade::VUpdate()
 
         if (field_E8_bDestroyOnDone)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 
@@ -441,7 +441,7 @@ void MainMenuTransition::VScreenChanged_4369D0()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -480,11 +480,11 @@ void MainMenuTransition::VUpdate()
 MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, TPageAbr abr)
     : BaseGameObject(1)
 {
-    field_4_typeId = Types::eDeathFadeOut_80;
+    mBaseGameObjectTypeId = Types::eDeathFadeOut_80;
 
     gObjList_drawables_504618->Push_Back(this);
 
-    mFlags.Set(Options::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
     for (s32 i = 0; i < 2; i++)
     {
@@ -665,7 +665,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         field_16_bDone = 1;
         if (field_18_bKillOnDone)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -806,19 +806,19 @@ Menu::~Menu()
 
     if (field_1E8_pMenuTrans)
     {
-        field_1E8_pMenuTrans->mFlags.Set(Options::eDead);
-        field_1E8_pMenuTrans->field_C_refCount--;
+        field_1E8_pMenuTrans->mBaseGameObjectFlags.Set(Options::eDead);
+        field_1E8_pMenuTrans->mBaseGameObjectRefCount--;
         field_1E8_pMenuTrans = nullptr;
     }
 
     if (field_1EC_pObj1)
     {
-        field_1EC_pObj1->mFlags.Set(Options::eDead);
+        field_1EC_pObj1->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (field_1F0_pObj2)
     {
-        field_1F0_pObj2->mFlags.Set(Options::eDead);
+        field_1F0_pObj2->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     gMainMenuInstanceCount_9F2DE0--;
@@ -1003,11 +1003,11 @@ void Menu::FMV_Select_Update_47E8D0()
                                 break;
                             }
 
-                            if (pObj->field_4_typeId == Types::eMovie_100)
+                            if (pObj->mBaseGameObjectTypeId == Types::eMovie_100)
                             {
-                                if (pObj->mFlags.Get(BaseGameObject::eUpdatable_Bit2))
+                                if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                                 {
-                                    if (!pObj->mFlags.Get(BaseGameObject::eDead) && (!sNumCamSwappers_507668 || pObj->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                                    if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!sNumCamSwappers_507668 || pObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                                     {
                                         pObj->VUpdate();
                                     }
@@ -1265,10 +1265,10 @@ void Menu::ProgressInProgressFilesLoading()
                 break;
             }
 
-            if (pObjIter->field_4_typeId == Types::eLoadingFile_39)
+            if (pObjIter->mBaseGameObjectTypeId == Types::eLoadingFile_39)
             {
                 pObjIter->VUpdate();
-                if (pObjIter->mFlags.Get(BaseGameObject::eDead))
+                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     LOG_INFO("Removing dead loading file idx " << i);
                     i = gBaseGameObjects->RemoveAt(i);
@@ -1398,7 +1398,7 @@ void Menu::MainScreen_Update_47AF60()
                     field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                     if (field_1E8_pMenuTrans)
                     {
-                        field_1E8_pMenuTrans->field_C_refCount++;
+                        field_1E8_pMenuTrans->mBaseGameObjectRefCount++;
                     }
                 }
 
@@ -1420,14 +1420,14 @@ void Menu::MainScreen_Update_47AF60()
 
             if (field_1E8_pMenuTrans)
             {
-                field_1E8_pMenuTrans->field_C_refCount--;
-                field_1E8_pMenuTrans->mFlags.Set(Options::eDead);
+                field_1E8_pMenuTrans->mBaseGameObjectRefCount--;
+                field_1E8_pMenuTrans->mBaseGameObjectFlags.Set(Options::eDead);
             }
 
             field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
             if (field_1E8_pMenuTrans)
             {
-                field_1E8_pMenuTrans->field_C_refCount++;
+                field_1E8_pMenuTrans->mBaseGameObjectRefCount++;
             }
             field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
         }
@@ -1457,7 +1457,7 @@ void Menu::MainScreen_Update_47AF60()
                 field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                 if (field_1E8_pMenuTrans)
                 {
-                    field_1E8_pMenuTrans->field_C_refCount++;
+                    field_1E8_pMenuTrans->mBaseGameObjectRefCount++;
                 }
             }
 
@@ -1491,7 +1491,7 @@ void Menu::MainScreen_Update_47AF60()
                 field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                 if (field_1E8_pMenuTrans)
                 {
-                    field_1E8_pMenuTrans->field_C_refCount++;
+                    field_1E8_pMenuTrans->mBaseGameObjectRefCount++;
                 }
             }
 
@@ -1609,7 +1609,7 @@ void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
             field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
             if (field_1E8_pMenuTrans)
             {
-                field_1E8_pMenuTrans->field_C_refCount++;
+                field_1E8_pMenuTrans->mBaseGameObjectRefCount++;
             }
         }
 
@@ -2030,8 +2030,8 @@ void Menu::Loading_Update_47B870()
                     LOG_INFO(buffer);
                 }
 
-                field_1E8_pMenuTrans->field_C_refCount--;
-                field_1E8_pMenuTrans->mFlags.Set(Options::eDead);
+                field_1E8_pMenuTrans->mBaseGameObjectRefCount--;
+                field_1E8_pMenuTrans->mBaseGameObjectFlags.Set(Options::eDead);
                 field_1E8_pMenuTrans = nullptr;
 
                 if (!field_E4_res_array[0])
@@ -2062,10 +2062,10 @@ void Menu::NewGameStart_47B9C0()
     {
         // OG bug fix: the demo will load a save which will call Kill_Objects_451720 which will delete this object
         // resulting in a crash when we try access any member vars at the end. Bump the ref count so we can kill ourselves instead.
-        field_C_refCount++;
+        mBaseGameObjectRefCount++;
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
         ao_new<DemoPlayback>(ppRes, 0);
-        field_C_refCount--;
+        mBaseGameObjectRefCount--;
     }
     else
     {
@@ -2092,7 +2092,7 @@ void Menu::NewGameStart_47B9C0()
             sActiveHero_507678->field_AC_ypos = FP_FromInteger(83);
         }
     }
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void Menu::Options_Update_47BF90()
@@ -3323,8 +3323,8 @@ void Menu::LoadSave_Update_47DB40()
 {
     if (field_1E8_pMenuTrans)
     {
-        field_1E8_pMenuTrans->field_C_refCount--;
-        field_1E8_pMenuTrans->mFlags.Set(Options::eDead);
+        field_1E8_pMenuTrans->mBaseGameObjectRefCount--;
+        field_1E8_pMenuTrans->mBaseGameObjectFlags.Set(Options::eDead);
         field_1E8_pMenuTrans = nullptr;
     }
 
@@ -3350,7 +3350,7 @@ void Menu::LoadSave_Update_47DB40()
     {
         field_1CC_fn_update = &Menu::SaveLoadFailed_Update_47DCD0;
         field_1D0_fn_render = &Menu::SaveLoadFailed_Render_47DCF0;
-        sActiveHero_507678->mFlags.Set(Options::eDead);
+        sActiveHero_507678->mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
 
@@ -3359,7 +3359,7 @@ void Menu::SaveLoadFailed_Update_47DCD0()
     // Kill the pause menu and stay in this state - have to force restart the game when a save fails to load :)
     if (pPauseMenu_5080E0)
     {
-        pPauseMenu_5080E0->mFlags.Set(Options::eDead);
+        pPauseMenu_5080E0->mBaseGameObjectFlags.Set(Options::eDead);
         pPauseMenu_5080E0 = nullptr;
     }
 }

@@ -35,7 +35,7 @@ static inline FP Random_Speed(FP scale)
 
 ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, BurstType type)
 {
-    field_4_typeId = Types::eParticleBurst_19;
+    mBaseGameObjectTypeId = Types::eParticleBurst_19;
     field_BC_sprite_scale = scale;
 
     field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * particleCount);
@@ -113,9 +113,9 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 break;
         }
 
-        if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+        if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
         else
         {
@@ -178,7 +178,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -249,12 +249,12 @@ void ParticleBurst::VUpdate()
 
     if (static_cast<s32>(gnFrameCount_507670) > field_F0_timer)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

@@ -29,7 +29,7 @@ Well::~Well()
 
 void Well::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void Well::VRender(PrimHeader** ppOt)
@@ -45,7 +45,7 @@ void Well::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
     }
 
@@ -105,7 +105,7 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     else
     {
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        mFlags.Clear(Options::eDrawable_Bit4);
+        mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
@@ -165,7 +165,7 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     else
     {
         field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        mFlags.Clear(Options::eDrawable_Bit4);
+        mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
@@ -206,7 +206,7 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 {
     field_E4_tlvInfo = tlvInfo;
-    field_4_typeId = Types::eWell_101;
+    mBaseGameObjectTypeId = Types::eWell_101;
 
     field_C4_b = 128;
     field_C2_g = 128;

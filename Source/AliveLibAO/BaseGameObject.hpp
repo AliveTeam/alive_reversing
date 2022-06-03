@@ -153,10 +153,10 @@ public:
     }
 
 public:
-    Types field_4_typeId;
-    BitField16<Options> mFlags;
-    s32 field_8_update_delay;
-    s8 field_C_refCount;
+    Types mBaseGameObjectTypeId;
+    BitField16<Options> mBaseGameObjectFlags;
+    s32 mBaseGameObjectUpdateDelay;
+    s8 mBaseGameObjectRefCount;
     s8 field_D_padding;
     s16 field_E_padding;
 };

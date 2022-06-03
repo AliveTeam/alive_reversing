@@ -20,9 +20,9 @@ Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 max
 
     Animation_Init(animFrameTableOffset, static_cast<s16>(maxW), static_cast<s16>(maxH), ppAnimData, 1, 1);
 
-    if (mFlags.Get(Options::eListAddFailed_Bit1))
+    if (mBaseGameObjectFlags.Get(Options::eListAddFailed_Bit1))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     field_BC_ypos = ypos;
@@ -38,7 +38,7 @@ void Particle::VUpdate()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
 

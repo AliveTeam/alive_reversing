@@ -417,11 +417,11 @@ void Game_Loop_437630()
                 break;
             }
 
-            if (pObjIter->mFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mFlags.Get(BaseGameObject::eDead) && (sNumCamSwappers_507668 == 0 || pObjIter->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (sNumCamSwappers_507668 == 0 || pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
-                if (pObjIter->field_8_update_delay > 0)
+                if (pObjIter->mBaseGameObjectUpdateDelay > 0)
                 {
-                    pObjIter->field_8_update_delay--;
+                    pObjIter->mBaseGameObjectUpdateDelay--;
                 }
                 else
                 {
@@ -448,7 +448,7 @@ void Game_Loop_437630()
                 break;
             }
 
-            if (!pDrawable->mFlags.Get(BaseGameObject::eDead) && pDrawable->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+            if (!pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 pDrawable->VRender(ppOt);
             }
@@ -470,7 +470,7 @@ void Game_Loop_437630()
                 break;
             }
 
-            if (pObj->mFlags.Get(BaseGameObject::eDead) && pObj->field_C_refCount == 0)
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObj->mBaseGameObjectRefCount == 0)
             {
                 i = gBaseGameObjects->RemoveAt(i);
                 delete pObj;
@@ -503,7 +503,7 @@ void Game_Loop_437630()
             break;
         }
 
-        if (pObjToKill->field_C_refCount == 0)
+        if (pObjToKill->mBaseGameObjectRefCount == 0)
         {
             i = gBaseGameObjects->RemoveAt(i);
             delete pObjToKill;

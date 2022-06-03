@@ -146,13 +146,13 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
         }
         else
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
     else
     {
-        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -198,7 +198,7 @@ void Water::VScreenChanged()
 
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -259,7 +259,7 @@ void Water::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (gMap.Is_Point_In_Current_Camera_4810D0(
@@ -389,7 +389,7 @@ void Water::VUpdate()
                 {
                     if (field_124_tlv_data.field_10_max_drops <= 0) // Someone created a water object in the map with no particles.
                     {
-                        mFlags.Set(BaseGameObject::eDead);
+                        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     }
                     else
                     {
@@ -405,7 +405,7 @@ void Water::VUpdate()
 
                         if (allParticlesDead)
                         {
-                            mFlags.Set(BaseGameObject::eDead);
+                            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                         }
                     }
                 }

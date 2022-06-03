@@ -9,7 +9,7 @@
 DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
-    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     field_11A_switch_id = pTlv->field_12_switch_id;
 
@@ -39,7 +39,7 @@ DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
 
     if (SwitchStates_Get(field_11A_switch_id))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     field_DC_bApplyShadows |= 2u;
@@ -54,16 +54,16 @@ void DoorBlocker::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (!mFlags.Get(BaseGameObject::eDead))
+    if (!mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         if (field_118_bDone & 1)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
         }
         else if (SwitchStates_Get(field_11A_switch_id))

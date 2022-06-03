@@ -189,7 +189,7 @@ void Dove::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (!bTheOneControllingTheMusic_5BC112)
@@ -263,7 +263,7 @@ void Dove::VUpdate()
         {
             if (static_cast<s32>(sGnFrame_5C1B84) > field_108_timer)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
             FP xOff = {};
@@ -331,7 +331,7 @@ void Dove::VUpdate()
             field_BC_ypos,
             0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

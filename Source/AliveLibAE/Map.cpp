@@ -96,7 +96,7 @@ void Map::ScreenChange()
             pItem->VScreenChanged();
 
             // Did the screen change kill the object?
-            if (pItem->mFlags.Get(BaseGameObject::eDead))
+            if (pItem->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 iter.Remove_At_Iter();
                 delete pItem;
@@ -218,9 +218,9 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
             break;
         }
 
-        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
         {
-            if (pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 auto pBaseObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
@@ -231,7 +231,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     if (pBaseObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
                     {
-                        if (!pBaseObj->mFlags.Get(BaseGameObject::eDead) && pBaseObj != sControlledCharacter_5C1B8C && gMap.Rect_Location_Relative_To_Active_Camera(&objRect) == CameraPos::eCamCurrent_0)
+                        if (!pBaseObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pBaseObj != sControlledCharacter_5C1B8C && gMap.Rect_Location_Relative_To_Active_Camera(&objRect) == CameraPos::eCamCurrent_0)
                         {
                             pObjectsWithLightsArray->Push_Back(pBaseObj);
                             const FP k60Scaled = (pBaseObj->field_CC_sprite_scale * FP_FromInteger(60));
@@ -280,7 +280,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pLight->mFlags.Get(BaseGameObject::eDead))
+                if (!pLight->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     pLight->VUpdate();
                 }
@@ -295,7 +295,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pLight->mFlags.Get(BaseGameObject::eDead))
+                if (!pLight->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     pLight->field_20_animation.VDecode();
                 }
@@ -309,10 +309,10 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pDrawable->mFlags.Get(BaseGameObject::eDead))
+                if (!pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     // TODO: Seems strange to check this flag, how did it get in the drawable list if its not a drawable ??
-                    if (pDrawable->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+                    if (pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
                     {
                         pDrawable->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
                     }
@@ -620,9 +620,9 @@ void Map::GoTo_Camera()
                     break;
                 }
 
-                if (pBaseGameObj->mFlags.Get(BaseGameObject::eUpdatable_Bit2))
+                if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!(pBaseGameObj->mFlags.Get(BaseGameObject::eDead)) && (!sNum_CamSwappers_5C1B66 || pBaseGameObj->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    if (!(pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)) && (!sNum_CamSwappers_5C1B66 || pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
                         const s32 updateDelay = pBaseGameObj->UpdateDelay();
                         if (updateDelay > 0)
@@ -637,7 +637,7 @@ void Map::GoTo_Camera()
                 }
             }
         }
-        while (!pFmvRet->mFlags.Get(BaseGameObject::eDead));
+        while (!pFmvRet->mBaseGameObjectFlags.Get(BaseGameObject::eDead));
 
         if (sSoundChannelsMask_5C3120)
         {

@@ -156,7 +156,7 @@ s32 Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
 
     if (Event_Get(kEventDeathReset))
     {
-        pObj->mFlags.Set(BaseGameObject::eDead);
+        pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     const AnimRecord& vaporizeRec = AnimRec(AnimId::Vaporize_Particle);

@@ -10,7 +10,7 @@ namespace AO {
 
 Sparks::Sparks(FP xpos, FP ypos, FP scale)
 {
-    field_4_typeId = Types::eSpark_15;
+    mBaseGameObjectTypeId = Types::eSpark_15;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -65,12 +65,12 @@ void Sparks::VUpdate()
             field_A8_xpos,
             field_AC_ypos,
             0))
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void Sparks::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 } // namespace AO

@@ -206,7 +206,7 @@ Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 max
     field_C2_g = 128;
     field_C0_r = 128;
 
-    field_4_typeId = Types::eParticle_93;
+    mBaseGameObjectTypeId = Types::eParticle_93;
 
     Animation_Init_417FD0(
         animFrameTableOffset,
@@ -215,9 +215,9 @@ Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 max
         ppAnimData,
         1);
 
-    if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     field_A8_xpos = xpos;
@@ -234,7 +234,7 @@ void Particle::VUpdate()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

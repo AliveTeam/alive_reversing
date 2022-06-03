@@ -16,15 +16,15 @@ namespace AO {
 
 Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eBat_6;
+    mBaseGameObjectTypeId = Types::eBat_6;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Bat);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     
     if (!ppRes)
     {
-        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -78,14 +78,14 @@ Bat::~Bat()
 {
     if (field_10C)
     {
-        field_10C->field_C_refCount--;
+        field_10C->mBaseGameObjectRefCount--;
     }
     gMap.TLV_Reset(field_F0_tlvInfo, -1, 0, 0);
 }
 
 void Bat::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
@@ -131,7 +131,7 @@ void Bat::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (sNumCamSwappers_507668 != 0)
@@ -210,7 +210,7 @@ void Bat::VUpdate()
 
             if (!field_E4_pLine)
             {
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
 
             if (!sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
@@ -223,7 +223,7 @@ void Bat::VUpdate()
                         break;
                     }
 
-                    if (pObjIter->field_4_typeId != Types::SecurityOrb_53 && pObjIter->field_4_typeId != Types::eSlig_88 && pObjIter->field_4_typeId != Types::eSlog_89)
+                    if (pObjIter->mBaseGameObjectTypeId != Types::SecurityOrb_53 && pObjIter->mBaseGameObjectTypeId != Types::eSlig_88 && pObjIter->mBaseGameObjectTypeId != Types::eSlog_89)
                     {
                         PSX_RECT bObjRect = {};
                         pObjIter->VGetBoundingRect(&bObjRect, 1);
@@ -238,12 +238,12 @@ void Bat::VUpdate()
                                     break;
                                 }
 
-                                if (pMaybeBat->field_4_typeId == Types::eBat_6)
+                                if (pMaybeBat->mBaseGameObjectTypeId == Types::eBat_6)
                                 {
                                     auto pBat = static_cast<Bat*>(pMaybeBat);
 
                                     pBat->field_10C = pObjIter;
-                                    pBat->field_10C->field_C_refCount++;
+                                    pBat->field_10C->mBaseGameObjectRefCount++;
 
                                     pBat->field_F4_state = BatStates::eAttackTarget_4;
                                     const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
@@ -264,9 +264,9 @@ void Bat::VUpdate()
 
         case BatStates::eAttackTarget_4:
         {
-            if (field_10C->mFlags.Get(BaseGameObject::eDead) || Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
+            if (field_10C->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
             {
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
                 return;
             }
 
@@ -290,7 +290,7 @@ void Bat::VUpdate()
 
             if (field_FC_attack_duration_timer <= static_cast<s32>(gnFrameCount_507670))
             {
-                field_10C->field_C_refCount--;
+                field_10C->mBaseGameObjectRefCount--;
                 field_10C = nullptr;
                 field_F4_state = BatStates::eFlyAwayAndDie_5;
             }
@@ -302,7 +302,7 @@ void Bat::VUpdate()
             FlyTo(field_A8_xpos, field_AC_ypos - FP_FromInteger(40), &xSpeed, &ySpeed);
             if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
             {
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
         }
         break;

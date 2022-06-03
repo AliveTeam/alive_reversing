@@ -14,7 +14,7 @@ void Honey::VUpdate()
 
 Honey::Honey(FP xpos, FP ypos)
 {
-    field_4_typeId = Types::eHoney_47;
+    mBaseGameObjectTypeId = Types::eHoney_47;
 
     field_C4_b = 128;
     field_C2_g = 128;
@@ -30,7 +30,7 @@ Honey::Honey(FP xpos, FP ypos)
 
 void Honey::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 

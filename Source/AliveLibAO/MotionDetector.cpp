@@ -22,7 +22,7 @@ namespace AO {
 
 MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eMotionDetector_59;
+    mBaseGameObjectTypeId = Types::eMotionDetector_59;
     const AnimRecord rec = AO::AnimRec(AnimId::MotionDetector_Flare);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
@@ -66,7 +66,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
         if (pMotionDetectors)
         {
-            pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
+            pMotionDetectors->mBaseGameObjectTypeId = Types::eRedLaser_76;
             
             pMotionDetectors->Animation_Init_417FD0(laserRec.mFrameTableOffset, laserRec.mMaxW, laserRec.mMaxH, ppResLaser, 1);
             
@@ -87,7 +87,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
         if (pMotionDetectors)
         {
-            pMotionDetectors->field_4_typeId = Types::eRedLaser_76;
+            pMotionDetectors->mBaseGameObjectTypeId = Types::eRedLaser_76;
             
             pMotionDetectors->Animation_Init_417FD0(laserRec.mFrameTableOffset, laserRec.mMaxW, laserRec.mMaxH, ppResLaser, 1);
             
@@ -105,7 +105,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
         ALIVE_FATAL("couldn't find start move direction for motion detector");
     }
 
-    field_108_pLaser->field_C_refCount++;
+    field_108_pLaser->mBaseGameObjectRefCount++;
 
     field_F0_disable_switch_id = pTlv->field_24_disable_switch_id;
 
@@ -136,21 +136,21 @@ MotionDetector::~MotionDetector()
 
     if (field_108_pLaser)
     {
-        field_108_pLaser->field_C_refCount--;
-        field_108_pLaser->mFlags.Set(Options::eDead);
+        field_108_pLaser->mBaseGameObjectRefCount--;
+        field_108_pLaser->mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
 
 void MotionDetector::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void MotionDetector::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (!sNumCamSwappers_507668)
@@ -176,7 +176,7 @@ void MotionDetector::VUpdate()
                     break;
                 }
 
-                if (pObj->field_4_typeId != Types::eTimedMine_8)
+                if (pObj->mBaseGameObjectTypeId != Types::eTimedMine_8)
                 {
                     PSX_RECT objRect = {};
                     pObj->VGetBoundingRect(&objRect, 1);
@@ -192,7 +192,7 @@ void MotionDetector::VUpdate()
                         }
 
                         bool alarm = false;
-                        if (pObj->field_4_typeId == Types::eAbe_43)
+                        if (pObj->mBaseGameObjectTypeId == Types::eAbe_43)
                         {
                             if (pObj->field_FC_current_motion != eAbeMotions::Motion_0_Idle_423520 && pObj->field_FC_current_motion != eAbeMotions::Motion_19_CrouchIdle_4284C0 && pObj->field_FC_current_motion != eAbeMotions::Motion_66_LedgeHang_428D90 && pObj->field_FC_current_motion != eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0 && pObj->field_FC_current_motion != eAbeMotions::Motion_60_Dead_42C4C0 && !sDDCheat_FlyingEnabled_50771C)
                             {

@@ -119,9 +119,9 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
                 break;
         }
 
-        if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+        if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
         else
         {
@@ -180,7 +180,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -400,11 +400,11 @@ void ParticleBurst::VUpdate()
 
     if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }

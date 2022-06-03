@@ -359,7 +359,7 @@ void MusicController::Shutdown()
 {
     if (pMusicController_5C3020)
     {
-        pMusicController_5C3020->mFlags.Set(BaseGameObject::eDead);
+        pMusicController_5C3020->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         pMusicController_5C3020 = nullptr;
         //nullsub_8(); // TODO: Check if PSX stub
         //sub_4FBAD0(dword_5C3028); // Some other likely strange PSX specific thing that does nothing
@@ -405,7 +405,7 @@ MusicController::MusicTypes MusicController::static_GetMusicType(u16* seq1, u16*
 MusicController::MusicController()
     : BaseGameObject(TRUE, 0)
 {
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_40_flags_and_idx = -1;
     field_24_currentLevelID = LevelIds::eNone;
     field_28_object_id = -1;

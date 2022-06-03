@@ -40,7 +40,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
     field_128_timer = 0;
-    mFlags.Clear(BaseGameObject::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
@@ -61,7 +61,7 @@ void Meat::VScreenChanged()
 {
     if (gMap.mCurrentPath != gMap.mPath || gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -227,7 +227,7 @@ s16 Meat::OnCollision(BaseGameObject* pHit)
 {
     // TODO: Check if pHit type is correct for all throwables
 
-    if (!pHit->mFlags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pHit->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {
         return 1;
     }
@@ -265,7 +265,7 @@ void Meat::VUpdate()
     {
         if (Event_Get(kEventDeathReset))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
 
         switch (field_11C_state)
@@ -291,7 +291,7 @@ void Meat::VUpdate()
                 // TODO: OG bug - why only checking for out of the bottom of the map?? Nades check for death object - probably should check both
                 if (field_BC_ypos > FP_FromInteger(gMap.field_D4_ptr->field_6_bBottom))
                 {
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
             }
             break;
@@ -329,7 +329,7 @@ void Meat::VUpdate()
                     field_E4_collection_rect.w = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
                     field_E4_collection_rect.h = field_BC_ypos;
 
-                    mFlags.Set(BaseGameObject::eInteractive_Bit8);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
                     field_11C_state = MeatStates::eWaitForPickUp_4;
                 }
                 break;
@@ -352,7 +352,7 @@ void Meat::VUpdate()
                 }
                 if (field_12C_deadtimer < (s32) sGnFrame_5C1B84)
                 {
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
                 break;
 
@@ -362,7 +362,7 @@ void Meat::VUpdate()
                 field_BC_ypos = field_C8_vely + field_BC_ypos;
                 if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
                 break;
 
@@ -447,7 +447,7 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
 
     auto pMeat = ae_new<Meat>(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
 
-    pMeat->field_C_objectId = pState->field_4_obj_id;
+    pMeat->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
     pMeat->field_B8_xpos = pState->field_8_xpos;
     pMeat->field_BC_ypos = pState->field_C_ypos;
@@ -468,8 +468,8 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
     pMeat->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
 
-    pMeat->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Meat_SaveState::eBit2_bDrawable));
-    pMeat->mFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Meat_SaveState::eBit4_bInteractive));
+    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Meat_SaveState::eBit2_bDrawable));
+    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Meat_SaveState::eBit4_bInteractive));
 
     pMeat->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
@@ -493,14 +493,14 @@ MeatSack::~MeatSack()
 
 void MeatSack::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void MeatSack::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_20_animation.field_92_current_frame == 2)
@@ -574,7 +574,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<Meat_SaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eMeat_84;
-    pState->field_4_obj_id = field_C_objectId;
+    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->field_8_xpos = field_B8_xpos;
     pState->field_C_ypos = field_BC_ypos;
@@ -590,8 +590,8 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     pState->field_20_flags.Set(Meat_SaveState::eBit3_bLoop, field_20_animation.field_4_flags.Get(AnimFlags::eBit8_Loop));
     pState->field_20_flags.Set(Meat_SaveState::eBit1_bRender, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
 
-    pState->field_20_flags.Set(Meat_SaveState::eBit2_bDrawable, mFlags.Get(BaseGameObject::eDrawable_Bit4));
-    pState->field_20_flags.Set(Meat_SaveState::eBit4_bInteractive, mFlags.Get(BaseGameObject::eInteractive_Bit8));
+    pState->field_20_flags.Set(Meat_SaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
+    pState->field_20_flags.Set(Meat_SaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
 
     if (field_130_pLine)
     {

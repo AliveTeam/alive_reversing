@@ -62,7 +62,7 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
 
     field_20_font_context.LoadFontType_433400(2);
     field_30_font.ctor_433590(5, byte_5513D4, &field_20_font_context);
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjList_drawables_5C1124->Push_Back(this);
 
     field_6C_xpos = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
@@ -100,7 +100,7 @@ GasCountDown::~GasCountDown()
 
 void GasCountDown::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
         sGasTimer_5C1BE8 = 0;
@@ -175,7 +175,7 @@ void GasCountDown::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (Event_Get(kEventDeathResetEnd))

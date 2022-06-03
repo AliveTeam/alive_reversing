@@ -23,9 +23,9 @@ namespace AO {
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
     : BaseGameObject(1)
 {
-    mFlags.Set(Options::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
-    field_4_typeId = Types::eNone_0;
+    mBaseGameObjectTypeId = Types::eNone_0;
 
     gObjList_drawables_504618->Push_Back(this);
 
@@ -98,13 +98,13 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
 Spark::~Spark()
 {
-    if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_504618->Remove_Item(this);
     }
@@ -117,14 +117,14 @@ Spark::~Spark()
 
 void Spark::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void Spark::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
     if (!sNumCamSwappers_507668)
     {
@@ -146,7 +146,7 @@ void Spark::VUpdate()
         }
         else
         {
-            mFlags.Set(Options::eDead);
+            mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
 }

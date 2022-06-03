@@ -46,7 +46,7 @@ BaseAliveGameObject::BaseAliveGameObject()
     field_E8_LastLineYPos = FP_FromInteger(0);
     field_104_pending_resource_count = 0;
     gBaseAliveGameObjects_4FC8A0->Push_Back(this);
-    mFlags.Set(Options::eIsBaseAliveGameObject_Bit6);
+    mBaseGameObjectFlags.Set(Options::eIsBaseAliveGameObject_Bit6);
 }
 
 
@@ -57,7 +57,7 @@ BaseAliveGameObject::~BaseAliveGameObject()
     if (field_F8_pLiftPoint)
     {
         field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
         field_F8_pLiftPoint = nullptr;
     }
 
@@ -151,7 +151,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
                 {
                     // OG bug fix: didn't remove ourself from the lift!
                     field_F8_pLiftPoint->VRemove(this);
-                    field_F8_pLiftPoint->field_C_refCount--;
+                    field_F8_pLiftPoint->mBaseGameObjectRefCount--;
                     field_F8_pLiftPoint = nullptr;
 
                     PSX_RECT bRect = {};
@@ -201,7 +201,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
             break;
         }
 
-        if (pObjIter->field_4_typeId == Types::eBirdPortal_65)
+        if (pObjIter->mBaseGameObjectTypeId == Types::eBirdPortal_65)
         {
             auto pPortal = static_cast<BirdPortal*>(pObjIter);
             if (pPortal->field_18_xpos >= field_A8_xpos)
@@ -625,7 +625,7 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
     {
         field_F8_pLiftPoint = pPlatform;
         field_F8_pLiftPoint->VAdd(this);
-        field_F8_pLiftPoint->field_C_refCount++;
+        field_F8_pLiftPoint->mBaseGameObjectRefCount++;
     }
     else
     {
@@ -805,7 +805,7 @@ s16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eBeeSwarm_95)
+        if (pObj->mBaseGameObjectTypeId == Types::eBeeSwarm_95)
         {
             if (static_cast<BeeSwarm*>(pObj)->field_D98_pChaseTarget == this)
             {
@@ -867,7 +867,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_418280(Types typeToFind, F
             break;
         }
 
-        if (pObj->field_4_typeId == typeToFind)
+        if (pObj->mBaseGameObjectTypeId == typeToFind)
         {
             auto pObj2 = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 

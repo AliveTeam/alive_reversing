@@ -1482,13 +1482,13 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
         }
         else
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
     else
     {
-        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -1507,7 +1507,7 @@ void HintFly::InitParticle(HintFlyParticle* pParticle)
 
 void HintFly::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 HintFly::~HintFly()
@@ -1640,7 +1640,7 @@ void HintFly::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_112_state)

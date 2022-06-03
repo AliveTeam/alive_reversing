@@ -64,7 +64,7 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
 
 void BaseThrowable::VToDead()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_10E_bDead = TRUE;
 }
 
@@ -106,7 +106,7 @@ void BaseThrowable::BaseAddToPlatform()
                     break;
                 }
 
-                if (pObjIter->field_4_typeId == Types::eLiftPoint_51 || pObjIter->field_4_typeId == Types::eTrapDoor_98)
+                if (pObjIter->mBaseGameObjectTypeId == Types::eLiftPoint_51 || pObjIter->mBaseGameObjectTypeId == Types::eTrapDoor_98)
                 {
                     auto pPlatformBase = static_cast<PlatformBase*>(pObjIter);
 
@@ -122,13 +122,13 @@ void BaseThrowable::BaseAddToPlatform()
                                 return;
                             }
                             field_F8_pLiftPoint->VRemove(this);
-                            field_F8_pLiftPoint->field_C_refCount--;
+                            field_F8_pLiftPoint->mBaseGameObjectRefCount--;
                             field_F8_pLiftPoint = nullptr;
                         }
 
                         field_F8_pLiftPoint = pPlatformBase;
                         field_F8_pLiftPoint->VAdd(this);
-                        field_F8_pLiftPoint->field_C_refCount++;
+                        field_F8_pLiftPoint->mBaseGameObjectRefCount++;
                         return;
                     }
                 }

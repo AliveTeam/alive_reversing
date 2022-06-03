@@ -128,7 +128,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -151,7 +151,7 @@ void Blood::VUpdate()
 
         if (field_122_to_render_count <= 0)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_122_to_render_count = 0;
             return;
         }
@@ -246,5 +246,5 @@ void Blood::VRender(PrimHeader** ppOt)
 
 void Blood::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }

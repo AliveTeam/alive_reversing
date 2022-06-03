@@ -42,7 +42,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
     }
 
 
-    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     if (pTlv->field_14_start_direction == XDirection_short::eLeft_0)
     {
@@ -156,7 +156,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
         pGreeter->field_20_animation.field_92_current_frame = pState->field_20_current_frame;
         pGreeter->field_20_animation.field_E_frame_change_counter = pState->field_22_frame_change_counter;
 
-        pGreeter->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
+        pGreeter->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
 
         pGreeter->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
 
@@ -212,7 +212,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_20_current_frame = field_20_animation.field_92_current_frame;
     pState->field_22_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_25_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_25_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_24_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_28_tlvInfo = field_118_tlvInfo;
     pState->field_2C_unused = field_120_unused;
@@ -244,14 +244,14 @@ void Greeter::VScreenChanged()
         const FP xDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
         if (xDistFromPlayer > FP_FromInteger(356))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
         }
 
         const FP yDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
         if (yDistFromPlayer > FP_FromInteger(240))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
         }
     }
@@ -271,7 +271,7 @@ Greeter::~Greeter()
     BaseGameObject* pMotionDetector = sObjectIds.Find_Impl(field_11C_motionDetectorId);
     if (pMotionDetector)
     {
-        pMotionDetector->mFlags.Set(BaseGameObject::eDead);
+        pMotionDetector->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -294,7 +294,7 @@ void Greeter::BlowUp()
         field_CC_sprite_scale,
         0);
 
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_12E_bDontSetDestroyed = 0;
 }
 
@@ -390,7 +390,7 @@ void Greeter::HandleRollingAlong()
 
 s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead) || FP_GetExponent(field_10C_health) == 0)
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead) || FP_GetExponent(field_10C_health) == 0)
     {
         return 0;
     }
@@ -610,7 +610,7 @@ void Greeter::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_13C_brain_state)

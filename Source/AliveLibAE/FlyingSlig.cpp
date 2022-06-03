@@ -120,7 +120,7 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     if (tlvInfo != -1)
     {
-        field_C_objectId = tlvInfo;
+        mBaseGameObjectTlvInfo = tlvInfo;
     }
 
     SetType(AETypes::eFlyingSlig_54);
@@ -147,7 +147,7 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
-    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     field_14C_timer = 0;
     field_DC_bApplyShadows |= 2u;
@@ -368,7 +368,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 
         pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2A_bAnimRender & 1);
         pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_22_bAnimFlipX & 1);
-        pFlyingSlig->mFlags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->field_2B_bDrawable & 1);
+        pFlyingSlig->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->field_2B_bDrawable & 1);
 
         if (IsLastFrame(&pFlyingSlig->field_20_animation))
         {
@@ -474,7 +474,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_26_current_frame = field_20_animation.field_92_current_frame;
     pState->field_28_frame_change_counter = field_20_animation.field_E_frame_change_counter;
 
-    pState->field_2B_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2B_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2A_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_2C_current_health = field_10C_health;
     pState->field_30_current_state = field_106_current_motion;
@@ -519,7 +519,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
         auto pObj = sObjectIds.Find_Impl(field_158_obj_id);
         if (pObj)
         {
-            pState->field_58_obj_id = pObj->field_C_objectId;
+            pState->field_58_obj_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -601,7 +601,7 @@ void FlyingSlig::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || (gMap.mCurrentPath != gMap.mPath && (this != sControlledCharacter_5C1B8C || field_17E_flags.Get(Flags_17E::eBit13_Persistant))))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -634,7 +634,7 @@ void FlyingSlig::VUpdate()
                     break;
                 }
 
-                if (pObj->field_C_objectId == field_158_obj_id)
+                if (pObj->mBaseGameObjectTlvInfo == field_158_obj_id)
                 {
                     field_158_obj_id = pObj->field_8_object_id;
                     break;
@@ -645,7 +645,7 @@ void FlyingSlig::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -1049,7 +1049,7 @@ void FlyingSlig::Brain_1_Death()
 {
     if (static_cast<s32>(sGnFrame_5C1B84) >= field_14C_timer)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         Event_Broadcast(kEventMudokonComfort, this);
     }
 }

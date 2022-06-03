@@ -45,7 +45,7 @@ s32 GameEnderController::CreateFromSaveState(const u8* pBuffer)
     auto pGameEnderController = ae_new<GameEnderController>();
     if (pGameEnderController)
     {
-        pGameEnderController->field_C_objectId = pState->field_4_obj_id;
+        pGameEnderController->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
         pGameEnderController->field_20_timer = sGnFrame_5C1B84 + pState->field_8_timer;
         pGameEnderController->field_24_state = pState->field_C_state;
     }
@@ -72,7 +72,7 @@ void GameEnderController::VScreenChanged()
 
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -81,7 +81,7 @@ s32 GameEnderController::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<GameEnderController_State*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eGameEnderController_57;
-    pState->field_4_obj_id = field_C_objectId;
+    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
     pState->field_8_timer = field_20_timer - sGnFrame_5C1B84;
     pState->field_C_state = field_24_state;
     return sizeof(GameEnderController_State);
@@ -91,7 +91,7 @@ void GameEnderController::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_24_state)
@@ -113,11 +113,11 @@ void GameEnderController::VUpdate()
                     auto pAlarm = sObjectIds.Find_Impl(sAlarmObjId_550D70);
                     if (pAlarm)
                     {
-                        pAlarm->mFlags.Set(BaseGameObject::eDead);
+                        pAlarm->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     }
 
-                    pBirdPortal->mFlags.Set(BaseGameObject::eDead);
-                    sActiveHero_5C1B68->mFlags.Set(BaseGameObject::eDead);
+                    pBirdPortal->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    sActiveHero_5C1B68->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
                     // Good ending
                     if (sRescuedMudokons_5C1BC2 >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
@@ -128,7 +128,7 @@ void GameEnderController::VUpdate()
 
                         if (pPauseMenu_5C9300)
                         {
-                            pPauseMenu_5C9300->mFlags.Set(BaseGameObject::eDead);
+                            pPauseMenu_5C9300->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                             pPauseMenu_5C9300 = nullptr;
                         }
 

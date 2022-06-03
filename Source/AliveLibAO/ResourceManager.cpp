@@ -55,14 +55,14 @@ public:
     {
         gFilesPending_507714++;
 
-        mFlags.Set(Options::eSurviveDeathReset_Bit9);
-        mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+        mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+        mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
         field_14_fn = pFn;
         field_18_fn_arg = fnArg;
         field_10_size = size;
 
-        field_4_typeId = Types::eLoadingFile_39;
+        mBaseGameObjectTypeId = Types::eLoadingFile_39;
         field_1C_pCamera = pArray;
 
         PSX_Pos_To_CdLoc_49B340(pos, &field_2A_cdLoc);
@@ -87,7 +87,7 @@ public:
     {
         if (field_28_state == 0)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 
@@ -168,7 +168,7 @@ public:
 
             case 6:
                 ResourceManager::Decrement_Pending_Count_4557B0();
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 field_28_state = 7;
                 break;
 
@@ -231,7 +231,7 @@ void Game_ShowLoadingIcon_445EB0()
             PSX_DISPENV dispEnv = {};
             PSX_SetDefDispEnv_4959D0(&dispEnv, 0, 0, 640, 240);
             PSX_PutDispEnv_495CE0(&dispEnv);
-            pParticle->mFlags.Set(BaseGameObject::eDead);
+            pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             bHideLoadingIcon_5076A0 = TRUE;
         }
     }
@@ -479,20 +479,20 @@ void ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
             break;
         }
 
-        if (pObjIter->field_4_typeId == Types::eLoadingFile_39)
+        if (pObjIter->mBaseGameObjectTypeId == Types::eLoadingFile_39)
         {
             auto pLoadingFile = static_cast<LoadingFile*>(pObjIter);
             if (!pObj || pObj == pLoadingFile->field_18_fn_arg)
             {
                 while (pLoadingFile->field_28_state != 0)
                 {
-                    if (pLoadingFile->mFlags.Get(BaseGameObject::eDead))
+                    if (pLoadingFile->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                     {
                         break;
                     }
                     pLoadingFile->VUpdate();
                 }
-                pLoadingFile->mFlags.Set(BaseGameObject::eDead);
+                pLoadingFile->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
         }
     }
@@ -512,14 +512,14 @@ void ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
                 break;
             }
 
-            if (pObjIter->field_4_typeId == Types::eLoadingFile_39)
+            if (pObjIter->mBaseGameObjectTypeId == Types::eLoadingFile_39)
             {
-                if (!pObjIter->mFlags.Get(BaseGameObject::eDead))
+                if (!pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     pObjIter->VUpdate();
                 }
 
-                if (pObjIter->mFlags.Get(BaseGameObject::eDead))
+                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     i = gBaseGameObjects->RemoveAt(i);
                     delete pObjIter;

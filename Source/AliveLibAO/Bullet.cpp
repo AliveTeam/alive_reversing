@@ -17,7 +17,7 @@ namespace AO {
 Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s32 numberOfBullets)
     : BaseGameObject(1)
 {
-    field_4_typeId = Types::eBullet_10;
+    mBaseGameObjectTypeId = Types::eBullet_10;
     field_10_type = type;
     field_18_xpos = xpos;
     field_1C_ypos = ypos;
@@ -40,7 +40,7 @@ void Bullet::VUpdate()
             field_1C_ypos,
             0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
     const s16 volume = field_2C_scale != FP_FromDouble(0.5) ? 75 : 50;
@@ -101,7 +101,7 @@ void Bullet::VUpdate()
                     {
                         SFX_Play_Mono(SoundEffect::Bullet2_2, volume, 0);
                     }
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     return;
                 }
             }
@@ -117,7 +117,7 @@ void Bullet::VUpdate()
                     {
                         SFX_Play_Mono(SoundEffect::Bullet1_1, volume, 0);
                     }
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     return;
                 }
             }
@@ -126,7 +126,7 @@ void Bullet::VUpdate()
             {
                 field_2C_scale == FP_FromInteger(1) ? PlayBulletSounds(90) : PlayBulletSounds(60);
             }
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
         }
         case BulletType::eZBullet_2:
@@ -165,7 +165,7 @@ void Bullet::VUpdate()
             if (pShotObj && pShotObj->VTakeDamage(this))
             {
                 PlayBulletSounds(90);
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -191,7 +191,7 @@ void Bullet::VUpdate()
             {
                 SFX_Play_Mono(SoundEffect::Bullet2_2, 75, 0);
             }
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -247,14 +247,14 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
             if (pObjIter->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
                 if ((field_10_type == BulletType::ePossessedSlig_0
-                     && (pObjIter->field_4_typeId == Types::eSlig_88
-                         || pObjIter->field_4_typeId == Types::eMudokon_75
-                         || pObjIter->field_4_typeId == Types::eAbe_43
-                         || pObjIter->field_4_typeId == Types::eSlog_89))
+                     && (pObjIter->mBaseGameObjectTypeId == Types::eSlig_88
+                         || pObjIter->mBaseGameObjectTypeId == Types::eMudokon_75
+                         || pObjIter->mBaseGameObjectTypeId == Types::eAbe_43
+                         || pObjIter->mBaseGameObjectTypeId == Types::eSlog_89))
 
-                    || pObjIter->field_4_typeId == Types::eMudokon_75
-                    || pObjIter->field_4_typeId == Types::eAbe_43
-                    || (pObjIter->field_4_typeId == Types::eSlig_88 && sControlledCharacter_50767C == pObjIter))
+                    || pObjIter->mBaseGameObjectTypeId == Types::eMudokon_75
+                    || pObjIter->mBaseGameObjectTypeId == Types::eAbe_43
+                    || (pObjIter->mBaseGameObjectTypeId == Types::eSlig_88 && sControlledCharacter_50767C == pObjIter))
                 {
                     PSX_RECT bRect = {};
                     pObjIter->VGetBoundingRect(&bRect, 1);

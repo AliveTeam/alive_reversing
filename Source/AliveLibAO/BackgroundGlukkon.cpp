@@ -27,7 +27,7 @@ BackgroundGlukkon::~BackgroundGlukkon()
 BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eBackgroundGlukkon_42;
+    mBaseGameObjectTypeId = Types::eBackgroundGlukkon_42;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -53,17 +53,17 @@ BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 
 void BackgroundGlukkon::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
 
-    if (pFrom->field_4_typeId == Types::eShrykull_85)
+    if (pFrom->mBaseGameObjectTypeId == Types::eShrykull_85)
     {
         field_10_anim.Set_Animation_Data(46232, 0);
         const auto rndVol = Math_RandomRange_450F20(110, 127);
@@ -81,7 +81,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
         field_10_anim.Set_Animation_Data(46232, 0);
         field_110_state = BackgroundGlukkon::State::eKilledByShrykull_7;
     }
-    else if (pFrom->field_4_typeId == Types::eElectrocute_103 && field_100_health > FP_FromInteger(0))
+    else if (pFrom->mBaseGameObjectTypeId == Types::eElectrocute_103 && field_100_health > FP_FromInteger(0))
     {
         field_100_health = FP_FromInteger(0);
 
@@ -90,7 +90,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
             field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(40)),
             field_BC_sprite_scale);
 
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     return 1;
 }
@@ -99,7 +99,7 @@ void BackgroundGlukkon::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_110_state)

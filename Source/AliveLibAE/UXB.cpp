@@ -49,7 +49,7 @@ void UXB::InitBlinkAnim(Animation* pAnimation)
     }
     else
     {
-        mFlags.Set(Options::eListAddFailed_Bit1);
+        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
@@ -114,7 +114,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
     SetTint(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
 
-    mFlags.Set(BaseGameObject::Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Set(BaseGameObject::Options::eInteractive_Bit8);
     field_1C8_flags.Clear(UXB_Flags_1C8::eUnused_Bit0);
     field_118_state = UXBState::eDelay_0;
 
@@ -232,7 +232,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     }
 
     const FP gridSnap = ScaleToGridSize(field_CC_sprite_scale);
-    mFlags.Set(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     field_DC_bApplyShadows |= 2u;
 
     field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
@@ -284,13 +284,13 @@ void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
                                   0,
                                   field_CC_sprite_scale);
     field_118_state = UXBState::eExploding_2;
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_124_next_state_frame = sGnFrame_5C1B84;
 }
 
 s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
@@ -315,7 +315,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
             return 0;
     }
 
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
     ae_new<BaseBomb>(field_B8_xpos,
                                  field_BC_ypos,
@@ -340,7 +340,7 @@ UXB::~UXB()
 
     field_128_animation.VCleanUp();
 
-    mFlags.Clear(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 }
 
 void UXB::VUpdate()
@@ -423,7 +423,7 @@ void UXB::VUpdate()
             if (sGnFrame_5C1B84 >= field_124_next_state_frame)
             {
                 ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
             break;
     }
@@ -447,7 +447,7 @@ void UXB::VUpdate()
             {
                 Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
             }
-            mFlags.Set(Options::eDead);
+            mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
 }
@@ -499,18 +499,18 @@ void UXB::VScreenChanged()
             if (field_11A_starting_state != UXBState::eDelay_0 || field_118_state != UXBState::eDeactivated_3)
             {
                 Path::TLV_Reset(field_120_tlv.all, 0, 1, 0);
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
             else
             {
                 Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
         }
         else
         {
             Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
-            mFlags.Set(Options::eDead);
+            mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
 }

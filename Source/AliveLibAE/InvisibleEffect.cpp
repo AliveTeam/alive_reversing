@@ -90,12 +90,12 @@ void InvisibleEffect::VUpdate()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_44_objId));
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (!pTarget || pTarget->mFlags.Get(BaseGameObject::eDead))
+    if (!pTarget || pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -253,7 +253,7 @@ void InvisibleEffect::VUpdate()
             }
             case InvisibleState::eSetDead_6:
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
             default:

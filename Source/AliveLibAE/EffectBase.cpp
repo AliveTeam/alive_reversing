@@ -12,7 +12,7 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
 {
     SetType(AETypes::eEffectBase_115);
     gObjList_drawables_5C1124->Push_Back(this);
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     field_20_path_id = gMap.mCurrentPath;
     field_22_level_id = gMap.mCurrentLevel;
     Init_SetTPage_4F5B60(&field_4C_tPage[0], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, abr, 0, 0));

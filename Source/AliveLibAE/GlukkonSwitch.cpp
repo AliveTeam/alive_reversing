@@ -89,7 +89,7 @@ GlukkonSwitch::~GlukkonSwitch()
 
 void GlukkonSwitch::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 s16 GlukkonSwitch::PlayerNearMe()
@@ -109,7 +109,7 @@ void GlukkonSwitch::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     const s32 lastEventIdx = pEventSystem_5BC11C->field_28_last_event_index;

@@ -13,7 +13,7 @@ namespace AO {
 
 BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eBellHammer_27;
+    mBaseGameObjectTypeId = Types::eBellHammer_27;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::BellHammer_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -115,7 +115,7 @@ BellHammer::~BellHammer()
 
 void BellHammer::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void BellHammer::VUpdate()

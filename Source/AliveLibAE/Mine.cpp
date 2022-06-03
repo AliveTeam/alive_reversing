@@ -29,8 +29,8 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_118_detonating = 0;
-    mFlags.Set(Options::eInteractive_Bit8);
-    mFlags.Set(Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
     if (pPath->field_14_scale != Scale_short::eFull_0)
     {
@@ -105,7 +105,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     }
 
     const FP gridSnap = ScaleToGridSize(field_CC_sprite_scale);
-    mFlags.Set(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     field_DC_bApplyShadows |= 2u;
 
     field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
@@ -127,7 +127,7 @@ Mine::~Mine()
     }
 
     field_124_animation.VCleanUp();
-    mFlags.Clear(BaseGameObject::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
     if (sMineSFXOwner_5C3008 == this)
     {
@@ -149,7 +149,7 @@ void Mine::VUpdate()
         if (field_118_detonating == 1 && sGnFrame_5C1B84 >= field_120_gnframe)
         {
             ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
-            mFlags.Set(Options::eDead);
+            mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
     else
@@ -178,7 +178,7 @@ void Mine::VUpdate()
         BaseGameObject* pEventObj = Event_Get(kEventDeathReset);
         if (pEventObj || field_C2_lvl_number != gMap.mCurrentLevel || field_C0_path_number != gMap.mCurrentPath)
         {
-            mFlags.Set(Options::eDead);
+            mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
 }
@@ -211,7 +211,7 @@ void Mine::VScreenChanged()
         || gMap.mCurrentPath != gMap.mPath
         || !field_1BC_flags.Get(Mine_Flags_1BC::eBit1_PersistOffscreen))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
 
@@ -227,13 +227,13 @@ void Mine::VOnPickUpOrSlapped()
 void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_118_detonating = 1;
 }
 
 s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
@@ -251,7 +251,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         case AETypes::eMudokon_110:
         case AETypes::eShrykull_121:
             ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_118_detonating = 1;
             field_120_gnframe = sGnFrame_5C1B84;
             return 1;

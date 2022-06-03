@@ -26,7 +26,7 @@ ALIVE_VAR(1, 0x5076AC, s16, gBeesNearAbe_5076AC, 0);
 
 BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
 {
-    field_4_typeId = Types::eBeeSwarm_95;
+    mBaseGameObjectTypeId = Types::eBeeSwarm_95;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Bee_Swarm);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -44,7 +44,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         numBeesToUse = 1;
     }
 
@@ -96,7 +96,7 @@ BeeSwarm::~BeeSwarm()
 
     if (field_D98_pChaseTarget)
     {
-        field_D98_pChaseTarget->field_C_refCount--;
+        field_D98_pChaseTarget->mBaseGameObjectRefCount--;
     }
 }
 
@@ -104,31 +104,31 @@ void BeeSwarm::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (gMap.mCurrentLevel != gMap.mLevel
         || gMap.mCurrentPath != gMap.mPath)
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (field_D98_pChaseTarget)
     {
-        if (field_D98_pChaseTarget->mFlags.Get(BaseGameObject::eDead))
+        if (field_D98_pChaseTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             field_D80_state = BeeSwarmStates::eFlyAwayAndDie_3;
             field_D74_chase_target_y -= FP_FromInteger(240);
             field_D9C_alive_timer = gnFrameCount_507670 + 120;
             gBeesNearAbe_5076AC = 0;
-            field_D98_pChaseTarget->field_C_refCount--;
+            field_D98_pChaseTarget->mBaseGameObjectRefCount--;
             field_D98_pChaseTarget = nullptr;
         }
     }
 
     if (!sActiveHero_507678 || (field_D98_pChaseTarget == sActiveHero_507678 && sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
 
@@ -146,7 +146,7 @@ void BeeSwarm::Chase(BaseAliveGameObject* pChaseTarget)
 {
     if (field_D98_pChaseTarget)
     {
-        field_D98_pChaseTarget->field_C_refCount--;
+        field_D98_pChaseTarget->mBaseGameObjectRefCount--;
     }
 
     field_D80_state = BeeSwarmStates::eAttackChase_1;
@@ -154,7 +154,7 @@ void BeeSwarm::Chase(BaseAliveGameObject* pChaseTarget)
     field_D98_pChaseTarget = pChaseTarget;
     field_DA4_update_chase_timer = 0;
 
-    pChaseTarget->field_C_refCount++;
+    pChaseTarget->mBaseGameObjectRefCount++;
 
     field_D70_chase_target_x = pChaseTarget->field_A8_xpos;
     field_D74_chase_target_y = pChaseTarget->field_AC_ypos;
@@ -172,12 +172,12 @@ void BeeSwarm::VUpdate()
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
         ToFlyAwayAndDie();
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
     // Chase target has died
-    if (field_D98_pChaseTarget && field_D98_pChaseTarget->mFlags.Get(BaseGameObject::eDead))
+    if (field_D98_pChaseTarget && field_D98_pChaseTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         ToFlyAwayAndDie();
 
@@ -205,7 +205,7 @@ void BeeSwarm::VUpdate()
                     field_AC_ypos,
                     0))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -324,7 +324,7 @@ void BeeSwarm::VUpdate()
                 field_DAC_line_follow_speed);
             if (!field_DA8_pLine)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -336,7 +336,7 @@ void BeeSwarm::VUpdate()
 
             if (static_cast<s32>(gnFrameCount_507670) > field_D9C_alive_timer)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -372,12 +372,12 @@ void BeeSwarm::VUpdate()
                             // De-ref old target
                             if (field_D98_pChaseTarget)
                             {
-                                field_D98_pChaseTarget->field_C_refCount--;
+                                field_D98_pChaseTarget->mBaseGameObjectRefCount--;
                             }
 
                             // Set new target
                             field_D98_pChaseTarget = pObjIter;
-                            field_D98_pChaseTarget->field_C_refCount++;
+                            field_D98_pChaseTarget->mBaseGameObjectRefCount++;
 
                             field_D80_state = BeeSwarmStates::eAttackChase_1;
                             field_D70_chase_target_x = pObjIter->field_A8_xpos;
@@ -552,7 +552,7 @@ void BeeSwarm::ToFlyAwayAndDie()
 
     if (field_D98_pChaseTarget)
     {
-        field_D98_pChaseTarget->field_C_refCount--;
+        field_D98_pChaseTarget->mBaseGameObjectRefCount--;
         field_D98_pChaseTarget = nullptr;
     }
 }

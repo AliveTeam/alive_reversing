@@ -34,7 +34,7 @@ namespace AO {
 s16* Animation_OnFrame_Slig(void* pObj, s16* pData)
 {
     auto pSlig = static_cast<Slig*>(pObj);
-    if (pSlig->field_8_update_delay != 0)
+    if (pSlig->mBaseGameObjectUpdateDelay != 0)
     {
         return pData + 2;
     }

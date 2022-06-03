@@ -13,7 +13,7 @@ namespace AO {
 RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eRollingBallStopper_60;
+    mBaseGameObjectTypeId = Types::eRollingBallStopper_60;
     
     const AnimRecord& rec = AO::AnimRec(AnimId::Stone_Ball_Stopper);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -114,7 +114,7 @@ void RollingBallStopper::VScreenChanged()
     {
         SwitchStates_Set(field_116_ball_switch_id, 1);
     }
-    mFlags.Set(Options::eDead);
+    mBaseGameObjectFlags.Set(Options::eDead);
 }
 
 void RollingBallStopper::VUpdate()

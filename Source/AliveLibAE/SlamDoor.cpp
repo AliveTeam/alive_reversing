@@ -62,8 +62,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
 SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     : BaseAliveGameObject(0)
 {
-    field_C_objectId = tlvInfo.all; // todo: check this
-    mFlags.Set(Options::eCanExplode_Bit7);
+    mBaseGameObjectTlvInfo = tlvInfo.all; // todo: check this
+    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
     field_128_switch_id = pTlv->field_14_switch_id;
 
@@ -244,7 +244,7 @@ void SlamDoor::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     const bool stateUnchanged = SwitchStates_Get(field_128_switch_id) == static_cast<s32>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
@@ -258,7 +258,7 @@ void SlamDoor::VUpdate()
 
                 if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit5_Delete))
                 {
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
                 SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
                 SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
@@ -407,7 +407,7 @@ void SlamDoor::VUpdate()
         }
     }
 
-    mFlags.Set(BaseGameObject::eCanExplode_Bit7, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
+    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
 }
 
 s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)

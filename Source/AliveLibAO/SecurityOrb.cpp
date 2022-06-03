@@ -21,9 +21,9 @@ namespace AO {
 SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mFlags.Set(Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    field_4_typeId = Types::SecurityOrb_53;
+    mBaseGameObjectTypeId = Types::SecurityOrb_53;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Security_Orb);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -68,17 +68,17 @@ SecurityOrb::~SecurityOrb()
 
 void SecurityOrb::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->mBaseGameObjectTypeId)
     {
         case Types::eAbilityRing_69:
         case Types::eShrykull_85:
@@ -104,7 +104,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
             break;
     }
 
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
     return 1;
 }
@@ -113,7 +113,7 @@ void SecurityOrb::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_110_state)

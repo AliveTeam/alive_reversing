@@ -119,7 +119,7 @@ void BoomMachine::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_E8_bIsButtonOn == 0)
@@ -151,8 +151,8 @@ BoomMachine::~BoomMachine()
 {
     if (field_EC_pNozzle)
     {
-        field_EC_pNozzle->field_C_refCount--;
-        field_EC_pNozzle->mFlags.Set(Options::eDead);
+        field_EC_pNozzle->mBaseGameObjectRefCount--;
+        field_EC_pNozzle->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
@@ -160,7 +160,7 @@ BoomMachine::~BoomMachine()
 
 BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eGrenadeMachine_41;
+    mBaseGameObjectTypeId = Types::eGrenadeMachine_41;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -206,7 +206,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 
     pNozzle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1);
 
-    pNozzle->field_C_refCount++;
+    pNozzle->mBaseGameObjectRefCount++;
     field_EC_pNozzle = pNozzle;
 
     if (gpThrowableArray_50E26C && gpThrowableArray_50E26C->field_10_count)
@@ -225,7 +225,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 
 void BoomMachine::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 } // namespace AO

@@ -365,8 +365,8 @@ s32 MusicController::GetMusicTime()
 MusicController::MusicController()
     : BaseGameObject(1)
 {
-    mFlags.Set(Options::eSurviveDeathReset_Bit9);
-    field_4_typeId = Types::eNone_0;
+    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mBaseGameObjectTypeId = Types::eNone_0;
 
     field_10_bEnableMusic = 1;
     field_3A_type = MusicTypes::eType0;
@@ -567,7 +567,7 @@ void MusicController::Shutdown()
 {
     if (pMusicController_507B98)
     {
-        pMusicController_507B98->mFlags.Set(Options::eDead);
+        pMusicController_507B98->mBaseGameObjectFlags.Set(Options::eDead);
         pMusicController_507B98 = nullptr;
         //nullsub_5();
         Psx_Root_Counter_Event_Free_49C2B0(psx_root_event_507BA0);

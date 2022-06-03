@@ -75,8 +75,8 @@ public:
     ObjectDebugger()
         : BaseGameObject(TRUE, 1)
     {
-        mFlags.Set(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         SetType(AETypes::eDebugHelper_1001);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -143,7 +143,7 @@ public:
                 break;
             }
 
-            if (pBaseGameObject->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+            if (pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*) pBaseGameObject);
                 s16 x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap.field_24_camera_offset.field_0_x);
@@ -193,7 +193,7 @@ public:
                 break;
             }
 
-            if (pBaseGameObject->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+            if (pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*) pBaseGameObject);
 
@@ -264,8 +264,8 @@ public:
     DebugPathRenderer()
         : BaseGameObject(TRUE, 1)
     {
-        mFlags.Set(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         SetType(AETypes::eDebugPathRenderer_1003);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -461,7 +461,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
             continue;
         }
 
-        if (pBaseGameObject->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto aliveObj =  static_cast<BaseAliveGameObject*>(pBaseGameObject);
 
@@ -866,8 +866,8 @@ public:
     DebugConsole()
         : BaseGameObject(TRUE, 1)
     {
-        mFlags.Set(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         SetType(AETypes::eDebugConsole_1002);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -1782,8 +1782,8 @@ public:
     RenderTest()
         : BaseGameObject(TRUE, 1)
     {
-        mFlags.Set(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eUpdatable_Bit2);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
 
         gObjList_drawables_5C1124->Push_Back(this);
     }
@@ -1896,8 +1896,8 @@ public:
     AnimRenderTest()
         : BaseGameObject(TRUE, 1)
     {
-        mFlags.Set(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eUpdatable_Bit2);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
 
         gObjList_drawables_5C1124->Push_Back(this);
 

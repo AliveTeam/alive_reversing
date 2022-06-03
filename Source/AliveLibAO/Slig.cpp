@@ -300,7 +300,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
     field_10A_flags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
     field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
 
-    field_4_typeId = Types::eSlig_88;
+    mBaseGameObjectTypeId = Types::eSlig_88;
 
     field_114_timer = 0;
     field_118_unused = 0;
@@ -452,7 +452,7 @@ void Slig::VScreenChanged()
         || gMap.mOverlayId != gMap.GetOverlayId()
         || (gMap.mCurrentPath != gMap.mPath && this != sControlledCharacter_50767C))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -777,7 +777,7 @@ void Slig::VUpdate()
 
 void Slig::VRender(PrimHeader** ppOt)
 {
-    if (field_8_update_delay == 0)
+    if (mBaseGameObjectUpdateDelay == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -788,7 +788,7 @@ void Slig::VOnTrapDoorOpen()
     if (field_F8_pLiftPoint)
     {
         field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
         field_F8_pLiftPoint = nullptr;
         field_E8_LastLineYPos = field_AC_ypos;
         VSetMotion(eSligMotions::Motion_39_OutToFall_46A9E0);
@@ -833,7 +833,7 @@ void Slig::VPossessed()
 
 s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 {
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->mBaseGameObjectTypeId)
     {
         case Types::eBullet_10:
         {
@@ -923,7 +923,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 
                 field_100_health = FP_FromInteger(0);
                 SFX_Play_Mono(SoundEffect::FallingItemHit_53, 90);
-                field_8_update_delay = 40;
+                mBaseGameObjectUpdateDelay = 40;
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
                 SetBrain(&Slig::Brain_ReturnControlToAbeAndDie_46C760);
@@ -987,7 +987,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         case Types::eElectrocute_103:
             if (field_100_health > FP_FromInteger(0))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 field_100_health = FP_FromInteger(0);
                 Event_Broadcast(kEventMudokonComfort_16, sActiveHero_507678);
             }
@@ -1201,7 +1201,7 @@ void Slig::ShouldStilBeAlive_46C0D0()
                 if (field_1F4_points_count <= 0)
                 {
                     // No patrol points, die
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
                 else
                 {
@@ -1216,7 +1216,7 @@ void Slig::ShouldStilBeAlive_46C0D0()
                         if (i >= field_1F4_points_count)
                         {
                             // No within any out our patrol points, die
-                            mFlags.Set(BaseGameObject::eDead);
+                            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                             break;
                         }
                         i++;
@@ -1386,7 +1386,7 @@ s16 Slig::FindBeatTarget_46D0E0(s32 /*typeToFind*/, s32 gridBlocks)
         {
             break;
         }
-        if (pTargetObj != this && pTargetObj->field_4_typeId == Types::eMudokon_75)
+        if (pTargetObj != this && pTargetObj->mBaseGameObjectTypeId == Types::eMudokon_75)
         {
             PSX_RECT bRect = {};
             pTargetObj->VGetBoundingRect(
@@ -1453,7 +1453,7 @@ void Slig::RespondToEnemyOrPatrol_465DF0()
 
     if (field_174_tlv.field_28_shoot_on_sight_delay)
     {
-        if (sControlledCharacter_50767C->field_4_typeId != Types::eSlig_88
+        if (sControlledCharacter_50767C->mBaseGameObjectTypeId != Types::eSlig_88
             || field_174_tlv.field_26_shoot_possessed_sligs != Path_Slig::ShootPossessedSligs::eNo_0)
         {
             SetBrain(&Slig::Brain_SpottedEnemy_465EB0);
@@ -1684,7 +1684,7 @@ Bool32 Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
 
 s16 Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
 {
-    if (((pThis->field_4_typeId == Types::eAbe_43) && (pThis->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 && pThis->field_10_anim.field_92_current_frame > 7)) || (pThis->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780 && pThis->field_10_anim.field_92_current_frame < 4))
+    if (((pThis->mBaseGameObjectTypeId == Types::eAbe_43) && (pThis->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 && pThis->field_10_anim.field_92_current_frame > 7)) || (pThis->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780 && pThis->field_10_anim.field_92_current_frame < 4))
     {
         return 1;
     }
@@ -1780,7 +1780,7 @@ void Slig::CheckPlatformVanished()
 {
     if (field_F8_pLiftPoint)
     {
-        if (field_F8_pLiftPoint->mFlags.Get(BaseGameObject::eDead))
+        if (field_F8_pLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             // Platform is somehow gone, fall.
             const auto oldMotion = field_FC_current_motion;
@@ -2209,7 +2209,7 @@ s16 Slig::HandlePlayerControlled()
     {
         if (field_F8_pLiftPoint)
         {
-            if (field_F8_pLiftPoint && field_F8_pLiftPoint->field_4_typeId == Types::eLiftPoint_51)
+            if (field_F8_pLiftPoint && field_F8_pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51)
             {
                 if (FP_Abs(field_A8_xpos - FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2)) < kScaleGrid / FP_FromInteger(2))
                 {
@@ -3442,7 +3442,7 @@ void Slig::Motion_34_SleepingToStand_46A5F0()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eSnoozParticle_87)
+        if (pObj->mBaseGameObjectTypeId == Types::eSnoozParticle_87)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1D4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
@@ -3698,7 +3698,7 @@ void Slig::Motion_38_Possess_46B050()
             field_B4_velx = FP_FromInteger(0);
             field_100_health = FP_FromInteger(0);
             MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
-            field_8_update_delay = 40;
+            mBaseGameObjectUpdateDelay = 40;
             field_114_timer = gnFrameCount_507670 + 60;
             SetBrain(&Slig::Brain_Death_46C3A0);
         }
@@ -3730,7 +3730,7 @@ void Slig::Motion_39_OutToFall_46A9E0()
     const FP fallDepth = field_AC_ypos - field_E8_LastLineYPos;
     if (fallDepth > FP_FromInteger(16 * 640))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_FC_current_motion == eSligMotions::Motion_41_LandingSoft_46A390)
@@ -3989,7 +3989,7 @@ void Slig::Motion_52_Beat_46AA90()
             {
                 break;
             }
-            if (pObjIter != this && pObjIter->field_4_typeId == Types::eMudokon_75)
+            if (pObjIter != this && pObjIter->mBaseGameObjectTypeId == Types::eMudokon_75)
             {
                 PSX_RECT bRect = {};
                 pObjIter->VGetBoundingRect(&bRect, 1);
@@ -4077,7 +4077,7 @@ s16 Slig::Brain_Paused_466030()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     switch (field_10E_brain_sub_state)
@@ -4127,7 +4127,7 @@ s16 Slig::Brain_Paused_466030()
                     field_AC_ypos,
                     0))
             {
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
             return field_10E_brain_sub_state;
 
@@ -4144,7 +4144,7 @@ s16 Slig::Brain_Paused_466030()
             break;
         }
 
-        if (pObjIter->field_4_typeId == Types::eGameEnderController_37)
+        if (pObjIter->mBaseGameObjectTypeId == Types::eGameEnderController_37)
         {
             found = true;
             break;
@@ -4171,7 +4171,7 @@ s16 Slig::Brain_EnemyDead_466190()
             field_AC_ypos,
             0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return 113;
     }
 
@@ -4237,7 +4237,7 @@ s16 Slig::Brain_Unknown_46B250()
             field_AC_ypos,
             0)
         || (field_20E_spotted_possessed_slig
-            && sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88)
+            && sControlledCharacter_50767C->mBaseGameObjectTypeId == Types::eSlig_88)
         || Event_Get(kEventResetting_6))
     {
         if (!VOnSameYLevel(
@@ -4365,7 +4365,7 @@ s16 Slig::Brain_Sleeping_46B4E0()
 
     ShouldStilBeAlive_46C0D0();
 
-    if (mFlags.Get(Options::eDead))
+    if (mBaseGameObjectFlags.Get(Options::eDead))
     {
         Start_Slig_sounds(gMap.GetDirection(
                                      field_B2_lvl_number,
@@ -4467,7 +4467,7 @@ s16 Slig::Brain_Possessed_46C190()
             {
                 if (sControlledCharacter_50767C != this)
                 {
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
             }
 
@@ -4484,7 +4484,7 @@ s16 Slig::Brain_Possessed_46C190()
             {
                 if (sControlledCharacter_50767C != this)
                 {
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
             }
 
@@ -4524,7 +4524,7 @@ s16 Slig::Brain_Death_46C3A0()
     }
     else if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (sControlledCharacter_50767C == this)
@@ -4559,13 +4559,13 @@ s16 Slig::Brain_Death_46C3A0()
                 field_AC_ypos,
                 0))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 
     if (field_BC_sprite_scale < FP_FromInteger(0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     return 116;
@@ -4616,7 +4616,7 @@ s16 Slig::Brain_DeathDropDeath_46C5A0()
                     sControlledCharacter_50767C = sActiveHero_507678;
                     gMap.SetActiveCam(field_14E_level, field_150_path, field_152_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             return field_10E_brain_sub_state;
 
@@ -4639,7 +4639,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
             0,
             0);
     }
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     return 117;
 }
 
@@ -4653,7 +4653,7 @@ s16 Slig::Brain_PanicTurning_46C7C0()
             field_AC_ypos,
             0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return 107;
     }
     if (field_FC_current_motion != eSligMotions::Motion_5_TurnAroundStanding_469C80
@@ -4692,7 +4692,7 @@ s16 Slig::Brain_PanicTurning_46C7C0()
         PSX_RECT charRect = {};
         sControlledCharacter_50767C->VGetBoundingRect(&charRect, 1);
 
-        if (sControlledCharacter_50767C->field_4_typeId != Types::eSlig_88 && !IsInInvisibleZone_418870(sControlledCharacter_50767C))
+        if (sControlledCharacter_50767C->mBaseGameObjectTypeId != Types::eSlig_88 && !IsInInvisibleZone_418870(sControlledCharacter_50767C))
         {
             if (charRect.x <= bRect.w && charRect.w >= bRect.x && charRect.h >= bRect.y && charRect.y <= bRect.h)
             {
@@ -4842,7 +4842,7 @@ s16 Slig::Brain_Chasing_46CD60()
                 field_AC_ypos,
                 0)))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else if (gMap.Is_Point_In_Current_Camera_4449C0(
                  field_B2_lvl_number,
@@ -4897,7 +4897,7 @@ s16 Slig::Brain_StartChasing_46CF90()
         if (field_B0_path_number != gMap.mCurrentPath
             || field_B2_lvl_number != gMap.mCurrentLevel)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
 
         if (!VIsFacingMe(sControlledCharacter_50767C))
@@ -4926,7 +4926,7 @@ s16 Slig::Brain_Idle_46D6E0()
         && !IsInInvisibleZone_418870(sControlledCharacter_50767C)
         && !IsWallBetween_46BE60(this, sControlledCharacter_50767C)
         && (!field_20E_spotted_possessed_slig
-            || sControlledCharacter_50767C->field_4_typeId != Types::eSlig_88)
+            || sControlledCharacter_50767C->mBaseGameObjectTypeId != Types::eSlig_88)
         && !IsAbeEnteringDoor_46BEE0(sControlledCharacter_50767C)
         && !Event_Get(kEventResetting_6)
         && gMap.Is_Point_In_Current_Camera_4449C0(
@@ -4963,7 +4963,7 @@ s16 Slig::Brain_Idle_46D6E0()
                 return 104;
             }
         }
-        if (sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88)
+        if (sControlledCharacter_50767C->mBaseGameObjectTypeId == Types::eSlig_88)
         {
             if (field_FC_current_motion)
             {
@@ -5055,7 +5055,7 @@ s16 Slig::Brain_Turning_46DC70()
             field_AC_ypos,
             0))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
         return 106;
     }
     if (field_FC_current_motion == eSligMotions::Motion_5_TurnAroundStanding_469C80
@@ -5092,7 +5092,7 @@ s16 Slig::Brain_Turning_46DC70()
             PSX_RECT bRect = {};
             sControlledCharacter_50767C->VGetBoundingRect(&bRect, 1);
 
-            if (sControlledCharacter_50767C->field_100_health > FP_FromInteger(0) && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect) && sControlledCharacter_50767C->field_4_typeId != Types::eSlig_88)
+            if (sControlledCharacter_50767C->field_100_health > FP_FromInteger(0) && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect) && sControlledCharacter_50767C->mBaseGameObjectTypeId != Types::eSlig_88)
             {
                 field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
                 return 106;
@@ -5144,7 +5144,7 @@ s16 Slig::Brain_Walking_46DE90()
     if (VOnSameYLevel(sControlledCharacter_50767C) && VIsFacingMe(sControlledCharacter_50767C) && !IsInInvisibleZone_418870(sControlledCharacter_50767C) && !IsWallBetween_46BE60(this, sControlledCharacter_50767C) && gMap.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos, 0))
     {
         if (!field_20E_spotted_possessed_slig
-            || sControlledCharacter_50767C->field_4_typeId != Types::eSlig_88)
+            || sControlledCharacter_50767C->mBaseGameObjectTypeId != Types::eSlig_88)
         {
             if (!IsAbeEnteringDoor_46BEE0(sControlledCharacter_50767C) && !Event_Get(kEventResetting_6))
             {
@@ -5330,7 +5330,7 @@ s16 Slig::Brain_GetAlerted_46E800()
             field_A8_xpos,
             field_AC_ypos,
             0)
-        || (sControlledCharacter_50767C->field_4_typeId == Types::eSlig_88 && field_20E_spotted_possessed_slig)
+        || (sControlledCharacter_50767C->mBaseGameObjectTypeId == Types::eSlig_88 && field_20E_spotted_possessed_slig)
         || IsAbeEnteringDoor_46BEE0(sControlledCharacter_50767C)
         || Event_Get(kEventResetting_6))
     {
@@ -5342,7 +5342,7 @@ s16 Slig::Brain_GetAlerted_46E800()
                 pEvent = static_cast<BaseAliveGameObject*>(Event_Get(kEventSpeaking_1));
             }
 
-            if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->field_4_typeId == Types::eMudokon_75)
+            if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->mBaseGameObjectTypeId == Types::eMudokon_75)
                 && VOnSameYLevel(pEvent)
                 && VIsFacingMe(pEvent)
                 && gMap.Is_Point_In_Current_Camera_4449C0(
@@ -5357,7 +5357,7 @@ s16 Slig::Brain_GetAlerted_46E800()
             }
             else
             {
-                if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->field_4_typeId != Types::eSlig_88)
+                if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->mBaseGameObjectTypeId != Types::eSlig_88)
                     && !VIsFacingMe(pEvent)
                     && gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
@@ -5500,7 +5500,7 @@ s16 Slig::Brain_ChaseAndDisappear_46EEE0()
 {
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_10E_brain_sub_state == Brain_ChaseAndDisappear::eSummoned_0)
@@ -5534,7 +5534,7 @@ s16 Slig::Brain_ChaseAndDisappear_46EEE0()
         {
             return field_10E_brain_sub_state;
         }
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_100_health = FP_FromInteger(0);
         return field_10E_brain_sub_state;
     }
@@ -5705,7 +5705,7 @@ void Slig::BlowToGibs_4685A0()
     field_100_health = FP_FromInteger(0);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
     field_114_timer = gnFrameCount_507670 + 60;
-    field_8_update_delay = 40;
+    mBaseGameObjectUpdateDelay = 40;
     SetBrain(&Slig::Brain_Death_46C3A0);
     Event_Broadcast(kEventMudokonComfort_16, sActiveHero_507678);
 }

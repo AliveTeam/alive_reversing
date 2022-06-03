@@ -21,7 +21,7 @@ class FireBackgroundGlow final : public BaseAnimatedWithPhysicsGameObject
 public:
     FireBackgroundGlow(FP xpos, FP ypos, FP scale)
     {
-        field_4_typeId = Types::eNone_0;
+        mBaseGameObjectTypeId = Types::eNone_0;
 
         const AnimRecord& rec = AO::AnimRec(AnimId::Door_FireBackgroundGlow);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -137,7 +137,7 @@ class FlameSparks final : public BaseAnimatedWithPhysicsGameObject
 public:
     FlameSparks(FP xpos, FP ypos)
     {
-        field_4_typeId = Types::eNone_0;
+        mBaseGameObjectTypeId = Types::eNone_0;
         const AnimRecord rec = AO::AnimRec(AnimId::Zap_Sparks);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
@@ -305,15 +305,15 @@ DoorFlame::~DoorFlame()
 {
     if (field_F8_pFireBackgroundGlow)
     {
-        field_F8_pFireBackgroundGlow->field_C_refCount--;
-        field_F8_pFireBackgroundGlow->mFlags.Set(Options::eDead);
+        field_F8_pFireBackgroundGlow->mBaseGameObjectRefCount--;
+        field_F8_pFireBackgroundGlow->mBaseGameObjectFlags.Set(Options::eDead);
         field_F8_pFireBackgroundGlow = nullptr;
     }
 
     if (field_FC_pFlameSparks)
     {
-        field_FC_pFlameSparks->field_C_refCount--;
-        field_FC_pFlameSparks->mFlags.Set(Options::eDead);
+        field_FC_pFlameSparks->mBaseGameObjectRefCount--;
+        field_FC_pFlameSparks->mBaseGameObjectFlags.Set(Options::eDead);
         field_FC_pFlameSparks = nullptr;
     }
 
@@ -324,7 +324,7 @@ DoorFlame::~DoorFlame()
 
 DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eNone_0;
+    mBaseGameObjectTypeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
     const AnimRecord& rec = AO::AnimRec(AnimId::Fire);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -386,7 +386,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     field_FC_pFlameSparks = ao_new<FlameSparks>(field_A8_xpos, field_AC_ypos);
     if (field_FC_pFlameSparks)
     {
-        field_FC_pFlameSparks->field_C_refCount++;
+        field_FC_pFlameSparks->mBaseGameObjectRefCount++;
     }
 }
 
@@ -408,8 +408,8 @@ void DoorFlame::VUpdate()
 
             if (field_F8_pFireBackgroundGlow)
             {
-                field_F8_pFireBackgroundGlow->field_C_refCount--;
-                field_F8_pFireBackgroundGlow->mFlags.Set(Options::eDead);
+                field_F8_pFireBackgroundGlow->mBaseGameObjectRefCount--;
+                field_F8_pFireBackgroundGlow->mBaseGameObjectFlags.Set(Options::eDead);
                 field_F8_pFireBackgroundGlow = nullptr;
             }
             break;
@@ -448,7 +448,7 @@ void DoorFlame::VUpdate()
                     FP_FromDouble(0.5));
                 if (field_F8_pFireBackgroundGlow)
                 {
-                    field_F8_pFireBackgroundGlow->field_C_refCount++;
+                    field_F8_pFireBackgroundGlow->mBaseGameObjectRefCount++;
                     field_F8_pFireBackgroundGlow->field_C0_r = field_C0_r;
                     field_F8_pFireBackgroundGlow->field_C2_g = field_C2_g;
                     field_F8_pFireBackgroundGlow->field_C4_b = field_C4_b;
@@ -467,7 +467,7 @@ void DoorFlame::VUpdate()
             field_AC_ypos,
             0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

@@ -147,7 +147,7 @@ void DestroyObjects_4A1F20()
                 break;
             }
 
-            if (!(pObj->mFlags.Get(BaseGameObject::eSurviveDeathReset_Bit9)))
+            if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eSurviveDeathReset_Bit9)))
             {
                 DynamicArrayIter iter;
                 iter.field_0_pDynamicArray = gBaseGameObjects;
@@ -684,9 +684,9 @@ void Game_Loop_467230()
                 break;
             }
 
-            if (pBaseGameObject->mFlags.Get(BaseGameObject::eUpdatable_Bit2)
-                && pBaseGameObject->mFlags.Get(BaseGameObject::eDead) == false
-                && (sNum_CamSwappers_5C1B66 == 0 || pBaseGameObject->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            if (pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2)
+                && pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false
+                && (sNum_CamSwappers_5C1B66 == 0 || pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
                 const s32 updateDelay = pBaseGameObject->UpdateDelay();
                 if (updateDelay <= 0)
@@ -724,13 +724,13 @@ void Game_Loop_467230()
                 break;
             }
 
-            if (pObj->mFlags.Get(BaseGameObject::eDead))
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                pObj->mFlags.Clear(BaseGameObject::eCantKill_Bit11);
+                pObj->mBaseGameObjectFlags.Clear(BaseGameObject::eCantKill_Bit11);
             }
-            else if (pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+            else if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                pObj->mFlags.Set(BaseGameObject::eCantKill_Bit11);
+                pObj->mBaseGameObjectFlags.Set(BaseGameObject::eCantKill_Bit11);
                 pObj->VRender(ppOtBuffer);
             }
         }
@@ -744,13 +744,13 @@ void Game_Loop_467230()
                 break;
             }
 
-            if (pFG1->mFlags.Get(BaseGameObject::eDead))
+            if (pFG1->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                pFG1->mFlags.Clear(BaseGameObject::eCantKill_Bit11);
+                pFG1->mBaseGameObjectFlags.Clear(BaseGameObject::eCantKill_Bit11);
             }
-            else if (pFG1->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+            else if (pFG1->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                pFG1->mFlags.Set(BaseGameObject::eCantKill_Bit11);
+                pFG1->mBaseGameObjectFlags.Set(BaseGameObject::eCantKill_Bit11);
                 pFG1->VRender(ppOtBuffer);
             }
         }
@@ -771,7 +771,7 @@ void Game_Loop_467230()
                 break;
             }
 
-            if (pObj->mFlags.Get(BaseGameObject::eDead) && pObj->mFlags.Get(BaseGameObject::eCantKill_Bit11) == false)
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObj->mBaseGameObjectFlags.Get(BaseGameObject::eCantKill_Bit11) == false)
             {
                 DynamicArrayIter it;
                 it.field_0_pDynamicArray = gBaseGameObjects;

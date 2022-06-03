@@ -15,7 +15,7 @@ void ParamiteWeb::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -26,7 +26,7 @@ ParamiteWeb::~ParamiteWeb()
 
 ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 {
-    field_4_typeId = Types::eRope_73;
+    mBaseGameObjectTypeId = Types::eRope_73;
 
     field_C8_yOffset = 0;
 
@@ -96,7 +96,7 @@ void ParamiteWeb::VUpdate()
         field_EA_ttl_remainder -= 8;
         if (field_EA_ttl_remainder <= field_E8_ttl)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }

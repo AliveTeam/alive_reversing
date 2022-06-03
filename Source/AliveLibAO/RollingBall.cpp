@@ -38,7 +38,7 @@ RollingBall::~RollingBall()
     if (field_114_pRollingBallShaker)
     {
         field_114_pRollingBallShaker->field_32_bKillMe = TRUE;
-        field_114_pRollingBallShaker->field_C_refCount--;
+        field_114_pRollingBallShaker->mBaseGameObjectRefCount--;
         field_114_pRollingBallShaker = nullptr;
     }
 
@@ -49,7 +49,7 @@ RollingBall::~RollingBall()
 RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eRollingBall_72;
+    mBaseGameObjectTypeId = Types::eRollingBall_72;
     
     const AnimRecord& rec = AO::AnimRec(AnimId::Stone_Ball);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -139,7 +139,7 @@ void RollingBall::VUpdate()
                 field_114_pRollingBallShaker = ao_new<RollingBallShaker>();
                 if (field_114_pRollingBallShaker)
                 {
-                    field_114_pRollingBallShaker->field_C_refCount++;
+                    field_114_pRollingBallShaker->mBaseGameObjectRefCount++;
                 }
             }
             else if (!gMap.Is_Point_In_Current_Camera_4449C0(
@@ -149,7 +149,7 @@ void RollingBall::VUpdate()
                          field_AC_ypos,
                          0))
             {
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
             return;
 
@@ -207,16 +207,16 @@ void RollingBall::VUpdate()
 
             if (Event_Get(kEventDeathReset_4))
             {
-                field_114_pRollingBallShaker->field_C_refCount--;
+                field_114_pRollingBallShaker->mBaseGameObjectRefCount--;
                 field_114_pRollingBallShaker->field_32_bKillMe = 1;
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 field_114_pRollingBallShaker = nullptr;
             }
             else if (!field_F4_pLine)
             {
                 field_112_state = States::eFallingAndHittingWall_3;
 
-                field_114_pRollingBallShaker->field_C_refCount--;
+                field_114_pRollingBallShaker->mBaseGameObjectRefCount--;
                 field_114_pRollingBallShaker->field_32_bKillMe = 1;
                 field_114_pRollingBallShaker = nullptr;
 
@@ -241,7 +241,7 @@ void RollingBall::VUpdate()
 
                 ao_new<ScreenShake>(0);
 
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
 
                 const CameraPos direction = gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos);
                 SFX_Play_Camera(SoundEffect::IngameTransition_107, 50, direction);
@@ -273,7 +273,7 @@ void RollingBall::VUpdate()
 
             if (Event_Get(kEventDeathReset_4))
             {
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
                 CrushThingsInTheWay();
                 return;
             }
@@ -297,7 +297,7 @@ void RollingBall::VUpdate()
                         CrushThingsInTheWay();
                         return;
                     }
-                    mFlags.Set(Options::eDead);
+                    mBaseGameObjectFlags.Set(Options::eDead);
                 }
                 CrushThingsInTheWay();
                 return;
@@ -345,7 +345,7 @@ void RollingBall::VUpdate()
         case States::eCrushedBees_4:
             if (field_B2_lvl_number != gMap.mCurrentLevel || field_B0_path_number != gMap.mCurrentPath || Event_Get(kEventDeathReset_4))
             {
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
             return;
 
@@ -384,7 +384,7 @@ void RollingBall::CrushThingsInTheWay()
             break;
         }
 
-        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             PSX_RECT bOurRect = {};
             VGetBoundingRect(&bOurRect, 1);

@@ -50,7 +50,7 @@ void HoistParticle::VUpdate_431BD0()
                 field_AC_ypos,
                 0))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
     else
@@ -85,7 +85,7 @@ void HoistParticle::VUpdate_431BD0()
 
 void HoistRocksEffect::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 HoistRocksEffect::~HoistRocksEffect()
@@ -121,7 +121,7 @@ void HoistRocksEffect::VUpdate()
                 FP_FromInteger(1),
                 frameTableOffset);
 
-            field_8_update_delay = Math_RandomRange_450F20(30, 50);
+            mBaseGameObjectUpdateDelay = Math_RandomRange_450F20(30, 50);
         }
         else
         {
@@ -138,7 +138,7 @@ void HoistRocksEffect::VUpdate()
                 FP_FromInteger(1),
                 frameTableOffset);
 
-            field_8_update_delay = Math_RandomRange_450F20(5, 10);
+            mBaseGameObjectUpdateDelay = Math_RandomRange_450F20(5, 10);
         }
     }
     else
@@ -156,7 +156,7 @@ void HoistRocksEffect::VUpdate()
             FP_FromInteger(1),
             frameTableOffset);
 
-        field_8_update_delay = Math_RandomRange_450F20(10, 20);
+        mBaseGameObjectUpdateDelay = Math_RandomRange_450F20(10, 20);
     }
 }
 

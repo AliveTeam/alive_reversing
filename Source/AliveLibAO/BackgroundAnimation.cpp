@@ -13,15 +13,15 @@ namespace AO {
 
 BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eBackgroundAnimation_5;
+    mBaseGameObjectTypeId = Types::eBackgroundAnimation_5;
     field_F0_tlvInfo = tlvInfo;
 
     const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_18_animation_id);
     field_E4_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (!field_E4_res)
     {
-        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -109,7 +109,7 @@ BackgroundAnimation::~BackgroundAnimation()
 
 void BackgroundAnimation::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void BackgroundAnimation::VStopAudio()
@@ -125,7 +125,7 @@ void BackgroundAnimation::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {

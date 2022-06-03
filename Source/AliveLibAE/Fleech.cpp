@@ -125,7 +125,7 @@ Fleech::Fleech(Path_Fleech* pTlv, s32 tlvInfo)
 {
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
-    field_C_objectId = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvInfo;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
@@ -226,7 +226,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
     auto pFleech = ae_new<Fleech>(pTlv, pState->field_40_tlvInfo);
     if (pFleech)
     {
-        pFleech->field_C_objectId = pState->field_4_obj_id;
+        pFleech->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
         pFleech->field_FC_pPathTLV = nullptr;
         pFleech->field_100_pCollisionLine = nullptr;
@@ -255,7 +255,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bFlipX & 1);
         pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
 
-        pFleech->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
+        pFleech->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
 
         if (IsLastFrame(&pFleech->field_20_animation))
         {
@@ -347,7 +347,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<Fleech_State*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eFleech_50;
-    pState->field_4_obj_id = field_C_objectId;
+    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
     pState->field_8_xpos = field_B8_xpos;
     pState->field_C_ypos = field_BC_ypos;
     pState->field_10_velx = field_C4_velx;
@@ -363,7 +363,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->field_28_current_motion = field_106_current_motion;
     pState->field_2A_anim_current_frame = field_20_animation.field_92_current_frame;
     pState->field_2C_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_2F_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2E_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_30_health = field_10C_health;
     pState->field_34_current_motion = field_106_current_motion;
@@ -384,7 +384,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_110_id);
         if (pObj)
         {
-            pState->field_3C_id = pObj->field_C_objectId;
+            pState->field_3C_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
     else
@@ -397,7 +397,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_11C_obj_id);
         if (pObj)
         {
-            pState->field_44_obj_id = pObj->field_C_objectId;
+            pState->field_44_obj_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
     else
@@ -456,7 +456,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_170_danger_obj);
         if (pObj)
         {
-            pState->field_A8 = pObj->field_C_objectId;
+            pState->field_A8 = pObj->mBaseGameObjectTlvInfo;
         }
     }
     else
@@ -466,7 +466,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
 
     if (current_target_object_id_551840 == field_8_object_id)
     {
-        pState->field_AC_obj_id = field_C_objectId;
+        pState->field_AC_obj_id = mBaseGameObjectTlvInfo;
     }
     else
     {
@@ -1205,7 +1205,7 @@ void Fleech::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if ((FP_Abs(field_B8_xpos - sControlledCharacter_5C1B8C->field_B8_xpos) <= FP_FromInteger(750) && FP_Abs(field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos) <= FP_FromInteger(520)) || field_174_flags.Get(Flags_174::eBit7_persistant))
@@ -1218,7 +1218,7 @@ void Fleech::VUpdate()
 
         if (field_BC_ypos < FP_FromInteger(0))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
 
         const FP oldY = field_BC_ypos;
@@ -1254,7 +1254,7 @@ void Fleech::VUpdate()
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -1491,7 +1491,7 @@ void Fleech::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_11C_obj_id = -1;
         field_170_danger_obj = -1;
     }
@@ -1504,7 +1504,7 @@ void Fleech::VOn_TLV_Collision(Path_TLV* pTlv)
         if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
             field_10C_health = FP_FromInteger(0);
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
         pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv, field_B8_xpos, field_BC_ypos, field_B8_xpos, field_BC_ypos);
     }
@@ -1521,7 +1521,7 @@ s16 Fleech::IsScrabOrParamiteNear(FP radius)
             break;
         }
 
-        if (pBaseObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pBaseObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto pObj = static_cast<BaseAliveGameObject*>(pBaseObj);
             if ((pObj->Type() == AETypes::eScrab_112 || pObj->Type() == AETypes::eParamite_96) && pObj->field_10C_health > FP_FromInteger(0))
@@ -1621,7 +1621,7 @@ void Fleech::Init_42A170()
 
     SetType(AETypes::eFleech_50);
 
-    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
     field_174_flags.Clear(Flags_174::eBit3);
@@ -2195,7 +2195,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
                 FP_FromInteger(0),
                 field_CC_sprite_scale, 50);
 
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
         break;
 
@@ -2242,13 +2242,13 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
             SetAnim_429D80();
             field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
             field_174_flags.Set(Flags_174::eBit3);
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             sFleechCount_5BC20E--;
         }
         break;
 
         case AETypes::eElectrocute_150:
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_10C_health = FP_FromInteger(0);
             field_124_brain_state = eFleechBrains::eBrain_3_Death_42D1E0;
             break;
@@ -2650,7 +2650,7 @@ enum PatrolStates
 s16 Fleech::Brain_0_Patrol_430BA0()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
-    if (!pTarget || pTarget->mFlags.Get(BaseGameObject::eDead) || pTarget->field_10C_health <= FP_FromInteger(0) || pTarget->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
+    if (!pTarget || pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || pTarget->field_10C_health <= FP_FromInteger(0) || pTarget->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         field_11C_obj_id = -1;
         pTarget = nullptr;
@@ -3184,7 +3184,7 @@ s16 Fleech::Brain_1_ChasingAbe_428760()
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
     if (pObj)
     {
-        if (pObj->mFlags.Get(BaseGameObject::eDead) || (pObj == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible)))
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (pObj == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible)))
         {
             field_11C_obj_id = -1;
             pObj = nullptr;
@@ -3886,7 +3886,7 @@ s16 Fleech::Brain_2_Scared_42D310()
     pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_170_danger_obj));
     if (pDangerObj)
     {
-        if (pDangerObj->mFlags.Get(BaseGameObject::eDead))
+        if (pDangerObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             field_170_danger_obj = -1;
             pDangerObj = 0;
@@ -4243,7 +4243,7 @@ s16 Fleech::Brain_3_Death_42D1E0()
 
     if (field_CC_sprite_scale < FP_FromInteger(0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     return 100;

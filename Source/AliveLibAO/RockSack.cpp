@@ -19,7 +19,7 @@ void RockSack::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_10_anim.field_92_current_frame == 2)
@@ -115,7 +115,7 @@ RockSack::~RockSack()
 RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eRockSack_71;
+    mBaseGameObjectTypeId = Types::eRockSack_71;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::RockSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -167,7 +167,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
 void RockSack::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 }

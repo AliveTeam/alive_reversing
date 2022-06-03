@@ -102,7 +102,7 @@ BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(s16 eventType, FP xpo
         return nullptr;
     }
 
-    if (!(pObj->mFlags.Get(BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5)) || !(pObj->mFlags.Get(BaseAliveGameObject::eDrawable_Bit4)))
+    if (!(pObj->mBaseGameObjectFlags.Get(BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5)) || !(pObj->mBaseGameObjectFlags.Get(BaseAliveGameObject::eDrawable_Bit4)))
     {
         return nullptr;
     }

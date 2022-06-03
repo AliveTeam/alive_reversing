@@ -13,9 +13,9 @@ namespace AO {
 
 Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
 {
-    mFlags.Clear(Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
 
-    field_4_typeId = Types::eBells_13;
+    mBaseGameObjectTypeId = Types::eBells_13;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::BigChime);
     const AnimRecord& rec2 = AO::AnimRec(AnimId::MediumChime);

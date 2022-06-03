@@ -12,7 +12,7 @@ namespace AO {
 
 FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eFootSwitch36;
+    mBaseGameObjectTypeId = Types::eFootSwitch36;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Foot_Switch_Temple);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -43,7 +43,7 @@ FootSwitch::~FootSwitch()
 {
     if (field_F0_pStoodOnMe)
     {
-        field_F0_pStoodOnMe->field_C_refCount--;
+        field_F0_pStoodOnMe->mBaseGameObjectRefCount--;
         field_F0_pStoodOnMe = nullptr;
     }
     gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
@@ -57,7 +57,7 @@ void FootSwitch::VUpdate()
             field_F0_pStoodOnMe = WhoIsStoodOnMe();
             if (field_F0_pStoodOnMe)
             {
-                field_F0_pStoodOnMe->field_C_refCount++;
+                field_F0_pStoodOnMe->mBaseGameObjectRefCount++;
                 SwitchStates_Do_Operation(field_EA_switch_id, field_EC_action);
                 field_E8_state = States::eWaitForGetOffMe_1;
                 field_10_anim.Set_Animation_Data(756, 0);
@@ -70,11 +70,11 @@ void FootSwitch::VUpdate()
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
 
-            if (field_F0_pStoodOnMe->field_A8_xpos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->field_A8_xpos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->mFlags.Get(BaseGameObject::eDead))
+            if (field_F0_pStoodOnMe->field_A8_xpos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->field_A8_xpos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 field_E8_state = States::eWaitForStepOnMe_0;
                 field_10_anim.Set_Animation_Data(744, 0);
-                field_F0_pStoodOnMe->field_C_refCount--;
+                field_F0_pStoodOnMe->mBaseGameObjectRefCount--;
             }
             break;
         }
@@ -86,7 +86,7 @@ void FootSwitch::VUpdate()
 
 void FootSwitch::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
@@ -105,7 +105,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
                 break;
             }
 
-            if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 

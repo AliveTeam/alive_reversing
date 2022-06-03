@@ -102,8 +102,8 @@ ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
 {
     field_10_pCamPos = pCameraOffset;
 
-    mFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     Init(ppBits);
 }
@@ -112,7 +112,7 @@ void ScreenManager::Init(u8** ppBits)
 {
     field_36_flags |= 1;
 
-    field_4_typeId = Types::eScreenManager_4;
+    mBaseGameObjectTypeId = Types::eScreenManager_4;
 
     field_14_xpos = 184;
     field_16_ypos = 120;

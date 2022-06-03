@@ -23,12 +23,12 @@ protected:
     void vAddCount(BaseAliveGameObject* pObj);
 
 protected:
-    s32 field_118_count;
-    s16 field_11C_x_offset;
-    s16 field_11E_width_offset;
-    s16 field_120_y_offset;
-    s16 field_122_height_offset;
+    s32 mPlatformBaseCount;
+    s16 mPlatformBaseXOffset;
+    s16 mPlatformBaseWidthOffset;
+    s16 mPlatformBaseYOffset;
+    s16 mPlatformBaseHeightOffset;
     PathLine* field_124_pCollisionLine;
-    s32 field_128_tlvInfo;
+    s32 mPlatformBaseTlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(PlatformBase, 0x12C);

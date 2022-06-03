@@ -21,31 +21,31 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
         field_10_resources_array.Push_Back(nullptr);
     }
 
-    field_1C_update_delay = 0;
+    mBaseGameObjectUpdateDelay = 0;
 
     SetType(AETypes::eNone_0);
     
-    mFlags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
-    mFlags.Clear(BaseGameObject::Options::eDead);
-    mFlags.Clear(BaseGameObject::Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
-    mFlags.Clear(BaseGameObject::Options::eIsBaseAliveGameObject_Bit6);
-    mFlags.Clear(BaseGameObject::Options::eCanExplode_Bit7);
-    mFlags.Clear(BaseGameObject::Options::eInteractive_Bit8);
-    mFlags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
-    mFlags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
-    mFlags.Clear(BaseGameObject::Options::eCantKill_Bit11);
-    mFlags.Set(BaseGameObject::eUpdatable_Bit2);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eDead);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eIsBaseAliveGameObject_Bit6);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eCantKill_Bit11);
+    mBaseGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
 
     if (bAddToObjectList)
     {
         if (!gBaseGameObjects->Push_Back(this))
         {
-            mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+            mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
         }
     }
 
     s32 nextId = sObjectIds.EnsureIdIsUnique(sAccumulatedObjectCount_5C1BF4);
-    field_C_objectId = nextId;
+    mBaseGameObjectTlvInfo = nextId;
     field_8_object_id = nextId;
     sObjectIds.Insert(nextId, this);
 
@@ -110,7 +110,7 @@ s32 BaseGameObject::RefreshId(s32 objectId)
                 break;
             }
 
-            if (pObj->field_C_objectId == objectId)
+            if (pObj->mBaseGameObjectTlvInfo == objectId)
             {
                 return pObj->field_8_object_id;
             }
@@ -125,6 +125,6 @@ void BaseGameObject::VScreenChanged()
         || gMap.mCurrentPath != gMap.mPath
         || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }

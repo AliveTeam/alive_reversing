@@ -16,7 +16,7 @@ ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
 Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eMine_57;
+    mBaseGameObjectTypeId = Types::eMine_57;
     
     ///////////////////////////////////////////////////////////////////////////
     const AnimRecord& rec = AO::AnimRec(AnimId::Mine);
@@ -24,8 +24,8 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     ///////////////////////////////////////////////////////////////////////////
     
-    mFlags.Set(Options::eCanExplode_Bit7);
-    mFlags.Set(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
     field_10C_detonating = 0;
 
@@ -108,7 +108,7 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
     field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
     field_D4_collection_rect.h = field_AC_ypos;
 
-    mFlags.Set(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 }
 
 Mine::~Mine()
@@ -146,7 +146,7 @@ Mine::~Mine()
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 0, 0));
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 0, 0));
 
-    mFlags.Clear(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 
     if (sMinePlayingSound_507B88 == this)
     {
@@ -158,25 +158,25 @@ void Mine::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !(field_1B0_flags & 2))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
 s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->mBaseGameObjectTypeId)
     {
         case Types::eAbe_43:
         case Types::eAbilityRing_69:
         case Types::eExplosion_74:
         case Types::eShrykull_85:
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             ao_new<BaseBomb>(
                 field_A8_xpos,
                 field_AC_ypos,
@@ -248,7 +248,7 @@ void Mine::VUpdate()
                 field_AC_ypos,
                 0,
                 field_BC_sprite_scale);
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
     else
@@ -278,7 +278,7 @@ void Mine::VUpdate()
             || field_B2_lvl_number != gMap.mCurrentLevel
             || field_B0_path_number != gMap.mCurrentPath))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

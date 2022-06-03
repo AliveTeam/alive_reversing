@@ -18,7 +18,7 @@ void DeathFadeOut::VRender(PrimHeader** ppOt)
         field_6E_bDone = 1;
         if (field_70_destroy_on_done)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -76,7 +76,7 @@ void DeathFadeOut::Init(Layer layer, s16 direction, s16 destroyOnDone, s32 speed
 DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr)
     : EffectBase(layer, abr)
 {
-    field_4_typeId = Types::eDeathFadeOut_80;
+    mBaseGameObjectTypeId = Types::eDeathFadeOut_80;
 
     if (direction)
     {

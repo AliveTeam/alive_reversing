@@ -22,7 +22,7 @@ public:
         field_20_pal_xy = palXY;
         field_24_pal_colours_count = palDepth;
 
-        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
         for (auto& palBufferEntry : field_B8_palBuffer)
         {
@@ -163,7 +163,7 @@ void Electrocute::VScreenChanged()
 {
     BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
     // If the map has changed or target we are tracking has died then..
-    if (gMap.mOverlayId != gMap.GetOverlayId() || (pTargetObj && pTargetObj->mFlags.Get(BaseGameObject::eDead)))
+    if (gMap.mOverlayId != gMap.GetOverlayId() || (pTargetObj && pTargetObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
     {
         VStop();
     }
@@ -172,7 +172,7 @@ void Electrocute::VScreenChanged()
 void Electrocute::VUpdate()
 {
     BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
-    if (!pTargetObj || pTargetObj->mFlags.Get(BaseGameObject::eDead))
+    if (!pTargetObj || pTargetObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         VStop();
     }
@@ -267,7 +267,7 @@ void Electrocute::VUpdate()
             break;
 
             case States::eKillElectrocute_3:
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 break;
 
             default:
@@ -292,7 +292,7 @@ void Electrocute::VStop()
         pPalOverwriter = nullptr;
     }
 
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
     if (pTarget)

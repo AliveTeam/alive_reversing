@@ -18,6 +18,6 @@ void Flash::VUpdate()
 {
     if (static_cast<s32>(sGnFrame_5C1B84) >= field_78_flash_time)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }

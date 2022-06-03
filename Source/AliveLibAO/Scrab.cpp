@@ -107,7 +107,7 @@ static BrainFunctionData<Scrab::TBrainType> sScrabAITable[]{
 Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eScrab_77;
+    mBaseGameObjectTypeId = Types::eScrab_77;
 
     for (s32 i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
     {
@@ -219,12 +219,12 @@ Scrab::~Scrab()
 {
     if (field_11C_pFight_target)
     {
-        field_11C_pFight_target->field_C_refCount--;
+        field_11C_pFight_target->mBaseGameObjectRefCount--;
     }
 
     if (field_120_pTarget)
     {
-        field_120_pTarget->field_C_refCount--;
+        field_120_pTarget->mBaseGameObjectRefCount--;
     }
 
     VOnTrapDoorOpen();
@@ -255,7 +255,7 @@ Scrab::~Scrab()
 
 void Scrab::VRender(PrimHeader** ppOt)
 {
-    if (field_8_update_delay == 0)
+    if (mBaseGameObjectUpdateDelay == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -265,7 +265,7 @@ void Scrab::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (!(field_188_flags & 8))
@@ -387,7 +387,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
 {
     if (field_100_health > FP_FromInteger(0))
     {
-        switch (pFrom->field_4_typeId)
+        switch (pFrom->mBaseGameObjectTypeId)
         {
             case Types::eBat_6:
                 if (BrainIs(&Scrab::Brain_BatDeath_45CA60))
@@ -422,7 +422,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
                     field_B8_vely,
                     field_BC_sprite_scale);
 
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return 1;
             }
 
@@ -451,7 +451,7 @@ void Scrab::VOn_TLV_Collision(Path_TLV* pTlv)
         if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
         {
             Scrab_SFX(ScrabSounds::eYell_8, 127, -1000, 0);
-            mFlags.Set(Options::eDead);
+            mBaseGameObjectFlags.Set(Options::eDead);
             field_100_health = FP_FromInteger(0);
             field_130_unused = 2;
         }
@@ -471,15 +471,15 @@ void Scrab::VScreenChanged()
         || gMap.mCurrentPath != gMap.mPath
         || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
         if (field_120_pTarget)
         {
-            if (field_120_pTarget->mFlags.Get(BaseGameObject::eDead))
+            if (field_120_pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                field_120_pTarget->field_C_refCount--;
+                field_120_pTarget->mBaseGameObjectRefCount--;
                 field_120_pTarget = nullptr;
                 field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                 SetBrain(&Scrab::Brain_WalkAround_460D80);
@@ -580,7 +580,7 @@ void Scrab::VOnTrapDoorOpen()
     if (field_F8_pLiftPoint)
     {
         field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
         field_F8_pLiftPoint = nullptr;
 
         field_FC_current_motion = eScrabMotions::Motion_15_ToFall_45F180;
@@ -892,7 +892,7 @@ Scrab* Scrab::FindScrabToFight()
             break;
         }
 
-        if (pObj->field_4_typeId == Types::eScrab_77)
+        if (pObj->mBaseGameObjectTypeId == Types::eScrab_77)
         {
             Scrab* pOther = static_cast<Scrab*>(pObj);
             if (pOther != this
@@ -924,7 +924,7 @@ s16 Scrab::FindAbeOrMud()
     if (CanSeeAbe(sActiveHero_507678) && sActiveHero_507678->field_100_health > FP_FromInteger(0) && sActiveHero_507678->field_BC_sprite_scale == field_BC_sprite_scale && !WallHit_401930(sActiveHero_507678->field_A8_xpos - field_A8_xpos, field_BC_sprite_scale * FP_FromInteger(35)))
     {
         field_120_pTarget = sActiveHero_507678;
-        sActiveHero_507678->field_C_refCount++;
+        sActiveHero_507678->mBaseGameObjectRefCount++;
         return 1;
     }
 
@@ -936,16 +936,16 @@ s16 Scrab::FindAbeOrMud()
             break;
         }
 
-        if (pObjIter->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             BaseAliveGameObject* pObj = static_cast<BaseAliveGameObject*>(pObjIter);
 
-            if (pObj->field_4_typeId == Types::eMudokon_52 || pObj->field_4_typeId == Types::eMudokon_75 || pObj->field_4_typeId == Types::SlingMud_90)
+            if (pObj->mBaseGameObjectTypeId == Types::eMudokon_52 || pObj->mBaseGameObjectTypeId == Types::eMudokon_75 || pObj->mBaseGameObjectTypeId == Types::SlingMud_90)
             {
                 if (CanSeeAbe(pObj) && pObj->field_100_health > FP_FromInteger(0) && pObj->field_BC_sprite_scale == field_BC_sprite_scale && !WallHit_401930(pObj->field_A8_xpos - field_A8_xpos, field_BC_sprite_scale * FP_FromInteger(35)))
                 {
                     field_120_pTarget = pObj;
-                    field_120_pTarget->field_C_refCount++;
+                    field_120_pTarget->mBaseGameObjectRefCount++;
                     return 1;
                 }
             }
@@ -2153,13 +2153,13 @@ s16 Scrab::Brain_Fighting_45C370()
 {
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     Scrab* pFighter = field_11C_pFight_target;
-    if (pFighter && (pFighter->mFlags.Get(BaseGameObject::eDead) || !VOnSameYLevel(field_11C_pFight_target)))
+    if (pFighter && (pFighter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || !VOnSameYLevel(field_11C_pFight_target)))
     {
-        field_11C_pFight_target->field_C_refCount--;
+        field_11C_pFight_target->mBaseGameObjectRefCount--;
         field_188_flags &= ~1u;
         field_11C_pFight_target = nullptr;
         field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
@@ -2416,7 +2416,7 @@ s16 Scrab::Brain_Fighting_45C370()
             Scrab_SFX(ScrabSounds::eDeathHowl_1, 0, -1571, 1);
             Scrab_SFX(ScrabSounds::eYell_8, 0, -1571, 1);
             Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
-            field_11C_pFight_target->field_C_refCount--;
+            field_11C_pFight_target->mBaseGameObjectRefCount--;
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
                 field_11C_pFight_target = nullptr;
@@ -2473,7 +2473,7 @@ s16 Scrab::Brain_BatDeath_45CA60()
 {
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_110_brain_sub_state)
@@ -2549,7 +2549,7 @@ s16 Scrab::Brain_Death_45CB80()
 
     if (field_118_timer < static_cast<s32>(gnFrameCount_507670))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     return 100;
@@ -2571,21 +2571,21 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     field_11C_pFight_target = FindScrabToFight();
     if (field_11C_pFight_target)
     {
-        field_120_pTarget->field_C_refCount--;
+        field_120_pTarget->mBaseGameObjectRefCount--;
         field_120_pTarget = nullptr;
-        field_11C_pFight_target->field_C_refCount++;
+        field_11C_pFight_target->mBaseGameObjectRefCount++;
         SetBrain(&Scrab::Brain_Fighting_45C370);
         field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
         return 0;
     }
 
-    if (field_120_pTarget->mFlags.Get(BaseGameObject::eDead)
+    if (field_120_pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
         || (field_13C_spotting_timer <= static_cast<s32>(gnFrameCount_507670)
             && !CanSeeAbe(field_120_pTarget)
             && field_120_pTarget->field_100_health > FP_FromInteger(0)
@@ -2614,7 +2614,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
         if (bCloseToEdge)
         {
-            field_120_pTarget->field_C_refCount--;
+            field_120_pTarget->mBaseGameObjectRefCount--;
             field_120_pTarget = nullptr;
             field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
             SetBrain(&Scrab::Brain_WalkAround_460D80);
@@ -2684,7 +2684,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
             if (field_F8_pLiftPoint)
             {
-                if (field_F8_pLiftPoint->field_4_typeId == Types::eLiftPoint_51)
+                if (field_F8_pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51)
                 {
                     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
                     if (!pLiftPoint->OnAnyFloor())
@@ -2902,7 +2902,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
             }
 
             auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-            if (pLiftPoint && field_F8_pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+            if (pLiftPoint && field_F8_pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
             {
                 field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                 return 4;
@@ -3220,7 +3220,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
             field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
 
-            if (field_F8_pLiftPoint && field_F8_pLiftPoint->field_4_typeId == Types::eLiftPoint_51)
+            if (field_F8_pLiftPoint && field_F8_pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
                 if (!pLiftPoint->OnAnyFloor())
@@ -3248,13 +3248,13 @@ s16 Scrab::Brain_Patrol_460020()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     field_11C_pFight_target = FindScrabToFight();
     if (field_11C_pFight_target)
     {
-        field_11C_pFight_target->field_C_refCount++;
+        field_11C_pFight_target->mBaseGameObjectRefCount++;
         field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
         SetBrain(&Scrab::Brain_Fighting_45C370);
         return 0;
@@ -3268,7 +3268,7 @@ s16 Scrab::Brain_Patrol_460020()
             SetBrain(&Scrab::Brain_ChasingEnemy_45CC90);
             return 0;
         }
-        field_120_pTarget->field_C_refCount--;
+        field_120_pTarget->mBaseGameObjectRefCount--;
         field_120_pTarget = nullptr;
     }
 
@@ -3290,7 +3290,7 @@ s16 Scrab::Brain_Patrol_460020()
             auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
             if (pLiftPoint)
             {
-                if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51)
+                if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51)
                 {
                     if (!pLiftPoint->OnAnyFloor())
                     {
@@ -3368,7 +3368,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (field_F8_pLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-                if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
                 {
                     field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3391,7 +3391,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (field_F8_pLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-                if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
                 {
                     field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3410,7 +3410,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (field_F8_pLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-                if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
                 {
                     field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3436,7 +3436,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (field_F8_pLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-                if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
                 {
                     field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3459,7 +3459,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (field_F8_pLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-                if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
                 {
                     field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3478,7 +3478,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (field_F8_pLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-                if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
                 {
                     field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3511,7 +3511,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (field_F8_pLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-                if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
                 {
                     field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3552,13 +3552,13 @@ s16 Scrab::Brain_WalkAround_460D80()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     field_11C_pFight_target = FindScrabToFight();
     if (field_11C_pFight_target)
     {
-        field_11C_pFight_target->field_C_refCount++;
+        field_11C_pFight_target->mBaseGameObjectRefCount++;
         SetBrain(&Scrab::Brain_Fighting_45C370);
         field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
         return 0;
@@ -3572,7 +3572,7 @@ s16 Scrab::Brain_WalkAround_460D80()
             SetBrain(&Scrab::Brain_ChasingEnemy_45CC90);
             return 0;
         }
-        field_120_pTarget->field_C_refCount--;
+        field_120_pTarget->mBaseGameObjectRefCount--;
         field_120_pTarget = nullptr;
     }
 
@@ -3596,7 +3596,7 @@ s16 Scrab::Brain_WalkAround_460D80()
             if (field_F8_pLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-                if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51)
+                if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51)
                 {
                     if (!pLiftPoint->OnAnyFloor())
                     {
@@ -3713,7 +3713,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                 if (field_F8_pLiftPoint)
                 {
                     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-                    if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51)
+                    if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51)
                     {
                         if (!pLiftPoint->OnAnyFloor())
                         {
@@ -3763,7 +3763,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                 if (field_F8_pLiftPoint)
                 {
                     auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-                    if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51)
+                    if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51)
                     {
                         if (!pLiftPoint->OnAnyFloor())
                         {
@@ -3801,7 +3801,7 @@ s16 Scrab::Brain_WalkAround_460D80()
             if (field_F8_pLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(field_F8_pLiftPoint);
-                if (pLiftPoint->field_4_typeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51 && !pLiftPoint->OnAnyFloor())
                 {
                     field_FE_next_motion = eScrabMotions::Motion_1_Stand_45E620;
                     return 1;

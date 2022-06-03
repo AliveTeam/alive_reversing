@@ -15,13 +15,13 @@ namespace AO {
 
 HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eHoneySack_45;
+    mBaseGameObjectTypeId = Types::eHoneySack_45;
 
     const AnimRecord& hangingRec = AO::AnimRec(AnimId::HoneySack_Hanging);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, hangingRec.mResourceId, 1, 0);
     Animation_Init_417FD0(hangingRec.mFrameTableOffset, hangingRec.mMaxW, hangingRec.mMaxH, ppRes, 1);
 
-    mFlags.Set(Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     field_E4_tlvInfo = tlvInfo;
 
     field_100_chase_ticks = pTlv->field_18_chase_ticks;
@@ -55,7 +55,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
     }
     else
     {
-        mFlags.Set(BaseGameObject::eCanExplode_Bit7);
+        mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
         field_E8_state = State::eDripHoney_0;
         field_EC_timer = gnFrameCount_507670 + 90;
@@ -68,7 +68,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
         field_F0_pBee = ao_new<BeeSwarm>(field_A8_xpos, field_AC_ypos, FP_FromInteger(0), 5, 0);
         if (field_F0_pBee)
         {
-            field_F0_pBee->field_C_refCount++;
+            field_F0_pBee->mBaseGameObjectRefCount++;
             field_F0_pBee->field_BC_sprite_scale = field_BC_sprite_scale;
         }
 
@@ -86,7 +86,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
 
 HoneySack::~HoneySack()
 {
-    mFlags.Clear(Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
 
     if (field_E8_state == State::eDripHoney_0)
     {
@@ -99,7 +99,7 @@ HoneySack::~HoneySack()
 
     if (field_F0_pBee)
     {
-        field_F0_pBee->field_C_refCount--;
+        field_F0_pBee->mBaseGameObjectRefCount--;
         field_F0_pBee = nullptr;
     }
 }
@@ -108,13 +108,13 @@ void HoneySack::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void HoneySack::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    mFlags.Clear(Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
     field_E8_state = State::eSetFallAnimation_1;
 }
 
@@ -122,14 +122,14 @@ void HoneySack::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (field_F0_pBee)
     {
-        if (field_F0_pBee->mFlags.Get(BaseGameObject::eDead))
+        if (field_F0_pBee->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
-            field_F0_pBee->field_C_refCount--;
+            field_F0_pBee->mBaseGameObjectRefCount--;
             field_F0_pBee = nullptr;
         }
     }
@@ -150,7 +150,7 @@ void HoneySack::VUpdate()
                     field_AC_ypos,
                     0))
             {
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
             break;
 
@@ -215,8 +215,8 @@ void HoneySack::VUpdate()
 
                 if (field_F0_pBee)
                 {
-                    field_F0_pBee->field_C_refCount--;
-                    field_F0_pBee->mFlags.Set(Options::eDead);
+                    field_F0_pBee->mBaseGameObjectRefCount--;
+                    field_F0_pBee->mBaseGameObjectFlags.Set(Options::eDead);
                     field_F0_pBee = nullptr;
                 }
 
@@ -228,9 +228,9 @@ void HoneySack::VUpdate()
                         break;
                     }
 
-                    if (pObj->field_4_typeId == Types::eHoney_47)
+                    if (pObj->mBaseGameObjectTypeId == Types::eHoney_47)
                     {
-                        pObj->mFlags.Set(Options::eDead);
+                        pObj->mBaseGameObjectFlags.Set(Options::eDead);
                         field_EA_bHit_ground = 1;
                         return;
                     }
@@ -250,9 +250,9 @@ void HoneySack::VUpdate()
                         break;
                     }
 
-                    if (pObj->field_4_typeId == Types::eHoney_47)
+                    if (pObj->mBaseGameObjectTypeId == Types::eHoney_47)
                     {
-                        pObj->mFlags.Set(Options::eDead);
+                        pObj->mBaseGameObjectFlags.Set(Options::eDead);
                         field_EA_bHit_ground = 1;
                         break;
                     }
@@ -266,7 +266,7 @@ void HoneySack::VUpdate()
                     field_AC_ypos,
                     0))
             {
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
             break;
 

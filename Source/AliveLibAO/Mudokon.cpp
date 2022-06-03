@@ -144,7 +144,7 @@ ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);
 Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eMudokon_52;
+    mBaseGameObjectTypeId = Types::eMudokon_52;
 
     field_128 = -1;
     field_13E = -1;
@@ -278,7 +278,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
 
             field_124_voice_pitch = mudTlv->field_1E_voice_pitch;
-            field_4_typeId = Types::eMudokon_75;
+            mBaseGameObjectTypeId = Types::eMudokon_75;
             field_1B2_rescue_switch_id = mudTlv->field_20_rescue_switch_id;
 
             field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, mudTlv->field_1C_direction == XDirection_short::eLeft_0);
@@ -429,7 +429,7 @@ void Mudokon::KillLiftPoint_194()
 {
     if (field_194_pLiftPoint)
     {
-        field_194_pLiftPoint->field_C_refCount--;
+        field_194_pLiftPoint->mBaseGameObjectRefCount--;
         field_194_pLiftPoint = nullptr;
     }
 }
@@ -438,7 +438,7 @@ void Mudokon::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -581,7 +581,7 @@ void Mudokon::VScreenChanged()
     // Map/overlay changed or mud shouldn't persist
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || !field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         KillBirdPortal();
         KillLiftPoint_194();
         return;
@@ -604,7 +604,7 @@ void Mudokon::VScreenChanged()
         }
 
         // Wasn't a path trans and path changed, die
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         KillBirdPortal();
         KillLiftPoint_194();
     }
@@ -612,7 +612,7 @@ void Mudokon::VScreenChanged()
 
 s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
 {
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->mBaseGameObjectTypeId)
     {
         case Types::eGasClock_16:
             if (field_100_health > FP_FromInteger(0))
@@ -649,7 +649,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     FP_FromInteger(0),
                     field_BC_sprite_scale);
 
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 Event_Broadcast(kEventMudokonDead_15, sActiveHero_507678);
             }
             return 1;
@@ -697,7 +697,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
         case Types::eElectrocute_103:
             if (field_100_health > FP_FromInteger(0))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 field_100_health = FP_FromInteger(0);
             }
             return 1;
@@ -791,7 +791,7 @@ void Mudokon::KillBirdPortal()
             field_1AC_pBirdPortal->VGiveShrykull(1);
         }
 
-        field_1AC_pBirdPortal->field_C_refCount--;
+        field_1AC_pBirdPortal->mBaseGameObjectRefCount--;
         field_1AC_pBirdPortal = nullptr;
     }
 }
@@ -891,7 +891,7 @@ void Mudokon::DoPathTrans_43FE00()
         if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32)
         {
             field_F8_pLiftPoint->VRemove(this);
-            field_F8_pLiftPoint->field_C_refCount--;
+            field_F8_pLiftPoint->mBaseGameObjectRefCount--;
             field_F8_pLiftPoint = nullptr;
         }
 
@@ -916,7 +916,7 @@ void Mudokon::DoPathTrans_43FE00()
             field_F4_pLine = nullptr;
         }
     }
-    field_8_update_delay = 20;
+    mBaseGameObjectUpdateDelay = 20;
     field_B2_lvl_number = gMap.mCurrentLevel;
     field_B0_path_number = gMap.mCurrentPath;
 }
@@ -936,7 +936,7 @@ void Mudokon::CheckFloorGone_43C9B0()
 {
     if (field_F8_pLiftPoint)
     {
-        if (field_F8_pLiftPoint->mFlags.Get(BaseGameObject::eDead))
+        if (field_F8_pLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             VOnTrapDoorOpen();
             field_144_flags.Set(Flags_144::e144_Bit8);
@@ -1035,7 +1035,7 @@ void Mudokon::MoveOnLine_43C7E0()
                 field_F4_pLine->field_8_type != eLineTypes::eUnknown_36)
             {
                 field_F8_pLiftPoint->VRemove(this);
-                field_F8_pLiftPoint->field_C_refCount--;
+                field_F8_pLiftPoint->mBaseGameObjectRefCount--;
                 field_F8_pLiftPoint = nullptr;
             }
         }
@@ -1082,7 +1082,7 @@ s16 Mudokon::FindBirdPortal_440250()
         if (field_1AC_pBirdPortal->field_10_portal_type == PortalType::eWorker_1 || field_1AC_pBirdPortal->field_10_portal_type == PortalType::eShrykull_2)
         {
             sActiveHero_507678->ChangeChantState_430510(1);
-            field_1AC_pBirdPortal->field_C_refCount++;
+            field_1AC_pBirdPortal->mBaseGameObjectRefCount++;
             sMudRunningToPortalCount_507B94++;
             return 1;
         }
@@ -1169,7 +1169,7 @@ s16 Mudokon::IAmNearestToAbe_440120()
 
         if (pObjIter != this)
         {
-            if (pObjIter->field_4_typeId == Types::eMudokon_52 || pObjIter->field_4_typeId == Types::eMudokon_75) // mud or password mud?
+            if (pObjIter->mBaseGameObjectTypeId == Types::eMudokon_52 || pObjIter->mBaseGameObjectTypeId == Types::eMudokon_75) // mud or password mud?
             {
                 if (Math_Distance_451270(
                         FP_GetExponent(sActiveHero_507678->field_A8_xpos),
@@ -1205,7 +1205,7 @@ void Mudokon::VOnTrapDoorOpen()
         }
 
         field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
         field_F8_pLiftPoint = nullptr;
     }
 }
@@ -2246,7 +2246,7 @@ void Mudokon::Motion_44_RunJumpMid_43E960()
         field_144_flags.Clear(Flags_144::e144_Bit2);
         field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
 
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_B8_vely = FP_FromInteger(0);
         field_B4_velx = FP_FromInteger(0);
 
@@ -2707,7 +2707,7 @@ s16 Mudokon::Brain_ComingOut_1_441E90()
 
         if (field_190 < FP_FromInteger(0))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_FC_current_motion = eMudMotions::Motion_0_Idle_43CA70;
             return 3;
         }
@@ -3175,13 +3175,13 @@ s16 Mudokon::Brain_LiftUse_5_43C180()
                 break;
             }
 
-            if (pObj->field_4_typeId == Types::eLiftPoint_51)
+            if (pObj->mBaseGameObjectTypeId == Types::eLiftPoint_51)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(pObj);
                 if (field_110_lift_switch_id == pLiftPoint->field_278_lift_point_id)
                 {
                     field_194_pLiftPoint = pLiftPoint;
-                    pObj->field_C_refCount++;
+                    pObj->mBaseGameObjectRefCount++;
                     break;
                 }
             }
@@ -4196,7 +4196,7 @@ s16 Mudokon::Brain_ShrivelDeath_11_43C5F0()
 
     if (field_BC_sprite_scale < FP_FromInteger(0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     return 100;
@@ -4206,17 +4206,17 @@ s16 Mudokon::Brain_Escape_12_440FD0()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
         return field_1BA_brain_sub_state;
     }
 
     BirdPortal* pPortal = field_1AC_pBirdPortal;
-    if (!pPortal || pPortal->mFlags.Get(BaseGameObject::eDead))
+    if (!pPortal || pPortal->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         sMudRunningToPortalCount_507B94--;
         if (pPortal)
         {
-            pPortal->field_C_refCount--;
+            pPortal->mBaseGameObjectRefCount--;
         }
 
         field_144_flags.Set(Flags_144::e144_Bit6_bPersist);
@@ -4352,7 +4352,7 @@ s16 Mudokon::Brain_FallAndSmackDeath_13_43C700()
             {
                 Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
                 ao_new<ScreenShake>(0);
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
         }
         return field_1BA_brain_sub_state;

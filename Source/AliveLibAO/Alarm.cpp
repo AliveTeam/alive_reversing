@@ -22,7 +22,7 @@ Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
 {
     field_6C_15_timer = timer + gnFrameCount_507670;
     field_74_switch_id = static_cast<s16>(switchId);
-    field_4_typeId = Types::eAlarm_1;
+    mBaseGameObjectTypeId = Types::eAlarm_1;
     field_68_r_value = 0;
     field_6A_state = States::eAfterConstructed_0;
     field_70_duration_timer = field_6C_15_timer + duration_timer;
@@ -30,7 +30,7 @@ Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
     alarmInstanceCount_5076A8++;
     if (alarmInstanceCount_5076A8 > 1)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     field_5E_r = 0;
@@ -41,7 +41,7 @@ Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
     if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
         gObjList_drawables_504618->Remove_Item(this);
-        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
     }
 }
 
@@ -65,7 +65,7 @@ void Alarm::VUpdate()
 
     if (field_10_path_id != gMap.mCurrentPath || field_12_level_id != gMap.mCurrentLevel || static_cast<s32>(gnFrameCount_507670) > field_70_duration_timer)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -74,7 +74,7 @@ void Alarm::VUpdate()
         case States::eAfterConstructed_0:
             if (Event_Get(kEventHeroDying_3))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -124,7 +124,7 @@ void Alarm::VUpdate()
         case States::eDisabled_4:
             if (Event_Get(kEventHeroDying_3))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -146,7 +146,7 @@ void Alarm::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

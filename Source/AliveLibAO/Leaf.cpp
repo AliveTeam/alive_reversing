@@ -44,7 +44,7 @@ void Leaf::VUpdate()
     // Hit the floor, die but only if in background..
     if (bCollision && field_BC_sprite_scale == FP_FromDouble(0.5) && pLine->field_8_type == eLineTypes::eFloor_0)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -76,13 +76,13 @@ void Leaf::VUpdate()
             field_AC_ypos,
             0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void Leaf::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)

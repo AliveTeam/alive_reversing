@@ -120,7 +120,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
 
     if (tlvInfo != 0xFFFF)
     {
-        field_C_objectId = tlvInfo;
+        mBaseGameObjectTlvInfo = tlvInfo;
     }
 
     field_124_fight_target_obj_id = -1;
@@ -236,7 +236,7 @@ void Scrab::VOn_TLV_Collision(Path_TLV* pTlv)
         if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
             Scrab_SFX(ScrabSounds::eYell_8, 127, -1000, 0);
-            mFlags.Set(Options::eDead);
+            mBaseGameObjectFlags.Set(Options::eDead);
             field_10C_health = FP_FromInteger(0);
         }
         else if (pTlv->field_4_type == TlvTypes::EnemyStopper_47)
@@ -319,7 +319,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
     auto pScrab = ae_new<Scrab>(pTlv, pState->field_44_tlvInfo, ScrabSpawnDirection::eNone_0);
     if (pScrab)
     {
-        pScrab->field_C_objectId = pState->field_4_obj_id;
+        pScrab->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
         if (pState->field_40_bIsControlled)
         {
@@ -350,7 +350,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->field_20_animation.field_92_current_frame = pState->field_2A_current_frame;
         pScrab->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
 
-        pScrab->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
+        pScrab->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
 
         pScrab->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bAnimFlipX & 1);
         pScrab->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bAnimRender & 1);
@@ -417,7 +417,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<Scrab_State*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eScrab_112;
-    pState->field_4_obj_id = field_C_objectId;
+    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->field_8_xpos = field_B8_xpos;
     pState->field_C_ypos = field_BC_ypos;
@@ -438,7 +438,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_28_current_motion = field_106_current_motion;
     pState->field_2A_current_frame = field_20_animation.field_92_current_frame;
     pState->field_2C_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_2F_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2E_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_30_health = field_10C_health;
     pState->field_34_current_motion = field_106_current_motion;
@@ -476,7 +476,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_120_obj_id);
         if (pObj)
         {
-            pState->field_54_obj_id = pObj->field_C_objectId;
+            pState->field_54_obj_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -486,7 +486,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_124_fight_target_obj_id);
         if (pObj)
         {
-            pState->field_58_target_obj_id = pObj->field_C_objectId;
+            pState->field_58_target_obj_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -649,7 +649,7 @@ void Scrab::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -841,7 +841,7 @@ void Scrab::VUpdate()
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -1206,7 +1206,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
     }
 
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
-    if (!pObj || mFlags.Get(BaseGameObject::eDead) || (static_cast<s32>(sGnFrame_5C1B84) > field_14C_pause_after_chase_timer && !CanSeeAbe(pObj)))
+    if (!pObj || mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (static_cast<s32>(sGnFrame_5C1B84) > field_14C_pause_after_chase_timer && !CanSeeAbe(pObj)))
     {
         field_120_obj_id = -1;
         field_108_next_motion = eScrabMotions::M_Stand_0_4A8220;
@@ -1644,7 +1644,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
 s16 Scrab::Brain_2_Fighting_4A5840()
 {
     auto pTarget = static_cast<Scrab*>(sObjectIds.Find_Impl(field_124_fight_target_obj_id));
-    if (field_11C_brain_sub_state != Brain_2_Fighting::eBrain2_Battling_10 && field_11C_brain_sub_state != Brain_2_Fighting::eBrain2_Victorious_11 && field_11C_brain_sub_state != Brain_2_Fighting::eBrain2_SmashingOpponent_12 && field_11C_brain_sub_state != Brain_2_Fighting::eBrain2_VictoryYell_13 && (!pTarget || pTarget->mFlags.Get(BaseGameObject::eDead) || (WallHit(field_CC_sprite_scale * FP_FromInteger(45), pTarget->field_B8_xpos - field_B8_xpos)) || !VOnSameYLevel(pTarget)))
+    if (field_11C_brain_sub_state != Brain_2_Fighting::eBrain2_Battling_10 && field_11C_brain_sub_state != Brain_2_Fighting::eBrain2_Victorious_11 && field_11C_brain_sub_state != Brain_2_Fighting::eBrain2_SmashingOpponent_12 && field_11C_brain_sub_state != Brain_2_Fighting::eBrain2_VictoryYell_13 && (!pTarget || pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (WallHit(field_CC_sprite_scale * FP_FromInteger(45), pTarget->field_B8_xpos - field_B8_xpos)) || !VOnSameYLevel(pTarget)))
     {
         field_108_next_motion = eScrabMotions::M_Stand_0_4A8220;
         ToPatrol();
@@ -1955,7 +1955,7 @@ s16 Scrab::Brain_3_Death_4A62B0()
 
     if (field_12C_timer < static_cast<s32>(sGnFrame_5C1B84))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     return 0;
@@ -1974,7 +1974,7 @@ s16 Scrab::Brain_4_ShrinkDeath_4A6420()
 
     if (field_12C_timer < static_cast<s32>(sGnFrame_5C1B84))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     return 0;
@@ -3570,11 +3570,11 @@ void Scrab::VScreenChanged()
 
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else if (pChaseTarget)
     {
-        if (pChaseTarget->mFlags.Get(BaseGameObject::eDead))
+        if (pChaseTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             field_120_obj_id = -1;
             field_108_next_motion = eScrabMotions::M_Stand_0_4A8220;
@@ -4032,7 +4032,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
 
                 do
                 {
-                    if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+                    if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
                     {
                         if (pObj != this)
                         {
@@ -4119,7 +4119,7 @@ s16 Scrab::FindAbeOrMud()
             break;
         }
 
-        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             if ((pAliveObj->Type() == AETypes::eMudokon2_81 || pAliveObj->Type() == AETypes::eMudokon_110 || pAliveObj->Type() == AETypes::eNevetSet_127 || pAliveObj->Type() == AETypes::eScrab_112) && (pAliveObj->Type() != AETypes::eScrab_112 || pAliveObj->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed)) && CanSeeAbe(pAliveObj) && pAliveObj->field_10C_health > FP_FromInteger(0) && pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)

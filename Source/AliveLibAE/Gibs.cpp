@@ -127,7 +127,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         1,
         1);
 
-    if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
         return;
     }
@@ -153,7 +153,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     else
     {
         // Not a valid scale
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     field_5D6_bMakeSmaller = bMakeSmaller;
@@ -207,7 +207,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
                     0))
             {
                 field_5D4_parts_used_count = i;
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
         }
@@ -226,7 +226,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
                     0))
             {
                 field_5D4_parts_used_count = i;
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
         }
@@ -308,7 +308,7 @@ void Gibs::VUpdate()
 
     if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

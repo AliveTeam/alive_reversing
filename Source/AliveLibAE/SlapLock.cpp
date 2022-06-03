@@ -19,7 +19,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
     SetType(AETypes::eLockedSoul_61);
     field_118_pTlv = pTlv;
     field_11C_tlvInfo = tlvInfo;
-    field_C_objectId = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvInfo;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
@@ -132,7 +132,7 @@ void SlapLock::VScreenChanged()
     {
         GiveInvisibility();
     }
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void SlapLock::GiveInvisibility()
@@ -168,7 +168,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     BaseGameObject* pObj = sObjectIds.Find_Impl(field_134_id);
     if (pObj)
     {
-        pState->field_10_obj_id = pObj->field_C_objectId;
+        pState->field_10_obj_id = pObj->mBaseGameObjectTlvInfo;
     }
     return sizeof(SlapLock_State);
 }
@@ -179,7 +179,7 @@ void SlapLock::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -202,7 +202,7 @@ void SlapLock::VUpdate()
                         break;
                     }
 
-                    if (pObj->Type() == AETypes::eAbilityRing_104 && pObj->field_C_objectId == field_134_id)
+                    if (pObj->Type() == AETypes::eAbilityRing_104 && pObj->mBaseGameObjectTlvInfo == field_134_id)
                     {
                         field_134_id = pObj->field_8_object_id;
                         break;
@@ -417,7 +417,7 @@ void SlapLock::SetInvisibilityTarget()
         RingTypes::eInvisible_Pulse_Give_10,
         sActiveHero_5C1B68->field_CC_sprite_scale);
 
-    pRing->field_C_objectId = field_C_objectId;
+    pRing->mBaseGameObjectTlvInfo = mBaseGameObjectTlvInfo;
     field_134_id = pRing->field_8_object_id;
 
     pRing->VSetTarget(sActiveHero_5C1B68);
@@ -444,7 +444,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }

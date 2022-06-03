@@ -22,12 +22,12 @@ ExplosionSet::ExplosionSet()
 
     if (pExplosionSet_5BBF68)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
         pExplosionSet_5BBF68 = this;
-        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
         field_50_scale = FP_FromInteger(1);
         field_40 = 0;
         field_42 = 1;
@@ -88,7 +88,7 @@ void ExplosionSet::VScreenChanged()
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -141,7 +141,7 @@ void ExplosionSet::VUpdate()
     BaseGameObject* pDeathResetEvent = Event_Get(kEventDeathReset);
     if (pDeathResetEvent)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (bEnabled_5C1BB6)

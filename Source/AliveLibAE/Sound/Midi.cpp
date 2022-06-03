@@ -831,7 +831,7 @@ void SND_StopAll()
                 break;
             }
 
-            if (!pObj->mFlags.Get(BaseGameObject::eDead))
+            if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 pObj->VStopAudio();
             }

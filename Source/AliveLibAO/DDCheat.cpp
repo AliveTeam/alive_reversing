@@ -43,10 +43,10 @@ const TDDCheatFn CheatsFn_4C3150[] = {
 DDCheat::DDCheat()
     : BaseGameObject(1)
 {
-    mFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    field_4_typeId = Types::eDDCheat_12;
+    mBaseGameObjectTypeId = Types::eDDCheat_12;
     field_10_bInvalidateRect = 0;
     field_14_SelectedCheat = 0;
     field_18_backInputPressed = 0;
@@ -227,7 +227,7 @@ void DDCheat::VUpdate()
                         showDebugCreatureInfo_5076E0 = 0;
                         sControlledCharacter_50767C->field_F4_pLine = nullptr;
                         sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
-                        switch (sControlledCharacter_50767C->field_4_typeId)
+                        switch (sControlledCharacter_50767C->mBaseGameObjectTypeId)
                         {
                             case Types::eElum_26:
                             {

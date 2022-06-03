@@ -25,7 +25,7 @@ const s32 dword_4C5054[11] = {0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000
 ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eChimeLock_14;
+    mBaseGameObjectTypeId = Types::eChimeLock_14;
 
     field_10C_tlvInfo = tlvInfo;
 
@@ -51,7 +51,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
         scale);
     if (field_114_left_bell)
     {
-        field_114_left_bell->field_C_refCount++;
+        field_114_left_bell->mBaseGameObjectRefCount++;
     }
 
     field_118_center_bell = ao_new<Bells>(
@@ -61,7 +61,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
         scale);
     if (field_118_center_bell)
     {
-        field_118_center_bell->field_C_refCount++;
+        field_118_center_bell->mBaseGameObjectRefCount++;
     }
 
     field_11C_right_bell = ao_new<Bells>(
@@ -71,7 +71,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
         scale);
     if (field_11C_right_bell)
     {
-        field_11C_right_bell->field_C_refCount++;
+        field_11C_right_bell->mBaseGameObjectRefCount++;
     }
 
     field_124_code1 = pTlv->field_1C_code1;
@@ -136,17 +136,17 @@ ChimeLock::~ChimeLock()
 {
     if (field_114_left_bell)
     {
-        field_114_left_bell->mFlags.Set(Options::eDead);
+        field_114_left_bell->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (field_118_center_bell)
     {
-        field_118_center_bell->mFlags.Set(Options::eDead);
+        field_118_center_bell->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (field_11C_right_bell)
     {
-        field_11C_right_bell->mFlags.Set(Options::eDead);
+        field_11C_right_bell->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
@@ -156,26 +156,26 @@ void ChimeLock::VScreenChanged()
 {
     if (field_114_left_bell)
     {
-        field_114_left_bell->mFlags.Set(Options::eDead);
-        field_114_left_bell->field_C_refCount--;
+        field_114_left_bell->mBaseGameObjectFlags.Set(Options::eDead);
+        field_114_left_bell->mBaseGameObjectRefCount--;
         field_114_left_bell = nullptr;
     }
 
     if (field_118_center_bell)
     {
-        field_118_center_bell->mFlags.Set(Options::eDead);
-        field_118_center_bell->field_C_refCount--;
+        field_118_center_bell->mBaseGameObjectFlags.Set(Options::eDead);
+        field_118_center_bell->mBaseGameObjectRefCount--;
         field_118_center_bell = nullptr;
     }
 
     if (field_11C_right_bell)
     {
-        field_11C_right_bell->mFlags.Set(Options::eDead);
-        field_11C_right_bell->field_C_refCount--;
+        field_11C_right_bell->mBaseGameObjectFlags.Set(Options::eDead);
+        field_11C_right_bell->mBaseGameObjectRefCount--;
         field_11C_right_bell = nullptr;
     }
 
-    mFlags.Set(Options::eDead);
+    mBaseGameObjectFlags.Set(Options::eDead);
 }
 
 void ChimeLock::VUnPosses()
@@ -324,7 +324,7 @@ void ChimeLock::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     switch (field_110_state)

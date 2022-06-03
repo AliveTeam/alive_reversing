@@ -72,7 +72,7 @@ const LiftPointCoord stru_4BB640[16] = {
 LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     : PlatformBase()
 {
-    field_4_typeId = Types::eLiftPoint_51;
+    mBaseGameObjectTypeId = Types::eLiftPoint_51;
 
     pTlv->field_1_unknown = 3;
 
@@ -106,7 +106,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     else
     {
         field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
-        field_120_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
+        mPlatformBaseCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
     const FP oldX = field_A8_xpos;
@@ -116,8 +116,8 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     const auto xMovedBy = FP_GetExponent(newX - oldX);
-    field_118_x_offset -= xMovedBy;
-    field_11A_width_offset -= xMovedBy;
+    mPlatformBaseXOffset -= xMovedBy;
+    mPlatformBaseWidthOffset -= xMovedBy;
 
     const AnimRecord& bottomWheelRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_C_lift_bottom_wheel_anim_id);
     u8** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, bottomWheelRec.mResourceId, 1, 0);
@@ -171,7 +171,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
             field_BC_sprite_scale);
         if (pRopeMem)
         {
-            pRopeMem->field_C_refCount++;
+            pRopeMem->mBaseGameObjectRefCount++;
             field_138_pRope1 = pRopeMem;
         }
 
@@ -182,12 +182,12 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
             field_BC_sprite_scale);;
         if (pRopeMem2)
         {
-            pRopeMem2->field_C_refCount++;
+            pRopeMem2->mBaseGameObjectRefCount++;
             field_134_pRope2 = pRopeMem2;
         }
 
-        field_134_pRope2->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * field_BC_sprite_scale) + FP_FromInteger(field_120_pCollisionLine->field_0_rect.y));
-        field_138_pRope1->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * field_BC_sprite_scale) + FP_FromInteger(field_120_pCollisionLine->field_0_rect.y));
+        field_134_pRope2->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * field_BC_sprite_scale) + FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y));
+        field_138_pRope1->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * field_BC_sprite_scale) + FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y));
 
         const FP v29 = FP_FromRaw(FP_GetExponent((field_AC_ypos * FP_FromDouble(1.5)) * field_BC_sprite_scale) % FP_FromInteger(field_134_pRope2->field_E6_rope_length).fpValue);
         field_134_pRope2->field_AC_ypos = FP_NoFractional(field_AC_ypos + v29 + (FP_FromInteger(25) * field_BC_sprite_scale) + FP_FromInteger(field_134_pRope2->field_E6_rope_length));
@@ -220,7 +220,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     }
     else
     {
-        mFlags.Set(Options::eListAddFailed_Bit1);
+        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
@@ -239,7 +239,7 @@ void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
 {
     if (!floor)
     {
-        field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - field_11C_y_offset);
+        field_AC_ypos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - mPlatformBaseYOffset);
         SFX_Play_Mono(SoundEffect::LiftStop_35, 0);
         SFX_Play_Pitch(SoundEffect::LiftStop_35, 80, -2000);
     }
@@ -332,7 +332,7 @@ void LiftPoint::VUpdate()
         else
         {
             field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
-            const FP lineY = FP_FromInteger(field_120_pCollisionLine->field_0_rect.y);
+            const FP lineY = FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y);
 
             Path_LiftPoint* pLiftTlv = nullptr;
             Path_TLV* pTlvIter = gMap.TLV_Get_At_446060(
@@ -370,7 +370,7 @@ void LiftPoint::VUpdate()
             {
                 Sub_Unknown(pLiftTlv);
 
-                field_270_floorYLevel = FP_FromInteger(pTlvIter->field_10_top_left.field_2_y + -field_11C_y_offset);
+                field_270_floorYLevel = FP_FromInteger(pTlvIter->field_10_top_left.field_2_y + -mPlatformBaseYOffset);
             }
             else
             {
@@ -484,7 +484,7 @@ void LiftPoint::VUpdate()
         field_A8_xpos += field_B4_velx;
         field_AC_ypos += field_B8_vely;
 
-        if (field_120_pCollisionLine)
+        if (mPlatformBaseCollisionLine)
         {
             SyncCollisionLinePosition();
         }
@@ -500,7 +500,7 @@ void LiftPoint::VUpdate()
     const FP rope2_rope_length = FP_FromInteger(pRope2->field_E6_rope_length);
     const FP rope1_rope_length = FP_FromInteger(pRope1->field_E6_rope_length);
 
-    const FP pColliRectY = FP_FromInteger(field_120_pCollisionLine->field_0_rect.y);
+    const FP pColliRectY = FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y);
 
     pRope2->field_F2_bottom = FP_GetExponent(pColliRectY + FP_25xScale);
     pRope1->field_F2_bottom = FP_GetExponent(pColliRectY + FP_25xScale);
@@ -549,9 +549,9 @@ void LiftPoint::VUpdate()
 
     if (field_B2_lvl_number != gMap.mCurrentLevel || field_B0_path_number != gMap.mCurrentPath || Event_Get(kEventDeathReset_4))
     {
-        if (field_114_count <= 0)
+        if (mPlatformBaseCount <= 0)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -667,38 +667,38 @@ void LiftPoint::VScreenChanged()
 
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (gMap.mCurrentPath != gMap.mPath)
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
 
 LiftPoint::~LiftPoint()
 {
-    if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
         return;
     }
 
     if (field_134_pRope2)
     {
-        field_134_pRope2->field_C_refCount--;
-        field_134_pRope2->mFlags.Set(Options::eDead);
+        field_134_pRope2->mBaseGameObjectRefCount--;
+        field_134_pRope2->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (field_138_pRope1)
     {
-        field_138_pRope1->field_C_refCount--;
-        field_138_pRope1->mFlags.Set(Options::eDead);
+        field_138_pRope1->mBaseGameObjectRefCount--;
+        field_138_pRope1->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     field_134_pRope2 = nullptr;
     field_138_pRope1 = nullptr;
 
-    gMap.TLV_Reset(field_128_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
 
     auto pLiftPointTlv = gMap.TLV_Get_At_446260(
         FP_GetExponent(mXPos),
@@ -735,7 +735,7 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
 
             if (pTlv->field_4_type == TlvTypes::Pulley_35)
             {
-                if (field_120_pCollisionLine->field_0_rect.x <= pTlv->field_10_top_left.field_0_x && pTlv->field_10_top_left.field_0_x <= field_120_pCollisionLine->field_0_rect.w)
+                if (mPlatformBaseCollisionLine->field_0_rect.x <= pTlv->field_10_top_left.field_0_x && pTlv->field_10_top_left.field_0_x <= mPlatformBaseCollisionLine->field_0_rect.w)
                 {
                     break;
                 }

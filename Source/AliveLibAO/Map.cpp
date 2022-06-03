@@ -574,10 +574,10 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
             break;
         }
 
-        if (pObjIter->mFlags.Get(BaseGameObject::eDrawable_Bit4)
+        if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4)
             && pObjIter->field_10A_flags.Get(Flags_10A::e10A_Bit6)
             && pObjIter->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render)
-            && !pObjIter->mFlags.Get(BaseGameObject::eDead)
+            && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
             && pObjIter != sControlledCharacter_50767C)
         {
             bool bAdd = false;
@@ -643,7 +643,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pLight->mFlags.Get(BaseGameObject::eDead))
+                if (!pLight->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     pLight->VUpdate();
                 }
@@ -658,7 +658,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pLight->mFlags.Get(BaseGameObject::eDead))
+                if (!pLight->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     pLight->field_10_anim.VDecode();
                 }
@@ -672,10 +672,10 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pDrawable->mFlags.Get(BaseGameObject::eDead))
+                if (!pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     // TODO: Seems strange to check this flag, how did it get in the drawable list if its not a drawable ??
-                    if (pDrawable->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+                    if (pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
                     {
                         pDrawable->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
                     }
@@ -753,9 +753,9 @@ void Map::ScreenChange()
             }
 
             pItem->VScreenChanged();
-            if (pItem->mFlags.Get(BaseGameObject::eDead))
+            if (pItem->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                if (pItem->field_C_refCount == 0)
+                if (pItem->mBaseGameObjectRefCount == 0)
                 {
                     j = gBaseGameObjects->RemoveAt(j);
                     delete pItem;
@@ -772,9 +772,9 @@ void Map::ScreenChange()
             break;
         }
 
-        if (pItem->mFlags.Get(BaseGameObject::eDead))
+        if (pItem->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
-            if (pItem->field_C_refCount == 0)
+            if (pItem->mBaseGameObjectRefCount == 0)
             {
                 i = gBaseGameObjects->RemoveAt(i);
                 delete pItem;
@@ -1675,13 +1675,13 @@ void Map::GoTo_Camera()
                     break;
                 }
 
-                if (pBaseGameObj->mFlags.Get(BaseGameObject::eUpdatable_Bit2))
+                if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!pBaseGameObj->mFlags.Get(BaseGameObject::eDead) && (!sNumCamSwappers_507668 || pBaseGameObj->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    if (!pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!sNumCamSwappers_507668 || pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
-                        if (pBaseGameObj->field_8_update_delay > 0)
+                        if (pBaseGameObj->mBaseGameObjectUpdateDelay > 0)
                         {
-                            pBaseGameObj->field_8_update_delay--;
+                            pBaseGameObj->mBaseGameObjectUpdateDelay--;
                         }
                         else
                         {
@@ -1691,7 +1691,7 @@ void Map::GoTo_Camera()
                 }
             }
         }
-        while (!pFmvRet->mFlags.Get(BaseGameObject::eDead));
+        while (!pFmvRet->mBaseGameObjectFlags.Get(BaseGameObject::eDead));
     }
 
     if (mCurrentLevel != LevelIds::eMenu_0)
@@ -1827,7 +1827,7 @@ void Map::GoTo_Camera()
                     break;
                 }
 
-                if (pObjIter->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
                 {
                     auto pBaseAliveGameObj = static_cast<BaseAliveGameObject*>(pObjIter);
                     pBaseAliveGameObj->field_F4_pLine = nullptr;

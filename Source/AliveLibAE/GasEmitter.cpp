@@ -57,7 +57,7 @@ void GasEmitter::VStopAudio()
 
 void GasEmitter::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void GasEmitter::VUpdate()

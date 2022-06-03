@@ -14,7 +14,7 @@ BeeSwarmHole::BeeSwarmHole(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
     field_10_tlvInfo = tlvInfo;
-    field_4_typeId = Types::eSligSpawner_91;
+    mBaseGameObjectTypeId = Types::eSligSpawner_91;
 
     field_1C_interval_timer = 0;
 
@@ -37,7 +37,7 @@ void BeeSwarmHole::VUpdate()
 {
     if (gMap.Rect_Location_Relative_To_Active_Camera(&field_14_rect, 0) != CameraPos::eCamCurrent_0)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
     }
 
@@ -57,7 +57,7 @@ void BeeSwarmHole::VUpdate()
             break;
         }
 
-        if (pObjIter->field_4_typeId == Types::eRollingBall_72)
+        if (pObjIter->mBaseGameObjectTypeId == Types::eRollingBall_72)
         {
             BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObjIter);
             PSX_RECT bRect = {};

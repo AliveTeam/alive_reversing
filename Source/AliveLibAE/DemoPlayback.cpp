@@ -15,12 +15,12 @@ DemoPlayback::DemoPlayback()
 {
     if (sDemoObj_dword_5D1E20)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
         sDemoObj_dword_5D1E20 = this;
-        mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 
         u32** ppRes = reinterpret_cast<u32**>(Add_Resource(ResourceManager::Resource_Demo, AEResourceID::kDemoResID));
         SetUpdateDelay(1);
@@ -64,6 +64,6 @@ void DemoPlayback::VUpdate()
         }
 
         gMap.field_CE_free_all_anim_and_palts = 1;
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }

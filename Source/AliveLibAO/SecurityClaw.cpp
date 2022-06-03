@@ -34,7 +34,7 @@ const TintEntry kClawTints_4C5498[3] = {
 
 Claw::Claw()
 {
-    field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
+    mBaseGameObjectTypeId = Types::eClawOrBirdPortalTerminator_48;
     
     const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -50,9 +50,9 @@ void Claw::VScreenChanged()
 SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eSecurityClaw_31;
+    mBaseGameObjectTypeId = Types::eSecurityClaw_31;
 
-    mFlags.Set(Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     field_12C_pDetector = 1;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Upper_Rotating);
@@ -100,7 +100,7 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
         field_130_pClaw->SetTint_418750(&kClawTints_4C5498[0], gMap.mCurrentLevel);
     }
 
-    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
     field_13C_pArray = nullptr;
     field_128_sound_channels = 0;
 }
@@ -118,7 +118,7 @@ SecurityClaw::~SecurityClaw()
 
     if (field_130_pClaw)
     {
-        field_130_pClaw->mFlags.Set(Options::eDead);
+        field_130_pClaw->mBaseGameObjectFlags.Set(Options::eDead);
         field_130_pClaw = nullptr;
     }
 
@@ -129,8 +129,8 @@ SecurityClaw::~SecurityClaw()
             auto pObjIter = field_13C_pArray->ItemAt(i);
 
             pObjIter->SetDontComeBack(field_12C_pDetector);
-            pObjIter->field_C_refCount--;
-            pObjIter->mFlags.Set(Options::eDead);
+            pObjIter->mBaseGameObjectRefCount--;
+            pObjIter->mBaseGameObjectFlags.Set(Options::eDead);
         }
 
         relive_delete field_13C_pArray;
@@ -144,17 +144,17 @@ SecurityClaw::~SecurityClaw()
 
 void SecurityClaw::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (!mFlags.Get(BaseGameObject::eDead))
+    if (!mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        if (pFrom->field_4_typeId == Types::eAbilityRing_69 || pFrom->field_4_typeId == Types::eShrykull_85)
+        if (pFrom->mBaseGameObjectTypeId == Types::eAbilityRing_69 || pFrom->mBaseGameObjectTypeId == Types::eShrykull_85)
         {
             field_12C_pDetector = 0;
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
             ao_new<Explosion>(
                 field_A8_xpos,
@@ -189,7 +189,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
                 FP_FromInteger(0),
                 field_BC_sprite_scale);
 
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
     return 1;
@@ -199,7 +199,7 @@ void SecurityClaw::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (!(gnFrameCount_507670 % 20))
@@ -265,7 +265,7 @@ void SecurityClaw::VUpdate()
                     break;
                 }
 
-                if (pObjIter->field_4_typeId == Types::eMotionDetector_59)
+                if (pObjIter->mBaseGameObjectTypeId == Types::eMotionDetector_59)
                 {
                     auto pDetector = static_cast<MotionDetector*>(pObjIter);
                     if (!field_13C_pArray)
@@ -277,12 +277,12 @@ void SecurityClaw::VUpdate()
 
                     pDetector->field_A8_xpos = field_A8_xpos - FP_FromInteger(1);
                     pDetector->field_AC_ypos = field_AC_ypos - FP_FromInteger(11);
-                    pDetector->field_C_refCount++;
+                    pDetector->mBaseGameObjectRefCount++;
                     field_13C_pArray->Push_Back(pDetector);
                 }
             }
             field_110_state = SecurityClawStates::eIdle_1;
-            mFlags.Clear(Options::eUpdateDuringCamSwap_Bit10);
+            mBaseGameObjectFlags.Clear(Options::eUpdateDuringCamSwap_Bit10);
             break;
 
         case SecurityClawStates::eIdle_1:

@@ -513,7 +513,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
 
     if (tlvInfo != 0xFFFF)
     {
-        field_C_objectId = tlvInfo;
+        mBaseGameObjectTlvInfo = tlvInfo;
     }
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 1, 0));
@@ -799,7 +799,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     pState->field_26_current_motion = field_106_current_motion;
     pState->field_28_current_frame = field_20_animation.field_92_current_frame;
     pState->field_2A_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_2D_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2D_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2C_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_30_health = field_10C_health;
     pState->field_34_current_motion = field_106_current_motion;
@@ -856,7 +856,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
         BaseGameObject* pGlukkon = sObjectIds.Find_Impl(field_208_glukkon_obj_id);
         if (pGlukkon)
         {
-            pState->field_94_glukkon_id = pGlukkon->field_C_objectId;
+            pState->field_94_glukkon_id = pGlukkon->mBaseGameObjectTlvInfo;
         }
     }
     pState->field_98_state_after_speak = field_20C_state_after_speak;
@@ -983,7 +983,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->field_20_animation.field_92_current_frame = pState->field_28_current_frame;
         pSlig->field_20_animation.field_E_frame_change_counter = pState->field_2A_frame_change_counter;
 
-        pSlig->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2D_bDrawable & 1);
+        pSlig->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2D_bDrawable & 1);
 
         pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_24_bFlipX & 1);
         pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2C_bRender & 1);
@@ -2287,7 +2287,7 @@ void Slig::M_OutToFall_38_4B4570()
     const FP fallDepth = field_BC_ypos - field_F8_LastLineYPos;
     if (fallDepth > FP_FromInteger(16 * 640))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_106_current_motion == eSligMotions::M_LandingSoft_40_4B4530 && fallDepth > FP_FromInteger(180) && !sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos), FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos), TlvTypes::SoftLanding_75))
@@ -2667,7 +2667,7 @@ s16 Slig::Brain_Death_0_4BBFB0()
     }
     else if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (sControlledCharacter_5C1B8C == this)
@@ -2689,13 +2689,13 @@ s16 Slig::Brain_Death_0_4BBFB0()
                 field_BC_ypos,
                 0))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 
     if (field_CC_sprite_scale < FP_FromInteger(0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     return 116;
@@ -2710,7 +2710,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_1_4BC410()
         gMap.SetActiveCam(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     return 117;
 }
 
@@ -2766,7 +2766,7 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
             {
                 if (sControlledCharacter_5C1B8C != this)
                 {
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
             }
 
@@ -2783,7 +2783,7 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
             {
                 if (sControlledCharacter_5C1B8C != this)
                 {
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
             }
             if (field_10C_health <= FP_FromInteger(0))
@@ -2863,7 +2863,7 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
                     sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
                     gMap.SetActiveCam(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             return field_11C_brain_sub_state;
 
@@ -2916,7 +2916,7 @@ s16 Slig::Brain_ListeningToGlukkon_4_4B9D20()
 
     field_216_flags.Clear(Flags_216::eBit4_HeardGlukkon);
 
-    if (!pGlukkonObj || !pGlukkonObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (!pGlukkonObj || !pGlukkonObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         PauseALittle_4BDD00();
         field_108_next_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
@@ -3582,7 +3582,7 @@ s16 Slig::Brain_EnemyDead_10_4B3460()
 {
     if (Event_Get(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return 113;
     }
 
@@ -3636,7 +3636,7 @@ s16 Slig::Brain_PanicTurning_12_4BC490()
 {
     if (Event_Get(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return 107;
     }
 
@@ -3935,7 +3935,7 @@ s16 Slig::Brain_Chasing_17_4BCBD0()
 
     if (field_C0_path_number != gMap.mCurrentPath || field_C2_lvl_number != gMap.mCurrentLevel || (Event_Get(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
@@ -3966,7 +3966,7 @@ s16 Slig::Brain_StartChasing_18_4BCEB0()
     {
         if (field_C0_path_number != gMap.mCurrentPath || field_C2_lvl_number != gMap.mCurrentLevel)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
 
         if (!VIsFacingMe(sControlledCharacter_5C1B8C))
@@ -3986,7 +3986,7 @@ s16 Slig::Brain_Turning_19_4BDDD0()
 {
     if (Event_Get(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return 106;
     }
 
@@ -4619,7 +4619,7 @@ s16 Slig::Brain_Sleeping_34_4B9170()
 
     ShouldStillBeAlive_4BBC00();
 
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         const CameraPos direction = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
         Start_Slig_sounds(direction, 0);
@@ -4632,7 +4632,7 @@ s16 Slig::Brain_ChaseAndDisappear_35_4BF640()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_11C_brain_sub_state == Brain_35_ChaseAndDisappear::eBrain35_Summoned_0)
@@ -4668,7 +4668,7 @@ s16 Slig::Brain_ChaseAndDisappear_35_4BF640()
         {
             return field_11C_brain_sub_state;
         }
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_10C_health = FP_FromInteger(0);
         return field_11C_brain_sub_state;
     }
@@ -5094,7 +5094,7 @@ void Slig::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || (gMap.mCurrentPath != gMap.mPath && this != sControlledCharacter_5C1B8C))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -5211,7 +5211,7 @@ void Slig::ShouldStillBeAlive_4BBC00()
             if (field_290_points_count <= 0)
             {
                 // No patrol points, die
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             else
             {
@@ -5226,7 +5226,7 @@ void Slig::ShouldStillBeAlive_4BBC00()
                     if (i >= field_290_points_count)
                     {
                         // No within any out our patrol points, die
-                        mFlags.Set(BaseGameObject::eDead);
+                        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                         break;
                     }
                     i++;
@@ -6266,7 +6266,7 @@ void Slig::CheckPlatformVanished_4B3640()
     BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(field_110_id);
     if (pLiftPoint)
     {
-        if (pLiftPoint->mFlags.Get(BaseGameObject::eDead))
+        if (pLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             // Platform is somehow gone, fall.
             const auto savedMotion = field_106_current_motion;
@@ -7069,7 +7069,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             {
                 return 1;
             }
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_10C_health = FP_FromInteger(0);
             Event_Broadcast(kEventMudokonComfort, this);
             return 1;

@@ -155,7 +155,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
     if (pGlukkon)
     {
         pGlukkon->SetType(pSaveState->field_8E_type_id);
-        pGlukkon->field_C_objectId = pSaveState->field_4_object_id;
+        pGlukkon->mBaseGameObjectTlvInfo = pSaveState->field_4_object_id;
         if (pSaveState->field_40_bIsActiveChar)
         {
             sControlledCharacter_5C1B8C = pGlukkon;
@@ -196,7 +196,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
 
         pGlukkon->field_20_animation.field_92_current_frame = pSaveState->field_2A_current_frame;
         pGlukkon->field_20_animation.field_E_frame_change_counter = pSaveState->field_2C_frame_change_counter;
-        pGlukkon->mFlags.Set(BaseGameObject::Options::eDrawable_Bit4, pSaveState->field_2F_drawable & 1);
+        pGlukkon->mBaseGameObjectFlags.Set(BaseGameObject::Options::eDrawable_Bit4, pSaveState->field_2F_drawable & 1);
         pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_26_flipX & 1);
         pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2E_render & 1);
 
@@ -336,7 +336,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
         return 0;
     }
     pSaveState->field_0_id = AETypes::eGlukkon_67;
-    pSaveState->field_4_object_id = field_C_objectId;
+    pSaveState->field_4_object_id = mBaseGameObjectTlvInfo;
     pSaveState->field_8_xpos = field_B8_xpos;
     pSaveState->field_C_ypos = field_BC_ypos;
     pSaveState->field_10_xvel = field_C4_velx;
@@ -352,7 +352,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_2C_frame_change_counter = field_20_animation.field_E_frame_change_counter;
     pSaveState->field_26_flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
     pSaveState->field_2E_render = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
-    pSaveState->field_2F_drawable = mFlags.Get(BaseGameObject::Options::eDrawable_Bit4);
+    pSaveState->field_2F_drawable = mBaseGameObjectFlags.Get(BaseGameObject::Options::eDrawable_Bit4);
     pSaveState->field_30_health = field_10C_health;
     pSaveState->field_34_current_motion = field_106_current_motion;
     pSaveState->field_36_next_motion = field_108_next_motion;
@@ -1672,7 +1672,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
 
                 if (pObj->Type() == AETypes::eSlig_125)
                 {
-                    pObj->mFlags.Set(BaseGameObject::eDead);
+                    pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
             }
 
@@ -1912,7 +1912,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
             return field_210_brain_sub_state;
         }
 
-        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
         field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
 
         SetType(AETypes::eGlukkon_67);
@@ -1962,7 +1962,7 @@ void Glukkon::Init()
     field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetTint(&kGlukkonTints_5546B4[0], gMap.mCurrentLevel);
     field_B8_xpos = FP_FromInteger((field_1A8_tlvData.field_8_top_left.field_0_x + field_1A8_tlvData.field_C_bottom_right.field_0_x) / 2);
@@ -1986,7 +1986,7 @@ void Glukkon::Init()
             field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
         }
         field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
-        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
         SetBrain(&Glukkon::Brain_5_WaitToSpawn_442490);
         field_210_brain_sub_state = 0;
         SetType(AETypes::eNone_0);
@@ -2061,7 +2061,7 @@ Glukkon::~Glukkon()
         Path::TLV_Reset(field_214_tlv_info, -1, 0, 0);
     }
 
-    mFlags.Set(BaseGameObject::eDrawable_Bit4); // Seems wrong to do this here ??
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4); // Seems wrong to do this here ??
 
     if (this == sControlledCharacter_5C1B8C)
     {
@@ -2108,7 +2108,7 @@ void Glukkon::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -2814,7 +2814,7 @@ void Glukkon::ToDead()
     if (field_1A8_tlvData.field_1C_spawn_switch_id == 0)
     {
         // Don't spawn again, dead
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -2957,7 +2957,7 @@ void Glukkon::VScreenChanged()
     SwitchStates_Do_Operation(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
     if (BrainIs(&Glukkon::Brain_5_WaitToSpawn_442490) && !field_210_brain_sub_state)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

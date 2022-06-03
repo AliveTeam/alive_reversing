@@ -92,7 +92,7 @@ PullRingRope::~PullRingRope()
     BaseGameObject* pRope = sObjectIds.Find(field_F8_rope_id, AETypes::eLiftRope_108);
     if (pRope)
     {
-        pRope->mFlags.Set(BaseGameObject::eDead);
+        pRope->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -103,11 +103,11 @@ void PullRingRope::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     // Invalidate ring puller if they've died
-    if (pRingPuller && pRingPuller->mFlags.Get(BaseGameObject::eDead))
+    if (pRingPuller && pRingPuller->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         field_FC_ring_puller_id = -1;
     }
@@ -236,7 +236,7 @@ void PullRingRope::VScreenChanged()
     // If the person pulling the rope is gone then so are we
     if (!sObjectIds.Find_Impl(field_FC_ring_puller_id))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

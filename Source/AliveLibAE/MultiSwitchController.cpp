@@ -11,7 +11,7 @@ MultiSwitchController::MultiSwitchController(Path_MultiSwitchController* pTlv, u
     : BaseGameObject(TRUE, 0)
 {
     field_40_flags.Clear(Flags_40::eBit1_is_on);
-    field_C_objectId = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvInfo;
     field_30_tlvInfo = tlvInfo;
 
     field_34_last_switch_on_time = 0;
@@ -41,7 +41,7 @@ void MultiSwitchController::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -49,7 +49,7 @@ void MultiSwitchController::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_40_flags.Get(Flags_40::eBit1_is_on))

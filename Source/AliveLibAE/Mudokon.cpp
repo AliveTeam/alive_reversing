@@ -394,7 +394,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
     field_12C_unused = -1;
     field_158_wheel_id = -1;
     SetType(AETypes::eMudokon2_81); // TODO: Set to 110 later, what is 81 ??
-    field_C_objectId = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvInfo;
     field_194_timer = 0;
     field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings_470C10;
     field_190_brain_sub_state = 0;
@@ -584,7 +584,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
 
     field_16A_flags.Set(Flags_16A::eBit1_not_rescued);
     field_190_brain_sub_state = 0;
-    field_118_tlvInfo = field_C_objectId;
+    field_118_tlvInfo = mBaseGameObjectTlvInfo;
 
     field_128_angry_timer = 0;
     field_160_delayed_speak = MudSounds::eNone;
@@ -778,7 +778,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_22_bFlipX & 1);
         pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2A_bAnimRender & 1);
 
-        pMud->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2B_bDrawable & 1);
+        pMud->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2B_bDrawable & 1);
 
         if (IsLastFrame(&pMud->field_20_animation))
         {
@@ -910,7 +910,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
     pState->field_24_current_motion = field_106_current_motion;
     pState->field_26_anim_current_frame = field_20_animation.field_92_current_frame;
     pState->field_28_anim_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_2B_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2B_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2A_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_2C_health = field_10C_health;
     pState->field_30_current_motion = field_106_current_motion;
@@ -934,7 +934,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
         BaseGameObject* pBirdPortal = sObjectIds.Find_Impl(field_11C_bird_portal_id);
         if (pBirdPortal)
         {
-            pState->field_4C_portal_id = pBirdPortal->field_C_objectId;
+            pState->field_4C_portal_id = pBirdPortal->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -950,7 +950,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
         BaseGameObject* pWheel = sObjectIds.Find_Impl(field_158_wheel_id);
         if (pWheel)
         {
-            pState->field_60_wheel_id = pWheel->field_C_objectId;
+            pState->field_60_wheel_id = pWheel->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -1041,7 +1041,7 @@ void Mudokon::VUpdate()
                     break;
                 }
 
-                if (pObj->field_C_objectId == field_11C_bird_portal_id)
+                if (pObj->mBaseGameObjectTlvInfo == field_11C_bird_portal_id)
                 {
                     field_11C_bird_portal_id = pObj->field_8_object_id;
                     sGoingToBirdPortalMudCount_5C3012++;
@@ -1066,7 +1066,7 @@ void Mudokon::VUpdate()
                     break;
                 }
 
-                if (pObj->field_C_objectId == field_158_wheel_id)
+                if (pObj->mBaseGameObjectTlvInfo == field_158_wheel_id)
                 {
                     field_158_wheel_id = pObj->field_8_object_id;
                     static_cast<WorkWheel*>(pObj)->VStartTurning();
@@ -1078,7 +1078,7 @@ void Mudokon::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -1324,10 +1324,10 @@ void Mudokon::VScreenChanged()
     if (field_18E_brain_state == Mud_Brain_State::Brain_0_GiveRings_470C10 ||
         !field_16A_flags.Get(Flags_16A::eBit2_persist_and_reset_offscreen))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         // TODO: Duplicated in dtors + other places
         if (field_16C_flags.Get(Flags_16C::eBit3_Unknown))
@@ -1503,7 +1503,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     0);
             }
 
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             SetPal(Mud_Emotion::eNormal_0);
             Event_Broadcast(kEventMudokonDied, sActiveHero_5C1B68);
             return 1;
@@ -1593,7 +1593,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             field_10C_health = FP_FromInteger(0);
             Event_Broadcast(kEventMudokonDied, this);
             SetPal(Mud_Emotion::eNormal_0);
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return 1;
 
         case AETypes::eSlamDoor_122:
@@ -4909,7 +4909,7 @@ s16 Mudokon::Brain_5_ShrivelDeath_4714A0()
     // Finally fizzled out
     if (field_CC_sprite_scale < FP_FromInteger(0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     return 100;
@@ -4920,12 +4920,12 @@ s16 Mudokon::Brain_6_Escape_47A560()
     auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(field_11C_bird_portal_id));
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
         bool noBirdPortalOrPortalIsDead = false;
-        if (!pBirdPortal || pBirdPortal->mFlags.Get(BaseGameObject::eDead))
+        if (!pBirdPortal || pBirdPortal->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             noBirdPortalOrPortalIsDead = true;
         }
@@ -5085,7 +5085,7 @@ s16 Mudokon::Brain_7_FallAndSmackDeath_471600()
         {
             Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
             ae_new<ScreenShake>(0, 0);
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
     return field_190_brain_sub_state;
@@ -6357,7 +6357,7 @@ void Mudokon::M_RunJumpMid_36_474570()
         field_16A_flags.Clear(Flags_16A::eBit1_not_rescued);
         field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
 
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
         field_C8_vely = FP_FromInteger(0);
         field_C4_velx = FP_FromInteger(0);

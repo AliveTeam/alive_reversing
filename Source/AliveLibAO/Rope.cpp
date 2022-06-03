@@ -42,7 +42,7 @@ Rope::~Rope()
 
 Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 {
-    field_4_typeId = Types::eRope_73;
+    mBaseGameObjectTypeId = Types::eRope_73;
 
     field_C8_yOffset = 0;
 

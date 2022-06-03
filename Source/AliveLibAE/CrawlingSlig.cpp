@@ -250,7 +250,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
     auto pCrawlingSlig = ae_new<CrawlingSlig>(pTlv, pState->field_44_tlvInfo);
     if (pCrawlingSlig)
     {
-        pCrawlingSlig->field_C_objectId = pState->field_4_obj_id;
+        pCrawlingSlig->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
         if (pState->field_40_bIsControlled)
         {
@@ -291,7 +291,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bFlipX & 1);
         pCrawlingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
 
-        pCrawlingSlig->mFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
+        pCrawlingSlig->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
 
         if (IsLastFrame(&pCrawlingSlig->field_20_animation))
         {
@@ -335,7 +335,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<CrawlingSlig_State*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eCrawlingSlig_26;
-    pState->field_4_obj_id = field_C_objectId;
+    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->field_8_xpos = field_B8_xpos;
     pState->field_C_ypos = field_BC_ypos;
@@ -355,7 +355,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_28_current_motion = field_106_current_motion;
     pState->field_2A_anim_cur_frame = field_20_animation.field_92_current_frame;
     pState->field_2C_anim_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_2F_bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2E_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_30_health = field_10C_health;
     pState->field_34_cur_motion = field_106_current_motion;
@@ -459,7 +459,7 @@ void CrawlingSlig::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -1193,7 +1193,7 @@ s16 CrawlingSlig::Brain_4_GetKilled_41A880()
 
             if (field_1AC_timer < static_cast<s32>(sGnFrame_5C1B84))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             return field_208_brain_sub_state;
 
@@ -1242,7 +1242,7 @@ s16 CrawlingSlig::Brain_4_GetKilled_41A880()
         case Brain_4_GetKilled::eBrain4_SetDead_3:
             if (static_cast<s32>(sGnFrame_5C1B84) > field_1AC_timer)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             return field_208_brain_sub_state;
 
@@ -1300,9 +1300,9 @@ s16 CrawlingSlig::Brain_5_Transformed_41ADF0()
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
-    if (!pObj || pObj->mFlags.Get(BaseGameObject::eDead))
+    if (!pObj || pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     return 0;
@@ -1412,7 +1412,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
             }
 
             // Final transform
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             SetBrain(&CrawlingSlig::Brain_5_Transformed_41ADF0);
             field_C8_vely = FP_FromInteger(0);
             field_C4_velx = FP_FromInteger(0);

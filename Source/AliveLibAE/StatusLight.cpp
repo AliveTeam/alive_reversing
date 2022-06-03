@@ -127,5 +127,5 @@ StatusLight::~StatusLight()
 
 void StatusLight::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }

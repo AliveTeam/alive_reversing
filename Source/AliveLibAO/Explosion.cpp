@@ -20,7 +20,7 @@ namespace AO {
 
 Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
 {
-    field_4_typeId = Types::eExplosion_74;
+    mBaseGameObjectTypeId = Types::eExplosion_74;
     const AnimRecord rec = AO::AnimRec(AnimId::Explosion);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
@@ -119,9 +119,9 @@ void Explosion::VUpdate()
             auto pParticle = ao_new<Particle>(field_A8_xpos, field_AC_ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
             if (pParticle)
             {
-                if (pParticle->mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+                if (pParticle->mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
                 {
-                    pParticle->mFlags.Set(Options::eDead);
+                    pParticle->mBaseGameObjectFlags.Set(Options::eDead);
                 }
 
                 pParticle->field_CC_bApplyShadows &= ~1u;
@@ -138,7 +138,7 @@ void Explosion::VUpdate()
 
     if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -146,7 +146,7 @@ void Explosion::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -195,7 +195,7 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
             break;
         }
 
-        if (pObj->mFlags.Get(Options::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mBaseGameObjectFlags.Get(Options::eIsBaseAliveGameObject_Bit6))
         {
             PSX_RECT rect = {};
             pObj->VGetBoundingRect(&rect, 1);

@@ -16,7 +16,7 @@ namespace AO {
 
 ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eElectricWall_25;
+    mBaseGameObjectTypeId = Types::eElectricWall_25;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Electric_Wall);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -68,7 +68,7 @@ void ElectricWall::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos) == CameraPos::eCamInvalid_m1)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -82,7 +82,7 @@ void ElectricWall::VUpdate()
 
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (SwitchStates_Get(field_E8_switch_id) == field_EA_start_state)
@@ -126,7 +126,7 @@ void ElectricWall::VUpdate()
             }
 
             // Don't kill nades
-            if (pObjIter->field_4_typeId != Types::eGrenade_40)
+            if (pObjIter->mBaseGameObjectTypeId != Types::eGrenade_40)
             {
                 PSX_RECT objRect = {};
                 pObjIter->VGetBoundingRect(&objRect, 1);

@@ -30,8 +30,8 @@ ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
 MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mFlags.Set(Options::eCanExplode_Bit7);
-    field_4_typeId = Types::eTimedMine_8;
+    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
+    mBaseGameObjectTypeId = Types::eTimedMine_8;
     const AnimRecord rec = AO::AnimRec(AnimId::MovingBomb);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
@@ -134,7 +134,7 @@ MovingBomb::~MovingBomb()
     if (field_F8_pLiftPoint)
     {
         field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
         field_F8_pLiftPoint = nullptr;
     }
 
@@ -162,13 +162,13 @@ void MovingBomb::VScreenChanged()
 {
     if (field_12A_persist_offscreen == Choice_short::eNo_0 || gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
 s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 1;
     }
@@ -178,7 +178,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         return 1;
     }
 
-    if (pFrom->field_4_typeId != Types::eAbilityRing_69 && pFrom->field_4_typeId != Types::eExplosion_74 && pFrom->field_4_typeId != Types::eShrykull_85)
+    if (pFrom->mBaseGameObjectTypeId != Types::eAbilityRing_69 && pFrom->mBaseGameObjectTypeId != Types::eExplosion_74 && pFrom->mBaseGameObjectTypeId != Types::eShrykull_85)
     {
         return 0;
     }
@@ -214,7 +214,7 @@ void MovingBomb::VRender(PrimHeader** ppOt)
 
 void MovingBomb::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    mFlags.Clear(Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
     field_10C_state = States::eBlowingUp_6;
     field_B8_vely = FP_FromInteger(0);
     field_114_timer = gnFrameCount_507670 + 1;
@@ -312,14 +312,14 @@ void MovingBomb::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (field_10C_state == States::eTriggeredByAlarm_0 || field_10C_state == States::eTriggeredBySwitch_1 || field_10C_state == States::eMoving_2 || field_10C_state == States::eStopMoving_3 || field_10C_state == States::eWaitABit_4 || field_10C_state == States::eToMoving_5)
     {
         if (HitObject())
         {
-            mFlags.Clear(Options::eCanExplode_Bit7);
+            mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
             field_10C_state = States::eBlowingUp_6;
             field_B8_vely = FP_FromInteger(0);
             field_114_timer = gnFrameCount_507670 + 1;
@@ -478,7 +478,7 @@ void MovingBomb::VUpdate()
         case States::eKillMovingBomb_7:
             if (field_114_timer <= static_cast<s32>(gnFrameCount_507670))
             {
-                mFlags.Set(Options::eDead);
+                mBaseGameObjectFlags.Set(Options::eDead);
             }
             break;
 

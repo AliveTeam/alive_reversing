@@ -35,11 +35,11 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
     field_C6_scale = 1;
     field_C8_yOffset = 5;
 
-    mFlags.Clear(Options::eCanExplode_Bit7);
-    mFlags.Clear(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 
-    mFlags.Set(Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
-    mFlags.Set(Options::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
+    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 }
 
 void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList)
@@ -80,14 +80,14 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
         }
         else
         {
-            mFlags.Set(Options::eListAddFailed_Bit1);
+            mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
             gBaseGameObjects->Remove_Item(this);
         }
     }
     else
     {
-        mFlags.Set(Options::eListAddFailed_Bit1);
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
 
@@ -318,9 +318,9 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith_418080(PSX_Point xy, PS
                 break;
             }
 
-            if (pObjIter->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
-                if (pObjIter->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
                 {
                     auto pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
 
@@ -402,9 +402,9 @@ void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* pTintArr
 
 BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
 {
-    if (!mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (!mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
+        if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
         {
             gObjList_drawables_504618->Remove_Item(this);
             field_10_anim.VCleanUp();
@@ -454,7 +454,7 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeT
             break;
         }
 
-        if (pObjIter->field_4_typeId == typeToFind && pObjIter != this)
+        if (pObjIter->mBaseGameObjectTypeId == typeToFind && pObjIter != this)
         {
             array_idx++;
             if (array_idx >= ALIVE_COUNTOF(offsets))

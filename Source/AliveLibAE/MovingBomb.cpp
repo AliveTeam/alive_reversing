@@ -26,7 +26,7 @@ ALIVE_VAR(1, 0x5C300C, MovingBomb*, gMovingBomb_5C300C, nullptr);
 MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
-    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     SetType(AETypes::eTimedMine_or_MovingBomb_10);
 
@@ -132,7 +132,7 @@ MovingBomb::~MovingBomb()
 
 void MovingBomb::BlowUp()
 {
-    mFlags.Clear(BaseGameObject::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
     field_118_state = States::eBlowingUp_6;
     field_C8_vely = FP_FromInteger(0);
     field_120_timer = sGnFrame_5C1B84 + 1;
@@ -153,21 +153,21 @@ void MovingBomb::VScreenChanged()
 
     if (field_136_persist_offscreen == Choice_short::eNo_0)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
     const FP xDelta = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
     if (xDelta > FP_FromInteger(750))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
     const FP yDelta = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
     if (yDelta > FP_FromInteger(520))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 }
@@ -182,7 +182,7 @@ void MovingBomb::FollowLine()
 
 s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead) || field_10C_health <= FP_FromInteger(0))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead) || field_10C_health <= FP_FromInteger(0))
     {
         return 1;
     }
@@ -257,7 +257,7 @@ void MovingBomb::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_118_state < States::eBlowingUp_6)
@@ -427,7 +427,7 @@ void MovingBomb::VUpdate()
         case States::eKillMovingBomb_7:
             if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
 

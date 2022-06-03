@@ -64,7 +64,7 @@ void PossessionFlicker::VScreenChanged()
 {
     if (!sObjectIds.Find_Impl(field_30_obj_id))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -73,7 +73,7 @@ void PossessionFlicker::VUpdate()
     BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(field_30_obj_id));
     if (!pToApplyFlicker || static_cast<s32>(sGnFrame_5C1B84) > field_20_time_to_flicker)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 

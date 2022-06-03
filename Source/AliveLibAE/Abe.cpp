@@ -704,8 +704,8 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
 {
     SetType(AETypes::eAbe_69);
 
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    field_C_objectId = -65536;
+    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mBaseGameObjectTlvInfo = -65536;
 
     Init_GameStates_43BF40();
 
@@ -896,7 +896,7 @@ Abe::~Abe()
 
     if (pFadeObject)
     {
-        pFadeObject->mFlags.Set(BaseGameObject::eDead);
+        pFadeObject->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_148_fade_obj_id = -1;
     }
 
@@ -907,19 +907,19 @@ Abe::~Abe()
 
     if (pPullRope)
     {
-        pPullRope->mFlags.Set(BaseGameObject::eDead);
+        pPullRope->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_15C_pull_rope_id = -1;
     }
 
     if (pCircularFade)
     {
-        pCircularFade->mFlags.Set(BaseGameObject::eDead);
+        pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_14C_circular_fade_id = -1;
     }
 
     if (pOrbWhirlWind)
     {
-        pOrbWhirlWind->mFlags.Set(BaseGameObject::eDead);
+        pOrbWhirlWind->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_150_OrbWhirlWind_id = -1;
     }
 
@@ -930,13 +930,13 @@ Abe::~Abe()
 
     if (pThrowable)
     {
-        pThrowable->mFlags.Set(BaseGameObject::eDead);
+        pThrowable->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_158_throwable_id = -1;
     }
 
     if (pInvisibleEffect)
     {
-        pInvisibleEffect->mFlags.Set(BaseGameObject::eDead);
+        pInvisibleEffect->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_178_invisible_effect_id = -1;
     }
 
@@ -1071,7 +1071,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
     sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->bAnimFlipX & 1);
     sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->bAnimRender & 1);
-    sActiveHero_5C1B68->mFlags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->bDrawable & 1);
+    sActiveHero_5C1B68->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->bDrawable & 1);
 
     sActiveHero_5C1B68->field_20_animation.field_C_render_layer = static_cast<Layer>(pSaveState->anim_render_layer);
 
@@ -1825,7 +1825,7 @@ void Abe::VScreenChanged()
         if (gMap.mLevel == LevelIds::eCredits_16 || gMap.mLevel == LevelIds::eMenu_0)
         {
             // Remove Abe for menu/credits levels?
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 
@@ -1901,7 +1901,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         pSaveState->anim_frame_change_counter = 1;
     }
 
-    pSaveState->bDrawable = mFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pSaveState->bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pSaveState->bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pSaveState->anim_render_layer = static_cast<s8>(field_20_animation.field_C_render_layer);
     pSaveState->field_30_health = field_10C_health;
@@ -1929,7 +1929,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         auto pObj = sObjectIds.Find_Impl(field_110_id);
         if (pObj)
         {
-            pSaveState->platform_obj_id = pObj->field_C_objectId;
+            pSaveState->platform_obj_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -1958,7 +1958,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         auto pObj = sObjectIds.Find_Impl(field_148_fade_obj_id);
         if (pObj)
         {
-            pSaveState->fade_obj_id = pObj->field_C_objectId;
+            pSaveState->fade_obj_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -1969,7 +1969,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         auto pObj = sObjectIds.Find_Impl(field_14C_circular_fade_id);
         if (pObj)
         {
-            pSaveState->circular_fade_id = pObj->field_C_objectId;
+            pSaveState->circular_fade_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
     pSaveState->orb_whirl_wind_id = field_150_OrbWhirlWind_id;
@@ -1979,7 +1979,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         auto pObj = sObjectIds.Find_Impl(field_150_OrbWhirlWind_id);
         if (pObj)
         {
-            pSaveState->orb_whirl_wind_id = pObj->field_C_objectId;
+            pSaveState->orb_whirl_wind_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -1990,7 +1990,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         auto pObj = sObjectIds.Find_Impl(field_154_possessed_object_id);
         if (pObj)
         {
-            pSaveState->possesed_object_id = pObj->field_C_objectId;
+            pSaveState->possesed_object_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -2001,7 +2001,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         auto pObj = sObjectIds.Find_Impl(field_158_throwable_id);
         if (pObj)
         {
-            pSaveState->throwabe_obj_id = pObj->field_C_objectId;
+            pSaveState->throwabe_obj_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -2012,7 +2012,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         auto pObj = sObjectIds.Find_Impl(field_15C_pull_rope_id);
         if (pObj)
         {
-            pSaveState->pull_ring_rope_id = pObj->field_C_objectId;
+            pSaveState->pull_ring_rope_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -2023,7 +2023,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         auto pObj = sObjectIds.Find_Impl(field_160_slappable_or_pick_item_id);
         if (pObj)
         {
-            pSaveState->slappable_or_pickup_id = pObj->field_C_objectId;
+            pSaveState->slappable_or_pickup_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -2034,7 +2034,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         auto pObj = sObjectIds.Find_Impl(field_164_wheel_id);
         if (pObj)
         {
-            pSaveState->wheel_id = pObj->field_C_objectId;
+            pSaveState->wheel_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -2045,7 +2045,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         auto pObj = sObjectIds.Find_Impl(field_1A8_portal_id);
         if (pObj)
         {
-            pSaveState->bird_portal_id = pObj->field_C_objectId;
+            pSaveState->bird_portal_id = pObj->mBaseGameObjectTlvInfo;
         }
     }
 
@@ -5700,7 +5700,7 @@ void Abe::Motion_57_Dead_4589A0()
             Event_Broadcast(kEventHeroDying, this);
             if (pDeathFade_1)
             {
-                pDeathFade_1->mFlags.Set(BaseGameObject::eDead);
+                pDeathFade_1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 field_148_fade_obj_id = -1;
             }
             auto pDeathFade = ae_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
@@ -5711,7 +5711,7 @@ void Abe::Motion_57_Dead_4589A0()
 
             if (pCircularFade)
             {
-                pCircularFade->mFlags.Set(BaseGameObject::eDead);
+                pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             ++field_124_timer;
         }
@@ -6777,7 +6777,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                     field_17C_cam_idx = 1;
                     field_120_state.stone = StoneStates::eWaitForInput_4;
-                    pCircularFade->mFlags.Set(BaseGameObject::eDead);
+                    pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     field_14C_circular_fade_id = -1;
                     DeathFadeOut* pFade33 = ae_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                     if (pFade33)
@@ -6805,7 +6805,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
         case StoneStates::eHandstoneEnd_3:
             if (pCircularFade->VDone())
             {
-                pCircularFade->mFlags.Set(BaseGameObject::eDead);
+                pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 field_14C_circular_fade_id = -1;
 
                 field_106_current_motion = eAbeMotions::Motion_87_HandstoneEnd_45C4F0;
@@ -6840,7 +6840,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                 {
                     field_120_state.stone = StoneStates::eWaitForInput_4;
 
-                    pFade->mFlags.Set(BaseGameObject::eDead);
+                    pFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     pFade = ae_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                     if (pFade)
                     {
@@ -6879,7 +6879,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
 
         case StoneStates::eCircularFadeExit_7:
         {
-            pFade->mFlags.Set(BaseGameObject::eDead);
+            pFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_148_fade_obj_id = -1;
 
             CircularFade* pCircularFade2 = Make_Circular_Fade_4CE8C0(field_B8_xpos, field_BC_ypos, field_CC_sprite_scale, 0, 0, 0);
@@ -7425,7 +7425,7 @@ void Abe::Motion_112_Chant_45B1C0()
                     field_174_unused = 0;
 
                     InvisibleEffect* pInvisible = static_cast<InvisibleEffect*>(sObjectIds.Find_Impl(field_178_invisible_effect_id));
-                    if (!pInvisible || pInvisible->mFlags.Get(BaseGameObject::eDead))
+                    if (!pInvisible || pInvisible->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                     {
                         pInvisible = ae_new<InvisibleEffect>(this);
                         field_178_invisible_effect_id = pInvisible->field_8_object_id;
@@ -7559,7 +7559,7 @@ void Abe::Motion_112_Chant_45B1C0()
 
             if (static_cast<s32>(sGnFrame_5C1B84) <= field_124_timer)
             {
-                if (!pPossessTarget || pPossessTarget->mFlags.Get(BaseGameObject::eDead) || pPossessTarget->field_10C_health <= FP_FromInteger(0) || pPossessTarget->Is_In_Current_Camera() != CameraPos::eCamCurrent_0)
+                if (!pPossessTarget || pPossessTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || pPossessTarget->field_10C_health <= FP_FromInteger(0) || pPossessTarget->Is_In_Current_Camera() != CameraPos::eCamCurrent_0)
                 {
                     field_106_current_motion = eAbeMotions::Motion_113_ChantEnd_45BBE0;
                     field_154_possessed_object_id = -1;
@@ -7592,7 +7592,7 @@ void Abe::Motion_112_Chant_45B1C0()
                 return;
             }
 
-            if (pPossessTarget->mFlags.Get(BaseGameObject::eDead))
+            if (pPossessTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 field_154_possessed_object_id = -1;
             }
@@ -7878,7 +7878,7 @@ void Abe::Motion_114_DoorEnter_459470()
             InvisibleEffect* pInvisibleEffect = static_cast<InvisibleEffect*>(sObjectIds.Find_Impl(field_178_invisible_effect_id));
             if (pInvisibleEffect)
             {
-                if (!(pInvisibleEffect->mFlags.Get(BaseGameObject::eDead)))
+                if (!(pInvisibleEffect->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
                 {
                     pInvisibleEffect->ClearInvisibility();
                     field_114_flags.Clear(Flags_114::e114_Bit8_bInvisible);
@@ -8264,7 +8264,7 @@ void Abe::FleechDeath_459350()
     BaseGameObject* pInvisibleEffect = sObjectIds.Find_Impl(field_178_invisible_effect_id);
     if (pInvisibleEffect)
     {
-        if (!pInvisibleEffect->mFlags.Get(BaseGameObject::eDead))
+        if (!pInvisibleEffect->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             static_cast<InvisibleEffect*>(pInvisibleEffect)->ClearInvisibility();
             field_178_invisible_effect_id = -1;
@@ -8310,7 +8310,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
             break;
         }
 
-        if (pObj->mFlags.Get(BaseGameObject::eInteractive_Bit8))
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8))
         {
             BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             if (fpX >= pAliveObj->field_E4_collection_rect.x && fpX <= pAliveObj->field_E4_collection_rect.w)
@@ -8952,7 +8952,7 @@ void Abe::ToDieFinal_458910()
     InvisibleEffect* pInvisibleEffect = static_cast<InvisibleEffect*>(sObjectIds.Find_Impl(field_178_invisible_effect_id));
     if (pInvisibleEffect)
     {
-        if (!(pInvisibleEffect->mFlags.Get(BaseGameObject::eDead)))
+        if (!(pInvisibleEffect->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
         {
             pInvisibleEffect->ClearInvisibility();
             field_178_invisible_effect_id = -1;
@@ -9586,7 +9586,7 @@ void Abe::FollowLift_45A500()
     if (pLift)
     {
         field_C8_vely = pLift->field_C8_vely;
-        if (pLift->mFlags.Get(BaseGameObject::eDead))
+        if (pLift->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             VOnTrapDoorOpen();
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift);

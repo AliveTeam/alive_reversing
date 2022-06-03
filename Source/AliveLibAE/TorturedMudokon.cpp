@@ -35,8 +35,8 @@ TorturedMudokon::TorturedMudokon(Path_TorturedMudokon* pTlv, s32 tlvInfo)
     }
     else
     {
-        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -54,7 +54,7 @@ void TorturedMudokon::SetupTearsAnimation(Animation* pAnim)
     }
     else
     {
-        mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
@@ -74,13 +74,13 @@ void TorturedMudokon::SetupZapAnimation(Animation* pAnim)
     }
     else
     {
-        mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
 void TorturedMudokon::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void TorturedMudokon::VRender(PrimHeader** ppOt)
@@ -136,7 +136,7 @@ void TorturedMudokon::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -164,7 +164,7 @@ void TorturedMudokon::VUpdate()
         case TorturedMudokonState::eKilled_1:
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             return;
 

@@ -30,7 +30,7 @@ void GameEnderController::CreateGameEnderController()
 GameEnderController::GameEnderController()
     : BaseGameObject(1)
 {
-    field_4_typeId = Types::eGameEnderController_37;
+    mBaseGameObjectTypeId = Types::eGameEnderController_37;
     field_14_state = GameEnderController_States::eInit_0;
 }
 
@@ -38,7 +38,7 @@ void GameEnderController::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -46,7 +46,7 @@ void GameEnderController::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_14_state)
@@ -75,10 +75,10 @@ void GameEnderController::VUpdate()
                             break;
                         }
 
-                        if (pObjIter->field_4_typeId == Types::eParticleBurst_19 || pObjIter->field_4_typeId == Types::eAlarm_1 || pObjIter->field_4_typeId == Types::eUXB_99 || pObjIter->field_4_typeId == Types::eMeatSaw_56 || pObjIter->field_4_typeId == Types::eSlig_88 || // EvenWurst Wieners fix - uses these extra objects that need to be deleted
-                            pObjIter->field_4_typeId == Types::eSligSpawner_91 || pObjIter->field_4_typeId == Types::eSlog_89)
+                        if (pObjIter->mBaseGameObjectTypeId == Types::eParticleBurst_19 || pObjIter->mBaseGameObjectTypeId == Types::eAlarm_1 || pObjIter->mBaseGameObjectTypeId == Types::eUXB_99 || pObjIter->mBaseGameObjectTypeId == Types::eMeatSaw_56 || pObjIter->mBaseGameObjectTypeId == Types::eSlig_88 || // EvenWurst Wieners fix - uses these extra objects that need to be deleted
+                            pObjIter->mBaseGameObjectTypeId == Types::eSligSpawner_91 || pObjIter->mBaseGameObjectTypeId == Types::eSlog_89)
                         {
-                            pObjIter->mFlags.Set(Options::eDead);
+                            pObjIter->mBaseGameObjectFlags.Set(Options::eDead);
                         }
                     }
 
@@ -93,14 +93,14 @@ void GameEnderController::VUpdate()
 
                         if (pPauseMenu_5080E0)
                         {
-                            pPauseMenu_5080E0->mFlags.Set(Options::eDead);
+                            pPauseMenu_5080E0->mBaseGameObjectFlags.Set(Options::eDead);
                             pPauseMenu_5080E0 = nullptr;
                         }
 
                         if (sRescuedMudokons_5076C0 >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Perfect ending
-                            sActiveHero_507678->mFlags.Set(Options::eDead);
+                            sActiveHero_507678->mBaseGameObjectFlags.Set(Options::eDead);
                             gMap.SetActiveCam(LevelIds::eBoardRoom_12, 6, 11, CameraSwapEffects::eUnknown_11, 316, 0);
                             field_14_state = GameEnderController_States::ePerfectEnding_4;
                         }
@@ -160,7 +160,7 @@ void GameEnderController::VUpdate()
 
                             sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
                             sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
-                            sActiveHero_507678->mFlags.Set(Options::eDead);
+                            sActiveHero_507678->mBaseGameObjectFlags.Set(Options::eDead);
 
                             gMap.SetActiveCam(LevelIds::eBoardRoom_12, 6, 9, CameraSwapEffects::eUnknown_11, 304, 0);
 
@@ -169,7 +169,7 @@ void GameEnderController::VUpdate()
                         else
                         {
                             // Bad ending
-                            sActiveHero_507678->mFlags.Set(Options::eDead);
+                            sActiveHero_507678->mBaseGameObjectFlags.Set(Options::eDead);
 
                             gInfiniteGrenades_5076EC = FALSE;
 

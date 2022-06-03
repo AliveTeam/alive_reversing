@@ -49,7 +49,7 @@ const TSlingMudBrain gSlingMudBrainTable_4CFCE0[] = {
 SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::SlingMud_90;
+    mBaseGameObjectTypeId = Types::SlingMud_90;
 
     field_120_last_event_idx = -1;
     field_134_buffer_start = 0;
@@ -143,7 +143,7 @@ SlingMudokon::~SlingMudokon()
 
 void SlingMudokon::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void SlingMudokon::VUpdate()
@@ -210,7 +210,7 @@ void SlingMudokon::VCallBrain()
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -624,7 +624,7 @@ s16 SlingMudokon::Brain_1_Spawn()
         case Brain_1_Spawn::eBrain1_Shoot_6:
             if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
             if (field_140_timer > static_cast<s32>(gnFrameCount_507670) || sActiveHero_507678->field_100_health <= FP_FromInteger(0))
@@ -675,7 +675,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                     field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 }
 
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 New_DestroyOrCreateObject_Particle_419D00(field_A8_xpos, (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos, field_BC_sprite_scale);
 
                 ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
@@ -909,7 +909,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
         case 8:
             if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
             if (field_140_timer > static_cast<s32>(gnFrameCount_507670) || sActiveHero_507678->field_100_health <= FP_FromInteger(0))
@@ -960,7 +960,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                     field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 }
 
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 New_DestroyOrCreateObject_Particle_419D00(field_A8_xpos, (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos, field_BC_sprite_scale);
 
                 ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);

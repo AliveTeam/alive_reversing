@@ -21,14 +21,14 @@ public:
 
     s32 field_10C;
     s32 field_110;
-    s32 field_114_count;
-    s16 field_118_x_offset;
-    s16 field_11A_width_offset;
-    s16 field_11C_y_offset;
-    s16 field_11E_height_offset;
-    PathLine* field_120_pCollisionLine;
-    Map* field_124_pMap;
-    s32 field_128_tlvInfo;
+    s32 mPlatformBaseCount;
+    s16 mPlatformBaseXOffset;
+    s16 mPlatformBaseWidthOffset;
+    s16 mPlatformBaseYOffset;
+    s16 mPlatformBaseHeightOffset;
+    PathLine* mPlatformBaseCollisionLine;
+    Map* mPlatformBaseMap;
+    s32 mPlatformBaseTlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(PlatformBase, 0x12C);
 

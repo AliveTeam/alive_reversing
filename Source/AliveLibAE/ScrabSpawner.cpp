@@ -63,7 +63,7 @@ s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
         BaseGameObject* pSpawnedScrab = sObjectIds.Find_Impl(field_3C_spawned_scrab_id);
         if (pSpawnedScrab)
         {
-            pSaveState->field_C_spawned_scrab_id = pSpawnedScrab->field_C_objectId;
+            pSaveState->field_C_spawned_scrab_id = pSpawnedScrab->mBaseGameObjectTlvInfo;
         }
     }
     return sizeof(ScrabSpawner_State);
@@ -84,7 +84,7 @@ void ScrabSpawner::VUpdate()
                     break;
                 }
 
-                if (pObj->Type() == AETypes::eScrab_112 && pObj->field_C_objectId == field_3C_spawned_scrab_id)
+                if (pObj->Type() == AETypes::eScrab_112 && pObj->mBaseGameObjectTlvInfo == field_3C_spawned_scrab_id)
                 {
                     // Redundant ??
                     field_3C_spawned_scrab_id = pObj->field_8_object_id;
@@ -95,11 +95,11 @@ void ScrabSpawner::VUpdate()
     }
 
     auto pExistingSpawnedScrab = static_cast<Scrab*>(sObjectIds.Find_Impl(field_3C_spawned_scrab_id));
-    if (!Event_Get(kEventDeathReset) && !(mFlags.Get(BaseGameObject::eDead)))
+    if (!Event_Get(kEventDeathReset) && !(mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
     {
         if (field_38_state == ScrabSpawnerStates::eScrabSpawned_1)
         {
-            if (!pExistingSpawnedScrab || pExistingSpawnedScrab->mFlags.Get(BaseGameObject::eDead))
+            if (!pExistingSpawnedScrab || pExistingSpawnedScrab->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 SwitchStates_Do_Operation(field_24_spawner_switch_id, SwitchOp::eSetFalse_1);
                 field_3C_spawned_scrab_id = -1;
@@ -130,7 +130,7 @@ void ScrabSpawner::VUpdate()
                 }
                 else
                 {
-                    mFlags.Set(BaseGameObject::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
             }
         }

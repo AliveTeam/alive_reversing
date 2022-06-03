@@ -16,7 +16,7 @@ ALIVE_VAR(1, 0x5009D8, u32, gGasEmitterFx_5009D8, 0);
 
 void GasEmitter::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void GasEmitter::VStopAudio()
@@ -44,7 +44,7 @@ GasEmitter::~GasEmitter()
 GasEmitter::GasEmitter(Path_GasEmitter* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
-    field_4_typeId = Types::eNone_0;
+    mBaseGameObjectTypeId = Types::eNone_0;
 
     field_10_tlvInfo = tlvInfo;
 

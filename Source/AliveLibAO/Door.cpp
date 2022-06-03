@@ -69,7 +69,7 @@ const AnimId sDoorAnimdIdTable_4BA508[16][6] = {
 
 Door::Door(Path_Door* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eDoor_21;
+    mBaseGameObjectTypeId = Types::eDoor_21;
 
     field_E4_tlvInfo = tlvInfo;
 
@@ -106,8 +106,8 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
             if (!ppRes)
             {
-                mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -169,8 +169,8 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 break;
             }
             ResourceManager::FreeResource_455550(ppRes);
-            mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
         }
 
@@ -190,8 +190,8 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
             if (!ppRes || openDoor.mFrameTableOffset == 0)
             {
-                mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -316,8 +316,8 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                     break;
                 }
             }
-            mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
     }
 
@@ -338,7 +338,7 @@ Door::~Door()
 
 void Door::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 Bool32 Door::vIsOpen_40E800()
@@ -397,7 +397,7 @@ void Door::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780)

@@ -408,8 +408,8 @@ PauseMenu::PauseMenu()
     sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
     SetType(AETypes::ePauseMenu_95);
-    mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     word12C_flags &= ~0xE;
     word12C_flags &= ~1u;
 
@@ -434,7 +434,7 @@ PauseMenu::PauseMenu()
 
 PauseMenu::~PauseMenu()
 {
-    mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
 
     gObjList_drawables_5C1124->Remove_Item(this);
     field_158_animation.VCleanUp();
@@ -461,7 +461,7 @@ void PauseMenu::Init()
     }
     else
     {
-        mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
@@ -496,7 +496,7 @@ void PauseMenu::VScreenChanged()
 {
     if (gMap.mLevel == LevelIds::eCredits_16)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -1136,11 +1136,11 @@ void PauseMenu::Page_ReallyQuit_Update()
 
         if (pPauseMenu_5C9300 && pPauseMenu_5C9300 == this)
         {
-            pPauseMenu_5C9300->mFlags.Set(BaseGameObject::eDead);
+            pPauseMenu_5C9300->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
         else
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
 
         pPauseMenu_5C9300 = 0;
@@ -1584,7 +1584,7 @@ void PauseMenu::VUpdate()
                 SND_StopAll();
                 SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
                 sub_4A2B70();
-                mFlags.Set(BaseGameObject::eDrawable_Bit4);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
                 field_134_index_main = MainPages::ePage_Continue_0;
                 field_136_unused = 0;
                 word12C_flags = (word12C_flags & ~8) | 1;
@@ -1663,9 +1663,9 @@ void PauseMenu::VUpdate()
                             break;
                         }
 
-                        if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
+                        if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
                         {
-                            if (pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+                            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
                             {
                                 pObj->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
                             }
@@ -1708,7 +1708,7 @@ void PauseMenu::VUpdate()
                 // This call seems redundant as the calle will also update input right after this too
                 sInputObject_5BD4E0.Update(GetGameAutoPlayer());
 
-                mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+                mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
             }
         }
     }

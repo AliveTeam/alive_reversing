@@ -174,7 +174,7 @@ MotionDetector::~MotionDetector()
     BaseGameObject* pLaser = sObjectIds.Find_Impl(field_F8_laser_id);
     if (pLaser)
     {
-        pLaser->mFlags.Set(BaseGameObject::eDead);
+        pLaser->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -185,7 +185,7 @@ void MotionDetector::VScreenChanged()
     BaseGameObject* pOwner = sObjectIds.Find_Impl(field_FC_owner_id);
     if (!pOwner)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -290,7 +290,7 @@ void MotionDetector::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (!sNum_CamSwappers_5C1B66)

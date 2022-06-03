@@ -72,13 +72,13 @@ TestAnimation::TestAnimation()
 {
     mLoaded = false;
 
-    field_4_typeId = AO::Types::eNone_0;
+    mBaseGameObjectTypeId = AO::Types::eNone_0;
 
     field_CC_bApplyShadows &= ~1u;
 
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mFlags.Set(BaseGameObject::eCantKill_Bit11);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Set(BaseGameObject::eCantKill_Bit11);
 }
 
 void TestAnimation::SyncToAbePos()

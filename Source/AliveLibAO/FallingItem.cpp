@@ -39,9 +39,9 @@ const FallingItem_Data sFallingItemData_4BAB20[16] = {
 FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mFlags.Set(Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    field_4_typeId = Types::eRockSpawner_32;
+    mBaseGameObjectTypeId = Types::eRockSpawner_32;
 
     field_10C_tlvInfo = tlvInfo;
 
@@ -124,7 +124,7 @@ void FallingItem::DamageHitItems()
 
         if (pObj != this)
         {
-            if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
@@ -150,7 +150,7 @@ void FallingItem::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (pPrimaryFallingItem_4FFA54 == this)
@@ -177,7 +177,7 @@ void FallingItem::VUpdate()
 
         case State::eGoWaitForDelay_1:
         {
-            mFlags.Clear(Options::eCanExplode_Bit7);
+            mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
             field_110_state = State::eWaitForFallDelay_2;
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
@@ -313,13 +313,13 @@ void FallingItem::VUpdate()
 
             if ((field_114_max_falling_items && field_116_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_128_xpos, field_12C_ypos, 0))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             else
             {
                 const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap.mCurrentLevel)].field_0_falling_animId);
                 field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                mFlags.Set(Options::eCanExplode_Bit7);
+                mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
                 field_B8_vely = FP_FromInteger(0);
                 field_B4_velx = FP_FromInteger(0);
                 field_AC_ypos = field_124_yPosStart;
@@ -344,7 +344,7 @@ void FallingItem::VScreenChanged()
         || gMap.mCurrentPath != gMap.mPath
         || field_110_state != State::eFalling_3)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

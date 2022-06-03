@@ -205,8 +205,8 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID);
     if (!ppRes || openRec.mFrameTableOffset == 0)
     {
-        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -367,7 +367,7 @@ void Door::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_115_DoorExit_459A40)
@@ -483,7 +483,7 @@ void Door::VUpdate()
 
 void Door::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 // ================================================================================================

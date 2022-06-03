@@ -33,7 +33,7 @@ MeatSaw::~MeatSaw()
 
 MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eMeatSaw_56;
+    mBaseGameObjectTypeId = Types::eMeatSaw_56;
 
     const AnimRecord rec = AO::AnimRec(AnimId::MeatSaw_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -163,7 +163,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     }
     else
     {
-        mFlags.Set(Options::eListAddFailed_Bit1);
+        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
@@ -172,7 +172,7 @@ void MeatSaw::VScreenChanged()
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !sControlledCharacter_50767C || // Can be nullptr during the game ender
         FP_Abs(sControlledCharacter_50767C->field_A8_xpos - field_A8_xpos) > FP_FromInteger(1024))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -180,7 +180,7 @@ void MeatSaw::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     GrindUpObjects_439CD0();
@@ -306,12 +306,12 @@ void MeatSaw::GrindUpObjects_439CD0()
             break;
         }
 
-        if (pObjIter->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
-            if (pObjIter->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 // Can't grind meat with a meat saw, that would be grindception
-                if (pObjIter->field_4_typeId != Types::eMeat_54)
+                if (pObjIter->mBaseGameObjectTypeId != Types::eMeat_54)
                 {
                     PSX_RECT objRect = {};
                     pObjIter->VGetBoundingRect(&objRect, 1);

@@ -40,7 +40,7 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
 {
     SetType(AETypes::eSecurityOrb_83);
 
-    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     const AnimRecord& rec = AnimRec(AnimId::Security_Orb);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -90,17 +90,17 @@ SecurityOrb::~SecurityOrb()
 
 void SecurityOrb::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
 
-    mFlags.Set(BaseGameObject::eDead);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_10C_health = FP_FromInteger(0);
 
     if (pFrom->Type() == AETypes::eMineCar_89 || pFrom->Type() == AETypes::eAbilityRing_104 || pFrom->Type() == AETypes::eShrykull_121)
@@ -128,7 +128,7 @@ void SecurityOrb::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     // TODO: untangle

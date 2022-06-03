@@ -63,7 +63,7 @@ void TrapDoor::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
         if (field_13C_self_closing == Choice_short::eYes_1)
         {
@@ -80,7 +80,7 @@ PSX_RECT* TrapDoor::VGetBoundingRect(PSX_RECT* pRect, s32 /*pointIdx*/)
 
 TrapDoor::~TrapDoor()
 {
-    gMap.TLV_Reset(field_128_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
 }
 
 void TrapDoor::Open()
@@ -94,7 +94,7 @@ void TrapDoor::Open()
         }
 
         // Find alive objects..
-        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // That are on this trap door
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
@@ -103,7 +103,7 @@ void TrapDoor::Open()
                 pAliveObj->VOnTrapDoorOpen();
 
                 // Clear their collision line if they are on this trap door that has opened
-                if (field_120_pCollisionLine == pAliveObj->field_F4_pLine)
+                if (mPlatformBaseCollisionLine == pAliveObj->field_F4_pLine)
                 {
                     pAliveObj->field_F4_pLine = nullptr;
                 }
@@ -111,8 +111,8 @@ void TrapDoor::Open()
         }
     }
 
-    Rect_Clear(&field_120_pCollisionLine->field_0_rect);
-    field_120_pCollisionLine = nullptr;
+    Rect_Clear(&mPlatformBaseCollisionLine->field_0_rect);
+    mPlatformBaseCollisionLine = nullptr;
     ObjListPlatforms_50766C->Remove_Item(this);
 }
 
@@ -120,7 +120,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 {
     field_12C_flag &= ~1u;
 
-    field_4_typeId = Types::eTrapDoor_98;
+    mBaseGameObjectTypeId = Types::eTrapDoor_98;
     field_134_switch_id = pTlv->field_18_switch_id;
     field_138_switch_state = pTlv->field_1A_start_state;
 
@@ -172,8 +172,8 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_118_x_offset = FP_GetExponent(FP_FromInteger(pTlv->field_10_top_left.field_0_x) - field_A8_xpos);
-    field_11A_width_offset = FP_GetExponent(FP_FromInteger(pTlv->field_14_bottom_right.field_0_x) - field_A8_xpos);
+    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->field_10_top_left.field_0_x) - field_A8_xpos);
+    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->field_14_bottom_right.field_0_x) - field_A8_xpos);
     field_13A_xOff = pTlv->field_24_xOff;
 
     if (field_136_state == TrapDoorState::eOpen_2)
@@ -195,7 +195,7 @@ void TrapDoor::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     const CameraPos direction = gMap.GetDirection(
@@ -260,7 +260,7 @@ void TrapDoor::VUpdate()
         case TrapDoorState::eClosing_3:
             if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_120_pCollisionLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line(
+                mPlatformBaseCollisionLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line(
                     field_148_bounding_rect.x,
                     field_148_bounding_rect.y,
                     field_148_bounding_rect.w,
