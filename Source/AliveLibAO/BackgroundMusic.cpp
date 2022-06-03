@@ -28,7 +28,7 @@ void BackgroundMusic::VUpdate()
         }
         sBackgroundMusic_seq_id_4CFFF8 = field_10_music_id;
     }
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void BackgroundMusic::Stop()

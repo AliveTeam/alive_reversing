@@ -16,20 +16,20 @@ namespace AO {
 
 Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eBat_6;
+    mTypeId = Types::eBat_6;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Bat);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     
     if (!ppRes)
     {
-        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
-    field_10_anim.field_C_layer = Layer::eLayer_SligBat_33;
+    mAnim.mRenderLayer = Layer::eLayer_SligBat_33;
 
     FP hitX = {};
     FP hitY = {};
@@ -49,8 +49,8 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
 
     if (field_E4_pLine)
     {
-        field_A8_xpos = FP_FromInteger(field_E4_pLine->field_0_rect.x);
-        field_AC_ypos = FP_FromInteger(field_E4_pLine->field_0_rect.y);
+        mXPos = FP_FromInteger(field_E4_pLine->field_0_rect.x);
+        mYPos = FP_FromInteger(field_E4_pLine->field_0_rect.y);
     }
 
     field_EC_ticks_before_moving = pTlv->field_18_ticks_before_moving;
@@ -58,15 +58,15 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_C6_scale = 0;
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = 0;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
-        field_C6_scale = 1;
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = 1;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     field_F4_state = BatStates::eSetTimer_0;
@@ -85,7 +85,7 @@ Bat::~Bat()
 
 void Bat::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
@@ -93,23 +93,23 @@ void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
     const FP xd = FP_Abs(xpos - field_104_target_xpos);
     if (xd > FP_FromInteger(350))
     {
-        field_A8_xpos += *xSpeed;
+        mXPos += *xSpeed;
     }
 
     const FP yd = FP_Abs(ypos - field_108_target_ypos);
     if (yd > FP_FromInteger(200))
     {
-        field_AC_ypos += *ySpeed;
+        mYPos += *ySpeed;
     }
 
     field_104_target_xpos = xpos;
     field_108_target_ypos = ypos;
 
     *xSpeed = xpos + FP_FromInteger((Math_NextRandom() & 63) - 32);
-    *xSpeed = *xSpeed - field_A8_xpos;
+    *xSpeed = *xSpeed - mXPos;
 
     *ySpeed = ypos + FP_FromInteger((Math_NextRandom() & 31) - 8);
-    *ySpeed = *ySpeed - field_AC_ypos;
+    *ySpeed = *ySpeed - mYPos;
 
     const s32 ySpeedi = FP_GetExponent(*ySpeed);
     const s32 xSpeedi = FP_GetExponent(*xSpeed);
@@ -120,18 +120,18 @@ void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
         x_final += FP_FromInteger(1);
     }
 
-    field_B4_velx = (FP_FromInteger(8) * *xSpeed) / x_final;
-    field_B8_vely = (FP_FromInteger(8) * *ySpeed) / x_final;
+    mVelX = (FP_FromInteger(8) * *xSpeed) / x_final;
+    mVelY = (FP_FromInteger(8) * *ySpeed) / x_final;
 
-    field_A8_xpos += field_B4_velx;
-    field_AC_ypos += field_B8_vely;
+    mXPos += mVelX;
+    mYPos += mVelY;
 }
 
 void Bat::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mGameObjectFlags.Set(Options::eDead);
     }
 
     if (sNumCamSwappers_507668 != 0)
@@ -154,7 +154,7 @@ void Bat::VUpdate()
             {
                 field_F4_state = BatStates::eStartMoving_2;
                 field_100_velx = FP_FromInteger(0);
-                field_10_anim.Set_Animation_Data(6608, nullptr);
+                mAnim.Set_Animation_Data(6608, nullptr);
             }
             break;
 
@@ -170,14 +170,14 @@ void Bat::VUpdate()
 
             if (field_E4_pLine)
             {
-                field_E4_pLine = field_E4_pLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_100_velx);
+                field_E4_pLine = field_E4_pLine->MoveOnLine(&mXPos, &mYPos, field_100_velx);
             }
 
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_F4_state = BatStates::eFlying_3;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
-                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_F8_timer = gnFrameCount_507670 + Math_RandomRange_450F20(0, 90);
             }
             break;
@@ -192,7 +192,7 @@ void Bat::VUpdate()
                 }
             }
 
-            if (!(field_10_anim.field_92_current_frame % 3))
+            if (!(mAnim.field_92_current_frame % 3))
             {
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Bat1_41, SoundEffect::Bat2_42) & 0xFF), Math_RandomRange_450F20(20, 26), 0);
             }
@@ -205,15 +205,15 @@ void Bat::VUpdate()
 
             if (field_E4_pLine)
             {
-                field_E4_pLine = field_E4_pLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_100_velx);
+                field_E4_pLine = field_E4_pLine->MoveOnLine(&mXPos, &mYPos, field_100_velx);
             }
 
             if (!field_E4_pLine)
             {
-                mFlags.Set(Options::eDead);
+                mGameObjectFlags.Set(Options::eDead);
             }
 
-            if (!sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
+            if (!sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
             {
                 for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
                 {
@@ -223,12 +223,12 @@ void Bat::VUpdate()
                         break;
                     }
 
-                    if (pObjIter->field_4_typeId != Types::SecurityOrb_53 && pObjIter->field_4_typeId != Types::eSlig_88 && pObjIter->field_4_typeId != Types::eSlog_89)
+                    if (pObjIter->mTypeId != Types::SecurityOrb_53 && pObjIter->mTypeId != Types::eSlig_88 && pObjIter->mTypeId != Types::eSlog_89)
                     {
                         PSX_RECT bObjRect = {};
                         pObjIter->VGetBoundingRect(&bObjRect, 1);
 
-                        if (FP_GetExponent(field_A8_xpos) >= bObjRect.x && FP_GetExponent(field_A8_xpos) <= bObjRect.w && FP_GetExponent(field_AC_ypos) >= bObjRect.y && FP_GetExponent(field_AC_ypos) <= bObjRect.h && pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
+                        if (FP_GetExponent(mXPos) >= bObjRect.x && FP_GetExponent(mXPos) <= bObjRect.w && FP_GetExponent(mYPos) >= bObjRect.y && FP_GetExponent(mYPos) <= bObjRect.h && pObjIter->mSpriteScale == mSpriteScale)
                         {
                             for (s32 j = 0; j < gBaseGameObjects->Size(); j++)
                             {
@@ -238,7 +238,7 @@ void Bat::VUpdate()
                                     break;
                                 }
 
-                                if (pMaybeBat->field_4_typeId == Types::eBat_6)
+                                if (pMaybeBat->mTypeId == Types::eBat_6)
                                 {
                                     auto pBat = static_cast<Bat*>(pMaybeBat);
 
@@ -247,13 +247,13 @@ void Bat::VUpdate()
 
                                     pBat->field_F4_state = BatStates::eAttackTarget_4;
                                     const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
-                                    pBat->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                                    pBat->mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
 
                                     pBat->field_F8_timer = 0;
                                     pBat->field_FC_attack_duration_timer = gnFrameCount_507670 + pBat->field_F6_attack_duration;
 
-                                    pBat->field_104_target_xpos = pBat->field_10C->field_A8_xpos;
-                                    pBat->field_108_target_ypos = pBat->field_10C->field_AC_ypos;
+                                    pBat->field_104_target_xpos = pBat->field_10C->mXPos;
+                                    pBat->field_108_target_ypos = pBat->field_10C->mYPos;
                                 }
                             }
                         }
@@ -264,9 +264,9 @@ void Bat::VUpdate()
 
         case BatStates::eAttackTarget_4:
         {
-            if (field_10C->mFlags.Get(BaseGameObject::eDead) || Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
+            if (field_10C->mGameObjectFlags.Get(BaseGameObject::eDead) || Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
             {
-                mFlags.Set(Options::eDead);
+                mGameObjectFlags.Set(Options::eDead);
                 return;
             }
 
@@ -299,10 +299,10 @@ void Bat::VUpdate()
 
         case BatStates::eFlyAwayAndDie_5:
         {
-            FlyTo(field_A8_xpos, field_AC_ypos - FP_FromInteger(40), &xSpeed, &ySpeed);
+            FlyTo(mXPos, mYPos - FP_FromInteger(40), &xSpeed, &ySpeed);
             if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
             {
-                mFlags.Set(Options::eDead);
+                mGameObjectFlags.Set(Options::eDead);
             }
         }
         break;

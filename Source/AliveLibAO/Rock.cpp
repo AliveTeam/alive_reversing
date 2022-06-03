@@ -20,7 +20,7 @@ namespace AO {
 Rock::Rock(FP xpos, FP ypos, s16 count)
     : BaseThrowable()
 {
-    field_4_typeId = Types::eRock_70;
+    mTypeId = Types::eRock_70;
 
     field_10E_bDead = 0;
 
@@ -28,18 +28,18 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    mFlags.Clear(Options::eInteractive_Bit8);
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mGameObjectFlags.Clear(Options::eInteractive_Bit8);
+    mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    field_A8_xpos = xpos;
+    mXPos = xpos;
     field_11C_xpos = xpos;
 
-    field_AC_ypos = ypos;
+    mYPos = ypos;
     field_120_ypos = ypos;
 
-    field_B4_velx = FP_FromInteger(0);
-    field_B8_vely = FP_FromInteger(0);
+    mVelX = FP_FromInteger(0);
+    mVelY = FP_FromInteger(0);
 
     field_10C_count = count;
     field_110_state = States::eNone_0;
@@ -47,22 +47,22 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAberockAOResID, 0, 0);
     if (ppPal)
     {
-        field_10_anim.LoadPal(ppPal, 0);
+        mAnim.LoadPal(ppPal, 0);
     }
     else
     {
-        const FrameInfoHeader* pFrameInfo = field_10_anim.Get_FrameHeader(-1);
+        const FrameInfoHeader* pFrameInfo = mAnim.Get_FrameHeader(-1);
 
-        const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
+        const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
 
-        field_10_anim.LoadPal(
-            field_10_anim.field_20_ppBlock,
+        mAnim.LoadPal(
+            mAnim.field_20_ppBlock,
             pFrameHeader->field_0_clut_offset);
     }
 
     field_118_vol = 0;
 
-    field_D0_pShadow = ao_new<Shadow>();
+    mShadow = ao_new<Shadow>();
 }
 
 Rock::~Rock()
@@ -80,7 +80,7 @@ void Rock::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mGameObjectFlags.Set(Options::eDead);
     }
 
     switch (field_110_state)
@@ -90,55 +90,55 @@ void Rock::VUpdate()
             break;
 
         case States::eRolling_2:
-            if (FP_Abs(field_B4_velx) >= FP_FromInteger(1))
+            if (FP_Abs(mVelX) >= FP_FromInteger(1))
             {
-                if (field_B4_velx < FP_FromInteger(0))
+                if (mVelX < FP_FromInteger(0))
                 {
-                    field_B4_velx += FP_FromDouble(0.01);
+                    mVelX += FP_FromDouble(0.01);
                 }
                 else
                 {
-                    field_B4_velx -= FP_FromDouble(0.01);
+                    mVelX -= FP_FromDouble(0.01);
                 }
 
                 field_114_pLine->MoveOnLine(
-                    &field_A8_xpos,
-                    &field_AC_ypos,
-                    field_B4_velx);
+                    &mXPos,
+                    &mYPos,
+                    mVelX);
 
                 if (!field_114_pLine)
                 {
                     field_110_state = States::eBouncing_4;
-                    field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                    mAnim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
                 }
             }
             else
             {
-                const s16 x_exp = FP_GetExponent(field_A8_xpos);
-                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, x_exp & 0x3FF);
+                const s16 x_exp = FP_GetExponent(mXPos);
+                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(mSpriteScale, x_exp & 0x3FF);
                 if (abs(xSnapped - x_exp) > 1)
                 {
                     field_114_pLine = field_114_pLine->MoveOnLine(
-                        &field_A8_xpos,
-                        &field_AC_ypos,
-                        field_B4_velx);
+                        &mXPos,
+                        &mYPos,
+                        mVelX);
                     if (!field_114_pLine)
                     {
                         field_110_state = States::eBouncing_4;
-                        field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                        mAnim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
                     }
                 }
                 else
                 {
-                    field_B4_velx = FP_FromInteger(0);
-                    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-                    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                    mVelX = FP_FromInteger(0);
+                    mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+                    mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
 
-                    mFlags.Set(Options::eInteractive_Bit8);
+                    mGameObjectFlags.Set(Options::eInteractive_Bit8);
 
-                    field_10_anim.field_4_flags.Clear(AnimFlags::eBit8_Loop);
-                    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
-                    field_D4_collection_rect.h = field_AC_ypos;
+                    mAnim.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
+                    mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
+                    mCollectionRect.h = mYPos;
                     field_110_state = States::eOnGround_3;
                     field_124_shimmer_timer = gnFrameCount_507670;
                 }
@@ -149,8 +149,8 @@ void Rock::VUpdate()
             if (static_cast<s32>(gnFrameCount_507670) > field_124_shimmer_timer)
             {
                 New_Shiny_Particle_4199A0(
-                    (field_BC_sprite_scale * FP_FromInteger(1)) + field_A8_xpos,
-                    (field_BC_sprite_scale * FP_FromInteger(-7)) + field_AC_ypos,
+                    (mSpriteScale * FP_FromInteger(1)) + mXPos,
+                    (mSpriteScale * FP_FromInteger(-7)) + mYPos,
                     FP_FromDouble(0.3),
                     Layer::eLayer_Foreground_36);
                 field_124_shimmer_timer = (Math_NextRandom() % 16) + gnFrameCount_507670 + 60;
@@ -171,7 +171,7 @@ void Rock::VUpdate()
                 1,
                 (TCollisionCallBack) &Rock::OnCollision);
 
-            if (field_B8_vely > FP_FromInteger(30))
+            if (mVelY > FP_FromInteger(30))
             {
                 field_110_state = States::eFallingOutOfWorld_5;
             }
@@ -179,17 +179,17 @@ void Rock::VUpdate()
         break;
 
         case States::eFallingOutOfWorld_5:
-            field_B8_vely += FP_FromInteger(1);
-            field_A8_xpos += field_B4_velx;
-            field_AC_ypos += field_B8_vely;
+            mVelY += FP_FromInteger(1);
+            mXPos += mVelX;
+            mYPos += mVelY;
             if (!gMap.Is_Point_In_Current_Camera_4449C0(
-                    field_B2_lvl_number,
-                    field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mLvlNumber,
+                    mPathNumber,
+                    mXPos,
+                    mYPos,
                     0))
             {
-                mFlags.Set(Options::eDead);
+                mGameObjectFlags.Set(Options::eDead);
             }
             break;
         default:
@@ -203,17 +203,17 @@ void Rock::VScreenChanged()
     if (gMap.mCurrentPath != gMap.mPath
         || gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
 //TODO Identical to AE - merge
 void Rock::VThrow(FP velX, FP velY)
 {
-    field_B4_velx = velX;
-    field_B8_vely = velY;
+    mVelX = velX;
+    mVelY = velY;
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+    mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
     if (field_10C_count == 0)
     {
@@ -232,34 +232,34 @@ s16 Rock::VCanThrow()
 
 void Rock::InTheAir()
 {
-    field_11C_xpos = field_A8_xpos;
-    field_120_ypos = field_AC_ypos;
+    field_11C_xpos = mXPos;
+    field_120_ypos = mYPos;
 
-    if (field_B8_vely > FP_FromInteger(30))
+    if (mVelY > FP_FromInteger(30))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    field_B8_vely += FP_FromInteger(1);
+    mVelY += FP_FromInteger(1);
 
-    field_A8_xpos += field_B4_velx;
-    field_AC_ypos += field_B8_vely;
+    mXPos += mVelX;
+    mYPos += mVelY;
 
     u16 result = 0;
-    field_A8_xpos = CamX_VoidSkipper(field_A8_xpos, field_B4_velx, 8, &result);
-    field_AC_ypos = CamY_VoidSkipper(field_AC_ypos, field_B8_vely, 8, &result);
+    mXPos = CamX_VoidSkipper(mXPos, mVelX, 8, &result);
+    mYPos = CamY_VoidSkipper(mYPos, mVelY, 8, &result);
 
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast(
             field_11C_xpos,
             field_120_ypos,
-            field_A8_xpos,
-            field_AC_ypos,
+            mXPos,
+            mYPos,
             &field_114_pLine,
             &hitX,
             &hitY,
-            field_BC_sprite_scale != FP_FromInteger(1) ? 0x70 : 0x07))
+            mSpriteScale != FP_FromInteger(1) ? 0x70 : 0x07))
     {
         switch (field_114_pLine->field_8_type)
         {
@@ -267,15 +267,15 @@ void Rock::InTheAir()
             case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
-                if (field_B8_vely > FP_FromInteger(0))
+                if (mVelY > FP_FromInteger(0))
                 {
-                    if (field_110_state != States::eBouncing_4 || field_B8_vely >= FP_FromInteger(5))
+                    if (field_110_state != States::eBouncing_4 || mVelY >= FP_FromInteger(5))
                     {
-                        if (field_110_state != States::eFallingOutOfRockSack_1 || field_B8_vely >= FP_FromInteger(1))
+                        if (field_110_state != States::eFallingOutOfRockSack_1 || mVelY >= FP_FromInteger(1))
                         {
-                            field_AC_ypos = hitY;
-                            field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
-                            field_B4_velx = (field_B4_velx / FP_FromInteger(2));
+                            mYPos = hitY;
+                            mVelY = (-mVelY / FP_FromInteger(2));
+                            mVelX = (mVelX / FP_FromInteger(2));
                             s32 vol = 20 * (4 - field_118_vol);
                             if (vol < 40)
                             {
@@ -289,14 +289,14 @@ void Rock::InTheAir()
                         else
                         {
                             field_110_state = States::eRolling_2;
-                            if (field_B4_velx >= FP_FromInteger(0) && field_B4_velx < FP_FromInteger(1))
+                            if (mVelX >= FP_FromInteger(0) && mVelX < FP_FromInteger(1))
                             {
-                                field_B4_velx = FP_FromInteger(1);
+                                mVelX = FP_FromInteger(1);
                             }
 
-                            if (field_B4_velx < FP_FromInteger(0) && field_B4_velx > FP_FromInteger(-1))
+                            if (mVelX < FP_FromInteger(0) && mVelX > FP_FromInteger(-1))
                             {
-                                field_B4_velx = FP_FromInteger(-1);
+                                mVelX = FP_FromInteger(-1);
                             }
                         }
                     }
@@ -309,14 +309,14 @@ void Rock::InTheAir()
 
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eBackgroundWallLeft_5:
-                if (field_B4_velx < FP_FromInteger(0))
+                if (mVelX < FP_FromInteger(0))
                 {
                     BounceHorizontally( hitX, hitY );
                 }
                 break;
             case eLineTypes::eWallRight_2:
             case eLineTypes::eBackgroundWallRight_6:
-                if (field_B4_velx > FP_FromInteger(0))
+                if (mVelX > FP_FromInteger(0))
                 {
                     BounceHorizontally( hitX, hitY );
                 }
@@ -331,9 +331,9 @@ void Rock::InTheAir()
 //TODO Identical to AE - merge
 void Rock::BounceHorizontally( FP hitX, FP hitY )
 {
-    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-    field_A8_xpos = hitX;
-    field_AC_ypos = hitY;
+    mVelX = (-mVelX / FP_FromInteger(2));
+    mXPos = hitX;
+    mYPos = hitY;
     s32 vol = 20 * (4 - field_118_vol);
     if (vol < 40)
     {
@@ -348,7 +348,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
 //TODO Identical to AE - merge
 s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    if (!pObj->mFlags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pObj->mGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {
         return 1;
     }
@@ -358,13 +358,13 @@ s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     if (field_11C_xpos < FP_FromInteger(bRect.x) || field_11C_xpos > FP_FromInteger(bRect.w))
     {
-        field_A8_xpos -= field_B4_velx;
-        field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+        mXPos -= mVelX;
+        mVelX = (-mVelX / FP_FromInteger(2));
     }
     else
     {
-        field_AC_ypos -= field_B8_vely;
-        field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
+        mYPos -= mVelY;
+        mVelY = (-mVelY / FP_FromInteger(2));
     }
 
     pObj->VOnThrowableHit(this);

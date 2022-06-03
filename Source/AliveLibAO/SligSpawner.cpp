@@ -11,7 +11,7 @@ namespace AO {
 SligSpawner::SligSpawner(Path_Slig* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
-    field_4_typeId = Types::eSligSpawner_91;
+    mTypeId = Types::eSligSpawner_91;
 
     field_10_tlvInfo = tlvInfo;
     field_18_tlv = *pTlv;
@@ -33,14 +33,14 @@ void SligSpawner::VScreenChanged()
 
 void SligSpawner::VScreenChanged_402960()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void SligSpawner::VUpdate_4028A0()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (SwitchStates_Get(field_14_slig_spawner_switch_id))
@@ -57,7 +57,7 @@ void SligSpawner::VUpdate_4028A0()
             ao_new<Slig>(pTlv, 0xFFFF);
         }
 
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
         field_16_flags = 0;
     }
 }

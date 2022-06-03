@@ -45,14 +45,14 @@ void Teleporter::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
     field_32_bDestroySelf = 1;
 }
 
 Electrocute* Teleporter::Create_ElectrocuteEffect()
 {
-    return ae_new<Electrocute>(sControlledCharacter_5C1B8C, TRUE, FALSE);
+    return ae_new<Electrocute>(sControlledCharacter, TRUE, FALSE);
 }
 
 const PSX_Point kSparkOffs_563988[8] = {
@@ -102,7 +102,7 @@ void Teleporter::VUpdate()
         {
             if (field_32_bDestroySelf)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
             if (SwitchStates_Get(field_34_mTlvData.field_1A_switch_id) == field_2C_switch_state)
@@ -113,16 +113,16 @@ void Teleporter::VUpdate()
             field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
 
             if (!sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-                    FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos),
-                    FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos),
-                    FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos),
-                    FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos),
+                    FP_GetExponent(sControlledCharacter->mXPos),
+                    FP_GetExponent(sControlledCharacter->mYPos),
+                    FP_GetExponent(sControlledCharacter->mXPos),
+                    FP_GetExponent(sControlledCharacter->mYPos),
                     TlvTypes::Teleporter_88))
             {
                 return;
             }
 
-            if (sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
+            if (sControlledCharacter->mAliveGameObjectFlags.Get(Flags_114::e114_Bit10_Teleporting))
             {
                 return;
             }
@@ -131,7 +131,7 @@ void Teleporter::VUpdate()
             field_50_objId = Teleporter::Create_ElectrocuteEffect()->field_8_object_id;
 
             SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -400);
-            sControlledCharacter_5C1B8C->field_114_flags.Set(Flags_114::e114_Bit10_Teleporting);
+            sControlledCharacter->mAliveGameObjectFlags.Set(Flags_114::e114_Bit10_Teleporting);
 
             SpawnRingSparks(&field_34_mTlvData);
         }
@@ -143,7 +143,7 @@ void Teleporter::VUpdate()
             {
                 if (pObj->VSub_4E6630() || field_54_effect_created)
                 {
-                    if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
+                    if (!(pObj->mGameObjectFlags.Get(BaseGameObject::eDead)))
                     {
                         return;
                     }
@@ -157,16 +157,16 @@ void Teleporter::VUpdate()
                     {
                         // Steam/smoke effect at Abe's body
                         New_Smoke_Particles(
-                            sControlledCharacter_5C1B8C->field_B8_xpos,
-                            sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
-                            sControlledCharacter_5C1B8C->field_CC_sprite_scale,
+                            sControlledCharacter->mXPos,
+                            sControlledCharacter->mYPos - FP_FromInteger(9), // 18/2
+                            sControlledCharacter->mSpriteScale,
                             3,
                             128u,
                             128u,
                             128u);
 
-                        ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->field_B8_xpos,
-                                              sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
+                        ae_new<ParticleBurst>(sControlledCharacter->mXPos,
+                                              sControlledCharacter->mYPos - FP_FromInteger(9), // 18/2
                                               9u,
                                               FP_FromDouble(0.5),
                                               BurstType::eBigRedSparks_3,
@@ -176,16 +176,16 @@ void Teleporter::VUpdate()
                     {
                         // Steam/smoke effect at Abe's body
                         New_Smoke_Particles(
-                            sControlledCharacter_5C1B8C->field_B8_xpos,
-                            sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
-                            sControlledCharacter_5C1B8C->field_CC_sprite_scale,
+                            sControlledCharacter->mXPos,
+                            sControlledCharacter->mYPos - FP_FromInteger(18),
+                            sControlledCharacter->mSpriteScale,
                             3,
                             128u,
                             128u,
                             128u);
 
-                       ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->field_B8_xpos,
-                                                                    sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
+                       ae_new<ParticleBurst>(sControlledCharacter->mXPos,
+                                                                    sControlledCharacter->mYPos - FP_FromInteger(18),
                                                                     9u,
                                                                     FP_FromInteger(1),
                                                                     BurstType::eBigRedSparks_3,
@@ -194,13 +194,13 @@ void Teleporter::VUpdate()
                     field_54_effect_created = 1;
                 }
 
-                if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
+                if (!(pObj->mGameObjectFlags.Get(BaseGameObject::eDead)))
                 {
                     return;
                 }
             }
 
-            sControlledCharacter_5C1B8C->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            sControlledCharacter->mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
             gMap.field_20 = 1;
 
@@ -219,8 +219,8 @@ void Teleporter::VUpdate()
                 field_34_mTlvData.field_20_movie_number,
                 bForceChange);
 
-            sControlledCharacter_5C1B8C->SetUpdateDelay(3);
-            sActiveHero_5C1B68->field_1A0_door_id = field_34_mTlvData.field_12_other_teleporter_switch_id;
+            sControlledCharacter->SetUpdateDelay(3);
+            sActiveHero->field_1A0_door_id = field_34_mTlvData.field_12_other_teleporter_switch_id;
             field_30_state = TeleporterState::eTeleporting_2;
         }
         break;
@@ -250,55 +250,55 @@ void Teleporter::VUpdate()
 
             if (tlvData.field_1C_scale != Scale_short::eFull_0)
             {
-                if (sControlledCharacter_5C1B8C->field_D6_scale == 1)
+                if (sControlledCharacter->mScale == 1)
                 {
-                    sControlledCharacter_5C1B8C->field_C4_velx *= FP_FromDouble(0.5);
-                    sControlledCharacter_5C1B8C->field_C8_vely *= FP_FromDouble(0.5);
+                    sControlledCharacter->mVelX *= FP_FromDouble(0.5);
+                    sControlledCharacter->mVelY *= FP_FromDouble(0.5);
                 }
-                sControlledCharacter_5C1B8C->field_CC_sprite_scale = FP_FromDouble(0.5);
-                sControlledCharacter_5C1B8C->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_Half_13;
-                sControlledCharacter_5C1B8C->field_D6_scale = 0;
+                sControlledCharacter->mSpriteScale = FP_FromDouble(0.5);
+                sControlledCharacter->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sControlledCharacter->mScale = 0;
             }
             else
             {
-                if (sControlledCharacter_5C1B8C->field_D6_scale == 0)
+                if (sControlledCharacter->mScale == 0)
                 {
-                    sControlledCharacter_5C1B8C->field_C4_velx *= FP_FromInteger(2);
-                    sControlledCharacter_5C1B8C->field_C8_vely *= FP_FromInteger(2);
+                    sControlledCharacter->mVelX *= FP_FromInteger(2);
+                    sControlledCharacter->mVelY *= FP_FromInteger(2);
                 }
-                sControlledCharacter_5C1B8C->field_CC_sprite_scale = FP_FromInteger(1);
-                sControlledCharacter_5C1B8C->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_32;
-                sControlledCharacter_5C1B8C->field_D6_scale = 1;
+                sControlledCharacter->mSpriteScale = FP_FromInteger(1);
+                sControlledCharacter->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sControlledCharacter->mScale = 1;
             }
 
             // XPos = TLV xpos + TLV middle point
-            sControlledCharacter_5C1B8C->field_B8_xpos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_0_x) + FP_FromInteger((pTeleporterTlv->field_C_bottom_right.field_0_x - pTeleporterTlv->field_8_top_left.field_0_x) / 2);
+            sControlledCharacter->mXPos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_0_x) + FP_FromInteger((pTeleporterTlv->field_C_bottom_right.field_0_x - pTeleporterTlv->field_8_top_left.field_0_x) / 2);
 
-            sControlledCharacter_5C1B8C->MapFollowMe(TRUE);
+            sControlledCharacter->MapFollowMe(TRUE);
 
-            const u8 lineType = sControlledCharacter_5C1B8C->field_D6_scale == 0 ? 0xF0 : 0x1F;
+            const u8 lineType = sControlledCharacter->mScale == 0 ? 0xF0 : 0x1F;
 
             PathLine* pPathLine = nullptr;
             FP hitX = {};
             FP hitY = {};
             if (sCollisions_DArray_5C1128->Raycast(
-                    sControlledCharacter_5C1B8C->field_B8_xpos,
+                    sControlledCharacter->mXPos,
                     FP_FromInteger(pTeleporterTlv->field_8_top_left.field_2_y),
-                    sControlledCharacter_5C1B8C->field_B8_xpos,
+                    sControlledCharacter->mXPos,
                     FP_FromInteger(pTeleporterTlv->field_C_bottom_right.field_2_y),
                     &pPathLine,
                     &hitX,
                     &hitY,
                     lineType))
             {
-                sControlledCharacter_5C1B8C->field_100_pCollisionLine = pPathLine;
-                sControlledCharacter_5C1B8C->field_BC_ypos = hitY;
+                sControlledCharacter->mCollisionLine = pPathLine;
+                sControlledCharacter->mYPos = hitY;
             }
             else
             {
-                sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->field_BC_ypos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_2_y);
-                sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
+                sControlledCharacter->mCollisionLine = nullptr;
+                sControlledCharacter->mYPos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_2_y);
+                sControlledCharacter->mLastLineYPos = sControlledCharacter->mYPos;
             }
             field_30_state = TeleporterState::eOutOfTeleporter_4;
         }
@@ -308,19 +308,19 @@ void Teleporter::VUpdate()
         {
             // Visual effects.
             PSX_RECT bRect = {};
-            sControlledCharacter_5C1B8C->VGetBoundingRect(&bRect, 1);
+            sControlledCharacter->VGetBoundingRect(&bRect, 1);
 
             // White flash in the middle of Abe's body.
             New_DestroyOrCreateObject_Particle(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
-                FP_FromInteger((bRect.y + bRect.h) / 2) + (sControlledCharacter_5C1B8C->field_CC_sprite_scale * FP_FromInteger(60)),
-                sControlledCharacter_5C1B8C->field_CC_sprite_scale);
+                FP_FromInteger((bRect.y + bRect.h) / 2) + (sControlledCharacter->mSpriteScale * FP_FromInteger(60)),
+                sControlledCharacter->mSpriteScale);
 
             // Spawn the falling "red" sparks from Abe's feet that appear after you've arrived at the destination.
-            if (sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
+            if (sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
             {
-                ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->field_B8_xpos,
-                                                            sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9),
+                ae_new<ParticleBurst>(sControlledCharacter->mXPos,
+                                                            sControlledCharacter->mYPos - FP_FromInteger(9),
                                                             6u,
                                                             FP_FromDouble(0.5),
                                                             BurstType::eBigRedSparks_3,
@@ -328,8 +328,8 @@ void Teleporter::VUpdate()
             }
             else
             {
-                ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->field_B8_xpos,
-                                                            sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
+                ae_new<ParticleBurst>(sControlledCharacter->mXPos,
+                                                            sControlledCharacter->mYPos - FP_FromInteger(18),
                                                             6u,
                                                             FP_FromInteger(1),
                                                             BurstType::eBigRedSparks_3,
@@ -337,8 +337,8 @@ void Teleporter::VUpdate()
             }
 
             field_54_effect_created = 0;
-            sControlledCharacter_5C1B8C->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-            sControlledCharacter_5C1B8C->field_114_flags.Clear(Flags_114::e114_Bit10_Teleporting);
+            sControlledCharacter->mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            sControlledCharacter->mAliveGameObjectFlags.Clear(Flags_114::e114_Bit10_Teleporting);
             field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
             field_30_state = TeleporterState::eWaitForSwitchOn_0;
         }

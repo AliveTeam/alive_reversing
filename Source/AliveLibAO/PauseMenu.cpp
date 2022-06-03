@@ -63,11 +63,11 @@ const u8 byte_4C5EE8[32] = {
 
 PauseMenu::PauseMenu()
 {
-    field_4_typeId = Types::ePauseMenu_61;
-    field_8_update_delay = 25;
+    mTypeId = Types::ePauseMenu_61;
+    mUpdateDelay = 25;
 
-    mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 
     gObjList_drawables_504618->Push_Back(this);
     field_E4_font.Load(175, byte_4C5EE8, &sFontContext_4FFD68);
@@ -78,7 +78,7 @@ PauseMenu::PauseMenu()
 
 PauseMenu::~PauseMenu()
 {
-    mFlags.Clear(Options::eDrawable_Bit4);
+    mGameObjectFlags.Clear(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Remove_Item(this);
 }
 
@@ -86,7 +86,7 @@ void PauseMenu::VScreenChanged()
 {
     if (gMap.mLevel == LevelIds::eCredits_10)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -150,7 +150,7 @@ void PauseMenu::VUpdate()
     {
         SND_StopAll_4762D0();
         SFX_Play_Pitch(SoundEffect::PossessEffect_21, 40, 2400, 0);
-        mFlags.Set(Options::eDrawable_Bit4);
+        mGameObjectFlags.Set(Options::eDrawable_Bit4);
         field_11C = 1;
         field_124 = 0;
         field_126_page = PauseMenuPages::ePause_0;
@@ -172,9 +172,9 @@ void PauseMenu::VUpdate()
                 {
                     break;
                 }
-                if (!pObjIter->mFlags.Get(Options::eDead))
+                if (!pObjIter->mGameObjectFlags.Get(Options::eDead))
                 {
-                    if (pObjIter->mFlags.Get(Options::eDrawable_Bit4))
+                    if (pObjIter->mGameObjectFlags.Get(Options::eDrawable_Bit4))
                     {
                         pObjIter->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
                     }
@@ -492,11 +492,11 @@ void PauseMenu::VUpdate()
                         SFX_Play_Pitch(SoundEffect::PossessEffect_21, 40, 2400, 0);
                         if (pPauseMenu_5080E0 && pPauseMenu_5080E0 == this)
                         {
-                            pPauseMenu_5080E0->mFlags.Set(Options::eDead);
+                            pPauseMenu_5080E0->mGameObjectFlags.Set(Options::eDead);
                         }
                         else
                         {
-                            mFlags.Set(BaseGameObject::eDead);
+                            mGameObjectFlags.Set(BaseGameObject::eDead);
                         }
                         pPauseMenu_5080E0 = 0;
                         gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
@@ -514,7 +514,7 @@ void PauseMenu::VUpdate()
             if (!field_11C)
             {
                 Input().Update(GetGameAutoPlayer());
-                mFlags.Clear(Options::eDrawable_Bit4);
+                mGameObjectFlags.Clear(Options::eDrawable_Bit4);
                 break;
             }
         }
@@ -660,9 +660,9 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
             1,
             0,
             Layer::eLayer_Menu_41,
-            static_cast<u8>(colourOffset + entry[entryId].field_8_r),
-            static_cast<u8>(colourOffset + entry[entryId].field_9_g),
-            static_cast<u8>(colourOffset + entry[entryId].field_A_b),
+            static_cast<u8>(colourOffset + entry[entryId].mRed),
+            static_cast<u8>(colourOffset + entry[entryId].mGreen),
+            static_cast<u8>(colourOffset + entry[entryId].mBlue),
             polyOffset,
             FP_FromInteger(1),
             640,

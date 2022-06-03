@@ -41,7 +41,7 @@ void MultiSwitchController::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -49,7 +49,7 @@ void MultiSwitchController::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_40_flags.Get(Flags_40::eBit1_is_on))

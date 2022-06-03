@@ -39,10 +39,10 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
 AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
     : BaseGameObject(1)
 {
-    field_4_typeId = Types::eAbilityRing_69;
+    mTypeId = Types::eAbilityRing_69;
     field_278_pTarget_obj = nullptr;
     gObjList_drawables_504618->Push_Back(this);
-    mFlags.Set(Options::eDrawable_Bit4);
+    mGameObjectFlags.Set(Options::eDrawable_Bit4);
 
     // TODO: OG issue - using frame counter as res id again
     field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Wave, gnFrameCount_507670, sizeof(AbilityRing_PolyBuffer) * 64);
@@ -106,7 +106,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
 
             case RingTypes::eExplosive_Pulse_0:
             case RingTypes::eShrykull_Pulse_Small_4:
-                SetTarget(sActiveHero_507678);
+                SetTarget(sActiveHero);
                 [[fallthrough]];
 
             case RingTypes::eShrykull_Pulse_Large_5:
@@ -170,7 +170,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -263,7 +263,7 @@ void AbilityRing::VUpdate()
 {
     if (field_278_pTarget_obj)
     {
-        if (field_278_pTarget_obj->mFlags.Get(BaseGameObject::eDead))
+        if (field_278_pTarget_obj->mGameObjectFlags.Get(BaseGameObject::eDead))
         {
             field_278_pTarget_obj->field_C_refCount--;
             field_278_pTarget_obj = nullptr;
@@ -310,7 +310,7 @@ void AbilityRing::VUpdate()
             }
             else
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mGameObjectFlags.Set(BaseGameObject::eDead);
             }
             return;
 
@@ -329,7 +329,7 @@ void AbilityRing::VUpdate()
 
             if (FP_GetExponent(field_244_left) > field_25C_fade)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -338,10 +338,10 @@ void AbilityRing::VUpdate()
             field_244_left = field_248_right - field_258_ring_thickness;
             if (field_244_left < FP_FromInteger(0))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mGameObjectFlags.Set(BaseGameObject::eDead);
                 field_244_left = FP_FromInteger(0);
                 SFX_Play_Mono(SoundEffect::IngameTransition_107, 0, 0);
-                ao_new<PossessionFlicker>(sActiveHero_507678, 8, 255, 128, 128);
+                ao_new<PossessionFlicker>(sActiveHero, 8, 255, 128, 128);
             }
             break;
 
@@ -352,7 +352,7 @@ void AbilityRing::VUpdate()
             {
                 if (FP_GetExponent(field_244_left) > field_25C_fade)
                 {
-                    mFlags.Set(BaseGameObject::eDead);
+                    mGameObjectFlags.Set(BaseGameObject::eDead);
                 }
             }
             else
@@ -360,7 +360,7 @@ void AbilityRing::VUpdate()
                 field_244_left = FP_FromInteger(0);
                 if (field_25C_fade < 0)
                 {
-                    mFlags.Set(BaseGameObject::eDead);
+                    mGameObjectFlags.Set(BaseGameObject::eDead);
                 }
             }
             break;
@@ -371,7 +371,7 @@ void AbilityRing::VUpdate()
 
 void AbilityRing::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void AbilityRing::CollideWithObjects()
@@ -395,7 +395,7 @@ void AbilityRing::CollideWithObjects()
         PSX_RECT bRect = {};
         pObj->VGetBoundingRect(&bRect, 1);
 
-        if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
+        if (!(pObj->mGameObjectFlags.Get(BaseGameObject::eDead)))
         {
             for (auto& rect : field_3C_collide_rects)
             {

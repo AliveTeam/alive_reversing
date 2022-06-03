@@ -33,13 +33,13 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
     field_26_g = static_cast<s16>(g);
     field_28_b = static_cast<s16>(b);
 
-    field_2A_old_r = pToApplyFlicker->field_D0_r;
-    field_2C_old_g = pToApplyFlicker->field_D2_g;
-    field_2E_old_b = pToApplyFlicker->field_D4_b;
+    field_2A_old_r = pToApplyFlicker->mRed;
+    field_2C_old_g = pToApplyFlicker->mGreen;
+    field_2E_old_b = pToApplyFlicker->mBlue;
 
     field_20_time_to_flicker = duration + sGnFrame_5C1B84;
 
-    pToApplyFlicker->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+    pToApplyFlicker->mAnim.mRenderMode = TPageAbr::eBlend_1;
 }
 
 PossessionFlicker::~PossessionFlicker()
@@ -48,10 +48,10 @@ PossessionFlicker::~PossessionFlicker()
     BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(field_30_obj_id));
     if (pToApplyFlicker)
     {
-        pToApplyFlicker->field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
-        pToApplyFlicker->field_D0_r = field_2A_old_r;
-        pToApplyFlicker->field_D2_g = field_2C_old_g;
-        pToApplyFlicker->field_D4_b = field_2E_old_b;
+        pToApplyFlicker->mAnim.mRenderMode = TPageAbr::eBlend_0;
+        pToApplyFlicker->mRed = field_2A_old_r;
+        pToApplyFlicker->mGreen = field_2C_old_g;
+        pToApplyFlicker->mBlue = field_2E_old_b;
     }
 }
 
@@ -64,7 +64,7 @@ void PossessionFlicker::VScreenChanged()
 {
     if (!sObjectIds.Find_Impl(field_30_obj_id))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -73,22 +73,22 @@ void PossessionFlicker::VUpdate()
     BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(field_30_obj_id));
     if (!pToApplyFlicker || static_cast<s32>(sGnFrame_5C1B84) > field_20_time_to_flicker)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
     if (sGnFrame_5C1B84 % 2)
     {
         // Flicker to original colour
-        pToApplyFlicker->field_D0_r = field_24_r;
-        pToApplyFlicker->field_D2_g = field_26_g;
-        pToApplyFlicker->field_D4_b = field_28_b;
+        pToApplyFlicker->mRed = field_24_r;
+        pToApplyFlicker->mGreen = field_26_g;
+        pToApplyFlicker->mBlue = field_28_b;
     }
     else
     {
         // Flicker to new colour
-        pToApplyFlicker->field_D0_r = field_2A_old_r;
-        pToApplyFlicker->field_D2_g = field_2C_old_g;
-        pToApplyFlicker->field_D4_b = field_2E_old_b;
+        pToApplyFlicker->mRed = field_2A_old_r;
+        pToApplyFlicker->mGreen = field_2C_old_g;
+        pToApplyFlicker->mBlue = field_2E_old_b;
     }
 }

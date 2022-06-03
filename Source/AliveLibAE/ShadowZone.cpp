@@ -109,7 +109,7 @@ ShadowZone::~ShadowZone()
 
 void ShadowZone::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 s16 ShadowZone::ApplysToScale(s16 scale)
@@ -133,7 +133,7 @@ void ShadowZone::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

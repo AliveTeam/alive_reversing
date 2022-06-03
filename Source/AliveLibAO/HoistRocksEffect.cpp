@@ -15,8 +15,8 @@ void HoistParticle::VUpdate()
 
 HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
 {
-    field_A8_xpos = xpos;
-    field_AC_ypos = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kHoistRocksAOResID, 1, 0);
     s32 maxW = 7;
     if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
@@ -25,15 +25,15 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
     }
     Animation_Init_417FD0(frameTableOffset, maxW, 4, ppRes, 1);
 
-    field_BC_sprite_scale = scale;
+    mSpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
 
     field_E4_bHitGround = 0;
@@ -41,25 +41,25 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
 
 void HoistParticle::VUpdate_431BD0()
 {
-    if (field_B8_vely >= (field_BC_sprite_scale * FP_FromInteger(10)))
+    if (mVelY >= (mSpriteScale * FP_FromInteger(10)))
     {
         if (!gMap.Is_Point_In_Current_Camera_4449C0(
-                field_B2_lvl_number,
-                field_B0_path_number,
-                field_A8_xpos,
-                field_AC_ypos,
+                mLvlNumber,
+                mPathNumber,
+                mXPos,
+                mYPos,
                 0))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
     else
     {
-        field_B8_vely += (field_BC_sprite_scale * FP_FromDouble(0.6));
+        mVelY += (mSpriteScale * FP_FromDouble(0.6));
     }
 
-    const FP oldY = field_AC_ypos;
-    field_AC_ypos += field_B8_vely;
+    const FP oldY = mYPos;
+    mYPos += mVelY;
 
     if (field_E4_bHitGround == 0)
     {
@@ -67,17 +67,17 @@ void HoistParticle::VUpdate_431BD0()
         FP hitX = {};
         FP hitY = {};
         if (sCollisions_DArray_504C6C->RayCast(
-                field_A8_xpos,
+                mXPos,
                 oldY,
-                field_A8_xpos,
-                field_AC_ypos,
+                mXPos,
+                mYPos,
                 &pLine,
                 &hitX,
                 &hitY,
-                field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+                mSpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
         {
-            field_AC_ypos = hitY;
-            field_B8_vely = (field_B8_vely * FP_FromDouble(-0.3));
+            mYPos = hitY;
+            mVelY = (mVelY * FP_FromDouble(-0.3));
             field_E4_bHitGround = 1;
         }
     }
@@ -85,7 +85,7 @@ void HoistParticle::VUpdate_431BD0()
 
 void HoistRocksEffect::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 HoistRocksEffect::~HoistRocksEffect()
@@ -121,7 +121,7 @@ void HoistRocksEffect::VUpdate()
                 FP_FromInteger(1),
                 frameTableOffset);
 
-            field_8_update_delay = Math_RandomRange_450F20(30, 50);
+            mUpdateDelay = Math_RandomRange_450F20(30, 50);
         }
         else
         {
@@ -138,7 +138,7 @@ void HoistRocksEffect::VUpdate()
                 FP_FromInteger(1),
                 frameTableOffset);
 
-            field_8_update_delay = Math_RandomRange_450F20(5, 10);
+            mUpdateDelay = Math_RandomRange_450F20(5, 10);
         }
     }
     else
@@ -156,7 +156,7 @@ void HoistRocksEffect::VUpdate()
             FP_FromInteger(1),
             frameTableOffset);
 
-        field_8_update_delay = Math_RandomRange_450F20(10, 20);
+        mUpdateDelay = Math_RandomRange_450F20(10, 20);
     }
 }
 

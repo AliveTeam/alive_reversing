@@ -43,7 +43,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
     }
 
     field_106_count = static_cast<s16>(count);
-    field_CC_sprite_scale = scale;
+    mSpriteScale = scale;
     field_F4_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * numOfParticles);
     if (field_F4_ppRes)
     {
@@ -61,8 +61,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             {
                 const AnimRecord& rocksRec = AnimRec(AnimId::Explosion_Rocks);
                 Animation_Init(rocksRec.mFrameTableOffset, rocksRec.mMaxW, rocksRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rocksRec.mResourceId), 1, 1u);
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+                mAnim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
             }
 
@@ -70,8 +70,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             {
                 const AnimRecord& sticksRec = AnimRec(AnimId::Explosion_Sticks);
                 Animation_Init(sticksRec.mFrameTableOffset, sticksRec.mMaxW, sticksRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, sticksRec.mResourceId), 1, 1u);
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+                mAnim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
             }
 
@@ -79,9 +79,9 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             {
                 const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
                 Animation_Init(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId), 1, 1u);
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-                field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+                mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                mAnim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+                mAnim.mRenderMode = TPageAbr::eBlend_1;
                 break;
             }
 
@@ -91,27 +91,27 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             {
                 const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
                 Animation_Init(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId), 1, 1u);
-                field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+                mAnim.mRenderMode = TPageAbr::eBlend_1;
+                mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                mAnim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
 
                 if (field_104_type == BurstType::eBigRedSparks_3)
                 {
-                    field_20_animation.field_8_r = 254;
-                    field_20_animation.field_9_g = 148;
-                    field_20_animation.field_A_b = 18;
+                    mAnim.mRed = 254;
+                    mAnim.mGreen = 148;
+                    mAnim.mBlue = 18;
                 }
                 else if (field_104_type == BurstType::eSmallPurpleSparks_6)
                 {
-                    field_20_animation.field_8_r = 127;
-                    field_20_animation.field_9_g = 127;
-                    field_20_animation.field_A_b = 127;
+                    mAnim.mRed = 127;
+                    mAnim.mGreen = 127;
+                    mAnim.mBlue = 127;
                 }
                 else
                 {
-                    field_20_animation.field_8_r = 0;
-                    field_20_animation.field_9_g = 255;
-                    field_20_animation.field_A_b = 32;
+                    mAnim.mRed = 0;
+                    mAnim.mGreen = 255;
+                    mAnim.mBlue = 32;
                 }
                 break;
             }
@@ -119,55 +119,55 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
                 break;
         }
 
-        if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+        if (mGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
         else
         {
-            if (field_CC_sprite_scale == FP_FromInteger(1))
+            if (mSpriteScale == FP_FromInteger(1))
             {
-                field_D6_scale = 1;
-                field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_39;
+                mScale = 1;
+                mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
             }
             else
             {
-                field_D6_scale = 0;
-                field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_Half_20;
+                mScale = 0;
+                mAnim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
             }
 
             field_FC_number_of_particles = static_cast<s16>(numOfParticles);
             field_100_timer = sGnFrame_5C1B84 + 91;
-            field_B8_xpos = xpos;
-            field_BC_ypos = ypos;
+            mXPos = xpos;
+            mYPos = ypos;
 
             for (u32 i = 0; i < numOfParticles; i++)
             {
-                field_F8_pRes[i].field_18_anim.field_68_anim_ptr = &field_20_animation;
-                field_F8_pRes[i].field_18_anim.field_C_render_layer = field_20_animation.field_C_render_layer;
-                field_F8_pRes[i].field_18_anim.field_6C_scale = FP_FromDouble(0.95) * field_CC_sprite_scale;
+                field_F8_pRes[i].field_18_anim.field_68_anim_ptr = &mAnim;
+                field_F8_pRes[i].field_18_anim.mRenderLayer = mAnim.mRenderLayer;
+                field_F8_pRes[i].field_18_anim.field_6C_scale = FP_FromDouble(0.95) * mSpriteScale;
 
-                field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-                field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
+                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
 
-                field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, field_20_animation.field_4_flags.Get(AnimFlags::eBit15_bSemiTrans));
+                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, mAnim.mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
 
-                field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending, field_20_animation.field_4_flags.Get(AnimFlags::eBit16_bBlending));
+                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending, mAnim.mAnimFlags.Get(AnimFlags::eBit16_bBlending));
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {
-                        field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                        field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                     }
                 }
 
-                field_F8_pRes[i].field_18_anim.field_8_r = field_20_animation.field_8_r;
-                field_F8_pRes[i].field_18_anim.field_9_g = field_20_animation.field_9_g;
-                field_F8_pRes[i].field_18_anim.field_A_b = field_20_animation.field_A_b;
+                field_F8_pRes[i].field_18_anim.mRed = mAnim.mRed;
+                field_F8_pRes[i].field_18_anim.mGreen = mAnim.mGreen;
+                field_F8_pRes[i].field_18_anim.mBlue = mAnim.mBlue;
 
-                field_F8_pRes[i].field_0_x = field_B8_xpos;
-                field_F8_pRes[i].field_4_y = field_BC_ypos;
+                field_F8_pRes[i].field_0_x = mXPos;
+                field_F8_pRes[i].field_4_y = mYPos;
                 field_F8_pRes[i].field_8_z = FP_FromInteger(0);
 
                 Random_Speed(&field_F8_pRes[i].field_C_x_speed);
@@ -180,14 +180,14 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
 FP* ParticleBurst::Random_Speed(FP* random)
 {
     const FP v2 = FP_FromRaw((Math_NextRandom() - 128) << LOBYTE(field_106_count));
-    *random = v2 * field_CC_sprite_scale;
+    *random = v2 * mSpriteScale;
     return random;
 }
 
@@ -204,7 +204,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
     bool bFirst = true;
     if (sNum_CamSwappers_5C1B66 == 0)
     {
-        field_20_animation.field_14_scale = field_CC_sprite_scale;
+        mAnim.field_14_scale = mSpriteScale;
         const FP camX = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
         const FP camY = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
 
@@ -235,13 +235,13 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
             // TODO: Much duplicated code in each branch
             if (bFirst)
             {
-                field_20_animation.field_14_scale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
-                field_20_animation.field_14_scale *= field_CC_sprite_scale;
-                field_20_animation.field_14_scale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
+                mAnim.field_14_scale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
+                mAnim.field_14_scale *= mSpriteScale;
+                mAnim.field_14_scale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
 
-                if (field_20_animation.field_14_scale <= FP_FromInteger(1))
+                if (mAnim.field_14_scale <= FP_FromInteger(1))
                 {
-                    field_20_animation.VRender(
+                    mAnim.VRender(
                         FP_GetExponent(field_F8_pRes[i].field_0_x - camX),
                         FP_GetExponent(field_F8_pRes[i].field_4_y - camY),
                         ppOt,
@@ -251,34 +251,34 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                     bFirst = false;
 
                     PSX_RECT frameRect = {};
-                    field_20_animation.Get_Frame_Rect(&frameRect);
+                    mAnim.Get_Frame_Rect(&frameRect);
                     if (field_106_count == 9)
                     {
-                        if (field_20_animation.field_8_r > 5)
+                        if (mAnim.mRed > 5)
                         {
-                            field_20_animation.field_8_r -= 6;
+                            mAnim.mRed -= 6;
                         }
                         else
                         {
-                            field_20_animation.field_8_r = 0;
+                            mAnim.mRed = 0;
                         }
 
-                        if (field_20_animation.field_9_g > 5)
+                        if (mAnim.mGreen > 5)
                         {
-                            field_20_animation.field_9_g -= 6;
+                            mAnim.mGreen -= 6;
                         }
                         else
                         {
-                            field_20_animation.field_9_g = 0;
+                            mAnim.mGreen = 0;
                         }
 
-                        if (field_20_animation.field_A_b > 5)
+                        if (mAnim.mBlue > 5)
                         {
-                            field_20_animation.field_A_b -= 6;
+                            mAnim.mBlue -= 6;
                         }
                         else
                         {
-                            field_20_animation.field_A_b = 0;
+                            mAnim.mBlue = 0;
                         }
                     }
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(
@@ -292,7 +292,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
             else
             {
                 field_F8_pRes[i].field_18_anim.field_6C_scale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
-                field_F8_pRes[i].field_18_anim.field_6C_scale *= field_CC_sprite_scale;
+                field_F8_pRes[i].field_18_anim.field_6C_scale *= mSpriteScale;
                 field_F8_pRes[i].field_18_anim.field_6C_scale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
 
                 if (field_F8_pRes[i].field_18_anim.field_6C_scale <= FP_FromInteger(1))
@@ -309,31 +309,31 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
 
                     if (field_106_count == 9)
                     {
-                        if (field_F8_pRes[i].field_18_anim.field_8_r > 5)
+                        if (field_F8_pRes[i].field_18_anim.mRed > 5)
                         {
-                            field_F8_pRes[i].field_18_anim.field_8_r -= 6;
+                            field_F8_pRes[i].field_18_anim.mRed -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_anim.field_8_r = 0;
+                            field_F8_pRes[i].field_18_anim.mRed = 0;
                         }
 
-                        if (field_F8_pRes[i].field_18_anim.field_9_g > 5)
+                        if (field_F8_pRes[i].field_18_anim.mGreen > 5)
                         {
-                            field_F8_pRes[i].field_18_anim.field_9_g -= 6;
+                            field_F8_pRes[i].field_18_anim.mGreen -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_anim.field_9_g = 0;
+                            field_F8_pRes[i].field_18_anim.mGreen = 0;
                         }
 
-                        if (field_F8_pRes[i].field_18_anim.field_A_b > 5)
+                        if (field_F8_pRes[i].field_18_anim.mBlue > 5)
                         {
-                            field_F8_pRes[i].field_18_anim.field_A_b -= 6;
+                            field_F8_pRes[i].field_18_anim.mBlue -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_anim.field_A_b = 0;
+                            field_F8_pRes[i].field_18_anim.mBlue = 0;
                         }
                     }
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(
@@ -350,7 +350,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
 
 void ParticleBurst::VUpdate()
 {
-    const s32 v3 = field_CC_sprite_scale != FP_FromInteger(1) ? 2 : 4;
+    const s32 v3 = mSpriteScale != FP_FromInteger(1) ? 2 : 4;
     for (s32 i = 0; i < field_FC_number_of_particles; i++)
     {
         field_F8_pRes[i].field_0_x += field_F8_pRes[i].field_C_x_speed;
@@ -400,11 +400,11 @@ void ParticleBurst::VUpdate()
 
     if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }

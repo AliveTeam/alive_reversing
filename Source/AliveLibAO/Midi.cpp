@@ -964,7 +964,7 @@ s16 SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
         if (!GetMidiVars()->sSnd_ReloadAbeResources())
         {
             GetMidiVars()->sSnd_ReloadAbeResources() = TRUE;
-            sActiveHero_507678->Free_Resources_422870();
+            sActiveHero->Free_Resources_422870();
         }
 
         // Compact/reclaim any other memory we can too
@@ -1137,7 +1137,7 @@ void SND_StopAll_4762D0()
             break;
         }
 
-        if (!pObj->mFlags.Get(BaseGameObject::eDead))
+        if (!pObj->mGameObjectFlags.Get(BaseGameObject::eDead))
         {
             pObj->VStopAudio();
         }

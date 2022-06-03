@@ -12,7 +12,7 @@ namespace AO {
 BeeNest::BeeNest(Path_BeeNest* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
-    field_4_typeId = Types::eBeeNest_96;
+    mTypeId = Types::eBeeNest_96;
 
     field_1C_tlvInfo = tlvInfo;
 
@@ -57,7 +57,7 @@ void BeeNest::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !field_34_pBeeSwarm)
@@ -68,7 +68,7 @@ void BeeNest::VScreenChanged()
             field_34_pBeeSwarm->field_C_refCount--;
             field_34_pBeeSwarm = nullptr;
         }
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -88,14 +88,14 @@ void BeeNest::VUpdate()
                 if (field_34_pBeeSwarm)
                 {
                     field_34_pBeeSwarm->field_C_refCount++;
-                    field_34_pBeeSwarm->Chase(sActiveHero_507678);
+                    field_34_pBeeSwarm->Chase(sActiveHero);
                     field_2E_state = BeeNestStates::eResetIfDead_1;
                 }
             }
             break;
 
         case BeeNestStates::eResetIfDead_1:
-            if (field_34_pBeeSwarm->mFlags.Get(BaseGameObject::eDead))
+            if (field_34_pBeeSwarm->mGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 field_2E_state = BeeNestStates::eWaitForTrigger_0;
                 field_34_pBeeSwarm->field_C_refCount--;

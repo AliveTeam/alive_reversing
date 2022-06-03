@@ -38,28 +38,28 @@ void UXB::InitBlinkAnim(Animation* pAnimation)
     const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
     if (pAnimation->Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1u, 0, 0))
     {
-        pAnimation->field_C_render_layer = field_20_animation.field_C_render_layer;
-        pAnimation->field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-        pAnimation->field_4_flags.Set(AnimFlags::eBit16_bBlending);
-        pAnimation->field_14_scale = field_CC_sprite_scale;
-        pAnimation->field_8_r = 128;
-        pAnimation->field_9_g = 128;
-        pAnimation->field_A_b = 128;
-        pAnimation->field_B_render_mode = TPageAbr::eBlend_1;
+        pAnimation->mRenderLayer = mAnim.mRenderLayer;
+        pAnimation->mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        pAnimation->mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+        pAnimation->field_14_scale = mSpriteScale;
+        pAnimation->mRed = 128;
+        pAnimation->mGreen = 128;
+        pAnimation->mBlue = 128;
+        pAnimation->mRenderMode = TPageAbr::eBlend_1;
     }
     else
     {
-        mFlags.Set(Options::eListAddFailed_Bit1);
+        mGameObjectFlags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
 void UXB::PlaySFX(SoundEffect sfxIdx)
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(
-            this->field_C2_lvl_number,
-            this->field_C0_path_number,
-            this->field_B8_xpos,
-            this->field_BC_ypos,
+            this->mLvlNumber,
+            this->mPathNumber,
+            this->mXPos,
+            this->mYPos,
             0))
     {
         SFX_Play_Mono(sfxIdx, 35);
@@ -80,15 +80,15 @@ s32 UXB::IsColliding()
             break;
         }
 
-        if (pObj->field_114_flags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+        if (pObj->mAliveGameObjectFlags.Get(e114_Bit6_SetOffExplosives) && pObj->mAnim.mAnimFlags.Get(AnimFlags::eBit3_Render))
         {
             PSX_RECT objBound = {};
             pObj->VGetBoundingRect(&objBound, 1);
 
-            const s32 objX = FP_GetExponent(pObj->field_B8_xpos);
-            const s32 objY = FP_GetExponent(pObj->field_BC_ypos);
+            const s32 objX = FP_GetExponent(pObj->mXPos);
+            const s32 objY = FP_GetExponent(pObj->mYPos);
 
-            if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+            if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->mSpriteScale == mSpriteScale)
             {
                 return 1;
             }
@@ -109,12 +109,12 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     auto pResource = BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, activeRec.mResourceId);
     Animation_Init(activeRec.mFrameTableOffset, activeRec.mMaxW, activeRec.mMaxH, pResource, 1, 1u);
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
+    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mRenderMode = TPageAbr::eBlend_0;
 
     SetTint(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
 
-    mFlags.Set(BaseGameObject::Options::eInteractive_Bit8);
+    mGameObjectFlags.Set(BaseGameObject::Options::eInteractive_Bit8);
     field_1C8_flags.Clear(UXB_Flags_1C8::eUnused_Bit0);
     field_118_state = UXBState::eDelay_0;
 
@@ -139,16 +139,16 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     {
         if (tlv_params->field_14_scale == Scale_short::eHalf_1)
         {
-            field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_Half_16;
-            field_D6_scale = 0;
+            mSpriteScale = FP_FromDouble(0.5);
+            mAnim.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
+            mScale = 0;
         }
     }
     else
     {
-        field_CC_sprite_scale = FP_FromDouble(1.0);
-        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
-        field_D6_scale = 1;
+        mSpriteScale = FP_FromDouble(1.0);
+        mAnim.mRenderLayer = Layer::eLayer_BombMineCar_35;
+        mScale = 1;
     }
 
     InitBlinkAnim(&field_128_animation);
@@ -163,7 +163,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
             PlaySFX(SoundEffect::GreenTick_2);
 
             const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_118_state = UXBState::eDeactivated_3;
             field_11A_starting_state = UXBState::eDelay_0;
         }
@@ -186,7 +186,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
             field_128_animation.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
 
             const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_11A_starting_state = UXBState::eDeactivated_3;
             field_118_state = UXBState::eDeactivated_3;
         }
@@ -195,22 +195,22 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     FP hitX = {};
     FP hitY = {};
 
-    field_B8_xpos = FP_FromInteger((tlv_params->field_8_top_left.field_0_x + tlv_params->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(tlv_params->field_8_top_left.field_2_y);
+    mXPos = FP_FromInteger((tlv_params->field_8_top_left.field_0_x + tlv_params->field_C_bottom_right.field_0_x) / 2);
+    mYPos = FP_FromInteger(tlv_params->field_8_top_left.field_2_y);
 
     // Raycasts on ctor to place perfectly on the floor.
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
+            mXPos,
             FP_FromInteger(tlv_params->field_8_top_left.field_2_y),
-            field_B8_xpos,
+            mXPos,
             FP_FromInteger(tlv_params->field_8_top_left.field_2_y + 24),
-            &field_100_pCollisionLine,
+            &mCollisionLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? 1 : 16)
+            mScale != 0 ? 1 : 16)
         == 1)
     {
-        field_BC_ypos = hitY;
+        mYPos = hitY;
     }
 
     field_120_tlv = itemInfo;
@@ -231,14 +231,14 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
     }
 
-    const FP gridSnap = ScaleToGridSize(field_CC_sprite_scale);
-    mFlags.Set(Options::eInteractive_Bit8);
-    field_DC_bApplyShadows |= 2u;
+    const FP gridSnap = ScaleToGridSize(mSpriteScale);
+    mGameObjectFlags.Set(Options::eInteractive_Bit8);
+    mApplyShadows |= 2u;
 
-    field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
-    field_E4_collection_rect.y = field_BC_ypos - gridSnap;
-    field_E4_collection_rect.w = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
-    field_E4_collection_rect.h = field_BC_ypos;
+    mCollectionRect.x = mXPos - (gridSnap / FP_FromDouble(2.0));
+    mCollectionRect.y = mYPos - gridSnap;
+    mCollectionRect.w = (gridSnap / FP_FromDouble(2.0)) + mXPos;
+    mCollectionRect.h = mYPos;
 }
 
 
@@ -260,7 +260,7 @@ void UXB::VOnPickUpOrSlapped()
                 PlaySFX(SoundEffect::GreenTick_2);
 
                 const AnimRecord& animRec = AnimRec(AnimId::UXB_Toggle);
-                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 field_118_state = UXBState::eDeactivated_3;
 
                 field_124_next_state_frame = sGnFrame_5C1B84 + 10;
@@ -271,7 +271,7 @@ void UXB::VOnPickUpOrSlapped()
             field_118_state = UXBState::eDelay_0;
             SetUpdateDelay(6);
             const AnimRecord& animRec = AnimRec(AnimId::UXB_Active);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             PlaySFX(SoundEffect::RedTick_3);
         }
     }
@@ -279,18 +279,18 @@ void UXB::VOnPickUpOrSlapped()
 
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    ae_new<BaseBomb>(field_B8_xpos,
-                                  field_BC_ypos,
+    ae_new<BaseBomb>(mXPos,
+                                  mYPos,
                                   0,
-                                  field_CC_sprite_scale);
+                                  mSpriteScale);
     field_118_state = UXBState::eExploding_2;
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
     field_124_next_state_frame = sGnFrame_5C1B84;
 }
 
 s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
@@ -315,12 +315,12 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
             return 0;
     }
 
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 
-    ae_new<BaseBomb>(field_B8_xpos,
-                                 field_BC_ypos,
+    ae_new<BaseBomb>(mXPos,
+                                 mYPos,
                                  0,
-                                 field_CC_sprite_scale);
+                                 mSpriteScale);
     field_118_state = UXBState::eExploding_2;
     field_124_next_state_frame = sGnFrame_5C1B84;
 
@@ -340,7 +340,7 @@ UXB::~UXB()
 
     field_128_animation.VCleanUp();
 
-    mFlags.Clear(Options::eInteractive_Bit8);
+    mGameObjectFlags.Clear(Options::eInteractive_Bit8);
 }
 
 void UXB::VUpdate()
@@ -422,8 +422,8 @@ void UXB::VUpdate()
         case UXBState::eExploding_2:
             if (sGnFrame_5C1B84 >= field_124_next_state_frame)
             {
-                ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
-                mFlags.Set(Options::eDead);
+                ae_new<BaseBomb>(mXPos, mYPos, 0, mSpriteScale);
+                mGameObjectFlags.Set(Options::eDead);
             }
             break;
     }
@@ -447,25 +447,25 @@ void UXB::VUpdate()
             {
                 Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
             }
-            mFlags.Set(Options::eDead);
+            mGameObjectFlags.Set(Options::eDead);
         }
     }
 }
 
 void UXB::VRender(PrimHeader** ppOt)
 {
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    if (mAnim.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         if (gMap.Is_Point_In_Current_Camera_4810D0(
-                field_C2_lvl_number,
-                field_C0_path_number,
-                field_B8_xpos,
-                field_BC_ypos,
+                mLvlNumber,
+                mPathNumber,
+                mXPos,
+                mYPos,
                 0))
         {
             field_128_animation.VRender(
-                FP_GetExponent((field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
-                FP_GetExponent((field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromInteger(17)))),
+                FP_GetExponent((mXPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
+                FP_GetExponent((mYPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(mSpriteScale * FP_FromInteger(17)))),
                 ppOt,
                 0,
                 0);
@@ -489,8 +489,8 @@ void UXB::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
 
-    const FP x_distance = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
-    const FP y_distance = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
+    const FP x_distance = FP_Abs(sControlledCharacter->mXPos - mXPos);
+    const FP y_distance = FP_Abs(sControlledCharacter->mYPos - mYPos);
 
     if (y_distance > FP_FromInteger(520) || x_distance > FP_FromInteger(750))
     {
@@ -499,18 +499,18 @@ void UXB::VScreenChanged()
             if (field_11A_starting_state != UXBState::eDelay_0 || field_118_state != UXBState::eDeactivated_3)
             {
                 Path::TLV_Reset(field_120_tlv.all, 0, 1, 0);
-                mFlags.Set(Options::eDead);
+                mGameObjectFlags.Set(Options::eDead);
             }
             else
             {
                 Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
-                mFlags.Set(Options::eDead);
+                mGameObjectFlags.Set(Options::eDead);
             }
         }
         else
         {
             Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
-            mFlags.Set(Options::eDead);
+            mGameObjectFlags.Set(Options::eDead);
         }
     }
 }
@@ -563,7 +563,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
         const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
         pUXB->field_128_animation.Set_Animation_Data(tickRec.mFrameTableOffset, 0);
         const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
-        pUXB->field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        pUXB->mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
 
     pUXB->field_124_next_state_frame = pSaveState->field_8_next_state_frame;

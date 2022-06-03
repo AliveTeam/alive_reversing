@@ -7,9 +7,9 @@ namespace AO {
 
 void DeathFadeOut::VRender(PrimHeader** ppOt)
 {
-    field_62_b = field_68_current_fade_rgb;
-    field_60_g = field_68_current_fade_rgb;
-    field_5E_r = field_68_current_fade_rgb;
+    mBlue = field_68_current_fade_rgb;
+    mGreen = field_68_current_fade_rgb;
+    mRed = field_68_current_fade_rgb;
 
     EffectBase::VRender(ppOt);
 
@@ -18,7 +18,7 @@ void DeathFadeOut::VRender(PrimHeader** ppOt)
         field_6E_bDone = 1;
         if (field_70_destroy_on_done)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -49,7 +49,7 @@ void DeathFadeOut::VScreenChanged()
 
 void DeathFadeOut::Init(Layer layer, s16 direction, s16 destroyOnDone, s32 speed)
 {
-    field_5C_layer = layer;
+    mLayer = layer;
     field_6C_direction = direction;
     field_6E_bDone = 0;
 
@@ -76,7 +76,7 @@ void DeathFadeOut::Init(Layer layer, s16 direction, s16 destroyOnDone, s32 speed
 DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr)
     : EffectBase(layer, abr)
 {
-    field_4_typeId = Types::eDeathFadeOut_80;
+    mTypeId = Types::eDeathFadeOut_80;
 
     if (direction)
     {
@@ -89,9 +89,9 @@ DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 s
 
     Init(layer, static_cast<s16>(direction), destroyOnDone, speed);
 
-    field_62_b = field_68_current_fade_rgb;
-    field_60_g = field_68_current_fade_rgb;
-    field_5E_r = field_68_current_fade_rgb;
+    mBlue = field_68_current_fade_rgb;
+    mGreen = field_68_current_fade_rgb;
+    mRed = field_68_current_fade_rgb;
 }
 
 } // namespace AO

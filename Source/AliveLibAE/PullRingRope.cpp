@@ -40,9 +40,9 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 
     SetTint(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + 24);
+    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mXPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + 24);
 
     field_102_switch_id = pTlv->field_10_switch_id;
     field_104_action = pTlv->field_12_action;
@@ -50,39 +50,39 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_100_state = States::eIdle_0;
     field_F4_stay_in_state_ticks = 0;
 
-    field_BC_ypos += FP_FromInteger(pTlv->field_14_rope_length);
+    mYPos += FP_FromInteger(pTlv->field_14_rope_length);
 
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = Layer::eLayer_8;
-        field_D6_scale = 0;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_8;
+        mScale = 0;
     }
     else
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_27;
-        field_D6_scale = 1;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_27;
+        mScale = 1;
     }
 
-    field_B8_xpos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
+    mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
 
     field_106_on_sound = pTlv->field_18_on_sound;
     field_108_off_sound = pTlv->field_1A_off_sound;
     field_10A_sound_direction = pTlv->field_1C_sound_direction;
     field_FC_ring_puller_id = -1;
 
-    auto pRope = ae_new<Rope>(FP_GetExponent(field_B8_xpos + FP_FromInteger(2)),
-                              FP_GetExponent(field_BC_ypos) - pTlv->field_14_rope_length,
-                              FP_GetExponent(field_BC_ypos),
-                              field_CC_sprite_scale);
+    auto pRope = ae_new<Rope>(FP_GetExponent(mXPos + FP_FromInteger(2)),
+                              FP_GetExponent(mYPos) - pTlv->field_14_rope_length,
+                              FP_GetExponent(mYPos),
+                              mSpriteScale);
     if (pRope)
     {
         field_F8_rope_id = pRope->field_8_object_id;
-        pRope->field_BC_ypos = FP_NoFractional(field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(16)));
+        pRope->mYPos = FP_NoFractional(mYPos - (mSpriteScale * FP_FromInteger(16)));
     }
 
-    field_DC_bApplyShadows |= 2;
+    mApplyShadows |= 2;
 }
 
 PullRingRope::~PullRingRope()
@@ -92,7 +92,7 @@ PullRingRope::~PullRingRope()
     BaseGameObject* pRope = sObjectIds.Find(field_F8_rope_id, AETypes::eLiftRope_108);
     if (pRope)
     {
-        pRope->mFlags.Set(BaseGameObject::eDead);
+        pRope->mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -103,11 +103,11 @@ void PullRingRope::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     // Invalidate ring puller if they've died
-    if (pRingPuller && pRingPuller->mFlags.Get(BaseGameObject::eDead))
+    if (pRingPuller && pRingPuller->mGameObjectFlags.Get(BaseGameObject::eDead))
     {
         field_FC_ring_puller_id = -1;
     }
@@ -115,18 +115,18 @@ void PullRingRope::VUpdate()
     switch (field_100_state)
     {
         case States::eBeingPulled_1:
-            if (field_20_animation.field_92_current_frame == 2)
+            if (mAnim.field_92_current_frame == 2)
             {
                 SFX_Play_Mono(SoundEffect::RingRopePull_56, 0);
             }
 
-            field_BC_ypos += field_C8_vely;
-            pRingPuller->field_BC_ypos += field_C8_vely;
+            mYPos += mVelY;
+            pRingPuller->mYPos += mVelY;
             field_F4_stay_in_state_ticks--;
 
             if (field_F4_stay_in_state_ticks == 0)
             {
-                field_C8_vely = FP_FromInteger(0);
+                mVelY = FP_FromInteger(0);
                 field_10C_is_pulled &= ~1u;
                 field_100_state = States::eTriggerEvent_2;
 
@@ -140,12 +140,12 @@ void PullRingRope::VUpdate()
         case States::eTriggerEvent_2:
             if (field_10C_is_pulled & 1)
             {
-                field_C8_vely = FP_FromInteger(4) * field_CC_sprite_scale;
+                mVelY = FP_FromInteger(4) * mSpriteScale;
                 field_FC_ring_puller_id = -1;
                 field_100_state = States::eReturnToIdle_3;
                 field_F4_stay_in_state_ticks = 3;
                 const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseEnd);
-                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
 
                 const s32 oldSwitchValue = SwitchStates_Get(field_102_switch_id);
                 SwitchStates_Do_Operation(field_102_switch_id, field_104_action);
@@ -210,14 +210,14 @@ void PullRingRope::VUpdate()
             break;
 
         case States::eReturnToIdle_3:
-            field_BC_ypos -= field_C8_vely;
+            mYPos -= mVelY;
             field_F4_stay_in_state_ticks--;
             if (field_F4_stay_in_state_ticks == 0)
             {
-                field_C8_vely = FP_FromInteger(0);
+                mVelY = FP_FromInteger(0);
                 field_100_state = States::eIdle_0;
                 const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
-                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
             }
             break;
 
@@ -227,7 +227,7 @@ void PullRingRope::VUpdate()
 
     if (pRope)
     {
-        pRope->field_BC_ypos = FP_NoFractional(field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(16)));
+        pRope->mYPos = FP_NoFractional(mYPos - (mSpriteScale * FP_FromInteger(16)));
     }
 }
 
@@ -236,7 +236,7 @@ void PullRingRope::VScreenChanged()
     // If the person pulling the rope is gone then so are we
     if (!sObjectIds.Find_Impl(field_FC_ring_puller_id))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -249,10 +249,10 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
 
     field_FC_ring_puller_id = pObj->field_8_object_id;
     field_100_state = States::eBeingPulled_1;
-    field_C8_vely = FP_FromInteger(2) * field_CC_sprite_scale;
+    mVelY = FP_FromInteger(2) * mSpriteScale;
     field_F4_stay_in_state_ticks = 6;
     const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseBegin);
-    field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
+    mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
     SFX_Play_Mono(SoundEffect::RingRopePull_56, 0);
     return 1;
 }

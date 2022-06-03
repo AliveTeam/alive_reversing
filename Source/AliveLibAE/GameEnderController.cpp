@@ -72,7 +72,7 @@ void GameEnderController::VScreenChanged()
 
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -91,7 +91,7 @@ void GameEnderController::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_24_state)
@@ -105,7 +105,7 @@ void GameEnderController::VUpdate()
 
         case GameEnderController_States::eDetermineEnding_1:
         {
-            auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(sActiveHero_5C1B68->field_1A8_portal_id));
+            auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(sActiveHero->field_1A8_portal_id));
             if (pBirdPortal)
             {
                 if (pBirdPortal->field_28_state == BirdPortal::PortalStates::CollapseTerminators_10)
@@ -113,11 +113,11 @@ void GameEnderController::VUpdate()
                     auto pAlarm = sObjectIds.Find_Impl(sAlarmObjId_550D70);
                     if (pAlarm)
                     {
-                        pAlarm->mFlags.Set(BaseGameObject::eDead);
+                        pAlarm->mGameObjectFlags.Set(BaseGameObject::eDead);
                     }
 
-                    pBirdPortal->mFlags.Set(BaseGameObject::eDead);
-                    sActiveHero_5C1B68->mFlags.Set(BaseGameObject::eDead);
+                    pBirdPortal->mGameObjectFlags.Set(BaseGameObject::eDead);
+                    sActiveHero->mGameObjectFlags.Set(BaseGameObject::eDead);
 
                     // Good ending
                     if (sRescuedMudokons_5C1BC2 >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
@@ -128,7 +128,7 @@ void GameEnderController::VUpdate()
 
                         if (pPauseMenu_5C9300)
                         {
-                            pPauseMenu_5C9300->mFlags.Set(BaseGameObject::eDead);
+                            pPauseMenu_5C9300->mGameObjectFlags.Set(BaseGameObject::eDead);
                             pPauseMenu_5C9300 = nullptr;
                         }
 

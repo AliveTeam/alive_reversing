@@ -43,7 +43,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
     SetType(AETypes::eAbilityRing_104);
     field_288_target_obj_id = -1;
     gObjList_drawables_5C1124->Push_Back(this);
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     // TODO: OG issue - using frame counter as res id again
     field_28_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Wave, sGnFrame_5C1B84, sizeof(AbilityRing_PolyBuffer) * 64);
@@ -149,7 +149,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
             case RingTypes::eShrykull_Pulse_Small_4:
             case RingTypes::eInvisible_Pulse_Small_7:
             case RingTypes::eHealing_Pulse_14:
-                VSetTarget(sActiveHero_5C1B68);
+                VSetTarget(sActiveHero);
                 [[fallthrough]];
 
             case RingTypes::eShrykull_Pulse_Large_5:
@@ -242,7 +242,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -355,7 +355,7 @@ void AbilityRing::VUpdate()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_288_target_obj_id));
     if (pTarget)
     {
-        if (pTarget->mFlags.Get(BaseGameObject::eDead))
+        if (pTarget->mGameObjectFlags.Get(BaseGameObject::eDead))
         {
             field_288_target_obj_id = -1;
         }
@@ -400,7 +400,7 @@ void AbilityRing::VUpdate()
             }
             else
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mGameObjectFlags.Set(BaseGameObject::eDead);
             }
             return;
 
@@ -429,7 +429,7 @@ void AbilityRing::VUpdate()
 
             if (FP_GetExponent(field_254_left) > field_26C_fadeout_distance)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -440,12 +440,12 @@ void AbilityRing::VUpdate()
             field_254_left = field_258_right - field_268_ring_thickness;
             if (field_254_left < FP_FromInteger(0))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mGameObjectFlags.Set(BaseGameObject::eDead);
                 field_254_left = FP_FromInteger(0);
                 SFX_Play_Mono(SoundEffect::IngameTransition_84, 0);
                 if (field_284_ring_type == RingTypes::eExplosive_Give_3)
                 {
-                    ae_new<PossessionFlicker>(sActiveHero_5C1B68, 8, 255, 128, 128);
+                    ae_new<PossessionFlicker>(sActiveHero, 8, 255, 128, 128);
                 }
             }
             break;
@@ -533,7 +533,7 @@ void AbilityRing::CollideWithObjects(s16 bDealDamage)
         PSX_RECT bRect = {};
         pObj->VGetBoundingRect(&bRect, 1);
 
-        if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
+        if (!(pObj->mGameObjectFlags.Get(BaseGameObject::eDead)))
         {
             for (s32 j = 0; j < field_28C_count; j++)
             {
@@ -549,9 +549,9 @@ void AbilityRing::CollideWithObjects(s16 bDealDamage)
                     else if (pObj->Type() == AETypes::eMudokon_110)
                     {
                         // is the mudokon sick?
-                        if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
+                        if (pObj->mAliveGameObjectFlags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
                         {
-                            if (pObj->field_10C_health > FP_FromInteger(0))
+                            if (pObj->mHealth > FP_FromInteger(0))
                             {
                                 // heal the sick mudokon
                                 pObj->VPossessed();
@@ -583,10 +583,10 @@ void AbilityRing::VScreenChanged()
 
             if (pObj->Type() == AETypes::eMudokon_110)
             {
-                if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
+                if (pObj->mAliveGameObjectFlags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
                 {
                     // Only heal alive muds in the same screen
-                    if (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
+                    if (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0))
                     {
                         pObj->VPossessed();
                     }
@@ -594,5 +594,5 @@ void AbilityRing::VScreenChanged()
             }
         }
     }
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }

@@ -53,10 +53,10 @@ void Game_ShowLoadingIcon_482D80()
     Particle* pParticle = ae_new<Particle>(FP_FromInteger(0), FP_FromInteger(0), loadingRec.mFrameTableOffset, loadingRec.mMaxW, loadingRec.mMaxH, ppLoadingAnimRes);
 
     // TODO: May need to clear all other low word bits ?
-    pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-    pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+    pParticle->mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    pParticle->mAnim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_0;
+    pParticle->mAnim.mRenderLayer = Layer::eLayer_0;
     PSX_SetDefDrawEnv_4F5AA0(&dispBuffer.field_0_draw_env, 0, 0, 640, 240);
     PSX_PutDrawEnv_4F5980(&dispBuffer.field_0_draw_env);
     PSX_DrawSync_4F6280(0);
@@ -65,18 +65,18 @@ void Game_ShowLoadingIcon_482D80()
     // using other parts of the OT while another part is drawn, but it was bugged because it cleared the other anyway
     // on PC it seems fine to just always start at zero.
     PSX_ClearOTag_4F6290(dispBuffer.field_70_ot_buffer, 43);
-    pParticle->field_20_animation.VRender(320, 220, dispBuffer.field_70_ot_buffer, 0, 0);
+    pParticle->mAnim.VRender(320, 220, dispBuffer.field_70_ot_buffer, 0, 0);
     PSX_DrawOTag_4F6540(dispBuffer.field_70_ot_buffer);
     PSX_DrawSync_4F6280(0);
 
     PSX_ClearOTag_4F6290(dispBuffer.field_70_ot_buffer, 43);
-    pParticle->field_20_animation.VRender(320, 640 - 164, dispBuffer.field_70_ot_buffer, 0, 0);
+    pParticle->mAnim.VRender(320, 640 - 164, dispBuffer.field_70_ot_buffer, 0, 0);
     PSX_DrawOTag_4F6540(dispBuffer.field_70_ot_buffer);
     PSX_DrawSync_4F6280(0);
 
     PSX_SetDefDispEnv_4F55A0(&dispBuffer.field_5C_disp_env, 0, 0, 640, 240);
     PSX_PutDispEnv_4F5890(&dispBuffer.field_5C_disp_env);
-    pParticle->mFlags.Set(BaseGameObject::eDead);
+    pParticle->mGameObjectFlags.Set(BaseGameObject::eDead);
     bHideLoadingIcon_5C1BAA = 1;
 }
 
@@ -85,8 +85,8 @@ ResourceManager::ResourceManager()
     , field_20_files_pending_loading(3)
     , field_48_dArray(3)
 {
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     SetType(AETypes::eResourceManager_70);
     field_2C_pFileItem = nullptr;

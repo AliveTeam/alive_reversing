@@ -20,19 +20,19 @@ namespace AO {
 
 Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
 {
-    field_4_typeId = Types::eExplosion_74;
-    const AnimRecord& rec = AO::AnimRec(AnimId::Explosion);
+    mTypeId = Types::eExplosion_74;
+    const AnimRecord rec = AO::AnimRec(AnimId::Explosion);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+    mAnim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+    mAnim.mRenderMode = TPageAbr::eBlend_1;
     field_E4_explosion_size = exposion_size;
 
-    field_BC_sprite_scale = exposion_size * FP_FromInteger(2);
-    field_CC_bApplyShadows &= ~1u;
-    field_AC_ypos = ypos;
-    field_A8_xpos = xpos;
+    mSpriteScale = exposion_size * FP_FromInteger(2);
+    mApplyShadows &= ~1u;
+    mYPos = ypos;
+    mXPos = xpos;
 
     ao_new<ScreenShake>(TRUE);
 
@@ -55,7 +55,7 @@ void Explosion::VUpdate()
 
     PSX_RECT rect = {};
 
-    switch (field_10_anim.field_92_current_frame)
+    switch (mAnim.field_92_current_frame)
     {
         case 2:
             rect.x = FP_GetExponent(FP_FromInteger(-20) * field_E4_explosion_size);
@@ -67,7 +67,7 @@ void Explosion::VUpdate()
 
         case 3:
         {
-            ao_new<ParticleBurst>(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
+            ao_new<ParticleBurst>(mXPos, mYPos, 20, mSpriteScale, BurstType::eBigRedSparks_3);
 
             ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
@@ -95,7 +95,7 @@ void Explosion::VUpdate()
 
         case 8:
         {
-            ao_new<ParticleBurst>(field_A8_xpos, field_AC_ypos, 20, field_BC_sprite_scale, BurstType::eBigRedSparks_3);
+            ao_new<ParticleBurst>(mXPos, mYPos, 20, mSpriteScale, BurstType::eBigRedSparks_3);
 
             ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
@@ -105,29 +105,29 @@ void Explosion::VUpdate()
             break;
     }
 
-    if (field_10_anim.field_92_current_frame > 9)
+    if (mAnim.field_92_current_frame > 9)
     {
-        field_BC_sprite_scale -= FP_FromDouble(0.2);
+        mSpriteScale -= FP_FromDouble(0.2);
     }
 
-    if (field_10_anim.field_92_current_frame == 1)
+    if (mAnim.field_92_current_frame == 1)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Explosion);
         const auto ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         if (ppRes)
         {
-            auto pParticle = ao_new<Particle>(field_A8_xpos, field_AC_ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
+            auto pParticle = ao_new<Particle>(mXPos, mYPos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
             if (pParticle)
             {
-                if (pParticle->mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+                if (pParticle->mGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
                 {
-                    pParticle->mFlags.Set(Options::eDead);
+                    pParticle->mGameObjectFlags.Set(Options::eDead);
                 }
 
-                pParticle->field_CC_bApplyShadows &= ~1u;
-                pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-                pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-                pParticle->field_BC_sprite_scale = field_BC_sprite_scale * FP_FromDouble(0.25);
+                pParticle->mApplyShadows &= ~1u;
+                pParticle->mAnim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
             }
             else
             {
@@ -136,9 +136,9 @@ void Explosion::VUpdate()
         }
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mAnim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -146,7 +146,7 @@ void Explosion::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -164,11 +164,11 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
     expandedRect.y = std::min(pRect->y, pRect->h);
     expandedRect.h = std::max(pRect->y, pRect->h);
 
-    expandedRect.x += FP_GetExponent(field_A8_xpos);
-    expandedRect.y += FP_GetExponent(field_AC_ypos);
+    expandedRect.x += FP_GetExponent(mXPos);
+    expandedRect.y += FP_GetExponent(mYPos);
 
-    expandedRect.w += FP_GetExponent(field_A8_xpos);
-    expandedRect.h += FP_GetExponent(field_AC_ypos);
+    expandedRect.w += FP_GetExponent(mXPos);
+    expandedRect.h += FP_GetExponent(mYPos);
 
     if ((expandedRect.x % 1024) < 256)
     {
@@ -195,12 +195,12 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
             break;
         }
 
-        if (pObj->mFlags.Get(Options::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mGameObjectFlags.Get(Options::eIsBaseAliveGameObject_Bit6))
         {
             PSX_RECT rect = {};
             pObj->VGetBoundingRect(&rect, 1);
 
-            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) && field_E4_explosion_size == pObj->field_BC_sprite_scale)
+            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) && field_E4_explosion_size == pObj->mSpriteScale)
             {
                 pObj->VTakeDamage(this);
             }
@@ -227,11 +227,11 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
 
             if (dir == CameraPos::eCamLeft_3)
             {
-                ao_new<Gibs>(GibType::Slig_1, field_A8_xpos + FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                ao_new<Gibs>(GibType::Slig_1, mXPos + FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
             }
             else if (dir == CameraPos::eCamRight_4)
             {
-                ao_new<Gibs>(GibType::Slig_1, field_A8_xpos - FP_FromInteger(656), field_AC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
+                ao_new<Gibs>(GibType::Slig_1, mXPos - FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
             }
             Stop_slig_sounds(dir, 0);
         }

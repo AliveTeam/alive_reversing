@@ -221,11 +221,11 @@ FG1::~FG1()
 FG1::FG1(u8** ppRes)
     : BaseGameObject(1)
 {
-    mFlags.Set(Options::eDrawable_Bit4);
-    mFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mGameObjectFlags.Set(Options::eDrawable_Bit4);
+    mGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    field_4_typeId = Types::eFG1_67;
+    mTypeId = Types::eFG1_67;
 
     field_10_cam_pos_x = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
     field_12_cam_pos_y = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
@@ -271,7 +271,7 @@ void FG1::VUpdate()
 
 void FG1::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void FG1::VRender(PrimHeader** ppOt)

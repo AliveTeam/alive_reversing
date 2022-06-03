@@ -33,14 +33,14 @@ ALIVE_ASSERT_SIZEOF(ScreenWave_Data, 0x3700);
 ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 radius)
     : BaseGameObject(1)
 {
-    field_4_typeId = Types::eScreenWave_83;
+    mTypeId = Types::eScreenWave_83;
     gObjList_drawables_504618->Push_Back(this);
 
     // TODO: Using frame counter as an ID seems extremely dangerous due to id collision risk!
     field_14_ppRes = reinterpret_cast<ScreenWave_Data**>(ResourceManager::Allocate_New_Locked_Resource_454F80('evaW', gnFrameCount_507670, sizeof(ScreenWave_Data)));
     if (!field_14_ppRes)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -51,7 +51,7 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
     field_3C_path = gMap.mCurrentPath;
     field_3A_level = gMap.mCurrentLevel;
 
-    mFlags.Set(Options::eDrawable_Bit4);
+    mGameObjectFlags.Set(Options::eDrawable_Bit4);
     field_18_xpos = xpos;
 
     field_2C = FP_FromInteger(0);
@@ -124,7 +124,7 @@ void ScreenWave::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -150,7 +150,7 @@ void ScreenWave::VUpdate()
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

@@ -40,7 +40,7 @@ BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(s16 eventType, FP xpo
         return nullptr;
     }
 
-    if (!pObj->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5) || !pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (!pObj->mGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5) || !pObj->mGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         return nullptr;
     }
@@ -48,7 +48,7 @@ BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(s16 eventType, FP xpo
     // At this point we known the type must be BaseAnimatedWithPhysicsGameObject
     auto pDerived = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
-    if (pDerived->field_BC_sprite_scale == scale && FP_Abs(xpos - pDerived->field_A8_xpos) < FP_FromInteger(gPsxDisplay_504C78.field_0_width) && FP_Abs(ypos - pDerived->field_AC_ypos) < FP_FromInteger(gPsxDisplay_504C78.field_2_height))
+    if (pDerived->mSpriteScale == scale && FP_Abs(xpos - pDerived->mXPos) < FP_FromInteger(gPsxDisplay_504C78.field_0_width) && FP_Abs(ypos - pDerived->mYPos) < FP_FromInteger(gPsxDisplay_504C78.field_2_height))
     {
         return pDerived;
     }

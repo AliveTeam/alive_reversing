@@ -32,15 +32,15 @@ void AnimationBase::AnimateAll(DynamicArrayT<AnimationBase>* pAnims)
             break;
         }
 
-        if (!pAnim->field_4_flags.Get(AnimFlags::eBit2_Animate))
+        if (!pAnim->mAnimFlags.Get(AnimFlags::eBit2_Animate))
         {
             continue;
         }
 
-        if (pAnim->field_E_frame_change_counter > 0)
+        if (pAnim->mFrameChangeCounter > 0)
         {
-            pAnim->field_E_frame_change_counter--;
-            if (pAnim->field_E_frame_change_counter == 0)
+            pAnim->mFrameChangeCounter--;
+            if (pAnim->mFrameChangeCounter == 0)
             {
                 pAnim->VDecode();
             }

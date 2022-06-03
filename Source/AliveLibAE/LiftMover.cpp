@@ -62,10 +62,10 @@ void LiftMover::VUpdate()
         field_32_bMoveInProgress = FALSE;
     }
 
-    if (pLift && pLift->mFlags.Get(BaseGameObject::eDead))
+    if (pLift && pLift->mGameObjectFlags.Get(BaseGameObject::eDead))
     {
         // Set extra dead for good measure
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
         field_28_lift_id = -1;
     }
     else
@@ -191,7 +191,7 @@ void LiftMover::VUpdate()
 
         if (Event_Get(kEventDeathReset))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }

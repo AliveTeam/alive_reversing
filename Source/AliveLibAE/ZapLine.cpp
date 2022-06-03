@@ -35,9 +35,9 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     }
 
     field_132_number_of_sprites = field_12E_number_of_segments * field_130_number_of_pieces_per_segment;
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_C_render_layer = layer;
+    mAnim.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1
+    mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mRenderLayer = layer;
 
     field_F8_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::ResourceType::Resource_Spline, 0, sizeof(ZapLineSprites) * field_132_number_of_sprites); // Spln (spline?).
 
@@ -48,17 +48,17 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
 
     field_128_max_alive_time = static_cast<s16>(aliveTime);
 
-    field_B8_xpos = xPosSource;
-    field_BC_ypos = yPosSource;
+    mXPos = xPosSource;
+    mYPos = yPosSource;
 
     field_F4_state = ZapLineState::eInit_0;
     field_126_alive_timer = 0;
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
+    if (mAnim.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
     {
         field_124_tPageMode = TPageMode::e8Bit_1;
     }
-    else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+    else if (mAnim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
     {
         field_124_tPageMode = TPageMode::e16Bit_2;
     }
@@ -67,7 +67,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         field_124_tPageMode = TPageMode::e4Bit_0;
     }
 
-    u8 u0 = field_20_animation.field_84_vram_rect.x & 0x3F;
+    u8 u0 = mAnim.field_84_vram_rect.x & 0x3F;
     if (field_124_tPageMode == TPageMode::e8Bit_1)
     {
         u0 = 2 * u0;
@@ -77,7 +77,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         u0 = 4 * u0;
     }
 
-    auto pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+    auto pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
     const u8 frameW = pFrameHeader->field_4_width;
     const u8 frameH = pFrameHeader->field_5_height;
@@ -94,9 +94,9 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
                 Poly_Set_SemiTrans_4F8A60(&pSprt->mBase.header, 1);
                 Poly_Set_Blending_4F8A20(&pSprt->mBase.header, 1);
 
-                SetClut(pSprt, static_cast<s16>(PSX_getClut_4F6350(field_20_animation.field_8C_pal_vram_xy.field_0_x, field_20_animation.field_8C_pal_vram_xy.field_2_y)));
+                SetClut(pSprt, static_cast<s16>(PSX_getClut_4F6350(mAnim.field_8C_pal_vram_xy.field_0_x, mAnim.field_8C_pal_vram_xy.field_2_y)));
 
-                SetUV0(pSprt, u0, field_20_animation.field_84_vram_rect.y & 0xFF);
+                SetUV0(pSprt, u0, mAnim.field_84_vram_rect.y & 0xFF);
                 pSprt->field_14_w = frameW - 1;
                 pSprt->field_16_h = frameH - 1;
             }
@@ -118,7 +118,7 @@ void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSourc
 
     s16 xOff = 0;
     s16 yOff = 0;
-    field_20_animation.Get_Frame_Offset(&xOff, &yOff);
+    mAnim.Get_Frame_Offset(&xOff, &yOff);
 
     field_11C_x_position_source = FP_GetExponent(FP_FromInteger(xOff) + FP_FromInteger(field_11C_x_position_source));
     field_11E_y_position_source = FP_GetExponent(FP_FromInteger(yOff) + FP_FromInteger(field_11E_y_position_source));
@@ -138,7 +138,7 @@ void ZapLine::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -346,7 +346,7 @@ void ZapLine::VUpdate()
 
             if (field_126_alive_timer >= field_128_max_alive_time && field_12A_type != ZapLineType::eThin_1)
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -371,10 +371,10 @@ void ZapLine::VUpdate()
 void ZapLine::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(
-            field_C2_lvl_number,
-            field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos,
+            mLvlNumber,
+            mPathNumber,
+            mXPos,
+            mYPos,
             0)
         && field_F4_state > ZapLineState::eInitSpriteVertices_2)
     {
@@ -385,19 +385,19 @@ void ZapLine::VRender(PrimHeader** ppOt)
             for (s32 j = 0; j < field_130_number_of_pieces_per_segment; j++)
             {
                 Prim_Sprt* pSprt = &field_134_pSprites->field_0_sprts[j + (i * field_130_number_of_pieces_per_segment)];
-                OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pSprt[bufferIdx].mBase.header);
+                OrderingTable_Add_4F8AA0(OtLayer(ppOt, mAnim.mRenderLayer), &pSprt[bufferIdx].mBase.header);
             }
         }
 
         const s32 calcTPage = PSX_getTPage_4F60E0(
             field_124_tPageMode,
             field_12C_tPageAbr,
-            field_20_animation.field_84_vram_rect.x,
-            field_20_animation.field_84_vram_rect.y);
+            mAnim.field_84_vram_rect.x,
+            mAnim.field_84_vram_rect.y);
 
         Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
         Init_SetTPage_4F5B60(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTPage->mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, mAnim.mRenderLayer), &pTPage->mBase);
 
         PSX_RECT* pRect = &field_144_rects[bufferIdx];
         pRect->x = 32767;

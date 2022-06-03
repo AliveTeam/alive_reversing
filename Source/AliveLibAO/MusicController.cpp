@@ -365,8 +365,8 @@ s32 MusicController::GetMusicTime()
 MusicController::MusicController()
     : BaseGameObject(1)
 {
-    mFlags.Set(Options::eSurviveDeathReset_Bit9);
-    field_4_typeId = Types::eNone_0;
+    mGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mTypeId = Types::eNone_0;
 
     field_10_bEnableMusic = 1;
     field_3A_type = MusicTypes::eType0;
@@ -412,7 +412,7 @@ void MusicController::VUpdate()
     if (Event_Get(kEventDeathReset_4))
     {
         field_20 = 1;
-        field_1C_pObj = sActiveHero_507678;
+        field_1C_pObj = sActiveHero;
     }
 
     if (field_16_bScreenChanged)
@@ -567,7 +567,7 @@ void MusicController::Shutdown()
 {
     if (pMusicController_507B98)
     {
-        pMusicController_507B98->mFlags.Set(Options::eDead);
+        pMusicController_507B98->mGameObjectFlags.Set(Options::eDead);
         pMusicController_507B98 = nullptr;
         //nullsub_5();
         Psx_Root_Counter_Event_Free_49C2B0(psx_root_event_507BA0);
@@ -619,7 +619,7 @@ void MusicController::PlayMusic(MusicTypes musicType, BaseGameObject* pObj, s16 
         {
             if (gElum_507680)
             {
-                if (sControlledCharacter_50767C == gElum_507680)
+                if (sControlledCharacter == gElum_507680)
                 {
                     musicType = MusicTypes::eAbeOnElum_1;
                 }

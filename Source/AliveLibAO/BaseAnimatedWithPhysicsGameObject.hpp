@@ -105,23 +105,23 @@ private:
     void VStackOnObjectsOfType_418930(Types typeToFind);
 
 public:
-    Animation field_10_anim;
-    FP field_A8_xpos;
-    FP field_AC_ypos;
-    s16 field_B0_path_number;
-    LevelIds field_B2_lvl_number;
-    FP field_B4_velx;
-    FP field_B8_vely;
-    FP field_BC_sprite_scale;
-    s16 field_C0_r;
-    s16 field_C2_g;
-    s16 field_C4_b;
-    s16 field_C6_scale;
-    s16 field_C8_yOffset;
-    s16 field_CA_xOffset;
-    u16 field_CC_bApplyShadows;
+    Animation mAnim;
+    FP mXPos;
+    FP mYPos;
+    s16 mPathNumber;
+    LevelIds mLvlNumber;
+    FP mVelX;
+    FP mVelY;
+    FP mSpriteScale;
+    s16 mRed;
+    s16 mGreen;
+    s16 mBlue;
+    s16 mScale;
+    s16 mYOffset;
+    s16 mXOffset;
+    u16 mApplyShadows;
     s16 field_CE_pad;
-    Shadow* field_D0_pShadow;
+    Shadow* mShadow;
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xD4);
 

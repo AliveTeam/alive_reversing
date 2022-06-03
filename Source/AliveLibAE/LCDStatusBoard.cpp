@@ -36,7 +36,7 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
     field_90_font3.ctor_433590(3, sStatsSignFontPalette_55CF8C, &sFont2Context_5BC5D8);
     field_C8_font4.ctor_433590(3, sStatsSignFontPalette_55CF8C, &sFont2Context_5BC5D8);
 
-    mFlags.Set(eDrawable_Bit4);
+    mGameObjectFlags.Set(eDrawable_Bit4);
     gObjList_drawables_5C1124->Push_Back(this);
     field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
     field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
@@ -70,7 +70,7 @@ void LCDStatusBoard::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(eDead);
+        mGameObjectFlags.Set(eDead);
     }
 }
 
@@ -183,5 +183,5 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
 
 void LCDStatusBoard::VScreenChanged()
 {
-    mFlags.Set(eDead);
+    mGameObjectFlags.Set(eDead);
 }

@@ -60,18 +60,18 @@ protected:
     BaseGameObject* FindObjectOfType(AETypes typeToFind, FP xpos, FP ypos);
 
 public:
-    s16 field_F4_previous_motion;
-    s16 field_F6_anim_frame;
-    FP field_F8_LastLineYPos;
-    Path_TLV* field_FC_pPathTLV;
-    PathLine* field_100_pCollisionLine;
-    s16 field_104_collision_line_type;
-    s16 field_106_current_motion;
-    s16 field_108_next_motion;
+    s16 mPreviousMotion;
+    s16 mAnimFrame;
+    FP mLastLineYPos;
+    Path_TLV* mPathTLV;
+    PathLine* mCollisionLine;
+    s16 mCollisionLineType;
+    s16 mCurrentMotion;
+    s16 mNextMotion;
     s16 field_10A_unused;
-    FP field_10C_health;
-    s32 field_110_id;
-    BitField16<Flags_114> field_114_flags;
+    FP mHealth;
+    s32 mObjectId;
+    BitField16<Flags_114> mAliveGameObjectFlags;
     s16 field_116_padding;
 };
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x118);

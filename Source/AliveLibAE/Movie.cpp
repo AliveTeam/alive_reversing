@@ -626,8 +626,8 @@ void Movie::VScreenChanged()
 
 void Movie::Init(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume)
 {
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     SetType(AETypes::eMovie_145);
 
@@ -676,7 +676,7 @@ void Movie::VUpdate()
     if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
         // Skip FMVs in rec/playback mode
-        mFlags.Set(BaseGameObject::Options::eDead);
+        mGameObjectFlags.Set(BaseGameObject::Options::eDead);
     }
     else
     {
@@ -732,7 +732,7 @@ void Movie::DeInit()
     gReverbEnabled = wasReverbEnabled;
     #endif
 
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 bool AreMovieSkippingInputsHeld()

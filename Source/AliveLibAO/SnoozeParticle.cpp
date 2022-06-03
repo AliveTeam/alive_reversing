@@ -56,7 +56,7 @@ const s16 xPositionDeltaEntries_4CF8E0[39] = {
 
 SnoozeParticle::~SnoozeParticle()
 {
-    if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (mGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_504618->Remove_Item(this);
     }
@@ -64,15 +64,15 @@ SnoozeParticle::~SnoozeParticle()
 
 void SnoozeParticle::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     : BaseGameObject(1)
 {
-    mFlags.Set(Options::eDrawable_Bit4);
+    mGameObjectFlags.Set(Options::eDrawable_Bit4);
 
-    field_4_typeId = Types::eSnoozParticle_87;
+    mTypeId = Types::eSnoozParticle_87;
     gObjList_drawables_504618->Push_Back(this);
 
     field_10_x_start = xpos;
@@ -108,7 +108,7 @@ void SnoozeParticle::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (!sNumCamSwappers_507668)
@@ -161,7 +161,7 @@ void SnoozeParticle::VUpdate()
                 else
                 {
                     SFX_Play_Mono(SoundEffect::ZPop_5, 0, 0);
-                    mFlags.Set(BaseGameObject::eDead);
+                    mGameObjectFlags.Set(BaseGameObject::eDead);
                 }
         }
     }

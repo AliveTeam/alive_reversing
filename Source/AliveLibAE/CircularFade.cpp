@@ -9,7 +9,7 @@
 CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     if (direction)
     {
@@ -23,27 +23,27 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     VFadeIn(direction, destroyOnDone);
 
     const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
-    field_D4_b = fade_rgb;
-    field_D2_g = fade_rgb;
-    field_D0_r = fade_rgb;
+    mBlue = fade_rgb;
+    mGreen = fade_rgb;
+    mRed = fade_rgb;
 
     const AnimRecord& spotLightRec = AnimRec(AnimId::SpotLight);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID);
     Animation_Init(spotLightRec.mFrameTableOffset, spotLightRec.mMaxW, spotLightRec.mMaxH, ppRes, 1, 1u);
 
-    field_DC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-    field_CC_sprite_scale.fpValue = scale.fpValue * 2;
-    field_20_animation.field_14_scale.fpValue = scale.fpValue * 2;
+    mAnim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+    mSpriteScale.fpValue = scale.fpValue * 2;
+    mAnim.field_14_scale.fpValue = scale.fpValue * 2;
 
-    field_B8_xpos = xpos;
-    field_BC_ypos = ypos;
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_2;
-    field_20_animation.field_C_render_layer = Layer::eLayer_FadeFlash_40;
-    field_D0_r = field_1B8_fade_colour;
-    field_D2_g = field_1B8_fade_colour;
-    field_D4_b = field_1B8_fade_colour;
+    mXPos = xpos;
+    mYPos = ypos;
+    mAnim.mRenderMode = TPageAbr::eBlend_2;
+    mAnim.mRenderLayer = Layer::eLayer_FadeFlash_40;
+    mRed = field_1B8_fade_colour;
+    mGreen = field_1B8_fade_colour;
+    mBlue = field_1B8_fade_colour;
 
     Init_SetTPage_4F5B60(&field_198_tPages[0], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
     Init_SetTPage_4F5B60(&field_198_tPages[1], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
@@ -61,22 +61,22 @@ void CircularFade::VRender(PrimHeader** ppOt)
 {
     const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
 
-    field_D4_b = fade_rgb;
-    field_D2_g = fade_rgb;
-    field_D0_r = fade_rgb;
-    field_20_animation.field_8_r = fade_rgb;
-    field_20_animation.field_9_g = fade_rgb;
-    field_20_animation.field_A_b = fade_rgb;
+    mBlue = fade_rgb;
+    mGreen = fade_rgb;
+    mRed = fade_rgb;
+    mAnim.mRed = fade_rgb;
+    mAnim.mGreen = fade_rgb;
+    mAnim.mBlue = fade_rgb;
 
-    field_20_animation.VRender(
-        FP_GetExponent(FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-        FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+    mAnim.VRender(
+        FP_GetExponent(FP_FromInteger(mXOffset) + mXPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+        FP_GetExponent(FP_FromInteger(mYOffset) + mYPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
         ppOt,
         0,
         0);
 
     PSX_RECT frameRect = {};
-    field_20_animation.Get_Frame_Rect(&frameRect);
+    mAnim.Get_Frame_Rect(&frameRect);
 
     pScreenManager_5BB5F4->InvalidateRect_40EC90(
         frameRect.x,
@@ -117,7 +117,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile1->field_14_w = gPsxDisplay_5C1130.field_0_width;
     pTile1->field_16_h = frameRect.y;
     Poly_Set_SemiTrans_4F8A60(&pTile1->mBase.header, 1);
-    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTile1->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, mAnim.mRenderLayer), &pTile1->mBase.header);
 
 
     Prim_Tile* pTile2 = &field_120_tile2[gPsxDisplay_5C1130.field_C_buffer_index];
@@ -125,7 +125,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     SetRGB0(pTile2, fadeColour, fadeColour, fadeColour);
     SetXY0(pTile2, 0, frameRect.y);
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         pTile2->field_14_w = frameRect.x + 1;
     }
@@ -135,7 +135,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     }
     pTile2->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans_4F8A60(&pTile2->mBase.header, 1);
-    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTile2->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, mAnim.mRenderLayer), &pTile2->mBase.header);
 
     Prim_Tile* pTile3 = &field_148_tile3[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile3);
@@ -144,7 +144,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile3->field_14_w = gPsxDisplay_5C1130.field_0_width - frameRect.w;
     pTile3->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans_4F8A60(&pTile3->mBase.header, 1);
-    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTile3->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, mAnim.mRenderLayer), &pTile3->mBase.header);
 
     Prim_Tile* pTile4 = &field_170_tile4[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile4);
@@ -153,9 +153,9 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile4->field_14_w = gPsxDisplay_5C1130.field_0_width;
     pTile4->field_16_h = gPsxDisplay_5C1130.field_2_height - frameRect.h;
     Poly_Set_SemiTrans_4F8A60(&pTile4->mBase.header, 1);
-    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTile4->mBase.header);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, mAnim.mRenderLayer), &pTile4->mBase.header);
 
-    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &field_198_tPages[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+    OrderingTable_Add_4F8AA0(OtLayer(ppOt, mAnim.mRenderLayer), &field_198_tPages[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
 
     if (field_1B8_fade_colour < 255)
     {
@@ -176,7 +176,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
         if (field_F4_flags.Get(Flags::eBit3_DestroyOnDone))
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -243,11 +243,11 @@ CircularFade* Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 directio
 
     if (surviveDeathReset)
     {
-        pCircularFade->mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        pCircularFade->mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     }
     else
     {
-        pCircularFade->mFlags.Clear(BaseGameObject::eSurviveDeathReset_Bit9);
+        pCircularFade->mGameObjectFlags.Clear(BaseGameObject::eSurviveDeathReset_Bit9);
     }
     return pCircularFade;
 }

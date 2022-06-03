@@ -30,11 +30,11 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
     field_A8_render_as_scale = (field_C0_current_scale * field_C4_randomized_scale);
     if (field_C0_current_scale > FP_FromDouble(0.599))
     {
-        field_8_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
+        field_8_anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     }
     else
     {
-        field_8_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
+        field_8_anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
     }
 }
 
@@ -46,7 +46,7 @@ void OrbWhirlWindParticle::ToStop()
 
 s32 OrbWhirlWindParticle::IsActive()
 {
-    return field_4_flags & 1;
+    return mAnimFlags & 1;
 }
 
 void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
@@ -82,11 +82,11 @@ void OrbWhirlWindParticle::SetActive(u8 active)
 {
     if (active)
     {
-        field_4_flags |= 1;
+        mAnimFlags |= 1;
     }
     else
     {
-        field_4_flags &= ~1;
+        mAnimFlags &= ~1;
     }
 }
 
@@ -111,7 +111,7 @@ void OrbWhirlWindParticle::Update()
             }
             else
             {
-                if (!field_E4_pObj || field_E4_pObj->mFlags.Get(BaseGameObject::eDead))
+                if (!field_E4_pObj || field_E4_pObj->mGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     ToStop();
                 }
@@ -121,7 +121,7 @@ void OrbWhirlWindParticle::Update()
                     field_F0_scale = field_CC_xpos_mid;
                     field_FC_xpos_offset2 = field_D0_ypos_mid;
                     field_F4_xpos_offset = field_D0_ypos_mid;
-                    field_C8_scale_offset_fly_to_target = (field_E4_pObj->field_BC_sprite_scale - field_C0_current_scale) / FP_FromInteger(16);
+                    field_C8_scale_offset_fly_to_target = (field_E4_pObj->mSpriteScale - field_C0_current_scale) / FP_FromInteger(16);
                     field_DC_position_timer = gnFrameCount_507670 + 16;
                     field_B4_state = State::State_2_FlyToTarget;
                     CalculateRenderProperties(1);
@@ -130,7 +130,7 @@ void OrbWhirlWindParticle::Update()
             break;
 
         case State::State_2_FlyToTarget:
-            if (!field_E4_pObj || field_E4_pObj->mFlags.Get(BaseGameObject::eDead))
+            if (!field_E4_pObj || field_E4_pObj->mGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 ToStop();
             }
@@ -197,17 +197,17 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0);
     field_8_anim.Init(orbRec.mFrameTableOffset, gObjList_animations_505564, 0, orbRec.mMaxW, orbRec.mMaxH, ppRes, 1, 0, 0);
 
-    field_8_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_8_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_8_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
-    field_8_anim.field_B_render_mode = TPageAbr::eBlend_1;
+    field_8_anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+    field_8_anim.mRenderMode = TPageAbr::eBlend_1;
 
-    field_8_anim.field_8_r = 80;
-    field_8_anim.field_9_g = 80;
-    field_8_anim.field_A_b = 80;
+    field_8_anim.mRed = 80;
+    field_8_anim.mGreen = 80;
+    field_8_anim.mBlue = 80;
 
     field_8_anim.SetFrame(Math_RandomRange_450F20(0, field_8_anim.Get_Frame_Count() - 1));
-    field_4_flags &= ~1u;
+    mAnimFlags &= ~1u;
     field_B4_state = State::State_0_Start;
     field_B8_render_angle = Math_RandomRange_450F20(0, 255);
     field_BC_counter = 1;

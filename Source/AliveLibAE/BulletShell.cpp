@@ -14,8 +14,8 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
 
     if (sShellCount_BAF7E0 >= 11)
     {
-        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -24,34 +24,34 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-        field_CC_sprite_scale = scale;
+        mSpriteScale = scale;
 
         if (scale == FP_FromInteger(1))
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
+            mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
+            mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
 
-        field_DC_bApplyShadows &= ~1u;
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, direction & 1);
+        mApplyShadows &= ~1u;
+        mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
 
         field_FC_hitCount = 0;
 
-        field_B8_xpos = xpos;
-        field_BC_ypos = ypos;
+        mXPos = xpos;
+        mYPos = ypos;
 
         if (direction)
         {
-            field_C4_velx = FP_FromInteger(Math_RandomRange(-6, -3));
+            mVelX = FP_FromInteger(Math_RandomRange(-6, -3));
         }
         else
         {
-            field_C4_velx = FP_FromInteger(Math_RandomRange(3, 6));
+            mVelX = FP_FromInteger(Math_RandomRange(3, 6));
         }
-        field_C8_vely = FP_FromInteger(Math_RandomRange(-4, -1));
+        mVelY = FP_FromInteger(Math_RandomRange(-4, -1));
         field_100_speed = FP_FromInteger(1);
     }
 }
@@ -63,43 +63,43 @@ BulletShell::~BulletShell()
 
 void BulletShell::VUpdate()
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return;
     }
 
-    field_B8_xpos += field_C4_velx;
-    field_BC_ypos += field_C8_vely;
+    mXPos += mVelX;
+    mYPos += mVelY;
 
-    field_C8_vely += field_100_speed;
+    mVelY += field_100_speed;
 
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos - field_C8_vely,
-            field_B8_xpos,
-            field_BC_ypos,
-            &field_F4_pLine,
+            mXPos,
+            mYPos - mVelY,
+            mXPos,
+            mYPos,
+            &mCollisionLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? 0x0F : 0xF0)
+            mScale != 0 ? 0x0F : 0xF0)
         == 1)
     {
-        if (field_F4_pLine->field_8_type == eLineTypes::eFloor_0 ||
-            field_F4_pLine->field_8_type == eLineTypes::eBackgroundFloor_4)
+        if (mCollisionLine->field_8_type == eLineTypes::eFloor_0 ||
+            mCollisionLine->field_8_type == eLineTypes::eBackgroundFloor_4)
         {
-            field_BC_ypos = hitY - FP_FromInteger(1);
-            field_C8_vely = -(field_C8_vely * FP_FromDouble(0.3));
-            field_C4_velx = (field_C4_velx * FP_FromDouble(0.3));
+            mYPos = hitY - FP_FromInteger(1);
+            mVelY = -(mVelY * FP_FromDouble(0.3));
+            mVelX = (mVelX * FP_FromDouble(0.3));
 
-            if (field_C4_velx < FP_FromInteger(0) && field_C4_velx > FP_FromInteger(-1))
+            if (mVelX < FP_FromInteger(0) && mVelX > FP_FromInteger(-1))
             {
-                field_C4_velx = FP_FromInteger(-1);
+                mVelX = FP_FromInteger(-1);
             }
-            else if (field_C4_velx > FP_FromInteger(0) && field_C4_velx < FP_FromInteger(1))
+            else if (mVelX > FP_FromInteger(0) && mVelX < FP_FromInteger(1))
             {
-                field_C4_velx = FP_FromInteger(1);
+                mVelX = FP_FromInteger(1);
             }
 
             s16 volume = 19 * (3 - field_FC_hitCount);
@@ -113,13 +113,13 @@ void BulletShell::VUpdate()
         }
     }
 
-    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(mLvlNumber, mPathNumber, mXPos, mYPos, 0))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_FC_hitCount >= 3)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }

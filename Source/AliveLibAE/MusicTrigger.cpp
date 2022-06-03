@@ -71,7 +71,7 @@ void MusicTrigger::Init(MusicTriggerMusicType musicType, TriggeredBy triggeredBy
 
     if (triggeredBy == TriggeredBy::eTimer_0)
     {
-        SetUpdateDelay(musicDelay); // OG bug? field_1C_update_delay should've been field_28_counter?
+        SetUpdateDelay(musicDelay); // OG bug? mUpdateDelay should've been field_28_counter?
     }
     else if (triggeredBy == TriggeredBy::eTouching_1)
     {
@@ -91,7 +91,7 @@ void MusicTrigger::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -99,13 +99,13 @@ void MusicTrigger::VUpdate()
 {
     if (Event_Get(kEventHeroDying))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_24_flags.Get(Flags_24::e24_Bit1_TriggeredByTouching))
     {
-        FP xpos = sControlledCharacter_5C1B8C->field_B8_xpos;
-        FP ypos = sControlledCharacter_5C1B8C->field_BC_ypos;
+        FP xpos = sControlledCharacter->mXPos;
+        FP ypos = sControlledCharacter->mYPos;
 
         if (xpos >= FP_FromInteger(field_2C_tl.field_0_x) && xpos <= FP_FromInteger(field_30_br.field_0_x) && (ypos >= FP_FromInteger(field_2C_tl.field_2_y) && ypos <= FP_FromInteger(field_30_br.field_2_y)))
         {
@@ -126,7 +126,7 @@ void MusicTrigger::VUpdate()
         }
         else
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
     else

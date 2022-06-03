@@ -21,46 +21,46 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
     const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit24);
+    mAnim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
+    mAnim.mAnimFlags.Set(AnimFlags::eBit24);
 
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+    mAnim.mRenderMode = TPageAbr::eBlend_1;
 
-    field_20_animation.field_A_b = 128;
-    field_20_animation.field_9_g = 128;
-    field_20_animation.field_8_r = 128;
+    mAnim.mBlue = 128;
+    mAnim.mGreen = 128;
+    mAnim.mRed = 128;
 
-    field_f4_scale = scale;
+    mScale = scale;
 
     if (scale == FP_FromDouble(1.0))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
+        mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
+        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
-    field_DC_bApplyShadows &= ~1;
-    field_CC_sprite_scale = scale * FP_FromDouble(2.75);
-    field_B8_xpos = x;
-    field_BC_ypos = y;
+    mApplyShadows &= ~1;
+    mSpriteScale = scale * FP_FromDouble(2.75);
+    mXPos = x;
+    mYPos = y;
 
     ae_new<ScreenShake>(true, false);
 
     ae_new<ParticleBurst>(
-        field_B8_xpos,
-        field_BC_ypos,
+        mXPos,
+        mYPos,
         35,
-        field_f4_scale,
+        mScale,
         BurstType::eFallingRocks_0,
         13);
 
     PSX_RECT damageRect = {
-        FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
-        FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
-        FP_GetExponent(FP_FromInteger(10) * field_f4_scale),
-        FP_GetExponent(FP_FromInteger(10) * field_f4_scale)};
+        FP_GetExponent(FP_FromInteger(-10) * mScale),
+        FP_GetExponent(FP_FromInteger(-10) * mScale),
+        FP_GetExponent(FP_FromInteger(10) * mScale),
+        FP_GetExponent(FP_FromInteger(10) * mScale)};
     DealDamageRect(&damageRect);
 
     // alternate between Explosion1 and Explosion2 on each call
@@ -78,48 +78,48 @@ void BaseBomb::VUpdate()
     Event_Broadcast(kEventLoudNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    switch (this->field_20_animation.field_92_current_frame)
+    switch (this->mAnim.field_92_current_frame)
     {
         case 0:
-            rect.x = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-20) * field_f4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(20) * field_f4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-30) * mScale);
+            rect.w = FP_GetExponent(FP_FromInteger(30) * mScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * mScale);
+            rect.h = FP_GetExponent(FP_FromInteger(20) * mScale);
             DealDamageRect(&rect);
             break;
 
         case 1:
-            rect.x = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-50) * mScale);
+            rect.w = FP_GetExponent(FP_FromInteger(50) * mScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-30) * mScale);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * mScale);
             DealDamageRect(&rect);
             break;
 
         case 2:
-            rect.x = FP_GetExponent(FP_FromInteger(-80) * field_f4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(80) * field_f4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-40) * field_f4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(40) * field_f4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-80) * mScale);
+            rect.w = FP_GetExponent(FP_FromInteger(80) * mScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-40) * mScale);
+            rect.h = FP_GetExponent(FP_FromInteger(40) * mScale);
             DealDamageRect(&rect);
             break;
 
         case 3:
         {
             ae_new<ParticleBurst>(
-                field_B8_xpos,
-                field_BC_ypos,
+                mXPos,
+                mYPos,
                 20,
-                field_CC_sprite_scale,
+                mSpriteScale,
                 BurstType::eBigRedSparks_3,
                 13);
 
             ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1, TPageAbr::eBlend_3, 1);
 
-            rect.x = FP_GetExponent(FP_FromInteger(-113) * field_f4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(113) * field_f4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-113) * mScale);
+            rect.w = FP_GetExponent(FP_FromInteger(113) * mScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-50) * mScale);
+            rect.h = FP_GetExponent(FP_FromInteger(50) * mScale);
             DealDamageRect(&rect);
             break;
         }
@@ -133,10 +133,10 @@ void BaseBomb::VUpdate()
         case 7:
         {
             ae_new<ParticleBurst>(
-                field_B8_xpos,
-                field_BC_ypos,
+                mXPos,
+                mYPos,
                 20u,
-                field_CC_sprite_scale,
+                mSpriteScale,
                 BurstType::eBigRedSparks_3,
                 13);
 
@@ -148,32 +148,32 @@ void BaseBomb::VUpdate()
             break;
     }
 
-    if (field_20_animation.field_92_current_frame == 3)
+    if (mAnim.field_92_current_frame == 3)
     {
         const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         if (ppRes)
         {
             Particle* pParticle = ae_new<Particle>(
-                field_B8_xpos,
-                field_BC_ypos,
+                mXPos,
+                mYPos,
                 rec.mFrameTableOffset,
                 rec.mMaxW,
                 rec.mMaxH,
                 ppRes);
             if (pParticle)
             {
-                pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-                pParticle->field_DC_bApplyShadows &= ~1;
-                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-                pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.7);
+                pParticle->mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->mApplyShadows &= ~1;
+                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.7);
             }
         }
     }
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
+    if (mAnim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
     {
         // Time to die
-        mFlags.Set(Options::eDead);
+        mGameObjectFlags.Set(Options::eDead);
     }
 }

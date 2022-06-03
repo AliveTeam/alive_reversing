@@ -30,13 +30,13 @@ CrawlingSligButton::CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInf
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = 0;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     field_F8_switch_id = pTlv->field_12_switch_id;
@@ -48,8 +48,8 @@ CrawlingSligButton::CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInf
 
     field_102_in_use = 0;
 
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    mXPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mYPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
 }
 
 void CrawlingSligButton::UseButton()
@@ -58,7 +58,7 @@ void CrawlingSligButton::UseButton()
     {
         field_102_in_use = 1;
         const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButtonUse);
-        field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+        mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
     }
 }
 
@@ -71,7 +71,7 @@ void CrawlingSligButton::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_102_in_use == 1)
@@ -93,12 +93,12 @@ void CrawlingSligButton::VUpdate()
                     static_cast<SoundEffect>(buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_0_block_idx),
                     buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 2),
                     buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 1),
-                    field_CC_sprite_scale);
+                    mSpriteScale);
             }
         }
 
         field_102_in_use = 0;
         const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
-        field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+        mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
     }
 }

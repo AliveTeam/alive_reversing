@@ -12,7 +12,7 @@ namespace AO {
 
 PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::ePullRingRope_68;
+    mTypeId = Types::ePullRingRope_68;
 
     s32 lvl_x_off = 0;
     switch (gMap.mCurrentLevel)
@@ -47,7 +47,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
         }
     }
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_EE_switch_id = pTlv->field_18_switch_id;
     field_F0_action = pTlv->field_1A_action;
@@ -55,20 +55,20 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_EC_state = States::eIdle_0;
     field_E4_stay_in_state_ticks = 0;
 
-    field_AC_ypos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->field_10_top_left.field_2_y + 24);
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    mYPos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->field_10_top_left.field_2_y + 24);
+    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
 
     if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_8;
-        field_C6_scale = 0;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_8;
+        mScale = 0;
     }
     else
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = Layer::eLayer_27;
-        field_C6_scale = 1;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_27;
+        mScale = 1;
     }
 
     field_100_sound_direction = pTlv->field_24_sound_direction;
@@ -79,10 +79,10 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_F4_pPuller = nullptr;
 
     field_F8_pRope = ao_new<Rope>(
-        FP_GetExponent(field_A8_xpos + FP_FromInteger((lvl_x_off + 1))),
-        FP_GetExponent(field_AC_ypos) - pTlv->field_1C_rope_length,
-        FP_GetExponent(field_AC_ypos + (FP_FromInteger(field_C8_yOffset))),
-        field_BC_sprite_scale);
+        FP_GetExponent(mXPos + FP_FromInteger((lvl_x_off + 1))),
+        FP_GetExponent(mYPos) - pTlv->field_1C_rope_length,
+        FP_GetExponent(mYPos + (FP_FromInteger(mYOffset))),
+        mSpriteScale);
     if (field_F8_pRope)
     {
         field_F8_pRope->field_C_refCount++;
@@ -98,7 +98,7 @@ void PullRingRope::VScreenChanged()
 {
     if (!field_F4_pPuller)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -113,7 +113,7 @@ PullRingRope::~PullRingRope()
 
     if (field_F8_pRope)
     {
-        field_F8_pRope->mFlags.Set(Options::eDead);
+        field_F8_pRope->mGameObjectFlags.Set(Options::eDead);
         field_F8_pRope->field_C_refCount--;
     }
 }
@@ -134,7 +134,7 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
     field_F4_pPuller->field_C_refCount++;
 
     field_EC_state = States::eBeingPulled_1;
-    field_B8_vely = FP_FromInteger(2);
+    mVelY = FP_FromInteger(2);
     field_E4_stay_in_state_ticks = 6;
 
     SwitchStates_Do_Operation(field_EE_switch_id, field_F0_action);
@@ -142,12 +142,12 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
     if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRemoved_11 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_UseBegin);
-        field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+        mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
     }
     else
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_UseBegin);
-        field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+        mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
     }
     SFX_Play_Mono(SoundEffect::RingRopePull_65, 0, 0);
     return 1;
@@ -157,12 +157,12 @@ void PullRingRope::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_F4_pPuller)
     {
-        if (field_F4_pPuller->mFlags.Get(BaseGameObject::eDead))
+        if (field_F4_pPuller->mGameObjectFlags.Get(BaseGameObject::eDead))
         {
             field_F4_pPuller->field_C_refCount--;
             field_F4_pPuller = nullptr;
@@ -172,18 +172,18 @@ void PullRingRope::VUpdate()
     switch (field_EC_state)
     {
         case States::eBeingPulled_1:
-            if (field_10_anim.field_92_current_frame == 2)
+            if (mAnim.field_92_current_frame == 2)
             {
                 SFX_Play_Mono(SoundEffect::RingRopePull_65, 0);
             }
 
-            field_AC_ypos += field_B8_vely;
-            field_F4_pPuller->field_AC_ypos += field_B8_vely;
+            mYPos += mVelY;
+            field_F4_pPuller->mYPos += mVelY;
             field_E4_stay_in_state_ticks--;
 
             if (field_E4_stay_in_state_ticks == 0)
             {
-                field_B8_vely = FP_FromInteger(0);
+                mVelY = FP_FromInteger(0);
                 field_EC_state = States::eTriggerEvent_2;
 
                 if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
@@ -251,7 +251,7 @@ void PullRingRope::VUpdate()
             break;
 
         case States::eTriggerEvent_2:
-            field_B8_vely = FP_FromInteger(4);
+            mVelY = FP_FromInteger(4);
             field_EC_state = States::eReturnToIdle_3;
             field_F4_pPuller->field_C_refCount--;
             field_F4_pPuller = nullptr;
@@ -261,32 +261,32 @@ void PullRingRope::VUpdate()
             if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_UseEnd);
-                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             }
             else
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_UseEnd);
-                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             }
             break;
 
         case States::eReturnToIdle_3:
-            field_AC_ypos -= field_B8_vely;
+            mYPos -= mVelY;
             field_E4_stay_in_state_ticks--;
             if (field_E4_stay_in_state_ticks == 0)
             {
-                field_B8_vely = FP_FromInteger(0);
+                mVelY = FP_FromInteger(0);
                 field_EC_state = States::eIdle_0;
 
                 if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {
                     const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_Idle);
-                    field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                    mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 }
                 else
                 {
                     const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_Idle);
-                    field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                    mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 }
             }
             break;
@@ -295,7 +295,7 @@ void PullRingRope::VUpdate()
             break;
     }
 
-    field_F8_pRope->field_AC_ypos = FP_NoFractional(FP_FromInteger(field_C8_yOffset - 16) + field_AC_ypos);
+    field_F8_pRope->mYPos = FP_NoFractional(FP_FromInteger(mYOffset - 16) + mYPos);
 }
 
 } // namespace AO

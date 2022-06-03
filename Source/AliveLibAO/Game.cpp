@@ -311,8 +311,8 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
     }
 
     pPauseMenu_5080E0 = nullptr;
-    sActiveHero_507678 = nullptr;
-    sControlledCharacter_50767C = nullptr;
+    sActiveHero = nullptr;
+    sControlledCharacter = nullptr;
     sNumCamSwappers_507668 = 0;
     gnFrameCount_507670 = 0;
 
@@ -417,11 +417,11 @@ void Game_Loop_437630()
                 break;
             }
 
-            if (pObjIter->mFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mFlags.Get(BaseGameObject::eDead) && (sNumCamSwappers_507668 == 0 || pObjIter->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            if (pObjIter->mGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mGameObjectFlags.Get(BaseGameObject::eDead) && (sNumCamSwappers_507668 == 0 || pObjIter->mGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
-                if (pObjIter->field_8_update_delay > 0)
+                if (pObjIter->mUpdateDelay > 0)
                 {
-                    pObjIter->field_8_update_delay--;
+                    pObjIter->mUpdateDelay--;
                 }
                 else
                 {
@@ -448,7 +448,7 @@ void Game_Loop_437630()
                 break;
             }
 
-            if (!pDrawable->mFlags.Get(BaseGameObject::eDead) && pDrawable->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+            if (!pDrawable->mGameObjectFlags.Get(BaseGameObject::eDead) && pDrawable->mGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 pDrawable->VRender(ppOt);
             }
@@ -470,7 +470,7 @@ void Game_Loop_437630()
                 break;
             }
 
-            if (pObj->mFlags.Get(BaseGameObject::eDead) && pObj->field_C_refCount == 0)
+            if (pObj->mGameObjectFlags.Get(BaseGameObject::eDead) && pObj->field_C_refCount == 0)
             {
                 i = gBaseGameObjects->RemoveAt(i);
                 delete pObj;

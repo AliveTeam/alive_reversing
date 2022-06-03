@@ -79,7 +79,7 @@ void OrbWhirlWind::VUpdate()
 
         if (!unknown)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 
@@ -113,7 +113,7 @@ OrbWhirlWind::~OrbWhirlWind()
 OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale)
     : BaseGameObject(1)
 {
-    field_4_typeId = Types::eNone_0;
+    mTypeId = Types::eNone_0;
 
     field_58_xpos = xpos;
     field_5C_ypos = ypos;
@@ -123,7 +123,7 @@ OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale)
     field_10_particle_spawn_counter = 0;
 
     gObjList_drawables_504618->Push_Back(this);
-    mFlags.Set(Options::eDrawable_Bit4);
+    mGameObjectFlags.Set(Options::eDrawable_Bit4);
 
     field_16_particleIdx = 0;
 

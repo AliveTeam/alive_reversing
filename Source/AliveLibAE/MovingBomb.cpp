@@ -26,7 +26,7 @@ ALIVE_VAR(1, 0x5C300C, MovingBomb*, gMovingBomb_5C300C, nullptr);
 MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
-    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     SetType(AETypes::eTimedMine_or_MovingBomb_10);
 
@@ -34,27 +34,27 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
+    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mRenderMode = TPageAbr::eBlend_0;
     field_118_state = States::eTriggeredBySwitch_1;
 
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_Half_16;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = 0;
+        mAnim.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
     }
     else if (pTlv->field_16_scale == Scale_short::eFull_0)
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = 1;
+        mAnim.mRenderLayer = Layer::eLayer_BombMineCar_35;
     }
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mXPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    mYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_124_speed = FP_FromRaw(pTlv->field_10_speed << 8);
-    field_C4_velx = FP_FromRaw(pTlv->field_1C_start_speed << 8);
+    mVelX = FP_FromRaw(pTlv->field_1C_start_speed << 8);
     field_128_start_moving_switch_id = pTlv->field_12_start_moving_switch_id;
     field_120_timer = sGnFrame_5C1B84;
     field_11C_tlvInfo = tlvInfo;
@@ -66,7 +66,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     if (pTlv->field_14_bTriggered_by_alarm == Choice_short::eYes_1)
     {
         field_118_state = States::eTriggeredByAlarm_0;
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
 
     SetTint(&kMovingBombTints_55C734[0], gMap.mCurrentLevel);
@@ -85,29 +85,29 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos,
-            field_B8_xpos + FP_FromInteger(24),
-            field_BC_ypos + FP_FromInteger(24),
-            &field_100_pCollisionLine,
+            mXPos,
+            mYPos,
+            mXPos + FP_FromInteger(24),
+            mYPos + FP_FromInteger(24),
+            &mCollisionLine,
             &hitX,
             &hitY,
             0x100))
     {
-        field_BC_ypos = hitY;
-        field_B8_xpos = hitX;
+        mYPos = hitY;
+        mXPos = hitX;
     }
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 }
 
 MovingBomb::~MovingBomb()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(mObjectId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        field_110_id = -1;
+        mObjectId = -1;
     }
 
     if (field_118_state >= States::eBlowingUp_6)
@@ -132,16 +132,16 @@ MovingBomb::~MovingBomb()
 
 void MovingBomb::BlowUp()
 {
-    mFlags.Clear(BaseGameObject::eCanExplode_Bit7);
+    mGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
     field_118_state = States::eBlowingUp_6;
-    field_C8_vely = FP_FromInteger(0);
+    mVelY = FP_FromInteger(0);
     field_120_timer = sGnFrame_5C1B84 + 1;
-    SFX_Play_Mono(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
+    SFX_Play_Mono(SoundEffect::GreenTick_2, 100, mSpriteScale);
 }
 
 void MovingBomb::VRender(PrimHeader** ot)
 {
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    if (mAnim.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
@@ -153,36 +153,36 @@ void MovingBomb::VScreenChanged()
 
     if (field_136_persist_offscreen == Choice_short::eNo_0)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
-    const FP xDelta = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
+    const FP xDelta = FP_Abs(sControlledCharacter->mXPos - mXPos);
     if (xDelta > FP_FromInteger(750))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
-    const FP yDelta = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
+    const FP yDelta = FP_Abs(sControlledCharacter->mYPos - mYPos);
     if (yDelta > FP_FromInteger(520))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 }
 
 void MovingBomb::FollowLine()
 {
-    if (field_100_pCollisionLine)
+    if (mCollisionLine)
     {
-        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+        mCollisionLine = mCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
     }
 }
 
 s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead) || field_10C_health <= FP_FromInteger(0))
+    if (mGameObjectFlags.Get(BaseGameObject::eDead) || mHealth <= FP_FromInteger(0))
     {
         return 1;
     }
@@ -193,14 +193,14 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         case AETypes::eExplosion_109:
         case AETypes::eShrykull_121:
         {
-            field_10C_health = FP_FromInteger(0);
-            ae_new<Explosion>(field_B8_xpos, field_BC_ypos, field_CC_sprite_scale, 0);
+            mHealth = FP_FromInteger(0);
+            ae_new<Explosion>(mXPos, mYPos, mSpriteScale, 0);
 
-            ae_new<Gibs>(GibType::Metal_5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
+            ae_new<Gibs>(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), mSpriteScale, 0);
 
             field_118_state = States::eKillMovingBomb_7;
 
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             field_120_timer = sGnFrame_5C1B84 + 4;
         }
             return 0;
@@ -216,7 +216,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 
 void MovingBomb::VOnThrowableHit(BaseGameObject* /*pObj*/)
 {
-    if (!field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if (!mAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         BlowUp();
     }
@@ -236,13 +236,13 @@ s16 MovingBomb::HitObject()
 
         if (pObj != this)
         {
-            if (pObj->field_114_flags.Get(Flags_114::e114_Bit6_SetOffExplosives))
+            if (pObj->mAliveGameObjectFlags.Get(Flags_114::e114_Bit6_SetOffExplosives))
             {
-                if (pObj->field_10C_health > FP_FromInteger(0))
+                if (pObj->mHealth > FP_FromInteger(0))
                 {
                     PSX_RECT objRect = {};
                     pObj->VGetBoundingRect(&objRect, 1);
-                    if (bRect.x <= objRect.w && bRect.w >= objRect.x && bRect.h >= objRect.y && bRect.y <= objRect.h && pObj->field_CC_sprite_scale == field_CC_sprite_scale && pObj->field_C0_path_number == field_C0_path_number)
+                    if (bRect.x <= objRect.w && bRect.w >= objRect.x && bRect.h >= objRect.y && bRect.y <= objRect.h && pObj->mSpriteScale == mSpriteScale && pObj->mPathNumber == mPathNumber)
                     {
                         return 1;
                     }
@@ -257,14 +257,14 @@ void MovingBomb::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_118_state < States::eBlowingUp_6)
     {
         if (HitObject())
         {
-            if (!field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+            if (!mAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
             {
                 BlowUp();
             }
@@ -273,7 +273,7 @@ void MovingBomb::VUpdate()
 
     if (gMovingBomb_5C300C == nullptr || gMovingBomb_5C300C == this)
     {
-        if (field_20_animation.field_92_current_frame != 0 && field_20_animation.field_92_current_frame != 7)
+        if (mAnim.field_92_current_frame != 0 && mAnim.field_92_current_frame != 7)
         {
             gMovingBomb_5C300C = this;
         }
@@ -284,18 +284,18 @@ void MovingBomb::VUpdate()
                 SND_Stop_Channels_Mask(field_130_sound_channels);
             }
 
-            if (VIsObjNearby(FP_FromInteger(700), sActiveHero_5C1B68))
+            if (VIsObjNearby(FP_FromInteger(700), sActiveHero))
             {
-                const FP yDelta = FP_Abs(sActiveHero_5C1B68->field_BC_ypos - field_BC_ypos);
+                const FP yDelta = FP_Abs(sActiveHero->mYPos - mYPos);
                 if (yDelta <= FP_FromInteger(700))
                 {
                     if (field_118_state == States::eWaitABit_4)
                     {
-                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 55, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 55, mSpriteScale);
                     }
                     else
                     {
-                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 80, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 80, mSpriteScale);
                     }
                     gMovingBomb_5C300C = this;
                 }
@@ -308,7 +308,7 @@ void MovingBomb::VUpdate()
                     }
                     else
                     {
-                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 12, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 12, mSpriteScale);
                         gMovingBomb_5C300C = this;
                     }
                 }
@@ -321,7 +321,7 @@ void MovingBomb::VUpdate()
         case States::eTriggeredByAlarm_0:
             if (Event_Get(kEventAlarm))
             {
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 field_118_state = States::eMoving_2;
             }
             break;
@@ -334,23 +334,23 @@ void MovingBomb::VUpdate()
             break;
 
         case States::eMoving_2:
-            if (field_C4_velx < field_124_speed)
+            if (mVelX < field_124_speed)
             {
-                field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
+                mVelX += (mSpriteScale * FP_FromDouble(0.5));
             }
 
             FollowLine();
 
-            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-                FP_GetExponent(field_B8_xpos),
-                FP_GetExponent(field_BC_ypos),
-                FP_GetExponent(field_B8_xpos),
-                FP_GetExponent(field_BC_ypos),
+            mPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                FP_GetExponent(mXPos),
+                FP_GetExponent(mYPos),
+                FP_GetExponent(mXPos),
+                FP_GetExponent(mYPos),
                 TlvTypes::MovingBombStopper_53);
 
-            if (field_FC_pPathTLV)
+            if (mPathTLV)
             {
-                auto pStopper = static_cast<Path_MovingBombStopper*>(field_FC_pPathTLV);
+                auto pStopper = static_cast<Path_MovingBombStopper*>(mPathTLV);
                 field_12A_min = pStopper->field_10_min;
                 field_12C_max = pStopper->field_12_max;
                 field_118_state = States::eStopMoving_3;
@@ -358,8 +358,8 @@ void MovingBomb::VUpdate()
             break;
 
         case States::eStopMoving_3:
-            field_C4_velx -= (field_CC_sprite_scale * FP_FromDouble(0.5));
-            if (field_C4_velx < FP_FromInteger(0))
+            mVelX -= (mSpriteScale * FP_FromDouble(0.5));
+            if (mVelX < FP_FromInteger(0))
             {
                 field_118_state = States::eWaitABit_4;
                 field_120_timer = sGnFrame_5C1B84 + Math_RandomRange(field_12A_min, field_12C_max);
@@ -376,21 +376,21 @@ void MovingBomb::VUpdate()
             break;
 
         case States::eToMoving_5:
-            if (field_C4_velx < field_124_speed)
+            if (mVelX < field_124_speed)
             {
-                field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
+                mVelX += (mSpriteScale * FP_FromDouble(0.5));
             }
 
             FollowLine();
 
-            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-                FP_GetExponent(field_B8_xpos),
-                FP_GetExponent(field_BC_ypos),
-                FP_GetExponent(field_B8_xpos),
-                FP_GetExponent(field_BC_ypos),
+            mPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                FP_GetExponent(mXPos),
+                FP_GetExponent(mYPos),
+                FP_GetExponent(mXPos),
+                FP_GetExponent(mYPos),
                 TlvTypes::MovingBombStopper_53);
 
-            if (!field_FC_pPathTLV)
+            if (!mPathTLV)
             {
                 field_118_state = States::eMoving_2;
             }
@@ -399,27 +399,27 @@ void MovingBomb::VUpdate()
         case States::eBlowingUp_6:
             if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
             {
-                SFX_Play_Mono(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
+                SFX_Play_Mono(SoundEffect::GreenTick_2, 100, mSpriteScale);
 
-                field_10C_health = FP_FromInteger(0);
+                mHealth = FP_FromInteger(0);
 
                 ae_new<Explosion>(
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    field_CC_sprite_scale,
+                    mXPos,
+                    mYPos,
+                    mSpriteScale,
                     0);
 
                 ae_new<Gibs>(
                     GibType::Metal_5,
-                    field_B8_xpos,
-                    field_BC_ypos,
+                    mXPos,
+                    mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(5),
-                    field_CC_sprite_scale,
+                    mSpriteScale,
                     0);
 
                 field_118_state = States::eKillMovingBomb_7;
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                 field_120_timer = sGnFrame_5C1B84 + 4;
             }
             break;
@@ -427,7 +427,7 @@ void MovingBomb::VUpdate()
         case States::eKillMovingBomb_7:
             if (field_120_timer <= static_cast<s32>(sGnFrame_5C1B84))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
 

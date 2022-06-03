@@ -21,7 +21,7 @@ void TestAnimation::DelayLoad()
 {
     // Trying to load on these lvls will result in a phat failure because they hardly have
     // any resource files
-    if (field_B2_lvl_number == AO::LevelIds::eMenu_0 || field_B2_lvl_number == AO::LevelIds::eCredits_10)
+    if (mLvlNumber == AO::LevelIds::eMenu_0 || mLvlNumber == AO::LevelIds::eCredits_10)
     {
         return;
     }
@@ -45,7 +45,7 @@ void TestAnimation::DelayLoad()
 
     u8** ppRes = Add_Resource(resourceArray, AO::ResourceManager::Resource_Animation, animRec.mResourceId);
     Animation_Init_417FD0(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1);
-    field_10_anim.field_4_flags.Set(AO::AnimFlags::eBit8_Loop);
+    mAnim.mAnimFlags.Set(AO::AnimFlags::eBit8_Loop);
 
     if (animRec.mPalOverride != PalId::Default)
     {
@@ -63,7 +63,7 @@ void TestAnimation::DelayLoad()
         u8** ppPal = Add_Resource(resourceArray, AO::ResourceManager::Resource_Palt, palRec.mResourceId);
         if (ppPal)
         {
-            field_10_anim.LoadPal(ppPal, 0);
+            mAnim.LoadPal(ppPal, 0);
         }
     }
 }
@@ -72,26 +72,26 @@ TestAnimation::TestAnimation()
 {
     mLoaded = false;
 
-    field_4_typeId = AO::Types::eNone_0;
+    mTypeId = AO::Types::eNone_0;
 
-    field_CC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mFlags.Set(BaseGameObject::eCantKill_Bit11);
+    mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mGameObjectFlags.Set(BaseGameObject::eCantKill_Bit11);
 }
 
 void TestAnimation::SyncToAbePos()
 {
-    field_A8_xpos = AO::sActiveHero_507678->field_A8_xpos + FP_FromInteger(30);
-    field_AC_ypos = AO::sActiveHero_507678->field_AC_ypos - FP_FromInteger(30);
-    field_10_anim.field_C_layer = AO::sActiveHero_507678->field_10_anim.field_C_layer;
+    mXPos = AO::sActiveHero->mXPos + FP_FromInteger(30);
+    mYPos = AO::sActiveHero->mYPos - FP_FromInteger(30);
+    mAnim.mRenderLayer = AO::sActiveHero->mAnim.mRenderLayer;
 }
 
 void TestAnimation::VUpdate()
 {
-    field_B0_path_number = AO::gMap.mCurrentPath;
-    field_B2_lvl_number = AO::gMap.mCurrentLevel;
+    mPathNumber = AO::gMap.mCurrentPath;
+    mLvlNumber = AO::gMap.mCurrentLevel;
     if (mLoaded)
     {
         SyncToAbePos();

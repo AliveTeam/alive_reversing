@@ -38,7 +38,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 {
     SetType(AETypes::eRockSpawner_48);
 
-    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = tlvInfo;
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
@@ -53,15 +53,15 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_Half_12;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = 0;
+        mAnim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_Half_12;
     }
     else
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_31;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = 1;
+        mAnim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_31;
     }
 
     field_124_fall_interval = pTlv->field_14_fall_interval;
@@ -71,17 +71,17 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     field_12C_reset_switch_id_after_use = pTlv->field_18_reset_switch_id_after_use;
     field_12E_do_sound_in_state_falling = TRUE;
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mXPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    mYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    if (field_BC_ypos > pScreenManager_5BB5F4->field_20_pCamPos->field_4_y)
+    if (mYPos > pScreenManager_5BB5F4->field_20_pCamPos->field_4_y)
     {
-        field_BC_ypos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
+        mYPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
     }
 
     field_138_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_13C_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
-    field_130_yPosStart = field_BC_ypos;
+    field_130_yPosStart = mYPos;
     field_11C_state = State::eWaitForIdEnable_0;
     field_140_sound_channels = 0;
 
@@ -91,7 +91,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         field_144_created_gnFrame = sGnFrame_5C1B84;
     }
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 }
 
  FallingItem::FallingItem(s32 xpos, s32 ypos, s32 scale, s32 id, s32 fallInterval, s32 numItems, s32 bResetIdAfterUse)
@@ -99,7 +99,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 {
     SetType(AETypes::eRockSpawner_48);
 
-    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = -1;
 
     const s32 lvlIdx = static_cast<s32>(gMap.mCurrentLevel);
@@ -108,7 +108,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_31;
+    mAnim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_31;
 
     if (id)
     {
@@ -121,13 +121,13 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 
     if (scale)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = 0;
     }
     else
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = 1;
     }
 
     field_124_fall_interval = static_cast<s16>(fallInterval);
@@ -141,8 +141,8 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     field_12C_reset_switch_id_after_use = static_cast<Choice_short>(bResetIdAfterUse);
     field_134_bHitDrillOrMineCar = FALSE;
     field_12E_do_sound_in_state_falling = TRUE;
-    field_B8_xpos = xFixed;
-    field_BC_ypos = yFixed;
+    mXPos = xFixed;
+    mYPos = yFixed;
     field_138_xpos = xFixed;
     field_13C_ypos = yFixed;
     field_130_yPosStart = yFixed;
@@ -155,7 +155,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         field_144_created_gnFrame = sGnFrame_5C1B84;
     }
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 }
 
 FallingItem::~FallingItem()
@@ -171,7 +171,7 @@ void FallingItem::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_11C_state != State::eFalling_3)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -179,7 +179,7 @@ void FallingItem::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     // The primary item controls the main sound effects, otherwise there would be a crazy amount of smashing sounds
@@ -187,7 +187,7 @@ void FallingItem::VUpdate()
     {
         if (!((sGnFrame_5C1B84 - field_144_created_gnFrame) % 87))
         {
-            if (field_D6_scale == 1)
+            if (mScale == 1)
             {
                 SFX_Play_Mono(SoundEffect::FallingItemPresence1_74, 45);
             }
@@ -199,7 +199,7 @@ void FallingItem::VUpdate()
 
         if (!((sGnFrame_5C1B84 - field_144_created_gnFrame) % 25))
         {
-            if (field_D6_scale == 1)
+            if (mScale == 1)
             {
                 SFX_Play_Mono(SoundEffect::FallingItemPresence2_75, 45);
             }
@@ -215,13 +215,13 @@ void FallingItem::VUpdate()
         case State::eWaitForIdEnable_0:
             if (field_11E_switch_id && SwitchStates_Get(field_11E_switch_id))
             {
-                mFlags.Clear(BaseGameObject::eCanExplode_Bit7);
+                mGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
                 field_11C_state = State::eWaitForFallDelay_2;
-                field_C4_velx = FP_FromInteger(0);
-                field_C8_vely = FP_FromInteger(0);
+                mVelX = FP_FromInteger(0);
+                mVelY = FP_FromInteger(0);
 
                 const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap.mCurrentLevel)][1]);
-                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
                 field_128_fall_interval_timer = sGnFrame_5C1B84 + field_124_fall_interval;
             }
@@ -230,13 +230,13 @@ void FallingItem::VUpdate()
         // TODO: Must only be set outside of the object
         case State::eGoWaitForDelay_1:
         {
-            mFlags.Clear(BaseGameObject::eCanExplode_Bit7);
+            mGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
             field_11C_state = State::eWaitForFallDelay_2;
-            field_C4_velx = FP_FromInteger(0);
-            field_C8_vely = FP_FromInteger(0);
+            mVelX = FP_FromInteger(0);
+            mVelY = FP_FromInteger(0);
 
             const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap.mCurrentLevel)][1]);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
             field_128_fall_interval_timer = sGnFrame_5C1B84 + field_124_fall_interval;
             break;
@@ -247,7 +247,7 @@ void FallingItem::VUpdate()
             {
                 field_11C_state = State::eFalling_3;
                 field_12E_do_sound_in_state_falling = TRUE;
-                if (field_D6_scale == 1)
+                if (mScale == 1)
                 {
                     field_140_sound_channels = SFX_Play_Pitch(SoundEffect::AirStream_23, 50, -2600);
                 }
@@ -262,10 +262,10 @@ void FallingItem::VUpdate()
         {
             if (field_12E_do_sound_in_state_falling)
             {
-                if (field_BC_ypos >= sActiveHero_5C1B68->field_BC_ypos - FP_FromInteger(240 / 2))
+                if (mYPos >= sActiveHero->mYPos - FP_FromInteger(240 / 2))
                 {
                     field_12E_do_sound_in_state_falling = FALSE;
-                    if (field_D6_scale == 1)
+                    if (mScale == 1)
                     {
                         SFX_Play_Pitch(SoundEffect::AirStream_23, 127, -1300);
                     }
@@ -278,70 +278,70 @@ void FallingItem::VUpdate()
 
             DamageHitItems();
 
-            if (field_C8_vely < FP_FromInteger(20))
+            if (mVelY < FP_FromInteger(20))
             {
-                field_C8_vely += field_CC_sprite_scale * FP_FromDouble(1.8);
+                mVelY += mSpriteScale * FP_FromDouble(1.8);
             }
 
             PathLine* pathLine = nullptr;
             FP hitX = {};
             FP hitY = {};
             if (sCollisions_DArray_5C1128->Raycast(
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    field_B8_xpos,
-                    field_C8_vely + field_BC_ypos,
+                    mXPos,
+                    mYPos,
+                    mXPos,
+                    mVelY + mYPos,
                     &pathLine,
                     &hitX,
                     &hitY,
-                    field_D6_scale != 0 ? 1 : 16)
+                    mScale != 0 ? 1 : 16)
                 == 1)
             {
                 if (!field_134_bHitDrillOrMineCar)
                 {
-                    field_BC_ypos = hitY;
+                    mYPos = hitY;
                 }
             }
             else if (!field_134_bHitDrillOrMineCar)
             {
-                field_BC_ypos += field_C8_vely;
+                mYPos += mVelY;
                 return;
             }
 
             field_134_bHitDrillOrMineCar = FALSE;
             field_11C_state = State::eSmashed_4;
 
-            ae_new<ScreenShake>(0, field_CC_sprite_scale == FP_FromDouble(0.5));
+            ae_new<ScreenShake>(0, mSpriteScale == FP_FromDouble(0.5));
 
             if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8)
             {
-                ae_new<ParticleBurst>(field_B8_xpos,
-                                                   field_BC_ypos,
+                ae_new<ParticleBurst>(mXPos,
+                                                   mYPos,
                                                    20,
-                                                   field_CC_sprite_scale,
+                                                   mSpriteScale,
                                                    BurstType::eSticks_1,
                                                    13);
 
                 const AnimRecord& rec = AnimRec(AnimId::Explosion);
                 u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
-                auto pParticle = ae_new<Particle>(field_B8_xpos,
-                                                  field_BC_ypos - (FP_FromInteger(15) * field_CC_sprite_scale),
+                auto pParticle = ae_new<Particle>(mXPos,
+                                                  mYPos - (FP_FromInteger(15) * mSpriteScale),
                                                   rec.mFrameTableOffset,
                                                   rec.mMaxW,
                                                   rec.mMaxH,
                                                   ppRes);
                 if (pParticle)
                 {
-                    pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-                    pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.75);
+                    pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                    pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.75);
                 }
             }
             else
             {
-                ae_new<ParticleBurst>(field_B8_xpos,
-                                                        field_BC_ypos,
+                ae_new<ParticleBurst>(mXPos,
+                                                        mYPos,
                                                         25,
-                                                        field_CC_sprite_scale,
+                                                        mSpriteScale,
                                                         BurstType::eFallingRocks_0,
                                                         13);
             }
@@ -356,9 +356,9 @@ void FallingItem::VUpdate()
             }
 
             Event_Broadcast(kEventLoudNoise, this);
-            SFX_Play_Mono(SoundEffect::FallingItemLand_62, 0, field_CC_sprite_scale);
+            SFX_Play_Mono(SoundEffect::FallingItemLand_62, 0, mSpriteScale);
 
-            if (field_D6_scale == 1)
+            if (mScale == 1)
             {
                 SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 110, -1536);
             }
@@ -377,18 +377,18 @@ void FallingItem::VUpdate()
 
             --field_122_remaining_falling_items;
 
-            if ((field_120_max_falling_items > 0 && field_122_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_138_xpos, field_13C_ypos, 0))
+            if ((field_120_max_falling_items > 0 && field_122_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera_4810D0(mLvlNumber, mPathNumber, field_138_xpos, field_13C_ypos, 0))
             {
-                mFlags.Set(BaseGameObject::eDead);
+                mGameObjectFlags.Set(BaseGameObject::eDead);
             }
             else
             {
                 const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap.mCurrentLevel)][0]);
-                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
-                mFlags.Set(BaseGameObject::eCanExplode_Bit7);
-                field_C8_vely = FP_FromInteger(0);
-                field_C4_velx = FP_FromInteger(0);
-                field_BC_ypos = field_130_yPosStart;
+                mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+                mVelY = FP_FromInteger(0);
+                mVelX = FP_FromInteger(0);
+                mYPos = field_130_yPosStart;
                 field_11C_state = State::eWaitForIdEnable_0;
             }
             break;
@@ -410,7 +410,7 @@ void FallingItem::DamageHitItems()
 
         if (pObj != this)
         {
-            if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eDrill_30)
+            if (pObj->mGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eDrill_30)
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
@@ -420,15 +420,15 @@ void FallingItem::DamageHitItems()
                 PSX_RECT objRect = {};
                 pAliveObj->VGetBoundingRect(&objRect, 1);
 
-                if (pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
+                if (pAliveObj->mSpriteScale == mSpriteScale)
                 {
                     if (pAliveObj->Type() == AETypes::eDrill_30 || pAliveObj->Type() == AETypes::eMineCar_89)
                     {
-                        objRect.x += pAliveObj->field_DA_xOffset;
-                        objRect.y += pAliveObj->field_D8_yOffset;
+                        objRect.x += pAliveObj->mXOffset;
+                        objRect.y += pAliveObj->mYOffset;
 
-                        objRect.w += pAliveObj->field_DA_xOffset;
-                        objRect.h += pAliveObj->field_D8_yOffset;
+                        objRect.w += pAliveObj->mXOffset;
+                        objRect.h += pAliveObj->mYOffset;
                     }
 
                     if (PSX_Rects_overlap_no_adjustment(&fallingItemRect, &objRect))
@@ -450,7 +450,7 @@ void FallingItem::DamageHitItems()
                             {
                                 // Some strange edge case for paramites - prevents them getting smashed by
                                 // falling items when stood on an edge by their huge heads peeking over a bit.
-                                if (pAliveObj->field_B8_xpos < FP_FromInteger(fallingItemRect.x) || pAliveObj->field_B8_xpos > FP_FromInteger(fallingItemRect.w))
+                                if (pAliveObj->mXPos < FP_FromInteger(fallingItemRect.x) || pAliveObj->mXPos > FP_FromInteger(fallingItemRect.w))
                                 {
                                     doDamage = false;
                                 }

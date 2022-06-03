@@ -21,28 +21,28 @@ namespace AO {
 SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mFlags.Set(Options::eCanExplode_Bit7);
+    mGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    field_4_typeId = Types::SecurityOrb_53;
+    mTypeId = Types::SecurityOrb_53;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Security_Orb);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_10C_tlvInfo = tlvInfo;
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_C6_scale = 0;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = 0;
     }
     else
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
-        field_C6_scale = 1;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = 1;
     }
 
     field_110_state = SecurityOrbStates::eIdle_0;
@@ -56,7 +56,7 @@ SecurityOrb::~SecurityOrb()
         SND_Stop_Channels_Mask_4774A0(field_118_sound_channels);
     }
 
-    if (field_100_health > FP_FromInteger(0))
+    if (mHealth > FP_FromInteger(0))
     {
         gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
     }
@@ -68,35 +68,35 @@ SecurityOrb::~SecurityOrb()
 
 void SecurityOrb::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->mTypeId)
     {
         case Types::eAbilityRing_69:
         case Types::eShrykull_85:
         {
             ao_new<Explosion>(
-                field_A8_xpos,
-                field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(5)),
-                field_BC_sprite_scale);
+                mXPos,
+                mYPos - (mSpriteScale * FP_FromInteger(5)),
+                mSpriteScale);
 
             ao_new<Gibs>(
                 GibType::Metal_5,
-                field_A8_xpos,
-                field_AC_ypos,
+                mXPos,
+                mYPos,
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                field_BC_sprite_scale);
+                mSpriteScale);
 
-            field_100_health = FP_FromInteger(0);
+            mHealth = FP_FromInteger(0);
         }
         break;
 
@@ -104,7 +104,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
             break;
     }
 
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 
     return 1;
 }
@@ -113,20 +113,20 @@ void SecurityOrb::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_110_state)
     {
         case SecurityOrbStates::eIdle_0:
-            if (field_10_anim.field_92_current_frame == 2 || field_10_anim.field_92_current_frame == 6 || field_10_anim.field_92_current_frame == 10)
+            if (mAnim.field_92_current_frame == 2 || mAnim.field_92_current_frame == 6 || mAnim.field_92_current_frame == 10)
             {
                 if (field_118_sound_channels)
                 {
                     SND_Stop_Channels_Mask_4774A0(field_118_sound_channels);
                 }
 
-                if (field_BC_sprite_scale == FP_FromDouble(0.5))
+                if (mSpriteScale == FP_FromDouble(0.5))
                 {
                     field_118_sound_channels = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 35, 720);
                 }
@@ -147,48 +147,48 @@ void SecurityOrb::VUpdate()
             if (static_cast<s32>(gnFrameCount_507670) > field_114_timer)
             {
                 PSX_RECT abeRect = {};
-                sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
+                sActiveHero->VGetBoundingRect(&abeRect, 1);
 
                 const s32 width = abeRect.w + abeRect.x;
                 const s32 height = abeRect.h + abeRect.y;
 
                 ao_new<ZapLine>(
-                    field_A8_xpos,
-                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    mXPos,
+                    mYPos - (FP_FromInteger(8) * mSpriteScale),
                     FP_FromInteger(width / 2),
                     FP_FromInteger(height / 2),
                     8,
                     ZapLineType::eThick_0,
                     Layer::eLayer_ZapLinesElum_28);
 
-                ao_new<PossessionFlicker>(sActiveHero_507678, 8, 255, 100, 100);
+                ao_new<PossessionFlicker>(sActiveHero, 8, 255, 100, 100);
 
-                sActiveHero_507678->VTakeDamage(this);
+                sActiveHero->VTakeDamage(this);
                 field_114_timer = gnFrameCount_507670 + 8;
                 field_110_state = SecurityOrbStates::eDoFlashAndSound_2;
 
                 ao_new<ScreenShake>(1);
 
                 auto pSpark1 = ao_new<Sparks>(
-                    field_A8_xpos,
-                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
-                    field_BC_sprite_scale);
+                    mXPos,
+                    mYPos - (FP_FromInteger(8) * mSpriteScale),
+                    mSpriteScale);
                 if (pSpark1)
                 {
-                    pSpark1->field_C2_g = 65;
-                    pSpark1->field_C4_b = 65;
-                    pSpark1->field_C0_r = 255;
+                    pSpark1->mGreen = 65;
+                    pSpark1->mBlue = 65;
+                    pSpark1->mRed = 255;
                 }
 
                 auto pSpark2 = ao_new<Sparks>(
-                    field_A8_xpos,
-                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
-                    field_BC_sprite_scale);
+                    mXPos,
+                    mYPos - (FP_FromInteger(8) * mSpriteScale),
+                    mSpriteScale);
                 if (pSpark2)
                 {
-                    pSpark2->field_C2_g = 65;
-                    pSpark2->field_C4_b = 65;
-                    pSpark2->field_C0_r = 255;
+                    pSpark2->mGreen = 65;
+                    pSpark2->mBlue = 65;
+                    pSpark2->mRed = 255;
                 }
 
 
@@ -197,12 +197,12 @@ void SecurityOrb::VUpdate()
                     auto pSparks = ao_new<Sparks>(
                         FP_FromInteger(width / 2),
                         FP_FromInteger(height / 2),
-                        field_BC_sprite_scale);
+                        mSpriteScale);
                     if (pSparks)
                     {
-                        pSparks->field_C2_g = 65;
-                        pSparks->field_C4_b = 65;
-                        pSparks->field_C0_r = 255;
+                        pSparks->mGreen = 65;
+                        pSparks->mBlue = 65;
+                        pSparks->mRed = 255;
                     }
                 }
             }

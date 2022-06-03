@@ -21,9 +21,9 @@ public:
         s16 field_0_x;
         s16 field_2_y;
         const char_type* field_4_strBuf;
-        u8 field_8_r;
-        u8 field_9_g;
-        u8 field_A_b;
+        u8 mRed;
+        u8 mGreen;
+        u8 mBlue;
         s8 field_B;
     };
     void DrawEntries(PrimHeader** ppOt, PauseEntry* entries, s16 compilerhack, s32 polyOffset);

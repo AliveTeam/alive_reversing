@@ -54,11 +54,11 @@ ALIVE_VAR(1, 0x4FF888, s16, gGasOn_4FF888, 0);
 GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
-    field_4_typeId = Types::eGasClock_16;
+    mTypeId = Types::eGasClock_16;
     field_58_tlvInfo = tlvInfo;
     field_10_font_context.LoadFontType(2);
     field_20_font.Load(5, byte_4C5080, &field_10_font_context);
-    mFlags.Set(Options::eDrawable_Bit4);
+    mGameObjectFlags.Set(Options::eDrawable_Bit4);
     gObjList_drawables_504618->Push_Back(this);
 
     gGasOn_4FF888 = 0;
@@ -80,7 +80,7 @@ GasCountDown::~GasCountDown()
 
 void GasCountDown::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
         sGasTimer_507700 = 0;
@@ -91,7 +91,7 @@ void GasCountDown::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (Event_Get(kEvent_5))
@@ -144,7 +144,7 @@ void GasCountDown::DealDamage()
     {
         if (-field_62_time_left > 2)
         {
-            sActiveHero_507678->VTakeDamage(this);
+            sActiveHero->VTakeDamage(this);
             for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
             {
                 BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
@@ -153,7 +153,7 @@ void GasCountDown::DealDamage()
                     break;
                 }
 
-                if (pObj->field_4_typeId == Types::eMudokon_75)
+                if (pObj->mTypeId == Types::eMudokon_75)
                 {
                     pObj->VTakeDamage(this);
                 }

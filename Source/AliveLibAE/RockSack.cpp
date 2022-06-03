@@ -23,14 +23,14 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    field_DC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
     field_118_tlvInfo = tlvInfo;
     field_11C_has_been_hit = 0;
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    mXPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mYPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
     field_124_x_vel = FP_FromRaw(pTlv->field_12_x_vel << 8);
     field_128_y_vel = FP_FromRaw(-256 * pTlv->field_14_y_vel);
 
@@ -41,22 +41,22 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = 0;
     }
     else if (pTlv->field_16_scale == Scale_short::eFull_0)
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = 1;
     }
 
     field_11E_rock_amount = pTlv->field_18_rock_amount;
     field_120_can_play_wobble_sound = 1;
     field_122_force_wobble_sound = 1;
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
 }
 
 RockSack::~RockSack()
@@ -66,17 +66,17 @@ RockSack::~RockSack()
 
 void RockSack::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void RockSack::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_20_animation.field_92_current_frame == 2)
+    if (mAnim.field_92_current_frame == 2)
     {
         if (field_120_can_play_wobble_sound)
         {
@@ -95,41 +95,41 @@ void RockSack::VUpdate()
 
     if (field_11C_has_been_hit)
     {
-        if (field_11C_has_been_hit == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_11C_has_been_hit == 1 && mAnim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& animRec = AnimRec(AnimId::RockSack_Idle);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_11C_has_been_hit = 0;
         }
     }
     else
     {
-        if (field_20_animation.field_E_frame_change_counter == 0)
+        if (mAnim.mFrameChangeCounter == 0)
         {
-            field_20_animation.field_E_frame_change_counter = Math_RandomRange(2, 10);
+            mAnim.mFrameChangeCounter = Math_RandomRange(2, 10);
         }
 
         PSX_RECT bPlayerRect = {};
-        sActiveHero_5C1B68->VGetBoundingRect(&bPlayerRect, 1);
+        sActiveHero->VGetBoundingRect(&bPlayerRect, 1);
 
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
 
-        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
+        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && mSpriteScale == sActiveHero->mSpriteScale)
         {
             if (gpThrowableArray_5D1E2C)
             {
                 if (gpThrowableArray_5D1E2C->field_20_count)
                 {
-                    if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_31_RunJumpMid_452C10)
+                    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
-                        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                     }
                     else
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::RockSack_SoftHit);
-                        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                     }
                     field_11C_has_been_hit = 1;
                     return;
@@ -142,7 +142,7 @@ void RockSack::VUpdate()
 
             gpThrowableArray_5D1E2C->Add(field_11E_rock_amount);
 
-            auto pRock = ae_new<Rock>(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_rock_amount);
+            auto pRock = ae_new<Rock>(mXPos, mYPos - FP_FromInteger(30), field_11E_rock_amount);
             if (pRock)
             {
                 pRock->VThrow(field_124_x_vel, field_128_y_vel);
@@ -151,15 +151,15 @@ void RockSack::VUpdate()
             SFX_Play_Mono(SoundEffect::SackHit_25, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
-            if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_31_RunJumpMid_452C10)
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
             {
                 const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
-                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             else
             {
                 const AnimRecord& animRec = AnimRec(AnimId::RockSack_SoftHit);
-                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             field_11C_has_been_hit = 1;
         }

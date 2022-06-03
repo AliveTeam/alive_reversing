@@ -31,7 +31,7 @@ public:
     void BaseAddToPlatform(FnTypeMatcher cb);
 
 protected:
-    s16 field_118_count;
+    s16 mCount;
     s16 field_11A_bDead;
 };
 

@@ -20,22 +20,22 @@ void Recorder::SaveObjectStates()
         const s16 objType = static_cast<s16>(pObj->Type());
         ::fwrite(&objType, sizeof(s16), 1, mFile.GetFile());
 
-        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             mFile.Write(RecordTypes::AliveObjectStates);
 
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
-            mFile.Write(pAliveObj->field_B8_xpos.fpValue);
-            mFile.Write(pAliveObj->field_BC_ypos.fpValue);
+            mFile.Write(pAliveObj->mXPos.fpValue);
+            mFile.Write(pAliveObj->mYPos.fpValue);
 
-            mFile.Write(pAliveObj->field_F8_LastLineYPos.fpValue);
+            mFile.Write(pAliveObj->mLastLineYPos.fpValue);
 
-            mFile.Write(pAliveObj->field_106_current_motion);
-            mFile.Write(pAliveObj->field_108_next_motion);
-            mFile.Write(pAliveObj->field_F4_previous_motion);
+            mFile.Write(pAliveObj->mCurrentMotion);
+            mFile.Write(pAliveObj->mNextMotion);
+            mFile.Write(pAliveObj->mPreviousMotion);
 
-            mFile.Write(pAliveObj->field_10C_health.fpValue);
+            mFile.Write(pAliveObj->mHealth.fpValue);
         }
     }
 }
@@ -73,19 +73,19 @@ bool Player::ValidateObjectStates()
             return false;
         }
 
-        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             ValidateNextTypeIs(RecordTypes::AliveObjectStates);
 
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             bool validateFailed = false;
-            validateFailed |= ValidField(mFile, pAliveObj->field_B8_xpos, "xpos");
-            validateFailed |= ValidField(mFile, pAliveObj->field_BC_ypos, "ypos");
-            validateFailed |= ValidField(mFile, pAliveObj->field_F8_LastLineYPos, "last line ypos");
-            validateFailed |= ValidField(mFile, pAliveObj->field_106_current_motion, "current motion");
-            validateFailed |= ValidField(mFile, pAliveObj->field_108_next_motion, "next motion");
-            validateFailed |= ValidField(mFile, pAliveObj->field_F4_previous_motion, "previous motion");
-            validateFailed |= ValidField(mFile, pAliveObj->field_10C_health, "health motion");
+            validateFailed |= ValidField(mFile, pAliveObj->mXPos, "xpos");
+            validateFailed |= ValidField(mFile, pAliveObj->mYPos, "ypos");
+            validateFailed |= ValidField(mFile, pAliveObj->mLastLineYPos, "last line ypos");
+            validateFailed |= ValidField(mFile, pAliveObj->mCurrentMotion, "current motion");
+            validateFailed |= ValidField(mFile, pAliveObj->mNextMotion, "next motion");
+            validateFailed |= ValidField(mFile, pAliveObj->mPreviousMotion, "previous motion");
+            validateFailed |= ValidField(mFile, pAliveObj->mHealth, "health motion");
             if (validateFailed)
             {
                 return false;

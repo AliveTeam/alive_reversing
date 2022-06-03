@@ -80,7 +80,7 @@ CheatEntry sCheatArray_5515F8[] = {
 CheatController::CheatController()
     : BaseGameObject(TRUE, 0)
 {
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     SetType(AETypes::eNone_0);
     field_20 = 0;
 }

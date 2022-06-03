@@ -35,9 +35,9 @@ const static PSX_Pos16 sRollingBallShakerScreenOffsets_4BB740[18] = {
 RollingBallShaker::RollingBallShaker()
     : BaseGameObject(1)
 {
-    mFlags.Set(Options::eDrawable_Bit4);
+    mGameObjectFlags.Set(Options::eDrawable_Bit4);
 
-    field_4_typeId = Types::eRollingBallStopperShaker_58;
+    mTypeId = Types::eRollingBallStopperShaker_58;
     field_30_shake_table_idx = 0;
     field_32_bKillMe = 0; // Set externally
     gObjList_drawables_504618->Push_Back(this);
@@ -73,7 +73,7 @@ void RollingBallShaker::VRender(PrimHeader** ppOt)
         OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
 
         // Kill yourself
-        mFlags.Set(Options::eDead);
+        mGameObjectFlags.Set(Options::eDead);
     }
     else
     {

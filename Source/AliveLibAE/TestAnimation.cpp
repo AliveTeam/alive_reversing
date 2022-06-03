@@ -12,7 +12,7 @@ void TestAnimation::DelayLoad()
 {
     // Trying to load on these lvls will result in a phat failure because they hardly have
     // any resource fiiles
-    if (field_C2_lvl_number == LevelIds::eMenu_0 || field_C2_lvl_number == LevelIds::eCredits_16)
+    if (mLvlNumber == LevelIds::eMenu_0 || mLvlNumber == LevelIds::eCredits_16)
     {
         return;
     }
@@ -34,7 +34,7 @@ void TestAnimation::DelayLoad()
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, animRec.mResourceId);
     Animation_Init(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1, 1);
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+    mAnim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
 
     if (animRec.mPalOverride != PalId::Default)
     {
@@ -52,7 +52,7 @@ void TestAnimation::DelayLoad()
         u8** ppPal = Add_Resource(ResourceManager::Resource_Palt, palRec.mResourceId);
         if (ppPal)
         {
-            field_20_animation.Load_Pal(ppPal, 0);
+            mAnim.Load_Pal(ppPal, 0);
         }
     }
 }
@@ -64,24 +64,24 @@ TestAnimation::TestAnimation()
 
     SetType(AETypes::eNone_0);
 
-    field_DC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 }
 
 void TestAnimation::SyncToAbePos()
 {
-    field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos + FP_FromInteger(30);
-    field_BC_ypos = sActiveHero_5C1B68->field_BC_ypos - FP_FromInteger(30);
+    mXPos = sActiveHero->mXPos + FP_FromInteger(30);
+    mYPos = sActiveHero->mYPos - FP_FromInteger(30);
 
-    field_20_animation.field_C_render_layer = sActiveHero_5C1B68->field_20_animation.field_C_render_layer;
+    mAnim.mRenderLayer = sActiveHero->mAnim.mRenderLayer;
 }
 
 void TestAnimation::VUpdate()
 {
-    field_C0_path_number = gMap.mCurrentPath;
-    field_C2_lvl_number = gMap.mCurrentLevel;
+    mPathNumber = gMap.mCurrentPath;
+    mLvlNumber = gMap.mCurrentLevel;
 
     if (mLoaded)
     {

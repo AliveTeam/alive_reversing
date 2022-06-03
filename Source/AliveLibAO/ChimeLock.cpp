@@ -25,14 +25,14 @@ const s32 dword_4C5054[11] = {0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000
 ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eChimeLock_14;
+    mTypeId = Types::eChimeLock_14;
 
     field_10C_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Chime_Ball);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
-    field_10_anim.field_C_layer = Layer::eLayer_FG1_37;
+    mAnim.mRenderLayer = Layer::eLayer_FG1_37;
 
     FP scale = {};
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
@@ -100,12 +100,12 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     field_15E_ball_angle = 0;
 
     field_140_targetY = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
+    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
 
-    field_B8_vely = FP_FromInteger(0);
+    mVelY = FP_FromInteger(0);
 
     field_13C_targetX = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_14C_increase_vely_by = FP_FromInteger(1);
 
     field_130_song_matching = 0;
@@ -119,8 +119,8 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     field_138_flags &= ~2u;
 
-    field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
-    field_10A_flags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
+    mAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
+    mAliveGameObjectFlags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
 
     field_132_solve_switch_id = pTlv->field_1A_solve_switch_id;
 
@@ -136,17 +136,17 @@ ChimeLock::~ChimeLock()
 {
     if (field_114_left_bell)
     {
-        field_114_left_bell->mFlags.Set(Options::eDead);
+        field_114_left_bell->mGameObjectFlags.Set(Options::eDead);
     }
 
     if (field_118_center_bell)
     {
-        field_118_center_bell->mFlags.Set(Options::eDead);
+        field_118_center_bell->mGameObjectFlags.Set(Options::eDead);
     }
 
     if (field_11C_right_bell)
     {
-        field_11C_right_bell->mFlags.Set(Options::eDead);
+        field_11C_right_bell->mGameObjectFlags.Set(Options::eDead);
     }
 
     gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
@@ -156,33 +156,33 @@ void ChimeLock::VScreenChanged()
 {
     if (field_114_left_bell)
     {
-        field_114_left_bell->mFlags.Set(Options::eDead);
+        field_114_left_bell->mGameObjectFlags.Set(Options::eDead);
         field_114_left_bell->field_C_refCount--;
         field_114_left_bell = nullptr;
     }
 
     if (field_118_center_bell)
     {
-        field_118_center_bell->mFlags.Set(Options::eDead);
+        field_118_center_bell->mGameObjectFlags.Set(Options::eDead);
         field_118_center_bell->field_C_refCount--;
         field_118_center_bell = nullptr;
     }
 
     if (field_11C_right_bell)
     {
-        field_11C_right_bell->mFlags.Set(Options::eDead);
+        field_11C_right_bell->mGameObjectFlags.Set(Options::eDead);
         field_11C_right_bell->field_C_refCount--;
         field_11C_right_bell = nullptr;
     }
 
-    mFlags.Set(Options::eDead);
+    mGameObjectFlags.Set(Options::eDead);
 }
 
 void ChimeLock::VUnPosses()
 {
-    field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
+    mAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = ChimeLockStates::eIdle_0;
-    sActiveHero_507678->SetActiveControlledCharacter_421480();
+    sActiveHero->SetActiveControlledCharacter_421480();
     SFX_Play_Pitch(SoundEffect::PossessEffect_21, 70, 400, 0);
 }
 
@@ -223,11 +223,11 @@ void ChimeLock::SetBallTarget(FP ballTargetX, FP ballTargetY, s16 timer, s16 xSi
         field_160_ball_timer = timer;
         field_15E_ball_angle = 0;
 
-        field_B4_velx = (ballTargetX - field_A8_xpos) / timerFP;
-        field_B8_vely = (ballTargetY - field_AC_ypos) / timerFP;
+        mVelX = (ballTargetX - mXPos) / timerFP;
+        mVelY = (ballTargetY - mYPos) / timerFP;
 
-        field_144_ball_start_x = field_A8_xpos;
-        field_148_ball_start_y = field_AC_ypos;
+        field_144_ball_start_x = mXPos;
+        field_148_ball_start_y = mYPos;
 
         field_150_xpos_offset = FP_FromInteger(256) / timerFP;
         field_154_ypos_offset = FP_FromInteger(256) / timerFP;
@@ -257,16 +257,16 @@ s16 ChimeLock::UpdateBall()
     switch (field_15C_ball_state)
     {
         case BallStates::eIdle_0:
-            field_A8_xpos = (FP_FromInteger(5) * Math_Cosine_4510A0((4 * field_15E_ball_angle) & 0xFF)) + field_13C_targetX;
-            field_AC_ypos = (FP_FromInteger(3) * Math_Cosine_4510A0((3 * field_15E_ball_angle) & 0xFF)) + field_140_targetY;
+            mXPos = (FP_FromInteger(5) * Math_Cosine_4510A0((4 * field_15E_ball_angle) & 0xFF)) + field_13C_targetX;
+            mYPos = (FP_FromInteger(3) * Math_Cosine_4510A0((3 * field_15E_ball_angle) & 0xFF)) + field_140_targetY;
             return 0;
 
         case BallStates::eMovingToBell_1:
         case BallStates::eMovingBackToIdle_2:
-            field_144_ball_start_x += field_B4_velx;
-            field_148_ball_start_y += field_B8_vely;
-            field_A8_xpos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150_xpos_offset) & 0xFF)) + field_144_ball_start_x;
-            field_AC_ypos = (FP_FromInteger(field_15A_ySize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154_ypos_offset) & 0xFF)) + field_148_ball_start_y;
+            field_144_ball_start_x += mVelX;
+            field_148_ball_start_y += mVelY;
+            mXPos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150_xpos_offset) & 0xFF)) + field_144_ball_start_x;
+            mYPos = (FP_FromInteger(field_15A_ySize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154_ypos_offset) & 0xFF)) + field_148_ball_start_y;
             if (field_15E_ball_angle >= field_160_ball_timer)
             {
                 field_15E_ball_angle = 0;
@@ -285,27 +285,27 @@ s16 ChimeLock::UpdateBall()
             if (true)
                 ALIVE_FATAL("never expected BallStates::eNeverRead_3 to be called");
 
-            field_B8_vely += field_14C_increase_vely_by;
-            field_AC_ypos += field_B8_vely;
+            mVelY += field_14C_increase_vely_by;
+            mYPos += mVelY;
 
             FP hitX = {};
             FP hitY = {};
             if (sCollisions_DArray_504C6C->RayCast(
-                    field_A8_xpos,
-                    field_B8_vely - field_B8_vely,
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    &field_F4_pLine,
+                    mXPos,
+                    mVelY - mVelY,
+                    mXPos,
+                    mYPos,
+                    &mCollisionLine,
                     &hitX,
                     &hitY,
-                    field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70)
+                    mSpriteScale != FP_FromDouble(0.5) ? 7 : 0x70)
                 == 1)
             {
-                if (field_F4_pLine->field_8_type == eLineTypes ::eFloor_0 ||
-                    field_F4_pLine->field_8_type == eLineTypes::eBackgroundFloor_4)
+                if (mCollisionLine->field_8_type == eLineTypes ::eFloor_0 ||
+                    mCollisionLine->field_8_type == eLineTypes::eBackgroundFloor_4)
                 {
-                    field_AC_ypos = hitY - FP_FromInteger(1);
-                    field_B8_vely = -(field_B8_vely * FP_FromDouble(0.4));
+                    mYPos = hitY - FP_FromInteger(1);
+                    mVelY = -(mVelY * FP_FromDouble(0.4));
                     if (field_162_never_set >= 3)
                     {
                         return 1;
@@ -324,7 +324,7 @@ void ChimeLock::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(Options::eDead);
+        mGameObjectFlags.Set(Options::eDead);
     }
 
     switch (field_110_state)
@@ -567,9 +567,9 @@ void ChimeLock::VUpdate()
             }
 
             New_Chant_Particle_4198E0(
-                field_13C_targetX + (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(-30, 30))),
-                field_140_targetY - (field_BC_sprite_scale * FP_FromInteger(Math_RandomRange_450F20(-20, 20))),
-                field_BC_sprite_scale,
+                field_13C_targetX + (mSpriteScale * FP_FromInteger(Math_RandomRange_450F20(-30, 30))),
+                field_140_targetY - (mSpriteScale * FP_FromInteger(Math_RandomRange_450F20(-20, 20))),
+                mSpriteScale,
                 Layer::eLayer_0);
             return;
 
@@ -613,7 +613,7 @@ void ChimeLock::SetTargetBellIfSpace(s16 targetNum)
 void ChimeLock::VPossessed()
 {
     field_138_flags &= ~3u;
-    field_10A_flags.Set(Flags_10A::e10A_Bit2_bPossesed);
+    mAliveGameObjectFlags.Set(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = ChimeLockStates::ePossessed_2;
     field_128_idx = 0;
     field_12C_timer = gnFrameCount_507670 + 45;

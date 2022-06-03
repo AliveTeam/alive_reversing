@@ -9,35 +9,35 @@ namespace AO {
 
 HoneyDrip::HoneyDrip(FP xpos, FP ypos)
 {
-    field_C4_b = 128;
-    field_C2_g = 128;
-    field_C0_r = 128;
+    mBlue = 128;
+    mGreen = 128;
+    mRed = 128;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Honey_Drip);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
-    field_AC_ypos = ypos;
-    field_A8_xpos = xpos;
+    mYPos = ypos;
+    mXPos = xpos;
 
-    field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
+    mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
     field_E4_bSoundPlaying = FALSE;
 }
 
 void HoneyDrip::VUpdate()
 {
-    field_A8_xpos += field_B4_velx;
-    field_AC_ypos += field_B8_vely;
+    mXPos += mVelX;
+    mYPos += mVelY;
 
-    if (field_10_anim.field_92_current_frame == 7 && !field_E4_bSoundPlaying)
+    if (mAnim.field_92_current_frame == 7 && !field_E4_bSoundPlaying)
     {
         SFX_Play_Mono(SoundEffect::HoneyDrip_26, 0, 0);
         field_E4_bSoundPlaying = TRUE;
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

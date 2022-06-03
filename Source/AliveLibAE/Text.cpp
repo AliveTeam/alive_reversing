@@ -25,8 +25,8 @@ void Text::VScreenChanged()
 Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
     : BaseGameObject(TRUE, 0)
 {
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetType(AETypes::eText_87);
 
@@ -50,7 +50,7 @@ Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
 Text::~Text()
 {
     gObjList_drawables_5C1124->Remove_Item(this);
-    mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
     field_20_font.dtor_433540();
 }
 
@@ -124,7 +124,7 @@ void Text::VRender(PrimHeader** ppOt)
         field_64_render_count--;
         if (field_64_render_count <= 0)
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }

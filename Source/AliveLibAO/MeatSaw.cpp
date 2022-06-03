@@ -33,30 +33,30 @@ MeatSaw::~MeatSaw()
 
 MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
 {
-    field_4_typeId = Types::eMeatSaw_56;
+    mTypeId = Types::eMeatSaw_56;
 
     const AnimRecord rec = AO::AnimRec(AnimId::MeatSaw_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
+    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mRenderMode = TPageAbr::eBlend_0;
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_RopeWebMeatSaw_Half_5;
-        field_C6_scale = 0;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_Half_5;
+        mScale = 0;
     }
     else
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = Layer::eLayer_RopeWebMeatSaw_24;
-        field_C6_scale = 1;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_24;
+        mScale = 1;
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 8);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 8);
+    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_F6_switch_min_time_off = pTlv->field_1A_switch_min_time_off;
     field_F8_switch_max_time_off = pTlv->field_1C_switch_max_time_off;
@@ -64,7 +64,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     field_E6_max_rise_time = pTlv->field_1E_max_rise_time;
     field_EE_switch_id = pTlv->field_20_switch_id;
 
-    field_C8_yOffset = 0;
+    mYOffset = 0;
     field_F4 = 0;
 
     if (pTlv->field_22_type == Path_MeatSaw::Type::eAutomatic_1)
@@ -124,7 +124,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     field_104_idle_timer = 0;
     field_E4_state = MeatSawStates::eIdle_0;
     field_10C_FrameCount = 0;
-    field_AC_ypos -= FP_FromInteger(pTlv->field_1E_max_rise_time);
+    mYPos -= FP_FromInteger(pTlv->field_1E_max_rise_time);
     field_100_tlvInfo = tlvInfo;
 
     if (pTlv->field_2E_inital_position != 0)
@@ -146,33 +146,33 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
             0,
             0))
     {
-        field_110_anim.field_C_layer = field_10_anim.field_C_layer;
-        field_110_anim.field_14_scale = field_BC_sprite_scale;
+        field_110_anim.mRenderLayer = mAnim.mRenderLayer;
+        field_110_anim.field_14_scale = mSpriteScale;
 
-        field_110_anim.field_8_r = static_cast<u8>(field_C0_r);
-        field_110_anim.field_9_g = static_cast<u8>(field_C2_g);
-        field_110_anim.field_A_b = static_cast<u8>(field_C4_b);
+        field_110_anim.mRed = static_cast<u8>(mRed);
+        field_110_anim.mGreen = static_cast<u8>(mGreen);
+        field_110_anim.mBlue = static_cast<u8>(mBlue);
 
-        field_110_anim.field_B_render_mode = TPageAbr::eBlend_0;
+        field_110_anim.mRenderMode = TPageAbr::eBlend_0;
 
-        field_110_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-        field_110_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_110_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_110_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-        field_D0_pShadow = ao_new<Shadow>();
+        mShadow = ao_new<Shadow>();
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
     }
     else
     {
-        mFlags.Set(Options::eListAddFailed_Bit1);
+        mGameObjectFlags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
 void MeatSaw::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !sControlledCharacter_50767C || // Can be nullptr during the game ender
-        FP_Abs(sControlledCharacter_50767C->field_A8_xpos - field_A8_xpos) > FP_FromInteger(1024))
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !sControlledCharacter || // Can be nullptr during the game ender
+        FP_Abs(sControlledCharacter->mXPos - mXPos) > FP_FromInteger(1024))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -180,16 +180,16 @@ void MeatSaw::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     GrindUpObjects_439CD0();
 
     const CameraPos direction = gMap.GetDirection(
-        field_B2_lvl_number,
-        field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos);
+        mLvlNumber,
+        mPathNumber,
+        mXPos,
+        mYPos);
 
     if (!(field_10C_FrameCount % 87))
     {
@@ -211,7 +211,7 @@ void MeatSaw::VUpdate()
             {
                 field_E4_state = MeatSawStates::eGoingDown_1;
                 const AnimRecord& rec = AO::AnimRec(AnimId::MeatSaw_Moving);
-                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_1A8_flags.Clear(flags_1A8::eBit3_AutomaticMeatSawIsDown);
                 field_E8_speed2 = field_EA_speed1;
                 field_108_SFX_timer = gnFrameCount_507670 + 2;
@@ -228,7 +228,7 @@ void MeatSaw::VUpdate()
                             {
                                 field_E4_state = MeatSawStates::eGoingDown_1;
                                 const AnimRecord& rec = AO::AnimRec(AnimId::MeatSaw_Moving);
-                                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                                mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                                 field_1A8_flags.Set(flags_1A8::eBit3_AutomaticMeatSawIsDown);
                                 field_E8_speed2 = field_EC_off_speed;
                                 field_108_SFX_timer = gnFrameCount_507670 + 2;
@@ -280,7 +280,7 @@ void MeatSaw::VUpdate()
                 }
 
                 field_104_idle_timer = gnFrameCount_507670 + Math_RandomRange_450F20(minRnd, maxRnd);
-                field_10_anim.Set_Animation_Data(15200, 0);
+                mAnim.Set_Animation_Data(15200, 0);
                 if (field_1A8_flags.Get(flags_1A8::eBit2_SwitchIdMeatSaw))
                 {
                     SwitchStates_Set(field_EE_switch_id, field_F0_switch_value == 0 ? 1 : 0);
@@ -295,8 +295,8 @@ void MeatSaw::GrindUpObjects_439CD0()
     PSX_RECT ourRect = {};
     VGetBoundingRect(&ourRect, 1);
 
-    ourRect.y += field_C8_yOffset;
-    ourRect.h += field_C8_yOffset;
+    ourRect.y += mYOffset;
+    ourRect.h += mYOffset;
 
     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
@@ -306,19 +306,19 @@ void MeatSaw::GrindUpObjects_439CD0()
             break;
         }
 
-        if (pObjIter->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObjIter->mGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
-            if (pObjIter->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+            if (pObjIter->mGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 // Can't grind meat with a meat saw, that would be grindception
-                if (pObjIter->field_4_typeId != Types::eMeat_54)
+                if (pObjIter->mTypeId != Types::eMeat_54)
                 {
                     PSX_RECT objRect = {};
                     pObjIter->VGetBoundingRect(&objRect, 1);
 
-                    if (RectsOverlap(ourRect, objRect) && pObjIter->field_BC_sprite_scale == field_BC_sprite_scale && pObjIter->field_100_health > FP_FromInteger(0))
+                    if (RectsOverlap(ourRect, objRect) && pObjIter->mSpriteScale == mSpriteScale && pObjIter->mHealth > FP_FromInteger(0))
                     {
-                        if (pObjIter->field_A8_xpos >= FP_FromInteger(ourRect.x) && pObjIter->field_A8_xpos <= FP_FromInteger(ourRect.w))
+                        if (pObjIter->mXPos >= FP_FromInteger(ourRect.x) && pObjIter->mXPos <= FP_FromInteger(ourRect.w))
                         {
                             if (!pObjIter->VTakeDamage(this))
                             {
@@ -326,27 +326,27 @@ void MeatSaw::GrindUpObjects_439CD0()
                             }
 
                             ao_new<Blood>(
-                                pObjIter->field_A8_xpos,
+                                pObjIter->mXPos,
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(-5),
                                 FP_FromInteger(5),
-                                field_BC_sprite_scale,
+                                mSpriteScale,
                                 50);
 
                             ao_new<Blood>(
-                                pObjIter->field_A8_xpos,
+                                pObjIter->mXPos,
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(0),
                                 FP_FromInteger(5),
-                                field_BC_sprite_scale,
+                                mSpriteScale,
                                 50);
 
                             ao_new<Blood>(
-                                pObjIter->field_A8_xpos,
+                                pObjIter->mXPos,
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(5),
                                 FP_FromInteger(5),
-                                field_BC_sprite_scale,
+                                mSpriteScale,
                                 50);
 
                             SFX_Play_Mono(SoundEffect::KillEffect_78, 127, 0);
@@ -363,20 +363,20 @@ void MeatSaw::GrindUpObjects_439CD0()
 void MeatSaw::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mLvlNumber,
+            mPathNumber,
+            mXPos,
+            mYPos,
             0))
     {
-        field_C8_yOffset = field_F4;
+        mYOffset = field_F4;
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
         field_110_anim.VRender(
-            FP_GetExponent(field_A8_xpos
+            FP_GetExponent(mXPos
                            + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-            FP_GetExponent(field_AC_ypos
+            FP_GetExponent(mYPos
                            + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_E6_max_rise_time))
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,

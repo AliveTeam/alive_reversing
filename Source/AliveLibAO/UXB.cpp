@@ -15,16 +15,16 @@ namespace AO {
 UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_4_typeId = Types::eUXB_99;
+    mTypeId = Types::eUXB_99;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::UXB_Active);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
+    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mRenderMode = TPageAbr::eBlend_0;
 
-    mFlags.Set(Options::eInteractive_Bit8);
+    mGameObjectFlags.Set(Options::eInteractive_Bit8);
     field_1BC_flags.Clear(flags_1BC::eUnused_Bit0);
     field_10C_state = UXBState::eDelay_0;
 
@@ -47,15 +47,15 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_Half_16;
-        field_C6_scale = 0;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_BombRollingBall_Half_16;
+        mScale = 0;
     }
     else
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
-        field_C6_scale = 1;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
+        mScale = 1;
     }
 
     InitBlinkAnim();
@@ -72,17 +72,17 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
             field_11C_anim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
 
             if (gMap.Is_Point_In_Current_Camera_4449C0(
-                    field_B2_lvl_number,
-                    field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mLvlNumber,
+                    mPathNumber,
+                    mXPos,
+                    mYPos,
                     0))
             {
                 SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
             }
 
             const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
-            field_10_anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
 
             field_10C_state = UXBState::eDeactivated_3;
             field_10E_starting_state = UXBState::eDelay_0;
@@ -108,15 +108,15 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
             field_11C_anim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
 
             const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
-            field_10_anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
 
             field_10E_starting_state = UXBState::eDeactivated_3;
             field_10C_state = UXBState::eDeactivated_3;
         }
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
+    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
 
     field_114_tlvInfo = tlvInfo;
     field_118_next_state_frame = gnFrameCount_507670;
@@ -145,20 +145,20 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
         field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
-        field_C0_r = 80;
-        field_C2_g = 90;
-        field_C4_b = 110;
+        mRed = 80;
+        mGreen = 90;
+        mBlue = 110;
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
-    const FP gridSnap = ScaleToGridSize(field_BC_sprite_scale);
-    mFlags.Set(Options::eInteractive_Bit8);
+    const FP gridSnap = ScaleToGridSize(mSpriteScale);
+    mGameObjectFlags.Set(Options::eInteractive_Bit8);
 
-    field_D4_collection_rect.x = field_A8_xpos - (gridSnap / FP_FromInteger(2));
-    field_D4_collection_rect.y = field_AC_ypos - gridSnap;
-    field_D4_collection_rect.w = field_A8_xpos + (gridSnap / FP_FromInteger(2));
-    field_D4_collection_rect.h = field_AC_ypos;
+    mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
+    mCollectionRect.y = mYPos - gridSnap;
+    mCollectionRect.w = mXPos + (gridSnap / FP_FromInteger(2));
+    mCollectionRect.h = mYPos;
 }
 
 void UXB::InitBlinkAnim()
@@ -176,19 +176,19 @@ void UXB::InitBlinkAnim()
             0,
             0))
     {
-        field_11C_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-        field_11C_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+        field_11C_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_11C_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-        field_11C_anim.field_C_layer = field_10_anim.field_C_layer;
-        field_11C_anim.field_14_scale = field_BC_sprite_scale;
-        field_11C_anim.field_8_r = 128;
-        field_11C_anim.field_9_g = 128;
-        field_11C_anim.field_A_b = 128;
-        field_11C_anim.field_B_render_mode = TPageAbr::eBlend_1;
+        field_11C_anim.mRenderLayer = mAnim.mRenderLayer;
+        field_11C_anim.field_14_scale = mSpriteScale;
+        field_11C_anim.mRed = 128;
+        field_11C_anim.mGreen = 128;
+        field_11C_anim.mBlue = 128;
+        field_11C_anim.mRenderMode = TPageAbr::eBlend_1;
     }
     else
     {
-        mFlags.Set(Options::eListAddFailed_Bit1);
+        mGameObjectFlags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
@@ -229,7 +229,7 @@ UXB::~UXB()
 
     field_11C_anim.VCleanUp();
 
-    mFlags.Clear(Options::eInteractive_Bit8);
+    mGameObjectFlags.Clear(Options::eInteractive_Bit8);
 }
 
 void UXB::VScreenChanged()
@@ -239,29 +239,29 @@ void UXB::VScreenChanged()
         if (field_10E_starting_state == UXBState::eDeactivated_3 && field_10C_state != UXBState::eDeactivated_3)
         {
             gMap.TLV_Reset(field_114_tlvInfo, 1, 1u, 0);
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
         else if (field_10E_starting_state != UXBState::eDelay_0 || field_10C_state != UXBState::eDeactivated_3)
         {
             gMap.TLV_Reset(field_114_tlvInfo, 0, 1u, 0);
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
         else
         {
             gMap.TLV_Reset(field_114_tlvInfo, 1, 1u, 0);
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
 
 s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mFlags.Get(BaseGameObject::eDead))
+    if (mGameObjectFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
 
-    switch (pFrom->field_4_typeId)
+    switch (pFrom->mTypeId)
     {
         case Types::eAbe_43:
             if (field_10C_state == UXBState::eDeactivated_3)
@@ -279,13 +279,13 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
             return 0;
     }
 
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 
     ao_new<BaseBomb>(
-        field_A8_xpos,
-        field_AC_ypos,
+        mXPos,
+        mYPos,
         0,
-        field_BC_sprite_scale);
+        mSpriteScale);
 
     field_10C_state = UXBState::eExploding_2;
     field_118_next_state_frame = gnFrameCount_507670;
@@ -296,12 +296,12 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     ao_new<BaseBomb>(
-        field_A8_xpos,
-        field_AC_ypos,
+        mXPos,
+        mYPos,
         0,
-        field_BC_sprite_scale);
+        mSpriteScale);
 
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
     field_10C_state = UXBState::eExploding_2;
     field_118_next_state_frame = gnFrameCount_507670;
 }
@@ -322,16 +322,16 @@ void UXB::VOnPickUpOrSlapped()
                 const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
                 field_11C_anim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
-                        field_B2_lvl_number,
-                        field_B0_path_number,
-                        field_A8_xpos,
-                        field_AC_ypos,
+                        mLvlNumber,
+                        mPathNumber,
+                        mXPos,
+                        mYPos,
                         0))
                 {
                     SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
                 }
                 const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Toggle);
-                field_10_anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+                mAnim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
                 field_10C_state = UXBState::eDeactivated_3;
                 field_118_next_state_frame = gnFrameCount_507670 + 10;
             }
@@ -339,14 +339,14 @@ void UXB::VOnPickUpOrSlapped()
         else
         {
             field_10C_state = UXBState::eDelay_0;
-            field_8_update_delay = 6;
+            mUpdateDelay = 6;
             const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Active);
-            field_10_anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
             if (gMap.Is_Point_In_Current_Camera_4449C0(
-                    field_B2_lvl_number,
-                    field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mLvlNumber,
+                    mPathNumber,
+                    mXPos,
+                    mYPos,
                     0))
             {
                 SFX_Play_Mono(SoundEffect::RedTick_4, 35, 0);
@@ -420,20 +420,20 @@ void UXB::VUpdate()
                 if (field_1BC_flags.Get(flags_1BC::eIsRed_Bit1))
                 {
                     if (gMap.Is_Point_In_Current_Camera_4449C0(
-                            field_B2_lvl_number,
-                            field_B0_path_number,
-                            field_A8_xpos,
-                            field_AC_ypos,
+                            mLvlNumber,
+                            mPathNumber,
+                            mXPos,
+                            mYPos,
                             0))
                     {
                         SFX_Play_Mono(SoundEffect::RedTick_4, 35, 0);
                     }
                 }
                 else if (gMap.Is_Point_In_Current_Camera_4449C0(
-                             field_B2_lvl_number,
-                             field_B0_path_number,
-                             field_A8_xpos,
-                             field_AC_ypos,
+                             mLvlNumber,
+                             mPathNumber,
+                             mXPos,
+                             mYPos,
                              0))
                 {
                     SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
@@ -447,11 +447,11 @@ void UXB::VUpdate()
             if (static_cast<s32>(gnFrameCount_507670) >= field_118_next_state_frame)
             {
                 ao_new<BaseBomb>(
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mXPos,
+                    mYPos,
                     0,
-                    field_BC_sprite_scale);
-                mFlags.Set(BaseGameObject::eDead);
+                    mSpriteScale);
+                mGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
     }
@@ -475,7 +475,7 @@ void UXB::VUpdate()
             {
                 gMap.TLV_Reset(field_114_tlvInfo, 1, 1u, 0);
             }
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -493,17 +493,17 @@ s16 UXB::IsColliding()
             break;
         }
 
-        if (pObj->field_10A_flags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
+        if (pObj->mAliveGameObjectFlags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
         {
-            if (pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
+            if (pObj->mAnim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 PSX_RECT objBound = {};
                 pObj->VGetBoundingRect(&objBound, 1);
 
-                const s32 objX = FP_GetExponent(pObj->field_A8_xpos);
-                const s32 objY = FP_GetExponent(pObj->field_AC_ypos);
+                const s32 objX = FP_GetExponent(pObj->mXPos);
+                const s32 objY = FP_GetExponent(pObj->mYPos);
 
-                if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->field_BC_sprite_scale == field_BC_sprite_scale)
+                if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->mSpriteScale == mSpriteScale)
                 {
                     return 1;
                 }
@@ -516,18 +516,18 @@ s16 UXB::IsColliding()
 void UXB::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mLvlNumber,
+            mPathNumber,
+            mXPos,
+            mYPos,
             0))
     {
         field_11C_anim.VRender(
-            FP_GetExponent(field_A8_xpos
+            FP_GetExponent(mXPos
                            + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-            FP_GetExponent(field_AC_ypos
-                           + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - FP_NoFractional(field_BC_sprite_scale * FP_FromInteger(12)))
+            FP_GetExponent(mYPos
+                           + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - FP_NoFractional(mSpriteScale * FP_FromInteger(12)))
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,
             0,

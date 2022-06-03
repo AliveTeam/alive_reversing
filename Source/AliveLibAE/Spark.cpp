@@ -13,7 +13,7 @@
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type)
     : BaseGameObject(TRUE, 0)
 {
-    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetType(AETypes::eNone_0);
 
@@ -80,30 +80,30 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
                 ppRes);
             if (pParticle)
             {
-                pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-                pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                pParticle->mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                pParticle->mAnim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-                pParticle->field_20_animation.field_8_r = 128;
-                pParticle->field_20_animation.field_9_g = 128;
-                pParticle->field_20_animation.field_A_b = 128;
+                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mAnim.mRed = 128;
+                pParticle->mAnim.mGreen = 128;
+                pParticle->mAnim.mBlue = 128;
 
                 if (scale == FP_FromInteger(1))
                 {
-                    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
+                    pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
                 }
                 else
                 {
-                    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
+                    pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
                 }
 
-                pParticle->field_CC_sprite_scale = scale;
+                pParticle->mSpriteScale = scale;
             }
         }
     }
     else
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -111,7 +111,7 @@ void Spark::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (sNum_CamSwappers_5C1B66 == 0)
@@ -137,7 +137,7 @@ void Spark::VUpdate()
         }
         else
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 }
@@ -145,8 +145,8 @@ void Spark::VUpdate()
 void Spark::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(
-            sActiveHero_5C1B68->field_C2_lvl_number,
-            sActiveHero_5C1B68->field_C0_path_number,
+            sActiveHero->mLvlNumber,
+            sActiveHero->mPathNumber,
             field_40_xpos,
             field_44_ypos,
             0))
@@ -268,12 +268,12 @@ void Spark::VRender(PrimHeader** ppOt)
 
 void Spark::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 Spark::~Spark()
 {
-    if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (mGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_5C1124->Remove_Item(this);
     }

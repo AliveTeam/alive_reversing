@@ -29,23 +29,23 @@ Well::~Well()
 
 void Well::VScreenChanged()
 {
-    mFlags.Set(BaseGameObject::eDead);
+    mGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void Well::VRender(PrimHeader** ppOt)
 {
-    field_A8_xpos += FP_FromInteger(gTweak_X_5076D8);
-    field_AC_ypos += FP_FromInteger(gTweak_Y_5076DC);
+    mXPos += FP_FromInteger(gTweak_X_5076D8);
+    mYPos += FP_FromInteger(gTweak_Y_5076DC);
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
-    field_A8_xpos -= FP_FromInteger(gTweak_X_5076D8);
-    field_AC_ypos -= FP_FromInteger(gTweak_Y_5076DC);
+    mXPos -= FP_FromInteger(gTweak_X_5076D8);
+    mYPos -= FP_FromInteger(gTweak_Y_5076DC);
 }
 
 void Well::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
         gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
     }
 
@@ -70,11 +70,11 @@ void Well::VUpdate()
                     {
                         if (field_EC_scale == FP_FromDouble(0.5))
                         {
-                            pLeaf->field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_Half_3;
+                            pLeaf->mAnim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
                         }
                         else
                         {
-                            pLeaf->field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
+                            pLeaf->mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
                         }
                     }
                 }
@@ -99,23 +99,23 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
             anim.mMaxH,
             ppRes,
             1);
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_CC_bApplyShadows &= ~1u;
+        mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mApplyShadows &= ~1u;
     }
     else
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        mFlags.Clear(Options::eDrawable_Bit4);
+        mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Well_Half_4;
+        mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Well_23;
+        mAnim.mRenderLayer = Layer::eLayer_Well_23;
         field_EC_scale = FP_FromInteger(1);
     }
 
@@ -159,26 +159,26 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
             anim.mMaxH,
             ppRes,
             1);
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_CC_bApplyShadows &= ~1u;
+        mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mApplyShadows &= ~1u;
     }
     else
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        mFlags.Clear(Options::eDrawable_Bit4);
+        mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Well_Half_4;
+        mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
-        field_C6_scale = 0;
+        mScale = 0;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Well_23;
+        mAnim.mRenderLayer = Layer::eLayer_Well_23;
         field_EC_scale = FP_FromInteger(1);
-        field_C6_scale = 1;
+        mScale = 1;
     }
 
     field_E8_switch_id = pTlv->field_1A_switch_id;
@@ -206,14 +206,14 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 {
     field_E4_tlvInfo = tlvInfo;
-    field_4_typeId = Types::eWell_101;
+    mTypeId = Types::eWell_101;
 
-    field_C4_b = 128;
-    field_C2_g = 128;
-    field_C0_r = 128;
+    mBlue = 128;
+    mGreen = 128;
+    mRed = 128;
 
-    field_AC_ypos = ypos;
-    field_A8_xpos = xpos;
+    mYPos = ypos;
+    mXPos = xpos;
 
     if (pTlv->field_4_type == TlvTypes::WellLocal_11)
     {

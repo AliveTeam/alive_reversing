@@ -58,35 +58,35 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     SetTint(kRopeTints_55FD68, gMap.mCurrentLevel);
 
-    field_20_animation.field_14_scale = scale;
-    field_CC_sprite_scale = scale;
+    mAnim.field_14_scale = scale;
+    mSpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
         field_F6_rope_length = 15;
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_24;
-        field_D6_scale = 1;
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
+        mScale = 1;
     }
     else
     {
         field_F6_rope_length = 7;
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_Half_5;
-        field_20_animation.field_14_scale = FP_FromDouble(0.7);
-        field_CC_sprite_scale = FP_FromDouble(0.7);
-        field_D6_scale = 0;
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
+        mAnim.field_14_scale = FP_FromDouble(0.7);
+        mSpriteScale = FP_FromDouble(0.7);
+        mScale = 0;
     };
 
-    field_20_animation.field_8_r = static_cast<u8>(field_D0_r);
-    field_20_animation.field_9_g = static_cast<u8>(field_D2_g);
-    field_20_animation.field_A_b = static_cast<u8>(field_D4_b);
+    mAnim.mRed = static_cast<u8>(mRed);
+    mAnim.mGreen = static_cast<u8>(mGreen);
+    mAnim.mBlue = static_cast<u8>(mBlue);
 
     field_102_top = static_cast<s16>(top);
     field_106_bottom = static_cast<s16>(bottom);
     field_100_left = static_cast<s16>(left);
     field_104_right = static_cast<s16>(left);
 
-    field_B8_xpos = FP_FromInteger(left);
-    field_BC_ypos = FP_FromInteger(bottom);
+    mXPos = FP_FromInteger(left);
+    mYPos = FP_FromInteger(bottom);
 
     field_F4_rope_segment_count = (240 / field_F6_rope_length) + 1; // psx screen height
 
@@ -97,12 +97,12 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     {
         AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-        pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
-        pSegment->field_68_anim_ptr = &field_20_animation;
-        pSegment->field_C_render_layer = field_20_animation.field_C_render_layer;
+        pSegment->mAnimFlags.Set(AnimFlags::eBit3_Render);
+        pSegment->field_68_anim_ptr = &mAnim;
+        pSegment->mRenderLayer = mAnim.mRenderLayer;
         pSegment->field_6C_scale = scale;
-        pSegment->field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        pSegment->field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        pSegment->mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pSegment->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
     }
 }
 
@@ -121,10 +121,10 @@ void Rope::VRender(PrimHeader** ppOt)
     PSX_Point camPos = {};
     gMap.GetCurrentCamCoords(&camPos);
     // In the current level/map?
-    if (field_C2_lvl_number == gMap.mCurrentLevel && field_C0_path_number == gMap.mCurrentPath)
+    if (mLvlNumber == gMap.mCurrentLevel && mPathNumber == gMap.mCurrentPath)
     {
         // In the current camera x range?
-        if (field_B8_xpos >= FP_FromInteger(camPos.field_0_x) && field_B8_xpos <= FP_FromInteger(camPos.field_0_x + 375))
+        if (mXPos >= FP_FromInteger(camPos.field_0_x) && mXPos <= FP_FromInteger(camPos.field_0_x + 375))
         {
             const FP camXPos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
             const FP camYPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
@@ -132,13 +132,13 @@ void Rope::VRender(PrimHeader** ppOt)
             s16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
             s16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);
 
-            s16 ypos = FP_GetExponent(field_BC_ypos);
+            s16 ypos = FP_GetExponent(mYPos);
             if (ypos > field_106_bottom)
             {
                 ypos = field_106_bottom + ((ypos - field_106_bottom) % field_F6_rope_length);
             }
 
-            s16 screenX = FP_GetExponent(field_B8_xpos - camXPos);
+            s16 screenX = FP_GetExponent(mXPos - camXPos);
             s16 screenY = ypos - FP_GetExponent(camYPos);
 
             if (screenY > 240)
@@ -157,28 +157,28 @@ void Rope::VRender(PrimHeader** ppOt)
                 maxY = 240;
             }
 
-            field_20_animation.VRender(640, 240, ppOt, 0, 0);
+            mAnim.VRender(640, 240, ppOt, 0, 0);
 
             if (screenY >= minY)
             {
                 for (s32 idx = 0; idx < field_F4_rope_segment_count; idx++)
                 {
                     // Apply shadow to the segments colour
-                    s16 r = field_D0_r;
-                    s16 g = field_D2_g;
-                    s16 b = field_D4_b;
+                    s16 r = mRed;
+                    s16 g = mGreen;
+                    s16 b = mBlue;
 
                     ShadowZone::ShadowZones_Calculate_Colour(
-                        FP_GetExponent(field_B8_xpos),
+                        FP_GetExponent(mXPos),
                         ypos - (idx * field_F6_rope_length),
-                        field_D6_scale,
+                        mScale,
                         &r,
                         &g,
                         &b);
 
-                    field_FC_pRopeRes[idx].field_8_r = static_cast<u8>(r);
-                    field_FC_pRopeRes[idx].field_9_g = static_cast<u8>(g);
-                    field_FC_pRopeRes[idx].field_A_b = static_cast<u8>(b);
+                    field_FC_pRopeRes[idx].mRed = static_cast<u8>(r);
+                    field_FC_pRopeRes[idx].mGreen = static_cast<u8>(g);
+                    field_FC_pRopeRes[idx].mBlue = static_cast<u8>(b);
 
                     // Render the segment
                     field_FC_pRopeRes[idx].VRender(

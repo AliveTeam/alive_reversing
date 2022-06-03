@@ -408,8 +408,8 @@ PauseMenu::PauseMenu()
     sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
     SetType(AETypes::ePauseMenu_95);
-    mFlags.Clear(BaseGameObject::eDrawable_Bit4);
-    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     word12C_flags &= ~0xE;
     word12C_flags &= ~1u;
 
@@ -434,7 +434,7 @@ PauseMenu::PauseMenu()
 
 PauseMenu::~PauseMenu()
 {
-    mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
 
     gObjList_drawables_5C1124->Remove_Item(this);
     field_158_animation.VCleanUp();
@@ -453,15 +453,15 @@ void PauseMenu::Init()
     const AnimRecord& rec = AnimRec(AnimId::NormalMudIcon);
     if (field_158_animation.Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppAnimData, 1, 0, 0))
     {
-        this->field_158_animation.field_C_render_layer = field_20_animation.field_C_render_layer;
-        this->field_158_animation.field_14_scale = field_CC_sprite_scale;
-        this->field_158_animation.field_8_r = 127;
-        this->field_158_animation.field_9_g = 127;
-        this->field_158_animation.field_A_b = 127;
+        this->field_158_animation.mRenderLayer = mAnim.mRenderLayer;
+        this->field_158_animation.field_14_scale = mSpriteScale;
+        this->field_158_animation.mRed = 127;
+        this->field_158_animation.mGreen = 127;
+        this->field_158_animation.mBlue = 127;
     }
     else
     {
-        mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
@@ -496,7 +496,7 @@ void PauseMenu::VScreenChanged()
 {
     if (gMap.mLevel == LevelIds::eCredits_16)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -715,18 +715,18 @@ void DestroyAliveObjects()
     for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
     {
         BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
-        if (!pObj || pObj == pPauseMenu_5C9300 || pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) == false)
+        if (!pObj || pObj == pPauseMenu_5C9300 || pObj->mGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) == false)
         {
             continue;
         }
 
         if (pObj->Type() != AETypes::eAbe_69)
         {
-            pObj->mFlags.Set(BaseGameObject::eDead);
+            pObj->mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 
-    sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+    sControlledCharacter = sActiveHero;
 }
 
 void DestroyAllObjects()
@@ -741,11 +741,11 @@ void DestroyAllObjects()
 
         if (pObj->Type() != AETypes::eAbe_69)
         {
-            pObj->mFlags.Set(BaseGameObject::eDead);
+            pObj->mGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
 
-    sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+    sControlledCharacter = sActiveHero;
 }
 
 std::vector<CustomPauseMenuItem> devCheatsMenuItems({
@@ -775,7 +775,7 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
      }},
     {"Give Rocks", [](CustomPauseMenu*)
      {
-         sActiveHero_5C1B68->field_1A2_throwable_count = 99;
+         sActiveHero->field_1A2_throwable_count = 99;
          DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4);
      }},
     {"Open All Doors", [](CustomPauseMenu* pm)
@@ -787,22 +787,22 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
      {
          DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);
          pm->ClosePauseMenu();
-         sActiveHero_5C1B68->field_170_invisible_timer = 65535;
-         sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
-         sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible);
+         sActiveHero->field_170_invisible_timer = 65535;
+         sActiveHero->mAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+         sActiveHero->mAliveGameObjectFlags.Set(Flags_114::e114_Bit8_bInvisible);
      }},
     {"Give Explosive Fart", [](CustomPauseMenu* pm)
      {
          DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
          pm->ClosePauseMenu();
-         sActiveHero_5C1B68->field_198_has_evil_fart = true;
+         sActiveHero->field_198_has_evil_fart = true;
          if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, FALSE, FALSE))
          {
              ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
          }
-         if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
+         if (!sActiveHero->field_10_resources_array.ItemAt(22))
          {
-             sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
+             sActiveHero->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
          }
      }},
 });
@@ -847,27 +847,27 @@ void PauseMenu_ForceLink()
                                         {
                                             const auto levelSelectEntry = gPerLvlData_561700[pm->index];
                                             pm->ClosePauseMenu();
-                                            sActiveHero_5C1B68->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
-                                            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
-                                            sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
-                                            sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
-                                            sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
+                                            sActiveHero->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
+                                            sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                                            sActiveHero->mLvlNumber = levelSelectEntry.field_4_level;
+                                            sActiveHero->mPathNumber = levelSelectEntry.field_6_path;
+                                            sActiveHero->mCollisionLine = nullptr;
 
                                             if (levelSelectEntry.field_A_id & 1)
                                             {
-                                                sActiveHero_5C1B68->field_D6_scale = 1;
-                                                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
+                                                sActiveHero->mScale = 1;
+                                                sActiveHero->mSpriteScale = FP_FromDouble(1.0);
                                             }
                                             else
                                             {
-                                                sActiveHero_5C1B68->field_D6_scale = 0;
-                                                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
+                                                sActiveHero->mScale = 0;
+                                                sActiveHero->mSpriteScale = FP_FromDouble(0.5);
                                             }
 
-                                            sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
+                                            sActiveHero->mLastLineYPos = sActiveHero->mYPos;
                                             gMap.SetActiveCam(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
-                                            sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
-                                            sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
+                                            sActiveHero->mXPos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
+                                            sActiveHero->mYPos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
                                             DEV_CONSOLE_MESSAGE("Teleported to " + std::string(levelSelectEntry.field_0_display_name), 6);
                                         }});
     }
@@ -953,7 +953,7 @@ void PauseMenu::RestartPath()
         1);
 
     gMap.field_8_force_load = TRUE;
-    if (sActiveHero_5C1B68->field_1A2_throwable_count)
+    if (sActiveHero->field_1A2_throwable_count)
     {
         LoadRockTypes_49AB30(
             sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
@@ -964,7 +964,7 @@ void PauseMenu::RestartPath()
             gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
         }
 
-        gpThrowableArray_5D1E2C->Add(sActiveHero_5C1B68->field_1A2_throwable_count);
+        gpThrowableArray_5D1E2C->Add(sActiveHero->field_1A2_throwable_count);
     }
 
     word12C_flags &= ~1;
@@ -1136,11 +1136,11 @@ void PauseMenu::Page_ReallyQuit_Update()
 
         if (pPauseMenu_5C9300 && pPauseMenu_5C9300 == this)
         {
-            pPauseMenu_5C9300->mFlags.Set(BaseGameObject::eDead);
+            pPauseMenu_5C9300->mGameObjectFlags.Set(BaseGameObject::eDead);
         }
         else
         {
-            mFlags.Set(BaseGameObject::eDead);
+            mGameObjectFlags.Set(BaseGameObject::eDead);
         }
 
         pPauseMenu_5C9300 = 0;
@@ -1342,7 +1342,7 @@ void PauseMenu::Page_Status_Update()
 void PauseMenu::Page_Status_Render(PrimHeader** ot, PauseMenuPage* pPage)
 {
     // Render the status icon
-    field_158_animation.field_C_render_layer = Layer::eLayer_Menu_41;
+    field_158_animation.mRenderLayer = Layer::eLayer_Menu_41;
     field_158_animation.VRender(180, 100, ot, 0, 0);
 
     // Render the text
@@ -1430,8 +1430,8 @@ void PauseMenu::Page_Load_Update()
             if (hFile)
             {
                 ae_fread_520B5C(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
-                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
-                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
+                sActiveHero->mXPos = FP_FromInteger(0);
+                sActiveHero->mYPos = FP_FromInteger(0);
                 Quicksave_LoadActive();
                 word12C_flags &= ~1u;
                 // TODO: OG bug, file handle is leaked
@@ -1505,19 +1505,19 @@ u16 sub_4A2B70()
 
 void PauseMenu::VUpdate()
 {
-    Abe* pHero = sActiveHero_5C1B68;
+    Abe* pHero = sActiveHero;
     BaseAliveGameObject* pControlledChar = nullptr;
 
-    if (sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if (sActiveHero->mHealth <= FP_FromInteger(0) || sActiveHero->mAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
-        pControlledChar = sControlledCharacter_5C1B8C;
+        pControlledChar = sControlledCharacter;
     }
     else
     {
-        pControlledChar = sControlledCharacter_5C1B8C;
-        if (!(sControlledCharacter_5C1B8C->field_114_flags.Get(e114_Bit10_Teleporting)))
+        pControlledChar = sControlledCharacter;
+        if (!(sControlledCharacter->mAliveGameObjectFlags.Get(e114_Bit10_Teleporting)))
         {
-            const s16 heroState = sActiveHero_5C1B68->field_106_current_motion;
+            const s16 heroState = sActiveHero->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00
                 && heroState != eAbeMotions::Motion_119_ToShrykull_45A990
                 && heroState != eAbeMotions::Motion_120_EndShrykull_45AB00
@@ -1530,14 +1530,14 @@ void PauseMenu::VUpdate()
                 && heroState != eAbeMotions::jMotion_81_WellBegin_45C7F0
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
-                && (sControlledCharacter_5C1B8C->Type() != AETypes::eEvilFart_45 || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
-                && sActiveHero_5C1B68->field_1A8_portal_id == -1)
+                && (sControlledCharacter->Type() != AETypes::eEvilFart_45 || LOWORD(static_cast<Abe*>(sControlledCharacter)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
+                && sActiveHero->field_1A8_portal_id == -1)
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)
                 {
                     DoQuicksave();
-                    pHero = sActiveHero_5C1B68;
-                    pControlledChar = sControlledCharacter_5C1B8C;
+                    pHero = sActiveHero;
+                    pControlledChar = sControlledCharacter;
                     sQuicksave_SaveNextFrame_5CA4D8 = 0;
                     sQuicksave_LoadNextFrame_5CA4D9 = 0;
                 }
@@ -1545,8 +1545,8 @@ void PauseMenu::VUpdate()
                 {
                     Quicksave_LoadActive();
                     SND_SEQ_Stop(SeqId::MudokonChant1_10);
-                    pHero = sActiveHero_5C1B68;
-                    pControlledChar = sControlledCharacter_5C1B8C;
+                    pHero = sActiveHero;
+                    pControlledChar = sControlledCharacter;
                     sQuicksave_SaveNextFrame_5CA4D8 = 0;
                     sQuicksave_LoadNextFrame_5CA4D9 = 0;
                 }
@@ -1561,11 +1561,11 @@ void PauseMenu::VUpdate()
 
     if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & InputCommands::Enum::ePause)
     {
-        if (pHero->field_10C_health > FP_FromInteger(0)
-            && !(pHero->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
-            && !(pControlledChar->field_114_flags.Get(Flags_114::e114_Bit10_Teleporting)))
+        if (pHero->mHealth > FP_FromInteger(0)
+            && !(pHero->mAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
+            && !(pControlledChar->mAliveGameObjectFlags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
-            const s16 heroState = pHero->field_106_current_motion;
+            const s16 heroState = pHero->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00
                 && heroState != eAbeMotions::Motion_119_ToShrykull_45A990
                 && heroState != eAbeMotions::Motion_120_EndShrykull_45AB00
@@ -1584,7 +1584,7 @@ void PauseMenu::VUpdate()
                 SND_StopAll();
                 SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
                 sub_4A2B70();
-                mFlags.Set(BaseGameObject::eDrawable_Bit4);
+                mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
                 field_134_index_main = MainPages::ePage_Continue_0;
                 field_136_unused = 0;
                 word12C_flags = (word12C_flags & ~8) | 1;
@@ -1622,17 +1622,17 @@ void PauseMenu::VUpdate()
                 sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF %d MUDOKONS", sRescuedMudokons_5C1BC2, Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath));
                 sprintf(sHasBeenTerminated_55E738, "%d HA%s BEEN TERMINATED", sKilledMudokons_5C1BC0, (sKilledMudokons_5C1BC0 != 1) ? "VE" : "S");
 
-                if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eNormal_0)
+                if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eNormal_0)
                 {
                     const AnimRecord& normalRec = AnimRec(AnimId::NormalMudIcon);
                     field_158_animation.Set_Animation_Data(normalRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, normalRec.mResourceId, 1u, 0));
                 }
-                else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eSad_3)
+                else if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eSad_3)
                 {
                     const AnimRecord& angryRec = AnimRec(AnimId::AngryMudIcon);
                     field_158_animation.Set_Animation_Data(angryRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, angryRec.mResourceId, 1u, 0));
                 }
-                else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eHappy_5)
+                else if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eHappy_5)
                 {
                     const AnimRecord& happyRec = AnimRec(AnimId::HappyMudIcon);
                     field_158_animation.Set_Animation_Data(happyRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, happyRec.mResourceId, 1u, 0));
@@ -1663,9 +1663,9 @@ void PauseMenu::VUpdate()
                             break;
                         }
 
-                        if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
+                        if (!(pObj->mGameObjectFlags.Get(BaseGameObject::eDead)))
                         {
-                            if (pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
+                            if (pObj->mGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
                             {
                                 pObj->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
                             }
@@ -1708,7 +1708,7 @@ void PauseMenu::VUpdate()
                 // This call seems redundant as the calle will also update input right after this too
                 sInputObject_5BD4E0.Update(GetGameAutoPlayer());
 
-                mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+                mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
             }
         }
     }

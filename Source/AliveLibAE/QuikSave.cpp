@@ -607,7 +607,7 @@ ALIVE_VAR(1, 0xBB17F8, Quicksave_PSX_Header, sSaveHeader1_BB17F8, {});
 
 void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 {
-    if (sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
+    if (sActiveHero->mHealth > FP_FromInteger(0))
     {
         pSave->field_200_accumulated_obj_count = sAccumulatedObjectCount_5C1BF4;
 
@@ -643,7 +643,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
                 break;
             }
 
-            if (!(pObj->mFlags.Get(BaseGameObject::eDead)))
+            if (!(pObj->mGameObjectFlags.Get(BaseGameObject::eDead)))
             {
                 pDataIter += pObj->VGetSaveState(pDataIter);
             }
@@ -682,7 +682,7 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
     // Last is read from another field
     sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = pInfo->field_17_last_saved_killed_muds_per_path;
 
-    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+    sActiveHero->mAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     sZulagNumber_5C1A20 = pInfo->field_2C_current_zulag_number;
     sKilledMudokons_5C1BC0 = pInfo->field_14_killed_muds;
     sRescuedMudokons_5C1BC2 = pInfo->field_12_saved_muds;
@@ -700,7 +700,7 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
 void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
 {
     PSX_RECT rect = {};
-    sControlledCharacter_5C1B8C->VGetBoundingRect(&rect, 1);
+    sControlledCharacter->VGetBoundingRect(&rect, 1);
 
     pInfo->field_0_gnFrame = sGnFrame_5C1B84;
     pInfo->field_4_level = gMap.mCurrentLevel;
@@ -726,9 +726,9 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->field_34_visited_barracks = sVisitedBarracks_5C1C04;
     pInfo->field_36_visited_feeco_ender = sVisitedFeecoEnder_5C1C06;
     pInfo->field_38_gas_timer = sGasTimer_5C1BE8;
-    pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
+    pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter->mXPos);
     pInfo->field_E_controlled_y = rect.h;
-    pInfo->field_10_controlled_scale = sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0);
+    pInfo->field_10_controlled_scale = sControlledCharacter->mSpriteScale == FP_FromDouble(1.0);
 }
 
 s32 Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)

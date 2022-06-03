@@ -16,23 +16,23 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
 
     field_B6_unused = bIsMudokonSpirit;
 
-    field_8_Anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_8_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_8_Anim.field_C_render_layer = Layer::eLayer_AbeMenu_32;
-    field_8_Anim.field_B_render_mode = TPageAbr::eBlend_1;
+    field_8_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+    field_8_Anim.mRenderMode = TPageAbr::eBlend_1;
     if (bIsMudokonSpirit == 1)
     {
-        field_8_Anim.field_8_r = 0;
-        field_8_Anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-        field_8_Anim.field_9_g = 255;
-        field_8_Anim.field_A_b = 32;
+        field_8_Anim.mRed = 0;
+        field_8_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_8_Anim.mGreen = 255;
+        field_8_Anim.mBlue = 32;
     }
     else
     {
-        field_8_Anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-        field_8_Anim.field_8_r = 80;
-        field_8_Anim.field_9_g = 80;
-        field_8_Anim.field_A_b = 80;
+        field_8_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+        field_8_Anim.mRed = 80;
+        field_8_Anim.mGreen = 80;
+        field_8_Anim.mBlue = 80;
     }
 
     field_8_Anim.SetFrame(Math_RandomRange(0, field_8_Anim.Get_Frame_Count() - 1));
@@ -53,7 +53,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
 
 s32 OrbWhirlWindParticle::IsActive()
 {
-    return field_4_flags.Get(Flags_4::eBit1_is_active);
+    return mAnimFlags.Get(Flags_4::eBit1_is_active);
 }
 
 void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
@@ -94,7 +94,7 @@ void OrbWhirlWindParticle::Update()
             }
             else
             {
-                if (field_E4_pObj && field_E4_pObj->mFlags.Get(BaseGameObject::eDead))
+                if (field_E4_pObj && field_E4_pObj->mGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     ToStop();
                 }
@@ -113,7 +113,7 @@ void OrbWhirlWindParticle::Update()
             break;
 
         case State::State_2_FlyToTarget:
-            if (field_E4_pObj && field_E4_pObj->mFlags.Get(BaseGameObject::eDead))
+            if (field_E4_pObj && field_E4_pObj->mGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 ToStop();
             }
@@ -250,11 +250,11 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
 
     if (field_C0_current_scale > FP_FromDouble(0.599)) // TODO: Check VS 39321
     {
-        field_8_Anim.field_C_render_layer = Layer::eLayer_AbeMenu_32;
+        field_8_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     }
     else
     {
-        field_8_Anim.field_C_render_layer = Layer::eLayer_AbeMenu_Half_13;
+        field_8_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
     }
 }
 
@@ -262,10 +262,10 @@ void OrbWhirlWindParticle::SetActive(u8 active)
 {
     if (active)
     {
-        field_4_flags.Set(Flags_4::eBit1_is_active);
+        mAnimFlags.Set(Flags_4::eBit1_is_active);
     }
     else
     {
-        field_4_flags.Clear(Flags_4::eBit1_is_active);
+        mAnimFlags.Clear(Flags_4::eBit1_is_active);
     }
 }

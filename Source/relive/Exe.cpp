@@ -93,8 +93,8 @@ extern "C"
         &gMap.mCurrentCamera,
         &gMap.field_12_fmv_base_id,
         &sGnFrame_5C1B84,
-        &sActiveHero_5C1B68,
-        offsetof(Abe, field_BC_ypos),
+        &sActiveHero,
+        offsetof(Abe, mYPos),
         & sDisableFontFlicker_5C9304};
 
     const void* GetAeInfo()
@@ -110,8 +110,8 @@ extern "C"
         &AO::gMap.mCurrentPath,
         &AO::gMap.mCurrentCamera,
         &AO::gnFrameCount_507670,
-        &AO::sActiveHero_507678,
-        offsetof(AO::Abe, field_AC_ypos) + sizeof(s16), // +2 for exp only
+        &AO::sActiveHero,
+        offsetof(AO::Abe, mYPos) + sizeof(s16), // +2 for exp only
         &AO::sDisableFontFlicker_5080E4,
         &AO::sSwitchStates_505568.mData[70]};
 

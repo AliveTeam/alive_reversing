@@ -46,7 +46,7 @@ public:
     RollingBallShaker* field_114_pRollingBallShaker;
     FP field_118_speed;
     FP field_11C_acceleration;
-    PathLine* field_120_pCollisionLine;
+    PathLine* mCollisionLine;
     s32 field_124_padding;
     s32 field_128_padding;
 };

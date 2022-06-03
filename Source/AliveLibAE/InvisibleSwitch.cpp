@@ -52,22 +52,22 @@ void InvisibleSwitch::VUpdate()
         if (field_22_action != SwitchOp::eSetFalse_1 || SwitchStates_Get(field_20_switch_id))
         {
             // Within X bounds?
-            const FP charXPos = sControlledCharacter_5C1B8C->field_B8_xpos;
+            const FP charXPos = sControlledCharacter->mXPos;
             if (charXPos >= FP_FromInteger(field_30_top_left.field_0_x) && charXPos <= FP_FromInteger(field_34_bottom_right.field_0_x))
             {
                 // Within Y bounds?
-                const FP charYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
+                const FP charYPos = sControlledCharacter->mYPos;
                 if (charYPos >= FP_FromInteger(field_30_top_left.field_2_y) && charYPos <= FP_FromInteger(field_34_bottom_right.field_2_y))
                 {
                     // TODO: ???
-                    if (sControlledCharacter_5C1B8C != sActiveHero_5C1B68
-                        || (sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_115_DoorExit_459A40
-                            && sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_114_DoorEnter_459470))
+                    if (sControlledCharacter != sActiveHero
+                        || (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_DoorExit_459A40
+                            && sActiveHero->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470))
                     {
                         // Scale matches ?
                         if (field_3C_scale == InvisibleSwitchScale::eAny_2
-                            || (field_3C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
-                            || (field_3C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0)))
+                            || (field_3C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
+                            || (field_3C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter->mSpriteScale == FP_FromDouble(1.0)))
                         {
                             field_38_state = States::eWaitForDelayTimer_1;
                             field_28_delay_timer = sGnFrame_5C1B84 + field_2C_delay;
@@ -80,7 +80,7 @@ void InvisibleSwitch::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -89,6 +89,6 @@ void InvisibleSwitch::VScreenChanged()
     BaseGameObject::VScreenChanged();
     if (field_38_state != States::eWaitForDelayTimer_1)
     {
-        mFlags.Set(BaseGameObject::eDead);
+        mGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }

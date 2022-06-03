@@ -43,10 +43,10 @@ const TDDCheatFn CheatsFn_4C3150[] = {
 DDCheat::DDCheat()
     : BaseGameObject(1)
 {
-    mFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    field_4_typeId = Types::eDDCheat_12;
+    mTypeId = Types::eDDCheat_12;
     field_10_bInvalidateRect = 0;
     field_14_SelectedCheat = 0;
     field_18_backInputPressed = 0;
@@ -181,7 +181,7 @@ void DDCheat::VUpdate()
     if (gDDCheatMode_508BF8)
     {
         const InputObject::PadIndex otherController = Input().CurrentController() == InputObject::PadIndex::First ? InputObject::PadIndex::Second : InputObject::PadIndex::First;
-        Abe* pAbe = sActiveHero_507678;
+        Abe* pAbe = sActiveHero;
         s32 cheat_enabled = 0;
 
         if (unused_4FF868)
@@ -201,14 +201,14 @@ void DDCheat::VUpdate()
             {
                 PSX_Point point = {};
                 gMap.GetCurrentCamCoords(&point);
-                pAbe = sActiveHero_507678;
+                pAbe = sActiveHero;
                 cheat_enabled = 1;
-                pAbe->field_A8_xpos = FP_FromInteger(point.field_0_x + 448);
-                pAbe->field_AC_ypos = FP_FromInteger(point.field_2_y + 180);
-                pAbe->field_FC_current_motion = eAbeMotions::Motion_3_Fall_42E7F0;
+                pAbe->mXPos = FP_FromInteger(point.field_0_x + 448);
+                pAbe->mYPos = FP_FromInteger(point.field_2_y + 180);
+                pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
                 pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
-                pAbe->field_B2_lvl_number = static_cast<LevelIds>(level_4C315C);
-                pAbe->field_B0_path_number = static_cast<s16>(path_4C3160);
+                pAbe->mLvlNumber = static_cast<LevelIds>(level_4C315C);
+                pAbe->mPathNumber = static_cast<s16>(path_4C3160);
                 sDDCheat_FlyingEnabled_50771C = 1;
                 field_18_backInputPressed = 0;
             }
@@ -225,23 +225,23 @@ void DDCheat::VUpdate()
                     {
                         pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                         showDebugCreatureInfo_5076E0 = 0;
-                        sControlledCharacter_50767C->field_F4_pLine = nullptr;
-                        sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
-                        switch (sControlledCharacter_50767C->field_4_typeId)
+                        sControlledCharacter->mCollisionLine = nullptr;
+                        sControlledCharacter->mLastLineYPos = sControlledCharacter->mYPos;
+                        switch (sControlledCharacter->mTypeId)
                         {
                             case Types::eElum_26:
                             {
-                                sControlledCharacter_50767C->field_FC_current_motion = eElumMotions::Motion_21_Land_414A20;
+                                sControlledCharacter->mCurrentMotion = eElumMotions::Motion_21_Land_414A20;
                                 break;
                             }
                             case Types::eAbe_43:
                             {
-                                sControlledCharacter_50767C->field_FC_current_motion = eAbeMotions::Motion_3_Fall_42E7F0;
+                                sControlledCharacter->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
                                 break;
                             }
                             case Types::eSlig_88:
                             {
-                                sControlledCharacter_50767C->field_FC_current_motion = eSligMotions::Motion_7_Falling_46A1A0;
+                                sControlledCharacter->mCurrentMotion = eSligMotions::Motion_7_Falling_46A1A0;
                                 break;
                             }
                             default:
@@ -268,10 +268,10 @@ void DDCheat::VUpdate()
                     pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 }
 
-                if (sControlledCharacter_50767C)
+                if (sControlledCharacter)
                 {
-                    sControlledCharacter_50767C->field_F4_pLine = nullptr;
-                    sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
+                    sControlledCharacter->mCollisionLine = nullptr;
+                    sControlledCharacter->mLastLineYPos = sControlledCharacter->mYPos;
                 }
             }
 
@@ -304,12 +304,12 @@ void DDCheat::VUpdate()
                     (sPeakedManagedMemUsage_9F0E4C + 999) / 1000);
                 //DebugStr(" Vox %d\n", gVox_4FF864);
 
-                if (sActiveHero_507678)
+                if (sActiveHero)
                 {
                     DebugStr(
                         "\nheroxy=%4d,%4d\n",
-                        FP_GetExponent(sActiveHero_507678->field_A8_xpos),
-                        FP_GetExponent(sActiveHero_507678->field_AC_ypos));
+                        FP_GetExponent(sActiveHero->mXPos),
+                        FP_GetExponent(sActiveHero->mYPos));
                 }
 
                 cheat_enabled = sDDCheat_FlyingEnabled_50771C;
@@ -482,27 +482,27 @@ void DDCheat::Misc()
     if (field_24_input & InputCommands::eLeft)
     {
         gScale_4C3158 = 100;
-        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromInteger(1);
-        sControlledCharacter_50767C->field_C6_scale = 1;
-        sControlledCharacter_50767C->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
+        sControlledCharacter->mSpriteScale = FP_FromInteger(1);
+        sControlledCharacter->mScale = 1;
+        sControlledCharacter->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     }
     else if (field_24_input & InputCommands::eRight)
     {
-        sControlledCharacter_50767C = sControlledCharacter_50767C;
+        sControlledCharacter = sControlledCharacter;
         gScale_4C3158 = 50;
-        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromDouble(0.5);
-        sControlledCharacter_50767C->field_C6_scale = 0;
-        sControlledCharacter_50767C->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
+        sControlledCharacter->mSpriteScale = FP_FromDouble(0.5);
+        sControlledCharacter->mScale = 0;
+        sControlledCharacter->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
     }
     else if (field_24_input & InputCommands::eDown)
     {
         gScale_4C3158 -= 5;
-        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+        sControlledCharacter->mSpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
     }
     else if (field_24_input & InputCommands::eUp)
     {
         gScale_4C3158 += 5;
-        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+        sControlledCharacter->mSpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
     }
     else if (field_24_input & InputCommands::eHop)
     {
@@ -532,22 +532,22 @@ void DDCheat::Misc()
     field_10_bInvalidateRect = 9;
     if (!gElum_507680)
     {
-        if (sControlledCharacter_50767C != gElum_507680)
+        if (sControlledCharacter != gElum_507680)
         {
             return;
         }
     }
-    else if (sControlledCharacter_50767C != gElum_507680)
+    else if (sControlledCharacter != gElum_507680)
     {
-        gElum_507680->field_BC_sprite_scale = sControlledCharacter_50767C->field_BC_sprite_scale;
-        gElum_507680->field_C6_scale = sControlledCharacter_50767C->field_C6_scale;
-        if (sControlledCharacter_50767C != gElum_507680)
+        gElum_507680->mSpriteScale = sControlledCharacter->mSpriteScale;
+        gElum_507680->mScale = sControlledCharacter->mScale;
+        if (sControlledCharacter != gElum_507680)
         {
             return;
         }
     }
-    sActiveHero_507678->field_BC_sprite_scale = sControlledCharacter_50767C->field_BC_sprite_scale;
-    sActiveHero_507678->field_C6_scale = sControlledCharacter_50767C->field_C6_scale;
+    sActiveHero->mSpriteScale = sControlledCharacter->mSpriteScale;
+    sActiveHero->mScale = sControlledCharacter->mScale;
 }
 
 
