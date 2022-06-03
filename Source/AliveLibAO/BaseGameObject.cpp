@@ -27,7 +27,7 @@ BaseGameObject::BaseGameObject(s16 addToObjectList)
     mBaseGameObjectFlags.Clear(BaseGameObject::Options::eInteractive_Bit8);
     mBaseGameObjectFlags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
-    //field_6_flags.Clear(BaseGameObject::Options::eCantKill_Bit11); // NOTE: AE clears this too
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eCantKill_Bit11);
     mBaseGameObjectFlags.Set(BaseGameObject::Options::eUpdatable_Bit2);
 
     if (addToObjectList)
