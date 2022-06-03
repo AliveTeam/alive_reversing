@@ -8,16 +8,15 @@ using TObjectId_KeyType = s32;
 
 struct ObjectId_Record final
 {
-    TObjectId_KeyType field_0_id;
-    BaseGameObject* field_4_obj_ptr;
-    struct ObjectId_Record* field_8_pNext;
+    TObjectId_KeyType field_0_id = 0;
+    BaseGameObject* field_4_obj_ptr = nullptr;
+    struct ObjectId_Record* field_8_pNext = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(ObjectId_Record, 0xC);
 
 class BaseGameObject;
 enum class AETypes : s16;
 
-class ObjectIds
+class ObjectIds final
 {
 public:
     ~ObjectIds();
@@ -36,13 +35,8 @@ public:
     s32 GetHighestUsedId();
 
 private:
-    u32 field_0_buffer_size;
-    ObjectId_Record** field_4_pBuffer;
+    u32 field_0_buffer_size = 0;
+    ObjectId_Record** field_4_pBuffer = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(ObjectIds, 0x8);
 
-ALIVE_VAR_EXTERN(ObjectIds, sObjectIds);
-
-namespace AETest::TestsObjectIds {
-void ObjectIdsTests();
-}
+extern ObjectIds sObjectIds;

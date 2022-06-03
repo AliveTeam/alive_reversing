@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "ObjectIds.hpp"
 #include "Function.hpp"
-#include "stdlib.hpp"
 #include "Sys_common.hpp"
 #include "BaseGameObject.hpp"
 
@@ -20,19 +19,19 @@ ObjectIds::~ObjectIds()
             field_4_pBuffer[i] = pCurrent->field_8_pNext;
 
             // Now free current, repeat until everything is gone
-            ae_delete_free_495540(pCurrent);
+            relive_delete pCurrent;
         }
     }
 
     // Free the backing array
-    ae_non_zero_free_495560(field_4_pBuffer);
+    delete[] field_4_pBuffer;
 }
 
 ObjectIds::ObjectIds(u32 size)
+    : field_0_buffer_size(size)
 {
     // Allocate the array and set all items to nullptr
-    field_0_buffer_size = size;
-    field_4_pBuffer = reinterpret_cast<ObjectId_Record**>(ae_malloc_non_zero_4954F0(sizeof(ObjectId_Record*) * size));
+    field_4_pBuffer = new ObjectId_Record*[size];
     for (u32 i = 0; i < field_0_buffer_size; i++)
     {
         field_4_pBuffer[i] = nullptr;
@@ -68,7 +67,7 @@ ObjectId_Record* ObjectIds::Find_By_Id(TObjectId_KeyType idToFind, ObjectId_Reco
 void ObjectIds::Insert(TObjectId_KeyType nextId, BaseGameObject* pGameObj)
 {
     // Create new record
-    ObjectId_Record* pRec = ae_new<ObjectId_Record>();
+    ObjectId_Record* pRec = relive_new ObjectId_Record();
     pRec->field_0_id = nextId;
     pRec->field_4_obj_ptr = pGameObj;
 
@@ -105,7 +104,7 @@ s16 ObjectIds::Remove(TObjectId_KeyType idToRemove)
     }
 
     // Free the found record
-    ae_delete_free_495540(pFound);
+    relive_delete pFound;
 
     return 1;
 }
