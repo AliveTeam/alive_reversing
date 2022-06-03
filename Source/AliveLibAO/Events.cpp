@@ -21,15 +21,24 @@ struct Events final
 ALIVE_VAR(1, 0x4FFA48, s16, sEventsToUse_4FFA48, 0);
 ALIVE_VAR(1, 0x4FF9A8, Events, sEventPtrs_4FF9A8, {});
 
+void Event_Broadcast(s32 eventType, BaseGameObject* pObject)
+{
+    sEventPtrs_4FF9A8.field_0_events[!sEventsToUse_4FFA48].field_0_event_ptrs[eventType] = pObject;
+}
 
 BaseGameObject* Event_Get(s16 eventType)
 {
     return sEventPtrs_4FF9A8.field_0_events[sEventsToUse_4FFA48].field_0_event_ptrs[eventType];
 }
 
-void Event_Broadcast(s32 eventType, BaseGameObject* pObject)
+void Events_Reset_Active()
 {
-    sEventPtrs_4FF9A8.field_0_events[!sEventsToUse_4FFA48].field_0_event_ptrs[eventType] = pObject;
+    for (auto& ptr : sEventPtrs_4FF9A8.field_0_events[sEventsToUse_4FFA48].field_0_event_ptrs)
+    {
+        ptr = nullptr;
+    }
+
+    sEventsToUse_4FFA48 = !sEventsToUse_4FFA48;
 }
 
 BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(s16 eventType, FP xpos, FP ypos, FP scale)
@@ -56,15 +65,6 @@ BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(s16 eventType, FP xpo
     return nullptr;
 }
 
-void Events_Reset_Active()
-{
-    for (auto& ptr : sEventPtrs_4FF9A8.field_0_events[sEventsToUse_4FFA48].field_0_event_ptrs)
-    {
-        ptr = nullptr;
-    }
-
-    sEventsToUse_4FFA48 = !sEventsToUse_4FFA48;
-}
 
 void Event_Cancel_For_Obj(BaseGameObject* pObj)
 {

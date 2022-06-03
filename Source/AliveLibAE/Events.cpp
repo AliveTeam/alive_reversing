@@ -22,46 +22,9 @@ ALIVE_ASSERT_SIZEOF(Events, 0xB0);
 ALIVE_VAR(1, 0x5BC1D4, s16, sEventsToUse_5BC1D4, 0);
 ALIVE_VAR(1, 0x5BC124, Events, sEventPtrs_5BC124, {});
 
-const char_type* sEventEnumString[]{
-    "Noise",
-    "Speaking",
-    "Shooting",
-    "",
-    "HeroDying",
-    "DeathReset",
-    "DeathResetEnd",
-    "Resetting",
-    "AbeOhm",
-    "SuspiciousNoise",
-    "LoudNoise",
-    "MudokonDied",
-    "MudokonLaugh",
-    "MudokonAbuse",
-    "MudokonComfort",
-    "",
-    "",
-    "",
-    "Alarm",
-    "PortalOpen",
-    "",
-    "ScreenShake",
-};
-
 void Event_Broadcast(s32 eventType, BaseGameObject* pObject)
 {
     sEventPtrs_5BC124.field_0_events[!sEventsToUse_5BC1D4].field_0_event_ptrs[eventType] = pObject;
-
-    if (sDebugEnabled_VerboseEvents)
-    {
-        switch (eventType)
-        {
-                // Ignore these as they get spammed.
-            case kEventNoise:
-            case kEventSuspiciousNoise:
-                return;
-        }
-        DEV_CONSOLE_MESSAGE_C("Event: " + std::string(sEventEnumString[eventType]), 5, 0, 0, 127);
-    }
 }
 
 BaseGameObject* Event_Get(s16 eventType)
