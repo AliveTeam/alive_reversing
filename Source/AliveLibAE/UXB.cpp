@@ -231,7 +231,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
     }
 
-    const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP gridSnap = ScaleToGridSize(field_CC_sprite_scale);
     mFlags.Set(Options::eInteractive_Bit8);
     field_DC_bApplyShadows |= 2u;
 
@@ -331,11 +331,11 @@ UXB::~UXB()
 {
     if (field_118_state != UXBState::eExploding_2 || sGnFrame_5C1B84 < field_124_next_state_frame)
     {
-        Path::TLV_Reset_4DB8E0(field_120_tlv.all, -1, 0, 0);
+        Path::TLV_Reset(field_120_tlv.all, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_120_tlv.all, -1, 0, 1);
+        Path::TLV_Reset(field_120_tlv.all, -1, 0, 1);
     }
 
     field_128_animation.vCleanUp_40C630();
@@ -436,16 +436,16 @@ void UXB::VUpdate()
             {
                 if (field_11A_starting_state != UXBState::eDelay_0 || field_118_state != UXBState::eDeactivated_3)
                 {
-                    Path::TLV_Reset_4DB8E0(field_120_tlv.all, 0, 1, 0);
+                    Path::TLV_Reset(field_120_tlv.all, 0, 1, 0);
                 }
                 else
                 {
-                    Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
+                    Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
                 }
             }
             else
             {
-                Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
+                Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
             }
             mFlags.Set(Options::eDead);
         }
@@ -498,18 +498,18 @@ void UXB::VScreenChanged()
         {
             if (field_11A_starting_state != UXBState::eDelay_0 || field_118_state != UXBState::eDeactivated_3)
             {
-                Path::TLV_Reset_4DB8E0(field_120_tlv.all, 0, 1, 0);
+                Path::TLV_Reset(field_120_tlv.all, 0, 1, 0);
                 mFlags.Set(Options::eDead);
             }
             else
             {
-                Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
+                Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
                 mFlags.Set(Options::eDead);
             }
         }
         else
         {
-            Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
+            Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
             mFlags.Set(Options::eDead);
         }
     }
@@ -536,7 +536,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 {
     const SaveState_UXB* pSaveState = reinterpret_cast<const SaveState_UXB*>(__pSaveState);
 
-    Path_UXB* uxbPath = reinterpret_cast<Path_UXB*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_4_tlv.all));
+    Path_UXB* uxbPath = reinterpret_cast<Path_UXB*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pSaveState->field_4_tlv.all));
 
     if (!(uxbPath->field_18_disabled_resources & 1) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
     {

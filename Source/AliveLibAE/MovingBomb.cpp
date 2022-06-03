@@ -103,7 +103,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
 
 MovingBomb::~MovingBomb()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(field_110_id));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
@@ -112,18 +112,18 @@ MovingBomb::~MovingBomb()
 
     if (field_118_state >= States::eBlowingUp_6)
     {
-        Path::TLV_Reset_4DB8E0(field_11C_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(field_11C_tlvInfo, -1, 0, 1);
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_11C_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_11C_tlvInfo, -1, 0, 0);
     }
 
     if (gMovingBomb_5C300C == this)
     {
         if (field_130_sound_channels)
         {
-            SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
+            SND_Stop_Channels_Mask(field_130_sound_channels);
             field_130_sound_channels = 0;
         }
         gMovingBomb_5C300C = 0;
@@ -281,7 +281,7 @@ void MovingBomb::VUpdate()
         {
             if (field_130_sound_channels)
             {
-                SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
+                SND_Stop_Channels_Mask(field_130_sound_channels);
             }
 
             if (VIsObjNearby(FP_FromInteger(700), sActiveHero_5C1B68))

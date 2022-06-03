@@ -102,7 +102,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
 s32 Greeter::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Greeter_State*>(pBuffer);
-    auto pTlv = static_cast<Path_Greeter*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_28_tlvInfo));
+    auto pTlv = static_cast<Path_Greeter*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_28_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kMflareResID, FALSE, FALSE))
     {
@@ -177,9 +177,9 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
         pGreeter->field_13E_targetOnLeft = pState->field_46_targetOnLeft;
         pGreeter->field_140_targetOnRight = pState->field_48_targetOnRight;
 
-        auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find_449CF0(pGreeter->field_11C_motionDetectorId));
+        auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find_Impl(pGreeter->field_11C_motionDetectorId));
 
-        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_449CF0(pDetector->field_F8_laser_id));
+        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(pDetector->field_F8_laser_id));
         pLaser->field_B8_xpos = pState->field_4C_motion_laser_xpos;
     }
 
@@ -228,8 +228,8 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
     pState->field_46_targetOnLeft = field_13E_targetOnLeft;
     pState->field_48_targetOnRight = field_140_targetOnRight;
 
-    auto pMotionDetector = static_cast<MotionDetector*>(sObjectIds.Find_449CF0(field_11C_motionDetectorId));
-    auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_449CF0(pMotionDetector->field_F8_laser_id));
+    auto pMotionDetector = static_cast<MotionDetector*>(sObjectIds.Find_Impl(field_11C_motionDetectorId));
+    auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(pMotionDetector->field_F8_laser_id));
     pState->field_4C_motion_laser_xpos = pLaser->field_B8_xpos;
 
     return sizeof(Greeter_State);
@@ -261,14 +261,14 @@ Greeter::~Greeter()
 {
     if (field_12E_bDontSetDestroyed)
     {
-        Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(field_118_tlvInfo, -1, 0, 1);
     }
 
-    BaseGameObject* pMotionDetector = sObjectIds.Find_449CF0(field_11C_motionDetectorId);
+    BaseGameObject* pMotionDetector = sObjectIds.Find_Impl(field_11C_motionDetectorId);
     if (pMotionDetector)
     {
         pMotionDetector->mFlags.Set(BaseGameObject::eDead);

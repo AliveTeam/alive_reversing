@@ -202,7 +202,7 @@ private:
     {
         // HACK/WTF this seems to move the base animation off screen so it can never been seen??
         PSX_RECT rect = {};
-        gMap.Get_Camera_World_Rect_481410(CameraPos::eCamCurrent_0, &rect);
+        gMap.Get_Camera_World_Rect(CameraPos::eCamCurrent_0, &rect);
         field_B8_xpos = FP_FromInteger(rect.w + 16);
         field_BC_ypos = FP_FromInteger(rect.y - 16);
 
@@ -361,8 +361,8 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
 
 DoorFlame::~DoorFlame()
 {
-    BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_449CF0(field_108_fire_background_glow_id);
-    BaseGameObject* pFlameSparks = sObjectIds.Find_449CF0(field_10C_flame_sparks_id);
+    BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_Impl(field_108_fire_background_glow_id);
+    BaseGameObject* pFlameSparks = sObjectIds.Find_Impl(field_10C_flame_sparks_id);
 
     if (pFireBackgroundGlow)
     {
@@ -378,7 +378,7 @@ DoorFlame::~DoorFlame()
 
     vStopAudio_45E7E0();
 
-    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }
 
 void DoorFlame::vStopAudio_45E7E0()
@@ -386,15 +386,15 @@ void DoorFlame::vStopAudio_45E7E0()
     if (pFlameControllingTheSound_5C2C6C == this)
     {
         pFlameControllingTheSound_5C2C6C = nullptr;
-        SND_Stop_Channels_Mask_4CA810(field_100_sounds_mask);
+        SND_Stop_Channels_Mask(field_100_sounds_mask);
         field_100_sounds_mask = 0;
     }
 }
 
 void DoorFlame::vScreenChanged_45EA90()
 {
-    BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_449CF0(field_108_fire_background_glow_id);
-    BaseGameObject* pFlameSparks = sObjectIds.Find_449CF0(field_10C_flame_sparks_id);
+    BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_Impl(field_108_fire_background_glow_id);
+    BaseGameObject* pFlameSparks = sObjectIds.Find_Impl(field_10C_flame_sparks_id);
 
     mFlags.Set(BaseGameObject::eDead);
 
@@ -413,8 +413,8 @@ void DoorFlame::vScreenChanged_45EA90()
 
 void DoorFlame::vUpdate_45E830()
 {
-    auto pFireBackgroundGlow = static_cast<FireBackgroundGlow*>(sObjectIds.Find_449CF0(field_108_fire_background_glow_id));
-    auto pFlameSparks = static_cast<FlameSparks*>(sObjectIds.Find_449CF0(field_10C_flame_sparks_id));
+    auto pFireBackgroundGlow = static_cast<FireBackgroundGlow*>(sObjectIds.Find_Impl(field_108_fire_background_glow_id));
+    auto pFlameSparks = static_cast<FlameSparks*>(sObjectIds.Find_Impl(field_10C_flame_sparks_id));
 
     switch (field_FC_state)
     {

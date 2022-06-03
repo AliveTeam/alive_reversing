@@ -36,7 +36,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
     }
 
     field_8_Anim.SetFrame_409D50(Math_RandomRange_496AB0(0, field_8_Anim.Get_Frame_Count_40AC70() - 1));
-    SetActive_4E4340(0);
+    SetActive(0);
     field_B4_state = State::State_0_Start;
     field_B8_render_angle = Math_RandomRange_496AB0(0, 255);
     field_BC_counter = 1;
@@ -51,12 +51,12 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
     field_A8_render_as_scale = (field_C0_current_scale * field_C4_randomized_scale);
 }
 
-s32 OrbWhirlWindParticle::IsActive_4E4370()
+s32 OrbWhirlWindParticle::IsActive()
 {
     return field_4_flags.Get(Flags_4::eBit1_is_active);
 }
 
-void OrbWhirlWindParticle::Spin_4E4A10(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
+void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
 {
     field_DC_position_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 16);
     field_B4_state = State::State_1_Spin;
@@ -67,7 +67,7 @@ void OrbWhirlWindParticle::Spin_4E4A10(FP xpos, FP ypos, FP scale, BaseGameObjec
     field_F0_scale = scale;
 }
 
-void OrbWhirlWindParticle::ToStop_4E4AD0()
+void OrbWhirlWindParticle::ToStop()
 {
     field_B4_state = State::State_4_Stop;
     field_DC_position_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 32);
@@ -78,7 +78,7 @@ void OrbWhirlWindParticle::Update()
     switch (field_B4_state)
     {
         case State::State_0_Start:
-            CalculateRenderProperties_4E4390(1);
+            CalculateRenderProperties(1);
             break;
 
         case State::State_1_Spin:
@@ -90,13 +90,13 @@ void OrbWhirlWindParticle::Update()
                     field_D4_radiusX -= FP_FromInteger(2);
                     field_D8_radiusY -= FP_FromInteger(1);
                 }
-                CalculateRenderProperties_4E4390(1);
+                CalculateRenderProperties(1);
             }
             else
             {
                 if (field_E4_pObj && field_E4_pObj->mFlags.Get(BaseGameObject::eDead))
                 {
-                    ToStop_4E4AD0();
+                    ToStop();
                 }
                 else
                 {
@@ -107,7 +107,7 @@ void OrbWhirlWindParticle::Update()
                     field_C8_scale_offset_fly_to_target = (field_F0_scale - field_C0_current_scale) / FP_FromInteger(16);
                     field_DC_position_timer = sGnFrame_5C1B84 + 16;
                     field_B4_state = State::State_2_FlyToTarget;
-                    CalculateRenderProperties_4E4390(1);
+                    CalculateRenderProperties(1);
                 }
             }
             break;
@@ -115,7 +115,7 @@ void OrbWhirlWindParticle::Update()
         case State::State_2_FlyToTarget:
             if (field_E4_pObj && field_E4_pObj->mFlags.Get(BaseGameObject::eDead))
             {
-                ToStop_4E4AD0();
+                ToStop();
             }
             else
             {
@@ -157,27 +157,27 @@ void OrbWhirlWindParticle::Update()
                     field_DC_position_timer = sGnFrame_5C1B84 + 32;
                     field_B4_state = State::State_3_SpinAtTarget;
                 }
-                CalculateRenderProperties_4E4390(1);
+                CalculateRenderProperties(1);
             }
             break;
 
         case State::State_3_SpinAtTarget:
             if (static_cast<s32>(sGnFrame_5C1B84) >= field_DC_position_timer)
             {
-                SetActive_4E4340(1);
+                SetActive(1);
             }
 
             field_D0_ypos_mid = (field_104_scale_offset_spin_at_target * Math_Cosine_496D60((FP_FromInteger(128) * FP_FromInteger(32 - (field_DC_position_timer - sGnFrame_5C1B84)) / FP_FromInteger(32)))) + field_100_ypos_offset2;
             field_D4_radiusX = field_D4_radiusX - field_AC_radiusX_offset;
-            CalculateRenderProperties_4E4390(1);
+            CalculateRenderProperties(1);
             break;
 
         case State::State_4_Stop:
             if (static_cast<s32>(sGnFrame_5C1B84) >= field_DC_position_timer)
             {
-                SetActive_4E4340(1);
+                SetActive(1);
             }
-            CalculateRenderProperties_4E4390(0);
+            CalculateRenderProperties(0);
             break;
 
         default:
@@ -227,7 +227,7 @@ OrbWhirlWindParticle::~OrbWhirlWindParticle()
     ResourceManager::FreeResource_49C330(field_108_res);
 }
 
-void OrbWhirlWindParticle::CalculateRenderProperties_4E4390(s16 bStarted)
+void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
 {
     field_B8_render_angle += field_BC_counter;
 
@@ -258,7 +258,7 @@ void OrbWhirlWindParticle::CalculateRenderProperties_4E4390(s16 bStarted)
     }
 }
 
-void OrbWhirlWindParticle::SetActive_4E4340(u8 active)
+void OrbWhirlWindParticle::SetActive(u8 active)
 {
     if (active)
     {

@@ -65,10 +65,10 @@ public:
     void ctor_433590(s32 maxCharLength, const u8* palette, Font_Context* fontContext);
     void dtor_433540();
     s32 DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 a2, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 a15, s16 colorRandomRange);
-    s32 MeasureWidth_433700(const char_type* text);
-    s32 MeasureWidth_4336C0(const char_type* text, FP scale);
-    s32 MeasureWidth_433630(char_type character);
-    const char_type* SliceText_433BD0(const char_type* text, s32 left, FP scale, s32 right);
+    s32 MeasureTextWidth(const char_type* text);
+    s32 MeasureScaledTextWidth(const char_type* text, FP scale);
+    s32 MeasureCharacterWidth(char_type character);
+    const char_type* SliceText(const char_type* text, s32 left, FP scale, s32 right);
 
 public:
     u8 gap0[32];

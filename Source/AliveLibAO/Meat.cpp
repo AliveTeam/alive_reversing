@@ -202,11 +202,6 @@ Meat::~Meat()
 
 void Meat::VScreenChanged()
 {
-    VScreenChanged_438E70();
-}
-
-void Meat::VScreenChanged_438E70()
-{
     if (gMap.mCurrentPath != gMap.mPath || gMap.mCurrentLevel != gMap.mLevel)
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -214,11 +209,6 @@ void Meat::VScreenChanged_438E70()
 }
 
 void Meat::VThrow(FP velX, FP velY)
-{
-    VThrow_4386E0(velX, velY);
-}
-
-void Meat::VThrow_4386E0(FP velX, FP velY)
 {
     field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
@@ -237,40 +227,25 @@ void Meat::VThrow_4386E0(FP velX, FP velY)
 
 s16 Meat::VCanThrow()
 {
-    return VCanThrow_4390B0();
-}
-
-s16 Meat::VCanThrow_4390B0()
-{
     return field_110_state == 2;
 }
 
 Bool32 Meat::VCanEatMe()
 {
-    return VCanEatMe_4390C0();
-}
-
-Bool32 Meat::VCanEatMe_4390C0()
-{
     return field_110_state != 0;
-}
-
-s16 Meat::VIsFalling_4573B0()
-{
-    return field_110_state == 5;
 }
 
 s16 Meat::VIsFalling()
 {
-    return VIsFalling_4573B0();
+    return field_110_state == 5;
 }
 
 void Meat::VTimeToExplodeRandom()
 {
-    // Empty ?
+    // Empty
 }
 
-void Meat::InTheAir_438720()
+void Meat::InTheAir()
 {
     field_114_xpos = field_A8_xpos;
     field_118_ypos = field_AC_ypos;
@@ -335,7 +310,7 @@ void Meat::InTheAir_438720()
                     SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
                     Event_Broadcast(kEventNoise_0, this);
                     Event_Broadcast(kEventSuspiciousNoise_10, this);
-                    AddToPlatform_438EA0();
+                    AddToPlatform();
                 }
                 break;
 
@@ -390,11 +365,6 @@ void Meat::InTheAir_438720()
 
 void Meat::VUpdate()
 {
-    VUpdate_438A20();
-}
-
-void Meat::VUpdate_438A20()
-{
     if (sNumCamSwappers_507668 == 0)
     {
         if (Event_Get(kEventDeathReset_4))
@@ -406,19 +376,19 @@ void Meat::VUpdate_438A20()
         switch (field_110_state)
         {
             case 1:
-                InTheAir_438720();
+                InTheAir();
                 break;
 
             case 2:
             {
-                InTheAir_438720();
+                InTheAir();
                 PSX_RECT bRect = {};
 
                 VGetBoundingRect(&bRect, 1);
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                 const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
 
-                VOnCollisionWith(xy, wh, gBaseGameObjects, 1, (TCollisionCallBack) &Meat::OnCollision_438D80);
+                VOnCollisionWith(xy, wh, gBaseGameObjects, 1, (TCollisionCallBack) &Meat::OnCollision);
 
                 if (field_AC_ypos > FP_FromInteger(gMap.field_D4_pPathData->field_A_bBottom))
                 {
@@ -507,7 +477,7 @@ void Meat::VUpdate_438A20()
     }
 }
 
-s16 Meat::OnCollision_438D80(BaseAliveGameObject* pHit)
+s16 Meat::OnCollision(BaseAliveGameObject* pHit)
 {
     if (!pHit->mFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {
@@ -538,17 +508,12 @@ s16 Meat::OnCollision_438D80(BaseAliveGameObject* pHit)
     return 0;
 }
 
-void Meat::AddToPlatform_438EA0()
+void Meat::AddToPlatform()
 {
     BaseAddToPlatform();
 }
 
 void Meat::VOnTrapDoorOpen()
-{
-    VOnTrapDoorOpen_438FD0();
-}
-
-void Meat::VOnTrapDoorOpen_438FD0()
 {
     if (field_F8_pLiftPoint)
     {
@@ -563,11 +528,6 @@ void Meat::VOnTrapDoorOpen_438FD0()
 }
 
 s16 Meat::VGetCount()
-{
-    return VGetCount_439020();
-}
-
-s16 Meat::VGetCount_439020()
 {
     if (field_110_state == 4 && field_10C_count == 0)
     {

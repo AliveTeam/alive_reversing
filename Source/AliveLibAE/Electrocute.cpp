@@ -166,7 +166,7 @@ Electrocute::~Electrocute()
 
 void Electrocute::VScreenChanged()
 {
-    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_20_target_obj_id));
+    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
     // If the map has changed or target we are tracking has died then..
     if (gMap.mOverlayId != gMap.GetOverlayId() || (pTargetObj && pTargetObj->mFlags.Get(BaseGameObject::eDead)))
     {
@@ -176,7 +176,7 @@ void Electrocute::VScreenChanged()
 
 void Electrocute::VUpdate()
 {
-    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_20_target_obj_id));
+    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
     if (!pTargetObj || pTargetObj->mFlags.Get(BaseGameObject::eDead))
     {
         VStop_4E6150();
@@ -299,7 +299,7 @@ void Electrocute::vStop_4E6150()
 
     mFlags.Set(BaseGameObject::eDead);
 
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_20_target_obj_id));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
     if (pTarget)
     {
         if (field_40_pPalData)

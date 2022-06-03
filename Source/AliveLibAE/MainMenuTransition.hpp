@@ -16,14 +16,10 @@ public:
     MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 fadeSpeed, TPageAbr abr);
     ~MainMenuTransition();
 
-    void StartTrans_464370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed);
-    void Update_464400();
-    void Render_464470(PrimHeader** ppOt);
-    void vScreenChanged_4648D0();
+    void StartTrans(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed);
 
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
-    
     virtual void VScreenChanged() override;
 
 private:

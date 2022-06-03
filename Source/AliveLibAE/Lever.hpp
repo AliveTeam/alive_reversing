@@ -47,17 +47,12 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Lever, 0x20);
 class Lever final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    
-    virtual void VUpdate() override;
-    virtual void VScreenChanged() override;
-    virtual s16 VPull_4D6050(s16 bLeftDirection);
     Lever(Path_Lever* pTlv, u32 tlvInfo);
     ~Lever();
 
-private:
-    void vUpdate_4D5C00();
-    void vScreenChanged_4D5B90();
-    s16 vPull_4D6050(s16 bLeftDirection);
+    virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
+    virtual s16 VPull(s16 bLeftDirection);
 
 private:
     s16 field_F4_switch_id;

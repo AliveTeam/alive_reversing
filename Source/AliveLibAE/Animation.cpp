@@ -176,7 +176,7 @@ s32 Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
 s32 Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
 {
     auto pSlog = static_cast<Slog*>(pObjPtr);
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(pSlog->field_118_target_id));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(pSlog->field_118_target_id));
     if (!pTarget)
     {
         return 1;

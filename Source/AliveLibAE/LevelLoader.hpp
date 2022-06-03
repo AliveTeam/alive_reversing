@@ -20,13 +20,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LevelLoader, 0x1C);
 class LevelLoader final : public BaseGameObject
 {
 public:
-    
-    virtual void VUpdate() override;
-
     LevelLoader(Path_LevelLoader* pTlv, u32 tlvInfo);
 
-private:
-    void vUpdate_4DD400();
+    virtual void VUpdate() override;
 
 private:
     s16 field_20_switch_id;

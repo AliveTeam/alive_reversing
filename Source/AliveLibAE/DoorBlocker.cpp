@@ -47,7 +47,7 @@ DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
 
 DoorBlocker::~DoorBlocker()
 {
-    Path::TLV_Reset_4DB8E0(field_11C_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_11C_tlvInfo, -1, 0, 0);
 }
 
 void DoorBlocker::VUpdate()

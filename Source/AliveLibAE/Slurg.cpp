@@ -112,7 +112,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
 s32 Slurg::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
-    auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_24_tlvInfo));
+    auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_24_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlurgResID, FALSE, FALSE))
     {
@@ -149,7 +149,7 @@ Slurg::~Slurg()
 {
     if (field_12C_tlvInfo == -1)
     {
-        Path::TLV_Reset_4DB8E0(0xFFFFFFFF, -1, 0, field_11C_state == Slurg_States::eBurst_2);
+        Path::TLV_Reset(0xFFFFFFFF, -1, 0, field_11C_state == Slurg_States::eBurst_2);
     }
 }
 

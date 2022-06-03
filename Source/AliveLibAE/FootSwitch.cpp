@@ -87,21 +87,16 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 FootSwitch::~FootSwitch()
 {
     field_100_obj_id = -1;
-    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }
 
 void FootSwitch::VUpdate()
 {
-    vUpdate_4DE270();
-}
-
-void FootSwitch::vUpdate_4DE270()
-{
-    auto pLastStoodOnMe = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_100_obj_id));
+    auto pLastStoodOnMe = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_100_obj_id));
     if (field_106_bFindStander)
     {
         field_106_bFindStander = FALSE;
-        pLastStoodOnMe = WhoIsStoodOnMe_4DE700();
+        pLastStoodOnMe = WhoIsStoodOnMe();
         if (pLastStoodOnMe)
         {
             field_100_obj_id = pLastStoodOnMe->field_8_object_id;
@@ -115,7 +110,7 @@ void FootSwitch::vUpdate_4DE270()
     {
         case States::eWaitForStepOnMe_0:
         {
-            auto pStoodOnMeNow = WhoIsStoodOnMe_4DE700();
+            auto pStoodOnMeNow = WhoIsStoodOnMe();
             if (pStoodOnMeNow)
             {
                 field_100_obj_id = pStoodOnMeNow->field_8_object_id;
@@ -201,15 +196,10 @@ void FootSwitch::vUpdate_4DE270()
 
 void FootSwitch::VScreenChanged()
 {
-    vScreenChanged_4DE650();
-}
-
-void FootSwitch::vScreenChanged_4DE650()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
-BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
+BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 {
     PSX_RECT bRectSwitch = {};
     VGetBoundingRect(&bRectSwitch, 1);

@@ -39,15 +39,15 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     }
 
     field_FA_switch_id = pTlv->field_12_switch_id;
-    field_FC_code_converted = Code_Convert_4C9DF0(pTlv->field_14_code_1, pTlv->field_16_code_2);
-    field_100_code_len = Code_Length_4C9DB0(field_FC_code_converted);
+    field_FC_code_converted = Code_Convert(pTlv->field_14_code_1, pTlv->field_16_code_2);
+    field_100_code_len = Code_Length(field_FC_code_converted);
     field_11C_top_left = pTlv->field_8_top_left;
     field_120_bottom_right = pTlv->field_C_bottom_right;
     field_B8_xpos = FP_FromInteger(pTlv->field_18_xpos);
     field_BC_ypos = FP_FromInteger(pTlv->field_1A_ypos);
 
     PSX_Point point = {};
-    gMap.Get_Abe_Spawn_Pos_4806D0(&point);
+    gMap.Get_Abe_Spawn_Pos(&point);
 
     if (field_B8_xpos > FP_FromInteger(0))
     {
@@ -89,7 +89,7 @@ SecurityDoor::~SecurityDoor()
         field_F8_state = SecurityDoorStates::eInactive_0;
     }
 
-    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, static_cast<s16>(field_F8_state) + 1, 0, 0);
+    Path::TLV_Reset(field_F4_tlvInfo, static_cast<s16>(field_F8_state) + 1, 0, 0);
 }
 
 void SecurityDoor::VScreenChanged()
@@ -144,7 +144,7 @@ void SecurityDoor::VUpdate()
         case SecurityDoorStates::eSuccessChime_1:
             if (static_cast<s32>(sGnFrame_5C1B84) == field_124_timer)
             {
-                SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
+                SND_SEQ_Play(SeqId::SaveTriggerMusic_31, 1, 127, 127);
             }
             return;
 
@@ -192,13 +192,13 @@ void SecurityDoor::VUpdate()
 
         case SecurityDoorStates::ePreparingToSayPassword_5:
             field_128_max_idx = 0;
-            field_118_max_idx = static_cast<s16>(GameSpeak::FillBuffer_421970(field_FC_code_converted, field_108_stru));
+            field_118_max_idx = static_cast<s16>(GameSpeak::FillBuffer(field_FC_code_converted, field_108_stru));
             field_F8_state = SecurityDoorStates::eSayingPassword_6;
             return;
 
         case SecurityDoorStates::eSayingPassword_6:
         {
-            const GameSpeakEvents code = Code_LookUp_4C9E40(field_FC_code_converted, field_128_max_idx, field_100_code_len);
+            const GameSpeakEvents code = Code_LookUp(field_FC_code_converted, field_128_max_idx, field_100_code_len);
             switch (code)
             {
                 case GameSpeakEvents::Slig_BS_5:
@@ -258,7 +258,7 @@ void SecurityDoor::VUpdate()
 
         case SecurityDoorStates::eCheckingIfPasswordMatches_10:
         {
-            switch (pEventSystem_5BC11C->MatchBuffer_4219E0(field_108_stru, field_118_max_idx, field_11A_event_idx))
+            switch (pEventSystem_5BC11C->MatchBuffer(field_108_stru, field_118_max_idx, field_11A_event_idx))
             {
                 case GameSpeakMatch::eNoMatch_0:
                     field_F8_state = SecurityDoorStates::eFailure_12;

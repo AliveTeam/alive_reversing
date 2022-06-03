@@ -42,16 +42,9 @@ public:
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual s16 VPull_49BBD0(BaseGameObject* a2);
-    virtual Bool32 VIsNotBeingPulled_49BC90();
-    virtual void VMarkAsPulled_49B610();
-
-private:
-    void vUpdate_49B720();
-    void vScreenChanged_49BCB0();
-    s16 vPull_49BBD0(BaseGameObject* a2);
-    Bool32 vIsNotBeingPulled_49BC90();
-    void vMarkAsPulled_49B610();
+    virtual s16 VPull(BaseGameObject* a2);
+    virtual Bool32 VIsNotBeingPulled();
+    virtual void VMarkAsPulled();
 
 private:
     s32 field_F4_stay_in_state_ticks;

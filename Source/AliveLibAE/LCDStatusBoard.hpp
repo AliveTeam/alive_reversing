@@ -16,17 +16,12 @@ ALIVE_ASSERT_SIZEOF(Path_LCDStatusBoard, 0x18);
 class LCDStatusBoard final : public BaseGameObject
 {
 public:
-    
-    virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
-    virtual void VScreenChanged() override;
-
     LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3);
     ~LCDStatusBoard();
 
-    void vUpdate_47B8D0();
-    void vRender_47B900(PrimHeader** ppOt);
-    void vScreenChanged_47BC40();
+    virtual void VUpdate() override;
+    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VScreenChanged() override;
 
 public:
     Alive::Font field_20_font1;

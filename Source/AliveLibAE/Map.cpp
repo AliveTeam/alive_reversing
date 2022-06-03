@@ -50,21 +50,21 @@ void Map::ScreenChange_Common()
     if (field_6_state == CamChangeStates::eSliceCam_1)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
-        Handle_PathTransition_481610();
+        Handle_PathTransition();
     }
     else if (field_6_state == CamChangeStates::eInstantChange_2)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
-        GoTo_Camera_481890();
+        GoTo_Camera();
     }
 
     field_6_state = CamChangeStates::eInactive_0;
 
-    SND_Stop_Channels_Mask_4CA810(sSoundChannelsMask_5C3120);
+    SND_Stop_Channels_Mask(sSoundChannelsMask_5C3120);
     sSoundChannelsMask_5C3120 = 0;
 }
 
-void Map::ScreenChange_480B80()
+void Map::ScreenChange()
 {
     if (field_6_state == CamChangeStates::eInactive_0)
     {
@@ -73,7 +73,7 @@ void Map::ScreenChange_480B80()
 
     if (sMap_bDoPurpleLightEffect_5C311C)
     {
-        RemoveObjectsWithPurpleLight_480740(1);
+        RemoveObjectsWithPurpleLight(1);
     }
 
     PSX_DrawSync_4F6280(0);
@@ -203,7 +203,7 @@ void Map::ClearPathResourceBlocks()
     }
 }
 
-void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
+void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 {
     auto pObjectsWithLightsArray = ae_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>(16);
 
@@ -231,11 +231,11 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
                 {
                     if (pBaseObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
                     {
-                        if (!pBaseObj->mFlags.Get(BaseGameObject::eDead) && pBaseObj != sControlledCharacter_5C1B8C && gMap.Rect_Location_Relative_To_Active_Camera_480FE0(&objRect) == CameraPos::eCamCurrent_0)
+                        if (!pBaseObj->mFlags.Get(BaseGameObject::eDead) && pBaseObj != sControlledCharacter_5C1B8C && gMap.Rect_Location_Relative_To_Active_Camera(&objRect) == CameraPos::eCamCurrent_0)
                         {
                             pObjectsWithLightsArray->Push_Back(pBaseObj);
                             const FP k60Scaled = (pBaseObj->field_CC_sprite_scale * FP_FromInteger(60));
-                            Particle* pPurpleLight = New_DestroyOrCreateObject_Particle_426F40(
+                            Particle* pPurpleLight = New_DestroyOrCreateObject_Particle(
                                 FP_FromInteger((objRect.x + objRect.w) / 2),
                                 FP_FromInteger(((objRect.y + objRect.h) / 2)) + k60Scaled,
                                 pBaseObj->field_CC_sprite_scale);
@@ -347,7 +347,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(s16 bMakeInvisible)
     relive_delete pPurpleLightArray;
 }
 
-void Map::Handle_PathTransition_481610()
+void Map::Handle_PathTransition()
 {
     Path_Change* pPathChangeTLV = nullptr;
     if (field_18_pAliveObj)
@@ -371,7 +371,7 @@ void Map::Handle_PathTransition_481610()
 
         field_18_pAliveObj->field_C2_lvl_number = mLevel;
         field_18_pAliveObj->field_C0_path_number = mPath;
-        GoTo_Camera_481890();
+        GoTo_Camera();
 
         switch (pPathChangeTLV->field_1A_scale)
         {
@@ -443,7 +443,7 @@ void Map::Handle_PathTransition_481610()
         // Convert the 2 digit camera number string to an integer
         mCamera = 1 * (pCameraName->name[7] - '0') + 10 * (pCameraName->name[6] - '0');
 
-        GoTo_Camera_481890();
+        GoTo_Camera();
     }
 }
 
@@ -465,10 +465,10 @@ CameraPos Map::GetDirection_4811A0(s32 level, s32 path, FP xpos, FP ypos)
     rect.y = FP_GetExponent(ypos);
     rect.h = FP_GetExponent(ypos);
 
-    CameraPos ret = Rect_Location_Relative_To_Active_Camera_480FE0(&rect);
+    CameraPos ret = Rect_Location_Relative_To_Active_Camera(&rect);
 
     PSX_RECT camWorldRect = {};
-    if (!Get_Camera_World_Rect_481410(ret, &camWorldRect))
+    if (!Get_Camera_World_Rect(ret, &camWorldRect))
     {
         return CameraPos::eCamInvalid_m1;
     }
@@ -516,7 +516,7 @@ CameraPos Map::GetDirection_4811A0(s32 level, s32 path, FP xpos, FP ypos)
     }
 }
 
-void Map::Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
+void Map::Init(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
     sPath_dword_BB47C0 = ae_new<Path>();
     sPath_dword_BB47C0->ctor_4DB170();
@@ -535,13 +535,13 @@ void Map::Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects sc
 
     field_8_force_load = 0;
 
-    SetActiveCam_480D30(level, path, camera, screenChangeEffect, fmvBaseId, forceChange);
-    GoTo_Camera_481890();
+    SetActiveCam(level, path, camera, screenChangeEffect, fmvBaseId, forceChange);
+    GoTo_Camera();
 
     field_6_state = CamChangeStates::eInactive_0;
 }
 
-void Map::Shutdown_4804E0()
+void Map::Shutdown()
 {
     sLvlArchive_5BC520.Free_433130();
     stru_5C3110.Free_433130();
@@ -570,20 +570,20 @@ void Map::Shutdown_4804E0()
     sPath_dword_BB47C0 = nullptr;
 
     ResourceManager::Reclaim_Memory_49C470(0);
-    Reset_4805D0();
+    Reset();
 }
 
 Map::Map()
 {
-    Reset_4805D0();
+    Reset();
 }
 
 Map::~Map()
 {
-    Shutdown_4804E0();
+    Shutdown();
 }
 
-void Map::Reset_4805D0()
+void Map::Reset()
 {
     for (s32 i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
     {
@@ -597,7 +597,7 @@ void Map::Reset_4805D0()
     field_D8_restore_quick_save = 0;
 }
 
-void Map::GoTo_Camera_481890()
+void Map::GoTo_Camera()
 {
     s16 bShowLoadingIcon = FALSE;
     if (mCurrentLevel != LevelIds::eMenu_0 && mCurrentLevel != LevelIds::eCredits_16 && mCurrentLevel != LevelIds::eNone)
@@ -607,7 +607,7 @@ void Map::GoTo_Camera_481890()
 
     if (field_10_screen_change_effect == CameraSwapEffects::eUnknown_11)
     {
-        BaseGameObject* pFmvRet = FMV_Camera_Change_482650(nullptr, this, mCurrentLevel);
+        BaseGameObject* pFmvRet = FMV_Camera_Change(nullptr, this, mCurrentLevel);
         do
         {
             SYS_EventsPump_494580();
@@ -641,7 +641,7 @@ void Map::GoTo_Camera_481890()
 
         if (sSoundChannelsMask_5C3120)
         {
-            SND_Stop_Channels_Mask_4CA810(sSoundChannelsMask_5C3120);
+            SND_Stop_Channels_Mask(sSoundChannelsMask_5C3120);
         }
         sSoundChannelsMask_5C3120 = SND_MIDI(0, 0, 36, 70, 0, 0);
     }
@@ -686,11 +686,11 @@ void Map::GoTo_Camera_481890()
             // Free all but the first ?
             FreePathResourceBlocks();
 
-            sPath_dword_BB47C0->Free_4DB1C0();
+            sPath_dword_BB47C0->Free();
 
             if (mLevel != mCurrentLevel)
             {
-                SND_Reset_4C9FB0();
+                SND_Reset();
             }
 
             ResourceManager::Reclaim_Memory_49C470(0);
@@ -723,12 +723,12 @@ void Map::GoTo_Camera_481890()
 
         if (mLevel == mCurrentLevel)
         {
-            MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, sActiveHero_5C1B68, 0, 0);
+            MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, sActiveHero_5C1B68, 0, 0);
         }
         else
         {
-            SND_Load_VABS_4CA350(Path_Get_MusicInfo(mLevel), Path_Get_Reverb(mLevel));
-            SND_Load_Seqs_4CAED0(sSeqData_558D50.mSeqs, Path_Get_BsqFileName(mLevel));
+            SND_Load_VABS(Path_Get_MusicInfo(mLevel), Path_Get_Reverb(mLevel));
+            SND_Load_Seqs(sSeqData_558D50.mSeqs, Path_Get_BsqFileName(mLevel));
 
             ae_new<BackgroundMusic>(Path_Get_BackGroundMusicId(mLevel));
         }
@@ -758,10 +758,10 @@ void Map::GoTo_Camera_481890()
     mCurrentLevel = mLevel;
     mCurrentCamera = mCamera;
 
-    const PathBlyRec* pPathRec_1 = Path_Get_Bly_Record_460F30(mLevel, mPath);
+    const PathBlyRec* pPathRec_1 = Path_Get_Bly_Record(mLevel, mPath);
     field_D4_ptr = pPathRec_1->field_4_pPathData;
 
-    sPath_dword_BB47C0->Init_4DB200(
+    sPath_dword_BB47C0->Init(
         field_D4_ptr,
         mLevel,
         mPath,
@@ -774,7 +774,7 @@ void Map::GoTo_Camera_481890()
     }
 
     char_type pStrBuffer[13] = {};
-    Path_Format_CameraName_460FB0(pStrBuffer, mLevel, mPath, mCamera);
+    Path_Format_CameraName(pStrBuffer, mLevel, mPath, mCamera);
 
     u32 pCamNameOffset = 0;
     if (sizeof(CameraName) * sPath_dword_BB47C0->field_6_cams_on_x * sPath_dword_BB47C0->field_8_cams_on_y > 0)
@@ -833,11 +833,11 @@ void Map::GoTo_Camera_481890()
         field_2C_camera_array[i] = nullptr;
     }
 
-    field_2C_camera_array[0] = Create_Camera_4829E0(field_D0_cam_x_idx, field_D2_cam_y_idx, 1);
-    field_2C_camera_array[3] = Create_Camera_4829E0(field_D0_cam_x_idx - 1, field_D2_cam_y_idx, 0);
-    field_2C_camera_array[4] = Create_Camera_4829E0(field_D0_cam_x_idx + 1, field_D2_cam_y_idx, 0);
-    field_2C_camera_array[1] = Create_Camera_4829E0(field_D0_cam_x_idx, field_D2_cam_y_idx - 1, 0);
-    field_2C_camera_array[2] = Create_Camera_4829E0(field_D0_cam_x_idx, field_D2_cam_y_idx + 1, 0);
+    field_2C_camera_array[0] = Create_Camera(field_D0_cam_x_idx, field_D2_cam_y_idx, 1);
+    field_2C_camera_array[3] = Create_Camera(field_D0_cam_x_idx - 1, field_D2_cam_y_idx, 0);
+    field_2C_camera_array[4] = Create_Camera(field_D0_cam_x_idx + 1, field_D2_cam_y_idx, 0);
+    field_2C_camera_array[1] = Create_Camera(field_D0_cam_x_idx, field_D2_cam_y_idx - 1, 0);
+    field_2C_camera_array[2] = Create_Camera(field_D0_cam_x_idx, field_D2_cam_y_idx + 1, 0);
 
     // Free resources for each camera
     for (s32 i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
@@ -860,12 +860,12 @@ void Map::GoTo_Camera_481890()
         }
     }
 
-    Map::Load_Path_Items_482C10(field_2C_camera_array[0], LoadMode::ConstructObject_0);
+    Map::Load_Path_Items(field_2C_camera_array[0], LoadMode::ConstructObject_0);
     pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
-    Map::Load_Path_Items_482C10(field_2C_camera_array[3], LoadMode::ConstructObject_0);
-    Map::Load_Path_Items_482C10(field_2C_camera_array[4], LoadMode::ConstructObject_0);
-    Map::Load_Path_Items_482C10(field_2C_camera_array[1], LoadMode::ConstructObject_0);
-    Map::Load_Path_Items_482C10(field_2C_camera_array[2], LoadMode::ConstructObject_0);
+    Map::Load_Path_Items(field_2C_camera_array[3], LoadMode::ConstructObject_0);
+    Map::Load_Path_Items(field_2C_camera_array[4], LoadMode::ConstructObject_0);
+    Map::Load_Path_Items(field_2C_camera_array[1], LoadMode::ConstructObject_0);
+    Map::Load_Path_Items(field_2C_camera_array[2], LoadMode::ConstructObject_0);
 
     // Create the screen manager if it hasn't already been done (probably should have always been done by this point though?)
     if (!pScreenManager_5BB5F4)
@@ -885,11 +885,11 @@ void Map::GoTo_Camera_481890()
         }
     }
 
-    Create_FG1s_480F10();
+    Create_FG1s();
 
     if (field_10_screen_change_effect == CameraSwapEffects::ePlay1FMV_5)
     {
-        Map::FMV_Camera_Change_482650(field_2C_camera_array[0]->field_C_pCamRes, this, mLevel);
+        Map::FMV_Camera_Change(field_2C_camera_array[0]->field_C_pCamRes, this, mLevel);
     }
 
     if (field_10_screen_change_effect == CameraSwapEffects::eUnknown_11)
@@ -912,10 +912,10 @@ void Map::GoTo_Camera_481890()
             // TODO: Add template helpers
 
             // Door transition
-            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Door_5, 0));
+            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::Door_5, 0));
             while (pDoorTlv->field_18_door_number != sActiveHero_5C1B68->field_1A0_door_id)
             {
-                pDoorTlv = static_cast<Path_Door*>(Path::TLV_Next_Of_Type_4DB720(pDoorTlv, TlvTypes::Door_5));
+                pDoorTlv = static_cast<Path_Door*>(Path::TLV_Next_Of_Type(pDoorTlv, TlvTypes::Door_5));
             }
 
             CreateScreenTransistionForTLV(pDoorTlv);
@@ -931,11 +931,11 @@ void Map::GoTo_Camera_481890()
                 // TODO: Add template helpers
 
                 // Teleporter transition
-                Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Teleporter_88, 0));
+                Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
                 Path_Teleporter_Data teleporterData = pTeleporterTlv->field_10_data;
                 while (teleporterData.field_10_teleporter_switch_id != sActiveHero_5C1B68->field_1A0_door_id)
                 {
-                    pTeleporterTlv = static_cast<Path_Teleporter*>(Path::TLV_Next_Of_Type_4DB720(pTeleporterTlv, TlvTypes::Teleporter_88));
+                    pTeleporterTlv = static_cast<Path_Teleporter*>(Path::TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
                     teleporterData = pTeleporterTlv->field_10_data;
                 }
 
@@ -951,7 +951,7 @@ void Map::GoTo_Camera_481890()
 
     if (sSoundChannelsMask_5C3120)
     {
-        SND_Stop_Channels_Mask_4CA810(sSoundChannelsMask_5C3120);
+        SND_Stop_Channels_Mask(sSoundChannelsMask_5C3120);
         sSoundChannelsMask_5C3120 = 0;
     }
 }
@@ -974,19 +974,19 @@ void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
     ae_new<CameraSwapper>(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, xpos2, doorYDiff);
 }
 
-void Map::Get_map_size_480640(PSX_Point* pPoint)
+void Map::Get_map_size(PSX_Point* pPoint)
 {
     pPoint->field_0_x = field_D4_ptr->field_4_bTop;
     pPoint->field_2_y = field_D4_ptr->field_6_bBottom;
 }
 
-void Map::GetCurrentCamCoords_480680(PSX_Point* pPoint)
+void Map::GetCurrentCamCoords(PSX_Point* pPoint)
 {
     pPoint->field_0_x = field_D0_cam_x_idx * field_D4_ptr->field_A_grid_width;
     pPoint->field_2_y = field_D2_cam_y_idx * field_D4_ptr->field_C_grid_height;
 }
 
-void Map::Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint)
+void Map::Get_Abe_Spawn_Pos(PSX_Point* pPoint)
 {
     pPoint->field_0_x = field_D4_ptr->field_1A_abe_start_xpos;
     pPoint->field_2_y = field_D4_ptr->field_1C_abe_start_ypos;
@@ -995,10 +995,10 @@ void Map::Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint)
 s16 Map::GetOverlayId()
 {
     // TODO: Probably need to redo field_C data as 1 bytes instead of a word
-    return Path_Get_Bly_Record_460F30(mLevel, mPath)->field_C_overlay_id & 0xFF;
+    return Path_Get_Bly_Record(mLevel, mPath)->field_C_overlay_id & 0xFF;
 }
 
-void Map::Create_FG1s_480F10()
+void Map::Create_FG1s()
 {
     pScreenManager_5BB5F4->UnsetDirtyBits_FG1_40ED70();
 
@@ -1022,7 +1022,7 @@ void Map::Create_FG1s_480F10()
     }
 }
 
-s16 Map::Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect)
+s16 Map::Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect)
 {
     if (camIdx < CameraPos::eCamCurrent_0 || camIdx > CameraPos::eCamRight_4)
     {
@@ -1063,11 +1063,11 @@ s16 Map::Is_Point_In_Current_Camera_4810D0(s32 level, s32 path, FP xpos, FP ypos
     rect.w = FP_GetExponent(calculated_width + xpos);
     rect.y = FP_GetExponent(ypos);
     rect.h = FP_GetExponent(ypos);
-    return Rect_Location_Relative_To_Active_Camera_480FE0(&rect) == CameraPos::eCamCurrent_0;
+    return Rect_Location_Relative_To_Active_Camera(&rect) == CameraPos::eCamCurrent_0;
 }
 
 
-CameraPos Map::Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect)
+CameraPos Map::Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect)
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -1102,7 +1102,7 @@ CameraPos Map::Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect)
     return CameraPos::eCamLeft_3;
 }
 
-s16 Map::SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
+s16 Map::SetActiveCam(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
     if (!forceChange && cam == mCurrentCamera && level == mCurrentLevel && path == mCurrentPath)
     {
@@ -1129,19 +1129,19 @@ s16 Map::SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffect
     return 1;
 }
 
-BaseGameObject* Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds lvlId)
+BaseGameObject* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, LevelIds lvlId)
 {
     if (pMap->field_12_fmv_base_id > 10000u)
     {
         // Trippe FMV
-        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id / 10000);
-        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id / 100 % 100);
-        FmvInfo* pFmvRec3 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id % 100);
+        FmvInfo* pFmvRec1 = Path_Get_FMV_Record(lvlId, pMap->field_12_fmv_base_id / 10000);
+        FmvInfo* pFmvRec2 = Path_Get_FMV_Record(lvlId, pMap->field_12_fmv_base_id / 100 % 100);
+        FmvInfo* pFmvRec3 = Path_Get_FMV_Record(lvlId, pMap->field_12_fmv_base_id % 100);
         sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // TODO: Strongly type this, but it hasn't got the same underlaying type as the enum grr..
         u32 pos1 = 0;
         u32 pos2 = 0;
         u32 pos3 = 0;
-        Get_fmvs_sectors_494460(
+        Get_fmvs_sectors(
             pFmvRec1->field_0_pName,
             pFmvRec2->field_0_pName,
             pFmvRec3->field_0_pName,
@@ -1172,11 +1172,11 @@ BaseGameObject* Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds l
     else if (pMap->field_12_fmv_base_id >= 100u)
     {
         // Double FMV
-        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id / 100);
-        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id % 100);
+        FmvInfo* pFmvRec1 = Path_Get_FMV_Record(lvlId, pMap->field_12_fmv_base_id / 100);
+        FmvInfo* pFmvRec2 = Path_Get_FMV_Record(lvlId, pMap->field_12_fmv_base_id % 100);
         u32 cdPos1 = 0;
         u32 cdPos2 = 0;
-        Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
+        Get_fmvs_sectors(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // HACK
         return ae_new<CameraSwapper>(ppBits,
                                               cdPos1,
@@ -1195,9 +1195,9 @@ BaseGameObject* Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds l
     else // < 100
     {
         // Single FMV
-        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id);
+        FmvInfo* pFmvRec1 = Path_Get_FMV_Record(lvlId, pMap->field_12_fmv_base_id);
         u32 cdPos = 0;
-        Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, 0, 0, &cdPos, 0, 0);
+        Get_fmvs_sectors(pFmvRec1->field_0_pName, 0, 0, &cdPos, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // HACK
         return ae_new<CameraSwapper>(ppBits,
                                               cdPos,
@@ -1208,7 +1208,7 @@ BaseGameObject* Map::FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds l
     }
 }
 
-Camera* Map::Create_Camera_4829E0(s16 xpos, s16 ypos, s32 /*a4*/)
+Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 {
     // Check min bound
     if (xpos < 0 || ypos < 0)
@@ -1271,7 +1271,7 @@ Camera* Map::Create_Camera_4829E0(s16 xpos, s16 ypos, s32 /*a4*/)
     return newCamera;
 }
 
-void Map::Load_Path_Items_482C10(Camera* pCamera, LoadMode loadMode)
+void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
 {
     if (!pCamera)
     {
@@ -1303,7 +1303,7 @@ void Map::Load_Path_Items_482C10(Camera* pCamera, LoadMode loadMode)
     }
 }
 
-void Map::LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad)
+void Map::LoadResource(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad)
 {
     if (!bDontLoad)
     {
@@ -1315,7 +1315,7 @@ void Map::LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resource
     }
 }
 
-void Map::LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad)
+void Map::LoadResourcesFromList(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad)
 {
     if (!bDontLoad)
     {
@@ -1327,7 +1327,7 @@ void Map::LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceManag
     }
 }
 
-s16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect)
+s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect)
 {
     Path_Change* pPathChangeTLV = nullptr;
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;

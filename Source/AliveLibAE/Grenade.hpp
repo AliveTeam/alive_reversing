@@ -60,19 +60,12 @@ public:
     ~Grenade();
 
     virtual void VScreenChanged() override;
-
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-
     virtual void VUpdate() override;
-
     virtual void VOnTrapDoorOpen() override;
-
     virtual void VThrow(FP velX, FP velY) override;
-
     virtual Bool32 VCanThrow() override;
-
     virtual Bool32 VIsFalling() override;
-
     virtual void VTimeToExplodeRandom() override;
 
 
@@ -81,32 +74,13 @@ public:
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    s32 GetSaveState_4496B0(Grenade_SaveState* pState);
-
-    void Init_448110(FP xpos, FP ypos);
-
-    void vOnTrapDoorOpen_449390();
-
-
-    void vThrow_4482E0(FP velX, FP velY);
-
-    Bool32 vCanThrow_49A5F0();
-
-    Bool32 vIsFalling_49A610();
-
-    void vTimeToExplodeRandom_4480A0();
-
-    void BlowUp_4483C0(s16 bSmallExplosion);
-
-    s16 TimeToBlowUp_448350();
-
-    s16 InTheAir_4484F0(s16 blowUpOnFloorTouch);
-
-    void AddToPlatform_449210();
-
-    s16 OnCollision_BounceOff_448F90(BaseGameObject* pHit);
-
-    s16 OnCollision_InstantExplode_4490D0(BaseGameObject* pHit);
+    void Init(FP xpos, FP ypos);
+    void BlowUp(s16 bSmallExplosion);
+    s16 TimeToBlowUp();
+    s16 InTheAir(s16 blowUpOnFloorTouch);
+    void AddToPlatform();
+    s16 OnCollision_BounceOff(BaseGameObject* pHit);
+    s16 OnCollision_InstantExplode(BaseGameObject* pHit);
 
 
 private:

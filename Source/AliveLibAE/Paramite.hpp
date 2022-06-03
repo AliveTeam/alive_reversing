@@ -178,12 +178,8 @@ public:
     ~Paramite();
 
     virtual void VUpdate() override;
-
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override
-    {
-        return vOnSameYLevel_488A40(pOther);
-    }
+    virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
     virtual void VUnPosses() override;
     virtual void VPossessed() override;
@@ -193,7 +189,6 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     static s32 CreateFromSaveState(const u8* pBuffer);
-
 
     s16 Brain_0_Patrol_4835B0();
 	s16 Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj);
@@ -293,55 +288,30 @@ private:
 
 private:
 
-    s16 Find_Paramite_488810();
-
-    void vUpdateAnim_487170();
-
-    Meat* FindMeat_488930();
-
-    s16 IsNear_488B10(Paramite* pOther);
-
-    s16 vOnSameYLevel_488A40(BaseAnimatedWithPhysicsGameObject* pOther);
-
-    u8** ResBlockForMotion_488130(s16 motion);
-
-    s16 AnotherParamiteNear_4886E0();
-
-    PathLine* WebCollision_4888A0(FP yOff, FP xOff);
-
-    void ToHop_489C20();
-
-    s16 CanIAcceptAGameSpeakCommand_489160();
-
-    s16 HandleEnemyStopper_4893B0(s16 numGridBlocks);
-
-    PullRingRope* FindPullRope_488F20();
-
-    s16 NextPlayerInputMotion_4894C0();
-
-    s16 FindTarget_488C30();
-
-    s16 ToNextMotion_4898A0();
-
-    void ToIdle_489B70();
-
-    void ToKnockBack_489BB0();
-
-    void MoveOnLine_489CA0();
-
-    void CheckForPlatform_489EA0();
-
-    void HandleStopWalking_48A720();
-
-    void HandleInputRunning_48ADB0();
-
-    static s16 StableDelay_48DF80();
-
-    void Sound_48F600(ParamiteSpeak soundId, s16 pitch_min);
-
-    void UpdateSlurgWatchPoints_4890D0();
-
-    GameSpeakEvents LastSpeak_489040();
+    s16 Find_Paramite();
+    void vUpdateAnim();
+    Meat* FindMeat();
+    s16 IsNear(Paramite* pOther);
+    u8** ResBlockForMotion(s16 motion);
+    s16 AnotherParamiteNear();
+    PathLine* WebCollision(FP yOff, FP xOff);
+    void ToHop();
+    s16 CanIAcceptAGameSpeakCommand();
+    s16 HandleEnemyStopper(s16 numGridBlocks);
+    PullRingRope* FindPullRope();
+    s16 NextPlayerInputMotion();
+    s16 FindTarget();
+    s16 ToNextMotion();
+    void ToIdle();
+    void ToKnockBack();
+    void MoveOnLine();
+    void CheckForPlatform();
+    void HandleStopWalking();
+    void HandleInputRunning();
+    static s16 StableDelay();
+    void Sound(ParamiteSpeak soundId, s16 pitch_min);
+    void UpdateSlurgWatchPoints();
+    GameSpeakEvents LastSpeak();
 
 
 private:

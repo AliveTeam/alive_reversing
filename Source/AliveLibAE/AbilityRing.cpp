@@ -352,7 +352,7 @@ void AbilityRing::VUpdate()
         field_288_target_obj_id = RefreshId(field_288_target_obj_id);
     }
 
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_288_target_obj_id));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_288_target_obj_id));
     if (pTarget)
     {
         if (pTarget->mFlags.Get(BaseGameObject::eDead))
@@ -489,7 +489,7 @@ s32 AbilityRing::GetSaveState(AbilityRing_State* pSaveState)
         return sizeof(AbilityRing_State);
     }
 
-    BaseGameObject* pTargetObj = sObjectIds.Find_449CF0(field_288_target_obj_id);
+    BaseGameObject* pTargetObj = sObjectIds.Find_Impl(field_288_target_obj_id);
     if (pTargetObj)
     {
         pSaveState->field_14_obj_id = pTargetObj->field_C_objectId;

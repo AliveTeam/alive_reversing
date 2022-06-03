@@ -93,14 +93,14 @@ void BrewMachine::VRender(PrimHeader** ppOt)
 
 BrewMachine::~BrewMachine()
 {
-    Path::TLV_Reset_4DB8E0(field_140_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_140_tlvInfo, -1, 0, 0);
     field_104_font.dtor_433540();
     field_F4_font_context.dtor_433510();
 }
 
 void BrewMachine::vUpdate_4132C0()
 {
-    Path_BrewMachine* pTlv = static_cast<Path_BrewMachine*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_140_tlvInfo));
+    Path_BrewMachine* pTlv = static_cast<Path_BrewMachine*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_140_tlvInfo));
     if (field_144_total_brew_count > 0)
     {
         pTlv->field_1_tlv_state = static_cast<u8>(field_144_total_brew_count);
@@ -122,7 +122,7 @@ void BrewMachine::vRender_4133F0(PrimHeader** ppOt)
     {
         char_type text[12] = {};
         sprintf(text, "%02d", field_144_total_brew_count);
-        const s32 textWidth = field_104_font.MeasureWidth_433700(text);
+        const s32 textWidth = field_104_font.MeasureTextWidth(text);
         s16 flickerAmount = 50;
         if (sDisableFontFlicker_5C9304)
         {

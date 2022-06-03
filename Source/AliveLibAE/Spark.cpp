@@ -64,7 +64,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
 
         if (field_64_type == SparkType::eBigChantParticle_1)
         {
-            New_TintChant_Particle_426BE0(field_40_xpos, field_44_ypos - FP_FromInteger(4), scale, Layer::eLayer_0);
+            New_TintChant_Particle(field_40_xpos, field_44_ypos - FP_FromInteger(4), scale, Layer::eLayer_0);
         }
         else
         {

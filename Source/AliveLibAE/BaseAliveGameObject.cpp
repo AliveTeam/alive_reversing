@@ -52,7 +52,7 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
 
 BaseAliveGameObject::~BaseAliveGameObject()
 {
-    BaseAliveGameObject* pField_110 = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_110_id));
+    BaseAliveGameObject* pField_110 = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_110_id));
     gBaseAliveGameObjects_5C1B7C->Remove_Item(this);
 
     if (pField_110)
@@ -191,7 +191,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
             break;
     }
 
-    field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
+    field_B8_xpos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 
     if (sActiveHero_5C1B68 == this && gMap.mCurrentLevel == LevelIds::eNecrum_2 && gMap.mCurrentPath == 2 && (field_106_current_motion == eAbeMotions::Motion_23_RollLoop_453A90 || field_106_current_motion == eAbeMotions::Motion_17_CrouchIdle_456BC0))
     {
@@ -265,7 +265,7 @@ void BaseAliveGameObject::VOn_TLV_Collision(Path_TLV* /*pTlv*/)
 
 void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
 {
-    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(field_110_id));
     if (!field_100_pCollisionLine)
     {
         return;
@@ -334,7 +334,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
             {
                 if (pBirdPortal->field_26_side == PortalSide::eLeft_1)
                 {
-                    if (pBirdPortal->field_2C_xpos - field_B8_xpos <= (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks)) && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
+                    if (pBirdPortal->field_2C_xpos - field_B8_xpos <= (ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks)) && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->VPortalClipper_499430(1))
                         {
@@ -346,7 +346,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
             }
             else if (pBirdPortal->field_26_side == PortalSide::eRight_0)
             {
-                if (field_B8_xpos - pBirdPortal->field_2C_xpos <= ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks))
+                if (field_B8_xpos - pBirdPortal->field_2C_xpos <= ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks))
                 {
                     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
@@ -389,7 +389,7 @@ Bool32 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
 
-    const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP gridSize = ScaleToGridSize(field_CC_sprite_scale);
 
     FP xLoc = {};
     if (direction == 1)
@@ -401,7 +401,7 @@ Bool32 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
         xLoc = gridSize * FP_FromInteger(distance);
     }
 
-    const FP xPosSnapped = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
+    const FP xPosSnapped = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -464,28 +464,28 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir()
             case CameraPos::eCamTop_1:
                 if (field_C8_vely < FP_FromInteger(0))
                 {
-                    gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop_2, this, -1);
+                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapTop_2, this, -1);
                 }
                 break;
 
             case CameraPos::eCamBottom_2:
                 if (field_C8_vely > FP_FromInteger(0))
                 {
-                    gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapBottom_3, this, -1);
+                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapBottom_3, this, -1);
                 }
                 break;
 
             case CameraPos::eCamLeft_3:
                 if (field_C4_velx < FP_FromInteger(0))
                 {
-                    gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1);
+                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1);
                 }
                 break;
 
             case CameraPos::eCamRight_4:
                 if (field_C4_velx > FP_FromInteger(0))
                 {
-                    gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1);
+                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1);
                 }
                 break;
 
@@ -501,19 +501,19 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir()
 
 s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
 {
-    const s32 xposSnapped = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
+    const s32 xposSnapped = SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
     if (snapToGrid)
     {
         field_B8_xpos = FP_FromInteger(xposSnapped);
     }
 
     PSX_Point currentCamXY = {};
-    gMap.GetCurrentCamCoords_480680(&currentCamXY);
+    gMap.GetCurrentCamCoords(&currentCamXY);
 
     // Gone off the left edge of the current screen
     if (xposSnapped < currentCamXY.field_0_x && (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) || field_C4_velx < FP_FromInteger(0)))
     {
-        if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1))
+        if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
         {
             field_C2_lvl_number = gMap.mCurrentLevel;
             field_C0_path_number = gMap.mCurrentPath;
@@ -523,7 +523,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     // Gone off the right edge of the current screen
     else if (xposSnapped > currentCamXY.field_0_x + 368 && (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) || field_C4_velx > FP_FromInteger(0)))
     {
-        if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1))
+        if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
         {
             field_C2_lvl_number = gMap.mCurrentLevel;
             field_C0_path_number = gMap.mCurrentPath;

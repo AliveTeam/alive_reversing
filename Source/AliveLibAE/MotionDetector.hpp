@@ -45,10 +45,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    void vScreenChanged_469460();
-    void vRender_469120(PrimHeader** ppOt);
-    s16 IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner);
-    void vUpdate_468A90();
+    s16 IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner);
 
 private:
     s32 field_F4_tlvInfo;

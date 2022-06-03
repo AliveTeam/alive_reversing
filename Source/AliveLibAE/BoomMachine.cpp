@@ -147,7 +147,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         field_CC_sprite_scale = FP_FromInteger(1);
     }
 
-    field_B8_xpos = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    field_B8_xpos = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     auto pNozzle = ae_new<GrenadeMachineNozzle>(
@@ -227,7 +227,7 @@ Bool32 BoomMachine::vIsButtonOn_445DF0()
 
 void BoomMachine::vHandleButton_445F00()
 {
-    auto pNozzle = static_cast<GrenadeMachineNozzle*>(sObjectIds.Find_449CF0(field_F8_nozzle_id));
+    auto pNozzle = static_cast<GrenadeMachineNozzle*>(sObjectIds.Find_Impl(field_F8_nozzle_id));
     if (pNozzle)
     {
         if (VIsButtonOn_445DF0())
@@ -243,10 +243,10 @@ void BoomMachine::vHandleButton_445F00()
 
 BoomMachine::~BoomMachine()
 {
-    BaseGameObject* pObj = sObjectIds.Find_449CF0(field_F8_nozzle_id);
+    BaseGameObject* pObj = sObjectIds.Find_Impl(field_F8_nozzle_id);
     if (pObj)
     {
         pObj->mFlags.Set(BaseGameObject::eDead);
     }
-    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }

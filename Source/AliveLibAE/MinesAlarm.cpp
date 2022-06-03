@@ -10,7 +10,7 @@
 ALIVE_VAR(1, 0x5BC030, s32, bCreated_5BC030, FALSE);
 ALIVE_VAR(1, 0x5C1BFC, s32, sTimerValue_5C1BFC, 0);
 
-void MinesAlarm::Create_4177F0(s32 timer)
+void MinesAlarm::Create(s32 timer)
 {
     if (!bCreated_5BC030)
     {
@@ -32,23 +32,10 @@ MinesAlarm::MinesAlarm(s32 timer)
     sTimerValue_5C1BFC = timer;
 }
 
-void MinesAlarm::VScreenChanged()
-{
-    vScreenChanged_417A20();
-}
-
-void MinesAlarm::VUpdate()
-{
-    vUpdate_417910();
-}
-
 s32 MinesAlarm::VGetSaveState(u8* pSaveBuffer)
 {
-    return vGetSaveState_4177C0(reinterpret_cast<MinesAlarm_State*>(pSaveBuffer));
-}
+    auto pState = reinterpret_cast<MinesAlarm_State*>(pSaveBuffer);
 
-s32 MinesAlarm::vGetSaveState_4177C0(MinesAlarm_State* pState)
-{
     pState->field_0_type = AETypes::eMinesAlarm_25;
     pState->field_4_timer = sTimerValue_5C1BFC;
     return sizeof(MinesAlarm_State);
@@ -60,7 +47,7 @@ MinesAlarm::~MinesAlarm()
     bCreated_5BC030 = FALSE;
 }
 
-void MinesAlarm::vScreenChanged_417A20()
+void MinesAlarm::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
@@ -68,7 +55,7 @@ void MinesAlarm::vScreenChanged_417A20()
     }
 }
 
-void MinesAlarm::vUpdate_417910()
+void MinesAlarm::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {

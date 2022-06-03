@@ -139,7 +139,7 @@ s32 SFX_Play_Stereo(SoundEffect sfxId, s32 leftVol, s32 rightVol, FP scale)
         rightVol = 2 * rightVol / 3;
     }
 
-    return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], static_cast<s16>(leftVol), static_cast<s16>(rightVol), 0x7FFF, 0x7FFF);
+    return SFX_SfxDefinition_Play_Stereo(&sSfxEntries_55C2A0[sfxId], static_cast<s16>(leftVol), static_cast<s16>(rightVol), 0x7FFF, 0x7FFF);
 }
 
 s32 SFX_Play_Pitch(SoundEffect sfxIdx, s16 volume, s32 pitch, FP scale)
@@ -152,7 +152,7 @@ s32 SFX_Play_Pitch(SoundEffect sfxIdx, s16 volume, s32 pitch, FP scale)
     {
         volume = static_cast<s16>(volume / 1.5);
     }
-    return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, static_cast<s16>(pitch), static_cast<s16>(pitch));
+    return SFX_SfxDefinition_Play_Mono(&sSfxEntries_55C2A0[sfxIdx], volume, static_cast<s16>(pitch), static_cast<s16>(pitch));
 }
 
 s32 SFX_Play_Mono(SoundEffect sfxIdx, s16 volume, FP scale)
@@ -165,7 +165,7 @@ s32 SFX_Play_Mono(SoundEffect sfxIdx, s16 volume, FP scale)
     {
         volume /= 3;
     }
-    return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, 0x7FFF, 0x7FFF);
+    return SFX_SfxDefinition_Play_Mono(&sSfxEntries_55C2A0[sfxIdx], volume, 0x7FFF, 0x7FFF);
 }
 
 s32 SFX_Play_Camera(SoundEffect sfxId, s16 volume, CameraPos direction, FP scale)
@@ -240,7 +240,7 @@ s16 Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s1
         }
 
         PSX_RECT camRect = {};
-        gMap.Get_Camera_World_Rect_481410(dir, &camRect);
+        gMap.Get_Camera_World_Rect(dir, &camRect);
 
         const s32 volScaler = defaultVol / 3;
         switch (dir)
@@ -302,6 +302,6 @@ void Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, s16 defaultVol, s16 pitch_min
     s16 volRight = 0;
     if (Calc_Slig_Sound_Direction_4C01B0(pObj, defaultVol, pEffect, &volLeft, &volRight))
     {
-        SFX_SfxDefinition_Play_4CA700(pEffect, volLeft, volRight, pitch_min, pitch_min);
+        SFX_SfxDefinition_Play_Stereo(pEffect, volLeft, volRight, pitch_min, pitch_min);
     }
 }

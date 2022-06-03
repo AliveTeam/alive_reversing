@@ -41,9 +41,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    void vScreenChanged_4DE650();
-    void vUpdate_4DE270();
-    BaseAliveGameObject* WhoIsStoodOnMe_4DE700();
+    BaseAliveGameObject* WhoIsStoodOnMe();
 
 private:
     s32 field_F4_tlvInfo;

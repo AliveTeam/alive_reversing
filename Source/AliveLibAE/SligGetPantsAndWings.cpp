@@ -37,7 +37,7 @@ SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
 
 void SligGetPantsAndWings::VUpdate()
 {
-    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_F8_tlvInfo);
+    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_F8_tlvInfo);
     if (Event_Get_422C00(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -82,5 +82,5 @@ void SligGetPantsAndWings::VScreenChanged()
 
 SligGetPantsAndWings::~SligGetPantsAndWings()
 {
-    Path::TLV_Reset_4DB8E0(field_F8_tlvInfo, 0, 0, 0);
+    Path::TLV_Reset(field_F8_tlvInfo, 0, 0, 0);
 }

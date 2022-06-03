@@ -72,7 +72,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
         field_120_y2_fp = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
 
         PSX_Point pos = {};
-        gMap.Get_Abe_Spawn_Pos_4806D0(&pos);
+        gMap.Get_Abe_Spawn_Pos(&pos);
         if (pTlv->field_12_device_x)
         {
             field_B8_xpos = FP_FromInteger(pTlv->field_12_device_x - pos.field_0_x);
@@ -157,54 +157,39 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
     field_10C_alarm_duration = 0;
 }
 
-void MotionDetector::VUpdate()
-{
-    vUpdate_468A90();
-}
-
-void MotionDetector::VRender(PrimHeader** ppOt)
-{
-    vRender_469120(ppOt);
-}
-
-void MotionDetector::VScreenChanged()
-{
-    vScreenChanged_469460();
-}
-
 MotionDetector::~MotionDetector()
 {
     if (!field_10E_bUnknown)
     {
         if (field_110_bDontComeBack)
         {
-            Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
+            Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
         }
         else
         {
-            Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 1);
+            Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 1);
         }
     }
 
-    BaseGameObject* pLaser = sObjectIds.Find_449CF0(field_F8_laser_id);
+    BaseGameObject* pLaser = sObjectIds.Find_Impl(field_F8_laser_id);
     if (pLaser)
     {
         pLaser->mFlags.Set(BaseGameObject::eDead);
     }
 }
 
-void MotionDetector::vScreenChanged_469460()
+void MotionDetector::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
 
-    BaseGameObject* pOwner = sObjectIds.Find_449CF0(field_FC_owner_id);
+    BaseGameObject* pOwner = sObjectIds.Find_Impl(field_FC_owner_id);
     if (!pOwner)
     {
         mFlags.Set(BaseGameObject::eDead);
     }
 }
 
-void MotionDetector::vRender_469120(PrimHeader** ppOt)
+void MotionDetector::VRender(PrimHeader** ppOt)
 {
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
@@ -253,7 +238,7 @@ void MotionDetector::vRender_469120(PrimHeader** ppOt)
     }
 }
 
-s16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
+s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
 {
     if (pWho->Type() == AETypes::eAbe_69)
     {
@@ -298,7 +283,7 @@ s16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* 
     return 1;
 }
 
-void MotionDetector::vUpdate_468A90()
+void MotionDetector::VUpdate()
 {
     MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, AETypes::eRedLaser_111));
     Greeter* pOwner = static_cast<Greeter*>(sObjectIds.Find(field_FC_owner_id, AETypes::eGreeter_64));
@@ -354,7 +339,7 @@ void MotionDetector::vUpdate_468A90()
                         }
                     }
 
-                    if (IsInLaser_468980(pObj, pOwner))
+                    if (IsInLaser(pObj, pOwner))
                     {
                         field_178_bObjectInLaser = 1;
 

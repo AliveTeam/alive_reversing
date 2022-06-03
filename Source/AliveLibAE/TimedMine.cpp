@@ -76,7 +76,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     field_120_gnframe = sGnFrame_5C1B84;
     SetBaseAnimPaletteTint(sTimedMineTint_550EB8, gMap.mCurrentLevel, kBombResID);
 
-    const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP gridSnap = ScaleToGridSize(field_CC_sprite_scale);
     mFlags.Set(Options::eInteractive_Bit8);
     field_DC_bApplyShadows |= 2u;
 
@@ -90,7 +90,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
 void TimedMine::VUpdate()
 {
-    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(field_110_id));
     if (Event_Get_422C00(kEventDeathReset))
     {
         mFlags.Set(Options::eDead);
@@ -101,12 +101,12 @@ void TimedMine::VUpdate()
         StickToLiftPoint();
     }
 
-    if (pPlatform && pPlatform->vOnAnyFloor_461920())
+    if (pPlatform && pPlatform->vOnAnyFloor())
     {
-        field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-        field_E4_collection_rect.w = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
+        field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
+        field_E4_collection_rect.w = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
         field_E4_collection_rect.h = field_BC_ypos;
-        field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize(field_CC_sprite_scale);
     }
 
     if (field_118_armed == 1)
@@ -231,14 +231,14 @@ void TimedMine::StickToLiftPoint()
 
 TimedMine::~TimedMine()
 {
-    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(field_110_id));
     if (field_118_armed != 1 || sGnFrame_5C1B84 < field_120_gnframe)
     {
-        Path::TLV_Reset_4DB8E0(field_11C_tlv, -1, 0, 0);
+        Path::TLV_Reset(field_11C_tlv, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_11C_tlv, -1, 0, 1);
+        Path::TLV_Reset(field_11C_tlv, -1, 0, 1);
     }
 
     field_124_animation.vCleanUp_40C630();

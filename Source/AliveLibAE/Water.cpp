@@ -165,7 +165,7 @@ Water::~Water()
 
     if (field_144_sound_channels)
     {
-        SND_Stop_Channels_Mask_4CA810(field_144_sound_channels);
+        SND_Stop_Channels_Mask(field_144_sound_channels);
         field_144_sound_channels = 0;
     }
 
@@ -180,11 +180,11 @@ Water::~Water()
 
     if (field_148_bHitTimeout & 1)
     {
-        Path::TLV_Reset_4DB8E0(field_114_tlvInfo, static_cast<s16>(field_FC_state), 0, 1);
+        Path::TLV_Reset(field_114_tlvInfo, static_cast<s16>(field_FC_state), 0, 1);
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_114_tlvInfo, static_cast<s16>(field_FC_state), 0, 0);
+        Path::TLV_Reset(field_114_tlvInfo, static_cast<s16>(field_FC_state), 0, 0);
     }
 }
 
@@ -192,7 +192,7 @@ void Water::VScreenChanged()
 {
     if (field_144_sound_channels)
     {
-        SND_Stop_Channels_Mask_4CA810(field_144_sound_channels);
+        SND_Stop_Channels_Mask(field_144_sound_channels);
         field_144_sound_channels = 0;
     }
 
@@ -206,7 +206,7 @@ void Water::VStopAudio()
 {
     if (field_144_sound_channels)
     {
-        SND_Stop_Channels_Mask_4CA810(field_144_sound_channels);
+        SND_Stop_Channels_Mask(field_144_sound_channels);
         field_144_sound_channels = 0;
     }
 }
@@ -377,7 +377,7 @@ void Water::VUpdate()
                 }
                 else
                 {
-                    SND_Stop_Channels_Mask_4CA810(field_144_sound_channels);
+                    SND_Stop_Channels_Mask(field_144_sound_channels);
                     field_144_sound_channels = 0;
                     SFX_Play_Camera(SoundEffect::WaterEnd_96, 40, soundDir);
                     field_FC_state = WaterState::eInactive_4;

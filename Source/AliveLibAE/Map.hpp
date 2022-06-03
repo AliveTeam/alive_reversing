@@ -127,37 +127,37 @@ public:
     u8* field_D8_restore_quick_save;
 
 
-    void ScreenChange_480B80();
+    void ScreenChange();
 
     void FreePathResourceBlocks();
     void GetPathResourceBlockPtrs();
     u8** GetPathResourceBlockPtr(u32 pathId);
     void ClearPathResourceBlocks();
 
-    void RemoveObjectsWithPurpleLight_480740(s16 a2);
-    void Handle_PathTransition_481610();
-    void Init_4803F0(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
-    void Shutdown_4804E0();
-    void Reset_4805D0();
+    void RemoveObjectsWithPurpleLight(s16 a2);
+    void Handle_PathTransition();
+    void Init(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
+    void Shutdown();
+    void Reset();
     Map();
     ~Map();
-    void GoTo_Camera_481890();
+    void GoTo_Camera();
 
-    void Get_map_size_480640(PSX_Point* pPoint);
-    void GetCurrentCamCoords_480680(PSX_Point* pPoint);
-    void Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint);
+    void Get_map_size(PSX_Point* pPoint);
+    void GetCurrentCamCoords(PSX_Point* pPoint);
+    void Get_Abe_Spawn_Pos(PSX_Point* pPoint);
     s16 GetOverlayId();
-    void Create_FG1s_480F10();
-    CameraPos Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect);
-    s16 SetActiveCam_480D30(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
-    static BaseGameObject* FMV_Camera_Change_482650(u8** ppBits, Map* pMap, LevelIds lvlId);
-    Camera* Create_Camera_4829E0(s16 xpos, s16 ypos, s32 a4);
-    static void Load_Path_Items_482C10(Camera* pCamera, LoadMode loadMode);
+    void Create_FG1s();
+    CameraPos Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect);
+    s16 SetActiveCam(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
+    static BaseGameObject* FMV_Camera_Change(u8** ppBits, Map* pMap, LevelIds lvlId);
+    Camera* Create_Camera(s16 xpos, s16 ypos, s32 a4);
+    static void Load_Path_Items(Camera* pCamera, LoadMode loadMode);
 
-    static void LoadResource_4DBE00(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = 0);
-    static void LoadResourcesFromList_4DBE70(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad = 0);
+    static void LoadResource(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = 0);
+    static void LoadResourcesFromList(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad = 0);
 
-    s16 SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, s16 kMinus1);
+    s16 SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 kMinus1);
 
     // Type safe wrappers as s32 level is bigger than the enum type size
     s16 Is_Point_In_Current_Camera_4810D0(LevelIds level, s32 path, FP xpos, FP ypos, s16 width)
@@ -170,7 +170,7 @@ public:
         return GetDirection_4811A0(static_cast<s32>(level), path, xpos, ypos);
     }
 
-    s16 Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect);
+    s16 Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect);
 
 private:
     s16 Is_Point_In_Current_Camera_4810D0(s32 level, s32 path, FP xpos, FP ypos, s16 width);

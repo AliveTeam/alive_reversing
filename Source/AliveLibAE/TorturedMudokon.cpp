@@ -125,7 +125,7 @@ TorturedMudokon::~TorturedMudokon()
 {
     if (field_23E_state != TorturedMudokonState::eReleased_2)
     {
-        Path::TLV_Reset_4DB8E0(field_230_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_230_tlvInfo, -1, 0, 0);
     }
 
     field_F4_tears_animation.vCleanUp_40C630();
@@ -246,7 +246,7 @@ void TorturedMudokon::VUpdate()
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_F4_tears_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_18C_zap_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_230_tlvInfo);
+        Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_230_tlvInfo);
         if (pTlv)
         {
             pTlv->field_1_tlv_state = 1;

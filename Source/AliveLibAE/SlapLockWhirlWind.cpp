@@ -32,7 +32,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
     {
         for (s16 x = 0; x < sPath_dword_BB47C0->field_6_cams_on_x; x++)
         {
-            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(
+            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera(
                 x - gMap.field_D0_cam_x_idx,
                 y - gMap.field_D2_cam_y_idx));
             while (pDoorTlv)
@@ -56,7 +56,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
 
                     field_30_door_y -= (FP_FromInteger(40) * field_34_door_scale);
                 }
-                pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Next_TLV_4DB6A0(pDoorTlv));
+                pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Next_TLV(pDoorTlv));
             }
         }
     }
@@ -93,7 +93,7 @@ void SlapLockWhirlWind::VUpdate()
     }
     else
     {
-        OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds.Find_449CF0(field_38_orb_whirlwind_id));
+        OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds.Find_Impl(field_38_orb_whirlwind_id));
         if (field_3C_state == 1)
         {
             if (!(static_cast<s32>(sGnFrame_5C1B84) % 10))
@@ -128,7 +128,7 @@ void SlapLockWhirlWind::VUpdate()
             {
                 if (pWhirlWind)
                 {
-                    pWhirlWind->ToSpin_4E3FD0(field_2C_door_x, field_30_door_y, field_34_door_scale, 0);
+                    pWhirlWind->ToSpin(field_2C_door_x, field_30_door_y, field_34_door_scale, 0);
                 }
                 field_3C_state = 1;
             }

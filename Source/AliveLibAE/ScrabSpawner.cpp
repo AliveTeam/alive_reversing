@@ -32,7 +32,7 @@ ScrabSpawner::ScrabSpawner(Path_ScrabSpawner* pTlv, s32 tlvInfo)
 s32 ScrabSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const ScrabSpawner_State*>(pBuffer);
-    auto pTlv = static_cast<Path_ScrabSpawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
+    auto pTlv = static_cast<Path_ScrabSpawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
     auto pScrabSpawner = ae_new<ScrabSpawner>(pTlv, pState->field_4_tlvInfo);
     if (pScrabSpawner)
     {
@@ -46,7 +46,7 @@ s32 ScrabSpawner::CreateFromSaveState(const u8* pBuffer)
 
 ScrabSpawner::~ScrabSpawner()
 {
-    Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_20_tlvInfo, -1, 0, 0);
 }
 
 s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
@@ -60,7 +60,7 @@ s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
 
     if (field_3C_spawned_scrab_id != -1)
     {
-        BaseGameObject* pSpawnedScrab = sObjectIds.Find_449CF0(field_3C_spawned_scrab_id);
+        BaseGameObject* pSpawnedScrab = sObjectIds.Find_Impl(field_3C_spawned_scrab_id);
         if (pSpawnedScrab)
         {
             pSaveState->field_C_spawned_scrab_id = pSpawnedScrab->field_C_objectId;
@@ -94,7 +94,7 @@ void ScrabSpawner::VUpdate()
         }
     }
 
-    auto pExistingSpawnedScrab = static_cast<Scrab*>(sObjectIds.Find_449CF0(field_3C_spawned_scrab_id));
+    auto pExistingSpawnedScrab = static_cast<Scrab*>(sObjectIds.Find_Impl(field_3C_spawned_scrab_id));
     if (!Event_Get_422C00(kEventDeathReset) && !(mFlags.Get(BaseGameObject::eDead)))
     {
         if (field_38_state == ScrabSpawnerStates::eScrabSpawned_1)

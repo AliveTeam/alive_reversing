@@ -42,7 +42,7 @@ void Particle::VUpdate()
     }
 }
 
-Particle* New_DestroyOrCreateObject_Particle_426F40(FP xpos, FP ypos, FP scale)
+Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
 {
     const AnimRecord& rec = AnimRec(AnimId::DeathFlare_2);
     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, FALSE, FALSE);
@@ -70,7 +70,7 @@ Particle* New_DestroyOrCreateObject_Particle_426F40(FP xpos, FP ypos, FP scale)
     return pParticle;
 }
 
-Particle* New_Orb_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, u8 r, u8 b, u8 g)
+Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, u8 r, u8 b, u8 g)
 {
     const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
@@ -112,13 +112,13 @@ Particle* New_Orb_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, FP scale, 
     return pParticle;
 }
 
-Particle* New_TintChant_Particle_426BE0(FP xpos, FP ypos, FP scale, Layer layer)
+Particle* New_TintChant_Particle(FP xpos, FP ypos, FP scale, Layer layer)
 {
-    return New_Orb_Particle_426AA0(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
+    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
 }
 
 // Fart/dust cloud particle spawner
-void New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b)
+void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b)
 {
     FP velYCounter = {};
     for (s32 i = 0; i < count; i++)
@@ -163,19 +163,19 @@ void New_Smoke_Particles_426C70(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 
     }
 }
 
-void New_RandomizedChant_Particle_45BC70(BaseAliveGameObject* pObj)
+void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
 {
     const FP ypos = pObj->field_BC_ypos - (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(30, 60)));
     const FP xpos = (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20))) + pObj->field_B8_xpos;
-    New_TintChant_Particle_426BE0(xpos, ypos, pObj->field_CC_sprite_scale, Layer::eLayer_0);
+    New_TintChant_Particle(xpos, ypos, pObj->field_CC_sprite_scale, Layer::eLayer_0);
 }
 
-Particle* New_TintShiny_Particle_426C30(FP xpos, FP ypos, FP scale, Layer layer)
+Particle* New_TintShiny_Particle(FP xpos, FP ypos, FP scale, Layer layer)
 {
-    return New_Orb_Particle_426AA0(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 100u, 100u, 100u);
+    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 100u, 100u, 100u);
 }
 
-void New_ShootingZFire_Particle_4269B0(FP xpos, FP ypos, FP scale)
+void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
 {
     const AnimRecord& ZFireRec = AnimRec(AnimId::ShootingZFire_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ZFireRec.mResourceId, 0, 0);
@@ -199,7 +199,7 @@ void New_ShootingZFire_Particle_4269B0(FP xpos, FP ypos, FP scale)
     }
 }
 
-void New_ShootingFire_Particle_426890(FP xpos, FP ypos, s8 direction, FP scale)
+void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
 {
     const AnimRecord& shootingFireRec = AnimRec(AnimId::ShootingFire_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, shootingFireRec.mResourceId, 0, 0);

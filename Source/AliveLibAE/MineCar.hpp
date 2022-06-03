@@ -94,14 +94,14 @@ public:
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    void LoadAnimation_46BF80(Animation* pAnim);
-    Bool32 CheckRoofCollision_46F6B0(FP hitX, FP hitY);
-    Bool32 CheckFloorCollision_46F730(FP hitX, FP hitY);
-    void Stop_46E570();
-    void Move_46E640(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs dir, s8 bChangeDirection);
-    s16 IsBlocked_46F4A0(MineCarDirs a2, s32 a3);
-    s16 FollowDirection_46EA00();
-    void RunThingsOver_46F380();
+    void LoadAnimation(Animation* pAnim);
+    Bool32 CheckRoofCollision(FP hitX, FP hitY);
+    Bool32 CheckFloorCollision(FP hitX, FP hitY);
+    void Stop();
+    void Move(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs dir, s8 bChangeDirection);
+    s16 IsBlocked(MineCarDirs a2, s32 a3);
+    s16 FollowDirection();
+    void RunThingsOver();
 
     void State_0_ParkedWithoutAbe();
     void State_1_ParkedWithAbe();

@@ -640,7 +640,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
 
 MainMenuController::~MainMenuController()
 {
-    Path::TLV_Reset_4DB8E0(field_1F0_tlvOffsetLevelIdPathId, -1, 0, 0);
+    Path::TLV_Reset(field_1F0_tlvOffsetLevelIdPathId, -1, 0, 0);
     field_158_animation.vCleanUp_40C630();
 
     for (auto& res : field_F4_resources.field_0_resources)
@@ -653,17 +653,7 @@ MainMenuController::~MainMenuController()
     field_120_font.dtor_433540();
 }
 
-void MainMenuController::VUpdate()
-{
-    Update_4CF010();
-}
-
 void MainMenuController::VRender(PrimHeader** ppOt)
-{
-    Render_4CF4C0(ppOt);
-}
-
-void MainMenuController::Render_4CF4C0(PrimHeader** ppOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit2_Animate)
         && sMainMenuPages_561960[field_214_page_index].field_E_show_character
@@ -849,7 +839,7 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
                                         case InputCommands::Enum::eBack:
                                             Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_GoodBye);
                                             // Stop chanting music
-                                            SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
+                                            SND_SEQ_Stop(SeqId::MudokonChant1_10);
 
                                             // TODO: Extra case for Abe - recover the type
                                             if (field_20C_pUnused)
@@ -1242,7 +1232,7 @@ static void RenderScrollableTextEntries(
         if (v9 >= 0 && v9 < totalItemsCount)
         {
             field_234_pStr = stringList[v9].field_0_fileName;
-            s32 currEntryWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+            s32 currEntryWidth = field_120_font.MeasureScaledTextWidth(field_234_pStr, FP_FromInteger(1));
 
             //Entry X alignment (of questionable quality) for long words
             s16 x = currEntryWidth >= 336 ? 16 : (368 - static_cast<s16>(currEntryWidth)) / 2;
@@ -1375,7 +1365,7 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
         if (idx >= 0 && idx <= sMenuItemCount_561538 - 1)
         {
             field_234_pStr = pDemosOrFmvs_BB4414.mDemoRec[idx].field_0_display_name;
-            s32 textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+            s32 textWidth = field_120_font.MeasureScaledTextWidth(field_234_pStr, FP_FromInteger(1));
             s16 nextTextXPos = 0;
             if (textWidth >= 336)
             {
@@ -1522,8 +1512,8 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
         MenuFMV* pMenuFMV = &pDemosOrFmvs_BB4414.mFmvRec[field_230_target_entry_index];
         if (pMenuFMV->field_A_fmv_id >= 0)
         {
-            FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(pMenuFMV->field_4_level_id, pMenuFMV->field_A_fmv_id);
-            Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, 0, 0, &input_held, 0, 0);
+            FmvInfo* pFmvRecord = Path_Get_FMV_Record(pMenuFMV->field_4_level_id, pMenuFMV->field_A_fmv_id);
+            Get_fmvs_sectors(pFmvRecord->field_0_pName, 0, 0, &input_held, 0, 0);
             sLevelId_dword_5CA408 = static_cast<u32>(pMenuFMV->field_4_level_id);
 
             dword_55C128 = -1;
@@ -1552,7 +1542,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             sDoesCreditsControllerExist_5C1B90 = 1;
             field_240_credits_current_cam = 1;
             field_1F4_credits_next_frame = sGnFrame_5C1B84 + 160;
-            gMap.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
@@ -1861,9 +1851,9 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
 
         sActiveHero_5C1B68->SetUpdateDelay(1);
-        gMap.SetActiveCam_480D30(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
 
-        const PathBlyRec* pPathData = Path_Get_Bly_Record_460F30(field_244_lvl_id, field_246_path_id);
+        const PathBlyRec* pPathData = Path_Get_Bly_Record(field_244_lvl_id, field_246_path_id);
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(field_24A_abeXOff - pPathData->field_4_pPathData->field_1A_abe_start_xpos);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(field_24C_abeYOff - pPathData->field_4_pPathData->field_1C_abe_start_ypos);
 
@@ -1882,7 +1872,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     }
     else
     {
-        gMap.SetActiveCam_480D30(LevelIds::eMines_1, 1, 4, CameraSwapEffects::ePlay1FMV_5, 12402, 0);
+        gMap.SetActiveCam(LevelIds::eMines_1, 1, 4, CameraSwapEffects::ePlay1FMV_5, 12402, 0);
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(837);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(1300);
         sActiveHero_5C1B68->field_F8_LastLineYPos = FP_FromInteger(1400);
@@ -1914,14 +1904,14 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
     {
         if (field_1FC_button_index == 0) // Show backstory
         {
-            FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(LevelIds::eMenu_0, 4u);
+            FmvInfo* pFmvRecord = Path_Get_FMV_Record(LevelIds::eMenu_0, 4u);
             while (Input_IsVKPressed_4EDD40(VK_RETURN))
             {
                 SYS_EventsPump_494580();
             }
 
             u32 fmvSector = 0;
-            Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, nullptr, nullptr, &fmvSector, 0, 0);
+            Get_fmvs_sectors(pFmvRecord->field_0_pName, nullptr, nullptr, &fmvSector, 0, 0);
             sLevelId_dword_5CA408 = 0;
 
             auto pMovie = ae_new<Movie>(pFmvRecord->field_4_id,
@@ -2562,7 +2552,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
             field_234_pStr = "Press key to use";
         }
 
-        s32 textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+        s32 textWidth = field_120_font.MeasureScaledTextWidth(field_234_pStr, FP_FromInteger(1));
         s32 nextTextXPos = 0;
         if (textWidth >= 336)
         {
@@ -2576,7 +2566,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         char_type buffer[512] = {};
         sprintf(buffer, "for %s", sInputButtonNames_562790[sButtonToRemapIdx_BB43EC]);
         field_234_pStr = buffer;
-        textWidth = field_120_font.MeasureWidth_4336C0(buffer, FP_FromInteger(1));
+        textWidth = field_120_font.MeasureScaledTextWidth(buffer, FP_FromInteger(1));
         if (textWidth >= 336)
         {
             nextTextXPos = 16;
@@ -2587,7 +2577,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         }
         polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 120, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
         field_234_pStr = "Press BackSpace for none, Esc to exit";
-        textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+        textWidth = field_120_font.MeasureScaledTextWidth(field_234_pStr, FP_FromInteger(1));
         if (textWidth >= 336)
         {
             nextTextXPos = 16;
@@ -2709,7 +2699,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
             if (Input_Remap_492680(kIdxToInput_561F14[sButtonToRemapIdx_BB43EC]))
             {
                 dword_BB43F8 = 0;
-                field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+                field_208_transition_obj->StartTrans(Layer::eLayer_FadeFlash_40, 0, 0, 16);
             }
         }
     }
@@ -2779,7 +2769,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
 
         if (input & InputCommands::Enum::eUnPause_OrConfirm)
         {
-            field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+            field_208_transition_obj->StartTrans(Layer::eLayer_FadeFlash_40, 1, 0, 16);
             dword_BB43F8 = 1;
             return MainMenuNextCam(MainMenuCams::eNoChange);
         }
@@ -2909,7 +2899,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
     if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eBack))
     {
         sDoesCreditsControllerExist_5C1B90 = 0;
-        gMap.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
         return;
     }
 
@@ -2923,11 +2913,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 22)
             {
                 field_240_credits_current_cam = 1;
-                gMap.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
+                gMap.SetActiveCam(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
             else
             {
-                gMap.SetActiveCam_480D30(LevelIds::eCredits_16, 2, static_cast<s16>(currentCam), CameraSwapEffects::eTopToBottom_3, 0, 0);
+                gMap.SetActiveCam(LevelIds::eCredits_16, 2, static_cast<s16>(currentCam), CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
         }
         else
@@ -2935,10 +2925,10 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 36)
             {
                 sDoesCreditsControllerExist_5C1B90 = 0;
-                gMap.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
+                gMap.SetActiveCam(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
                 return;
             }
-            gMap.SetActiveCam_480D30(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
+            gMap.SetActiveCam(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
         }
     }
 }
@@ -2948,15 +2938,15 @@ void MainMenuController::HandleMainMenuUpdate()
 {
     if (gMap.mCurrentCamera == MainMenuCams::eRemapInputsCam || gMap.mCurrentCamera == MainMenuCams::eDummyBlankCam || gMap.mCurrentCamera == MainMenuCams::eLoadGameMenuCam)
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
     else if (gMap.mCurrentCamera == MainMenuCams::eBackstory_Or_NewGameCam || gMap.mCurrentCamera == MainMenuCams::eGameIsLoading_ShaddapCam)
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
     else
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
     UpdateHighliteGlow_4D0630();
@@ -3106,7 +3096,7 @@ void MainMenuController::Unload_Resource(u8**& res)
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
 }
 
-void MainMenuController::Update_4CF010()
+void MainMenuController::VUpdate()
 {
     if (sDoesCreditsControllerExist_5C1B90)
     {
@@ -3172,7 +3162,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
                 if (field_208_transition_obj)
                 {
-                    field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+                    field_208_transition_obj->StartTrans(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                     field_21E_changeScreenState = 2;
                     return 1;
                 }
@@ -3188,7 +3178,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             {
                 if (field_208_transition_obj)
                 {
-                    field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 1, 0, 16);
+                    field_208_transition_obj->StartTrans(Layer::eLayer_FadeFlash_40, 1, 0, 16);
                     field_21E_changeScreenState = 2;
                     return 1;
                 }
@@ -3248,14 +3238,14 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 }
 
                 // Find the record for GTILOGO.STR
-                FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(LevelIds::eMenu_0, 3u);
+                FmvInfo* pFmvRecord = Path_Get_FMV_Record(LevelIds::eMenu_0, 3u);
                 while (Input_IsVKPressed_4EDD40(VK_RETURN))
                 {
                     SYS_EventsPump_494580();
                 }
 
                 u32 pos = 0; // Gets set to 0x11111111
-                Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, 0, 0, &pos, 0, 0);
+                Get_fmvs_sectors(pFmvRecord->field_0_pName, 0, 0, &pos, 0, 0);
                 sLevelId_dword_5CA408 = 0;
 
                 // Create a movie object for the GTI logo
@@ -3283,7 +3273,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 }
 
                 // Create movie object for the DD logo
-                Get_fmvs_sectors_494460("DDLOGO.STR", 0, 0, &pos, 0, 0);
+                Get_fmvs_sectors("DDLOGO.STR", 0, 0, &pos, 0, 0);
                 sLevelId_dword_5CA408 = 0;
                 pMovie = ae_new<Movie>(pFmvRecord->field_4_id,
                                        pos,
@@ -3305,7 +3295,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
                 gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
 
-                gMap.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::ePlay1FMV_5, 10502, 0);
+                gMap.SetActiveCam(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::ePlay1FMV_5, 10502, 0);
                 const AnimRecord& rec = AnimRec(AnimId::MenuDoor);
                 field_20_animation.Set_Animation_Data_409C80(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor]);
                 Load_Anim_Pal_4D06A0(&field_20_animation);
@@ -3347,7 +3337,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 break;
             }
 
-            gMap.SetActiveCam_480D30(
+            gMap.SetActiveCam(
                 LevelIds::eMenu_0,
                 1,
                 sMainMenuPages_561960[field_218_target_page_index].field_0_cam_id,
@@ -3377,7 +3367,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
             if (field_21C_camSwapEffectState == camTransEffectState::eDone_0 || field_21C_camSwapEffectState == camTransEffectState::eDone_2)
             {
-                field_208_transition_obj->StartTrans_464370(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+                field_208_transition_obj->StartTrans(Layer::eLayer_FadeFlash_40, 0, 0, 16);
             }
 
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -3542,7 +3532,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 }
                 else
                 {
-                    SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
+                    SND_SEQ_Stop(SeqId::MudokonChant1_10);
 
                     if (field_20C_pUnused)
                     {
@@ -3629,17 +3619,17 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             {
                 if (field_220_frame_table_idx == eParamite_AllAYa)
                 {
-                    SFX_SfxDefinition_Play_4CA700(&mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 64, 64);
+                    SFX_SfxDefinition_Play_Stereo(&mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 64, 64);
                 }
                 // Attack
                 else if (sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound == 9)
                 {
-                    SND_SEQ_Play_4CAB10(SeqId::MainMenuParamiteAttack_20, 1, 127, 127);
+                    SND_SEQ_Play(SeqId::MainMenuParamiteAttack_20, 1, 127, 127);
                 }
                 // All other Paramite speak
                 else
                 {
-                    SFX_SfxDefinition_Play_4CA700(&mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 0x7FFF, 0x7FFF);
+                    SFX_SfxDefinition_Play_Stereo(&mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 0x7FFF, 0x7FFF);
                 }
             }
         }
@@ -3684,12 +3674,12 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                                 break;
 
                             case eGlukkonSpeak:
-                                Glukkon::PlaySound_GameSpeak_444AF0(static_cast<GlukkonSpeak>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, 0);
+                                Glukkon::PlaySound_GameSpeak(static_cast<GlukkonSpeak>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, 0);
                                 field_23C_T80.Set(Flags::eBit22_GameSpeakPlaying);
                                 break;
 
                             case eScrabSpeak:
-                                SFX_SfxDefinition_Play_4CA700(
+                                SFX_SfxDefinition_Play_Stereo(
                                     &mainMenu_sScrabSfx_560330[sound],
                                     mainMenu_sScrabSfx_560330[sound].field_3_default_volume,
                                     mainMenu_sScrabSfx_560330[sound].field_3_default_volume,
@@ -3712,7 +3702,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
                         if (field_228_res_idx == eAbe_Chant)
                         {
-                            SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant1_10, 0, 1);
+                            SND_SEQ_PlaySeq(SeqId::MudokonChant1_10, 0, 1);
                             field_23C_T80.Set(Flags::eBit24_Chant_Seq_Playing);
                         }
 
@@ -3731,7 +3721,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
                         if (field_228_res_idx != eAbe_Chant && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
                         {
-                            SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
+                            SND_SEQ_Stop(SeqId::MudokonChant1_10);
                             field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
                         }
 
@@ -3814,7 +3804,7 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
     }
     else
     {
-        s32 fontWidth = font->MeasureWidth_4336C0(textBuffer, fontScale);
+        s32 fontWidth = font->MeasureScaledTextWidth(textBuffer, fontScale);
         s32 halfFontWidth = fontWidth / -2;
         if (array->field_C_align == 2)
         {

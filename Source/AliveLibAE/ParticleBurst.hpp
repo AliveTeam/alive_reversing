@@ -26,7 +26,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    FP* Random_Speed_41CEE0(FP* random);
+    FP* Random_Speed(FP* random);
 
 private:
     u8** field_F4_ppRes;

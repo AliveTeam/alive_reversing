@@ -52,18 +52,7 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     SetUpdateDelay(1);
 }
 
-
 void Leaf::VUpdate()
-{
-    vUpdate_4E3330();
-}
-
-void Leaf::VScreenChanged()
-{
-    vScreenChanged_4E35B0();
-}
-
-void Leaf::vUpdate_4E3330()
 {
     field_C8_vely += FP_FromDouble(0.5);
 
@@ -127,7 +116,7 @@ void Leaf::vUpdate_4E3330()
     }
 }
 
-void Leaf::vScreenChanged_4E35B0()
+void Leaf::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }

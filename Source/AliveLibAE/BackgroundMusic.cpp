@@ -22,7 +22,7 @@ void BackgroundMusic::VUpdate()
     {
         if (gMap.mCurrentLevel != LevelIds::eNone || gMap.mCurrentPath != 1 || gMap.mCurrentCamera != 10)
         {
-            SND_SEQ_PlaySeq_4CA960(field_20_music_id, 0, 0);
+            SND_SEQ_PlaySeq(field_20_music_id, 0, 0);
         }
         sBackgroundMusic_seq_id_560F78 = field_20_music_id;
     }
@@ -34,7 +34,7 @@ void BackgroundMusic::Stop_4CB000()
 {
     if (sBackgroundMusic_seq_id_560F78 >= 0)
     {
-        SND_SEQ_Stop_4CAE60(sBackgroundMusic_seq_id_560F78);
+        SND_SEQ_Stop(sBackgroundMusic_seq_id_560F78);
     }
 }
 
@@ -42,6 +42,6 @@ void BackgroundMusic::Play_4CB030()
 {
     if (sBackgroundMusic_seq_id_560F78 >= 0)
     {
-        SND_SEQ_PlaySeq_4CA960(sBackgroundMusic_seq_id_560F78, 0, 0);
+        SND_SEQ_PlaySeq(sBackgroundMusic_seq_id_560F78, 0, 0);
     }
 }

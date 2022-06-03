@@ -8,16 +8,6 @@
 #include "SwitchStates.hpp"
 #include "Abe.hpp"
 
-void InvisibleSwitch::VUpdate()
-{
-    vUpdate_45FBA0();
-}
-
-void InvisibleSwitch::VScreenChanged()
-{
-    vScreenChanged_45FD80();
-}
-
 InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
@@ -34,10 +24,10 @@ InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, u32 tlvInfo)
 
 InvisibleSwitch::~InvisibleSwitch()
 {
-    Path::TLV_Reset_4DB8E0(field_24_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_24_tlvInfo, -1, 0, 0);
 }
 
-void InvisibleSwitch::vUpdate_45FBA0()
+void InvisibleSwitch::VUpdate()
 {
     if (field_38_state == States::eWaitForDelayTimer_1)
     {
@@ -94,7 +84,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
     }
 }
 
-void InvisibleSwitch::vScreenChanged_45FD80()
+void InvisibleSwitch::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
     if (field_38_state != States::eWaitForDelayTimer_1)

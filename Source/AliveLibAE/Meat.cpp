@@ -52,52 +52,12 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_E0_pShadow = ae_new<Shadow>();
 }
 
-void Meat::VUpdate()
-{
-    vUpdate_469BA0();
-}
-
-void Meat::VScreenChanged()
-{
-    vScreenChanged_46A130();
-}
-
-void Meat::VOnTrapDoorOpen()
-{
-    vOnTrapDoorOpen_46A2E0();
-}
-
-void Meat::VThrow(FP velX, FP velY)
-{
-    vThrow_469790(velX, velY);
-}
-
-Bool32 Meat::VCanThrow()
-{
-    return vCanThrow_469680();
-}
-
-Bool32 Meat::VIsFalling()
-{
-    return vIsFalling_469660();
-}
-
 void Meat::VTimeToExplodeRandom()
 {
     // TODO
 }
 
-s16 Meat::VGetCount()
-{
-    return vGetCount_46A350();
-}
-
-Bool32 Meat::VCanEatMe_4696A0()
-{
-    return vCanEatMe_4696A0();
-}
-
-void Meat::vScreenChanged_46A130()
+void Meat::VScreenChanged()
 {
     if (gMap.mCurrentPath != gMap.mPath || gMap.mCurrentLevel != gMap.mLevel)
     {
@@ -105,16 +65,16 @@ void Meat::vScreenChanged_46A130()
     }
 }
 
-void Meat::AddToPlatform_46A170()
+void Meat::AddToPlatform()
 {
     // TODO: OG bug - why doesn't meat check for trap doors ??
     BaseAddToPlatform([](AETypes type)
                       { return type == AETypes::eLiftPoint_78; });
 }
 
-void Meat::vOnTrapDoorOpen_46A2E0()
+void Meat::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(field_110_id));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
@@ -126,12 +86,12 @@ void Meat::vOnTrapDoorOpen_46A2E0()
     }
 }
 
-Bool32 Meat::vIsFalling_469660()
+Bool32 Meat::VIsFalling()
 {
     return field_11C_state == MeatStates::eFall_5;
 }
 
-Bool32 Meat::vCanThrow_469680()
+Bool32 Meat::VCanThrow()
 {
     return field_11C_state == MeatStates::eBeingThrown_2;
 }
@@ -147,7 +107,7 @@ Meat::~Meat()
     }
 }
 
-void Meat::vThrow_469790(FP velX, FP velY)
+void Meat::VThrow(FP velX, FP velY)
 {
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
@@ -164,7 +124,7 @@ void Meat::vThrow_469790(FP velX, FP velY)
     }
 }
 
-s16 Meat::vGetCount_46A350()
+s16 Meat::VGetCount()
 {
     if (field_11C_state == MeatStates::eWaitForPickUp_4 && field_118_count == 0)
     {
@@ -174,7 +134,7 @@ s16 Meat::vGetCount_46A350()
     return field_118_count;
 }
 
-void Meat::InTheAir_4697E0()
+void Meat::InTheAir()
 {
     field_120_xpos = field_B8_xpos;
     field_124_ypos = field_BC_ypos;
@@ -199,7 +159,7 @@ void Meat::InTheAir_4697E0()
             case eLineTypes::eUnknown_36:
                 if (field_C8_vely > FP_FromInteger(0))
                 {
-                    field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(hitX)));
+                    field_B8_xpos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(hitX)));
                     field_BC_ypos = hitY;
                     field_11C_state = MeatStates::eBecomeAPickUp_3;
                     field_C8_vely = FP_FromInteger(0);
@@ -207,7 +167,7 @@ void Meat::InTheAir_4697E0()
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     Event_Broadcast_422BC0(kEventNoise, this);
                     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                    AddToPlatform_46A170();
+                    AddToPlatform();
                 }
                 break;
 
@@ -263,7 +223,7 @@ void Meat::InTheAir_4697E0()
     }
 }
 
-s16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
+s16 Meat::OnCollision(BaseGameObject* pHit)
 {
     // TODO: Check if pHit type is correct for all throwables
 
@@ -298,9 +258,9 @@ s16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
     return 0;
 }
 
-void Meat::vUpdate_469BA0()
+void Meat::VUpdate()
 {
-    auto v2 = sObjectIds.Find_449CF0(field_110_id);
+    auto v2 = sObjectIds.Find_Impl(field_110_id);
     if (sNum_CamSwappers_5C1B66 == 0)
     {
         if (Event_Get_422C00(kEventDeathReset))
@@ -311,12 +271,12 @@ void Meat::vUpdate_469BA0()
         switch (field_11C_state)
         {
             case MeatStates::eIdle_1:
-                InTheAir_4697E0();
+                InTheAir();
                 break;
 
             case MeatStates::eBeingThrown_2:
             {
-                InTheAir_4697E0();
+                InTheAir();
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
@@ -326,7 +286,7 @@ void Meat::vUpdate_469BA0()
                     wh,
                     gBaseGameObjects,
                     1,
-                    (TCollisionCallBack) &Meat::OnCollision_469FF0);
+                    (TCollisionCallBack) &Meat::OnCollision);
 
                 // TODO: OG bug - why only checking for out of the bottom of the map?? Nades check for death object - probably should check both
                 if (field_BC_ypos > FP_FromInteger(gMap.field_D4_ptr->field_6_bBottom))
@@ -364,9 +324,9 @@ void Meat::vUpdate_469BA0()
                 {
                     field_C4_velx = FP_FromInteger(0);
 
-                    field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-                    field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                    field_E4_collection_rect.w = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
+                    field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
+                    field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize(field_CC_sprite_scale);
+                    field_E4_collection_rect.w = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
                     field_E4_collection_rect.h = field_BC_ypos;
 
                     mFlags.Set(BaseGameObject::eInteractive_Bit8);
@@ -383,7 +343,7 @@ void Meat::vUpdate_469BA0()
                 if (static_cast<s32>(sGnFrame_5C1B84) > field_128_timer && !v2)
                 {
                     // That strange "shimmer" the meat gives off
-                    New_TintShiny_Particle_426C30(
+                    New_TintShiny_Particle(
                         (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos,
                         field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
@@ -481,21 +441,6 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     field_E0_pShadow = ae_new<Shadow>();
 }
 
-void MeatSack::VScreenChanged()
-{
-    vScreenChanged_46A9C0();
-}
-
-void MeatSack::VUpdate()
-{
-    vUpdate_46A6A0();
-}
-
-s32 Meat::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_46AC40(reinterpret_cast<Meat_SaveState*>(pSaveBuffer));
-}
-
 s32 Meat::CreateFromSaveState(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
@@ -507,9 +452,9 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->field_B8_xpos = pState->field_8_xpos;
     pMeat->field_BC_ypos = pState->field_C_ypos;
 
-    pMeat->field_E4_collection_rect.x = pMeat->field_B8_xpos - (ScaleToGridSize_4498B0(pMeat->field_CC_sprite_scale) / FP_FromInteger(2));
-    pMeat->field_E4_collection_rect.y = pMeat->field_BC_ypos - ScaleToGridSize_4498B0(pMeat->field_CC_sprite_scale);
-    pMeat->field_E4_collection_rect.w = (ScaleToGridSize_4498B0(pMeat->field_CC_sprite_scale) / FP_FromInteger(2)) + pMeat->field_B8_xpos;
+    pMeat->field_E4_collection_rect.x = pMeat->field_B8_xpos - (ScaleToGridSize(pMeat->field_CC_sprite_scale) / FP_FromInteger(2));
+    pMeat->field_E4_collection_rect.y = pMeat->field_BC_ypos - ScaleToGridSize(pMeat->field_CC_sprite_scale);
+    pMeat->field_E4_collection_rect.w = (ScaleToGridSize(pMeat->field_CC_sprite_scale) / FP_FromInteger(2)) + pMeat->field_B8_xpos;
     pMeat->field_E4_collection_rect.h = pMeat->field_BC_ypos;
 
     pMeat->field_C4_velx = pState->field_10_velx;
@@ -543,15 +488,15 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
 
 MeatSack::~MeatSack()
 {
-    Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
 }
 
-void MeatSack::vScreenChanged_46A9C0()
+void MeatSack::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void MeatSack::vUpdate_46A6A0()
+void MeatSack::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -624,8 +569,10 @@ void MeatSack::vUpdate_46A6A0()
     }
 }
 
-s32 Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
+s32 Meat::VGetSaveState(u8* pSaveBuffer)
 {
+    auto pState = reinterpret_cast<Meat_SaveState*>(pSaveBuffer);
+
     pState->field_0_type = AETypes::eMeat_84;
     pState->field_4_obj_id = field_C_objectId;
 
@@ -667,7 +614,7 @@ s32 Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
     return sizeof(Meat_SaveState);
 }
 
-Bool32 Meat::vCanEatMe_4696A0()
+Bool32 Meat::VCanEatMe()
 {
     return field_11C_state != MeatStates::eCreated_0;
 }

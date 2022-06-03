@@ -47,44 +47,18 @@ public:
     ~Meat();
 
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_438E70();
-
     virtual void VThrow(FP velX, FP velY) override;
-
-    void VThrow_4386E0(FP velX, FP velY);
-
     virtual s16 VCanThrow() override;
-
-    s16 VCanThrow_4390B0();
-
     virtual Bool32 VCanEatMe();
-
-    Bool32 VCanEatMe_4390C0();
-
-    s16 VIsFalling_4573B0();
-
     virtual s16 VIsFalling() override;
-
     virtual void VTimeToExplodeRandom() override;
-
-    void InTheAir_438720();
-
     virtual void VUpdate() override;
-
-    void VUpdate_438A20();
-
-    s16 OnCollision_438D80(BaseAliveGameObject* pObj);
-
-    void AddToPlatform_438EA0();
-
     virtual void VOnTrapDoorOpen() override;
-
-    void VOnTrapDoorOpen_438FD0();
-
     virtual s16 VGetCount() override;
 
-    s16 VGetCount_439020();
+    void InTheAir();
+    void AddToPlatform();
+    s16 OnCollision(BaseAliveGameObject* pObj);
 
     s16 field_110_state;
     s16 field_112;

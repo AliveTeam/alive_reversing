@@ -61,28 +61,22 @@ public:
 
     static s32 CreateFromSaveState(const u8* pData);
 
-public:
-    void vKeepOnMiddleFloor_461870();
-    Bool32 vOnTopFloor_461890();
-    Bool32 vOnMiddleFloor_4618C0();
-    Bool32 vOnBottomFloor_4618F0();
-    Bool32 vOnAnyFloor_461920();
-    Bool32 vOnAFloorLiftMoverCanUse_461960();
-    Bool32 vMovingToFloorLevel_4619B0();
+    void vKeepOnMiddleFloor();
+    Bool32 vOnTopFloor();
+    Bool32 vOnMiddleFloor();
+    Bool32 vOnBottomFloor();
+    Bool32 vOnAnyFloor();
+    Bool32 vOnAFloorLiftMoverCanUse();
+    Bool32 vMovingToFloorLevel();
 
     void vMove_4626A0(FP xSpeed, FP ySpeed, s32 not_used);
 
 private:
-    void vRender_462730(PrimHeader** ppOt);
-    void vUpdate_461AE0();
-    void MoveObjectsOnLift_497600(FP xVelocity);
+    void MoveObjectsOnLift(FP xVelocity);
     static void sub_461000(Path_TLV* pTlv);
-    void vStayOnFloor_461A00(s16 floor, Path_LiftPoint* pTlv);
-    s32 vGetSaveState_4637D0(LiftPoint_State* pState);
+    void vStayOnFloor(s16 floor, Path_LiftPoint* pTlv);
 
-private:
-    void CreatePulleyIfExists_462C80();
-    void vScreenChanged_463020();
+    void CreatePulleyIfExists();
 
 public:
     s16 field_12C_bMoving;

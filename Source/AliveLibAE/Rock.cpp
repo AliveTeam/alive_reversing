@@ -293,7 +293,7 @@ s16 Rock::OnCollision(BaseAliveGameObject* pObj)
 
 void Rock::VUpdate()
 {
-    auto pObj = sObjectIds.Find_449CF0(field_110_id);
+    auto pObj = sObjectIds.Find_Impl(field_110_id);
     if (Event_Get_422C00(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -345,14 +345,14 @@ void Rock::VUpdate()
             }
             else
             {
-                if (abs(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)) - FP_GetExponent(field_B8_xpos)) <= 1)
+                if (abs(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)) - FP_GetExponent(field_B8_xpos)) <= 1)
                 {
                     field_C4_velx = FP_FromInteger(0);
-                    field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-                    field_E4_collection_rect.w = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
+                    field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
+                    field_E4_collection_rect.w = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
                     mFlags.Set(BaseGameObject::eInteractive_Bit8);
                     field_E4_collection_rect.h = field_BC_ypos;
-                    field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                    field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize(field_CC_sprite_scale);
                     field_11C_state = RockStates::eOnGround_3;
                     field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
                     field_128_shimmer_timer = sGnFrame_5C1B84;
@@ -376,7 +376,7 @@ void Rock::VUpdate()
                 return;
             }
             // The strange shimmering that rocks give off.
-            New_TintShiny_Particle_426C30(
+            New_TintShiny_Particle(
                 (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos,
                 (field_CC_sprite_scale * FP_FromInteger(-7)) + field_BC_ypos,
                 FP_FromDouble(0.3),
@@ -467,10 +467,10 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->field_B8_xpos = pState->field_8_xpos;
     pRock->field_BC_ypos = pState->field_C_ypos;
 
-    pRock->field_E4_collection_rect.x = pRock->field_B8_xpos - (ScaleToGridSize_4498B0(pRock->field_CC_sprite_scale) / FP_FromInteger(2));
-    pRock->field_E4_collection_rect.w = pRock->field_B8_xpos + (ScaleToGridSize_4498B0(pRock->field_CC_sprite_scale) / FP_FromInteger(2));
+    pRock->field_E4_collection_rect.x = pRock->field_B8_xpos - (ScaleToGridSize(pRock->field_CC_sprite_scale) / FP_FromInteger(2));
+    pRock->field_E4_collection_rect.w = pRock->field_B8_xpos + (ScaleToGridSize(pRock->field_CC_sprite_scale) / FP_FromInteger(2));
     pRock->field_E4_collection_rect.h = pRock->field_BC_ypos;
-    pRock->field_E4_collection_rect.y = pRock->field_BC_ypos - ScaleToGridSize_4498B0(pRock->field_CC_sprite_scale);
+    pRock->field_E4_collection_rect.y = pRock->field_BC_ypos - ScaleToGridSize(pRock->field_CC_sprite_scale);
 
     pRock->field_C4_velx = pState->field_10_velx;
     pRock->field_C8_vely = pState->field_14_vely;

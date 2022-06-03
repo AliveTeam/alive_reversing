@@ -134,7 +134,7 @@ void DDCheat::Menu_Teleport_415E20()
     {
         sDDCheat_FlyingEnabled_5C2C08 = true;
 
-        gMap.SetActiveCam_480D30(static_cast<LevelIds>(sTeleport_Level_550F5C), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(static_cast<LevelIds>(sTeleport_Level_550F5C), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eInstantChange_0, 0, 0);
         field_3C_flags.Set(DDCheat::Flags_3C::eOnTeleport_Bit3);
     }
 }
@@ -150,20 +150,20 @@ void DDCheat::Menu_Movies_416000()
         sDDCheat_MovieSelectIdx_5BBFF0++;
     }
 
-    if (Path_Get_FMV_Record_460F70(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id <= 0)
+    if (Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id <= 0)
     {
         sDDCheat_MovieSelectIdx_5BBFF0 = 1;
     }
 
     if (field_38_input_pressed & InputCommands::Enum::eDown)
     {
-        Path_Get_FMV_Record_460F70(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id--;
+        Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id--;
     }
     if (field_38_input_pressed & InputCommands::Enum::eUp)
     {
-        FmvInfo* movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
+        FmvInfo* movieToPlayInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
         u32 pos = 0;
-        Get_fmvs_sectors_494460(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
+        Get_fmvs_sectors(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(gMap.mCurrentLevel);
         ae_new<Movie>(movieToPlayInfo->field_4_id,
                                          pos,
@@ -172,7 +172,7 @@ void DDCheat::Menu_Movies_416000()
                                          movieToPlayInfo->field_A_volume);
     }
 
-    const FmvInfo* fmvInfo = Path_Get_FMV_Record_460F70(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
+    const FmvInfo* fmvInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
     DDCheat::DebugStr_4F5560("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx_5BBFF0, fmvInfo->field_4_id, fmvInfo->field_0_pName);
     field_20 += 6;
 }
@@ -258,7 +258,7 @@ void DDCheat::Update_415780()
             if (sActiveHero_5C1B68)
             {
                 PSX_Point pos;
-                gMap.GetCurrentCamCoords_480680(&pos);
+                gMap.GetCurrentCamCoords(&pos);
                 sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
                 sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
                 sActiveHero_5C1B68->field_106_current_motion = 3;

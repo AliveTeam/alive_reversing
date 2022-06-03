@@ -21,16 +21,12 @@ struct Path_Hoist;
 class HoistRocksEffect final : public BaseGameObject
 {
 public:
-    virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
-    virtual void VScreenChanged() override;
     HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo);
     ~HoistRocksEffect();
 
-private:
-    void Update_45D460();
-    void Render_45D7B0(PrimHeader** ppOt);
-    void vScreenChanged_45D790();
+    virtual void VUpdate() override;
+    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VScreenChanged() override;
 
 private:
     s16 field_20_xpos;

@@ -107,7 +107,7 @@ void Bullet::vUpdate_413560()
                                     pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
-                                New_Smoke_Particles_426C70(
+                                New_Smoke_Particles(
                                     pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 3, 128u, 128u, 128u);
@@ -118,7 +118,7 @@ void Bullet::vUpdate_413560()
                                     pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
-                                New_Smoke_Particles_426C70(
+                                New_Smoke_Particles(
                                     pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 3, 128u, 128u, 128u);
@@ -148,7 +148,7 @@ void Bullet::vUpdate_413560()
                         hitX - (field_3C_scale * FP_FromInteger(6)),
                         (FP_FromInteger(10) * field_3C_scale) + hitY,
                         field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
-                    New_Smoke_Particles_426C70(hitX - (field_3C_scale * FP_FromInteger(6)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
+                    New_Smoke_Particles(hitX - (field_3C_scale * FP_FromInteger(6)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
                 }
                 else
                 {
@@ -156,7 +156,7 @@ void Bullet::vUpdate_413560()
                         hitX + (field_3C_scale * FP_FromInteger(7)),
                         (FP_FromInteger(10) * field_3C_scale) + hitY,
                         field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
-                    New_Smoke_Particles_426C70(hitX + (field_3C_scale * FP_FromInteger(7)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
+                    New_Smoke_Particles(hitX + (field_3C_scale * FP_FromInteger(7)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
                 }
 
                 if (Math_RandomRange_496AB0(0, 100) < 90)
@@ -184,7 +184,7 @@ void Bullet::vUpdate_413560()
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
 
-                        New_Smoke_Particles_426C70(
+                        New_Smoke_Particles(
                             (field_3C_scale * FP_FromInteger(30)) + pShotObj->field_B8_xpos - FP_FromInteger(randomW),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 3, 128u, 128u, 128u);
@@ -198,7 +198,7 @@ void Bullet::vUpdate_413560()
                             field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
 
 
-                        New_Smoke_Particles_426C70(
+                        New_Smoke_Particles(
                             FP_FromInteger(randomW) + pShotObj->field_B8_xpos - (field_3C_scale * FP_FromInteger(30)),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 3, 128u, 128u, 128u);
@@ -231,7 +231,7 @@ void Bullet::vUpdate_413560()
 
         case BulletType::ePossessedSligZBullet_1:
         {
-            const s32 xSnapped = SnapToXGrid_449930(FP_FromInteger(1), FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos));
+            const s32 xSnapped = SnapToXGrid(FP_FromInteger(1), FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos));
             PSX_RECT rect = {};
             rect.x = static_cast<s16>(xSnapped - 25);
             rect.w = static_cast<s16>(xSnapped - 25 + 50);
@@ -262,7 +262,7 @@ void Bullet::vUpdate_413560()
                 == 1)
             {
                 ae_new<Spark>(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
-                New_Smoke_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
+                New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
             }
             SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
             mFlags.Set(BaseGameObject::eDead);
@@ -309,7 +309,7 @@ void Bullet::vUpdate_413560()
                     == 1)
                 {
                     ae_new<Spark>(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
-                    New_Smoke_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
+                    New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
                 }
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_496AB0(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
             }
@@ -388,7 +388,7 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
                         {
                             if (((field_20_type == BulletType::eZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale))
                             {
-                                if (pObj->Type() != AETypes::eGlukkon_67 || FP_Abs(pObj->field_B8_xpos - field_28_xpos) >= ScaleToGridSize_4498B0(field_3C_scale))
+                                if (pObj->Type() != AETypes::eGlukkon_67 || FP_Abs(pObj->field_B8_xpos - field_28_xpos) >= ScaleToGridSize(field_3C_scale))
                                 {
                                     if (!pObjectToShoot)
                                     {

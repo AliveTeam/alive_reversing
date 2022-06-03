@@ -60,7 +60,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
         return;
     }
 
-    SND_SEQ_PlaySeq_4CA960(SeqId::NecrumAmbient2_17, 0, 1);
+    SND_SEQ_PlaySeq(SeqId::NecrumAmbient2_17, 0, 1);
     bTheOneControllingTheMusic_5BC112 = true;
 }
 
@@ -114,7 +114,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
         return;
     }
 
-    SND_SEQ_PlaySeq_4CA960(SeqId::NecrumAmbient2_17, 0, 1);
+    SND_SEQ_PlaySeq(SeqId::NecrumAmbient2_17, 0, 1);
     bTheOneControllingTheMusic_5BC112 = true;
 }
 
@@ -125,13 +125,13 @@ Dove::~Dove()
         gDovesArray_5BC100.Remove_Item(this);
         if (field_F8_tlvInfo)
         {
-            Path::TLV_Reset_4DB8E0(field_F8_tlvInfo, -1, 0, 0);
+            Path::TLV_Reset(field_F8_tlvInfo, -1, 0, 0);
         }
     }
 
     if (bTheOneControllingTheMusic_5BC112)
     {
-        SND_SEQ_Stop_4CAE60(SeqId::NecrumAmbient2_17);
+        SND_SEQ_Stop(SeqId::NecrumAmbient2_17);
         bTheOneControllingTheMusic_5BC112 = 0;
     }
 }
@@ -194,7 +194,7 @@ void Dove::VUpdate()
 
     if (!bTheOneControllingTheMusic_5BC112)
     {
-        SND_SEQ_PlaySeq_4CA960(SeqId::NecrumAmbient2_17, 0, 1);
+        SND_SEQ_PlaySeq(SeqId::NecrumAmbient2_17, 0, 1);
         bTheOneControllingTheMusic_5BC112 = 1;
     }
 
@@ -209,11 +209,11 @@ void Dove::VUpdate()
             if (Event_Get_422C00(kEventNoise))
             {
                 // player getting near
-                if (VIsObjNearby(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
+                if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
                 {
                     Dove::All_FlyAway_41FA60(1);
                 }
-                if (VIsObjNearby(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
+                if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
                 {
                     // noise is too near, leg it
                     Dove::All_FlyAway_41FA60(0);
@@ -351,7 +351,7 @@ void Dove::All_FlyAway_41FA60(Bool32 spookedInstantly)
     bExtraSeqStarted_5BC10C = 0; // TODO: Never read ??
     if (bTheOneControllingTheMusic_5BC112)
     {
-        SND_SEQ_Stop_4CAE60(SeqId::NecrumAmbient2_17);
+        SND_SEQ_Stop(SeqId::NecrumAmbient2_17);
         bTheOneControllingTheMusic_5BC112 = FALSE;
     }
 }

@@ -163,10 +163,9 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override
-    { }
-
-    void Render_4CF4C0(PrimHeader** ppOt);
-    void Update_4CF010();
+    { 
+        // Empty
+    }
 
     static s32 GetPageIndexFromCam_4D05A0(s32 camId);
 

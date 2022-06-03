@@ -70,27 +70,12 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     field_104_bEnabled = 0;
 }
 
-void ParamiteWeb::VUpdate()
-{
-    vUpdate_4E1F40();
-}
-
-void ParamiteWeb::VScreenChanged()
-{
-    vScreenChanged_4E1F80();
-}
-
-void ParamiteWeb::VRender(PrimHeader** ppOt)
-{
-    vRender_4E1BA0(ppOt);
-}
-
 ParamiteWeb::~ParamiteWeb()
 {
     ResourceManager::FreeResource_49C330(field_FC_ppRes);
 }
 
-void ParamiteWeb::vUpdate_4E1F40()
+void ParamiteWeb::VUpdate()
 {
     if (field_104_bEnabled == 1)
     {
@@ -102,7 +87,7 @@ void ParamiteWeb::vUpdate_4E1F40()
     }
 }
 
-void ParamiteWeb::vScreenChanged_4E1F80()
+void ParamiteWeb::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
@@ -110,10 +95,10 @@ void ParamiteWeb::vScreenChanged_4E1F80()
     }
 }
 
-void ParamiteWeb::vRender_4E1BA0(PrimHeader** ppOt)
+void ParamiteWeb::VRender(PrimHeader** ppOt)
 {
     PSX_Point camCoords = {};
-    gMap.GetCurrentCamCoords_480680(&camCoords);
+    gMap.GetCurrentCamCoords(&camCoords);
     if (field_C2_lvl_number == gMap.mCurrentLevel && field_C0_path_number == gMap.mCurrentPath)
     {
         if (field_B8_xpos >= FP_FromInteger(camCoords.field_0_x) && field_B8_xpos <= FP_FromInteger(camCoords.field_0_x + 1024))

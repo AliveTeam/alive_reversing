@@ -204,7 +204,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
     return polyOffset + characterRenderCount;
 }
 
-s32 Font::MeasureWidth_433700(const char_type* text)
+s32 Font::MeasureTextWidth(const char_type* text)
 {
     s32 result = 0;
 
@@ -243,14 +243,14 @@ s32 Font::MeasureWidth_433700(const char_type* text)
 }
 
 // Measures the width of a string with scale applied.
-s32 Font::MeasureWidth_4336C0(const char_type* text, FP scale)
+s32 Font::MeasureScaledTextWidth(const char_type* text, FP scale)
 {
-    FP ret = (FP_FromInteger(MeasureWidth_433700(text)) * scale) + FP_FromDouble(0.5);
+    FP ret = (FP_FromInteger(MeasureTextWidth(text)) * scale) + FP_FromDouble(0.5);
     return FP_GetExponent(ret);
 }
 
 // Measures the width of a single character.
-s32 Font::MeasureWidth_433630(char_type character)
+s32 Font::MeasureCharacterWidth(char_type character)
 {
     s32 result = 0;
     s32 charIndex = 0;
@@ -278,7 +278,7 @@ s32 Font::MeasureWidth_433630(char_type character)
 }
 
 // Wasn't too sure what to call this. Returns the s8 offset of where the text is cut off. (left and right region)
-const char_type* Font::SliceText_433BD0(const char_type* text, s32 left, FP scale, s32 right)
+const char_type* Font::SliceText(const char_type* text, s32 left, FP scale, s32 right)
 {
     s32 xOff = 0;
     s32 rightWorldSpace = static_cast<s32>(right * 0.575);

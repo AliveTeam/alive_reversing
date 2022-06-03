@@ -222,7 +222,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
     field_A4_message_cutoff_ptr = nullptr;
     field_2AC_x_offset = 0;
     sFontDrawScreenSpace_5CA4B4 = 1;
-    field_2AE_character_width = static_cast<u16>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
+    field_2AE_character_width = static_cast<u16>(field_60_font.MeasureCharacterWidth(*field_A0_message) + 2);
     sFontDrawScreenSpace_5CA4B4 = 0;
     field_2B4_show_random_message = 1;
     field_2B6_message_rand_min_id = params->field_12_message_rand_min_id;
@@ -232,7 +232,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
     gObjList_drawables_5C1124->Push_Back_40CAF0(this);
 }
 
-void LCDScreen::Update_460A00()
+void LCDScreen::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -280,7 +280,7 @@ void LCDScreen::Update_460A00()
         }
 
         sFontDrawScreenSpace_5CA4B4 = 1;
-        field_2AE_character_width = static_cast<u16>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
+        field_2AE_character_width = static_cast<u16>(field_60_font.MeasureCharacterWidth(*field_A0_message) + 2);
         sFontDrawScreenSpace_5CA4B4 = 0;
     }
 
@@ -288,7 +288,7 @@ void LCDScreen::Update_460A00()
     auto screenRight = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
 
     sFontDrawScreenSpace_5CA4B4 = 1;
-    auto slicedText = field_60_font.SliceText_433BD0(
+    auto slicedText = field_60_font.SliceText(
         field_A0_message,
         PCToPsxX(screenLeft) - field_2AC_x_offset,
         FP_FromInteger(1),
@@ -308,7 +308,7 @@ void LCDScreen::Update_460A00()
     }
 }
 
-void LCDScreen::Render_460CB0(PrimHeader** ppOt)
+void LCDScreen::VRender(PrimHeader** ppOt)
 {
     if (sNum_CamSwappers_5C1B66 == 0)
     {
@@ -365,7 +365,7 @@ void LCDScreen::Render_460CB0(PrimHeader** ppOt)
     }
 }
 
-void LCDScreen::vSetDead_460F10()
+void LCDScreen::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
@@ -375,26 +375,11 @@ LCDScreen::~LCDScreen()
     IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
 
     gObjList_drawables_5C1124->Remove_Item(this);
-    Path::TLV_Reset_4DB8E0(field_2BC_tlv_item_info.all, -1, 0, 0);
+    Path::TLV_Reset(field_2BC_tlv_item_info.all, -1, 0, 0);
 
     if (!--sFontType2LoadCount_5BC5E8)
     {
         sFont2Context_5BC5D8.dtor_433510();
     }
     field_60_font.dtor_433540();
-}
-
-void LCDScreen::VUpdate()
-{
-    Update_460A00();
-}
-
-void LCDScreen::VRender(PrimHeader** ppOt)
-{
-    Render_460CB0(ppOt);
-}
-
-void LCDScreen::VScreenChanged()
-{
-    vSetDead_460F10();
 }

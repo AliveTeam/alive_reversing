@@ -81,7 +81,7 @@ Alarm::~Alarm()
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_84_tlvOffsetLevelPathCamId, -1, 0, 0);
+        Path::TLV_Reset(field_84_tlvOffsetLevelPathCamId, -1, 0, 0);
     }
 }
 

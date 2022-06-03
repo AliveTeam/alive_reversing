@@ -24,13 +24,8 @@ public:
     LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo);
     ~LCDScreen();
 
-    void Update_460A00();
-    void Render_460CB0(PrimHeader** ppOt);
-    void vSetDead_460F10();
-
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-    
     virtual void VScreenChanged() override;
 
 public:

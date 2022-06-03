@@ -287,10 +287,7 @@ public:
     virtual void VOnTrapDoorOpen() override;
 
     // New virtuals
-    virtual void VUpdateAnimRes_474D80()
-    {
-        vUpdateAnimRes_474D80();
-    }
+    virtual void VUpdateAnimRes();
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
@@ -299,9 +296,6 @@ private:
     void SetPal(Mud_Emotion emotion);
     s16 FacingTarget(BirdPortal* pTarget);
     s16 TurningWheelHelloOrAllYaResponse();
-
-public:
-    void vUpdateAnimRes_474D80();
 
 public: // Brains
     s16 Brain_0_GiveRings_470C10();

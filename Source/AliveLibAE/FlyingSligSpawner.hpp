@@ -64,10 +64,6 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    void vUpdate_433E10();
-    s32 vGetSaveState_43B730(FlyingSligSpawner_State* pSaveState);
-
-private:
     s32 field_20_tlvInfo;
     s32 field_24_spawned_slig_id;
     s16 field_28_spawner_switch_id;

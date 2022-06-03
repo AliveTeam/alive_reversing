@@ -36,27 +36,15 @@ public:
     ~LaughingGas();
 
     virtual void VScreenChanged() override;
-
     virtual void VUpdate() override;
-
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    void vScreenChanged_432DE0();
-
-    void Init_432980();
-
-    void vRender_432D10(PrimHeader** ppOt);
-
-    void DoRender_432740();
-
-    s16 CounterOver_432DA0();
-
-    void vUpdate_432C40();
-
-    f32 Calc_X_4326A0(f32* a2, s32 xIndex);
-    f32 Calc_Y_4326F0(f32* a2, s32 yIndex);
-
+    void Init();
+    void DoRender();
+    s16 CounterOver();
+    f32 Calc_X(f32* a2, s32 xIndex);
+    f32 Calc_Y(f32* a2, s32 yIndex);
     void sub_4328A0();
 
 private:

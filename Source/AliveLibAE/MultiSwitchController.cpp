@@ -7,16 +7,6 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-void MultiSwitchController::VUpdate()
-{
-    vUpdate_4D6250();
-}
-
-void MultiSwitchController::VScreenChanged()
-{
-    vScreenChanged_4D6860();
-}
-
 MultiSwitchController::MultiSwitchController(Path_MultiSwitchController* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
@@ -44,10 +34,10 @@ MultiSwitchController::MultiSwitchController(Path_MultiSwitchController* pTlv, u
 
 MultiSwitchController::~MultiSwitchController()
 {
-    Path::TLV_Reset_4DB8E0(field_30_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_30_tlvInfo, -1, 0, 0);
 }
 
-void MultiSwitchController::vScreenChanged_4D6860()
+void MultiSwitchController::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
@@ -55,7 +45,7 @@ void MultiSwitchController::vScreenChanged_4D6860()
     }
 }
 
-void MultiSwitchController::vUpdate_4D6250()
+void MultiSwitchController::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -64,15 +54,15 @@ void MultiSwitchController::vUpdate_4D6250()
 
     if (field_40_flags.Get(Flags_40::eBit1_is_on))
     {
-        WaitingForAllOff_4D65B0();
+        WaitingForAllOff();
     }
     else
     {
-        WaitingForAllOn_4D6290();
+        WaitingForAllOn();
     }
 }
 
-void MultiSwitchController::WaitingForAllOn_4D6290()
+void MultiSwitchController::WaitingForAllOn()
 {
     const s32 id1_value = SwitchStates_Get(field_20_input_switch_id1);
     if (id1_value)
@@ -180,7 +170,7 @@ void MultiSwitchController::WaitingForAllOn_4D6290()
     }
 }
 
-void MultiSwitchController::WaitingForAllOff_4D65B0()
+void MultiSwitchController::WaitingForAllOff()
 {
     s32 id1_value = 0;
     if (field_20_input_switch_id1 > 1u)

@@ -65,7 +65,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
+    field_B8_xpos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 
     field_106_on_sound = pTlv->field_18_on_sound;
     field_108_off_sound = pTlv->field_1A_off_sound;
@@ -85,34 +85,9 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_DC_bApplyShadows |= 2;
 }
 
-void PullRingRope::VUpdate()
-{
-    vUpdate_49B720();
-}
-
-void PullRingRope::VScreenChanged()
-{
-    vScreenChanged_49BCB0();
-}
-
-s16 PullRingRope::VPull_49BBD0(BaseGameObject* pObj)
-{
-    return vPull_49BBD0(pObj);
-}
-
-Bool32 PullRingRope::VIsNotBeingPulled_49BC90()
-{
-    return vIsNotBeingPulled_49BC90();
-}
-
-void PullRingRope::VMarkAsPulled_49B610()
-{
-    return vMarkAsPulled_49B610();
-}
-
 PullRingRope::~PullRingRope()
 {
-    Path::TLV_Reset_4DB8E0(field_110_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_110_tlvInfo, -1, 0, 0);
 
     BaseGameObject* pRope = sObjectIds.Find(field_F8_rope_id, AETypes::eLiftRope_108);
     if (pRope)
@@ -121,9 +96,9 @@ PullRingRope::~PullRingRope()
     }
 }
 
-void PullRingRope::vUpdate_49B720()
+void PullRingRope::VUpdate()
 {
-    auto pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_FC_ring_puller_id));
+    auto pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_FC_ring_puller_id));
     auto pRope = static_cast<Rope*>(sObjectIds.Find(field_F8_rope_id, AETypes::eLiftRope_108));
 
     if (Event_Get_422C00(kEventDeathReset))
@@ -256,16 +231,16 @@ void PullRingRope::vUpdate_49B720()
     }
 }
 
-void PullRingRope::vScreenChanged_49BCB0()
+void PullRingRope::VScreenChanged()
 {
     // If the person pulling the rope is gone then so are we
-    if (!sObjectIds.Find_449CF0(field_FC_ring_puller_id))
+    if (!sObjectIds.Find_Impl(field_FC_ring_puller_id))
     {
         mFlags.Set(BaseGameObject::eDead);
     }
 }
 
-s16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
+s16 PullRingRope::VPull(BaseGameObject* pObj)
 {
     if (!pObj || field_100_state != States::eIdle_0)
     {
@@ -282,12 +257,12 @@ s16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
     return 1;
 }
 
-Bool32 PullRingRope::vIsNotBeingPulled_49BC90()
+Bool32 PullRingRope::VIsNotBeingPulled()
 {
     return field_100_state != States::eBeingPulled_1;
 }
 
-void PullRingRope::vMarkAsPulled_49B610()
+void PullRingRope::VMarkAsPulled()
 {
     field_10C_is_pulled |= 1u;
 }

@@ -170,11 +170,11 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
                 field_F8_pRes[i].field_4_y = field_BC_ypos;
                 field_F8_pRes[i].field_8_z = FP_FromInteger(0);
 
-                Random_Speed_41CEE0(&field_F8_pRes[i].field_C_x_speed);
-                Random_Speed_41CEE0(&field_F8_pRes[i].field_10_y_speed);
+                Random_Speed(&field_F8_pRes[i].field_C_x_speed);
+                Random_Speed(&field_F8_pRes[i].field_10_y_speed);
                 // OG bug sign could be wrong here as it called random again to Abs() it!
                 FP zRandom = {};
-                field_F8_pRes[i].field_14_z_speed = -FP_Abs(*Random_Speed_41CEE0(&zRandom));
+                field_F8_pRes[i].field_14_z_speed = -FP_Abs(*Random_Speed(&zRandom));
             }
         }
     }
@@ -184,7 +184,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
     }
 }
 
-FP* ParticleBurst::Random_Speed_41CEE0(FP* random)
+FP* ParticleBurst::Random_Speed(FP* random)
 {
     const FP v2 = FP_FromRaw((Math_NextRandom() - 128) << LOBYTE(field_106_count));
     *random = v2 * field_CC_sprite_scale;

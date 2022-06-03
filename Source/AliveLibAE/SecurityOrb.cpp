@@ -75,16 +75,16 @@ SecurityOrb::~SecurityOrb()
 {
     if (field_124_sound_channels_mask)
     {
-        SND_Stop_Channels_Mask_4CA810(field_124_sound_channels_mask);
+        SND_Stop_Channels_Mask(field_124_sound_channels_mask);
     }
 
     if (field_10C_health > FP_FromInteger(0))
     {
-        Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(field_118_tlvInfo, -1, 0, 1);
     }
 }
 
@@ -227,7 +227,7 @@ void SecurityOrb::VUpdate()
         {
             if (field_124_sound_channels_mask)
             {
-                SND_Stop_Channels_Mask_4CA810(field_124_sound_channels_mask);
+                SND_Stop_Channels_Mask(field_124_sound_channels_mask);
             }
 
             if (field_CC_sprite_scale == FP_FromDouble(0.5))

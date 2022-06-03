@@ -163,8 +163,8 @@ public:
 
                 std::string text = std::to_string(static_cast<s32>(pBaseGameObject->Type()));
 
-                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_Above_FG1_39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
-                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_FadeFlash_40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
+                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureTextWidth(text.c_str()) / 2) + 1, y + 1, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_Above_FG1_39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
+                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureTextWidth(text.c_str()) / 2), y, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_FadeFlash_40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
             }
         }
     }
@@ -476,7 +476,7 @@ void Command_HelperUpdate()
     if (sHasTeleported)
     {
         PSX_Point pos;
-        gMap.GetCurrentCamCoords_480680(&pos);
+        gMap.GetCurrentCamCoords(&pos);
 
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
@@ -556,7 +556,7 @@ void Command_Teleport(const std::vector<std::string>& args)
     }
     s16 path = static_cast<s16>(std::stoi(args[1]));
     s16 cam = static_cast<s16>(std::stoi(args[2]));
-    gMap.SetActiveCam_480D30(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::ePlay1FMV_5, 0, 0);
+    gMap.SetActiveCam(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::ePlay1FMV_5, 0, 0);
 
 
     sHasTeleported = true;
@@ -624,10 +624,10 @@ void Command_LoadSave(const std::vector<std::string>& args)
 
 void Command_DDV(const std::vector<std::string>& args)
 {
-    SND_StopAll_4CB060();
+    SND_StopAll();
 
     std::string filePath = args[0] + ".STR";
-    while (!DDV_Play_493210(filePath.c_str()))
+    while (!DDV_Play(filePath.c_str()))
     {
         if (gAttract_5C1BA0)
         {
@@ -877,10 +877,10 @@ public:
 
         InitDebugFont();
 
-        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, LoadMode::ConstructObject_0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kAbebombResID, LoadMode::ConstructObject_0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00ResID, LoadMode::ConstructObject_0, 0);
-        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, LoadMode::ConstructObject_0, 0);
+        Map::LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, LoadMode::ConstructObject_0, 0);
+        Map::LoadResource("EXPLODE.BND", ResourceManager::Resource_Animation, kAbebombResID, LoadMode::ConstructObject_0, 0);
+        Map::LoadResource("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00ResID, LoadMode::ConstructObject_0, 0);
+        Map::LoadResource("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, LoadMode::ConstructObject_0, 0);
     }
 
     ~DebugConsole()
@@ -936,7 +936,7 @@ public:
     {
         if (g_DisableMusic)
         {
-            MusicController::EnableMusic_47FE10(FALSE);
+            MusicController::static_EnableMusic(FALSE);
         }
 
         static bool hasRunAutorun = false;
@@ -968,7 +968,7 @@ public:
 
         char_type titleBuffer[1000];
         char_type camBuffer[32];
-        Path_Format_CameraName_460FB0(
+        Path_Format_CameraName(
             camBuffer,
             gMap.mCurrentLevel,
             gMap.mCurrentPath,
@@ -2258,8 +2258,8 @@ void DEV::DebugDrawText(PrimHeader** ot, Layer layer, std::string& text, s32 x, 
         y -= FP_GetExponent(camOffset.field_4_y);
     }
 
-    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2), static_cast<s16>(y), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
-    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, static_cast<s16>(y + 1), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureTextWidth(text.c_str()) / 2), static_cast<s16>(y), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureTextWidth(text.c_str()) / 2) + 1, static_cast<s16>(y + 1), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
 }
 
 void DEV::DebugOnFrameDraw(PrimHeader** ppOt)

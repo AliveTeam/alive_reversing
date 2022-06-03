@@ -407,9 +407,9 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
     gBaseAliveGameObjects_5C1B7C = ae_new<DynamicArrayT<BaseAliveGameObject>>(20);
 
     ResourceManager::Init_49BCE0();
-    SND_Init_4CA1F0();
+    SND_Init();
     SND_Init_Ambiance_4CB480();
-    MusicController::Create_47FC40();
+    MusicController::Create();
     Init_GameStates_43BF40(); // Init other vars + switch states
 }
 
@@ -515,7 +515,7 @@ void Game_Run_466D40()
     #endif
 #endif
 
-    gMap.Init_4803F0(LevelIds::eMenu_0, 1, cameraId, CameraSwapEffects::eInstantChange_0, 0, 0);
+    gMap.Init(LevelIds::eMenu_0, 1, cameraId, CameraSwapEffects::eInstantChange_0, 0, 0);
 
     DDCheat_Allocate_415320();
     pEventSystem_5BC11C = ae_new<GameSpeak>();
@@ -535,7 +535,7 @@ void Game_Run_466D40()
     // Shut down start
     Game_Free_LoadingIcon_482D40();
     DDCheat::ClearProperties_415390();
-    gMap.Shutdown_4804E0();
+    gMap.Shutdown();
 
     relive_delete gObjList_animations_5C1A24;
     relive_delete gObjList_drawables_5C1124;
@@ -548,10 +548,10 @@ void Game_Run_466D40()
     relive_delete sCollisions_DArray_5C1128;
 
     pMusicController_5C3020 = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?
-    MusicController::Shutdown_47FD20();
+    MusicController::Shutdown();
 
     SND_Reset_Ambiance_4CB4B0();
-    SND_Shutdown_4CA280();
+    SND_Shutdown();
     PSX_CdControlB_4FB320(8, 0, 0);
     PSX_ResetCallBack_4FAA20();
     PSX_StopCallBack_4FAA30();
@@ -789,7 +789,7 @@ void Game_Loop_467230()
 
         bPauseMenuObjectFound = false;
 
-        gMap.ScreenChange_480B80();
+        gMap.ScreenChange();
         sInputObject_5BD4E0.Update(GetGameAutoPlayer());
 
         if (sNum_CamSwappers_5C1B66 == 0)

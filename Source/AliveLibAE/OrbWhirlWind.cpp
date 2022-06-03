@@ -24,30 +24,30 @@ OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale, bool bIsMudokonSpirit)
     memset(field_2C_particles, 0, sizeof(field_2C_particles));
 }
 
-void OrbWhirlWind::ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
+void OrbWhirlWind::ToSpin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
 {
     for (s32 i = 0; i < field_28_particleIdx; i++)
     {
         if (field_2C_particles[i])
         {
-            if (!field_2C_particles[i]->IsActive_4E4370())
+            if (!field_2C_particles[i]->IsActive())
             {
-                field_2C_particles[i]->Spin_4E4A10(xpos, ypos, scale, pObj);
+                field_2C_particles[i]->Spin(xpos, ypos, scale, pObj);
             }
         }
     }
     field_24_particles_state = ParticlesState::eActive;
 }
 
-void OrbWhirlWind::ToStop_4E4050()
+void OrbWhirlWind::ToStop()
 {
     for (s32 i = 0; i < field_28_particleIdx; i++)
     {
         if (field_2C_particles[i])
         {
-            if (!field_2C_particles[i]->IsActive_4E4370())
+            if (!field_2C_particles[i]->IsActive())
             {
-                field_2C_particles[i]->ToStop_4E4AD0();
+                field_2C_particles[i]->ToStop();
             }
         }
     }
@@ -60,7 +60,7 @@ void OrbWhirlWind::VRender(PrimHeader** ppOt)
     {
         if (field_2C_particles[i])
         {
-            if (!field_2C_particles[i]->IsActive_4E4370())
+            if (!field_2C_particles[i]->IsActive())
             {
                 field_2C_particles[i]->Render(ppOt);
             }
@@ -95,7 +95,7 @@ void OrbWhirlWind::VUpdate()
         {
             if (field_2C_particles[i])
             {
-                if (!field_2C_particles[i]->IsActive_4E4370())
+                if (!field_2C_particles[i]->IsActive())
                 {
                     hasInactiveParticles = true;
                     break;
@@ -113,7 +113,7 @@ void OrbWhirlWind::VUpdate()
     {
         if (field_2C_particles[i])
         {
-            if (!field_2C_particles[i]->IsActive_4E4370())
+            if (!field_2C_particles[i]->IsActive())
             {
                 field_2C_particles[i]->Update();
             }

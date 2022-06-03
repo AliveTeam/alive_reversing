@@ -32,7 +32,7 @@ SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
 
 void SlogSpawner::VScreenChanged()
 {
-    Path::TLV_Reset_4DB8E0(field_20_tlvInfo, field_24_tlv_saved_slog_count, 0, 0);
+    Path::TLV_Reset(field_20_tlvInfo, field_24_tlv_saved_slog_count, 0, 0);
     mFlags.Set(BaseGameObject::eDead);
 }
 
@@ -59,7 +59,7 @@ void SlogSpawner::VUpdate()
 
             if (field_24_tlv_saved_slog_count >= field_36_max_slogs)
             {
-                Path::TLV_Reset_4DB8E0(field_20_tlvInfo, field_24_tlv_saved_slog_count, 0, 1);
+                Path::TLV_Reset(field_20_tlvInfo, field_24_tlv_saved_slog_count, 0, 1);
                 mFlags.Set(BaseGameObject::eDead);
             }
         }

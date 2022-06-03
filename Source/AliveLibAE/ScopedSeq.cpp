@@ -50,7 +50,7 @@ ScopedSeq::ScopedSeq(s32 ambianceId, CameraPos direction)
 
     if (field_4_seq_id != -1)
     {
-        SND_SEQ_Play_4CAB10(field_4_seq_id, 0, 40 * leftVol + 15, 40 * rightVol + 15);
+        SND_SEQ_Play(field_4_seq_id, 0, 40 * leftVol + 15, 40 * rightVol + 15);
     }
 }
 
@@ -58,11 +58,11 @@ ScopedSeq::~ScopedSeq()
 {
     if (field_4_seq_id >= 0)
     {
-        SND_SEQ_Stop_4CAE60(field_4_seq_id);
+        SND_SEQ_Stop(field_4_seq_id);
     }
 
     if (field_8_channel_mask)
     {
-        SND_Stop_Channels_Mask_4CA810(field_8_channel_mask);
+        SND_Stop_Channels_Mask(field_8_channel_mask);
     }
 }

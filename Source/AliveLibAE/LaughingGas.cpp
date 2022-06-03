@@ -74,13 +74,13 @@ LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, Path_LaughingGas* pTlv, s
 
     field_19C_pMem = static_cast<u16*>(ae_malloc_non_zero_4954F0(sizeof(s16) * field_31FC_h_count * field_31F8_w_count));
 
-    Init_432980();
+    Init();
     VUpdate();
 }
 
 LaughingGas::~LaughingGas()
 {
-    Path::TLV_Reset_4DB8E0(field_24_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_24_tlvInfo, -1, 0, 0);
     gObjList_drawables_5C1124->Remove_Item(this);
     gLaughingGasOn_5C1BA4 = FALSE;
     gGasInstanceCount_5BC214--;
@@ -89,27 +89,12 @@ LaughingGas::~LaughingGas()
 
 void LaughingGas::VScreenChanged()
 {
-    vScreenChanged_432DE0();
-}
-
-void LaughingGas::VUpdate()
-{
-    vUpdate_432C40();
-}
-
-void LaughingGas::VRender(PrimHeader** ppOt)
-{
-    vRender_432D10(ppOt);
-}
-
-void LaughingGas::vScreenChanged_432DE0()
-{
     mFlags.Set(BaseGameObject::eDead);
 }
 
 const f32 dword_551C58[7] = {1.0, 5.0, 10.0, 10.0, 5.0, 1.0, 0.0};
 
-void LaughingGas::Init_432980()
+void LaughingGas::Init()
 {
     for (s32 i = 0; i < field_31F8_w_count; i++)
     {
@@ -171,7 +156,7 @@ void LaughingGas::Init_432980()
     field_5C_prim.pData = field_19C_pMem;
 }
 
-void LaughingGas::vRender_432D10(PrimHeader** ppOt)
+void LaughingGas::VRender(PrimHeader** ppOt)
 {
     if (field_54_amount_on > FP_FromDouble(0.1) || field_36_bLaughing_gas == Choice_short::eNo_0)
     {
@@ -179,7 +164,7 @@ void LaughingGas::vRender_432D10(PrimHeader** ppOt)
         {
             if (sbDisplayRenderFrame_55EF8C)
             {
-                DoRender_432740();
+                DoRender();
             }
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_58_layer), &field_5C_prim.mPrimHeader);
         }
@@ -187,7 +172,7 @@ void LaughingGas::vRender_432D10(PrimHeader** ppOt)
     }
 }
 
-void LaughingGas::DoRender_432740()
+void LaughingGas::DoRender()
 {
     f32 local_array[6];
 
@@ -203,12 +188,12 @@ void LaughingGas::DoRender_432740()
     {
         for (s32 p = 0; p < 6; p++)
         {
-            local_array[p] = Calc_Y_4326F0(&field_7C_gas_y[p][0], yCount);
+            local_array[p] = Calc_Y(&field_7C_gas_y[p][0], yCount);
         }
 
         for (s32 xCount = 0; xCount < field_31F8_w_count; ++memPtr)
         {
-            f32 yValue = Calc_X_4326A0(local_array, xCount);
+            f32 yValue = Calc_X(local_array, xCount);
             if (yValue > 0.0f)
             {
                 if (yValue >= 3.0f)
@@ -234,12 +219,12 @@ void LaughingGas::DoRender_432740()
     }
 }
 
-s16 LaughingGas::CounterOver_432DA0()
+s16 LaughingGas::CounterOver()
 {
     return field_54_amount_on >= FP_FromDouble(0.3);
 }
 
-void LaughingGas::vUpdate_432C40()
+void LaughingGas::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -276,7 +261,7 @@ void LaughingGas::vUpdate_432C40()
     if (field_36_bLaughing_gas == Choice_short::eYes_1)
     {
         gLaughingGasOn_5C1BA4 = 1;
-        if (CounterOver_432DA0())
+        if (CounterOver())
         {
             sub_4328A0();
             return;
@@ -287,7 +272,7 @@ void LaughingGas::vUpdate_432C40()
     sub_4328A0();
 }
 
-f32 LaughingGas::Calc_X_4326A0(f32* a2, s32 xIndex)
+f32 LaughingGas::Calc_X(f32* a2, s32 xIndex)
 {
     f32 result = 0.0;
     f32* v4 = a2 + 1;
@@ -302,7 +287,7 @@ f32 LaughingGas::Calc_X_4326A0(f32* a2, s32 xIndex)
     return result;
 }
 
-f32 LaughingGas::Calc_Y_4326F0(f32* a2, s32 yIndex)
+f32 LaughingGas::Calc_Y(f32* a2, s32 yIndex)
 {
     f32 result = 0.0;
     f32* v4 = a2 + 1;

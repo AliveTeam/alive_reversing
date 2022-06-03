@@ -407,7 +407,7 @@ CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
 {
     PSX_RECT rect = {};
     VGetBoundingRect(&rect, 1);
-    return gMap.Rect_Location_Relative_To_Active_Camera_480FE0(&rect);
+    return gMap.Rect_Location_Relative_To_Active_Camera(&rect);
 }
 
 void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
@@ -475,7 +475,7 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
     // note: mudokons used % 4
     if (!(sGnFrame_5C1B84 % 5))
     {
-        New_Smoke_Particles_426C70(
+        New_Smoke_Particles(
             (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
             field_BC_ypos - FP_FromInteger(6),
             field_CC_sprite_scale / FP_FromInteger(2),

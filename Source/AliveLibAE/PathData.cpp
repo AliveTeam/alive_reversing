@@ -2203,7 +2203,7 @@ const static PerLvlData gDemoData_off_5617F0[23] = {
 
 static PathRootContainer sPathData_559660 = pathData;
 
-const PathBlyRec* Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathId)
+const PathBlyRec* Path_Get_Bly_Record(LevelIds lvlId, u16 pathId)
 {
     const PathBlyRec* rec = &sPathData_559660.paths[static_cast<s32>(lvlId)].field_0_pBlyArrayPtr[pathId];
     if (!rec)
@@ -2214,12 +2214,12 @@ const PathBlyRec* Path_Get_Bly_Record_460F30(LevelIds lvlId, u16 pathId)
     return rec;
 }
 
-FmvInfo* Path_Get_FMV_Record_460F70(LevelIds lvlId, u16 fmvId)
+FmvInfo* Path_Get_FMV_Record(LevelIds lvlId, u16 fmvId)
 {
     return &sPathData_559660.paths[static_cast<s32>(lvlId)].field_4_pFmvArray[fmvId];
 }
 
-void Path_Format_CameraName_460FB0(char_type* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId)
+void Path_Format_CameraName(char_type* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId)
 {
     sprintf(pStrBuffer, "%sP%02dC%02d.CAM", Path_Get_Lvl_Name(levelId), pathId, cameraId);
 }

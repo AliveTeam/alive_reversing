@@ -35,7 +35,7 @@ s32 LiftMover::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const LiftMover_State*>(pData);
 
-    Path_LiftMover* pTlv = static_cast<Path_LiftMover*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
+    Path_LiftMover* pTlv = static_cast<Path_LiftMover*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
     auto pLiftMover = ae_new<LiftMover>(pTlv, pState->field_4_tlvInfo);
     if (pLiftMover)
     {
@@ -51,20 +51,10 @@ s32 LiftMover::CreateFromSaveState(const u8* pData)
 
 void LiftMover::VUpdate()
 {
-    vUpdate_40CE20();
-}
-
-s32 LiftMover::VGetSaveState(u8* pSaveBuffer)
-{
-    return vGetSaveState_40D240(reinterpret_cast<LiftMover_State*>(pSaveBuffer));
-}
-
-void LiftMover::vUpdate_40CE20()
-{
     LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds.Find(field_28_lift_id, AETypes::eLiftPoint_78));
     if (field_32_bMoveInProgress)
     {
-        pLift = GetLiftPoint_40D0F0();
+        pLift = GetLiftPoint();
         if (!pLift)
         {
             return;
@@ -87,7 +77,7 @@ void LiftMover::vUpdate_40CE20()
                 {
                     if (!pLift)
                     {
-                        pLift = GetLiftPoint_40D0F0();
+                        pLift = GetLiftPoint();
                     }
 
                     if (pLift)
@@ -104,15 +94,15 @@ void LiftMover::vUpdate_40CE20()
                     return;
                 }
 
-                if (!pLift->vOnAnyFloor_461920())
+                if (!pLift->vOnAnyFloor())
                 {
                     field_30_state = LiftMoverStates::eMovingDown_2;
-                    pLift->vKeepOnMiddleFloor_461870();
+                    pLift->vKeepOnMiddleFloor();
                 }
                 else
                 {
                     pLift->vMove_4626A0(FP_FromInteger(0), field_2C_speed, 0);
-                    if ((field_2C_speed > FP_FromInteger(0) && pLift->vOnBottomFloor_4618F0()) || (field_2C_speed < FP_FromInteger(0) && pLift->vOnTopFloor_461890()))
+                    if ((field_2C_speed > FP_FromInteger(0) && pLift->vOnBottomFloor()) || (field_2C_speed < FP_FromInteger(0) && pLift->vOnTopFloor()))
                     {
                         field_30_state = LiftMoverStates::eMovingDown_2;
                     }
@@ -125,7 +115,7 @@ void LiftMover::vUpdate_40CE20()
                     return;
                 }
 
-                if (!pLift->vOnAFloorLiftMoverCanUse_461960())
+                if (!pLift->vOnAFloorLiftMoverCanUse())
                 {
                     pLift->vMove_4626A0(FP_FromInteger(0), field_2C_speed, 0);
                 }
@@ -142,12 +132,12 @@ void LiftMover::vUpdate_40CE20()
                     return;
                 }
 
-                if (pLift->vOnAFloorLiftMoverCanUse_461960())
+                if (pLift->vOnAFloorLiftMoverCanUse())
                 {
                     pLift->vMove_4626A0(FP_FromInteger(0), field_2C_speed, 0);
                     if (field_2C_speed < FP_FromInteger(0))
                     {
-                        if (pLift->vOnTopFloor_461890())
+                        if (pLift->vOnTopFloor())
                         {
                             field_30_state = LiftMoverStates::eMovingDown_2;
                         }
@@ -155,7 +145,7 @@ void LiftMover::vUpdate_40CE20()
 
                     if (field_2C_speed > FP_FromInteger(0))
                     {
-                        if (pLift->vOnBottomFloor_4618F0())
+                        if (pLift->vOnBottomFloor())
                         {
                             field_30_state = LiftMoverStates::eMovingDown_2;
                         }
@@ -164,7 +154,7 @@ void LiftMover::vUpdate_40CE20()
                 else
                 {
                     field_30_state = LiftMoverStates::eMovingUp_4;
-                    pLift->vKeepOnMiddleFloor_461870();
+                    pLift->vKeepOnMiddleFloor();
                 }
                 break;
 
@@ -174,7 +164,7 @@ void LiftMover::vUpdate_40CE20()
                     return;
                 }
 
-                if (pLift->vOnAFloorLiftMoverCanUse_461960())
+                if (pLift->vOnAFloorLiftMoverCanUse())
                 {
                     pLift->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
 
@@ -208,18 +198,20 @@ void LiftMover::vUpdate_40CE20()
 
 LiftMover::~LiftMover()
 {
-    Path::TLV_Reset_4DB8E0(field_24_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_24_tlvInfo, -1, 0, 0);
 }
 
-s32 LiftMover::vGetSaveState_40D240(LiftMover_State* pState)
+s32 LiftMover::VGetSaveState(u8* pSaveBuffer)
 {
+    auto pState = reinterpret_cast<LiftMover_State*>(pSaveBuffer);
+
     pState->field_0_type_id = AETypes::eLiftMover_9;
     pState->field_4_tlvInfo = field_24_tlvInfo;
     pState->field_8_state = field_30_state;
     return sizeof(LiftMover_State);
 }
 
-LiftPoint* LiftMover::GetLiftPoint_40D0F0()
+LiftPoint* LiftMover::GetLiftPoint()
 {
     for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {

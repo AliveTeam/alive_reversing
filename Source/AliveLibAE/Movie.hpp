@@ -4,8 +4,8 @@
 
 struct CdlLOC;
 
-void Get_fmvs_sectors_494460(const char_type* fmvName1, const char_type* fmvName2, const char_type* fmvName3, u32* fmvSectorPos1, u32* fmvSectorPos2, u32* fmvSectorPos3);
-s8 DDV_Play_493210(const char_type* pDDVName);
+void Get_fmvs_sectors(const char_type* fmvName1, const char_type* fmvName2, const char_type* fmvName3, u32* fmvSectorPos1, u32* fmvSectorPos2, u32* fmvSectorPos3);
+s8 DDV_Play(const char_type* pDDVName);
 bool AreMovieSkippingInputsHeld();
 
 class Movie final : public BaseGameObject
@@ -14,12 +14,11 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    void Init_4DFF60(s32 a2, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume);
+    void Init(s32 a2, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume);
     Movie(s32 id, u32 pos, s32 bUnknown, s32 flags, s32 volume);
-    void vUpdate_4E0030();
 
 private:
-    void DeInit_4E0210();
+    void DeInit();
 
     s16 field_20_unused;
     s16 field_22_volume;

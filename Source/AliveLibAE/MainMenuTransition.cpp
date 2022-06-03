@@ -83,10 +83,10 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
     field_colour_fade_value = 0;
     field_24E_width = 320;
     field_250_k120 = 120;
-    StartTrans_464370(layer, static_cast<s16>(fadeDirection), static_cast<s16>(bKillWhenDone), static_cast<s16>(fadeSpeed));
+    StartTrans(layer, static_cast<s16>(fadeDirection), static_cast<s16>(bKillWhenDone), static_cast<s16>(fadeSpeed));
 }
 
-void MainMenuTransition::StartTrans_464370(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)
+void MainMenuTransition::StartTrans(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)
 {
     field_24C_layer = layer;
     field_24_fade_direction = fadeDirection;
@@ -114,7 +114,7 @@ void MainMenuTransition::StartTrans_464370(Layer layer, s16 fadeDirection, s16 b
     }
 }
 
-void MainMenuTransition::Update_464400()
+void MainMenuTransition::VUpdate()
 {
     if (!field_26_bDone && !field_2A)
     {
@@ -136,7 +136,7 @@ void MainMenuTransition::Update_464400()
     }
 }
 
-void MainMenuTransition::Render_464470(PrimHeader** ppOt)
+void MainMenuTransition::VRender(PrimHeader** ppOt)
 {
     // TODO: The fixed point math/var needs cleaning up/refactoring in here
 
@@ -252,25 +252,10 @@ MainMenuTransition::~MainMenuTransition()
     gObjList_drawables_5C1124->Remove_Item(this);
 }
 
-void MainMenuTransition::vScreenChanged_4648D0()
+void MainMenuTransition::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
         mFlags.Set(BaseGameObject::eDead);
     }
-}
-
-void MainMenuTransition::VRender(PrimHeader** ppOt)
-{
-    Render_464470(ppOt);
-}
-
-void MainMenuTransition::VUpdate()
-{
-    Update_464400();
-}
-
-void MainMenuTransition::VScreenChanged()
-{
-    vScreenChanged_4648D0();
 }

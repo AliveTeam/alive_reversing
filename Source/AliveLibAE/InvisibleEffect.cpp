@@ -61,33 +61,33 @@ InvisibleEffect::~InvisibleEffect()
     }
 }
 
-void InvisibleEffect::InstantInvisibility_45FA00()
+void InvisibleEffect::InstantInvisibility()
 {
     field_4A_flags.Set(Flags_4A::eIsInvisible_Bit3);
     SetUpdateDelay(1);
     field_20_state_or_op = InvisibleState::eSetInvisibile_1;
 }
 
-void InvisibleEffect::BecomeVisible_45FA30()
+void InvisibleEffect::BecomeVisible()
 {
     field_20_state_or_op = InvisibleState::eBecomeVisible_4;
 }
 
-void InvisibleEffect::ClearInvisibility_45FA50()
+void InvisibleEffect::ClearInvisibility()
 {
     SetUpdateDelay(1);
     field_20_state_or_op = InvisibleState::eClearInvisibility_5;
 }
 
-void InvisibleEffect::BecomeInvisible_45F9E0()
+void InvisibleEffect::BecomeInvisible()
 {
     SetUpdateDelay(1);
     field_20_state_or_op = InvisibleState::eSetInvisibile_1;
 }
 
-void InvisibleEffect::vUpdate_45F4A0()
+void InvisibleEffect::VUpdate()
 {
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_44_objId));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_44_objId));
     if (Event_Get_422C00(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -262,11 +262,6 @@ void InvisibleEffect::vUpdate_45F4A0()
             }
         }
     }
-}
-
-void InvisibleEffect::VUpdate()
-{
-    vUpdate_45F4A0();
 }
 
 void InvisibleEffect::VScreenChanged()

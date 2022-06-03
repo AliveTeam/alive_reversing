@@ -12,10 +12,6 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    void vUpdate_4E3330();
-    void vScreenChanged_4E35B0();
-
-private:
     s16 field_F4_bHitSomething;
     //s16 field_F6_pad;
 };

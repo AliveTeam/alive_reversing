@@ -36,11 +36,9 @@ class MusicTrigger final : public BaseGameObject
 public:
     MusicTrigger(Path_MusicTrigger* pTlv, u32 tlvInfo);
     MusicTrigger(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s32 /*not_used*/, s32 delay);
-    void Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 delay);
     ~MusicTrigger();
-    void vScreenChange_4802A0();
-    void vUpdate_480140();
 
+    void Init(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 delay);
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;

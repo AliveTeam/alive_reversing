@@ -30,7 +30,7 @@ ZzzSpawner::ZzzSpawner(Path_ZzzSpawner* pTlv, s32 tlvInfo)
 
 ZzzSpawner::~ZzzSpawner()
 {
-    Path::TLV_Reset_4DB8E0(field_2C_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_2C_tlvInfo, -1, 0, 0);
 }
 
 void ZzzSpawner::VScreenChanged()

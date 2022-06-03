@@ -31,11 +31,6 @@ public:
     virtual void VStopAudio() override;
 
 private:
-    void vStopAudio_43CDE0();
-    void vScreenChanged_43CE20();
-    void vUpdate_43CB70();
-
-private:
     s32 field_20_tlvInfo;
     s32 field_24_emit_power;
     s16 field_28_draw_flipper;

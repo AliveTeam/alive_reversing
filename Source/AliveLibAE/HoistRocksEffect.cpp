@@ -16,21 +16,6 @@ AnimId::HoistRock1};
 
 const static s16 word_5556F0[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
-void HoistRocksEffect::VUpdate()
-{
-    Update_45D460();
-}
-
-void HoistRocksEffect::VRender(PrimHeader** ppOt)
-{
-    Render_45D7B0(ppOt);
-}
-
-void HoistRocksEffect::VScreenChanged()
-{
-    vScreenChanged_45D790();
-}
-
 HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
@@ -100,10 +85,10 @@ HoistRocksEffect::~HoistRocksEffect()
         particle.field_10_mAnim.vCleanUp_40C630();
     }
 
-    Path::TLV_Reset_4DB8E0(field_24_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_24_tlvInfo, -1, 0, 0);
 }
 
-void HoistRocksEffect::Update_45D460()
+void HoistRocksEffect::VUpdate()
 {
     if (field_28_timer <= static_cast<s32>(sGnFrame_5C1B84))
     {
@@ -188,7 +173,7 @@ void HoistRocksEffect::Update_45D460()
     }
 }
 
-void HoistRocksEffect::Render_45D7B0(PrimHeader** ppOt)
+void HoistRocksEffect::VRender(PrimHeader** ppOt)
 {
     for (HoistRockParticle& particle : field_30_rocks)
     {
@@ -213,7 +198,7 @@ void HoistRocksEffect::Render_45D7B0(PrimHeader** ppOt)
     }
 }
 
-void HoistRocksEffect::vScreenChanged_45D790()
+void HoistRocksEffect::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }

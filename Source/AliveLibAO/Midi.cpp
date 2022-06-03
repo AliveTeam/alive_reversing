@@ -268,7 +268,7 @@ static AOPsxSpuApiVars sAoSpuVars;
 
 void SND_Reset_476BA0()
 {
-    SND_Reset_4C9FB0();
+    SND_Reset();
 }
 
 void SsUtAllKeyOff_49EDE0(s32 mode)
@@ -278,7 +278,7 @@ void SsUtAllKeyOff_49EDE0(s32 mode)
 
 void SND_Stop_All_Seqs_4774D0()
 {
-    SND_Stop_All_Seqs_4CA850();
+    SND_Stop_All_Seqs();
 }
 
 void SsSeqCalledTbyT_49E9F0()
@@ -303,21 +303,21 @@ s16 SsVabOpenHead_49CFB0(VabHeader* pVabHeader)
 
 void SND_Stop_Channels_Mask_4774A0(s32 mask)
 {
-    SND_Stop_Channels_Mask_4CA810(mask);
+    SND_Stop_Channels_Mask(mask);
 }
 
 s16 SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop)
 {
-    return SND_SEQ_PlaySeq_4CA960(static_cast<u16>(idx), static_cast<s16>(repeatCount), bDontStop);
+    return SND_SEQ_PlaySeq(static_cast<u16>(idx), static_cast<s16>(repeatCount), bDontStop);
 }
 
 void SND_Seq_Stop_477A60(SeqId idx)
 {
-    SND_SEQ_Stop_4CAE60(static_cast<u16>(idx));
+    SND_SEQ_Stop(static_cast<u16>(idx));
 }
 s16 SND_SsIsEos_DeInlined_477930(SeqId idx)
 {
-    return static_cast<s16>(SND_SsIsEos_DeInlined_4CACD0(static_cast<u16>(idx)));
+    return static_cast<s16>(SND_SsIsEos_DeInlined(static_cast<u16>(idx)));
 }
 
 s32 SND_PlayEx_493040(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 freq, MIDI_Channel* pMidiStru, s32 playFlags, s32 priority)
@@ -823,12 +823,12 @@ s32 MIDI_ParseMidiMessage_49DD30(s32 idx)
 
 void SND_Shutdown_476EC0()
 {
-    SND_Shutdown_4CA280();
+    SND_Shutdown();
 }
 
 void SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
 {
-    SND_SEQ_SetVol_4CAD20(static_cast<u16>(idx), volLeft, volRight);
+    SND_SEQ_SetVol(static_cast<u16>(idx), volLeft, volRight);
 }
 
 static VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, s32 i_3)
@@ -1032,7 +1032,7 @@ void SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char_type* bsqFileNa
 
 s16 SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight)
 {
-    const auto ret = SND_SEQ_PlaySeq_4CA960(static_cast<u16>(idx), static_cast<s16>(repeatCount), 1); // TODO ??
+    const auto ret = SND_SEQ_PlaySeq(static_cast<u16>(idx), static_cast<s16>(repeatCount), 1); // TODO ??
 
     OpenSeqHandle* pOpenSeq = &GetMidiVars()->sSeqDataTable()[static_cast<u16>(idx)];
 
@@ -1086,13 +1086,13 @@ static ::SfxDefinition ToAeSfxDef(const SfxDefinition* sfxDef)
 s32 SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
 {
     const ::SfxDefinition aeDef = ToAeSfxDef(sfxDef);
-    return SFX_SfxDefinition_Play_4CA700(&aeDef, volLeft, volRight, pitch_min, pitch_max);
+    return SFX_SfxDefinition_Play_Stereo(&aeDef, volLeft, volRight, pitch_min, pitch_max);
 }
 
 s32 SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol, s32 pitch_min, s32 pitch_max)
 {
     const ::SfxDefinition aeDef = ToAeSfxDef(sfxDef);
-    return SFX_SfxDefinition_Play_4CA420(&aeDef, static_cast<s16>(vol), static_cast<s16>(pitch_min), static_cast<s16>(pitch_max));
+    return SFX_SfxDefinition_Play_Mono(&aeDef, static_cast<s16>(vol), static_cast<s16>(pitch_min), static_cast<s16>(pitch_max));
 }
 
 void SND_Init_Real_476E40()
@@ -1112,7 +1112,7 @@ void SND_Init_476E40()
 
     // SND_Buffer_Set_Frequency1 SND_Buffer_Set_Frequency_493790
 
-    SND_Init_4CA1F0();
+    SND_Init();
     SND_Restart_SetCallBack(SND_Restart);
     SND_StopAll_SetCallBack(SND_StopAll_4762D0);
 }

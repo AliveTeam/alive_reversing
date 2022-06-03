@@ -44,7 +44,7 @@ Shrykull::Shrykull()
 
 Shrykull::~Shrykull()
 {
-    BaseGameObject* pZapLine = sObjectIds.Find_449CF0(field_124_zap_line_id);
+    BaseGameObject* pZapLine = sObjectIds.Find_Impl(field_124_zap_line_id);
     if (pZapLine)
     {
         pZapLine->mFlags.Set(BaseGameObject::eDead);
@@ -92,8 +92,8 @@ s16 Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
 
 void Shrykull::VUpdate()
 {
-    auto pExistingBeingZappedObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_449CF0(field_128_obj_being_zapped_id));
-    auto pExistingZapLine = static_cast<ZapLine*>(sObjectIds.Find_449CF0(field_124_zap_line_id));
+    auto pExistingBeingZappedObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_128_obj_being_zapped_id));
+    auto pExistingZapLine = static_cast<ZapLine*>(sObjectIds.Find_Impl(field_124_zap_line_id));
 
     switch (field_118_state)
     {

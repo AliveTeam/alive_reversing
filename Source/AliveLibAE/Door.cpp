@@ -271,7 +271,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         *yOff -= FP_FromInteger(12) * field_CC_sprite_scale;
 
         // Snap on X
-        *xOff = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(*xOff)));
+        *xOff = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(*xOff)));
     }
     else
     {
@@ -327,7 +327,7 @@ void Door::vClose_41EB50()
     {
         field_FE_start_state = eClosed_1;
         field_FC_current_state = eClosing_3;
-        Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_F4_tlvInfo);
+        Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_F4_tlvInfo);
         pTlv->field_1_tlv_state = 1;
     }
 }
@@ -360,7 +360,7 @@ void Door::PlaySound_41EA90()
 
 Door::~Door()
 {
-    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }
 
 void Door::VUpdate()
@@ -394,7 +394,7 @@ void Door::VUpdate()
             {
                 if (!SwitchStates_Get(field_100_switch_id) && field_F8_door_type == DoorTypes::eTasksDoorWithSecretMusic_2)
                 {
-                    SND_SEQ_Play_4CAB10(SeqId::SecretMusic_32, 1, 127, 127);
+                    SND_SEQ_Play(SeqId::SecretMusic_32, 1, 127, 127);
                     ae_new<MusicTrigger>(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
                 }
                 SwitchStates_Do_Operation(field_100_switch_id, SwitchOp::eSetTrue_0);
@@ -525,11 +525,11 @@ TrainDoor::~TrainDoor()
 {
     if (field_FC_current_state == eOpen_0)
     {
-        Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, 1, 0, 0);
+        Path::TLV_Reset(field_F4_tlvInfo, 1, 0, 0);
     }
 }
 

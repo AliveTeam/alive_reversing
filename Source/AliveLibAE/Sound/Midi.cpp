@@ -169,9 +169,9 @@ void SND_Free_All_Seqs_4C9F40()
     }
 }
 
-void SND_Reset_4C9FB0()
+void SND_Reset()
 {
-    SND_Stop_All_Seqs_4CA850();
+    SND_Stop_All_Seqs();
     SND_Free_All_Seqs_4C9F40();
     SND_Free_All_VABS_4C9EB0();
     SsSetMVol_4FC360(100, 100);
@@ -269,7 +269,7 @@ s32 MIDI_Play_Single_Note_4CA1B0(s32 vabIdAndProgram, s32 note, s32 leftVol, s32
     return SsVoKeyOn_4FCF10(vabIdAndProgram, note, static_cast<u16>(leftVol), static_cast<u16>(rightVol));
 }
 
-void SND_Init_4CA1F0()
+void SND_Init()
 {
     SSInit_4FC230();
     SsSetTableSize_4FE0B0(nullptr, 16, 1);
@@ -288,9 +288,9 @@ void SND_Init_4CA1F0()
 
 // SND_SetStereo_NoRefs_4CA330
 
-void SND_Shutdown_4CA280()
+void SND_Shutdown()
 {
-    SND_Reset_4C9FB0();
+    SND_Reset();
 
     if (GetMidiVars()->sMonkVh_Vb().field_8_vab_id >= 0)
     {
@@ -315,7 +315,7 @@ void SND_Shutdown_4CA280()
 }
 
 
-void SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
+void SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     GetMidiVars()->sSnd_ReloadAbeResources() = FALSE;
@@ -352,7 +352,7 @@ void SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 }
 
 
-s32 SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
+s32 SFX_SfxDefinition_Play_Mono(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
 {
     if (!volume)
     {
@@ -478,7 +478,7 @@ s32 SND_MIDI(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
     return channelBits;
 }
 
-s32 SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+s32 SFX_SfxDefinition_Play_Stereo(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
 {
     if (pitch_min == 0x7FFF)
     {
@@ -528,7 +528,7 @@ s32 SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 
     return midiHandle;
 }
 
-void SND_Stop_Channels_Mask_4CA810(u32 bitMask)
+void SND_Stop_Channels_Mask(u32 bitMask)
 {
     for (s32 i = 0; i < 24; i++) // TODO: Constant
     {
@@ -541,7 +541,7 @@ void SND_Stop_Channels_Mask_4CA810(u32 bitMask)
     }
 }
 
-void SND_Stop_All_Seqs_4CA850()
+void SND_Stop_All_Seqs()
 {
     // TODO: Why is there 16 of these but 32 of sMidiStruct2Ary32_C13400? Seems like they should match in size
     GetMidiVars()->sSeqsPlaying_count_word() = 0;
@@ -578,7 +578,7 @@ void SND_Seq_Stop_4CA8E0()
     }
 }
 
-s16 SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop)
+s16 SND_SEQ_PlaySeq(u16 idx, s16 repeatCount, s16 bDontStop)
 {
     OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
     if (!rec.field_C_ppSeq_Data)
@@ -641,7 +641,7 @@ s16 SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop)
 }
 
 
-s16 SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
+s16 SND_SEQ_Play(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
 {
     OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
     if (!rec.field_C_ppSeq_Data)
@@ -723,7 +723,7 @@ s16 SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
 }
 
 
-s32 SND_SsIsEos_DeInlined_4CACD0(u16 idx)
+s32 SND_SsIsEos_DeInlined(u16 idx)
 {
     OpenSeqHandle* pRec = &GetMidiVars()->sSeqDataTable()[idx];
     if (pRec->field_A_id_seqOpenId != -1 && pRec->field_C_ppSeq_Data)
@@ -734,19 +734,19 @@ s32 SND_SsIsEos_DeInlined_4CACD0(u16 idx)
 }
 
 
-void SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight)
+void SND_SEQ_SetVol(s32 idx, s16 volLeft, s16 volRight)
 {
     u16 limitedIdx = idx & 0xFFFF;
     if (GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId != -1
         && GetMidiVars()->sSeqDataTable()[limitedIdx].field_C_ppSeq_Data
-        && SND_SsIsEos_DeInlined_4CACD0(limitedIdx))
+        && SND_SsIsEos_DeInlined(limitedIdx))
     {
         SsSeqSetVol_4FDAC0(GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId, volLeft, volRight);
     }
 }
 
 
-void SND_SEQ_Stop_4CAE60(u16 idx)
+void SND_SEQ_Stop(u16 idx)
 {
     if (GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId != -1 && GetMidiVars()->sSeqDataTable()[idx].field_C_ppSeq_Data)
     {
@@ -795,12 +795,12 @@ void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
     }
 }
 
-void SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
+void SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
 {
     SND_Load_Seqs_Impl(pSeqTable, bsqFileName);
 }
 
-s8 SND_Seq_Table_Valid_4CAFE0()
+s8 SND_Seq_Table_Valid()
 {
     return GetMidiVars()->sSeqDataTable() != 0;
 }
@@ -811,7 +811,7 @@ void SND_StopAll_SetCallBack(TSNDStopAll cb)
     sSNDStopAllCallBack = cb;
 }
 
-void SND_StopAll_4CB060()
+void SND_StopAll()
 {
     if (sSNDStopAllCallBack)
     {
@@ -819,10 +819,10 @@ void SND_StopAll_4CB060()
     }
     else
     {
-        MusicController::EnableMusic_47FE10(FALSE);
+        MusicController::static_EnableMusic(FALSE);
         BackgroundMusic::Stop_4CB000();
         SND_Reset_Ambiance_4CB4B0();
-        SND_Stop_All_Seqs_4CA850();
+        SND_Stop_All_Seqs();
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
             BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
@@ -855,7 +855,7 @@ void SND_Restart_4CB0E0()
     }
     else
     {
-        MusicController::EnableMusic_47FE10(TRUE);
+        MusicController::static_EnableMusic(TRUE);
         BackgroundMusic::Play_4CB030();
         Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
     }

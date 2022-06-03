@@ -96,7 +96,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID);
 
-    AddDynamicCollision_4971C0(
+    AddDynamicCollision(
         closedRec.mFrameTableOffset,
         closedRec.mMaxW,
         closedRec.mMaxH,
@@ -149,7 +149,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 s32 TrapDoor::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const TrapDoor_State*>(pData);
-    auto pTlv = static_cast<Path_TrapDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_8_tlvInfo));
+    auto pTlv = static_cast<Path_TrapDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_8_tlvInfo));
 
     switch (gMap.mCurrentLevel)
     {
@@ -333,7 +333,7 @@ void TrapDoor::Open()
         {
             // That are on this trap door.
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if (sObjectIds.Find_449CF0(pAliveObj->field_110_id) == this)
+            if (sObjectIds.Find_Impl(pAliveObj->field_110_id) == this)
             {
                 pAliveObj->VOnTrapDoorOpen();
 
@@ -353,5 +353,5 @@ void TrapDoor::Open()
 
 TrapDoor::~TrapDoor()
 {
-    Path::TLV_Reset_4DB8E0(field_128_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_128_tlvInfo, -1, 0, 0);
 }

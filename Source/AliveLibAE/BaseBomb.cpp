@@ -66,7 +66,7 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
     // alternate between Explosion1 and Explosion2 on each call
     static s32 staticIdFlip = 0;
     const s16 explosionSeqId = static_cast<s16>(staticIdFlip ? SeqId::Explosion1_14 : SeqId::Explosion2_15);
-    SND_SEQ_PlaySeq_4CA960(explosionSeqId, 1, 1);
+    SND_SEQ_PlaySeq(explosionSeqId, 1, 1);
     staticIdFlip = !staticIdFlip;
 }
 

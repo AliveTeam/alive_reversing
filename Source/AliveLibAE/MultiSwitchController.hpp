@@ -24,17 +24,15 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MultiSwitchController, 0x24);
 class MultiSwitchController final : public BaseGameObject
 {
 public:
-    
-    virtual void VUpdate() override;
-    virtual void VScreenChanged() override;
     MultiSwitchController(Path_MultiSwitchController* pTlv, u32 tlvInfo);
     ~MultiSwitchController();
 
+    virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
+
 private:
-    void vScreenChanged_4D6860();
-    void vUpdate_4D6250();
-    void WaitingForAllOn_4D6290();
-    void WaitingForAllOff_4D65B0();
+    void WaitingForAllOn();
+    void WaitingForAllOff();
 
 private:
     u16 field_20_input_switch_id1;

@@ -39,14 +39,14 @@ ObjectIds::ObjectIds(u32 size)
     }
 }
 
-u32 ObjectIds::Id_To_Buffer_Size_Range_449BA0(TObjectId_KeyType id)
+u32 ObjectIds::Id_To_Buffer_Size_Range(TObjectId_KeyType id)
 {
     return id % field_0_buffer_size;
 }
 
-ObjectId_Record* ObjectIds::Find_By_Id_449BC0(TObjectId_KeyType idToFind, ObjectId_Record** ppLastMatch)
+ObjectId_Record* ObjectIds::Find_By_Id(TObjectId_KeyType idToFind, ObjectId_Record** ppLastMatch)
 {
-    ObjectId_Record* pRecord = field_4_pBuffer[Id_To_Buffer_Size_Range_449BA0(idToFind)];
+    ObjectId_Record* pRecord = field_4_pBuffer[Id_To_Buffer_Size_Range(idToFind)];
     *ppLastMatch = nullptr;
 
     while (pRecord)
@@ -73,24 +73,24 @@ void ObjectIds::Insert(TObjectId_KeyType nextId, BaseGameObject* pGameObj)
     pRec->field_4_obj_ptr = pGameObj;
 
     // Insert and fix links
-    const u32 id = Id_To_Buffer_Size_Range_449BA0(nextId);
+    const u32 id = Id_To_Buffer_Size_Range(nextId);
 
     pRec->field_8_pNext = field_4_pBuffer[id];
     field_4_pBuffer[id] = pRec;
 }
 
-s16 ObjectIds::Remove_449C60(TObjectId_KeyType idToRemove)
+s16 ObjectIds::Remove(TObjectId_KeyType idToRemove)
 {
     // Find the record
     ObjectId_Record* pLastMatch = nullptr;
-    ObjectId_Record* pFound = Find_By_Id_449BC0(idToRemove, &pLastMatch);
+    ObjectId_Record* pFound = Find_By_Id(idToRemove, &pLastMatch);
     if (!pFound)
     {
         return 0;
     }
 
     // Fix the links
-    const u32 idx = Id_To_Buffer_Size_Range_449BA0(idToRemove);
+    const u32 idx = Id_To_Buffer_Size_Range(idToRemove);
     if (pLastMatch)
     {
         // There was an object before this, so point to the one after what we found
@@ -110,13 +110,13 @@ s16 ObjectIds::Remove_449C60(TObjectId_KeyType idToRemove)
     return 1;
 }
 
-BaseGameObject* ObjectIds::Find_449CF0(TObjectId_KeyType idToFind)
+BaseGameObject* ObjectIds::Find_Impl(TObjectId_KeyType idToFind)
 {
     BaseGameObject* pFound = nullptr;
     if (idToFind != -1)
     {
         ObjectId_Record* tmp = nullptr;
-        ObjectId_Record* pRecord = Find_By_Id_449BC0(idToFind, &tmp);
+        ObjectId_Record* pRecord = Find_By_Id(idToFind, &tmp);
         if (pRecord)
         {
             pFound = pRecord->field_4_obj_ptr;
@@ -127,7 +127,7 @@ BaseGameObject* ObjectIds::Find_449CF0(TObjectId_KeyType idToFind)
 
 BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, AETypes type)
 {
-    BaseGameObject* pItem = Find_449CF0(idToFind);
+    BaseGameObject* pItem = Find_Impl(idToFind);
     if (pItem && pItem->Type() != type)
     {
         LOG_ERROR("Expected type " << static_cast<s32>(type) << " for object with id " << idToFind << " but got " << static_cast<s32>(pItem->Type()));
@@ -138,7 +138,7 @@ BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, AETypes type)
 
 s32 ObjectIds::EnsureIdIsUnique(s32 nextId)
 {
-    ObjectId_Record* pRecord = field_4_pBuffer[Id_To_Buffer_Size_Range_449BA0(nextId)];
+    ObjectId_Record* pRecord = field_4_pBuffer[Id_To_Buffer_Size_Range(nextId)];
 
     while (pRecord)
     {

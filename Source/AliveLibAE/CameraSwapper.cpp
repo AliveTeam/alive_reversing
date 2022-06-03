@@ -86,12 +86,12 @@ CameraSwapper::~CameraSwapper()
 
     if (sMap_bDoPurpleLightEffect_5C311C)
     {
-        gMap.RemoveObjectsWithPurpleLight_480740(0);
+        gMap.RemoveObjectsWithPurpleLight(0);
         sMap_bDoPurpleLightEffect_5C311C = 0;
     }
 
     BackgroundMusic::Play_4CB030();
-    MusicController::EnableMusic_47FE10(1);
+    MusicController::static_EnableMusic(1);
     Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
 }
 

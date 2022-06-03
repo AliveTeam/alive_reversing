@@ -34,7 +34,7 @@ Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
 
     field_20_font.ctor_433590(static_cast<s32>((bShadow + 1) * strlen(pMessage)), pal_554474, &sFont1Context_5BC5C8);
 
-    field_5C_xpos = static_cast<s16>(field_20_font.MeasureWidth_433700(pMessage));
+    field_5C_xpos = static_cast<s16>(field_20_font.MeasureTextWidth(pMessage));
     field_5E_ypos = 0;
 
     field_58_k0_unused = 0; // never used?
@@ -190,9 +190,9 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
     sbDisplayRenderFrame_55EF8C = 0;
     gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
 
-    if (SND_Seq_Table_Valid_4CAFE0())
+    if (SND_Seq_Table_Valid())
     {
-        SND_StopAll_4CB060();
+        SND_StopAll();
     }
 
     u32 displayForMsecs = SYS_GetTicks() + 1000;
@@ -244,7 +244,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
         }
     }
 
-    if (SND_Seq_Table_Valid_4CAFE0())
+    if (SND_Seq_Table_Valid())
     {
         GetSoundAPI().SND_Restart();
     }

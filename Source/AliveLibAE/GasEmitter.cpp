@@ -34,71 +34,56 @@ GasEmitter::GasEmitter(Path_GasEmitter* pTlv, s32 tlvInfo)
     field_24_emit_power = Math_NextRandom() % 4;
 }
 
-void GasEmitter::VUpdate()
+GasEmitter::~GasEmitter()
 {
-    vUpdate_43CB70();
-}
-
-void GasEmitter::VScreenChanged()
-{
-    vScreenChanged_43CE20();
+    Path::TLV_Reset(field_20_tlvInfo, -1, 0, 0);
+    if (sMainGasEmitter_5BD4C8 == this)
+    {
+        sMainGasEmitter_5BD4C8 = 0;
+        SND_Stop_Channels_Mask(sGasEmiterAudioMask_5BD4CC);
+        sGasEmiterAudioMask_5BD4CC = 0;
+    }
 }
 
 void GasEmitter::VStopAudio()
 {
-    vStopAudio_43CDE0();
-}
-
-GasEmitter::~GasEmitter()
-{
-    Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
     if (sMainGasEmitter_5BD4C8 == this)
     {
         sMainGasEmitter_5BD4C8 = 0;
-        SND_Stop_Channels_Mask_4CA810(sGasEmiterAudioMask_5BD4CC);
+        SND_Stop_Channels_Mask(sGasEmiterAudioMask_5BD4CC);
         sGasEmiterAudioMask_5BD4CC = 0;
     }
 }
 
-void GasEmitter::vStopAudio_43CDE0()
-{
-    if (sMainGasEmitter_5BD4C8 == this)
-    {
-        sMainGasEmitter_5BD4C8 = 0;
-        SND_Stop_Channels_Mask_4CA810(sGasEmiterAudioMask_5BD4CC);
-        sGasEmiterAudioMask_5BD4CC = 0;
-    }
-}
-
-void GasEmitter::vScreenChanged_43CE20()
+void GasEmitter::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }
 
-void GasEmitter::vUpdate_43CB70()
+void GasEmitter::VUpdate()
 {
     if ((gGasOn_5C1C00 && !((sGnFrame_5C1B84 + field_24_emit_power) % 4)) || (SwitchStates_Get(field_2A_switch_id) && field_28_draw_flipper && Math_RandomRange_496AB0(0, 1)))
     {
         switch (field_2C_gas_colour)
         {
             case GasColour::Yellow_0:
-                New_Smoke_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 32);
+                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 32);
                 break;
 
             case GasColour::Red_1:
-                New_Smoke_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 32, 32);
+                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 32, 32);
                 break;
 
             case GasColour::Green_2:
-                New_Smoke_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 128, 32);
+                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 128, 32);
                 break;
 
             case GasColour::Blue_3:
-                New_Smoke_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 32, 128);
+                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 32, 128);
                 break;
 
             case GasColour::White_4:
-                New_Smoke_Particles_426C70(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 128);
+                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 128);
                 break;
 
             default:

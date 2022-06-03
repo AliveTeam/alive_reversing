@@ -58,25 +58,16 @@ public:
     virtual Bool32 VIsFalling() override;
     virtual void VTimeToExplodeRandom() override;
     virtual s16 VGetCount() override;
-    virtual Bool32 VCanEatMe_4696A0();
+    virtual Bool32 VCanEatMe();
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 
 private:
-    void vScreenChanged_46A130();
-    void AddToPlatform_46A170();
-    void vOnTrapDoorOpen_46A2E0();
-    Bool32 vIsFalling_469660();
-    Bool32 vCanThrow_469680();
-    void vThrow_469790(FP velX, FP velY);
-    s16 vGetCount_46A350();
-    void InTheAir_4697E0();
-    s16 OnCollision_469FF0(BaseGameObject* pHit);
-    void vUpdate_469BA0();
-    s32 vGetSaveState_46AC40(Meat_SaveState* pState);
-    Bool32 vCanEatMe_4696A0();
+    void AddToPlatform();
+    void InTheAir();
+    s16 OnCollision(BaseGameObject* pHit);
 
 private:
     MeatStates field_11C_state;
@@ -110,11 +101,6 @@ public:
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
-
-private:
-    void vScreenChanged_46A9C0();
-    void vUpdate_46A6A0();
-
 
 private:
     s32 field_118_tlvInfo;

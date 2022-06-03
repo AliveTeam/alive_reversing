@@ -64,7 +64,7 @@ BaseGameObject::~BaseGameObject()
         }
     }
 
-    sObjectIds.Remove_449C60(field_8_object_id);
+    sObjectIds.Remove(field_8_object_id);
 }
 
 void BaseGameObject::VUpdate()

@@ -73,7 +73,7 @@ void ElectricWall::VScreenChanged()
 
 ElectricWall::~ElectricWall()
 {
-    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }
 
 void ElectricWall::vScreenChanged_422530()

@@ -69,7 +69,7 @@ void CrawlingSligButton::UseButton_414C60()
 
 CrawlingSligButton::~CrawlingSligButton()
 {
-    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }
 
 void CrawlingSligButton::vUpdate_414B20()

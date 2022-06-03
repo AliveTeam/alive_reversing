@@ -8,11 +8,6 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-void LevelLoader::VUpdate()
-{
-    vUpdate_4DD400();
-}
-
 LevelLoader::LevelLoader(Path_LevelLoader* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
@@ -26,7 +21,7 @@ LevelLoader::LevelLoader(Path_LevelLoader* pTlv, u32 tlvInfo)
     field_22_state = States::eIdle_0;
 }
 
-void LevelLoader::vUpdate_4DD400()
+void LevelLoader::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -48,12 +43,12 @@ void LevelLoader::vUpdate_4DD400()
         }
         else if (field_22_state == States::eFadingOut_1)
         {
-            DeathFadeOut* pFade = static_cast<DeathFadeOut*>(sObjectIds.Find_449CF0(field_30_fade_id));
+            DeathFadeOut* pFade = static_cast<DeathFadeOut*>(sObjectIds.Find_Impl(field_30_fade_id));
             if (!pFade || pFade->field_7E_bDone)
             {
                 if (field_2A_movie_id)
                 {
-                    gMap.SetActiveCam_480D30(
+                    gMap.SetActiveCam(
                         field_24_level,
                         field_26_path,
                         field_28_camera,
@@ -63,7 +58,7 @@ void LevelLoader::vUpdate_4DD400()
                 }
                 else
                 {
-                    gMap.SetActiveCam_480D30(
+                    gMap.SetActiveCam(
                         field_24_level,
                         field_26_path,
                         field_28_camera,

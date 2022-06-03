@@ -25,12 +25,6 @@ public:
     virtual void VUpdate() override;
 
 private:
-    void vScreenChanged_417700();
-
-    void vRender_4175A0(PrimHeader** pOt);
-
-    void vUpdate_4172E0();
-
     void DealDamage();
 
 private:

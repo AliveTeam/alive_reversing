@@ -174,7 +174,7 @@ FallingItem::~FallingItem()
     {
         pPrimaryFallingItem_5BC208 = nullptr;
     }
-    Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
 }
 
 void FallingItem::vScreenChanged_428180()
@@ -361,7 +361,7 @@ void FallingItem::vUpdate_427780()
         case State::eSmashed_4:
             if (field_140_sound_channels)
             {
-                SND_Stop_Channels_Mask_4CA810(field_140_sound_channels);
+                SND_Stop_Channels_Mask(field_140_sound_channels);
                 field_140_sound_channels = 0;
             }
 

@@ -28,16 +28,11 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x1C);
 class InvisibleSwitch final : public BaseGameObject
 {
 public:
-    
-    virtual void VUpdate() override;
-    virtual void VScreenChanged() override;
-
     InvisibleSwitch(Path_InvisibleSwitch* pTlv, u32 tlvInfo);
     ~InvisibleSwitch();
 
-private:
-    void vUpdate_45FBA0();
-    void vScreenChanged_45FD80();
+    virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 
 private:
     s16 field_20_switch_id;

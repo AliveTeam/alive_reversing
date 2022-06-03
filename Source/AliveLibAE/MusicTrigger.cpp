@@ -11,7 +11,7 @@
 MusicTrigger::MusicTrigger(Path_MusicTrigger* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    Init_47FFB0(pTlv->field_10_music_type, pTlv->field_12_triggered_by, pTlv->field_14_music_delay);
+    Init(pTlv->field_10_music_type, pTlv->field_12_triggered_by, pTlv->field_14_music_delay);
     field_2C_tl = pTlv->field_8_top_left;
     field_30_br = pTlv->field_C_bottom_right;
     field_20_tlvInfo = tlvInfo;
@@ -20,13 +20,13 @@ MusicTrigger::MusicTrigger(Path_MusicTrigger* pTlv, u32 tlvInfo)
 MusicTrigger::MusicTrigger(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s32 /*not_used*/, s32 musicDelay)
     : BaseGameObject(TRUE, 0)
 {
-    Init_47FFB0(musicType, triggeredBy, static_cast<s16>(musicDelay));
+    Init(musicType, triggeredBy, static_cast<s16>(musicDelay));
     field_2C_tl = {};
     field_30_br = {};
     field_20_tlvInfo = -1;
 }
 
-void MusicTrigger::Init_47FFB0(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 musicDelay)
+void MusicTrigger::Init(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 musicDelay)
 {
     field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
     field_24_flags.Clear(Flags_24::e24_Bit2_TriggeredByTimer);
@@ -83,11 +83,11 @@ MusicTrigger::~MusicTrigger()
 {
     if (field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor))
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 }
 
-void MusicTrigger::vScreenChange_4802A0()
+void MusicTrigger::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
@@ -95,7 +95,7 @@ void MusicTrigger::vScreenChange_4802A0()
     }
 }
 
-void MusicTrigger::vUpdate_480140()
+void MusicTrigger::VUpdate()
 {
     if (Event_Get_422C00(kEventHeroDying))
     {
@@ -110,7 +110,7 @@ void MusicTrigger::vUpdate_480140()
         if (xpos >= FP_FromInteger(field_2C_tl.field_0_x) && xpos <= FP_FromInteger(field_30_br.field_0_x) && (ypos >= FP_FromInteger(field_2C_tl.field_2_y) && ypos <= FP_FromInteger(field_30_br.field_2_y)))
         {
             field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
-            MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 1);
+            MusicController::static_PlayMusic(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 1);
             field_24_flags.Set(Flags_24::e24_Bit2_TriggeredByTimer);
             if (field_28_counter >= 0)
             {
@@ -122,7 +122,7 @@ void MusicTrigger::vUpdate_480140()
     {
         if (field_28_counter < 0 || static_cast<s32>(sGnFrame_5C1B84) < field_28_counter)
         {
-            MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 0);
+            MusicController::static_PlayMusic(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 0);
         }
         else
         {
@@ -131,18 +131,8 @@ void MusicTrigger::vUpdate_480140()
     }
     else
     {
-        MusicController::PlayMusic_47FD60(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 1);
+        MusicController::static_PlayMusic(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 1);
         field_24_flags.Set(Flags_24::e24_Bit2_TriggeredByTimer);
         field_28_counter += sGnFrame_5C1B84;
     }
-}
-
-void MusicTrigger::VUpdate()
-{
-    vUpdate_480140();
-}
-
-void MusicTrigger::VScreenChanged()
-{
-    vScreenChange_4802A0();
 }

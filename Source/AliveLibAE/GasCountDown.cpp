@@ -90,30 +90,15 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
     }
 }
 
-void GasCountDown::VScreenChanged()
-{
-    vScreenChanged_417700();
-}
-
-void GasCountDown::VRender(PrimHeader** ppOt)
-{
-    vRender_4175A0(ppOt);
-}
-
-void GasCountDown::VUpdate()
-{
-    vUpdate_4172E0();
-}
-
 GasCountDown::~GasCountDown()
 {
     gObjList_drawables_5C1124->Remove_Item(this);
-    Path::TLV_Reset_4DB8E0(field_68_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_68_tlvInfo, -1, 0, 0);
     field_30_font.dtor_433540();
     field_20_font_context.dtor_433510();
 }
 
-void GasCountDown::vScreenChanged_417700()
+void GasCountDown::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
@@ -122,12 +107,12 @@ void GasCountDown::vScreenChanged_417700()
     }
 }
 
-void GasCountDown::vRender_4175A0(PrimHeader** ppOt)
+void GasCountDown::VRender(PrimHeader** ppOt)
 {
     char_type text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
     sprintf(text, "%02d:%02d", field_74_time_left / 60, field_74_time_left % 60);
 
-    const auto textWidth = field_30_font.MeasureWidth_433700(text);
+    const auto textWidth = field_30_font.MeasureTextWidth(text);
     field_30_font.DrawString_4337D0(
         ppOt,
         text,
@@ -186,7 +171,7 @@ void GasCountDown::DealDamage()
     }
 }
 
-void GasCountDown::vUpdate_4172E0()
+void GasCountDown::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {

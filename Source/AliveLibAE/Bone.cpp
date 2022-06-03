@@ -100,9 +100,9 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->field_B8_xpos = pState->field_8_xpos;
     pBone->field_BC_ypos = pState->field_C_ypos;
 
-    pBone->field_E4_collection_rect.x = pBone->field_B8_xpos - (ScaleToGridSize_4498B0(pBone->field_CC_sprite_scale) / FP_FromInteger(2));
-    pBone->field_E4_collection_rect.y = pBone->field_BC_ypos - ScaleToGridSize_4498B0(pBone->field_CC_sprite_scale);
-    pBone->field_E4_collection_rect.w = (ScaleToGridSize_4498B0(pBone->field_CC_sprite_scale) / FP_FromInteger(2)) + pBone->field_B8_xpos;
+    pBone->field_E4_collection_rect.x = pBone->field_B8_xpos - (ScaleToGridSize(pBone->field_CC_sprite_scale) / FP_FromInteger(2));
+    pBone->field_E4_collection_rect.y = pBone->field_BC_ypos - ScaleToGridSize(pBone->field_CC_sprite_scale);
+    pBone->field_E4_collection_rect.w = (ScaleToGridSize(pBone->field_CC_sprite_scale) / FP_FromInteger(2)) + pBone->field_B8_xpos;
     pBone->field_E4_collection_rect.h = pBone->field_BC_ypos;
 
     pBone->field_C4_velx = pState->field_10_velx;
@@ -179,7 +179,7 @@ void Bone::vThrow_411670(FP velX, FP velY)
 
 void Bone::vOnTrapDoorOpen_412490()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_449CF0(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(field_110_id));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
@@ -448,7 +448,7 @@ void Bone::InTheAir_4116C0()
 
 void Bone::VUpdate()
 {
-    auto pObj = sObjectIds.Find_449CF0(field_110_id);
+    auto pObj = sObjectIds.Find_Impl(field_110_id);
     if (Event_Get_422C00(kEventDeathReset))
     {
         mFlags.Set(BaseGameObject::eDead);
@@ -491,12 +491,12 @@ void Bone::VUpdate()
             }
             else
             {
-                if (abs(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)) - FP_GetExponent(field_B8_xpos)) <= 1)
+                if (abs(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)) - FP_GetExponent(field_B8_xpos)) <= 1)
                 {
                     field_C4_velx = FP_FromInteger(0);
-                    field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-                    field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                    field_E4_collection_rect.w = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+                    field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
+                    field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize(field_CC_sprite_scale);
+                    field_E4_collection_rect.w = field_B8_xpos + (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
                     field_E4_collection_rect.h = field_BC_ypos;
 
                     field_11C_state = BoneStates::eOnGround_3;
@@ -528,7 +528,7 @@ void Bone::VUpdate()
             if (static_cast<s32>(sGnFrame_5C1B84) > field_128_shine_timer && !pObj)
             {
                 // For the shiny star twinkle effect.
-                New_TintShiny_Particle_426C30(
+                New_TintShiny_Particle(
                     field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(1)),
                     (field_CC_sprite_scale * FP_FromInteger(-7)) + field_BC_ypos,
                     FP_FromDouble(0.3),
@@ -654,7 +654,7 @@ void BoneBag::VScreenChanged()
 
 BoneBag::~BoneBag()
 {
-    Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
 }
 
 void BoneBag::VUpdate()

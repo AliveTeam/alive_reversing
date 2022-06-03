@@ -76,8 +76,8 @@ void ExplosionSet::Init_4151D0(Path_ExplosionSet* pTlv)
     field_5C_flags.Set(Flags_5C::eBit1_spawn_assets, pTlv->field_14_spawn_assets == Choice_short::eYes_1);
     field_5C_flags.Set(Flags_5C::eBit2_flipX, pTlv->field_18_start_direction == XDirection_short::eRight_1);
     field_56_asset_interval = pTlv->field_1A_asset_interval;
-    field_58_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->field_1C_grid_spacing) * ScaleToGridSize_4498B0(field_50_scale));
-    field_5A_increasing_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->field_1E_increasing_grid_spacing) * ScaleToGridSize_4498B0(field_50_scale));
+    field_58_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->field_1C_grid_spacing) * ScaleToGridSize(field_50_scale));
+    field_5A_increasing_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->field_1E_increasing_grid_spacing) * ScaleToGridSize(field_50_scale));
     field_54_switch_id = pTlv->field_12_switch_id;
 
     if (!bEnabled_5C1BB6)

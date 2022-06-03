@@ -35,16 +35,10 @@ class GameEnderController final : public BaseGameObject
 public:
     static s32 CreateFromSaveState(const u8* pBuffer);
     GameEnderController();
-
     
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-
-private:
-    void vScreenChanged_43BC80();
-    s32 vGetSaveState_43BCD0(GameEnderController_State* pState);
-    void vUpdate_43B920();
 
 private:
     s32 field_20_timer;

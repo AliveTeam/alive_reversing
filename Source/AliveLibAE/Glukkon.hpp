@@ -224,25 +224,25 @@ public:
     s16 Brain_5_WaitToSpawn_442490();
 
 public:
-    static void PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Glukkon* pGlukkon);
+    static void PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Glukkon* pGlukkon);
 
 private:
-    void Init_43F260();
-    void Update_Slurg_WatchPoints_440600();
-    void SetAnim_43F9C0(s16 currentMotion, s16 bClearNextMotion = FALSE);
-    void Speak_444640(GlukkonSpeak speak);
-    void HandleInput_443BB0();
-    s16 ShouldPanic_440200(s16 panicEvenIfNotFacingMe);
-    s16 PathBlocked_4442F0(FP a2, s16 checkBounds);
-    void SpeakRandomish_4405D0();
-    s16 DoMovement_444190();
-    void FollowLine_443EB0();
-    void GetOnPlatforms_444060();
-    static void PlaySound_4447D0(s32 sndIdx, Glukkon* pGlukkon);
-    void ToDead_43F640();
-    static Bool32 IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
-    void ToStand_443B70();
-    void SlowDown_444700(FP speed);
+    void Init();
+    void Update_Slurg_WatchPoints();
+    void SetAnim(s16 currentMotion, s16 bClearNextMotion = FALSE);
+    void Speak(GlukkonSpeak speak);
+    void HandleInput();
+    s16 ShouldPanic(s16 panicEvenIfNotFacingMe);
+    s16 PathBlocked(FP a2, s16 checkBounds);
+    void SpeakRandomish();
+    s16 DoMovement();
+    void FollowLine();
+    void GetOnPlatforms();
+    static void PlaySound(s32 sndIdx, Glukkon* pGlukkon);
+    void ToDead();
+    static Bool32 IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
+    void ToStand();
+    void SlowDown(FP speed);
     void SetBrain(TGlukkonBrainFn fn);
     bool BrainIs(TGlukkonBrainFn fn);
 

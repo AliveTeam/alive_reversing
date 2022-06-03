@@ -77,5 +77,5 @@ void BackgroundAnimation::VScreenChanged()
 
 BackgroundAnimation::~BackgroundAnimation()
 {
-    Path::TLV_Reset_4DB8E0(field_F8_tlvInfo.all, -1, 0, 0);
+    Path::TLV_Reset(field_F8_tlvInfo.all, -1, 0, 0);
 }

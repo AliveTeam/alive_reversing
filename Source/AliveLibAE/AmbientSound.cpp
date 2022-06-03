@@ -199,7 +199,7 @@ void Start_Slig_sounds_4CB980(CameraPos direction, s8 kZero)
 }
 
 
-void Stop_slig_sounds_4CBA70(CameraPos direction, s8 kZero)
+void Stop_slig_sounds(CameraPos direction, s8 kZero)
 {
     Sound_Ambiance_Array* pTable = nullptr;
     switch (direction)
@@ -227,8 +227,8 @@ void Stop_slig_sounds_4CBA70(CameraPos direction, s8 kZero)
 void Start_Sounds_For_Objects_In_Near_Cameras_4CBB60()
 {
     SND_Reset_Ambiance_4CB4B0();
-    Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos::eCamLeft_3, -1, 0);
-    Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos::eCamRight_4, 1, 0);
-    Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos::eCamTop_1, 0, -1);
-    Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos::eCamBottom_2, 0, 1);
+    Path::Start_Sounds_For_Objects_In_Camera(CameraPos::eCamLeft_3, -1, 0);
+    Path::Start_Sounds_For_Objects_In_Camera(CameraPos::eCamRight_4, 1, 0);
+    Path::Start_Sounds_For_Objects_In_Camera(CameraPos::eCamTop_1, 0, -1);
+    Path::Start_Sounds_For_Objects_In_Camera(CameraPos::eCamBottom_2, 0, 1);
 }

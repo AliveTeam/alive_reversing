@@ -30,15 +30,14 @@ public:
 
     explicit InvisibleEffect(BaseAliveGameObject* pTarget);
     ~InvisibleEffect();
-    void InstantInvisibility_45FA00();
-    void BecomeVisible_45FA30();
-    void ClearInvisibility_45FA50();
-    void BecomeInvisible_45F9E0();
-    void vUpdate_45F4A0();
 
-    
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+
+    void InstantInvisibility();
+    void BecomeVisible();
+    void ClearInvisibility();
+    void BecomeInvisible();
 
 private:
     InvisibleState field_20_state_or_op;

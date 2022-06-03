@@ -285,7 +285,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const FlyingSlig_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_FlyingSlig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_3C_tlvInfo));
+    auto pTlv = static_cast<Path_FlyingSlig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo));
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("FLYSLIG.BND", nullptr);
@@ -516,7 +516,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_58_obj_id = -1;
     if (field_158_obj_id != -1)
     {
-        auto pObj = sObjectIds.Find_449CF0(field_158_obj_id);
+        auto pObj = sObjectIds.Find_Impl(field_158_obj_id);
         if (pObj)
         {
             pState->field_58_obj_id = pObj->field_C_objectId;
@@ -567,10 +567,10 @@ FlyingSlig::~FlyingSlig()
     if (sControlledCharacter_5C1B8C == this)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
         if (gMap.mLevel != LevelIds::eMenu_0)
         {
-            gMap.SetActiveCam_480D30(
+            gMap.SetActiveCam(
                 field_2A0_abe_level,
                 field_2A2_abe_path,
                 field_2A4_abe_camera,
@@ -580,18 +580,18 @@ FlyingSlig::~FlyingSlig()
         }
     }
 
-    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_148_tlvInfo);
+    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_148_tlvInfo);
     if (pTlv)
     {
         if (pTlv->field_4_type.mType != TlvTypes::SligGetWings_105 && pTlv->field_4_type.mType != TlvTypes::FlyingSligSpawner_92)
         {
             if (field_10C_health <= FP_FromInteger(0))
             {
-                Path::TLV_Reset_4DB8E0(field_148_tlvInfo, -1, 0, 1);
+                Path::TLV_Reset(field_148_tlvInfo, -1, 0, 1);
             }
             else
             {
-                Path::TLV_Reset_4DB8E0(field_148_tlvInfo, -1, 0, 0);
+                Path::TLV_Reset(field_148_tlvInfo, -1, 0, 0);
             }
         }
     }
@@ -1224,7 +1224,7 @@ void FlyingSlig::Brain_12_Possessed_436040()
 {
     if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
 
     if (!field_17E_flags.Get(Flags_17E::eBit9_Chanting))
@@ -1266,7 +1266,7 @@ void FlyingSlig::Brain_14_DePossession_436180()
         {
             const FP xOff = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20) + (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? -10 : 10)));
             const FP yOff = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
-            New_TintChant_Particle_426BE0(
+            New_TintChant_Particle(
                 xOff + field_B8_xpos,
                 yOff + field_BC_ypos,
                 field_CC_sprite_scale,
@@ -1283,7 +1283,7 @@ void FlyingSlig::Brain_15_FlyingSligSpawn_4362C0()
 {
     if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
     {
-        MusicController::PlayMusic_47FD60(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
+        MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
 
     if (FP_Abs(field_B8_xpos - field_1C8_lever_pull_range_xpos) >= FP_FromInteger(1) || FP_Abs(field_BC_ypos - field_1CC_lever_pull_range_ypos) >= FP_FromInteger(1))
@@ -1586,10 +1586,10 @@ void FlyingSlig::M_LeverPull_7_439150()
     }
     else
     {
-        auto pSwitch = static_cast<Lever*>(sObjectIds.Find_449CF0(field_158_obj_id));
+        auto pSwitch = static_cast<Lever*>(sObjectIds.Find_Impl(field_158_obj_id));
         if (pSwitch)
         {
-            pSwitch->VPull_4D6050(field_B8_xpos < pSwitch->field_B8_xpos);
+            pSwitch->VPull(field_B8_xpos < pSwitch->field_B8_xpos);
         }
         field_158_obj_id = -1;
     }
@@ -1606,28 +1606,28 @@ void FlyingSlig::M_GameSpeak_8_4391D0()
             switch (field_17D_next_speak)
             {
                 case SligSpeak::eHi_0:
-                    pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_Hi_27);
+                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_Hi_27);
                     break;
                 case SligSpeak::eHereBoy_1:
-                    pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_HereBoy_28);
+                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_HereBoy_28);
                     break;
                 case SligSpeak::eGetHim_2:
-                    pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_GetEm_29);
+                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_GetEm_29);
                     break;
                 case SligSpeak::eLaugh_3:
-                    pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_Laugh_8);
+                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_Laugh_8);
                     break;
                 case SligSpeak::eBullshit_5:
-                    pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_BS_5);
+                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_BS_5);
                     break;
                 case SligSpeak::eLookOut_6:
-                    pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_LookOut_6);
+                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_LookOut_6);
                     break;
                 case SligSpeak::eBullshit2_7:
-                    pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_BS2_7);
+                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_BS2_7);
                     break;
                 case SligSpeak::eFreeze_8:
-                    pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_Freeze_31);
+                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_Freeze_31);
                     break;
                 default:
                     break;
@@ -1995,7 +1995,7 @@ void FlyingSlig::ToPlayerControlled_4360C0()
 
 void FlyingSlig::ToMoving_435720()
 {
-    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eTension_4, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
     SetBrain(&FlyingSlig::Brain_2_Moving_4356D0);
 }
 
@@ -2008,7 +2008,7 @@ void FlyingSlig::ToPanicIdle_435B50()
 
 void FlyingSlig::ToChase_435E10()
 {
-    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     SetBrain(&FlyingSlig::Brain_4_ChasingEnemy_435BC0);
 }
 
@@ -2260,7 +2260,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
         pGrenade->VThrow(grenadeXVel, grenadeYVel);
     }
 
-    New_ShootingFire_Particle_426890(xpos + field_B8_xpos, ypos + field_BC_ypos, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), field_CC_sprite_scale);
+    New_ShootingFire_Particle(xpos + field_B8_xpos, ypos + field_BC_ypos, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), field_CC_sprite_scale);
     Slig_SoundEffect_4BFFE0(SligSfx::eThrowGrenade_8, this);
     Event_Broadcast_422BC0(kEventShooting, this);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
@@ -2282,13 +2282,13 @@ void FlyingSlig::ThrowGrenade_43A1E0()
 
 void FlyingSlig::BlowUp_436510()
 {
-    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eNone_0, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
     ae_new<Gibs>(GibType::Slig_1, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
 
     ae_new<Blood>(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 20);
 
-    New_Smoke_Particles_426C70(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), field_CC_sprite_scale, 3, 128u, 128u, 128u);
+    New_Smoke_Particles(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), field_CC_sprite_scale, 3, 128u, 128u, 128u);
     SFX_Play_Mono(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
     SFX_Play_Mono(SoundEffect::FallingItemHit_47, 90, field_CC_sprite_scale);
 
@@ -2369,7 +2369,7 @@ void FlyingSlig::ToAlerted_4357E0()
 
 void FlyingSlig::ToPanicMoving_435A50()
 {
-    MusicController::PlayMusic_47FD60(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     field_14C_timer = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + 12;
     SetBrain(&FlyingSlig::Brain_7_PanicMoving_435990);
 }
@@ -2615,7 +2615,7 @@ s16 FlyingSlig::sub_437C70(PathLine* pLine)
 
 TlvTypes FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
 {
-    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP kGridSize = ScaleToGridSize(field_CC_sprite_scale);
 
     const FP left = xOrY - kGridSize;
     const FP top = wOrH - kGridSize;
@@ -3214,11 +3214,11 @@ s16 FlyingSlig::TryPullLever_439DB0()
     FP kGridSizeDirected = {};
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        kGridSizeDirected = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        kGridSizeDirected = -ScaleToGridSize(field_CC_sprite_scale);
     }
     else
     {
-        kGridSizeDirected = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        kGridSizeDirected = ScaleToGridSize(field_CC_sprite_scale);
     }
 
     const FP k15Scaled = FP_FromInteger(15) * field_CC_sprite_scale;

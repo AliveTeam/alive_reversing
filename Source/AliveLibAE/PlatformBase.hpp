@@ -15,12 +15,12 @@ public:
     // TODO: New virtuals
 
 protected:
-    void AddDynamicCollision_4971C0(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
+    void AddDynamicCollision(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
 
-    void SyncCollisionLinePosition_4974E0();
-    void vRemoveCount_4975E0(BaseAliveGameObject* pObj);
+    void SyncCollisionLinePosition();
+    void vRemoveCount(BaseAliveGameObject* pObj);
 
-    void vAddCount_4975B0(BaseAliveGameObject* pObj);
+    void vAddCount(BaseAliveGameObject* pObj);
 
 protected:
     s32 field_118_count;

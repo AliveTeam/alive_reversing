@@ -119,7 +119,7 @@ Rope::~Rope()
 void Rope::VRender(PrimHeader** ppOt)
 {
     PSX_Point camPos = {};
-    gMap.GetCurrentCamCoords_480680(&camPos);
+    gMap.GetCurrentCamCoords(&camPos);
     // In the current level/map?
     if (field_C2_lvl_number == gMap.mCurrentLevel && field_C0_path_number == gMap.mCurrentPath)
     {

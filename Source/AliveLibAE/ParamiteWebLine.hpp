@@ -17,32 +17,14 @@ public:
     ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo);
     ~ParamiteWebLine();
 
-    void Wobble_4E29D0(s16 ypos);
+    void Wobble(s16 ypos);
 
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
-
-    
-
     virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx) override;
-
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    ParamiteWebLine* vdtor_4E2460(s32 flags);
-
-    void dtor_4E2490();
-
-    void vUpdate_4E2A50();
-
-    PSX_RECT* vGetBoundingRect_4E2B40(PSX_RECT* pRect, s32 idx);
-
-    void vRender_4E2530(PrimHeader** ppOt);
-
-private:
-    void vScreenChanged_4E2BC0();
-
     s16 field_F4_anim_segment_count;
     s16 field_F6_piece_length;
     s16 field_F8_top;

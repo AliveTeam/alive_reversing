@@ -38,7 +38,7 @@ Teleporter::Teleporter(Path_Teleporter* pTlv, u32 tlvInfo)
 
 Teleporter::~Teleporter()
 {
-    Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_20_tlvInfo, -1, 0, 0);
 }
 
 void Teleporter::VScreenChanged()
@@ -68,7 +68,7 @@ const PSX_Point kSparkOffs_563988[8] = {
 void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
 {
     PSX_Point abeSpawnPos = {};
-    gMap.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
+    gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
 
     const s16 xOrg = pTlvData->field_22_eletric_x - abeSpawnPos.field_0_x;
     const s16 yOrg = pTlvData->field_24_electric_y - abeSpawnPos.field_2_y;
@@ -156,7 +156,7 @@ void Teleporter::VUpdate()
                     if (field_34_mTlvData.field_1C_scale != Scale_short::eFull_0)
                     {
                         // Steam/smoke effect at Abe's body
-                        New_Smoke_Particles_426C70(
+                        New_Smoke_Particles(
                             sControlledCharacter_5C1B8C->field_B8_xpos,
                             sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
                             sControlledCharacter_5C1B8C->field_CC_sprite_scale,
@@ -175,7 +175,7 @@ void Teleporter::VUpdate()
                     else
                     {
                         // Steam/smoke effect at Abe's body
-                        New_Smoke_Particles_426C70(
+                        New_Smoke_Particles(
                             sControlledCharacter_5C1B8C->field_B8_xpos,
                             sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
                             sControlledCharacter_5C1B8C->field_CC_sprite_scale,
@@ -211,7 +211,7 @@ void Teleporter::VUpdate()
                 bForceChange = 1;
             }
 
-            gMap.SetActiveCam_480D30(
+            gMap.SetActiveCam(
                 field_34_mTlvData.field_18_level,
                 field_34_mTlvData.field_16_path,
                 field_34_mTlvData.field_14_camera,
@@ -229,13 +229,13 @@ void Teleporter::VUpdate()
         {
             gMap.field_20 = 0;
 
-            Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Teleporter_88, 0));
+            Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
             Path_Teleporter_Data tlvData = pTeleporterTlv->field_10_data;
             if (tlvData.field_10_teleporter_switch_id != field_34_mTlvData.field_12_other_teleporter_switch_id)
             {
                 while (pTeleporterTlv)
                 {
-                    pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_Next_Of_Type_4DB720(pTeleporterTlv, TlvTypes::Teleporter_88));
+                    pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
                     tlvData = pTeleporterTlv->field_10_data;
 
                     if (tlvData.field_10_teleporter_switch_id == field_34_mTlvData.field_12_other_teleporter_switch_id)
@@ -311,7 +311,7 @@ void Teleporter::VUpdate()
             sControlledCharacter_5C1B8C->VGetBoundingRect(&bRect, 1);
 
             // White flash in the middle of Abe's body.
-            New_DestroyOrCreateObject_Particle_426F40(
+            New_DestroyOrCreateObject_Particle(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
                 FP_FromInteger((bRect.y + bRect.h) / 2) + (sControlledCharacter_5C1B8C->field_CC_sprite_scale * FP_FromInteger(60)),
                 sControlledCharacter_5C1B8C->field_CC_sprite_scale);

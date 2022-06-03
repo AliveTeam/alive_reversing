@@ -75,14 +75,14 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
 
 WorkWheel::~WorkWheel()
 {
-    Path::TLV_Reset_4DB8E0(field_F4_tlv_info, -1, 0, 0);
+    Path::TLV_Reset(field_F4_tlv_info, -1, 0, 0);
 }
 
 s32 WorkWheel::CreateFromSaveState(const u8* pState)
 {
     const WorkWheel_SaveState* pData = reinterpret_cast<const WorkWheel_SaveState*>(pState);
 
-    Path_WorkWheel* pTlv = static_cast<Path_WorkWheel*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pData->field_4_tlvInfo));
+    Path_WorkWheel* pTlv = static_cast<Path_WorkWheel*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pData->field_4_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, FALSE, FALSE))
     {
@@ -138,7 +138,7 @@ void WorkWheel::VUpdate()
                 0))
         {
             const s16 randomVol = Math_RandomRange_496AB0(-30, 0);
-            SND_SEQ_Play_4CAB10(SeqId::WheelSqueak_19, 1, randomVol + 127, randomVol + 127);
+            SND_SEQ_Play(SeqId::WheelSqueak_19, 1, randomVol + 127, randomVol + 127);
         }
     }
     else if (field_FC_state == WheelStates::eIdle_0)

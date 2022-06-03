@@ -57,23 +57,23 @@ void SND_Restart_SetCallBack(TSNDRestart cb);
 
 void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsqFileName);
 
-void SND_Stop_All_Seqs_4CA850();
+void SND_Stop_All_Seqs();
 
-void SND_StopAll_4CB060();
-void SND_Init_4CA1F0();
-void SND_Shutdown_4CA280();
-void SND_Stop_Channels_Mask_4CA810(u32 bitMask);
-void SND_Reset_4C9FB0();
-void SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb);
-void SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char_type* bsqFileName);
-void SND_SEQ_Stop_4CAE60(u16 idx);
-s8 SND_Seq_Table_Valid_4CAFE0();
-s16 SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop);
-void SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight);
-s16 SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight);
-s32 SND_SsIsEos_DeInlined_4CACD0(u16 idx);
-s32 SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
-s32 SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max);
+void SND_StopAll();
+void SND_Init();
+void SND_Shutdown();
+void SND_Stop_Channels_Mask(u32 bitMask);
+void SND_Reset();
+void SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb);
+void SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFileName);
+void SND_SEQ_Stop(u16 idx);
+s8 SND_Seq_Table_Valid();
+s16 SND_SEQ_PlaySeq(u16 idx, s16 repeatCount, s16 bDontStop);
+void SND_SEQ_SetVol(s32 idx, s16 volLeft, s16 volRight);
+s16 SND_SEQ_Play(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight);
+s32 SND_SsIsEos_DeInlined(u16 idx);
+s32 SFX_SfxDefinition_Play_Stereo(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
+s32 SFX_SfxDefinition_Play_Mono(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max);
 
 enum SeqId
 {

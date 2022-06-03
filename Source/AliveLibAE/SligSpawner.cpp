@@ -36,11 +36,11 @@ SligSpawner::~SligSpawner()
 {
     if (field_26_flags.Get(SpawnerFlags::eBit1_DontDestroyTLV))
     {
-        Path::TLV_Reset_4DB8E0(field_20_tlv_info, -1, 0, 0);
+        Path::TLV_Reset(field_20_tlv_info, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_20_tlv_info, -1, 0, 1);
+        Path::TLV_Reset(field_20_tlv_info, -1, 0, 1);
     }
 }
 
@@ -78,7 +78,7 @@ void SligSpawner::VUpdate()
         }
     }
 
-    const auto pSpawnedSlig = static_cast<Slig*>(sObjectIds.Find_449CF0(field_3C_spawned_slig_obj_id));
+    const auto pSpawnedSlig = static_cast<Slig*>(sObjectIds.Find_Impl(field_3C_spawned_slig_obj_id));
 
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -132,7 +132,7 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
         return sizeof(Slig_Spawner_State);
     }
 
-    BaseGameObject* pSpawnedSlig = sObjectIds.Find_449CF0(field_3C_spawned_slig_obj_id);
+    BaseGameObject* pSpawnedSlig = sObjectIds.Find_Impl(field_3C_spawned_slig_obj_id);
     if (pSpawnedSlig)
     {
         pState->field_C_spawned_slig_obj_id = pSpawnedSlig->field_C_objectId;
@@ -143,7 +143,7 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
 s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_Spawner_State*>(pBuffer);
-    auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
+    auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
     auto pSpawner = ae_new<SligSpawner>(pTlv, pState->field_4_tlvInfo);
     if (pSpawner)
     {

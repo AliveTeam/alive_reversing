@@ -25,18 +25,12 @@ class GlukkonSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 public:
     GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo);
     ~GlukkonSwitch();
-    
 
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
 
 private:
-    void vScreenChange_4456D0();
-
-    s16 PlayerNearMe_445180();
-
-    void vUpdate_445200();
+    s16 PlayerNearMe();
 
 private:
     s32 field_F4_tlvInfo;

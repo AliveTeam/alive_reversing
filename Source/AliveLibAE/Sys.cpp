@@ -274,15 +274,15 @@ LRESULT Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPAR
             }
         #endif
 
-            if (SND_Seq_Table_Valid_4CAFE0())
+            if (SND_Seq_Table_Valid())
             {
-                SND_StopAll_4CB060();
+                SND_StopAll();
             }
 
             ret = -(MessageBoxA(hWnd, "Do you really want to quit?", "Abe's Exoddus 1.0", 0x124u) != 6); // TODO: Constants, refactor negation
 
 
-            if (SND_Seq_Table_Valid_4CAFE0())
+            if (SND_Seq_Table_Valid())
             {
                 GetSoundAPI().SND_Restart();
             }
@@ -962,9 +962,9 @@ static s32 Sys_EventFilter(void* /*userData*/, SDL_Event* event)
             }
     #endif
         }
-        if (SND_Seq_Table_Valid_4CAFE0())
+        if (SND_Seq_Table_Valid())
         {
-            SND_StopAll_4CB060();
+            SND_StopAll();
         }
 
         // Full screen message boxes act really strange.. so force window mode before we show it
@@ -986,7 +986,7 @@ static s32 Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         }
 
         const MessageBoxButton button = Sys_MessageBox(Sys_GetWindowHandle_4EE180(), "Do you really want to quit?", "R.E.L.I.V.E.", MessageBoxType::eQuestion);
-        if (SND_Seq_Table_Valid_4CAFE0())
+        if (SND_Seq_Table_Valid())
         {
             GetSoundAPI().SND_Restart();
         }

@@ -46,7 +46,7 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     if (field_3C_bEmitLeaves == Choice_short::eYes_1)
     {
         PSX_Point abeSpawnPos = {};
-        gMap.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
+        gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
 
         field_34_leaf_xpos = FP_FromInteger(pTlv->field_2E_leaf_x);
         if (pTlv->field_2E_leaf_x > 0)
@@ -88,7 +88,7 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     if (field_3C_bEmitLeaves == Choice_short::eYes_1)
     {
         PSX_Point abeSpawnPos = {};
-        gMap.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
+        gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
         field_34_leaf_xpos = FP_FromInteger(pTlv->field_22_leaf_x);
 
         if (pTlv->field_22_leaf_x > 0)
@@ -117,7 +117,7 @@ Well::~Well()
 {
     if (field_20_tlvInfo != -1)
     {
-        Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_20_tlvInfo, -1, 0, 0);
     }
 }
 
@@ -145,7 +145,7 @@ void Well::VUpdate()
     {
         mFlags.Set(BaseGameObject::eDead);
         // Reset well state when Abe dies.
-        Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_20_tlvInfo, -1, 0, 0);
     }
 
     if (field_3C_bEmitLeaves == Choice_short::eYes_1)

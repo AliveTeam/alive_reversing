@@ -570,7 +570,7 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
     return 1;
 }
 
-s8 DDV_Play_493210(const char_type* pDDVName)
+s8 DDV_Play(const char_type* pDDVName)
 {
     sMovieSoundEntry_5CA230 = &fmv_sound_entry_5CA208;
     const s8 ret = DDV_Play_Impl_4932E0(pDDVName);
@@ -595,7 +595,7 @@ struct MovieQueue final
 
 ALIVE_VAR(1, 0x5CA348, MovieQueue, sMovieNames_5CA348, {});
 
-void Get_fmvs_sectors_494460(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
+void Get_fmvs_sectors(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
 {
     // NOTE: Unused globals that also had the "fake" sector number assigned have been omitted.
     sMovieNameIdx_5CA4C4 = 0;
@@ -619,17 +619,12 @@ void Get_fmvs_sectors_494460(const char_type* pMovieName1, const char_type* pMov
     }
 }
 
-void Movie::VUpdate()
-{
-    vUpdate_4E0030();
-}
-
 void Movie::VScreenChanged()
 {
     // Null sub 0x4E02A0
 }
 
-void Movie::Init_4DFF60(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume)
+void Movie::Init(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume)
 {
     mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
@@ -673,10 +668,10 @@ Movie::Movie(s32 id, u32 pos, s32 bUnknown, s32 flags, s32 volume)
 {
     CdlLOC cdLoc = {};
     PSX_Pos_To_CdLoc_4FADD0(pos, &cdLoc);
-    Init_4DFF60(id, &cdLoc, static_cast<s16>(bUnknown), static_cast<s16>(flags), static_cast<s16>(volume));
+    Init(id, &cdLoc, static_cast<s16>(bUnknown), static_cast<s16>(flags), static_cast<s16>(volume));
 }
 
-void Movie::vUpdate_4E0030()
+void Movie::VUpdate()
 {
     if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
@@ -687,12 +682,12 @@ void Movie::vUpdate_4E0030()
     {
         if (sMovie_Kill_SEQs_563A88)
         {
-            SND_StopAll_4CB060();
+            SND_StopAll();
         }
 
         if (sMovieNameIdx_5CA4C4 >= 0)
         {
-            while (!DDV_Play_493210(sMovieNames_5CA348.mNames[sMovieNameIdx_5CA4C4].mName))
+            while (!DDV_Play(sMovieNames_5CA348.mNames[sMovieNameIdx_5CA4C4].mName))
             {
                 if (gAttract_5C1BA0)
                 {
@@ -711,11 +706,11 @@ void Movie::vUpdate_4E0030()
             }
         }
     }
-    DeInit_4E0210();
+    DeInit();
 }
 
 
-void Movie::DeInit_4E0210()
+void Movie::DeInit()
 {
     //YuvToRgb_4F8C60(1); // mdec reset
     //sub_4F92A0(0); // Clear a call back thats never used

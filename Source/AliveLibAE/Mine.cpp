@@ -104,7 +104,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
     }
 
-    const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP gridSnap = ScaleToGridSize(field_CC_sprite_scale);
     mFlags.Set(Options::eInteractive_Bit8);
     field_DC_bApplyShadows |= 2u;
 
@@ -119,11 +119,11 @@ Mine::~Mine()
 {
     if (field_118_detonating == 1)
     {
-        Path::TLV_Reset_4DB8E0(field_11C_tlv.all, -1, 0, 1);
+        Path::TLV_Reset(field_11C_tlv.all, -1, 0, 1);
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_11C_tlv.all, -1, 0, 0);
+        Path::TLV_Reset(field_11C_tlv.all, -1, 0, 0);
     }
 
     field_124_animation.vCleanUp_40C630();

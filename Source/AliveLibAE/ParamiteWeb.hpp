@@ -10,19 +10,8 @@ public:
     ~ParamiteWeb();
 
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-
-private:
-
-    void vUpdate_4E1F40();
-
-    void vScreenChanged_4E1F80();
-
-    void vRender_4E1BA0(PrimHeader** ppOt);
 
 public:
     s16 field_F4_number_of_segments;

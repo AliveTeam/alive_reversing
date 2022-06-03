@@ -270,7 +270,7 @@ s32 Drill::CreateFromSaveState(const u8* pData)
 {
     const Drill_State* pState = reinterpret_cast<const Drill_State*>(pData);
 
-    Path_Drill* pTlv = static_cast<Path_Drill*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_8_tlvInfo));
+    Path_Drill* pTlv = static_cast<Path_Drill*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_8_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
     {
@@ -423,7 +423,7 @@ void Drill::vUpdate_420C50()
             {
                 if (field_10C_audio_channels_mask)
                 {
-                    SND_Stop_Channels_Mask_4CA810(field_10C_audio_channels_mask);
+                    SND_Stop_Channels_Mask(field_10C_audio_channels_mask);
                     field_10C_audio_channels_mask = 0;
                 }
 
@@ -471,17 +471,17 @@ Drill::~Drill()
 {
     if (field_10C_audio_channels_mask)
     {
-        SND_Stop_Channels_Mask_4CA810(field_10C_audio_channels_mask);
+        SND_Stop_Channels_Mask(field_10C_audio_channels_mask);
         field_10C_audio_channels_mask = 0;
     }
 
     if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get(field_F8_switch_id) != field_128_flags.Get(Flags::eBit1_StartOff))
     {
-        Path::TLV_Reset_4DB8E0(field_104_tlv, 1, 0, 0);
+        Path::TLV_Reset(field_104_tlv, 1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset_4DB8E0(field_104_tlv, 0, 0, 0);
+        Path::TLV_Reset(field_104_tlv, 0, 0, 0);
     }
 }
 
@@ -502,7 +502,7 @@ void Drill::vScreenChanged_4214B0()
     // Stop that sound
     if (field_10C_audio_channels_mask)
     {
-        SND_Stop_Channels_Mask_4CA810(field_10C_audio_channels_mask);
+        SND_Stop_Channels_Mask(field_10C_audio_channels_mask);
         field_10C_audio_channels_mask = 0;
     }
 
@@ -566,7 +566,7 @@ void Drill::vStopAudio_4215C0()
 {
     if (field_10C_audio_channels_mask)
     {
-        SND_Stop_Channels_Mask_4CA810(field_10C_audio_channels_mask);
+        SND_Stop_Channels_Mask(field_10C_audio_channels_mask);
         field_10C_audio_channels_mask = 0;
     }
 }

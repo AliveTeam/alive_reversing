@@ -322,7 +322,7 @@ void EvilFart::VUpdate()
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         mFlags.Set(BaseGameObject::eDead);
-        gMap.SetActiveCam_480D30(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 
     // Show the count to the boom
@@ -393,7 +393,7 @@ void EvilFart::VUpdate()
                     velocityToUse = -field_C4_velx;
                 }
 
-                New_Smoke_Particles_426C70(
+                New_Smoke_Particles(
                     field_B8_xpos * field_CC_sprite_scale,
                     (field_BC_ypos - FP_FromInteger(55)) * field_CC_sprite_scale,
                     FP_FromDouble(0.5) * field_CC_sprite_scale,
@@ -405,7 +405,7 @@ void EvilFart::VUpdate()
 
                 if (field_130_sound_channels)
                 {
-                    SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
+                    SND_Stop_Channels_Mask(field_130_sound_channels);
                 }
 
                 Mudokon_SFX_457EC0(MudSounds::eFart_7, 50, FP_GetExponent(velocityToUse * FP_FromInteger(250)) - 2000, nullptr);
@@ -416,7 +416,7 @@ void EvilFart::VUpdate()
         {
             if (field_130_sound_channels)
             {
-                SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
+                SND_Stop_Channels_Mask(field_130_sound_channels);
                 field_130_sound_channels = 0;
             }
             if (!(sGnFrame_5C1B84 % 30) && !Math_RandomRange_496AB0(0, 1))
@@ -528,7 +528,7 @@ void EvilFart::VUpdate()
 
             const FP yposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
             const FP xposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20)));
-            New_TintChant_Particle_426BE0(
+            New_TintChant_Particle(
                 xposOffset + field_B8_xpos,
                 yposOffset + field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
                 field_CC_sprite_scale,

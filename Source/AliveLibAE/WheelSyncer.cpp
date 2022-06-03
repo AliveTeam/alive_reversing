@@ -92,7 +92,7 @@ void WheelSyncer::VUpdate()
 
 WheelSyncer::~WheelSyncer()
 {
-    Path::TLV_Reset_4DB8E0(field_30_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_30_tlvInfo, -1, 0, 0);
 }
 
 void WheelSyncer::VScreenChanged()

@@ -27,21 +27,6 @@ const TintEntry kLeverTints_563228[18] = {
     {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
-void Lever::VUpdate()
-{
-    vUpdate_4D5C00();
-}
-
-void Lever::VScreenChanged()
-{
-    vScreenChanged_4D5B90();
-}
-
-s16 Lever::VPull_4D6050(s16 bLeftDirection)
-{
-    return vPull_4D6050(bLeftDirection);
-}
-
 Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -79,7 +64,7 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
 
     SetTint(&kLeverTints_563228[0], gMap.mCurrentLevel);
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
+    field_B8_xpos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     PathLine* pPathLine = nullptr;
@@ -109,10 +94,10 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
 
 Lever::~Lever()
 {
-    Path::TLV_Reset_4DB8E0(field_FC_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_FC_tlvInfo, -1, 0, 0);
 }
 
-void Lever::vScreenChanged_4D5B90()
+void Lever::VScreenChanged()
 {
     if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) || gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
@@ -120,7 +105,7 @@ void Lever::vScreenChanged_4D5B90()
     }
 }
 
-void Lever::vUpdate_4D5C00()
+void Lever::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -284,7 +269,7 @@ void Lever::vUpdate_4D5C00()
     }
 }
 
-s16 Lever::vPull_4D6050(s16 bLeftDirection)
+s16 Lever::VPull(s16 bLeftDirection)
 {
     if (field_F8_state != LeverState::eWaiting_0)
     {

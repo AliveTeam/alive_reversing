@@ -46,15 +46,12 @@ public:
     ~LiftMover();
 
     static s32 CreateFromSaveState(const u8* pData);
-
     
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    void vUpdate_40CE20();
-    s32 vGetSaveState_40D240(LiftMover_State* pState);
-    LiftPoint* GetLiftPoint_40D0F0();
+    LiftPoint* GetLiftPoint();
 
 private:
     s16 field_20_lift_mover_switch_id;

@@ -87,7 +87,7 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
 ColourfulMeter::~ColourfulMeter()
 {
     gObjList_drawables_5C1124->Remove_Item(this);
-    Path::TLV_Reset_4DB8E0(field_68_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_68_tlvInfo, -1, 0, 0);
     field_30_font.dtor_433540();
     field_20_font_context.dtor_433510();
 }
@@ -161,7 +161,7 @@ void ColourfulMeter::vUpdate_43D140()
         else if (!gbDrawMeterCountDown_5C1BF8)
         {
             gbDrawMeterCountDown_5C1BF8 = 1;
-            MinesAlarm::Create_4177F0(30 * field_7C_mines_alarm_countdown);
+            MinesAlarm::Create(30 * field_7C_mines_alarm_countdown);
         }
     }
 }
@@ -238,7 +238,7 @@ void ColourfulMeter::vRender_43D2B0(PrimHeader** ppOt)
     {
         char_type text[12] = {};
         sprintf(text, "%01d:%02d", sTimerValue_5C1BFC / 1800u, sTimerValue_5C1BFC / 30u % 60);
-        const s32 textWidth = field_30_font.MeasureWidth_433700(text);
+        const s32 textWidth = field_30_font.MeasureTextWidth(text);
 
         s16 colourRand = 50;
         if (sDisableFontFlicker_5C9304)

@@ -87,7 +87,7 @@ void JsonWriterAE::ResetTypeCounterMap()
             LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type.mType);
         }
 
-        pPathTLV = Path::Next_TLV(pPathTLV); // TODO: Will skip the last entry ??
+        pPathTLV = Path::Next_TLV_Impl(pPathTLV); // TODO: Will skip the last entry ??
     }
 
     return mapObjects;

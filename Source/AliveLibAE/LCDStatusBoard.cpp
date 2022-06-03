@@ -19,21 +19,6 @@ u8 sStatsSignFontPalette_55CF8C[] = {
 ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
 ALIVE_VAR(1, 0x5C1A20, s8, sZulagNumber_5C1A20, 0);
 
-void LCDStatusBoard::VUpdate()
-{
-    vUpdate_47B8D0();
-}
-
-void LCDStatusBoard::VRender(PrimHeader** ppOt)
-{
-    vRender_47B900(ppOt);
-}
-
-void LCDStatusBoard::VScreenChanged()
-{
-    vScreenChanged_47BC40();
-}
-
 LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
     : BaseGameObject(TRUE, 0)
 {
@@ -68,7 +53,7 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
 LCDStatusBoard::~LCDStatusBoard()
 {
     gObjList_drawables_5C1124->Remove_Item(this);
-    Path::TLV_Reset_4DB8E0(field_100_objectId, -1, 0, 0);
+    Path::TLV_Reset(field_100_objectId, -1, 0, 0);
 
     if (!--sFontType2LoadCount_5BC5E8)
     {
@@ -81,7 +66,7 @@ LCDStatusBoard::~LCDStatusBoard()
     field_20_font1.dtor_433540();
 }
 
-void LCDStatusBoard::vUpdate_47B8D0()
+void LCDStatusBoard::VUpdate()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -90,13 +75,13 @@ void LCDStatusBoard::vUpdate_47B8D0()
 }
 
 // Todo: clean up
-void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
+void LCDStatusBoard::VRender(PrimHeader** ppOt)
 {
     if (!field_108_is_hidden)
     {
         char_type text[12] = {};
         sprintf(text, "%3d", Path_GetMudsInLevel(gMap.mCurrentLevel, gMap.mCurrentPath));
-        s32 maxWidth = field_90_font3.MeasureWidth_433700(text);
+        s32 maxWidth = field_90_font3.MeasureTextWidth(text);
 
         s16 flickerAmount = 50; // ax
         if (sDisableFontFlicker_5C9304)
@@ -126,7 +111,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
 
         // Muds in this Area
         sprintf(text, "%3d", mudsLeftInArea);
-        const s32 font4Width = field_C8_font4.MeasureWidth_433700(text);
+        const s32 font4Width = field_C8_font4.MeasureTextWidth(text);
         field_C8_font4.DrawString_4337D0(
             ppOt,
             text,
@@ -147,7 +132,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
 
         // Saved Mudokons
         sprintf(text, "%3d", sRescuedMudokons_5C1BC2);
-        const s32 font2Width = field_58_font2.MeasureWidth_433700(text);
+        const s32 font2Width = field_58_font2.MeasureTextWidth(text);
         field_58_font2.DrawString_4337D0(
             ppOt,
             text,
@@ -168,7 +153,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
 
         // Killed mudokons
         sprintf(text, "%3d", sKilledMudokons_5C1BC0);
-        const s32 font1Width = field_20_font1.MeasureWidth_433700(text);
+        const s32 font1Width = field_20_font1.MeasureTextWidth(text);
         field_20_font1.DrawString_4337D0(
             ppOt,
             text,
@@ -196,7 +181,7 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
     }
 }
 
-void LCDStatusBoard::vScreenChanged_47BC40()
+void LCDStatusBoard::VScreenChanged()
 {
     mFlags.Set(eDead);
 }

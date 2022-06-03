@@ -18,7 +18,7 @@ const s32 code_base_560F0C[12] = {
     0,
 };
 
-s16 Code_Length_4C9DB0(u32 code)
+s16 Code_Length(u32 code)
 {
     s16 i = 0;
     for (i = 0; code; ++i)
@@ -28,11 +28,11 @@ s16 Code_Length_4C9DB0(u32 code)
     return i;
 }
 
-s32 Code_Convert_4C9DF0(u16 code1, u16 code2)
+s32 Code_Convert(u16 code1, u16 code2)
 {
     if (code2)
     {
-        return code2 + code1 * code_base_560F0C[Code_Length_4C9DB0(code2) + 1];
+        return code2 + code1 * code_base_560F0C[Code_Length(code2) + 1];
     }
     else
     {
@@ -41,7 +41,7 @@ s32 Code_Convert_4C9DF0(u16 code1, u16 code2)
 }
 
 
-GameSpeakEvents Code_LookUp_4C9E40(u32 code, u16 idx, u16 code_len)
+GameSpeakEvents Code_LookUp(u32 code, u16 idx, u16 code_len)
 {
     if (!code)
     {
@@ -51,7 +51,7 @@ GameSpeakEvents Code_LookUp_4C9E40(u32 code, u16 idx, u16 code_len)
     u16 code_len_to_use = code_len;
     if (code_len == 0)
     {
-        code_len_to_use = Code_Length_4C9DB0(code);
+        code_len_to_use = Code_Length(code);
     }
 
     return static_cast<GameSpeakEvents>(code / code_base_560F0C[code_len_to_use - idx] % 10);
@@ -69,7 +69,7 @@ GameSpeak::GameSpeak()
     field_28_last_event_index = 0;
 }
 
-GameSpeakMatch GameSpeak::MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_idx)
+GameSpeakMatch GameSpeak::MatchBuffer(u8* pBuffer, s16 max_idx, s16 src_idx)
 {
     if (src_idx == -1)
     {
@@ -131,12 +131,12 @@ GameSpeakMatch GameSpeak::MatchBuffer_4219E0(u8* pBuffer, s16 max_idx, s16 src_i
     }
 }
 
-s32 GameSpeak::FillBuffer_421970(s32 code, u8* pBufffer)
+s32 GameSpeak::FillBuffer(s32 code, u8* pBufffer)
 {
-    const s16 len = Code_Length_4C9DB0(code);
+    const s16 len = Code_Length(code);
     for (s16 idx = 0; idx < len; idx++)
     {
-        pBufffer[idx] = static_cast<u8>(Code_LookUp_4C9E40(code, idx, len));
+        pBufffer[idx] = static_cast<u8>(Code_LookUp(code, idx, len));
     }
     return len;
 }
@@ -144,11 +144,6 @@ s32 GameSpeak::FillBuffer_421970(s32 code, u8* pBufffer)
 GameSpeak::~GameSpeak()
 {
     pEventSystem_5BC11C = nullptr;
-}
-
-void GameSpeak::VUpdate()
-{
-    Update_421920();
 }
 
 void GameSpeak::VRender(PrimHeader** /*ppOt*/)
@@ -162,7 +157,7 @@ void GameSpeak::VScreenChanged()
     // Null @ 0x421AB0
 }
 
-void GameSpeak::Update_421920()
+void GameSpeak::VUpdate()
 {
     if (field_20_last_event != GameSpeakEvents::eNone_m1 && sGnFrame_5C1B84 > field_24_last_event_frame)
     {
@@ -170,7 +165,7 @@ void GameSpeak::Update_421920()
     }
 }
 
-void GameSpeak::PushEvent_4218D0(GameSpeakEvents event)
+void GameSpeak::PushEvent(GameSpeakEvents event)
 {
     PushEvent_Impl(event);
     field_24_last_event_frame = sGnFrame_5C1B84 + 60;

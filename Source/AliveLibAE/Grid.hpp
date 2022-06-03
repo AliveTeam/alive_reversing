@@ -3,6 +3,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 
-s32 SnapToXGrid_449930(FP scale, s32 x);
+s32 SnapToXGrid(FP scale, s32 x);
 
-FP ScaleToGridSize_4498B0(FP scale);
+FP ScaleToGridSize(FP scale);

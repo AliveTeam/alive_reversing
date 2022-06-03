@@ -128,7 +128,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     }
 }
 
-void ParamiteWebLine::Wobble_4E29D0(s16 ypos)
+void ParamiteWebLine::Wobble(s16 ypos)
 {
     s16 yPosToUse = ypos;
     if (ypos < field_F8_top)
@@ -148,34 +148,14 @@ void ParamiteWebLine::Wobble_4E29D0(s16 ypos)
     }
 }
 
-void ParamiteWebLine::VUpdate()
-{
-    vUpdate_4E2A50();
-}
-
-void ParamiteWebLine::VScreenChanged()
-{
-    return vScreenChanged_4E2BC0();
-}
-
-PSX_RECT* ParamiteWebLine::VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx)
-{
-    return vGetBoundingRect_4E2B40(pRect, pointIdx);
-}
-
-void ParamiteWebLine::VRender(PrimHeader** ppOt)
-{
-    vRender_4E2530(ppOt);
-}
-
 ParamiteWebLine::~ParamiteWebLine()
 {
     ae_non_zero_free_495560(field_FC_pRes);
     field_108_anim_flare.vCleanUp_40C630();
-    Path::TLV_Reset_4DB8E0(field_100_tlv_info, -1, 0, 0);
+    Path::TLV_Reset(field_100_tlv_info, -1, 0, 0);
 }
 
-void ParamiteWebLine::vUpdate_4E2A50()
+void ParamiteWebLine::VUpdate()
 {
     if (field_104_wobble_idx > 0)
     {
@@ -202,7 +182,7 @@ void ParamiteWebLine::vUpdate_4E2A50()
     field_106_wobble_pos = field_F8_top;
 }
 
-PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, s32 /*idx*/)
+PSX_RECT* ParamiteWebLine::VGetBoundingRect(PSX_RECT* pRect, s32 /*idx*/)
 {
     const s16 xpos = FP_GetExponent(field_B8_xpos);
 
@@ -217,7 +197,7 @@ PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, s32 /*idx*/)
 
 const s16 word_563A8C[10] = {0, 1, -3, 2, -4, 4, -6, 4, 0, 0};
 
-void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
+void ParamiteWebLine::VRender(PrimHeader** ppOt)
 {
     if (!field_104_wobble_idx && !field_1A4_delay_counter)
     {
@@ -290,7 +270,7 @@ void ParamiteWebLine::vRender_4E2530(PrimHeader** ppOt)
     }
 }
 
-void ParamiteWebLine::vScreenChanged_4E2BC0()
+void ParamiteWebLine::VScreenChanged()
 {
     mFlags.Set(BaseGameObject::eDead);
 }

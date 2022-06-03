@@ -103,7 +103,7 @@ void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, s16 scale, s16
 
 ShadowZone::~ShadowZone()
 {
-    Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_20_tlvInfo, -1, 0, 0);
     sShadowZone_dArray_5C1B80->Remove_Item(this);
 }
 

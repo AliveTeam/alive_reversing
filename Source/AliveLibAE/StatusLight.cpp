@@ -48,7 +48,7 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
 
     if (field_104_bIgnore_grid_snapping == Choice_short::eNo_0)
     {
-        field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
+        field_B8_xpos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
     }
 
     field_BC_ypos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
@@ -122,7 +122,7 @@ void StatusLight::VUpdate()
 
 StatusLight::~StatusLight()
 {
-    Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }
 
 void StatusLight::VScreenChanged()

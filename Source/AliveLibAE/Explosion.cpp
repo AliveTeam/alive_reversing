@@ -62,7 +62,7 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
 
     DealBlastDamage_4A1BD0(&rect);
 
-    SND_SEQ_PlaySeq_4CA960(SeqId::Explosion1_14, 1, 1);
+    SND_SEQ_PlaySeq(SeqId::Explosion1_14, 1, 1);
 }
 
 void Explosion::VUpdate()
@@ -244,7 +244,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
                 ae_new<Gibs>(GibType::Slig_1, field_B8_xpos - FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
             }
 
-            Stop_slig_sounds_4CBA70(dir, 0);
+            Stop_slig_sounds(dir, 0);
         }
     }
 }
