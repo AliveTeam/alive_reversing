@@ -134,31 +134,17 @@ public:
 
     explicit BaseGameObject(s16 addToObjectList);
     virtual ~BaseGameObject();
-
-    virtual void VUpdate()
-    {
-        // Empty
-    }
-
-    virtual void VRender(PrimHeader**)
-    {
-        // Empty
-    }
-
+    virtual void VUpdate();
+    virtual void VRender(PrimHeader**);
     virtual void VScreenChanged();
-
-    virtual void VStopAudio()
-    {
-        // Empty
-    }
+    virtual void VStopAudio();
 
 public:
     Types mBaseGameObjectTypeId;
     BitField16<Options> mBaseGameObjectFlags;
     s32 mBaseGameObjectUpdateDelay;
+
     s8 mBaseGameObjectRefCount;
-    s8 field_D_padding;
-    s16 field_E_padding;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 

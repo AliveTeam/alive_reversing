@@ -44,6 +44,16 @@ BaseGameObject::~BaseGameObject()
     Event_Cancel_For_Obj(this);
 }
 
+void BaseGameObject::VUpdate()
+{
+    // Empty
+}
+
+void BaseGameObject::VRender(PrimHeader**)
+{
+    // Empty
+}
+
 void BaseGameObject::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel
@@ -52,6 +62,11 @@ void BaseGameObject::VScreenChanged()
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
+}
+
+void BaseGameObject::VStopAudio()
+{
+    // Empty
 }
 
 } // namespace AO
