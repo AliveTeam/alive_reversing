@@ -169,7 +169,8 @@ enum class AETypes : s16
 
 struct PrimHeader;
 
-class BaseGameObject
+// Temp interface till we have 1 copy of BaseGameObject
+class IBaseGameObject
 {
 public:
     enum Options
@@ -186,7 +187,24 @@ public:
         eUpdateDuringCamSwap_Bit10 = 0x200,
         eCantKill_Bit11 = 0x400
     };
+    virtual ~IBaseGameObject()    { }
 
+    virtual void VUpdate() = 0;
+    virtual void VRender(PrimHeader** pOrderingTable) = 0;
+    virtual void VScreenChanged() = 0;
+    virtual void VStopAudio() = 0;
+
+    virtual s32 VGetSaveState(u8* /*pSaveBuffer*/)
+    {
+        // Not used in AO yet so needs a default impl
+        return 0;
+    }
+};
+
+class BaseGameObject : public IBaseGameObject
+{
+public:
+   
     BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize);
     virtual ~BaseGameObject();
     virtual void VUpdate();

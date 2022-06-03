@@ -6,6 +6,7 @@
 #include "PathData.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "BaseGameObject.hpp"
+#include "../AliveLibAE/Map.hpp"
 
 namespace AO {
 
@@ -180,7 +181,7 @@ enum class CameraPos : s16
     eCamNone_5 = 5, // Not "in" the camera
 };
 
-class Map final
+class Map final : public IMap
 {
 public:
     enum class MapDirections : s16

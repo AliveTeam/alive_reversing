@@ -2,6 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/BitField.hpp"
+#include "../AliveLibAE/BaseGameObject.hpp"
 #include "DynamicArray.hpp"
 
 void AliveLibAO_ForceLink();
@@ -114,24 +115,9 @@ enum class Types : s16
     eElectrocute_103 = 103,
 };
 
-class BaseGameObject
+class BaseGameObject : public IBaseGameObject
 {
 public:
-    enum Options
-    {
-        eListAddFailed_Bit1 = 0x001,
-        eUpdatable_Bit2 = 0x002,
-        eDead = 0x004,
-        eDrawable_Bit4 = 0x008,
-        eIsBaseAnimatedWithPhysicsObj_Bit5 = 0x010,
-        eIsBaseAliveGameObject_Bit6 = 0x020,
-        eCanExplode_Bit7 = 0x040,
-        eInteractive_Bit8 = 0x080,
-        eSurviveDeathReset_Bit9 = 0x100,
-        eUpdateDuringCamSwap_Bit10 = 0x200,
-        eCantKill_Bit11 = 0x400
-    };
-
     explicit BaseGameObject(s16 addToObjectList);
     virtual ~BaseGameObject();
     virtual void VUpdate();
