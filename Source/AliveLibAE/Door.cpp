@@ -251,8 +251,8 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
-    FP* xOff = &field_B8_xpos;
-    FP* yOff = &field_BC_ypos;
+    FP* xOff = &mBaseAnimatedWithPhysicsGameObject_XPos;
+    FP* yOff = &mBaseAnimatedWithPhysicsGameObject_YPos;
 
     FP tlvXMid = FP_FromInteger((pTlvData->field_8_top_left.field_0_x + pTlvData->field_C_bottom_right.field_0_x) / 2);
     PathLine* pathLine = nullptr;
@@ -305,7 +305,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     }
 
     field_20_animation.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
 }
 
 Bool32 Door::vIsOpen()
@@ -500,11 +500,11 @@ TrainDoor::TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + 24);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + 24);
 
-    sTrainDoorXPos_BB4AA0 = field_B8_xpos;
-    sTrainDoorYPos_BB4AA4 = field_BC_ypos;
+    sTrainDoorXPos_BB4AA0 = mBaseAnimatedWithPhysicsGameObject_XPos;
+    sTrainDoorYPos_BB4AA4 = mBaseAnimatedWithPhysicsGameObject_YPos;
 
     if (pTlv->field_1_tlv_state)
     {
@@ -549,6 +549,6 @@ void TrainDoor::VUpdate()
         }
     }
 
-    field_B8_xpos = sTrainDoorXPos_BB4AA0 + FP_FromInteger(sTweakX_5C1BD0);
-    field_BC_ypos = sTrainDoorYPos_BB4AA4 + FP_FromInteger(sTweakY_5C1BD4);
+    mBaseAnimatedWithPhysicsGameObject_XPos = sTrainDoorXPos_BB4AA0 + FP_FromInteger(sTweakX_5C1BD0);
+    mBaseAnimatedWithPhysicsGameObject_YPos = sTrainDoorYPos_BB4AA4 + FP_FromInteger(sTweakY_5C1BD4);
 }

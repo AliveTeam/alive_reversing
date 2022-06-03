@@ -45,20 +45,20 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         field_D4_b = 10;
     }
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos,
-            field_B8_xpos + FP_FromInteger(20),
-            field_BC_ypos + FP_FromInteger(20),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(20),
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
             &pLine, &hitX, &hitY, 0x100))
     {
-        field_B8_xpos = FP_FromInteger(pLine->field_0_rect.x);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pLine->field_0_rect.x);
 
         const FP screenTop = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
         if (FP_FromInteger(pLine->field_0_rect.y) >= screenTop)
@@ -79,7 +79,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         {
             field_FA_bottom = FP_GetExponent(screenBottom);
         }
-        field_BC_ypos = FP_FromInteger(field_FA_bottom);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_FA_bottom);
     }
     else
     {
@@ -184,7 +184,7 @@ void ParamiteWebLine::VUpdate()
 
 PSX_RECT* ParamiteWebLine::VGetBoundingRect(PSX_RECT* pRect, s32 /*idx*/)
 {
-    const s16 xpos = FP_GetExponent(field_B8_xpos);
+    const s16 xpos = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
 
     pRect->x = xpos - 2;
     pRect->y = field_F8_top;
@@ -202,7 +202,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
     if (!field_104_wobble_idx && !field_1A4_delay_counter)
     {
         field_108_anim_flare.VRender(
-            FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
             FP_GetExponent(FP_FromInteger(field_1A0_pulse_position) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
             ppOt, 0, 0);
         PSX_RECT rect = {};
@@ -220,7 +220,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
         s16 g = field_D2_g;
         s16 b = field_D4_b;
 
-        FP xVal = field_B8_xpos;
+        FP xVal = mBaseAnimatedWithPhysicsGameObject_XPos;
         if (field_104_wobble_idx != 0)
         {
             if (render_ypos >= field_106_wobble_pos)
@@ -231,7 +231,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
                 }
                 const FP bottomDiff = FP_FromInteger(field_FA_bottom - field_106_wobble_pos);
                 const FP ang = FP_FromInteger(field_FA_bottom - render_ypos) * FP_FromInteger(128);
-                xVal = field_B8_xpos - (Math_Cosine_496D60(ang / bottomDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx]));
+                xVal = mBaseAnimatedWithPhysicsGameObject_XPos - (Math_Cosine_496D60(ang / bottomDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx]));
             }
             else
             {
@@ -241,7 +241,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
                 }
                 const FP topDiff = FP_FromInteger(field_106_wobble_pos - field_F8_top);
                 const FP ang = FP_FromInteger(field_106_wobble_pos - render_ypos) * FP_FromInteger(128);
-                xVal = (Math_Cosine_496D60(ang / topDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx])) + field_B8_xpos;
+                xVal = (Math_Cosine_496D60(ang / topDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx])) + mBaseAnimatedWithPhysicsGameObject_XPos;
             }
         }
 

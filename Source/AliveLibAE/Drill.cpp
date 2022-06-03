@@ -102,8 +102,8 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
         const CameraPos direction = gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos);
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos);
         field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, direction);
     }
 
@@ -111,7 +111,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     {
         case DrillDirection::eDown_0:
             field_110_xPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
-            field_B8_xpos = field_110_xPos;
+            mBaseAnimatedWithPhysicsGameObject_XPos = field_110_xPos;
             field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
@@ -134,13 +134,13 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             {
                 field_124_xyoff = FP_FromInteger(field_F6_width);
             }
-            field_BC_ypos = field_114_yPos - field_124_xyoff;
+            mBaseAnimatedWithPhysicsGameObject_YPos = field_114_yPos - field_124_xyoff;
             break;
 
         case DrillDirection::eRight_1:
             field_110_xPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
             field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
-            field_BC_ypos = field_114_yPos;
+            mBaseAnimatedWithPhysicsGameObject_YPos = field_114_yPos;
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
@@ -162,7 +162,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             {
                 field_124_xyoff = FP_FromInteger(field_F6_width);
             }
-            field_B8_xpos = field_124_xyoff + field_110_xPos;
+            mBaseAnimatedWithPhysicsGameObject_XPos = field_124_xyoff + field_110_xPos;
             break;
 
         case DrillDirection::eLeft_2:
@@ -170,7 +170,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
 
             field_110_xPos = FP_FromInteger(pTlv->field_C_bottom_right.field_0_x - 12);
             field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
-            field_BC_ypos = field_114_yPos;
+            mBaseAnimatedWithPhysicsGameObject_YPos = field_114_yPos;
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
@@ -192,7 +192,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             {
                 field_124_xyoff = FP_FromInteger(field_F6_width);
             }
-            field_B8_xpos = field_110_xPos - field_124_xyoff;
+            mBaseAnimatedWithPhysicsGameObject_XPos = field_110_xPos - field_124_xyoff;
             break;
     }
 
@@ -236,7 +236,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     field_104_tlv = tlvInfo;
     field_10C_audio_channels_mask = 0;
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 }
@@ -298,7 +298,7 @@ void Drill::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const CameraPos soundDirection = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
+    const CameraPos soundDirection = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
 
     switch (field_F4_state)
     {
@@ -493,14 +493,14 @@ void Drill::VScreenChanged()
     }
 
     // More than 1 screen away on X?
-    if (FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos) > FP_FromInteger(375))
+    if (FP_Abs(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) > FP_FromInteger(375))
     {
         field_6_flags.Set(BaseGameObject::eDead);
         return;
     }
 
     // More than 1 screen away on Y?
-    if (FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos) > FP_FromInteger(260))
+    if (FP_Abs(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) > FP_FromInteger(260))
     {
         field_6_flags.Set(BaseGameObject::eDead);
         return;
@@ -515,23 +515,23 @@ void Drill::VRender(PrimHeader** ppOt)
     if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         if (field_FA_direction == DrillDirection::eDown_0)
         {
-            field_BC_ypos = field_114_yPos - field_124_xyoff;
+            mBaseAnimatedWithPhysicsGameObject_YPos = field_114_yPos - field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
         else if (field_FA_direction == DrillDirection::eRight_1)
         {
-            field_B8_xpos = field_110_xPos + field_124_xyoff;
+            mBaseAnimatedWithPhysicsGameObject_XPos = field_110_xPos + field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
         else if (field_FA_direction == DrillDirection::eLeft_2)
         {
-            field_B8_xpos = field_110_xPos - field_124_xyoff;
+            mBaseAnimatedWithPhysicsGameObject_XPos = field_110_xPos - field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
     }
@@ -559,7 +559,7 @@ s32 Drill::VGetSaveState(u8* pSaveBuffer)
 
 void Drill::EmitSparks()
 {
-    if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
     {
         s32 speed = 0;
         if (field_F4_state == DrillStates::State_1_Going_Down)
@@ -576,16 +576,16 @@ void Drill::EmitSparks()
         {
             if (field_FA_direction == DrillDirection::eRight_1)
             {
-                ae_new<Spark>(field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
-                                             field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos - (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
+                                             mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(12)),
                                              field_CC_sprite_scale,
                                              6u,
                                              50,
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
-                ae_new<Spark>(field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
-                                             field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos + (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
+                                             mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(12)),
                                              field_CC_sprite_scale,
                                              6u,
                                              50,
@@ -594,16 +594,16 @@ void Drill::EmitSparks()
             }
             else if (field_FA_direction == DrillDirection::eLeft_2)
             {
-                ae_new<Spark>(field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
-                                             field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos + (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
+                                             mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(12)),
                                              field_CC_sprite_scale,
                                              6u,
                                              50,
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
-                ae_new<Spark>(field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
-                                             field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos - (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
+                                             mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(12)),
                                              field_CC_sprite_scale,
                                              6u,
                                              50,
@@ -612,16 +612,16 @@ void Drill::EmitSparks()
             }
             else if (field_FA_direction == DrillDirection::eDown_0)
             {
-                ae_new<Spark>(field_B8_xpos,
-                                             field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(22)) - FP_FromInteger(speed),
+                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                             mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(22)) - FP_FromInteger(speed),
                                              field_CC_sprite_scale,
                                              6u,
                                              50,
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
-                ae_new<Spark>(field_B8_xpos,
-                                             field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(4)) - FP_FromInteger(speed),
+                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                             mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(4)) - FP_FromInteger(speed),
                                              field_CC_sprite_scale,
                                              6u,
                                              50,
@@ -662,7 +662,7 @@ s16 Drill::DamageTouchingObjects()
 
                     if (RectsOverlap(drillRect, objRect) && pObj->field_D6_scale == field_D6_scale && pObj->mHealth > FP_FromInteger(0))
                     {
-                        if (pObj->field_B8_xpos + FP_FromInteger(3) >= FP_FromInteger(drillRect.x) && pObj->field_B8_xpos - FP_FromInteger(3) <= FP_FromInteger(drillRect.w))
+                        if (pObj->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(3) >= FP_FromInteger(drillRect.x) && pObj->mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(3) <= FP_FromInteger(drillRect.w))
                         {
                             pFound = pObj;
                             break;
@@ -685,7 +685,7 @@ s16 Drill::DamageTouchingObjects()
         return 1;
     }
 
-    ae_new<Blood>(pFound->field_B8_xpos,
+    ae_new<Blood>(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
                                 FP_FromInteger(drillRect.h - 10),
                                 FP_FromInteger(-5),
                                 FP_FromInteger(5),
@@ -693,14 +693,14 @@ s16 Drill::DamageTouchingObjects()
                                 50);
 
 
-    ae_new<Blood>(pFound->field_B8_xpos,
+    ae_new<Blood>(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
                                  FP_FromInteger(drillRect.h - 10),
                                  FP_FromInteger(0),
                                  FP_FromInteger(5),
                                  field_CC_sprite_scale,
                                  50);
 
-    ae_new<Blood>(pFound->field_B8_xpos,
+    ae_new<Blood>(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
                                  FP_FromInteger(drillRect.h - 10),
                                  FP_FromInteger(5),
                                  FP_FromInteger(5),

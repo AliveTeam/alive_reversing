@@ -20,8 +20,8 @@ TorturedMudokon::TorturedMudokon(Path_TorturedMudokon* pTlv, s32 tlvInfo)
     field_224_ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     if (field_224_ppRes)
     {
-        field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-        field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_224_ppRes, 1, 1);
         field_20_animation.SetFrame(Math_RandomRange(0, field_20_animation.Get_Frame_Count() - 1));
         field_23A_kill_switch_id = pTlv->field_10_kill_switch_id;
@@ -86,16 +86,16 @@ void TorturedMudokon::VScreenChanged()
 void TorturedMudokon::VRender(PrimHeader** ppOt)
 {
     field_F4_tears_animation.VRender(
-        FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-        FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
         ppOt,
         0,
         0);
     if (field_F4_tears_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         field_18C_zap_animation.VRender(
-            FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-            FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
             ppOt,
             0,
             0);

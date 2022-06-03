@@ -63,24 +63,24 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     }
 
     SetTint(&kLeverTints_563228[0], gMap.mCurrentLevel);
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_B8_xpos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     PathLine* pPathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos,
-            field_B8_xpos,
-            field_BC_ypos + FP_FromInteger(24),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
             &pPathLine,
             &hitX,
             &hitY,
             (field_D6_scale != 0) ? 1 : 16))
     {
-        field_BC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
     field_104_on_sound = pTlv->field_14_on_sound;
@@ -89,7 +89,7 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     field_108_sound_direction = pTlv->field_18_sound_direction;
 
     field_F8_state = LeverState::eWaiting_0;
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
 }
 
 Lever::~Lever()

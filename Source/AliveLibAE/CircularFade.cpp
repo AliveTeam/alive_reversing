@@ -31,14 +31,14 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID);
     Animation_Init(spotLightRec.mFrameTableOffset, spotLightRec.mMaxW, spotLightRec.mMaxH, ppRes, 1, 1u);
 
-    field_DC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
     field_20_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
     field_CC_sprite_scale.fpValue = scale.fpValue * 2;
     field_20_animation.field_14_scale.fpValue = scale.fpValue * 2;
 
-    field_B8_xpos = xpos;
-    field_BC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     field_20_animation.mRenderMode = TPageAbr::eBlend_2;
     field_20_animation.mRenderLayer = Layer::eLayer_FadeFlash_40;
     field_D0_r = field_1B8_fade_colour;
@@ -69,8 +69,8 @@ void CircularFade::VRender(PrimHeader** ppOt)
     field_20_animation.mBlue = fade_rgb;
 
     field_20_animation.VRender(
-        FP_GetExponent(FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-        FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+        FP_GetExponent(FP_FromInteger(field_DA_xOffset) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+        FP_GetExponent(FP_FromInteger(field_D8_yOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
         ppOt,
         0,
         0);

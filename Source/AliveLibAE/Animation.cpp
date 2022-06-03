@@ -48,8 +48,8 @@ s32 Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
         xOff = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[0]));
     }
 
-    FP xpos = xOff + pObj->field_B8_xpos;
-    FP ypos = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[1])) + pObj->field_BC_ypos + FP_FromInteger(25);
+    FP xpos = xOff + pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
+    FP ypos = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[1])) + pObj->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(25);
     if (!pObj->BaseAliveGameObjectCollisionLine)
     {
         return 1;
@@ -151,8 +151,8 @@ s32 Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
         xOff = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[0]));
     }
 
-    FP xpos = xOff + pObj->field_B8_xpos;
-    FP ypos = (pObj->field_CC_sprite_scale * (FP_FromInteger(pData[1]) + FP_FromInteger(25))) + pObj->field_BC_ypos;
+    FP xpos = xOff + pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
+    FP ypos = (pObj->field_CC_sprite_scale * (FP_FromInteger(pData[1]) + FP_FromInteger(25))) + pObj->mBaseAnimatedWithPhysicsGameObject_YPos;
 
     if (Event_Get(kEventDeathReset))
     {
@@ -206,14 +206,14 @@ s32 Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
     FP bloodX = {};
     if (pSlog->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        bloodX = pSlog->field_B8_xpos - (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[0]));
+        bloodX = pSlog->mBaseAnimatedWithPhysicsGameObject_XPos - (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[0]));
     }
     else
     {
-        bloodX = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[0])) + pSlog->field_B8_xpos;
+        bloodX = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[0])) + pSlog->mBaseAnimatedWithPhysicsGameObject_XPos;
     }
 
-    const FP bloodY = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[1])) + pSlog->field_BC_ypos;
+    const FP bloodY = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[1])) + pSlog->mBaseAnimatedWithPhysicsGameObject_YPos;
 
     ae_new<Blood>(
         bloodX,

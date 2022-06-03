@@ -133,8 +133,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     }
 
     field_CC_sprite_scale = scale;
-    field_B8_xpos = xpos;
-    field_BC_ypos = ypos + FP_FromInteger(2);
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos + FP_FromInteger(2);
 
     field_100_timer = sGnFrame_5C1B84 + 91;
 
@@ -239,8 +239,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         pPart->field_18_anim.mGreen = static_cast<u8>(field_D2_g);
         pPart->field_18_anim.mBlue = static_cast<u8>(field_D4_b);
 
-        pPart->field_0_x = field_B8_xpos;
-        pPart->field_4_y = field_BC_ypos;
+        pPart->field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
+        pPart->field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
         pPart->field_8_z = field_F8_z;
 
         pPart->field_C_dx = xOff + Random_40FAF0(scale);
@@ -277,8 +277,8 @@ Gibs::~Gibs()
 
 void Gibs::VUpdate()
 {
-    field_B8_xpos += field_C4_velx;
-    field_BC_ypos += field_C8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
     field_F8_z += field_FC_dz;
 
     field_C8_vely += FP_FromDouble(0.25);

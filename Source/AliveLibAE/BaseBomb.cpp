@@ -41,16 +41,16 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
         field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
-    field_DC_bApplyShadows &= ~1;
+    mApplyShadows &= ~1;
     field_CC_sprite_scale = scale * FP_FromDouble(2.75);
-    field_B8_xpos = x;
-    field_BC_ypos = y;
+    mBaseAnimatedWithPhysicsGameObject_XPos = x;
+    mBaseAnimatedWithPhysicsGameObject_YPos = y;
 
     ae_new<ScreenShake>(true, false);
 
     ae_new<ParticleBurst>(
-        field_B8_xpos,
-        field_BC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         35,
         field_f4_scale,
         BurstType::eFallingRocks_0,
@@ -107,8 +107,8 @@ void BaseBomb::VUpdate()
         case 3:
         {
             ae_new<ParticleBurst>(
-                field_B8_xpos,
-                field_BC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 20,
                 field_CC_sprite_scale,
                 BurstType::eBigRedSparks_3,
@@ -133,8 +133,8 @@ void BaseBomb::VUpdate()
         case 7:
         {
             ae_new<ParticleBurst>(
-                field_B8_xpos,
-                field_BC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 20u,
                 field_CC_sprite_scale,
                 BurstType::eBigRedSparks_3,
@@ -155,8 +155,8 @@ void BaseBomb::VUpdate()
         if (ppRes)
         {
             Particle* pParticle = ae_new<Particle>(
-                field_B8_xpos,
-                field_BC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 rec.mFrameTableOffset,
                 rec.mMaxW,
                 rec.mMaxH,
@@ -164,7 +164,7 @@ void BaseBomb::VUpdate()
             if (pParticle)
             {
                 pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
-                pParticle->field_DC_bApplyShadows &= ~1;
+                pParticle->mApplyShadows &= ~1;
                 pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
                 pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.7);
             }

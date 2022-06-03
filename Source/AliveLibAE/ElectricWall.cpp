@@ -31,13 +31,13 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
         field_20_animation.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
     }
 
-    field_DC_bApplyShadows &= ~1;
+    mApplyShadows &= ~1;
     field_D4_b = 80;
     field_D2_g = 80;
     field_D0_r = 80;
     field_F4_tlvInfo = tlvInfo;
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
@@ -68,7 +68,7 @@ ElectricWall::~ElectricWall()
 
 void ElectricWall::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) == CameraPos::eCamInvalid_m1)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos) == CameraPos::eCamInvalid_m1)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -79,8 +79,8 @@ void ElectricWall::VUpdate()
     const CameraPos soundDirection = gMap.GetDirection_4811A0(
         field_C2_lvl_number,
         field_C0_path_number,
-        field_B8_xpos,
-        field_BC_ypos);
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos);
 
     if (Event_Get(kEventDeathReset))
     {
@@ -121,9 +121,9 @@ void ElectricWall::VUpdate()
         VGetBoundingRect(&bRect, 1);
 
         PSX_RECT bRectBigger;
-        bRectBigger.x = FP_GetExponent(field_B8_xpos - FP_FromInteger(4));
+        bRectBigger.x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(4));
         bRectBigger.y = static_cast<s16>(bRect.y + 5);
-        bRectBigger.w = FP_GetExponent(field_B8_xpos + FP_FromInteger(4));
+        bRectBigger.w = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(4));
         bRectBigger.h = static_cast<s16>(bRect.h + 5);
 
         for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)

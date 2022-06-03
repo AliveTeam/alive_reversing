@@ -56,8 +56,8 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     SetType(AETypes::eSlurg_129);
 
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_12C_tlvInfo = tlvInfo;
 
@@ -82,17 +82,17 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos,
-            field_B8_xpos,
-            field_BC_ypos + FP_FromInteger(24),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
             &field_124_pLine,
             &hitX,
             &hitY,
             field_D6_scale != 0 ? 1 : 16)
         == 1)
     {
-        field_BC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
     field_11A_switch_id = pTlv->field_10_slurg_data.field_6_switch_id;
@@ -105,8 +105,8 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     }
 
     VStackOnObjectsOfType(AETypes::eSlurg_129);
-    field_DC_bApplyShadows |= 2u;
-    field_E0_pShadow = ae_new<Shadow>();
+    mApplyShadows |= 2u;
+    mShadow = ae_new<Shadow>();
 }
 
 s32 Slurg::CreateFromSaveState(const u8* pData)
@@ -121,8 +121,8 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
 
     auto pSlurg = ae_new<Slurg>(pTlv, pState->field_24_tlvInfo);
 
-    pSlurg->field_B8_xpos = pState->field_4_xpos;
-    pSlurg->field_BC_ypos = pState->field_8_ypos;
+    pSlurg->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_4_xpos;
+    pSlurg->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_8_ypos;
     pSlurg->field_C4_velx = pState->field_C_velx;
     pSlurg->field_20_animation.mFrameChangeCounter = pState->field_1A_anim_frame_change_counter;
 
@@ -159,8 +159,8 @@ void Slurg::Burst()
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Burst);
     field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
-    ae_new<Blood>(field_B8_xpos,
-                                field_BC_ypos,
+    ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                mBaseAnimatedWithPhysicsGameObject_YPos,
                                 FP_FromInteger(0),
                                 FP_FromInteger(5),
                                 field_130_scale,
@@ -177,7 +177,7 @@ void Slurg::Burst()
 
 void Slurg::VUpdate()
 {
-    const FP oldXPos = field_B8_xpos;
+    const FP oldXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
     if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -223,14 +223,14 @@ void Slurg::VUpdate()
 
             if (field_118_flags.Get(SlurgFlags::Bit2_StartToMove))
             {
-                field_B8_xpos += field_C4_velx;
+                mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
             }
             break;
 
         case Slurg_States::eStopped_1:
             field_C4_velx = FP_FromInteger(0);
             if (field_20_animation.field_92_current_frame == 0
-                && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
             {
                 SFX_Play_Mono(SoundEffect::SlurgStop_90, 0);
             }
@@ -254,14 +254,14 @@ void Slurg::VUpdate()
             break;
     }
 
-    if (oldXPos != field_B8_xpos)
+    if (oldXPos != mBaseAnimatedWithPhysicsGameObject_XPos)
     {
         field_128_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
             nullptr,
-            field_B8_xpos,
-            field_BC_ypos,
-            field_B8_xpos,
-            field_BC_ypos);
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos);
 
         VOn_TLV_Collision(field_128_pTlv);
     }
@@ -297,7 +297,7 @@ void Slurg::VOn_TLV_Collision(Path_TLV* pTlv)
                 GoRight();
             }
         }
-        pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv, field_B8_xpos, field_BC_ypos, field_B8_xpos, field_BC_ypos);
+        pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
     }
 
     if (field_118_flags.Get(SlurgFlags::Bit1_Direction))
@@ -326,8 +326,8 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<Slurg_State*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eSlurg_129;
-    pState->field_4_xpos = field_B8_xpos;
-    pState->field_8_ypos = field_BC_ypos;
+    pState->field_4_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    pState->field_8_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
     pState->field_C_velx = field_C4_velx;
     pState->field_10_scale = field_130_scale;
     pState->field_14_flipX = field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX);

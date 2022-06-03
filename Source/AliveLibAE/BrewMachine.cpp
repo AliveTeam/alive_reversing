@@ -54,7 +54,7 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 
-    field_DC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
     field_140_tlvInfo = tlvInfo;
     field_20_animation.mRenderLayer = Layer::eLayer_Well_23;
     field_1E4_remaining_brew_count = pTlv->field_10_brew_count;
@@ -75,8 +75,8 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
 
     field_13C_textX = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x + 5) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
     field_13E_textY = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y + 10) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y));
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_1E6_cam_id = gMap.mCurrentCamera;
 }

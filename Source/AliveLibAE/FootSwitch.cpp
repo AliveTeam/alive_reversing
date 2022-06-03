@@ -75,10 +75,10 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     field_FC_action = pTlv->field_14_action;
     field_FE_trigger_by = pTlv->field_16_trigger_by;
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_F8_state = States::eWaitForStepOnMe_0;
-    field_DC_bApplyShadows |= 2u;
-    field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    mApplyShadows |= 2u;
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
     field_104_bCreateSparks = 0;
     field_F4_tlvInfo = tlvInfo;
     field_106_bFindStander = 1;
@@ -121,8 +121,8 @@ void FootSwitch::VUpdate()
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][1]);
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
-                ae_new<ParticleBurst>(field_B8_xpos,
-                                                            field_BC_ypos + FP_FromInteger(10),
+                ae_new<ParticleBurst>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                                            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
                                                             3,
                                                             field_CC_sprite_scale,
                                                             BurstType::eBigRedSparks_3,
@@ -147,16 +147,16 @@ void FootSwitch::VUpdate()
 
             if (field_104_bCreateSparks)
             {
-                ae_new<Spark>(field_B8_xpos,
-                                            field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(6)),
+                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                            mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(6)),
                                             field_CC_sprite_scale,
                                             10,
                                             100,
                                             255,
                                             SparkType::eSmallChantParticle_0);
 
-                ae_new<ParticleBurst>(field_B8_xpos,
-                                                            field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(10)),
+                ae_new<ParticleBurst>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                                            mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(10)),
                                                             1,
                                                             field_CC_sprite_scale,
                                                             BurstType::eBigRedSparks_3,
@@ -179,7 +179,7 @@ void FootSwitch::VUpdate()
 
             // Have they left the switch or died?
             if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
-                pLastStoodOnMe->field_B8_xpos < FP_FromInteger(bRect.x) || pLastStoodOnMe->field_B8_xpos > FP_FromInteger(bRect.w) || pLastStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                pLastStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 field_F8_state = States::eWaitForStepOnMe_0;
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][0]);
@@ -222,7 +222,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
                 PSX_RECT theirRect = {};
                 pAliveObj->VGetBoundingRect(&theirRect, 1);
 
-                const s32 xpos = FP_GetExponent(pAliveObj->field_B8_xpos);
+                const s32 xpos = FP_GetExponent(pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos);
 
                 if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->field_D6_scale == field_D6_scale)
                 {
@@ -236,7 +236,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
         PSX_RECT bRect = {};
         sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
 
-        const s32 xpos = FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos);
+        const s32 xpos = FP_GetExponent(sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos);
 
         if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero_5C1B68->field_D6_scale == field_D6_scale)
         {

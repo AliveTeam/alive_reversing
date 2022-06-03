@@ -44,27 +44,27 @@ GlukkonSwitch::GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     field_118_top_left = pTlv->field_8_top_left;
     field_11C_bottom_right = pTlv->field_C_bottom_right;
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_16_xpos);
-    field_BC_ypos = FP_FromInteger(pTlv->field_18_ypos);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_16_xpos);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_18_ypos);
 
     PSX_Point pos = {};
     gMap.Get_Abe_Spawn_Pos(&pos);
-    if (field_B8_xpos > FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(0))
     {
-        field_B8_xpos -= FP_FromInteger(pos.field_0_x);
+        mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(pos.field_0_x);
     }
     else
     {
-        field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     }
 
-    if (field_BC_ypos > FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_YPos > FP_FromInteger(0))
     {
-        field_BC_ypos -= FP_FromInteger(pos.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(pos.field_2_y);
     }
     else
     {
-        field_BC_ypos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
     }
 
     if (pTlv->field_1_tlv_state)
@@ -94,8 +94,8 @@ void GlukkonSwitch::VScreenChanged()
 
 s16 GlukkonSwitch::PlayerNearMe()
 {
-    const s16 playerXPos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
-    const s16 playerYPos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
+    const s16 playerXPos = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos);
+    const s16 playerYPos = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos);
 
     if ((playerXPos >= field_118_top_left.field_0_x && playerXPos <= field_11C_bottom_right.field_0_x) && (playerYPos >= field_118_top_left.field_2_y && playerYPos <= field_11C_bottom_right.field_2_y))
     {

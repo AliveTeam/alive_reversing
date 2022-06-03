@@ -64,7 +64,7 @@ TestAnimation::TestAnimation()
 
     SetType(AETypes::eNone_0);
 
-    field_DC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
@@ -72,8 +72,8 @@ TestAnimation::TestAnimation()
 
 void TestAnimation::SyncToAbePos()
 {
-    field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos + FP_FromInteger(30);
-    field_BC_ypos = sActiveHero_5C1B68->field_BC_ypos - FP_FromInteger(30);
+    mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30);
+    mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30);
 
     field_20_animation.mRenderLayer = sActiveHero_5C1B68->field_20_animation.mRenderLayer;
 }

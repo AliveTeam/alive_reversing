@@ -146,8 +146,8 @@ public:
             if (pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*) pBaseGameObject);
-                s16 x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap.field_24_camera_offset.field_0_x);
-                s16 y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap.field_24_camera_offset.field_4_y);
+                s16 x = FP_GetExponent(aliveObj->mBaseAnimatedWithPhysicsGameObject_XPos) - FP_GetExponent(gMap.field_24_camera_offset.field_0_x);
+                s16 y = FP_GetExponent(aliveObj->mBaseAnimatedWithPhysicsGameObject_YPos) - FP_GetExponent(gMap.field_24_camera_offset.field_4_y);
 
                 if (IsInAnimationList(&aliveObj->field_20_animation))
                 {
@@ -197,8 +197,8 @@ public:
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*) pBaseGameObject);
 
-                s32 x = static_cast<s32>((FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap.field_24_camera_offset.field_0_x)) / 0.575);
-                s32 y = static_cast<s32>((FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap.field_24_camera_offset.field_4_y)));
+                s32 x = static_cast<s32>((FP_GetExponent(aliveObj->mBaseAnimatedWithPhysicsGameObject_XPos) - FP_GetExponent(gMap.field_24_camera_offset.field_0_x)) / 0.575);
+                s32 y = static_cast<s32>((FP_GetExponent(aliveObj->mBaseAnimatedWithPhysicsGameObject_YPos) - FP_GetExponent(gMap.field_24_camera_offset.field_4_y)));
 
                 if (Vec2Distance(static_cast<f32>(x), static_cast<f32>(y), static_cast<f32>(mousePos.x), static_cast<f32>(mousePos.y)) < 10 && !isDragging && mouseLeftDown)
                 {
@@ -235,8 +235,8 @@ public:
 
             if (isDragging)
             {
-                mDragObject->field_B8_xpos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap.field_24_camera_offset.field_0_x) + (mousePos.x * 0.575)));
-                mDragObject->field_BC_ypos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap.field_24_camera_offset.field_4_y) + mousePos.y));
+                mDragObject->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap.field_24_camera_offset.field_0_x) + (mousePos.x * 0.575)));
+                mDragObject->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap.field_24_camera_offset.field_4_y) + mousePos.y));
             }
         }
     }
@@ -442,7 +442,7 @@ void Command_Test(const std::vector<std::string>& args)
 
 void Command_Die(const std::vector<std::string>& /*args*/)
 {
-    ae_new<BaseBomb>(sControlledCharacter_5C1B8C->field_B8_xpos, sControlledCharacter_5C1B8C->field_BC_ypos, 0, sControlledCharacter_5C1B8C->field_CC_sprite_scale);
+    ae_new<BaseBomb>(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos, sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos, 0, sControlledCharacter_5C1B8C->field_CC_sprite_scale);
 }
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
@@ -465,7 +465,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
         {
             auto aliveObj =  static_cast<BaseAliveGameObject*>(pBaseGameObject);
 
-            ae_new<BaseBomb>(aliveObj->field_B8_xpos, aliveObj->field_BC_ypos, 0, aliveObj->field_CC_sprite_scale);
+            ae_new<BaseBomb>(aliveObj->mBaseAnimatedWithPhysicsGameObject_XPos, aliveObj->mBaseAnimatedWithPhysicsGameObject_YPos, 0, aliveObj->field_CC_sprite_scale);
         }
     }
 }
@@ -478,15 +478,15 @@ void Command_HelperUpdate()
         PSX_Point pos;
         gMap.GetCurrentCamCoords(&pos);
 
-        sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
-        sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
+        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pos.field_0_x + 184);
+        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.field_2_y + 60);
         sHasTeleported = false;
         sActiveHero_5C1B68->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
         sActiveHero_5C1B68->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7_land_softly);
         sActiveHero_5C1B68->field_C2_lvl_number = gMap.mCurrentLevel;
         sActiveHero_5C1B68->field_C0_path_number = gMap.mCurrentPath;
         sActiveHero_5C1B68->BaseAliveGameObjectCollisionLine = nullptr;
-        sActiveHero_5C1B68->BaseAliveGameObjectLastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
+        sActiveHero_5C1B68->BaseAliveGameObjectLastLineYPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos;
         sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
         sActiveHero_5C1B68->field_D6_scale = 1;
         FP rX = FP_FromInteger(0);
@@ -504,8 +504,8 @@ void Command_HelperUpdate()
             {
                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
                 sActiveHero_5C1B68->field_D6_scale = 1;
-                sActiveHero_5C1B68->field_B8_xpos = rX;
-                sActiveHero_5C1B68->field_BC_ypos = rY;
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
                 break;
             }
             else if (sCollisions_DArray_5C1128->Raycast(xOffset, yOffset,
@@ -513,8 +513,8 @@ void Command_HelperUpdate()
             {
                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
                 sActiveHero_5C1B68->field_D6_scale = 0;
-                sActiveHero_5C1B68->field_B8_xpos = rX;
-                sActiveHero_5C1B68->field_BC_ypos = rY;
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
                 break;
             }
         }
@@ -710,8 +710,8 @@ void Command_Spawn(const std::vector<std::string>& args)
     std::string objName = args[0];
     TlvItemInfoUnion tlvinfo;
     tlvinfo.all = 0;
-    s32 spawnX = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos) + 50;
-    s32 spawnY = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
+    s32 spawnX = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos) + 50;
+    s32 spawnY = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos);
 
     FP hitX;
     FP hitY;

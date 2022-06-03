@@ -26,8 +26,8 @@ void Recorder::SaveObjectStates()
 
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
-            mFile.Write(pAliveObj->field_B8_xpos.fpValue);
-            mFile.Write(pAliveObj->field_BC_ypos.fpValue);
+            mFile.Write(pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos.fpValue);
+            mFile.Write(pAliveObj->mBaseAnimatedWithPhysicsGameObject_YPos.fpValue);
 
             mFile.Write(pAliveObj->BaseAliveGameObjectLastLineYPos.fpValue);
 
@@ -79,8 +79,8 @@ bool Player::ValidateObjectStates()
 
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             bool validateFailed = false;
-            validateFailed |= ValidField(mFile, pAliveObj->field_B8_xpos, "xpos");
-            validateFailed |= ValidField(mFile, pAliveObj->field_BC_ypos, "ypos");
+            validateFailed |= ValidField(mFile, pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos, "xpos");
+            validateFailed |= ValidField(mFile, pAliveObj->mBaseAnimatedWithPhysicsGameObject_YPos, "ypos");
             validateFailed |= ValidField(mFile, pAliveObj->BaseAliveGameObjectLastLineYPos, "last line ypos");
             validateFailed |= ValidField(mFile, pAliveObj->mCurrentMotion, "current motion");
             validateFailed |= ValidField(mFile, pAliveObj->mNextMotion, "next motion");

@@ -48,8 +48,8 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
 
     SetTint(sSecurityOrbTints_55C1EC, gMap.mCurrentLevel);
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_118_tlvInfo = tlvInfo;
 
@@ -66,7 +66,7 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
         field_20_animation.mRenderLayer = Layer::eLayer_27;
     }
 
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
     field_11C_state = 0;
     field_124_sound_channels_mask = 0;
 }
@@ -106,15 +106,15 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
     if (pFrom->Type() == AETypes::eMineCar_89 || pFrom->Type() == AETypes::eAbilityRing_104 || pFrom->Type() == AETypes::eShrykull_121)
     {
         ae_new<Explosion>(
-            field_B8_xpos,
-            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(5)),
             field_CC_sprite_scale,
             0);
 
         ae_new<Gibs>(
             GibType::Metal_5,
-            field_B8_xpos,
-            field_BC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             FP_FromInteger(0),
             FP_FromInteger(0),
             field_CC_sprite_scale,
@@ -173,8 +173,8 @@ void SecurityOrb::VUpdate()
             const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
 
             ae_new<ZapLine>(
-                field_B8_xpos,
-                field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale),
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_CC_sprite_scale),
                 xpos,
                 ypos,
                 8,
@@ -193,7 +193,7 @@ void SecurityOrb::VUpdate()
 
             ae_new<ScreenShake>(1, 0);
 
-            auto pSpark = ae_new<Sparks>(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
+            auto pSpark = ae_new<Sparks>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
             if (pSpark)
             {
                 pSpark->field_D2_g = 65;
@@ -201,7 +201,7 @@ void SecurityOrb::VUpdate()
                 pSpark->field_D0_r = 255;
             }
 
-            auto pSpark2 = ae_new<Sparks>(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
+            auto pSpark2 = ae_new<Sparks>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
             if (pSpark2)
             {
                 pSpark2->field_D2_g = 65;

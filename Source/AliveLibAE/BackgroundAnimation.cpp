@@ -20,8 +20,8 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItem
         return;
     }
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_FC_animXPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_100_animYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -65,8 +65,8 @@ void BackgroundAnimation::VUpdate()
     }
     else
     {
-        field_B8_xpos = FP_FromInteger(sTweakX_5C1BD0) + field_FC_animXPos;
-        field_BC_ypos = FP_FromInteger(sTweakY_5C1BD4) + field_100_animYPos;
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(sTweakX_5C1BD0) + field_FC_animXPos;
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(sTweakY_5C1BD4) + field_100_animYPos;
     }
 }
 

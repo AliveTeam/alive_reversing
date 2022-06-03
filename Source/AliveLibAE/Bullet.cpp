@@ -87,7 +87,7 @@ void Bullet::VUpdate()
             {
                 if (pShotObj)
                 {
-                    if (FP_Abs(pShotObj->field_B8_xpos - field_28_xpos) <= FP_Abs(hitX - field_28_xpos))
+                    if (FP_Abs(pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos - field_28_xpos) <= FP_Abs(hitX - field_28_xpos))
                     {
                         if (pShotObj->Type() == AETypes::eMineCar_89 || pShotObj->Type() == AETypes::eGreeter_64)
                         {
@@ -99,22 +99,22 @@ void Bullet::VUpdate()
                             if (field_30_x_distance <= FP_FromInteger(0))
                             {
                                 ae_new<Spark>(
-                                    pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
+                                    pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
                                 New_Smoke_Particles(
-                                    pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
+                                    pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 3, 128u, 128u, 128u);
                             }
                             else
                             {
                                 ae_new<Spark>(
-                                    pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
+                                    pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
                                 New_Smoke_Particles(
-                                    pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
+                                    pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 3, 128u, 128u, 128u);
                             }
@@ -175,12 +175,12 @@ void Bullet::VUpdate()
                     {
 
                         ae_new<Spark>(
-                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->field_B8_xpos - FP_FromInteger(randomW),
+                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(randomW),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
 
                         New_Smoke_Particles(
-                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->field_B8_xpos - FP_FromInteger(randomW),
+                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(randomW),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 3, 128u, 128u, 128u);
                     }
@@ -188,13 +188,13 @@ void Bullet::VUpdate()
                     {
 
                         ae_new<Spark>(
-                            FP_FromInteger(randomW) + pShotObj->field_B8_xpos - (field_3C_scale * FP_FromInteger(30)),
+                            FP_FromInteger(randomW) + pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos - (field_3C_scale * FP_FromInteger(30)),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
 
 
                         New_Smoke_Particles(
-                            FP_FromInteger(randomW) + pShotObj->field_B8_xpos - (field_3C_scale * FP_FromInteger(30)),
+                            FP_FromInteger(randomW) + pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos - (field_3C_scale * FP_FromInteger(30)),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 3, 128u, 128u, 128u);
                     }
@@ -226,7 +226,7 @@ void Bullet::VUpdate()
 
         case BulletType::ePossessedSligZBullet_1:
         {
-            const s32 xSnapped = SnapToXGrid(FP_FromInteger(1), FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos));
+            const s32 xSnapped = SnapToXGrid(FP_FromInteger(1), FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos));
             PSX_RECT rect = {};
             rect.x = static_cast<s16>(xSnapped - 25);
             rect.w = static_cast<s16>(xSnapped - 25 + 50);
@@ -249,9 +249,9 @@ void Bullet::VUpdate()
             FP hitX = {};
             FP hitY = {};
             if (sCollisions_DArray_5C1128->Raycast(
-                    sControlledCharacter_5C1B8C->field_B8_xpos,
+                    sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                     FP_FromInteger(rect.y),
-                    sControlledCharacter_5C1B8C->field_B8_xpos,
+                    sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                     FP_FromInteger(rect.h),
                     &field_24_pLine, &hitX, &hitY, 0x400)
                 == 1)
@@ -268,15 +268,15 @@ void Bullet::VUpdate()
         {
             FP rectXPos = {};
             // TODO: Check field_44_number_of_bullets << 20 is FP_FromInt * 16.
-            if (field_28_xpos >= sControlledCharacter_5C1B8C->field_B8_xpos)
+            if (field_28_xpos >= sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos)
             {
                 const FP doubleVelX = (sControlledCharacter_5C1B8C->field_C4_velx * FP_FromInteger(2));
-                rectXPos = (FP_FromInteger(field_44_number_of_bullets * 16)) + sControlledCharacter_5C1B8C->field_B8_xpos - doubleVelX;
+                rectXPos = (FP_FromInteger(field_44_number_of_bullets * 16)) + sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - doubleVelX;
             }
             else
             {
                 const FP doubleVelX = (sControlledCharacter_5C1B8C->field_C4_velx * FP_FromInteger(2));
-                rectXPos = sControlledCharacter_5C1B8C->field_B8_xpos - doubleVelX - (FP_FromInteger(field_44_number_of_bullets * 16));
+                rectXPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - doubleVelX - (FP_FromInteger(field_44_number_of_bullets * 16));
             }
 
             PSX_RECT rect = {};
@@ -299,7 +299,7 @@ void Bullet::VUpdate()
                         field_28_xpos,
                         field_2C_ypos,
                         rectXPos,
-                        sActiveHero_5C1B68->field_BC_ypos + FP_FromInteger(10),
+                        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
                         &field_24_pLine, &hitX, &hitY, 1024)
                     == 1)
                 {
@@ -370,7 +370,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
         {
             if (pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
-                if (gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, pObj->field_B8_xpos, pObj->field_BC_ypos, 1))
+                if (gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, pObj->mBaseAnimatedWithPhysicsGameObject_XPos, pObj->mBaseAnimatedWithPhysicsGameObject_YPos, 1))
                 {
                     if (((field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0 || field_20_type == BulletType::ePossessedSligZBullet_1) && ((pObj->Type() == AETypes::eSlig_125 && pObj->mCurrentMotion != eSligMotions::M_Possess_37_4B72C0) || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eGlukkon_67 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eSlog_126 || pObj->Type() == AETypes::eGreeter_64)) ||
 
@@ -383,13 +383,13 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
                         {
                             if (((field_20_type == BulletType::eZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale))
                             {
-                                if (pObj->Type() != AETypes::eGlukkon_67 || FP_Abs(pObj->field_B8_xpos - field_28_xpos) >= ScaleToGridSize(field_3C_scale))
+                                if (pObj->Type() != AETypes::eGlukkon_67 || FP_Abs(pObj->mBaseAnimatedWithPhysicsGameObject_XPos - field_28_xpos) >= ScaleToGridSize(field_3C_scale))
                                 {
                                     if (!pObjectToShoot)
                                     {
                                         pObjectToShoot = pObj;
                                     }
-                                    else if (FP_Abs(pObj->field_B8_xpos - field_28_xpos) < FP_Abs(pObjectToShoot->field_B8_xpos - field_28_xpos))
+                                    else if (FP_Abs(pObj->mBaseAnimatedWithPhysicsGameObject_XPos - field_28_xpos) < FP_Abs(pObjectToShoot->mBaseAnimatedWithPhysicsGameObject_XPos - field_28_xpos))
                                     {
                                         pObjectToShoot = pObj;
                                     }

@@ -100,8 +100,8 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
     field_FC_keepInGlobalArray = TRUE;
     field_F4_counter = 0;
 
-    field_B8_xpos = xpos;
-    field_BC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     field_110_prevX = xpos;
     field_114_prevY = ypos;
 
@@ -236,8 +236,8 @@ void Dove::VUpdate()
 
             if (field_F4_counter > 0)
             {
-                field_B8_xpos += field_C4_velx;
-                field_BC_ypos += field_C8_vely;
+                mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
+                mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
             }
 
             field_C8_vely = (field_C8_vely * FP_FromDouble(1.03));
@@ -276,22 +276,22 @@ void Dove::VUpdate()
                 xOff = FP_FromInteger(-4);
             }
 
-            field_C4_velx = (xOff + field_100_xJoin - field_B8_xpos) / FP_FromInteger(8);
-            field_C8_vely = (field_104_yJoin - field_BC_ypos) / FP_FromInteger(8);
-            field_B8_xpos += field_C4_velx;
-            field_BC_ypos += field_C8_vely;
+            field_C4_velx = (xOff + field_100_xJoin - mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(8);
+            field_C8_vely = (field_104_yJoin - mBaseAnimatedWithPhysicsGameObject_YPos) / FP_FromInteger(8);
+            mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
+            mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
         }
             return;
 
         case State::eCircle_3:
-            field_110_prevX = field_B8_xpos;
-            field_114_prevY = field_BC_ypos;
+            field_110_prevX = mBaseAnimatedWithPhysicsGameObject_XPos;
+            field_114_prevY = mBaseAnimatedWithPhysicsGameObject_YPos;
 
             field_10C_angle += 4;
 
             // Spin around this point
-            field_B8_xpos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * field_CC_sprite_scale) + field_100_xJoin;
-            field_BC_ypos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
+            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * field_CC_sprite_scale) + field_100_xJoin;
+            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
             return;
 
         case State::eAlmostACircle_4:
@@ -313,11 +313,11 @@ void Dove::VUpdate()
                 }
             }
 
-            field_114_prevY = field_BC_ypos;
+            field_114_prevY = mBaseAnimatedWithPhysicsGameObject_YPos;
             field_10C_angle += 4;
-            field_110_prevX = field_B8_xpos;
-            field_B8_xpos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(sAbePortalWidth_551544)) * field_CC_sprite_scale) + field_100_xJoin;
-            field_BC_ypos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
+            field_110_prevX = mBaseAnimatedWithPhysicsGameObject_XPos;
+            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(sAbePortalWidth_551544)) * field_CC_sprite_scale) + field_100_xJoin;
+            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
             return;
 
         default:
@@ -327,8 +327,8 @@ void Dove::VUpdate()
     if (!gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

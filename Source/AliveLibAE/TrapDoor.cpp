@@ -127,8 +127,8 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - field_B8_xpos);
-    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - field_B8_xpos);
+    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - mBaseAnimatedWithPhysicsGameObject_XPos);
+    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - mBaseAnimatedWithPhysicsGameObject_XPos);
     field_13A_xOff = pTlv->field_1C_xOff;
 
     if (field_136_state == TrapDoorState::eOpen_2)
@@ -142,7 +142,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_148_bounding_rect.w = pTlv->field_C_bottom_right.field_0_x;
     field_148_bounding_rect.h = pTlv->field_C_bottom_right.field_2_y;
 
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
     field_13C_stay_open_time = pTlv->field_1E_stay_open_time;
 }
 
@@ -257,9 +257,9 @@ void TrapDoor::VUpdate()
 
 void TrapDoor::VRender(PrimHeader** ppOt)
 {
-    field_B8_xpos += FP_FromInteger(field_13A_xOff);
+    mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(field_13A_xOff);
     BaseAliveGameObject::VRender(ppOt);
-    field_B8_xpos -= FP_FromInteger(field_13A_xOff);
+    mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(field_13A_xOff);
 }
 
 void TrapDoor::VScreenChanged()

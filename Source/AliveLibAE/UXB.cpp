@@ -58,8 +58,8 @@ void UXB::PlaySFX(SoundEffect sfxIdx)
     if (gMap.Is_Point_In_Current_Camera_4810D0(
             this->field_C2_lvl_number,
             this->field_C0_path_number,
-            this->field_B8_xpos,
-            this->field_BC_ypos,
+            this->mBaseAnimatedWithPhysicsGameObject_XPos,
+            this->mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         SFX_Play_Mono(sfxIdx, 35);
@@ -85,8 +85,8 @@ s32 UXB::IsColliding()
             PSX_RECT objBound = {};
             pObj->VGetBoundingRect(&objBound, 1);
 
-            const s32 objX = FP_GetExponent(pObj->field_B8_xpos);
-            const s32 objY = FP_GetExponent(pObj->field_BC_ypos);
+            const s32 objX = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos);
+            const s32 objY = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos);
 
             if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
             {
@@ -195,14 +195,14 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     FP hitX = {};
     FP hitY = {};
 
-    field_B8_xpos = FP_FromInteger((tlv_params->field_8_top_left.field_0_x + tlv_params->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(tlv_params->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((tlv_params->field_8_top_left.field_0_x + tlv_params->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(tlv_params->field_8_top_left.field_2_y);
 
     // Raycasts on ctor to place perfectly on the floor.
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
             FP_FromInteger(tlv_params->field_8_top_left.field_2_y),
-            field_B8_xpos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
             FP_FromInteger(tlv_params->field_8_top_left.field_2_y + 24),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
@@ -210,7 +210,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
             field_D6_scale != 0 ? 1 : 16)
         == 1)
     {
-        field_BC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
     field_120_tlv = itemInfo;
@@ -233,12 +233,12 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
     const FP gridSnap = ScaleToGridSize(field_CC_sprite_scale);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
 
-    field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
-    field_E4_collection_rect.y = field_BC_ypos - gridSnap;
-    field_E4_collection_rect.w = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
-    field_E4_collection_rect.h = field_BC_ypos;
+    field_E4_collection_rect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (gridSnap / FP_FromDouble(2.0));
+    field_E4_collection_rect.y = mBaseAnimatedWithPhysicsGameObject_YPos - gridSnap;
+    field_E4_collection_rect.w = (gridSnap / FP_FromDouble(2.0)) + mBaseAnimatedWithPhysicsGameObject_XPos;
+    field_E4_collection_rect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
 }
 
 
@@ -279,8 +279,8 @@ void UXB::VOnPickUpOrSlapped()
 
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    ae_new<BaseBomb>(field_B8_xpos,
-                                  field_BC_ypos,
+    ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                  mBaseAnimatedWithPhysicsGameObject_YPos,
                                   0,
                                   field_CC_sprite_scale);
     field_118_state = UXBState::eExploding_2;
@@ -317,8 +317,8 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-    ae_new<BaseBomb>(field_B8_xpos,
-                                 field_BC_ypos,
+    ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                 mBaseAnimatedWithPhysicsGameObject_YPos,
                                  0,
                                  field_CC_sprite_scale);
     field_118_state = UXBState::eExploding_2;
@@ -422,7 +422,7 @@ void UXB::VUpdate()
         case UXBState::eExploding_2:
             if (sGnFrame_5C1B84 >= field_124_next_state_frame)
             {
-                ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+                ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
             break;
@@ -459,13 +459,13 @@ void UXB::VRender(PrimHeader** ppOt)
         if (gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
-                field_B8_xpos,
-                field_BC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 0))
         {
             field_128_animation.VRender(
-                FP_GetExponent((field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
-                FP_GetExponent((field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromInteger(17)))),
+                FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
+                FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromInteger(17)))),
                 ppOt,
                 0,
                 0);
@@ -489,8 +489,8 @@ void UXB::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
 
-    const FP x_distance = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
-    const FP y_distance = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
+    const FP x_distance = FP_Abs(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos);
+    const FP y_distance = FP_Abs(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos);
 
     if (y_distance > FP_FromInteger(520) || x_distance > FP_FromInteger(750))
     {

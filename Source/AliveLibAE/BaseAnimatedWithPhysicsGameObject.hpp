@@ -61,8 +61,8 @@ protected:
 
 public:
     Animation field_20_animation;
-    FP field_B8_xpos;
-    FP field_BC_ypos;
+    FP mBaseAnimatedWithPhysicsGameObject_XPos;
+    FP mBaseAnimatedWithPhysicsGameObject_YPos;
     s16 field_C0_path_number;
     LevelIds field_C2_lvl_number;
     FP field_C4_velx;
@@ -74,9 +74,9 @@ public:
     s16 field_D6_scale;
     s16 field_D8_yOffset;
     s16 field_DA_xOffset;
-    s16 field_DC_bApplyShadows;
+    s16 mApplyShadows;
     s16 field_DE_pad;
-    Shadow* field_E0_pShadow;
+    Shadow* mShadow;
     FP_RECT field_E4_collection_rect;
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xF4);

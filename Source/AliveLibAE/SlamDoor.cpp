@@ -93,11 +93,11 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
 
     SetType(AETypes::eSlamDoor_122);
 
-    field_B8_xpos = FP_FromInteger(((pTlv->field_8_top_left.field_0_x
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(((pTlv->field_8_top_left.field_0_x
                                      + pTlv->field_C_bottom_right.field_0_x)
                                     / 2));
 
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_12C_tlvInfo = tlvInfo;
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
@@ -137,29 +137,29 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     FP hitY;
 
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos,
-            field_B8_xpos,
-            field_BC_ypos + FP_FromDouble(24.0),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromDouble(24.0),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_D6_scale != 0 ? 1 : 16)
         == 1)
     {
-        field_BC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
     if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_124_x1 = FP_GetExponent((ScaleToGridSize(field_CC_sprite_scale) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(field_B8_xpos)));
+        field_124_x1 = FP_GetExponent((ScaleToGridSize(field_CC_sprite_scale) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
     }
     else
     {
-        field_124_x1 = FP_GetExponent(FP_FromInteger(FP_GetExponent(field_B8_xpos)) - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromDouble(2.0)));
+        field_124_x1 = FP_GetExponent(FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)) - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromDouble(2.0)));
     }
 
-    field_126_y1 = FP_GetExponent(field_BC_ypos);
+    field_126_y1 = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
 
     if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
@@ -219,7 +219,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     }
 
     field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
 }
 
 SlamDoor::~SlamDoor()
@@ -395,7 +395,7 @@ void SlamDoor::VUpdate()
                     PSX_RECT bObjRect = {};
                     pObj->VGetBoundingRect(&bObjRect, 1);
 
-                    if (FP_GetExponent(pObj->field_B8_xpos) > bRect.x && FP_GetExponent(pObj->field_B8_xpos) < bRect.w && PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
+                    if (FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
                     {
                         if (pObj->field_CC_sprite_scale == field_CC_sprite_scale || (pObj->Type() == AETypes::eSlog_126 && field_CC_sprite_scale == FP_FromInteger(1)))
                         {
@@ -422,13 +422,13 @@ s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
 
 void SlamDoor::ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16 width)
 {
-    if (FP_GetExponent(pObj->field_B8_xpos) - xPosition >= width - FP_GetExponent(pObj->field_B8_xpos))
+    if (FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) - xPosition >= width - FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos))
     {
-        pObj->field_B8_xpos = (ScaleToGridSize(field_CC_sprite_scale) * FP_FromDouble(0.5)) + FP_FromDouble(1.0) + pObj->field_B8_xpos;
+        pObj->mBaseAnimatedWithPhysicsGameObject_XPos = (ScaleToGridSize(field_CC_sprite_scale) * FP_FromDouble(0.5)) + FP_FromDouble(1.0) + pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
     }
     else
     {
-        pObj->field_B8_xpos = pObj->field_B8_xpos - (ScaleToGridSize(field_CC_sprite_scale) * FP_FromDouble(0.5));
+        pObj->mBaseAnimatedWithPhysicsGameObject_XPos = pObj->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_CC_sprite_scale) * FP_FromDouble(0.5));
     }
 
     if (pObj->Type() == AETypes::eMudokon2_81 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69)

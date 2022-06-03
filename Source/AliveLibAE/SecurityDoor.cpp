@@ -43,28 +43,28 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     field_100_code_len = Code_Length(field_FC_code_converted);
     field_11C_top_left = pTlv->field_8_top_left;
     field_120_bottom_right = pTlv->field_C_bottom_right;
-    field_B8_xpos = FP_FromInteger(pTlv->field_18_xpos);
-    field_BC_ypos = FP_FromInteger(pTlv->field_1A_ypos);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_18_xpos);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_1A_ypos);
 
     PSX_Point point = {};
     gMap.Get_Abe_Spawn_Pos(&point);
 
-    if (field_B8_xpos > FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(0))
     {
-        field_B8_xpos -= FP_FromInteger(point.field_0_x);
+        mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(point.field_0_x);
     }
     else
     {
-        field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     }
 
-    if (field_BC_ypos > FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_YPos > FP_FromInteger(0))
     {
-        field_BC_ypos -= FP_FromInteger(point.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(point.field_2_y);
     }
     else
     {
-        field_BC_ypos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
     }
 
     if (pTlv->field_1_tlv_state)
@@ -99,8 +99,8 @@ void SecurityDoor::VScreenChanged()
 
 s16 SecurityDoor::IsPlayerNear()
 {
-    const s16 xpos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
-    const s16 ypos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
+    const s16 xpos = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos);
+    const s16 ypos = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos);
 
     if (xpos < field_11C_top_left.field_0_x || xpos > field_120_bottom_right.field_0_x)
     {

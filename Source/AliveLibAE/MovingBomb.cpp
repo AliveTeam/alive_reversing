@@ -51,8 +51,8 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
         field_20_animation.mRenderLayer = Layer::eLayer_BombMineCar_35;
     }
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_124_speed = FP_FromRaw(pTlv->field_10_speed << 8);
     field_C4_velx = FP_FromRaw(pTlv->field_1C_start_speed << 8);
     field_128_start_moving_switch_id = pTlv->field_12_start_moving_switch_id;
@@ -85,20 +85,20 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos,
-            field_B8_xpos + FP_FromInteger(24),
-            field_BC_ypos + FP_FromInteger(24),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(24),
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             0x100))
     {
-        field_BC_ypos = hitY;
-        field_B8_xpos = hitX;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
     }
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 }
 
 MovingBomb::~MovingBomb()
@@ -157,14 +157,14 @@ void MovingBomb::VScreenChanged()
         return;
     }
 
-    const FP xDelta = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
+    const FP xDelta = FP_Abs(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos);
     if (xDelta > FP_FromInteger(750))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
-    const FP yDelta = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
+    const FP yDelta = FP_Abs(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos);
     if (yDelta > FP_FromInteger(520))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -176,7 +176,7 @@ void MovingBomb::FollowLine()
 {
     if (BaseAliveGameObjectCollisionLine)
     {
-        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx);
     }
 }
 
@@ -194,9 +194,9 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         case AETypes::eShrykull_121:
         {
             mHealth = FP_FromInteger(0);
-            ae_new<Explosion>(field_B8_xpos, field_BC_ypos, field_CC_sprite_scale, 0);
+            ae_new<Explosion>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_CC_sprite_scale, 0);
 
-            ae_new<Gibs>(GibType::Metal_5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
+            ae_new<Gibs>(GibType::Metal_5, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
 
             field_118_state = States::eKillMovingBomb_7;
 
@@ -286,7 +286,7 @@ void MovingBomb::VUpdate()
 
             if (VIsObjNearby(FP_FromInteger(700), sActiveHero_5C1B68))
             {
-                const FP yDelta = FP_Abs(sActiveHero_5C1B68->field_BC_ypos - field_BC_ypos);
+                const FP yDelta = FP_Abs(sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos);
                 if (yDelta <= FP_FromInteger(700))
                 {
                     if (field_118_state == States::eWaitABit_4)
@@ -342,10 +342,10 @@ void MovingBomb::VUpdate()
             FollowLine();
 
             BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-                FP_GetExponent(field_B8_xpos),
-                FP_GetExponent(field_BC_ypos),
-                FP_GetExponent(field_B8_xpos),
-                FP_GetExponent(field_BC_ypos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
                 TlvTypes::MovingBombStopper_53);
 
             if (BaseAliveGameObjectPathTLV)
@@ -384,10 +384,10 @@ void MovingBomb::VUpdate()
             FollowLine();
 
             BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-                FP_GetExponent(field_B8_xpos),
-                FP_GetExponent(field_BC_ypos),
-                FP_GetExponent(field_B8_xpos),
-                FP_GetExponent(field_BC_ypos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
                 TlvTypes::MovingBombStopper_53);
 
             if (!BaseAliveGameObjectPathTLV)
@@ -404,15 +404,15 @@ void MovingBomb::VUpdate()
                 mHealth = FP_FromInteger(0);
 
                 ae_new<Explosion>(
-                    field_B8_xpos,
-                    field_BC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_CC_sprite_scale,
                     0);
 
                 ae_new<Gibs>(
                     GibType::Metal_5,
-                    field_B8_xpos,
-                    field_BC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     FP_FromInteger(0),
                     FP_FromInteger(5),
                     field_CC_sprite_scale,

@@ -41,26 +41,26 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_DC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
     field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
 
     if (field_104_bIgnore_grid_snapping == Choice_short::eNo_0)
     {
-        field_B8_xpos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
     }
 
-    field_BC_ypos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
 
     PathLine* pPathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = sCollisions_DArray_5C1128->Raycast(
-        field_B8_xpos,
-        field_BC_ypos,
-        field_B8_xpos,
-        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(56)),
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(56)),
         &pPathLine,
         &hitX,
         &hitY,
@@ -70,20 +70,20 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     {
         if (bCollision)
         {
-            field_BC_ypos = hitY - (field_CC_sprite_scale * FP_FromInteger(56));
+            mBaseAnimatedWithPhysicsGameObject_YPos = hitY - (field_CC_sprite_scale * FP_FromInteger(56));
         }
     }
 
-    field_108_xpos = field_B8_xpos;
-    field_10C_ypos = field_BC_ypos;
+    field_108_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    field_10C_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
 }
 
 void StatusLight::VUpdate()
 {
     // TODO: Document how this works
 
-    field_B8_xpos = FP_FromInteger(sTweakX_5C1BD0) + field_108_xpos;
-    field_BC_ypos = FP_FromInteger(sTweakY_5C1BD4) + field_10C_ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(sTweakX_5C1BD0) + field_108_xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(sTweakY_5C1BD4) + field_10C_ypos;
 
     if (SwitchStates_Get(field_F8_switch_id))
     {

@@ -864,10 +864,10 @@ void PauseMenu_ForceLink()
                                                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
                                             }
 
-                                            sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
+                                            sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos;
                                             gMap.SetActiveCam(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
-                                            sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
-                                            sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
+                                            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
+                                            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
                                             DEV_CONSOLE_MESSAGE("Teleported to " + std::string(levelSelectEntry.field_0_display_name), 6);
                                         }});
     }
@@ -1430,8 +1430,8 @@ void PauseMenu::Page_Load_Update()
             if (hFile)
             {
                 ae_fread_520B5C(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
-                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
-                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
                 Quicksave_LoadActive();
                 word12C_flags &= ~1u;
                 // TODO: OG bug, file handle is leaked

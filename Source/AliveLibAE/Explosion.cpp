@@ -48,9 +48,9 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
         field_FC_explosion_size = scale;
     }
 
-    field_DC_bApplyShadows &= ~1u;
-    field_B8_xpos = xpos;
-    field_BC_ypos = ypos;
+    mApplyShadows &= ~1u;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
     ae_new<ScreenShake>(bEnabled_5C1BB6 ? 0 : 1, field_F4_bSmall);
 
@@ -105,7 +105,7 @@ void Explosion::VUpdate()
 
         case 8:
         {
-            ae_new<ParticleBurst>(field_B8_xpos, field_BC_ypos, field_F4_bSmall ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, field_F4_bSmall ? 11 : 13);
+            ae_new<ParticleBurst>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_F4_bSmall ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, field_F4_bSmall ? 11 : 13);
             ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1, TPageAbr::eBlend_3, 1);
             break;
         }
@@ -133,7 +133,7 @@ void Explosion::VUpdate()
         {
             const AnimRecord& rec = field_F4_bSmall ? AnimRec(AnimId::Explosion_Small) : AnimRec(AnimId::Explosion);
             auto pParticle = ae_new<Particle>(
-                field_B8_xpos, field_BC_ypos, rec.mFrameTableOffset,
+                mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, rec.mFrameTableOffset,
                 202, // Same size for both explosions for some reason
                 91,  // ^^^
                 ppRes);
@@ -145,7 +145,7 @@ void Explosion::VUpdate()
                     pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
 
-                pParticle->field_DC_bApplyShadows &= ~1u;
+                pParticle->mApplyShadows &= ~1u;
                 pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
 
                 if (field_20_animation.field_92_current_frame == 3)
@@ -190,11 +190,11 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
     expandedRect.y = std::min(pRect->y, pRect->h);
     expandedRect.h = std::max(pRect->y, pRect->h);
 
-    expandedRect.x += FP_GetExponent(field_B8_xpos);
-    expandedRect.w += FP_GetExponent(field_B8_xpos);
+    expandedRect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
+    expandedRect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
 
-    expandedRect.y += FP_GetExponent(field_BC_ypos);
-    expandedRect.h += FP_GetExponent(field_BC_ypos);
+    expandedRect.y += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
+    expandedRect.h += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
 
     for (s32 idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
     {
@@ -237,11 +237,11 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
 
             if (dir == CameraPos::eCamLeft_3)
             {
-                ae_new<Gibs>(GibType::Slig_1, field_B8_xpos + FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
+                ae_new<Gibs>(GibType::Slig_1, mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(656), mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
             }
             else if (dir == CameraPos::eCamRight_4)
             {
-                ae_new<Gibs>(GibType::Slig_1, field_B8_xpos - FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
+                ae_new<Gibs>(GibType::Slig_1, mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(656), mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
             }
 
             Stop_slig_sounds(dir, 0);

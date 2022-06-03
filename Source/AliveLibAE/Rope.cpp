@@ -85,8 +85,8 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     field_100_left = static_cast<s16>(left);
     field_104_right = static_cast<s16>(left);
 
-    field_B8_xpos = FP_FromInteger(left);
-    field_BC_ypos = FP_FromInteger(bottom);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(left);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(bottom);
 
     field_F4_rope_segment_count = (240 / field_F6_rope_length) + 1; // psx screen height
 
@@ -124,7 +124,7 @@ void Rope::VRender(PrimHeader** ppOt)
     if (field_C2_lvl_number == gMap.mCurrentLevel && field_C0_path_number == gMap.mCurrentPath)
     {
         // In the current camera x range?
-        if (field_B8_xpos >= FP_FromInteger(camPos.field_0_x) && field_B8_xpos <= FP_FromInteger(camPos.field_0_x + 375))
+        if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.field_0_x + 375))
         {
             const FP camXPos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
             const FP camYPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
@@ -132,13 +132,13 @@ void Rope::VRender(PrimHeader** ppOt)
             s16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
             s16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);
 
-            s16 ypos = FP_GetExponent(field_BC_ypos);
+            s16 ypos = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
             if (ypos > field_106_bottom)
             {
                 ypos = field_106_bottom + ((ypos - field_106_bottom) % field_F6_rope_length);
             }
 
-            s16 screenX = FP_GetExponent(field_B8_xpos - camXPos);
+            s16 screenX = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - camXPos);
             s16 screenY = ypos - FP_GetExponent(camYPos);
 
             if (screenY > 240)
@@ -169,7 +169,7 @@ void Rope::VRender(PrimHeader** ppOt)
                     s16 b = field_D4_b;
 
                     ShadowZone::ShadowZones_Calculate_Colour(
-                        FP_GetExponent(field_B8_xpos),
+                        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
                         ypos - (idx * field_F6_rope_length),
                         field_D6_scale,
                         &r,

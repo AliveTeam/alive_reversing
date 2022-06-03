@@ -21,7 +21,7 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySoun
     }
     else
     {
-        field_DC_bApplyShadows &= ~1u;
+        mApplyShadows &= ~1u;
         field_20_animation.mRenderMode = TPageAbr::eBlend_1;
         field_CC_sprite_scale = scale;
         field_20_animation.field_14_scale = scale;
@@ -35,8 +35,8 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySoun
             field_20_animation.mRenderLayer = Layer::eLayer_Above_FG1_39;
         }
 
-        field_B8_xpos = xpos;
-        field_BC_ypos = ypos;
+        mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+        mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
         field_F4_random = Math_NextRandom();
         field_F8_start = start;
         field_F5_state = States::eAnimateDeathFlares_0;
@@ -67,17 +67,17 @@ void DeathBirdParticle::VUpdate()
                     41,
                     20,
                     60,
-                    field_B8_xpos,
-                    field_BC_ypos - FP_FromInteger(15),
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(15),
                     field_CC_sprite_scale);
 
                 if (pDove->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    pDove->field_B8_xpos += FP_FromInteger(8);
+                    pDove->mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(8);
                 }
                 else
                 {
-                    pDove->field_B8_xpos -= FP_FromInteger(8);
+                    pDove->mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(8);
                 }
 
                 pDove->field_CC_sprite_scale = field_CC_sprite_scale;
@@ -91,7 +91,7 @@ void DeathBirdParticle::VUpdate()
             break;
     }
 
-    field_B8_xpos += FP_FromInteger(2) * Math_Sine_496DD0(field_F4_random);
-    field_BC_ypos -= FP_FromInteger(2);
+    mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(2) * Math_Sine_496DD0(field_F4_random);
+    mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(2);
     field_F4_random += 5;
 }

@@ -24,14 +24,14 @@ public:
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-        field_DC_bApplyShadows &= ~1u;
+        mApplyShadows &= ~1u;
 
         field_20_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
         field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
         field_20_animation.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
 
-        field_B8_xpos = xpos;
-        field_BC_ypos = ypos + FP_FromInteger(4);
+        mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+        mBaseAnimatedWithPhysicsGameObject_YPos = ypos + FP_FromInteger(4);
 
         field_20_animation.mRenderLayer = Layer::eLayer_FallingItemPortalClip_Half_12;
         field_20_animation.mRenderMode = TPageAbr::eBlend_3;
@@ -61,8 +61,8 @@ public:
         field_20_animation.Get_Frame_Offset(&xy.field_0_x, &xy.field_2_y);
 
         const auto& pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
-        const FP screenX = field_B8_xpos - pCamPos->field_0_x;
-        const FP screenY = field_BC_ypos - pCamPos->field_4_y;
+        const FP screenX = mBaseAnimatedWithPhysicsGameObject_XPos - pCamPos->field_0_x;
+        const FP screenY = mBaseAnimatedWithPhysicsGameObject_YPos - pCamPos->field_4_y;
 
         const FP frameWScaled = (FP_FromInteger(frameW) * field_CC_sprite_scale);
         const FP frameHScaled = (FP_FromInteger(frameH) * field_CC_sprite_scale);
@@ -147,11 +147,11 @@ public:
 
         field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-        field_DC_bApplyShadows |= 1u;
+        mApplyShadows |= 1u;
         field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
 
-        field_B8_xpos = xpos;
-        field_BC_ypos = ypos;
+        mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+        mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
         field_410_xpos = xpos;
         field_414_ypos = ypos;
 
@@ -169,8 +169,8 @@ public:
             anim.field_14.mRenderLayer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = field_CC_sprite_scale;
 
-            anim.field_0_x = field_B8_xpos;
-            anim.field_4_y = field_BC_ypos;
+            anim.field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
+            anim.field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
 
             anim.field_8_off_x = FP_FromInteger(0);
             anim.field_C_off_y = FP_FromInteger(0);
@@ -203,8 +203,8 @@ private:
         // HACK/WTF this seems to move the base animation off screen so it can never been seen??
         PSX_RECT rect = {};
         gMap.Get_Camera_World_Rect(CameraPos::eCamCurrent_0, &rect);
-        field_B8_xpos = FP_FromInteger(rect.w + 16);
-        field_BC_ypos = FP_FromInteger(rect.y - 16);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(rect.w + 16);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(rect.y - 16);
 
         if (field_F4_bRender)
         {
@@ -256,8 +256,8 @@ private:
                 field_20_animation.mBlue = 32;
 
                 field_20_animation.VRender(
-                    FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-                    FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
                     ppOt,
                     0,
                     0);
@@ -323,7 +323,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_DC_bApplyShadows |= 1u;
+    mApplyShadows |= 1u;
     field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     field_FA_frame_count = field_20_animation.Get_Frame_Count();
     field_20_animation.SetFrame(Math_RandomRange(0, field_FA_frame_count - 1));
@@ -335,9 +335,9 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
         field_CC_sprite_scale = FP_FromDouble(0.5);
     }
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x) + (FP_FromInteger(12) * field_CC_sprite_scale);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x) + (FP_FromInteger(12) * field_CC_sprite_scale);
     field_108_fire_background_glow_id = -1;
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y) + (FP_FromInteger(15) * field_CC_sprite_scale);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y) + (FP_FromInteger(15) * field_CC_sprite_scale);
 
     if (SwitchStates_Get(field_F8_switch_id))
     {
@@ -352,7 +352,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
 
     field_FE_2_random = Math_NextRandom() % 2;
 
-    auto pFlameSparks = ae_new<FlameSparks>(field_B8_xpos, field_BC_ypos);
+    auto pFlameSparks = ae_new<FlameSparks>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
     if (pFlameSparks)
     {
         field_10C_flame_sparks_id = pFlameSparks->field_8_object_id;
@@ -469,8 +469,8 @@ void DoorFlame::VUpdate()
 
             if (!pFireBackgroundGlow)
             {
-                pFireBackgroundGlow = ae_new<FireBackgroundGlow>(field_B8_xpos,
-                                                                 field_BC_ypos,
+                pFireBackgroundGlow = ae_new<FireBackgroundGlow>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                                                 mBaseAnimatedWithPhysicsGameObject_YPos,
                                                                  field_CC_sprite_scale);
                 if (pFireBackgroundGlow)
                 {
@@ -486,8 +486,8 @@ void DoorFlame::VUpdate()
     if (!gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

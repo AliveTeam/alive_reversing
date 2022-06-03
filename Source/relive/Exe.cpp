@@ -94,7 +94,7 @@ extern "C"
         &gMap.field_12_fmv_base_id,
         &sGnFrame_5C1B84,
         &sActiveHero_5C1B68,
-        offsetof(Abe, field_BC_ypos),
+        offsetof(Abe, mBaseAnimatedWithPhysicsGameObject_YPos),
         & sDisableFontFlicker_5C9304};
 
     const void* GetAeInfo()

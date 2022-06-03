@@ -138,8 +138,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
 
             field_FC_number_of_particles = static_cast<s16>(numOfParticles);
             field_100_timer = sGnFrame_5C1B84 + 91;
-            field_B8_xpos = xpos;
-            field_BC_ypos = ypos;
+            mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+            mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
             for (u32 i = 0; i < numOfParticles; i++)
             {
@@ -166,8 +166,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
                 field_F8_pRes[i].field_18_anim.mGreen = field_20_animation.mGreen;
                 field_F8_pRes[i].field_18_anim.mBlue = field_20_animation.mBlue;
 
-                field_F8_pRes[i].field_0_x = field_B8_xpos;
-                field_F8_pRes[i].field_4_y = field_BC_ypos;
+                field_F8_pRes[i].field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
+                field_F8_pRes[i].field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
                 field_F8_pRes[i].field_8_z = FP_FromInteger(0);
 
                 Random_Speed(&field_F8_pRes[i].field_C_x_speed);

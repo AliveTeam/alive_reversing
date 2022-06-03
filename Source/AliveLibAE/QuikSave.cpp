@@ -726,7 +726,7 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->field_34_visited_barracks = sVisitedBarracks_5C1C04;
     pInfo->field_36_visited_feeco_ender = sVisitedFeecoEnder_5C1C06;
     pInfo->field_38_gas_timer = sGasTimer_5C1BE8;
-    pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
+    pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos);
     pInfo->field_E_controlled_y = rect.h;
     pInfo->field_10_controlled_scale = sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0);
 }

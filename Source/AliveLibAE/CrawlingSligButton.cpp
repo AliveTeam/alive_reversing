@@ -48,8 +48,8 @@ CrawlingSligButton::CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInf
 
     field_102_in_use = 0;
 
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
 }
 
 void CrawlingSligButton::UseButton()

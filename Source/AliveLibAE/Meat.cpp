@@ -31,8 +31,8 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
 
     field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    field_B8_xpos = xpos;
-    field_BC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
     field_120_xpos = xpos;
     field_124_ypos = ypos;
@@ -49,7 +49,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_118_count = count;
     field_11C_state = MeatStates::eCreated_0;
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 }
 
 void Meat::VTimeToExplodeRandom()
@@ -136,20 +136,20 @@ s16 Meat::VGetCount()
 
 void Meat::InTheAir()
 {
-    field_120_xpos = field_B8_xpos;
-    field_124_ypos = field_BC_ypos;
+    field_120_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    field_124_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
     if (field_C8_vely < FP_FromInteger(18))
     {
         field_C8_vely += FP_FromInteger(1);
     }
 
-    field_B8_xpos += field_C4_velx;
-    field_BC_ypos += field_C8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &field_130_pLine, &hitX, &hitY, field_D6_scale == 0 ? 0xF0 : 0xF) == 1)
+    if (sCollisions_DArray_5C1128->Raycast(field_120_xpos, field_124_ypos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, &field_130_pLine, &hitX, &hitY, field_D6_scale == 0 ? 0xF0 : 0xF) == 1)
     {
         switch (field_130_pLine->field_8_type)
         {
@@ -159,8 +159,8 @@ void Meat::InTheAir()
             case eLineTypes::eUnknown_36:
                 if (field_C8_vely > FP_FromInteger(0))
                 {
-                    field_B8_xpos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(hitX)));
-                    field_BC_ypos = hitY;
+                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(hitX)));
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                     field_11C_state = MeatStates::eBecomeAPickUp_3;
                     field_C8_vely = FP_FromInteger(0);
                     field_C4_velx = FP_FromInteger(0);
@@ -175,8 +175,8 @@ void Meat::InTheAir()
             case eLineTypes::eBackgroundWallLeft_5:
                 if (field_C4_velx < FP_FromInteger(0))
                 {
-                    field_B8_xpos = hitX;
-                    field_BC_ypos = hitY;
+                    mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                     field_C4_velx = (-field_C4_velx / FP_FromInteger(4));
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     Event_Broadcast(kEventNoise, this);
@@ -193,8 +193,8 @@ void Meat::InTheAir()
             case eLineTypes::eBackgroundWallRight_6:
                 if (field_C4_velx > FP_FromInteger(0))
                 {
-                    field_B8_xpos = hitX;
-                    field_BC_ypos = hitY;
+                    mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                     field_C4_velx = (-field_C4_velx / FP_FromInteger(4));
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     Event_Broadcast(kEventNoise, this);
@@ -211,8 +211,8 @@ void Meat::InTheAir()
             case eLineTypes::eBackgroundCeiling_7:
                 if (field_C8_vely < FP_FromInteger(0))
                 {
-                    field_B8_xpos = hitX;
-                    field_BC_ypos = hitY + FP_FromInteger(1);
+                    mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY + FP_FromInteger(1);
                     field_C8_vely = FP_FromInteger(0);
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     Event_Broadcast(kEventNoise, this);
@@ -242,12 +242,12 @@ s16 Meat::OnCollision(BaseGameObject* pHit)
 
     if (field_120_xpos < FP_FromInteger(bRect.x) || field_120_xpos > FP_FromInteger(bRect.w))
     {
-        field_B8_xpos -= field_C4_velx;
+        mBaseAnimatedWithPhysicsGameObject_XPos -= field_C4_velx;
         field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
     }
     else
     {
-        field_BC_ypos -= field_C8_vely;
+        mBaseAnimatedWithPhysicsGameObject_YPos -= field_C8_vely;
         field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
     }
 
@@ -289,7 +289,7 @@ void Meat::VUpdate()
                     (TCollisionCallBack) &Meat::OnCollision);
 
                 // TODO: OG bug - why only checking for out of the bottom of the map?? Nades check for death object - probably should check both
-                if (field_BC_ypos > FP_FromInteger(gMap.field_D4_ptr->field_6_bBottom))
+                if (mBaseAnimatedWithPhysicsGameObject_YPos > FP_FromInteger(gMap.field_D4_ptr->field_6_bBottom))
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
@@ -313,7 +313,7 @@ void Meat::VUpdate()
                         field_C4_velx -= FP_FromDouble(0.01);
                     }
 
-                    field_130_pLine = field_130_pLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                    field_130_pLine = field_130_pLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx);
                     if (!field_130_pLine)
                     {
                         field_20_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop);
@@ -324,10 +324,10 @@ void Meat::VUpdate()
                 {
                     field_C4_velx = FP_FromInteger(0);
 
-                    field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
-                    field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize(field_CC_sprite_scale);
-                    field_E4_collection_rect.w = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
-                    field_E4_collection_rect.h = field_BC_ypos;
+                    field_E4_collection_rect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
+                    field_E4_collection_rect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(field_CC_sprite_scale);
+                    field_E4_collection_rect.w = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + mBaseAnimatedWithPhysicsGameObject_XPos;
+                    field_E4_collection_rect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
 
                     mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
                     field_11C_state = MeatStates::eWaitForPickUp_4;
@@ -335,7 +335,7 @@ void Meat::VUpdate()
                 break;
 
             case MeatStates::eWaitForPickUp_4:
-                if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
                 {
                     field_12C_deadtimer = sGnFrame_5C1B84 + 600;
                 }
@@ -344,8 +344,8 @@ void Meat::VUpdate()
                 {
                     // That strange "shimmer" the meat gives off
                     New_TintShiny_Particle(
-                        (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos,
-                        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-7)),
+                        (field_CC_sprite_scale * FP_FromInteger(1)) + mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
                         Layer::eLayer_Foreground_36);
                     field_128_timer = Math_NextRandom() % 16 + sGnFrame_5C1B84 + 60;
@@ -358,9 +358,9 @@ void Meat::VUpdate()
 
             case MeatStates::eFall_5:
                 field_C8_vely += FP_FromInteger(1);
-                field_B8_xpos += field_C4_velx;
-                field_BC_ypos = field_C8_vely + field_BC_ypos;
-                if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
+                mBaseAnimatedWithPhysicsGameObject_YPos = field_C8_vely + mBaseAnimatedWithPhysicsGameObject_YPos;
+                if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
@@ -405,13 +405,13 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     SetTint(&kMeatTints_55C254[0], gMap.mCurrentLevel);
 
-    field_DC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
     field_118_tlvInfo = tlvInfo;
 
     field_11C_bDoMeatSackIdleAnim = 0;
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_124_velX = FP_FromRaw(pTlv->field_12_xVel << 8);
 
@@ -438,7 +438,7 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
     field_11E_amount_of_meat = pTlv->field_18_amount_of_meat;
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 }
 
 s32 Meat::CreateFromSaveState(const u8* pBuffer)
@@ -449,13 +449,13 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
 
     pMeat->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
-    pMeat->field_B8_xpos = pState->field_8_xpos;
-    pMeat->field_BC_ypos = pState->field_C_ypos;
+    pMeat->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_8_xpos;
+    pMeat->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_C_ypos;
 
-    pMeat->field_E4_collection_rect.x = pMeat->field_B8_xpos - (ScaleToGridSize(pMeat->field_CC_sprite_scale) / FP_FromInteger(2));
-    pMeat->field_E4_collection_rect.y = pMeat->field_BC_ypos - ScaleToGridSize(pMeat->field_CC_sprite_scale);
-    pMeat->field_E4_collection_rect.w = (ScaleToGridSize(pMeat->field_CC_sprite_scale) / FP_FromInteger(2)) + pMeat->field_B8_xpos;
-    pMeat->field_E4_collection_rect.h = pMeat->field_BC_ypos;
+    pMeat->field_E4_collection_rect.x = pMeat->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(pMeat->field_CC_sprite_scale) / FP_FromInteger(2));
+    pMeat->field_E4_collection_rect.y = pMeat->mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(pMeat->field_CC_sprite_scale);
+    pMeat->field_E4_collection_rect.w = (ScaleToGridSize(pMeat->field_CC_sprite_scale) / FP_FromInteger(2)) + pMeat->mBaseAnimatedWithPhysicsGameObject_XPos;
+    pMeat->field_E4_collection_rect.h = pMeat->mBaseAnimatedWithPhysicsGameObject_YPos;
 
     pMeat->field_C4_velx = pState->field_10_velx;
     pMeat->field_C8_vely = pState->field_14_vely;
@@ -556,7 +556,7 @@ void MeatSack::VUpdate()
 
             gpThrowableArray_5D1E2C->Add(field_11E_amount_of_meat);
 
-            auto pMeat = ae_new<Meat>(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_amount_of_meat);
+            auto pMeat = ae_new<Meat>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30), field_11E_amount_of_meat);
              pMeat->VThrow(field_124_velX, field_128_velY);
             pMeat->field_CC_sprite_scale = field_CC_sprite_scale;
 
@@ -576,8 +576,8 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     pState->field_0_type = AETypes::eMeat_84;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
-    pState->field_8_xpos = field_B8_xpos;
-    pState->field_C_ypos = field_BC_ypos;
+    pState->field_8_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    pState->field_C_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
     pState->field_10_velx = field_C4_velx;
     pState->field_14_vely = field_C8_vely;

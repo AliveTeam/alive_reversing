@@ -259,15 +259,15 @@ void DDCheat::VUpdate()
             {
                 PSX_Point pos;
                 gMap.GetCurrentCamCoords(&pos);
-                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
-                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pos.field_0_x + 184);
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.field_2_y + 60);
                 sActiveHero_5C1B68->mCurrentMotion = 3;
                 sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 sActiveHero_5C1B68->field_C2_lvl_number = static_cast<LevelIds>(sTeleport_Level_550F5C);
                 sActiveHero_5C1B68->field_C0_path_number = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
                 field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit1);
             }
         }
@@ -282,7 +282,7 @@ void DDCheat::VUpdate()
                     sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 }
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
             }
 
             sDDCheat_ShowAI_Info_5C1BD8 = false;
@@ -334,8 +334,8 @@ void DDCheat::VUpdate()
                 DebugStr(
                     "\n[obj %i] xy=%.3f,%.3f flags=%x",
                     sControlledCharacter_5C1B8C->Type(),
-                    FP_GetDouble(sControlledCharacter_5C1B8C->field_B8_xpos),
-                    FP_GetDouble(sControlledCharacter_5C1B8C->field_BC_ypos),
+                    FP_GetDouble(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos),
+                    FP_GetDouble(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos),
                     sControlledCharacter_5C1B8C->mFlags);
 
                 DebugStr("\nLine=%X\nState=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_motion);
@@ -348,8 +348,8 @@ void DDCheat::VUpdate()
 #else
             DebugStr(
                 "\nheroxy=%4d,%4d",
-                FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos),
-                FP_GetExponent(sActiveHero_5C1B68->field_BC_ypos));
+                FP_GetExponent(sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos));
 #endif
 
             field_20 = 6;
@@ -378,7 +378,7 @@ void DDCheat::VUpdate()
                 }
 
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
             }
 
             /*DebugStr_4F5560("\n[Memory]");

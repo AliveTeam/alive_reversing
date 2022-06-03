@@ -22,12 +22,12 @@ public:
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
         field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_DC_bApplyShadows &= ~1u;
+        mApplyShadows &= ~1u;
 
         field_CC_sprite_scale = scale;
 
-        field_B8_xpos = xpos;
-        field_BC_ypos = ypos;
+        mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+        mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
         field_FC_numGrenades = numGrenades;
 
@@ -99,8 +99,8 @@ private:
                         directedScale = field_CC_sprite_scale;
                     }
                     auto pGrenade = ae_new<Grenade>(
-                        (FP_FromInteger(6) * directedScale) + field_B8_xpos,
-                        (-FP_FromInteger(6) * field_CC_sprite_scale) + field_BC_ypos,
+                        (FP_FromInteger(6) * directedScale) + mBaseAnimatedWithPhysicsGameObject_XPos,
+                        (-FP_FromInteger(6) * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_YPos,
                         field_FC_numGrenades,
                         0,
                         0,
@@ -134,7 +134,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_DC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
     field_F4_tlvInfo = tlvInfo;
     field_20_animation.mRenderMode = TPageAbr::eBlend_1;
 
@@ -147,12 +147,12 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         field_CC_sprite_scale = FP_FromInteger(1);
     }
 
-    field_B8_xpos = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     auto pNozzle = ae_new<GrenadeMachineNozzle>(
-        ((pTlv->field_12_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1 ? -field_CC_sprite_scale : field_CC_sprite_scale) * FP_FromInteger(30)) + field_B8_xpos,
-        (field_CC_sprite_scale * FP_FromInteger(-30)) + field_BC_ypos,
+        ((pTlv->field_12_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1 ? -field_CC_sprite_scale : field_CC_sprite_scale) * FP_FromInteger(30)) + mBaseAnimatedWithPhysicsGameObject_XPos,
+        (field_CC_sprite_scale * FP_FromInteger(-30)) + mBaseAnimatedWithPhysicsGameObject_YPos,
         field_CC_sprite_scale,
         pTlv->field_16_number_of_grenades);
     if (pNozzle)

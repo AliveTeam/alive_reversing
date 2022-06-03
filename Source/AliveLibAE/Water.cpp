@@ -26,8 +26,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSplashResID);
 
         field_114_tlvInfo = tlvInfo;
-        field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-        field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
         field_104_top_left = pTlv->field_8_top_left;
         field_108_bottom_right = pTlv->field_C_bottom_right;
@@ -129,8 +129,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 SetUV3(pPoly, u1, v1);
             }
 
-            field_100_screen_x = FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-            field_102_screen_y = FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+            field_100_screen_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
+            field_102_screen_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
 
             PSX_RECT rect = {};
             rect.y = field_20_animation.field_8C_pal_vram_xy.field_2_y;
@@ -265,8 +265,8 @@ void Water::VUpdate()
     if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         field_13C_not_in_camera_count = 0;
@@ -281,8 +281,8 @@ void Water::VUpdate()
         const CameraPos soundDir = gMap.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos);
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos);
 
         switch (field_FC_state)
         {
@@ -498,8 +498,8 @@ void Water::VRender(PrimHeader** ppOt)
     if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         s16 xMin = 32767;

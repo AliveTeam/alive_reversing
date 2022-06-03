@@ -104,8 +104,8 @@ void MusicTrigger::VUpdate()
 
     if (field_24_flags.Get(Flags_24::e24_Bit1_TriggeredByTouching))
     {
-        FP xpos = sControlledCharacter_5C1B8C->field_B8_xpos;
-        FP ypos = sControlledCharacter_5C1B8C->field_BC_ypos;
+        FP xpos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos;
+        FP ypos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
 
         if (xpos >= FP_FromInteger(field_2C_tl.field_0_x) && xpos <= FP_FromInteger(field_30_br.field_0_x) && (ypos >= FP_FromInteger(field_2C_tl.field_2_y) && ypos <= FP_FromInteger(field_30_br.field_2_y)))
         {

@@ -305,7 +305,7 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
             {
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
-                const s16 xpos = FP_GetExponent(pLiftPoint->field_B8_xpos);
+                const s16 xpos = FP_GetExponent(pLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos);
                 if (pTlv->field_8_top_left.field_0_x <= xpos && xpos <= pTlv->field_C_bottom_right.field_0_x && pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_lift_point_id && pLiftPoint->field_C2_lvl_number == gMap.mCurrentLevel && pLiftPoint->field_C0_path_number == gMap.mCurrentPath)
                 {
                     // Yes so just reset its data
@@ -396,15 +396,15 @@ void Factory_Dove(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode load
             s16 ypos = 0;
             if (pDoveTlv->field_12_pixel_perfect == Choice_short::eYes_1)
             {
-                pDove->field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+                pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
                 ypos = pTlv->field_8_top_left.field_2_y;
             }
             else
             {
-                pDove->field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + width * Math_NextRandom() / 256);
+                pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + width * Math_NextRandom() / 256);
                 ypos = pTlv->field_8_top_left.field_2_y + height * Math_NextRandom() / 256;
             }
-            pDove->field_BC_ypos = FP_FromInteger(ypos) + FP_FromInteger(10);
+            pDove->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(ypos) + FP_FromInteger(10);
         }
     }
 }
@@ -633,8 +633,8 @@ void Factory_AbeStart(Path_TLV* pTlv, Path*, TlvItemInfoUnion, LoadMode loadmode
             sActiveHero_5C1B68 = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
             if (sActiveHero_5C1B68)
             {
-                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
-                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
             }
         }
     }

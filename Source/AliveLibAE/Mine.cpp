@@ -49,9 +49,9 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     }
 
     const s32 v7 = pPath->field_8_top_left.field_0_x + pPath->field_C_bottom_right.field_0_x;
-    field_B8_xpos = FP_FromInteger(v7 / 2);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(v7 / 2);
     const FP v8 = FP_FromInteger(pPath->field_8_top_left.field_2_y);
-    field_BC_ypos = v8;
+    mBaseAnimatedWithPhysicsGameObject_YPos = v8;
 
     FP hitY;
     FP hitX;
@@ -67,7 +67,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
             field_D6_scale != 0 ? 1 : 16)
         == 1)
     {
-        field_BC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
     field_11C_tlv = tlv;
     field_120_gnframe = sGnFrame_5C1B84;
@@ -106,12 +106,12 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
 
     const FP gridSnap = ScaleToGridSize(field_CC_sprite_scale);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
 
-    field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
-    field_E4_collection_rect.y = field_BC_ypos - gridSnap;
-    field_E4_collection_rect.w = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
-    field_E4_collection_rect.h = field_BC_ypos;
+    field_E4_collection_rect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (gridSnap / FP_FromDouble(2.0));
+    field_E4_collection_rect.y = mBaseAnimatedWithPhysicsGameObject_YPos - gridSnap;
+    field_E4_collection_rect.w = (gridSnap / FP_FromDouble(2.0)) + mBaseAnimatedWithPhysicsGameObject_XPos;
+    field_E4_collection_rect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
 }
 
 
@@ -140,15 +140,15 @@ void Mine::VUpdate()
     const s16 onScreen = gMap.Is_Point_In_Current_Camera_4810D0(
         field_C2_lvl_number,
         field_C0_path_number,
-        field_B8_xpos,
-        field_BC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         0);
 
     if (field_118_detonating)
     {
         if (field_118_detonating == 1 && sGnFrame_5C1B84 >= field_120_gnframe)
         {
-            ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+            ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
             mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
@@ -190,12 +190,12 @@ void Mine::VRender(PrimHeader** ppOt)
         if (gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
-                field_B8_xpos,
-                field_BC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 0))
         {
-            this->field_124_animation.VRender(FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-                                                     FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+            this->field_124_animation.VRender(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+                                                     FP_GetExponent(FP_FromInteger(field_D8_yOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
                                                      ppOt,
                                                      0,
                                                      0);
@@ -226,7 +226,7 @@ void Mine::VOnPickUpOrSlapped()
 
 void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+    ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_118_detonating = 1;
 }
@@ -250,7 +250,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         case AETypes::eExplosion_109:
         case AETypes::eMudokon_110:
         case AETypes::eShrykull_121:
-            ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+            ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_118_detonating = 1;
             field_120_gnframe = sGnFrame_5C1B84;
@@ -278,8 +278,8 @@ bool Mine::IsColliding()
             PSX_RECT objBound;
             pObj->VGetBoundingRect(&objBound, 1);
 
-            s32 objX = FP_GetExponent(pObj->field_B8_xpos);
-            s32 objY = FP_GetExponent(pObj->field_BC_ypos);
+            s32 objX = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos);
+            s32 objY = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos);
 
             if (objX > mineBound.x && objX < mineBound.w && objY < mineBound.h + 12 && mineBound.x <= objBound.w && mineBound.w >= objBound.x && mineBound.h >= objBound.y && mineBound.y <= objBound.h && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
             {

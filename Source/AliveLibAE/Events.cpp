@@ -110,8 +110,8 @@ BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(s16 eventType, FP xpo
     // At this point we known the type must be BaseAnimatedWithPhysicsGameObject
     auto pDerived = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
     if ((scale == -1 || pDerived->field_D6_scale == scale)
-        && FP_GetExponent(xpos) / kGridMapWidth == FP_GetExponent(pDerived->field_B8_xpos) / kGridMapWidth
-        && FP_GetExponent(ypos) / kGridMapHeight == FP_GetExponent(pDerived->field_BC_ypos) / kGridMapHeight)
+        && FP_GetExponent(xpos) / kGridMapWidth == FP_GetExponent(pDerived->mBaseAnimatedWithPhysicsGameObject_XPos) / kGridMapWidth
+        && FP_GetExponent(ypos) / kGridMapHeight == FP_GetExponent(pDerived->mBaseAnimatedWithPhysicsGameObject_YPos) / kGridMapHeight)
     {
         return pDerived;
     }

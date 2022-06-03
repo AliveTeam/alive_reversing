@@ -31,8 +31,8 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
         field_D6_scale = 0;
     }
 
-    field_B8_xpos = xpos;
-    field_BC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
     field_C4_velx = xVel * field_CC_sprite_scale;
     field_C8_vely = yVel * field_CC_sprite_scale;
@@ -65,15 +65,15 @@ void Leaf::VUpdate()
     const s32 randY = (sRandomBytes_546744[sLeafRandIdx_563AA4++] - 127);
     field_C8_vely += (field_CC_sprite_scale * (FP_FromInteger(randY) / FP_FromInteger(64)));
 
-    const FP x2 = field_C4_velx + field_B8_xpos;
-    const FP y2 = field_C8_vely + field_BC_ypos;
+    const FP x2 = field_C4_velx + mBaseAnimatedWithPhysicsGameObject_XPos;
+    const FP y2 = field_C8_vely + mBaseAnimatedWithPhysicsGameObject_YPos;
 
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = sCollisions_DArray_5C1128->Raycast(
-        field_B8_xpos,
-        field_BC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         x2,
         y2,
         &pLine,
@@ -90,8 +90,8 @@ void Leaf::VUpdate()
 
     if (field_F4_bHitSomething & 1 || !bCollision || ((field_CC_sprite_scale != FP_FromDouble(0.5) || pLine->field_8_type != eLineTypes::eBackgroundFloor_4) && (field_CC_sprite_scale != FP_FromDouble(1.0) || pLine->field_8_type != eLineTypes::eFloor_0)))
     {
-        field_B8_xpos = x2;
-        field_BC_ypos = y2;
+        mBaseAnimatedWithPhysicsGameObject_XPos = x2;
+        mBaseAnimatedWithPhysicsGameObject_YPos = y2;
     }
     else
     {
@@ -100,16 +100,16 @@ void Leaf::VUpdate()
 
         field_F4_bHitSomething |= 1u;
 
-        field_B8_xpos = hitX;
-        field_BC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
     // Out of the camera, die
     if (!gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

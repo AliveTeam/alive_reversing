@@ -26,7 +26,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
@@ -58,22 +58,22 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
     field_12E_bDontSetDestroyed = 1;
     field_118_tlvInfo = tlvInfo;
 
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos,
-            field_B8_xpos,
-            field_BC_ypos + FP_FromInteger(24),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_D6_scale ? 1 : 16))
     {
-        field_BC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
     auto pMotionDetctor = ae_new<MotionDetector>(nullptr, 0, this);
@@ -93,7 +93,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
 
     field_12C_timesShot = 0;
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit6_SetOffExplosives);
     field_130_bChasing = 0;
@@ -140,8 +140,8 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
     auto pGreeter = ae_new<Greeter>(pTlv, pState->field_28_tlvInfo);
     if (pGreeter)
     {
-        pGreeter->field_B8_xpos = pState->field_C_xpos;
-        pGreeter->field_BC_ypos = pState->field_10_ypos;
+        pGreeter->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_C_xpos;
+        pGreeter->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_10_ypos;
         pGreeter->field_C4_velx = pState->field_14_velx;
         pGreeter->field_C8_vely = pState->field_18_vely;
 
@@ -180,7 +180,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
         auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find_Impl(pGreeter->field_11C_motionDetectorId));
 
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(pDetector->field_F8_laser_id));
-        pLaser->field_B8_xpos = pState->field_4C_motion_laser_xpos;
+        pLaser->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_4C_motion_laser_xpos;
     }
 
     return sizeof(Greeter_State);
@@ -197,8 +197,8 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_0_type = AETypes::eGreeter_64;
 
-    pState->field_C_xpos = field_B8_xpos;
-    pState->field_10_ypos = field_BC_ypos;
+    pState->field_C_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    pState->field_10_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
     pState->field_14_velx = field_C4_velx;
     pState->field_18_vely = field_C8_vely;
 
@@ -230,7 +230,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
 
     auto pMotionDetector = static_cast<MotionDetector*>(sObjectIds.Find_Impl(field_11C_motionDetectorId));
     auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(pMotionDetector->field_F8_laser_id));
-    pState->field_4C_motion_laser_xpos = pLaser->field_B8_xpos;
+    pState->field_4C_motion_laser_xpos = pLaser->mBaseAnimatedWithPhysicsGameObject_XPos;
 
     return sizeof(Greeter_State);
 }
@@ -241,14 +241,14 @@ void Greeter::VScreenChanged()
 
     if (sControlledCharacter_5C1B8C)
     {
-        const FP xDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
+        const FP xDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos);
         if (xDistFromPlayer > FP_FromInteger(356))
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
         }
 
-        const FP yDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
+        const FP yDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos);
         if (yDistFromPlayer > FP_FromInteger(240))
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -280,15 +280,15 @@ void Greeter::BlowUp()
     mHealth = FP_FromInteger(0);
 
     ae_new<Explosion>(
-        field_B8_xpos,
-        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)),
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(5)),
         field_CC_sprite_scale,
         0);
 
     ae_new<Gibs>(
         GibType::Metal_5,
-        field_B8_xpos,
-        field_BC_ypos + FP_FromInteger(50),
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(50),
         FP_FromInteger(0),
         FP_FromInteger(0),
         field_CC_sprite_scale,
@@ -326,7 +326,7 @@ void Greeter::BounceBackFromShot()
     const AnimRecord& animRec = AnimRec(AnimId::Greeter_Hit);
     field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
-    const CameraPos soundDirection = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
+    const CameraPos soundDirection = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
     SFX_Play_Camera(SoundEffect::GreeterKnockback_121, 0, soundDirection, field_CC_sprite_scale);
 }
 
@@ -334,10 +334,10 @@ void Greeter::HandleRollingAlong()
 {
     for (Path_TLV* pTlv = field_138_pTlv; pTlv;
          pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv,
-                                                      field_C4_velx + field_B8_xpos + field_C4_velx,
-                                                      field_C8_vely + field_BC_ypos + field_C8_vely,
-                                                      field_C4_velx + field_B8_xpos + field_C4_velx,
-                                                      field_C8_vely + field_BC_ypos + field_C8_vely))
+                                                      field_C4_velx + mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
+                                                      field_C8_vely + mBaseAnimatedWithPhysicsGameObject_YPos + field_C8_vely,
+                                                      field_C4_velx + mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
+                                                      field_C8_vely + mBaseAnimatedWithPhysicsGameObject_YPos + field_C8_vely))
     {
         switch (pTlv->field_4_type.mType)
         {
@@ -472,8 +472,8 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
     ae_new<ScreenShake>(0, 0);
 
     ae_new<ZapLine>(
-        field_B8_xpos,
-        field_BC_ypos - (FP_FromInteger(20) * field_CC_sprite_scale),
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(20) * field_CC_sprite_scale),
         xpos,
         ypos,
         8,
@@ -481,8 +481,8 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         Layer::eLayer_ZapLinesMuds_28);
 
     ae_new<ZapLine>(
-        field_B8_xpos,
-        field_BC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         xpos,
         ypos,
         8,
@@ -490,8 +490,8 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         Layer::eLayer_ZapLinesMuds_28);
 
     ae_new<ZapLine>(
-        field_B8_xpos,
-        field_BC_ypos - (FP_FromInteger(50) * field_CC_sprite_scale),
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(50) * field_CC_sprite_scale),
         xpos,
         ypos,
         8,
@@ -507,8 +507,8 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         11);
 
     ae_new<ParticleBurst>(
-        field_B8_xpos,
-        field_BC_ypos - (FP_FromInteger(10) * field_CC_sprite_scale),
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(10) * field_CC_sprite_scale),
         10,
         field_CC_sprite_scale,
         BurstType::eBigRedSparks_3,
@@ -523,8 +523,8 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
     const CameraPos soundDirection = gMap.GetDirection_4811A0(
         field_C2_lvl_number,
         field_C0_path_number,
-        field_B8_xpos,
-        field_BC_ypos);
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos);
 
     SFX_Play_Camera(SoundEffect::Zap1_49, 0, soundDirection, field_CC_sprite_scale);
     SFX_Play_Camera(SoundEffect::Zap2_50, 0, soundDirection, field_CC_sprite_scale);
@@ -568,9 +568,9 @@ Bool32 Greeter::ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* p
     FP hitY = {};
     PathLine* pLine = nullptr;
     return sCollisions_DArray_5C1128->Raycast(
-               pUs->field_B8_xpos,
+               pUs->mBaseAnimatedWithPhysicsGameObject_XPos,
                FP_FromInteger(usRect.h + 0xFFE7),
-               pThem->field_B8_xpos,
+               pThem->mBaseAnimatedWithPhysicsGameObject_XPos,
                FP_FromInteger(bRectThem.h + 0xFFE7),
                &pLine,
                &hitX,
@@ -597,7 +597,7 @@ BaseAliveGameObject* Greeter::GetMudToZap()
             const FP xMid = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP yMid = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (xMid - field_B8_xpos < (field_CC_sprite_scale * FP_FromInteger(60)) && field_B8_xpos - xMid < (field_CC_sprite_scale * FP_FromInteger(60)) && yMid - (field_BC_ypos - FP_FromInteger(4)) < (field_CC_sprite_scale * FP_FromInteger(60)) && field_BC_ypos - FP_FromInteger(4) - yMid < (field_CC_sprite_scale * FP_FromInteger(60)) && !(sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted)) && !ZapIsNotBlocked(this, pObj))
+            if (xMid - mBaseAnimatedWithPhysicsGameObject_XPos < (field_CC_sprite_scale * FP_FromInteger(60)) && mBaseAnimatedWithPhysicsGameObject_XPos - xMid < (field_CC_sprite_scale * FP_FromInteger(60)) && yMid - (mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4)) < (field_CC_sprite_scale * FP_FromInteger(60)) && mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4) - yMid < (field_CC_sprite_scale * FP_FromInteger(60)) && !(sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted)) && !ZapIsNotBlocked(this, pObj))
             {
                 return pObj;
             }
@@ -621,8 +621,8 @@ void Greeter::VUpdate()
                 const CameraPos soundDirection = gMap.GetDirection_4811A0(
                     field_C2_lvl_number,
                     field_C0_path_number,
-                    field_B8_xpos,
-                    field_BC_ypos);
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos);
                 SFX_Play_Camera(SoundEffect::WheelSqueak_31, 10, soundDirection, field_CC_sprite_scale);
             }
 
@@ -712,8 +712,8 @@ void Greeter::VUpdate()
                 const CameraPos soundDirection2 = gMap.GetDirection_4811A0(
                     field_C2_lvl_number,
                     field_C0_path_number,
-                    field_B8_xpos,
-                    field_BC_ypos);
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos);
                 SFX_Play_Camera(SoundEffect::WheelSqueak_31, 10, soundDirection2, field_CC_sprite_scale);
             }
 
@@ -729,7 +729,7 @@ void Greeter::VUpdate()
             const FP midX = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP midY = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (midX - field_B8_xpos >= (field_CC_sprite_scale * FP_FromInteger(60)) || field_B8_xpos - midX >= (field_CC_sprite_scale * FP_FromInteger(60)) || midY - (field_BC_ypos - FP_FromInteger(4)) >= (field_CC_sprite_scale * FP_FromInteger(60)) || field_BC_ypos - FP_FromInteger(4) - midY >= (field_CC_sprite_scale * FP_FromInteger(60)) || sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted) || sActiveHero_5C1B68->CantBeDamaged_44BAB0() || ZapIsNotBlocked(this, sActiveHero_5C1B68))
+            if (midX - mBaseAnimatedWithPhysicsGameObject_XPos >= (field_CC_sprite_scale * FP_FromInteger(60)) || mBaseAnimatedWithPhysicsGameObject_XPos - midX >= (field_CC_sprite_scale * FP_FromInteger(60)) || midY - (mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4)) >= (field_CC_sprite_scale * FP_FromInteger(60)) || mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4) - midY >= (field_CC_sprite_scale * FP_FromInteger(60)) || sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted) || sActiveHero_5C1B68->CantBeDamaged_44BAB0() || ZapIsNotBlocked(this, sActiveHero_5C1B68))
             {
                 BaseAliveGameObject* pGonnaZapYa = GetMudToZap();
                 if (pGonnaZapYa)
@@ -788,13 +788,13 @@ void Greeter::VUpdate()
             {
                 field_C8_vely = -field_C8_vely * FP_FromDouble(0.4);
                 BaseAliveGameObjectCollisionLine = pLine;
-                field_BC_ypos = hitY;
+                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 BaseAliveGameObjectLastLineYPos = hitY;
 
                 const CameraPos soundDirection3 = gMap.GetDirection_4811A0(
                     field_C2_lvl_number,
                     field_C0_path_number,
-                    field_B8_xpos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
                     hitY);
 
                 SFX_Play_Camera(SoundEffect::GreeterLand_120, 0, soundDirection3, field_CC_sprite_scale);
@@ -830,10 +830,10 @@ void Greeter::VUpdate()
                           + field_C4_velx
                           + field_C4_velx
                           + field_C4_velx
-                          + field_B8_xpos;
+                          + mBaseAnimatedWithPhysicsGameObject_XPos;
 
             const FP ypos = field_C8_vely
-                          + field_BC_ypos
+                          + mBaseAnimatedWithPhysicsGameObject_YPos
                           + field_C8_vely;
 
             field_138_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(nullptr, xpos, ypos, xpos, ypos);
@@ -846,10 +846,10 @@ void Greeter::VUpdate()
     {
         field_138_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
             nullptr,
-            field_B8_xpos,
-            field_BC_ypos,
-            field_B8_xpos,
-            field_BC_ypos);
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos);
         HandleRollingAlong();
         if (field_13C_brain_state == GreeterBrainStates::eBrain_7_Fall)
         {
@@ -869,7 +869,7 @@ void Greeter::VUpdate()
 
     if (field_13C_brain_state != GreeterBrainStates::eBrain_7_Fall)
     {
-        field_B8_xpos += field_C4_velx;
-        field_BC_ypos += field_C8_vely;
+        mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
+        mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
     }
 }

@@ -26,8 +26,8 @@ void PlatformBase::VRemove(BaseAliveGameObject* pObj)
 
 void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* /*pMap*/, s32 tlvInfo)
 {
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     mPlatformBaseTlvInfo = tlvInfo;
 
@@ -55,8 +55,8 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, u16 maxH,
     }
 
     FrameInfoHeader* pFrameHeader = field_20_animation.Get_FrameHeader(0);
-    field_BC_ypos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * field_CC_sprite_scale);
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * field_CC_sprite_scale);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
 
     field_124_pCollisionLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
         pTlv->field_8_top_left.field_0_x,
@@ -65,10 +65,10 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, u16 maxH,
         pTlv->field_8_top_left.field_2_y,
         32);
 
-    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - field_B8_xpos);
-    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - field_B8_xpos);
-    mPlatformBaseYOffset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - field_BC_ypos);
-    mPlatformBaseHeightOffset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - field_BC_ypos);
+    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - mBaseAnimatedWithPhysicsGameObject_XPos);
+    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - mBaseAnimatedWithPhysicsGameObject_XPos);
+    mPlatformBaseYOffset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - mBaseAnimatedWithPhysicsGameObject_YPos);
+    mPlatformBaseHeightOffset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - mBaseAnimatedWithPhysicsGameObject_YPos);
 
     if (!ObjList_5C1B78->Push_Back(this))
     {
@@ -91,10 +91,10 @@ PlatformBase::~PlatformBase()
 
 void PlatformBase::SyncCollisionLinePosition()
 {
-    field_124_pCollisionLine->field_0_rect.x = FP_GetExponent(FP_FromInteger(mPlatformBaseXOffset) + field_B8_xpos);
-    field_124_pCollisionLine->field_0_rect.w = FP_GetExponent(FP_FromInteger(mPlatformBaseWidthOffset) + field_B8_xpos);
-    field_124_pCollisionLine->field_0_rect.y = FP_GetExponent(field_BC_ypos + FP_FromInteger(mPlatformBaseYOffset));
-    field_124_pCollisionLine->field_0_rect.h = FP_GetExponent(field_BC_ypos + FP_FromInteger(mPlatformBaseHeightOffset));
+    field_124_pCollisionLine->field_0_rect.x = FP_GetExponent(FP_FromInteger(mPlatformBaseXOffset) + mBaseAnimatedWithPhysicsGameObject_XPos);
+    field_124_pCollisionLine->field_0_rect.w = FP_GetExponent(FP_FromInteger(mPlatformBaseWidthOffset) + mBaseAnimatedWithPhysicsGameObject_XPos);
+    field_124_pCollisionLine->field_0_rect.y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(mPlatformBaseYOffset));
+    field_124_pCollisionLine->field_0_rect.h = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(mPlatformBaseHeightOffset));
 }
 
 void PlatformBase::vRemoveCount(BaseAliveGameObject* /*pObj*/)

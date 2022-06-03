@@ -28,8 +28,8 @@ Shrykull::Shrykull()
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kShrmorphResID);
     Animation_Init(shrykullRec.mFrameTableOffset, shrykullRec.mMaxW, shrykullRec.mMaxH, ppRes, 1, 1u);
 
-    field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos;
-    field_BC_ypos = sActiveHero_5C1B68->field_BC_ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos;
     field_CC_sprite_scale = sActiveHero_5C1B68->field_CC_sprite_scale;
     field_D6_scale = sActiveHero_5C1B68->field_D6_scale;
 
@@ -37,7 +37,7 @@ Shrykull::Shrykull()
 
     field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero_5C1B68->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 
     field_12E_bResetRingTimer = 0;
 }
@@ -87,7 +87,7 @@ s16 Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     return (
                pObj->Type() == AETypes::eTimedMine_or_MovingBomb_10 || pObj->Type() == AETypes::eMine_88 || pObj->Type() == AETypes::eUXB_143 || pObj->Type() == AETypes::eSlig_125 || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eSlog_126 || pObj->Type() == AETypes::eGlukkon_67 || pObj->Type() == AETypes::eSecurityClaw_47 || pObj->Type() == AETypes::eSecurityOrb_83)
-        && pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render) && !pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && gMap.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0);
+        && pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render) && !pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && gMap.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->mBaseAnimatedWithPhysicsGameObject_XPos, pObj->mBaseAnimatedWithPhysicsGameObject_YPos, 0);
 }
 
 void Shrykull::VUpdate()

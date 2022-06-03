@@ -25,12 +25,12 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    field_DC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
     field_118_tlvInfo = tlvInfo;
     field_11C_has_been_hit = 0;
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
     field_124_x_vel = FP_FromRaw(pTlv->field_12_x_vel << 8);
     field_128_y_vel = FP_FromRaw(-256 * pTlv->field_14_y_vel);
 
@@ -54,9 +54,9 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     field_120_can_play_wobble_sound = 1;
     field_122_force_wobble_sound = 1;
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
 }
 
 RockSack::~RockSack()
@@ -142,7 +142,7 @@ void RockSack::VUpdate()
 
             gpThrowableArray_5D1E2C->Add(field_11E_rock_amount);
 
-            auto pRock = ae_new<Rock>(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_rock_amount);
+            auto pRock = ae_new<Rock>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30), field_11E_rock_amount);
             if (pRock)
             {
                 pRock->VThrow(field_124_x_vel, field_128_y_vel);

@@ -53,23 +53,23 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     field_11A_ticks_before_explosion = pPath->field_16_ticks_before_explosion;
 
-    field_B8_xpos = FP_FromInteger((pPath->field_8_top_left.field_0_x + pPath->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(pPath->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pPath->field_8_top_left.field_0_x + pPath->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pPath->field_8_top_left.field_2_y);
 
     FP hitY = {};
     FP hitX = {};
 
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos,
-            field_B8_xpos,
-            field_BC_ypos + FP_FromInteger(24),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_D6_scale != 0 ? 1 : 0x10))
     {
-        field_BC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
     field_11C_tlv = tlv.all;
@@ -78,12 +78,12 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     const FP gridSnap = ScaleToGridSize(field_CC_sprite_scale);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
 
-    field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
-    field_E4_collection_rect.y = field_BC_ypos - gridSnap;
-    field_E4_collection_rect.w = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
-    field_E4_collection_rect.h = field_BC_ypos;
+    field_E4_collection_rect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (gridSnap / FP_FromDouble(2.0));
+    field_E4_collection_rect.y = mBaseAnimatedWithPhysicsGameObject_YPos - gridSnap;
+    field_E4_collection_rect.w = (gridSnap / FP_FromDouble(2.0)) + mBaseAnimatedWithPhysicsGameObject_XPos;
+    field_E4_collection_rect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
 
     BaseAliveGameObjectId = -1;
 }
@@ -103,10 +103,10 @@ void TimedMine::VUpdate()
 
     if (pPlatform && pPlatform->vOnAnyFloor())
     {
-        field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
-        field_E4_collection_rect.w = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
-        field_E4_collection_rect.h = field_BC_ypos;
-        field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize(field_CC_sprite_scale);
+        field_E4_collection_rect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
+        field_E4_collection_rect.w = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + mBaseAnimatedWithPhysicsGameObject_XPos;
+        field_E4_collection_rect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
+        field_E4_collection_rect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(field_CC_sprite_scale);
     }
 
     if (field_118_armed == 1)
@@ -114,7 +114,7 @@ void TimedMine::VUpdate()
         if (sGnFrame_5C1B84 > field_1BC_gnFrame_2 + field_1C0_detonation_timer)
         {
             field_1BC_gnFrame_2 = sGnFrame_5C1B84;
-            const CameraPos soundDir = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
+            const CameraPos soundDir = gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
             SFX_Play_Camera(SoundEffect::GreenTick_2, 50, soundDir);
 
             // TODO: Modulus ?
@@ -130,7 +130,7 @@ void TimedMine::VUpdate()
 
         if (sGnFrame_5C1B84 >= field_120_gnframe)
         {
-            ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+            ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
             mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
@@ -141,13 +141,13 @@ void TimedMine::VRender(PrimHeader** ppOt)
     if (gMap.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
-            field_B8_xpos,
-            field_BC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         field_124_animation.VRender(
-            FP_GetExponent((field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
-            FP_GetExponent((field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromDouble(14)))),
+            FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
+            FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromDouble(14)))),
             ppOt,
             0,
             0);
@@ -192,9 +192,9 @@ void TimedMine::StickToLiftPoint()
     FP hitY = {};
     PathLine* pLine = nullptr;
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos - FP_FromInteger(20),
-            field_B8_xpos, field_BC_ypos + FP_FromInteger(20),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
+            mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
             &pLine, &hitX, &hitY,
             (field_D6_scale == 1) ? 15 : 240))
     {
@@ -216,7 +216,7 @@ void TimedMine::StickToLiftPoint()
                         PSX_RECT bRect = {};
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);
                         pLiftPoint->VGetBoundingRect(&bRect, 1);
-                        if (FP_GetExponent(field_B8_xpos) > bRect.x && FP_GetExponent(field_B8_xpos) < bRect.w && FP_GetExponent(field_BC_ypos) < bRect.h)
+                        if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) < bRect.h)
                         {
                             pLiftPoint->VAdd(this);
                             BaseAliveGameObjectId = pObj->field_8_object_id;
@@ -279,7 +279,7 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
         case AETypes::eShrykull_121:
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+            ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
             field_118_armed = 1;
             field_120_gnframe = sGnFrame_5C1B84;
             return 1;
@@ -292,7 +292,7 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
 
 void TimedMine::VOnThrowableHit(BaseGameObject* /*pHitBy*/)
 {
-    ae_new<BaseBomb>(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+    ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
     
     field_118_armed = 1;
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);

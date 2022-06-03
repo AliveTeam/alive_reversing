@@ -32,7 +32,7 @@ EvilFart::EvilFart()
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 
-    field_DC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
     field_CC_sprite_scale = sActiveHero_5C1B68->field_CC_sprite_scale;
 
@@ -48,29 +48,29 @@ EvilFart::EvilFart()
 
     if (sActiveHero_5C1B68->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos + (FP_FromInteger(12) * field_CC_sprite_scale);
+        mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(12) * field_CC_sprite_scale);
     }
     else
     {
-        field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos - (FP_FromInteger(12) * field_CC_sprite_scale);
+        mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos - (FP_FromInteger(12) * field_CC_sprite_scale);
     }
 
-    field_BC_ypos = (field_CC_sprite_scale * FP_FromInteger(22)) + sActiveHero_5C1B68->field_BC_ypos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = (field_CC_sprite_scale * FP_FromInteger(22)) + sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos;
 
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos - FP_FromInteger(3),
-            field_BC_ypos,
-            field_B8_xpos + FP_FromInteger(3),
-            field_BC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(3),
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(3),
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             &pLine,
             &hitX,
             &hitY,
             field_D6_scale != 0 ? 0x20006 : 0x40060))
     {
-        field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos;
+        mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos;
     }
 
     field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -108,8 +108,8 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
         sControlledCharacter_5C1B8C = pFart;
     }
 
-    pFart->field_B8_xpos = pState->field_C_xpos;
-    pFart->field_BC_ypos = pState->field_10_ypos;
+    pFart->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_C_xpos;
+    pFart->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_10_ypos;
 
     pFart->field_C4_velx = pState->field_14_velx;
     pFart->field_C8_vely = pState->field_18_vely;
@@ -150,8 +150,8 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_0_type = AETypes::eEvilFart_45;
 
-    pState->field_C_xpos = field_B8_xpos;
-    pState->field_10_ypos = field_BC_ypos;
+    pState->field_C_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    pState->field_10_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
     pState->field_14_velx = field_C4_velx;
     pState->field_18_vely = field_C8_vely;
 
@@ -333,16 +333,16 @@ void EvilFart::VUpdate()
             if (!field_118_bBlowUp)
             {
                 ae_new<ThrowableTotalIndicator>(
-                    field_B8_xpos,
-                    field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(50)),
                     field_20_animation.mRenderLayer,
                     field_20_animation.field_14_scale,
                     field_11C_alive_timer / 50,
                     1);
 
-                field_BC_ypos = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50));
+                mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(50));
                 Mudokon_SFX(MudSounds::eFart_7, 0, 10 * (300 - field_11C_alive_timer), this);
-                field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(50);
+                mBaseAnimatedWithPhysicsGameObject_YPos += field_CC_sprite_scale * FP_FromInteger(50);
             }
         }
     }
@@ -394,8 +394,8 @@ void EvilFart::VUpdate()
                 }
 
                 New_Smoke_Particles(
-                    field_B8_xpos * field_CC_sprite_scale,
-                    (field_BC_ypos - FP_FromInteger(55)) * field_CC_sprite_scale,
+                    mBaseAnimatedWithPhysicsGameObject_XPos * field_CC_sprite_scale,
+                    (mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(55)) * field_CC_sprite_scale,
                     FP_FromDouble(0.5) * field_CC_sprite_scale,
                     3,
                     static_cast<u8>(field_D0_r),
@@ -452,10 +452,10 @@ void EvilFart::VUpdate()
         FP hitX = {};
         FP hitY = {};
         if (sCollisions_DArray_5C1128->Raycast(
-                field_B8_xpos,
-                field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
-                x2Offset + field_B8_xpos + field_C4_velx,
-                y2Offset + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54)),
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(54)),
+                x2Offset + mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
+                y2Offset + mBaseAnimatedWithPhysicsGameObject_YPos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54)),
                 &pLine,
                 &hitX,
                 &hitY,
@@ -465,14 +465,14 @@ void EvilFart::VUpdate()
         }
         else
         {
-            field_B8_xpos += field_C4_velx;
+            mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
         }
 
         if (sCollisions_DArray_5C1128->Raycast(
-                field_B8_xpos,
-                field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
-                field_B8_xpos + field_C4_velx + x2Offset,
-                y2Offset + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54)),
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(54)),
+                mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx + x2Offset,
+                y2Offset + mBaseAnimatedWithPhysicsGameObject_YPos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54)),
                 &pLine,
                 &hitX,
                 &hitY,
@@ -482,7 +482,7 @@ void EvilFart::VUpdate()
         }
         else
         {
-            field_BC_ypos += field_C8_vely;
+            mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
         }
 
         if (!Input_IsChanting_45F260())
@@ -529,8 +529,8 @@ void EvilFart::VUpdate()
             const FP yposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange(-20, 10)));
             const FP xposOffset = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange(-20, 20)));
             New_TintChant_Particle(
-                xposOffset + field_B8_xpos,
-                yposOffset + field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
+                xposOffset + mBaseAnimatedWithPhysicsGameObject_XPos,
+                yposOffset + mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(54)),
                 field_CC_sprite_scale,
                 Layer::eLayer_0);
         }
@@ -548,8 +548,8 @@ void EvilFart::VUpdate()
 
 void EvilFart::BlowUp()
 {
-    ae_new<Explosion>(field_B8_xpos,
-        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
+    ae_new<Explosion>(mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(50)),
         field_CC_sprite_scale,
         0);
 }

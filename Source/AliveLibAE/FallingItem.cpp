@@ -71,17 +71,17 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     field_12C_reset_switch_id_after_use = pTlv->field_18_reset_switch_id_after_use;
     field_12E_do_sound_in_state_falling = TRUE;
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    if (field_BC_ypos > pScreenManager_5BB5F4->field_20_pCamPos->field_4_y)
+    if (mBaseAnimatedWithPhysicsGameObject_YPos > pScreenManager_5BB5F4->field_20_pCamPos->field_4_y)
     {
-        field_BC_ypos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
+        mBaseAnimatedWithPhysicsGameObject_YPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
     }
 
     field_138_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_13C_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
-    field_130_yPosStart = field_BC_ypos;
+    field_130_yPosStart = mBaseAnimatedWithPhysicsGameObject_YPos;
     field_11C_state = State::eWaitForIdEnable_0;
     field_140_sound_channels = 0;
 
@@ -91,7 +91,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         field_144_created_gnFrame = sGnFrame_5C1B84;
     }
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 }
 
  FallingItem::FallingItem(s32 xpos, s32 ypos, s32 scale, s32 id, s32 fallInterval, s32 numItems, s32 bResetIdAfterUse)
@@ -141,8 +141,8 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     field_12C_reset_switch_id_after_use = static_cast<Choice_short>(bResetIdAfterUse);
     field_134_bHitDrillOrMineCar = FALSE;
     field_12E_do_sound_in_state_falling = TRUE;
-    field_B8_xpos = xFixed;
-    field_BC_ypos = yFixed;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xFixed;
+    mBaseAnimatedWithPhysicsGameObject_YPos = yFixed;
     field_138_xpos = xFixed;
     field_13C_ypos = yFixed;
     field_130_yPosStart = yFixed;
@@ -155,7 +155,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         field_144_created_gnFrame = sGnFrame_5C1B84;
     }
 
-    field_E0_pShadow = ae_new<Shadow>();
+    mShadow = ae_new<Shadow>();
 }
 
 FallingItem::~FallingItem()
@@ -262,7 +262,7 @@ void FallingItem::VUpdate()
         {
             if (field_12E_do_sound_in_state_falling)
             {
-                if (field_BC_ypos >= sActiveHero_5C1B68->field_BC_ypos - FP_FromInteger(240 / 2))
+                if (mBaseAnimatedWithPhysicsGameObject_YPos >= sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(240 / 2))
                 {
                     field_12E_do_sound_in_state_falling = FALSE;
                     if (field_D6_scale == 1)
@@ -287,10 +287,10 @@ void FallingItem::VUpdate()
             FP hitX = {};
             FP hitY = {};
             if (sCollisions_DArray_5C1128->Raycast(
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    field_B8_xpos,
-                    field_C8_vely + field_BC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    field_C8_vely + mBaseAnimatedWithPhysicsGameObject_YPos,
                     &pathLine,
                     &hitX,
                     &hitY,
@@ -299,12 +299,12 @@ void FallingItem::VUpdate()
             {
                 if (!field_134_bHitDrillOrMineCar)
                 {
-                    field_BC_ypos = hitY;
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 }
             }
             else if (!field_134_bHitDrillOrMineCar)
             {
-                field_BC_ypos += field_C8_vely;
+                mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
                 return;
             }
 
@@ -315,8 +315,8 @@ void FallingItem::VUpdate()
 
             if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8)
             {
-                ae_new<ParticleBurst>(field_B8_xpos,
-                                                   field_BC_ypos,
+                ae_new<ParticleBurst>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                                   mBaseAnimatedWithPhysicsGameObject_YPos,
                                                    20,
                                                    field_CC_sprite_scale,
                                                    BurstType::eSticks_1,
@@ -324,8 +324,8 @@ void FallingItem::VUpdate()
 
                 const AnimRecord& rec = AnimRec(AnimId::Explosion);
                 u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
-                auto pParticle = ae_new<Particle>(field_B8_xpos,
-                                                  field_BC_ypos - (FP_FromInteger(15) * field_CC_sprite_scale),
+                auto pParticle = ae_new<Particle>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                                  mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(15) * field_CC_sprite_scale),
                                                   rec.mFrameTableOffset,
                                                   rec.mMaxW,
                                                   rec.mMaxH,
@@ -338,8 +338,8 @@ void FallingItem::VUpdate()
             }
             else
             {
-                ae_new<ParticleBurst>(field_B8_xpos,
-                                                        field_BC_ypos,
+                ae_new<ParticleBurst>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                                                        mBaseAnimatedWithPhysicsGameObject_YPos,
                                                         25,
                                                         field_CC_sprite_scale,
                                                         BurstType::eFallingRocks_0,
@@ -388,7 +388,7 @@ void FallingItem::VUpdate()
                 mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
-                field_BC_ypos = field_130_yPosStart;
+                mBaseAnimatedWithPhysicsGameObject_YPos = field_130_yPosStart;
                 field_11C_state = State::eWaitForIdEnable_0;
             }
             break;
@@ -450,7 +450,7 @@ void FallingItem::DamageHitItems()
                             {
                                 // Some strange edge case for paramites - prevents them getting smashed by
                                 // falling items when stood on an edge by their huge heads peeking over a bit.
-                                if (pAliveObj->field_B8_xpos < FP_FromInteger(fallingItemRect.x) || pAliveObj->field_B8_xpos > FP_FromInteger(fallingItemRect.w))
+                                if (pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(fallingItemRect.x) || pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(fallingItemRect.w))
                                 {
                                     doDamage = false;
                                 }

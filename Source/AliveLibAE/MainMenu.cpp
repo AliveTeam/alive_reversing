@@ -1805,8 +1805,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-            sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
-            sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
+            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
+            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
 
             Quicksave_LoadActive();
 
@@ -1854,8 +1854,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         gMap.SetActiveCam(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
 
         const PathBlyRec* pPathData = Path_Get_Bly_Record(field_244_lvl_id, field_246_path_id);
-        sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(field_24A_abeXOff - pPathData->field_4_pPathData->field_1A_abe_start_xpos);
-        sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(field_24C_abeYOff - pPathData->field_4_pPathData->field_1C_abe_start_ypos);
+        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(field_24A_abeXOff - pPathData->field_4_pPathData->field_1A_abe_start_xpos);
+        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_24C_abeYOff - pPathData->field_4_pPathData->field_1C_abe_start_ypos);
 
         if (field_24E_start_scale == -1)
         {
@@ -1873,8 +1873,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     else
     {
         gMap.SetActiveCam(LevelIds::eMines_1, 1, 4, CameraSwapEffects::ePlay1FMV_5, 12402, 0);
-        sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(837);
-        sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(1300);
+        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(837);
+        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(1300);
         sActiveHero_5C1B68->BaseAliveGameObjectLastLineYPos = FP_FromInteger(1400);
     }
 
@@ -2119,8 +2119,8 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
             if (abe)
             {
                 sActiveHero_5C1B68 = abe;
-                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
-                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
+                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
             }
             else
             {

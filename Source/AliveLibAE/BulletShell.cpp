@@ -35,13 +35,13 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
             field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
 
-        field_DC_bApplyShadows &= ~1u;
+        mApplyShadows &= ~1u;
         field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
 
         field_FC_hitCount = 0;
 
-        field_B8_xpos = xpos;
-        field_BC_ypos = ypos;
+        mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+        mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
         if (direction)
         {
@@ -68,18 +68,18 @@ void BulletShell::VUpdate()
         return;
     }
 
-    field_B8_xpos += field_C4_velx;
-    field_BC_ypos += field_C8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
 
     field_C8_vely += field_100_speed;
 
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos - field_C8_vely,
-            field_B8_xpos,
-            field_BC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos - field_C8_vely,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
@@ -89,7 +89,7 @@ void BulletShell::VUpdate()
         if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eFloor_0 ||
             BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundFloor_4)
         {
-            field_BC_ypos = hitY - FP_FromInteger(1);
+            mBaseAnimatedWithPhysicsGameObject_YPos = hitY - FP_FromInteger(1);
             field_C8_vely = -(field_C8_vely * FP_FromDouble(0.3));
             field_C4_velx = (field_C4_velx * FP_FromDouble(0.3));
 
@@ -113,7 +113,7 @@ void BulletShell::VUpdate()
         }
     }
 
-    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

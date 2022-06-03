@@ -22,8 +22,8 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
 
     field_20_animation.mAnimFlags.Set(eBit15_bSemiTrans);
 
-    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
@@ -51,24 +51,24 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos,
-            field_B8_xpos,
-            field_BC_ypos + FP_FromInteger(24),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
             &pathLine,
             &hitX,
             &hitY,
             (field_D6_scale == 1) ? 15 : 240))
     {
-        field_BC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
     else
     {
-        field_BC_ypos += FP_FromInteger(20) * field_CC_sprite_scale;
+        mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(20) * field_CC_sprite_scale;
     }
 
 
-    field_DC_bApplyShadows |= 2u;
+    mApplyShadows |= 2u;
     field_FC_state = WheelStates::eIdle_0;
     field_F4_tlv_info = tlvInfo;
 }
@@ -133,8 +133,8 @@ void WorkWheel::VUpdate()
             && gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
-                field_B8_xpos,
-                field_BC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 0))
         {
             const s16 randomVol = Math_RandomRange(-30, 0);

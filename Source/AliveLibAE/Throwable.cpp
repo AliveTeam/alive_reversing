@@ -72,10 +72,10 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
     FP hitY = {};
     PathLine* pLine = nullptr;
     if (sCollisions_DArray_5C1128->Raycast(
-            field_B8_xpos,
-            field_BC_ypos - FP_FromInteger(20),
-            field_B8_xpos,
-            field_BC_ypos + FP_FromInteger(20),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
             &pLine,
             &hitX,
             &hitY,
@@ -101,7 +101,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
                         PSX_RECT bRect = {};
                         pPlatform->VGetBoundingRect(&bRect, 1);
 
-                        if (FP_GetExponent(field_B8_xpos) > bRect.x && FP_GetExponent(field_B8_xpos) < bRect.w && FP_GetExponent(field_BC_ypos) < bRect.h)
+                        if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) < bRect.h)
                         {
                             pPlatform->VAdd(this);
                             BaseAliveGameObjectId = pPlatform->field_8_object_id;

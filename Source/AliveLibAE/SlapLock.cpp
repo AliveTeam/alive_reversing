@@ -45,11 +45,11 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
     field_138_possesion_flicker_id = -1;
     const FP midX = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_128_midX = midX;
-    field_B8_xpos = midX;
+    mBaseAnimatedWithPhysicsGameObject_XPos = midX;
 
     const FP ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
     field_12C_midY = ypos;
-    field_BC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
     field_130_has_ghost = field_118_pTlv->field_18_has_ghost;
 
@@ -223,8 +223,8 @@ void SlapLock::VUpdate()
                     if (!(sGnFrame_5C1B84 & 63))
                     {
                         AbilityRing::Factory_482F80(
-                            field_B8_xpos,
-                            field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+                            mBaseAnimatedWithPhysicsGameObject_XPos,
+                            mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
                             RingTypes::eInvisible_Pulse_Large_8,
                             field_CC_sprite_scale);
                     }
@@ -254,8 +254,8 @@ void SlapLock::VUpdate()
                     if (!(sGnFrame_5C1B84 & 63))
                     {
                         AbilityRing::Factory_482F80(
-                            field_B8_xpos,
-                            field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+                            mBaseAnimatedWithPhysicsGameObject_XPos,
+                            mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
                             RingTypes::eInvisible_Pulse_Large_8,
                             field_CC_sprite_scale);
                     }
@@ -303,8 +303,8 @@ void SlapLock::VUpdate()
                 }
 
                 New_TintShiny_Particle(
-                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + field_B8_xpos,
-                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
+                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mBaseAnimatedWithPhysicsGameObject_XPos,
+                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mBaseAnimatedWithPhysicsGameObject_YPos,
                     FP_FromDouble(0.3),
                     field_20_animation.mRenderLayer);
 
@@ -318,15 +318,15 @@ void SlapLock::VUpdate()
                     if (!gMap.Is_Point_In_Current_Camera_4810D0(
                             sActiveHero_5C1B68->field_C2_lvl_number,
                             sActiveHero_5C1B68->field_C0_path_number,
-                            sActiveHero_5C1B68->field_B8_xpos,
-                            sActiveHero_5C1B68->field_BC_ypos,
+                            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos,
+                            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos,
                             1)
                         || sActiveHero_5C1B68->field_168_ring_pulse_timer
                         || sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
                     {
                         AbilityRing::Factory_482F80(
-                            field_B8_xpos,
-                            field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+                            mBaseAnimatedWithPhysicsGameObject_XPos,
+                            mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
                             RingTypes::eInvisible_Pulse_Large_8,
                             field_CC_sprite_scale);
                         field_124_timer1 = Math_RandomRange(1, 10) + sGnFrame_5C1B84 + 55;
@@ -344,8 +344,8 @@ void SlapLock::VUpdate()
                 }
 
                 New_TintShiny_Particle(
-                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + field_B8_xpos,
-                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
+                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mBaseAnimatedWithPhysicsGameObject_XPos,
+                    (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mBaseAnimatedWithPhysicsGameObject_YPos,
                     FP_FromDouble(0.3),
                     field_20_animation.mRenderLayer);
 
@@ -403,8 +403,8 @@ void SlapLock::VUpdate()
 void SlapLock::SetInvisibilityTarget()
 {
     AbilityRing::Factory_482F80(
-        field_B8_xpos,
-        field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
         RingTypes::eInvisible_Pulse_Emit_9,
         field_CC_sprite_scale);
 
@@ -457,8 +457,8 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
         ae_new<SlapLockWhirlWind>(
             field_118_pTlv->field_12_target_tomb_id1,
             field_118_pTlv->field_14_target_tomb_id2,
-            field_B8_xpos,
-            field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
             field_CC_sprite_scale);
     }
 
@@ -473,8 +473,8 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
     Event_Broadcast(kEventLoudNoise, this);
 
     ae_new<ParticleBurst>(
-        field_B8_xpos,
-        field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
         15,
         field_CC_sprite_scale,
         BurstType::eGreenSparks_5,

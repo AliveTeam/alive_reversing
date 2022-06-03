@@ -25,15 +25,15 @@ Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 max
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    field_BC_ypos = ypos;
-    field_B8_xpos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     field_F4_scale_amount = FP_FromInteger(0);
 }
 
 void Particle::VUpdate()
 {
-    field_B8_xpos += field_C4_velx;
-    field_BC_ypos += field_C8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
     field_CC_sprite_scale += field_F4_scale_amount;
 
     if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -65,7 +65,7 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
         pParticle->field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
-    pParticle->field_DC_bApplyShadows &= ~1u;
+    pParticle->mApplyShadows &= ~1u;
 
     return pParticle;
 }
@@ -87,7 +87,7 @@ Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer l
     pParticle->field_C8_vely = velY;
     pParticle->field_C4_velx = velX;
 
-    pParticle->field_DC_bApplyShadows &= ~1u;
+    pParticle->mApplyShadows &= ~1u;
 
     pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
 
@@ -130,7 +130,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
         auto pParticle = ae_new<Particle>(randX, particleY, squibSmokeRec.mFrameTableOffset, squibSmokeRec.mMaxW, squibSmokeRec.mMaxH, ppRes);
         if (pParticle)
         {
-            pParticle->field_DC_bApplyShadows &= ~1u;
+            pParticle->mApplyShadows &= ~1u;
             pParticle->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
             pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
             pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_3;
@@ -165,8 +165,8 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
 
 void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
 {
-    const FP ypos = pObj->field_BC_ypos - (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange(30, 60)));
-    const FP xpos = (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange(-20, 20))) + pObj->field_B8_xpos;
+    const FP ypos = pObj->mBaseAnimatedWithPhysicsGameObject_YPos - (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange(30, 60)));
+    const FP xpos = (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange(-20, 20))) + pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
     New_TintChant_Particle(xpos, ypos, pObj->field_CC_sprite_scale, Layer::eLayer_0);
 }
 
@@ -182,7 +182,7 @@ void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
     auto pParticle = ae_new<Particle>(xpos, ypos, ZFireRec.mFrameTableOffset, ZFireRec.mMaxW, ZFireRec.mMaxH, ppRes);
     if (pParticle)
     {
-        pParticle->field_DC_bApplyShadows &= ~1u;
+        pParticle->mApplyShadows &= ~1u;
         pParticle->field_D4_b = 55;
         pParticle->field_D2_g = 55;
         pParticle->field_D0_r = 55;
@@ -206,7 +206,7 @@ void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
     auto pParticle = ae_new<Particle>(xpos, ypos, shootingFireRec.mFrameTableOffset, shootingFireRec.mMaxW, shootingFireRec.mMaxH, ppRes);
     if (pParticle)
     {
-        pParticle->field_DC_bApplyShadows &= ~1u;
+        pParticle->mApplyShadows &= ~1u;
         pParticle->field_D4_b = 55;
         pParticle->field_D2_g = 55;
         pParticle->field_D0_r = 55;

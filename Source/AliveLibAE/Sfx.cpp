@@ -231,7 +231,7 @@ s16 Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s1
 
         const CameraPos dir = gMap.GetDirection_4811A0(
             pObj->field_C2_lvl_number, pObj->field_C0_path_number,
-            pObj->field_B8_xpos, pObj->field_BC_ypos - yOff);
+            pObj->mBaseAnimatedWithPhysicsGameObject_XPos, pObj->mBaseAnimatedWithPhysicsGameObject_YPos - yOff);
 
         if (pObj->field_CC_sprite_scale != FP_FromInteger(1))
         {
@@ -251,13 +251,13 @@ s16 Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s1
                 return 1;
 
             case CameraPos::eCamTop_1:
-                *pRightVol = defaultVol - FP_GetExponent((FP_FromInteger(camRect.h) - pObj->field_BC_ypos) / FP_FromInteger(240) * FP_FromInteger(defaultVol - 1 * volScaler));
+                *pRightVol = defaultVol - FP_GetExponent((FP_FromInteger(camRect.h) - pObj->mBaseAnimatedWithPhysicsGameObject_YPos) / FP_FromInteger(240) * FP_FromInteger(defaultVol - 1 * volScaler));
                 *pLeftVol = *pRightVol;
                 return 1;
 
             case CameraPos::eCamBottom_2:
             {
-                const FP tmpVol = (pObj->field_BC_ypos - FP_FromInteger(camRect.y)) / FP_FromInteger(240);
+                const FP tmpVol = (pObj->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(camRect.y)) / FP_FromInteger(240);
                 defaultVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol - 1 * volScaler));
                 *pRightVol = defaultVol;
                 *pLeftVol = defaultVol;
@@ -266,7 +266,7 @@ s16 Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s1
 
             case CameraPos::eCamLeft_3:
             {
-                const FP tmpVol = (FP_FromInteger(camRect.w) - pObj->field_B8_xpos) / FP_FromInteger(368);
+                const FP tmpVol = (FP_FromInteger(camRect.w) - pObj->mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(368);
                 *pLeftVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol - 1 * volScaler));
                 *pRightVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol));
             }
@@ -274,7 +274,7 @@ s16 Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s1
 
             case CameraPos::eCamRight_4:
             {
-                const FP tmpVol = (pObj->field_B8_xpos - FP_FromInteger(camRect.x)) / FP_FromInteger(368);
+                const FP tmpVol = (pObj->mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(camRect.x)) / FP_FromInteger(368);
                 *pLeftVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol));
                 *pRightVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol - 1 * volScaler));
             }

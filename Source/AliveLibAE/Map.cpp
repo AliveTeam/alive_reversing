@@ -227,7 +227,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 PSX_RECT objRect = {};
                 pBaseObj->VGetBoundingRect(&objRect, 1);
 
-                if (pBaseObj->field_DC_bApplyShadows & 2)
+                if (pBaseObj->mApplyShadows & 2)
                 {
                     if (pBaseObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
                     {
@@ -353,10 +353,10 @@ void Map::Handle_PathTransition()
     if (field_18_pAliveObj)
     {
         pPathChangeTLV = static_cast<Path_Change*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            FP_GetExponent(field_18_pAliveObj->field_B8_xpos),
-            FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
-            FP_GetExponent(field_18_pAliveObj->field_B8_xpos),
-            FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
+            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos),
+            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_YPos),
+            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos),
+            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_YPos),
             TlvTypes::PathTransition_1));
     }
 
@@ -1334,10 +1334,10 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
     if (pObj)
     {
         pPathChangeTLV = reinterpret_cast<Path_Change*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            FP_GetExponent(pObj->field_B8_xpos),
-            FP_GetExponent(pObj->field_BC_ypos),
-            FP_GetExponent(pObj->field_B8_xpos),
-            FP_GetExponent(pObj->field_BC_ypos),
+            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos),
+            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos),
+            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos),
+            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos),
             TlvTypes::PathTransition_1));
     }
 

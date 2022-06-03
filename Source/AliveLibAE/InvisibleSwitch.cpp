@@ -52,11 +52,11 @@ void InvisibleSwitch::VUpdate()
         if (field_22_action != SwitchOp::eSetFalse_1 || SwitchStates_Get(field_20_switch_id))
         {
             // Within X bounds?
-            const FP charXPos = sControlledCharacter_5C1B8C->field_B8_xpos;
+            const FP charXPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos;
             if (charXPos >= FP_FromInteger(field_30_top_left.field_0_x) && charXPos <= FP_FromInteger(field_34_bottom_right.field_0_x))
             {
                 // Within Y bounds?
-                const FP charYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
+                const FP charYPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
                 if (charYPos >= FP_FromInteger(field_30_top_left.field_2_y) && charYPos <= FP_FromInteger(field_34_bottom_right.field_2_y))
                 {
                     // TODO: ???
