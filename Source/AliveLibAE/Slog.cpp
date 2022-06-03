@@ -313,7 +313,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->field_72_slog_random_index = sSlogRandomIdx_BAF7F0;
 
     pState->field_74_flags.Set(Slog_State::eBit1_BitingTarget, field_11C_biting_target & 1);
-    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter_5C1B8C == this); // Can never happen so is always 0
+    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter == this); // Can never happen so is always 0
     pState->field_74_flags.Set(Slog_State::eBit3_Asleep, field_160_flags.Get(Flags_160::eBit8_Asleep));
     pState->field_74_flags.Set(Slog_State::eBit4_MovedOffScreen, field_160_flags.Get(Flags_160::eBit9_MovedOffScreen));
     pState->field_74_flags.Set(Slog_State::eBit5_StopRunning, field_160_flags.Get(Flags_160::eBit1_StopRunning));
