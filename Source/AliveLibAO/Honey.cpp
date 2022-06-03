@@ -14,23 +14,23 @@ void Honey::VUpdate()
 
 Honey::Honey(FP xpos, FP ypos)
 {
-    mTypeId = Types::eHoney_47;
+    field_4_typeId = Types::eHoney_47;
 
-    mBlue = 128;
-    mGreen = 128;
-    mRed = 128;
+    field_C4_b = 128;
+    field_C2_g = 128;
+    field_C0_r = 128;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Honey);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    mYPos = ypos;
-    mXPos = xpos;
+    field_AC_ypos = ypos;
+    field_A8_xpos = xpos;
 }
 
 void Honey::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
     gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 

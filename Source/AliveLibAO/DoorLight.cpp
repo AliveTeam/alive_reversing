@@ -23,7 +23,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
     field_E8_width = pTlv->field_1A_size;
     field_EA_height = pTlv->field_1A_size;
 
-    mTypeId = Types::eNone_0;
+    field_4_typeId = Types::eNone_0;
     field_EC_bHasID = 0;
     field_F0_switch_id = pTlv->field_1C_switch_id;
     field_EE_switch_value = SwitchStates_Get(pTlv->field_1C_switch_id);
@@ -92,7 +92,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             break;
     }
 
-    mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == XDirection_short::eLeft_0);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == XDirection_short::eLeft_0);
 
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {
@@ -100,26 +100,26 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
     }
 
-    mAnim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
 
-    mApplyShadows &= ~1u;
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    mAnim.mRenderMode = TPageAbr::eBlend_3;
+    field_CC_bApplyShadows &= ~1u;
+    field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_3;
 
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    if (mAnim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x - xOff);
+        field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x - xOff);
     }
     else
     {
-        mXPos = FP_FromInteger(xOff + pTlv->field_10_top_left.field_0_x);
+        field_A8_xpos = FP_FromInteger(xOff + pTlv->field_10_top_left.field_0_x);
     }
 
-    mSpriteScale = FP_FromInteger(1);
-    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_BC_sprite_scale = FP_FromInteger(1);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 }
 
 DoorLight::~DoorLight()
@@ -129,7 +129,7 @@ DoorLight::~DoorLight()
 
 void DoorLight::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
     gNextDoorLightUpdate_4C30A8 = -1;
 }
 
@@ -139,9 +139,9 @@ void DoorLight::VUpdate()
     {
         gNextDoorLightUpdate_4C30A8 = gnFrameCount_507670 + Math_RandomRange_450F20(6, 20);
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
-        mRed = 32;
-        mGreen = 32;
-        mBlue = 32;
+        field_C0_r = 32;
+        field_C2_g = 32;
+        field_C4_b = 32;
     }
     else if (static_cast<s32>(gnFrameCount_507670) >= gNextDoorLightUpdate_4C30A8)
     {
@@ -168,7 +168,7 @@ void DoorLight::VUpdate()
                 {
                     field_EE_switch_value = 1;
 
-                    if (sControlledCharacter == sActiveHero)
+                    if (sControlledCharacter_50767C == sActiveHero_507678)
                     {
                         ao_new<MusicTrigger>(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
                     }
@@ -177,22 +177,22 @@ void DoorLight::VUpdate()
                         SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
                     }
                 }
-                mRed = 32;
-                mGreen = rgb;
-                mBlue = 32;
+                field_C0_r = 32;
+                field_C2_g = rgb;
+                field_C4_b = 32;
             }
             else
             {
-                mRed = rgb;
-                mGreen = 32;
-                mBlue = 32;
+                field_C0_r = rgb;
+                field_C2_g = 32;
+                field_C4_b = 32;
             }
         }
         else
         {
-            mRed = rgb;
-            mGreen = rgb;
-            mBlue = rgb;
+            field_C0_r = rgb;
+            field_C2_g = rgb;
+            field_C4_b = rgb;
         }
     }
 }
@@ -201,14 +201,14 @@ void DoorLight::VRender(PrimHeader** ppOt)
 {
     if (sNumCamSwappers_507668 == 0)
     {
-        const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + mXPos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
-        const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + mYPos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
+        const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
+        const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
-        mAnim.mRed = static_cast<u8>(mRed);
-        mAnim.mGreen = static_cast<u8>(mGreen);
-        mAnim.mBlue = static_cast<u8>(mBlue);
+        field_10_anim.field_8_r = static_cast<u8>(field_C0_r);
+        field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
+        field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
 
-        mAnim.VRender(
+        field_10_anim.VRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - field_E8_width / 2))),
             FP_GetExponent(FP_FromInteger((FP_GetExponent(ypos) - field_EA_height / 2))),
             ppOt,
@@ -216,7 +216,7 @@ void DoorLight::VRender(PrimHeader** ppOt)
             field_EA_height);
 
         PSX_RECT rect = {};
-        mAnim.Get_Frame_Rect(&rect);
+        field_10_anim.Get_Frame_Rect(&rect);
         pScreenManager_4FF7C8->InvalidateRect(
             rect.x,
             rect.y,

@@ -36,7 +36,7 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
 
     if (gObjList_drawables_5C1124->Push_Back(this))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
     }
 
     u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kHoistRocks);
@@ -54,22 +54,22 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
             0,
             0);
 
-        particle.field_10_mAnim.mRed = 255;
-        particle.field_10_mAnim.mGreen = 255;
-        particle.field_10_mAnim.mBlue = 255;
+        particle.field_10_mAnim.field_8_r = 255;
+        particle.field_10_mAnim.field_9_g = 255;
+        particle.field_10_mAnim.field_A_b = 255;
 
         if (pTlv->field_16_scale == Scale_short::eHalf_1)
         {
-            particle.field_10_mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+            particle.field_10_mAnim.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
         }
         else
         {
-            particle.field_10_mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+            particle.field_10_mAnim.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
         }
 
-        particle.field_10_mAnim.mRenderMode = TPageAbr::eBlend_0;
-        particle.field_10_mAnim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        particle.field_10_mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        particle.field_10_mAnim.field_B_render_mode = TPageAbr::eBlend_0;
+        particle.field_10_mAnim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        particle.field_10_mAnim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
         particle.field_10_mAnim.field_14_scale = field_2C_scale;
 
         particle.field_0_state = 0;
@@ -200,5 +200,5 @@ void HoistRocksEffect::VRender(PrimHeader** ppOt)
 
 void HoistRocksEffect::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }

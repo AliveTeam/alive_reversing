@@ -100,7 +100,7 @@ void ThrowableArray::VUpdate()
         LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
         Add(0);
         field_12_flags &= ~1u;
-        mGameObjectFlags.Clear(Options::eUpdatable_Bit2);
+        mFlags.Clear(Options::eUpdatable_Bit2);
     }
 }
 
@@ -112,7 +112,7 @@ void ThrowableArray::VScreenChanged()
         {
             if (!(field_12_flags & 1))
             {
-                mGameObjectFlags.Set(Options::eUpdatable_Bit2);
+                mFlags.Set(Options::eUpdatable_Bit2);
                 field_12_flags |= 1;
                 Remove(0);
             }
@@ -120,7 +120,7 @@ void ThrowableArray::VScreenChanged()
     }
     else
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -137,7 +137,7 @@ ThrowableArray::~ThrowableArray()
 ThrowableArray::ThrowableArray()
     : BaseGameObject(TRUE)
 {
-    mGameObjectFlags.Clear(Options::eUpdatable_Bit2);
+    mFlags.Clear(Options::eUpdatable_Bit2);
     field_10_count = 0;
     gpThrowableArray_50E26C = this;
     field_12_flags &= ~7u;

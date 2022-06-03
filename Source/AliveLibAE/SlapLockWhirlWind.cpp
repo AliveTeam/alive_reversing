@@ -73,7 +73,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
     }
     else
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -89,7 +89,7 @@ void SlapLockWhirlWind::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -104,10 +104,10 @@ void SlapLockWhirlWind::VUpdate()
                     4 * (sGnFrame_5C1B84 - field_40_timer));
             }
 
-            if (!pWhirlWind || pWhirlWind->mGameObjectFlags.Get(BaseGameObject::eDead))
+            if (!pWhirlWind || pWhirlWind->mFlags.Get(BaseGameObject::eDead))
             {
                 SwitchStates_Do_Operation(field_44_switch_id, SwitchOp::eSetTrue_0);
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
             }
         }
         else if (field_3C_state == 0)

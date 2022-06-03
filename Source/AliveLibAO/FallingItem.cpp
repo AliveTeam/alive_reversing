@@ -39,9 +39,9 @@ const FallingItem_Data sFallingItemData_4BAB20[16] = {
 FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mGameObjectFlags.Set(Options::eCanExplode_Bit7);
+    mFlags.Set(Options::eCanExplode_Bit7);
 
-    mTypeId = Types::eRockSpawner_32;
+    field_4_typeId = Types::eRockSpawner_32;
 
     field_10C_tlvInfo = tlvInfo;
 
@@ -55,24 +55,24 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         ppRes,
         1);
 
-    mAnim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
+    field_10_anim.field_C_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
     if (gMap.mCurrentLevel == LevelIds::eLines_2)
     {
-        mRed = 77;
-        mGreen = 120;
-        mBlue = 190;
+        field_C0_r = 77;
+        field_C2_g = 120;
+        field_C4_b = 190;
     }
 
     field_112_switch_id = pTlv->field_18_switch_id;
     if (pTlv->field_1A_scale == Scale_short::eHalf_1)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = 0;
+        field_BC_sprite_scale = FP_FromDouble(0.5);
+        field_C6_scale = 0;
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = 1;
+        field_BC_sprite_scale = FP_FromInteger(1);
+        field_C6_scale = 1;
     }
 
 
@@ -83,13 +83,13 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     field_120_reset_switch_id_after_use = pTlv->field_20_reset_switch_id_after_use;
     field_122_do_sound_in_state_falling = 1;
 
-    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_128_xpos = FP_FromInteger((pTlv->field_14_bottom_right.field_0_x + pTlv->field_10_top_left.field_0_x) / 2);
     field_12C_ypos = FP_FromInteger(pTlv->field_14_bottom_right.field_2_y);
 
-    field_124_yPosStart = mYPos;
+    field_124_yPosStart = field_AC_ypos;
     field_110_state = State::eWaitForIdEnable_0;
     field_130_sound_channels = 0;
 
@@ -100,7 +100,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         field_134_created_gnFrame = gnFrameCount_507670;
     }
 
-    mShadow = ao_new<Shadow>();
+    field_D0_pShadow = ao_new<Shadow>();
 }
 
 FallingItem::~FallingItem()
@@ -124,7 +124,7 @@ void FallingItem::DamageHitItems()
 
         if (pObj != this)
         {
-            if (pObj->mGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+            if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
@@ -136,7 +136,7 @@ void FallingItem::DamageHitItems()
 
                 if (fallingItemRect.x <= objRect.w && fallingItemRect.w >= objRect.x && fallingItemRect.y <= objRect.h && fallingItemRect.h >= objRect.y)
                 {
-                    if (pAliveObj->mSpriteScale == mSpriteScale)
+                    if (pAliveObj->field_BC_sprite_scale == field_BC_sprite_scale)
                     {
                         static_cast<BaseAliveGameObject*>(pAliveObj)->VTakeDamage(this);
                     }
@@ -150,7 +150,7 @@ void FallingItem::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (pPrimaryFallingItem_4FFA54 == this)
@@ -177,12 +177,12 @@ void FallingItem::VUpdate()
 
         case State::eGoWaitForDelay_1:
         {
-            mGameObjectFlags.Clear(Options::eCanExplode_Bit7);
+            mFlags.Clear(Options::eCanExplode_Bit7);
             field_110_state = State::eWaitForFallDelay_2;
-            mVelX = FP_FromInteger(0);
-            mVelY = FP_FromInteger(0);
+            field_B4_velx = FP_FromInteger(0);
+            field_B8_vely = FP_FromInteger(0);
             const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap.mCurrentLevel)].field_4_waiting_animId);
-            mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             field_11C_delay_timer = gnFrameCount_507670 + field_118_fall_interval;
             break;
         }
@@ -200,7 +200,7 @@ void FallingItem::VUpdate()
         {
             if (field_122_do_sound_in_state_falling)
             {
-                if (mYPos >= sActiveHero->mYPos - FP_FromInteger(120))
+                if (field_AC_ypos >= sActiveHero_507678->field_AC_ypos - FP_FromInteger(120))
                 {
                     field_122_do_sound_in_state_falling = 0;
                     SFX_Play_Pitch(SoundEffect::AirStream_28, 127, -1300, 0);
@@ -209,9 +209,9 @@ void FallingItem::VUpdate()
 
             DamageHitItems();
 
-            if (mVelY < FP_FromInteger(20))
+            if (field_B8_vely < FP_FromInteger(20))
             {
-                mVelY += mSpriteScale * FP_FromDouble(1.8);
+                field_B8_vely += field_BC_sprite_scale * FP_FromDouble(1.8);
             }
 
             PathLine* pLine = nullptr;
@@ -219,17 +219,17 @@ void FallingItem::VUpdate()
             FP hitY = {};
 
             if (sCollisions_DArray_504C6C->RayCast(
-                    mXPos,
-                    mYPos,
-                    mXPos,
-                    mVelY + mYPos,
+                    field_A8_xpos,
+                    field_AC_ypos,
+                    field_A8_xpos,
+                    field_B8_vely + field_AC_ypos,
                     &pLine,
                     &hitX,
                     &hitY,
-                    mSpriteScale != FP_FromDouble(0.5) ? 1 : 16)
+                    field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 16)
                 == 1)
             {
-                mYPos = hitY;
+                field_AC_ypos = hitY;
                 field_110_state = State::eSmashed_4;
 
                 ao_new<ScreenShake>(0);
@@ -237,32 +237,32 @@ void FallingItem::VUpdate()
                 if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {
                     ao_new<ParticleBurst>(
-                        mXPos,
-                        mYPos,
+                        field_A8_xpos,
+                        field_AC_ypos,
                         25,
-                        mSpriteScale,
+                        field_BC_sprite_scale,
                         BurstType::eMeat_4);
                 }
                 else
                 {
                     ao_new<ParticleBurst>(
-                        mXPos,
-                        mYPos,
+                        field_A8_xpos,
+                        field_AC_ypos,
                         25,
-                        mSpriteScale,
+                        field_BC_sprite_scale,
                         BurstType::eFallingRocks_0);
                 }
 
                 ao_new<ParticleBurst>(
-                    mXPos,
-                    mYPos,
+                    field_A8_xpos,
+                    field_AC_ypos,
                     25,
-                    mSpriteScale,
+                    field_BC_sprite_scale,
                     BurstType::eSticks_1);
             }
             else
             {
-                mYPos += mVelY;
+                field_AC_ypos += field_B8_vely;
             }
             break;
         }
@@ -278,10 +278,10 @@ void FallingItem::VUpdate()
             if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
             {
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
-                        mLvlNumber,
-                        mPathNumber,
-                        mXPos,
-                        mYPos,
+                        field_B2_lvl_number,
+                        field_B0_path_number,
+                        field_A8_xpos,
+                        field_AC_ypos,
                         0))
                 {
                     SFX_Play_Pitch(SoundEffect::KillEffect_78, 127, -700, 0);
@@ -311,18 +311,18 @@ void FallingItem::VUpdate()
 
             field_116_remaining_falling_items--;
 
-            if ((field_114_max_falling_items && field_116_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera_4449C0(mLvlNumber, mPathNumber, field_128_xpos, field_12C_ypos, 0))
+            if ((field_114_max_falling_items && field_116_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_128_xpos, field_12C_ypos, 0))
             {
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
             }
             else
             {
                 const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap.mCurrentLevel)].field_0_falling_animId);
-                mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                mGameObjectFlags.Set(Options::eCanExplode_Bit7);
-                mVelY = FP_FromInteger(0);
-                mVelX = FP_FromInteger(0);
-                mYPos = field_124_yPosStart;
+                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mFlags.Set(Options::eCanExplode_Bit7);
+                field_B8_vely = FP_FromInteger(0);
+                field_B4_velx = FP_FromInteger(0);
+                field_AC_ypos = field_124_yPosStart;
                 field_110_state = State::eWaitForIdEnable_0;
             }
             break;
@@ -344,7 +344,7 @@ void FallingItem::VScreenChanged()
         || gMap.mCurrentPath != gMap.mPath
         || field_110_state != State::eFalling_3)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

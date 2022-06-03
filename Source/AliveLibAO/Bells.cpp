@@ -13,9 +13,9 @@ namespace AO {
 
 Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
 {
-    mGameObjectFlags.Clear(Options::eCanExplode_Bit7);
+    mFlags.Clear(Options::eCanExplode_Bit7);
 
-    mTypeId = Types::eBells_13;
+    field_4_typeId = Types::eBells_13;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::BigChime);
     const AnimRecord& rec2 = AO::AnimRec(AnimId::MediumChime);
@@ -39,13 +39,13 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
             break;
     }
 
-    mApplyShadows &= ~1u;
-    mSpriteScale = scale;
+    field_CC_bApplyShadows &= ~1u;
+    field_BC_sprite_scale = scale;
 
-    mXPos = xpos;
-    mYPos = ypos;
+    field_A8_xpos = xpos;
+    field_AC_ypos = ypos;
 
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+    field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
 
     field_E8_bSmashing = 0;
 
@@ -87,32 +87,32 @@ void Bells::VUpdate()
             {
                 xOff = FP_FromInteger(-35);
                 yOff = FP_FromInteger(36);
-                const FP wave_ypos = mYPos + FP_FromInteger(36);
-                const FP wave_xpos = mXPos - FP_FromInteger(35);
+                const FP wave_ypos = field_AC_ypos + FP_FromInteger(36);
+                const FP wave_xpos = field_A8_xpos - FP_FromInteger(35);
                 ao_new<ScreenWave>(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(18), FP_FromInteger(12), 0);
             }
             else if (field_EA_sound == Sounds::eHighPitch_2)
             {
                 xOff = FP_FromInteger(37);
                 yOff = FP_FromInteger(32);
-                const FP wave_ypos = mYPos + FP_FromInteger(32);
-                const FP wave_xpos = mXPos + FP_FromInteger(37);
+                const FP wave_ypos = field_AC_ypos + FP_FromInteger(32);
+                const FP wave_xpos = field_A8_xpos + FP_FromInteger(37);
                 ao_new<ScreenWave>(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(12), FP_FromInteger(12), 0);
             }
             else if (field_EA_sound == Sounds::eMediumPitch_1)
             {
                 xOff = FP_FromInteger(-4);
                 yOff = FP_FromInteger(24);
-                const FP wave_ypos = mYPos + FP_FromInteger(24);
-                const FP wave_xpos = mXPos - FP_FromInteger(4);
+                const FP wave_ypos = field_AC_ypos + FP_FromInteger(24);
+                const FP wave_xpos = field_A8_xpos - FP_FromInteger(4);
                 ao_new<ScreenWave>(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(14), FP_FromInteger(12), 0);
             }
 
             for (s32 i = 0; i < 4; i++)
             {
-                const FP sparkx = mXPos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + xOff;
-                const FP sparky = mYPos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + yOff;
-                ao_new<Sparks>(sparkx, sparky, mSpriteScale);
+                const FP sparkx = field_A8_xpos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + xOff;
+                const FP sparky = field_AC_ypos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + yOff;
+                ao_new<Sparks>(sparkx, sparky, field_BC_sprite_scale);
             }
         }
 
@@ -122,19 +122,19 @@ void Bells::VUpdate()
 
 void Bells::PlaySounds()
 {
-    if (mAnim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (field_EA_sound == Sounds::eLowPitch_0)
         {
-            mAnim.Set_Animation_Data(19240, 0);
+            field_10_anim.Set_Animation_Data(19240, 0);
         }
         else if (field_EA_sound == Sounds::eMediumPitch_1)
         {
-            mAnim.Set_Animation_Data(19368, 0);
+            field_10_anim.Set_Animation_Data(19368, 0);
         }
         else if (field_EA_sound == Sounds::eHighPitch_2)
         {
-            mAnim.Set_Animation_Data(19252, 0);
+            field_10_anim.Set_Animation_Data(19252, 0);
         }
 
         field_E8_bSmashing = 0;
@@ -158,19 +158,19 @@ void Bells::Ring()
         {
             field_F0_sound_pitch_factor = 1;
             const AnimRecord& rec = AO::AnimRec(AnimId::BigChime_Moving);
-            mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
         }
         else if (field_EA_sound == Sounds::eMediumPitch_1)
         {
             field_F0_sound_pitch_factor = 2;
             const AnimRecord& rec = AO::AnimRec(AnimId::MediumChime_Moving);
-            mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
         }
         else if (field_EA_sound == Sounds::eHighPitch_2)
         {
             field_F0_sound_pitch_factor = 3;
             const AnimRecord& rec = AO::AnimRec(AnimId::SmallChime_Moving);
-            mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
         }
     }
 }

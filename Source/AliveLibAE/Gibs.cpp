@@ -127,49 +127,49 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         1,
         1);
 
-    if (mGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
         return;
     }
 
-    mSpriteScale = scale;
-    mXPos = xpos;
-    mYPos = ypos + FP_FromInteger(2);
+    field_CC_sprite_scale = scale;
+    field_B8_xpos = xpos;
+    field_BC_ypos = ypos + FP_FromInteger(2);
 
     field_100_timer = sGnFrame_5C1B84 + 91;
 
     if (scale == FP_FromInteger(1))
     {
         field_F8_z = FP_FromInteger(0);
-        mAnim.mRenderLayer = Layer::eLayer_FG1_37;
-        mScale = 1;
+        field_20_animation.field_C_render_layer = Layer::eLayer_FG1_37;
+        field_D6_scale = 1;
     }
     else if (scale == FP_FromDouble(0.5))
     {
         field_F8_z = FP_FromInteger(100);
-        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-        mScale = 0;
+        field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
+        field_D6_scale = 0;
     }
     else
     {
         // Not a valid scale
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     field_5D6_bMakeSmaller = bMakeSmaller;
-    mVelX = xOff + Random_40FAF0(scale);
+    field_C4_velx = xOff + Random_40FAF0(scale);
 
     // OG Bug? WTF?? Looks like somehow they didn't condition this param correctly
-    // because mVelY and field_FC_dz are always overwritten
+    // because field_C8_vely and field_FC_dz are always overwritten
     if (!field_5D6_bMakeSmaller)
     {
-        mVelY = yOff + Random_40FAF0(scale);
+        field_C8_vely = yOff + Random_40FAF0(scale);
         field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
     }
 
     sGibRandom_550E80 = 12;
 
-    mVelY = (yOff + Random_40FAF0(scale)) / FP_FromInteger(2);
+    field_C8_vely = (yOff + Random_40FAF0(scale)) / FP_FromInteger(2);
     field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(4));
 
     if (gibType == GibType::Abe_0)
@@ -182,9 +182,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     }
     else if (gibType == GibType::BlindMud_4)
     {
-        mRed = 63;
-        mGreen = 63;
-        mBlue = 63;
+        field_D0_r = 63;
+        field_D2_g = 63;
+        field_D4_b = 63;
     }
 
     field_5D4_parts_used_count = 4;
@@ -207,7 +207,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
                     0))
             {
                 field_5D4_parts_used_count = i;
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
         }
@@ -226,21 +226,21 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
                     0))
             {
                 field_5D4_parts_used_count = i;
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
         }
 
-        pPart->field_18_anim.mRenderLayer = mAnim.mRenderLayer;
+        pPart->field_18_anim.field_C_render_layer = field_20_animation.field_C_render_layer;
         pPart->field_18_anim.field_14_scale = scale;
-        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
 
-        pPart->field_18_anim.mRed = static_cast<u8>(mRed);
-        pPart->field_18_anim.mGreen = static_cast<u8>(mGreen);
-        pPart->field_18_anim.mBlue = static_cast<u8>(mBlue);
+        pPart->field_18_anim.field_8_r = static_cast<u8>(field_D0_r);
+        pPart->field_18_anim.field_9_g = static_cast<u8>(field_D2_g);
+        pPart->field_18_anim.field_A_b = static_cast<u8>(field_D4_b);
 
-        pPart->field_0_x = mXPos;
-        pPart->field_4_y = mYPos;
+        pPart->field_0_x = field_B8_xpos;
+        pPart->field_4_y = field_BC_ypos;
         pPart->field_8_z = field_F8_z;
 
         pPart->field_C_dx = xOff + Random_40FAF0(scale);
@@ -256,7 +256,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
             pPart->field_14_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
         }
 
-        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
         if (ppRes)
         {
@@ -277,11 +277,11 @@ Gibs::~Gibs()
 
 void Gibs::VUpdate()
 {
-    mXPos += mVelX;
-    mYPos += mVelY;
+    field_B8_xpos += field_C4_velx;
+    field_BC_ypos += field_C8_vely;
     field_F8_z += field_FC_dz;
 
-    mVelY += FP_FromDouble(0.25);
+    field_C8_vely += FP_FromDouble(0.25);
 
     if (field_F8_z + FP_FromInteger(100) < FP_FromInteger(15))
     {
@@ -308,7 +308,7 @@ void Gibs::VUpdate()
 
     if (static_cast<s32>(sGnFrame_5C1B84) > field_100_timer)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -320,10 +320,10 @@ void Gibs::VRender(PrimHeader** ppOt)
         return;
     }
 
-    mSpriteScale = FP_FromInteger(100) / (field_F8_z + FP_FromInteger(100));
+    field_CC_sprite_scale = FP_FromInteger(100) / (field_F8_z + FP_FromInteger(100));
     if (field_5D6_bMakeSmaller)
     {
-        mSpriteScale /= FP_FromInteger(2);
+        field_CC_sprite_scale /= FP_FromInteger(2);
     }
 
     // Head part rendering
@@ -350,11 +350,11 @@ void Gibs::VRender(PrimHeader** ppOt)
 
                 if (field_104_parts[i].field_18_anim.field_14_scale < FP_FromInteger(1))
                 {
-                    field_104_parts[i].field_18_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+                    field_104_parts[i].field_18_anim.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
                 }
                 else
                 {
-                    field_104_parts[i].field_18_anim.mRenderLayer = Layer::eLayer_FG1_37;
+                    field_104_parts[i].field_18_anim.field_C_render_layer = Layer::eLayer_FG1_37;
                 }
 
                 if (field_104_parts[i].field_18_anim.field_14_scale <= FP_FromInteger(1))

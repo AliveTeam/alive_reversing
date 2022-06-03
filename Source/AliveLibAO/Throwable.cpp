@@ -64,7 +64,7 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
 
 void BaseThrowable::VToDead()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
     field_10E_bDead = TRUE;
 }
 
@@ -80,16 +80,16 @@ void BaseThrowable::VOnPickUpOrSlapped()
 
 void BaseThrowable::BaseAddToPlatform()
 {
-    const FP scale = mSpriteScale - FP_FromDouble(0.5);
+    const FP scale = field_BC_sprite_scale - FP_FromDouble(0.5);
 
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast(
-            mXPos,
-            mYPos - FP_FromInteger(20),
-            mXPos,
-            mYPos + FP_FromInteger(20),
+            field_A8_xpos,
+            field_AC_ypos - FP_FromInteger(20),
+            field_A8_xpos,
+            field_AC_ypos + FP_FromInteger(20),
             &pLine,
             &hitX,
             &hitY,
@@ -106,14 +106,14 @@ void BaseThrowable::BaseAddToPlatform()
                     break;
                 }
 
-                if (pObjIter->mTypeId == Types::eLiftPoint_51 || pObjIter->mTypeId == Types::eTrapDoor_98)
+                if (pObjIter->field_4_typeId == Types::eLiftPoint_51 || pObjIter->field_4_typeId == Types::eTrapDoor_98)
                 {
                     auto pPlatformBase = static_cast<PlatformBase*>(pObjIter);
 
                     PSX_RECT objRect = {};
                     pPlatformBase->VGetBoundingRect(&objRect, 1);
 
-                    if (FP_GetExponent(mXPos) > objRect.x && FP_GetExponent(mXPos) < objRect.w && FP_GetExponent(mYPos) < objRect.h)
+                    if (FP_GetExponent(field_A8_xpos) > objRect.x && FP_GetExponent(field_A8_xpos) < objRect.w && FP_GetExponent(field_AC_ypos) < objRect.h)
                     {
                         if (field_F8_pLiftPoint)
                         {

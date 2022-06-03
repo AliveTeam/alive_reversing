@@ -114,7 +114,7 @@ const s16* kNumbersArray_551B20[11] = {
 ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)
     : BaseGameObject(TRUE, 0)
 {
-    mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
     SetType(AETypes::eThrowableTotalIndicator_53);
 
     gObjList_drawables_5C1124->Push_Back(this);
@@ -172,7 +172,7 @@ ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, 
 
 ThrowableTotalIndicator::~ThrowableTotalIndicator()
 {
-    if (mGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (mFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_5C1124->Remove_Item(this);
     }
@@ -185,14 +185,14 @@ ThrowableTotalIndicator::~ThrowableTotalIndicator()
 
 void ThrowableTotalIndicator::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void ThrowableTotalIndicator::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (sNum_CamSwappers_5C1B66 != 0)
@@ -239,7 +239,7 @@ void ThrowableTotalIndicator::VUpdate()
         case ThrowableTotalIndicatorState::eVanishing_2:
             if (field_42_r < 7 && field_44_g < 7 && field_46_b < 7)
             {
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 

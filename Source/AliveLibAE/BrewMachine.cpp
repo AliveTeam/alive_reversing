@@ -54,9 +54,9 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 
-    mApplyShadows &= ~1u;
+    field_DC_bApplyShadows &= ~1u;
     field_140_tlvInfo = tlvInfo;
-    mAnim.mRenderLayer = Layer::eLayer_Well_23;
+    field_20_animation.field_C_render_layer = Layer::eLayer_Well_23;
     field_1E4_remaining_brew_count = pTlv->field_10_brew_count;
 
     const u8 savedBrewCount = pTlv->field_1_tlv_state;
@@ -75,8 +75,8 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
 
     field_13C_textX = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x + 5) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
     field_13E_textY = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y + 10) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y));
-    mXPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_1E6_cam_id = gMap.mCurrentCamera;
 }
@@ -102,7 +102,7 @@ void BrewMachine::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

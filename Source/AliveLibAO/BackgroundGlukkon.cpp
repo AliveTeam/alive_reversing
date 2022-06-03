@@ -14,7 +14,7 @@ namespace AO {
 
 BackgroundGlukkon::~BackgroundGlukkon()
 {
-    if (mHealth <= FP_FromInteger(0))
+    if (field_100_health <= FP_FromInteger(0))
     {
         gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 1);
     }
@@ -27,7 +27,7 @@ BackgroundGlukkon::~BackgroundGlukkon()
 BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mTypeId = Types::eBackgroundGlukkon_42;
+    field_4_typeId = Types::eBackgroundGlukkon_42;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -35,15 +35,15 @@ BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
 
-    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    mSpriteScale = FP_FromInteger(pTlv->field_18_scale_percent) / FP_FromInteger(100);
+    field_BC_sprite_scale = FP_FromInteger(pTlv->field_18_scale_percent) / FP_FromInteger(100);
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, pTlv->field_1A_pal_id, 0, 0);
     if (ppRes)
     {
-        mAnim.LoadPal(ppRes, 0);
+        field_10_anim.LoadPal(ppRes, 0);
     }
 
     field_120_target_id = pTlv->field_1C_target_id;
@@ -53,19 +53,19 @@ BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 
 void BackgroundGlukkon::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mGameObjectFlags.Get(BaseGameObject::eDead))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
 
-    if (pFrom->mTypeId == Types::eShrykull_85)
+    if (pFrom->field_4_typeId == Types::eShrykull_85)
     {
-        mAnim.Set_Animation_Data(46232, 0);
+        field_10_anim.Set_Animation_Data(46232, 0);
         const auto rndVol = Math_RandomRange_450F20(110, 127);
         const auto rndPitch = (75 * (Math_NextRandom() % 4)) + 200;
 
@@ -78,19 +78,19 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
             SFX_Play_Pitch(SoundEffect::Empty_105, rndVol, rndPitch, 0);
         }
 
-        mAnim.Set_Animation_Data(46232, 0);
+        field_10_anim.Set_Animation_Data(46232, 0);
         field_110_state = BackgroundGlukkon::State::eKilledByShrykull_7;
     }
-    else if (pFrom->mTypeId == Types::eElectrocute_103 && mHealth > FP_FromInteger(0))
+    else if (pFrom->field_4_typeId == Types::eElectrocute_103 && field_100_health > FP_FromInteger(0))
     {
-        mHealth = FP_FromInteger(0);
+        field_100_health = FP_FromInteger(0);
 
         ao_new<Explosion>(
-            mXPos,
-            mYPos - (mSpriteScale * FP_FromInteger(40)),
-            mSpriteScale);
+            field_A8_xpos,
+            field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(40)),
+            field_BC_sprite_scale);
 
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
     return 1;
 }
@@ -99,7 +99,7 @@ void BackgroundGlukkon::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_110_state)
@@ -123,58 +123,58 @@ void BackgroundGlukkon::VUpdate()
                 switch (Math_NextRandom() % 5)
                 {
                     case 0:
-                        if (sActiveHero->mHealth <= FP_FromInteger(0))
+                        if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
-                            mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                             SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim1);
-                            mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                             SFX_Play_Pitch(SoundEffect::GlukkonKillHim1_101, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
 
                     case 1:
-                        if (sActiveHero->mHealth <= FP_FromInteger(0))
+                        if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
-                            mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                             SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim2);
-                            mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                             SFX_Play_Pitch(SoundEffect::GlukkonKillHim2_102, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
 
                     case 2:
-                        if (sActiveHero->mHealth <= FP_FromInteger(0))
+                        if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
-                            mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                             SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim1);
-                            mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                             SFX_Play_Pitch(SoundEffect::Empty_105, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
 
                     case 3:
-                        if (sActiveHero->mHealth > FP_FromInteger(0))
+                        if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim2);
-                            mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                             SFX_Play_Pitch(SoundEffect::Empty_106, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -191,9 +191,9 @@ void BackgroundGlukkon::VUpdate()
             break;
 
         case BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3:
-            if (mAnim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mAnim.Set_Animation_Data(46096, 0);
+                field_10_anim.Set_Animation_Data(46096, 0);
                 field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;
             }
             break;

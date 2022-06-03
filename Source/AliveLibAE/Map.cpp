@@ -96,7 +96,7 @@ void Map::ScreenChange()
             pItem->VScreenChanged();
 
             // Did the screen change kill the object?
-            if (pItem->mGameObjectFlags.Get(BaseGameObject::eDead))
+            if (pItem->mFlags.Get(BaseGameObject::eDead))
             {
                 iter.Remove_At_Iter();
                 delete pItem;
@@ -218,27 +218,27 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
             break;
         }
 
-        if (pObj->mGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
         {
-            if (pObj->mGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+            if (pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 auto pBaseObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
                 PSX_RECT objRect = {};
                 pBaseObj->VGetBoundingRect(&objRect, 1);
 
-                if (pBaseObj->mApplyShadows & 2)
+                if (pBaseObj->field_DC_bApplyShadows & 2)
                 {
-                    if (pBaseObj->mAnim.mAnimFlags.Get(AnimFlags::eBit3_Render))
+                    if (pBaseObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
                     {
-                        if (!pBaseObj->mGameObjectFlags.Get(BaseGameObject::eDead) && pBaseObj != sControlledCharacter && gMap.Rect_Location_Relative_To_Active_Camera(&objRect) == CameraPos::eCamCurrent_0)
+                        if (!pBaseObj->mFlags.Get(BaseGameObject::eDead) && pBaseObj != sControlledCharacter_5C1B8C && gMap.Rect_Location_Relative_To_Active_Camera(&objRect) == CameraPos::eCamCurrent_0)
                         {
                             pObjectsWithLightsArray->Push_Back(pBaseObj);
-                            const FP k60Scaled = (pBaseObj->mSpriteScale * FP_FromInteger(60));
+                            const FP k60Scaled = (pBaseObj->field_CC_sprite_scale * FP_FromInteger(60));
                             Particle* pPurpleLight = New_DestroyOrCreateObject_Particle(
                                 FP_FromInteger((objRect.x + objRect.w) / 2),
                                 FP_FromInteger(((objRect.y + objRect.h) / 2)) + k60Scaled,
-                                pBaseObj->mSpriteScale);
+                                pBaseObj->field_CC_sprite_scale);
 
                             if (pPurpleLight)
                             {
@@ -268,7 +268,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     {
                         break;
                     }
-                    pObj->mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                    pObj->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 }
             }
 
@@ -280,7 +280,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pLight->mGameObjectFlags.Get(BaseGameObject::eDead))
+                if (!pLight->mFlags.Get(BaseGameObject::eDead))
                 {
                     pLight->VUpdate();
                 }
@@ -295,9 +295,9 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pLight->mGameObjectFlags.Get(BaseGameObject::eDead))
+                if (!pLight->mFlags.Get(BaseGameObject::eDead))
                 {
-                    pLight->mAnim.VDecode();
+                    pLight->field_20_animation.VDecode();
                 }
             }
 
@@ -309,10 +309,10 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pDrawable->mGameObjectFlags.Get(BaseGameObject::eDead))
+                if (!pDrawable->mFlags.Get(BaseGameObject::eDead))
                 {
                     // TODO: Seems strange to check this flag, how did it get in the drawable list if its not a drawable ??
-                    if (pDrawable->mGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+                    if (pDrawable->mFlags.Get(BaseGameObject::eDrawable_Bit4))
                     {
                         pDrawable->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
                     }
@@ -335,7 +335,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     break;
                 }
-                pObj->mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                pObj->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             }
         }
     }
@@ -353,10 +353,10 @@ void Map::Handle_PathTransition()
     if (field_18_pAliveObj)
     {
         pPathChangeTLV = static_cast<Path_Change*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            FP_GetExponent(field_18_pAliveObj->mXPos),
-            FP_GetExponent(field_18_pAliveObj->mYPos),
-            FP_GetExponent(field_18_pAliveObj->mXPos),
-            FP_GetExponent(field_18_pAliveObj->mYPos),
+            FP_GetExponent(field_18_pAliveObj->field_B8_xpos),
+            FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
+            FP_GetExponent(field_18_pAliveObj->field_B8_xpos),
+            FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
             TlvTypes::PathTransition_1));
     }
 
@@ -369,20 +369,20 @@ void Map::Handle_PathTransition()
 
         field_10_screen_change_effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->field_18_wipe];
 
-        field_18_pAliveObj->mLvlNumber = mLevel;
-        field_18_pAliveObj->mPathNumber = mPath;
+        field_18_pAliveObj->field_C2_lvl_number = mLevel;
+        field_18_pAliveObj->field_C0_path_number = mPath;
         GoTo_Camera();
 
         switch (pPathChangeTLV->field_1A_scale)
         {
             case Scale_short::eFull_0:
-                sActiveHero->mSpriteScale = FP_FromDouble(1.0);
-                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
+                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_32;
                 break;
 
             case Scale_short::eHalf_1:
-                sActiveHero->mSpriteScale = FP_FromDouble(0.5);
-                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
+                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_Half_13;
                 break;
 
             default:
@@ -620,9 +620,9 @@ void Map::GoTo_Camera()
                     break;
                 }
 
-                if (pBaseGameObj->mGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
+                if (pBaseGameObj->mFlags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!(pBaseGameObj->mGameObjectFlags.Get(BaseGameObject::eDead)) && (!sNum_CamSwappers_5C1B66 || pBaseGameObj->mGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    if (!(pBaseGameObj->mFlags.Get(BaseGameObject::eDead)) && (!sNum_CamSwappers_5C1B66 || pBaseGameObj->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
                         const s32 updateDelay = pBaseGameObj->UpdateDelay();
                         if (updateDelay > 0)
@@ -637,7 +637,7 @@ void Map::GoTo_Camera()
                 }
             }
         }
-        while (!pFmvRet->mGameObjectFlags.Get(BaseGameObject::eDead));
+        while (!pFmvRet->mFlags.Get(BaseGameObject::eDead));
 
         if (sSoundChannelsMask_5C3120)
         {
@@ -723,7 +723,7 @@ void Map::GoTo_Camera()
 
         if (mLevel == mCurrentLevel)
         {
-            MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, sActiveHero, 0, 0);
+            MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, sActiveHero_5C1B68, 0, 0);
         }
         else
         {
@@ -876,11 +876,11 @@ void Map::GoTo_Camera()
     sPath_dword_BB47C0->Loader_4DB800(field_D0_cam_x_idx, field_D2_cam_y_idx, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
     {
-        if (sActiveHero)
+        if (sActiveHero_5C1B68)
         {
-            if (mCurrentPath == sActiveHero->mPathNumber)
+            if (mCurrentPath == sActiveHero_5C1B68->field_C0_path_number)
             {
-                sActiveHero->VCheckCollisionLineStillValid(10);
+                sActiveHero_5C1B68->VCheckCollisionLineStillValid(10);
             }
         }
     }
@@ -913,7 +913,7 @@ void Map::GoTo_Camera()
 
             // Door transition
             Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::Door_5, 0));
-            while (pDoorTlv->field_18_door_number != sActiveHero->field_1A0_door_id)
+            while (pDoorTlv->field_18_door_number != sActiveHero_5C1B68->field_1A0_door_id)
             {
                 pDoorTlv = static_cast<Path_Door*>(Path::TLV_Next_Of_Type(pDoorTlv, TlvTypes::Door_5));
             }
@@ -933,7 +933,7 @@ void Map::GoTo_Camera()
                 // Teleporter transition
                 Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
                 Path_Teleporter_Data teleporterData = pTeleporterTlv->field_10_data;
-                while (teleporterData.field_10_teleporter_switch_id != sActiveHero->field_1A0_door_id)
+                while (teleporterData.field_10_teleporter_switch_id != sActiveHero_5C1B68->field_1A0_door_id)
                 {
                     pTeleporterTlv = static_cast<Path_Teleporter*>(Path::TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
                     teleporterData = pTeleporterTlv->field_10_data;
@@ -1334,10 +1334,10 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
     if (pObj)
     {
         pPathChangeTLV = reinterpret_cast<Path_Change*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            FP_GetExponent(pObj->mXPos),
-            FP_GetExponent(pObj->mYPos),
-            FP_GetExponent(pObj->mXPos),
-            FP_GetExponent(pObj->mYPos),
+            FP_GetExponent(pObj->field_B8_xpos),
+            FP_GetExponent(pObj->field_BC_ypos),
+            FP_GetExponent(pObj->field_B8_xpos),
+            FP_GetExponent(pObj->field_BC_ypos),
             TlvTypes::PathTransition_1));
     }
 

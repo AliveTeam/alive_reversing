@@ -26,7 +26,7 @@ MusicTrigger::MusicTrigger(Path_MusicTrigger* pTlv, s32 tlvInfo)
 void MusicTrigger::Init(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay)
 {
     field_14_flags &= ~7u;
-    mTypeId = Types::eNone_0;
+    field_4_typeId = Types::eNone_0;
 
     switch (type)
     {
@@ -72,23 +72,23 @@ void MusicTrigger::Init(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16
     switch (triggeredBy)
     {
         case TriggeredBy::eTimer_0:
-            mUpdateDelay = 0;
+            field_8_update_delay = 0;
             break;
 
         case TriggeredBy::eTouching_1:
-            mUpdateDelay = delay;
+            field_8_update_delay = delay;
             break;
 
         case TriggeredBy::eSwitchID_2: // removed in AE
             field_14_flags |= 1u;
             field_1E_switch_id = switchId;
-            mUpdateDelay = 0;
+            field_8_update_delay = 0;
             field_18_counter = delay;
             if (switchId > 1)
             {
                 if (SwitchStates_Get(switchId))
                 {
-                    mGameObjectFlags.Set(BaseGameObject::eDead);
+                    mFlags.Set(BaseGameObject::eDead);
                 }
             }
             break;
@@ -96,7 +96,7 @@ void MusicTrigger::Init(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16
         case TriggeredBy::eUnknown_3: // removed in AE
             field_14_flags |= 1u;
             field_1E_switch_id = switchId;
-            mUpdateDelay = 0;
+            field_8_update_delay = 0;
             field_18_counter = -1;
             break;
 
@@ -118,7 +118,7 @@ void MusicTrigger::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -126,7 +126,7 @@ void MusicTrigger::VUpdate()
 {
     if (Event_Get(kEventHeroDying_3))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
         if (field_10_tlvInfo >= 0)
         {
             gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
@@ -166,7 +166,7 @@ void MusicTrigger::VUpdate()
         {
             if (!SwitchStates_Get(field_1E_switch_id))
             {
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -183,7 +183,7 @@ void MusicTrigger::VUpdate()
         }
         else
         {
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }

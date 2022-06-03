@@ -28,7 +28,7 @@ public:
     void CalculateRenderProperties(s16 bStarted);
     void Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
 
-    s32 mAnimFlags;
+    s32 field_4_flags;
     Animation field_8_anim;
     FP field_A0_xpos_render_offset;
     FP field_A4_ypos_render_offset;

@@ -1360,14 +1360,14 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
     {
         Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-        mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_124_tlvInfo = tlvInfo;
         field_11E_msg_idx = 0;
 
         field_11C_message_id = pTlv->field_18_message_id;
 
-        mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-        mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+        field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+        field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
         const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->field_18_message_id);
 
@@ -1409,11 +1409,11 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
             field_112_state = State::eIdleWaitForChanting_1;
             field_10C_timer = 0;
 
-            if (mAnim.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
             {
                 field_110_bitMode = TPageMode::e8Bit_1;
             }
-            else if (mAnim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
+            else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
             {
                 field_110_bitMode = TPageMode::e16Bit_2;
             }
@@ -1422,7 +1422,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                 field_110_bitMode = TPageMode::e4Bit_0;
             }
 
-            s32 vram_x = mAnim.field_84_vram_rect.x & 0x3F;
+            s32 vram_x = field_10_anim.field_84_vram_rect.x & 0x3F;
             if (field_110_bitMode == TPageMode::e8Bit_1)
             {
                 vram_x = 2 * vram_x;
@@ -1432,7 +1432,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                 vram_x = 4 * vram_x;
             }
 
-            const auto pHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+            const auto pHeader = reinterpret_cast<const FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[field_10_anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
             for (s32 i = 0; i < field_11A_msg_len; i++)
             {
@@ -1446,10 +1446,10 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                     Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
 
                     SetClut(pSprt, static_cast<s16>(PSX_getClut_496840(
-                                       mAnim.field_8C_pal_vram_xy.field_0_x,
-                                       mAnim.field_8C_pal_vram_xy.field_2_y)));
+                                       field_10_anim.field_8C_pal_vram_xy.field_0_x,
+                                       field_10_anim.field_8C_pal_vram_xy.field_2_y)));
 
-                    SetUV0(pSprt, vram_x & 0xFF, mAnim.field_84_vram_rect.y & 0xFF);
+                    SetUV0(pSprt, vram_x & 0xFF, field_10_anim.field_84_vram_rect.y & 0xFF);
 
                     pSprt->field_14_w = pHeader->field_4_width - 1;
                     pSprt->field_16_h = pHeader->field_5_height - 1;
@@ -1457,14 +1457,14 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
             }
 
 
-            field_114_xScreen = FP_GetExponent(mXPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
-            field_116_yScreen = FP_GetExponent(mYPos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
+            field_114_xScreen = FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
+            field_116_yScreen = FP_GetExponent(field_AC_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
 
             // Some unknown pal hack that seems to do nothing
             /*
-            const PSX_RECT rect = { static_cast<s16>(mAnim.field_8C_pal_vram_xy.field_0_x + 1), mAnim.field_8C_pal_vram_xy.field_2_y, 1, 1 };
+            const PSX_RECT rect = { static_cast<s16>(field_10_anim.field_8C_pal_vram_xy.field_0_x + 1), field_10_anim.field_8C_pal_vram_xy.field_2_y, 1, 1 };
             const u8 data[] = { 0, 0, 0, 0 };
-            if (mAnim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
             {
                 PSX_LoadImage16_4962A0(&rect, data);
             }
@@ -1482,13 +1482,13 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
         }
         else
         {
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
     else
     {
-        mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -1507,7 +1507,7 @@ void HintFly::InitParticle(HintFlyParticle* pParticle)
 
 void HintFly::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 HintFly::~HintFly()
@@ -1640,7 +1640,7 @@ void HintFly::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_112_state)
@@ -1878,12 +1878,12 @@ void HintFly::VRender(PrimHeader** ppOt)
     }
 
     s16 tPageY = 256;
-    if (!mAnim.mAnimFlags.Get(AnimFlags::eBit10_alternating_flag) && mAnim.field_84_vram_rect.y < 256u)
+    if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag) && field_10_anim.field_84_vram_rect.y < 256u)
     {
         tPageY = 0;
     }
 
-    const s32 tpage = PSX_getTPage_4965D0(field_110_bitMode, TPageAbr::eBlend_1, mAnim.field_84_vram_rect.x & 0xFFC0, tPageY);
+    const s32 tpage = PSX_getTPage_4965D0(field_110_bitMode, TPageAbr::eBlend_1, field_10_anim.field_84_vram_rect.x & 0xFFC0, tPageY);
 
     Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pTPage->mBase);

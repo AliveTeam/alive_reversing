@@ -258,7 +258,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo)
     field_A4_message_cutoff_ptr = 0;
     field_2B0_x_offset = 0;
 
-    mGameObjectFlags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
 
     field_2D8_message_rand_min = pTlv->field_1A_message_rand_min;
     pad_2DA = pTlv->field_1C_message_rand_max;
@@ -283,14 +283,14 @@ LCDScreen::~LCDScreen()
 
 void LCDScreen::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void LCDScreen::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
 #if LCD_PS1_SPEED

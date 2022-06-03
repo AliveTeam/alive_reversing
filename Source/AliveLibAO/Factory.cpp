@@ -285,15 +285,15 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
                 break;
             }
 
-            if (!pObjIter->mGameObjectFlags.Get(BaseGameObject::eDead) && pObjIter->mTypeId == Types::eLiftPoint_51)
+            if (!pObjIter->mFlags.Get(BaseGameObject::eDead) && pObjIter->field_4_typeId == Types::eLiftPoint_51)
             {
                 auto pLiftObj = static_cast<LiftPoint*>(pObjIter);
 
-                const s16 xpos_i = FP_GetExponent(pLiftObj->mXPos);
+                const s16 xpos_i = FP_GetExponent(pLiftObj->field_A8_xpos);
                 if (pTlv->field_10_top_left.field_0_x <= xpos_i
                     && xpos_i <= pTlv->field_14_bottom_right.field_0_x
-                    && pLiftObj->mLvlNumber == gMap.mCurrentLevel
-                    && pLiftObj->mPathNumber == gMap.mCurrentPath)
+                    && pLiftObj->field_B2_lvl_number == gMap.mCurrentLevel
+                    && pLiftObj->field_B0_path_number == gMap.mCurrentPath)
                 {
                     gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                     return;
@@ -409,16 +409,16 @@ void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffs
                 s16 ypos = 0;
                 if (pDoveTlv->field_1A_pixel_perfect == Choice_short::eYes_1)
                 {
-                    pDove->mXPos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x);
+                    pDove->field_A8_xpos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x);
                     ypos = pDoveTlv->field_10_top_left.field_2_y;
                 }
                 else
                 {
-                    pDove->mXPos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x + width * Math_NextRandom() / 256);
+                    pDove->field_A8_xpos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x + width * Math_NextRandom() / 256);
                     ypos = pDoveTlv->field_10_top_left.field_2_y + height * Math_NextRandom() / 256;
                 }
 
-                pDove->mYPos = FP_FromInteger(ypos) + FP_FromInteger(10);
+                pDove->field_AC_ypos = FP_FromInteger(ypos) + FP_FromInteger(10);
             }
         }
     }
@@ -1024,13 +1024,13 @@ void Factory_AbeStart_486050(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion /*t
             pPauseMenu_5080E0 = ao_new<PauseMenu>();
         }
 
-        if (!sActiveHero)
+        if (!sActiveHero_507678)
         {
-            sActiveHero = ao_new<Abe>(55888, 85, 57, 55);
-            if (sActiveHero)
+            sActiveHero_507678 = ao_new<Abe>(55888, 85, 57, 55);
+            if (sActiveHero_507678)
             {
-                sActiveHero->mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-                sActiveHero->mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+                sActiveHero_507678->field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+                sActiveHero_507678->field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
             }
         }
     }
@@ -1627,8 +1627,8 @@ void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
     else
     {
         Elum::Spawn(tlvOffsetLevelIdPathId);
-        gElum_507680->mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-        gElum_507680->mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+        gElum_507680->field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+        gElum_507680->field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     }
 }
 
@@ -2325,20 +2325,20 @@ void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
 
         if (bRemovesShrykull)
         {
-            if (sActiveHero->field_168_ring_pulse_timer)
+            if (sActiveHero_507678->field_168_ring_pulse_timer)
             {
-                if (sActiveHero->field_16C_bHaveShrykull)
+                if (sActiveHero_507678->field_16C_bHaveShrykull)
                 {
                     Abe::Free_Shrykull_Resources_42F4C0();
-                    sActiveHero->field_168_ring_pulse_timer = 0;
+                    sActiveHero_507678->field_168_ring_pulse_timer = 0;
                 }
             }
         }
         else
         {
-            if (!sActiveHero->field_16C_bHaveShrykull)
+            if (!sActiveHero_507678->field_16C_bHaveShrykull)
             {
-                sActiveHero->field_168_ring_pulse_timer = 0;
+                sActiveHero_507678->field_168_ring_pulse_timer = 0;
             }
         }
         gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);

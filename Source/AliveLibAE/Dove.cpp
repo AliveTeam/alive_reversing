@@ -22,36 +22,36 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
     Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);
 
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     gDovesArray_5BC100.Push_Back(this);
 
-    mAnim.field_14_scale = scale;
-    mSpriteScale = scale;
+    field_20_animation.field_14_scale = scale;
+    field_CC_sprite_scale = scale;
     if (scale == FP_FromInteger(1))
     {
-        mScale = 1;
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        field_D6_scale = 1;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
     }
     else
     {
-        mScale = 0;
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        field_D6_scale = 0;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
     }
 
-    mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
-    if (mVelX >= FP_FromInteger(0))
+    field_C4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);
+    if (field_C4_velx >= FP_FromInteger(0))
     {
-        mAnim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
+    field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     field_FE_state = State::eOnGround_0;
-    mAnim.SetFrame(Math_NextRandom() % 8);
+    field_20_animation.SetFrame(Math_NextRandom() % 8);
     field_FC_keepInGlobalArray = FALSE;
     field_F8_tlvInfo = tlvInfo;
 
@@ -72,42 +72,42 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
     Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);
 
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-    mAnim.field_14_scale = scale;
-    mSpriteScale = scale;
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.field_14_scale = scale;
+    field_CC_sprite_scale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
     }
 
-    mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
-    if (mVelX >= FP_FromInteger(0))
+    field_C4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);
+    if (field_C4_velx >= FP_FromInteger(0))
     {
-        mAnim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
+    field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     field_FE_state = State::eFlyAway_1;
     field_FC_keepInGlobalArray = TRUE;
     field_F4_counter = 0;
 
-    mXPos = xpos;
-    mYPos = ypos;
+    field_B8_xpos = xpos;
+    field_BC_ypos = ypos;
     field_110_prevX = xpos;
     field_114_prevY = ypos;
 
     field_F8_tlvInfo = 0;
 
-    mAnim.SetFrame(Math_NextRandom() & 6);
+    field_20_animation.SetFrame(Math_NextRandom() & 6);
 
     if (bTheOneControllingTheMusic_5BC112)
     {
@@ -150,8 +150,8 @@ void Dove::AsACircle(FP xpos, FP ypos, u8 angle)
     field_FE_state = State::eCircle_3;
 
     // TODO: Result thrown away.. some old removed behavior ??
-    //(Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * mSpriteScale;
-    //(Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * mSpriteScale;
+    //(Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * field_CC_sprite_scale;
+    //(Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale;
 }
 
 void Dove::AsJoin(FP xpos, FP ypos)
@@ -189,7 +189,7 @@ void Dove::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (!bTheOneControllingTheMusic_5BC112)
@@ -209,11 +209,11 @@ void Dove::VUpdate()
             if (Event_Get(kEventNoise))
             {
                 // player getting near
-                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sControlledCharacter))
+                if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
                 {
                     Dove::All_FlyAway(1);
                 }
-                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(4), sControlledCharacter))
+                if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
                 {
                     // noise is too near, leg it
                     Dove::All_FlyAway(0);
@@ -226,7 +226,7 @@ void Dove::VUpdate()
             if (field_F4_counter == 0)
             {
                 const AnimRecord& rec = AnimRec(AnimId::Dove_Flying);
-                mAnim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
                 if (!bExtraSeqStarted_5BC10C)
                 {
                     bExtraSeqStarted_5BC10C = 13;
@@ -236,26 +236,26 @@ void Dove::VUpdate()
 
             if (field_F4_counter > 0)
             {
-                mXPos += mVelX;
-                mYPos += mVelY;
+                field_B8_xpos += field_C4_velx;
+                field_BC_ypos += field_C8_vely;
             }
 
-            mVelY = (mVelY * FP_FromDouble(1.03));
-            mVelX = (mVelX * FP_FromDouble(1.03));
+            field_C8_vely = (field_C8_vely * FP_FromDouble(1.03));
+            field_C4_velx = (field_C4_velx * FP_FromDouble(1.03));
 
             if (field_F4_counter >= (25 - (Math_NextRandom() % 8)))
             {
                 field_F4_counter += (Math_NextRandom() % 8) - 25;
-                mVelX = -mVelX;
+                field_C4_velx = -field_C4_velx;
             }
 
-            if (mVelX >= FP_FromInteger(0))
+            if (field_C4_velx >= FP_FromInteger(0))
             {
-                mAnim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
             }
             else
             {
-                mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
             }
             break;
 
@@ -263,11 +263,11 @@ void Dove::VUpdate()
         {
             if (static_cast<s32>(sGnFrame_5C1B84) > field_108_timer)
             {
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
             }
 
             FP xOff = {};
-            if (mAnim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 xOff = FP_FromInteger(4);
             }
@@ -276,22 +276,22 @@ void Dove::VUpdate()
                 xOff = FP_FromInteger(-4);
             }
 
-            mVelX = (xOff + field_100_xJoin - mXPos) / FP_FromInteger(8);
-            mVelY = (field_104_yJoin - mYPos) / FP_FromInteger(8);
-            mXPos += mVelX;
-            mYPos += mVelY;
+            field_C4_velx = (xOff + field_100_xJoin - field_B8_xpos) / FP_FromInteger(8);
+            field_C8_vely = (field_104_yJoin - field_BC_ypos) / FP_FromInteger(8);
+            field_B8_xpos += field_C4_velx;
+            field_BC_ypos += field_C8_vely;
         }
             return;
 
         case State::eCircle_3:
-            field_110_prevX = mXPos;
-            field_114_prevY = mYPos;
+            field_110_prevX = field_B8_xpos;
+            field_114_prevY = field_BC_ypos;
 
             field_10C_angle += 4;
 
             // Spin around this point
-            mXPos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * mSpriteScale) + field_100_xJoin;
-            mYPos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * mSpriteScale) + field_104_yJoin;
+            field_B8_xpos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * field_CC_sprite_scale) + field_100_xJoin;
+            field_BC_ypos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
             return;
 
         case State::eAlmostACircle_4:
@@ -313,11 +313,11 @@ void Dove::VUpdate()
                 }
             }
 
-            field_114_prevY = mYPos;
+            field_114_prevY = field_BC_ypos;
             field_10C_angle += 4;
-            field_110_prevX = mXPos;
-            mXPos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(sAbePortalWidth_551544)) * mSpriteScale) + field_100_xJoin;
-            mYPos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * mSpriteScale) + field_104_yJoin;
+            field_110_prevX = field_B8_xpos;
+            field_B8_xpos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(sAbePortalWidth_551544)) * field_CC_sprite_scale) + field_100_xJoin;
+            field_BC_ypos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
             return;
 
         default:
@@ -325,13 +325,13 @@ void Dove::VUpdate()
     }
 
     if (!gMap.Is_Point_In_Current_Camera_4810D0(
-            mLvlNumber,
-            mPathNumber,
-            mXPos,
-            mYPos,
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
             0))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

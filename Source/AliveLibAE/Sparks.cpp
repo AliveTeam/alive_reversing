@@ -12,23 +12,23 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    mApplyShadows &= ~1u;
+    field_DC_bApplyShadows &= ~1u;
 
-    mAnim.mRenderLayer = Layer::eLayer_FG1_37;
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    field_20_animation.field_C_render_layer = Layer::eLayer_FG1_37;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
-    mAnim.mBlue = 80;
-    mAnim.mGreen = 80;
-    mAnim.mRed = 80;
+    field_20_animation.field_A_b = 80;
+    field_20_animation.field_9_g = 80;
+    field_20_animation.field_8_r = 80;
 
-    mSpriteScale = scale * (((FP_FromInteger(Math_NextRandom() % 6)) / FP_FromInteger(10)) + FP_FromDouble(0.7));
+    field_CC_sprite_scale = scale * (((FP_FromInteger(Math_NextRandom() % 6)) / FP_FromInteger(10)) + FP_FromDouble(0.7));
     field_FA_16_random = Math_RandomRange(0, 16);
 
-    mXPos = xpos;
-    mYPos = ypos;
+    field_B8_xpos = xpos;
+    field_BC_ypos = ypos;
 
-    mVelX = FP_FromInteger(Math_RandomRange(-8, 8));
-    mVelY = FP_FromInteger(Math_RandomRange(-6, -3));
+    field_C4_velx = FP_FromInteger(Math_RandomRange(-8, 8));
+    field_C8_vely = FP_FromInteger(Math_RandomRange(-6, -3));
 }
 
 void Sparks::VUpdate()
@@ -41,28 +41,28 @@ void Sparks::VUpdate()
     if (field_FA_16_random == 0)
     {
         const AnimRecord& animRec = AnimRec(AnimId::Sparks);
-        mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         field_FA_16_random = -1;
     }
 
-    mVelY += FP_FromDouble(0.8);
+    field_C8_vely += FP_FromDouble(0.8);
 
-    mVelX *= FP_FromDouble(0.9);
-    mVelY *= FP_FromDouble(0.9);
+    field_C4_velx *= FP_FromDouble(0.9);
+    field_C8_vely *= FP_FromDouble(0.9);
 
-    mVelX += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
-    mVelY += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
+    field_C4_velx += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
+    field_C8_vely += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
 
-    mYPos += mVelY;
-    mXPos += mVelX;
+    field_BC_ypos += field_C8_vely;
+    field_B8_xpos += field_C4_velx;
 
-    if (!gMap.Is_Point_In_Current_Camera_4810D0(mLvlNumber, mPathNumber, mXPos, mYPos, 0))
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void Sparks::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }

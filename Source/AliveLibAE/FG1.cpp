@@ -61,9 +61,9 @@ private:
 FG1::FG1(u8** pFG1Res)
     : BaseGameObject(TRUE, 0)
 {
-    mGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
-    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetType(AETypes::eFG1_101);
 
@@ -143,5 +143,5 @@ void FG1::VRender(PrimHeader** ppOt)
 
 void FG1::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }

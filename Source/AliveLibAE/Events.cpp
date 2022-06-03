@@ -102,16 +102,16 @@ BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(s16 eventType, FP xpo
         return nullptr;
     }
 
-    if (!(pObj->mGameObjectFlags.Get(BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5)) || !(pObj->mGameObjectFlags.Get(BaseAliveGameObject::eDrawable_Bit4)))
+    if (!(pObj->mFlags.Get(BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5)) || !(pObj->mFlags.Get(BaseAliveGameObject::eDrawable_Bit4)))
     {
         return nullptr;
     }
 
     // At this point we known the type must be BaseAnimatedWithPhysicsGameObject
     auto pDerived = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
-    if ((scale == -1 || pDerived->mScale == scale)
-        && FP_GetExponent(xpos) / kGridMapWidth == FP_GetExponent(pDerived->mXPos) / kGridMapWidth
-        && FP_GetExponent(ypos) / kGridMapHeight == FP_GetExponent(pDerived->mYPos) / kGridMapHeight)
+    if ((scale == -1 || pDerived->field_D6_scale == scale)
+        && FP_GetExponent(xpos) / kGridMapWidth == FP_GetExponent(pDerived->field_B8_xpos) / kGridMapWidth
+        && FP_GetExponent(ypos) / kGridMapHeight == FP_GetExponent(pDerived->field_BC_ypos) / kGridMapHeight)
     {
         return pDerived;
     }

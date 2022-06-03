@@ -75,8 +75,8 @@ public:
     ObjectDebugger()
         : BaseGameObject(TRUE, 1)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-        mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         SetType(AETypes::eDebugHelper_1001);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -143,20 +143,20 @@ public:
                 break;
             }
 
-            if (pBaseGameObject->mGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+            if (pBaseGameObject->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*) pBaseGameObject);
-                s16 x = FP_GetExponent(aliveObj->mXPos) - FP_GetExponent(gMap.field_24_camera_offset.field_0_x);
-                s16 y = FP_GetExponent(aliveObj->mYPos) - FP_GetExponent(gMap.field_24_camera_offset.field_4_y);
+                s16 x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap.field_24_camera_offset.field_0_x);
+                s16 y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap.field_24_camera_offset.field_4_y);
 
-                if (IsInAnimationList(&aliveObj->mAnim))
+                if (IsInAnimationList(&aliveObj->field_20_animation))
                 {
-                    if (aliveObj->mAnim.field_92_current_frame != -1)
+                    if (aliveObj->field_20_animation.field_92_current_frame != -1)
                     {
-                        FrameInfoHeader* framePtr = aliveObj->mAnim.Get_FrameHeader(aliveObj->mAnim.field_92_current_frame);
+                        FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            y += static_cast<s16>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->mSpriteScale));
+                            y += static_cast<s16>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
                         }
                     }
                 }
@@ -193,12 +193,12 @@ public:
                 break;
             }
 
-            if (pBaseGameObject->mGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+            if (pBaseGameObject->mFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*) pBaseGameObject);
 
-                s32 x = static_cast<s32>((FP_GetExponent(aliveObj->mXPos) - FP_GetExponent(gMap.field_24_camera_offset.field_0_x)) / 0.575);
-                s32 y = static_cast<s32>((FP_GetExponent(aliveObj->mYPos) - FP_GetExponent(gMap.field_24_camera_offset.field_4_y)));
+                s32 x = static_cast<s32>((FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap.field_24_camera_offset.field_0_x)) / 0.575);
+                s32 y = static_cast<s32>((FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap.field_24_camera_offset.field_4_y)));
 
                 if (Vec2Distance(static_cast<f32>(x), static_cast<f32>(y), static_cast<f32>(mousePos.x), static_cast<f32>(mousePos.y)) < 10 && !isDragging && mouseLeftDown)
                 {
@@ -211,14 +211,14 @@ public:
                     continue;
                 }
 
-                if (IsInAnimationList(&aliveObj->mAnim))
+                if (IsInAnimationList(&aliveObj->field_20_animation))
                 {
-                    if (aliveObj->mAnim.field_92_current_frame != -1)
+                    if (aliveObj->field_20_animation.field_92_current_frame != -1)
                     {
-                        FrameInfoHeader* framePtr = aliveObj->mAnim.Get_FrameHeader(aliveObj->mAnim.field_92_current_frame);
+                        FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            y += static_cast<s32>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->mSpriteScale));
+                            y += static_cast<s32>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
                         }
                     }
                 }
@@ -235,8 +235,8 @@ public:
 
             if (isDragging)
             {
-                mDragObject->mXPos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap.field_24_camera_offset.field_0_x) + (mousePos.x * 0.575)));
-                mDragObject->mYPos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap.field_24_camera_offset.field_4_y) + mousePos.y));
+                mDragObject->field_B8_xpos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap.field_24_camera_offset.field_0_x) + (mousePos.x * 0.575)));
+                mDragObject->field_BC_ypos = FP_FromInteger(static_cast<s32>(FP_GetExponent(gMap.field_24_camera_offset.field_4_y) + mousePos.y));
             }
         }
     }
@@ -264,8 +264,8 @@ public:
     DebugPathRenderer()
         : BaseGameObject(TRUE, 1)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-        mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         SetType(AETypes::eDebugPathRenderer_1003);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -442,7 +442,7 @@ void Command_Test(const std::vector<std::string>& args)
 
 void Command_Die(const std::vector<std::string>& /*args*/)
 {
-    ae_new<BaseBomb>(sControlledCharacter->mXPos, sControlledCharacter->mYPos, 0, sControlledCharacter->mSpriteScale);
+    ae_new<BaseBomb>(sControlledCharacter_5C1B8C->field_B8_xpos, sControlledCharacter_5C1B8C->field_BC_ypos, 0, sControlledCharacter_5C1B8C->field_CC_sprite_scale);
 }
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
@@ -456,16 +456,16 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
             break;
         }
 
-        if (pBaseGameObject == sActiveHero)
+        if (pBaseGameObject == sActiveHero_5C1B68)
         {
             continue;
         }
 
-        if (pBaseGameObject->mGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pBaseGameObject->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto aliveObj =  static_cast<BaseAliveGameObject*>(pBaseGameObject);
 
-            ae_new<BaseBomb>(aliveObj->mXPos, aliveObj->mYPos, 0, aliveObj->mSpriteScale);
+            ae_new<BaseBomb>(aliveObj->field_B8_xpos, aliveObj->field_BC_ypos, 0, aliveObj->field_CC_sprite_scale);
         }
     }
 }
@@ -478,17 +478,17 @@ void Command_HelperUpdate()
         PSX_Point pos;
         gMap.GetCurrentCamCoords(&pos);
 
-        sActiveHero->mXPos = FP_FromInteger(pos.field_0_x + 184);
-        sActiveHero->mYPos = FP_FromInteger(pos.field_2_y + 60);
+        sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
+        sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
         sHasTeleported = false;
-        sActiveHero->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
-        sActiveHero->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7_land_softly);
-        sActiveHero->mLvlNumber = gMap.mCurrentLevel;
-        sActiveHero->mPathNumber = gMap.mCurrentPath;
-        sActiveHero->mCollisionLine = nullptr;
-        sActiveHero->mLastLineYPos = sActiveHero->mYPos;
-        sActiveHero->mSpriteScale = FP_FromDouble(1.0);
-        sActiveHero->mScale = 1;
+        sActiveHero_5C1B68->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
+        sActiveHero_5C1B68->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7_land_softly);
+        sActiveHero_5C1B68->field_C2_lvl_number = gMap.mCurrentLevel;
+        sActiveHero_5C1B68->field_C0_path_number = gMap.mCurrentPath;
+        sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
+        sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
+        sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
+        sActiveHero_5C1B68->field_D6_scale = 1;
         FP rX = FP_FromInteger(0);
         FP rY = FP_FromInteger(0);
         PathLine* rUnk = nullptr;
@@ -502,24 +502,24 @@ void Command_HelperUpdate()
             if (sCollisions_DArray_5C1128->Raycast(xOffset, yOffset,
                                                           xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1))
             {
-                sActiveHero->mSpriteScale = FP_FromDouble(1.0);
-                sActiveHero->mScale = 1;
-                sActiveHero->mXPos = rX;
-                sActiveHero->mYPos = rY;
+                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
+                sActiveHero_5C1B68->field_D6_scale = 1;
+                sActiveHero_5C1B68->field_B8_xpos = rX;
+                sActiveHero_5C1B68->field_BC_ypos = rY;
                 break;
             }
             else if (sCollisions_DArray_5C1128->Raycast(xOffset, yOffset,
                                                                xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1 << 4))
             {
-                sActiveHero->mSpriteScale = FP_FromDouble(0.5);
-                sActiveHero->mScale = 0;
-                sActiveHero->mXPos = rX;
-                sActiveHero->mYPos = rY;
+                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
+                sActiveHero_5C1B68->field_D6_scale = 0;
+                sActiveHero_5C1B68->field_B8_xpos = rX;
+                sActiveHero_5C1B68->field_BC_ypos = rY;
                 break;
             }
         }
 
-        sControlledCharacter = sActiveHero;
+        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
     }
 }
 
@@ -572,7 +572,7 @@ void Command_Event(const std::vector<std::string>& args)
         DEV_CONSOLE_MESSAGE_C("Invalid event id", 6, 127, 0, 0);
         return;
     }
-    Event_Broadcast(static_cast<Event>(eventId), sControlledCharacter);
+    Event_Broadcast(static_cast<Event>(eventId), sControlledCharacter_5C1B8C);
 }
 
 void Command_Menu(const std::vector<std::string>& args)
@@ -643,20 +643,20 @@ void Command_DDV(const std::vector<std::string>& args)
 
 void Command_SetState(const std::vector<std::string>& args)
 {
-    if (sControlledCharacter->Type() != AETypes::eAbe_69)
+    if (sControlledCharacter_5C1B8C->Type() != AETypes::eAbe_69)
     {
         DEV_CONSOLE_MESSAGE_C("Setting motion not supported on this object (only allowed for abe)!", 6, 255, 0, 0);
         return;
     }
 
     s16 motion = static_cast<s16>(std::stoi(args[0]));
-    Abe* pAbe = static_cast<Abe*>(sControlledCharacter);
+    Abe* pAbe = static_cast<Abe*>(sControlledCharacter_5C1B8C);
     auto resource = pAbe->MotionToAnimResource_44AAB0(motion);
 
     if (resource != nullptr)
     {
-        pAbe->mCurrentMotion = motion;
-        //pAbe->mAnim.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[motion], resource);
+        pAbe->field_106_current_motion = motion;
+        //pAbe->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[motion], resource);
         DEV_CONSOLE_PRINTF("Set motion to %i", motion);
     }
     else
@@ -670,11 +670,11 @@ void Command_Ring(const std::vector<std::string>& args)
     s32 ringType = std::stoi(args[0]);
 
     PSX_RECT rect = {};
-    sActiveHero->VGetBoundingRect(&rect, 1);
+    sActiveHero_5C1B68->VGetBoundingRect(&rect, 1);
     AbilityRing::Factory_482F80(
         FP_FromInteger((rect.x + rect.w) / 2),
         FP_FromInteger((rect.y + rect.h) / 2),
-        static_cast<RingTypes>(ringType), sActiveHero->mSpriteScale);
+        static_cast<RingTypes>(ringType), sActiveHero_5C1B68->field_CC_sprite_scale);
 
     SFX_Play_Pitch(SoundEffect::PossessEffect_17, 25, 2650);
 }
@@ -710,8 +710,8 @@ void Command_Spawn(const std::vector<std::string>& args)
     std::string objName = args[0];
     TlvItemInfoUnion tlvinfo;
     tlvinfo.all = 0;
-    s32 spawnX = FP_GetExponent(sControlledCharacter->mXPos) + 50;
-    s32 spawnY = FP_GetExponent(sControlledCharacter->mYPos);
+    s32 spawnX = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos) + 50;
+    s32 spawnY = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
 
     FP hitX;
     FP hitY;
@@ -866,8 +866,8 @@ public:
     DebugConsole()
         : BaseGameObject(TRUE, 1)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-        mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         SetType(AETypes::eDebugConsole_1002);
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -1782,8 +1782,8 @@ public:
     RenderTest()
         : BaseGameObject(TRUE, 1)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-        mGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eUpdatable_Bit2);
 
         gObjList_drawables_5C1124->Push_Back(this);
     }
@@ -1896,8 +1896,8 @@ public:
     AnimRenderTest()
         : BaseGameObject(TRUE, 1)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-        mGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
+        mFlags.Set(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eUpdatable_Bit2);
 
         gObjList_drawables_5C1124->Push_Back(this);
 
@@ -1950,38 +1950,38 @@ private:
             }
             // No 16 bit test case because there are simply no 16bit sprites at all in the game data
 
-            mAnim[i].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-            mAnim[i].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+            mAnim[i].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+            mAnim[i].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
             mAnim[i].field_14_scale = FP_FromDouble(2.0);
 
-            mAnim[i].mRenderLayer = Layer::eLayer_MainMenuButton_38;
-            mAnim[i].mRenderMode = TPageAbr::eBlend_1;
+            mAnim[i].field_C_render_layer = Layer::eLayer_MainMenuButton_38;
+            mAnim[i].field_B_render_mode = TPageAbr::eBlend_1;
 
-            mAnim[i].mBlue = 127;
-            mAnim[i].mGreen = 127;
-            mAnim[i].mRed = 127;
+            mAnim[i].field_A_b = 127;
+            mAnim[i].field_9_g = 127;
+            mAnim[i].field_8_r = 127;
         }
 
         // 4 bit o
-        mAnim[0].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[0].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        mAnim[0].mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim[0].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[0].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim[0].field_4_flags.Set(AnimFlags::eBit5_FlipX);
         mAnim[0].field_14_scale = FP_FromDouble(1.0);
 
         // 4 bit s
-        mAnim[1].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[1].mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim[1].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[1].field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
         mAnim[1].field_14_scale = FP_FromDouble(2.0);
 
         // 8 bit o
-        mAnim[2].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[2].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim[2].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[2].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
         mAnim[2].field_14_scale = FP_FromDouble(1.0);
 
         // 8 bit s
-        mAnim[3].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[3].mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim[3].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[3].field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
         PSX_RECT pr = {};
         Pal_Allocate_483110(&pr, 16);

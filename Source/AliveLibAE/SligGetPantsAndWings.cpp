@@ -22,17 +22,17 @@ SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
     auto pHack = static_cast<Path_Slig*>(pTlv);
     if (pHack->field_10_scale == Scale_short::eHalf_1)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = 0;
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        field_CC_sprite_scale = FP_FromDouble(0.5);
+        field_D6_scale = 0;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else if (pHack->field_10_scale == Scale_short::eFull_0)
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
     }
 
-    mXPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mYPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
 }
 
 void SligGetPantsAndWings::VUpdate()
@@ -40,7 +40,7 @@ void SligGetPantsAndWings::VUpdate()
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_F8_tlvInfo);
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_F4_state)
@@ -59,16 +59,16 @@ void SligGetPantsAndWings::VUpdate()
                 field_F4_state = State::eFinished_2;
                 SFX_Play_Mono(SoundEffect::NakedSligTransformEnd_92, 0);
                 const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Open);
-                mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             }
             break;
 
         case State::eFinished_2:
-            if (mAnim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_F4_state = State::eWaiting_0;
                 const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
-                mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 pTlv->field_1_tlv_state = 0;
             }
             break;
@@ -77,7 +77,7 @@ void SligGetPantsAndWings::VUpdate()
 
 void SligGetPantsAndWings::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 SligGetPantsAndWings::~SligGetPantsAndWings()

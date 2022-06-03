@@ -13,15 +13,15 @@ namespace AO {
 
 BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlvInfo)
 {
-    mTypeId = Types::eBackgroundAnimation_5;
+    field_4_typeId = Types::eBackgroundAnimation_5;
     field_F0_tlvInfo = tlvInfo;
 
     const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_18_animation_id);
     field_E4_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (!field_E4_res)
     {
-        mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -56,8 +56,8 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
     }
     field_EE_h = static_cast<s16>(hMax);
 
-    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_F8_animXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_FC_animYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
@@ -78,13 +78,13 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
         field_E4_res,
         1);
 
-    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_1A_is_semi_trans == Choice_short::eYes_1);
-    mAnim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_1A_is_semi_trans == Choice_short::eYes_1);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
-    mAnim.mRenderMode = pTlv->field_1C_semi_trans_mode;
+    field_10_anim.field_B_render_mode = pTlv->field_1C_semi_trans_mode;
 
-    mAnim.mRenderLayer = Layer::eLayer_1;
-    mYOffset = 0;
+    field_10_anim.field_C_layer = Layer::eLayer_1;
+    field_C8_yOffset = 0;
 
     field_100_sound_effect = pTlv->field_1E_sound_effect;
     if (field_100_sound_effect == BgAnimSounds::eFire_1) // Apparently there is only 1 possible sound effect
@@ -109,7 +109,7 @@ BackgroundAnimation::~BackgroundAnimation()
 
 void BackgroundAnimation::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void BackgroundAnimation::VStopAudio()
@@ -125,7 +125,7 @@ void BackgroundAnimation::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
     else
     {
@@ -134,8 +134,8 @@ void BackgroundAnimation::VUpdate()
             // play fire sounds
             field_104_sound_channels_mask = SFX_Play_Mono(static_cast<SoundEffect>(field_100_sound_effect), 0, 0);
         }
-        mXPos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
-        mYPos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);
+        field_A8_xpos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
+        field_AC_ypos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);
     }
 }
 

@@ -33,14 +33,14 @@ SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
 void SlogSpawner::VScreenChanged()
 {
     Path::TLV_Reset(field_20_tlvInfo, field_24_tlv_saved_slog_count, 0, 0);
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void SlogSpawner::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (static_cast<s32>(sGnFrame_5C1B84) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
@@ -51,7 +51,7 @@ void SlogSpawner::VUpdate()
             auto pSlog = ae_new<Slog>(field_28_xpos, field_2C_ypos, field_34_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1), static_cast<s16>(field_40_listen_to_sligs), field_42_chase_delay);
             if (pSlog)
             {
-                pSlog->mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, field_3A_start_direction == StartDirection::eLeft_1);
+                pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_3A_start_direction == StartDirection::eLeft_1);
             }
 
             ++field_24_tlv_saved_slog_count;
@@ -60,7 +60,7 @@ void SlogSpawner::VUpdate()
             if (field_24_tlv_saved_slog_count >= field_36_max_slogs)
             {
                 Path::TLV_Reset(field_20_tlvInfo, field_24_tlv_saved_slog_count, 0, 1);
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
             }
         }
     }

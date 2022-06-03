@@ -21,21 +21,21 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
     field_F4_tlvInfo = tlvInfo;
 
-    mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+    field_20_animation.field_C_render_layer = Layer::eLayer_BeforeWell_22;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = 0;
+        field_CC_sprite_scale = FP_FromDouble(0.5);
+        field_D6_scale = 0;
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = 1;
+        field_CC_sprite_scale = FP_FromInteger(1);
+        field_D6_scale = 1;
     }
 
     field_FA_switch_id = pTlv->field_12_switch_id;
@@ -43,28 +43,28 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     field_100_code_len = Code_Length(field_FC_code_converted);
     field_11C_top_left = pTlv->field_8_top_left;
     field_120_bottom_right = pTlv->field_C_bottom_right;
-    mXPos = FP_FromInteger(pTlv->field_18_xpos);
-    mYPos = FP_FromInteger(pTlv->field_1A_ypos);
+    field_B8_xpos = FP_FromInteger(pTlv->field_18_xpos);
+    field_BC_ypos = FP_FromInteger(pTlv->field_1A_ypos);
 
     PSX_Point point = {};
     gMap.Get_Abe_Spawn_Pos(&point);
 
-    if (mXPos > FP_FromInteger(0))
+    if (field_B8_xpos > FP_FromInteger(0))
     {
-        mXPos -= FP_FromInteger(point.field_0_x);
+        field_B8_xpos -= FP_FromInteger(point.field_0_x);
     }
     else
     {
-        mXPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+        field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     }
 
-    if (mYPos > FP_FromInteger(0))
+    if (field_BC_ypos > FP_FromInteger(0))
     {
-        mYPos -= FP_FromInteger(point.field_2_y);
+        field_BC_ypos -= FP_FromInteger(point.field_2_y);
     }
     else
     {
-        mYPos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
+        field_BC_ypos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
     }
 
     if (pTlv->field_1_tlv_state)
@@ -94,13 +94,13 @@ SecurityDoor::~SecurityDoor()
 
 void SecurityDoor::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 s16 SecurityDoor::IsPlayerNear()
 {
-    const s16 xpos = FP_GetExponent(sControlledCharacter->mXPos);
-    const s16 ypos = FP_GetExponent(sControlledCharacter->mYPos);
+    const s16 xpos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
+    const s16 ypos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
 
     if (xpos < field_11C_top_left.field_0_x || xpos > field_120_bottom_right.field_0_x)
     {
@@ -119,7 +119,7 @@ void SecurityDoor::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     switch (field_F8_state)
@@ -132,12 +132,12 @@ void SecurityDoor::VUpdate()
 
             if (IsPlayerNear())
             {
-                mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_F8_state = SecurityDoorStates::eSayingHi_2;
             }
             else
             {
-                mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             }
             return;
 
@@ -152,7 +152,7 @@ void SecurityDoor::VUpdate()
         {
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHi_0, 127, -200, 0);
             const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
-            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_F8_state = SecurityDoorStates::eListeningForHi_3;
             field_124_timer = sGnFrame_5C1B84 + 150;
             return;
@@ -215,7 +215,7 @@ void SecurityDoor::VUpdate()
             }
 
             const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
-            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             if (++field_128_max_idx >= field_100_code_len)
             {
                 field_F8_state = SecurityDoorStates::eListeningForPassword_9;
@@ -293,7 +293,7 @@ void SecurityDoor::VUpdate()
             }
             field_12A_unused = 1;
             SwitchStates_Set(field_FA_switch_id, 1);
-            mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             SFX_Play_Pitch(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
             field_F8_state = SecurityDoorStates::eSuccessChime_1;
             field_124_timer = sGnFrame_5C1B84 + 15;

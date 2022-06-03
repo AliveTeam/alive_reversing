@@ -100,8 +100,8 @@ CheatEntry stru_4C50F8[4] = {
 CheatController::CheatController()
     : BaseGameObject(1)
 {
-    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mTypeId = Types::eNone_0;
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    field_4_typeId = Types::eNone_0;
     field_10 = 0;
 }
 

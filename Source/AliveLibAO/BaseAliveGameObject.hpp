@@ -76,17 +76,17 @@ protected:
     template<class T>
     inline void SetCurrentMotion(T motion)
     {
-        mCurrentMotion = static_cast<s16>(motion);
+        field_FC_current_motion = static_cast<s16>(motion);
     }
     template<class T>
     inline void SetNextMotion(T motion)
     {
-        mNextMotion = static_cast<s16>(motion);
+        field_FE_next_motion = static_cast<s16>(motion);
     }
     template<class T>
     inline void SetPreviousMotion(T motion)
     {
-        mPreviousMotion = static_cast<s16>(motion);
+        field_E4_previous_motion = static_cast<s16>(motion);
     }
 
     void SetActiveCameraDelayedFromDir_401C90();
@@ -114,22 +114,22 @@ public:
     s16 MapFollowMe_401D30(s16 snapToGrid);
 
 public:
-    FP_RECT mCollectionRect;
-    s16 mPreviousMotion;
-    s16 mAnimFrame;
-    FP mLastLineYPos;
+    FP_RECT field_D4_collection_rect;
+    s16 field_E4_previous_motion;
+    s16 field_E6_last_anim_frame;
+    FP field_E8_LastLineYPos;
     s16 field_EC; // can the bees attack - multiple values so prob more unknown meanings as well
     s16 field_EE_type;
-    Path_TLV* mPathTLV;
-    PathLine* mCollisionLine;
+    Path_TLV* field_F0_pTlv;
+    PathLine* field_F4_pLine;
     PlatformBase* field_F8_pLiftPoint;
-    s16 mCurrentMotion;
-    s16 mNextMotion;
-    FP mHealth;
+    s16 field_FC_current_motion;
+    s16 field_FE_next_motion;
+    FP field_100_health;
     s16 field_104_pending_resource_count;
     s16 field_106_shot;
     s16 field_108_bMotionChanged;
-    BitField16<Flags_10A> mAliveGameObjectFlags;
+    BitField16<Flags_10A> field_10A_flags;
 };
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x10C);
 

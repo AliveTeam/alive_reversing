@@ -33,11 +33,11 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     }
 
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
     field_F8_scale = scale;
-    mScale = scale == FP_FromInteger(1);
-    mSpriteScale = scale * FP_FromInteger(2);
+    field_D6_scale = scale == FP_FromInteger(1);
+    field_CC_sprite_scale = scale * FP_FromInteger(2);
 
     if (field_F4_bSmall)
     {
@@ -48,9 +48,9 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
         field_FC_explosion_size = scale;
     }
 
-    mApplyShadows &= ~1u;
-    mXPos = xpos;
-    mYPos = ypos;
+    field_DC_bApplyShadows &= ~1u;
+    field_B8_xpos = xpos;
+    field_BC_ypos = ypos;
 
     ae_new<ScreenShake>(bEnabled_5C1BB6 ? 0 : 1, field_F4_bSmall);
 
@@ -73,7 +73,7 @@ void Explosion::VUpdate()
 
     PSX_RECT rect = {};
 
-    switch (mAnim.field_92_current_frame)
+    switch (field_20_animation.field_92_current_frame)
     {
         case 2:
             rect.x = FP_GetExponent(FP_FromInteger(-20) * field_FC_explosion_size);
@@ -105,7 +105,7 @@ void Explosion::VUpdate()
 
         case 8:
         {
-            ae_new<ParticleBurst>(mXPos, mYPos, field_F4_bSmall ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, field_F4_bSmall ? 11 : 13);
+            ae_new<ParticleBurst>(field_B8_xpos, field_BC_ypos, field_F4_bSmall ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, field_F4_bSmall ? 11 : 13);
             ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1, TPageAbr::eBlend_3, 1);
             break;
         }
@@ -114,57 +114,57 @@ void Explosion::VUpdate()
             break;
     }
 
-    if (mAnim.field_92_current_frame > 9)
+    if (field_20_animation.field_92_current_frame > 9)
     {
         if (field_F4_bSmall)
         {
-            mSpriteScale -= FP_FromDouble(0.066);
+            field_CC_sprite_scale -= FP_FromDouble(0.066);
         }
         else
         {
-            mSpriteScale -= FP_FromDouble(0.2);
+            field_CC_sprite_scale -= FP_FromDouble(0.2);
         }
     }
 
-    if (mAnim.field_92_current_frame == 1)
+    if (field_20_animation.field_92_current_frame == 1)
     {
         u8** ppRes = field_F4_bSmall ? Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID) : Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
         if (ppRes)
         {
             const AnimRecord& rec = field_F4_bSmall ? AnimRec(AnimId::Explosion_Small) : AnimRec(AnimId::Explosion);
             auto pParticle = ae_new<Particle>(
-                mXPos, mYPos, rec.mFrameTableOffset,
+                field_B8_xpos, field_BC_ypos, rec.mFrameTableOffset,
                 202, // Same size for both explosions for some reason
                 91,  // ^^^
                 ppRes);
 
             if (pParticle)
             {
-                if (pParticle->mGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+                if (pParticle->mFlags.Get(BaseGameObject::eListAddFailed_Bit1))
                 {
-                    pParticle->mGameObjectFlags.Set(BaseGameObject::eDead);
+                    pParticle->mFlags.Set(BaseGameObject::eDead);
                 }
 
-                pParticle->mApplyShadows &= ~1u;
-                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->field_DC_bApplyShadows &= ~1u;
+                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
-                if (mAnim.field_92_current_frame == 3)
+                if (field_20_animation.field_92_current_frame == 3)
                 {
-                    pParticle->mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
-                    pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.5);
+                    pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                    pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.5);
                 }
                 else
                 {
-                    pParticle->mAnim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
-                    pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
+                    pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+                    pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.25);
                 }
             }
         }
     }
 
-    if (mAnim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -172,7 +172,7 @@ void Explosion::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -190,11 +190,11 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
     expandedRect.y = std::min(pRect->y, pRect->h);
     expandedRect.h = std::max(pRect->y, pRect->h);
 
-    expandedRect.x += FP_GetExponent(mXPos);
-    expandedRect.w += FP_GetExponent(mXPos);
+    expandedRect.x += FP_GetExponent(field_B8_xpos);
+    expandedRect.w += FP_GetExponent(field_B8_xpos);
 
-    expandedRect.y += FP_GetExponent(mYPos);
-    expandedRect.h += FP_GetExponent(mYPos);
+    expandedRect.y += FP_GetExponent(field_BC_ypos);
+    expandedRect.h += FP_GetExponent(field_BC_ypos);
 
     for (s32 idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
     {
@@ -204,12 +204,12 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
             break;
         }
 
-        if (pObj->mGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             PSX_RECT boundRect = {};
             pObj->VGetBoundingRect(&boundRect, 1);
 
-            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && mScale == pObj->mScale)
+            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && field_D6_scale == pObj->field_D6_scale)
             {
                 pObj->VTakeDamage(this);
             }
@@ -237,11 +237,11 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
 
             if (dir == CameraPos::eCamLeft_3)
             {
-                ae_new<Gibs>(GibType::Slig_1, mXPos + FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
+                ae_new<Gibs>(GibType::Slig_1, field_B8_xpos + FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
             }
             else if (dir == CameraPos::eCamRight_4)
             {
-                ae_new<Gibs>(GibType::Slig_1, mXPos - FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
+                ae_new<Gibs>(GibType::Slig_1, field_B8_xpos - FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
             }
 
             Stop_slig_sounds(dir, 0);

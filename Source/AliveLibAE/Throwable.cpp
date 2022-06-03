@@ -72,14 +72,14 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
     FP hitY = {};
     PathLine* pLine = nullptr;
     if (sCollisions_DArray_5C1128->Raycast(
-            mXPos,
-            mYPos - FP_FromInteger(20),
-            mXPos,
-            mYPos + FP_FromInteger(20),
+            field_B8_xpos,
+            field_BC_ypos - FP_FromInteger(20),
+            field_B8_xpos,
+            field_BC_ypos + FP_FromInteger(20),
             &pLine,
             &hitX,
             &hitY,
-            mScale == 0 ? 0xF0 : 0x10F))
+            field_D6_scale == 0 ? 0xF0 : 0x10F))
     {
         if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
             pLine->field_8_type == eLineTypes::eUnknown_36)
@@ -101,10 +101,10 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
                         PSX_RECT bRect = {};
                         pPlatform->VGetBoundingRect(&bRect, 1);
 
-                        if (FP_GetExponent(mXPos) > bRect.x && FP_GetExponent(mXPos) < bRect.w && FP_GetExponent(mYPos) < bRect.h)
+                        if (FP_GetExponent(field_B8_xpos) > bRect.x && FP_GetExponent(field_B8_xpos) < bRect.w && FP_GetExponent(field_BC_ypos) < bRect.h)
                         {
                             pPlatform->VAdd(this);
-                            mObjectId = pPlatform->field_8_object_id;
+                            field_110_id = pPlatform->field_8_object_id;
                             return;
                         }
                     }
@@ -116,7 +116,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
 
 void BaseThrowable::VToDead()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
     field_11A_bDead = 1;
 }
 
@@ -127,5 +127,5 @@ void BaseThrowable::VOnPickUpOrSlapped()
 
 s16 BaseThrowable::VGetCount()
 {
-    return mCount;
+    return field_118_count;
 }

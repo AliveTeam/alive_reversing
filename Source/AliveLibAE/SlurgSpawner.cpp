@@ -44,5 +44,5 @@ void SlurgSpawner::VUpdate()
 void SlurgSpawner::VScreenChanged()
 {
     Path::TLV_Reset(field_20_tlvInfo, field_40_spawned_count, 0, 0);
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }

@@ -53,32 +53,32 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         ppAnimData,
         1);
 
-    mSpriteScale = scale;
-    mXPos = xpos;
-    mYPos = ypos + FP_FromInteger(2);
+    field_BC_sprite_scale = scale;
+    field_A8_xpos = xpos;
+    field_AC_ypos = ypos + FP_FromInteger(2);
 
     field_F0_timer = gnFrameCount_507670 + 91;
 
     if (scale == FP_FromInteger(1))
     {
         field_E8_z = FP_FromInteger(0);
-        mAnim.mRenderLayer = Layer::eLayer_FG1_37;
-        mScale = 1;
+        field_10_anim.field_C_layer = Layer::eLayer_FG1_37;
+        field_C6_scale = 1;
     }
     else if (scale == FP_FromDouble(0.5))
     {
         field_E8_z = FP_FromInteger(100);
-        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-        mScale = 0;
+        field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
+        field_C6_scale = 0;
     }
     else
     {
         // Not a valid scale
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    mVelX = xOff + GibRand(scale);
-    mVelY = yOff + GibRand(scale);
+    field_B4_velx = xOff + GibRand(scale);
+    field_B8_vely = yOff + GibRand(scale);
 
     if ((GibRand(scale) / FP_FromInteger(2)) >= FP_FromInteger(0))
     {
@@ -131,7 +131,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
                     0))
             {
                 field_5C4_parts_used_count = i;
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
         }
@@ -150,24 +150,24 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
                     0))
             {
                 field_5C4_parts_used_count = i;
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
         }
 
-        pPart->field_18_anim.mRenderLayer = mAnim.mRenderLayer;
+        pPart->field_18_anim.field_C_layer = field_10_anim.field_C_layer;
         pPart->field_18_anim.field_14_scale = scale;
 
-        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit17_bFreeResource); // Else the gibs seem to kill drills and other objects ??
-        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit17_bFreeResource); // Else the gibs seem to kill drills and other objects ??
+        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-        pPart->field_18_anim.mRed = static_cast<u8>(mRed);
-        pPart->field_18_anim.mGreen = static_cast<u8>(mGreen);
-        pPart->field_18_anim.mBlue = static_cast<u8>(mBlue);
+        pPart->field_18_anim.field_8_r = static_cast<u8>(field_C0_r);
+        pPart->field_18_anim.field_9_g = static_cast<u8>(field_C2_g);
+        pPart->field_18_anim.field_A_b = static_cast<u8>(field_C4_b);
 
-        pPart->field_0_x = mXPos;
-        pPart->field_4_y = mYPos;
+        pPart->field_0_x = field_A8_xpos;
+        pPart->field_4_y = field_AC_ypos;
         pPart->field_8_z = field_E8_z;
 
         pPart->field_C_dx = xOff + GibRand(scale);
@@ -193,11 +193,11 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 
 void Gibs::VUpdate()
 {
-    mXPos += mVelX;
-    mYPos += mVelY;
+    field_A8_xpos += field_B4_velx;
+    field_AC_ypos += field_B8_vely;
     field_E8_z += field_EC_dz;
 
-    mVelY += FP_FromDouble(0.25);
+    field_B8_vely += FP_FromDouble(0.25);
 
     if (field_E8_z + FP_FromInteger(100) < FP_FromInteger(15))
     {
@@ -222,7 +222,7 @@ void Gibs::VUpdate()
 
     if (static_cast<s32>(gnFrameCount_507670) > field_F0_timer)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -242,7 +242,7 @@ void Gibs::VRender(PrimHeader** ppOt)
         return;
     }
 
-    mSpriteScale = FP_FromInteger(100) / (field_E8_z + FP_FromInteger(100));
+    field_BC_sprite_scale = FP_FromInteger(100) / (field_E8_z + FP_FromInteger(100));
 
     // Head part rendering
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
@@ -264,11 +264,11 @@ void Gibs::VRender(PrimHeader** ppOt)
                 pGib->field_18_anim.field_14_scale = FP_FromInteger(100) / (pGib->field_8_z + FP_FromInteger(100));
                 if (pGib->field_18_anim.field_14_scale < FP_FromInteger(1))
                 {
-                    pGib->field_18_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+                    pGib->field_18_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
                 }
                 else
                 {
-                    pGib->field_18_anim.mRenderLayer = Layer::eLayer_FG1_37;
+                    pGib->field_18_anim.field_C_layer = Layer::eLayer_FG1_37;
                 }
 
                 pGib->field_18_anim.VRender(

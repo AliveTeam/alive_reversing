@@ -52,7 +52,7 @@ public:
 
     eSlingMudMotions GetNextMotion() const
     {
-        return static_cast<eSlingMudMotions>(mNextMotion);
+        return static_cast<eSlingMudMotions>(field_FE_next_motion);
     }
 
     GameSpeakEvents getLastIdx();

@@ -21,13 +21,13 @@ public:
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-        mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        mApplyShadows &= ~1u;
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_DC_bApplyShadows &= ~1u;
 
-        mSpriteScale = scale;
+        field_CC_sprite_scale = scale;
 
-        mXPos = xpos;
-        mYPos = ypos;
+        field_B8_xpos = xpos;
+        field_BC_ypos = ypos;
 
         field_FC_numGrenades = numGrenades;
 
@@ -73,12 +73,12 @@ private:
                 {
                     field_F4_state = BoomMachineStates::eDropGrenade_3;
                     const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Nozzle_DropGrenade);
-                    mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 }
                 break;
 
             case BoomMachineStates::eDropGrenade_3:
-                if (mAnim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
                 {
                     SFX_Play_Pitch(SoundEffect::PickupItem_28, 127, -900);
 
@@ -90,26 +90,26 @@ private:
                     gpThrowableArray_5D1E2C->Add(field_FC_numGrenades);
 
                     FP directedScale = {};
-                    if (mAnim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        directedScale = -mSpriteScale;
+                        directedScale = -field_CC_sprite_scale;
                     }
                     else
                     {
-                        directedScale = mSpriteScale;
+                        directedScale = field_CC_sprite_scale;
                     }
                     auto pGrenade = ae_new<Grenade>(
-                        (FP_FromInteger(6) * directedScale) + mXPos,
-                        (-FP_FromInteger(6) * mSpriteScale) + mYPos,
+                        (FP_FromInteger(6) * directedScale) + field_B8_xpos,
+                        (-FP_FromInteger(6) * field_CC_sprite_scale) + field_BC_ypos,
                         field_FC_numGrenades,
                         0,
                         0,
                         nullptr);
  
-                    pGrenade->VThrow((mAnim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                    pGrenade->VThrow((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
                     const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Nozzle_Idle);
-                    mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                     field_F4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -134,30 +134,30 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    mApplyShadows &= ~1u;
+    field_DC_bApplyShadows &= ~1u;
     field_F4_tlvInfo = tlvInfo;
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        field_CC_sprite_scale = FP_FromDouble(0.5);
     }
     else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
-        mSpriteScale = FP_FromInteger(1);
+        field_CC_sprite_scale = FP_FromInteger(1);
     }
 
-    mXPos = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    mYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    field_B8_xpos = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     auto pNozzle = ae_new<GrenadeMachineNozzle>(
-        ((pTlv->field_12_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1 ? -mSpriteScale : mSpriteScale) * FP_FromInteger(30)) + mXPos,
-        (mSpriteScale * FP_FromInteger(-30)) + mYPos,
-        mSpriteScale,
+        ((pTlv->field_12_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1 ? -field_CC_sprite_scale : field_CC_sprite_scale) * FP_FromInteger(30)) + field_B8_xpos,
+        (field_CC_sprite_scale * FP_FromInteger(-30)) + field_BC_ypos,
+        field_CC_sprite_scale,
         pTlv->field_16_number_of_grenades);
     if (pNozzle)
     {
-        pNozzle->mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_12_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1);
+        pNozzle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_12_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1);
         field_F8_nozzle_id = pNozzle->field_8_object_id;
     }
 
@@ -165,7 +165,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     {
         field_FC_bIsButtonOn = 1;
         const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Button_On);
-        mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
     else
     {
@@ -177,7 +177,7 @@ void BoomMachine::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (!field_FC_bIsButtonOn)
@@ -186,7 +186,7 @@ void BoomMachine::VUpdate()
         {
             field_FC_bIsButtonOn = 1;
             const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Button_On);
-            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         }
     }
     else if (field_FC_bIsButtonOn)
@@ -195,10 +195,10 @@ void BoomMachine::VUpdate()
         {
             field_FC_bIsButtonOn = 0;
             const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Button_Off);
-            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         }
 
-        if (mAnim.field_92_current_frame == 3)
+        if (field_20_animation.field_92_current_frame == 3)
         {
             SFX_Play_Pitch(SoundEffect::RedTick_3, 25, -1200);
         }
@@ -207,7 +207,7 @@ void BoomMachine::VUpdate()
 
 void BoomMachine::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 Bool32 BoomMachine::VIsButtonOn()
@@ -236,7 +236,7 @@ BoomMachine::~BoomMachine()
     BaseGameObject* pObj = sObjectIds.Find_Impl(field_F8_nozzle_id);
     if (pObj)
     {
-        pObj->mGameObjectFlags.Set(BaseGameObject::eDead);
+        pObj->mFlags.Set(BaseGameObject::eDead);
     }
     Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }

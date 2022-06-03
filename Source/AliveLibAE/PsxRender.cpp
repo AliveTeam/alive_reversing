@@ -92,9 +92,9 @@ struct OT_Prim final
 {
     s32 field_0;
     s32 field_4;
-    u8 mRed;
-    u8 mGreen;
-    u8 mBlue;
+    u8 field_8_r;
+    u8 field_9_g;
+    u8 field_A_b;
     u8 field_B_flags;
     s8 field_C_vert_count;
     s8 field_D_bClip;
@@ -1675,9 +1675,9 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, s3
 
     const u16* pClut = (u16*) ((s8*) sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)));
 
-    const s16* lut_r = &stru_C146C0.r[pPrim->mRed >> 3][0];
-    const s16* lut_g = &stru_C146C0.g[pPrim->mGreen >> 3][0];
-    const s16* lut_b = &stru_C146C0.b[pPrim->mBlue >> 3][0];
+    const s16* lut_r = &stru_C146C0.r[pPrim->field_8_r >> 3][0];
+    const s16* lut_g = &stru_C146C0.g[pPrim->field_9_g >> 3][0];
+    const s16* lut_b = &stru_C146C0.b[pPrim->field_A_b >> 3][0];
 
     s32 skipBlackPixels = 0;
     s32 unknown = 1;
@@ -2123,9 +2123,9 @@ OT_Prim* PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pData, s32 xof
     OT_Prim* pConverted = off_578330;
     pConverted->field_E = 0;
     pConverted->field_D_bClip = 1;
-    pConverted->mRed = any.mPrimHeader->rgb_code.r;
-    pConverted->mGreen = any.mPrimHeader->rgb_code.g;
-    pConverted->mBlue = any.mPrimHeader->rgb_code.b;
+    pConverted->field_8_r = any.mPrimHeader->rgb_code.r;
+    pConverted->field_9_g = any.mPrimHeader->rgb_code.g;
+    pConverted->field_A_b = any.mPrimHeader->rgb_code.b;
     pConverted->field_B_flags = any.mPrimHeader->rgb_code.code_or_pad;
 
     const s32 kPrimType = PSX_Prim_Code_Without_Blending_Or_SemiTransparency(any.mPrimHeader->rgb_code.code_or_pad);
@@ -2165,9 +2165,9 @@ OT_Prim* PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pData, s32 xof
         Convert_Vertex_UV(pConverted->field_14_verts, pPoly, EPolyType::e4Point);
 
         if (!(pConverted->field_B_flags & 1) // Blending enabled?
-            && (pConverted->mRed & 248) == 128
-            && (pConverted->mGreen & 248) == 128
-            && (pConverted->mBlue & 248) == 128)
+            && (pConverted->field_8_r & 248) == 128
+            && (pConverted->field_9_g & 248) == 128
+            && (pConverted->field_A_b & 248) == 128)
         {
             pConverted->field_B_flags |= 1;
         }
@@ -2274,9 +2274,9 @@ OT_Prim* PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pData, s32 xof
         Convert_Vertex_UV(pConverted->field_14_verts, pPoly, EPolyType::e3Point);
 
         if (!(pConverted->field_B_flags & 1) // Blending enabled?
-            && (pConverted->mRed & 248) == 128
-            && (pConverted->mGreen & 248) == 128
-            && (pConverted->mBlue & 248) == 128)
+            && (pConverted->field_8_r & 248) == 128
+            && (pConverted->field_9_g & 248) == 128
+            && (pConverted->field_A_b & 248) == 128)
         {
             pConverted->field_B_flags |= 1;
         }
@@ -2454,9 +2454,9 @@ void PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculateSlopes pC
         {
             // no blending
 
-            u32 g_s3 = pPrim->mGreen >> 3;
-            u32 r_s3 = pPrim->mRed >> 3;
-            u32 b_s3 = pPrim->mBlue >> 3;
+            u32 g_s3 = pPrim->field_9_g >> 3;
+            u32 r_s3 = pPrim->field_8_r >> 3;
+            u32 b_s3 = pPrim->field_A_b >> 3;
 
             r_lut_dword_BD3308 = stru_C146C0.r[r_s3];
             g_lut_dword_BD32D8 = stru_C146C0.g[g_s3];
@@ -2472,9 +2472,9 @@ void PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculateSlopes pC
     else
     {
         // not textured
-        u32 g_s3 = pPrim->mGreen >> 3;
-        u32 r_s3 = pPrim->mRed >> 3;
-        u32 b_s3 = pPrim->mBlue >> 3;
+        u32 g_s3 = pPrim->field_9_g >> 3;
+        u32 r_s3 = pPrim->field_8_r >> 3;
+        u32 b_s3 = pPrim->field_A_b >> 3;
 
         sPoly_fill_colour_BD3350 = ((u16) r_s3 << sRedShift_C215C4) | ((u16) g_s3 << sGreenShift_C1D180) | ((u16) b_s3 << sBlueShift_C19140);
     }
@@ -4029,9 +4029,9 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
 
     primLocal.field_0 = pOt->field_0;
     primLocal.field_4 = pOt->field_4;
-    primLocal.mRed = pOt->mRed;
-    primLocal.mBlue = pOt->mBlue;
-    primLocal.mGreen = pOt->mGreen;
+    primLocal.field_8_r = pOt->field_8_r;
+    primLocal.field_A_b = pOt->field_A_b;
+    primLocal.field_9_g = pOt->field_9_g;
     primLocal.field_E = pOt->field_E;
     primLocal.field_B_flags = pOt->field_B_flags;
     primLocal.field_12_clut = pOt->field_12_clut;

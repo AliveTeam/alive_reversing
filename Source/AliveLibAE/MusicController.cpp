@@ -359,7 +359,7 @@ void MusicController::Shutdown()
 {
     if (pMusicController_5C3020)
     {
-        pMusicController_5C3020->mGameObjectFlags.Set(BaseGameObject::eDead);
+        pMusicController_5C3020->mFlags.Set(BaseGameObject::eDead);
         pMusicController_5C3020 = nullptr;
         //nullsub_8(); // TODO: Check if PSX stub
         //sub_4FBAD0(dword_5C3028); // Some other likely strange PSX specific thing that does nothing
@@ -405,7 +405,7 @@ MusicController::MusicTypes MusicController::static_GetMusicType(u16* seq1, u16*
 MusicController::MusicController()
     : BaseGameObject(TRUE, 0)
 {
-    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_40_flags_and_idx = -1;
     field_24_currentLevelID = LevelIds::eNone;
     field_28_object_id = -1;
@@ -566,7 +566,7 @@ void MusicController::VUpdate()
     if (Event_Get(kEventDeathReset))
     {
         field_58_flags.Set(Flags_58::e58_Dead_Bit3);
-        field_28_object_id = sActiveHero->field_8_object_id;
+        field_28_object_id = sActiveHero_5C1B68->field_8_object_id;
     }
 
     if (field_58_flags.Get(Flags_58::e58_ScreenChanged_Bit2))

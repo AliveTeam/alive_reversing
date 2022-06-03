@@ -21,26 +21,26 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
         field_10_resources_array.Push_Back(nullptr);
     }
 
-    mUpdateDelay = 0;
+    field_1C_update_delay = 0;
 
     SetType(AETypes::eNone_0);
     
-    mGameObjectFlags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
-    mGameObjectFlags.Clear(BaseGameObject::Options::eDead);
-    mGameObjectFlags.Clear(BaseGameObject::Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
-    mGameObjectFlags.Clear(BaseGameObject::Options::eIsBaseAliveGameObject_Bit6);
-    mGameObjectFlags.Clear(BaseGameObject::Options::eCanExplode_Bit7);
-    mGameObjectFlags.Clear(BaseGameObject::Options::eInteractive_Bit8);
-    mGameObjectFlags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
-    mGameObjectFlags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
-    mGameObjectFlags.Clear(BaseGameObject::Options::eCantKill_Bit11);
-    mGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
+    mFlags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
+    mFlags.Clear(BaseGameObject::Options::eDead);
+    mFlags.Clear(BaseGameObject::Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
+    mFlags.Clear(BaseGameObject::Options::eIsBaseAliveGameObject_Bit6);
+    mFlags.Clear(BaseGameObject::Options::eCanExplode_Bit7);
+    mFlags.Clear(BaseGameObject::Options::eInteractive_Bit8);
+    mFlags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
+    mFlags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
+    mFlags.Clear(BaseGameObject::Options::eCantKill_Bit11);
+    mFlags.Set(BaseGameObject::eUpdatable_Bit2);
 
     if (bAddToObjectList)
     {
         if (!gBaseGameObjects->Push_Back(this))
         {
-            mGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+            mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
         }
     }
 
@@ -125,6 +125,6 @@ void BaseGameObject::VScreenChanged()
         || gMap.mCurrentPath != gMap.mPath
         || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }

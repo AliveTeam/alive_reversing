@@ -40,7 +40,7 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
 {
     SetType(AETypes::eSecurityOrb_83);
 
-    mGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     const AnimRecord& rec = AnimRec(AnimId::Security_Orb);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -48,25 +48,25 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
 
     SetTint(sSecurityOrbTints_55C1EC, gMap.mCurrentLevel);
 
-    mXPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    mYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_118_tlvInfo = tlvInfo;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = 0;
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        field_CC_sprite_scale = FP_FromDouble(0.5);
+        field_D6_scale = 0;
+        field_20_animation.field_C_render_layer = Layer::eLayer_8;
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = 1;
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        field_CC_sprite_scale = FP_FromInteger(1);
+        field_D6_scale = 1;
+        field_20_animation.field_C_render_layer = Layer::eLayer_27;
     }
 
-    mApplyShadows |= 2u;
+    field_DC_bApplyShadows |= 2u;
     field_11C_state = 0;
     field_124_sound_channels_mask = 0;
 }
@@ -78,7 +78,7 @@ SecurityOrb::~SecurityOrb()
         SND_Stop_Channels_Mask(field_124_sound_channels_mask);
     }
 
-    if (mHealth > FP_FromInteger(0))
+    if (field_10C_health > FP_FromInteger(0))
     {
         Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
     }
@@ -90,34 +90,34 @@ SecurityOrb::~SecurityOrb()
 
 void SecurityOrb::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mGameObjectFlags.Get(BaseGameObject::eDead))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return 0;
     }
 
-    mGameObjectFlags.Set(BaseGameObject::eDead);
-    mHealth = FP_FromInteger(0);
+    mFlags.Set(BaseGameObject::eDead);
+    field_10C_health = FP_FromInteger(0);
 
     if (pFrom->Type() == AETypes::eMineCar_89 || pFrom->Type() == AETypes::eAbilityRing_104 || pFrom->Type() == AETypes::eShrykull_121)
     {
         ae_new<Explosion>(
-            mXPos,
-            mYPos - (mSpriteScale * FP_FromInteger(5)),
-            mSpriteScale,
+            field_B8_xpos,
+            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)),
+            field_CC_sprite_scale,
             0);
 
         ae_new<Gibs>(
             GibType::Metal_5,
-            mXPos,
-            mYPos,
+            field_B8_xpos,
+            field_BC_ypos,
             FP_FromInteger(0),
             FP_FromInteger(0),
-            mSpriteScale,
+            field_CC_sprite_scale,
             0);
     }
 
@@ -128,7 +128,7 @@ void SecurityOrb::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     // TODO: untangle
@@ -151,11 +151,11 @@ void SecurityOrb::VUpdate()
                 const s32 timerFrame = field_120_timer - sGnFrame_5C1B84;
                 if (timerFrame == 4)
                 {
-                    SFX_Play_Mono(SoundEffect::Zap1_49, 0, mSpriteScale);
+                    SFX_Play_Mono(SoundEffect::Zap1_49, 0, field_CC_sprite_scale);
                 }
                 else if (timerFrame == 1)
                 {
-                    SFX_Play_Mono(SoundEffect::Zap2_50, 0, mSpriteScale);
+                    SFX_Play_Mono(SoundEffect::Zap2_50, 0, field_CC_sprite_scale);
                 }
 
                 if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
@@ -167,25 +167,25 @@ void SecurityOrb::VUpdate()
         else if (static_cast<s32>(sGnFrame_5C1B84) > field_120_timer)
         {
             PSX_RECT bRect = {};
-            sActiveHero->VGetBoundingRect(&bRect, 1);
+            sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
 
             const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
 
             ae_new<ZapLine>(
-                mXPos,
-                mYPos - (FP_FromInteger(8) * mSpriteScale),
+                field_B8_xpos,
+                field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale),
                 xpos,
                 ypos,
                 8,
                 ZapLineType::eThick_0,
                 Layer::eLayer_ZapLinesMuds_28);
 
-            ae_new<PossessionFlicker>(sActiveHero, 8, 255, 100, 100);
+            ae_new<PossessionFlicker>(sActiveHero_5C1B68, 8, 255, 100, 100);
 
-            if (sActiveHero->mHealth > FP_FromInteger(0))
+            if (sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
             {
-                sActiveHero->VTakeDamage(this);
+                sActiveHero_5C1B68->VTakeDamage(this);
             }
 
             field_120_timer = sGnFrame_5C1B84 + 8;
@@ -193,56 +193,56 @@ void SecurityOrb::VUpdate()
 
             ae_new<ScreenShake>(1, 0);
 
-            auto pSpark = ae_new<Sparks>(mXPos, mYPos - (FP_FromInteger(8) * mSpriteScale), mSpriteScale);
+            auto pSpark = ae_new<Sparks>(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
             if (pSpark)
             {
-                pSpark->mGreen = 65;
-                pSpark->mBlue = 65;
-                pSpark->mRed = 255;
+                pSpark->field_D2_g = 65;
+                pSpark->field_D4_b = 65;
+                pSpark->field_D0_r = 255;
             }
 
-            auto pSpark2 = ae_new<Sparks>(mXPos, mYPos - (FP_FromInteger(8) * mSpriteScale), mSpriteScale);
+            auto pSpark2 = ae_new<Sparks>(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
             if (pSpark2)
             {
-                pSpark2->mGreen = 65;
-                pSpark2->mBlue = 65;
-                pSpark2->mRed = 255;
+                pSpark2->field_D2_g = 65;
+                pSpark2->field_D4_b = 65;
+                pSpark2->field_D0_r = 255;
             }
 
             for (s32 i = 0; i < 9; i++)
             {
-                auto pSpark3 = ae_new<Sparks>(xpos, ypos, mSpriteScale);
+                auto pSpark3 = ae_new<Sparks>(xpos, ypos, field_CC_sprite_scale);
                 if (pSpark3)
                 {
-                    pSpark3->mGreen = 65;
-                    pSpark3->mBlue = 65;
-                    pSpark3->mRed = 255;
+                    pSpark3->field_D2_g = 65;
+                    pSpark3->field_D4_b = 65;
+                    pSpark3->field_D0_r = 255;
                 }
             }
         }
     }
     else
     {
-        if (mAnim.field_92_current_frame == 2 || mAnim.field_92_current_frame == 6 || mAnim.field_92_current_frame == 10)
+        if (field_20_animation.field_92_current_frame == 2 || field_20_animation.field_92_current_frame == 6 || field_20_animation.field_92_current_frame == 10)
         {
             if (field_124_sound_channels_mask)
             {
                 SND_Stop_Channels_Mask(field_124_sound_channels_mask);
             }
 
-            if (mSpriteScale == FP_FromDouble(0.5))
+            if (field_CC_sprite_scale == FP_FromDouble(0.5))
             {
-                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 35, 720, mSpriteScale);
+                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 35, 720, field_CC_sprite_scale);
             }
             else
             {
-                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 55, 700, mSpriteScale);
+                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 55, 700, field_CC_sprite_scale);
             }
         }
 
         if (Event_Get(kEventAbeOhm))
         {
-            if (!sActiveHero->field_168_ring_pulse_timer || !sActiveHero->field_16C_bHaveShrykull || sActiveHero->mSpriteScale != FP_FromInteger(1))
+            if (!sActiveHero_5C1B68->field_168_ring_pulse_timer || !sActiveHero_5C1B68->field_16C_bHaveShrykull || sActiveHero_5C1B68->field_CC_sprite_scale != FP_FromInteger(1))
             {
                 field_11C_state = 1;
                 field_120_timer = sGnFrame_5C1B84 + 20;

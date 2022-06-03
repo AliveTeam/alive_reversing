@@ -33,12 +33,12 @@ void InvisibleSwitch::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
-        mGameObjectFlags.Set(Options::eDead);
+        mFlags.Set(Options::eDead);
     }
 
     if (field_28_state != States::eWaitForDelayTimer_1)
     {
-        mGameObjectFlags.Set(Options::eDead);
+        mFlags.Set(Options::eDead);
     }
 }
 
@@ -48,24 +48,24 @@ void InvisibleSwitch::VUpdate()
     {
         case States::eWaitForTrigger_0:
         {
-            // sControlledCharacter can be nullptr during the game ender
+            // sControlledCharacter_50767C can be nullptr during the game ender
             // Within X bounds?
-            const FP charXPos = sControlledCharacter->mXPos;
-            if (sControlledCharacter && charXPos >= FP_FromInteger(field_20_top_left.field_0_x) && charXPos <= FP_FromInteger(field_24_bottom_right.field_0_x))
+            const FP charXPos = sControlledCharacter_50767C->field_A8_xpos;
+            if (sControlledCharacter_50767C && charXPos >= FP_FromInteger(field_20_top_left.field_0_x) && charXPos <= FP_FromInteger(field_24_bottom_right.field_0_x))
             {
                 // Within Y bounds?
-                const FP charYPos = sControlledCharacter->mYPos;
+                const FP charYPos = sControlledCharacter_50767C->field_AC_ypos;
                 if (charYPos >= FP_FromInteger(field_20_top_left.field_2_y) && charYPos <= FP_FromInteger(field_24_bottom_right.field_2_y))
                 {
                     // TODO: ???
-                    if (sControlledCharacter != sActiveHero
-                        || (sActiveHero->mCurrentMotion != eAbeMotions::Motion_157_DoorExit_42D780
-                            && sActiveHero->mCurrentMotion != eAbeMotions::Motion_156_DoorEnter_42D370))
+                    if (sControlledCharacter_50767C != sActiveHero_507678
+                        || (sActiveHero_507678->field_FC_current_motion != eAbeMotions::Motion_157_DoorExit_42D780
+                            && sActiveHero_507678->field_FC_current_motion != eAbeMotions::Motion_156_DoorEnter_42D370))
                     {
                         // Scale matches ?
                         if (field_2C_scale == InvisibleSwitchScale::eAny_2
-                            || (field_2C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
-                            || (field_2C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter->mSpriteScale == FP_FromInteger(1)))
+                            || (field_2C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromDouble(0.5))
+                            || (field_2C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_50767C->field_BC_sprite_scale == FP_FromInteger(1)))
                         {
                             field_28_state = States::eWaitForDelayTimer_1;
                             field_18_delay_timer = gnFrameCount_507670 + field_1C_delay;
@@ -91,7 +91,7 @@ void InvisibleSwitch::VUpdate()
 
     if (Event_Get(kEventDeathReset_4))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

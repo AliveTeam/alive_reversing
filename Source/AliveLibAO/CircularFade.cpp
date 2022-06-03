@@ -23,27 +23,27 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     VFadeIn(static_cast<s8>(direction), destroyOnDone);
 
     const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
-    mBlue = fade_rgb;
-    mGreen = fade_rgb;
-    mRed = fade_rgb;
+    field_C4_b = fade_rgb;
+    field_C2_g = fade_rgb;
+    field_C0_r = fade_rgb;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Circular_Fade);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    mApplyShadows &= ~1u;
+    field_CC_bApplyShadows &= ~1u;
 
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-    mSpriteScale.fpValue = scale.fpValue * 2;
-    mAnim.field_14_scale.fpValue = scale.fpValue * 2;
+    field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+    field_BC_sprite_scale.fpValue = scale.fpValue * 2;
+    field_10_anim.field_14_scale.fpValue = scale.fpValue * 2;
 
-    mXPos = xpos;
-    mYPos = ypos;
-    mAnim.mRenderMode = TPageAbr::eBlend_2;
-    mAnim.mRenderLayer = Layer::eLayer_FadeFlash_40;
-    mRed = field_1A8_fade_colour;
-    mGreen = field_1A8_fade_colour;
-    mBlue = field_1A8_fade_colour;
+    field_A8_xpos = xpos;
+    field_AC_ypos = ypos;
+    field_10_anim.field_B_render_mode = TPageAbr::eBlend_2;
+    field_10_anim.field_C_layer = Layer::eLayer_FadeFlash_40;
+    field_C0_r = field_1A8_fade_colour;
+    field_C2_g = field_1A8_fade_colour;
+    field_C4_b = field_1A8_fade_colour;
 
     Init_SetTPage_495FB0(&field_188_tPage[0], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
     Init_SetTPage_495FB0(&field_188_tPage[1], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
@@ -53,22 +53,22 @@ void CircularFade::VRender(PrimHeader** ppOt)
 {
     const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
 
-    mRed = fade_rgb;
-    mBlue = fade_rgb;
-    mGreen = fade_rgb;
+    field_C0_r = fade_rgb;
+    field_C4_b = fade_rgb;
+    field_C2_g = fade_rgb;
 
-    mAnim.mRed = fade_rgb;
-    mAnim.mGreen = fade_rgb;
-    mAnim.mBlue = fade_rgb;
+    field_10_anim.field_8_r = fade_rgb;
+    field_10_anim.field_9_g = fade_rgb;
+    field_10_anim.field_A_b = fade_rgb;
 
-    mAnim.VRender(
-        FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + mXOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-        FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mYOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+    field_10_anim.VRender(
+        FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+        FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
         ppOt,
         0,
         0);
     PSX_RECT frameRect = {};
-    mAnim.Get_Frame_Rect(&frameRect);
+    field_10_anim.Get_Frame_Rect(&frameRect);
     pScreenManager_4FF7C8->InvalidateRect(
         frameRect.x,
         frameRect.y,
@@ -109,14 +109,14 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile->field_14_w = gPsxDisplay_504C78.field_0_width;
     pTile->field_16_h = frameRect.y;
     Poly_Set_SemiTrans_498A40(&pTile->mBase.header, 1);
-    OrderingTable_Add_498A80(OtLayer(ppOt, mAnim.mRenderLayer), &pTile->mBase.header);
+    OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pTile->mBase.header);
 
     Prim_Tile* pTile2_1 = &field_110[gPsxDisplay_504C78.field_A_buffer_index];
     Init_Tile(pTile2_1);
     SetRGB0(pTile2_1, fadeColour, fadeColour, fadeColour);
 
     s16 w = 0;
-    if (mAnim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         w = frameRect.x + 1;
     }
@@ -128,7 +128,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile2_1->field_14_w = w;
     pTile2_1->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans_498A40(&pTile2_1->mBase.header, 1);
-    OrderingTable_Add_498A80(OtLayer(ppOt, mAnim.mRenderLayer), &pTile2_1->mBase.header);
+    OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pTile2_1->mBase.header);
 
     Prim_Tile* pTile2 = &field_138[gPsxDisplay_504C78.field_A_buffer_index];
     Init_Tile(pTile2);
@@ -137,7 +137,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile2->field_14_w = gPsxDisplay_504C78.field_0_width - frameRect.w;
     pTile2->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans_498A40(&pTile2->mBase.header, 1);
-    OrderingTable_Add_498A80(OtLayer(ppOt, mAnim.mRenderLayer), &pTile2->mBase.header);
+    OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pTile2->mBase.header);
 
     Prim_Tile* pTile3 = &field_160[gPsxDisplay_504C78.field_A_buffer_index];
     Init_Tile(pTile3);
@@ -146,8 +146,8 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile3->field_14_w = gPsxDisplay_504C78.field_0_width;
     pTile3->field_16_h = gPsxDisplay_504C78.field_2_height - frameRect.h;
     Poly_Set_SemiTrans_498A40(&pTile3->mBase.header, 1);
-    OrderingTable_Add_498A80(OtLayer(ppOt, mAnim.mRenderLayer), &pTile3->mBase.header);
-    OrderingTable_Add_498A80(OtLayer(ppOt, mAnim.mRenderLayer), &field_188_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+    OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pTile3->mBase.header);
+    OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &field_188_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
 
     if (field_1A8_fade_colour < 255)
     {
@@ -164,7 +164,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
         if (field_E4_flags.Get(CircularFade::eBit3_DestroyOnDone))
         {
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 }

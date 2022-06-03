@@ -22,11 +22,11 @@ MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer
     const AnimRecord& rec = AnimRec(AnimId::MotionDetector_Laser);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    mAnim.mRenderLayer = layer;
-    mXPos = xpos;
-    mSpriteScale = scale;
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
-    mYPos = ypos;
+    field_20_animation.field_C_render_layer = layer;
+    field_B8_xpos = xpos;
+    field_CC_sprite_scale = scale;
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+    field_BC_ypos = ypos;
 }
 
 // =====================================================================================
@@ -40,15 +40,15 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+    field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
 
-    mYOffset = 0;
+    field_D8_yOffset = 0;
 
-    mRed = 64;
-    mBlue = 0;
-    mGreen = 0;
+    field_D0_r = 64;
+    field_D4_b = 0;
+    field_D2_g = 0;
 
     field_178_bObjectInLaser = 0;
 
@@ -59,11 +59,11 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
         field_FC_owner_id = -1;
 
         field_F4_tlvInfo = tlvInfo;
-        mSpriteScale = FP_FromInteger(1);
+        field_CC_sprite_scale = FP_FromInteger(1);
 
         if (pTlv->field_10_scale != Scale_short::eFull_0)
         {
-            mSpriteScale = FP_FromDouble(0.5);
+            field_CC_sprite_scale = FP_FromDouble(0.5);
         }
 
         field_114_x1_fp = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
@@ -75,13 +75,13 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
         gMap.Get_Abe_Spawn_Pos(&pos);
         if (pTlv->field_12_device_x)
         {
-            mXPos = FP_FromInteger(pTlv->field_12_device_x - pos.field_0_x);
-            mYPos = FP_FromInteger(pTlv->field_14_device_y - pos.field_2_y);
+            field_B8_xpos = FP_FromInteger(pTlv->field_12_device_x - pos.field_0_x);
+            field_BC_ypos = FP_FromInteger(pTlv->field_14_device_y - pos.field_2_y);
         }
         else
         {
-            mXPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-            mYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+            field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+            field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
         }
 
         field_174_speed = FP_FromRaw((u16) pTlv->field_16_speed_x256 << 8);
@@ -90,12 +90,12 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
         if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
         {
             field_100_state = States::eMoveLeft_2;
-            pLaser = ae_new<MotionDetectorLaser>(field_11C_y1_fp, field_120_y2_fp, mSpriteScale, Layer::eLayer_Foreground_36);
+            pLaser = ae_new<MotionDetectorLaser>(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
         }
         else if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eRight_0)
         {
             field_100_state = States::eMoveRight_0;
-            pLaser = ae_new<MotionDetectorLaser>(field_114_x1_fp, field_120_y2_fp, mSpriteScale, Layer::eLayer_Foreground_36);
+            pLaser = ae_new<MotionDetectorLaser>(field_114_x1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
         }
         else
         {
@@ -104,11 +104,11 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
 
         if (pTlv->field_1A_draw_flare == Choice_short::eYes_1)
         {
-            mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         }
         else
         {
-            mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         }
 
         if (pLaser)
@@ -118,11 +118,11 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
 
             if (SwitchStates_Get(field_108_disable_switch_id) == 0)
             {
-                pLaser->mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                pLaser->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             }
             else
             {
-                pLaser->mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                pLaser->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             }
         }
 
@@ -132,26 +132,26 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
     }
 
     field_10E_bUnknown = 1;
-    mSpriteScale = pOwner->mSpriteScale;
+    field_CC_sprite_scale = pOwner->field_CC_sprite_scale;
 
-    field_114_x1_fp = pOwner->mXPos - (mSpriteScale * FP_FromInteger(75));
-    field_11C_y1_fp = (mSpriteScale * FP_FromInteger(75)) + pOwner->mXPos;
-    field_118_x2_fp = pOwner->mYPos - (mSpriteScale * FP_FromInteger(20));
-    field_120_y2_fp = pOwner->mYPos;
+    field_114_x1_fp = pOwner->field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(75));
+    field_11C_y1_fp = (field_CC_sprite_scale * FP_FromInteger(75)) + pOwner->field_B8_xpos;
+    field_118_x2_fp = pOwner->field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20));
+    field_120_y2_fp = pOwner->field_BC_ypos;
 
-    mXPos = pOwner->mXPos;
-    mYPos = pOwner->mYPos - (mSpriteScale * FP_FromInteger(20));
+    field_B8_xpos = pOwner->field_B8_xpos;
+    field_BC_ypos = pOwner->field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20));
 
     field_174_speed = FP_FromInteger(2);
     field_100_state = States::eMoveRight_0;
 
-    auto pLaserMem = ae_new<MotionDetectorLaser>(pOwner->mXPos, pOwner->mYPos, mSpriteScale, Layer::eLayer_Foreground_36);
+    auto pLaserMem = ae_new<MotionDetectorLaser>(pOwner->field_B8_xpos, pOwner->field_BC_ypos, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
     if (pLaserMem)
     {
         field_F8_laser_id = pLaserMem->field_8_object_id;
     }
 
-    mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
     field_FC_owner_id = pOwner->field_8_object_id;
     field_10A_alarm_switch_id = 0;
     field_10C_alarm_duration = 0;
@@ -174,7 +174,7 @@ MotionDetector::~MotionDetector()
     BaseGameObject* pLaser = sObjectIds.Find_Impl(field_F8_laser_id);
     if (pLaser)
     {
-        pLaser->mGameObjectFlags.Set(BaseGameObject::eDead);
+        pLaser->mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -185,7 +185,7 @@ void MotionDetector::VScreenChanged()
     BaseGameObject* pOwner = sObjectIds.Find_Impl(field_FC_owner_id);
     if (!pOwner)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -193,7 +193,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 {
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-    if (mAnim.mAnimFlags.Get(AnimFlags::eBit3_Render))
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, AETypes::eRedLaser_111));
         PSX_RECT bLaserRect = {};
@@ -202,13 +202,13 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         const FP camXFp = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
         const FP camYFp = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
 
-        const s16 screenX = FP_GetExponent(mXPos) - FP_GetExponent(camXFp);
+        const s16 screenX = FP_GetExponent(field_B8_xpos) - FP_GetExponent(camXFp);
 
         const s16 x0 = static_cast<s16>(PsxToPCX(screenX, 11));
-        const s16 y0 = FP_GetExponent(mYPos) - FP_GetExponent(camYFp);
-        const s16 y1 = FP_GetExponent(pLaser->mYPos - camYFp);
+        const s16 y0 = FP_GetExponent(field_BC_ypos) - FP_GetExponent(camYFp);
+        const s16 y1 = FP_GetExponent(pLaser->field_BC_ypos - camYFp);
         const s16 y2 = y1 + bLaserRect.y - bLaserRect.h;
-        const s16 x1 = PsxToPCX(FP_GetExponent(pLaser->mXPos - camXFp), 11);
+        const s16 x1 = PsxToPCX(FP_GetExponent(pLaser->field_B8_xpos - camXFp), 11);
 
         Poly_F3* pPrim = &field_124_prims[gPsxDisplay_5C1130.field_C_buffer_index];
         PolyF3_Init(pPrim);
@@ -221,13 +221,13 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 
         // Add triangle
         Poly_Set_SemiTrans_4F8A60(&pPrim->mBase.header, TRUE);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, mAnim.mRenderLayer), &pPrim->mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pPrim->mBase.header);
 
         // Add tpage
         const s32 tpage = PSX_getTPage_4F60E0(TPageMode::e16Bit_2, field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
         Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 0, 0, tpage);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, mAnim.mRenderLayer), &pTPage->mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTPage->mBase);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             std::min(x0, std::min(x1, x1)),
@@ -243,7 +243,7 @@ s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
     if (pWho->Type() == AETypes::eAbe_69)
     {
         // Abe is safe in these states or if electrocuted or in ddcheat fly mode.
-        if (pWho->mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0 || pWho->mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0 || pWho->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || pWho->mCurrentMotion == eAbeMotions::Motion_60_Unused_4A3200 || pWho->mCurrentMotion == eAbeMotions::Motion_57_Dead_4589A0 || pWho->mCurrentMotion == eAbeMotions::Motion_117_InMineCar_4587C0 || pWho->mAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted) || sDDCheat_FlyingEnabled_5C2C08)
+        if (pWho->field_106_current_motion == eAbeMotions::Motion_0_Idle_44EEB0 || pWho->field_106_current_motion == eAbeMotions::Motion_17_CrouchIdle_456BC0 || pWho->field_106_current_motion == eAbeMotions::Motion_67_LedgeHang_454E20 || pWho->field_106_current_motion == eAbeMotions::Motion_60_Unused_4A3200 || pWho->field_106_current_motion == eAbeMotions::Motion_57_Dead_4589A0 || pWho->field_106_current_motion == eAbeMotions::Motion_117_InMineCar_4587C0 || pWho->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted) || sDDCheat_FlyingEnabled_5C2C08)
         {
             return 0;
         }
@@ -257,18 +257,18 @@ s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
         }
 
         // If mud isn't moving then he is safe.
-        if (pWho->mVelX == FP_FromInteger(0) && pWho->mVelY == FP_FromInteger(0))
+        if (pWho->field_C4_velx == FP_FromInteger(0) && pWho->field_C8_vely == FP_FromInteger(0))
         {
             return 0;
         }
     }
-    else if (FP_GetExponent(pWho->mVelX) == 0 && FP_GetExponent(pWho->mVelY) == 0)
+    else if (FP_GetExponent(pWho->field_C4_velx) == 0 && FP_GetExponent(pWho->field_C8_vely) == 0)
     {
         // Whatever this is isn't moving
         return 0;
     }
 
-    if (!(mAnim.mAnimFlags.Get(AnimFlags::eBit3_Render)))
+    if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render)))
     {
         // Not being rendered so can't set off the motion beam
         return 0;
@@ -290,7 +290,7 @@ void MotionDetector::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (!sNum_CamSwappers_5C1B66)
@@ -300,10 +300,10 @@ void MotionDetector::VUpdate()
             // A laser not part of greeter and disabled, do nothing.
             if (SwitchStates_Get(field_108_disable_switch_id))
             {
-                pLaser->mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                pLaser->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 return;
             }
-            pLaser->mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            pLaser->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         }
 
         PSX_RECT bLaserRect = {};
@@ -329,9 +329,9 @@ void MotionDetector::VUpdate()
                     && bLaserRect.w >= (objRect.x + 8)
                     && bLaserRect.h >= objRect.y
                     && bLaserRect.y <= objRect.h
-                    && pObj->mSpriteScale == mSpriteScale)
+                    && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
                 {
-                    if (pObj == sActiveHero)
+                    if (pObj == sActiveHero_5C1B68)
                     {
                         if (sGnFrame_5C1B84 % 2)
                         {
@@ -350,7 +350,7 @@ void MotionDetector::VUpdate()
                             {
                                 ae_new<Alarm>(field_10C_alarm_duration, field_10A_alarm_switch_id, 0, Layer::eLayer_Above_FG1_39);
 
-                                if (pObj == sActiveHero && pObj->mHealth > FP_FromInteger(0))
+                                if (pObj == sActiveHero_5C1B68 && pObj->field_10C_health > FP_FromInteger(0))
                                 {
                                     Mudokon_SFX(MudSounds::eOops_14, 0, 0, 0);
                                 }
@@ -359,7 +359,7 @@ void MotionDetector::VUpdate()
                         else
                         {
                             // Tell greeter to KILL
-                            if (pLaser->mXPos <= pOwner->mXPos)
+                            if (pLaser->field_B8_xpos <= pOwner->field_B8_xpos)
                             {
                                 pOwner->field_13E_targetOnLeft = 1;
                             }
@@ -368,8 +368,8 @@ void MotionDetector::VUpdate()
                                 pOwner->field_140_targetOnRight = 1;
                             }
 
-                            mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-                            pLaser->mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                            pLaser->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                         }
                         break;
                     }
@@ -379,47 +379,47 @@ void MotionDetector::VUpdate()
 
         if (pOwner)
         {
-            mXPos = pOwner->mXPos;
-            mYPos = pOwner->mYPos - (mSpriteScale * FP_FromInteger(20));
+            field_B8_xpos = pOwner->field_B8_xpos;
+            field_BC_ypos = pOwner->field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20));
 
-            pLaser->mXPos += pOwner->mVelX;
+            pLaser->field_B8_xpos += pOwner->field_C4_velx;
 
-            field_114_x1_fp = pOwner->mXPos - (mSpriteScale * FP_FromInteger(75));
-            field_11C_y1_fp = (mSpriteScale * FP_FromInteger(75)) + pOwner->mXPos;
-            field_118_x2_fp = pOwner->mYPos - (mSpriteScale * FP_FromInteger(20));
-            field_120_y2_fp = pOwner->mYPos;
+            field_114_x1_fp = pOwner->field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(75));
+            field_11C_y1_fp = (field_CC_sprite_scale * FP_FromInteger(75)) + pOwner->field_B8_xpos;
+            field_118_x2_fp = pOwner->field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20));
+            field_120_y2_fp = pOwner->field_BC_ypos;
 
             if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_1_PatrolTurn)
             {
-                mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
-                pLaser->mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
-                pLaser->mYPos = pOwner->mYPos;
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                pLaser->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                pLaser->field_BC_ypos = pOwner->field_BC_ypos;
             }
 
             if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_4_Chase || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_6_ToChase)
             {
-                mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-                pLaser->mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                pLaser->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             }
         }
 
         switch (field_100_state)
         {
             case States::eMoveRight_0:
-                if (pLaser->mXPos >= field_11C_y1_fp)
+                if (pLaser->field_B8_xpos >= field_11C_y1_fp)
                 {
                     field_100_state = States::eWaitThenMoveLeft_1;
                     field_104_timer = sGnFrame_5C1B84 + 15;
                     const CameraPos soundDirection = gMap.GetDirection_4811A0(
-                        mLvlNumber,
-                        mPathNumber,
-                        mXPos,
-                        mYPos);
-                    SFX_Play_Camera(SoundEffect::MenuNavigation_52, 0, soundDirection, mSpriteScale);
+                        field_C2_lvl_number,
+                        field_C0_path_number,
+                        field_B8_xpos,
+                        field_BC_ypos);
+                    SFX_Play_Camera(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
                 }
                 else
                 {
-                    pLaser->mXPos += field_174_speed;
+                    pLaser->field_B8_xpos += field_174_speed;
                 }
                 break;
 
@@ -431,20 +431,20 @@ void MotionDetector::VUpdate()
                 break;
 
             case States::eMoveLeft_2:
-                if (pLaser->mXPos <= field_114_x1_fp)
+                if (pLaser->field_B8_xpos <= field_114_x1_fp)
                 {
                     field_100_state = States::eWaitThenMoveRight_3;
                     field_104_timer = sGnFrame_5C1B84 + 15;
                     const CameraPos soundDirection = gMap.GetDirection_4811A0(
-                        mLvlNumber,
-                        mPathNumber,
-                        mXPos,
-                        mYPos);
-                    SFX_Play_Camera(SoundEffect::MenuNavigation_52, 0, soundDirection, mSpriteScale);
+                        field_C2_lvl_number,
+                        field_C0_path_number,
+                        field_B8_xpos,
+                        field_BC_ypos);
+                    SFX_Play_Camera(SoundEffect::MenuNavigation_52, 0, soundDirection, field_CC_sprite_scale);
                 }
                 else
                 {
-                    pLaser->mXPos -= field_174_speed;
+                    pLaser->field_B8_xpos -= field_174_speed;
                 }
                 break;
 

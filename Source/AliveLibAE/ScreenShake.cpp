@@ -13,7 +13,7 @@
  {
     SetType(AETypes::eScreenShake_118);
 
-    mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     field_44_softerShakes = softerShakes;
     field_40_shakeNumber = 16;
@@ -143,7 +143,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
 
         if (!field_40_shakeNumber)
         {
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 

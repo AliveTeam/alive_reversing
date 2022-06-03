@@ -90,7 +90,7 @@ CameraSwapper::~CameraSwapper()
 
     if (field_24_pSubObject)
     {
-        field_24_pSubObject->mGameObjectFlags.Set(Options::eDead);
+        field_24_pSubObject->mFlags.Set(Options::eDead);
     }
 
     if (sMap_bDoPurpleLightEffect_507C9C)
@@ -106,9 +106,9 @@ CameraSwapper::~CameraSwapper()
 
 void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
 {
-    mGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    mTypeId = Types::eCameraSwapper_102;
+    field_4_typeId = Types::eCameraSwapper_102;
 
     field_24_pSubObject = nullptr;
 
@@ -125,9 +125,9 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
 
     if (sNumCamSwappers_507668 != 1)
     {
-        mGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);
-        mGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Clear(BaseGameObject::eUpdatable_Bit2);
+        mFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mFlags.Set(BaseGameObject::eDead);
 
         // There can only be 1 active at a time
         return;
@@ -142,7 +142,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
     {
         case CameraSwapEffects::eInstantChange_0:
             pScreenManager_4FF7C8->InvalidateRect_Idx3(0, 0, 640, 240);
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
             field_24_pSubObject = nullptr;
             break;
 
@@ -307,7 +307,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
 
 void CameraSwapper::VUpdate()
 {
-    if (mGameObjectFlags.Get(BaseGameObject::eDead))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
         return;
     }
@@ -315,7 +315,7 @@ void CameraSwapper::VUpdate()
     switch (field_28_changeEffect)
     {
         case CameraSwapEffects::eInstantChange_0:
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
             return;
 
         case CameraSwapEffects::eLeftToRight_1:
@@ -325,7 +325,7 @@ void CameraSwapper::VUpdate()
             if (field_2A_current_slice < 0 || field_2A_current_slice >= field_2E_total_slices)
             {
                 // All slices done
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -348,7 +348,7 @@ void CameraSwapper::VUpdate()
             if (field_2A_current_slice < 0 || field_2A_current_slice >= field_2E_total_slices)
             {
                 // All slices done
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -388,7 +388,7 @@ void CameraSwapper::VUpdate()
                 pScreenManager_4FF7C8->InvalidateRect(0, 0, 640, 240, 2);
                 pScreenManager_4FF7C8->field_36_flags |= 1;
             }
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
         }
         break;
 
@@ -398,7 +398,7 @@ void CameraSwapper::VUpdate()
             if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
             {
                 // All slices done
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -416,7 +416,7 @@ void CameraSwapper::VUpdate()
             if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
             {
                 // All slices done
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -434,7 +434,7 @@ void CameraSwapper::VUpdate()
             if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
             {
                 // All slices done
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 

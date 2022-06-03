@@ -26,7 +26,7 @@ ALIVE_VAR(1, 0x5076AC, s16, gBeesNearAbe_5076AC, 0);
 
 BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
 {
-    mTypeId = Types::eBeeSwarm_95;
+    field_4_typeId = Types::eBeeSwarm_95;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Bee_Swarm);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -44,7 +44,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
     }
     else
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
         numBeesToUse = 1;
     }
 
@@ -65,7 +65,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
 
     field_D84_chaseTicks = chaseTicks;
     field_D68_xpos = xpos;
-    mXPos = xpos;
+    field_A8_xpos = xpos;
     field_D6C_ypos = ypos;
     field_D80_state = BeeSwarmStates::eIdle_0;
     field_D98_pChaseTarget = 0;
@@ -78,7 +78,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
     field_D94_rect_h = FP_FromInteger(1);
     field_D66_bee_count = 0;
     field_D7C_pos_offset = FP_FromInteger(0);
-    mYPos = ypos;
+    field_AC_ypos = ypos;
 }
 
 BeeSwarm::~BeeSwarm()
@@ -104,18 +104,18 @@ void BeeSwarm::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mGameObjectFlags.Set(Options::eDead);
+        mFlags.Set(Options::eDead);
     }
 
     if (gMap.mCurrentLevel != gMap.mLevel
         || gMap.mCurrentPath != gMap.mPath)
     {
-        mGameObjectFlags.Set(Options::eDead);
+        mFlags.Set(Options::eDead);
     }
 
     if (field_D98_pChaseTarget)
     {
-        if (field_D98_pChaseTarget->mGameObjectFlags.Get(BaseGameObject::eDead))
+        if (field_D98_pChaseTarget->mFlags.Get(BaseGameObject::eDead))
         {
             field_D80_state = BeeSwarmStates::eFlyAwayAndDie_3;
             field_D74_chase_target_y -= FP_FromInteger(240);
@@ -126,9 +126,9 @@ void BeeSwarm::VScreenChanged()
         }
     }
 
-    if (!sActiveHero || (field_D98_pChaseTarget == sActiveHero && sActiveHero->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370))
+    if (!sActiveHero_507678 || (field_D98_pChaseTarget == sActiveHero_507678 && sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370))
     {
-        mGameObjectFlags.Set(Options::eDead);
+        mFlags.Set(Options::eDead);
     }
 }
 
@@ -156,8 +156,8 @@ void BeeSwarm::Chase(BaseAliveGameObject* pChaseTarget)
 
     pChaseTarget->field_C_refCount++;
 
-    field_D70_chase_target_x = pChaseTarget->mXPos;
-    field_D74_chase_target_y = pChaseTarget->mYPos;
+    field_D70_chase_target_x = pChaseTarget->field_A8_xpos;
+    field_D74_chase_target_y = pChaseTarget->field_AC_ypos;
 
     field_D9C_alive_timer = gnFrameCount_507670 + field_D84_chaseTicks;
 }
@@ -172,12 +172,12 @@ void BeeSwarm::VUpdate()
     if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
     {
         ToFlyAwayAndDie();
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
     // Chase target has died
-    if (field_D98_pChaseTarget && field_D98_pChaseTarget->mGameObjectFlags.Get(BaseGameObject::eDead))
+    if (field_D98_pChaseTarget && field_D98_pChaseTarget->mFlags.Get(BaseGameObject::eDead))
     {
         ToFlyAwayAndDie();
 
@@ -199,13 +199,13 @@ void BeeSwarm::VUpdate()
     {
         case BeeSwarmStates::eIdle_0:
             if (!gMap.Is_Point_In_Current_Camera_4449C0(
-                    mLvlNumber,
-                    mPathNumber,
-                    mXPos,
-                    mYPos,
+                    field_B2_lvl_number,
+                    field_B0_path_number,
+                    field_A8_xpos,
+                    field_AC_ypos,
                     0))
             {
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -217,25 +217,25 @@ void BeeSwarm::VUpdate()
             else
             {
                 // Move far on X bees closer to target
-                const s32 toTargetXDelta = FP_GetExponent(field_D98_pChaseTarget->mXPos - field_D70_chase_target_x);
+                const s32 toTargetXDelta = FP_GetExponent(field_D98_pChaseTarget->field_A8_xpos - field_D70_chase_target_x);
                 if (abs(toTargetXDelta) > 368)
                 {
                     for (s32 i = 0; i < field_D66_bee_count; i++)
                     {
                         field_E4_bees.bees[i].field_0_xpos += FP_FromInteger(toTargetXDelta);
                     }
-                    mXPos += FP_FromInteger(toTargetXDelta);
+                    field_A8_xpos += FP_FromInteger(toTargetXDelta);
                 }
 
                 // Move far on  Y bees closer to target
-                const s32 toTargetYDelta = FP_GetExponent(field_D98_pChaseTarget->mYPos - field_D74_chase_target_y);
+                const s32 toTargetYDelta = FP_GetExponent(field_D98_pChaseTarget->field_AC_ypos - field_D74_chase_target_y);
                 if (abs(toTargetYDelta) > 200)
                 {
                     for (s32 i = 0; i < field_D66_bee_count; i++)
                     {
                         field_E4_bees.bees[i].field_4_ypos += FP_FromInteger(toTargetYDelta);
                     }
-                    mYPos += FP_FromInteger(toTargetYDelta);
+                    field_AC_ypos += FP_FromInteger(toTargetYDelta);
                 }
 
                 // Update target x/y to the mid of the target rect
@@ -245,12 +245,12 @@ void BeeSwarm::VUpdate()
                 field_D70_chase_target_x = FP_FromInteger((targetRect.w + targetRect.x) / 2);
 
                 if (Math_Distance_451270(
-                        FP_GetExponent(mXPos),
-                        FP_GetExponent(mYPos),
+                        FP_GetExponent(field_A8_xpos),
+                        FP_GetExponent(field_AC_ypos),
                         FP_GetExponent(field_D70_chase_target_x),
                         FP_GetExponent(field_D74_chase_target_y))
                         < 60
-                    && field_D98_pChaseTarget == sActiveHero)
+                    && field_D98_pChaseTarget == sActiveHero_507678)
                 {
                     gBeesNearAbe_5076AC = TRUE;
                 }
@@ -263,7 +263,7 @@ void BeeSwarm::VUpdate()
                 {
                     if (!(gnFrameCount_507670 % 10) && Math_RandomRange_450F20(0, 100) < 70)
                     {
-                        // Check every single object just to see if its sActiveHero (nice algorithm lads)
+                        // Check every single object just to see if its sActiveHero_507678 (nice algorithm lads)
                         // and play pain sounds if so and in the damage rect.
                         for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
                         {
@@ -278,14 +278,14 @@ void BeeSwarm::VUpdate()
 
                             if (FP_FromInteger(obj_rect.x) <= field_D90_rect_w && FP_FromInteger(obj_rect.w) >= field_D88_rect_x && FP_FromInteger(obj_rect.h) >= field_D8C_rect_y && FP_FromInteger(obj_rect.y) <= field_D94_rect_h)
                             {
-                                if (pObjIter == sActiveHero && sActiveHero->mHealth > FP_FromInteger(0))
+                                if (pObjIter == sActiveHero_507678 && sActiveHero_507678->field_100_health > FP_FromInteger(0))
                                 {
                                     const MudSounds snd = Math_RandomRange_450F20(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
-                                    const FP pitch_val = (FP_FromInteger(1) - sActiveHero->mHealth) / FP_FromDouble(0.15);
+                                    const FP pitch_val = (FP_FromInteger(1) - sActiveHero_507678->field_100_health) / FP_FromDouble(0.15);
                                     const s16 pitch = Math_RandomRange_450F20(
                                         200 * FP_GetExponent(pitch_val),
                                         200 * (FP_GetExponent(pitch_val) + 1));
-                                    Mudokon_SFX_42A4D0(snd, 0, pitch, sActiveHero);
+                                    Mudokon_SFX_42A4D0(snd, 0, pitch, sActiveHero_507678);
                                 }
                             }
                         }
@@ -324,7 +324,7 @@ void BeeSwarm::VUpdate()
                 field_DAC_line_follow_speed);
             if (!field_DA8_pLine)
             {
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -336,7 +336,7 @@ void BeeSwarm::VUpdate()
 
             if (static_cast<s32>(gnFrameCount_507670) > field_D9C_alive_timer)
             {
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 
@@ -380,8 +380,8 @@ void BeeSwarm::VUpdate()
                             field_D98_pChaseTarget->field_C_refCount++;
 
                             field_D80_state = BeeSwarmStates::eAttackChase_1;
-                            field_D70_chase_target_x = pObjIter->mXPos;
-                            field_D74_chase_target_y = pObjIter->mYPos;
+                            field_D70_chase_target_x = pObjIter->field_A8_xpos;
+                            field_D74_chase_target_y = pObjIter->field_AC_ypos;
 
                             field_D9C_alive_timer = gnFrameCount_507670 + field_D84_chaseTicks;
                             field_DA4_update_chase_timer = gnFrameCount_507670 + 60;
@@ -464,7 +464,7 @@ void BeeSwarm::VUpdate()
         FP xMove = {};
         if (field_D98_pChaseTarget)
         {
-            if (FP_Abs(distToTargetX) > FP_FromInteger(20) || field_D98_pChaseTarget->mVelX != FP_FromInteger(0))
+            if (FP_Abs(distToTargetX) > FP_FromInteger(20) || field_D98_pChaseTarget->field_B4_velx != FP_FromInteger(0))
             {
                 if (distToTargetX <= FP_FromInteger(0))
                 {
@@ -519,13 +519,13 @@ void BeeSwarm::VUpdate()
     {
         BeeSwarmParticle* pBee = &field_E4_bees.bees[field_D66_bee_count];
 
-        pBee->mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
-        pBee->mAnim.mAnimFlags.Set(AnimFlags::eBit16_bBlending); // TODO: or higher byte
+        pBee->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+        pBee->field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending); // TODO: or higher byte
 
-        pBee->mAnim.field_68_anim_ptr = &mAnim;
-        pBee->mAnim.field_6C_scale = mSpriteScale;
+        pBee->field_10_anim.field_68_anim_ptr = &field_10_anim;
+        pBee->field_10_anim.field_6C_scale = field_BC_sprite_scale;
 
-        pBee->mAnim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
+        pBee->field_10_anim.field_C_layer = Layer::eLayer_MainMenuButtonBees_38;
 
         pBee->field_0_xpos = field_D68_xpos;
         pBee->field_4_ypos = field_D6C_ypos;
@@ -538,8 +538,8 @@ void BeeSwarm::VUpdate()
         field_D66_bee_count++;
     }
 
-    mXPos = field_E4_bees.bees[0].field_0_xpos;
-    mYPos = field_E4_bees.bees[0].field_4_ypos;
+    field_A8_xpos = field_E4_bees.bees[0].field_0_xpos;
+    field_AC_ypos = field_E4_bees.bees[0].field_4_ypos;
 }
 
 void BeeSwarm::ToFlyAwayAndDie()
@@ -559,11 +559,11 @@ void BeeSwarm::ToFlyAwayAndDie()
 
 void BeeSwarm::VRender(PrimHeader** ppOt)
 {
-    mAnim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
-    mAnim.mRed = static_cast<u8>(mRed);
-    mAnim.mGreen = static_cast<u8>(mGreen);
-    mAnim.mBlue = static_cast<u8>(mBlue);
-    mAnim.field_14_scale = mSpriteScale;
+    field_10_anim.field_C_layer = Layer::eLayer_MainMenuButtonBees_38;
+    field_10_anim.field_8_r = static_cast<u8>(field_C0_r);
+    field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
+    field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
+    field_10_anim.field_14_scale = field_BC_sprite_scale;
 
     const auto campos_x_delta = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
     const auto campos_y_delta = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
@@ -582,22 +582,22 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
         {
             if (bDontClear)
             {
-                mAnim.VRender(
+                field_10_anim.VRender(
                     FP_GetExponent(bee->field_0_xpos - campos_x_delta),
                     FP_GetExponent(bee->field_4_ypos - campos_y_delta),
                     ppOt,
                     0,
                     0);
                 bDontClear = 0;
-                mAnim.Get_Frame_Rect(&out);
+                field_10_anim.Get_Frame_Rect(&out);
             }
             else
             {
-                bee->mAnim.VRender2(
+                bee->field_10_anim.VRender2(
                     FP_GetExponent(PsxToPCX((bee->field_0_xpos - campos_x_delta), FP_FromInteger(11))),
                     FP_GetExponent(bee->field_4_ypos - campos_y_delta),
                     ppOt);
-                bee->mAnim.GetRenderedSize(&out);
+                bee->field_10_anim.GetRenderedSize(&out);
             }
 
             out.x = std::min(out.x, xy.field_0_x);

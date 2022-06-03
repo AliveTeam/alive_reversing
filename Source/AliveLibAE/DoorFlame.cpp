@@ -24,23 +24,23 @@ public:
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-        mApplyShadows &= ~1u;
+        field_DC_bApplyShadows &= ~1u;
 
-        mAnim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-        mAnim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
 
-        mXPos = xpos;
-        mYPos = ypos + FP_FromInteger(4);
+        field_B8_xpos = xpos;
+        field_BC_ypos = ypos + FP_FromInteger(4);
 
-        mAnim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_Half_12;
-        mAnim.mRenderMode = TPageAbr::eBlend_3;
+        field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_Half_12;
+        field_20_animation.field_B_render_mode = TPageAbr::eBlend_3;
 
-        mRed = 140;
-        mGreen = 90;
-        mBlue = 53;
+        field_D0_r = 140;
+        field_D2_g = 90;
+        field_D4_b = 53;
 
-        mSpriteScale = scale;
+        field_CC_sprite_scale = scale;
 
         Calc_Rect_45DA00();
     }
@@ -57,18 +57,18 @@ public:
         s16 frameW = 0;
         s16 frameH = 0;
 
-        mAnim.Get_Frame_Width_Height(&frameW, &frameH);
-        mAnim.Get_Frame_Offset(&xy.field_0_x, &xy.field_2_y);
+        field_20_animation.Get_Frame_Width_Height(&frameW, &frameH);
+        field_20_animation.Get_Frame_Offset(&xy.field_0_x, &xy.field_2_y);
 
         const auto& pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
-        const FP screenX = mXPos - pCamPos->field_0_x;
-        const FP screenY = mYPos - pCamPos->field_4_y;
+        const FP screenX = field_B8_xpos - pCamPos->field_0_x;
+        const FP screenY = field_BC_ypos - pCamPos->field_4_y;
 
-        const FP frameWScaled = (FP_FromInteger(frameW) * mSpriteScale);
-        const FP frameHScaled = (FP_FromInteger(frameH) * mSpriteScale);
+        const FP frameWScaled = (FP_FromInteger(frameW) * field_CC_sprite_scale);
+        const FP frameHScaled = (FP_FromInteger(frameH) * field_CC_sprite_scale);
 
-        const FP offXScaled = (FP_FromInteger(xy.field_0_x) * mSpriteScale);
-        const s16 offYScaled = FP_GetExponent((FP_FromInteger(xy.field_2_y) * mSpriteScale));
+        const FP offXScaled = (FP_FromInteger(xy.field_0_x) * field_CC_sprite_scale);
+        const s16 offYScaled = FP_GetExponent((FP_FromInteger(xy.field_2_y) * field_CC_sprite_scale));
 
         // TODO: Refactor PSX <> PC width conversion
         const FP frameWScaled_converted = (((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
@@ -86,14 +86,14 @@ public:
         {
             //if (k1_dword_55EF90)
             {
-                mAnim.mRed = mRed & 0xFF;
-                mAnim.mBlue = mBlue & 0xFF;
-                mAnim.mGreen = mGreen & 0xFF;
+                field_20_animation.field_8_r = field_D0_r & 0xFF;
+                field_20_animation.field_A_b = field_D4_b & 0xFF;
+                field_20_animation.field_9_g = field_D2_g & 0xFF;
 
                 const FP xOff = field_FC_xOff - field_F4_xPos;
                 const FP yOff = field_100_yOff - field_F8_yPos;
 
-                mAnim.VRender(
+                field_20_animation.VRender(
                     FP_GetExponent(field_F4_xPos),
                     FP_GetExponent(field_F8_yPos),
                     ppOt,
@@ -101,7 +101,7 @@ public:
                     FP_GetExponent(yOff) + 1);
 
                 PSX_RECT frameRect = {};
-                mAnim.Get_Frame_Rect(&frameRect);
+                field_20_animation.Get_Frame_Rect(&frameRect);
                 pScreenManager_5BB5F4->InvalidateRect_40EC90(
                     frameRect.x,
                     frameRect.y,
@@ -145,32 +145,32 @@ public:
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-        mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-        mApplyShadows |= 1u;
-        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        field_DC_bApplyShadows |= 1u;
+        field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
 
-        mXPos = xpos;
-        mYPos = ypos;
+        field_B8_xpos = xpos;
+        field_BC_ypos = ypos;
         field_410_xpos = xpos;
         field_414_ypos = ypos;
 
-        mSpriteScale = FP_FromDouble(0.3);
+        field_CC_sprite_scale = FP_FromDouble(0.3);
 
         for (auto& anim : field_F8_sparks)
         {
-            anim.field_14.field_68_anim_ptr = &mAnim;
+            anim.field_14.field_68_anim_ptr = &field_20_animation;
 
-            anim.field_14.mAnimFlags.Set(AnimFlags::eBit3_Render);
-            anim.field_14.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+            anim.field_14.field_4_flags.Set(AnimFlags::eBit3_Render);
+            anim.field_14.field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
             // TODO: clean this up
-            const s32 rndLayer = static_cast<s32>(mAnim.mRenderLayer) + Math_RandomRange(-1, 1);
-            anim.field_14.mRenderLayer = static_cast<Layer>(rndLayer);
-            anim.field_14.field_6C_scale = mSpriteScale;
+            const s32 rndLayer = static_cast<s32>(field_20_animation.field_C_render_layer) + Math_RandomRange(-1, 1);
+            anim.field_14.field_C_render_layer = static_cast<Layer>(rndLayer);
+            anim.field_14.field_6C_scale = field_CC_sprite_scale;
 
-            anim.field_0_x = mXPos;
-            anim.field_4_y = mYPos;
+            anim.field_0_x = field_B8_xpos;
+            anim.field_4_y = field_BC_ypos;
 
             anim.field_8_off_x = FP_FromInteger(0);
             anim.field_C_off_y = FP_FromInteger(0);
@@ -203,8 +203,8 @@ private:
         // HACK/WTF this seems to move the base animation off screen so it can never been seen??
         PSX_RECT rect = {};
         gMap.Get_Camera_World_Rect(CameraPos::eCamCurrent_0, &rect);
-        mXPos = FP_FromInteger(rect.w + 16);
-        mYPos = FP_FromInteger(rect.y - 16);
+        field_B8_xpos = FP_FromInteger(rect.w + 16);
+        field_BC_ypos = FP_FromInteger(rect.y - 16);
 
         if (field_F4_bRender)
         {
@@ -251,19 +251,19 @@ private:
         {
             if (field_F4_bRender)
             {
-                mAnim.mRed = 240;
-                mAnim.mGreen = 32;
-                mAnim.mBlue = 32;
+                field_20_animation.field_8_r = 240;
+                field_20_animation.field_9_g = 32;
+                field_20_animation.field_A_b = 32;
 
-                mAnim.VRender(
-                    FP_GetExponent(mXPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-                    FP_GetExponent(mYPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                field_20_animation.VRender(
+                    FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+                    FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
                     ppOt,
                     0,
                     0);
 
                 PSX_RECT frameRect = {};
-                mAnim.Get_Frame_Rect(&frameRect);
+                field_20_animation.Get_Frame_Rect(&frameRect);
                 pScreenManager_5BB5F4->InvalidateRect_40EC90(
                     frameRect.x,
                     frameRect.y,
@@ -322,37 +322,37 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mApplyShadows |= 1u;
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    field_FA_frame_count = mAnim.Get_Frame_Count();
-    mAnim.SetFrame(Math_RandomRange(0, field_FA_frame_count - 1));
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_DC_bApplyShadows |= 1u;
+    field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
+    field_FA_frame_count = field_20_animation.Get_Frame_Count();
+    field_20_animation.SetFrame(Math_RandomRange(0, field_FA_frame_count - 1));
 
     field_F8_switch_id = pTlv->field_10_switch_id;
 
     if (pTlv->field_12_scale != Scale_short::eFull_0)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        field_CC_sprite_scale = FP_FromDouble(0.5);
     }
 
-    mXPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x) + (FP_FromInteger(12) * mSpriteScale);
+    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x) + (FP_FromInteger(12) * field_CC_sprite_scale);
     field_108_fire_background_glow_id = -1;
-    mYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y) + (FP_FromInteger(15) * mSpriteScale);
+    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y) + (FP_FromInteger(15) * field_CC_sprite_scale);
 
     if (SwitchStates_Get(field_F8_switch_id))
     {
-        mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         field_FC_state = States::eEnabled_1;
     }
     else
     {
-        mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_FC_state = States::eDisabled_0;
     }
 
     field_FE_2_random = Math_NextRandom() % 2;
 
-    auto pFlameSparks = ae_new<FlameSparks>(mXPos, mYPos);
+    auto pFlameSparks = ae_new<FlameSparks>(field_B8_xpos, field_BC_ypos);
     if (pFlameSparks)
     {
         field_10C_flame_sparks_id = pFlameSparks->field_8_object_id;
@@ -366,13 +366,13 @@ DoorFlame::~DoorFlame()
 
     if (pFireBackgroundGlow)
     {
-        pFireBackgroundGlow->mGameObjectFlags.Set(BaseGameObject::eDead);
+        pFireBackgroundGlow->mFlags.Set(BaseGameObject::eDead);
         field_108_fire_background_glow_id = -1;
     }
 
     if (pFlameSparks)
     {
-        pFlameSparks->mGameObjectFlags.Set(BaseGameObject::eDead);
+        pFlameSparks->mFlags.Set(BaseGameObject::eDead);
         field_10C_flame_sparks_id = -1;
     }
 
@@ -396,17 +396,17 @@ void DoorFlame::VScreenChanged()
     BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_Impl(field_108_fire_background_glow_id);
     BaseGameObject* pFlameSparks = sObjectIds.Find_Impl(field_10C_flame_sparks_id);
 
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 
     if (pFireBackgroundGlow)
     {
-        pFireBackgroundGlow->mGameObjectFlags.Set(BaseGameObject::eDead);
+        pFireBackgroundGlow->mFlags.Set(BaseGameObject::eDead);
         field_108_fire_background_glow_id = -1;
     }
 
     if (pFlameSparks)
     {
-        pFlameSparks->mGameObjectFlags.Set(BaseGameObject::eDead);
+        pFlameSparks->mFlags.Set(BaseGameObject::eDead);
         field_10C_flame_sparks_id = -1;
     }
 }
@@ -419,7 +419,7 @@ void DoorFlame::VUpdate()
     switch (field_FC_state)
     {
         case States::eDisabled_0:
-            mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
             if (pFlameSparks)
             {
@@ -433,7 +433,7 @@ void DoorFlame::VUpdate()
 
             if (pFireBackgroundGlow)
             {
-                pFireBackgroundGlow->mGameObjectFlags.Set(BaseGameObject::eDead);
+                pFireBackgroundGlow->mFlags.Set(BaseGameObject::eDead);
                 pFireBackgroundGlow = nullptr;
                 field_108_fire_background_glow_id = -1;
             }
@@ -455,7 +455,7 @@ void DoorFlame::VUpdate()
                 }
             }
 
-            mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
             if (pFlameSparks)
             {
@@ -469,9 +469,9 @@ void DoorFlame::VUpdate()
 
             if (!pFireBackgroundGlow)
             {
-                pFireBackgroundGlow = ae_new<FireBackgroundGlow>(mXPos,
-                                                                 mYPos,
-                                                                 mSpriteScale);
+                pFireBackgroundGlow = ae_new<FireBackgroundGlow>(field_B8_xpos,
+                                                                 field_BC_ypos,
+                                                                 field_CC_sprite_scale);
                 if (pFireBackgroundGlow)
                 {
                     field_108_fire_background_glow_id = pFireBackgroundGlow->field_8_object_id;
@@ -484,23 +484,23 @@ void DoorFlame::VUpdate()
     }
 
     if (!gMap.Is_Point_In_Current_Camera_4810D0(
-            mLvlNumber,
-            mPathNumber,
-            mXPos,
-            mYPos,
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
             0))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
 
         if (pFireBackgroundGlow)
         {
-            pFireBackgroundGlow->mGameObjectFlags.Set(BaseGameObject::eDead);
+            pFireBackgroundGlow->mFlags.Set(BaseGameObject::eDead);
             field_108_fire_background_glow_id = -1;
         }
 
         if (pFlameSparks)
         {
-            pFlameSparks->mGameObjectFlags.Set(BaseGameObject::eDead);
+            pFlameSparks->mFlags.Set(BaseGameObject::eDead);
             field_10C_flame_sparks_id = -1;
         }
     }

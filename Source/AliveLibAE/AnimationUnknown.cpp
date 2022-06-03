@@ -18,13 +18,13 @@ void AnimationUnknown::GetRenderedSize(PSX_RECT* pRect)
 void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*width*/, s32 /*height*/)
 {
     Poly_FT4* pPoly = &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index];
-    if (mAnimFlags.Get(AnimFlags::eBit3_Render))
+    if (field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         // Copy from animation to local
         *pPoly = field_68_anim_ptr->field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
         FrameInfoHeader* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader(-1);
 
-        if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit22_DeadMode))
+        if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit22_DeadMode))
         {
             ALIVE_FATAL("Impossible branch.");
         }
@@ -49,11 +49,11 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
         s32 polyX = 0;
         s32 polyY = 0;
         s32 xConverted = PsxToPCX(xpos);
-        if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit7_SwapXY))
+        if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit7_SwapXY))
         {
-            if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit6_FlipY))
+            if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit6_FlipY))
             {
-                if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
                     polyX = xConverted - frameOffY - frameH;
                 }
@@ -65,7 +65,7 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
             }
             else
             {
-                if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
                     polyX = xConverted - frameOffY - frameH;
                 }
@@ -76,9 +76,9 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
                 polyY = ypos - frameOffX - frameW;
             }
         }
-        else if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit6_FlipY))
+        else if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit6_FlipY))
         {
-            if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 polyX = xConverted - frameOffX - frameW;
             }
@@ -90,7 +90,7 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
         }
         else
         {
-            if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 polyX = xConverted - frameOffX - frameW;
             }
@@ -101,9 +101,9 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
             polyY = frameOffY + ypos;
         }
 
-        if (!mAnimFlags.Get(AnimFlags::eBit16_bBlending))
+        if (!field_4_flags.Get(AnimFlags::eBit16_bBlending))
         {
-            SetRGB0(pPoly, mRed, mGreen, mBlue);
+            SetRGB0(pPoly, field_8_r, field_9_g, field_A_b);
         }
 
         SetXYWH(pPoly,
@@ -120,7 +120,7 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
         {
             SetPrimExtraPointerHack(pPoly, nullptr);
         }
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_C_render_layer), &pPoly->mBase.header);
     }
 }
 

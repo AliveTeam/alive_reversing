@@ -48,7 +48,7 @@ const FlintLockFireData sFlintLockFireData_4BAC70[] = {
 
 void FlintLockFire::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 void FlintLockFire::VStopAudio()
@@ -78,7 +78,7 @@ FlintLockFire::~FlintLockFire()
 
 FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
 {
-    mTypeId = Types::eFlintLockFire_34;
+    field_4_typeId = Types::eFlintLockFire_34;
 
     const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
 
@@ -93,7 +93,7 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         disabledHammersRec.mMaxH,
         ppHammersRes,
         1);
-    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_F0_anim.Init(
         gourdRec.mFrameTableOffset,
@@ -106,9 +106,9 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         0,
         0);
 
-    field_F0_anim.mRenderMode = TPageAbr::eBlend_0;
-    field_F0_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
-    field_F0_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_F0_anim.field_B_render_mode = TPageAbr::eBlend_0;
+    field_F0_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+    field_F0_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
@@ -125,67 +125,67 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
             1,
             0,
             0);
-        field_188_anim.mRenderMode = TPageAbr::eBlend_0;
-        field_188_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
-        field_188_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-        field_188_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_188_anim.field_B_render_mode = TPageAbr::eBlend_0;
+        field_188_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_188_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_188_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_220_anim.Init(fireRec.mFrameTableOffset, gObjList_animations_505564, this, fireRec.mMaxW, fireRec.mMaxH, ppFireRes, 1, 0, 0);
-        field_220_anim.mRenderMode = TPageAbr::eBlend_0;
-        field_220_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
-        field_220_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-        field_220_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-        field_220_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        field_220_anim.field_B_render_mode = TPageAbr::eBlend_0;
+        field_220_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_220_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_220_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_220_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
         field_220_anim.SetFrame(3u);
     }
 
     field_E4_state = States::eDisabled_0;
     field_EC_fire_sound = 0;
-    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_E8_tlvInfo = tlvInfo;
     field_E6_switch_id = pTlv->field_1A_switch_id;
 
     Layer layer = Layer::eLayer_0;
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        field_BC_sprite_scale = FP_FromDouble(0.5);
         layer = Layer::eLayer_BeforeShadow_Half_6;
-        mScale = 0;
+        field_C6_scale = 0;
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        field_BC_sprite_scale = FP_FromInteger(1);
         layer = Layer::eLayer_BeforeShadow_25;
-        mScale = 1;
+        field_C6_scale = 1;
     }
 
-    mAnim.mRenderLayer = layer;
-    field_F0_anim.mRenderLayer = layer;
+    field_10_anim.field_C_layer = layer;
+    field_F0_anim.field_C_layer = layer;
 
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
-        field_188_anim.mRenderLayer = layer;
-        field_220_anim.mRenderLayer = layer;
+        field_188_anim.field_C_layer = layer;
+        field_220_anim.field_C_layer = layer;
     }
 
     if (SwitchStates_Get(pTlv->field_1A_switch_id))
     {
         field_E4_state = States::eActivated_2;
         const AnimRecord& activatingRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id);
-        mAnim.Set_Animation_Data(activatingRec.mFrameTableOffset, nullptr);
-        mAnim.SetFrame(mAnim.Get_Frame_Count() - 1);
-        mAnim.VDecode();
-        mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-        field_F0_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+        field_10_anim.Set_Animation_Data(activatingRec.mFrameTableOffset, nullptr);
+        field_10_anim.SetFrame(field_10_anim.Get_Frame_Count() - 1);
+        field_10_anim.VDecode();
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_F0_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-            field_188_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            field_188_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+            field_188_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-            field_220_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-            field_220_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            field_220_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+            field_220_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
             field_EC_fire_sound = SFX_Play_Mono(SoundEffect::Fire_69, 0, 0);
         }
@@ -196,7 +196,7 @@ void FlintLockFire::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
@@ -208,7 +208,7 @@ void FlintLockFire::VUpdate()
             {
                 field_E4_state = States::eActivating_1;
                 const AnimRecord& activatingRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id);
-                mAnim.Set_Animation_Data(
+                field_10_anim.Set_Animation_Data(
                     activatingRec.mFrameTableOffset,
                     0);
             }
@@ -217,25 +217,25 @@ void FlintLockFire::VUpdate()
         case States::eActivating_1:
             if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
             {
-                if (mAnim.field_92_current_frame == 6)
+                if (field_10_anim.field_92_current_frame == 6)
                 {
                     SFX_Play_Mono(SoundEffect::FlintLock_68, 0, 0);
                     SFX_Play_Mono(SoundEffect::PostFlint_70, 0, 0);
                 }
             }
 
-            if (mAnim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
                 field_E4_state = States::eActivated_2;
 
-                field_F0_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+                field_F0_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
                 if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
                 {
-                    field_188_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-                    field_188_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                    field_188_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                    field_188_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-                    field_220_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-                    field_220_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                    field_220_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                    field_220_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
 
                     field_EC_fire_sound = SFX_Play_Mono(SoundEffect::Fire_69, 0, 0);
                 }
@@ -264,87 +264,87 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
     if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
     {
         const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
-        mAnim.field_14_scale = mSpriteScale;
-        field_F0_anim.field_14_scale = mSpriteScale;
+        field_10_anim.field_14_scale = field_BC_sprite_scale;
+        field_F0_anim.field_14_scale = field_BC_sprite_scale;
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.field_14_scale = (mSpriteScale * FP_FromDouble(1.33));
-            field_220_anim.field_14_scale = mSpriteScale;
+            field_188_anim.field_14_scale = (field_BC_sprite_scale * FP_FromDouble(1.33));
+            field_220_anim.field_14_scale = field_BC_sprite_scale;
         }
 
-        s16 r = mRed;
-        s16 g = mGreen;
-        s16 b = mBlue;
+        s16 r = field_C0_r;
+        s16 g = field_C2_g;
+        s16 b = field_C4_b;
 
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
 
-        if (mApplyShadows & 1)
+        if (field_CC_bApplyShadows & 1)
         {
             ShadowZone::ShadowZones_Calculate_Colour(
-                FP_GetExponent(mXPos),
+                FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(FP_FromInteger((bRect.y + bRect.h) / 2)),
-                mScale,
+                field_C6_scale,
                 &r,
                 &g,
                 &b);
         }
 
 
-        mAnim.mRed = static_cast<u8>(r);
-        mAnim.mGreen = static_cast<u8>(g);
-        mAnim.mBlue = static_cast<u8>(b);
+        field_10_anim.field_8_r = static_cast<u8>(r);
+        field_10_anim.field_9_g = static_cast<u8>(g);
+        field_10_anim.field_A_b = static_cast<u8>(b);
 
-        field_F0_anim.mRed = static_cast<u8>(r);
-        field_F0_anim.mGreen = static_cast<u8>(g);
-        field_F0_anim.mBlue = static_cast<u8>(b);
+        field_F0_anim.field_8_r = static_cast<u8>(r);
+        field_F0_anim.field_9_g = static_cast<u8>(g);
+        field_F0_anim.field_A_b = static_cast<u8>(b);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.mRed = static_cast<u8>(r);
-            field_188_anim.mGreen = static_cast<u8>(g);
-            field_188_anim.mBlue = static_cast<u8>(b);
+            field_188_anim.field_8_r = static_cast<u8>(r);
+            field_188_anim.field_9_g = static_cast<u8>(g);
+            field_188_anim.field_A_b = static_cast<u8>(b);
 
-            field_220_anim.mRed = static_cast<u8>(r);
-            field_220_anim.mGreen = static_cast<u8>(g);
-            field_220_anim.mBlue = static_cast<u8>(b);
+            field_220_anim.field_8_r = static_cast<u8>(r);
+            field_220_anim.field_9_g = static_cast<u8>(g);
+            field_220_anim.field_A_b = static_cast<u8>(b);
 
             field_220_anim.VRender(
-                FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-                FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mYOffset - 28)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset - 28)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
                 ppOt,
                 0,
                 0);
 
             field_188_anim.VRender(
-                FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos - 3)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-                FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mYOffset - 28)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos - 3)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset - 28)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
                 ppOt,
                 0,
                 0);
         }
 
-        mAnim.VRender(
-            FP_GetExponent(mXPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-            FP_GetExponent(mYPos + (FP_FromInteger(mYOffset + pScreenManager_4FF7C8->field_16_ypos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+        field_10_anim.VRender(
+            FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+            FP_GetExponent(field_AC_ypos + (FP_FromInteger(field_C8_yOffset + pScreenManager_4FF7C8->field_16_ypos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,
             0,
             0);
 
         field_F0_anim.VRender(
-            FP_GetExponent(mXPos
+            FP_GetExponent(field_A8_xpos
                            + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-            FP_GetExponent(mYPos
-                           + (FP_FromInteger(mYOffset + pScreenManager_4FF7C8->field_16_ypos))
+            FP_GetExponent(field_AC_ypos
+                           + (FP_FromInteger(field_C8_yOffset + pScreenManager_4FF7C8->field_16_ypos))
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,
             0,
             0);
 
         PSX_RECT frameRect = {};
-        mAnim.Get_Frame_Rect(&frameRect);
+        field_10_anim.Get_Frame_Rect(&frameRect);
         pScreenManager_4FF7C8->InvalidateRect(
             frameRect.x,
             frameRect.y,

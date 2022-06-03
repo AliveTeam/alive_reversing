@@ -180,8 +180,8 @@ void DDCheat::Menu_Movies()
 DDCheat::DDCheat()
     : BaseGameObject(TRUE, 0)
 {
-    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit4);
     SetType(AETypes::eDDCheat_19);
     field_20 = 0;
@@ -255,49 +255,49 @@ void DDCheat::VUpdate()
         if (field_3C_flags.Get(DDCheat::Flags_3C::eOnTeleport_Bit3))
         {
             field_3C_flags.Clear(DDCheat::Flags_3C::eOnTeleport_Bit3);
-            if (sActiveHero)
+            if (sActiveHero_5C1B68)
             {
                 PSX_Point pos;
                 gMap.GetCurrentCamCoords(&pos);
-                sActiveHero->mXPos = FP_FromInteger(pos.field_0_x + 184);
-                sActiveHero->mYPos = FP_FromInteger(pos.field_2_y + 60);
-                sActiveHero->mCurrentMotion = 3;
-                sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
-                sActiveHero->mLvlNumber = static_cast<LevelIds>(sTeleport_Level_550F5C);
-                sActiveHero->mPathNumber = sTeleport_Path_550F5E;
+                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
+                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
+                sActiveHero_5C1B68->field_106_current_motion = 3;
+                sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                sActiveHero_5C1B68->field_C2_lvl_number = static_cast<LevelIds>(sTeleport_Level_550F5C);
+                sActiveHero_5C1B68->field_C0_path_number = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
-                sControlledCharacter->mCollisionLine = nullptr;
-                sControlledCharacter->mLastLineYPos = sControlledCharacter->mYPos;
+                sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
+                sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
                 field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit1);
             }
         }
 
-        if ((gMap.mCurrentLevel != LevelIds::eMenu_0 && gMap.mCurrentLevel != LevelIds::eNone) && sActiveHero && activePadPressed & InputCommands::Enum::eCheatMode)
+        if ((gMap.mCurrentLevel != LevelIds::eMenu_0 && gMap.mCurrentLevel != LevelIds::eNone) && sActiveHero_5C1B68 && activePadPressed & InputCommands::Enum::eCheatMode)
         {
             sDDCheat_FlyingEnabled_5C2C08 = !sDDCheat_FlyingEnabled_5C2C08;
             if (!sDDCheat_FlyingEnabled_5C2C08)
             {
-                if (sControlledCharacter == sActiveHero)
+                if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
                 {
-                    sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                    sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 }
-                sControlledCharacter->mCollisionLine = nullptr;
-                sControlledCharacter->mLastLineYPos = sControlledCharacter->mYPos;
+                sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
+                sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
 
             sDDCheat_ShowAI_Info_5C1BD8 = false;
 
-            switch (sControlledCharacter->Type())
+            switch (sControlledCharacter_5C1B8C->Type())
             {
                 case AETypes::eGlukkon_67:
                 case AETypes::eSlig_125:
-                    sControlledCharacter->mCurrentMotion = 7;
+                    sControlledCharacter_5C1B8C->field_106_current_motion = 7;
                     break;
                 case AETypes::eAbe_69:
-                    sControlledCharacter->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
+                    sControlledCharacter_5C1B8C->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
                     break;
                 case AETypes::eScrab_112:
-                    sControlledCharacter->mCurrentMotion = 8;
+                    sControlledCharacter_5C1B8C->field_106_current_motion = 8;
                     break;
                 default:
                     break;
@@ -327,29 +327,29 @@ void DDCheat::VUpdate()
 
 
 #if DEVELOPER_MODE
-            if (sActiveHero && gMap.mCurrentLevel != LevelIds::eMenu_0)
+            if (sActiveHero_5C1B68 && gMap.mCurrentLevel != LevelIds::eMenu_0)
             {
-                // HACK When quitting sControlledCharacter becomes a dangling pointer
+                // HACK When quitting sControlledCharacter_5C1B8C becomes a dangling pointer
                 // probably this should be removed as there is no sane way to check this pointer is still valid
                 DebugStr(
                     "\n[obj %i] xy=%.3f,%.3f flags=%x",
-                    sControlledCharacter->Type(),
-                    FP_GetDouble(sControlledCharacter->mXPos),
-                    FP_GetDouble(sControlledCharacter->mYPos),
-                    sControlledCharacter->mGameObjectFlags);
+                    sControlledCharacter_5C1B8C->Type(),
+                    FP_GetDouble(sControlledCharacter_5C1B8C->field_B8_xpos),
+                    FP_GetDouble(sControlledCharacter_5C1B8C->field_BC_ypos),
+                    sControlledCharacter_5C1B8C->mFlags);
 
-                DebugStr("\nLine=%X\nState=%i", sControlledCharacter->mCollisionLine, sControlledCharacter->mCurrentMotion);
+                DebugStr("\nLine=%X\nState=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_motion);
 
-                if (sControlledCharacter->Type() == AETypes::eAbe_69)
+                if (sControlledCharacter_5C1B8C->Type() == AETypes::eAbe_69)
                 {
-                    DebugStr("\nStateName=%s", sAbeMotionNames[sControlledCharacter->mCurrentMotion]);
+                    DebugStr("\nStateName=%s", sAbeMotionNames[sControlledCharacter_5C1B8C->field_106_current_motion]);
                 }
             }
 #else
             DebugStr(
                 "\nheroxy=%4d,%4d",
-                FP_GetExponent(sActiveHero->mXPos),
-                FP_GetExponent(sActiveHero->mYPos));
+                FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos),
+                FP_GetExponent(sActiveHero_5C1B68->field_BC_ypos));
 #endif
 
             field_20 = 6;
@@ -372,13 +372,13 @@ void DDCheat::VUpdate()
                     sDDCheat_AlwaysShow_5BC000 = !sDDCheat_AlwaysShow_5BC000;
                 }
 
-                if (sControlledCharacter == sActiveHero)
+                if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
                 {
-                    sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                    sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 }
 
-                sControlledCharacter->mCollisionLine = nullptr;
-                sControlledCharacter->mLastLineYPos = sControlledCharacter->mYPos;
+                sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
+                sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
 
             /*DebugStr_4F5560("\n[Memory]");

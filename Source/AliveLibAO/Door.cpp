@@ -69,7 +69,7 @@ const AnimId sDoorAnimdIdTable_4BA508[16][6] = {
 
 Door::Door(Path_Door* pTlv, s32 tlvInfo)
 {
-    mTypeId = Types::eDoor_21;
+    field_4_typeId = Types::eDoor_21;
 
     field_E4_tlvInfo = tlvInfo;
 
@@ -86,8 +86,8 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
     field_EC_current_state = (field_EE_door_closed == Choice_short::eNo_0) == SwitchStates_Get(field_F0_switch_id) ? DoorStates::eClosed_1 : DoorStates::eOpen_0;
 
-    if ((sActiveHero->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_157_DoorExit_42D780) &&
-        field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero->field_196_door_id)
+    if ((sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780) &&
+        field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero_507678->field_196_door_id)
     {
         field_EC_current_state = DoorStates::eOpen_0;
     }
@@ -106,8 +106,8 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
             if (!ppRes)
             {
-                mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -135,15 +135,15 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
                 if (pTlv->field_1E_scale == Scale_short::eHalf_1)
                 {
-                    mSpriteScale = FP_FromDouble(0.5);
-                    mScale = 0;
-                    mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+                    field_BC_sprite_scale = FP_FromDouble(0.5);
+                    field_C6_scale = 0;
+                    field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
                 }
                 else
                 {
-                    mSpriteScale = FP_FromInteger(1);
-                    mScale = 1;
-                    mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+                    field_BC_sprite_scale = FP_FromInteger(1);
+                    field_C6_scale = 1;
+                    field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
                 }
 
                 if (sCollisions_DArray_504C6C->RayCast(
@@ -152,25 +152,25 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                     FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
                     FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
                     &pLine,
-                    &mXPos,
-                    &mYPos,
-                    mSpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
+                    &field_A8_xpos,
+                    &field_AC_ypos,
+                    field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
                 {
-                    mYPos -= (FP_FromInteger(12) * mSpriteScale);
+                    field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
                     gMap.GetCurrentCamCoords(&mapCoords);
-                    auto aux = SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos) - mapCoords.field_0_x);
-                    mXPos = FP_FromInteger((aux)+mapCoords.field_0_x);
+                    auto aux = SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x);
+                    field_A8_xpos = FP_FromInteger((aux)+mapCoords.field_0_x);
                 }
                 else
                 {
-                    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-                    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
+                    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+                    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
                 }
                 break;
             }
             ResourceManager::FreeResource_455550(ppRes);
-            mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
 
@@ -178,20 +178,20 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
         {
             if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
             {
-                mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+                field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
                 scale = FP_FromInteger(1);
             }
             else
             {
-                mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+                field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
                 scale = FP_FromDouble(0.5);
             }
             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][3]);
             ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
             if (!ppRes || openDoor.mFrameTableOffset == 0)
             {
-                mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -221,20 +221,20 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 FP_FromInteger(pTlv->field_10_top_left.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
                 FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
                 &pLine,
-                &mXPos,
-                &mYPos,
+                &field_A8_xpos,
+                &field_AC_ypos,
                 scale != FP_FromDouble(0.5) ? 7 : 0x70))
             {
-                mYPos += FP_FromInteger(4);
+                field_AC_ypos += FP_FromInteger(4);
                 gMap.GetCurrentCamCoords(&mapCoords);
-                mXPos = FP_FromInteger(SnapToXGrid(scale, FP_GetExponent(mXPos) - mapCoords.field_0_x) + mapCoords.field_0_x);
+                field_A8_xpos = FP_FromInteger(SnapToXGrid(scale, FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
             }
             else
             {
-                mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-                mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+                field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+                field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
             }
-            mSpriteScale = FP_FromInteger(1);
+            field_BC_sprite_scale = FP_FromInteger(1);
             break;
         }
 
@@ -273,7 +273,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                             1);
                     }
 
-                    mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+                    field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
 
                     if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13 || gMap.mCurrentLevel == LevelIds::eRuptureFarms_1)
                     {
@@ -283,27 +283,27 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                                 FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
                                 FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
                                 &pLine,
-                                &mXPos,
-                                &mYPos,
+                                &field_A8_xpos,
+                                &field_AC_ypos,
                                 7))
                         {
-                            mYPos -= (FP_FromInteger(12) * mSpriteScale);
+                            field_AC_ypos -= (FP_FromInteger(12) * field_BC_sprite_scale);
                             gMap.GetCurrentCamCoords(&mapCoords);
-                            mXPos = FP_FromInteger(SnapToXGrid(FP_FromInteger(1), FP_GetExponent(mXPos) - mapCoords.field_0_x) + mapCoords.field_0_x);
+                            field_A8_xpos = FP_FromInteger(SnapToXGrid(FP_FromInteger(1), FP_GetExponent(field_A8_xpos) - mapCoords.field_0_x) + mapCoords.field_0_x);
                         }
                         else
                         {
-                            mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-                            mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
+                            field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+                            field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
                         }
                     }
                     else
                     {
-                        mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 9);
-                        mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 20);
+                        field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 9);
+                        field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 20);
                     }
 
-                    mSpriteScale = FP_FromInteger(1);
+                    field_BC_sprite_scale = FP_FromInteger(1);
 
                     field_F2_hubs_ids[0] = pTlv->field_2A_hub1;
                     field_F2_hubs_ids[1] = pTlv->field_2A_hub2;
@@ -316,19 +316,19 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                     break;
                 }
             }
-            mGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Clear(BaseGameObject::eDrawable_Bit4);
+            mFlags.Set(BaseGameObject::eDead);
             return;
     }
 
-    mXPos += FP_FromInteger(pTlv->field_3E_x_offset);
-    mYPos += FP_FromInteger(pTlv->field_40_y_offset);
+    field_A8_xpos += FP_FromInteger(pTlv->field_3E_x_offset);
+    field_AC_ypos += FP_FromInteger(pTlv->field_40_y_offset);
 
     if (field_EC_current_state == DoorStates::eOpen_0)
     {
-        mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+    field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
 }
 
 Door::~Door()
@@ -338,7 +338,7 @@ Door::~Door()
 
 void Door::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 Bool32 Door::vIsOpen_40E800()
@@ -378,10 +378,10 @@ void Door::PlaySound()
 
     if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
     {
-        volume = mSpriteScale != FP_FromDouble(0.5) ? 90 : 127;
+        volume = field_BC_sprite_scale != FP_FromDouble(0.5) ? 90 : 127;
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 75, 75);
     }
-    else if (field_E8_start_state == DoorStates::eOpen_0 && mSpriteScale == FP_FromInteger(1))
+    else if (field_E8_start_state == DoorStates::eOpen_0 && field_BC_sprite_scale == FP_FromInteger(1))
     {
         volume = 90;
     }
@@ -397,14 +397,14 @@ void Door::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mGameObjectFlags.Set(Options::eDead);
+        mFlags.Set(Options::eDead);
     }
 
-    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_157_DoorExit_42D780)
+    if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780)
     {
-        if (field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero->field_196_door_id)
+        if (field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero_507678->field_196_door_id)
         {
-            mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_EC_current_state = DoorStates::eOpen_0;
         }
     }
@@ -442,7 +442,7 @@ void Door::VUpdate()
         switch (field_EC_current_state)
         {
             case DoorStates::eOpen_0:
-                mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
                 if ((field_EE_door_closed == Choice_short::eNo_0 && SwitchStates_Get(field_F0_switch_id)) || (field_EE_door_closed == Choice_short::eYes_1 && !SwitchStates_Get(field_F0_switch_id)))
                 {
@@ -453,14 +453,14 @@ void Door::VUpdate()
                         case DoorStates::eOpen_0:
                         {
                             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][1]);
-                            mAnim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            field_10_anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
                             break;
                         }
 
                         case DoorStates::eClosed_1:
                         {
                             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][3]);
-                            mAnim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            field_10_anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
                             break;
                         }
 
@@ -468,19 +468,19 @@ void Door::VUpdate()
                         {
                         default:
                             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][5]);
-                            mAnim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            field_10_anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
                             break;
                         }
                     }
 
-                    mAnim.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
-                    mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                    field_10_anim.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
+                    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                 }
                 break;
 
             case DoorStates::eClosed_1:
-                mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
-                mAnim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
                 if ((field_EE_door_closed == Choice_short::eYes_1 && SwitchStates_Get(field_F0_switch_id)) || (field_EE_door_closed == Choice_short::eNo_0 && !SwitchStates_Get(field_F0_switch_id)))
                 {
@@ -491,14 +491,14 @@ void Door::VUpdate()
                         case DoorStates::eOpen_0:
                         {
                             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][1]);
-                            mAnim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            field_10_anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
                             break;
                         }
 
                         case DoorStates::eClosed_1:
                         {
                             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][3]);
-                            mAnim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            field_10_anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
                             break;
                         }
 
@@ -506,31 +506,31 @@ void Door::VUpdate()
                         {
                         default:
                             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][5]);
-                            mAnim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            field_10_anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
                             break;
                         }
                     }
 
-                    mAnim.SetFrame(3u);
-                    mAnim.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
-                    mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                    field_10_anim.SetFrame(3u);
+                    field_10_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
+                    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
                     PlaySound();
                 }
                 break;
 
             case DoorStates::eHubDoorClosed_2:
-                mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
-                mAnim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-                if (mAnim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
                     field_EC_current_state = DoorStates::eOpen_0;
                 }
                 break;
 
             case DoorStates::eClosing_3:
-                mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
-                mAnim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-                if (mAnim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
                     field_EC_current_state = DoorStates::eClosed_1;
                     PlaySound();

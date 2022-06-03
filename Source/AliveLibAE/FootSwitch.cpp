@@ -60,7 +60,7 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+    field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
 
     SetTint(sFootSwitchTints_5639F4, gMap.mCurrentLevel);
 
@@ -68,17 +68,17 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = 0;
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        field_CC_sprite_scale = FP_FromDouble(0.5);
+        field_D6_scale = 0;
+        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
     }
 
     field_FC_action = pTlv->field_14_action;
     field_FE_trigger_by = pTlv->field_16_trigger_by;
-    mXPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_F8_state = States::eWaitForStepOnMe_0;
-    mApplyShadows |= 2u;
-    mYPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    field_DC_bApplyShadows |= 2u;
+    field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
     field_104_bCreateSparks = 0;
     field_F4_tlvInfo = tlvInfo;
     field_106_bFindStander = 1;
@@ -101,7 +101,7 @@ void FootSwitch::VUpdate()
         {
             field_100_obj_id = pLastStoodOnMe->field_8_object_id;
             const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][1]);
-            mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_F8_state = States::eWaitForGetOffMe_1;
         }
     }
@@ -119,12 +119,12 @@ void FootSwitch::VUpdate()
                 field_F8_state = States::eWaitForGetOffMe_1;
 
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][1]);
-                mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
-                ae_new<ParticleBurst>(mXPos,
-                                                            mYPos + FP_FromInteger(10),
+                ae_new<ParticleBurst>(field_B8_xpos,
+                                                            field_BC_ypos + FP_FromInteger(10),
                                                             3,
-                                                            mSpriteScale,
+                                                            field_CC_sprite_scale,
                                                             BurstType::eBigRedSparks_3,
                                                             9);
 
@@ -139,7 +139,7 @@ void FootSwitch::VUpdate()
                 }
             }
 
-            if (mAnim.field_92_current_frame == 0)
+            if (field_20_animation.field_92_current_frame == 0)
             {
                 field_104_bCreateSparks = 1;
                 return;
@@ -147,25 +147,25 @@ void FootSwitch::VUpdate()
 
             if (field_104_bCreateSparks)
             {
-                ae_new<Spark>(mXPos,
-                                            mYPos + (mSpriteScale * FP_FromInteger(6)),
-                                            mSpriteScale,
+                ae_new<Spark>(field_B8_xpos,
+                                            field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(6)),
+                                            field_CC_sprite_scale,
                                             10,
                                             100,
                                             255,
                                             SparkType::eSmallChantParticle_0);
 
-                ae_new<ParticleBurst>(mXPos,
-                                                            mYPos + (mSpriteScale * FP_FromInteger(10)),
+                ae_new<ParticleBurst>(field_B8_xpos,
+                                                            field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(10)),
                                                             1,
-                                                            mSpriteScale,
+                                                            field_CC_sprite_scale,
                                                             BurstType::eBigRedSparks_3,
                                                             9);
 
                 field_104_bCreateSparks = 0;
             }
 
-            if (mAnim.field_92_current_frame == 0)
+            if (field_20_animation.field_92_current_frame == 0)
             {
                 field_104_bCreateSparks = 1;
             }
@@ -179,11 +179,11 @@ void FootSwitch::VUpdate()
 
             // Have they left the switch or died?
             if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
-                pLastStoodOnMe->mXPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mXPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->mGameObjectFlags.Get(BaseGameObject::eDead))
+                pLastStoodOnMe->field_B8_xpos < FP_FromInteger(bRect.x) || pLastStoodOnMe->field_B8_xpos > FP_FromInteger(bRect.w) || pLastStoodOnMe->mFlags.Get(BaseGameObject::eDead))
             {
                 field_F8_state = States::eWaitForStepOnMe_0;
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][0]);
-                mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 field_100_obj_id = -1;
             }
             break;
@@ -196,7 +196,7 @@ void FootSwitch::VUpdate()
 
 void FootSwitch::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
@@ -215,16 +215,16 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
                 break;
             }
 
-            if (pObj->mGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+            if (pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
                 PSX_RECT theirRect = {};
                 pAliveObj->VGetBoundingRect(&theirRect, 1);
 
-                const s32 xpos = FP_GetExponent(pAliveObj->mXPos);
+                const s32 xpos = FP_GetExponent(pAliveObj->field_B8_xpos);
 
-                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->mScale == mScale)
+                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->field_D6_scale == field_D6_scale)
                 {
                     return pAliveObj;
                 }
@@ -234,13 +234,13 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
     else if (field_FE_trigger_by == FootSwitchTriggerBy::eAbe_0)
     {
         PSX_RECT bRect = {};
-        sActiveHero->VGetBoundingRect(&bRect, 1);
+        sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
 
-        const s32 xpos = FP_GetExponent(sActiveHero->mXPos);
+        const s32 xpos = FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos);
 
-        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero->mScale == mScale)
+        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero_5C1B68->field_D6_scale == field_D6_scale)
         {
-            return sActiveHero;
+            return sActiveHero_5C1B68;
         }
     }
 

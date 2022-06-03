@@ -19,10 +19,10 @@ void RockSack::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mAnim.field_92_current_frame == 2)
+    if (field_10_anim.field_92_current_frame == 2)
     {
         if (field_114_can_play_wobble_sound)
         {
@@ -43,22 +43,22 @@ void RockSack::VUpdate()
     {
         if (field_110_has_been_hit == 1)
         {
-            if (mAnim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mAnim.Set_Animation_Data(13756, 0);
+                field_10_anim.Set_Animation_Data(13756, 0);
                 field_110_has_been_hit = 0;
             }
         }
     }
     else
     {
-        if (mAnim.mFrameChangeCounter == 0)
+        if (field_10_anim.field_E_frame_change_counter == 0)
         {
-            mAnim.mFrameChangeCounter = Math_RandomRange_450F20(2, 10);
+            field_10_anim.field_E_frame_change_counter = Math_RandomRange_450F20(2, 10);
         }
 
         PSX_RECT bPlayerRect = {};
-        sActiveHero->VGetBoundingRect(&bPlayerRect, 1);
+        sActiveHero_507678->VGetBoundingRect(&bPlayerRect, 1);
 
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
@@ -67,7 +67,7 @@ void RockSack::VUpdate()
             && bRect.w >= bPlayerRect.x
             && bRect.h >= bPlayerRect.y
             && bRect.y <= bPlayerRect.h
-            && mSpriteScale == sActiveHero->mSpriteScale)
+            && field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
         {
             if (!gpThrowableArray_50E26C || !gpThrowableArray_50E26C->field_10_count)
             {
@@ -79,8 +79,8 @@ void RockSack::VUpdate()
                 gpThrowableArray_50E26C->Add(field_112_rock_amount);
 
                 auto pRock = ao_new<Rock>(
-                    mXPos,
-                    mYPos - FP_FromInteger(30),
+                    field_A8_xpos,
+                    field_AC_ypos - FP_FromInteger(30),
                     field_112_rock_amount);
                 if (pRock)
                 {
@@ -91,15 +91,15 @@ void RockSack::VUpdate()
                 Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
             }
 
-            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
+            if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
             {
                 const AnimRecord& hardHitRec = AO::AnimRec(AnimId::RockSack_HardHit);
-                mAnim.Set_Animation_Data(hardHitRec.mFrameTableOffset, 0);
+                field_10_anim.Set_Animation_Data(hardHitRec.mFrameTableOffset, 0);
             }
             else
             {
                 const AnimRecord& softHitRec = AO::AnimRec(AnimId::RockSack_SoftHit);
-                mAnim.Set_Animation_Data(softHitRec.mFrameTableOffset, 0);
+                field_10_anim.Set_Animation_Data(softHitRec.mFrameTableOffset, 0);
             }
 
             field_110_has_been_hit = 1;
@@ -115,7 +115,7 @@ RockSack::~RockSack()
 RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mTypeId = Types::eRockSack_71;
+    field_4_typeId = Types::eRockSack_71;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::RockSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -126,13 +126,13 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     field_10C_tlvInfo = tlvInfo;
     field_110_has_been_hit = 0;
-    mApplyShadows &= ~1u;
-    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_CC_bApplyShadows &= ~1u;
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_118_x_vel = FP_FromRaw(pTlv->field_1A_x_vel << 8);
     field_11C_y_vel = FP_FromRaw(-256 * pTlv->field_1C_y_vel);
 
@@ -143,13 +143,13 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = 0;
+        field_BC_sprite_scale = FP_FromDouble(0.5);
+        field_C6_scale = 0;
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = 1;
+        field_BC_sprite_scale = FP_FromInteger(1);
+        field_C6_scale = 1;
     }
 
     field_112_rock_amount = pTlv->field_20_rock_amount;
@@ -159,15 +159,15 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
         u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, 0, 0);
-        mAnim.LoadPal(ppPal, 0);
+        field_10_anim.LoadPal(ppPal, 0);
     }
 
-    mShadow = ao_new<Shadow>();
+    field_D0_pShadow = ao_new<Shadow>();
 }
 
 void RockSack::VScreenChanged()
 {
-    mGameObjectFlags.Set(BaseGameObject::eDead);
+    mFlags.Set(BaseGameObject::eDead);
 }
 
 }

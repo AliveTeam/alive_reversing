@@ -20,25 +20,25 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    mAnim.mAnimFlags.Set(eBit15_bSemiTrans);
+    field_20_animation.field_4_flags.Set(eBit15_bSemiTrans);
 
-    mXPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
         if (pTlv->field_10_scale == Scale_short::eHalf_1)
         {
-            mSpriteScale = FP_FromDouble(0.5);
-            mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-            mScale = 0;
+            field_CC_sprite_scale = FP_FromDouble(0.5);
+            field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
+            field_D6_scale = 0;
         }
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
-        mScale = 1;
+        field_CC_sprite_scale = FP_FromInteger(1);
+        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
+        field_D6_scale = 1;
     }
 
     field_F8_switch_id = pTlv->field_12_switch_id;
@@ -51,24 +51,24 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_5C1128->Raycast(
-            mXPos,
-            mYPos,
-            mXPos,
-            mYPos + FP_FromInteger(24),
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos + FP_FromInteger(24),
             &pathLine,
             &hitX,
             &hitY,
-            (mScale == 1) ? 15 : 240))
+            (field_D6_scale == 1) ? 15 : 240))
     {
-        mYPos = hitY;
+        field_BC_ypos = hitY;
     }
     else
     {
-        mYPos += FP_FromInteger(20) * mSpriteScale;
+        field_BC_ypos += FP_FromInteger(20) * field_CC_sprite_scale;
     }
 
 
-    mApplyShadows |= 2u;
+    field_DC_bApplyShadows |= 2u;
     field_FC_state = WheelStates::eIdle_0;
     field_F4_tlv_info = tlvInfo;
 }
@@ -122,7 +122,7 @@ void WorkWheel::VUpdate()
 {
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_FC_state == WheelStates::eTurning_1)
@@ -131,10 +131,10 @@ void WorkWheel::VUpdate()
 
         if (!(field_100_on_counter % 10)
             && gMap.Is_Point_In_Current_Camera_4810D0(
-                mLvlNumber,
-                mPathNumber,
-                mXPos,
-                mYPos,
+                field_C2_lvl_number,
+                field_C0_path_number,
+                field_B8_xpos,
+                field_BC_ypos,
                 0))
         {
             const s16 randomVol = Math_RandomRange(-30, 0);
@@ -171,7 +171,7 @@ void WorkWheel::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_FC_state == WheelStates::eIdle_0)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -181,7 +181,7 @@ void WorkWheel::VStartTurning()
     {
         field_FC_state = WheelStates::eTurning_1;
         const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Turning);
-        mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
 }
 
@@ -193,7 +193,7 @@ void WorkWheel::VStopTurning(s16 bResetSwitch)
 
         // Spin it.
         const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Idle);
-        mAnim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
         if (field_104_turn_off_when_stopped == Choice_short::eYes_1)
         {

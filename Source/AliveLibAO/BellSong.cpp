@@ -33,7 +33,7 @@ void BellSong::VUpdate()
                     default:
                         SFX_Play_Mono(SoundEffect::BellChime_HighPitch_50, 0);
                 }
-                mUpdateDelay = 15;
+                field_8_update_delay = 15;
                 break;
             }
             case BellsongTypes::eWhistle:
@@ -49,7 +49,7 @@ void BellSong::VUpdate()
                     default:
                         Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, 0);
                 }
-                mUpdateDelay = 30;
+                field_8_update_delay = 30;
                 break;
             }
         }
@@ -58,7 +58,7 @@ void BellSong::VUpdate()
 
         if (field_10_code_idx >= field_1C_code_len)
         {
-            mUpdateDelay = 30;
+            field_8_update_delay = 30;
         }
     }
 }
@@ -71,7 +71,7 @@ BellSong::BellSong(BellsongTypes type, u32 code)
     field_1C_code_len = Code_Length(code);
     field_10_code_idx = 0;
     field_14_bDone = FALSE;
-    mUpdateDelay = 15;
+    field_8_update_delay = 15;
 }
 
 } // namespace AO

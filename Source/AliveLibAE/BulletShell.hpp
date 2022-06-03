@@ -14,7 +14,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    PathLine* mCollisionLine;
+    PathLine* field_F4_pLine;
     s16 field_F8_padding;
     s16 field_FA_padding;
     s16 field_FC_hitCount;

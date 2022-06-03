@@ -12,7 +12,7 @@ void TestAnimation::DelayLoad()
 {
     // Trying to load on these lvls will result in a phat failure because they hardly have
     // any resource fiiles
-    if (mLvlNumber == LevelIds::eMenu_0 || mLvlNumber == LevelIds::eCredits_16)
+    if (field_C2_lvl_number == LevelIds::eMenu_0 || field_C2_lvl_number == LevelIds::eCredits_16)
     {
         return;
     }
@@ -34,7 +34,7 @@ void TestAnimation::DelayLoad()
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, animRec.mResourceId);
     Animation_Init(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1, 1);
-    mAnim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
 
     if (animRec.mPalOverride != PalId::Default)
     {
@@ -52,7 +52,7 @@ void TestAnimation::DelayLoad()
         u8** ppPal = Add_Resource(ResourceManager::Resource_Palt, palRec.mResourceId);
         if (ppPal)
         {
-            mAnim.Load_Pal(ppPal, 0);
+            field_20_animation.Load_Pal(ppPal, 0);
         }
     }
 }
@@ -64,24 +64,24 @@ TestAnimation::TestAnimation()
 
     SetType(AETypes::eNone_0);
 
-    mApplyShadows &= ~1u;
+    field_DC_bApplyShadows &= ~1u;
 
-    mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 }
 
 void TestAnimation::SyncToAbePos()
 {
-    mXPos = sActiveHero->mXPos + FP_FromInteger(30);
-    mYPos = sActiveHero->mYPos - FP_FromInteger(30);
+    field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos + FP_FromInteger(30);
+    field_BC_ypos = sActiveHero_5C1B68->field_BC_ypos - FP_FromInteger(30);
 
-    mAnim.mRenderLayer = sActiveHero->mAnim.mRenderLayer;
+    field_20_animation.field_C_render_layer = sActiveHero_5C1B68->field_20_animation.field_C_render_layer;
 }
 
 void TestAnimation::VUpdate()
 {
-    mPathNumber = gMap.mCurrentPath;
-    mLvlNumber = gMap.mCurrentLevel;
+    field_C0_path_number = gMap.mCurrentPath;
+    field_C2_lvl_number = gMap.mCurrentLevel;
 
     if (mLoaded)
     {

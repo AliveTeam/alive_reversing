@@ -87,7 +87,7 @@ ALIVE_VAR(1, 0x5C2F70, u32, dword_5C2F70, 0);
 
 
 
-ALIVE_VAR(1, 0x5c1b68, Abe*, sActiveHero, 0);
+ALIVE_VAR(1, 0x5c1b68, Abe*, sActiveHero_5C1B68, 0);
 
 bool gDebugHelpersEnabled = false;
 
@@ -147,7 +147,7 @@ void DestroyObjects_4A1F20()
                 break;
             }
 
-            if (!(pObj->mGameObjectFlags.Get(BaseGameObject::eSurviveDeathReset_Bit9)))
+            if (!(pObj->mFlags.Get(BaseGameObject::eSurviveDeathReset_Bit9)))
             {
                 DynamicArrayIter iter;
                 iter.field_0_pDynamicArray = gBaseGameObjects;
@@ -392,8 +392,8 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
     word_5C1B94 = 1; // Used in dead overlay stuff, CD number ??
     //Overlays_Init_43BFC0(); // Note: Pointless because never used in PC
     pPauseMenu_5C9300 = nullptr;
-    sActiveHero = nullptr;
-    sControlledCharacter = 0;
+    sActiveHero_5C1B68 = nullptr;
+    sControlledCharacter_5C1B8C = 0;
     sNum_CamSwappers_5C1B66 = 0;
     sGnFrame_5C1B84 = 0;
     sbLoadingInProgress_5C1B96 = 0;
@@ -684,9 +684,9 @@ void Game_Loop_467230()
                 break;
             }
 
-            if (pBaseGameObject->mGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2)
-                && pBaseGameObject->mGameObjectFlags.Get(BaseGameObject::eDead) == false
-                && (sNum_CamSwappers_5C1B66 == 0 || pBaseGameObject->mGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            if (pBaseGameObject->mFlags.Get(BaseGameObject::eUpdatable_Bit2)
+                && pBaseGameObject->mFlags.Get(BaseGameObject::eDead) == false
+                && (sNum_CamSwappers_5C1B66 == 0 || pBaseGameObject->mFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
                 const s32 updateDelay = pBaseGameObject->UpdateDelay();
                 if (updateDelay <= 0)
@@ -724,13 +724,13 @@ void Game_Loop_467230()
                 break;
             }
 
-            if (pObj->mGameObjectFlags.Get(BaseGameObject::eDead))
+            if (pObj->mFlags.Get(BaseGameObject::eDead))
             {
-                pObj->mGameObjectFlags.Clear(BaseGameObject::eCantKill_Bit11);
+                pObj->mFlags.Clear(BaseGameObject::eCantKill_Bit11);
             }
-            else if (pObj->mGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+            else if (pObj->mFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                pObj->mGameObjectFlags.Set(BaseGameObject::eCantKill_Bit11);
+                pObj->mFlags.Set(BaseGameObject::eCantKill_Bit11);
                 pObj->VRender(ppOtBuffer);
             }
         }
@@ -744,13 +744,13 @@ void Game_Loop_467230()
                 break;
             }
 
-            if (pFG1->mGameObjectFlags.Get(BaseGameObject::eDead))
+            if (pFG1->mFlags.Get(BaseGameObject::eDead))
             {
-                pFG1->mGameObjectFlags.Clear(BaseGameObject::eCantKill_Bit11);
+                pFG1->mFlags.Clear(BaseGameObject::eCantKill_Bit11);
             }
-            else if (pFG1->mGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+            else if (pFG1->mFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                pFG1->mGameObjectFlags.Set(BaseGameObject::eCantKill_Bit11);
+                pFG1->mFlags.Set(BaseGameObject::eCantKill_Bit11);
                 pFG1->VRender(ppOtBuffer);
             }
         }
@@ -771,7 +771,7 @@ void Game_Loop_467230()
                 break;
             }
 
-            if (pObj->mGameObjectFlags.Get(BaseGameObject::eDead) && pObj->mGameObjectFlags.Get(BaseGameObject::eCantKill_Bit11) == false)
+            if (pObj->mFlags.Get(BaseGameObject::eDead) && pObj->mFlags.Get(BaseGameObject::eCantKill_Bit11) == false)
             {
                 DynamicArrayIter it;
                 it.field_0_pDynamicArray = gBaseGameObjects;

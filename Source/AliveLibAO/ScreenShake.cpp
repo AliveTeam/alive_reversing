@@ -14,9 +14,9 @@ namespace AO {
 ScreenShake::ScreenShake(bool enableShakeEvent)
     : BaseGameObject(1)
 {
-    mTypeId = Types::ScreenShake_82;
+    field_4_typeId = Types::ScreenShake_82;
 
-    mGameObjectFlags.Set(Options::eDrawable_Bit4);
+    mFlags.Set(Options::eDrawable_Bit4);
 
     field_30_shakeNumber = 16;
     field_32_enableShakeEvent = enableShakeEvent;
@@ -131,7 +131,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
 
         if (!field_30_shakeNumber)
         {
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 

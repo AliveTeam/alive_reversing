@@ -121,7 +121,7 @@ ThrowableArray::ThrowableArray()
     : BaseGameObject(TRUE, 0)
     , field_24_throwables(0)
 {
-    mGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);
+    mFlags.Clear(BaseGameObject::eUpdatable_Bit2);
     field_20_count = 0;
     gpThrowableArray_5D1E2C = this;
     field_22_flags.Clear(Flags_22::eBit1_Unknown);
@@ -148,7 +148,7 @@ void ThrowableArray::Remove(s16 count)
     }
     else
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -159,7 +159,7 @@ void ThrowableArray::VUpdate()
         LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
         Add(0);
         field_22_flags.Clear(Flags_22::eBit1_Unknown);
-        mGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);
+        mFlags.Clear(BaseGameObject::eUpdatable_Bit2);
     }
 }
 
@@ -179,7 +179,7 @@ void ThrowableArray::VScreenChanged()
         {
             if (!(field_22_flags.Get(Flags_22::eBit1_Unknown)))
             {
-                mGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
+                mFlags.Set(BaseGameObject::eUpdatable_Bit2);
                 field_22_flags.Set(Flags_22::eBit1_Unknown);
                 Remove(0);
             }
@@ -187,15 +187,15 @@ void ThrowableArray::VScreenChanged()
     }
     else
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
 void ThrowableArray::Add(s16 count)
 {
-    if (mGameObjectFlags.Get(BaseGameObject::eDead))
+    if (mFlags.Get(BaseGameObject::eDead))
     {
-        mGameObjectFlags.Clear(BaseGameObject::eDead);
+        mFlags.Clear(BaseGameObject::eDead);
     }
 
     if (field_20_count == 0)

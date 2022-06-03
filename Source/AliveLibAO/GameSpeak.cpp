@@ -57,10 +57,10 @@ ALIVE_VAR(1, 0x4FF954, GameSpeak*, pEventSystem_4FF954, nullptr);
 GameSpeak::GameSpeak()
     : BaseGameObject(1)
 {
-    mGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_1C_event_buffer[0] = -1;
     field_10_last_event = GameSpeakEvents::eNone_m1;
-    mTypeId = Types::eGameSpeak_24;
+    field_4_typeId = Types::eGameSpeak_24;
     field_18_last_event_index = 0;
 }
 

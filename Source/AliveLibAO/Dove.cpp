@@ -22,7 +22,7 @@ static s16 abePortalDirection_4C50B0 = -1;
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
 {
-    mTypeId = Types::eBird_22;
+    field_4_typeId = Types::eBird_22;
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
     Animation_Init_417FD0(
         frameTableOffset,
@@ -30,45 +30,45 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
         maxH,
         ppRes,
         1);
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     gDovesArray_4FF938.Push_Back(this);
 
-    mAnim.field_14_scale = scale;
-    mSpriteScale = scale;
+    field_10_anim.field_14_scale = scale;
+    field_BC_sprite_scale = scale;
     if (scale == FP_FromInteger(1))
     {
-        mScale = 1;
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        field_C6_scale = 1;
+        field_10_anim.field_C_layer = Layer::eLayer_27;
     }
     else
     {
-        mScale = 0;
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        field_C6_scale = 0;
+        field_10_anim.field_C_layer = Layer::eLayer_8;
     }
 
-    mVelX = FP_FromInteger((Math_NextRandom() / 12 - 11));
-    if (mVelX >= FP_FromInteger(0))
+    field_B4_velx = FP_FromInteger((Math_NextRandom() / 12 - 11));
+    if (field_B4_velx >= FP_FromInteger(0))
     {
-        mAnim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+        field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_EE_state = State::eOnGround_0;
 
-    mVelY = FP_FromInteger(-4 - (Math_NextRandom() & 3));
-    mAnim.SetFrame(Math_NextRandom() & 7);
+    field_B8_vely = FP_FromInteger(-4 - (Math_NextRandom() & 3));
+    field_10_anim.SetFrame(Math_NextRandom() & 7);
     field_EC_keepInGlobalArray = FALSE;
     field_E8_tlvInfo = tlvInfo;
 
     if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
-        mBlue = 30;
-        mGreen = 30;
-        mRed = 30;
+        field_C4_b = 30;
+        field_C2_g = 30;
+        field_C0_r = 30;
     }
 
     if (bTheOneControllingTheMusic_4FF94C)
@@ -82,7 +82,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
 {
-    mTypeId = Types::eBird_22;
+    field_4_typeId = Types::eBird_22;
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
     Animation_Init_417FD0(
@@ -92,48 +92,48 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
         ppRes,
         1);
 
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-    mAnim.field_14_scale = scale;
-    mSpriteScale = scale;
+    field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.field_14_scale = scale;
+    field_BC_sprite_scale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        field_10_anim.field_C_layer = Layer::eLayer_27;
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        field_10_anim.field_C_layer = Layer::eLayer_8;
     }
 
-    mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
+    field_B4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (scale >= FP_FromInteger(0))
     {
-        mAnim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+        field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mVelY = FP_FromInteger(-4 - ((Math_NextRandom()) & 3));
+    field_B8_vely = FP_FromInteger(-4 - ((Math_NextRandom()) & 3));
     field_EE_state = Dove::State::eFlyAway_1;
     field_EC_keepInGlobalArray = TRUE;
     field_E4_counter = 0;
 
-    mXPos = xpos;
-    mYPos = ypos;
+    field_A8_xpos = xpos;
+    field_AC_ypos = ypos;
     field_100_prevX = xpos;
     field_104_prevY = ypos;
 
     field_E8_tlvInfo = 0;
 
-    mAnim.SetFrame((Math_NextRandom() & 6) + 1);
+    field_10_anim.SetFrame((Math_NextRandom() & 6) + 1);
 
     if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
-        mBlue = 30;
-        mGreen = 30;
-        mRed = 30;
+        field_C4_b = 30;
+        field_C2_g = 30;
+        field_C0_r = 30;
     }
 
     if (bTheOneControllingTheMusic_4FF94C)
@@ -233,7 +233,7 @@ void Dove::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (!bTheOneControllingTheMusic_4FF94C)
@@ -265,7 +265,7 @@ void Dove::VUpdate()
                 }
             }
 
-            if (FP_GetExponent(FP_Abs(mXPos - sControlledCharacter->mXPos)) < 100)
+            if (FP_GetExponent(FP_Abs(field_A8_xpos - sControlledCharacter_50767C->field_A8_xpos)) < 100)
             {
                 if (Event_Get(kEventNoise_0))
                 {
@@ -293,7 +293,7 @@ void Dove::VUpdate()
             field_E4_counter++;
             if (field_E4_counter == 0)
             {
-                mAnim.Set_Animation_Data(4988, nullptr);
+                field_10_anim.Set_Animation_Data(4988, nullptr);
                 if (!bExtraSeqStarted_4FF944)
                 {
                     bExtraSeqStarted_4FF944 = 16;
@@ -303,46 +303,46 @@ void Dove::VUpdate()
 
             if (field_E4_counter > 0)
             {
-                mXPos += mVelX;
-                mYPos += mVelY;
+                field_A8_xpos += field_B4_velx;
+                field_AC_ypos += field_B8_vely;
             }
 
-            mVelY = (mVelY * FP_FromDouble(1.03));
-            mVelX = (mVelX * FP_FromDouble(1.03));
+            field_B8_vely = (field_B8_vely * FP_FromDouble(1.03));
+            field_B4_velx = (field_B4_velx * FP_FromDouble(1.03));
 
             if (field_E4_counter >= 25 - (Math_NextRandom() & 7))
             {
                 field_E4_counter = (Math_NextRandom() & 7) + field_E4_counter - 25;
-                mVelX = -mVelX;
+                field_B4_velx = -field_B4_velx;
             }
 
-            mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, mVelX < FP_FromInteger(0));
+            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_B4_velx < FP_FromInteger(0));
             break;
 
         case State::eJoin_2:
         {
             if (static_cast<s32>(gnFrameCount_507670) > field_F8_timer)
             {
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
             }
 
-            const FP k4Directed = mAnim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
-            mVelX = (k4Directed + field_F0_xJoin - mXPos) / FP_FromInteger(8);
-            mXPos += mVelX;
-            mVelY = (field_F4_yJoin - mYPos) / FP_FromInteger(8);
-            mYPos += mVelY;
+            const FP k4Directed = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
+            field_B4_velx = (k4Directed + field_F0_xJoin - field_A8_xpos) / FP_FromInteger(8);
+            field_A8_xpos += field_B4_velx;
+            field_B8_vely = (field_F4_yJoin - field_AC_ypos) / FP_FromInteger(8);
+            field_AC_ypos += field_B8_vely;
         }
             return;
 
         case State::eCircle_3:
-            field_100_prevX = mXPos;
-            field_104_prevY = mYPos;
+            field_100_prevX = field_A8_xpos;
+            field_104_prevY = field_AC_ypos;
 
             field_FC_angle += 4;
 
             // Spin around this point
-            mXPos = ((Math_Sine_451110(field_FC_angle) * FP_FromInteger(30)) * mSpriteScale) + field_F0_xJoin;
-            mYPos = ((Math_Cosine_4510A0(field_FC_angle) * FP_FromInteger(35)) * mSpriteScale) + field_F4_yJoin;
+            field_A8_xpos = ((Math_Sine_451110(field_FC_angle) * FP_FromInteger(30)) * field_BC_sprite_scale) + field_F0_xJoin;
+            field_AC_ypos = ((Math_Cosine_4510A0(field_FC_angle) * FP_FromInteger(35)) * field_BC_sprite_scale) + field_F4_yJoin;
             return;
 
         case State::eAlmostACircle_4:
@@ -360,27 +360,27 @@ void Dove::VUpdate()
                     abePortalDirection_4C50B0 = -1;
                 }
             }
-            field_100_prevX = mXPos;
+            field_100_prevX = field_A8_xpos;
             field_FC_angle += 4;
-            field_104_prevY = mYPos;
-            mXPos = ((Math_Sine_451110(field_FC_angle) * FP_FromInteger(abePortalWidth_4C50AC)) * mSpriteScale) + field_F0_xJoin;
-            mYPos = ((Math_Cosine_4510A0(field_FC_angle) * FP_FromInteger(35)) * mSpriteScale) + field_F4_yJoin;
+            field_104_prevY = field_AC_ypos;
+            field_A8_xpos = ((Math_Sine_451110(field_FC_angle) * FP_FromInteger(abePortalWidth_4C50AC)) * field_BC_sprite_scale) + field_F0_xJoin;
+            field_AC_ypos = ((Math_Cosine_4510A0(field_FC_angle) * FP_FromInteger(35)) * field_BC_sprite_scale) + field_F4_yJoin;
             return;
 
         default:
             break;
     }
 
-    const s32 doveScreenYPos = FP_GetExponent(FP_Abs(mYPos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y));
+    const s32 doveScreenYPos = FP_GetExponent(FP_Abs(field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y));
     if (doveScreenYPos > pScreenManager_4FF7C8->field_16_ypos)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
-    const s32 doveScreenXPos = FP_GetExponent(FP_Abs(mXPos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x));
+    const s32 doveScreenXPos = FP_GetExponent(FP_Abs(field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x));
     if (doveScreenXPos > pScreenManager_4FF7C8->field_14_xpos)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 

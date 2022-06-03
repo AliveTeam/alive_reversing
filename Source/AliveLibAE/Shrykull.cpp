@@ -19,7 +19,7 @@ Shrykull::Shrykull()
 {
     SetType(AETypes::eShrykull_121);
 
-    mGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    mFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
     field_128_obj_being_zapped_id = -1;
     field_124_zap_line_id = -1;
@@ -28,16 +28,16 @@ Shrykull::Shrykull()
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kShrmorphResID);
     Animation_Init(shrykullRec.mFrameTableOffset, shrykullRec.mMaxW, shrykullRec.mMaxH, ppRes, 1, 1u);
 
-    mXPos = sActiveHero->mXPos;
-    mYPos = sActiveHero->mYPos;
-    mSpriteScale = sActiveHero->mSpriteScale;
-    mScale = sActiveHero->mScale;
+    field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos;
+    field_BC_ypos = sActiveHero_5C1B68->field_BC_ypos;
+    field_CC_sprite_scale = sActiveHero_5C1B68->field_CC_sprite_scale;
+    field_D6_scale = sActiveHero_5C1B68->field_D6_scale;
 
     field_118_state = State::eTransform_0;
 
-    mAnim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero->mAnim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, sActiveHero_5C1B68->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX));
 
-    mShadow = ae_new<Shadow>();
+    field_E0_pShadow = ae_new<Shadow>();
 
     field_12E_bResetRingTimer = 0;
 }
@@ -47,7 +47,7 @@ Shrykull::~Shrykull()
     BaseGameObject* pZapLine = sObjectIds.Find_Impl(field_124_zap_line_id);
     if (pZapLine)
     {
-        pZapLine->mGameObjectFlags.Set(BaseGameObject::eDead);
+        pZapLine->mFlags.Set(BaseGameObject::eDead);
         field_124_zap_line_id = -1;
     }
 
@@ -59,7 +59,7 @@ void Shrykull::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -87,7 +87,7 @@ s16 Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     return (
                pObj->Type() == AETypes::eTimedMine_or_MovingBomb_10 || pObj->Type() == AETypes::eMine_88 || pObj->Type() == AETypes::eUXB_143 || pObj->Type() == AETypes::eSlig_125 || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eSlog_126 || pObj->Type() == AETypes::eGlukkon_67 || pObj->Type() == AETypes::eSecurityClaw_47 || pObj->Type() == AETypes::eSecurityOrb_83)
-        && pObj->mAnim.mAnimFlags.Get(AnimFlags::eBit3_Render) && !pObj->mGameObjectFlags.Get(BaseGameObject::eDead) && gMap.Is_Point_In_Current_Camera_4810D0(pObj->mLvlNumber, pObj->mPathNumber, pObj->mXPos, pObj->mYPos, 0);
+        && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) && !pObj->mFlags.Get(BaseGameObject::eDead) && gMap.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0);
 }
 
 void Shrykull::VUpdate()
@@ -98,23 +98,23 @@ void Shrykull::VUpdate()
     switch (field_118_state)
     {
         case State::eTransform_0:
-            if (mAnim.field_92_current_frame == 0)
+            if (field_20_animation.field_92_current_frame == 0)
             {
                 SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -2000);
                 SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
                 SFX_Play_Mono(SoundEffect::IngameTransition_84, 127);
             }
 
-            if (mAnim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
                 const AnimRecord& rec = AnimRec(AnimId::ShrykullTransform);
-                mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_118_state = State::eZapTargets_1;
             }
             break;
 
         case State::eZapTargets_1:
-            if (mAnim.field_92_current_frame == 0)
+            if (field_20_animation.field_92_current_frame == 0)
             {
                 if (Math_NextRandom() >= 128u)
                 {
@@ -134,7 +134,7 @@ void Shrykull::VUpdate()
                     break;
                 }
 
-                if (CanKill(pObj) && !pObj->mAliveGameObjectFlags.Get(Flags_114::e114_Bit5_ZappedByShrykull))
+                if (CanKill(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit5_ZappedByShrykull))
                 {
                     field_128_obj_being_zapped_id = pObj->field_8_object_id;
 
@@ -183,15 +183,15 @@ void Shrykull::VUpdate()
                     AbilityRing::Factory_482F80(
                         FP_FromInteger((objRect.x + objRect.w) / 2),
                         FP_FromInteger((objRect.y + objRect.h) / 2),
-                        RingTypes::eShrykull_Pulse_Large_5, pObj->mSpriteScale);
+                        RingTypes::eShrykull_Pulse_Large_5, pObj->field_CC_sprite_scale);
 
                     ae_new<PossessionFlicker>(this, 8, 255, 255, 255);
                     AbilityRing::Factory_482F80(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
-                        RingTypes::eShrykull_Pulse_Large_5, mSpriteScale);
+                        RingTypes::eShrykull_Pulse_Large_5, field_CC_sprite_scale);
 
-                    pObj->mAliveGameObjectFlags.Set(Flags_114::e114_Bit5_ZappedByShrykull);
+                    pObj->field_114_flags.Set(Flags_114::e114_Bit5_ZappedByShrykull);
 
                     SFX_Play_Pitch(SoundEffect::ShrykullZap_18, 100, 2000);
                     SFX_Play_Mono(SoundEffect::Zap1_49, 0);
@@ -205,14 +205,14 @@ void Shrykull::VUpdate()
 
             if (pExistingZapLine)
             {
-                pExistingZapLine->mGameObjectFlags.Set(BaseGameObject::eDead);
+                pExistingZapLine->mFlags.Set(BaseGameObject::eDead);
                 field_124_zap_line_id = -1;
             }
             field_118_state = State::eDetransform_2;
             break;
 
         case State::eDetransform_2:
-            if (mAnim.field_92_current_frame == 7)
+            if (field_20_animation.field_92_current_frame == 7)
             {
                 if (Math_NextRandom() >= 0x80u)
                 {
@@ -223,30 +223,30 @@ void Shrykull::VUpdate()
                     SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -512);
                 }
             }
-            else if (mAnim.field_92_current_frame == 20)
+            else if (field_20_animation.field_92_current_frame == 20)
             {
                 SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -2000);
                 SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
             }
 
-            if (mAnim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 const AnimRecord& rec = AnimRec(AnimId::ShrykullDetransform);
-                mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_118_state = State::eFinish_3;
             }
             break;
 
         case State::eFinish_3:
-            if (mAnim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                sActiveHero->ExitShrykull_45A9D0(field_12E_bResetRingTimer);
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                sActiveHero_5C1B68->ExitShrykull_45A9D0(field_12E_bResetRingTimer);
+                mFlags.Set(BaseGameObject::eDead);
             }
             break;
 
         case State::eKillTargets_4:
-            if (mAnim.field_92_current_frame == 0)
+            if (field_20_animation.field_92_current_frame == 0)
             {
                 if (Math_NextRandom() >= 128u)
                 {
@@ -260,7 +260,7 @@ void Shrykull::VUpdate()
 
             if (pExistingBeingZappedObj)
             {
-                if (pExistingBeingZappedObj->mGameObjectFlags.Get(BaseGameObject::eDead))
+                if (pExistingBeingZappedObj->mFlags.Get(BaseGameObject::eDead))
                 {
                     field_128_obj_being_zapped_id = -1;
                 }
@@ -277,7 +277,7 @@ void Shrykull::VUpdate()
                         ae_new<ParticleBurst>(
                             FP_FromInteger((zapRect.x + zapRect.w) / 2),
                             FP_FromInteger((zapRect.y + zapRect.h) / 2),
-                            20, mSpriteScale, BurstType::eBigPurpleSparks_2, 13);
+                            20, field_CC_sprite_scale, BurstType::eBigPurpleSparks_2, 13);
 
                         ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1u, TPageAbr::eBlend_3, 1);
                     }

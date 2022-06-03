@@ -23,7 +23,7 @@ s16* Animation_OnFrame_ZBallSmacker(void* pObj, s16* pData)
             break;
         }
 
-        if (pBase->mGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pBase->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // If the object is within the ZBall rect then smack it
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pBase);
@@ -31,7 +31,7 @@ s16* Animation_OnFrame_ZBallSmacker(void* pObj, s16* pData)
             PSX_RECT bRect = {};
             pAliveObj->VGetBoundingRect(&bRect, 1);
 
-            if (bRect.x <= (FP_GetExponent(pZBall->mXPos) + pData[2]) && bRect.w >= (FP_GetExponent(pZBall->mXPos) + pData[0]) && bRect.h >= (FP_GetExponent(pZBall->mYPos) + pData[1]) && bRect.y <= (FP_GetExponent(pZBall->mYPos) + pData[3]))
+            if (bRect.x <= (FP_GetExponent(pZBall->field_A8_xpos) + pData[2]) && bRect.w >= (FP_GetExponent(pZBall->field_A8_xpos) + pData[0]) && bRect.h >= (FP_GetExponent(pZBall->field_AC_ypos) + pData[1]) && bRect.y <= (FP_GetExponent(pZBall->field_AC_ypos) + pData[3]))
             {
                 pAliveObj->VTakeDamage(pZBall);
             }
@@ -43,11 +43,11 @@ s16* Animation_OnFrame_ZBallSmacker(void* pObj, s16* pData)
 
 ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 {
-    mTypeId = Types::eZBall_92;
+    field_4_typeId = Types::eZBall_92;
 
-    mBlue = 128;
-    mGreen = 128;
-    mRed = 128;
+    field_C4_b = 128;
+    field_C2_g = 128;
+    field_C0_r = 128;
 
     switch (pTlv->field_1C_speed)
     {
@@ -77,54 +77,54 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 
     }
 
-    mXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     if (gMap.mCurrentLevel == LevelIds::eForestTemple_4)
     {
         switch (pTlv->field_18_start_pos)
         {
             case Path_ZBall::StartPos::eCenter_0:
-                mAnim.SetFrame(6u);
+                field_10_anim.SetFrame(6u);
                 gCenter_ZBall_9F1DCC = this;
                 field_EA_sound_pitch = -800;
                 break;
 
             case Path_ZBall::StartPos::eOut_1:
-                mAnim.SetFrame(0);
+                field_10_anim.SetFrame(0);
                 gOutZBall_9F1DD0 = this;
                 field_EA_sound_pitch = -400;
                 break;
 
             case Path_ZBall::StartPos::eIn_2:
-                mAnim.SetFrame(13u);
+                field_10_anim.SetFrame(13u);
                 field_EA_sound_pitch = 0;
                 break;
         }
 
-        mAnim.VDecode();
+        field_10_anim.VDecode();
     }
 
     if (pTlv->field_1A_scale != Scale_short::eFull_0)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = 0;
+        field_BC_sprite_scale = FP_FromDouble(0.5);
+        field_C6_scale = 0;
     }
 
     field_E4_tlvInfo = tlvInfo;
-    mAnim.field_1C_fn_ptr_array = kZBall_Anim_Frame_Fns_4CEBF8;
+    field_10_anim.field_1C_fn_ptr_array = kZBall_Anim_Frame_Fns_4CEBF8;
 }
 
 void ZBall::VUpdate()
 {
     if (Event_Get(kEventDeathReset_4))
     {
-        mGameObjectFlags.Set(Options::eDead);
+        mFlags.Set(Options::eDead);
     }
 
     if (gCenter_ZBall_9F1DCC == this || gOutZBall_9F1DD0 == this)
     {
-        if (mAnim.field_92_current_frame == 0 || mAnim.field_92_current_frame == 13)
+        if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 13)
         {
             SFX_Play_Pitch(SoundEffect::ZBall_62, 50, field_EA_sound_pitch, nullptr);
         }
@@ -132,43 +132,43 @@ void ZBall::VUpdate()
 
     if (gCenter_ZBall_9F1DCC == this)
     {
-        if (mAnim.field_92_current_frame == 3 || mAnim.field_92_current_frame == 16)
+        if (field_10_anim.field_92_current_frame == 3 || field_10_anim.field_92_current_frame == 16)
         {
             SFX_Play_Pitch(SoundEffect::SackWobble_34, 40, field_EA_sound_pitch - 2400, nullptr);
         }
     }
 
-    if (mAnim.field_92_current_frame <= 6 || mAnim.field_92_current_frame >= 19)
+    if (field_10_anim.field_92_current_frame <= 6 || field_10_anim.field_92_current_frame >= 19)
     {
-        if (mSpriteScale == FP_FromInteger(1))
+        if (field_BC_sprite_scale == FP_FromInteger(1))
         {
-            mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+            field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
         }
     }
-    else if (mSpriteScale == FP_FromInteger(1))
+    else if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+        field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
+        field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_Half_3;
     }
 
     // Pointless because never seems to be read
-    field_E8_bFrameAbove12 = mAnim.field_92_current_frame >= 13;
+    field_E8_bFrameAbove12 = field_10_anim.field_92_current_frame >= 13;
 
     if (!gMap.Is_Point_In_Current_Camera_4449C0(
-            mLvlNumber,
-            mPathNumber,
-            mXPos,
-            mYPos,
+            field_B2_lvl_number,
+            field_B0_path_number,
+            field_A8_xpos,
+            field_AC_ypos,
             0))
     {
-        mGameObjectFlags.Set(Options::eDead);
+        mFlags.Set(Options::eDead);
         if (field_E4_tlvInfo != -1)
         {
             gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);

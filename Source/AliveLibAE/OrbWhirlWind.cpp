@@ -18,7 +18,7 @@ OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale, bool bIsMudokonSpirit)
 
     field_26_is_mudokon_spirit = bIsMudokonSpirit;
     gObjList_drawables_5C1124->Push_Back(this);
-    mGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     field_28_particleIdx = 0;
     memset(field_2C_particles, 0, sizeof(field_2C_particles));
@@ -105,7 +105,7 @@ void OrbWhirlWind::VUpdate()
 
         if (!hasInactiveParticles)
         {
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
         }
     }
 

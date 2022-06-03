@@ -48,7 +48,7 @@ void SligSpawner::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_38_state == SpawnerStates::eInactive_0)
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -82,12 +82,12 @@ void SligSpawner::VUpdate()
 
     if (Event_Get(kEventDeathReset))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_38_state == SpawnerStates::eSligSpawned_1)
     {
-        if (!pSpawnedSlig || pSpawnedSlig->mGameObjectFlags.Get(BaseGameObject::eDead) || pSpawnedSlig->mHealth <= FP_FromInteger(0))
+        if (!pSpawnedSlig || pSpawnedSlig->mFlags.Get(BaseGameObject::eDead) || pSpawnedSlig->field_10C_health <= FP_FromInteger(0))
         {
             SwitchStates_Set(field_24_slig_spawner_switch_id, 0);
             field_38_state = SpawnerStates::eInactive_0;
@@ -112,7 +112,7 @@ void SligSpawner::VUpdate()
 
             if (!field_26_flags.Get(SpawnerFlags::eBit2_UnlimitedSpawns))
             {
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 field_26_flags.Clear(SpawnerFlags::eBit1_DontDestroyTLV);
             }
         }

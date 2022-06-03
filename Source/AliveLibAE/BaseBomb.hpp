@@ -12,6 +12,6 @@ public:
     BaseBomb(FP x, FP y, s32 unused, FP scale);
 
 private:
-    FP mScale;
+    FP field_f4_scale;
 };
 ALIVE_ASSERT_SIZEOF(BaseBomb, 0xF8);

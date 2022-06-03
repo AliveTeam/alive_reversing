@@ -34,7 +34,7 @@ void Bullet::VUpdate()
 {
     if (!gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos, field_2C_ypos, 0) && !gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos + FP_FromInteger(10), field_2C_ypos, 0) && !gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos - FP_FromInteger(10), field_2C_ypos, 0))
     {
-        mGameObjectFlags.Set(BaseGameObject::eDead);
+        mFlags.Set(BaseGameObject::eDead);
         return;
     }
 
@@ -63,7 +63,7 @@ void Bullet::VUpdate()
             shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(5));
             shootRect.h = FP_GetExponent(field_2C_ypos + FP_FromInteger(5)); // TODO: Check correct
 
-            if (sControlledCharacter->Type() == AETypes::eAbe_69)
+            if (sControlledCharacter_5C1B8C->Type() == AETypes::eAbe_69)
             {
                 shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(10));
             }
@@ -87,7 +87,7 @@ void Bullet::VUpdate()
             {
                 if (pShotObj)
                 {
-                    if (FP_Abs(pShotObj->mXPos - field_28_xpos) <= FP_Abs(hitX - field_28_xpos))
+                    if (FP_Abs(pShotObj->field_B8_xpos - field_28_xpos) <= FP_Abs(hitX - field_28_xpos))
                     {
                         if (pShotObj->Type() == AETypes::eMineCar_89 || pShotObj->Type() == AETypes::eGreeter_64)
                         {
@@ -99,22 +99,22 @@ void Bullet::VUpdate()
                             if (field_30_x_distance <= FP_FromInteger(0))
                             {
                                 ae_new<Spark>(
-                                    pShotObj->mXPos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
+                                    pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
                                 New_Smoke_Particles(
-                                    pShotObj->mXPos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
+                                    pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 3, 128u, 128u, 128u);
                             }
                             else
                             {
                                 ae_new<Spark>(
-                                    pShotObj->mXPos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
+                                    pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
                                 New_Smoke_Particles(
-                                    pShotObj->mXPos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
+                                    pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 3, 128u, 128u, 128u);
                             }
@@ -132,7 +132,7 @@ void Bullet::VUpdate()
                                 PlayBulletSounds(vol);
                             }
                         }
-                        mGameObjectFlags.Set(BaseGameObject::eDead);
+                        mFlags.Set(BaseGameObject::eDead);
                         return;
                     }
                 }
@@ -158,7 +158,7 @@ void Bullet::VUpdate()
                 {
                     SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                 }
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -175,12 +175,12 @@ void Bullet::VUpdate()
                     {
 
                         ae_new<Spark>(
-                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->mXPos - FP_FromInteger(randomW),
+                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->field_B8_xpos - FP_FromInteger(randomW),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
 
                         New_Smoke_Particles(
-                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->mXPos - FP_FromInteger(randomW),
+                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->field_B8_xpos - FP_FromInteger(randomW),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 3, 128u, 128u, 128u);
                     }
@@ -188,13 +188,13 @@ void Bullet::VUpdate()
                     {
 
                         ae_new<Spark>(
-                            FP_FromInteger(randomW) + pShotObj->mXPos - (field_3C_scale * FP_FromInteger(30)),
+                            FP_FromInteger(randomW) + pShotObj->field_B8_xpos - (field_3C_scale * FP_FromInteger(30)),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
 
 
                         New_Smoke_Particles(
-                            FP_FromInteger(randomW) + pShotObj->mXPos - (field_3C_scale * FP_FromInteger(30)),
+                            FP_FromInteger(randomW) + pShotObj->field_B8_xpos - (field_3C_scale * FP_FromInteger(30)),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 3, 128u, 128u, 128u);
                     }
@@ -212,7 +212,7 @@ void Bullet::VUpdate()
                         PlayBulletSounds(vol);
                     }
                 }
-                mGameObjectFlags.Set(BaseGameObject::eDead);
+                mFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
@@ -220,13 +220,13 @@ void Bullet::VUpdate()
             {
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
             }
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
 
         case BulletType::ePossessedSligZBullet_1:
         {
-            const s32 xSnapped = SnapToXGrid(FP_FromInteger(1), FP_GetExponent(sControlledCharacter->mXPos));
+            const s32 xSnapped = SnapToXGrid(FP_FromInteger(1), FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos));
             PSX_RECT rect = {};
             rect.x = static_cast<s16>(xSnapped - 25);
             rect.w = static_cast<s16>(xSnapped - 25 + 50);
@@ -240,7 +240,7 @@ void Bullet::VUpdate()
                     if (pShootObj->Type() != AETypes::eGreeter_64 && pShootObj->Type() != AETypes::eMineCar_89)
                     {
                         PlayBulletSounds(90);
-                        mGameObjectFlags.Set(BaseGameObject::eDead);
+                        mFlags.Set(BaseGameObject::eDead);
                         return;
                     }
                 }
@@ -249,9 +249,9 @@ void Bullet::VUpdate()
             FP hitX = {};
             FP hitY = {};
             if (sCollisions_DArray_5C1128->Raycast(
-                    sControlledCharacter->mXPos,
+                    sControlledCharacter_5C1B8C->field_B8_xpos,
                     FP_FromInteger(rect.y),
-                    sControlledCharacter->mXPos,
+                    sControlledCharacter_5C1B8C->field_B8_xpos,
                     FP_FromInteger(rect.h),
                     &field_24_pLine, &hitX, &hitY, 0x400)
                 == 1)
@@ -260,7 +260,7 @@ void Bullet::VUpdate()
                 New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
             }
             SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
 
@@ -268,19 +268,19 @@ void Bullet::VUpdate()
         {
             FP rectXPos = {};
             // TODO: Check field_44_number_of_bullets << 20 is FP_FromInt * 16.
-            if (field_28_xpos >= sControlledCharacter->mXPos)
+            if (field_28_xpos >= sControlledCharacter_5C1B8C->field_B8_xpos)
             {
-                const FP doubleVelX = (sControlledCharacter->mVelX * FP_FromInteger(2));
-                rectXPos = (FP_FromInteger(field_44_number_of_bullets * 16)) + sControlledCharacter->mXPos - doubleVelX;
+                const FP doubleVelX = (sControlledCharacter_5C1B8C->field_C4_velx * FP_FromInteger(2));
+                rectXPos = (FP_FromInteger(field_44_number_of_bullets * 16)) + sControlledCharacter_5C1B8C->field_B8_xpos - doubleVelX;
             }
             else
             {
-                const FP doubleVelX = (sControlledCharacter->mVelX * FP_FromInteger(2));
-                rectXPos = sControlledCharacter->mXPos - doubleVelX - (FP_FromInteger(field_44_number_of_bullets * 16));
+                const FP doubleVelX = (sControlledCharacter_5C1B8C->field_C4_velx * FP_FromInteger(2));
+                rectXPos = sControlledCharacter_5C1B8C->field_B8_xpos - doubleVelX - (FP_FromInteger(field_44_number_of_bullets * 16));
             }
 
             PSX_RECT rect = {};
-            sControlledCharacter->VGetBoundingRect(&rect, 1);
+            sControlledCharacter_5C1B8C->VGetBoundingRect(&rect, 1);
             rect.x = FP_GetExponent(rectXPos);
             rect.y = rect.h - 10;
             rect.w = rect.x + 2;
@@ -299,7 +299,7 @@ void Bullet::VUpdate()
                         field_28_xpos,
                         field_2C_ypos,
                         rectXPos,
-                        sActiveHero->mYPos + FP_FromInteger(10),
+                        sActiveHero_5C1B68->field_BC_ypos + FP_FromInteger(10),
                         &field_24_pLine, &hitX, &hitY, 1024)
                     == 1)
                 {
@@ -308,12 +308,12 @@ void Bullet::VUpdate()
                 }
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
             }
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
             return;
         }
 
         default:
-            mGameObjectFlags.Set(BaseGameObject::eDead);
+            mFlags.Set(BaseGameObject::eDead);
             return;
     }
 }
@@ -368,28 +368,28 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
         if (pObj != field_40_pParent)
         {
-            if (pObj->mAnim.mAnimFlags.Get(AnimFlags::eBit3_Render))
+            if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
-                if (gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, pObj->mXPos, pObj->mYPos, 1))
+                if (gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, pObj->field_B8_xpos, pObj->field_BC_ypos, 1))
                 {
-                    if (((field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0 || field_20_type == BulletType::ePossessedSligZBullet_1) && ((pObj->Type() == AETypes::eSlig_125 && pObj->mCurrentMotion != eSligMotions::M_Possess_37_4B72C0) || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eGlukkon_67 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eSlog_126 || pObj->Type() == AETypes::eGreeter_64)) ||
+                    if (((field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0 || field_20_type == BulletType::ePossessedSligZBullet_1) && ((pObj->Type() == AETypes::eSlig_125 && pObj->field_106_current_motion != eSligMotions::M_Possess_37_4B72C0) || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eGlukkon_67 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eSlog_126 || pObj->Type() == AETypes::eGreeter_64)) ||
 
-                        pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eMineCar_89 || (pObj->Type() == AETypes::eSlig_125 && sControlledCharacter == pObj) || (pObj->Type() == AETypes::eFlyingSlig_54 && sControlledCharacter == pObj) || (pObj->Type() == AETypes::eCrawlingSlig_26 && sControlledCharacter == pObj) || (pObj->Type() == AETypes::eGlukkon_67 && sControlledCharacter == pObj))
+                        pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eMineCar_89 || (pObj->Type() == AETypes::eSlig_125 && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == AETypes::eFlyingSlig_54 && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == AETypes::eCrawlingSlig_26 && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == AETypes::eGlukkon_67 && sControlledCharacter_5C1B8C == pObj))
                     {
                         PSX_RECT bRect = {};
                         pObj->VGetBoundingRect(&bRect, 1);
 
                         if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
                         {
-                            if (((field_20_type == BulletType::eZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->mScale < pObj->mScale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->mScale == pObj->mScale))
+                            if (((field_20_type == BulletType::eZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale))
                             {
-                                if (pObj->Type() != AETypes::eGlukkon_67 || FP_Abs(pObj->mXPos - field_28_xpos) >= ScaleToGridSize(field_3C_scale))
+                                if (pObj->Type() != AETypes::eGlukkon_67 || FP_Abs(pObj->field_B8_xpos - field_28_xpos) >= ScaleToGridSize(field_3C_scale))
                                 {
                                     if (!pObjectToShoot)
                                     {
                                         pObjectToShoot = pObj;
                                     }
-                                    else if (FP_Abs(pObj->mXPos - field_28_xpos) < FP_Abs(pObjectToShoot->mXPos - field_28_xpos))
+                                    else if (FP_Abs(pObj->field_B8_xpos - field_28_xpos) < FP_Abs(pObjectToShoot->field_B8_xpos - field_28_xpos))
                                     {
                                         pObjectToShoot = pObj;
                                     }
