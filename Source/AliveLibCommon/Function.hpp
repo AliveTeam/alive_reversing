@@ -8,7 +8,7 @@
     #if _WIN64
         #define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(true)
     #else
-        #define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)
+        #define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(true)
     #endif
 #else
     #define CC
