@@ -126,12 +126,12 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     field_12A_res_idx = 0;
 
 
-    field_10A_flags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
     field_114_timer = 0;
     field_110_brain_sub_state = 0;
     SetNextMotion(eParamiteMotions::Motion_0_Idle);
     field_EC = 3;
-    field_F8_pLiftPoint = nullptr;
+    mLiftPoint = nullptr;
     SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
     field_140_use_prev_motion = 0;
 
@@ -145,13 +145,13 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_8;
+        field_10_anim.mRenderLayer = Layer::eLayer_8;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = Layer::eLayer_27;
+        field_10_anim.mRenderLayer = Layer::eLayer_27;
         field_C6_scale = 1;
     }
 
@@ -179,7 +179,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
             field_AC_ypos,
             field_A8_xpos,
             field_AC_ypos + FP_FromInteger(24),
-            &field_F4_pLine,
+            &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_BC_sprite_scale != FP_FromInteger(0) ? 0x01 : 0x10)
@@ -198,12 +198,12 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     if (!VIsFacingMe(sActiveHero_507678))
     {
-        field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
     }
 
     VStackOnObjectsOfType(Types::eParamite_62);
 
-    field_10A_flags.Set(Flags_10A::e10A_Bit6);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
 
     field_D0_pShadow = ao_new<Shadow>();
 }
@@ -236,7 +236,7 @@ Paramite::~Paramite()
     }
 
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 0, 0));
-    if (field_100_health <= FP_FromInteger(0))
+    if (mHealth <= FP_FromInteger(0))
     {
         gMap.TLV_Reset(field_12C_tlvInfo, -1, 0, 1);
     }
@@ -301,7 +301,7 @@ void Paramite::VRender(PrimHeader** ppOt)
 
 s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (field_100_health <= FP_FromInteger(0))
+    if (mHealth <= FP_FromInteger(0))
     {
         return 1;
     }
@@ -326,8 +326,8 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
                 field_BC_sprite_scale);
 
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            field_100_health = FP_FromInteger(0);
+            field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mHealth = FP_FromInteger(0);
             return 1;
         }
 
@@ -335,8 +335,8 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             return 0;
 
         case Types::eBeeSwarm_95:
-            field_100_health -= FP_FromDouble(0.2);
-            if (field_100_health > FP_FromInteger(0))
+            mHealth -= FP_FromDouble(0.2);
+            if (mHealth > FP_FromInteger(0))
             {
                 if (!BrainIs(&Paramite::Brain_2_Struggling))
                 {
@@ -347,7 +347,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             }
             else
             {
-                field_100_health = FP_FromInteger(0);
+                mHealth = FP_FromInteger(0);
                 SetBrain(&Paramite::Brain_3_Death);
                 field_128_never_read = 2;
                 field_114_timer = gnFrameCount_507670 + 90;
@@ -358,7 +358,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
 
         default:
         {
-            field_100_health = FP_FromInteger(0);
+            mHealth = FP_FromInteger(0);
             SetBrain(&Paramite::Brain_3_Death);
             field_128_never_read = 2;
             field_114_timer = gnFrameCount_507670 + 90;
@@ -385,7 +385,7 @@ void Paramite::VOn_TLV_Collision(Path_TLV* pTlv)
         if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            field_100_health = FP_FromInteger(0);
+            mHealth = FP_FromInteger(0);
             field_128_never_read = 2;
         }
         pTlv = gMap.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
@@ -409,18 +409,18 @@ s16 Paramite::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 
 void Paramite::VOnTrapDoorOpen()
 {
-    if (field_F8_pLiftPoint)
+    if (mLiftPoint)
     {
-        field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
-        field_F8_pLiftPoint = nullptr;
+        mLiftPoint->VRemove(this);
+        mLiftPoint->mBaseGameObjectRefCount--;
+        mLiftPoint = nullptr;
         SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
     }
 }
 
 void Paramite::VUpdate()
 {
-    if (field_100_health > FP_FromInteger(0)
+    if (mHealth > FP_FromInteger(0)
         && gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
@@ -489,8 +489,8 @@ void Paramite::VUpdate()
             }
         }
 
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
         if (field_10_anim.field_84_vram_rect.w)
         {
@@ -507,11 +507,11 @@ void Paramite::VUpdate()
             vram_alloc_450B20(138u, 49, 8u, &field_10_anim.field_84_vram_rect);
         }
 
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
 
-        const auto oldMotion = field_FC_current_motion;
+        const auto oldMotion = mCurrentMotion;
         field_110_brain_sub_state = (this->*field_10C_fn)();
 
         static auto oldBrain = field_10C_fn;
@@ -527,42 +527,42 @@ void Paramite::VUpdate()
                 "Paramite %d %d %d %d\n",
                 field_110_brain_sub_state,
                 field_114_timer,
-                field_FC_current_motion,
-                field_FE_next_motion);
+                mCurrentMotion,
+                mNextMotion);
         }
 
         const FP oldx = field_A8_xpos;
         const FP oldy = field_AC_ypos;
 
-        (this->*sParamiteMotionTable_4CDCB0[field_FC_current_motion])();
+        (this->*sParamiteMotionTable_4CDCB0[mCurrentMotion])();
 
         if (oldx != field_A8_xpos || oldy != field_AC_ypos)
         {
-            field_F0_pTlv = gMap.TLV_Get_At_446060(
+            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
                 nullptr,
                 field_A8_xpos,
                 field_AC_ypos,
                 field_A8_xpos,
                 field_AC_ypos);
 
-            VOn_TLV_Collision(field_F0_pTlv);
+            VOn_TLV_Collision(BaseAliveGameObjectPathTLV);
         }
 
         if (field_106_shot)
         {
             ToKnockBack();
             SetNextMotion(-1);
-            SetCurrentMotion(field_FE_next_motion);
+            SetCurrentMotion(mNextMotion);
             field_106_shot = 0;
         }
 
-        if (oldMotion == field_FC_current_motion)
+        if (oldMotion == mCurrentMotion)
         {
             if (field_140_use_prev_motion)
             {
-                SetCurrentMotion(field_E4_previous_motion);
+                SetCurrentMotion(mPreviousMotion);
                 VUpdateAnimData();
-                field_10_anim.SetFrame(field_E6_last_anim_frame);
+                field_10_anim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
                 field_140_use_prev_motion = 0;
             }
         }
@@ -571,7 +571,7 @@ void Paramite::VUpdate()
             VUpdateAnimData();
             if (static_cast<eParamiteMotions>(oldMotion) == eParamiteMotions::Motion_4_Unknown)
             {
-                field_10_anim.SetFrame(field_E6_last_anim_frame);
+                field_10_anim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
             }
         }
     }
@@ -580,8 +580,8 @@ void Paramite::VUpdate()
 
 void Paramite::ToIdle()
 {
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit6_FlipY);
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit7_SwapXY);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit6_FlipY);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit7_SwapXY);
 
     field_124_XSpeed = FP_FromInteger(0);
     field_B4_velx = FP_FromInteger(0);
@@ -600,12 +600,12 @@ s16 Paramite::ToNextMotion()
         case eParamiteMotions::Motion_23_Eating:
         case eParamiteMotions::Motion_25_Death:
         case eParamiteMotions::Motion_13_GameSpeakBegin:
-            SetCurrentMotion(field_FE_next_motion);
+            SetCurrentMotion(mNextMotion);
             SetNextMotion(-1);
             return 1;
 
         case eParamiteMotions::Motion_3_Running:
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromDouble(3.5));
                 SetCurrentMotion(eParamiteMotions::Motion_10_RunBegin);
@@ -619,7 +619,7 @@ s16 Paramite::ToNextMotion()
             return 1;
 
         case eParamiteMotions::Motion_2_Walking:
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_B4_velx = -ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(7);
                 SetCurrentMotion(eParamiteMotions::Motion_1_WalkBegin);
@@ -639,7 +639,7 @@ s16 Paramite::ToNextMotion()
         case eParamiteMotions::Motion_18_RunningAttack:
             SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
             SetNextMotion(-1);
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
             }
@@ -653,10 +653,10 @@ s16 Paramite::ToNextMotion()
             VOnTrapDoorOpen();
             SetCurrentMotion(eParamiteMotions::Motion_6_Hop);
             SetNextMotion(-1);
-            field_E8_LastLineYPos = field_AC_ypos;
+            BaseAliveGameObjectLastLineYPos = field_AC_ypos;
             field_B8_vely = FP_FromDouble(-7.2) * field_BC_sprite_scale;
             field_AC_ypos += field_B8_vely;
-            field_F4_pLine = nullptr;
+            BaseAliveGameObjectCollisionLine = nullptr;
             return 1;
 
         default:
@@ -666,10 +666,10 @@ s16 Paramite::ToNextMotion()
 
 void Paramite::VUpdateAnimData()
 {
-    const AnimRecord& rec = AO::AnimRec(sParamiteAnimIdTable_4CDD18[field_FC_current_motion]);
+    const AnimRecord& rec = AO::AnimRec(sParamiteAnimIdTable_4CDD18[mCurrentMotion]);
     field_10_anim.Set_Animation_Data(
         rec.mFrameTableOffset,
-        ResBlockForMotion(field_FC_current_motion));
+        ResBlockForMotion(mCurrentMotion));
 }
 
 s16 Paramite::AnotherParamiteNear()
@@ -724,7 +724,7 @@ void Paramite::ToKnockBack()
         field_B8_vely = FP_FromInteger(0);
     }
 
-    if (field_F4_pLine)
+    if (BaseAliveGameObjectCollisionLine)
     {
         ToIdle();
     }
@@ -776,26 +776,26 @@ Meat* Paramite::FindMeat()
 void Paramite::MoveOnLine()
 {
     const FP old_x = field_A8_xpos;
-    if (field_F4_pLine)
+    if (BaseAliveGameObjectCollisionLine)
     {
-        field_F4_pLine = field_F4_pLine->MoveOnLine(
+        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(
             &field_A8_xpos,
             &field_AC_ypos,
             field_B4_velx);
-        if (field_F4_pLine)
+        if (BaseAliveGameObjectCollisionLine)
         {
-            if (field_F8_pLiftPoint)
+            if (mLiftPoint)
             {
-                if (field_F4_pLine->field_8_type != eLineTypes::eUnknown_32 && field_F4_pLine->field_8_type != eLineTypes::eUnknown_36)
+                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_32 && BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_36)
                 {
-                    const auto oldMotion = field_FC_current_motion;
+                    const auto oldMotion = mCurrentMotion;
                     VOnTrapDoorOpen();
                     SetCurrentMotion(oldMotion);
                 }
             }
             else
             {
-                if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 || field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
+                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                 {
                     PSX_RECT bRect = {};
                     VGetBoundingRect(&bRect, 1);
@@ -812,7 +812,7 @@ void Paramite::MoveOnLine()
         else
         {
             VOnTrapDoorOpen();
-            field_E8_LastLineYPos = field_AC_ypos;
+            BaseAliveGameObjectLastLineYPos = field_AC_ypos;
             SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
             field_A8_xpos = field_B4_velx + old_x;
         }
@@ -820,7 +820,7 @@ void Paramite::MoveOnLine()
     else
     {
         SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
-        field_E8_LastLineYPos = field_AC_ypos;
+        BaseAliveGameObjectLastLineYPos = field_AC_ypos;
     }
 }
 
@@ -917,10 +917,10 @@ void Paramite::ToHop()
 
     SetNextMotion(-1);
 
-    field_E8_LastLineYPos = field_AC_ypos;
+    BaseAliveGameObjectLastLineYPos = field_AC_ypos;
     field_B8_vely = -FP_FromDouble(7.2) * field_BC_sprite_scale;
     field_AC_ypos += field_B8_vely;
-    field_F4_pLine = nullptr;
+    BaseAliveGameObjectCollisionLine = nullptr;
 }
 enum Brain_0_Patrol
 {
@@ -988,15 +988,15 @@ s16 Paramite::Brain_0_Patrol()
 
             // TODO: Inlined HandleEnemyStopper but the directional logic isn't quite the same
             // so can't use it.
-            field_F0_pTlv = gMap.TLV_Get_At_446260(
+            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
                 FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(field_AC_ypos),
                 FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(field_AC_ypos),
                 TlvTypes::EnemyStopper_79);
-            if (field_F0_pTlv)
+            if (BaseAliveGameObjectPathTLV)
             {
-                auto pStopper = static_cast<Path_EnemyStopper*>(field_F0_pTlv);
+                auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
                 if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero_507678->field_A8_xpos < field_A8_xpos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero_507678->field_A8_xpos > field_A8_xpos))
                 {
                     if (!SwitchStates_Get(pStopper->field_1A_switch_id))
@@ -1006,7 +1006,7 @@ s16 Paramite::Brain_0_Patrol()
                 }
             }
 
-            if ((AnotherParamiteNear() || sActiveHero_507678->field_100_health <= FP_FromInteger(0)) && field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
+            if ((AnotherParamiteNear() || sActiveHero_507678->mHealth <= FP_FromInteger(0)) && field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
             {
                 Sound(ParamiteSpeak::Howdy_5);
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
@@ -1021,7 +1021,7 @@ s16 Paramite::Brain_0_Patrol()
                 {
                     if (!VIsFacingMe(sActiveHero_507678))
                     {
-                        if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(0, 2)) || (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(1, 2)))
+                        if ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(0, 2)) || (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(1, 2)))
                         {
                             SetNextMotion(eParamiteMotions::Motion_5_Turn);
                             return Brain_0_Patrol::eBrain0_TurningForAbe_6;
@@ -1029,7 +1029,7 @@ s16 Paramite::Brain_0_Patrol()
                     }
                     else
                     {
-                        if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(1, 2)) || (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(0, 2)))
+                        if ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(1, 2)) || (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && !Check_IsOnEndOfLine_4021A0(0, 2)))
                         {
                             SetNextMotion(eParamiteMotions::Motion_2_Walking);
                             return Brain_0_Patrol::eBrain0_ApproachingAbe_4;
@@ -1047,7 +1047,7 @@ s16 Paramite::Brain_0_Patrol()
             }
             else if (VIsFacingMe(sActiveHero_507678))
             {
-                if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)) || (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)))
+                if ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)) || (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)))
                 {
                     SetNextMotion(eParamiteMotions::Motion_13_GameSpeakBegin);
                     return Brain_0_Patrol::eBrain0_StuckToWall_8;
@@ -1059,7 +1059,7 @@ s16 Paramite::Brain_0_Patrol()
             }
             else if (!VIsObjNearby(kGridSize * FP_FromInteger(4), sActiveHero_507678))
             {
-                if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)) || (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
+                if ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)) || (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
                 {
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
                     return Brain_0_Patrol::eBrain0_HittingAbe_7;
@@ -1071,7 +1071,7 @@ s16 Paramite::Brain_0_Patrol()
             }
             else
             {
-                if ((field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)) || (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
+                if ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(1, 2)) || (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_4021A0(0, 2)))
                 {
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
                     return Brain_0_Patrol::eBrain0_HittingAbe_7;
@@ -1312,7 +1312,7 @@ s16 Paramite::Brain_0_Patrol()
             return Brain_0_Patrol::eBrain0_ApproachingAbe_4;
 
         case Brain_0_Patrol::eBrain0_TurningForAbe_6:
-            if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn || !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 return field_110_brain_sub_state;
             }
@@ -1320,7 +1320,7 @@ s16 Paramite::Brain_0_Patrol()
             return Brain_0_Patrol::eBrain0_IdleForAbe_1;
 
         case Brain_0_Patrol::eBrain0_HittingAbe_7:
-            if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn || !(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+            if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn || !(field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_110_brain_sub_state;
             }
@@ -1376,12 +1376,12 @@ s16 Paramite::Brain_0_Patrol()
 
         case Brain_0_Patrol::eBrain0_Attacking_9:
             if (GetCurrentMotion() != eParamiteMotions::Motion_18_RunningAttack
-                || !(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+                || !(field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_110_brain_sub_state;
             }
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
-            if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+            if (sActiveHero_507678->mHealth > FP_FromInteger(0))
             {
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
             }
@@ -1427,7 +1427,7 @@ s16 Paramite::Brain_0_Patrol()
 
         case Brain_0_Patrol::eBrain0_IdleAnimation_13:
             if (GetCurrentMotion() != eParamiteMotions::Motion_14_PreHiss
-                || !(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+                || !(field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_110_brain_sub_state;
             }
@@ -1437,7 +1437,7 @@ s16 Paramite::Brain_0_Patrol()
 
         case Brain_0_Patrol::eBrain0_Turning_14:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+                || !(field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_110_brain_sub_state;
             }
@@ -1520,7 +1520,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
                     return field_110_brain_sub_state;
                 }
             }
-            field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            field_10_anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
             field_114_timer = gnFrameCount_507670 + field_112_surprise_web_delay_timer;
             return Brain_1_SurpriseWeb::eBrain1_StartAnimation_3;
 
@@ -1539,7 +1539,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
                     return field_110_brain_sub_state;
                 }
             }
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
             field_114_timer = gnFrameCount_507670 + field_112_surprise_web_delay_timer;
             return Brain_1_SurpriseWeb::eBrain1_StartAnimation_3;
 
@@ -1638,7 +1638,7 @@ s16 Paramite::Brain_2_Struggling()
             case Brain_2_Struggling::eBrain2_Turn_2:
                 if (GetCurrentMotion() == eParamiteMotions::Motion_15_Hiss)
                 {
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
                     {
                         SetNextMotion(eParamiteMotions::Motion_5_Turn);
                         return Brain_2_Struggling::eBrain2_Death_3;
@@ -1649,7 +1649,7 @@ s16 Paramite::Brain_2_Struggling()
             case Brain_2_Struggling::eBrain2_Death_3:
                 if (GetCurrentMotion() == eParamiteMotions::Motion_5_Turn)
                 {
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
                     {
                         SetNextMotion(eParamiteMotions::Motion_25_Death);
                         field_114_timer = gnFrameCount_507670 + 30;
@@ -1729,7 +1729,7 @@ s16 Paramite::Brain_4_ChasingAbe()
     if (field_138_attack_timer <= static_cast<s32>(gnFrameCount_507670)
         && (!VOnSameYLevel(sActiveHero_507678)
             || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale)
-        && sActiveHero_507678->field_100_health > FP_FromInteger(0))
+        && sActiveHero_507678->mHealth > FP_FromInteger(0))
     {
         SetNextMotion(eParamiteMotions::Motion_0_Idle);
         SetBrain(&Paramite::Brain_0_Patrol);
@@ -1752,7 +1752,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return Brain_4_ChasingAbe::eBrain4_Inactive_0;
             }
 
-            if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+            if (sActiveHero_507678->mHealth > FP_FromInteger(0))
             {
                 if (VIsFacingMe(sActiveHero_507678))
                 {
@@ -1784,7 +1784,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                         return Brain_4_ChasingAbe::eBrain4_Eating_13;
                     }
 
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
                         if (Check_IsOnEndOfLine_4021A0(1, 1))
                         {
@@ -1813,12 +1813,12 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_Attacking_1:
             if (GetCurrentMotion() != eParamiteMotions::Motion_18_RunningAttack
-                || !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 return field_110_brain_sub_state;
             }
 
-            if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+            if (sActiveHero_507678->mHealth > FP_FromInteger(0))
             {
                 if (VIsFacingMe(sActiveHero_507678))
                 {
@@ -1836,7 +1836,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                         }
                     }
 
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
                         if (Check_IsOnEndOfLine_4021A0(1, 1))
                         {
@@ -1872,7 +1872,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                         return Brain_4_ChasingAbe::eBrain4_Eating_13;
                     }
 
-                    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
                         if (Check_IsOnEndOfLine_4021A0(1, 1))
                         {
@@ -1917,7 +1917,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_CloseAttack_4:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 return field_110_brain_sub_state;
             }
@@ -1948,15 +1948,15 @@ s16 Paramite::Brain_4_ChasingAbe()
 
             // TODO: Inlined HandleEnemyStopper but the directional logic isn't quite the same
             // so can't use it.
-            field_F0_pTlv = gMap.TLV_Get_At_446260(
+            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
                 FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(field_AC_ypos),
                 FP_GetExponent(field_A8_xpos),
                 FP_GetExponent(field_AC_ypos),
                 TlvTypes::EnemyStopper_79);
-            if (field_F0_pTlv)
+            if (BaseAliveGameObjectPathTLV)
             {
-                auto pStopper = static_cast<Path_EnemyStopper*>(field_F0_pTlv);
+                auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
                 if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero_507678->field_A8_xpos < field_A8_xpos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero_507678->field_A8_xpos > field_A8_xpos))
                 {
                     if (!SwitchStates_Get(pStopper->field_1A_switch_id))
@@ -1985,7 +1985,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return field_110_brain_sub_state;
             }
 
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 if (Check_IsOnEndOfLine_4021A0(1, 1))
                 {
@@ -1993,7 +1993,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                     return Brain_4_ChasingAbe::eBrain4_Jumping_8;
                 }
             }
-            else if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            else if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 if (Check_IsOnEndOfLine_4021A0(0, 1))
                 {
@@ -2007,7 +2007,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_QuickAttack_6:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+                || !(field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_110_brain_sub_state;
             }
@@ -2098,7 +2098,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_TurningWhileChasing_9:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !(field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+                || !(field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_110_brain_sub_state;
             }
@@ -2107,7 +2107,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_Turning_10:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 return field_110_brain_sub_state;
             }
@@ -2119,7 +2119,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return Brain_4_ChasingAbe::eBrain4_Eating_13;
             }
 
-            if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 if (!Check_IsOnEndOfLine_4021A0(0, 1))
                 {
@@ -2127,7 +2127,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                     return Brain_4_ChasingAbe::eBrain4_Walking_11;
                 }
             }
-            else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            else if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 if (!Check_IsOnEndOfLine_4021A0(1, 1))
                 {
@@ -2299,7 +2299,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
             }
 
-            if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 if (Check_IsOnEndOfLine_4021A0(0, 1))
                 {
@@ -2307,7 +2307,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                     return Brain_5_SpottedMeat::eBrain5_Jumping_3;
                 }
             }
-            else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            else if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 if (Check_IsOnEndOfLine_4021A0(1, 1))
                 {
@@ -2330,7 +2330,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                     return Brain_5_SpottedMeat::eBrain5_Walking_2;
                 }
 
-                if (!field_148_pMeat->field_124_pLine || !field_F4_pLine)
+                if (!field_148_pMeat->field_124_pLine || !BaseAliveGameObjectCollisionLine)
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
@@ -2450,7 +2450,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 
         case Brain_5_SpottedMeat::eBrain5_Turning_4:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 return field_110_brain_sub_state;
             }
@@ -2487,7 +2487,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return field_110_brain_sub_state;
             }
 
-            if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 if (Check_IsOnEndOfLine_4021A0(0, 1))
                 {
@@ -2495,7 +2495,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                     return Brain_5_SpottedMeat::eBrain5_Jumping_3;
                 }
             }
-            else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            else if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 if (Check_IsOnEndOfLine_4021A0(1, 1))
                 {
@@ -2516,7 +2516,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return Brain_5_SpottedMeat::eBrain5_Walking_2;
             }
 
-            if (!field_148_pMeat->field_124_pLine || !field_F4_pLine)
+            if (!field_148_pMeat->field_124_pLine || !BaseAliveGameObjectCollisionLine)
             {
                 return Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
             }
@@ -2573,17 +2573,17 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirec
 {
     const FP kGridSize = ScaleToGridSize(field_BC_sprite_scale);
     const FP numGridBlocksScaled = (kGridSize * FP_FromInteger(numGridBlocks));
-    field_F0_pTlv = gMap.TLV_Get_At_446260(
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos + numGridBlocksScaled),
         FP_GetExponent(field_AC_ypos),
         FP_GetExponent(field_A8_xpos + numGridBlocksScaled),
         FP_GetExponent(field_AC_ypos),
         TlvTypes::EnemyStopper_79);
 
-    if (field_F0_pTlv)
+    if (BaseAliveGameObjectPathTLV)
     {
         // No stopper or its disabled
-        auto pEnemyStopper = static_cast<Path_EnemyStopper*>(field_F0_pTlv);
+        auto pEnemyStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
         if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->field_1A_switch_id))
         {
             return 0;
@@ -2628,7 +2628,7 @@ void Paramite::Motion_1_WalkBegin()
 {
     Event_Broadcast(kEventNoise_0, this);
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_B4_velx = field_BC_sprite_scale * -sWalkBeginVelTable_4BBC88[field_10_anim.field_92_current_frame];
     }
@@ -2645,7 +2645,7 @@ void Paramite::Motion_1_WalkBegin()
     {
         MoveOnLine();
 
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             SetCurrentMotion(eParamiteMotions::Motion_2_Walking);
         }
@@ -2672,7 +2672,7 @@ void Paramite::Motion_2_Walking()
 {
     Event_Broadcast(kEventNoise_0, this);
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_B4_velx = field_BC_sprite_scale * -sWalkVelTable_4BBC50[field_10_anim.field_92_current_frame];
     }
@@ -2718,7 +2718,7 @@ void Paramite::Motion_2_Walking()
             if (GetNextMotion() == eParamiteMotions::Motion_3_Running)
             {
                 SetPreviousMotion(eParamiteMotions::Motion_3_Running);
-                field_E6_last_anim_frame = 11;
+                mBaseAliveGameObjectLastAnimFrame = 11;
                 field_140_use_prev_motion = 1;
                 SetNextMotion(-1);
             }
@@ -2727,7 +2727,7 @@ void Paramite::Motion_2_Walking()
             {
                 SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
                 SetNextMotion(-1);
-                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                 {
                     field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
                 }
@@ -2774,7 +2774,7 @@ void Paramite::Motion_3_Running()
     Event_Broadcast(kEventNoise_0, this);
 
     FP frameVelx = {};
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         frameVelx = field_BC_sprite_scale * -sRunningTable_4BBCC0[field_10_anim.field_92_current_frame];
     }
@@ -2807,7 +2807,7 @@ void Paramite::Motion_3_Running()
             SetNextMotion(-1);
         }
 
-        if (!field_FE_next_motion
+        if (!mNextMotion
             || GetNextMotion() == eParamiteMotions::Motion_5_Turn
             || GetNextMotion() == eParamiteMotions::Motion_23_Eating
             || GetNextMotion() == eParamiteMotions::Motion_25_Death
@@ -2821,7 +2821,7 @@ void Paramite::Motion_3_Running()
             SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
             SetNextMotion(-1);
 
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
             }
@@ -2835,12 +2835,12 @@ void Paramite::Motion_3_Running()
         {
             VOnTrapDoorOpen();
 
-            field_E8_LastLineYPos = field_AC_ypos;
+            BaseAliveGameObjectLastLineYPos = field_AC_ypos;
             SetCurrentMotion(eParamiteMotions::Motion_6_Hop);
             SetNextMotion(-1);
             field_B8_vely = -FP_FromDouble(7.2) * field_BC_sprite_scale;
             field_AC_ypos += field_B8_vely;
-            field_F4_pLine = nullptr;
+            BaseAliveGameObjectCollisionLine = nullptr;
 
             if (field_142_bSnapped == 0)
             {
@@ -2887,7 +2887,7 @@ void Paramite::Motion_3_Running()
             SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
             SetNextMotion(-1);
 
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
             }
@@ -2922,20 +2922,20 @@ void Paramite::Motion_4_Unknown()
     {
         if (sControlledCharacter_50767C == this)
         {
-            SetCurrentMotion(field_E4_previous_motion);
-            if (field_F8_pLiftPoint)
+            SetCurrentMotion(mPreviousMotion);
+            if (mLiftPoint)
             {
                 // TODO: Correct type ??
-                static_cast<LiftPoint*>(field_F8_pLiftPoint)->field_12C_bMoving |= 1u;
+                static_cast<LiftPoint*>(mLiftPoint)->field_12C_bMoving |= 1u;
             }
         }
         else
         {
-            SetCurrentMotion(field_E4_previous_motion);
-            if (field_F8_pLiftPoint)
+            SetCurrentMotion(mPreviousMotion);
+            if (mLiftPoint)
             {
-                field_A8_xpos = FP_FromInteger((field_F4_pLine->field_0_rect.x + field_F4_pLine->field_0_rect.w) / 2);
-                field_AC_ypos = FP_FromInteger(field_F4_pLine->field_0_rect.y);
+                field_A8_xpos = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
+                field_AC_ypos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
             }
         }
     }
@@ -2948,9 +2948,9 @@ void Paramite::Motion_5_Turn()
         Sound(ParamiteSpeak::SlightStep_4);
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
 
         if (ToNextMotion())
         {
@@ -2987,7 +2987,7 @@ void Paramite::Motion_6_Hop()
     Event_Broadcast(kEventNoise_0, this);
 
     FP frameVelX = {};
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         frameVelX = (field_BC_sprite_scale * -sHopVelTable_4BBD28[field_10_anim.field_92_current_frame]);
     }
@@ -3019,7 +3019,7 @@ void Paramite::Motion_6_Hop()
                 {
                     ToIdle();
 
-                    field_F4_pLine = pLine;
+                    BaseAliveGameObjectCollisionLine = pLine;
 
                     PSX_RECT bRect = {};
                     VGetBoundingRect(&bRect, 1);
@@ -3046,7 +3046,7 @@ void Paramite::Motion_6_Hop()
             }
         }
 
-        if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(5))
+        if (field_AC_ypos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(5))
         {
             field_124_XSpeed = FP_FromDouble(0.75);
             SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
@@ -3072,7 +3072,7 @@ void Paramite::Motion_7_Unknown()
 {
     Event_Broadcast(kEventNoise_0, this);
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_B4_velx = field_BC_sprite_scale * -State_7_Unknown_VelTable_4BBCA8[field_10_anim.field_92_current_frame];
     }
@@ -3081,10 +3081,10 @@ void Paramite::Motion_7_Unknown()
         field_B4_velx = field_BC_sprite_scale * State_7_Unknown_VelTable_4BBCA8[field_10_anim.field_92_current_frame];
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_E4_previous_motion = 3;
-        field_E6_last_anim_frame = 2;
+        mPreviousMotion = 3;
+        mBaseAliveGameObjectLastAnimFrame = 2;
         field_140_use_prev_motion = 1;
     }
 
@@ -3107,7 +3107,7 @@ void Paramite::Motion_8_WalkRunTransition()
 {
     Event_Broadcast(kEventNoise_0, this);
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_B4_velx = field_BC_sprite_scale * -sWalkRunTransVelTable_4BBD18[field_10_anim.field_92_current_frame];
     }
@@ -3116,7 +3116,7 @@ void Paramite::Motion_8_WalkRunTransition()
         field_B4_velx = field_BC_sprite_scale * sWalkRunTransVelTable_4BBD18[field_10_anim.field_92_current_frame];
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         SetCurrentMotion(eParamiteMotions::Motion_2_Walking);
     }
@@ -3138,7 +3138,7 @@ const FP sWalkEndVelTable_4BBC98[3] = {
 
 void Paramite::Motion_9_WalkEnd()
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_B4_velx = field_BC_sprite_scale * -sWalkEndVelTable_4BBC98[field_10_anim.field_92_current_frame];
     }
@@ -3156,7 +3156,7 @@ void Paramite::Motion_9_WalkEnd()
         MoveOnLine();
         Event_Broadcast(kEventNoise_0, this);
 
-        if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             return;
         }
@@ -3172,7 +3172,7 @@ const FP sRunBeginVelTable_4BBCF8[3] = {
 
 void Paramite::Motion_10_RunBegin()
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_B4_velx = (field_BC_sprite_scale * -sRunBeginVelTable_4BBCF8[field_10_anim.field_92_current_frame]);
     }
@@ -3181,10 +3181,10 @@ void Paramite::Motion_10_RunBegin()
         field_B4_velx = field_BC_sprite_scale * sRunBeginVelTable_4BBCF8[field_10_anim.field_92_current_frame];
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_E4_previous_motion = 3;
-        field_E6_last_anim_frame = 2;
+        mPreviousMotion = 3;
+        mBaseAliveGameObjectLastAnimFrame = 2;
         field_140_use_prev_motion = 1;
     }
 
@@ -3207,7 +3207,7 @@ const FP sRunEndVelTable_4BBD08[3] = {
 
 void Paramite::Motion_11_RunEnd()
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_B4_velx = field_BC_sprite_scale * -sRunEndVelTable_4BBD08[field_10_anim.field_92_current_frame];
     }
@@ -3216,7 +3216,7 @@ void Paramite::Motion_11_RunEnd()
         field_B4_velx = field_BC_sprite_scale * sRunEndVelTable_4BBD08[field_10_anim.field_92_current_frame];
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         ToIdle();
     }
@@ -3264,7 +3264,7 @@ void Paramite::Motion_12_Falling()
             {
                 ToIdle();
 
-                field_F4_pLine = pLine;
+                BaseAliveGameObjectCollisionLine = pLine;
 
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
@@ -3312,7 +3312,7 @@ void Paramite::Motion_13_GameSpeakBegin()
         {
             if (field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
             {
-                if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+                if (sActiveHero_507678->mHealth > FP_FromInteger(0))
                 {
                     SFX_Play_Mono(SoundEffect::KillEffect_78, 0, 0);
                     Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 0, 0, sActiveHero_507678);
@@ -3322,7 +3322,7 @@ void Paramite::Motion_13_GameSpeakBegin()
         }
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         SetCurrentMotion(eParamiteMotions::Motion_14_PreHiss);
     }
@@ -3364,7 +3364,7 @@ void Paramite::Motion_14_PreHiss()
     {
         SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
         SetNextMotion(-1);
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
             field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
         }
@@ -3386,7 +3386,7 @@ void Paramite::Motion_14_PreHiss()
         SetNextMotion(-1);
     }
 
-    if (field_FE_next_motion != -1)
+    if (mNextMotion != -1)
     {
         SetCurrentMotion(eParamiteMotions::Motion_17_GameSpeakEnd);
     }
@@ -3433,7 +3433,7 @@ void Paramite::Motion_15_Hiss()
     {
         SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
         SetNextMotion(-1);
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
             field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
         }
@@ -3442,7 +3442,7 @@ void Paramite::Motion_15_Hiss()
             field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
         }
     }
-    else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    else if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         SetCurrentMotion(eParamiteMotions::Motion_16_PostHiss);
     }
@@ -3470,7 +3470,7 @@ void Paramite::Motion_16_PostHiss()
         }
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         SetCurrentMotion(eParamiteMotions::Motion_14_PreHiss);
     }
@@ -3497,12 +3497,12 @@ void Paramite::Motion_17_GameSpeakEnd()
             }
         }
     }
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (!ToNextMotion())
         {
-            field_10_anim.field_4_flags.Clear(AnimFlags::eBit6_FlipY);
-            field_10_anim.field_4_flags.Clear(AnimFlags::eBit7_SwapXY);
+            field_10_anim.mAnimFlags.Clear(AnimFlags::eBit6_FlipY);
+            field_10_anim.mAnimFlags.Clear(AnimFlags::eBit7_SwapXY);
             field_124_XSpeed = FP_FromInteger(0);
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
@@ -3516,7 +3516,7 @@ void Paramite::Motion_18_RunningAttack()
 {
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), field_B4_velx))
     {
-        field_F4_pLine = nullptr;
+        BaseAliveGameObjectCollisionLine = nullptr;
 
         ToKnockBack();
         return;
@@ -3586,18 +3586,18 @@ void Paramite::Motion_18_RunningAttack()
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
             }
             field_AC_ypos = hitY;
-            field_F4_pLine = pLine;
+            BaseAliveGameObjectCollisionLine = pLine;
         }
         else
         {
-            field_F4_pLine = nullptr;
+            BaseAliveGameObjectCollisionLine = nullptr;
             SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
             field_124_XSpeed = FP_FromDouble(0.75);
             field_AC_ypos -= (field_BC_sprite_scale * FP_FromInteger(10));
         }
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         ToIdle();
     }
@@ -3628,7 +3628,7 @@ void Paramite::Motion_20_SurpriseWeb()
             field_AC_ypos,
             field_A8_xpos,
             field_B8_vely + field_AC_ypos,
-            &field_F4_pLine,
+            &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0x10)
@@ -3637,7 +3637,7 @@ void Paramite::Motion_20_SurpriseWeb()
         field_AC_ypos = hitY;
         SetCurrentMotion(eParamiteMotions::Motion_21_WebLeaveDown);
 
-        if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32 || field_F4_pLine->field_8_type == eLineTypes::eUnknown_36)
+        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
@@ -3680,7 +3680,7 @@ void Paramite::Motion_21_WebLeaveDown()
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         ToIdle();
     }
@@ -3703,7 +3703,7 @@ void Paramite::Motion_22_Unknown()
         sActiveHero_507678->VTakeDamage(this);
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         SetCurrentMotion(eParamiteMotions::Motion_14_PreHiss);
     }
@@ -3716,7 +3716,7 @@ void Paramite::Motion_23_Eating()
         SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 0, 0);
     }
 
-    if (field_FE_next_motion != -1 && !ToNextMotion())
+    if (mNextMotion != -1 && !ToNextMotion())
     {
         ToIdle();
     }

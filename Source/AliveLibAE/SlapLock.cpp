@@ -32,11 +32,11 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
 
     if (field_118_pTlv->field_10_scale != Scale_short::eFull_0)
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
+        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
+        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     field_120_state = SlapLockStates::eShaking_0;
@@ -77,7 +77,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
         return;
     }
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
     field_124_timer1 = sGnFrame_5C1B84 + 60;
     field_13C_timer2 = sGnFrame_5C1B84 + 30;
@@ -111,7 +111,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
     auto pSlapLock = ae_new<SlapLock>(pTlv, pState->field_4_tlvInfo);
     if (pSlapLock)
     {
-        pSlapLock->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2_render & 1);
+        pSlapLock->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_2_render & 1);
 
         pSlapLock->field_11C_tlvInfo = pState->field_4_tlvInfo;
 
@@ -119,7 +119,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 
         pSlapLock->field_120_state = pState->field_A_state;
         pSlapLock->field_124_timer1 = pState->field_C_timer1;
-        pSlapLock->field_114_flags.Set(Flags_114::e114_Bit1_bShot);
+        pSlapLock->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit1_bShot);
         pSlapLock->field_13C_timer2 = pState->field_14_timer2;
     }
 
@@ -152,7 +152,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<SlapLock_State*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eLockedSoul_61;
-    pState->field_2_render = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) & 1;
+    pState->field_2_render = field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render) & 1;
     pState->field_4_tlvInfo = field_11C_tlvInfo;
     pState->field_8_tlv_state = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo)->field_1_tlv_state;
     pState->field_A_state = field_120_state;
@@ -183,9 +183,9 @@ void SlapLock::VUpdate()
     }
     else
     {
-        if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
+        if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
         {
-            field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
+            mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
             if (field_118_pTlv->field_1_tlv_state)
             {
@@ -261,7 +261,7 @@ void SlapLock::VUpdate()
                     }
                 }
 
-                if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+                if (!(field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
                 {
                     return;
                 }
@@ -275,12 +275,12 @@ void SlapLock::VUpdate()
             }
             case SlapLockStates::eSlapped_2:
             {
-                if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+                if (!(field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
                 {
                     return;
                 }
 
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
                 if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eNo_0)
                 {
@@ -306,7 +306,7 @@ void SlapLock::VUpdate()
                     (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + field_B8_xpos,
                     (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
                     FP_FromDouble(0.3),
-                    field_20_animation.field_C_render_layer);
+                    field_20_animation.mRenderLayer);
 
                 field_13C_timer2 = Math_RandomRange(-30, 30) + sGnFrame_5C1B84 + 60;
                 return;
@@ -322,7 +322,7 @@ void SlapLock::VUpdate()
                             sActiveHero_5C1B68->field_BC_ypos,
                             1)
                         || sActiveHero_5C1B68->field_168_ring_pulse_timer
-                        || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
+                        || sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
                     {
                         AbilityRing::Factory_482F80(
                             field_B8_xpos,
@@ -347,7 +347,7 @@ void SlapLock::VUpdate()
                     (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + field_B8_xpos,
                     (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
                     FP_FromDouble(0.3),
-                    field_20_animation.field_C_render_layer);
+                    field_20_animation.mRenderLayer);
 
                 field_13C_timer2 = Math_RandomRange(-30, 30) + sGnFrame_5C1B84 + 60;
                 return;
@@ -359,7 +359,7 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                if (sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
+                if (sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
                 {
                     field_120_state = SlapLockStates::eGiveInvisibility_7;
                 }
@@ -433,7 +433,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_62_Punch_454750)
+    if (sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_62_Punch_454750)
     {
         // If Abe isn't slapping then he can't hurt me
         return 0;

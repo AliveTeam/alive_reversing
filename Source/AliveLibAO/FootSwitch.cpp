@@ -18,7 +18,7 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
+    field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
 
     field_EA_switch_id = pTlv->field_18_switch_id;
     if (pTlv->field_1A_scale == Scale_short::eHalf_1)

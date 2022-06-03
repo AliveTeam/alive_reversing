@@ -23,7 +23,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     field_DC_bApplyShadows &= ~1u;
 
@@ -95,7 +95,7 @@ void RockSack::VUpdate()
 
     if (field_11C_has_been_hit)
     {
-        if (field_11C_has_been_hit == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_11C_has_been_hit == 1 && field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& animRec = AnimRec(AnimId::RockSack_Idle);
             field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
@@ -104,9 +104,9 @@ void RockSack::VUpdate()
     }
     else
     {
-        if (field_20_animation.field_E_frame_change_counter == 0)
+        if (field_20_animation.mFrameChangeCounter == 0)
         {
-            field_20_animation.field_E_frame_change_counter = Math_RandomRange(2, 10);
+            field_20_animation.mFrameChangeCounter = Math_RandomRange(2, 10);
         }
 
         PSX_RECT bPlayerRect = {};
@@ -121,7 +121,7 @@ void RockSack::VUpdate()
             {
                 if (gpThrowableArray_5D1E2C->field_20_count)
                 {
-                    if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_31_RunJumpMid_452C10)
+                    if (sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
                         field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
@@ -151,7 +151,7 @@ void RockSack::VUpdate()
             SFX_Play_Mono(SoundEffect::SackHit_25, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
-            if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_31_RunJumpMid_452C10)
+            if (sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
             {
                 const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);

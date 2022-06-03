@@ -32,7 +32,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     const AnimRecord& rec = AO::AnimRec(AnimId::Chime_Ball);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
-    field_10_anim.field_C_layer = Layer::eLayer_FG1_37;
+    field_10_anim.mRenderLayer = Layer::eLayer_FG1_37;
 
     FP scale = {};
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
@@ -119,8 +119,8 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     field_138_flags &= ~2u;
 
-    field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
-    field_10A_flags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
 
     field_132_solve_switch_id = pTlv->field_1A_solve_switch_id;
 
@@ -180,7 +180,7 @@ void ChimeLock::VScreenChanged()
 
 void ChimeLock::VUnPosses()
 {
-    field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = ChimeLockStates::eIdle_0;
     sActiveHero_507678->SetActiveControlledCharacter_421480();
     SFX_Play_Pitch(SoundEffect::PossessEffect_21, 70, 400, 0);
@@ -295,14 +295,14 @@ s16 ChimeLock::UpdateBall()
                     field_B8_vely - field_B8_vely,
                     field_A8_xpos,
                     field_AC_ypos,
-                    &field_F4_pLine,
+                    &BaseAliveGameObjectCollisionLine,
                     &hitX,
                     &hitY,
                     field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70)
                 == 1)
             {
-                if (field_F4_pLine->field_8_type == eLineTypes ::eFloor_0 ||
-                    field_F4_pLine->field_8_type == eLineTypes::eBackgroundFloor_4)
+                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eFloor_0 ||
+                    BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundFloor_4)
                 {
                     field_AC_ypos = hitY - FP_FromInteger(1);
                     field_B8_vely = -(field_B8_vely * FP_FromDouble(0.4));
@@ -613,7 +613,7 @@ void ChimeLock::SetTargetBellIfSpace(s16 targetNum)
 void ChimeLock::VPossessed()
 {
     field_138_flags &= ~3u;
-    field_10A_flags.Set(Flags_10A::e10A_Bit2_bPossesed);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = ChimeLockStates::ePossessed_2;
     field_128_idx = 0;
     field_12C_timer = gnFrameCount_507670 + 45;

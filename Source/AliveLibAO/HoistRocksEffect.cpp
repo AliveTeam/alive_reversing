@@ -29,11 +29,11 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
 
     field_E4_bHitGround = 0;

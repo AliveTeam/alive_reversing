@@ -14,18 +14,18 @@ Shadow::Shadow()
     field_14_flags.Clear(Flags::eBit1_ShadowAtBottom);
     field_14_flags.Set(Flags::eBit2_Enabled);
 
-    field_18_animation.field_B_render_mode = TPageAbr::eBlend_2;
+    field_18_animation.mRenderMode = TPageAbr::eBlend_2;
 
-    field_18_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-    field_18_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+    field_18_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    field_18_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
 
-    field_18_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
-    field_18_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-    field_18_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_18_animation.field_4_flags.Set(AnimFlags::eBit17_bOwnPal);
-    field_18_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
-    field_18_animation.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
-    field_18_animation.field_4_flags.Set(AnimFlags::eBit21);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit21);
 }
 
 Shadow::~Shadow()
@@ -76,7 +76,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 lineWScreen = pLine->field_0_rect.x - camXPos;
             }
 
-            field_18_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_18_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
             field_8_xpos = xpos;
             field_C_ypos = hitY;
@@ -139,16 +139,16 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
         else
         {
             // Didn't hit anything so don't draw a shadow
-            field_18_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_18_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         }
 
         if (scale)
         {
-            field_18_animation.field_C_render_layer = Layer::eLayer_Shadow_26;
+            field_18_animation.mRenderLayer = Layer::eLayer_Shadow_26;
         }
         else
         {
-            field_18_animation.field_C_render_layer = Layer::eLayer_Shadow_Half_7;
+            field_18_animation.mRenderLayer = Layer::eLayer_Shadow_Half_7;
         }
     }
 }
@@ -160,15 +160,15 @@ void Shadow::Render(PrimHeader** ppOt)
         field_18_animation.field_14_scale = FP_FromInteger(1);
         if (field_10_scale == FP_FromDouble(0.5))
         {
-            field_18_animation.field_8_r = 63;
-            field_18_animation.field_9_g = 63;
-            field_18_animation.field_A_b = 63;
+            field_18_animation.mRed = 63;
+            field_18_animation.mGreen = 63;
+            field_18_animation.mBlue = 63;
         }
         else
         {
-            field_18_animation.field_8_r = 127;
-            field_18_animation.field_9_g = 127;
-            field_18_animation.field_A_b = 127;
+            field_18_animation.mRed = 127;
+            field_18_animation.mGreen = 127;
+            field_18_animation.mBlue = 127;
         }
 
         field_18_animation.VRender(

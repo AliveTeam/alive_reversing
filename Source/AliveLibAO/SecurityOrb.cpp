@@ -56,7 +56,7 @@ SecurityOrb::~SecurityOrb()
         SND_Stop_Channels_Mask_4774A0(field_118_sound_channels);
     }
 
-    if (field_100_health > FP_FromInteger(0))
+    if (mHealth > FP_FromInteger(0))
     {
         gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
     }
@@ -96,7 +96,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
                 FP_FromInteger(0),
                 field_BC_sprite_scale);
 
-            field_100_health = FP_FromInteger(0);
+            mHealth = FP_FromInteger(0);
         }
         break;
 

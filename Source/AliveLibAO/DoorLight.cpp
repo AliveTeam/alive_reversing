@@ -92,7 +92,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             break;
     }
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == XDirection_short::eLeft_0);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == XDirection_short::eLeft_0);
 
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {
@@ -100,16 +100,16 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
     }
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
 
     field_CC_bApplyShadows &= ~1u;
-    field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_3;
+    field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+    field_10_anim.mRenderMode = TPageAbr::eBlend_3;
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x - xOff);
     }
@@ -204,9 +204,9 @@ void DoorLight::VRender(PrimHeader** ppOt)
         const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
         const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
-        field_10_anim.field_8_r = static_cast<u8>(field_C0_r);
-        field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
-        field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
+        field_10_anim.mRed = static_cast<u8>(field_C0_r);
+        field_10_anim.mGreen = static_cast<u8>(field_C2_g);
+        field_10_anim.mBlue = static_cast<u8>(field_C4_b);
 
         field_10_anim.VRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - field_E8_width / 2))),

@@ -261,13 +261,13 @@ void DDCheat::VUpdate()
                 gMap.GetCurrentCamCoords(&pos);
                 sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
                 sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
-                sActiveHero_5C1B68->field_106_current_motion = 3;
+                sActiveHero_5C1B68->mCurrentMotion = 3;
                 sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 sActiveHero_5C1B68->field_C2_lvl_number = static_cast<LevelIds>(sTeleport_Level_550F5C);
                 sActiveHero_5C1B68->field_C0_path_number = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
-                sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
                 field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit1);
             }
         }
@@ -281,8 +281,8 @@ void DDCheat::VUpdate()
                 {
                     sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 }
-                sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
 
             sDDCheat_ShowAI_Info_5C1BD8 = false;
@@ -291,13 +291,13 @@ void DDCheat::VUpdate()
             {
                 case AETypes::eGlukkon_67:
                 case AETypes::eSlig_125:
-                    sControlledCharacter_5C1B8C->field_106_current_motion = 7;
+                    sControlledCharacter_5C1B8C->mCurrentMotion = 7;
                     break;
                 case AETypes::eAbe_69:
-                    sControlledCharacter_5C1B8C->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
+                    sControlledCharacter_5C1B8C->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
                     break;
                 case AETypes::eScrab_112:
-                    sControlledCharacter_5C1B8C->field_106_current_motion = 8;
+                    sControlledCharacter_5C1B8C->mCurrentMotion = 8;
                     break;
                 default:
                     break;
@@ -377,8 +377,8 @@ void DDCheat::VUpdate()
                     sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 }
 
-                sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
 
             /*DebugStr_4F5560("\n[Memory]");

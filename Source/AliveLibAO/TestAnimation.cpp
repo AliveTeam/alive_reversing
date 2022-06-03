@@ -45,7 +45,7 @@ void TestAnimation::DelayLoad()
 
     u8** ppRes = Add_Resource(resourceArray, AO::ResourceManager::Resource_Animation, animRec.mResourceId);
     Animation_Init_417FD0(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1);
-    field_10_anim.field_4_flags.Set(AO::AnimFlags::eBit8_Loop);
+    field_10_anim.mAnimFlags.Set(AO::AnimFlags::eBit8_Loop);
 
     if (animRec.mPalOverride != PalId::Default)
     {
@@ -85,7 +85,7 @@ void TestAnimation::SyncToAbePos()
 {
     field_A8_xpos = AO::sActiveHero_507678->field_A8_xpos + FP_FromInteger(30);
     field_AC_ypos = AO::sActiveHero_507678->field_AC_ypos - FP_FromInteger(30);
-    field_10_anim.field_C_layer = AO::sActiveHero_507678->field_10_anim.field_C_layer;
+    field_10_anim.mRenderLayer = AO::sActiveHero_507678->field_10_anim.mRenderLayer;
 }
 
 void TestAnimation::VUpdate()

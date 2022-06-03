@@ -16,14 +16,14 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_A_b = 80;
-    field_10_anim.field_9_g = 80;
-    field_10_anim.field_8_r = 80;
+    field_10_anim.mBlue = 80;
+    field_10_anim.mGreen = 80;
+    field_10_anim.mRed = 80;
 
     field_CC_bApplyShadows &= ~1u;
 
-    field_10_anim.field_C_layer = Layer::eLayer_FG1_37;
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+    field_10_anim.mRenderLayer = Layer::eLayer_FG1_37;
+    field_10_anim.mRenderMode = TPageAbr::eBlend_1;
 
     field_BC_sprite_scale = scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.2));
     field_EA_random = Math_RandomRange_450F20(0, 16);

@@ -7,9 +7,9 @@ namespace AO {
 
 void DeathFadeOut::VRender(PrimHeader** ppOt)
 {
-    field_62_b = field_68_current_fade_rgb;
-    field_60_g = field_68_current_fade_rgb;
-    field_5E_r = field_68_current_fade_rgb;
+    mEffectBaseBlue = field_68_current_fade_rgb;
+    mEffectBaseGreen = field_68_current_fade_rgb;
+    mEffectBaseRed = field_68_current_fade_rgb;
 
     EffectBase::VRender(ppOt);
 
@@ -49,7 +49,7 @@ void DeathFadeOut::VScreenChanged()
 
 void DeathFadeOut::Init(Layer layer, s16 direction, s16 destroyOnDone, s32 speed)
 {
-    field_5C_layer = layer;
+    mEffectBaseLayer = layer;
     field_6C_direction = direction;
     field_6E_bDone = 0;
 
@@ -89,9 +89,9 @@ DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 s
 
     Init(layer, static_cast<s16>(direction), destroyOnDone, speed);
 
-    field_62_b = field_68_current_fade_rgb;
-    field_60_g = field_68_current_fade_rgb;
-    field_5E_r = field_68_current_fade_rgb;
+    mEffectBaseBlue = field_68_current_fade_rgb;
+    mEffectBaseGreen = field_68_current_fade_rgb;
+    mEffectBaseRed = field_68_current_fade_rgb;
 }
 
 } // namespace AO

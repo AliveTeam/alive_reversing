@@ -21,24 +21,24 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
     const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit24);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit24);
 
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+    field_20_animation.mRenderMode = TPageAbr::eBlend_1;
 
-    field_20_animation.field_A_b = 128;
-    field_20_animation.field_9_g = 128;
-    field_20_animation.field_8_r = 128;
+    field_20_animation.mBlue = 128;
+    field_20_animation.mGreen = 128;
+    field_20_animation.mRed = 128;
 
     field_f4_scale = scale;
 
     if (scale == FP_FromDouble(1.0))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
+        field_20_animation.mRenderLayer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
+        field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
     field_DC_bApplyShadows &= ~1;
@@ -163,15 +163,15 @@ void BaseBomb::VUpdate()
                 ppRes);
             if (pParticle)
             {
-                pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                 pParticle->field_DC_bApplyShadows &= ~1;
-                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+                pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
                 pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.7);
             }
         }
     }
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
+    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
     {
         // Time to die
         mBaseGameObjectFlags.Set(Options::eDead);

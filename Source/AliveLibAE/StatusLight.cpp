@@ -19,14 +19,14 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
         if (pTlv->field_12_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_20_animation.field_C_render_layer = Layer::eLayer_8;
+            field_20_animation.mRenderLayer = Layer::eLayer_8;
             field_D6_scale = 0;
         }
     }
     else
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_27;
+        field_20_animation.mRenderLayer = Layer::eLayer_27;
         field_D6_scale = 1;
     }
 
@@ -42,7 +42,7 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     field_DC_bApplyShadows &= ~1u;
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
 
@@ -90,11 +90,11 @@ void StatusLight::VUpdate()
         if ((!SwitchStates_Get(field_FA_id1) && field_FA_id1) || (!SwitchStates_Get(field_FC_id2) && field_FC_id2) || (!SwitchStates_Get(field_FE_id3) && field_FE_id3) || (!SwitchStates_Get(field_100_id4) && field_100_id4) || (!SwitchStates_Get(field_102_id5) && field_102_id5)
             || (sGnFrame_5C1B84 % 8) >= 4)
         {
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
         }
         else
         {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         }
         const AnimRecord& animRec = AnimRec(AnimId::Status_Light_Green);
         field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
@@ -103,18 +103,18 @@ void StatusLight::VUpdate()
     {
         if ((sGnFrame_5C1B84 % 8) >= 4)
         {
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
         }
         else
         {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         }
         const AnimRecord& animRec = AnimRec(AnimId::Status_Light_Red);
         field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
     else
     {
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         const AnimRecord& animRec = AnimRec(AnimId::Status_Light_Red);
         field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }

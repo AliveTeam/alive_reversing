@@ -24,9 +24,9 @@ Alarm::Alarm(Path_Alarm* pTlv, s32 tlvInfo)
     // This won't count as an alarm instance till this id is enabled
     field_88_switch_id = pTlv->field_10_switch_id;
 
-    field_6E_r = 0;
-    field_70_g = 0;
-    field_72_b = 0;
+    mEffectBaseRed = 0;
+    mEffectBaseGreen = 0;
+    mEffectBaseBlue = 0;
 
     field_8A_duration = pTlv->field_12_duration;
 }
@@ -55,9 +55,9 @@ Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)
         sAlarmObjId_550D70 = field_8_object_id;
     }
 
-    field_6E_r = 0;
-    field_70_g = 0;
-    field_72_b = 0;
+    mEffectBaseRed = 0;
+    mEffectBaseGreen = 0;
+    mEffectBaseBlue = 0;
 }
 
 Alarm::~Alarm()
@@ -115,7 +115,7 @@ void Alarm::VUpdate()
 
             if (!SwitchStates_Get(field_88_switch_id))
             {
-                field_6E_r = field_78_r_value;
+                mEffectBaseRed = field_78_r_value;
                 return;
             }
 
@@ -132,7 +132,7 @@ void Alarm::VUpdate()
             field_90_state = States::eEnabling_2;
             SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
             field_80_duration_timer = sGnFrame_5C1B84 + field_8A_duration;
-            field_6E_r = field_78_r_value;
+            mEffectBaseRed = field_78_r_value;
             break;
 
         case States::eAfterConstructed_1: // When not created by a map TLV
@@ -144,7 +144,7 @@ void Alarm::VUpdate()
             {
                 if (static_cast<s32>(sGnFrame_5C1B84) <= field_7C_15_timer)
                 {
-                    field_6E_r = field_78_r_value;
+                    mEffectBaseRed = field_78_r_value;
                     return;
                 }
 
@@ -153,12 +153,12 @@ void Alarm::VUpdate()
 
                 if (!field_88_switch_id)
                 {
-                    field_6E_r = field_78_r_value;
+                    mEffectBaseRed = field_78_r_value;
                     return;
                 }
 
                 SwitchStates_Set(field_88_switch_id, 1);
-                field_6E_r = field_78_r_value;
+                mEffectBaseRed = field_78_r_value;
             }
             break;
 
@@ -167,7 +167,7 @@ void Alarm::VUpdate()
 
             if (field_78_r_value < 100)
             {
-                field_6E_r = field_78_r_value;
+                mEffectBaseRed = field_78_r_value;
                 return;
             }
 
@@ -175,18 +175,18 @@ void Alarm::VUpdate()
             field_90_state = States::eOnFlash_3;
             field_7C_15_timer = sGnFrame_5C1B84 + 15;
             SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
-            field_6E_r = field_78_r_value;
+            mEffectBaseRed = field_78_r_value;
             break;
 
         case States::eOnFlash_3:
             if (static_cast<s32>(sGnFrame_5C1B84) <= field_7C_15_timer)
             {
-                field_6E_r = field_78_r_value;
+                mEffectBaseRed = field_78_r_value;
                 return;
             }
 
             field_90_state = States::eDisabling_4;
-            field_6E_r = field_78_r_value;
+            mEffectBaseRed = field_78_r_value;
             break;
 
         case States::eDisabling_4:
@@ -194,14 +194,14 @@ void Alarm::VUpdate()
 
             if (field_78_r_value > 0)
             {
-                field_6E_r = field_78_r_value;
+                mEffectBaseRed = field_78_r_value;
                 return;
             }
 
             field_78_r_value = 0;
             field_7C_15_timer = sGnFrame_5C1B84 + 15;
             field_90_state = States::eDisabled_5;
-            field_6E_r = field_78_r_value;
+            mEffectBaseRed = field_78_r_value;
             break;
 
         case States::eDisabled_5:
@@ -216,12 +216,12 @@ void Alarm::VUpdate()
                     field_90_state = States::eEnabling_2;
                     SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
                 }
-                field_6E_r = field_78_r_value;
+                mEffectBaseRed = field_78_r_value;
             }
             break;
 
         default:
-            field_6E_r = field_78_r_value;
+            mEffectBaseRed = field_78_r_value;
             break;
     }
 }

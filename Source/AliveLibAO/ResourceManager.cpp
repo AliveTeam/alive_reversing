@@ -203,10 +203,10 @@ void Game_ShowLoadingIcon_445EB0()
         auto pParticle = ao_new<Particle>(FP_FromInteger(0), FP_FromInteger(0), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
         if (pParticle)
         {
-            pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-            pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+            pParticle->field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+            pParticle->field_10_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-            pParticle->field_10_anim.field_C_layer = Layer::eLayer_0;
+            pParticle->field_10_anim.mRenderLayer = Layer::eLayer_0;
 
             PrimHeader* local_ot[42] = {};
             PSX_DRAWENV drawEnv = {};

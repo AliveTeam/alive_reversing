@@ -29,19 +29,19 @@ public:
 
         field_CC_bApplyShadows |= 1u;
 
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
 
         field_A8_xpos = xpos;
         field_AC_ypos = ypos + FP_FromInteger(4);
 
-        field_10_anim.field_C_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
-        field_10_anim.field_B_render_mode = TPageAbr::eBlend_3;
+        field_10_anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
+        field_10_anim.mRenderMode = TPageAbr::eBlend_3;
 
-        field_10_anim.field_8_r = 100;
-        field_10_anim.field_9_g = 100;
-        field_10_anim.field_A_b = 63;
+        field_10_anim.mRed = 100;
+        field_10_anim.mGreen = 100;
+        field_10_anim.mBlue = 63;
 
         field_BC_sprite_scale = scale;
 
@@ -57,9 +57,9 @@ public:
     {
         if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
         {
-            field_10_anim.field_8_r = static_cast<u8>(field_C0_r);
-            field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
-            field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
+            field_10_anim.mRed = static_cast<u8>(field_C0_r);
+            field_10_anim.mGreen = static_cast<u8>(field_C2_g);
+            field_10_anim.mBlue = static_cast<u8>(field_C4_b);
 
             field_10_anim.VRender(
                 FP_GetExponent(field_E4_xPos),
@@ -141,10 +141,10 @@ public:
         const AnimRecord rec = AO::AnimRec(AnimId::Zap_Sparks);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_CC_bApplyShadows |= 1u;
-        field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
+        field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
 
         field_A8_xpos = xpos;
         field_AC_ypos = ypos;
@@ -157,11 +157,11 @@ public:
         {
             anim.field_14.field_68_anim_ptr = &field_10_anim;
 
-            anim.field_14.field_4_flags.Set(AnimFlags::eBit3_Render);
-            anim.field_14.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+            anim.field_14.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            anim.field_14.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-            const s16 rndLayer = static_cast<s16>(field_10_anim.field_C_layer) + Math_RandomRange_450F20(-1, 1);
-            anim.field_14.field_C_layer = static_cast<Layer>(rndLayer);
+            const s16 rndLayer = static_cast<s16>(field_10_anim.mRenderLayer) + Math_RandomRange_450F20(-1, 1);
+            anim.field_14.mRenderLayer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = field_BC_sprite_scale;
 
             anim.field_0_x = field_A8_xpos;
@@ -228,9 +228,9 @@ public:
         {
             if (field_E4_bRender)
             {
-                field_10_anim.field_9_g = 32;
-                field_10_anim.field_A_b = 32;
-                field_10_anim.field_8_r = 240;
+                field_10_anim.mGreen = 32;
+                field_10_anim.mBlue = 32;
+                field_10_anim.mRed = 240;
 
                 const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
 
@@ -330,9 +330,9 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     field_CC_bApplyShadows |= 1u;
-    field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
+    field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     field_EA_frame_count = field_10_anim.Get_Frame_Count();
     field_E8_switch_id = pTlv->field_18_switch_id;
 
@@ -371,16 +371,16 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
 
     if (SwitchStates_Get(pTlv->field_18_switch_id))
     {
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
         field_EC_state = States::eEnabled_1;
     }
     else
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         field_EC_state = States::eDisabled_0;
     }
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
     field_EE_2_random = Math_NextRandom() & 1;
 
     field_FC_pFlameSparks = ao_new<FlameSparks>(field_A8_xpos, field_AC_ypos);
@@ -395,7 +395,7 @@ void DoorFlame::VUpdate()
     switch (field_EC_state)
     {
         case States::eDisabled_0:
-            field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             if (field_FC_pFlameSparks)
             {
                 field_FC_pFlameSparks->field_E4_bRender = 0;
@@ -430,7 +430,7 @@ void DoorFlame::VUpdate()
                 }
             }
 
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
             if (field_FC_pFlameSparks)
             {
                 field_FC_pFlameSparks->field_E4_bRender = 1;

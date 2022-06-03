@@ -25,13 +25,13 @@ void Recorder::SaveObjectStates()
             mFile.Write(pAliveObj->field_A8_xpos.fpValue);
             mFile.Write(pAliveObj->field_AC_ypos.fpValue);
 
-            mFile.Write(pAliveObj->field_E8_LastLineYPos.fpValue);
+            mFile.Write(pAliveObj->BaseAliveGameObjectLastLineYPos.fpValue);
 
-            mFile.Write(pAliveObj->field_FC_current_motion);
-            mFile.Write(pAliveObj->field_FE_next_motion);
-            mFile.Write(pAliveObj->field_E4_previous_motion);
+            mFile.Write(pAliveObj->mCurrentMotion);
+            mFile.Write(pAliveObj->mNextMotion);
+            mFile.Write(pAliveObj->mPreviousMotion);
 
-            mFile.Write(pAliveObj->field_100_health.fpValue);
+            mFile.Write(pAliveObj->mHealth.fpValue);
         }
     }
 }
@@ -49,11 +49,11 @@ bool Player::ValidateBaseAliveGameObject(BaseGameObject* pObj)
             }
             SkipValidField<decltype(BaseAliveGameObject::field_A8_xpos)>(mFile);
             SkipValidField<decltype(BaseAliveGameObject::field_AC_ypos)>(mFile);
-            SkipValidField<decltype(BaseAliveGameObject::field_E8_LastLineYPos)>(mFile);
-            SkipValidField<decltype(BaseAliveGameObject::field_FC_current_motion)>(mFile);
-            SkipValidField<decltype(BaseAliveGameObject::field_FE_next_motion)>(mFile);
-            SkipValidField<decltype(BaseAliveGameObject::field_E4_previous_motion)>(mFile);
-            SkipValidField<decltype(BaseAliveGameObject::field_100_health)>(mFile);
+            SkipValidField<decltype(BaseAliveGameObject::BaseAliveGameObjectLastLineYPos)>(mFile);
+            SkipValidField<decltype(BaseAliveGameObject::mCurrentMotion)>(mFile);
+            SkipValidField<decltype(BaseAliveGameObject::mNextMotion)>(mFile);
+            SkipValidField<decltype(BaseAliveGameObject::mPreviousMotion)>(mFile);
+            SkipValidField<decltype(BaseAliveGameObject::mHealth)>(mFile);
             return false;
         }
         else
@@ -62,11 +62,11 @@ bool Player::ValidateBaseAliveGameObject(BaseGameObject* pObj)
             bool validateFailed = false;
             validateFailed |= ValidField(mFile, pAliveObj->field_A8_xpos, "xpos");
             validateFailed |= ValidField(mFile, pAliveObj->field_AC_ypos, "ypos");
-            validateFailed |= ValidField(mFile, pAliveObj->field_E8_LastLineYPos, "last line ypos");
-            validateFailed |= ValidField(mFile, pAliveObj->field_FC_current_motion, "current motion");
-            validateFailed |= ValidField(mFile, pAliveObj->field_FE_next_motion, "next motion");
-            validateFailed |= ValidField(mFile, pAliveObj->field_E4_previous_motion, "previous motion");
-            validateFailed |= ValidField(mFile, pAliveObj->field_100_health, "health");
+            validateFailed |= ValidField(mFile, pAliveObj->BaseAliveGameObjectLastLineYPos, "last line ypos");
+            validateFailed |= ValidField(mFile, pAliveObj->mCurrentMotion, "current motion");
+            validateFailed |= ValidField(mFile, pAliveObj->mNextMotion, "next motion");
+            validateFailed |= ValidField(mFile, pAliveObj->mPreviousMotion, "previous motion");
+            validateFailed |= ValidField(mFile, pAliveObj->mHealth, "health");
             if (validateFailed)
             {
                 return false;

@@ -30,10 +30,10 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
+    field_10_anim.mRenderMode = TPageAbr::eBlend_0;
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_A8_xpos = xpos;
     field_120_xpos = xpos;
@@ -68,11 +68,11 @@ Grenade::~Grenade()
 
     if (!gInfiniteGrenades_5076EC && !field_10E_bDead)
     {
-        if (field_F8_pLiftPoint)
+        if (mLiftPoint)
         {
-            field_F8_pLiftPoint->VRemove(this);
-            field_F8_pLiftPoint->mBaseGameObjectRefCount--;
-            field_F8_pLiftPoint = nullptr;
+            mLiftPoint->VRemove(this);
+            mLiftPoint->mBaseGameObjectRefCount--;
+            mLiftPoint = nullptr;
         }
 
         if (gpThrowableArray_50E26C)
@@ -103,7 +103,7 @@ void Grenade::VTimeToExplodeRandom()
 
 void Grenade::VThrow(FP velX, FP velY)
 {
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
     field_B4_velx = velX;
     field_B8_vely = velY;
@@ -134,10 +134,10 @@ void Grenade::VUpdate()
         case States::eFallingToBeCollected_0:
             if (!InTheAir())
             {
-                field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-                field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
-                field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-                field_D4_collection_rect.h = field_AC_ypos;
+                mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
+                mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
 
                 mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
                 field_110_state = States::eWaitToBeCollected_1;
@@ -163,13 +163,13 @@ void Grenade::VUpdate()
 
                 const auto oldLine = field_114_pCollisionLine;
                 field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
-                if (field_F8_pLiftPoint)
+                if (mLiftPoint)
                 {
                     if (field_114_pCollisionLine != oldLine)
                     {
-                        field_F8_pLiftPoint->VRemove(this);
-                        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
-                        field_F8_pLiftPoint = nullptr;
+                        mLiftPoint->VRemove(this);
+                        mLiftPoint->mBaseGameObjectRefCount--;
+                        mLiftPoint = nullptr;
                     }
                 }
 
@@ -182,13 +182,13 @@ void Grenade::VUpdate()
             {
                 const auto oldLine = field_114_pCollisionLine;
                 field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
-                if (field_F8_pLiftPoint)
+                if (mLiftPoint)
                 {
                     if (field_114_pCollisionLine != oldLine)
                     {
-                        field_F8_pLiftPoint->VRemove(this);
-                        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
-                        field_F8_pLiftPoint = nullptr;
+                        mLiftPoint->VRemove(this);
+                        mLiftPoint->mBaseGameObjectRefCount--;
+                        mLiftPoint = nullptr;
                     }
                 }
 
@@ -201,10 +201,10 @@ void Grenade::VUpdate()
             {
                 field_B4_velx = FP_FromInteger(0);
 
-                field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-                field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
-                field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-                field_D4_collection_rect.h = field_AC_ypos;
+                mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
+                mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
 
                 mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
                 field_110_state = States::eDoesNothing_2;
@@ -244,13 +244,13 @@ void Grenade::VUpdate()
 
             const auto oldLine = field_114_pCollisionLine;
             field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
-            if (field_F8_pLiftPoint)
+            if (mLiftPoint)
             {
                 if (field_114_pCollisionLine != oldLine)
                 {
-                    field_F8_pLiftPoint->VRemove(this);
-                    field_F8_pLiftPoint->mBaseGameObjectRefCount--;
-                    field_F8_pLiftPoint = nullptr;
+                    mLiftPoint->VRemove(this);
+                    mLiftPoint->mBaseGameObjectRefCount--;
+                    mLiftPoint = nullptr;
                 }
             }
 
@@ -283,10 +283,10 @@ void Grenade::VUpdate()
 
 void Grenade::VOnTrapDoorOpen()
 {
-    if (field_F8_pLiftPoint)
+    if (mLiftPoint)
     {
-        field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
+        mLiftPoint->VRemove(this);
+        mLiftPoint->mBaseGameObjectRefCount--;
 
         if (field_110_state == States::eWaitToBeCollected_1 || field_110_state == States::eDoesNothing_2)
         {
@@ -333,7 +333,7 @@ s16 Grenade::InTheAir()
         {
             if (field_B8_vely < FP_FromInteger(1))
             {
-                if (!field_F8_pLiftPoint)
+                if (!mLiftPoint)
                 {
                     AddToPlatform();
                 }
@@ -469,7 +469,7 @@ s16 Grenade::BlowUpAfterCountdown()
         field_BC_sprite_scale);
     if (pExplosion)
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         field_11C = pExplosion;
         pExplosion->mBaseGameObjectRefCount++;
         field_110_state = States::eWaitForExplodeEnd_6;

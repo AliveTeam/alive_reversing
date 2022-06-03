@@ -22,7 +22,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
     Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     gDovesArray_5BC100.Push_Back(this);
 
@@ -31,22 +31,22 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     if (scale == FP_FromInteger(1))
     {
         field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = Layer::eLayer_27;
+        field_20_animation.mRenderLayer = Layer::eLayer_27;
     }
     else
     {
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = Layer::eLayer_8;
+        field_20_animation.mRenderLayer = Layer::eLayer_8;
     }
 
     field_C4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (field_C4_velx >= FP_FromInteger(0))
     {
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() % 4));
@@ -72,27 +72,27 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
     Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_14_scale = scale;
     field_CC_sprite_scale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_27;
+        field_20_animation.mRenderLayer = Layer::eLayer_27;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_8;
+        field_20_animation.mRenderLayer = Layer::eLayer_8;
     }
 
     field_C4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (field_C4_velx >= FP_FromInteger(0))
     {
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() % 4));
@@ -251,11 +251,11 @@ void Dove::VUpdate()
 
             if (field_C4_velx >= FP_FromInteger(0))
             {
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
             }
             else
             {
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
             }
             break;
 
@@ -267,7 +267,7 @@ void Dove::VUpdate()
             }
 
             FP xOff = {};
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 xOff = FP_FromInteger(4);
             }

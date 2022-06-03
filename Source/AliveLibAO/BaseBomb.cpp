@@ -106,15 +106,15 @@ void BaseBomb::VUpdate()
                 ppRes);
             if (pParticle)
             {
-                pParticle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                 pParticle->field_CC_bApplyShadows &= ~1u;
-                pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+                pParticle->field_10_anim.mRenderMode = TPageAbr::eBlend_1;
                 pParticle->field_BC_sprite_scale = field_BC_sprite_scale * FP_FromDouble(0.7);
             }
         }
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -202,23 +202,23 @@ BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
 
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+    field_10_anim.mRenderMode = TPageAbr::eBlend_1;
 
-    field_10_anim.field_A_b = 128;
-    field_10_anim.field_9_g = 128;
-    field_10_anim.field_8_r = 128;
+    field_10_anim.mBlue = 128;
+    field_10_anim.mGreen = 128;
+    field_10_anim.mRed = 128;
 
     field_E4_scale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
+        field_10_anim.mRenderLayer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
+        field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
     field_CC_bApplyShadows &= ~1u;

@@ -49,13 +49,13 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_8;
+        field_10_anim.mRenderLayer = Layer::eLayer_8;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = Layer::eLayer_27;
+        field_10_anim.mRenderLayer = Layer::eLayer_27;
         field_C6_scale = 1;
     }
 
@@ -95,7 +95,7 @@ void MeatSack::VUpdate()
 
     if (field_110_bDoMeatSackIdleAnim == 1)
     {
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::MeatSack_Idle);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
@@ -178,8 +178,8 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_11C_timer = 0;
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     field_120_deadtimer = gnFrameCount_507670 + 600;
     field_124_pLine = 0;
@@ -210,7 +210,7 @@ void Meat::VScreenChanged()
 
 void Meat::VThrow(FP velX, FP velY)
 {
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
     field_B4_velx = velX;
     field_B8_vely = velY;
@@ -400,7 +400,7 @@ void Meat::VUpdate()
             case 3:
                 if (FP_Abs(field_B4_velx) < FP_FromInteger(1))
                 {
-                    field_10_anim.field_4_flags.Clear(AnimFlags::eBit8_Loop);
+                    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
                 }
 
                 if (FP_Abs(field_B4_velx) >= FP_FromDouble(0.5))
@@ -418,16 +418,16 @@ void Meat::VUpdate()
                     if (!field_124_pLine)
                     {
                         field_110_state = 2;
-                        field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                        field_10_anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
                     }
                 }
                 else
                 {
                     field_B4_velx = FP_FromInteger(0);
-                    field_D4_collection_rect.x = field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
-                    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
-                    field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
-                    field_D4_collection_rect.h = field_AC_ypos;
+                    mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
+                    mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
+                    mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
+                    mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
 
                     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
                     field_110_state = 4;
@@ -515,11 +515,11 @@ void Meat::AddToPlatform()
 
 void Meat::VOnTrapDoorOpen()
 {
-    if (field_F8_pLiftPoint)
+    if (mLiftPoint)
     {
-        field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
-        field_F8_pLiftPoint = nullptr;
+        mLiftPoint->VRemove(this);
+        mLiftPoint->mBaseGameObjectRefCount--;
+        mLiftPoint = nullptr;
         if (field_110_state == 3 || field_110_state == 4)
         {
             field_110_state = 1;

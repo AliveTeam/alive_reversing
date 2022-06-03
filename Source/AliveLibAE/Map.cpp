@@ -229,7 +229,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 if (pBaseObj->field_DC_bApplyShadows & 2)
                 {
-                    if (pBaseObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+                    if (pBaseObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
                     {
                         if (!pBaseObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pBaseObj != sControlledCharacter_5C1B8C && gMap.Rect_Location_Relative_To_Active_Camera(&objRect) == CameraPos::eCamCurrent_0)
                         {
@@ -268,7 +268,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     {
                         break;
                     }
-                    pObj->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                    pObj->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                 }
             }
 
@@ -335,7 +335,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     break;
                 }
-                pObj->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                pObj->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
             }
         }
     }
@@ -377,12 +377,12 @@ void Map::Handle_PathTransition()
         {
             case Scale_short::eFull_0:
                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
-                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_32;
+                sActiveHero_5C1B68->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 break;
 
             case Scale_short::eHalf_1:
                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
-                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero_5C1B68->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
                 break;
 
             default:

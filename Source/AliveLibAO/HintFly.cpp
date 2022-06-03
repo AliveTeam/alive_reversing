@@ -1360,7 +1360,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
     {
         Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_124_tlvInfo = tlvInfo;
         field_11E_msg_idx = 0;
 
@@ -1409,11 +1409,11 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
             field_112_state = State::eIdleWaitForChanting_1;
             field_10C_timer = 0;
 
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
             {
                 field_110_bitMode = TPageMode::e8Bit_1;
             }
-            else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+            else if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
             {
                 field_110_bitMode = TPageMode::e16Bit_2;
             }
@@ -1464,7 +1464,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
             /*
             const PSX_RECT rect = { static_cast<s16>(field_10_anim.field_8C_pal_vram_xy.field_0_x + 1), field_10_anim.field_8C_pal_vram_xy.field_2_y, 1, 1 };
             const u8 data[] = { 0, 0, 0, 0 };
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
             {
                 PSX_LoadImage16_4962A0(&rect, data);
             }
@@ -1878,7 +1878,7 @@ void HintFly::VRender(PrimHeader** ppOt)
     }
 
     s16 tPageY = 256;
-    if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit10_alternating_flag) && field_10_anim.field_84_vram_rect.y < 256u)
+    if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit10_alternating_flag) && field_10_anim.field_84_vram_rect.y < 256u)
     {
         tPageY = 0;
     }

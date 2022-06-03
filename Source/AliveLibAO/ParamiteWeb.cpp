@@ -48,19 +48,19 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_RopeWebMeatSaw_24;
+        field_10_anim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_24;
         field_C6_scale = 1;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_RopeWebMeatSaw_Half_5;
+        field_10_anim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_Half_5;
         field_C6_scale = 0;
     }
 
 
-    field_10_anim.field_8_r = 128;
-    field_10_anim.field_9_g = 128;
-    field_10_anim.field_A_b = 128;
+    field_10_anim.mRed = 128;
+    field_10_anim.mGreen = 128;
+    field_10_anim.mBlue = 128;
 
     field_A8_xpos = xpos;
     field_EA_ttl_remainder = static_cast<s16>(top);
@@ -77,12 +77,12 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
         {
             AnimationUnknown* pSegment = &field_EC_pRes[i];
             pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-            pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
+            pSegment->mAnimFlags.Set(AnimFlags::eBit3_Render);
             pSegment->field_68_anim_ptr = &field_10_anim;
-            pSegment->field_C_layer = field_10_anim.field_C_layer;
+            pSegment->mRenderLayer = field_10_anim.mRenderLayer;
             pSegment->field_6C_scale = field_BC_sprite_scale;
-            pSegment->field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-            pSegment->field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+            pSegment->mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+            pSegment->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
         }
     }
 
@@ -151,9 +151,9 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     s16 g = 128;
                     s16 b = 128;
                     ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(field_A8_xpos), ypos_int - (idx * field_E6_segment_length), field_C6_scale, &r, &g, &b);
-                    field_EC_pRes[idx].field_8_r = static_cast<u8>(r);
-                    field_EC_pRes[idx].field_9_g = static_cast<u8>(g);
-                    field_EC_pRes[idx].field_A_b = static_cast<u8>(b);
+                    field_EC_pRes[idx].mRed = static_cast<u8>(r);
+                    field_EC_pRes[idx].mGreen = static_cast<u8>(g);
+                    field_EC_pRes[idx].mBlue = static_cast<u8>(b);
                     field_EC_pRes[idx].VRender2(x_start, y_start + field_C8_yOffset, ppOt);
                     PSX_RECT rect = {};
                     field_EC_pRes[idx].GetRenderedSize(&rect);

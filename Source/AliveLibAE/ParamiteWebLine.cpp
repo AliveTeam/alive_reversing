@@ -22,7 +22,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_Half_5;
+        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
         field_20_animation.field_14_scale = FP_FromDouble(0.7);
         field_CC_sprite_scale = FP_FromDouble(0.7);
         field_D6_scale = 0;
@@ -34,7 +34,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_24;
+        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
         field_20_animation.field_14_scale = FP_FromInteger(1);
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;
@@ -92,12 +92,12 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     {
         new (&field_FC_pRes[i]) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
 
-        field_FC_pRes[i].field_4_flags.Set(AnimFlags::eBit3_Render);
+        field_FC_pRes[i].mAnimFlags.Set(AnimFlags::eBit3_Render);
         field_FC_pRes[i].field_68_anim_ptr = &field_20_animation;
-        field_FC_pRes[i].field_C_render_layer = field_20_animation.field_C_render_layer;
+        field_FC_pRes[i].mRenderLayer = field_20_animation.mRenderLayer;
         field_FC_pRes[i].field_6C_scale = field_CC_sprite_scale;
-        field_FC_pRes[i].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_FC_pRes[i].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        field_FC_pRes[i].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_FC_pRes[i].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
     }
 
     field_104_wobble_idx = 0;
@@ -107,17 +107,17 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     u8** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
     if (field_108_anim_flare.Init(orbRec.mFrameTableOffset, gObjList_animations_5C1A24, this, orbRec.mMaxW, orbRec.mMaxH, ppFlareRes, 1u, 0, 0))
     {
-        field_108_anim_flare.field_8_r = 100;
-        field_108_anim_flare.field_9_g = 100;
-        field_108_anim_flare.field_A_b = 100;
+        field_108_anim_flare.mRed = 100;
+        field_108_anim_flare.mGreen = 100;
+        field_108_anim_flare.mBlue = 100;
 
-        field_108_anim_flare.field_C_render_layer = field_20_animation.field_C_render_layer;
+        field_108_anim_flare.mRenderLayer = field_20_animation.mRenderLayer;
         field_108_anim_flare.field_14_scale = FP_FromDouble(0.3);
-        field_108_anim_flare.field_B_render_mode = TPageAbr::eBlend_1;
+        field_108_anim_flare.mRenderMode = TPageAbr::eBlend_1;
 
-        field_108_anim_flare.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_108_anim_flare.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-        field_108_anim_flare.field_4_flags.Set(AnimFlags::eBit7_SwapXY);
+        field_108_anim_flare.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_108_anim_flare.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_108_anim_flare.mAnimFlags.Set(AnimFlags::eBit7_SwapXY);
 
         field_1A0_pulse_position = field_F8_top;
         field_1A4_delay_counter = Math_RandomRange(0, 10);
@@ -247,9 +247,9 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
 
         const s16 render_xpos = FP_GetExponent(xVal);
         ShadowZone::ShadowZones_Calculate_Colour(render_xpos, render_ypos, field_D6_scale, &r, &g, &b);
-        field_FC_pRes[idx].field_8_r = static_cast<u8>(r);
-        field_FC_pRes[idx].field_9_g = static_cast<u8>(g);
-        field_FC_pRes[idx].field_A_b = static_cast<u8>(b);
+        field_FC_pRes[idx].mRed = static_cast<u8>(r);
+        field_FC_pRes[idx].mGreen = static_cast<u8>(g);
+        field_FC_pRes[idx].mBlue = static_cast<u8>(b);
 
         field_FC_pRes[idx].VRender(
             FP_GetExponent(FP_FromInteger(render_xpos) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),

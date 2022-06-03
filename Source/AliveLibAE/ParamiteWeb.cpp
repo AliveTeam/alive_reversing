@@ -27,23 +27,23 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 
     if (scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_24;
+        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
         field_D6_scale = 1;
         field_20_animation.field_14_scale = FP_FromInteger(1);
         field_CC_sprite_scale = FP_FromInteger(1);
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_Half_5;
+        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
         field_20_animation.field_14_scale = FP_FromDouble(0.7);
         field_CC_sprite_scale = FP_FromDouble(0.7);
         field_D6_scale = 0;
         xpos += FP_FromInteger(2);
     }
 
-    field_20_animation.field_8_r = 128;
-    field_20_animation.field_9_g = 128;
-    field_20_animation.field_A_b = 128;
+    field_20_animation.mRed = 128;
+    field_20_animation.mGreen = 128;
+    field_20_animation.mBlue = 128;
 
     field_B8_xpos = xpos;
     field_FA_ttl_remainder = static_cast<s16>(top);
@@ -59,12 +59,12 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     {
         AnimationUnknown* pSegment = &field_100_pRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-        pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
+        pSegment->mAnimFlags.Set(AnimFlags::eBit3_Render);
         pSegment->field_68_anim_ptr = &field_20_animation;
-        pSegment->field_C_render_layer = field_20_animation.field_C_render_layer;
+        pSegment->mRenderLayer = field_20_animation.mRenderLayer;
         pSegment->field_6C_scale = field_CC_sprite_scale;
-        pSegment->field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        pSegment->field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        pSegment->mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pSegment->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
     }
 
     field_104_bEnabled = 0;
@@ -144,9 +144,9 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     s16 g = 128;
                     s16 b = 128;
                     ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(field_B8_xpos), ypos_int - (idx * field_F6_segment_length), field_D6_scale, &r, &g, &b);
-                    field_100_pRes[idx].field_8_r = static_cast<u8>(r);
-                    field_100_pRes[idx].field_9_g = static_cast<u8>(g);
-                    field_100_pRes[idx].field_A_b = static_cast<u8>(b);
+                    field_100_pRes[idx].mRed = static_cast<u8>(r);
+                    field_100_pRes[idx].mGreen = static_cast<u8>(g);
+                    field_100_pRes[idx].mBlue = static_cast<u8>(b);
                     field_100_pRes[idx].VRender(x_start, y_start, ppOt, 0, 0);
                     PSX_RECT rect = {};
                     field_100_pRes[idx].GetRenderedSize(&rect);

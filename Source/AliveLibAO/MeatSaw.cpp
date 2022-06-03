@@ -39,19 +39,19 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mRenderMode = TPageAbr::eBlend_0;
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_RopeWebMeatSaw_Half_5;
+        field_10_anim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_Half_5;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = Layer::eLayer_RopeWebMeatSaw_24;
+        field_10_anim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_24;
         field_C6_scale = 1;
     }
 
@@ -146,17 +146,17 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
             0,
             0))
     {
-        field_110_anim.field_C_layer = field_10_anim.field_C_layer;
+        field_110_anim.mRenderLayer = field_10_anim.mRenderLayer;
         field_110_anim.field_14_scale = field_BC_sprite_scale;
 
-        field_110_anim.field_8_r = static_cast<u8>(field_C0_r);
-        field_110_anim.field_9_g = static_cast<u8>(field_C2_g);
-        field_110_anim.field_A_b = static_cast<u8>(field_C4_b);
+        field_110_anim.mRed = static_cast<u8>(field_C0_r);
+        field_110_anim.mGreen = static_cast<u8>(field_C2_g);
+        field_110_anim.mBlue = static_cast<u8>(field_C4_b);
 
-        field_110_anim.field_B_render_mode = TPageAbr::eBlend_0;
+        field_110_anim.mRenderMode = TPageAbr::eBlend_0;
 
-        field_110_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-        field_110_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_110_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_110_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_D0_pShadow = ao_new<Shadow>();
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
@@ -316,7 +316,7 @@ void MeatSaw::GrindUpObjects_439CD0()
                     PSX_RECT objRect = {};
                     pObjIter->VGetBoundingRect(&objRect, 1);
 
-                    if (RectsOverlap(ourRect, objRect) && pObjIter->field_BC_sprite_scale == field_BC_sprite_scale && pObjIter->field_100_health > FP_FromInteger(0))
+                    if (RectsOverlap(ourRect, objRect) && pObjIter->field_BC_sprite_scale == field_BC_sprite_scale && pObjIter->mHealth > FP_FromInteger(0))
                     {
                         if (pObjIter->field_A8_xpos >= FP_FromInteger(ourRect.x) && pObjIter->field_A8_xpos <= FP_FromInteger(ourRect.w))
                         {

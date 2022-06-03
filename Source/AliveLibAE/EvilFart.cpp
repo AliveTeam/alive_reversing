@@ -39,14 +39,14 @@ EvilFart::EvilFart()
     field_D6_scale = sActiveHero_5C1B68->field_D6_scale;
     if (field_D6_scale == 1)
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_SligGreeterFarts_33;
+        field_20_animation.mRenderLayer = Layer::eLayer_SligGreeterFarts_33;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_SligGreeterFarts_Half_14;
+        field_20_animation.mRenderLayer = Layer::eLayer_SligGreeterFarts_Half_14;
     }
 
-    if (sActiveHero_5C1B68->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (sActiveHero_5C1B68->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos + (FP_FromInteger(12) * field_CC_sprite_scale);
     }
@@ -73,11 +73,11 @@ EvilFart::EvilFart()
         field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos;
     }
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
-    field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
-    field_114_flags.Set(Flags_114::e114_Bit8_bInvisible);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
+    mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
+    mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit8_bInvisible);
 
     ResetFartColour();
 
@@ -89,7 +89,7 @@ EvilFart::EvilFart()
 
     field_11A_bPossesed = 0;
 
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+    field_20_animation.mRenderMode = TPageAbr::eBlend_1;
     field_11C_alive_timer = 220;
 }
 
@@ -123,14 +123,14 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
     pFart->field_D4_b = pState->field_6_b;
 
     pFart->field_20_animation.field_92_current_frame = pState->field_20_anim_cur_frame;
-    pFart->field_20_animation.field_E_frame_change_counter = pState->field_22_frame_change_counter;
+    pFart->field_20_animation.mFrameChangeCounter = pState->field_22_frame_change_counter;
 
     pFart->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
-    pFart->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
+    pFart->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
 
     if (IsLastFrame(&pFart->field_20_animation))
     {
-        pFart->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+        pFart->field_20_animation.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
     pFart->field_120_level = pState->field_26_level;
@@ -165,10 +165,10 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_2C.Set(EvilFart_State::eBit1_bControlled, sControlledCharacter_5C1B8C == this);
     pState->field_20_anim_cur_frame = field_20_animation.field_92_current_frame;
-    pState->field_22_frame_change_counter = field_20_animation.field_E_frame_change_counter;
+    pState->field_22_frame_change_counter = field_20_animation.mFrameChangeCounter;
 
     pState->field_25_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_24_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_24_bAnimRender = field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render);
 
     pState->field_26_level = field_120_level;
     pState->field_28_path = field_11E_path;
@@ -247,12 +247,12 @@ void EvilFart::InputControlFart()
 
 void EvilFart::VPossessed()
 {
-    field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit4_bPossesed);
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_11C_alive_timer = 900;
 
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+    field_20_animation.mRenderMode = TPageAbr::eBlend_1;
 
     field_120_level = gMap.mCurrentLevel;
     field_11E_path = gMap.mCurrentPath;
@@ -295,12 +295,12 @@ void EvilFart::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_86_HandstoneBegin_45BD00)
+    if (sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin_45BD00)
     {
         field_11C_alive_timer--;
     }
 
-    if ((sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_86_HandstoneBegin_45BD00) && field_11C_alive_timer + 1 <= 0)
+    if ((sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin_45BD00) && field_11C_alive_timer + 1 <= 0)
     {
         if (!field_118_bBlowUp)
         {
@@ -311,7 +311,7 @@ void EvilFart::VUpdate()
             }
             else
             {
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                 field_118_bBlowUp = 1;
                 field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 35;
             }
@@ -335,7 +335,7 @@ void EvilFart::VUpdate()
                 ae_new<ThrowableTotalIndicator>(
                     field_B8_xpos,
                     field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
-                    field_20_animation.field_C_render_layer,
+                    field_20_animation.mRenderLayer,
                     field_20_animation.field_14_scale,
                     field_11C_alive_timer / 50,
                     1);
@@ -490,9 +490,9 @@ void EvilFart::VUpdate()
             field_11A_bPossesed = 0;
         }
 
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-        field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+        field_20_animation.mRenderMode = TPageAbr::eBlend_1;
         if (field_C4_velx == FP_FromInteger(0) && field_C8_vely == FP_FromInteger(0))
         {
             if (Input_IsChanting_45F260())
@@ -539,7 +539,7 @@ void EvilFart::VUpdate()
         {
             BlowUp();
 
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             field_118_bBlowUp = 1;
         }
         return;

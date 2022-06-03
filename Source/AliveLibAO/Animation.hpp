@@ -191,15 +191,14 @@ public:
 
     static void AnimateAll(DynamicArrayT<AnimationBase>* pAnimList);
 
-    BitField32<AnimFlags> field_4_flags;
+    BitField32<AnimFlags> mAnimFlags;
 
-    u8 field_8_r;
-    u8 field_9_g;
-    u8 field_A_b;
-    TPageAbr field_B_render_mode;
-
-    Layer field_C_layer;
-    s16 field_E_frame_change_counter;
+    u8 mRed;
+    u8 mGreen;
+    u8 mBlue;
+    TPageAbr mRenderMode;
+    Layer mRenderLayer;
+    s16 mFrameChangeCounter;
 };
 
 class BaseGameObject;

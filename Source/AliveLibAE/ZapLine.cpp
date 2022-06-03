@@ -35,9 +35,9 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     }
 
     field_132_number_of_sprites = field_12E_number_of_segments * field_130_number_of_pieces_per_segment;
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_C_render_layer = layer;
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mRenderLayer = layer;
 
     field_F8_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::ResourceType::Resource_Spline, 0, sizeof(ZapLineSprites) * field_132_number_of_sprites); // Spln (spline?).
 
@@ -54,11 +54,11 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     field_F4_state = ZapLineState::eInit_0;
     field_126_alive_timer = 0;
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
+    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
     {
         field_124_tPageMode = TPageMode::e8Bit_1;
     }
-    else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+    else if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
     {
         field_124_tPageMode = TPageMode::e16Bit_2;
     }
@@ -385,7 +385,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
             for (s32 j = 0; j < field_130_number_of_pieces_per_segment; j++)
             {
                 Prim_Sprt* pSprt = &field_134_pSprites->field_0_sprts[j + (i * field_130_number_of_pieces_per_segment)];
-                OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pSprt[bufferIdx].mBase.header);
+                OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.mRenderLayer), &pSprt[bufferIdx].mBase.header);
             }
         }
 
@@ -397,7 +397,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
 
         Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
         Init_SetTPage_4F5B60(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.field_C_render_layer), &pTPage->mBase);
+        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.mRenderLayer), &pTPage->mBase);
 
         PSX_RECT* pRect = &field_144_rects[bufferIdx];
         pRect->x = 32767;

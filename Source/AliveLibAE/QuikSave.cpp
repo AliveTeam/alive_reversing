@@ -607,7 +607,7 @@ ALIVE_VAR(1, 0xBB17F8, Quicksave_PSX_Header, sSaveHeader1_BB17F8, {});
 
 void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 {
-    if (sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
+    if (sActiveHero_5C1B68->mHealth > FP_FromInteger(0))
     {
         pSave->field_200_accumulated_obj_count = sAccumulatedObjectCount_5C1BF4;
 
@@ -682,7 +682,7 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
     // Last is read from another field
     sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = pInfo->field_17_last_saved_killed_muds_per_path;
 
-    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+    sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     sZulagNumber_5C1A20 = pInfo->field_2C_current_zulag_number;
     sKilledMudokons_5C1BC0 = pInfo->field_14_killed_muds;
     sRescuedMudokons_5C1BC2 = pInfo->field_12_saved_muds;

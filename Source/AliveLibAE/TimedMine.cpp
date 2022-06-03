@@ -40,13 +40,13 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_Half_16;
+        field_20_animation.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
     }
     else
     {
         field_CC_sprite_scale = FP_FromDouble(1.0);
         field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
+        field_20_animation.mRenderLayer = Layer::eLayer_BombMineCar_35;
     }
 
     InitBlinkAnimation(&field_124_animation);
@@ -64,7 +64,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
             field_BC_ypos,
             field_B8_xpos,
             field_BC_ypos + FP_FromInteger(24),
-            &field_100_pCollisionLine,
+            &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_D6_scale != 0 ? 1 : 0x10))
@@ -85,12 +85,12 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     field_E4_collection_rect.w = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
     field_E4_collection_rect.h = field_BC_ypos;
 
-    field_110_id = -1;
+    BaseAliveGameObjectId = -1;
 }
 
 void TimedMine::VUpdate()
 {
-    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(field_110_id));
+    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
     if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
@@ -171,14 +171,14 @@ void TimedMine::InitBlinkAnimation(Animation* pAnimation)
     const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
     if (pAnimation->Init(tickRec.mFrameTableOffset, gObjList_animations_5C1A24, this, tickRec.mMaxW, tickRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, tickRec.mResourceId), 1, 0, 0))
     {
-        pAnimation->field_C_render_layer = field_20_animation.field_C_render_layer;
-        pAnimation->field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-        pAnimation->field_4_flags.Set(AnimFlags::eBit16_bBlending);
+        pAnimation->mRenderLayer = field_20_animation.mRenderLayer;
+        pAnimation->mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        pAnimation->mAnimFlags.Set(AnimFlags::eBit16_bBlending);
         pAnimation->field_14_scale = field_CC_sprite_scale;
-        pAnimation->field_8_r = 128;
-        pAnimation->field_9_g = 128;
-        pAnimation->field_A_b = 128;
-        pAnimation->field_B_render_mode = TPageAbr::eBlend_1;
+        pAnimation->mRed = 128;
+        pAnimation->mGreen = 128;
+        pAnimation->mBlue = 128;
+        pAnimation->mRenderMode = TPageAbr::eBlend_1;
     }
     else
     {
@@ -219,7 +219,7 @@ void TimedMine::StickToLiftPoint()
                         if (FP_GetExponent(field_B8_xpos) > bRect.x && FP_GetExponent(field_B8_xpos) < bRect.w && FP_GetExponent(field_BC_ypos) < bRect.h)
                         {
                             pLiftPoint->VAdd(this);
-                            field_110_id = pObj->field_8_object_id;
+                            BaseAliveGameObjectId = pObj->field_8_object_id;
                             return;
                         }
                     }
@@ -231,7 +231,7 @@ void TimedMine::StickToLiftPoint()
 
 TimedMine::~TimedMine()
 {
-    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(field_110_id));
+    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
     if (field_118_armed != 1 || sGnFrame_5C1B84 < field_120_gnframe)
     {
         Path::TLV_Reset(field_11C_tlv, -1, 0, 0);
@@ -246,7 +246,7 @@ TimedMine::~TimedMine()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        field_110_id = -1;
+        BaseAliveGameObjectId = -1;
     }
 
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);

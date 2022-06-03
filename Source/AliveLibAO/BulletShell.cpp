@@ -22,15 +22,15 @@ BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
+        field_10_anim.mRenderLayer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
+        field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
     field_CC_bApplyShadows &= ~1u;
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, direction & 1);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
 
     field_EC_hitCount = 0;
 

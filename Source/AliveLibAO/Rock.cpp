@@ -29,8 +29,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     field_A8_xpos = xpos;
     field_11C_xpos = xpos;
@@ -109,7 +109,7 @@ void Rock::VUpdate()
                 if (!field_114_pLine)
                 {
                     field_110_state = States::eBouncing_4;
-                    field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                    field_10_anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
                 }
             }
             else
@@ -125,20 +125,20 @@ void Rock::VUpdate()
                     if (!field_114_pLine)
                     {
                         field_110_state = States::eBouncing_4;
-                        field_10_anim.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                        field_10_anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
                     }
                 }
                 else
                 {
                     field_B4_velx = FP_FromInteger(0);
-                    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-                    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                    mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                    mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
 
                     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
-                    field_10_anim.field_4_flags.Clear(AnimFlags::eBit8_Loop);
-                    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
-                    field_D4_collection_rect.h = field_AC_ypos;
+                    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
+                    mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
+                    mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
                     field_110_state = States::eOnGround_3;
                     field_124_shimmer_timer = gnFrameCount_507670;
                 }
@@ -213,7 +213,7 @@ void Rock::VThrow(FP velX, FP velY)
     field_B4_velx = velX;
     field_B8_vely = velY;
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
     if (field_10C_count == 0)
     {

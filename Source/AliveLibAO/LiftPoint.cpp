@@ -101,11 +101,11 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         mPlatformBaseCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
@@ -113,7 +113,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     MapFollowMe_401D30(1);
     const FP newX = field_A8_xpos;
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     const auto xMovedBy = FP_GetExponent(newX - oldX);
     mPlatformBaseXOffset -= xMovedBy;
@@ -134,11 +134,11 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     {
         if (pTlv->field_20_scale == Scale_short::eHalf_1)
         {
-            field_13C_lift_wheel.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+            field_13C_lift_wheel.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         }
         else
         {
-            field_13C_lift_wheel.field_C_layer = Layer::eLayer_BeforeShadow_25;
+            field_13C_lift_wheel.mRenderLayer = Layer::eLayer_BeforeShadow_25;
         }
 
         field_13C_lift_wheel.field_14_scale = field_BC_sprite_scale;
@@ -148,17 +148,17 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_27A_flags.Clear(Flags::eBit3_bMiddleFloor);
         field_27A_flags.Clear(Flags::eBit2_bTopFloor);
 
-        field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-        field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_13C_lift_wheel.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_13C_lift_wheel.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_13C_lift_wheel.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
 
         field_12C_bMoving &= ~1u;
         field_274_ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
         field_B4_velx = FP_FromInteger(0);
-        field_13C_lift_wheel.field_8_r = 128;
-        field_13C_lift_wheel.field_9_g = 128;
-        field_13C_lift_wheel.field_A_b = 128;
-        field_13C_lift_wheel.field_B_render_mode = TPageAbr::eBlend_0;
+        field_13C_lift_wheel.mRed = 128;
+        field_13C_lift_wheel.mGreen = 128;
+        field_13C_lift_wheel.mBlue = 128;
+        field_13C_lift_wheel.mRenderMode = TPageAbr::eBlend_0;
         field_10C = 1;
 
         field_B8_vely = FP_FromInteger(0);
@@ -520,28 +520,28 @@ void LiftPoint::VUpdate()
     pRope1->field_AC_ypos = FP_NoFractional((field_AC_ypos + FP_25xScale) + (rope1_rope_length - remaining_rope));
 
 
-    field_13C_lift_wheel.field_4_flags.Set(AnimFlags::eBit2_Animate);
-    field_1D4_pulley_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+    field_13C_lift_wheel.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+    field_1D4_pulley_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
 
     if (field_B8_vely == FP_FromInteger(0))
     {
-        field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit2_Animate);
-        field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_13C_lift_wheel.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+        field_1D4_pulley_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
     }
     else if (field_B8_vely > FP_FromInteger(0))
     {
-        field_13C_lift_wheel.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
-        field_1D4_pulley_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
+        field_13C_lift_wheel.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
+        field_1D4_pulley_anim.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
     }
     else if (field_B8_vely < FP_FromInteger(0))
     {
-        field_13C_lift_wheel.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
-        field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
+        field_13C_lift_wheel.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
+        field_1D4_pulley_anim.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
     }
 
     if (field_13C_lift_wheel.field_92_current_frame == 1)
     {
-        if (field_13C_lift_wheel.field_4_flags.Get(AnimFlags::eBit2_Animate))
+        if (field_13C_lift_wheel.mAnimFlags.Get(AnimFlags::eBit2_Animate))
         {
             SFX_Play_Mono(SoundEffect::WheelSqueak_36, 0);
         }
@@ -583,9 +583,9 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                     &liftWheelG,
                     &liftWheelB);
 
-                field_13C_lift_wheel.field_8_r = static_cast<u8>(liftWheelR);
-                field_13C_lift_wheel.field_9_g = static_cast<u8>(liftWheelG);
-                field_13C_lift_wheel.field_A_b = static_cast<u8>(liftWheelB);
+                field_13C_lift_wheel.mRed = static_cast<u8>(liftWheelR);
+                field_13C_lift_wheel.mGreen = static_cast<u8>(liftWheelG);
+                field_13C_lift_wheel.mBlue = static_cast<u8>(liftWheelB);
 
                 const FP xOff = (FP_FromInteger(3) * field_BC_sprite_scale);
                 const FP yOff = (FP_FromInteger(-5) * field_BC_sprite_scale);
@@ -633,9 +633,9 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                             &g,
                             &b);
 
-                        field_1D4_pulley_anim.field_8_r = static_cast<u8>(r);
-                        field_1D4_pulley_anim.field_9_g = static_cast<u8>(g);
-                        field_1D4_pulley_anim.field_A_b = static_cast<u8>(b);
+                        field_1D4_pulley_anim.mRed = static_cast<u8>(r);
+                        field_1D4_pulley_anim.mGreen = static_cast<u8>(g);
+                        field_1D4_pulley_anim.mBlue = static_cast<u8>(b);
 
                         field_1D4_pulley_anim.VRender(
                             FP_GetExponent(pulley_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
@@ -768,19 +768,19 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
             0,
             0);
 
-        field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-        field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_1D4_pulley_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_1D4_pulley_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_1D4_pulley_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
 
         field_27A_flags.Set(Flags::eBit5_bHasPulley);
 
-        field_1D4_pulley_anim.field_8_r = 128;
-        field_1D4_pulley_anim.field_9_g = 128;
-        field_1D4_pulley_anim.field_A_b = 128;
+        field_1D4_pulley_anim.mRed = 128;
+        field_1D4_pulley_anim.mGreen = 128;
+        field_1D4_pulley_anim.mBlue = 128;
 
-        field_1D4_pulley_anim.field_C_layer = field_10_anim.field_C_layer;
+        field_1D4_pulley_anim.mRenderLayer = field_10_anim.mRenderLayer;
         field_1D4_pulley_anim.field_14_scale = field_BC_sprite_scale;
-        field_1D4_pulley_anim.field_B_render_mode = TPageAbr::eBlend_0;
+        field_1D4_pulley_anim.mRenderMode = TPageAbr::eBlend_0;
 
         field_134_pRope2->field_EE_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_1D4_pulley_anim.field_14_scale));
         field_138_pRope1->field_EE_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_1D4_pulley_anim.field_14_scale));

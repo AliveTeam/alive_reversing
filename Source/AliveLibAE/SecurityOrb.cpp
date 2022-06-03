@@ -57,13 +57,13 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = Layer::eLayer_8;
+        field_20_animation.mRenderLayer = Layer::eLayer_8;
     }
     else
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = Layer::eLayer_27;
+        field_20_animation.mRenderLayer = Layer::eLayer_27;
     }
 
     field_DC_bApplyShadows |= 2u;
@@ -78,7 +78,7 @@ SecurityOrb::~SecurityOrb()
         SND_Stop_Channels_Mask(field_124_sound_channels_mask);
     }
 
-    if (field_10C_health > FP_FromInteger(0))
+    if (mHealth > FP_FromInteger(0))
     {
         Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
     }
@@ -101,7 +101,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
     }
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    field_10C_health = FP_FromInteger(0);
+    mHealth = FP_FromInteger(0);
 
     if (pFrom->Type() == AETypes::eMineCar_89 || pFrom->Type() == AETypes::eAbilityRing_104 || pFrom->Type() == AETypes::eShrykull_121)
     {
@@ -183,7 +183,7 @@ void SecurityOrb::VUpdate()
 
             ae_new<PossessionFlicker>(sActiveHero_5C1B68, 8, 255, 100, 100);
 
-            if (sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
+            if (sActiveHero_5C1B68->mHealth > FP_FromInteger(0))
             {
                 sActiveHero_5C1B68->VTakeDamage(this);
             }

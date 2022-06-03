@@ -19,7 +19,7 @@ BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_F0_bSpawnElum = FALSE;
     field_E4_state = BellHammerStates::eWaitForActivation_0;
 
@@ -33,18 +33,18 @@ BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
         field_C6_scale = 1;
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     if (pTlv->field_1E_direction == XDirection_short::eRight_1)
     {
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_EC_pending_resource_count = 0;
@@ -132,7 +132,7 @@ void BellHammer::VUpdate()
             break;
 
         case BellHammerStates::eSmashingBell_1:
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_E4_state = BellHammerStates::eWaitForActivation_0;
                 const AnimRecord& rec = AO::AnimRec(AnimId::BellHammer_Idle);

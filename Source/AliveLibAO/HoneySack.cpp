@@ -25,7 +25,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
     field_E4_tlvInfo = tlvInfo;
 
     field_100_chase_ticks = pTlv->field_18_chase_ticks;
-    field_10_anim.field_C_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
+    field_10_anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);

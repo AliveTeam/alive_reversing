@@ -115,20 +115,20 @@ void BaseThrowable::BaseAddToPlatform()
 
                     if (FP_GetExponent(field_A8_xpos) > objRect.x && FP_GetExponent(field_A8_xpos) < objRect.w && FP_GetExponent(field_AC_ypos) < objRect.h)
                     {
-                        if (field_F8_pLiftPoint)
+                        if (mLiftPoint)
                         {
-                            if (field_F8_pLiftPoint == pPlatformBase)
+                            if (mLiftPoint == pPlatformBase)
                             {
                                 return;
                             }
-                            field_F8_pLiftPoint->VRemove(this);
-                            field_F8_pLiftPoint->mBaseGameObjectRefCount--;
-                            field_F8_pLiftPoint = nullptr;
+                            mLiftPoint->VRemove(this);
+                            mLiftPoint->mBaseGameObjectRefCount--;
+                            mLiftPoint = nullptr;
                         }
 
-                        field_F8_pLiftPoint = pPlatformBase;
-                        field_F8_pLiftPoint->VAdd(this);
-                        field_F8_pLiftPoint->mBaseGameObjectRefCount++;
+                        mLiftPoint = pPlatformBase;
+                        mLiftPoint->VAdd(this);
+                        mLiftPoint->mBaseGameObjectRefCount++;
                         return;
                     }
                 }

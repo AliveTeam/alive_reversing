@@ -32,13 +32,13 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_Half_16;
+        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_Half_16;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
+        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
         field_C6_scale = 1;
     }
 
@@ -60,16 +60,16 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
         0,
         0);
 
-    field_118_animation.field_C_layer = field_10_anim.field_C_layer;
-    field_118_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-    field_118_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_118_animation.mRenderLayer = field_10_anim.mRenderLayer;
+    field_118_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+    field_118_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     field_118_animation.field_14_scale = field_BC_sprite_scale;
 
-    field_118_animation.field_8_r = 128;
-    field_118_animation.field_9_g = 128;
-    field_118_animation.field_A_b = 128;
+    field_118_animation.mRed = 128;
+    field_118_animation.mGreen = 128;
+    field_118_animation.mBlue = 128;
 
-    field_118_animation.field_B_render_mode = TPageAbr::eBlend_0;
+    field_118_animation.mRenderMode = TPageAbr::eBlend_0;
     field_10E_disabled_resources = pTlv->field_1E_disabled_resources;
 
     // TODO
@@ -103,10 +103,10 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
-    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
-    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-    field_D4_collection_rect.h = field_AC_ypos;
+    mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+    mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
+    mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+    mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 }
@@ -295,9 +295,9 @@ s16 Mine::IsColliding()
             break;
         }
 
-        if (pObj->field_10A_flags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
+        if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
         {
-            if (pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
+            if (pObj->field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 PSX_RECT bObjRect = {};
                 pObj->VGetBoundingRect(&bObjRect, 1);

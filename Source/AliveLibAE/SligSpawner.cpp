@@ -87,7 +87,7 @@ void SligSpawner::VUpdate()
 
     if (field_38_state == SpawnerStates::eSligSpawned_1)
     {
-        if (!pSpawnedSlig || pSpawnedSlig->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || pSpawnedSlig->field_10C_health <= FP_FromInteger(0))
+        if (!pSpawnedSlig || pSpawnedSlig->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || pSpawnedSlig->mHealth <= FP_FromInteger(0))
         {
             SwitchStates_Set(field_24_slig_spawner_switch_id, 0);
             field_38_state = SpawnerStates::eInactive_0;

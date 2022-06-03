@@ -67,8 +67,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, sticksRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(sticksRec.mFrameTableOffset, sticksRec.mMaxW, sticksRec.mMaxH, ppRes, 1);
                 scale = FP_FromDouble(0.4) * scale;
-                field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-                field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+                field_10_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
             }
 
@@ -89,13 +89,13 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, ppRes, 1);
 
-                field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-                field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-                field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+                field_10_anim.mRenderMode = TPageAbr::eBlend_1;
+                field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                field_10_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
 
-                field_10_anim.field_8_r = 254;
-                field_10_anim.field_9_g = 148;
-                field_10_anim.field_A_b = 18;
+                field_10_anim.mRed = 254;
+                field_10_anim.mGreen = 148;
+                field_10_anim.mBlue = 18;
                 break;
             }
 
@@ -122,12 +122,12 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             if (field_BC_sprite_scale == FP_FromInteger(1))
             {
                 field_C6_scale = 1;
-                field_10_anim.field_C_layer = Layer::eLayer_Above_FG1_39;
+                field_10_anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
             }
             else
             {
                 field_C6_scale = 0;
-                field_10_anim.field_C_layer = Layer::eLayer_Above_FG1_Half_20;
+                field_10_anim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
             }
 
             field_EC_count = static_cast<s16>(particleCount);
@@ -138,26 +138,26 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             for (s32 i = 0; i < particleCount; i++)
             {
                 field_E8_pRes[i].field_18_anim.field_68_anim_ptr = &field_10_anim;
-                field_E8_pRes[i].field_18_anim.field_C_layer = field_10_anim.field_C_layer;
+                field_E8_pRes[i].field_18_anim.mRenderLayer = field_10_anim.mRenderLayer;
                 field_E8_pRes[i].field_18_anim.field_6C_scale = FP_FromDouble(0.95) * field_BC_sprite_scale;
 
-                field_E8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_E8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-                field_E8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, field_10_anim.field_4_flags.Get(AnimFlags::eBit15_bSemiTrans));
+                field_E8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, field_10_anim.mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
 
-                field_E8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending, field_10_anim.field_4_flags.Get(AnimFlags::eBit16_bBlending));
+                field_E8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending, field_10_anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending));
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {
-                        field_E8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                        field_E8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                     }
                 }
 
-                field_E8_pRes[i].field_18_anim.field_8_r = field_10_anim.field_8_r;
-                field_E8_pRes[i].field_18_anim.field_9_g = field_10_anim.field_9_g;
-                field_E8_pRes[i].field_18_anim.field_A_b = field_10_anim.field_A_b;
+                field_E8_pRes[i].field_18_anim.mRed = field_10_anim.mRed;
+                field_E8_pRes[i].field_18_anim.mGreen = field_10_anim.mGreen;
+                field_E8_pRes[i].field_18_anim.mBlue = field_10_anim.mBlue;
 
                 field_E8_pRes[i].field_0_x = xpos;
                 field_E8_pRes[i].field_4_y = ypos;

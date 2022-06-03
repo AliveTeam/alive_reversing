@@ -103,19 +103,19 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
+        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         field_D6_scale = 0;
     }
     else
     {
         field_CC_sprite_scale = FP_FromDouble(1.0);
-        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
+        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
         field_D6_scale = 1;
     }
 
     if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
     {
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit6_FlipY);
+        field_20_animation.mAnimFlags.Set(AnimFlags::eBit6_FlipY);
         field_D8_yOffset = FP_GetExponent(field_CC_sprite_scale * FP_FromDouble(-68.0));
     }
 
@@ -141,7 +141,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
             field_BC_ypos,
             field_B8_xpos,
             field_BC_ypos + FP_FromDouble(24.0),
-            &field_100_pCollisionLine,
+            &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_D6_scale != 0 ? 1 : 16)
@@ -150,7 +150,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         field_BC_ypos = hitY;
     }
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_124_x1 = FP_GetExponent((ScaleToGridSize(field_CC_sprite_scale) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(field_B8_xpos)));
     }
@@ -213,7 +213,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     }
     else
     {
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         field_11C_pCollisionLine_6_2 = 0;
         field_120_pCollisionLine_5_1 = 0;
     }
@@ -250,11 +250,11 @@ void SlamDoor::VUpdate()
     const bool stateUnchanged = SwitchStates_Get(field_128_switch_id) == static_cast<s32>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
     if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
                 if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit5_Delete))
                 {
@@ -269,7 +269,7 @@ void SlamDoor::VUpdate()
 
     if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit3_bLastFrame))
             {
@@ -287,7 +287,7 @@ void SlamDoor::VUpdate()
 
         if (stateUnchanged)
         {
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
             const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(gMap.mCurrentLevel)][2]);
             field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
@@ -339,7 +339,7 @@ void SlamDoor::VUpdate()
                 {
                     break;
                 }
-                if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+                if (pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
                 {
                     if (pObj->Type() != AETypes::eSlamDoor_122)
                     {
@@ -388,7 +388,7 @@ void SlamDoor::VUpdate()
                 break;
             }
 
-            if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+            if (pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 if (pObj->Type() != AETypes::eSlamDoor_122 && pObj->Type() != AETypes::eGrenade_65)
                 {
@@ -407,7 +407,7 @@ void SlamDoor::VUpdate()
         }
     }
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
+    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7, field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render));
 }
 
 s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)

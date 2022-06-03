@@ -93,7 +93,7 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         disabledHammersRec.mMaxH,
         ppHammersRes,
         1);
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_F0_anim.Init(
         gourdRec.mFrameTableOffset,
@@ -106,9 +106,9 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         0,
         0);
 
-    field_F0_anim.field_B_render_mode = TPageAbr::eBlend_0;
-    field_F0_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
-    field_F0_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_F0_anim.mRenderMode = TPageAbr::eBlend_0;
+    field_F0_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+    field_F0_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
@@ -125,17 +125,17 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
             1,
             0,
             0);
-        field_188_anim.field_B_render_mode = TPageAbr::eBlend_0;
-        field_188_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
-        field_188_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        field_188_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_188_anim.mRenderMode = TPageAbr::eBlend_0;
+        field_188_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+        field_188_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        field_188_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_220_anim.Init(fireRec.mFrameTableOffset, gObjList_animations_505564, this, fireRec.mMaxW, fireRec.mMaxH, ppFireRes, 1, 0, 0);
-        field_220_anim.field_B_render_mode = TPageAbr::eBlend_0;
-        field_220_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
-        field_220_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        field_220_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-        field_220_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        field_220_anim.mRenderMode = TPageAbr::eBlend_0;
+        field_220_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+        field_220_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        field_220_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_220_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
         field_220_anim.SetFrame(3u);
     }
 
@@ -160,13 +160,13 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         field_C6_scale = 1;
     }
 
-    field_10_anim.field_C_layer = layer;
-    field_F0_anim.field_C_layer = layer;
+    field_10_anim.mRenderLayer = layer;
+    field_F0_anim.mRenderLayer = layer;
 
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
-        field_188_anim.field_C_layer = layer;
-        field_220_anim.field_C_layer = layer;
+        field_188_anim.mRenderLayer = layer;
+        field_220_anim.mRenderLayer = layer;
     }
 
     if (SwitchStates_Get(pTlv->field_1A_switch_id))
@@ -176,16 +176,16 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         field_10_anim.Set_Animation_Data(activatingRec.mFrameTableOffset, nullptr);
         field_10_anim.SetFrame(field_10_anim.Get_Frame_Count() - 1);
         field_10_anim.VDecode();
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-        field_F0_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_F0_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
-            field_188_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_188_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+            field_188_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-            field_220_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
-            field_220_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_220_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+            field_220_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
             field_EC_fire_sound = SFX_Play_Mono(SoundEffect::Fire_69, 0, 0);
         }
@@ -224,18 +224,18 @@ void FlintLockFire::VUpdate()
                 }
             }
 
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
                 field_E4_state = States::eActivated_2;
 
-                field_F0_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                field_F0_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
                 if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
                 {
-                    field_188_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
-                    field_188_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                    field_188_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+                    field_188_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-                    field_220_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
-                    field_220_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                    field_220_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+                    field_220_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
                     field_EC_fire_sound = SFX_Play_Mono(SoundEffect::Fire_69, 0, 0);
                 }
@@ -292,23 +292,23 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
         }
 
 
-        field_10_anim.field_8_r = static_cast<u8>(r);
-        field_10_anim.field_9_g = static_cast<u8>(g);
-        field_10_anim.field_A_b = static_cast<u8>(b);
+        field_10_anim.mRed = static_cast<u8>(r);
+        field_10_anim.mGreen = static_cast<u8>(g);
+        field_10_anim.mBlue = static_cast<u8>(b);
 
-        field_F0_anim.field_8_r = static_cast<u8>(r);
-        field_F0_anim.field_9_g = static_cast<u8>(g);
-        field_F0_anim.field_A_b = static_cast<u8>(b);
+        field_F0_anim.mRed = static_cast<u8>(r);
+        field_F0_anim.mGreen = static_cast<u8>(g);
+        field_F0_anim.mBlue = static_cast<u8>(b);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.field_8_r = static_cast<u8>(r);
-            field_188_anim.field_9_g = static_cast<u8>(g);
-            field_188_anim.field_A_b = static_cast<u8>(b);
+            field_188_anim.mRed = static_cast<u8>(r);
+            field_188_anim.mGreen = static_cast<u8>(g);
+            field_188_anim.mBlue = static_cast<u8>(b);
 
-            field_220_anim.field_8_r = static_cast<u8>(r);
-            field_220_anim.field_9_g = static_cast<u8>(g);
-            field_220_anim.field_A_b = static_cast<u8>(b);
+            field_220_anim.mRed = static_cast<u8>(r);
+            field_220_anim.mGreen = static_cast<u8>(g);
+            field_220_anim.mBlue = static_cast<u8>(b);
 
             field_220_anim.VRender(
                 FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),

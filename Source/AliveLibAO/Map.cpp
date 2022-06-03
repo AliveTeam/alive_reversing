@@ -458,21 +458,21 @@ void Map::Handle_PathTransition()
         {
             case Scale_short::eFull_0:
                 sActiveHero_507678->field_BC_sprite_scale = FP_FromInteger(1);
-                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
+                sActiveHero_507678->field_10_anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 if (gElum_507680)
                 {
                     gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
-                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_ZapLinesElum_28;
+                    gElum_507680->field_10_anim.mRenderLayer = Layer::eLayer_ZapLinesElum_28;
                 }
                 break;
 
             case Scale_short::eHalf_1:
                 sActiveHero_507678->field_BC_sprite_scale = FP_FromDouble(0.5);
-                sActiveHero_507678->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero_507678->field_10_anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
                 if (gElum_507680)
                 {
                     gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
-                    gElum_507680->field_10_anim.field_C_layer = Layer::eLayer_ZapLinesElum_Half_9;
+                    gElum_507680->field_10_anim.mRenderLayer = Layer::eLayer_ZapLinesElum_Half_9;
                 }
                 break;
 
@@ -575,8 +575,8 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
         }
 
         if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4)
-            && pObjIter->field_10A_flags.Get(Flags_10A::e10A_Bit6)
-            && pObjIter->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render)
+            && pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit6)
+            && pObjIter->field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render)
             && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
             && pObjIter != sControlledCharacter_50767C)
         {
@@ -631,7 +631,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     {
                         break;
                     }
-                    pObj->field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                    pObj->field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                 }
             }
 
@@ -698,7 +698,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     break;
                 }
-                pObj->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                pObj->field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
             }
         }
     }
@@ -1521,7 +1521,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
         {
             auto pTemp = field_48_stru_5[i];
             field_48_stru_5[i] = nullptr;
-            if (sActiveHero_507678 && sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_61_Respawn_42CD20)
+            if (sActiveHero_507678 && sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_61_Respawn_42CD20)
             {
                 pTemp->field_30_flags |= 2u;
             }
@@ -1830,7 +1830,7 @@ void Map::GoTo_Camera()
                 if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
                 {
                     auto pBaseAliveGameObj = static_cast<BaseAliveGameObject*>(pObjIter);
-                    pBaseAliveGameObj->field_F4_pLine = nullptr;
+                    pBaseAliveGameObj->BaseAliveGameObjectCollisionLine = nullptr;
                 }
             }
 

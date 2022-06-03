@@ -33,8 +33,8 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     }
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+    field_20_animation.mRenderMode = TPageAbr::eBlend_1;
     field_F8_scale = scale;
     field_D6_scale = scale == FP_FromInteger(1);
     field_CC_sprite_scale = scale * FP_FromInteger(2);
@@ -146,23 +146,23 @@ void Explosion::VUpdate()
                 }
 
                 pParticle->field_DC_bApplyShadows &= ~1u;
-                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+                pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
 
                 if (field_20_animation.field_92_current_frame == 3)
                 {
-                    pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                    pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                     pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.5);
                 }
                 else
                 {
-                    pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+                    pParticle->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
                     pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.25);
                 }
             }
         }
     }
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

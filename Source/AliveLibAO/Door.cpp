@@ -86,7 +86,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
     field_EC_current_state = (field_EE_door_closed == Choice_short::eNo_0) == SwitchStates_Get(field_F0_switch_id) ? DoorStates::eClosed_1 : DoorStates::eOpen_0;
 
-    if ((sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780) &&
+    if ((sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_157_DoorExit_42D780) &&
         field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero_507678->field_196_door_id)
     {
         field_EC_current_state = DoorStates::eOpen_0;
@@ -137,13 +137,13 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 {
                     field_BC_sprite_scale = FP_FromDouble(0.5);
                     field_C6_scale = 0;
-                    field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+                    field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
                 }
                 else
                 {
                     field_BC_sprite_scale = FP_FromInteger(1);
                     field_C6_scale = 1;
-                    field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
+                    field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
                 }
 
                 if (sCollisions_DArray_504C6C->RayCast(
@@ -178,12 +178,12 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
         {
             if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
             {
-                field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
+                field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
                 scale = FP_FromInteger(1);
             }
             else
             {
-                field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+                field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
                 scale = FP_FromDouble(0.5);
             }
             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][3]);
@@ -273,7 +273,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                             1);
                     }
 
-                    field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+                    field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
 
                     if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13 || gMap.mCurrentLevel == LevelIds::eRuptureFarms_1)
                     {
@@ -326,9 +326,9 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
     if (field_EC_current_state == DoorStates::eOpen_0)
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
 }
 
 Door::~Door()
@@ -400,11 +400,11 @@ void Door::VUpdate()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_157_DoorExit_42D780)
+    if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_157_DoorExit_42D780)
     {
         if (field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero_507678->field_196_door_id)
         {
-            field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             field_EC_current_state = DoorStates::eOpen_0;
         }
     }
@@ -442,7 +442,7 @@ void Door::VUpdate()
         switch (field_EC_current_state)
         {
             case DoorStates::eOpen_0:
-                field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
                 if ((field_EE_door_closed == Choice_short::eNo_0 && SwitchStates_Get(field_F0_switch_id)) || (field_EE_door_closed == Choice_short::eYes_1 && !SwitchStates_Get(field_F0_switch_id)))
                 {
@@ -473,14 +473,14 @@ void Door::VUpdate()
                         }
                     }
 
-                    field_10_anim.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
-                    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
+                    field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 }
                 break;
 
             case DoorStates::eClosed_1:
-                field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-                field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
 
                 if ((field_EE_door_closed == Choice_short::eYes_1 && SwitchStates_Get(field_F0_switch_id)) || (field_EE_door_closed == Choice_short::eNo_0 && !SwitchStates_Get(field_F0_switch_id)))
                 {
@@ -512,25 +512,25 @@ void Door::VUpdate()
                     }
 
                     field_10_anim.SetFrame(3u);
-                    field_10_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
-                    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                    field_10_anim.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
+                    field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                     PlaySound();
                 }
                 break;
 
             case DoorStates::eHubDoorClosed_2:
-                field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-                field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
-                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+                if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
                     field_EC_current_state = DoorStates::eOpen_0;
                 }
                 break;
 
             case DoorStates::eClosing_3:
-                field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-                field_10_anim.field_4_flags.Set(AnimFlags::eBit2_Animate);
-                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+                if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
                     field_EC_current_state = DoorStates::eClosed_1;
                     PlaySound();

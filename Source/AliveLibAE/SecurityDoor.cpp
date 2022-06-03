@@ -21,11 +21,11 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
     field_F4_tlvInfo = tlvInfo;
 
-    field_20_animation.field_C_render_layer = Layer::eLayer_BeforeWell_22;
+    field_20_animation.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
@@ -132,12 +132,12 @@ void SecurityDoor::VUpdate()
 
             if (IsPlayerNear())
             {
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 field_F8_state = SecurityDoorStates::eSayingHi_2;
             }
             else
             {
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             }
             return;
 
@@ -293,7 +293,7 @@ void SecurityDoor::VUpdate()
             }
             field_12A_unused = 1;
             SwitchStates_Set(field_FA_switch_id, 1);
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             SFX_Play_Pitch(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
             field_F8_state = SecurityDoorStates::eSuccessChime_1;
             field_124_timer = sGnFrame_5C1B84 + 15;

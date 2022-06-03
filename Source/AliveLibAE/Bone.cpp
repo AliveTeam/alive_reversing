@@ -28,7 +28,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     field_B8_xpos = xpos;
     field_BC_ypos = ypos;
@@ -39,7 +39,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
     field_130_hit_object &= ~1u;
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
     field_12C_time_to_live = sGnFrame_5C1B84 + 300;
     field_118_count = countId;
@@ -79,17 +79,17 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
     pBone->field_D6_scale = pState->field_18_sprite_scale > FP_FromDouble(0.75);
 
-    pBone->field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Bone_SaveState::eBit3_bLoop));
-    pBone->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Bone_SaveState::eBit1_bRender));
+    pBone->field_20_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Bone_SaveState::eBit3_bLoop));
+    pBone->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Bone_SaveState::eBit1_bRender));
 
     pBone->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Bone_SaveState::eBit2_bDrawable));
     pBone->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Bone_SaveState::eBit4_bInteractive));
 
-    pBone->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+    pBone->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     pBone->field_128_shine_timer = sGnFrame_5C1B84;
 
-    pBone->field_104_collision_line_type = pState->field_28_line_type;
+    pBone->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
     pBone->field_118_count = pState->field_2A_count;
     pBone->field_11C_state = pState->field_2C_state;
 
@@ -130,7 +130,7 @@ void Bone::VThrow(FP velX, FP velY)
     field_C4_velx = velX;
     field_C8_vely = velY;
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
     if (field_118_count == 0)
     {
@@ -144,11 +144,11 @@ void Bone::VThrow(FP velX, FP velY)
 
 void Bone::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        field_110_id = -1;
+        BaseAliveGameObjectId = -1;
         if (field_11C_state == BoneStates::eCollided_2 || field_11C_state == BoneStates::eOnGround_3)
         {
             field_11C_state = BoneStates::eAirborne_1;
@@ -245,24 +245,24 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
-    pState->field_20_flags.Set(Bone_SaveState::eBit3_bLoop, field_20_animation.field_4_flags.Get(AnimFlags::eBit8_Loop));
-    pState->field_20_flags.Set(Bone_SaveState::eBit1_bRender, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
+    pState->field_20_flags.Set(Bone_SaveState::eBit3_bLoop, field_20_animation.mAnimFlags.Get(AnimFlags::eBit8_Loop));
+    pState->field_20_flags.Set(Bone_SaveState::eBit1_bRender, field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render));
 
     pState->field_20_flags.Set(Bone_SaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
     pState->field_20_flags.Set(Bone_SaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
 
     pState->field_20_flags.Set(Bone_SaveState::eBit5_bHitObject, field_130_hit_object & 1);
 
-    if (field_100_pCollisionLine)
+    if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_28_line_type = field_100_pCollisionLine->field_8_type;
+        pState->field_28_line_type = BaseAliveGameObjectCollisionLine->field_8_type;
     }
     else
     {
         pState->field_28_line_type = -1;
     }
 
-    pState->field_24_base_id = field_110_id;
+    pState->field_24_base_id = BaseAliveGameObjectId;
     pState->field_2A_count = field_118_count;
     pState->field_2C_state = field_11C_state;
 
@@ -296,13 +296,13 @@ void Bone::InTheAir()
             field_124_ypos,
             field_B8_xpos,
             field_BC_ypos,
-            &field_100_pCollisionLine,
+            &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_D6_scale == 1 ? 0x09 : 0x90)
         == 1)
     {
-        switch (field_100_pCollisionLine->field_8_type)
+        switch (BaseAliveGameObjectCollisionLine->field_8_type)
         {
             case 0u:
             case 4u:
@@ -319,7 +319,7 @@ void Bone::InTheAir()
                 {
                     field_11C_state = BoneStates::eCollided_2;
 
-                    field_BC_ypos = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y);
+                    field_BC_ypos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
                     field_C8_vely = FP_FromInteger(0);
                     if (field_C4_velx >= FP_FromInteger(0) && field_C4_velx < FP_FromInteger(1))
                     {
@@ -368,9 +368,9 @@ void Bone::InTheAir()
         }
     }
 
-    if (sCollisions_DArray_5C1128->Raycast(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &field_100_pCollisionLine, &hitX, &hitY, field_D6_scale == 1 ? 0x06 : 0x60) == 1)
+    if (sCollisions_DArray_5C1128->Raycast(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, field_D6_scale == 1 ? 0x06 : 0x60) == 1)
     {
-        switch (field_100_pCollisionLine->field_8_type)
+        switch (BaseAliveGameObjectCollisionLine->field_8_type)
         {
             case 1u:
             case 5u:
@@ -388,7 +388,7 @@ void Bone::InTheAir()
                     Event_Broadcast(kEventNoise, this);
                     Event_Broadcast(kEventSuspiciousNoise, this);
                 }
-                field_100_pCollisionLine = nullptr;
+                BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
             case 2u:
@@ -407,7 +407,7 @@ void Bone::InTheAir()
                     Event_Broadcast(kEventNoise, this);
                     Event_Broadcast(kEventSuspiciousNoise, this);
                 }
-                field_100_pCollisionLine = nullptr;
+                BaseAliveGameObjectCollisionLine = nullptr;
                 break;
         }
     }
@@ -415,7 +415,7 @@ void Bone::InTheAir()
 
 void Bone::VUpdate()
 {
-    auto pObj = sObjectIds.Find_Impl(field_110_id);
+    auto pObj = sObjectIds.Find_Impl(BaseAliveGameObjectId);
     if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -454,7 +454,7 @@ void Bone::VUpdate()
                 {
                     field_C4_velx = field_C4_velx - (FP_FromDouble(0.01) / field_CC_sprite_scale);
                 }
-                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
             }
             else
             {
@@ -468,20 +468,20 @@ void Bone::VUpdate()
 
                     field_11C_state = BoneStates::eOnGround_3;
                     mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
-                    field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
+                    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
                     field_128_shine_timer = sGnFrame_5C1B84;
                     AddToPlatform();
                     return;
                 }
-                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
             }
 
-            if (field_100_pCollisionLine)
+            if (BaseAliveGameObjectCollisionLine)
             {
                 return;
             }
 
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+            field_20_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop);
             field_11C_state = BoneStates::eEdible_4;
         }
             return;
@@ -577,7 +577,7 @@ BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
     *((u16*) *ppRes + 4374) = 0;
 
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     SetTint(&kBoneTints_550EC0[0], gMap.mCurrentLevel);
 
     field_11C_bIs_hit = 0;
@@ -655,7 +655,7 @@ void BoneBag::VUpdate()
             return;
         }
 
-        if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (!field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             return;
         }
@@ -666,9 +666,9 @@ void BoneBag::VUpdate()
         return;
     }
 
-    if (field_20_animation.field_E_frame_change_counter == 0)
+    if (field_20_animation.mFrameChangeCounter == 0)
     {
-        field_20_animation.field_E_frame_change_counter = Math_RandomRange(2, 10);
+        field_20_animation.mFrameChangeCounter = Math_RandomRange(2, 10);
     }
 
     PSX_RECT bPlayerRect = {};
@@ -683,7 +683,7 @@ void BoneBag::VUpdate()
         {
             if (gpThrowableArray_5D1E2C->field_20_count)
             {
-                if (sActiveHero_5C1B68->field_106_current_motion == 31)
+                if (sActiveHero_5C1B68->mCurrentMotion == 31)
                 {
                     const AnimRecord& animRec = AnimRec(AnimId::BoneBag_HardHit);
                     field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
@@ -714,7 +714,7 @@ void BoneBag::VUpdate()
         SFX_Play_Mono(SoundEffect::SackHit_25, 0);
         Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
-        if (sActiveHero_5C1B68->field_106_current_motion == 31)
+        if (sActiveHero_5C1B68->mCurrentMotion == 31)
         {
             const AnimRecord& animRec = AnimRec(AnimId::BoneBag_HardHit);
             field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);

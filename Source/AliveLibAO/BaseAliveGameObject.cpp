@@ -25,25 +25,25 @@ BaseAliveGameObject::BaseAliveGameObject()
     
 
 
-    field_10A_flags.Clear(Flags_10A::e10A_Bit1_Can_Be_Possessed);
-    field_10A_flags.Clear(Flags_10A::e10A_Bit2_bPossesed);
-    field_10A_flags.Clear(Flags_10A::e10A_Bit3);
-    field_10A_flags.Clear(Flags_10A::e10A_Bit4_SetOffExplosives);
-    field_10A_flags.Clear(Flags_10A::e10A_Bit5_Electrocuted);
-    field_10A_flags.Clear(Flags_10A::e10A_Bit6);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit1_Can_Be_Possessed);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit3);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit4_SetOffExplosives);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit5_Electrocuted);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit6);
 
-    field_F0_pTlv = nullptr;
-    field_F8_pLiftPoint = nullptr;
-    field_F4_pLine = nullptr;
-    field_100_health = FP_FromInteger(1);
+    BaseAliveGameObjectPathTLV = nullptr;
+    mLiftPoint = nullptr;
+    BaseAliveGameObjectCollisionLine = nullptr;
+    mHealth = FP_FromInteger(1);
     field_106_shot = 0;
     field_108_bMotionChanged = 0;
     field_EC = 0;
-    field_FC_current_motion = 0;
-    field_FE_next_motion = 0;
-    field_E4_previous_motion = 0;
-    field_E6_last_anim_frame = 0;
-    field_E8_LastLineYPos = FP_FromInteger(0);
+    mCurrentMotion = 0;
+    mNextMotion = 0;
+    mPreviousMotion = 0;
+    mBaseAliveGameObjectLastAnimFrame = 0;
+    BaseAliveGameObjectLastLineYPos = FP_FromInteger(0);
     field_104_pending_resource_count = 0;
     gBaseAliveGameObjects_4FC8A0->Push_Back(this);
     mBaseGameObjectFlags.Set(Options::eIsBaseAliveGameObject_Bit6);
@@ -54,11 +54,11 @@ BaseAliveGameObject::~BaseAliveGameObject()
 {
     gBaseAliveGameObjects_4FC8A0->Remove_Item(this);
 
-    if (field_F8_pLiftPoint)
+    if (mLiftPoint)
     {
-        field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
-        field_F8_pLiftPoint = nullptr;
+        mLiftPoint->VRemove(this);
+        mLiftPoint->mBaseGameObjectRefCount--;
+        mLiftPoint = nullptr;
     }
 
     if (field_104_pending_resource_count)
@@ -125,7 +125,7 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
 
 void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
 {
-    if (field_F4_pLine)
+    if (BaseAliveGameObjectCollisionLine)
     {
         PathLine* pLine = nullptr;
         FP hitX = {};
@@ -142,17 +142,17 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
                 &hitY,
                 mask))
         {
-            field_F4_pLine = pLine;
+            BaseAliveGameObjectCollisionLine = pLine;
             field_AC_ypos = hitY;
-            if (field_F8_pLiftPoint)
+            if (mLiftPoint)
             {
                 if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
                     pLine->field_8_type == eLineTypes::eUnknown_36)
                 {
                     // OG bug fix: didn't remove ourself from the lift!
-                    field_F8_pLiftPoint->VRemove(this);
-                    field_F8_pLiftPoint->mBaseGameObjectRefCount--;
-                    field_F8_pLiftPoint = nullptr;
+                    mLiftPoint->VRemove(this);
+                    mLiftPoint->mBaseGameObjectRefCount--;
+                    mLiftPoint = nullptr;
 
                     PSX_RECT bRect = {};
                     VGetBoundingRect(&bRect, 1);
@@ -170,20 +170,20 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
         }
         else
         {
-            field_F0_pTlv = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
-            if (field_F0_pTlv)
+            BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
+            if (BaseAliveGameObjectPathTLV)
             {
                 if (sCollisions_DArray_504C6C->RayCast(
                         field_A8_xpos,
-                        FP_FromInteger(field_F0_pTlv->field_10_top_left.field_2_y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y),
                         field_A8_xpos,
-                        FP_FromInteger(field_F0_pTlv->field_14_bottom_right.field_2_y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_14_bottom_right.field_2_y),
                         &pLine,
                         &hitX,
                         &hitY,
                         mask))
                 {
-                    field_F4_pLine = pLine;
+                    BaseAliveGameObjectCollisionLine = pLine;
                     field_AC_ypos = hitY;
                 }
             }
@@ -210,13 +210,13 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
                 {
                     if (pPortal->field_18_xpos - field_A8_xpos <= (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(distance)))
                     {
-                        if (!field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                         {
                             if (FP_Abs(field_AC_ypos - pPortal->field_28_ypos) < field_BC_sprite_scale * FP_FromInteger(10))
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {
-                                    field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
+                                    field_10_anim.mRenderLayer = field_BC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
                                     return pPortal;
                                 }
                             }
@@ -230,13 +230,13 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
                 {
                     if (field_A8_xpos - pPortal->field_18_xpos <= (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(distance)))
                     {
-                        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                         {
                             if (FP_Abs(field_AC_ypos - pPortal->field_28_ypos) < (field_BC_sprite_scale * FP_FromInteger(10)))
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {
-                                    field_10_anim.field_C_layer = field_BC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
+                                    field_10_anim.mRenderLayer = field_BC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
                                     return pPortal;
                                 }
                             }
@@ -347,21 +347,21 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
     }
 
     // Find the start controller at the position we will be at in the new map
-    field_F0_pTlv = gMap.TLV_Get_At_446260(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), TlvTypes::StartController_28);
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), TlvTypes::StartController_28);
 
-    if (!field_F0_pTlv)
+    if (!BaseAliveGameObjectPathTLV)
     {
-        field_F0_pTlv = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
+        BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
         LOG_INFO("Flip direction after the path trans as we are not touching the start controller");
         field_B4_velx = -field_B4_velx;
-        field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
     }
     else
     {
         LOG_INFO("Not changing direction in the new path trans as we are touching the start controller");
     }
 
-    if (!field_F0_pTlv)
+    if (!BaseAliveGameObjectPathTLV)
     {
         LOG_ERROR("Did a path transition to a camera with no start controller");
         ALIVE_FATAL("Did a path transition to a camera with no start controller (add one if this is an edited level)");
@@ -370,30 +370,30 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
     PSX_Point camLoc = {};
     gMap.GetCurrentCamCoords(&camLoc);
 
-    field_A8_xpos = FP_FromInteger((field_F0_pTlv->field_14_bottom_right.field_0_x + field_F0_pTlv->field_10_top_left.field_0_x) / 2);
-    field_AC_ypos = FP_FromInteger(field_F0_pTlv->field_10_top_left.field_2_y);
+    field_A8_xpos = FP_FromInteger((BaseAliveGameObjectPathTLV->field_14_bottom_right.field_0_x + BaseAliveGameObjectPathTLV->field_10_top_left.field_0_x) / 2);
+    field_AC_ypos = FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y);
 
     field_A8_xpos = FP_FromInteger(camLoc.field_0_x + SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos - FP_FromInteger(camLoc.field_0_x))));
 
-    if (field_F8_pLiftPoint)
+    if (mLiftPoint)
     {
         // Move lift point into the new path
         const FP rect_left = field_A8_xpos - oldx;
         const FP rect_right = field_AC_ypos - oldy;
 
-        field_F8_pLiftPoint->field_A8_xpos += rect_left;
-        field_F8_pLiftPoint->field_AC_ypos += rect_right;
+        mLiftPoint->field_A8_xpos += rect_left;
+        mLiftPoint->field_AC_ypos += rect_right;
 
-        field_F4_pLine->field_0_rect.x += FP_GetExponent(rect_left);
-        field_F4_pLine->field_0_rect.w += FP_GetExponent(rect_left);
-        field_F4_pLine->field_0_rect.y += FP_GetExponent(rect_right);
-        field_F4_pLine->field_0_rect.h += FP_GetExponent(rect_right);
+        BaseAliveGameObjectCollisionLine->field_0_rect.x += FP_GetExponent(rect_left);
+        BaseAliveGameObjectCollisionLine->field_0_rect.w += FP_GetExponent(rect_left);
+        BaseAliveGameObjectCollisionLine->field_0_rect.y += FP_GetExponent(rect_right);
+        BaseAliveGameObjectCollisionLine->field_0_rect.h += FP_GetExponent(rect_right);
     }
     else
     {
         // OG FIX: After a path trans the collision items are free so we can't possibly have a line
         // so try to find a new one under our feet.
-        if (!field_F4_pLine)
+        if (!BaseAliveGameObjectCollisionLine)
         {
             PathLine* pLine = nullptr;
             FP hitX = {};
@@ -408,21 +408,21 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
                     &hitY,
                     field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
             {
-                field_F4_pLine = pLine;
+                BaseAliveGameObjectCollisionLine = pLine;
                 field_AC_ypos = hitY;
             }
             else
             {
-                field_F4_pLine = nullptr;
+                BaseAliveGameObjectCollisionLine = nullptr;
             }
         }
 
         // If we still didn't get a line then look for a start controller
-        if (!field_F4_pLine)
+        if (!BaseAliveGameObjectCollisionLine)
         {
-            if (field_F0_pTlv->field_4_type == TlvTypes::StartController_28)
+            if (BaseAliveGameObjectPathTLV->field_4_type == TlvTypes::StartController_28)
             {
-                field_E8_LastLineYPos += field_AC_ypos - oldy;
+                BaseAliveGameObjectLastLineYPos += field_AC_ypos - oldy;
             }
 
             PathLine* pLine = nullptr;
@@ -430,15 +430,15 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             FP hitY = {};
             if (sCollisions_DArray_504C6C->RayCast(
                     field_A8_xpos,
-                    field_E8_LastLineYPos - FP_FromInteger(40),
+                    BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     field_A8_xpos,
-                    field_E8_LastLineYPos + FP_FromInteger(40),
+                    BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
                     &pLine,
                     &hitX,
                     &hitY,
                     field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
             {
-                field_AC_ypos += hitY - field_E8_LastLineYPos;
+                field_AC_ypos += hitY - BaseAliveGameObjectLastLineYPos;
             }
         }
     }
@@ -621,11 +621,11 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
     // OG bug fix, when we call VCheckCollisionLineStillValid it can place us on a new lift
     // but then we call VOnCollisionWith which can sometimes add us to the same lift again
     // result in the lift being leaked and then memory corruption/crash later.
-    if (field_F8_pLiftPoint != pPlatform)
+    if (mLiftPoint != pPlatform)
     {
-        field_F8_pLiftPoint = pPlatform;
-        field_F8_pLiftPoint->VAdd(this);
-        field_F8_pLiftPoint->mBaseGameObjectRefCount++;
+        mLiftPoint = pPlatform;
+        mLiftPoint->VAdd(this);
+        mLiftPoint->mBaseGameObjectRefCount++;
     }
     else
     {
@@ -688,23 +688,23 @@ void BaseAliveGameObject::VSetXSpawn_401150(s16 camWorldX, s32 screenXPos)
 
     field_A8_xpos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(field_BC_sprite_scale, screenXPos));
 
-    field_F0_pTlv = gMap.TLV_Get_At_446060(0, field_A8_xpos, old_y, field_A8_xpos, old_y);
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(0, field_A8_xpos, old_y, field_A8_xpos, old_y);
 
-    if (field_F8_pLiftPoint)
+    if (mLiftPoint)
     {
-        field_F8_pLiftPoint->field_A8_xpos += (field_A8_xpos - old_x);
+        mLiftPoint->field_A8_xpos += (field_A8_xpos - old_x);
 
-        field_F4_pLine->field_0_rect.x += FP_GetExponent(field_A8_xpos - old_x);
-        field_F4_pLine->field_0_rect.w += FP_GetExponent(field_A8_xpos - old_x);
-        field_F4_pLine->field_0_rect.y = field_F4_pLine->field_0_rect.y;
-        field_F4_pLine->field_0_rect.h = field_F4_pLine->field_0_rect.h;
+        BaseAliveGameObjectCollisionLine->field_0_rect.x += FP_GetExponent(field_A8_xpos - old_x);
+        BaseAliveGameObjectCollisionLine->field_0_rect.w += FP_GetExponent(field_A8_xpos - old_x);
+        BaseAliveGameObjectCollisionLine->field_0_rect.y = BaseAliveGameObjectCollisionLine->field_0_rect.y;
+        BaseAliveGameObjectCollisionLine->field_0_rect.h = BaseAliveGameObjectCollisionLine->field_0_rect.h;
     }
     else
     {
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (field_F4_pLine)
+        if (BaseAliveGameObjectCollisionLine)
         {
             if (sCollisions_DArray_504C6C->RayCast(
                     field_A8_xpos,
@@ -714,31 +714,31 @@ void BaseAliveGameObject::VSetXSpawn_401150(s16 camWorldX, s32 screenXPos)
                     &pLine,
                     &hitX,
                     &hitY,
-                    1 << field_F4_pLine->field_8_type))
+                    1 << BaseAliveGameObjectCollisionLine->field_8_type))
             {
-                field_F4_pLine = pLine;
+                BaseAliveGameObjectCollisionLine = pLine;
                 field_AC_ypos = hitY;
             }
             else
             {
-                field_F0_pTlv = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
-                if (field_F0_pTlv
+                BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
+                if (BaseAliveGameObjectPathTLV
                     && sCollisions_DArray_504C6C->RayCast(
                         field_A8_xpos,
-                        FP_FromInteger(field_F0_pTlv->field_10_top_left.field_2_y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y),
                         field_A8_xpos,
-                        FP_FromInteger(field_F0_pTlv->field_14_bottom_right.field_2_y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_14_bottom_right.field_2_y),
                         &pLine,
                         &hitX,
                         &hitY,
-                        1 << field_F4_pLine->field_8_type))
+                        1 << BaseAliveGameObjectCollisionLine->field_8_type))
                 {
-                    field_F4_pLine = pLine;
+                    BaseAliveGameObjectCollisionLine = pLine;
                     field_AC_ypos = hitY;
                 }
                 else
                 {
-                    field_F4_pLine = nullptr;
+                    BaseAliveGameObjectCollisionLine = nullptr;
                 }
             }
         }
@@ -746,15 +746,15 @@ void BaseAliveGameObject::VSetXSpawn_401150(s16 camWorldX, s32 screenXPos)
         {
             if (sCollisions_DArray_504C6C->RayCast(
                     field_A8_xpos,
-                    field_E8_LastLineYPos - FP_FromInteger(40),
+                    BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     field_A8_xpos,
-                    field_E8_LastLineYPos + FP_FromInteger(40),
+                    BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
                     &pLine,
                     &hitX,
                     &hitY,
                     field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
             {
-                field_AC_ypos += hitY - field_E8_LastLineYPos;
+                field_AC_ypos += hitY - BaseAliveGameObjectLastLineYPos;
             }
         }
     }
@@ -776,22 +776,22 @@ void BaseAliveGameObject::VSetYSpawn_401380(s32 camWorldY, s16 bLeft)
         field_AC_ypos = FP_FromInteger(camWorldY + 124);
     }
 
-    field_F0_pTlv = gMap.TLV_Get_At_446060(
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
         nullptr,
         field_A8_xpos,
         field_AC_ypos,
         field_A8_xpos,
         field_AC_ypos);
 
-    if (field_F8_pLiftPoint)
+    if (mLiftPoint)
     {
-        field_F8_pLiftPoint->field_A8_xpos += field_A8_xpos - oldx;
-        field_F8_pLiftPoint->field_AC_ypos += field_AC_ypos - oldy;
+        mLiftPoint->field_A8_xpos += field_A8_xpos - oldx;
+        mLiftPoint->field_AC_ypos += field_AC_ypos - oldy;
 
-        field_F4_pLine->field_0_rect.x += FP_GetExponent(field_A8_xpos - oldx);
-        field_F4_pLine->field_0_rect.w += FP_GetExponent(field_A8_xpos - oldx);
-        field_F4_pLine->field_0_rect.y += FP_GetExponent(field_AC_ypos - oldy);
-        field_F4_pLine->field_0_rect.h += FP_GetExponent(field_AC_ypos - oldy);
+        BaseAliveGameObjectCollisionLine->field_0_rect.x += FP_GetExponent(field_A8_xpos - oldx);
+        BaseAliveGameObjectCollisionLine->field_0_rect.w += FP_GetExponent(field_A8_xpos - oldx);
+        BaseAliveGameObjectCollisionLine->field_0_rect.y += FP_GetExponent(field_AC_ypos - oldy);
+        BaseAliveGameObjectCollisionLine->field_0_rect.h += FP_GetExponent(field_AC_ypos - oldy);
     }
 }
 
@@ -819,7 +819,7 @@ s16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
 void BaseAliveGameObject::VSetMotion_402520(s16 state)
 {
     field_108_bMotionChanged = TRUE;
-    field_FC_current_motion = state;
+    mCurrentMotion = state;
 }
 
 void BaseAliveGameObject::UsePathTransScale_4020D0()

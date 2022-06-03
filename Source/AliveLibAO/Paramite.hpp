@@ -82,11 +82,11 @@ public:
 
     eParamiteMotions GetNextMotion() const
     {
-        return static_cast<eParamiteMotions>(field_FE_next_motion);
+        return static_cast<eParamiteMotions>(mNextMotion);
     }
     eParamiteMotions GetCurrentMotion() const
     {
-        return static_cast<eParamiteMotions>(field_FC_current_motion);
+        return static_cast<eParamiteMotions>(mCurrentMotion);
     }
 
     u8** ResBlockForMotion(s16 motion);

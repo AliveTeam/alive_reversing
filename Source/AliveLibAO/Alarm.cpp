@@ -33,9 +33,9 @@ Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    field_5E_r = 0;
-    field_60_g = 0;
-    field_62_b = 0;
+    mEffectBaseRed = 0;
+    mEffectBaseGreen = 0;
+    mEffectBaseBlue = 0;
 
     // Disable red screen flashing in the stock yards
     if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
@@ -63,7 +63,7 @@ void Alarm::VUpdate()
 {
     Event_Broadcast(kEvent_Alarm_17, this);
 
-    if (field_10_path_id != gMap.mCurrentPath || field_12_level_id != gMap.mCurrentLevel || static_cast<s32>(gnFrameCount_507670) > field_70_duration_timer)
+    if (mEffectBasePathId != gMap.mCurrentPath || mEffectBaseLevelId != gMap.mCurrentLevel || static_cast<s32>(gnFrameCount_507670) > field_70_duration_timer)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
@@ -139,7 +139,7 @@ void Alarm::VUpdate()
             break;
     }
 
-    field_5E_r = field_68_r_value;
+    mEffectBaseRed = field_68_r_value;
 }
 
 void Alarm::VScreenChanged()

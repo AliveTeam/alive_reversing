@@ -481,12 +481,12 @@ void Command_HelperUpdate()
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
         sHasTeleported = false;
-        sActiveHero_5C1B68->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
+        sActiveHero_5C1B68->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
         sActiveHero_5C1B68->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7_land_softly);
         sActiveHero_5C1B68->field_C2_lvl_number = gMap.mCurrentLevel;
         sActiveHero_5C1B68->field_C0_path_number = gMap.mCurrentPath;
-        sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
-        sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
+        sActiveHero_5C1B68->BaseAliveGameObjectCollisionLine = nullptr;
+        sActiveHero_5C1B68->BaseAliveGameObjectLastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
         sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
         sActiveHero_5C1B68->field_D6_scale = 1;
         FP rX = FP_FromInteger(0);
@@ -655,7 +655,7 @@ void Command_SetState(const std::vector<std::string>& args)
 
     if (resource != nullptr)
     {
-        pAbe->field_106_current_motion = motion;
+        pAbe->mCurrentMotion = motion;
         //pAbe->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[motion], resource);
         DEV_CONSOLE_PRINTF("Set motion to %i", motion);
     }
@@ -1950,38 +1950,38 @@ private:
             }
             // No 16 bit test case because there are simply no 16bit sprites at all in the game data
 
-            mAnim[i].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-            mAnim[i].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+            mAnim[i].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+            mAnim[i].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
             mAnim[i].field_14_scale = FP_FromDouble(2.0);
 
-            mAnim[i].field_C_render_layer = Layer::eLayer_MainMenuButton_38;
-            mAnim[i].field_B_render_mode = TPageAbr::eBlend_1;
+            mAnim[i].mRenderLayer = Layer::eLayer_MainMenuButton_38;
+            mAnim[i].mRenderMode = TPageAbr::eBlend_1;
 
-            mAnim[i].field_A_b = 127;
-            mAnim[i].field_9_g = 127;
-            mAnim[i].field_8_r = 127;
+            mAnim[i].mBlue = 127;
+            mAnim[i].mGreen = 127;
+            mAnim[i].mRed = 127;
         }
 
         // 4 bit o
-        mAnim[0].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[0].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        mAnim[0].field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        mAnim[0].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[0].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim[0].mAnimFlags.Set(AnimFlags::eBit5_FlipX);
         mAnim[0].field_14_scale = FP_FromDouble(1.0);
 
         // 4 bit s
-        mAnim[1].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[1].field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim[1].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[1].mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
         mAnim[1].field_14_scale = FP_FromDouble(2.0);
 
         // 8 bit o
-        mAnim[2].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[2].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim[2].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[2].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         mAnim[2].field_14_scale = FP_FromDouble(1.0);
 
         // 8 bit s
-        mAnim[3].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[3].field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim[3].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[3].mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         PSX_RECT pr = {};
         Pal_Allocate_483110(&pr, 16);

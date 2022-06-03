@@ -29,7 +29,7 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
     }
 
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
-    field_10_anim.field_C_layer = Layer::eLayer_SligBat_33;
+    field_10_anim.mRenderLayer = Layer::eLayer_SligBat_33;
 
     FP hitX = {};
     FP hitY = {};
@@ -60,13 +60,13 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
         field_C6_scale = 1;
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     field_F4_state = BatStates::eSetTimer_0;
@@ -173,7 +173,7 @@ void Bat::VUpdate()
                 field_E4_pLine = field_E4_pLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_100_velx);
             }
 
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_F4_state = BatStates::eFlying_3;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);

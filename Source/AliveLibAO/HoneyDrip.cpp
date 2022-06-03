@@ -19,7 +19,7 @@ HoneyDrip::HoneyDrip(FP xpos, FP ypos)
     field_AC_ypos = ypos;
     field_A8_xpos = xpos;
 
-    field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
+    field_10_anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
     field_E4_bSoundPlaying = FALSE;
 }
@@ -35,7 +35,7 @@ void HoneyDrip::VUpdate()
         field_E4_bSoundPlaying = TRUE;
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

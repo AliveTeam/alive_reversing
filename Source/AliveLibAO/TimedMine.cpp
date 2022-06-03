@@ -36,13 +36,13 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
-        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_Half_16;
+        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_Half_16;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
         field_C6_scale = 1;
-        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
+        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
     }
 
     const AnimRecord& tickRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
@@ -57,14 +57,14 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
             0,
             0))
     {
-        field_118_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-        field_118_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-        field_118_anim.field_C_layer = field_10_anim.field_C_layer;
+        field_118_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_118_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+        field_118_anim.mRenderLayer = field_10_anim.mRenderLayer;
         field_118_anim.field_14_scale = field_BC_sprite_scale;
-        field_118_anim.field_8_r = 128;
-        field_118_anim.field_9_g = 128;
-        field_118_anim.field_A_b = 128;
-        field_118_anim.field_B_render_mode = TPageAbr::eBlend_1;
+        field_118_anim.mRed = 128;
+        field_118_anim.mGreen = 128;
+        field_118_anim.mBlue = 128;
+        field_118_anim.mRenderMode = TPageAbr::eBlend_1;
     }
     else
     {
@@ -79,13 +79,13 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     field_110_tlvInfo = tlvInfo;
 
     SetBaseAnimPaletteTint_4187C0(kTimedMineTints_4C3140, gMap.mCurrentLevel, 1005);
-    field_D4_collection_rect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-    field_D4_collection_rect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-    field_D4_collection_rect.h = field_AC_ypos;
-    field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
+    mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+    mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+    mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
+    mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
-    field_F8_pLiftPoint = nullptr;
+    mLiftPoint = nullptr;
 }
 
 TimedMine::~TimedMine()
@@ -101,11 +101,11 @@ TimedMine::~TimedMine()
 
     field_118_anim.VCleanUp();
 
-    if (field_F8_pLiftPoint)
+    if (mLiftPoint)
     {
-        field_F8_pLiftPoint->VRemove(this);
-        field_F8_pLiftPoint->mBaseGameObjectRefCount--;
-        field_F8_pLiftPoint = nullptr;
+        mLiftPoint->VRemove(this);
+        mLiftPoint->mBaseGameObjectRefCount--;
+        mLiftPoint = nullptr;
     }
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
@@ -218,9 +218,9 @@ void TimedMine::StickToLiftPoint()
                         pLiftPoint->VGetBoundingRect(&pObjRect, 1);
                         if (FP_GetExponent(field_A8_xpos) > pObjRect.x && FP_GetExponent(field_A8_xpos) < pObjRect.w && FP_GetExponent(field_AC_ypos) < pObjRect.h)
                         {
-                            field_F8_pLiftPoint = pLiftPoint;
+                            mLiftPoint = pLiftPoint;
                             pLiftPoint->VAdd(this);
-                            field_F8_pLiftPoint->mBaseGameObjectRefCount++;
+                            mLiftPoint->mBaseGameObjectRefCount++;
                             return;
                         }
                     }
@@ -232,7 +232,7 @@ void TimedMine::StickToLiftPoint()
 
 void TimedMine::VUpdate()
 {
-    auto pPlatform = static_cast<LiftPoint*>(field_F8_pLiftPoint);
+    auto pPlatform = static_cast<LiftPoint*>(mLiftPoint);
     if (Event_Get(kEventDeathReset_4))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -245,10 +245,10 @@ void TimedMine::VUpdate()
 
     if (pPlatform && pPlatform->OnAnyFloor())
     {
-        field_D4_collection_rect.x = field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
-        field_D4_collection_rect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
-        field_D4_collection_rect.w = field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
-        field_D4_collection_rect.h = field_AC_ypos;
+        mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
+        mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
+        mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
+        mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
     }
     if (field_10C_armed == 1)
     {

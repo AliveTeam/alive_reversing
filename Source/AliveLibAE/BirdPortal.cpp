@@ -192,7 +192,7 @@ void BirdPortal::VUpdate()
 
         case PortalStates::CreateTerminators_4:
             Event_Broadcast(GetEvent(), this);
-            if (pTerminator1->field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (pTerminator1->field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorIdle);
                 pTerminator1->field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
@@ -231,13 +231,13 @@ void BirdPortal::VUpdate()
                             rec.mMaxH,
                             ppLightRes);
                         pParticle->field_DC_bApplyShadows &= ~1u;
-                        pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+                        pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
                         pParticle->SetType(AETypes::eBirdPortalTerminator_100);
                         pParticle->field_CC_sprite_scale = field_60_scale;
 
                         if (static_cast<s32>(sGnFrame_5C1B84) % 2)
                         {
-                            pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
+                            pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
                             pParticle->field_20_animation.SetFrame(pParticle->field_20_animation.Get_Frame_Count());
                         }
 
@@ -332,7 +332,7 @@ void BirdPortal::VUpdate()
                 sActiveHero_5C1B68->field_16C_bHaveShrykull = TRUE;
                 sActiveHero_5C1B68->field_16E_bHaveInvisiblity = 0;
                 field_28_state = PortalStates::CollapseTerminators_10;
-                if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_112_Chant_45B1C0)
+                if (sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_112_Chant_45B1C0)
                 {
                     sActiveHero_5C1B68->ChangeChantState_45BB90(0);
                 }
@@ -356,7 +356,7 @@ void BirdPortal::VUpdate()
                         rec.mMaxW,
                         rec.mMaxH,
                         ppLightRes);
-                    pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+                    pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
                     pParticle->field_DC_bApplyShadows &= ~1u;
                     pParticle->field_CC_sprite_scale = field_60_scale;
                 }
@@ -437,7 +437,7 @@ void BirdPortal::VUpdate()
         break;
 
         case PortalStates::PortalExit_CreateTerminators_18:
-            if (pTerminator1->field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (pTerminator1->field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorIdle);
                 pTerminator1->field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
@@ -479,11 +479,11 @@ void BirdPortal::VUpdate()
 
                 if (field_60_scale == FP_FromInteger(1))
                 {
-                    sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_32;
+                    sActiveHero_5C1B68->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 }
                 else
                 {
-                    sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_Half_13;
+                    sActiveHero_5C1B68->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
                 }
                 if (field_90_sfx_ret)
                 {
@@ -778,7 +778,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
                 sActiveHero_5C1B68->field_CC_sprite_scale,
                 0);
 
-            if (sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_112_Chant_45B1C0)
+            if (sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_112_Chant_45B1C0)
             {
                 sActiveHero_5C1B68->ChangeChantState_45BB90(1);
             }
@@ -786,7 +786,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
         else
         {
             field_28_state = PortalStates::CollapseTerminators_10;
-            if ((field_24_portal_type == PortalType::eWorker_1 || field_24_portal_type == PortalType::eShrykull_2) && sActiveHero_5C1B68->field_106_current_motion == eAbeMotions::Motion_112_Chant_45B1C0)
+            if ((field_24_portal_type == PortalType::eWorker_1 || field_24_portal_type == PortalType::eShrykull_2) && sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_112_Chant_45B1C0)
             {
                 sActiveHero_5C1B68->ChangeChantState_45BB90(0);
             }
@@ -831,13 +831,13 @@ void BirdPortal::VExitPortal()
         if (pPortalExitTlv->field_12_scale == Scale_short::eHalf_1)
         {
             field_60_scale = FP_FromDouble(0.5);
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_InBirdPortal_Half_11;
+            sActiveHero_5C1B68->field_20_animation.mRenderLayer = Layer::eLayer_InBirdPortal_Half_11;
             sActiveHero_5C1B68->field_D6_scale = 0;
         }
         else
         {
             field_60_scale = FP_FromInteger(1);
-            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = Layer::eLayer_InBirdPortal_30;
+            sActiveHero_5C1B68->field_20_animation.mRenderLayer = Layer::eLayer_InBirdPortal_30;
             sActiveHero_5C1B68->field_D6_scale = 1;
         }
 
@@ -1092,15 +1092,15 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalTyp
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+    field_20_animation.mRenderMode = TPageAbr::eBlend_1;
     field_CC_sprite_scale = scale;
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_39;
+        field_20_animation.mRenderLayer = Layer::eLayer_Above_FG1_39;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_Half_20;
+        field_20_animation.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
     }
 
     field_DC_bApplyShadows &= ~1u;

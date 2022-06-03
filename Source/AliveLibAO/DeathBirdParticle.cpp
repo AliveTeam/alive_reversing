@@ -25,7 +25,7 @@ void DeathBirdParticle::VUpdate()
 
         case States::eTransformStarsToDoves_1:
             // Has the Death "star" finished animating?
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
 
@@ -40,7 +40,7 @@ void DeathBirdParticle::VUpdate()
                     field_BC_sprite_scale);
                 if (pDove)
                 {
-                    if (pDove->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    if (pDove->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
                         pDove->field_A8_xpos += FP_FromInteger(8);
                     }
@@ -81,16 +81,16 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound
     else
     {
         field_CC_bApplyShadows &= ~1u;
-        field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+        field_10_anim.mRenderMode = TPageAbr::eBlend_1;
         field_BC_sprite_scale = scale;
         field_10_anim.field_14_scale = scale;
         if (scale <= FP_FromDouble(0.5))
         {
-            field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
+            field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
         else
         {
-            field_10_anim.field_C_layer = Layer::eLayer_Above_FG1_39;
+            field_10_anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
         }
 
         field_A8_xpos = xpos;

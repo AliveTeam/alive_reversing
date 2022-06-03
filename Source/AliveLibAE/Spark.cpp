@@ -80,21 +80,21 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
                 ppRes);
             if (pParticle)
             {
-                pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-                pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-                pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-                pParticle->field_20_animation.field_8_r = 128;
-                pParticle->field_20_animation.field_9_g = 128;
-                pParticle->field_20_animation.field_A_b = 128;
+                pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->field_20_animation.mRed = 128;
+                pParticle->field_20_animation.mGreen = 128;
+                pParticle->field_20_animation.mBlue = 128;
 
                 if (scale == FP_FromInteger(1))
                 {
-                    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
+                    pParticle->field_20_animation.mRenderLayer = Layer::eLayer_Foreground_36;
                 }
                 else
                 {
-                    pParticle->field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
+                    pParticle->field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
                 }
 
                 pParticle->field_CC_sprite_scale = scale;

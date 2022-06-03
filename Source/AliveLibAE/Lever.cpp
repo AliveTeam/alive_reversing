@@ -35,7 +35,7 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     field_F4_switch_id = pTlv->field_1A_switch_id;
     field_102_action = pTlv->field_10_action;
     field_100_flags.Clear(Flags_100::eBit1_lever_anim_left_direction);
@@ -52,13 +52,13 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
+        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         field_D6_scale = 0;
     }
     else if (pTlv->field_12_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
+        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
         field_D6_scale = 1;
     }
 
@@ -119,7 +119,7 @@ void Lever::VUpdate()
             SFX_Play_Mono(SoundEffect::LeverPull_63, 0);
         }
 
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             if (gMap.mCurrentLevel == LevelIds::eMines_1
                 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8
@@ -260,7 +260,7 @@ void Lever::VUpdate()
     }
     else if (field_F8_state == LeverState::eFinished_2)
     {
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+        if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_F8_state = LeverState::eWaiting_0;
             const AnimRecord& animRec = AnimRec(AnimId::Lever_Idle);

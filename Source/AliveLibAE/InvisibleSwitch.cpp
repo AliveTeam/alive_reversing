@@ -61,8 +61,8 @@ void InvisibleSwitch::VUpdate()
                 {
                     // TODO: ???
                     if (sControlledCharacter_5C1B8C != sActiveHero_5C1B68
-                        || (sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_115_DoorExit_459A40
-                            && sActiveHero_5C1B68->field_106_current_motion != eAbeMotions::Motion_114_DoorEnter_459470))
+                        || (sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_115_DoorExit_459A40
+                            && sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470))
                     {
                         // Scale matches ?
                         if (field_3C_scale == InvisibleSwitchScale::eAny_2

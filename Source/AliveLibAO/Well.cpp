@@ -70,11 +70,11 @@ void Well::VUpdate()
                     {
                         if (field_EC_scale == FP_FromDouble(0.5))
                         {
-                            pLeaf->field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_Half_3;
+                            pLeaf->field_10_anim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
                         }
                         else
                         {
-                            pLeaf->field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
+                            pLeaf->field_10_anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
                         }
                     }
                 }
@@ -99,23 +99,23 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
             anim.mMaxH,
             ppRes,
             1);
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_CC_bApplyShadows &= ~1u;
     }
     else
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Well_Half_4;
+        field_10_anim.mRenderLayer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Well_23;
+        field_10_anim.mRenderLayer = Layer::eLayer_Well_23;
         field_EC_scale = FP_FromInteger(1);
     }
 
@@ -159,24 +159,24 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
             anim.mMaxH,
             ppRes,
             1);
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_CC_bApplyShadows &= ~1u;
     }
     else
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Well_Half_4;
+        field_10_anim.mRenderLayer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
         field_C6_scale = 0;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_Well_23;
+        field_10_anim.mRenderLayer = Layer::eLayer_Well_23;
         field_EC_scale = FP_FromInteger(1);
         field_C6_scale = 1;
     }

@@ -122,7 +122,7 @@ void Teleporter::VUpdate()
                 return;
             }
 
-            if (sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit10_Teleporting))
+            if (sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit10_Teleporting))
             {
                 return;
             }
@@ -131,7 +131,7 @@ void Teleporter::VUpdate()
             field_50_objId = Teleporter::Create_ElectrocuteEffect()->field_8_object_id;
 
             SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -400);
-            sControlledCharacter_5C1B8C->field_114_flags.Set(Flags_114::e114_Bit10_Teleporting);
+            sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit10_Teleporting);
 
             SpawnRingSparks(&field_34_mTlvData);
         }
@@ -200,7 +200,7 @@ void Teleporter::VUpdate()
                 }
             }
 
-            sControlledCharacter_5C1B8C->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            sControlledCharacter_5C1B8C->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
             gMap.field_20 = 1;
 
@@ -256,7 +256,7 @@ void Teleporter::VUpdate()
                     sControlledCharacter_5C1B8C->field_C8_vely *= FP_FromDouble(0.5);
                 }
                 sControlledCharacter_5C1B8C->field_CC_sprite_scale = FP_FromDouble(0.5);
-                sControlledCharacter_5C1B8C->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_Half_13;
+                sControlledCharacter_5C1B8C->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
                 sControlledCharacter_5C1B8C->field_D6_scale = 0;
             }
             else
@@ -267,7 +267,7 @@ void Teleporter::VUpdate()
                     sControlledCharacter_5C1B8C->field_C8_vely *= FP_FromInteger(2);
                 }
                 sControlledCharacter_5C1B8C->field_CC_sprite_scale = FP_FromInteger(1);
-                sControlledCharacter_5C1B8C->field_20_animation.field_C_render_layer = Layer::eLayer_AbeMenu_32;
+                sControlledCharacter_5C1B8C->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 sControlledCharacter_5C1B8C->field_D6_scale = 1;
             }
 
@@ -291,14 +291,14 @@ void Teleporter::VUpdate()
                     &hitY,
                     lineType))
             {
-                sControlledCharacter_5C1B8C->field_100_pCollisionLine = pPathLine;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = pPathLine;
                 sControlledCharacter_5C1B8C->field_BC_ypos = hitY;
             }
             else
             {
-                sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
                 sControlledCharacter_5C1B8C->field_BC_ypos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_2_y);
-                sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
+                sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
             field_30_state = TeleporterState::eOutOfTeleporter_4;
         }
@@ -337,8 +337,8 @@ void Teleporter::VUpdate()
             }
 
             field_54_effect_created = 0;
-            sControlledCharacter_5C1B8C->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-            sControlledCharacter_5C1B8C->field_114_flags.Clear(Flags_114::e114_Bit10_Teleporting);
+            sControlledCharacter_5C1B8C->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit10_Teleporting);
             field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
             field_30_state = TeleporterState::eWaitForSwitchOn_0;
         }

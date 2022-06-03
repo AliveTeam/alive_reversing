@@ -17,15 +17,15 @@ public:
     ~EffectBase();
 
 protected:
-    s16 field_20_path_id;
-    LevelIds field_22_level_id;
-    Prim_Tile field_24_tile[2];
-    Prim_SetTPage field_4C_tPage[2];
-    Layer field_6C_layer;
-    s16 field_6E_r;
-    s16 field_70_g;
-    s16 field_72_b;
-    s16 field_74_bSemiTrans;
+    s16 mEffectBasePathId;
+    LevelIds mEffectBaseLevelId;
+    Prim_Tile mEffectBaseTile[2];
+    Prim_SetTPage mEffectBaseTPage[2];
+    Layer mEffectBaseLayer;
+    s16 mEffectBaseRed;
+    s16 mEffectBaseGreen;
+    s16 mEffectBaseBlue;
+    s16 mSemiTrans;
     //s16 field_76_pad;
 };
 ALIVE_ASSERT_SIZEOF(EffectBase, 0x78);

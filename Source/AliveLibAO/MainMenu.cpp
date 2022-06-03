@@ -332,7 +332,7 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
         ppRes,
         1);
 
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+    field_10_anim.mRenderMode = TPageAbr::eBlend_1;
     field_A8_xpos = FP_FromInteger(xpos);
     field_AC_ypos = FP_FromInteger(ypos);
     field_E8_bDestroyOnDone = static_cast<s16>(bDestroyOnDone);
@@ -374,9 +374,9 @@ void MainMenuFade::VUpdate()
         field_E6 = -field_E6;
     }
 
-    field_10_anim.field_A_b = static_cast<u8>(field_E4);
-    field_10_anim.field_9_g = static_cast<u8>(field_E4);
-    field_10_anim.field_8_r = static_cast<u8>(field_E4);
+    field_10_anim.mBlue = static_cast<u8>(field_E4);
+    field_10_anim.mGreen = static_cast<u8>(field_E4);
+    field_10_anim.mRed = static_cast<u8>(field_E4);
 }
 
 void MainMenuFade::VRender(PrimHeader** ppOt)
@@ -706,20 +706,20 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
         Animation_Init_417FD0(doorRec.mFrameTableOffset, doorRec.mMaxW, doorRec.mMaxH, field_E4_res_array[3], 1);
     }
 
-    field_10_anim.field_A_b = 127;
-    field_10_anim.field_9_g = 127;
-    field_10_anim.field_8_r = 127;
+    field_10_anim.mBlue = 127;
+    field_10_anim.mGreen = 127;
+    field_10_anim.mRed = 127;
 
     const AnimRecord& circleRec = AO::AnimRec(AnimId::MenuHighlight_Circle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, circleRec.mResourceId, 1, 0);
     field_134_anim.Init(circleRec.mFrameTableOffset, gObjList_animations_505564, this, circleRec.mMaxW, circleRec.mMaxH, ppRes, 1, 0, 0);
 
-    field_134_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-    field_134_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_134_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+    field_134_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_134_anim.field_C_layer = Layer::eLayer_MainMenuButtonBees_38;
+    field_134_anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
     field_134_anim.field_14_scale = field_BC_sprite_scale;
-    field_134_anim.field_B_render_mode = TPageAbr::eBlend_1;
+    field_134_anim.mRenderMode = TPageAbr::eBlend_1;
     field_134_anim.LoadPal(field_E4_res_array[5], 0);
     field_204_flags &= ~6u;
     field_1E2_rgb = 40;
@@ -867,9 +867,9 @@ void Menu::VUpdate_47ABB0()
         field_1E4_colour_counter = -field_1E4_colour_counter;
     }
 
-    field_134_anim.field_8_r = static_cast<u8>(field_1E2_rgb);
-    field_134_anim.field_A_b = static_cast<u8>(field_1E2_rgb);
-    field_134_anim.field_9_g = static_cast<u8>(field_1E2_rgb);
+    field_134_anim.mRed = static_cast<u8>(field_1E2_rgb);
+    field_134_anim.mBlue = static_cast<u8>(field_1E2_rgb);
+    field_134_anim.mGreen = static_cast<u8>(field_1E2_rgb);
 
     (this->*field_1CC_fn_update)();
 }
@@ -878,7 +878,7 @@ void Menu::VUpdate_47ABB0()
 void Menu::WaitForDoorToOpen_47B550()
 {
     field_204_flags |= 2u;
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         const AnimRecord& introRec = AO::AnimRec(AnimId::AbeIntro);
         field_10_anim.Set_Animation_Data(introRec.mFrameTableOffset, field_E4_res_array[2]);
@@ -905,7 +905,7 @@ void Menu::WaitForAbesHeadPoppingThroughDoor_47B5E0()
 
 void Menu::AbePopThroughDoor_47B620()
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         // Put abe into the bug eyed idle loop
         const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_IdleBlink);
@@ -1222,7 +1222,7 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
 void Menu::SayHelloWaitForLoading_47B690()
 {
     // After 1 idle anim loop
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         // Wait for in progress loading (gamespeak ban) to finish
         if (!field_E4_res_array[0])
@@ -1238,7 +1238,7 @@ void Menu::SayHelloWaitForLoading_47B690()
 
 void Menu::WaitForAbeSayHello_47B770()
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         // Abe has finished saying hello, go to main menu handler
         const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
@@ -1504,7 +1504,7 @@ void Menu::MainScreen_Update_47AF60()
     // Some sort of idle anim toggling
     if (((field_204_flags) >> 2) & 1)
     {
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -1514,7 +1514,7 @@ void Menu::MainScreen_Update_47AF60()
     }
     else if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
     {
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_IdleBlink);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -1560,9 +1560,9 @@ void Menu::GoToSelectedMenuPage_47BC50()
 
                 field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
 
-                field_134_anim.field_A_b = 127;
-                field_134_anim.field_9_g = 127;
-                field_134_anim.field_8_r = 127;
+                field_134_anim.mBlue = 127;
+                field_134_anim.mGreen = 127;
+                field_134_anim.mRed = 127;
                 break;
 
             // Begin
@@ -1598,7 +1598,7 @@ void Menu::GoToSelectedMenuPage_47BC50()
 void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
 {
     // Abe finished speaking?
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (field_1E8_pMenuTrans)
         {
@@ -2164,7 +2164,7 @@ void Menu::Options_Update_47BF90()
     // Some sort of idle anim toggle?
     if (((field_204_flags) >> 2) & 1)
     {
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -2174,7 +2174,7 @@ void Menu::Options_Update_47BF90()
     }
     else if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
     {
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_IdleBlink);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -2185,7 +2185,7 @@ void Menu::Options_Update_47BF90()
 
 void Menu::Options_WaitForAbeSpeak_Update_47C280()
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
         field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -2538,7 +2538,7 @@ void Menu::Options_Sound_Update_47C420()
     // Idle anim toggle ?
     if (((field_204_flags) >> 2) & 1)
     {
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -2548,7 +2548,7 @@ void Menu::Options_Sound_Update_47C420()
     }
     else if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
     {
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_IdleBlink);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -2559,7 +2559,7 @@ void Menu::Options_Sound_Update_47C420()
 
 void Menu::Options_WaitForAbeSayOK_Update_47C720()
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
         field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -2624,12 +2624,12 @@ void Menu::GameSpeak_Update_47CBD0()
                 field_E4_res_array[4]);
             if (pParticle)
             {
-                pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-                pParticle->field_10_anim.field_C_layer = Layer::eLayer_Above_FG1_39;
+                pParticle->field_10_anim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->field_10_anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
             }
         }
 
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             if (field_1E0_selected_index.gamespeak_menu == GameSpeakOptions::eChant_8)
             {
@@ -2864,7 +2864,7 @@ void Menu::CycleGameSpeakIdleAnims()
     {
         if ((field_204_flags >> 2) & 1)
         {
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
                 field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -2876,7 +2876,7 @@ void Menu::CycleGameSpeakIdleAnims()
         {
             if (field_1D8_timer <= static_cast<s32>(gnFrameCount_507670))
             {
-                if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+                if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
                     const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_IdleBlink);
                     field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -3773,7 +3773,7 @@ void Menu::Load_BackToMainScreen_Update_47DA40()
 
 void Menu::GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0()
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
         field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);

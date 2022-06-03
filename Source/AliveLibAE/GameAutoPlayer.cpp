@@ -29,13 +29,13 @@ void Recorder::SaveObjectStates()
             mFile.Write(pAliveObj->field_B8_xpos.fpValue);
             mFile.Write(pAliveObj->field_BC_ypos.fpValue);
 
-            mFile.Write(pAliveObj->field_F8_LastLineYPos.fpValue);
+            mFile.Write(pAliveObj->BaseAliveGameObjectLastLineYPos.fpValue);
 
-            mFile.Write(pAliveObj->field_106_current_motion);
-            mFile.Write(pAliveObj->field_108_next_motion);
-            mFile.Write(pAliveObj->field_F4_previous_motion);
+            mFile.Write(pAliveObj->mCurrentMotion);
+            mFile.Write(pAliveObj->mNextMotion);
+            mFile.Write(pAliveObj->mPreviousMotion);
 
-            mFile.Write(pAliveObj->field_10C_health.fpValue);
+            mFile.Write(pAliveObj->mHealth.fpValue);
         }
     }
 }
@@ -81,11 +81,11 @@ bool Player::ValidateObjectStates()
             bool validateFailed = false;
             validateFailed |= ValidField(mFile, pAliveObj->field_B8_xpos, "xpos");
             validateFailed |= ValidField(mFile, pAliveObj->field_BC_ypos, "ypos");
-            validateFailed |= ValidField(mFile, pAliveObj->field_F8_LastLineYPos, "last line ypos");
-            validateFailed |= ValidField(mFile, pAliveObj->field_106_current_motion, "current motion");
-            validateFailed |= ValidField(mFile, pAliveObj->field_108_next_motion, "next motion");
-            validateFailed |= ValidField(mFile, pAliveObj->field_F4_previous_motion, "previous motion");
-            validateFailed |= ValidField(mFile, pAliveObj->field_10C_health, "health motion");
+            validateFailed |= ValidField(mFile, pAliveObj->BaseAliveGameObjectLastLineYPos, "last line ypos");
+            validateFailed |= ValidField(mFile, pAliveObj->mCurrentMotion, "current motion");
+            validateFailed |= ValidField(mFile, pAliveObj->mNextMotion, "next motion");
+            validateFailed |= ValidField(mFile, pAliveObj->mPreviousMotion, "previous motion");
+            validateFailed |= ValidField(mFile, pAliveObj->mHealth, "health motion");
             if (validateFailed)
             {
                 return false;

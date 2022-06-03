@@ -32,11 +32,11 @@ CrawlingSligButton::CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInf
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_Half_6;
+        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_BeforeShadow_25;
+        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     field_F8_switch_id = pTlv->field_12_switch_id;

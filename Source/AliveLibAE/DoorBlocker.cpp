@@ -27,13 +27,13 @@ DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_Half_7;
+        field_20_animation.mRenderLayer = Layer::eLayer_Shadow_Half_7;
         field_D6_scale = 0;
     }
     else
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_26;
+        field_20_animation.mRenderLayer = Layer::eLayer_Shadow_26;
         field_D6_scale = 1;
     }
 
@@ -61,7 +61,7 @@ void DoorBlocker::VUpdate()
     {
         if (field_118_bDone & 1)
         {
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }

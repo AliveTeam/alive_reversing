@@ -18,7 +18,7 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     const AnimRecord& rec = AO::AnimRec(AnimId::Stone_Ball_Stopper);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
-    field_10_anim.field_C_layer = Layer::eLayer_FG1_37;
+    field_10_anim.mRenderLayer = Layer::eLayer_FG1_37;
 
     field_114_release_switch_id = pTlv->field_18_stopper_switch_id;
 
@@ -32,13 +32,13 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
 
     if (pTlv->field_1E_direction == XDirection_short::eLeft_0)
     {
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    field_B4_velx = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
+    field_B4_velx = field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
     field_B8_vely = FP_FromInteger(0);
 
     field_10C_tlvInfo = tlvInfo;
@@ -47,7 +47,7 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     if (pTlv->field_1_unknown)
     {
         field_AC_ypos += field_BC_sprite_scale * FP_FromInteger(70);
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
             field_112_state = States::eMovingDone_2;
             field_A8_xpos += field_BC_sprite_scale * FP_FromInteger(35);
@@ -70,7 +70,7 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     field_A8_xpos = oldXPos;
 
     FP lineXPos = {};
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         lineXPos = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
     }

@@ -26,14 +26,14 @@ DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 s
 
     Init(layer, direction, destroyOnDone, speed);
 
-    field_72_b = field_78_current_fade_rgb;
-    field_70_g = field_78_current_fade_rgb;
-    field_6E_r = field_78_current_fade_rgb;
+    mEffectBaseBlue = field_78_current_fade_rgb;
+    mEffectBaseGreen = field_78_current_fade_rgb;
+    mEffectBaseRed = field_78_current_fade_rgb;
 }
 
 void DeathFadeOut::Init(Layer layer, s32 direction, bool destroyOnDone, s32 speed)
 {
-    field_6C_layer = layer;
+    mEffectBaseLayer = layer;
     field_7C_direction = static_cast<s16>(direction);
     field_7E_bDone = 0;
 
@@ -80,9 +80,9 @@ void DeathFadeOut::VUpdate()
 
 void DeathFadeOut::VRender(PrimHeader** ppOt)
 {
-    field_72_b = field_78_current_fade_rgb;
-    field_70_g = field_78_current_fade_rgb;
-    field_6E_r = field_78_current_fade_rgb;
+    mEffectBaseBlue = field_78_current_fade_rgb;
+    mEffectBaseGreen = field_78_current_fade_rgb;
+    mEffectBaseRed = field_78_current_fade_rgb;
 
     EffectBase::VRender(ppOt);
 

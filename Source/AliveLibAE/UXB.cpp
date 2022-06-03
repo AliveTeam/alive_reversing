@@ -38,14 +38,14 @@ void UXB::InitBlinkAnim(Animation* pAnimation)
     const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
     if (pAnimation->Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1u, 0, 0))
     {
-        pAnimation->field_C_render_layer = field_20_animation.field_C_render_layer;
-        pAnimation->field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-        pAnimation->field_4_flags.Set(AnimFlags::eBit16_bBlending);
+        pAnimation->mRenderLayer = field_20_animation.mRenderLayer;
+        pAnimation->mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        pAnimation->mAnimFlags.Set(AnimFlags::eBit16_bBlending);
         pAnimation->field_14_scale = field_CC_sprite_scale;
-        pAnimation->field_8_r = 128;
-        pAnimation->field_9_g = 128;
-        pAnimation->field_A_b = 128;
-        pAnimation->field_B_render_mode = TPageAbr::eBlend_1;
+        pAnimation->mRed = 128;
+        pAnimation->mGreen = 128;
+        pAnimation->mBlue = 128;
+        pAnimation->mRenderMode = TPageAbr::eBlend_1;
     }
     else
     {
@@ -80,7 +80,7 @@ s32 UXB::IsColliding()
             break;
         }
 
-        if (pObj->field_114_flags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+        if (pObj->mBaseAliveGameObjectFlags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
         {
             PSX_RECT objBound = {};
             pObj->VGetBoundingRect(&objBound, 1);
@@ -109,8 +109,8 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     auto pResource = BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, activeRec.mResourceId);
     Animation_Init(activeRec.mFrameTableOffset, activeRec.mMaxW, activeRec.mMaxH, pResource, 1, 1u);
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mRenderMode = TPageAbr::eBlend_0;
 
     SetTint(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
 
@@ -140,14 +140,14 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         if (tlv_params->field_14_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_Half_16;
+            field_20_animation.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
             field_D6_scale = 0;
         }
     }
     else
     {
         field_CC_sprite_scale = FP_FromDouble(1.0);
-        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
+        field_20_animation.mRenderLayer = Layer::eLayer_BombMineCar_35;
         field_D6_scale = 1;
     }
 
@@ -204,7 +204,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
             FP_FromInteger(tlv_params->field_8_top_left.field_2_y),
             field_B8_xpos,
             FP_FromInteger(tlv_params->field_8_top_left.field_2_y + 24),
-            &field_100_pCollisionLine,
+            &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_D6_scale != 0 ? 1 : 16)
@@ -454,7 +454,7 @@ void UXB::VUpdate()
 
 void UXB::VRender(PrimHeader** ppOt)
 {
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         if (gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,

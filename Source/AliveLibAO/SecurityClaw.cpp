@@ -93,7 +93,7 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
     if (field_130_pClaw)
     {
         field_130_pClaw->field_BC_sprite_scale = field_BC_sprite_scale;
-        field_130_pClaw->field_10_anim.field_C_layer = field_BC_sprite_scale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElum_28 : Layer::eLayer_ZapLinesElum_Half_9;
+        field_130_pClaw->field_10_anim.mRenderLayer = field_BC_sprite_scale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElum_28 : Layer::eLayer_ZapLinesElum_Half_9;
 
         field_130_pClaw->field_A8_xpos = field_11C_clawX;
         field_130_pClaw->field_AC_ypos = field_120_clawY;

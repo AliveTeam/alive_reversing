@@ -104,7 +104,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
                         if (FP_GetExponent(field_B8_xpos) > bRect.x && FP_GetExponent(field_B8_xpos) < bRect.w && FP_GetExponent(field_BC_ypos) < bRect.h)
                         {
                             pPlatform->VAdd(this);
-                            field_110_id = pPlatform->field_8_object_id;
+                            BaseAliveGameObjectId = pPlatform->field_8_object_id;
                             return;
                         }
                     }

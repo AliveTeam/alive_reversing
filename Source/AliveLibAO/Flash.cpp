@@ -10,9 +10,9 @@ Flash::Flash(Layer layer, s32 r, s32 g, s32 b, s32 /*not_used*/, TPageAbr abr, s
     : EffectBase(layer, abr)
 {
     mBaseGameObjectTypeId = Types::eFlash_81;
-    field_5E_r = static_cast<s16>(r);
-    field_60_g = static_cast<s16>(g);
-    field_62_b = static_cast<s16>(b);
+    mEffectBaseRed = static_cast<s16>(r);
+    mEffectBaseGreen = static_cast<s16>(g);
+    mEffectBaseBlue = static_cast<s16>(b);
     field_68_flash_time = time + gnFrameCount_507670;
 }
 

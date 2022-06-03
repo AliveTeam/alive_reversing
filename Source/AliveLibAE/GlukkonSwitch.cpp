@@ -24,9 +24,9 @@ GlukkonSwitch::GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     field_F4_tlvInfo = tlvInfo;
-    field_20_animation.field_C_render_layer = Layer::eLayer_BeforeWell_22;
+    field_20_animation.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
     if (pTlv->field_10_scale == Path_GlukkonSwitch::Scale::eFull_1)
     {
@@ -141,12 +141,12 @@ void GlukkonSwitch::VUpdate()
 
             if (PlayerNearMe())
             {
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 field_F8_state = 2;
             }
             else
             {
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             }
             return;
 

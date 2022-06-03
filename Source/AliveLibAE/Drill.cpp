@@ -39,8 +39,8 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mRenderMode = TPageAbr::eBlend_0;
 
     SetTint(kDrillTints_551548, gMap.mCurrentLevel);
     Path_Drill_Data tlvData = pTlv->field_10_data;
@@ -68,13 +68,13 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     if (tlvData.field_10_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_24;
+        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
         field_D6_scale = 1;
     }
     else
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_Half_5;
+        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
         field_D6_scale = 0;
     }
 
@@ -166,7 +166,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             break;
 
         case DrillDirection::eLeft_2:
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
 
             field_110_xPos = FP_FromInteger(pTlv->field_C_bottom_right.field_0_x - 12);
             field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
@@ -357,7 +357,7 @@ void Drill::VUpdate()
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
                         field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
-                        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                        field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                         break;
                     }
                 }
@@ -655,12 +655,12 @@ s16 Drill::DamageTouchingObjects()
         {
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                if (pObj->Type() != AETypes::eMeat_84 && pObj->Type() != AETypes::eEvilFart_45 && (pObj->Type() != AETypes::eAbe_69 || pObj->field_106_current_motion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
+                if (pObj->Type() != AETypes::eMeat_84 && pObj->Type() != AETypes::eEvilFart_45 && (pObj->Type() != AETypes::eAbe_69 || pObj->mCurrentMotion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
                 {
                     PSX_RECT objRect = {};
                     pObj->VGetBoundingRect(&objRect, 1);
 
-                    if (RectsOverlap(drillRect, objRect) && pObj->field_D6_scale == field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
+                    if (RectsOverlap(drillRect, objRect) && pObj->field_D6_scale == field_D6_scale && pObj->mHealth > FP_FromInteger(0))
                     {
                         if (pObj->field_B8_xpos + FP_FromInteger(3) >= FP_FromInteger(drillRect.x) && pObj->field_B8_xpos - FP_FromInteger(3) <= FP_FromInteger(drillRect.w))
                         {

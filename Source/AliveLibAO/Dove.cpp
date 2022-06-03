@@ -30,7 +30,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
         maxH,
         ppRes,
         1);
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     gDovesArray_4FF938.Push_Back(this);
 
@@ -39,22 +39,22 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     if (scale == FP_FromInteger(1))
     {
         field_C6_scale = 1;
-        field_10_anim.field_C_layer = Layer::eLayer_27;
+        field_10_anim.mRenderLayer = Layer::eLayer_27;
     }
     else
     {
         field_C6_scale = 0;
-        field_10_anim.field_C_layer = Layer::eLayer_8;
+        field_10_anim.mRenderLayer = Layer::eLayer_8;
     }
 
     field_B4_velx = FP_FromInteger((Math_NextRandom() / 12 - 11));
     if (field_B4_velx >= FP_FromInteger(0))
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_EE_state = State::eOnGround_0;
@@ -92,27 +92,27 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
         ppRes,
         1);
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_10_anim.field_14_scale = scale;
     field_BC_sprite_scale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_27;
+        field_10_anim.mRenderLayer = Layer::eLayer_27;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_8;
+        field_10_anim.mRenderLayer = Layer::eLayer_8;
     }
 
     field_B4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (scale >= FP_FromInteger(0))
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_B8_vely = FP_FromInteger(-4 - ((Math_NextRandom()) & 3));
@@ -316,7 +316,7 @@ void Dove::VUpdate()
                 field_B4_velx = -field_B4_velx;
             }
 
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_B4_velx < FP_FromInteger(0));
+            field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, field_B4_velx < FP_FromInteger(0));
             break;
 
         case State::eJoin_2:
@@ -326,7 +326,7 @@ void Dove::VUpdate()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
-            const FP k4Directed = field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
+            const FP k4Directed = field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
             field_B4_velx = (k4Directed + field_F0_xJoin - field_A8_xpos) / FP_FromInteger(8);
             field_A8_xpos += field_B4_velx;
             field_B8_vely = (field_F4_yJoin - field_AC_ypos) / FP_FromInteger(8);

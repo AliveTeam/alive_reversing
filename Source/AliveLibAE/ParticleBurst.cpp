@@ -61,8 +61,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             {
                 const AnimRecord& rocksRec = AnimRec(AnimId::Explosion_Rocks);
                 Animation_Init(rocksRec.mFrameTableOffset, rocksRec.mMaxW, rocksRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rocksRec.mResourceId), 1, 1u);
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+                field_20_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
             }
 
@@ -70,8 +70,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             {
                 const AnimRecord& sticksRec = AnimRec(AnimId::Explosion_Sticks);
                 Animation_Init(sticksRec.mFrameTableOffset, sticksRec.mMaxW, sticksRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, sticksRec.mResourceId), 1, 1u);
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+                field_20_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
             }
 
@@ -79,9 +79,9 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             {
                 const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
                 Animation_Init(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId), 1, 1u);
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-                field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+                field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                field_20_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+                field_20_animation.mRenderMode = TPageAbr::eBlend_1;
                 break;
             }
 
@@ -91,27 +91,27 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             {
                 const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
                 Animation_Init(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId), 1, 1u);
-                field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+                field_20_animation.mRenderMode = TPageAbr::eBlend_1;
+                field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
 
                 if (field_104_type == BurstType::eBigRedSparks_3)
                 {
-                    field_20_animation.field_8_r = 254;
-                    field_20_animation.field_9_g = 148;
-                    field_20_animation.field_A_b = 18;
+                    field_20_animation.mRed = 254;
+                    field_20_animation.mGreen = 148;
+                    field_20_animation.mBlue = 18;
                 }
                 else if (field_104_type == BurstType::eSmallPurpleSparks_6)
                 {
-                    field_20_animation.field_8_r = 127;
-                    field_20_animation.field_9_g = 127;
-                    field_20_animation.field_A_b = 127;
+                    field_20_animation.mRed = 127;
+                    field_20_animation.mGreen = 127;
+                    field_20_animation.mBlue = 127;
                 }
                 else
                 {
-                    field_20_animation.field_8_r = 0;
-                    field_20_animation.field_9_g = 255;
-                    field_20_animation.field_A_b = 32;
+                    field_20_animation.mRed = 0;
+                    field_20_animation.mGreen = 255;
+                    field_20_animation.mBlue = 32;
                 }
                 break;
             }
@@ -128,12 +128,12 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             if (field_CC_sprite_scale == FP_FromInteger(1))
             {
                 field_D6_scale = 1;
-                field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_39;
+                field_20_animation.mRenderLayer = Layer::eLayer_Above_FG1_39;
             }
             else
             {
                 field_D6_scale = 0;
-                field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_Half_20;
+                field_20_animation.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
             }
 
             field_FC_number_of_particles = static_cast<s16>(numOfParticles);
@@ -144,27 +144,27 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             for (u32 i = 0; i < numOfParticles; i++)
             {
                 field_F8_pRes[i].field_18_anim.field_68_anim_ptr = &field_20_animation;
-                field_F8_pRes[i].field_18_anim.field_C_render_layer = field_20_animation.field_C_render_layer;
+                field_F8_pRes[i].field_18_anim.mRenderLayer = field_20_animation.mRenderLayer;
                 field_F8_pRes[i].field_18_anim.field_6C_scale = FP_FromDouble(0.95) * field_CC_sprite_scale;
 
-                field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-                field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
+                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
 
-                field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, field_20_animation.field_4_flags.Get(AnimFlags::eBit15_bSemiTrans));
+                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, field_20_animation.mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
 
-                field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending, field_20_animation.field_4_flags.Get(AnimFlags::eBit16_bBlending));
+                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending, field_20_animation.mAnimFlags.Get(AnimFlags::eBit16_bBlending));
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {
-                        field_F8_pRes[i].field_18_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                        field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                     }
                 }
 
-                field_F8_pRes[i].field_18_anim.field_8_r = field_20_animation.field_8_r;
-                field_F8_pRes[i].field_18_anim.field_9_g = field_20_animation.field_9_g;
-                field_F8_pRes[i].field_18_anim.field_A_b = field_20_animation.field_A_b;
+                field_F8_pRes[i].field_18_anim.mRed = field_20_animation.mRed;
+                field_F8_pRes[i].field_18_anim.mGreen = field_20_animation.mGreen;
+                field_F8_pRes[i].field_18_anim.mBlue = field_20_animation.mBlue;
 
                 field_F8_pRes[i].field_0_x = field_B8_xpos;
                 field_F8_pRes[i].field_4_y = field_BC_ypos;
@@ -254,31 +254,31 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                     field_20_animation.Get_Frame_Rect(&frameRect);
                     if (field_106_count == 9)
                     {
-                        if (field_20_animation.field_8_r > 5)
+                        if (field_20_animation.mRed > 5)
                         {
-                            field_20_animation.field_8_r -= 6;
+                            field_20_animation.mRed -= 6;
                         }
                         else
                         {
-                            field_20_animation.field_8_r = 0;
+                            field_20_animation.mRed = 0;
                         }
 
-                        if (field_20_animation.field_9_g > 5)
+                        if (field_20_animation.mGreen > 5)
                         {
-                            field_20_animation.field_9_g -= 6;
+                            field_20_animation.mGreen -= 6;
                         }
                         else
                         {
-                            field_20_animation.field_9_g = 0;
+                            field_20_animation.mGreen = 0;
                         }
 
-                        if (field_20_animation.field_A_b > 5)
+                        if (field_20_animation.mBlue > 5)
                         {
-                            field_20_animation.field_A_b -= 6;
+                            field_20_animation.mBlue -= 6;
                         }
                         else
                         {
-                            field_20_animation.field_A_b = 0;
+                            field_20_animation.mBlue = 0;
                         }
                     }
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(
@@ -309,31 +309,31 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
 
                     if (field_106_count == 9)
                     {
-                        if (field_F8_pRes[i].field_18_anim.field_8_r > 5)
+                        if (field_F8_pRes[i].field_18_anim.mRed > 5)
                         {
-                            field_F8_pRes[i].field_18_anim.field_8_r -= 6;
+                            field_F8_pRes[i].field_18_anim.mRed -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_anim.field_8_r = 0;
+                            field_F8_pRes[i].field_18_anim.mRed = 0;
                         }
 
-                        if (field_F8_pRes[i].field_18_anim.field_9_g > 5)
+                        if (field_F8_pRes[i].field_18_anim.mGreen > 5)
                         {
-                            field_F8_pRes[i].field_18_anim.field_9_g -= 6;
+                            field_F8_pRes[i].field_18_anim.mGreen -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_anim.field_9_g = 0;
+                            field_F8_pRes[i].field_18_anim.mGreen = 0;
                         }
 
-                        if (field_F8_pRes[i].field_18_anim.field_A_b > 5)
+                        if (field_F8_pRes[i].field_18_anim.mBlue > 5)
                         {
-                            field_F8_pRes[i].field_18_anim.field_A_b -= 6;
+                            field_F8_pRes[i].field_18_anim.mBlue -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_anim.field_A_b = 0;
+                            field_F8_pRes[i].field_18_anim.mBlue = 0;
                         }
                     }
                     pScreenManager_5BB5F4->InvalidateRect_40EC90(

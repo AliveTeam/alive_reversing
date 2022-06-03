@@ -244,7 +244,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
         if (pObjIter != field_30_pParent)
         {
-            if (pObjIter->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
+            if (pObjIter->field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 if ((field_10_type == BulletType::ePossessedSlig_0
                      && (pObjIter->mBaseGameObjectTypeId == Types::eSlig_88

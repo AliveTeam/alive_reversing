@@ -126,7 +126,7 @@ void BeeSwarm::VScreenChanged()
         }
     }
 
-    if (!sActiveHero_507678 || (field_D98_pChaseTarget == sActiveHero_507678 && sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_156_DoorEnter_42D370))
+    if (!sActiveHero_507678 || (field_D98_pChaseTarget == sActiveHero_507678 && sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -278,10 +278,10 @@ void BeeSwarm::VUpdate()
 
                             if (FP_FromInteger(obj_rect.x) <= field_D90_rect_w && FP_FromInteger(obj_rect.w) >= field_D88_rect_x && FP_FromInteger(obj_rect.h) >= field_D8C_rect_y && FP_FromInteger(obj_rect.y) <= field_D94_rect_h)
                             {
-                                if (pObjIter == sActiveHero_507678 && sActiveHero_507678->field_100_health > FP_FromInteger(0))
+                                if (pObjIter == sActiveHero_507678 && sActiveHero_507678->mHealth > FP_FromInteger(0))
                                 {
                                     const MudSounds snd = Math_RandomRange_450F20(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
-                                    const FP pitch_val = (FP_FromInteger(1) - sActiveHero_507678->field_100_health) / FP_FromDouble(0.15);
+                                    const FP pitch_val = (FP_FromInteger(1) - sActiveHero_507678->mHealth) / FP_FromDouble(0.15);
                                     const s16 pitch = Math_RandomRange_450F20(
                                         200 * FP_GetExponent(pitch_val),
                                         200 * (FP_GetExponent(pitch_val) + 1));
@@ -519,13 +519,13 @@ void BeeSwarm::VUpdate()
     {
         BeeSwarmParticle* pBee = &field_E4_bees.bees[field_D66_bee_count];
 
-        pBee->field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
-        pBee->field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending); // TODO: or higher byte
+        pBee->field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+        pBee->field_10_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending); // TODO: or higher byte
 
         pBee->field_10_anim.field_68_anim_ptr = &field_10_anim;
         pBee->field_10_anim.field_6C_scale = field_BC_sprite_scale;
 
-        pBee->field_10_anim.field_C_layer = Layer::eLayer_MainMenuButtonBees_38;
+        pBee->field_10_anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
 
         pBee->field_0_xpos = field_D68_xpos;
         pBee->field_4_ypos = field_D6C_ypos;
@@ -559,10 +559,10 @@ void BeeSwarm::ToFlyAwayAndDie()
 
 void BeeSwarm::VRender(PrimHeader** ppOt)
 {
-    field_10_anim.field_C_layer = Layer::eLayer_MainMenuButtonBees_38;
-    field_10_anim.field_8_r = static_cast<u8>(field_C0_r);
-    field_10_anim.field_9_g = static_cast<u8>(field_C2_g);
-    field_10_anim.field_A_b = static_cast<u8>(field_C4_b);
+    field_10_anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
+    field_10_anim.mRed = static_cast<u8>(field_C0_r);
+    field_10_anim.mGreen = static_cast<u8>(field_C2_g);
+    field_10_anim.mBlue = static_cast<u8>(field_C4_b);
     field_10_anim.field_14_scale = field_BC_sprite_scale;
 
     const auto campos_x_delta = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);

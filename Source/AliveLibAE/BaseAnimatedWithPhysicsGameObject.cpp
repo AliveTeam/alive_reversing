@@ -68,7 +68,7 @@ void BaseAnimatedWithPhysicsGameObject::VUpdate()
 
 void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
 {
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         // Only render if in the active level, path and camera
         if (gMap.mCurrentPath == field_C0_path_number
@@ -95,9 +95,9 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
                     &b);
             }
 
-            field_20_animation.field_8_r = static_cast<u8>(r);
-            field_20_animation.field_9_g = static_cast<u8>(g);
-            field_20_animation.field_A_b = static_cast<u8>(b);
+            field_20_animation.mRed = static_cast<u8>(r);
+            field_20_animation.mGreen = static_cast<u8>(g);
+            field_20_animation.mBlue = static_cast<u8>(b);
 
             field_20_animation.VRender(
                 FP_GetExponent((FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
@@ -146,11 +146,11 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
     {
         if (field_CC_sprite_scale == FP_FromInteger(1))
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_27;
+            field_20_animation.mRenderLayer = Layer::eLayer_27;
         }
         else
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_8;
+            field_20_animation.mRenderLayer = Layer::eLayer_8;
             field_D6_scale = 0;
         }
 
@@ -162,11 +162,11 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
 
         if (added)
         {
-            field_20_animation.field_B_render_mode = TPageAbr::eBlend_0;
+            field_20_animation.mRenderMode = TPageAbr::eBlend_0;
 
             // TODO: Double check this logic
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+            field_20_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+            field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
         }
         else
         {
@@ -195,14 +195,14 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(PSX_RECT* pRect, s
     rect.w = pAnimFrameHeader->field_8_data.points[pointIdx + 1].x;
     rect.h = pAnimFrameHeader->field_8_data.points[pointIdx + 1].y;
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         std::swap(rect.x, rect.w);
         rect.x = -rect.x;
         rect.w = -rect.w;
     }
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit6_FlipY))
+    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit6_FlipY))
     {
         std::swap(rect.y, rect.h);
         rect.y = -rect.y;
@@ -260,18 +260,18 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear(BaseAnimatedWithPhysic
 s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->field_B8_xpos == field_B8_xpos
-        && pOther->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        && pOther->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX) != field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         // They are in the same spot as us, so they can only be facing us if they are NOT facing the same way.
         // This seems strange but its what causes muds to keep changing direction if you turn while you are stood in the same grid as them.
         return TRUE;
     }
-    else if (pOther->field_B8_xpos > field_B8_xpos && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pOther->field_B8_xpos > field_B8_xpos && !field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         // They are to the right of us and facing left
         return TRUE;
     }
-    else if (pOther->field_B8_xpos < field_B8_xpos && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pOther->field_B8_xpos < field_B8_xpos && field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         // They are to the left of using and facing right
         return TRUE;

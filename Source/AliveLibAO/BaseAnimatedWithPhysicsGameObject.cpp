@@ -58,11 +58,11 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
     {
         if (field_BC_sprite_scale == FP_FromInteger(1))
         {
-            field_10_anim.field_C_layer = Layer::eLayer_27;
+            field_10_anim.mRenderLayer = Layer::eLayer_27;
         }
         else
         {
-            field_10_anim.field_C_layer = Layer::eLayer_8;
+            field_10_anim.mRenderLayer = Layer::eLayer_8;
             field_C6_scale = 0;
         }
 
@@ -74,9 +74,9 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
 
         if (added)
         {
-            field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
-            field_10_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
-            field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+            field_10_anim.mRenderMode = TPageAbr::eBlend_0;
+            field_10_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+            field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
         }
         else
         {
@@ -120,7 +120,7 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
 
 void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         // Only render if in the active level, path and camera
         if (gMap.mCurrentPath == field_B0_path_number && gMap.mCurrentLevel == field_B2_lvl_number && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
@@ -145,9 +145,9 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
                     &b);
             }
 
-            field_10_anim.field_8_r = static_cast<u8>(r);
-            field_10_anim.field_9_g = static_cast<u8>(g);
-            field_10_anim.field_A_b = static_cast<u8>(b);
+            field_10_anim.mRed = static_cast<u8>(r);
+            field_10_anim.mGreen = static_cast<u8>(g);
+            field_10_anim.mBlue = static_cast<u8>(b);
 
             field_10_anim.VRender(
                 FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
@@ -258,18 +258,18 @@ s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel_418450(BaseAnimatedWithPhys
 s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe_4183F0(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->field_A8_xpos == field_A8_xpos
-        && pOther->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        && pOther->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) != field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         // They are in the same spot as us, so they can only be facing us if they are NOT facing the same way.
         // This seems strange but its what causes muds to keep changing direction if you turn while you are stood in the same grid as them.
         return TRUE;
     }
-    else if (pOther->field_A8_xpos > field_A8_xpos && !field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pOther->field_A8_xpos > field_A8_xpos && !field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         // They are to the right of us and facing left
         return TRUE;
     }
-    else if (pOther->field_A8_xpos < field_A8_xpos && field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    else if (pOther->field_A8_xpos < field_A8_xpos && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         // They are to the left of using and facing right
         return TRUE;
@@ -353,14 +353,14 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* p
     rect.w = pAnimFrameHeader->field_8_data.points[pointIdx + 1].x;
     rect.h = pAnimFrameHeader->field_8_data.points[pointIdx + 1].y;
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         std::swap(rect.x, rect.w);
         rect.x = -rect.x;
         rect.w = -rect.w;
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit6_FlipY))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit6_FlipY))
     {
         std::swap(rect.y, rect.h);
         rect.y = -rect.y;

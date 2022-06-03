@@ -21,8 +21,8 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mRenderMode = TPageAbr::eBlend_0;
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     field_1BC_flags.Clear(flags_1BC::eUnused_Bit0);
@@ -48,13 +48,13 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_Half_16;
+        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_Half_16;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
+        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
         field_C6_scale = 1;
     }
 
@@ -155,10 +155,10 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     const FP gridSnap = ScaleToGridSize(field_BC_sprite_scale);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
-    field_D4_collection_rect.x = field_A8_xpos - (gridSnap / FP_FromInteger(2));
-    field_D4_collection_rect.y = field_AC_ypos - gridSnap;
-    field_D4_collection_rect.w = field_A8_xpos + (gridSnap / FP_FromInteger(2));
-    field_D4_collection_rect.h = field_AC_ypos;
+    mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - (gridSnap / FP_FromInteger(2));
+    mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - gridSnap;
+    mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + (gridSnap / FP_FromInteger(2));
+    mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
 }
 
 void UXB::InitBlinkAnim()
@@ -176,15 +176,15 @@ void UXB::InitBlinkAnim()
             0,
             0))
     {
-        field_11C_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-        field_11C_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+        field_11C_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_11C_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-        field_11C_anim.field_C_layer = field_10_anim.field_C_layer;
+        field_11C_anim.mRenderLayer = field_10_anim.mRenderLayer;
         field_11C_anim.field_14_scale = field_BC_sprite_scale;
-        field_11C_anim.field_8_r = 128;
-        field_11C_anim.field_9_g = 128;
-        field_11C_anim.field_A_b = 128;
-        field_11C_anim.field_B_render_mode = TPageAbr::eBlend_1;
+        field_11C_anim.mRed = 128;
+        field_11C_anim.mGreen = 128;
+        field_11C_anim.mBlue = 128;
+        field_11C_anim.mRenderMode = TPageAbr::eBlend_1;
     }
     else
     {
@@ -493,9 +493,9 @@ s16 UXB::IsColliding()
             break;
         }
 
-        if (pObj->field_10A_flags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
+        if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
         {
-            if (pObj->field_10_anim.field_4_flags.Get(AnimFlags::eBit3_Render))
+            if (pObj->field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 PSX_RECT objBound = {};
                 pObj->VGetBoundingRect(&objBound, 1);

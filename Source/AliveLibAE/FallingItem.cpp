@@ -55,13 +55,13 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
-        field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_Half_12;
+        field_20_animation.mRenderLayer = Layer::eLayer_FallingItemPortalClip_Half_12;
     }
     else
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_D6_scale = 1;
-        field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_31;
+        field_20_animation.mRenderLayer = Layer::eLayer_FallingItemPortalClip_31;
     }
 
     field_124_fall_interval = pTlv->field_14_fall_interval;
@@ -108,7 +108,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_C_render_layer = Layer::eLayer_FallingItemPortalClip_31;
+    field_20_animation.mRenderLayer = Layer::eLayer_FallingItemPortalClip_31;
 
     if (id)
     {
@@ -332,7 +332,7 @@ void FallingItem::VUpdate()
                                                   ppRes);
                 if (pParticle)
                 {
-                    pParticle->field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+                    pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
                     pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.75);
                 }
             }

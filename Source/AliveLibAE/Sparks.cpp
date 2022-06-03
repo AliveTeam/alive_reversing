@@ -14,12 +14,12 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
 
     field_DC_bApplyShadows &= ~1u;
 
-    field_20_animation.field_C_render_layer = Layer::eLayer_FG1_37;
-    field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+    field_20_animation.mRenderLayer = Layer::eLayer_FG1_37;
+    field_20_animation.mRenderMode = TPageAbr::eBlend_1;
 
-    field_20_animation.field_A_b = 80;
-    field_20_animation.field_9_g = 80;
-    field_20_animation.field_8_r = 80;
+    field_20_animation.mBlue = 80;
+    field_20_animation.mGreen = 80;
+    field_20_animation.mRed = 80;
 
     field_CC_sprite_scale = scale * (((FP_FromInteger(Math_NextRandom() % 6)) / FP_FromInteger(10)) + FP_FromDouble(0.7));
     field_FA_16_random = Math_RandomRange(0, 16);

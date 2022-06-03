@@ -88,7 +88,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     gRestartRuptureFarmsSavedMuds_5076C8 = pData->field_2A4_restartRuptureFarmsSavedMudokons;
     gRestartRuptureFarmsKilledMuds_5076C4 = pData->field_2A6_restartRuptureFarmsKilledMudokons;
 
-    sActiveHero_507678->field_100_health = FP_FromInteger(1);
+    sActiveHero_507678->mHealth = FP_FromInteger(1);
     sActiveHero_507678->field_11C_regen_health_timer = gnFrameCount_507670;
     sActiveHero_507678->field_BC_sprite_scale = pData->field_230_ah_sprite_scale;
     sActiveHero_507678->field_118_timer = pData->field_24C_field_118;
@@ -99,9 +99,9 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);
     sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone, pData->field_253_scrabania_done & 1);
 
-    sActiveHero_507678->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pData->field_23C_ah_flipX & 1);
+    sActiveHero_507678->field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pData->field_23C_ah_flipX & 1);
 
-    sActiveHero_507678->field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    sActiveHero_507678->field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
     gMap.field_E0_save_data = pData->field_2B0_pSaveBuffer;
 
@@ -135,7 +135,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     }
 
     sActiveHero_507678->field_2AC_pSaveData = pData;
-    sActiveHero_507678->field_FC_current_motion = eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0;
+    sActiveHero_507678->mCurrentMotion = eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0;
     sActiveHero_507678->field_114_gnFrame = 0;
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, sActiveHero_507678, 0, 0);
@@ -366,19 +366,19 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_238_current_camera = gMap.mCurrentCamera;
     pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
     pSaveData->field_240_last_anim_frame = sActiveHero_507678->field_10_anim.field_92_current_frame;
-    pSaveData->field_23E_current_motion = sActiveHero_507678->field_FC_current_motion;
+    pSaveData->field_23E_current_motion = sActiveHero_507678->mCurrentMotion;
     pSaveData->field_224_xpos = FP_GetExponent(sActiveHero_507678->field_A8_xpos);
     pSaveData->field_228_ypos = FP_GetExponent(sActiveHero_507678->field_AC_ypos);
-    if (sActiveHero_507678->field_F4_pLine)
+    if (sActiveHero_507678->BaseAliveGameObjectCollisionLine)
     {
-        pSaveData->field_23A_mode_mask = sActiveHero_507678->field_F4_pLine->field_8_type;
+        pSaveData->field_23A_mode_mask = sActiveHero_507678->BaseAliveGameObjectCollisionLine->field_8_type;
     }
     else
     {
         pSaveData->field_23A_mode_mask = 0;
     }
-    pSaveData->field_22C_ah_health = sActiveHero_507678->field_100_health;
-    pSaveData->field_23C_ah_flipX = sActiveHero_507678->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    pSaveData->field_22C_ah_health = sActiveHero_507678->mHealth;
+    pSaveData->field_23C_ah_flipX = sActiveHero_507678->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pSaveData->field_230_ah_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
     pSaveData->field_244_stone_state = static_cast<s32>(sActiveHero_507678->field_110_state.raw);
     pSaveData->field_248_gnFrame = sActiveHero_507678->field_114_gnFrame;
@@ -402,16 +402,16 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_262_elum_path_number = gElum_507680->field_B0_path_number;
         pSaveData->field_268_elum_xpos = FP_GetExponent(gElum_507680->field_A8_xpos);
         pSaveData->field_26C_elum_ypos = FP_GetExponent(gElum_507680->field_AC_ypos);
-        if (gElum_507680->field_F4_pLine)
+        if (gElum_507680->BaseAliveGameObjectCollisionLine)
         {
-            pSaveData->field_270_elum_line_type = gElum_507680->field_F4_pLine->field_8_type;
+            pSaveData->field_270_elum_line_type = gElum_507680->BaseAliveGameObjectCollisionLine->field_8_type;
         }
         else
         {
             pSaveData->field_270_elum_line_type = -1;
         }
-        pSaveData->field_274_elum_current_motion = gElum_507680->field_FC_current_motion;
-        pSaveData->field_272_elum_flipX = gElum_507680->field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+        pSaveData->field_274_elum_current_motion = gElum_507680->mCurrentMotion;
+        pSaveData->field_272_elum_flipX = gElum_507680->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
         pSaveData->field_278_brain_idx = gElum_507680->field_128_brain_idx;
         pSaveData->field_276_bDontFollowAbe = gElum_507680->field_122_bDontFollowAbe;
         pSaveData->field_27C_honey_xpos = gElum_507680->field_12C_honey_xpos;

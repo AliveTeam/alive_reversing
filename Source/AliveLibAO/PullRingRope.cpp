@@ -47,7 +47,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
         }
     }
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_EE_switch_id = pTlv->field_18_switch_id;
     field_F0_action = pTlv->field_1A_action;
@@ -61,13 +61,13 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_8;
+        field_10_anim.mRenderLayer = Layer::eLayer_8;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = Layer::eLayer_27;
+        field_10_anim.mRenderLayer = Layer::eLayer_27;
         field_C6_scale = 1;
     }
 

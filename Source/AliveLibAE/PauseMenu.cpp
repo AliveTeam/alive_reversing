@@ -453,11 +453,11 @@ void PauseMenu::Init()
     const AnimRecord& rec = AnimRec(AnimId::NormalMudIcon);
     if (field_158_animation.Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppAnimData, 1, 0, 0))
     {
-        this->field_158_animation.field_C_render_layer = field_20_animation.field_C_render_layer;
+        this->field_158_animation.mRenderLayer = field_20_animation.mRenderLayer;
         this->field_158_animation.field_14_scale = field_CC_sprite_scale;
-        this->field_158_animation.field_8_r = 127;
-        this->field_158_animation.field_9_g = 127;
-        this->field_158_animation.field_A_b = 127;
+        this->field_158_animation.mRed = 127;
+        this->field_158_animation.mGreen = 127;
+        this->field_158_animation.mBlue = 127;
     }
     else
     {
@@ -1342,7 +1342,7 @@ void PauseMenu::Page_Status_Update()
 void PauseMenu::Page_Status_Render(PrimHeader** ot, PauseMenuPage* pPage)
 {
     // Render the status icon
-    field_158_animation.field_C_render_layer = Layer::eLayer_Menu_41;
+    field_158_animation.mRenderLayer = Layer::eLayer_Menu_41;
     field_158_animation.VRender(180, 100, ot, 0, 0);
 
     // Render the text
@@ -1508,16 +1508,16 @@ void PauseMenu::VUpdate()
     Abe* pHero = sActiveHero_5C1B68;
     BaseAliveGameObject* pControlledChar = nullptr;
 
-    if (sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if (sActiveHero_5C1B68->mHealth <= FP_FromInteger(0) || sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         pControlledChar = sControlledCharacter_5C1B8C;
     }
     else
     {
         pControlledChar = sControlledCharacter_5C1B8C;
-        if (!(sControlledCharacter_5C1B8C->field_114_flags.Get(e114_Bit10_Teleporting)))
+        if (!(sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(e114_Bit10_Teleporting)))
         {
-            const s16 heroState = sActiveHero_5C1B68->field_106_current_motion;
+            const s16 heroState = sActiveHero_5C1B68->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00
                 && heroState != eAbeMotions::Motion_119_ToShrykull_45A990
                 && heroState != eAbeMotions::Motion_120_EndShrykull_45AB00
@@ -1561,11 +1561,11 @@ void PauseMenu::VUpdate()
 
     if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & InputCommands::Enum::ePause)
     {
-        if (pHero->field_10C_health > FP_FromInteger(0)
-            && !(pHero->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
-            && !(pControlledChar->field_114_flags.Get(Flags_114::e114_Bit10_Teleporting)))
+        if (pHero->mHealth > FP_FromInteger(0)
+            && !(pHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
+            && !(pControlledChar->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
-            const s16 heroState = pHero->field_106_current_motion;
+            const s16 heroState = pHero->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00
                 && heroState != eAbeMotions::Motion_119_ToShrykull_45A990
                 && heroState != eAbeMotions::Motion_120_EndShrykull_45AB00

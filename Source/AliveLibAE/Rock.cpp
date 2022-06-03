@@ -29,8 +29,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     field_B8_xpos = xpos;
     field_BC_ypos = ypos;
@@ -107,7 +107,7 @@ void Rock::VThrow(FP velX, FP velY)
     field_C4_velx = velX;
     field_C8_vely = velY;
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
     if (field_118_count == 0)
     {
@@ -141,13 +141,13 @@ void Rock::InTheAir()
             field_124_ypos,
             field_B8_xpos,
             field_BC_ypos,
-            &field_100_pCollisionLine,
+            &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_D6_scale == 1 ? 0x09 : 0x90)
         == 1)
     {
-        switch (field_100_pCollisionLine->field_8_type)
+        switch (BaseAliveGameObjectCollisionLine->field_8_type)
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
@@ -224,9 +224,9 @@ void Rock::InTheAir()
         }
     }
 
-    if (sCollisions_DArray_5C1128->Raycast(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &field_100_pCollisionLine, &hitX, &hitY, field_D6_scale == 1 ? 0x06 : 0x60) == 1)
+    if (sCollisions_DArray_5C1128->Raycast(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, field_D6_scale == 1 ? 0x06 : 0x60) == 1)
     {
-        switch (field_100_pCollisionLine->field_8_type)
+        switch (BaseAliveGameObjectCollisionLine->field_8_type)
         {
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eBackgroundWallLeft_5:
@@ -293,18 +293,18 @@ s16 Rock::OnCollision(BaseAliveGameObject* pObj)
 
 void Rock::VUpdate()
 {
-    auto pObj = sObjectIds.Find_Impl(field_110_id);
+    auto pObj = sObjectIds.Find_Impl(BaseAliveGameObjectId);
     if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_114_flags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
+    if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
-        if (field_104_collision_line_type == -1)
+        mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
+        if (BaseAliveGameObjectCollisionLineType == -1)
         {
-            field_100_pCollisionLine = nullptr;
+            BaseAliveGameObjectCollisionLine = nullptr;
         }
         else
         {
@@ -313,12 +313,12 @@ void Rock::VUpdate()
                 field_BC_ypos - FP_FromInteger(10),
                 field_B8_xpos,
                 field_BC_ypos + FP_FromInteger(10),
-                &field_100_pCollisionLine,
+                &BaseAliveGameObjectCollisionLine,
                 &field_B8_xpos,
                 &field_BC_ypos,
-                1 << field_104_collision_line_type);
+                1 << BaseAliveGameObjectCollisionLineType);
         }
-        field_104_collision_line_type = 0;
+        BaseAliveGameObjectCollisionLineType = 0;
     }
 
     switch (field_11C_state)
@@ -341,7 +341,7 @@ void Rock::VUpdate()
                 {
                     field_C4_velx -= FP_FromDouble(0.01);
                 }
-                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
             }
             else
             {
@@ -354,19 +354,19 @@ void Rock::VUpdate()
                     field_E4_collection_rect.h = field_BC_ypos;
                     field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize(field_CC_sprite_scale);
                     field_11C_state = RockStates::eOnGround_3;
-                    field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
+                    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
                     field_128_shimmer_timer = sGnFrame_5C1B84;
                     return;
                 }
-                field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
             }
 
-            if (field_100_pCollisionLine)
+            if (BaseAliveGameObjectCollisionLine)
             {
                 return;
             }
 
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+            field_20_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop);
             field_11C_state = RockStates::eBouncing_4;
             return;
 
@@ -433,21 +433,21 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
-    pState->field_20_flags.Set(RockSaveState::eBit1_bRender, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
+    pState->field_20_flags.Set(RockSaveState::eBit1_bRender, field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render));
     pState->field_20_flags.Set(RockSaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
 
-    pState->field_20_flags.Set(RockSaveState::eBit3_bLoop, field_20_animation.field_4_flags.Get(AnimFlags::eBit8_Loop));
+    pState->field_20_flags.Set(RockSaveState::eBit3_bLoop, field_20_animation.mAnimFlags.Get(AnimFlags::eBit8_Loop));
     pState->field_20_flags.Set(RockSaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
 
-    if (field_100_pCollisionLine)
+    if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_28_line_type = field_100_pCollisionLine->field_8_type;
+        pState->field_28_line_type = BaseAliveGameObjectCollisionLine->field_8_type;
     }
     else
     {
         pState->field_28_line_type = -1;
     }
-    pState->field_24_id = field_110_id;
+    pState->field_24_id = BaseAliveGameObjectId;
     pState->field_2A_count = field_118_count;
     pState->field_2C_state = field_11C_state;
     pState->field_2E_volume = field_11E_volume;
@@ -481,17 +481,17 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->field_CC_sprite_scale = pState->field_18_sprite_scale;
     pRock->field_D6_scale = pState->field_18_sprite_scale > FP_FromDouble(0.75);
 
-    pRock->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
-    pRock->field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));
+    pRock->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
+    pRock->field_20_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));
 
     pRock->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(RockSaveState::eBit2_bDrawable));
     pRock->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(RockSaveState::eBit4_bInteractive));
 
-    pRock->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+    pRock->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     pRock->field_128_shimmer_timer = sGnFrame_5C1B84;
 
-    pRock->field_104_collision_line_type = pState->field_28_line_type;
+    pRock->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
 
     pRock->field_118_count = pState->field_2A_count;
     pRock->field_11C_state = pState->field_2C_state;

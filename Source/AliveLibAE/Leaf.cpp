@@ -22,12 +22,12 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 
     if (scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_27;
+        field_20_animation.mRenderLayer = Layer::eLayer_27;
         field_D6_scale = 1;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_8;
+        field_20_animation.mRenderLayer = Layer::eLayer_8;
         field_D6_scale = 0;
     }
 

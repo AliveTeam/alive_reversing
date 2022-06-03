@@ -16,11 +16,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_8_r = 127;
-    field_20_animation.field_9_g = 127;
-    field_20_animation.field_A_b = 127;
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mRed = 127;
+    field_20_animation.mGreen = 127;
+    field_20_animation.mBlue = 127;
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
@@ -46,11 +46,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         field_11E_xpos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
         field_120_ypos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
 
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
+        if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
         {
             field_11C_texture_mode = TPageMode::e8Bit_1;
         }
-        else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+        else if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
         {
             field_11C_texture_mode = TPageMode::e16Bit_2;
         }
@@ -77,7 +77,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         const s16 frameW = pFrameHeader->field_4_width;
         const s16 frameH = pFrameHeader->field_5_height;
 
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+        field_20_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
         for (s32 i = 0; i < field_126_total_count; i++)
         {
@@ -88,14 +88,14 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                 Sprt_Init_4F8910(pSprt);
                 Poly_Set_SemiTrans_4F8A60(&pSprt->mBase.header, 1);
 
-                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit16_bBlending))
+                if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit16_bBlending))
                 {
                     Poly_Set_Blending_4F8A20(&pSprt->mBase.header, 1);
                 }
                 else
                 {
                     Poly_Set_Blending_4F8A20(&pSprt->mBase.header, 0);
-                    SetRGB0(pSprt, field_20_animation.field_8_r, field_20_animation.field_9_g, field_20_animation.field_A_b);
+                    SetRGB0(pSprt, field_20_animation.mRed, field_20_animation.mGreen, field_20_animation.mBlue);
                 }
 
                 SetClut(pSprt,
@@ -211,9 +211,9 @@ void Blood::VRender(PrimHeader** ppOt)
 
             SetXY0(pSprt, x0, y0);
 
-            if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit16_bBlending))
+            if (!field_20_animation.mAnimFlags.Get(AnimFlags::eBit16_bBlending))
             {
-                SetRGB0(pSprt, field_20_animation.field_8_r, field_20_animation.field_9_g, field_20_animation.field_A_b);
+                SetRGB0(pSprt, field_20_animation.mRed, field_20_animation.mGreen, field_20_animation.mBlue);
             }
 
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_12C_render_layer), &pSprt->mBase.header);

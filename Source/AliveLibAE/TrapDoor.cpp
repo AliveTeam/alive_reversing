@@ -107,11 +107,11 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_26;
+        field_20_animation.mRenderLayer = Layer::eLayer_Shadow_26;
     }
     else
     {
-        field_20_animation.field_C_render_layer = Layer::eLayer_Shadow_Half_7;
+        field_20_animation.mRenderLayer = Layer::eLayer_Shadow_Half_7;
         field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
@@ -124,7 +124,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 
     if (pTlv->field_1A_direction == XDirection_short::eRight_1) // TODO: check if this is the correct direction
     {
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - field_B8_xpos);
@@ -214,7 +214,7 @@ void TrapDoor::VUpdate()
             break;
 
         case TrapDoorState::eOpening_1:
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 SFX_Play_Camera(SoundEffect::TrapdoorOpen_43, 70, direction);
                 field_136_state = TrapDoorState::eOpen_2;
@@ -241,7 +241,7 @@ void TrapDoor::VUpdate()
             break;
 
         case TrapDoorState::eClosing_3:
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 SFX_Play_Camera(SoundEffect::TrapdoorClose_42, 70, direction);
                 Add_To_Collisions_Array();
@@ -333,14 +333,14 @@ void TrapDoor::Open()
         {
             // That are on this trap door.
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if (sObjectIds.Find_Impl(pAliveObj->field_110_id) == this)
+            if (sObjectIds.Find_Impl(pAliveObj->BaseAliveGameObjectId) == this)
             {
                 pAliveObj->VOnTrapDoorOpen();
 
                 // Clear their collision line if they are on this trap door that has opened.
-                if (field_124_pCollisionLine == pAliveObj->field_100_pCollisionLine)
+                if (field_124_pCollisionLine == pAliveObj->BaseAliveGameObjectCollisionLine)
                 {
-                    pAliveObj->field_100_pCollisionLine = nullptr;
+                    pAliveObj->BaseAliveGameObjectCollisionLine = nullptr;
                 }
             }
         }

@@ -56,7 +56,7 @@ void SlogSpawner::VUpdate()
                     field_24_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));;
             if (pSlog)
             {
-                pSlog->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_2A_start_direction == StartDirection::eLeft_1);
+                pSlog->field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, field_2A_start_direction == StartDirection::eLeft_1);
             }
 
             field_14_spawned_count++;

@@ -22,27 +22,27 @@ ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObject
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     : BaseAnimatedWithPhysicsGameObject(resourceArraySize)
 {
-    field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
-    field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
-    field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
-    field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
-    field_114_flags.Clear(Flags_114::e114_Bit5_ZappedByShrykull);
-    field_114_flags.Clear(Flags_114::e114_Bit6_SetOffExplosives);
-    field_114_flags.Clear(Flags_114::e114_Bit7_Electrocuted);
-    field_114_flags.Clear(Flags_114::e114_Bit8_bInvisible);
-    field_114_flags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
-    field_114_flags.Clear(Flags_114::e114_Bit10_Teleporting);
-    field_114_flags.Clear(Flags_114::e114_Bit11_Electrocuting);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit1_bShot);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_MotionChanged_Bit2);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit5_ZappedByShrykull);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit6_SetOffExplosives);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit7_Electrocuted);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit8_bInvisible);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit10_Teleporting);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit11_Electrocuting);
 
-    field_FC_pPathTLV = nullptr;
-    field_100_pCollisionLine = nullptr;
-    field_10C_health = FP_FromDouble(1.0);
-    field_110_id = -1;
-    field_106_current_motion = 0;
-    field_108_next_motion = 0;
-    field_F4_previous_motion = 0;
-    field_F6_anim_frame = 0;
-    field_F8_LastLineYPos = FP_FromInteger(0);
+    BaseAliveGameObjectPathTLV = nullptr;
+    BaseAliveGameObjectCollisionLine = nullptr;
+    mHealth = FP_FromDouble(1.0);
+    BaseAliveGameObjectId = -1;
+    mCurrentMotion = 0;
+    mNextMotion = 0;
+    mPreviousMotion = 0;
+    mBaseAliveGameObjectLastAnimFrame = 0;
+    BaseAliveGameObjectLastLineYPos = FP_FromInteger(0);
     field_10A_unused = 0;
 
     gBaseAliveGameObjects_5C1B7C->Push_Back(this);
@@ -52,13 +52,13 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
 
 BaseAliveGameObject::~BaseAliveGameObject()
 {
-    BaseAliveGameObject* pField_110 = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_110_id));
+    BaseAliveGameObject* pField_110 = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
     gBaseAliveGameObjects_5C1B7C->Remove_Item(this);
 
     if (pField_110)
     {
         pField_110->VOnTrapDoorOpen();
-        field_110_id = -1;
+        BaseAliveGameObjectId = -1;
     }
 
     if (field_10A_unused)
@@ -132,8 +132,8 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
 
 void BaseAliveGameObject::VSetMotion(s16 state)
 {
-    field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
-    field_106_current_motion = state;
+    mBaseAliveGameObjectFlags.Set(Flags_114::e114_MotionChanged_Bit2);
+    mCurrentMotion = state;
 }
 
 s32 MaxGridBlocks_449880(FP scale)
@@ -160,7 +160,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
     {
         case CameraPos::eCamTop_1:
             field_B8_xpos = FP_FromInteger(cameraWorldXPos + FP_GetExponent(field_B8_xpos) % 375);
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit22_DeadMode))
+            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit22_DeadMode))
             {
                 ALIVE_FATAL("Impossible case BaseAliveGameObject::vOnPathTransition_408320 AnimFlags::eBit22_DeadMode");
             }
@@ -193,10 +193,10 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
 
     field_B8_xpos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 
-    if (sActiveHero_5C1B68 == this && gMap.mCurrentLevel == LevelIds::eNecrum_2 && gMap.mCurrentPath == 2 && (field_106_current_motion == eAbeMotions::Motion_23_RollLoop_453A90 || field_106_current_motion == eAbeMotions::Motion_17_CrouchIdle_456BC0))
+    if (sActiveHero_5C1B68 == this && gMap.mCurrentLevel == LevelIds::eNecrum_2 && gMap.mCurrentPath == 2 && (mCurrentMotion == eAbeMotions::Motion_23_RollLoop_453A90 || mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0))
     {
         // Yummy OWI hack - hard code Abe's location when path change to Necrum's first path after the Mines :)
-        field_100_pCollisionLine = nullptr;
+        BaseAliveGameObjectCollisionLine = nullptr;
         field_C8_vely = FP_FromInteger(0);
         field_C4_velx = FP_FromInteger(0);
         field_B8_xpos = FP_FromInteger(1011);
@@ -207,7 +207,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        if (field_100_pCollisionLine)
+        if (BaseAliveGameObjectCollisionLine)
         {
             if (sCollisions_DArray_5C1128->Raycast(
                     field_B8_xpos, field_BC_ypos - FP_FromInteger(40),
@@ -215,22 +215,22 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
                     &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
             {
                 field_BC_ypos = hitY;
-                field_100_pCollisionLine = pLine;
+                BaseAliveGameObjectCollisionLine = pLine;
             }
             else
             {
-                field_100_pCollisionLine = nullptr;
+                BaseAliveGameObjectCollisionLine = nullptr;
             }
         }
         else
         {
-            field_F8_LastLineYPos = field_BC_ypos - oldY + field_F8_LastLineYPos;
+            BaseAliveGameObjectLastLineYPos = field_BC_ypos - oldY + BaseAliveGameObjectLastLineYPos;
             if (sCollisions_DArray_5C1128->Raycast(
-                    field_B8_xpos, field_F8_LastLineYPos - FP_FromInteger(40),
-                    field_B8_xpos, field_F8_LastLineYPos + FP_FromInteger(40),
+                    field_B8_xpos, BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
+                    field_B8_xpos, BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
                     &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
             {
-                field_BC_ypos = hitY - field_F8_LastLineYPos + field_BC_ypos;
+                field_BC_ypos = hitY - BaseAliveGameObjectLastLineYPos + field_BC_ypos;
             }
             else
             {
@@ -265,15 +265,15 @@ void BaseAliveGameObject::VOn_TLV_Collision(Path_TLV* /*pTlv*/)
 
 void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
 {
-    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(field_110_id));
-    if (!field_100_pCollisionLine)
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    if (!BaseAliveGameObjectCollisionLine)
     {
         return;
     }
 
     if (pPlatform)
     {
-        field_110_id = -1;
+        BaseAliveGameObjectId = -1;
         pPlatform->VRemove(this);
     }
 
@@ -294,7 +294,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
             &hitY,
             field_D6_scale == 1 ? 0x0F : 0xF0))
     {
-        field_100_pCollisionLine = pLine;
+        BaseAliveGameObjectCollisionLine = pLine;
         field_BC_ypos = hitY;
 
         if (pLine->field_8_type == eLineTypes::eUnknown_32 ||
@@ -313,7 +313,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
     }
     else
     {
-        field_100_pCollisionLine = nullptr;
+        BaseAliveGameObjectCollisionLine = nullptr;
     }
 }
 
@@ -334,11 +334,11 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
             {
                 if (pBirdPortal->field_26_side == PortalSide::eLeft_1)
                 {
-                    if (pBirdPortal->field_2C_xpos - field_B8_xpos <= (ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks)) && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
+                    if (pBirdPortal->field_2C_xpos - field_B8_xpos <= (ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks)) && !(field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
-                            field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
+                            field_20_animation.mRenderLayer = field_CC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
                             return pBirdPortal;
                         }
                     }
@@ -348,11 +348,11 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
             {
                 if (field_B8_xpos - pBirdPortal->field_2C_xpos <= ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks))
                 {
-                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
                         if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
-                            field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
+                            field_20_animation.mRenderLayer = field_CC_sprite_scale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
                             return pBirdPortal;
                         }
                     }
@@ -511,7 +511,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     gMap.GetCurrentCamCoords(&currentCamXY);
 
     // Gone off the left edge of the current screen
-    if (xposSnapped < currentCamXY.field_0_x && (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) || field_C4_velx < FP_FromInteger(0)))
+    if (xposSnapped < currentCamXY.field_0_x && (field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX) || field_C4_velx < FP_FromInteger(0)))
     {
         if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
         {
@@ -521,7 +521,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
         }
     }
     // Gone off the right edge of the current screen
-    else if (xposSnapped > currentCamXY.field_0_x + 368 && (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) || field_C4_velx > FP_FromInteger(0)))
+    else if (xposSnapped > currentCamXY.field_0_x + 368 && (!(field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) || field_C4_velx > FP_FromInteger(0)))
     {
         if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
         {
@@ -665,6 +665,6 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection(PlatformBase* pPlatform)
 
     pPlatform->VAdd(this);
 
-    field_110_id = pPlatform->field_8_object_id;
+    BaseAliveGameObjectId = pPlatform->field_8_object_id;
     return 1;
 }

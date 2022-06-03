@@ -29,7 +29,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     field_B8_xpos = xpos;
     field_BC_ypos = ypos;
@@ -42,7 +42,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_128_timer = 0;
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
     field_12C_deadtimer = sGnFrame_5C1B84 + 600;
     field_130_pLine = nullptr;
@@ -74,11 +74,11 @@ void Meat::AddToPlatform()
 
 void Meat::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(field_110_id));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        field_110_id = -1;
+        BaseAliveGameObjectId = -1;
         if (field_11C_state == MeatStates::eBecomeAPickUp_3 || field_11C_state == MeatStates::eWaitForPickUp_4)
         {
             field_11C_state = MeatStates::eIdle_1;
@@ -109,7 +109,7 @@ Meat::~Meat()
 
 void Meat::VThrow(FP velX, FP velY)
 {
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
     field_C4_velx = velX;
     field_C8_vely = velY;
@@ -260,7 +260,7 @@ s16 Meat::OnCollision(BaseGameObject* pHit)
 
 void Meat::VUpdate()
 {
-    auto v2 = sObjectIds.Find_Impl(field_110_id);
+    auto v2 = sObjectIds.Find_Impl(BaseAliveGameObjectId);
     if (sNum_CamSwappers_5C1B66 == 0)
     {
         if (Event_Get(kEventDeathReset))
@@ -299,7 +299,7 @@ void Meat::VUpdate()
             case MeatStates::eBecomeAPickUp_3:
                 if (FP_Abs(field_C4_velx) < FP_FromInteger(1))
                 {
-                    field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
+                    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
                 }
 
                 if (FP_Abs(field_C4_velx) >= FP_FromDouble(0.5))
@@ -316,7 +316,7 @@ void Meat::VUpdate()
                     field_130_pLine = field_130_pLine->MoveOnLine(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
                     if (!field_130_pLine)
                     {
-                        field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                        field_20_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop);
                         field_11C_state = MeatStates::eBeingThrown_2;
                     }
                 }
@@ -426,13 +426,13 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.field_C_render_layer = Layer::eLayer_8;
+        field_20_animation.mRenderLayer = Layer::eLayer_8;
         field_D6_scale = 0;
     }
     else if (pTlv->field_16_scale == Scale_short::eFull_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_27;
+        field_20_animation.mRenderLayer = Layer::eLayer_27;
         field_D6_scale = 1;
     }
 
@@ -465,16 +465,16 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
 
     pMeat->field_CC_sprite_scale = pState->field_18_sprite_scale;
 
-    pMeat->field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
-    pMeat->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
+    pMeat->field_20_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
+    pMeat->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
 
     pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Meat_SaveState::eBit2_bDrawable));
     pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Meat_SaveState::eBit4_bInteractive));
 
-    pMeat->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+    pMeat->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
     pMeat->field_128_timer = sGnFrame_5C1B84;
-    pMeat->field_104_collision_line_type = pState->field_28_line_type;
+    pMeat->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
 
     pMeat->field_118_count = pState->field_2A_count;
     pMeat->field_11C_state = pState->field_2C_state;
@@ -522,7 +522,7 @@ void MeatSack::VUpdate()
 
     if (field_11C_bDoMeatSackIdleAnim)
     {
-        if (field_11C_bDoMeatSackIdleAnim == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_11C_bDoMeatSackIdleAnim == 1 && field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
             field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
@@ -587,8 +587,8 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
-    pState->field_20_flags.Set(Meat_SaveState::eBit3_bLoop, field_20_animation.field_4_flags.Get(AnimFlags::eBit8_Loop));
-    pState->field_20_flags.Set(Meat_SaveState::eBit1_bRender, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
+    pState->field_20_flags.Set(Meat_SaveState::eBit3_bLoop, field_20_animation.mAnimFlags.Get(AnimFlags::eBit8_Loop));
+    pState->field_20_flags.Set(Meat_SaveState::eBit1_bRender, field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render));
 
     pState->field_20_flags.Set(Meat_SaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
     pState->field_20_flags.Set(Meat_SaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
@@ -602,7 +602,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
         pState->field_28_line_type = -1;
     }
 
-    pState->field_24_base_id = field_110_id;
+    pState->field_24_base_id = BaseAliveGameObjectId;
     pState->field_2A_count = field_118_count;
     pState->field_2C_state = field_11C_state;
 

@@ -37,14 +37,14 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
         if (pPath->field_14_scale == Scale_short::eHalf_1)
         {
             field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_Half_16;
+            field_20_animation.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
             field_D6_scale = 0;
         }
     }
     else
     {
         field_CC_sprite_scale = FP_FromDouble(1);
-        field_20_animation.field_C_render_layer = Layer::eLayer_BombMineCar_35;
+        field_20_animation.mRenderLayer = Layer::eLayer_BombMineCar_35;
         field_D6_scale = 1;
     }
 
@@ -61,7 +61,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
             v8,
             FP_FromInteger(v7 / 2),
             v8 + FP_FromInteger(24),
-            &field_100_pCollisionLine,
+            &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_D6_scale != 0 ? 1 : 16)
@@ -74,14 +74,14 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     const AnimRecord& mineFlashrec = AnimRec(AnimId::Mine_Flash);
     field_124_animation.Init(mineFlashrec.mFrameTableOffset, gObjList_animations_5C1A24, this, mineFlashrec.mMaxW, mineFlashrec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, mineFlashrec.mResourceId), 1u, 0, 0);
 
-    field_124_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_124_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+    field_124_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_124_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-    field_124_animation.field_C_render_layer = field_20_animation.field_C_render_layer;
+    field_124_animation.mRenderLayer = field_20_animation.mRenderLayer;
     field_124_animation.field_14_scale = field_CC_sprite_scale;
-    field_124_animation.field_8_r = 128;
-    field_124_animation.field_9_g = 128;
-    field_124_animation.field_A_b = 128;
+    field_124_animation.mRed = 128;
+    field_124_animation.mGreen = 128;
+    field_124_animation.mBlue = 128;
 
     field_11A_disabled_resources = pPath->field_16_disabled_resources;
 
@@ -185,7 +185,7 @@ void Mine::VUpdate()
 
 void Mine::VRender(PrimHeader** ppOt)
 {
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         if (gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
@@ -273,7 +273,7 @@ bool Mine::IsColliding()
         }
 
         // e114_Bit6 May be "can set off explosives?"
-        if (pObj->field_114_flags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+        if (pObj->mBaseAliveGameObjectFlags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
         {
             PSX_RECT objBound;
             pObj->VGetBoundingRect(&objBound, 1);

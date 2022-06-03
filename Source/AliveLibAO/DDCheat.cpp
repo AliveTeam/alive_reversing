@@ -205,7 +205,7 @@ void DDCheat::VUpdate()
                 cheat_enabled = 1;
                 pAbe->field_A8_xpos = FP_FromInteger(point.field_0_x + 448);
                 pAbe->field_AC_ypos = FP_FromInteger(point.field_2_y + 180);
-                pAbe->field_FC_current_motion = eAbeMotions::Motion_3_Fall_42E7F0;
+                pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
                 pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 pAbe->field_B2_lvl_number = static_cast<LevelIds>(level_4C315C);
                 pAbe->field_B0_path_number = static_cast<s16>(path_4C3160);
@@ -225,23 +225,23 @@ void DDCheat::VUpdate()
                     {
                         pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                         showDebugCreatureInfo_5076E0 = 0;
-                        sControlledCharacter_50767C->field_F4_pLine = nullptr;
-                        sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
+                        sControlledCharacter_50767C->BaseAliveGameObjectCollisionLine = nullptr;
+                        sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
                         switch (sControlledCharacter_50767C->mBaseGameObjectTypeId)
                         {
                             case Types::eElum_26:
                             {
-                                sControlledCharacter_50767C->field_FC_current_motion = eElumMotions::Motion_21_Land_414A20;
+                                sControlledCharacter_50767C->mCurrentMotion = eElumMotions::Motion_21_Land_414A20;
                                 break;
                             }
                             case Types::eAbe_43:
                             {
-                                sControlledCharacter_50767C->field_FC_current_motion = eAbeMotions::Motion_3_Fall_42E7F0;
+                                sControlledCharacter_50767C->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
                                 break;
                             }
                             case Types::eSlig_88:
                             {
-                                sControlledCharacter_50767C->field_FC_current_motion = eSligMotions::Motion_7_Falling_46A1A0;
+                                sControlledCharacter_50767C->mCurrentMotion = eSligMotions::Motion_7_Falling_46A1A0;
                                 break;
                             }
                             default:
@@ -270,8 +270,8 @@ void DDCheat::VUpdate()
 
                 if (sControlledCharacter_50767C)
                 {
-                    sControlledCharacter_50767C->field_F4_pLine = nullptr;
-                    sControlledCharacter_50767C->field_E8_LastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
+                    sControlledCharacter_50767C->BaseAliveGameObjectCollisionLine = nullptr;
+                    sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
                 }
             }
 
@@ -484,7 +484,7 @@ void DDCheat::Misc()
         gScale_4C3158 = 100;
         sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromInteger(1);
         sControlledCharacter_50767C->field_C6_scale = 1;
-        sControlledCharacter_50767C->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_32;
+        sControlledCharacter_50767C->field_10_anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     }
     else if (field_24_input & InputCommands::eRight)
     {
@@ -492,7 +492,7 @@ void DDCheat::Misc()
         gScale_4C3158 = 50;
         sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromDouble(0.5);
         sControlledCharacter_50767C->field_C6_scale = 0;
-        sControlledCharacter_50767C->field_10_anim.field_C_layer = Layer::eLayer_AbeMenu_Half_13;
+        sControlledCharacter_50767C->field_10_anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
     }
     else if (field_24_input & InputCommands::eDown)
     {

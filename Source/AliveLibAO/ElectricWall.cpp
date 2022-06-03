@@ -21,9 +21,9 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     const AnimRecord& rec = AO::AnimRec(AnimId::Electric_Wall);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
-    field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mRenderMode = TPageAbr::eBlend_1;
+    field_10_anim.mRenderLayer = Layer::eLayer_Foreground_36;
 
     if (field_10_anim.Get_Frame_Count() > 0)
     {
@@ -53,7 +53,7 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
 
     if (SwitchStates_Get(pTlv->field_1A_switch_id) == field_EA_start_state)
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
 
     field_EC_sound_timer = 0;
@@ -87,16 +87,16 @@ void ElectricWall::VUpdate()
 
     if (SwitchStates_Get(field_E8_switch_id) == field_EA_start_state)
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
     else
     {
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
         // Keep flipping direction
         if (!(gnFrameCount_507670 % 8))
         {
-            field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+            field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
         }
 
         // Play sound every so often
@@ -140,7 +140,7 @@ void ElectricWall::VUpdate()
                         objRect.x -= 50;
                         objRect.w += 50;
 
-                        if (RectsOverlap(bRectBigger, objRect) && pObjIter->field_100_health > FP_FromInteger(0))
+                        if (RectsOverlap(bRectBigger, objRect) && pObjIter->mHealth > FP_FromInteger(0))
                         {
                             SFX_Play_Camera(SoundEffect::ElectricGateLoud_47, 45, soundDirection);
                         }
@@ -149,9 +149,9 @@ void ElectricWall::VUpdate()
                 else
                 {
                     // Touching the wall, rip
-                    if (!pObjIter->field_10A_flags.Get(Flags_10A::e10A_Bit5_Electrocuted))
+                    if (!pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit5_Electrocuted))
                     {
-                        pObjIter->field_10A_flags.Set(Flags_10A::e10A_Bit5_Electrocuted);
+                        pObjIter->mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit5_Electrocuted);
                         ao_new<Electrocute>(pObjIter, 1);
 
                         pObjIter->VTakeDamage(this);

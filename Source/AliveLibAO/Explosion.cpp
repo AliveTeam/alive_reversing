@@ -25,8 +25,8 @@ Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+    field_10_anim.mRenderMode = TPageAbr::eBlend_1;
     field_E4_explosion_size = exposion_size;
 
     field_BC_sprite_scale = exposion_size * FP_FromInteger(2);
@@ -125,8 +125,8 @@ void Explosion::VUpdate()
                 }
 
                 pParticle->field_CC_bApplyShadows &= ~1u;
-                pParticle->field_10_anim.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-                pParticle->field_10_anim.field_B_render_mode = TPageAbr::eBlend_1;
+                pParticle->field_10_anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+                pParticle->field_10_anim.mRenderMode = TPageAbr::eBlend_1;
                 pParticle->field_BC_sprite_scale = field_BC_sprite_scale * FP_FromDouble(0.25);
             }
             else
@@ -136,7 +136,7 @@ void Explosion::VUpdate()
         }
     }
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

@@ -14,7 +14,7 @@ namespace AO {
 
 BackgroundGlukkon::~BackgroundGlukkon()
 {
-    if (field_100_health <= FP_FromInteger(0))
+    if (mHealth <= FP_FromInteger(0))
     {
         gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 1);
     }
@@ -81,9 +81,9 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
         field_10_anim.Set_Animation_Data(46232, 0);
         field_110_state = BackgroundGlukkon::State::eKilledByShrykull_7;
     }
-    else if (pFrom->mBaseGameObjectTypeId == Types::eElectrocute_103 && field_100_health > FP_FromInteger(0))
+    else if (pFrom->mBaseGameObjectTypeId == Types::eElectrocute_103 && mHealth > FP_FromInteger(0))
     {
-        field_100_health = FP_FromInteger(0);
+        mHealth = FP_FromInteger(0);
 
         ao_new<Explosion>(
             field_A8_xpos,
@@ -123,7 +123,7 @@ void BackgroundGlukkon::VUpdate()
                 switch (Math_NextRandom() % 5)
                 {
                     case 0:
-                        if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+                        if (sActiveHero_507678->mHealth <= FP_FromInteger(0))
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
                             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
@@ -139,7 +139,7 @@ void BackgroundGlukkon::VUpdate()
                         break;
 
                     case 1:
-                        if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+                        if (sActiveHero_507678->mHealth <= FP_FromInteger(0))
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
                             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
@@ -155,7 +155,7 @@ void BackgroundGlukkon::VUpdate()
                         break;
 
                     case 2:
-                        if (sActiveHero_507678->field_100_health <= FP_FromInteger(0))
+                        if (sActiveHero_507678->mHealth <= FP_FromInteger(0))
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
                             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
@@ -171,7 +171,7 @@ void BackgroundGlukkon::VUpdate()
                         break;
 
                     case 3:
-                        if (sActiveHero_507678->field_100_health > FP_FromInteger(0))
+                        if (sActiveHero_507678->mHealth > FP_FromInteger(0))
                         {
                             const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim2);
                             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
@@ -191,7 +191,7 @@ void BackgroundGlukkon::VUpdate()
             break;
 
         case BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3:
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_10_anim.Set_Animation_Data(46096, 0);
                 field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;

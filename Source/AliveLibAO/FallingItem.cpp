@@ -55,7 +55,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         ppRes,
         1);
 
-    field_10_anim.field_C_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
+    field_10_anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
     if (gMap.mCurrentLevel == LevelIds::eLines_2)
     {
         field_C0_r = 77;

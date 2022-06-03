@@ -53,7 +53,7 @@ void Lever::VUpdate()
             SFX_Play_Mono(SoundEffect::LeverPull_75, 0, 0);
         }
 
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             Event_Broadcast(kEventNoise_0, this);
             Event_Broadcast(kEventSuspiciousNoise_10, this);
@@ -155,7 +155,7 @@ void Lever::VUpdate()
     }
     else if (field_E8_state == LeverState::eFinished_2)
     {
-        if (field_10_anim.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_E8_state = LeverState::eWaiting_0;
             const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[static_cast<s32>(gMap.mCurrentLevel)].field_0_idle_animId);
@@ -189,7 +189,7 @@ Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
         ppRes,
         1);
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_A8_xpos = FP_FromInteger((pTlv->field_14_bottom_right.field_0_x
                                     + pTlv->field_10_top_left.field_0_x)
@@ -202,13 +202,13 @@ Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         field_C6_scale = 0;
     }
     else
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
         field_C6_scale = 1;
     }
 

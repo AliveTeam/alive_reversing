@@ -20,8 +20,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
     if (ppRes)
     {
         Animation_Init(waterDropRec.mFrameTableOffset, waterDropRec.mMaxW, waterDropRec.mMaxH, ppRes, 1, 1);
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_20_animation.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone);
+        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSplashResID);
 
@@ -68,11 +68,11 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
             field_10C_particle_count = 0;
             field_10E_current_particle_idx = 0;
 
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
+            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
             {
                 field_FE_texture_mode = TPageMode::e8Bit_1;
             }
-            else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+            else if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
             {
                 field_FE_texture_mode = TPageMode::e16Bit_2;
             }

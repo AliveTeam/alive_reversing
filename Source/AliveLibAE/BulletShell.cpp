@@ -28,15 +28,15 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
 
         if (scale == FP_FromInteger(1))
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_36;
+            field_20_animation.mRenderLayer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
+            field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
 
         field_DC_bApplyShadows &= ~1u;
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, direction & 1);
+        field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
 
         field_FC_hitCount = 0;
 
@@ -80,14 +80,14 @@ void BulletShell::VUpdate()
             field_BC_ypos - field_C8_vely,
             field_B8_xpos,
             field_BC_ypos,
-            &field_F4_pLine,
+            &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_D6_scale != 0 ? 0x0F : 0xF0)
         == 1)
     {
-        if (field_F4_pLine->field_8_type == eLineTypes::eFloor_0 ||
-            field_F4_pLine->field_8_type == eLineTypes::eBackgroundFloor_4)
+        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eFloor_0 ||
+            BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundFloor_4)
         {
             field_BC_ypos = hitY - FP_FromInteger(1);
             field_C8_vely = -(field_C8_vely * FP_FromDouble(0.3));

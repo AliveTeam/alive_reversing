@@ -22,17 +22,17 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySoun
     else
     {
         field_DC_bApplyShadows &= ~1u;
-        field_20_animation.field_B_render_mode = TPageAbr::eBlend_1;
+        field_20_animation.mRenderMode = TPageAbr::eBlend_1;
         field_CC_sprite_scale = scale;
         field_20_animation.field_14_scale = scale;
 
         if (scale <= FP_FromDouble(0.5))
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
+            field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
         else
         {
-            field_20_animation.field_C_render_layer = Layer::eLayer_Above_FG1_39;
+            field_20_animation.mRenderLayer = Layer::eLayer_Above_FG1_39;
         }
 
         field_B8_xpos = xpos;
@@ -59,7 +59,7 @@ void DeathBirdParticle::VUpdate()
 
         case States::eTransformStarsToDoves_1:
             // Has the Death "star" finished animating?
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 // Yes so magic it into a dove
                 auto pDove = ae_new<Dove>(
@@ -71,7 +71,7 @@ void DeathBirdParticle::VUpdate()
                     field_BC_ypos - FP_FromInteger(15),
                     field_CC_sprite_scale);
 
-                if (pDove->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                if (pDove->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                 {
                     pDove->field_B8_xpos += FP_FromInteger(8);
                 }

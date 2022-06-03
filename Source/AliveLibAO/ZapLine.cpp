@@ -47,8 +47,8 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.field_C_layer = layer;
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mRenderLayer = layer;
     field_122_number_of_sprites = field_11E_number_of_segments * field_120_number_of_pieces_per_segment;
 
     field_E8_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Spline, 0, sizeof(ZapLineSprites) * field_122_number_of_sprites);
@@ -66,11 +66,11 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
     field_E4_state = ZapLineState::eInit_0;
     field_116_alive_timer = 0;
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
     {
         field_114_tPageMode = TPageMode::e8Bit_1;
     }
-    else if (field_10_anim.field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+    else if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
     {
         field_114_tPageMode = TPageMode::e16Bit_2;
     }
@@ -164,7 +164,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
             for (s32 j = 0; j < field_120_number_of_pieces_per_segment; j++)
             {
                 Prim_Sprt* pSprt = &field_124_pSprts->field_0_sprts[j + (i * field_120_number_of_pieces_per_segment)];
-                OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pSprt[bufferIdx].mBase.header);
+                OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.mRenderLayer), &pSprt[bufferIdx].mBase.header);
             }
         }
 
@@ -176,7 +176,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
 
         Prim_SetTPage* pTPage = &field_EC_tPage_p8[bufferIdx];
         Init_SetTPage_495FB0(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.field_C_layer), &pTPage->mBase);
+        OrderingTable_Add_498A80(OtLayer(ppOt, field_10_anim.mRenderLayer), &pTPage->mBase);
 
         PSX_RECT* pRect = &field_134_rects[bufferIdx];
         pRect->x = 32767;

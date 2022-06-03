@@ -26,12 +26,12 @@ LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
 
     field_CC_bApplyShadows &= ~1u;
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-    field_10_anim.field_C_layer = Layer::eLayer_Foreground_Half_17;
-    field_10_anim.field_B_render_mode = TPageAbr::eBlend_0;
+    field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+    field_10_anim.mRenderMode = TPageAbr::eBlend_0;
     field_10_anim.SetFrame(1);
 
     // maybe width height like in door effect
@@ -58,9 +58,9 @@ void LightEffect::VRender(PrimHeader** /*ppOt*/)
         const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
         const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
-        field_10_anim.field_8_r = static_cast<u8>(field_C0_r/4);
-        field_10_anim.field_9_g = static_cast<u8>(field_C2_g/4);
-        field_10_anim.field_A_b = static_cast<u8>(field_C4_b/4);
+        field_10_anim.mRed = static_cast<u8>(field_C0_r/4);
+        field_10_anim.mGreen = static_cast<u8>(field_C2_g/4);
+        field_10_anim.mBlue = static_cast<u8>(field_C4_b/4);
 
         field_10_anim.vRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos)))),

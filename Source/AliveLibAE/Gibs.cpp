@@ -141,13 +141,13 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     if (scale == FP_FromInteger(1))
     {
         field_F8_z = FP_FromInteger(0);
-        field_20_animation.field_C_render_layer = Layer::eLayer_FG1_37;
+        field_20_animation.mRenderLayer = Layer::eLayer_FG1_37;
         field_D6_scale = 1;
     }
     else if (scale == FP_FromDouble(0.5))
     {
         field_F8_z = FP_FromInteger(100);
-        field_20_animation.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
+        field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         field_D6_scale = 0;
     }
     else
@@ -231,13 +231,13 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
             }
         }
 
-        pPart->field_18_anim.field_C_render_layer = field_20_animation.field_C_render_layer;
+        pPart->field_18_anim.mRenderLayer = field_20_animation.mRenderLayer;
         pPart->field_18_anim.field_14_scale = scale;
-        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
 
-        pPart->field_18_anim.field_8_r = static_cast<u8>(field_D0_r);
-        pPart->field_18_anim.field_9_g = static_cast<u8>(field_D2_g);
-        pPart->field_18_anim.field_A_b = static_cast<u8>(field_D4_b);
+        pPart->field_18_anim.mRed = static_cast<u8>(field_D0_r);
+        pPart->field_18_anim.mGreen = static_cast<u8>(field_D2_g);
+        pPart->field_18_anim.mBlue = static_cast<u8>(field_D4_b);
 
         pPart->field_0_x = field_B8_xpos;
         pPart->field_4_y = field_BC_ypos;
@@ -256,7 +256,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
             pPart->field_14_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
         }
 
-        pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
         if (ppRes)
         {
@@ -350,11 +350,11 @@ void Gibs::VRender(PrimHeader** ppOt)
 
                 if (field_104_parts[i].field_18_anim.field_14_scale < FP_FromInteger(1))
                 {
-                    field_104_parts[i].field_18_anim.field_C_render_layer = Layer::eLayer_Foreground_Half_17;
+                    field_104_parts[i].field_18_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
                 }
                 else
                 {
-                    field_104_parts[i].field_18_anim.field_C_render_layer = Layer::eLayer_FG1_37;
+                    field_104_parts[i].field_18_anim.mRenderLayer = Layer::eLayer_FG1_37;
                 }
 
                 if (field_104_parts[i].field_18_anim.field_14_scale <= FP_FromInteger(1))

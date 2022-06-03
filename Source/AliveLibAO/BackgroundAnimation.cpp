@@ -78,12 +78,12 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
         field_E4_res,
         1);
 
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_1A_is_semi_trans == Choice_short::eYes_1);
-    field_10_anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_1A_is_semi_trans == Choice_short::eYes_1);
+    field_10_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-    field_10_anim.field_B_render_mode = pTlv->field_1C_semi_trans_mode;
+    field_10_anim.mRenderMode = pTlv->field_1C_semi_trans_mode;
 
-    field_10_anim.field_C_layer = Layer::eLayer_1;
+    field_10_anim.mRenderLayer = Layer::eLayer_1;
     field_C8_yOffset = 0;
 
     field_100_sound_effect = pTlv->field_1E_sound_effect;

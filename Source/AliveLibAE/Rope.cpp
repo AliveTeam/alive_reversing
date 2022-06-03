@@ -64,21 +64,21 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     if (scale == FP_FromInteger(1))
     {
         field_F6_rope_length = 15;
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_24;
+        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
         field_D6_scale = 1;
     }
     else
     {
         field_F6_rope_length = 7;
-        field_20_animation.field_C_render_layer = Layer::eLayer_RopeWebDrill_Half_5;
+        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
         field_20_animation.field_14_scale = FP_FromDouble(0.7);
         field_CC_sprite_scale = FP_FromDouble(0.7);
         field_D6_scale = 0;
     };
 
-    field_20_animation.field_8_r = static_cast<u8>(field_D0_r);
-    field_20_animation.field_9_g = static_cast<u8>(field_D2_g);
-    field_20_animation.field_A_b = static_cast<u8>(field_D4_b);
+    field_20_animation.mRed = static_cast<u8>(field_D0_r);
+    field_20_animation.mGreen = static_cast<u8>(field_D2_g);
+    field_20_animation.mBlue = static_cast<u8>(field_D4_b);
 
     field_102_top = static_cast<s16>(top);
     field_106_bottom = static_cast<s16>(bottom);
@@ -97,12 +97,12 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     {
         AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-        pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
+        pSegment->mAnimFlags.Set(AnimFlags::eBit3_Render);
         pSegment->field_68_anim_ptr = &field_20_animation;
-        pSegment->field_C_render_layer = field_20_animation.field_C_render_layer;
+        pSegment->mRenderLayer = field_20_animation.mRenderLayer;
         pSegment->field_6C_scale = scale;
-        pSegment->field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-        pSegment->field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        pSegment->mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pSegment->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
     }
 }
 
@@ -176,9 +176,9 @@ void Rope::VRender(PrimHeader** ppOt)
                         &g,
                         &b);
 
-                    field_FC_pRopeRes[idx].field_8_r = static_cast<u8>(r);
-                    field_FC_pRopeRes[idx].field_9_g = static_cast<u8>(g);
-                    field_FC_pRopeRes[idx].field_A_b = static_cast<u8>(b);
+                    field_FC_pRopeRes[idx].mRed = static_cast<u8>(r);
+                    field_FC_pRopeRes[idx].mGreen = static_cast<u8>(g);
+                    field_FC_pRopeRes[idx].mBlue = static_cast<u8>(b);
 
                     // Render the segment
                     field_FC_pRopeRes[idx].VRender(

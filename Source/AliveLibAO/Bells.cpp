@@ -45,7 +45,7 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
     field_A8_xpos = xpos;
     field_AC_ypos = ypos;
 
-    field_10_anim.field_C_layer = Layer::eLayer_Foreground_36;
+    field_10_anim.mRenderLayer = Layer::eLayer_Foreground_36;
 
     field_E8_bSmashing = 0;
 
@@ -122,7 +122,7 @@ void Bells::VUpdate()
 
 void Bells::PlaySounds()
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (field_EA_sound == Sounds::eLowPitch_0)
         {

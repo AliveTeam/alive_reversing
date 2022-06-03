@@ -98,14 +98,14 @@ void TrapDoor::Open()
         {
             // That are on this trap door
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if (pAliveObj->field_F8_pLiftPoint == this)
+            if (pAliveObj->mLiftPoint == this)
             {
                 pAliveObj->VOnTrapDoorOpen();
 
                 // Clear their collision line if they are on this trap door that has opened
-                if (mPlatformBaseCollisionLine == pAliveObj->field_F4_pLine)
+                if (mPlatformBaseCollisionLine == pAliveObj->BaseAliveGameObjectCollisionLine)
                 {
-                    pAliveObj->field_F4_pLine = nullptr;
+                    pAliveObj->BaseAliveGameObjectCollisionLine = nullptr;
                 }
             }
         }
@@ -169,7 +169,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_10_anim.Set_Animation_Data(frame_table_offset_1, 0);
     if (pTlv->field_22_direction == XDirection_short::eRight_1)
     {
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->field_10_top_left.field_0_x) - field_A8_xpos);
@@ -229,7 +229,7 @@ void TrapDoor::VUpdate()
             break;
 
         case TrapDoorState::eOpening_1:
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_136_state = TrapDoorState::eOpen_2;
                 field_130_stay_open_time = 20;
@@ -258,7 +258,7 @@ void TrapDoor::VUpdate()
             break;
 
         case TrapDoorState::eClosing_3:
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mPlatformBaseCollisionLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line(
                     field_148_bounding_rect.x,

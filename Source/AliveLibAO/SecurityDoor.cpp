@@ -36,12 +36,12 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
     field_E4_tlvInfo = tlvInfo;
 
     field_C8_yOffset = 0;
-    field_10_anim.field_C_layer = Layer::eLayer_BeforeWell_22;
+    field_10_anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
@@ -114,12 +114,12 @@ void SecurityDoor::VUpdate()
             {
                 if (IsPlayerNear())
                 {
-                    field_10_anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+                    field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                     field_E8_state = SecurityDoorStates::eSayingHi_2;
                 }
                 else
                 {
-                    field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                 }
             }
             break;
@@ -288,7 +288,7 @@ void SecurityDoor::VUpdate()
                 field_11A_unused = static_cast<s16>(MatchBuffer);
                 if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || sVoiceCheat_507708)
                 {
-                    field_10_anim.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                     SwitchStates_Set(field_EA_switch_id, 1);
                     SFX_Play_Pitch(SoundEffect::SligBleh_112, 127, -700, 0);
                     field_E8_state = SecurityDoorStates::eSuccessChime_1;

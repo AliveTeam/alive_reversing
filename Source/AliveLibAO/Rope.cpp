@@ -82,18 +82,18 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     field_BC_sprite_scale = scale;
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_RopeWebMeatSaw_24;
+        field_10_anim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_24;
         field_C6_scale = 1;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_RopeWebMeatSaw_Half_5;
+        field_10_anim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_Half_5;
         field_C6_scale = 0;
     }
 
-    field_10_anim.field_8_r = 128;
-    field_10_anim.field_9_g = 128;
-    field_10_anim.field_A_b = 128;
+    field_10_anim.mRed = 128;
+    field_10_anim.mGreen = 128;
+    field_10_anim.mBlue = 128;
 
     field_F2_bottom = static_cast<s16>(bottom);
     field_E4_rope_segment_count = 240 / field_E6_rope_length + 1;
@@ -113,12 +113,12 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
             AnimationUnknown* pSegment = &field_E8_pRopeRes[i];
             new (pSegment) AnimationUnknown();
 
-            pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
+            pSegment->mAnimFlags.Set(AnimFlags::eBit3_Render);
             pSegment->field_68_anim_ptr = &field_10_anim;
-            pSegment->field_C_layer = field_10_anim.field_C_layer;
+            pSegment->mRenderLayer = field_10_anim.mRenderLayer;
             pSegment->field_6C_scale = scale;
-            pSegment->field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-            pSegment->field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+            pSegment->mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+            pSegment->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
         }
     }
 }
@@ -189,9 +189,9 @@ void Rope::VRender(PrimHeader** ppOt)
                             &g,
                             &b);
 
-                        field_E8_pRopeRes[idx].field_8_r = static_cast<u8>(r);
-                        field_E8_pRopeRes[idx].field_9_g = static_cast<u8>(g);
-                        field_E8_pRopeRes[idx].field_A_b = static_cast<u8>(b);
+                        field_E8_pRopeRes[idx].mRed = static_cast<u8>(r);
+                        field_E8_pRopeRes[idx].mGreen = static_cast<u8>(g);
+                        field_E8_pRopeRes[idx].mBlue = static_cast<u8>(b);
 
                         field_E8_pRopeRes[idx].VRender2(
                             screenX,

@@ -55,24 +55,24 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_C_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
+    field_10_anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.field_C_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
+        field_10_anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
         field_C6_scale = 0;
     }
 
     if (pTlv->field_1A_roll_direction == XDirection_short::eLeft_0)
     {
-        field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_110_release_switch_id = pTlv->field_1C_release_switch_id;
     field_118_speed = FP_FromRaw(pTlv->field_1E_speed << 8);
 
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_118_speed = -FP_FromRaw(pTlv->field_1E_speed << 8);
     }
@@ -90,7 +90,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
             field_AC_ypos,
             field_A8_xpos,
             field_AC_ypos + FP_FromInteger(24),
-            &field_F4_pLine,
+            &BaseAliveGameObjectCollisionLine,
             &castX,
             &castY,
             // yeah this should be simplified, WTF!
@@ -118,10 +118,10 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
 
     if (gMap.mCurrentLevel == LevelIds::eForestTemple_4 && gMap.mCurrentPath == 2)
     {
-        field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
         field_A8_xpos = FP_FromInteger(2522);
         field_AC_ypos = FP_FromInteger(1300);
-        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
+        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
         field_112_state = States::eCrushedBees_4;
     }
 }
@@ -176,7 +176,7 @@ void RollingBall::VUpdate()
                 field_B8_vely = FP_FromInteger(0);
                 field_A8_xpos = hitX;
                 field_AC_ypos = hitY;
-                field_F4_pLine = pLine;
+                BaseAliveGameObjectCollisionLine = pLine;
                 field_112_state = States::eRolling_2;
             }
             return;
@@ -191,7 +191,7 @@ void RollingBall::VUpdate()
 
             Accelerate();
 
-            field_F4_pLine = field_F4_pLine->MoveOnLine(
+            BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(
                 &field_A8_xpos,
                 &field_AC_ypos,
                 field_B4_velx);
@@ -212,7 +212,7 @@ void RollingBall::VUpdate()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 field_114_pRollingBallShaker = nullptr;
             }
-            else if (!field_F4_pLine)
+            else if (!BaseAliveGameObjectCollisionLine)
             {
                 field_112_state = States::eFallingAndHittingWall_3;
 
@@ -221,7 +221,7 @@ void RollingBall::VUpdate()
                 field_114_pRollingBallShaker = nullptr;
 
                 field_A8_xpos += field_B4_velx;
-                field_E8_LastLineYPos = field_AC_ypos;
+                BaseAliveGameObjectLastLineYPos = field_AC_ypos;
             }
             return;
         }
@@ -283,16 +283,16 @@ void RollingBall::VUpdate()
             FP hitY = {};
             if (!InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
             {
-                if (field_AC_ypos - field_E8_LastLineYPos > FP_FromInteger(240))
+                if (field_AC_ypos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(240))
                 {
                     if (gMap.mCurrentLevel == LevelIds::eForestTemple_4
                         && gMap.mCurrentPath == 2
                         && !sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
-                        field_10_anim.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+                        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
                         field_A8_xpos = FP_FromInteger(2522);
                         field_AC_ypos = FP_FromInteger(1300);
-                        field_10_anim.field_C_layer = Layer::eLayer_BombRollingBall_35;
+                        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
                         field_112_state = States::eCrushedBees_4;
                         CrushThingsInTheWay();
                         return;
@@ -304,7 +304,7 @@ void RollingBall::VUpdate()
             }
 
             field_AC_ypos = hitY;
-            field_E8_LastLineYPos = field_AC_ypos;
+            BaseAliveGameObjectLastLineYPos = field_AC_ypos;
             field_B8_vely = (-field_B8_vely * FP_FromDouble(0.8));
 
             ao_new<ScreenShake>(0);
@@ -356,7 +356,7 @@ void RollingBall::VUpdate()
 
 void RollingBall::Accelerate()
 {
-    if (field_10_anim.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         if (field_B4_velx > field_118_speed)
         {

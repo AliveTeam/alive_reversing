@@ -41,12 +41,12 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, s32 maxH,
 
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_25;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
         field_C6_scale = 1;
     }
     else
     {
-        field_10_anim.field_C_layer = Layer::eLayer_BeforeShadow_Half_6;
+        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         field_C6_scale = 0;
     }
 
@@ -104,7 +104,7 @@ void PlatformBase::KeepThingsOnPlatform(FP xpos)
             break;
         }
 
-        if (pObjIter->field_F8_pLiftPoint == this)
+        if (pObjIter->mLiftPoint == this)
         {
             pObjIter->field_A8_xpos += xpos;
             pObjIter->field_AC_ypos = FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y);

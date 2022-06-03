@@ -43,7 +43,7 @@ void RockSack::VUpdate()
     {
         if (field_110_has_been_hit == 1)
         {
-            if (field_10_anim.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_10_anim.Set_Animation_Data(13756, 0);
                 field_110_has_been_hit = 0;
@@ -52,9 +52,9 @@ void RockSack::VUpdate()
     }
     else
     {
-        if (field_10_anim.field_E_frame_change_counter == 0)
+        if (field_10_anim.mFrameChangeCounter == 0)
         {
-            field_10_anim.field_E_frame_change_counter = Math_RandomRange_450F20(2, 10);
+            field_10_anim.mFrameChangeCounter = Math_RandomRange_450F20(2, 10);
         }
 
         PSX_RECT bPlayerRect = {};
@@ -91,7 +91,7 @@ void RockSack::VUpdate()
                 Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
             }
 
-            if (sActiveHero_507678->field_FC_current_motion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
+            if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
             {
                 const AnimRecord& hardHitRec = AO::AnimRec(AnimId::RockSack_HardHit);
                 field_10_anim.Set_Animation_Data(hardHitRec.mFrameTableOffset, 0);
@@ -126,7 +126,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     field_10C_tlvInfo = tlvInfo;
     field_110_has_been_hit = 0;
