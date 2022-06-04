@@ -68,7 +68,6 @@ s16 Shrykull::CanElectrocute(BaseGameObject* pObj)
     switch (pObj->Type())
     {
         case ReliveTypes::eCrawlingSlig:
-        //case AETypes::eNeverSet_40:
         case ReliveTypes::eFlyingSlig:
         case ReliveTypes::eGlukkon:
         case ReliveTypes::eCtorMudokon:

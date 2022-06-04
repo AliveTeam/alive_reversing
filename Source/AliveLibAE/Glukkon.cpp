@@ -3089,7 +3089,6 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
 
         case ReliveTypes::eRockSpawner:
         case ReliveTypes::eMineCar:
-        //case AETypes::eNeverSet_107:
             SetAnim(eGlukkonMotions::M_DeathFall_8_443760, TRUE);
             SetBrain(&Glukkon::Brain_4_Death_442010);
             field_210_brain_sub_state = 0;

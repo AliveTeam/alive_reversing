@@ -116,16 +116,6 @@ enum class AETypes : s16
     eWheel_148 = 148,
     eCameraSwapper_149 = 149,
     eElectrocute_150 = 150,
-
-    eDebugHelper_1001 = 1001, // NOTE: Not part of the original game - a debug helper only
-    eDebugConsole_1002 = 1002,
-    eDebugPathRenderer_1003 = 1003,
-
-    eNeverSet_107 = 107, // taking damage from something in AO? maybe bees, bats etc?
-    eNeverSet_8 = 8,
-    eNeverSet_40 = 40,
-    eNevetSet_127 = 127,
-
 };
 
 

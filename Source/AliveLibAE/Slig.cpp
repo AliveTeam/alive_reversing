@@ -7074,9 +7074,6 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             Event_Broadcast(kEventMudokonComfort, this);
             return 1;
 
-        //case AETypes::eNeverSet_8:
-            //break;
-
         default:
             if (mHealth <= FP_FromInteger(0))
             {

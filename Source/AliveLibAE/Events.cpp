@@ -14,7 +14,7 @@ ALIVE_ASSERT_SIZEOF(EventsArray, 0x58);
 
 struct Events final
 {
-    // 2 copies for f64 buffering
+    // 2 copies for double buffering
     EventsArray field_0_events[2];
 };
 ALIVE_ASSERT_SIZEOF(Events, 0xB0);

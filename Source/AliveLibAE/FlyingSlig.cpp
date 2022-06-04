@@ -993,7 +993,6 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAbe:
         case ReliveTypes::eMeatSaw:
         case ReliveTypes::eMineCar:
-        //case AETypes::eNeverSet_107:
         case ReliveTypes::eSlog:
         {
             if (BrainIs(&FlyingSlig::Brain_1_Death))
