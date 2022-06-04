@@ -214,7 +214,7 @@ s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGame
     return VOnSameYLevel_418450(pOther);
 }
 
-void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(Types typeToFind)
+void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(AOTypes typeToFind)
 {
     VStackOnObjectsOfType_418930(typeToFind);
 }
@@ -440,7 +440,7 @@ s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintE
     return 1;
 }
 
-void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(Types typeToFind)
+void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType_418930(AOTypes typeToFind)
 {
     const s16 offsets[6] = {
         0, 3, -3, 6, -6, 2};

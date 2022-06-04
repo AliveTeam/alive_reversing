@@ -134,7 +134,7 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(2)
 {
     field_1DC_unused = -1;
-    SetType(AETypes::eCrawlingSlig_26);
+    SetType(ReliveTypes::eCrawlingSlig);
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSlig_Idle);
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
@@ -574,7 +574,7 @@ Path_TLV* CrawlingSlig::FindPantsOrWings()
 
 BaseGameObject* CrawlingSlig::FindSligButton()
 {
-    return FindObjectOfType(AETypes::eSligButton_16, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * field_CC_sprite_scale));
+    return FindObjectOfType(ReliveTypes::eSligButton, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * field_CC_sprite_scale));
 }
 
 void CrawlingSlig::VOnTrapDoorOpen()
@@ -622,14 +622,14 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
     {
         switch (pFrom->Type())
         {
-            case AETypes::eBullet_15:
-            case AETypes::eDrill_30:
-            case AETypes::eBaseBomb_46:
-            case AETypes::eRockSpawner_48:
-            case AETypes::eMeatSaw_86:
-            case AETypes::eMineCar_89:
-            case AETypes::eNeverSet_107:
-            case AETypes::eExplosion_109:
+            case ReliveTypes::eBullet:
+            case ReliveTypes::eDrill:
+            case ReliveTypes::eBaseBomb:
+            case ReliveTypes::eRockSpawner:
+            case ReliveTypes::eMeatSaw:
+            case ReliveTypes::eMineCar:
+            //case ReliveTypes::eNeverSet:
+            case ReliveTypes::eExplosion:
                 if (!BrainIs(&CrawlingSlig::Brain_4_GetKilled_41A880))
                 {
                     SetBrain(&CrawlingSlig::Brain_4_GetKilled_41A880);
@@ -638,11 +638,11 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 }
                 return 1;
 
-            case AETypes::eElectricWall_39:
+            case ReliveTypes::eElectricWall:
                 Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, 0, this);
                 return 1;
 
-            case AETypes::eSlig_125:
+            case ReliveTypes::eSlig:
             {
                 // Take a BEATING
                 field_1AC_timer = sGnFrame + 20;
@@ -674,7 +674,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
             }
                 return 1;
 
-            case AETypes::eSlog_126:
+            case ReliveTypes::eSlog:
                 if (!BrainIs(&CrawlingSlig::Brain_4_GetKilled_41A880))
                 {
                     SetBrain(&CrawlingSlig::Brain_4_GetKilled_41A880);
@@ -689,7 +689,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 }
                 return 1;
 
-            case AETypes::eElectrocute_150:
+            case ReliveTypes::eElectrocute:
                 if (!BrainIs(&CrawlingSlig::Brain_4_GetKilled_41A880))
                 {
                     field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
@@ -1419,7 +1419,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
             Set_AnimAndMotion_419890(0, TRUE);
             field_20_animation.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
             field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-            SetType(AETypes::eNone_0);
+            SetType(ReliveTypes::eNone);
         }
     }
     else
@@ -1441,7 +1441,7 @@ void CrawlingSlig::M_WakingUp_2_41BF00()
             break;
         }
 
-        if (pObj->Type() == AETypes::eSnoozeParticle_124)
+        if (pObj->Type() == ReliveTypes::eSnoozeParticle)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }

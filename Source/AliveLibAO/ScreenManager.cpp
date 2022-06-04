@@ -112,7 +112,7 @@ void ScreenManager::Init(u8** ppBits)
 {
     field_36_flags |= 1;
 
-    mBaseGameObjectTypeId = Types::eScreenManager_4;
+    mBaseGameObjectTypeId = ReliveTypes::eScreenManager;
 
     field_14_xpos = 184;
     field_16_ypos = 120;

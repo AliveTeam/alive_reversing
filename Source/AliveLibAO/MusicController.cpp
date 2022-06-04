@@ -366,7 +366,7 @@ MusicController::MusicController()
     : BaseGameObject(1)
 {
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mBaseGameObjectTypeId = Types::eNone_0;
+    mBaseGameObjectTypeId = ReliveTypes::eNone;
 
     field_10_bEnableMusic = 1;
     field_3A_type = MusicTypes::eType0;

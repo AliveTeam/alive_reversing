@@ -19,7 +19,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
 {
     mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mBaseGameObjectTypeId = Types::eDemoPlayback;
+    mBaseGameObjectTypeId = ReliveTypes::eDemoPlayback;
     field_1C_bFromHandStone = static_cast<s16>(bFromHandStone);
     sDDCheat_FlyingEnabled_50771C = 0;
     if (gAttract_507698 == 0)

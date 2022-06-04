@@ -9,7 +9,7 @@
 PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b)
  : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::ePossessionFlicker_51);
+    SetType(ReliveTypes::ePossessionFlicker);
     field_30_obj_id = pToApplyFlicker->field_8_object_id;
 
     // Check if another PossessionFlicker is already applying flicker to pToApplyFlicker
@@ -21,7 +21,7 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
             break;
         }
 
-        if (pObj != this && pObj->Type() == AETypes::ePossessionFlicker_51 && static_cast<PossessionFlicker*>(pObj)->ObjectId() == field_30_obj_id)
+        if (pObj != this && pObj->Type() == ReliveTypes::ePossessionFlicker && static_cast<PossessionFlicker*>(pObj)->ObjectId() == field_30_obj_id)
         {
             // It is to don't store the id, first update will destroy this object
             field_30_obj_id = -1;

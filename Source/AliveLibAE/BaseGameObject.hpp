@@ -127,6 +127,7 @@ enum class AETypes : s16
 
 };
 
+
 enum class ReliveTypes : s16
 {
     eNone = 0, // TODO: Do not depend on this value in the future
@@ -246,7 +247,7 @@ enum class ReliveTypes : s16
     ePulley,
     eResourceManager,
     eSligGetPantsOrWings,
-    eMudokon2,
+    eCtorMudokon,
     eSecurityOrb,
     eMeatSack,
     eText,

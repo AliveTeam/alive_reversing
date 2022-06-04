@@ -5,7 +5,7 @@
 
 namespace AO {
 
-extern const Types word_4CF158[];
+extern const AOTypes word_4CF158[];
 
 class BaseThrowable;
 

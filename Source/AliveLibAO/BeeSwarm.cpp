@@ -26,7 +26,7 @@ ALIVE_VAR(1, 0x5076AC, s16, gBeesNearAbe_5076AC, 0);
 
 BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
 {
-    mBaseGameObjectTypeId = Types::eBeeSwarm_95;
+    mBaseGameObjectTypeId = ReliveTypes::eBeeSwarm;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Bee_Swarm);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

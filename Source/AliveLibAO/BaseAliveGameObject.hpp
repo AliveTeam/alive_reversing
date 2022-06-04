@@ -97,7 +97,7 @@ protected:
 
     void UsePathTransScale_4020D0();
 
-    static BaseGameObject* FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos);
+    static BaseGameObject* FindObjectOfType_418280(AOTypes typeToFind, FP xpos, FP ypos);
 
     BirdPortal* IntoBirdPortal_402350(s16 distance);
 

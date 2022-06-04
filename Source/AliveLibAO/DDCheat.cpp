@@ -46,7 +46,7 @@ DDCheat::DDCheat()
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    mBaseGameObjectTypeId = Types::eDDCheat_12;
+    mBaseGameObjectTypeId = ReliveTypes::eDDCheat;
     field_10_bInvalidateRect = 0;
     field_14_SelectedCheat = 0;
     field_18_backInputPressed = 0;
@@ -229,17 +229,17 @@ void DDCheat::VUpdate()
                         sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
                         switch (sControlledCharacter_50767C->mBaseGameObjectTypeId)
                         {
-                            case Types::eElum_26:
+                            case AOTypes::eElum_26:
                             {
                                 sControlledCharacter_50767C->mCurrentMotion = eElumMotions::Motion_21_Land_414A20;
                                 break;
                             }
-                            case Types::eAbe_43:
+                            case AOTypes::eAbe_43:
                             {
                                 sControlledCharacter_50767C->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
                                 break;
                             }
-                            case Types::eSlig_88:
+                            case AOTypes::eSlig_88:
                             {
                                 sControlledCharacter_50767C->mCurrentMotion = eSligMotions::Motion_7_Falling_46A1A0;
                                 break;

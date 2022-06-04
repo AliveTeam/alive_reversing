@@ -17,7 +17,7 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
 
-    SetType(AETypes::eElectricWall_39);
+    SetType(ReliveTypes::eElectricWall);
 
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

@@ -16,7 +16,7 @@
 BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eBaseBomb_46);
+    SetType(ReliveTypes::eBaseBomb);
 
     const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1);

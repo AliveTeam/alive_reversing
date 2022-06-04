@@ -1021,7 +1021,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 
     auto pObj = sObjectIds.Find_Impl(BaseAliveGameObjectId);
     LiftPoint* pLiftPoint = nullptr;
-    if (pObj && pObj->Type() == AETypes::eLiftPoint_78)
+    if (pObj && pObj->Type() == ReliveTypes::eLiftPoint)
     {
         pLiftPoint = static_cast<LiftPoint*>(pObj);
         if (!pLiftPoint->vOnAnyFloor() && field_210_brain_sub_state != 7)
@@ -1322,7 +1322,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
     }
 
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
-    if (pLiftPoint && pLiftPoint->Type() == AETypes::eLiftPoint_78 && !pLiftPoint->vOnAnyFloor() && field_210_brain_sub_state != 6)
+    if (pLiftPoint && pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->vOnAnyFloor() && field_210_brain_sub_state != 6)
     {
         mNextMotion = eGlukkonMotions::M_Idle_0_442D10;
         return 6;
@@ -1670,7 +1670,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                     break;
                 }
 
-                if (pObj->Type() == AETypes::eSlig_125)
+                if (pObj->Type() == ReliveTypes::eSlig)
                 {
                     pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
@@ -1915,7 +1915,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
         mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
         mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
 
-        SetType(AETypes::eGlukkon_67);
+        SetType(ReliveTypes::eGlukkon);
 
         if (field_1A8_tlvData.field_1E_spawn_type == Path_Glukkon::SpawnType::eFullSpawnEffects_3)
         {
@@ -1989,12 +1989,12 @@ void Glukkon::Init()
         mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
         SetBrain(&Glukkon::Brain_5_WaitToSpawn_442490);
         field_210_brain_sub_state = 0;
-        SetType(AETypes::eNone_0);
+        SetType(ReliveTypes::eNone);
     }
     else
     {
         mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
-        SetType(AETypes::eGlukkon_67);
+        SetType(ReliveTypes::eGlukkon);
         SetBrain(&Glukkon::Brain_0_Calm_WalkAround_440B40);
         field_210_brain_sub_state = 0;
     }
@@ -2982,7 +2982,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->Type())
     {
-        case AETypes::eBullet_15:
+        case ReliveTypes::eBullet:
         {
             auto pBullet = static_cast<Bullet*>(pFrom);
             switch (pBullet->field_20_type)
@@ -3074,29 +3074,29 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
         }
         break;
 
-        case AETypes::eDrill_30:
-        case AETypes::eBaseBomb_46:
-        case AETypes::eMeatSaw_86:
-        case AETypes::eExplosion_109:
+        case ReliveTypes::eDrill:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eMeatSaw:
+        case ReliveTypes::eExplosion:
             SetBrain(&Glukkon::Brain_4_Death_442010);
             field_210_brain_sub_state = 2;
             Event_Broadcast(kEventMudokonComfort, this);
             break;
 
-        case AETypes::eElectricWall_39:
+        case ReliveTypes::eElectricWall:
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Unused_9, 0, field_1E0_gamespeak_pitch, this);
             return 1;
 
-        case AETypes::eRockSpawner_48:
-        case AETypes::eMineCar_89:
-        case AETypes::eNeverSet_107:
+        case ReliveTypes::eRockSpawner:
+        case ReliveTypes::eMineCar:
+        //case AETypes::eNeverSet_107:
             SetAnim(eGlukkonMotions::M_DeathFall_8_443760, TRUE);
             SetBrain(&Glukkon::Brain_4_Death_442010);
             field_210_brain_sub_state = 0;
             Event_Broadcast(kEventMudokonComfort, this);
             break;
 
-        case AETypes::eAbe_69:
+        case ReliveTypes::eAbe:
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_62_Punch_454750)
             {
                 if (Math_NextRandom() <= 32u)
@@ -3114,7 +3114,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AETypes::eSlog_126:
+        case ReliveTypes::eSlog:
             if (mCurrentMotion != eGlukkonMotions::M_KnockBack_3_442F40)
             {
                 mHealth = FP_FromInteger(0);
@@ -3131,7 +3131,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AETypes::eElectrocute_150:
+        case ReliveTypes::eElectrocute:
             field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             mHealth = FP_FromInteger(0);
             SetBrain(&Glukkon::Brain_4_Death_442010);

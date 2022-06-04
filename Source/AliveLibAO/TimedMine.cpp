@@ -22,7 +22,7 @@ const TintEntry kTimedMineTints_4C3140[3] = {
 TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eTimedMine_8;
+    mBaseGameObjectTypeId = ReliveTypes::eTimedMine;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::TimedMine_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -133,10 +133,10 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case Types::eAbe_43:
-        case Types::eAbilityRing_69:
-        case Types::eExplosion_74:
-        case Types::eShrykull_85:
+        case AOTypes::eAbe_43:
+        case AOTypes::eAbilityRing_69:
+        case AOTypes::eExplosion_74:
+        case AOTypes::eShrykull_85:
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             ao_new<BaseBomb>(
@@ -211,7 +211,7 @@ void TimedMine::StickToLiftPoint()
                         break;
                     }
 
-                    if (pObj->mBaseGameObjectTypeId == Types::eLiftPoint_51)
+                    if (pObj->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
                     {
                         PSX_RECT pObjRect = {};
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);

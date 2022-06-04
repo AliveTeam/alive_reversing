@@ -23,7 +23,7 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    mBaseGameObjectTypeId = Types::SecurityOrb_53;
+    mBaseGameObjectTypeId = ReliveTypes::SecurityOrb;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Security_Orb);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -80,8 +80,8 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case Types::eAbilityRing_69:
-        case Types::eShrykull_85:
+        case AOTypes::eAbilityRing_69:
+        case AOTypes::eShrykull_85:
         {
             ao_new<Explosion>(
                 field_A8_xpos,

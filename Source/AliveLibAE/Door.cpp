@@ -48,7 +48,7 @@ Door::Door()
 Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eDoor_33);
+    SetType(ReliveTypes::eDoor);
 
     field_F4_tlvInfo = tlvInfo;
     field_F8_door_type = pTlvData->field_1E_type;
@@ -493,7 +493,7 @@ ALIVE_VAR(1, 0xBB4AA4, FP, sTrainDoorYPos_BB4AA4, {});
 
 TrainDoor::TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo)
 {
-    SetType(AETypes::eDoor_33);
+    SetType(ReliveTypes::eDoor);
     field_F4_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Train_Closing);

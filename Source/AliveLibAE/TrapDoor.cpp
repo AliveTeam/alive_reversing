@@ -57,7 +57,7 @@ const TintEntry sTrapDoorTints_5639AC[18] = {
 
 TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 {
-    SetType(AETypes::eTrapDoor_142);
+    SetType(ReliveTypes::eTrapDoor);
     mBaseGameObjectTlvInfo = tlvInfo;
 
     field_12C_unused &= ~1u;

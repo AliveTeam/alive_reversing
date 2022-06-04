@@ -10,7 +10,7 @@ namespace AO {
 
 Sparks::Sparks(FP xpos, FP ypos, FP scale)
 {
-    mBaseGameObjectTypeId = Types::eSpark_15;
+    mBaseGameObjectTypeId = ReliveTypes::eSpark;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

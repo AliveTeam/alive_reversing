@@ -33,7 +33,7 @@ ALIVE_ASSERT_SIZEOF(ScreenWave_Data, 0x3700);
 ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 radius)
     : BaseGameObject(1)
 {
-    mBaseGameObjectTypeId = Types::eScreenWave_83;
+    mBaseGameObjectTypeId = ReliveTypes::eScreenWave;
     gObjListDrawables->Push_Back(this);
 
     // TODO: Using frame counter as an ID seems extremely dangerous due to id collision risk!

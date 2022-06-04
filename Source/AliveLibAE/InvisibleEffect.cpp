@@ -14,7 +14,7 @@
 InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
     : BaseGameObject(TRUE, 0)
 {
-     SetType(AETypes::eInvisibleEffect_75);
+     SetType(ReliveTypes::eInvisibleEffect);
 
     field_44_objId = pTarget->field_8_object_id;
 

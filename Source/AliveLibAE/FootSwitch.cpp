@@ -51,7 +51,7 @@ const AnimId sFootSwitchData_547D60[15][2] = {
 FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eFootSwitch_56);
+    SetType(ReliveTypes::eFootSwitch);
     field_100_obj_id = -1;
 
     const s32 idx = static_cast<s32>(gMap.mCurrentLevel);

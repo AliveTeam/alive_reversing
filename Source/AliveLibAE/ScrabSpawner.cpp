@@ -11,7 +11,7 @@ ScrabSpawner::ScrabSpawner(Path_ScrabSpawner* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_20_tlvInfo = tlvInfo;
-    SetType(AETypes::eScrabSpawner_113);
+    SetType(ReliveTypes::eScrabSpawner);
 
     field_28_tlv_data.field_0_flags = pTlv->field_0_flags;
     field_28_tlv_data.field_1_tlv_state = pTlv->field_1_tlv_state;
@@ -84,7 +84,7 @@ void ScrabSpawner::VUpdate()
                     break;
                 }
 
-                if (pObj->Type() == AETypes::eScrab_112 && pObj->mBaseGameObjectTlvInfo == field_3C_spawned_scrab_id)
+                if (pObj->Type() == ReliveTypes::eScrab && pObj->mBaseGameObjectTlvInfo == field_3C_spawned_scrab_id)
                 {
                     // Redundant ??
                     field_3C_spawned_scrab_id = pObj->field_8_object_id;

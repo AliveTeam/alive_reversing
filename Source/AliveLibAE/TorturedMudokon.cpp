@@ -13,7 +13,7 @@
 TorturedMudokon::TorturedMudokon(Path_TorturedMudokon* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eTorturedMud_141);
+    SetType(ReliveTypes::eTorturedMud);
     field_230_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon);

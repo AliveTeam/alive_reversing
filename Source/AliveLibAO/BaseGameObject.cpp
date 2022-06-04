@@ -17,7 +17,7 @@ BaseGameObject::BaseGameObject(s16 addToObjectList)
     mBaseGameObjectUpdateDelay = 0;
     mBaseGameObjectRefCount = 0;
 
-    mBaseGameObjectTypeId = Types::eNone_0;
+    mBaseGameObjectTypeId = ReliveTypes::eNone;
 
     mBaseGameObjectFlags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
     mBaseGameObjectFlags.Clear(BaseGameObject::Options::eDead);

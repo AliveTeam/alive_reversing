@@ -13,7 +13,7 @@ namespace AO {
 EffectBase::EffectBase(Layer layer, TPageAbr abr)
     : BaseGameObject(TRUE)
 {
-    mBaseGameObjectTypeId = Types::eEffectBase_79;
+    mBaseGameObjectTypeId = ReliveTypes::eEffectBase;
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     mEffectBasePathId = gMap.mCurrentPath;

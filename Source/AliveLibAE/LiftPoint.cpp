@@ -62,7 +62,7 @@ const TintEntry sLiftTints_55BF50[18] = {
 LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTlvInfo = tlvInfo;
-    SetType(AETypes::eLiftPoint_78);
+    SetType(ReliveTypes::eLiftPoint);
 
     pTlv->field_1_tlv_state = 3;
 

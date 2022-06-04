@@ -31,7 +31,7 @@ void BirdPortalTerminator::VScreenChanged()
 
 BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalType /*portalType*/)
 {
-    mBaseGameObjectTypeId = Types::eClawOrBirdPortalTerminator_48;
+    mBaseGameObjectTypeId = ReliveTypes::eClawOrBirdPortalTerminator;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorGrow);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -155,7 +155,7 @@ BirdPortal::~BirdPortal()
 BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
-    mBaseGameObjectTypeId = Types::eBirdPortal_65;
+    mBaseGameObjectTypeId = ReliveTypes::eBirdPortal;
 
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortalTerminatorAOResID, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 1, 0);
@@ -450,7 +450,7 @@ void BirdPortal::VUpdate()
                         {
                             pParticle->field_CC_bApplyShadows &= ~1u;
                             pParticle->field_10_anim.mRenderMode = TPageAbr::eBlend_1;
-                            pParticle->mBaseGameObjectTypeId = Types::eBirdPortalTerminator_66;
+                            pParticle->mBaseGameObjectTypeId = ReliveTypes::eBirdPortalTerminator;
                             pParticle->field_BC_sprite_scale = field_34_scale;
 
                             if (sGnFrame % 2)
@@ -734,12 +734,12 @@ s16 BirdPortal::IsScaredAway()
 
         switch (pObj->mBaseGameObjectTypeId)
         {
-            case Types::eElum_26:
-            case Types::eAbe_43:
-            case Types::eMudokon_52:
-            case Types::eParamite_62:
-            case Types::eScrab_77:
-            case Types::eSlig_88:
+            case ReliveTypes::eElum:
+            case ReliveTypes::eAbe:
+            case ReliveTypes::eCtorMudokon:
+            case ReliveTypes::eParamite:
+            case ReliveTypes::eScrab:
+            case ReliveTypes::eSlig:
                 if (pObj->field_B0_path_number != field_66_path)
                 {
                     continue;
@@ -793,7 +793,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == Types::eBirdPortalTerminator_66)
+        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eBirdPortalTerminator)
         {
             pObj->mBaseGameObjectFlags.Set(Options::eDead);
         }

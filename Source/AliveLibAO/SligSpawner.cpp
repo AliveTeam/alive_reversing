@@ -11,7 +11,7 @@ namespace AO {
 SligSpawner::SligSpawner(Path_Slig* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
-    mBaseGameObjectTypeId = Types::eSligSpawner_91;
+    mBaseGameObjectTypeId = ReliveTypes::eSligSpawner;
 
     field_10_tlvInfo = tlvInfo;
     field_18_tlv = *pTlv;

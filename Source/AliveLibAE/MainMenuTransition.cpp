@@ -50,7 +50,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
 MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 fadeSpeed, TPageAbr abr)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eMainMenuTransistion_116);
+    SetType(ReliveTypes::eMainMenuTransistion);
 
     gObjListDrawables->Push_Back(this);
 

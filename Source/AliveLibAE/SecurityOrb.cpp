@@ -38,7 +38,7 @@ const TintEntry sSecurityOrbTints_55C1EC[18] = {
 SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eSecurityOrb_83);
+    SetType(ReliveTypes::eSecurityOrb);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
@@ -103,7 +103,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     mHealth = FP_FromInteger(0);
 
-    if (pFrom->Type() == AETypes::eMineCar_89 || pFrom->Type() == AETypes::eAbilityRing_104 || pFrom->Type() == AETypes::eShrykull_121)
+    if (pFrom->Type() == ReliveTypes::eMineCar || pFrom->Type() == ReliveTypes::eAbilityRing || pFrom->Type() == ReliveTypes::eShrykull)
     {
         ae_new<Explosion>(
             mBaseAnimatedWithPhysicsGameObject_XPos,

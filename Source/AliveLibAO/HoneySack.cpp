@@ -15,7 +15,7 @@ namespace AO {
 
 HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eHoneySack_45;
+    mBaseGameObjectTypeId = ReliveTypes::eHoneySack;
 
     const AnimRecord& hangingRec = AO::AnimRec(AnimId::HoneySack_Hanging);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, hangingRec.mResourceId, 1, 0);
@@ -228,7 +228,7 @@ void HoneySack::VUpdate()
                         break;
                     }
 
-                    if (pObj->mBaseGameObjectTypeId == Types::eHoney_47)
+                    if (pObj->mBaseGameObjectTypeId == ReliveTypes::eHoney)
                     {
                         pObj->mBaseGameObjectFlags.Set(Options::eDead);
                         field_EA_bHit_ground = 1;
@@ -250,7 +250,7 @@ void HoneySack::VUpdate()
                         break;
                     }
 
-                    if (pObj->mBaseGameObjectTypeId == Types::eHoney_47)
+                    if (pObj->mBaseGameObjectTypeId == ReliveTypes::eHoney)
                     {
                         pObj->mBaseGameObjectFlags.Set(Options::eDead);
                         field_EA_bHit_ground = 1;

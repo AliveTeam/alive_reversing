@@ -532,7 +532,7 @@ void Fleech::M_WakingUp_1_42F270()
             break;
         }
 
-        if (pObj->Type() == AETypes::eSnoozeParticle_124)
+        if (pObj->Type() == ReliveTypes::eSnoozeParticle)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
@@ -1524,7 +1524,7 @@ s16 Fleech::IsScrabOrParamiteNear(FP radius)
         if (pBaseObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto pObj = static_cast<BaseAliveGameObject*>(pBaseObj);
-            if ((pObj->Type() == AETypes::eScrab_112 || pObj->Type() == AETypes::eParamite_96) && pObj->mHealth > FP_FromInteger(0))
+            if ((pObj->Type() == ReliveTypes::eScrab || pObj->Type() == ReliveTypes::eParamite) && pObj->mHealth > FP_FromInteger(0))
             {
                 if (pObj->field_CC_sprite_scale == field_CC_sprite_scale)
                 {
@@ -1619,7 +1619,7 @@ void Fleech::Init_42A170()
 
     field_20_animation.field_1C_fn_ptr_array = kFleech_Anim_Frame_Fns_55EFD0;
 
-    SetType(AETypes::eFleech_50);
+    SetType(ReliveTypes::eFleech);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit6_SetOffExplosives);
@@ -1669,7 +1669,7 @@ void Fleech::Init_42A170()
 
     MapFollowMe(TRUE);
 
-    VStackOnObjectsOfType(AETypes::eFleech_50);
+    VStackOnObjectsOfType(ReliveTypes::eFleech);
 
     mShadow = ae_new<Shadow>();
 
@@ -1901,7 +1901,7 @@ void Fleech::TongueUpdate_42BD30()
                     case 2:
                     case 3:
                     case 5:
-                        if (field_17A_tongue_sub_state == 5 && pTarget->Type() == AETypes::eScrab_112)
+                        if (field_17A_tongue_sub_state == 5 && pTarget->Type() == ReliveTypes::eScrab)
                         {
                             pTarget->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                         }
@@ -2175,11 +2175,11 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->Type())
     {
-        case AETypes::eBullet_15:
-        case AETypes::eDrill_30:
-        case AETypes::eBaseBomb_46:
-        case AETypes::eExplosion_109:
-        case AETypes::eSlig_125:
+        case ReliveTypes::eBullet:
+        case ReliveTypes::eDrill:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eExplosion:
+        case ReliveTypes::eSlig:
         {
             Sound_430520(FleechSound::Scared_7);
             mHealth = FP_FromInteger(0);
@@ -2200,7 +2200,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
         break;
 
 
-        case AETypes::eRockSpawner_48:
+        case ReliveTypes::eRockSpawner:
             Sound_430520(FleechSound::Scared_7);
             mHealth = FP_FromInteger(0);
             field_124_brain_state = eFleechBrains::eBrain_3_Death_42D1E0;
@@ -2211,11 +2211,11 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
             field_20_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
             break;
 
-        case AETypes::eParamite_96:
+        case ReliveTypes::eParamite:
             Sound_430520(FleechSound::Dismember_13);
             [[fallthrough]];
 
-        case AETypes::eScrab_112:
+        case ReliveTypes::eScrab:
         {
             ae_new<Gibs>(GibType::Fleech_10, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
 
@@ -2247,7 +2247,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
         }
         break;
 
-        case AETypes::eElectrocute_150:
+        case ReliveTypes::eElectrocute:
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             mHealth = FP_FromInteger(0);
             field_124_brain_state = eFleechBrains::eBrain_3_Death_42D1E0;
@@ -2300,7 +2300,7 @@ void Fleech::IncreaseAnger_430920()
                 field_13E_current_anger += field_142_attack_anger_increaser;
                 if (VOnSameYLevel(pEvent))
                 {
-                    if (pEvent->Type() == AETypes::eScrab_112 || pEvent->Type() == AETypes::eParamite_96)
+                    if (pEvent->Type() == ReliveTypes::eScrab || pEvent->Type() == ReliveTypes::eParamite)
                     {
                         field_14E = FP_GetExponent(pEvent->mBaseAnimatedWithPhysicsGameObject_XPos);
                     }
@@ -2413,7 +2413,7 @@ BaseAliveGameObject* Fleech::FindMudOrAbe_42CFD0()
             break;
         }
 
-        if ((pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69) && pObj->field_D6_scale == field_D6_scale && pObj->mHealth > FP_FromInteger(0))
+        if ((pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe) && pObj->field_D6_scale == field_D6_scale && pObj->mHealth > FP_FromInteger(0))
         {
             const FP dist = FP_FromInteger(
                 Math_Distance(
@@ -2779,7 +2779,7 @@ s16 Fleech::Brain_Patrol_State_1()
     else
     {
         BaseGameObject* pDangerObj = sObjectIds.Find_Impl(field_170_danger_obj);
-        if (pDangerObj && pDangerObj->Type() != AETypes::eParamite_96)
+        if (pDangerObj && pDangerObj->Type() != ReliveTypes::eParamite)
         {
             if (mCurrentMotion == eFleechMotions::M_SleepingWithTongue_17_42F370)
             {

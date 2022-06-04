@@ -44,7 +44,7 @@ Shrykull::Shrykull()
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
-    mBaseGameObjectTypeId = Types::eShrykull_85;
+    mBaseGameObjectTypeId = ReliveTypes::eShrykull;
     
     const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_ToShrykull);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -72,14 +72,14 @@ void Shrykull::VOnThrowableHit(BaseGameObject*)
 
 bool Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    return (pObj->mBaseGameObjectTypeId == Types::eTimedMine_8
-            || pObj->mBaseGameObjectTypeId == Types::eMine_57
-            || pObj->mBaseGameObjectTypeId == Types::eUXB_99
-            || pObj->mBaseGameObjectTypeId == Types::eSlig_88
-            || pObj->mBaseGameObjectTypeId == Types::eSlog_89
-            || pObj->mBaseGameObjectTypeId == Types::eBackgroundGlukkon_42
-            || pObj->mBaseGameObjectTypeId == Types::eSecurityClaw_31
-            || pObj->mBaseGameObjectTypeId == Types::SecurityOrb_53)
+    return (pObj->mBaseGameObjectTypeId == ReliveTypes::eTimedMine
+            || pObj->mBaseGameObjectTypeId == ReliveTypes::eMine
+            || pObj->mBaseGameObjectTypeId == ReliveTypes::eUXB
+            || pObj->mBaseGameObjectTypeId == ReliveTypes::eSlig
+            || pObj->mBaseGameObjectTypeId == ReliveTypes::eSlog
+            || pObj->mBaseGameObjectTypeId == ReliveTypes::eBackgroundGlukkon
+            || pObj->mBaseGameObjectTypeId == ReliveTypes::eSecurityClaw
+            || pObj->mBaseGameObjectTypeId == ReliveTypes::SecurityOrb)
         && pObj->field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render)
         && !pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
         && gMap.Is_Point_In_Current_Camera_4449C0(
@@ -94,14 +94,14 @@ bool Shrykull::CanElectrocute(BaseGameObject* pObj) const
 {
     switch (pObj->mBaseGameObjectTypeId)
     {
-        case Types::eElum_26:
-        case Types::eBackgroundGlukkon_42:
-        case Types::eMudokon_52:
-        case Types::eParamite_62:
-        case Types::eMudokon_75:
-        case Types::eScrab_77:
-        case Types::eSlig_88:
-        case Types::eSlog_89:
+        case ReliveTypes::eElum:
+        case ReliveTypes::eBackgroundGlukkon:
+        case ReliveTypes::eCtorMudokon:
+        case ReliveTypes::eParamite:
+        case ReliveTypes::eMudokon:
+        case ReliveTypes::eScrab:
+        case ReliveTypes::eSlig:
+        case ReliveTypes::eSlog:
             return true;
         default:
             return false;
@@ -189,7 +189,7 @@ void Shrykull::VUpdate()
                         ao_new<Electrocute>(pObj, 0);
                         field_114_timer = sGnFrame + 3;
 
-                        if (pObj->mBaseGameObjectTypeId == Types::eBackgroundGlukkon_42)
+                        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eBackgroundGlukkon)
                         {
                             pObj->VTakeDamage(this);
                         }

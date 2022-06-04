@@ -223,9 +223,9 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case Types::eBullet_10:
-        case Types::eBaseBomb_30:
-        case Types::eExplosion_74:
+        case AOTypes::eBullet_10:
+        case AOTypes::eBaseBomb_30:
+        case AOTypes::eExplosion_74:
             if (mHealth > FP_FromInteger(0))
             {
                 Elum_SFX_416E10(ElumSounds::eExploding_7, 0);
@@ -263,10 +263,10 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eAbilityRing_69:
+        case AOTypes::eAbilityRing_69:
             return 0;
 
-        case Types::eBeeSwarm_95:
+        case AOTypes::eBeeSwarm_95:
             if (sControlledCharacter_50767C != this)
             {
                 field_170_flags.Set(Elum::Flags_170::eStrugglingWithBees_Bit1);
@@ -935,7 +935,7 @@ void Elum::FindHoney_411600()
                 break;
             }
 
-            if (pObjIter->mBaseGameObjectTypeId == Types::eHoney_47)
+            if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eHoney)
             {
                 auto pHoney = static_cast<Honey*>(pObjIter);
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
@@ -3806,7 +3806,7 @@ void Elum::Spawn(TlvItemInfoUnion tlvInfo)
 Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemInfoUnion tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eElum_26;
+    mBaseGameObjectTypeId = ReliveTypes::eElum;
 
     field_158_last_event_idx = -1;
     field_16C_never_read = 0;

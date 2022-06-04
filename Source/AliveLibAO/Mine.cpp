@@ -16,7 +16,7 @@ ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
 Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eMine_57;
+    mBaseGameObjectTypeId = ReliveTypes::eMine;
     
     ///////////////////////////////////////////////////////////////////////////
     const AnimRecord& rec = AO::AnimRec(AnimId::Mine);
@@ -171,10 +171,10 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case Types::eAbe_43:
-        case Types::eAbilityRing_69:
-        case Types::eExplosion_74:
-        case Types::eShrykull_85:
+        case AOTypes::eAbe_43:
+        case AOTypes::eAbilityRing_69:
+        case AOTypes::eExplosion_74:
+        case AOTypes::eShrykull_85:
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             ao_new<BaseBomb>(

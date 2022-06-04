@@ -16,7 +16,7 @@ namespace AO {
 
 Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eBat_6;
+    mBaseGameObjectTypeId = ReliveTypes::eBat;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Bat);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -223,7 +223,7 @@ void Bat::VUpdate()
                         break;
                     }
 
-                    if (pObjIter->mBaseGameObjectTypeId != Types::SecurityOrb_53 && pObjIter->mBaseGameObjectTypeId != Types::eSlig_88 && pObjIter->mBaseGameObjectTypeId != Types::eSlog_89)
+                    if (pObjIter->mBaseGameObjectTypeId != ReliveTypes::SecurityOrb && pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSlig && pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSlog)
                     {
                         PSX_RECT bObjRect = {};
                         pObjIter->VGetBoundingRect(&bObjRect, 1);
@@ -238,7 +238,7 @@ void Bat::VUpdate()
                                     break;
                                 }
 
-                                if (pMaybeBat->mBaseGameObjectTypeId == Types::eBat_6)
+                                if (pMaybeBat->mBaseGameObjectTypeId == ReliveTypes::eBat)
                                 {
                                     auto pBat = static_cast<Bat*>(pMaybeBat);
 

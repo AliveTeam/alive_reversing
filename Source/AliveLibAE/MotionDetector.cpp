@@ -18,7 +18,7 @@
 MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eRedLaser_111);
+    SetType(ReliveTypes::eRedLaser);
     const AnimRecord& rec = AnimRec(AnimId::MotionDetector_Laser);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -34,7 +34,7 @@ MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer
 MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eGreeterBody_91);
+    SetType(ReliveTypes::eGreeterBody);
 
     const AnimRecord& rec = AnimRec(AnimId::MotionDetector_Flare);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -240,7 +240,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 
 s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
 {
-    if (pWho->Type() == AETypes::eAbe_69)
+    if (pWho->Type() == ReliveTypes::eAbe)
     {
         // Abe is safe in these states or if electrocuted or in ddcheat fly mode.
         if (pWho->mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0 || pWho->mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0 || pWho->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || pWho->mCurrentMotion == eAbeMotions::Motion_60_Unused_4A3200 || pWho->mCurrentMotion == eAbeMotions::Motion_57_Dead_4589A0 || pWho->mCurrentMotion == eAbeMotions::Motion_117_InMineCar_4587C0 || pWho->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted) || sDDCheat_FlyingEnabled_5C2C08)
@@ -248,7 +248,7 @@ s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
             return 0;
         }
     }
-    else if (pWho->Type() == AETypes::eMudokon_110)
+    else if (pWho->Type() == ReliveTypes::eMudokon)
     {
         // For some reason when ddcheat is on muds are also invincible to lasers?
         if (sDDCheat_FlyingEnabled_5C2C08)
@@ -274,7 +274,7 @@ s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
         return 0;
     }
 
-    if (pOwner && (pWho->Type() != AETypes::eMudokon_110 && pWho->Type() != AETypes::eAbe_69))
+    if (pOwner && (pWho->Type() != ReliveTypes::eMudokon && pWho->Type() != ReliveTypes::eAbe))
     {
         // If there is an owner (such as a greeter) then only muds and abe can set off the beam?
         return 0;
@@ -319,7 +319,7 @@ void MotionDetector::VUpdate()
                 break;
             }
 
-            if (pObj->Type() != AETypes::eTimedMine_or_MovingBomb_10 && (pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eMudokon_110 || !pOwner))
+            if (pObj->Type() != ReliveTypes::eTimedMine_or_MovingBomb && (pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMudokon || !pOwner))
             {
                 PSX_RECT objRect = {};
                 pObj->VGetBoundingRect(&objRect, 1);

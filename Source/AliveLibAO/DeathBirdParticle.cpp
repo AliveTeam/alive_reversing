@@ -68,7 +68,7 @@ void DeathBirdParticle::VUpdate()
 
 DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound, FP scale)
 {
-    mBaseGameObjectTypeId = Types::eDeathBird_38;
+    mBaseGameObjectTypeId = ReliveTypes::eDeathBird;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::DeathFlare_1);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

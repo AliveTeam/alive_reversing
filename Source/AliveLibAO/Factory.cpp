@@ -285,7 +285,7 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
                 break;
             }
 
-            if (!pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObjIter->mBaseGameObjectTypeId == Types::eLiftPoint_51)
+            if (!pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObjIter->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
             {
                 auto pLiftObj = static_cast<LiftPoint*>(pObjIter);
 

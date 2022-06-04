@@ -31,7 +31,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
-    mBaseGameObjectTypeId = Types::eTimedMine_8;
+    mBaseGameObjectTypeId = ReliveTypes::eTimedMine;
     const AnimRecord rec = AO::AnimRec(AnimId::MovingBomb);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
@@ -178,7 +178,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         return 1;
     }
 
-    if (pFrom->mBaseGameObjectTypeId != Types::eAbilityRing_69 && pFrom->mBaseGameObjectTypeId != Types::eExplosion_74 && pFrom->mBaseGameObjectTypeId != Types::eShrykull_85)
+    if (pFrom->mBaseGameObjectTypeId != ReliveTypes::eAbilityRing && pFrom->mBaseGameObjectTypeId != ReliveTypes::eExplosion && pFrom->mBaseGameObjectTypeId != ReliveTypes::eShrykull)
     {
         return 0;
     }

@@ -120,7 +120,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 {
     field_12C_flag &= ~1u;
 
-    mBaseGameObjectTypeId = Types::eTrapDoor_98;
+    mBaseGameObjectTypeId = ReliveTypes::eTrapDoor;
     field_134_switch_id = pTlv->field_18_switch_id;
     field_138_switch_state = pTlv->field_1A_start_state;
 

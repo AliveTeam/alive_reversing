@@ -72,7 +72,7 @@ TestAnimation::TestAnimation()
 {
     mLoaded = false;
 
-    mBaseGameObjectTypeId = AO::Types::eNone_0;
+    mBaseGameObjectTypeId = ReliveTypes::eNone;
 
     field_CC_bApplyShadows &= ~1u;
 

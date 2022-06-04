@@ -63,7 +63,7 @@ const u8 byte_4C5EE8[32] = {
 
 PauseMenu::PauseMenu()
 {
-    mBaseGameObjectTypeId = Types::ePauseMenu_61;
+    mBaseGameObjectTypeId = ReliveTypes::ePauseMenu;
     mBaseGameObjectUpdateDelay = 25;
 
     mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);

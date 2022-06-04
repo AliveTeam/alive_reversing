@@ -27,7 +27,7 @@ LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, Path_LaughingGas* pTlv, s
 {
     gGasInstanceCount_5BC214++;
 
-    SetType(AETypes::eLaughingGas_31);
+    SetType(ReliveTypes::eLaughingGas);
     Path_LaughingGas_Data* pData = &field_48_tlv_data;
     pData->field_0_bLaughing_gas = pTlv->field_10_bLaughing_gas;
     pData->field_2_laughing_gas_switch_id = pTlv->field_12_laughing_gas_switch_id;

@@ -12,7 +12,7 @@ namespace AO {
 
 BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
 {
-    mBaseGameObjectTypeId = Types::eNone_0;
+    mBaseGameObjectTypeId = ReliveTypes::eNone;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Bullet_Shell);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

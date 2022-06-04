@@ -248,7 +248,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case Types::eBullet_10:
+        case AOTypes::eBullet_10:
         {
             auto pBullet = static_cast<Bullet*>(pFrom);
 
@@ -289,9 +289,9 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             return 1;
         }
 
-        case Types::eBaseBomb_30:
-        case Types::eMeatSaw_56:
-        case Types::eExplosion_74:
+        case AOTypes::eBaseBomb_30:
+        case AOTypes::eMeatSaw_56:
+        case AOTypes::eExplosion_74:
         {
             Sfx(9);
             mHealth = FP_FromInteger(0);
@@ -316,8 +316,8 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             return 1;
         }
 
-        case Types::eAbilityRing_69:
-        case Types::eSlig_88:
+        case AOTypes::eAbilityRing_69:
+        case AOTypes::eSlig_88:
             if (field_17C_res)
             {
                 return 1;
@@ -326,15 +326,15 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             Sfx(9);
             break;
 
-        case Types::eZBall_92:
+        case AOTypes::eZBall_92:
             return 1;
 
-        case Types::eRockSpawner_32:
-        case Types::eRollingBall_72:
+        case AOTypes::eRockSpawner_32:
+        case AOTypes::eRollingBall_72:
             Slog::Sfx(9);
             [[fallthrough]];
 
-        case Types::eElectrocute_103:
+        case AOTypes::eElectrocute_103:
         {
             mHealth = FP_FromInteger(0);
             field_114_brain_idx = 3;
@@ -556,7 +556,7 @@ void Slog::Init()
     mNextMotion = -1;
     field_EC = 3;
     field_13C_res_idx = 0;
-    mBaseGameObjectTypeId = Types::eSlog_89;
+    mBaseGameObjectTypeId = ReliveTypes::eSlog;
     mLiftPoint = nullptr;
     field_118_always_zero = 0;
     field_134 = 2;
@@ -828,7 +828,7 @@ BaseAliveGameObject* Slog::FindAbeMudOrSlig()
 
         if (pObj != field_14C_pSlig && pObj != this)
         {
-            if (pObj->mBaseGameObjectTypeId == Types::eAbe_43 || pObj->mBaseGameObjectTypeId == Types::eMudokon_75 || pObj->mBaseGameObjectTypeId == Types::eSlig_88)
+            if (pObj->mBaseGameObjectTypeId == ReliveTypes::eAbe || pObj->mBaseGameObjectTypeId == ReliveTypes::eMudokon || pObj->mBaseGameObjectTypeId == ReliveTypes::eSlig)
             {
                 PSX_RECT objRect = {};
                 pObj->VGetBoundingRect(&objRect, 1);
@@ -1570,7 +1570,7 @@ void Slog::Motion_18_WakeUp_475460()
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == Types::eSnoozParticle_87)
+        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eSnoozParticle)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1D4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }

@@ -72,7 +72,7 @@ const LiftPointCoord stru_4BB640[16] = {
 LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     : PlatformBase()
 {
-    mBaseGameObjectTypeId = Types::eLiftPoint_51;
+    mBaseGameObjectTypeId = ReliveTypes::eLiftPoint;
 
     pTlv->field_1_unknown = 3;
 

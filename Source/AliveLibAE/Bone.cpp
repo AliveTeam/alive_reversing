@@ -18,7 +18,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     : BaseThrowable(0)
 {
     field_11A_bDead = 0;
-    SetType(AETypes::eBone_11);
+    SetType(ReliveTypes::eBone);
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kBoneResID, 0, 0))
     {
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
@@ -173,12 +173,12 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
         return 1;
     }
 
-    if (pObj->Type() != AETypes::eMine_88 && pObj->Type() != AETypes::eUXB_143 && (field_130_hit_object & 1))
+    if (pObj->Type() != ReliveTypes::eMine && pObj->Type() != ReliveTypes::eUXB && (field_130_hit_object & 1))
     {
         return 1;
     }
 
-    if (pObj->Type() == AETypes::eSecurityOrb_83 && sControlledCharacter_5C1B8C->field_D6_scale != pObj->field_D6_scale)
+    if (pObj->Type() == ReliveTypes::eSecurityOrb && sControlledCharacter_5C1B8C->field_D6_scale != pObj->field_D6_scale)
     {
         return 1;
     }
@@ -206,7 +206,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
     field_130_hit_object |= 1u;
     SFX_Play_Mono(SoundEffect::RockBounceOnMine_24, 80);
 
-    if (pObj->Type() == AETypes::eMine_88 || pObj->Type() == AETypes::eUXB_143)
+    if (pObj->Type() == ReliveTypes::eMine || pObj->Type() == ReliveTypes::eUXB)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -569,7 +569,7 @@ const TintEntry kBoneTints_550EC0[18] = {
 BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eBoneBag_12);
+    SetType(ReliveTypes::eBoneBag);
 
     const AnimRecord& rec = AnimRec(AnimId::BoneBag_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

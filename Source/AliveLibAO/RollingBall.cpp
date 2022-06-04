@@ -49,7 +49,7 @@ RollingBall::~RollingBall()
 RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eRollingBall_72;
+    mBaseGameObjectTypeId = ReliveTypes::eRollingBall;
     
     const AnimRecord& rec = AO::AnimRec(AnimId::Stone_Ball);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

@@ -28,7 +28,7 @@ s32 MinesAlarm::CreateFromSaveState(const u8* pBuffer)
 MinesAlarm::MinesAlarm(s32 timer)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eMinesAlarm_25);
+    SetType(ReliveTypes::eMinesAlarm);
     sTimerValue_5C1BFC = timer;
 }
 

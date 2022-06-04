@@ -6,7 +6,7 @@
 Sparks::Sparks(FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eSparks_22);
+    SetType(ReliveTypes::eSparks);
 
     const AnimRecord& rec = AnimRec(AnimId::Sparks);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

@@ -144,7 +144,7 @@ ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);
 Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eMudokon_52;
+    mBaseGameObjectTypeId = ReliveTypes::eCtorMudokon;
 
     field_128 = -1;
     field_13E = -1;
@@ -278,7 +278,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
 
             field_124_voice_pitch = mudTlv->field_1E_voice_pitch;
-            mBaseGameObjectTypeId = Types::eMudokon_75;
+            mBaseGameObjectTypeId = ReliveTypes::eMudokon;
             field_1B2_rescue_switch_id = mudTlv->field_20_rescue_switch_id;
 
             field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, mudTlv->field_1C_direction == XDirection_short::eLeft_0);
@@ -614,7 +614,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case Types::eGasClock_16:
+        case AOTypes::eGasClock_16:
             if (mHealth > FP_FromInteger(0))
             {
                 field_1B8_brain_idx = 15;
@@ -622,13 +622,13 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eElectricWall_25:
+        case AOTypes::eElectricWall_25:
             Mudokon_SFX_42A4D0(MudSounds::eDeathDropScream_17, 0, 0, this);
             return 1;
 
-        case Types::eBaseBomb_30:
-        case Types::eMeatSaw_56:
-        case Types::eExplosion_74:
+        case AOTypes::eBaseBomb_30:
+        case AOTypes::eMeatSaw_56:
+        case AOTypes::eExplosion_74:
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth = FP_FromInteger(0);
@@ -654,10 +654,10 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eAbilityRing_69:
+        case AOTypes::eAbilityRing_69:
             return 0;
 
-        case Types::eBullet_10:
+        case AOTypes::eBullet_10:
             field_106_shot = TRUE;
             if (mHealth > FP_FromInteger(0))
             {
@@ -686,15 +686,15 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eRockSpawner_32:
+        case AOTypes::eRockSpawner_32:
             Event_Broadcast(kEventMudokonDead_15, sActiveHero_507678);
             return DoSmashDamage();
 
-        case Types::eScrab_77:
+        case AOTypes::eScrab_77:
             return DoSmashDamage();
 
-        case Types::eShrykull_85:
-        case Types::eElectrocute_103:
+        case AOTypes::eShrykull_85:
+        case AOTypes::eElectrocute_103:
             if (mHealth > FP_FromInteger(0))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -702,7 +702,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eSlog_89:
+        case AOTypes::eSlog_89:
             if (mHealth > FP_FromInteger(0))
             {
                 field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
@@ -714,7 +714,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eBeeSwarm_95:
+        case AOTypes::eBeeSwarm_95:
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth -= FP_FromDouble(0.15);
@@ -1169,7 +1169,7 @@ s16 Mudokon::IAmNearestToAbe_440120()
 
         if (pObjIter != this)
         {
-            if (pObjIter->mBaseGameObjectTypeId == Types::eMudokon_52 || pObjIter->mBaseGameObjectTypeId == Types::eMudokon_75) // mud or password mud?
+            if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eCtorMudokon || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMudokon) // mud or password mud?
             {
                 if (Math_Distance(
                         FP_GetExponent(sActiveHero_507678->field_A8_xpos),
@@ -3175,7 +3175,7 @@ s16 Mudokon::Brain_LiftUse_5_43C180()
                 break;
             }
 
-            if (pObj->mBaseGameObjectTypeId == Types::eLiftPoint_51)
+            if (pObj->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(pObj);
                 if (field_110_lift_switch_id == pLiftPoint->field_278_lift_point_id)
@@ -3210,7 +3210,7 @@ s16 Mudokon::Brain_LeverUse_6_43C250()
         directedGridSize = ScaleToGridSize(field_BC_sprite_scale);
     }
 
-    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + directedGridSize, field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale)));
+    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(AOTypes::eLever_97, field_A8_xpos + directedGridSize, field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale)));
     if (pSwitch)
     {
         pSwitch->VPull(field_A8_xpos < pSwitch->field_A8_xpos);

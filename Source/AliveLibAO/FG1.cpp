@@ -225,7 +225,7 @@ FG1::FG1(u8** ppRes)
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    mBaseGameObjectTypeId = Types::eFG1_67;
+    mBaseGameObjectTypeId = ReliveTypes::eFG1;
 
     field_10_cam_pos_x = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
     field_12_cam_pos_y = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);

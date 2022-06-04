@@ -16,7 +16,7 @@ namespace AO {
 
 ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eElectricWall_25;
+    mBaseGameObjectTypeId = ReliveTypes::eElectricWall;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Electric_Wall);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -126,7 +126,7 @@ void ElectricWall::VUpdate()
             }
 
             // Don't kill nades
-            if (pObjIter->mBaseGameObjectTypeId != Types::eGrenade_40)
+            if (pObjIter->mBaseGameObjectTypeId != ReliveTypes::eGrenade)
             {
                 PSX_RECT objRect = {};
                 pObjIter->VGetBoundingRect(&objRect, 1);

@@ -43,7 +43,7 @@ s16* Animation_OnFrame_ZBallSmacker(void* pObj, s16* pData)
 
 ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eZBall_92;
+    mBaseGameObjectTypeId = ReliveTypes::eZBall;
 
     field_C4_b = 128;
     field_C2_g = 128;

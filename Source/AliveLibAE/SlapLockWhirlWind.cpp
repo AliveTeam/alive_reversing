@@ -19,7 +19,7 @@ s32 SlapLockWhirlWind::CreateFromSaveState(const u8* pBuffer)
 SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eSlapLock_OrbWhirlWind_60);
+    SetType(ReliveTypes::eSlapLock_OrbWhirlWind);
 
     field_20_xpos = xpos;
     field_24_ypos = ypos;

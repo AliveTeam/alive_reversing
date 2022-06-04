@@ -17,7 +17,7 @@ public:
     PalleteOverwriter(PSX_Point palXY, s16 palDepth, s16 colour)
         : BaseGameObject(1)
     {
-        mBaseGameObjectTypeId = Types::ePalOverwriter_29;
+        mBaseGameObjectTypeId = ReliveTypes::ePalOverwriter;
 
         gObjListDrawables->Push_Back(this);
 
@@ -103,7 +103,7 @@ ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xC0);
 Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
     : BaseGameObject(1)
 {
-    mBaseGameObjectTypeId = Types::eElectrocute_103;
+    mBaseGameObjectTypeId = ReliveTypes::eElectrocute;
 
     pTargetObj->mBaseGameObjectRefCount++;
     field_10_obj_target = pTargetObj;
@@ -112,7 +112,7 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
     field_14_overwriter_count = bExtraOverwriter ? 3 : 2;
     field_28_pPalData = nullptr;
 
-    if (pTargetObj->mBaseGameObjectTypeId == Types::eAbe_43)
+    if (pTargetObj->mBaseGameObjectTypeId == ReliveTypes::eAbe)
     {
         field_28_pPalData = reinterpret_cast<u16*>(alloc_450740(sizeof(u16) * pTargetObj->field_10_anim.field_90_pal_depth));
         Pal_Copy_4479D0(
@@ -174,7 +174,7 @@ void Electrocute::Stop()
 
     if (field_10_obj_target)
     {
-        if (field_10_obj_target->mBaseGameObjectTypeId == Types::eAbe_43)
+        if (field_10_obj_target->mBaseGameObjectTypeId == ReliveTypes::eAbe)
         {
             Pal_Set_447990(
                 field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
@@ -251,7 +251,7 @@ void Electrocute::VUpdate()
             PalleteOverwriter* pOverwritter = field_18_pPalOverwriters[field_14_overwriter_count - 1];
             if (pOverwritter && pOverwritter->field_BE_bDone)
             {
-                if (field_10_obj_target->mBaseGameObjectTypeId == Types::eAbe_43)
+                if (field_10_obj_target->mBaseGameObjectTypeId == ReliveTypes::eAbe)
                 {
                     field_10_obj_target->VTakeDamage(this);
                     Pal_Set_447990(

@@ -28,7 +28,7 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_68_doves_exist = 0;
-    SetType(AETypes::eBirdPortal_99);
+    SetType(ReliveTypes::eBirdPortal);
     mBaseGameObjectTlvInfo = tlvInfo;
     field_40_throwable_indicator_id = -1;
 
@@ -232,7 +232,7 @@ void BirdPortal::VUpdate()
                             ppLightRes);
                         pParticle->mApplyShadows &= ~1u;
                         pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
-                        pParticle->SetType(AETypes::eBirdPortalTerminator_100);
+                        pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
                         pParticle->field_CC_sprite_scale = field_60_scale;
 
                         if (static_cast<s32>(sGnFrame) % 2)
@@ -1036,7 +1036,7 @@ void BirdPortal::KillTerminators()
             break;
         }
 
-        if (pObj->Type() == AETypes::eBirdPortalTerminator_100)
+        if (pObj->Type() == ReliveTypes::eBirdPortalTerminator)
         {
             pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -1068,7 +1068,7 @@ s16 BirdPortal::GetEvent()
             break;
         }
 
-        if (pObj->Type() == AETypes::eBirdPortal_99)
+        if (pObj->Type() == ReliveTypes::eBirdPortal)
         {
             if (pObj == this)
             {
@@ -1086,7 +1086,7 @@ s16 BirdPortal::GetEvent()
 BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalType /*portalType*/)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eEyeOrbPart_74);
+    SetType(ReliveTypes::eEyeOrbPart);
 
     const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorGrow);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

@@ -9,7 +9,7 @@ namespace AO {
 Flash::Flash(Layer layer, s32 r, s32 g, s32 b, s32 /*not_used*/, TPageAbr abr, s32 time)
     : EffectBase(layer, abr)
 {
-    mBaseGameObjectTypeId = Types::eFlash_81;
+    mBaseGameObjectTypeId = ReliveTypes::eFlash;
     mEffectBaseRed = static_cast<s16>(r);
     mEffectBaseGreen = static_cast<s16>(g);
     mEffectBaseBlue = static_cast<s16>(b);

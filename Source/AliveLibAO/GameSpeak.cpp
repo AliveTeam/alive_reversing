@@ -60,7 +60,7 @@ GameSpeak::GameSpeak()
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_1C_event_buffer[0] = -1;
     field_10_last_event = GameSpeakEvents::eNone_m1;
-    mBaseGameObjectTypeId = Types::eGameSpeak_24;
+    mBaseGameObjectTypeId = ReliveTypes::eGameSpeak;
     field_18_last_event_index = 0;
 }
 

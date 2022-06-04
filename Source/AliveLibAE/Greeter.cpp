@@ -21,7 +21,7 @@
 Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eGreeter_64);
+    SetType(ReliveTypes::eGreeter);
     const AnimRecord& rec = AnimRec(AnimId::Greeter_Moving);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
@@ -417,8 +417,8 @@ s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
         }
         return 1;
 
-        case AETypes::eDrill_30:
-        case AETypes::eElectricWall_39:
+        case ReliveTypes::eDrill:
+        case ReliveTypes::eElectricWall:
             if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
             {
                 field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
@@ -438,20 +438,20 @@ s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case AETypes::eBaseBomb_46:
-        case AETypes::eRockSpawner_48:
-        case AETypes::eMeatSaw_86:
-        case AETypes::eMineCar_89:
-        case AETypes::eNeverSet_107:
-        case AETypes::eExplosion_109:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eRockSpawner:
+        case ReliveTypes::eMeatSaw:
+        case ReliveTypes::eMineCar:
+        //case ReliveTypes::eNeverSet:
+        case ReliveTypes::eExplosion:
             BlowUp();
             return 1;
 
-        case AETypes::eSlamDoor_122:
+        case ReliveTypes::eSlamDoor:
             BounceBackFromShot();
             return 1;
 
-        case AETypes::eElectrocute_150:
+        case ReliveTypes::eElectrocute:
             field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             BlowUp();
             return 1;
@@ -589,7 +589,7 @@ BaseAliveGameObject* Greeter::GetMudToZap()
             break;
         }
 
-        if (pObj->Type() == AETypes::eMudokon_110)
+        if (pObj->Type() == ReliveTypes::eMudokon)
         {
             PSX_RECT bRect = {};
             pObj->VGetBoundingRect(&bRect, 1);

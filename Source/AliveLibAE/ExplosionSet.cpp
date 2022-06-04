@@ -18,7 +18,7 @@ ALIVE_VAR(1, 0x5C1BB6, s16, bEnabled_5C1BB6, FALSE);
 ExplosionSet::ExplosionSet()
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eExplosionSet_18);
+    SetType(ReliveTypes::eExplosionSet);
 
     if (pExplosionSet_5BBF68)
     {

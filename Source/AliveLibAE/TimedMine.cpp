@@ -24,7 +24,7 @@ static TintEntry sTimedMineTint_550EB8[1] = {{LevelIds_s8::eNone, 127u, 127u, 12
 TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eTimedMine_or_MovingBomb_10);
+    SetType(ReliveTypes::eTimedMine_or_MovingBomb);
 
     const AnimRecord& rec = AnimRec(AnimId::TimedMine_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -211,7 +211,7 @@ void TimedMine::StickToLiftPoint()
                         break;
                     }
 
-                    if (pObj->Type() == AETypes::eLiftPoint_78)
+                    if (pObj->Type() == ReliveTypes::eLiftPoint)
                     {
                         PSX_RECT bRect = {};
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);

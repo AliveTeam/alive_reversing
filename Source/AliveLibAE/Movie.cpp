@@ -629,7 +629,7 @@ void Movie::Init(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume)
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
-    SetType(AETypes::eMovie_145);
+    SetType(ReliveTypes::eMovie);
 
     ++sMovie_ref_count_BB4AE4;
 

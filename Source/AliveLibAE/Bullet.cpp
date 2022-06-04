@@ -16,7 +16,7 @@
 Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s32 numberOfBullets)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eBullet_15);
+    SetType(ReliveTypes::eBullet);
     field_20_type = type;
     field_28_xpos = xpos;
     field_2C_ypos = ypos;
@@ -63,7 +63,7 @@ void Bullet::VUpdate()
             shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(5));
             shootRect.h = FP_GetExponent(field_2C_ypos + FP_FromInteger(5)); // TODO: Check correct
 
-            if (sControlledCharacter_5C1B8C->Type() == AETypes::eAbe_69)
+            if (sControlledCharacter_5C1B8C->Type() == ReliveTypes::eAbe)
             {
                 shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(10));
             }
@@ -89,9 +89,9 @@ void Bullet::VUpdate()
                 {
                     if (FP_Abs(pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos - field_28_xpos) <= FP_Abs(hitX - field_28_xpos))
                     {
-                        if (pShotObj->Type() == AETypes::eMineCar_89 || pShotObj->Type() == AETypes::eGreeter_64)
+                        if (pShotObj->Type() == ReliveTypes::eMineCar || pShotObj->Type() == ReliveTypes::eGreeter)
                         {
-                            if (pShotObj->Type() == AETypes::eGreeter_64)
+                            if (pShotObj->Type() == ReliveTypes::eGreeter)
                             {
                                 randomW = FP_GetExponent(FP_FromInteger(randomW) + (FP_FromInteger(14) * field_3C_scale));
                             }
@@ -127,7 +127,7 @@ void Bullet::VUpdate()
 
                         if (pShotObj->VTakeDamage(this))
                         {
-                            if (pShotObj->Type() != AETypes::eGreeter_64 && pShotObj->Type() != AETypes::eMineCar_89)
+                            if (pShotObj->Type() != ReliveTypes::eGreeter && pShotObj->Type() != ReliveTypes::eMineCar)
                             {
                                 PlayBulletSounds(vol);
                             }
@@ -164,9 +164,9 @@ void Bullet::VUpdate()
 
             if (pShotObj)
             {
-                if (pShotObj->Type() == AETypes::eMineCar_89 || pShotObj->Type() == AETypes::eGreeter_64)
+                if (pShotObj->Type() == ReliveTypes::eMineCar || pShotObj->Type() == ReliveTypes::eGreeter)
                 {
-                    if (pShotObj->Type() == AETypes::eGreeter_64)
+                    if (pShotObj->Type() == ReliveTypes::eGreeter)
                     {
                         randomW = FP_GetExponent(FP_FromInteger(randomW) + (FP_FromInteger(14) * field_3C_scale));
                     }
@@ -207,7 +207,7 @@ void Bullet::VUpdate()
 
                 if (pShotObj->VTakeDamage(this))
                 {
-                    if (pShotObj->Type() != AETypes::eGreeter_64 && pShotObj->Type() != AETypes::eMineCar_89)
+                    if (pShotObj->Type() != ReliveTypes::eGreeter && pShotObj->Type() != ReliveTypes::eMineCar)
                     {
                         PlayBulletSounds(vol);
                     }
@@ -237,7 +237,7 @@ void Bullet::VUpdate()
             {
                 if (pShootObj->VTakeDamage(this))
                 {
-                    if (pShootObj->Type() != AETypes::eGreeter_64 && pShootObj->Type() != AETypes::eMineCar_89)
+                    if (pShootObj->Type() != ReliveTypes::eGreeter && pShootObj->Type() != ReliveTypes::eMineCar)
                     {
                         PlayBulletSounds(90);
                         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -287,7 +287,7 @@ void Bullet::VUpdate()
             rect.h = rect.h;
 
             BaseAliveGameObject* pShootObj = ShootObject(&rect);
-            if (pShootObj && pShootObj->VTakeDamage(this) && pShootObj->Type() != AETypes::eGreeter_64 && pShootObj->Type() != AETypes::eMineCar_89)
+            if (pShootObj && pShootObj->VTakeDamage(this) && pShootObj->Type() != ReliveTypes::eGreeter && pShootObj->Type() != ReliveTypes::eMineCar)
             {
                 PlayBulletSounds(90);
             }
@@ -372,9 +372,9 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
             {
                 if (gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, pObj->mBaseAnimatedWithPhysicsGameObject_XPos, pObj->mBaseAnimatedWithPhysicsGameObject_YPos, 1))
                 {
-                    if (((field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0 || field_20_type == BulletType::ePossessedSligZBullet_1) && ((pObj->Type() == AETypes::eSlig_125 && pObj->mCurrentMotion != eSligMotions::M_Possess_37_4B72C0) || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eGlukkon_67 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eSlog_126 || pObj->Type() == AETypes::eGreeter_64)) ||
+                    if (((field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0 || field_20_type == BulletType::ePossessedSligZBullet_1) && ((pObj->Type() == ReliveTypes::eSlig && pObj->mCurrentMotion != eSligMotions::M_Possess_37_4B72C0) || pObj->Type() == ReliveTypes::eFlyingSlig || pObj->Type() == ReliveTypes::eCrawlingSlig || pObj->Type() == ReliveTypes::eGlukkon || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eSlog || pObj->Type() == ReliveTypes::eGreeter)) ||
 
-                        pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eMineCar_89 || (pObj->Type() == AETypes::eSlig_125 && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == AETypes::eFlyingSlig_54 && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == AETypes::eCrawlingSlig_26 && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == AETypes::eGlukkon_67 && sControlledCharacter_5C1B8C == pObj))
+                        pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMineCar || (pObj->Type() == ReliveTypes::eSlig && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == ReliveTypes::eFlyingSlig && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == ReliveTypes::eCrawlingSlig && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == ReliveTypes::eGlukkon && sControlledCharacter_5C1B8C == pObj))
                     {
                         PSX_RECT bRect = {};
                         pObj->VGetBoundingRect(&bRect, 1);
@@ -383,7 +383,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
                         {
                             if (((field_20_type == BulletType::eZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale))
                             {
-                                if (pObj->Type() != AETypes::eGlukkon_67 || FP_Abs(pObj->mBaseAnimatedWithPhysicsGameObject_XPos - field_28_xpos) >= ScaleToGridSize(field_3C_scale))
+                                if (pObj->Type() != ReliveTypes::eGlukkon || FP_Abs(pObj->mBaseAnimatedWithPhysicsGameObject_XPos - field_28_xpos) >= ScaleToGridSize(field_3C_scale))
                                 {
                                     if (!pObjectToShoot)
                                     {

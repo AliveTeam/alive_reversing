@@ -12,7 +12,7 @@
 WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eWheel_148);
+    SetType(ReliveTypes::eWheel);
 
     mBaseGameObjectTlvInfo = tlvInfo;
 

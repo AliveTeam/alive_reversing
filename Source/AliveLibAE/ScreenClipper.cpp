@@ -8,7 +8,7 @@
 ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eScreenClipper_114);
+    SetType(ReliveTypes::eScreenClipper);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);

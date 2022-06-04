@@ -18,7 +18,7 @@ GlukkonSwitch::GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     field_114 = 0;
     field_116 = -1;
 
-    SetType(AETypes::eHelpPhone_68);
+    SetType(ReliveTypes::eHelpPhone);
 
     const AnimRecord& rec = AnimRec(AnimId::Security_Door_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

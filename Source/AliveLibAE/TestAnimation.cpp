@@ -62,7 +62,7 @@ TestAnimation::TestAnimation()
 {
     mLoaded = false;
 
-    SetType(AETypes::eNone_0);
+    SetType(ReliveTypes::eNone);
 
     mApplyShadows &= ~1u;
 

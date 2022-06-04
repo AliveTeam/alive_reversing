@@ -146,7 +146,7 @@ void Grenade::VScreenChanged()
 
 void Grenade::Init(FP xpos, FP ypos)
 {
-    SetType(AETypes::eGrenade_65);
+    SetType(ReliveTypes::eGrenade);
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, 0, 0))
     {

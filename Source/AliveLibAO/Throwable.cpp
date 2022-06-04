@@ -13,19 +13,19 @@
 namespace AO {
 
 // Overlay to throwable type table ??
-const Types word_4CF158[54] = {
-    Types::eNone_0, Types::eNone_0, Types::eNone_0, Types::eGrenade_40, Types::eNone_0, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eRock_70,
-    Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eNone_0, Types::eRock_70, Types::eNone_0,
-    Types::eMeat_54, Types::eNone_0, Types::eMeat_54, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eRock_70, Types::eRock_70, Types::eNone_0,
-    Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eRock_70, Types::eNone_0, Types::eNone_0, Types::eGrenade_40,
-    Types::eNone_0, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eGrenade_40, Types::eNone_0, Types::eGrenade_40,
-    Types::eNone_0, Types::eNone_0, Types::eNone_0, Types::eNone_0};
+const AOTypes word_4CF158[54] = {
+    AOTypes::eNone_0, AOTypes::eNone_0, AOTypes::eNone_0, AOTypes::eGrenade_40, AOTypes::eNone_0, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eRock_70,
+    AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0,
+    AOTypes::eMeat_54, AOTypes::eNone_0, AOTypes::eMeat_54, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eRock_70, AOTypes::eRock_70, AOTypes::eNone_0,
+    AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eNone_0, AOTypes::eGrenade_40,
+    AOTypes::eNone_0, AOTypes::eGrenade_40, AOTypes::eGrenade_40, AOTypes::eGrenade_40, AOTypes::eGrenade_40, AOTypes::eGrenade_40, AOTypes::eGrenade_40, AOTypes::eGrenade_40, AOTypes::eNone_0, AOTypes::eGrenade_40,
+    AOTypes::eNone_0, AOTypes::eNone_0, AOTypes::eNone_0, AOTypes::eNone_0};
 
 BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
 {
     switch (word_4CF158[gMap.mOverlayId])
     {
-        case Types::eGrenade_40:
+        case AOTypes::eGrenade_40:
         {
             auto pGrenade = ao_new<Grenade>(xpos, ypos, count);
             if (pGrenade)
@@ -35,7 +35,7 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
             break;
         }
 
-        case Types::eMeat_54:
+        case AOTypes::eMeat_54:
         {
             auto pMeat = ao_new<Meat>(xpos, ypos, count);
             if (pMeat)
@@ -45,7 +45,7 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
             break;
         }
 
-        case Types::eRock_70:
+        case AOTypes::eRock_70:
         {
             auto pRock = ao_new<Rock>(xpos, ypos, count);
             if (pRock)
@@ -106,7 +106,7 @@ void BaseThrowable::BaseAddToPlatform()
                     break;
                 }
 
-                if (pObjIter->mBaseGameObjectTypeId == Types::eLiftPoint_51 || pObjIter->mBaseGameObjectTypeId == Types::eTrapDoor_98)
+                if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eTrapDoor)
                 {
                     auto pPlatformBase = static_cast<PlatformBase*>(pObjIter);
 

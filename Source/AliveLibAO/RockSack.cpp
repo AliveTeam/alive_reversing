@@ -115,7 +115,7 @@ RockSack::~RockSack()
 RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eRockSack_71;
+    mBaseGameObjectTypeId = ReliveTypes::eRockSack;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::RockSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

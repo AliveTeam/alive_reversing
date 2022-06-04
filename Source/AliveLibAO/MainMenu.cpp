@@ -317,7 +317,7 @@ const MenuFMV sLevelList_4D0300[15] = {
 
 MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestroyOnDone)
 {
-    mBaseGameObjectTypeId = Types::MainMenuFade_44;
+    mBaseGameObjectTypeId = ReliveTypes::MainMenuFade;
 
     field_C4_b = 128;
     field_C2_g = 128;
@@ -346,7 +346,7 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
         {
             break;
         }
-        if (pObj->mBaseGameObjectTypeId == Types::MainMenuFade_44 && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_A8_xpos == field_A8_xpos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_AC_ypos == field_AC_ypos)
+        if (pObj->mBaseGameObjectTypeId == ReliveTypes::MainMenuFade && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_A8_xpos == field_A8_xpos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_AC_ypos == field_AC_ypos)
         {
             pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -480,7 +480,7 @@ void MainMenuTransition::VUpdate()
 MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, TPageAbr abr)
     : BaseGameObject(1)
 {
-    mBaseGameObjectTypeId = Types::eDeathFadeOut_80;
+    mBaseGameObjectTypeId = ReliveTypes::eDeathFadeOut;
 
     gObjListDrawables->Push_Back(this);
 
@@ -1003,7 +1003,7 @@ void Menu::FMV_Select_Update_47E8D0()
                                 break;
                             }
 
-                            if (pObj->mBaseGameObjectTypeId == Types::eMovie_100)
+                            if (pObj->mBaseGameObjectTypeId == ReliveTypes::eMovie)
                             {
                                 if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                                 {
@@ -1265,7 +1265,7 @@ void Menu::ProgressInProgressFilesLoading()
                 break;
             }
 
-            if (pObjIter->mBaseGameObjectTypeId == Types::eLoadingFile_39)
+            if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eLoadingFile)
             {
                 pObjIter->VUpdate();
                 if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead))

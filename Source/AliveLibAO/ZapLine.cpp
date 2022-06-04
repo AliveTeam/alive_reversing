@@ -24,7 +24,7 @@ ZapLine::~ZapLine()
 
 ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, Layer layer)
 {
-    mBaseGameObjectTypeId = Types::eZapLine_94;
+    mBaseGameObjectTypeId = ReliveTypes::eZapLine;
     field_11A_type = type;
 
     AnimId animId = AnimId::None;

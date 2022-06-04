@@ -36,7 +36,7 @@ ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
 FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eRockSpawner_48);
+    SetType(ReliveTypes::eRockSpawner);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = tlvInfo;
@@ -97,7 +97,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
  FallingItem::FallingItem(s32 xpos, s32 ypos, s32 scale, s32 id, s32 fallInterval, s32 numItems, s32 bResetIdAfterUse)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eRockSpawner_48);
+    SetType(ReliveTypes::eRockSpawner);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = -1;
@@ -410,7 +410,7 @@ void FallingItem::DamageHitItems()
 
         if (pObj != this)
         {
-            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eDrill_30)
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == ReliveTypes::eDrill)
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
@@ -422,7 +422,7 @@ void FallingItem::DamageHitItems()
 
                 if (pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
                 {
-                    if (pAliveObj->Type() == AETypes::eDrill_30 || pAliveObj->Type() == AETypes::eMineCar_89)
+                    if (pAliveObj->Type() == ReliveTypes::eDrill || pAliveObj->Type() == ReliveTypes::eMineCar)
                     {
                         objRect.x += pAliveObj->field_DA_xOffset;
                         objRect.y += pAliveObj->field_D8_yOffset;
@@ -433,12 +433,12 @@ void FallingItem::DamageHitItems()
 
                     if (PSX_Rects_overlap_no_adjustment(&fallingItemRect, &objRect))
                     {
-                        if (pAliveObj->Type() == AETypes::eDrill_30)
+                        if (pAliveObj->Type() == ReliveTypes::eDrill)
                         {
                             // Drill is not a type that implements VTakeDamage
                             field_134_bHitDrillOrMineCar = TRUE;
                         }
-                        else if (pAliveObj->Type() == AETypes::eMineCar_89)
+                        else if (pAliveObj->Type() == ReliveTypes::eMineCar)
                         {
                             // ?? Could still call VTakeDamage here but OG doesn't ??
                             field_134_bHitDrillOrMineCar = TRUE;
@@ -446,7 +446,7 @@ void FallingItem::DamageHitItems()
                         else
                         {
                             bool doDamage = true;
-                            if (pAliveObj->Type() == AETypes::eParamite_96)
+                            if (pAliveObj->Type() == ReliveTypes::eParamite)
                             {
                                 // Some strange edge case for paramites - prevents them getting smashed by
                                 // falling items when stood on an edge by their huge heads peeking over a bit.

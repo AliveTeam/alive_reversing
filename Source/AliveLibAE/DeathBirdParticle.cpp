@@ -9,7 +9,7 @@
 DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySound, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eDeathBird_62);
+    SetType(ReliveTypes::eDeathBird);
 
     const AnimRecord& rec = AnimRec(AnimId::DeathFlare_1);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

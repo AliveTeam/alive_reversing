@@ -28,7 +28,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    SetType(AETypes::eTimedMine_or_MovingBomb_10);
+    SetType(ReliveTypes::eTimedMine_or_MovingBomb);
 
     const AnimRecord& rec = AnimRec(AnimId::MovingBomb);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -189,9 +189,9 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->Type())
     {
-        case AETypes::eAbilityRing_104:
-        case AETypes::eExplosion_109:
-        case AETypes::eShrykull_121:
+        case ReliveTypes::eAbilityRing:
+        case ReliveTypes::eExplosion:
+        case ReliveTypes::eShrykull:
         {
             mHealth = FP_FromInteger(0);
             ae_new<Explosion>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_CC_sprite_scale, 0);
@@ -205,7 +205,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         }
             return 0;
 
-        case AETypes::eElectrocute_150:
+        case ReliveTypes::eElectrocute:
             field_118_state = States::eKillMovingBomb_7;
             return 0;
 

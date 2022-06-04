@@ -262,7 +262,7 @@ Movie::Movie(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 volume)
     */
 
     field_28 = id;
-    mBaseGameObjectTypeId = Types::eMovie_100;
+    mBaseGameObjectTypeId = ReliveTypes::eMovie;
     field_2C = 0;
     field_10_flags = 4 * (bUnknown & 1) | (field_10_flags & ~7);
     field_3C = 1;

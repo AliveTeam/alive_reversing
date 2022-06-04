@@ -32,7 +32,7 @@ void MusicTrigger::Init(MusicTriggerMusicType musicType, TriggeredBy triggeredBy
     field_24_flags.Clear(Flags_24::e24_Bit2_TriggeredByTimer);
     field_24_flags.Clear(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
 
-    SetType(AETypes::eMusicTrigger_94);
+    SetType(ReliveTypes::eMusicTrigger);
     field_28_counter = 0;
 
     switch (musicType)

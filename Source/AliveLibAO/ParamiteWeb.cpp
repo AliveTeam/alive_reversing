@@ -26,7 +26,7 @@ ParamiteWeb::~ParamiteWeb()
 
 ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 {
-    mBaseGameObjectTypeId = Types::eRope_73;
+    mBaseGameObjectTypeId = ReliveTypes::eRope;
 
     field_C8_yOffset = 0;
 

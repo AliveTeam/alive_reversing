@@ -76,7 +76,7 @@ void DeathFadeOut::Init(Layer layer, s16 direction, s16 destroyOnDone, s32 speed
 DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr)
     : EffectBase(layer, abr)
 {
-    mBaseGameObjectTypeId = Types::eDeathFadeOut_80;
+    mBaseGameObjectTypeId = ReliveTypes::eDeathFadeOut;
 
     if (direction)
     {

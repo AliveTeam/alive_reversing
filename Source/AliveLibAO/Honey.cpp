@@ -14,7 +14,7 @@ void Honey::VUpdate()
 
 Honey::Honey(FP xpos, FP ypos)
 {
-    mBaseGameObjectTypeId = Types::eHoney_47;
+    mBaseGameObjectTypeId = ReliveTypes::eHoney;
 
     field_C4_b = 128;
     field_C2_g = 128;

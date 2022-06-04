@@ -23,7 +23,7 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     : BaseThrowable()
 {
     field_10E_bDead = 0;
-    mBaseGameObjectTypeId = Types::eGrenade_40;
+    mBaseGameObjectTypeId = ReliveTypes::eGrenade;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Grenade);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

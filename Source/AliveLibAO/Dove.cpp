@@ -22,7 +22,7 @@ static s16 abePortalDirection_4C50B0 = -1;
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
 {
-    mBaseGameObjectTypeId = Types::eBird_22;
+    mBaseGameObjectTypeId = ReliveTypes::eBird;
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
     Animation_Init_417FD0(
         frameTableOffset,
@@ -82,7 +82,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
 {
-    mBaseGameObjectTypeId = Types::eBird_22;
+    mBaseGameObjectTypeId = ReliveTypes::eBird;
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
     Animation_Init_417FD0(

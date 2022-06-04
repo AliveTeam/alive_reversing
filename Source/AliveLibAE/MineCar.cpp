@@ -21,7 +21,7 @@ const FP mineCarWidthUnscaled = FP_FromInteger(12);
 MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*a6*/)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eMineCar_89);
+    SetType(ReliveTypes::eMineCar);
 
     const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Open);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -682,12 +682,12 @@ void MineCar::RunThingsOver()
         if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // You can't run yourself over with a mine car it seems.
-            if (pObj->Type() != AETypes::eAbe_69)
+            if (pObj->Type() != ReliveTypes::eAbe)
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
                 if (pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale ||
-                   (pAliveObj->Type() == AETypes::eSlog_126 && field_CC_sprite_scale != FP_FromDouble(0.5)))
+                   (pAliveObj->Type() == ReliveTypes::eSlog && field_CC_sprite_scale != FP_FromDouble(0.5)))
                 {
                     PSX_RECT targetRect = {};
                     pAliveObj->VGetBoundingRect(&targetRect, 1);

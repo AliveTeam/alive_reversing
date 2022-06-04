@@ -34,7 +34,7 @@ const TintEntry kClawTints_4C5498[3] = {
 
 Claw::Claw()
 {
-    mBaseGameObjectTypeId = Types::eClawOrBirdPortalTerminator_48;
+    mBaseGameObjectTypeId = ReliveTypes::eClawOrBirdPortalTerminator;
     
     const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -50,7 +50,7 @@ void Claw::VScreenChanged()
 SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eSecurityClaw_31;
+    mBaseGameObjectTypeId = ReliveTypes::eSecurityClaw;
 
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     field_12C_pDetector = 1;
@@ -151,7 +151,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
 {
     if (!mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        if (pFrom->mBaseGameObjectTypeId == Types::eAbilityRing_69 || pFrom->mBaseGameObjectTypeId == Types::eShrykull_85)
+        if (pFrom->mBaseGameObjectTypeId == ReliveTypes::eAbilityRing || pFrom->mBaseGameObjectTypeId == ReliveTypes::eShrykull)
         {
             field_12C_pDetector = 0;
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -265,7 +265,7 @@ void SecurityClaw::VUpdate()
                     break;
                 }
 
-                if (pObjIter->mBaseGameObjectTypeId == Types::eMotionDetector_59)
+                if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMotionDetector)
                 {
                     auto pDetector = static_cast<MotionDetector*>(pObjIter);
                     if (!field_13C_pArray)

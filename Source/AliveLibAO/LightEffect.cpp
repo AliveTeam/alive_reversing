@@ -12,7 +12,7 @@ namespace AO {
 
 LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eNone_0;
+    mBaseGameObjectTypeId = ReliveTypes::eNone;
     field_E4_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Star);

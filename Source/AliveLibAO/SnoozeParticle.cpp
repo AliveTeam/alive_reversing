@@ -72,7 +72,7 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
-    mBaseGameObjectTypeId = Types::eSnoozParticle_87;
+    mBaseGameObjectTypeId = ReliveTypes::eSnoozParticle;
     gObjListDrawables->Push_Back(this);
 
     field_10_x_start = xpos;

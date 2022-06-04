@@ -22,7 +22,7 @@ Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
 {
     mAlarmPauseTimer = timer + sGnFrame;
     mAlarmSwitchId = static_cast<s16>(switchId);
-    mBaseGameObjectTypeId = Types::eAlarm_1;
+    mBaseGameObjectTypeId = ReliveTypes::eAlarm;
     mAlarmRed = 0;
     mAlarmState = States::eAfterConstructed_0;
     mAlarmDurationTimer = mAlarmPauseTimer + duration_timer;

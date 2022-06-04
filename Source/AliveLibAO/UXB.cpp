@@ -15,7 +15,7 @@ namespace AO {
 UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eUXB_99;
+    mBaseGameObjectTypeId = ReliveTypes::eUXB;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::UXB_Active);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -263,16 +263,16 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case Types::eAbe_43:
+        case AOTypes::eAbe_43:
             if (field_10C_state == UXBState::eDeactivated_3)
             {
                 return 0;
             }
             break;
 
-        case Types::eAbilityRing_69:
-        case Types::eExplosion_74:
-        case Types::eShrykull_85:
+        case AOTypes::eAbilityRing_69:
+        case AOTypes::eExplosion_74:
+        case AOTypes::eShrykull_85:
             break;
 
         default:

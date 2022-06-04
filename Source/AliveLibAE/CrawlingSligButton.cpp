@@ -21,7 +21,7 @@ const SfxDefinition buttonSfxInfo_544488[8] = {
 CrawlingSligButton::CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eSligButton_16);
+    SetType(ReliveTypes::eSligButton);
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

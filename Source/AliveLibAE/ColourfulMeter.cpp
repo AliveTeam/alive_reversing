@@ -18,7 +18,7 @@ ALIVE_VAR(1, 0x5c1bf8, u16, gbDrawMeterCountDown_5C1BF8, 0);
 ColourfulMeter::ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eColourfulMeter_59);
+    SetType(ReliveTypes::eColourfulMeter);
     field_68_tlvInfo = tlvInfo;
 
     field_74_tlv_x = pTlv->field_8_top_left.field_0_x;

@@ -8,7 +8,7 @@
 SlurgSpawner::SlurgSpawner(Path_SlurgSpawner* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eSlurgSpawner_128);
+    SetType(ReliveTypes::eSlurgSpawner);
     field_20_tlvInfo = tlvInfo;
     field_24_slurg_tlv = pTlv;
     field_28_path_data = pTlv->field_18_spawner_data;

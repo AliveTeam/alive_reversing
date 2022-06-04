@@ -128,7 +128,7 @@ s32 Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
 
-    if (pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eMudokon2)
+    if (pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eCtorMudokon)
     {
         LOG_ERROR("never expected pObj type id to be abe or mudokon in Animation_OnFrame_Common_434130");
         ALIVE_FATAL("got wrong type id");

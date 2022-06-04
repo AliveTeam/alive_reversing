@@ -1048,7 +1048,7 @@ void Slog::M_WakeUp_17_4C7000()
             break;
         }
 
-        if (pObj->Type() == AETypes::eSnoozeParticle_124)
+        if (pObj->Type() == ReliveTypes::eSnoozeParticle)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
@@ -1628,7 +1628,7 @@ s16 Slog::Brain_Idle_1_4C2830()
     if (field_134_last_event_index != pEventSystem_5BC11C->field_28_last_event_index)
     {
         field_134_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter_5C1B8C->Type() == AETypes::eSlig_125)
+        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter_5C1B8C->Type() == ReliveTypes::eSlig)
         {
             field_120_brain_state_idx = 0;
             field_118_target_id = -1;
@@ -1840,7 +1840,7 @@ s16 Slog::Brain_ChasingAbe_2_4C0A00()
         if (field_134_last_event_index != pEventSystem_5BC11C->field_28_last_event_index)
         {
             field_134_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
-            if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter_5C1B8C->Type() == AETypes::eSlig_125)
+            if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter_5C1B8C->Type() == ReliveTypes::eSlig)
             {
                 field_120_brain_state_idx = 0;
                 field_118_target_id = -1;
@@ -2787,7 +2787,7 @@ const TintEntry sSlogTints_560A48[] = {
 
 void Slog::Init_4C46A0()
 {
-    SetType(AETypes::eSlog_126);
+    SetType(ReliveTypes::eSlog);
     const AnimRecord& rec = AnimRec(AnimId::Slog_Idle);
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kDogrstnResID, 1, 0));
@@ -2850,7 +2850,7 @@ void Slog::Init_4C46A0()
 
     sSlogCount_BAF7F2++;
 
-    VStackOnObjectsOfType(AETypes::eSlog_126);
+    VStackOnObjectsOfType(ReliveTypes::eSlog);
 }
 
 void Slog::VUpdate()
@@ -3168,7 +3168,7 @@ Bone* Slog::FindBone_4C25B0()
             break;
         }
 
-        if (pObj->Type() == AETypes::eBone_11)
+        if (pObj->Type() == ReliveTypes::eBone)
         {
             auto pBone = static_cast<Bone*>(pObj);
             if (pBone->VCanThrow())
@@ -3225,7 +3225,7 @@ BaseAliveGameObject* Slog::FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp)
             break;
         }
 
-        if (pObj->Type() == AETypes::eSlog_126)
+        if (pObj->Type() == ReliveTypes::eSlog)
         {
             auto pSlog = static_cast<Slog*>(pObj);
             if (pSlog->field_118_target_id != -1 && array_idx < ALIVE_COUNTOF(local_array))
@@ -3238,13 +3238,13 @@ BaseAliveGameObject* Slog::FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp)
         {
             switch (pObj->Type())
             {
-                case AETypes::eCrawlingSlig_26:
-                case AETypes::eFlyingSlig_54:
-                case AETypes::eGlukkon_67:
-                case AETypes::eAbe_69:
-                case AETypes::eMudokon_110:
-                case AETypes::eSlig_125:
-                    if (bKillSligs || (!bKillSligs && (pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eGlukkon_67 || (pObj->Type() == AETypes::eMudokon_110 && static_cast<Mudokon*>(pObj)->field_18E_brain_state == Mud_Brain_State::Brain_4_ListeningToAbe_477B40))))
+                case ReliveTypes::eCrawlingSlig:
+                case ReliveTypes::eFlyingSlig:
+                case ReliveTypes::eGlukkon:
+                case ReliveTypes::eAbe:
+                case ReliveTypes::eMudokon:
+                case ReliveTypes::eSlig:
+                    if (bKillSligs || (!bKillSligs && (pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eCrawlingSlig || pObj->Type() == ReliveTypes::eFlyingSlig || pObj->Type() == ReliveTypes::eGlukkon || (pObj->Type() == ReliveTypes::eMudokon && static_cast<Mudokon*>(pObj)->field_18E_brain_state == Mud_Brain_State::Brain_4_ListeningToAbe_477B40))))
                     {
                         PSX_RECT objRect = {};
                         pObj->VGetBoundingRect(&objRect, 1);
@@ -3332,7 +3332,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->Type())
     {
-        case AETypes::eBullet_15:
+        case ReliveTypes::eBullet:
         {
             auto pBullet = static_cast<Bullet*>(pFrom);
             switch (pBullet->field_20_type)
@@ -3384,9 +3384,9 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             break;
         }
 
-        case AETypes::eDrill_30:
-        case AETypes::eBaseBomb_46:
-        case AETypes::eExplosion_109:
+        case ReliveTypes::eDrill:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eExplosion:
         {
             Sfx_4C7D30(SlogSound::DeathWhine_9);
             mHealth = FP_FromInteger(0);
@@ -3404,13 +3404,13 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             break;
         }
 
-        case AETypes::eElectricWall_39:
+        case ReliveTypes::eElectricWall:
             Sfx_4C7D30(SlogSound::DeathWhine_9);
             field_160_flags.Set(Flags_160::eBit13_Unused);
             break;
 
-        case AETypes::eRockSpawner_48:
-        case AETypes::eMineCar_89:
+        case ReliveTypes::eRockSpawner:
+        case ReliveTypes::eMineCar:
             Sfx_4C7D30(SlogSound::DeathWhine_9);
             mHealth = FP_FromInteger(0);
             field_120_brain_state_idx = 3;
@@ -3420,7 +3420,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             field_20_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
             break;
 
-        case AETypes::eAbilityRing_104:
+        case ReliveTypes::eAbilityRing:
             if (!field_160_flags.Get(Flags_160::eBit6_HitByAbilityRing))
             {
                 field_160_flags.Set(Flags_160::eBit6_HitByAbilityRing);
@@ -3428,7 +3428,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AETypes::eElectrocute_150:
+        case ReliveTypes::eElectrocute:
             mHealth = FP_FromInteger(0);
             field_120_brain_state_idx = 3;
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -3464,7 +3464,7 @@ s16 Slog::PlayerOrNakedSligNear_4C26A0()
             break;
         }
 
-        if (pObj->Type() == AETypes::eCrawlingSlig_26)
+        if (pObj->Type() == ReliveTypes::eCrawlingSlig)
         {
             // Is this naked slig near?
             if (FP_Abs(pObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) < kMinXDist && FP_Abs(pObj->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) < kMinYDist && pObj->field_CC_sprite_scale == field_CC_sprite_scale)

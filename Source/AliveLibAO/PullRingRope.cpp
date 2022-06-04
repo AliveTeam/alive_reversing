@@ -12,7 +12,7 @@ namespace AO {
 
 PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::ePullRingRope_68;
+    mBaseGameObjectTypeId = ReliveTypes::ePullRingRope;
 
     s32 lvl_x_off = 0;
     switch (gMap.mCurrentLevel)

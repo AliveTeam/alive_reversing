@@ -41,7 +41,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    mBaseGameObjectTypeId = Types::eRockSpawner_32;
+    mBaseGameObjectTypeId = ReliveTypes::eRockSpawner;
 
     field_10C_tlvInfo = tlvInfo;
 

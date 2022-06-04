@@ -40,7 +40,7 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
 AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eAbilityRing_104);
+    SetType(ReliveTypes::eAbilityRing);
     mRingTargetObjId = -1;
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
@@ -546,7 +546,7 @@ void AbilityRing::CollideWithObjects(s16 bDealDamage)
                             pObj->VTakeDamage(this);
                         }
                     }
-                    else if (pObj->Type() == AETypes::eMudokon_110)
+                    else if (pObj->Type() == ReliveTypes::eMudokon)
                     {
                         // is the mudokon sick?
                         if (pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
@@ -581,7 +581,7 @@ void AbilityRing::VScreenChanged()
                 break;
             }
 
-            if (pObj->Type() == AETypes::eMudokon_110)
+            if (pObj->Type() == ReliveTypes::eMudokon)
             {
                 if (pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
                 {

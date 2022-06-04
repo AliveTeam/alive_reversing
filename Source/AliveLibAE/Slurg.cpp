@@ -54,7 +54,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
-    SetType(AETypes::eSlurg_129);
+    SetType(ReliveTypes::eSlurg);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -104,7 +104,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
         field_118_flags.Set(SlurgFlags::Bit1_Direction);
     }
 
-    VStackOnObjectsOfType(AETypes::eSlurg_129);
+    VStackOnObjectsOfType(ReliveTypes::eSlurg);
     mApplyShadows |= 2u;
     mShadow = ae_new<Shadow>();
 }
@@ -270,7 +270,7 @@ void Slurg::VUpdate()
 s16 Slurg::VTakeDamage(BaseGameObject* pFrom)
 {
     // Slurgs are tough little dudes, only Paramites can smack 'em up.
-    if (pFrom->Type() == AETypes::eParamite_96)
+    if (pFrom->Type() == ReliveTypes::eParamite)
     {
         Burst();
         return 1;

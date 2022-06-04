@@ -22,7 +22,7 @@ ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
 Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eMine_88);
+    SetType(ReliveTypes::eMine);
 
     const AnimRecord& rec = AnimRec(AnimId::Mine);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

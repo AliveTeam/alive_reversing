@@ -206,7 +206,7 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 {
     field_E4_tlvInfo = tlvInfo;
-    mBaseGameObjectTypeId = Types::eWell_101;
+    mBaseGameObjectTypeId = ReliveTypes::eWell;
 
     field_C4_b = 128;
     field_C2_g = 128;

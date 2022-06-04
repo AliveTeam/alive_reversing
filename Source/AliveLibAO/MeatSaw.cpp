@@ -33,7 +33,7 @@ MeatSaw::~MeatSaw()
 
 MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eMeatSaw_56;
+    mBaseGameObjectTypeId = ReliveTypes::eMeatSaw;
 
     const AnimRecord rec = AO::AnimRec(AnimId::MeatSaw_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -311,7 +311,7 @@ void MeatSaw::GrindUpObjects_439CD0()
             if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 // Can't grind meat with a meat saw, that would be grindception
-                if (pObjIter->mBaseGameObjectTypeId != Types::eMeat_54)
+                if (pObjIter->mBaseGameObjectTypeId != ReliveTypes::eMeat)
                 {
                     PSX_RECT objRect = {};
                     pObjIter->VGetBoundingRect(&objRect, 1);

@@ -69,7 +69,7 @@ const AnimId sDoorAnimdIdTable_4BA508[16][6] = {
 
 Door::Door(Path_Door* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eDoor_21;
+    mBaseGameObjectTypeId = ReliveTypes::eDoor;
 
     field_E4_tlvInfo = tlvInfo;
 

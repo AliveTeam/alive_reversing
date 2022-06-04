@@ -7,7 +7,7 @@
 OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale, bool bIsMudokonSpirit)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eNone_0);
+    SetType(ReliveTypes::eNone);
 
     field_6C_xpos = xpos;
     field_70_ypos = ypos;

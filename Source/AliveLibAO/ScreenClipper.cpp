@@ -48,7 +48,7 @@ void ScreenClipper::VScreenChanged()
 ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
     : BaseGameObject(1)
 {
-    mBaseGameObjectTypeId = Types::eScreenClipper_78;
+    mBaseGameObjectTypeId = ReliveTypes::eScreenClipper;
 
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);

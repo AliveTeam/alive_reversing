@@ -17,7 +17,7 @@
 Shrykull::Shrykull()
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eShrykull_121);
+    SetType(ReliveTypes::eShrykull);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
@@ -67,16 +67,16 @@ s16 Shrykull::CanElectrocute(BaseGameObject* pObj)
 {
     switch (pObj->Type())
     {
-        case AETypes::eCrawlingSlig_26:
-        case AETypes::eNeverSet_40:
-        case AETypes::eFlyingSlig_54:
-        case AETypes::eGlukkon_67:
-        case AETypes::eMudokon2_81:
-        case AETypes::eParamite_96:
-        case AETypes::eMudokon_110:
-        case AETypes::eScrab_112:
-        case AETypes::eSlig_125:
-        case AETypes::eSlog_126:
+        case ReliveTypes::eCrawlingSlig:
+        //case AETypes::eNeverSet_40:
+        case ReliveTypes::eFlyingSlig:
+        case ReliveTypes::eGlukkon:
+        case ReliveTypes::eCtorMudokon:
+        case ReliveTypes::eParamite:
+        case ReliveTypes::eMudokon:
+        case ReliveTypes::eScrab:
+        case ReliveTypes::eSlig:
+        case ReliveTypes::eSlog:
             return 1;
         default:
             return 0;
@@ -86,7 +86,7 @@ s16 Shrykull::CanElectrocute(BaseGameObject* pObj)
 s16 Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     return (
-               pObj->Type() == AETypes::eTimedMine_or_MovingBomb_10 || pObj->Type() == AETypes::eMine_88 || pObj->Type() == AETypes::eUXB_143 || pObj->Type() == AETypes::eSlig_125 || pObj->Type() == AETypes::eFlyingSlig_54 || pObj->Type() == AETypes::eCrawlingSlig_26 || pObj->Type() == AETypes::eSlog_126 || pObj->Type() == AETypes::eGlukkon_67 || pObj->Type() == AETypes::eSecurityClaw_47 || pObj->Type() == AETypes::eSecurityOrb_83)
+               pObj->Type() == ReliveTypes::eTimedMine_or_MovingBomb || pObj->Type() == ReliveTypes::eMine || pObj->Type() == ReliveTypes::eUXB || pObj->Type() == ReliveTypes::eSlig || pObj->Type() == ReliveTypes::eFlyingSlig || pObj->Type() == ReliveTypes::eCrawlingSlig || pObj->Type() == ReliveTypes::eSlog || pObj->Type() == ReliveTypes::eGlukkon || pObj->Type() == ReliveTypes::eSecurityClaw || pObj->Type() == ReliveTypes::eSecurityOrb)
         && pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render) && !pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && gMap.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->mBaseAnimatedWithPhysicsGameObject_XPos, pObj->mBaseAnimatedWithPhysicsGameObject_YPos, 0);
 }
 
@@ -173,7 +173,7 @@ void Shrykull::VUpdate()
                         ae_new<Electrocute>(pObj, 0, 1);
                         field_120_timer = sGnFrame + 3;
 
-                        if (pObj->Type() == AETypes::eGlukkon_67)
+                        if (pObj->Type() == ReliveTypes::eGlukkon)
                         {
                             pObj->VTakeDamage(this);
                         }

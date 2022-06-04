@@ -14,7 +14,7 @@ namespace AO {
 ScreenShake::ScreenShake(bool enableShakeEvent)
     : BaseGameObject(1)
 {
-    mBaseGameObjectTypeId = Types::ScreenShake_82;
+    mBaseGameObjectTypeId = ReliveTypes::ScreenShake;
 
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 

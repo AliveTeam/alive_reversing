@@ -13,7 +13,7 @@ namespace AO {
 RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eRollingBallStopper_60;
+    mBaseGameObjectTypeId = ReliveTypes::eRollingBallStopper;
     
     const AnimRecord& rec = AO::AnimRec(AnimId::Stone_Ball_Stopper);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

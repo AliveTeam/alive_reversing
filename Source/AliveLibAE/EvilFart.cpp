@@ -23,7 +23,7 @@ constexpr Colour redFart = {128, 38, 32};
 EvilFart::EvilFart()
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eEvilFart_45);
+    SetType(ReliveTypes::eEvilFart);
 
     const AnimRecord& rec = AnimRec(AnimId::Fart);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -280,7 +280,7 @@ s16 EvilFart::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (pFrom->Type() == AETypes::eElectricWall_39)
+    if (pFrom->Type() == ReliveTypes::eElectricWall)
     {
         field_11C_alive_timer = 0;
     }

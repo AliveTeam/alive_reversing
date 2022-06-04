@@ -196,7 +196,7 @@ void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
 
 BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
 {
-    mBaseGameObjectTypeId = Types::eBaseBomb_30;
+    mBaseGameObjectTypeId = ReliveTypes::eBaseBomb;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Explosion_Mine);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

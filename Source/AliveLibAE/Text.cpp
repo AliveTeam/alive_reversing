@@ -28,7 +28,7 @@ Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    SetType(AETypes::eText_87);
+    SetType(ReliveTypes::eText);
 
     gObjListDrawables->Push_Back(this);
 

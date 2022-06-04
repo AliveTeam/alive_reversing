@@ -13,7 +13,7 @@ void DeathFadeOut::VScreenChanged()
 DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr)
     : EffectBase(layer, abr)
 {
-    SetType(AETypes::eMainMenuTransistion_116);
+    SetType(ReliveTypes::eMainMenuTransistion);
 
     if (direction)
     {

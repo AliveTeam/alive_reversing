@@ -28,7 +28,7 @@ void CreateGameEnderController_43B7A0()
             break;
         }
 
-        if (pObj->Type() == AETypes::eGameEnderController_57)
+        if (pObj->Type() == ReliveTypes::eGameEnderController)
         {
             return;
         }
@@ -55,7 +55,7 @@ s32 GameEnderController::CreateFromSaveState(const u8* pBuffer)
 GameEnderController::GameEnderController()
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eGameEnderController_57);
+    SetType(ReliveTypes::eGameEnderController);
     field_24_state = GameEnderController_States::eInit_0;
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDeathFlareResID);
 }

@@ -15,7 +15,7 @@
 FlyingSligSpawner::FlyingSligSpawner(Path_FlyingSligSpawner* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eFlyingSligSpawner_55);
+    SetType(ReliveTypes::eFlyingSligSpawner);
 
     if (tlvInfo != -1)
     {
@@ -70,7 +70,7 @@ void FlyingSligSpawner::VUpdate()
                     break;
                 }
 
-                if (pObj->Type() == AETypes::eFlyingSlig_54 && pObj->mBaseGameObjectTlvInfo == field_24_spawned_slig_id)
+                if (pObj->Type() == ReliveTypes::eFlyingSlig && pObj->mBaseGameObjectTlvInfo == field_24_spawned_slig_id)
                 {
                     field_24_spawned_slig_id = pObj->field_8_object_id;
                     break;

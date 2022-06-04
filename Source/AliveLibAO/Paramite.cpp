@@ -102,7 +102,7 @@ static BrainFunctionData<Paramite::TParamiteBrain> sParamiteBrainTable[]{
 Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eParamite_62;
+    mBaseGameObjectTypeId = ReliveTypes::eParamite;
 
     for (s32 i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
     {
@@ -201,7 +201,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
     }
 
-    VStackOnObjectsOfType(Types::eParamite_62);
+    VStackOnObjectsOfType(AOTypes::eParamite_62);
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
 
@@ -314,8 +314,8 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case Types::eBaseBomb_30:
-        case Types::eExplosion_74:
+        case AOTypes::eBaseBomb_30:
+        case AOTypes::eExplosion_74:
         {
             ao_new<Gibs>(
                 GibType::Slog_2,
@@ -331,10 +331,10 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             return 1;
         }
 
-        case Types::eAbilityRing_69:
+        case AOTypes::eAbilityRing_69:
             return 0;
 
-        case Types::eBeeSwarm_95:
+        case AOTypes::eBeeSwarm_95:
             mHealth -= FP_FromDouble(0.2);
             if (mHealth > FP_FromInteger(0))
             {
@@ -441,7 +441,7 @@ void Paramite::VUpdate()
                 break;
             }
 
-            if (pObjIter->mBaseGameObjectTypeId == Types::eParamite_62 && pObjIter != this)
+            if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eParamite && pObjIter != this)
             {
                 Paramite* pOther = static_cast<Paramite*>(pObjIter);
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
@@ -682,7 +682,7 @@ s16 Paramite::AnotherParamiteNear()
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == Types::eParamite_62 && pObjIter != this)
+        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eParamite && pObjIter != this)
         {
             Paramite* pOther = static_cast<Paramite*>(pObjIter);
             if (gMap.Is_Point_In_Current_Camera_4449C0(
@@ -744,7 +744,7 @@ Meat* Paramite::FindMeat()
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == Types::eMeat_54)
+        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMeat)
         {
             auto pMeat = static_cast<Meat*>(pObjIter);
             if (pMeat->VCanEatMe())

@@ -11,7 +11,7 @@
 SligSpawner::SligSpawner(Path_Slig* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eSligSpawner_2);
+    SetType(ReliveTypes::eSligSpawner);
 
     if (tlvInfo != 0xFFFF)
     {
@@ -68,7 +68,7 @@ void SligSpawner::VUpdate()
                     break;
                 }
 
-                if (pObj->Type() == AETypes::eSlig_125 && pObj->mBaseGameObjectTlvInfo == field_3C_spawned_slig_obj_id)
+                if (pObj->Type() == ReliveTypes::eSlig && pObj->mBaseGameObjectTlvInfo == field_3C_spawned_slig_obj_id)
                 {
                     // Seems redundant ?
                     field_3C_spawned_slig_obj_id = pObj->field_8_object_id;

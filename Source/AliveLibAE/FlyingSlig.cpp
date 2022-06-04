@@ -123,7 +123,7 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
         mBaseGameObjectTlvInfo = tlvInfo;
     }
 
-    SetType(AETypes::eFlyingSlig_54);
+    SetType(ReliveTypes::eFlyingSlig);
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, TRUE, FALSE));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, TRUE, FALSE));
@@ -952,7 +952,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->Type())
     {
-        case AETypes::eBullet_15:
+        case ReliveTypes::eBullet:
         {
             if (static_cast<Bullet*>(pFrom)->field_20_type == BulletType::eZBullet_3)
             {
@@ -988,13 +988,13 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
             // Not in Z-Cover, fall through and be shot
             [[fallthrough]];
         }
-        case AETypes::eDrill_30:
-        case AETypes::eRockSpawner_48:
-        case AETypes::eAbe_69:
-        case AETypes::eMeatSaw_86:
-        case AETypes::eMineCar_89:
-        case AETypes::eNeverSet_107:
-        case AETypes::eSlog_126:
+        case ReliveTypes::eDrill:
+        case ReliveTypes::eRockSpawner:
+        case ReliveTypes::eAbe:
+        case ReliveTypes::eMeatSaw:
+        case ReliveTypes::eMineCar:
+        //case AETypes::eNeverSet_107:
+        case ReliveTypes::eSlog:
         {
             if (BrainIs(&FlyingSlig::Brain_1_Death))
             {
@@ -1009,19 +1009,19 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
             return 1;
         }
 
-        case AETypes::eElectricWall_39:
+        case ReliveTypes::eElectricWall:
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_15C_voice_pitch_min, this);
             break;
 
-        case AETypes::eBaseBomb_46:
-        case AETypes::eExplosion_109:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eExplosion:
             if (!BrainIs(&FlyingSlig::Brain_1_Death))
             {
                 BlowUp_436510();
             }
             break;
 
-        case AETypes::eElectrocute_150:
+        case ReliveTypes::eElectrocute:
             if (!BrainIs(&FlyingSlig::Brain_1_Death))
             {
                 field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
@@ -1093,7 +1093,7 @@ void FlyingSlig::Brain_4_ChasingEnemy()
         return;
     }
 
-    if (Event_Get(kEventResetting) || sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale || IsInInvisibleZone(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (sControlledCharacter_5C1B8C != sActiveHero || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->Type() != AETypes::eMineCar_89))
+    if (Event_Get(kEventResetting) || sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale || IsInInvisibleZone(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (sControlledCharacter_5C1B8C != sActiveHero || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eMineCar))
     {
         PatrolDelay_435860();
         return;
@@ -3279,7 +3279,7 @@ s16 FlyingSlig::TryPullLever_439DB0()
             break;
         }
 
-        if (pObj->Type() == AETypes::eLever_139)
+        if (pObj->Type() == ReliveTypes::eLever)
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 

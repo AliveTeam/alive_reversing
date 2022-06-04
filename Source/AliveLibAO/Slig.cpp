@@ -300,7 +300,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
 
-    mBaseGameObjectTypeId = Types::eSlig_88;
+    mBaseGameObjectTypeId = ReliveTypes::eSlig;
 
     field_114_timer = 0;
     field_118_unused = 0;
@@ -377,7 +377,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
 
     Init();
 
-    VStackOnObjectsOfType(Types::eSlig_88);
+    VStackOnObjectsOfType(AOTypes::eSlig_88);
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
 
@@ -835,7 +835,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case Types::eBullet_10:
+        case ReliveTypes::eBullet:
         {
             auto pBullet = static_cast<Bullet*>(pFrom);
             if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
@@ -904,13 +904,13 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             return 1;
         }
 
-        case Types::eElectricWall_25:
+        case ReliveTypes::eElectricWall:
             Slig_GameSpeak_SFX_46F560(SligSpeak::eHelp_10, 0, field_110_pitch_min, this);
             return 1;
 
-        case Types::eBaseBomb_30:
-        case Types::eMeatSaw_56:
-        case Types::eExplosion_74:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eMeatSaw:
+        case ReliveTypes::eExplosion:
             if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 ao_new<Gibs>(
@@ -933,10 +933,10 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eAbilityRing_69:
+        case ReliveTypes::eAbilityRing:
             return 1;
 
-        case Types::eSlog_89:
+        case ReliveTypes::eSlog:
             if (mHealth <= FP_FromInteger(0)
                 && (mCurrentMotion == eSligMotions::Motion_35_Knockback_46A720 || mCurrentMotion == eSligMotions::Motion_45_Smash_46A990))
             {
@@ -969,7 +969,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eBeeSwarm_95:
+        case ReliveTypes::eBeeSwarm:
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth -= FP_FromDouble(0.34);
@@ -984,7 +984,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eElectrocute_103:
+        case ReliveTypes::eElectrocute:
             if (mHealth > FP_FromInteger(0))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -993,7 +993,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case Types::eBat_6:
+        case ReliveTypes::eBat:
             break;
 
         default:
@@ -1386,7 +1386,7 @@ s16 Slig::FindBeatTarget_46D0E0(s32 /*typeToFind*/, s32 gridBlocks)
         {
             break;
         }
-        if (pTargetObj != this && pTargetObj->mBaseGameObjectTypeId == Types::eMudokon_75)
+        if (pTargetObj != this && pTargetObj->mBaseGameObjectTypeId == ReliveTypes::eMudokon)
         {
             PSX_RECT bRect = {};
             pTargetObj->VGetBoundingRect(
@@ -1453,7 +1453,7 @@ void Slig::RespondToEnemyOrPatrol_465DF0()
 
     if (field_174_tlv.field_28_shoot_on_sight_delay)
     {
-        if (sControlledCharacter_50767C->mBaseGameObjectTypeId != Types::eSlig_88
+        if (sControlledCharacter_50767C->mBaseGameObjectTypeId != ReliveTypes::eSlig
             || field_174_tlv.field_26_shoot_possessed_sligs != Path_Slig::ShootPossessedSligs::eNo_0)
         {
             SetBrain(&Slig::Brain_SpottedEnemy_465EB0);
@@ -1684,7 +1684,7 @@ Bool32 Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
 
 s16 Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
 {
-    if (((pThis->mBaseGameObjectTypeId == Types::eAbe_43) && (pThis->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370 && pThis->field_10_anim.field_92_current_frame > 7)) || (pThis->mCurrentMotion == eAbeMotions::Motion_157_DoorExit_42D780 && pThis->field_10_anim.field_92_current_frame < 4))
+    if (((pThis->mBaseGameObjectTypeId == ReliveTypes::eAbe) && (pThis->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370 && pThis->field_10_anim.field_92_current_frame > 7)) || (pThis->mCurrentMotion == eAbeMotions::Motion_157_DoorExit_42D780 && pThis->field_10_anim.field_92_current_frame < 4))
     {
         return 1;
     }
@@ -2140,7 +2140,7 @@ s16 Slig::HandlePlayerControlled()
                     if (!(field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
-                            Types::eLever_97,
+                            AOTypes::eLever_97,
                             field_A8_xpos + kScaleGrid,
                             field_AC_ypos - FP_FromInteger(5)));
                         if (pSwitch)
@@ -2161,7 +2161,7 @@ s16 Slig::HandlePlayerControlled()
                 {
                     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos - kScaleGrid, field_AC_ypos - FP_FromInteger(5)));
+                        auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(AOTypes::eLever_97, field_A8_xpos - kScaleGrid, field_AC_ypos - FP_FromInteger(5)));
                         if (pSwitch)
                         {
                             pSwitch->VPull(
@@ -2209,7 +2209,7 @@ s16 Slig::HandlePlayerControlled()
     {
         if (mLiftPoint)
         {
-            if (mLiftPoint && mLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51)
+            if (mLiftPoint && mLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
             {
                 if (FP_Abs(field_A8_xpos - FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2)) < kScaleGrid / FP_FromInteger(2))
                 {
@@ -3442,7 +3442,7 @@ void Slig::Motion_34_SleepingToStand_46A5F0()
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == Types::eSnoozParticle_87)
+        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eSnoozParticle)
         {
             static_cast<SnoozeParticle*>(pObj)->field_1D4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
@@ -3989,7 +3989,7 @@ void Slig::Motion_52_Beat_46AA90()
             {
                 break;
             }
-            if (pObjIter != this && pObjIter->mBaseGameObjectTypeId == Types::eMudokon_75)
+            if (pObjIter != this && pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMudokon)
             {
                 PSX_RECT bRect = {};
                 pObjIter->VGetBoundingRect(&bRect, 1);
@@ -4144,7 +4144,7 @@ s16 Slig::Brain_Paused_466030()
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == Types::eGameEnderController_37)
+        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eGameEnderController)
         {
             found = true;
             break;
@@ -4237,7 +4237,7 @@ s16 Slig::Brain_Unknown_46B250()
             field_AC_ypos,
             0)
         || (field_20E_spotted_possessed_slig
-            && sControlledCharacter_50767C->mBaseGameObjectTypeId == Types::eSlig_88)
+            && sControlledCharacter_50767C->mBaseGameObjectTypeId == ReliveTypes::eSlig)
         || Event_Get(kEventResetting_6))
     {
         if (!VOnSameYLevel(
@@ -4692,7 +4692,7 @@ s16 Slig::Brain_PanicTurning_46C7C0()
         PSX_RECT charRect = {};
         sControlledCharacter_50767C->VGetBoundingRect(&charRect, 1);
 
-        if (sControlledCharacter_50767C->mBaseGameObjectTypeId != Types::eSlig_88 && !IsInInvisibleZone_418870(sControlledCharacter_50767C))
+        if (sControlledCharacter_50767C->mBaseGameObjectTypeId != ReliveTypes::eSlig && !IsInInvisibleZone_418870(sControlledCharacter_50767C))
         {
             if (charRect.x <= bRect.w && charRect.w >= bRect.x && charRect.h >= bRect.y && charRect.y <= bRect.h)
             {
@@ -4926,7 +4926,7 @@ s16 Slig::Brain_Idle_46D6E0()
         && !IsInInvisibleZone_418870(sControlledCharacter_50767C)
         && !IsWallBetween_46BE60(this, sControlledCharacter_50767C)
         && (!field_20E_spotted_possessed_slig
-            || sControlledCharacter_50767C->mBaseGameObjectTypeId != Types::eSlig_88)
+            || sControlledCharacter_50767C->mBaseGameObjectTypeId != ReliveTypes::eSlig)
         && !IsAbeEnteringDoor_46BEE0(sControlledCharacter_50767C)
         && !Event_Get(kEventResetting_6)
         && gMap.Is_Point_In_Current_Camera_4449C0(
@@ -4963,7 +4963,7 @@ s16 Slig::Brain_Idle_46D6E0()
                 return 104;
             }
         }
-        if (sControlledCharacter_50767C->mBaseGameObjectTypeId == Types::eSlig_88)
+        if (sControlledCharacter_50767C->mBaseGameObjectTypeId == ReliveTypes::eSlig)
         {
             if (mCurrentMotion)
             {
@@ -4984,7 +4984,7 @@ s16 Slig::Brain_Idle_46D6E0()
                     if ((FP_FromInteger(FP_GetExponent(field_A8_xpos) - pTlv->field_10_top_left.field_0_x) < kScaleGrid && !(field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))) || (FP_FromInteger(pTlv->field_14_bottom_right.field_0_x - FP_GetExponent(field_A8_xpos)) < kScaleGrid && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
-                            Types::eLever_97,
+                            AOTypes::eLever_97,
                             field_A8_xpos + kScaleGrid,
                             field_AC_ypos - FP_FromInteger(5)));
                         if (pSwitch)
@@ -5092,7 +5092,7 @@ s16 Slig::Brain_Turning_46DC70()
             PSX_RECT bRect = {};
             sControlledCharacter_50767C->VGetBoundingRect(&bRect, 1);
 
-            if (sControlledCharacter_50767C->mHealth > FP_FromInteger(0) && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect) && sControlledCharacter_50767C->mBaseGameObjectTypeId != Types::eSlig_88)
+            if (sControlledCharacter_50767C->mHealth > FP_FromInteger(0) && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect) && sControlledCharacter_50767C->mBaseGameObjectTypeId != ReliveTypes::eSlig)
             {
                 field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
                 return 106;
@@ -5144,7 +5144,7 @@ s16 Slig::Brain_Walking_46DE90()
     if (VOnSameYLevel(sControlledCharacter_50767C) && VIsFacingMe(sControlledCharacter_50767C) && !IsInInvisibleZone_418870(sControlledCharacter_50767C) && !IsWallBetween_46BE60(this, sControlledCharacter_50767C) && gMap.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos, 0))
     {
         if (!field_20E_spotted_possessed_slig
-            || sControlledCharacter_50767C->mBaseGameObjectTypeId != Types::eSlig_88)
+            || sControlledCharacter_50767C->mBaseGameObjectTypeId != ReliveTypes::eSlig)
         {
             if (!IsAbeEnteringDoor_46BEE0(sControlledCharacter_50767C) && !Event_Get(kEventResetting_6))
             {
@@ -5330,7 +5330,7 @@ s16 Slig::Brain_GetAlerted_46E800()
             field_A8_xpos,
             field_AC_ypos,
             0)
-        || (sControlledCharacter_50767C->mBaseGameObjectTypeId == Types::eSlig_88 && field_20E_spotted_possessed_slig)
+        || (sControlledCharacter_50767C->mBaseGameObjectTypeId == ReliveTypes::eSlig && field_20E_spotted_possessed_slig)
         || IsAbeEnteringDoor_46BEE0(sControlledCharacter_50767C)
         || Event_Get(kEventResetting_6))
     {
@@ -5342,7 +5342,7 @@ s16 Slig::Brain_GetAlerted_46E800()
                 pEvent = static_cast<BaseAliveGameObject*>(Event_Get(kEventSpeaking_1));
             }
 
-            if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->mBaseGameObjectTypeId == Types::eMudokon_75)
+            if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->mBaseGameObjectTypeId == ReliveTypes::eMudokon)
                 && VOnSameYLevel(pEvent)
                 && VIsFacingMe(pEvent)
                 && gMap.Is_Point_In_Current_Camera_4449C0(
@@ -5357,7 +5357,7 @@ s16 Slig::Brain_GetAlerted_46E800()
             }
             else
             {
-                if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->mBaseGameObjectTypeId != Types::eSlig_88)
+                if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->mBaseGameObjectTypeId != ReliveTypes::eSlig)
                     && !VIsFacingMe(pEvent)
                     && gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
@@ -5417,9 +5417,9 @@ s16 Slig::Brain_StoppingNextToMudokon_46EBB0()
     }
 
     //TODO OG BUG: Sligs beat up dead muds, fix from AE:
-    //BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(static_cast<s32>(Types::eMudokon2_81), 1);
+    //BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(static_cast<s32>(AOTypes::eMudokon2_81), 1);
     //if (!pBeatTarget || pBeatTarget->mHealth <= FP_FromInteger(0))
-    if (!FindBeatTarget_46D0E0(static_cast<s32>(Types::eMudokon_52), 1))
+    if (!FindBeatTarget_46D0E0(static_cast<s32>(AOTypes::eCtorMudokon_52), 1))
     {
         WaitOrWalk_46E440();
         return 128;

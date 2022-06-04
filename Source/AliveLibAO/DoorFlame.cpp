@@ -21,7 +21,7 @@ class FireBackgroundGlow final : public BaseAnimatedWithPhysicsGameObject
 public:
     FireBackgroundGlow(FP xpos, FP ypos, FP scale)
     {
-        mBaseGameObjectTypeId = Types::eNone_0;
+        mBaseGameObjectTypeId = ReliveTypes::eNone;
 
         const AnimRecord& rec = AO::AnimRec(AnimId::Door_FireBackgroundGlow);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -137,7 +137,7 @@ class FlameSparks final : public BaseAnimatedWithPhysicsGameObject
 public:
     FlameSparks(FP xpos, FP ypos)
     {
-        mBaseGameObjectTypeId = Types::eNone_0;
+        mBaseGameObjectTypeId = ReliveTypes::eNone;
         const AnimRecord rec = AO::AnimRec(AnimId::Zap_Sparks);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
@@ -324,7 +324,7 @@ DoorFlame::~DoorFlame()
 
 DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eNone_0;
+    mBaseGameObjectTypeId = ReliveTypes::eNone;
     field_E4_tlvInfo = tlvInfo;
     const AnimRecord& rec = AO::AnimRec(AnimId::Fire);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

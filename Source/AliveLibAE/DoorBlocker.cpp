@@ -19,7 +19,7 @@ DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
 
     field_118_bDone &= ~1u;
 
-    SetType(AETypes::eDoorLock_34);
+    SetType(ReliveTypes::eDoorLock);
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_11C_tlvInfo = tlvInfo;

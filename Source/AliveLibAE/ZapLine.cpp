@@ -11,7 +11,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_12A_type = type;
-    SetType(AETypes::eZapLine_135);
+    SetType(ReliveTypes::eZapLine);
 
     if (type == ZapLineType::eThin_1)
     {

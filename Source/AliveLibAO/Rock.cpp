@@ -20,7 +20,7 @@ namespace AO {
 Rock::Rock(FP xpos, FP ypos, s16 count)
     : BaseThrowable()
 {
-    mBaseGameObjectTypeId = Types::eRock_70;
+    mBaseGameObjectTypeId = ReliveTypes::eRock;
 
     field_10E_bDead = 0;
 

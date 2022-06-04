@@ -30,7 +30,7 @@ void LoadRockTypes(LevelIds levelNumber, u16 path)
 
     switch (word_4CF158[throwableTypeIdx])
     {
-        case Types::eGrenade_40:
+        case AOTypes::eGrenade_40:
             if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kExplo2AOResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
@@ -62,7 +62,7 @@ void LoadRockTypes(LevelIds levelNumber, u16 path)
             }
             break;
 
-        case Types::eMeat_54:
+        case AOTypes::eMeat_54:
             if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMeatAOResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
@@ -70,7 +70,7 @@ void LoadRockTypes(LevelIds levelNumber, u16 path)
             }
             break;
 
-        case Types::eRock_70:
+        case AOTypes::eRock_70:
             if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAberockAOResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
@@ -169,7 +169,7 @@ void ThrowableArray::Remove(s16 count)
     {
         switch (word_4CF158[gMap.mOverlayId])
         {
-            case Types::eGrenade_40:
+            case AOTypes::eGrenade_40:
                 ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kExplo2AOResID, 0, 0));
                 ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 0, 0));
                 ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, 0, 0);
@@ -187,12 +187,12 @@ void ThrowableArray::Remove(s16 count)
                 }
                 break;
 
-            case Types::eMeat_54:
+            case AOTypes::eMeat_54:
                 ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMeatAOResID, 0, 0);
                 ResourceManager::FreeResource_455550(ppRes);
                 break;
 
-            case Types::eRock_70:
+            case AOTypes::eRock_70:
                 ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAberockAOResID, 0, 0));
                 ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAberockAOResID, 0, 0);
                 if (ppRes)
@@ -226,7 +226,7 @@ void ThrowableArray::Add(s16 count)
         {
             switch (word_4CF158[gMap.mOverlayId])
             {
-                case Types::eGrenade_40:
+                case AOTypes::eGrenade_40:
                     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kExplo2AOResID, 1, 0);
                     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
                     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, 1, 0);
@@ -235,11 +235,11 @@ void ThrowableArray::Add(s16 count)
                     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kGrenadeAOResID, 1, 0);
                     break;
 
-                case Types::eMeat_54:
+                case AOTypes::eMeat_54:
                     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMeatAOResID, 1, 0);
                     break;
 
-                case Types::eRock_70:
+                case AOTypes::eRock_70:
                     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAberockAOResID, 1, 0);
                     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAberockAOResID, 1, 0);
                     break;

@@ -13,7 +13,7 @@ namespace AO {
 
 BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eBackgroundAnimation_5;
+    mBaseGameObjectTypeId = ReliveTypes::eBackgroundAnimation;
     field_F0_tlvInfo = tlvInfo;
 
     const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_18_animation_id);

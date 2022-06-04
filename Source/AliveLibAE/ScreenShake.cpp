@@ -11,7 +11,7 @@
  ScreenShake::ScreenShake(bool enableShakeEvent, bool softerShakes)
      : BaseGameObject(TRUE, 0)
  {
-    SetType(AETypes::eScreenShake_118);
+    SetType(ReliveTypes::eScreenShake);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 

@@ -41,7 +41,7 @@ u8 fontPalette_550F08[32] = {
 BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eBrewMachine_13);
+    SetType(ReliveTypes::eBrewMachine);
 
     field_F4_font_context.LoadFontType_433400(2);
     field_104_font.ctor_433590(3, fontPalette_550F08, &field_F4_font_context);

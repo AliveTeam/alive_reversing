@@ -12,7 +12,7 @@ namespace AO {
 BeeNest::BeeNest(Path_BeeNest* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
-    mBaseGameObjectTypeId = Types::eBeeNest_96;
+    mBaseGameObjectTypeId = ReliveTypes::eBeeNest;
 
     field_1C_tlvInfo = tlvInfo;
 

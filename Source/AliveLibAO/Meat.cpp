@@ -22,7 +22,7 @@ namespace AO {
 MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eMeatStack_55;
+    mBaseGameObjectTypeId = ReliveTypes::eMeatStack;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::MeatSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -161,7 +161,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
 {
     field_10E_bDead = 0;
 
-    mBaseGameObjectTypeId = Types::eMeat_54;
+    mBaseGameObjectTypeId = ReliveTypes::eMeat;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Meat);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -484,7 +484,7 @@ s16 Meat::OnCollision(BaseAliveGameObject* pHit)
         return 1;
     }
 
-    if (pHit->mBaseGameObjectTypeId == Types::eMine_57 || pHit->mBaseGameObjectTypeId == Types::eUXB_99 || pHit->mBaseGameObjectTypeId == Types::eTimedMine_8)
+    if (pHit->mBaseGameObjectTypeId == ReliveTypes::eMine || pHit->mBaseGameObjectTypeId == ReliveTypes::eUXB || pHit->mBaseGameObjectTypeId == ReliveTypes::eTimedMine)
     {
         return 1;
     }

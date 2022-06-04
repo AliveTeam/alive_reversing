@@ -49,7 +49,7 @@ const TSlingMudBrain gSlingMudBrainTable_4CFCE0[] = {
 SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::SlingMud_90;
+    mBaseGameObjectTypeId = ReliveTypes::SlingMud;
 
     field_120_last_event_idx = -1;
     field_134_buffer_start = 0;

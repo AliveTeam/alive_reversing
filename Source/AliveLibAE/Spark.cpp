@@ -15,7 +15,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    SetType(AETypes::eNone_0);
+    SetType(ReliveTypes::eNone);
 
     gObjListDrawables->Push_Back(this);
 

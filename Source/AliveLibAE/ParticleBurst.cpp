@@ -25,7 +25,7 @@ ALIVE_ASSERT_SIZEOF(ParticleBurst_Item, 0x88);
 ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, BurstType type, s32 count)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eParticleBurst_29);
+    SetType(ReliveTypes::eParticleBurst);
 
     // TODO: Check it
     if (numOfParticles > 5)

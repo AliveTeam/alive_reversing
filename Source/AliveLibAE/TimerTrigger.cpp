@@ -11,7 +11,7 @@ TimerTrigger::TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_2C_tlvInfo = tlvInfo;
-    SetType(AETypes::eTimerTrigger_136);
+    SetType(ReliveTypes::eTimerTrigger);
     field_20_input_switch_id = pTlv->field_10_input_switch_id;
     field_34_trigger_interval = pTlv->field_12_trigger_interval;
     field_24_output_switch_ids[0] = pTlv->field_14_output_switch_id1;

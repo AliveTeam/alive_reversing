@@ -26,7 +26,7 @@ MusicTrigger::MusicTrigger(Path_MusicTrigger* pTlv, s32 tlvInfo)
 void MusicTrigger::Init(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay)
 {
     field_14_flags &= ~7u;
-    mBaseGameObjectTypeId = Types::eNone_0;
+    mBaseGameObjectTypeId = ReliveTypes::eNone;
 
     switch (type)
     {

@@ -15,7 +15,7 @@ struct ObjectId_Record final
 
 class BaseGameObject;
 enum class AETypes : s16;
-enum class Types : s16; // AO types
+enum class AOTypes : s16; // AO types
 enum class ReliveTypes : s16;
 
 class ObjectIds final

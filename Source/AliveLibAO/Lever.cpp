@@ -178,7 +178,7 @@ Lever::~Lever()
 
 Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eLever_97;
+    mBaseGameObjectTypeId = ReliveTypes::eLever;
     const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
     const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_0_idle_animId);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

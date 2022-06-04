@@ -160,7 +160,7 @@ BoomMachine::~BoomMachine()
 
 BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eGrenadeMachine_41;
+    mBaseGameObjectTypeId = ReliveTypes::eGrenadeMachine;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

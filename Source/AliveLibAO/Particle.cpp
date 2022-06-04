@@ -206,7 +206,7 @@ Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 max
     field_C2_g = 128;
     field_C0_r = 128;
 
-    mBaseGameObjectTypeId = Types::eParticle_93;
+    mBaseGameObjectTypeId = ReliveTypes::eParticle;
 
     Animation_Init_417FD0(
         animFrameTableOffset,

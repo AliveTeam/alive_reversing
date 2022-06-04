@@ -25,7 +25,7 @@ const s32 dword_4C5054[11] = {0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000
 ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = Types::eChimeLock_14;
+    mBaseGameObjectTypeId = ReliveTypes::eChimeLock;
 
     field_10C_tlvInfo = tlvInfo;
 

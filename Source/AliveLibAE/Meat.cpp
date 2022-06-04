@@ -18,7 +18,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     : BaseThrowable(0)
 {
     field_11A_bDead = 0;
-    SetType(AETypes::eMeat_84);
+    SetType(ReliveTypes::eMeat);
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kMeatResID, 0, 0))
     {
@@ -232,7 +232,7 @@ s16 Meat::OnCollision(BaseGameObject* pHit)
         return 1;
     }
 
-    if (pHit->Type() == AETypes::eMine_88 || pHit->Type() == AETypes::eUXB_143 || pHit->Type() == AETypes::eTimedMine_or_MovingBomb_10)
+    if (pHit->Type() == ReliveTypes::eMine || pHit->Type() == ReliveTypes::eUXB || pHit->Type() == ReliveTypes::eTimedMine_or_MovingBomb)
     {
         return 1;
     }
@@ -398,7 +398,7 @@ const TintEntry kMeatTints_55C254[] = {
 MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eMeatSack_85);
+    SetType(ReliveTypes::eMeatSack);
 
     const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

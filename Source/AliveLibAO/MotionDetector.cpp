@@ -22,7 +22,7 @@ namespace AO {
 
 MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eMotionDetector_59;
+    mBaseGameObjectTypeId = ReliveTypes::eMotionDetector;
     const AnimRecord rec = AO::AnimRec(AnimId::MotionDetector_Flare);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
@@ -66,7 +66,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
         if (pMotionDetectors)
         {
-            pMotionDetectors->mBaseGameObjectTypeId = Types::eRedLaser_76;
+            pMotionDetectors->mBaseGameObjectTypeId = ReliveTypes::eRedLaser;
             
             pMotionDetectors->Animation_Init_417FD0(laserRec.mFrameTableOffset, laserRec.mMaxW, laserRec.mMaxH, ppResLaser, 1);
             
@@ -87,7 +87,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
         auto pMotionDetectors = ao_new<MotionDetectorLaser>();
         if (pMotionDetectors)
         {
-            pMotionDetectors->mBaseGameObjectTypeId = Types::eRedLaser_76;
+            pMotionDetectors->mBaseGameObjectTypeId = ReliveTypes::eRedLaser;
             
             pMotionDetectors->Animation_Init_417FD0(laserRec.mFrameTableOffset, laserRec.mMaxW, laserRec.mMaxH, ppResLaser, 1);
             
@@ -176,7 +176,7 @@ void MotionDetector::VUpdate()
                     break;
                 }
 
-                if (pObj->mBaseGameObjectTypeId != Types::eTimedMine_8)
+                if (pObj->mBaseGameObjectTypeId != ReliveTypes::eTimedMine)
                 {
                     PSX_RECT objRect = {};
                     pObj->VGetBoundingRect(&objRect, 1);
@@ -192,7 +192,7 @@ void MotionDetector::VUpdate()
                         }
 
                         bool alarm = false;
-                        if (pObj->mBaseGameObjectTypeId == Types::eAbe_43)
+                        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eAbe)
                         {
                             if (pObj->mCurrentMotion != eAbeMotions::Motion_0_Idle_423520 && pObj->mCurrentMotion != eAbeMotions::Motion_19_CrouchIdle_4284C0 && pObj->mCurrentMotion != eAbeMotions::Motion_66_LedgeHang_428D90 && pObj->mCurrentMotion != eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0 && pObj->mCurrentMotion != eAbeMotions::Motion_60_Dead_42C4C0 && !sDDCheat_FlyingEnabled_50771C)
                             {

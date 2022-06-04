@@ -116,7 +116,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
     field_17C_last_event = -1;
     field_192_unused = -1;
 
-    SetType(AETypes::eScrab_112);
+    SetType(ReliveTypes::eScrab);
 
     if (tlvInfo != 0xFFFF)
     {
@@ -937,7 +937,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
     {
         auto pOtherScrab = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
         SetBrain(&Scrab::Brain_1_ChasingEnemy_4A6470);
-        if (pOtherScrab->Type() == AETypes::eScrab_112 && pOtherScrab->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed))
+        if (pOtherScrab->Type() == ReliveTypes::eScrab && pOtherScrab->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed))
         {
             mNextMotion = eScrabMotions::M_HowlBegin_26_4A9DA0;
             field_150_attack_delay_timer = sGnFrame + 90;
@@ -955,7 +955,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
     }
 
     auto pSwitch = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
-    if (pSwitch && pSwitch->Type() == AETypes::eLiftPoint_78 && !(static_cast<LiftPoint*>(pSwitch)->vOnAnyFloor() || field_11C_brain_sub_state != Brain_0_Patrol::eBrain0_OnLift_6))
+    if (pSwitch && pSwitch->Type() == ReliveTypes::eLiftPoint && !(static_cast<LiftPoint*>(pSwitch)->vOnAnyFloor() || field_11C_brain_sub_state != Brain_0_Patrol::eBrain0_OnLift_6))
     {
         mNextMotion = eScrabMotions::M_Stand_0_4A8220;
         return Brain_0_Patrol::eBrain0_OnLift_6;
@@ -1234,7 +1234,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
     }
 
     LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
-    if (pLiftPoint && pLiftPoint->Type() != AETypes::eLiftPoint_78)
+    if (pLiftPoint && pLiftPoint->Type() != ReliveTypes::eLiftPoint)
     {
         pLiftPoint = nullptr; //OG bug fix: Before it could use the pointer as a LiftPoint even if it, in fact, wasn't one
     }
@@ -1582,7 +1582,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
     {
         if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(7), pObj)
             && pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed)
-            && pObj->Type() == AETypes::eScrab_112)
+            && pObj->Type() == ReliveTypes::eScrab)
         {
             if (!field_178_shred_power_active)
             {
@@ -3469,7 +3469,7 @@ BaseAliveGameObject* Scrab::Find_Fleech()
             break;
         }
 
-        if (pObj->Type() == AETypes::eFleech_50)
+        if (pObj->Type() == ReliveTypes::eFleech)
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             if (pAliveObj->mHealth > FP_FromInteger(0))
@@ -3835,7 +3835,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->Type())
     {
-        case AETypes::eFleech_50:
+        case ReliveTypes::eFleech:
             mHealth = mHealth - FP_FromDouble(0.13);
             if (mHealth < FP_FromInteger(0))
             {
@@ -3867,12 +3867,12 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
             }
             return 0;
 
-        case AETypes::eAbilityRing_104:
+        case ReliveTypes::eAbilityRing:
             return 0;
 
-        case AETypes::eBullet_15:
-        case AETypes::eNeverSet_107:
-        case AETypes::eScrab_112:
+        case ReliveTypes::eBullet:
+        //case ReliveTypes::eNeverSet:
+        case ReliveTypes::eScrab:
             break;
 
         default:
@@ -4036,12 +4036,12 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                     {
                         if (pObj != this)
                         {
-                            if ((pObj->Type() == AETypes::eAbe_69 || 
-                                pObj->Type() == AETypes::eMudokon2_81 ||
-                                pObj->Type() == AETypes::eMudokon_110 ||
-                                pObj->Type() == AETypes::eNevetSet_127 ||
-                                pObj->Type() == AETypes::eFleech_50 ||
-                                pObj->Type() == AETypes::eScrab_112) &&
+                            if ((pObj->Type() == ReliveTypes::eAbe ||
+                                pObj->Type() == ReliveTypes::eCtorMudokon ||
+                                pObj->Type() == ReliveTypes::eMudokon ||
+                                //pObj->Type() == ReliveTypes::eNevetSet ||
+                                pObj->Type() == ReliveTypes::eFleech ||
+                                pObj->Type() == ReliveTypes::eScrab) &&
                                 field_D6_scale == pObj->field_D6_scale && pObj->mHealth > FP_FromInteger(0))
                             {
                                 const FP xDist = pObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos;
@@ -4049,10 +4049,10 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                                 {
                                     if (!pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
                                     {
-                                        if (pObj->Type() != AETypes::eScrab_112 ||
+                                        if (pObj->Type() != ReliveTypes::eScrab ||
                                             !pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed) ||
                                             (pObj->mCurrentMotion != eScrabMotions::M_AttackSpin_32_4A8DC0 &&
-                                            (pObj->Type() != AETypes::eFleech_50 || BrainIs(&Scrab::Brain_5_Possessed_4A6180) || field_1A8_bKill_enemy == Choice_short::eYes_1)))
+                                            (pObj->Type() != ReliveTypes::eFleech || BrainIs(&Scrab::Brain_5_Possessed_4A6180) || field_1A8_bKill_enemy == Choice_short::eYes_1)))
 
                                         {
                                             PSX_RECT objRect = {};
@@ -4064,7 +4064,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                                                 {
                                                     bKilledTarget = true;
                                                     SFX_Play_Mono(SoundEffect::KillEffect_64, 0);
-                                                    if (pObj->Type() == AETypes::eAbe_69)
+                                                    if (pObj->Type() == ReliveTypes::eAbe)
                                                     {
                                                         Mudokon_SFX(MudSounds::eHurt2_9, 0, 0, sActiveHero);
                                                     }
@@ -4122,7 +4122,7 @@ s16 Scrab::FindAbeOrMud()
         if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if ((pAliveObj->Type() == AETypes::eMudokon2_81 || pAliveObj->Type() == AETypes::eMudokon_110 || pAliveObj->Type() == AETypes::eNevetSet_127 || pAliveObj->Type() == AETypes::eScrab_112) && (pAliveObj->Type() != AETypes::eScrab_112 || pAliveObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed)) && CanSeeAbe(pAliveObj) && pAliveObj->mHealth > FP_FromInteger(0) && pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
+            if ((pAliveObj->Type() == ReliveTypes::eCtorMudokon || pAliveObj->Type() == ReliveTypes::eMudokon || /*pAliveObj->Type() == AETypes::eNevetSet_127 ||*/ pAliveObj->Type() == ReliveTypes::eScrab) && (pAliveObj->Type() != ReliveTypes::eScrab || pAliveObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed)) && CanSeeAbe(pAliveObj) && pAliveObj->mHealth > FP_FromInteger(0) && pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
             {
                 if (!WallHit(field_CC_sprite_scale * FP_FromInteger(45), pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
                 {
@@ -4215,7 +4215,7 @@ Scrab* Scrab::FindScrabToFight()
             break;
         }
 
-        if (pObj->Type() == AETypes::eScrab_112)
+        if (pObj->Type() == ReliveTypes::eScrab)
         {
             auto pScrab = static_cast<Scrab*>(pObj);
 

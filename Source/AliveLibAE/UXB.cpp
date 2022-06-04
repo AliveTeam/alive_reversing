@@ -103,7 +103,7 @@ s32 UXB::IsColliding()
 UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eUXB_143);
+    SetType(ReliveTypes::eUXB);
 
     const AnimRecord& activeRec = AnimRec(AnimId::UXB_Active);
     auto pResource = BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, activeRec.mResourceId);

@@ -16,7 +16,7 @@
 SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eLockedSoul_61);
+    SetType(ReliveTypes::eLockedSoul);
     field_118_pTlv = pTlv;
     field_11C_tlvInfo = tlvInfo;
     mBaseGameObjectTlvInfo = tlvInfo;
@@ -61,7 +61,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
             break;
         }
 
-        if (pObj->Type() == AETypes::eSlapLock_OrbWhirlWind_60 && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == field_118_pTlv->field_14_target_tomb_id2)
+        if (pObj->Type() == ReliveTypes::eSlapLock_OrbWhirlWind && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == field_118_pTlv->field_14_target_tomb_id2)
         {
             field_130_has_ghost = Choice_short::eNo_0;
         }
@@ -202,7 +202,7 @@ void SlapLock::VUpdate()
                         break;
                     }
 
-                    if (pObj->Type() == AETypes::eAbilityRing_104 && pObj->mBaseGameObjectTlvInfo == field_134_id)
+                    if (pObj->Type() == ReliveTypes::eAbilityRing && pObj->mBaseGameObjectTlvInfo == field_134_id)
                     {
                         field_134_id = pObj->field_8_object_id;
                         break;
@@ -427,7 +427,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo));
 
-    if (pFrom->Type() != AETypes::eAbe_69)
+    if (pFrom->Type() != ReliveTypes::eAbe)
     {
         // Only Abe can slap me up
         return 0;

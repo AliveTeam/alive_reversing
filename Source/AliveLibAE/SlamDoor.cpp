@@ -91,7 +91,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     const AnimRecord& rec = AnimRec(sSlamDoorData_547168[currentLevelId][2]);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1u);
 
-    SetType(AETypes::eSlamDoor_122);
+    SetType(ReliveTypes::eSlamDoor);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(((pTlv->field_8_top_left.field_0_x
                                      + pTlv->field_C_bottom_right.field_0_x)
@@ -341,7 +341,7 @@ void SlamDoor::VUpdate()
                 }
                 if (pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
                 {
-                    if (pObj->Type() != AETypes::eSlamDoor_122)
+                    if (pObj->Type() != ReliveTypes::eSlamDoor)
                     {
                         PSX_RECT bObjRect = {};
                         pObj->VGetBoundingRect(&bObjRect, 1);
@@ -390,14 +390,14 @@ void SlamDoor::VUpdate()
 
             if (pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
-                if (pObj->Type() != AETypes::eSlamDoor_122 && pObj->Type() != AETypes::eGrenade_65)
+                if (pObj->Type() != ReliveTypes::eSlamDoor && pObj->Type() != ReliveTypes::eGrenade)
                 {
                     PSX_RECT bObjRect = {};
                     pObj->VGetBoundingRect(&bObjRect, 1);
 
                     if (FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
                     {
-                        if (pObj->field_CC_sprite_scale == field_CC_sprite_scale || (pObj->Type() == AETypes::eSlog_126 && field_CC_sprite_scale == FP_FromInteger(1)))
+                        if (pObj->field_CC_sprite_scale == field_CC_sprite_scale || (pObj->Type() == ReliveTypes::eSlog && field_CC_sprite_scale == FP_FromInteger(1)))
                         {
                             ClearInsideSlamDoor(pObj, bRect.x, bRect.w);
                         }
@@ -431,12 +431,12 @@ void SlamDoor::ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16
         pObj->mBaseAnimatedWithPhysicsGameObject_XPos = pObj->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_CC_sprite_scale) * FP_FromDouble(0.5));
     }
 
-    if (pObj->Type() == AETypes::eMudokon2_81 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eAbe_69)
+    if (pObj->Type() == ReliveTypes::eCtorMudokon || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe)
     {
         pObj->VTakeDamage(this);
     }
 
-    if (pObj->Type() == AETypes::eBone_11)
+    if (pObj->Type() == ReliveTypes::eBone)
     {
         pObj->field_C8_vely = FP_FromInteger(-7);
         pObj->field_C4_velx = -pObj->field_C4_velx;

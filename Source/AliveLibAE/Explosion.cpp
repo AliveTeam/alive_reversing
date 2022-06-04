@@ -17,7 +17,7 @@
 Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eExplosion_109);
+    SetType(ReliveTypes::eExplosion);
 
     field_F4_bSmall = bSmall;
     if (field_F4_bSmall)

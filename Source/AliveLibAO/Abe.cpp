@@ -829,7 +829,7 @@ const TintEntry sAbeTints_4C6438[] = {
 
 Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
 {
-    mBaseGameObjectTypeId = Types::eAbe_43;
+    mBaseGameObjectTypeId = ReliveTypes::eAbe;
 
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
 
@@ -1642,7 +1642,7 @@ BaseAliveGameObject* Abe::FindObjectToPossess_421410()
         {
             if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit1_Can_Be_Possessed))
             {
-                if (pObj->mBaseGameObjectTypeId != Types::eSlig_88 || (pObj->Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0)))
+                if (pObj->mBaseGameObjectTypeId != ReliveTypes::eSlig || (pObj->Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0)))
                 {
                     return pObj;
                 }
@@ -1670,7 +1670,7 @@ void Abe::ToDieFinal_42C400()
 
 void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
 {
-    if (sControlledCharacter_50767C->mBaseGameObjectTypeId != Types::eSlig_88 || mHealth <= FP_FromInteger(0))
+    if (sControlledCharacter_50767C->mBaseGameObjectTypeId != ReliveTypes::eSlig || mHealth <= FP_FromInteger(0))
     {
         SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
         field_2AA_flags.Clear(Flags_2AA::e2AA_Bit3_ElumMountBegin);
@@ -2364,8 +2364,8 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
 
         switch (pSlapableOrCollectable->mBaseGameObjectTypeId)
         {
-            case Types::eTimedMine_8:
-            case Types::eUXB_99:
+            case AOTypes::eTimedMine_8:
+            case AOTypes::eUXB_99:
                 mCurrentMotion = eAbeMotions::Motion_127_SlapBomb_429A20;
                 if (bStandToCrouch)
                 {
@@ -2375,9 +2375,9 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
                 tryToSlapOrCollect = true;
                 break;
 
-            case Types::eGrenade_40:
-            case Types::eMeat_54:
-            case Types::eRock_70:
+            case AOTypes::eGrenade_40:
+            case AOTypes::eMeat_54:
+            case AOTypes::eRock_70:
                 mCurrentMotion = eAbeMotions::Motion_149_PickupItem_42A030;
                 field_19C_throwable_count += static_cast<s8>(field_15C_pThrowable->VGetCount());
 
@@ -2395,7 +2395,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
                 tryToSlapOrCollect = true;
                 break;
 
-            case Types::eMine_57:
+            case AOTypes::eMine_57:
                 field_15C_pThrowable->mBaseGameObjectRefCount--;
                 field_15C_pThrowable = nullptr;
                 tryToSlapOrCollect = true;
@@ -2515,7 +2515,7 @@ void Abe::FallOnBombs_4231B0()
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == Types::eMine_57 || pObjIter->mBaseGameObjectTypeId == Types::eUXB_99)
+        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMine || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eUXB)
         {
             PSX_RECT objRect = {};
             pObjIter->VGetBoundingRect(&objRect, 1);
@@ -2645,7 +2645,7 @@ PullRingRope* Abe::GetPullRope_422580()
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == Types::ePullRingRope_68)
+        if (pObj->mBaseGameObjectTypeId == ReliveTypes::ePullRingRope)
         {
             PullRingRope* pRope = static_cast<PullRingRope*>(pObj);
 
@@ -2957,7 +2957,7 @@ Bool32 Abe::NearDoorIsOpen()
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == Types::eDoor_21)
+        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eDoor)
         {
             auto pDoor = static_cast<Door*>(pObj);
             PSX_RECT Rect = {};
@@ -3233,7 +3233,7 @@ s16 Abe::HandleDoAction_429A70()
 
                     // Get switch
                     auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
-                        Types::eLever_97,
+                        AOTypes::eLever_97,
                         field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale),
                         field_AC_ypos - FP_FromInteger(5)));
 
@@ -3254,7 +3254,7 @@ s16 Abe::HandleDoAction_429A70()
 
                     // Get switch
                     auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
-                        Types::eLever_97,
+                        AOTypes::eLever_97,
                         field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale),
                         field_AC_ypos - FP_FromInteger(5)));
 
@@ -3274,7 +3274,7 @@ s16 Abe::HandleDoAction_429A70()
             case TlvTypes::BoomMachine_97:
             {
                 auto pBoomMachine = static_cast<BoomMachine*>(FindObjectOfType_418280(
-                    Types::eGrenadeMachine_41,
+                    AOTypes::eGrenadeMachine_41,
                     field_A8_xpos,
                     field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(25))));
 
@@ -3351,7 +3351,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case Types::eBat_6:
+        case AOTypes::eBat_6:
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth -= FP_FromInteger(1);
@@ -3387,7 +3387,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case Types::eGasClock_16:
+        case AOTypes::eGasClock_16:
             if (mHealth > FP_FromInteger(0))
             {
                 if (mCurrentMotion == eAbeMotions::Motion_64_LedgeAscend_428B60
@@ -3421,12 +3421,12 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case Types::eElectricWall_25:
+        case AOTypes::eElectricWall_25:
             Mudokon_SFX_42A4D0(MudSounds::eOops_16, 0, 0, this);
             break;
 
-        case Types::eBaseBomb_30:
-        case Types::eExplosion_74:
+        case AOTypes::eBaseBomb_30:
+        case AOTypes::eExplosion_74:
             if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 if (mHealth > FP_FromInteger(0))
@@ -3454,8 +3454,8 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case Types::eSecurityClaw_31:
-        case Types::SecurityOrb_53:
+        case AOTypes::eSecurityClaw_31:
+        case AOTypes::SecurityOrb_53:
             field_130_say = 5;
             field_134_auto_say_timer = sGnFrame + 27;
             // The zap makes Abe drop his stuff everywhere
@@ -3473,7 +3473,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             field_19C_throwable_count = 0;
             break;
 
-        case Types::eRockSpawner_32:
+        case AOTypes::eRockSpawner_32:
             if (mHealth > FP_FromInteger(0))
             {
                 field_108_bMotionChanged = 1;
@@ -3496,7 +3496,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case Types::eMeatSaw_56:
+        case AOTypes::eMeatSaw_56:
             if (mHealth > FP_FromInteger(0))
             {
                 field_108_bMotionChanged = 1;
@@ -3526,9 +3526,9 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case Types::eParamite_62:
-        case Types::eScrab_77:
-        case Types::eSlog_89:
+        case AOTypes::eParamite_62:
+        case AOTypes::eScrab_77:
+        case AOTypes::eSlog_89:
             if (mHealth > FP_FromInteger(0))
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
@@ -3606,17 +3606,17 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 SFX_Play_Mono(SoundEffect::KillEffect_78, 127, 0);
-                if (pAliveObj->mBaseGameObjectTypeId != Types::eParamite_62)
+                if (pAliveObj->mBaseGameObjectTypeId != ReliveTypes::eParamite)
                 {
                     SFX_Play_Mono(SoundEffect::FallingItemHit_53, 90);
                 }
             }
             break;
 
-        case Types::eAbilityRing_69:
+        case ReliveTypes::eAbilityRing:
             return 0;
 
-        case Types::eRollingBall_72:
+        case ReliveTypes::eRollingBall:
             if (mHealth > FP_FromInteger(0))
             {
                 field_108_bMotionChanged = 1;
@@ -3666,10 +3666,10 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case Types::eUnknown_84:
+        case AOTypes::eUnknown_84:
             break;
 
-        case Types::eZBall_92:
+        case AOTypes::eZBall_92:
             if (mHealth > FP_FromInteger(0))
             {
                 field_106_shot = 1;
@@ -3687,7 +3687,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case Types::eBeeSwarm_95:
+        case AOTypes::eBeeSwarm_95:
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth -= FP_FromDouble(0.15);
@@ -3734,12 +3734,12 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case Types::eElectrocute_103:
+        case AOTypes::eElectrocute_103:
             field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             ToDieFinal_42C400();
             break;
 
-        case Types::eBullet_10:
+        case AOTypes::eBullet_10:
             // NOTE: This was in the default case! The type may not be bullet in there which would corrupt memory or crash
             BulletDamage_4220B0(static_cast<Bullet*>(pFrom));
             if (!field_106_shot)
@@ -3887,7 +3887,7 @@ void Abe::Motion_0_Idle_423520()
             const FP liftPlatformXMidPoint = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
             const FP halfGrid = ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
 
-            if (mLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51 && FP_Abs(field_A8_xpos - liftPlatformXMidPoint) < halfGrid)
+            if (mLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint && FP_Abs(field_A8_xpos - liftPlatformXMidPoint) < halfGrid)
             {
                 //AO exclusive - Abe only uses lift facing one side
                 if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
@@ -3944,7 +3944,7 @@ void Abe::Motion_0_Idle_423520()
     {
         if (mLiftPoint)
         {
-            if (mLiftPoint->mBaseGameObjectTypeId == Types::eLiftPoint_51)
+            if (mLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
             {
                 const FP halfGrid = ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
@@ -4038,7 +4038,7 @@ void Abe::Motion_0_Idle_423520()
                 case TlvTypes::BoomMachine_97:
                 {
                     auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_418280(
-                        Types::eGrenadeMachine_41,
+                        AOTypes::eGrenadeMachine_41,
                         field_A8_xpos,
                         field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(25)));
                     if (pMachineButton)
@@ -4361,11 +4361,11 @@ void Abe::Motion_2_StandingTurn_426040()
                     Lever* pSwitch;
                     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(AOTypes::eLever_97, field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
                     }
                     else
                     {
-                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(Types::eLever_97, field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(AOTypes::eLever_97, field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
                     }
 
                     if (pSwitch)
@@ -9302,7 +9302,7 @@ void Abe::Motion_145_RockThrowCrouchingHold_428930()
         {
             field_19D_throw_direction = 4;
             mCurrentMotion = eAbeMotions::Motion_146_RockThrowCrouchingThrow_4289F0;
-            if (field_198_pThrowable->mBaseGameObjectTypeId == Types::eMeat_54)
+            if (field_198_pThrowable->mBaseGameObjectTypeId == ReliveTypes::eMeat)
             {
                 field_19D_throw_direction = 5;
             }
@@ -9592,7 +9592,7 @@ void Abe::Motion_150_Chant_42FD50()
                 field_18C_pObjToPossess->VPossessed();
                 field_18C_pObjToPossess->mBaseGameObjectRefCount--;
                 field_18C_pObjToPossess = nullptr;
-                if (sControlledCharacter_50767C->mBaseGameObjectTypeId == Types::eSlig_88)
+                if (sControlledCharacter_50767C->mBaseGameObjectTypeId == ReliveTypes::eSlig)
                 {
                     field_2A8_flags.Set(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd);
                 }

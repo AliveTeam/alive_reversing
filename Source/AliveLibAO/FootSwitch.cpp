@@ -12,7 +12,7 @@ namespace AO {
 
 FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eFootSwitch36;
+    mBaseGameObjectTypeId = ReliveTypes::eFootSwitch;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Foot_Switch_Temple);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

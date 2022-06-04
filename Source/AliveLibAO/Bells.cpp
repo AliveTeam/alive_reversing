@@ -15,7 +15,7 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
 {
     mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
 
-    mBaseGameObjectTypeId = Types::eBells_13;
+    mBaseGameObjectTypeId = ReliveTypes::eBells;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::BigChime);
     const AnimRecord& rec2 = AO::AnimRec(AnimId::MediumChime);

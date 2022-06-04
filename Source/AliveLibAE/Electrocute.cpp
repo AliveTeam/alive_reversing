@@ -15,7 +15,7 @@ public:
     PalleteOverwriter(PSX_Point palXY, s16 palDepth, s16 colour)
         : BaseGameObject(FALSE, 0)
     {
-        SetType(AETypes::ePalOverwriter_44);
+        SetType(ReliveTypes::ePalOverwriter);
 
         gObjListDrawables->Push_Back(this);
 
@@ -110,7 +110,7 @@ s32 Electrocute::VSub_4E6630()
 Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eElectrocute_150);
+    SetType(ReliveTypes::eElectrocute);
 
     field_20_target_obj_id = pTargetObj->field_8_object_id;
     field_44_state = States::eSetNewColour_0;
@@ -121,10 +121,10 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter,
 
     switch (pTargetObj->Type())
     {
-        case AETypes::eFlyingSlig_54:
-        case AETypes::eGlukkon_67:
-        case AETypes::eAbe_69:
-        case AETypes::eSlig_125:
+        case ReliveTypes::eFlyingSlig:
+        case ReliveTypes::eGlukkon:
+        case ReliveTypes::eAbe:
+        case ReliveTypes::eSlig:
             field_40_pPalData = reinterpret_cast<u16*>(ae_malloc_non_zero_4954F0(sizeof(u16) * pTargetObj->field_20_animation.field_90_pal_depth));
             Pal_Copy_483560(
                 pTargetObj->field_20_animation.field_8C_pal_vram_xy,
@@ -181,7 +181,7 @@ void Electrocute::VUpdate()
         switch (field_44_state)
         {
             case States::eSetNewColour_0:
-                if (pTargetObj->Type() == AETypes::eAbe_69)
+                if (pTargetObj->Type() == ReliveTypes::eAbe)
                 {
                     field_24_r = 127;
                     field_26_g = 127;

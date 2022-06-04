@@ -30,7 +30,7 @@ const TintEntry kLeverTints_563228[18] = {
 Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eLever_139);
+    SetType(ReliveTypes::eLever);
     const AnimRecord& rec = AnimRec(AnimId::Lever_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);

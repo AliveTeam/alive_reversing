@@ -33,7 +33,7 @@ const TintEntry kDrillTints_551548[18] = {
 Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eDrill_30);
+    SetType(ReliveTypes::eDrill);
 
     const AnimRecord& rec = AnimRec(AnimId::Drill_Vertical_Off);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -651,11 +651,11 @@ s16 Drill::DamageTouchingObjects()
             return 0;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == AETypes::eRockSpawner_48)
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == ReliveTypes::eRockSpawner)
         {
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                if (pObj->Type() != AETypes::eMeat_84 && pObj->Type() != AETypes::eEvilFart_45 && (pObj->Type() != AETypes::eAbe_69 || pObj->mCurrentMotion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
+                if (pObj->Type() != ReliveTypes::eMeat && pObj->Type() != ReliveTypes::eEvilFart && (pObj->Type() != ReliveTypes::eAbe || pObj->mCurrentMotion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
                 {
                     PSX_RECT objRect = {};
                     pObj->VGetBoundingRect(&objRect, 1);

@@ -54,7 +54,7 @@ ALIVE_VAR(1, 0x4FF888, s16, gGasOn_4FF888, 0);
 GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
     : BaseGameObject(1)
 {
-    mBaseGameObjectTypeId = Types::eGasClock_16;
+    mBaseGameObjectTypeId = ReliveTypes::eGasClock;
     field_58_tlvInfo = tlvInfo;
     field_10_font_context.LoadFontType(2);
     field_20_font.Load(5, byte_4C5080, &field_10_font_context);
@@ -153,7 +153,7 @@ void GasCountDown::DealDamage()
                     break;
                 }
 
-                if (pObj->mBaseGameObjectTypeId == Types::eMudokon_75)
+                if (pObj->mBaseGameObjectTypeId == ReliveTypes::eMudokon)
                 {
                     pObj->VTakeDamage(this);
                 }

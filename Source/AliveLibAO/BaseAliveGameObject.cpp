@@ -201,7 +201,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == Types::eBirdPortal_65)
+        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eBirdPortal)
         {
             auto pPortal = static_cast<BirdPortal*>(pObjIter);
             if (pPortal->field_18_xpos >= field_A8_xpos)
@@ -805,7 +805,7 @@ s16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == Types::eBeeSwarm_95)
+        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eBeeSwarm)
         {
             if (static_cast<BeeSwarm*>(pObj)->field_D98_pChaseTarget == this)
             {
@@ -854,7 +854,7 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
     }
 }
 
-BaseGameObject* BaseAliveGameObject::FindObjectOfType_418280(Types typeToFind, FP xpos, FP ypos)
+BaseGameObject* BaseAliveGameObject::FindObjectOfType_418280(AOTypes typeToFind, FP xpos, FP ypos)
 {
     const s32 xpos_int = FP_GetExponent(xpos);
     const s32 ypos_int = FP_GetExponent(ypos);

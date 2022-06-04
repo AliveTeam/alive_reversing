@@ -11,7 +11,7 @@
 SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eSligGetPantsOrWings_80);
+    SetType(ReliveTypes::eSligGetPantsOrWings);
     field_F8_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);

@@ -23,7 +23,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
     field_E8_width = pTlv->field_1A_size;
     field_EA_height = pTlv->field_1A_size;
 
-    mBaseGameObjectTypeId = Types::eNone_0;
+    mBaseGameObjectTypeId = ReliveTypes::eNone;
     field_EC_bHasID = 0;
     field_F0_switch_id = pTlv->field_1C_switch_id;
     field_EE_switch_value = SwitchStates_Get(pTlv->field_1C_switch_id);

@@ -78,7 +78,7 @@ FlintLockFire::~FlintLockFire()
 
 FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
 {
-    mBaseGameObjectTypeId = Types::eFlintLockFire_34;
+    mBaseGameObjectTypeId = ReliveTypes::eFlintLockFire;
 
     const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
 

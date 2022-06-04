@@ -13,7 +13,7 @@ LiftMover::LiftMover(Path_LiftMover* pTlv, s32 tlvInfo)
 {
     field_24_tlvInfo = tlvInfo;
     field_28_lift_id = -1;
-    SetType(AETypes::eLiftMover_9);
+    SetType(ReliveTypes::eLiftMover);
 
     field_20_lift_mover_switch_id = pTlv->field_10_lift_mover_switch_id;
     field_22_target_lift_point_id = pTlv->field_12_target_lift_point_id;
@@ -221,7 +221,7 @@ LiftPoint* LiftMover::GetLiftPoint()
             break;
         }
 
-        if (pObj->Type() == AETypes::eLiftPoint_78)
+        if (pObj->Type() == ReliveTypes::eLiftPoint)
         {
             LiftPoint* pLift = static_cast<LiftPoint*>(pObj);
             if (field_22_target_lift_point_id == pLift->field_278_lift_point_id)

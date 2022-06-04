@@ -12,7 +12,7 @@
 RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
-    SetType(AETypes::eRockSack_106);
+    SetType(ReliveTypes::eRockSack);
 
     const AnimRecord& rec = AnimRec(AnimId::RockSack_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

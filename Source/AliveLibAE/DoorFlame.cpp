@@ -18,7 +18,7 @@ public:
     FireBackgroundGlow(FP xpos, FP ypos, FP scale)
         : BaseAnimatedWithPhysicsGameObject(0)
     {
-        SetType(AETypes::eNone_0);
+        SetType(ReliveTypes::eNone);
 
         const AnimRecord& rec = AnimRec(AnimId::Door_FireBackgroundGlow);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -139,7 +139,7 @@ public:
     FlameSparks(FP xpos, FP ypos)
         : BaseAnimatedWithPhysicsGameObject(0)
     {
-        SetType(AETypes::eNone_0);
+        SetType(ReliveTypes::eNone);
 
         const AnimRecord& rec = AnimRec(AnimId::Zap_Sparks);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -315,7 +315,7 @@ ALIVE_ASSERT_SIZEOF(FlameSparks, 0x418);
 DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eNone_0);
+    SetType(ReliveTypes::eNone);
     field_F4_tlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Fire);

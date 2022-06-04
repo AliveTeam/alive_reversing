@@ -13,7 +13,7 @@
 ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eWebLine_146);
+    SetType(ReliveTypes::eWebLine);
     field_100_tlv_info = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);

@@ -17,7 +17,7 @@ static DynamicArrayT<Dove> gDovesArray_5BC100{3};
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eDove_35);
+    SetType(ReliveTypes::eDove);
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
     Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);
@@ -67,7 +67,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eDove_35);
+    SetType(ReliveTypes::eDove);
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
     Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);

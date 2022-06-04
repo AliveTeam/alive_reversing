@@ -14,7 +14,7 @@ Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_20_tlvInfo = tlvInfo;
-    SetType(AETypes::eWell_147);
+    SetType(ReliveTypes::eWell);
 
     if (pTlv->field_4_type == TlvTypes::LocalWell_8)
     {

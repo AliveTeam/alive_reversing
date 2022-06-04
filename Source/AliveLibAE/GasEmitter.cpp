@@ -16,7 +16,7 @@ ALIVE_VAR(1, 0x5BD4CC, u32, sGasEmiterAudioMask_5BD4CC, 0);
 GasEmitter::GasEmitter(Path_GasEmitter* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    SetType(AETypes::eNone_0);
+    SetType(ReliveTypes::eNone);
 
     field_28_draw_flipper = 1;
 
