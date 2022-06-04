@@ -10,21 +10,22 @@ class BaseAnimatedWithPhysicsGameObject;
 
 enum Event : s16
 {
-    kEventNoise = 0,
-    kEventSpeaking = 1,
-    kEventShooting = 2,
-    kEventHeroDying = 3,
-    kEventDeathReset = 4,
-    kEventDeathResetEnd = 5,
-    kEventResetting = 6,
-    kEventAbeOhm = 8,
-    kEventSuspiciousNoise = 10,
-    kEventLoudNoise = 14,
-    kEventMudokonDead = 15,
-    kEventMudokonComfort = 16,
-    kEventAlarm = 17,
-    kEventPortalOpen = 18,
-    kEventScreenShake = 19,
+    kEventNoise,
+    kEventSpeaking,
+    kEventShooting,
+    kEventHeroDying,
+    kEventDeathReset,
+    kEventDeathResetEnd,
+    kEventResetting,
+    kEventAbeOhm,
+    kEventSuspiciousNoise,
+    kEventLoudNoise,
+    kEventMudokonDead,
+    kEventMudokonComfort,
+    kEventAlarm,
+    kEventPortalOpen,
+    kEventScreenShake,
+    kEventMax, // Must be last, do not use
 };
 
 BaseGameObject* Event_Get(s16 eventType);

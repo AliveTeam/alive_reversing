@@ -1640,7 +1640,7 @@ void Abe::VUpdate()
             field_144_auto_say_timer = sGnFrame + Math_RandomRange(22, 30);
         }
 
-        if (Event_Get(kEventMudokonComfort | kEventSpeaking))
+        if (Event_Get(kScrabOrParamiteDied))
         {
             field_128.field_18_say = MudSounds::eOops_14;
             field_144_auto_say_timer = sGnFrame + Math_RandomRange(22, 30);
@@ -5562,7 +5562,7 @@ void Abe::Motion_57_Dead_4589A0()
     switch (field_124_timer)
     {
         case 0:
-            Event_Broadcast(kEventShooting | kEventSpeaking, this);
+            Event_Broadcast(kEventAbeDead, this);
             Event_Broadcast(kEventHeroDying, this);
             field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
             field_128.field_C_unused = 0;

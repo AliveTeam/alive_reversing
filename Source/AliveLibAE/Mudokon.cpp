@@ -3226,8 +3226,7 @@ s16 Mudokon::Brain_4_ListeningToAbe_477B40()
         field_17E_delayed_speak = MudAction::eLaugh_12;
     }
 
-    if (Event_Is_Event_In_Range(
-            kEventShooting | kEventSpeaking,
+    if (Event_Is_Event_In_Range(kEventAbeDead,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             field_D6_scale))
@@ -5347,8 +5346,7 @@ s16 Mudokon::Brain_9_Sick_47A910()
         field_17E_delayed_speak = MudAction::eLaugh_12;
     }
 
-    if (Event_Is_Event_In_Range(
-            kEventShooting | kEventSpeaking,
+    if (Event_Is_Event_In_Range(kEventAbeDead,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             field_D6_scale))

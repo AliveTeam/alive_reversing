@@ -366,7 +366,7 @@ void BirdPortal::VUpdate()
 
                 field_30_timer = sGnFrame + 15;
                 field_14_state = PortalStates::JoinDovesInCenter_2;
-                Event_Broadcast(18, this);
+                Event_Broadcast(kEventPortalOpen, this);
                 SFX_Play_Mono(SoundEffect::Dove_16, 70, 0);
             }
         }
@@ -431,7 +431,7 @@ void BirdPortal::VUpdate()
 
         case PortalStates::ActivePortal_6:
             Event_Broadcast(kEventPortalOpen, this);
-            if ((field_10_portal_type != PortalType::eWorker_1 && field_10_portal_type != PortalType::eShrykull_2) || Event_Get(8))
+            if ((field_10_portal_type != PortalType::eWorker_1 && field_10_portal_type != PortalType::eShrykull_2) || Event_Get(kEventAbeOhm))
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {

@@ -9,7 +9,7 @@ namespace AO {
 
 struct EventsArray final
 {
-    BaseGameObject* field_0_event_ptrs[20];
+    BaseGameObject* field_0_event_ptrs[Event::kEventMax];
 };
 
 struct Events final

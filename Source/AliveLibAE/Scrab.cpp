@@ -3856,7 +3856,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
                 field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
             }
 
-            Event_Broadcast(kEventMudokonComfort | kEventSpeaking, this);
+            Event_Broadcast(kScrabOrParamiteDied, this);
             SetBrain(&Scrab::Brain_4_ShrinkDeath_4A6420);
             mCurrentMotion = eScrabMotions::M_GetEaten_19_4AA3E0;
             field_12C_timer = sGnFrame + 90;
@@ -3881,7 +3881,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
             break;
     }
 
-    Event_Broadcast(kEventMudokonComfort | kEventSpeaking, this);
+    Event_Broadcast(kScrabOrParamiteDied, this);
     mHealth = FP_FromInteger(0);
     SetBrain(&Scrab::Brain_3_Death_4A62B0);
     field_12C_timer = sGnFrame + 90;

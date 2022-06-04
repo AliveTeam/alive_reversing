@@ -3788,7 +3788,7 @@ void Paramite::M_Falling_11_48B200()
 
                     if (mBaseAnimatedWithPhysicsGameObject_YPos - BaseAliveGameObjectLastLineYPos > (field_CC_sprite_scale * FP_FromInteger(180)))
                     {
-                        Event_Broadcast(kEventMudokonComfort | kEventSpeaking, this);
+                        Event_Broadcast(kScrabOrParamiteDied, this);
                         mHealth = FP_FromInteger(0);
                         SetBrain(&Paramite::Brain_1_Death_484CD0);
                         mCurrentMotion = eParamiteMotions::M_Death_41_48D8E0;
@@ -5410,7 +5410,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eBaseBomb:
         case ReliveTypes::eExplosion:
         {
-            Event_Broadcast(kEventMudokonComfort | kEventSpeaking, this);
+            Event_Broadcast(kScrabOrParamiteDied, this);
             ae_new<Gibs>(GibType::Slog_2, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
             mHealth = FP_FromInteger(0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -5449,7 +5449,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
                 return 1;
             }
 
-            Event_Broadcast(kEventMudokonComfort | kEventSpeaking, this);
+            Event_Broadcast(kScrabOrParamiteDied, this);
             SetBrain(&Paramite::Brain_1_Death_484CD0);
             field_130_timer = sGnFrame + 90;
             mCurrentMotion = eParamiteMotions::M_Death_41_48D8E0;
@@ -5471,7 +5471,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
         {
             field_C8_vely = FP_FromInteger(0);
             field_C4_velx = FP_FromInteger(0);
-            Event_Broadcast(kEventMudokonComfort | kEventSpeaking, this);
+            Event_Broadcast(kScrabOrParamiteDied, this);
             mHealth = FP_FromInteger(0);
             SetBrain(&Paramite::Brain_1_Death_484CD0);
             field_130_timer = sGnFrame + 90;
@@ -5538,7 +5538,7 @@ void Paramite::VOn_TLV_Collision(Path_TLV* pTlv)
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
                 mCurrentMotion = eParamiteMotions::M_Death_41_48D8E0;
-                Event_Broadcast(kEventMudokonComfort | kEventSpeaking, this);
+                Event_Broadcast(kScrabOrParamiteDied, this);
             }
         }
         pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);

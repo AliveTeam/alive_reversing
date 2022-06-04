@@ -4156,7 +4156,7 @@ s16 Slig::Brain_Paused_466030()
 
 s16 Slig::Brain_EnemyDead_466190()
 {
-    if (Event_Get(4)
+    if (Event_Get(kEventDeathReset)
         && !gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,

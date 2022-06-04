@@ -355,7 +355,7 @@ s16 Grenade::InTheAir()
                 field_118++;
                 Event_Broadcast(kEventNoise, this);
                 Event_Broadcast(kEventSuspiciousNoise, this);
-                Event_Broadcast(1, this);
+                Event_Broadcast(kEventSpeaking, this);
             }
         }
     }
