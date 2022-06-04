@@ -483,7 +483,7 @@ private:
 
     void PlayerControlRunningSlideStopOrTurnFrame4_4B85D0();
 
-    BaseAliveGameObject* FindBeatTarget_4BD070(s32 a2, s32 gridBlocks);
+    BaseAliveGameObject* FindBeatTarget_4BD070(ReliveTypes typeToBeat, s32 gridBlocks);
 
     void TurnOrWalk_4BD6A0(s32 a2);
 

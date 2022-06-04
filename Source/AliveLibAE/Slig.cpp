@@ -4049,7 +4049,7 @@ s16 Slig::Brain_StoppingNextToMudokon_20_4BF1E0()
         return 128;
     }
 
-    BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(static_cast<s32>(AETypes::eRingOrLiftMud_81), 1);
+    BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(ReliveTypes::eRingOrLiftMud, 1);
     if (!pBeatTarget || pBeatTarget->mHealth <= FP_FromInteger(0))
     {
         WaitOrWalk_4BE870();
@@ -4182,7 +4182,7 @@ s16 Slig::Brain_Walking_21_4BE0C0()
             }
             else
             {
-                if (Math_NextRandom() < field_218_tlv_data.field_3E_percent_beat_mud && FindBeatTarget_4BD070(81, 2) && mCurrentMotion)
+                if (Math_NextRandom() < field_218_tlv_data.field_3E_percent_beat_mud && FindBeatTarget_4BD070(ReliveTypes::eRingOrLiftMud, 2) && mCurrentMotion)
                 {
                     mNextMotion = eSligMotions::M_StandIdle_0_4B4EC0;
                     SetBrain(&Slig::Brain_StoppingNextToMudokon_20_4BF1E0);
@@ -6594,7 +6594,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame4_4B85D0()
     }
 }
 
-BaseAliveGameObject* Slig::FindBeatTarget_4BD070(s32 /*typeToFind*/, s32 gridBlocks)
+BaseAliveGameObject* Slig::FindBeatTarget_4BD070(ReliveTypes /*typeToFind*/, s32 gridBlocks)
 {
     const FP kGridSize = ScaleToGridSize(field_CC_sprite_scale);
     const FP k2Scaled = FP_FromInteger(2) * kGridSize;
