@@ -960,7 +960,7 @@ s16 BirdPortal::IsScaredAway()
         switch (pObj->Type())
         {
             case ReliveTypes::eAbe:
-            //case ReliveTypes::eMudokon2:
+            case ReliveTypes::eCtorMudokon:
             case ReliveTypes::eParamite:
             case ReliveTypes::eScrab:
             case ReliveTypes::eSlig:
