@@ -2723,11 +2723,6 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
     Event_Broadcast(kEventNoise_0, this);
     Event_Broadcast(kEventSuspiciousNoise_10, this);
 
-    if (midType == MidType::eRunJumpMid)
-    {
-        Event_Broadcast(kEvent_11, this);
-    }
-
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
     {
         RunSlideStopKnockback();
@@ -2933,7 +2928,6 @@ void Elum::Motion_36_RunLoop_413720()
 
     Event_Broadcast(kEventNoise_0, this);
     Event_Broadcast(kEventSuspiciousNoise_10, this);
-    Event_Broadcast(kEvent_11, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
     {
@@ -3111,7 +3105,6 @@ void Elum::Motion_39_IdleToRun_413B00()
 {
     Event_Broadcast(kEventNoise_0, this);
     Event_Broadcast(kEventSuspiciousNoise_10, this);
-    Event_Broadcast(kEvent_11, this);
 
     field_10E_pressed |= Input().Pressed();
 
@@ -3129,7 +3122,6 @@ void Elum::Motion_40_WalkToRun_4134B0()
 
     Event_Broadcast(kEventNoise_0, this);
     Event_Broadcast(kEventSuspiciousNoise_10, this);
-    Event_Broadcast(kEvent_11, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -3154,7 +3146,6 @@ void Elum::Motion_41_MidWalkToRun_413560()
 
     Event_Broadcast(kEventNoise_0, this);
     Event_Broadcast(kEventSuspiciousNoise_10, this);
-    Event_Broadcast(kEvent_11, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {

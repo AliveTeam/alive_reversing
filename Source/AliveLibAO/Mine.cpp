@@ -274,7 +274,6 @@ void Mine::VUpdate()
 
     if (field_10C_detonating != 1
         && (Event_Get(kEventDeathReset_4)
-            || Event_Get(kEvent_9)
             || field_B2_lvl_number != gMap.mCurrentLevel
             || field_B0_path_number != gMap.mCurrentPath))
     {

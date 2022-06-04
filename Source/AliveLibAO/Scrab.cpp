@@ -2151,7 +2151,7 @@ void Scrab::Motion_29_DeathBegin_45FFA0()
 
 s16 Scrab::Brain_Fighting_45C370()
 {
-    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
+    if (Event_Get(kEventDeathReset_4))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -2471,7 +2471,7 @@ s16 Scrab::Brain_Fighting_45C370()
 
 s16 Scrab::Brain_BatDeath_45CA60()
 {
-    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
+    if (Event_Get(kEventDeathReset_4))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

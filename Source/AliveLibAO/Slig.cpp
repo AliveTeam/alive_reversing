@@ -393,13 +393,6 @@ Slig::~Slig()
 {
     if (sControlledCharacter_50767C == this)
     {
-        if (field_14E_level != gMap.mCurrentLevel
-            || field_150_path != gMap.mCurrentPath
-            || field_152_camera != gMap.mCurrentCamera)
-        {
-            Event_Broadcast(kEvent_7, this);
-        }
-
         sControlledCharacter_50767C = sActiveHero_507678;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
 
@@ -4531,13 +4524,6 @@ s16 Slig::Brain_Death_46C3A0()
     {
         if (field_114_timer < static_cast<s32>(sGnFrame))
         {
-            if (field_14E_level != gMap.mCurrentLevel
-                || field_150_path != gMap.mCurrentPath
-                || field_152_camera != gMap.mCurrentCamera)
-            {
-                Event_Broadcast(kEvent_7, this);
-            }
-
             sControlledCharacter_50767C = sActiveHero_507678;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
             gMap.SetActiveCam(
@@ -5498,7 +5484,7 @@ enum Brain_ChaseAndDisappear
 
 s16 Slig::Brain_ChaseAndDisappear_46EEE0()
 {
-    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
+    if (Event_Get(kEventDeathReset_4))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

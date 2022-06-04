@@ -17,12 +17,8 @@ enum Event : s16
     kEventDeathReset_4 = 4,
     kEventDeathResetEnd_5 = 5,
     kEventResetting_6 = 6,
-    kEvent_7 = 7, // Slig death event, never read by anything?
     kEventAbeOhm_8 = 8,
-    kEvent_9 = 9, // Read but never posted by anything
     kEventSuspiciousNoise_10 = 10,
-    kEvent_11 = 11, // Posted by elum but never read, some kind of elum noise event
-
     kEventLoudNoise_14 = 14,
     kEventMudokonDead_15 = 15,
     kEventMudokonComfort_16 = 16,

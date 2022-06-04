@@ -463,7 +463,7 @@ void Paramite::VUpdate()
         }
     }
 
-    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
+    if (Event_Get(kEventDeathReset_4))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -943,7 +943,7 @@ enum Brain_0_Patrol
 
 s16 Paramite::Brain_0_Patrol()
 {
-    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
+    if (Event_Get(kEventDeathReset_4))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1470,7 +1470,7 @@ enum Brain_1_SurpriseWeb
 
 s16 Paramite::Brain_1_SurpriseWeb()
 {
-    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
+    if (Event_Get(kEventDeathReset_4))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1613,7 +1613,7 @@ enum Brain_2_Struggling
 
 s16 Paramite::Brain_2_Struggling()
 {
-    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
+    if (Event_Get(kEventDeathReset_4))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1721,7 +1721,7 @@ enum Brain_4_ChasingAbe
 
 s16 Paramite::Brain_4_ChasingAbe()
 {
-    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
+    if (Event_Get(kEventDeathReset_4))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -2251,7 +2251,7 @@ enum Brain_5_SpottedMeat
 
 s16 Paramite::Brain_5_SpottedMeat()
 {
-    if (Event_Get(kEventDeathReset_4) || Event_Get(kEvent_9))
+    if (Event_Get(kEventDeathReset_4))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
