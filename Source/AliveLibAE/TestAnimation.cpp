@@ -72,10 +72,10 @@ TestAnimation::TestAnimation()
 
 void TestAnimation::SyncToAbePos()
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30);
-    mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30);
+    mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30);
+    mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30);
 
-    field_20_animation.mRenderLayer = sActiveHero_5C1B68->field_20_animation.mRenderLayer;
+    field_20_animation.mRenderLayer = sActiveHero->field_20_animation.mRenderLayer;
 }
 
 void TestAnimation::VUpdate()

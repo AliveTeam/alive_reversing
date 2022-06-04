@@ -60,7 +60,7 @@ public:
         field_20_animation.Get_Frame_Width_Height(&frameW, &frameH);
         field_20_animation.Get_Frame_Offset(&xy.field_0_x, &xy.field_2_y);
 
-        const auto& pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
+        const auto& pCamPos = pScreenManager->field_20_pCamPos;
         const FP screenX = mBaseAnimatedWithPhysicsGameObject_XPos - pCamPos->field_0_x;
         const FP screenY = mBaseAnimatedWithPhysicsGameObject_YPos - pCamPos->field_4_y;
 
@@ -102,12 +102,12 @@ public:
 
                 PSX_RECT frameRect = {};
                 field_20_animation.Get_Frame_Rect(&frameRect);
-                pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                pScreenManager->InvalidateRect_40EC90(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
                     frameRect.h,
-                    pScreenManager_5BB5F4->field_3A_idx);
+                    pScreenManager->field_3A_idx);
             }
         }
     }
@@ -256,20 +256,20 @@ private:
                 field_20_animation.mBlue = 32;
 
                 field_20_animation.VRender(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y),
                     ppOt,
                     0,
                     0);
 
                 PSX_RECT frameRect = {};
                 field_20_animation.Get_Frame_Rect(&frameRect);
-                pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                pScreenManager->InvalidateRect_40EC90(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
                     frameRect.h,
-                    pScreenManager_5BB5F4->field_3A_idx);
+                    pScreenManager->field_3A_idx);
 
                 for (auto& anim : field_F8_sparks)
                 {
@@ -277,24 +277,24 @@ private:
                     if (anim.field_12_bVisible)
                     {
                         // And in screen bounds?
-                        if (anim.field_0_x >= pScreenManager_5BB5F4->field_20_pCamPos->field_0_x && anim.field_0_x <= pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(368))
+                        if (anim.field_0_x >= pScreenManager->field_20_pCamPos->field_0_x && anim.field_0_x <= pScreenManager->field_20_pCamPos->field_0_x + FP_FromInteger(368))
                         {
-                            if (anim.field_4_y >= pScreenManager_5BB5F4->field_20_pCamPos->field_4_y && anim.field_4_y <= pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(240))
+                            if (anim.field_4_y >= pScreenManager->field_20_pCamPos->field_4_y && anim.field_4_y <= pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(240))
                             {
                                 anim.field_14.VRender(
-                                    FP_GetExponent(anim.field_0_x - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-                                    FP_GetExponent(anim.field_4_y - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                                    FP_GetExponent(anim.field_0_x - pScreenManager->field_20_pCamPos->field_0_x),
+                                    FP_GetExponent(anim.field_4_y - pScreenManager->field_20_pCamPos->field_4_y),
                                     ppOt,
                                     0,
                                     0);
 
                                 anim.field_14.GetRenderedSize(&frameRect);
-                                pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                                pScreenManager->InvalidateRect_40EC90(
                                     frameRect.x,
                                     frameRect.y,
                                     frameRect.w,
                                     frameRect.h,
-                                    pScreenManager_5BB5F4->field_3A_idx);
+                                    pScreenManager->field_3A_idx);
                             }
                         }
                     }

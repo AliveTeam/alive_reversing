@@ -121,9 +121,9 @@ struct Glukkon_SaveState final
     s16 field_18_path;
     LevelIds field_1A_level;
     FP field_1C_sprite_scale;
-    u16 field_20_r;
-    u16 field_22_g;
-    u16 field_24_b;
+    u16 mRingRed;
+    u16 mRingGreen;
+    u16 mRingBlue;
     u16 field_26_flipX;
     u16 field_28_current_motion;
     u16 field_2A_current_frame;

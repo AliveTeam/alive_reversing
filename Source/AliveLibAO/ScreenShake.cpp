@@ -21,7 +21,7 @@ ScreenShake::ScreenShake(bool enableShakeEvent)
     field_30_shakeNumber = 16;
     field_32_enableShakeEvent = enableShakeEvent;
 
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     if (field_32_enableShakeEvent)
     {
@@ -141,7 +141,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
 
 ScreenShake::~ScreenShake()
 {
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 }
 
 } // namespace AO

@@ -20,7 +20,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    s16 field_68_r_value;
+    s16 mAlarmRed;
     enum class States : s16
     {
         eAfterConstructed_0 = 0,
@@ -29,12 +29,10 @@ private:
         eDisabling_3 = 3,
         eDisabled_4 = 4
     };
-    States field_6A_state;
-    s32 field_6C_15_timer;
-    s32 field_70_duration_timer;
-    s16 field_74_switch_id;
-    s16 field_76_padding;
-    s32 field_78_padding;
+    States mAlarmState;
+    s32 mAlarmPauseTimer;
+    s32 mAlarmDurationTimer;
+    s16 mAlarmSwitchId;
 };
 ALIVE_ASSERT_SIZEOF(Alarm, 0x7C);
 

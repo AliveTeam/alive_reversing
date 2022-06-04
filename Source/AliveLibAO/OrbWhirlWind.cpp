@@ -97,7 +97,7 @@ void OrbWhirlWind::VUpdate()
 
 OrbWhirlWind::~OrbWhirlWind()
 {
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 
     for (auto& obj : field_18_particles)
     {
@@ -122,7 +122,7 @@ OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale)
     field_14_particles_state = ParticlesState::eCreating;
     field_10_particle_spawn_counter = 0;
 
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
     field_16_particleIdx = 0;

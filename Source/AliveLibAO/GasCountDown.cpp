@@ -59,7 +59,7 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
     field_10_font_context.LoadFontType(2);
     field_20_font.Load(5, byte_4C5080, &field_10_font_context);
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     gGasOn_4FF888 = 0;
 
@@ -74,7 +74,7 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
 
 GasCountDown::~GasCountDown()
 {
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     gMap.TLV_Reset(field_58_tlvInfo, -1, 0, 0);
 }
 

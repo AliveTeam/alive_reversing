@@ -105,7 +105,7 @@ void GameEnderController::VUpdate()
 
         case GameEnderController_States::eDetermineEnding_1:
         {
-            auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(sActiveHero_5C1B68->field_1A8_portal_id));
+            auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(sActiveHero->field_1A8_portal_id));
             if (pBirdPortal)
             {
                 if (pBirdPortal->field_28_state == BirdPortal::PortalStates::CollapseTerminators_10)
@@ -117,7 +117,7 @@ void GameEnderController::VUpdate()
                     }
 
                     pBirdPortal->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                    sActiveHero_5C1B68->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    sActiveHero->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
                     // Good ending
                     if (sRescuedMudokons_5C1BC2 >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))

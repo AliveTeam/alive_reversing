@@ -58,7 +58,7 @@ SnoozeParticle::~SnoozeParticle()
 {
     if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
-        gObjList_drawables_504618->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 }
 
@@ -73,7 +73,7 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
     mBaseGameObjectTypeId = Types::eSnoozParticle_87;
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     field_10_x_start = xpos;
     field_14_y_start = ypos;

@@ -34,7 +34,7 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
         field_2C_scale = FP_FromDouble(1.0);
     }
 
-    if (gObjList_drawables_5C1124->Push_Back(this))
+    if (gObjListDrawables->Push_Back(this))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     }
@@ -78,7 +78,7 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
 
 HoistRocksEffect::~HoistRocksEffect()
 {
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 
     for (HoistRockParticle& particle : field_30_rocks)
     {
@@ -180,20 +180,20 @@ void HoistRocksEffect::VRender(PrimHeader** ppOt)
         if (particle.field_0_state)
         {
             particle.field_10_mAnim.VRender(
-                FP_GetExponent(particle.field_4_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-                FP_GetExponent(particle.field_8_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                FP_GetExponent(particle.field_4_xpos - pScreenManager->field_20_pCamPos->field_0_x),
+                FP_GetExponent(particle.field_8_ypos - pScreenManager->field_20_pCamPos->field_4_y),
                 ppOt,
                 0,
                 0);
 
             PSX_RECT frameRect = {};
             particle.field_10_mAnim.Get_Frame_Rect(&frameRect);
-            pScreenManager_5BB5F4->InvalidateRect_40EC90(
+            pScreenManager->InvalidateRect_40EC90(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,
                 frameRect.h,
-                pScreenManager_5BB5F4->field_3A_idx);
+                pScreenManager->field_3A_idx);
         }
     }
 }

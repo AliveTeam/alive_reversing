@@ -52,7 +52,7 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 {
     SetType(AETypes::eMainMenuTransistion_116);
 
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
@@ -235,7 +235,7 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
 
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_24C_layer), &field_22C_tPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
 
-    pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
+    pScreenManager->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
 
     if ((field_20_current_value == 255 && field_24_fade_direction) || (field_20_current_value == 0 && !field_24_fade_direction))
     {
@@ -249,7 +249,7 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
 
 MainMenuTransition::~MainMenuTransition()
 {
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 }
 
 void MainMenuTransition::VScreenChanged()

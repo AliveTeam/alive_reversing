@@ -284,9 +284,9 @@ void MovingBomb::VUpdate()
                 SND_Stop_Channels_Mask(field_130_sound_channels);
             }
 
-            if (VIsObjNearby(FP_FromInteger(700), sActiveHero_5C1B68))
+            if (VIsObjNearby(FP_FromInteger(700), sActiveHero))
             {
-                const FP yDelta = FP_Abs(sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos);
+                const FP yDelta = FP_Abs(sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos);
                 if (yDelta <= FP_FromInteger(700))
                 {
                     if (field_118_state == States::eWaitABit_4)

@@ -24,7 +24,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     sDDCheat_FlyingEnabled_50771C = 0;
     if (gAttract_507698 == 0)
     {
-        field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Play, 1, sizeof(SaveData));
+        field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Play, 1, sizeof(SaveData));
         if (!field_18_ppRes)
         {
             mBaseGameObjectFlags.Clear(Options::eDead);

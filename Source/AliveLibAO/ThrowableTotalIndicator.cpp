@@ -18,7 +18,7 @@ ThrowableTotalIndicator::~ThrowableTotalIndicator()
 {
     if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
-        gObjList_drawables_504618->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 
     if (field_19E_bFade)
@@ -301,7 +301,7 @@ ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, 
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     mBaseGameObjectTypeId = Types::eThrowableTotalIndicator_35;
 
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     field_10_xpos = xpos;
     field_14_ypos = ypos;

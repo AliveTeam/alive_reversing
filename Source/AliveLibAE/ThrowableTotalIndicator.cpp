@@ -117,7 +117,7 @@ ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     SetType(AETypes::eThrowableTotalIndicator_53);
 
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     field_20_xpos = xpos;
     field_24_ypos = ypos;
@@ -174,7 +174,7 @@ ThrowableTotalIndicator::~ThrowableTotalIndicator()
 {
     if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
-        gObjList_drawables_5C1124->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 
     if (field_18E_bFade)
@@ -260,8 +260,8 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         return;
     }
 
-    const FP camX = FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-    const FP camY = FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+    const FP camX = FP_NoFractional(pScreenManager->field_20_pCamPos->field_0_x);
+    const FP camY = FP_NoFractional(pScreenManager->field_20_pCamPos->field_4_y);
 
     s16 xpos = 0;
     s16 ypos = 0;
@@ -296,10 +296,10 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
 
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &pTPage->mBase);
 
-    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+    pScreenManager->InvalidateRect_40EC90(
         xpos - 8,
         ypos - 8,
         xpos + 8,
         ypos + 8,
-        pScreenManager_5BB5F4->field_3A_idx);
+        pScreenManager->field_3A_idx);
 }

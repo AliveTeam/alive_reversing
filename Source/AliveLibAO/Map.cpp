@@ -664,9 +664,9 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 }
             }
 
-            for (s32 i = 0; i < gObjList_drawables_504618->Size(); i++)
+            for (s32 i = 0; i < gObjListDrawables->Size(); i++)
             {
-                BaseGameObject* pDrawable = gObjList_drawables_504618->ItemAt(i);
+                BaseGameObject* pDrawable = gObjListDrawables->ItemAt(i);
                 if (!pDrawable)
                 {
                     break;

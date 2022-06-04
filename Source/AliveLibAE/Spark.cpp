@@ -17,7 +17,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
 
     SetType(AETypes::eNone_0);
 
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     field_64_type = type;
     field_40_xpos = xpos;
@@ -39,7 +39,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
 
     field_5C_count = static_cast<s16>(count);
 
-    field_54_ppSprxRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Sprx, 0, sizeof(SparkRes) * count);
+    field_54_ppSprxRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Sprx, 0, sizeof(SparkRes) * count);
     if (field_54_ppSprxRes)
     {
         field_58_pRes = reinterpret_cast<SparkRes*>(*field_54_ppSprxRes);
@@ -145,8 +145,8 @@ void Spark::VUpdate()
 void Spark::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(
-            sActiveHero_5C1B68->field_C2_lvl_number,
-            sActiveHero_5C1B68->field_C0_path_number,
+            sActiveHero->field_C2_lvl_number,
+            sActiveHero->field_C0_path_number,
             field_40_xpos,
             field_44_ypos,
             0))
@@ -154,8 +154,8 @@ void Spark::VRender(PrimHeader** ppOt)
         PSX_Point xy = {32767, 32767};
         PSX_Point wh = {-32767, -32767};
 
-        const s32 xOrg = FP_GetExponent(field_40_xpos) - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-        const s32 yOrg = FP_GetExponent(field_44_ypos) - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+        const s32 xOrg = FP_GetExponent(field_40_xpos) - FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
+        const s32 yOrg = FP_GetExponent(field_44_ypos) - FP_GetExponent(pScreenManager->field_20_pCamPos->field_4_y);
 
         for (s32 i = 0; i < field_5C_count; i++)
         {
@@ -257,12 +257,12 @@ void Spark::VRender(PrimHeader** ppOt)
         Prim_SetTPage* pTPage = &field_20_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 1, 0, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_52_layer), &pTPage->mBase);
-        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect_40EC90(
             xy.field_0_x,
             xy.field_2_y,
             wh.field_0_x,
             wh.field_2_y,
-            pScreenManager_5BB5F4->field_3A_idx);
+            pScreenManager->field_3A_idx);
     }
 }
 
@@ -275,7 +275,7 @@ Spark::~Spark()
 {
     if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
-        gObjList_drawables_5C1124->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 
     if (field_54_ppSprxRes)

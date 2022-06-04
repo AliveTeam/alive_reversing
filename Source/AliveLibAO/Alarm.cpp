@@ -20,12 +20,12 @@ ALIVE_VAR(1, 0x5076A8, s16, alarmInstanceCount_5076A8, 0);
 Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
     : EffectBase(layer, TPageAbr::eBlend_1)
 {
-    field_6C_15_timer = timer + sGnFrame;
-    field_74_switch_id = static_cast<s16>(switchId);
+    mAlarmPauseTimer = timer + sGnFrame;
+    mAlarmSwitchId = static_cast<s16>(switchId);
     mBaseGameObjectTypeId = Types::eAlarm_1;
-    field_68_r_value = 0;
-    field_6A_state = States::eAfterConstructed_0;
-    field_70_duration_timer = field_6C_15_timer + duration_timer;
+    mAlarmRed = 0;
+    mAlarmState = States::eAfterConstructed_0;
+    mAlarmDurationTimer = mAlarmPauseTimer + duration_timer;
 
     alarmInstanceCount_5076A8++;
     if (alarmInstanceCount_5076A8 > 1)
@@ -40,7 +40,7 @@ Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
     // Disable red screen flashing in the stock yards
     if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
     {
-        gObjList_drawables_504618->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
         mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
     }
 }
@@ -48,7 +48,7 @@ Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
 Alarm::~Alarm()
 {
     alarmInstanceCount_5076A8--;
-    SwitchStates_Set(field_74_switch_id, 0);
+    SwitchStates_Set(mAlarmSwitchId, 0);
 }
 
 void Alarm::VRender(PrimHeader** ppOt)
@@ -63,13 +63,13 @@ void Alarm::VUpdate()
 {
     Event_Broadcast(kEvent_Alarm_17, this);
 
-    if (mEffectBasePathId != gMap.mCurrentPath || mEffectBaseLevelId != gMap.mCurrentLevel || static_cast<s32>(sGnFrame) > field_70_duration_timer)
+    if (mEffectBasePathId != gMap.mCurrentPath || mEffectBaseLevelId != gMap.mCurrentLevel || static_cast<s32>(sGnFrame) > mAlarmDurationTimer)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
-    switch (field_6A_state)
+    switch (mAlarmState)
     {
         case States::eAfterConstructed_0:
             if (Event_Get(kEventHeroDying_3))
@@ -78,46 +78,46 @@ void Alarm::VUpdate()
                 return;
             }
 
-            if (static_cast<s32>(sGnFrame) > field_6C_15_timer)
+            if (static_cast<s32>(sGnFrame) > mAlarmPauseTimer)
             {
-                field_6A_state = States::eEnabling_1;
+                mAlarmState = States::eEnabling_1;
 
                 SFX_Play_Mono(SoundEffect::Alarm_45, 0, 0);
 
-                if (field_74_switch_id)
+                if (mAlarmSwitchId)
                 {
-                    SwitchStates_Set(field_74_switch_id, 1);
+                    SwitchStates_Set(mAlarmSwitchId, 1);
                 }
             }
             break;
 
         case States::eEnabling_1:
-            field_68_r_value += 25;
+            mAlarmRed += 25;
 
-            if (field_68_r_value >= 100)
+            if (mAlarmRed >= 100)
             {
-                field_68_r_value = 100;
-                field_6C_15_timer = sGnFrame + 15;
-                field_6A_state = States::eOnFlash_2;
+                mAlarmRed = 100;
+                mAlarmPauseTimer = sGnFrame + 15;
+                mAlarmState = States::eOnFlash_2;
                 SFX_Play_Mono(SoundEffect::Alarm_45, 0, 0);
             }
             break;
 
         case States::eOnFlash_2:
-            if (static_cast<s32>(sGnFrame) > field_6C_15_timer)
+            if (static_cast<s32>(sGnFrame) > mAlarmPauseTimer)
             {
-                field_6A_state = States::eDisabling_3;
+                mAlarmState = States::eDisabling_3;
             }
             break;
 
         case States::eDisabling_3:
-            field_68_r_value -= 25;
+            mAlarmRed -= 25;
 
-            if (field_68_r_value <= 0)
+            if (mAlarmRed <= 0)
             {
-                field_68_r_value = 0;
-                field_6C_15_timer = sGnFrame + 15;
-                field_6A_state = States::eDisabled_4;
+                mAlarmRed = 0;
+                mAlarmPauseTimer = sGnFrame + 15;
+                mAlarmState = States::eDisabled_4;
             }
             break;
 
@@ -128,9 +128,9 @@ void Alarm::VUpdate()
                 return;
             }
 
-            if (static_cast<s32>(sGnFrame) > field_6C_15_timer)
+            if (static_cast<s32>(sGnFrame) > mAlarmPauseTimer)
             {
-                field_6A_state = States::eEnabling_1;
+                mAlarmState = States::eEnabling_1;
                 SFX_Play_Mono(SoundEffect::Alarm_45, 0, 0);
             }
             break;
@@ -139,7 +139,7 @@ void Alarm::VUpdate()
             break;
     }
 
-    mEffectBaseRed = field_68_r_value;
+    mEffectBaseRed = mAlarmRed;
 }
 
 void Alarm::VScreenChanged()

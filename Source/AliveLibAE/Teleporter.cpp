@@ -22,10 +22,10 @@ Teleporter::Teleporter(Path_Teleporter* pTlv, u32 tlvInfo)
     field_34_mTlvData = pTlv->field_10_data;
     field_20_tlvInfo = tlvInfo;
 
-    field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y));
-    field_28_global_y2 = FP_GetExponent((FP_FromInteger(pTlv->field_C_bottom_right.field_2_y) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y));
-    field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
-    field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
+    field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y) - pScreenManager->field_20_pCamPos->field_4_y));
+    field_28_global_y2 = FP_GetExponent((FP_FromInteger(pTlv->field_C_bottom_right.field_2_y) - pScreenManager->field_20_pCamPos->field_4_y));
+    field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager->field_20_pCamPos->field_0_x));
+    field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - pScreenManager->field_20_pCamPos->field_0_x));
 
     field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
 
@@ -220,7 +220,7 @@ void Teleporter::VUpdate()
                 bForceChange);
 
             sControlledCharacter_5C1B8C->SetUpdateDelay(3);
-            sActiveHero_5C1B68->field_1A0_door_id = field_34_mTlvData.field_12_other_teleporter_switch_id;
+            sActiveHero->field_1A0_door_id = field_34_mTlvData.field_12_other_teleporter_switch_id;
             field_30_state = TeleporterState::eTeleporting_2;
         }
         break;

@@ -34,10 +34,10 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
     : BaseGameObject(1)
 {
     mBaseGameObjectTypeId = Types::eScreenWave_83;
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     // TODO: Using frame counter as an ID seems extremely dangerous due to id collision risk!
-    field_14_ppRes = reinterpret_cast<ScreenWave_Data**>(ResourceManager::Allocate_New_Locked_Resource_454F80('evaW', sGnFrame, sizeof(ScreenWave_Data)));
+    field_14_ppRes = reinterpret_cast<ScreenWave_Data**>(ResourceManager::Allocate_New_Locked_Resource('evaW', sGnFrame, sizeof(ScreenWave_Data)));
     if (!field_14_ppRes)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -116,7 +116,7 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
 
 ScreenWave::~ScreenWave()
 {
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     ResourceManager::FreeResource_455550(reinterpret_cast<u8**>(field_14_ppRes));
 }
 

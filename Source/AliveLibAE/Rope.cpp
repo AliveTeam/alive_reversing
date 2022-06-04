@@ -90,7 +90,7 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 
     field_F4_rope_segment_count = (240 / field_F6_rope_length) + 1; // psx screen height
 
-    field_F8_ppRopeRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Rope, 0, field_F4_rope_segment_count * sizeof(AnimationUnknown));
+    field_F8_ppRopeRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Rope, 0, field_F4_rope_segment_count * sizeof(AnimationUnknown));
     field_FC_pRopeRes = reinterpret_cast<AnimationUnknown*>(*field_F8_ppRopeRes);
 
     for (s32 i = 0; i < field_F4_rope_segment_count; i++)
@@ -126,8 +126,8 @@ void Rope::VRender(PrimHeader** ppOt)
         // In the current camera x range?
         if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.field_0_x + 375))
         {
-            const FP camXPos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
-            const FP camYPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
+            const FP camXPos = pScreenManager->field_20_pCamPos->field_0_x;
+            const FP camYPos = pScreenManager->field_20_pCamPos->field_4_y;
 
             s16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
             s16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);
@@ -190,12 +190,12 @@ void Rope::VRender(PrimHeader** ppOt)
 
                     PSX_RECT rect = {};
                     field_FC_pRopeRes[idx].GetRenderedSize(&rect);
-                    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                    pScreenManager->InvalidateRect_40EC90(
                         rect.x,
                         rect.y,
                         rect.w,
                         rect.h,
-                        pScreenManager_5BB5F4->field_3A_idx);
+                        pScreenManager->field_3A_idx);
 
                     ClipPoly_Vertically_4A09E0(
                         &field_FC_pRopeRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index],

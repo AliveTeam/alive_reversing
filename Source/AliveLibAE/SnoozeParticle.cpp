@@ -74,7 +74,7 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetType(AETypes::eSnoozeParticle_124);
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     field_20_x_start = xpos;
     field_24_y_start = ypos;
@@ -107,7 +107,7 @@ SnoozeParticle::~SnoozeParticle()
 {
     if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
-        gObjList_drawables_5C1124->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 }
 
@@ -177,7 +177,7 @@ void SnoozeParticle::VUpdate()
 void SnoozeParticle::VRender(PrimHeader** ppOt)
 {
     PSX_RECT rectToInvalidate = {};
-    FP_Point* pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
+    FP_Point* pCamPos = pScreenManager->field_20_pCamPos;
     const s16 bufIdx = gPsxDisplay_5C1130.field_C_buffer_index;
 
     if (field_1E4_state == SnoozeParticleState::eBlowingUp_2)
@@ -276,10 +276,10 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     Init_SetTPage_4F5B60(thisTPage, 1, 0, tPage);
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &thisTPage->mBase);
 
-    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+    pScreenManager->InvalidateRect_40EC90(
         rectToInvalidate.x, rectToInvalidate.y,
         rectToInvalidate.w, rectToInvalidate.h,
-        pScreenManager_5BB5F4->field_3A_idx);
+        pScreenManager->field_3A_idx);
 }
 
 void SnoozeParticle::VScreenChanged()

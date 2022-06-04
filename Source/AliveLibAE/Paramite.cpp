@@ -136,7 +136,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         field_D6_scale = 1;
     }
 
-    if (!VIsFacingMe(sActiveHero_5C1B68))
+    if (!VIsFacingMe(sActiveHero))
     {
         field_20_animation.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
     }
@@ -724,9 +724,9 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     const auto pEventNoise = Event_Is_Event_In_Range(kEventNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_D6_scale);
     const auto pEventSpeaking = Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_D6_scale);
 
-    if (sActiveHero_5C1B68 == pEventNoise || sActiveHero_5C1B68 == pEventSpeaking)
+    if (sActiveHero == pEventNoise || sActiveHero == pEventSpeaking)
     {
-        if (sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+        if (sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             mNextMotion = sParamite_patrol_motion_table_55D590[Math_RandomRange(0, 4)];
             return ParamiteEnums::Brain_0_Patrol::eBrain0_LookingForInvisibleAbe_15;
@@ -1328,7 +1328,7 @@ s16 Paramite::Brain_1_Death_484CD0()
     {
         if (field_130_timer < static_cast<s32>(sGnFrame))
         {
-            sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+            sControlledCharacter_5C1B8C = sActiveHero;
             gMap.SetActiveCam(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
@@ -2491,7 +2491,7 @@ s16 Paramite::Brain_7_DeathDrop_484FF0()
 
         if (sControlledCharacter_5C1B8C == this)
         {
-            sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+            sControlledCharacter_5C1B8C = sActiveHero;
             gMap.SetActiveCam(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
 
@@ -4407,7 +4407,7 @@ void Paramite::M_GetDepossessedBegin_29_48D9D0()
 
         if (static_cast<s32>(sGnFrame) > field_138_depossession_timer)
         {
-            sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+            sControlledCharacter_5C1B8C = sActiveHero;
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
             mCurrentMotion = eParamiteMotions::M_GetDepossessedEnd_30_48DB50;
             SetBrain(&Paramite::Brain_0_Patrol_4835B0);
@@ -5038,7 +5038,7 @@ Paramite::~Paramite()
 
     if (sControlledCharacter_5C1B8C == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        sControlledCharacter_5C1B8C = sActiveHero;
         if (gMap.mLevel != LevelIds::eMenu_0)
         {
             gMap.SetActiveCam(
@@ -5432,7 +5432,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             }
             if (sControlledCharacter_5C1B8C != this)
             {
-                if (field_120_obj_id == -1 || field_120_obj_id == sActiveHero_5C1B68->field_8_object_id)
+                if (field_120_obj_id == -1 || field_120_obj_id == sActiveHero->field_8_object_id)
                 {
                     if (BrainIs(&Paramite::Brain_0_Patrol_4835B0) || BrainIs(&Paramite::Brain_8_ControlledByGameSpeak_48DFC0))
                     {
@@ -5626,7 +5626,7 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
         return 0;
     }
 
-    const s32 distToPlayer = Math_Distance_496EB0(
+    const s32 distToPlayer = Math_Distance(
         FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos),
         FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos),
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
@@ -5657,7 +5657,7 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
                     return 0;
                 }
 
-                if (distToPlayer > Math_Distance_496EB0(
+                if (distToPlayer > Math_Distance(
                         FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos),
                         FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos),
                         FP_GetExponent(pParamite->mBaseAnimatedWithPhysicsGameObject_XPos),
@@ -5908,9 +5908,9 @@ s16 Paramite::FindTarget()
         }
     }
 
-    if (VOnSameYLevel(sActiveHero_5C1B68) && !sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale && !WallHit((sActiveHero_5C1B68->field_CC_sprite_scale * FP_FromInteger(20)), sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
+    if (VOnSameYLevel(sActiveHero) && !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && field_CC_sprite_scale == sActiveHero->field_CC_sprite_scale && !WallHit((sActiveHero->field_CC_sprite_scale * FP_FromInteger(20)), sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
     {
-        field_120_obj_id = sActiveHero_5C1B68->field_8_object_id;
+        field_120_obj_id = sActiveHero->field_8_object_id;
         return 1;
     }
     else

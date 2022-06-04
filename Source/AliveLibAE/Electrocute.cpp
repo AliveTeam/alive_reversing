@@ -17,7 +17,7 @@ public:
     {
         SetType(AETypes::ePalOverwriter_44);
 
-        gObjList_drawables_5C1124->Push_Back(this);
+        gObjListDrawables->Push_Back(this);
 
         field_20_pal_xy = palXY;
         field_24_pal_colours_count = palDepth;
@@ -37,7 +37,7 @@ public:
 
     ~PalleteOverwriter()
     {
-        gObjList_drawables_5C1124->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 
     virtual void VScreenChanged() override

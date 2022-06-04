@@ -52,11 +52,11 @@ void Bullet::VUpdate()
             if (field_30_x_distance > FP_FromInteger(0))
             {
                 shootRect.x = FP_GetExponent(field_28_xpos);
-                shootRect.w = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(640));
+                shootRect.w = FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x + FP_FromInteger(640));
             }
             else
             {
-                shootRect.x = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
+                shootRect.x = FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
                 shootRect.w = FP_GetExponent(field_28_xpos);
             }
 
@@ -230,7 +230,7 @@ void Bullet::VUpdate()
             PSX_RECT rect = {};
             rect.x = static_cast<s16>(xSnapped - 25);
             rect.w = static_cast<s16>(xSnapped - 25 + 50);
-            rect.y = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+            rect.y = FP_GetExponent(pScreenManager->field_20_pCamPos->field_4_y);
             rect.h = static_cast<s16>(rect.y + 240);
             BaseAliveGameObject* pShootObj = ShootObject(&rect);
             if (pShootObj)
@@ -299,7 +299,7 @@ void Bullet::VUpdate()
                         field_28_xpos,
                         field_2C_ypos,
                         rectXPos,
-                        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
+                        sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
                         &field_24_pLine, &hitX, &hitY, 1024)
                     == 1)
                 {

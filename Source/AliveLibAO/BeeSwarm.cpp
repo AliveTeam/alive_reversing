@@ -244,7 +244,7 @@ void BeeSwarm::VUpdate()
                 field_D74_chase_target_y = FP_FromInteger((targetRect.h + targetRect.y) / 2);
                 field_D70_chase_target_x = FP_FromInteger((targetRect.w + targetRect.x) / 2);
 
-                if (Math_Distance_451270(
+                if (Math_Distance(
                         FP_GetExponent(field_A8_xpos),
                         FP_GetExponent(field_AC_ypos),
                         FP_GetExponent(field_D70_chase_target_x),

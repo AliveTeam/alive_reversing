@@ -138,12 +138,12 @@ void SlapLock::VScreenChanged()
 void SlapLock::GiveInvisibility()
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo));
-    if (sActiveHero_5C1B68)
+    if (sActiveHero)
     {
-        sActiveHero_5C1B68->field_176_invisibility_duration = field_118_pTlv->field_1C_invisibility_duration;
-        sActiveHero_5C1B68->field_16C_bHaveShrykull = 0;
-        sActiveHero_5C1B68->field_16E_bHaveInvisiblity = 1;
-        sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame + 200000;
+        sActiveHero->field_176_invisibility_duration = field_118_pTlv->field_1C_invisibility_duration;
+        sActiveHero->field_16C_bHaveShrykull = 0;
+        sActiveHero->field_16E_bHaveInvisiblity = 1;
+        sActiveHero->field_168_ring_pulse_timer = sGnFrame + 200000;
     }
 }
 
@@ -222,7 +222,7 @@ void SlapLock::VUpdate()
                 {
                     if (!(sGnFrame & 63))
                     {
-                        AbilityRing::Factory_482F80(
+                        AbilityRing::Factory(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
                             RingTypes::eInvisible_Pulse_Large_8,
@@ -253,7 +253,7 @@ void SlapLock::VUpdate()
                 {
                     if (!(sGnFrame & 63))
                     {
-                        AbilityRing::Factory_482F80(
+                        AbilityRing::Factory(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
                             RingTypes::eInvisible_Pulse_Large_8,
@@ -316,15 +316,15 @@ void SlapLock::VUpdate()
                 if (static_cast<s32>(sGnFrame) > field_124_timer1)
                 {
                     if (!gMap.Is_Point_In_Current_Camera_4810D0(
-                            sActiveHero_5C1B68->field_C2_lvl_number,
-                            sActiveHero_5C1B68->field_C0_path_number,
-                            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos,
-                            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos,
+                            sActiveHero->field_C2_lvl_number,
+                            sActiveHero->field_C0_path_number,
+                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos,
+                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos,
                             1)
-                        || sActiveHero_5C1B68->field_168_ring_pulse_timer
-                        || sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+                        || sActiveHero->field_168_ring_pulse_timer
+                        || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
                     {
-                        AbilityRing::Factory_482F80(
+                        AbilityRing::Factory(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
                             RingTypes::eInvisible_Pulse_Large_8,
@@ -359,13 +359,13 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                if (sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+                if (sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
                 {
                     field_120_state = SlapLockStates::eGiveInvisibility_7;
                 }
                 else
                 {
-                    auto pFlicker = ae_new<PossessionFlicker>(sActiveHero_5C1B68, 8, 128, 255, 128);
+                    auto pFlicker = ae_new<PossessionFlicker>(sActiveHero, 8, 128, 255, 128);
                     if (pFlicker)
                     {
                         field_138_possesion_flicker_id = pFlicker->field_8_object_id;
@@ -402,25 +402,25 @@ void SlapLock::VUpdate()
 
 void SlapLock::SetInvisibilityTarget()
 {
-    AbilityRing::Factory_482F80(
+    AbilityRing::Factory(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
         RingTypes::eInvisible_Pulse_Emit_9,
         field_CC_sprite_scale);
 
     PSX_RECT bRect = {};
-    sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
+    sActiveHero->VGetBoundingRect(&bRect, 1);
 
-    AbilityRing* pRing = AbilityRing::Factory_482F80(
+    AbilityRing* pRing = AbilityRing::Factory(
         FP_FromInteger((bRect.x + bRect.w) / 2),
         FP_FromInteger((bRect.y + bRect.h) / 2),
         RingTypes::eInvisible_Pulse_Give_10,
-        sActiveHero_5C1B68->field_CC_sprite_scale);
+        sActiveHero->field_CC_sprite_scale);
 
     pRing->mBaseGameObjectTlvInfo = mBaseGameObjectTlvInfo;
     field_134_id = pRing->field_8_object_id;
 
-    pRing->VSetTarget(sActiveHero_5C1B68);
+    pRing->VSetTarget(sActiveHero);
 }
 
 s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
@@ -433,7 +433,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_62_Punch_454750)
+    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_62_Punch_454750)
     {
         // If Abe isn't slapping then he can't hurt me
         return 0;
@@ -449,7 +449,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    sActiveHero_5C1B68->ToKnockback_44E700(1, 0);
+    sActiveHero->ToKnockback_44E700(1, 0);
 
     if (field_130_has_ghost == Choice_short::eYes_1)
     {

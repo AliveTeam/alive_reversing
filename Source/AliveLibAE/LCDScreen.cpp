@@ -229,7 +229,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     field_2B8_message_rand_max_id = params->field_14_message_rand_max_id;
     field_2A8_play_sound_toggle = 0;
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 }
 
 void LCDScreen::VUpdate()
@@ -284,8 +284,8 @@ void LCDScreen::VUpdate()
         sFontDrawScreenSpace_5CA4B4 = 0;
     }
 
-    auto screenLeft = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-    auto screenRight = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
+    auto screenLeft = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
+    auto screenRight = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
 
     sFontDrawScreenSpace_5CA4B4 = 1;
     auto slicedText = field_60_font.SliceText(
@@ -312,7 +312,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
 {
     if (sNum_CamSwappers_5C1B66 == 0)
     {
-        const FP_Point* camPos = pScreenManager_5BB5F4->field_20_pCamPos;
+        const FP_Point* camPos = pScreenManager->field_20_pCamPos;
         const s32 screenX = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
         const s32 screenY = ((field_2C0_tlv.field_8_top_left.field_2_y + field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
         const s32 screenXWorld = PsxToPCX(screenX);
@@ -356,12 +356,12 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         Init_PrimClipper_4F5B80(clipper, &clipRect);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_RopeWebDrill_24), &clipper->mBase);
 
-        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect_40EC90(
             screenXWorld,
             screenY,
             clipRect.w,
             24,
-            pScreenManager_5BB5F4->field_3A_idx);
+            pScreenManager->field_3A_idx);
     }
 }
 
@@ -374,7 +374,7 @@ LCDScreen::~LCDScreen()
 {
     IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
 
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_2BC_tlv_item_info.all, -1, 0, 0);
 
     if (!--sFontType2LoadCount_5BC5E8)

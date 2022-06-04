@@ -184,7 +184,7 @@ FP Math_Sine_496DD0(u8 v)
     return Math_Cosine_496CD0(v - 64);
 }
 
-s32 Math_Distance_496EB0(s32 x1, s32 y1, s32 x2, s32 y2)
+s32 Math_Distance(s32 x1, s32 y1, s32 x2, s32 y2)
 {
     s32 dx = x1 - x2;
     if (dx < 0)

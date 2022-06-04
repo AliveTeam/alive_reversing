@@ -10,7 +10,7 @@
 #include "Renderer/IRenderer.hpp"
 #include "../AliveLibCommon/CamDecompressor.hpp"
 
-ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
+ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager, nullptr);
 ALIVE_ARY(1, 0x5b86c8, SprtTPage, 300, sSpriteTPageBuffer_5B86C8, {});
 
 void ScreenManager::sub_40EE10()

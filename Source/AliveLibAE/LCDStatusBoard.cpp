@@ -37,9 +37,9 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
     field_C8_font4.ctor_433590(3, sStatsSignFontPalette_55CF8C, &sFont2Context_5BC5D8);
 
     mBaseGameObjectFlags.Set(eDrawable_Bit4);
-    gObjList_drawables_5C1124->Push_Back(this);
-    field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-    field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+    gObjListDrawables->Push_Back(this);
+    field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_0_x)) - pScreenManager->field_20_pCamPos->field_0_x);
+    field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_2_y)) - pScreenManager->field_20_pCamPos->field_4_y);
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
     field_108_is_hidden = static_cast<s16>(params->field_14_hidden);
     sZulagNumber_5C1A20 = static_cast<s8>(params->field_12_zulag_number);
@@ -52,7 +52,7 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
 
 LCDStatusBoard::~LCDStatusBoard()
 {
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_100_objectId, -1, 0, 0);
 
     if (!--sFontType2LoadCount_5BC5E8)
@@ -172,12 +172,12 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             flickerAmount);
         maxWidth = std::max(font1Width, maxWidth);
 
-        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect_40EC90(
             static_cast<s32>(field_104_position_x / 0.575f),
             field_106_position_y,
             static_cast<s32>(maxWidth / 0.575f),
             64,
-            pScreenManager_5BB5F4->field_3A_idx);
+            pScreenManager->field_3A_idx);
     }
 }
 

@@ -568,7 +568,7 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
         sndVolume = 2 * sndVolume / 3;
     }
 
-    if (pAliveObj != sActiveHero_5C1B68)
+    if (pAliveObj != sActiveHero)
     {
         switch (gMap.GetDirection_4811A0(
             pAliveObj->field_C2_lvl_number,
@@ -623,13 +623,13 @@ s32 Animation_OnFrame_Abe_455F80(void* pPtr, s16* pData)
     auto pAbe = static_cast<Abe*>(pPtr);
     auto pFramePos = reinterpret_cast<PSX_Point*>(pData);
 
-    auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(sActiveHero_5C1B68->field_158_throwable_id));
+    auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(sActiveHero->field_158_throwable_id));
 
     auto tableX = sThrowVelocities_555118[pAbe->field_1A3_throw_direction].field_0_x * pAbe->field_CC_sprite_scale;
     const auto tableY = sThrowVelocities_555118[pAbe->field_1A3_throw_direction].field_4_y * pAbe->field_CC_sprite_scale;
 
     FP xOff = {};
-    if (sActiveHero_5C1B68->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (sActiveHero->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         tableX = -tableX;
         xOff = -(pAbe->field_CC_sprite_scale * FP_FromInteger(pFramePos->field_0_x));
@@ -658,12 +658,12 @@ s32 Animation_OnFrame_Abe_455F80(void* pPtr, s16* pData)
 
     if (pThrowable)
     {
-        pThrowable->mBaseAnimatedWithPhysicsGameObject_XPos = xOff + sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos;
-        pThrowable->mBaseAnimatedWithPhysicsGameObject_YPos = (pAbe->field_CC_sprite_scale * FP_FromInteger(pFramePos->field_2_y)) + sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos;
+        pThrowable->mBaseAnimatedWithPhysicsGameObject_XPos = xOff + sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos;
+        pThrowable->mBaseAnimatedWithPhysicsGameObject_YPos = (pAbe->field_CC_sprite_scale * FP_FromInteger(pFramePos->field_2_y)) + sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;
         pThrowable->VThrow(tableX, tableY);
         pThrowable->field_CC_sprite_scale = pAbe->field_CC_sprite_scale;
         pThrowable->field_D6_scale = pAbe->field_D6_scale;
-        sActiveHero_5C1B68->field_158_throwable_id = -1;
+        sActiveHero->field_158_throwable_id = -1;
     }
 
     return 1;
@@ -942,7 +942,7 @@ Abe::~Abe()
 
     field_164_wheel_id = -1;
 
-    sActiveHero_5C1B68 = nullptr;
+    sActiveHero = nullptr;
 }
 
 const char_type* sAbe_ResNames_545830[22] = {
@@ -1026,11 +1026,11 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 {
     const Abe_SaveState* pSaveState = reinterpret_cast<const Abe_SaveState*>(pData);
 
-    Abe* pAbe = sActiveHero_5C1B68;
-    if (!sActiveHero_5C1B68)
+    Abe* pAbe = sActiveHero;
+    if (!sActiveHero)
     {
         pAbe = ae_new<Abe>(58808, 85, 57, 55);
-        sActiveHero_5C1B68 = pAbe;
+        sActiveHero = pAbe;
     }
 
     if (pSaveState->field_44_is_abe_controlled)
@@ -1038,75 +1038,75 @@ s32 Abe::CreateFromSaveState(const u8* pData)
         sControlledCharacter_5C1B8C = pAbe;
     }
 
-    sActiveHero_5C1B68->BaseAliveGameObjectPathTLV = nullptr;
-    sActiveHero_5C1B68->BaseAliveGameObjectCollisionLine = nullptr;
-    sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = pSaveState->field_4_xpos;
-    sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = pSaveState->field_8_ypos;
-    sActiveHero_5C1B68->field_C4_velx = pSaveState->field_c_velx;
-    sActiveHero_5C1B68->field_C8_vely = pSaveState->field_10_vely;
-    sActiveHero_5C1B68->field_128.field_8_x_vel_slow_by = pSaveState->field_48_x_vel_slow_by;
-    sActiveHero_5C1B68->field_128.field_C_unused = pSaveState->field_4C_unused;
-    sActiveHero_5C1B68->field_C0_path_number = pSaveState->field_14_path_number;
-    sActiveHero_5C1B68->field_C2_lvl_number = pSaveState->field_16_lvl_number;
-    sActiveHero_5C1B68->field_CC_sprite_scale = pSaveState->field_18_sprite_scale;
-    sActiveHero_5C1B68->field_D6_scale = pSaveState->field_1C_scale;
+    sActiveHero->BaseAliveGameObjectPathTLV = nullptr;
+    sActiveHero->BaseAliveGameObjectCollisionLine = nullptr;
+    sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = pSaveState->field_4_xpos;
+    sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = pSaveState->field_8_ypos;
+    sActiveHero->field_C4_velx = pSaveState->field_c_velx;
+    sActiveHero->field_C8_vely = pSaveState->field_10_vely;
+    sActiveHero->field_128.field_8_x_vel_slow_by = pSaveState->field_48_x_vel_slow_by;
+    sActiveHero->field_128.field_C_unused = pSaveState->field_4C_unused;
+    sActiveHero->field_C0_path_number = pSaveState->field_14_path_number;
+    sActiveHero->field_C2_lvl_number = pSaveState->field_16_lvl_number;
+    sActiveHero->field_CC_sprite_scale = pSaveState->field_18_sprite_scale;
+    sActiveHero->field_D6_scale = pSaveState->field_1C_scale;
 
-    sActiveHero_5C1B68->mCurrentMotion = pSaveState->current_motion;
+    sActiveHero->mCurrentMotion = pSaveState->current_motion;
 
-    const AnimRecord& animRec = AnimRec(sAbeFrameTables[sActiveHero_5C1B68->mCurrentMotion]);
-    u8** animFromState = sActiveHero_5C1B68->MotionToAnimResource_44AAB0(sActiveHero_5C1B68->mCurrentMotion);
+    const AnimRecord& animRec = AnimRec(sAbeFrameTables[sActiveHero->mCurrentMotion]);
+    u8** animFromState = sActiveHero->MotionToAnimResource_44AAB0(sActiveHero->mCurrentMotion);
     if (!animFromState)
     {
-        u32 id = sAbeResourceIDTable_554D60[sActiveHero_5C1B68->field_128.field_10_resource_index];
-        ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero_5C1B68->field_128.field_10_resource_index], 0);
-        sActiveHero_5C1B68->field_10_resources_array.SetAt(sActiveHero_5C1B68->field_128.field_10_resource_index, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, id, TRUE, FALSE));
-        animFromState = sActiveHero_5C1B68->field_10_resources_array.ItemAt(sActiveHero_5C1B68->field_128.field_10_resource_index);
+        u32 id = sAbeResourceIDTable_554D60[sActiveHero->field_128.field_10_resource_index];
+        ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero->field_128.field_10_resource_index], 0);
+        sActiveHero->field_10_resources_array.SetAt(sActiveHero->field_128.field_10_resource_index, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, id, TRUE, FALSE));
+        animFromState = sActiveHero->field_10_resources_array.ItemAt(sActiveHero->field_128.field_10_resource_index);
     }
 
-    sActiveHero_5C1B68->field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, animFromState);
-    //sActiveHero_5C1B68->field_20_animation.Set_Animation_Data_409C80(sAbeFrameTables[sActiveHero_5C1B68->mCurrentMotion], animFromState);
+    sActiveHero->field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, animFromState);
+    //sActiveHero->field_20_animation.Set_Animation_Data_409C80(sAbeFrameTables[sActiveHero->mCurrentMotion], animFromState);
 
-    sActiveHero_5C1B68->field_20_animation.field_92_current_frame = pSaveState->anim_current_frame;
-    sActiveHero_5C1B68->field_20_animation.mFrameChangeCounter = pSaveState->anim_frame_change_counter;
+    sActiveHero->field_20_animation.field_92_current_frame = pSaveState->anim_current_frame;
+    sActiveHero->field_20_animation.mFrameChangeCounter = pSaveState->anim_frame_change_counter;
 
-    sActiveHero_5C1B68->field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pSaveState->bAnimFlipX & 1);
-    sActiveHero_5C1B68->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render, pSaveState->bAnimRender & 1);
-    sActiveHero_5C1B68->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->bDrawable & 1);
+    sActiveHero->field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pSaveState->bAnimFlipX & 1);
+    sActiveHero->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render, pSaveState->bAnimRender & 1);
+    sActiveHero->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->bDrawable & 1);
 
-    sActiveHero_5C1B68->field_20_animation.mRenderLayer = static_cast<Layer>(pSaveState->anim_render_layer);
+    sActiveHero->field_20_animation.mRenderLayer = static_cast<Layer>(pSaveState->anim_render_layer);
 
-    if (IsLastFrame(&sActiveHero_5C1B68->field_20_animation))
+    if (IsLastFrame(&sActiveHero->field_20_animation))
     {
-        sActiveHero_5C1B68->field_20_animation.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+        sActiveHero->field_20_animation.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
-    FrameInfoHeader* pFrameInfoHeader = sActiveHero_5C1B68->field_20_animation.Get_FrameHeader(-1);
-    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-    sActiveHero_5C1B68->field_20_animation.Load_Pal(sActiveHero_5C1B68->field_20_animation.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+    FrameInfoHeader* pFrameInfoHeader = sActiveHero->field_20_animation.Get_FrameHeader(-1);
+    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*sActiveHero->field_20_animation.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+    sActiveHero->field_20_animation.Load_Pal(sActiveHero->field_20_animation.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 
-    sActiveHero_5C1B68->SetTint(sTintTable_Abe_554D20, gMap.mCurrentLevel);
-    sActiveHero_5C1B68->field_20_animation.mRenderMode = TPageAbr::eBlend_0;
-    sActiveHero_5C1B68->field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    sActiveHero_5C1B68->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-    sActiveHero_5C1B68->mHealth = pSaveState->field_30_health;
-    sActiveHero_5C1B68->mCurrentMotion = pSaveState->field_34_animation_num;
-    sActiveHero_5C1B68->mNextMotion = pSaveState->next_motion;
-    sActiveHero_5C1B68->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pSaveState->last_line_ypos);
-    sActiveHero_5C1B68->BaseAliveGameObjectId = pSaveState->platform_obj_id;
-    sActiveHero_5C1B68->field_120_state.raw = static_cast<u16>(pSaveState->field_50_state);
-    sActiveHero_5C1B68->field_124_timer = pSaveState->field_54_timer;
-    sActiveHero_5C1B68->field_128.field_0_abe_timer = pSaveState->field_58_abe_timer;
-    sActiveHero_5C1B68->field_128.field_4_regen_health_timer = pSaveState->field_5C_regen_health_timer;
-    sActiveHero_5C1B68->field_128.field_12_mood = pSaveState->mood;
-    sActiveHero_5C1B68->field_128.field_18_say = pSaveState->say;
-    sActiveHero_5C1B68->field_144_auto_say_timer = pSaveState->auto_say_timer;
-    sActiveHero_5C1B68->field_1A2_throwable_count = pSaveState->field_6c_rock_bone_count;
-    sActiveHero_5C1B68->field_168_ring_pulse_timer = pSaveState->ring_pulse_timer;
-    sActiveHero_5C1B68->field_16C_bHaveShrykull = pSaveState->bHaveShrykull;
+    sActiveHero->SetTint(sTintTable_Abe_554D20, gMap.mCurrentLevel);
+    sActiveHero->field_20_animation.mRenderMode = TPageAbr::eBlend_0;
+    sActiveHero->field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    sActiveHero->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+    sActiveHero->mHealth = pSaveState->field_30_health;
+    sActiveHero->mCurrentMotion = pSaveState->field_34_animation_num;
+    sActiveHero->mNextMotion = pSaveState->next_motion;
+    sActiveHero->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pSaveState->last_line_ypos);
+    sActiveHero->BaseAliveGameObjectId = pSaveState->platform_obj_id;
+    sActiveHero->field_120_state.raw = static_cast<u16>(pSaveState->field_50_state);
+    sActiveHero->field_124_timer = pSaveState->field_54_timer;
+    sActiveHero->field_128.field_0_abe_timer = pSaveState->field_58_abe_timer;
+    sActiveHero->field_128.field_4_regen_health_timer = pSaveState->field_5C_regen_health_timer;
+    sActiveHero->field_128.field_12_mood = pSaveState->mood;
+    sActiveHero->field_128.field_18_say = pSaveState->say;
+    sActiveHero->field_144_auto_say_timer = pSaveState->auto_say_timer;
+    sActiveHero->field_1A2_throwable_count = pSaveState->field_6c_rock_bone_count;
+    sActiveHero->field_168_ring_pulse_timer = pSaveState->ring_pulse_timer;
+    sActiveHero->field_16C_bHaveShrykull = pSaveState->bHaveShrykull;
 
-    if (sActiveHero_5C1B68->field_168_ring_pulse_timer && sActiveHero_5C1B68->field_16C_bHaveShrykull)
+    if (sActiveHero->field_168_ring_pulse_timer && sActiveHero->field_16C_bHaveShrykull)
     {
-        if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(25))
+        if (!sActiveHero->field_10_resources_array.ItemAt(25))
         {
             if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbemorphResID, FALSE, FALSE))
             {
@@ -1116,95 +1116,95 @@ s32 Abe::CreateFromSaveState(const u8* pData)
             {
                 ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
             }
-            sActiveHero_5C1B68->Get_Shrykull_Resources_45AA20();
+            sActiveHero->Get_Shrykull_Resources_45AA20();
         }
     }
     else
     {
-        if (sActiveHero_5C1B68->field_10_resources_array.ItemAt(25))
+        if (sActiveHero->field_10_resources_array.ItemAt(25))
         {
-            sActiveHero_5C1B68->Free_Shrykull_Resources_45AA90();
+            sActiveHero->Free_Shrykull_Resources_45AA90();
         }
     }
 
-    sActiveHero_5C1B68->field_16E_bHaveInvisiblity = pSaveState->bHaveInvisiblity;
-    sActiveHero_5C1B68->BaseAliveGameObjectCollisionLineType = pSaveState->field_3a_collision_line_id;
+    sActiveHero->field_16E_bHaveInvisiblity = pSaveState->bHaveInvisiblity;
+    sActiveHero->BaseAliveGameObjectCollisionLineType = pSaveState->field_3a_collision_line_id;
 
-    sActiveHero_5C1B68->field_118_prev_held = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->prev_held);
-    sActiveHero_5C1B68->field_11C_released_buttons = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->released_buttons);
-    sActiveHero_5C1B68->field_122_knockdown_motion = pSaveState->field_74_knockdown_motion;
-    sActiveHero_5C1B68->field_128.field_14_rolling_motion_timer = sGnFrame - pSaveState->field_78_rolling_motion_timer;
-    sActiveHero_5C1B68->field_148_fade_obj_id = pSaveState->fade_obj_id;
-    sActiveHero_5C1B68->field_14C_circular_fade_id = pSaveState->circular_fade_id;
-    sActiveHero_5C1B68->field_150_OrbWhirlWind_id = pSaveState->orb_whirl_wind_id;
-    sActiveHero_5C1B68->field_154_possessed_object_id = pSaveState->possesed_object_id;
-    sActiveHero_5C1B68->field_158_throwable_id = pSaveState->throwabe_obj_id;
-    sActiveHero_5C1B68->field_15C_pull_rope_id = pSaveState->pull_ring_rope_id;
-    sActiveHero_5C1B68->field_160_slappable_or_pick_item_id = pSaveState->slappable_or_pickup_id;
-    sActiveHero_5C1B68->field_164_wheel_id = pSaveState->wheel_id;
-    sActiveHero_5C1B68->field_178_invisible_effect_id = -1;
-    sActiveHero_5C1B68->field_170_invisible_timer = pSaveState->invisible_timer;
-    sActiveHero_5C1B68->field_174_unused = pSaveState->field_A0_unused;
-    sActiveHero_5C1B68->field_176_invisibility_duration = pSaveState->field_A2_invisibility_duration;
+    sActiveHero->field_118_prev_held = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->prev_held);
+    sActiveHero->field_11C_released_buttons = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->released_buttons);
+    sActiveHero->field_122_knockdown_motion = pSaveState->field_74_knockdown_motion;
+    sActiveHero->field_128.field_14_rolling_motion_timer = sGnFrame - pSaveState->field_78_rolling_motion_timer;
+    sActiveHero->field_148_fade_obj_id = pSaveState->fade_obj_id;
+    sActiveHero->field_14C_circular_fade_id = pSaveState->circular_fade_id;
+    sActiveHero->field_150_OrbWhirlWind_id = pSaveState->orb_whirl_wind_id;
+    sActiveHero->field_154_possessed_object_id = pSaveState->possesed_object_id;
+    sActiveHero->field_158_throwable_id = pSaveState->throwabe_obj_id;
+    sActiveHero->field_15C_pull_rope_id = pSaveState->pull_ring_rope_id;
+    sActiveHero->field_160_slappable_or_pick_item_id = pSaveState->slappable_or_pickup_id;
+    sActiveHero->field_164_wheel_id = pSaveState->wheel_id;
+    sActiveHero->field_178_invisible_effect_id = -1;
+    sActiveHero->field_170_invisible_timer = pSaveState->invisible_timer;
+    sActiveHero->field_174_unused = pSaveState->field_A0_unused;
+    sActiveHero->field_176_invisibility_duration = pSaveState->field_A2_invisibility_duration;
 
-    sActiveHero_5C1B68->field_17C_cam_idx = pSaveState->field_A4_cam_idx;
-    sActiveHero_5C1B68->field_180_hand_stone_type = pSaveState->hand_stone_type;
-    sActiveHero_5C1B68->field_184_fmv_id = pSaveState->fmv_id;
-    sActiveHero_5C1B68->field_186_to_camera_id[0] = pSaveState->cam_id_1;
-    sActiveHero_5C1B68->field_186_to_camera_id[1] = pSaveState->cam_id_2;
-    sActiveHero_5C1B68->field_186_to_camera_id[2] = pSaveState->cam_id_3;
-    sActiveHero_5C1B68->field_18C_unused = pSaveState->field_B4_unused;
+    sActiveHero->field_17C_cam_idx = pSaveState->field_A4_cam_idx;
+    sActiveHero->field_180_hand_stone_type = pSaveState->hand_stone_type;
+    sActiveHero->field_184_fmv_id = pSaveState->fmv_id;
+    sActiveHero->field_186_to_camera_id[0] = pSaveState->cam_id_1;
+    sActiveHero->field_186_to_camera_id[1] = pSaveState->cam_id_2;
+    sActiveHero->field_186_to_camera_id[2] = pSaveState->cam_id_3;
+    sActiveHero->field_18C_unused = pSaveState->field_B4_unused;
 
-    sActiveHero_5C1B68->field_18E_unused = pSaveState->field_B6_unused;
-    sActiveHero_5C1B68->field_190_unused = pSaveState->field_B8_unused;
-    sActiveHero_5C1B68->field_192_unused = pSaveState->field_BA_unused;
-    sActiveHero_5C1B68->field_194_unused = pSaveState->field_BC_unused;
-    sActiveHero_5C1B68->field_196_unused = pSaveState->field_BE_unused;
-    sActiveHero_5C1B68->field_198_has_evil_fart = pSaveState->bHaveEvilFart;
-    sActiveHero_5C1B68->field_19A_to_level = pSaveState->to_level;
-    sActiveHero_5C1B68->field_19C_to_path = pSaveState->to_path;
-    sActiveHero_5C1B68->field_19E_to_camera = pSaveState->to_camera;
-    sActiveHero_5C1B68->field_1A0_door_id = pSaveState->door_id;
-    sActiveHero_5C1B68->field_1A3_throw_direction = pSaveState->field_ca_throw_direction;
-    sActiveHero_5C1B68->field_1A4_portal_sub_state = static_cast<PortalSubStates>(pSaveState->field_CC_portal_sub_state);
-    sActiveHero_5C1B68->field_1A8_portal_id = pSaveState->bird_portal_id;
+    sActiveHero->field_18E_unused = pSaveState->field_B6_unused;
+    sActiveHero->field_190_unused = pSaveState->field_B8_unused;
+    sActiveHero->field_192_unused = pSaveState->field_BA_unused;
+    sActiveHero->field_194_unused = pSaveState->field_BC_unused;
+    sActiveHero->field_196_unused = pSaveState->field_BE_unused;
+    sActiveHero->field_198_has_evil_fart = pSaveState->bHaveEvilFart;
+    sActiveHero->field_19A_to_level = pSaveState->to_level;
+    sActiveHero->field_19C_to_path = pSaveState->to_path;
+    sActiveHero->field_19E_to_camera = pSaveState->to_camera;
+    sActiveHero->field_1A0_door_id = pSaveState->door_id;
+    sActiveHero->field_1A3_throw_direction = pSaveState->field_ca_throw_direction;
+    sActiveHero->field_1A4_portal_sub_state = static_cast<PortalSubStates>(pSaveState->field_CC_portal_sub_state);
+    sActiveHero->field_1A8_portal_id = pSaveState->bird_portal_id;
 
-    sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit7_Electrocuted, pSaveState->bElectrocuted & 1);
-    sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit8_bInvisible, pSaveState->field_42_bInvisible & 1);
-    sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit10_Teleporting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit13_teleporting));
+    sActiveHero->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit7_Electrocuted, pSaveState->bElectrocuted & 1);
+    sActiveHero->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit8_bInvisible, pSaveState->field_42_bInvisible & 1);
+    sActiveHero->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit10_Teleporting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit13_teleporting));
 
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit1_lift_point_dead_while_using_lift));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit2_return_to_previous_motion));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit3_WalkToRun));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit4_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit4_unused));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_shrivel, pSaveState->bShrivel);
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit6_prevent_chanting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit5_prevent_chanting));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit7_land_softly, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit6_land_softly));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit8_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit7_unused));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_laugh_at_chant_end, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit8_laugh_at_chant_end));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit1_lift_point_dead_while_using_lift));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit2_return_to_previous_motion));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit3_WalkToRun));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit4_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit4_unused));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_shrivel, pSaveState->bShrivel);
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit6_prevent_chanting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit5_prevent_chanting));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit7_land_softly, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit6_land_softly));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit8_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit7_unused));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_laugh_at_chant_end, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit8_laugh_at_chant_end));
 
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit12_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit9_unused));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit10_play_ledge_grab_sounds));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit14_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit11_unused));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit15_have_healing, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit12_have_healing));
-    sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit10_Teleporting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit13_teleporting));
-    sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit14_is_mudanchee_vault_ender));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit12_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit9_unused));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit10_play_ledge_grab_sounds));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit14_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit11_unused));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit15_have_healing, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit12_have_healing));
+    sActiveHero->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit10_Teleporting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit13_teleporting));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit14_is_mudanchee_vault_ender));
 
-    sActiveHero_5C1B68->field_1AE_flags.Set(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit15_is_mudomo_vault_ender));
-    sActiveHero_5C1B68->mShadow->field_14_flags.Set(Shadow::Flags::eBit2_Enabled, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit16_shadow_enabled));
+    sActiveHero->field_1AE_flags.Set(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit15_is_mudomo_vault_ender));
+    sActiveHero->mShadow->field_14_flags.Set(Shadow::Flags::eBit2_Enabled, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit16_shadow_enabled));
 
-    sActiveHero_5C1B68->mShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom, pSaveState->field_D6_flags.Get(Abe_SaveState::eD6_Bit1_shadow_at_bottom));
+    sActiveHero->mShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom, pSaveState->field_D6_flags.Get(Abe_SaveState::eD6_Bit1_shadow_at_bottom));
 
-    if (sActiveHero_5C1B68->field_198_has_evil_fart)
+    if (sActiveHero->field_198_has_evil_fart)
     {
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, FALSE, FALSE))
         {
             ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
         }
 
-        if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
+        if (!sActiveHero->field_10_resources_array.ItemAt(22))
         {
-            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
+            sActiveHero->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
         }
 
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, 0, 0))
@@ -1212,9 +1212,9 @@ s32 Abe::CreateFromSaveState(const u8* pData)
             ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
         }
 
-        if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(24))
+        if (!sActiveHero->field_10_resources_array.ItemAt(24))
         {
-            sActiveHero_5C1B68->field_10_resources_array.SetAt(24, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, TRUE, FALSE));
+            sActiveHero->field_10_resources_array.SetAt(24, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, TRUE, FALSE));
         }
 
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
@@ -1222,9 +1222,9 @@ s32 Abe::CreateFromSaveState(const u8* pData)
             ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
         }
 
-        if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(23))
+        if (!sActiveHero->field_10_resources_array.ItemAt(23))
         {
-            sActiveHero_5C1B68->field_10_resources_array.SetAt(23, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, TRUE, FALSE));
+            sActiveHero->field_10_resources_array.SetAt(23, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, TRUE, FALSE));
         }
     }
 
@@ -1498,7 +1498,7 @@ void Abe::VUpdate()
                 if (field_128.field_18_say == MudSounds::eAnger_5)
                 {
                     // Other evil muds laugh at the abe grr
-                    Event_Broadcast(kEventMudokonLaugh, sActiveHero_5C1B68);
+                    Event_Broadcast(kEventMudokonLaugh, sActiveHero);
                 }
 
                 if (field_128.field_18_say == MudSounds::eSadUgh_28)
@@ -1578,7 +1578,7 @@ void Abe::VUpdate()
 
                             PSX_RECT rect = {};
                             VGetBoundingRect(&rect, 1);
-                            AbilityRing::Factory_482F80(
+                            AbilityRing::Factory(
                                 FP_FromInteger((rect.x + rect.w) / 2),
                                 FP_FromInteger((rect.y + rect.h) / 2),
                                 ringType, field_CC_sprite_scale);
@@ -2074,7 +2074,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->bElectrocuted = mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted);
     pSaveState->field_42_bInvisible = mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible);
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit13_teleporting, sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit10_Teleporting));
+    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit13_teleporting, sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit10_Teleporting));
 
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit1_lift_point_dead_while_using_lift, field_1AC_flags.Get(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift));
     pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit2_return_to_previous_motion, field_1AC_flags.Get(Flags_1AC::e1AC_Bit2_return_to_previous_motion));
@@ -2293,7 +2293,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 if (mHealth > FP_FromInteger(0))
                 {
                     // The damage sound from a Fleech keeps getting high and higher pitch till death
-                    const FP hpRandSoundRange = (FP_FromInteger(1) - sActiveHero_5C1B68->mHealth) / FP_FromDouble(0.15);
+                    const FP hpRandSoundRange = (FP_FromInteger(1) - sActiveHero->mHealth) / FP_FromDouble(0.15);
                     const s16 pitchRand = Math_RandomRange(
                         200 * (FP_GetExponent(hpRandSoundRange)),
                         40 * (5 * (FP_GetExponent(hpRandSoundRange)) + 5));
@@ -2622,7 +2622,7 @@ BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
                 case AETypes::eSlig_125:
                     if (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0))
                     {
-                        const s16 distance = static_cast<s16>(Math_Distance_496EB0(
+                        const s16 distance = static_cast<s16>(Math_Distance(
                             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
                             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
                             FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos),
@@ -6761,7 +6761,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
             {
                 if (field_180_hand_stone_type == TlvTypes::MovieHandStone_27)
                 {
-                    pScreenManager_5BB5F4->field_40_flags |= 0x10000;
+                    pScreenManager->field_40_flags |= 0x10000;
 
                     FmvInfo* pFmvRec = Path_Get_FMV_Record(gMap.mCurrentLevel, field_184_fmv_id);
                     u32 pos = 0;
@@ -6795,8 +6795,8 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
             if (sMovie_ref_count_BB4AE4 == 0)
             {
                 gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-                pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes);
-                pScreenManager_5BB5F4->field_40_flags |= 0x10000;
+                pScreenManager->DecompressCameraToVRam_40EF60((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes);
+                pScreenManager->field_40_flags |= 0x10000;
                 pCircularFade->VFadeIn(0, 0);
                 field_120_state.stone = StoneStates::eHandstoneEnd_3;
             }
@@ -7089,7 +7089,7 @@ void Abe::Motion_99_LeverUse_455AC0()
 void Abe::Motion_100_SlapBomb_455B60()
 {
     BaseAliveGameObject* pItem = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_160_slappable_or_pick_item_id));
-    if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame >= 6)
+    if (sActiveHero->field_20_animation.field_92_current_frame >= 6)
     {
         if (pItem)
         {
@@ -7355,7 +7355,7 @@ void Abe::Motion_111_PickupItem_4564A0()
         mCurrentMotion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
     }
 
-    if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame >= 5)
+    if (sActiveHero->field_20_animation.field_92_current_frame >= 5)
     {
         if (pRock)
         {
@@ -7396,7 +7396,7 @@ void Abe::Motion_112_Chant_45B1C0()
                     PSX_RECT bRect = {};
                     VGetBoundingRect(&bRect, 1);
 
-                    AbilityRing::Factory_482F80(
+                    AbilityRing::Factory(
                         FP_FromInteger((bRect.x + bRect.w) / 2),
                         FP_FromInteger((bRect.y + bRect.h) / 2),
                         RingTypes::eExplosive_Emit_1,
@@ -7463,7 +7463,7 @@ void Abe::Motion_112_Chant_45B1C0()
                             PSX_RECT bRect = {};
                             VGetBoundingRect(&bRect, 1);
 
-                            AbilityRing::Factory_482F80(
+                            AbilityRing::Factory(
                                 FP_FromInteger((bRect.x + bRect.w) / 2),
                                 FP_FromInteger((bRect.y + bRect.h) / 2),
                                 RingTypes::eHealing_Emit_12,
@@ -7548,7 +7548,7 @@ void Abe::Motion_112_Chant_45B1C0()
                 pObj->field_CC_sprite_scale,
                 pObj);
 
-            ae_new<PossessionFlicker>(sActiveHero_5C1B68, 30, 128, 255, 255);
+            ae_new<PossessionFlicker>(sActiveHero, 30, 128, 255, 255);
         }
             return;
 
@@ -9784,7 +9784,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
         }
         case MudSounds::eGiggle_8:
         {
-            if (pHero == sActiveHero_5C1B68 && gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
+            if (pHero == sActiveHero && gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
             {
                 idx = MudSounds::eLaugh_10;
             }
@@ -9811,7 +9811,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
                 volume = 2 * volume / 3;
             }
 
-            if (pHero == sActiveHero_5C1B68)
+            if (pHero == sActiveHero)
             {
                 playAbeSFX(idx, volume, pitch);
                 return;

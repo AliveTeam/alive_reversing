@@ -52,7 +52,7 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 
     field_F4_number_of_segments = 240 / field_F6_segment_length;
 
-    field_FC_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Web, 0, sizeof(AnimationUnknown) * (field_F4_number_of_segments));
+    field_FC_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Web, 0, sizeof(AnimationUnknown) * (field_F4_number_of_segments));
     field_100_pRes = reinterpret_cast<AnimationUnknown*>(*field_FC_ppRes);
 
     for (s32 i = 0; i < field_F4_number_of_segments; i++)
@@ -103,8 +103,8 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
     {
         if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camCoords.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camCoords.field_0_x + 1024))
         {
-            const FP cam_y = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
-            const FP cam_x = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
+            const FP cam_y = pScreenManager->field_20_pCamPos->field_4_y;
+            const FP cam_x = pScreenManager->field_20_pCamPos->field_0_x;
 
             s16 minY = FP_GetExponent(FP_FromInteger(field_F8_ttl) - cam_y);
             s16 maxY = FP_GetExponent(FP_FromInteger(field_FA_ttl_remainder) - cam_y);
@@ -150,7 +150,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     field_100_pRes[idx].VRender(x_start, y_start, ppOt, 0, 0);
                     PSX_RECT rect = {};
                     field_100_pRes[idx].GetRenderedSize(&rect);
-                    pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
+                    pScreenManager->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager->field_3A_idx);
                     ClipPoly_Vertically_4A09E0(&field_100_pRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index], minY, maxY);
                     y_start -= field_F6_segment_length;
                     if (y_start < minY)

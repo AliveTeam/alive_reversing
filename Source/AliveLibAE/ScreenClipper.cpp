@@ -20,7 +20,7 @@ ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
 
     field_48_ot_layer = layer;
 
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 }
 
 void ScreenClipper::VScreenChanged()
@@ -55,7 +55,7 @@ void ScreenClipper::VRender(PrimHeader** ot)
 
 ScreenClipper::~ScreenClipper()
 {
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 }
 
 void ScreenClipper::Update_Clip_Rect(PSX_Point xy, PSX_Point wh)

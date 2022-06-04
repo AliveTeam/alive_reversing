@@ -255,16 +255,16 @@ void DDCheat::VUpdate()
         if (field_3C_flags.Get(DDCheat::Flags_3C::eOnTeleport_Bit3))
         {
             field_3C_flags.Clear(DDCheat::Flags_3C::eOnTeleport_Bit3);
-            if (sActiveHero_5C1B68)
+            if (sActiveHero)
             {
                 PSX_Point pos;
                 gMap.GetCurrentCamCoords(&pos);
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pos.field_0_x + 184);
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.field_2_y + 60);
-                sActiveHero_5C1B68->mCurrentMotion = 3;
-                sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
-                sActiveHero_5C1B68->field_C2_lvl_number = static_cast<LevelIds>(sTeleport_Level_550F5C);
-                sActiveHero_5C1B68->field_C0_path_number = sTeleport_Path_550F5E;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pos.field_0_x + 184);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.field_2_y + 60);
+                sActiveHero->mCurrentMotion = 3;
+                sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                sActiveHero->field_C2_lvl_number = static_cast<LevelIds>(sTeleport_Level_550F5C);
+                sActiveHero->field_C0_path_number = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -272,14 +272,14 @@ void DDCheat::VUpdate()
             }
         }
 
-        if ((gMap.mCurrentLevel != LevelIds::eMenu_0 && gMap.mCurrentLevel != LevelIds::eNone) && sActiveHero_5C1B68 && activePadPressed & InputCommands::Enum::eCheatMode)
+        if ((gMap.mCurrentLevel != LevelIds::eMenu_0 && gMap.mCurrentLevel != LevelIds::eNone) && sActiveHero && activePadPressed & InputCommands::Enum::eCheatMode)
         {
             sDDCheat_FlyingEnabled_5C2C08 = !sDDCheat_FlyingEnabled_5C2C08;
             if (!sDDCheat_FlyingEnabled_5C2C08)
             {
-                if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
+                if (sControlledCharacter_5C1B8C == sActiveHero)
                 {
-                    sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                    sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 }
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -327,7 +327,7 @@ void DDCheat::VUpdate()
 
 
 #if DEVELOPER_MODE
-            if (sActiveHero_5C1B68 && gMap.mCurrentLevel != LevelIds::eMenu_0)
+            if (sActiveHero && gMap.mCurrentLevel != LevelIds::eMenu_0)
             {
                 // HACK When quitting sControlledCharacter_5C1B8C becomes a dangling pointer
                 // probably this should be removed as there is no sane way to check this pointer is still valid
@@ -348,8 +348,8 @@ void DDCheat::VUpdate()
 #else
             DebugStr(
                 "\nheroxy=%4d,%4d",
-                FP_GetExponent(sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos),
-                FP_GetExponent(sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos));
+                FP_GetExponent(sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos));
 #endif
 
             field_20 = 6;
@@ -372,9 +372,9 @@ void DDCheat::VUpdate()
                     sDDCheat_AlwaysShow_5BC000 = !sDDCheat_AlwaysShow_5BC000;
                 }
 
-                if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
+                if (sControlledCharacter_5C1B8C == sActiveHero)
                 {
-                    sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                    sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 }
 
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
@@ -458,7 +458,7 @@ void DDCheat::VUpdate()
 
         if (field_20)
         {
-            pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+            pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
         }
     }
 }

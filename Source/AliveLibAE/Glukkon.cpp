@@ -175,13 +175,13 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->field_C2_lvl_number = pSaveState->field_1A_level;
         pGlukkon->field_CC_sprite_scale = pSaveState->field_1C_sprite_scale;
 
-        pGlukkon->field_D0_r = pSaveState->field_20_r;
-        pGlukkon->field_D2_g = pSaveState->field_22_g;
-        pGlukkon->field_D4_b = pSaveState->field_24_b;
+        pGlukkon->field_D0_r = pSaveState->mRingRed;
+        pGlukkon->field_D2_g = pSaveState->mRingGreen;
+        pGlukkon->field_D4_b = pSaveState->mRingBlue;
 
-        pGlukkon->field_1A0_red = pSaveState->field_20_r;
-        pGlukkon->field_1A2_green = pSaveState->field_22_g;
-        pGlukkon->field_1A4_blue = pSaveState->field_24_b;
+        pGlukkon->field_1A0_red = pSaveState->mRingRed;
+        pGlukkon->field_1A2_green = pSaveState->mRingGreen;
+        pGlukkon->field_1A4_blue = pSaveState->mRingBlue;
 
         pGlukkon->mCurrentMotion = pSaveState->field_28_current_motion;
 
@@ -344,9 +344,9 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_18_path = field_C0_path_number;
     pSaveState->field_1A_level = field_C2_lvl_number;
     pSaveState->field_1C_sprite_scale = field_CC_sprite_scale;
-    pSaveState->field_20_r = field_D0_r;
-    pSaveState->field_22_g = field_D2_g;
-    pSaveState->field_24_b = field_D4_b;
+    pSaveState->mRingRed = field_D0_r;
+    pSaveState->mRingGreen = field_D2_g;
+    pSaveState->mRingBlue = field_D4_b;
     pSaveState->field_28_current_motion = mCurrentMotion;
     pSaveState->field_2A_current_frame = field_20_animation.field_92_current_frame;
     pSaveState->field_2C_frame_change_counter = field_20_animation.mFrameChangeCounter;
@@ -1036,7 +1036,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
         return 8;
     }
 
-    if (sActiveHero_5C1B68->mHealth < FP_FromInteger(0))
+    if (sActiveHero->mHealth < FP_FromInteger(0))
     {
         Speak(GlukkonSpeak::Laugh_7);
         SetBrain(&Glukkon::Brain_4_Death_442010);
@@ -1333,7 +1333,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
         return 7;
     }
 
-    if (sActiveHero_5C1B68->mHealth < FP_FromInteger(0))
+    if (sActiveHero->mHealth < FP_FromInteger(0))
     {
         Glukkon::Speak(GlukkonSpeak::Laugh_7);
         SetBrain(&Glukkon::Brain_4_Death_442010);
@@ -1474,7 +1474,7 @@ s16 Glukkon::Brain_2_Slapped_441720()
         return 3;
     }
 
-    if (sActiveHero_5C1B68->mHealth < FP_FromInteger(0))
+    if (sActiveHero->mHealth < FP_FromInteger(0))
     {
         Glukkon::Speak(GlukkonSpeak::Laugh_7);
         SetBrain(&Glukkon::Brain_4_Death_442010);
@@ -1644,7 +1644,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                         Layer::eLayer_0);
                 }
 
-                if (static_cast<s32>(sGnFrame) > field_1D4_timer || sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+                if (static_cast<s32>(sGnFrame) > field_1D4_timer || sActiveHero->mHealth <= FP_FromInteger(0))
                 {
                     mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
                     SetBrain(&Glukkon::Brain_4_Death_442010);
@@ -1681,7 +1681,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
 
         case 4:
         {
-            pScreenManager_5BB5F4->field_40_flags &= ~0x10000;
+            pScreenManager->field_40_flags &= ~0x10000;
             sLevelId_dword_5CA408 = static_cast<u32>(gMap.mCurrentLevel);
 
             const FmvInfo* pFmvRec = Path_Get_FMV_Record(gMap.mCurrentLevel, field_1A8_tlvData.field_28_movie_to_play_fmvID);
@@ -1699,7 +1699,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                 return field_210_brain_sub_state;
             }
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes); // TODO: Cast hack
+            pScreenManager->DecompressCameraToVRam_40EF60((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes); // TODO: Cast hack
             if (pDeathFadeOut)
             {
                 pDeathFadeOut->Init(Layer::eLayer_FadeFlash_40, 0, 1, 8);
@@ -1708,7 +1708,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
 
         case 6:
             GetSoundAPI().SND_Restart();
-            pScreenManager_5BB5F4->field_40_flags |= 0x10000;
+            pScreenManager->field_40_flags |= 0x10000;
             field_1D4_timer = sGnFrame + 30;
             SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
             SetAnim(10, TRUE);
@@ -2065,7 +2065,7 @@ Glukkon::~Glukkon()
 
     if (this == sControlledCharacter_5C1B8C)
     {
-        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        sControlledCharacter_5C1B8C = sActiveHero;
     }
 }
 
@@ -2785,7 +2785,7 @@ void Glukkon::ToDead()
     if (sControlledCharacter_5C1B8C == this)
     {
         // When its a player controlled gluk go back to the screen the player is in
-        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        sControlledCharacter_5C1B8C = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
         if (gMap.mLevel != LevelIds::eMenu_0)
@@ -3097,7 +3097,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         case AETypes::eAbe_69:
-            if (sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_62_Punch_454750)
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_62_Punch_454750)
             {
                 if (Math_NextRandom() <= 32u)
                 {

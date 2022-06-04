@@ -168,7 +168,7 @@ public:
 
     static s16 LoadResourceFile_455270(const char_type* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
 
-    static u8** Allocate_New_Locked_Resource_454F80(u32 type, u32 id, u32 size);
+    static u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size);
 
     static void Set_Header_Flags_4557D0(u8** ppRes, s16 flags);
 

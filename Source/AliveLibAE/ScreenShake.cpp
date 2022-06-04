@@ -19,7 +19,7 @@
     field_40_shakeNumber = 16;
     field_42_enableShakeEvent = enableShakeEvent;
 
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     if (field_42_enableShakeEvent && !field_44_softerShakes)
     {
@@ -29,7 +29,7 @@
 
 ScreenShake::~ScreenShake()
 {
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 }
 
 void ScreenShake::VUpdate()
@@ -147,5 +147,5 @@ void ScreenShake::VRender(PrimHeader** ppOt)
         }
     }
 
-    pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+    pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
 }

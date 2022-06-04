@@ -73,8 +73,8 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
         field_144_total_brew_count = savedBrewCount;
     }
 
-    field_13C_textX = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x + 5) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
-    field_13E_textY = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y + 10) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y));
+    field_13C_textX = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x + 5) - pScreenManager->field_20_pCamPos->field_0_x));
+    field_13E_textY = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y + 10) - pScreenManager->field_20_pCamPos->field_4_y));
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
@@ -137,12 +137,12 @@ void BrewMachine::VRender(PrimHeader** ppOt)
             flickerAmount);
 
         const s32 v5 = 5 * textWidth;
-        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect_40EC90(
             PsxToPCX(field_13C_textX),
             field_13E_textY,
             PsxToPCX(8 * v5),
             16,
-            pScreenManager_5BB5F4->field_3A_idx);
+            pScreenManager->field_3A_idx);
     }
 
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);

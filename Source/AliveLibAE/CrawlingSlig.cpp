@@ -271,14 +271,14 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->field_C2_lvl_number = pState->field_1A_lvl_number;
         pCrawlingSlig->field_CC_sprite_scale = pState->field_1C_sprite_scale;
 
-        pCrawlingSlig->field_1A4_r = pState->field_20_r;
-        pCrawlingSlig->field_D0_r = pState->field_20_r;
+        pCrawlingSlig->field_1A4_r = pState->mRingRed;
+        pCrawlingSlig->field_D0_r = pState->mRingRed;
 
-        pCrawlingSlig->field_1A6_g = pState->field_22_g;
-        pCrawlingSlig->field_D2_g = pState->field_22_g;
+        pCrawlingSlig->field_1A6_g = pState->mRingGreen;
+        pCrawlingSlig->field_D2_g = pState->mRingGreen;
 
-        pCrawlingSlig->field_1A8_b = pState->field_24_b;
-        pCrawlingSlig->field_D4_b = pState->field_24_b;
+        pCrawlingSlig->field_1A8_b = pState->mRingBlue;
+        pCrawlingSlig->field_D4_b = pState->mRingBlue;
 
         pCrawlingSlig->mCurrentMotion = pState->field_28_current_motion;
 
@@ -348,9 +348,9 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_1A_lvl_number = field_C2_lvl_number;
     pState->field_1C_sprite_scale = field_CC_sprite_scale;
 
-    pState->field_20_r = field_D0_r;
-    pState->field_22_g = field_D2_g;
-    pState->field_24_b = field_D4_b;
+    pState->mRingRed = field_D0_r;
+    pState->mRingGreen = field_D2_g;
+    pState->mRingBlue = field_D4_b;
     pState->field_26_bFlipX = field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_28_current_motion = mCurrentMotion;
     pState->field_2A_anim_cur_frame = field_20_animation.field_92_current_frame;
@@ -722,7 +722,7 @@ CrawlingSlig::~CrawlingSlig()
 {
     if (sControlledCharacter_5C1B8C == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        sControlledCharacter_5C1B8C = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
         if (gMap.mLevel != LevelIds::eMenu_0)
         {
@@ -1112,12 +1112,12 @@ s16 CrawlingSlig::Brain_3_Possessed_41A5B0()
                         Layer::eLayer_0);
                 }
 
-                if (static_cast<s32>(sGnFrame) <= field_1AC_timer && sActiveHero_5C1B68->mHealth > FP_FromInteger(0))
+                if (static_cast<s32>(sGnFrame) <= field_1AC_timer && sActiveHero->mHealth > FP_FromInteger(0))
                 {
                     return field_208_brain_sub_state;
                 }
 
-                sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+                sControlledCharacter_5C1B8C = sActiveHero;
                 mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
                 gMap.SetActiveCam(field_1BA_prev_level, field_1BC_prev_path, field_1BE_prev_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 SetBrain(&CrawlingSlig::Brain_4_GetKilled_41A880);

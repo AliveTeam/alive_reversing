@@ -40,12 +40,12 @@ RollingBallShaker::RollingBallShaker()
     mBaseGameObjectTypeId = Types::eRollingBallStopperShaker_58;
     field_30_shake_table_idx = 0;
     field_32_bKillMe = 0; // Set externally
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 }
 
 RollingBallShaker::~RollingBallShaker()
 {
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 }
 
 void RollingBallShaker::VUpdate()

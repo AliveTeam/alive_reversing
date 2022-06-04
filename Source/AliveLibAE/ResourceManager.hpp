@@ -143,7 +143,7 @@ public:
     static s32 SEQ_HashName_49BE30(const char_type* seqFileName);
     static u8** Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool locked, ResourceManager::BlockAllocMethod allocType);
     static u8** Alloc_New_Resource_49BED0(u32 type, u32 id, u32 size);
-    static u8** Allocate_New_Locked_Resource_49BF40(u32 type, u32 id, u32 size);
+    static u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size);
     static u8** Allocate_New_Block_49BFB0(s32 sizeBytes, BlockAllocMethod allocMethod);
     static s32 LoadResourceFile_49C130(const char_type* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
     static s16 LoadResourceFile_49C170(const char_type* pFileName, Camera* pCamera);

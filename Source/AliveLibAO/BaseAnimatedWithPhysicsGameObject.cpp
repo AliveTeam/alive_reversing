@@ -69,7 +69,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
         bool added = true;
         if (bAddToDrawableList)
         {
-            added = gObjList_drawables_504618->Push_Back(this) ? true : false;
+            added = gObjListDrawables->Push_Back(this) ? true : false;
         }
 
         if (added)
@@ -406,7 +406,7 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
     {
         if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
         {
-            gObjList_drawables_504618->Remove_Item(this);
+            gObjListDrawables->Remove_Item(this);
             field_10_anim.VCleanUp();
         }
 

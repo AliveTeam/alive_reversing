@@ -63,10 +63,10 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
     field_20_font_context.LoadFontType_433400(2);
     field_30_font.ctor_433590(5, byte_5513D4, &field_20_font_context);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
-    field_6C_xpos = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-    field_6E_ypos = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+    field_6C_xpos = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager->field_20_pCamPos->field_0_x);
+    field_6E_ypos = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - pScreenManager->field_20_pCamPos->field_4_y);
 
     gGasOn_5C1C00 = 0;
 
@@ -92,7 +92,7 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
 
 GasCountDown::~GasCountDown()
 {
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_68_tlvInfo, -1, 0, 0);
     field_30_font.dtor_433540();
     field_20_font_context.dtor_433510();
@@ -130,12 +130,12 @@ void GasCountDown::VRender(PrimHeader** ppOt)
         field_6C_xpos + textWidth,
         sDisableFontFlicker_5C9304 ? 0 : 50);
 
-    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+    pScreenManager->InvalidateRect_40EC90(
         PsxToPCX(field_6C_xpos),
         field_6E_ypos,
         PsxToPCX(field_6C_xpos + textWidth),
         field_6E_ypos + 16,
-        pScreenManager_5BB5F4->field_3A_idx);
+        pScreenManager->field_3A_idx);
 }
 
 void GasCountDown::DealDamage()
@@ -144,7 +144,7 @@ void GasCountDown::DealDamage()
     {
         if (-field_74_time_left > 2)
         {
-            sActiveHero_5C1B68->VTakeDamage(this);
+            sActiveHero->VTakeDamage(this);
             for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
             {
                 BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);

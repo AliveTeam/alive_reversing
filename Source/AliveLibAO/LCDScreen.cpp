@@ -270,14 +270,14 @@ LCDScreen::LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo)
     sFontDrawScreenSpace_508BF4 = 0;
 
     field_2D4 = 0;
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 }
 
 LCDScreen::~LCDScreen()
 {
     IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
 
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     gMap.TLV_Reset(field_2B8_tlv_item_info, -1, 0, 0);
 }
 

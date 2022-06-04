@@ -69,8 +69,8 @@ void CircularFade::VRender(PrimHeader** ppOt)
     field_20_animation.mBlue = fade_rgb;
 
     field_20_animation.VRender(
-        FP_GetExponent(FP_FromInteger(field_DA_xOffset) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-        FP_GetExponent(FP_FromInteger(field_D8_yOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+        FP_GetExponent(FP_FromInteger(field_DA_xOffset) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x),
+        FP_GetExponent(FP_FromInteger(field_D8_yOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y),
         ppOt,
         0,
         0);
@@ -78,12 +78,12 @@ void CircularFade::VRender(PrimHeader** ppOt)
     PSX_RECT frameRect = {};
     field_20_animation.Get_Frame_Rect(&frameRect);
 
-    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+    pScreenManager->InvalidateRect_40EC90(
         frameRect.x,
         frameRect.y,
         frameRect.w,
         frameRect.h,
-        pScreenManager_5BB5F4->field_3A_idx);
+        pScreenManager->field_3A_idx);
 
     frameRect.h--;
     frameRect.w--;
@@ -159,7 +159,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
     if (field_1B8_fade_colour < 255)
     {
-        pScreenManager_5BB5F4->InvalidateRect_40EC10(
+        pScreenManager->InvalidateRect_40EC10(
             0,
             0,
             gPsxDisplay_5C1130.field_0_width,

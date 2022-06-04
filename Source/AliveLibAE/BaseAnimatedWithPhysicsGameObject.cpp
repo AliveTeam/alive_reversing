@@ -53,7 +53,7 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
     {
         if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
         {
-            gObjList_drawables_5C1124->Remove_Item(this);
+            gObjListDrawables->Remove_Item(this);
             field_20_animation.VCleanUp();
         }
 
@@ -100,20 +100,20 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             field_20_animation.mBlue = static_cast<u8>(b);
 
             field_20_animation.VRender(
-                FP_GetExponent((FP_FromInteger(field_DA_xOffset) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
-                FP_GetExponent((FP_FromInteger(field_D8_yOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y)),
+                FP_GetExponent((FP_FromInteger(field_DA_xOffset) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x)),
+                FP_GetExponent((FP_FromInteger(field_D8_yOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y)),
                 ppOt,
                 0,
                 0);
 
             PSX_RECT frameRect = {};
             field_20_animation.Get_Frame_Rect(&frameRect);
-            pScreenManager_5BB5F4->InvalidateRect_40EC90(
+            pScreenManager->InvalidateRect_40EC90(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,
                 frameRect.h,
-                pScreenManager_5BB5F4->field_3A_idx);
+                pScreenManager->field_3A_idx);
 
             if (mShadow)
             {
@@ -157,7 +157,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
         bool added = true;
         if (bAddToDrawableList)
         {
-            added = gObjList_drawables_5C1124->Push_Back(this) ? true : false;
+            added = gObjListDrawables->Push_Back(this) ? true : false;
         }
 
         if (added)

@@ -597,7 +597,7 @@ BaseAliveGameObject* Greeter::GetMudToZap()
             const FP xMid = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP yMid = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (xMid - mBaseAnimatedWithPhysicsGameObject_XPos < (field_CC_sprite_scale * FP_FromInteger(60)) && mBaseAnimatedWithPhysicsGameObject_XPos - xMid < (field_CC_sprite_scale * FP_FromInteger(60)) && yMid - (mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4)) < (field_CC_sprite_scale * FP_FromInteger(60)) && mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4) - yMid < (field_CC_sprite_scale * FP_FromInteger(60)) && !(sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted)) && !ZapIsNotBlocked(this, pObj))
+            if (xMid - mBaseAnimatedWithPhysicsGameObject_XPos < (field_CC_sprite_scale * FP_FromInteger(60)) && mBaseAnimatedWithPhysicsGameObject_XPos - xMid < (field_CC_sprite_scale * FP_FromInteger(60)) && yMid - (mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4)) < (field_CC_sprite_scale * FP_FromInteger(60)) && mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4) - yMid < (field_CC_sprite_scale * FP_FromInteger(60)) && !(sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted)) && !ZapIsNotBlocked(this, pObj))
             {
                 return pObj;
             }
@@ -724,12 +724,12 @@ void Greeter::VUpdate()
             }
 
             PSX_RECT bRect = {};
-            sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
+            sActiveHero->VGetBoundingRect(&bRect, 1);
 
             const FP midX = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP midY = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (midX - mBaseAnimatedWithPhysicsGameObject_XPos >= (field_CC_sprite_scale * FP_FromInteger(60)) || mBaseAnimatedWithPhysicsGameObject_XPos - midX >= (field_CC_sprite_scale * FP_FromInteger(60)) || midY - (mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4)) >= (field_CC_sprite_scale * FP_FromInteger(60)) || mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4) - midY >= (field_CC_sprite_scale * FP_FromInteger(60)) || sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted) || sActiveHero_5C1B68->CantBeDamaged_44BAB0() || ZapIsNotBlocked(this, sActiveHero_5C1B68))
+            if (midX - mBaseAnimatedWithPhysicsGameObject_XPos >= (field_CC_sprite_scale * FP_FromInteger(60)) || mBaseAnimatedWithPhysicsGameObject_XPos - midX >= (field_CC_sprite_scale * FP_FromInteger(60)) || midY - (mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4)) >= (field_CC_sprite_scale * FP_FromInteger(60)) || mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4) - midY >= (field_CC_sprite_scale * FP_FromInteger(60)) || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted) || sActiveHero->CantBeDamaged_44BAB0() || ZapIsNotBlocked(this, sActiveHero))
             {
                 BaseAliveGameObject* pGonnaZapYa = GetMudToZap();
                 if (pGonnaZapYa)
@@ -745,7 +745,7 @@ void Greeter::VUpdate()
             }
             else
             {
-                ZapTarget(midX, midY, sActiveHero_5C1B68);
+                ZapTarget(midX, midY, sActiveHero);
             }
         }
         break;

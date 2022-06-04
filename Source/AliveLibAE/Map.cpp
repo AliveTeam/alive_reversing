@@ -301,9 +301,9 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 }
             }
 
-            for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+            for (s32 i = 0; i < gObjListDrawables->Size(); i++)
             {
-                BaseGameObject* pDrawable = gObjList_drawables_5C1124->ItemAt(i);
+                BaseGameObject* pDrawable = gObjListDrawables->ItemAt(i);
                 if (!pDrawable)
                 {
                     break;
@@ -320,7 +320,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
             }
 
             PSX_DrawSync_4F6280(0);
-            pScreenManager_5BB5F4->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+            pScreenManager->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
             SYS_EventsPump_494580();
             gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
         }
@@ -376,13 +376,13 @@ void Map::Handle_PathTransition()
         switch (pPathChangeTLV->field_1A_scale)
         {
             case Scale_short::eFull_0:
-                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
-                sActiveHero_5C1B68->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sActiveHero->field_CC_sprite_scale = FP_FromDouble(1.0);
+                sActiveHero->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 break;
 
             case Scale_short::eHalf_1:
-                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
-                sActiveHero_5C1B68->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero->field_CC_sprite_scale = FP_FromDouble(0.5);
+                sActiveHero->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
                 break;
 
             default:
@@ -559,7 +559,7 @@ void Map::Shutdown()
         }
     }
 
-    pScreenManager_5BB5F4 = nullptr;
+    pScreenManager = nullptr;
 
     // Free path
     if (sPath_dword_BB47C0)
@@ -723,7 +723,7 @@ void Map::GoTo_Camera()
 
         if (mLevel == mCurrentLevel)
         {
-            MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, sActiveHero_5C1B68, 0, 0);
+            MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, sActiveHero, 0, 0);
         }
         else
         {
@@ -868,19 +868,19 @@ void Map::GoTo_Camera()
     Map::Load_Path_Items(field_2C_camera_array[2], LoadMode::ConstructObject_0);
 
     // Create the screen manager if it hasn't already been done (probably should have always been done by this point though?)
-    if (!pScreenManager_5BB5F4)
+    if (!pScreenManager)
     {
-        pScreenManager_5BB5F4 = ae_new<ScreenManager>(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
+        pScreenManager = ae_new<ScreenManager>(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
     }
 
     sPath_dword_BB47C0->Loader_4DB800(field_D0_cam_x_idx, field_D2_cam_y_idx, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
     {
-        if (sActiveHero_5C1B68)
+        if (sActiveHero)
         {
-            if (mCurrentPath == sActiveHero_5C1B68->field_C0_path_number)
+            if (mCurrentPath == sActiveHero->field_C0_path_number)
             {
-                sActiveHero_5C1B68->VCheckCollisionLineStillValid(10);
+                sActiveHero->VCheckCollisionLineStillValid(10);
             }
         }
     }
@@ -894,10 +894,10 @@ void Map::GoTo_Camera()
 
     if (field_10_screen_change_effect == CameraSwapEffects::eUnknown_11)
     {
-        pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(field_2C_camera_array[0]->field_C_pCamRes));
-        pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
-        pScreenManager_5BB5F4->MoveImage_40EB70();
-        pScreenManager_5BB5F4->field_40_flags |= 0x10000;
+        pScreenManager->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(field_2C_camera_array[0]->field_C_pCamRes));
+        pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
+        pScreenManager->MoveImage_40EB70();
+        pScreenManager->field_40_flags |= 0x10000;
     }
 
     if (prevLevelId != mCurrentLevel)
@@ -913,7 +913,7 @@ void Map::GoTo_Camera()
 
             // Door transition
             Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::Door_5, 0));
-            while (pDoorTlv->field_18_door_number != sActiveHero_5C1B68->field_1A0_door_id)
+            while (pDoorTlv->field_18_door_number != sActiveHero->field_1A0_door_id)
             {
                 pDoorTlv = static_cast<Path_Door*>(Path::TLV_Next_Of_Type(pDoorTlv, TlvTypes::Door_5));
             }
@@ -933,7 +933,7 @@ void Map::GoTo_Camera()
                 // Teleporter transition
                 Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
                 Path_Teleporter_Data teleporterData = pTeleporterTlv->field_10_data;
-                while (teleporterData.field_10_teleporter_switch_id != sActiveHero_5C1B68->field_1A0_door_id)
+                while (teleporterData.field_10_teleporter_switch_id != sActiveHero->field_1A0_door_id)
                 {
                     pTeleporterTlv = static_cast<Path_Teleporter*>(Path::TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
                     teleporterData = pTeleporterTlv->field_10_data;
@@ -964,7 +964,7 @@ Camera* Map::GetCamera(CameraPos pos)
 void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
 {
     // TODO: Refactor
-    const FP_Point* pCamPos2 = pScreenManager_5BB5F4->field_20_pCamPos;
+    const FP_Point* pCamPos2 = pScreenManager->field_20_pCamPos;
     const s16 doorYDiff = static_cast<s16>(pTlv->field_8_top_left.field_2_y - FP_GetExponent(pCamPos2->field_4_y));
     FP camX = pCamPos2->field_0_x;
     const s16 midX = (pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2;
@@ -1000,7 +1000,7 @@ s16 Map::GetOverlayId()
 
 void Map::Create_FG1s()
 {
-    pScreenManager_5BB5F4->UnsetDirtyBits_FG1_40ED70();
+    pScreenManager->UnsetDirtyBits_FG1_40ED70();
 
     Camera* pCamera = field_2C_camera_array[0];
     for (s32 i = 0; i < pCamera->field_0.Size(); i++)

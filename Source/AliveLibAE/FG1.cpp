@@ -30,7 +30,7 @@ public:
 
     void OnFullChunk(const Fg1Chunk& rChunk) override
     {
-        pScreenManager_5BB5F4->InvalidateRect_40EC50(
+        pScreenManager->InvalidateRect_40EC50(
             rChunk.field_4_xpos_or_compressed_size,
             rChunk.field_6_ypos,
             rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
@@ -41,7 +41,7 @@ public:
     u8** Allocate(u32 len) override
     {
         // Shouldn't be called for AE
-        return ResourceManager::Allocate_New_Locked_Resource_49BF40(
+        return ResourceManager::Allocate_New_Locked_Resource(
             ResourceManager::Resource_PBuf,
             0,
             len);
@@ -85,7 +85,7 @@ FG1::FG1(u8** pFG1Res)
     // So we can extract out the count of chunks and allocate a resource for it
     field_20_unused = 0;
     field_28_render_block_count = static_cast<s16>(pHeader->mCount);
-    field_2C_ptr = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_CHNK, 0, pHeader->mCount * sizeof(Fg1Block));
+    field_2C_ptr = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_CHNK, 0, pHeader->mCount * sizeof(Fg1Block));
     field_30_chnk_res = reinterpret_cast<Fg1Block*>(*field_2C_ptr);
 
     FG1Reader loader(*this);
@@ -132,11 +132,11 @@ void FG1::VRender(PrimHeader** ppOt)
         Poly_FT4* pPoly = &field_30_chnk_res[i].field_0_polys[gPsxDisplay_5C1130.field_C_buffer_index];
         const s32 xpos = X0(pPoly);
         const s32 ypos = Y0(pPoly);
-        if (pScreenManager_5BB5F4->IsDirty_40EBC0(pScreenManager_5BB5F4->field_3A_idx, xpos, ypos) || pScreenManager_5BB5F4->IsDirty_40EBC0(3, xpos, ypos))
+        if (pScreenManager->IsDirty_40EBC0(pScreenManager->field_3A_idx, xpos, ypos) || pScreenManager->IsDirty_40EBC0(3, xpos, ypos))
         {
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_30_chnk_res[i].field_66_mapped_layer), &pPoly->mBase.header);
             // NOTE: Polygon has a pointer to the bit fields for which pixels should be skipped
-            pScreenManager_5BB5F4->InvalidateRect_40EC90(xpos, ypos, X3(pPoly), Y3(pPoly), pScreenManager_5BB5F4->field_3A_idx);
+            pScreenManager->InvalidateRect_40EC90(xpos, ypos, X3(pPoly), Y3(pPoly), pScreenManager->field_3A_idx);
         }
     }
 }

@@ -69,7 +69,7 @@ PauseMenu::PauseMenu()
     mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
     field_E4_font.Load(175, byte_4C5EE8, &sFontContext_4FFD68);
     field_130 = 0;
     field_11C = 0;
@@ -79,7 +79,7 @@ PauseMenu::PauseMenu()
 PauseMenu::~PauseMenu()
 {
     mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 }
 
 void PauseMenu::VScreenChanged()
@@ -165,9 +165,9 @@ void PauseMenu::VUpdate()
             sDisableFontFlicker_5080E4 = 1;
             SYS_EventsPump_44FF90();
 
-            for (s32 idx = 0; idx < gObjList_drawables_504618->Size(); idx++)
+            for (s32 idx = 0; idx < gObjListDrawables->Size(); idx++)
             {
-                auto pObjIter = gObjList_drawables_504618->ItemAt(idx);
+                auto pObjIter = gObjListDrawables->ItemAt(idx);
                 if (!pObjIter)
                 {
                     break;

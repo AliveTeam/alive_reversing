@@ -84,7 +84,7 @@ struct OT_Vert final
     s32 field_18_v;
     s32 field_1C_r;
     s32 field_20_g;
-    s32 field_24_b;
+    s32 mRingBlue;
 };
 ALIVE_ASSERT_SIZEOF(OT_Vert, 0x28);
 
@@ -2057,7 +2057,7 @@ static inline void Convert_Vertex_RGB_Single(OT_Vert* pConverted, T* pPoly)
 {
     pConverted[0].field_1C_r = R0(pPoly) << 13;
     pConverted[0].field_20_g = G0(pPoly) << 13;
-    pConverted[0].field_24_b = B0(pPoly) << 13;
+    pConverted[0].mRingBlue = B0(pPoly) << 13;
 }
 
 template <typename T>
@@ -2067,27 +2067,27 @@ static inline void Convert_Vertex_RGB(OT_Vert* pConverted, T* pPoly, EPolyType p
 
     pConverted[0].field_1C_r = R0(pPoly) << shiftValue;
     pConverted[0].field_20_g = G0(pPoly) << shiftValue;
-    pConverted[0].field_24_b = B0(pPoly) << shiftValue;
+    pConverted[0].mRingBlue = B0(pPoly) << shiftValue;
 
     pConverted[1].field_1C_r = R1(pPoly) << shiftValue;
     pConverted[1].field_20_g = G1(pPoly) << shiftValue;
-    pConverted[1].field_24_b = B1(pPoly) << shiftValue;
+    pConverted[1].mRingBlue = B1(pPoly) << shiftValue;
 
     if (polyType == EPolyType::e4Point)
     {
         pConverted[2].field_1C_r = R3(pPoly) << shiftValue;
         pConverted[2].field_20_g = G3(pPoly) << shiftValue;
-        pConverted[2].field_24_b = B3(pPoly) << shiftValue;
+        pConverted[2].mRingBlue = B3(pPoly) << shiftValue;
 
         pConverted[3].field_1C_r = R2(pPoly) << shiftValue;
         pConverted[3].field_20_g = G2(pPoly) << shiftValue;
-        pConverted[3].field_24_b = B2(pPoly) << shiftValue;
+        pConverted[3].mRingBlue = B2(pPoly) << shiftValue;
     }
     else
     {
         pConverted[2].field_1C_r = R2(pPoly) << shiftValue;
         pConverted[2].field_20_g = G2(pPoly) << shiftValue;
-        pConverted[2].field_24_b = B2(pPoly) << shiftValue;
+        pConverted[2].mRingBlue = B2(pPoly) << shiftValue;
     }
 }
 
@@ -2306,7 +2306,7 @@ void PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* pOrigin, Render_Unknown* 
 
     pSlope->field_1C_GShadeR = pV2->field_1C_r - pV1->field_1C_r;
     pSlope->field_20_GShadeG = pV2->field_20_g - pV1->field_20_g;
-    pSlope->field_24_GShadeB = pV2->field_24_b - pV1->field_24_b;
+    pSlope->field_24_GShadeB = pV2->mRingBlue - pV1->mRingBlue;
 
     const s32 dx = (pV2->field_0_x0 - pV1->field_0_x0) << 16; // To FP 16:16
     const s32 dy = pV2->field_4_y0 - pV1->field_4_y0;
@@ -2327,7 +2327,7 @@ void PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* pOrigin, Render_Unknown* 
 
     pOrigin->field_1C_GShadeR = pV1->field_1C_r + (v1_y0_rounded * pSlope->field_1C_GShadeR) / 16;
     pOrigin->field_20_GShadeG = pV1->field_20_g + (v1_y0_rounded * pSlope->field_20_GShadeG) / 16;
-    pOrigin->field_24_GShadeB = pV1->field_24_b + (v1_y0_rounded * pSlope->field_24_GShadeB) / 16;
+    pOrigin->field_24_GShadeB = pV1->mRingBlue + (v1_y0_rounded * pSlope->field_24_GShadeB) / 16;
 }
 
 
@@ -4184,7 +4184,7 @@ OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
                     {
                         pTmpVert->field_1C_r = (s32)((f32)(pVerts->field_1C_r - pLastVert2->field_1C_r) * scaleFactor + (f32) pVerts->field_1C_r);
                         pTmpVert->field_20_g = (s32)((f32)(pVerts->field_20_g - pLastVert2->field_20_g) * scaleFactor + (f32) pVerts->field_20_g);
-                        pTmpVert->field_24_b = (s32)((f32)(pVerts->field_24_b - pLastVert2->field_24_b) * scaleFactor + (f32) pVerts->field_24_b);
+                        pTmpVert->mRingBlue = (s32)((f32)(pVerts->mRingBlue - pLastVert2->mRingBlue) * scaleFactor + (f32) pVerts->mRingBlue);
                     }
 
                     pTmpVert->field_8 = (s32)((f32)(pVerts->field_8 - pLastVert2->field_8) * scaleFactor + (f32) pVerts->field_8);

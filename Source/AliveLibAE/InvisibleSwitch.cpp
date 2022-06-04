@@ -60,9 +60,9 @@ void InvisibleSwitch::VUpdate()
                 if (charYPos >= FP_FromInteger(field_30_top_left.field_2_y) && charYPos <= FP_FromInteger(field_34_bottom_right.field_2_y))
                 {
                     // TODO: ???
-                    if (sControlledCharacter_5C1B8C != sActiveHero_5C1B68
-                        || (sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_115_DoorExit_459A40
-                            && sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470))
+                    if (sControlledCharacter_5C1B8C != sActiveHero
+                        || (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_DoorExit_459A40
+                            && sActiveHero->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470))
                     {
                         // Scale matches ?
                         if (field_3C_scale == InvisibleSwitchScale::eAny_2

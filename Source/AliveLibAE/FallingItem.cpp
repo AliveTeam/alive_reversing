@@ -74,9 +74,9 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    if (mBaseAnimatedWithPhysicsGameObject_YPos > pScreenManager_5BB5F4->field_20_pCamPos->field_4_y)
+    if (mBaseAnimatedWithPhysicsGameObject_YPos > pScreenManager->field_20_pCamPos->field_4_y)
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
+        mBaseAnimatedWithPhysicsGameObject_YPos = pScreenManager->field_20_pCamPos->field_4_y;
     }
 
     field_138_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -262,7 +262,7 @@ void FallingItem::VUpdate()
         {
             if (field_12E_do_sound_in_state_falling)
             {
-                if (mBaseAnimatedWithPhysicsGameObject_YPos >= sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(240 / 2))
+                if (mBaseAnimatedWithPhysicsGameObject_YPos >= sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(240 / 2))
                 {
                     field_12E_do_sound_in_state_falling = FALSE;
                     if (field_D6_scale == 1)

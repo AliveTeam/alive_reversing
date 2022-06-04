@@ -14,21 +14,21 @@ ALIVE_VAR(1, 0x550d70, s32, sAlarmObjId_550D70, -1);
 Alarm::Alarm(Path_Alarm* pTlv, s32 tlvInfo)
     : EffectBase(Layer::eLayer_Above_FG1_39, TPageAbr::eBlend_3)
 {
-    field_84_tlvOffsetLevelPathCamId = tlvInfo;
+    mAlarmTlvInfo = tlvInfo;
 
     SetType(AETypes::eAlarm_1);
 
-    field_78_r_value = 0;
-    field_90_state = States::eWaitForSwitchEnable_0;
+    mAlarmRed = 0;
+    mAlarmState = States::eWaitForSwitchEnable_0;
 
     // This won't count as an alarm instance till this id is enabled
-    field_88_switch_id = pTlv->field_10_switch_id;
+    mAlarmSwitchId = pTlv->field_10_switch_id;
 
     mEffectBaseRed = 0;
     mEffectBaseGreen = 0;
     mEffectBaseBlue = 0;
 
-    field_8A_duration = pTlv->field_12_duration;
+    mAlarmDuration = pTlv->field_12_duration;
 }
 
 Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)
@@ -36,12 +36,12 @@ Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)
 {
     SetType(AETypes::eAlarm_1);
 
-    field_78_r_value = 0;
-    field_90_state = States::eAfterConstructed_1;
-    field_84_tlvOffsetLevelPathCamId = 0xFFFF;
-    field_7C_15_timer = sGnFrame + timerOffset;
-    field_80_duration_timer = field_7C_15_timer + durationOffset;
-    field_88_switch_id = static_cast<s16>(switchId);
+    mAlarmRed = 0;
+    mAlarmState = States::eAfterConstructed_1;
+    mAlarmTlvInfo = 0xFFFF;
+    mAlarmPauseTimer = sGnFrame + timerOffset;
+    mAlarmDurationTimer = mAlarmPauseTimer + durationOffset;
+    mAlarmSwitchId = static_cast<s16>(switchId);
 
     alarmInstanceCount_5C1BB4++;
 
@@ -62,7 +62,7 @@ Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)
 
 Alarm::~Alarm()
 {
-    if (field_90_state != States::eWaitForSwitchEnable_0)
+    if (mAlarmState != States::eWaitForSwitchEnable_0)
     {
         alarmInstanceCount_5C1BB4--;
     }
@@ -72,16 +72,16 @@ Alarm::~Alarm()
         sAlarmObjId_550D70 = -1;
     }
 
-    if (field_84_tlvOffsetLevelPathCamId == 0xFFFF)
+    if (mAlarmTlvInfo == 0xFFFF)
     {
-        if (field_88_switch_id)
+        if (mAlarmSwitchId)
         {
-            SwitchStates_Set(field_88_switch_id, 0);
+            SwitchStates_Set(mAlarmSwitchId, 0);
         }
     }
     else
     {
-        Path::TLV_Reset(field_84_tlvOffsetLevelPathCamId, -1, 0, 0);
+        Path::TLV_Reset(mAlarmTlvInfo, -1, 0, 0);
     }
 }
 
@@ -95,17 +95,17 @@ void Alarm::VRender(PrimHeader** ppOt)
 
 void Alarm::VUpdate()
 {
-    if (field_90_state != States::eWaitForSwitchEnable_0)
+    if (mAlarmState != States::eWaitForSwitchEnable_0)
     {
         Event_Broadcast(kEventAlarm, this);
-        if (static_cast<s32>(sGnFrame) > field_80_duration_timer)
+        if (static_cast<s32>(sGnFrame) > mAlarmDurationTimer)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
         }
     }
 
-    switch (field_90_state)
+    switch (mAlarmState)
     {
         case States::eWaitForSwitchEnable_0:
             if (Event_Get(kEventDeathReset))
@@ -113,9 +113,9 @@ void Alarm::VUpdate()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
-            if (!SwitchStates_Get(field_88_switch_id))
+            if (!SwitchStates_Get(mAlarmSwitchId))
             {
-                mEffectBaseRed = field_78_r_value;
+                mEffectBaseRed = mAlarmRed;
                 return;
             }
 
@@ -129,10 +129,10 @@ void Alarm::VUpdate()
                 sAlarmObjId_550D70 = field_8_object_id;
             }
 
-            field_90_state = States::eEnabling_2;
+            mAlarmState = States::eEnabling_2;
             SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
-            field_80_duration_timer = sGnFrame + field_8A_duration;
-            mEffectBaseRed = field_78_r_value;
+            mAlarmDurationTimer = sGnFrame + mAlarmDuration;
+            mEffectBaseRed = mAlarmRed;
             break;
 
         case States::eAfterConstructed_1: // When not created by a map TLV
@@ -142,66 +142,66 @@ void Alarm::VUpdate()
             }
             else
             {
-                if (static_cast<s32>(sGnFrame) <= field_7C_15_timer)
+                if (static_cast<s32>(sGnFrame) <= mAlarmPauseTimer)
                 {
-                    mEffectBaseRed = field_78_r_value;
+                    mEffectBaseRed = mAlarmRed;
                     return;
                 }
 
-                field_90_state = States::eEnabling_2;
+                mAlarmState = States::eEnabling_2;
                 SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
 
-                if (!field_88_switch_id)
+                if (!mAlarmSwitchId)
                 {
-                    mEffectBaseRed = field_78_r_value;
+                    mEffectBaseRed = mAlarmRed;
                     return;
                 }
 
-                SwitchStates_Set(field_88_switch_id, 1);
-                mEffectBaseRed = field_78_r_value;
+                SwitchStates_Set(mAlarmSwitchId, 1);
+                mEffectBaseRed = mAlarmRed;
             }
             break;
 
         case States::eEnabling_2:
-            field_78_r_value += 25;
+            mAlarmRed += 25;
 
-            if (field_78_r_value < 100)
+            if (mAlarmRed < 100)
             {
-                mEffectBaseRed = field_78_r_value;
+                mEffectBaseRed = mAlarmRed;
                 return;
             }
 
-            field_78_r_value = 100;
-            field_90_state = States::eOnFlash_3;
-            field_7C_15_timer = sGnFrame + 15;
+            mAlarmRed = 100;
+            mAlarmState = States::eOnFlash_3;
+            mAlarmPauseTimer = sGnFrame + 15;
             SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
-            mEffectBaseRed = field_78_r_value;
+            mEffectBaseRed = mAlarmRed;
             break;
 
         case States::eOnFlash_3:
-            if (static_cast<s32>(sGnFrame) <= field_7C_15_timer)
+            if (static_cast<s32>(sGnFrame) <= mAlarmPauseTimer)
             {
-                mEffectBaseRed = field_78_r_value;
+                mEffectBaseRed = mAlarmRed;
                 return;
             }
 
-            field_90_state = States::eDisabling_4;
-            mEffectBaseRed = field_78_r_value;
+            mAlarmState = States::eDisabling_4;
+            mEffectBaseRed = mAlarmRed;
             break;
 
         case States::eDisabling_4:
-            field_78_r_value -= 25;
+            mAlarmRed -= 25;
 
-            if (field_78_r_value > 0)
+            if (mAlarmRed > 0)
             {
-                mEffectBaseRed = field_78_r_value;
+                mEffectBaseRed = mAlarmRed;
                 return;
             }
 
-            field_78_r_value = 0;
-            field_7C_15_timer = sGnFrame + 15;
-            field_90_state = States::eDisabled_5;
-            mEffectBaseRed = field_78_r_value;
+            mAlarmRed = 0;
+            mAlarmPauseTimer = sGnFrame + 15;
+            mAlarmState = States::eDisabled_5;
+            mEffectBaseRed = mAlarmRed;
             break;
 
         case States::eDisabled_5:
@@ -211,17 +211,17 @@ void Alarm::VUpdate()
             }
             else
             {
-                if (static_cast<s32>(sGnFrame) > field_7C_15_timer)
+                if (static_cast<s32>(sGnFrame) > mAlarmPauseTimer)
                 {
-                    field_90_state = States::eEnabling_2;
+                    mAlarmState = States::eEnabling_2;
                     SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
                 }
-                mEffectBaseRed = field_78_r_value;
+                mEffectBaseRed = mAlarmRed;
             }
             break;
 
         default:
-            mEffectBaseRed = field_78_r_value;
+            mEffectBaseRed = mAlarmRed;
             break;
     }
 }

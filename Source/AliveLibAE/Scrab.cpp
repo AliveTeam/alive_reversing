@@ -338,9 +338,9 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->field_C0_path_number = pState->field_18_path_number;
         pScrab->field_C2_lvl_number = pState->field_1A_lvl_number;
         pScrab->field_CC_sprite_scale = pState->field_1C_sprite_scale;
-        pScrab->field_D0_r = pState->field_20_r;
-        pScrab->field_D2_g = pState->field_22_g;
-        pScrab->field_D4_b = pState->field_24_b;
+        pScrab->field_D0_r = pState->mRingRed;
+        pScrab->field_D2_g = pState->mRingGreen;
+        pScrab->field_D4_b = pState->mRingBlue;
         pScrab->mCurrentMotion = pState->field_28_current_motion;
 
         const AnimRecord& animRec = AnimRec(sScrabFrameTableOffsets_5601C0[pState->field_28_current_motion]);
@@ -430,9 +430,9 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_1A_lvl_number = field_C2_lvl_number;
     pState->field_1C_sprite_scale = field_CC_sprite_scale;
 
-    pState->field_20_r = field_D0_r;
-    pState->field_22_g = field_D2_g;
-    pState->field_24_b = field_D4_b;
+    pState->mRingRed = field_D0_r;
+    pState->mRingGreen = field_D2_g;
+    pState->mRingBlue = field_D4_b;
 
     pState->field_26_bAnimFlipX = field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_28_current_motion = mCurrentMotion;
@@ -539,7 +539,7 @@ Scrab::~Scrab()
 
     if (sControlledCharacter_5C1B8C == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        sControlledCharacter_5C1B8C = sActiveHero;
         if (gMap.mLevel != LevelIds::eMenu_0)
         {
             gMap.SetActiveCam(
@@ -948,7 +948,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
         return Brain_1_ChasingEnemy::eBrain1_Inactive_0;
     }
 
-    if (Event_Is_Event_In_Range(kEventAbeOhm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, -1) && !sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+    if (Event_Is_Event_In_Range(kEventAbeOhm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, -1) && !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         mNextMotion = eScrabMotions::M_HowlBegin_26_4A9DA0;
         return Brain_0_Patrol::eBrain0_Howling_4;
@@ -1983,9 +1983,9 @@ s16 Scrab::Brain_4_ShrinkDeath_4A6420()
 s16 Scrab::Brain_5_Possessed_4A6180()
 {
     // Abe is dead, go back to patrolling
-    if (sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+    if (sActiveHero->mHealth <= FP_FromInteger(0))
     {
-        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        sControlledCharacter_5C1B8C = sActiveHero;
         mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
         field_1A2_speak_counter = 0;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -3107,9 +3107,9 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
             New_TintChant_Particle(xpos, ypos, field_CC_sprite_scale, Layer::eLayer_0);
         }
 
-        if (static_cast<s32>(sGnFrame) > field_130_depossession_timer || sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+        if (static_cast<s32>(sGnFrame) > field_130_depossession_timer || sActiveHero->mHealth <= FP_FromInteger(0))
         {
-            sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+            sControlledCharacter_5C1B8C = sActiveHero;
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
             field_1A2_speak_counter = 0;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -4066,7 +4066,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                                                     SFX_Play_Mono(SoundEffect::KillEffect_64, 0);
                                                     if (pObj->Type() == AETypes::eAbe_69)
                                                     {
-                                                        Mudokon_SFX(MudSounds::eHurt2_9, 0, 0, sActiveHero_5C1B68);
+                                                        Mudokon_SFX(MudSounds::eHurt2_9, 0, 0, sActiveHero);
                                                     }
                                                 }
                                             }
@@ -4102,11 +4102,11 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
 
 s16 Scrab::FindAbeOrMud()
 {
-    if (CanSeeAbe(sActiveHero_5C1B68) && sActiveHero_5C1B68->mHealth > FP_FromInteger(0) && sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale && !sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+    if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->field_CC_sprite_scale == field_CC_sprite_scale && !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
-        if (!WallHit(field_CC_sprite_scale * FP_FromInteger(45), sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
+        if (!WallHit(field_CC_sprite_scale * FP_FromInteger(45), sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
         {
-            field_120_obj_id = sActiveHero_5C1B68->field_8_object_id;
+            field_120_obj_id = sActiveHero->field_8_object_id;
             return TRUE;
         }
     }
@@ -4142,9 +4142,9 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
         return 0;
     }
 
-    if (pObj == sActiveHero_5C1B68)
+    if (pObj == sActiveHero)
     {
-        if (sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_69_LedgeHangWobble_454EF0)
+        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_69_LedgeHangWobble_454EF0)
         {
             return VOnSameYLevel(pObj);
         }

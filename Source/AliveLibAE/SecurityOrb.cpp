@@ -167,7 +167,7 @@ void SecurityOrb::VUpdate()
         else if (static_cast<s32>(sGnFrame) > field_120_timer)
         {
             PSX_RECT bRect = {};
-            sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
+            sActiveHero->VGetBoundingRect(&bRect, 1);
 
             const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
@@ -181,11 +181,11 @@ void SecurityOrb::VUpdate()
                 ZapLineType::eThick_0,
                 Layer::eLayer_ZapLinesMuds_28);
 
-            ae_new<PossessionFlicker>(sActiveHero_5C1B68, 8, 255, 100, 100);
+            ae_new<PossessionFlicker>(sActiveHero, 8, 255, 100, 100);
 
-            if (sActiveHero_5C1B68->mHealth > FP_FromInteger(0))
+            if (sActiveHero->mHealth > FP_FromInteger(0))
             {
-                sActiveHero_5C1B68->VTakeDamage(this);
+                sActiveHero->VTakeDamage(this);
             }
 
             field_120_timer = sGnFrame + 8;
@@ -242,7 +242,7 @@ void SecurityOrb::VUpdate()
 
         if (Event_Get(kEventAbeOhm))
         {
-            if (!sActiveHero_5C1B68->field_168_ring_pulse_timer || !sActiveHero_5C1B68->field_16C_bHaveShrykull || sActiveHero_5C1B68->field_CC_sprite_scale != FP_FromInteger(1))
+            if (!sActiveHero->field_168_ring_pulse_timer || !sActiveHero->field_16C_bHaveShrykull || sActiveHero->field_CC_sprite_scale != FP_FromInteger(1))
             {
                 field_11C_state = 1;
                 field_120_timer = sGnFrame + 20;

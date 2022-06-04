@@ -34,20 +34,17 @@ enum class RingTypes : s16
 
 struct AbilityRing_State final
 {
-    AETypes field_0_type;
-    s16 field_2_pad;
-    FP field_4_xpos;
-    FP field_8_ypos;
-    RingTypes field_C_ring_type;
-    s16 field_E_padding;
-    FP field_10_scale;
-    s32 field_14_obj_id;
-    FP field_18_right;
-    s32 field_1C_count;
-    s16 field_20_r;
-    s16 field_22_g;
-    s16 field_24_b;
-    s16 field_26_pad;
+    AETypes mRingObjectType;
+    FP mRingXPos;
+    FP mRingYPos;
+    RingTypes mRingType;
+    FP mRingScale;
+    s32 mRingTlvInfo;
+    FP mRingRight;
+    s32 mRingCount;
+    s16 mRingRed;
+    s16 mRingGreen;
+    s16 mRingBlue;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(AbilityRing_State, 0x28);
 
@@ -57,7 +54,7 @@ enum class LevelIds : s16;
 class AbilityRing final : public BaseGameObject
 {
 public:
-    static AbilityRing* Factory_482F80(FP xpos, FP ypos, RingTypes type, FP scale);
+    static AbilityRing* Factory(FP xpos, FP ypos, RingTypes type, FP scale);
     AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale);
     ~AbilityRing();
 
@@ -75,39 +72,35 @@ private:
     void CollideWithObjects(s16 bDealDamage);
 
 private:
-    Layer field_20_layer;
-    //s16 field_22_pad;
-    AbilityRing_PolyBuffer* field_24_pRes;
-    u8** field_28_ppRes;
-    Prim_SetTPage field_2C_primSetTPage[2];
-    PSX_RECT field_4C_collide_rects[64];
-    FP field_24C_xpos;
-    FP field_250_ypos;
-    FP field_254_left;
-    FP field_258_right;
-    FP field_25C_speed;
-    FP field_260_scaleX;
-    FP field_264_scaleY;
-    FP field_268_ring_thickness;
-    s16 field_26C_fadeout_distance;
-    s16 field_26E_screenX;
-    s16 field_270_screenY;
-    s16 field_272_screenXPos;
-    s16 field_274_screenYPos;
-    s16 field_276_r;
-    s16 field_278_g;
-    s16 field_27A_b;
-    s16 field_27C_semiTrans;
-    TPageAbr field_27E_tPageMode;
-    // pad
-    LevelIds field_280_level;
-    s16 field_282_path;
-    RingTypes field_284_ring_type;
-    //s16 field_286_pad;
-    s32 field_288_target_obj_id;
-    s32 field_28C_count;
-    s16 field_290_bFindingTarget;
-    // s16 field_292_pad;
+    Layer mRingLayer;
+    AbilityRing_PolyBuffer* mRingPolyBuffer;
+    u8** mRingRes;
+    Prim_SetTPage mRingPrimSetTPage[2];
+    PSX_RECT mRingCollideRects[64];
+    FP mRingXPos;
+    FP mRingYPos;
+    FP mRingLeft;
+    FP mRingRight;
+    FP mRingSpeed;
+    FP mRingScaleX;
+    FP mRingScaleY;
+    FP mRingThickness;
+    s16 mRingFadeoutDistance;
+    s16 mRingScreenX;
+    s16 mRingScreenY;
+    s16 mRingScreenXPos;
+    s16 mRingScreenYPos;
+    s16 mRingRed;
+    s16 mRingGreen;
+    s16 mRingBlue;
+    s16 mRingSemiTrans;
+    TPageAbr mRingTPageMode;
+    LevelIds mRingLevel;
+    s16 mRingPath;
+    RingTypes mRingType;
+    s32 mRingTargetObjId;
+    s32 mRingCount;
+    s16 mRingFoundTarget;
 };
 
 ALIVE_ASSERT_SIZEOF(AbilityRing, 0x294);

@@ -58,7 +58,7 @@ public:
 
     u8** Allocate(u32 len) override
     {
-        return ResourceManager::Allocate_New_Locked_Resource_454F80(
+        return ResourceManager::Allocate_New_Locked_Resource(
             ResourceManager::Resource_PBuf,
             0,
             len);
@@ -103,7 +103,7 @@ public:
     u8** Allocate(u32 len) override
     {
         // Shouldn't be called for this format
-        return ResourceManager::Allocate_New_Locked_Resource_454F80(
+        return ResourceManager::Allocate_New_Locked_Resource(
             ResourceManager::Resource_PBuf,
             0,
             len);
@@ -203,7 +203,7 @@ void FG1::Convert_Chunk_To_Render_Block_AE(const Fg1Chunk* pChunk, Fg1Block* pBl
 
 FG1::~FG1()
 {
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 
     for (s32 i = 0; i < field_18_render_block_count; i++)
     {
@@ -233,7 +233,7 @@ FG1::FG1(u8** ppRes)
     field_16_current_path = gMap.mCurrentPath;
     field_14_current_level = gMap.mCurrentLevel;
 
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     // Cast to the actual FG1 resource block format
     FG1ResourceBlockHeader* pHeader = reinterpret_cast<FG1ResourceBlockHeader*>(*ppRes);
@@ -249,7 +249,7 @@ FG1::FG1(u8** ppRes)
     }
 
     field_18_render_block_count = static_cast<s16>(pHeader->mCount);
-    field_1C_ptr = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_CHNK, 0, pHeader->mCount * sizeof(Fg1Block));
+    field_1C_ptr = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_CHNK, 0, pHeader->mCount * sizeof(Fg1Block));
     field_20_chnk_res = reinterpret_cast<Fg1Block*>(*field_1C_ptr);
 
     if (isReliveFG1)

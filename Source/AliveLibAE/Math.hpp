@@ -15,7 +15,7 @@ FP Math_Sine_496DD0(u8 v);
 FP Math_Cosine_496D60(FP fp);
 FP Math_Sine_496DF0(FP fp);
 
-s32 Math_Distance_496EB0(s32 x1, s32 y1, s32 x2, s32 y2);
+s32 Math_Distance(s32 x1, s32 y1, s32 x2, s32 y2);
 
 FP Math_Tan_496F70(FP value1, FP value2);
 

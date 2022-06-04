@@ -27,7 +27,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
 
     mBaseGameObjectTypeId = Types::eNone_0;
 
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     field_30_xpos = xpos;
     field_34_ypos = ypos;
@@ -48,7 +48,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
 
     field_4C_count = static_cast<s16>(count);
 
-    field_44_ppSprxRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Sprx, 0, sizeof(SparkRes) * count);
+    field_44_ppSprxRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Sprx, 0, sizeof(SparkRes) * count);
     if (field_44_ppSprxRes)
     {
         field_48_pRes = reinterpret_cast<SparkRes*>(*field_44_ppSprxRes);
@@ -106,7 +106,7 @@ Spark::~Spark()
 {
     if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
-        gObjList_drawables_504618->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 
     if (field_44_ppSprxRes)

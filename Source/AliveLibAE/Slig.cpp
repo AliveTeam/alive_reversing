@@ -64,7 +64,7 @@ void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
         s16 pitch = 0;
         if (effect == SligSfx::ePropeller1_9 || effect == SligSfx::ePropeller2_10 || effect == SligSfx::ePropeller3_11)
         {
-            FP sndDistance = FP_FromInteger(abs(Math_Distance_496EB0(0, 0, FP_GetExponent(pObj->field_C4_velx), FP_GetExponent(pObj->field_C8_vely))));
+            FP sndDistance = FP_FromInteger(abs(Math_Distance(0, 0, FP_GetExponent(pObj->field_C4_velx), FP_GetExponent(pObj->field_C8_vely))));
             if (sndDistance > FP_FromInteger(8))
             {
                 sndDistance = FP_FromInteger(8);
@@ -703,19 +703,19 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
             }
 
             actor->field_20_animation.VRender(
-                FP_GetExponent(FP_FromInteger(actor->field_DA_xOffset) + actor->mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-                FP_GetExponent(FP_FromInteger(actor->field_D8_yOffset) + actor->mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                FP_GetExponent(FP_FromInteger(actor->field_DA_xOffset) + actor->mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x),
+                FP_GetExponent(FP_FromInteger(actor->field_D8_yOffset) + actor->mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y),
                 ot,
                 0,
                 0);
 
             PSX_RECT rectToInvalidate = {};
             actor->field_20_animation.Get_Frame_Rect(&rectToInvalidate);
-            pScreenManager_5BB5F4->InvalidateRect_40EC90(
+            pScreenManager->InvalidateRect_40EC90(
                 rectToInvalidate.x,
                 rectToInvalidate.y,
                 rectToInvalidate.w,
-                rectToInvalidate.h, pScreenManager_5BB5F4->field_3A_idx);
+                rectToInvalidate.h, pScreenManager->field_3A_idx);
 
             if (actor->mShadow)
             {
@@ -2108,7 +2108,7 @@ void Slig::M_Knockback_34_4B68A0()
         {
             field_C4_velx = FP_FromInteger(0);
 
-            if (mHealth > FP_FromInteger(0) && field_12C_timer <= static_cast<s32>(sGnFrame) && sActiveHero_5C1B68->mHealth > FP_FromInteger(0))
+            if (mHealth > FP_FromInteger(0) && field_12C_timer <= static_cast<s32>(sGnFrame) && sActiveHero->mHealth > FP_FromInteger(0))
             {
                 mCurrentMotion = eSligMotions::M_KnockbackToStand_35_4B6A30;
             }
@@ -2674,7 +2674,7 @@ s16 Slig::Brain_Death_0_4BBFB0()
     {
         if (field_120_timer < static_cast<s32>(sGnFrame))
         {
-            sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+            sControlledCharacter_5C1B8C = sActiveHero;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
             gMap.SetActiveCam(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
@@ -2705,7 +2705,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_1_4BC410()
 {
     if (sControlledCharacter_5C1B8C == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        sControlledCharacter_5C1B8C = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
         gMap.SetActiveCam(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
@@ -2860,7 +2860,7 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
                 if (sControlledCharacter_5C1B8C == this)
                 {
                     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
-                    sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+                    sControlledCharacter_5C1B8C = sActiveHero;
                     gMap.SetActiveCam(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -3540,7 +3540,7 @@ s16 Slig::Brain_SpottedEnemy_7_4B3240()
         }
         else if (field_120_timer > static_cast<s32>(sGnFrame))
         {
-            if (sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+            if (sActiveHero->mHealth <= FP_FromInteger(0))
             {
                 ToAbeDead_4B3580();
             }
@@ -3611,7 +3611,7 @@ s16 Slig::Brain_EnemyDead_10_4B3460()
         }
 
         // And turn even less often
-        if (sActiveHero_5C1B68->mHealth > FP_FromInteger(0))
+        if (sActiveHero->mHealth > FP_FromInteger(0))
         {
             TurnOrWalk_4BD6A0(0);
         }
@@ -3741,7 +3741,7 @@ s16 Slig::Brain_PanicRunning_13_4BC780()
     {
         ToShoot_4BF9A0();
     }
-    else if (sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+    else if (sActiveHero->mHealth <= FP_FromInteger(0))
     {
         ToAbeDead_4B3580();
     }
@@ -3829,7 +3829,7 @@ s16 Slig::Brain_Idle_15_4BD800()
         return 104;
     }
 
-    if (sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+    if (sActiveHero->mHealth <= FP_FromInteger(0))
     {
         ToAbeDead_4B3580();
         return 104;
@@ -4153,7 +4153,7 @@ s16 Slig::Brain_Walking_21_4BE0C0()
         {
             ToPanicYelling_4BCBA0();
         }
-        else if (sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+        else if (sActiveHero->mHealth <= FP_FromInteger(0))
         {
             ToAbeDead_4B3580();
         }
@@ -4425,7 +4425,7 @@ s16 Slig::Brain_ZShooting_28_4BFA70()
 
     field_158_num_times_to_shoot = 0;
 
-    if (sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+    if (sActiveHero->mHealth <= FP_FromInteger(0))
     {
         ToAbeDead_4B3580();
     }
@@ -4455,7 +4455,7 @@ s16 Slig::Brain_Shooting_29_4BF750()
             return 111;
         }
 
-        if (sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+        if (sActiveHero->mHealth <= FP_FromInteger(0))
         {
             ToKilledAbe_4B3600();
             return 111;
@@ -4517,7 +4517,7 @@ s16 Slig::Brain_Inactive_32_4B9430()
     }
     else if (field_120_timer > static_cast<s32>(sGnFrame))
     {
-        if (sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+        if (sActiveHero->mHealth <= FP_FromInteger(0))
         {
             ToAbeDead_4B3580();
         }
@@ -4555,7 +4555,7 @@ s16 Slig::Brain_Paused_33_4B8DD0()
     {
         ToShoot_4BF9A0();
     }
-    else if (sActiveHero_5C1B68->mHealth <= FP_FromInteger(0))
+    else if (sActiveHero->mHealth <= FP_FromInteger(0))
     {
         ToAbeDead_4B3580();
     }
@@ -4637,7 +4637,7 @@ s16 Slig::Brain_ChaseAndDisappear_35_4BF640()
 
     if (field_11C_brain_sub_state == Brain_35_ChaseAndDisappear::eBrain35_Summoned_0)
     {
-        if (sNum_CamSwappers_5C1B66 > 0 || sActiveHero_5C1B68->field_1AC_flags.Get(Abe::e1AC_Bit5_shrivel))
+        if (sNum_CamSwappers_5C1B66 > 0 || sActiveHero->field_1AC_flags.Get(Abe::e1AC_Bit5_shrivel))
         {
             return field_11C_brain_sub_state;
         }
@@ -4870,7 +4870,7 @@ Slig::~Slig()
 {
     if (sControlledCharacter_5C1B8C == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        sControlledCharacter_5C1B8C = sActiveHero;
 
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
@@ -6800,7 +6800,7 @@ void Slig::NextCommand_4B9A00(s16 speakTableIndex, s16 responseState)
 
 s16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
 {
-    const s32 distToPlayer = Math_Distance_496EB0(
+    const s32 distToPlayer = Math_Distance(
         FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos),
         FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos),
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
@@ -6831,7 +6831,7 @@ s16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
                         return 0;
                     }
                 }
-                else if (distToPlayer > Math_Distance_496EB0(
+                else if (distToPlayer > Math_Distance(
                              FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos),
                              FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos),
                              FP_GetExponent(pOtherSlig->mBaseAnimatedWithPhysicsGameObject_XPos),
@@ -6996,7 +6996,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 return 1;
             }
 
-            if (!VIsFacingMe(sActiveHero_5C1B68) || IsInInvisibleZone(sActiveHero_5C1B68) || sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C))
+            if (!VIsFacingMe(sActiveHero) || IsInInvisibleZone(sActiveHero) || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C))
             {
                 GoAlertedOrSayWhat_4BF140();
             }

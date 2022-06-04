@@ -482,7 +482,7 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 {
     mBaseGameObjectTypeId = Types::eDeathFadeOut_80;
 
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
@@ -520,7 +520,7 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
 MainMenuTransition::~MainMenuTransition()
 {
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 }
 
 void MainMenuTransition::StartTrans_436560(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed)

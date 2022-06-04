@@ -566,7 +566,7 @@ FlyingSlig::~FlyingSlig()
 {
     if (sControlledCharacter_5C1B8C == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        sControlledCharacter_5C1B8C = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
         if (gMap.mLevel != LevelIds::eMenu_0)
         {
@@ -922,13 +922,13 @@ void FlyingSlig::Movement()
     }
 
     s32 v37 = {};
-    if (Math_Distance_496EB0(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely)) >= 0)
+    if (Math_Distance(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely)) >= 0)
     {
-        v37 = Math_Distance_496EB0(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely));
+        v37 = Math_Distance(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely));
     }
     else
     {
-        v37 = -Math_Distance_496EB0(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely));
+        v37 = -Math_Distance(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely));
     }
 
     const s32 v38 = static_cast<s32>(sGnFrame) % ((FP_FromInteger(v37) < field_2A8_max_x_speed) + 2);
@@ -1093,7 +1093,7 @@ void FlyingSlig::Brain_4_ChasingEnemy()
         return;
     }
 
-    if (Event_Get(kEventResetting) || sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale || IsInInvisibleZone(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (sControlledCharacter_5C1B8C != sActiveHero_5C1B68 || sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->Type() != AETypes::eMineCar_89))
+    if (Event_Get(kEventResetting) || sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale || IsInInvisibleZone(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (sControlledCharacter_5C1B8C != sActiveHero || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->Type() != AETypes::eMineCar_89))
     {
         PatrolDelay_435860();
         return;
@@ -2019,7 +2019,7 @@ s16 FlyingSlig::IsPossessed()
 
 s16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
 {
-    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) || !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) || Event_Get(kEventResetting) || IsAbeEnteringDoor_43B030(pObj) || sActiveHero_5C1B68->field_CC_sprite_scale != field_CC_sprite_scale || !IsWallBetween_43A550(this, pObj))
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) || !gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) || Event_Get(kEventResetting) || IsAbeEnteringDoor_43B030(pObj) || sActiveHero->field_CC_sprite_scale != field_CC_sprite_scale || !IsWallBetween_43A550(this, pObj))
     {
         return 0;
     }
@@ -2325,7 +2325,7 @@ s16 FlyingSlig::sub_436730()
     }
     else
     {
-        if (sActiveHero_5C1B68 && sActiveHero_5C1B68->mHealth < FP_FromInteger(0) && FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos) < FP_FromInteger(640) && FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos - sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos) < FP_FromInteger(240))
+        if (sActiveHero && sActiveHero->mHealth < FP_FromInteger(0) && FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos) < FP_FromInteger(640) && FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos - sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos) < FP_FromInteger(240))
         {
             ToAbeDead_436010();
             return 1;
@@ -2336,7 +2336,7 @@ s16 FlyingSlig::sub_436730()
 
 s16 FlyingSlig::CanHearAbe_4369C0()
 {
-    return sActiveHero_5C1B68 == Event_Is_Event_In_Range(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_D6_scale) || sActiveHero_5C1B68 == Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_D6_scale);
+    return sActiveHero == Event_Is_Event_In_Range(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_D6_scale) || sActiveHero == Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_D6_scale);
 }
 
 void FlyingSlig::ToSpottedEnemy_435E70()

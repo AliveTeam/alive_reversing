@@ -87,7 +87,7 @@ ALIVE_VAR(1, 0x5C2F70, u32, dword_5C2F70, 0);
 
 
 
-ALIVE_VAR(1, 0x5c1b68, Abe*, sActiveHero_5C1B68, 0);
+ALIVE_VAR(1, 0x5c1b68, Abe*, sActiveHero, 0);
 
 bool gDebugHelpersEnabled = false;
 
@@ -383,7 +383,7 @@ s32 CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 
 
 ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<AnimationBase>*, gObjList_animations_5C1A24, nullptr);
-ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124, nullptr);
+ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjListDrawables, nullptr);
 
 
 void Init_Sound_DynamicArrays_And_Others_43BDB0()
@@ -392,7 +392,7 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
     word_5C1B94 = 1; // Used in dead overlay stuff, CD number ??
     //Overlays_Init_43BFC0(); // Note: Pointless because never used in PC
     pPauseMenu_5C9300 = nullptr;
-    sActiveHero_5C1B68 = nullptr;
+    sActiveHero = nullptr;
     sControlledCharacter_5C1B8C = 0;
     sNum_CamSwappers_5C1B66 = 0;
     sGnFrame = 0;
@@ -472,7 +472,7 @@ void Game_Run_466D40()
 
     gBaseGameObjects = ae_new<DynamicArrayT<BaseGameObject>>(50);
 
-    gObjList_drawables_5C1124 = ae_new<DynamicArrayT<BaseGameObject>>(30);
+    gObjListDrawables = ae_new<DynamicArrayT<BaseGameObject>>(30);
 
     gFG1List_5D1E28 = ae_new<DynamicArrayT<FG1>>(4);
 
@@ -494,10 +494,10 @@ void Game_Run_466D40()
     gMap.field_24_camera_offset.field_4_y = FP_FromInteger(0);
     gMap.field_24_camera_offset.field_0_x = FP_FromInteger(0);
 
-    pScreenManager_5BB5F4 = ae_new<ScreenManager>(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
+    pScreenManager = ae_new<ScreenManager>(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
 
-    pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) camera.field_C_pCamRes);
-    pScreenManager_5BB5F4->MoveImage_40EB70();
+    pScreenManager->DecompressCameraToVRam_40EF60((u16**) camera.field_C_pCamRes);
+    pScreenManager->MoveImage_40EB70();
 
     sLvlArchive_5BC520.Free_433130();
 
@@ -538,7 +538,7 @@ void Game_Run_466D40()
     gMap.Shutdown();
 
     relive_delete gObjList_animations_5C1A24;
-    relive_delete gObjList_drawables_5C1124;
+    relive_delete gObjListDrawables;
     relive_delete gFG1List_5D1E28;
     relive_delete gBaseGameObjects;
     relive_delete ObjList_5C1B78;
@@ -716,9 +716,9 @@ void Game_Loop_467230()
         PrimHeader** ppOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
 
         // Render objects
-        for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+        for (s32 i = 0; i < gObjListDrawables->Size(); i++)
         {
-            BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
+            BaseGameObject* pObj = gObjListDrawables->ItemAt(i);
             if (!pObj)
             {
                 break;
@@ -757,7 +757,7 @@ void Game_Loop_467230()
 
         DebugFont_Flush_4DD050();
         PSX_DrawSync_4F6280(0);
-        pScreenManager_5BB5F4->VRender(ppOtBuffer);
+        pScreenManager->VRender(ppOtBuffer);
         SYS_EventsPump_494580(); // Exit checking?
 
         gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();

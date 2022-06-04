@@ -35,7 +35,7 @@ ExplosionSet::ExplosionSet()
         field_46_spacing_multiplicator = 0;
         bEnabled_5C1BB6 = FALSE;
         field_5C_flags.Clear(Flags_5C::eBit3_Active);
-        gObjList_drawables_5C1124->Push_Back(this);
+        gObjListDrawables->Push_Back(this);
     }
 }
 
@@ -76,7 +76,7 @@ void ExplosionSet::Init(Path_ExplosionSet* pTlv)
 
 ExplosionSet::~ExplosionSet()
 {
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     pExplosionSet_5BBF68 = nullptr;
 }
 
@@ -131,7 +131,7 @@ void ExplosionSet::VRender(PrimHeader** ppOt)
         /* constant 1, so always false, dead code.
         if (!dword_55EF94)
         {
-            pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+            pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
         }*/
     }
 }

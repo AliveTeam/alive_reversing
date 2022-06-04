@@ -34,9 +34,9 @@ EvilFart::EvilFart()
 
     mApplyShadows &= ~1u;
 
-    field_CC_sprite_scale = sActiveHero_5C1B68->field_CC_sprite_scale;
+    field_CC_sprite_scale = sActiveHero->field_CC_sprite_scale;
 
-    field_D6_scale = sActiveHero_5C1B68->field_D6_scale;
+    field_D6_scale = sActiveHero->field_D6_scale;
     if (field_D6_scale == 1)
     {
         field_20_animation.mRenderLayer = Layer::eLayer_SligGreeterFarts_33;
@@ -46,16 +46,16 @@ EvilFart::EvilFart()
         field_20_animation.mRenderLayer = Layer::eLayer_SligGreeterFarts_Half_14;
     }
 
-    if (sActiveHero_5C1B68->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (sActiveHero->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(12) * field_CC_sprite_scale);
+        mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(12) * field_CC_sprite_scale);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos - (FP_FromInteger(12) * field_CC_sprite_scale);
+        mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos - (FP_FromInteger(12) * field_CC_sprite_scale);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_YPos = (field_CC_sprite_scale * FP_FromInteger(22)) + sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = (field_CC_sprite_scale * FP_FromInteger(22)) + sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;
 
     FP hitX = {};
     FP hitY = {};
@@ -70,7 +70,7 @@ EvilFart::EvilFart()
             &hitY,
             field_D6_scale != 0 ? 0x20006 : 0x40060))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos;
+        mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos;
     }
 
     field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -295,12 +295,12 @@ void EvilFart::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin_45BD00)
+    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin_45BD00)
     {
         field_11C_alive_timer--;
     }
 
-    if ((sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin_45BD00) && field_11C_alive_timer + 1 <= 0)
+    if ((sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin_45BD00) && field_11C_alive_timer + 1 <= 0)
     {
         if (!field_118_bBlowUp)
         {
@@ -320,7 +320,7 @@ void EvilFart::VUpdate()
 
     if (field_118_bBlowUp && static_cast<s32>(sGnFrame) > field_12C_back_to_abe_timer)
     {
-        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        sControlledCharacter_5C1B8C = sActiveHero;
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         gMap.SetActiveCam(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }

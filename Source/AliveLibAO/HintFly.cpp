@@ -1402,7 +1402,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
         field_11A_msg_len = longestWordLen;
         field_11A_msg_len += 12;
 
-        field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_HintFly, 0, sizeof(HintFlyParticle) * field_11A_msg_len);
+        field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_HintFly, 0, sizeof(HintFlyParticle) * field_11A_msg_len);
         if (field_E4_ppRes)
         {
             field_E8_pRes = reinterpret_cast<HintFlyParticle*>(*field_E4_ppRes);

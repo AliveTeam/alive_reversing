@@ -39,7 +39,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
     gDeathGasCount_5BD24C++;
 
     SetType(AETypes::eMainMenuTransistion_116); // wot moment
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     field_26_flag = 0;
 
@@ -83,13 +83,13 @@ DeathGas::DeathGas(Layer layer, s32 amount)
 
 DeathGas::~DeathGas()
 {
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     gDeathGasCount_5BD24C--;
 }
 
 void DeathGas::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || !sActiveHero_5C1B68)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || !sActiveHero)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -245,7 +245,7 @@ void DeathGas::VRender(PrimHeader** ppOt)
     }
 
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_28_layer), &gGasTPages_5BC6C8[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
-    pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
+    pScreenManager->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
 
     if (field_20_total >= 255)
     {

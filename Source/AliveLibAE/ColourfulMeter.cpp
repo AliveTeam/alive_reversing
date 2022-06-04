@@ -27,10 +27,10 @@ ColourfulMeter::ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo)
     field_20_font_context.LoadFontType_433400(2);
     field_30_font.ctor_433590(5, byte_5543D0, &field_20_font_context);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
-    field_6C_text_x = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-    field_6E_text_y = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+    field_6C_text_x = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x)) - pScreenManager->field_20_pCamPos->field_0_x);
+    field_6E_text_y = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y)) - pScreenManager->field_20_pCamPos->field_4_y);
 
     field_72_switch_id = pTlv->field_10_switch_id;
     field_80 = 0;
@@ -71,7 +71,7 @@ ColourfulMeter::ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo)
 
 ColourfulMeter::~ColourfulMeter()
 {
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_68_tlvInfo, -1, 0, 0);
     field_30_font.dtor_433540();
     field_20_font_context.dtor_433510();
@@ -176,8 +176,8 @@ const PSX_Point stru_5543F0[kMeterBarsXCount] = {
 
 void ColourfulMeter::VRender(PrimHeader** ppOt)
 {
-    const s16 screenXOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(4));
-    const s16 screenYOff = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(4));
+    const s16 screenXOff = FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x + FP_FromInteger(4));
+    const s16 screenYOff = FP_GetExponent(pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(4));
 
     for (s16 poly_idx = 0; poly_idx < field_70_polys_to_render_count && poly_idx < kMeterBarsXCount - 1; poly_idx++)
     {
@@ -247,10 +247,10 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
             colourRand);
     }
 
-    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+    pScreenManager->InvalidateRect_40EC90(
         PsxToPCX(field_6C_text_x - 50),
         field_6E_text_y - 30,
         PsxToPCX(field_6C_text_x + 500),
         field_6E_text_y,
-        pScreenManager_5BB5F4->field_3A_idx);
+        pScreenManager->field_3A_idx);
 }

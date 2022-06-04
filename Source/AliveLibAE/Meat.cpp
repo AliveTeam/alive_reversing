@@ -532,12 +532,12 @@ void MeatSack::VUpdate()
     else
     {
         PSX_RECT abeRect = {};
-        sActiveHero_5C1B68->VGetBoundingRect(&abeRect, 1);
+        sActiveHero->VGetBoundingRect(&abeRect, 1);
 
         PSX_RECT ourRect = {};
         VGetBoundingRect(&ourRect, 1);
 
-        if (RectsOverlap(ourRect, abeRect) && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
+        if (RectsOverlap(ourRect, abeRect) && field_CC_sprite_scale == sActiveHero->field_CC_sprite_scale)
         {
             const AnimRecord& MeatSackHitRec = AnimRec(AnimId::MeatSack_Hit);
             if (gpThrowableArray_5D1E2C)

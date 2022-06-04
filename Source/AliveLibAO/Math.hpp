@@ -13,7 +13,7 @@ FP Math_Sine_451110(u8 v);
 
 FP Math_Cosine_4510A0(u8 v);
 
-s32 Math_Distance_451270(s32 x1, s32 y1, s32 x2, s32 y2);
+s32 Math_Distance(s32 x1, s32 y1, s32 x2, s32 y2);
 
 s32 Math_SquareRoot_Int_4511B0(s32 a1);
 

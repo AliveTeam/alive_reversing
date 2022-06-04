@@ -738,7 +738,7 @@ u8** ResourceManager::Alloc_New_Resource_454F20(u32 type, u32 id, u32 size)
     return Alloc_New_Resource_Impl(type, id, size, false, BlockAllocMethod::eFirstMatching);
 }
 
-u8** ResourceManager::Allocate_New_Locked_Resource_454F80(u32 type, u32 id, u32 size)
+u8** ResourceManager::Allocate_New_Locked_Resource(u32 type, u32 id, u32 size)
 {
     return Alloc_New_Resource_Impl(type, id, size, true, BlockAllocMethod::eLastMatching);
 }

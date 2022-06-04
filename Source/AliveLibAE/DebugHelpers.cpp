@@ -82,12 +82,12 @@ public:
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(512, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
 
-        gObjList_drawables_5C1124->Push_Back(this);
+        gObjListDrawables->Push_Back(this);
     }
 
     ~ObjectDebugger()
     {
-        gObjList_drawables_5C1124->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 
     static bool Enabled;
@@ -118,7 +118,7 @@ public:
     {
         /*struct MainMenuButton final
         {
-        s16 field_0_type;
+        s16 mRingObjectType;
         s16 field_2_x;
         s16 field_4_y;
         s16 field_6;
@@ -128,7 +128,7 @@ public:
 
         auto list = reinterpret_cast<MainMenuButton *>(0x5610B8);
 
-        while (list->field_0_type)
+        while (list->mRingObjectType)
         {
         pIndex = mFont.DrawString_4337D0(pOrderingTable, "O", list->field_2_x, list->field_4_y, 0, 1, 0, 40, 255, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
         list++;
@@ -271,12 +271,12 @@ public:
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(128, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
 
-        gObjList_drawables_5C1124->Push_Back(this);
+        gObjListDrawables->Push_Back(this);
     }
 
     ~DebugPathRenderer()
     {
-        gObjList_drawables_5C1124->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 
     static bool Enabled;
@@ -456,7 +456,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
             break;
         }
 
-        if (pBaseGameObject == sActiveHero_5C1B68)
+        if (pBaseGameObject == sActiveHero)
         {
             continue;
         }
@@ -478,17 +478,17 @@ void Command_HelperUpdate()
         PSX_Point pos;
         gMap.GetCurrentCamCoords(&pos);
 
-        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pos.field_0_x + 184);
-        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.field_2_y + 60);
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pos.field_0_x + 184);
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.field_2_y + 60);
         sHasTeleported = false;
-        sActiveHero_5C1B68->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
-        sActiveHero_5C1B68->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7_land_softly);
-        sActiveHero_5C1B68->field_C2_lvl_number = gMap.mCurrentLevel;
-        sActiveHero_5C1B68->field_C0_path_number = gMap.mCurrentPath;
-        sActiveHero_5C1B68->BaseAliveGameObjectCollisionLine = nullptr;
-        sActiveHero_5C1B68->BaseAliveGameObjectLastLineYPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos;
-        sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
-        sActiveHero_5C1B68->field_D6_scale = 1;
+        sActiveHero->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
+        sActiveHero->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7_land_softly);
+        sActiveHero->field_C2_lvl_number = gMap.mCurrentLevel;
+        sActiveHero->field_C0_path_number = gMap.mCurrentPath;
+        sActiveHero->BaseAliveGameObjectCollisionLine = nullptr;
+        sActiveHero->BaseAliveGameObjectLastLineYPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;
+        sActiveHero->field_CC_sprite_scale = FP_FromDouble(1.0);
+        sActiveHero->field_D6_scale = 1;
         FP rX = FP_FromInteger(0);
         FP rY = FP_FromInteger(0);
         PathLine* rUnk = nullptr;
@@ -502,24 +502,24 @@ void Command_HelperUpdate()
             if (sCollisions_DArray_5C1128->Raycast(xOffset, yOffset,
                                                           xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1))
             {
-                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
-                sActiveHero_5C1B68->field_D6_scale = 1;
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
+                sActiveHero->field_CC_sprite_scale = FP_FromDouble(1.0);
+                sActiveHero->field_D6_scale = 1;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
                 break;
             }
             else if (sCollisions_DArray_5C1128->Raycast(xOffset, yOffset,
                                                                xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1 << 4))
             {
-                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
-                sActiveHero_5C1B68->field_D6_scale = 0;
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
+                sActiveHero->field_CC_sprite_scale = FP_FromDouble(0.5);
+                sActiveHero->field_D6_scale = 0;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
                 break;
             }
         }
 
-        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        sControlledCharacter_5C1B8C = sActiveHero;
     }
 }
 
@@ -670,11 +670,11 @@ void Command_Ring(const std::vector<std::string>& args)
     s32 ringType = std::stoi(args[0]);
 
     PSX_RECT rect = {};
-    sActiveHero_5C1B68->VGetBoundingRect(&rect, 1);
-    AbilityRing::Factory_482F80(
+    sActiveHero->VGetBoundingRect(&rect, 1);
+    AbilityRing::Factory(
         FP_FromInteger((rect.x + rect.w) / 2),
         FP_FromInteger((rect.y + rect.h) / 2),
-        static_cast<RingTypes>(ringType), sActiveHero_5C1B68->field_CC_sprite_scale);
+        static_cast<RingTypes>(ringType), sActiveHero->field_CC_sprite_scale);
 
     SFX_Play_Pitch(SoundEffect::PossessEffect_17, 25, 2650);
 }
@@ -873,7 +873,7 @@ public:
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(4096 * 2, reinterpret_cast<u8*>(mFontPalette), &mFontContext);
 
-        gObjList_drawables_5C1124->Push_Back(this);
+        gObjListDrawables->Push_Back(this);
 
         InitDebugFont();
 
@@ -885,7 +885,7 @@ public:
 
     ~DebugConsole()
     {
-        gObjList_drawables_5C1124->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 
     void ParseCommand(std::string command)
@@ -1785,7 +1785,7 @@ public:
         mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
         mBaseGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
 
-        gObjList_drawables_5C1124->Push_Back(this);
+        gObjListDrawables->Push_Back(this);
     }
 
     virtual void VUpdate() override
@@ -1800,7 +1800,7 @@ public:
         PSX_RECT screen = {0, 0, 640, 240};
         PSX_ClearImage_4F5BD0(&screen, 0, 0, 0);
 
-        //pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+        //pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
 
         mPoly_F_Test.Render(ppOt);
 
@@ -1811,7 +1811,7 @@ public:
 
     ~RenderTest()
     {
-        gObjList_drawables_5C1124->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 
 private:
@@ -1899,14 +1899,14 @@ public:
         mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
         mBaseGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
 
-        gObjList_drawables_5C1124->Push_Back(this);
+        gObjListDrawables->Push_Back(this);
 
         Init();
     }
 
     ~AnimRenderTest()
     {
-        gObjList_drawables_5C1124->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 
     virtual void VRender(PrimHeader** ot) override
@@ -1919,7 +1919,7 @@ public:
 
         OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_InBirdPortal_30), &mPolyFT4[0].mBase.header);
 
-        pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+        pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
     }
 
     virtual void VUpdate() override
@@ -2205,7 +2205,7 @@ void DEV::DebugFillRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s
     Poly_Set_SemiTrans_4F8A60(&mPolyF4->mBase.header, semiTransparent);
 
     OrderingTable_Add_4F8AA0(OtLayer(ot, layer), &mPolyF4->mBase.header);
-    pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+    pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
 void DEV::DebugDrawRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
@@ -2245,7 +2245,7 @@ void DEV::DebugDrawLine(PrimHeader** ot, Layer layer, s32 x1, s32 y1, s32 x2, s3
     Poly_Set_SemiTrans_4F8A60(&mLineG2->mBase.header, semiTransparent);
 
     OrderingTable_Add_4F8AA0(OtLayer(ot, layer), &mLineG2->mBase.header);
-    pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+    pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
 void DEV::DebugDrawText(PrimHeader** ot, Layer layer, std::string& text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)

@@ -235,9 +235,9 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->field_1A_lvl_number = field_C2_lvl_number;
     pState->field_1C_sprite_scale = field_CC_sprite_scale;
 
-    pState->field_20_r = field_D0_r;
-    pState->field_22_g = field_D2_g;
-    pState->field_24_b = field_D4_b;
+    pState->mRingRed = field_D0_r;
+    pState->mRingGreen = field_D2_g;
+    pState->mRingBlue = field_D4_b;
 
     pState->field_26_bAnimFlipX = field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_28_current_motion = mCurrentMotion;
@@ -393,9 +393,9 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
     pSlog->field_C0_path_number = pState->field_18_path_number;
     pSlog->field_C2_lvl_number = pState->field_1A_lvl_number;
     pSlog->field_CC_sprite_scale = pState->field_1C_sprite_scale;
-    pSlog->field_D0_r = pState->field_20_r;
-    pSlog->field_D2_g = pState->field_22_g;
-    pSlog->field_D4_b = pState->field_24_b;
+    pSlog->field_D0_r = pState->mRingRed;
+    pSlog->field_D2_g = pState->mRingGreen;
+    pSlog->field_D4_b = pState->mRingBlue;
 
     pSlog->mCurrentMotion = pState->field_28_current_motion;
     u8** ppRes = pSlog->ResBlockForMotion_4C4A80(pState->field_28_current_motion);
@@ -1164,7 +1164,7 @@ void Slog::M_JumpUpwards_19_4C7470()
 
     if (field_20_animation.field_92_current_frame == 5)
     {
-        if (field_160_flags.Get(Flags_160::eBit4_Hungry) && field_118_target_id == sActiveHero_5C1B68->field_8_object_id && sActiveHero_5C1B68->field_D6_scale == field_D6_scale && (sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold_455DF0 || sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold_454410))
+        if (field_160_flags.Get(Flags_160::eBit4_Hungry) && field_118_target_id == sActiveHero->field_8_object_id && sActiveHero->field_D6_scale == field_D6_scale && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold_455DF0 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold_454410))
         {
             Sfx_4C7D30(SlogSound::HungryYip_13);
         }
@@ -2646,7 +2646,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
         mCurrentMotion = eSlogMotions::M_TurnAround_3_4C65C0;
     }
 
-    if (field_160_flags.Get(Flags_160::eBit4_Hungry) && pTarget == sActiveHero_5C1B68 && pTarget->field_D6_scale == field_D6_scale && (sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold_455DF0 || sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold_454410))
+    if (field_160_flags.Get(Flags_160::eBit4_Hungry) && pTarget == sActiveHero && pTarget->field_D6_scale == field_D6_scale && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold_455DF0 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold_454410))
     {
         mNextMotion = eSlogMotions::M_StopRunning_6_4C66C0;
         field_124_timer = sGnFrame + 90;
@@ -3451,7 +3451,7 @@ s16 Slog::PlayerOrNakedSligNear_4C26A0()
     const FP kMinYDist = FP_FromInteger(25) * field_CC_sprite_scale;
 
     // Is the player near?
-    if (FP_Abs(sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) < kMinXDist && FP_Abs(sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) < kMinYDist && sActiveHero_5C1B68->field_CC_sprite_scale == FP_FromInteger(1))
+    if (FP_Abs(sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) < kMinXDist && FP_Abs(sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) < kMinYDist && sActiveHero->field_CC_sprite_scale == FP_FromInteger(1))
     {
         return 1;
     }

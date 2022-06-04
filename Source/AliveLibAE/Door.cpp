@@ -182,7 +182,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         }
     }
 
-    if ((sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_115_DoorExit_459A40) && field_FC_current_state == eClosed_1 && field_FA_door_number == sActiveHero_5C1B68->field_1A0_door_id)
+    if ((sActiveHero->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_115_DoorExit_459A40) && field_FC_current_state == eClosed_1 && field_FA_door_number == sActiveHero->field_1A0_door_id)
     {
         // Force open is abe is in the door
         field_FC_current_state = eOpen_0;
@@ -370,9 +370,9 @@ void Door::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_115_DoorExit_459A40)
+    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_115_DoorExit_459A40)
     {
-        if (field_FC_current_state == DoorStates::eClosed_1 && field_FA_door_number == sActiveHero_5C1B68->field_1A0_door_id)
+        if (field_FC_current_state == DoorStates::eClosed_1 && field_FA_door_number == sActiveHero->field_1A0_door_id)
         {
             field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             field_FC_current_state = DoorStates::eOpen_0;
@@ -538,7 +538,7 @@ void TrainDoor::VUpdate()
     if (field_FC_current_state == eOpen_0)
     {
         // Wait for Abe to GTFO
-        if (sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_115_DoorExit_459A40 && sActiveHero_5C1B68->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470)
+        if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_DoorExit_459A40 && sActiveHero->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470)
         {
             // Then close
             const AnimRecord& animRec = AnimRec(AnimId::Door_Train_Closing);

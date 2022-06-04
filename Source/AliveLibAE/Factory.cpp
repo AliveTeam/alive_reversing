@@ -627,14 +627,14 @@ void Factory_AbeStart(Path_TLV* pTlv, Path*, TlvItemInfoUnion, LoadMode loadmode
             pPauseMenu_5C9300 = ae_new<PauseMenu>();
         }
 
-        if (!sActiveHero_5C1B68)
+        if (!sActiveHero)
         {
             const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
-            sActiveHero_5C1B68 = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
-            if (sActiveHero_5C1B68)
+            sActiveHero = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
+            if (sActiveHero)
             {
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
             }
         }
     }

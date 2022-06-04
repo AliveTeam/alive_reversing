@@ -51,7 +51,7 @@ void LCDStatusBoard::VScreenChanged()
 
 LCDStatusBoard::~LCDStatusBoard()
 {
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     gMap.TLV_Reset(field_C8_tlv, -1, 0, 0);
 }
 
@@ -65,7 +65,7 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
     field_90_font3.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
 
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     field_CC_xpos = (pScreenManager_4FF7C8->field_14_xpos + pTlv->field_10_top_left.field_0_x) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
     field_CE_ypos = (pScreenManager_4FF7C8->field_16_ypos + pTlv->field_10_top_left.field_2_y) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);

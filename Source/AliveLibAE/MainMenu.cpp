@@ -662,7 +662,7 @@ void MainMenuController::VRender(PrimHeader** ppOt)
         field_20_animation.VRender(184, 162, ppOt, 0, 0);
         PSX_RECT pRect = {};
         field_20_animation.Get_Frame_Rect(&pRect);
-        pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A_idx);
+        pScreenManager->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager->field_3A_idx);
     }
 
     const MainMenuButton* pButtons = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
@@ -675,7 +675,7 @@ void MainMenuController::VRender(PrimHeader** ppOt)
                 field_158_animation.VRender(pButtons[field_1FC_button_index].field_2_x, pButtons[field_1FC_button_index].field_4_y, ppOt, 0, 0);
                 PSX_RECT rect = {};
                 field_158_animation.Get_Frame_Rect(&rect);
-                pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
+                pScreenManager->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager->field_3A_idx);
             }
         }
     }
@@ -786,8 +786,8 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
             const s16 randX = Math_RandomRange(-40, 40) + 184;
             const s16 randY = Math_RandomRange(30, 90);
 
-            const FP xpos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromDouble(randX);
-            FP ypos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromDouble(randY);
+            const FP xpos = pScreenManager->field_20_pCamPos->field_0_x + FP_FromDouble(randX);
+            FP ypos = pScreenManager->field_20_pCamPos->field_4_y + FP_FromDouble(randY);
             ypos.fpValue += 0x44D60C; // TODO: 68.83 ??
             Particle* pParticle = ae_new<Particle>(xpos,
                     ypos,
@@ -1532,9 +1532,9 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             }
             stru_5C3110.Free_433130();
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(gMap.field_2C_camera_array[0]->field_C_pCamRes));
-            pScreenManager_5BB5F4->MoveImage_40EB70();
-            pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
+            pScreenManager->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(gMap.field_2C_camera_array[0]->field_C_pCamRes));
+            pScreenManager->MoveImage_40EB70();
+            pScreenManager->field_40_flags |= 0x10000; // Render enable flag
             GetSoundAPI().SND_Restart();
         }
         else
@@ -1782,10 +1782,10 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
                 pPauseMenu_5C9300 = ae_new<PauseMenu>();
             }
 
-            if (!sActiveHero_5C1B68)
+            if (!sActiveHero)
             {
                 const AnimRecord& mudWalkRec = AnimRec(AnimId::Mudokon_Walk);
-                sActiveHero_5C1B68 = ae_new<Abe>(mudWalkRec.mFrameTableOffset, 85, 57, 55);
+                sActiveHero = ae_new<Abe>(mudWalkRec.mFrameTableOffset, 85, 57, 55);
             }
 
             if (field_208_transition_obj)
@@ -1805,8 +1805,8 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
-            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
+            sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
+            sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
 
             Quicksave_LoadActive();
 
@@ -1840,42 +1840,42 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         pPauseMenu_5C9300 = ae_new<PauseMenu>();
     }
 
-    if (!sActiveHero_5C1B68)
+    if (!sActiveHero)
     {
         const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
-        sActiveHero_5C1B68 = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
+        sActiveHero = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
     }
 
     if (field_23C_T80.Get(Flags::eBit25_CheatLevelSelectLoading))
     {
         field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
 
-        sActiveHero_5C1B68->SetUpdateDelay(1);
+        sActiveHero->SetUpdateDelay(1);
         gMap.SetActiveCam(field_244_lvl_id, field_246_path_id, field_248_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
 
         const PathBlyRec* pPathData = Path_Get_Bly_Record(field_244_lvl_id, field_246_path_id);
-        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(field_24A_abeXOff - pPathData->field_4_pPathData->field_1A_abe_start_xpos);
-        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_24C_abeYOff - pPathData->field_4_pPathData->field_1C_abe_start_ypos);
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(field_24A_abeXOff - pPathData->field_4_pPathData->field_1A_abe_start_xpos);
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_24C_abeYOff - pPathData->field_4_pPathData->field_1C_abe_start_ypos);
 
         if (field_24E_start_scale == -1)
         {
-            sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
-            sActiveHero_5C1B68->field_D6_scale = 1;
-            sActiveHero_5C1B68->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_32;
+            sActiveHero->field_CC_sprite_scale = FP_FromDouble(1.0);
+            sActiveHero->field_D6_scale = 1;
+            sActiveHero->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_32;
         }
         else if (field_24E_start_scale == -2)
         {
-            sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
-            sActiveHero_5C1B68->field_D6_scale = 0;
-            sActiveHero_5C1B68->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+            sActiveHero->field_CC_sprite_scale = FP_FromDouble(0.5);
+            sActiveHero->field_D6_scale = 0;
+            sActiveHero->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
         }
     }
     else
     {
         gMap.SetActiveCam(LevelIds::eMines_1, 1, 4, CameraSwapEffects::ePlay1FMV_5, 12402, 0);
-        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(837);
-        sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(1300);
-        sActiveHero_5C1B68->BaseAliveGameObjectLastLineYPos = FP_FromInteger(1400);
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(837);
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(1300);
+        sActiveHero->BaseAliveGameObjectLastLineYPos = FP_FromInteger(1400);
     }
 
     if (field_208_transition_obj)
@@ -1932,9 +1932,9 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
             }
 
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressCameraToVRam_40EF60((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes);
-            pScreenManager_5BB5F4->MoveImage_40EB70();
-            pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
+            pScreenManager->DecompressCameraToVRam_40EF60((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes);
+            pScreenManager->MoveImage_40EB70();
+            pScreenManager->field_40_flags |= 0x10000; // Render enable flag
             GetSoundAPI().SND_Restart();
             field_1FC_button_index = 1; // Select start game
             return MainMenuNextCam(MainMenuCams::eNoChange);
@@ -2112,19 +2112,19 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
         ResourceManager::Reclaim_Memory_49C470(0);
 
-        if (!sActiveHero_5C1B68)
+        if (!sActiveHero)
         {
             const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
             auto abe = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
             if (abe)
             {
-                sActiveHero_5C1B68 = abe;
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
+                sActiveHero = abe;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
             }
             else
             {
-                sActiveHero_5C1B68 = nullptr;
+                sActiveHero = nullptr;
             }
         }
         
@@ -3383,7 +3383,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 // PSX leftover:
                 // This logic only seems to have been used on the PSX loadgame page,
                 // as that's the only page which has NO_SELECTABLE_BUTTONS set,
-                // yet still has a button with field_0_type == eCircularSelectableButton in its btnArray.
+                // yet still has a button with mRingObjectType == eCircularSelectableButton in its btnArray.
                 //
                 // What it does is it searches for the first highlightable button
                 // on the loadgame page, if any (i.e. when there are valid saves on the memory card).
@@ -3398,13 +3398,13 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 //for (;;)
                 //{
                 //    // Last row of buttons, don't look further
-                //    if (pButtonsIter->field_0_type == MainMenuButtonType::eNoButton)
+                //    if (pButtonsIter->mRingObjectType == MainMenuButtonType::eNoButton)
                 //    {
                 //        break;
                 //    }
                 //
                 //    // Found button to highlight
-                //    if (pButtonsIter->field_0_type == MainMenuButtonType::eCircularSelectableButton)
+                //    if (pButtonsIter->mRingObjectType == MainMenuButtonType::eCircularSelectableButton)
                 //    {
                 //        field_1FC_button_index = useButtonIdx;
                 //        break;

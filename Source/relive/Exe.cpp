@@ -93,7 +93,7 @@ extern "C"
         &gMap.mCurrentCamera,
         &gMap.field_12_fmv_base_id,
         &sGnFrame,
-        &sActiveHero_5C1B68,
+        &sActiveHero,
         offsetof(Abe, mBaseAnimatedWithPhysicsGameObject_YPos),
         & sDisableFontFlicker_5C9304};
 

@@ -11,7 +11,7 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
     : BaseGameObject(TRUE, 0)
 {
     SetType(AETypes::eEffectBase_115);
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     mEffectBasePathId = gMap.mCurrentPath;
     mEffectBaseLevelId = gMap.mCurrentLevel;
@@ -23,7 +23,7 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
 
 EffectBase::~EffectBase()
 {
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 }
 
 void EffectBase::VRender(PrimHeader** ppOt)
@@ -45,7 +45,7 @@ void EffectBase::VRender(PrimHeader** ppOt)
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
         if (!dword_5CA4D4 || !(PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0) & mEffectBaseTPage[0].field_C_tpage))
         {
-            pScreenManager_5BB5F4->InvalidateRect_40EC10(
+            pScreenManager->InvalidateRect_40EC10(
                 0,
                 0,
                 640,

@@ -415,7 +415,7 @@ PauseMenu::PauseMenu()
 
     SetUpdateDelay(25);
 
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     field_136_unused = 0;
     field_138_control_action_page_index = 0;
@@ -436,7 +436,7 @@ PauseMenu::~PauseMenu()
 {
     mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
 
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     field_158_animation.VCleanUp();
     field_F4_font.dtor_433540();
 }
@@ -489,7 +489,7 @@ void PauseMenu::VRender(PrimHeader** ot)
     Init_SetTPage_4F5B60(pTPage, 0, 0, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
     OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_Menu_41), &pPolys->mBase.header);
     OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_Menu_41), &pTPage->mBase);
-    pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, pScreenManager_5BB5F4->field_3A_idx);
+    pScreenManager->InvalidateRect_40EC90(0, 0, 640, 240, pScreenManager->field_3A_idx);
 }
 
 void PauseMenu::VScreenChanged()
@@ -712,9 +712,9 @@ CustomPauseMenu devTeleportMenu(&devTeleportMenuItems, "Level Select");
 
 void DestroyAliveObjects()
 {
-    for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+    for (s32 i = 0; i < gObjListDrawables->Size(); i++)
     {
-        BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
+        BaseGameObject* pObj = gObjListDrawables->ItemAt(i);
         if (!pObj || pObj == pPauseMenu_5C9300 || pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) == false)
         {
             continue;
@@ -726,14 +726,14 @@ void DestroyAliveObjects()
         }
     }
 
-    sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+    sControlledCharacter_5C1B8C = sActiveHero;
 }
 
 void DestroyAllObjects()
 {
-    for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+    for (s32 i = 0; i < gObjListDrawables->Size(); i++)
     {
-        BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
+        BaseGameObject* pObj = gObjListDrawables->ItemAt(i);
         if (!pObj || pObj == pPauseMenu_5C9300)
         {
             continue;
@@ -745,7 +745,7 @@ void DestroyAllObjects()
         }
     }
 
-    sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+    sControlledCharacter_5C1B8C = sActiveHero;
 }
 
 std::vector<CustomPauseMenuItem> devCheatsMenuItems({
@@ -775,7 +775,7 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
      }},
     {"Give Rocks", [](CustomPauseMenu*)
      {
-         sActiveHero_5C1B68->field_1A2_throwable_count = 99;
+         sActiveHero->field_1A2_throwable_count = 99;
          DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4);
      }},
     {"Open All Doors", [](CustomPauseMenu* pm)
@@ -787,22 +787,22 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
      {
          DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);
          pm->ClosePauseMenu();
-         sActiveHero_5C1B68->field_170_invisible_timer = 65535;
-         sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
-         sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible);
+         sActiveHero->field_170_invisible_timer = 65535;
+         sActiveHero->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+         sActiveHero->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible);
      }},
     {"Give Explosive Fart", [](CustomPauseMenu* pm)
      {
          DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
          pm->ClosePauseMenu();
-         sActiveHero_5C1B68->field_198_has_evil_fart = true;
+         sActiveHero->field_198_has_evil_fart = true;
          if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, FALSE, FALSE))
          {
              ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
          }
-         if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
+         if (!sActiveHero->field_10_resources_array.ItemAt(22))
          {
-             sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
+             sActiveHero->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
          }
      }},
 });
@@ -847,27 +847,27 @@ void PauseMenu_ForceLink()
                                         {
                                             const auto levelSelectEntry = gPerLvlData_561700[pm->index];
                                             pm->ClosePauseMenu();
-                                            sActiveHero_5C1B68->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
-                                            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
-                                            sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
-                                            sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
-                                            sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
+                                            sActiveHero->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
+                                            sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                                            sActiveHero->field_C2_lvl_number = levelSelectEntry.field_4_level;
+                                            sActiveHero->field_C0_path_number = levelSelectEntry.field_6_path;
+                                            sActiveHero->field_100_pCollisionLine = nullptr;
 
                                             if (levelSelectEntry.field_A_id & 1)
                                             {
-                                                sActiveHero_5C1B68->field_D6_scale = 1;
-                                                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
+                                                sActiveHero->field_D6_scale = 1;
+                                                sActiveHero->field_CC_sprite_scale = FP_FromDouble(1.0);
                                             }
                                             else
                                             {
-                                                sActiveHero_5C1B68->field_D6_scale = 0;
-                                                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
+                                                sActiveHero->field_D6_scale = 0;
+                                                sActiveHero->field_CC_sprite_scale = FP_FromDouble(0.5);
                                             }
 
-                                            sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos;
+                                            sActiveHero->field_F8_LastLineYPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;
                                             gMap.SetActiveCam(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
-                                            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
-                                            sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
+                                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
+                                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
                                             DEV_CONSOLE_MESSAGE("Teleported to " + std::string(levelSelectEntry.field_0_display_name), 6);
                                         }});
     }
@@ -953,7 +953,7 @@ void PauseMenu::RestartPath()
         1);
 
     gMap.field_8_force_load = TRUE;
-    if (sActiveHero_5C1B68->field_1A2_throwable_count)
+    if (sActiveHero->field_1A2_throwable_count)
     {
         LoadRockTypes_49AB30(
             sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
@@ -964,7 +964,7 @@ void PauseMenu::RestartPath()
             gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
         }
 
-        gpThrowableArray_5D1E2C->Add(sActiveHero_5C1B68->field_1A2_throwable_count);
+        gpThrowableArray_5D1E2C->Add(sActiveHero->field_1A2_throwable_count);
     }
 
     word12C_flags &= ~1;
@@ -1430,8 +1430,8 @@ void PauseMenu::Page_Load_Update()
             if (hFile)
             {
                 ae_fread_520B5C(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
-                sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
                 Quicksave_LoadActive();
                 word12C_flags &= ~1u;
                 // TODO: OG bug, file handle is leaked
@@ -1505,10 +1505,10 @@ u16 sub_4A2B70()
 
 void PauseMenu::VUpdate()
 {
-    Abe* pHero = sActiveHero_5C1B68;
+    Abe* pHero = sActiveHero;
     BaseAliveGameObject* pControlledChar = nullptr;
 
-    if (sActiveHero_5C1B68->mHealth <= FP_FromInteger(0) || sActiveHero_5C1B68->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if (sActiveHero->mHealth <= FP_FromInteger(0) || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         pControlledChar = sControlledCharacter_5C1B8C;
     }
@@ -1517,7 +1517,7 @@ void PauseMenu::VUpdate()
         pControlledChar = sControlledCharacter_5C1B8C;
         if (!(sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(e114_Bit10_Teleporting)))
         {
-            const s16 heroState = sActiveHero_5C1B68->mCurrentMotion;
+            const s16 heroState = sActiveHero->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00
                 && heroState != eAbeMotions::Motion_119_ToShrykull_45A990
                 && heroState != eAbeMotions::Motion_120_EndShrykull_45AB00
@@ -1531,12 +1531,12 @@ void PauseMenu::VUpdate()
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
                 && (sControlledCharacter_5C1B8C->Type() != AETypes::eEvilFart_45 || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
-                && sActiveHero_5C1B68->field_1A8_portal_id == -1)
+                && sActiveHero->field_1A8_portal_id == -1)
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)
                 {
                     DoQuicksave();
-                    pHero = sActiveHero_5C1B68;
+                    pHero = sActiveHero;
                     pControlledChar = sControlledCharacter_5C1B8C;
                     sQuicksave_SaveNextFrame_5CA4D8 = 0;
                     sQuicksave_LoadNextFrame_5CA4D9 = 0;
@@ -1545,7 +1545,7 @@ void PauseMenu::VUpdate()
                 {
                     Quicksave_LoadActive();
                     SND_SEQ_Stop(SeqId::MudokonChant1_10);
-                    pHero = sActiveHero_5C1B68;
+                    pHero = sActiveHero;
                     pControlledChar = sControlledCharacter_5C1B8C;
                     sQuicksave_SaveNextFrame_5CA4D8 = 0;
                     sQuicksave_LoadNextFrame_5CA4D9 = 0;
@@ -1622,17 +1622,17 @@ void PauseMenu::VUpdate()
                 sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF %d MUDOKONS", sRescuedMudokons_5C1BC2, Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath));
                 sprintf(sHasBeenTerminated_55E738, "%d HA%s BEEN TERMINATED", sKilledMudokons_5C1BC0, (sKilledMudokons_5C1BC0 != 1) ? "VE" : "S");
 
-                if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eNormal_0)
+                if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eNormal_0)
                 {
                     const AnimRecord& normalRec = AnimRec(AnimId::NormalMudIcon);
                     field_158_animation.Set_Animation_Data(normalRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, normalRec.mResourceId, 1u, 0));
                 }
-                else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eSad_3)
+                else if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eSad_3)
                 {
                     const AnimRecord& angryRec = AnimRec(AnimId::AngryMudIcon);
                     field_158_animation.Set_Animation_Data(angryRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, angryRec.mResourceId, 1u, 0));
                 }
-                else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eHappy_5)
+                else if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eHappy_5)
                 {
                     const AnimRecord& happyRec = AnimRec(AnimId::HappyMudIcon);
                     field_158_animation.Set_Animation_Data(happyRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, happyRec.mResourceId, 1u, 0));
@@ -1655,9 +1655,9 @@ void PauseMenu::VUpdate()
 
                     SYS_EventsPump_494580();
 
-                    for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+                    for (s32 i = 0; i < gObjListDrawables->Size(); i++)
                     {
-                        BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
+                        BaseGameObject* pObj = gObjListDrawables->ItemAt(i);
                         if (!pObj)
                         {
                             break;
@@ -1672,7 +1672,7 @@ void PauseMenu::VUpdate()
                         }
                     }
 
-                    pScreenManager_5BB5F4->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+                    pScreenManager->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
 
                     PSX_DrawSync_4F6280(0);
                     ResourceManager::Reclaim_Memory_49C470(500000);

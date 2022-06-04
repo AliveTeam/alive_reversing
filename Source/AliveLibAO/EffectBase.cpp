@@ -14,7 +14,7 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
     : BaseGameObject(TRUE)
 {
     mBaseGameObjectTypeId = Types::eEffectBase_79;
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     mEffectBasePathId = gMap.mCurrentPath;
     mEffectBaseLevelId = gMap.mCurrentLevel;
@@ -28,7 +28,7 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
 
 EffectBase::~EffectBase()
 {
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 }
 
 void EffectBase::VRender(PrimHeader** ppOt)

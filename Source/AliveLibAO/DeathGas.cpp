@@ -37,7 +37,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
     gDeathGasCount_5009D0++;
 
     mBaseGameObjectTypeId = Types::eDeathFadeOut_80; // wot moment
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     field_16_flag = 0;
 
@@ -83,7 +83,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
 
 DeathGas::~DeathGas()
 {
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     gDeathGasCount_5009D0--;
 }
 

@@ -12,7 +12,7 @@ namespace AO {
 
 ScreenClipper::~ScreenClipper()
 {
-    gObjList_drawables_504618->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 }
 
 void ScreenClipper::VRender(PrimHeader** ppOt)
@@ -61,7 +61,7 @@ ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
 
     field_38_ot_layer = layer;
 
-    gObjList_drawables_504618->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 }
 
 void ScreenClipper::Update_Clip_Rect(PSX_Point xy, PSX_Point wh)

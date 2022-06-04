@@ -32,11 +32,11 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
         field_104_top_left = pTlv->field_8_top_left;
         field_108_bottom_right = pTlv->field_C_bottom_right;
 
-        field_104_top_left.field_0_x += -FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-        field_104_top_left.field_2_y += -FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+        field_104_top_left.field_0_x += -FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
+        field_104_top_left.field_2_y += -FP_GetExponent(pScreenManager->field_20_pCamPos->field_4_y);
 
-        field_108_bottom_right.field_0_x += -FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-        field_108_bottom_right.field_2_y += -FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+        field_108_bottom_right.field_0_x += -FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
+        field_108_bottom_right.field_2_y += -FP_GetExponent(pScreenManager->field_20_pCamPos->field_4_y);
 
         field_124_tlv_data = pTlv->field_10_data;
 
@@ -53,7 +53,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
 
         field_138_splash_time = 0;
 
-        field_F4_ppWaterRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Water, 0, field_124_tlv_data.field_10_max_drops * sizeof(Water_Res));
+        field_F4_ppWaterRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Water, 0, field_124_tlv_data.field_10_max_drops * sizeof(Water_Res));
         if (field_F4_ppWaterRes)
         {
             field_F8_pWaterRes = reinterpret_cast<Water_Res*>(*field_F4_ppWaterRes);
@@ -129,8 +129,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 SetUV3(pPoly, u1, v1);
             }
 
-            field_100_screen_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-            field_102_screen_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+            field_100_screen_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x);
+            field_102_screen_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y);
 
             PSX_RECT rect = {};
             rect.y = field_20_animation.field_8C_pal_vram_xy.field_2_y;
@@ -479,8 +479,8 @@ void Water::VUpdate()
                         if (!(old_splash_time % 4) && !field_13C_not_in_camera_count)
                         {
                             const AnimRecord& splashRec = AnimRec(AnimId::WaterSplash);
-                            ae_new<Particle>(FP_NoFractional(pWaterRes->field_0_xpos) + pScreenManager_5BB5F4->field_20_pCamPos->field_0_x,
-                                                              FP_NoFractional(pWaterRes->field_4_ypos) + pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
+                            ae_new<Particle>(FP_NoFractional(pWaterRes->field_0_xpos) + pScreenManager->field_20_pCamPos->field_0_x,
+                                                              FP_NoFractional(pWaterRes->field_4_ypos) + pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
                                                               splashRec.mFrameTableOffset,
                                                               splashRec.mMaxW,
                                                               splashRec.mMaxH,
@@ -580,11 +580,11 @@ void Water::VRender(PrimHeader** ppOt)
             }
         }
 
-        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect_40EC90(
             xMin - 6,
             yMin - 6,
             wMax + 6,
             hMax + 6,
-            pScreenManager_5BB5F4->field_3A_idx);
+            pScreenManager->field_3A_idx);
     }
 }

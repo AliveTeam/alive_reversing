@@ -427,20 +427,20 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             if (gMap.mCurrentLevel != LevelIds::eNecrum_2 && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * field_CC_sprite_scale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * field_CC_sprite_scale)),
                     ppOt,
                     0,
                     0);
 
                 PSX_RECT frameRect = {};
                 field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
-                pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                pScreenManager->InvalidateRect_40EC90(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
                     frameRect.h,
-                    pScreenManager_5BB5F4->field_3A_idx);
+                    pScreenManager->field_3A_idx);
             }
 
             if (field_280_flags.Get(LiftFlags::eBit4_bHasPulley))
@@ -469,20 +469,20 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                     field_1D4_pulley_anim.mBlue = static_cast<u8>(b);
 
                     field_1D4_pulley_anim.VRender(
-                        FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-                        FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                        FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager->field_20_pCamPos->field_0_x),
+                        FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - pScreenManager->field_20_pCamPos->field_4_y),
                         ppOt,
                         0,
                         0);
 
                     PSX_RECT frameRect = {};
                     field_1D4_pulley_anim.Get_Frame_Rect(&frameRect);
-                    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                    pScreenManager->InvalidateRect_40EC90(
                         frameRect.x,
                         frameRect.y,
                         frameRect.w,
                         frameRect.h,
-                        pScreenManager_5BB5F4->field_3A_idx);
+                        pScreenManager->field_3A_idx);
                 }
             }
 
@@ -492,20 +492,20 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             if (gMap.mCurrentLevel == LevelIds::eNecrum_2 && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * field_CC_sprite_scale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * field_CC_sprite_scale)),
                     ppOt,
                     0,
                     0);
 
                 PSX_RECT frameRect = {};
                 field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
-                pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                pScreenManager->InvalidateRect_40EC90(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
                     frameRect.h,
-                    pScreenManager_5BB5F4->field_3A_idx);
+                    pScreenManager->field_3A_idx);
             }
         }
     }
@@ -976,9 +976,9 @@ void LiftPoint::CreatePulleyIfExists()
 
 void LiftPoint::VScreenChanged()
 {
-    if (sActiveHero_5C1B68)
+    if (sActiveHero)
     {
-        FP xd = FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos);
+        FP xd = FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos);
         if (xd <= FP_FromInteger(375))
         {
             if (field_274_ppRes == nullptr)

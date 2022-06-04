@@ -19,7 +19,7 @@ public:
     {
         mBaseGameObjectTypeId = Types::ePalOverwriter_29;
 
-        gObjList_drawables_504618->Push_Back(this);
+        gObjListDrawables->Push_Back(this);
 
         field_10_pal_xy = palXY;
         field_14_pal_colours_count = palDepth;
@@ -39,7 +39,7 @@ public:
 
     ~PalleteOverwriter()
     {
-        gObjList_drawables_504618->Remove_Item(this);
+        gObjListDrawables->Remove_Item(this);
     }
 
     virtual void VScreenChanged() override

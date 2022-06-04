@@ -199,8 +199,8 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         PSX_RECT bLaserRect = {};
         pLaser->VGetBoundingRect(&bLaserRect, 1);
 
-        const FP camXFp = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
-        const FP camYFp = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
+        const FP camXFp = pScreenManager->field_20_pCamPos->field_0_x;
+        const FP camYFp = pScreenManager->field_20_pCamPos->field_4_y;
 
         const s16 screenX = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - FP_GetExponent(camXFp);
 
@@ -229,12 +229,12 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         Init_SetTPage_4F5B60(pTPage, 0, 0, tpage);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_20_animation.mRenderLayer), &pTPage->mBase);
 
-        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect_40EC90(
             std::min(x0, std::min(x1, x1)),
             std::min(y0, std::min(y1, y2)),
             std::max(x0, std::max(x1, x1)),
             std::max(y0, std::max(y1, y2)),
-            pScreenManager_5BB5F4->field_3A_idx);
+            pScreenManager->field_3A_idx);
     }
 }
 
@@ -331,7 +331,7 @@ void MotionDetector::VUpdate()
                     && bLaserRect.y <= objRect.h
                     && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
                 {
-                    if (pObj == sActiveHero_5C1B68)
+                    if (pObj == sActiveHero)
                     {
                         if (sGnFrame % 2)
                         {
@@ -350,7 +350,7 @@ void MotionDetector::VUpdate()
                             {
                                 ae_new<Alarm>(field_10C_alarm_duration, field_10A_alarm_switch_id, 0, Layer::eLayer_Above_FG1_39);
 
-                                if (pObj == sActiveHero_5C1B68 && pObj->mHealth > FP_FromInteger(0))
+                                if (pObj == sActiveHero && pObj->mHealth > FP_FromInteger(0))
                                 {
                                     Mudokon_SFX(MudSounds::eOops_14, 0, 0, 0);
                                 }

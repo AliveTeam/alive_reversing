@@ -105,7 +105,7 @@ public:
 
     virtual u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size) override
     {
-        return ResourceManager::Allocate_New_Locked_Resource_454F80(type, id, size);
+        return ResourceManager::Allocate_New_Locked_Resource(type, id, size);
     }
 
     virtual void LoadingLoop(s16 bShowLoadingIcon) override
@@ -941,7 +941,7 @@ s16 SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
 
     s32 headerSize = pVabHeaderFile->field_10_num_sectors << 11;
 
-    u8** ppVabHeader = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_VabHeader, vabId, headerSize);
+    u8** ppVabHeader = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_VabHeader, vabId, headerSize);
 
     pSoundBlockInfo->field_C_pVabHeader = *ppVabHeader;
     sLvlArchive_4FFD60.Read_File(pVabHeaderFile, *ppVabHeader);

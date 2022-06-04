@@ -566,7 +566,7 @@ void MusicController::VUpdate()
     if (Event_Get(kEventDeathReset))
     {
         field_58_flags.Set(Flags_58::e58_Dead_Bit3);
-        field_28_object_id = sActiveHero_5C1B68->field_8_object_id;
+        field_28_object_id = sActiveHero->field_8_object_id;
     }
 
     if (field_58_flags.Get(Flags_58::e58_ScreenChanged_Bit2))

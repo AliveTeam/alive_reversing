@@ -44,7 +44,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
 
     field_106_count = static_cast<s16>(count);
     field_CC_sprite_scale = scale;
-    field_F4_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * numOfParticles);
+    field_F4_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * numOfParticles);
     if (field_F4_ppRes)
     {
         field_F8_pRes = reinterpret_cast<ParticleBurst_Item*>(*field_F4_ppRes);
@@ -205,8 +205,8 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
     if (sNum_CamSwappers_5C1B66 == 0)
     {
         field_20_animation.field_14_scale = field_CC_sprite_scale;
-        const FP camX = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
-        const FP camY = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
+        const FP camX = pScreenManager->field_20_pCamPos->field_0_x;
+        const FP camY = pScreenManager->field_20_pCamPos->field_4_y;
 
         for (s32 i = 0; i < field_FC_number_of_particles; i++)
         {
@@ -281,12 +281,12 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                             field_20_animation.mBlue = 0;
                         }
                     }
-                    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                    pScreenManager->InvalidateRect_40EC90(
                         frameRect.x,
                         frameRect.y,
                         frameRect.w,
                         frameRect.h,
-                        pScreenManager_5BB5F4->field_3A_idx);
+                        pScreenManager->field_3A_idx);
                 }
             }
             else
@@ -336,12 +336,12 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                             field_F8_pRes[i].field_18_anim.mBlue = 0;
                         }
                     }
-                    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                    pScreenManager->InvalidateRect_40EC90(
                         frameRect.x,
                         frameRect.y,
                         frameRect.w,
                         frameRect.h,
-                        pScreenManager_5BB5F4->field_3A_idx);
+                        pScreenManager->field_3A_idx);
                 }
             }
         }

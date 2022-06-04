@@ -234,13 +234,13 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
     else if (field_FE_trigger_by == FootSwitchTriggerBy::eAbe_0)
     {
         PSX_RECT bRect = {};
-        sActiveHero_5C1B68->VGetBoundingRect(&bRect, 1);
+        sActiveHero->VGetBoundingRect(&bRect, 1);
 
-        const s32 xpos = FP_GetExponent(sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos);
+        const s32 xpos = FP_GetExponent(sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos);
 
-        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero_5C1B68->field_D6_scale == field_D6_scale)
+        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero->field_D6_scale == field_D6_scale)
         {
-            return sActiveHero_5C1B68;
+            return sActiveHero;
         }
     }
 

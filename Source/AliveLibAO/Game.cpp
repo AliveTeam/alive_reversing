@@ -160,7 +160,7 @@ void Sys_SetWindowProc_Filter_48E950(TFilter)
 
 
 ALIVE_VAR(1, 0x507670, u32, sGnFrame, 0);
-ALIVE_VAR(1, 0x504618, DynamicArrayT<BaseGameObject>*, gObjList_drawables_504618, nullptr);
+ALIVE_VAR(1, 0x504618, DynamicArrayT<BaseGameObject>*, gObjListDrawables, nullptr);
 
 ALIVE_VAR(1, 0x50766C, DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C, nullptr);
 
@@ -440,9 +440,9 @@ void Game_Loop_437630()
         // Render objects
         PrimHeader** ppOt = gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer;
 
-        for (s32 i = 0; i < gObjList_drawables_504618->Size(); i++)
+        for (s32 i = 0; i < gObjListDrawables->Size(); i++)
         {
-            BaseGameObject* pDrawable = gObjList_drawables_504618->ItemAt(i);
+            BaseGameObject* pDrawable = gObjListDrawables->ItemAt(i);
             if (!pDrawable)
             {
                 break;
@@ -536,7 +536,7 @@ void Game_Run_4373D0()
 
     gBaseGameObjects = ao_new<DynamicArrayT<BaseGameObject>>(90);
 
-    gObjList_drawables_504618 = ao_new<DynamicArrayT<BaseGameObject>>(80);
+    gObjListDrawables = ao_new<DynamicArrayT<BaseGameObject>>(80);
 
     gObjList_animations_505564 = ao_new<DynamicArrayT<AnimationBase>>(80);
 
@@ -568,7 +568,7 @@ void Game_Run_4373D0()
     gMap.Shutdown();
 
     relive_delete gObjList_animations_505564;
-    relive_delete gObjList_drawables_504618;
+    relive_delete gObjListDrawables;
     relive_delete gBaseGameObjects;
 
     MusicController::Shutdown();

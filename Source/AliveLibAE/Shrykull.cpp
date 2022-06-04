@@ -28,14 +28,14 @@ Shrykull::Shrykull()
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kShrmorphResID);
     Animation_Init(shrykullRec.mFrameTableOffset, shrykullRec.mMaxW, shrykullRec.mMaxH, ppRes, 1, 1u);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_XPos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero_5C1B68->mBaseAnimatedWithPhysicsGameObject_YPos;
-    field_CC_sprite_scale = sActiveHero_5C1B68->field_CC_sprite_scale;
-    field_D6_scale = sActiveHero_5C1B68->field_D6_scale;
+    mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;
+    field_CC_sprite_scale = sActiveHero->field_CC_sprite_scale;
+    field_D6_scale = sActiveHero->field_D6_scale;
 
     field_118_state = State::eTransform_0;
 
-    field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero_5C1B68->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
+    field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
 
     mShadow = ae_new<Shadow>();
 
@@ -180,13 +180,13 @@ void Shrykull::VUpdate()
                     }
 
                     ae_new<PossessionFlicker>(pObj, 8, 255, 255, 255);
-                    AbilityRing::Factory_482F80(
+                    AbilityRing::Factory(
                         FP_FromInteger((objRect.x + objRect.w) / 2),
                         FP_FromInteger((objRect.y + objRect.h) / 2),
                         RingTypes::eShrykull_Pulse_Large_5, pObj->field_CC_sprite_scale);
 
                     ae_new<PossessionFlicker>(this, 8, 255, 255, 255);
-                    AbilityRing::Factory_482F80(
+                    AbilityRing::Factory(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
                         RingTypes::eShrykull_Pulse_Large_5, field_CC_sprite_scale);
@@ -240,7 +240,7 @@ void Shrykull::VUpdate()
         case State::eFinish_3:
             if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                sActiveHero_5C1B68->ExitShrykull_45A9D0(field_12E_bResetRingTimer);
+                sActiveHero->ExitShrykull_45A9D0(field_12E_bResetRingTimer);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;

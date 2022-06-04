@@ -301,7 +301,7 @@ void AliveFont::Load(s32 maxCharLength, const u8* palette, FontContext* fontCont
     field_28_palette_rect.h = 1;
 
     field_30_poly_count = maxCharLength;
-    field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource_454F80(
+    field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource(
         ResourceManager::Resource_FntP,
         fontContext->field_C_resource_id,
         sizeof(Poly_FT4) * 2 * maxCharLength);

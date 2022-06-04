@@ -732,7 +732,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 
-ALIVE_VAR_EXTERN(Abe*, sActiveHero_5C1B68);
+ALIVE_VAR_EXTERN(Abe*, sActiveHero);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_5C1B8C);
 
 ALIVE_VAR_EXTERN(s16, gAbeBulletProof_5C1BDA);

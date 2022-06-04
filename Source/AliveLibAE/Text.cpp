@@ -30,7 +30,7 @@ Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
 
     SetType(AETypes::eText_87);
 
-    gObjList_drawables_5C1124->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 
     field_20_font.ctor_433590(static_cast<s32>((bShadow + 1) * strlen(pMessage)), pal_554474, &sFont1Context_5BC5C8);
 
@@ -49,7 +49,7 @@ Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
 
 Text::~Text()
 {
-    gObjList_drawables_5C1124->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
     mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
     field_20_font.dtor_433540();
 }

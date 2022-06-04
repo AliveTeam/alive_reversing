@@ -34,7 +34,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     field_126_total_count = static_cast<s16>(count);
     field_122_to_render_count = static_cast<s16>(count);
 
-    field_F4_ppResBuf = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Blood, 0, count * sizeof(BloodParticle));
+    field_F4_ppResBuf = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Blood, 0, count * sizeof(BloodParticle));
     if (field_F4_ppResBuf)
     {
         field_F8_pResBuf = reinterpret_cast<BloodParticle*>(*field_F4_ppResBuf);
@@ -43,8 +43,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         mBaseAnimatedWithPhysicsGameObject_XPos = xpos - FP_FromInteger(12);
         mBaseAnimatedWithPhysicsGameObject_YPos = ypos - FP_FromInteger(12);
 
-        field_11E_xpos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
-        field_120_ypos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+        field_11E_xpos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager->field_20_pCamPos->field_0_x);
+        field_120_ypos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager->field_20_pCamPos->field_4_y);
 
         if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
         {
@@ -235,12 +235,12 @@ void Blood::VRender(PrimHeader** ppOt)
         Init_SetTPage_4F5B60(pTPage, 0, 0, static_cast<s16>(tpage));
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_12C_render_layer), &pTPage->mBase);
 
-        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect_40EC90(
             (xy.field_0_x - 12),
             (xy.field_2_y - 12),
             (wh.field_0_x + 12),
             (wh.field_2_y + 12),
-            pScreenManager_5BB5F4->field_3A_idx);
+            pScreenManager->field_3A_idx);
     }
 }
 

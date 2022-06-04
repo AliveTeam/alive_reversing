@@ -89,7 +89,7 @@ void Font::ctor_433590(s32 maxCharLength, const u8* palette, Font_Context* fontC
     db[0] = ae_new_malloc_4954D0(sizeof(Poly_FT4) * 2 * maxCharLength);
     field_20_fnt_poly_block_ptr = reinterpret_cast<u8**>(db);
 #else
-    field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_FntP, fontContext->field_C_resource_id, sizeof(Poly_FT4) * 2 * maxCharLength);
+    field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_FntP, fontContext->field_C_resource_id, sizeof(Poly_FT4) * 2 * maxCharLength);
 #endif
     field_24_fnt_poly_array = reinterpret_cast<Poly_FT4*>(*field_20_fnt_poly_block_ptr);
 }
@@ -199,7 +199,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
         poly += 2;
     }
 
-    pScreenManager_5BB5F4->InvalidateRect_40EC90(x, y - 1, offsetX, y + 24, pScreenManager_5BB5F4->field_3A_idx);
+    pScreenManager->InvalidateRect_40EC90(x, y - 1, offsetX, y + 24, pScreenManager->field_3A_idx);
 
     return polyOffset + characterRenderCount;
 }

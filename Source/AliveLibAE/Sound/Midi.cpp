@@ -105,7 +105,7 @@ public:
 
     virtual u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size) override
     {
-        return ResourceManager::Allocate_New_Locked_Resource_49BF40(type, id, size);
+        return ResourceManager::Allocate_New_Locked_Resource(type, id, size);
     }
 
     virtual void LoadingLoop(s16 bShowLoadingIcon) override
@@ -230,7 +230,7 @@ s16 SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
         if (!GetMidiVars()->sSnd_ReloadAbeResources())
         {
             GetMidiVars()->sSnd_ReloadAbeResources() = TRUE;
-            sActiveHero_5C1B68->Free_Resources_44D420();
+            sActiveHero->Free_Resources_44D420();
         }
 
         // Compact/reclaim any other memory we can too
@@ -343,7 +343,7 @@ void SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
         if (GetMidiVars()->sSnd_ReloadAbeResources())
         {
             GetMidiVars()->Reclaim_Memory(0);
-            sActiveHero_5C1B68->Load_Basic_Resources_44D460();
+            sActiveHero->Load_Basic_Resources_44D460();
         }
 
         SsUtSetReverbDepth_4FE380(reverb, reverb);

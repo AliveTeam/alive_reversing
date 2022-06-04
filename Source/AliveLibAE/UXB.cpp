@@ -464,8 +464,8 @@ void UXB::VRender(PrimHeader** ppOt)
                 0))
         {
             field_128_animation.VRender(
-                FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
-                FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromInteger(17)))),
+                FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x)),
+                FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromInteger(17)))),
                 ppOt,
                 0,
                 0);
@@ -473,12 +473,12 @@ void UXB::VRender(PrimHeader** ppOt)
             PSX_RECT frameRect;
             field_128_animation.Get_Frame_Rect(&frameRect);
 
-            pScreenManager_5BB5F4->InvalidateRect_40EC90(
+            pScreenManager->InvalidateRect_40EC90(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,
                 frameRect.h,
-                pScreenManager_5BB5F4->field_3A_idx);
+                pScreenManager->field_3A_idx);
 
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }

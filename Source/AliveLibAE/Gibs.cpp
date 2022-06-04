@@ -329,7 +329,7 @@ void Gibs::VRender(PrimHeader** ppOt)
     // Head part rendering
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-    const FP_Point* pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
+    const FP_Point* pCamPos = pScreenManager->field_20_pCamPos;
     const FP camXPos = pCamPos->field_0_x;
     const FP camYPos = pCamPos->field_4_y;
 
@@ -366,12 +366,12 @@ void Gibs::VRender(PrimHeader** ppOt)
 
                     PSX_RECT frameRect = {};
                     field_104_parts[i].field_18_anim.Get_Frame_Rect(&frameRect);
-                    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                    pScreenManager->InvalidateRect_40EC90(
                         frameRect.x,
                         frameRect.y,
                         frameRect.w,
                         frameRect.h,
-                        pScreenManager_5BB5F4->field_3A_idx);
+                        pScreenManager->field_3A_idx);
                 }
             }
         }

@@ -110,18 +110,18 @@ void RockSack::VUpdate()
         }
 
         PSX_RECT bPlayerRect = {};
-        sActiveHero_5C1B68->VGetBoundingRect(&bPlayerRect, 1);
+        sActiveHero->VGetBoundingRect(&bPlayerRect, 1);
 
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
 
-        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
+        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && field_CC_sprite_scale == sActiveHero->field_CC_sprite_scale)
         {
             if (gpThrowableArray_5D1E2C)
             {
                 if (gpThrowableArray_5D1E2C->field_20_count)
                 {
-                    if (sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
+                    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
                         field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
@@ -151,7 +151,7 @@ void RockSack::VUpdate()
             SFX_Play_Mono(SoundEffect::SackHit_25, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
-            if (sActiveHero_5C1B68->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
             {
                 const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);

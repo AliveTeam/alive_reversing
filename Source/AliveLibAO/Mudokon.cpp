@@ -1171,12 +1171,12 @@ s16 Mudokon::IAmNearestToAbe_440120()
         {
             if (pObjIter->mBaseGameObjectTypeId == Types::eMudokon_52 || pObjIter->mBaseGameObjectTypeId == Types::eMudokon_75) // mud or password mud?
             {
-                if (Math_Distance_451270(
+                if (Math_Distance(
                         FP_GetExponent(sActiveHero_507678->field_A8_xpos),
                         FP_GetExponent(sActiveHero_507678->field_AC_ypos),
                         FP_GetExponent(field_A8_xpos),
                         FP_GetExponent(field_AC_ypos))
-                    > Math_Distance_451270(
+                    > Math_Distance(
                         FP_GetExponent(sActiveHero_507678->field_A8_xpos),
                         FP_GetExponent(sActiveHero_507678->field_AC_ypos),
                         FP_GetExponent(pObjIter->field_A8_xpos),

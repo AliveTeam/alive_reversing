@@ -101,4 +101,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);
 
-ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager_5BB5F4);
+ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager);

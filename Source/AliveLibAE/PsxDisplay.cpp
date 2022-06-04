@@ -264,7 +264,7 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
             }
             else
             {
-                pScreenManager_5BB5F4->sub_40EE10();
+                pScreenManager->sub_40EE10();
                 turn_off_rendering_BD0F20 = 1;
             }
             PSX_VSync_4F6170(2);

@@ -49,7 +49,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     field_116_total_count = static_cast<s16>(count);
     field_112_to_render_count = static_cast<s16>(count);
 
-    field_E4_ppResBuf = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::Resource_Blood, 0, count * sizeof(BloodParticle));
+    field_E4_ppResBuf = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Blood, 0, count * sizeof(BloodParticle));
     if (field_E4_ppResBuf)
     {
         field_E8_pResBuf = reinterpret_cast<BloodParticle*>(*field_E4_ppResBuf);

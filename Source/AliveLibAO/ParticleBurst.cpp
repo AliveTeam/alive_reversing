@@ -38,7 +38,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
     mBaseGameObjectTypeId = Types::eParticleBurst_19;
     field_BC_sprite_scale = scale;
 
-    field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource_454F80(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * particleCount);
+    field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * particleCount);
     if (field_E4_ppRes)
     {
         field_E8_pRes = reinterpret_cast<ParticleBurst_Item*>(*field_E4_ppRes);

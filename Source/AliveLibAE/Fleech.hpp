@@ -59,9 +59,9 @@ struct Fleech_State final
     s16 field_18_path_number;
     LevelIds field_1A_lvl_number;
     FP field_1C_sprite_scale;
-    s16 field_20_r;
-    s16 field_22_g;
-    s16 field_24_b;
+    s16 mRingRed;
+    s16 mRingGreen;
+    s16 mRingBlue;
     s16 field_26_bFlipX;
     s16 field_28_current_motion;
     s16 field_2A_anim_current_frame;
