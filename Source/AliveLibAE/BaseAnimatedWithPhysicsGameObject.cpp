@@ -307,7 +307,7 @@ s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGame
     return FALSE;
 }
 
-void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(AETypes typeToFind)
+void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeToFind)
 {
     // For some reason this isn't const in the real game
     const s16 kData[6] = {

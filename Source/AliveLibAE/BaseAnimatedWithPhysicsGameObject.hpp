@@ -47,7 +47,7 @@ public:
     virtual s16 VIsObj_GettingNear(BaseAnimatedWithPhysicsGameObject* pObj);
     virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther);
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther);
-    virtual void VStackOnObjectsOfType(AETypes typeToFind);
+    virtual void VStackOnObjectsOfType(ReliveTypes typeToFind);
     virtual void VOnPickUpOrSlapped();
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 

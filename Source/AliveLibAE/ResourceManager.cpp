@@ -88,7 +88,7 @@ ResourceManager::ResourceManager()
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
-    SetType(AETypes::eResourceManager_70);
+    SetType(ReliveTypes::eResourceManager);
     field_2C_pFileItem = nullptr;
     field_30_start_sector = 0;
     field_34_num_sectors = 0;

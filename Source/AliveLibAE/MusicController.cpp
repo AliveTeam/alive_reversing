@@ -429,7 +429,7 @@ MusicController::MusicController()
     field_52_target_volume = 0;
     field_54_music_volume_change_time = 0;
 
-    SetType(AETypes::eMusicController_93);
+    SetType(ReliveTypes::eMusicController);
 
     field_20_vol = 100;
     field_22_vol = 127;

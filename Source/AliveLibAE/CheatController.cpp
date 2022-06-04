@@ -81,7 +81,7 @@ CheatController::CheatController()
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    SetType(AETypes::eNone_0);
+    SetType(ReliveTypes::eNone);
     field_20 = 0;
 }
 

@@ -128,7 +128,7 @@ s32 Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
 
-    if (pObj->Type() == AETypes::eAbe_69 || pObj->Type() == AETypes::eMudokon_110 || pObj->Type() == AETypes::eMudokon2_81)
+    if (pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eMudokon2)
     {
         LOG_ERROR("never expected pObj type id to be abe or mudokon in Animation_OnFrame_Common_434130");
         ALIVE_FATAL("got wrong type id");
@@ -182,7 +182,7 @@ s32 Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
         return 1;
     }
 
-    if ((pTarget->Type() == AETypes::eAbe_69 && pTarget->mCurrentMotion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if ((pTarget->Type() == ReliveTypes::eAbe && pTarget->mCurrentMotion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         return 1;
     }

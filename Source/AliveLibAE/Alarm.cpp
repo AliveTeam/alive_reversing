@@ -16,7 +16,7 @@ Alarm::Alarm(Path_Alarm* pTlv, s32 tlvInfo)
 {
     mAlarmTlvInfo = tlvInfo;
 
-    SetType(AETypes::eAlarm_1);
+    SetType(ReliveTypes::eAlarm);
 
     mAlarmRed = 0;
     mAlarmState = States::eWaitForSwitchEnable_0;
@@ -34,7 +34,7 @@ Alarm::Alarm(Path_Alarm* pTlv, s32 tlvInfo)
 Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)
     : EffectBase(layer, TPageAbr::eBlend_3)
 {
-    SetType(AETypes::eAlarm_1);
+    SetType(ReliveTypes::eAlarm);
 
     mAlarmRed = 0;
     mAlarmState = States::eAfterConstructed_1;

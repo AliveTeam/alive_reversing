@@ -23,7 +23,7 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
 
     mBaseGameObjectUpdateDelay = 0;
 
-    SetType(AETypes::eNone_0);
+    SetType(ReliveTypes::eNone);
     
     mBaseGameObjectFlags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
     mBaseGameObjectFlags.Clear(BaseGameObject::Options::eDead);

@@ -8,7 +8,7 @@
 BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItemInfoUnion tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eBackgroundAnimation_7);
+    SetType(ReliveTypes::eBackgroundAnimation);
     field_F8_tlvInfo = tlvInfo;
 
     const BgAnimRecord& anim = BgAnimRec(pTlv->field_10_anim_id);

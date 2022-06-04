@@ -301,7 +301,7 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
                 break;
             }
 
-            if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)) && pObj->Type() == AETypes::eLiftPoint_78)
+            if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)) && pObj->Type() == ReliveTypes::eLiftPoint)
             {
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);

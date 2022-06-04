@@ -126,10 +126,6 @@ public:
     virtual void VStopAudio();
 
 public:
-    Types mBaseGameObjectTypeId;
-    BitField16<Options> mBaseGameObjectFlags;
-    s32 mBaseGameObjectUpdateDelay;
-
     s8 mBaseGameObjectRefCount;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);

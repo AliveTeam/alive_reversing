@@ -702,7 +702,7 @@ static constexpr s32 kResourceArraySize = 28;
 Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     : BaseAliveGameObject(kResourceArraySize)
 {
-    SetType(AETypes::eAbe_69);
+    SetType(ReliveTypes::eAbe);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectTlvInfo = -65536;
@@ -1877,7 +1877,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
                 break;
             }
 
-            if (pObj->Type() == AETypes::eElectrocute_150)
+            if (pObj->Type() == ReliveTypes::eElectrocute)
             {
                 auto pElectrocute = static_cast<const Electrocute*>(pObj);
                 if (pElectrocute->field_20_target_obj_id == field_8_object_id)
@@ -2421,61 +2421,17 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
                 SFX_Play_Mono(SoundEffect::KillEffect_64, 127);
 
-                if (pFrom->Type() != AETypes::eParamite_96)
+                if (pFrom->Type() != ReliveTypes::eParamite)
                 {
                     SFX_Play_Mono(SoundEffect::FallingItemHit_47, 90);
                 }
             }
             break;
 
-        case AETypes::eAbilityRing_104:
+        case ReliveTypes::eAbilityRing:
             return 0;
 
-        case AETypes::eNeverSet_107:
-            if (mHealth > FP_FromInteger(0))
-            {
-                auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
-
-                mBaseAliveGameObjectFlags.Set(Flags_114::e114_MotionChanged_Bit2);
-                mHealth = FP_FromInteger(0);
-
-                if (ForceDownIfHoisting_44BA30())
-                {
-                    return 1;
-                }
-
-                ToKnockback_44E700(1, 1);
-
-                if (pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos < mBaseAnimatedWithPhysicsGameObject_XPos)
-                {
-                    if (!(field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
-                    {
-                        mCurrentMotion = eAbeMotions::Motion_101_KnockForward_455420;
-                    }
-                }
-
-                if (pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos > mBaseAnimatedWithPhysicsGameObject_XPos)
-                {
-                    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
-                    {
-                        mCurrentMotion = eAbeMotions::Motion_101_KnockForward_455420;
-                    }
-                }
-
-                if (pAliveObj->field_C4_velx >= FP_FromInteger(0))
-                {
-                    field_C4_velx = field_CC_sprite_scale * FP_FromDouble(7.8);
-                }
-                else
-                {
-                    field_C4_velx = field_CC_sprite_scale * FP_FromDouble(-7.8);
-                }
-
-                SFX_Play_Mono(SoundEffect::KillEffect_64, 127);
-            }
-            break;
-
-        case AETypes::eMudokon_110:
+        case ReliveTypes::eMudokon:
             if (mHealth > FP_FromInteger(0) && mCurrentMotion != eAbeMotions::Motion_71_Knockback_455090)
             {
                 mHealth -= FP_FromDouble(0.07);
@@ -2502,13 +2458,13 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AETypes::eElectrocute_150:
+        case ReliveTypes::eElectrocute:
             field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             ToDieFinal_458910();
             break;
 
         default:
-            if (pFrom->Type() != AETypes::eBullet_15)
+            if (pFrom->Type() != ReliveTypes::eBullet)
             {
                 LOG_ERROR("Expected default case to be bullets only but got: " << static_cast<s32>(pFrom->Type()));
             }
@@ -2559,7 +2515,7 @@ void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
         }
         else if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
-            if (sControlledCharacter_5C1B8C->Type() != AETypes::eMineCar_89 || gMap.mCurrentLevel != LevelIds::eMines_1)
+            if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eMineCar || gMap.mCurrentLevel != LevelIds::eMines_1)
             {
                 Mudokon_SFX(MudSounds::eDeathDropScream_15, 0, 0, this);
                 Event_Broadcast(kEventNoise, this);
@@ -2978,7 +2934,7 @@ void Abe::Motion_0_Idle_44EEB0()
         BaseGameObject* pObj_field_110 = sObjectIds.Find_Impl(BaseAliveGameObjectId);
         if (pObj_field_110)
         {
-            if (pObj_field_110->Type() == AETypes::eLiftPoint_78)
+            if (pObj_field_110->Type() == ReliveTypes::eLiftPoint)
             {
                 const FP halfGrid = ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
@@ -3088,7 +3044,7 @@ void Abe::Motion_0_Idle_44EEB0()
         BaseGameObject* pObj_field_110_2 = sObjectIds.Find_Impl(BaseAliveGameObjectId);
         if (pObj_field_110_2)
         {
-            if (pObj_field_110_2->Type() == AETypes::eLiftPoint_78)
+            if (pObj_field_110_2->Type() == ReliveTypes::eLiftPoint)
             {
                 const FP halfGrid = ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
@@ -3182,7 +3138,7 @@ void Abe::Motion_0_Idle_44EEB0()
                 case TlvTypes::BoomMachine_59:
                 {
                     auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType(
-                        AETypes::eGrenadeMachine_66,
+                        ReliveTypes::eGrenadeMachine,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos - field_CC_sprite_scale * FP_FromInteger(25)));
                     if (pMachineButton)

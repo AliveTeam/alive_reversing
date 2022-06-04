@@ -54,10 +54,10 @@ public:
 protected:
     s16 SetBaseAnimPaletteTint(TintEntry* pTintArray, LevelIds level_id, s32 resourceID);
     Bool32 Check_IsOnEndOfLine(s16 direction, s16 distance);
-    BaseAliveGameObject* GetStackedSlapTarget(s32 idToFind, AETypes typeToFind, FP xpos, FP ypos);
+    BaseAliveGameObject* GetStackedSlapTarget(s32 idToFind, ReliveTypes typeToFind, FP xpos, FP ypos);
     Bool32 WallHit(FP offY, FP offX);
     Bool32 InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
-    BaseGameObject* FindObjectOfType(AETypes typeToFind, FP xpos, FP ypos);
+    BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 
 public:
     s16 mPreviousMotion;

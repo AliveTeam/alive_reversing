@@ -65,7 +65,7 @@ FG1::FG1(u8** pFG1Res)
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    SetType(AETypes::eFG1_101);
+    SetType(ReliveTypes::eFG1);
 
     field_24_level_id = gMap.mCurrentLevel;
     field_26_path_id = gMap.mCurrentPath;

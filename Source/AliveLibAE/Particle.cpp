@@ -8,7 +8,7 @@
 Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(AETypes::eParticle_134);
+    SetType(ReliveTypes::eParticle);
 
     ResourceManager::Inc_Ref_Count_49C310(ppAnimData);
 

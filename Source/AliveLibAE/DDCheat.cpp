@@ -183,7 +183,7 @@ DDCheat::DDCheat()
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit4);
-    SetType(AETypes::eDDCheat_19);
+    SetType(ReliveTypes::eDDCheat);
     field_20 = 0;
     field_24_fn_idx = 0;
     field_28 = 0;

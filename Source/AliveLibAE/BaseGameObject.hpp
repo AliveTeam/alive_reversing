@@ -302,6 +302,40 @@ public:
         // Not used in AO yet so needs a default impl
         return 0;
     }
+
+    ReliveTypes FromAE(AETypes aeType)
+    {
+        switch (aeType)
+        {
+            case AETypes::eCrawlingSlig_26: return ReliveTypes::eCrawlingSlig;
+        }
+        return ReliveTypes::eNone;
+    }
+
+    AETypes ToAE(ReliveTypes reliveType)
+    {
+        switch (reliveType)
+        {
+            case ReliveTypes::eCrawlingSlig:
+                return AETypes::eCrawlingSlig_26;
+        }
+        return AETypes::eNone_0;
+    }
+
+    void SetType(ReliveTypes type)
+    {
+        mBaseGameObjectTypeId = type;
+    }
+
+    ReliveTypes Type() const
+    {
+        return mBaseGameObjectTypeId;
+    }
+
+public:
+    ReliveTypes mBaseGameObjectTypeId;
+    BitField16<Options> mBaseGameObjectFlags;
+    s32 mBaseGameObjectUpdateDelay;
 };
 
 class BaseGameObject : public IBaseGameObject
@@ -347,20 +381,6 @@ public:
     }
 
 public:
-    void SetType(AETypes type)
-    {
-        mBaseGameObjectTypeId = type;
-    }
-
-    AETypes Type() const
-    {
-        return mBaseGameObjectTypeId;
-    }
-
-public:
-    AETypes mBaseGameObjectTypeId;
-    BitField16<Options> mBaseGameObjectFlags;
-    s32 mBaseGameObjectUpdateDelay;
 
     s32 field_8_object_id;
     s32 mBaseGameObjectTlvInfo;
