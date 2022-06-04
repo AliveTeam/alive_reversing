@@ -4037,7 +4037,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                         if (pObj != this)
                         {
                             if ((pObj->Type() == ReliveTypes::eAbe ||
-                                pObj->Type() == ReliveTypes::eCtorMudokon ||
+                                pObj->Type() == ReliveTypes::eRingOrLiftMud ||
                                 pObj->Type() == ReliveTypes::eMudokon ||
                                 //pObj->Type() == ReliveTypes::eNevetSet ||
                                 pObj->Type() == ReliveTypes::eFleech ||
@@ -4122,7 +4122,7 @@ s16 Scrab::FindAbeOrMud()
         if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if ((pAliveObj->Type() == ReliveTypes::eCtorMudokon || pAliveObj->Type() == ReliveTypes::eMudokon || pAliveObj->Type() == ReliveTypes::eScrab) && (pAliveObj->Type() != ReliveTypes::eScrab || pAliveObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed)) && CanSeeAbe(pAliveObj) && pAliveObj->mHealth > FP_FromInteger(0) && pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
+            if ((pAliveObj->Type() == ReliveTypes::eRingOrLiftMud || pAliveObj->Type() == ReliveTypes::eMudokon || pAliveObj->Type() == ReliveTypes::eScrab) && (pAliveObj->Type() != ReliveTypes::eScrab || pAliveObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed)) && CanSeeAbe(pAliveObj) && pAliveObj->mHealth > FP_FromInteger(0) && pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale)
             {
                 if (!WallHit(field_CC_sprite_scale * FP_FromInteger(45), pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
                 {

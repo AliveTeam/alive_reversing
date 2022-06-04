@@ -70,7 +70,7 @@ s16 Shrykull::CanElectrocute(BaseGameObject* pObj)
         case ReliveTypes::eCrawlingSlig:
         case ReliveTypes::eFlyingSlig:
         case ReliveTypes::eGlukkon:
-        case ReliveTypes::eCtorMudokon:
+        case ReliveTypes::eRingOrLiftMud:
         case ReliveTypes::eParamite:
         case ReliveTypes::eMudokon:
         case ReliveTypes::eScrab:

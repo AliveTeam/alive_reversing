@@ -431,7 +431,7 @@ void SlamDoor::ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16
         pObj->mBaseAnimatedWithPhysicsGameObject_XPos = pObj->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_CC_sprite_scale) * FP_FromDouble(0.5));
     }
 
-    if (pObj->Type() == ReliveTypes::eCtorMudokon || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe)
+    if (pObj->Type() == ReliveTypes::eRingOrLiftMud || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe)
     {
         pObj->VTakeDamage(this);
     }

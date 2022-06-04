@@ -736,7 +736,7 @@ s16 BirdPortal::IsScaredAway()
         {
             case ReliveTypes::eElum:
             case ReliveTypes::eAbe:
-            case ReliveTypes::eCtorMudokon:
+            case ReliveTypes::eRingOrLiftMud:
             case ReliveTypes::eParamite:
             case ReliveTypes::eScrab:
             case ReliveTypes::eSlig:

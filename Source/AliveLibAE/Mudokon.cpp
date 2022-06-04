@@ -393,7 +393,6 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
     field_11C_bird_portal_id = -1;
     field_12C_unused = -1;
     field_158_wheel_id = -1;
-    SetType(ReliveTypes::eCtorMudokon); // TODO: Set to 110 later, what is 81 ??
     mBaseGameObjectTlvInfo = tlvInfo;
     field_194_timer = 0;
     field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings_470C10;
@@ -888,7 +887,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<Mudokon_State*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eMudokon2_81;
+    pState->field_0_type = AETypes::eRingOrLiftMud_81;
 
     pState->field_4_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
     pState->field_8_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -7059,7 +7058,7 @@ s16 Mudokon::CanRespond_4770B0()
         if (pObj != this && pObj->field_CC_sprite_scale == sActiveHero->field_CC_sprite_scale)
         {
             // Is it a mud who isn't currently talking to abe and is in the same screen?
-            if ((pObj->Type() == ReliveTypes::eCtorMudokon || pObj->Type() == ReliveTypes::eMudokon) && static_cast<Mudokon*>(pObj)->field_18E_brain_state != Mud_Brain_State::Brain_4_ListeningToAbe_477B40 && gMap.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->mBaseAnimatedWithPhysicsGameObject_XPos, pObj->mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+            if ((pObj->Type() == ReliveTypes::eRingOrLiftMud || pObj->Type() == ReliveTypes::eMudokon) && static_cast<Mudokon*>(pObj)->field_18E_brain_state != Mud_Brain_State::Brain_4_ListeningToAbe_477B40 && gMap.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->mBaseAnimatedWithPhysicsGameObject_XPos, pObj->mBaseAnimatedWithPhysicsGameObject_YPos, 0))
             {
                 if (sActiveHero->VIsFacingMe(pObj) && !sActiveHero->VIsFacingMe(this))
                 {

@@ -122,7 +122,7 @@ enum class ReliveTypes : s16
     ePulley,
     eResourceManager,
     eSligGetPantsOrWings,
-    eCtorMudokon,
+    eRingOrLiftMud,
     eSecurityOrb,
     eMeatSack,
     eText,

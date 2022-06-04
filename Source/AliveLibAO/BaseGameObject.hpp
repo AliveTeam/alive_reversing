@@ -61,7 +61,7 @@ enum class AOTypes : s16
     eHoney_47 = 47,
     eClawOrBirdPortalTerminator_48 = 48,
 
-    eCtorMudokon_52 = 52,
+    eRingOrLiftMud_52 = 52,
     eLiftPoint_51 = 51,
     SecurityOrb_53 = 53,
     eMeat_54 = 54,

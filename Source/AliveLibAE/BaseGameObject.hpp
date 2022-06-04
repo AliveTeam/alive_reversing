@@ -64,7 +64,7 @@ enum class AETypes : s16
     eLiftPoint_78 = 78,
     eResourceManager_70 = 79,
     eSligGetPantsOrWings_80 = 80,
-    eMudokon2_81 = 81,
+    eRingOrLiftMud_81 = 81,
     eSecurityOrb_83 = 83,
     eMeat_84 = 84,
     eMeatSack_85 = 85,

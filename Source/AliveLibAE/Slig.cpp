@@ -4049,7 +4049,7 @@ s16 Slig::Brain_StoppingNextToMudokon_20_4BF1E0()
         return 128;
     }
 
-    BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(static_cast<s32>(AETypes::eMudokon2_81), 1);
+    BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(static_cast<s32>(AETypes::eRingOrLiftMud_81), 1);
     if (!pBeatTarget || pBeatTarget->mHealth <= FP_FromInteger(0))
     {
         WaitOrWalk_4BE870();

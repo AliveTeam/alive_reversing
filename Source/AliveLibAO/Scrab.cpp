@@ -940,7 +940,7 @@ s16 Scrab::FindAbeOrMud()
         {
             BaseAliveGameObject* pObj = static_cast<BaseAliveGameObject*>(pObjIter);
 
-            if (pObj->mBaseGameObjectTypeId == ReliveTypes::eCtorMudokon || pObj->mBaseGameObjectTypeId == ReliveTypes::eMudokon || pObj->mBaseGameObjectTypeId == ReliveTypes::SlingMud)
+            if (pObj->mBaseGameObjectTypeId == ReliveTypes::eRingOrLiftMud || pObj->mBaseGameObjectTypeId == ReliveTypes::eMudokon || pObj->mBaseGameObjectTypeId == ReliveTypes::SlingMud)
             {
                 if (CanSeeAbe(pObj) && pObj->mHealth > FP_FromInteger(0) && pObj->field_BC_sprite_scale == field_BC_sprite_scale && !WallHit_401930(pObj->field_A8_xpos - field_A8_xpos, field_BC_sprite_scale * FP_FromInteger(35)))
                 {

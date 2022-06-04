@@ -5403,9 +5403,9 @@ s16 Slig::Brain_StoppingNextToMudokon_46EBB0()
     }
 
     //TODO OG BUG: Sligs beat up dead muds, fix from AE:
-    //BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(static_cast<s32>(AOTypes::eMudokon2_81), 1);
+    //BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(static_cast<s32>(AOTypes::eRingOrLiftMud_81), 1);
     //if (!pBeatTarget || pBeatTarget->mHealth <= FP_FromInteger(0))
-    if (!FindBeatTarget_46D0E0(static_cast<s32>(AOTypes::eCtorMudokon_52), 1))
+    if (!FindBeatTarget_46D0E0(static_cast<s32>(AOTypes::eRingOrLiftMud_52), 1))
     {
         WaitOrWalk_46E440();
         return 128;

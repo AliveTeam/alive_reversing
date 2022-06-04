@@ -144,8 +144,6 @@ ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);
 Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eCtorMudokon;
-
     field_128 = -1;
     field_13E = -1;
     mNextMotion = -1;
@@ -182,10 +180,12 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     switch (pTlv->field_4_type.mType)
     {
         case TlvTypes::None_m1:
-            LOG_ERROR("Mudokon ctor pTlv->field_4_type.mType was None_m1. This shouldn't happen.");
+            ALIVE_FATAL("Mudokon ctor pTlv->field_4_type.mType was None_m1. This shouldn't happen.");
             break;
         case TlvTypes::LiftMudokon_32:
         {
+            mBaseGameObjectTypeId = ReliveTypes::eRingOrLiftMud;
+
             auto liftMudTlv = static_cast<Path_LiftMudokon*>(pTlv);
 
             field_148_res_array.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
@@ -214,6 +214,8 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
         case TlvTypes::RingMudokon_50:
         {
+            mBaseGameObjectTypeId = ReliveTypes::eRingOrLiftMud;
+
             auto ringMudTlv = static_cast<Path_RingMudokon*>(pTlv);
 
             field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->field_18_direction == XDirection_short::eLeft_0); // TODO: Check
@@ -250,6 +252,8 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
         case TlvTypes::Mudokon_82:
         {
+            mBaseGameObjectTypeId = ReliveTypes::eMudokon;
+
             auto mudTlv = static_cast<Path_Mudokon*>(pTlv);
 
             if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eStandScrub_0)
@@ -278,7 +282,6 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
 
             field_124_voice_pitch = mudTlv->field_1E_voice_pitch;
-            mBaseGameObjectTypeId = ReliveTypes::eMudokon;
             field_1B2_rescue_switch_id = mudTlv->field_20_rescue_switch_id;
 
             field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, mudTlv->field_1C_direction == XDirection_short::eLeft_0);
@@ -1169,7 +1172,7 @@ s16 Mudokon::IAmNearestToAbe_440120()
 
         if (pObjIter != this)
         {
-            if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eCtorMudokon || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMudokon) // mud or password mud?
+            if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eRingOrLiftMud || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMudokon) // mud or password mud?
             {
                 if (Math_Distance(
                         FP_GetExponent(sActiveHero_507678->field_A8_xpos),

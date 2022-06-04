@@ -83,8 +83,8 @@ ReliveTypes IBaseGameObject::FromAO(AO::AOTypes aoType)
             return ReliveTypes::eHoney;
         case AO::AOTypes::eClawOrBirdPortalTerminator_48:
             return ReliveTypes::eClawOrBirdPortalTerminator;
-        case AO::AOTypes::eCtorMudokon_52:
-            return ReliveTypes::eCtorMudokon;
+        case AO::AOTypes::eRingOrLiftMud_52:
+            return ReliveTypes::eRingOrLiftMud;
         case AO::AOTypes::eLiftPoint_51:
             return ReliveTypes::eLiftPoint;
         case AO::AOTypes::SecurityOrb_53:
@@ -271,8 +271,8 @@ AO::AOTypes IBaseGameObject::ToAO(ReliveTypes reliveType)
             return AO::AOTypes::eHoney_47;
         case ReliveTypes::eClawOrBirdPortalTerminator:
             return AO::AOTypes::eClawOrBirdPortalTerminator_48;
-        case ReliveTypes::eCtorMudokon:
-            return AO::AOTypes::eCtorMudokon_52;
+        case ReliveTypes::eRingOrLiftMud:
+            return AO::AOTypes::eRingOrLiftMud_52;
         case ReliveTypes::eLiftPoint:
             return AO::AOTypes::eLiftPoint_51;
         case ReliveTypes::SecurityOrb:
@@ -493,8 +493,8 @@ ReliveTypes IBaseGameObject::FromAE(AETypes aeType)
             return ReliveTypes::eResourceManager;
         case AETypes::eSligGetPantsOrWings_80:
             return ReliveTypes::eSligGetPantsOrWings;
-        case AETypes::eMudokon2_81:
-            return ReliveTypes::eCtorMudokon;
+        case AETypes::eRingOrLiftMud_81:
+            return ReliveTypes::eRingOrLiftMud;
         case AETypes::eSecurityOrb_83:
             return ReliveTypes::eSecurityOrb;
         case AETypes::eMeat_84:
@@ -717,8 +717,8 @@ AETypes IBaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::eResourceManager_70;
         case ReliveTypes::eSligGetPantsOrWings:
             return AETypes::eSligGetPantsOrWings_80;
-        case ReliveTypes::eCtorMudokon:
-            return AETypes::eMudokon2_81;
+        case ReliveTypes::eRingOrLiftMud:
+            return AETypes::eRingOrLiftMud_81;
         case ReliveTypes::eSecurityOrb:
             return AETypes::eSecurityOrb_83;
         case ReliveTypes::eMeat:
