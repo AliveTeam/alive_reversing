@@ -458,7 +458,7 @@ void UXB::VUpdate()
 
     if (field_10C_state != UXBState::eExploding_2)
     {
-        if (Event_Get(kEventDeathReset_4))
+        if (Event_Get(kEventDeathReset))
         {
             if (field_10E_starting_state != UXBState::eDeactivated_3 || field_10C_state == UXBState::eDeactivated_3)
             {

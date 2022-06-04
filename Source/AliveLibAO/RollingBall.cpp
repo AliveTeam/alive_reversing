@@ -205,7 +205,7 @@ void RollingBall::VUpdate()
 
             CrushThingsInTheWay();
 
-            if (Event_Get(kEventDeathReset_4))
+            if (Event_Get(kEventDeathReset))
             {
                 field_114_pRollingBallShaker->mBaseGameObjectRefCount--;
                 field_114_pRollingBallShaker->field_32_bKillMe = 1;
@@ -271,7 +271,7 @@ void RollingBall::VUpdate()
                 return;
             }
 
-            if (Event_Get(kEventDeathReset_4))
+            if (Event_Get(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
                 CrushThingsInTheWay();
@@ -343,7 +343,7 @@ void RollingBall::VUpdate()
         }
 
         case States::eCrushedBees_4:
-            if (field_B2_lvl_number != gMap.mCurrentLevel || field_B0_path_number != gMap.mCurrentPath || Event_Get(kEventDeathReset_4))
+            if (field_B2_lvl_number != gMap.mCurrentLevel || field_B0_path_number != gMap.mCurrentPath || Event_Get(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
             }

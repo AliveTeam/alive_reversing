@@ -61,7 +61,7 @@ void Alarm::VRender(PrimHeader** ppOt)
 
 void Alarm::VUpdate()
 {
-    Event_Broadcast(kEvent_Alarm_17, this);
+    Event_Broadcast(kEventAlarm, this);
 
     if (mEffectBasePathId != gMap.mCurrentPath || mEffectBaseLevelId != gMap.mCurrentLevel || static_cast<s32>(sGnFrame) > mAlarmDurationTimer)
     {
@@ -72,7 +72,7 @@ void Alarm::VUpdate()
     switch (mAlarmState)
     {
         case States::eAfterConstructed_0:
-            if (Event_Get(kEventHeroDying_3))
+            if (Event_Get(kEventHeroDying))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
@@ -122,7 +122,7 @@ void Alarm::VUpdate()
             break;
 
         case States::eDisabled_4:
-            if (Event_Get(kEventHeroDying_3))
+            if (Event_Get(kEventHeroDying))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;

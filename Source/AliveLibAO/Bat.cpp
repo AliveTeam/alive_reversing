@@ -129,7 +129,7 @@ void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
 
 void Bat::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -264,7 +264,7 @@ void Bat::VUpdate()
 
         case BatStates::eAttackTarget_4:
         {
-            if (field_10C->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || Event_Get(kEventDeathReset_4))
+            if (field_10C->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || Event_Get(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
                 return;
@@ -300,7 +300,7 @@ void Bat::VUpdate()
         case BatStates::eFlyAwayAndDie_5:
         {
             FlyTo(field_A8_xpos, field_AC_ypos - FP_FromInteger(40), &xSpeed, &ySpeed);
-            if (Event_Get(kEventDeathReset_4))
+            if (Event_Get(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
             }

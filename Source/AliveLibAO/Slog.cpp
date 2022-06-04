@@ -370,7 +370,7 @@ void Slog::VOn_TLV_Collision(Path_TLV* pTlv)
 
 void Slog::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -2219,7 +2219,7 @@ s16 Slog::Brain_1_Idle_4719C0()
 
         case 1:
             if (Event_Is_Event_In_Range(
-                    kEventSuspiciousNoise_10,
+                    kEventSuspiciousNoise,
                     field_A8_xpos,
                     field_AC_ypos,
                     field_BC_sprite_scale))
@@ -2228,7 +2228,7 @@ s16 Slog::Brain_1_Idle_4719C0()
             }
 
             if (Event_Is_Event_In_Range(
-                    kEventSpeaking_1,
+                    kEventSpeaking,
                     field_A8_xpos,
                     field_AC_ypos,
                     field_BC_sprite_scale))
@@ -2271,7 +2271,7 @@ s16 Slog::Brain_1_Idle_4719C0()
 
         case 4:
             if (Event_Is_Event_In_Range(
-                    kEventSuspiciousNoise_10,
+                    kEventSuspiciousNoise,
                     field_A8_xpos,
                     field_AC_ypos,
                     field_BC_sprite_scale))
@@ -2280,7 +2280,7 @@ s16 Slog::Brain_1_Idle_4719C0()
             }
 
             if (Event_Is_Event_In_Range(
-                    kEventSpeaking_1,
+                    kEventSpeaking,
                     field_A8_xpos,
                     field_AC_ypos,
                     field_BC_sprite_scale))
@@ -2342,7 +2342,7 @@ s16 Slog::Brain_1_Idle_4719C0()
 
         case 5:
             if (Event_Is_Event_In_Range(
-                    kEventSuspiciousNoise_10,
+                    kEventSuspiciousNoise,
                     field_A8_xpos,
                     field_AC_ypos,
                     field_BC_sprite_scale))
@@ -2351,7 +2351,7 @@ s16 Slog::Brain_1_Idle_4719C0()
             }
 
             if (Event_Is_Event_In_Range(
-                    kEventSpeaking_1,
+                    kEventSpeaking,
                     field_A8_xpos,
                     field_AC_ypos,
                     field_BC_sprite_scale))

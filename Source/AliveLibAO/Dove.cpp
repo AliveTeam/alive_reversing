@@ -231,7 +231,7 @@ void Dove::VRender(PrimHeader** ppOt)
 
 void Dove::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -245,7 +245,7 @@ void Dove::VUpdate()
     switch (field_EE_state)
     {
         case State::eOnGround_0:
-            if (Event_Get(kEventSpeaking_1))
+            if (Event_Get(kEventSpeaking))
             {
                 for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
                 {
@@ -267,7 +267,7 @@ void Dove::VUpdate()
 
             if (FP_GetExponent(FP_Abs(field_A8_xpos - sControlledCharacter_50767C->field_A8_xpos)) < 100)
             {
-                if (Event_Get(kEventNoise_0))
+                if (Event_Get(kEventNoise))
                 {
                     for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
                     {

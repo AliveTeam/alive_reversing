@@ -622,7 +622,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             return field_13A_brain_sub_state;
 
         case Brain_1_Spawn::eBrain1_Shoot_6:
-            if (Event_Get(kEventDeathReset_4))
+            if (Event_Get(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -907,7 +907,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             return 3;
 
         case 8:
-            if (Event_Get(kEventDeathReset_4))
+            if (Event_Get(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }

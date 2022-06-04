@@ -1638,7 +1638,7 @@ void HintFly::UpdateParticles()
 
 void HintFly::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1648,7 +1648,7 @@ void HintFly::VUpdate()
         case State::eIdleWaitForChanting_1:
             UpdateParticles();
 
-            if (Event_Get(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm))
             {
                 field_11E_msg_idx = 0;
                 field_112_state = State::eState_3;
@@ -1661,7 +1661,7 @@ void HintFly::VUpdate()
             {
                 UpdateParticles();
 
-                if (!Event_Get(kEventAbeOhm_8))
+                if (!Event_Get(kEventAbeOhm))
                 {
                     for (s32 i = 0; i < field_118_counter; i++)
                     {
@@ -1708,7 +1708,7 @@ void HintFly::VUpdate()
             // TODO: This block is duplicated above
             UpdateParticles();
 
-            if (!Event_Get(kEventAbeOhm_8))
+            if (!Event_Get(kEventAbeOhm))
             {
                 for (s32 i = 0; i < field_118_counter; i++)
                 {
@@ -1734,7 +1734,7 @@ void HintFly::VUpdate()
         case State::eState_3:
             UpdateParticles();
 
-            if (!Event_Get(kEventAbeOhm_8))
+            if (!Event_Get(kEventAbeOhm))
             {
                 for (s32 i = 0; i < field_118_counter; i++)
                 {
@@ -1767,7 +1767,7 @@ void HintFly::VUpdate()
         case State::eState_4:
             UpdateParticles();
 
-            if (Event_Get(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm))
             {
                 if (static_cast<s32>(sGnFrame) > field_10C_timer)
                 {
@@ -1801,7 +1801,7 @@ void HintFly::VUpdate()
         case State::eState_5:
             if (field_118_counter == 20)
             {
-                if (Event_Get(kEventAbeOhm_8))
+                if (Event_Get(kEventAbeOhm))
                 {
                     field_112_state = State::eIdleWaitForChanting_1;
                 }
@@ -1823,7 +1823,7 @@ void HintFly::VUpdate()
                 InitParticle(&field_E8_pRes[field_120_idx++]);
             }
 
-            if (field_118_counter == 20 && !Event_Get(kEventAbeOhm_8))
+            if (field_118_counter == 20 && !Event_Get(kEventAbeOhm))
             {
                 field_112_state = State::eIdleWaitForChanting_1;
             }

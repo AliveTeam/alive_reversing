@@ -197,7 +197,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
 
 void SecurityClaw::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -286,7 +286,7 @@ void SecurityClaw::VUpdate()
             break;
 
         case SecurityClawStates::eIdle_1:
-            if (Event_Get(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm))
             {
                 field_114_timer = sGnFrame + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
@@ -296,7 +296,7 @@ void SecurityClaw::VUpdate()
                 SFX_Play_Pitch(SoundEffect::IndustrialNoise3_95, 90, -1000, 0);
             }
 
-            if (Event_Get(kEventShooting_2))
+            if (Event_Get(kEventShooting))
             {
                 if (!alarmInstanceCount_5076A8)
                 {

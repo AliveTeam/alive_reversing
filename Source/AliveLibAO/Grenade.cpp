@@ -124,7 +124,7 @@ void Grenade::VScreenChanged()
 
 void Grenade::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -353,8 +353,8 @@ s16 Grenade::InTheAir()
                 }
                 SFX_Play_Mono(SoundEffect::GrenadeBounce_82, vol);
                 field_118++;
-                Event_Broadcast(kEventNoise_0, this);
-                Event_Broadcast(kEventSuspiciousNoise_10, this);
+                Event_Broadcast(kEventNoise, this);
+                Event_Broadcast(kEventSuspiciousNoise, this);
                 Event_Broadcast(1, this);
             }
         }
@@ -387,9 +387,9 @@ s16 Grenade::InTheAir()
                         vol = 40;
                     }
                     SFX_Play_Mono(SoundEffect::GrenadeBounce_82, vol, 0);
-                    Event_Broadcast(kEventNoise_0, this);
-                    Event_Broadcast(kEventSuspiciousNoise_10, this);
-                    Event_Broadcast(kEventSpeaking_1, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    Event_Broadcast(kEventSpeaking, this);
                 }
                 break;
 
@@ -407,9 +407,9 @@ s16 Grenade::InTheAir()
                     }
 
                     SFX_Play_Mono(SoundEffect::GrenadeBounce_82, vol, 0);
-                    Event_Broadcast(kEventNoise_0, this);
-                    Event_Broadcast(kEventSuspiciousNoise_10, this);
-                    Event_Broadcast(kEventSpeaking_1, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    Event_Broadcast(kEventSpeaking, this);
                 }
                 break;
 

@@ -268,7 +268,7 @@ private:
     s32 field_1F0_randomish_speak_timer;
     s32 field_1F4_turn_or_help_timer;
     s32 field_1F8_panic_timer;
-    s16 field_1FC; // When set to true, broadcasts event kEventUnknown17.
+    s16 field_1FC; // When set to true, broadcasts event kEventGlukkonUnknown.
     s16 field_1FE_padding;
     s32 field_200_knockback_delay_after_getting_shot_timer;
     s32 field_204_getting_shot_timer;

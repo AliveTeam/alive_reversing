@@ -463,7 +463,7 @@ void Paramite::VUpdate()
         }
     }
 
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -943,7 +943,7 @@ enum Brain_0_Patrol
 
 s16 Paramite::Brain_0_Patrol()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -980,7 +980,7 @@ s16 Paramite::Brain_0_Patrol()
                 return Brain_0_Patrol::eBrain0_Idle_12;
             }
 
-            if (Event_Get(kEventAbeOhm_8) && VIsFacingMe(sActiveHero_507678))
+            if (Event_Get(kEventAbeOhm) && VIsFacingMe(sActiveHero_507678))
             {
                 SetNextMotion(eParamiteMotions::Motion_15_Hiss);
                 return Brain_0_Patrol::eBrain0_Panic_15;
@@ -1404,7 +1404,7 @@ s16 Paramite::Brain_0_Patrol()
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
             }
 
-            if (Event_Get(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm))
             {
                 SetNextMotion(eParamiteMotions::Motion_15_Hiss);
                 return Brain_0_Patrol::eBrain0_Panic_15;
@@ -1445,7 +1445,7 @@ s16 Paramite::Brain_0_Patrol()
             return Brain_0_Patrol::eBrain0_Idle_12;
 
         case Brain_0_Patrol::eBrain0_Panic_15:
-            if (!Event_Get(kEventAbeOhm_8))
+            if (!Event_Get(kEventAbeOhm))
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_0_Patrol::eBrain0_Idle_12;
@@ -1470,7 +1470,7 @@ enum Brain_1_SurpriseWeb
 
 s16 Paramite::Brain_1_SurpriseWeb()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1613,7 +1613,7 @@ enum Brain_2_Struggling
 
 s16 Paramite::Brain_2_Struggling()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1721,7 +1721,7 @@ enum Brain_4_ChasingAbe
 
 s16 Paramite::Brain_4_ChasingAbe()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1736,7 +1736,7 @@ s16 Paramite::Brain_4_ChasingAbe()
         return 0;
     }
 
-    if (Event_Get(kEventAbeOhm_8))
+    if (Event_Get(kEventAbeOhm))
     {
         SetNextMotion(eParamiteMotions::Motion_15_Hiss);
         return Brain_4_ChasingAbe::eBrain4_Panic_15;
@@ -2226,7 +2226,7 @@ s16 Paramite::Brain_4_ChasingAbe()
             return Brain_4_ChasingAbe::eBrain4_Eating_13;
 
         case Brain_4_ChasingAbe::eBrain4_Panic_15:
-            if (Event_Get(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm))
             {
                 return field_110_brain_sub_state;
             }
@@ -2251,7 +2251,7 @@ enum Brain_5_SpottedMeat
 
 s16 Paramite::Brain_5_SpottedMeat()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -2626,7 +2626,7 @@ const FP sWalkBeginVelTable_4BBC88[3] = {
 
 void Paramite::Motion_1_WalkBegin()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -2670,7 +2670,7 @@ const FP sWalkVelTable_4BBC50[14] = {
 
 void Paramite::Motion_2_Walking()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -2771,7 +2771,7 @@ const FP sRunningTable_4BBCC0[14] = {
 
 void Paramite::Motion_3_Running()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     FP frameVelx = {};
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
@@ -2984,7 +2984,7 @@ const FP sHopVelTable_4BBD28[16] = {
 
 void Paramite::Motion_6_Hop()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     FP frameVelX = {};
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
@@ -3070,7 +3070,7 @@ const FP State_7_Unknown_VelTable_4BBCA8[2] = {
 
 void Paramite::Motion_7_Unknown()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -3105,7 +3105,7 @@ const FP sWalkRunTransVelTable_4BBD18[3] = {
 
 void Paramite::Motion_8_WalkRunTransition()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -3154,7 +3154,7 @@ void Paramite::Motion_9_WalkEnd()
     else
     {
         MoveOnLine();
-        Event_Broadcast(kEventNoise_0, this);
+        Event_Broadcast(kEventNoise, this);
 
         if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -3188,7 +3188,7 @@ void Paramite::Motion_10_RunBegin()
         field_140_use_prev_motion = 1;
     }
 
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), field_B4_velx))
     {

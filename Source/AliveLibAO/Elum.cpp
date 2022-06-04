@@ -1294,7 +1294,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return 10;
             }
 
-            if (Event_Get(kEventDeathReset_4) == 0)
+            if (Event_Get(kEventDeathReset) == 0)
             {
                 return field_12A_brain_sub_state;
             }
@@ -1884,8 +1884,8 @@ void Elum::Motion_3_WalkLoop_412C90()
 {
     field_10E_pressed |= Input().Pressed();
 
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     MoveOnLine_412580(0);
 
@@ -2070,8 +2070,8 @@ void Elum::Motion_4_Turn_4140F0()
 
 void Elum::Motion_5_WalkToIdle_4132D0()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     MoveOnLine_412580(0);
 
@@ -2117,8 +2117,8 @@ void Elum::Motion_5_WalkToIdle_4132D0()
 
 void Elum::Motion_6_MidWalkToIdle_4133F0()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     MoveOnLine_412580(0);
 
@@ -2152,8 +2152,8 @@ void Elum::Motion_7_IdleToWalk2_413200()
 {
     field_10E_pressed |= Input().Pressed();
 
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2169,8 +2169,8 @@ void Elum::Motion_8_IdleToWalk1_413270()
 {
     field_10E_pressed |= Input().Pressed();
 
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2192,7 +2192,7 @@ void Elum::Motion_9_ToYell_415890()
 
 void Elum::Motion_10_Yell_4158E0()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2222,8 +2222,8 @@ void Elum::Motion_11_Unknown_4159A0()
 
 void Elum::Motion_12_RunTurn_414520()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (!field_10_anim.field_92_current_frame)
     {
@@ -2270,8 +2270,8 @@ void Elum::Motion_12_RunTurn_414520()
 
 void Elum::Motion_13_RunTurnToWalk_4147C0()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     MoveOnLine_412580(0);
 
@@ -2349,8 +2349,8 @@ void Elum::Motion_17_Unknown_413620()
 {
     MoveOnLine_412580(0);
 
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2445,8 +2445,8 @@ void Elum::Motion_20_Fall_415F70()
 
 void Elum::Motion_21_Land_414A20()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (field_B4_velx > FP_FromInteger(0))
     {
@@ -2534,8 +2534,8 @@ void Elum::Motion_21_Land_414A20()
 
 void Elum::Motion_22_RunOffEdge_415810()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2554,8 +2554,8 @@ void Elum::Motion_23_WalkOffEdge_415E90()
 
 void Elum::Motion_24_JumpToFall_415ED0()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2567,7 +2567,7 @@ void Elum::Motion_24_JumpToFall_415ED0()
 
 void Elum::Motion_25_LickingHoney_415B50()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2631,7 +2631,7 @@ void Elum::Motion_28_AbeUnmountingEnd_415D60()
 
 void Elum::Motion_29_BeesStruggling_412A90()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     if (mNextMotion == eElumMotions::Motion_44_ScratchBegin_412730)
     {
@@ -2678,8 +2678,8 @@ void Elum::Motion_29_BeesStruggling_412A90()
 
 void Elum::Motion_30_HopBegin_414E30()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2720,8 +2720,8 @@ void Elum::Motion_30_HopBegin_414E30()
 
 void Elum::RunJumpMidAndHopMid(MidType midType)
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
     {
@@ -2794,8 +2794,8 @@ void Elum::Motion_31_HopMid_414C70()
 
 void Elum::Motion_32_HopLand_415140()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2822,8 +2822,8 @@ void Elum::Motion_32_HopLand_415140()
 
 void Elum::Motion_33_RunJumpBegin_415400()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2864,8 +2864,8 @@ void Elum::Motion_34_RunJumpMid_415240()
 
 void Elum::Motion_35_RunJumpLand_415580()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -2926,8 +2926,8 @@ void Elum::Motion_36_RunLoop_413720()
 {
     field_10E_pressed |= Input().Pressed();
 
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
     {
@@ -3043,8 +3043,8 @@ void Elum::RunSlideStopKnockback()
 
 void Elum::Motion_37_RunSlideStop_4142E0()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (field_10_anim.field_92_current_frame == 0)
     {
@@ -3089,8 +3089,8 @@ void Elum::Motion_37_RunSlideStop_4142E0()
 
 void Elum::Motion_38_RunTurnToRun_414810()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     MoveOnLine_412580(0);
 
@@ -3103,8 +3103,8 @@ void Elum::Motion_38_RunTurnToRun_414810()
 
 void Elum::Motion_39_IdleToRun_413B00()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     field_10E_pressed |= Input().Pressed();
 
@@ -3120,8 +3120,8 @@ void Elum::Motion_40_WalkToRun_4134B0()
 {
     field_10E_pressed |= Input().Pressed();
 
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -3144,8 +3144,8 @@ void Elum::Motion_41_MidWalkToRun_413560()
 {
     field_10E_pressed |= Input().Pressed();
 
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -3168,8 +3168,8 @@ void Elum::Motion_41_MidWalkToRun_413560()
 
 void Elum::Motion_42_RunToWalk_413B60()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     field_10E_pressed |= Input().Pressed();
 
@@ -3227,8 +3227,8 @@ void Elum::Motion_42_RunToWalk_413B60()
 
 void Elum::Motion_43_MidRunToWalk_413E20()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     field_10E_pressed |= Input().Pressed();
 
@@ -3368,7 +3368,7 @@ void Elum::ToIdle()
 
 void Elum::Motion_47_Unknown_415A30()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     CheckLiftPointGoneAndSetCamera();
 
@@ -3427,8 +3427,8 @@ void Elum::Motion_49_AbeUnmountingBegin_415D00()
 
 void Elum::Motion_50_Knockback_415DC0()
 {
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 
     if (!BaseAliveGameObjectCollisionLine)
     {
@@ -3677,7 +3677,7 @@ void Elum::VUpdate()
                 }
             }
 
-            if (Event_Get(kEventDeathReset_4))
+            if (Event_Get(kEventDeathReset))
             {
                 if (!field_154_bAbeForcedDownFromElum)
                 {

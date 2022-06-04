@@ -178,7 +178,7 @@ void MeatSaw::VScreenChanged()
 
 void MeatSaw::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

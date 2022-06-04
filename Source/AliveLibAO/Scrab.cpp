@@ -263,7 +263,7 @@ void Scrab::VRender(PrimHeader** ppOt)
 
 void Scrab::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1348,7 +1348,7 @@ const FP sHopBeginVelTable_4BC860[4] = {
 
 void Scrab::Motion_6_HopBegin_45F3C0()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1399,7 +1399,7 @@ const FP sHopMidAirVelTable_4BC870[8] = {
 
 void Scrab::Motion_7_HopMidair_45F1A0()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1481,7 +1481,7 @@ void Scrab::Motion_8_HopLand_45F500()
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
     }
 
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1692,7 +1692,7 @@ void Scrab::Motion_13_RunJumpBegin_45F5D0()
         SFX_Play_Pitch(SoundEffect::PickupItem_33, 50, -800, 0);
     }
 
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1779,7 +1779,7 @@ const FP sRunJumpEndVelTable_4BC8C0[4] = {
 
 void Scrab::Motion_14_RunJumpEnd_45F850()
 {
-    Event_Broadcast(kEventNoise_0, this);
+    Event_Broadcast(kEventNoise, this);
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -2151,7 +2151,7 @@ void Scrab::Motion_29_DeathBegin_45FFA0()
 
 s16 Scrab::Brain_Fighting_45C370()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -2471,7 +2471,7 @@ s16 Scrab::Brain_Fighting_45C370()
 
 s16 Scrab::Brain_BatDeath_45CA60()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -2569,7 +2569,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
         //return Brain_ChasingEnemy_Real_45CC90();
     }
 
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -2622,7 +2622,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
         }
     }
 
-    if (Event_Get(kEventAbeOhm_8))
+    if (Event_Get(kEventAbeOhm))
     {
         mNextMotion = eScrabMotions::Motion_20_HowlBegin_45FA60;
         return 18;
@@ -3232,7 +3232,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
         }
 
         case 18:
-            if (Event_Get(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm))
             {
                 return field_110_brain_sub_state;
             }
@@ -3246,7 +3246,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
 s16 Scrab::Brain_Patrol_460020()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -3272,7 +3272,7 @@ s16 Scrab::Brain_Patrol_460020()
         field_120_pTarget = nullptr;
     }
 
-    if (Event_Get(kEventAbeOhm_8))
+    if (Event_Get(kEventAbeOhm))
     {
         mNextMotion = eScrabMotions::Motion_20_HowlBegin_45FA60;
         return 9;
@@ -3536,7 +3536,7 @@ s16 Scrab::Brain_Patrol_460020()
             return 0;
 
         case 9:
-            if (!Event_Get(kEventAbeOhm_8))
+            if (!Event_Get(kEventAbeOhm))
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
                 return 0;
@@ -3550,7 +3550,7 @@ s16 Scrab::Brain_Patrol_460020()
 
 s16 Scrab::Brain_WalkAround_460D80()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -3576,7 +3576,7 @@ s16 Scrab::Brain_WalkAround_460D80()
         field_120_pTarget = nullptr;
     }
 
-    if (Event_Get(kEventAbeOhm_8))
+    if (Event_Get(kEventAbeOhm))
     {
         mNextMotion = eScrabMotions::Motion_20_HowlBegin_45FA60;
         return 6;
@@ -3816,7 +3816,7 @@ s16 Scrab::Brain_WalkAround_460D80()
             return 1;
 
         case 6:
-            if (Event_Get(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm))
             {
                 return field_110_brain_sub_state;
             }

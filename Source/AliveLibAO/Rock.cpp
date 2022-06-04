@@ -78,7 +78,7 @@ Rock::~Rock()
 
 void Rock::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -282,8 +282,8 @@ void Rock::InTheAir()
                                 vol = 40;
                             }
                             SFX_Play_Mono(SoundEffect::RockBounce_31, vol, 0);
-                            Event_Broadcast(kEventNoise_0, this);
-                            Event_Broadcast(kEventSuspiciousNoise_10, this);
+                            Event_Broadcast(kEventNoise, this);
+                            Event_Broadcast(kEventSuspiciousNoise, this);
                             field_118_vol++;
                         }
                         else
@@ -341,8 +341,8 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
     }
 
     SFX_Play_Mono(SoundEffect::RockBounce_31, vol, 0);
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 }
 
 //TODO Identical to AE - merge

@@ -409,7 +409,7 @@ void MusicController::VUpdate()
 {
     MusicController::UpdateMusicTime();
 
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         field_20 = 1;
         field_1C_pObj = sActiveHero_507678;

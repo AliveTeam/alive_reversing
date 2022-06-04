@@ -1140,7 +1140,7 @@ s16 Map::Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect)
 
 CameraPos Map::Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect, s16 width)
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         return CameraPos::eCamNone_5;
     }

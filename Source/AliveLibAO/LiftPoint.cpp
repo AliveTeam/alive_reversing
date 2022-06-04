@@ -249,8 +249,8 @@ void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
     pLiftTlv->field_18_lift_point_id = field_278_lift_point_id;
     field_B8_vely = FP_FromInteger(0);
 
-    Event_Broadcast(kEventNoise_0, this);
-    Event_Broadcast(kEventSuspiciousNoise_10, this);
+    Event_Broadcast(kEventNoise, this);
+    Event_Broadcast(kEventSuspiciousNoise, this);
 }
 
 
@@ -325,8 +325,8 @@ void LiftPoint::VUpdate()
                 field_27A_flags.Clear(Flags::eBit6_bMoveToFloorLevel);
                 SFX_Play_Mono(SoundEffect::LiftStop_35, 0);
                 SFX_Play_Pitch(SoundEffect::LiftStop_35, 80, -2000);
-                Event_Broadcast(kEventNoise_0, this);
-                Event_Broadcast(kEventSuspiciousNoise_10, this);
+                Event_Broadcast(kEventNoise, this);
+                Event_Broadcast(kEventSuspiciousNoise, this);
             }
         }
         else
@@ -547,7 +547,7 @@ void LiftPoint::VUpdate()
         }
     }
 
-    if (field_B2_lvl_number != gMap.mCurrentLevel || field_B0_path_number != gMap.mCurrentPath || Event_Get(kEventDeathReset_4))
+    if (field_B2_lvl_number != gMap.mCurrentLevel || field_B0_path_number != gMap.mCurrentPath || Event_Get(kEventDeathReset))
     {
         if (mPlatformBaseCount <= 0)
         {

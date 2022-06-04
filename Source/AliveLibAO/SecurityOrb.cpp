@@ -111,7 +111,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
 void SecurityOrb::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -136,7 +136,7 @@ void SecurityOrb::VUpdate()
                 }
             }
 
-            if (Event_Get(kEventAbeOhm_8))
+            if (Event_Get(kEventAbeOhm))
             {
                 field_110_state = SecurityOrbStates::eDoZapEffects_1;
                 field_114_timer = sGnFrame + 20;

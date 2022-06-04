@@ -71,7 +71,7 @@ MeatSack::~MeatSack()
 
 void MeatSack::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -308,8 +308,8 @@ void Meat::InTheAir()
                     field_B4_velx = FP_FromInteger(0);
 
                     SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
-                    Event_Broadcast(kEventNoise_0, this);
-                    Event_Broadcast(kEventSuspiciousNoise_10, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
                     AddToPlatform();
                 }
                 break;
@@ -325,8 +325,8 @@ void Meat::InTheAir()
                 field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
 
                 SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
-                Event_Broadcast(kEventNoise_0, this);
-                Event_Broadcast(kEventSuspiciousNoise_10, this);
+                Event_Broadcast(kEventNoise, this);
+                Event_Broadcast(kEventSuspiciousNoise, this);
 
                 if (field_B8_vely >= FP_FromInteger(0))
                 {
@@ -345,8 +345,8 @@ void Meat::InTheAir()
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(4));
 
                     SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
-                    Event_Broadcast(kEventNoise_0, this);
-                    Event_Broadcast(kEventSuspiciousNoise_10, this);
+                    Event_Broadcast(kEventNoise, this);
+                    Event_Broadcast(kEventSuspiciousNoise, this);
 
                     if (field_B8_vely < FP_FromInteger(0))
                     {
@@ -367,7 +367,7 @@ void Meat::VUpdate()
 {
     if (sNumCamSwappers_507668 == 0)
     {
-        if (Event_Get(kEventDeathReset_4))
+        if (Event_Get(kEventDeathReset))
         {
             mBaseGameObjectFlags.Set(Options::eDead);
         }

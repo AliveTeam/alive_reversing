@@ -315,9 +315,9 @@ void BirdPortal::VUpdate()
             }
 
             auto pTarget = Abe::FindObjectToPossess_421410();
-            if (!Event_Get(kEventAbeOhm_8) || pTarget)
+            if (!Event_Get(kEventAbeOhm) || pTarget)
             {
-                if (IsScaredAway() || Event_Get(kEventShooting_2) || (Event_Get(kEventAbeOhm_8) && pTarget))
+                if (IsScaredAway() || Event_Get(kEventShooting) || (Event_Get(kEventAbeOhm) && pTarget))
                 {
                     for (s32 i = 0; i < field_4C_pDovesArray->Size(); i++)
                     {
@@ -373,7 +373,7 @@ void BirdPortal::VUpdate()
         break;
 
         case PortalStates::JoinDovesInCenter_2:
-            Event_Broadcast(kEventPortalOpen_18, this);
+            Event_Broadcast(kEventPortalOpen, this);
             if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
                 CreateTerminators();
@@ -383,7 +383,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::KillDoves_3:
-            Event_Broadcast(kEventPortalOpen_18, this);
+            Event_Broadcast(kEventPortalOpen, this);
             if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
                 for (s32 i = 0; i < field_4C_pDovesArray->Size(); i++)
@@ -406,7 +406,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::CreateTerminators_4:
-            Event_Broadcast(kEventPortalOpen_18, this);
+            Event_Broadcast(kEventPortalOpen, this);
             if (field_3C_pTerminator1->field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorIdle);
@@ -420,7 +420,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::ExpandTerminators_5:
-            Event_Broadcast(kEventPortalOpen_18, this);
+            Event_Broadcast(kEventPortalOpen, this);
             field_3C_pTerminator1->field_AC_ypos -= (FP_FromDouble(3.5) * field_34_scale);
             field_40_pTerminator2->field_AC_ypos += (FP_FromDouble(3.5) * field_34_scale);
             if (static_cast<s32>(sGnFrame) > field_30_timer)
@@ -430,7 +430,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::ActivePortal_6:
-            Event_Broadcast(kEventPortalOpen_18, this);
+            Event_Broadcast(kEventPortalOpen, this);
             if ((field_10_portal_type != PortalType::eWorker_1 && field_10_portal_type != PortalType::eShrykull_2) || Event_Get(8))
             {
                 if ((Math_NextRandom() % 8) == 0)
@@ -716,7 +716,7 @@ void BirdPortal::VUpdate()
             break;
     }
 
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

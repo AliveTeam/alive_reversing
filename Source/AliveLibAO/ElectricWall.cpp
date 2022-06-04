@@ -80,7 +80,7 @@ void ElectricWall::VUpdate()
         field_A8_xpos,
         field_AC_ypos);
 
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }

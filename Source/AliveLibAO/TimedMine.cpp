@@ -233,7 +233,7 @@ void TimedMine::StickToLiftPoint()
 void TimedMine::VUpdate()
 {
     auto pPlatform = static_cast<LiftPoint*>(mLiftPoint);
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

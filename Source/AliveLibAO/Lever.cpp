@@ -41,7 +41,7 @@ const Lever_Data gLeverData_4BCF40[16] = {
 
 void Lever::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -55,8 +55,8 @@ void Lever::VUpdate()
 
         if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            Event_Broadcast(kEventNoise_0, this);
-            Event_Broadcast(kEventSuspiciousNoise_10, this);
+            Event_Broadcast(kEventNoise, this);
+            Event_Broadcast(kEventSuspiciousNoise, this);
             const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
             if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1
                 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12

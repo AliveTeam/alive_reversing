@@ -169,7 +169,7 @@ void BeeSwarm::VUpdate()
         return;
     }
 
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         ToFlyAwayAndDie();
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

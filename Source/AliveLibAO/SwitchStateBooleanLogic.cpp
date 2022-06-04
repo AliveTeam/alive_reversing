@@ -93,7 +93,7 @@ void SwitchStateBooleanLogic::VUpdate()
 
     SwitchStates_Set(field_14_output, id_value);
 
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

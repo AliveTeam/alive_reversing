@@ -821,7 +821,7 @@ void Glukkon::M_Speak1_11_4437D0()
         {
             if (field_1FC)
             {
-                Event_Broadcast(kEventUnknown17, this);
+                Event_Broadcast(kEventGlukkonUnknown, this);
                 field_1FC = 0;
             }
 
@@ -1073,7 +1073,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             }
 
             pEvent17 = Event_Is_Event_In_Range(
-                kEventUnknown17,
+                kEventGlukkonUnknown,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 field_D6_scale);
@@ -1123,7 +1123,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             else
             {
                 auto pEvent17_1 = Event_Is_Event_In_Range(
-                    kEventUnknown17,
+                    kEventGlukkonUnknown,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_D6_scale);
@@ -1209,7 +1209,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             }
 
             pEvent17 = Event_Is_Event_In_Range(
-                kEventUnknown17,
+                kEventGlukkonUnknown,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 field_D6_scale);
@@ -1251,7 +1251,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             else
             {
                 auto pEvent17_3 = Event_Is_Event_In_Range(
-                    kEventUnknown17,
+                    kEventGlukkonUnknown,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_D6_scale);

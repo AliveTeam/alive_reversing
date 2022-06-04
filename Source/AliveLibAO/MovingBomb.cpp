@@ -310,7 +310,7 @@ void MovingBomb::FollowLine()
 
 void MovingBomb::VUpdate()
 {
-    if (Event_Get(kEventDeathReset_4))
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -373,7 +373,7 @@ void MovingBomb::VUpdate()
     switch (field_10C_state)
     {
         case States::eTriggeredByAlarm_0:
-            if (Event_Get(kEvent_Alarm_17))
+            if (Event_Get(kEventAlarm))
             {
                 field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 field_10C_state = States::eMoving_2;
