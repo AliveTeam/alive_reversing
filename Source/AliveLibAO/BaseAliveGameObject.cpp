@@ -854,7 +854,7 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
     }
 }
 
-BaseGameObject* BaseAliveGameObject::FindObjectOfType_418280(AOTypes typeToFind, FP xpos, FP ypos)
+BaseGameObject* BaseAliveGameObject::FindObjectOfType_418280(ReliveTypes typeToFind, FP xpos, FP ypos)
 {
     const s32 xpos_int = FP_GetExponent(xpos);
     const s32 ypos_int = FP_GetExponent(ypos);

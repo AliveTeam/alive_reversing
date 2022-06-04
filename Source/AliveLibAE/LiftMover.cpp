@@ -51,7 +51,7 @@ s32 LiftMover::CreateFromSaveState(const u8* pData)
 
 void LiftMover::VUpdate()
 {
-    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds.Find(field_28_lift_id, AETypes::eLiftPoint_78));
+    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds.Find(field_28_lift_id, ReliveTypes::eLiftPoint));
     if (field_32_bMoveInProgress)
     {
         pLift = GetLiftPoint();

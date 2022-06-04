@@ -94,7 +94,7 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
 
 void Teleporter::VUpdate()
 {
-    Electrocute* pObj = static_cast<Electrocute*>(sObjectIds.Find(field_50_objId, AETypes::eElectrocute_150));
+    Electrocute* pObj = static_cast<Electrocute*>(sObjectIds.Find(field_50_objId, ReliveTypes::eElectrocute));
 
     switch (field_30_state)
     {

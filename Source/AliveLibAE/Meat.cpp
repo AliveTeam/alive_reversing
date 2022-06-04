@@ -68,8 +68,8 @@ void Meat::VScreenChanged()
 void Meat::AddToPlatform()
 {
     // TODO: OG bug - why doesn't meat check for trap doors ??
-    BaseAddToPlatform([](AETypes type)
-                      { return type == AETypes::eLiftPoint_78; });
+    BaseAddToPlatform([](ReliveTypes type)
+                      { return type == ReliveTypes::eLiftPoint; });
 }
 
 void Meat::VOnTrapDoorOpen()

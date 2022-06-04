@@ -129,7 +129,7 @@ BaseGameObject* ObjectIds::Find_Impl(TObjectId_KeyType idToFind)
     return pFound;
 }
 
-BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, AETypes type)
+BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, ReliveTypes type)
 {
     BaseGameObject* pItem = Find_Impl(idToFind);
     if (pItem && pItem->Type() != type)

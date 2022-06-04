@@ -377,7 +377,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
 
     Init();
 
-    VStackOnObjectsOfType(AOTypes::eSlig_88);
+    VStackOnObjectsOfType(ReliveTypes::eSlig);
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
 
@@ -2140,7 +2140,7 @@ s16 Slig::HandlePlayerControlled()
                     if (!(field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
-                            AOTypes::eLever_97,
+                            ReliveTypes::eLever,
                             field_A8_xpos + kScaleGrid,
                             field_AC_ypos - FP_FromInteger(5)));
                         if (pSwitch)
@@ -2161,7 +2161,7 @@ s16 Slig::HandlePlayerControlled()
                 {
                     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(AOTypes::eLever_97, field_A8_xpos - kScaleGrid, field_AC_ypos - FP_FromInteger(5)));
+                        auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, field_A8_xpos - kScaleGrid, field_AC_ypos - FP_FromInteger(5)));
                         if (pSwitch)
                         {
                             pSwitch->VPull(
@@ -4984,7 +4984,7 @@ s16 Slig::Brain_Idle_46D6E0()
                     if ((FP_FromInteger(FP_GetExponent(field_A8_xpos) - pTlv->field_10_top_left.field_0_x) < kScaleGrid && !(field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))) || (FP_FromInteger(pTlv->field_14_bottom_right.field_0_x - FP_GetExponent(field_A8_xpos)) < kScaleGrid && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
-                            AOTypes::eLever_97,
+                            ReliveTypes::eLever,
                             field_A8_xpos + kScaleGrid,
                             field_AC_ypos - FP_FromInteger(5)));
                         if (pSwitch)

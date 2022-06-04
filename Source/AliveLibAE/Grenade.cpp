@@ -614,8 +614,8 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
 
 void Grenade::AddToPlatform()
 {
-    BaseAddToPlatform([](AETypes type)
-                      { return type == AETypes::eLiftPoint_78 || type == AETypes::eTrapDoor_142; });
+    BaseAddToPlatform([](ReliveTypes type)
+                      { return type == ReliveTypes::eLiftPoint || type == ReliveTypes::eTrapDoor; });
 }
 
 s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)

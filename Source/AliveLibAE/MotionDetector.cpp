@@ -195,7 +195,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 
     if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
-        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, AETypes::eRedLaser_111));
+        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
         PSX_RECT bLaserRect = {};
         pLaser->VGetBoundingRect(&bLaserRect, 1);
 
@@ -285,8 +285,8 @@ s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
 
 void MotionDetector::VUpdate()
 {
-    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, AETypes::eRedLaser_111));
-    Greeter* pOwner = static_cast<Greeter*>(sObjectIds.Find(field_FC_owner_id, AETypes::eGreeter_64));
+    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
+    Greeter* pOwner = static_cast<Greeter*>(sObjectIds.Find(field_FC_owner_id, ReliveTypes::eGreeter));
 
     if (Event_Get(kEventDeathReset))
     {

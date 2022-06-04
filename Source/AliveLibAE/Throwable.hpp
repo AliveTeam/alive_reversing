@@ -27,7 +27,7 @@ public:
     virtual s16 VGetCount();
     virtual void VToDead();
 
-    using FnTypeMatcher = AddPointer_t<bool(AETypes type)>;
+    using FnTypeMatcher = AddPointer_t<bool(ReliveTypes type)>;
     void BaseAddToPlatform(FnTypeMatcher cb);
 
 protected:

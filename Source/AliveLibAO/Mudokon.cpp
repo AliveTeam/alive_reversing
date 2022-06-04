@@ -3210,7 +3210,7 @@ s16 Mudokon::Brain_LeverUse_6_43C250()
         directedGridSize = ScaleToGridSize(field_BC_sprite_scale);
     }
 
-    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(AOTypes::eLever_97, field_A8_xpos + directedGridSize, field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale)));
+    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, field_A8_xpos + directedGridSize, field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale)));
     if (pSwitch)
     {
         pSwitch->VPull(field_A8_xpos < pSwitch->field_A8_xpos);

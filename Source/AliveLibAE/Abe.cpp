@@ -1599,7 +1599,7 @@ void Abe::VUpdate()
         }
 
 
-        InvisibleEffect* pObj_field_178 = static_cast<InvisibleEffect*>(sObjectIds.Find(field_178_invisible_effect_id, AETypes::eInvisibleEffect_75));
+        InvisibleEffect* pObj_field_178 = static_cast<InvisibleEffect*>(sObjectIds.Find(field_178_invisible_effect_id, ReliveTypes::eInvisibleEffect));
         if (pObj_field_178 && field_170_invisible_timer > 0)
         {
             if (static_cast<s32>(sGnFrame) > field_170_invisible_timer)
@@ -1672,7 +1672,7 @@ void Abe::VOnTrapDoorOpen()
 {
     // Handles falling when previously was on a platform, stop turning a wheel if we where turning one etc.
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
-    WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds.Find(field_164_wheel_id, AETypes::eWheel_148));
+    WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds.Find(field_164_wheel_id, ReliveTypes::eWheel));
     if (pPlatform)
     {
         if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)))
@@ -1696,7 +1696,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
 {
     OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds.Find_Impl(field_150_OrbWhirlWind_id));
     BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(field_158_throwable_id));
-    WorkWheel* pfield_164 = static_cast<WorkWheel*>(sObjectIds.Find(field_164_wheel_id, AETypes::eWheel_148));
+    WorkWheel* pfield_164 = static_cast<WorkWheel*>(sObjectIds.Find(field_164_wheel_id, ReliveTypes::eWheel));
     if (sControlledCharacter_5C1B8C == this || mHealth <= FP_FromInteger(0))
     {
         // Chant music/orb kill ?

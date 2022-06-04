@@ -201,7 +201,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
     }
 
-    VStackOnObjectsOfType(AOTypes::eParamite_62);
+    VStackOnObjectsOfType(ReliveTypes::eParamite);
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
 

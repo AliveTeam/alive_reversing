@@ -14,8 +14,6 @@ struct ObjectId_Record final
 };
 
 class BaseGameObject;
-enum class AETypes : s16;
-enum class AOTypes : s16; // AO types
 enum class ReliveTypes : s16;
 
 class ObjectIds final
@@ -32,7 +30,7 @@ public:
     BaseGameObject* Find_Impl(TObjectId_KeyType idToFind);
 
 public:
-    BaseGameObject* Find(TObjectId_KeyType idToFind, AETypes type);
+    BaseGameObject* Find(TObjectId_KeyType idToFind, ReliveTypes type);
     s32 EnsureIdIsUnique(s32 nextId);
     s32 GetHighestUsedId();
 

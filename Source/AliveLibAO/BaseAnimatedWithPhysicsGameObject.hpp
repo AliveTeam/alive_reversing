@@ -55,7 +55,7 @@ public:
 
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther);
 
-    virtual void VStackOnObjectsOfType(AOTypes typeToFind);
+    virtual void VStackOnObjectsOfType(ReliveTypes typeToFind);
 
     virtual void VOnPickUpOrSlapped();
 
@@ -102,7 +102,7 @@ private:
 
     PSX_RECT* VGetBoundingRect_418120(PSX_RECT* pRect, s32 pointIdx);
 
-    void VStackOnObjectsOfType_418930(AOTypes typeToFind);
+    void VStackOnObjectsOfType_418930(ReliveTypes typeToFind);
 
 public:
     Animation field_10_anim;

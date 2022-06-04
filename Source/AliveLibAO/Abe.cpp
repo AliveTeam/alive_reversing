@@ -3233,7 +3233,7 @@ s16 Abe::HandleDoAction_429A70()
 
                     // Get switch
                     auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
-                        AOTypes::eLever_97,
+                        ReliveTypes::eLever,
                         field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale),
                         field_AC_ypos - FP_FromInteger(5)));
 
@@ -3254,7 +3254,7 @@ s16 Abe::HandleDoAction_429A70()
 
                     // Get switch
                     auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
-                        AOTypes::eLever_97,
+                        ReliveTypes::eLever,
                         field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale),
                         field_AC_ypos - FP_FromInteger(5)));
 
@@ -3274,7 +3274,7 @@ s16 Abe::HandleDoAction_429A70()
             case TlvTypes::BoomMachine_97:
             {
                 auto pBoomMachine = static_cast<BoomMachine*>(FindObjectOfType_418280(
-                    AOTypes::eGrenadeMachine_41,
+                    ReliveTypes::eGrenadeMachine,
                     field_A8_xpos,
                     field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(25))));
 
@@ -4038,7 +4038,7 @@ void Abe::Motion_0_Idle_423520()
                 case TlvTypes::BoomMachine_97:
                 {
                     auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_418280(
-                        AOTypes::eGrenadeMachine_41,
+                        ReliveTypes::eGrenadeMachine,
                         field_A8_xpos,
                         field_AC_ypos - field_BC_sprite_scale * FP_FromInteger(25)));
                     if (pMachineButton)
@@ -4361,11 +4361,11 @@ void Abe::Motion_2_StandingTurn_426040()
                     Lever* pSwitch;
                     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(AOTypes::eLever_97, field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
                     }
                     else
                     {
-                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(AOTypes::eLever_97, field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale), field_AC_ypos - FP_FromInteger(5)));
                     }
 
                     if (pSwitch)
