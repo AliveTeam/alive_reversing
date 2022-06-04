@@ -106,8 +106,8 @@ private:
 
 public:
     Animation field_10_anim;
-    FP field_A8_xpos;
-    FP field_AC_ypos;
+    FP mBaseAnimatedWithPhysicsGameObject_XPos;
+    FP mBaseAnimatedWithPhysicsGameObject_YPos;
     s16 field_B0_path_number;
     LevelIds field_B2_lvl_number;
     FP field_B4_velx;

@@ -35,18 +35,18 @@ void DeathBirdParticle::VUpdate()
                     doveRec.mMaxW,
                     doveRec.mMaxH,
                     doveRec.mResourceId,
-                    field_A8_xpos,
-                    field_AC_ypos - FP_FromInteger(15),
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(15),
                     field_BC_sprite_scale);
                 if (pDove)
                 {
                     if (pDove->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        pDove->field_A8_xpos += FP_FromInteger(8);
+                        pDove->mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(8);
                     }
                     else
                     {
-                        pDove->field_A8_xpos -= FP_FromInteger(8);
+                        pDove->mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(8);
                     }
 
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -61,8 +61,8 @@ void DeathBirdParticle::VUpdate()
             break;
     }
 
-    field_A8_xpos += FP_FromInteger(2) * Math_Sine_451110(field_E4_random);
-    field_AC_ypos -= FP_FromInteger(2);
+    mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(2) * Math_Sine_451110(field_E4_random);
+    mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(2);
     field_E4_random += 5;
 }
 
@@ -93,8 +93,8 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound
             field_10_anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
         }
 
-        field_A8_xpos = xpos;
-        field_AC_ypos = ypos;
+        mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+        mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
         field_E4_random = Math_NextRandom();
         field_E8_start = start;
         field_E5_state = States::eAnimateDeathFlares_0;

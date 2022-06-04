@@ -33,8 +33,8 @@ public:
         field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
         field_10_anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
 
-        field_A8_xpos = xpos;
-        field_AC_ypos = ypos + FP_FromInteger(4);
+        mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+        mBaseAnimatedWithPhysicsGameObject_YPos = ypos + FP_FromInteger(4);
 
         field_10_anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
         field_10_anim.mRenderMode = TPageAbr::eBlend_3;
@@ -90,8 +90,8 @@ public:
         field_10_anim.Get_Frame_Offset(&xy.field_0_x, &xy.field_2_y);
 
         const auto& pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
-        const FP screenX = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pCamPos->field_0_x;
-        const FP screenY = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + field_AC_ypos - pCamPos->field_4_y;
+        const FP screenX = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + mBaseAnimatedWithPhysicsGameObject_XPos - pCamPos->field_0_x;
+        const FP screenY = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + mBaseAnimatedWithPhysicsGameObject_YPos - pCamPos->field_4_y;
 
         const FP frameWScaled = (FP_FromInteger(frameW) * field_BC_sprite_scale);
         const FP frameHScaled = (FP_FromInteger(frameH) * field_BC_sprite_scale);
@@ -146,8 +146,8 @@ public:
         field_CC_bApplyShadows |= 1u;
         field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
 
-        field_A8_xpos = xpos;
-        field_AC_ypos = ypos;
+        mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+        mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
         field_400_xpos = xpos;
         field_404_ypos = ypos;
 
@@ -164,8 +164,8 @@ public:
             anim.field_14.mRenderLayer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = field_BC_sprite_scale;
 
-            anim.field_0_x = field_A8_xpos;
-            anim.field_4_y = field_AC_ypos;
+            anim.field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
+            anim.field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
 
             anim.field_8_off_x = FP_FromInteger(0);
             anim.field_C_off_y = FP_FromInteger(0);
@@ -181,8 +181,8 @@ public:
     {
         PSX_RECT rect = {};
         gMap.Get_Camera_World_Rect(CameraPos::eCamCurrent_0, &rect);
-        field_A8_xpos = FP_FromInteger(rect.w + 16);
-        field_AC_ypos = FP_FromInteger(rect.y - 16);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(rect.w + 16);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(rect.y - 16);
         if (field_E4_bRender)
         {
             for (auto& anim : field_E8_sparks)
@@ -240,8 +240,8 @@ public:
                 const FP screen_bottom = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
 
                 field_10_anim.VRender(
-                    FP_GetExponent(PsxToPCX(field_A8_xpos - screen_left)),
-                    FP_GetExponent(field_AC_ypos - screen_top),
+                    FP_GetExponent(PsxToPCX(mBaseAnimatedWithPhysicsGameObject_XPos - screen_left)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - screen_top),
                     ppOt,
                     0,
                     0);
@@ -340,14 +340,14 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
         pTlv->field_1A_scale == Path_DoorFlame::Scale::eHalf_2)
     {
         field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-        field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 15);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 15);
     }
     else if (pTlv->field_1A_scale == Path_DoorFlame::Scale::eFull_0)
     {
         field_BC_sprite_scale = FP_FromInteger(1);
-        field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-        field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 15);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 15);
     }
 
     switch (pTlv->field_1C_colour)
@@ -383,7 +383,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
     field_EE_2_random = Math_NextRandom() & 1;
 
-    field_FC_pFlameSparks = ao_new<FlameSparks>(field_A8_xpos, field_AC_ypos);
+    field_FC_pFlameSparks = ao_new<FlameSparks>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
     if (field_FC_pFlameSparks)
     {
         field_FC_pFlameSparks->mBaseGameObjectRefCount++;
@@ -443,8 +443,8 @@ void DoorFlame::VUpdate()
 
             if (!field_F8_pFireBackgroundGlow)
             {
-                field_F8_pFireBackgroundGlow = ao_new<FireBackgroundGlow>(field_A8_xpos,
-                    field_AC_ypos + FP_FromInteger(4),
+                field_F8_pFireBackgroundGlow = ao_new<FireBackgroundGlow>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(4),
                     FP_FromDouble(0.5));
                 if (field_F8_pFireBackgroundGlow)
                 {
@@ -463,8 +463,8 @@ void DoorFlame::VUpdate()
     if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

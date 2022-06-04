@@ -39,8 +39,8 @@ LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
     field_EA = 0;
 
     field_BC_sprite_scale = FP_FromDouble(0.4);
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 }
 
 LightEffect::~LightEffect()
@@ -55,8 +55,8 @@ void LightEffect::VRender(PrimHeader** /*ppOt*/)
     /*
     if (sNumCamSwappers_507668 == 0)
     {
-        const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + field_A8_xpos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
-        const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + field_AC_ypos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
+        const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
+        const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
         field_10_anim.mRed = static_cast<u8>(field_C0_r/4);
         field_10_anim.mGreen = static_cast<u8>(field_C2_g/4);

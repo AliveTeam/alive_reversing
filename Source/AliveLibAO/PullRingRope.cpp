@@ -55,8 +55,8 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_EC_state = States::eIdle_0;
     field_E4_stay_in_state_ticks = 0;
 
-    field_AC_ypos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->field_10_top_left.field_2_y + 24);
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->field_10_top_left.field_2_y + 24);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
 
     if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
@@ -79,9 +79,9 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_F4_pPuller = nullptr;
 
     field_F8_pRope = ao_new<Rope>(
-        FP_GetExponent(field_A8_xpos + FP_FromInteger((lvl_x_off + 1))),
-        FP_GetExponent(field_AC_ypos) - pTlv->field_1C_rope_length,
-        FP_GetExponent(field_AC_ypos + (FP_FromInteger(field_C8_yOffset))),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger((lvl_x_off + 1))),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - pTlv->field_1C_rope_length,
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(field_C8_yOffset))),
         field_BC_sprite_scale);
     if (field_F8_pRope)
     {
@@ -177,8 +177,8 @@ void PullRingRope::VUpdate()
                 SFX_Play_Mono(SoundEffect::RingRopePull_65, 0);
             }
 
-            field_AC_ypos += field_B8_vely;
-            field_F4_pPuller->field_AC_ypos += field_B8_vely;
+            mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+            field_F4_pPuller->mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
             field_E4_stay_in_state_ticks--;
 
             if (field_E4_stay_in_state_ticks == 0)
@@ -271,7 +271,7 @@ void PullRingRope::VUpdate()
             break;
 
         case States::eReturnToIdle_3:
-            field_AC_ypos -= field_B8_vely;
+            mBaseAnimatedWithPhysicsGameObject_YPos -= field_B8_vely;
             field_E4_stay_in_state_ticks--;
             if (field_E4_stay_in_state_ticks == 0)
             {
@@ -295,7 +295,7 @@ void PullRingRope::VUpdate()
             break;
     }
 
-    field_F8_pRope->field_AC_ypos = FP_NoFractional(FP_FromInteger(field_C8_yOffset - 16) + field_AC_ypos);
+    field_F8_pRope->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(FP_FromInteger(field_C8_yOffset - 16) + mBaseAnimatedWithPhysicsGameObject_YPos);
 }
 
 } // namespace AO

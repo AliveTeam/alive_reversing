@@ -23,8 +23,8 @@ BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
     field_F0_bSpawnElum = FALSE;
     field_E4_state = BellHammerStates::eWaitForActivation_0;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 82);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 94);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 82);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 94);
 
     field_E6_switch_id = pTlv->field_18_switch_id;
     field_E8_tlvInfo = tlvInfo;
@@ -175,8 +175,8 @@ void BellHammer::VUpdate()
             PSX_Point mapCoords = {};
             gMap.GetCurrentCamCoords(&mapCoords);
 
-            gElum_507680->field_A8_xpos = (FP_FromInteger(mapCoords.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, 0))) - ScaleToGridSize(field_BC_sprite_scale);
-            gElum_507680->field_AC_ypos = gElum_507680->field_AC_ypos + FP_FromInteger(450);
+            gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos = (FP_FromInteger(mapCoords.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, 0))) - ScaleToGridSize(field_BC_sprite_scale);
+            gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos = gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(450);
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
         }
     }

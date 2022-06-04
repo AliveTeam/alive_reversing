@@ -220,15 +220,15 @@ Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 max
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    field_A8_xpos = xpos;
-    field_AC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     field_E4_scale_amount = FP_FromInteger(0);
 }
 
 void Particle::VUpdate()
 {
-    field_A8_xpos += field_B4_velx;
-    field_AC_ypos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
     field_BC_sprite_scale += field_E4_scale_amount;
 

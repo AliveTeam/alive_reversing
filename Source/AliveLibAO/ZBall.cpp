@@ -31,7 +31,7 @@ s16* Animation_OnFrame_ZBallSmacker(void* pObj, s16* pData)
             PSX_RECT bRect = {};
             pAliveObj->VGetBoundingRect(&bRect, 1);
 
-            if (bRect.x <= (FP_GetExponent(pZBall->field_A8_xpos) + pData[2]) && bRect.w >= (FP_GetExponent(pZBall->field_A8_xpos) + pData[0]) && bRect.h >= (FP_GetExponent(pZBall->field_AC_ypos) + pData[1]) && bRect.y <= (FP_GetExponent(pZBall->field_AC_ypos) + pData[3]))
+            if (bRect.x <= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_XPos) + pData[2]) && bRect.w >= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_XPos) + pData[0]) && bRect.h >= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_YPos) + pData[1]) && bRect.y <= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_YPos) + pData[3]))
             {
                 pAliveObj->VTakeDamage(pZBall);
             }
@@ -77,8 +77,8 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     if (gMap.mCurrentLevel == LevelIds::eForestTemple_4)
     {
@@ -164,8 +164,8 @@ void ZBall::VUpdate()
     if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         mBaseGameObjectFlags.Set(Options::eDead);

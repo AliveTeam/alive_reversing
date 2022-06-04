@@ -57,22 +57,22 @@ s16* Animation_OnFrame_Slig(void* pObj, s16* pData)
         ao_new<Bullet>(
             pSlig,
             bulletType,
-            pSlig->field_A8_xpos,
-            yOff + pSlig->field_AC_ypos,
+            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
+            yOff + pSlig->mBaseAnimatedWithPhysicsGameObject_YPos,
             FP_FromInteger(-640),
             0,
             pSlig->field_BC_sprite_scale,
             0);
 
         New_ShootingFire_Particle_419720(
-            pSlig->field_A8_xpos - xOff,
-            pSlig->field_AC_ypos + yOff,
+            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos - xOff,
+            pSlig->mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
             1,
             pSlig->field_BC_sprite_scale);
 
         ao_new<BulletShell>(
-            pSlig->field_A8_xpos,
-            pSlig->field_AC_ypos + yOff,
+            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
+            pSlig->mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
             0,
             pSlig->field_BC_sprite_scale);
     }
@@ -81,22 +81,22 @@ s16* Animation_OnFrame_Slig(void* pObj, s16* pData)
         ao_new<Bullet>(
             pSlig,
             bulletType,
-            pSlig->field_A8_xpos,
-            yOff + pSlig->field_AC_ypos,
+            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
+            yOff + pSlig->mBaseAnimatedWithPhysicsGameObject_YPos,
             FP_FromInteger(640),
             0,
             pSlig->field_BC_sprite_scale,
             0);
 
         New_ShootingFire_Particle_419720(
-            pSlig->field_A8_xpos + xOff,
-            pSlig->field_AC_ypos + yOff,
+            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos + xOff,
+            pSlig->mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
             0,
             pSlig->field_BC_sprite_scale);
 
         ao_new<BulletShell>(
-            pSlig->field_A8_xpos,
-            pSlig->field_AC_ypos + yOff,
+            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
+            pSlig->mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
             1,
             pSlig->field_BC_sprite_scale);
     }
@@ -140,14 +140,14 @@ s16* Slog_OnFrame(void* pObj, s16* pData)
                     FP blood_xpos = {};
                     if (pSlog->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        blood_xpos = pSlog->field_A8_xpos - (pSlog->field_BC_sprite_scale * FP_FromInteger(pData[0]));
+                        blood_xpos = pSlog->mBaseAnimatedWithPhysicsGameObject_XPos - (pSlog->field_BC_sprite_scale * FP_FromInteger(pData[0]));
                     }
                     else
                     {
-                        blood_xpos = pSlog->field_A8_xpos + (pSlog->field_BC_sprite_scale * FP_FromInteger(pData[0]));
+                        blood_xpos = pSlog->mBaseAnimatedWithPhysicsGameObject_XPos + (pSlog->field_BC_sprite_scale * FP_FromInteger(pData[0]));
                     }
 
-                    const FP blood_ypos = (pSlog->field_BC_sprite_scale * FP_FromInteger(pData[1])) + pSlog->field_AC_ypos;
+                    const FP blood_ypos = (pSlog->field_BC_sprite_scale * FP_FromInteger(pData[1])) + pSlog->mBaseAnimatedWithPhysicsGameObject_YPos;
 
                     ao_new<Blood>(
                         blood_xpos,
@@ -200,24 +200,24 @@ s16* Abe_OnFrame(void* pObj, s16* pData)
     FP hitY = {};
     PathLine* pLine = nullptr;
     if (sCollisions_DArray_504C6C->RayCast(
-            pAbe->field_A8_xpos,
-            pAbe->field_AC_ypos + data_y,
-            pAbe->field_A8_xpos + directed_x,
-            pAbe->field_AC_ypos + data_y,
+            pAbe->mBaseAnimatedWithPhysicsGameObject_XPos,
+            pAbe->mBaseAnimatedWithPhysicsGameObject_YPos + data_y,
+            pAbe->mBaseAnimatedWithPhysicsGameObject_XPos + directed_x,
+            pAbe->mBaseAnimatedWithPhysicsGameObject_YPos + data_y,
             &pLine,
             &hitX,
             &hitY,
             pAbe->field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60))
     {
-        directed_x = hitX - pAbe->field_A8_xpos;
+        directed_x = hitX - pAbe->mBaseAnimatedWithPhysicsGameObject_XPos;
         xVel = -xVel;
     }
 
     if (sActiveHero_507678->field_198_pThrowable)
     {
-        sActiveHero_507678->field_198_pThrowable->field_A8_xpos = directed_x + sActiveHero_507678->field_A8_xpos;
+        sActiveHero_507678->field_198_pThrowable->mBaseAnimatedWithPhysicsGameObject_XPos = directed_x + sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos;
         BaseThrowable* pThrowable = sActiveHero_507678->field_198_pThrowable;
-        pThrowable->field_AC_ypos = (pAbe->field_BC_sprite_scale * data_y) + sActiveHero_507678->field_AC_ypos;
+        pThrowable->mBaseAnimatedWithPhysicsGameObject_YPos = (pAbe->field_BC_sprite_scale * data_y) + sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos;
         pThrowable->VThrow(xVel, yVel);
         pThrowable->field_BC_sprite_scale = pAbe->field_BC_sprite_scale;
         sActiveHero_507678->field_198_pThrowable = nullptr;

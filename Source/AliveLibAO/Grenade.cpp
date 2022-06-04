@@ -35,10 +35,10 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_A8_xpos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     field_120_xpos = xpos;
 
-    field_AC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     field_124_ypos = ypos;
 
     field_B4_velx = FP_FromInteger(0);
@@ -134,10 +134,10 @@ void Grenade::VUpdate()
         case States::eFallingToBeCollected_0:
             if (!InTheAir())
             {
-                mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-                mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
-                mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-                mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
+                mBaseAliveGameObjectCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                mBaseAliveGameObjectCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(field_BC_sprite_scale);
+                mBaseAliveGameObjectCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                mBaseAliveGameObjectCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
 
                 mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
                 field_110_state = States::eWaitToBeCollected_1;
@@ -162,7 +162,7 @@ void Grenade::VUpdate()
                 }
 
                 const auto oldLine = field_114_pCollisionLine;
-                field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+                field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_B4_velx);
                 if (mLiftPoint)
                 {
                     if (field_114_pCollisionLine != oldLine)
@@ -178,10 +178,10 @@ void Grenade::VUpdate()
                     field_110_state = States::eFallingToBeCollected_0;
                 }
             }
-            else if (abs(SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(field_A8_xpos)) - FP_GetExponent(field_A8_xpos)) > 1)
+            else if (abs(SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)) - FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)) > 1)
             {
                 const auto oldLine = field_114_pCollisionLine;
-                field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+                field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_B4_velx);
                 if (mLiftPoint)
                 {
                     if (field_114_pCollisionLine != oldLine)
@@ -201,10 +201,10 @@ void Grenade::VUpdate()
             {
                 field_B4_velx = FP_FromInteger(0);
 
-                mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-                mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
-                mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-                mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
+                mBaseAliveGameObjectCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                mBaseAliveGameObjectCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(field_BC_sprite_scale);
+                mBaseAliveGameObjectCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                mBaseAliveGameObjectCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
 
                 mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
                 field_110_state = States::eDoesNothing_2;
@@ -243,7 +243,7 @@ void Grenade::VUpdate()
             field_B4_velx = FP_FromRaw(field_B4_velx.fpValue / 2);
 
             const auto oldLine = field_114_pCollisionLine;
-            field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+            field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_B4_velx);
             if (mLiftPoint)
             {
                 if (field_114_pCollisionLine != oldLine)
@@ -301,25 +301,25 @@ void Grenade::VOnTrapDoorOpen()
 
 s16 Grenade::InTheAir()
 {
-    field_120_xpos = field_A8_xpos;
-    field_124_ypos = field_AC_ypos;
+    field_120_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    field_124_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
     field_B8_vely += FP_FromInteger(1);
 
-    field_A8_xpos += field_B4_velx;
-    field_AC_ypos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
     u16 result = 0;
-    field_A8_xpos = CamX_VoidSkipper(field_A8_xpos, field_B4_velx, 8, &result);
-    field_AC_ypos = CamY_VoidSkipper(field_AC_ypos, field_B8_vely, 8, &result);
+    mBaseAnimatedWithPhysicsGameObject_XPos = CamX_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_XPos, field_B4_velx, 8, &result);
+    mBaseAnimatedWithPhysicsGameObject_YPos = CamY_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_YPos, field_B8_vely, 8, &result);
 
     FP hitX = {};
     FP hitY = {};
     const auto bHit = sCollisions_DArray_504C6C->RayCast(
         field_120_xpos,
         field_124_ypos,
-        field_A8_xpos,
-        field_AC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         &field_114_pCollisionLine,
         &hitX,
         &hitY,
@@ -340,8 +340,8 @@ s16 Grenade::InTheAir()
                 return 0;
             }
 
-            field_A8_xpos = hitX;
-            field_AC_ypos = hitY;
+            mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+            mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
             field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
             field_B4_velx = (field_B4_velx / FP_FromInteger(2));
             if (field_118 <= 4)
@@ -363,8 +363,8 @@ s16 Grenade::InTheAir()
     const auto v20 = sCollisions_DArray_504C6C->RayCast(
         field_120_xpos,
         field_124_ypos,
-        field_A8_xpos,
-        field_AC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         &field_114_pCollisionLine,
         &hitX,
         &hitY,
@@ -378,8 +378,8 @@ s16 Grenade::InTheAir()
             case 5:
                 if (field_B4_velx < FP_FromInteger(0))
                 {
-                    field_AC_ypos = hitY;
-                    field_A8_xpos = hitX;
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+                    mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
                     s16 vol = 75 - 20 * field_118;
                     if (vol < 40)
@@ -397,8 +397,8 @@ s16 Grenade::InTheAir()
             case 6:
                 if (field_B4_velx > FP_FromInteger(0))
                 {
-                    field_A8_xpos = hitX;
-                    field_AC_ypos = hitY;
+                    mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
                     s16 vol = 75 - 20 * field_118;
                     if (vol < 40)
@@ -432,14 +432,14 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
     PSX_RECT bRect = {};
     pHit2->VGetBoundingRect(&bRect, 1);
 
-    if (field_A8_xpos < FP_FromInteger(bRect.x + 12) || field_A8_xpos > FP_FromInteger(bRect.w - 12))
+    if (mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(bRect.x + 12) || mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(bRect.w - 12))
     {
-        field_A8_xpos = field_120_xpos;
+        mBaseAnimatedWithPhysicsGameObject_XPos = field_120_xpos;
         field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
     }
     else
     {
-        field_AC_ypos = field_124_ypos;
+        mBaseAnimatedWithPhysicsGameObject_YPos = field_124_ypos;
         field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
     }
 
@@ -464,8 +464,8 @@ s16 Grenade::BlowUpAfterCountdown()
     }
 
     auto pExplosion = ao_new<Explosion>(
-        field_A8_xpos,
-        field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(5)),
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos - (field_BC_sprite_scale * FP_FromInteger(5)),
         field_BC_sprite_scale);
     if (pExplosion)
     {
@@ -475,7 +475,7 @@ s16 Grenade::BlowUpAfterCountdown()
         field_110_state = States::eWaitForExplodeEnd_6;
     }
 
-    ao_new<Gibs>(GibType::Metal_5, field_A8_xpos, field_AC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_BC_sprite_scale);
+    ao_new<Gibs>(GibType::Metal_5, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_BC_sprite_scale);
     return 1;
 }
 

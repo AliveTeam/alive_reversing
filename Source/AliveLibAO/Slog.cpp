@@ -115,8 +115,8 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
 {
     field_148 = -1;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     if (pTlv->field_18_scale == Scale_short::eFull_0)
     {
@@ -162,8 +162,8 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
 {
     field_148 = -1;
 
-    field_A8_xpos = xpos;
-    field_AC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     field_BC_sprite_scale = scale;
 
     Init();
@@ -255,7 +255,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             if (pBullet->field_20_x_distance <= FP_FromInteger(0))
             {
                 ao_new<Blood>(
-                    field_A8_xpos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
                     pBullet->field_1C_ypos,
                     -FP_FromInteger(24),
                     FP_FromInteger(0),
@@ -265,7 +265,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             else
             {
                 ao_new<Blood>(
-                    field_A8_xpos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
                     pBullet->field_1C_ypos,
                     FP_FromInteger(24),
                     FP_FromInteger(0),
@@ -297,8 +297,8 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             ao_new<Gibs>(
                 GibType::Slog_2,
-                field_A8_xpos,
-                field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 field_B4_velx,
                 field_B8_vely,
                 field_BC_sprite_scale);
@@ -364,7 +364,7 @@ void Slog::VOn_TLV_Collision(Path_TLV* pTlv)
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             mHealth = FP_FromInteger(0);
         }
-        pTlv = gMap.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
+        pTlv = gMap.TLV_Get_At_446060(pTlv, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
     }
 }
 
@@ -389,18 +389,18 @@ void Slog::VUpdate()
         DDCheat::DebugStr("Slog:  Motion=%d  BrainState=%d\n", mCurrentMotion, field_116_brain_sub_state);
     }
 
-    const FP old_x = field_A8_xpos;
-    const FP old_y = field_AC_ypos;
+    const FP old_x = mBaseAnimatedWithPhysicsGameObject_XPos;
+    const FP old_y = mBaseAnimatedWithPhysicsGameObject_YPos;
     (this->*sSlogMotionTable_4CFD30[mCurrentMotion])();
 
-    if (old_x != field_A8_xpos || old_y != field_AC_ypos)
+    if (old_x != mBaseAnimatedWithPhysicsGameObject_XPos || old_y != mBaseAnimatedWithPhysicsGameObject_YPos)
     {
         BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
             nullptr,
-            field_A8_xpos,
-            field_AC_ypos,
-            field_A8_xpos,
-            field_AC_ypos);
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos);
 
         VOn_TLV_Collision(BaseAliveGameObjectPathTLV);
     }
@@ -471,12 +471,12 @@ u8** Slog::ResBlockForMotion(s16 motion)
 
 void Slog::MoveOnLine()
 {
-    const FP xpos = field_A8_xpos;
+    const FP xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
     if (BaseAliveGameObjectCollisionLine)
     {
         BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(
-            &field_A8_xpos,
-            &field_AC_ypos,
+            &mBaseAnimatedWithPhysicsGameObject_XPos,
+            &mBaseAnimatedWithPhysicsGameObject_YPos,
             field_B4_velx);
         if (BaseAliveGameObjectCollisionLine)
         {
@@ -511,16 +511,16 @@ void Slog::MoveOnLine()
         else
         {
             VOnTrapDoorOpen();
-            BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+            BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
             field_12C = FP_FromInteger(0);
             mCurrentMotion = eSlogMotions::Motion_4_Fall_4750C0;
-            field_A8_xpos = field_B4_velx + xpos;
+            mBaseAnimatedWithPhysicsGameObject_XPos = field_B4_velx + xpos;
         }
     }
     else
     {
         field_12C = FP_FromInteger(0);
-        BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+        BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
         mCurrentMotion = eSlogMotions::Motion_4_Fall_4750C0;
     }
 }
@@ -587,17 +587,17 @@ void Slog::Init()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast(
-            field_A8_xpos,
-            field_AC_ypos,
-            field_A8_xpos,
-            field_AC_ypos + FP_FromInteger(24),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_BC_sprite_scale == FP_FromInteger(1) ? 0x01 : 0x10)
         == 1)
     {
-        field_AC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
     MapFollowMe_401D30(FALSE);
@@ -688,7 +688,7 @@ void Slog::ToJump()
     }
 
     field_B8_vely = (FP_FromInteger(-8) * field_BC_sprite_scale);
-    BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+    BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
     mCurrentMotion = eSlogMotions::Motion_19_JumpForwards_475610;
 
@@ -701,8 +701,8 @@ void Slog::ToJump()
     if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos)
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eIntenseChase_8, this, 0, 0);
@@ -750,8 +750,8 @@ void Slog::Sfx(s32 soundId)
     CameraPos direction = gMap.GetDirection(
         field_B2_lvl_number,
         field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos);
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos);
     PSX_RECT worldRect;
     gMap.Get_Camera_World_Rect(direction, &worldRect);
     volumeLeft = volumeRight;
@@ -770,14 +770,14 @@ void Slog::Sfx(s32 soundId)
         break;
         case CameraPos::eCamLeft_3:
         {
-            FP percentHowFar = (FP_FromInteger(worldRect.w) - field_A8_xpos) / FP_FromInteger(368);
+            FP percentHowFar = (FP_FromInteger(worldRect.w) - mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
             volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
             break;
         }
         case CameraPos::eCamRight_4:
         {
-            FP percentHowFar = (field_A8_xpos - FP_FromInteger(worldRect.x)) / FP_FromInteger(368);
+            FP percentHowFar = (mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(worldRect.x)) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
             volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
             break;
@@ -794,7 +794,7 @@ void Slog::Sfx(s32 soundId)
 
 s16 Slog::IsPlayerNear()
 {
-    if (FP_Abs(sActiveHero_507678->field_A8_xpos - field_A8_xpos) >= (FP_FromInteger(100) * field_BC_sprite_scale) || FP_Abs(sActiveHero_507678->field_AC_ypos - field_AC_ypos) >= (FP_FromInteger(25) * field_BC_sprite_scale) || sActiveHero_507678->field_BC_sprite_scale != field_BC_sprite_scale)
+    if (FP_Abs(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) >= (FP_FromInteger(100) * field_BC_sprite_scale) || FP_Abs(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) >= (FP_FromInteger(25) * field_BC_sprite_scale) || sActiveHero_507678->field_BC_sprite_scale != field_BC_sprite_scale)
     {
         return 0;
     }
@@ -838,7 +838,7 @@ BaseAliveGameObject* Slog::FindAbeMudOrSlig()
                     && objRect.h >= bRect.y
                     && objRect.y <= bRect.h)
                 {
-                    const FP xd = FP_Abs(pObj->field_A8_xpos - field_A8_xpos);
+                    const FP xd = FP_Abs(pObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos);
                     if (xd < minDist)
                     {
                         pResult = pObj;
@@ -897,18 +897,18 @@ s16 Slog::HandleEnemyStopper()
     FP xpos = {};
     if (field_B4_velx >= FP_FromInteger(0))
     {
-        xpos = field_A8_xpos + (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2));
+        xpos = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2));
     }
     else
     {
-        xpos = field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2));
+        xpos = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2));
     }
 
     auto pStopper = static_cast<Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
         FP_GetExponent(xpos),
-        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
         FP_GetExponent(xpos),
-        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
         TlvTypes::EnemyStopper_79));
 
     if (!pStopper)
@@ -954,8 +954,8 @@ void Slog::Motion_0_Idle_4742E0()
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
-                        field_A8_xpos,
-                        field_AC_ypos,
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos,
                         0))
                 {
                     SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_17, 1, 0);
@@ -964,14 +964,14 @@ void Slog::Motion_0_Idle_4742E0()
                 if (gMap.GetDirection(
                         field_B2_lvl_number,
                         field_B0_path_number,
-                        field_A8_xpos,
-                        field_AC_ypos)
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos)
                         >= CameraPos::eCamCurrent_0
                     && gMap.GetDirection(
                            field_B2_lvl_number,
                            field_B0_path_number,
-                           field_A8_xpos,
-                           field_AC_ypos)
+                           mBaseAnimatedWithPhysicsGameObject_XPos,
+                           mBaseAnimatedWithPhysicsGameObject_YPos)
                            >= CameraPos::eCamCurrent_0)
                 {
                     if (MusicController::GetAbmientAndMusicInfo(nullptr, nullptr, nullptr) == MusicController::MusicTypes::eSlogChaseTension)
@@ -1032,11 +1032,11 @@ void Slog::Motion_1_Walk_4743F0()
 
         if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_A8_xpos += field_B4_velx + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
         }
         else
         {
-            field_A8_xpos += field_B4_velx - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
         }
     }
     else
@@ -1097,8 +1097,8 @@ void Slog::Motion_2_Run_4749A0()
     if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos)
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eIntenseChase_8, this, 0, 0);
@@ -1208,8 +1208,8 @@ void Slog::Motion_4_Fall_4750C0()
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
                 BaseAliveGameObjectCollisionLine = pLine;
-                field_AC_ypos = hitY;
-                field_A8_xpos = hitX;
+                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+                mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 MapFollowMe_401D30(FALSE);
 
                 if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eUnknown_32 ||
@@ -1218,7 +1218,7 @@ void Slog::Motion_4_Fall_4750C0()
                     PSX_RECT bRect = {};
                     VGetBoundingRect(&bRect, 1);
                     bRect.y += 5;
-                    bRect.h = FP_GetExponent(field_AC_ypos) + 5;
+                    bRect.h = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) + 5;
                     VOnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
@@ -1233,8 +1233,8 @@ void Slog::Motion_4_Fall_4750C0()
             case eLineTypes::eWallRight_2:
             case eLineTypes::eBackgroundWallLeft_5:
             case eLineTypes::eBackgroundWallRight_6:
-                field_A8_xpos = hitX - field_B4_velx;
-                field_AC_ypos = hitY;
+                mBaseAnimatedWithPhysicsGameObject_XPos = hitX - field_B4_velx;
+                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 MapFollowMe_401D30(FALSE);
                 field_B4_velx = FP_FromInteger(0);
                 break;
@@ -1252,8 +1252,8 @@ void Slog::Motion_5_Unknown_474070()
         mCurrentMotion = mPreviousMotion;
         if (mLiftPoint)
         {
-            field_A8_xpos = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
-            field_AC_ypos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
+            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
+            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
         }
     }
 }
@@ -1388,11 +1388,11 @@ void Slog::Motion_9_StartWalking_474690()
 
         if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_A8_xpos += field_B4_velx + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
         }
         else
         {
-            field_A8_xpos += field_B4_velx - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
         }
     }
     else
@@ -1419,11 +1419,11 @@ void Slog::Motion_10_EndWalking_4747D0()
 
         if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_A8_xpos += field_B4_velx + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
         }
         else
         {
-            field_A8_xpos += field_B4_velx - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
         }
     }
     else
@@ -1513,8 +1513,8 @@ void Slog::Motion_16_Sleeping_4752E0()
             if (gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
             {
                 bSpawnParticle = true;
@@ -1527,8 +1527,8 @@ void Slog::Motion_16_Sleeping_4752E0()
         if (gMap.Is_Point_In_Current_Camera_4449C0(
                 field_B2_lvl_number,
                 field_B0_path_number,
-                field_A8_xpos,
-                field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 0))
         {
             bSpawnParticle = true;
@@ -1538,9 +1538,9 @@ void Slog::Motion_16_Sleeping_4752E0()
     if (bSpawnParticle)
     {
         ao_new<SnoozeParticle>(
-            field_A8_xpos
+            mBaseAnimatedWithPhysicsGameObject_XPos
                 + ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-18) : FP_FromInteger(18)),
-            field_AC_ypos - FP_FromInteger(13),
+            mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(13),
             field_10_anim.mRenderLayer,
             field_10_anim.field_14_scale);
     }
@@ -1589,8 +1589,8 @@ void Slog::Motion_18_WakeUp_475460()
     if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos)
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogTension, this, 0, 0);
@@ -1606,11 +1606,11 @@ void Slog::Motion_19_JumpForwards_475610()
         field_B8_vely = (field_BC_sprite_scale * FP_FromInteger(20));
     }
 
-    const FP oldXPos = field_A8_xpos;
-    const FP ypos1 = field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(20));
+    const FP oldXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    const FP ypos1 = mBaseAnimatedWithPhysicsGameObject_YPos - (field_BC_sprite_scale * FP_FromInteger(20));
 
-    field_A8_xpos += field_B4_velx;
-    field_AC_ypos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -1618,8 +1618,8 @@ void Slog::Motion_19_JumpForwards_475610()
     if (sCollisions_DArray_504C6C->RayCast(
             oldXPos,
             ypos1,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             &pLine,
             &hitX,
             &hitY,
@@ -1633,7 +1633,7 @@ void Slog::Motion_19_JumpForwards_475610()
                 if (field_B4_velx < FP_FromInteger(0))
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                    field_A8_xpos = oldXPos;
+                    mBaseAnimatedWithPhysicsGameObject_XPos = oldXPos;
                 }
                 break;
 
@@ -1642,7 +1642,7 @@ void Slog::Motion_19_JumpForwards_475610()
                 if (field_B4_velx > FP_FromInteger(0))
                 {
                     field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
-                    field_A8_xpos = oldXPos;
+                    mBaseAnimatedWithPhysicsGameObject_XPos = oldXPos;
                 }
                 break;
             default:
@@ -1653,8 +1653,8 @@ void Slog::Motion_19_JumpForwards_475610()
     if (sCollisions_DArray_504C6C->RayCast(
             oldXPos,
             ypos1,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             &pLine,
             &hitX,
             &hitY,
@@ -1671,7 +1671,7 @@ void Slog::Motion_19_JumpForwards_475610()
                     BaseAliveGameObjectCollisionLine = pLine;
                     mNextMotion = -1;
                     mCurrentMotion = eSlogMotions::Motion_2_Run_4749A0;
-                    field_AC_ypos = hitY;
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                     field_B8_vely = FP_FromInteger(0);
                 }
                 break;
@@ -1680,10 +1680,10 @@ void Slog::Motion_19_JumpForwards_475610()
         }
     }
 
-    if (field_AC_ypos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(2))
+    if (mBaseAnimatedWithPhysicsGameObject_YPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(2))
     {
         field_12C = FP_FromInteger(0);
-        BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+        BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
         mCurrentMotion = eSlogMotions::Motion_4_Fall_4750C0;
     }
 }
@@ -1693,8 +1693,8 @@ void Slog::Motion_20_JumpUpwards_475890()
     if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos)
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos)
         >= CameraPos::eCamCurrent_0)
         MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChaseTension, this, 0, 0);
 
@@ -1722,10 +1722,10 @@ void Slog::Motion_21_Eating_475900()
         if (field_10_anim.field_92_current_frame == 3 && !field_10_anim.mAnimFlags.Get(AnimFlags::eBit19_LoopBackwards))
         {
             SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 100, 0);
-            const FP bloodYPos = field_AC_ypos - (FP_FromInteger(4) * field_BC_sprite_scale);
+            const FP bloodYPos = mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(4) * field_BC_sprite_scale);
             const FP bloodXPos = ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromInteger(25) : FP_FromInteger(25) * field_BC_sprite_scale);
             ao_new<Blood>(
-                bloodXPos + field_A8_xpos,
+                bloodXPos + mBaseAnimatedWithPhysicsGameObject_XPos,
                 bloodYPos,
                 FP_FromInteger(0),
                 FP_FromInteger(0),
@@ -1874,7 +1874,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
     }
 
     u16 result = 0;
-    const FP xSkip = CamX_VoidSkipper(scaled1Directed + field_14C_pSlig->field_A8_xpos, scaled1Directed, 0, &result);
+    const FP xSkip = CamX_VoidSkipper(scaled1Directed + field_14C_pSlig->mBaseAnimatedWithPhysicsGameObject_XPos, scaled1Directed, 0, &result);
 
     GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
     switch (field_116_brain_sub_state)
@@ -1948,13 +1948,13 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
                 return 2;
             }
 
-            if (FP_Abs(xSkip - field_A8_xpos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)))
+            if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)))
             {
                 mNextMotion = eSlogMotions::Motion_2_Run_4749A0;
                 return 4;
             }
 
-            if (FP_Abs(xSkip - field_A8_xpos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(1)))
+            if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(1)))
             {
                 return field_116_brain_sub_state;
             }
@@ -1979,7 +1979,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
                 return field_116_brain_sub_state;
             }
 
-            if (FP_Abs(xSkip - field_A8_xpos) <= (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(3)))
+            if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) <= (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(3)))
             {
                 mNextMotion = eSlogMotions::Motion_0_Idle_4742E0;
                 return 2;
@@ -2091,7 +2091,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
         return 5;
     }
 
-    if (FP_Abs(xSkip - field_A8_xpos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)))
+    if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)))
     {
         if (!Facing(xSkip))
         {
@@ -2116,7 +2116,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
         }
     }
 
-    if (FP_Abs(xSkip - field_A8_xpos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(1)))
+    if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(1)))
     {
         if (!Facing(xSkip))
         {
@@ -2220,8 +2220,8 @@ s16 Slog::Brain_1_Idle_4719C0()
         case 1:
             if (Event_Is_Event_In_Range(
                     kEventSuspiciousNoise,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_BC_sprite_scale))
             {
                 field_156++;
@@ -2229,8 +2229,8 @@ s16 Slog::Brain_1_Idle_4719C0()
 
             if (Event_Is_Event_In_Range(
                     kEventSpeaking,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_BC_sprite_scale))
             {
                 field_156 += (Slog_NextRandom() % 8) + 15;
@@ -2272,8 +2272,8 @@ s16 Slog::Brain_1_Idle_4719C0()
         case 4:
             if (Event_Is_Event_In_Range(
                     kEventSuspiciousNoise,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_BC_sprite_scale))
             {
                 field_156++;
@@ -2281,8 +2281,8 @@ s16 Slog::Brain_1_Idle_4719C0()
 
             if (Event_Is_Event_In_Range(
                     kEventSpeaking,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_BC_sprite_scale))
             {
                 field_156 += (Slog_NextRandom() % 8) + 15;
@@ -2343,8 +2343,8 @@ s16 Slog::Brain_1_Idle_4719C0()
         case 5:
             if (Event_Is_Event_In_Range(
                     kEventSuspiciousNoise,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_BC_sprite_scale))
             {
                 field_156++;
@@ -2352,8 +2352,8 @@ s16 Slog::Brain_1_Idle_4719C0()
 
             if (Event_Is_Event_In_Range(
                     kEventSpeaking,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_BC_sprite_scale))
             {
                 field_156 += (Slog_NextRandom() % 8) + 15;
@@ -2532,11 +2532,11 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
             }
 
             const FP k10Scaled = field_BC_sprite_scale * FP_FromInteger(10);
-            if (field_AC_ypos <= field_10C_pTarget->field_AC_ypos + k10Scaled)
+            if (mBaseAnimatedWithPhysicsGameObject_YPos <= field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_YPos + k10Scaled)
             {
                 if (field_10C_pTarget->field_BC_sprite_scale == field_BC_sprite_scale)
                 {
-                    if (field_AC_ypos >= (field_10C_pTarget->field_AC_ypos - (k10Scaled * FP_FromInteger(3))))
+                    if (mBaseAnimatedWithPhysicsGameObject_YPos >= (field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_YPos - (k10Scaled * FP_FromInteger(3))))
                     {
                         return field_116_brain_sub_state;
                     }
@@ -2681,7 +2681,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
                 mNextMotion = eSlogMotions::Motion_2_Run_4749A0;
             }
 
-            if (field_AC_ypos < ((field_BC_sprite_scale * FP_FromInteger(10)) + field_10C_pTarget->field_AC_ypos))
+            if (mBaseAnimatedWithPhysicsGameObject_YPos < ((field_BC_sprite_scale * FP_FromInteger(10)) + field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_YPos))
             {
                 field_11C_timer = sGnFrame + field_170;
                 return 11;
@@ -2762,14 +2762,14 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
 
             if (field_174)
             {
-                if (field_10C_pTarget->field_A8_xpos > field_A8_xpos)
+                if (field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_XPos > mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
                     return 1;
                 }
             }
             else
             {
-                if (field_10C_pTarget->field_A8_xpos < field_A8_xpos)
+                if (field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_XPos < mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
                     return 1;
                 }
@@ -2836,12 +2836,12 @@ s16 Slog::Brain_3_Dead_4721B0()
 
 s16 Slog::Facing(FP xpos)
 {
-    if (field_A8_xpos < xpos && !field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_XPos < xpos && !field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return TRUE;
     }
 
-    if (xpos < field_A8_xpos && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (xpos < mBaseAnimatedWithPhysicsGameObject_XPos && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return TRUE;
     }

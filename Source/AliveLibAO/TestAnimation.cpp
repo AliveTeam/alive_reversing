@@ -83,8 +83,8 @@ TestAnimation::TestAnimation()
 
 void TestAnimation::SyncToAbePos()
 {
-    field_A8_xpos = AO::sActiveHero_507678->field_A8_xpos + FP_FromInteger(30);
-    field_AC_ypos = AO::sActiveHero_507678->field_AC_ypos - FP_FromInteger(30);
+    mBaseAnimatedWithPhysicsGameObject_XPos = AO::sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30);
+    mBaseAnimatedWithPhysicsGameObject_YPos = AO::sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30);
     field_10_anim.mRenderLayer = AO::sActiveHero_507678->field_10_anim.mRenderLayer;
 }
 

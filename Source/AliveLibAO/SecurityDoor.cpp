@@ -59,8 +59,8 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     field_F0_code_len = Code_Length(field_EC_code_converted);
     field_10C_top_left = pTlv->field_10_top_left;
     field_110_bottom_right = pTlv->field_14_bottom_right;
-    field_A8_xpos = FP_FromInteger(pTlv->field_20_xpos);
-    field_AC_ypos = FP_FromInteger(pTlv->field_22_ypos);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_20_xpos);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_22_ypos);
 
     if (pTlv->field_1_unknown)
     {
@@ -84,8 +84,8 @@ void SecurityDoor::VScreenChanged()
 
 Bool32 SecurityDoor::IsPlayerNear()
 {
-    const s16 xpos = FP_GetExponent(sControlledCharacter_50767C->field_A8_xpos);
-    const s16 ypos = FP_GetExponent(sControlledCharacter_50767C->field_AC_ypos);
+    const s16 xpos = FP_GetExponent(sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_XPos);
+    const s16 ypos = FP_GetExponent(sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_YPos);
 
     if (xpos < field_10C_top_left.field_0_x || xpos > field_110_bottom_right.field_0_x)
     {

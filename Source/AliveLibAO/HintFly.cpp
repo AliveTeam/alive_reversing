@@ -1366,8 +1366,8 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
 
         field_11C_message_id = pTlv->field_18_message_id;
 
-        field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-        field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
         const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->field_18_message_id);
 
@@ -1457,8 +1457,8 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
             }
 
 
-            field_114_xScreen = FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
-            field_116_yScreen = FP_GetExponent(field_AC_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
+            field_114_xScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
+            field_116_yScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
 
             // Some unknown pal hack that seems to do nothing
             /*

@@ -58,8 +58,8 @@ public:
                         directedScale = field_BC_sprite_scale;
                     }
                     auto pNewNade = ao_new<Grenade>(
-                        field_A8_xpos + (FP_FromInteger(6) * directedScale),
-                        field_AC_ypos + (-FP_FromInteger(6) * directedScale),
+                        mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(6) * directedScale),
+                        mBaseAnimatedWithPhysicsGameObject_YPos + (-FP_FromInteger(6) * directedScale),
                         field_EC_num_grenades);
                     if (pNewNade)
                     {
@@ -179,8 +179,8 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         field_BC_sprite_scale = FP_FromInteger(1);
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x) + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x) + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     auto pNozzle = ao_new<GrenadeMachineNozzle>();
     if (pNozzle)
@@ -199,8 +199,8 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         pNozzle->field_BC_sprite_scale = field_BC_sprite_scale;
         pNozzle->field_CC_bApplyShadows &= ~1u;
         pNozzle->field_E4_state = BoomMachineStates::eInactive_0;
-        pNozzle->field_A8_xpos = field_A8_xpos + (directedScale * FP_FromInteger(30));
-        pNozzle->field_AC_ypos = field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-30));
+        pNozzle->mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos + (directedScale * FP_FromInteger(30));
+        pNozzle->mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_YPos + (field_BC_sprite_scale * FP_FromInteger(-30));
         pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->field_1E_number_of_grenades);
     }
 

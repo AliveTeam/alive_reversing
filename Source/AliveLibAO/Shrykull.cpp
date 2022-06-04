@@ -52,8 +52,8 @@ Shrykull::Shrykull()
     field_118_zap_line = nullptr;
     field_11C_obj_being_zapped = nullptr;
 
-    field_A8_xpos = sActiveHero_507678->field_A8_xpos;
-    field_AC_ypos = sActiveHero_507678->field_AC_ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos;
     field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
     field_C6_scale = sActiveHero_507678->field_C6_scale;
     field_10C_state = State::eTransform_0;
@@ -85,8 +85,8 @@ bool Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
         && gMap.Is_Point_In_Current_Camera_4449C0(
             pObj->field_B2_lvl_number,
             pObj->field_B0_path_number,
-            pObj->field_A8_xpos,
-            pObj->field_AC_ypos,
+            pObj->mBaseAnimatedWithPhysicsGameObject_XPos,
+            pObj->mBaseAnimatedWithPhysicsGameObject_YPos,
             0);
 }
 

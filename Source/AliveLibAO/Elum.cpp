@@ -212,10 +212,10 @@ void Elum::VOn_TLV_Collision(Path_TLV* pTlv)
 
         pTlv = gMap.TLV_Get_At_446060(
             pTlv,
-            field_A8_xpos,
-            field_AC_ypos,
-            field_A8_xpos,
-            field_AC_ypos);
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos);
     }
 }
 
@@ -242,8 +242,8 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
 
                 ao_new<Gibs>(
                     GibType::Elum_3,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_B4_velx,
                     field_B8_vely,
                     field_BC_sprite_scale);
@@ -561,16 +561,16 @@ void Elum::MoveOnLine_412580(s16 xLookAhead)
 {
     CheckLiftPointGoneAndSetCamera();
 
-    const FP oldX = field_A8_xpos;
-    FP xpos_off_fp = field_A8_xpos + FP_FromInteger(xLookAhead);
+    const FP oldX = mBaseAnimatedWithPhysicsGameObject_XPos;
+    FP xpos_off_fp = mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(xLookAhead);
     BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(
         &xpos_off_fp,
-        &field_AC_ypos,
+        &mBaseAnimatedWithPhysicsGameObject_YPos,
         field_B4_velx);
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        field_A8_xpos += field_B4_velx;
+        mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
         if (mLiftPoint)
         {
             if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_32)
@@ -594,8 +594,8 @@ void Elum::MoveOnLine_412580(s16 xLookAhead)
     {
         VOnTrapDoorOpen();
         mCurrentMotion = eElumMotions::Motion_23_WalkOffEdge_415E90;
-        BaseAliveGameObjectLastLineYPos = field_AC_ypos;
-        field_A8_xpos = field_B4_velx + oldX;
+        BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
+        mBaseAnimatedWithPhysicsGameObject_XPos = field_B4_velx + oldX;
     }
 }
 
@@ -777,20 +777,20 @@ void Elum::HandleElumPathTrans_411460()
 
     if (sActiveHero_507678->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_A8_xpos = ScaleToGridSize(field_BC_sprite_scale) + FP_FromInteger(camCoords.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale)));
+        mBaseAnimatedWithPhysicsGameObject_XPos = ScaleToGridSize(field_BC_sprite_scale) + FP_FromInteger(camCoords.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale)));
     }
     else
     {
-        field_A8_xpos = FP_FromInteger(camCoords.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, 0)) - ScaleToGridSize(field_BC_sprite_scale);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camCoords.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, 0)) - ScaleToGridSize(field_BC_sprite_scale);
     }
 
     if (sActiveHero_507678->BaseAliveGameObjectCollisionLine)
     {
-        field_AC_ypos = sActiveHero_507678->field_AC_ypos;
+        mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos;
     }
     else
     {
-        field_AC_ypos = FP_FromInteger(camCoords.field_2_y + FP_GetExponent(field_AC_ypos) % 480);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(camCoords.field_2_y + FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) % 480);
     }
 
     if (BaseAliveGameObjectCollisionLine && BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32)
@@ -802,16 +802,16 @@ void Elum::HandleElumPathTrans_411460()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast(
-            field_A8_xpos,
-            field_AC_ypos - FP_FromInteger(40),
-            field_A8_xpos,
-            field_AC_ypos + FP_FromInteger(40),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(40),
             &pLine,
             &hitX,
             &hitY,
             field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
     {
-        field_AC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         BaseAliveGameObjectCollisionLine = pLine;
     }
     else
@@ -859,8 +859,8 @@ void Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
                 dir = gMap.GetDirection(
                     pObj->field_B2_lvl_number,
                     pObj->field_B0_path_number,
-                    pObj->field_A8_xpos,
-                    pObj->field_AC_ypos);
+                    pObj->mBaseAnimatedWithPhysicsGameObject_XPos,
+                    pObj->mBaseAnimatedWithPhysicsGameObject_YPos);
             }
 
             s32 volLeft = 0;
@@ -941,18 +941,18 @@ void Elum::FindHoney_411600()
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
                         pHoney->field_B2_lvl_number,
                         pHoney->field_B0_path_number,
-                        pHoney->field_A8_xpos,
-                        pHoney->field_AC_ypos,
+                        pHoney->mBaseAnimatedWithPhysicsGameObject_XPos,
+                        pHoney->mBaseAnimatedWithPhysicsGameObject_YPos,
                         0)
                     && gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
-                        field_A8_xpos,
-                        field_AC_ypos,
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos,
                         0))
                 {
-                    field_12C_honey_xpos = FP_GetExponent(pHoney->field_A8_xpos);
-                    field_12E_honey_ypos = FP_GetExponent(pHoney->field_AC_ypos);
+                    field_12C_honey_xpos = FP_GetExponent(pHoney->mBaseAnimatedWithPhysicsGameObject_XPos);
+                    field_12E_honey_ypos = FP_GetExponent(pHoney->mBaseAnimatedWithPhysicsGameObject_YPos);
                     field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4);
                     break;
                 }
@@ -972,7 +972,7 @@ s16 Elum::NearHoney_411DA0()
             return 0;
         }
 
-        return abs(FP_GetExponent(field_AC_ypos) - field_12E_honey_ypos) <= 24 ? 1 : 0;
+        return abs(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - field_12E_honey_ypos) <= 24 ? 1 : 0;
     }
     return 0;
 }
@@ -1016,7 +1016,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
 
         case 1:
         {
-            const FP xd = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
+            const FP xd = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos;
             if (FP_Abs(xd) < (kGridSize * FP_FromInteger(2)))
             {
                 mNextMotion = eElumMotions::Motion_1_Idle_412990;
@@ -1068,7 +1068,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return 0;
             }
 
-            const FP xd = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
+            const FP xd = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos;
             if (xd > (kGridSize / FP_FromInteger(2)) && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 mNextMotion = eElumMotions::Motion_4_Turn_4140F0;
@@ -1087,7 +1087,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                     auto pLift = static_cast<LiftPoint*>(mLiftPoint);
                     if (!pLift->OnAnyFloor()) // TODO: Check logic
                     {
-                        if (field_A8_xpos == sActiveHero_507678->field_A8_xpos)
+                        if (mBaseAnimatedWithPhysicsGameObject_XPos == sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos)
                         {
                             return 2;
                         }
@@ -1197,7 +1197,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return field_12A_brain_sub_state;
             }
 
-            if (field_A8_xpos == sActiveHero_507678->field_A8_xpos)
+            if (mBaseAnimatedWithPhysicsGameObject_XPos == sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos)
             {
                 return 2;
             }
@@ -1229,7 +1229,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return 0;
             }
 
-            const FP xd_1 = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
+            const FP xd_1 = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos;
             if (xd_1 > (kGridSize / FP_FromInteger(2)) && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 mNextMotion = eElumMotions::Motion_4_Turn_4140F0;
@@ -1362,7 +1362,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return field_12A_brain_sub_state;
             }
 
-            const FP xd = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
+            const FP xd = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos;
             if (xd >= FP_FromInteger(0))
             {
                 if (xd >= (kGridSize / FP_FromInteger(2)))
@@ -1393,7 +1393,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return 5;
             }
 
-            const FP xd = sActiveHero_507678->field_A8_xpos - field_A8_xpos;
+            const FP xd = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos;
             if (FP_Abs(xd) < (kGridSize / FP_FromInteger(2)))
             {
                 mNextMotion = eElumMotions::Motion_1_Idle_412990;
@@ -1444,7 +1444,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return field_12A_brain_sub_state;
             }
 
-            if (FP_Abs(sActiveHero_507678->field_A8_xpos - field_A8_xpos) < (kGridSize / FP_FromInteger(2)))
+            if (FP_Abs(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) < (kGridSize / FP_FromInteger(2)))
             {
                 mNextMotion = eElumMotions::Motion_1_Idle_412990;
                 return 2;
@@ -1491,7 +1491,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return 5;
             }
 
-            const FP honey_xd = field_A8_xpos - FP_FromInteger(field_12C_honey_xpos);
+            const FP honey_xd = mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(field_12C_honey_xpos);
             if (honey_xd >= FP_FromInteger(0))
             {
                 if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
@@ -1550,7 +1550,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return field_12A_brain_sub_state;
             }
 
-            const FP honey_xd_1 = field_A8_xpos - FP_FromInteger(field_12C_honey_xpos);
+            const FP honey_xd_1 = mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(field_12C_honey_xpos);
 
             if (honey_xd_1 >= FP_FromInteger(0))
             {
@@ -1591,7 +1591,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return 0;
             }
 
-            if ((field_B4_velx < FP_FromInteger(0) && field_A8_xpos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2))) || (field_B4_velx > FP_FromInteger(0) && FP_FromInteger(field_12C_honey_xpos) - field_A8_xpos >= (kGridSize * FP_FromInteger(2))))
+            if ((field_B4_velx < FP_FromInteger(0) && mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2))) || (field_B4_velx > FP_FromInteger(0) && FP_FromInteger(field_12C_honey_xpos) - mBaseAnimatedWithPhysicsGameObject_XPos >= (kGridSize * FP_FromInteger(2))))
             {
                 return field_12A_brain_sub_state;
             }
@@ -2241,7 +2241,7 @@ void Elum::Motion_12_RunTurn_414520()
         }
         else
         {
-            field_A8_xpos -= field_B4_velx;
+            mBaseAnimatedWithPhysicsGameObject_XPos -= field_B4_velx;
         }
         field_B4_velx = FP_FromInteger(0);
         MapFollowMe_401D30(TRUE);
@@ -2380,8 +2380,8 @@ void Elum::Motion_19_Dead_415F90()
     {
         if (!sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel) && sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft) && field_104_pending_resource_count == 0)
         {
-            field_A8_xpos = FP_FromInteger(field_138_continue_rect.x);
-            field_AC_ypos = FP_FromInteger(field_138_continue_rect.y);
+            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(field_138_continue_rect.x);
+            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_138_continue_rect.y);
 
             field_B8_vely = FP_FromInteger(0);
             field_B4_velx = FP_FromInteger(0);
@@ -2394,7 +2394,7 @@ void Elum::Motion_19_Dead_415F90()
             field_12A_brain_sub_state = 6;
             field_122_bDontFollowAbe = 1;
 
-            if (!gMap.Is_Point_In_Current_Camera_4449C0(field_14A_continue_level, field_148_continue_path, field_A8_xpos, field_AC_ypos, 0))
+            if (!gMap.Is_Point_In_Current_Camera_4449C0(field_14A_continue_level, field_148_continue_path, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
             {
                 Elum_SFX_416E10(ElumSounds::eHowl_2, this);
             }
@@ -2415,7 +2415,7 @@ void Elum::Motion_19_Dead_415F90()
 
             field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-            BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+            BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
             mCurrentMotion = 0;
             mNextMotion = -1;
             BaseAliveGameObjectCollisionLine = nullptr;
@@ -2486,7 +2486,7 @@ void Elum::Motion_21_Land_414A20()
             {
                 Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);
                 BaseAliveGameObjectCollisionLine = pLine;
-                if (field_AC_ypos - BaseAliveGameObjectLastLineYPos >= FP_FromInteger(20))
+                if (mBaseAnimatedWithPhysicsGameObject_YPos - BaseAliveGameObjectLastLineYPos >= FP_FromInteger(20))
                 {
                     mCurrentMotion = eElumMotions::Motion_22_RunOffEdge_415810;
                 }
@@ -2495,17 +2495,17 @@ void Elum::Motion_21_Land_414A20()
                     mCurrentMotion = eElumMotions::Motion_1_Idle_412990;
                 }
 
-                field_A8_xpos = hitX;
-                field_AC_ypos = hitY;
+                mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 MapFollowMe_401D30(TRUE);
 
                 PSX_Point xy = {};
-                xy.field_0_x = FP_GetExponent(field_A8_xpos - FP_FromInteger(10));
-                xy.field_2_y = FP_GetExponent(field_AC_ypos - FP_FromInteger(10));
+                xy.field_0_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(10));
+                xy.field_2_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10));
 
                 PSX_Point wh = {};
-                wh.field_0_x = FP_GetExponent(field_A8_xpos + FP_FromInteger(10));
-                wh.field_2_y = FP_GetExponent(field_AC_ypos + FP_FromInteger(10));
+                wh.field_0_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(10));
+                wh.field_2_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10));
 
                 VOnCollisionWith(
                     xy,
@@ -2576,8 +2576,8 @@ void Elum::Motion_25_LickingHoney_415B50()
         if (gMap.GetDirection(
                 field_B2_lvl_number,
                 field_B0_path_number,
-                field_A8_xpos,
-                field_AC_ypos)
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos)
             == CameraPos::eCamCurrent_0)
         {
             if (field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
@@ -2698,11 +2698,11 @@ void Elum::Motion_30_HopBegin_414E30()
         return;
     }
 
-    field_A8_xpos += xpos;
+    mBaseAnimatedWithPhysicsGameObject_XPos += xpos;
     field_B4_velx = velX;
 
     field_B8_vely = field_BC_sprite_scale * FP_FromDouble(-2.7);
-    BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+    BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
     if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
     {
@@ -2710,8 +2710,8 @@ void Elum::Motion_30_HopBegin_414E30()
         return;
     }
 
-    field_A8_xpos += field_B4_velx;
-    field_AC_ypos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
     VOnTrapDoorOpen();
     mCurrentMotion = eElumMotions::Motion_31_HopMid_414C70;
@@ -2755,8 +2755,8 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
                     switch (midType)
                     {
                         case MidType::eRunJumpMid:
-                            field_A8_xpos = hitX;
-                            field_AC_ypos = hitY;
+                            mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+                            mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                             mCurrentMotion = eElumMotions::Motion_35_RunJumpLand_415580;
                             MapFollowMe_401D30(TRUE);
                             break;
@@ -2765,8 +2765,8 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
                             field_B8_vely = FP_FromInteger(0);
                             field_B4_velx = FP_FromInteger(0);
                             mCurrentMotion = eElumMotions::Motion_32_HopLand_415140;
-                            field_A8_xpos = hitX;
-                            field_AC_ypos = hitY;
+                            mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+                            mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                             break;
 
                         default:
@@ -2779,7 +2779,7 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
             }
         }
 
-        if (field_AC_ypos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(2))
+        if (mBaseAnimatedWithPhysicsGameObject_YPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(2))
         {
             field_118_jump_velx = jump_velx;
             mCurrentMotion = eElumMotions::Motion_24_JumpToFall_415ED0;
@@ -2845,11 +2845,11 @@ void Elum::Motion_33_RunJumpBegin_415400()
 
         field_B4_velx = velX;
 
-        BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+        BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
         field_B8_vely = field_BC_sprite_scale * FP_FromInteger(-4);
 
-        field_A8_xpos += field_B4_velx;
-        field_AC_ypos += field_BC_sprite_scale * FP_FromInteger(-4);
+        mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+        mBaseAnimatedWithPhysicsGameObject_YPos += field_BC_sprite_scale * FP_FromInteger(-4);
 
         VOnTrapDoorOpen();
         mCurrentMotion = eElumMotions::Motion_34_RunJumpMid_415240;
@@ -2904,12 +2904,12 @@ void Elum::Motion_35_RunJumpLand_415580()
                 field_120_bUnknown = 1;
                 if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    field_A8_xpos -= field_BC_sprite_scale * FP_FromDouble(18.75);
+                    mBaseAnimatedWithPhysicsGameObject_XPos -= field_BC_sprite_scale * FP_FromDouble(18.75);
                     field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
                 }
                 else
                 {
-                    field_A8_xpos += field_BC_sprite_scale * FP_FromDouble(18.75);
+                    mBaseAnimatedWithPhysicsGameObject_XPos += field_BC_sprite_scale * FP_FromDouble(18.75);
                     field_B4_velx = ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4);
                 }
             }
@@ -3034,7 +3034,7 @@ void Elum::RunSlideStopKnockback()
     }
     else
     {
-        field_A8_xpos -= field_B4_velx;
+        mBaseAnimatedWithPhysicsGameObject_XPos -= field_B4_velx;
     }
     field_B4_velx = FP_FromInteger(0);
     MapFollowMe_401D30(TRUE);
@@ -3190,8 +3190,8 @@ void Elum::Motion_42_RunToWalk_413B60()
         mCurrentMotion = eElumMotions::Motion_3_WalkLoop_412C90;
         VCheckCollisionLineStillValid(10);
 
-        PSX_Point xy{FP_GetExponent(field_A8_xpos - FP_FromInteger(10)), FP_GetExponent(field_AC_ypos - FP_FromInteger(10))};
-        PSX_Point wh{FP_GetExponent(field_A8_xpos + FP_FromInteger(10)), FP_GetExponent(field_AC_ypos + FP_FromInteger(10))};
+        PSX_Point xy{FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(10)), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10))};
+        PSX_Point wh{FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(10)), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10))};
         VOnCollisionWith(
             xy,
             wh,
@@ -3251,8 +3251,8 @@ void Elum::Motion_43_MidRunToWalk_413E20()
         field_120_bUnknown = 1;
         VCheckCollisionLineStillValid(10);
 
-        PSX_Point xy{FP_GetExponent(field_A8_xpos - FP_FromInteger(10)), FP_GetExponent(field_AC_ypos - FP_FromInteger(10))};
-        PSX_Point wh{FP_GetExponent(field_A8_xpos + FP_FromInteger(10)), FP_GetExponent(field_AC_ypos + FP_FromInteger(10))};
+        PSX_Point xy{FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(10)), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10))};
+        PSX_Point wh{FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(10)), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10))};
 
         VOnCollisionWith(
             xy,
@@ -3293,7 +3293,7 @@ void Elum::Motion_44_ScratchBegin_412730()
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eElumMotions::Motion_45_ScratchLoop_4127B0;
-        if (gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos) == CameraPos::eCamCurrent_0)
+        if (gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos) == CameraPos::eCamCurrent_0)
         {
             SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_15, 1, 1);
         }
@@ -3500,30 +3500,30 @@ void Elum::VUpdate()
                 field_B8_vely += FP_FromRaw(sElum_vely_table_4FF988[tableIdx]);
             }
 
-            field_A8_xpos += field_B4_velx;
-            field_AC_ypos += field_B8_vely;
+            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+            mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
             PSX_Point map_size = {};
             gMap.Get_map_size(&map_size);
 
-            if (field_A8_xpos < FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(0))
             {
-                field_A8_xpos = FP_FromInteger(0);
+                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
             }
 
-            if (field_A8_xpos >= FP_FromInteger(map_size.field_0_x))
+            if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(map_size.field_0_x))
             {
-                field_A8_xpos = FP_FromInteger(map_size.field_0_x) - FP_FromInteger(1);
+                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(map_size.field_0_x) - FP_FromInteger(1);
             }
 
-            if (field_AC_ypos < FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_YPos < FP_FromInteger(0))
             {
-                field_AC_ypos = FP_FromInteger(0);
+                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
             }
 
-            if (field_AC_ypos >= FP_FromInteger(map_size.field_2_y))
+            if (mBaseAnimatedWithPhysicsGameObject_YPos >= FP_FromInteger(map_size.field_2_y))
             {
-                field_AC_ypos = FP_FromInteger(map_size.field_2_y) - FP_FromInteger(1);
+                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(map_size.field_2_y) - FP_FromInteger(1);
             }
         }
         else
@@ -3534,8 +3534,8 @@ void Elum::VUpdate()
 
         SetActiveCameraDelayedFromDir_401C90();
 
-        sActiveHero_507678->field_A8_xpos = field_A8_xpos;
-        sActiveHero_507678->field_AC_ypos = field_AC_ypos;
+        sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos;
+        sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_YPos;
         return;
     }
 
@@ -3573,16 +3573,16 @@ void Elum::VUpdate()
                 FP hitX = {};
                 FP hitY = {};
                 if (sCollisions_DArray_504C6C->RayCast(
-                        field_A8_xpos,
-                        field_AC_ypos - FP_FromInteger(40),
-                        field_A8_xpos,
-                        field_AC_ypos + FP_FromInteger(40),
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40),
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(40),
                         &pLine,
                         &hitX,
                         &hitY,
                         field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
                 {
-                    field_AC_ypos = hitY;
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                     BaseAliveGameObjectCollisionLine = pLine;
                 }
                 else
@@ -3594,8 +3594,8 @@ void Elum::VUpdate()
             }
 
             const auto oldMotion = mCurrentMotion;
-            const FP old_x = field_A8_xpos;
-            const FP old_y = field_AC_ypos;
+            const FP old_x = mBaseAnimatedWithPhysicsGameObject_XPos;
+            const FP old_y = mBaseAnimatedWithPhysicsGameObject_YPos;
 
             if (oldMotion != eElumMotions::Motion_19_Dead_415F90)
             {
@@ -3629,14 +3629,14 @@ void Elum::VUpdate()
                 LOG_INFO("old motion: " << oldMotion << " | new motion: " << mCurrentMotion);
             }
 
-            if (old_x != field_A8_xpos || old_y != field_AC_ypos)
+            if (old_x != mBaseAnimatedWithPhysicsGameObject_XPos || old_y != mBaseAnimatedWithPhysicsGameObject_YPos)
             {
                 BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
                     nullptr,
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    field_A8_xpos,
-                    field_AC_ypos);
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos);
                 VOn_TLV_Collision(BaseAliveGameObjectPathTLV);
             }
 
@@ -3689,8 +3689,8 @@ void Elum::VUpdate()
 
                         if (sControlledCharacter_50767C == this)
                         {
-                            sActiveHero_507678->field_A8_xpos = field_A8_xpos;
-                            sActiveHero_507678->field_AC_ypos = field_AC_ypos;
+                            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos;
+                            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_YPos;
                             sActiveHero_507678->field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
                         }
                         return;
@@ -3704,8 +3704,8 @@ void Elum::VUpdate()
 
             if (sControlledCharacter_50767C == this)
             {
-                sActiveHero_507678->field_A8_xpos = field_A8_xpos;
-                sActiveHero_507678->field_AC_ypos = field_AC_ypos;
+                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos;
+                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_YPos;
                 sActiveHero_507678->field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
             }
             return;
@@ -3744,10 +3744,10 @@ void Elum::VScreenChanged()
             else if (field_B0_path_number == gMap.mCurrentPath)
             {
                 auto pElumPathTrans = static_cast<Path_ElumPathTrans*>(gMap.TLV_Get_At_446260(
-                    FP_GetExponent(field_A8_xpos),
-                    FP_GetExponent(field_AC_ypos),
-                    FP_GetExponent(field_A8_xpos),
-                    FP_GetExponent(field_AC_ypos),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
                     TlvTypes::ElumPathTrans_99));
 
                 if (pElumPathTrans)
@@ -3889,8 +3889,8 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
     field_144_bRespawnOnDead = 0;
     field_110_timer = sGnFrame;
 
-    field_A8_xpos = sActiveHero_507678->field_A8_xpos - (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2));
-    field_AC_ypos = sActiveHero_507678->field_AC_ypos - FP_FromInteger(5);
+    mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2));
+    mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5);
 
     field_122_bDontFollowAbe = 0;
     field_124_bShould_IdleToWalk1 = 1;

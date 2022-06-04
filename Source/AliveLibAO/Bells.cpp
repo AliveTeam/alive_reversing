@@ -42,8 +42,8 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
     field_CC_bApplyShadows &= ~1u;
     field_BC_sprite_scale = scale;
 
-    field_A8_xpos = xpos;
-    field_AC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
     field_10_anim.mRenderLayer = Layer::eLayer_Foreground_36;
 
@@ -87,31 +87,31 @@ void Bells::VUpdate()
             {
                 xOff = FP_FromInteger(-35);
                 yOff = FP_FromInteger(36);
-                const FP wave_ypos = field_AC_ypos + FP_FromInteger(36);
-                const FP wave_xpos = field_A8_xpos - FP_FromInteger(35);
+                const FP wave_ypos = mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(36);
+                const FP wave_xpos = mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(35);
                 ao_new<ScreenWave>(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(18), FP_FromInteger(12), 0);
             }
             else if (field_EA_sound == Sounds::eHighPitch_2)
             {
                 xOff = FP_FromInteger(37);
                 yOff = FP_FromInteger(32);
-                const FP wave_ypos = field_AC_ypos + FP_FromInteger(32);
-                const FP wave_xpos = field_A8_xpos + FP_FromInteger(37);
+                const FP wave_ypos = mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(32);
+                const FP wave_xpos = mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(37);
                 ao_new<ScreenWave>(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(12), FP_FromInteger(12), 0);
             }
             else if (field_EA_sound == Sounds::eMediumPitch_1)
             {
                 xOff = FP_FromInteger(-4);
                 yOff = FP_FromInteger(24);
-                const FP wave_ypos = field_AC_ypos + FP_FromInteger(24);
-                const FP wave_xpos = field_A8_xpos - FP_FromInteger(4);
+                const FP wave_ypos = mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24);
+                const FP wave_xpos = mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(4);
                 ao_new<ScreenWave>(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(14), FP_FromInteger(12), 0);
             }
 
             for (s32 i = 0; i < 4; i++)
             {
-                const FP sparkx = field_A8_xpos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + xOff;
-                const FP sparky = field_AC_ypos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + yOff;
+                const FP sparkx = mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + xOff;
+                const FP sparky = mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + yOff;
                 ao_new<Sparks>(sparkx, sparky, field_BC_sprite_scale);
             }
         }

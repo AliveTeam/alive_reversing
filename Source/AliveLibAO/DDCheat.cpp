@@ -203,8 +203,8 @@ void DDCheat::VUpdate()
                 gMap.GetCurrentCamCoords(&point);
                 pAbe = sActiveHero_507678;
                 cheat_enabled = 1;
-                pAbe->field_A8_xpos = FP_FromInteger(point.field_0_x + 448);
-                pAbe->field_AC_ypos = FP_FromInteger(point.field_2_y + 180);
+                pAbe->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(point.field_0_x + 448);
+                pAbe->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(point.field_2_y + 180);
                 pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
                 pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 pAbe->field_B2_lvl_number = static_cast<LevelIds>(level_4C315C);
@@ -226,7 +226,7 @@ void DDCheat::VUpdate()
                         pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                         showDebugCreatureInfo_5076E0 = 0;
                         sControlledCharacter_50767C->BaseAliveGameObjectCollisionLine = nullptr;
-                        sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
+                        sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_YPos;
                         switch (sControlledCharacter_50767C->mBaseGameObjectTypeId)
                         {
                             case ReliveTypes::eElum:
@@ -271,7 +271,7 @@ void DDCheat::VUpdate()
                 if (sControlledCharacter_50767C)
                 {
                     sControlledCharacter_50767C->BaseAliveGameObjectCollisionLine = nullptr;
-                    sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->field_AC_ypos;
+                    sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_YPos;
                 }
             }
 
@@ -308,8 +308,8 @@ void DDCheat::VUpdate()
                 {
                     DebugStr(
                         "\nheroxy=%4d,%4d\n",
-                        FP_GetExponent(sActiveHero_507678->field_A8_xpos),
-                        FP_GetExponent(sActiveHero_507678->field_AC_ypos));
+                        FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos),
+                        FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos));
                 }
 
                 cheat_enabled = sDDCheat_FlyingEnabled_50771C;

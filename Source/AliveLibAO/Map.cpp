@@ -427,10 +427,10 @@ void Map::Handle_PathTransition()
     if (field_18_pAliveObj)
     {
         pTlv = static_cast<Path_Change*>(TLV_Get_At_446260(
-            FP_GetExponent(field_18_pAliveObj->field_A8_xpos),
-            FP_GetExponent(field_18_pAliveObj->field_AC_ypos),
-            FP_GetExponent(field_18_pAliveObj->field_A8_xpos),
-            FP_GetExponent(field_18_pAliveObj->field_AC_ypos),
+            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos),
+            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_YPos),
+            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos),
+            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_YPos),
             TlvTypes::PathTransition_1));
     }
 
@@ -585,10 +585,10 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 && pObjIter->field_B0_path_number == mCurrentPath)
             {
                 PSX_RECT rect = {};
-                rect.x = FP_GetExponent(pObjIter->field_A8_xpos);
-                rect.w = FP_GetExponent(pObjIter->field_A8_xpos);
-                rect.y = FP_GetExponent(pObjIter->field_AC_ypos);
-                rect.h = FP_GetExponent(pObjIter->field_AC_ypos);
+                rect.x = FP_GetExponent(pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos);
+                rect.w = FP_GetExponent(pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos);
+                rect.y = FP_GetExponent(pObjIter->mBaseAnimatedWithPhysicsGameObject_YPos);
+                rect.h = FP_GetExponent(pObjIter->mBaseAnimatedWithPhysicsGameObject_YPos);
                 bAdd = Rect_Location_Relative_To_Active_Camera(&rect, 0) == CameraPos::eCamCurrent_0;
             }
 
@@ -1022,10 +1022,10 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
     if (pObj)
     {
         pPathChangeTLV = static_cast<Path_Change*>(TLV_Get_At_446260(
-            FP_GetExponent(pObj->field_A8_xpos),
-            FP_GetExponent(pObj->field_AC_ypos),
-            FP_GetExponent(pObj->field_A8_xpos),
-            FP_GetExponent(pObj->field_AC_ypos),
+            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos),
+            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos),
+            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos),
+            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos),
             TlvTypes::PathTransition_1));
     }
 

@@ -367,8 +367,8 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
     pSaveData->field_240_last_anim_frame = sActiveHero_507678->field_10_anim.field_92_current_frame;
     pSaveData->field_23E_current_motion = sActiveHero_507678->mCurrentMotion;
-    pSaveData->field_224_xpos = FP_GetExponent(sActiveHero_507678->field_A8_xpos);
-    pSaveData->field_228_ypos = FP_GetExponent(sActiveHero_507678->field_AC_ypos);
+    pSaveData->field_224_xpos = FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos);
+    pSaveData->field_228_ypos = FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos);
     if (sActiveHero_507678->BaseAliveGameObjectCollisionLine)
     {
         pSaveData->field_23A_mode_mask = sActiveHero_507678->BaseAliveGameObjectCollisionLine->field_8_type;
@@ -400,8 +400,8 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_29C_elum_sprite_scale = gElum_507680->field_150_continue_sprite_scale;
         pSaveData->field_260_elum_lvl_number = gElum_507680->field_B2_lvl_number;
         pSaveData->field_262_elum_path_number = gElum_507680->field_B0_path_number;
-        pSaveData->field_268_elum_xpos = FP_GetExponent(gElum_507680->field_A8_xpos);
-        pSaveData->field_26C_elum_ypos = FP_GetExponent(gElum_507680->field_AC_ypos);
+        pSaveData->field_268_elum_xpos = FP_GetExponent(gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos);
+        pSaveData->field_26C_elum_ypos = FP_GetExponent(gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos);
         if (gElum_507680->BaseAliveGameObjectCollisionLine)
         {
             pSaveData->field_270_elum_line_type = gElum_507680->BaseAliveGameObjectCollisionLine->field_8_type;

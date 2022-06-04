@@ -29,8 +29,8 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_10C_tlvInfo = tlvInfo;
 
@@ -84,14 +84,14 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eShrykull:
         {
             ao_new<Explosion>(
-                field_A8_xpos,
-                field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(5)),
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos - (field_BC_sprite_scale * FP_FromInteger(5)),
                 field_BC_sprite_scale);
 
             ao_new<Gibs>(
                 GibType::Metal_5,
-                field_A8_xpos,
-                field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 FP_FromInteger(0),
                 FP_FromInteger(0),
                 field_BC_sprite_scale);
@@ -153,8 +153,8 @@ void SecurityOrb::VUpdate()
                 const s32 height = abeRect.h + abeRect.y;
 
                 ao_new<ZapLine>(
-                    field_A8_xpos,
-                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_BC_sprite_scale),
                     FP_FromInteger(width / 2),
                     FP_FromInteger(height / 2),
                     8,
@@ -170,8 +170,8 @@ void SecurityOrb::VUpdate()
                 ao_new<ScreenShake>(1);
 
                 auto pSpark1 = ao_new<Sparks>(
-                    field_A8_xpos,
-                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_BC_sprite_scale),
                     field_BC_sprite_scale);
                 if (pSpark1)
                 {
@@ -181,8 +181,8 @@ void SecurityOrb::VUpdate()
                 }
 
                 auto pSpark2 = ao_new<Sparks>(
-                    field_A8_xpos,
-                    field_AC_ypos - (FP_FromInteger(8) * field_BC_sprite_scale),
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_BC_sprite_scale),
                     field_BC_sprite_scale);
                 if (pSpark2)
                 {

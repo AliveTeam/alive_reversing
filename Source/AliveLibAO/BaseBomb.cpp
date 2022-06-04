@@ -52,8 +52,8 @@ void BaseBomb::VUpdate()
         case 3:
         {
             ao_new<ParticleBurst>(
-                field_A8_xpos,
-                field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 20,
                 field_BC_sprite_scale,
                 BurstType::eBigRedSparks_3);
@@ -77,8 +77,8 @@ void BaseBomb::VUpdate()
         case 7:
         {
             ao_new<ParticleBurst>(
-                field_A8_xpos,
-                field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 20,
                 field_BC_sprite_scale,
                 BurstType::eBigRedSparks_3);
@@ -98,8 +98,8 @@ void BaseBomb::VUpdate()
         if (ppRes)
         {
             Particle* pParticle = ao_new<Particle>(
-                field_A8_xpos,
-                field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 rec.mFrameTableOffset,
                 rec.mMaxW,
                 rec.mMaxH,
@@ -148,10 +148,10 @@ void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
             min_h_y = pRect->y;
         }
 
-        auto right = FP_GetExponent(field_A8_xpos) + min_x_w;
-        auto left = FP_GetExponent(field_A8_xpos) + min_w_x;
-        auto top = FP_GetExponent(field_AC_ypos) + min_y_h;
-        auto bottom = FP_GetExponent(field_AC_ypos) + min_h_y;
+        auto right = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) + min_x_w;
+        auto left = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) + min_w_x;
+        auto top = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) + min_y_h;
+        auto bottom = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) + min_h_y;
 
         if ((abs(left) & 1023) < 256)
         {
@@ -181,10 +181,10 @@ void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
                 break;
             }
 
-            const s16 obj_xpos = FP_GetExponent(pObj->field_A8_xpos);
+            const s16 obj_xpos = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos);
             if (obj_xpos >= left && obj_xpos <= right)
             {
-                const s16 obj_ypos = FP_GetExponent(pObj->field_AC_ypos);
+                const s16 obj_ypos = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos);
                 if (obj_ypos >= top && obj_ypos <= bottom && field_BC_sprite_scale == (pObj->field_BC_sprite_scale * FP_FromDouble(2.75)))
                 {
                     pObj->VTakeDamage(this);
@@ -224,14 +224,14 @@ BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
     field_CC_bApplyShadows &= ~1u;
     field_BC_sprite_scale = scale * FP_FromDouble(2.75);
 
-    field_A8_xpos = xpos;
-    field_AC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
     ao_new<ScreenShake>(1);
 
     ao_new<ParticleBurst>(
-        field_A8_xpos,
-        field_AC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         35,
         field_E4_scale,
         BurstType::eFallingRocks_0);

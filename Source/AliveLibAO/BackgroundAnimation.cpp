@@ -56,8 +56,8 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
     }
     field_EE_h = static_cast<s16>(hMax);
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_F8_animXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_FC_animYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
@@ -134,8 +134,8 @@ void BackgroundAnimation::VUpdate()
             // play fire sounds
             field_104_sound_channels_mask = SFX_Play_Mono(static_cast<SoundEffect>(field_100_sound_effect), 0, 0);
         }
-        field_A8_xpos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
-        field_AC_ypos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);
+        mBaseAnimatedWithPhysicsGameObject_XPos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
+        mBaseAnimatedWithPhysicsGameObject_YPos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);
     }
 }
 

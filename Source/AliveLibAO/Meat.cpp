@@ -33,8 +33,8 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
     field_110_bDoMeatSackIdleAnim = 0;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_118_velX = FP_FromRaw(pTlv->field_1A_x_vel << 8);
 
@@ -133,8 +133,8 @@ void MeatSack::VUpdate()
             }
 
             auto pMeat = ao_new<Meat>(
-                field_A8_xpos,
-                field_AC_ypos - FP_FromInteger(30),
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                 field_112_num_items);
             if (pMeat)
             {
@@ -167,8 +167,8 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_A8_xpos = xpos;
-    field_AC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
     field_114_xpos = xpos;
     field_118_ypos = ypos;
@@ -247,28 +247,28 @@ void Meat::VTimeToExplodeRandom()
 
 void Meat::InTheAir()
 {
-    field_114_xpos = field_A8_xpos;
-    field_118_ypos = field_AC_ypos;
+    field_114_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    field_118_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
     if (field_B8_vely < FP_FromInteger(18))
     {
         field_B8_vely += FP_FromInteger(1);
     }
 
-    field_A8_xpos += field_B4_velx;
-    field_AC_ypos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
     u16 result = 0;
-    const FP xVoidSkip = CamX_VoidSkipper(field_A8_xpos, field_B4_velx, 8, &result);
-    field_A8_xpos = xVoidSkip;
+    const FP xVoidSkip = CamX_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_XPos, field_B4_velx, 8, &result);
+    mBaseAnimatedWithPhysicsGameObject_XPos = xVoidSkip;
 
     if (result)
     {
         field_114_xpos = xVoidSkip - field_B4_velx;
     }
 
-    const FP yVoidSkip = CamY_VoidSkipper(field_AC_ypos, field_B8_vely, 8, &result);
-    field_AC_ypos = yVoidSkip;
+    const FP yVoidSkip = CamY_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_YPos, field_B8_vely, 8, &result);
+    mBaseAnimatedWithPhysicsGameObject_YPos = yVoidSkip;
 
     if (result)
     {
@@ -301,8 +301,8 @@ void Meat::InTheAir()
                 {
                     field_110_state = 3;
 
-                    field_A8_xpos = FP_FromInteger(SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(hitX)));
-                    field_AC_ypos = hitY;
+                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(hitX)));
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
 
                     field_B8_vely = FP_FromInteger(0);
                     field_B4_velx = FP_FromInteger(0);
@@ -390,7 +390,7 @@ void Meat::VUpdate()
 
                 VOnCollisionWith(xy, wh, gBaseGameObjects, 1, (TCollisionCallBack) &Meat::OnCollision);
 
-                if (field_AC_ypos > FP_FromInteger(gMap.field_D4_pPathData->field_A_bBottom))
+                if (mBaseAnimatedWithPhysicsGameObject_YPos > FP_FromInteger(gMap.field_D4_pPathData->field_A_bBottom))
                 {
                     mBaseGameObjectFlags.Set(Options::eDead);
                 }
@@ -414,7 +414,7 @@ void Meat::VUpdate()
                         field_B4_velx -= FP_FromDouble(0.01);
                     }
 
-                    field_124_pLine = field_124_pLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+                    field_124_pLine = field_124_pLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_B4_velx);
                     if (!field_124_pLine)
                     {
                         field_110_state = 2;
@@ -424,10 +424,10 @@ void Meat::VUpdate()
                 else
                 {
                     field_B4_velx = FP_FromInteger(0);
-                    mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
-                    mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - ScaleToGridSize(field_BC_sprite_scale);
-                    mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
-                    mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
+                    mBaseAliveGameObjectCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
+                    mBaseAliveGameObjectCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(field_BC_sprite_scale);
+                    mBaseAliveGameObjectCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
+                    mBaseAliveGameObjectCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
 
                     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
                     field_110_state = 4;
@@ -435,7 +435,7 @@ void Meat::VUpdate()
                 break;
 
             case 4:
-                if (gMap.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos, 0))
+                if (gMap.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
                 {
                     field_120_deadtimer = sGnFrame + 600;
                 }
@@ -443,8 +443,8 @@ void Meat::VUpdate()
                 if (static_cast<s32>(sGnFrame) > field_11C_timer)
                 {
                     New_Shiny_Particle_4199A0(
-                        field_A8_xpos + field_BC_sprite_scale,
-                        field_AC_ypos + (field_BC_sprite_scale * FP_FromInteger(-7)),
+                        mBaseAnimatedWithPhysicsGameObject_XPos + field_BC_sprite_scale,
+                        mBaseAnimatedWithPhysicsGameObject_YPos + (field_BC_sprite_scale * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
                         Layer::eLayer_Foreground_36);
                     field_11C_timer = Math_NextRandom() % 16 + sGnFrame + 60;
@@ -457,14 +457,14 @@ void Meat::VUpdate()
 
             case 5:
                 field_B8_vely += FP_FromInteger(1);
-                field_A8_xpos += field_B4_velx;
-                field_AC_ypos += field_B8_vely;
+                mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+                mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
                 if (!gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
-                        field_A8_xpos,
-                        field_B8_vely + field_AC_ypos,
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        field_B8_vely + mBaseAnimatedWithPhysicsGameObject_YPos,
                         0))
                 {
                     mBaseGameObjectFlags.Set(Options::eDead);
@@ -494,12 +494,12 @@ s16 Meat::OnCollision(BaseAliveGameObject* pHit)
 
     if (field_114_xpos < FP_FromInteger(bRect.x) || field_114_xpos > FP_FromInteger(bRect.w))
     {
-        field_A8_xpos -= field_B4_velx;
+        mBaseAnimatedWithPhysicsGameObject_XPos -= field_B4_velx;
         field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
     }
     else
     {
-        field_AC_ypos -= field_B8_vely;
+        mBaseAnimatedWithPhysicsGameObject_YPos -= field_B8_vely;
         field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
     }
 

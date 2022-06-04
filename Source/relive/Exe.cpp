@@ -111,7 +111,7 @@ extern "C"
         &AO::gMap.mCurrentCamera,
         &AO::sGnFrame,
         &AO::sActiveHero_507678,
-        offsetof(AO::Abe, field_AC_ypos) + sizeof(s16), // +2 for exp only
+        offsetof(AO::Abe, mBaseAnimatedWithPhysicsGameObject_YPos) + sizeof(s16), // +2 for exp only
         &AO::sDisableFontFlicker_5080E4,
         &AO::sSwitchStates_505568.mData[70]};
 

@@ -34,8 +34,8 @@ BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
 
     field_EC_hitCount = 0;
 
-    field_A8_xpos = xpos;
-    field_AC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
     if (direction)
     {
@@ -51,18 +51,18 @@ BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
 
 void BulletShell::VUpdate()
 {
-    field_A8_xpos += field_B4_velx;
-    field_AC_ypos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
     field_B8_vely += field_F0_speed;
 
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast(
-            field_A8_xpos,
-            field_AC_ypos - field_B8_vely,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos - field_B8_vely,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             &field_E4_pLine,
             &hitX,
             &hitY,
@@ -72,7 +72,7 @@ void BulletShell::VUpdate()
         if (field_E4_pLine->field_8_type == eLineTypes ::eFloor_0 ||
             field_E4_pLine->field_8_type == eLineTypes::eBackgroundFloor_4)
         {
-            field_AC_ypos = hitY - FP_FromInteger(1);
+            mBaseAnimatedWithPhysicsGameObject_YPos = hitY - FP_FromInteger(1);
             field_B8_vely = -(field_B8_vely * FP_FromDouble(0.3));
             field_B4_velx = (field_B4_velx * FP_FromDouble(0.3));
 
@@ -98,8 +98,8 @@ void BulletShell::VUpdate()
     if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

@@ -62,9 +62,9 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     field_10_anim.mGreen = 128;
     field_10_anim.mBlue = 128;
 
-    field_A8_xpos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     field_EA_ttl_remainder = static_cast<s16>(top);
-    field_AC_ypos = FP_FromInteger(top);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(top);
     field_E8_ttl = static_cast<s16>(bottom);
 
     field_E4_number_of_segments = 240 / field_E6_segment_length;
@@ -108,7 +108,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
     gMap.GetCurrentCamCoords(&camCoords);
     if (field_B2_lvl_number == gMap.mCurrentLevel && field_B0_path_number == gMap.mCurrentPath)
     {
-        if (field_A8_xpos >= FP_FromInteger(camCoords.field_0_x) && field_A8_xpos <= FP_FromInteger(camCoords.field_0_x + 1024))
+        if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camCoords.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camCoords.field_0_x + 1024))
         {
             const FP cam_y = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
             const FP cam_x = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
@@ -116,13 +116,13 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
             s16 minY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_E8_ttl) - cam_y);
             s16 maxY = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EA_ttl_remainder) - cam_y);
 
-            s16 ypos_int = FP_GetExponent(field_AC_ypos);
+            s16 ypos_int = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
             if (ypos_int > field_EA_ttl_remainder)
             {
                 ypos_int = field_EA_ttl_remainder + (ypos_int - field_EA_ttl_remainder) % field_E6_segment_length;
             }
 
-            const s16 x_start = PsxToPCX<s16>(FP_GetExponent(field_A8_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - cam_x));
+            const s16 x_start = PsxToPCX<s16>(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - cam_x));
 
             s16 y_start = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos_int) - cam_y);
             if (field_C8_yOffset + y_start > 240)
@@ -150,7 +150,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     s16 r = 128;
                     s16 g = 128;
                     s16 b = 128;
-                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(field_A8_xpos), ypos_int - (idx * field_E6_segment_length), field_C6_scale, &r, &g, &b);
+                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos), ypos_int - (idx * field_E6_segment_length), field_C6_scale, &r, &g, &b);
                     field_EC_pRes[idx].mRed = static_cast<u8>(r);
                     field_EC_pRes[idx].mGreen = static_cast<u8>(g);
                     field_EC_pRes[idx].mBlue = static_cast<u8>(b);

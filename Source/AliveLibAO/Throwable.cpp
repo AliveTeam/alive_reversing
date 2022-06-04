@@ -86,10 +86,10 @@ void BaseThrowable::BaseAddToPlatform()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast(
-            field_A8_xpos,
-            field_AC_ypos - FP_FromInteger(20),
-            field_A8_xpos,
-            field_AC_ypos + FP_FromInteger(20),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
             &pLine,
             &hitX,
             &hitY,
@@ -113,7 +113,7 @@ void BaseThrowable::BaseAddToPlatform()
                     PSX_RECT objRect = {};
                     pPlatformBase->VGetBoundingRect(&objRect, 1);
 
-                    if (FP_GetExponent(field_A8_xpos) > objRect.x && FP_GetExponent(field_A8_xpos) < objRect.w && FP_GetExponent(field_AC_ypos) < objRect.h)
+                    if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > objRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < objRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) < objRect.h)
                     {
                         if (mLiftPoint)
                         {

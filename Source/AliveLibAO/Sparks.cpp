@@ -28,8 +28,8 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
     field_BC_sprite_scale = scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.2));
     field_EA_random = Math_RandomRange_450F20(0, 16);
 
-    field_A8_xpos = xpos;
-    field_AC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
     field_B4_velx = FP_FromInteger(Math_RandomRange_450F20(-8, 8));
     field_B8_vely = FP_FromInteger(Math_RandomRange_450F20(-6, -3));
@@ -56,14 +56,14 @@ void Sparks::VUpdate()
     field_B4_velx += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
     field_B8_vely += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
 
-    field_A8_xpos += field_B4_velx;
-    field_AC_ypos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
     if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }

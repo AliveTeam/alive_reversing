@@ -27,8 +27,8 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
     field_100_chase_ticks = pTlv->field_18_chase_ticks;
     field_10_anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_FC_ypos2 = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_EA_bHit_ground = 0;
@@ -46,7 +46,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1_unknown)
     {
-        field_AC_ypos += FP_FromInteger(pTlv->field_1_unknown);
+        mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(pTlv->field_1_unknown);
 
         field_E8_state = State::eUpdateHoneySackOnGround_3;
         const AnimRecord& groundRec = AO::AnimRec(AnimId::HoneySack_OnGround);
@@ -65,7 +65,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
             ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr);
         }
 
-        field_F0_pBee = ao_new<BeeSwarm>(field_A8_xpos, field_AC_ypos, FP_FromInteger(0), 5, 0);
+        field_F0_pBee = ao_new<BeeSwarm>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), 5, 0);
         if (field_F0_pBee)
         {
             field_F0_pBee->mBaseGameObjectRefCount++;
@@ -94,7 +94,7 @@ HoneySack::~HoneySack()
     }
     else
     {
-        gMap.TLV_Reset(field_E4_tlvInfo, FP_GetExponent(field_AC_ypos - field_FC_ypos2), 0, 0);
+        gMap.TLV_Reset(field_E4_tlvInfo, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - field_FC_ypos2), 0, 0);
     }
 
     if (field_F0_pBee)
@@ -146,8 +146,8 @@ void HoneySack::VUpdate()
             if (!gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
@@ -172,13 +172,13 @@ void HoneySack::VUpdate()
                 field_B8_vely += FP_FromInteger(1);
             }
 
-            const FP oldY = field_AC_ypos;
-            field_AC_ypos += field_B8_vely;
+            const FP oldY = mBaseAnimatedWithPhysicsGameObject_YPos;
+            mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
             if (field_F0_pBee)
             {
-                field_F0_pBee->field_D70_chase_target_x = field_A8_xpos;
-                field_F0_pBee->field_D74_chase_target_y = field_AC_ypos;
+                field_F0_pBee->field_D70_chase_target_x = mBaseAnimatedWithPhysicsGameObject_XPos;
+                field_F0_pBee->field_D74_chase_target_y = mBaseAnimatedWithPhysicsGameObject_YPos;
             }
 
             PathLine* pLine = nullptr;
@@ -186,10 +186,10 @@ void HoneySack::VUpdate()
             FP hitY = {};
 
             if (sCollisions_DArray_504C6C->RayCast(
-                    field_A8_xpos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
                     oldY,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     &pLine,
                     &hitX,
                     &hitY,
@@ -197,14 +197,14 @@ void HoneySack::VUpdate()
             {
                 SFX_Play_Mono(SoundEffect::MountingElum_38, 90, 0);
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);
-                field_AC_ypos = hitY;
+                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 field_E8_state = State::eUpdateHoneySackOnGround_3;
                 const AnimRecord& rec = AO::AnimRec(AnimId::HoneySack_FallingToSmashed);
                 field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
 
                 auto pNewBee = ao_new<BeeSwarm>(
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     FP_FromInteger(0),
                     24,
                     field_100_chase_ticks);
@@ -262,8 +262,8 @@ void HoneySack::VUpdate()
             if (!gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);

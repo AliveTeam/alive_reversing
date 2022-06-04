@@ -333,8 +333,8 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
         1);
 
     field_10_anim.mRenderMode = TPageAbr::eBlend_1;
-    field_A8_xpos = FP_FromInteger(xpos);
-    field_AC_ypos = FP_FromInteger(ypos);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(xpos);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(ypos);
     field_E8_bDestroyOnDone = static_cast<s16>(bDestroyOnDone);
     field_E4 = 40;
     field_E6 = 8;
@@ -346,7 +346,7 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
         {
             break;
         }
-        if (pObj->mBaseGameObjectTypeId == ReliveTypes::MainMenuFade && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_A8_xpos == field_A8_xpos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->field_AC_ypos == field_AC_ypos)
+        if (pObj->mBaseGameObjectTypeId == ReliveTypes::MainMenuFade && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mBaseAnimatedWithPhysicsGameObject_XPos == mBaseAnimatedWithPhysicsGameObject_XPos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mBaseAnimatedWithPhysicsGameObject_YPos == mBaseAnimatedWithPhysicsGameObject_YPos)
         {
             pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -382,8 +382,8 @@ void MainMenuFade::VUpdate()
 void MainMenuFade::VRender(PrimHeader** ppOt)
 {
     field_10_anim.VRender(
-        FP_GetExponent(field_A8_xpos),
-        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
         ppOt,
         0,
         0);
@@ -2078,8 +2078,8 @@ void Menu::NewGameStart_47B9C0()
         {
             field_20C_bStartInSpecificMap = FALSE;
             gMap.SetActiveCam(field_20E_level, field_210_path, field_212_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
-            sActiveHero_507678->field_A8_xpos = FP_FromInteger(field_214_abe_xpos);
-            sActiveHero_507678->field_AC_ypos = FP_FromInteger(field_216_abe_ypos);
+            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(field_214_abe_xpos);
+            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_216_abe_ypos);
         }
         else
         {
@@ -2088,8 +2088,8 @@ void Menu::NewGameStart_47B9C0()
             gMap.SetActiveCam(LevelIds::eRuptureFarms_1, 15, 1, CameraSwapEffects::ePlay1FMV_5, 102, 0);
 
             // What if someone made a level editor and wanted to change where abe spawns on the first map? Well... hard luck pal
-            sActiveHero_507678->field_A8_xpos = FP_FromInteger(1378);
-            sActiveHero_507678->field_AC_ypos = FP_FromInteger(83);
+            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(1378);
+            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(83);
         }
     }
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -2714,10 +2714,10 @@ void Menu::GameSpeak_Update_47CBD0()
         if (field_1F0_pObj2)
         {
             const FP xpos = FP_FromInteger(stru_4D00E0[10].field_0_xpos);
-            if (field_1F0_pObj2->field_A8_xpos != xpos)
+            if (field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_XPos != xpos)
             {
-                field_1F0_pObj2->field_A8_xpos = xpos;
-                field_1F0_pObj2->field_AC_ypos = FP_FromInteger(stru_4D00E0[10].field_2_ypos + 36);
+                field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+                field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(stru_4D00E0[10].field_2_ypos + 36);
             }
         }
         else if (Input_JoyStickEnabled())
@@ -2770,10 +2770,10 @@ void Menu::GameSpeak_Update_47CBD0()
         if (field_1F0_pObj2)
         {
             const FP xpos = FP_FromInteger(stru_4D00E0[12].field_0_xpos);
-            if (field_1F0_pObj2->field_A8_xpos != xpos)
+            if (field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_XPos != xpos)
             {
-                field_1F0_pObj2->field_A8_xpos = xpos;
-                field_1F0_pObj2->field_AC_ypos = FP_FromInteger(stru_4D00E0[12].field_2_ypos + 36);
+                field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+                field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(stru_4D00E0[12].field_2_ypos + 36);
             }
         }
         else if (Input_JoyStickEnabled())

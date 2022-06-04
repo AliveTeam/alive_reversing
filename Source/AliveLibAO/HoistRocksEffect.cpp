@@ -15,8 +15,8 @@ void HoistParticle::VUpdate()
 
 HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
 {
-    field_A8_xpos = xpos;
-    field_AC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kHoistRocksAOResID, 1, 0);
     s32 maxW = 7;
     if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
@@ -46,8 +46,8 @@ void HoistParticle::VUpdate_431BD0()
         if (!gMap.Is_Point_In_Current_Camera_4449C0(
                 field_B2_lvl_number,
                 field_B0_path_number,
-                field_A8_xpos,
-                field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 0))
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -58,8 +58,8 @@ void HoistParticle::VUpdate_431BD0()
         field_B8_vely += (field_BC_sprite_scale * FP_FromDouble(0.6));
     }
 
-    const FP oldY = field_AC_ypos;
-    field_AC_ypos += field_B8_vely;
+    const FP oldY = mBaseAnimatedWithPhysicsGameObject_YPos;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
     if (field_E4_bHitGround == 0)
     {
@@ -67,16 +67,16 @@ void HoistParticle::VUpdate_431BD0()
         FP hitX = {};
         FP hitY = {};
         if (sCollisions_DArray_504C6C->RayCast(
-                field_A8_xpos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
                 oldY,
-                field_A8_xpos,
-                field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 &pLine,
                 &hitX,
                 &hitY,
                 field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
         {
-            field_AC_ypos = hitY;
+            mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
             field_B8_vely = (field_B8_vely * FP_FromDouble(-0.3));
             field_E4_bHitGround = 1;
         }

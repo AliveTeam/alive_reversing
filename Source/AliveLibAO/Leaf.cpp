@@ -25,15 +25,15 @@ void Leaf::VUpdate()
     const s32 randY = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
     field_B8_vely += (field_BC_sprite_scale * (FP_FromInteger(randY) / FP_FromInteger(64)));
 
-    const FP x2 = field_B4_velx + field_A8_xpos;
-    const FP y2 = field_B8_vely + field_AC_ypos;
+    const FP x2 = field_B4_velx + mBaseAnimatedWithPhysicsGameObject_XPos;
+    const FP y2 = field_B8_vely + mBaseAnimatedWithPhysicsGameObject_YPos;
 
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = sCollisions_DArray_504C6C->RayCast(
-        field_A8_xpos,
-        field_AC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         x2,
         y2,
         &pLine,
@@ -54,8 +54,8 @@ void Leaf::VUpdate()
         (field_BC_sprite_scale != FP_FromInteger(1) || pLine->field_8_type != eLineTypes::eFloor_0))
         )
     {
-        field_A8_xpos = x2;
-        field_AC_ypos = y2;
+        mBaseAnimatedWithPhysicsGameObject_XPos = x2;
+        mBaseAnimatedWithPhysicsGameObject_YPos = y2;
     }
     else
     {
@@ -64,16 +64,16 @@ void Leaf::VUpdate()
 
         field_E4_bHitSomething |= 1;
 
-        field_A8_xpos = hitX;
-        field_AC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
     // Out of the camera, die
     if (!gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -117,8 +117,8 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
         field_C6_scale = 0;
     }
 
-    field_A8_xpos = xpos;
-    field_AC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
     field_B4_velx = xVel * field_BC_sprite_scale;
     field_B8_vely = yVel * field_BC_sprite_scale;

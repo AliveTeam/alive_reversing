@@ -53,8 +53,8 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
         field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
 
     field_118_speed = FP_FromRaw(pTlv->field_18_speed << 8);
@@ -98,17 +98,17 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast(
-            field_A8_xpos,
-            field_AC_ypos,
-            field_A8_xpos + FP_FromInteger(24),
-            field_AC_ypos + FP_FromInteger(24),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(24),
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             0x100))
     {
-        field_AC_ypos = hitY;
-        field_A8_xpos = hitX;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
     }
 
     field_D0_pShadow = ao_new<Shadow>();
@@ -186,14 +186,14 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
     mHealth = FP_FromInteger(0);
 
     ao_new<Explosion>(
-        field_A8_xpos,
-        field_AC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         field_BC_sprite_scale);
 
     ao_new<Gibs>(
         GibType::Metal_5,
-        field_A8_xpos,
-        field_AC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         FP_FromInteger(0),
         FP_FromInteger(5),
         field_BC_sprite_scale);
@@ -257,51 +257,51 @@ void MovingBomb::FollowLine()
 {
     if (BaseAliveGameObjectCollisionLine)
     {
-        const FP oldX = field_A8_xpos;
-        const FP oldY = field_AC_ypos;
+        const FP oldX = mBaseAnimatedWithPhysicsGameObject_XPos;
+        const FP oldY = mBaseAnimatedWithPhysicsGameObject_YPos;
 
-        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_B4_velx);
+        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_B4_velx);
         if (BaseAliveGameObjectCollisionLine)
         {
             u16 a4 = 0;
-            const FP screen_x = CamX_VoidSkipper(oldX, field_A8_xpos - oldX, 12, &a4);
+            const FP screen_x = CamX_VoidSkipper(oldX, mBaseAnimatedWithPhysicsGameObject_XPos - oldX, 12, &a4);
             if (a4)
             {
                 FP hitX = {};
                 FP hitY = {};
-                field_A8_xpos = screen_x;
+                mBaseAnimatedWithPhysicsGameObject_XPos = screen_x;
                 if (sCollisions_DArray_504C6C->RayCast(
-                        field_A8_xpos,
-                        field_AC_ypos - FP_FromInteger(20),
-                        field_A8_xpos,
-                        field_AC_ypos + FP_FromInteger(20),
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
                         &BaseAliveGameObjectCollisionLine,
                         &hitX,
                         &hitY,
                         0x100))
                 {
-                    field_AC_ypos = hitY;
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 }
             }
 
             // OG bug? Why y = oldx, surely y-oldy ?
-            const FP screen_y = CamY_VoidSkipper(oldY, field_AC_ypos - oldX, 12, &a4);
+            const FP screen_y = CamY_VoidSkipper(oldY, mBaseAnimatedWithPhysicsGameObject_YPos - oldX, 12, &a4);
             if (a4)
             {
                 FP hitX = {};
                 FP hitY = {};
-                field_AC_ypos = screen_y;
+                mBaseAnimatedWithPhysicsGameObject_YPos = screen_y;
                 if (sCollisions_DArray_504C6C->RayCast(
-                        field_A8_xpos - FP_FromInteger(20),
-                        field_AC_ypos,
-                        field_A8_xpos + FP_FromInteger(20),
-                        field_AC_ypos,
+                        mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(20),
+                        mBaseAnimatedWithPhysicsGameObject_YPos,
+                        mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(20),
+                        mBaseAnimatedWithPhysicsGameObject_YPos,
                         &BaseAliveGameObjectCollisionLine,
                         &hitX,
                         &hitY,
                         0x100))
                 {
-                    field_A8_xpos = hitX;
+                    mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 }
             }
         }
@@ -342,7 +342,7 @@ void MovingBomb::VUpdate()
 
             if (VIsObjNearby(FP_FromInteger(700), sActiveHero_507678))
             {
-                if (FP_Abs(sActiveHero_507678->field_AC_ypos - field_AC_ypos) <= FP_FromInteger(700))
+                if (FP_Abs(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) <= FP_FromInteger(700))
                 {
                     if (field_10C_state == States::eWaitABit_4)
                     {
@@ -396,10 +396,10 @@ void MovingBomb::VUpdate()
             FollowLine();
 
             BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
-                FP_GetExponent(field_A8_xpos),
-                FP_GetExponent(field_AC_ypos),
-                FP_GetExponent(field_A8_xpos),
-                FP_GetExponent(field_AC_ypos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
                 TlvTypes::MovingBombStopper_87);
 
             if (BaseAliveGameObjectPathTLV)
@@ -438,10 +438,10 @@ void MovingBomb::VUpdate()
             FollowLine();
 
             BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
-                FP_GetExponent(field_A8_xpos),
-                FP_GetExponent(field_AC_ypos),
-                FP_GetExponent(field_A8_xpos),
-                FP_GetExponent(field_AC_ypos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
                 TlvTypes::MovingBombStopper_87);
             if (!BaseAliveGameObjectPathTLV)
             {
@@ -457,14 +457,14 @@ void MovingBomb::VUpdate()
                 mHealth = FP_FromInteger(0);
 
                 ao_new<Explosion>(
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_BC_sprite_scale);
 
                 ao_new<Gibs>(
                     GibType::Metal_5,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     FP_FromInteger(0),
                     FP_FromInteger(5),
                     field_BC_sprite_scale);

@@ -60,8 +60,8 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
 
     field_118_max_alive_time = static_cast<s16>(aliveTime);
 
-    field_A8_xpos = x1;
-    field_AC_ypos = y1;
+    mBaseAnimatedWithPhysicsGameObject_XPos = x1;
+    mBaseAnimatedWithPhysicsGameObject_YPos = y1;
 
     field_E4_state = ZapLineState::eInit_0;
     field_116_alive_timer = 0;
@@ -152,8 +152,8 @@ void ZapLine::VRender(PrimHeader** ppOt)
     if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0)
         && field_E4_state > ZapLineState::eInitSpriteVertices_2)
     {

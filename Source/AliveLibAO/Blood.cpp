@@ -55,8 +55,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         field_E8_pResBuf = reinterpret_cast<BloodParticle*>(*field_E4_ppResBuf);
         field_118_timer = 0;
 
-        field_A8_xpos = xpos - FP_FromInteger(12);
-        field_AC_ypos = ypos - FP_FromInteger(12);
+        mBaseAnimatedWithPhysicsGameObject_XPos = xpos - FP_FromInteger(12);
+        mBaseAnimatedWithPhysicsGameObject_YPos = ypos - FP_FromInteger(12);
 
         field_10E_xpos = FP_GetExponent(xpos - FP_FromInteger(12) + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
         field_110_ypos = FP_GetExponent(ypos - FP_FromInteger(12) + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
@@ -199,8 +199,8 @@ void Blood::VRender(PrimHeader** ppOt)
     if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         PSX_Point xy = {32767, 32767};

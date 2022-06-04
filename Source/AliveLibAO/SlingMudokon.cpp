@@ -79,8 +79,8 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
             field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0x10)
         == 1)
     {
-        field_A8_xpos = hitX;
-        field_AC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
@@ -161,19 +161,19 @@ void SlingMudokon::VUpdate()
         oldBrain = field_138_brain_state;
     }
 
-    const auto old_x = field_A8_xpos;
-    const auto old_y = field_AC_ypos;
+    const auto old_x = mBaseAnimatedWithPhysicsGameObject_XPos;
+    const auto old_y = mBaseAnimatedWithPhysicsGameObject_YPos;
 
     VCallMotion();
 
-    if (old_x != field_A8_xpos || old_y != field_AC_ypos)
+    if (old_x != mBaseAnimatedWithPhysicsGameObject_XPos || old_y != mBaseAnimatedWithPhysicsGameObject_YPos)
     {
         BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
             nullptr,
-            field_A8_xpos,
-            field_AC_ypos,
-            field_A8_xpos,
-            field_AC_ypos);
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos);
 
         VOn_TLV_Collision(BaseAliveGameObjectPathTLV);
     }
@@ -202,8 +202,8 @@ void SlingMudokon::VCallBrain()
     if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         field_13A_brain_sub_state = (this->*gSlingMudBrainTable_4CFCE0[field_138_brain_state])();
@@ -296,12 +296,12 @@ void SlingMudokon::Motion_3_ShootStart()
 
             if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                bulletXPos = field_A8_xpos - frame_x;
+                bulletXPos = mBaseAnimatedWithPhysicsGameObject_XPos - frame_x;
                 xDistance = -FP_FromInteger(640);
             }
             else
             {
-                bulletXPos = frame_x + field_A8_xpos;
+                bulletXPos = frame_x + mBaseAnimatedWithPhysicsGameObject_XPos;
                 xDistance = FP_FromInteger(640);
             }
 
@@ -309,7 +309,7 @@ void SlingMudokon::Motion_3_ShootStart()
                 this,
                 BulletType::eNormalBullet_1,
                 bulletXPos,
-                field_AC_ypos - FP_FromInteger(24),
+                mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(24),
                 xDistance,
                 0,
                 field_BC_sprite_scale,
@@ -532,8 +532,8 @@ s16 SlingMudokon::Brain_1_Spawn()
 
             SFX_Play_Pitch(SoundEffect::MenuNavigation_61, 45, 400);
             New_DestroyOrCreateObject_Particle_419D00(
-                field_A8_xpos,
-                (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                (field_BC_sprite_scale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos,
                 field_BC_sprite_scale);
             field_140_timer = sGnFrame + 2;
             return Brain_1_Spawn::eBrain1_CreateFlash_2;
@@ -547,7 +547,7 @@ s16 SlingMudokon::Brain_1_Spawn()
 
                 ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
-                if (field_A8_xpos > sActiveHero_507678->field_A8_xpos)
+                if (mBaseAnimatedWithPhysicsGameObject_XPos > sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
                     field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                 }
@@ -646,18 +646,18 @@ s16 SlingMudokon::Brain_1_Spawn()
                         doveRec.mMaxW,
                         doveRec.mMaxH,
                         doveRec.mResourceId,
-                        field_A8_xpos + FP_FromInteger(Math_NextRandom() % 16),
-                        field_AC_ypos - FP_FromInteger(Math_NextRandom() % 16),
+                        mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(Math_NextRandom() % 16),
+                        mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(Math_NextRandom() % 16),
                         field_BC_sprite_scale);
                     if (pDove)
                     {
                         if (pDove->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                         {
-                            pDove->field_A8_xpos += FP_FromInteger(8);
+                            pDove->mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(8);
                         }
                         else
                         {
-                            pDove->field_A8_xpos -= FP_FromInteger(8);
+                            pDove->mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(8);
                         }
                     }
                 }
@@ -676,7 +676,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 }
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                New_DestroyOrCreateObject_Particle_419D00(field_A8_xpos, (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos, field_BC_sprite_scale);
+                New_DestroyOrCreateObject_Particle_419D00(mBaseAnimatedWithPhysicsGameObject_XPos, (field_BC_sprite_scale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos, field_BC_sprite_scale);
 
                 ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }
@@ -706,8 +706,8 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             }
 
             New_DestroyOrCreateObject_Particle_419D00(
-                field_A8_xpos,
-                (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                (field_BC_sprite_scale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos,
                 field_BC_sprite_scale);
 
             field_140_timer = sGnFrame + 2;
@@ -724,7 +724,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 field_140_timer = sGnFrame + 30;
 
                 SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
-                if (field_A8_xpos > sActiveHero_507678->field_A8_xpos)
+                if (mBaseAnimatedWithPhysicsGameObject_XPos > sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
                     field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                 }
@@ -931,18 +931,18 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                         doveRec.mMaxW,
                         doveRec.mMaxH,
                         doveRec.mResourceId,
-                        field_A8_xpos + FP_FromInteger(Math_NextRandom() % 16),
-                        field_AC_ypos - FP_FromInteger(Math_NextRandom() % 16),
+                        mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(Math_NextRandom() % 16),
+                        mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(Math_NextRandom() % 16),
                         field_BC_sprite_scale);;
                     if (pDove)
                     {
                         if (pDove->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                         {
-                            pDove->field_A8_xpos += FP_FromInteger(8);
+                            pDove->mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(8);
                         }
                         else
                         {
-                            pDove->field_A8_xpos -= FP_FromInteger(8);
+                            pDove->mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(8);
                         }
                     }
                 }
@@ -961,7 +961,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 }
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                New_DestroyOrCreateObject_Particle_419D00(field_A8_xpos, (field_BC_sprite_scale * FP_FromInteger(20)) + field_AC_ypos, field_BC_sprite_scale);
+                New_DestroyOrCreateObject_Particle_419D00(mBaseAnimatedWithPhysicsGameObject_XPos, (field_BC_sprite_scale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos, field_BC_sprite_scale);
 
                 ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }

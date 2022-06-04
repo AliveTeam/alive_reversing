@@ -31,8 +31,8 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
     field_EC_action = pTlv->field_1C_action;
     field_EE_trigger_by = pTlv->field_1E_trigger_by;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     SwitchStates_Set(field_EA_switch_id, 0);
 
@@ -70,7 +70,7 @@ void FootSwitch::VUpdate()
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
 
-            if (field_F0_pStoodOnMe->field_A8_xpos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->field_A8_xpos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (field_F0_pStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 field_E8_state = States::eWaitForStepOnMe_0;
                 field_10_anim.Set_Animation_Data(744, 0);
@@ -112,7 +112,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
                 PSX_RECT theirRect = {};
                 pAliveObj->VGetBoundingRect(&theirRect, 1);
 
-                const s32 xpos = FP_GetExponent(pAliveObj->field_A8_xpos);
+                const s32 xpos = FP_GetExponent(pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos);
 
                 if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->field_BC_sprite_scale == field_BC_sprite_scale)
                 {
@@ -126,7 +126,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
         PSX_RECT bRect = {};
         sActiveHero_507678->VGetBoundingRect(&bRect, 1);
 
-        const s32 xpos = FP_GetExponent(sActiveHero_507678->field_A8_xpos);
+        const s32 xpos = FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos);
 
         if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero_507678->field_BC_sprite_scale == field_BC_sprite_scale)
         {

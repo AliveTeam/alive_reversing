@@ -132,8 +132,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
 
             field_EC_count = static_cast<s16>(particleCount);
             field_F0_timer = sGnFrame + 91;
-            field_A8_xpos = xpos;
-            field_AC_ypos = ypos;
+            mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+            mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
             for (s32 i = 0; i < particleCount; i++)
             {

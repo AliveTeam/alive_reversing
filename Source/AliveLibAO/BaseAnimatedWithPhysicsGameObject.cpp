@@ -23,9 +23,9 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
     field_B2_lvl_number = gMap.mCurrentLevel;
 
     field_B4_velx = FP_FromInteger(0);
-    field_A8_xpos = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
     field_B8_vely = FP_FromInteger(0);
-    field_AC_ypos = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
     field_CA_xOffset = 0;
     field_D0_pShadow = nullptr;
     field_C4_b = 105;
@@ -105,8 +105,8 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
     if (!(sGnFrame % 5))
     {
         New_Smoke_Particles_419A80(
-            field_A8_xpos + (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale),
-            field_AC_ypos - FP_FromInteger(6),
+            mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * field_BC_sprite_scale),
+            mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(6),
             field_BC_sprite_scale / FP_FromInteger(2),
             2,
             0);
@@ -137,7 +137,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
             if (field_CC_bApplyShadows & 1)
             {
                 ShadowZone::ShadowZones_Calculate_Colour(
-                    FP_GetExponent(field_A8_xpos),         // Left side
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),         // Left side
                     (boundingRect.y + boundingRect.h) / 2, // Middle of Height
                     field_C6_scale,
                     &r,
@@ -150,8 +150,8 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
             field_10_anim.mBlue = static_cast<u8>(b);
 
             field_10_anim.VRender(
-                FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-                FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
                 ppOt,
                 0,
                 0);
@@ -168,8 +168,8 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
             if (field_D0_pShadow)
             {
                 field_D0_pShadow->Calculate_Position(
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     &frameRect,
                     field_BC_sprite_scale);
                 field_D0_pShadow->Render(ppOt);
@@ -257,19 +257,19 @@ s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel_418450(BaseAnimatedWithPhys
 
 s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe_4183F0(BaseAnimatedWithPhysicsGameObject* pOther)
 {
-    if (pOther->field_A8_xpos == field_A8_xpos
+    if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos == mBaseAnimatedWithPhysicsGameObject_XPos
         && pOther->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) != field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         // They are in the same spot as us, so they can only be facing us if they are NOT facing the same way.
         // This seems strange but its what causes muds to keep changing direction if you turn while you are stood in the same grid as them.
         return TRUE;
     }
-    else if (pOther->field_A8_xpos > field_A8_xpos && !field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos > mBaseAnimatedWithPhysicsGameObject_XPos && !field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         // They are to the right of us and facing left
         return TRUE;
     }
-    else if (pOther->field_A8_xpos < field_A8_xpos && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos < mBaseAnimatedWithPhysicsGameObject_XPos && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         // They are to the left of using and facing right
         return TRUE;
@@ -280,13 +280,13 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe_4183F0(BaseAnimatedWithPhysic
 
 s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X_418390(BaseAnimatedWithPhysicsGameObject* pOther)
 {
-    if (pOther->field_A8_xpos < field_A8_xpos && pOther->field_B4_velx > field_B4_velx)
+    if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos < mBaseAnimatedWithPhysicsGameObject_XPos && pOther->field_B4_velx > field_B4_velx)
     {
         // Its before our xpos but its velocity is moving towards our xpos!
         return TRUE;
     }
 
-    if (pOther->field_A8_xpos > field_A8_xpos && pOther->field_B4_velx < field_B4_velx)
+    if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos > mBaseAnimatedWithPhysicsGameObject_XPos && pOther->field_B4_velx < field_B4_velx)
     {
         // Its after our xpos but its velocity is moving towards our xpos!
         return TRUE;
@@ -298,7 +298,7 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X_418390(BaseAnimat
 
 s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby_418330(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
-    FP x_abs = FP_Abs(pOtherObj->field_A8_xpos - field_A8_xpos);
+    FP x_abs = FP_Abs(pOtherObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos);
     if (x_abs > FP_FromInteger(400))
     {
         x_abs = x_abs + ScaleToGridSize(field_BC_sprite_scale) - FP_FromInteger(656);
@@ -372,8 +372,8 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* p
     rect.w = FP_GetExponent((FP_FromInteger(rect.w) * field_BC_sprite_scale));
     rect.h = FP_GetExponent((FP_FromInteger(rect.h) * field_BC_sprite_scale));
 
-    const s16 xpos = FP_GetExponent(field_A8_xpos);
-    const s16 ypos = FP_GetExponent(field_AC_ypos);
+    const s16 xpos = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
+    const s16 ypos = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
 
     rect.x += xpos;
     rect.y += ypos;
@@ -479,7 +479,7 @@ CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_417CC0()
 BaseAnimatedWithPhysicsGameObject::BetweenCamPos BaseAnimatedWithPhysicsGameObject::BetweenCameras_418500()
 {
     // TODO: Try to understand how the hell these calcs are supposed to work
-    const s32 xPosMinusHalfCameraSpace = FP_GetExponent(field_A8_xpos - FP_FromInteger(512 / 2));
+    const s32 xPosMinusHalfCameraSpace = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(512 / 2));
     if (xPosMinusHalfCameraSpace / 512 % 2)
     {
         return BetweenCamPos::Left_1;

@@ -191,12 +191,12 @@ Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
 
     field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_A8_xpos = FP_FromInteger((pTlv->field_14_bottom_right.field_0_x
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_14_bottom_right.field_0_x
                                     + pTlv->field_10_top_left.field_0_x)
                                    / 2);
 
     field_E4_switch_id = pTlv->field_18_switch_id;
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_F2_action = pTlv->field_1A_action;
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)

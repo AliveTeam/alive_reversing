@@ -74,8 +74,8 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
             if (gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
             {
                 SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
@@ -115,8 +115,8 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
         }
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
 
     field_114_tlvInfo = tlvInfo;
     field_118_next_state_frame = sGnFrame;
@@ -155,10 +155,10 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     const FP gridSnap = ScaleToGridSize(field_BC_sprite_scale);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
-    mBaseAliveGameObjectCollectionRect.x = field_A8_xpos - (gridSnap / FP_FromInteger(2));
-    mBaseAliveGameObjectCollectionRect.y = field_AC_ypos - gridSnap;
-    mBaseAliveGameObjectCollectionRect.w = field_A8_xpos + (gridSnap / FP_FromInteger(2));
-    mBaseAliveGameObjectCollectionRect.h = field_AC_ypos;
+    mBaseAliveGameObjectCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (gridSnap / FP_FromInteger(2));
+    mBaseAliveGameObjectCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - gridSnap;
+    mBaseAliveGameObjectCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + (gridSnap / FP_FromInteger(2));
+    mBaseAliveGameObjectCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
 }
 
 void UXB::InitBlinkAnim()
@@ -282,8 +282,8 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
     ao_new<BaseBomb>(
-        field_A8_xpos,
-        field_AC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         0,
         field_BC_sprite_scale);
 
@@ -296,8 +296,8 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     ao_new<BaseBomb>(
-        field_A8_xpos,
-        field_AC_ypos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
         0,
         field_BC_sprite_scale);
 
@@ -324,8 +324,8 @@ void UXB::VOnPickUpOrSlapped()
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
-                        field_A8_xpos,
-                        field_AC_ypos,
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos,
                         0))
                 {
                     SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
@@ -345,8 +345,8 @@ void UXB::VOnPickUpOrSlapped()
             if (gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
             {
                 SFX_Play_Mono(SoundEffect::RedTick_4, 35, 0);
@@ -422,8 +422,8 @@ void UXB::VUpdate()
                     if (gMap.Is_Point_In_Current_Camera_4449C0(
                             field_B2_lvl_number,
                             field_B0_path_number,
-                            field_A8_xpos,
-                            field_AC_ypos,
+                            mBaseAnimatedWithPhysicsGameObject_XPos,
+                            mBaseAnimatedWithPhysicsGameObject_YPos,
                             0))
                     {
                         SFX_Play_Mono(SoundEffect::RedTick_4, 35, 0);
@@ -432,8 +432,8 @@ void UXB::VUpdate()
                 else if (gMap.Is_Point_In_Current_Camera_4449C0(
                              field_B2_lvl_number,
                              field_B0_path_number,
-                             field_A8_xpos,
-                             field_AC_ypos,
+                             mBaseAnimatedWithPhysicsGameObject_XPos,
+                             mBaseAnimatedWithPhysicsGameObject_YPos,
                              0))
                 {
                     SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
@@ -447,8 +447,8 @@ void UXB::VUpdate()
             if (static_cast<s32>(sGnFrame) >= field_118_next_state_frame)
             {
                 ao_new<BaseBomb>(
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     0,
                     field_BC_sprite_scale);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -500,8 +500,8 @@ s16 UXB::IsColliding()
                 PSX_RECT objBound = {};
                 pObj->VGetBoundingRect(&objBound, 1);
 
-                const s32 objX = FP_GetExponent(pObj->field_A8_xpos);
-                const s32 objY = FP_GetExponent(pObj->field_AC_ypos);
+                const s32 objX = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos);
+                const s32 objY = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos);
 
                 if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->field_BC_sprite_scale == field_BC_sprite_scale)
                 {
@@ -518,15 +518,15 @@ void UXB::VRender(PrimHeader** ppOt)
     if (gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         field_11C_anim.VRender(
-            FP_GetExponent(field_A8_xpos
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos
                            + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-            FP_GetExponent(field_AC_ypos
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos
                            + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - FP_NoFractional(field_BC_sprite_scale * FP_FromInteger(12)))
                            - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,

@@ -83,13 +83,13 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     field_120_reset_switch_id_after_use = pTlv->field_20_reset_switch_id_after_use;
     field_122_do_sound_in_state_falling = 1;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_128_xpos = FP_FromInteger((pTlv->field_14_bottom_right.field_0_x + pTlv->field_10_top_left.field_0_x) / 2);
     field_12C_ypos = FP_FromInteger(pTlv->field_14_bottom_right.field_2_y);
 
-    field_124_yPosStart = field_AC_ypos;
+    field_124_yPosStart = mBaseAnimatedWithPhysicsGameObject_YPos;
     field_110_state = State::eWaitForIdEnable_0;
     field_130_sound_channels = 0;
 
@@ -200,7 +200,7 @@ void FallingItem::VUpdate()
         {
             if (field_122_do_sound_in_state_falling)
             {
-                if (field_AC_ypos >= sActiveHero_507678->field_AC_ypos - FP_FromInteger(120))
+                if (mBaseAnimatedWithPhysicsGameObject_YPos >= sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(120))
                 {
                     field_122_do_sound_in_state_falling = 0;
                     SFX_Play_Pitch(SoundEffect::AirStream_28, 127, -1300, 0);
@@ -219,17 +219,17 @@ void FallingItem::VUpdate()
             FP hitY = {};
 
             if (sCollisions_DArray_504C6C->RayCast(
-                    field_A8_xpos,
-                    field_AC_ypos,
-                    field_A8_xpos,
-                    field_B8_vely + field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    field_B8_vely + mBaseAnimatedWithPhysicsGameObject_YPos,
                     &pLine,
                     &hitX,
                     &hitY,
                     field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 16)
                 == 1)
             {
-                field_AC_ypos = hitY;
+                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 field_110_state = State::eSmashed_4;
 
                 ao_new<ScreenShake>(0);
@@ -237,8 +237,8 @@ void FallingItem::VUpdate()
                 if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
                 {
                     ao_new<ParticleBurst>(
-                        field_A8_xpos,
-                        field_AC_ypos,
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos,
                         25,
                         field_BC_sprite_scale,
                         BurstType::eMeat_4);
@@ -246,23 +246,23 @@ void FallingItem::VUpdate()
                 else
                 {
                     ao_new<ParticleBurst>(
-                        field_A8_xpos,
-                        field_AC_ypos,
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos,
                         25,
                         field_BC_sprite_scale,
                         BurstType::eFallingRocks_0);
                 }
 
                 ao_new<ParticleBurst>(
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     25,
                     field_BC_sprite_scale,
                     BurstType::eSticks_1);
             }
             else
             {
-                field_AC_ypos += field_B8_vely;
+                mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
             }
             break;
         }
@@ -280,8 +280,8 @@ void FallingItem::VUpdate()
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,
                         field_B0_path_number,
-                        field_A8_xpos,
-                        field_AC_ypos,
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mBaseAnimatedWithPhysicsGameObject_YPos,
                         0))
                 {
                     SFX_Play_Pitch(SoundEffect::KillEffect_78, 127, -700, 0);
@@ -322,7 +322,7 @@ void FallingItem::VUpdate()
                 mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
                 field_B8_vely = FP_FromInteger(0);
                 field_B4_velx = FP_FromInteger(0);
-                field_AC_ypos = field_124_yPosStart;
+                mBaseAnimatedWithPhysicsGameObject_YPos = field_124_yPosStart;
                 field_110_state = State::eWaitForIdEnable_0;
             }
             break;

@@ -50,11 +50,11 @@ void InvisibleSwitch::VUpdate()
         {
             // sControlledCharacter_50767C can be nullptr during the game ender
             // Within X bounds?
-            const FP charXPos = sControlledCharacter_50767C->field_A8_xpos;
+            const FP charXPos = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_XPos;
             if (sControlledCharacter_50767C && charXPos >= FP_FromInteger(field_20_top_left.field_0_x) && charXPos <= FP_FromInteger(field_24_bottom_right.field_0_x))
             {
                 // Within Y bounds?
-                const FP charYPos = sControlledCharacter_50767C->field_AC_ypos;
+                const FP charYPos = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_YPos;
                 if (charYPos >= FP_FromInteger(field_20_top_left.field_2_y) && charYPos <= FP_FromInteger(field_24_bottom_right.field_2_y))
                 {
                     // TODO: ???

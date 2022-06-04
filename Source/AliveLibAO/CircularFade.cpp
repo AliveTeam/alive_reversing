@@ -37,8 +37,8 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     field_BC_sprite_scale.fpValue = scale.fpValue * 2;
     field_10_anim.field_14_scale.fpValue = scale.fpValue * 2;
 
-    field_A8_xpos = xpos;
-    field_AC_ypos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     field_10_anim.mRenderMode = TPageAbr::eBlend_2;
     field_10_anim.mRenderLayer = Layer::eLayer_FadeFlash_40;
     field_C0_r = field_1A8_fade_colour;
@@ -62,8 +62,8 @@ void CircularFade::VRender(PrimHeader** ppOt)
     field_10_anim.mBlue = fade_rgb;
 
     field_10_anim.VRender(
-        FP_GetExponent(field_A8_xpos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-        FP_GetExponent(field_AC_ypos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + field_CA_xOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
         ppOt,
         0,
         0);

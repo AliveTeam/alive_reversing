@@ -139,8 +139,8 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     field_14C_pWeb = nullptr;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
@@ -175,10 +175,10 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions_DArray_504C6C->RayCast(
-            field_A8_xpos,
-            field_AC_ypos,
-            field_A8_xpos,
-            field_AC_ypos + FP_FromInteger(24),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
@@ -186,7 +186,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         == 1)
     {
         SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
-        field_AC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
     field_C0_r = 105;
@@ -319,8 +319,8 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
         {
             ao_new<Gibs>(
                 GibType::Slog_2,
-                field_A8_xpos,
-                field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 field_B4_velx,
                 field_B8_vely,
                 field_BC_sprite_scale);
@@ -366,8 +366,8 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             VUpdateAnimData();
 
             ao_new<Blood>(
-                field_A8_xpos,
-                field_AC_ypos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
                 FP_FromInteger(0),
                 FP_FromInteger(5),
                 field_BC_sprite_scale,
@@ -388,7 +388,7 @@ void Paramite::VOn_TLV_Collision(Path_TLV* pTlv)
             mHealth = FP_FromInteger(0);
             field_128_never_read = 2;
         }
-        pTlv = gMap.TLV_Get_At_446060(pTlv, field_A8_xpos, field_AC_ypos, field_A8_xpos, field_AC_ypos);
+        pTlv = gMap.TLV_Get_At_446060(pTlv, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
     }
 }
 
@@ -404,7 +404,7 @@ void Paramite::VScreenChanged()
 
 s16 Paramite::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
-    return FP_Abs(pOther->field_AC_ypos - field_AC_ypos) < (field_BC_sprite_scale * FP_FromInteger(40));
+    return FP_Abs(pOther->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) < (field_BC_sprite_scale * FP_FromInteger(40));
 }
 
 void Paramite::VOnTrapDoorOpen()
@@ -424,8 +424,8 @@ void Paramite::VUpdate()
         && gMap.Is_Point_In_Current_Camera_4449C0(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         SND_SEQ_PlaySeq_4775A0(SeqId::eParamiteNearby_30, 1, 0);
@@ -447,8 +447,8 @@ void Paramite::VUpdate()
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
                         pOther->field_B2_lvl_number,
                         pOther->field_B0_path_number,
-                        pOther->field_A8_xpos,
-                        pOther->field_AC_ypos,
+                        pOther->mBaseAnimatedWithPhysicsGameObject_XPos,
+                        pOther->mBaseAnimatedWithPhysicsGameObject_YPos,
                         0))
                 {
                     bFound = true;
@@ -468,7 +468,7 @@ void Paramite::VUpdate()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    if (FP_Abs(field_A8_xpos - sActiveHero_507678->field_A8_xpos) > FP_FromInteger(1536) || FP_Abs(field_AC_ypos - sActiveHero_507678->field_AC_ypos) > FP_FromInteger(480))
+    if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos) > FP_FromInteger(1536) || FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos - sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos) > FP_FromInteger(480))
     {
         if (field_144_delete_when_far_away == Choice_short::eYes_1)
         {
@@ -531,19 +531,19 @@ void Paramite::VUpdate()
                 mNextMotion);
         }
 
-        const FP oldx = field_A8_xpos;
-        const FP oldy = field_AC_ypos;
+        const FP oldx = mBaseAnimatedWithPhysicsGameObject_XPos;
+        const FP oldy = mBaseAnimatedWithPhysicsGameObject_YPos;
 
         (this->*sParamiteMotionTable_4CDCB0[mCurrentMotion])();
 
-        if (oldx != field_A8_xpos || oldy != field_AC_ypos)
+        if (oldx != mBaseAnimatedWithPhysicsGameObject_XPos || oldy != mBaseAnimatedWithPhysicsGameObject_YPos)
         {
             BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
                 nullptr,
-                field_A8_xpos,
-                field_AC_ypos,
-                field_A8_xpos,
-                field_AC_ypos);
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos);
 
             VOn_TLV_Collision(BaseAliveGameObjectPathTLV);
         }
@@ -653,9 +653,9 @@ s16 Paramite::ToNextMotion()
             VOnTrapDoorOpen();
             SetCurrentMotion(eParamiteMotions::Motion_6_Hop);
             SetNextMotion(-1);
-            BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+            BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
             field_B8_vely = FP_FromDouble(-7.2) * field_BC_sprite_scale;
-            field_AC_ypos += field_B8_vely;
+            mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
             BaseAliveGameObjectCollisionLine = nullptr;
             return 1;
 
@@ -688,17 +688,17 @@ s16 Paramite::AnotherParamiteNear()
             if (gMap.Is_Point_In_Current_Camera_4449C0(
                     pOther->field_B2_lvl_number,
                     pOther->field_B0_path_number,
-                    pOther->field_A8_xpos,
-                    pOther->field_AC_ypos,
+                    pOther->mBaseAnimatedWithPhysicsGameObject_XPos,
+                    pOther->mBaseAnimatedWithPhysicsGameObject_YPos,
                     0)
                 && gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
             {
-                if (FP_Abs(pOther->field_AC_ypos - field_AC_ypos) < (field_BC_sprite_scale * FP_FromInteger(100)))
+                if (FP_Abs(pOther->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) < (field_BC_sprite_scale * FP_FromInteger(100)))
                 {
                     if (pOther->BrainIs(&Paramite::Brain_0_Patrol) || pOther->BrainIs(&Paramite::Brain_4_ChasingAbe))
                     {
@@ -714,8 +714,8 @@ s16 Paramite::AnotherParamiteNear()
 
 void Paramite::ToKnockBack()
 {
-    const FP nextX = field_A8_xpos - field_B4_velx;
-    field_A8_xpos = FP_FromInteger((FP_GetExponent(nextX) & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(nextX) & 0x3FF));
+    const FP nextX = mBaseAnimatedWithPhysicsGameObject_XPos - field_B4_velx;
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((FP_GetExponent(nextX) & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(nextX) & 0x3FF));
 
     MapFollowMe_401D30(1);
 
@@ -752,17 +752,17 @@ Meat* Paramite::FindMeat()
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
                         pMeat->field_B2_lvl_number,
                         pMeat->field_B0_path_number,
-                        pMeat->field_A8_xpos,
-                        pMeat->field_AC_ypos,
+                        pMeat->mBaseAnimatedWithPhysicsGameObject_XPos,
+                        pMeat->mBaseAnimatedWithPhysicsGameObject_YPos,
                         0)
-                    && !WallHit_401930(field_AC_ypos, pMeat->field_A8_xpos - field_A8_xpos))
+                    && !WallHit_401930(mBaseAnimatedWithPhysicsGameObject_YPos, pMeat->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
                 {
                     if (!pMeat->field_124_pLine)
                     {
                         return pMeat;
                     }
 
-                    if (FP_Abs(pMeat->field_AC_ypos - field_AC_ypos) < (field_BC_sprite_scale * FP_FromInteger(100)))
+                    if (FP_Abs(pMeat->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) < (field_BC_sprite_scale * FP_FromInteger(100)))
                     {
                         return pMeat;
                     }
@@ -775,12 +775,12 @@ Meat* Paramite::FindMeat()
 
 void Paramite::MoveOnLine()
 {
-    const FP old_x = field_A8_xpos;
+    const FP old_x = mBaseAnimatedWithPhysicsGameObject_XPos;
     if (BaseAliveGameObjectCollisionLine)
     {
         BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(
-            &field_A8_xpos,
-            &field_AC_ypos,
+            &mBaseAnimatedWithPhysicsGameObject_XPos,
+            &mBaseAnimatedWithPhysicsGameObject_YPos,
             field_B4_velx);
         if (BaseAliveGameObjectCollisionLine)
         {
@@ -812,15 +812,15 @@ void Paramite::MoveOnLine()
         else
         {
             VOnTrapDoorOpen();
-            BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+            BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
             SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
-            field_A8_xpos = field_B4_velx + old_x;
+            mBaseAnimatedWithPhysicsGameObject_XPos = field_B4_velx + old_x;
         }
     }
     else
     {
         SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
-        BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+        BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
     }
 }
 
@@ -842,8 +842,8 @@ void Paramite::Sound(ParamiteSpeak idx)
     const CameraPos direction = gMap.GetDirection(
         field_B2_lvl_number,
         field_B0_path_number,
-        field_A8_xpos,
-        field_AC_ypos);
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos);
 
     s16 volRight = stru_4CDD98[static_cast<s16>(idx)].field_C_default_volume;
     s16 volLeft = 0;
@@ -868,7 +868,7 @@ void Paramite::Sound(ParamiteSpeak idx)
 
         case CameraPos::eCamLeft_3:
         {
-            const FP numScreensAway = ((FP_FromInteger(rect.w) - field_A8_xpos) / FP_FromInteger(640));
+            const FP numScreensAway = ((FP_FromInteger(rect.w) - mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(640));
             volLeft = volRight - FP_GetExponent(numScreensAway * FP_FromInteger(volRight - (volRight / 3)));
             volRight -= FP_GetExponent((numScreensAway * FP_FromInteger(volRight)));
             break;
@@ -876,7 +876,7 @@ void Paramite::Sound(ParamiteSpeak idx)
 
         case CameraPos::eCamRight_4:
         {
-            const FP numScreensAway = ((field_A8_xpos - FP_FromInteger(rect.x)) / FP_FromInteger(640));
+            const FP numScreensAway = ((mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(rect.x)) / FP_FromInteger(640));
             volLeft = volRight - FP_GetExponent(numScreensAway * FP_FromInteger(volRight));
             volRight -= FP_GetExponent((numScreensAway * FP_FromInteger(volRight - (volRight / 3))));
             break;
@@ -894,8 +894,8 @@ void Paramite::SetMusic()
     if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos)
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos)
         >= CameraPos::eCamCurrent_0)
     {
         if (BrainIs(&Paramite::Brain_4_ChasingAbe))
@@ -917,9 +917,9 @@ void Paramite::ToHop()
 
     SetNextMotion(-1);
 
-    BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+    BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
     field_B8_vely = -FP_FromDouble(7.2) * field_BC_sprite_scale;
-    field_AC_ypos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
     BaseAliveGameObjectCollisionLine = nullptr;
 }
 enum Brain_0_Patrol
@@ -974,7 +974,7 @@ s16 Paramite::Brain_0_Patrol()
 
             if (!VOnSameYLevel(sActiveHero_507678)
                 || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale
-                || WallHit_401930(field_BC_sprite_scale * FP_FromInteger(5), sActiveHero_507678->field_A8_xpos - field_A8_xpos))
+                || WallHit_401930(field_BC_sprite_scale * FP_FromInteger(5), sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
             {
                 field_120_wait_timer = sGnFrame + Math_RandomRange_450F20(45, 135);
                 return Brain_0_Patrol::eBrain0_Idle_12;
@@ -989,15 +989,15 @@ s16 Paramite::Brain_0_Patrol()
             // TODO: Inlined HandleEnemyStopper but the directional logic isn't quite the same
             // so can't use it.
             BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
-                FP_GetExponent(field_A8_xpos),
-                FP_GetExponent(field_AC_ypos),
-                FP_GetExponent(field_A8_xpos),
-                FP_GetExponent(field_AC_ypos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
                 TlvTypes::EnemyStopper_79);
             if (BaseAliveGameObjectPathTLV)
             {
                 auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
-                if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero_507678->field_A8_xpos < field_A8_xpos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero_507678->field_A8_xpos > field_A8_xpos))
+                if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos < mBaseAnimatedWithPhysicsGameObject_XPos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos > mBaseAnimatedWithPhysicsGameObject_XPos))
                 {
                     if (!SwitchStates_Get(pStopper->field_1A_switch_id))
                     {
@@ -1399,7 +1399,7 @@ s16 Paramite::Brain_0_Patrol()
 
             if (VOnSameYLevel(sActiveHero_507678)
                 && field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale
-                && !WallHit_401930(field_BC_sprite_scale * FP_FromInteger(5), sActiveHero_507678->field_A8_xpos - field_A8_xpos))
+                && !WallHit_401930(field_BC_sprite_scale * FP_FromInteger(5), sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
             {
                 return Brain_0_Patrol::eBrain0_IdleForAbe_1;
             }
@@ -1488,9 +1488,9 @@ s16 Paramite::Brain_1_SurpriseWeb()
 
             MapFollowMe_401D30(TRUE);
             auto pWeb = ao_new<ParamiteWeb>(
-                field_A8_xpos,
-                FP_GetExponent(field_AC_ypos) - 20,
-                FP_GetExponent(field_AC_ypos) - 10,
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 20,
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 10,
                 field_BC_sprite_scale);
             if (pWeb)
             {
@@ -1498,7 +1498,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
                 field_14C_pWeb = pWeb;
             }
 
-            if (sActiveHero_507678->field_A8_xpos >= field_A8_xpos)
+            if (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos >= mBaseAnimatedWithPhysicsGameObject_XPos)
             {
                 return Brain_1_SurpriseWeb::eBrain1_AppearingLeft_2;
             }
@@ -1506,13 +1506,13 @@ s16 Paramite::Brain_1_SurpriseWeb()
         }
 
         case Brain_1_SurpriseWeb::eBrain1_AppearingRight_1:
-            if (sActiveHero_507678->field_A8_xpos <= field_A8_xpos
+            if (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos <= mBaseAnimatedWithPhysicsGameObject_XPos
                 || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale
                 || !gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     1))
             {
                 if (!SwitchStates_Get(field_13C_surprise_web_switch_id))
@@ -1525,13 +1525,13 @@ s16 Paramite::Brain_1_SurpriseWeb()
             return Brain_1_SurpriseWeb::eBrain1_StartAnimation_3;
 
         case Brain_1_SurpriseWeb::eBrain1_AppearingLeft_2:
-            if (sActiveHero_507678->field_A8_xpos >= field_A8_xpos
+            if (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos >= mBaseAnimatedWithPhysicsGameObject_XPos
                 || field_BC_sprite_scale != sActiveHero_507678->field_BC_sprite_scale
                 || !gMap.Is_Point_In_Current_Camera_4449C0(
                     field_B2_lvl_number,
                     field_B0_path_number,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     1))
             {
                 if (!SwitchStates_Get(field_13C_surprise_web_switch_id))
@@ -1553,8 +1553,8 @@ s16 Paramite::Brain_1_SurpriseWeb()
             return Brain_1_SurpriseWeb::eBrain1_StateLoop1_4;
 
         case Brain_1_SurpriseWeb::eBrain1_StateLoop1_4:
-            field_14C_pWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(field_AC_ypos)) - 10;
-            field_14C_pWeb->field_AC_ypos = FP_FromInteger(field_14C_pWeb->field_EA_ttl_remainder);
+            field_14C_pWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos)) - 10;
+            field_14C_pWeb->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_14C_pWeb->field_EA_ttl_remainder);
             if (GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
             {
                 field_14C_pWeb->field_F0_bEnabled = TRUE;
@@ -1572,8 +1572,8 @@ s16 Paramite::Brain_1_SurpriseWeb()
             return Brain_1_SurpriseWeb::eBrain1_StateLoop2_5;
 
         case Brain_1_SurpriseWeb::eBrain1_StateLoop2_5:
-            field_14C_pWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(field_AC_ypos)) - 10;
-            field_14C_pWeb->field_AC_ypos = FP_FromInteger(field_14C_pWeb->field_EA_ttl_remainder);
+            field_14C_pWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos)) - 10;
+            field_14C_pWeb->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_14C_pWeb->field_EA_ttl_remainder);
             if (GetCurrentMotion() != eParamiteMotions::Motion_0_Idle)
             {
                 if (field_B8_vely <= (field_BC_sprite_scale * FP_FromInteger(-1)))
@@ -1824,7 +1824,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 {
                     if (VIsObjNearby(kGridSize * FP_FromInteger(4), sActiveHero_507678))
                     {
-                        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), sActiveHero_507678->field_A8_xpos - field_A8_xpos))
+                        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
                         {
                             SetNextMotion(eParamiteMotions::Motion_0_Idle);
                             return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
@@ -1949,15 +1949,15 @@ s16 Paramite::Brain_4_ChasingAbe()
             // TODO: Inlined HandleEnemyStopper but the directional logic isn't quite the same
             // so can't use it.
             BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
-                FP_GetExponent(field_A8_xpos),
-                FP_GetExponent(field_AC_ypos),
-                FP_GetExponent(field_A8_xpos),
-                FP_GetExponent(field_AC_ypos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
                 TlvTypes::EnemyStopper_79);
             if (BaseAliveGameObjectPathTLV)
             {
                 auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
-                if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero_507678->field_A8_xpos < field_A8_xpos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero_507678->field_A8_xpos > field_A8_xpos))
+                if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos < mBaseAnimatedWithPhysicsGameObject_XPos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos > mBaseAnimatedWithPhysicsGameObject_XPos))
                 {
                     if (!SwitchStates_Get(pStopper->field_1A_switch_id))
                     {
@@ -1968,7 +1968,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
             if (VIsObjNearby(kGridSize * FP_FromInteger(4), sActiveHero_507678))
             {
-                if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), sActiveHero_507678->field_A8_xpos - field_A8_xpos))
+                if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
@@ -2032,7 +2032,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return Brain_4_ChasingAbe::eBrain4_TurningWhileChasing_9;
             }
 
-            const s16 x_exp = FP_GetExponent(field_A8_xpos);
+            const s16 x_exp = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
             const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, x_exp & 0x3FF);
             if (field_B4_velx < FP_FromInteger(0))
             {
@@ -2076,7 +2076,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return field_110_brain_sub_state;
             }
 
-            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), sActiveHero_507678->field_A8_xpos - field_A8_xpos))
+            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(10), sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
@@ -2159,7 +2159,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return Brain_4_ChasingAbe::eBrain4_Eating_13;
             }
 
-            const s16 x_exp = FP_GetExponent(field_A8_xpos);
+            const s16 x_exp = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
             const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, x_exp & 0x3FF);
             if (field_B4_velx > FP_FromInteger(0))
             {
@@ -2268,7 +2268,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 
     if (field_148_pMeat->field_124_pLine)
     {
-        if (FP_Abs(field_148_pMeat->field_AC_ypos - field_AC_ypos) > FP_FromInteger(20))
+        if (FP_Abs(field_148_pMeat->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) > FP_FromInteger(20))
         {
             field_148_pMeat->mBaseGameObjectRefCount--;
             field_148_pMeat = nullptr;
@@ -2285,7 +2285,7 @@ s16 Paramite::Brain_5_SpottedMeat()
         case Brain_5_SpottedMeat::eBrain5_Idle_0:
             if (!VIsFacingMe(field_148_pMeat))
             {
-                if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
+                if (FP_Abs(field_148_pMeat->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) > FP_FromInteger(5))
                 {
                     Sound(ParamiteSpeak::DetectedMeat_7);
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
@@ -2324,7 +2324,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 
             if (VIsObjNearby(field_BC_sprite_scale * FP_FromInteger(40), field_148_pMeat))
             {
-                if (field_A8_xpos == field_148_pMeat->field_A8_xpos)
+                if (mBaseAnimatedWithPhysicsGameObject_XPos == field_148_pMeat->mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
                     SetNextMotion(eParamiteMotions::Motion_2_Walking);
                     return Brain_5_SpottedMeat::eBrain5_Walking_2;
@@ -2346,7 +2346,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 
         case Brain_5_SpottedMeat::eBrain5_Running_1:
         {
-            const s16 x_exp = FP_GetExponent(field_A8_xpos);
+            const s16 x_exp = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
             const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, x_exp & 0x3FF);
             if (field_B4_velx < FP_FromInteger(0))
             {
@@ -2368,7 +2368,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 
             if (!VIsFacingMe(field_148_pMeat))
             {
-                if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
+                if (FP_Abs(field_148_pMeat->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) > FP_FromInteger(5))
                 {
                     Sound(ParamiteSpeak::DetectedMeat_7);
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
@@ -2397,7 +2397,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 
         case Brain_5_SpottedMeat::eBrain5_Walking_2:
         {
-            const s16 x_exp = FP_GetExponent(field_A8_xpos);
+            const s16 x_exp = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
             const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, x_exp & 0x3FF);
             if (field_B4_velx < FP_FromInteger(0))
             {
@@ -2419,7 +2419,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 
             if (!VIsFacingMe(field_148_pMeat))
             {
-                if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
+                if (FP_Abs(field_148_pMeat->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) > FP_FromInteger(5))
                 {
                     Sound(ParamiteSpeak::DetectedMeat_7);
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
@@ -2461,7 +2461,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return Brain_5_SpottedMeat::eBrain5_Idle_0;
             }
 
-            if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
+            if (FP_Abs(field_148_pMeat->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) > FP_FromInteger(5))
             {
                 Sound(ParamiteSpeak::DetectedMeat_7);
                 SetNextMotion(eParamiteMotions::Motion_5_Turn);
@@ -2534,7 +2534,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 
             if (!VIsFacingMe(field_148_pMeat))
             {
-                if (FP_Abs(field_148_pMeat->field_A8_xpos - field_A8_xpos) > FP_FromInteger(5))
+                if (FP_Abs(field_148_pMeat->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) > FP_FromInteger(5))
                 {
                     Sound(ParamiteSpeak::DetectedMeat_7);
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
@@ -2574,10 +2574,10 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirec
     const FP kGridSize = ScaleToGridSize(field_BC_sprite_scale);
     const FP numGridBlocksScaled = (kGridSize * FP_FromInteger(numGridBlocks));
     BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
-        FP_GetExponent(field_A8_xpos + numGridBlocksScaled),
-        FP_GetExponent(field_AC_ypos),
-        FP_GetExponent(field_A8_xpos + numGridBlocksScaled),
-        FP_GetExponent(field_AC_ypos),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + numGridBlocksScaled),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + numGridBlocksScaled),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
         TlvTypes::EnemyStopper_79);
 
     if (BaseAliveGameObjectPathTLV)
@@ -2604,8 +2604,8 @@ void Paramite::Motion_0_Idle()
         && gMap.GetDirection(
                field_B2_lvl_number,
                field_B0_path_number,
-               field_A8_xpos,
-               field_AC_ypos)
+               mBaseAnimatedWithPhysicsGameObject_XPos,
+               mBaseAnimatedWithPhysicsGameObject_YPos)
                >= CameraPos::eCamCurrent_0)
     {
         if (BrainIs(&Paramite::Brain_4_ChasingAbe))
@@ -2835,11 +2835,11 @@ void Paramite::Motion_3_Running()
         {
             VOnTrapDoorOpen();
 
-            BaseAliveGameObjectLastLineYPos = field_AC_ypos;
+            BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
             SetCurrentMotion(eParamiteMotions::Motion_6_Hop);
             SetNextMotion(-1);
             field_B8_vely = -FP_FromDouble(7.2) * field_BC_sprite_scale;
-            field_AC_ypos += field_B8_vely;
+            mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
             BaseAliveGameObjectCollisionLine = nullptr;
 
             if (field_142_bSnapped == 0)
@@ -2934,8 +2934,8 @@ void Paramite::Motion_4_Unknown()
             SetCurrentMotion(mPreviousMotion);
             if (mLiftPoint)
             {
-                field_A8_xpos = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
-                field_AC_ypos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
+                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
+                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
             }
         }
     }
@@ -3031,8 +3031,8 @@ void Paramite::Motion_6_Hop()
                         ObjListPlatforms_50766C,
                         1,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
-                    field_A8_xpos = hitX;
-                    field_AC_ypos = hitY;
+                    mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                     return;
                 }
 
@@ -3046,7 +3046,7 @@ void Paramite::Motion_6_Hop()
             }
         }
 
-        if (field_AC_ypos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(5))
+        if (mBaseAnimatedWithPhysicsGameObject_YPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(5))
         {
             field_124_XSpeed = FP_FromDouble(0.75);
             SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
@@ -3055,8 +3055,8 @@ void Paramite::Motion_6_Hop()
         if (gMap.GetDirection(
                 field_B2_lvl_number,
                 field_B0_path_number,
-                field_A8_xpos,
-                field_AC_ypos)
+                mBaseAnimatedWithPhysicsGameObject_XPos,
+                mBaseAnimatedWithPhysicsGameObject_YPos)
             >= CameraPos::eCamCurrent_0)
         {
             MusicController::static_PlayMusic(MusicController::MusicTypes::eType12, this, 0, 0);
@@ -3278,8 +3278,8 @@ void Paramite::Motion_12_Falling()
                     1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
-                field_A8_xpos = hitX;
-                field_AC_ypos = hitY;
+                mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 MapFollowMe_401D30(TRUE);
                 break;
             }
@@ -3330,8 +3330,8 @@ void Paramite::Motion_13_GameSpeakBegin()
     if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos)
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos)
         == CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType12, this, 0, 0);
@@ -3394,8 +3394,8 @@ void Paramite::Motion_14_PreHiss()
     if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos)
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos)
         == CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType12, this, 0, 0);
@@ -3522,7 +3522,7 @@ void Paramite::Motion_18_RunningAttack()
         return;
     }
 
-    field_A8_xpos += field_B4_velx;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
     MapFollowMe_401D30(FALSE);
 
     PSX_RECT abeRect = {};
@@ -3561,10 +3561,10 @@ void Paramite::Motion_18_RunningAttack()
         FP hitY = {};
         PathLine* pLine = nullptr;
         if (sCollisions_DArray_504C6C->RayCast(
-                field_A8_xpos + gridSizeDirected,
-                field_AC_ypos - FP_FromInteger(10),
-                field_A8_xpos + gridSizeDirected,
-                field_AC_ypos + FP_FromInteger(10),
+                mBaseAnimatedWithPhysicsGameObject_XPos + gridSizeDirected,
+                mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10),
+                mBaseAnimatedWithPhysicsGameObject_XPos + gridSizeDirected,
+                mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
                 &pLine,
                 &hitX,
                 &hitY,
@@ -3585,7 +3585,7 @@ void Paramite::Motion_18_RunningAttack()
                     1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
             }
-            field_AC_ypos = hitY;
+            mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
             BaseAliveGameObjectCollisionLine = pLine;
         }
         else
@@ -3593,7 +3593,7 @@ void Paramite::Motion_18_RunningAttack()
             BaseAliveGameObjectCollisionLine = nullptr;
             SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
             field_124_XSpeed = FP_FromDouble(0.75);
-            field_AC_ypos -= (field_BC_sprite_scale * FP_FromInteger(10));
+            mBaseAnimatedWithPhysicsGameObject_YPos -= (field_BC_sprite_scale * FP_FromInteger(10));
         }
     }
 
@@ -3605,8 +3605,8 @@ void Paramite::Motion_18_RunningAttack()
     if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos)
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType12, this, 0, 0);
@@ -3624,17 +3624,17 @@ void Paramite::Motion_20_SurpriseWeb()
     FP hitY = {};
 
     if (sCollisions_DArray_504C6C->RayCast(
-            field_A8_xpos,
-            field_AC_ypos,
-            field_A8_xpos,
-            field_B8_vely + field_AC_ypos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            field_B8_vely + mBaseAnimatedWithPhysicsGameObject_YPos,
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
             field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0x10)
         == 1)
     {
-        field_AC_ypos = hitY;
+        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         SetCurrentMotion(eParamiteMotions::Motion_21_WebLeaveDown);
 
         if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
@@ -3654,7 +3654,7 @@ void Paramite::Motion_20_SurpriseWeb()
     }
     else
     {
-        field_AC_ypos += field_B8_vely;
+        mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
     }
 
     if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 3)
@@ -3665,8 +3665,8 @@ void Paramite::Motion_20_SurpriseWeb()
     if (gMap.GetDirection(
             field_B2_lvl_number,
             field_B0_path_number,
-            field_A8_xpos,
-            field_AC_ypos)
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType11, this, 0, 0);

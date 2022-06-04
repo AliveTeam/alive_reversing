@@ -35,8 +35,8 @@ BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_BC_sprite_scale = FP_FromInteger(pTlv->field_18_scale_percent) / FP_FromInteger(100);
 
@@ -86,8 +86,8 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
         mHealth = FP_FromInteger(0);
 
         ao_new<Explosion>(
-            field_A8_xpos,
-            field_AC_ypos - (field_BC_sprite_scale * FP_FromInteger(40)),
+            mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos - (field_BC_sprite_scale * FP_FromInteger(40)),
             field_BC_sprite_scale);
 
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

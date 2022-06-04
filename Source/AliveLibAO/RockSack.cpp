@@ -79,8 +79,8 @@ void RockSack::VUpdate()
                 gpThrowableArray_50E26C->Add(field_112_rock_amount);
 
                 auto pRock = ao_new<Rock>(
-                    field_A8_xpos,
-                    field_AC_ypos - FP_FromInteger(30),
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                     field_112_rock_amount);
                 if (pRock)
                 {
@@ -131,8 +131,8 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     field_10C_tlvInfo = tlvInfo;
     field_110_has_been_hit = 0;
     field_CC_bApplyShadows &= ~1u;
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_118_x_vel = FP_FromRaw(pTlv->field_1A_x_vel << 8);
     field_11C_y_vel = FP_FromRaw(-256 * pTlv->field_1C_y_vel);
 

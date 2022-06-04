@@ -34,11 +34,11 @@ void Well::VScreenChanged()
 
 void Well::VRender(PrimHeader** ppOt)
 {
-    field_A8_xpos += FP_FromInteger(gTweak_X_5076D8);
-    field_AC_ypos += FP_FromInteger(gTweak_Y_5076DC);
+    mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(gTweak_X_5076D8);
+    mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(gTweak_Y_5076DC);
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
-    field_A8_xpos -= FP_FromInteger(gTweak_X_5076D8);
-    field_AC_ypos -= FP_FromInteger(gTweak_Y_5076DC);
+    mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(gTweak_X_5076D8);
+    mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(gTweak_Y_5076DC);
 }
 
 void Well::VUpdate()
@@ -212,8 +212,8 @@ Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     field_C2_g = 128;
     field_C0_r = 128;
 
-    field_AC_ypos = ypos;
-    field_A8_xpos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
 
     if (pTlv->field_4_type == TlvTypes::WellLocal_11)
     {

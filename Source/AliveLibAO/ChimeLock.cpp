@@ -100,12 +100,12 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     field_15E_ball_angle = 0;
 
     field_140_targetY = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
 
     field_B8_vely = FP_FromInteger(0);
 
     field_13C_targetX = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_14C_increase_vely_by = FP_FromInteger(1);
 
     field_130_song_matching = 0;
@@ -223,11 +223,11 @@ void ChimeLock::SetBallTarget(FP ballTargetX, FP ballTargetY, s16 timer, s16 xSi
         field_160_ball_timer = timer;
         field_15E_ball_angle = 0;
 
-        field_B4_velx = (ballTargetX - field_A8_xpos) / timerFP;
-        field_B8_vely = (ballTargetY - field_AC_ypos) / timerFP;
+        field_B4_velx = (ballTargetX - mBaseAnimatedWithPhysicsGameObject_XPos) / timerFP;
+        field_B8_vely = (ballTargetY - mBaseAnimatedWithPhysicsGameObject_YPos) / timerFP;
 
-        field_144_ball_start_x = field_A8_xpos;
-        field_148_ball_start_y = field_AC_ypos;
+        field_144_ball_start_x = mBaseAnimatedWithPhysicsGameObject_XPos;
+        field_148_ball_start_y = mBaseAnimatedWithPhysicsGameObject_YPos;
 
         field_150_xpos_offset = FP_FromInteger(256) / timerFP;
         field_154_ypos_offset = FP_FromInteger(256) / timerFP;
@@ -257,16 +257,16 @@ s16 ChimeLock::UpdateBall()
     switch (field_15C_ball_state)
     {
         case BallStates::eIdle_0:
-            field_A8_xpos = (FP_FromInteger(5) * Math_Cosine_4510A0((4 * field_15E_ball_angle) & 0xFF)) + field_13C_targetX;
-            field_AC_ypos = (FP_FromInteger(3) * Math_Cosine_4510A0((3 * field_15E_ball_angle) & 0xFF)) + field_140_targetY;
+            mBaseAnimatedWithPhysicsGameObject_XPos = (FP_FromInteger(5) * Math_Cosine_4510A0((4 * field_15E_ball_angle) & 0xFF)) + field_13C_targetX;
+            mBaseAnimatedWithPhysicsGameObject_YPos = (FP_FromInteger(3) * Math_Cosine_4510A0((3 * field_15E_ball_angle) & 0xFF)) + field_140_targetY;
             return 0;
 
         case BallStates::eMovingToBell_1:
         case BallStates::eMovingBackToIdle_2:
             field_144_ball_start_x += field_B4_velx;
             field_148_ball_start_y += field_B8_vely;
-            field_A8_xpos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150_xpos_offset) & 0xFF)) + field_144_ball_start_x;
-            field_AC_ypos = (FP_FromInteger(field_15A_ySize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154_ypos_offset) & 0xFF)) + field_148_ball_start_y;
+            mBaseAnimatedWithPhysicsGameObject_XPos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150_xpos_offset) & 0xFF)) + field_144_ball_start_x;
+            mBaseAnimatedWithPhysicsGameObject_YPos = (FP_FromInteger(field_15A_ySize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154_ypos_offset) & 0xFF)) + field_148_ball_start_y;
             if (field_15E_ball_angle >= field_160_ball_timer)
             {
                 field_15E_ball_angle = 0;
@@ -286,15 +286,15 @@ s16 ChimeLock::UpdateBall()
                 ALIVE_FATAL("never expected BallStates::eNeverRead_3 to be called");
 
             field_B8_vely += field_14C_increase_vely_by;
-            field_AC_ypos += field_B8_vely;
+            mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
             FP hitX = {};
             FP hitY = {};
             if (sCollisions_DArray_504C6C->RayCast(
-                    field_A8_xpos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
                     field_B8_vely - field_B8_vely,
-                    field_A8_xpos,
-                    field_AC_ypos,
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos,
                     &BaseAliveGameObjectCollisionLine,
                     &hitX,
                     &hitY,
@@ -304,7 +304,7 @@ s16 ChimeLock::UpdateBall()
                 if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eFloor_0 ||
                     BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundFloor_4)
                 {
-                    field_AC_ypos = hitY - FP_FromInteger(1);
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY - FP_FromInteger(1);
                     field_B8_vely = -(field_B8_vely * FP_FromDouble(0.4));
                     if (field_162_never_set >= 3)
                     {

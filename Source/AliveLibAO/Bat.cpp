@@ -49,8 +49,8 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
 
     if (field_E4_pLine)
     {
-        field_A8_xpos = FP_FromInteger(field_E4_pLine->field_0_rect.x);
-        field_AC_ypos = FP_FromInteger(field_E4_pLine->field_0_rect.y);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(field_E4_pLine->field_0_rect.x);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_E4_pLine->field_0_rect.y);
     }
 
     field_EC_ticks_before_moving = pTlv->field_18_ticks_before_moving;
@@ -93,23 +93,23 @@ void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
     const FP xd = FP_Abs(xpos - field_104_target_xpos);
     if (xd > FP_FromInteger(350))
     {
-        field_A8_xpos += *xSpeed;
+        mBaseAnimatedWithPhysicsGameObject_XPos += *xSpeed;
     }
 
     const FP yd = FP_Abs(ypos - field_108_target_ypos);
     if (yd > FP_FromInteger(200))
     {
-        field_AC_ypos += *ySpeed;
+        mBaseAnimatedWithPhysicsGameObject_YPos += *ySpeed;
     }
 
     field_104_target_xpos = xpos;
     field_108_target_ypos = ypos;
 
     *xSpeed = xpos + FP_FromInteger((Math_NextRandom() & 63) - 32);
-    *xSpeed = *xSpeed - field_A8_xpos;
+    *xSpeed = *xSpeed - mBaseAnimatedWithPhysicsGameObject_XPos;
 
     *ySpeed = ypos + FP_FromInteger((Math_NextRandom() & 31) - 8);
-    *ySpeed = *ySpeed - field_AC_ypos;
+    *ySpeed = *ySpeed - mBaseAnimatedWithPhysicsGameObject_YPos;
 
     const s32 ySpeedi = FP_GetExponent(*ySpeed);
     const s32 xSpeedi = FP_GetExponent(*xSpeed);
@@ -123,8 +123,8 @@ void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
     field_B4_velx = (FP_FromInteger(8) * *xSpeed) / x_final;
     field_B8_vely = (FP_FromInteger(8) * *ySpeed) / x_final;
 
-    field_A8_xpos += field_B4_velx;
-    field_AC_ypos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 }
 
 void Bat::VUpdate()
@@ -170,7 +170,7 @@ void Bat::VUpdate()
 
             if (field_E4_pLine)
             {
-                field_E4_pLine = field_E4_pLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_100_velx);
+                field_E4_pLine = field_E4_pLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_100_velx);
             }
 
             if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -205,7 +205,7 @@ void Bat::VUpdate()
 
             if (field_E4_pLine)
             {
-                field_E4_pLine = field_E4_pLine->MoveOnLine(&field_A8_xpos, &field_AC_ypos, field_100_velx);
+                field_E4_pLine = field_E4_pLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_100_velx);
             }
 
             if (!field_E4_pLine)
@@ -228,7 +228,7 @@ void Bat::VUpdate()
                         PSX_RECT bObjRect = {};
                         pObjIter->VGetBoundingRect(&bObjRect, 1);
 
-                        if (FP_GetExponent(field_A8_xpos) >= bObjRect.x && FP_GetExponent(field_A8_xpos) <= bObjRect.w && FP_GetExponent(field_AC_ypos) >= bObjRect.y && FP_GetExponent(field_AC_ypos) <= bObjRect.h && pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
+                        if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) >= bObjRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) <= bObjRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) >= bObjRect.y && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) <= bObjRect.h && pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
                         {
                             for (s32 j = 0; j < gBaseGameObjects->Size(); j++)
                             {
@@ -252,8 +252,8 @@ void Bat::VUpdate()
                                     pBat->field_F8_timer = 0;
                                     pBat->field_FC_attack_duration_timer = sGnFrame + pBat->field_F6_attack_duration;
 
-                                    pBat->field_104_target_xpos = pBat->field_10C->field_A8_xpos;
-                                    pBat->field_108_target_ypos = pBat->field_10C->field_AC_ypos;
+                                    pBat->field_104_target_xpos = pBat->field_10C->mBaseAnimatedWithPhysicsGameObject_XPos;
+                                    pBat->field_108_target_ypos = pBat->field_10C->mBaseAnimatedWithPhysicsGameObject_YPos;
                                 }
                             }
                         }
@@ -299,7 +299,7 @@ void Bat::VUpdate()
 
         case BatStates::eFlyAwayAndDie_5:
         {
-            FlyTo(field_A8_xpos, field_AC_ypos - FP_FromInteger(40), &xSpeed, &ySpeed);
+            FlyTo(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40), &xSpeed, &ySpeed);
             if (Event_Get(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);

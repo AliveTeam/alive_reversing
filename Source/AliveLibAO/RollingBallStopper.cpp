@@ -35,8 +35,8 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
         field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
     field_B4_velx = field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
     field_B8_vely = FP_FromInteger(0);
@@ -46,16 +46,16 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     // Check its enabled ?
     if (pTlv->field_1_unknown)
     {
-        field_AC_ypos += field_BC_sprite_scale * FP_FromInteger(70);
+        mBaseAnimatedWithPhysicsGameObject_YPos += field_BC_sprite_scale * FP_FromInteger(70);
         if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
             field_112_state = States::eMovingDone_2;
-            field_A8_xpos += field_BC_sprite_scale * FP_FromInteger(35);
+            mBaseAnimatedWithPhysicsGameObject_XPos += field_BC_sprite_scale * FP_FromInteger(35);
         }
         else
         {
             field_112_state = States::eMovingDone_2;
-            field_A8_xpos -= field_BC_sprite_scale * FP_FromInteger(35);
+            mBaseAnimatedWithPhysicsGameObject_XPos -= field_BC_sprite_scale * FP_FromInteger(35);
         }
     }
     else
@@ -65,9 +65,9 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
         SwitchStates_Set(pTlv->field_18_stopper_switch_id, 0);
     }
 
-    const auto oldXPos = field_A8_xpos;
+    const auto oldXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
     MapFollowMe_401D30(TRUE);
-    field_A8_xpos = oldXPos;
+    mBaseAnimatedWithPhysicsGameObject_XPos = oldXPos;
 
     FP lineXPos = {};
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
@@ -80,7 +80,7 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     }
 
     const auto x1 = FP_GetExponent(lineXPos);
-    const auto y1 = FP_GetExponent(field_AC_ypos);
+    const auto y1 = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
         field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line(x1, y1 - 70, x1, y1, eLineTypes::eWallLeft_1);
@@ -136,8 +136,8 @@ void RollingBallStopper::VUpdate()
             field_B8_vely += (field_BC_sprite_scale * FP_FromInteger(25));
             if (field_B8_vely <= (field_BC_sprite_scale * FP_FromInteger(70)))
             {
-                field_A8_xpos += field_B4_velx;
-                field_AC_ypos += (field_BC_sprite_scale * FP_FromInteger(25));
+                mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+                mBaseAnimatedWithPhysicsGameObject_YPos += (field_BC_sprite_scale * FP_FromInteger(25));
             }
             else
             {
