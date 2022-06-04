@@ -75,6 +75,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/3rdParty)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibCommon)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAO)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/AliveLibAE)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive_lib)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/vab_tool)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api)
@@ -102,7 +103,7 @@ set_target_properties(relive_api_unit_test PROPERTIES UNITY_BUILD OFF) # too big
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
-# Setup Gand Clang warnings
+# Setup GCC and Clang warnings
 add_library(project_warnings INTERFACE)
 export(TARGETS project_warnings FILE project_warnings.cmake)
 

@@ -134,8 +134,6 @@ SET(AliveLibAESrc
     LCDScreen.cpp
     LCDStatusBoard.hpp
     LCDStatusBoard.cpp
-    ObjectIds.hpp
-    ObjectIds.cpp
     VRam.hpp
     VRam.cpp
     Collisions.hpp
