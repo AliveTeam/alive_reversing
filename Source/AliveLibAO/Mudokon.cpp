@@ -1071,7 +1071,7 @@ s16 Mudokon::FindBirdPortal_440250()
         return 0;
     }
 
-    field_1AC_pBirdPortal = static_cast<BirdPortal*>(Event_Get(kEvent_18));
+    field_1AC_pBirdPortal = static_cast<BirdPortal*>(Event_Get(kEventPortalOpen_18));
     if (!field_1AC_pBirdPortal)
     {
         return 0;

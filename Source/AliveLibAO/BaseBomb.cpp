@@ -19,8 +19,8 @@ void BaseBomb::VUpdate()
 {
     PSX_RECT rect = {};
 
-    Event_Broadcast(kEvent_2, this);
-    Event_Broadcast(kEvent_14, this);
+    Event_Broadcast(kEventShooting_2, this);
+    Event_Broadcast(kEventLoudNoise_14, this);
     Event_Broadcast(kEventSuspiciousNoise_10, this);
 
     switch (field_10_anim.field_92_current_frame)

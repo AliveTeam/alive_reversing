@@ -110,8 +110,8 @@ s16* Animation_OnFrame_Slig(void* pObj, s16* pData)
         SFX_Play_Mono(SoundEffect::SligShoot_6, 0);
     }
 
-    Event_Broadcast(kEvent_2, pSlig);
-    Event_Broadcast(kEvent_14, pSlig);
+    Event_Broadcast(kEventShooting_2, pSlig);
+    Event_Broadcast(kEventLoudNoise_14, pSlig);
 
     Dove::All_FlyAway();
 

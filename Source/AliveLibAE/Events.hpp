@@ -23,7 +23,7 @@ enum Event : s16
     kEventUnknown17 = 17,
     kEventAlarm = 18,
     kEventPortalOpen = 19,
-    kEventUnknown20 = 20,
+    kEventOtherPortalOpen_20 = 20,
     kEventScreenShake = 21,
     kEventMax = 22, // Must be last, do not use
 };

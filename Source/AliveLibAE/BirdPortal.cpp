@@ -1075,7 +1075,7 @@ s16 BirdPortal::GetEvent()
             }
             else
             {
-                return kEventUnknown20;
+                return kEventOtherPortalOpen_20;
             }
         }
     }

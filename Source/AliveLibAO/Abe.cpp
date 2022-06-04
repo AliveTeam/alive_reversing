@@ -3183,7 +3183,7 @@ void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
 
             Event_Broadcast(kEventNoise_0, this);
             Event_Broadcast(kEventSuspiciousNoise_10, this);
-            Event_Broadcast(kEvent_14, this);
+            Event_Broadcast(kEventLoudNoise_14, this);
             Event_Broadcast(kEventSpeaking_1, this);
 
             if (!field_1A4_resources.res[0] && sControlledCharacter_50767C != this)
@@ -7089,7 +7089,7 @@ void Abe::Motion_61_Respawn_42CD20()
                 }
             }
             field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-            Event_Broadcast(kEvent_5, this);
+            Event_Broadcast(kEventDeathResetEnd_5, this);
 
             //TODO not used?
             //if (dword_507720)

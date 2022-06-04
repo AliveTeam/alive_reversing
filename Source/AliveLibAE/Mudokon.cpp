@@ -6915,7 +6915,7 @@ s16 Mudokon::CheckForPortal_4775E0()
         }
     }
 
-    auto pPortal20 = static_cast<BirdPortal*>(Event_Get(kEventUnknown20));
+    auto pPortal20 = static_cast<BirdPortal*>(Event_Get(kEventOtherPortalOpen_20));
     if (pPortal20)
     {
         const FP xDist = pPortal20->field_2C_xpos - mBaseAnimatedWithPhysicsGameObject_XPos;

@@ -12,22 +12,22 @@ enum Event : s16
 {
     kEventNoise_0 = 0,
     kEventSpeaking_1 = 1,
-    kEvent_2 = 2,
+    kEventShooting_2 = 2,
     kEventHeroDying_3 = 3,
     kEventDeathReset_4 = 4,
-    kEvent_5 = 5,
+    kEventDeathResetEnd_5 = 5,
     kEventResetting_6 = 6,
-    kEvent_7 = 7,
+    kEvent_7 = 7, // Slig death event, never read by anything?
     kEventAbeOhm_8 = 8,
-    kEvent_9 = 9,
+    kEvent_9 = 9, // Read but never posted by anything
     kEventSuspiciousNoise_10 = 10,
-    kEvent_11 = 11,
+    kEvent_11 = 11, // Posted by elum but never read, some kind of elum noise event
 
-    kEvent_14 = 14,
+    kEventLoudNoise_14 = 14,
     kEventMudokonDead_15 = 15,
     kEventMudokonComfort_16 = 16,
     kEvent_Alarm_17 = 17,
-    kEvent_18 = 18,
+    kEventPortalOpen_18 = 18,
     kEventScreenShake_19 = 19,
 };
 

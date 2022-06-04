@@ -3834,8 +3834,8 @@ void Slig::Motion_43_ShootZ_468E30()
         // The doves don't like bullets
         Dove::All_FlyAway();
 
-        Event_Broadcast(kEvent_2, this);
-        Event_Broadcast(kEvent_14, this);
+        Event_Broadcast(kEventShooting_2, this);
+        Event_Broadcast(kEventLoudNoise_14, this);
     }
 }
 
@@ -4346,7 +4346,7 @@ s16 Slig::Brain_Sleeping_46B4E0()
         }
     }
 
-    if (Event_Get(kEventSpeaking_1) || Event_Get(kEvent_Alarm_17) || Event_Get(kEvent_14))
+    if (Event_Get(kEventSpeaking_1) || Event_Get(kEvent_Alarm_17) || Event_Get(kEventLoudNoise_14))
     {
         if (pEvent != this && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos, 0) && !Event_Get(kEventResetting_6))
         {

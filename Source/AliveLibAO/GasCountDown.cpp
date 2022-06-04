@@ -94,7 +94,7 @@ void GasCountDown::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (Event_Get(kEvent_5))
+    if (Event_Get(kEventDeathResetEnd_5))
     {
         sGasTimer_507700 = 0;
         gGasOn_4FF888 = 0;

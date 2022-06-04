@@ -49,8 +49,8 @@ Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
 
 void Explosion::VUpdate()
 {
-    Event_Broadcast(kEvent_2, this);
-    Event_Broadcast(kEvent_14, this);
+    Event_Broadcast(kEventShooting_2, this);
+    Event_Broadcast(kEventLoudNoise_14, this);
     Event_Broadcast(kEventSuspiciousNoise_10, this);
 
     PSX_RECT rect = {};

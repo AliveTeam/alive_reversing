@@ -296,7 +296,7 @@ void SecurityClaw::VUpdate()
                 SFX_Play_Pitch(SoundEffect::IndustrialNoise3_95, 90, -1000, 0);
             }
 
-            if (Event_Get(kEvent_2))
+            if (Event_Get(kEventShooting_2))
             {
                 if (!alarmInstanceCount_5076A8)
                 {
