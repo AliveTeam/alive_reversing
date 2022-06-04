@@ -223,9 +223,9 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case AOTypes::eBullet_10:
-        case AOTypes::eBaseBomb_30:
-        case AOTypes::eExplosion_74:
+        case ReliveTypes::eBullet:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eExplosion:
             if (mHealth > FP_FromInteger(0))
             {
                 Elum_SFX_416E10(ElumSounds::eExploding_7, 0);
@@ -263,10 +263,10 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case AOTypes::eAbilityRing_69:
+        case ReliveTypes::eAbilityRing:
             return 0;
 
-        case AOTypes::eBeeSwarm_95:
+        case ReliveTypes::eBeeSwarm:
             if (sControlledCharacter_50767C != this)
             {
                 field_170_flags.Set(Elum::Flags_170::eStrugglingWithBees_Bit1);

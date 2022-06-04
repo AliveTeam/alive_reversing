@@ -106,11 +106,7 @@ extern std::vector<DebugConsoleCommand> sDebugConsoleCommands;
 
 void Command_Help(const std::vector<std::string>& /*args*/)
 {
-    DEV_CONSOLE_MESSAGE("You can call the following: ", 6);
-    for (auto c : sDebugConsoleCommands)
-    {
-        DEV_CONSOLE_MESSAGE(c.command + " - " + c.helpText, 6);
-    }
+
 }
 
 void Command_Test(const std::vector<std::string>& args)

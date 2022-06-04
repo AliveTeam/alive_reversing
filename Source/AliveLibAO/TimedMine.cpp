@@ -133,10 +133,10 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case AOTypes::eAbe_43:
-        case AOTypes::eAbilityRing_69:
-        case AOTypes::eExplosion_74:
-        case AOTypes::eShrykull_85:
+        case ReliveTypes::eAbe:
+        case ReliveTypes::eAbilityRing:
+        case ReliveTypes::eExplosion:
+        case ReliveTypes::eShrykull:
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             ao_new<BaseBomb>(

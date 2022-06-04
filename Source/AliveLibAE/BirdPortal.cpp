@@ -959,12 +959,11 @@ s16 BirdPortal::IsScaredAway()
 
         switch (pObj->Type())
         {
-            case AETypes::eNeverSet_40:
-            case AETypes::eAbe_69:
-            case AETypes::eMudokon2_81:
-            case AETypes::eParamite_96:
-            case AETypes::eScrab_112:
-            case AETypes::eSlig_125:
+            case ReliveTypes::eAbe:
+            //case ReliveTypes::eMudokon2:
+            case ReliveTypes::eParamite:
+            case ReliveTypes::eScrab:
+            case ReliveTypes::eSlig:
                 if (pObj->field_C0_path_number != field_8E_path)
                 {
                     continue;

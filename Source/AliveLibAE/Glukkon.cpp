@@ -154,7 +154,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
     auto pGlukkon = ae_new<Glukkon>(pTlv, pSaveState->field_44_tlvInfo);
     if (pGlukkon)
     {
-        pGlukkon->SetType(pSaveState->field_8E_type_id);
+        pGlukkon->SetType(FromAE(pSaveState->field_8E_type_id));
         pGlukkon->mBaseGameObjectTlvInfo = pSaveState->field_4_object_id;
         if (pSaveState->field_40_bIsActiveChar)
         {
@@ -399,7 +399,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_84_getting_shot_timer = field_204_getting_shot_timer;
     pSaveState->field_88_obj_id = field_208_obj_id;
     pSaveState->field_8C_can_be_possessed = mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit3_Can_Be_Possessed);
-    pSaveState->field_8E_type_id = Type();
+    pSaveState->field_8E_type_id = ToAE(Type());
 
     return sizeof(Glukkon_SaveState);
 }

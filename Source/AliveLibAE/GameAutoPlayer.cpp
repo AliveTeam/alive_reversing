@@ -17,7 +17,7 @@ void Recorder::SaveObjectStates()
     {
         mFile.Write(RecordTypes::ObjectStates);
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-        const s16 objType = static_cast<s16>(pObj->Type());
+        const s16 objType = static_cast<s16>(IBaseGameObject::ToAE(pObj->Type()));
         ::fwrite(&objType, sizeof(s16), 1, mFile.GetFile());
 
         if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
@@ -65,6 +65,8 @@ bool Player::ValidateObjectStates()
 
         s16 objType = 0;
         mFile.Read(objType);
+
+        objType = static_cast<s16>(IBaseGameObject::ToAE(static_cast<ReliveTypes>(objType)));
 
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (static_cast<s16>(pObj->Type()) != objType)

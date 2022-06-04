@@ -314,8 +314,8 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case AOTypes::eBaseBomb_30:
-        case AOTypes::eExplosion_74:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eExplosion:
         {
             ao_new<Gibs>(
                 GibType::Slog_2,
@@ -331,10 +331,10 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             return 1;
         }
 
-        case AOTypes::eAbilityRing_69:
+        case ReliveTypes::eAbilityRing:
             return 0;
 
-        case AOTypes::eBeeSwarm_95:
+        case ReliveTypes::eBeeSwarm:
             mHealth -= FP_FromDouble(0.2);
             if (mHealth > FP_FromInteger(0))
             {

@@ -297,18 +297,18 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->Type())
     {
-        case AETypes::eAbe_69:
-        case AETypes::eMudokon_110:
+        case ReliveTypes::eAbe:
+        case ReliveTypes::eMudokon:
             if (field_118_state == UXBState::eDeactivated_3)
             {
                 return 0;
             }
             break;
 
-        case AETypes::eMineCar_89:
-        case AETypes::eAbilityRing_104:
-        case AETypes::eExplosion_109:
-        case AETypes::eShrykull_121:
+        case ReliveTypes::eMineCar:
+        case ReliveTypes::eAbilityRing:
+        case ReliveTypes::eExplosion:
+        case ReliveTypes::eShrykull:
             break;
 
         default:

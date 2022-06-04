@@ -243,13 +243,13 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         default:
             return 0;
 
-        case AETypes::eGreeter_64:
-        case AETypes::eAbe_69:
-        case AETypes::eMineCar_89:
-        case AETypes::eAbilityRing_104:
-        case AETypes::eExplosion_109:
-        case AETypes::eMudokon_110:
-        case AETypes::eShrykull_121:
+        case ReliveTypes::eGreeter:
+        case ReliveTypes::eAbe:
+        case ReliveTypes::eMineCar:
+        case ReliveTypes::eAbilityRing:
+        case ReliveTypes::eExplosion:
+        case ReliveTypes::eMudokon:
+        case ReliveTypes::eShrykull:
             ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_118_detonating = 1;

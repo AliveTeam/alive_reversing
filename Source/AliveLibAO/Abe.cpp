@@ -2364,8 +2364,8 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
 
         switch (pSlapableOrCollectable->mBaseGameObjectTypeId)
         {
-            case AOTypes::eTimedMine_8:
-            case AOTypes::eUXB_99:
+            case ReliveTypes::eTimedMine:
+            case ReliveTypes::eUXB:
                 mCurrentMotion = eAbeMotions::Motion_127_SlapBomb_429A20;
                 if (bStandToCrouch)
                 {
@@ -2375,9 +2375,9 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
                 tryToSlapOrCollect = true;
                 break;
 
-            case AOTypes::eGrenade_40:
-            case AOTypes::eMeat_54:
-            case AOTypes::eRock_70:
+            case ReliveTypes::eGrenade:
+            case ReliveTypes::eMeat:
+            case ReliveTypes::eRock:
                 mCurrentMotion = eAbeMotions::Motion_149_PickupItem_42A030;
                 field_19C_throwable_count += static_cast<s8>(field_15C_pThrowable->VGetCount());
 
@@ -2395,7 +2395,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
                 tryToSlapOrCollect = true;
                 break;
 
-            case AOTypes::eMine_57:
+            case ReliveTypes::eMine:
                 field_15C_pThrowable->mBaseGameObjectRefCount--;
                 field_15C_pThrowable = nullptr;
                 tryToSlapOrCollect = true;
@@ -3351,7 +3351,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case AOTypes::eBat_6:
+        case ReliveTypes::eBat:
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth -= FP_FromInteger(1);
@@ -3387,7 +3387,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AOTypes::eGasClock_16:
+        case ReliveTypes::eGasClock:
             if (mHealth > FP_FromInteger(0))
             {
                 if (mCurrentMotion == eAbeMotions::Motion_64_LedgeAscend_428B60
@@ -3421,12 +3421,12 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AOTypes::eElectricWall_25:
+        case ReliveTypes::eElectricWall:
             Mudokon_SFX_42A4D0(MudSounds::eOops_16, 0, 0, this);
             break;
 
-        case AOTypes::eBaseBomb_30:
-        case AOTypes::eExplosion_74:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eExplosion:
             if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 if (mHealth > FP_FromInteger(0))
@@ -3454,8 +3454,8 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AOTypes::eSecurityClaw_31:
-        case AOTypes::SecurityOrb_53:
+        case ReliveTypes::eSecurityClaw:
+        case ReliveTypes::SecurityOrb:
             field_130_say = 5;
             field_134_auto_say_timer = sGnFrame + 27;
             // The zap makes Abe drop his stuff everywhere
@@ -3473,7 +3473,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             field_19C_throwable_count = 0;
             break;
 
-        case AOTypes::eRockSpawner_32:
+        case ReliveTypes::eRockSpawner:
             if (mHealth > FP_FromInteger(0))
             {
                 field_108_bMotionChanged = 1;
@@ -3496,7 +3496,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AOTypes::eMeatSaw_56:
+        case ReliveTypes::eMeatSaw:
             if (mHealth > FP_FromInteger(0))
             {
                 field_108_bMotionChanged = 1;
@@ -3526,9 +3526,9 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AOTypes::eParamite_62:
-        case AOTypes::eScrab_77:
-        case AOTypes::eSlog_89:
+        case ReliveTypes::eParamite:
+        case ReliveTypes::eScrab:
+        case ReliveTypes::eSlog:
             if (mHealth > FP_FromInteger(0))
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
@@ -3666,10 +3666,10 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AOTypes::eUnknown_84:
+        case ReliveTypes::eUnknown:
             break;
 
-        case AOTypes::eZBall_92:
+        case ReliveTypes::eZBall:
             if (mHealth > FP_FromInteger(0))
             {
                 field_106_shot = 1;
@@ -3687,7 +3687,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AOTypes::eBeeSwarm_95:
+        case ReliveTypes::eBeeSwarm:
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth -= FP_FromDouble(0.15);
@@ -3734,12 +3734,12 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
             break;
 
-        case AOTypes::eElectrocute_103:
+        case ReliveTypes::eElectrocute:
             field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             ToDieFinal_42C400();
             break;
 
-        case AOTypes::eBullet_10:
+        case ReliveTypes::eBullet:
             // NOTE: This was in the default case! The type may not be bullet in there which would corrupt memory or crash
             BulletDamage_4220B0(static_cast<Bullet*>(pFrom));
             if (!field_106_shot)

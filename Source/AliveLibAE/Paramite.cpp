@@ -5406,9 +5406,9 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->Type())
     {
-        case AETypes::eDrill_30:
-        case AETypes::eBaseBomb_46:
-        case AETypes::eExplosion_109:
+        case ReliveTypes::eDrill:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eExplosion:
         {
             Event_Broadcast(kEventMudokonComfort | kEventSpeaking, this);
             ae_new<Gibs>(GibType::Slog_2, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
@@ -5423,7 +5423,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
         }
             return 1;
 
-        case AETypes::eFleech_50:
+        case ReliveTypes::eFleech:
         {
             mHealth -= FP_FromDouble(0.15);
             if (mHealth < FP_FromInteger(0))
@@ -5464,7 +5464,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
         }
             return 0;
 
-        case AETypes::eAbilityRing_104:
+        case ReliveTypes::eAbilityRing:
             return 0;
 
         default:

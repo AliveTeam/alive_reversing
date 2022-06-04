@@ -614,7 +614,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case AOTypes::eGasClock_16:
+        case ReliveTypes::eGasClock:
             if (mHealth > FP_FromInteger(0))
             {
                 field_1B8_brain_idx = 15;
@@ -622,13 +622,13 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case AOTypes::eElectricWall_25:
+        case ReliveTypes::eElectricWall:
             Mudokon_SFX_42A4D0(MudSounds::eDeathDropScream_17, 0, 0, this);
             return 1;
 
-        case AOTypes::eBaseBomb_30:
-        case AOTypes::eMeatSaw_56:
-        case AOTypes::eExplosion_74:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eMeatSaw:
+        case ReliveTypes::eExplosion:
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth = FP_FromInteger(0);
@@ -654,10 +654,10 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case AOTypes::eAbilityRing_69:
+        case ReliveTypes::eAbilityRing:
             return 0;
 
-        case AOTypes::eBullet_10:
+        case ReliveTypes::eBullet:
             field_106_shot = TRUE;
             if (mHealth > FP_FromInteger(0))
             {
@@ -686,15 +686,15 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case AOTypes::eRockSpawner_32:
+        case ReliveTypes::eRockSpawner:
             Event_Broadcast(kEventMudokonDead_15, sActiveHero_507678);
             return DoSmashDamage();
 
-        case AOTypes::eScrab_77:
+        case ReliveTypes::eScrab:
             return DoSmashDamage();
 
-        case AOTypes::eShrykull_85:
-        case AOTypes::eElectrocute_103:
+        case ReliveTypes::eShrykull:
+        case ReliveTypes::eElectrocute:
             if (mHealth > FP_FromInteger(0))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -702,7 +702,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case AOTypes::eSlog_89:
+        case ReliveTypes::eSlog:
             if (mHealth > FP_FromInteger(0))
             {
                 field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
@@ -714,7 +714,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
             return 1;
 
-        case AOTypes::eBeeSwarm_95:
+        case ReliveTypes::eBeeSwarm:
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth -= FP_FromDouble(0.15);

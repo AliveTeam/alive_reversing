@@ -263,16 +263,16 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case AOTypes::eAbe_43:
+        case ReliveTypes::eAbe:
             if (field_10C_state == UXBState::eDeactivated_3)
             {
                 return 0;
             }
             break;
 
-        case AOTypes::eAbilityRing_69:
-        case AOTypes::eExplosion_74:
-        case AOTypes::eShrykull_85:
+        case ReliveTypes::eAbilityRing:
+        case ReliveTypes::eExplosion:
+        case ReliveTypes::eShrykull:
             break;
 
         default:

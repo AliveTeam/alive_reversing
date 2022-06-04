@@ -53,6 +53,7 @@ struct QuickSaveRestoreTable final
     s32(CC* mFns[180])(const u8*);
 };
 
+// Mapped to AE types
 QuickSaveRestoreTable sQuicksaveLoadFunctionTable = {
     nullptr,
     nullptr,
@@ -270,6 +271,7 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
 
     while (*reinterpret_cast<const u32*>(pSaveData2) != 0)
     {
+        // Maps to AETypes
         pSaveData2 += sQuicksaveLoadFunctionTable_560C34.mFns[*pSaveData2](reinterpret_cast<const u8*>(pSaveData2)) / sizeof(u16);
     }
 

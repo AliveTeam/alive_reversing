@@ -248,7 +248,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case AOTypes::eBullet_10:
+        case ReliveTypes::eBullet:
         {
             auto pBullet = static_cast<Bullet*>(pFrom);
 
@@ -289,9 +289,9 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             return 1;
         }
 
-        case AOTypes::eBaseBomb_30:
-        case AOTypes::eMeatSaw_56:
-        case AOTypes::eExplosion_74:
+        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eMeatSaw:
+        case ReliveTypes::eExplosion:
         {
             Sfx(9);
             mHealth = FP_FromInteger(0);
@@ -316,8 +316,8 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             return 1;
         }
 
-        case AOTypes::eAbilityRing_69:
-        case AOTypes::eSlig_88:
+        case ReliveTypes::eAbilityRing:
+        case ReliveTypes::eSlig:
             if (field_17C_res)
             {
                 return 1;
@@ -326,15 +326,15 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             Sfx(9);
             break;
 
-        case AOTypes::eZBall_92:
+        case ReliveTypes::eZBall:
             return 1;
 
-        case AOTypes::eRockSpawner_32:
-        case AOTypes::eRollingBall_72:
+        case ReliveTypes::eRockSpawner:
+        case ReliveTypes::eRollingBall:
             Slog::Sfx(9);
             [[fallthrough]];
 
-        case AOTypes::eElectrocute_103:
+        case ReliveTypes::eElectrocute:
         {
             mHealth = FP_FromInteger(0);
             field_114_brain_idx = 3;

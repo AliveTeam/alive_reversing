@@ -80,8 +80,8 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case AOTypes::eAbilityRing_69:
-        case AOTypes::eShrykull_85:
+        case ReliveTypes::eAbilityRing:
+        case ReliveTypes::eShrykull:
         {
             ao_new<Explosion>(
                 field_A8_xpos,

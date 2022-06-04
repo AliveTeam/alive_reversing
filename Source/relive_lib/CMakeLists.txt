@@ -3,6 +3,8 @@ project(relive_lib VERSION 0.1 LANGUAGES CXX)
 SET(relive_lib_src
     ObjectIds.hpp
     ObjectIds.cpp
+    BaseGameObject.hpp
+    BaseGameObject.cpp
 )
 
 add_library(relive_lib ${relive_lib_src})

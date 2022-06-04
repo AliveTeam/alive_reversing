@@ -289,14 +289,14 @@ void DDCheat::VUpdate()
 
             switch (sControlledCharacter_5C1B8C->Type())
             {
-                case AETypes::eGlukkon_67:
-                case AETypes::eSlig_125:
+                case ReliveTypes::eGlukkon:
+                case ReliveTypes::eSlig:
                     sControlledCharacter_5C1B8C->mCurrentMotion = 7;
                     break;
-                case AETypes::eAbe_69:
+                case ReliveTypes::eAbe:
                     sControlledCharacter_5C1B8C->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
                     break;
-                case AETypes::eScrab_112:
+                case ReliveTypes::eScrab:
                     sControlledCharacter_5C1B8C->mCurrentMotion = 8;
                     break;
                 default:

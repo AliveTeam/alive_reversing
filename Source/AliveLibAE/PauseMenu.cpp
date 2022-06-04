@@ -720,7 +720,7 @@ void DestroyAliveObjects()
             continue;
         }
 
-        if (pObj->Type() != AETypes::eAbe_69)
+        if (pObj->Type() != ReliveTypes::eAbe)
         {
             pObj->mFlags.Set(BaseGameObject::eDead);
         }
@@ -739,7 +739,7 @@ void DestroyAllObjects()
             continue;
         }
 
-        if (pObj->Type() != AETypes::eAbe_69)
+        if (pObj->Type() != ReliveTypes::eAbe)
         {
             pObj->mFlags.Set(BaseGameObject::eDead);
         }

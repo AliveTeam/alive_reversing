@@ -137,11 +137,11 @@ void ElectricWall::VUpdate()
             switch (pObj->Type())
             {
                 // Can't zap this
-                case AETypes::eBone_11:
-                case AETypes::eRockSpawner_48:
-                case AETypes::eGrenade_65:
-                case AETypes::eMeat_84:
-                case AETypes::eRock_105:
+                case ReliveTypes::eBone:
+                case ReliveTypes::eRockSpawner:
+                case ReliveTypes::eGrenade:
+                case ReliveTypes::eMeat:
+                case ReliveTypes::eRock:
                     break;
 
                 default:
