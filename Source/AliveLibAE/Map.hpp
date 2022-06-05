@@ -71,48 +71,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Change, 0x1C);
 
 enum class LoadMode : s16;
 
-
-enum class EReliveLevelIds : s16
-{
-    eNone = -1, // TODO: Shouldn't depend on this value in the future
-    eMenu,
-    eMines,
-    eNecrum,
-    eMudomoVault,
-    eMudancheeVault,
-    eFeeCoDepot,
-    eBarracks,
-    eMudancheeVault_Ender,
-    eBonewerkz,
-    eBrewery,
-    eBrewery_Ender,
-    eMudomoVault_Ender,
-    eFeeCoDepot_Ender,
-    eBarracks_Ender,
-    eBonewerkz_Ender,
-    eCredits,
-    eRuptureFarms,
-    eLines,
-    eForest,
-    eForestTemple,
-    eStockYards,
-    eStockYardsReturn,
-    eDesert,
-    eDesertTemple,
-    eBoardRoom,
-    eRuptureFarmsReturn,
-    eForestChase,
-    eDesertEscape,
-};
-
-class IMap
-{
-public:
-    virtual ~IMap() { }
-
-};
-
-class Map final : public IMap
+class Map final
 {
 public:
     enum class MapDirections : s16

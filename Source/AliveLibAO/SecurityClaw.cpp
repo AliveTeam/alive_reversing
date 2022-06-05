@@ -22,15 +22,15 @@
 namespace AO {
 
 const TintEntry kSecurityClawTints_4C5488[] = {
-    {LevelIds_s8::eStockYards_5, 105u, 55u, 55u},
-    {LevelIds_s8::eStockYardsReturn_6, 105u, 55u, 55u},
-    {LevelIds_s8::eNone, 127u, 127u, 127u},
+    {LevelIds::eStockYards_5, 105u, 55u, 55u},
+    {LevelIds::eStockYardsReturn_6, 105u, 55u, 55u},
+    {LevelIds::eNone, 127u, 127u, 127u},
 };
 
 const TintEntry kClawTints_4C5498[3] = {
-    {LevelIds_s8::eStockYards_5, 80u, 55u, 55u},
-    {LevelIds_s8::eStockYardsReturn_6, 80u, 55u, 55u},
-    {LevelIds_s8::eNone, 127u, 127u, 127u}};
+    {LevelIds::eStockYards_5, 80u, 55u, 55u},
+    {LevelIds::eStockYardsReturn_6, 80u, 55u, 55u},
+    {LevelIds::eNone, 127u, 127u, 127u}};
 
 Claw::Claw()
 {

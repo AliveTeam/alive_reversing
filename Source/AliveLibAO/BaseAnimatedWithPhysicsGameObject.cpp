@@ -386,9 +386,9 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* p
 
 void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* pTintArray, LevelIds level_id)
 {
-    while (pTintArray->field_0_level != static_cast<s32>(level_id))
+    while (pTintArray->field_0_level != level_id)
     {
-        if (pTintArray->field_0_level == static_cast<s32>(level_id) || pTintArray->field_0_level == static_cast<s32>(LevelIds::eNone))
+        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == LevelIds::eNone)
         {
             break;
         }
@@ -417,9 +417,9 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
 s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, s32 palId)
 {
     const TintEntry* pIter = pTintArray;
-    while (pIter->field_0_level != static_cast<u8>(lvl))
+    while (pIter->field_0_level != lvl)
     {
-        if (pIter->field_0_level == -1) // End of entries
+        if (pIter->field_0_level == LevelIds::eNone) // End of entries
         {
             return 0;
         }

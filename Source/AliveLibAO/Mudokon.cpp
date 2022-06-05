@@ -134,9 +134,9 @@ const TMudBrain gMudBrains_4CD430[] = {
 
 
 static const TintEntry sMudTints_4CD320[] = {
-    {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
-    {LevelIds_s8::eStockYardsReturn_6, 25u, 25u, 25u},
-    {LevelIds_s8::eNone, 87u, 103u, 67u}};
+    {LevelIds::eStockYards_5, 25u, 25u, 25u},
+    {LevelIds::eStockYardsReturn_6, 25u, 25u, 25u},
+    {LevelIds::eNone, 87u, 103u, 67u}};
 
 ALIVE_VAR(1, 0x507B90, s16, sAlertedMudCount_507B90, 0);
 ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);

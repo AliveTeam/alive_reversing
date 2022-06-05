@@ -150,21 +150,21 @@ s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData)
 }
 
 TintEntry sSligTint_560570[15] = {
-    {LevelIds_s8::eMines_1, 102u, 127u, 118u},
-    {LevelIds_s8::eNecrum_2, 102u, 127u, 118u},
-    {LevelIds_s8::eMudomoVault_3, 102u, 127u, 118u},
-    {LevelIds_s8::eMudancheeVault_4, 102u, 127u, 118u},
-    {LevelIds_s8::eFeeCoDepot_5, 102u, 127u, 118u},
-    {LevelIds_s8::eBarracks_6, 102u, 127u, 118u},
-    {LevelIds_s8::eMudancheeVault_Ender_7, 102u, 127u, 118u},
-    {LevelIds_s8::eBonewerkz_8, 102u, 127u, 118u},
-    {LevelIds_s8::eBrewery_9, 102u, 127u, 118u},
-    {LevelIds_s8::eBrewery_Ender_10, 102u, 127u, 118u},
-    {LevelIds_s8::eMudomoVault_Ender_11, 102u, 127u, 118u},
-    {LevelIds_s8::eFeeCoDepot_Ender_12, 102u, 127u, 118u},
-    {LevelIds_s8::eBarracks_Ender_13, 102u, 127u, 118u},
-    {LevelIds_s8::eBonewerkz_Ender_14, 102u, 127u, 118u},
-    {LevelIds_s8::eNone, 102u, 127u, 118u}};
+    {LevelIds::eMines_1, 102u, 127u, 118u},
+    {LevelIds::eNecrum_2, 102u, 127u, 118u},
+    {LevelIds::eMudomoVault_3, 102u, 127u, 118u},
+    {LevelIds::eMudancheeVault_4, 102u, 127u, 118u},
+    {LevelIds::eFeeCoDepot_5, 102u, 127u, 118u},
+    {LevelIds::eBarracks_6, 102u, 127u, 118u},
+    {LevelIds::eMudancheeVault_Ender_7, 102u, 127u, 118u},
+    {LevelIds::eBonewerkz_8, 102u, 127u, 118u},
+    {LevelIds::eBrewery_9, 102u, 127u, 118u},
+    {LevelIds::eBrewery_Ender_10, 102u, 127u, 118u},
+    {LevelIds::eMudomoVault_Ender_11, 102u, 127u, 118u},
+    {LevelIds::eFeeCoDepot_Ender_12, 102u, 127u, 118u},
+    {LevelIds::eBarracks_Ender_13, 102u, 127u, 118u},
+    {LevelIds::eBonewerkz_Ender_14, 102u, 127u, 118u},
+    {LevelIds::eNone, 102u, 127u, 118u}};
 
 ALIVE_VAR(1, 0xBAF7E4, s32, unused_BAF7E4, 0);
 ALIVE_VAR(1, 0xBAF7E8, s16, sSligsUnderControlCount_BAF7E8, 0);

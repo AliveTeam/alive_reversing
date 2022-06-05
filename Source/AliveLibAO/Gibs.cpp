@@ -20,16 +20,16 @@ const Gib_Data kGibData_4C30B0[6] = {
     {AnimId::Metal_Gib, AnimId::Metal_Gib, AnimId::Metal_Gib}};
 
 const TintEntry sAbeGibTints_4C6438[5] = {
-    {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
-    {LevelIds_s8::eStockYardsReturn_6, 25u, 25u, 25u},
-    {LevelIds_s8::eDesert_8, 125u, 125u, 95u},
-    {LevelIds_s8::eDesertTemple_9, 120u, 120u, 90u},
-    {LevelIds_s8::eNone, 102u, 102u, 102u}};
+    {LevelIds::eStockYards_5, 25u, 25u, 25u},
+    {LevelIds::eStockYardsReturn_6, 25u, 25u, 25u},
+    {LevelIds::eDesert_8, 125u, 125u, 95u},
+    {LevelIds::eDesertTemple_9, 120u, 120u, 90u},
+    {LevelIds::eNone, 102u, 102u, 102u}};
 
 const TintEntry sMudGibTints_4CD320[3] = {
-    {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
-    {LevelIds_s8::eStockYardsReturn_6, 25u, 25u, 25u},
-    {LevelIds_s8::eNone , 87u, 103u, 67u},
+    {LevelIds::eStockYards_5, 25u, 25u, 25u},
+    {LevelIds::eStockYardsReturn_6, 25u, 25u, 25u},
+    {LevelIds::eNone , 87u, 103u, 67u},
 };
 
 static FP GibRand(FP scale)

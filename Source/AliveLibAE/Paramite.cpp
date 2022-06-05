@@ -29,9 +29,9 @@
 #include "Grid.hpp"
 
 const TintEntry kParamiteTints_55D73C[24] = {
-    {LevelIds_s8::eMudomoVault_3, 105u, 105u, 105u},
-    {LevelIds_s8::eMudomoVault_Ender_11, 105u, 105u, 105u},
-    {LevelIds_s8::eNone, 105u, 105u, 105u}};
+    {LevelIds::eMudomoVault_3, 105u, 105u, 105u},
+    {LevelIds::eMudomoVault_Ender_11, 105u, 105u, 105u},
+    {LevelIds::eNone, 105u, 105u, 105u}};
 
 
 const TParamiteMotionFn sParamite_motion_table_55D5B0[44] = {

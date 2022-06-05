@@ -448,9 +448,9 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
 
 void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, LevelIds level_id)
 {
-    while (pTintArray->field_0_level != static_cast<s32>(level_id)) // TODO: HACK in static data its a byte which doesn't match the enum size
+    while (pTintArray->field_0_level != level_id)
     {
-        if (pTintArray->field_0_level == static_cast<s32>(level_id) || pTintArray->field_0_level == static_cast<s32>(LevelIds::eNone))
+        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == LevelIds::eNone)
         {
             break;
         }

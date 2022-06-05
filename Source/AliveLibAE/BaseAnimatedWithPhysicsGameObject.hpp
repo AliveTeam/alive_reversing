@@ -14,7 +14,7 @@ class Shadow;
 
 struct TintEntry final
 {
-    LevelIds_s8 field_0_level;
+    LevelIds field_0_level;
     u8 field_1_r;
     u8 field_2_g;
     u8 field_3_b;

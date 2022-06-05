@@ -99,21 +99,21 @@ const AnimId sGlukkonsFrameTableOffsetTable_554524[4][25] = {
      AnimId::Glukkon_Phleg_KnockBackStandBegin, AnimId::Glukkon_Phleg_GetShot, AnimId::Glukkon_Phleg_KnockBackStandEnd, AnimId::Glukkon_Phleg_Speak3, AnimId::Glukkon_Phleg_EndSingleStep}};
 
 const TintEntry kGlukkonTints_5546B4[18] = {
-    {LevelIds_s8::eMines_1, 137u, 137u, 137u},
-    {LevelIds_s8::eNecrum_2, 137u, 137u, 137u},
-    {LevelIds_s8::eMudomoVault_3, 137u, 137u, 137u},
-    {LevelIds_s8::eMudancheeVault_4, 137u, 137u, 137u},
-    {LevelIds_s8::eFeeCoDepot_5, 137u, 137u, 137u},
-    {LevelIds_s8::eBarracks_6, 137u, 137u, 137u},
-    {LevelIds_s8::eMudancheeVault_Ender_7, 137u, 137u, 137u},
-    {LevelIds_s8::eBonewerkz_8, 137u, 137u, 137u},
-    {LevelIds_s8::eBrewery_9, 137u, 137u, 137u},
-    {LevelIds_s8::eBrewery_Ender_10, 137u, 137u, 137u},
-    {LevelIds_s8::eMudomoVault_Ender_11, 137u, 137u, 137u},
-    {LevelIds_s8::eFeeCoDepot_Ender_12, 137u, 137u, 137u},
-    {LevelIds_s8::eBarracks_Ender_13, 137u, 137u, 137u},
-    {LevelIds_s8::eBonewerkz_Ender_14, 137u, 137u, 137u},
-    {LevelIds_s8::eNone, 137u, 137u, 137u}};
+    {LevelIds::eMines_1, 137u, 137u, 137u},
+    {LevelIds::eNecrum_2, 137u, 137u, 137u},
+    {LevelIds::eMudomoVault_3, 137u, 137u, 137u},
+    {LevelIds::eMudancheeVault_4, 137u, 137u, 137u},
+    {LevelIds::eFeeCoDepot_5, 137u, 137u, 137u},
+    {LevelIds::eBarracks_6, 137u, 137u, 137u},
+    {LevelIds::eMudancheeVault_Ender_7, 137u, 137u, 137u},
+    {LevelIds::eBonewerkz_8, 137u, 137u, 137u},
+    {LevelIds::eBrewery_9, 137u, 137u, 137u},
+    {LevelIds::eBrewery_Ender_10, 137u, 137u, 137u},
+    {LevelIds::eMudomoVault_Ender_11, 137u, 137u, 137u},
+    {LevelIds::eFeeCoDepot_Ender_12, 137u, 137u, 137u},
+    {LevelIds::eBarracks_Ender_13, 137u, 137u, 137u},
+    {LevelIds::eBonewerkz_Ender_14, 137u, 137u, 137u},
+    {LevelIds::eNone, 137u, 137u, 137u}};
 
 s32 Glukkon::CreateFromSaveState(const u8* pData)
 {

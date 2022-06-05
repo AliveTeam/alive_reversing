@@ -370,21 +370,21 @@ const AnimId sAbeFrameTables[130] = {
     AnimId::Mudokon_PoisonGasDeath};
 
 const TintEntry sTintTable_Abe_554D20[15] = {
-    {LevelIds_s8::eMines_1, 102u, 102u, 102u},
-    {LevelIds_s8::eNecrum_2, 102u, 102u, 80u},
-    {LevelIds_s8::eMudomoVault_3, 120u, 90u, 120u},
-    {LevelIds_s8::eMudancheeVault_4, 102u, 70u, 90u},
-    {LevelIds_s8::eFeeCoDepot_5, 120u, 102u, 82u},
-    {LevelIds_s8::eBarracks_6, 102u, 102u, 102u},
-    {LevelIds_s8::eMudancheeVault_Ender_7, 102u, 70u, 90u},
-    {LevelIds_s8::eBonewerkz_8, 102u, 102u, 102u},
-    {LevelIds_s8::eBrewery_9, 102u, 102u, 102u},
-    {LevelIds_s8::eBrewery_Ender_10, 102u, 102u, 102u},
-    {LevelIds_s8::eMudomoVault_Ender_11, 120u, 90u, 120u},
-    {LevelIds_s8::eFeeCoDepot_Ender_12, 120u, 102u, 82u},
-    {LevelIds_s8::eBarracks_Ender_13, 102u, 102u, 102u},
-    {LevelIds_s8::eBonewerkz_Ender_14, 120u, 90u, 80u},
-    {LevelIds_s8::eNone, 102u, 102u, 102u}};
+    {LevelIds::eMines_1, 102u, 102u, 102u},
+    {LevelIds::eNecrum_2, 102u, 102u, 80u},
+    {LevelIds::eMudomoVault_3, 120u, 90u, 120u},
+    {LevelIds::eMudancheeVault_4, 102u, 70u, 90u},
+    {LevelIds::eFeeCoDepot_5, 120u, 102u, 82u},
+    {LevelIds::eBarracks_6, 102u, 102u, 102u},
+    {LevelIds::eMudancheeVault_Ender_7, 102u, 70u, 90u},
+    {LevelIds::eBonewerkz_8, 102u, 102u, 102u},
+    {LevelIds::eBrewery_9, 102u, 102u, 102u},
+    {LevelIds::eBrewery_Ender_10, 102u, 102u, 102u},
+    {LevelIds::eMudomoVault_Ender_11, 120u, 90u, 120u},
+    {LevelIds::eFeeCoDepot_Ender_12, 120u, 102u, 82u},
+    {LevelIds::eBarracks_Ender_13, 102u, 102u, 102u},
+    {LevelIds::eBonewerkz_Ender_14, 120u, 90u, 80u},
+    {LevelIds::eNone, 102u, 102u, 102u}};
 
 const SfxDefinition sSFXList_555160[] = {
     {0u, 3u, 69u, 60u, -1, 1},

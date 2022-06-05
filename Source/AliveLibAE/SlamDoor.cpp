@@ -36,21 +36,21 @@ const AnimId sSlamDoorData_547168[15][3] = {
 };
 
 TintEntry sSlamDoorTints_5603B0[18] = {
-    {LevelIds_s8::eMines_1, 102u, 87u, 118u},
-    {LevelIds_s8::eNecrum_2, 102u, 87u, 118u},
-    {LevelIds_s8::eMudomoVault_3, 102u, 87u, 118u},
-    {LevelIds_s8::eMudancheeVault_4, 102u, 87u, 118u},
-    {LevelIds_s8::eFeeCoDepot_5, 102u, 87u, 118u},
-    {LevelIds_s8::eBarracks_6, 102u, 87u, 118u},
-    {LevelIds_s8::eMudancheeVault_Ender_7, 102u, 87u, 118u},
-    {LevelIds_s8::eBonewerkz_8, 102u, 87u, 118u},
-    {LevelIds_s8::eBrewery_9, 102u, 87u, 118u},
-    {LevelIds_s8::eBrewery_Ender_10, 102u, 87u, 118u},
-    {LevelIds_s8::eMudomoVault_Ender_11, 102u, 87u, 118u},
-    {LevelIds_s8::eFeeCoDepot_Ender_12, 102u, 87u, 118u},
-    {LevelIds_s8::eBarracks_Ender_13, 102u, 87u, 118u},
-    {LevelIds_s8::eBonewerkz_Ender_14, 102u, 87u, 118u},
-    {LevelIds_s8::eNone, 102u, 87u, 118u}};
+    {LevelIds::eMines_1, 102u, 87u, 118u},
+    {LevelIds::eNecrum_2, 102u, 87u, 118u},
+    {LevelIds::eMudomoVault_3, 102u, 87u, 118u},
+    {LevelIds::eMudancheeVault_4, 102u, 87u, 118u},
+    {LevelIds::eFeeCoDepot_5, 102u, 87u, 118u},
+    {LevelIds::eBarracks_6, 102u, 87u, 118u},
+    {LevelIds::eMudancheeVault_Ender_7, 102u, 87u, 118u},
+    {LevelIds::eBonewerkz_8, 102u, 87u, 118u},
+    {LevelIds::eBrewery_9, 102u, 87u, 118u},
+    {LevelIds::eBrewery_Ender_10, 102u, 87u, 118u},
+    {LevelIds::eMudomoVault_Ender_11, 102u, 87u, 118u},
+    {LevelIds::eFeeCoDepot_Ender_12, 102u, 87u, 118u},
+    {LevelIds::eBarracks_Ender_13, 102u, 87u, 118u},
+    {LevelIds::eBonewerkz_Ender_14, 102u, 87u, 118u},
+    {LevelIds::eNone, 102u, 87u, 118u}};
 
 struct Quicksave_Obj_SlamDoor final
 {

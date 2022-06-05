@@ -820,11 +820,11 @@ void Abe::VOnTrapDoorOpen()
 }
 
 const TintEntry sAbeTints_4C6438[] = {
-    {LevelIds_s8::eStockYards_5, 25u, 25u, 25u},
-    {LevelIds_s8::eStockYardsReturn_6, 25u, 25u, 25u},
-    {LevelIds_s8::eDesert_8, 125u, 125u, 95u},
-    {LevelIds_s8::eDesertTemple_9, 120u, 120u, 90u},
-    {LevelIds_s8::eNone, 102u, 102u, 102u}};
+    {LevelIds::eStockYards_5, 25u, 25u, 25u},
+    {LevelIds::eStockYardsReturn_6, 25u, 25u, 25u},
+    {LevelIds::eDesert_8, 125u, 125u, 95u},
+    {LevelIds::eDesertTemple_9, 120u, 120u, 90u},
+    {LevelIds::eNone, 102u, 102u, 102u}};
 
 
 Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)

@@ -44,9 +44,9 @@ ALIVE_VAR(1, 0x9F11BC, s32, unused_9F11BC, 0);
 ALIVE_VAR(1, 0x9F11C0, s32, unused_9F11C0, 0);
 
 const TintEntry kSligTints_4CFB10[3] = {
-    {LevelIds_s8::eStockYards_5, 127u, 127u, 127u},
-    {LevelIds_s8::eStockYardsReturn_6, 127u, 127u, 127u},
-    {LevelIds_s8::eNone, 102u, 127u, 118u}};
+    {LevelIds::eStockYards_5, 127u, 127u, 127u},
+    {LevelIds::eStockYardsReturn_6, 127u, 127u, 127u},
+    {LevelIds::eNone, 102u, 127u, 118u}};
 
 using TSligStateFunction = decltype(&Slig::Motion_0_StandIdle_467640);
 

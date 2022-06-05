@@ -526,9 +526,9 @@ void Slog::MoveOnLine()
 }
 
 const TintEntry sSlogTints_4CFE10[3] = {
-    {LevelIds_s8::eStockYards_5, 48u, 48u, 48u},
-    {LevelIds_s8::eStockYardsReturn_6, 48u, 48u, 48u},
-    {LevelIds_s8::eNone, 127u, 127u, 127u}};
+    {LevelIds::eStockYards_5, 48u, 48u, 48u},
+    {LevelIds::eStockYardsReturn_6, 48u, 48u, 48u},
+    {LevelIds::eNone, 127u, 127u, 127u}};
 
 void Slog::Init()
 {
