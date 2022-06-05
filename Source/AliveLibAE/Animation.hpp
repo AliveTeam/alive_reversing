@@ -7,7 +7,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-using TFrameCallBackType = s32(CC*)(void*, s16*);
+using TFrameCallBackType = s32(CC*)(BaseGameObject*, s16*);
 
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_55EF98[5];
 extern TFrameCallBackType kSlig_Anim_Frame_Fns_55EFAC[4];
@@ -131,7 +131,7 @@ public:
     u16 field_12_scale; // padding?
     FP field_14_scale;
     u32 field_18_frame_table_offset;
-    s32(CC** field_1C_fn_ptr_array)(void*, s16*);
+    s32(CC** field_1C_fn_ptr_array)(BaseGameObject*, s16*);
     u8** field_20_ppBlock; // // pointer to a pointer which points to anim data
     u8** field_24_dbuf;
 

@@ -12,7 +12,7 @@ namespace AO {
 ALIVE_VAR(1, 0x9F1DCC, ZBall*, gCenter_ZBall_9F1DCC, nullptr);
 ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall_9F1DD0, nullptr);
 
-s16* Animation_OnFrame_ZBallSmacker(void* pObj, s16* pData)
+s16* Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData)
 {
     auto pZBall = static_cast<ZBall*>(pObj);
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)

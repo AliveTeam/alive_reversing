@@ -31,7 +31,7 @@
 
 namespace AO {
 
-s16* Animation_OnFrame_Slig(void* pObj, s16* pData)
+s16* Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
 {
     auto pSlig = static_cast<Slig*>(pObj);
     if (pSlig->mBaseGameObjectUpdateDelay != 0)
@@ -118,9 +118,9 @@ s16* Animation_OnFrame_Slig(void* pObj, s16* pData)
     return pData + 2;
 }
 
-s16* Animation_OnFrame_ZBallSmacker(void* pObj, s16* pData);
+s16* Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData);
 
-s16* Slog_OnFrame(void* pObj, s16* pData)
+s16* Slog_OnFrame(BaseGameObject* pObj, s16* pData)
 {
     auto pSlog = static_cast<Slog*>(pObj);
     if (pSlog->field_10C_pTarget)
@@ -176,7 +176,7 @@ const FP_Point kAbeVelTable_4C6608[6] = {
     {FP_FromInteger(10), FP_FromInteger(-4)},
     {FP_FromInteger(4), FP_FromInteger(-3)}};
 
-s16* Abe_OnFrame(void* pObj, s16* pData)
+s16* Abe_OnFrame(BaseGameObject* pObj, s16* pData)
 {
     auto pAbe = static_cast<Abe*>(pObj);
 

@@ -80,7 +80,7 @@ void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
     }
 }
 
-s32 Animation_OnFrame_Slig_4C0600(void* pObj, s16* pData)
+s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData)
 {
     auto pSlig = reinterpret_cast<Slig*>(pObj);
     auto pPoints = reinterpret_cast<PSX_Point*>(pData);

@@ -22,17 +22,17 @@
 #include <gmock/gmock.h>
 
 // Frame call backs ??
-s32 Animation_OnFrame_Common_Null_455F40(void*, s16*)
+s32 Animation_OnFrame_Common_Null_455F40(BaseGameObject*, s16*)
 {
     return 1;
 }
 
-s32 Animation_OnFrame_Null_455F60(void*, s16*)
+s32 Animation_OnFrame_Null_455F60(BaseGameObject*, s16*)
 {
     return 1;
 }
 
-s32 Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
+s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
     const AnimRecord& dustRec = AnimRec(AnimId::Dust_Particle);
@@ -124,7 +124,7 @@ s32 Animation_OnFrame_Common_4561B0(void* pObjPtr, s16* pData)
     return 1;
 }
 
-s32 Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
+s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
 
@@ -173,7 +173,7 @@ s32 Animation_OnFrame_Common_434130(void* pObjPtr, s16* pData)
     return 1;
 }
 
-s32 Animation_OnFrame_Slog_4C3030(void* pObjPtr, s16* pPoints)
+s32 Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, s16* pPoints)
 {
     auto pSlog = static_cast<Slog*>(pObjPtr);
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(pSlog->field_118_target_id));

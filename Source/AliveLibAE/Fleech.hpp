@@ -329,4 +329,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Fleech, 0x42C);
 
-s32 Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData);
+s32 Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, s16* pData);

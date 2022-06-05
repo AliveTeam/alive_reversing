@@ -618,7 +618,7 @@ const FP_Point sThrowVelocities_555118[9] = {
     {FP_FromInteger(0), FP_FromInteger(0)},
     {FP_FromInteger(0), FP_FromInteger(0)}};
 
-s32 Animation_OnFrame_Abe_455F80(void* pPtr, s16* pData)
+s32 Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, s16* pData)
 {
     auto pAbe = static_cast<Abe*>(pPtr);
     auto pFramePos = reinterpret_cast<PSX_Point*>(pData);

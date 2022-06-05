@@ -1603,7 +1603,7 @@ const TintEntry kFleechTints_551844[15] = {
     {LevelIds_s8::eBonewerkz_Ender_14, 127u, 127u, 127u},
     {LevelIds_s8::eNone, 127u, 127u, 127u}};
 
-s32 Animation_OnFrame_Fleech_449A60(void* pObj, s16* pData)
+s32 Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, s16* pData)
 {
     reinterpret_cast<Fleech*>(pObj)->vOnFrame_42BC50(pData);
     return 1;

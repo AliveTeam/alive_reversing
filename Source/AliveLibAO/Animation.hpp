@@ -10,7 +10,9 @@
 
 namespace AO {
 
-using TFrameCallBackType = s16*(CC*) (void*, s16*);
+class BaseGameObject;
+
+using TFrameCallBackType = s16*(CC*) (BaseGameObject*, s16*);
 
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[];
 extern TFrameCallBackType kSlig_Anim_Frame_Fns_4CEBF0[];
