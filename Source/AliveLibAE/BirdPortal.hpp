@@ -62,6 +62,7 @@ public:
 ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xF4);
 
 class OrbWhirlWind;
+enum Event : s16;
 
 class BirdPortal final : public BaseGameObject
 {
@@ -95,7 +96,7 @@ private:
     void CreateDovesAndShrykullNumber();
     void KillTerminators();
     void CreateTerminators();
-    s16 GetEvent();
+    Event GetEvent();
 
 private:
     s32 field_20_tlvInfo;

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "FixedPoint.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
 
 // Note, names taken from Abe's Exoddus PC Demo
 enum Event : s16
@@ -25,17 +24,22 @@ enum Event : s16
     kEventGlukkonUnknown,
     kEventAlarm,
     kEventPortalOpen,
-    kEventOtherPortalOpen_20,
+    kEventOtherPortalOpen,
     kEventScreenShake,
+    kEventMudokonDead,
     kEventMax, // Must be last, do not use
 };
 
-class BaseGameObject;
-class BaseAnimatedWithPhysicsGameObject;
+class IBaseGameObject;
+class IBaseAnimatedWithPhysicsGameObject;
 
-void Event_Broadcast(s32 event, BaseGameObject* pObject);
-BaseGameObject* Event_Get(s16 eventType);
+void Event_Broadcast(Event event, IBaseGameObject* pObject);
+IBaseGameObject* Event_Get(Event eventType);
 void Events_Reset();
 void Events_Reset_Active();
-BaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(s16 eventType, FP xpos, FP ypos, s16 scale);
-void Event_Cancel_For_Obj(BaseGameObject* pObj);
+IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, s16 scale);
+
+// TODO: Get AO to stop using the FP scale and merge both copies
+IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, FP scale);
+
+void Event_Cancel_For_Obj(IBaseGameObject* pObj);

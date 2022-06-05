@@ -4,8 +4,10 @@
 #include "Animation.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "../AliveLibCommon/Psx_common.hpp"
+#include "../AliveLibCommon/Sys_common.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "PathData.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 namespace AO {
 
@@ -27,7 +29,7 @@ enum class CameraPos : s16;
 #ifdef _MSC_VER
 // NOTE: __single_inheritance required to workaround MSVC code gen bug
 // https://stackoverflow.com/questions/8676879/member-function-pointer-runtime-error-the-value-of-esp-was-not-properly-saved
-class __single_inheritance BaseAnimatedWithPhysicsGameObject;
+class __multiple_inheritance BaseAnimatedWithPhysicsGameObject;
 #else
 class BaseAnimatedWithPhysicsGameObject;
 #endif
@@ -37,7 +39,29 @@ using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typicall
 FP ScaleToGridSize(FP scale);
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
+    , public IBaseAnimatedWithPhysicsGameObject
 {
+public: // Temp interface
+    virtual s16 Scale() override
+    {
+        return field_C6_scale;
+    }
+
+    virtual FP SpriteScale() override
+    {
+        return field_BC_sprite_scale;
+    }
+
+    virtual FP XPos() override
+    {
+        return mBaseAnimatedWithPhysicsGameObject_XPos;
+    }
+
+    virtual FP YPos() override
+    {
+        return mBaseAnimatedWithPhysicsGameObject_YPos;
+    }
+
 public:
     
 

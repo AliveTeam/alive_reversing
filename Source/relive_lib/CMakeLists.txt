@@ -5,6 +5,12 @@ SET(relive_lib_src
     ObjectIds.cpp
     BaseGameObject.hpp
     BaseGameObject.cpp
+    Events.hpp
+    Events.cpp
+    GameType.hpp
+    GameType.cpp
+    BaseAnimatedWithPhysicsGameObject.hpp
+    stdafx.h
 )
 
 add_library(relive_lib ${relive_lib_src})

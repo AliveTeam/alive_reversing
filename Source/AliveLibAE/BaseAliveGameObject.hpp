@@ -30,6 +30,7 @@ enum Flags_114
 
 class BaseAliveGameObject : public ::BaseAnimatedWithPhysicsGameObject
 {
+
 public:
     explicit BaseAliveGameObject(s16 resourceArraySize);
     ~BaseAliveGameObject();

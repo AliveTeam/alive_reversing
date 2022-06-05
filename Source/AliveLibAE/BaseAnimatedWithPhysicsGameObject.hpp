@@ -3,10 +3,12 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "../AliveLibCommon/Function.hpp"
+#include "../AliveLibCommon/Sys_common.hpp"
 #include "Animation.hpp"
 #include "AnimationUnknown.hpp"
 #include "Map.hpp"
 #include "PathData.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 class Shadow;
 
@@ -22,15 +24,36 @@ ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
 #ifdef _MSC_VER
 // NOTE: __single_inheritance required to workaround MSVC code gen bug
 // https://stackoverflow.com/questions/8676879/member-function-pointer-runtime-error-the-value-of-esp-was-not-properly-saved
-class __single_inheritance BaseAnimatedWithPhysicsGameObject;
+class __multiple_inheritance BaseAnimatedWithPhysicsGameObject;
 #else
 class BaseAnimatedWithPhysicsGameObject;
 #endif
 
 using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
 
-class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
+class BaseAnimatedWithPhysicsGameObject : public IBaseAnimatedWithPhysicsGameObject, public BaseGameObject
 {
+public: // Temp interface
+    virtual s16 Scale() override
+    {
+        return field_D6_scale;
+    }
+
+    virtual FP SpriteScale() override
+    {
+        return field_CC_sprite_scale;
+    }
+
+    virtual FP XPos() override
+    {
+        return mBaseAnimatedWithPhysicsGameObject_XPos;
+    }
+
+    virtual FP YPos() override
+    {
+        return mBaseAnimatedWithPhysicsGameObject_YPos;
+    }
+
 public:
     explicit BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize);
     ~BaseAnimatedWithPhysicsGameObject();

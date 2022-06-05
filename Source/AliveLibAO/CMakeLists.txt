@@ -299,8 +299,6 @@ SET(AliveLibSrcAO
    LvlArchive.cpp
    Collisions.hpp
    Collisions.cpp
-   Events.hpp
-   Events.cpp
    Input.hpp
    Input.cpp
    GameSpeak.hpp

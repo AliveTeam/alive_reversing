@@ -25,13 +25,9 @@
 #include "../AliveLibAE/GameAutoPlayer.hpp"
 #include "../AliveLibAO/GameAutoPlayer.hpp"
 
-#include "Io.hpp"
+#include "../relive_lib/GameType.hpp"
 
-enum class GameType : s32
-{
-    eAo = 0,
-    eAe = 1,
-};
+#include "Io.hpp"
 
 namespace AutoSplitterData {
 struct GuidStr
@@ -70,7 +66,7 @@ struct AEGameInfo
 
 extern "C"
 {
-    GameType gameType = GameType::eAo;
+    static GameType gameType = GameType::eAo;
 
 // Auto splitter looks for this guid, if it exists then it assumes its the 64bit relive
 #ifdef _WIN64
@@ -274,6 +270,8 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     {
         return 1;
     }
+
+    SetGameType(gameToRun);
 
     if (gameToRun == GameType::eAo)
     {

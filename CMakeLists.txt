@@ -52,6 +52,8 @@ endforeach()
 if(MSVC)
     add_compile_options(/bigobj)
     add_compile_options(/permissive)
+    add_compile_options(/vmg)
+    add_compile_options(/wd4121)
 endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

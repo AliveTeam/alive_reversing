@@ -2281,7 +2281,7 @@ void Fleech::IncreaseAnger_430920()
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
     {
-        BaseAnimatedWithPhysicsGameObject* pEvent = Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_D6_scale);
+        IBaseAnimatedWithPhysicsGameObject* pEvent = Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_D6_scale);
 
         if (!pEvent)
         {
@@ -2295,18 +2295,18 @@ void Fleech::IncreaseAnger_430920()
 
         if (pEvent)
         {
-            if ((pEvent != sActiveHero || !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pEvent->mBaseAnimatedWithPhysicsGameObject_XPos, pEvent->mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+            if ((pEvent != sActiveHero || !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pEvent->XPos(), pEvent->YPos(), 0))
             {
                 field_13E_current_anger += field_142_attack_anger_increaser;
-                if (VOnSameYLevel(pEvent))
+                if (VOnSameYLevel(static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
                 {
-                    if (pEvent->Type() == ReliveTypes::eScrab || pEvent->Type() == ReliveTypes::eParamite)
+                    if (pEvent->GetBaseGameObject().Type() == ReliveTypes::eScrab || pEvent->GetBaseGameObject().Type() == ReliveTypes::eParamite)
                     {
-                        field_14E = FP_GetExponent(pEvent->mBaseAnimatedWithPhysicsGameObject_XPos);
+                        field_14E = FP_GetExponent(pEvent->XPos());
                     }
                     else
                     {
-                        field_14C = FP_GetExponent(pEvent->mBaseAnimatedWithPhysicsGameObject_XPos);
+                        field_14C = FP_GetExponent(pEvent->YPos());
                     }
                 }
             }
@@ -2315,9 +2315,9 @@ void Fleech::IncreaseAnger_430920()
         pEvent = Event_Is_Event_In_Range(kEventNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_D6_scale);
         if (pEvent)
         {
-            if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(6), pEvent))
+            if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(6),static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
             {
-                if ((pEvent != sActiveHero || !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pEvent->mBaseAnimatedWithPhysicsGameObject_XPos, pEvent->mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+                if ((pEvent != sActiveHero || !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)) && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pEvent->XPos(), pEvent->YPos(), 0))
                 {
                     field_13E_current_anger += field_140_max_anger;
                 }

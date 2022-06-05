@@ -110,8 +110,6 @@ SET(AliveLibAESrc
     RenderingTestTimData.hpp
     DebugHelpers.hpp
     DebugHelpers.cpp
-    Events.cpp
-    Events.hpp
     SwitchStates.hpp
     SwitchStates.cpp
     StringFormatters.hpp

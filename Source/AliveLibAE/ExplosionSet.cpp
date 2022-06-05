@@ -138,8 +138,7 @@ void ExplosionSet::VRender(PrimHeader** ppOt)
 
 void ExplosionSet::VUpdate()
 {
-    BaseGameObject* pDeathResetEvent = Event_Get(kEventDeathReset);
-    if (pDeathResetEvent)
+    if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

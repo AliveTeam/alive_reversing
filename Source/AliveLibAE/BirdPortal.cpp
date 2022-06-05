@@ -1057,7 +1057,7 @@ void BirdPortal::CreateTerminators()
     }
 }
 
-s16 BirdPortal::GetEvent()
+Event BirdPortal::GetEvent()
 {
     for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
     {
@@ -1075,7 +1075,7 @@ s16 BirdPortal::GetEvent()
             }
             else
             {
-                return kEventOtherPortalOpen_20;
+                return kEventOtherPortalOpen;
             }
         }
     }
