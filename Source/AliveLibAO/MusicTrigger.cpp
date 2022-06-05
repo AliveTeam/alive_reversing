@@ -10,14 +10,14 @@
 namespace AO {
 
 MusicTrigger::MusicTrigger(MusicTriggerMusicType type, TriggeredBy triggeredBy, s32 switchId, s32 delay)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     Init(type, triggeredBy, static_cast<s16>(switchId), static_cast<s16>(delay));
     field_10_tlvInfo = -1;
 }
 
 MusicTrigger::MusicTrigger(Path_MusicTrigger* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     Init(pTlv->field_18_music_type, pTlv->field_1A_triggered_by, pTlv->field_1C_switch_id, pTlv->field_1E_music_delay);
     field_10_tlvInfo = tlvInfo;

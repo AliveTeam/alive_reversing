@@ -51,7 +51,7 @@ class LoadingFile final : public BaseGameObject
 {
 public:
     LoadingFile(s32 pos, s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)
-        : BaseGameObject(1)
+        : BaseGameObject(TRUE, 0)
     {
         gFilesPending_507714++;
 

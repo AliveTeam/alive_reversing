@@ -240,7 +240,7 @@ void Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_type* pMov
 }
 
 Movie::Movie(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 volume)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     // AE_IMPLEMENTED();
 

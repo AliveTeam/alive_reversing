@@ -10,7 +10,7 @@ namespace AO {
 ALIVE_VAR(1, 0x4CFFF8, s16, sBackgroundMusic_seq_id_4CFFF8, -1);
 
 BackgroundMusic::BackgroundMusic(s16 musicId)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_10_music_id = musicId;
     sBackgroundMusic_seq_id_4CFFF8 = -1;

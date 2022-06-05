@@ -153,7 +153,7 @@ BirdPortal::~BirdPortal()
 }
 
 BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBirdPortal;
 

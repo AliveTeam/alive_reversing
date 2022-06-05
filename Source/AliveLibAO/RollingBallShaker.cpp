@@ -33,7 +33,7 @@ const static PSX_Pos16 sRollingBallShakerScreenOffsets_4BB740[18] = {
     {0, 0}};
 
 RollingBallShaker::RollingBallShaker()
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 

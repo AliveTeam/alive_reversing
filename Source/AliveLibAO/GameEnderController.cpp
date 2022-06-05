@@ -28,7 +28,7 @@ void GameEnderController::CreateGameEnderController()
 }
 
 GameEnderController::GameEnderController()
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eGameEnderController;
     field_14_state = GameEnderController_States::eInit_0;

@@ -15,7 +15,7 @@ class PalleteOverwriter final : public BaseGameObject
 {
 public:
     PalleteOverwriter(PSX_Point palXY, s16 palDepth, s16 colour)
-        : BaseGameObject(1)
+        : BaseGameObject(TRUE, 0)
     {
         mBaseGameObjectTypeId = ReliveTypes::ePalOverwriter;
 
@@ -101,7 +101,7 @@ public:
 ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xC0);
 
 Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eElectrocute;
 

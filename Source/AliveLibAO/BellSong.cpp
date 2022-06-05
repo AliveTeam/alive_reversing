@@ -64,7 +64,7 @@ void BellSong::VUpdate()
 }
 
 BellSong::BellSong(BellsongTypes type, u32 code)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_16_type = type;
     field_18_code = code;

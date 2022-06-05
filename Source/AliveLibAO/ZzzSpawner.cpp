@@ -15,7 +15,7 @@ ZzzSpawner::~ZzzSpawner()
 }
 
 ZzzSpawner::ZzzSpawner(Path_ZzzSpawner* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_10_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     field_14_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);

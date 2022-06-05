@@ -12,7 +12,7 @@
 namespace AO {
 
 ScreenShake::ScreenShake(bool enableShakeEvent)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::ScreenShake;
 

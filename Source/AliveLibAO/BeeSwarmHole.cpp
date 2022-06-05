@@ -11,7 +11,7 @@
 namespace AO {
 
 BeeSwarmHole::BeeSwarmHole(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_10_tlvInfo = tlvInfo;
     mBaseGameObjectTypeId = ReliveTypes::eSligSpawner;

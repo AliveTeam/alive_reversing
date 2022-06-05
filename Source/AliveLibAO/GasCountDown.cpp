@@ -52,7 +52,7 @@ ALIVE_VAR(1, 0x507700, s32, sGasTimer_507700, 0);
 ALIVE_VAR(1, 0x4FF888, s16, gGasOn_4FF888, 0);
 
 GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eGasClock;
     field_58_tlvInfo = tlvInfo;

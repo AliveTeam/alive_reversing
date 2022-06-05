@@ -68,7 +68,7 @@ void SnoozeParticle::VScreenChanged()
 }
 
 SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 

@@ -21,7 +21,7 @@ void Spark_ForceLink()
 namespace AO {
 
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 

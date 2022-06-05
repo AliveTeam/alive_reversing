@@ -15,7 +15,7 @@ namespace AO {
 ALIVE_VAR_EXTERN(u8, sRandomSeed_50A228); //Math.cpp
 
 DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);

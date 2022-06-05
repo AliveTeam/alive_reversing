@@ -19,7 +19,7 @@ namespace AO {
 ALIVE_VAR(1, 0x507668, s16, sNumCamSwappers_507668, 0);
 
 CameraSwapper::CameraSwapper(u8** ppBits, s32 movieId, s32 movieFlag, s8 movieFlags, s16 flags, s16 volume)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     Init(ppBits, CameraSwapEffects::ePlay1FMV_5);
 
@@ -31,7 +31,7 @@ CameraSwapper::CameraSwapper(u8** ppBits, s32 movieId, s32 movieFlag, s8 movieFl
 }
 
 CameraSwapper::CameraSwapper(u8** ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, s8 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     Init(ppBits, CameraSwapEffects::ePlay2FMVs_9);
 
@@ -49,7 +49,7 @@ CameraSwapper::CameraSwapper(u8** ppBits, s32 moviePos1, s32 movieId1, s32 movie
 }
 
 CameraSwapper::CameraSwapper(u8** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     Init(ppBits, CameraSwapEffects::ePlay3FMVs_10);
 
@@ -77,7 +77,7 @@ void CameraSwapper::VScreenChanged()
 }
 
 CameraSwapper::CameraSwapper(u8** ppBits, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_40_ypos_converted = static_cast<s16>(ypos);
     field_3E_xpos_converted = static_cast<s16>(PsxToPCX(xpos));

@@ -46,7 +46,7 @@ void ScreenClipper::VScreenChanged()
 }
 
 ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eScreenClipper;
 

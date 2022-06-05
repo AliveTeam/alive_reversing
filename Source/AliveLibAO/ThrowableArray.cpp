@@ -135,7 +135,7 @@ ThrowableArray::~ThrowableArray()
 }
 
 ThrowableArray::ThrowableArray()
-    : BaseGameObject(TRUE)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
     field_10_count = 0;

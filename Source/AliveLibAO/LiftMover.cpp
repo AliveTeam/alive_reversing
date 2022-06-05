@@ -9,7 +9,7 @@
 namespace AO {
 
 LiftMover::LiftMover(Path_LiftMover* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_14_tlvInfo = tlvInfo;
     field_18_pLiftPoint = nullptr;

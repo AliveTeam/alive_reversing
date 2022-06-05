@@ -218,7 +218,7 @@ public:
 static LCDMessages gLCDMessages;
 
 LCDScreen::LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_2BC_tlv = *pTlv;
 

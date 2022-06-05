@@ -11,7 +11,7 @@
 namespace AO {
 
 EffectBase::EffectBase(Layer layer, TPageAbr abr)
-    : BaseGameObject(TRUE)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eEffectBase;
     gObjListDrawables->Push_Back(this);

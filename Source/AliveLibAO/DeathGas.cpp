@@ -32,7 +32,7 @@ ALIVE_VAR(1, 0x5008B0, Data_Byte, sbyte_2_5008B0, {});
 ALIVE_VAR(1, 0x5009D0, s32, gDeathGasCount_5009D0, 0);
 
 DeathGas::DeathGas(Layer layer, s32 amount)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     gDeathGasCount_5009D0++;
 

@@ -16,7 +16,7 @@ InvisibleSwitch::~InvisibleSwitch()
 }
 
 InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_14_tlvInfo = tlvInfo;
     field_28_state = States::eWaitForTrigger_0;

@@ -17,7 +17,7 @@ void SlogSpawner::VScreenChanged()
 }
 
 SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_10_tlvInfo = tlvInfo;
     field_20_spawn_timer = 0;

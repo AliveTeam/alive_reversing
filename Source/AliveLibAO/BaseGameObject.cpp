@@ -12,7 +12,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x9F2DF0, DynamicArrayT<BaseGameObject>*, gBaseGameObjects, nullptr);
 
-BaseGameObject::BaseGameObject(s16 addToObjectList)
+BaseGameObject::BaseGameObject(s16 addToObjectList, s16 /*resourceArraySize*/)
 {
     mBaseGameObjectUpdateDelay = 0;
     mBaseGameObjectRefCount = 0;

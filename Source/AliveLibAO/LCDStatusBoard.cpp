@@ -56,7 +56,7 @@ LCDStatusBoard::~LCDStatusBoard()
 }
 
 LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_C8_tlv = tlvInfo;
     field_10_fontContext.LoadFontType(2);

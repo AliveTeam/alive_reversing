@@ -42,7 +42,7 @@ GasEmitter::~GasEmitter()
 }
 
 GasEmitter::GasEmitter(Path_GasEmitter* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
 

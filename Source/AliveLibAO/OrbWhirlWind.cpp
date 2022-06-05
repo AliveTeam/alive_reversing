@@ -111,7 +111,7 @@ OrbWhirlWind::~OrbWhirlWind()
 }
 
 OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
 

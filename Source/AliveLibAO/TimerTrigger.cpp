@@ -22,7 +22,7 @@ TimerTrigger::~TimerTrigger()
 }
 
 TimerTrigger::TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_1C_tlvInfo = tlvInfo;
 

@@ -118,7 +118,7 @@ enum class AOTypes : s16
 class BaseGameObject : public IBaseGameObject
 {
 public:
-    explicit BaseGameObject(s16 addToObjectList);
+    BaseGameObject(s16 addToObjectList, s16 resourceArraySize);
     virtual ~BaseGameObject();
     virtual void VUpdate();
     virtual void VRender(PrimHeader**);

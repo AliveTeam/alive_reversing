@@ -98,7 +98,7 @@ void ScreenManager::InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height
 }
 
 ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_10_pCamPos = pCameraOffset;
 

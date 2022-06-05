@@ -12,7 +12,7 @@ ALIVE_VAR(1, 0x507684, s16, gCreditsControllerExists_507684, false);
 constexpr s32 kShowCreditScreenForTicks = 60;
 
 CreditsController::CreditsController(Path_CreditsController* /*pTlv*/, s32 /*tlvInfo*/)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_14_camera_number = gMap.mCurrentCamera;
     field_10_next_cam_frame = sGnFrame + kShowCreditScreenForTicks;

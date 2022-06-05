@@ -363,7 +363,7 @@ s32 MusicController::GetMusicTime()
 }
 
 MusicController::MusicController()
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
     mBaseGameObjectTypeId = ReliveTypes::eNone;

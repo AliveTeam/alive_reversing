@@ -55,7 +55,7 @@ GameSpeakEvents Code_LookUp(u32 code, u16 idx, u16 code_len)
 ALIVE_VAR(1, 0x4FF954, GameSpeak*, pEventSystem_4FF954, nullptr);
 
 GameSpeak::GameSpeak()
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_1C_event_buffer[0] = -1;

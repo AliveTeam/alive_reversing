@@ -21,7 +21,7 @@ SwitchStateBooleanLogic::~SwitchStateBooleanLogic()
 }
 
 SwitchStateBooleanLogic::SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     field_18_tlvInfo = tlvInfo;
 

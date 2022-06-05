@@ -219,7 +219,7 @@ FG1::~FG1()
 }
 
 FG1::FG1(u8** ppRes)
-    : BaseGameObject(1)
+    : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
