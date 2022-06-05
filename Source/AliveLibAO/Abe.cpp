@@ -714,9 +714,9 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             sndIndex = 25;
             break;
         case EnvironmentSfx::eKnockback_13:
-            if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1
-                || gMap.mCurrentLevel == LevelIds::eBoardRoom_12
-                || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
+                || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom
+                || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
                 sndIndex = 2;
             }
@@ -767,7 +767,7 @@ s32 Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject
 {
     if (idx == MudSounds::eLaugh1_8
         && pHero == sActiveHero_507678
-        && (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12))
+        && (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom))
     {
         idx = MudSounds::eLaugh2_11;
     }
@@ -820,11 +820,11 @@ void Abe::VOnTrapDoorOpen()
 }
 
 const TintEntry sAbeTints_4C6438[] = {
-    {LevelIds::eStockYards_5, 25u, 25u, 25u},
-    {LevelIds::eStockYardsReturn_6, 25u, 25u, 25u},
-    {LevelIds::eDesert_8, 125u, 125u, 95u},
-    {LevelIds::eDesertTemple_9, 120u, 120u, 90u},
-    {LevelIds::eNone, 102u, 102u, 102u}};
+    {EReliveLevelIds::eStockYards, 25u, 25u, 25u},
+    {EReliveLevelIds::eStockYardsReturn, 25u, 25u, 25u},
+    {EReliveLevelIds::eDesert, 125u, 125u, 95u},
+    {EReliveLevelIds::eDesertTemple, 120u, 120u, 90u},
+    {EReliveLevelIds::eNone, 102u, 102u, 102u}};
 
 
 Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
@@ -1334,7 +1334,7 @@ void Abe::VUpdate()
 
                 if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) && field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
                 {
-                    if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace) && gMap.mLevel == LevelIds::eLines_2)
+                    if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace) && gMap.mLevel == EReliveLevelIds::eLines)
                     {
                         LOG_INFO("Set e2A8_eBit15_bGiveShrykullFromBigFace");
                         field_2A8_flags.Set(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace);
@@ -1350,7 +1350,7 @@ void Abe::VUpdate()
                         bLogged = true;
                     }
 
-                    if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit14_bGotShrykullFromBigFace) && gMap.mCurrentLevel == LevelIds::eLines_2)
+                    if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit14_bGotShrykullFromBigFace) && gMap.mCurrentLevel == EReliveLevelIds::eLines)
                     {
                         LOG_INFO("Set field_16C_bHaveShrykull TRUE");
                         if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 1, 0))
@@ -3089,7 +3089,7 @@ void Abe::VScreenChanged()
         // Set the correct tint for this map
         SetTint_418750(sAbeTints_4C6438, gMap.mLevel);
 
-        if (gMap.mCurrentLevel != LevelIds::eMenu_0)
+        if (gMap.mCurrentLevel != EReliveLevelIds::eMenu)
         {
             if (field_19C_throwable_count > 0)
             {
@@ -3111,7 +3111,7 @@ void Abe::VScreenChanged()
             field_168_ring_pulse_timer = 0;
         }
 
-        if (gMap.mLevel == LevelIds::eCredits_10 || gMap.mLevel == LevelIds::eMenu_0)
+        if (gMap.mLevel == EReliveLevelIds::eCredits || gMap.mLevel == EReliveLevelIds::eMenu)
         {
             // Remove Abe for menu/credits levels?
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -3150,7 +3150,7 @@ void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
                 field_142_saved_path = gMap.mCurrentPath;
                 field_140_saved_camera = gMap.mCurrentCamera;
 
-                if (gRestartRuptureFarmsSavedMuds_5076C8 == 0 && gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13 && gMap.mCurrentPath == 19 && gMap.mCurrentCamera == 3)
+                if (gRestartRuptureFarmsSavedMuds_5076C8 == 0 && gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn && gMap.mCurrentPath == 19 && gMap.mCurrentCamera == 3)
                 {
                     gRestartRuptureFarmsKilledMuds_5076C4 = sKilledMudokons_5076BC;
                     gRestartRuptureFarmsSavedMuds_5076C8 = sRescuedMudokons_5076C0;
@@ -5476,7 +5476,7 @@ void Abe::IntoPortalStates_4262A0()
         {
             if (field_1A0_portal->VStateIs16())
             {
-                LevelIds level = {};
+                EReliveLevelIds level = {};
                 u16 path = 0;
                 u16 camera = 0;
                 CameraSwapEffects screenChangeEffect = {};
@@ -6966,7 +6966,7 @@ void Abe::Motion_60_Dead_42C4C0()
                 {
                     Abe::Free_Shrykull_Resources_42F4C0();
                 }
-                else if (field_144_saved_level != LevelIds::eRuptureFarmsReturn_13 || field_142_saved_path != 6)
+                else if (field_144_saved_level != EReliveLevelIds::eRuptureFarmsReturn || field_142_saved_path != 6)
                 {
                     field_168_ring_pulse_timer = 0;
                 }
@@ -7040,7 +7040,7 @@ void Abe::Motion_61_Respawn_42CD20()
                 SaveGame::LoadFromMemory(&gSaveBuffer_505668, 0);
                 if (field_19C_throwable_count)
                 {
-                    LoadRockTypes(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
+                    LoadRockTypes(MapWrapper::FromAO(gSaveBuffer_505668.field_234_current_level), gSaveBuffer_505668.field_236_current_path);
                     if (!gpThrowableArray_50E26C)
                     {
                         gpThrowableArray_50E26C = ao_new<ThrowableArray>();
@@ -7239,7 +7239,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
         {
             if (!gpThrowableArray_50E26C)
             {
-                LoadRockTypes(gSaveBuffer_505668.field_234_current_level, gSaveBuffer_505668.field_236_current_path);
+                LoadRockTypes(MapWrapper::FromAO(gSaveBuffer_505668.field_234_current_level), gSaveBuffer_505668.field_236_current_path);
 
                 gpThrowableArray_50E26C = ao_new<ThrowableArray>();
             }
@@ -7247,7 +7247,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
         }
         if (pSaveData->field_264_bInfiniteGrenades == -1)
         {
-            LoadRockTypes(LevelIds::eRuptureFarmsReturn_13, 19);
+            LoadRockTypes(EReliveLevelIds::eRuptureFarmsReturn, 19);
             if (!gpThrowableArray_50E26C)
             {
                 gpThrowableArray_50E26C = ao_new<ThrowableArray>();
@@ -7265,7 +7265,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
             {
                 TlvItemInfoUnion aux;
                 aux.all = (u32) -1;
-                dword_4CF550[static_cast<s32>(gMap.mCurrentLevel)](aux);
+                dword_4CF550[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))](aux);
             }
 
             ResourceManager::LoadResourceFile_455270("ANEPRMNT.BAN", 0);
@@ -7276,10 +7276,10 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
             gElum_507680->field_140_continue_zone_number = pSaveData->field_294_continue_zone_number;
             gElum_507680->field_142_zone_number = pSaveData->field_296_elum_zone_number;
             gElum_507680->field_148_continue_path = pSaveData->field_298_elum_continue_path;
-            gElum_507680->field_14A_continue_level = pSaveData->field_29A_continue_level;
+            gElum_507680->field_14A_continue_level = MapWrapper::FromAO(pSaveData->field_29A_continue_level);
             gElum_507680->field_150_continue_sprite_scale = pSaveData->field_29C_elum_sprite_scale;
             gElum_507680->field_144_bRespawnOnDead = pSaveData->field_25E_bElumRespawnOnDead;
-            gElum_507680->field_B2_lvl_number = pSaveData->field_260_elum_lvl_number;
+            gElum_507680->field_B2_lvl_number = MapWrapper::FromAO(pSaveData->field_260_elum_lvl_number);
             gElum_507680->field_B0_path_number = pSaveData->field_262_elum_path_number;
             gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pSaveData->field_268_elum_xpos);
             gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pSaveData->field_26C_elum_ypos);
@@ -7570,9 +7570,9 @@ void Abe::Motion_70_Knockback_428FB0()
 
             MoveWithVelocity_4257F0(FP_FromDouble(0.7));
 
-            if ((gMap.mCurrentLevel == LevelIds::eRuptureFarms_1
-                 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13
-                 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12)
+            if ((gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
+                 || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn
+                 || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom)
                 && field_10_anim.field_92_current_frame == 7)
             {
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
@@ -7952,14 +7952,14 @@ void Abe::Motion_81_InsideWellExpress_431320()
     Path_WellExpress* pExpressWell = static_cast<Path_WellExpress*>(BaseAliveGameObjectPathTLV);
     if (SwitchStates_Get(pExpressWell->field_1A_switch_id))
     {
-        field_190_level = pExpressWell->field_2C_on_level;
+        field_190_level = MapWrapper::FromAO(pExpressWell->field_2C_on_level);
         field_192_path = pExpressWell->field_2E_on_path;
         field_194_camera = pExpressWell->field_30_on_camera;
         field_196_door_id = pExpressWell->field_32_on_well_id;
     }
     else
     {
-        field_190_level = pExpressWell->field_24_off_level_or_dx.level;
+        field_190_level = MapWrapper::FromAO(pExpressWell->field_24_off_level_or_dx.level);
         field_192_path = pExpressWell->field_26_off_path_or_dy;
         field_194_camera = pExpressWell->field_28_off_camera;
         field_196_door_id = pExpressWell->field_2A_off_well_id;
@@ -7967,9 +7967,9 @@ void Abe::Motion_81_InsideWellExpress_431320()
 
     field_120_x_vel_slow_by = FP_FromInteger(0);
 
-    if (gMap.mCurrentLevel == LevelIds::eLines_2)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eLines)
     {
-        if (field_190_level == LevelIds::eForest_3)
+        if (field_190_level == EReliveLevelIds::eForest)
         {
             if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone))
             {
@@ -7983,7 +7983,7 @@ void Abe::Motion_81_InsideWellExpress_431320()
             field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone);
         }
 
-        if (field_190_level == LevelIds::eDesert_8)
+        if (field_190_level == EReliveLevelIds::eDesert)
         {
             if (field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
             {
@@ -8277,7 +8277,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         field_192_path = gMap.mCurrentPath;
                         field_194_camera = gMap.mCurrentCamera;
                         gMap.SetActiveCam(
-                            field_174_pathStone.dataHandstone.camera1.level,
+                            MapWrapper::FromAO(field_174_pathStone.dataHandstone.camera1.level),
                             field_174_pathStone.dataHandstone.camera1.path,
                             field_174_pathStone.dataHandstone.camera1.camera,
                             CameraSwapEffects::eInstantChange_0, 0, 0);
@@ -8395,7 +8395,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     field_110_state.stone = StoneStates::eWaitForInput_6;
                     field_16E_cameraIdx++;
                     field_158_pDeathFadeout = ao_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
-                    gMap.SetActiveCam(camera.level, camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(MapWrapper::FromAO(camera.level), camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }
             break;
@@ -9774,7 +9774,7 @@ void Abe::Motion_156_DoorEnter_42D370()
                 flag = 1;
             }
             gMap.SetActiveCam(
-                pDoorTlv->field_18_level,
+                MapWrapper::FromAO(pDoorTlv->field_18_level),
                 pDoorTlv->field_1A_path,
                 pDoorTlv->field_1C_camera,
                 changeEffect,
@@ -9820,7 +9820,7 @@ void Abe::Motion_156_DoorEnter_42D370()
             }
             else if (pPathDoor->field_26_start_state == DoorStates::eClosed_1 || pPathDoor->field_26_start_state == DoorStates::eHubDoorClosed_2)
             {
-                if (gMap.mCurrentLevel != LevelIds::eRuptureFarmsReturn_13)
+                if (gMap.mCurrentLevel != EReliveLevelIds::eRuptureFarmsReturn)
                 {
                     field_BC_sprite_scale = FP_FromDouble(0.5);
                     field_C6_scale = 0;

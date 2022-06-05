@@ -17,19 +17,19 @@ struct MudCounts final
 };
 static MudCounts sMudExtData[static_cast<u32>(LevelIds::eDesertEscape_15) + 1][99];
 
-s32 Path_GetTotalMuds(LevelIds lvlId, u32 pathNum)
+s32 Path_GetTotalMuds(EReliveLevelIds lvlId, u32 pathNum)
 {
-    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mTotal;
+    return sMudExtData[static_cast<u32>(MapWrapper::ToAO(lvlId))][pathNum].mTotal;
 }
 
-s32 Path_BadEndingMuds(LevelIds lvlId, u32 pathNum)
+s32 Path_BadEndingMuds(EReliveLevelIds lvlId, u32 pathNum)
 {
-    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mBadEnding;
+    return sMudExtData[static_cast<u32>(MapWrapper::ToAO(lvlId))][pathNum].mBadEnding;
 }
 
-s32 Path_GoodEndingMuds(LevelIds lvlId, u32 pathNum)
+s32 Path_GoodEndingMuds(EReliveLevelIds lvlId, u32 pathNum)
 {
-    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mGoodEnding;
+    return sMudExtData[static_cast<u32>(MapWrapper::ToAO(lvlId))][pathNum].mGoodEnding;
 }
 
 static u8* sPathExtData[static_cast<u32>(LevelIds::eDesertEscape_15) + 1] = {};
@@ -50,13 +50,18 @@ void Path_Set_NewData_FromLvls()
 {
     for (s32 lvlIdx = 0; lvlIdx < Path_Get_Paths_Count(); lvlIdx++)
     {
+        if (lvlIdx == static_cast<s32>(LevelIds::eRemoved_7) || lvlIdx == static_cast<s32>(LevelIds::eRemoved_11))
+        {
+            continue;
+        }
+
         // Open the LVL
         LvlArchive archive;
-        const char_type* pCdLvlName = CdLvlName(static_cast<LevelIds>(lvlIdx));
+        const char_type* pCdLvlName = CdLvlName(MapWrapper::FromAO(static_cast<LevelIds>(lvlIdx)));
         if (pCdLvlName && archive.OpenArchive(pCdLvlName, 0))
         {
             // Check for hard coded data replacement
-            LvlFileRecord* pRec = archive.Find_File_Record(Path_Get_BndName(static_cast<LevelIds>(lvlIdx)));
+            LvlFileRecord* pRec = archive.Find_File_Record(Path_Get_BndName(MapWrapper::FromAO(static_cast<LevelIds>(lvlIdx))));
             if (pRec)
             {
                 // Load the file data

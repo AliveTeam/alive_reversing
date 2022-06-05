@@ -263,7 +263,7 @@ const u8 sFontPal_4D0090[32] = {
 struct MenuFMV final
 {
     const char_type* field_0_name;
-    LevelIds field_4_level_id;
+    EReliveLevelIds field_4_level_id;
     s16 field_6;
     s16 field_8;
     s16 field_A_fmv_id;
@@ -272,24 +272,24 @@ struct MenuFMV final
 };
 
 const MenuFMV gFmvs_4D0230[13] = {
-    {"Oddworld Intro", LevelIds::eMenu_0, -1, -1, 1, -1, -1},
-    {"This is RuptureFarms", LevelIds::eRuptureFarms_1, -1, -1, 1, -1, -1},
-    {"Barrel Ride", LevelIds::eStockYards_5, -1, -1, 4, -1, -1},
-    {"Abe's Moon", LevelIds::eStockYards_5, -1, -1, 2, -1, -1},
-    {"Paramite Scar", LevelIds::eLines_2, -1, -1, 3, -1, -1},
-    {"Scrab Scar", LevelIds::eLines_2, -1, -1, 4, -1, -1},
-    {"Shrykull Revealed", LevelIds::eLines_2, -1, -1, 16, -1, -1},
-    {"Mullock Watches", LevelIds::eRuptureFarmsReturn_13, -1, -1, 2, -1, -1},
-    {"The Factory Halts", LevelIds::eRuptureFarmsReturn_13, -1, -1, 1, -1, -1},
-    {"What a Drag", LevelIds::eRuptureFarmsReturn_13, -1, -1, 3, -1, -1},
-    {"Bad Ending", LevelIds::eRuptureFarmsReturn_13, -1, -1, 4, -1, -1},
-    {"Good Ending", LevelIds::eRuptureFarmsReturn_13, -1, -1, 16, -1, -1},
-    {"Credits", LevelIds::eCredits_10, -1, -1, -1, -1, -1}};
+    {"Oddworld Intro", EReliveLevelIds::eMenu, -1, -1, 1, -1, -1},
+    {"This is RuptureFarms", EReliveLevelIds::eRuptureFarms, -1, -1, 1, -1, -1},
+    {"Barrel Ride", EReliveLevelIds::eStockYards, -1, -1, 4, -1, -1},
+    {"Abe's Moon", EReliveLevelIds::eStockYards, -1, -1, 2, -1, -1},
+    {"Paramite Scar", EReliveLevelIds::eLines, -1, -1, 3, -1, -1},
+    {"Scrab Scar", EReliveLevelIds::eLines, -1, -1, 4, -1, -1},
+    {"Shrykull Revealed", EReliveLevelIds::eLines, -1, -1, 16, -1, -1},
+    {"Mullock Watches", EReliveLevelIds::eRuptureFarmsReturn, -1, -1, 2, -1, -1},
+    {"The Factory Halts", EReliveLevelIds::eRuptureFarmsReturn, -1, -1, 1, -1, -1},
+    {"What a Drag", EReliveLevelIds::eRuptureFarmsReturn, -1, -1, 3, -1, -1},
+    {"Bad Ending", EReliveLevelIds::eRuptureFarmsReturn, -1, -1, 4, -1, -1},
+    {"Good Ending", EReliveLevelIds::eRuptureFarmsReturn, -1, -1, 16, -1, -1},
+    {"Credits", EReliveLevelIds::eCredits, -1, -1, -1, -1, -1}};
 
 struct MenuLevel final
 {
     const char_type* field_0_name;
-    LevelIds field_4_level_id;
+    EReliveLevelIds field_4_level_id;
     s16 field_6;
     s16 field_8;
     s16 field_A;
@@ -299,21 +299,21 @@ struct MenuLevel final
 
 // TODO: Should be MenuFMV or there is a generic structure for "lists" of things?
 const MenuFMV sLevelList_4D0300[15] = {
-    {"RuptureFarms", LevelIds::eRuptureFarms_1, 15, 1, -1, 1390, 245},
-    {"Stockyard Escape", LevelIds::eStockYards_5, 6, 6, -1, 5656, 133},
-    {"Monsaic Lines", LevelIds::eLines_2, 1, 14, -1, 11810, 681},
-    {"Paramonia", LevelIds::eForest_3, 1, 1, -1, 330, 660},
-    {"Paramonian Temple", LevelIds::eForestTemple_4, 1, 1, -1, 565, 170},
-    {"Paramonian Nests", LevelIds::eForestChase_14, 9, 1, -1, 2439, 2621},
-    {"Scrabania", LevelIds::eDesert_8, 1, 1, -1, 4677, 750},
-    {"Scrabanian Temple", LevelIds::eDesertTemple_9, 1, 1, -1, 4410, 203},
-    {"Scrabanian Nests", LevelIds::eDesertEscape_15, 11, 1, -1, 466, 2124},
-    {"Stockyards", LevelIds::eStockYardsReturn_6, 4, 7, -1, 540, 640},
-    {"Rescue Zulag 1", LevelIds::eRuptureFarmsReturn_13, 19, 3, -1, 2589, 193},
-    {"Rescue Zulag 2", LevelIds::eRuptureFarmsReturn_13, 1, 1, -1, 1514, 705},
-    {"Rescue Zulag 3", LevelIds::eRuptureFarmsReturn_13, 13, 1, -1, 1389, 694},
-    {"Rescue Zulag 4", LevelIds::eRuptureFarmsReturn_13, 14, 1, -1, 1390, 700},
-    {"The Boardroom", LevelIds::eBoardRoom_12, 6, 1, -1, 592, 157}};
+    {"RuptureFarms", EReliveLevelIds::eRuptureFarms, 15, 1, -1, 1390, 245},
+    {"Stockyard Escape", EReliveLevelIds::eStockYards, 6, 6, -1, 5656, 133},
+    {"Monsaic Lines", EReliveLevelIds::eLines, 1, 14, -1, 11810, 681},
+    {"Paramonia", EReliveLevelIds::eForest, 1, 1, -1, 330, 660},
+    {"Paramonian Temple", EReliveLevelIds::eForestTemple, 1, 1, -1, 565, 170},
+    {"Paramonian Nests", EReliveLevelIds::eForestChase, 9, 1, -1, 2439, 2621},
+    {"Scrabania", EReliveLevelIds::eDesert, 1, 1, -1, 4677, 750},
+    {"Scrabanian Temple", EReliveLevelIds::eDesertTemple, 1, 1, -1, 4410, 203},
+    {"Scrabanian Nests", EReliveLevelIds::eDesertEscape, 11, 1, -1, 466, 2124},
+    {"Stockyards", EReliveLevelIds::eStockYardsReturn, 4, 7, -1, 540, 640},
+    {"Rescue Zulag 1", EReliveLevelIds::eRuptureFarmsReturn, 19, 3, -1, 2589, 193},
+    {"Rescue Zulag 2", EReliveLevelIds::eRuptureFarmsReturn, 1, 1, -1, 1514, 705},
+    {"Rescue Zulag 3", EReliveLevelIds::eRuptureFarmsReturn, 13, 1, -1, 1389, 694},
+    {"Rescue Zulag 4", EReliveLevelIds::eRuptureFarmsReturn, 14, 1, -1, 1390, 700},
+    {"The Boardroom", EReliveLevelIds::eBoardRoom, 6, 1, -1, 592, 157}};
 
 MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestroyOnDone)
 {
@@ -925,14 +925,14 @@ void Menu::CopyRight_Update_47B4C0()
         if (static_cast<s32>(sGnFrame) > field_1D8_timer)
         {
             field_1D8_timer = sGnFrame + 150;
-            gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eCopyright_10, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eCopyright_10, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
     else
     {
         if (static_cast<s32>(sGnFrame) > field_1D8_timer || gMap.mCurrentCamera != 10)
         {
-            gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::ePlay1FMV_5, 30102, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::ePlay1FMV_5, 30102, 0);
             field_1CC_fn_update = &Menu::WaitForDoorToOpen_47B550;
             field_10_anim.Set_Animation_Data(41420, field_E4_res_array[3]);
         }
@@ -1031,7 +1031,7 @@ void Menu::FMV_Select_Update_47E8D0()
                     // The credits are re-done in this class rather than using CreditsController... go to the Sherry credit screen
                     field_208_camera = 1;
                     pScreenManager_4FF7C8->UnsetDirtyBits_FG1();
-                    gMap.SetActiveCam(LevelIds::eCredits_10, 1, static_cast<s16>(field_208_camera), CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, static_cast<s16>(field_208_camera), CameraSwapEffects::eInstantChange_0, 0, 0);
                     field_1CC_fn_update = &Menu::To_Credits_Update_47F140;
                     field_1D0_fn_render = &Menu::Empty_Render_47AC80;
                 }
@@ -1530,14 +1530,14 @@ void Menu::GoToSelectedMenuPage_47BC50()
     {
         if (field_224_bToFmvSelect)
         {
-            gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eInstantChange_0, 0, 0);
             field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
             return;
         }
 
         if (field_226_bToLevelSelect)
         {
-            gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eLvlSelect_31, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eLvlSelect_31, CameraSwapEffects::eInstantChange_0, 0, 0);
             field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
             return;
         }
@@ -1551,11 +1551,11 @@ void Menu::GoToSelectedMenuPage_47BC50()
                 // Diff cam depending on input method ?
                 if (Input_JoyStickEnabled())
                 {
-                    gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eGamespeakGamepad_3, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eGamespeakGamepad_3, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
                 else
                 {
-                    gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eGamespeakKeyboard_33, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eGamespeakKeyboard_33, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
 
                 field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
@@ -1578,13 +1578,13 @@ void Menu::GoToSelectedMenuPage_47BC50()
 
             // Load
             case MainMenuOptions::eLoad_3:
-                gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eLoad_6, CameraSwapEffects::eInstantChange_0, 0, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eLoad_6, CameraSwapEffects::eInstantChange_0, 0, 0);
                 field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
                 break;
 
             // Options
             case MainMenuOptions::eOptions_4:
-                gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eInstantChange_0, 0, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eInstantChange_0, 0, 0);
                 field_1CC_fn_update = &Menu::ToNextMenuPage_47BD80;
                 break;
 
@@ -1689,7 +1689,7 @@ void Menu::ToLoading_47B7E0()
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
             field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
-            gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eLoading_21, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eLoading_21, CameraSwapEffects::eInstantChange_0, 0, 0);
             field_204_flags &= ~2u;
             field_1CC_fn_update = &Menu::Loading_Update_47B870;
             field_1D0_fn_render = &Menu::Empty_Render_47AC80;
@@ -1716,11 +1716,11 @@ void Menu::GameSpeak_Render_47D700(PrimHeader** ppOt)
 #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switch between Gamepad/Keyboard GameSpeak Menu if joystick is added/removed
     if (Input_JoyStickEnabled() && gMap.mCamera == CameraIds::Menu::eGamespeakKeyboard_33)
     {
-        gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eGamespeakGamepad_3, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eGamespeakGamepad_3, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
     else if (!Input_JoyStickEnabled() && gMap.mCamera == CameraIds::Menu::eGamespeakGamepad_3)
     {
-        gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eGamespeakKeyboard_33, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eGamespeakKeyboard_33, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 #endif
 
@@ -2085,7 +2085,7 @@ void Menu::NewGameStart_47B9C0()
         {
             // Start the game in the biggest meat processing plant
             gInfiniteGrenades_5076EC = FALSE;
-            gMap.SetActiveCam(LevelIds::eRuptureFarms_1, 15, 1, CameraSwapEffects::ePlay1FMV_5, 102, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eRuptureFarms, 15, 1, CameraSwapEffects::ePlay1FMV_5, 102, 0);
 
             // What if someone made a level editor and wanted to change where abe spawns on the first map? Well... hard luck pal
             sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(1378);
@@ -2204,17 +2204,17 @@ void Menu::Option_GoTo_Selected_Update_47C2C0()
             {
                 // Controller
                 case OptionsMenuOptions::eController_0:
-                    gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eController_40, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eController_40, CameraSwapEffects::eInstantChange_0, 0, 0);
                     break;
 
                 // Sound
                 case OptionsMenuOptions::eSound_1:
-                    gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eSound_5, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eSound_5, CameraSwapEffects::eInstantChange_0, 0, 0);
                     break;
 
                 // Back to main menu screen
                 case OptionsMenuOptions::eMainMenu_2:
-                    gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
                     break;
 
                 default:
@@ -2574,7 +2574,7 @@ void Menu::Options_WaitForScreenTrans_Update_47C760()
     {
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
-            gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eInstantChange_0, 0, 0);
             field_1CC_fn_update = &Menu::To_MainOptions_Screen_After_Camera_Change_Update_47C7A0;
         }
     }
@@ -2891,7 +2891,7 @@ void Menu::FMV_Or_Level_Select_To_Back_Update_47EC70()
 {
     if (field_1E8_pMenuTrans->field_16_bDone)
     {
-        gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
         field_1CC_fn_update = &Menu::FMV_Or_Level_Select_Back_Update_47ECB0;
     }
 }
@@ -2955,12 +2955,12 @@ void Menu::GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330()
             {
                 // Goto controller configuration
                 case 0:
-                    gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eControllerConfig_41, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eControllerConfig_41, CameraSwapEffects::eInstantChange_0, 0, 0);
                     break;
 
                 // Back to main options (sound/controller)
                 case 1:
-                    gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eInstantChange_0, 0, 0);
                     break;
             }
 
@@ -3414,7 +3414,7 @@ void Menu::To_ShowAbeMotions_ChangeCamera_Update_47F8A0()
         {
             if (field_230_bGoBack == 9)
             {
-                gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMotions_4, CameraSwapEffects::eInstantChange_0, 0, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMotions_4, CameraSwapEffects::eInstantChange_0, 0, 0);
                 field_1CC_fn_update = &Menu::To_ShowAbeMotions_SaveSettings_Update_47F8E0;
             }
         }
@@ -3457,14 +3457,14 @@ void Menu::Credits_Update_47F190()
         if (field_208_camera > 24)
         {
             // Credits done
-            gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eInstantChange_0, 0, 0);
             field_1CC_fn_update = &Menu::CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170;
             gCreditsControllerExists_507684 = 0;
         }
         else
         {
             // Next credits screen
-            gMap.SetActiveCam(LevelIds::eCredits_10, 1, static_cast<s16>(field_208_camera), CameraSwapEffects::eTopToBottom_3, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, static_cast<s16>(field_208_camera), CameraSwapEffects::eTopToBottom_3, 0, 0);
             field_1D8_timer = sGnFrame + 60;
         }
     }
@@ -3640,7 +3640,7 @@ void Menu::ToggleMotions_Update_47C800()
             }
             else
             {
-                gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMotionsGamespeakKeyboard_37, CameraSwapEffects::eTopToBottom_3, 0, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMotionsGamespeakKeyboard_37, CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
 
             // Go to game speak toggle
@@ -3683,7 +3683,7 @@ void Menu::Toggle_Motions_Screens_Update_47C8F0()
             }
             else
             {
-                gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMotions_4, CameraSwapEffects::eBottomToTop_4, 0, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMotions_4, CameraSwapEffects::eBottomToTop_4, 0, 0);
             }
 
             SetBrain(&Menu::ToggleMotions_Update_47C800, field_1CC_fn_update, kUpdateTable);
@@ -3709,7 +3709,7 @@ void Menu::MotionsScreen_Back_Update_47CA10()
     {
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
-            gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eOptions_2, CameraSwapEffects::eInstantChange_0, 0, 0);
             field_1CC_fn_update = &Menu::Motions_ToOptions_Update_47CA50;
         }
     }
@@ -3759,11 +3759,11 @@ void Menu::Load_BackToMainScreen_Update_47DA40()
         {
             if (field_202 == 0)
             {
-                gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
             }
             else
             {
-                gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eLoading_21, CameraSwapEffects::eInstantChange_0, 0, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eLoading_21, CameraSwapEffects::eInstantChange_0, 0, 0);
             }
             field_200 = 0;
             field_1CC_fn_update = &Menu::To_MainScreenOrLoad_Update_47DA90;
@@ -3789,7 +3789,7 @@ void Menu::GamespeakBack_WaitForScreenTrans_Update_47D650()
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
             field_204_flags &= ~1u;
-            gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
             field_1CC_fn_update = &Menu::GameSpeak_To_MainScreen_Update_47D690;
         }
     }

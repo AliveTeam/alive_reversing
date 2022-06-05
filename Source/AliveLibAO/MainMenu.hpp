@@ -5,6 +5,8 @@
 #include "Primitives.hpp"
 #include "Font.hpp"
 
+enum class EReliveLevelIds : s16;
+
 namespace AO {
 
 enum buttonType : u16
@@ -78,7 +80,6 @@ public:
 ALIVE_ASSERT_SIZEOF(MainMenuTransition, 0x248);
 
 struct Path_TLV;
-enum class LevelIds : s16;
 
 enum class MainMenuOptions : s16
 {
@@ -290,7 +291,7 @@ public:
     s16 field_206;
     s32 field_208_camera;
     s16 field_20C_bStartInSpecificMap;
-    LevelIds field_20E_level;
+    EReliveLevelIds field_20E_level;
     s16 field_210_path;
     s16 field_212_camera;
     s16 field_214_abe_xpos;

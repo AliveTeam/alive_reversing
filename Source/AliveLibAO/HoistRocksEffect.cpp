@@ -19,7 +19,7 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kHoistRocksAOResID, 1, 0);
     s32 maxW = 7;
-    if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
         maxW = 5;
     }
@@ -110,7 +110,7 @@ void HoistRocksEffect::VUpdate()
         {
             const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock2);
             s32 frameTableOffset = normalHoist.mFrameTableOffset;
-            if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
                 const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock2);
                 frameTableOffset = ruptureHoist.mFrameTableOffset;
@@ -127,7 +127,7 @@ void HoistRocksEffect::VUpdate()
         {
             const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock3);
             s32 frameTableOffset = normalHoist.mFrameTableOffset;
-            if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
                 const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock3);
                 frameTableOffset = ruptureHoist.mFrameTableOffset;
@@ -145,7 +145,7 @@ void HoistRocksEffect::VUpdate()
     {
         const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock1);
         s32 frameTableOffset = normalHoist.mFrameTableOffset;
-        if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
         {
             const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock1);
             frameTableOffset = ruptureHoist.mFrameTableOffset;

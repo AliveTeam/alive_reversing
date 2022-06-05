@@ -38,7 +38,7 @@ Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
     mEffectBaseBlue = 0;
 
     // Disable red screen flashing in the stock yards
-    if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         gObjListDrawables->Remove_Item(this);
         mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);

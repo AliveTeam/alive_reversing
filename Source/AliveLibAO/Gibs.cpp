@@ -20,16 +20,16 @@ const Gib_Data kGibData_4C30B0[6] = {
     {AnimId::Metal_Gib, AnimId::Metal_Gib, AnimId::Metal_Gib}};
 
 const TintEntry sAbeGibTints_4C6438[5] = {
-    {LevelIds::eStockYards_5, 25u, 25u, 25u},
-    {LevelIds::eStockYardsReturn_6, 25u, 25u, 25u},
-    {LevelIds::eDesert_8, 125u, 125u, 95u},
-    {LevelIds::eDesertTemple_9, 120u, 120u, 90u},
-    {LevelIds::eNone, 102u, 102u, 102u}};
+    {EReliveLevelIds::eStockYards, 25u, 25u, 25u},
+    {EReliveLevelIds::eStockYardsReturn, 25u, 25u, 25u},
+    {EReliveLevelIds::eDesert, 125u, 125u, 95u},
+    {EReliveLevelIds::eDesertTemple, 120u, 120u, 90u},
+    {EReliveLevelIds::eNone, 102u, 102u, 102u}};
 
 const TintEntry sMudGibTints_4CD320[3] = {
-    {LevelIds::eStockYards_5, 25u, 25u, 25u},
-    {LevelIds::eStockYardsReturn_6, 25u, 25u, 25u},
-    {LevelIds::eNone , 87u, 103u, 67u},
+    {EReliveLevelIds::eStockYards, 25u, 25u, 25u},
+    {EReliveLevelIds::eStockYardsReturn, 25u, 25u, 25u},
+    {EReliveLevelIds::eNone, 87u, 103u, 67u},
 };
 
 static FP GibRand(FP scale)
@@ -90,7 +90,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     }
 
     u8** ppPal = nullptr;
-    if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         if (gibType == GibType::Abe_0 || gibType == GibType::Mud_4)
         {

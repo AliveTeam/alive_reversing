@@ -80,7 +80,7 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    if (gMap.mCurrentLevel == LevelIds::eForestTemple_4)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple)
     {
         switch (pTlv->field_18_start_pos)
         {

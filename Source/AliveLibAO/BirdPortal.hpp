@@ -6,6 +6,8 @@
 #include "DynamicArray.hpp"
 #include "../AliveLibAE/Path.hpp"
 
+enum class EReliveLevelIds : s16;
+
 namespace AO {
 
 enum class LevelIds : s16;
@@ -85,7 +87,7 @@ public:
     virtual void VExitPortal();
     virtual void VIncreaseTimerAndKillPortalClipper();
     virtual Bool32 VStateIs20();
-    virtual void VGetMapChange(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
+    virtual void VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
 private:
     void CreateDovesAndShrykullNumber();
@@ -137,7 +139,7 @@ public:
     ScreenClipper* field_44_pScreenClipper1;
     ScreenClipper* field_48_pScreenClipper2;
     DynamicArrayT<Dove>* field_4C_pDovesArray;
-    LevelIds field_50_dest_level;
+    EReliveLevelIds field_50_dest_level;
     s16 field_52_dest_path;
     s16 field_54_dest_camera;
     s16 field_56_num_muds_for_shrykull;
@@ -145,7 +147,7 @@ public:
     s16 field_5A;
     ThrowableTotalIndicator* field_5C_pThrowableTotalIndicator;
     OrbWhirlWind* field_60_pOrbWhirlWind;
-    LevelIds field_64_level;
+    EReliveLevelIds field_64_level;
     s16 field_66_path;
     s32 field_68_sfx_ret;
 };

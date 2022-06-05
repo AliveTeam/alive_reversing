@@ -5,9 +5,9 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Layer.hpp"
 
-namespace AO {
+enum class EReliveLevelIds : s16;
 
-enum class LevelIds : s16;
+namespace AO {
 
 class EffectBase : public BaseGameObject
 {
@@ -19,7 +19,7 @@ public:
 
 protected:
     s16 mEffectBasePathId;
-    LevelIds mEffectBaseLevelId;
+    EReliveLevelIds mEffectBaseLevelId;
     Prim_Tile mEffectBaseTile[2];
     Prim_SetTPage mEffectBaseTPage[2];
     Layer mEffectBaseLayer;

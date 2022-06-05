@@ -45,7 +45,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
 
-    const s32 lvlIdx = static_cast<s32>(gMap.mCurrentLevel);
+    const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(
@@ -56,7 +56,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         1);
 
     field_10_anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
-    if (gMap.mCurrentLevel == LevelIds::eLines_2)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eLines)
     {
         field_C0_r = 77;
         field_C2_g = 120;
@@ -94,7 +94,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     field_130_sound_channels = 0;
 
     // Not sure why this rupture farms primary item hack is required
-    if (!pPrimaryFallingItem_4FFA54 && (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13))
+    if (!pPrimaryFallingItem_4FFA54 && (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn))
     {
         pPrimaryFallingItem_4FFA54 = this;
         field_134_created_gnFrame = sGnFrame;
@@ -234,7 +234,7 @@ void FallingItem::VUpdate()
 
                 ao_new<ScreenShake>(0);
 
-                if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+                if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
                     ao_new<ParticleBurst>(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -275,7 +275,7 @@ void FallingItem::VUpdate()
                 field_130_sound_channels = 0;
             }
 
-            if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
                         field_B2_lvl_number,

@@ -384,11 +384,11 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect_418120(PSX_RECT* p
     return pRect;
 }
 
-void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* pTintArray, LevelIds level_id)
+void BaseAnimatedWithPhysicsGameObject::SetTint_418750(const TintEntry* pTintArray, EReliveLevelIds level_id)
 {
     while (pTintArray->field_0_level != level_id)
     {
-        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == LevelIds::eNone)
+        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == EReliveLevelIds::eNone)
         {
             break;
         }
@@ -414,12 +414,12 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
     }
 }
 
-s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, s32 palId)
+s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, EReliveLevelIds lvl, s32 palId)
 {
     const TintEntry* pIter = pTintArray;
     while (pIter->field_0_level != lvl)
     {
-        if (pIter->field_0_level == LevelIds::eNone) // End of entries
+        if (pIter->field_0_level == EReliveLevelIds::eNone) // End of entries
         {
             return 0;
         }

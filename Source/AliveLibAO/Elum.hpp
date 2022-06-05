@@ -89,7 +89,6 @@ struct Path_ElumPathTrans final : public Path_TLV
 ALIVE_ASSERT_SIZEOF(Path_ElumPathTrans, 0x20);
 
 
-
 class Elum final : public BaseAliveGameObject
 {
 public:
@@ -257,7 +256,7 @@ public:
     s16 field_144_bRespawnOnDead;
     s16 field_146_honey_ypos;
     s16 field_148_continue_path;
-    LevelIds field_14A_continue_level;
+    EReliveLevelIds field_14A_continue_level;
     s16 field_14C_continue_camera;
     s16 field_14E_padding;
     FP field_150_continue_sprite_scale;

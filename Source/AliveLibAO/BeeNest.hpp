@@ -4,6 +4,8 @@
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 
+enum class EReliveLevelIds : s16;
+
 namespace AO {
 
 struct Path_BeeNest final : public Path_TLV
@@ -25,7 +27,6 @@ enum class BeeNestStates : u16
 
 class BeeSwarm;
 
-enum class LevelIds : s16;
 
 class BeeNest final : public BaseGameObject
 {
@@ -38,7 +39,7 @@ public:
 
     FP field_10_bee_x;
     FP field_14_bee_y;
-    LevelIds field_18_level;
+    EReliveLevelIds field_18_level;
     s16 field_1A_path;
     s32 field_1C_tlvInfo;
     PSX_Point field_20_top_left;

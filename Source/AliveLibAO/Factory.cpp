@@ -123,13 +123,13 @@ void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOff
         ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbehoistAOResID, loadMode);
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eRuptureFarms_1:
-            case LevelIds::eRuptureFarmsReturn_13:
+            case EReliveLevelIds::eRuptureFarms:
+            case EReliveLevelIds::eRuptureFarmsReturn:
                 ResourceManager::LoadResource_446C90("DRPSPRK.BAN", ResourceManager::Resource_Animation, AOResourceID::kHoistRocksAOResID, loadMode);
                 break;
 
-            case LevelIds::eForest_3:
-            case LevelIds::eDesert_8:
+           case EReliveLevelIds::eForest:
+           case EReliveLevelIds::eDesert:
                 ResourceManager::LoadResource_446C90("ANEEDGE.BAN", ResourceManager::Resource_Animation, AOResourceID::kAneedgeAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("DRPROCK.BAN", ResourceManager::Resource_Animation, AOResourceID::kHoistRocksAOResID, loadMode);
                 break;
@@ -161,7 +161,7 @@ void Factory_Edge_481730(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlv
     {
         ResourceManager::LoadResource_446C90("ABEHOIST.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbehoistAOResID, loadMode, 0);
 
-        if (gMap.mCurrentLevel == LevelIds::eForest_3 || gMap.mCurrentLevel == LevelIds::eDesert_8)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eForest || gMap.mCurrentLevel == EReliveLevelIds::eDesert)
         {
             ResourceManager::LoadResource_446C90("ANEEDGE.BAN", ResourceManager::Resource_Animation, AOResourceID::kAneedgeAOResID, loadMode, 0);
         }
@@ -190,19 +190,19 @@ void Factory_Door_481C80(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffs
         ResourceManager::LoadResource_446C90("ABEDOOR.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbedoorAOResID, loadMode);
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eRuptureFarms_1:
-            case LevelIds::eBoardRoom_12:
-            case LevelIds::eRuptureFarmsReturn_13:
+            case EReliveLevelIds::eRuptureFarms:
+            case EReliveLevelIds::eBoardRoom:
+            case EReliveLevelIds::eRuptureFarmsReturn:
                 ResourceManager::LoadResourcesFromList_446E80("RDOOR.BND", kResources.AsList(), loadMode, 0);
                 break;
 
-            case LevelIds::eLines_2:
+            case EReliveLevelIds::eLines:
                 ResourceManager::LoadResourcesFromList_446E80("LDOOR.BND", kResources.AsList(), loadMode, 0);
                 break;
 
-            case LevelIds::eDesert_8:
-            case LevelIds::eDesertTemple_9:
-            case LevelIds::eDesertEscape_15:
+            case EReliveLevelIds::eDesert:
+            case EReliveLevelIds::eDesertTemple:
+            case EReliveLevelIds::eDesertEscape:
                 ResourceManager::LoadResourcesFromList_446E80("DDOOR.BND", kResources.AsList(), loadMode, 0);
                 break;
 
@@ -246,25 +246,25 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
     {
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eRuptureFarms_1:
-            case LevelIds::eBoardRoom_12:
-            case LevelIds::eRuptureFarmsReturn_13:
+            case EReliveLevelIds::eRuptureFarms:
+            case EReliveLevelIds::eBoardRoom:
+            case EReliveLevelIds::eRuptureFarmsReturn:
                 ResourceManager::LoadResource_446C90("R1ROPES.BAN", ResourceManager::Resource_Animation, AOResourceID::kRopesAOResID, loadMode);
                 ResourceManager::LoadResourcesFromList_446E80("RLIFT.BND", kResources.AsList(), loadMode, 0);
                 break;
 
-            case LevelIds::eLines_2:
+            case EReliveLevelIds::eLines:
                 ResourceManager::LoadResource_446C90("ROPES.BAN", ResourceManager::Resource_Animation, AOResourceID::kRopesAOResID, loadMode);
                 ResourceManager::LoadResourcesFromList_446E80("LLIFT.BND", kResources.AsList(), loadMode, 0);
                 break;
 
-            case LevelIds::eDesert_8:
+            case EReliveLevelIds::eDesert:
                 ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, AOResourceID::kRopesAOResID, loadMode);
                 ResourceManager::LoadResourcesFromList_446E80("D1LIFT.BND", kResources.AsList(), loadMode, 0);
                 break;
 
-            case LevelIds::eDesertTemple_9:
-            case LevelIds::eDesertEscape_15:
+            case EReliveLevelIds::eDesertTemple:
+            case EReliveLevelIds::eDesertEscape:
                 ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, AOResourceID::kRopesAOResID, loadMode);
                 ResourceManager::LoadResourcesFromList_446E80("D2LIFT.BND", kResources.AsList(), loadMode, 0);
                 break;
@@ -435,7 +435,7 @@ void Factory_RockSack_483680(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlv
             {ResourceManager::Resource_Animation, AOResourceID::kAberockAOResID}};
 
         ResourceManager::LoadResourcesFromList_446E80("RTHROW.BND", kResources.AsList(), loadMode, 0);
-        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
             ResourceManager::LoadResource_446C90("E1BAG.BAN", ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, loadMode);
             ResourceManager::LoadResource_446C90("EPUIROCK.BAN", ResourceManager::Resource_Palt, AOResourceID::kAberockAOResID, loadMode);
@@ -453,7 +453,7 @@ void Factory_ZBall_483890(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOff
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        if (gMap.mCurrentLevel == LevelIds::eForestTemple_4)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple)
         {
             ResourceManager::LoadResource_446C90("F2ZBALL.BAN", ResourceManager::Resource_Animation, AOResourceID::kF2zballAOResID, loadMode);
             ResourceManager::LoadResource_446C90("ABEKNOKZ.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeknokzAOResID, loadMode);
@@ -472,32 +472,32 @@ void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     {
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eRuptureFarms_1:
-            case LevelIds::eRuptureFarmsReturn_13:
+            case EReliveLevelIds::eRuptureFarms:
+            case EReliveLevelIds::eRuptureFarmsReturn:
                 ResourceManager::LoadResource_446C90("R1BARREL.BAN", ResourceManager::Resource_Animation, AOResourceID::kF2rockAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, AOResourceID::kStickGibAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("R1MEAT.BAN", ResourceManager::Resource_Animation, AOResourceID::kMeatGibAOResID_6014, loadMode);
                 break;
 
-            case LevelIds::eLines_2:
-            case LevelIds::eBoardRoom_12:
+            case EReliveLevelIds::eLines:
+            case EReliveLevelIds::eBoardRoom:
                 ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, AOResourceID::kF2rockAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, AOResourceID::kStickGibAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, loadMode);
                 break;
 
-            case LevelIds::eStockYards_5:
+            case EReliveLevelIds::eStockYards:
                 ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, AOResourceID::kF2rockAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, AOResourceID::kStickGibAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("DEBRIS00.BAN", ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, loadMode);
                 break;
 
-            case LevelIds::eDesert_8:
-            case LevelIds::eDesertTemple_9:
-            case LevelIds::eDesertEscape_15:
+            case EReliveLevelIds::eDesert:
+            case EReliveLevelIds::eDesertTemple:
+            case EReliveLevelIds::eDesertEscape:
                 ResourceManager::LoadResource_446C90("F2ROCK.BAN", ResourceManager::Resource_Animation, AOResourceID::kF2rockAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("STICK.BAN", ResourceManager::Resource_Animation, AOResourceID::kStickGibAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, loadMode);
@@ -516,18 +516,18 @@ void Factory_FallingItem_483940(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     {
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eRuptureFarms_1:
-            case LevelIds::eRuptureFarmsReturn_13:
+            case EReliveLevelIds::eRuptureFarms:
+            case EReliveLevelIds::eRuptureFarmsReturn:
                 ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, AOResourceID::kMeatGibAOResID_6014);
                 break;
 
-            case LevelIds::eLines_2:
+            case EReliveLevelIds::eLines:
                 ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID);
                 break;
 
-            case LevelIds::eStockYards_5:
-            case LevelIds::eDesert_8:
-            case LevelIds::eDesertTemple_9:
+            case EReliveLevelIds::eStockYards:
+            case EReliveLevelIds::eDesert:
+            case EReliveLevelIds::eDesertTemple:
                 ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID);
                 break;
 
@@ -565,15 +565,15 @@ void Factory_PullRingRope_483DA0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
     {
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eRuptureFarms_1:
-            case LevelIds::eBoardRoom_12:
-            case LevelIds::eRuptureFarmsReturn_13:
+            case EReliveLevelIds::eRuptureFarms:
+            case EReliveLevelIds::eBoardRoom:
+            case EReliveLevelIds::eRuptureFarmsReturn:
                 ResourceManager::LoadResource_446C90("R1ROPES.BAN", ResourceManager::Resource_Animation, AOResourceID::kRopesAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("R1PULRNG.BAN", ResourceManager::Resource_Animation, AOResourceID::kPullringAOResID, loadMode);
                 break;
 
-            case LevelIds::eDesert_8:
-            case LevelIds::eDesertTemple_9:
+            case EReliveLevelIds::eDesert:
+            case EReliveLevelIds::eDesertTemple:
                 ResourceManager::LoadResource_446C90("D1ROPES.BAN", ResourceManager::Resource_Animation, AOResourceID::kRopesAOResID, loadMode);
                 ResourceManager::LoadResource_446C90("PULLRING.BAN", ResourceManager::Resource_Animation, AOResourceID::kPullringAOResID, loadMode);
                 break;
@@ -648,7 +648,7 @@ void Factory_TimedMine_484650(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tl
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, loadMode, disabledResource & 2);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, disabledResource & 4);
 
-        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
             ResourceManager::LoadResource_446C90("E1BOMB.BAN", ResourceManager::Resource_Palt, AOResourceID::kBombAOResID, loadMode);
             ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, loadMode);
@@ -735,7 +735,7 @@ static void LoadWalkingSligResources(LoadMode loadMode, BitField16<SligFlags_Dis
         ResourceManager::LoadResource_446C90("SLGBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kSligBlowAOResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, loadMode, 0);
 
-        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
             ResourceManager::LoadResource_446C90("E1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kSlgbasicAOResID, loadMode, 0);
         }
@@ -842,21 +842,21 @@ void Factory_Switch_485370(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOf
     {
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eRuptureFarms_1:
-            case LevelIds::eStockYards_5:
-            case LevelIds::eStockYardsReturn_6:
-            case LevelIds::eBoardRoom_12:
-            case LevelIds::eRuptureFarmsReturn_13:
+            case EReliveLevelIds::eRuptureFarms:
+            case EReliveLevelIds::eStockYards:
+            case EReliveLevelIds::eStockYardsReturn:
+            case EReliveLevelIds::eBoardRoom:
+            case EReliveLevelIds::eRuptureFarmsReturn:
                 ResourceManager::LoadResource_446C90("R1SWITCH.BAN", ResourceManager::Resource_Animation, AOResourceID::kLeverAOResID, loadMode);
                 break;
 
-            case LevelIds::eLines_2:
+            case EReliveLevelIds::eLines:
                 ResourceManager::LoadResource_446C90("L1SWITCH.BAN", ResourceManager::Resource_Animation, AOResourceID::kLeverAOResID, loadMode);
                 break;
 
-            case LevelIds::eDesert_8:
-            case LevelIds::eDesertTemple_9:
-            case LevelIds::eDesertEscape_15:
+            case EReliveLevelIds::eDesert:
+            case EReliveLevelIds::eDesertTemple:
+            case EReliveLevelIds::eDesertEscape:
                 ResourceManager::LoadResource_446C90("SWITCH1.BAN", ResourceManager::Resource_Animation, AOResourceID::kLeverAOResID, loadMode);
                 break;
 
@@ -977,7 +977,7 @@ void Factory_BeeSwarmHole_485E20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
     {
         ResourceManager::LoadResource_446C90("ABEWASP.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("WASP.BAN", ResourceManager::Resource_Animation, AOResourceID::kWaspAOResID, loadMode, 0);
-        if (gMap.mCurrentLevel == LevelIds::eForest_3 || gMap.mCurrentLevel == LevelIds::eDesert_8)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eForest || gMap.mCurrentLevel == EReliveLevelIds::eDesert)
         {
             ResourceManager::LoadResource_446C90("ELMWASP.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, loadMode, 0);
         }
@@ -1123,7 +1123,7 @@ void Factory_Mine_4848D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffs
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, disabledResources & 1);
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, loadMode, disabledResources & 2);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, disabledResources & 4);
-        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
             ResourceManager::LoadResource_446C90("LNDMNPAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kLandmineAOResID, loadMode);
             ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, loadMode);
@@ -1176,7 +1176,7 @@ void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffse
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, pUxbTlv->field_20_disabled_resources & 1);
         ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, loadMode, pUxbTlv->field_20_disabled_resources & 2);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, pUxbTlv->field_20_disabled_resources & 4);
-        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
             ResourceManager::LoadResource_446C90("TBMBPAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kUXBAOResID, loadMode);
             ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, loadMode);
@@ -1363,20 +1363,20 @@ void Factory_TrapDoor_4868E0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffs
     {
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eRuptureFarms_1:
-            case LevelIds::eBoardRoom_12:
-            case LevelIds::eRuptureFarmsReturn_13:
+            case EReliveLevelIds::eRuptureFarms:
+            case EReliveLevelIds::eBoardRoom:
+            case EReliveLevelIds::eRuptureFarmsReturn:
                 ResourceManager::LoadResource_446C90("R1TRAP.BAN", ResourceManager::Resource_Animation, AOResourceID::kP6c1trapAOResID, loadMode, 0);
                 break;
-            case LevelIds::eLines_2:
+            case EReliveLevelIds::eLines:
                 ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, AOResourceID::kP6c1trapAOResID, loadMode, 0);
                 break;
-            case LevelIds::eStockYards_5:
+            case EReliveLevelIds::eStockYards:
                 ResourceManager::LoadResource_446C90("P6C1TRAP.BAN", ResourceManager::Resource_Animation, AOResourceID::kP6c1trapAOResID, loadMode, 0);
                 break;
-            case LevelIds::eDesert_8:
-            case LevelIds::eDesertTemple_9:
-            case LevelIds::eDesertEscape_15:
+            case EReliveLevelIds::eDesert:
+            case EReliveLevelIds::eDesertTemple:
+            case EReliveLevelIds::eDesertEscape:
                 ResourceManager::LoadResource_446C90("D2TRAP.BAN", ResourceManager::Resource_Animation, AOResourceID::kP6c1trapAOResID, loadMode, 0);
                 break;
             default:
@@ -1643,7 +1643,7 @@ void Factory_MeatSack_483790(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlv
              {ResourceManager::Resource_Animation, AOResourceID::kMeatAOResID}});
 
         ResourceManager::LoadResourcesFromList_446E80("MTHROW.BND", kResources.AsList(), loadMode, 0);
-        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
             ResourceManager::LoadResource_446C90("E1BAG.BAN", ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, loadMode);
         }
@@ -1892,7 +1892,7 @@ void Factory_MovingBomb_484E00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, pMovingBombTlv->field_22_disabled_resources & 1);
         ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, pMovingBombTlv->field_22_disabled_resources & 4);
 
-        if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
             ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, loadMode, 0);
             ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, loadMode, 0);
@@ -2305,7 +2305,7 @@ void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
         {
             switch (gMap.mCurrentLevel)
             {
-                case LevelIds::eDesert_8: // d1.lvl
+                case EReliveLevelIds::eDesert: // d1.lvl
                     if (gMap.mCurrentPath == 4)
                     {
                         // original TLV data is -1 part of collision line
@@ -2313,7 +2313,7 @@ void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
                     }
                     break;
 
-                case LevelIds::eForestTemple_4: // f2.lvl
+                case EReliveLevelIds::eForestTemple: // f2.lvl
                     if (gMap.mCurrentPath == 6)
                     {
                         // original TLV data is 4 part of the flags of the next object

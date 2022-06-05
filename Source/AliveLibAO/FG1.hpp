@@ -4,12 +4,11 @@
 #include "BaseGameObject.hpp"
 
 struct Fg1Chunk;
+enum class EReliveLevelIds : s16;
 
 namespace AO {
 
 struct Fg1Block;
-
-enum class LevelIds : s16;
 
 class FG1 final : public BaseGameObject
 {
@@ -26,7 +25,7 @@ public:
 
     s16 field_10_cam_pos_x;
     s16 field_12_cam_pos_y;
-    LevelIds field_14_current_level;
+    EReliveLevelIds field_14_current_level;
     s16 field_16_current_path;
     s16 field_18_render_block_count;
     s16 field_1A_pad;

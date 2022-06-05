@@ -337,7 +337,7 @@ Map::Map()
     field_E0_save_data = nullptr;
 }
 
-void Map::Init(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
+void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
     field_34_camera_array[0] = nullptr;
     field_34_camera_array[1] = nullptr;
@@ -349,7 +349,7 @@ void Map::Init(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenCha
 
     mCurrentCamera = -1;
     mCurrentPath = -1;
-    mCurrentLevel = LevelIds::eNone;
+    mCurrentLevel = EReliveLevelIds::eNone;
 
     SetActiveCam(level, path, camera, screenChangeEffect, fmvBaseId, forceChange);
     GoTo_Camera();
@@ -394,7 +394,7 @@ void Map::Reset()
     field_E0_save_data = 0;
 }
 
-s16 Map::SetActiveCam(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
+s16 Map::SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
     if (!forceChange && cam == mCurrentCamera && level == mCurrentLevel && path == mCurrentPath)
     {
@@ -436,14 +436,14 @@ void Map::Handle_PathTransition()
 
     if (field_18_pAliveObj && pTlv)
     {
-        mLevel = pTlv->field_18_level;
+        mLevel = MapWrapper::FromAO(pTlv->field_18_level);
         mPath = pTlv->field_1A_path;
         mCamera = pTlv->field_1C_camera;
         field_12_fmv_base_id = pTlv->field_1E_movie;
 
         field_10_screenChangeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pTlv->field_20_wipe];
 
-        field_18_pAliveObj->field_B2_lvl_number = pTlv->field_18_level;
+        field_18_pAliveObj->field_B2_lvl_number = MapWrapper::FromAO(pTlv->field_18_level);
         field_18_pAliveObj->field_B0_path_number = pTlv->field_1A_path;
 
         // TODO: Probably OG bug, when changing camera/path the TLV pointer can become invalid
@@ -735,7 +735,7 @@ void Map::ScreenChange()
         return;
     }
 
-    if (sMap_bDoPurpleLightEffect_507C9C && mCurrentLevel != LevelIds::eBoardRoom_12)
+    if (sMap_bDoPurpleLightEffect_507C9C && mCurrentLevel != EReliveLevelIds::eBoardRoom)
     {
         RemoveObjectsWithPurpleLight(1);
     }
@@ -790,9 +790,9 @@ void Map::ScreenChange()
         }
 
         // TODO: Re-check this logic
-        if (mLevel != LevelIds::eMenu_0)
+        if (mLevel != EReliveLevelIds::eMenu)
         {
-            if ((mLevel != LevelIds::eRemoved_11 && mLevel != LevelIds::eRuptureFarmsReturn_13 && mLevel != LevelIds::eForestChase_14 && mLevel != LevelIds::eDesertEscape_15) || (mLevel == LevelIds::eBoardRoom_12 && mCurrentLevel == LevelIds::eBoardRoom_12))
+            if ((mLevel != EReliveLevelIds::eRuptureFarmsReturn && mLevel != EReliveLevelIds::eForestChase && mLevel != EReliveLevelIds::eDesertEscape) || (mLevel == EReliveLevelIds::eBoardRoom && mCurrentLevel == EReliveLevelIds::eBoardRoom))
             {
                 gSndChannels_507CA0 = 0;
             }
@@ -1031,7 +1031,7 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
 
     if (pObj && pPathChangeTLV)
     {
-        mLevel = pPathChangeTLV->field_18_level;
+        mLevel = MapWrapper::FromAO(pPathChangeTLV->field_18_level);
         mPath = pPathChangeTLV->field_1A_path;
         mCamera = pPathChangeTLV->field_1C_camera;
         if (swapEffect < 0)
@@ -1093,9 +1093,9 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
     return 1;
 }
 
-s16 Map::Is_Point_In_Current_Camera_4449C0(s32 level, s32 path, FP xpos, FP ypos, s16 width)
+s16 Map::Is_Point_In_Current_Camera_4449C0(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width)
 {
-    if (static_cast<LevelIds>(level) != mCurrentLevel || path != mCurrentPath) // TODO: Remove when 100%
+    if (level != mCurrentLevel || path != mCurrentPath) // TODO: Remove when 100%
     {
         return FALSE;
     }
@@ -1183,9 +1183,9 @@ CameraPos Map::Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect, s16 widt
     return CameraPos::eCamLeft_3;
 }
 
-CameraPos Map::GetDirection_444A40(s32 level, s32 path, FP xpos, FP ypos)
+CameraPos Map::GetDirection_444A40(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
 {
-    if (level != static_cast<s32>(mCurrentLevel))
+    if (level != mCurrentLevel)
     {
         return CameraPos::eCamInvalid_m1;
     }
@@ -1656,7 +1656,7 @@ void Map::GoTo_Camera()
 
     //dword_507CA4 = 0; // never read
 
-    if (mCurrentLevel != LevelIds::eMenu_0 && mCurrentLevel != LevelIds::eCredits_10 && mCurrentLevel == LevelIds::eNone)
+    if (mCurrentLevel != EReliveLevelIds::eMenu && mCurrentLevel != EReliveLevelIds::eCredits && mCurrentLevel == EReliveLevelIds::eNone)
     {
         bShowLoadingIcon = TRUE;
     }
@@ -1694,7 +1694,7 @@ void Map::GoTo_Camera()
         while (!pFmvRet->mBaseGameObjectFlags.Get(BaseGameObject::eDead));
     }
 
-    if (mCurrentLevel != LevelIds::eMenu_0)
+    if (mCurrentLevel != EReliveLevelIds::eMenu)
     {
         if (mLevel != mCurrentLevel || (mPath != mCurrentPath && field_10_screenChangeEffect == CameraSwapEffects::ePlay1FMV_5))
         {
@@ -1721,7 +1721,7 @@ void Map::GoTo_Camera()
             }
         }
 
-        if (mCurrentLevel != LevelIds::eNone)
+        if (mCurrentLevel != EReliveLevelIds::eNone)
         {
             // Close LVL archives
             sLvlArchive_4FFD60.Free_41BEB0();
@@ -2021,7 +2021,7 @@ void Map::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s
 
     if (data.parts.levelId == static_cast<s32>(mCurrentLevel))
     {
-        const auto pBlyRec = Path_Get_Bly_Record_434650(static_cast<LevelIds>(data.parts.levelId), data.parts.pathId);
+        const auto pBlyRec = Path_Get_Bly_Record_434650(MapWrapper::FromAO(static_cast<LevelIds>(data.parts.levelId)), data.parts.pathId);
 
         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(*GetPathResourceBlockPtr(data.parts.pathId) + pBlyRec->field_4_pPathData->field_14_object_offset + data.parts.tlvOffset);
 
@@ -2051,8 +2051,7 @@ void Map::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s
     }
 }
 
-
-CameraSwapper* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, LevelIds levelId)
+CameraSwapper* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds levelId)
 {
     if (pMap->field_12_fmv_base_id > 10000u)
     {

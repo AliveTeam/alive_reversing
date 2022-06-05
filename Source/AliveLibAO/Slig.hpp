@@ -376,7 +376,7 @@ public:
     s16 field_148_unused;
     s16 field_14A_unused;
     s16 field_14C_unused;
-    LevelIds field_14E_level;
+    EReliveLevelIds field_14E_level;
     s16 field_150_path;
     s16 field_152_camera;
     s32 field_154_death_by_being_shot_timer;

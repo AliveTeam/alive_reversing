@@ -220,7 +220,7 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
         {
             pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
             const CameraPos dir = gMap.GetDirection_444A40(
-                static_cast<s32>(gMap.mCurrentLevel),
+                gMap.mCurrentLevel,
                 gMap.mCurrentPath,
                 FP_FromInteger(pTlv->field_10_top_left.field_0_x),
                 FP_FromInteger(pTlv->field_10_top_left.field_2_y));

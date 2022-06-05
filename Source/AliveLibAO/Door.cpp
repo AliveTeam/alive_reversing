@@ -92,7 +92,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
         field_EC_current_state = DoorStates::eOpen_0;
     }
 
-    const s32 idx = static_cast<s32>(gMap.mCurrentLevel);
+    const s32 idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
     FP scale = {};
     PathLine* pLine = nullptr;
@@ -176,7 +176,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
         case DoorStates::eClosed_1:
         {
-            if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
                 field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
                 scale = FP_FromInteger(1);
@@ -239,7 +239,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
         }
 
         case DoorStates::eHubDoorClosed_2:
-            if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13 || gMap.mCurrentLevel == LevelIds::eRuptureFarms_1)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
             {
                 ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kF2p3dorAOResID, 1, 0);
             }
@@ -275,7 +275,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
                     field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
 
-                    if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13 || gMap.mCurrentLevel == LevelIds::eRuptureFarms_1)
+                    if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
                     {
                         if (sCollisions_DArray_504C6C->RayCast(
                                 FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
@@ -376,7 +376,7 @@ void Door::PlaySound()
 {
     s16 volume = 0;
 
-    if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
         volume = field_BC_sprite_scale != FP_FromDouble(0.5) ? 90 : 127;
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 75, 75);
@@ -437,7 +437,7 @@ void Door::VUpdate()
             }
         }
 
-        const s32 lvl = static_cast<s32>(gMap.mCurrentLevel);
+        const s32 lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
         switch (field_EC_current_state)
         {

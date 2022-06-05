@@ -2,11 +2,11 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 
+enum class EReliveLevelIds : s16;
+
 namespace AO {
 
-enum class LevelIds : s16;
-
-void LoadRockTypes(LevelIds levelNumber, u16 path);
+void LoadRockTypes(EReliveLevelIds levelNumber, u16 path);
 
 class ThrowableArray final : public BaseGameObject
 {

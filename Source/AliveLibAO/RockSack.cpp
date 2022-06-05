@@ -156,7 +156,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     field_114_can_play_wobble_sound = 1;
     field_116_force_wobble_sound = 1;
 
-    if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, 0, 0);
         field_10_anim.LoadPal(ppPal, 0);

@@ -57,12 +57,12 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 
     switch (gMap.mCurrentLevel)
     {
-        case LevelIds::eRuptureFarms_1:
-        case LevelIds::eDesert_8:
-        case LevelIds::eDesertTemple_9:
-        case LevelIds::eBoardRoom_12:
-        case LevelIds::eRuptureFarmsReturn_13:
-        case LevelIds::eDesertEscape_15:
+        case EReliveLevelIds::eRuptureFarms:
+        case EReliveLevelIds::eDesert:
+        case EReliveLevelIds::eDesertTemple:
+        case EReliveLevelIds::eBoardRoom:
+        case EReliveLevelIds::eRuptureFarmsReturn:
+        case EReliveLevelIds::eDesertEscape:
         {
             const AnimRecord& ropeRec = AO::AnimRec(AnimId::Rope_R1);
             u8** ppRopeRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ropeRec.mResourceId, 1, 0);

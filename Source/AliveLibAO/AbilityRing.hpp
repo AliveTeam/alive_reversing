@@ -7,6 +7,8 @@
 #include "FixedPoint.hpp"
 #include "Layer.hpp"
 
+enum class EReliveLevelIds : s16;
+
 namespace AO {
 
 // Note: enum taken from AE so some ring types are unused
@@ -44,7 +46,6 @@ struct AbilityRing_PolyBuffer final
 };
 ALIVE_ASSERT_SIZEOF(AbilityRing_PolyBuffer, 56);
 
-enum class LevelIds : s16;
 
 class AbilityRing final : public BaseGameObject
 {
@@ -84,7 +85,7 @@ public:
     s16 mRingBlue;
     s16 mRingSemiTrans;
     TPageAbr mRingTPageMode;
-    LevelIds mRingLevel;
+    EReliveLevelIds mRingLevel;
     s16 mRingPath;
     RingTypes mRingType;
     BaseAliveGameObject* mTargetObj; // stored as object id in AE

@@ -95,7 +95,7 @@ void DemoPlayback::VUpdate()
                     {
                         sJoyResId_50769C = 0;
                     }
-                    gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
                     gMap.field_DC_free_all_anim_and_palts = 1;
                 }
                 else

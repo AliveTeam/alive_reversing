@@ -4,6 +4,8 @@
 #include "Map.hpp"
 #include "BaseGameObject.hpp"
 
+enum class EReliveLevelIds : s16;
+
 namespace AO {
 
 enum class ShadowZoneScale : s16
@@ -28,8 +30,6 @@ ALIVE_ASSERT_SIZEOF(Path_ShadowZone, 0x28);
 
 class Map;
 
-enum class LevelIds : s16;
-
 class ShadowZone final : public BaseGameObject
 {
 public:
@@ -46,7 +46,7 @@ public:
     s16 ApplysToScale(s16 scale);
 
     s32 field_10_tlvInfo;
-    LevelIds field_14_level;
+    EReliveLevelIds field_14_level;
     s16 field_16_path;
     s16 field_18_centre_x;
     s16 field_1A_centre_y;

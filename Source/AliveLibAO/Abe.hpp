@@ -674,7 +674,7 @@ public:
     PSX_Point field_13C_zone_bottom_right;
     s16 field_140_saved_camera;
     s16 field_142_saved_path;
-    LevelIds field_144_saved_level;
+    EReliveLevelIds field_144_saved_level;
     s16 field_146_zone_number;
     s16 field_148_clear_from_id;
     s16 field_14A_clear_to_id;
@@ -693,7 +693,7 @@ public:
     AllStone field_174_pathStone;
     OrbWhirlWind* field_188_pOrbWhirlWind;
     BaseAliveGameObject* field_18C_pObjToPossess;
-    LevelIds field_190_level;
+    EReliveLevelIds field_190_level;
     s16 field_192_path;
     s16 field_194_camera;
     s16 field_196_door_id;

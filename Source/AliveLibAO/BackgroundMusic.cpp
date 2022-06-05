@@ -20,7 +20,7 @@ void BackgroundMusic::VUpdate()
 {
     if (field_10_music_id >= 0)
     {
-        if (gMap.mCurrentLevel != LevelIds::eNone
+        if (gMap.mCurrentLevel != EReliveLevelIds::eNone
             || gMap.mCurrentPath != 1
             || gMap.mCurrentCamera != 10)
         {

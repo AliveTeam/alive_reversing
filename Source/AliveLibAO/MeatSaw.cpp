@@ -185,7 +185,7 @@ void MeatSaw::VUpdate()
 
     GrindUpObjects_439CD0();
 
-    const CameraPos direction = gMap.GetDirection(
+    const CameraPos direction = gMap.GetDirection_444A40(
         field_B2_lvl_number,
         field_B0_path_number,
         mBaseAnimatedWithPhysicsGameObject_XPos,

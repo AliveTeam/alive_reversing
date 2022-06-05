@@ -88,7 +88,7 @@ void DDCheat::VScreenChanged()
 
 ALIVE_VAR(1, 0x4FF868, u16, unused_4FF868, 0);
 
-ALIVE_VAR(1, 0x4C315C, u32, level_4C315C, 3);
+ALIVE_VAR(1, 0x4C315C, s32, level_4C315C, 3);
 ALIVE_VAR(1, 0x4C3160, u16, path_4C3160, 1);
 ALIVE_VAR(1, 0x4FF864, u32, gVox_4FF864, 0);
 ALIVE_VAR(1, 0x4FF860, u16, doNothing_4FF860, 0);
@@ -207,14 +207,14 @@ void DDCheat::VUpdate()
                 pAbe->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(point.field_2_y + 180);
                 pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
                 pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
-                pAbe->field_B2_lvl_number = static_cast<LevelIds>(level_4C315C);
+                pAbe->field_B2_lvl_number = MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C));
                 pAbe->field_B0_path_number = static_cast<s16>(path_4C3160);
                 sDDCheat_FlyingEnabled_50771C = 1;
                 field_18_backInputPressed = 0;
             }
         }
 
-        if (gMap.mCurrentLevel != LevelIds::eMenu_0)
+        if (gMap.mCurrentLevel != EReliveLevelIds::eMenu)
         {
             if (pAbe)
             {
@@ -448,21 +448,21 @@ void DDCheat::Teleport()
     else if (input & InputCommands::eThrowItem)
     {
         path_4C3160 = gMap.mCurrentPath;
-        level_4C315C = static_cast<u32>(gMap.mCurrentLevel);
+        level_4C315C = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
         camera_4C3164 = gMap.mCurrentCamera;
     }
     else if (input & InputCommands::eDoAction)
     {
         if (path_4C3160 <= 21u)
         {
-            const auto pPathRec = Path_Get_Bly_Record_434650(static_cast<LevelIds>(level_4C315C), path_4C3160);
+            const auto pPathRec = Path_Get_Bly_Record_434650(MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C)), path_4C3160);
             if (pPathRec && pPathRec->field_0_blyName && pPathRec->field_4_pPathData && pPathRec->field_8_pCollisionData)
             {
                 if (camera_4C3164 <= 21)
                 {
                     sDDCheat_FlyingEnabled_50771C = 1;
                     gMap.SetActiveCam(
-                        static_cast<LevelIds>(level_4C315C),
+                        MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C)),
                         path_4C3160,
                         camera_4C3164,
                         CameraSwapEffects::eInstantChange_0,

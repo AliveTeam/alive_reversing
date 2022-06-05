@@ -116,7 +116,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
         return;
     }
 
-    if (gMap.mCurrentLevel == LevelIds::eForestTemple_4 && gMap.mCurrentPath == 2)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple && gMap.mCurrentPath == 2)
     {
         field_10_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(2522);
@@ -285,7 +285,7 @@ void RollingBall::VUpdate()
             {
                 if (mBaseAnimatedWithPhysicsGameObject_YPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(240))
                 {
-                    if (gMap.mCurrentLevel == LevelIds::eForestTemple_4
+                    if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple
                         && gMap.mCurrentPath == 2
                         && !sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {

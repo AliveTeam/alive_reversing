@@ -34,12 +34,12 @@ void CreditsController::VUpdate()
         {
             field_10_next_cam_frame = sGnFrame + 60;
             field_14_camera_number = 1;
-            gMap.SetActiveCam(LevelIds::eCredits_10, 1, 1, CameraSwapEffects::eTopToBottom_3, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, 1, CameraSwapEffects::eTopToBottom_3, 0, 0);
             sBreakGameLoop_507B78 = 1;
         }
         else
         {
-            gMap.SetActiveCam(LevelIds::eCredits_10, 1, field_14_camera_number, CameraSwapEffects::eTopToBottom_3, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, field_14_camera_number, CameraSwapEffects::eTopToBottom_3, 0, 0);
             field_10_next_cam_frame = sGnFrame + 60;
         }
     }

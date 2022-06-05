@@ -39,7 +39,8 @@ struct AOGameInfo
 {
     GuidStr guid;
     GameType* gameType;    // 0
-    AO::LevelIds* levelId; // 1
+    // TODO: Auto splitter fix - we've changed all the level numbers :)
+    EReliveLevelIds* levelId; // 1
     s16* pathId;           // 2
     s16* camId;            // 3
     u32* gnFrame;          // 4

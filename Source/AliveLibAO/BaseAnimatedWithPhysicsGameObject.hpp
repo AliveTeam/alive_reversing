@@ -9,6 +9,8 @@
 #include "PathData.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
+enum class EReliveLevelIds : s16;
+
 namespace AO {
 
 class Shadow;
@@ -16,14 +18,13 @@ class BaseAliveGameObject;
 
 struct TintEntry
 {
-    LevelIds field_0_level;
+    EReliveLevelIds field_0_level;
     u8 field_1_r;
     u8 field_2_g;
     u8 field_3_b;
 };
 ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
 
-enum class LevelIds : s16;
 enum class CameraPos : s16;
 
 #ifdef _MSC_VER
@@ -85,7 +86,7 @@ public:
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
-    void SetTint_418750(const TintEntry* pTintArray, LevelIds levelId);
+    void SetTint_418750(const TintEntry* pTintArray, EReliveLevelIds levelId);
 
     BaseAnimatedWithPhysicsGameObject();
 
@@ -109,7 +110,7 @@ protected:
 
     BetweenCamPos BetweenCameras_418500();
 
-    s16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, LevelIds lvl, s32 palId);
+    s16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, EReliveLevelIds lvl, s32 palId);
 
 private:
     void VRender_417DA0(PrimHeader** ppOt);
@@ -133,7 +134,7 @@ public:
     FP mBaseAnimatedWithPhysicsGameObject_XPos;
     FP mBaseAnimatedWithPhysicsGameObject_YPos;
     s16 field_B0_path_number;
-    LevelIds field_B2_lvl_number;
+    EReliveLevelIds field_B2_lvl_number;
     FP field_B4_velx;
     FP field_B8_vely;
     FP field_BC_sprite_scale;

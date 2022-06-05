@@ -21,7 +21,7 @@ void TestAnimation::DelayLoad()
 {
     // Trying to load on these lvls will result in a phat failure because they hardly have
     // any resource files
-    if (field_B2_lvl_number == AO::LevelIds::eMenu_0 || field_B2_lvl_number == AO::LevelIds::eCredits_10)
+    if (field_B2_lvl_number == EReliveLevelIds::eMenu || field_B2_lvl_number == EReliveLevelIds::eCredits)
     {
         return;
     }

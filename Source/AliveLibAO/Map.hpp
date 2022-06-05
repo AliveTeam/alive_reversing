@@ -7,6 +7,7 @@
 #include "../AliveLibAE/Path.hpp"
 #include "BaseGameObject.hpp"
 #include "../AliveLibAE/Map.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 namespace AO {
 
@@ -194,12 +195,12 @@ public:
 
     Map();
 
-    void Init(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
+    void Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
 
     void Shutdown();
     void Reset();
 
-    s16 SetActiveCam(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
+    s16 SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
 
     void ScreenChange();
 
@@ -225,7 +226,7 @@ public:
     void GetCurrentCamCoords(PSX_Point* pPoint);
     s16 GetOverlayId();
 
-    static CameraSwapper* FMV_Camera_Change(u8** ppBits, Map* pMap, LevelIds levelId);
+    static CameraSwapper* FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds levelId);
 
     void Create_FG1s();
 
@@ -243,23 +244,18 @@ public:
 
     void sub_447430(u16 pathNum);
 
-    CameraPos GetDirection(LevelIds level, s32 path, FP xpos, FP ypos)
+    CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
     {
-        return GetDirection_444A40(static_cast<s32>(level), path, xpos, ypos);
+        return GetDirection_444A40(level, path, xpos, ypos);
     }
 
-    CameraPos GetDirection_444A40(s32 level, s32 path, FP xpos, FP ypos);
+    CameraPos GetDirection_444A40(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
 
     CameraPos Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect, s16 width);
 
     s16 Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect);
 
-    s16 Is_Point_In_Current_Camera_4449C0(LevelIds level, s32 path, FP xpos, FP ypos, s16 width)
-    {
-        return Is_Point_In_Current_Camera_4449C0(static_cast<s32>(level), path, xpos, ypos, width);
-    }
-
-    s16 Is_Point_In_Current_Camera_4449C0(s32 level, s32 path, FP xpos, FP ypos, s16 width);
+    s16 Is_Point_In_Current_Camera_4449C0(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width);
 
     s16 SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect);
 
@@ -276,7 +272,7 @@ public:
 
     void SaveBlyData(u8* pSaveBuffer);
 
-    LevelIds mCurrentLevel;
+    EReliveLevelIds mCurrentLevel;
     s16 mCurrentPath;
     s16 mCurrentCamera;
 
@@ -288,7 +284,7 @@ public:
     };
     CamChangeStates field_6_state;
     s16 field_8_force_load;
-    LevelIds mLevel;
+    EReliveLevelIds mLevel;
     s16 mPath;
     s16 mCamera;
     CameraSwapEffects field_10_screenChangeEffect;

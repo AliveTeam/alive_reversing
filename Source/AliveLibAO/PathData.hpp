@@ -4,6 +4,8 @@
 #include "Factory.hpp"
 #include "../AliveLibCommon/AddPointer.hpp"
 
+enum class EReliveLevelIds : s16;
+
 namespace AO {
 
 enum class LevelIds : s16
@@ -26,6 +28,7 @@ enum class LevelIds : s16
     eForestChase_14 = 14,
     eDesertEscape_15 = 15,
 };
+
 
 
 enum class TlvTypes : s16
@@ -234,36 +237,36 @@ struct PathRootContainer final
     PathRoot paths[16];
 };
 
-const PathBlyRec* Path_Get_Bly_Record_434650(LevelIds level, u16 path);
+const PathBlyRec* Path_Get_Bly_Record_434650(EReliveLevelIds level, u16 path);
 
-FmvInfo* Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId);
+FmvInfo* Path_Get_FMV_Record_434680(EReliveLevelIds levelId, u16 fmvId);
 
-s32 Path_Format_CameraName_4346B0(char_type* pNameBuffer, LevelIds level, s16 path, s16 camera);
+s32 Path_Format_CameraName_4346B0(char_type* pNameBuffer, EReliveLevelIds level, s16 path, s16 camera);
 
-const char_type* CdLvlName(LevelIds lvlId);
+const char_type* CdLvlName(EReliveLevelIds lvlId);
 
-const char_type* Path_Get_Lvl_Name(LevelIds lvlId);
+const char_type* Path_Get_Lvl_Name(EReliveLevelIds lvlId);
 
-s16 Path_Get_Num_Paths(LevelIds lvlId);
+s16 Path_Get_Num_Paths(EReliveLevelIds lvlId);
 
-s16 Path_Get_Unknown(LevelIds lvlId);
+s16 Path_Get_Unknown(EReliveLevelIds lvlId);
 
-const char_type* Path_Get_BndName(LevelIds lvlId);
+const char_type* Path_Get_BndName(EReliveLevelIds lvlId);
 
 // note: has to be writable
-SoundBlockInfo* Path_Get_MusicInfo(LevelIds lvlId);
+SoundBlockInfo* Path_Get_MusicInfo(EReliveLevelIds lvlId);
 
-s16 Path_Get_Reverb(LevelIds lvlId);
+s16 Path_Get_Reverb(EReliveLevelIds lvlId);
 
-const char_type* Path_Get_BsqFileName(LevelIds lvlId);
+const char_type* Path_Get_BsqFileName(EReliveLevelIds lvlId);
 
-s16 Path_Get_BackGroundMusicId(LevelIds lvlId);
+s16 Path_Get_BackGroundMusicId(EReliveLevelIds lvlId);
 
 s32 Path_Get_Paths_Count();
 
 PathRoot* Path_Get_PathRoot(s32 lvlId);
 
-s32 Path_Get_OverlayIdx(LevelIds lvlId);
+s32 Path_Get_OverlayIdx(EReliveLevelIds lvlId);
 
 CollisionInfo* GetCollisions(s32 lvlId);
 

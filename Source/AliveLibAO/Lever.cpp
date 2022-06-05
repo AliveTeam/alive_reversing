@@ -57,10 +57,10 @@ void Lever::VUpdate()
         {
             Event_Broadcast(kEventNoise, this);
             Event_Broadcast(kEventSuspiciousNoise, this);
-            const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
-            if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1
-                || gMap.mCurrentLevel == LevelIds::eBoardRoom_12
-                || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+            const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
+            if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
+                || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom
+                || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
                 SFX_Play_Mono(SoundEffect::IndustrialTrigger_97, 60, 0);
             }
@@ -158,7 +158,7 @@ void Lever::VUpdate()
         if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_E8_state = LeverState::eWaiting_0;
-            const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[static_cast<s32>(gMap.mCurrentLevel)].field_0_idle_animId);
+            const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_idle_animId);
             field_10_anim.Set_Animation_Data(
                 rec.mFrameTableOffset,
                 nullptr);
@@ -179,7 +179,7 @@ Lever::~Lever()
 Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eLever;
-    const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
+    const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_0_idle_animId);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(
@@ -224,7 +224,7 @@ s32 Lever::VPull(s16 bLeftDirection)
 {
     if (field_E8_state == LeverState::eWaiting_0)
     {
-        const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
+        const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
         field_E8_state = LeverState::ePulled_1;
         if (bLeftDirection)
         {

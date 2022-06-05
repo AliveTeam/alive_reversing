@@ -188,9 +188,9 @@ void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId)
 class LCDMessages final
 {
 public:
-    const char_type* GetMessage(LevelIds lvlId, u32 pathId, u32 msgId) const
+    const char_type* GetMessage(EReliveLevelIds lvlId, u32 pathId, u32 msgId) const
     {
-        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(lvlId)][pathId];
+        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(MapWrapper::ToAO(lvlId))][pathId];
         if (pTable && pTable->mStringCount > 0)
         {
             if (msgId < pTable->mStringCount)

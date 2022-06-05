@@ -14,9 +14,9 @@
 namespace AO {
 
 const TintEntry kTimedMineTints_4C3140[3] = {
-    {LevelIds::eStockYards_5, 60u, 60u, 60u},
-    {LevelIds::eStockYardsReturn_6, 60u, 60u, 60u},
-    {LevelIds::eNone, 127u, 127u, 127u},
+    {EReliveLevelIds::eStockYards, 60u, 60u, 60u},
+    {EReliveLevelIds::eStockYardsReturn, 60u, 60u, 60u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u},
 };
 
 TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)

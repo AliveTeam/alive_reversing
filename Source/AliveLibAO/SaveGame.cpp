@@ -73,7 +73,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     sActiveHero_507678->field_14A_clear_to_id = pData->field_208_clear_to_id;
     sActiveHero_507678->field_138_zone_top_left = pData->field_20A_zone_top_left;
     sActiveHero_507678->field_13C_zone_bottom_right = pData->field_20E_zone_bottom_right;
-    sActiveHero_507678->field_144_saved_level = pData->field_212_saved_level;
+    sActiveHero_507678->field_144_saved_level = MapWrapper::FromAO(pData->field_212_saved_level);
     sActiveHero_507678->field_142_saved_path = pData->field_214_saved_path;
     sActiveHero_507678->field_140_saved_camera = pData->field_216_saved_camera;
     sActiveHero_507678->field_14C_saved_sprite_scale = pData->field_218_saved_sprite_scale;
@@ -141,7 +141,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, sActiveHero_507678, 0, 0);
 
     gMap.SetActiveCam(
-        pData->field_234_current_level,
+        MapWrapper::FromAO(pData->field_234_current_level),
         pData->field_236_current_path,
         pData->field_238_current_camera,
         CameraSwapEffects::eInstantChange_0,
@@ -321,7 +321,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
 
     pSaveData->field_0_header = *pHeaderToUse;
 
-    auto lvName = rawLevelNames[static_cast<s32>(gMap.mCurrentLevel)];
+    auto lvName = rawLevelNames[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))];
     if (lvName != nullptr)
     {
         memcpy(
@@ -330,7 +330,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
             18);
     }
 
-    if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
         s16 path_id = GetPathId(gMap.mCurrentPath);
 
@@ -345,12 +345,12 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
             pSaveData->field_0_header.field_0_frame_1_name[47] = static_cast<s8>(path_id + 0x50);
         }
     }
-    pSaveData->field_234_current_level = gMap.mCurrentLevel;
+    pSaveData->field_234_current_level = MapWrapper::ToAO(gMap.mCurrentLevel);
     pSaveData->field_206_clear_from_id = sActiveHero_507678->field_148_clear_from_id;
     pSaveData->field_20A_zone_top_left = sActiveHero_507678->field_138_zone_top_left;
     pSaveData->field_20E_zone_bottom_right = sActiveHero_507678->field_13C_zone_bottom_right;
     pSaveData->field_204_zone_number = sActiveHero_507678->field_146_zone_number;
-    pSaveData->field_212_saved_level = sActiveHero_507678->field_144_saved_level;
+    pSaveData->field_212_saved_level = MapWrapper::ToAO(sActiveHero_507678->field_144_saved_level);
     pSaveData->field_208_clear_to_id = sActiveHero_507678->field_14A_clear_to_id;
     pSaveData->field_216_saved_camera = sActiveHero_507678->field_140_saved_camera;
     pSaveData->field_21C_saved_ring_timer = sActiveHero_507678->field_150_saved_ring_timer;
@@ -396,9 +396,9 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_294_continue_zone_number = gElum_507680->field_140_continue_zone_number;
         pSaveData->field_296_elum_zone_number = gElum_507680->field_142_zone_number;
         pSaveData->field_298_elum_continue_path = gElum_507680->field_148_continue_path;
-        pSaveData->field_29A_continue_level = gElum_507680->field_14A_continue_level;
+        pSaveData->field_29A_continue_level = MapWrapper::ToAO(gElum_507680->field_14A_continue_level);
         pSaveData->field_29C_elum_sprite_scale = gElum_507680->field_150_continue_sprite_scale;
-        pSaveData->field_260_elum_lvl_number = gElum_507680->field_B2_lvl_number;
+        pSaveData->field_260_elum_lvl_number = MapWrapper::ToAO(gElum_507680->field_B2_lvl_number);
         pSaveData->field_262_elum_path_number = gElum_507680->field_B0_path_number;
         pSaveData->field_268_elum_xpos = FP_GetExponent(gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos);
         pSaveData->field_26C_elum_ypos = FP_GetExponent(gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos);

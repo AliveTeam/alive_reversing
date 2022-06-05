@@ -6,9 +6,10 @@
 
 void Forcelink_ScreenWave();
 
+enum class EReliveLevelIds : s16;
+
 namespace AO {
 
-enum class LevelIds : s16;
 enum class Layer : s16;
 
 struct ScreenWave_Data;
@@ -36,7 +37,7 @@ public:
     s16 field_34_max_radius;
     s16 field_36_screen_xpos;
     s16 field_38_screen_ypos;
-    LevelIds field_3A_level;
+    EReliveLevelIds field_3A_level;
     s16 field_3C_path;
     s16 field_3E_pad;
 };

@@ -11,6 +11,8 @@ SET(relive_lib_src
     GameType.cpp
     ResourceManagerWrapper.hpp
     ResourceManagerWrapper.cpp
+    MapWrapper.hpp
+    MapWrapper.cpp
     BaseAnimatedWithPhysicsGameObject.hpp
     stdafx.h
 )

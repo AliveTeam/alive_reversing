@@ -134,9 +134,9 @@ const TMudBrain gMudBrains_4CD430[] = {
 
 
 static const TintEntry sMudTints_4CD320[] = {
-    {LevelIds::eStockYards_5, 25u, 25u, 25u},
-    {LevelIds::eStockYardsReturn_6, 25u, 25u, 25u},
-    {LevelIds::eNone, 87u, 103u, 67u}};
+    {EReliveLevelIds::eStockYards, 25u, 25u, 25u},
+    {EReliveLevelIds::eStockYardsReturn, 25u, 25u, 25u},
+    {EReliveLevelIds::eNone, 87u, 103u, 67u}};
 
 ALIVE_VAR(1, 0x507B90, s16, sAlertedMudCount_507B90, 0);
 ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);
@@ -2303,9 +2303,9 @@ void Mudokon::Motion_46_FallLandDie_43E660()
         Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
     }
 
-    if ((gMap.mCurrentLevel == LevelIds::eRuptureFarms_1
-         || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13
-         || gMap.mCurrentLevel == LevelIds::eBoardRoom_12)
+    if ((gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
+         || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn
+         || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom)
         && field_10_anim.field_92_current_frame == 7)
     {
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
@@ -2325,9 +2325,9 @@ void Mudokon::Motion_47_Knockback_43E730()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if ((gMap.mCurrentLevel == LevelIds::eRuptureFarms_1
-         || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13
-         || gMap.mCurrentLevel == LevelIds::eBoardRoom_12)
+    if ((gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
+         || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn
+         || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom)
         && field_10_anim.field_92_current_frame == 7)
     {
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);

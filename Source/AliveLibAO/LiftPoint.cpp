@@ -76,7 +76,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 
     pTlv->field_1_unknown = 3;
 
-    const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
+    const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& platformRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_0_platform_anim_id);
     u8** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, platformRec.mResourceId, 1, 0);
     if (pTlv->field_20_scale == Scale_short::eHalf_1)
@@ -753,7 +753,7 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
 
         field_26C_pulley_xpos = FP_GetExponent(((k13_scaled + kM10_scaled) / FP_FromInteger(2)) + FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_XPos));
 
-        const s32 lvl_idx = static_cast<s32>(gMap.mCurrentLevel);
+        const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
         const AnimRecord& topWheelRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_10_lift_top_wheel_anim_id);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, topWheelRec.mResourceId, 1, 0);
 

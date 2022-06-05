@@ -65,7 +65,7 @@ FlintLockFire::~FlintLockFire()
     gMap.TLV_Reset(field_E8_tlvInfo, -1, 0, 0);
     field_F0_anim.VCleanUp();
 
-    if (sFlintLockFireData_4BAC70[static_cast<s32>(gMap.mCurrentLevel)].field_24_bFire)
+    if (sFlintLockFireData_4BAC70[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_24_bFire)
     {
         field_188_anim.VCleanUp();
         field_220_anim.VCleanUp();
@@ -80,7 +80,7 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eFlintLockFire;
 
-    const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
+    const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
     const AnimRecord& disabledHammersRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_14_hammers_disabled_anim_id);
     const AnimRecord& gourdRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_4_gourd_anim_id);
@@ -199,7 +199,7 @@ void FlintLockFire::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
+    const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
     switch (field_E4_state)
     {
@@ -263,7 +263,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
 {
     if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
     {
-        const s32 cur_lvl = static_cast<s32>(gMap.mCurrentLevel);
+        const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
         field_10_anim.field_14_scale = field_BC_sprite_scale;
         field_F0_anim.field_14_scale = field_BC_sprite_scale;
 

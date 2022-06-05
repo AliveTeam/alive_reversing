@@ -84,7 +84,7 @@ PauseMenu::~PauseMenu()
 
 void PauseMenu::VScreenChanged()
 {
-    if (gMap.mLevel == LevelIds::eCredits_10)
+    if (gMap.mLevel == EReliveLevelIds::eCredits)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -274,8 +274,8 @@ void PauseMenu::VUpdate()
                                 field_12E = 0;
                                 field_134 = 1;
                                 SFX_Play_Mono(SoundEffect::IngameTransition_107, 90, 0);
-                                s32 tmp = static_cast<s32>(gMap.mCurrentLevel);
-                                if (gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+                                s32 tmp = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
+                                if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                                 {
                                     s16 row = 0;
                                     auto pathId = SaveGame::GetPathId(gMap.mCurrentPath, &row);
@@ -499,7 +499,7 @@ void PauseMenu::VUpdate()
                             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                         }
                         pPauseMenu_5080E0 = 0;
-                        gMap.SetActiveCam(LevelIds::eMenu_0, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
+                        gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
                         gMap.field_DC_free_all_anim_and_palts = 1;
                         Input().SetCurrentController(InputObject::PadIndex::First);
                     }

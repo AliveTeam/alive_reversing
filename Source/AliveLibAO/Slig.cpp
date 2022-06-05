@@ -44,9 +44,9 @@ ALIVE_VAR(1, 0x9F11BC, s32, unused_9F11BC, 0);
 ALIVE_VAR(1, 0x9F11C0, s32, unused_9F11C0, 0);
 
 const TintEntry kSligTints_4CFB10[3] = {
-    {LevelIds::eStockYards_5, 127u, 127u, 127u},
-    {LevelIds::eStockYardsReturn_6, 127u, 127u, 127u},
-    {LevelIds::eNone, 102u, 127u, 118u}};
+    {EReliveLevelIds::eStockYards, 127u, 127u, 127u},
+    {EReliveLevelIds::eStockYardsReturn, 127u, 127u, 127u},
+    {EReliveLevelIds::eNone, 102u, 127u, 118u}};
 
 using TSligStateFunction = decltype(&Slig::Motion_0_StandIdle_467640);
 
@@ -225,7 +225,7 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
     s32 volLeft = 0;
 
     auto dir = gMap.GetDirection_444A40(
-        static_cast<s32>(field_B2_lvl_number),
+        field_B2_lvl_number,
         field_B0_path_number,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos);
@@ -396,7 +396,7 @@ Slig::~Slig()
         sControlledCharacter_50767C = sActiveHero_507678;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
 
-        if (gMap.mLevel != LevelIds::eMenu_0 && gMap.mLevel != LevelIds::eNone)
+        if (gMap.mLevel != EReliveLevelIds::eMenu && gMap.mLevel != EReliveLevelIds::eNone)
             gMap.SetActiveCam(
                 field_14E_level,
                 field_150_path,
@@ -2020,7 +2020,7 @@ void Slig::OperateLift()
         mCurrentMotion = eSligMotions::Motion_5_TurnAroundStanding_469C80;
         mNextMotion = eSligMotions::Motion_49_LiftGrip_4663A0;
 
-        const auto camPos = gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+        const auto camPos = gMap.GetDirection_444A40(field_B2_lvl_number, field_B0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
         if ((camPos != CameraPos::eCamCurrent_0 && camPos != CameraPos::eCamInvalid_m1)
             && MusicController::GetAbmientAndMusicInfo(nullptr, nullptr, nullptr) <= MusicController::MusicTypes::eChase_4)
         {
@@ -2528,7 +2528,7 @@ void Slig::Motion_1_StandToWalk_4695D0()
 
 void Slig::Motion_2_Walking_469130()
 {
-    if (gMap.GetDirection(
+    if (gMap.GetDirection_444A40(
             field_B2_lvl_number,
             field_B0_path_number,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2687,7 +2687,7 @@ void Slig::Motion_3_StandToRun_469C00()
 
 void Slig::Motion_4_Running_469690()
 {
-    if (gMap.GetDirection(
+    if (gMap.GetDirection_444A40(
             field_B2_lvl_number,
             field_B0_path_number,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2780,7 +2780,7 @@ void Slig::Motion_4_Running_469690()
 
 void Slig::Motion_5_TurnAroundStanding_469C80()
 {
-    if (gMap.GetDirection(
+    if (gMap.GetDirection_444A40(
             field_B2_lvl_number,
             field_B0_path_number,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3515,9 +3515,9 @@ void Slig::Motion_35_Knockback_46A720()
 
     Event_Broadcast(kEventNoise, this);
 
-    if ((gMap.mCurrentLevel == LevelIds::eRuptureFarms_1
-         || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13
-         || gMap.mCurrentLevel == LevelIds::eBoardRoom_12)
+    if ((gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
+         || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn
+         || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom)
         && field_10_anim.field_92_current_frame == 4)
     {
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
@@ -4360,7 +4360,7 @@ s16 Slig::Brain_Sleeping_46B4E0()
 
     if (mBaseGameObjectFlags.Get(Options::eDead))
     {
-        Start_Slig_sounds(gMap.GetDirection(
+        Start_Slig_sounds(gMap.GetDirection_444A40(
                                      field_B2_lvl_number,
                                      field_B0_path_number,
                                      mBaseAnimatedWithPhysicsGameObject_XPos,

@@ -10,8 +10,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x50E26C, ThrowableArray*, gpThrowableArray_50E26C, nullptr);
 
-
-void LoadRockTypes(LevelIds levelNumber, u16 path)
+void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
 {
     Bool32 bDoLoadingLoop = FALSE;
     const u8 throwableTypeIdx = Path_Get_Bly_Record_434650(levelNumber, path)->field_C_overlay_id & 0xFF;
@@ -106,7 +105,7 @@ void ThrowableArray::VUpdate()
 
 void ThrowableArray::VScreenChanged()
 {
-    if (gMap.mLevel != LevelIds::eMenu_0 && gMap.mLevel != LevelIds::eCredits_10)
+    if (gMap.mLevel != EReliveLevelIds::eMenu && gMap.mLevel != EReliveLevelIds::eCredits)
     {
         if (word_4CF158[gMap.mOverlayId] != word_4CF158[gMap.GetOverlayId()])
         {

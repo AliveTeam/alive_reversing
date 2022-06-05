@@ -31,7 +31,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
     const AnimRecord& rec = AO::AnimRec(AnimId::Bee_Swarm);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 16, 1, 0);
-    if (gMap.mCurrentLevel != LevelIds::eForestTemple_4 && gMap.mCurrentLevel != LevelIds::eDesertTemple_9)
+    if (gMap.mCurrentLevel != EReliveLevelIds::eForestTemple && gMap.mCurrentLevel != EReliveLevelIds::eDesertTemple)
     {
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 1, 0);
     }
@@ -89,7 +89,7 @@ BeeSwarm::~BeeSwarm()
 
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, 0, 0));
 
-    if (gMap.mCurrentLevel != LevelIds::eForestTemple_4 && gMap.mCurrentLevel != LevelIds::eDesertTemple_9)
+    if (gMap.mCurrentLevel != EReliveLevelIds::eForestTemple && gMap.mCurrentLevel != EReliveLevelIds::eDesertTemple)
     {
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 0, 0));
     }

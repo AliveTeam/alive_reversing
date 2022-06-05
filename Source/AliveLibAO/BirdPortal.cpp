@@ -165,7 +165,7 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
     field_2C_tlvInfo = tlvInfo;
 
 
-    field_50_dest_level = pTlv->field_1A_dest_level;
+    field_50_dest_level = MapWrapper::FromAO(pTlv->field_1A_dest_level);
     field_12_side = pTlv->field_18_side;
     field_54_dest_camera = pTlv->field_1E_dest_camera;
     field_52_dest_path = pTlv->field_1C_dest_path;
@@ -943,7 +943,7 @@ void BirdPortal::VMudSaved()
     field_56_num_muds_for_shrykull--;
 }
 
-void BirdPortal::VGetMapChange(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
+void BirdPortal::VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
 {
     *level = field_50_dest_level;
     *path = field_52_dest_path;

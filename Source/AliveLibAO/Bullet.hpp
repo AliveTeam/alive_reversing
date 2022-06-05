@@ -4,6 +4,8 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
+enum class EReliveLevelIds : s16;
+
 namespace AO {
 
 class BaseAliveGameObject;
@@ -14,8 +16,6 @@ enum class BulletType : s16
     eNormalBullet_1 = 1,
     eZBullet_2 = 2
 };
-
-enum class LevelIds : s16;
 
 class Bullet final : public BaseGameObject
 {
@@ -38,7 +38,7 @@ public:
     FP field_1C_ypos;
     FP field_20_x_distance;
     s32 field_24_unused;
-    LevelIds field_28_level;
+    EReliveLevelIds field_28_level;
     s16 field_2A_path;
     FP field_2C_scale;
     BaseAliveGameObject* field_30_pParent;

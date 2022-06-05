@@ -526,9 +526,9 @@ void Slog::MoveOnLine()
 }
 
 const TintEntry sSlogTints_4CFE10[3] = {
-    {LevelIds::eStockYards_5, 48u, 48u, 48u},
-    {LevelIds::eStockYardsReturn_6, 48u, 48u, 48u},
-    {LevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eStockYards, 48u, 48u, 48u},
+    {EReliveLevelIds::eStockYardsReturn, 48u, 48u, 48u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 void Slog::Init()
 {
@@ -698,7 +698,7 @@ void Slog::ToJump()
 
     Sfx(8);
 
-    if (gMap.GetDirection(
+    if (gMap.GetDirection_444A40(
             field_B2_lvl_number,
             field_B0_path_number,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -747,7 +747,7 @@ void Slog::Sfx(s32 soundId)
         volumeRight = defaultSndIdxVol / 2;
     }
 
-    CameraPos direction = gMap.GetDirection(
+    CameraPos direction = gMap.GetDirection_444A40(
         field_B2_lvl_number,
         field_B0_path_number,
         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -961,13 +961,13 @@ void Slog::Motion_0_Idle_4742E0()
                     SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_17, 1, 0);
                 }
 
-                if (gMap.GetDirection(
+                if (gMap.GetDirection_444A40(
                         field_B2_lvl_number,
                         field_B0_path_number,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos)
                         >= CameraPos::eCamCurrent_0
-                    && gMap.GetDirection(
+                    && gMap.GetDirection_444A40(
                            field_B2_lvl_number,
                            field_B0_path_number,
                            mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1094,7 +1094,7 @@ const FP sSlogRunVelXTable_4BCC70[9] = {
 
 void Slog::Motion_2_Run_4749A0()
 {
-    if (gMap.GetDirection(
+    if (gMap.GetDirection_444A40(
             field_B2_lvl_number,
             field_B0_path_number,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1586,7 +1586,7 @@ void Slog::Motion_18_WakeUp_475460()
         }
     }
 
-    if (gMap.GetDirection(
+    if (gMap.GetDirection_444A40(
             field_B2_lvl_number,
             field_B0_path_number,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1690,7 +1690,7 @@ void Slog::Motion_19_JumpForwards_475610()
 
 void Slog::Motion_20_JumpUpwards_475890()
 {
-    if (gMap.GetDirection(
+    if (gMap.GetDirection_444A40(
             field_B2_lvl_number,
             field_B0_path_number,
             mBaseAnimatedWithPhysicsGameObject_XPos,

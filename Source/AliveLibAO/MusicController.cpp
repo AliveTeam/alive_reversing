@@ -388,7 +388,7 @@ MusicController::MusicController()
     field_12_target_volume = 70;
     field_14 = 100;
     field_38_music_seq = SeqId::None_M1;
-    field_18_level = LevelIds::eNone;
+    field_18_level = EReliveLevelIds::eNone;
     field_26_ambient_seq = SeqId::None_M1;
 }
 
@@ -733,17 +733,17 @@ void MusicController::UpdateMusic()
         switch (field_3A_type)
         {
             case MusicTypes::eAbeOnElum_1:
-                if (field_18_level == LevelIds::eLines_2)
+                if (field_18_level == EReliveLevelIds::eLines)
                 {
                     idx = 86;
                     field_34_sync_after_beats = 16;
                 }
-                else if (field_18_level == LevelIds::eForest_3)
+                else if (field_18_level == EReliveLevelIds::eForest)
                 {
                     idx = 58;
                     field_34_sync_after_beats = 20;
                 }
-                else if (field_18_level == LevelIds::eDesert_8)
+                else if (field_18_level == EReliveLevelIds::eDesert)
                 {
                     idx = 19;
                     field_34_sync_after_beats = 20;
@@ -776,7 +776,7 @@ void MusicController::UpdateMusic()
                 [[fallthrough]];
             case MusicTypes::eSlogChase_5:
             {
-                const MusicController_Record* pRec = field_3A_type == MusicTypes::eChase_4 ? &array_1_stru_4CD958[static_cast<s32>(field_18_level)] : &array_2_stru_4CDA58[static_cast<s32>(field_18_level)];
+                const MusicController_Record* pRec = field_3A_type == MusicTypes::eChase_4 ? &array_1_stru_4CD958[static_cast<s32>(MapWrapper::ToAO(field_18_level))] : &array_2_stru_4CDA58[static_cast<s32>(MapWrapper::ToAO(field_18_level))];
                 idx = pRec->field_0_seqIdx;
                 field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
                 field_34_sync_after_beats = pRec->field_4;
@@ -787,7 +787,7 @@ void MusicController::UpdateMusic()
             case MusicTypes::ePossessed_6:
                 if (field_44_bTypeChanged)
                 {
-                    const MusicController_Record* pRec = &array_3_stru_4CDB58[static_cast<s32>(field_18_level)];
+                    const MusicController_Record* pRec = &array_3_stru_4CDB58[static_cast<s32>(MapWrapper::ToAO(field_18_level))];
                     idx = pRec->field_0_seqIdx;
                     field_34_sync_after_beats = pRec->field_4;
                     field_24_bAmbientMusicEnabled = pRec->field_8_bAmibentEnabled;
@@ -811,7 +811,7 @@ void MusicController::UpdateMusic()
                 break;
 
             case MusicTypes::eIntenseChase_8:
-                if (gMap.mCurrentLevel == LevelIds::eBoardRoom_12)
+                if (gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom)
                 {
                     idx = 102;
                     field_34_sync_after_beats = 1;
@@ -846,12 +846,12 @@ void MusicController::UpdateMusic()
             case MusicTypes::eType11:
                 if (field_44_bTypeChanged)
                 {
-                    if (field_18_level == LevelIds::eForestChase_14)
+                    if (field_18_level == EReliveLevelIds::eForestChase)
                     {
                         idx = 69;
                         field_34_sync_after_beats = 16;
                     }
-                    else if (field_18_level == LevelIds::eDesertEscape_15)
+                    else if (field_18_level == EReliveLevelIds::eDesertEscape)
                     {
                         idx = 33;
                         field_34_sync_after_beats = 16;
@@ -877,12 +877,12 @@ void MusicController::UpdateMusic()
                 break;
 
             case MusicTypes::eType12:
-                if (field_18_level == LevelIds::eForestChase_14)
+                if (field_18_level == EReliveLevelIds::eForestChase)
                 {
                     idx = 70;
                     field_34_sync_after_beats = 16;
                 }
-                else if (field_18_level == LevelIds::eDesertEscape_15)
+                else if (field_18_level == EReliveLevelIds::eDesertEscape)
                 {
                     idx = 34;
                     field_34_sync_after_beats = 32;
@@ -996,7 +996,7 @@ void MusicController::UpdateAmbiance()
             s16 random = -1;
             if (field_3A_type == MusicTypes::eType0)
             {
-                const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<s32>(field_18_level)];
+                const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<s32>(MapWrapper::ToAO(field_18_level))];
                 for (const MusicController_Record3_Sub& rec : pRec->field_0)
                 {
                     const auto diff = GetMusicTime() - field_2C_music_start_time;
@@ -1009,7 +1009,7 @@ void MusicController::UpdateAmbiance()
             }
             else
             {
-                const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<s32>(field_18_level)];
+                const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<s32>(MapWrapper::ToAO(field_18_level))];
                 random = Math_RandomRange_450F20(pRec->field_0[0].field_4_min, pRec->field_0[0].field_6_max);
             }
 
@@ -1023,7 +1023,7 @@ void MusicController::UpdateAmbiance()
             {
                 // Play new track
                 field_26_ambient_seq = rec2s_4CD5A8[random].field_0_idx;
-                SND_SEQ_Play_477760(field_26_ambient_seq, rec3s_4CD798[static_cast<s32>(field_18_level)].field_18, field_4C_current_vol, field_4C_current_vol);
+                SND_SEQ_Play_477760(field_26_ambient_seq, rec3s_4CD798[static_cast<s32>(MapWrapper::ToAO(field_18_level))].field_18, field_4C_current_vol, field_4C_current_vol);
                 field_28_amibent_seq_duration = GetMusicTime() + rec2s_4CD5A8[random].field_2_duration;
             }
         }

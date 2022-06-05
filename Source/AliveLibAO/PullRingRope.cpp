@@ -17,9 +17,9 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     s32 lvl_x_off = 0;
     switch (gMap.mCurrentLevel)
     {
-        case LevelIds::eRuptureFarms_1:
-        case LevelIds::eBoardRoom_12:
-        case LevelIds::eRuptureFarmsReturn_13:
+        case EReliveLevelIds::eRuptureFarms:
+        case EReliveLevelIds::eBoardRoom:
+        case EReliveLevelIds::eRuptureFarmsReturn:
         {
             const AnimRecord& rec1 = AO::AnimRec(AnimId::Pullring_Farms_Idle);
             u8** ppRes1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
@@ -28,7 +28,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
             break;
         }
 
-        case LevelIds::eDesert_8:
+        case EReliveLevelIds::eDesert:
         {
             const AnimRecord& rec2 = AO::AnimRec(AnimId::Pullring_Desert_Idle);
             u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
@@ -139,7 +139,7 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
 
     SwitchStates_Do_Operation(field_EE_switch_id, field_F0_action);
 
-    if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eRemoved_11 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_UseBegin);
         field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
@@ -186,7 +186,7 @@ void PullRingRope::VUpdate()
                 field_B8_vely = FP_FromInteger(0);
                 field_EC_state = States::eTriggerEvent_2;
 
-                if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+                if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
                     SFX_Play_Mono(SoundEffect::IndustrialTrigger_97, 0);
                 }
@@ -258,7 +258,7 @@ void PullRingRope::VUpdate()
 
             field_E4_stay_in_state_ticks = 3;
 
-            if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_UseEnd);
                 field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
@@ -278,7 +278,7 @@ void PullRingRope::VUpdate()
                 field_B8_vely = FP_FromInteger(0);
                 field_EC_state = States::eIdle_0;
 
-                if (gMap.mCurrentLevel == LevelIds::eRuptureFarms_1 || gMap.mCurrentLevel == LevelIds::eBoardRoom_12 || gMap.mCurrentLevel == LevelIds::eRuptureFarmsReturn_13)
+                if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
                     const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_Idle);
                     field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);

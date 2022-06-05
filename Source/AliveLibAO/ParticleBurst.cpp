@@ -168,7 +168,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 field_E8_pRes[i].field_14_z_speed = -FP_Abs(Random_Speed(scale));
             }
 
-            if (gMap.mCurrentLevel == LevelIds::eStockYards_5 || gMap.mCurrentLevel == LevelIds::eStockYardsReturn_6)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
             {
                 field_C4_b = 60;
                 field_C2_g = 60;

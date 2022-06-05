@@ -547,10 +547,10 @@ void Game_Run_4373D0()
 
 #if DEVELOPER_MODE
     // Boot directly to the "abe hello" screen
-    gMap.Init(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
+    gMap.Init(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
 #else
     // Normal copy right screen boot
-    gMap.Init(LevelIds::eMenu_0, 1, 10, CameraSwapEffects::eInstantChange_0, 0, 0);
+    gMap.Init(EReliveLevelIds::eMenu, 1, 10, CameraSwapEffects::eInstantChange_0, 0, 0);
 #endif
 
     DDCheat_Allocate_409560();

@@ -5,7 +5,7 @@
 enum class EReliveLevelIds : s16
 {
     eNone = -1, // TODO: Shouldn't depend on this value in the future
-    eMenu,
+    eMenu = 2000,
     eMines,
     eNecrum,
     eMudomoVault,
@@ -35,20 +35,29 @@ enum class EReliveLevelIds : s16
     eDesertEscape,
 };
 
+enum class LevelIds : s16;
+namespace AO {
+    enum class LevelIds : s16;
+}
+
 class MapWrapper
 {
 public:
     // TODO: Need to remap EReliveLevelIds enums before we can use this
+    static EReliveLevelIds FromAO(AO::LevelIds levelId);
+    static AO::LevelIds ToAO(EReliveLevelIds levelId);
 
+    /*
     EReliveLevelIds mCurrentLevel;
     s16 mCurrentPath;
     s16 mCurrentCamera;
 
-    //LevelIds mLevel;
+    EReliveLevelIds mLevel;
     s16 mPath;
     s16 mCamera;
 
     s16 GetOverlayId();
+    */
 };
 
 extern MapWrapper gMapWrapper;

@@ -41,9 +41,11 @@ target_include_directories(easylogging_reliveapi PUBLIC
 export(TARGETS easylogging_reliveapi FILE easylogging_reliveapi.cmake)
 set_property(TARGET easylogging_reliveapi PROPERTY FOLDER "ReliveAPI")
 
+# relive_lib entry HACK! fix later after engine merge is finished
 add_library(AliveLibAO_reliveapi
     ../../AliveLibAO/Grid.cpp
     ../../AliveLibAO/PathData.cpp
+    ../../relive_lib/MapWrapper.cpp
     )
 target_include_directories(AliveLibAO_reliveapi PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

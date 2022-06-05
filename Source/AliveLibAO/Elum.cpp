@@ -3733,11 +3733,11 @@ void Elum::VScreenChanged()
     {
         if (gMap.mCurrentPath != gMap.mPath)
         {
-            if (gMap.mCurrentLevel == LevelIds::eLines_2)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eLines)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
-            else if (gMap.mCurrentLevel == LevelIds::eDesert_8 && gMap.mPath == 9)
+            else if (gMap.mCurrentLevel == EReliveLevelIds::eDesert && gMap.mPath == 9)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -3752,7 +3752,7 @@ void Elum::VScreenChanged()
 
                 if (pElumPathTrans)
                 {
-                    if (field_122_bDontFollowAbe != 1 && sControlledCharacter_50767C != this && pElumPathTrans->field_18_level == gMap.mLevel && pElumPathTrans->field_1A_path == gMap.mPath)
+                    if (field_122_bDontFollowAbe != 1 && sControlledCharacter_50767C != this && MapWrapper::FromAO(pElumPathTrans->field_18_level) == gMap.mLevel && pElumPathTrans->field_1A_path == gMap.mPath)
                     {
                         field_170_flags.Set(Elum::Flags_170::eChangedPathNotMounted_Bit5);
                     }

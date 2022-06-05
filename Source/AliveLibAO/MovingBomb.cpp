@@ -21,9 +21,9 @@
 namespace AO {
 
 const TintEntry kMovingBombTints_4CD310[4] = {
-    {LevelIds::eStockYards_5, 30u, 30u, 55u},
-    {LevelIds::eStockYardsReturn_6, 30u, 30u, 55u},
-    {LevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eStockYards, 30u, 30u, 55u},
+    {EReliveLevelIds::eStockYardsReturn, 30u, 30u, 55u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
 

@@ -3,13 +3,14 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 
+enum class EReliveLevelIds : s16;
+
 namespace AO {
 
 class BaseGameObject;
 class BaseAliveGameObject;
 
 enum class SeqId : s16;
-enum class LevelIds : s16;
 
 class MusicController final : public BaseGameObject
 {
@@ -67,7 +68,7 @@ public:
     s16 field_12_target_volume;
     s16 field_14;
     s16 field_16_bScreenChanged;
-    LevelIds field_18_level;
+    EReliveLevelIds field_18_level;
     s16 field_1A_pad;
     BaseGameObject* field_1C_pObj;
     s16 field_20;

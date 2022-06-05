@@ -2,6 +2,7 @@
 #include "PathData.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "Collisions.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 namespace AO {
 
@@ -813,65 +814,65 @@ static PathRootContainer gMapData_4CAB58 = {
      {g_F2_Paths_4C8DE0, g_F2_Fmvs_4C8A70, g_F2_SoundBlock_4C8E80, "F2SEQ.BSQ", 23, 6, "F4", 9, 0, 23, "\\F4.LVL;1", 22, "\\F4.OVL;1", 21, "\\F2.MOV;1", "F2.IDX", "F4PATH.BND"},
      {g_D2_Paths_4C95E0, g_D2_Fmvs_4C9270, g_D2_SoundBlock_4C96A0, "D2SEQ.BSQ", 23, 1, "D7", 11, 0, 35, "\\D7.LVL;1", 34, "\\D7.OVL;1", 33, "\\D2.MOV;1", "D2.IDX", "D7PATH.BND"}}};
 
-const PathBlyRec* Path_Get_Bly_Record_434650(LevelIds level, u16 path)
+const PathBlyRec* Path_Get_Bly_Record_434650(EReliveLevelIds level, u16 path)
 {
-    return &gMapData_4CAB58.paths[static_cast<s32>(level)].field_0_pBlyArrayPtr[path];
+    return &gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(level))].field_0_pBlyArrayPtr[path];
 }
 
-FmvInfo* Path_Get_FMV_Record_434680(LevelIds levelId, u16 fmvId)
+FmvInfo* Path_Get_FMV_Record_434680(EReliveLevelIds levelId, u16 fmvId)
 {
-    return &gMapData_4CAB58.paths[static_cast<s32>(levelId)].field_4_pFmvArray[fmvId];
+    return &gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(levelId))].field_4_pFmvArray[fmvId];
 }
 
-s32 Path_Format_CameraName_4346B0(char_type* pNameBuffer, LevelIds level, s16 path, s16 camera)
+s32 Path_Format_CameraName_4346B0(char_type* pNameBuffer, EReliveLevelIds level, s16 path, s16 camera)
 {
-    return ::sprintf(pNameBuffer, "%sP%02dC%02d.CAM", gMapData_4CAB58.paths[static_cast<s32>(level)].field_14_lvl_name, path, camera);
+    return ::sprintf(pNameBuffer, "%sP%02dC%02d.CAM", gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(level))].field_14_lvl_name, path, camera);
 }
 
-const char_type* CdLvlName(LevelIds lvlId)
+const char_type* CdLvlName(EReliveLevelIds lvlId)
 {
-    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_20_lvl_name_cd;
+    return gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(lvlId))].field_20_lvl_name_cd;
 }
 
-const char_type* Path_Get_Lvl_Name(LevelIds lvlId)
+const char_type* Path_Get_Lvl_Name(EReliveLevelIds lvlId)
 {
-    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_14_lvl_name;
+    return gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(lvlId))].field_14_lvl_name;
 }
 
-s16 Path_Get_Num_Paths(LevelIds /*lvlId*/)
+s16 Path_Get_Num_Paths(EReliveLevelIds /*lvlId*/)
 {
     return kMaxPaths;
     //return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_18_num_paths;
 }
 
-s16 Path_Get_Unknown(LevelIds lvlId)
+s16 Path_Get_Unknown(EReliveLevelIds lvlId)
 {
-    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_1A_unused;
+    return gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(lvlId))].field_1A_unused;
 }
 
-const char_type* Path_Get_BndName(LevelIds lvlId)
+const char_type* Path_Get_BndName(EReliveLevelIds lvlId)
 {
-    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_38_bnd_name;
+    return gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(lvlId))].field_38_bnd_name;
 }
 
-SoundBlockInfo* Path_Get_MusicInfo(LevelIds lvlId)
+SoundBlockInfo* Path_Get_MusicInfo(EReliveLevelIds lvlId)
 {
-    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_8_pMusicInfo;
+    return gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(lvlId))].field_8_pMusicInfo;
 }
 
-s16 Path_Get_Reverb(LevelIds lvlId)
+s16 Path_Get_Reverb(EReliveLevelIds lvlId)
 {
-    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_10_reverb;
+    return gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(lvlId))].field_10_reverb;
 }
 
-const char_type* Path_Get_BsqFileName(LevelIds lvlId)
+const char_type* Path_Get_BsqFileName(EReliveLevelIds lvlId)
 {
-    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_C_bsq_file_name;
+    return gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(lvlId))].field_C_bsq_file_name;
 }
 
-s16 Path_Get_BackGroundMusicId(LevelIds lvlId)
+s16 Path_Get_BackGroundMusicId(EReliveLevelIds lvlId)
 {
-    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_12_bg_music_id;
+    return gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(lvlId))].field_12_bg_music_id;
 }
 
 s32 Path_Get_Paths_Count()
@@ -884,9 +885,9 @@ PathRoot* Path_Get_PathRoot(s32 lvlId)
     return &gMapData_4CAB58.paths[lvlId];
 }
 
-s32 Path_Get_OverlayIdx(LevelIds lvlId)
+s32 Path_Get_OverlayIdx(EReliveLevelIds lvlId)
 {
-    return gMapData_4CAB58.paths[static_cast<s32>(lvlId)].field_1C_overlay_idx;
+    return gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(lvlId))].field_1C_overlay_idx;
 }
 
 static CollisionInfo removed1_collisions[kMaxPaths] = {};
