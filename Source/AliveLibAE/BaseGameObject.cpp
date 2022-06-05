@@ -6,6 +6,7 @@
 #include "Map.hpp"
 #include "QuikSave.hpp"
 #include "ObjectIds.hpp"
+#include "../relive_lib/ResourceManagerWrapper.hpp"
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObjects, nullptr);
 
@@ -60,7 +61,7 @@ BaseGameObject::~BaseGameObject()
     {
         if (field_10_resources_array.ItemAt(i))
         {
-            ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(i));
+            ResourceManagerWrapper::FreeResource(field_10_resources_array.ItemAt(i));
         }
     }
 
@@ -90,7 +91,7 @@ s32 BaseGameObject::VGetSaveState(u8* /*pSaveBuffer*/)
 
 u8** BaseGameObject::Add_Resource(u32 type, s32 resourceID)
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(type, resourceID, 1, 0);
+    u8** ppRes = ResourceManagerWrapper::GetLoadedResource(type, resourceID, 1, 0);
     if (ppRes)
     {
         field_10_resources_array.Push_Back(ppRes);

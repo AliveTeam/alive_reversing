@@ -9,6 +9,8 @@ SET(relive_lib_src
     Events.cpp
     GameType.hpp
     GameType.cpp
+    ResourceManagerWrapper.hpp
+    ResourceManagerWrapper.cpp
     BaseAnimatedWithPhysicsGameObject.hpp
     stdafx.h
 )

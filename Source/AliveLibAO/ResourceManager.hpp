@@ -3,7 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "Psx.hpp"
-#include "AnimResources.hpp"
+#include "../AliveLibCommon/AnimResources.hpp"
 #include "Factory.hpp"
 
 namespace AO {
