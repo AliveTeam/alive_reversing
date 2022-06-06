@@ -47,6 +47,8 @@ public:
     static EReliveLevelIds FromAO(AO::LevelIds levelId);
     static AO::LevelIds ToAO(EReliveLevelIds levelId);
 
+    static EReliveLevelIds FromAE(LevelIds levelId);
+    static LevelIds MapWrapper::ToAE(EReliveLevelIds levelId);
     /*
     EReliveLevelIds mCurrentLevel;
     s16 mCurrentPath;

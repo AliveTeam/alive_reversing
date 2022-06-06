@@ -30,21 +30,21 @@
 #include "Grid.hpp"
 
 const TintEntry kCrawlingSligTints_5514B8[18] = {
-    {LevelIds::eMines_1, 127u, 127u, 127u},
-    {LevelIds::eNecrum_2, 137u, 137u, 137u},
-    {LevelIds::eMudomoVault_3, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_4, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_5, 127u, 127u, 127u},
-    {LevelIds::eBarracks_6, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_Ender_7, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_8, 127u, 127u, 127u},
-    {LevelIds::eBrewery_9, 127u, 127u, 127u},
-    {LevelIds::eBrewery_Ender_10, 127u, 127u, 127u},
-    {LevelIds::eMudomoVault_Ender_11, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
-    {LevelIds::eBarracks_Ender_13, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_Ender_14, 127u, 127u, 127u},
-    {LevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 const AnimId sCrawlingSligFrameTableOffsets_551470[18] = {
     AnimId::CrawlingSlig_Idle,
@@ -268,7 +268,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->field_1B0_velx_scale_factor = pState->field_58_velx_scale_factor;
 
         pCrawlingSlig->field_C0_path_number = pState->field_18_path_number;
-        pCrawlingSlig->field_C2_lvl_number = pState->field_1A_lvl_number;
+        pCrawlingSlig->field_C2_lvl_number = MapWrapper::FromAE(pState->field_1A_lvl_number);
         pCrawlingSlig->field_CC_sprite_scale = pState->field_1C_sprite_scale;
 
         pCrawlingSlig->field_1A4_r = pState->mRingRed;
@@ -309,7 +309,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->SetBrain(sCrawlingSligBrainTable[pState->field_48_brain_idx].mOurFn);
         pCrawlingSlig->field_208_brain_sub_state = pState->field_50_brain_sub_state;
         pCrawlingSlig->field_1B8_bChanting = pState->field_5E_bChanting;
-        pCrawlingSlig->field_1BA_prev_level = pState->field_60_prev_leve;
+        pCrawlingSlig->field_1BA_prev_level = MapWrapper::FromAE(pState->field_60_prev_leve);
         pCrawlingSlig->field_1BC_prev_path = pState->field_62_prev_path;
         pCrawlingSlig->field_1BE_prev_camera = pState->field_64_prev_camera;
         pCrawlingSlig->field_1B4_unused = pState->field_68_unused;
@@ -345,7 +345,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_58_velx_scale_factor = field_1B0_velx_scale_factor;
 
     pState->field_18_path_number = field_C0_path_number;
-    pState->field_1A_lvl_number = field_C2_lvl_number;
+    pState->field_1A_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pState->field_1C_sprite_scale = field_CC_sprite_scale;
 
     pState->mRingRed = field_D0_r;
@@ -388,7 +388,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_50_brain_sub_state = field_208_brain_sub_state;
     pState->field_5E_bChanting = field_1B8_bChanting;
-    pState->field_60_prev_leve = field_1BA_prev_level;
+    pState->field_60_prev_leve = MapWrapper::ToAE(field_1BA_prev_level);
     pState->field_62_prev_path = field_1BC_prev_path;
     pState->field_64_prev_camera = field_1BE_prev_camera;
     pState->field_66_pitch = field_1C2_pitch;
@@ -724,7 +724,7 @@ CrawlingSlig::~CrawlingSlig()
     {
         sControlledCharacter_5C1B8C = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
-        if (gMap.mLevel != LevelIds::eMenu_0)
+        if (gMap.mLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
                 field_1BA_prev_level,

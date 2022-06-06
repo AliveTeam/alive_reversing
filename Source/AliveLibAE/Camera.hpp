@@ -2,6 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "Primitives.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 enum class LevelIds : s16;
 
@@ -24,7 +25,7 @@ public:
     s16 field_14_xpos;
     s16 field_16_ypos;
     s16 field_18_path;
-    LevelIds field_1A_level;
+    EReliveLevelIds field_1A_level;
     s16 field_1C_camera_number;
     char_type field_1E_cam_name[16];
     s16 field_2E_padding;

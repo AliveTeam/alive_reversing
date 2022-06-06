@@ -2,6 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 class BaseAliveGameObject;
 
@@ -78,7 +79,7 @@ public:
 private:
     u16 field_20_vol;
     u16 field_22_vol;
-    LevelIds field_24_currentLevelID;
+    EReliveLevelIds field_24_currentLevelID;
     s16 field_26_padding;
     s32 field_28_object_id;
     s16 field_2C_flags_and_seq_idx;

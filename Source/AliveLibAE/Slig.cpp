@@ -150,21 +150,21 @@ s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData)
 }
 
 TintEntry sSligTint_560570[15] = {
-    {LevelIds::eMines_1, 102u, 127u, 118u},
-    {LevelIds::eNecrum_2, 102u, 127u, 118u},
-    {LevelIds::eMudomoVault_3, 102u, 127u, 118u},
-    {LevelIds::eMudancheeVault_4, 102u, 127u, 118u},
-    {LevelIds::eFeeCoDepot_5, 102u, 127u, 118u},
-    {LevelIds::eBarracks_6, 102u, 127u, 118u},
-    {LevelIds::eMudancheeVault_Ender_7, 102u, 127u, 118u},
-    {LevelIds::eBonewerkz_8, 102u, 127u, 118u},
-    {LevelIds::eBrewery_9, 102u, 127u, 118u},
-    {LevelIds::eBrewery_Ender_10, 102u, 127u, 118u},
-    {LevelIds::eMudomoVault_Ender_11, 102u, 127u, 118u},
-    {LevelIds::eFeeCoDepot_Ender_12, 102u, 127u, 118u},
-    {LevelIds::eBarracks_Ender_13, 102u, 127u, 118u},
-    {LevelIds::eBonewerkz_Ender_14, 102u, 127u, 118u},
-    {LevelIds::eNone, 102u, 127u, 118u}};
+    {EReliveLevelIds::eMines, 102u, 127u, 118u},
+    {EReliveLevelIds::eNecrum, 102u, 127u, 118u},
+    {EReliveLevelIds::eMudomoVault, 102u, 127u, 118u},
+    {EReliveLevelIds::eMudancheeVault, 102u, 127u, 118u},
+    {EReliveLevelIds::eFeeCoDepot, 102u, 127u, 118u},
+    {EReliveLevelIds::eBarracks, 102u, 127u, 118u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 102u, 127u, 118u},
+    {EReliveLevelIds::eBonewerkz, 102u, 127u, 118u},
+    {EReliveLevelIds::eBrewery, 102u, 127u, 118u},
+    {EReliveLevelIds::eBrewery_Ender, 102u, 127u, 118u},
+    {EReliveLevelIds::eMudomoVault_Ender, 102u, 127u, 118u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 102u, 127u, 118u},
+    {EReliveLevelIds::eBarracks_Ender, 102u, 127u, 118u},
+    {EReliveLevelIds::eBonewerkz_Ender, 102u, 127u, 118u},
+    {EReliveLevelIds::eNone, 102u, 127u, 118u}};
 
 ALIVE_VAR(1, 0xBAF7E4, s32, unused_BAF7E4, 0);
 ALIVE_VAR(1, 0xBAF7E8, s16, sSligsUnderControlCount_BAF7E8, 0);
@@ -611,7 +611,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
 
     VStackOnObjectsOfType(ReliveTypes::eSlig);
 
-    if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8 && gMap.mCurrentPath == 2 && gMap.mCurrentCamera == 5)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz && gMap.mCurrentPath == 2 && gMap.mCurrentCamera == 5)
     {
         field_DA_xOffset = 0;
     }
@@ -763,7 +763,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     pState->field_58_falling_velx_scale_factor = field_130_falling_velx_scale_factor;
 
     pState->field_14_path_number = field_C0_path_number;
-    pState->field_16_lvl_number = field_C2_lvl_number;
+    pState->field_16_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
     pState->field_1C_scale = field_D6_scale;
@@ -828,7 +828,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     pState->field_6C_unused = field_140_unused;
     pState->field_6E_unused = field_142_unused;
     pState->field_70_unused = field_144_unused;
-    pState->field_72_level = field_146_level;
+    pState->field_72_level = MapWrapper::ToAE(field_146_level);
     pState->field_74_path = field_148_path;
     pState->field_76_camera = field_14A_camera;
     pState->field_78_death_by_being_shot_timer = field_14C_death_by_being_shot_timer;
@@ -953,7 +953,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->field_C4_velx = pState->field_C_velx;
         pSlig->field_C8_vely = pState->field_10_vely;
         pSlig->field_C0_path_number = pState->field_14_path_number;
-        pSlig->field_C2_lvl_number = pState->field_16_lvl_number;
+        pSlig->field_C2_lvl_number = MapWrapper::FromAE(pState->field_16_lvl_number);
         pSlig->field_CC_sprite_scale = pState->field_18_sprite_scale;
 
         if (pSlig->field_CC_sprite_scale == FP_FromInteger(1))
@@ -1021,7 +1021,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->field_142_unused = pState->field_6E_unused;
         pSlig->field_144_unused = pState->field_70_unused;
 
-        pSlig->field_146_level = pState->field_72_level;
+        pSlig->field_146_level = MapWrapper::FromAE(pState->field_72_level);
         pSlig->field_148_path = pState->field_74_path;
         pSlig->field_14A_camera = pState->field_76_camera;
 
@@ -4874,7 +4874,7 @@ Slig::~Slig()
 
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-        if (gMap.mLevel != LevelIds::eMenu_0)
+        if (gMap.mLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
                 field_146_level,

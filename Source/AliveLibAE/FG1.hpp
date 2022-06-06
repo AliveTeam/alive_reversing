@@ -4,6 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "DynamicArray.hpp"
 #include "Primitives.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 struct Fg1Block final
 {
@@ -36,7 +37,7 @@ public:
     s16 Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
     s32 field_20_unused;
-    LevelIds field_24_level_id;
+    EReliveLevelIds field_24_level_id;
     s16 field_26_path_id;
     s16 field_28_render_block_count;
     //s16 field_2A;

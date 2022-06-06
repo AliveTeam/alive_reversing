@@ -36,21 +36,21 @@
 ALIVE_VAR(1, 0x5C3012, s16, sGoingToBirdPortalMudCount_5C3012, 0);
 
 const TintEntry kMudTints_55C744[18] = {
-    {LevelIds::eMines_1, 87u, 103u, 67u},
-    {LevelIds::eNecrum_2, 87u, 103u, 67u},
-    {LevelIds::eMudomoVault_3, 87u, 103u, 67u},
-    {LevelIds::eMudancheeVault_4, 87u, 103u, 67u},
-    {LevelIds::eFeeCoDepot_5, 87u, 103u, 67u},
-    {LevelIds::eBarracks_6, 87u, 103u, 67u},
-    {LevelIds::eMudancheeVault_Ender_7, 87u, 103u, 67u},
-    {LevelIds::eBonewerkz_8, 87u, 103u, 67u},
-    {LevelIds::eBrewery_9, 87u, 103u, 67u},
-    {LevelIds::eBrewery_Ender_10, 87u, 103u, 67u},
-    {LevelIds::eMudomoVault_Ender_11, 87u, 103u, 67u},
-    {LevelIds::eFeeCoDepot_Ender_12, 87u, 103u, 67u},
-    {LevelIds::eBarracks_Ender_13, 87u, 103u, 67u},
-    {LevelIds::eBonewerkz_Ender_14, 87u, 103u, 67u},
-    {LevelIds::eNone, 87u, 103u, 67u}};
+    {EReliveLevelIds::eMines, 87u, 103u, 67u},
+    {EReliveLevelIds::eNecrum, 87u, 103u, 67u},
+    {EReliveLevelIds::eMudomoVault, 87u, 103u, 67u},
+    {EReliveLevelIds::eMudancheeVault, 87u, 103u, 67u},
+    {EReliveLevelIds::eFeeCoDepot, 87u, 103u, 67u},
+    {EReliveLevelIds::eBarracks, 87u, 103u, 67u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eBonewerkz, 87u, 103u, 67u},
+    {EReliveLevelIds::eBrewery, 87u, 103u, 67u},
+    {EReliveLevelIds::eBrewery_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eMudomoVault_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eBarracks_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eBonewerkz_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eNone, 87u, 103u, 67u}};
 
 using TMudBrainStateFunction = decltype(&Mudokon::Brain_0_GiveRings_470C10);
 
@@ -757,7 +757,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         pMud->field_138_unused = pState->field_48_unused;
 
         pMud->field_C0_path_number = pState->field_14_path_number;
-        pMud->field_C2_lvl_number = pState->field_16_lvl_number;
+        pMud->field_C2_lvl_number = MapWrapper::FromAE(pState->field_16_lvl_number);
         pMud->field_CC_sprite_scale = pState->field_18_sprite_scale;
 
         pMud->field_D0_r = pState->field_1C_r;
@@ -898,7 +898,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
     pState->field_48_unused = field_138_unused;
 
     pState->field_14_path_number = field_C0_path_number;
-    pState->field_16_lvl_number = field_C2_lvl_number;
+    pState->field_16_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
     pState->field_1C_r = field_D0_r;
@@ -5191,7 +5191,7 @@ s16 Mudokon::Brain_8_AngryWorker_47E910()
                 return field_190_brain_sub_state;
             }
 
-            if (gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
                 field_194_timer = sGnFrame + 90;
             }
@@ -6558,11 +6558,11 @@ void Mudokon::M_KnockForward_45_474180()
         Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 32767, this);
     }
 
-    if ((gMap.mCurrentLevel == LevelIds::eMines_1 
-        || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 
-        || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 
-        || gMap.mCurrentLevel == LevelIds::eBarracks_6 
-        || gMap.mCurrentLevel == LevelIds::eBrewery_9)
+    if ((gMap.mCurrentLevel == EReliveLevelIds::eMines
+        || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz
+        || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot
+        || gMap.mCurrentLevel == EReliveLevelIds::eBarracks
+        || gMap.mCurrentLevel == EReliveLevelIds::eBrewery)
         && field_20_animation.field_92_current_frame == 7)
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
@@ -6584,7 +6584,7 @@ void Mudokon::M_Knockback_46_4742A0()
 
     Event_Broadcast(kEventNoise, this);
 
-    if ((gMap.mCurrentLevel == LevelIds::eMines_1 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5 || gMap.mCurrentLevel == LevelIds::eBarracks_6 || gMap.mCurrentLevel == LevelIds::eBrewery_9) && field_20_animation.field_92_current_frame == 7)
+    if ((gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBrewery) && field_20_animation.field_92_current_frame == 7)
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }

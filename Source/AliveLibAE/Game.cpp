@@ -486,7 +486,7 @@ void Game_Run_466D40()
 
     Path_Set_NewData_FromLvls();
     
-    sLvlArchive_5BC520.Open_Archive_432E80(CdLvlName(LevelIds::eMenu_0));
+    sLvlArchive_5BC520.Open_Archive_432E80(CdLvlName(EReliveLevelIds::eMenu));
 
     ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
 
@@ -515,7 +515,7 @@ void Game_Run_466D40()
     #endif
 #endif
 
-    gMap.Init(LevelIds::eMenu_0, 1, cameraId, CameraSwapEffects::eInstantChange_0, 0, 0);
+    gMap.Init(EReliveLevelIds::eMenu, 1, cameraId, CameraSwapEffects::eInstantChange_0, 0, 0);
 
     DDCheat_Allocate_415320();
     pEventSystem_5BC11C = ae_new<GameSpeak>();

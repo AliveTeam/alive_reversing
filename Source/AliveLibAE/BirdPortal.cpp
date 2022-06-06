@@ -40,7 +40,7 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
     field_20_tlvInfo = tlvInfo;
 
     field_26_side = pTlv->field_10_side;
-    field_7C_dest_level = pTlv->field_12_dest_level;
+    field_7C_dest_level = MapWrapper::FromAE(pTlv->field_12_dest_level);
     field_7E_dest_path = pTlv->field_14_dest_path;
     field_80_dest_camera = pTlv->field_16_dest_camera;
     field_64_movie_id = pTlv->field_1A_movie_id;
@@ -864,7 +864,7 @@ void BirdPortal::VIncreaseTimerAndKillPortalClipper()
     field_5C_timer = sGnFrame + 30;
 }
 
-void BirdPortal::VGetMapChange(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
+void BirdPortal::VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId)
 {
     *level = field_7C_dest_level;
     *path = field_7E_dest_path;

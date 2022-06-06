@@ -29,9 +29,9 @@
 #include "Grid.hpp"
 
 const TintEntry kParamiteTints_55D73C[24] = {
-    {LevelIds::eMudomoVault_3, 105u, 105u, 105u},
-    {LevelIds::eMudomoVault_Ender_11, 105u, 105u, 105u},
-    {LevelIds::eNone, 105u, 105u, 105u}};
+    {EReliveLevelIds::eMudomoVault, 105u, 105u, 105u},
+    {EReliveLevelIds::eMudomoVault_Ender, 105u, 105u, 105u},
+    {EReliveLevelIds::eNone, 105u, 105u, 105u}};
 
 
 const TParamiteMotionFn sParamite_motion_table_55D5B0[44] = {
@@ -295,7 +295,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
 
     pParamite->field_13C_velx_offset = pState->field_64_velx_offset;
     pParamite->field_C0_path_number = pState->field_14_path_number;
-    pParamite->field_C2_lvl_number = pState->field_16_lvl_number;
+    pParamite->field_C2_lvl_number = MapWrapper::FromAE(pState->field_16_lvl_number);
     pParamite->field_CC_sprite_scale = pState->field_18_sprite_scale;
 
     pParamite->field_D0_r = pState->field_1C_r;
@@ -342,7 +342,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->field_140_tlvInfo = pState->field_3C_tlvInfo;
     pParamite->field_148_timer = pState->field_68_timer;
 
-    pParamite->field_14E_return_level = pState->field_6C_return_level;
+    pParamite->field_14E_return_level = MapWrapper::FromAE(pState->field_6C_return_level);
     pParamite->field_150_return_path = pState->field_6E_return_path;
     pParamite->field_152_return_camera = pState->field_70_return_camera;
 
@@ -390,7 +390,7 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     pState->field_64_velx_offset = field_13C_velx_offset;
 
     pState->field_14_path_number = field_C0_path_number;
-    pState->field_16_lvl_number = field_C2_lvl_number;
+    pState->field_16_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
     pState->field_1C_r = field_D0_r;
@@ -448,7 +448,7 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     pState->field_3C_tlvInfo = field_140_tlvInfo;
     pState->field_68_timer = field_148_timer;
 
-    pState->field_6C_return_level = field_14E_return_level;
+    pState->field_6C_return_level = MapWrapper::ToAE(field_14E_return_level);
     pState->field_6E_return_path = field_150_return_path;
     pState->field_70_return_camera = field_152_return_camera;
 
@@ -5039,7 +5039,7 @@ Paramite::~Paramite()
     if (sControlledCharacter_5C1B8C == this)
     {
         sControlledCharacter_5C1B8C = sActiveHero;
-        if (gMap.mLevel != LevelIds::eMenu_0)
+        if (gMap.mLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
                 field_14E_return_level,

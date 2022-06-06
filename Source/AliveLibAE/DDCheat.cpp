@@ -134,7 +134,7 @@ void DDCheat::Menu_Teleport()
     {
         sDDCheat_FlyingEnabled_5C2C08 = true;
 
-        gMap.SetActiveCam(static_cast<LevelIds>(sTeleport_Level_550F5C), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level_550F5C)), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eInstantChange_0, 0, 0);
         field_3C_flags.Set(DDCheat::Flags_3C::eOnTeleport_Bit3);
     }
 }
@@ -263,7 +263,7 @@ void DDCheat::VUpdate()
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.field_2_y + 60);
                 sActiveHero->mCurrentMotion = 3;
                 sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
-                sActiveHero->field_C2_lvl_number = static_cast<LevelIds>(sTeleport_Level_550F5C);
+                sActiveHero->field_C2_lvl_number = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level_550F5C));
                 sActiveHero->field_C0_path_number = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
@@ -272,7 +272,7 @@ void DDCheat::VUpdate()
             }
         }
 
-        if ((gMap.mCurrentLevel != LevelIds::eMenu_0 && gMap.mCurrentLevel != LevelIds::eNone) && sActiveHero && activePadPressed & InputCommands::Enum::eCheatMode)
+        if ((gMap.mCurrentLevel != EReliveLevelIds::eMenu && gMap.mCurrentLevel != EReliveLevelIds::eNone) && sActiveHero && activePadPressed & InputCommands::Enum::eCheatMode)
         {
             sDDCheat_FlyingEnabled_5C2C08 = !sDDCheat_FlyingEnabled_5C2C08;
             if (!sDDCheat_FlyingEnabled_5C2C08)

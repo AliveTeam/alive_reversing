@@ -446,11 +446,11 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, LevelIds level_id)
+void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, EReliveLevelIds level_id)
 {
     while (pTintArray->field_0_level != level_id)
     {
-        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == LevelIds::eNone)
+        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == EReliveLevelIds::eNone)
         {
             break;
         }

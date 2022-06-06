@@ -193,7 +193,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
 
-    if (sActiveHero == this && gMap.mCurrentLevel == LevelIds::eNecrum_2 && gMap.mCurrentPath == 2 && (mCurrentMotion == eAbeMotions::Motion_23_RollLoop_453A90 || mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0))
+    if (sActiveHero == this && gMap.mCurrentLevel == EReliveLevelIds::eNecrum && gMap.mCurrentPath == 2 && (mCurrentMotion == eAbeMotions::Motion_23_RollLoop_453A90 || mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0))
     {
         // Yummy OWI hack - hard code Abe's location when path change to Necrum's first path after the Mines :)
         BaseAliveGameObjectCollisionLine = nullptr;
@@ -368,7 +368,7 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
     // Empty
 }
 
-s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, LevelIds level_id, s32 resourceID)
+s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLevelIds level_id, s32 resourceID)
 {
     SetTint(pTintArray, level_id);
 

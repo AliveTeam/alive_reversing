@@ -687,7 +687,7 @@ public:
     s16 field_194_unused;
     s16 field_196_unused;
     s16 field_198_has_evil_fart;
-    LevelIds field_19A_to_level;
+    EReliveLevelIds field_19A_to_level;
     s16 field_19C_to_path;
     s16 field_19E_to_camera;
     s16 field_1A0_door_id;

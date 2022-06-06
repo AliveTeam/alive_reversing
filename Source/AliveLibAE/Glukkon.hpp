@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 #define GLUKKON_MOTIONS_ENUM(ENTRY)        \
     ENTRY(M_Idle_0_442D10)                 \
@@ -259,7 +260,7 @@ private:
     FP field_1DC_previous_ypos;
     s16 field_1E0_gamespeak_pitch;
     s16 field_1E2_prevent_depossession;
-    LevelIds field_1E4_level;
+    EReliveLevelIds field_1E4_level;
     s16 field_1E6_path;
     s16 field_1E8_camera;
     GlukkonSpeak field_1EA_speak;

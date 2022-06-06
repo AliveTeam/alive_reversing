@@ -429,7 +429,7 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
     pState->field_14_vely = field_C8_vely;
 
     pState->field_1C_path_number = field_C0_path_number;
-    pState->field_1E_lvl_number = field_C2_lvl_number;
+    pState->field_1E_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
 
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
@@ -476,7 +476,7 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->field_C8_vely = pState->field_14_vely;
 
     pRock->field_C0_path_number = pState->field_1C_path_number;
-    pRock->field_C2_lvl_number = pState->field_1E_lvl_number;
+    pRock->field_C2_lvl_number = MapWrapper::FromAE(pState->field_1E_lvl_number);
 
     pRock->field_CC_sprite_scale = pState->field_18_sprite_scale;
     pRock->field_D6_scale = pState->field_18_sprite_scale > FP_FromDouble(0.75);

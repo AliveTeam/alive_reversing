@@ -87,7 +87,7 @@ public:
     virtual void VExitPortal();
     virtual Bool32 VPortalExit_AbeExitting();
     virtual void VIncreaseTimerAndKillPortalClipper();
-    virtual void VGetMapChange(LevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
+    virtual void VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
@@ -159,14 +159,14 @@ private:
     s32 field_70_terminator_id;
     s32 field_74_screen_clipper_id;
     s32 field_78_screen_clipper_id;
-    LevelIds field_7C_dest_level;
+    EReliveLevelIds field_7C_dest_level;
     s16 field_7E_dest_path;
     s16 field_80_dest_camera;
     s16 field_82_num_muds_for_shrykull;
     s16 field_84_received_doves;
     s16 field_86_pad;
     OrbWhirlWind* field_88_pWhirlWind;
-    LevelIds field_8C_level;
+    EReliveLevelIds field_8C_level;
     s16 field_8E_path;
     s32 field_90_sfx_ret;
     s32 field_94_padding;

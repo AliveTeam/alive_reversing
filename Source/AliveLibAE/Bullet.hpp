@@ -47,7 +47,7 @@ public:
 
 private:
     s32 field_34_unused;
-    LevelIds field_38_level;
+    EReliveLevelIds field_38_level;
     s16 field_3A_path;
     FP field_3C_scale;
     BaseAliveGameObject* field_40_pParent;

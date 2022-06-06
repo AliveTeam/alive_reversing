@@ -12,7 +12,7 @@ void TestAnimation::DelayLoad()
 {
     // Trying to load on these lvls will result in a phat failure because they hardly have
     // any resource fiiles
-    if (field_C2_lvl_number == LevelIds::eMenu_0 || field_C2_lvl_number == LevelIds::eCredits_16)
+    if (field_C2_lvl_number == EReliveLevelIds::eMenu || field_C2_lvl_number == EReliveLevelIds::eCredits)
     {
         return;
     }

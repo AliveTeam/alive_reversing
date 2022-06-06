@@ -18,7 +18,7 @@
 #include "LiftPoint.hpp"
 #include "Grid.hpp"
 
-static TintEntry sTimedMineTint_550EB8[1] = {{LevelIds::eNone, 127u, 127u, 127u}};
+static TintEntry sTimedMineTint_550EB8[1] = {{EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
 TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)

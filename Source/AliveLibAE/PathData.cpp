@@ -2145,65 +2145,65 @@ SeqHandleTable sSeqData = {
 SeqHandleTable sSeqData_558D50 = sSeqData;
 
 const static PerLvlData gMovieMenuInfos_561540[28] = {
-    {"GT Logo", LevelIds::eMenu_0, 65535, 65535, 3u, 65535, 65535},
-    {"Oddworld Intro", LevelIds::eMenu_0, 65535, 65535, 1u, 65535, 65535},
-    {"Abe's Exoddus", LevelIds::eMenu_0, 65535, 65535, 5u, 65535, 65535},
-    {"Backstory", LevelIds::eMenu_0, 65535, 65535, 4u, 65535, 65535},
-    {"Prophecy", LevelIds::eMines_1, 65535, 65535, 1u, 65535, 65535},
-    {"Vision", LevelIds::eMines_1, 65535, 65535, 24u, 65535, 65535},
-    {"Game Opening", LevelIds::eMines_1, 65535, 65535, 2u, 65535, 65535},
-    {"Brew", LevelIds::eMines_1, 65535, 65535, 26u, 65535, 65535},
-    {"Brew Transition", LevelIds::eMines_1, 65535, 65535, 31u, 65535, 65535},
-    {"Escape", LevelIds::eMines_1, 65535, 65535, 25u, 65535, 65535},
-    {"Reward", LevelIds::eNecrum_2, 65535, 65535, 22u, 65535, 65535},
-    {"FeeCo", LevelIds::eFeeCoDepot_5, 65535, 65535, 4u, 65535, 65535},
-    {"Information Booth", LevelIds::eFeeCoDepot_5, 65535, 65535, 3u, 65535, 65535},
-    {"Train 1", LevelIds::eBarracks_6, 65535, 65535, 5u, 65535, 65535},
-    {"Train 2", LevelIds::eBrewery_9, 65535, 65535, 15u, 65535, 65535},
-    {"Train 3", LevelIds::eBonewerkz_8, 65535, 65535, 6u, 65535, 65535},
-    {"Aslik Info", LevelIds::eFeeCoDepot_5, 65535, 65535, 2u, 65535, 65535},
-    {"Aslik Explodes", LevelIds::eFeeCoDepot_5, 65535, 65535, 1u, 65535, 65535},
-    {"Dripek Info", LevelIds::eBarracks_6, 65535, 65535, 4u, 65535, 65535},
-    {"Dripek Explodes", LevelIds::eBarracks_6, 65535, 65535, 3u, 65535, 65535},
-    {"Phleg Info", LevelIds::eBonewerkz_8, 65535, 65535, 4u, 65535, 65535},
-    {"Phleg Explodes", LevelIds::eBonewerkz_8, 65535, 65535, 5u, 65535, 65535},
-    {"Soulstorm Info", LevelIds::eBrewery_9, 65535, 65535, 14u, 65535, 65535},
-    {"Ingredient", LevelIds::eBrewery_9, 65535, 65535, 16u, 65535, 65535},
-    {"Conference", LevelIds::eBrewery_9, 65535, 65535, 13u, 65535, 65535},
-    {"Happy Ending", LevelIds::eBrewery_9, 65535, 65535, 17u, 65535, 65535},
-    {"Sad Ending", LevelIds::eBrewery_9, 65535, 65535, 18u, 65535, 65535},
-    {"Credits", LevelIds::eCredits_16, 65535, 65535, 65535u, 65535, 65535}};
+    {"GT Logo", EReliveLevelIds::eMenu, 65535, 65535, 3u, 65535, 65535},
+    {"Oddworld Intro", EReliveLevelIds::eMenu, 65535, 65535, 1u, 65535, 65535},
+    {"Abe's Exoddus", EReliveLevelIds::eMenu, 65535, 65535, 5u, 65535, 65535},
+    {"Backstory", EReliveLevelIds::eMenu, 65535, 65535, 4u, 65535, 65535},
+    {"Prophecy", EReliveLevelIds::eMines, 65535, 65535, 1u, 65535, 65535},
+    {"Vision", EReliveLevelIds::eMines, 65535, 65535, 24u, 65535, 65535},
+    {"Game Opening", EReliveLevelIds::eMines, 65535, 65535, 2u, 65535, 65535},
+    {"Brew", EReliveLevelIds::eMines, 65535, 65535, 26u, 65535, 65535},
+    {"Brew Transition", EReliveLevelIds::eMines, 65535, 65535, 31u, 65535, 65535},
+    {"Escape", EReliveLevelIds::eMines, 65535, 65535, 25u, 65535, 65535},
+    {"Reward", EReliveLevelIds::eNecrum, 65535, 65535, 22u, 65535, 65535},
+    {"FeeCo", EReliveLevelIds::eFeeCoDepot, 65535, 65535, 4u, 65535, 65535},
+    {"Information Booth", EReliveLevelIds::eFeeCoDepot, 65535, 65535, 3u, 65535, 65535},
+    {"Train 1", EReliveLevelIds::eBarracks, 65535, 65535, 5u, 65535, 65535},
+    {"Train 2", EReliveLevelIds::eBrewery, 65535, 65535, 15u, 65535, 65535},
+    {"Train 3", EReliveLevelIds::eBonewerkz, 65535, 65535, 6u, 65535, 65535},
+    {"Aslik Info", EReliveLevelIds::eFeeCoDepot, 65535, 65535, 2u, 65535, 65535},
+    {"Aslik Explodes", EReliveLevelIds::eFeeCoDepot, 65535, 65535, 1u, 65535, 65535},
+    {"Dripek Info", EReliveLevelIds::eBarracks, 65535, 65535, 4u, 65535, 65535},
+    {"Dripek Explodes", EReliveLevelIds::eBarracks, 65535, 65535, 3u, 65535, 65535},
+    {"Phleg Info", EReliveLevelIds::eBonewerkz, 65535, 65535, 4u, 65535, 65535},
+    {"Phleg Explodes", EReliveLevelIds::eBonewerkz, 65535, 65535, 5u, 65535, 65535},
+    {"Soulstorm Info", EReliveLevelIds::eBrewery, 65535, 65535, 14u, 65535, 65535},
+    {"Ingredient", EReliveLevelIds::eBrewery, 65535, 65535, 16u, 65535, 65535},
+    {"Conference", EReliveLevelIds::eBrewery, 65535, 65535, 13u, 65535, 65535},
+    {"Happy Ending", EReliveLevelIds::eBrewery, 65535, 65535, 17u, 65535, 65535},
+    {"Sad Ending", EReliveLevelIds::eBrewery, 65535, 65535, 18u, 65535, 65535},
+    {"Credits", EReliveLevelIds::eCredits, 65535, 65535, 65535u, 65535, 65535}};
 
 
 const static PerLvlData gDemoData_off_5617F0[23] = {
-    {"Mudokons 1", LevelIds::eMines_1, 8, 5, 0u, 0, 0},                   // MI P8
-    {"Mudokons 2", LevelIds::eMines_1, 8, 32, 1u, 0, 0},                  // MI P8
-    {"Mudokons 3", LevelIds::eMines_1, 8, 21, 2u, 0, 0},                  // MI P8
-    {"Flying Slig", LevelIds::eMines_1, 9, 18, 4u, 0, 0},                 // MI P9
-    {"Blind Mudokons 1", LevelIds::eMines_1, 11, 27, 5u, 0, 0},           // MI P11
-    {"Blind Mudokons 2", LevelIds::eMines_1, 11, 22, 3u, 0, 0},           // MI P11
-    {"Minecar", LevelIds::eMines_1, 12, 2, 6u, 0, 0},                     // MI P12
-    {"Fleeches", LevelIds::eNecrum_2, 7, 1, 7u, 0, 0},                    // NE P7
-    {"Paramite Chase", LevelIds::eMudomoVault_3, 2, 13, 8u, 0, 0},        // PV P2
-    {"Paramites Talk", LevelIds::eMudomoVault_3, 6, 8, 27u, 0, 0},        // PV P6
-    {"Scrab and Fleeches", LevelIds::eMudancheeVault_4, 12, 2, 9u, 0, 0}, // SV P12
-    {"Invisibility", LevelIds::eMudancheeVault_4, 13, 5, 10u, 0, 0},      // SV P13
-    {"Farts-a-poppin'", LevelIds::eFeeCoDepot_5, 6, 3, 12u, 0, 0},        // FD P6
-    {"Flying Sligs 2", LevelIds::eFeeCoDepot_5, 12, 1, 14u, 0, 0},        // FD P12
-    {"Baggage Claim", LevelIds::eFeeCoDepot_Ender_12, 13, 1, 15u, 0, 0},  // FD ENDER P13
-    {"Shrykull", LevelIds::eBarracks_6, 3, 10, 16u, 0, 0},                // BA P3
-    {"Crawling Sligs", LevelIds::eBarracks_6, 4, 6, 17u, 0, 0},           // BA P4
-    {"Slogs Attack", LevelIds::eBonewerkz_8, 11, 7, 18u, 0, 0},           // BW P11
-    {"Glukkon", LevelIds::eBonewerkz_Ender_14, 13, 9, 19u, 0, 0},         // BW ENDER P13
-    {"Angry Mudokons", LevelIds::eBrewery_9, 13, 10, 22u, 0, 0},          // BR P13
-    {"Sligs", LevelIds::eBrewery_9, 26, 4, 23u, 0, 0},                    // BR P26
-    {"Tortured Mudokons", LevelIds::eBrewery_9, 27, 7, 24u, 0, 0},        // BR P27
-    {"Greeters Go Boom", LevelIds::eBrewery_9, 28, 4, 25u, 0, 0}          // BR P28
+    {"Mudokons 1", EReliveLevelIds::eMines, 8, 5, 0u, 0, 0},                   // MI P8
+    {"Mudokons 2", EReliveLevelIds::eMines, 8, 32, 1u, 0, 0},                  // MI P8
+    {"Mudokons 3", EReliveLevelIds::eMines, 8, 21, 2u, 0, 0},                  // MI P8
+    {"Flying Slig", EReliveLevelIds::eMines, 9, 18, 4u, 0, 0},                 // MI P9
+    {"Blind Mudokons 1", EReliveLevelIds::eMines, 11, 27, 5u, 0, 0},           // MI P11
+    {"Blind Mudokons 2", EReliveLevelIds::eMines, 11, 22, 3u, 0, 0},           // MI P11
+    {"Minecar", EReliveLevelIds::eMines, 12, 2, 6u, 0, 0},                     // MI P12
+    {"Fleeches", EReliveLevelIds::eNecrum, 7, 1, 7u, 0, 0},                    // NE P7
+    {"Paramite Chase", EReliveLevelIds::eMudomoVault, 2, 13, 8u, 0, 0},        // PV P2
+    {"Paramites Talk", EReliveLevelIds::eMudomoVault, 6, 8, 27u, 0, 0},        // PV P6
+    {"Scrab and Fleeches", EReliveLevelIds::eMudancheeVault, 12, 2, 9u, 0, 0}, // SV P12
+    {"Invisibility", EReliveLevelIds::eMudancheeVault, 13, 5, 10u, 0, 0},      // SV P13
+    {"Farts-a-poppin'", EReliveLevelIds::eFeeCoDepot, 6, 3, 12u, 0, 0},        // FD P6
+    {"Flying Sligs 2", EReliveLevelIds::eFeeCoDepot, 12, 1, 14u, 0, 0},        // FD P12
+    {"Baggage Claim", EReliveLevelIds::eFeeCoDepot_Ender, 13, 1, 15u, 0, 0},  // FD ENDER P13
+    {"Shrykull", EReliveLevelIds::eBarracks, 3, 10, 16u, 0, 0},                // BA P3
+    {"Crawling Sligs", EReliveLevelIds::eBarracks, 4, 6, 17u, 0, 0},           // BA P4
+    {"Slogs Attack", EReliveLevelIds::eBonewerkz, 11, 7, 18u, 0, 0},           // BW P11
+    {"Glukkon", EReliveLevelIds::eBonewerkz_Ender, 13, 9, 19u, 0, 0},         // BW ENDER P13
+    {"Angry Mudokons", EReliveLevelIds::eBrewery, 13, 10, 22u, 0, 0},          // BR P13
+    {"Sligs", EReliveLevelIds::eBrewery, 26, 4, 23u, 0, 0},                    // BR P26
+    {"Tortured Mudokons", EReliveLevelIds::eBrewery, 27, 7, 24u, 0, 0},        // BR P27
+    {"Greeters Go Boom", EReliveLevelIds::eBrewery, 28, 4, 25u, 0, 0}          // BR P28
 };
 
 static PathRootContainer sPathData_559660 = pathData;
 
-const PathBlyRec* Path_Get_Bly_Record(LevelIds lvlId, u16 pathId)
+const PathBlyRec* Path_Get_Bly_Record(EReliveLevelIds lvlId, u16 pathId)
 {
     const PathBlyRec* rec = &sPathData_559660.paths[static_cast<s32>(lvlId)].field_0_pBlyArrayPtr[pathId];
     if (!rec)
@@ -2214,61 +2214,61 @@ const PathBlyRec* Path_Get_Bly_Record(LevelIds lvlId, u16 pathId)
     return rec;
 }
 
-FmvInfo* Path_Get_FMV_Record(LevelIds lvlId, u16 fmvId)
+FmvInfo* Path_Get_FMV_Record(EReliveLevelIds lvlId, u16 fmvId)
 {
-    return &sPathData_559660.paths[static_cast<s32>(lvlId)].field_4_pFmvArray[fmvId];
+    return &sPathData_559660.paths[static_cast<s32>(MapWrapper::ToAE(lvlId))].field_4_pFmvArray[fmvId];
 }
 
-void Path_Format_CameraName(char_type* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId)
+void Path_Format_CameraName(char_type* pStrBuffer, EReliveLevelIds levelId, s16 pathId, s16 cameraId)
 {
     sprintf(pStrBuffer, "%sP%02dC%02d.CAM", Path_Get_Lvl_Name(levelId), pathId, cameraId);
 }
 
 
-const char_type* CdLvlName(LevelIds lvlId)
+const char_type* CdLvlName(EReliveLevelIds lvlId)
 {
-    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_20_lvl_name_cd;
+    return sPathData_559660.paths[static_cast<s32>(MapWrapper::ToAE(lvlId))].field_20_lvl_name_cd;
 }
 
-const char_type* Path_Get_Lvl_Name(LevelIds lvlId)
+const char_type* Path_Get_Lvl_Name(EReliveLevelIds lvlId)
 {
-    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_14_lvl_name;
+    return sPathData_559660.paths[static_cast<s32>(MapWrapper::ToAE(lvlId))].field_14_lvl_name;
 }
 
-s16 Path_Get_Num_Paths(LevelIds /*lvlId*/)
+s16 Path_Get_Num_Paths(EReliveLevelIds /*lvlId*/)
 {
     return kMaxPaths;
     //return sPathData_559660.paths[static_cast<s32>(lvlId)].field_18_num_paths;
 }
 
-s16 Path_Get_Unknown(LevelIds lvlId)
+s16 Path_Get_Unknown(EReliveLevelIds lvlId)
 {
-    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_1A_unused;
+    return sPathData_559660.paths[static_cast<s32>(MapWrapper::ToAE(lvlId))].field_1A_unused;
 }
 
-const char_type* Path_Get_BndName(LevelIds lvlId)
+const char_type* Path_Get_BndName(EReliveLevelIds lvlId)
 {
-    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_38_bnd_name;
+    return sPathData_559660.paths[static_cast<s32>(MapWrapper::ToAE(lvlId))].field_38_bnd_name;
 }
 
-SoundBlockInfo* Path_Get_MusicInfo(LevelIds lvlId)
+SoundBlockInfo* Path_Get_MusicInfo(EReliveLevelIds lvlId)
 {
-    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_8_pMusicInfo;
+    return sPathData_559660.paths[static_cast<s32>(MapWrapper::ToAE(lvlId))].field_8_pMusicInfo;
 }
 
-s16 Path_Get_Reverb(LevelIds lvlId)
+s16 Path_Get_Reverb(EReliveLevelIds lvlId)
 {
-    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_10_reverb;
+    return sPathData_559660.paths[static_cast<s32>(MapWrapper::ToAE(lvlId))].field_10_reverb;
 }
 
-const char_type* Path_Get_BsqFileName(LevelIds lvlId)
+const char_type* Path_Get_BsqFileName(EReliveLevelIds lvlId)
 {
-    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_C_bsq_file_name;
+    return sPathData_559660.paths[static_cast<s32>(MapWrapper::ToAE(lvlId))].field_C_bsq_file_name;
 }
 
-s16 Path_Get_BackGroundMusicId(LevelIds lvlId)
+s16 Path_Get_BackGroundMusicId(EReliveLevelIds lvlId)
 {
-    return sPathData_559660.paths[static_cast<s32>(lvlId)].field_12_bg_music_id;
+    return sPathData_559660.paths[static_cast<s32>(MapWrapper::ToAE(lvlId))].field_12_bg_music_id;
 }
 
 s32 Path_Get_Paths_Count()
@@ -2362,12 +2362,12 @@ static ArrayOf99 sMudsInLevelCount_55CFAC[15] =
     ArrayOf99(31)
 };
 
-void Path_SetMudsInLevel(LevelIds lvlId, u32 pathId, u32 count)
+void Path_SetMudsInLevel(EReliveLevelIds lvlId, u32 pathId, u32 count)
 {
-    sMudsInLevelCount_55CFAC[static_cast<u32>(lvlId)].mArray[pathId] = static_cast<s16>(count);
+    sMudsInLevelCount_55CFAC[static_cast<u32>(MapWrapper::ToAE(lvlId))].mArray[pathId] = static_cast<s16>(count);
 }
 
-s16 Path_GetMudsInLevel(LevelIds lvlId, u32 pathId)
+s16 Path_GetMudsInLevel(EReliveLevelIds lvlId, u32 pathId)
 {
-    return sMudsInLevelCount_55CFAC[static_cast<u32>(lvlId)].mArray[pathId];
+    return sMudsInLevelCount_55CFAC[static_cast<u32>(MapWrapper::ToAE(lvlId))].mArray[pathId];
 }

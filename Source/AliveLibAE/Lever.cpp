@@ -11,21 +11,21 @@
 #include "Grid.hpp"
 
 const TintEntry kLeverTints_563228[18] = {
-    {LevelIds::eMines_1, 127u, 127u, 127u},
-    {LevelIds::eNecrum_2, 127u, 127u, 127u},
-    {LevelIds::eMudomoVault_3, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_4, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_5, 127u, 127u, 127u},
-    {LevelIds::eBarracks_6, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_Ender_7, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_8, 127u, 127u, 127u},
-    {LevelIds::eBrewery_9, 127u, 127u, 127u},
-    {LevelIds::eBrewery_Ender_10, 127u, 127u, 127u},
-    {LevelIds::eMudomoVault_Ender_11, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
-    {LevelIds::eBarracks_Ender_13, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_Ender_14, 127u, 127u, 127u},
-    {LevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -121,15 +121,15 @@ void Lever::VUpdate()
 
         if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            if (gMap.mCurrentLevel == LevelIds::eMines_1
-                || gMap.mCurrentLevel == LevelIds::eBonewerkz_8
-                || gMap.mCurrentLevel == LevelIds::eBonewerkz_Ender_14
-                || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5
-                || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_Ender_12
-                || gMap.mCurrentLevel == LevelIds::eBarracks_6
-                || gMap.mCurrentLevel == LevelIds::eBarracks_Ender_13
-                || gMap.mCurrentLevel == LevelIds::eBrewery_9
-                || gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eMines
+                || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz
+                || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender
+                || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot
+                || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender
+                || gMap.mCurrentLevel == EReliveLevelIds::eBarracks
+                || gMap.mCurrentLevel == EReliveLevelIds::eBarracks_Ender
+                || gMap.mCurrentLevel == EReliveLevelIds::eBrewery
+                || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
                 SFX_Play_Pitch(SoundEffect::IndustrialTrigger_80, 30, 400);
             }

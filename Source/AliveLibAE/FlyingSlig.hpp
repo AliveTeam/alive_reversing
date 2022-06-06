@@ -331,7 +331,7 @@ public:
     FP field_294_nextXPos;
     FP field_298_nextYPos;
     TFlyingSligBrainFn field_29C_brain_state;
-    LevelIds field_2A0_abe_level;
+    EReliveLevelIds field_2A0_abe_level;
     s16 field_2A2_abe_path;
     s16 field_2A4_abe_camera;
     s16 field_2A6_padding;

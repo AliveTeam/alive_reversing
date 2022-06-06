@@ -2,11 +2,12 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 enum class LevelIds : s16;
 
 void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray);
-void LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber);
+void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber);
 
 class ThrowableArray final : public BaseGameObject
 {

@@ -74,7 +74,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->field_C8_vely = pState->field_14_vely;
 
     pBone->field_C0_path_number = pState->field_1C_path_number;
-    pBone->field_C2_lvl_number = pState->field_1E_lvl_number;
+    pBone->field_C2_lvl_number = MapWrapper::FromAE(pState->field_1E_lvl_number);
     pBone->field_CC_sprite_scale = pState->field_18_sprite_scale;
 
     pBone->field_D6_scale = pState->field_18_sprite_scale > FP_FromDouble(0.75);
@@ -241,7 +241,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     pState->field_14_vely = field_C8_vely;
 
     pState->field_1C_path_number = field_C0_path_number;
-    pState->field_1E_lvl_number = field_C2_lvl_number;
+    pState->field_1E_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
 
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
@@ -549,21 +549,21 @@ s16 Bone::VGetCount()
 }
 
 const TintEntry kBoneTints_550EC0[18] = {
-    {LevelIds::eMines_1, 127u, 127u, 127u},
-    {LevelIds::eNecrum_2, 137u, 137u, 137u},
-    {LevelIds::eMudomoVault_3, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_4, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_5, 127u, 127u, 127u},
-    {LevelIds::eBarracks_6, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_Ender_7, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_8, 127u, 127u, 127u},
-    {LevelIds::eBrewery_9, 127u, 127u, 127u},
-    {LevelIds::eBrewery_Ender_10, 127u, 127u, 127u},
-    {LevelIds::eMudomoVault_Ender_11, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
-    {LevelIds::eBarracks_Ender_13, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_Ender_14, 127u, 127u, 127u},
-    {LevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
 BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)

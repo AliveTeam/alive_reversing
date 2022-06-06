@@ -194,7 +194,7 @@ private:
 
     s16 field_1B8_bChanting;
 
-    LevelIds field_1BA_prev_level;
+    EReliveLevelIds field_1BA_prev_level;
     s16 field_1BC_prev_path;
     s16 field_1BE_prev_camera;
 

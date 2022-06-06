@@ -17,7 +17,7 @@ void Path::ctor_4DB170()
     field_6_cams_on_x = 0;
     field_4_cameraId = 0;
     field_2_pathId = 0;
-    field_0_levelId = LevelIds::eMenu_0;
+    field_0_levelId = EReliveLevelIds::eMenu;
 }
 
 void Path::dtor_4DB1A0()
@@ -34,10 +34,10 @@ void Path::Free()
     field_6_cams_on_x = 0;
     field_4_cameraId = 0;
     field_2_pathId = 0;
-    field_0_levelId = LevelIds::eMenu_0;
+    field_0_levelId = EReliveLevelIds::eMenu;
 }
 
-void Path::Init(const PathData* pPathData, LevelIds level, s16 path, s16 cameraId, u8** ppPathRes)
+void Path::Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 cameraId, u8** ppPathRes)
 {
     ResourceManager::FreeResource_49C330(field_10_ppRes);
     field_10_ppRes = ppPathRes;
@@ -81,7 +81,7 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToL
 
                 TlvItemInfoUnion data;
                 data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
-                data.parts.levelId = static_cast<u8>(field_0_levelId);
+                data.parts.levelId = static_cast<u8>(MapWrapper::ToAE(field_0_levelId));
                 data.parts.pathId = static_cast<u8>(field_2_pathId);
 
                 // Call the factory to construct the item
@@ -341,9 +341,9 @@ void Path::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, 
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
-    if (data.parts.levelId == static_cast<s32>(gMap.mCurrentLevel))
+    if (data.parts.levelId == static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel)))
     {
-        const PathBlyRec* pBlyRec = Path_Get_Bly_Record(static_cast<LevelIds>(data.parts.levelId), data.parts.pathId);
+        const PathBlyRec* pBlyRec = Path_Get_Bly_Record(MapWrapper::FromAE(static_cast<LevelIds>(data.parts.levelId)), data.parts.pathId);
         u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
         if (ppPathRes)
         {

@@ -370,21 +370,21 @@ const AnimId sAbeFrameTables[130] = {
     AnimId::Mudokon_PoisonGasDeath};
 
 const TintEntry sTintTable_Abe_554D20[15] = {
-    {LevelIds::eMines_1, 102u, 102u, 102u},
-    {LevelIds::eNecrum_2, 102u, 102u, 80u},
-    {LevelIds::eMudomoVault_3, 120u, 90u, 120u},
-    {LevelIds::eMudancheeVault_4, 102u, 70u, 90u},
-    {LevelIds::eFeeCoDepot_5, 120u, 102u, 82u},
-    {LevelIds::eBarracks_6, 102u, 102u, 102u},
-    {LevelIds::eMudancheeVault_Ender_7, 102u, 70u, 90u},
-    {LevelIds::eBonewerkz_8, 102u, 102u, 102u},
-    {LevelIds::eBrewery_9, 102u, 102u, 102u},
-    {LevelIds::eBrewery_Ender_10, 102u, 102u, 102u},
-    {LevelIds::eMudomoVault_Ender_11, 120u, 90u, 120u},
-    {LevelIds::eFeeCoDepot_Ender_12, 120u, 102u, 82u},
-    {LevelIds::eBarracks_Ender_13, 102u, 102u, 102u},
-    {LevelIds::eBonewerkz_Ender_14, 120u, 90u, 80u},
-    {LevelIds::eNone, 102u, 102u, 102u}};
+    {EReliveLevelIds::eMines, 102u, 102u, 102u},
+    {EReliveLevelIds::eNecrum, 102u, 102u, 80u},
+    {EReliveLevelIds::eMudomoVault, 120u, 90u, 120u},
+    {EReliveLevelIds::eMudancheeVault, 102u, 70u, 90u},
+    {EReliveLevelIds::eFeeCoDepot, 120u, 102u, 82u},
+    {EReliveLevelIds::eBarracks, 102u, 102u, 102u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 102u, 70u, 90u},
+    {EReliveLevelIds::eBonewerkz, 102u, 102u, 102u},
+    {EReliveLevelIds::eBrewery, 102u, 102u, 102u},
+    {EReliveLevelIds::eBrewery_Ender, 102u, 102u, 102u},
+    {EReliveLevelIds::eMudomoVault_Ender, 120u, 90u, 120u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 120u, 102u, 82u},
+    {EReliveLevelIds::eBarracks_Ender, 102u, 102u, 102u},
+    {EReliveLevelIds::eBonewerkz_Ender, 120u, 90u, 80u},
+    {EReliveLevelIds::eNone, 102u, 102u, 102u}};
 
 const SfxDefinition sSFXList_555160[] = {
     {0u, 3u, 69u, 60u, -1, 1},
@@ -525,11 +525,11 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             break;
 
         case EnvironmentSfx::eKnockback_13:
-            if (gMap.mCurrentLevel == LevelIds::eMines_1
-                || gMap.mCurrentLevel == LevelIds::eBonewerkz_8
-                || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5
-                || gMap.mCurrentLevel == LevelIds::eBarracks_6
-                || gMap.mCurrentLevel == LevelIds::eBrewery_9)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eMines
+                || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz
+                || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot
+                || gMap.mCurrentLevel == EReliveLevelIds::eBarracks
+                || gMap.mCurrentLevel == EReliveLevelIds::eBrewery)
             {
                 sndIndex = 2;
             }
@@ -1047,7 +1047,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->field_128.field_8_x_vel_slow_by = pSaveState->field_48_x_vel_slow_by;
     sActiveHero->field_128.field_C_unused = pSaveState->field_4C_unused;
     sActiveHero->field_C0_path_number = pSaveState->field_14_path_number;
-    sActiveHero->field_C2_lvl_number = pSaveState->field_16_lvl_number;
+    sActiveHero->field_C2_lvl_number = MapWrapper::FromAE(pSaveState->field_16_lvl_number);
     sActiveHero->field_CC_sprite_scale = pSaveState->field_18_sprite_scale;
     sActiveHero->field_D6_scale = pSaveState->field_1C_scale;
 
@@ -1161,7 +1161,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->field_194_unused = pSaveState->field_BC_unused;
     sActiveHero->field_196_unused = pSaveState->field_BE_unused;
     sActiveHero->field_198_has_evil_fart = pSaveState->bHaveEvilFart;
-    sActiveHero->field_19A_to_level = pSaveState->to_level;
+    sActiveHero->field_19A_to_level = MapWrapper::FromAE(pSaveState->to_level);
     sActiveHero->field_19C_to_path = pSaveState->to_path;
     sActiveHero->field_19E_to_camera = pSaveState->to_camera;
     sActiveHero->field_1A0_door_id = pSaveState->door_id;
@@ -1614,7 +1614,7 @@ void Abe::VUpdate()
         {
             if (field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender))
             {
-                if (gMap.mCurrentLevel == LevelIds::eNecrum_2)
+                if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum)
                 {
                     field_168_ring_pulse_timer = sGnFrame + 200000;
                     field_16C_bHaveShrykull = 0;
@@ -1780,7 +1780,7 @@ void Abe::VScreenChanged()
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
         // Hack to make Abe say hello in the first screen of the mines
-        if (gMap.mLevel == LevelIds::eMines_1 && !gAttract_5C1BA0)
+        if (gMap.mLevel == EReliveLevelIds::eMines && !gAttract_5C1BA0)
         {
             field_128.field_18_say = MudSounds::eHelloNeutral_3;
             field_144_auto_say_timer = sGnFrame + 35;
@@ -1789,7 +1789,7 @@ void Abe::VScreenChanged()
         // Set the correct tint for this map
         SetTint(sTintTable_Abe_554D20, gMap.mLevel);
 
-        if (gMap.mCurrentLevel != LevelIds::eNone)
+        if (gMap.mCurrentLevel != EReliveLevelIds::eNone)
         {
             if (field_1A2_throwable_count > 0)
             {
@@ -1809,20 +1809,20 @@ void Abe::VScreenChanged()
             field_168_ring_pulse_timer = 0;
         }
 
-        if (gMap.mLevel == LevelIds::eNecrum_2)
+        if (gMap.mLevel == EReliveLevelIds::eNecrum)
         {
-            if (gMap.mCurrentLevel == LevelIds::eMudancheeVault_Ender_7)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eMudancheeVault_Ender)
             {
                 field_1AC_flags.Set(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender);
             }
 
-            if (gMap.mCurrentLevel == LevelIds::eMudomoVault_Ender_11)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eMudomoVault_Ender)
             {
                 field_1AE_flags.Set(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender);
             }
         }
 
-        if (gMap.mLevel == LevelIds::eCredits_16 || gMap.mLevel == LevelIds::eMenu_0)
+        if (gMap.mLevel == EReliveLevelIds::eCredits || gMap.mLevel == EReliveLevelIds::eMenu)
         {
             // Remove Abe for menu/credits levels?
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -1833,7 +1833,7 @@ void Abe::VScreenChanged()
     if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
     {
         field_168_ring_pulse_timer = 0;
-        if (gMap.mCurrentLevel != LevelIds::eNone)
+        if (gMap.mCurrentLevel != EReliveLevelIds::eNone)
         {
             field_198_has_evil_fart = 0;
         }
@@ -1860,7 +1860,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_48_x_vel_slow_by = field_128.field_8_x_vel_slow_by;
     pSaveState->field_4C_unused = field_128.field_C_unused;
     pSaveState->field_14_path_number = field_C0_path_number;
-    pSaveState->field_16_lvl_number = field_C2_lvl_number;
+    pSaveState->field_16_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pSaveState->field_18_sprite_scale = field_CC_sprite_scale;
     pSaveState->field_1C_scale = field_D6_scale;
     pSaveState->field_1e_r = field_D0_r;
@@ -2065,7 +2065,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_BC_unused = field_194_unused;
     pSaveState->field_BE_unused = field_196_unused;
     pSaveState->bHaveEvilFart = field_198_has_evil_fart;
-    pSaveState->to_level = field_19A_to_level;
+    pSaveState->to_level = MapWrapper::ToAE(field_19A_to_level);
     pSaveState->to_path = field_19C_to_path;
     pSaveState->to_camera = field_19E_to_camera;
     pSaveState->door_id = field_1A0_door_id;
@@ -2515,7 +2515,7 @@ void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
         }
         else if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
-            if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eMineCar || gMap.mCurrentLevel != LevelIds::eMines_1)
+            if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eMineCar || gMap.mCurrentLevel != EReliveLevelIds::eMines)
             {
                 Mudokon_SFX(MudSounds::eDeathDropScream_15, 0, 0, this);
                 Event_Broadcast(kEventNoise, this);
@@ -6101,11 +6101,11 @@ void Abe::Motion_71_Knockback_455090()
 
             MoveWithVelocity_450FA0(FP_FromDouble(0.67));
 
-            if ((gMap.mCurrentLevel == LevelIds::eMines_1
-                 || gMap.mCurrentLevel == LevelIds::eBonewerkz_8
-                 || gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5
-                 || gMap.mCurrentLevel == LevelIds::eBarracks_6
-                 || gMap.mCurrentLevel == LevelIds::eBrewery_9)
+            if ((gMap.mCurrentLevel == EReliveLevelIds::eMines
+                 || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz
+                 || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot
+                 || gMap.mCurrentLevel == EReliveLevelIds::eBarracks
+                 || gMap.mCurrentLevel == EReliveLevelIds::eBrewery)
                 && field_20_animation.field_92_current_frame == 7)
             {
                 Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
@@ -6461,14 +6461,14 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
     Path_WellExpress* pExpressWell = static_cast<Path_WellExpress*>(BaseAliveGameObjectPathTLV);
     if (SwitchStates_Get(pExpressWell->field_2_switch_id))
     {
-        field_19A_to_level = pExpressWell->field_24_enabled_well_level;
+        field_19A_to_level = MapWrapper::FromAE(pExpressWell->field_24_enabled_well_level);
         field_19C_to_path = pExpressWell->field_26_enabled_well_path;
         field_19E_to_camera = pExpressWell->field_28_enabled_well_camera;
         field_1A0_door_id = pExpressWell->field_2A_enabled_well_id;
     }
     else
     {
-        field_19A_to_level = pExpressWell->field_1C_disabled_well_level;
+        field_19A_to_level = MapWrapper::FromAE(pExpressWell->field_1C_disabled_well_level);
         field_19C_to_path = pExpressWell->field_1E_disabled_well_path;
         field_19E_to_camera = pExpressWell->field_20_disabled_well_camera;
         field_1A0_door_id = pExpressWell->field_22_disabled_well_id;
@@ -6491,7 +6491,7 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
         }
 
         // FeeCo hack!
-        if (field_19A_to_level == LevelIds::eFeeCoDepot_5 && field_19C_to_path == 1 && field_19E_to_camera == 1)
+        if (field_19A_to_level == EReliveLevelIds::eFeeCoDepot && field_19C_to_path == 1 && field_19E_to_camera == 1)
         {
             field_C8_vely = FP_FromInteger(0);
             field_C4_velx = FP_FromInteger(0);
@@ -7699,14 +7699,14 @@ void Abe::Motion_114_DoorEnter_459470()
 
             // An OWI hack. When both Mudomo and Mundanchee are done, force back to Necrum Mines.
             bool hackChange = false;
-            if (gMap.mCurrentLevel == LevelIds::eMudomoVault_Ender_11)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eMudomoVault_Ender)
             {
                 if (gMap.mCurrentPath == 13 && gMap.mCurrentCamera == 14 && field_1AC_flags.Get(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender))
                 {
                     hackChange = true;
                 }
             }
-            else if (gMap.mCurrentLevel == LevelIds::eMudancheeVault_Ender_7)
+            else if (gMap.mCurrentLevel == EReliveLevelIds::eMudancheeVault_Ender)
             {
                 if (gMap.mCurrentPath == 11 && gMap.mCurrentCamera == 2 && field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender))
                 {
@@ -7718,7 +7718,7 @@ void Abe::Motion_114_DoorEnter_459470()
             {
                 // Plays FMV where the weirdos give Abe the drunk mud healing power and then dumps Abe at the portal that leads
                 // back to Necrum mines.
-                gMap.SetActiveCam(LevelIds::eNecrum_2, 3, 10, CameraSwapEffects::ePlay1FMV_5, 22, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eNecrum, 3, 10, CameraSwapEffects::ePlay1FMV_5, 22, 0);
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
                 mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(2287);
@@ -7741,7 +7741,7 @@ void Abe::Motion_114_DoorEnter_459470()
             }
 
             gMap.SetActiveCam(
-                pDoorTlv->field_10_level,
+                MapWrapper::FromAE(pDoorTlv->field_10_level),
                 pDoorTlv->field_12_path,
                 pDoorTlv->field_14_camera,
                 effect,
@@ -9416,7 +9416,7 @@ void Abe::IntoPortalStates_451990()
             case PortalSubStates::eSetNewActiveCamera_1:
                 if (pBirdPortal->VAbeInsidePortal())
                 {
-                    LevelIds level = {};
+                    EReliveLevelIds level = {};
                     u16 path = 0;
                     u16 camera = 0;
                     CameraSwapEffects screenChangeEffect = {};
@@ -9740,7 +9740,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
         }
         case MudSounds::eGiggle_8:
         {
-            if (pHero == sActiveHero && gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10)
+            if (pHero == sActiveHero && gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
                 idx = MudSounds::eLaugh_10;
             }

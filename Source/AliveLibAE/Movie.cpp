@@ -694,7 +694,7 @@ void Movie::VUpdate()
                     break;
                 }
 
-                if (!Display_Full_Screen_Message_Blocking(Path_Get_Unknown(static_cast<LevelIds>(sLevelId_dword_5CA408)), MessageType::eSkipMovie_1))
+                if (!Display_Full_Screen_Message_Blocking(Path_Get_Unknown(MapWrapper::FromAE(static_cast<LevelIds>(sLevelId_dword_5CA408))), MessageType::eSkipMovie_1))
                 {
                     break;
                 }

@@ -22,21 +22,21 @@
 #include "Grid.hpp"
 
 static const TintEntry sScrabTints_560260[15] = {
-    {LevelIds::eMines_1, 127u, 127u, 127u},
-    {LevelIds::eNecrum_2, 137u, 137u, 137u},
-    {LevelIds::eMudomoVault_3, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_4, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_5, 127u, 127u, 127u},
-    {LevelIds::eBarracks_6, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_Ender_7, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_8, 127u, 127u, 127u},
-    {LevelIds::eBrewery_9, 127u, 127u, 127u},
-    {LevelIds::eBrewery_Ender_10, 127u, 127u, 127u},
-    {LevelIds::eMudomoVault_Ender_11, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
-    {LevelIds::eBarracks_Ender_13, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_Ender_14, 127u, 127u, 127u},
-    {LevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 // TODO: repetition with `MainMenu.cpp`
 static const SfxDefinition scrab_sScrabSfx_560330[9] = {
@@ -336,7 +336,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
 
         pScrab->field_134_falling_velx_scale_factor = pState->field_64_falling_velx_scale_factor;
         pScrab->field_C0_path_number = pState->field_18_path_number;
-        pScrab->field_C2_lvl_number = pState->field_1A_lvl_number;
+        pScrab->field_C2_lvl_number = MapWrapper::FromAE(pState->field_1A_lvl_number);
         pScrab->field_CC_sprite_scale = pState->field_1C_sprite_scale;
         pScrab->field_D0_r = pState->mRingRed;
         pScrab->field_D2_g = pState->mRingGreen;
@@ -383,7 +383,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->field_160_sfx_bitmask = pState->field_78_sfx_bitmask;
         pScrab->field_164_prevent_depossession = pState->field_7C_prevent_depossession;
 
-        pScrab->field_166_level = pState->field_7E_level;
+        pScrab->field_166_level = MapWrapper::FromAE(pState->field_7E_level);
         pScrab->field_168_path = pState->field_80_path;
         pScrab->field_16A_camera = pState->field_82_camera;
         pScrab->field_16C_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_84_input);
@@ -427,7 +427,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_64_falling_velx_scale_factor = field_134_falling_velx_scale_factor;
 
     pState->field_18_path_number = field_C0_path_number;
-    pState->field_1A_lvl_number = field_C2_lvl_number;
+    pState->field_1A_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pState->field_1C_sprite_scale = field_CC_sprite_scale;
 
     pState->mRingRed = field_D0_r;
@@ -496,7 +496,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_74_movement_timer = field_154_movement_timer;
     pState->field_78_sfx_bitmask = field_160_sfx_bitmask;
     pState->field_7C_prevent_depossession = field_164_prevent_depossession;
-    pState->field_7E_level = field_166_level;
+    pState->field_7E_level = MapWrapper::ToAE(field_166_level);
     pState->field_80_path = field_168_path;
     pState->field_82_camera = field_16A_camera;
     pState->field_84_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_16C_input);
@@ -540,7 +540,7 @@ Scrab::~Scrab()
     if (sControlledCharacter_5C1B8C == this)
     {
         sControlledCharacter_5C1B8C = sActiveHero;
-        if (gMap.mLevel != LevelIds::eMenu_0)
+        if (gMap.mLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
                 field_166_level,

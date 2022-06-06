@@ -13,7 +13,7 @@ LevelLoader::LevelLoader(Path_LevelLoader* pTlv, u32 tlvInfo)
 {
     mBaseGameObjectTlvInfo = tlvInfo;
     field_20_switch_id = pTlv->field_10_switch_id;
-    field_24_level = pTlv->field_12_dest_level;
+    field_24_level = MapWrapper::FromAE(pTlv->field_12_dest_level);
     field_26_path = pTlv->field_14_dest_path;
     field_28_camera = pTlv->field_16_dest_camera;
     field_2A_movie_id = pTlv->field_18_movie_id;

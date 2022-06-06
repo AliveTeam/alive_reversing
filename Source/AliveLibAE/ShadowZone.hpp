@@ -3,6 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 enum class ShadowZoneScale : s16
 {
@@ -44,7 +45,7 @@ private:
 private:
     s32 field_20_tlvInfo;
 
-    LevelIds field_24_level;
+    EReliveLevelIds field_24_level;
     s16 field_26_path;
 
     s16 field_28_centre_x;

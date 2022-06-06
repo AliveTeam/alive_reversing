@@ -69,7 +69,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     }
 
     field_FA_door_number = pTlvData->field_18_door_number;
-    if (gMap.mCurrentLevel == LevelIds::eFeeCoDepot_5)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot)
     {
         switch (field_FA_door_number)
         {
@@ -286,9 +286,9 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
 
     // Another OWI special
     FP yAdjustHack = {};
-    if ((gMap.mCurrentLevel != LevelIds::eBarracks_6 && gMap.mCurrentLevel != LevelIds::eBarracks_Ender_13) || gMap.mOverlayId == 108)
+    if ((gMap.mCurrentLevel != EReliveLevelIds::eBarracks && gMap.mCurrentLevel != EReliveLevelIds::eBarracks_Ender) || gMap.mOverlayId == 108)
     {
-        if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8 || gMap.mCurrentLevel == LevelIds::eBonewerkz_Ender_14)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender)
         {
             yAdjustHack = FP_FromInteger(10) * field_CC_sprite_scale;
         }

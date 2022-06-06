@@ -5,7 +5,7 @@
 #include "Primitives.hpp"
 #include "Layer.hpp"
 
-enum class LevelIds : s16;
+enum class EReliveLevelIds : s16;
 
 class EffectBase : public BaseGameObject
 {
@@ -18,7 +18,7 @@ public:
 
 protected:
     s16 mEffectBasePathId;
-    LevelIds mEffectBaseLevelId;
+    EReliveLevelIds mEffectBaseLevelId;
     Prim_Tile mEffectBaseTile[2];
     Prim_SetTPage mEffectBaseTPage[2];
     Layer mEffectBaseLayer;

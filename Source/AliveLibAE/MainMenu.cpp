@@ -354,79 +354,79 @@ inline std::int16_t operator"" _s(unsigned long long value)
 }
 
 MenuFMV sFmvs_561540[28] = {
-    {"GT Logo", LevelIds::eMenu_0, 65535_s, 65535_s, 3_s, 65535_s, 65535_s},
-    {"Oddworld Intro", LevelIds::eMenu_0, 65535_s, 65535_s, 1, 65535_s, 65535_s},
-    {"Abe's Exoddus", LevelIds::eMenu_0, 65535_s, 65535_s, 5, 65535_s, 65535_s},
-    {"Backstory", LevelIds::eMenu_0, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Prophecy", LevelIds::eMines_1, 65535_s, 65535_s, 1, 65535_s, 65535_s},
-    {"Vision", LevelIds::eMines_1, 65535_s, 65535_s, 24, 65535_s, 65535_s},
-    {"Game Opening", LevelIds::eMines_1, 65535_s, 65535_s, 2, 65535_s, 65535_s},
-    {"Brew", LevelIds::eMines_1, 65535_s, 65535_s, 26, 65535_s, 65535_s},
-    {"Brew Transition", LevelIds::eMines_1, 65535_s, 65535_s, 31, 65535_s, 65535_s},
-    {"Escape", LevelIds::eMines_1, 65535_s, 65535_s, 25, 65535_s, 65535_s},
-    {"Reward", LevelIds::eNecrum_2, 65535_s, 65535_s, 22, 65535_s, 65535_s},
-    {"FeeCo", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Information Booth", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 3, 65535_s, 65535_s},
-    {"Train 1", LevelIds::eBarracks_6, 65535_s, 65535_s, 5, 65535_s, 65535_s},
-    {"Train 2", LevelIds::eBrewery_9, 65535_s, 65535_s, 15, 65535_s, 65535_s},
-    {"Train 3", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 6, 65535_s, 65535_s},
-    {"Aslik Info", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 2, 65535_s, 65535_s},
-    {"Aslik Explodes", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 1, 65535_s, 65535_s},
-    {"Dripek Info", LevelIds::eBarracks_6, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Dripek Explodes", LevelIds::eBarracks_6, 65535_s, 65535_s, 3, 65535_s, 65535_s},
-    {"Phleg Info", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 4, 65535_s, 65535_s},
-    {"Phleg Explodes", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 5, 65535_s, 65535_s},
-    {"Soulstorm Info", LevelIds::eBrewery_9, 65535_s, 65535_s, 14, 65535_s, 65535_s},
-    {"Ingredient", LevelIds::eBrewery_9, 65535_s, 65535_s, 16, 65535_s, 65535_s},
-    {"Conference", LevelIds::eBrewery_9, 65535_s, 65535_s, 13, 65535_s, 65535_s},
-    {"Happy Ending", LevelIds::eBrewery_9, 65535_s, 65535_s, 17, 65535_s, 65535_s},
-    {"Sad Ending", LevelIds::eBrewery_9, 65535_s, 65535_s, 18, 65535_s, 65535_s},
-    {"Credits", LevelIds::eCredits_16, 65535_s, 65535_s, 65535_s, 65535_s, 65535_s}};
+    {"GT Logo", EReliveLevelIds::eMenu, 65535_s, 65535_s, 3_s, 65535_s, 65535_s},
+    {"Oddworld Intro", EReliveLevelIds::eMenu, 65535_s, 65535_s, 1, 65535_s, 65535_s},
+    {"Abe's Exoddus", EReliveLevelIds::eMenu, 65535_s, 65535_s, 5, 65535_s, 65535_s},
+    {"Backstory", EReliveLevelIds::eMenu, 65535_s, 65535_s, 4, 65535_s, 65535_s},
+    {"Prophecy", EReliveLevelIds::eMines, 65535_s, 65535_s, 1, 65535_s, 65535_s},
+    {"Vision", EReliveLevelIds::eMines, 65535_s, 65535_s, 24, 65535_s, 65535_s},
+    {"Game Opening", EReliveLevelIds::eMines, 65535_s, 65535_s, 2, 65535_s, 65535_s},
+    {"Brew", EReliveLevelIds::eMines, 65535_s, 65535_s, 26, 65535_s, 65535_s},
+    {"Brew Transition", EReliveLevelIds::eMines, 65535_s, 65535_s, 31, 65535_s, 65535_s},
+    {"Escape", EReliveLevelIds::eMines, 65535_s, 65535_s, 25, 65535_s, 65535_s},
+    {"Reward", EReliveLevelIds::eNecrum, 65535_s, 65535_s, 22, 65535_s, 65535_s},
+    {"FeeCo", EReliveLevelIds::eFeeCoDepot, 65535_s, 65535_s, 4, 65535_s, 65535_s},
+    {"Information Booth", EReliveLevelIds::eFeeCoDepot, 65535_s, 65535_s, 3, 65535_s, 65535_s},
+    {"Train 1", EReliveLevelIds::eBarracks, 65535_s, 65535_s, 5, 65535_s, 65535_s},
+    {"Train 2", EReliveLevelIds::eBrewery, 65535_s, 65535_s, 15, 65535_s, 65535_s},
+    {"Train 3", EReliveLevelIds::eBonewerkz, 65535_s, 65535_s, 6, 65535_s, 65535_s},
+    {"Aslik Info", EReliveLevelIds::eFeeCoDepot, 65535_s, 65535_s, 2, 65535_s, 65535_s},
+    {"Aslik Explodes", EReliveLevelIds::eFeeCoDepot, 65535_s, 65535_s, 1, 65535_s, 65535_s},
+    {"Dripek Info", EReliveLevelIds::eBarracks, 65535_s, 65535_s, 4, 65535_s, 65535_s},
+    {"Dripek Explodes", EReliveLevelIds::eBarracks, 65535_s, 65535_s, 3, 65535_s, 65535_s},
+    {"Phleg Info", EReliveLevelIds::eBonewerkz, 65535_s, 65535_s, 4, 65535_s, 65535_s},
+    {"Phleg Explodes", EReliveLevelIds::eBonewerkz, 65535_s, 65535_s, 5, 65535_s, 65535_s},
+    {"Soulstorm Info", EReliveLevelIds::eBrewery, 65535_s, 65535_s, 14, 65535_s, 65535_s},
+    {"Ingredient", EReliveLevelIds::eBrewery, 65535_s, 65535_s, 16, 65535_s, 65535_s},
+    {"Conference", EReliveLevelIds::eBrewery, 65535_s, 65535_s, 13, 65535_s, 65535_s},
+    {"Happy Ending", EReliveLevelIds::eBrewery, 65535_s, 65535_s, 17, 65535_s, 65535_s},
+    {"Sad Ending", EReliveLevelIds::eBrewery, 65535_s, 65535_s, 18, 65535_s, 65535_s},
+    {"Credits", EReliveLevelIds::eCredits, 65535_s, 65535_s, 65535_s, 65535_s, 65535_s}};
 
 // Used by the level skip cheat/ui/menu
 PerLvlData gPerLvlData_561700[17] = {
-    {"Mines", LevelIds::eMines_1, 1, 4, 65535u, 2712, 1300},
-    {"Mines Ender", LevelIds::eMines_1, 6, 10, 65535u, 2935, 2525},
-    {"Necrum", LevelIds::eNecrum_2, 2, 1, 65535u, 2885, 1388},
-    {"Mudomo Vault", LevelIds::eMudomoVault_3, 1, 1, 65535u, 110, 917},
-    {"Mudomo Vault Ender", LevelIds::eMudomoVault_Ender_11, 13, 1, 65535u, 437, 454},
-    {"Mudanchee Vault", LevelIds::eMudancheeVault_4, 6, 3, 65535u, 836, 873},
-    {"Mudanchee Vault Ender", LevelIds::eMudancheeVault_Ender_7, 9, 4, 65534u, 1600, 550},
-    {"FeeCo Depot", LevelIds::eFeeCoDepot_5, 1, 1, 65535u, 4563, 972},
-    {"FeeCo Depot Ender", LevelIds::eFeeCoDepot_Ender_12, 11, 5, 65535u, 1965, 1650},
-    {"Barracks", LevelIds::eBarracks_6, 1, 4, 65535u, 1562, 1651},
-    {"Barracks Ender", LevelIds::eBarracks_Ender_13, 11, 5, 65535u, 961, 1132},
-    {"Bonewerkz", LevelIds::eBonewerkz_8, 1, 1, 65535u, 813, 451},
-    {"Bonewerkz Ender", LevelIds::eBonewerkz_Ender_14, 14, 10, 65535u, 810, 710},
-    {"Brewery", LevelIds::eBrewery_9, 16, 6, 65535u, 1962, 1232},
-    {"Game Ender", LevelIds::eBrewery_Ender_10, 1, 1, 65535u, 460, 968},
-    {"Credits", LevelIds::eCredits_16, 1, 1, 65535u, 0, 0},
-    {"Menu", LevelIds::eMenu_0, 1, 1, 65535u, 0, 0}};
+    {"Mines", EReliveLevelIds::eMines, 1, 4, 65535u, 2712, 1300},
+    {"Mines Ender", EReliveLevelIds::eMines, 6, 10, 65535u, 2935, 2525},
+    {"Necrum", EReliveLevelIds::eNecrum, 2, 1, 65535u, 2885, 1388},
+    {"Mudomo Vault", EReliveLevelIds::eMudomoVault, 1, 1, 65535u, 110, 917},
+    {"Mudomo Vault Ender", EReliveLevelIds::eMudomoVault_Ender, 13, 1, 65535u, 437, 454},
+    {"Mudanchee Vault", EReliveLevelIds::eMudancheeVault, 6, 3, 65535u, 836, 873},
+    {"Mudanchee Vault Ender", EReliveLevelIds::eMudancheeVault_Ender, 9, 4, 65534u, 1600, 550},
+    {"FeeCo Depot", EReliveLevelIds::eFeeCoDepot, 1, 1, 65535u, 4563, 972},
+    {"FeeCo Depot Ender", EReliveLevelIds::eFeeCoDepot_Ender, 11, 5, 65535u, 1965, 1650},
+    {"Barracks", EReliveLevelIds::eBarracks, 1, 4, 65535u, 1562, 1651},
+    {"Barracks Ender", EReliveLevelIds::eBarracks_Ender, 11, 5, 65535u, 961, 1132},
+    {"Bonewerkz", EReliveLevelIds::eBonewerkz, 1, 1, 65535u, 813, 451},
+    {"Bonewerkz Ender", EReliveLevelIds::eBonewerkz_Ender, 14, 10, 65535u, 810, 710},
+    {"Brewery", EReliveLevelIds::eBrewery, 16, 6, 65535u, 1962, 1232},
+    {"Game Ender", EReliveLevelIds::eBrewery_Ender, 1, 1, 65535u, 460, 968},
+    {"Credits", EReliveLevelIds::eCredits, 1, 1, 65535u, 0, 0},
+    {"Menu", EReliveLevelIds::eMenu, 1, 1, 65535u, 0, 0}};
 
 PerLvlData sDemos_5617F0[23] = {
-    {"Mudokons 1", LevelIds::eMines_1, 8, 5, 0, 0, 0},
-    {"Mudokons 2", LevelIds::eMines_1, 8, 32, 1, 0, 0},
-    {"Mudokons 3", LevelIds::eMines_1, 8, 21, 2, 0, 0},
-    {"Flying Slig", LevelIds::eMines_1, 9, 18, 4, 0, 0},
-    {"Blind Mudokons 1", LevelIds::eMines_1, 11, 27, 5, 0, 0},
-    {"Blind Mudokons 2", LevelIds::eMines_1, 11, 22, 3, 0, 0},
-    {"Minecar", LevelIds::eMines_1, 12, 2, 6, 0, 0},
-    {"Fleeches", LevelIds::eNecrum_2, 7, 1, 7, 0, 0},
-    {"Paramite Chase", LevelIds::eMudomoVault_3, 2, 13, 8, 0, 0},
-    {"Paramites Talk", LevelIds::eMudomoVault_3, 6, 8, 27, 0, 0},
-    {"Scrab and Fleeches", LevelIds::eMudancheeVault_4, 12, 2, 9, 0, 0},
-    {"Invisibility", LevelIds::eMudancheeVault_4, 13, 5, 10, 0, 0},
-    {"Farts-a-poppin'", LevelIds::eFeeCoDepot_5, 6, 3, 12, 0, 0},
-    {"Flying Sligs 2", LevelIds::eFeeCoDepot_5, 12, 1, 14, 0, 0},
-    {"Baggage Claim", LevelIds::eFeeCoDepot_Ender_12, 13, 1, 15, 0, 0},
-    {"Shrykull", LevelIds::eBarracks_6, 3, 10, 16, 0, 0},
-    {"Crawling Sligs", LevelIds::eBarracks_6, 4, 6, 17, 0, 0},
-    {"Slogs Attack", LevelIds::eBonewerkz_8, 11, 7, 18, 0, 0},
-    {"Glukkon", LevelIds::eBonewerkz_Ender_14, 13, 9, 19, 0, 0},
-    {"Angry Mudokons", LevelIds::eBrewery_9, 13, 10, 22, 0, 0},
-    {"Sligs", LevelIds::eBrewery_9, 26, 4, 23, 0, 0},
-    {"Tortured Mudokons", LevelIds::eBrewery_9, 27, 7, 24, 0, 0},
-    {"Greeters Go Boom", LevelIds::eBrewery_9, 28, 4, 25, 0, 0}};
+    {"Mudokons 1", EReliveLevelIds::eMines, 8, 5, 0, 0, 0},
+    {"Mudokons 2", EReliveLevelIds::eMines, 8, 32, 1, 0, 0},
+    {"Mudokons 3", EReliveLevelIds::eMines, 8, 21, 2, 0, 0},
+    {"Flying Slig", EReliveLevelIds::eMines, 9, 18, 4, 0, 0},
+    {"Blind Mudokons 1", EReliveLevelIds::eMines, 11, 27, 5, 0, 0},
+    {"Blind Mudokons 2", EReliveLevelIds::eMines, 11, 22, 3, 0, 0},
+    {"Minecar", EReliveLevelIds::eMines, 12, 2, 6, 0, 0},
+    {"Fleeches", EReliveLevelIds::eNecrum, 7, 1, 7, 0, 0},
+    {"Paramite Chase", EReliveLevelIds::eMudomoVault, 2, 13, 8, 0, 0},
+    {"Paramites Talk", EReliveLevelIds::eMudomoVault, 6, 8, 27, 0, 0},
+    {"Scrab and Fleeches", EReliveLevelIds::eMudancheeVault, 12, 2, 9, 0, 0},
+    {"Invisibility", EReliveLevelIds::eMudancheeVault, 13, 5, 10, 0, 0},
+    {"Farts-a-poppin'", EReliveLevelIds::eFeeCoDepot, 6, 3, 12, 0, 0},
+    {"Flying Sligs 2", EReliveLevelIds::eFeeCoDepot, 12, 1, 14, 0, 0},
+    {"Baggage Claim", EReliveLevelIds::eFeeCoDepot_Ender, 13, 1, 15, 0, 0},
+    {"Shrykull", EReliveLevelIds::eBarracks, 3, 10, 16, 0, 0},
+    {"Crawling Sligs", EReliveLevelIds::eBarracks, 4, 6, 17, 0, 0},
+    {"Slogs Attack", EReliveLevelIds::eBonewerkz, 11, 7, 18, 0, 0},
+    {"Glukkon", EReliveLevelIds::eBonewerkz_Ender, 13, 9, 19, 0, 0},
+    {"Angry Mudokons", EReliveLevelIds::eBrewery, 13, 10, 22, 0, 0},
+    {"Sligs", EReliveLevelIds::eBrewery, 26, 4, 23, 0, 0},
+    {"Tortured Mudokons", EReliveLevelIds::eBrewery, 27, 7, 24, 0, 0},
+    {"Greeters Go Boom", EReliveLevelIds::eBrewery, 28, 4, 25, 0, 0}};
 
 MainMenuFrameTable sMainMenuFrameTable_561CC8[49] = {
     {AnimId::None, 0, 0, 0, 0},
@@ -1542,7 +1542,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             sDoesCreditsControllerExist_5C1B90 = 1;
             field_240_credits_current_cam = 1;
             field_1F4_credits_next_frame = sGnFrame + 160;
-            gMap.SetActiveCam(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
@@ -1872,7 +1872,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     }
     else
     {
-        gMap.SetActiveCam(LevelIds::eMines_1, 1, 4, CameraSwapEffects::ePlay1FMV_5, 12402, 0);
+        gMap.SetActiveCam(EReliveLevelIds::eMines, 1, 4, CameraSwapEffects::ePlay1FMV_5, 12402, 0);
         sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(837);
         sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(1300);
         sActiveHero->BaseAliveGameObjectLastLineYPos = FP_FromInteger(1400);
@@ -1904,7 +1904,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
     {
         if (field_1FC_button_index == 0) // Show backstory
         {
-            FmvInfo* pFmvRecord = Path_Get_FMV_Record(LevelIds::eMenu_0, 4u);
+            FmvInfo* pFmvRecord = Path_Get_FMV_Record(EReliveLevelIds::eMenu, 4u);
             while (Input_IsVKPressed_4EDD40(VK_RETURN))
             {
                 SYS_EventsPump_494580();
@@ -2078,7 +2078,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         char_type lvFilename[256] = {};
         strcpy(lvFilename, "ATTRACT");
         memset(&lvFilename[8], 0, 0xF8u);
-        strcpy(&lvFilename[7], CdLvlName(sDemos_5617F0[demoId].field_4_level));
+        strcpy(&lvFilename[7], CdLvlName((sDemos_5617F0[demoId].field_4_level)));
         auto lvFilenameNoPrefix = &lvFilename[7];
 
         while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
@@ -2899,7 +2899,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
     if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eBack))
     {
         sDoesCreditsControllerExist_5C1B90 = 0;
-        gMap.SetActiveCam(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
         return;
     }
 
@@ -2913,11 +2913,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 22)
             {
                 field_240_credits_current_cam = 1;
-                gMap.SetActiveCam(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
             else
             {
-                gMap.SetActiveCam(LevelIds::eCredits_16, 2, static_cast<s16>(currentCam), CameraSwapEffects::eTopToBottom_3, 0, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eCredits, 2, static_cast<s16>(currentCam), CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
         }
         else
@@ -2925,10 +2925,10 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 36)
             {
                 sDoesCreditsControllerExist_5C1B90 = 0;
-                gMap.SetActiveCam(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
                 return;
             }
-            gMap.SetActiveCam(LevelIds::eCredits_16, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
+            gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, static_cast<s16>(field_240_credits_current_cam), CameraSwapEffects::eTopToBottom_3, 0, 0);
         }
     }
 }
@@ -3238,7 +3238,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 }
 
                 // Find the record for GTILOGO.STR
-                FmvInfo* pFmvRecord = Path_Get_FMV_Record(LevelIds::eMenu_0, 3u);
+                FmvInfo* pFmvRecord = Path_Get_FMV_Record(EReliveLevelIds::eMenu, 3u);
                 while (Input_IsVKPressed_4EDD40(VK_RETURN))
                 {
                     SYS_EventsPump_494580();
@@ -3295,7 +3295,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
                 gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
 
-                gMap.SetActiveCam(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::ePlay1FMV_5, 10502, 0);
+                gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::ePlay1FMV_5, 10502, 0);
                 const AnimRecord& rec = AnimRec(AnimId::MenuDoor);
                 field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor]);
                 Load_Anim_Pal_4D06A0(&field_20_animation);
@@ -3338,7 +3338,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             }
 
             gMap.SetActiveCam(
-                LevelIds::eMenu_0,
+                EReliveLevelIds::eMenu,
                 1,
                 sMainMenuPages_561960[field_218_target_page_index].field_0_cam_id,
                 screenChangeEffect,

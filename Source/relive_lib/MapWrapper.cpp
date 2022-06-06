@@ -2,6 +2,7 @@
 #include "../AliveLibAE/Map.hpp"
 #include "../AliveLibAO/Map.hpp"
 #include "../AliveLibAO/PathData.hpp"
+#include "../AliveLibAE/PathData.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
 
 MapWrapper gMapWrapper;
@@ -81,5 +82,91 @@ AO::LevelIds MapWrapper::ToAO(EReliveLevelIds levelId)
             return AO::LevelIds::eDesertEscape_15;
         default:
             ALIVE_FATAL("Can't map to an AO lvl");
+    }
+}
+
+EReliveLevelIds MapWrapper::FromAE(LevelIds levelId)
+{
+    switch (levelId)
+    {
+    case LevelIds::eNone:
+        return EReliveLevelIds::eNone;
+    case LevelIds::eMenu_0:
+        return EReliveLevelIds::eMenu;
+    case LevelIds::eMines_1:
+        return EReliveLevelIds::eMines;
+    case LevelIds::eNecrum_2:
+        return EReliveLevelIds::eNecrum;
+    case LevelIds::eMudomoVault_3:
+        return EReliveLevelIds::eMudomoVault;
+    case LevelIds::eMudancheeVault_4:
+        return EReliveLevelIds::eMudancheeVault;
+    case LevelIds::eFeeCoDepot_5:
+        return EReliveLevelIds::eFeeCoDepot;
+    case LevelIds::eBarracks_6:
+        return EReliveLevelIds::eBarracks;
+    case LevelIds::eMudancheeVault_Ender_7:
+        return EReliveLevelIds::eMudancheeVault_Ender;
+    case LevelIds::eBonewerkz_8:
+        return EReliveLevelIds::eBonewerkz;
+    case LevelIds::eBrewery_9:
+        return EReliveLevelIds::eBrewery;
+    case LevelIds::eBrewery_Ender_10:
+        return EReliveLevelIds::eBrewery_Ender;
+    case LevelIds::eMudomoVault_Ender_11:
+        return EReliveLevelIds::eMudomoVault_Ender;
+    case LevelIds::eFeeCoDepot_Ender_12:
+        return EReliveLevelIds::eFeeCoDepot_Ender;
+    case LevelIds::eBarracks_Ender_13:
+        return EReliveLevelIds::eBarracks_Ender;
+    case LevelIds::eBonewerkz_Ender_14:
+        return EReliveLevelIds::eBonewerkz_Ender;
+    case LevelIds::eCredits_16:
+        return EReliveLevelIds::eCredits;
+    default:
+        ALIVE_FATAL("Unknown AE level");
+    }
+}
+
+LevelIds MapWrapper::ToAE(EReliveLevelIds levelId)
+{
+    switch (levelId)
+    {
+    case EReliveLevelIds::eNone:
+        return LevelIds::eNone;
+    case EReliveLevelIds::eMenu:
+        return LevelIds::eMenu_0;
+    case EReliveLevelIds::eMines:
+        return LevelIds::eMines_1;
+    case EReliveLevelIds::eNecrum:
+        return LevelIds::eNecrum_2;
+    case EReliveLevelIds::eMudomoVault:
+        return LevelIds::eMudomoVault_3;
+    case EReliveLevelIds::eMudancheeVault:
+        return LevelIds::eMudancheeVault_4;
+    case EReliveLevelIds::eFeeCoDepot:
+        return LevelIds::eFeeCoDepot_5;
+    case EReliveLevelIds::eBarracks:
+        return LevelIds::eBarracks_6;
+    case EReliveLevelIds::eMudancheeVault_Ender:
+        return LevelIds::eMudancheeVault_Ender_7;
+    case EReliveLevelIds::eBonewerkz:
+        return LevelIds::eBonewerkz_8;
+    case EReliveLevelIds::eBrewery:
+        return LevelIds::eBrewery_9;
+    case EReliveLevelIds::eBrewery_Ender:
+        return LevelIds::eBrewery_Ender_10;
+    case EReliveLevelIds::eMudomoVault_Ender:
+        return LevelIds::eMudomoVault_Ender_11;
+    case EReliveLevelIds::eFeeCoDepot_Ender:
+        return LevelIds::eFeeCoDepot_Ender_12;
+    case EReliveLevelIds::eBarracks_Ender:
+        return LevelIds::eBarracks_Ender_13;
+    case EReliveLevelIds::eBonewerkz_Ender:
+        return LevelIds::eBonewerkz_Ender_14;
+    case EReliveLevelIds::eCredits:
+        return LevelIds::eCredits_16;
+    default:
+        ALIVE_FATAL("Can't map to an AE lvl");
     }
 }

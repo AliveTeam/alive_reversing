@@ -151,7 +151,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         pMineCar->field_C8_vely = pState->field_10_vely;
 
         pMineCar->field_C0_path_number = pState->field_18_path_number;
-        pMineCar->field_C2_lvl_number = pState->field_1A_lvl_number;
+        pMineCar->field_C2_lvl_number = MapWrapper::FromAE(pState->field_1A_lvl_number);
 
         pMineCar->field_CC_sprite_scale = pState->field_14_sprite_scale;
 
@@ -721,7 +721,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_10_vely = field_C8_vely;
 
     pState->field_18_path_number = field_C0_path_number;
-    pState->field_1A_lvl_number = field_C2_lvl_number;
+    pState->field_1A_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
 
     pState->field_14_sprite_scale = field_CC_sprite_scale;
 

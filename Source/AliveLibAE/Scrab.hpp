@@ -302,7 +302,7 @@ private:
     s16 field_15E_right_max_delay;
     s32 field_160_sfx_bitmask;
     s16 field_164_prevent_depossession;
-    LevelIds field_166_level;
+    EReliveLevelIds field_166_level;
     s16 field_168_path;
     s16 field_16A_camera;
     s32 field_16C_input;

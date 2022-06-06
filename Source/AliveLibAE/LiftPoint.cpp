@@ -43,21 +43,21 @@ const LiftPointData sLiftPointData_545AC8[18] = {
     {AnimId::LiftPlatform_Mines, 136, 31, AnimId::LiftBottomWheel_Mines, AnimId::LiftTopWheel_Mines, 47, 24}};
 
 const TintEntry sLiftTints_55BF50[18] = {
-    {LevelIds::eMines_1, 127u, 127u, 127u},
-    {LevelIds::eNecrum_2, 127u, 127u, 127u},
-    {LevelIds::eMudomoVault_3, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_4, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_5, 127u, 127u, 127u},
-    {LevelIds::eBarracks_6, 107u, 107u, 107u},
-    {LevelIds::eMudancheeVault_Ender_7, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_8, 127u, 127u, 127u},
-    {LevelIds::eBrewery_9, 127u, 127u, 127u},
-    {LevelIds::eBrewery_Ender_10, 127u, 127u, 127u},
-    {LevelIds::eMudomoVault_Ender_11, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
-    {LevelIds::eBarracks_Ender_13, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_Ender_14, 127u, 127u, 127u},
-    {LevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks, 107u, 107u, 107u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
 {
@@ -253,36 +253,36 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
 
     switch (gMap.mCurrentLevel)
     {
-        case LevelIds::eMines_1:
+        case EReliveLevelIds::eMines:
             LoadLiftResourceBans("ROPES.BAN", "MILIFT.BND");
             break;
 
-        case LevelIds::eNecrum_2:
+        case EReliveLevelIds::eNecrum:
             LoadLiftResourceBans("NECROPE.BAN", "NELIFT.BND");
             break;
 
-        case LevelIds::eMudomoVault_3:
-        case LevelIds::eMudomoVault_Ender_11:
+        case EReliveLevelIds::eMudomoVault:
+        case EReliveLevelIds::eMudomoVault_Ender:
             LoadLiftResourceBans("NECROPE.BAN", "PVLIFT.BND");
             break;
 
-        case LevelIds::eMudancheeVault_4:
-        case LevelIds::eMudancheeVault_Ender_7:
+        case EReliveLevelIds::eMudancheeVault:
+        case EReliveLevelIds::eMudancheeVault_Ender:
             LoadLiftResourceBans("NECROPE.BAN", "SVLIFT.BND");
             break;
 
-        case LevelIds::eFeeCoDepot_5:
-        case LevelIds::eFeeCoDepot_Ender_12:
+        case EReliveLevelIds::eFeeCoDepot:
+        case EReliveLevelIds::eFeeCoDepot_Ender:
             LoadLiftResourceBans("ROPES.BAN", "FDLIFT.BND");
             break;
 
-        case LevelIds::eBarracks_6:
-        case LevelIds::eBarracks_Ender_13:
+        case EReliveLevelIds::eBarracks:
+        case EReliveLevelIds::eBarracks_Ender:
             LoadLiftResourceBans("ROPES.BAN", "BALIFT.BND");
             break;
 
-        case LevelIds::eBrewery_9:
-        case LevelIds::eBrewery_Ender_10:
+        case EReliveLevelIds::eBrewery:
+        case EReliveLevelIds::eBrewery_Ender:
             LoadLiftResourceBans("ROPES.BAN", "BRLIFT.BND");
             break;
 
@@ -424,7 +424,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             field_13C_lift_wheel.mGreen = static_cast<u8>(g);
             field_13C_lift_wheel.mBlue = static_cast<u8>(b);
 
-            if (gMap.mCurrentLevel != LevelIds::eNecrum_2 && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
+            if (gMap.mCurrentLevel != EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
                     FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
@@ -489,7 +489,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             // The base animation is the actual lift/platform itself
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-            if (gMap.mCurrentLevel == LevelIds::eNecrum_2 && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
                     FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
@@ -775,7 +775,7 @@ void LiftPoint::VUpdate()
         field_1D4_pulley_anim.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
     }
 
-    if (gMap.mCurrentLevel == LevelIds::eNecrum_2 || gMap.mCurrentLevel == LevelIds::eMudomoVault_3 || gMap.mCurrentLevel == LevelIds::eMudomoVault_Ender_11 || gMap.mCurrentLevel == LevelIds::eMudancheeVault_4 || gMap.mCurrentLevel == LevelIds::eMudancheeVault_Ender_7)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum || gMap.mCurrentLevel == EReliveLevelIds::eMudomoVault || gMap.mCurrentLevel == EReliveLevelIds::eMudomoVault_Ender || gMap.mCurrentLevel == EReliveLevelIds::eMudancheeVault || gMap.mCurrentLevel == EReliveLevelIds::eMudancheeVault_Ender)
     {
         if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.mAnimFlags.Get(AnimFlags::eBit2_Animate))
         {

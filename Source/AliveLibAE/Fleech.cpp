@@ -239,7 +239,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->field_C8_vely = pState->field_14_vely;
 
         pFleech->field_C0_path_number = pState->field_18_path_number;
-        pFleech->field_C2_lvl_number = pState->field_1A_lvl_number;
+        pFleech->field_C2_lvl_number = MapWrapper::FromAE(pState->field_1A_lvl_number);
         pFleech->field_CC_sprite_scale = pState->field_1C_sprite_scale;
 
         pFleech->field_D0_r = pState->mRingRed;
@@ -354,7 +354,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->field_14_vely = field_C8_vely;
     pState->field_70_velx_factor = field_138_velx_factor;
     pState->field_18_path_number = field_C0_path_number;
-    pState->field_1A_lvl_number = field_C2_lvl_number;
+    pState->field_1A_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pState->field_1C_sprite_scale = field_CC_sprite_scale;
     pState->mRingRed = field_D0_r;
     pState->mRingGreen = field_D2_g;
@@ -1587,21 +1587,21 @@ s16 Fleech::IsScrabOrParamiteNear(FP radius)
 }
 
 const TintEntry kFleechTints_551844[15] = {
-    {LevelIds::eMines_1, 127u, 127u, 127u},
-    {LevelIds::eNecrum_2, 137u, 137u, 137u},
-    {LevelIds::eMudomoVault_3, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_4, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_5, 127u, 127u, 127u},
-    {LevelIds::eBarracks_6, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_Ender_7, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_8, 127u, 127u, 127u},
-    {LevelIds::eBrewery_9, 127u, 127u, 127u},
-    {LevelIds::eBrewery_Ender_10, 127u, 127u, 127u},
-    {LevelIds::eMudomoVault_Ender_11, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
-    {LevelIds::eBarracks_Ender_13, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_Ender_14, 127u, 127u, 127u},
-    {LevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 s32 Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, s16* pData)
 {

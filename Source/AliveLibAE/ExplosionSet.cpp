@@ -185,7 +185,7 @@ void ExplosionSet::VUpdate()
             field_46_spacing_multiplicator++;
             field_44_start_delay = field_56_asset_interval;
 
-            if (gMap.mCurrentLevel == LevelIds::eMines_1 && Math_RandomRange(1, 5) >= 4)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eMines && Math_RandomRange(1, 5) >= 4)
             {
                 const FP explodeX = FP_FromInteger(Math_RandomRange(field_48_tlv_rect.y + 20, field_48_tlv_rect.y + 230));
                 const FP explodeY = FP_FromInteger(Math_RandomRange(field_48_tlv_rect.x, xpos));

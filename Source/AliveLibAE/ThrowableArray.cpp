@@ -18,7 +18,7 @@ void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
     }
 }
 
-void LoadRockTypes_49AB30(LevelIds levelNumber, u16 pathNumber)
+void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
 {
     Bool32 bDoLoadingLoop = FALSE;
     const u8 throwableTypeIdx = LOBYTE(Path_Get_Bly_Record(levelNumber, pathNumber)->field_C_overlay_id);
@@ -173,7 +173,7 @@ s32 ThrowableArray::VGetSaveState(u8* pSaveBuffer)
 
 void ThrowableArray::VScreenChanged()
 {
-    if (gMap.mLevel != LevelIds::eMenu_0 && gMap.mLevel != LevelIds::eCredits_16)
+    if (gMap.mLevel != EReliveLevelIds::eMenu && gMap.mLevel != EReliveLevelIds::eCredits)
     {
         if (throwable_types_55FAFC[gMap.mOverlayId] != throwable_types_55FAFC[gMap.GetOverlayId()])
         {

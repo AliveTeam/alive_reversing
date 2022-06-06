@@ -36,21 +36,21 @@ const AnimId sSlamDoorData_547168[15][3] = {
 };
 
 TintEntry sSlamDoorTints_5603B0[18] = {
-    {LevelIds::eMines_1, 102u, 87u, 118u},
-    {LevelIds::eNecrum_2, 102u, 87u, 118u},
-    {LevelIds::eMudomoVault_3, 102u, 87u, 118u},
-    {LevelIds::eMudancheeVault_4, 102u, 87u, 118u},
-    {LevelIds::eFeeCoDepot_5, 102u, 87u, 118u},
-    {LevelIds::eBarracks_6, 102u, 87u, 118u},
-    {LevelIds::eMudancheeVault_Ender_7, 102u, 87u, 118u},
-    {LevelIds::eBonewerkz_8, 102u, 87u, 118u},
-    {LevelIds::eBrewery_9, 102u, 87u, 118u},
-    {LevelIds::eBrewery_Ender_10, 102u, 87u, 118u},
-    {LevelIds::eMudomoVault_Ender_11, 102u, 87u, 118u},
-    {LevelIds::eFeeCoDepot_Ender_12, 102u, 87u, 118u},
-    {LevelIds::eBarracks_Ender_13, 102u, 87u, 118u},
-    {LevelIds::eBonewerkz_Ender_14, 102u, 87u, 118u},
-    {LevelIds::eNone, 102u, 87u, 118u}};
+    {EReliveLevelIds::eMines, 102u, 87u, 118u},
+    {EReliveLevelIds::eNecrum, 102u, 87u, 118u},
+    {EReliveLevelIds::eMudomoVault, 102u, 87u, 118u},
+    {EReliveLevelIds::eMudancheeVault, 102u, 87u, 118u},
+    {EReliveLevelIds::eFeeCoDepot, 102u, 87u, 118u},
+    {EReliveLevelIds::eBarracks, 102u, 87u, 118u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 102u, 87u, 118u},
+    {EReliveLevelIds::eBonewerkz, 102u, 87u, 118u},
+    {EReliveLevelIds::eBrewery, 102u, 87u, 118u},
+    {EReliveLevelIds::eBrewery_Ender, 102u, 87u, 118u},
+    {EReliveLevelIds::eMudomoVault_Ender, 102u, 87u, 118u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 102u, 87u, 118u},
+    {EReliveLevelIds::eBarracks_Ender, 102u, 87u, 118u},
+    {EReliveLevelIds::eBonewerkz_Ender, 102u, 87u, 118u},
+    {EReliveLevelIds::eNone, 102u, 87u, 118u}};
 
 struct Quicksave_Obj_SlamDoor final
 {
@@ -451,11 +451,11 @@ s32 SlamDoor::CreateFromSaveState(const u8* pData)
     {
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eNecrum_2:
-            case LevelIds::eMudomoVault_3:
-            case LevelIds::eMudancheeVault_4:
-            case LevelIds::eMudancheeVault_Ender_7:
-            case LevelIds::eMudomoVault_Ender_11:
+            case EReliveLevelIds::eNecrum:
+            case EReliveLevelIds::eMudomoVault:
+            case EReliveLevelIds::eMudancheeVault:
+            case EReliveLevelIds::eMudancheeVault_Ender:
+            case EReliveLevelIds::eMudomoVault_Ender:
                 ResourceManager::LoadResourceFile_49C170("SLAMVLTS.BAN", nullptr);
                 break;
             default:

@@ -150,7 +150,7 @@ void WorkWheel::VUpdate()
     {
         if (field_100_on_counter > field_FE_activation_time)
         {
-            if (gMap.mCurrentLevel == LevelIds::eBrewery_Ender_10 && field_F8_switch_id == 100)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender && field_F8_switch_id == 100)
             {
                 CreateGameEnderController_43B7A0();
             }

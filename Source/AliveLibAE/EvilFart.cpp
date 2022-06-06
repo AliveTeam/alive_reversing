@@ -115,7 +115,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
     pFart->field_C8_vely = pState->field_18_vely;
 
     pFart->field_C0_path_number = pState->field_8_path_number;
-    pFart->field_C2_lvl_number = pState->field_A_lvl_number;
+    pFart->field_C2_lvl_number = MapWrapper::FromAE(pState->field_A_lvl_number);
     pFart->field_CC_sprite_scale = pState->field_1C_sprite_scale;
 
     pFart->field_D0_r = pState->field_2_r;
@@ -133,7 +133,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
         pFart->field_20_animation.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
-    pFart->field_120_level = pState->field_26_level;
+    pFart->field_120_level = MapWrapper::FromAE(pState->field_26_level);
     pFart->field_11E_path = pState->field_28_path;
     pFart->field_122_camera = pState->field_2A_camera;
     pFart->field_118_bBlowUp = pState->field_2C.Get(EvilFart_State::eBit2_bBlowUp);
@@ -156,7 +156,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->field_18_vely = field_C8_vely;
 
     pState->field_8_path_number = field_C0_path_number;
-    pState->field_A_lvl_number = field_C2_lvl_number;
+    pState->field_A_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pState->field_1C_sprite_scale = field_CC_sprite_scale;
 
     pState->field_2_r = field_D0_r;
@@ -170,7 +170,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->field_25_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_24_bAnimRender = field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render);
 
-    pState->field_26_level = field_120_level;
+    pState->field_26_level = MapWrapper::ToAE(field_120_level);
     pState->field_28_path = field_11E_path;
     pState->field_2A_camera = field_122_camera;
     pState->field_2C.Set(EvilFart_State::eBit2_bBlowUp, field_118_bBlowUp & 1);

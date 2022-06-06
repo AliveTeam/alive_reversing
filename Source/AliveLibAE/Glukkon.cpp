@@ -99,21 +99,21 @@ const AnimId sGlukkonsFrameTableOffsetTable_554524[4][25] = {
      AnimId::Glukkon_Phleg_KnockBackStandBegin, AnimId::Glukkon_Phleg_GetShot, AnimId::Glukkon_Phleg_KnockBackStandEnd, AnimId::Glukkon_Phleg_Speak3, AnimId::Glukkon_Phleg_EndSingleStep}};
 
 const TintEntry kGlukkonTints_5546B4[18] = {
-    {LevelIds::eMines_1, 137u, 137u, 137u},
-    {LevelIds::eNecrum_2, 137u, 137u, 137u},
-    {LevelIds::eMudomoVault_3, 137u, 137u, 137u},
-    {LevelIds::eMudancheeVault_4, 137u, 137u, 137u},
-    {LevelIds::eFeeCoDepot_5, 137u, 137u, 137u},
-    {LevelIds::eBarracks_6, 137u, 137u, 137u},
-    {LevelIds::eMudancheeVault_Ender_7, 137u, 137u, 137u},
-    {LevelIds::eBonewerkz_8, 137u, 137u, 137u},
-    {LevelIds::eBrewery_9, 137u, 137u, 137u},
-    {LevelIds::eBrewery_Ender_10, 137u, 137u, 137u},
-    {LevelIds::eMudomoVault_Ender_11, 137u, 137u, 137u},
-    {LevelIds::eFeeCoDepot_Ender_12, 137u, 137u, 137u},
-    {LevelIds::eBarracks_Ender_13, 137u, 137u, 137u},
-    {LevelIds::eBonewerkz_Ender_14, 137u, 137u, 137u},
-    {LevelIds::eNone, 137u, 137u, 137u}};
+    {EReliveLevelIds::eMines, 137u, 137u, 137u},
+    {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
+    {EReliveLevelIds::eMudomoVault, 137u, 137u, 137u},
+    {EReliveLevelIds::eMudancheeVault, 137u, 137u, 137u},
+    {EReliveLevelIds::eFeeCoDepot, 137u, 137u, 137u},
+    {EReliveLevelIds::eBarracks, 137u, 137u, 137u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 137u, 137u, 137u},
+    {EReliveLevelIds::eBonewerkz, 137u, 137u, 137u},
+    {EReliveLevelIds::eBrewery, 137u, 137u, 137u},
+    {EReliveLevelIds::eBrewery_Ender, 137u, 137u, 137u},
+    {EReliveLevelIds::eMudomoVault_Ender, 137u, 137u, 137u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 137u, 137u, 137u},
+    {EReliveLevelIds::eBarracks_Ender, 137u, 137u, 137u},
+    {EReliveLevelIds::eBonewerkz_Ender, 137u, 137u, 137u},
+    {EReliveLevelIds::eNone, 137u, 137u, 137u}};
 
 s32 Glukkon::CreateFromSaveState(const u8* pData)
 {
@@ -122,22 +122,22 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
 
     switch (gMap.mCurrentLevel)
     {
-        case LevelIds::eFeeCoDepot_5:
-        case LevelIds::eFeeCoDepot_Ender_12:
+        case EReliveLevelIds::eFeeCoDepot:
+        case EReliveLevelIds::eFeeCoDepot_Ender:
             if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukAslikResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("ASLIK.BND", 0);
             }
             break;
-        case LevelIds::eBarracks_6:
-        case LevelIds::eBarracks_Ender_13:
+        case EReliveLevelIds::eBarracks:
+        case EReliveLevelIds::eBarracks_Ender:
             if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukDripikResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("DRIPIK.BND", 0);
             }
             break;
-        case LevelIds::eBonewerkz_8:
-        case LevelIds::eBonewerkz_Ender_14:
+        case EReliveLevelIds::eBonewerkz:
+        case EReliveLevelIds::eBonewerkz_Ender:
             if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukPhlegResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("PHLEG.BND", 0);
@@ -172,7 +172,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
 
         pGlukkon->field_1D8_falling_velx_scale_factor = pSaveState->field_58_falling_velx_scale_factor;
         pGlukkon->field_C0_path_number = pSaveState->field_18_path;
-        pGlukkon->field_C2_lvl_number = pSaveState->field_1A_level;
+        pGlukkon->field_C2_lvl_number = MapWrapper::FromAE(pSaveState->field_1A_level);
         pGlukkon->field_CC_sprite_scale = pSaveState->field_1C_sprite_scale;
 
         pGlukkon->field_D0_r = pSaveState->mRingRed;
@@ -216,7 +216,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->SetBrain(sGlukkon_brain_table_5544A0[pSaveState->field_48_brain_state_idx]);
         pGlukkon->field_210_brain_sub_state = pSaveState->field_50_brain_sub_state;
         pGlukkon->field_1E2_prevent_depossession = pSaveState->field_5E_prevent_depossession;
-        pGlukkon->field_1E4_level = pSaveState->field_60_level;
+        pGlukkon->field_1E4_level = MapWrapper::FromAE(pSaveState->field_60_level);
         pGlukkon->field_1E6_path = pSaveState->field_62_path;
         pGlukkon->field_1E8_camera = pSaveState->field_64_camera;
         pGlukkon->field_1EA_speak = pSaveState->field_66_speak;
@@ -342,7 +342,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_10_xvel = field_C4_velx;
     pSaveState->field_14_yvel = field_C8_vely;
     pSaveState->field_18_path = field_C0_path_number;
-    pSaveState->field_1A_level = field_C2_lvl_number;
+    pSaveState->field_1A_level = MapWrapper::ToAE(field_C2_lvl_number);
     pSaveState->field_1C_sprite_scale = field_CC_sprite_scale;
     pSaveState->mRingRed = field_D0_r;
     pSaveState->mRingGreen = field_D2_g;
@@ -385,7 +385,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_54_timer = field_1D4_timer;
     pSaveState->field_58_falling_velx_scale_factor = field_1D8_falling_velx_scale_factor;
     pSaveState->field_5E_prevent_depossession = field_1E2_prevent_depossession;
-    pSaveState->field_60_level = field_1E4_level;
+    pSaveState->field_60_level = MapWrapper::ToAE(field_1E4_level);
     pSaveState->field_62_path = field_1E6_path;
     pSaveState->field_64_camera = field_1E8_camera;
     pSaveState->field_66_speak = field_1EA_speak;
@@ -2788,7 +2788,7 @@ void Glukkon::ToDead()
         sControlledCharacter_5C1B8C = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-        if (gMap.mLevel != LevelIds::eMenu_0)
+        if (gMap.mLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
                 field_1E4_level,

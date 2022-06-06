@@ -3,7 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-enum class LevelIds : s16;
+enum class EReliveLevelIds : s16;
 
 enum class FartStates : s16
 {
@@ -71,7 +71,7 @@ private:
     s16 field_11A_bPossesed;
     s16 field_11C_alive_timer;
     s16 field_11E_path;
-    LevelIds field_120_level;
+    EReliveLevelIds field_120_level;
     s16 field_122_camera;
     FartStates field_124_state;
     s16 field_126_pad;

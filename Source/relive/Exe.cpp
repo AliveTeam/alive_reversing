@@ -55,7 +55,7 @@ struct AEGameInfo
     GuidStr guid;
     // 1 byte padding/null
     GameType* gameType; // 0
-    LevelIds* levelId;  // 1
+    EReliveLevelIds* levelId;  // 1
     s16* pathId;        // 2
     s16* camId;         // 3
     u16* fmvId;         // 4

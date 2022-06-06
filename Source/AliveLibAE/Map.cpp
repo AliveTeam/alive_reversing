@@ -120,16 +120,16 @@ void Map::ScreenChange()
         SsUtAllKeyOff_4FDFE0(0);
     }
 
-    if (mLevel != LevelIds::eNone)
+    if (mLevel != EReliveLevelIds::eNone)
     {
-        if (mLevel == LevelIds::eCredits_16)
+        if (mLevel == EReliveLevelIds::eCredits)
         {
             sSoundChannelsMask_5C3120 = 0;
             ScreenChange_Common();
             return;
         }
     }
-    else if (mCurrentLevel == LevelIds::eMenu_0)
+    else if (mCurrentLevel == EReliveLevelIds::eMenu)
     {
         sSoundChannelsMask_5C3120 = 0;
         ScreenChange_Common();
@@ -362,7 +362,7 @@ void Map::Handle_PathTransition()
 
     if (field_18_pAliveObj && pPathChangeTLV)
     {
-        mLevel = pPathChangeTLV->field_10_level;
+        mLevel = MapWrapper::FromAE(pPathChangeTLV->field_10_level);
         mPath = pPathChangeTLV->field_12_path;
         mCamera = pPathChangeTLV->field_14_camera;
         field_12_fmv_base_id = pPathChangeTLV->field_16_movie;
@@ -516,7 +516,7 @@ CameraPos Map::GetDirection_4811A0(s32 level, s32 path, FP xpos, FP ypos)
     }
 }
 
-void Map::Init(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
+void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
     sPath_dword_BB47C0 = ae_new<Path>();
     sPath_dword_BB47C0->ctor_4DB170();
@@ -531,7 +531,7 @@ void Map::Init(LevelIds level, s16 path, s16 camera, CameraSwapEffects screenCha
 
     mCurrentCamera = static_cast<s16>(-1);
     mCurrentPath = static_cast<s16>(-1);
-    mCurrentLevel = LevelIds::eNone;
+    mCurrentLevel = EReliveLevelIds::eNone;
 
     field_8_force_load = 0;
 
@@ -600,7 +600,7 @@ void Map::Reset()
 void Map::GoTo_Camera()
 {
     s16 bShowLoadingIcon = FALSE;
-    if (mCurrentLevel != LevelIds::eMenu_0 && mCurrentLevel != LevelIds::eCredits_16 && mCurrentLevel != LevelIds::eNone)
+    if (mCurrentLevel != EReliveLevelIds::eMenu && mCurrentLevel != EReliveLevelIds::eCredits && mCurrentLevel != EReliveLevelIds::eNone)
     {
         bShowLoadingIcon = TRUE;
     }
@@ -646,7 +646,7 @@ void Map::GoTo_Camera()
         sSoundChannelsMask_5C3120 = SND_MIDI(0, 0, 36, 70, 0, 0);
     }
 
-    if (mCurrentLevel != LevelIds::eMenu_0 && mCurrentLevel != LevelIds::eNone)
+    if (mCurrentLevel != EReliveLevelIds::eMenu && mCurrentLevel != EReliveLevelIds::eNone)
     {
         if (mLevel != mCurrentLevel
             || field_8_force_load
@@ -677,7 +677,7 @@ void Map::GoTo_Camera()
             }
         }
 
-        if (mCurrentLevel != LevelIds::eNone)
+        if (mCurrentLevel != EReliveLevelIds::eNone)
         {
             // Close LVL archives
             sLvlArchive_5BC520.Free_433130();
@@ -752,7 +752,7 @@ void Map::GoTo_Camera()
     }
 
     const s16 prevPathId = mCurrentPath;
-    const LevelIds prevLevelId = mCurrentLevel;
+    const EReliveLevelIds prevLevelId = mCurrentLevel;
 
     mCurrentPath = mPath;
     mCurrentLevel = mLevel;
@@ -1053,7 +1053,7 @@ s16 Map::Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect)
 s16 Map::Is_Point_In_Current_Camera_4810D0(s32 level, s32 path, FP xpos, FP ypos, s16 width)
 {
     const FP calculated_width = (width != 0) ? FP_FromInteger(6) : FP_FromInteger(0);
-    if (static_cast<LevelIds>(level) != mCurrentLevel || path != mCurrentPath) // TODO: Remove when 100%
+    if (MapWrapper::FromAE(static_cast<LevelIds>(level)) != mCurrentLevel || path != mCurrentPath) // TODO: Remove when 100%
     {
         return FALSE;
     }
@@ -1102,7 +1102,7 @@ CameraPos Map::Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect)
     return CameraPos::eCamLeft_3;
 }
 
-s16 Map::SetActiveCam(LevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
+s16 Map::SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
     if (!forceChange && cam == mCurrentCamera && level == mCurrentLevel && path == mCurrentPath)
     {
@@ -1129,7 +1129,7 @@ s16 Map::SetActiveCam(LevelIds level, s16 path, s16 cam, CameraSwapEffects scree
     return 1;
 }
 
-BaseGameObject* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, LevelIds lvlId)
+BaseGameObject* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds lvlId)
 {
     if (pMap->field_12_fmv_base_id > 10000u)
     {
@@ -1177,7 +1177,7 @@ BaseGameObject* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, LevelIds lvlId)
         u32 cdPos1 = 0;
         u32 cdPos2 = 0;
         Get_fmvs_sectors(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
-        sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // HACK
+        sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // HACK
         return ae_new<CameraSwapper>(ppBits,
                                               cdPos1,
                                               pFmvRec1->field_4_id,
@@ -1198,7 +1198,7 @@ BaseGameObject* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, LevelIds lvlId)
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record(lvlId, pMap->field_12_fmv_base_id);
         u32 cdPos = 0;
         Get_fmvs_sectors(pFmvRec1->field_0_pName, 0, 0, &cdPos, 0, 0);
-        sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // HACK
+        sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // HACK
         return ae_new<CameraSwapper>(ppBits,
                                               cdPos,
                                               pFmvRec1->field_4_id,
@@ -1343,7 +1343,7 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
 
     if (pObj && pPathChangeTLV)
     {
-        mLevel = pPathChangeTLV->field_10_level;
+        mLevel = MapWrapper::FromAE(pPathChangeTLV->field_10_level);
         mPath = pPathChangeTLV->field_12_path;
         mCamera = pPathChangeTLV->field_14_camera;
         if (swapEffect < 0)

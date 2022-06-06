@@ -5,6 +5,7 @@
 #include "FixedPoint.hpp"
 #include "Primitives.hpp"
 #include "Layer.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 enum class RingTypes : s16
 {
@@ -95,7 +96,7 @@ private:
     s16 mRingBlue;
     s16 mRingSemiTrans;
     TPageAbr mRingTPageMode;
-    LevelIds mRingLevel;
+    EReliveLevelIds mRingLevel;
     s16 mRingPath;
     RingTypes mRingType;
     s32 mRingTargetObjId;

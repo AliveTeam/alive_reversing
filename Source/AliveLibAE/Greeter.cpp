@@ -146,7 +146,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
         pGreeter->field_C8_vely = pState->field_18_vely;
 
         pGreeter->field_C0_path_number = pState->field_8_path_number;
-        pGreeter->field_C2_lvl_number = pState->field_A_lvl_number;
+        pGreeter->field_C2_lvl_number = MapWrapper::FromAE(pState->field_A_lvl_number);
         pGreeter->field_CC_sprite_scale = pState->field_1C_sprite_scale;
 
         pGreeter->field_D0_r = pState->field_2_r;
@@ -203,7 +203,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
     pState->field_18_vely = field_C8_vely;
 
     pState->field_8_path_number = field_C0_path_number;
-    pState->field_A_lvl_number = field_C2_lvl_number;
+    pState->field_A_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pState->field_1C_sprite_scale = field_CC_sprite_scale;
 
     pState->field_2_r = field_D0_r;

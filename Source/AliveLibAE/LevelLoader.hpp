@@ -3,6 +3,7 @@
 #include "BaseGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 enum class LevelIds : s16;
 
@@ -33,7 +34,7 @@ private:
         eDone_2 = 2,
     };
     States field_22_state;
-    LevelIds field_24_level;
+    EReliveLevelIds field_24_level;
     s16 field_26_path;
     s16 field_28_camera;
     s16 field_2A_movie_id;

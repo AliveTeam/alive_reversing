@@ -15,7 +15,7 @@ enum class LevelIds : s16;
 struct MenuFMV final
 {
     const char_type* field_0_name;
-    LevelIds field_4_level_id;
+    EReliveLevelIds field_4_level_id;
     s16 field_6;
     s16 field_8;
     s16 field_A_fmv_id;
@@ -396,7 +396,7 @@ public:
     s16 field_23A_Inside_LoadGame_Screen;
     BitField32<Flags> field_23C_T80;
     s32 field_240_credits_current_cam;
-    LevelIds field_244_lvl_id;
+    EReliveLevelIds field_244_lvl_id;
     s16 field_246_path_id;
     s16 field_248_camera;
     s16 field_24A_abeXOff;

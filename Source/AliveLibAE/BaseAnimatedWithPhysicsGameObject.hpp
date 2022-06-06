@@ -14,7 +14,7 @@ class Shadow;
 
 struct TintEntry final
 {
-    LevelIds field_0_level;
+    EReliveLevelIds field_0_level;
     u8 field_1_r;
     u8 field_2_g;
     u8 field_3_b;
@@ -76,7 +76,7 @@ public:
 
     CameraPos Is_In_Current_Camera();
     void DealDamageRect(const PSX_RECT* pRect);
-    void SetTint(const TintEntry* pTintArray, LevelIds level_id);
+    void SetTint(const TintEntry* pTintArray, EReliveLevelIds level_id);
 
 protected:
     void SetRGB(s16 r, s16 g, s16 b);
@@ -87,7 +87,7 @@ public:
     FP mBaseAnimatedWithPhysicsGameObject_XPos;
     FP mBaseAnimatedWithPhysicsGameObject_YPos;
     s16 field_C0_path_number;
-    LevelIds field_C2_lvl_number;
+    EReliveLevelIds field_C2_lvl_number;
     FP field_C4_velx;
     FP field_C8_vely;
     FP field_CC_sprite_scale;

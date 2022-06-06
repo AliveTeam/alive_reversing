@@ -53,7 +53,7 @@ public:
     s16 OnTrapDoorIntersection(PlatformBase* pOther);
 
 protected:
-    s16 SetBaseAnimPaletteTint(TintEntry* pTintArray, LevelIds level_id, s32 resourceID);
+    s16 SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLevelIds level_id, s32 resourceID);
     Bool32 Check_IsOnEndOfLine(s16 direction, s16 distance);
     BaseAliveGameObject* GetStackedSlapTarget(s32 idToFind, ReliveTypes typeToFind, FP xpos, FP ypos);
     Bool32 WallHit(FP offY, FP offX);

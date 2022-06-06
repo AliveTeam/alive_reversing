@@ -5,6 +5,7 @@
 #include "../AliveLibCommon/BitField.hpp"
 #include "FixedPoint.hpp"
 #include <type_traits>
+#include "../relive_lib/MapWrapper.hpp"
 
 struct PathData;
 
@@ -241,7 +242,7 @@ public:
     void ctor_4DB170();
     void dtor_4DB1A0();
     void Free();
-    void Init(const PathData* pPathData, LevelIds level, s16 path, s16 cameraId, u8** ppPathRes);
+    void Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 cameraId, u8** ppPathRes);
 
 
     void Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToLoad);
@@ -276,7 +277,7 @@ public:
 
     static void Reset_TLVs(u16 pathId);
 
-    LevelIds field_0_levelId;
+    EReliveLevelIds field_0_levelId;
     u16 field_2_pathId;
     s16 field_4_cameraId;
     u16 field_6_cams_on_x;

@@ -131,7 +131,7 @@ struct PathBND
     info.mAbeStartXPos = data.field_1A_abe_start_xpos;
     info.mAbeStartYPos = data.field_1C_abe_start_ypos;
 
-    info.mNumMudsInPath = Path_GetMudsInLevel(static_cast<LevelIds>(idx), 0); // Can pass 0 for the path id as this is not overriding any hardcoded path data
+    info.mNumMudsInPath = Path_GetMudsInLevel(MapWrapper::FromAE(static_cast<LevelIds>(idx)), 0); // Can pass 0 for the path id as this is not overriding any hardcoded path data
     info.mTotalMuds = 300;
     info.mBadEndingMuds = 20;
     info.mGoodEndingMuds = 255;

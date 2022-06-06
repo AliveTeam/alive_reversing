@@ -178,21 +178,21 @@ void Factory_Door(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId
         Map::LoadResource("ABEDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbedoorResID, loadmode, FALSE);
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eNecrum_2:
-            case LevelIds::eMudomoVault_3:
-            case LevelIds::eMudancheeVault_4:
-            case LevelIds::eMudancheeVault_Ender_7:
-            case LevelIds::eMudomoVault_Ender_11:
+            case EReliveLevelIds::eNecrum:
+            case EReliveLevelIds::eMudomoVault:
+            case EReliveLevelIds::eMudancheeVault:
+            case EReliveLevelIds::eMudancheeVault_Ender:
+            case EReliveLevelIds::eMudomoVault_Ender:
                 Map::LoadResource("SVZDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
                 break;
 
-            case LevelIds::eFeeCoDepot_5:
-            case LevelIds::eFeeCoDepot_Ender_12:
+            case EReliveLevelIds::eFeeCoDepot:
+            case EReliveLevelIds::eFeeCoDepot_Ender:
                 Map::LoadResource("FDDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
                 break;
 
-            case LevelIds::eBarracks_6:
-            case LevelIds::eBarracks_Ender_13:
+            case EReliveLevelIds::eBarracks:
+            case EReliveLevelIds::eBarracks_Ender:
                 if (gMap.mOverlayId == 108)
                 {
                     Map::LoadResource("SHDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
@@ -203,13 +203,13 @@ void Factory_Door(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId
                 }
                 break;
 
-            case LevelIds::eBonewerkz_8:
-            case LevelIds::eBonewerkz_Ender_14:
+            case EReliveLevelIds::eBonewerkz:
+            case EReliveLevelIds::eBonewerkz_Ender:
                 Map::LoadResource("BWDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
                 break;
 
-            case LevelIds::eBrewery_9:
-            case LevelIds::eBrewery_Ender_10:
+            case EReliveLevelIds::eBrewery:
+            case EReliveLevelIds::eBrewery_Ender:
                 Map::LoadResource("BRDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
                 break;
 
@@ -251,37 +251,37 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
         gMap.LoadResource("ABELIFT.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeliftResID, loadMode);
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eNecrum_2:
+            case EReliveLevelIds::eNecrum:
                 LoadLiftPointResources("NECROPE.BAN", "NELIFT.BND", loadMode);
                 break;
 
-            case LevelIds::eMudomoVault_3:
-            case LevelIds::eMudomoVault_Ender_11:
+            case EReliveLevelIds::eMudomoVault:
+            case EReliveLevelIds::eMudomoVault_Ender:
                 LoadLiftPointResources("NECROPE.BAN", "PVLIFT.BND", loadMode);
                 break;
 
-            case LevelIds::eMudancheeVault_4:
-            case LevelIds::eMudancheeVault_Ender_7:
+            case EReliveLevelIds::eMudancheeVault:
+            case EReliveLevelIds::eMudancheeVault_Ender:
                 LoadLiftPointResources("NECROPE.BAN", "SVLIFT.BND", loadMode);
                 break;
 
-            case LevelIds::eFeeCoDepot_5:
-            case LevelIds::eFeeCoDepot_Ender_12:
+            case EReliveLevelIds::eFeeCoDepot:
+            case EReliveLevelIds::eFeeCoDepot_Ender:
                 LoadLiftPointResources("ROPES.BAN", "FDLIFT.BND", loadMode);
                 break;
 
-            case LevelIds::eBarracks_6:
-            case LevelIds::eBarracks_Ender_13:
+            case EReliveLevelIds::eBarracks:
+            case EReliveLevelIds::eBarracks_Ender:
                 LoadLiftPointResources("ROPES.BAN", "BALIFT.BND", loadMode);
                 break;
 
-            case LevelIds::eBonewerkz_8:
-            case LevelIds::eBonewerkz_Ender_14:
+            case EReliveLevelIds::eBonewerkz:
+            case EReliveLevelIds::eBonewerkz_Ender:
                 LoadLiftPointResources("ROPES.BAN", "BWLIFT.BND", loadMode);
                 break;
 
-            case LevelIds::eBrewery_9:
-            case LevelIds::eBrewery_Ender_10:
+            case EReliveLevelIds::eBrewery:
+            case EReliveLevelIds::eBrewery_Ender:
                 LoadLiftPointResources("ROPES.BAN", "BRLIFT.BND", loadMode);
                 break;
 
@@ -429,7 +429,7 @@ void Factory_FallingItem(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz)
         {
             gMap.LoadResource("FALLBONZ.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadmode);
             gMap.LoadResource("STICK.BAN", ResourceManager::Resource_Animation, AEResourceID::kStickGibResID, loadmode);
@@ -458,11 +458,11 @@ void Factory_PullRingRope(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevel
         gMap.LoadResource("ABEHOIST.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbehoistResID, loadmode);
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eNecrum_2:
-            case LevelIds::eMudomoVault_3:
-            case LevelIds::eMudancheeVault_4:
-            case LevelIds::eMudancheeVault_Ender_7:
-            case LevelIds::eMudomoVault_Ender_11:
+            case EReliveLevelIds::eNecrum:
+            case EReliveLevelIds::eMudomoVault:
+            case EReliveLevelIds::eMudancheeVault:
+            case EReliveLevelIds::eMudancheeVault_Ender:
+            case EReliveLevelIds::eMudomoVault_Ender:
                 gMap.LoadResource("NECROPE.BAN", ResourceManager::Resource_Animation, AEResourceID::kRopesResID, loadmode);
                 break;
             default:
@@ -781,10 +781,10 @@ void Factory_TrapDoor(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode 
     {
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eMudomoVault_3:
-            case LevelIds::eMudancheeVault_4:
-            case LevelIds::eMudancheeVault_Ender_7:
-            case LevelIds::eMudomoVault_Ender_11:
+            case EReliveLevelIds::eMudomoVault:
+            case EReliveLevelIds::eMudancheeVault:
+            case EReliveLevelIds::eMudancheeVault_Ender:
+            case EReliveLevelIds::eMudomoVault_Ender:
                 gMap.LoadResource("VLTSTRAP.BAN", ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, loadmode);
                 break;
 
@@ -860,13 +860,13 @@ void Factory_FootSwitch(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMod
     {
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eMudomoVault_3:
-            case LevelIds::eMudancheeVault_4:
-            case LevelIds::eMudancheeVault_Ender_7:
-            case LevelIds::eMudomoVault_Ender_11:
+            case EReliveLevelIds::eMudomoVault:
+            case EReliveLevelIds::eMudancheeVault:
+            case EReliveLevelIds::eMudancheeVault_Ender:
+            case EReliveLevelIds::eMudomoVault_Ender:
                 Map::LoadResource("VLTTRIGR.BAN", ResourceManager::Resource_Animation, AEResourceID::kTriggerResID, loadmode);
                 break;
-            case LevelIds::eBonewerkz_8:
+            case EReliveLevelIds::eBonewerkz:
                 Map::LoadResource("BWTRIGGR.BAN", ResourceManager::Resource_Animation, AEResourceID::kTriggerResID, loadmode);
                 break;
             default:
@@ -1279,18 +1279,18 @@ void Factory_Glukkon(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode l
     {
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eFeeCoDepot_5:
-            case LevelIds::eFeeCoDepot_Ender_12:
+            case EReliveLevelIds::eFeeCoDepot:
+            case EReliveLevelIds::eFeeCoDepot_Ender:
                 gMap.LoadResourcesFromList("ASLIK.BND", kAslik_563548.AsList(), loadMode);
                 break;
 
-            case LevelIds::eBarracks_6:
-            case LevelIds::eBarracks_Ender_13:
+            case EReliveLevelIds::eBarracks:
+            case EReliveLevelIds::eBarracks_Ender:
                 gMap.LoadResourcesFromList("DRIPIK.BND", KDripik_56355C.AsList(), loadMode);
                 break;
 
-            case LevelIds::eBonewerkz_8:
-            case LevelIds::eBonewerkz_Ender_14:
+            case EReliveLevelIds::eBonewerkz:
+            case EReliveLevelIds::eBonewerkz_Ender:
                 gMap.LoadResourcesFromList("PHLEG.BND", kPhleg_563570.AsList(), loadMode);
                 break;
 
@@ -1407,7 +1407,7 @@ void Factory_Fleech(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode lo
         gMap.LoadResource("FLEEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kFleeBlowResID_580, loadMode);
     }
     else if (
-        gMap.mCurrentLevel != LevelIds::eMudancheeVault_Ender_7 || gMap.mCurrentPath != 9 || gMap.mCurrentCamera != 4)
+        gMap.mCurrentLevel != EReliveLevelIds::eMudancheeVault_Ender || gMap.mCurrentPath != 9 || gMap.mCurrentCamera != 4)
     {
         ae_new<Fleech>(static_cast<Path_Fleech*>(pTlv), tlvInfo.all);
     }
@@ -1431,11 +1431,11 @@ void Factory_SlamDoor(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode 
     {
         switch (gMap.mCurrentLevel)
         {
-            case LevelIds::eNecrum_2:
-            case LevelIds::eMudomoVault_3:
-            case LevelIds::eMudancheeVault_4:
-            case LevelIds::eMudancheeVault_Ender_7:
-            case LevelIds::eMudomoVault_Ender_11:
+            case EReliveLevelIds::eNecrum:
+            case EReliveLevelIds::eMudomoVault:
+            case EReliveLevelIds::eMudancheeVault:
+            case EReliveLevelIds::eMudancheeVault_Ender:
+            case EReliveLevelIds::eMudomoVault_Ender:
                 Map::LoadResource("SLAMVLTS.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlamResID, loadmode);
                 break;
             default:
@@ -1578,7 +1578,7 @@ void Factory_ExplosionSet(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8)
+        if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz)
         {
             gMap.LoadResource("DRPROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kHoistRocks, loadMode);
             gMap.LoadResource("FALLBONZ.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2rockResID, loadMode);

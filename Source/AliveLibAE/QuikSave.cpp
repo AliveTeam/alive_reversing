@@ -337,7 +337,7 @@ void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
     sSwitchStates_5C1A28 = quicksaveData->field_45C_switch_states;
     gMap.field_D8_restore_quick_save = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);
     gMap.SetActiveCam(
-        quicksaveData->field_204_world_info.field_4_level,
+        MapWrapper::FromAE(quicksaveData->field_204_world_info.field_4_level),
         quicksaveData->field_204_world_info.field_6_path,
         quicksaveData->field_204_world_info.field_8_cam,
         CameraSwapEffects::eInstantChange_0,
@@ -705,7 +705,7 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     sControlledCharacter_5C1B8C->VGetBoundingRect(&rect, 1);
 
     pInfo->field_0_gnFrame = sGnFrame;
-    pInfo->field_4_level = gMap.mCurrentLevel;
+    pInfo->field_4_level = MapWrapper::ToAE(gMap.mCurrentLevel);
     pInfo->field_6_path = gMap.mCurrentPath;
     pInfo->field_8_cam = gMap.mCurrentCamera;
     pInfo->field_2E_use_alt_save_header = bUseAltSaveHeader_5C1BBC;

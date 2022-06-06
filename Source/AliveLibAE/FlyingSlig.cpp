@@ -344,7 +344,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->field_C8_vely = pSaveState->field_10_vely;
 
         pFlyingSlig->field_C0_path_number = pSaveState->field_14_path_number;
-        pFlyingSlig->field_C2_lvl_number = pSaveState->field_16_lvl_number;
+        pFlyingSlig->field_C2_lvl_number = MapWrapper::FromAE(pSaveState->field_16_lvl_number);
         pFlyingSlig->field_CC_sprite_scale = pSaveState->field_18_sprite_scale;
 
         pFlyingSlig->field_27C_r = pSaveState->field_1C_oldr;
@@ -434,7 +434,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->field_298_nextYPos = pSaveState->field_8C_nextYPos;
         pFlyingSlig->SetBrain(sFlyingSlig_Brain_table_552350[pSaveState->field_90_fns1_idx]);
         pFlyingSlig->field_1E8_unused = pSaveState->field_98_unused;
-        pFlyingSlig->field_2A0_abe_level = pSaveState->field_9A_abe_level;
+        pFlyingSlig->field_2A0_abe_level = MapWrapper::FromAE(pSaveState->field_9A_abe_level);
         pFlyingSlig->field_2A2_abe_path = pSaveState->field_9C_abe_path;
         pFlyingSlig->field_2A4_abe_camera = pSaveState->field_9E_abe_camera;
         pFlyingSlig->field_290_bobbing_values_index = pSaveState->field_A4_bobbing_values_index;
@@ -462,7 +462,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_10_vely = field_C8_vely;
 
     pState->field_14_path_number = field_C0_path_number;
-    pState->field_16_lvl_number = field_C2_lvl_number;
+    pState->field_16_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
     pState->field_1C_oldr = field_D0_r;
@@ -551,7 +551,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_98_unused = field_1E8_unused;
 
-    pState->field_9A_abe_level = field_2A0_abe_level;
+    pState->field_9A_abe_level = MapWrapper::ToAE(field_2A0_abe_level);
     pState->field_9C_abe_path = field_2A2_abe_path;
     pState->field_9E_abe_camera = field_2A4_abe_camera;
 
@@ -568,7 +568,7 @@ FlyingSlig::~FlyingSlig()
     {
         sControlledCharacter_5C1B8C = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
-        if (gMap.mLevel != LevelIds::eMenu_0)
+        if (gMap.mLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
                 field_2A0_abe_level,

@@ -9,21 +9,21 @@
 #include "AnimResources.hpp"
 
 const TintEntry kGibTints_55C744[] = {
-    {LevelIds::eMines_1, 87u, 103u, 67u},
-    {LevelIds::eNecrum_2, 87u, 103u, 67u},
-    {LevelIds::eMudomoVault_3, 87u, 103u, 67u},
-    {LevelIds::eMudancheeVault_4, 87u, 103u, 67u},
-    {LevelIds::eFeeCoDepot_5, 87u, 103u, 67u},
-    {LevelIds::eBarracks_6, 87u, 103u, 67u},
-    {LevelIds::eMudancheeVault_Ender_7, 87u, 103u, 67u},
-    {LevelIds::eBonewerkz_8, 87u, 103u, 67u},
-    {LevelIds::eBrewery_9, 87u, 103u, 67u},
-    {LevelIds::eBrewery_Ender_10, 87u, 103u, 67u},
-    {LevelIds::eMudomoVault_Ender_11, 87u, 103u, 67u},
-    {LevelIds::eFeeCoDepot_Ender_12, 87u, 103u, 67u},
-    {LevelIds::eBarracks_Ender_13, 87u, 103u, 67u},
-    {LevelIds::eBonewerkz_Ender_14, 87u, 103u, 67u},
-    {LevelIds::eNone, 87u, 103u, 67u}};
+    {EReliveLevelIds::eMines, 87u, 103u, 67u},
+    {EReliveLevelIds::eNecrum, 87u, 103u, 67u},
+    {EReliveLevelIds::eMudomoVault, 87u, 103u, 67u},
+    {EReliveLevelIds::eMudancheeVault, 87u, 103u, 67u},
+    {EReliveLevelIds::eFeeCoDepot, 87u, 103u, 67u},
+    {EReliveLevelIds::eBarracks, 87u, 103u, 67u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eBonewerkz, 87u, 103u, 67u},
+    {EReliveLevelIds::eBrewery, 87u, 103u, 67u},
+    {EReliveLevelIds::eBrewery_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eMudomoVault_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eBarracks_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eBonewerkz_Ender, 87u, 103u, 67u},
+    {EReliveLevelIds::eNone, 87u, 103u, 67u}};
 
 ALIVE_VAR(1, 0x550e80, s16, sGibRandom_550E80, 13);
 

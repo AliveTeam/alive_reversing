@@ -17,9 +17,9 @@
 #include "SwitchStates.hpp"
 
 const TintEntry kMovingBombTints_55C734[4] = {
-    {LevelIds::eBarracks_6, 97u, 97u, 97u},
-    {LevelIds::eBrewery_Ender_10, 127u, 127u, 127u},
-    {LevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eBarracks, 97u, 97u, 97u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 ALIVE_VAR(1, 0x5C300C, MovingBomb*, gMovingBomb_5C300C, nullptr);
 

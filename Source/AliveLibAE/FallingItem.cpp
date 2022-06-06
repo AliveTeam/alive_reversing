@@ -313,7 +313,7 @@ void FallingItem::VUpdate()
 
             ae_new<ScreenShake>(0, field_CC_sprite_scale == FP_FromDouble(0.5));
 
-            if (gMap.mCurrentLevel == LevelIds::eBonewerkz_8)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz)
             {
                 ae_new<ParticleBurst>(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                    mBaseAnimatedWithPhysicsGameObject_YPos,

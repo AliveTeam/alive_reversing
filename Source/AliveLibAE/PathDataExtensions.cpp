@@ -3,6 +3,7 @@
 #include "LvlArchive.hpp"
 #include "LCDScreen.hpp"
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 struct MudCounts final
 {
@@ -13,19 +14,19 @@ struct MudCounts final
 static MudCounts sMudExtData[static_cast<u32>(LevelIds::eCredits_16) + 1][99];
 
 
-s32 Path_GetTotalMuds(LevelIds lvlId, u32 pathNum)
+s32 Path_GetTotalMuds(EReliveLevelIds lvlId, u32 pathNum)
 {
-    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mTotal;
+    return sMudExtData[static_cast<u32>(MapWrapper::ToAE(lvlId))][pathNum].mTotal;
 }
 
-s32 Path_BadEndingMuds(LevelIds lvlId, u32 pathNum)
+s32 Path_BadEndingMuds(EReliveLevelIds lvlId, u32 pathNum)
 {
-    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mBadEnding;
+    return sMudExtData[static_cast<u32>(MapWrapper::ToAE(lvlId))][pathNum].mBadEnding;
 }
 
-s32 Path_GoodEndingMuds(LevelIds lvlId, u32 pathNum)
+s32 Path_GoodEndingMuds(EReliveLevelIds lvlId, u32 pathNum)
 {
-    return sMudExtData[static_cast<u32>(lvlId)][pathNum].mGoodEnding;
+    return sMudExtData[static_cast<u32>(MapWrapper::ToAE(lvlId))][pathNum].mGoodEnding;
 }
 
 static u8* sPathExtData[static_cast<u32>(LevelIds::eCredits_16) + 1] = {};
@@ -44,12 +45,17 @@ void Path_Set_NewData_FromLvls()
 {
     for (s32 lvlIdx = 0; lvlIdx < Path_Get_Paths_Count(); lvlIdx++)
     {
+        if (lvlIdx == static_cast<s32>(LevelIds::eNotUsed_15))
+        {
+            continue;
+        }
+
         // Open the LVL
         LvlArchive archive;
-        if (archive.Open_Archive_432E80(CdLvlName(static_cast<LevelIds>(lvlIdx))))
+        if (archive.Open_Archive_432E80(CdLvlName(MapWrapper::FromAE(static_cast<LevelIds>(lvlIdx)))))
         {
             // Check for hard coded data replacement
-            LvlFileRecord* pRec = archive.Find_File_Record_433160(Path_Get_BndName(static_cast<LevelIds>(lvlIdx)));
+            LvlFileRecord* pRec = archive.Find_File_Record_433160(Path_Get_BndName(MapWrapper::FromAE(static_cast<LevelIds>(lvlIdx))));
             if (pRec)
             {
                 // Load the file data
@@ -150,10 +156,10 @@ void Path_Set_NewData_FromLvls()
 
                             if (pExt->mNumMudsInPath != 0)
                             {
-                                if (pExt->mNumMudsInPath != Path_GetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mPathId))
+                                if (pExt->mNumMudsInPath != Path_GetMudsInLevel(MapWrapper::FromAE(static_cast<LevelIds>(lvlIdx)), pExt->mPathId))
                                 {
                                     LOG_INFO("Set muds in lvl count to " << pExt->mNumMudsInPath);
-                                    Path_SetMudsInLevel(static_cast<LevelIds>(lvlIdx), pExt->mPathId, pExt->mNumMudsInPath);
+                                    Path_SetMudsInLevel(MapWrapper::FromAE(static_cast<LevelIds>(lvlIdx)), pExt->mPathId, pExt->mNumMudsInPath);
                                 }
                             }
                         }

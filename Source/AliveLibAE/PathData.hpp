@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Factory.hpp"
 #include "Collisions.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 enum class LevelIds : s16
 {
@@ -114,7 +115,7 @@ struct PathRootContainer final
 struct PerLvlData final
 {
     const char_type* field_0_display_name;
-    LevelIds field_4_level;
+    EReliveLevelIds field_4_level;
     u16 field_6_path;
     u16 field_8_camera;
     u16 field_A_id;
@@ -138,31 +139,31 @@ struct SeqHandleTable final
     OpenSeqHandle mSeqs[145];
 };
 
-const PathBlyRec* Path_Get_Bly_Record(LevelIds lvlId, u16 pathId);
+const PathBlyRec* Path_Get_Bly_Record(EReliveLevelIds lvlId, u16 pathId);
 
 // note: has to be writable
-FmvInfo* Path_Get_FMV_Record(LevelIds lvlId, u16 fmvId);
+FmvInfo* Path_Get_FMV_Record(EReliveLevelIds lvlId, u16 fmvId);
 
-void Path_Format_CameraName(char_type* pStrBuffer, LevelIds levelId, s16 pathId, s16 cameraId);
+void Path_Format_CameraName(char_type* pStrBuffer, EReliveLevelIds levelId, s16 pathId, s16 cameraId);
 
-const char_type* CdLvlName(LevelIds lvlId);
+const char_type* CdLvlName(EReliveLevelIds lvlId);
 
-const char_type* Path_Get_Lvl_Name(LevelIds lvlId);
+const char_type* Path_Get_Lvl_Name(EReliveLevelIds lvlId);
 
-s16 Path_Get_Num_Paths(LevelIds lvlId);
+s16 Path_Get_Num_Paths(EReliveLevelIds lvlId);
 
-s16 Path_Get_Unknown(LevelIds lvlId);
+s16 Path_Get_Unknown(EReliveLevelIds lvlId);
 
-const char_type* Path_Get_BndName(LevelIds lvlId);
+const char_type* Path_Get_BndName(EReliveLevelIds lvlId);
 
 // note: has to be writable
-SoundBlockInfo* Path_Get_MusicInfo(LevelIds lvlId);
+SoundBlockInfo* Path_Get_MusicInfo(EReliveLevelIds lvlId);
 
-s16 Path_Get_Reverb(LevelIds lvlId);
+s16 Path_Get_Reverb(EReliveLevelIds lvlId);
 
-const char_type* Path_Get_BsqFileName(LevelIds lvlId);
+const char_type* Path_Get_BsqFileName(EReliveLevelIds lvlId);
 
-s16 Path_Get_BackGroundMusicId(LevelIds lvlId);
+s16 Path_Get_BackGroundMusicId(EReliveLevelIds lvlId);
 
 s32 Path_Get_Paths_Count();
 
@@ -172,8 +173,8 @@ CollisionInfo* GetCollisions(s32 lvlId);
 
 PathData* GetPathData(s32 lvlId);
 
-void Path_SetMudsInLevel(LevelIds lvlId, u32 pathId, u32 count);
+void Path_SetMudsInLevel(EReliveLevelIds lvlId, u32 pathId, u32 count);
 
-s16 Path_GetMudsInLevel(LevelIds lvlId, u32 pathId);
+s16 Path_GetMudsInLevel(EReliveLevelIds lvlId, u32 pathId);
 
 extern SeqHandleTable sSeqData_558D50;

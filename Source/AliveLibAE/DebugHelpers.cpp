@@ -215,7 +215,7 @@ void Command_Teleport(const std::vector<std::string>& args)
         bool found = false;
         for (s16 i = 0; i < Path_Get_Paths_Count(); i++)
         {
-            if (!strcmpi(Path_Get_Lvl_Name(static_cast<LevelIds>(i)), args[0].c_str()))
+            if (!strcmpi(Path_Get_Lvl_Name(MapWrapper::FromAE(static_cast<LevelIds>(i))), args[0].c_str()))
             {
                 level = i;
                 found = true;
@@ -230,7 +230,7 @@ void Command_Teleport(const std::vector<std::string>& args)
     }
     s16 path = static_cast<s16>(std::stoi(args[1]));
     s16 cam = static_cast<s16>(std::stoi(args[2]));
-    gMap.SetActiveCam(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::ePlay1FMV_5, 0, 0);
+    gMap.SetActiveCam(MapWrapper::FromAE(static_cast<LevelIds>(level)), path, cam, CameraSwapEffects::ePlay1FMV_5, 0, 0);
 
 
     sHasTeleported = true;
@@ -308,7 +308,7 @@ void Command_DDV(const std::vector<std::string>& args)
             break;
         }
 
-        if (!Display_Full_Screen_Message_Blocking(Path_Get_Unknown(static_cast<LevelIds>(sLevelId_dword_5CA408)), MessageType::eSkipMovie_1))
+        if (!Display_Full_Screen_Message_Blocking(Path_Get_Unknown(MapWrapper::FromAE(static_cast<LevelIds>(sLevelId_dword_5CA408))), MessageType::eSkipMovie_1))
         {
             break;
         }

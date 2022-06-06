@@ -494,7 +494,7 @@ void PauseMenu::VRender(PrimHeader** ot)
 
 void PauseMenu::VScreenChanged()
 {
-    if (gMap.mLevel == LevelIds::eCredits_16)
+    if (gMap.mLevel == EReliveLevelIds::eCredits)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -945,7 +945,7 @@ void PauseMenu::RestartPath()
     Quicksave_ReadWorldInfo(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
 
     gMap.SetActiveCam(
-        sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
+        MapWrapper::FromAE(sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level),
         sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path,
         sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_8_cam,
         CameraSwapEffects::eInstantChange_0,
@@ -956,7 +956,7 @@ void PauseMenu::RestartPath()
     if (sActiveHero->field_1A2_throwable_count)
     {
         LoadRockTypes_49AB30(
-            sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
+            MapWrapper::FromAE(sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level),
             sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path);
 
         if (!gpThrowableArray_5D1E2C)
@@ -1144,7 +1144,7 @@ void PauseMenu::Page_ReallyQuit_Update()
         }
 
         pPauseMenu_5C9300 = 0;
-        gMap.SetActiveCam(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         gMap.field_CE_free_all_anim_and_palts = 1;
         sCurrentControllerIndex_5C1BBE = 0;
     }

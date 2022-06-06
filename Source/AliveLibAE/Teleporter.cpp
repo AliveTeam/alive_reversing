@@ -212,7 +212,7 @@ void Teleporter::VUpdate()
             }
 
             gMap.SetActiveCam(
-                field_34_mTlvData.field_18_level,
+                MapWrapper::FromAE(field_34_mTlvData.field_18_level),
                 field_34_mTlvData.field_16_path,
                 field_34_mTlvData.field_14_camera,
                 effect,

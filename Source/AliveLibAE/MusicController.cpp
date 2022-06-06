@@ -407,7 +407,7 @@ MusicController::MusicController()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_40_flags_and_idx = -1;
-    field_24_currentLevelID = LevelIds::eNone;
+    field_24_currentLevelID = EReliveLevelIds::eNone;
     field_28_object_id = -1;
     field_2C_flags_and_seq_idx = -1;
     field_42_type = MusicTypes::eNone_0;

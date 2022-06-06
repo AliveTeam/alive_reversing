@@ -232,7 +232,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->field_50_falling_velx_scale_factor = field_128_falling_velx_scale_factor;
 
     pState->field_18_path_number = field_C0_path_number;
-    pState->field_1A_lvl_number = field_C2_lvl_number;
+    pState->field_1A_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pState->field_1C_sprite_scale = field_CC_sprite_scale;
 
     pState->mRingRed = field_D0_r;
@@ -391,7 +391,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
     pSlog->field_C8_vely = pState->field_14_vely;
     pSlog->field_128_falling_velx_scale_factor = pState->field_50_falling_velx_scale_factor;
     pSlog->field_C0_path_number = pState->field_18_path_number;
-    pSlog->field_C2_lvl_number = pState->field_1A_lvl_number;
+    pSlog->field_C2_lvl_number = MapWrapper::FromAE(pState->field_1A_lvl_number);
     pSlog->field_CC_sprite_scale = pState->field_1C_sprite_scale;
     pSlog->field_D0_r = pState->mRingRed;
     pSlog->field_D2_g = pState->mRingGreen;
@@ -2769,21 +2769,21 @@ void Slog::SetAnimFrame_4C42A0()
 }
 
 const TintEntry sSlogTints_560A48[] = {
-    {LevelIds::eMines_1, 127u, 127u, 127u},
-    {LevelIds::eNecrum_2, 127u, 127u, 127u},
-    {LevelIds::eMudomoVault_3, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_4, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_5, 127u, 127u, 127u},
-    {LevelIds::eBarracks_6, 127u, 127u, 127u},
-    {LevelIds::eMudancheeVault_Ender_7, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_8, 127u, 127u, 127u},
-    {LevelIds::eBrewery_9, 127u, 127u, 127u},
-    {LevelIds::eBrewery_Ender_10, 127u, 127u, 127u},
-    {LevelIds::eMudomoVault_Ender_11, 127u, 127u, 127u},
-    {LevelIds::eFeeCoDepot_Ender_12, 127u, 127u, 127u},
-    {LevelIds::eBarracks_Ender_13, 127u, 127u, 127u},
-    {LevelIds::eBonewerkz_Ender_14, 127u, 127u, 127u},
-    {LevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 void Slog::Init_4C46A0()
 {

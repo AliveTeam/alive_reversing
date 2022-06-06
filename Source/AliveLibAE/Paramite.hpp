@@ -331,7 +331,7 @@ private:
     s32 field_144_group_chase_delay;
     s32 field_148_timer;
     s16 field_14C_id;
-    LevelIds field_14E_return_level;
+    EReliveLevelIds field_14E_return_level;
     s16 field_150_return_path;
     s16 field_152_return_camera;
     s32 field_154_input;

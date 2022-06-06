@@ -62,7 +62,7 @@ s32 Grenade::CreateFromSaveState(const u8* pBuffer)
     pGrenade->field_C4_velx = pState->field_10_velx;
     pGrenade->field_C8_vely = pState->field_14_vely;
     pGrenade->field_C0_path_number = pState->field_1C_path_number;
-    pGrenade->field_C2_lvl_number = pState->field_1E_lvl_number;
+    pGrenade->field_C2_lvl_number = MapWrapper::FromAE(pState->field_1E_lvl_number);
     pGrenade->field_CC_sprite_scale = pState->field_18_sprite_scale;
 
     pGrenade->field_20_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Grenade_SaveState::eBit3_bLoop));
@@ -102,7 +102,7 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
     pState->field_14_vely = field_C8_vely;
 
     pState->field_1C_path_number = field_C0_path_number;
-    pState->field_1E_lvl_number = field_C2_lvl_number;
+    pState->field_1E_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
     pState->field_20_flags.Set(Grenade_SaveState::eBit3_bLoop, field_20_animation.mAnimFlags.Get(AnimFlags::eBit8_Loop));
