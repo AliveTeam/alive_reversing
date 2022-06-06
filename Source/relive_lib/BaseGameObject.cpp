@@ -23,6 +23,7 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
     }
 
     mBaseGameObjectUpdateDelay = 0;
+    mBaseGameObjectRefCount = 0;
 
     SetType(ReliveTypes::eNone);
 

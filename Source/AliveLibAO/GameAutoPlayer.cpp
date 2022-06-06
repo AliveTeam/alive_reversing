@@ -91,28 +91,48 @@ bool Player::ValidateObjectStates()
         {
             s16 objType = 0;
             mFile.Read(objType);
+            // Convert to relive type
+            ReliveTypes reliveObjType = BaseGameObject::FromAO(static_cast<AOTypes>(objType));
+
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+            if (pObj->mBaseGameObjectTypeId != reliveObjType)
+            {
+                LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId)) << " type but expected " << objType);
+            }
             ValidateBaseAliveGameObject(nullptr);
         }
-        return validateFailed;
-    }
 
-    for (u32 i = 0; i < objCount; i++)
-    {
-        s16 objType = 0;
-        mFile.Read(objType);
-        
-        // Convert to relive type
-        ReliveTypes reliveObjType = BaseGameObject::FromAO(static_cast<AOTypes>(objType));
-
-        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-        if (pObj->mBaseGameObjectTypeId != reliveObjType)
+        if (gBaseGameObjects->Size() > static_cast<s32>(objCount))
         {
-            LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId)) << " type but expected " << objType);
-            validateFailed |= true;
+            // What extra stuff is knocking about?
+            for (s32 i = objCount; i < gBaseGameObjects->Size(); i++)
+            {
+                const BaseGameObject* pExtraObj = gBaseGameObjects->ItemAt(i);
+                const s32 aoType = static_cast<s32>(BaseGameObject::ToAO(pExtraObj->Type()));
+                LOG_INFO("Extra obj type is : " << aoType);
+            }
         }
-        if (!ValidateBaseAliveGameObject(pObj))
+    }
+    else
+    {
+        for (u32 i = 0; i < objCount; i++)
         {
-            validateFailed |= true;
+            s16 objType = 0;
+            mFile.Read(objType);
+
+            // Convert to relive type
+            ReliveTypes reliveObjType = BaseGameObject::FromAO(static_cast<AOTypes>(objType));
+
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+            if (pObj->mBaseGameObjectTypeId != reliveObjType)
+            {
+                LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId)) << " type but expected " << objType);
+                validateFailed |= true;
+            }
+            if (!ValidateBaseAliveGameObject(pObj))
+            {
+                validateFailed |= true;
+            }
         }
     }
 
