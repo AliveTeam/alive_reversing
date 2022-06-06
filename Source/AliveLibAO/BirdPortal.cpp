@@ -18,7 +18,7 @@
 #include "ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "PsxDisplay.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "AbilityRing.hpp"
 #include "Sys_common.hpp"
 

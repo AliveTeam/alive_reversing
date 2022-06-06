@@ -5,7 +5,7 @@
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "PathData.hpp"
 #include "../AliveLibAE/Path.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibAE/Map.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 
@@ -182,7 +182,7 @@ enum class CameraPos : s16
     eCamNone_5 = 5, // Not "in" the camera
 };
 
-class Map final
+class Map final : public IMap
 {
 public:
     enum class MapDirections : s16
@@ -224,7 +224,7 @@ public:
     void Get_map_size(PSX_Point* pPoint);
 
     void GetCurrentCamCoords(PSX_Point* pPoint);
-    s16 GetOverlayId();
+    s16 GetOverlayId() override;
 
     static CameraSwapper* FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds levelId);
 
@@ -272,10 +272,6 @@ public:
 
     void SaveBlyData(u8* pSaveBuffer);
 
-    EReliveLevelIds mCurrentLevel;
-    s16 mCurrentPath;
-    s16 mCurrentCamera;
-
     enum class CamChangeStates : s16
     {
         eInactive_0 = 0,
@@ -284,9 +280,7 @@ public:
     };
     CamChangeStates field_6_state;
     s16 field_8_force_load;
-    EReliveLevelIds mLevel;
-    s16 mPath;
-    s16 mCamera;
+
     CameraSwapEffects field_10_screenChangeEffect;
     s16 field_12_fmv_base_id;
     MapDirections field_14_direction;
@@ -297,8 +291,7 @@ public:
     s16 field_20_camX_idx;
     s16 field_22_camY_idx;
     u16 field_24_max_cams_x;
-    u16 field_26_max_cams_y;
-    s16 mOverlayId;
+    u16 field_26_max_cams_y;;
     s16 field_2A;
     FP_Point field_2C_camera_offset;
     Camera* field_34_camera_array[5];

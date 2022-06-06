@@ -1,6 +1,6 @@
 #include "GameAutoPlayer.hpp"
 #include "Sys_common.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Input.hpp"
 
@@ -13,7 +13,7 @@ void Recorder::SaveObjectStates()
     for (u32 i = 0; i < objCount; i++)
     {
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-        const s16 objType = static_cast<s16>(IBaseGameObject::ToAO(pObj->mBaseGameObjectTypeId));
+        const s16 objType = static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId));
         ::fwrite(&objType, sizeof(s16), 1, mFile.GetFile());
 
         const u32 isBaseAliveGameObject = pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6);
@@ -102,12 +102,12 @@ bool Player::ValidateObjectStates()
         mFile.Read(objType);
         
         // Convert to relive type
-        ReliveTypes reliveObjType = IBaseGameObject::FromAO(static_cast<AOTypes>(objType));
+        ReliveTypes reliveObjType = BaseGameObject::FromAO(static_cast<AOTypes>(objType));
 
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (pObj->mBaseGameObjectTypeId != reliveObjType)
         {
-            LOG_ERROR("Got " << static_cast<s16>(IBaseGameObject::ToAO(pObj->mBaseGameObjectTypeId)) << " type but expected " << objType);
+            LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId)) << " type but expected " << objType);
             validateFailed |= true;
         }
         if (!ValidateBaseAliveGameObject(pObj))

@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "Primitives.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 
 class ScreenShake final : public BaseGameObject
 {

@@ -5,6 +5,8 @@ SET(relive_lib_src
     ObjectIds.cpp
     BaseGameObject.hpp
     BaseGameObject.cpp
+    DynamicArray.hpp
+    DynamicArray.cpp
     Events.hpp
     Events.cpp
     GameType.hpp

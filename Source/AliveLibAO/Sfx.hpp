@@ -2,6 +2,8 @@
 
 #include "../AliveLibCommon/Function.hpp"
 
+class BaseGameObject;
+
 namespace AO {
 
 enum SoundEffect : u8
@@ -123,7 +125,6 @@ enum SoundEffect : u8
 
 class BaseAnimatedWithPhysicsGameObject;
 class BaseAliveGameObject;
-class BaseGameObject;
 
 enum class CameraPos : s16;
 

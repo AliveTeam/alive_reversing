@@ -7,7 +7,7 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 
-static u8** Add_Resource(AO::DynamicArrayT<u8 *>& resourceArray, u32 type, s32 resourceID)
+static u8** Add_Resource(DynamicArrayT<u8 *>& resourceArray, u32 type, s32 resourceID)
 {
     u8** ppRes = AO::ResourceManager::GetLoadedResource_4554F0(type, resourceID, 1, 0);
     if (ppRes)
@@ -41,9 +41,9 @@ void TestAnimation::DelayLoad()
         LOG_WARNING("Anim resource already loaded - BAN/BND name not verified/loaded by test animation");
     }
 
-    static AO::DynamicArrayT<u8*> resourceArray{50};
+    static DynamicArrayT<u8*> resourceArray{50};
 
-    u8** ppRes = Add_Resource(resourceArray, AO::ResourceManager::Resource_Animation, animRec.mResourceId);
+    u8** ppRes = ::Add_Resource(resourceArray, AO::ResourceManager::Resource_Animation, animRec.mResourceId);
     Animation_Init_417FD0(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1);
     field_10_anim.mAnimFlags.Set(AO::AnimFlags::eBit8_Loop);
 
@@ -60,7 +60,7 @@ void TestAnimation::DelayLoad()
             LOG_WARNING("Pal resource already loaded - BAN/BND name not verified by test animation");
         }
 
-        u8** ppPal = Add_Resource(resourceArray, AO::ResourceManager::Resource_Palt, palRec.mResourceId);
+        u8** ppPal = ::Add_Resource(resourceArray, AO::ResourceManager::Resource_Palt, palRec.mResourceId);
         if (ppPal)
         {
             field_10_anim.LoadPal(ppPal, 0);

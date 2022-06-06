@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "Game.hpp"
 #include "Input.hpp"
 #include "../AliveLibCommon/Function.hpp"

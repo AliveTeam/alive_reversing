@@ -2,15 +2,15 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "FixedPoint.hpp"
-#include "DynamicArray.hpp"
+#include "../relive_lib/DynamicArray.hpp"
 #include "../AliveLibCommon/BitField.hpp"
 #include "Psx.hpp"
 #include "Primitives.hpp"
 #include "Layer.hpp"
 
-namespace AO {
-
 class BaseGameObject;
+
+namespace AO {
 
 using TFrameCallBackType = s16*(CC*) (BaseGameObject*, s16*);
 
@@ -202,8 +202,6 @@ public:
     Layer mRenderLayer;
     s16 mFrameChangeCounter;
 };
-
-class BaseGameObject;
 
 class Animation final : public AnimationBase
 {

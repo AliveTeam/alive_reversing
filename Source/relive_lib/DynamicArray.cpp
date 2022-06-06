@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "DynamicArray.hpp"
-#include "stdlib.hpp"
-#include "Function.hpp"
 
 DynamicArray::DynamicArray(s32 startingSize)
 {
@@ -10,7 +8,7 @@ DynamicArray::DynamicArray(s32 startingSize)
         startingSize = 1;
     }
 
-    field_0_array = reinterpret_cast<void**>(ae_malloc_non_zero_4954F0(startingSize * sizeof(void*)));
+    field_0_array = new (std::nothrow) void*[startingSize]; // TODO: Needs to be strongly typed
     field_4_used_size = 0;
     field_6_max_size = 0;
 
@@ -23,7 +21,7 @@ DynamicArray::DynamicArray(s32 startingSize)
 
 DynamicArray::~DynamicArray()
 {
-    ae_non_zero_free_495560(field_0_array);
+    delete[] field_0_array;
 }
 
 s16 DynamicArray::Push_Back(void* pValue)
@@ -74,7 +72,7 @@ s16 DynamicArray::Expand(s16 expandSize)
 {
     // Calculate new size and allocate buffer
     const s16 newSize = field_6_max_size + expandSize;
-    void** pNewBuffer = reinterpret_cast<void**>(ae_malloc_non_zero_4954F0(newSize * sizeof(void*)));
+    void** pNewBuffer = new (std::nothrow) void*[newSize];
     if (!pNewBuffer)
     {
         return 0;
@@ -87,7 +85,7 @@ s16 DynamicArray::Expand(s16 expandSize)
     // OG BUG: Null checked here but not at the memcpy
     if (field_0_array)
     {
-        ae_non_zero_free_495560(field_0_array);
+        delete[] field_0_array;
     }
 
     // Update max size and array pointer

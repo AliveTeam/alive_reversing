@@ -72,7 +72,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Change, 0x1C);
 
 enum class LoadMode : s16;
 
-class Map final
+class Map final : public IMap
 {
 public:
     enum class MapDirections : s16
@@ -83,10 +83,6 @@ public:
         eMapBottom_3 = 3,
     };
 
-    EReliveLevelIds mCurrentLevel;
-    s16 mCurrentPath;
-    s16 mCurrentCamera;
-
     enum class CamChangeStates : s16
     {
         eInactive_0 = 0,
@@ -96,9 +92,6 @@ public:
     CamChangeStates field_6_state;
     s16 field_8_force_load;
 
-    EReliveLevelIds mLevel;
-    s16 mPath;
-    s16 mCamera;
     CameraSwapEffects field_10_screen_change_effect;
     u16 field_12_fmv_base_id;
 
@@ -110,7 +103,6 @@ public:
     CameraSwapEffects field_1C;
     s16 field_1E_door;
     s16 field_20;
-    s16 mOverlayId;
 
     FP_Point field_24_camera_offset;
 
@@ -147,7 +139,7 @@ public:
     void Get_map_size(PSX_Point* pPoint);
     void GetCurrentCamCoords(PSX_Point* pPoint);
     void Get_Abe_Spawn_Pos(PSX_Point* pPoint);
-    s16 GetOverlayId();
+    s16 GetOverlayId() override;
     void Create_FG1s();
     CameraPos Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect);
     s16 SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);

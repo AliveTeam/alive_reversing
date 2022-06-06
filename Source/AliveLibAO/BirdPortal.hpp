@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
-#include "DynamicArray.hpp"
+#include "../relive_lib/DynamicArray.hpp"
 #include "../AliveLibAE/Path.hpp"
 
 enum class EReliveLevelIds : s16;

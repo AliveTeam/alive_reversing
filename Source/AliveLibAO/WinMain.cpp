@@ -4,7 +4,7 @@
 #include "bmp.hpp"
 #include "Psx_common.hpp"
 #include "stdlib.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "DynamicArray.hpp"
 #include "Game.hpp"
 #include "Map.hpp"

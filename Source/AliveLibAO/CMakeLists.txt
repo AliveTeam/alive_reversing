@@ -235,10 +235,6 @@ SET(AliveLibSrcAO
    Slig.cpp
    SligSpawner.hpp
    SligSpawner.cpp
-   BaseGameObject.hpp
-   BaseGameObject.cpp
-   DynamicArray.hpp
-   DynamicArray.cpp
    Game.hpp
    Game.cpp
    stdlib.hpp

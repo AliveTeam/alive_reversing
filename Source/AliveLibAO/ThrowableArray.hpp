@@ -1,6 +1,6 @@
 #pragma once
 #include "../AliveLibCommon/Function.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 
 enum class EReliveLevelIds : s16;
 

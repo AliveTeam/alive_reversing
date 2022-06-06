@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 
 enum class CameraSwapEffects : s16;
 

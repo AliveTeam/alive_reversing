@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "Events.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "GameType.hpp"
 
 struct EventsArray final
 {
-    IBaseGameObject* field_0_event_ptrs[Event::kEventMax];
+    BaseGameObject* field_0_event_ptrs[Event::kEventMax];
 };
 
 struct Events final
@@ -18,12 +18,12 @@ struct Events final
 static s16 sEventsToUse = 0;
 static Events sEventPtrs = {};
 
-void Event_Broadcast(Event eventType, IBaseGameObject* pObject)
+void Event_Broadcast(Event eventType, BaseGameObject* pObject)
 {
     sEventPtrs.field_0_events[!sEventsToUse].field_0_event_ptrs[eventType] = pObject;
 }
 
-IBaseGameObject* Event_Get(Event eventType)
+BaseGameObject* Event_Get(Event eventType)
 {
     return sEventPtrs.field_0_events[sEventsToUse].field_0_event_ptrs[eventType];
 }
@@ -55,13 +55,13 @@ const s32 kGridMapHeight = 260;
 
 IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, s16 scale)
 {
-    IBaseGameObject* pObj = sEventPtrs.field_0_events[sEventsToUse].field_0_event_ptrs[eventType];
+    BaseGameObject* pObj = sEventPtrs.field_0_events[sEventsToUse].field_0_event_ptrs[eventType];
     if (!pObj)
     {
         return nullptr;
     }
 
-    if (!(pObj->mBaseGameObjectFlags.Get(IBaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5)) || !(pObj->mBaseGameObjectFlags.Get(IBaseGameObject::eDrawable_Bit4)))
+    if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5)) || !(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4)))
     {
         return nullptr;
     }
@@ -91,13 +91,13 @@ IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP 
 
 IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, FP scale)
 {
-    IBaseGameObject* pObj = sEventPtrs.field_0_events[sEventsToUse].field_0_event_ptrs[eventType];
+    BaseGameObject* pObj = sEventPtrs.field_0_events[sEventsToUse].field_0_event_ptrs[eventType];
     if (!pObj)
     {
         return nullptr;
     }
 
-    if (!(pObj->mBaseGameObjectFlags.Get(IBaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5)) || !(pObj->mBaseGameObjectFlags.Get(IBaseGameObject::eDrawable_Bit4)))
+    if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5)) || !(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4)))
     {
         return nullptr;
     }
@@ -112,7 +112,7 @@ IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP 
     return nullptr;
 }
 
-void Event_Cancel_For_Obj(IBaseGameObject* pObj)
+void Event_Cancel_For_Obj(BaseGameObject* pObj)
 {
     for (s32 i = 0; i < 2; i++)
     {

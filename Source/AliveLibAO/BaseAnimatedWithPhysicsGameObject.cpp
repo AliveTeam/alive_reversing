@@ -16,7 +16,7 @@
 namespace AO {
 
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
-    : BaseGameObject(TRUE, 0)
+    : IBaseAnimatedWithPhysicsGameObject(0)
 {
     field_CC_bApplyShadows |= 1u;
     field_B0_path_number = gMap.mCurrentPath;

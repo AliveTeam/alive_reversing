@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
 #include "../AliveLibCommon/Function.hpp"

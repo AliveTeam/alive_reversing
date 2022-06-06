@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "Slurg.hpp"
 
 struct Slurg_Spawner_Path_Data final

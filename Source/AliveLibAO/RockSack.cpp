@@ -1,5 +1,5 @@
 #include "stdlib.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "Events.hpp"
 #include "Math.hpp"
 #include "Rock.hpp"

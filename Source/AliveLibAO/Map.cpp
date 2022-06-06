@@ -29,9 +29,10 @@
 #include "Sys.hpp"
 #include "PlatformBase.hpp"
 
+class BaseGameObject;
+
 namespace AO {
 
-class BaseGameObject;
 
 void Map_ForceLink()
 { }

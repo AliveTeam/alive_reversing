@@ -19,8 +19,6 @@ SET(AliveLibAESrc
     PathDataExtensions.hpp
     Input.cpp
     Input.hpp
-    DynamicArray.cpp
-    DynamicArray.hpp
     Sys.cpp
     Sys.hpp
     VGA.cpp
@@ -67,8 +65,6 @@ SET(AliveLibAESrc
     AmbientSound.hpp
     ResourceManager.cpp
     ResourceManager.hpp
-    BaseGameObject.cpp
-    BaseGameObject.hpp
     BaseAliveGameObject.cpp
     BaseAliveGameObject.hpp
     BaseAnimatedWithPhysicsGameObject.cpp

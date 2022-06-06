@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "Animation.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "../AliveLibCommon/Psx_common.hpp"
@@ -39,8 +39,7 @@ using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typicall
 
 FP ScaleToGridSize(FP scale);
 
-class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
-    , public IBaseAnimatedWithPhysicsGameObject
+class BaseAnimatedWithPhysicsGameObject : public IBaseAnimatedWithPhysicsGameObject
 {
 public: // Temp interface
     virtual s16 Scale() override

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Sfx.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "Primitives.hpp"
 
 struct MainMenuTransition_Polys final

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "Font.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"

@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "DynamicArray.hpp"
+#include "../relive_lib/DynamicArray.hpp"
 #include "../AliveLibAE/Path.hpp"
 
 namespace AO {

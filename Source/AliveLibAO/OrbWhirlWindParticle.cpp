@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "OrbWhirlWindParticle.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "ScreenManager.hpp"

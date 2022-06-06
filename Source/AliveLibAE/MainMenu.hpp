@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "DynamicArray.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "Animation.hpp"
 #include "Font.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"

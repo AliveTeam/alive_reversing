@@ -1,9 +1,118 @@
-#include "BaseGameObject.hpp"
-#include "../AliveLibAE/BaseGameObject.hpp"
-#include "../AliveLibAO/BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
+#include "../AliveLibAE/Map.hpp"
+#include "../AliveLibAO/Map.hpp"
+#include "ResourceManagerWrapper.hpp"
+#include "ObjectIds.hpp"
+#include "Events.hpp"
+#include "GameType.hpp"
 
-ReliveTypes IBaseGameObject::FromAO(AO::AOTypes aoType)
+DynamicArrayT<BaseGameObject>* gBaseGameObjects = nullptr;
+s32 sAccumulatedObjectCount_5C1BF4 = 0;
+
+BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
+    : field_10_resources_array(resourceArraySize)
+{
+    // Pre-allocate the array with nullptr entries so that it can be
+    // used like a fixed size array in the derived type.
+    // TODO: If its never used dynamically in the derived type then it actually can become a fixed
+    // compile time sized array at some point.
+    for (s32 i = 0; i < resourceArraySize; i++)
+    {
+        field_10_resources_array.Push_Back(nullptr);
+    }
+
+    mBaseGameObjectUpdateDelay = 0;
+
+    SetType(ReliveTypes::eNone);
+
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eDead);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eIsBaseAliveGameObject_Bit6);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eCanExplode_Bit7);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
+    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eCantKill_Bit11);
+    mBaseGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
+
+    if (bAddToObjectList)
+    {
+        if (!gBaseGameObjects->Push_Back(this))
+        {
+            mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        }
+    }
+
+    s32 nextId = sObjectIds.EnsureIdIsUnique(sAccumulatedObjectCount_5C1BF4);
+    mBaseGameObjectTlvInfo = nextId;
+    field_8_object_id = nextId;
+    sObjectIds.Insert(nextId, this);
+
+    sAccumulatedObjectCount_5C1BF4 = ++nextId;
+}
+
+BaseGameObject::~BaseGameObject()
+{
+    Event_Cancel_For_Obj(this);
+
+    for (s32 i = 0; i < field_10_resources_array.Size(); i++)
+    {
+        if (field_10_resources_array.ItemAt(i))
+        {
+            ResourceManagerWrapper::FreeResource(field_10_resources_array.ItemAt(i));
+        }
+    }
+
+    sObjectIds.Remove(field_8_object_id);
+}
+
+void BaseGameObject::VUpdate()
+{
+
+}
+
+void BaseGameObject::VRender(PrimHeader** pOrderingTable)
+{
+
+}
+
+IMap& GetMap()
+{
+    if (GetGameType() == GameType::eAe)
+    {
+        return gMap;
+    }
+    else
+    {
+        return AO::gMap;
+    }
+}
+
+void BaseGameObject::VScreenChanged()
+{
+    auto& map = GetMap();
+    if (map.mCurrentLevel != map.mLevel
+        || map.mCurrentPath != map.mPath
+        || map.mOverlayId != map.GetOverlayId())
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+}
+
+void BaseGameObject::VStopAudio()
+{
+
+}
+
+s32 BaseGameObject::VGetSaveState(u8*)
+{
+    // Not used in AO yet so needs a default impl
+    return 0;
+}
+
+ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
 {
     switch (aoType)
     {
@@ -191,7 +300,7 @@ ReliveTypes IBaseGameObject::FromAO(AO::AOTypes aoType)
     return ReliveTypes::eNone;
 }
 
-AO::AOTypes IBaseGameObject::ToAO(ReliveTypes reliveType)
+AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
 {
     switch (reliveType)
     {
@@ -379,7 +488,7 @@ AO::AOTypes IBaseGameObject::ToAO(ReliveTypes reliveType)
     return AO::AOTypes::eNone_0;
 }
 
-ReliveTypes IBaseGameObject::FromAE(AETypes aeType)
+ReliveTypes BaseGameObject::FromAE(AETypes aeType)
 {
     switch (aeType)
     {
@@ -603,7 +712,7 @@ ReliveTypes IBaseGameObject::FromAE(AETypes aeType)
     return ReliveTypes::eNone;
 }
 
-AETypes IBaseGameObject::ToAE(ReliveTypes reliveType)
+AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
 {
     switch (reliveType)
     {
@@ -825,4 +934,35 @@ AETypes IBaseGameObject::ToAE(ReliveTypes reliveType)
             ALIVE_FATAL("No AE type for this relive type");
     }
     return AETypes::eNone_0;
+}
+
+u8** BaseGameObject::Add_Resource(u32 type, s32 resourceID)
+{
+    u8** ppRes = ResourceManagerWrapper::GetLoadedResource(type, resourceID, 1, 0);
+    if (ppRes)
+    {
+        field_10_resources_array.Push_Back(ppRes);
+    }
+    return ppRes;
+}
+
+s32 BaseGameObject::RefreshId(s32 objectId)
+{
+    if (objectId != -1)
+    {
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+        {
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->mBaseGameObjectTlvInfo == objectId)
+            {
+                return pObj->field_8_object_id;
+            }
+        }
+    }
+    return -1;
 }

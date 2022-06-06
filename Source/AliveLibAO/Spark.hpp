@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 
 void Spark_ForceLink();
 

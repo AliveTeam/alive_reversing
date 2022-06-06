@@ -2,8 +2,9 @@
 
 #include "BaseGameAutoPlayer.hpp"
 
-namespace AO {
 class BaseGameObject;
+
+namespace AO {
 
 class Recorder final : public BaseRecorder
 {

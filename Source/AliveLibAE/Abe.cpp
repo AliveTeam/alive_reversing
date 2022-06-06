@@ -707,6 +707,9 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectTlvInfo = -65536;
 
+    // Set the well level to the current level for the path start quick save
+    field_19A_to_level = gMap.mCurrentLevel;
+
     Init_GameStates_43BF40();
 
     // Zero out the resource array

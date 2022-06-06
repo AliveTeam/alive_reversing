@@ -2,9 +2,9 @@
 
 #include "AnimationBase.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "DynamicArray.hpp"
+#include "../relive_lib/DynamicArray.hpp"
 #include "Psx.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
 using TFrameCallBackType = s32(CC*)(BaseGameObject*, s16*);

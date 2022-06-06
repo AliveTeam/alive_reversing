@@ -1,11 +1,8 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "../AliveLibCommon/Types.hpp"
-#include "../AliveLibCommon/logger.hpp"
 
-namespace AO {
-
+// TODO: Can be made into a template when all usages are reversed.
 class DynamicArray
 {
 public:
@@ -13,13 +10,25 @@ public:
     ~DynamicArray();
 
     DynamicArray(const DynamicArray& rhs) = delete;
-    DynamicArray& operator=(const DynamicArray&) const = delete;
+    DynamicArray& operator=(const DynamicArray& rhs) const = delete;
 
-protected:
-    s16 Push_Back(void* item);
-    s16 Remove_Item(void* item);
+    s16 Expand(s16 expandSize);
+
+    bool IsEmpty() const
+    {
+        return field_4_used_size == 0;
+    }
+
+    s16 Size() const
+    {
+        return field_4_used_size;
+    }
 
 public:
+    s16 Push_Back(void* pValue);
+
+protected:
+    s16 Remove_Item(void* pItemToRemove);
     void** field_0_array = nullptr;
 
 public:
@@ -28,9 +37,11 @@ public:
 private:
     s16 field_6_max_size = 0;
     s16 field_8_expand_size = 0;
+    // padding
+
+    friend class DynamicArrayIter;
 };
 ALIVE_ASSERT_SIZEOF(DynamicArray, 0xC);
-
 
 // Typed wrapper for DynamicArray
 template <class T>
@@ -51,10 +62,6 @@ public:
 
     T* ItemAt(s32 idx)
     {
-        if (idx < 0 || idx >= field_4_used_size)
-        {
-            LOG_ERROR(idx << " is out of bounds max= " << field_4_used_size);
-        }
         return reinterpret_cast<T*>(field_0_array[idx]);
     }
 
@@ -84,4 +91,13 @@ public:
     }
 };
 
-} // namespace AO
+class DynamicArrayIter final
+{
+public:
+    void Remove_At_Iter();
+
+    DynamicArray* field_0_pDynamicArray;
+    s16 field_4_idx;
+    // padding
+};
+ALIVE_ASSERT_SIZEOF(DynamicArrayIter, 0x8);

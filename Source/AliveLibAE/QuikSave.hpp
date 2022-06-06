@@ -65,7 +65,6 @@ ALIVE_ASSERT_SIZEOF(SaveFileRec, 0x24);
 
 ALIVE_ARY_EXTERN(SaveFileRec, 128, sSaveFileRecords_BB31D8);
 ALIVE_VAR_EXTERN(Quicksave, sActiveQuicksaveData_BAF7F8);
-ALIVE_VAR_EXTERN(s32, sAccumulatedObjectCount_5C1BF4);
 ALIVE_VAR_EXTERN(s32, sSavedGameToLoadIdx_BB43FC);
 ALIVE_VAR_EXTERN(s32, sTotalSaveFilesCount_BB43E0);
 ALIVE_VAR_EXTERN(u16, sQuickSave_saved_switchResetters_count_BB234C);

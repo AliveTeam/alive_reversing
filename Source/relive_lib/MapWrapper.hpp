@@ -49,7 +49,16 @@ public:
 
     static EReliveLevelIds FromAE(LevelIds levelId);
     static LevelIds MapWrapper::ToAE(EReliveLevelIds levelId);
-    /*
+};
+
+class IMap
+{
+public:
+    virtual ~IMap()
+    {
+
+    }
+
     EReliveLevelIds mCurrentLevel;
     s16 mCurrentPath;
     s16 mCurrentCamera;
@@ -58,8 +67,7 @@ public:
     s16 mPath;
     s16 mCamera;
 
-    s16 GetOverlayId();
-    */
-};
+    s16 mOverlayId;
 
-extern MapWrapper gMapWrapper;
+    virtual s16 GetOverlayId() = 0;
+};

@@ -322,10 +322,11 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
 
 
 ALIVE_VAR(1, 0xBAF7F8, Quicksave, sActiveQuicksaveData_BAF7F8, {});
-ALIVE_VAR(1, 0x5C1BF4, s32, sAccumulatedObjectCount_5C1BF4, 0);
 ALIVE_ARY(1, 0xBB31D8, SaveFileRec, 128, sSaveFileRecords_BB31D8, {});
 ALIVE_VAR(1, 0xBB43FC, s32, sSavedGameToLoadIdx_BB43FC, 0);
 ALIVE_VAR(1, 0xBB43E0, s32, sTotalSaveFilesCount_BB43E0, 0);
+
+extern s32 sAccumulatedObjectCount_5C1BF4;
 
 void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
 {

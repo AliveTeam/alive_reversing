@@ -10,7 +10,7 @@
 #include "Abe.hpp"
 #include "MusicController.hpp"
 #include "DDCheat.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "CrawlingSlig.hpp" // TODO: SFX playing only
 #include "SnoozeParticle.hpp"
 #include "Events.hpp"

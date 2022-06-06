@@ -14,7 +14,7 @@
 #include "Particle.hpp"
 
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize)
-    : BaseGameObject(TRUE, resourceArraySize)
+    : IBaseAnimatedWithPhysicsGameObject(resourceArraySize)
 {
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);

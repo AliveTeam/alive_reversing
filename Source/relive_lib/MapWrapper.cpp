@@ -5,8 +5,6 @@
 #include "../AliveLibAE/PathData.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
 
-MapWrapper gMapWrapper;
-
 EReliveLevelIds MapWrapper::FromAO(AO::LevelIds levelId)
 {
     switch (levelId)
@@ -167,7 +165,7 @@ LevelIds MapWrapper::ToAE(EReliveLevelIds levelId)
     case EReliveLevelIds::eCredits:
         return LevelIds::eCredits_16;
     default:
-        if (static_cast<s32>(levelId) != 0)
+        //if (static_cast<s32>(levelId) != 0)
         {
             ALIVE_FATAL("Can't map to an AE lvl");
         }

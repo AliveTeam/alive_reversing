@@ -30,11 +30,11 @@ enum Event : s16
     kEventMax, // Must be last, do not use
 };
 
-class IBaseGameObject;
+class BaseGameObject;
 class IBaseAnimatedWithPhysicsGameObject;
 
-void Event_Broadcast(Event event, IBaseGameObject* pObject);
-IBaseGameObject* Event_Get(Event eventType);
+void Event_Broadcast(Event event, BaseGameObject* pObject);
+BaseGameObject* Event_Get(Event eventType);
 void Events_Reset();
 void Events_Reset_Active();
 IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, s16 scale);
@@ -42,4 +42,4 @@ IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP 
 // TODO: Get AO to stop using the FP scale and merge both copies
 IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, FP scale);
 
-void Event_Cancel_For_Obj(IBaseGameObject* pObj);
+void Event_Cancel_For_Obj(BaseGameObject* pObj);

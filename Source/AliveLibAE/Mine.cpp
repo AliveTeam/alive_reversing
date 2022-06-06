@@ -175,7 +175,7 @@ void Mine::VUpdate()
     }
     if (field_118_detonating != 1)
     {
-        IBaseGameObject* pEventObj = Event_Get(kEventDeathReset);
+        BaseGameObject* pEventObj = Event_Get(kEventDeathReset);
         if (pEventObj || field_C2_lvl_number != gMap.mCurrentLevel || field_C0_path_number != gMap.mCurrentPath)
         {
             mBaseGameObjectFlags.Set(Options::eDead);

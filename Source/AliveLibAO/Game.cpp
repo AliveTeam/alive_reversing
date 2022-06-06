@@ -3,7 +3,7 @@
 #include "logger.hpp"
 #include "Function.hpp"
 #include "FixedPoint.hpp"
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "SwitchStates.hpp"
 #include "DDCheat.hpp"
 #include "Io.hpp"

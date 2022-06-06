@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "DynamicArray.hpp"
+#include "../relive_lib/DynamicArray.hpp"
 #include "Animation.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 

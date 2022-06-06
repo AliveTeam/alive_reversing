@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ObjectIds.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
-#include "../AliveLibAE/BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 
 static constexpr u32 kObjectIdsArrayStartingSize = 101;
 

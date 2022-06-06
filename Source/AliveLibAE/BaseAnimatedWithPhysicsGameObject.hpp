@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseGameObject.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
@@ -31,7 +31,7 @@ class BaseAnimatedWithPhysicsGameObject;
 
 using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
 
-class BaseAnimatedWithPhysicsGameObject : public IBaseAnimatedWithPhysicsGameObject, public BaseGameObject
+class BaseAnimatedWithPhysicsGameObject : public IBaseAnimatedWithPhysicsGameObject
 {
 public: // Temp interface
     virtual s16 Scale() override
