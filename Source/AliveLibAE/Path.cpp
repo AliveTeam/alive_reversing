@@ -292,7 +292,7 @@ Path_TLV* Path::TLV_From_Offset_Lvl_Cam(u32 tlvOffset_levelId_PathId)
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
-    if (data.parts.levelId == static_cast<s32>(field_0_levelId) && data.parts.pathId == field_2_pathId)
+    if (data.parts.levelId == static_cast<s32>(MapWrapper::ToAE(field_0_levelId)) && data.parts.pathId == field_2_pathId)
     {
         return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + data.parts.tlvOffset]);
     }
@@ -305,7 +305,7 @@ Path_TLV* Path::TLV_From_Offset_Lvl_Cam(u32 tlvOffset_levelId_PathId)
 u32 Path::TLVInfo_From_TLVPtr(Path_TLV* pTlv)
 {
     TlvItemInfoUnion data;
-    data.parts.levelId = static_cast<u8>(field_0_levelId);
+    data.parts.levelId = static_cast<u8>(MapWrapper::ToAE(field_0_levelId));
     data.parts.pathId = static_cast<u8>(field_2_pathId);
 
     // Num bytes into the path res block

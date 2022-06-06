@@ -2205,10 +2205,10 @@ static PathRootContainer sPathData_559660 = pathData;
 
 const PathBlyRec* Path_Get_Bly_Record(EReliveLevelIds lvlId, u16 pathId)
 {
-    const PathBlyRec* rec = &sPathData_559660.paths[static_cast<s32>(lvlId)].field_0_pBlyArrayPtr[pathId];
+    const PathBlyRec* rec = &sPathData_559660.paths[static_cast<s32>(MapWrapper::ToAE(lvlId))].field_0_pBlyArrayPtr[pathId];
     if (!rec)
     {
-        LOG_ERROR("path record not found for lvl " << static_cast<s32>(lvlId) << " pathId " << pathId);
+        LOG_ERROR("path record not found for lvl " << static_cast<s32>(MapWrapper::ToAE(lvlId)) << " pathId " << pathId);
         ALIVE_FATAL("Path record not found");
     }
     return rec;

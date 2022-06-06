@@ -164,7 +164,7 @@ void DDCheat::Menu_Movies()
         FmvInfo* movieToPlayInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
         u32 pos = 0;
         Get_fmvs_sectors(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
-        sLevelId_dword_5CA408 = static_cast<s32>(gMap.mCurrentLevel);
+        sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
         ae_new<Movie>(movieToPlayInfo->field_4_id,
                                          pos,
                                          movieToPlayInfo->field_6_flags & 1,

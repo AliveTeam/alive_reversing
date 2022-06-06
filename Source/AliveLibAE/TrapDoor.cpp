@@ -66,7 +66,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_134_switch_id = pTlv->field_10_switch_id;
     field_138_switch_state = pTlv->field_12_start_state;
 
-    const s32 levelIdx = static_cast<s32>(gMap.mCurrentLevel);
+    const s32 levelIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
     s32 frameTableOffset = 0;
     const AnimRecord& closedRec = AnimRec(sTrapDoorData_547B78[levelIdx].field_4_closed);
@@ -202,7 +202,7 @@ void TrapDoor::VUpdate()
             {
                 Open();
                 field_136_state = TrapDoorState::eOpening_1;
-                const AnimRecord& openingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap.mCurrentLevel)].field_8_opening);
+                const AnimRecord& openingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_8_opening);
                 field_20_animation.Set_Animation_Data(openingRec.mFrameTableOffset, 0);
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBarracks_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBrewery || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
@@ -227,7 +227,7 @@ void TrapDoor::VUpdate()
 
             if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get(field_134_switch_id) != field_138_switch_state)
             {
-                const AnimRecord& closingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(gMap.mCurrentLevel)].field_C_closing);
+                const AnimRecord& closingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_C_closing);
                 field_20_animation.Set_Animation_Data(closingRec.mFrameTableOffset, 0);
 
                 field_136_state = TrapDoorState::eClosing_3;

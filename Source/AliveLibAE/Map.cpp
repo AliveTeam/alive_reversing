@@ -447,9 +447,9 @@ void Map::Handle_PathTransition()
     }
 }
 
-CameraPos Map::GetDirection_4811A0(s32 level, s32 path, FP xpos, FP ypos)
+CameraPos Map::GetDirection_4811A0(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
 {
-    if (level != static_cast<s32>(mCurrentLevel))
+    if (level != mCurrentLevel)
     {
         return CameraPos::eCamInvalid_m1;
     }
@@ -1050,10 +1050,10 @@ s16 Map::Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect)
     return 1;
 }
 
-s16 Map::Is_Point_In_Current_Camera_4810D0(s32 level, s32 path, FP xpos, FP ypos, s16 width)
+s16 Map::Is_Point_In_Current_Camera_4810D0(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width)
 {
     const FP calculated_width = (width != 0) ? FP_FromInteger(6) : FP_FromInteger(0);
-    if (MapWrapper::FromAE(static_cast<LevelIds>(level)) != mCurrentLevel || path != mCurrentPath) // TODO: Remove when 100%
+    if (level != mCurrentLevel || path != mCurrentPath) // TODO: Remove when 100%
     {
         return FALSE;
     }
@@ -1137,7 +1137,7 @@ BaseGameObject* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds l
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record(lvlId, pMap->field_12_fmv_base_id / 10000);
         FmvInfo* pFmvRec2 = Path_Get_FMV_Record(lvlId, pMap->field_12_fmv_base_id / 100 % 100);
         FmvInfo* pFmvRec3 = Path_Get_FMV_Record(lvlId, pMap->field_12_fmv_base_id % 100);
-        sLevelId_dword_5CA408 = static_cast<s32>(lvlId); // TODO: Strongly type this, but it hasn't got the same underlaying type as the enum grr..
+        sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // TODO: Strongly type this, but it hasn't got the same underlaying type as the enum grr..
         u32 pos1 = 0;
         u32 pos2 = 0;
         u32 pos3 = 0;

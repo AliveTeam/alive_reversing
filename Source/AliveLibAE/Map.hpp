@@ -160,23 +160,12 @@ public:
 
     s16 SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 kMinus1);
 
-    // Type safe wrappers as s32 level is bigger than the enum type size
-    s16 Is_Point_In_Current_Camera_4810D0(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width)
-    {
-        return Is_Point_In_Current_Camera_4810D0(static_cast<s32>(MapWrapper::ToAE(level)), path, xpos, ypos, width);
-    }
-
-    CameraPos GetDirection_4811A0(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
-    {
-        return GetDirection_4811A0(static_cast<s32>(MapWrapper::ToAE(level)), path, xpos, ypos);
-    }
+    s16 Is_Point_In_Current_Camera_4810D0(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width);
+    CameraPos GetDirection_4811A0(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
 
     s16 Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect);
 
 private:
-    s16 Is_Point_In_Current_Camera_4810D0(s32 level, s32 path, FP xpos, FP ypos, s16 width);
-    CameraPos GetDirection_4811A0(s32 level, s32 path, FP xpos, FP ypos);
-
     Camera* GetCamera(CameraPos pos);
 
     void CreateScreenTransistionForTLV(Path_TLV* pTlv);

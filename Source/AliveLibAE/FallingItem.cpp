@@ -43,7 +43,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
 
-    const s32 lvlIdx = static_cast<s32>(gMap.mCurrentLevel);
+    const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -102,7 +102,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = -1;
 
-    const s32 lvlIdx = static_cast<s32>(gMap.mCurrentLevel);
+    const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -220,7 +220,7 @@ void FallingItem::VUpdate()
                 field_C4_velx = FP_FromInteger(0);
                 field_C8_vely = FP_FromInteger(0);
 
-                const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap.mCurrentLevel)][1]);
+                const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
                 field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
@@ -235,7 +235,7 @@ void FallingItem::VUpdate()
             field_C4_velx = FP_FromInteger(0);
             field_C8_vely = FP_FromInteger(0);
 
-            const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap.mCurrentLevel)][1]);
+            const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
             field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
             field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
@@ -383,7 +383,7 @@ void FallingItem::VUpdate()
             }
             else
             {
-                const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(gMap.mCurrentLevel)][0]);
+                const AnimRecord& animRec = AnimRec(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]);
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
                 field_C8_vely = FP_FromInteger(0);

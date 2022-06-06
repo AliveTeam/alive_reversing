@@ -1514,7 +1514,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
         {
             FmvInfo* pFmvRecord = Path_Get_FMV_Record(pMenuFMV->field_4_level_id, pMenuFMV->field_A_fmv_id);
             Get_fmvs_sectors(pFmvRecord->field_0_pName, 0, 0, &input_held, 0, 0);
-            sLevelId_dword_5CA408 = static_cast<u32>(pMenuFMV->field_4_level_id);
+            sLevelId_dword_5CA408 = static_cast<u32>(MapWrapper::ToAE(pMenuFMV->field_4_level_id));
 
             dword_55C128 = -1;
 

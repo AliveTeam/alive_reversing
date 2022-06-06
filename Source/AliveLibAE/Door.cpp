@@ -200,8 +200,8 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         field_102_hub_ids[7] = pTlvData->field_22_hub8;
     }
 
-    const AnimRecord& closedRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap.mCurrentLevel)][0]);
-    const AnimRecord& openRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap.mCurrentLevel)][1]);
+    const AnimRecord& closedRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]);
+    const AnimRecord& openRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID);
     if (!ppRes || openRec.mFrameTableOffset == 0)
     {
@@ -420,7 +420,7 @@ void Door::VUpdate()
                     }
                     else
                     {
-                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap.mCurrentLevel)][1]);
+                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
                         field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                     }
 
@@ -443,7 +443,7 @@ void Door::VUpdate()
                     }
                     else
                     {
-                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(gMap.mCurrentLevel)][1]);
+                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
                         field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                     }
 
