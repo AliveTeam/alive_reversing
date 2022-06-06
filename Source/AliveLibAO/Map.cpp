@@ -1987,7 +1987,7 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
                 {
                     TlvItemInfoUnion data;
                     data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
-                    data.parts.levelId = static_cast<u8>(mCurrentLevel);
+                    data.parts.levelId = static_cast<u8>(MapWrapper::ToAO(mCurrentLevel));
                     data.parts.pathId = static_cast<u8>(mCurrentPath);
 
                     // Call the factory to construct the item
@@ -2019,7 +2019,7 @@ void Map::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
-    if (data.parts.levelId == static_cast<s32>(mCurrentLevel))
+    if (data.parts.levelId == static_cast<s32>(MapWrapper::ToAO(mCurrentLevel)))
     {
         const auto pBlyRec = Path_Get_Bly_Record_434650(MapWrapper::FromAO(static_cast<LevelIds>(data.parts.levelId)), data.parts.pathId);
 

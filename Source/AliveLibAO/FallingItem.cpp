@@ -181,7 +181,7 @@ void FallingItem::VUpdate()
             field_110_state = State::eWaitForFallDelay_2;
             field_B4_velx = FP_FromInteger(0);
             field_B8_vely = FP_FromInteger(0);
-            const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap.mCurrentLevel)].field_4_waiting_animId);
+            const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_4_waiting_animId);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             field_11C_delay_timer = sGnFrame + field_118_fall_interval;
             break;
@@ -317,7 +317,7 @@ void FallingItem::VUpdate()
             }
             else
             {
-                const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(gMap.mCurrentLevel)].field_0_falling_animId);
+                const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_falling_animId);
                 field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
                 field_B8_vely = FP_FromInteger(0);
