@@ -2453,7 +2453,7 @@ void Elum::Motion_19_Dead_415F90()
             {
                 if (field_14C_continue_camera < field_146_honey_ypos)
                 {
-                    field_170_flags.Set(Elum::Flags_170::eStungByBees_Bit2);
+                    field_170_flags.Clear(Elum::Flags_170::eStungByBees_Bit2);
                 }
             }
 
