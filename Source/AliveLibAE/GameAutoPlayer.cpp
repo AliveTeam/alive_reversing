@@ -66,12 +66,12 @@ bool Player::ValidateObjectStates()
         s16 objType = 0;
         mFile.Read(objType);
 
-        objType = static_cast<s16>(BaseGameObject::ToAE(static_cast<ReliveTypes>(objType)));
+        ReliveTypes reliveObjType = BaseGameObject::FromAE(static_cast<AETypes>(objType));
 
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-        if (static_cast<s16>(pObj->Type()) != objType)
+        if (pObj->Type() != reliveObjType)
         {
-            LOG_ERROR("Got " << static_cast<s16>(pObj->Type()) << " type but expected " << objType);
+            LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAE(pObj->Type())) << " type but expected " << objType);
             return false;
         }
 
