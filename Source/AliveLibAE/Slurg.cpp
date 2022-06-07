@@ -60,7 +60,6 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     field_12C_tlvInfo = tlvInfo;
-
     if (pTlv->field_10_slurg_data.field_4_scale == Scale_short::eHalf_1)
     {
         field_130_scale = FP_FromDouble(0.5);

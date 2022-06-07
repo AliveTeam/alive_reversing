@@ -4,7 +4,7 @@
 
 enum class EReliveLevelIds : s16
 {
-    eNone = -1, // TODO: Shouldn't depend on this value in the future
+    eNone = 0, // TODO: Shouldn't depend on this value in the future
     eMenu = 2000,
     eMines,
     eNecrum,

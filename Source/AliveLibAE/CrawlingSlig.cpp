@@ -1357,9 +1357,9 @@ void CrawlingSlig::M_UsingButton_1_41B890()
                     if (BrainIs(&CrawlingSlig::Brain_3_Possessed_41A5B0))
                     {
                         pWalkingSlig->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit4_bPossesed);
-                        pWalkingSlig->field_146_level = field_1BA_prev_level;
-                        pWalkingSlig->field_148_path = field_1BC_prev_path;
-                        pWalkingSlig->field_14A_camera = field_1BE_prev_camera;
+                        pWalkingSlig->field_146_return_level = field_1BA_prev_level;
+                        pWalkingSlig->field_148_return_path = field_1BC_prev_path;
+                        pWalkingSlig->field_14A_return_camera = field_1BE_prev_camera;
                         pWalkingSlig->SetBrain(&Slig::Brain_Possessed_2_4BBCF0);
                         pWalkingSlig->field_11C_brain_sub_state = 4;
                         sControlledCharacter_5C1B8C = pWalkingSlig;

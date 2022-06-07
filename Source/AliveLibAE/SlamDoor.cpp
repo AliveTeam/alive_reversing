@@ -289,7 +289,7 @@ void SlamDoor::VUpdate()
         {
             field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(gMap.mCurrentLevel)][2]);
+            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][2]);
             field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
             if (field_CC_sprite_scale == FP_FromInteger(1))
@@ -359,7 +359,7 @@ void SlamDoor::VUpdate()
         }
         else
         {
-            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(gMap.mCurrentLevel)][0]);
+            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]);
             field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, 0);
             Rect_Clear(&field_11C_pCollisionLine_6_2->field_0_rect);
             field_11C_pCollisionLine_6_2 = nullptr;

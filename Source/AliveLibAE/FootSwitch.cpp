@@ -54,7 +54,7 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
     SetType(ReliveTypes::eFootSwitch);
     field_100_obj_id = -1;
 
-    const s32 idx = static_cast<s32>(gMap.mCurrentLevel);
+    const s32 idx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
     const AnimRecord& rec = AnimRec(sFootSwitchData_547D60[idx][0]);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -100,7 +100,7 @@ void FootSwitch::VUpdate()
         if (pLastStoodOnMe)
         {
             field_100_obj_id = pLastStoodOnMe->field_8_object_id;
-            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][1]);
+            const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
             field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_F8_state = States::eWaitForGetOffMe_1;
         }
@@ -118,7 +118,7 @@ void FootSwitch::VUpdate()
                 SwitchStates_Do_Operation(field_FA_switch_id, field_FC_action);
                 field_F8_state = States::eWaitForGetOffMe_1;
 
-                const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][1]);
+                const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
                 ae_new<ParticleBurst>(mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -182,7 +182,7 @@ void FootSwitch::VUpdate()
                 pLastStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 field_F8_state = States::eWaitForStepOnMe_0;
-                const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(gMap.mCurrentLevel)][0]);
+                const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]);
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 field_100_obj_id = -1;
             }

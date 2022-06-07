@@ -1508,6 +1508,11 @@ void PauseMenu::VUpdate()
     Abe* pHero = sActiveHero;
     BaseAliveGameObject* pControlledChar = nullptr;
 
+    if (!pHero)
+    {
+        return;
+    }
+
     if (sActiveHero->mHealth <= FP_FromInteger(0) || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         pControlledChar = sControlledCharacter_5C1B8C;

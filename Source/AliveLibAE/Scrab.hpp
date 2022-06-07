@@ -143,9 +143,9 @@ struct Scrab_State final
     s32 field_74_movement_timer;
     s32 field_78_sfx_bitmask;
     s16 field_7C_prevent_depossession;
-    LevelIds field_7E_level;
-    s16 field_80_path;
-    s16 field_82_camera;
+    LevelIds field_7E_return_level;
+    s16 field_80_return_path;
+    s16 field_82_return_camera;
     s16 field_84_input;
     s16 field_86_padding;
     s32 field_88_unused;
@@ -302,9 +302,9 @@ private:
     s16 field_15E_right_max_delay;
     s32 field_160_sfx_bitmask;
     s16 field_164_prevent_depossession;
-    EReliveLevelIds field_166_level;
-    s16 field_168_path;
-    s16 field_16A_camera;
+    EReliveLevelIds field_166_return_level;
+    s16 field_168_return_path;
+    s16 field_16A_return_camera;
     s32 field_16C_input;
     s32 field_170_unused;
     s16 field_174_possessed_max_whirl_attack_duration;

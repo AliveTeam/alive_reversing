@@ -212,9 +212,9 @@ struct Slig_State final
     s16 field_6C_unused;
     s16 field_6E_unused;
     s16 field_70_unused;
-    LevelIds field_72_level;
-    s16 field_74_path;
-    s16 field_76_camera;
+    LevelIds field_72_return_level;
+    s16 field_74_return_path;
+    s16 field_76_return_camera;
     s32 field_78_death_by_being_shot_timer;
     s32 field_7C_explode_timer;
     s32 field_80_brain_state_idx;
@@ -536,9 +536,9 @@ private:
     s16 field_144_unused;
 
 public:
-    EReliveLevelIds field_146_level;
-    s16 field_148_path;
-    s16 field_14A_camera;
+    EReliveLevelIds field_146_return_level;
+    s16 field_148_return_path;
+    s16 field_14A_return_camera;
     s32 field_14C_death_by_being_shot_timer;
     s32 field_150_explode_timer;
 

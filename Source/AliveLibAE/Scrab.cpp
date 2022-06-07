@@ -383,9 +383,10 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->field_160_sfx_bitmask = pState->field_78_sfx_bitmask;
         pScrab->field_164_prevent_depossession = pState->field_7C_prevent_depossession;
 
-        pScrab->field_166_level = MapWrapper::FromAE(pState->field_7E_level);
-        pScrab->field_168_path = pState->field_80_path;
-        pScrab->field_16A_camera = pState->field_82_camera;
+        pScrab->field_166_return_level = pScrab->field_C2_lvl_number; // always the same but set to junk in OG saves when using path skip cheat
+        //pScrab->field_166_return_level = MapWrapper::FromAE(pState->field_7E_return_level);
+        pScrab->field_168_return_path = pState->field_80_return_path;
+        pScrab->field_16A_return_camera = pState->field_82_return_camera;
         pScrab->field_16C_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_84_input);
         pScrab->field_170_unused = pState->field_88_unused;
         pScrab->field_178_shred_power_active = pState->field_8C_shred_power_active;
@@ -496,9 +497,9 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_74_movement_timer = field_154_movement_timer;
     pState->field_78_sfx_bitmask = field_160_sfx_bitmask;
     pState->field_7C_prevent_depossession = field_164_prevent_depossession;
-    pState->field_7E_level = MapWrapper::ToAE(field_166_level);
-    pState->field_80_path = field_168_path;
-    pState->field_82_camera = field_16A_camera;
+    pState->field_7E_return_level = MapWrapper::ToAE(field_166_return_level);
+    pState->field_80_return_path = field_168_return_path;
+    pState->field_82_return_camera = field_16A_return_camera;
     pState->field_84_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_16C_input);
     pState->field_88_unused = field_170_unused;
     pState->field_8C_shred_power_active = field_178_shred_power_active;
@@ -543,9 +544,9 @@ Scrab::~Scrab()
         if (gMap.mLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
-                field_166_level,
-                field_168_path,
-                field_16A_camera,
+                field_166_return_level,
+                field_168_return_path,
+                field_16A_return_camera,
                 CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
@@ -1991,7 +1992,7 @@ s16 Scrab::Brain_5_Possessed_4A6180()
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
         ToPatrol();
         field_11C_brain_sub_state = Brain_0_Patrol::eBrain0_ToMoving_0;
-        gMap.SetActiveCam(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(field_166_return_level, field_168_return_path, field_16A_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         return field_11C_brain_sub_state;
     }
 
@@ -3116,7 +3117,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
             mCurrentMotion = eScrabMotions::M_GetDepossessedEnd_29_4AA3C0;
             ToPatrol();
             field_11C_brain_sub_state = Brain_0_Patrol::eBrain0_ToMoving_0;
-            gMap.SetActiveCam(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(field_166_return_level, field_168_return_path, field_16A_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
 }
@@ -3506,9 +3507,9 @@ void Scrab::VPossessed()
     field_120_obj_id = -1;
     field_124_fight_target_obj_id = -1;
     field_12C_timer = sGnFrame + 35;
-    field_166_level = gMap.mCurrentLevel;
-    field_168_path = gMap.mCurrentPath;
-    field_16A_camera = gMap.mCurrentCamera;
+    field_166_return_level = gMap.mCurrentLevel;
+    field_168_return_path = gMap.mCurrentPath;
+    field_16A_return_camera = gMap.mCurrentCamera;
 }
 
 u8** Scrab::ResBlockForMotion(s16 motion)

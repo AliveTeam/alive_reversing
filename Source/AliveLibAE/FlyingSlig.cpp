@@ -434,9 +434,12 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->field_298_nextYPos = pSaveState->field_8C_nextYPos;
         pFlyingSlig->SetBrain(sFlyingSlig_Brain_table_552350[pSaveState->field_90_fns1_idx]);
         pFlyingSlig->field_1E8_unused = pSaveState->field_98_unused;
-        pFlyingSlig->field_2A0_abe_level = MapWrapper::FromAE(pSaveState->field_9A_abe_level);
+
+        pFlyingSlig->field_2A0_abe_level = pFlyingSlig->field_C2_lvl_number; // always the same but set to junk in OG saves when using path skip cheat
+        //pFlyingSlig->field_2A0_abe_level = MapWrapper::FromAE(pSaveState->field_9A_abe_level);
         pFlyingSlig->field_2A2_abe_path = pSaveState->field_9C_abe_path;
         pFlyingSlig->field_2A4_abe_camera = pSaveState->field_9E_abe_camera;
+
         pFlyingSlig->field_290_bobbing_values_index = pSaveState->field_A4_bobbing_values_index;
         pFlyingSlig->field_284_bobbing_value = pSaveState->field_A8_bobbing_value;
         pFlyingSlig->field_28C_bobbing_values_table_index = pSaveState->field_A0_bobbing_values_table_index;

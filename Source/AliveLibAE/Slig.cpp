@@ -828,9 +828,9 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     pState->field_6C_unused = field_140_unused;
     pState->field_6E_unused = field_142_unused;
     pState->field_70_unused = field_144_unused;
-    pState->field_72_level = MapWrapper::ToAE(field_146_level);
-    pState->field_74_path = field_148_path;
-    pState->field_76_camera = field_14A_camera;
+    pState->field_72_return_level = MapWrapper::ToAE(field_146_return_level);
+    pState->field_74_return_path = field_148_return_path;
+    pState->field_76_return_camera = field_14A_return_camera;
     pState->field_78_death_by_being_shot_timer = field_14C_death_by_being_shot_timer;
     pState->field_7C_explode_timer = field_150_explode_timer;
     pState->field_80_brain_state_idx = 0;
@@ -1021,9 +1021,10 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->field_142_unused = pState->field_6E_unused;
         pSlig->field_144_unused = pState->field_70_unused;
 
-        pSlig->field_146_level = MapWrapper::FromAE(pState->field_72_level);
-        pSlig->field_148_path = pState->field_74_path;
-        pSlig->field_14A_camera = pState->field_76_camera;
+        pSlig->field_146_return_level = pSlig->field_C2_lvl_number; // always the same but set to junk in OG saves when using path skip cheat
+        //pSlig->field_146_return_level = MapWrapper::FromAE(pState->field_72_return_level);
+        pSlig->field_148_return_path = pState->field_74_return_path;
+        pSlig->field_14A_return_camera = pState->field_76_return_camera;
 
         pSlig->field_14C_death_by_being_shot_timer = pState->field_78_death_by_being_shot_timer;
         pSlig->field_150_explode_timer = pState->field_7C_explode_timer;
@@ -2676,7 +2677,7 @@ s16 Slig::Brain_Death_0_4BBFB0()
         {
             sControlledCharacter_5C1B8C = sActiveHero;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
-            gMap.SetActiveCam(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+            gMap.SetActiveCam(field_146_return_level, field_148_return_path, field_14A_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
 
@@ -2707,7 +2708,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_1_4BC410()
     {
         sControlledCharacter_5C1B8C = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
-        gMap.SetActiveCam(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(field_146_return_level, field_148_return_path, field_14A_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -2861,7 +2862,7 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
                 {
                     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
                     sControlledCharacter_5C1B8C = sActiveHero;
-                    gMap.SetActiveCam(field_146_level, field_148_path, field_14A_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(field_146_return_level, field_148_return_path, field_14A_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -4877,9 +4878,9 @@ Slig::~Slig()
         if (gMap.mLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
-                field_146_level,
-                field_148_path,
-                field_14A_camera,
+                field_146_return_level,
+                field_148_return_path,
+                field_14A_return_camera,
                 CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
@@ -5109,9 +5110,9 @@ void Slig::VPossessed()
     SetBrain(&Slig::Brain_Possessed_2_4BBCF0);
     field_11C_brain_sub_state = Brain_2_Possessed::eBrain2_StartPossession_0;
 
-    field_146_level = gMap.mCurrentLevel;
-    field_148_path = gMap.mCurrentPath;
-    field_14A_camera = gMap.mCurrentCamera;
+    field_146_return_level = gMap.mCurrentLevel;
+    field_148_return_path = gMap.mCurrentPath;
+    field_14A_return_camera = gMap.mCurrentCamera;
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_9, this, 1, 0);
 }
