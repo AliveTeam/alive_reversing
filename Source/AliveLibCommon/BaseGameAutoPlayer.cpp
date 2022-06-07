@@ -245,7 +245,7 @@ u32 BaseGameAutoPlayer::SysGetTicks()
         return readTicks;
     }
     
-    return 0;
+    return SYS_GetTicks();
 }
 
 void BaseGameAutoPlayer::SyncPoint(u32 syncPointId)
