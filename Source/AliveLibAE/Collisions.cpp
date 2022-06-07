@@ -10,6 +10,20 @@
 
 ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
 
+
+void Collisions::Factory(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
+{
+    sCollisions_DArray_5C1128 = ae_new<Collisions>();
+    if (sCollisions_DArray_5C1128)
+    {
+        sCollisions_DArray_5C1128->ctor_418930(pCollisionInfo, pPathRes);
+    }
+}
+
+void Collisions::dtor_4189F0()
+{
+    ae_non_zero_free_495560(field_0_pArray);
+}
 Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
 {
     field_8_item_count = pCollisionInfo->field_10_num_collision_items;
@@ -32,18 +46,36 @@ Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const u
     return this;
 }
 
-void Collisions::dtor_4189F0()
-{
-    ae_non_zero_free_495560(field_0_pArray);
-}
 
-void Collisions::Factory(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
+PathLine* Collisions::Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode)
 {
-    sCollisions_DArray_5C1128 = ae_new<Collisions>();
-    if (sCollisions_DArray_5C1128)
+    bool freeItemFound = false;
+    s32 idx = field_8_item_count;
+    while (idx < field_C_max_count)
     {
-        sCollisions_DArray_5C1128->ctor_418930(pCollisionInfo, pPathRes);
+        PathLine* pIter = &field_0_pArray[idx];
+        if (!pIter->field_0_rect.x && !pIter->field_0_rect.w && !pIter->field_0_rect.y && !pIter->field_0_rect.h)
+        {
+            freeItemFound = true;
+            break;
+        }
+        idx++;
     }
+
+    if (!freeItemFound)
+    {
+        idx--;
+    }
+
+    PathLine* pAddedLine = &field_0_pArray[idx];
+    pAddedLine->field_0_rect.x = x1;
+    pAddedLine->field_0_rect.y = y1;
+    pAddedLine->field_0_rect.w = x2;
+    pAddedLine->field_0_rect.h = y2;
+    pAddedLine->field_8_type = static_cast<eLineTypes>(mode);
+    pAddedLine->field_C_next = -1;
+    pAddedLine->field_A_previous = -1;
+    return pAddedLine;
 }
 
 // 24:8 fixed type.. I guess 16:16 wasn't good enough for collision detection
@@ -132,20 +164,7 @@ inline Fixed_24_8 operator/(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     return r;
 }
 
-PSX_RECT* Rect_Clear(PSX_RECT* pRect)
-{
-    if (!pRect)
-    {
-        return nullptr;
-    }
-    pRect->x = 0;
-    pRect->w = 0;
-    pRect->y = 0;
-    pRect->h = 0;
-    return pRect;
-}
-
-s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
+Bool32 Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
 {
     // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
 
@@ -286,7 +305,7 @@ s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16,
         *ppLine = pNearestMatch;
 
 #if DEVELOPER_MODE
-        DebugAddRaycast({X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, *hitX, *hitY, *ppLine, modeMask});
+        //DebugAddRaycast({X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, *hitX, *hitY, *ppLine, modeMask});
 #endif
 
         return TRUE;
@@ -296,64 +315,11 @@ s16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16,
 
 
 #if DEVELOPER_MODE
-    DebugAddRaycast({X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, *hitX, *hitY, *ppLine, modeMask});
+    //DebugAddRaycast({X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, *hitX, *hitY, *ppLine, modeMask});
 #endif
 
     return FALSE;
 }
-
-Bool32 Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
-{
-    // Take 2 copies of the input before anything changes them, important as the caller can pass in defaults - don't overwrite them if we don't
-    // find a collision!
-    PathLine* pLineImpl = *ppLine;
-    FP implX = *hitX;
-    FP implY = *hitY;
-
- //   PathLine* pLineReal = *ppLine;
-    FP realX = *hitX;
-    FP realY = *hitY;
-
-    s16 ret_impl = Raycast_Impl(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineImpl, &implX, &implY, modeMask);
-
-    *ppLine = pLineImpl;
-    *hitX = implX;
-    *hitY = implY;
-
-    return ret_impl;
-}
-
-PathLine* Collisions::Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode)
-{
-    bool freeItemFound = false;
-    s32 idx = field_8_item_count;
-    while (idx < field_C_max_count)
-    {
-        PathLine* pIter = &field_0_pArray[idx];
-        if (!pIter->field_0_rect.x && !pIter->field_0_rect.w && !pIter->field_0_rect.y && !pIter->field_0_rect.h)
-        {
-            freeItemFound = true;
-            break;
-        }
-        idx++;
-    }
-
-    if (!freeItemFound)
-    {
-        idx--;
-    }
-
-    PathLine* pAddedLine = &field_0_pArray[idx];
-    pAddedLine->field_0_rect.x = x1;
-    pAddedLine->field_0_rect.y = y1;
-    pAddedLine->field_0_rect.w = x2;
-    pAddedLine->field_0_rect.h = y2;
-    pAddedLine->field_8_type = static_cast<eLineTypes>(mode);
-    pAddedLine->field_C_next = -1;
-    pAddedLine->field_A_previous = -1;
-    return pAddedLine;
-}
-
 PathLine* Collisions::Get_Line_At_Idx(s16 idx)
 {
     if (idx == -1)
@@ -413,6 +379,19 @@ PathLine* Collisions::NextLine(PathLine* pLine)
         }
     }
     return nullptr;
+}
+
+PSX_RECT* Rect_Clear(PSX_RECT* pRect)
+{
+    if (!pRect)
+    {
+        return nullptr;
+    }
+    pRect->x = 0;
+    pRect->w = 0;
+    pRect->y = 0;
+    pRect->h = 0;
+    return pRect;
 }
 
 static s32 ClampMinus1To1(s32 value)

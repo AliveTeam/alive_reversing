@@ -35,7 +35,7 @@ class PathLine final
 public:
     PSX_RECT field_0_rect;
     eLineTypes field_8_type;
-    s8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
+    s8 field_9_pad;
     s16 field_A_previous;
     s16 field_C_next;
     s16 field_E_previous2; // Never used
@@ -51,15 +51,16 @@ struct CollisionInfo;
 class Collisions final
 {
 public:
-    Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
-    void dtor_4189F0();
     static void Factory(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
-    Bool32 Raycast(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
+
+    void dtor_4189F0();
+
+    Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
     PathLine* Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode);
     PathLine* Get_Line_At_Idx(s16 idx);
+    Bool32 Raycast(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
     PathLine* PreviousLine(PathLine* pLine);
     PathLine* NextLine(PathLine* pLine);
-    s16 Raycast_Impl(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
 
 public:
     PathLine* field_0_pArray;

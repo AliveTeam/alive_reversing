@@ -84,7 +84,7 @@ PathLine* Collisions::Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2,
 
 
 // 24:8 fixed type.. I guess 16:16 wasn't good enough for collision detection
-class Fixed_24_8
+class Fixed_24_8 final
 {
 public:
     Fixed_24_8()
@@ -337,7 +337,7 @@ PathLine* Collisions::PreviousLine(PathLine* pLine)
 
     if (field_C_max_count == 0)
     {
-        return 0;
+        return nullptr;
     }
 
     for (s32 i = 0; i < field_C_max_count; i++)
