@@ -34,10 +34,6 @@ public:
 
     static void OnResLoaded(BellHammer* pThis);
 
-    s32 field_D4_padding;
-    s32 field_D8_padding;
-    s32 field_DC_padding;
-    s32 field_E0_padding;
     BellHammerStates field_E4_state;
     s16 field_E6_switch_id;
     s32 field_E8_tlvInfo;

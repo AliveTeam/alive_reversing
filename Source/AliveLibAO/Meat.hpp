@@ -29,13 +29,13 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_10C_tlvInfo;
-    s16 field_110_bDoMeatSackIdleAnim;
-    s16 field_112_num_items;
-    s16 field_114_bPlayWobbleSound;
-    s16 field_116_always_0;
-    FP field_118_velX;
-    FP field_11C_velY;
+    s32 field_10C_tlvInfo = 0;
+    s16 field_110_bDoMeatSackIdleAnim = 0;
+    s16 field_112_num_items = 0;
+    s16 field_114_bPlayWobbleSound = 0;
+    s16 field_116_always_0 = 0;
+    FP field_118_velX = FP_FromInteger(0);
+    FP field_11C_velY = FP_FromInteger(0);
 };
 ALIVE_ASSERT_SIZEOF(MeatSack, 0x120);
 

@@ -5,6 +5,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "ScopedSeq.hpp"
 #include "../AliveLibAE/Path.hpp"
+#include "SwitchStates.hpp"
 
 namespace AO {
 
@@ -58,18 +59,14 @@ public:
     // New virtual
     virtual s32 VPull(s16 bLeftDirection);
 
-    s32 field_D4_padding[4];
-    s16 field_E4_switch_id;
-    s16 field_E6_pad;
-    LeverState field_E8_state;
-    s16 field_EA_pad;
-    s32 field_EC_tlvInfo;
-    s16 field_F0_bPulledFromLeft;
-    SwitchOp field_F2_action;
-    LeverSoundType field_F4_on_sound;
-    LeverSoundType field_F6_off_sound;
-    LeverSoundDirection field_F8_sound_direction;
-    s16 field_FA_pad;
+    s16 field_E4_switch_id = 0;
+    LeverState field_E8_state = LeverState::eWaiting_0;
+    s32 field_EC_tlvInfo = 0;
+    s16 field_F0_bPulledFromLeft = 0;
+    SwitchOp field_F2_action = SwitchOp::eSetTrue_0;
+    LeverSoundType field_F4_on_sound = LeverSoundType::eNone;
+    LeverSoundType field_F6_off_sound = LeverSoundType::eNone;
+    LeverSoundDirection field_F8_sound_direction = LeverSoundDirection::eLeftAndRight_0;
 };
 ALIVE_ASSERT_SIZEOF(Lever, 0xFC);
 

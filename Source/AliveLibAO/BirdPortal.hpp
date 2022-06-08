@@ -55,8 +55,6 @@ public:
 
     
     void Fadeout();
-
-    s32 field_D4_padding[4];
 };
 ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xE4);
 
@@ -94,8 +92,8 @@ private:
     void CreateTerminators();
 
 public:
-    PortalType field_10_portal_type;
-    PortalSide field_12_side;
+    PortalType field_10_portal_type = PortalType::eAbe_0;
+    PortalSide field_12_side = PortalSide::eRight_0;
     enum class PortalStates : s16
     {
         CreatePortal_0 = 0,
@@ -122,34 +120,34 @@ public:
         KillPortalClipper_21 = 21,
         FadeoutTerminators_22 = 22,
     };
-    PortalStates field_14_state;
-    s16 field_16;
-    FP field_18_xpos;
-    FP field_1C_ypos;
-    FP field_20_exit_x;
-    FP field_24_exit_y;
-    FP field_28_ypos;
-    s32 field_2C_tlvInfo;
-    s32 field_30_timer;
-    FP field_34_scale;
-    s16 field_38_movie_id;
-    s16 field_3A;
-    BirdPortalTerminator* field_3C_pTerminator1;
-    BirdPortalTerminator* field_40_pTerminator2;
-    ScreenClipper* field_44_pScreenClipper1;
-    ScreenClipper* field_48_pScreenClipper2;
-    DynamicArrayT<Dove>* field_4C_pDovesArray;
-    EReliveLevelIds field_50_dest_level;
-    s16 field_52_dest_path;
-    s16 field_54_dest_camera;
-    s16 field_56_num_muds_for_shrykull;
-    s16 field_58_received_doves;
-    s16 field_5A;
-    ThrowableTotalIndicator* field_5C_pThrowableTotalIndicator;
-    OrbWhirlWind* field_60_pOrbWhirlWind;
-    EReliveLevelIds field_64_level;
-    s16 field_66_path;
-    s32 field_68_sfx_ret;
+    PortalStates field_14_state = PortalStates::CreatePortal_0;
+    s16 field_16 = 0;
+    FP field_18_xpos = FP_FromInteger(0);
+    FP field_1C_ypos = FP_FromInteger(0);
+    FP field_20_exit_x = FP_FromInteger(0);
+    FP field_24_exit_y = FP_FromInteger(0);
+    FP field_28_ypos = FP_FromInteger(0);
+    s32 field_2C_tlvInfo = 0;
+    s32 field_30_timer = 0;
+    FP field_34_scale = FP_FromInteger(0);
+    s16 field_38_movie_id = 0;
+    s16 field_3A = 0;
+    BirdPortalTerminator* field_3C_pTerminator1 = nullptr;
+    BirdPortalTerminator* field_40_pTerminator2 = nullptr;
+    ScreenClipper* field_44_pScreenClipper1 = nullptr;
+    ScreenClipper* field_48_pScreenClipper2 = nullptr;
+    DynamicArrayT<Dove>* field_4C_pDovesArray = {};
+    EReliveLevelIds field_50_dest_level = EReliveLevelIds::eNone;
+    s16 field_52_dest_path = 0;
+    s16 field_54_dest_camera = 0;
+    s16 field_56_num_muds_for_shrykull = 0;
+    s16 field_58_received_doves = 0;
+    s16 field_5A = 0;
+    ThrowableTotalIndicator* field_5C_pThrowableTotalIndicator = nullptr;
+    OrbWhirlWind* field_60_pOrbWhirlWind = nullptr;
+    EReliveLevelIds field_64_level = EReliveLevelIds::eNone;
+    s16 field_66_path = 0;
+    s32 field_68_sfx_ret = 0;
 };
 ALIVE_ASSERT_SIZEOF(BirdPortal, 0x6C);
 

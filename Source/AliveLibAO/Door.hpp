@@ -63,15 +63,13 @@ public:
     void vSetClosed();
     void PlaySound();
 
-    s32 field_D4[4];
-    s32 field_E4_tlvInfo;
-    DoorStates field_E8_start_state;
-    s16 field_EA_door_number;
-    DoorStates field_EC_current_state;
-    Choice_short field_EE_door_closed;
-    s16 field_F0_switch_id;
-    s16 field_F2_hubs_ids[8];
-    s16 field_102_pad;
+    s32 field_E4_tlvInfo = 0;
+    DoorStates field_E8_start_state = DoorStates::eOpen_0;
+    s16 field_EA_door_number = 0;
+    DoorStates field_EC_current_state = DoorStates::eOpen_0;
+    Choice_short field_EE_door_closed = Choice_short::eNo_0;
+    s16 field_F0_switch_id = 0;
+    s16 field_F2_hubs_ids[8] = {};
 };
 ALIVE_ASSERT_SIZEOF(Door, 0x104);
 

@@ -28,7 +28,6 @@ Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, 
     field_24_unused = unused;
     field_34_number_of_bullets = static_cast<s16>(numberOfBullets);
     field_20_x_distance = xDist;
-    field_12_unused = 0;
 }
 
 void Bullet::VUpdate()

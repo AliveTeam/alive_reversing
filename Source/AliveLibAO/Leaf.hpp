@@ -13,9 +13,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_D4_padding[4];
-    s16 field_E4_bHitSomething;
-    s16 field_E6_padding;
+    s16 field_E4_bHitSomething = 0;
 };
 ALIVE_ASSERT_SIZEOF(Leaf, 0xE8);
 

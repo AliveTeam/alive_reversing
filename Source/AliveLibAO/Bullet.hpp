@@ -31,19 +31,18 @@ private:
     void PlayBulletSounds(s16 volume);
 
 public:
-    BulletType field_10_type;
-    s16 field_12_unused;
-    PathLine* field_14_pLine;
-    FP field_18_xpos;
-    FP field_1C_ypos;
-    FP field_20_x_distance;
-    s32 field_24_unused;
-    EReliveLevelIds field_28_level;
-    s16 field_2A_path;
-    FP field_2C_scale;
-    BaseAliveGameObject* field_30_pParent;
-    s16 field_34_number_of_bullets;
-    s16 field_36;
+    BulletType field_10_type = BulletType::ePossessedSlig_0;
+    PathLine* field_14_pLine = nullptr;
+    FP field_18_xpos = FP_FromInteger(0);
+    FP field_1C_ypos = FP_FromInteger(0);
+    FP field_20_x_distance = FP_FromInteger(0);
+    EReliveLevelIds field_28_level = EReliveLevelIds::eNone;
+    s16 field_2A_path = 0;
+    FP field_2C_scale = FP_FromInteger(0);
+    BaseAliveGameObject* field_30_pParent = nullptr;
+    s16 field_34_number_of_bullets = 0;
+    s16 field_36 = 0;
+    s32 field_24_unused = 0;
 };
 ALIVE_ASSERT_SIZEOF(Bullet, 0x38);
 

@@ -6,8 +6,7 @@
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
 #include "Layer.hpp"
-
-enum class EReliveLevelIds : s16;
+#include "../relive_lib/MapWrapper.hpp"
 
 namespace AO {
 
@@ -62,33 +61,33 @@ public:
     void SetTarget(BaseAliveGameObject* pTarget);
     void CollideWithObjects();
 
-    Layer mRingLayer;
-    AbilityRing_PolyBuffer* mRingPolyBuffer;
-    u8** mRingRes;
-    Prim_SetTPage mRingPrimSetTPage[2];
-    PSX_RECT mRingCollideRects[64];
-    FP mRingXPos;
-    FP mRingYPos;
-    FP mRingLeft;
-    FP mRingRight;
-    FP mRingSpeed;
-    FP mRingScaleX;
-    FP mRingScaleY;
-    FP mRingThickness;
-    s16 mRingFadeoutDistance;
-    s16 mRingScreenX;
-    s16 mRingScreenY;
-    s16 mRingScreenXPos;
-    s16 mRingScreenYPos;
-    s16 mRingRed;
-    s16 mRingGreen;
-    s16 mRingBlue;
-    s16 mRingSemiTrans;
-    TPageAbr mRingTPageMode;
-    EReliveLevelIds mRingLevel;
-    s16 mRingPath;
-    RingTypes mRingType;
-    BaseAliveGameObject* mTargetObj; // stored as object id in AE
+    Layer mRingLayer = Layer::eLayer_0;
+    AbilityRing_PolyBuffer* mRingPolyBuffer = {};
+    u8** mRingRes = nullptr;
+    Prim_SetTPage mRingPrimSetTPage[2] = {};
+    PSX_RECT mRingCollideRects[64] = {};
+    FP mRingXPos = FP_FromInteger(0);
+    FP mRingYPos = FP_FromInteger(0);
+    FP mRingLeft = FP_FromInteger(0);
+    FP mRingRight = FP_FromInteger(0);
+    FP mRingSpeed = FP_FromInteger(0);
+    FP mRingScaleX = FP_FromInteger(0);
+    FP mRingScaleY = FP_FromInteger(0);
+    FP mRingThickness = FP_FromInteger(0);
+    s16 mRingFadeoutDistance = 0;
+    s16 mRingScreenX = 0;
+    s16 mRingScreenY = 0;
+    s16 mRingScreenXPos = 0;
+    s16 mRingScreenYPos = 0;
+    s16 mRingRed = 0;
+    s16 mRingGreen = 0;
+    s16 mRingBlue = 0;
+    s16 mRingSemiTrans = 0;
+    TPageAbr mRingTPageMode = TPageAbr::eBlend_0;
+    EReliveLevelIds mRingLevel = EReliveLevelIds::eNone;
+    s16 mRingPath = 0;
+    RingTypes mRingType = RingTypes::eExplosive_Pulse_0;
+    BaseAliveGameObject* mTargetObj = nullptr; // stored as object id in AE
 };
 ALIVE_ASSERT_SIZEOF(AbilityRing, 0x27C);
 

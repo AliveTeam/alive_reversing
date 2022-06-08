@@ -25,7 +25,7 @@ public:
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 
-    s32 field_10C_tlvInfo;
+    s32 field_10C_tlvInfo = 0;
     enum class State : s16
     {
         eToSetSpeakPauseTimer_0 = 0,
@@ -34,13 +34,11 @@ public:
         eAfterLaugh_SetSpeakPauseTimer_3 = 3,
         eKilledByShrykull_7 = 7
     };
-    State field_110_state;
-    s16 field_112_pad;
-    s32 field_114_speak_pause_timer;
-    s32 field_118_never_read;
-    s32 field_11C_voice_adjust;
-    s16 field_120_target_id;
-    s16 field_122_padding;
+    State field_110_state = State::eToSetSpeakPauseTimer_0;
+    s32 field_114_speak_pause_timer = 0;
+    s32 field_118_never_read = 0;
+    s32 field_11C_voice_adjust = 0;
+    s16 field_120_target_id = 0;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundGlukkon, 0x124);
 

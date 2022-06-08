@@ -55,10 +55,10 @@ public:
 
     PathLine* NextLine(PathLine* pLine);
 
-    PathLine* field_0_pArray;
-    u16 field_4_current_item_count;
-    s32 field_8_item_count;
-    s32 field_C_max_count;
+    PathLine* field_0_pArray = nullptr;
+    u16 field_4_current_item_count = 0;
+    s32 field_8_item_count = 0;
+    s32 field_C_max_count = 0;
 };
 ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 

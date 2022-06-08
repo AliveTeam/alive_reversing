@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
+#include "SwitchStates.hpp"
 
 namespace AO {
 
@@ -35,22 +36,21 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s16 field_10_switch_id;
-    SwitchOp field_12_action;
-    s32 field_14_tlvInfo;
-    s32 field_18_delay_timer;
-    s32 field_1C_delay;
-    PSX_Point field_20_top_left;
-    PSX_Point field_24_bottom_right;
+    s16 field_10_switch_id = 0;
+    SwitchOp field_12_action = SwitchOp::eSetTrue_0;
+    s32 field_14_tlvInfo = 0;
+    s32 field_18_delay_timer = 0;
+    s32 field_1C_delay = 0;
+    PSX_Point field_20_top_left = {};
+    PSX_Point field_24_bottom_right = {};
     enum class States : u16
     {
         eWaitForTrigger_0 = 0,
         eWaitForDelayTimer_1 = 1,
     };
-    States field_28_state;
-    Choice_short field_2A_set_off_alarm;
-    InvisibleSwitchScale field_2C_scale;
-    s16 field_2E_pad;
+    States field_28_state = States::eWaitForTrigger_0;
+    Choice_short field_2A_set_off_alarm = Choice_short::eNo_0;
+    InvisibleSwitchScale field_2C_scale = InvisibleSwitchScale::eHalf_0;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x30);
 

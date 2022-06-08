@@ -36,22 +36,16 @@ public:
     virtual void VStopAudio() override;
     virtual void VUpdate() override;
 
-    s32 field_D4_padding;
-    s32 field_D8_padding;
-    s32 field_DC_padding;
-    s32 field_E0_padding;
-    u8** field_E4_res;
-    s16 field_E8_xpos;
-    s16 field_EA_ypos;
-    s16 field_EC_w;
-    s16 field_EE_h;
-    s32 field_F0_tlvInfo;
-    s32 field_F4_padding;
-    FP field_F8_animXPos;
-    FP field_FC_animYPos;
-    BgAnimSounds field_100_sound_effect;
-    s16 field_102_padding;
-    s32 field_104_sound_channels_mask;
+    u8** field_E4_res = nullptr;
+    s16 field_E8_xpos = 0;
+    s16 field_EA_ypos = 0;
+    s16 field_EC_w = 0;
+    s16 field_EE_h = 0;
+    s32 field_F0_tlvInfo = 0;
+    FP field_F8_animXPos = FP_FromInteger(0);
+    FP field_FC_animYPos = FP_FromInteger(0);
+    BgAnimSounds field_100_sound_effect = BgAnimSounds::eNone_0;
+    s32 field_104_sound_channels_mask = 0;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x108);
 

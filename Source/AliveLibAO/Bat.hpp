@@ -29,11 +29,10 @@ public:
 
     void FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed);
 
-    s32 field_D4_padding[4];
-    PathLine* field_E4_pLine;
-    FP field_E8_speed;
-    s32 field_EC_ticks_before_moving;
-    s32 field_F0_tlvInfo;
+    PathLine* field_E4_pLine = nullptr;
+    FP field_E8_speed = FP_FromInteger(0);
+    s32 field_EC_ticks_before_moving = 0;
+    s32 field_F0_tlvInfo = 0;
     enum class BatStates : s16
     {
         eSetTimer_0 = 0,
@@ -43,14 +42,14 @@ public:
         eAttackTarget_4 = 4,
         eFlyAwayAndDie_5 = 5,
     };
-    BatStates field_F4_state;
-    s16 field_F6_attack_duration;
-    s32 field_F8_timer;
-    s32 field_FC_attack_duration_timer;
-    FP field_100_velx;
-    FP field_104_target_xpos;
-    FP field_108_target_ypos;
-    BaseAliveGameObject* field_10C;
+    BatStates field_F4_state = BatStates::eSetTimer_0;
+    s16 field_F6_attack_duration = 0;
+    s32 field_F8_timer = 0;
+    s32 field_FC_attack_duration_timer = 0;
+    FP field_100_velx = FP_FromInteger(0);
+    FP field_104_target_xpos = FP_FromInteger(0);
+    FP field_108_target_ypos = FP_FromInteger(0);
+    BaseAliveGameObject* field_10C = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Bat, 0x110);
 

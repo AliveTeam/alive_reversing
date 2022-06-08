@@ -47,8 +47,6 @@ public:
     FP field_118_speed;
     FP field_11C_acceleration;
     PathLine* field_120_pCollisionLine;
-    s32 field_124_padding;
-    s32 field_128_padding;
 };
 ALIVE_ASSERT_SIZEOF(RollingBall, 0x12C);
 

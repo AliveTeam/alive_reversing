@@ -81,12 +81,9 @@ public:
         // Empty
     }
 
-    s32 field_D4_padding[4];
-    BoomMachineStates field_E4_state;
-    s16 field_E6_padding;
-    s32 field_E8_timer;
-    s16 field_EC_num_grenades;
-    s16 field_EE_pad;
+    BoomMachineStates field_E4_state = BoomMachineStates::eInactive_0;
+    s32 field_E8_timer = 0;
+    s16 field_EC_num_grenades = 0;
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0xF0);
 

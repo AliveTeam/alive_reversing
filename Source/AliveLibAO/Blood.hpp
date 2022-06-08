@@ -30,21 +30,17 @@ public:
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    s32 field_D4_not_used[4];
-    u8** field_E4_ppResBuf;
-    BloodParticle* field_E8_pResBuf;
-    Prim_SetTPage field_EC_tPages[2];
-    TPageMode field_10C_texture_mode;
-    // pad
-    s16 field_10E_xpos;
-    s16 field_110_ypos;
-    s16 field_112_to_render_count;
-    u8 field_114_rand_seed;
-    s8 field_115_pad;
-    s16 field_116_total_count;
-    s32 field_118_timer;
-    Layer field_11C_render_layer;
-    s16 field_11E_pad;
+    u8** field_E4_ppResBuf = nullptr;
+    BloodParticle* field_E8_pResBuf = nullptr;
+    Prim_SetTPage field_EC_tPages[2] = {};
+    TPageMode field_10C_texture_mode = TPageMode::e4Bit_0;
+    s16 field_10E_xpos = 0;
+    s16 field_110_ypos = 0;
+    s16 field_112_to_render_count = 0;
+    u8 field_114_rand_seed = 0;
+    s16 field_116_total_count = 0;
+    s32 field_118_timer = 0;
+    Layer field_11C_render_layer = Layer::eLayer_0;
 };
 ALIVE_ASSERT_SIZEOF(Blood, 0x120);
 

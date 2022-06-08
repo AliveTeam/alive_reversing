@@ -48,32 +48,28 @@ public:
         eUnused_5 = 5,
         eNeverRead_6 = 6
     };
-    ChimeLockStates field_110_state;
-    s16 field_112_padding;
-    Bells* field_114_left_bell;
-    Bells* field_118_center_bell;
-    Bells* field_11C_right_bell;
-    u16 field_120_max_idx;
-    s16 field_122_padding;
-    s32 field_124_code1;
-    s16 field_128_idx;
-    s16 field_12A_padding;
-    s32 field_12C_timer;
-    s16 field_130_song_matching;
-    s16 field_132_solve_switch_id;
-    s16 field_134_pressed;
-    s16 field_136_unpossession_timer;
-    s16 field_138_flags;
-    s16 field_13A_padding;
-    FP field_13C_targetX;
-    FP field_140_targetY;
-    FP field_144_ball_start_x;
-    FP field_148_ball_start_y;
-    FP field_14C_increase_vely_by;
-    FP field_150_xpos_offset;
-    FP field_154_ypos_offset;
-    s16 field_158_xSize;
-    s16 field_15A_ySize;
+    ChimeLockStates field_110_state = ChimeLockStates::eIdle_0;
+    Bells* field_114_left_bell = nullptr;
+    Bells* field_118_center_bell = nullptr;
+    Bells* field_11C_right_bell = nullptr;
+    u16 field_120_max_idx = 0;
+    s32 field_124_code1 = 0;
+    s16 field_128_idx = 0;
+    s32 field_12C_timer = 0;
+    s16 field_130_song_matching = 0;
+    s16 field_132_solve_switch_id = 0;
+    s16 field_134_pressed = 0;
+    s16 field_136_unpossession_timer = 0;
+    s16 field_138_flags = 0;
+    FP field_13C_targetX = FP_FromInteger(0);
+    FP field_140_targetY = FP_FromInteger(0);
+    FP field_144_ball_start_x = FP_FromInteger(0);
+    FP field_148_ball_start_y = FP_FromInteger(0);
+    FP field_14C_increase_vely_by = FP_FromInteger(0);
+    FP field_150_xpos_offset = FP_FromInteger(0);
+    FP field_154_ypos_offset = FP_FromInteger(0);
+    s16 field_158_xSize = 0;
+    s16 field_15A_ySize = 0;
     enum class BallStates : s16
     {
         eIdle_0 = 0,
@@ -81,10 +77,10 @@ public:
         eMovingBackToIdle_2 = 2,
         eNeverRead_3 = 3
     };
-    BallStates field_15C_ball_state;
-    s16 field_15E_ball_angle;
-    s16 field_160_ball_timer;
-    s16 field_162_never_set;
+    BallStates field_15C_ball_state = BallStates::eIdle_0;
+    s16 field_15E_ball_angle = 0;
+    s16 field_160_ball_timer = 0;
+    s16 field_162_never_set = 0;
     enum class BellPositions : s16
     {
         eNone_0 = 0,
@@ -93,7 +89,7 @@ public:
         eRightBell_3 = 3,
         eUnused_4 = 4
     };
-    BellPositions field_164_ChimeLock_num[2];
+    BellPositions field_164_ChimeLock_num[2] = {};
 };
 ALIVE_ASSERT_SIZEOF(ChimeLock, 0x168);
 
