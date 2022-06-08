@@ -237,8 +237,6 @@ SET(AliveLibSrcAO
    SligSpawner.cpp
    Game.hpp
    Game.cpp
-   stdlib.hpp
-   stdlib.cpp
    EffectBase.hpp
    EffectBase.cpp
    Primitives.hpp

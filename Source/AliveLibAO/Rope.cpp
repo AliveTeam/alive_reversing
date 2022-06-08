@@ -37,7 +37,7 @@ void ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 
 Rope::~Rope()
 {
-    ao_delete_free_447540(field_E8_pRopeRes);
+    relive_delete[] field_E8_pRopeRes;
 }
 
 Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
@@ -104,15 +104,12 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     field_F0_right = static_cast<s16>(left);
     field_EE_top = static_cast<s16>(top);
 
-    field_E8_pRopeRes = reinterpret_cast<AnimationUnknown*>(ao_new_malloc_447520(sizeof(AnimationUnknown) * field_E4_rope_segment_count));
+    field_E8_pRopeRes = relive_new AnimationUnknown[field_E4_rope_segment_count];
     if (field_E8_pRopeRes)
     {
         for (s32 i = 0; i < field_E4_rope_segment_count; i++)
         {
-            // Placement new the items
             AnimationUnknown* pSegment = &field_E8_pRopeRes[i];
-            new (pSegment) AnimationUnknown();
-
             pSegment->mAnimFlags.Set(AnimFlags::eBit3_Render);
             pSegment->field_68_anim_ptr = &field_10_anim;
             pSegment->mRenderLayer = field_10_anim.mRenderLayer;

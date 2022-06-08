@@ -109,7 +109,7 @@ static void writeHeaderElement(const T& element, FILE* f)
 
 void DDCheat::ScreenShot()
 {
-    auto pixelBuffer = reinterpret_cast<u16*>(alloc_450740(640 * sizeof(u16) * gPsxDisplay_504C78.field_2_height));
+    auto pixelBuffer = relive_new u16[640 * gPsxDisplay_504C78.field_2_height];
     if (pixelBuffer)
     {
         char_type fileNameBuffer[16] = {};
@@ -167,7 +167,7 @@ void DDCheat::ScreenShot()
             rowOfPixels -= 640 * sizeof(u16);
         }
         ::fclose(fileHandle);
-        ao_delete_free_450770(pixelBuffer);
+        relive_delete[] pixelBuffer;
     }
 }
 

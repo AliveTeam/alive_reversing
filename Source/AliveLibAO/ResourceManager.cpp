@@ -259,7 +259,7 @@ void ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
             pFilePart->field_8_pCamera->field_0_array.Push_Back(ppRes);
         }
 
-        ao_delete_free_447540(pFilePart);
+        relive_delete pFilePart;
     }
 
     // pLoaded is done with now, remove it
@@ -569,7 +569,7 @@ void ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
                     j = pFileSecsArray->RemoveAt(j);
 
                     // Only delete the record we just removed
-                    ao_delete_free_447540(pFilePartRecord);
+                    relive_delete pFilePartRecord;
                 }
                 else
                 {

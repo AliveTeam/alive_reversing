@@ -114,7 +114,7 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
 
     if (pTargetObj->mBaseGameObjectTypeId == ReliveTypes::eAbe)
     {
-        field_28_pPalData = reinterpret_cast<u16*>(alloc_450740(sizeof(u16) * pTargetObj->field_10_anim.field_90_pal_depth));
+        field_28_pPalData = relive_new u16[pTargetObj->field_10_anim.field_90_pal_depth];
         Pal_Copy_4479D0(
             pTargetObj->field_10_anim.field_8C_pal_vram_xy,
             pTargetObj->field_10_anim.field_90_pal_depth,
@@ -145,10 +145,7 @@ Electrocute::~Electrocute()
         field_10_obj_target->mBaseGameObjectRefCount--;
     }
 
-    if (field_28_pPalData)
-    {
-        ao_delete_free_450770(field_28_pPalData);
-    }
+    relive_delete[] field_28_pPalData;
 }
 
 void Electrocute::VScreenChanged()

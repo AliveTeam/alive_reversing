@@ -21,7 +21,7 @@ void ParamiteWeb::VScreenChanged()
 
 ParamiteWeb::~ParamiteWeb()
 {
-    ao_delete_free_447540(field_EC_pRes);
+    relive_delete[] field_EC_pRes;
 }
 
 ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
@@ -69,14 +69,12 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 
     field_E4_number_of_segments = 240 / field_E6_segment_length;
 
-    field_EC_pRes = reinterpret_cast<AnimationUnknown*>(ao_new_malloc_447520(sizeof(AnimationUnknown) * field_E4_number_of_segments));
-
+    field_EC_pRes = relive_new AnimationUnknown[field_E4_number_of_segments];
     if (field_EC_pRes)
     {
         for (s32 i = 0; i < field_E4_number_of_segments; i++)
         {
             AnimationUnknown* pSegment = &field_EC_pRes[i];
-            pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
             pSegment->mAnimFlags.Set(AnimFlags::eBit3_Render);
             pSegment->field_68_anim_ptr = &field_10_anim;
             pSegment->mRenderLayer = field_10_anim.mRenderLayer;

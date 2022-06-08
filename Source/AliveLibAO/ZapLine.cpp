@@ -17,9 +17,9 @@ namespace AO {
 ZapLine::~ZapLine()
 {
     ResourceManager::FreeResource_455550(field_E8_ppRes);
-    ao_delete_free_450770(field_128_sprite_positions);
-    ao_delete_free_450770(field_12C_zap_points);
-    ao_delete_free_450770(field_130_sprite_segment_positions);
+    relive_delete[] field_128_sprite_positions;
+    relive_delete[] field_12C_zap_points;
+    relive_delete[] field_130_sprite_segment_positions;
 }
 
 ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, Layer layer)
@@ -54,9 +54,9 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
     field_E8_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Spline, 0, sizeof(ZapLineSprites) * field_122_number_of_sprites);
     field_124_pSprts = reinterpret_cast<ZapLineSprites*>(*field_E8_ppRes);
 
-    field_128_sprite_positions = reinterpret_cast<PSX_Point*>(alloc_450740(sizeof(PSX_Point) * field_122_number_of_sprites));
-    field_12C_zap_points = reinterpret_cast<ZapPoint*>(alloc_450740(sizeof(ZapPoint) * field_120_number_of_pieces_per_segment));
-    field_130_sprite_segment_positions = reinterpret_cast<FP_Point*>(alloc_450740(sizeof(FP_Point) * field_11E_number_of_segments));
+    field_128_sprite_positions = relive_new PSX_Point[field_122_number_of_sprites];
+    field_12C_zap_points = relive_new ZapPoint[field_120_number_of_pieces_per_segment];
+    field_130_sprite_segment_positions = relive_new FP_Point[field_11E_number_of_segments];
 
     field_118_max_alive_time = static_cast<s16>(aliveTime);
 
