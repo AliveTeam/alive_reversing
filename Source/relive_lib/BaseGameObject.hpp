@@ -14,7 +14,7 @@ enum class ReliveTypes : s16
     eBackgroundAnimation,
     eBat,
     eLiftMover,
-    eTimedMine,
+    eTimedMine, // AO only
     eBullet,
     eDDCheat,
     eBells,
@@ -95,7 +95,7 @@ enum class ReliveTypes : s16
     eMovie,
     eCameraSwapper,
     eElectrocute,
-    eTimedMine_or_MovingBomb,
+    eTimedMine_or_MovingBomb, // AE only
     eBone,
     eBoneBag,
     eBrewMachine,

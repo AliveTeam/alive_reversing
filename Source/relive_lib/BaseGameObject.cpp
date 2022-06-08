@@ -506,7 +506,7 @@ ReliveTypes BaseGameObject::FromAE(AETypes aeType)
         case AETypes::eLiftMover_9:
             return ReliveTypes::eLiftMover;
         case AETypes::eTimedMine_or_MovingBomb_10:
-            return ReliveTypes::eTimedMine;
+            return ReliveTypes::eTimedMine_or_MovingBomb;
         case AETypes::eBone_11:
             return ReliveTypes::eBone;
         case AETypes::eBoneBag_12:
@@ -729,7 +729,7 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::eBackgroundAnimation_7;
         case ReliveTypes::eLiftMover:
             return AETypes::eLiftMover_9;
-        case ReliveTypes::eTimedMine:
+        case ReliveTypes::eTimedMine_or_MovingBomb:
             return AETypes::eTimedMine_or_MovingBomb_10;
         case ReliveTypes::eBone:
             return AETypes::eBone_11;
