@@ -880,7 +880,7 @@ s32 Masher::Init_4E6770(const char_type* movieFileName)
     return 0;
 }
 
-void Masher::dtor_4E6AB0()
+Masher::~Masher()
 {
     if (field_0_file_handle)
     {

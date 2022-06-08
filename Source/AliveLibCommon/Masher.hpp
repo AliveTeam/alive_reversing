@@ -81,7 +81,7 @@ public:
     s32 Init_4E6770(const char_type* movieFileName);
 
     // Same as 0x524214 in MGSI.exe
-    void dtor_4E6AB0();
+    ~Masher();
 
     // Same as 0x52427C in MGSI.exe
     s32 ReadNextFrame_4E6B30();

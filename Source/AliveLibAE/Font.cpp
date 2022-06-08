@@ -84,13 +84,7 @@ void Font::ctor_433590(s32 maxCharLength, const u8* palette, Font_Context* fontC
     field_28_palette_rect.h = 1;
 
     field_30_poly_count = maxCharLength;
-#if DEVELOPER_MODE // Use normal memory allocating for fonts, so we don't overload the resource heap
-    auto db = new void*[1];
-    db[0] = ae_new_malloc_4954D0(sizeof(Poly_FT4) * 2 * maxCharLength);
-    field_20_fnt_poly_block_ptr = reinterpret_cast<u8**>(db);
-#else
     field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_FntP, fontContext->field_C_resource_id, sizeof(Poly_FT4) * 2 * maxCharLength);
-#endif
     field_24_fnt_poly_array = reinterpret_cast<Poly_FT4*>(*field_20_fnt_poly_block_ptr);
 }
 
@@ -99,13 +93,7 @@ void Font::dtor_433540()
     IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_28_palette_rect.x, field_28_palette_rect.y, field_28_palette_rect.w});
     field_28_palette_rect.x = 0;
 
-#if DEVELOPER_MODE
-    auto db = reinterpret_cast<void**>(field_20_fnt_poly_block_ptr);
-    ae_delete_free_495540(*db);
-    delete[] db;
-#else
     ResourceManager::FreeResource_49C330(field_20_fnt_poly_block_ptr);
-#endif
 }
 
 s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)

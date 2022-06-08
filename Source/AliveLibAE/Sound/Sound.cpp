@@ -120,11 +120,8 @@ s32 SND_Free_4EFA30(SoundEntry* pSnd)
 
     pSnd->field_10 = 0;
 
-    if (pSnd->field_8_pSoundBuffer)
-    {
-        ae_free_4F4EA0(pSnd->field_8_pSoundBuffer);
-        pSnd->field_8_pSoundBuffer = 0;
-    }
+    relive_delete[] pSnd->field_8_pSoundBuffer;
+    pSnd->field_8_pSoundBuffer = nullptr;
 
     if (pSnd->field_4_pDSoundBuffer)
     {
@@ -308,7 +305,7 @@ s32 SND_New_4EEFF0(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsP
         else
         {
             pSnd->field_10 = 0;
-            u8* bufferData = static_cast<u8*>(ae_malloc_4F4E60(sampleByteSize));
+            u8* bufferData = relive_new u8[sampleByteSize];
             pSnd->field_8_pSoundBuffer = bufferData;
             if (bufferData)
             {

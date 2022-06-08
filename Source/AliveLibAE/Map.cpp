@@ -519,7 +519,6 @@ CameraPos Map::GetDirection_4811A0(EReliveLevelIds level, s32 path, FP xpos, FP 
 void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
     sPath_dword_BB47C0 = relive_new Path();
-    sPath_dword_BB47C0->ctor_4DB170();
 
     field_2C_camera_array[0] = nullptr;
     field_2C_camera_array[1] = nullptr;
@@ -561,12 +560,8 @@ void Map::Shutdown()
 
     pScreenManager = nullptr;
 
-    // Free path
-    if (sPath_dword_BB47C0)
-    {
-        sPath_dword_BB47C0->dtor_4DB1A0();
-        ae_delete_free_495540(sPath_dword_BB47C0);
-    }
+    // Free 
+    relive_delete sPath_dword_BB47C0;
     sPath_dword_BB47C0 = nullptr;
 
     ResourceManager::Reclaim_Memory_49C470(0);

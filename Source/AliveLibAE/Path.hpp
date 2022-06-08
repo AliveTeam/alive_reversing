@@ -239,8 +239,8 @@ enum class LoadMode : s16;
 class Path
 {
 public:
-    void ctor_4DB170();
-    void dtor_4DB1A0();
+    Path();
+    ~Path();
     void Free();
     void Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 cameraId, u8** ppPathRes);
 

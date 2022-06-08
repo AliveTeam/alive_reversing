@@ -750,7 +750,7 @@ s32 PSX_StoreImage_4F5E90(const PSX_RECT* rect, u16* pData)
 s32 PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const u8* pData)
 {
     const u32 pixelCount = pRect->w * pRect->h;
-    u16* pConversionBuffer = reinterpret_cast<u16*>(ae_malloc_4F4E60(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
+    u16* pConversionBuffer = relive_new u16[pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)];
     if (!pConversionBuffer)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 579, 0, "LoadImage16: can't do color conversion.");
@@ -759,7 +759,7 @@ s32 PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const u8* pData)
 
     PSX_Pal_Conversion_4F98D0(reinterpret_cast<const u16*>(pData), pConversionBuffer, pixelCount);
     const auto loadImageRet = PSX_LoadImage_4F5FB0(pRect, reinterpret_cast<u8*>(pConversionBuffer));
-    ae_free_4F4EA0(pConversionBuffer);
+    relive_delete[] pConversionBuffer;
     return loadImageRet;
 }
 

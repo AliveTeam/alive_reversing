@@ -42,9 +42,9 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     field_F8_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::ResourceType::Resource_Spline, 0, sizeof(ZapLineSprites) * field_132_number_of_sprites); // Spln (spline?).
 
     field_134_pSprites = reinterpret_cast<ZapLineSprites*>(*field_F8_ppRes);
-    field_138_sprite_positions = reinterpret_cast<PSX_Point*>(ae_malloc_non_zero_4954F0(sizeof(PSX_Point) * field_132_number_of_sprites));
-    field_13C_zap_points = reinterpret_cast<ZapPoint*>(ae_malloc_non_zero_4954F0(sizeof(ZapPoint) * field_130_number_of_pieces_per_segment));
-    field_140_sprite_segment_positions = reinterpret_cast<FP_Point*>(ae_malloc_non_zero_4954F0(sizeof(FP_Point) * field_12E_number_of_segments));
+    field_138_sprite_positions = relive_new PSX_Point[field_132_number_of_sprites];
+    field_13C_zap_points = relive_new ZapPoint[field_130_number_of_pieces_per_segment];
+    field_140_sprite_segment_positions = relive_new FP_Point[field_12E_number_of_segments];
 
     field_128_max_alive_time = static_cast<s16>(aliveTime);
 
@@ -129,9 +129,9 @@ void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSourc
 ZapLine::~ZapLine()
 {
     ResourceManager::FreeResource_49C330(field_F8_ppRes);
-    ae_non_zero_free_495560(field_138_sprite_positions);
-    ae_non_zero_free_495560(field_13C_zap_points);
-    ae_non_zero_free_495560(field_140_sprite_segment_positions);
+    relive_delete[] field_138_sprite_positions;
+    relive_delete[] field_13C_zap_points;
+    relive_delete[] field_140_sprite_segment_positions;
 }
 
 void ZapLine::VScreenChanged()

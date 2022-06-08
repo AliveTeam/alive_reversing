@@ -18,14 +18,14 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 
     field_44_objId = pTarget->field_8_object_id;
 
-    field_24_pPal1 = reinterpret_cast<u16*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(u16)));
+    field_24_pPal1 = relive_new u16[pTarget->field_20_animation.field_90_pal_depth];
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,
         field_24_pPal1,
         &field_28_pal_rect1);
 
-    field_30_pPal2 = reinterpret_cast<u16*>(ae_malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(u16)));
+    field_30_pPal2 = relive_new u16[pTarget->field_20_animation.field_90_pal_depth];
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,
@@ -50,15 +50,8 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 
 InvisibleEffect::~InvisibleEffect()
 {
-    if (field_24_pPal1)
-    {
-        ae_non_zero_free_495560(field_24_pPal1);
-    }
-
-    if (field_30_pPal2)
-    {
-        ae_non_zero_free_495560(field_30_pPal2);
-    }
+    relive_delete[] field_24_pPal1;
+    relive_delete[] field_30_pPal2;
 }
 
 void InvisibleEffect::InstantInvisibility()

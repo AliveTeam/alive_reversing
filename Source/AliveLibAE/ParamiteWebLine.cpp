@@ -87,11 +87,9 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     }
 
     field_F4_anim_segment_count = (field_F6_piece_length + field_FA_bottom - field_F8_top) / field_F6_piece_length;
-    field_FC_pRes = reinterpret_cast<AnimationUnknown*>(ae_malloc_non_zero_4954F0(sizeof(AnimationUnknown) * field_F4_anim_segment_count));
+    field_FC_pRes = relive_new AnimationUnknown[field_F4_anim_segment_count];
     for (s32 i = 0; i < field_F4_anim_segment_count; i++)
     {
-        new (&field_FC_pRes[i]) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-
         field_FC_pRes[i].mAnimFlags.Set(AnimFlags::eBit3_Render);
         field_FC_pRes[i].field_68_anim_ptr = &field_20_animation;
         field_FC_pRes[i].mRenderLayer = field_20_animation.mRenderLayer;
@@ -150,7 +148,7 @@ void ParamiteWebLine::Wobble(s16 ypos)
 
 ParamiteWebLine::~ParamiteWebLine()
 {
-    ae_non_zero_free_495560(field_FC_pRes);
+    relive_delete[] field_FC_pRes;
     field_108_anim_flare.VCleanUp();
     Path::TLV_Reset(field_100_tlv_info, -1, 0, 0);
 }

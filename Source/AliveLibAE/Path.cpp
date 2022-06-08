@@ -9,7 +9,7 @@
 
 ALIVE_VAR(1, 0xbb47c0, Path*, sPath_dword_BB47C0, nullptr);
 
-void Path::ctor_4DB170()
+Path::Path()
 {
     field_C_pPathData = nullptr;
     field_10_ppRes = 0;
@@ -20,7 +20,7 @@ void Path::ctor_4DB170()
     field_0_levelId = EReliveLevelIds::eMenu;
 }
 
-void Path::dtor_4DB1A0()
+Path::~Path()
 {
     ResourceManager::FreeResource_49C330(field_10_ppRes);
 }
@@ -29,7 +29,7 @@ void Path::Free()
 {
     ResourceManager::FreeResource_49C330(field_10_ppRes);
     field_C_pPathData = 0;
-    field_10_ppRes = 0;
+    field_10_ppRes = nullptr;
     field_8_cams_on_y = 0;
     field_6_cams_on_x = 0;
     field_4_cameraId = 0;

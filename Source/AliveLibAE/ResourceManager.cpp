@@ -287,14 +287,14 @@ void ResourceManager::OnResourceLoaded_464CE0()
             }
         }
         fileSectionsArrayIter.Remove_At_Iter();
-        ae_delete_free_495540(pFilePart);
+        relive_delete pFilePart;
     }
 
     // Remove from pending files
     field_20_files_pending_loading.Remove_Item(field_2C_pFileItem);
 
     // Free/destruct the removed item
-    ae_non_zero_free_495560(field_2C_pFileItem->field_0_fileName);
+    relive_delete[] field_2C_pFileItem->field_0_fileName;
 
     relive_delete field_2C_pFileItem;
     field_2C_pFileItem = nullptr;
@@ -369,7 +369,7 @@ void ResourceManager::LoadResource_464EE0(const char_type* pFileItem, u32 type, 
     }
 
     auto pNewFileRec = relive_new ResourceManager_FileRecord();
-    pNewFileRec->field_0_fileName = reinterpret_cast<char_type*>(ae_malloc_non_zero_4954F0(strlen(pFileItem) + 1));
+    pNewFileRec->field_0_fileName = relive_new char_type[strlen(pFileItem) + 1]();
     strcpy(pNewFileRec->field_0_fileName, pFileItem);
     pNewFileRec->field_4_pResourcesToLoadList = 0;
     pNewFileRec->field_8_type = type;
@@ -448,7 +448,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char_type* pFileName, R
         // Only do ctor stuff if we created a new record
 
         // TODO: De-inline ctor
-        pNewFileRec->field_0_fileName = reinterpret_cast<char_type*>(ae_malloc_non_zero_4954F0(strlen(pFileName) + 1));
+        pNewFileRec->field_0_fileName = relive_new char_type[strlen(pFileName) + 1]();
         strcpy(pNewFileRec->field_0_fileName, pFileName);
         pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
         pNewFileRec->field_8_type = 0;
@@ -479,7 +479,7 @@ void ResourceManager::LoadResourceFile_465460(const char_type* filename, Camera*
 {
     auto pFileRecord = relive_new ResourceManager_FileRecord();
    
-    pFileRecord->field_0_fileName = reinterpret_cast<char_type*>(ae_malloc_non_zero_4954F0(strlen(filename) + 1));
+    pFileRecord->field_0_fileName = relive_new char_type[strlen(filename) + 1]();
     strcpy(pFileRecord->field_0_fileName, filename);
     pFileRecord->field_4_pResourcesToLoadList = 0;
     pFileRecord->field_8_type = 0;
@@ -549,14 +549,14 @@ void ResourceManager::Shutdown_465610()
                 break;
             }
             fileSectionsIter.Remove_At_Iter();
-            ae_delete_free_495540(pFileSection);
+            relive_delete pFileSection;
 
             fileSectionIdx = fileSectionsIter.field_4_idx;
         }
 
         iter.Remove_At_Iter();
-        ae_non_zero_free_495560(pFileRec->field_0_fileName);
 
+        relive_delete[] pFileRec->field_0_fileName;
         relive_delete pFileRec;
 
         fileIdx = iter.field_4_idx;
@@ -595,14 +595,14 @@ void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
                 if (pFilePartItem->field_C_fn_arg_pCamera == pCamera)
                 {
                     filePartsIter.Remove_At_Iter();
-                    ae_delete_free_495540(pFilePartItem);
+                    relive_delete pFilePartItem;
                 }
             }
 
             if (pFileItem->field_10_file_sections_dArray.IsEmpty())
             {
                 filesIter.Remove_At_Iter();
-                ae_non_zero_free_495560(pFileItem->field_0_fileName);
+                relive_delete[] pFileItem->field_0_fileName;
                 relive_delete pFileItem;
             }
         }

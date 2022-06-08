@@ -66,7 +66,7 @@ size_t IO_Read(IO_FileHandleType pHandle, void* ptr, size_t size, size_t maxnum)
 
 IO_Handle* IO_Open_4F2320(const char_type* fileName, s32 modeFlag)
 {
-    IO_Handle* pHandle = reinterpret_cast<IO_Handle*>(ae_malloc_4F4E60(sizeof(IO_Handle)));
+    IO_Handle* pHandle = relive_new IO_Handle();
     if (!pHandle)
     {
         return nullptr;
@@ -104,7 +104,7 @@ IO_Handle* IO_Open_4F2320(const char_type* fileName, s32 modeFlag)
     }
     else
     {
-        ae_free_4F4EA0(pHandle);
+        relive_delete pHandle;
         return nullptr;
     }
 }
@@ -146,7 +146,7 @@ void IO_fclose_4F24E0(IO_Handle* hFile)
     {
         IO_WaitForComplete_4F2510(hFile);
         IO_Close(hFile->field_8_hFile);
-        ae_free_4F4EA0(hFile);
+        relive_delete hFile;
     }
 }
 
@@ -305,12 +305,12 @@ void IO_Close_ASync_4EAD40(void* hFile)
     {
         CloseHandle(pHandle->field_18_hEvent);
     }
-    ae_delete_free_495540(pHandle);
+    relive_delete pHandle;
 }
 
 void* IO_Open_ASync_4EADA0(const s8* filename)
 {
-    IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(ae_internal_malloc_5212C0(sizeof(IO_Movie_Handle)));
+    IO_Movie_Handle* pHandle = relive_new IO_Movie_Handle();
     if (!pHandle)
     {
         return nullptr;

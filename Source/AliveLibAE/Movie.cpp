@@ -30,14 +30,13 @@ Masher* Masher_Alloc_4EAB80(
     Masher_AudioHeader** ppMasherAudioHeader,
     s32* errCode)
 {
-    Masher* pMasher = reinterpret_cast<Masher*>(ae_new_malloc_4954D0(sizeof(Masher)));
+    Masher* pMasher = relive_new Masher;
     if (pMasher)
     {
         *errCode = pMasher->Init_4E6770(pFileName);
         if (*errCode)
         {
-            pMasher->dtor_4E6AB0();
-            ae_delete_free_495540(pMasher);
+            relive_delete pMasher;
             return nullptr;
         }
         else
@@ -57,11 +56,7 @@ Masher* Masher_Alloc_4EAB80(
 
 void Masher_DeAlloc_4EAC00(Masher* pMasher)
 {
-    if (pMasher)
-    {
-        pMasher->dtor_4E6AB0();
-        ae_delete_free_495540(pMasher);
-    }
+    relive_delete pMasher;
 }
 
 s32 Masher_ReadNextFrame_4EAC20(Masher* pMasher)

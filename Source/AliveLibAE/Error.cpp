@@ -109,7 +109,7 @@ void Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
     if (bDisplayAll)
     {
         // Add all errors to one huge message and display it
-        char_type* allocatedString = reinterpret_cast<char_type*>(ae_malloc_4F4E60(sErrorIndex_BBC564 * 256));
+        char_type* allocatedString = relive_new char_type[sErrorIndex_BBC564 * 256]();
         if (allocatedString)
         {
             allocatedString[0] = 0;
@@ -123,7 +123,7 @@ void Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
                 strcat(allocatedString, buffer);
             }
             Error_DisplayMessageBox_4F2C80("Error", 0, allocatedString);
-            ae_free_4F4EA0(allocatedString);
+            relive_delete[] allocatedString;
             sErrorIndex_BBC564 = 0;
         }
     }

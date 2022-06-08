@@ -72,7 +72,7 @@ LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, Path_LaughingGas* pTlv, s
     field_31F8_w_count = (field_2E_w - field_2A_x) / 4;
     field_31FC_h_count = (field_2C_h - field_28_y + 2) / 2;
 
-    field_19C_pMem = static_cast<u16*>(ae_malloc_non_zero_4954F0(sizeof(s16) * field_31FC_h_count * field_31F8_w_count));
+    field_19C_pMem = relive_new u16[field_31FC_h_count * field_31F8_w_count];
 
     Init();
     VUpdate();
@@ -84,7 +84,7 @@ LaughingGas::~LaughingGas()
     gObjListDrawables->Remove_Item(this);
     gLaughingGasOn_5C1BA4 = FALSE;
     gGasInstanceCount_5BC214--;
-    ae_delete_free_495540(field_19C_pMem);
+    relive_delete[] field_19C_pMem;
 }
 
 void LaughingGas::VScreenChanged()
