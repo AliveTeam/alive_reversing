@@ -10,6 +10,11 @@
 #include "../AliveLibAE/Io.hpp"
 #include <assert.h>
 
+// TODO: Refactor + remove these
+#define BYTEn(x, n) (*((u8*) &(x) + n))
+#define BYTE1(x) BYTEn(x, 1)
+#define BYTE2(x) BYTEn(x, 2)
+
 struct VagAtr final
 {
     s8 field_0_priority;

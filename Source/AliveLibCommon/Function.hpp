@@ -27,17 +27,13 @@
 
 #define STATIC_EQUALS(src, dst) static_assert(src == dst, "Not equal!");
 #define ALIVE_COUNTOF(x) (sizeof(x) / sizeof(*(x)))
-#define BYTEn(x, n) (*((u8*) &(x) + n))
-#define BYTE0(x) BYTEn(x, 0)
-#define BYTE1(x) BYTEn(x, 1)
-#define BYTE2(x) BYTEn(x, 2)
-#define BYTE3(x) BYTEn(x, 3)
+
 
 #define ALIVE_ARY(Redirect, Addr, TypeName, Size, VarName, ...) TypeName VarName[Size] = __VA_ARGS__
 
 #define ALIVE_ARY_SIZEOF(VarName) sizeof(VarName)
 
-#define ALIVE_PTR(Redirect, Addr, TypeName, VarName, Value)  TypeName VarName = Value
+#define ALIVE_PTR(Redirect, Addr, TypeName, VarName, Value) TypeName VarName = Value
 #define ALIVE_VAR(Redirect, Addr, TypeName, VarName, Value) TypeName VarName = Value
 
 #define ALIVE_VAR_EXTERN(TypeName, VarName) extern TypeName VarName

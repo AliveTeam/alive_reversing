@@ -13,6 +13,10 @@
 #include "VGA.hpp"
 #include "Renderer/IRenderer.hpp"
 
+// TODO: Refactor + remove these
+#define BYTEn(x, n) (*((u8*) &(x) + n))
+#define BYTE1(x) BYTEn(x, 1)
+
 struct OtUnknown final
 {
     s32** field_0_pOtStart;

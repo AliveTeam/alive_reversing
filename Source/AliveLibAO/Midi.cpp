@@ -23,6 +23,9 @@
 #include "../AliveLibAE/Sound/Sound.hpp"
 #include "../AliveLibAE/PathData.hpp"
 
+// TODO: Refactor + remove these
+#define BYTEn(x, n) (*((u8*) &(x) + n))
+#define BYTE1(x) BYTEn(x, 1)
 
 namespace AO {
 
