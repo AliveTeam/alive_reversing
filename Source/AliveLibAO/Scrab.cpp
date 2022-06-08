@@ -95,13 +95,13 @@ const AnimId sScrabFrameTables_4CF708[30] = {
     AnimId::Scrab_LegKick,
     AnimId::Scrab_DeathBegin};
 
-static BrainFunctionData<Scrab::TBrainType> sScrabAITable[]{
-    {&Scrab::Brain_Fighting_45C370, 0x45C370, "Brain_Fighting_45C370"},
-    {&Scrab::Brain_BatDeath_45CA60, 0x45CA60, "Brain_BatDeath_45CA60"},
-    {&Scrab::Brain_Death_45CB80, 0x45CB80, "Brain_Death_45CB80"},
-    {&Scrab::Brain_ChasingEnemy_45CC90, 0x45CC90, "Brain_ChasingEnemy_45CC90"},
-    {&Scrab::Brain_Patrol_460020, 0x460020, "Brain_Patrol_460020"},
-    {&Scrab::Brain_WalkAround_460D80, 0x460D80, "Brain_460D80"},
+const static Scrab::TBrainType sScrabAITable[]{
+    &Scrab::Brain_Fighting_45C370,
+    &Scrab::Brain_BatDeath_45CA60,
+    &Scrab::Brain_Death_45CB80,
+    &Scrab::Brain_ChasingEnemy_45CC90,
+    &Scrab::Brain_Patrol_460020,
+    &Scrab::Brain_WalkAround_460D80,
 };
 
 Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
@@ -3830,12 +3830,12 @@ s16 Scrab::Brain_WalkAround_460D80()
 
 void Scrab::SetBrain(TBrainType fn)
 {
-    ::SetBrain(fn, field_10C_fn, sScrabAITable);
+    field_10C_fn = fn;
 }
 
 bool Scrab::BrainIs(TBrainType fn)
 {
-    return ::BrainIs(fn, field_10C_fn, sScrabAITable);
+    return field_10C_fn == fn;
 }
 
 s16 Scrab::HandleRunning()

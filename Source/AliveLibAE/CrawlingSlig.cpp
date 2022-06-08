@@ -88,13 +88,13 @@ ALIVE_ARY(1, 0x551428, TCrawlingSligMotionFn, 18, sCrawlingSlig_motions_551428,
            &CrawlingSlig::M_EndPushingWall_17_41B3A0});
 
 
-const static BrainFunctionData<TCrawlingSligBrainFn> sCrawlingSligBrainTable[] = {
-    {&CrawlingSlig::Brain_0_Sleeping_419DE0, 0x401D1B, "Brain_0_Sleeping"},
-    {&CrawlingSlig::Brain_1_Idle_419F60, 0x40340E, "Brain_1_Idle"},
-    {&CrawlingSlig::Brain_2_PanicGetALocker_419FE0, 0x419FE0, "Brain_2_PanicGetALocker"},
-    {&CrawlingSlig::Brain_3_Possessed_41A5B0, 0x404539, "Brain_3_Possessed"},
-    {&CrawlingSlig::Brain_4_GetKilled_41A880, 0x403265, "Brain_4_GetKilled"},
-    {&CrawlingSlig::Brain_5_Transformed_41ADF0, 0x40484A, "Brain_5_Transformed"},
+const static TCrawlingSligBrainFn sCrawlingSligBrainTable[] = {
+    &CrawlingSlig::Brain_0_Sleeping_419DE0,
+    &CrawlingSlig::Brain_1_Idle_419F60,
+    &CrawlingSlig::Brain_2_PanicGetALocker_419FE0,
+    &CrawlingSlig::Brain_3_Possessed_41A5B0,
+    &CrawlingSlig::Brain_4_GetKilled_41A880,
+    &CrawlingSlig::Brain_5_Transformed_41ADF0,
 };
 
 enum Brain_2_PanicGetALocker
@@ -306,7 +306,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->field_1AC_timer = pState->field_54_timer;
         pCrawlingSlig->BaseAliveGameObjectCollisionLineType = pState->field_3A_line_type;
         pCrawlingSlig->field_118_tlvInfo = pState->field_44_tlvInfo;
-        pCrawlingSlig->SetBrain(sCrawlingSligBrainTable[pState->field_48_brain_idx].mOurFn);
+        pCrawlingSlig->SetBrain(sCrawlingSligBrainTable[pState->field_48_brain_idx]);
         pCrawlingSlig->field_208_brain_sub_state = pState->field_50_brain_sub_state;
         pCrawlingSlig->field_1B8_bChanting = pState->field_5E_bChanting;
         pCrawlingSlig->field_1BA_prev_level = MapWrapper::FromAE(pState->field_60_prev_leve);
@@ -378,7 +378,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     s32 idx = 0;
     for (const auto& fn : sCrawlingSligBrainTable)
     {
-        if (BrainIs(fn.mOurFn))
+        if (BrainIs(fn))
         {
             pState->field_48_brain_idx = idx;
             break;
@@ -710,12 +710,12 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
 
 void CrawlingSlig::SetBrain(TCrawlingSligBrainFn fn)
 {
-    ::SetBrain(fn, field_204_brain_state, sCrawlingSligBrainTable);
+    field_204_brain_state = fn;
 }
 
 bool CrawlingSlig::BrainIs(TCrawlingSligBrainFn fn)
 {
-    return ::BrainIs(fn, field_204_brain_state, sCrawlingSligBrainTable);
+    return field_204_brain_state == fn;
 }
 
 CrawlingSlig::~CrawlingSlig()

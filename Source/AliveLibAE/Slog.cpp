@@ -82,7 +82,7 @@ enum eSlogMotions
     M_Growl_23_4C7170
 };
 
-const TSlogBrainFn sSlog_fns_brain_560A38[4] = {
+const TSlogBrainFn sSlogAiTable[4] = {
     &Slog::Brain_ListeningToSlig_0_4C3790,
     &Slog::Brain_Idle_1_4C2830,
     &Slog::Brain_ChasingAbe_2_4C0A00,
@@ -108,13 +108,6 @@ const SfxDefinition sSlogSFXList_560B00[19] = {
     {0u, 3u, 59u, 67u, 0, 0},
     {0u, 12u, 33u, 45u, 0, 127},
     {0u, 12u, 33u, 40u, -127, 0},
-};
-
-const static BrainFunctionData<TSlogBrainFn> sSlogAiTable[4] = {
-    {&Slog::Brain_ListeningToSlig_0_4C3790, 0x4C3790, "Brain_ListeningToSlig_0"}, // no stubs for any of these ??
-    {&Slog::Brain_Idle_1_4C2830, 0x4C2830, "Brain_Idle_1"},
-    {&Slog::Brain_ChasingAbe_2_4C0A00, 0x4C0A00, "Brain_ChasingAbe_2"},
-    {&Slog::Brain_Death_3_4C3250, 0x4C3250, "Brain_Death_3"},
 };
 
 Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
@@ -2899,8 +2892,7 @@ void Slog::VUpdate()
         }
 
         const auto oldMotion = mCurrentMotion;
-        const auto oldBrain = sSlog_fns_brain_560A38[field_120_brain_state_idx];
-        field_122_brain_state_result = (this->*sSlog_fns_brain_560A38[field_120_brain_state_idx])();
+        field_122_brain_state_result = (this->*sSlogAiTable[field_120_brain_state_idx])();
         if (sDDCheat_ShowAI_Info_5C1BD8)
         {
             DDCheat::DebugStr("Slog:  Motion=%d  BrainState=%d\n", mCurrentMotion, field_122_brain_state_result);
@@ -2920,14 +2912,6 @@ void Slog::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos);
             VOn_TLV_Collision(BaseAliveGameObjectPathTLV);
-        }
-
-        // TODO: This is extra debug logging to figure out the motion names
-        if (oldBrain != sSlog_fns_brain_560A38[field_120_brain_state_idx])
-        {
-           // LOG_INFO("Slog: Old brain = " << GetOriginalFn(oldBrain, sSlogAiTable).fnName << " new brain = " << GetOriginalFn(sSlog_fns_brain_560A38[field_120_brain_state_idx], sSlogAiTable).fnName);
-
-            //LOG_INFO("Slog: Old motion = " << oldMotion << " new motion = " << mCurrentMotion);
         }
 
         if (oldMotion != mCurrentMotion)

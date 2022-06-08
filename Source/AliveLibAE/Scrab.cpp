@@ -58,7 +58,7 @@ static const TScrabMotionFn sScrab_motion_table_560120[40] = {
 #undef MAKE_FN
 };
 
-static const TScrabBrainFn sScrab_brain_table_56029C[6] = {
+static const TScrabBrainFn sScrabBrainTable[6] = {
     &Scrab::Brain_0_Patrol_4AA630,
     &Scrab::Brain_1_ChasingEnemy_4A6470,
     &Scrab::Brain_2_Fighting_4A5840,
@@ -66,47 +66,14 @@ static const TScrabBrainFn sScrab_brain_table_56029C[6] = {
     &Scrab::Brain_4_ShrinkDeath_4A6420,
     &Scrab::Brain_5_Possessed_4A6180};
 
-static const BrainFunctionData<TScrabBrainFn> sScrabBrainTable[6] = {
-    {
-        &Scrab::Brain_0_Patrol_4AA630,
-        0x404070,
-        "Brain_0_Patrol",
-    },
-    {
-        &Scrab::Brain_1_ChasingEnemy_4A6470,
-        0x403B98,
-        "Brain_1_ChasingEnemy",
-    },
-    {
-        &Scrab::Brain_2_Fighting_4A5840,
-        0x403E4F,
-        "Brain_2_Fighting",
-    },
-    {
-        &Scrab::Brain_3_Death_4A62B0,
-        0x4039C2,
-        "Brain_3_Death",
-    },
-    {
-        &Scrab::Brain_4_ShrinkDeath_4A6420,
-        0x4036B1,
-        "Brain_4_ShrinkDeath",
-    },
-    {
-        &Scrab::Brain_5_Possessed_4A6180,
-        0x4021F3,
-        "Brain_5_Possessed",
-    },
-};
-
 void Scrab::SetBrain(TScrabBrainFn fn)
 {
-    ::SetBrain(fn, field_118_brain_state, sScrabBrainTable);
+    field_118_brain_state = fn;
 }
 
 bool Scrab::BrainIs(TScrabBrainFn fn)
 {
-    return ::BrainIs(fn, field_118_brain_state, sScrabBrainTable);
+    return field_118_brain_state == fn;
 }
 
 Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
@@ -370,7 +337,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->BaseAliveGameObjectCollisionLineType = pState->field_3A_line_type;
         pScrab->field_144_tlvInfo = pState->field_44_tlvInfo;
 
-        pScrab->SetBrain(sScrab_brain_table_56029C[pState->field_48_brain_idx]);
+        pScrab->SetBrain(sScrabBrainTable[pState->field_48_brain_idx]);
 
         pScrab->field_11C_brain_sub_state = pState->field_50_sub_state;
         pScrab->field_120_obj_id = pState->field_54_obj_id;
@@ -460,7 +427,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_48_brain_idx = 0;
 
     s32 idx = 0;
-    for (const auto& fn : sScrab_brain_table_56029C)
+    for (const auto& fn : sScrabBrainTable)
     {
         if (BrainIs(fn))
         {

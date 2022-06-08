@@ -162,37 +162,37 @@ const AnimId sSligFrameTables_4CFA38[] = {
     AnimId::Slig_Beat,
     AnimId::None};
 
-static BrainFunctionData<Slig::TBrainFn> sSligBrainTable[]{
-    {&Slig::Brain_SpottedEnemy_465EB0, 0x465EB0, "Brain_SpottedEnemy_0"},
-    {&Slig::Brain_Paused_466030, 0x466030, "Brain_Paused_1"},
-    {&Slig::Brain_EnemyDead_466190, 0x466190, "Brain_EnemyDead_2"},
-    {&Slig::Brain_KilledEnemy_4662A0, 0x4662A0, "Brain_KilledEnemy_3"},
-    {&Slig::Brain_Unknown_46B250, 0x46B250, "Brain_Unknown_4"},
-    {&Slig::Brain_Sleeping_46B4E0, 0x46B4E0, "Brain_Sleeping_5"},
-    {&Slig::Brain_WakingUp_46B700, 0x46B700, "Brain_WakingUp_6"},
-    {&Slig::Brain_Inactive_46B780, 0x46B780, "Brain_Inactive_7"},
-    {&Slig::Brain_Possessed_46C190, 0x46C190, "Brain_Possessed_8"},
-    {&Slig::Brain_Death_46C3A0, 0x46C3A0, "Brain_Death_9"},
-    {&Slig::Brain_DeathDropDeath_46C5A0, 0x46C5A0, "Brain_DeathDropDeath_10"},
-    {&Slig::Brain_ReturnControlToAbeAndDie_46C760, 0x46C760, "Brain_ReturnControlToAbeAndDie_11"},
-    {&Slig::Brain_PanicTurning_46C7C0, 0x46C7C0, "Brain_PanicTurning_12"},
-    {&Slig::Brain_PanicRunning_46CA20, 0x46CA20, "Brain_PanicRunning_13"},
-    {&Slig::Brain_PanicYelling_46CC50, 0x46CC50, "Brain_PanicYelling_14"},
-    {&Slig::Brain_Chasing_46CD60, 0x46CD60, "Brain_Chasing_15"},
-    {&Slig::Brain_StopChasing_46CF20, 0x46CF20, "Brain_StopChasing_16"},
-    {&Slig::Brain_StartChasing_46CF90, 0x46CF90, "Brain_StartChasing_17"},
-    {&Slig::Brain_Idle_46D6E0, 0x46D6E0, "Brain_Idle_18"},
-    {&Slig::Brain_Turning_46DC70, 0x46DC70, "Brain_Turning_19"},
-    {&Slig::Brain_Walking_46DE90, 0x46DE90, "Brain_Walking_20"},
-    {&Slig::Brain_GetAlertedTurn_46E520, 0x46E520, "Brain_GetAlertedTurn_21"},
-    {&Slig::Brain_GetAlerted_46E800, 0x46E800, "Brain_GetAlerted_22"},
-    {&Slig::Brain_StoppingNextToMudokon_46EBB0, 0x46EBB0, "Brain_StoppingNextToMudokon_23"},
-    {&Slig::Brain_BeatingUp_46EC40, 0x46EC40, "Brain_BeatingUp_24"},
-    {&Slig::Brain_Discussion_46ECE0, 0x46ECE0, "Brain_Discussion_25"},
-    {&Slig::Brain_ChaseAndDisappear_46EEE0, 0x46EEE0, "Brain_GameEnder_26"},
-    {&Slig::Brain_Shooting_46EFD0, 0x46EFD0, "Brain_Shooting_27"},
-    {&Slig::Brain_ZSpottedEnemy_46F260, 0x46F260, "Brain_ZSpottedEnemy_28"},
-    {&Slig::Brain_ZShooting_46F290, 0x46F290, "Brain_ZShooting_29"},
+static Slig::TBrainFn sSligBrainTable[]{
+    &Slig::Brain_SpottedEnemy_465EB0,
+    &Slig::Brain_Paused_466030,
+    &Slig::Brain_EnemyDead_466190,
+    &Slig::Brain_KilledEnemy_4662A0,
+    &Slig::Brain_Unknown_46B250,
+    &Slig::Brain_Sleeping_46B4E0,
+    &Slig::Brain_WakingUp_46B700,
+    &Slig::Brain_Inactive_46B780,
+    &Slig::Brain_Possessed_46C190,
+    &Slig::Brain_Death_46C3A0,
+    &Slig::Brain_DeathDropDeath_46C5A0,
+    &Slig::Brain_ReturnControlToAbeAndDie_46C760,
+    &Slig::Brain_PanicTurning_46C7C0,
+    &Slig::Brain_PanicRunning_46CA20,
+    &Slig::Brain_PanicYelling_46CC50,
+    &Slig::Brain_Chasing_46CD60,
+    &Slig::Brain_StopChasing_46CF20,
+    &Slig::Brain_StartChasing_46CF90,
+    &Slig::Brain_Idle_46D6E0,
+    &Slig::Brain_Turning_46DC70,
+    &Slig::Brain_Walking_46DE90,
+    &Slig::Brain_GetAlertedTurn_46E520,
+    &Slig::Brain_GetAlerted_46E800,
+    &Slig::Brain_StoppingNextToMudokon_46EBB0,
+    &Slig::Brain_BeatingUp_46EC40,
+    &Slig::Brain_Discussion_46ECE0,
+    &Slig::Brain_ChaseAndDisappear_46EEE0,
+    &Slig::Brain_Shooting_46EFD0,
+    &Slig::Brain_ZSpottedEnemy_46F260,
+    &Slig::Brain_ZShooting_46F290,
 };
 
 SfxDefinition sSligSounds_4CFB30[] = {
@@ -5698,17 +5698,17 @@ void Slig::BlowToGibs_4685A0()
 
 void Slig::SetBrain(Slig::TBrainFn fn)
 {
-    ::SetBrain(fn, field_1F8_fn, sSligBrainTable);
+    field_1F8_fn = fn;
 }
 
 void Slig::SetBrain2(Slig::TBrainFn fn)
 {
-    ::SetBrain(fn, field_1FC_fn2, sSligBrainTable);
+    field_1FC_fn2 = fn;
 }
 
 bool Slig::BrainIs(Slig::TBrainFn fn)
 {
-    return ::BrainIs(fn, field_1F8_fn, sSligBrainTable);
+    return field_1F8_fn == fn;
 }
 
 } // namespace AO

@@ -94,7 +94,7 @@ const SfxDefinition stru_5518E0[20] = {
     {0u, 0u, 0u, 0u, 0, 0}};
 
 
-const TFleechBrainFn sFleech_brain_table_551830[4] = {
+const TFleechBrainFn sFleechAiTable[4] = {
     &Fleech::Brain_0_Patrol_430BA0,
     &Fleech::Brain_1_ChasingAbe_428760,
     &Fleech::Brain_2_Scared_42D310,
@@ -106,13 +106,6 @@ enum eFleechBrains
     eBrain_1_ChasingAbe_428760 = 1,
     eBrain_2_Scared_42D310 = 2,
     eBrain_3_Death_42D1E0 = 3
-};
-
-const static BrainFunctionData<TFleechBrainFn> sFleechAiTable[4] = {
-    {&Fleech::Brain_0_Patrol_430BA0, 0x430BA0, "Brain_0_Patrol"},         // no stub ??
-    {&Fleech::Brain_1_ChasingAbe_428760, 0x428760, "Brain_1_ChasingAbe"}, // no stub ??
-    {&Fleech::Brain_2_Scared_42D310, 0x42D310, "Brain_2_Scared"},         // no stub ??
-    {&Fleech::Brain_3_Death_42D1E0, 0x42D1E0, "Brain_3_Death"},           // no stub ??
 };
 
 static u8 Fleech_NextRandom()
@@ -1212,7 +1205,7 @@ void Fleech::VUpdate()
     {
         const auto oldMotion = mCurrentMotion;
 
-        field_126_state = (this->*sFleech_brain_table_551830[field_124_brain_state])();
+        field_126_state = (this->*sFleechAiTable[field_124_brain_state])();
 
         TongueUpdate_42BD30();
 

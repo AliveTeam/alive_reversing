@@ -277,7 +277,7 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] = {
     &Slig::M_LiftDown_50_4B3960,
     &Slig::M_Beat_51_4B6C00};
 
-const TSligBrainFn sSlig_brain_table_5605AC[36] = {
+const TSligBrainFn sSligBrainTable[36] = {
     &Slig::Brain_Death_0_4BBFB0,
     &Slig::Brain_ReturnControlToAbeAndDie_1_4BC410,
     &Slig::Brain_Possessed_2_4BBCF0,
@@ -315,193 +315,14 @@ const TSligBrainFn sSlig_brain_table_5605AC[36] = {
     &Slig::Brain_Sleeping_34_4B9170,
     &Slig::Brain_ChaseAndDisappear_35_4BF640};
 
-static BrainFunctionData<TSligBrainFn> sSligBrainTable[36] = {
-    {
-        &Slig::Brain_Death_0_4BBFB0,
-        0x40128F,
-        "Brain_Death_0",
-    },
-    {
-        &Slig::Brain_ReturnControlToAbeAndDie_1_4BC410,
-        0x40371F,
-        "Brain_ReturnControlToAbeAndDie_1",
-    },
-    {
-        &Slig::Brain_Possessed_2_4BBCF0,
-        0x40458E,
-        "Brain_Possessed_2",
-    },
-    {
-        &Slig::Brain_DeathDropDeath_3_4BC1E0,
-        0x401EC9,
-        "Brain_DeathDropDeath_3",
-    },
-    {
-        &Slig::Brain_ListeningToGlukkon_4_4B9D20,
-        0x4015A0,
-        "Brain_ListeningToGlukkon_4",
-    },
-    {
-        &Slig::Brain_Empty_5_4B3220,
-        0x4B3220,
-        "Brain_Empty_5",
-    },
-    {
-        &Slig::Brain_Empty_6_4B3420,
-        0x4B3420,
-        "Brain_Empty_6",
-    },
-    {
-        &Slig::Brain_SpottedEnemy_7_4B3240,
-        0x4032AB,
-        "Brain_SpottedEnemy_7",
-    },
-    {
-        &Slig::Brain_Empty_8_4B3120,
-        0x4B3120,
-        "Brain_Empty_8",
-    },
-    {
-        &Slig::Brain_Empty_9_4B3440,
-        0x4B3440,
-        "Brain_Empty_9",
-    },
-    {
-        &Slig::Brain_EnemyDead_10_4B3460,
-        0x401E60,
-        "Brain_EnemyDead_10",
-    },
-    {
-        &Slig::Brain_KilledEnemy_10_4B35C0,
-        0x40120D,
-        "Brain_KilledEnemy_10",
-    },
-    {
-        &Slig::Brain_PanicTurning_12_4BC490,
-        0x40479B,
-        "Brain_PanicTurning_12",
-    },
-    {
-        &Slig::Brain_PanicRunning_13_4BC780,
-        0x40144C,
-        "Brain_PanicRunning_13",
-    },
-    {
-        &Slig::Brain_PanicYelling_14_4BCA70,
-        0x403364,
-        "Brain_PanicYelling_14",
-    },
-    {
-        &Slig::Brain_Idle_15_4BD800,
-        0x403F85,
-        "Brain_Idle_15",
-    },
-    {
-        &Slig::Brain_StopChasing_16_4BCE30,
-        0x4021B2,
-        "Brain_StopChasing_16",
-    },
-    {
-        &Slig::Brain_Chasing_17_4BCBD0,
-        0x403BCA,
-        "Brain_Chasing2_17",
-    },
-    {
-        &Slig::Brain_StartChasing_18_4BCEB0,
-        0x403E36,
-        "Brain_Chasing1_18",
-    },
-    {
-        &Slig::Brain_Turning_19_4BDDD0,
-        0x403ABC,
-        "Brain_Turning_19",
-    },
-    {
-        &Slig::Brain_StoppingNextToMudokon_20_4BF1E0,
-        0x4020C2,
-        "Brain_StoppingNextToMudokon_20",
-    },
-    {
-        &Slig::Brain_Walking_21_4BE0C0,
-        0x402A59,
-        "Brain_Walking_21",
-    },
-    {
-        &Slig::Brain_GetAlertedTurn_22_4BE990,
-        0x40266C,
-        "Brain_GetAlertedTurn_22",
-    },
-    {
-        &Slig::Brain_GetAlerted_23_4BEC40,
-        0x4020D1,
-        "Brain_GetAlerted_23",
-    },
-    {
-        &Slig::Brain_BeatingUp_24_4BF2B0,
-        0x403B25,
-        "Brain_BeatingUp_24",
-    },
-    {
-        &Slig::Brain_DiscussionWhat_25_4BF380,
-        0x403CE2,
-        "Brain_DiscussionWhat_25",
-    },
-    {
-        &Slig::Brain_Empty_26_4BF620,
-        0x4BF620,
-        "Brain_Empty_26",
-    },
-    {
-        &Slig::Brain_Empty_27_4BF600,
-        0x4BF600,
-        "Brain_Empty_27",
-    },
-    {
-        &Slig::Brain_ZShooting_28_4BFA70,
-        0x4025B3,
-        "Brain_ShootingFromBackground_28",
-    },
-    {
-        &Slig::Brain_Shooting_29_4BF750,
-        0x40308F,
-        "Brain_Shooting_29",
-    },
-    {
-        &Slig::Brain_ZSpottedEnemy_30_4BFA30,
-        0x403215,
-        "Brain_SpottedEnemyFromBackground_30",
-    },
-    {
-        &Slig::Brain_WakingUp_31_4B9390,
-        0x403E0E,
-        "Brain_WakingUp_31",
-    },
-    {
-        &Slig::Brain_Inactive_32_4B9430,
-        0x4038CD,
-        "Brain_Inactive_32",
-    },
-    {
-        &Slig::Brain_Paused_33_4B8DD0,
-        0x40346D,
-        "Brain_Paused_33",
-    },
-    {
-        &Slig::Brain_Sleeping_34_4B9170,
-        0x402B17,
-        "Brain_Sleeping_34",
-    },
-    {&Slig::Brain_ChaseAndDisappear_35_4BF640, 0x4022B1, "Brain_GameEnder_35"},
-};
-
 void Slig::SetBrain(TSligBrainFn fn)
 {
-    ::SetBrain(fn, field_154_brain_state, sSligBrainTable);
+    field_154_brain_state = fn;
 }
 
 bool Slig::BrainIs(TSligBrainFn fn)
 {
-    return ::BrainIs(fn, field_154_brain_state, sSligBrainTable);
+    return field_154_brain_state == fn;
 }
 
 Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
@@ -836,7 +657,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     pState->field_80_brain_state_idx = 0;
 
     s32 idx = 0;
-    for (const auto& fn : sSlig_brain_table_5605AC)
+    for (const auto& fn : sSligBrainTable)
     {
         if (BrainIs(fn))
         {
@@ -1029,7 +850,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->field_14C_death_by_being_shot_timer = pState->field_78_death_by_being_shot_timer;
         pSlig->field_150_explode_timer = pState->field_7C_explode_timer;
 
-        pSlig->SetBrain(sSlig_brain_table_5605AC[pState->field_80_brain_state_idx]);
+        pSlig->SetBrain(sSligBrainTable[pState->field_80_brain_state_idx]);
 
         unused_BAF7E4 = pState->field_88_unused;
 

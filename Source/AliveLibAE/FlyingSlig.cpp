@@ -28,7 +28,9 @@
 #include "Lever.hpp"
 #include "Sys_common.hpp"
 #include "Grid.hpp"
+#include "Function.hpp"
 
+// Warning, index is saved, order matters here
 ALIVE_ARY(1, 0x5523A0, TFlyingSligBrainFn, 26, sFlyingSlig_motion_table_5523A0,
           {
               &FlyingSlig::M_Idle_0_4385E0,
@@ -59,7 +61,9 @@ ALIVE_ARY(1, 0x5523A0, TFlyingSligBrainFn, 26, sFlyingSlig_motion_table_5523A0,
               &FlyingSlig::M_TurnToHorizontalMovement_25_4389E0,
           });
 
-const TFlyingSligBrainFn sFlyingSlig_Brain_table_552350[18] = {
+// Warning, index is saved, order matters here
+const static TFlyingSligBrainFn sFlyingSligBrainTable[18] = 
+{
     &FlyingSlig::Brain_0_Inactive,
     &FlyingSlig::Brain_1_Death,
     &FlyingSlig::Brain_2_Moving,
@@ -80,35 +84,14 @@ const TFlyingSligBrainFn sFlyingSlig_Brain_table_552350[18] = {
     &FlyingSlig::Brain_17_FromCrawlingSlig,
 };
 
-const static BrainFunctionData<TFlyingSligBrainFn> sFlyingSligBrainTable[18] = {
-    {&FlyingSlig::Brain_0_Inactive, 0x401802, "Brain_0_Inactive"},
-    {&FlyingSlig::Brain_1_Death, 0x402ABD, "Brain_1_Death (first)"},
-    {&FlyingSlig::Brain_2_Moving, 0x4046BF, "Brain_2_Moving"},
-    {&FlyingSlig::Brain_3_GetAlerted, 0x402603, "Brain_3_GetAlerted"},
-    {&FlyingSlig::Brain_4_ChasingEnemy, 0x402086, "Brain_4_ChasingEnemy"},
-    {&FlyingSlig::Brain_5_Idle, 0x4028A6, "Brain_5_Idle"},
-    {&FlyingSlig::Brain_6_GameSpeakToMoving, 0x403E31, "Brain_6_GameSpeakToMoving"},
-    {&FlyingSlig::Brain_7_PanicMoving, 0x404453, "Brain_7_PanicMoving"},
-    {&FlyingSlig::Brain_8_PanicIdle, 0x4013A2, "Brain_8_PanicIdle"},
-    {&FlyingSlig::Brain_9_SpottedEnemy, 0x40394A, "Brain_9_SpottedEnemy"},
-    {&FlyingSlig::Brain_10_LaunchingGrenade, 0x40253B, "Brain_10_LaunchingGrenade"},
-    {&FlyingSlig::Brain_11_AbeDead, 0x40469C, "Brain_11_AbeDead"},
-    {&FlyingSlig::Brain_12_Possessed, 0x404480, "Brain_12_Possessed"},
-    {&FlyingSlig::Brain_13_Possession, 0x40241E, "Brain_13_Possession"},
-    {&FlyingSlig::Brain_14_DePossession, 0x403DBE, "Brain_14_DePossession"},
-    {&FlyingSlig::Brain_15_FlyingSligSpawn, 0x40128A, "Brain_15_FlyingSligSpawn"},
-    {&FlyingSlig::Brain_1_Death, 0x402ABD, "Brain_1_Death (second)"},
-    {&FlyingSlig::Brain_17_FromCrawlingSlig, 0x401749, "Brain_17_FromNakedSlig"},
-};
-
 void FlyingSlig::SetBrain(TFlyingSligBrainFn fn)
 {
-    ::SetBrain(fn, field_29C_brain_state, sFlyingSligBrainTable);
+    field_29C_brain_state = fn;
 }
 
 bool FlyingSlig::BrainIs(TFlyingSligBrainFn fn)
 {
-    return ::BrainIs(fn, field_29C_brain_state, sFlyingSligBrainTable);
+    return field_29C_brain_state == fn;
 }
 
 FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
@@ -432,7 +415,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->field_1E4_unused = pSaveState->field_84_unused;
         pFlyingSlig->field_294_nextXPos = pSaveState->field_88_nextXPos;
         pFlyingSlig->field_298_nextYPos = pSaveState->field_8C_nextYPos;
-        pFlyingSlig->SetBrain(sFlyingSlig_Brain_table_552350[pSaveState->field_90_fns1_idx]);
+        pFlyingSlig->SetBrain(sFlyingSligBrainTable[pSaveState->field_90_fns1_idx]);
         pFlyingSlig->field_1E8_unused = pSaveState->field_98_unused;
 
         pFlyingSlig->field_2A0_abe_level = pFlyingSlig->field_C2_lvl_number; // always the same but set to junk in OG saves when using path skip cheat
@@ -542,7 +525,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_90_fns1_idx = 0;
 
     s32 idx = 0;
-    for (const auto& fn : sFlyingSlig_Brain_table_552350)
+    for (const auto& fn : sFlyingSligBrainTable)
     {
         if (BrainIs(fn))
         {
@@ -655,17 +638,9 @@ void FlyingSlig::VUpdate()
         mBaseAnimatedWithPhysicsGameObject_XPos = field_294_nextXPos;
         mBaseAnimatedWithPhysicsGameObject_YPos = field_298_nextYPos;
 
-        const auto oldBrain = field_29C_brain_state;
-
         (this->*(field_29C_brain_state))();
 
         (this->*(sFlyingSlig_motion_table_5523A0)[mCurrentMotion])();
-
-        if (oldBrain != field_29C_brain_state)
-        {
-            //LOG_INFO("FlyingSlig: Old brain = " << GetOriginalFn(oldBrain, sFlyingSligAITable).fnName << " new brain = " << GetOriginalFn(field_29C_brain_state, sFlyingSligAITable).fnName);
-            //LOG_INFO("FlyingSlig: Old motion = " << oldMotion << " new motion = " << mCurrentMotion);
-        }
 
         Movement();
     }

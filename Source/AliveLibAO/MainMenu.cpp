@@ -195,9 +195,9 @@ const Menu_Element sBtnArray_LoadGameMenuButtons_4D0630[2] = {
     {62, 204, InputCommands::eUnPause_OrConfirm},
     {293, 205, InputCommands::eBack}};
 
-const BrainFunctionData<Menu::TUpdateFn> kUpdateTable[] = {
-    {&Menu::ToggleMotions_Update_47C800, 0x47C800, "47C800"},
-    {&Menu::Toggle_Motions_Screens_Update_47C8F0, 0x47C8F0, "Update_47C8F0"}};
+const Menu::TUpdateFn kUpdateTable[] = {
+    &Menu::ToggleMotions_Update_47C800,
+    &Menu::Toggle_Motions_Screens_Update_47C8F0};
 
 
 struct SaveName final
@@ -3442,7 +3442,7 @@ void Menu::To_ToggleMotions_Update_47C9E0()
     {
         if (field_1E8_pMenuTrans->field_16_bDone)
         {
-            SetBrain(&Menu::ToggleMotions_Update_47C800, field_1CC_fn_update, kUpdateTable);
+            field_1CC_fn_update = &Menu::ToggleMotions_Update_47C800;
             field_1DC_idle_input_counter = 0;
         }
     }
@@ -3576,7 +3576,7 @@ void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
         0,
         0);
 
-    if (BrainIs(&Menu::ToggleMotions_Update_47C800, field_1CC_fn_update, kUpdateTable))
+    if (field_1CC_fn_update == &Menu::ToggleMotions_Update_47C800)
     {
         s32 polyOffset = 0;
         for (s32 i = 2; i <= 10; i++)
@@ -3584,7 +3584,7 @@ void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
             RenderElement_47A4E0(sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_0_xpos, sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_4_ypos, sBtnArray_AbeMotionsMenuButtons_4D0418[i].field_8_input_command, ppOt, &field_FC_font, &polyOffset);
         }
     }
-    else if (BrainIs(&Menu::Toggle_Motions_Screens_Update_47C8F0, field_1CC_fn_update, kUpdateTable))
+    else if (field_1CC_fn_update == &Menu::Toggle_Motions_Screens_Update_47C8F0)
     {
         s32 polyOffset = 0;
         if (Input_JoyStickEnabled())
@@ -3644,7 +3644,7 @@ void Menu::ToggleMotions_Update_47C800()
             }
 
             // Go to game speak toggle
-            SetBrain(&Menu::Toggle_Motions_Screens_Update_47C8F0, field_1CC_fn_update, kUpdateTable);
+            field_1CC_fn_update = &Menu::Toggle_Motions_Screens_Update_47C8F0;
             field_1E0_selected_index.motions_menu = MotionsOptions::eGameSpeak_1;
             PSX_Prevent_Rendering_44FFB0();
             SFX_Play_Pitch(SoundEffect::MenuNavigation_61, 45, 400, nullptr);
@@ -3686,7 +3686,7 @@ void Menu::Toggle_Motions_Screens_Update_47C8F0()
                 gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMotions_4, CameraSwapEffects::eBottomToTop_4, 0, 0);
             }
 
-            SetBrain(&Menu::ToggleMotions_Update_47C800, field_1CC_fn_update, kUpdateTable);
+            field_1CC_fn_update = &Menu::ToggleMotions_Update_47C800;
             field_1E0_selected_index.motions_menu = MotionsOptions::eMotions_0;
             PSX_Prevent_Rendering_44FFB0();
             SFX_Play_Pitch(SoundEffect::MenuNavigation_61, 45, 400, 0);

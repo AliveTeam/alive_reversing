@@ -90,13 +90,13 @@ const static AnimId sParamiteAnimIdTable_4CDD18[] = {
     AnimId::Paramite_Struggle,
     AnimId::Paramite_Death};
 
-static BrainFunctionData<Paramite::TParamiteBrain> sParamiteBrainTable[]{
-    {&Paramite::Brain_0_Patrol, 0x447A10, "Brain_0_Patrol"},
-    {&Paramite::Brain_1_SurpriseWeb, 0x448D00, "Brain_1_SurpriseWeb"},
-    {&Paramite::Brain_2_Struggling, 0x44DD70, "Brain_2_Struggling"},
-    {&Paramite::Brain_3_Death, 0x448BF0, "Brain_3_Death"},
-    {&Paramite::Brain_4_ChasingAbe, 0x449170, "Brain_4_ChasingAbe"},
-    {&Paramite::Brain_5_SpottedMeat, 0x449CD0, "Brain_5_SpottedMeat"},
+const static Paramite::TParamiteBrain sParamiteBrainTable[]{
+    &Paramite::Brain_0_Patrol,
+    &Paramite::Brain_1_SurpriseWeb,
+    &Paramite::Brain_2_Struggling,
+    &Paramite::Brain_3_Death,
+    &Paramite::Brain_4_ChasingAbe,
+    &Paramite::Brain_5_SpottedMeat,
 };
 
 Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
@@ -2561,12 +2561,12 @@ s16 Paramite::Brain_5_SpottedMeat()
 
 void Paramite::SetBrain(Paramite::TParamiteBrain fn)
 {
-    ::SetBrain(fn, field_10C_fn, sParamiteBrainTable);
+    field_10C_fn = fn;
 }
 
 bool Paramite::BrainIs(Paramite::TParamiteBrain fn)
 {
-    return ::BrainIs(fn, field_10C_fn, sParamiteBrainTable);
+    return field_10C_fn == fn;
 }
 
 s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirection dir)

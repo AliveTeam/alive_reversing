@@ -1454,7 +1454,7 @@ void PauseMenu::Page_Load_Update()
         {
             strcpy(saveFileName, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
             strcat(saveFileName, ".sav");
-            ae_remove_520B27(saveFileName);
+            relive_remove(saveFileName);
             Quicksave_FindSaves();
         }
     }

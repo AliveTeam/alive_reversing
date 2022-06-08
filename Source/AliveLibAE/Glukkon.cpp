@@ -235,22 +235,24 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
     return sizeof(Glukkon_SaveState);
 }
 
-const static BrainFunctionData<TGlukkonBrainFn> sGlukkonBrainTable[6] = {
-    {&Glukkon::Brain_0_Calm_WalkAround_440B40, 0x402D60, "Brain_0_Calm_WalkAround"},
-    {&Glukkon::Brain_1_Panic_4412F0, 0x403049, "Brain_1_Panic"},
-    {&Glukkon::Brain_2_Slapped_441720, 0x403864, "Brain_2_Slapped"},
-    {&Glukkon::Brain_3_PlayerControlled_441A30, 0x401BF4, "Brain_3_PlayerControlled"},
-    {&Glukkon::Brain_4_Death_442010, 0x401CE9, "Brain_4_Death"},
-    {&Glukkon::Brain_5_WaitToSpawn_442490, 0x40357B, "Brain_5_WaitToSpawn"}};
+const static TGlukkonBrainFn sGlukkonBrainTable[6] = 
+{
+    &Glukkon::Brain_0_Calm_WalkAround_440B40,
+    &Glukkon::Brain_1_Panic_4412F0,
+    &Glukkon::Brain_2_Slapped_441720,
+    &Glukkon::Brain_3_PlayerControlled_441A30,
+    &Glukkon::Brain_4_Death_442010,
+    &Glukkon::Brain_5_WaitToSpawn_442490
+};
 
 void Glukkon::SetBrain(TGlukkonBrainFn fn)
 {
-    ::SetBrain(fn, field_20C_brain_state_fn, sGlukkonBrainTable);
+    field_20C_brain_state_fn = fn;
 }
 
 bool Glukkon::BrainIs(TGlukkonBrainFn fn)
 {
-    return ::BrainIs(fn, field_20C_brain_state_fn, sGlukkonBrainTable);
+    return field_20C_brain_state_fn == fn;
 }
 
 Glukkon::Glukkon(Path_Glukkon* pTlv, s32 tlvInfo)

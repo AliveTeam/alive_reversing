@@ -40,7 +40,7 @@ const TParamiteMotionFn sParamite_motion_table_55D5B0[44] = {
 #undef MAKE_FN
 };
 
-const TParamiteBrainFn sParamite_brain_table_55D710[10] = {
+const TParamiteBrainFn sParamiteBrainTable[10] = {
     &Paramite::Brain_0_Patrol_4835B0,
     &Paramite::Brain_1_Death_484CD0,
     &Paramite::Brain_2_ChasingAbe_4859D0,
@@ -53,29 +53,15 @@ const TParamiteBrainFn sParamite_brain_table_55D710[10] = {
     &Paramite::Brain_9_ParamiteSpawn_48ED80};
 
 
-const static BrainFunctionData<TParamiteBrainFn> sParamiteBrainTable[10] = {
-    {&Paramite::Brain_0_Patrol_4835B0, 0x402A7C, "Brain_0_Patrol"},
-    {&Paramite::Brain_1_Death_484CD0, 0x404223, "Brain_1_Death"},
-    {&Paramite::Brain_2_ChasingAbe_4859D0, 0x401799, "Brain_2_ChasingAbe"},
-    {&Paramite::Brain_3_SurpriseWeb_4851B0, 0x401645, "Brain_3_SurpriseWeb"},
-    {&Paramite::Brain_4_Unused_48F8F0, 0x48F8F0, "Brain_4_Unused_4"},
-    {&Paramite::Brain_5_SpottedMeat_486880, 0x4012E4, "Brain_5_SpottedMeat"},
-    {&Paramite::Brain_6_Possessed_484BC0, 0x40187F, "Brain_6_Possessed"},
-    {&Paramite::Brain_7_DeathDrop_484FF0, 0x4021A3, "Brain_7_DeathDrop"},
-    {&Paramite::Brain_8_ControlledByGameSpeak_48DFC0, 0x4010B4, "Brain_8_ControlledByGameSpeak_8"},
-    {&Paramite::Brain_9_ParamiteSpawn_48ED80, 0x401EE7, "Brain_9_ParamiteSpawn"},
-};
-
 void Paramite::SetBrain(TParamiteBrainFn fn)
 {
-    return ::SetBrain(fn, field_128_fn_brainState, sParamiteBrainTable);
+    field_128_fn_brainState = fn;
 }
 
 bool Paramite::BrainIs(TParamiteBrainFn fn)
 {
-    return ::BrainIs(fn, field_128_fn_brainState, sParamiteBrainTable);
+    return field_128_fn_brainState == fn;
 }
-
 
 Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(16)
@@ -332,7 +318,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->field_120_obj_id = pState->field_48_obj_id;
     pParamite->field_124_pull_ring_rope_id = pState->field_4C_pull_ring_rope_id;
 
-    pParamite->SetBrain(sParamite_brain_table_55D710[pState->field_50_brain_idx]);
+    pParamite->SetBrain(sParamiteBrainTable[pState->field_50_brain_idx]);
 
     pParamite->field_12C_brain_ret = pState->field_58_brain_ret;
     pParamite->field_130_timer = pState->field_5C_timer;
@@ -430,7 +416,7 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     pState->field_50_brain_idx = 0;
 
     s32 idx = 0;
-    for (auto& fn : sParamite_brain_table_55D710)
+    for (auto& fn : sParamiteBrainTable)
     {
         if (BrainIs(fn))
         {
